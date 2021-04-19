@@ -7,36 +7,35 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4035C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9155CC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:04:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D7D2610CB
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:00:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F47561042
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:04:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235730AbhDSBAh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Apr 2021 21:00:37 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47304 "EHLO mx2.suse.de"
+        id S236441AbhDSBE2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Apr 2021 21:04:28 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48378 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233117AbhDSBAh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 18 Apr 2021 21:00:37 -0400
+        id S233117AbhDSBE1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 18 Apr 2021 21:04:27 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2FA04B1B0;
-        Mon, 19 Apr 2021 01:00:07 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 7E2AFABD0;
+        Mon, 19 Apr 2021 01:03:57 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Fox Chen <foxhlchen@gmail.com>
-Date:   Mon, 19 Apr 2021 11:00:00 +1000
+Date:   Mon, 19 Apr 2021 11:03:51 +1000
 Cc:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
         rdunlap@infradead.org, grandmaster@al2klimov.de,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 02/12] docs: path-lookup: update path_to_nameidata()
- part
-In-Reply-To: <20210316054727.25655-3-foxhlchen@gmail.com>
+Subject: Re: [PATCH v2 03/12] docs: path-lookup: update path_mountpoint() part
+In-Reply-To: <20210316054727.25655-4-foxhlchen@gmail.com>
 References: <20210316054727.25655-1-foxhlchen@gmail.com>
- <20210316054727.25655-3-foxhlchen@gmail.com>
-Message-ID: <87h7k32inj.fsf@notabene.neil.brown.name>
+ <20210316054727.25655-4-foxhlchen@gmail.com>
+Message-ID: <87eef72ih4.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -50,67 +49,60 @@ Content-Transfer-Encoding: quoted-printable
 
 On Tue, Mar 16 2021, Fox Chen wrote:
 
-> No path_to_namei() anymore, step_into() will be called.
-> Related commit: commit c99687a03a78 ("fold path_to_nameidata()
-> into its only remaining caller")
+> path_mountpoint() doesn't exist anymore. Have been folded
+> into path_lookup_at when flag is set with LOOKUP_MOUNTPOINT.
+> Check commit: commit 161aff1d93abf0e ("LOOKUP_MOUNTPOINT: fold
+> path_mountpointat() into path_lookupat()")
 >
 > Signed-off-by: Fox Chen <foxhlchen@gmail.com>
 > ---
->  Documentation/filesystems/path-lookup.rst | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  Documentation/filesystems/path-lookup.rst | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 >
 > diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
 lesystems/path-lookup.rst
-> index d07766375e13..a29d714431a3 100644
+> index a29d714431a3..b6a301b78121 100644
 > --- a/Documentation/filesystems/path-lookup.rst
 > +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -455,9 +455,10 @@ directly from walk_component() or from handle_dots()=
-.  It calls
->  ``handle_mount()``, to check and handle mount points, in which a new
->  ``struct path`` containing a counted reference to the new dentry and a
->  reference to the new ``vfsmount`` which is only counted if it is
-> -different from the previous ``vfsmount``.  It then calls
-> -``path_to_nameidata()`` to install the new ``struct path`` in the
-> -``struct nameidata`` and drop the unneeded references.
-> +different from the previous ``vfsmount`` will be created. Then if there =
-is
+> @@ -472,7 +472,7 @@ Handling the final component
+>  ``nd->last_type`` to refer to the final component of the path.  It does
+>  not call ``walk_component()`` that last time.  Handling that final
+>  component remains for the caller to sort out. Those callers are
+> -``path_lookupat()``, ``path_parentat()``, ``path_mountpoint()`` and
+> +``path_lookupat()``, ``path_parentat()`` and
+>  ``path_openat()`` each of which handles the differing requirements of
+>  different system calls.
+>=20=20
+> @@ -488,12 +488,10 @@ perform their operation.
+>  object is wanted such as by ``stat()`` or ``chmod()``.  It essentially j=
+ust
+>  calls ``walk_component()`` on the final component through a call to
+>  ``lookup_last()``.  ``path_lookupat()`` returns just the final dentry.
+> -
+> -``path_mountpoint()`` handles the special case of unmounting which must
+> -not try to revalidate the mounted filesystem.  It effectively
+> -contains, through a call to ``mountpoint_last()``, an alternate
+> -implementation of ``lookup_slow()`` which skips that step.  This is
+> -important when unmounting a filesystem that is inaccessible, such as
+> +It is worth noting that when flag ``LOOKUP_MOUNTPOINT`` is set,
+> +``path_lookupat()`` will unset LOOKUP_JUMPED in nameidata so that in the=
+ further
 
-That "will be created" messes up the sentence.
-It would probably work to put it earlier:
+I would say "subsequent" rather than "further".
 
-  It calls handle_mounts() to check and handle mount points, in which a
-  new struct path is created containing a counted reference to the new
-  dentry and a reference to the new vfsmount, which is only counted if
-  it is different from the previous vfsmount.
-
-(I'm not sure about the comma I put in before the 'which' - Jon often
-removes my commas, and sometimes changes 'which' to 'that'...)
-
-> +symbolic link, ``step_into()`` calls ``pick_link()`` to deal with it, ot=
-herwise
-
-"a symbolic link"
-
-> +installs the new ``struct path`` in the ``struct nameidata`` and drop the
-
-"it installs".  Any maybe "into the".  And "drops".
-
-> +unneeded references.
-
-So sentence is:
-   Then if there is a symbolic link, step_into() calls pick_link() to
-   deal with it, otherwise it installs the new struct path into the
-   struct nameidata, and drops the unneeded references.
-
-With those changes,
-  Reviewed-by: NeilBrown <neilb@suse.de>
+Either way:
+ Reviewed-by: NeilBrown <neilb@suse.de>
 
 Thanks,
 NeilBrown
 
+
+> +path traversal ``d_weak_revalidate()`` won't be called.
+> +This is important when unmounting a filesystem that is inaccessible, suc=
+h as
+>  one provided by a dead NFS server.
 >=20=20
->  This "hand-over-hand" sequencing of getting a reference to the new
->  dentry before dropping the reference to the previous dentry may
+>  Finally ``path_openat()`` is used for the ``open()`` system call; it
 > --=20
 > 2.30.2
 
@@ -119,19 +111,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmB81hAOHG5laWxiQHN1
-c2UuZGUACgkQOeye3VZigbkScA//bSElIBXx+FPN53HuP+xDhtbove5wSI5yZ2Do
-8J2M/F5qX8Tt1vZDozwpqB9gay3ufCl6U1P56vmG4ueyMCt7fzkRMVo406kUAq8+
-xzuL9IuLNJgE5x4hXfHea3bYkYIcOe8Iz4DaNycYTBpYFkaYf8gqznfrHfsz61qx
-bF43jDCuIKbNZalbZFwCIzc+xKLc5gA/GbABgsk/X9n1SyKkE7MMYL2FUzaLkb49
-odjSzD+efXpu4oHD0nNdjolZvs0vNSV8CYqa2b3b4NAi04U7eTY8URRluRwW2j8M
-zOZ9JlyaO5n989Qyy+cTUNXInf6Z4dz0PjCpJM+SdygSUDaq0DtB5g72eIeRW/Ss
-2PrXvuV5MvuD4khR82QcU2HKfW8VncLbtLF45NqaKqH0EBQLDR5iUp5LXglggjZh
-Z3aUTe2zz5/pzWQ3wUp0XFiW62JuTvvdvajI+lsh3j3xYI5iYHDE77IQxJP4nLwa
-oP0nBJV53VifvrHhstZQhq7adTxbTYuYjEruRo30v7QqR3a54bZdsgpaFFQoGmni
-hsEDh6C6n2lO2ZOk926jsUB6/us0y24DtkdF3Y7iUl1OKmIG2hqwSAc1nWiQDios
-GWPdtYx3tb9kS/5lqQAHsIugYEyU1eoEvx1rU2u88uryTX9XDV5BieCsSgFiNthK
-Z2a+qzI=
-=Lsyj
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmB81vcOHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigbkiiw/7BTf52crr3ZQthQ+WuVTdElGsxY2ZjpR5AwbO
+D6KmVqx3OMJuWiFwF15ND9d8PqHvib6gwJbSWCckGWrJJLjJ4m6PEpbpEhl16D7W
+mn/YS/p8UzX5GClYslaPLK7UTGl34WZcGXBBnSRrP88MS+p5yeKWU5p+kMMk+b+D
+ZfpbNiNpxrM02ZErgiPsZyb189IVWB4VviMP0RW8s2PF2h2xK9d64jlsa/03F+tQ
+WCzrPJE6AiASA2oJjS29zvHLawOXrrt+dhdEJY8uNEFORclxmc8Y45BCexnig94D
+at+Rj6jx19nIFuurzal504XssHj51qVJSoDi38EjjWG3/PQJ2ZTyTZx0kS8taOvW
+N7fv0zVosSzmDkmERYljjZBnbSNlKWSjcTG2Xu8AGsFT8Q9G4hxRX+zwXrYnQgP/
+gVkQ0GuRolK+bgNxkfTgTTeu66UWCCBa8rPwHi6lozItzpbDyk786CZBTi+kh41T
+YbgTxXysCErrDTujqPtlQBp5PrTWe8HZ7HOTzsdrqiiA8MZU+4tvHZz+c9piwqi/
++YSZbI+CGxkEQbnt8TVkUpAz701+V3zUPp+Rn/agkr69h+ojLMRso594ZUe3k3wM
+KQOaD5svAQDSDkO+X5K5NCFGXWdP3h1cnZfG42ILd4q0O5UfiO4zjZkS8pdKbtz8
+UqJK8LQ=
+=TmPT
 -----END PGP SIGNATURE-----
 --=-=-=--
