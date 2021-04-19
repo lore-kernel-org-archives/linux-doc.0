@@ -2,132 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE18C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 08:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87325C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 08:34:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8491061107
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 08:27:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 698BD6113C
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 08:34:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232457AbhDSI1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 04:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229790AbhDSI1c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 04:27:32 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63F4C06174A;
-        Mon, 19 Apr 2021 01:27:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=DBMoV/cX0cKYwtE9SxJVrR1aR8cR7qkDyUhKQJS3Otk=; b=A0baORrD+G2oufCB44y+zQaf6Z
-        tzVFCPRFc3jisZMvJFjuS0b3X+MdxYOHuDFAhOzwEfmw7on3iIp7vVA9ISvN85wEi7Z9xNukphDER
-        qc83ko727XedAalO3uJ1SRUG6e4yZYxpU+y2vntG8Up8piSMhL1CkvGp1UtJNuGIWlVBVGuD0wx/1
-        e/hZzi8CVnL4sM/dsC9Ec1ZeYMvJWwYaPLzXWN4zsdb1hHegQRzE9yTImLKifb6iq+kFTCje/Rwjw
-        a2TZNV4ThUO8Xu0ilaIBiL9PvmGQikjaa2qBD6j8wsBzu1VsgbJhG6IH4BQS0slHduK/ZmG+w1TnO
-        ed5muYIA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lYPFC-009QQ4-EQ; Mon, 19 Apr 2021 08:26:58 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 050AC300212;
-        Mon, 19 Apr 2021 10:26:57 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D96F12C14C5BA; Mon, 19 Apr 2021 10:26:57 +0200 (CEST)
-Date:   Mon, 19 Apr 2021 10:26:57 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        id S232440AbhDSIfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 04:35:17 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:38074 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229671AbhDSIfP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 04:35:15 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 13J8YA9H119166;
+        Mon, 19 Apr 2021 03:34:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1618821250;
+        bh=lDZMGFvOojG166N3pt/xx3m8GVsBndajtYIH24dGjQM=;
+        h=From:To:CC:Subject:Date;
+        b=FoGsDH7/2v7pycsqNBf8qDfP/CyC5r0v34Fr7FN2LkC74GMvO0cJjATNk39xgXaH7
+         VblW4RfO0TkbTWR5PMU2TldQDkGMB+kwu2IVPdrmC2QRu+iC6BRnzxYUHLcsxWqJSw
+         IGxgx4ybzRBJpR9CONER7iCJggF8iV2qL73E07wA=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 13J8YAfC025030
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 19 Apr 2021 03:34:10 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 19
+ Apr 2021 03:34:10 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Mon, 19 Apr 2021 03:34:10 -0500
+Received: from a0393678-ssd.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 13J8Y2aP051194;
+        Mon, 19 Apr 2021 03:34:02 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YH0+0VQ1XC8+rv20@hirez.programming.kicks-ass.net>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com>
- <YHk4DZE1ZWTiBB1f@hirez.programming.kicks-ass.net>
- <aa6e44ab-e223-73aa-279e-8103732460ac@redhat.com>
- <YH0yCTgL0raKrmYg@hirez.programming.kicks-ass.net>
- <7287eac3-f492-bab1-9ea8-b89ceceed560@redhat.com>
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: [PATCH v5 0/7] Add SR-IOV support in PCIe Endpoint Core
+Date:   Mon, 19 Apr 2021 14:03:54 +0530
+Message-ID: <20210419083401.31628-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7287eac3-f492-bab1-9ea8-b89ceceed560@redhat.com>
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 09:53:06AM +0200, Paolo Bonzini wrote:
-> On 19/04/21 09:32, Peter Zijlstra wrote:
-> > On Sat, Apr 17, 2021 at 04:51:58PM +0200, Paolo Bonzini wrote:
-> > > On 16/04/21 09:09, Peter Zijlstra wrote:
-> > > > Well, the obvious example would be seqlocks. C11 can't do them
-> > > 
-> > > Sure it can.  C11 requires annotating with (the equivalent of) READ_ONCE all
-> > > reads of seqlock-protected fields, but the memory model supports seqlocks
-> > > just fine.
-> > 
-> > How does that help?
-> > 
-> > IIRC there's two problems, one on each side the lock. On the write side
-> > we have:
-> > 
-> > 	seq++;
-> > 	smp_wmb();
-> > 	X = r;
-> > 	Y = r;
-> > 	smp_wmb();
-> > 	seq++;
-> > 
-> > Which C11 simply cannot do right because it does't have wmb.
-> 
-> It has atomic_thread_fence(memory_order_release), and
-> atomic_thread_fence(memory_order_acquire) on the read side.
+Patch series
+*) Adds support to add virtual functions to enable endpoint controller
+   which supports SR-IOV capability
+*) Add support in Cadence endpoint driver to configure virtual functions
+*) Enable pci_endpoint_test driver to create pci_device for virtual
+   functions
 
-https://godbolt.org/z/85xoPxeE5
+v1 of the patch series can be found at [1]
+v2 of the patch series can be found at [2]
+v3 of the patch series can be found at [3]
+v4 of the patch series can be found at [4]
 
-void writer(void)
-{
-    atomic_store_explicit(&seq, seq+1, memory_order_relaxed);
-    atomic_thread_fence(memory_order_acquire);
+Here both physical functions and virtual functions use the same
+pci_endpoint_test driver and existing pcitest utility can be used
+to test virtual functions as well.
 
-    X = 1;
-    Y = 2;
+Changes from v4:
+*) Added a fix in Cadence driver which was overwriting BAR configuration
+   of physical function.
+*) Didn't include Tom's Acked-by since Cadence driver is modified in
+   this revision.
 
-    atomic_store_explicit(&seq, seq+1, memory_order_release);
-}
+Changes from v3:
+*) Fixed Rob's comment and added his Reviewed-by as suggested by him.
 
-gives:
+Changes from v2:
+*) Fixed DT binding documentation comment by Rob
+*) Fixed the error check in pci-epc-core.c
 
-writer:
-        adrp    x1, .LANCHOR0
-        add     x0, x1, :lo12:.LANCHOR0
-        ldr     w2, [x1, #:lo12:.LANCHOR0]
-        add     w2, w2, 1
-        str     w2, [x0]
-        dmb     ishld
-        ldr     w1, [x1, #:lo12:.LANCHOR0]
-        mov     w3, 1
-        mov     w2, 2
-        stp     w3, w2, [x0, 4]
-        add     w1, w1, w3
-        stlr    w1, [x0]
-        ret
+Changes from v1:
+*) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
+   binding for EP)
 
-Which, afaict, is completely buggered. What it seems to be doing is
-turning the seq load into a load-acquire, but what we really need is to
-make sure the seq store (increment) is ordered before the other stores.
+[1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
+[2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
+[3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
 
+Kishon Vijay Abraham I (7):
+  dt-bindings: PCI: pci-ep: Add binding to specify virtual function
+  PCI: endpoint: Add support to add virtual function in endpoint core
+  PCI: endpoint: Add support to link a physical function to a virtual
+    function
+  PCI: endpoint: Add virtual function number in pci_epc ops
+  PCI: cadence: Add support to configure virtual functions
+  misc: pci_endpoint_test: Populate sriov_configure ops to configure
+    SR-IOV device
+  Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
+
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  12 +-
+ .../devicetree/bindings/pci/pci-ep.yaml       |   7 +
+ drivers/misc/pci_endpoint_test.c              |   1 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  | 285 ++++++++++++++----
+ drivers/pci/controller/cadence/pcie-cadence.h |   7 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  36 +--
+ drivers/pci/controller/pcie-rcar-ep.c         |  19 +-
+ drivers/pci/controller/pcie-rockchip-ep.c     |  18 +-
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  |  79 +++--
+ drivers/pci/endpoint/functions/pci-epf-test.c |  66 ++--
+ drivers/pci/endpoint/pci-ep-cfs.c             |  24 ++
+ drivers/pci/endpoint/pci-epc-core.c           | 130 +++++---
+ drivers/pci/endpoint/pci-epf-core.c           | 144 ++++++++-
+ include/linux/pci-epc.h                       |  57 ++--
+ include/linux/pci-epf.h                       |  16 +-
+ 15 files changed, 684 insertions(+), 217 deletions(-)
+
+-- 
+2.17.1
 
