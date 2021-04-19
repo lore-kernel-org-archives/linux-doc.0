@@ -5,71 +5,66 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DB29C43617
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:37:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7460CC4361A
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:37:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67D406102A
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:37:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5339D60FE9
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:37:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237914AbhDSHi0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 03:38:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39562 "EHLO
+        id S237950AbhDSHi1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 03:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237838AbhDSHiZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 03:38:25 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4852FC061763
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:37:56 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id v6so50056495ejo.6
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:37:56 -0700 (PDT)
+        with ESMTP id S237895AbhDSHi1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 03:38:27 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C89D6C061760
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:37:57 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id g5so44636857ejx.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ionos.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FY+EvpFdvOhsS+mEDCKKrQ36Emkgr0WIzmwaogwOSK0=;
-        b=AhotTSMvcBc4h2JRV2P0XHrws6lMKBwqUlhaYthkdt9GQ8b2GV+GSXFm3oGPPUeP+b
-         OkYfyRtyvvukJSZ9F0JoHkSAMLFCYvfL3cGZy2VokgKykiIuQ+Ar/YNUEt+G0XptAk2E
-         4i8UC31z4cZE1MvAcRUo3J4xu+N+HmD3WC2HRVhADPLwM02QHj+YrrJ60Tgrc3duj9y2
-         P7PeUKDzSNycwr1fWiLIItqfpXmhlatq9G6PSrbgmCyNJ90d63E9pxSeeICpte31ujsy
-         TNFJU/39+Cee8CBUDM3B9JQ913pGDlQNDLIJOqW1nT0GeHOdZgeEl0StF2I8KqEOH/6b
-         n2TA==
+        bh=+WusjvsYw5StKARzVGPy5VqECBTOsgPT1toBxn5pBW8=;
+        b=JaGUwUc7DZcoVAKStUGSmkYCT1j9dizx+39l2WdQ/2t+57x3hjcpUV48bobxlTWBPu
+         LdJ5t2oyyVtX33xrvKnW0ozFXzQXkfFgei/PhwrLvBcTgpz0FJ0hGQDL2ramb8SaAgVv
+         FtXOJQBSpPW8LgAnf1ZldHeSQwXZL0mRhaO/2FRwIdEwMTb12DI1Hd8BwymrQ7AiwZEB
+         7GyxxDzHufU6D40Ew44ygOPvAnCW/mVhXiTAkkHoSZWvXIBw4GO9y8nNQi+Nm8IWaeI0
+         9Jbf52+T5QF1FeC8tnJ/viVEKqvVB5Q6UGB01RD7olUQySMt8TXiq9nq293AdcOzFym8
+         qgxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FY+EvpFdvOhsS+mEDCKKrQ36Emkgr0WIzmwaogwOSK0=;
-        b=tAclUNSt6WUEiYcBWeVY2EX9wrvJw3kziL2/Hx9AottgVN/1En7egqvYb9IOPUvJjS
-         Vp5PpC+pifaLDNw7XJ6w2ZUGUHiDKHkA2KubV1AKE59nbx5LpNt9E7nwxrjITp+zC8rh
-         kOMfiFoIQXDLTT24kJLhhLzXJTvxDwyoxv95mFzPQrpWB/7mlVyqo8yWLREMTfmfjHxB
-         CZ8XQ4JqNVoGJOI1ALGkmX1h2XV47Qe83+q5kO2uylPmZg9LYSOrvPHnqk5z2HDKUM9T
-         M1A7KAgfgk0XQHUua09sBrE910sNYKgmvX4iL0RVLlhn9Bt55s2bkufEvhyr/h+AN/fl
-         RWiw==
-X-Gm-Message-State: AOAM533OSMqyOPVd0/cTcCEYGF7faQVpPosWnZBMuUnOxtrsb/o45omj
-        fGU47fFrcTwPyrtym99VFciDjg==
-X-Google-Smtp-Source: ABdhPJxm3/Dl+gYYZ34jHAt3hmcpyInuiR+HGY15eklu5RjyPBH81+/L4lHLiVKRAtyAKRhLeKO8KQ==
-X-Received: by 2002:a17:906:4881:: with SMTP id v1mr1535769ejq.383.1618817874957;
-        Mon, 19 Apr 2021 00:37:54 -0700 (PDT)
+        bh=+WusjvsYw5StKARzVGPy5VqECBTOsgPT1toBxn5pBW8=;
+        b=ORb+7gE8zfNU1lgizyPjZnOU2UFZyCzff8r3cBPPU9iDT1vc9Rx7BtRq2Aw3ndk0c/
+         a8gbcvGt1ayO+Oja2hfzl5ODxg/LI+WTOzDhQIuw9MbmniPpyyybw0uOzwyHiW8FsWAs
+         aJwyCGTXlljcvp0pY2ZxTmg5Yn8xMuqboZVKMZB230dv2It/iSsDErrx5p7wTmXAHQdB
+         CvZiX4Ig/dMe2mdTBxVQm5P5A432U1eLIEPnWCs824gfQilNNTeLkynYPu7w2dlSGhaH
+         blBeeLxiuyZ/oX6vJwFAeTuOtTryLmeM8iYDiO2flJcRimMbJxVyfcmtuhYc5DA264PP
+         DtBw==
+X-Gm-Message-State: AOAM530ZtprLj2UdGLz2ixD3fANKnFKMKdmBFS4Mzup7gVmqu4OjGohM
+        LC6y8YKOSC6aJA33oQUCSl5OtGs8fWtx4eu0
+X-Google-Smtp-Source: ABdhPJz/FXoP87ls7wj41eFRH3KmzHOkLpD6Taj5U1m5reU2lo5QVYEqAMc8yeAgkMAjxbUKfkxFxA==
+X-Received: by 2002:a17:906:430f:: with SMTP id j15mr20706135ejm.543.1618817876556;
+        Mon, 19 Apr 2021 00:37:56 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5aeee5.dynamic.kabel-deutschland.de. [95.90.238.229])
-        by smtp.googlemail.com with ESMTPSA id g22sm8701833ejz.46.2021.04.19.00.37.54
+        by smtp.googlemail.com with ESMTPSA id g22sm8701833ejz.46.2021.04.19.00.37.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 00:37:54 -0700 (PDT)
+        Mon, 19 Apr 2021 00:37:56 -0700 (PDT)
 From:   Gioh Kim <gi-oh.kim@ionos.com>
 To:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     axboe@kernel.dk, akinobu.mita@gmail.com, corbet@lwn.net,
         hch@infradead.org, sagi@grimberg.me, bvanassche@acm.org,
         haris.iqbal@ionos.com, jinpu.wang@ionos.com,
         Gioh Kim <gi-oh.kim@cloud.ionos.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        linux-rdma@vger.kernel.org,
-        Guoqing Jiang <guoqing.jiang@ionos.com>,
-        Gioh Kim <gi-oh.kim@ionos.com>,
-        Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCHv5 for-next 08/19] block/rnbd-clt: Replace {NO_WAIT,WAIT} with RTRS_PERMIT_{WAIT,NOWAIT}
-Date:   Mon, 19 Apr 2021 09:37:11 +0200
-Message-Id: <20210419073722.15351-9-gi-oh.kim@ionos.com>
+        Gioh Kim <gi-oh.kim@ionos.com>
+Subject: [PATCHv5 for-next 10/19] block/rnbd-srv: Remove force_close file after holding a lock
+Date:   Mon, 19 Apr 2021 09:37:13 +0200
+Message-Id: <20210419073722.15351-11-gi-oh.kim@ionos.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210419073722.15351-1-gi-oh.kim@ionos.com>
 References: <20210419073722.15351-1-gi-oh.kim@ionos.com>
@@ -81,227 +76,77 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Gioh Kim <gi-oh.kim@cloud.ionos.com>
 
-They are defined with the same value and similar meaning, let's remove
-one of them, then we can remove {WAIT,NOWAIT}.
+We changed the rnbd_srv_sess_dev_force_close to use try-lock
+because rnbd_srv_sess_dev_force_close and process_msg_close
+can generate a deadlock.
 
-Also change the type of 'wait' from 'int' to 'enum wait_type' to make
-it clear.
+Now rnbd_srv_sess_dev_force_close would do nothing
+if it fails to get the lock. So removing the force_close
+file should be moved to after the lock. Or the force_close
+file is removed but the others are not removed.
 
-Cc: Leon Romanovsky <leonro@nvidia.com>
-Cc: linux-rdma@vger.kernel.org
-Signed-off-by: Guoqing Jiang <guoqing.jiang@ionos.com>
-Reviewed-by: Md Haris Iqbal <haris.iqbal@ionos.com>
 Signed-off-by: Gioh Kim <gi-oh.kim@ionos.com>
+Signed-off-by: Md Haris Iqbal <haris.iqbal@ionos.com>
 Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Acked-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/block/rnbd/rnbd-clt.c          | 42 +++++++++++---------------
- drivers/infiniband/ulp/rtrs/rtrs-clt.c |  4 +--
- drivers/infiniband/ulp/rtrs/rtrs.h     |  6 ++--
- 3 files changed, 22 insertions(+), 30 deletions(-)
+ drivers/block/rnbd/rnbd-srv-sysfs.c | 5 +----
+ drivers/block/rnbd/rnbd-srv.c       | 5 ++++-
+ drivers/block/rnbd/rnbd-srv.h       | 3 ++-
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/block/rnbd/rnbd-clt.c b/drivers/block/rnbd/rnbd-clt.c
-index 4e687ec88721..652b41cc4492 100644
---- a/drivers/block/rnbd/rnbd-clt.c
-+++ b/drivers/block/rnbd/rnbd-clt.c
-@@ -312,13 +312,11 @@ static void rnbd_rerun_all_if_idle(struct rnbd_clt_session *sess)
- 
- static struct rtrs_permit *rnbd_get_permit(struct rnbd_clt_session *sess,
- 					     enum rtrs_clt_con_type con_type,
--					     int wait)
-+					     enum wait_type wait)
- {
- 	struct rtrs_permit *permit;
- 
--	permit = rtrs_clt_get_permit(sess->rtrs, con_type,
--				      wait ? RTRS_PERMIT_WAIT :
--				      RTRS_PERMIT_NOWAIT);
-+	permit = rtrs_clt_get_permit(sess->rtrs, con_type, wait);
- 	if (likely(permit))
- 		/* We have a subtle rare case here, when all permits can be
- 		 * consumed before busy counter increased.  This is safe,
-@@ -344,7 +342,7 @@ static void rnbd_put_permit(struct rnbd_clt_session *sess,
- 
- static struct rnbd_iu *rnbd_get_iu(struct rnbd_clt_session *sess,
- 				     enum rtrs_clt_con_type con_type,
--				     int wait)
-+				     enum wait_type wait)
- {
- 	struct rnbd_iu *iu;
- 	struct rtrs_permit *permit;
-@@ -354,9 +352,7 @@ static struct rnbd_iu *rnbd_get_iu(struct rnbd_clt_session *sess,
- 		return NULL;
+diff --git a/drivers/block/rnbd/rnbd-srv-sysfs.c b/drivers/block/rnbd/rnbd-srv-sysfs.c
+index 05ffe488ddc6..acf5fced11ef 100644
+--- a/drivers/block/rnbd/rnbd-srv-sysfs.c
++++ b/drivers/block/rnbd/rnbd-srv-sysfs.c
+@@ -147,10 +147,7 @@ static ssize_t rnbd_srv_dev_session_force_close_store(struct kobject *kobj,
  	}
  
--	permit = rnbd_get_permit(sess, con_type,
--				  wait ? RTRS_PERMIT_WAIT :
--				  RTRS_PERMIT_NOWAIT);
-+	permit = rnbd_get_permit(sess, con_type, wait);
- 	if (unlikely(!permit)) {
- 		kfree(iu);
- 		return NULL;
-@@ -435,16 +431,11 @@ static void msg_conf(void *priv, int errno)
- 	schedule_work(&iu->work);
- }
- 
--enum wait_type {
--	NO_WAIT = 0,
--	WAIT    = 1
--};
+ 	rnbd_srv_info(sess_dev, "force close requested\n");
 -
- static int send_usr_msg(struct rtrs_clt *rtrs, int dir,
- 			struct rnbd_iu *iu, struct kvec *vec,
- 			size_t len, struct scatterlist *sg, unsigned int sg_len,
- 			void (*conf)(struct work_struct *work),
--			int *errno, enum wait_type wait)
-+			int *errno, int wait)
- {
- 	int err;
- 	struct rtrs_clt_req_ops req_ops;
-@@ -476,7 +467,8 @@ static void msg_close_conf(struct work_struct *work)
- 	rnbd_clt_put_dev(dev);
- }
+-	/* first remove sysfs itself to avoid deadlock */
+-	sysfs_remove_file_self(&sess_dev->kobj, &attr->attr);
+-	rnbd_srv_sess_dev_force_close(sess_dev);
++	rnbd_srv_sess_dev_force_close(sess_dev, attr);
  
--static int send_msg_close(struct rnbd_clt_dev *dev, u32 device_id, bool wait)
-+static int send_msg_close(struct rnbd_clt_dev *dev, u32 device_id,
-+			  enum wait_type wait)
- {
- 	struct rnbd_clt_session *sess = dev->sess;
- 	struct rnbd_msg_close msg;
-@@ -530,7 +522,7 @@ static void msg_open_conf(struct work_struct *work)
- 			 * If server thinks its fine, but we fail to process
- 			 * then be nice and send a close to server.
- 			 */
--			(void)send_msg_close(dev, device_id, NO_WAIT);
-+			send_msg_close(dev, device_id, RTRS_PERMIT_NOWAIT);
- 		}
+ 	return count;
+ }
+diff --git a/drivers/block/rnbd/rnbd-srv.c b/drivers/block/rnbd/rnbd-srv.c
+index 1549a6361630..a9bb414f7442 100644
+--- a/drivers/block/rnbd/rnbd-srv.c
++++ b/drivers/block/rnbd/rnbd-srv.c
+@@ -329,7 +329,8 @@ static int rnbd_srv_link_ev(struct rtrs_srv *rtrs,
  	}
- 	kfree(rsp);
-@@ -554,7 +546,7 @@ static void msg_sess_info_conf(struct work_struct *work)
- 	rnbd_clt_put_sess(sess);
  }
  
--static int send_msg_open(struct rnbd_clt_dev *dev, bool wait)
-+static int send_msg_open(struct rnbd_clt_dev *dev, enum wait_type wait)
+-void rnbd_srv_sess_dev_force_close(struct rnbd_srv_sess_dev *sess_dev)
++void rnbd_srv_sess_dev_force_close(struct rnbd_srv_sess_dev *sess_dev,
++				   struct kobj_attribute *attr)
  {
- 	struct rnbd_clt_session *sess = dev->sess;
- 	struct rnbd_msg_open_rsp *rsp;
-@@ -601,7 +593,7 @@ static int send_msg_open(struct rnbd_clt_dev *dev, bool wait)
- 	return err;
- }
+ 	struct rnbd_srv_session	*sess = sess_dev->sess;
  
--static int send_msg_sess_info(struct rnbd_clt_session *sess, bool wait)
-+static int send_msg_sess_info(struct rnbd_clt_session *sess, enum wait_type wait)
- {
- 	struct rnbd_msg_sess_info_rsp *rsp;
- 	struct rnbd_msg_sess_info msg;
-@@ -687,7 +679,7 @@ static void remap_devs(struct rnbd_clt_session *sess)
- 	 * be asynchronous.
- 	 */
- 
--	err = send_msg_sess_info(sess, NO_WAIT);
-+	err = send_msg_sess_info(sess, RTRS_PERMIT_NOWAIT);
- 	if (err) {
- 		pr_err("send_msg_sess_info(\"%s\"): %d\n", sess->sessname, err);
+@@ -337,6 +338,8 @@ void rnbd_srv_sess_dev_force_close(struct rnbd_srv_sess_dev *sess_dev)
+ 	/* It is already started to close by client's close message. */
+ 	if (!mutex_trylock(&sess->lock))
  		return;
-@@ -711,7 +703,7 @@ static void remap_devs(struct rnbd_clt_session *sess)
- 			continue;
- 
- 		rnbd_clt_info(dev, "session reconnected, remapping device\n");
--		err = send_msg_open(dev, NO_WAIT);
-+		err = send_msg_open(dev, RTRS_PERMIT_NOWAIT);
- 		if (err) {
- 			rnbd_clt_err(dev, "send_msg_open(): %d\n", err);
- 			break;
-@@ -1242,7 +1234,7 @@ find_and_get_or_create_sess(const char *sessname,
- 	if (err)
- 		goto close_rtrs;
- 
--	err = send_msg_sess_info(sess, WAIT);
-+	err = send_msg_sess_info(sess, RTRS_PERMIT_WAIT);
- 	if (err)
- 		goto close_rtrs;
- 
-@@ -1525,7 +1517,7 @@ struct rnbd_clt_dev *rnbd_clt_map_device(const char *sessname,
- 		ret = -EEXIST;
- 		goto put_dev;
- 	}
--	ret = send_msg_open(dev, WAIT);
-+	ret = send_msg_open(dev, RTRS_PERMIT_WAIT);
- 	if (ret) {
- 		rnbd_clt_err(dev,
- 			      "map_device: failed, can't open remote device, err: %d\n",
-@@ -1559,7 +1551,7 @@ struct rnbd_clt_dev *rnbd_clt_map_device(const char *sessname,
- 	return dev;
- 
- send_close:
--	send_msg_close(dev, dev->device_id, WAIT);
-+	send_msg_close(dev, dev->device_id, RTRS_PERMIT_WAIT);
- del_dev:
- 	delete_dev(dev);
- put_dev:
-@@ -1619,7 +1611,7 @@ int rnbd_clt_unmap_device(struct rnbd_clt_dev *dev, bool force,
- 	destroy_sysfs(dev, sysfs_self);
- 	destroy_gen_disk(dev);
- 	if (was_mapped && sess->rtrs)
--		send_msg_close(dev, dev->device_id, WAIT);
-+		send_msg_close(dev, dev->device_id, RTRS_PERMIT_WAIT);
- 
- 	rnbd_clt_info(dev, "Device is unmapped\n");
- 
-@@ -1653,7 +1645,7 @@ int rnbd_clt_remap_device(struct rnbd_clt_dev *dev)
- 	mutex_unlock(&dev->lock);
- 	if (!err) {
- 		rnbd_clt_info(dev, "Remapping device.\n");
--		err = send_msg_open(dev, WAIT);
-+		err = send_msg_open(dev, RTRS_PERMIT_WAIT);
- 		if (err)
- 			rnbd_clt_err(dev, "remap_device: %d\n", err);
- 	}
-diff --git a/drivers/infiniband/ulp/rtrs/rtrs-clt.c b/drivers/infiniband/ulp/rtrs/rtrs-clt.c
-index 0a08b4b742a3..7efd49bdc78c 100644
---- a/drivers/infiniband/ulp/rtrs/rtrs-clt.c
-+++ b/drivers/infiniband/ulp/rtrs/rtrs-clt.c
-@@ -103,11 +103,11 @@ static inline void __rtrs_put_permit(struct rtrs_clt *clt,
-  *    up earlier.
-  *
-  * Context:
-- *    Can sleep if @wait == RTRS_TAG_WAIT
-+ *    Can sleep if @wait == RTRS_PERMIT_WAIT
-  */
- struct rtrs_permit *rtrs_clt_get_permit(struct rtrs_clt *clt,
- 					  enum rtrs_clt_con_type con_type,
--					  int can_wait)
-+					  enum wait_type can_wait)
- {
- 	struct rtrs_permit *permit;
- 	DEFINE_WAIT(wait);
-diff --git a/drivers/infiniband/ulp/rtrs/rtrs.h b/drivers/infiniband/ulp/rtrs/rtrs.h
-index 8738e90e715a..2db1b5eb3ab0 100644
---- a/drivers/infiniband/ulp/rtrs/rtrs.h
-+++ b/drivers/infiniband/ulp/rtrs/rtrs.h
-@@ -63,9 +63,9 @@ struct rtrs_clt *rtrs_clt_open(struct rtrs_clt_ops *ops,
- 
- void rtrs_clt_close(struct rtrs_clt *sess);
- 
--enum {
-+enum wait_type {
- 	RTRS_PERMIT_NOWAIT = 0,
--	RTRS_PERMIT_WAIT   = 1,
-+	RTRS_PERMIT_WAIT   = 1
++	/* first remove sysfs itself to avoid deadlock */
++	sysfs_remove_file_self(&sess_dev->kobj, &attr->attr);
+ 	rnbd_srv_destroy_dev_session_sysfs(sess_dev);
+ 	mutex_unlock(&sess->lock);
+ }
+diff --git a/drivers/block/rnbd/rnbd-srv.h b/drivers/block/rnbd/rnbd-srv.h
+index b157371c25ed..98ddc31eb408 100644
+--- a/drivers/block/rnbd/rnbd-srv.h
++++ b/drivers/block/rnbd/rnbd-srv.h
+@@ -64,7 +64,8 @@ struct rnbd_srv_sess_dev {
+ 	enum rnbd_access_mode		access_mode;
  };
  
- /**
-@@ -81,7 +81,7 @@ enum rtrs_clt_con_type {
+-void rnbd_srv_sess_dev_force_close(struct rnbd_srv_sess_dev *sess_dev);
++void rnbd_srv_sess_dev_force_close(struct rnbd_srv_sess_dev *sess_dev,
++				   struct kobj_attribute *attr);
+ /* rnbd-srv-sysfs.c */
  
- struct rtrs_permit *rtrs_clt_get_permit(struct rtrs_clt *sess,
- 				    enum rtrs_clt_con_type con_type,
--				    int wait);
-+				    enum wait_type wait);
- 
- void rtrs_clt_put_permit(struct rtrs_clt *sess, struct rtrs_permit *permit);
- 
+ int rnbd_srv_create_dev_sysfs(struct rnbd_srv_dev *dev,
 -- 
 2.25.1
 
