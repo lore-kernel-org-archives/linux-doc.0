@@ -2,122 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED86C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:53:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C87B4C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:53:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E54B9610A1
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:53:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9181E6102A
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:53:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238041AbhDSHxm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 03:53:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28423 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238016AbhDSHxk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 03:53:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618818791;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=x2ufc3mqMrnhfTRRARV/wYF3P8xOeNxsUa5+ZAlFuFg=;
-        b=Z79mL9Pu6P4jGZupmIiqupHoKSZpRsh9hw2hCIkCh/OYwyqyt5mLBg7EiqVTrLz9etFXrf
-        C+dpCpNpe8wCDoQn7Y4TwfS8vzHQO01btMEw6YxR5LuAQn0mk5vQ1gMS0hSQQrLKf/2xaw
-        CmOmU2e0a95fO2i8bhW/4BPPKs8cRXk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-pWpaNnZROeenL4XbpUV6WQ-1; Mon, 19 Apr 2021 03:53:09 -0400
-X-MC-Unique: pWpaNnZROeenL4XbpUV6WQ-1
-Received: by mail-ej1-f70.google.com with SMTP id p25-20020a1709061419b0290378364a6464so3327418ejc.15
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:53:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=x2ufc3mqMrnhfTRRARV/wYF3P8xOeNxsUa5+ZAlFuFg=;
-        b=ofg927fuHEZeVwd3WR+7gDJ4uNkyS1B72g1ApS90q9Dzzm4WxLA0As4g2U4QbDMMNY
-         x79P4/FOhRZvJ718phUl6paFb3emjbQqRwws47EI6QkExAbVddiyA//56ncHOORoITOI
-         Dp1ItgmyAMOubVaKWkbO8Ui3YIdm/8iU+pUEOLFdBlALBCZcfeddoNDXecbFLO6rp2lJ
-         7ZnY9yYtwJJZgzGeRbIuqd29KlgFLP1dY5iviqoemWt8cXklMkgII5evaVJRmsDeUbKN
-         rOANiAv/Po+bX3uZoz+nRmBSTS90vZ5ukkKWal/AMbdCp1y2YhKKPdF+OqRN41YwlYRe
-         5m8w==
-X-Gm-Message-State: AOAM531omTGqIeq/ne6artxzfTlN+RUHHJZTV3wN7nR47d76brIxkbm/
-        IzBfjsE5wh42NNVXSHfi2c8JiFp5+sNQceDWa/T+gRAalcKWFFFwJeLSM6SmZyYV64DnNJxU5Xs
-        80Ljmdi/0hR07L9Fa/fZc
-X-Received: by 2002:a17:906:a286:: with SMTP id i6mr20596332ejz.135.1618818788207;
-        Mon, 19 Apr 2021 00:53:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz7jBzHFRvwixkLhHkF8GQ7d8wupO6F8D5LBz7CIhnhdlBLvGmXmwH0kDpoLoDDNSWxHAxmYA==
-X-Received: by 2002:a17:906:a286:: with SMTP id i6mr20596322ejz.135.1618818788003;
-        Mon, 19 Apr 2021 00:53:08 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045? ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
-        by smtp.gmail.com with ESMTPSA id mj7sm9712114ejb.39.2021.04.19.00.53.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Apr 2021 00:53:07 -0700 (PDT)
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com>
- <YHk4DZE1ZWTiBB1f@hirez.programming.kicks-ass.net>
- <aa6e44ab-e223-73aa-279e-8103732460ac@redhat.com>
- <YH0yCTgL0raKrmYg@hirez.programming.kicks-ass.net>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7287eac3-f492-bab1-9ea8-b89ceceed560@redhat.com>
-Date:   Mon, 19 Apr 2021 09:53:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S231799AbhDSHyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 03:54:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43058 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230313AbhDSHyB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 03:54:01 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C5E2C061760;
+        Mon, 19 Apr 2021 00:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=YzAn8SzGKu0DXe6e1BJUzLQkVHpN6Ohs5SZys+vEv+0=; b=V0Q1J7VnGgGnulWUq/wojkQ5S8
+        6fJG5+msp5oyQfgMKsCKKiq7EQ36J9rl1mwJ5kF4o53g1LNpC878t7r8Mqn5i5f7jq74Yhl0NhC9O
+        NtTWdAV52Po1cgATUkYCuIDiRszwQuo/0PRigqjWYkUmoNRH34No1UdAWCGSxEkfRyMYb/lCP4270
+        /90Jf4eaK5a271WswAfBao2KRbZUa0vPeZcP0dFj6a4uL2uG6VjUuvhm/OfrQQ5nyKROXUXla1CcX
+        +uRfgN8ua/WXDeWnWrsplspBu1Wz9MgCdN33o52IdI5IyUSPKZx7RCvu+vcEdpmXGUbjlBT+XYC+y
+        oPAKriBA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lYOhq-00DPvw-TH; Mon, 19 Apr 2021 07:52:36 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 875F530018E;
+        Mon, 19 Apr 2021 09:52:30 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 4B594200D4310; Mon, 19 Apr 2021 09:52:30 +0200 (CEST)
+Date:   Mon, 19 Apr 2021 09:52:30 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Josh Don <joshdon@google.com>
+Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        David Rientjes <rientjes@google.com>,
+        Oleg Rombakh <olegrom@google.com>, linux-doc@vger.kernel.org,
+        Paul Turner <pjt@google.com>
+Subject: Re: [PATCH v2] sched: Warn on long periods of pending need_resched
+Message-ID: <YH02vqlaZM3a5+9s@hirez.programming.kicks-ass.net>
+References: <20210323035706.572953-1-joshdon@google.com>
+ <20210324112739.GO15768@suse.de>
+ <CABk29Nv7qwWcn4nUe_cxH-pJnppUVjHan+f-iHc8hEyPJ37jxA@mail.gmail.com>
+ <CABk29NsQ21F3A6EPmCf+pJG7ojDFog9zD-ri8LO8OVW6sXeusQ@mail.gmail.com>
+ <YHmnbngrDGJkduFD@hirez.programming.kicks-ass.net>
+ <CABk29Nvkx6wyDfUWsv5oUCR9GKW3qU=HTLdMKpwL+_HcymVFJA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YH0yCTgL0raKrmYg@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABk29Nvkx6wyDfUWsv5oUCR9GKW3qU=HTLdMKpwL+_HcymVFJA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/04/21 09:32, Peter Zijlstra wrote:
-> On Sat, Apr 17, 2021 at 04:51:58PM +0200, Paolo Bonzini wrote:
->> On 16/04/21 09:09, Peter Zijlstra wrote:
->>> Well, the obvious example would be seqlocks. C11 can't do them
->>
->> Sure it can.  C11 requires annotating with (the equivalent of) READ_ONCE all
->> reads of seqlock-protected fields, but the memory model supports seqlocks
->> just fine.
-> 
-> How does that help?
-> 
-> IIRC there's two problems, one on each side the lock. On the write side
-> we have:
-> 
-> 	seq++;
-> 	smp_wmb();
-> 	X = r;
-> 	Y = r;
-> 	smp_wmb();
-> 	seq++;
-> 
-> Which C11 simply cannot do right because it does't have wmb.
+On Fri, Apr 16, 2021 at 02:33:27PM -0700, Josh Don wrote:
+> Yikes, sorry about that. I've squashed the fixup and sent the updated
+> patch (with trimmed cc list): https://lkml.org/lkml/2021/4/16/1125
 
-It has atomic_thread_fence(memory_order_release), and 
-atomic_thread_fence(memory_order_acquire) on the read side.
+For future reference, please use: https://lkml.kernel.org/r/MSGID
 
-> You end up
-> having to use seq_cst for the first wmb or make both X and Y (on top of
-> the last seq) a store-release, both options are sub-optimal.
-
-seq_cst (except for the fence which is just smp_mb) is a pile of manure, 
-no doubt about that. :)
-
-Paolo
-
+Then I can search for MSGID in my local mailer (mutt: ~h) and instantly
+find the actual message (now I'll search for all email from you and it
+should obviously be easily found as well).
