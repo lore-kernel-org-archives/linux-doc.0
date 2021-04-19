@@ -7,36 +7,35 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA56C43460
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 755FFC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:59:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E453610CB
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:55:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 404C6610CB
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:59:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233209AbhDSBzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Apr 2021 21:55:32 -0400
-Received: from mx2.suse.de ([195.135.220.15]:59770 "EHLO mx2.suse.de"
+        id S232288AbhDSCA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Apr 2021 22:00:26 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60466 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232013AbhDSBzc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 18 Apr 2021 21:55:32 -0400
+        id S232013AbhDSCA0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 18 Apr 2021 22:00:26 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C1C45ABC7;
-        Mon, 19 Apr 2021 01:55:01 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id A1967B1B0;
+        Mon, 19 Apr 2021 01:59:56 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Fox Chen <foxhlchen@gmail.com>
-Date:   Mon, 19 Apr 2021 11:54:54 +1000
+Date:   Mon, 19 Apr 2021 11:59:50 +1000
 Cc:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
         rdunlap@infradead.org, grandmaster@al2klimov.de,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 11/12] docs: path-lookup: update get_link()
- ->follow_link description
-In-Reply-To: <20210316054727.25655-12-foxhlchen@gmail.com>
+Subject: Re: [PATCH v2 12/12] docs: path-lookup: update symlink description
+In-Reply-To: <20210316054727.25655-13-foxhlchen@gmail.com>
 References: <20210316054727.25655-1-foxhlchen@gmail.com>
- <20210316054727.25655-12-foxhlchen@gmail.com>
-Message-ID: <87pmyr11jl.fsf@notabene.neil.brown.name>
+ <20210316054727.25655-13-foxhlchen@gmail.com>
+Message-ID: <87mttv11bd.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -50,9 +49,13 @@ Content-Transfer-Encoding: quoted-printable
 
 On Tue, Mar 16 2021, Fox Chen wrote:
 
-> get_link() is merged into pick_link(). i_op->follow_link is
-> replaced with i_op->get_link(). get_link() can return ERR_PTR(0)
-> which equals NULL.
+> instead of lookup_real()/vfs_create(), i_op->lookup() and
+> i_op->create() will be called directly.
+>
+> update vfs_open() logic
+>
+> should_follow_link is merged into lookup_last() or open_last_lookup()
+> which returns symlink name instead of an integer.
 >
 > Signed-off-by: Fox Chen <foxhlchen@gmail.com>
 > ---
@@ -61,53 +64,72 @@ On Tue, Mar 16 2021, Fox Chen wrote:
 >
 > diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
 lesystems/path-lookup.rst
-> index abd0153e2415..eef6e9f68fba 100644
+> index eef6e9f68fba..adbc714740c2 100644
 > --- a/Documentation/filesystems/path-lookup.rst
 > +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -1134,10 +1134,10 @@ Symlinks with no final component
+> @@ -1202,16 +1202,15 @@ the code.
+>     it.  If the file was found in the dcache, then ``vfs_open()`` is used=
+ for
+>     this.  If not, then ``lookup_open()`` will either call ``atomic_open(=
+)`` (if
+>     the filesystem provides it) to combine the final lookup with the open=
+, or
+> -   will perform the separate ``lookup_real()`` and ``vfs_create()`` steps
+> +   will perform the separate ``i_op->lookup()`` and ``i_op->create()`` s=
+teps
+>     directly.  In the later case the actual "open" of this newly found or
+>     created file will be performed by ``vfs_open()``, just as if the name
+>     were found in the dcache.
 >=20=20
->  A pair of special-case symlinks deserve a little further explanation.
->  Both result in a new ``struct path`` (with mount and dentry) being set
-> -up in the ``nameidata``, and result in ``get_link()`` returning ``NULL``.
-> +up in the ``nameidata``, and result in ``pick_link()`` returning ``NULL`=
-`.
+>  2. ``vfs_open()`` can fail with ``-EOPENSTALE`` if the cached information
+> -   wasn't quite current enough.  Rather than restarting the lookup from
+> -   the top with ``LOOKUP_REVAL`` set, ``lookup_open()`` is called instea=
+d,
+> -   giving the filesystem a chance to resolve small inconsistencies.
+> -   If that doesn't work, only then is the lookup restarted from the top.
+> +   wasn't quite current enough.  If it's in RCU-walk -ECHILD will be ret=
+urned
+> +   otherwise will return -ESTALE.  When -ESTALE is returned, the caller =
+may
+
+"otherwise -ESTALE is returned".
+If you don't like repeating "is returned", then maybe:
+  "... -ECHILD will be returned, otherwise the result is -ESTALE".
+
+
+> +   retry with LOOKUP_REVAL flag set.
 >=20=20
->  The more obvious case is a symlink to "``/``".  All symlinks starting
-> -with "``/``" are detected in ``get_link()`` which resets the ``nameidata=
-``
-> +with "``/``" are detected in ``pick_link()`` which resets the ``nameidat=
-a``
->  to point to the effective filesystem root.  If the symlink only
->  contains "``/``" then there is nothing more to do, no components at all,
->  so ``NULL`` is returned to indicate that the symlink can be released and
-> @@ -1154,12 +1154,11 @@ something that looks like a symlink.  It is reall=
-y a reference to the
->  target file, not just the name of it.  When you ``readlink`` these
->  objects you get a name that might refer to the same file - unless it
->  has been unlinked or mounted over.  When ``walk_component()`` follows
-> -one of these, the ``->follow_link()`` method in "procfs" doesn't return
-> +one of these, the ``->get_link()`` method in "procfs" doesn't return
->  a string name, but instead calls ``nd_jump_link()`` which updates the
-> -``nameidata`` in place to point to that target.  ``->follow_link()`` then
-> -returns ``NULL``.  Again there is no final component and ``get_link()``
-> -reports this by leaving the ``last_type`` field of ``nameidata`` as
-> -``LAST_BIND``.
-> +``nameidata`` in place to point to that target.  ``->get_link()`` then
-> +returns ``0``.  Again there is no final component and ``pick_link()``
+>  3. An open with O_CREAT **does** follow a symlink in the final component,
+>     unlike other creation system calls (like ``mkdir``).  So the sequence=
+::
+> @@ -1221,8 +1220,8 @@ the code.
+>=20=20
+>     will create a file called ``/tmp/bar``.  This is not permitted if
+>     ``O_EXCL`` is set but otherwise is handled for an O_CREAT open much
+> -   like for a non-creating open: ``should_follow_link()`` returns ``1``,=
+ and
+> -   so does ``do_last()`` so that ``trailing_symlink()`` gets called and =
+the
+> +   like for a non-creating open: ``lookup_last()`` or ``open_last_lookup=
+()``
+> +   returns a non ``Null`` value, and ``link_path_walk()`` gets called an=
+d the
 
-Why did you change NULL to 0?  ->get_link returns a pointer.
+"NULL", not "Null".
 
-Without that change:
-  Reviewed-by: NeilBrown <neilb@suse.de>
+This those changes,
+ Reviewed-by: NeilBrown <neilb@suse.de>
+
+Thanks for a lot of all these improvements!! and apologies for the delay
+in the review.
 
 Thanks,
 NeilBrown
 
 
-> +returns NULL.
+>     open process continues on the symlink that was found.
 >=20=20
->  Following the symlink in the final component
->  --------------------------------------------
+>  Updating the access time
 > --=20
 > 2.30.2
 
@@ -116,19 +138,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmB84u4OHG5laWxiQHN1
-c2UuZGUACgkQOeye3VZigblHCA/+PoT2sALptZxtCi1d15m/VDPm1FhIuHLSla46
-IM4UO8sAgZww+wy/1CnyQ03jBjDvCvd46JHMWUQ8M1qfoKKhMpAPkF/Cfnidm2Dt
-RsvxfoEfjuu+nP2kCTltpihO0QsyVDOF5hvAMRnOufBH86ldwWndxILRD2SQU8+f
-4mKUVmE5jQX3JoD6Vx2HLzHil/oZOAh3vk8ohv5uvScEaGqkLkvbUa7ufs7n0UHI
-ICeA3Uoo6kT79hwhDI7ujVD4sBSX86IUGJEYafxyRM5VlHMGJ4/1/9i6lvThNPEP
-OdI0kE40VFXmNCFQTmrbLFkucMz+zL9mHMVCjKZEVZPgkxSP2FRwTP7p5xFo31Tf
-2GcJFOMGRf6H7phA6hyAJaynETHtWiBnd6TSFRQN1W4DKH0duPsbOvDX0rpe5uES
-PEy2ykGr97KMayE8Bm38JHvBHZGLwA1FdRfDS+YPgoEQlxQzDyVd1Qm97J8XZt6q
-qVSmnkFuQAiu/BTHde5erzWwMe0oewpWA3IYf8QBWW2a8aI0ZfK1zPZkglNa76nX
-aBixEu1VWRORCjEaJeUcaXLtXDE50ed7Mrs0DRZ3IwJOj9DlCd21VKg4REOkdY7C
-YxsLPXNUMGn0H5U7qgDNVkz19vOJ4UQO/iy2XXZxqBaF20lMu+Hl9o/+1DN3cc1y
-KW3R6eA=
-=2ZTZ
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmB85BYOHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigbmF4RAAlkzVqT7z2UCBzov4Z795P9vMHHj9iZomMRz+
+OfPag//JdlNA08QVxxByeD7MetJLnL4AcSQGPUilRpvMzppXa29ryH8+mnPhHlCt
+F4cU4LBVaTahefn8YlVcsqjBq4ZWEnKwy5dnVXX3TKSRCWCi2s6U8dXafwlOeRSw
+D60vxABbjF8gFGDn4OSxctEgMrS46wKqhTw7OV2ctRNspm/Pq6KvT50+CkZAczSS
+7ZrUQs3gx8vYDsJWri1o80x9ec5dr0fF44bKeKlhV+MlBwYwoK/mUt0T0BAdKNTt
+BqVXzrg3k6zgHwGtfQuNVVCjOiDY04Khfr09Om929kfOAvmak+iqtGgyCBlIQbVx
+1L5mh4NAN7n0aI9EJi+cN4BzF9cQb1oTU9buELVdfZxQz1e19irIPZ+xZuKzAO/1
+2QUn74L+vbJ2iEZPoHyUCkp5iIubZ6BqZFeEN5M/eVsn1yl0mUKzSTx647RWSnTY
+tTtCz3Iv1UzOk/h9olNiNwnumRHPan/B48QJp5aGVT/TirPhAb2WO5rmuAsT2jbM
+zkMO7tn9rj2ksfZxlvbRHdDY+3r1ldNgbuYWtpuz18zyKO5ekh4j4RfZrc5rdj3n
+v7RZpTqeoGQo5fRPbyqJ+23TaxBTQ9mHmijVjn2d/VycfeyxAApsNjDLU5QuQ9jW
+xLGNd8Y=
+=ExYE
 -----END PGP SIGNATURE-----
 --=-=-=--
