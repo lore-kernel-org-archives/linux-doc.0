@@ -2,131 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 344A8C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED86C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:53:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 171D26102A
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:47:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E54B9610A1
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238004AbhDSHsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 03:48:07 -0400
-Received: from mail-bn8nam11on2049.outbound.protection.outlook.com ([40.107.236.49]:41060
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237962AbhDSHsF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Apr 2021 03:48:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LJUwC2dRGgAU0OZwE6S8kULxJxt2ePQw/M2omNrN1427Kfdy5DQBUHk1fiipVNRRGaAhWK2C7hKt7EyfpGDYNkPDhKOxi/9WXCSc+NEkR4bcjRML5dsa1kCclNMONsOos3JsYny0WQzYTw6j55l/1Fcejjpr7a8TuBTXbSTiXFKwcUXXg8p+Fnd/ue49tc6wyM7BFfBYZxWtK5UEdTOvfSzpZn8cPAYDJd2cjnmpBTZ3LQJ9srXJ0NBYbYtFQjkcQz7c9MKU5HnZ5Zn3kNhzfeUCx9moH+bDbUjJp35458XwODZTyqwSGaP6EIFKMG26hCUbLRcziatVddQdPVctPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2/zpGDW86HgOFeB8V0FJ/H/IpQlGkBxH4WGawYnXjpg=;
- b=i5g8GPUQWcqI7Io9W0wwm6AII9FxOTlZ4js97mNG21orgooPC+GiklP3YWS5Ufd6x7K/YdGUPmqgIoJ1Xj/ZW+IWN9h+01CTtKmPiJbrkPNdakbOUlhEgrOM8FgX0bVzFZNfQ7jJU6qxsqHVNw9hfRQ9j7ZDqpkkTbKd5nG95d0fyw8ffXc76OEj44lo2KwPENVM5v6dx6KFG3jWREu60ya+vY01DnVxyEV6/jpGozURpO5aTGffSBKloatnrj2yvB5g0/R7Q7xw+p1jN/LHTEvuTNHxTOe3ikOq8vzgCURrUTacbkOkS/KtAD5oTPbvYuv6BOKNfz+j/fBJ22NYkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=ionos.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2/zpGDW86HgOFeB8V0FJ/H/IpQlGkBxH4WGawYnXjpg=;
- b=h7qYzxQvJ/EKuSpgt7NmFouF8/dw/SVqsdpB2ZYw2gascDYBrOo6F4uC//KJhTfyevZmFpmAjijssUm4ZB0is44fNUuDhiPTgCaeW/UrEq/5UgZRu2YxT7uGVzZTg7OAGhH0acJzdknsC53sbjZpcfFd7aaynU2ldwJ+3nPA8npXbdJQR09V34Qhi/veX21vk79SJZTZgJb92TzjM8xc2LOP6AtktacGhjc/ZWOliPHyzz3LuMSU2eA7a7sR8O/KwQdfG1xeV2GxQG6WeyRvXWvESPWa542BizZy17se7gPpxoe5VfcysxMBoKRAksFdDLB8knBQcmB+GSrlQGLI2w==
-Received: from BN6PR1401CA0014.namprd14.prod.outlook.com
- (2603:10b6:405:4b::24) by PH0PR12MB5433.namprd12.prod.outlook.com
- (2603:10b6:510:e1::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.19; Mon, 19 Apr
- 2021 07:47:34 +0000
-Received: from BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:4b:cafe::9d) by BN6PR1401CA0014.outlook.office365.com
- (2603:10b6:405:4b::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend
- Transport; Mon, 19 Apr 2021 07:47:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; ionos.com; dkim=none (message not signed)
- header.d=none;ionos.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT037.mail.protection.outlook.com (10.13.177.182) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4042.16 via Frontend Transport; Mon, 19 Apr 2021 07:47:33 +0000
-Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 19 Apr
- 2021 07:47:32 +0000
-Date:   Mon, 19 Apr 2021 10:47:29 +0300
-From:   Leon Romanovsky <leonro@nvidia.com>
-To:     Gioh Kim <gi-oh.kim@ionos.com>
-CC:     <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <axboe@kernel.dk>, <akinobu.mita@gmail.com>, <corbet@lwn.net>,
-        <hch@infradead.org>, <sagi@grimberg.me>, <bvanassche@acm.org>,
-        <haris.iqbal@ionos.com>, <jinpu.wang@ionos.com>,
-        Gioh Kim <gi-oh.kim@cloud.ionos.com>,
-        <linux-rdma@vger.kernel.org>,
-        Aleksei Marov <aleksei.marov@ionos.com>,
-        Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCHv5 for-next 15/19] block/rnbd-srv: Remove unused arguments
- of rnbd_srv_rdma_ev
-Message-ID: <YH01kXEJFZgxjQy9@unreal>
-References: <20210419073722.15351-1-gi-oh.kim@ionos.com>
- <20210419073722.15351-16-gi-oh.kim@ionos.com>
+        id S238041AbhDSHxm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 03:53:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28423 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238016AbhDSHxk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 03:53:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618818791;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=x2ufc3mqMrnhfTRRARV/wYF3P8xOeNxsUa5+ZAlFuFg=;
+        b=Z79mL9Pu6P4jGZupmIiqupHoKSZpRsh9hw2hCIkCh/OYwyqyt5mLBg7EiqVTrLz9etFXrf
+        C+dpCpNpe8wCDoQn7Y4TwfS8vzHQO01btMEw6YxR5LuAQn0mk5vQ1gMS0hSQQrLKf/2xaw
+        CmOmU2e0a95fO2i8bhW/4BPPKs8cRXk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-pWpaNnZROeenL4XbpUV6WQ-1; Mon, 19 Apr 2021 03:53:09 -0400
+X-MC-Unique: pWpaNnZROeenL4XbpUV6WQ-1
+Received: by mail-ej1-f70.google.com with SMTP id p25-20020a1709061419b0290378364a6464so3327418ejc.15
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:53:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=x2ufc3mqMrnhfTRRARV/wYF3P8xOeNxsUa5+ZAlFuFg=;
+        b=ofg927fuHEZeVwd3WR+7gDJ4uNkyS1B72g1ApS90q9Dzzm4WxLA0As4g2U4QbDMMNY
+         x79P4/FOhRZvJ718phUl6paFb3emjbQqRwws47EI6QkExAbVddiyA//56ncHOORoITOI
+         Dp1ItgmyAMOubVaKWkbO8Ui3YIdm/8iU+pUEOLFdBlALBCZcfeddoNDXecbFLO6rp2lJ
+         7ZnY9yYtwJJZgzGeRbIuqd29KlgFLP1dY5iviqoemWt8cXklMkgII5evaVJRmsDeUbKN
+         rOANiAv/Po+bX3uZoz+nRmBSTS90vZ5ukkKWal/AMbdCp1y2YhKKPdF+OqRN41YwlYRe
+         5m8w==
+X-Gm-Message-State: AOAM531omTGqIeq/ne6artxzfTlN+RUHHJZTV3wN7nR47d76brIxkbm/
+        IzBfjsE5wh42NNVXSHfi2c8JiFp5+sNQceDWa/T+gRAalcKWFFFwJeLSM6SmZyYV64DnNJxU5Xs
+        80Ljmdi/0hR07L9Fa/fZc
+X-Received: by 2002:a17:906:a286:: with SMTP id i6mr20596332ejz.135.1618818788207;
+        Mon, 19 Apr 2021 00:53:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7jBzHFRvwixkLhHkF8GQ7d8wupO6F8D5LBz7CIhnhdlBLvGmXmwH0kDpoLoDDNSWxHAxmYA==
+X-Received: by 2002:a17:906:a286:: with SMTP id i6mr20596322ejz.135.1618818788003;
+        Mon, 19 Apr 2021 00:53:08 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045? ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+        by smtp.gmail.com with ESMTPSA id mj7sm9712114ejb.39.2021.04.19.00.53.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Apr 2021 00:53:07 -0700 (PDT)
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Wedson Almeida Filho <wedsonaf@google.com>, ojeda@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHj02M3jMSweoP4l@google.com>
+ <YHk4DZE1ZWTiBB1f@hirez.programming.kicks-ass.net>
+ <aa6e44ab-e223-73aa-279e-8103732460ac@redhat.com>
+ <YH0yCTgL0raKrmYg@hirez.programming.kicks-ass.net>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7287eac3-f492-bab1-9ea8-b89ceceed560@redhat.com>
+Date:   Mon, 19 Apr 2021 09:53:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20210419073722.15351-16-gi-oh.kim@ionos.com>
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6ef41e42-b8ea-4cb3-ce96-08d9030764a9
-X-MS-TrafficTypeDiagnostic: PH0PR12MB5433:
-X-Microsoft-Antispam-PRVS: <PH0PR12MB54334FCE7DC89647B4BE474CBD499@PH0PR12MB5433.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:813;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KOt8iAebzXEExgqYacziWus7A3tmJqYhjOy+LiaewHO6pPXH/QQcx6VqFi0xLm+3186ByaDl6nfIve2FNqzVO/zognAG9P8GI1K6r9qs6mlfXaeculxXhmNAYR+nSNVFBFW9rAgufGh6V3cOJ7I7c7Idnwz1dKBAZA/oGU5+ygQuOfhPgIjie4t05HgQ5A1TB7ZYIfXtCptSFqdckXj9S7ZytZWdQTJex3w/QgoNSvmVpyBRP5YZtGssL+CgdwgmacT8HZpTcoI+uwbP9RydSq+/LqppD7QyCb9Ja/a/favvuZ6Kj+BHKZHRZR8LM+OttM/zynvuARInZNrGHNeZJGvCcVATLrtXFKjMKRguHqrL7iX3IV0PgCGF1LSMom47qKyujppwVW2pFfvAUwdAqoodg4xGEZ4R62Ll4pA0vbFvavECVZGSlD1+/PCvgNN2MaJkKyNALM7+jhfHvlNxlRob94azJOThSgJPAB0ivqrTYMXAOjRy2qqcCdw30LaOwJprFwdMKNSh5ks4Vo8Vx7Xr/bVgFVQyNsc05f/RlQLKui6c+Cy2eLXpNQwBs6Zqvm56Z1YHmBp4tGrshIFJgfpp0itrUwuw3snu6ps3cfFve7A4sjFfXqIAJuS2MACBKFCIFjnfmrS1SEAohd6Cwg==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(7916004)(376002)(396003)(39860400002)(346002)(136003)(46966006)(36840700001)(426003)(336012)(26005)(86362001)(4326008)(7636003)(356005)(6916009)(36860700001)(47076005)(316002)(186003)(16526019)(8676002)(82310400003)(33716001)(8936002)(70586007)(107886003)(2906002)(6666004)(54906003)(9686003)(82740400003)(478600001)(5660300002)(7416002)(83380400001)(70206006)(4744005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2021 07:47:33.6421
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ef41e42-b8ea-4cb3-ce96-08d9030764a9
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5433
+In-Reply-To: <YH0yCTgL0raKrmYg@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 09:37:18AM +0200, Gioh Kim wrote:
-> From: Gioh Kim <gi-oh.kim@cloud.ionos.com>
+On 19/04/21 09:32, Peter Zijlstra wrote:
+> On Sat, Apr 17, 2021 at 04:51:58PM +0200, Paolo Bonzini wrote:
+>> On 16/04/21 09:09, Peter Zijlstra wrote:
+>>> Well, the obvious example would be seqlocks. C11 can't do them
+>>
+>> Sure it can.  C11 requires annotating with (the equivalent of) READ_ONCE all
+>> reads of seqlock-protected fields, but the memory model supports seqlocks
+>> just fine.
 > 
-> struct rtrs_srv is not used when handling rnbd_srv_rdma_ev messages, so
-> cleaned up
-> rdma_ev function pointer in rtrs_srv_ops also is changed.
+> How does that help?
 > 
-> Cc: Leon Romanovsky <leonro@nvidia.com>
-> Cc: linux-rdma@vger.kernel.org
-> Signed-off-by: Aleksei Marov <aleksei.marov@ionos.com>
-> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
-> Signed-off-by: Gioh Kim <gi-oh.kim@ionos.com>
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> Acked-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/block/rnbd/rnbd-srv.c          | 39 ++++++++++----------------
->  drivers/infiniband/ulp/rtrs/rtrs-srv.c |  4 +--
->  drivers/infiniband/ulp/rtrs/rtrs.h     |  3 +-
->  3 files changed, 18 insertions(+), 28 deletions(-)
+> IIRC there's two problems, one on each side the lock. On the write side
+> we have:
 > 
+> 	seq++;
+> 	smp_wmb();
+> 	X = r;
+> 	Y = r;
+> 	smp_wmb();
+> 	seq++;
+> 
+> Which C11 simply cannot do right because it does't have wmb.
 
-Thanks,
-Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
+It has atomic_thread_fence(memory_order_release), and 
+atomic_thread_fence(memory_order_acquire) on the read side.
+
+> You end up
+> having to use seq_cst for the first wmb or make both X and Y (on top of
+> the last seq) a store-release, both options are sub-optimal.
+
+seq_cst (except for the fence which is just smp_mb) is a pile of manure, 
+no doubt about that. :)
+
+Paolo
+
