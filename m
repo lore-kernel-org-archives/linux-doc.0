@@ -2,194 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5760C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 20:36:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 281C9C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 20:55:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF4CC61369
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 20:36:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA531613AC
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 20:55:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239199AbhDSUgn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 16:36:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42752 "EHLO
+        id S242828AbhDSU4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 16:56:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235775AbhDSUgm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 16:36:42 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEEEEC06138B
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 13:36:11 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id r20so40921724ljk.4
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 13:36:11 -0700 (PDT)
+        with ESMTP id S242467AbhDSU4T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 16:56:19 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFF13C06138A;
+        Mon, 19 Apr 2021 13:54:48 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id v3so38066000ybi.1;
+        Mon, 19 Apr 2021 13:54:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EwQlx/49KXwj+9MHny3x/v1N+rlK09AXDYpt2hWs1ys=;
-        b=M6Rv83Wqxe7+zYaaVRPyzbYEby5JMD1vNERCXl3UyJGm+vbs33CGHyUTZb3aP00kzp
-         U2fC6yirvslhroPLciAS6WwpSXmBaOSxypIINOAz7L042uh9cR4c9AZZgqeTrKczr9C7
-         Pv/O5Yzc+UCPzpheYm5hOUg+930cY8ytyXvCw89YKWECVc2DGPctZDGixjXZ00+AU9ym
-         JS31bfbQ8XlO/S6cWDWQdbsEhMhiIT4NKQo9PeqDJA/HiY4sAN1UBLdpcHuuDdYPz0Y0
-         B7+No7u9JOyip91vsVIP9egPULZ8xdxuwltSWbeH1gu/tEnM4HzwRO8BqW1a5Ob2c263
-         BG5w==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=aCM5KvzcuaSH8PgmjA12v/xhf+h1AKtzkBArU6j5MCE=;
+        b=URaTNbaExtEjXJaD8vbbSmBPhI/bVCzNjLHzcekqpOpTrJTd+Wod3riJZLQKZMxtlM
+         8kEcJSMHGoYwZpQ+jv6yWVXKecEfIxKhMxX7gGxqHZHMFSXXyBefGJo+fe8RM4LyidiR
+         j70TBzzKd6V59V3OGVjXgRexckD0FnpqStNJfv+c1+EM8vdhofAAmg34c4U9ZR3uZ5CP
+         ryyv62cHUoSFpeTXz8ocgg6PHslmsAEt/d4aebw2LBMsa6wVy1Trcbh1oKt87ji0bFAg
+         X5QOkFWt+yaeekNVX5g1y57ZMoqhho4yJCij/90EDWzhxQaydFZhymEEwyjJ/0ilvC38
+         dg2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EwQlx/49KXwj+9MHny3x/v1N+rlK09AXDYpt2hWs1ys=;
-        b=qzTd7R3ygoK9YUq5XYUUBrM5MvYP69ENaYduRfHU42AhhQAYowfIM2FZM6r88XaVvq
-         5IrNvvFzWNMZ2cagTYAxcr5AOctB5ms95Ks4VfRs7WYGoi2325gpBx5UpA1pYwbH0a6X
-         WMm3CvHfwV/ptQxAgP9w5dKtIMjsqYqxjmS4CamMfLv06+prO59QnoY5qEFIK09jHVEh
-         EElZFe2R46I4cEnVwBK8TpdGPt+ZGqy3/awlCBguwTZ5XCDyeqt5Ho590L60LMFSEqXx
-         EqC11x+o9j94tipvUn4rlxDGhMdJhevQMizxGUjeuadwdPn3T180Zn+5dScIVtNeGEgW
-         c+4w==
-X-Gm-Message-State: AOAM533q04HfQZ+2RvvSPRQwjQh3SrOmp9wGHmIvq6NpZq4CXb8iWWJG
-        yGT8qp57ctyk0NB2PF69bWe7YekEh68WUCPKcrDrGQ==
-X-Google-Smtp-Source: ABdhPJyAEiWJGtkhAVdtYKj8XOpSgEzaCwcaJs0vHHrVfNGC+G3QGRYmflzgFLdAC2eb/iYE0CMxweklM3MWy/9C2J8=
-X-Received: by 2002:a2e:988a:: with SMTP id b10mr12774742ljj.341.1618864569703;
- Mon, 19 Apr 2021 13:36:09 -0700 (PDT)
+         :message-id:subject:to;
+        bh=aCM5KvzcuaSH8PgmjA12v/xhf+h1AKtzkBArU6j5MCE=;
+        b=lBBSqrjek/M5/dxpw//kgFGRH7X11ZV6/JkkfFSGDIQ0+hh0wHcNLj7wthP1JCQlVa
+         DpFuo3+8dNImKfEHRgypa2tNit6fJLmhVfNyyeDLNci6/r3HRf8zxGgWbhsC5MqvFIxk
+         Jo28awEGtgeP6lzrVU/17/ZcqPFQzjfjCZoovDHnZJ9ZSf+ZcwP5tYFfgcUKXZjPNu8n
+         jp7aMMj7RrqR5Swa7Lj5+t59rNElHeZ+EpaorMXI1VAilecb0ksGoSw/ohBn+cXPLWN6
+         WCjTlT0u6+M8KK9fZ18K1HXKgy0v5ewT2tTUinps0iMOffC7Z6GRUks5Y8MNOyp3FQjc
+         PBpg==
+X-Gm-Message-State: AOAM530bz0jSY9KVLSUTdRvjxezdiV2hNQtr9KScU03+nnNtmmdnimjb
+        BLM1z6Z6bzkNVJX9S8J/U+guWbUxUDry0srdX00=
+X-Google-Smtp-Source: ABdhPJyaYIbfc4cW5qvFG9hENkVMCJYUuS82M0OwXiPIYErRHqo1pBo4NFKmv2I3CQp46FMoXxABmwEPNE+xsxALTTU=
+X-Received: by 2002:a5b:912:: with SMTP id a18mr19428673ybq.247.1618865688041;
+ Mon, 19 Apr 2021 13:54:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHkSO3TUktyPs4Nz@boqun-archlinux> <CAKwvOdnRx+8LhOAnH24CeZz2a2-MwF03oB7Um_pKBq8WAoLNxw@mail.gmail.com>
- <20210416184713.GI4212@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20210416184713.GI4212@paulmck-ThinkPad-P17-Gen-1>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 19 Apr 2021 13:35:56 -0700
-Message-ID: <CAKwvOdkpOZk-FXJ0iOLvhyQr7wVcWwzgc0gk_8KTtOfF_Q8Q3g@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     paulmck@kernel.org, ojeda@kernel.org
-Cc:     Boqun Feng <boqun.feng@gmail.com>,
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
+ <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net> <CANiq72nv8CK8cyY4n3yqpL6GAmqmVP5+Ee-cgzT9Gi+ZRLE_Jw@mail.gmail.com>
+ <20210419195850.GV7604@twin.jikos.cz>
+In-Reply-To: <20210419195850.GV7604@twin.jikos.cz>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 19 Apr 2021 22:54:36 +0200
+Message-ID: <CANiq72=a-xLF7rUDZ=gwYs2=G6AAa2Gsj1UoZQBdhQBuBgF+qQ@mail.gmail.com>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
+To:     dsterba@suse.cz, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 11:47 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+Hi David,
+
+On Mon, Apr 19, 2021 at 10:01 PM David Sterba <dsterba@suse.cz> wrote:
 >
-> On Thu, Apr 15, 2021 at 11:04:37PM -0700, Nick Desaulniers wrote:
-> > On Thu, Apr 15, 2021 at 9:27 PM Boqun Feng <boqun.feng@gmail.com> wrote:
-> > >
-> > > But I think the Rust Community still wants to have a good memory model,
-> > > and they are open to any kind of suggestion and input. I think we (LKMM
-> > > people) should really get involved, because the recent discussion on
-> > > RISC-V's atomics shows that if we didn't people might get a "broken"
-> > > design because they thought C11 memory model is good enough:
-> > >
-> > >         https://lore.kernel.org/lkml/YGyZPCxJYGOvqYZQ@boqun-archlinux/
-> > >
-> > > And the benefits are mutual: a) Linux Kernel Memory Model (LKMM) is
-> > > defined by combining the requirements of developers and the behavior of
-> > > hardwares, it's pratical and can be a very good input for memory model
-> > > designing in Rust; b) Once Rust has a better memory model, the compiler
-> > > technologies whatever Rust compilers use to suppor the memory model can
-> > > be adopted to C compilers and we can get that part for free.
-> >
-> > Yes, I agree; I think that's a very good approach.  Avoiding the ISO
-> > WG14 is interesting; at least the merits could be debated in the
-> > public and not behind closed doors.
+> for simple functions it's barely parseable but the following is hardly
+> readable
 >
-> WG14 (C) and WG21 (C++) are at least somewhat open.  Here are some of
-> the proposals a few of us have in flight:
-
-Wow, the working groups have been busy.  Thank you Paul and Boqun (and
-anyone else on thread) for authoring many of the proposals listed
-below.  Looks like I have a lot of reading to do to catch up.
-
-Have any of those been accepted yet, or led to amendments to either
-language's specs?  Where's the best place to track that?
-
-My point has more to do with _participation_.  Rust's RFC process is
-well documented (https://rust-lang.github.io/rfcs/introduction.html)
-and is done via github pull requests[0].
-
-This is a much different process than drafts thrown over the wall.
-What hope do any kernel contributors have to participate in the ISO
-WGs, other than hoping their contributions to a draft foresee/address
-any concerns members of the committee might have?  How do members of
-the ISO WG communicate with folks interested in the outcomes of their
-decisions?
-
-The two processes are quite different; one doesn't require "joining a
-national body" (which I assume involves some monetary transaction, if
-not for the individual participant, for their employer) for instance.
-(http://www.open-std.org/jtc1/sc22/wg14/www/contributing which links
-to https://www.iso.org/members.html; I wonder if we have kernel
-contributors in those grayed out countries?)
-
-It was always very ironic to me that the most important body of free
-software was subject to decisions made by ISO, for better or for
-worse.  I would think Rust's RFC process would be more accessible to
-kernel developers, modulo the anti-github crowd, but with the Rust's
-community's values in inclusion I'm sure they'd be happy to accomodate
-folks for the RFC process without requiring github.  I'm not sure ISO
-can be as flexible for non-members.
-
-Either way, I think Rust's RFC process is something worth adding to
-the list of benefits under the heading "Why Rust?" in this proposed
-RFC.
-
+> translates to
 >
-> P2055R0 A Relaxed Guide to memory_order_relaxed
->         http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p2055r0.pdf
-> P0124R7 Linux-Kernel Memory Model (vs. that of C/C++)
->         http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p0124r7.html
-> P1726R4 Pointer lifetime-end zap
->         http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1726r4.pdf
->         https://docs.google.com/document/d/1MfagxTa6H0rTxtq9Oxyh4X53NzKqOt7y3hZBVzO_LMk/edit?usp=sharing
-> P1121R2 Hazard Pointers: Proposed Interface and Wording for Concurrency TS 2
->         http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p1121r2.pdf
-> P1382R1 volatile_load<T> and volatile_store<T>
->         http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1382r1.pdf
-> P1122R2 Proposed Wording for Concurrent Data Structures: Read-Copy-Update (RCU)
->         http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1122r2.pdf
->         https://docs.google.com/document/d/1MfagxTa6H0rTxtq9Oxyh4X53NzKqOt7y3hZBVzO_LMk/edit?usp=sharing
-> P0190R4 Proposal for New memory order consume Definition
->         http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0190r4.pdf
-> P0750R1 Consume
->         http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0750r1.html
+>   <rust_binder[8787f43e282added]::range_alloc::DescriptorState as core[8787f43e282added]::fmt::Debug>::fmt
 
-Does wg14 not participate in these discussions? (Or, is there a lot of
-overlap between participants in both?)
-http://93.90.116.65/JTC1/SC22/WG14/www/docs/ seems like a list of
-proposals and meeting minutes, but all of the above links look like
-WG21.  The model of decisions being made for C++ then trickling down
-to C is definitely curious.  Though perhaps for the topics of memory
-orderings there's enough overlap between the two languages for it not
-to matter.
+Some details can be omitted without much problem, e.g. try the `-i`
+option of `c++filt`:
 
->
-> P1726R4 is of particular concern, along with consume.
+    <rust_binder::range_alloc::DescriptorState as core::fmt::Debug>::fmt
 
-
-[0] You can see all of the existing ones here:
-https://github.com/rust-lang/rfcs/tree/master/text, with links to
-discussions for each on github.  (Here's one that has not been
-accepted yet: https://github.com/rust-lang/rfcs/blob/master/text/1937-ques-in-main.md,
-see the link to the issue in the rust issue tracker has lots of
-comments _from the community_:
-https://github.com/rust-lang/rust/issues/43301).  I guess the
-equivalents for the ISO WGs would be the meeting minutes?
---
-Thanks,
-~Nick Desaulniers
+Cheers,
+Miguel
