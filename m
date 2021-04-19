@@ -2,109 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E811C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 06:46:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4508EC43462
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:33:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 614276101C
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 06:46:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 263BA610CC
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:33:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237567AbhDSGrF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 02:47:05 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:43376 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233256AbhDSGrF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 02:47:05 -0400
-From:   Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1618814794;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qXQLGERhsSNeIwqSxvWOuT357Vy3ZJhmHq0+8ZCeYcc=;
-        b=pPii5bN9MwHpzibsWOaN/JQEYaLDuLXw8jrKabJy4RtMt4LZ2+R3sMCrnEXHp3Ez1BqS06
-        ka7zL9xK5q7REX5n5a5za3A0vt3ovBkgZ8OGLw7BQlQfbJ6CPJWymI5uJvl9q8Z5Zg0LZY
-        qe6c7XFv/1aSf+SDmHGOrOkvkYKAX7Ziv2f9Q7xlSlzUyfp0JqG6Ym6L2wI3ue0EqVYZpI
-        jsMNp/AMuduxYYNRVHvg1zXvN3cizxzpZy36RMfw8gjJSjuOiwo6AebJeYBmyrjVuF+akW
-        CYmCp2+sKqStCtJaBTNO6CSAjO4ItOYwpI0/E62/kLIclIvXPQ8ORe+tEd4Xjw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1618814794;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qXQLGERhsSNeIwqSxvWOuT357Vy3ZJhmHq0+8ZCeYcc=;
-        b=arsPGNtl1GtiP4AXseM/lEYzZ9mbyMPldbujH4Mf0NFPFrpyu98yi4CjQDpa8H0FVkK8+R
-        JoC9CcefFtZ8mzCA==
-To:     Yangbo Lu <yangbo.lu@nxp.com>, netdev@vger.kernel.org
-Cc:     Yangbo Lu <yangbo.lu@nxp.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [net-next 1/3] net: dsa: optimize tx timestamp request handling
-In-Reply-To: <20210416123655.42783-2-yangbo.lu@nxp.com>
-References: <20210416123655.42783-1-yangbo.lu@nxp.com> <20210416123655.42783-2-yangbo.lu@nxp.com>
-Date:   Mon, 19 Apr 2021 08:46:33 +0200
-Message-ID: <87k0oyzs8m.fsf@kurt>
+        id S237895AbhDSHeS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 03:34:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38530 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237936AbhDSHeA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 03:34:00 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF6CC06174A;
+        Mon, 19 Apr 2021 00:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=FYq2lre5IyLW1kO/gHNuOUrJnwI3hjqEUIqkBhrYSpY=; b=PXyigIIh6ycLkbQ0IpEJgLrpbB
+        8qyz5JVhMiLsYbE/bkS65iPMcwHz3CiY1yMJFD3wR3kCqDGv/HlgKhlkhQsZzkbCfyw9HRZCq3kYz
+        ACC9H4LQfYlay5YJqs0pEi6VGOSeAwyGfQz23H9WcOE0uuxst6D5C6iko/5rQjKPERVQQ4IJZ3o/w
+        RBvXMDc7Gkr1HCQSeGsSXgD5I9hbfmIHD0cJPlCO48I88VnlTcIJQSWawNKrWne0Il+jl1g1HG8gd
+        c9rhwYHlqjkl4QDNm4kpESZlSwkZR6/dE4KXP47HZ27FFAT9KwtBHUlj+rq59nXXbdZpxRGTTcQEX
+        DR7lIjhw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lYOOQ-00DOH9-IU; Mon, 19 Apr 2021 07:32:38 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 4503F30018E;
+        Mon, 19 Apr 2021 09:32:25 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 28490200D4310; Mon, 19 Apr 2021 09:32:25 +0200 (CEST)
+Date:   Mon, 19 Apr 2021 09:32:25 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Wedson Almeida Filho <wedsonaf@google.com>, ojeda@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YH0yCTgL0raKrmYg@hirez.programming.kicks-ass.net>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHj02M3jMSweoP4l@google.com>
+ <YHk4DZE1ZWTiBB1f@hirez.programming.kicks-ass.net>
+ <aa6e44ab-e223-73aa-279e-8103732460ac@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aa6e44ab-e223-73aa-279e-8103732460ac@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
+On Sat, Apr 17, 2021 at 04:51:58PM +0200, Paolo Bonzini wrote:
+> On 16/04/21 09:09, Peter Zijlstra wrote:
+> > Well, the obvious example would be seqlocks. C11 can't do them
+> 
+> Sure it can.  C11 requires annotating with (the equivalent of) READ_ONCE all
+> reads of seqlock-protected fields, but the memory model supports seqlocks
+> just fine.
 
-On Fri Apr 16 2021, Yangbo Lu wrote:
-> Optimization could be done on dsa_skb_tx_timestamp(), and dsa device
-> drivers should adapt to it.
->
-> - Check SKBTX_HW_TSTAMP request flag at the very beginning, instead of in
->   port_txtstamp, so that most skbs not requiring tx timestamp just return.
->
-> - No longer to identify PTP packets, and limit tx timestamping only for PTP
->   packets. If device driver likes, let device driver do.
->
-> - It is a waste to clone skb directly in dsa_skb_tx_timestamp().
->   For one-step timestamping, a clone is not needed. For any failure of
->   port_txtstamp (this may usually happen), the skb clone has to be freed.
->   So put skb cloning into port_txtstamp where it really needs.
->
-> Signed-off-by: Yangbo Lu <yangbo.lu@nxp.com>
+How does that help?
 
-PTP still works.
+IIRC there's two problems, one on each side the lock. On the write side
+we have:
 
-Tested-by: Kurt Kanzenbach <kurt@linutronix.de> # hellcreek
+	seq++;
+	smp_wmb();
+	X = r;
+	Y = r;
+	smp_wmb();
+	seq++;
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Which C11 simply cannot do right because it does't have wmb. You end up
+having to use seq_cst for the first wmb or make both X and Y (on top of
+the last seq) a store-release, both options are sub-optimal.
 
------BEGIN PGP SIGNATURE-----
+On the read side you get:
 
-iQIzBAEBCgAdFiEEooWgvezyxHPhdEojeSpbgcuY8KYFAmB9J0kACgkQeSpbgcuY
-8KZ8txAAnfpbhXSCEuUfR4ACDZwTqdlJxqHz1GE6AIuKLCcK6G1HuTLRN4f/Vjcq
-JKIZAJWN+OMSuAx4OrHqMaE79mlYxsd10gWybHoHbBliTWZt2QCMjpZ3kcqpgYHk
-QCWOAuuFq1DNENqRS+BL47W86OlhaPns37BAW+O8+4j3QxPfHAL2aYOlq9DZgEVP
-5klbziOUS4Dg0Mvxc6k7gtm/ecJMZGG6PdvVnWRv9rllvTBsgJi4TrpXt/maZF7Y
-I1vsc8g755sXe6ds6EpppUsyXALVLv+/5ABGU+q5HvY5lXVTw4x3ohUmtG3+PLaq
-eH7cNBKrFuU5yvQupWOG3Fq5KA5d4WdD7izhBNYWyTxCnXsc6g4oUgsj/+Y/f48+
-BtM3/mWJuYPIW4IL0JJP4OtB/OtTPrIfMyUFlNgwhc1NtQaojOS4KRhlkGLgjNeF
-oOSWt2c/CLAyq13VkubQAsFOP3/ro2fKqCUQ+fdr7w6ovRPywqlvDJKIF0gQ9dSI
-0+XMkN1dhlpwrkyd8AyB4tcEaI8QgIBj7DILZSPNjXXbsIm8wMfnztPXJZEjM/Z0
-ND9ET4vCIB6SxW3ctZdF0sICB8qEjnNNuJzQ1QEeNjK8ZUOizY9ijxLxwsNIFzs8
-+RanrIUm043DUOcz6iPVr1h9myLlvMpI9qnxbiFtv7iKlui9vbs=
-=5c3T
------END PGP SIGNATURE-----
---=-=-=--
+	do {
+	  s = seq;
+	  smp_rmb();
+	  r1 = X;
+	  r2 = Y;
+	  smp_rmb();
+	} while ((s&1) || seq != s);
+
+And then you get into trouble the last barrier, so the first seq load
+can be load-acquire, after which the loads of X, Y come after, but you
+need then to happen before the second seq load, for which you then need
+seq_cst, or make X and Y load-acquire. Again, not optimal.
+
+I have also seen *many* broken variants of it on the web. Some work on
+x86 but are totally broken when you build them on LL/SC ARM64.
+
