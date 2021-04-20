@@ -2,202 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FD95C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 23:42:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 831C1C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 00:01:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F130611C9
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 23:42:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43CCD61363
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 00:01:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbhDSXm4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 19:42:56 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:33254 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232147AbhDSXmy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 19:42:54 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13JNeNmS076184;
-        Mon, 19 Apr 2021 23:41:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=1TN5aw5eLK44CIuRHTMnucu76EYBChGUTd5TFLyz8x4=;
- b=Xmbt2gPZoey4vwNvAzU2HdE8H10u8jL6Kgu2JhCmWyGXekjm+ZxtviAx9T0pFJeMtXvX
- K2KrFH2uPVKVptcL5yisehx3SXdzmeWj0JJ+bfMTRIyJufM+irdy70arhSWDXcQbeiIQ
- qnCmvfbBQiOSLDu/a4UgT5f9mF1K06juPIWTX9+TVpVqPTEAtlAdJXMqDqEMwSiivswi
- GggwS+6DbSxixXd67UeNzfgfFDGn5yxYmm1X4ecvN1v1R6byIZuaEkZ37eoOjjbjwO/z
- NnGkA1utpo6WjJhO7v81OseP31M+kbail4xcOosZaTuAaR9GgaD7AfkP37bIJO1mn80D ww== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 37yn6c5fys-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 19 Apr 2021 23:41:32 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13JNe4eu122301;
-        Mon, 19 Apr 2021 23:41:32 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
-        by aserp3020.oracle.com with ESMTP id 3809jygst7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 19 Apr 2021 23:41:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ejQkeRoCOWOqL+57ckTq4Lcbnvo/oo5B3q2ZWkV7wbgwvpP4MHBTkNZYwOiSJgRDuEAxRLbRVk49iAZfJPmQpWgiaQwSZbCvDt9BY4fElGFe99OcGNAH8c1DDstNcmBuDyoRiUeyCIA5PB5mpQM1aVI2Hor/9IeG8MVouybxMywvs1SnOd9peYgM1h729phN2wqiQuWfpL8KB1dSimWFkwMj2hPhSFpvZCL3vs549oANL77lP4frBV+eSR5R7/4LZDl13IqOxl9H3/AXgiKBi3MEIKrtpiuHtjtT06kAkygQKr0lMnOLFXZ62uK/TxLOCXdvVv8tw8gLXSkeEgiBPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1TN5aw5eLK44CIuRHTMnucu76EYBChGUTd5TFLyz8x4=;
- b=UNFzk60nfz877ocGNQzKBmQxkq8gnpr3R1swRiIo0r59TTwvfpc3RldB4jFaxK3ZouskZLlGLR8pOiCZyW04Wolg3YkUs7lyEcwzbkdOC5s4AG0ttHURs3bxWG9dLg5LvkyFJPMz85Rza9yH4MOaxVyLF71/SSDvVY+KiwrBtgfW5N5kC5FejzbkEkLzJTuTIIWLsDkyNYhANyeZR1hjRw21xxAEdZxNMhgsMkzG76y96l08k/Y+Owu9/u8TIPOmaD4pnIEPS6AoxTAPgmR5O5U1QFqKzVQ7qXK1aUUnGzFDHZJzm63DfT1gQRYvdVFkH4cbqrkBqSYHoxbTcxuaNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S229839AbhDTACG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 20:02:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229471AbhDTACG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 20:02:06 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA53FC06174A;
+        Mon, 19 Apr 2021 17:01:35 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id j3so17798513qvs.1;
+        Mon, 19 Apr 2021 17:01:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1TN5aw5eLK44CIuRHTMnucu76EYBChGUTd5TFLyz8x4=;
- b=w7aTqXy2k8wG0Tv1Fecd4sGwPhX0B64TqnHT4rbAM0Rb10Z4VFcCyPCbFYDuF6zMLxmC3zprDpb6HX40mJyTph8hZsFoho40n5hMLhEQTUXkzz07N8c6d1Jzh5B3xuDXKmh8r4kz/g1ShZUXB7jUDVKcLLQsI36GXG3IG0p1000=
-Authentication-Results: amazon.com; dkim=none (message not signed)
- header.d=none;amazon.com; dmarc=none action=none header.from=oracle.com;
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
- by BYAPR10MB2856.namprd10.prod.outlook.com (2603:10b6:a03:89::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Mon, 19 Apr
- 2021 23:41:28 +0000
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::980e:61ba:57d2:47ee]) by BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::980e:61ba:57d2:47ee%7]) with mapi id 15.20.4042.024; Mon, 19 Apr 2021
- 23:41:28 +0000
-Subject: Re: [PATCH v20 7/9] mm: hugetlb: add a kernel parameter
- hugetlb_free_vmemmap
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, naoya.horiguchi@nec.com,
-        joao.m.martins@oracle.com
-Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        Bodeddula Balasubramaniam <bodeddub@amazon.com>
-References: <20210415084005.25049-1-songmuchun@bytedance.com>
- <20210415084005.25049-8-songmuchun@bytedance.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <c1a3e914-e7f0-c92f-efd0-bdded6a412d8@oracle.com>
-Date:   Mon, 19 Apr 2021 16:41:24 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-In-Reply-To: <20210415084005.25049-8-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [50.38.35.18]
-X-ClientProxiedBy: CO1PR15CA0067.namprd15.prod.outlook.com
- (2603:10b6:101:20::11) To BY5PR10MB4196.namprd10.prod.outlook.com
- (2603:10b6:a03:20d::23)
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VCsvR8ed7Ced6QtfotFXE2oWXUOCJco3BBQfcsvrgLs=;
+        b=rEvQ3g81yMTfKkZquowAjEOOmoQgzWEJ/Lr00Y1XDZoHZYcAPwQsSS4xtMj+N9L4s+
+         F+0tgKsL4iTPDj6cXX5VTiwZegk3eQnqH79G/2i/3DmIUJ/uYnxG8uwIfq6bu1s8xIbM
+         QGl+6hV32570u1oEWFhqW32djMvQFzq+uX8dIpBCgwgEd03g2OEFUDPKGUOPlyoD2NIe
+         M4ZwGX6d9Vmmwt4f/soST0K9gfYSWyA0ZAX7pa+7VvdO7Eq73arCnm82nzsJOfbcSWTw
+         UuiVpJgW9iZQ8iXoalOEpJC7zZ9j5JdK3xBmrAthxhwHwwlXOoKoG6/gDR7DuJ3xEHYL
+         SMSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VCsvR8ed7Ced6QtfotFXE2oWXUOCJco3BBQfcsvrgLs=;
+        b=Pi/lcd8xcn620GF2V7aqZ9Sjb9YJ9ED+t5vf277Nda/6bx4sBbusOHixq4pqthzi7v
+         fQ7FmfmJ7ZOZ/ehNI24rpPP/rntTwRYzDlf49UC//Y9XNNTJOb0E3ESC5Ut3NfK/zIDp
+         AoOa7sMe3XWCBCWaPZ7w0Gy6IUGyjbWKmE6Fxn7HFquzOsf4o/Qwzj2/eLtW9GvvEPvo
+         cfhATHjG0g4BK5ST4i8YKs3P4SH8E4YIbhv0iA61u8kt+szhCY+w0+6QqbswFQYWxkra
+         q6vhPfam31rkgS4/C+N5gA+JR4XuZYxEBEFSgDvZ+NmwZzsKlMrLCT1vag7JQx2SzbYX
+         ksOQ==
+X-Gm-Message-State: AOAM532a4Zcj7k+avcY2JqfJ0611KZ6XuMbTyLDAsYJTudInorAXQERX
+        vaeVN3VNNLEL3rVd5K6hojMupgJpTHw=
+X-Google-Smtp-Source: ABdhPJxuIH+fhGRayqCDTr9el+KOvpGwN79zRS8qZxelpgUMNF1e3e/0zmpI1iyYs19IU/xmHrN+2Q==
+X-Received: by 2002:a0c:db05:: with SMTP id d5mr23857323qvk.41.1618876894388;
+        Mon, 19 Apr 2021 17:01:34 -0700 (PDT)
+Received: from localhost ([207.98.216.60])
+        by smtp.gmail.com with ESMTPSA id o12sm10497099qtg.14.2021.04.19.17.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Apr 2021 17:01:34 -0700 (PDT)
+From:   Yury Norov <yury.norov@gmail.com>
+To:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Yury Norov <yury.norov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH 0/2] bitmap_parselist: support 'all' semantics
+Date:   Mon, 19 Apr 2021 17:01:29 -0700
+Message-Id: <20210420000131.21038-1-yury.norov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.112] (50.38.35.18) by CO1PR15CA0067.namprd15.prod.outlook.com (2603:10b6:101:20::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend Transport; Mon, 19 Apr 2021 23:41:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 482e4142-2b40-4752-d424-08d9038ca6b1
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2856:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB28567E8597F12D650AC2EE70E2499@BYAPR10MB2856.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HzRDqxS2eXaRAncH+D2PJueko77d5P031kem7ksOkjhmIicRfURB7PRqfqjC8DkqUqjDQZMqO7gVvnoXVRNuVytVWwv7UxeUJKFiKxilDTBP+ut3SHcYQ26zY4aOe/opdihlq7U+cT+Sr9cK7XQQ776gcKjaoAQxGDzdq3oCjNR9d114rFFHvrOiGpiO3M9vzn+YqSN0ZfE4hXycb1BcXT4Y2qFn4jkODcoCpzGXviGcGK4me1E7y+SbgVGFSSVtwDYCf9HYYDKMvHAmcVqatMqXTKtFc0ziav141EcE2AZpznV3NFt8fjN0AnfiDenYq/ZWsf38qZ3mf5FrJek358ZkSOTHf2bJHq8KttbYfvLVt0TYjH6A2tfLKU4G4HjqkjP4yaWd67M0T4FKD8cGSyqVReskzWsPV3wcfthS1XXc6rtEyo/7Md9q3EkCUSPvE1AL4+3o+oRH2X1CsjD7ZJQ2CJQ8RDwgGr3vf73ie65F4TlavAeBe8FpshTX7vf4SGnSezS9BK6Umee68vVYFUohW/DHRvjBePXZ91hq4dJOwxzkYCn1bpzkS+E0npRE34/t1eQfKovkmPkBj3SnAK94CaTIuWGN7PQRNFKSgHKofk7QyZnBTynPSqEchRKDe7i+5etLlgPqvmmJtzeMPZBLzFfppXzgpftjpo7rAqjNNKnV7TI+V6CxjxYG5y6wcToCtK1jGGgHWvP+3iNSEgPQFd/uPNJE6eIVoqgu/hA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(346002)(39860400002)(396003)(136003)(376002)(26005)(478600001)(921005)(956004)(186003)(31686004)(7416002)(86362001)(54906003)(66556008)(8936002)(53546011)(8676002)(2616005)(16576012)(66946007)(2906002)(44832011)(4326008)(7406005)(316002)(5660300002)(36756003)(52116002)(6486002)(31696002)(16526019)(38350700002)(6636002)(66476007)(83380400001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UTRiYndDa0gxdURiVGhXMFFyQWFCcEszei9YQVl3YjYzTXpkUnl4VUszNGJl?=
- =?utf-8?B?aDFPbUFKUmEzOUpZT2hRV1lVdG1MK1E4RXFWT2pJMzB1UGlHdHR5OUM4SmR2?=
- =?utf-8?B?ak1BZWxkYndobm9XaVRhQnEyMUEyTlVJZFRqQzYrM1h3bnNzeGsxaVo1RDRB?=
- =?utf-8?B?OW1lb215V2ozV2JlZWdzei8xU3h6NGxUa1MzTUdGNjVScjlENTk5QzlweEo2?=
- =?utf-8?B?YWdEYm1lclAwbW1oNmVwU3hZVFRrYnpncUsxYkpRMm9ra2ZDZ1g0N3I0di9N?=
- =?utf-8?B?RXNYRnRlVmRnV0hWVlpHOWVNQk0vYi9QdElDUm04RFhyb3Vld3BoSi9tbE5J?=
- =?utf-8?B?b2N5T1RyWmZGWkV3QlpQZ2UwRVJLY3NiVzRpam1LVzN1QkVTRVhWWVBybXA4?=
- =?utf-8?B?cE0zRW5CZUxjNnZUNXdmeTE5WC9ybHErTVNwSzdtTGNRai9lTVVsTGI0cUhz?=
- =?utf-8?B?MSt4VmFzajdZN1FRUWNOL1Q3c0J4bU5hK0hCaDBOY25VWlcxOEZHZVlkUGxa?=
- =?utf-8?B?TXVqVlUzV0JhTUl4djhpdW1jbUl3eDFOWFMyRk1hR2lvcTRIY04xdFRNSExP?=
- =?utf-8?B?djB3UU5pMGdKRzQrOElidi82djg5cmwwVzdZYW55aHk2YXc5ZEdVeXlGOWIy?=
- =?utf-8?B?VUFDNWV2OStjcGwvaVVqckY2Nk45KytjT3g1N2xTTGhJc1lvWFJ0TExjdDh6?=
- =?utf-8?B?K1pCOHZJN1A5aWxsYVlYZ0FnQVVab0ROVk9nSUpFV3J0UmNHaVU1ZVkvWmtO?=
- =?utf-8?B?Nm1RbElDTmtISlRjNjBDYkdTc2xqaXNkNjVQTWZYOVZiTGJCTUo5blRQS0w2?=
- =?utf-8?B?TFNndzlONHlobGNqVTJ4TFMxWHpraGoyUHRoTU91TjV3UmRKYjlnTUlnbkxT?=
- =?utf-8?B?YVhMQ3p3VnFYTWF3S0JpV3p2cmN5R1p2Ung0M21qWld5aWlhckNzM0pNdFhL?=
- =?utf-8?B?bmhhVG8xeVJhMUZhV0FsWlBkZnp1T3laSjNodnZCdEpjdVA3L1UxaXdYT21F?=
- =?utf-8?B?UUxKSE00ZmFnTkJtZHpicTVIMVRlU3pjNXcwYTlpS3ZQMEhFK255RTNZOEc3?=
- =?utf-8?B?TGpTK2p2SVJwWkhoZVE5cTNTZ0hrQ2ZKSmdzN3Y4amg2OEpSLzZDV082VnV6?=
- =?utf-8?B?V25CYjNGTzFqRG4yMmV2Yno4SkdFUzlyZ1UyM3pYeFRzMlo2OW1FdXZKTnJX?=
- =?utf-8?B?dFhUdTE2bFY2MHNSM0I5YXpNL3pmRzFWY0dwOEVHV053U2d6YWlld3ZFd0pI?=
- =?utf-8?B?enVPYkJXTXU0aXNNSDRVOE52RnF2cWdNMWg4L3drRnZ1Ti9sKy93Y0JCMlVw?=
- =?utf-8?B?cExwUmxCZVhWY2MxSklVSlNGRWRKcXZ0SStjZ290OE16LzliQkN1SWNycGcw?=
- =?utf-8?B?cWZEVGxkUmFEK0g3Rm1pYitCNis0SER2VCsyMjkyY204VXQ0cTB5eVIwWEVt?=
- =?utf-8?B?Mkp5OFhHK1pqNWMrdW9RekVnQit5cHhlVWwrT1hWTmgrcC9xb1kyL0dRc3Fj?=
- =?utf-8?B?MjdRVERFTkZuZUtxN0FyVmp2T2VzOEpXclZCVDJiQzl3akdLMUZXQUJVUWdF?=
- =?utf-8?B?aTFBMFBJMzU4dWgyZERpMjB0cW41UVhuWmthRWphYlp5ZzEyZU9WeWQrdUdS?=
- =?utf-8?B?ZkFxY3o1YmhhdngvSWt6aCtWWWo2ZjZKR3p5emIrVmxsTldvZ2xPRXlwUldL?=
- =?utf-8?B?bWk3c3B0RlBZc1FkODF1Y0Y1UVJRcU9scmxlRFU0T2dNSiswU1BIbi9QbERT?=
- =?utf-8?Q?liDvtcF8Vwjw2gb6ruY0Aoo/M7gm9NXS99GYOiD?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 482e4142-2b40-4752-d424-08d9038ca6b1
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2021 23:41:27.9450
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4+7aR2cIxoy2gYPTms+dHL2SEzGkrv32nWyvC5uVOSeFk5eWOlq+kEMXgWt1xXzqSVoGZIqc+x16TKgpWSRgmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2856
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9959 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 malwarescore=0
- suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104190163
-X-Proofpoint-GUID: L6xYBkcP2-UJTY3yeYHEsvXw0wO63IEK
-X-Proofpoint-ORIG-GUID: L6xYBkcP2-UJTY3yeYHEsvXw0wO63IEK
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9959 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 priorityscore=1501
- bulkscore=0 suspectscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 spamscore=0 mlxlogscore=999 adultscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104190163
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/15/21 1:40 AM, Muchun Song wrote:
-> Add a kernel parameter hugetlb_free_vmemmap to enable the feature of
-> freeing unused vmemmap pages associated with each hugetlb page on boot.
-> 
-> We disables PMD mapping of vmemmap pages for x86-64 arch when this
-> feature is enabled. Because vmemmap_remap_free() depends on vmemmap
-> being base page mapped.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Reviewed-by: Oscar Salvador <osalvador@suse.de>
-> Reviewed-by: Barry Song <song.bao.hua@hisilicon.com>
-> Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
-> Tested-by: Chen Huang <chenhuang5@huawei.com>
-> Tested-by: Bodeddula Balasubramaniam <bodeddub@amazon.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 17 +++++++++++++++++
->  Documentation/admin-guide/mm/hugetlbpage.rst    |  3 +++
->  arch/x86/mm/init_64.c                           |  8 ++++++--
->  include/linux/hugetlb.h                         | 19 +++++++++++++++++++
->  mm/hugetlb_vmemmap.c                            | 24 ++++++++++++++++++++++++
->  5 files changed, 69 insertions(+), 2 deletions(-)
+RCU code supports a special group 'all' which selects all bits in a bitmap.
+We have recently added 'N' extension for bitmap parse, so that '0-N' would
+have exactly the same meaning as 'all'. But because the 'all' is already
+used by RCU, it would be reasonable to support it in core bitmap code as a
+common and easy-readable alias for '0-N'.
 
-Thanks,
+Moving the 'all' support to core bitmap code adds another level of
+flexibility for system configuration by supporting patterns. For example,
+every second bit in cpumask may be selected like this:
+	isolcpus=all:1/2
 
-Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
+
+Yury Norov (2):
+  bitmap_parse: support 'all' semantics
+  rcu/tree_plugin: don't handle the case of 'all' CPU range
+
+ Documentation/admin-guide/kernel-parameters.rst | 5 +++++
+ kernel/rcu/tree_plugin.h                        | 9 +++------
+ lib/bitmap.c                                    | 9 +++++++++
+ lib/test_bitmap.c                               | 8 +++++++-
+ 4 files changed, 24 insertions(+), 7 deletions(-)
+
 -- 
-Mike Kravetz
+2.25.1
+
