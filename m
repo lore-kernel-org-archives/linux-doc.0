@@ -2,98 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3574FC433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 17:59:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B358C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 18:58:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6ABC613CD
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 17:59:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50CFB613DF
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 18:58:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233225AbhDTR7d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 13:59:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41732 "EHLO
+        id S233708AbhDTS7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 14:59:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231549AbhDTR7d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 13:59:33 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3470FC06174A;
-        Tue, 20 Apr 2021 10:59:00 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id v6so58309488ejo.6;
-        Tue, 20 Apr 2021 10:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=f5aVc+Rvip+i9wMcJgMkN6n1iKUg3nhAfrxBMVSyMT4=;
-        b=vRUxfANqM5gmEe+JEi/nYpjRog+dg4T69TNipoOZUaYkZAvwQmisFgJAtp0tFTn4bc
-         nt0LT/W1FWHrlivE3I+Bs99iBJFEGeFI/2KwB3hwMI+4cr2ADax+gWvD5E0NjspkqUMY
-         0fF1FhIoP0IIXzUJO/5ppHi/6U68dF9YuzyyA+A70jMPFOAW0loNsYb/ZBGjpYCztITq
-         hH/1Xdqwswh/tTEwoT9iPrKLVvVBRtphbXq/2OjdKbdvTidWEZVprz5evxKQoQWT8koF
-         3HmKDNxTcX6Dszyunwm8hJQmycfKQb1x1JnQXvbiqJbHNg6frX4iYM0D8ppgMRBwb5EC
-         Hpig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=f5aVc+Rvip+i9wMcJgMkN6n1iKUg3nhAfrxBMVSyMT4=;
-        b=T4rSOneaOFkeppqcf/TPQuqfMztHJ+aYcs9XvpfsNFd/Pmx0XJuwyCVVBvwzd3nY/9
-         THr2OJ2FCEHkenZLTXKbqxMenXERKetBfDCBXaQo8IC214T4ZlAAaBEnGuHFVMa/gvYH
-         EyMA2uX4LTNCrm/ElpxzN93p9FGMXcI6HSRljHmYkAif6HOvwbGzOGSAXm/7M/hSfuUx
-         0Oz+noCANzmjeOIs6/jQN+gAI5fVwzQU5PPRNz7nIizcoI7zQKgkbCoEUyZ54IOOzs7g
-         0hHJLzhfZVSFKb4lX7FVOWuCmTDvFizBpOMpL4TFlSfau1D23bPbrUXogpk5/eM9IFAc
-         53AA==
-X-Gm-Message-State: AOAM5304uiyxI8YtB2ogllnjHVKbP3bnc67fEcXsTAwwF+IMoufTA4ZU
-        EGjvDeuXVnJ0TJye3XxWe4o1/6gruQ==
-X-Google-Smtp-Source: ABdhPJzg3UQt5rHaAWRDbjaVURR4h5zvemaUui/0KjMvb56pW5ExH/QtQ/Ip8bFpXf7E2bMmRWcmIg==
-X-Received: by 2002:a17:906:c787:: with SMTP id cw7mr23033729ejb.157.1618941538855;
-        Tue, 20 Apr 2021 10:58:58 -0700 (PDT)
-Received: from localhost.localdomain ([46.53.250.121])
-        by smtp.gmail.com with ESMTPSA id z22sm13269026ejr.60.2021.04.20.10.58.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 10:58:58 -0700 (PDT)
-Date:   Tue, 20 Apr 2021 20:58:56 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Eric Dumazet <eric.dumazet@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2] docs: proc.rst: meminfo: briefly describe gaps in
- memory accounting
-Message-ID: <YH8WYJU2Jk6S9YIJ@localhost.localdomain>
-References: <20210420121354.1160437-1-rppt@kernel.org>
- <20210420132430.GB3596236@casper.infradead.org>
- <YH7ds1YOAOQt8Mpf@dhcp22.suse.cz>
+        with ESMTP id S233694AbhDTS7L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 14:59:11 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3359C06174A;
+        Tue, 20 Apr 2021 11:58:39 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0e5200ad6c103155f7ad28.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:5200:ad6c:1031:55f7:ad28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9897B1EC0322;
+        Tue, 20 Apr 2021 20:58:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1618945117;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=eITA0Gyu+0MY4Tcql3Xys6zbYoe0FiwXlEaeC94pd0E=;
+        b=q3TEz+tJ5nVL0PJ7LXhwVWdJOLVHH0xVK6YdjNdOaEwFw0yaZGPi5T8EwIE+4CAXJ4BOcd
+        pKGkyl+edENBA/GMu+yTJswrhLy9+J7bKyZiU1A6ifvGNm/PJP+4CJKi7/N6YkpYHszRKX
+        zuUWJ+lkwJ9Y1bsJczvUHgdaTxFsS2k=
+Date:   Tue, 20 Apr 2021 20:58:40 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Steven Zhou <lullaby2005@gmail.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
+        hpa@zytor.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Liang Zhou <zhoul110@chinatelecom.cn>
+Subject: Re: [PATCH] docs: fix the invalid vt-d spec location
+Message-ID: <20210420185840.GJ5029@zn.tnic>
+References: <1618763386-29562-1-git-send-email-zhoul110@chinatelecom.cn>
+ <20210418165953.GA1206@zn.tnic>
+ <CAEtkB+7CsTJYHNTEYotrJ4qEXSBTU4S8OJ+0zc5F0cMy1sk51w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YH7ds1YOAOQt8Mpf@dhcp22.suse.cz>
+In-Reply-To: <CAEtkB+7CsTJYHNTEYotrJ4qEXSBTU4S8OJ+0zc5F0cMy1sk51w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 20, 2021 at 03:57:07PM +0200, Michal Hocko wrote:
-> On Tue 20-04-21 14:24:30, Matthew Wilcox wrote:
-> > On Tue, Apr 20, 2021 at 03:13:54PM +0300, Mike Rapoport wrote:
-> > > Add a paragraph that explains that it may happen that the counters in
-> > > /proc/meminfo do not add up to the overall memory usage.
-> > 
-> > ... that is, the sum may be lower because memory is allocated for other
-> > purposes that is not reported here, right?
-> 
-> yes. Many direct page allocator users are not accounted in any of the
-> existing counters.
+On Mon, Apr 19, 2021 at 04:05:12PM +0800, Steven Zhou wrote:
+> Do you have any other suggestion about the link location please ?
 
-Does virtio_balloon dereserve special mention?
+Yeah, I'm working on it. We need to come up with a proper solution for
+all those docs but it'll take time...
 
-From inside VM memory borrowing looks like one giant memory leak resulting
-in support tickets (not that people who file them read internal kernel
-documentation...)
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
