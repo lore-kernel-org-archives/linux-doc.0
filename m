@@ -2,354 +2,279 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8F8C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 23:17:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C30C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 23:40:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 422A661249
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 23:17:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 026406141A
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 23:40:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234240AbhDTXSL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 19:18:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48430 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233964AbhDTXSK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 19:18:10 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13KN2pe7027749;
-        Tue, 20 Apr 2021 19:17:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=1dIihKNheRj3DD52LPeB9StYSyrd5TgRgcCXq/i15VU=;
- b=if536T0lzuNVet6LO1A4M73uVZnbs3Q5RC5RZjAbLW9v0rKYYRis5EY9Av/iHQ44qrKV
- vWTfN1J2xyKB6Bf1a+x+CCK6AtzB4dNY58vakUGRwRCLm4DYskuP7nbJkJ3J3aSgS9hd
- Gb40U8hq9vaRJvb8EzMMluA2WJ3rOZKE5DFdiYdLVrn1f4hakAZnexhGMvzfYapsmzwa
- HHlPjLutGr5qqNvwCmfkVrvCqCnhFoxaVuOfdnOcr8rubtUlDPYfMSSpZi0zZ6/ZyrHo
- do6GgHpFWtmAf05mNvdLxbH/9bELVMTobgy20EqHT3eL1M/Mr2h9kpLTAoKb7gagogzm NQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3826pbjg3w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Apr 2021 19:17:03 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13KN3Wn4030008;
-        Tue, 20 Apr 2021 19:17:03 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3826pbjg3k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Apr 2021 19:17:03 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-        by ppma02dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13KNGjOM008572;
-        Tue, 20 Apr 2021 23:17:02 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
-        by ppma02dal.us.ibm.com with ESMTP id 37yqaad5pd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Apr 2021 23:17:02 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13KNH1l420775312
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 20 Apr 2021 23:17:01 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 057CB78060;
-        Tue, 20 Apr 2021 23:17:01 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A90787805E;
-        Tue, 20 Apr 2021 23:16:57 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.85.203.222])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Tue, 20 Apr 2021 23:16:57 +0000 (GMT)
-Message-ID: <65dcc9fa28833e6beb1eadf98b0ed3402404d693.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 1/4] KEYS: trusted: Add generic trusted keys framework
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Sumit Garg <sumit.garg@linaro.org>,
-        jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com
-Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
-        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
-        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
-        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
-        erpalmer@us.ibm.com, a.fatoum@pengutronix.de,
-        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org
-Date:   Tue, 20 Apr 2021 16:16:56 -0700
-In-Reply-To: <20210301131127.793707-2-sumit.garg@linaro.org>
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
-         <20210301131127.793707-2-sumit.garg@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S234354AbhDTXlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 19:41:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234442AbhDTXlF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 19:41:05 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8484C06174A
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 16:40:32 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id s16so35027136iog.9
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 16:40:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fgWXnAm5K+neiT/gTZszeD6IV/HEAXXB0Ki6E/5iwoE=;
+        b=Shv3OSWuEO9YdF2qaRdYXt8oe6JJgdn4ON977AMM1rMFMnWw4wt/6k1m68jLY6nLs/
+         nofYo+WYIITrUPi06juLCcHiHemO0TVH1kIZXwyzSMhRi/6O319n/0ruHXD1Jpx1wRKC
+         +6XK3PdmkQ7OG4KIuKmChjojNecLzUFegO0x0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fgWXnAm5K+neiT/gTZszeD6IV/HEAXXB0Ki6E/5iwoE=;
+        b=oANk4UcaaHR4ogQ84TKKFwX4pZjN76j0PdY7/O6/NMuwywqblJ+3G2U3UTQ159z+LQ
+         Om1vrTHBRQMGNHrgpXoLzhUOGb/obBmq9Ad7L635dOm0fIiN+y0aEn5dRiddGX3tzVtB
+         0DWf58PrcFAqp1PnxgWkJiCHqgCCss62GHZp4G4S1GNcFJyiiJ7Begyg8S+Fni8eGoxI
+         mzdRHrIgrQzjzc9v0GnLG5PWcifaTOpVYVJqC25q0h7b664I1AV9sRzFDK7plYyCfLXI
+         WF71DsNUunC4DO646xPZi+lqUGYzm8qHUFs+eD1XbrdgHxyciufYPDHuAbXVu/CoW8/f
+         TFOw==
+X-Gm-Message-State: AOAM530kTFpL6EBDG0CxEvI99Q/FXNeKYgmtLvI2cF2vZrz12b1vubok
+        HL3syNyiXBG+aYCrLh0/HJRbPA==
+X-Google-Smtp-Source: ABdhPJwXSPUsZwcpCGfMhLrRjcZz7pUJKDN7e2coIvECoJ+GsaW10kjQ6DLyKuEQ7KHsmuf6k/ioOg==
+X-Received: by 2002:a6b:b48e:: with SMTP id d136mr11453669iof.47.1618962032076;
+        Tue, 20 Apr 2021 16:40:32 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id 1sm181125ilz.11.2021.04.20.16.40.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Apr 2021 16:40:31 -0700 (PDT)
+Subject: Re: [PATCH v3] Documentation: dev-tools: Add Testing Overview
+To:     David Gow <davidgow@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Marco Elver <elver@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210415054036.581117-1-davidgow@google.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <2a35b57e-3261-8ebe-d9f3-66b3dedff756@linuxfoundation.org>
+Date:   Tue, 20 Apr 2021 17:40:30 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Kxqcmd9hhCUhx8lvYAs_EcvRp6NNSOls
-X-Proofpoint-ORIG-GUID: HtJEB5WM4I2IjoYGEO79dIhwU6c1Xhpm
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-20_11:2021-04-20,2021-04-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 bulkscore=0 suspectscore=0 adultscore=0 phishscore=0
- mlxscore=0 malwarescore=0 priorityscore=1501 impostorscore=0 clxscore=1011
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104200163
+In-Reply-To: <20210415054036.581117-1-davidgow@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2021-03-01 at 18:41 +0530, Sumit Garg wrote:
-> Current trusted keys framework is tightly coupled to use TPM device
-> as an underlying implementation which makes it difficult for
-> implementations like Trusted Execution Environment (TEE) etc. to
-> provide trusted keys support in case platform doesn't posses a TPM
-> device.
+On 4/14/21 11:40 PM, David Gow wrote:
+> The kernel now has a number of testing and debugging tools, and we've
+> seen a bit of confusion about what the differences between them are.
 > 
-> Add a generic trusted keys framework where underlying implementations
-> can be easily plugged in. Create struct trusted_key_ops to achieve
-> this, which contains necessary functions of a backend.
+> Add a basic documentation outlining the testing tools, when to use each,
+> and how they interact.
 > 
-> Also, define a module parameter in order to select a particular trust
-> source in case a platform support multiple trust sources. In case its
-> not specified then implementation itetrates through trust sources
-> list starting with TPM and assign the first trust source as a backend
-> which has initiazed successfully during iteration.
+> This is a pretty quick overview rather than the idealised "kernel
+> testing guide" that'd probably be optimal, but given the number of times
+> questions like "When do you use KUnit and when do you use Kselftest?"
+> are being asked, it seemed worth at least having something. Hopefully
+> this can form the basis for more detailed documentation later.
 > 
-> Note that current implementation only supports a single trust source
-> at runtime which is either selectable at compile time or during boot
-> via aforementioned module parameter.
-
-You never actually tested this, did you?  I'm now getting EINVAL from
-all the trusted TPM key operations because of this patch.
-
-The reason is quite simple:  this function:
-
-> index 000000000000..0db86b44605d
+> Signed-off-by: David Gow <davidgow@google.com>
+> Reviewed-by: Marco Elver <elver@google.com>
+> Reviewed-by: Daniel Latypov <dlatypov@google.com>
+> ---
+> 
+> Thanks again. Assuming no-one has any objections, I think this is good
+> to go.
+> 
+> -- David
+> 
+> Changes since v2:
+> https://lore.kernel.org/linux-kselftest/20210414081428.337494-1-davidgow@google.com/
+> - A few typo fixes (Thanks Daniel)
+> - Reworded description of dynamic analysis tools.
+> - Updated dev-tools index page to not use ':doc:' syntax, but to provide
+>    a path instead.
+> - Added Marco and Daniel's Reviewed-by tags.
+> 
+> Changes since v1:
+> https://lore.kernel.org/linux-kselftest/20210410070529.4113432-1-davidgow@google.com/
+> - Note KUnit's speed and that one should provide selftests for syscalls
+> - Mention lockdep as a Dynamic Analysis Tool
+> - Refer to "Dynamic Analysis Tools" instead of "Sanitizers"
+> - A number of minor formatting tweaks and rewordings for clarity
+> 
+>   Documentation/dev-tools/index.rst            |   4 +
+>   Documentation/dev-tools/testing-overview.rst | 117 +++++++++++++++++++
+>   2 files changed, 121 insertions(+)
+>   create mode 100644 Documentation/dev-tools/testing-overview.rst
+> 
+> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+> index 1b1cf4f5c9d9..929d916ffd4c 100644
+> --- a/Documentation/dev-tools/index.rst
+> +++ b/Documentation/dev-tools/index.rst
+> @@ -7,6 +7,9 @@ be used to work on the kernel. For now, the documents have been pulled
+>   together without any significant effort to integrate them into a coherent
+>   whole; patches welcome!
+>   
+> +A brief overview of testing-specific tools can be found in
+> +Documentation/dev-tools/testing-overview.rst
+> +
+>   .. class:: toc-title
+>   
+>   	   Table of contents
+> @@ -14,6 +17,7 @@ whole; patches welcome!
+>   .. toctree::
+>      :maxdepth: 2
+>   
+> +   testing-overview
+>      coccinelle
+>      sparse
+>      kcov
+> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
+> new file mode 100644
+> index 000000000000..b5b46709969c
 > --- /dev/null
-> +++ b/security/keys/trusted-keys/trusted_core.c
-[...]
-> +static int datablob_parse(char *datablob, struct trusted_key_payload
-> *p)
-> +{
-> +	substring_t args[MAX_OPT_ARGS];
-> +	long keylen;
-> +	int ret = -EINVAL;
-> +	int key_cmd;
-> +	char *c;
+> +++ b/Documentation/dev-tools/testing-overview.rst
+> @@ -0,0 +1,117 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +	/* main command */
-> +	c = strsep(&datablob, " \t");
-
-Modifies its argument to consume tokens and separates them with NULL.
-
-so the arguments for
-
-keyctl add trusted kmk "new 34 keyhandle=0x81000001"
-
-Go into this function as
-
-datablob="new 34 keyhandle=0x81000001"
-
-After we leave it, it looks like
-
-datablob="new\034\0keyhandle=0x81000001"
-
-However here:
-
-> +static int trusted_instantiate(struct key *key,
-> +			       struct key_preparsed_payload *prep)
-> +{
-> +	struct trusted_key_payload *payload = NULL;
-> +	size_t datalen = prep->datalen;
-> +	char *datablob;
-> +	int ret = 0;
-> +	int key_cmd;
-> +	size_t key_len;
+> +====================
+> +Kernel Testing Guide
+> +====================
 > +
-> +	if (datalen <= 0 || datalen > 32767 || !prep->data)
-> +		return -EINVAL;
 > +
-> +	datablob = kmalloc(datalen + 1, GFP_KERNEL);
-> +	if (!datablob)
-> +		return -ENOMEM;
-> +	memcpy(datablob, prep->data, datalen);
-> +	datablob[datalen] = '\0';
+> +There are a number of different tools for testing the Linux kernel, so knowing
+> +when to use each of them can be a challenge. This document provides a rough
+> +overview of their differences, and how they fit together.
 > +
-> +	payload = trusted_payload_alloc(key);
-> +	if (!payload) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
 > +
-> +	key_cmd = datablob_parse(datablob, payload);
-> +	if (key_cmd < 0) {
-> +		ret = key_cmd;
-> +		goto out;
-> +	}
+> +Writing and Running Tests
+> +=========================
 > +
-> +	dump_payload(payload);
+> +The bulk of kernel tests are written using either the kselftest or KUnit
+> +frameworks. These both provide infrastructure to help make running tests and
+> +groups of tests easier, as well as providing helpers to aid in writing new
+> +tests.
 > +
-> +	switch (key_cmd) {
-> +	case Opt_load:
-> +		ret = static_call(trusted_key_unseal)(payload,
-> datablob);
+> +If you're looking to verify the behaviour of the Kernel — particularly specific
+> +parts of the kernel — then you'll want to use KUnit or kselftest.
+> +
+> +
+> +The Difference Between KUnit and kselftest
+> +------------------------------------------
+> +
+> +KUnit (Documentation/dev-tools/kunit/index.rst) is an entirely in-kernel system
+> +for "white box" testing: because test code is part of the kernel, it can access
+> +internal structures and functions which aren't exposed to userspace.
+> +
+> +KUnit tests therefore are best written against small, self-contained parts
+> +of the kernel, which can be tested in isolation. This aligns well with the
+> +concept of 'unit' testing.
+> +
+> +For example, a KUnit test might test an individual kernel function (or even a
+> +single codepath through a function, such as an error handling case), rather
+> +than a feature as a whole.
+> +
+> +This also makes KUnit tests very fast to build and run, allowing them to be
+> +run frequently as part of the development process.
+> +
+> +There is a KUnit test style guide which may give further pointers in
+> +Documentation/dev-tools/kunit/style.rst
+> +
+> +
+> +kselftest (Documentation/dev-tools/kselftest.rst), on the other hand, is
+> +largely implemented in userspace, and tests are normal userspace scripts or
+> +programs.
+> +
+> +This makes it easier to write more complicated tests, or tests which need to
+> +manipulate the overall system state more (e.g., spawning processes, etc.).
+> +However, it's not possible to call kernel functions directly from kselftest.
+> +This means that only kernel functionality which is exposed to userspace somehow
+> +(e.g. by a syscall, device, filesystem, etc.) can be tested with kselftest.  To
+> +work around this, some tests include a companion kernel module which exposes
+> +more information or functionality. If a test runs mostly or entirely within the
+> +kernel, however,  KUnit may be the more appropriate tool.
+> +
+> +kselftest is therefore suited well to tests of whole features, as these will
+> +expose an interface to userspace, which can be tested, but not implementation
+> +details. This aligns well with 'system' or 'end-to-end' testing.
+> +
+> +For example, all new system calls should be accompanied by kselftest tests.
+> +
+> +Code Coverage Tools
+> +===================
+> +
+> +The Linux Kernel supports two different code coverage measurement tools. These
+> +can be used to verify that a test is executing particular functions or lines
+> +of code. This is useful for determining how much of the kernel is being tested,
+> +and for finding corner-cases which are not covered by the appropriate test.
+> +
+> +:doc:`gcov` is GCC's coverage testing tool, which can be used with the kernel
+> +to get global or per-module coverage. Unlike KCOV, it does not record per-task
+> +coverage. Coverage data can be read from debugfs, and interpreted using the
+> +usual gcov tooling.
+> +
+> +:doc:`kcov` is a feature which can be built in to the kernel to allow
+> +capturing coverage on a per-task level. It's therefore useful for fuzzing and
+> +other situations where information about code executed during, for example, a
+> +single syscall is useful.
+> +
+> +
+> +Dynamic Analysis Tools
+> +======================
+> +
+> +The kernel also supports a number of dynamic analysis tools, which attempt to
+> +detect classes of issues when they occur in a running kernel. These typically
+> +each look for a different class of bugs, such as invalid memory accesses,
+> +concurrency issues such as data races, or other undefined behaviour like
+> +integer overflows.
+> +
+> +Some of these tools are listed below:
+> +
+> +* kmemleak detects possible memory leaks. See
+> +  Documentation/dev-tools/kmemleak.rst
+> +* KASAN detects invalid memory accesses such as out-of-bounds and
+> +  use-after-free errors. See Documentation/dev-tools/kasan.rst
+> +* UBSAN detects behaviour that is undefined by the C standard, like integer
+> +  overflows. See Documentation/dev-tools/ubsan.rst
+> +* KCSAN detects data races. See Documentation/dev-tools/kcsan.rst
+> +* KFENCE is a low-overhead detector of memory issues, which is much faster than
+> +  KASAN and can be used in production. See Documentation/dev-tools/kfence.rst
+> +* lockdep is a locking correctness validator. See
+> +  Documentation/locking/lockdep-design.rst
+> +* There are several other pieces of debug instrumentation in the kernel, many
+> +  of which can be found in lib/Kconfig.debug
+> +
+> +These tools tend to test the kernel as a whole, and do not "pass" like
+> +kselftest or KUnit tests. They can be combined with KUnit or kselftest by
+> +running tests on a kernel with these tools enabled: you can then be sure
+> +that none of these errors are occurring during the test.
+> +
+> +Some of these tools integrate with KUnit or kselftest and will
+> +automatically fail tests if an issue is detected.
+> +
+> 
 
-We're passing the unmodified
+Thank for you writing this much needed document.
 
-datablob="new\034\0keyhandle=0x81000001"
+Looks great. How about adding a section for Static analysis tools?
+A mention coccicheck scripts and mention of smatch?
 
-Into the tpm trusted_key_unseal function.  However, it only sees "new"
-and promply gives EINVAL because you've removed the ability to process
-the new option from it.  What should have happened is you should have
-moved data blob up to passed the consumed tokens, so it actually reads
-
-datablob="keyhandle=0x81000001"
-
-However, to do that you'd have to have the updated pointer passed out
-of your datablob_parse() above.
-
-There's also a lost !tpm2 in the check for options->keyhandle, but I
-suspect Jarkko lost that merging the two patches.  I think what's below
-fixes all of this, so if you can test it for trusted_tee, I'll package
-it up as two separate patches fixing all of this.
-
-James
-
----
-
-diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-index ec3a066a4b42..7c636212429b 100644
---- a/security/keys/trusted-keys/trusted_core.c
-+++ b/security/keys/trusted-keys/trusted_core.c
-@@ -62,7 +62,7 @@ static const match_table_t key_tokens = {
-  *
-  * On success returns 0, otherwise -EINVAL.
-  */
--static int datablob_parse(char *datablob, struct trusted_key_payload *p)
-+static int datablob_parse(char **datablob, struct trusted_key_payload *p)
- {
- 	substring_t args[MAX_OPT_ARGS];
- 	long keylen;
-@@ -71,14 +71,14 @@ static int datablob_parse(char *datablob, struct trusted_key_payload *p)
- 	char *c;
- 
- 	/* main command */
--	c = strsep(&datablob, " \t");
-+	c = strsep(datablob, " \t");
- 	if (!c)
- 		return -EINVAL;
- 	key_cmd = match_token(c, key_tokens, args);
- 	switch (key_cmd) {
- 	case Opt_new:
- 		/* first argument is key size */
--		c = strsep(&datablob, " \t");
-+		c = strsep(datablob, " \t");
- 		if (!c)
- 			return -EINVAL;
- 		ret = kstrtol(c, 10, &keylen);
-@@ -89,7 +89,7 @@ static int datablob_parse(char *datablob, struct trusted_key_payload *p)
- 		break;
- 	case Opt_load:
- 		/* first argument is sealed blob */
--		c = strsep(&datablob, " \t");
-+		c = strsep(datablob, " \t");
- 		if (!c)
- 			return -EINVAL;
- 		p->blob_len = strlen(c) / 2;
-@@ -138,7 +138,7 @@ static int trusted_instantiate(struct key *key,
- {
- 	struct trusted_key_payload *payload = NULL;
- 	size_t datalen = prep->datalen;
--	char *datablob;
-+	char *datablob, *orig_datablob;
- 	int ret = 0;
- 	int key_cmd;
- 	size_t key_len;
-@@ -146,7 +146,7 @@ static int trusted_instantiate(struct key *key,
- 	if (datalen <= 0 || datalen > 32767 || !prep->data)
- 		return -EINVAL;
- 
--	datablob = kmalloc(datalen + 1, GFP_KERNEL);
-+	orig_datablob = datablob = kmalloc(datalen + 1, GFP_KERNEL);
- 	if (!datablob)
- 		return -ENOMEM;
- 	memcpy(datablob, prep->data, datalen);
-@@ -158,7 +158,7 @@ static int trusted_instantiate(struct key *key,
- 		goto out;
- 	}
- 
--	key_cmd = datablob_parse(datablob, payload);
-+	key_cmd = datablob_parse(&datablob, payload);
- 	if (key_cmd < 0) {
- 		ret = key_cmd;
- 		goto out;
-@@ -194,7 +194,7 @@ static int trusted_instantiate(struct key *key,
- 		ret = -EINVAL;
- 	}
- out:
--	kfree_sensitive(datablob);
-+	kfree_sensitive(orig_datablob);
- 	if (!ret)
- 		rcu_assign_keypointer(key, payload);
- 	else
-@@ -218,7 +218,7 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
- 	struct trusted_key_payload *p;
- 	struct trusted_key_payload *new_p;
- 	size_t datalen = prep->datalen;
--	char *datablob;
-+	char *datablob, *orig_datablob;
- 	int ret = 0;
- 
- 	if (key_is_negative(key))
-@@ -229,7 +229,7 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
- 	if (datalen <= 0 || datalen > 32767 || !prep->data)
- 		return -EINVAL;
- 
--	datablob = kmalloc(datalen + 1, GFP_KERNEL);
-+	orig_datablob = datablob = kmalloc(datalen + 1, GFP_KERNEL);
- 	if (!datablob)
- 		return -ENOMEM;
- 
-@@ -241,7 +241,7 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
- 
- 	memcpy(datablob, prep->data, datalen);
- 	datablob[datalen] = '\0';
--	ret = datablob_parse(datablob, new_p);
-+	ret = datablob_parse(&datablob, new_p);
- 	if (ret != Opt_update) {
- 		ret = -EINVAL;
- 		kfree_sensitive(new_p);
-@@ -265,7 +265,7 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
- 	rcu_assign_keypointer(key, new_p);
- 	call_rcu(&p->rcu, trusted_rcu_free);
- out:
--	kfree_sensitive(datablob);
-+	kfree_sensitive(orig_datablob);
- 	return ret;
- }
- 
-diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-index 4e5c50138f92..bc702ba0a596 100644
---- a/security/keys/trusted-keys/trusted_tpm1.c
-+++ b/security/keys/trusted-keys/trusted_tpm1.c
-@@ -747,6 +747,9 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
- 
- 	opt->hash = tpm2 ? HASH_ALGO_SHA256 : HASH_ALGO_SHA1;
- 
-+	if (!c)
-+		return 0;
-+
- 	while ((p = strsep(&c, " \t"))) {
- 		if (*p == '\0' || *p == ' ' || *p == '\t')
- 			continue;
-@@ -944,7 +947,7 @@ static int trusted_tpm_unseal(struct trusted_key_payload *p, char *datablob)
- 		goto out;
- 	dump_options(options);
- 
--	if (!options->keyhandle) {
-+	if (!options->keyhandle && !tpm2) {
- 		ret = -EINVAL;
- 		goto out;
- 	}
-
+thanks,
+-- Shuah
 
