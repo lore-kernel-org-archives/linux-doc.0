@@ -2,123 +2,265 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD305C43460
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 03:48:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAED9C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 04:19:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 811EA6100B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 03:48:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5BD6611B0
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 04:19:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbhDTDtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 23:49:01 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51894 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229579AbhDTDtA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Apr 2021 23:49:00 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 13K3lniw030310;
-        Tue, 20 Apr 2021 05:47:49 +0200
-Date:   Tue, 20 Apr 2021 05:47:49 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <20210420034749.GA28662@1wt.eu>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
- <YHmMJWmzz2vZ3qQH@google.com>
- <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
- <YHmuX1NA5RF7C7XS@google.com>
- <20210416161444.GA10484@1wt.eu>
- <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
- <20210416173717.GA10846@1wt.eu>
- <CAKwvOd=RadTs7Skv6KUBo4qZQtdi0kugTzxvZM+5X_2gstjyaQ@mail.gmail.com>
+        id S229532AbhDTETy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 00:19:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58486 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229508AbhDTETt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 00:19:49 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7CF2C06174A
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 21:18:38 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id g9so20078780wrx.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 21:18:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SjWEZ1zxdmBRj9KcJNahO8i2TB9ZNFWY/gcI2Oi4MqQ=;
+        b=zqRNucjDdX3DN0XU/uZOKhk1gQCfti9NkXWNmKs0zxE5Ss4HjHjFIrPYXOBdnMlU7M
+         50DnQ/WyK/ILA4Tzs+ycleoOv88GPJNG/8GZCO+qVnRJ/jzjhBnEXiW1J2dIectUdooE
+         wRtBpyKG6VuHChMOwuAE0kBzSRbxz5uhe8FjnfeqCnyJQC0RzhZBKxegFxKMZQRCkqzs
+         jww90znjCKy9iq575YD2G4aK4RC9tsEY7UOIU8KcDgTDMYiPIu4IF47c+7TThl7Q4NUj
+         wwzBcQxCqaMn+zT2EmDf/ZLFJj7qXYAOpbUV/ahGQ8hA0OgV//AZfNJnXeluZOUseLlX
+         uwxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SjWEZ1zxdmBRj9KcJNahO8i2TB9ZNFWY/gcI2Oi4MqQ=;
+        b=ZykWdRlOJu9zvzQ+8uazwJEO719kbv69lwmnBNCvqmvrKaCmC2n2gqBu4g1vRqSFSe
+         UN2f12SODa8zyK0n77YSpCTQCg4x7d5hNGAHpoEE3cJ1NU3CehITRK+m7Eqe9Oj4clks
+         +fWSsAT6UXHJN+PAIqBJ6QOZyEmZ3Q1SJ6JmUgiMbQoqB/q1LNbRLL3E+/h6sU7W44Zp
+         BLUqbob/uORQjbC1Nt9E5GUzRRgyND5zWDflGNOJh+oI/mix/YAf3wTwUvM0ZseCAX3Y
+         uW19RVWclO/dPoJHj+a8BKIFypGmm6piyCCc2mR4ce2kDswl2UWeEKMIPX3kTE1eeQsq
+         j5Ug==
+X-Gm-Message-State: AOAM531TsG4CctL+bT85xKCtZ6tB8YJA6bUppvZrFaETC+VfhefSSw0Z
+        vSfvw15w24EJh8/u/LwuBoSIT8SUqW+j/3A9IdZvIw==
+X-Google-Smtp-Source: ABdhPJywH6zNS+S9+aPYlLnH0UPE/gKZS9rjo3+N55w1r1s4RZCqJ8v1oZokj44lytbNf+NhzRcwKUvE36LHj44/WDs=
+X-Received: by 2002:adf:ce12:: with SMTP id p18mr18078880wrn.144.1618892317302;
+ Mon, 19 Apr 2021 21:18:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOd=RadTs7Skv6KUBo4qZQtdi0kugTzxvZM+5X_2gstjyaQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210417172159.32085-1-alex@ghiti.fr>
+In-Reply-To: <20210417172159.32085-1-alex@ghiti.fr>
+From:   Anup Patel <anup@brainfault.org>
+Date:   Tue, 20 Apr 2021 09:48:26 +0530
+Message-ID: <CAAhSdy23jRTp3VoBpnH8B79eSSmuw8qMEYrXyh-02ccWT3O5QQ@mail.gmail.com>
+Subject: Re: [PATCH] riscv: Fix 32b kernel caused by 64b kernel mapping moving
+ outside linear mapping
+To:     Alexandre Ghiti <alex@ghiti.fr>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        kasan-dev@googlegroups.com,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nick,
+On Sat, Apr 17, 2021 at 10:52 PM Alexandre Ghiti <alex@ghiti.fr> wrote:
+>
+> Fix multiple leftovers when moving the kernel mapping outside the linear
+> mapping for 64b kernel that left the 32b kernel unusable.
+>
+> Fixes: 4b67f48da707 ("riscv: Move kernel mapping outside of linear mapping")
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
 
-On Mon, Apr 19, 2021 at 05:24:33PM -0700, Nick Desaulniers wrote:
-> I don't think the introduction of Rust made Firefox _more_ insecure.
-> https://wiki.mozilla.org/Oxidation#Within_Firefox
+Quite a few #ifdef but I don't see any better way at the moment. Maybe we can
+clean this later. Otherwise looks good to me.
 
-Browsers are human interfaces and do not fundamentally require low
-level access to memory/hardware/whatever. They can be written in
-about any language, only the resource usage and performance will
-make a difference. As such, some were even written in Java or JS
-for example.
-
-Operating systems, and particularly drivers *do* require low-level
-accesses, and stuff that can hardly be abstracted or understood by
-a compiler. You may have to perform two 16-bit reads/writes on a
-32-bit MMIO address to perform an operation and the compiler does
-not have to know it, just to obey.
-
-> Really, a key point is that a lot of common mistakes in C are compile
-> time errors in Rust. I know no "true" kernel dev would make such
-> mistakes in C,
-
-Everyone makes mistakes, the level of attention varies over time and
-the focus often changes when dealing with build errors. How many time
-some of us facing a bug remembered having changed the code very late
-after a build error, and being less careful from this point when the
-goal changed from "let's do it right" to "let's get this to build" ?
-
-> but is there nothing we can do to help our peers
-> writing drivers?  The point is to transfer cost from runtime to
-> compile time to avoid costs at runtime; like all of the memory safety
-> bugs which are costing our industry.
-
-And do we have stats on the number of logical bugs, some of which are
-caused by developers trying to work around compilers' stubbornness ?
-For me, personally speaking, they have *increased* over time, usually
-trying to avoid some annoying modern gcc warnings, resulting in integer
-casts being placed close to string formats, or returns being placed in
-switch/case to avoid the fall-through warning, etc. Thus I'm worried that
-a non-negligible part of the 70% of bugs caused by memory safety issues
-could be replaced with logic bugs to get to the point where the rust
-compiler finally accepts to compile the code. It makes me think about
-researchers trying to reduce the causes of certain deaths and claiming
-to "save lives" while in the end the people they "save" will simply die
-from something else.
-
-And I'm not particularly trying to blindly defend C here. I'm complaining
-every single day about some of its shortcomings like the vast amount of
-UB, stupid type promotion, counter-intuitive operators precedence when
-combining bit-ops with arithmetic, limited size of enums, lack of rotate
-operator, strict aliasing, or the recourse to asm() statements every 10
-lines to do stuff that can hardly be expressed in a way understandable
-by a compiler. I'm just seeing that a lot of the griefs I'm having
-against C come from the compiler trying to be too smart or too stubborn,
-so giving even more of the handle to a compiler doesn't appeal me at all.
-
-In addition, we all know how painful it is to work around compiler bugs
-by writing complex code that carefully avoids certain constructs. I'm
-wondering if we'll still have that luxury with a stricter compiler, or
-if the only response will have to be between "let's disable this driver
-that does not compile" or "please force distros to upgrade their
-compilers".
-
-But we'll see :-/
+Reviewed-by: Anup Patel <anup@brainfault.org>
 
 Regards,
-Willy
+Anup
+
+> ---
+>  arch/riscv/include/asm/page.h    |  9 +++++++++
+>  arch/riscv/include/asm/pgtable.h | 16 ++++++++++++----
+>  arch/riscv/mm/init.c             | 25 ++++++++++++++++++++++++-
+>  3 files changed, 45 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
+> index 22cfb2be60dc..f64b61296c0c 100644
+> --- a/arch/riscv/include/asm/page.h
+> +++ b/arch/riscv/include/asm/page.h
+> @@ -90,15 +90,20 @@ typedef struct page *pgtable_t;
+>
+>  #ifdef CONFIG_MMU
+>  extern unsigned long va_pa_offset;
+> +#ifdef CONFIG_64BIT
+>  extern unsigned long va_kernel_pa_offset;
+> +#endif
+>  extern unsigned long pfn_base;
+>  #define ARCH_PFN_OFFSET                (pfn_base)
+>  #else
+>  #define va_pa_offset           0
+> +#ifdef CONFIG_64BIT
+>  #define va_kernel_pa_offset    0
+> +#endif
+>  #define ARCH_PFN_OFFSET                (PAGE_OFFSET >> PAGE_SHIFT)
+>  #endif /* CONFIG_MMU */
+>
+> +#ifdef CONFIG_64BIT
+>  extern unsigned long kernel_virt_addr;
+>
+>  #define linear_mapping_pa_to_va(x)     ((void *)((unsigned long)(x) + va_pa_offset))
+> @@ -112,6 +117,10 @@ extern unsigned long kernel_virt_addr;
+>         (_x < kernel_virt_addr) ?                                               \
+>                 linear_mapping_va_to_pa(_x) : kernel_mapping_va_to_pa(_x);      \
+>         })
+> +#else
+> +#define __pa_to_va_nodebug(x)  ((void *)((unsigned long) (x) + va_pa_offset))
+> +#define __va_to_pa_nodebug(x)  ((unsigned long)(x) - va_pa_offset)
+> +#endif
+>
+>  #ifdef CONFIG_DEBUG_VIRTUAL
+>  extern phys_addr_t __virt_to_phys(unsigned long x);
+> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+> index 80e63a93e903..5afda75cc2c3 100644
+> --- a/arch/riscv/include/asm/pgtable.h
+> +++ b/arch/riscv/include/asm/pgtable.h
+> @@ -16,19 +16,27 @@
+>  #else
+>
+>  #define ADDRESS_SPACE_END      (UL(-1))
+> -/*
+> - * Leave 2GB for kernel and BPF at the end of the address space
+> - */
+> +
+> +#ifdef CONFIG_64BIT
+> +/* Leave 2GB for kernel and BPF at the end of the address space */
+>  #define KERNEL_LINK_ADDR       (ADDRESS_SPACE_END - SZ_2G + 1)
+> +#else
+> +#define KERNEL_LINK_ADDR       PAGE_OFFSET
+> +#endif
+>
+>  #define VMALLOC_SIZE     (KERN_VIRT_SIZE >> 1)
+>  #define VMALLOC_END      (PAGE_OFFSET - 1)
+>  #define VMALLOC_START    (PAGE_OFFSET - VMALLOC_SIZE)
+>
+> -/* KASLR should leave at least 128MB for BPF after the kernel */
+>  #define BPF_JIT_REGION_SIZE    (SZ_128M)
+> +#ifdef CONFIG_64BIT
+> +/* KASLR should leave at least 128MB for BPF after the kernel */
+>  #define BPF_JIT_REGION_START   PFN_ALIGN((unsigned long)&_end)
+>  #define BPF_JIT_REGION_END     (BPF_JIT_REGION_START + BPF_JIT_REGION_SIZE)
+> +#else
+> +#define BPF_JIT_REGION_START   (PAGE_OFFSET - BPF_JIT_REGION_SIZE)
+> +#define BPF_JIT_REGION_END     (VMALLOC_END)
+> +#endif
+>
+>  /* Modules always live before the kernel */
+>  #ifdef CONFIG_64BIT
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 093f3a96ecfc..dc9b988e0778 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -91,8 +91,10 @@ static void print_vm_layout(void)
+>                   (unsigned long)VMALLOC_END);
+>         print_mlm("lowmem", (unsigned long)PAGE_OFFSET,
+>                   (unsigned long)high_memory);
+> +#ifdef CONFIG_64BIT
+>         print_mlm("kernel", (unsigned long)KERNEL_LINK_ADDR,
+>                   (unsigned long)ADDRESS_SPACE_END);
+> +#endif
+>  }
+>  #else
+>  static void print_vm_layout(void) { }
+> @@ -165,9 +167,11 @@ static struct pt_alloc_ops pt_ops;
+>  /* Offset between linear mapping virtual address and kernel load address */
+>  unsigned long va_pa_offset;
+>  EXPORT_SYMBOL(va_pa_offset);
+> +#ifdef CONFIG_64BIT
+>  /* Offset between kernel mapping virtual address and kernel load address */
+>  unsigned long va_kernel_pa_offset;
+>  EXPORT_SYMBOL(va_kernel_pa_offset);
+> +#endif
+>  unsigned long pfn_base;
+>  EXPORT_SYMBOL(pfn_base);
+>
+> @@ -410,7 +414,9 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>         load_sz = (uintptr_t)(&_end) - load_pa;
+>
+>         va_pa_offset = PAGE_OFFSET - load_pa;
+> +#ifdef CONFIG_64BIT
+>         va_kernel_pa_offset = kernel_virt_addr - load_pa;
+> +#endif
+>
+>         pfn_base = PFN_DOWN(load_pa);
+>
+> @@ -469,12 +475,16 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>                            pa + PMD_SIZE, PMD_SIZE, PAGE_KERNEL);
+>         dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PMD_SIZE - 1));
+>  #else /* CONFIG_BUILTIN_DTB */
+> +#ifdef CONFIG_64BIT
+>         /*
+>          * __va can't be used since it would return a linear mapping address
+>          * whereas dtb_early_va will be used before setup_vm_final installs
+>          * the linear mapping.
+>          */
+>         dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
+> +#else
+> +       dtb_early_va = __va(dtb_pa);
+> +#endif /* CONFIG_64BIT */
+>  #endif /* CONFIG_BUILTIN_DTB */
+>  #else
+>  #ifndef CONFIG_BUILTIN_DTB
+> @@ -486,7 +496,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>                            pa + PGDIR_SIZE, PGDIR_SIZE, PAGE_KERNEL);
+>         dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PGDIR_SIZE - 1));
+>  #else /* CONFIG_BUILTIN_DTB */
+> +#ifdef CONFIG_64BIT
+>         dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
+> +#else
+> +       dtb_early_va = __va(dtb_pa);
+> +#endif /* CONFIG_64BIT */
+>  #endif /* CONFIG_BUILTIN_DTB */
+>  #endif
+>         dtb_early_pa = dtb_pa;
+> @@ -571,12 +585,21 @@ static void __init setup_vm_final(void)
+>                 for (pa = start; pa < end; pa += map_size) {
+>                         va = (uintptr_t)__va(pa);
+>                         create_pgd_mapping(swapper_pg_dir, va, pa,
+> -                                          map_size, PAGE_KERNEL);
+> +                                          map_size,
+> +#ifdef CONFIG_64BIT
+> +                                          PAGE_KERNEL
+> +#else
+> +                                          PAGE_KERNEL_EXEC
+> +#endif
+> +                                       );
+> +
+>                 }
+>         }
+>
+> +#ifdef CONFIG_64BIT
+>         /* Map the kernel */
+>         create_kernel_page_table(swapper_pg_dir, PMD_SIZE);
+> +#endif
+>
+>         /* Clear fixmap PTE and PMD mappings */
+>         clear_fixmap(FIX_PTE);
+> --
+> 2.20.1
+>
