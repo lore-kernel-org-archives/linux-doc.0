@@ -2,99 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22759C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 19:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA89C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 21:50:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3AD8613AE
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 19:38:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16BCA613FA
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 21:50:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233675AbhDTTjW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 15:39:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35670 "EHLO
+        id S233992AbhDTVui (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 17:50:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233619AbhDTTjU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 15:39:20 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38A1BC06174A;
-        Tue, 20 Apr 2021 12:38:48 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id q4so1207251qtn.5;
-        Tue, 20 Apr 2021 12:38:48 -0700 (PDT)
+        with ESMTP id S233898AbhDTVuh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 17:50:37 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 709A7C06138A
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 14:50:05 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id m12so7002410pgr.9
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 14:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VnARtP+uP1DchxUYKI/5VcNMJQIOlS/yRqSiMEZtvXs=;
-        b=gwBN8QKDOZbIX5Xw/3NQFidpiuNssHneim4IycyV9/mPUC0tGy93UFvFItssSptJBZ
-         mBGiskvSZCxJjPMKtaFLexvc+XIcy/5VuzA1GeyQE9KFNOH6fBEQe9YhlscprGOh7XeD
-         YJwy7GnzZIUQ66LFgPKwywVwVsEaYiqnoDwRHX6aSEj1mKKN88aGUPYIz8q9YxhENuOx
-         24z+FTyq0SrHfUd0Dyq9NujbrYKxXPZiBIIe/9f5/ectNRSKebjD56UZVSKlFt/OMERG
-         +adsY7QVWKTjYaaQYSgNyHU/bzlO7+Me7zqpo0k8m+ZBS18UJlQBkDWmdFoywcC+Tigj
-         PPPg==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v+Jw8/YJuN/18rAKwd1h571a5vSl/5Yqn8D9Rp7AdFs=;
+        b=U6lfFHNXlzomrCttIz8184NKddn9fWyExpC2yEutTyrXHNwTXzHvh3I7GOJC+wZIvl
+         UDZeAjyTDXbvkJZWBPx6VqG5ac6Ko96dNOGvDkQ/VLzxbRYqtmZL4L+7ziYsxbZuDgKW
+         CVPHz6WVcXE/36txOzyRxhknQXW3oy3KSqWAk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VnARtP+uP1DchxUYKI/5VcNMJQIOlS/yRqSiMEZtvXs=;
-        b=KrequED5RjvGOhhg4S6056pPofX6oGWeK3xDFaAPg15PGxpvzv8HNlZeWWGgT6TkX/
-         cZB2Mr4wBKeB1P0nH1YLYTHfQMRnboSAYga1Ot40fyZA5T5HCIF/XnWfDIotxdfw+aiL
-         8O6oFVX4YgsECHmbTbUlJYlHil9rrSDpH6CMLAgAQ8bouSX0H7hs4I3CzP/0YZvF3IkR
-         w8DCU2bNAjzYrYIUX66AxvBlU9JuA1oW6Ag2gp4bejg6fbne+95Djk0Pef2M8W9UQp2z
-         65FCAj3Zzlj0RtrjR60uPKJJO56LZkFMtmg9dzAaZbrnxkbdbork4rTksmFAP6BCRUOD
-         K3bQ==
-X-Gm-Message-State: AOAM533+UwCem6+jQcB8oc+DWyf/xEj6TIB4IOXhLg9Hw1RFCYom2CTL
-        88xAbAmtYWKCPIFRDrAiUvR0BfKzFc4=
-X-Google-Smtp-Source: ABdhPJy7CkrW8SNRn4LAWJ2HO6RCjd9DHJZesyG6EfmDwFWVOF96advIZN4W2gll4lWBWphHWJ8ELA==
-X-Received: by 2002:ac8:78b:: with SMTP id l11mr9571993qth.321.1618947527395;
-        Tue, 20 Apr 2021 12:38:47 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
-        by smtp.gmail.com with ESMTPSA id j9sm1117853qtl.12.2021.04.20.12.38.46
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v+Jw8/YJuN/18rAKwd1h571a5vSl/5Yqn8D9Rp7AdFs=;
+        b=OuGfO0d9p76VBwvBJKmRhudyzwwDbQHzO4HdkP1cPi5PCWFhZJDzx9mn5KJF4rH6hm
+         0a9qVQB3/7TntcEQW0Rqc57Qwkib4HQpMxVmCecVt7RxSt7Ce/0Y7jowOMhDBp62BK0X
+         fbRNcPJXQ1c/Zdvc4zEfvoMR6fH7LZxzVyD/JwvzSiHxW/Ikvn3EIWsoR97KEV+NbwvL
+         9XeIJ7aD/8HfX0P/F/jMmDkXrAgLk+eYsWMywhVWXSxl7wCX5587/dDjOZ7jD++llwtE
+         /yFi5q+NaOp4po/YKd5fXMgBc1iuAGhRvBPxKBe5f2eS69PiaXOXlfHKZGo8sGvSmrLq
+         EVcw==
+X-Gm-Message-State: AOAM533RAGDtNMew6ZUugJtn/Z9b1A0ke/TYpoJ0/zTRlcJ3cqWlvcV4
+        d/VIc/1VT4RhXhq0lIRdVL1kow==
+X-Google-Smtp-Source: ABdhPJx90W7A/PREnebtT3MHLcjeID5s+aAnkWqnCsoQz8AAxXX408qvmrPy92Zb4/TpeA3daetqdA==
+X-Received: by 2002:a17:90b:3681:: with SMTP id mj1mr7640962pjb.122.1618955404847;
+        Tue, 20 Apr 2021 14:50:04 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:bf8b:4b8b:2315:3719])
+        by smtp.gmail.com with ESMTPSA id c21sm31481pfo.91.2021.04.20.14.50.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 12:38:47 -0700 (PDT)
-Date:   Tue, 20 Apr 2021 12:38:46 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        Tue, 20 Apr 2021 14:50:04 -0700 (PDT)
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Baoquan He <bhe@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Young <dyoung@redhat.com>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Ingo Molnar <mingo@redhat.com>, Jessica Yu <jeyu@kernel.org>,
+        Jiri Olsa <jolsa@kernel.org>, kexec@lists.infradead.org,
+        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Petr Mladek <pmladek@suse.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 2/2] rcu/tree_plugin: don't handle the case of 'all' CPU
- range
-Message-ID: <20210420193846.GB61766@yury-ThinkPad>
-References: <20210420000131.21038-1-yury.norov@gmail.com>
- <20210420000131.21038-3-yury.norov@gmail.com>
- <YH6qgHH1RtBCHxEy@smile.fi.intel.com>
+        Sasha Levin <sashal@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vivek Goyal <vgoyal@redhat.com>, Will Deacon <will@kernel.org>,
+        x86@kernel.org, Christoph Hellwig <hch@infradead.org>
+Subject: [PATCH v5 00/13] Add build ID to stacktraces
+Date:   Tue, 20 Apr 2021 14:49:50 -0700
+Message-Id: <20210420215003.3510247-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YH6qgHH1RtBCHxEy@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 20, 2021 at 01:18:40PM +0300, Andy Shevchenko wrote:
-> On Mon, Apr 19, 2021 at 05:01:31PM -0700, Yury Norov wrote:
-> > The 'all' semantics is now supported by the bitmap_parselist() so we can
-> > drop supporting it as a special case in RCU code. This patch does not
-> > add any functional changes for existing users.
-> 
-> > -	if (!strcasecmp(str, "all"))		/* legacy: use "0-N" instead */
-> 
-> Perhaps move comment as well to new location.
+This series adds the kernel's build ID[1] to the stacktrace header printed
+in oops messages, warnings, etc. and the build ID for any module that
+appears in the stacktrace after the module name. The goal is to make the
+stacktrace more self-contained and descriptive by including the relevant
+build IDs in the kernel logs when something goes wrong. This can be used
+by post processing tools like script/decode_stacktrace.sh and kernel
+developers to easily locate the debug info associated with a kernel
+crash and line up what line and file things started falling apart at.
 
-I actually wanted to remove this comment. The reason is that 'all' is
-verbose, clear and proven to be useful for at least RCU. In v2 I'll
-mention it explicitly in commit comment.
+To show how this can be used I've included a patch to
+decode_stacktrace.sh that downloads the debuginfo from a debuginfod
+server.
+
+This also includes some patches to make the buildid.c file use more
+const arguments and consolidate logic into buildid.c from kdump. These
+are left to the end as they were mostly cleanup patches. I don't know
+who exactly maintains this so I guess Andrew is the best option to merge
+all this code.
+
+Here's an example lkdtm stacktrace on arm64.
+
+ WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm]
+ Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE
+ CPU: 4 PID: 3255 Comm: bash Not tainted 5.11 #3 aa23f7a1231c229de205662d5a9e0d4c580f19a1
+ Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+ pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
+ pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
+ lr : lkdtm_do_action+0x24/0x40 [lkdtm]
+ sp : ffffffc0134fbca0
+ x29: ffffffc0134fbca0 x28: ffffff92d53ba240
+ x27: 0000000000000000 x26: 0000000000000000
+ x25: 0000000000000000 x24: ffffffe3622352c0
+ x23: 0000000000000020 x22: ffffffe362233366
+ x21: ffffffe3622352e0 x20: ffffffc0134fbde0
+ x19: 0000000000000008 x18: 0000000000000000
+ x17: ffffff929b6536fc x16: 0000000000000000
+ x15: 0000000000000000 x14: 0000000000000012
+ x13: ffffffe380ed892c x12: ffffffe381d05068
+ x11: 0000000000000000 x10: 0000000000000000
+ x9 : 0000000000000001 x8 : ffffffe362237000
+ x7 : aaaaaaaaaaaaaaaa x6 : 0000000000000000
+ x5 : 0000000000000000 x4 : 0000000000000001
+ x3 : 0000000000000008 x2 : ffffff93fef25a70
+ x1 : ffffff93fef15788 x0 : ffffffe3622352e0
+ Call trace:
+  lkdtm_WARNING+0x28/0x30 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+  direct_entry+0x16c/0x1b4 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+  full_proxy_write+0x74/0xa4
+  vfs_write+0xec/0x2e8
+  ksys_write+0x84/0xf0
+  __arm64_sys_write+0x24/0x30
+  el0_svc_common+0xf4/0x1c0
+  do_el0_svc_compat+0x28/0x3c
+  el0_svc_compat+0x10/0x1c
+  el0_sync_compat_handler+0xa8/0xcc
+  el0_sync_compat+0x178/0x180
+ ---[ end trace 3d95032303e59e68 ]---
+
+Changes from v4 (https://lore.kernel.org/r/20210410015300.3764485-1-swboyd@chromium.org):
+ * Stubbed out more code when CONFIG_STACKTRACE_BUILD_ID=n
+ * Use static_assert instead of BUILD_BUG_ON()
+ * Dropped bad printk change to IP on x86
+
+Changes from v3 (https://lore.kernel.org/r/20210331030520.3816265-1-swboyd@chromium.org):
+ * Fixed compilation warnings due to config changes
+ * Fixed kernel-doc on init_vmlinx_build_id()
+ * Totally removed add_build_id_vmcoreinfo()
+ * Added another printk format %pBb to help x86 print backtraces
+ * Some BUILD_BUG_ON() checks to make sure the buildid doesn't get bigger or smaller
+
+Changes from v2 (https://lore.kernel.org/r/20210324020443.1815557-1-swboyd@chromium.org):
+ * Renamed symbol printing function to indicate build IDness
+ * Put build ID information behind Kconfig knob
+ * Build ID for vmlinux is calculated in early init instead of on demand
+ * printk format is %pS[R]b
+
+Changes from v1 (https://lore.kernel.org/r/20210301174749.1269154-1-swboyd@chromium.org):
+ * New printk format %pSb and %pSr
+ * Return binary format instead of hex format string from build ID APIs
+ * Some new patches to cleanup buildid/decode_stacktrace.sh
+ * A new patch to decode_stacktrace.sh to parse output
+
+[1] https://fedoraproject.org/wiki/Releases/FeatureBuildId
+
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Baoquan He <bhe@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Dave Young <dyoung@redhat.com>
+Cc: Evan Green <evgreen@chromium.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jessica Yu <jeyu@kernel.org>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: <kexec@lists.infradead.org>
+Cc: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Cc: <linux-arm-kernel@lists.infradead.org>
+Cc: <linux-doc@vger.kernel.org>
+Cc: <linux-kernel@vger.kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Vivek Goyal <vgoyal@redhat.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: <x86@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: peter enderborg <peter.
+Stephen Boyd (13):
+  buildid: Only consider GNU notes for build ID parsing
+  buildid: Add API to parse build ID out of buffer
+  buildid: Stash away kernels build ID on init
+  dump_stack: Add vmlinux build ID to stack traces
+  module: Add printk formats to add module build ID to stacktraces
+  arm64: stacktrace: Use %pSb for backtrace printing
+  x86/dumpstack: Use %pSb/%pBb for backtrace printing
+  scripts/decode_stacktrace.sh: Support debuginfod
+  scripts/decode_stacktrace.sh: Silence stderr messages from
+    addr2line/nm
+  scripts/decode_stacktrace.sh: Indicate 'auto' can be used for base
+    path
+  buildid: Mark some arguments const
+  buildid: Fix kernel-doc notation
+  kdump: Use vmlinux_build_id to simplify
+
+ Documentation/core-api/printk-formats.rst |  11 +++
+ arch/arm64/kernel/stacktrace.c            |   2 +-
+ arch/x86/kernel/dumpstack.c               |   2 +-
+ include/linux/buildid.h                   |   8 ++
+ include/linux/crash_core.h                |  12 +--
+ include/linux/kallsyms.h                  |  20 ++++-
+ include/linux/module.h                    |   8 +-
+ init/main.c                               |   1 +
+ kernel/crash_core.c                       |  50 +----------
+ kernel/kallsyms.c                         | 101 +++++++++++++++++-----
+ kernel/module.c                           |  31 ++++++-
+ lib/Kconfig.debug                         |  11 +++
+ lib/buildid.c                             |  74 ++++++++++++----
+ lib/dump_stack.c                          |  13 ++-
+ lib/vsprintf.c                            |   8 +-
+ scripts/decode_stacktrace.sh              |  89 +++++++++++++++----
+ 16 files changed, 327 insertions(+), 114 deletions(-)
+
+
+base-commit: a38fd8748464831584a19438cbb3082b5a2dab15
+-- 
+https://chromeos.dev
+
