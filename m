@@ -2,146 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFE9C43460
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 00:24:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C379BC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 01:12:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26D336135F
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 00:24:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8767F6127C
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 01:12:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229999AbhDTAZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 20:25:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36118 "EHLO
+        id S233087AbhDTBNH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 21:13:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229884AbhDTAZT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 20:25:19 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74AADC06138B
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 17:24:48 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id u25so3152735ljg.7
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 17:24:48 -0700 (PDT)
+        with ESMTP id S231612AbhDTBNG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 21:13:06 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9FBC06174A;
+        Mon, 19 Apr 2021 18:12:36 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id t14so1806517lfe.1;
+        Mon, 19 Apr 2021 18:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FOsh3q0zxk4YO7I+1lA0GntuHcG2gh7NQXhaPukL/Mk=;
-        b=CoROqzssO42bQLqB6Rp8HopASoqkxTL5Lm2RfjSKld7xisl+V2Gbk3AO6vM4JzkdRI
-         7/bT4Hc0FhO+oUpZBbI3ETrfoixdNF0YZ2Ot1snmGj41r+v7P4MnbmNNIvDyP4HkXQi4
-         0ezICMAFt//RtS6SAEmMmnHQoRQXDWCi/r0cTvi63f80u8AKKqL38tod6F11ZAUc5Yhh
-         JVvJJkPdu2MX38h5FOqWPpU9SsWgW505gntYganD/ZpNPwZ1DLlGIpTQR2T09x5tK1qN
-         4mHRdzqo+xqGoNrjTwFPYvQ1oAtGPK3kY4952Y24iMMU10cQcZGbEv1upHPEYYoyxz3k
-         T5/Q==
+         :cc;
+        bh=pCUafHxo7zwOCFRvS2ayIuzN+F/t+3Ifch7UyWe1pSE=;
+        b=Py1ReygCSFEIYHBUTukA+AjqKp1bmuCn4AIa+SrBYJDezzqEh7QwRrpkzVOpoHT3QF
+         GGMw3QICdVBdzOdCimNS0oVC8pbwut3Y0cm593lf8JzDY/egRgFHEWG4RbBO8VC9zh5o
+         ZnvZUuuKOTl4W+LqDNpw8k8DIL4TwIZeYX0Vr6CsszkdJUOBrlWOh57CTl6qegnB7Fes
+         NJRiMwNyDLymyPU65hAjC2QpqeR6pOZWqYVHE+mmB/+8rlw5v7adBQvRMbOUBxxMolzX
+         2NtrwK0iHMOklxsm1HDLIVXVpghWT4LQfArHsFRqBHq8r5DMDIvXtt9VT1lvum/Rz9GO
+         XjKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FOsh3q0zxk4YO7I+1lA0GntuHcG2gh7NQXhaPukL/Mk=;
-        b=mkDB4C+Ib2xZaHbs3z7e4ZX35LOCsl25ehKa2B8wY5XAHHAHKMDA29q6a9Amg68dqc
-         zrs/OoD0/OGsEwTlEnKgIxuPyKAl4cw+/LsQFUXNy7sDV8ovxhnnjBra2iXUi5PiZs9O
-         fmLS7jFm+/BFO7+vmYZLbJuf7JGSnTNsIah+m6cJTkBeEUPayTk3Xv3lfr7sQKdHq5Sz
-         /sNCNLbM5ZjOHZNNZLqAQcrkMzLQCirDNSN/5FXQtaSnCdDOYOVTBBXPwZmdNwkzFyv7
-         ZwcBS5ybUqMBGepRpSBOGN6FU7E9DXpNSjJyFmagY7iLZFuEJjNdq2g6phBvY3XN0Qjb
-         egpw==
-X-Gm-Message-State: AOAM530dCreDNjxdWppQDZrka0f8JAEtWVjqvQlcdLMEiiShX6DaOkIZ
-        sEOaanzOiFwcxamjS36edzlEc8jWasaKUevpjpqy+w==
-X-Google-Smtp-Source: ABdhPJz5Js93YB2ex6G5WNbE1/JafHIcRDNChV3k45O5qMc5EmJ6/0INhkRfhrXeFh9c/TVfqqalk/EfusqMT2bjFbw=
-X-Received: by 2002:a2e:9cc1:: with SMTP id g1mr11473192ljj.0.1618878286604;
- Mon, 19 Apr 2021 17:24:46 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=pCUafHxo7zwOCFRvS2ayIuzN+F/t+3Ifch7UyWe1pSE=;
+        b=izpUejNEMiur2GoP/tsQmHjccXQ0GaWBcGJqW1N1Uioa6GecAVEBSD3ZYB3vGpLUik
+         2DFAJKLFl9EU0sIFufl2E0hoUVdQZdMCH7KyA42cTO+KiH6rRHWPXYkL8zMmr5MdszkI
+         jvfOeCHP6du0h8ETia4+Kn+qxmIwfMvfKLXcwVkkxKkhc98FwrQ6HWWTRG333m/4HQ0E
+         fp2YhK4/Hzk5RVWZxO609BpVaacMuvMeB6kPzKMOfszTObLINnLKFcgvSL75Mc9eetsu
+         LbqZvJ+cWz8GWxPHVaxSWfkr8rA1KZrja3R7jJI5msC5/j6rRCZYV6VpU5Uoob1G7z+M
+         psGg==
+X-Gm-Message-State: AOAM530Fw0j4wqmhN6qkRHs160nzFN4Dzg5XtuHrFfv/h/0wmf76xRjC
+        vPLAt9CuYC23gSrf+meBkdk7Vu71AaKxuUtBEjg=
+X-Google-Smtp-Source: ABdhPJy4QbZq6GpKOJR0Ui4FhbpWaBxUjIDZQtruRSxDc1mairsjSEzvBmJRHssRJ2cChC2T6OwozChm0iHqM5wGGmY=
+X-Received: by 2002:a05:6512:2256:: with SMTP id i22mr6740073lfu.651.1618881154808;
+ Mon, 19 Apr 2021 18:12:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
- <YHmMJWmzz2vZ3qQH@google.com> <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
- <YHmuX1NA5RF7C7XS@google.com> <20210416161444.GA10484@1wt.eu>
- <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com> <20210416173717.GA10846@1wt.eu>
-In-Reply-To: <20210416173717.GA10846@1wt.eu>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 19 Apr 2021 17:24:33 -0700
-Message-ID: <CAKwvOd=RadTs7Skv6KUBo4qZQtdi0kugTzxvZM+5X_2gstjyaQ@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+References: <20210316054727.25655-1-foxhlchen@gmail.com> <20210316054727.25655-2-foxhlchen@gmail.com>
+ <20210419021730.GV2531743@casper.infradead.org> <CAC2o3D+kq+U9vSp_9DNM3UGA=UGhS84Y+mwm=9S6eMPpf2-ogQ@mail.gmail.com>
+ <20210419032513.GW2531743@casper.infradead.org> <CAC2o3DLJpMJDzQByJixPyLe47ajXXVFPRQBh3MaYPargrqS4tg@mail.gmail.com>
+ <87fszmaxl4.fsf@meer.lwn.net>
+In-Reply-To: <87fszmaxl4.fsf@meer.lwn.net>
+From:   Fox Chen <foxhlchen@gmail.com>
+Date:   Tue, 20 Apr 2021 09:12:23 +0800
+Message-ID: <CAC2o3DLfzg=KeFJupLMHhyNbd0ww3hMvsmYeK87EVZPp=oUm+w@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] docs: path-lookup: update follow_managed() part
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Matthew Wilcox <willy@infradead.org>, Neil Brown <neilb@suse.de>,
+        vegard.nossum@oracle.com, Al Viro <viro@zeniv.linux.org.uk>,
+        rdunlap@infradead.org, grandmaster@al2klimov.de,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg KH <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 10:39 AM Willy Tarreau <w@1wt.eu> wrote:
+On Tue, Apr 20, 2021 at 3:22 AM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> resources usage, I'm really not convinced at all it's suited for
-> low-level development. I understand the interest of the experiment
-> to help the language evolve into that direction, but I fear that
-> the kernel will soon be as bloated and insecure as a browser, and
-> that's really not to please me.
+> Fox Chen <foxhlchen@gmail.com> writes:
+>
+> > On Mon, Apr 19, 2021 at 11:25 AM Matthew Wilcox <willy@infradead.org> wrote:
+> >>
+> >> On Mon, Apr 19, 2021 at 10:33:00AM +0800, Fox Chen wrote:
+> >> > On Mon, Apr 19, 2021 at 10:17 AM Matthew Wilcox <willy@infradead.org> wrote:
+> >> > > You can drop ``..`` from around function named which are followed with
+> >> > > ().  d74b0d31ddde ("Docs: An initial automarkup extension for sphinx")
+> >> > > marks them up automatically.
+> >> > >
+> >> >
+> >> > Got it, thanks for letting me know. But I will still use them in this
+> >> > patch series to keep consistency with the remaining parts of the
+> >> > document.
+> >>
+> >> Well, you weren't.  For example:
+> >>
+> >> +As the last step of ``walk_component()``, ``step_into()`` will be called either
+> >> +directly from walk_component() or from handle_dots().  It calls
+> >> +``handle_mount()``, to check and handle mount points, in which a new
+> >>
+> >> Neither of the functions on the second line were using ``.
+> >
+> > Oh, That was a mistake,  They should've been wrapped with ``.
+> > Thanks for pointing it out. I will go through the whole patch set and
+> > fix this type of inconsistency in V3.
+>
+> Please, if possible, go toward the bare function() form rather than
+> using literals...it's easier to read and the docs system will
+> automatically create cross references for you.
+>
+> Thanks,
+>
+> jon
 
-Dunno, I don't think the introduction of Rust made Firefox _more_ insecure.
-https://wiki.mozilla.org/Oxidation#Within_Firefox
+Ok, If you have no problem with that inconsistency, I will go with the
+bare one in v3.
 
-I pray no executives ever see Dmitry Vyukov's 2019 Linux Plumbers Conf
-talk "Reflections on kernel quality, development process and testing."
-https://www.youtube.com/watch?v=3DiAfrrNdl2f4
-or his 2018 Linux Security Summit talk "Syzbot and the Tale of
-Thousand Kernel Bugs" https://www.youtube.com/watch?v=3DqrBVXxZDVQY
-(and they're just fuzzing the syscall interface and USB devices.
-Imagine once folks can more easily craft malformed bluetooth and wifi
-packets.)
 
-I'd imagine the first term that comes to mind for them might be
-"liability."  They are quite sensitive to these vulnerabilities with
-silly names, logos, and websites.  There are many of us that believe
-an incremental approach of introducing a memory safe language to our
-existing infrastructure at the very least to attempt to improve the
-quality of drivers for those that choose to use such tools is a better
-approach.
-
-I think a lot of the current discussion picking nits in syntax, format
-of docs, ease of installation, or theoretical memory models for which
-no language (not even the one the kernel is implemented in) provides
-all rightly should still be added to a revised RFC under "Why not
-[Rust]?" but perhaps are severely overlooking the benefits.  A
-tradeoff for sure though.
-
-Really, a key point is that a lot of common mistakes in C are compile
-time errors in Rust. I know no "true" kernel dev would make such
-mistakes in C, but is there nothing we can do to help our peers
-writing drivers?  The point is to transfer cost from runtime to
-compile time to avoid costs at runtime; like all of the memory safety
-bugs which are costing our industry.
-
-Curiously recurring statistics:
-https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are=
--memory-safety-issues/
-"Microsoft security engineer Matt Miller said that over the last 12
-years, around 70 percent of all Microsoft patches were fixes for
-memory safety bugs."
-
-https://www.chromium.org/Home/chromium-security/memory-safety
-"The Chromium project finds that around 70% of our serious security
-bugs are memory safety problems."
-
-https://security.googleblog.com/2021/01/data-driven-security-hardening-in.h=
-tml
-(59% of Critical and High severity vulnerabilities fixed in Android
-Security Bulletins in 2019 are classified as "Memory," FWIW)
-
-https://hacks.mozilla.org/2019/02/rewriting-a-browser-component-in-rust/
-"If we=E2=80=99d had a time machine and could have written this component i=
-n
-Rust from the start, 51 (73.9%) of these bugs would not have been
-possible."
---
-Thanks,
-~Nick Desaulniers
+thanks,
+fox
