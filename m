@@ -2,110 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4EF6C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 19:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E368C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 19:32:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6235B613C9
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 19:12:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53462613C8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 19:32:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233638AbhDTTNC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 15:13:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58194 "EHLO
+        id S233621AbhDTTdZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 15:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233518AbhDTTNB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 15:13:01 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 697C6C06138A
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 12:12:29 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id a5so7882510ljk.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 12:12:29 -0700 (PDT)
+        with ESMTP id S233544AbhDTTdY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 15:33:24 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A587BC06174A;
+        Tue, 20 Apr 2021 12:32:52 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id i12so9065606qke.3;
+        Tue, 20 Apr 2021 12:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flodin-me.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C+YGLGWSCwyBi7GWc5iobo86zWud5ociPw5R9i9Mclo=;
-        b=j0v4EwRzCPSk8FjluMd+6EvPf7spfpst3slMum25f3fl5lqF2EsX/o5pxr8eqV5q9X
-         tQJbnk1dmqzheg9XctkhcUnEtDKasp2RooZVGP8OEvYWi+Oo/M1A0cSbR/T1KZEEqUiq
-         A0IdPK1IP1rvJ+ntTqs2WWK9XWmY2gAOuLI5wBkDoTZF64r1J8QSxGD05FvDPGVvtSEu
-         5aeHd37M87BGmPeR3IxSxwaD0ldJb6xiKSTJwdrIwQTb7DfdLRDRbpjZUoCrEA20LIqC
-         /EoNRESwn1ol6RQ4396o49p/Pgrll7UPYHOAElYcFtCyiaw+VS5CiMCtTRC8UmrCLblP
-         5QJA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+SxMgumr24PRznk/dw2CQAvRlHHtf2Bm9jyWKNq7r2U=;
+        b=tXFpeh2kvp8PPMCJjFV0Ko5/Zf56vNqWdARCa2gbOjxq5Hb4geDXZiXFOqK8PUBSL+
+         mz+NP+2E5PKTYzsTsYkQwV1riQMIJgYDp3uYRo75rgDCs5qo20xxKeKSjGx527n8pON3
+         fzKKBWLam9WkgZhTt0yaRgiQkQkd/tySAUkND3xHWxJDkuVJzM7+/V503E2CE4aDeFv8
+         gx3ZmP6Jnx2uzaNEuO5pD8HWcIDO0kfQL6lZ5w4L+gRjyxX2MGqLTCuTEewhle6gy0QV
+         w+IyILdqvPzS+BYN70+rCDorHf6ZiKGdF6mNtMQTN5xvZUB6JrGePgYog+cUpXyDYYdI
+         TE6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C+YGLGWSCwyBi7GWc5iobo86zWud5ociPw5R9i9Mclo=;
-        b=YCNQaEtiD1TqntlMwC673N3YI8vSYwLTPYZbyzrvSyNpJSWE7iQFkzQfEKDjl6J54x
-         59pxSdZyDLtQRcWAP2Oi34FO7LiC2RhusbznFvRhOzD8893hRWjuq830M2xa9VLD6o5s
-         DoFmPVdvMVtPcBm2yS/8R4UyAYak0nlZpKljSkHjJAriLZZ/ln6B5ETE8brAcekFAlkf
-         K4NloW+wYW6t8bpc0Z4Idl0tWVaoQ7Ogh3sE8ADB45oQbEU49c2GjYCkQvLwyXJYeW+I
-         jbEEd+oUYmmzkMzCIXjt32omqiXWBRerb/dNNMith50mGavOUPRMPNW6/9XR341ilIuI
-         uJNQ==
-X-Gm-Message-State: AOAM53052b5purSOgLLbHAb+/va7F0ARv3HUghQa6gMlCiBOf0wMusrT
-        qyVyqmcJqd4DTBM9sbA98vM3hQ==
-X-Google-Smtp-Source: ABdhPJwNXIQqX/1JHqGG2nwkwA9dAjfc2wnbVxGgxDBDKNiHbF9gMitkWfK0F1TiVZiGfcfOEzvYQg==
-X-Received: by 2002:a2e:a3d2:: with SMTP id w18mr15532491lje.457.1618945947907;
-        Tue, 20 Apr 2021 12:12:27 -0700 (PDT)
-Received: from trillian.bjorktomta.lan (h-158-174-77-132.NA.cust.bahnhof.se. [158.174.77.132])
-        by smtp.gmail.com with ESMTPSA id p11sm17404lfs.306.2021.04.20.12.12.26
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+SxMgumr24PRznk/dw2CQAvRlHHtf2Bm9jyWKNq7r2U=;
+        b=s5um6eosDUBLLKfYz59YQL3rv3wJaDdL7SnHyxIA8a4aLiFtSqYafzRS2J89+nnEUL
+         eiAVBptydWIfJ3W3HSgL1tXp8YLaFfml7INKMA6W+c6tv6W7Slzv4bPMqiWGNQJgBKe7
+         AF9NzOTS8bU8dD3K8clablrwudwdB9OPuuwEUwvgj2rjwZFqn92nH8hJkjzbOolfpcy7
+         pHSr40Jqy7dAoo6P8bp1zzWK+3GTZQMBmKRsF8eANqXj5eI12r6AGJDcJe3B6HEvduas
+         feh68fHlcZucJuUnX434vufbdNKD8cWXIVwPPE1/tFS9BXUm9EYqqbB6/yFC4I53eURu
+         o+kw==
+X-Gm-Message-State: AOAM531RO1DaSPEqbh03Qzd6AfxqYWHBjN4fD1pHrAirjTpPtYPbqmAh
+        bUPYl2FwpXiEuao5ncfMzwc=
+X-Google-Smtp-Source: ABdhPJxOXz6kQ5QWRK8Nhz0L1WsC2GU2HHhVMn/9pslWTIRT6dkBOzzNxHOBecAxh8oYa3FWPowLGg==
+X-Received: by 2002:a37:8906:: with SMTP id l6mr632740qkd.198.1618947171788;
+        Tue, 20 Apr 2021 12:32:51 -0700 (PDT)
+Received: from localhost ([207.98.216.60])
+        by smtp.gmail.com with ESMTPSA id t21sm15515qkj.32.2021.04.20.12.32.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 12:12:27 -0700 (PDT)
-From:   Erik Flodin <erik@flodin.me>
-Cc:     Erik Flodin <erik@flodin.me>,
-        Oliver Hartkopp <socketcan@hartkopp.net>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] can: add a note that RECV_OWN_MSGS frames are subject to filtering
-Date:   Tue, 20 Apr 2021 21:12:00 +0200
-Message-Id: <20210420191212.42753-1-erik@flodin.me>
-X-Mailer: git-send-email 2.31.0
+        Tue, 20 Apr 2021 12:32:51 -0700 (PDT)
+Date:   Tue, 20 Apr 2021 12:32:50 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH 1/2] bitmap_parse: support 'all' semantics
+Message-ID: <20210420193250.GA61766@yury-ThinkPad>
+References: <20210420000131.21038-1-yury.norov@gmail.com>
+ <20210420000131.21038-2-yury.norov@gmail.com>
+ <YH6qUDJmUflEmper@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YH6qUDJmUflEmper@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some parts of the documentation may lead the reader to think that the
-socket's own frames are always received when CAN_RAW_RECV_OWN_MSGS is
-enabled, but all frames are subject to filtering.
+On Tue, Apr 20, 2021 at 01:17:52PM +0300, Andy Shevchenko wrote:
+> On Mon, Apr 19, 2021 at 05:01:30PM -0700, Yury Norov wrote:
+> > RCU code supports an 'all' group as a special case when parsing
+> > rcu_nocbs parameter. This patch moves the 'all' support to the core
+> > bitmap_parse code, so that all bitmap users can enjoy this extension.
+> > 
+> > Moving 'all' parsing to a bitmap_parse level, also allows users to
+> > pass patterns together with 'all' in regular group:pattern format
+> 
+> ...
+> 
+> >  	{0, "0-31:1/3,1-31:1/3,2-31:1/3",	&exp1[8 * step], 32, 0},
+> >  	{0, "1-10:8/12,8-31:24/29,0-31:0/3",	&exp1[9 * step], 32, 0},
+> >  
+> > +	{0,	  "all",		&exp1[8 * step], 32, 0},
+> > +	{0,	  "0, 1, all,  ",	&exp1[8 * step], 32, 0},
+> > +	{0,	  "all:1/2",		&exp1[4 * step], 32, 0},
+> > +	{0,	  "ALL:1/2",		&exp1[4 * step], 32, 0},
+> 
+> > +	{-EINVAL, "al", NULL, 8, 0},
+> > +	{-EINVAL, "alll", NULL, 8, 0},
+> > +
+> 
+> Looking at the below hunk it seems like the two above should be actually placed
+> there.
+> 
+> >  	{-EINVAL, "-1",	NULL, 8, 0},
+> >  	{-EINVAL, "-0",	NULL, 8, 0},
+> >  	{-EINVAL, "10-1", NULL, 8, 0},
+> > @@ -384,7 +391,6 @@ static const struct test_bitmap_parselist parselist_tests[] __initconst = {
+> >  	{-EINVAL, "a-31:10/1", NULL, 8, 0},
+> >  	{-EINVAL, "0-31:a/1", NULL, 8, 0},
+> >  	{-EINVAL, "0-\n", NULL, 8, 0},
+> > -
+> 
+> Otherwise this change doesn't belong to the series.
 
-As explained by Marc Kleine-Budde:
-
-On TX complete of a CAN frame it's pushed into the RX path of the
-networking stack, along with the information of the originating socket.
-
-Then the CAN frame is delivered into AF_CAN, where it is passed on to
-all registered receivers depending on filters. One receiver is the
-sending socket in CAN_RAW. Then in CAN_RAW the it is checked if the
-sending socket has RECV_OWN_MSGS enabled.
-
-Signed-off-by: Erik Flodin <erik@flodin.me>
----
- Documentation/networking/can.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-index f8dae662e454..f34cb0e4460e 100644
---- a/Documentation/networking/can.rst
-+++ b/Documentation/networking/can.rst
-@@ -608,6 +608,8 @@ demand:
-     setsockopt(s, SOL_CAN_RAW, CAN_RAW_RECV_OWN_MSGS,
-                &recv_own_msgs, sizeof(recv_own_msgs));
- 
-+Note that reception of a socket's own CAN frames are subject to the same
-+filtering as other CAN frames (see :ref:`socketcan-rawfilter`).
- 
- .. _socketcan-rawfd:
- 
--- 
-2.31.0
-
+My bad, I'll fix it in v2.
