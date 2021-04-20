@@ -2,140 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBDEBC433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 08:20:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD58FC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 08:22:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F6D4610A1
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 08:20:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3A526109E
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 08:22:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230419AbhDTIVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 04:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54396 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230379AbhDTIVR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 04:21:17 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E175C06174A;
-        Tue, 20 Apr 2021 01:20:44 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id y3so7680756eds.5;
-        Tue, 20 Apr 2021 01:20:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bpUVM6DLGPNfVadjMrY94cpXZGTdruG63Wzesfn55es=;
-        b=RaNBkPjah7sMGOsN5eQAC5h9N0FeHARo/mtafE743B/oBuKn06NLSSj5EbjlvuPtJp
-         uUbB4/JI2BrPIiE7r5NqMD0jGB3/7ZlJPw4z5zGhKrhd+85zmMe+V+t69nXxFJSXMqiY
-         q3kPySV08rcS5iPJwGVwkb0Dd2cASsmER/od4eMSzJH1canAHTwtRtJM1vPIZ1Z9zcCV
-         0jXYkLI8r0p0n48gNQ3M0XPlos+jxozwZ9bQQ7prHjO04eakSB+SFW8KdjdxWCjb4jQ/
-         kfZXCzM+vTC8shl65zN4IbZZEOc1aHl/x3WWNVEdrElzDdoGHcHHdWZpUZ8v7iKzEts6
-         EiJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bpUVM6DLGPNfVadjMrY94cpXZGTdruG63Wzesfn55es=;
-        b=AhkzacmCHDWUczeDL855FNTOMASEpTZwc3y3fmzIjRX4yE5uOMGD86AW7KQXSNhO0W
-         zMNl5Y6FHNmR65/Xi/oHuV6DkA/Cfv2/7/mLEFRYlgabH5HEhe7GOrH3qjON1Ysg2Gre
-         FnNPanQh12LYpAYt3mc3x/4gwRtAUVAJWdiLMxRWc4M8/qXxR8r1VidB5h5sP08C1ReR
-         XYuNdGhnETaYJAQj1bC6IuWkOObmiV6zX3vNwJNSC/qmGz7rJ5LmApvVQzf1z1jtw3hU
-         ahNlOl5KvW3mDDLiu//YdCv3Mb+0Q8Yopk74PvmaEunQl8mfWNoywK1ZYJpmvNRB5hvs
-         CODA==
-X-Gm-Message-State: AOAM5316OyVTQ9o6AqgGPFfReKc0Z4JA+jDipZSpi0/PzX3gryKmr7OF
-        I/1d3cDLsUumCecbtiNH87k=
-X-Google-Smtp-Source: ABdhPJyY1xR1JA81jnOLYKmFXQQhdiH1ydyHrrj8Jdb7eJaUMTvU73MFe1QiUZ7Yp3OEiljNBnGi8w==
-X-Received: by 2002:a05:6402:350e:: with SMTP id b14mr1115170edd.307.1618906843215;
-        Tue, 20 Apr 2021 01:20:43 -0700 (PDT)
-Received: from skbuf (5-12-16-165.residential.rdsnet.ro. [5.12.16.165])
-        by smtp.gmail.com with ESMTPSA id gn19sm11673126ejc.68.2021.04.20.01.20.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 01:20:42 -0700 (PDT)
-Date:   Tue, 20 Apr 2021 11:20:41 +0300
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     "Y.b. Lu" <yangbo.lu@nxp.com>
-Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S230315AbhDTIXN convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 04:23:13 -0400
+Received: from jptosegrel01.sonyericsson.com ([124.215.201.71]:7221 "EHLO
+        JPTOSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230082AbhDTIXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 04:23:13 -0400
+From:   Peter Enderborg <peter.enderborg@sony.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Michal Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Mike Rapoport <rppt@kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        Matthew Wilcox <willy@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [net-next 3/3] net: mscc: ocelot: support PTP Sync one-step
- timestamping
-Message-ID: <20210420082041.tcthzr6ubtdk6ztf@skbuf>
-References: <20210416123655.42783-1-yangbo.lu@nxp.com>
- <20210416123655.42783-4-yangbo.lu@nxp.com>
- <20210418094609.xijzcg6g6zfcxucp@skbuf>
- <AM7PR04MB6885B46EB5C55BD1B92DD746F8489@AM7PR04MB6885.eurprd04.prod.outlook.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Feng Tang <feng.tang@intel.com>, <linux-doc@vger.kernel.org>
+Subject: [PATCH 0/2 V6]Add dma-buf counter
+Date:   Tue, 20 Apr 2021 10:22:18 +0200
+Message-ID: <20210420082220.7402-1-peter.enderborg@sony.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM7PR04MB6885B46EB5C55BD1B92DD746F8489@AM7PR04MB6885.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=DLnxHBFb c=1 sm=1 tr=0 a=9drRLWArJOlETflmpfiyCA==:117 a=IkcTkHD0fZMA:10 a=3YhXtTcJ-WEA:10 a=QyXUC8HyAAAA:8 a=6icRsfec0oETIK1Ck8AA:9 a=QEXdDO2ut3YA:10 a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
+X-SEG-SpamProfiler-Score: 0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 20, 2021 at 07:33:39AM +0000, Y.b. Lu wrote:
-> > > +	/* For two-step timestamp, retrieve ptp_cmd in DSA_SKB_CB_PRIV
-> > > +	 * and timestamp ID in clone->cb[0].
-> > > +	 * For one-step timestamp, retrieve ptp_cmd in DSA_SKB_CB_PRIV.
-> > > +	 */
-> > > +	u8 *ptp_cmd = DSA_SKB_CB_PRIV(skb);
-> >
-> > This is fine in the sense that it works, but please consider creating something
-> > similar to sja1105:
-> >
-> > struct ocelot_skb_cb {
-> > 	u8 ptp_cmd; /* For both one-step and two-step timestamping */
-> > 	u8 ts_id; /* Only for two-step timestamping */ };
-> >
-> > #define OCELOT_SKB_CB(skb) \
-> > 	((struct ocelot_skb_cb *)DSA_SKB_CB_PRIV(skb))
-> >
-> > And then access as OCELOT_SKB_CB(skb)->ptp_cmd,
-> > OCELOT_SKB_CB(clone)->ts_id.
-> >
-> > and put a comment to explain that this is done in order to have common code
-> > between Felix DSA and Ocelot switchdev. Basically Ocelot will not use the first
-> > 8 bytes of skb->cb, but there's enough space for this to not make any
-> > difference. The original skb will hold only ptp_cmd, the clone will only hold
-> > ts_id, but it helps to have the same structure in place.
-> >
-> > If you create this ocelot_skb_cb structure, I expect the comment above to be
-> > fairly redundant, you can consider removing it.
-> >
->
-> You're right to define the structure.
-> Considering patch #1, move skb cloning to drivers, and populate DSA_SKB_CB(skb)->clone if needs to do so (per suggestion).
-> Can we totally drop dsa_skb_cb in dsa core? The only usage of it is holding a skb clone pointer, for only felix and sja1105.
-> Actually we can move such pointer in <device>_skb_cb, instead of reserving the space of skb for any drivers.
->
-> Do you think so?
+The dma-buf counter is a metric for mapped memory used by it's clients.
+It is a shared buffer that is typically used for interprocess communication
+or process to hardware communication. In android we used to have ION,. but
+it is now replaced with dma-buf. ION had some overview metrics that was similar.
 
-The trouble with skb->cb is that it isn't zero-initialized. But somebody
-needs to initialize the clone pointer to NULL, otherwise you don't know
-if this is a valid pointer or not. Because dsa_skb_tx_timestamp() is
-called before p->xmit(), the driver has no way to initialize the clone
-pointer by itself. So this was done directly from dsa_slave_xmit(), and
-not from any driver-specific hook. So this is why there is a
-DSA_SKB_CB(skb)->clone and not SJA1105_SKB_CB(skb)->clone. The
-alternative would be to memset(skb->cb, 0, 48) which is a bit
-sub-optimal because it initializes more than it needs. Alternatively, it
-might be possible to introduce a new property in struct dsa_device_ops
-which holds sizeof(struct sja1105_skb_cb), and the generic code will
-only zero-initialize this number of bytes.
-I don't know, if you can get it to work in a way that does not incur a
-noticeable performance penalty, I'm okay with whatever you come up with.
+
+
+V1
+	initial version. Add dma-buf counter
+
+V2
+	Fix build depencendy error suggested by Matthew Wilcox
+	Extent commit message sugged by Köning
+
+V3
+	Change variable and function names.
+
+V4
+	Fix function name in code doc
+	Reported-by: kernel test robot <lkp@intel.com>
+
+V5
+	Removed EXPORT_SYMBOL_GPL suggested by Muchun Song
+
+V6
+	Made it a patch set, Adding a addional patch for
+	printing dma-buf counter in show_mem.
+	Suggested by Michal Hocko.
+
+
+
+
+	
+
