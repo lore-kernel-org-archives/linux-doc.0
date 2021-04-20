@@ -2,161 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FDACC433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 13:27:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 684FBC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 13:57:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 08CFC60E08
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 13:27:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E52B860FEE
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 13:57:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232430AbhDTN1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 09:27:42 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:40301 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231422AbhDTN1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 09:27:41 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.nyi.internal (Postfix) with ESMTP id B835C580BEA;
-        Tue, 20 Apr 2021 09:27:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Tue, 20 Apr 2021 09:27:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=benboeckel.net;
-         h=date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=lf7gZahL/CrZJJ2BAIN/GfdWHpC
-        6k25LB28HnVyHJ24=; b=aHQfJNIfJMDDuMBwwETqMm4922gp0e/0stzqSx4sZ3a
-        IW/AXnYDor/sb7PJZUeLsh0hk1r/KweQzQ+ApWidEl+B3/Xmha+0W9pAo9u1j+cg
-        dcRhxdR7YWlBSEX4JReNIwAI516wHYAWR5Ptl8CoLF+DgteWFNHYYqbf1wRwZJR1
-        dUG0RK8IDki0UdgtLOZR99rVu+bzoeAJZwshtHU9RcSALBJhzwAjbBG7o0sDg69s
-        f4NfTgmKsHEz+qBwSOH1MlMnUfhI9/p1dL1vspP0rszctc5Gppw3Ee6FlZ4S9+On
-        PHQjr/SvyCSoVw6MMIe+zrwu6/Q2BYX3ziLcLDbTqoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=lf7gZa
-        hL/CrZJJ2BAIN/GfdWHpC6k25LB28HnVyHJ24=; b=XmAEdqb6EucLwKqbzKynCg
-        cg9Q9fwpCfia6QU3+NiczikPeGSoWr46j/b5WIsQKYxhx33RwgUVGNEI+mymmuaA
-        U33jD/mzsYdjEsAyNn0TzKoloP9+EKd/qSpIgmkq8863ose7rOvSWv/fia1RbHRi
-        5C0LDhxC8k4xjQkBQBv71wv7I67qy/eWAtI74XDsDjJF/xG7G7O9B1uWca56F8Ku
-        hWUfMgCouZhK/N1ZXZOR8XfQBRp8frBVILhsIpYvxvLStykD8I9cdEz7OOyq8sDo
-        Yz+eTLx2TnihH9ciCy6jHkMs/YKaFr4e+YHOgINrNUEgw8jxMILco0nJcIMmVMaA
-        ==
-X-ME-Sender: <xms:qtZ-YAVw4ljvfvo2dUZjFRnIVyR3mpKTUBNuF687kA0Iut8KEXVmpA>
-    <xme:qtZ-YEixH0wxP7D6QplvBF7C3e9meCxIUB_c67TigAll-66DLMRmGHfUeyQ4LVxaM
-    oOZ2-guyatM76ZiJnQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtiedgieeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjfgesthdtredttderjeenucfhrhhomhepuegvnhcu
-    uehovggtkhgvlhcuoehmvgessggvnhgsohgvtghkvghlrdhnvghtqeenucggtffrrghtth
-    gvrhhnpeevffdtteetgfdttdekueefgedttddtueeugeekgeetffeuteffjeduieehhfek
-    tdenucfkphepvdegrdduieelrddvtddrvdehheenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmvgessggvnhgsohgvtghkvghlrdhnvght
-X-ME-Proxy: <xmx:qtZ-YBQhSmKY4hV3Pap0xsiUJFtijExxgBD_z2uCW9SJepXlYK0r1w>
-    <xmx:qtZ-YHH6YgtJ1Ijsz_FRSmUETK39ukNGUbYIcuUiqLatxoXh9BdYJw>
-    <xmx:qtZ-YJkxUbN7oyPxjrX-m6JjFAK1ExOYhLg7SFsA8dVspAGs9-6TPA>
-    <xmx:rdZ-YITUwajNWGhgAXvAupjvtkXNSARTHax81wgO1ND1A0-YQjeMfQ>
-Received: from localhost (unknown [24.169.20.255])
-        by mail.messagingengine.com (Postfix) with ESMTPA id C81FB240057;
-        Tue, 20 Apr 2021 09:27:06 -0400 (EDT)
-Date:   Tue, 20 Apr 2021 09:27:05 -0400
-From:   Ben Boeckel <me@benboeckel.net>
-To:     Varad Gautam <varad.gautam@suse.com>
-Cc:     linux-crypto@vger.kernel.org, dhowells@redhat.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net, vt@altlinux.org,
-        tianjia.zhang@linux.alibaba.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jarkko@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v3 18/18] keyctl_pkey: Add pkey parameters saltlen and
- mgfhash for PSS
-Message-ID: <YH7WqfjNo33vI0VM@erythro>
-References: <20210420114124.9684-1-varad.gautam@suse.com>
- <20210420114124.9684-19-varad.gautam@suse.com>
+        id S232303AbhDTN5m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 09:57:42 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49844 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232253AbhDTN5l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Apr 2021 09:57:41 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1618927028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=lvmyWLVNyKpzZxwVe1+/Riv3KeBC0cRALAmWFhQu6O4=;
+        b=Ybue4AT2OizHnD22Drd25oWnK7r4f4A/RlWeUbitxckHG/CS+Z6n08YglYyTcCvDl/qWMk
+        GVCHakE16znkWrab0ao5hsiWgilzl99Tz/P1eqYLRoeiWSq8CiUeix6tEB3NyQP6X1kzAT
+        6PwkuRBVUTCEp+xqOO3xw8LY6k0S7Lg=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 414FBB061;
+        Tue, 20 Apr 2021 13:57:08 +0000 (UTC)
+Date:   Tue, 20 Apr 2021 15:57:07 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Eric Dumazet <eric.dumazet@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2] docs: proc.rst: meminfo: briefly describe gaps in
+ memory accounting
+Message-ID: <YH7ds1YOAOQt8Mpf@dhcp22.suse.cz>
+References: <20210420121354.1160437-1-rppt@kernel.org>
+ <20210420132430.GB3596236@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210420114124.9684-19-varad.gautam@suse.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
+In-Reply-To: <20210420132430.GB3596236@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 20, 2021 at 13:41:23 +0200, Varad Gautam wrote:
-> keyctl pkey_* operations accept enc and hash parameters at present.
-> RSASSA-PSS signatures also require passing in the signature salt
-> length and the mgf hash function.
+On Tue 20-04-21 14:24:30, Matthew Wilcox wrote:
+> On Tue, Apr 20, 2021 at 03:13:54PM +0300, Mike Rapoport wrote:
+> > Add a paragraph that explains that it may happen that the counters in
+> > /proc/meminfo do not add up to the overall memory usage.
 > 
-> Add parameters:
-> - 'saltlen' to feed in salt length of a PSS signature.
-> - 'mgfhash' to feed in the hash function used for MGF.
+> ... that is, the sum may be lower because memory is allocated for other
+> purposes that is not reported here, right?
+
+yes. Many direct page allocator users are not accounted in any of the
+existing counters.
+
+> Is it ever possible for it to be higher?  Maybe due to a race when
+> sampling the counters?
+
+Yes likely possible. You will never get an atomic snapshot of all
+counters.
+
+> >  Provides information about distribution and utilization of memory.  This
+> > -varies by architecture and compile options.  The following is from a
+> > -16GB PIII, which has highmem enabled.  You may not have all of these fields.
+> > +varies by architecture and compile options. Please note that it may happen
+> > +that the memory accounted here does not add up to the overall memory usage
+> > +and the difference for some workloads can be substantial. In many cases there
+> > +are other means to find out additional memory using subsystem specific
+> > +interfaces, for instance /proc/net/sockstat for TCP memory allocations.
 > 
-> Signed-off-by: Varad Gautam <varad.gautam@suse.com>
-> CC: Jarkko Sakkinen <jarkko@kernel.org>
-> CC: Ben Boeckel <me@benboeckel.net>
-> ---
-> v3: Rename slen to saltlen, update Documentation/security/keys/core.rst.
+> How about just:
 > 
->  Documentation/security/keys/core.rst     | 14 +++++++++++++-
->  crypto/asymmetric_keys/asymmetric_type.c |  2 ++
->  include/linux/keyctl.h                   |  2 ++
->  security/keys/keyctl_pkey.c              | 13 +++++++++++++
->  4 files changed, 30 insertions(+), 1 deletion(-)
+> +varies by architecture and compile options.  The memory reported here
+> +may not add up to the overall memory usage and the difference for some
+> +workloads can be substantial. [...]
 > 
-> diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
-> index b3ed5c581034c..4bd774c56899e 100644
-> --- a/Documentation/security/keys/core.rst
-> +++ b/Documentation/security/keys/core.rst
-> @@ -1022,6 +1022,15 @@ The keyctl syscall functions are:
->  			which hash function was used, the hash function can be
->  			specified with this, eg. "hash=sha256".
->  
-> +	``mgfhash=<algo>`` In case of "RSASSA-PSS" ("enc=pss"), this specifies
-> +			the hash function used with the Mask Generation Function
-> +			to generate a signature, eg. "mgfhash=sha256". Supported
-> +			hashes are: sha1, sha224, sha256, sha384, and sha512.
-> +
-> +	``saltlen=<salt_length>`` In case of "RSASSA-PSS" ("enc=pss"), this
-> +			specifies the salt length as a u16, used to generate a
-                                                ^
+> But I'd like to be a bit more explicit about the reason, hence my question
+> above to be sure I understand.
+> 
+> 
+> It's also not entirely clear which of the fields in meminfo can be
+> usefully summed.  VmallocTotal is larger than MemTotal, for example.
 
-This feels like it is missing a comma at the designated location (after
-`length` if the whitespace gets mangled).
+Yes. Many/Most counters cannot be simply sumed up. A trivial example would be
+Active/Inactive is a sum of both anona and file. Mlocked will be
+accounted in LRU pages and Unevictable. MemAvailable is not really a
+counter... 
 
-> +			signature. Eg. "saltlen=32".
-> +
->       The ``__spare[]`` space in the parameter block must be set to 0.  This is
->       intended, amongst other things, to allow the passing of passphrases
->       required to unlock a key.
-> @@ -1700,6 +1709,8 @@ The structure has a number of fields, some of which are mandatory:
->  			__u32	in2_len;
->  		};
->  		enum kernel_pkey_operation op : 8;
-> +		__u16		salt_len;
-> +		const char	*mgf_hash_algo;
->  	};
->  
->       This includes the key to be used; a string indicating the encoding to use
-> @@ -1707,7 +1718,8 @@ The structure has a number of fields, some of which are mandatory:
->       RSASSA-PKCS1-v1.5 or RSAES-PKCS1-v1.5 encoding or "raw" if no encoding);
->       the name of the hash algorithm used to generate the data for a signature
->       (if appropriate); the sizes of the input and output (or second input)
-> -     buffers; and the ID of the operation to be performed.
-> +     buffers; the ID of the operation to be performed; salt length to be used
-> +     in case of RSASSA-PSS; and hash algorithm used with MGF for RSASSA-PSS.
->  
->       For a given operation ID, the input and output buffers are used as
->       follows::
+Usual memory consumption is usually something like LRU pages + Slab
+memory + kernel stack + vmalloc used + pcp.
 
-Thanks for the docs, they look good to me overall. Other than the comma:
+> But I know that KernelStack is allocated through vmalloc these days,
+> and I don't know whether VmallocUsed includes KernelStack or whether I
+> can sum them.  Similarly, is Mlocked a subset of Unevictable?
+> 
+> There is some attempt at explaining how these numbers fit together, but
+> it's outdated, and doesn't include Mlocked, Unevictable or KernelStack
 
-    Acked-by: Ben Boeckel <mathstuf@gmail.com>
-
---Ben
+Agreed there is a lot of tribal knowledge or even misconceptions flying
+around and it will take much more work to put everything into shape.
+This is only one tiny step forward.
+-- 
+Michal Hocko
+SUSE Labs
