@@ -2,91 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B42C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 08:22:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B7AC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 08:30:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCED4611C9
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 08:22:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC69C61168
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 08:30:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230271AbhDTIXY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 04:23:24 -0400
-Received: from jptosegrel01.sonyericsson.com ([124.215.201.71]:7263 "EHLO
-        JPTOSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229749AbhDTIXY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 04:23:24 -0400
-From:   Peter Enderborg <peter.enderborg@sony.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        id S229736AbhDTIaj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 04:30:39 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57554 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229551AbhDTIaj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Apr 2021 04:30:39 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1618907407; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Gc2OYO7Gop4pXOyn2eMOrNhPvb4JX9AiP/LihACJjrQ=;
+        b=BCNcFuuvbhFnjxTxkMtniV6iWAWam2IqyWerccUoN/HC6fZYKEpWY2rM4gXw/GDh0DIDxX
+        7LkSj6Fje6422drCh/GTOBK9zvwW19pEVV9/TN8slkM9hK3/2AmLZN+j3iji2Ohk0CsFvB
+        ZDwJHGFz/U5maxLX/pucXx1QLqZm9no=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id D66A1AE38;
+        Tue, 20 Apr 2021 08:30:06 +0000 (UTC)
+Date:   Tue, 20 Apr 2021 10:30:06 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Peter Enderborg <peter.enderborg@sony.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Muchun Song <songmuchun@bytedance.com>,
         Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Michal Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>,
+        Shakeel Butt <shakeelb@google.com>, NeilBrown <neilb@suse.de>,
         Sami Tolvanen <samitolvanen@google.com>,
-        Mike Rapoport <rppt@kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>,
+        Mike Rapoport <rppt@kernel.org>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
         Matthew Wilcox <willy@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         Kees Cook <keescook@chromium.org>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Feng Tang <feng.tang@intel.com>, <linux-doc@vger.kernel.org>
-CC:     Peter Enderborg <peter.enderborg@sony.com>
-Subject: [PATCH 2/2 V6] lib/show_mem.c:  Add dma-buf counter to show_mem dump.
-Date:   Tue, 20 Apr 2021 10:22:20 +0200
-Message-ID: <20210420082220.7402-3-peter.enderborg@sony.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210420082220.7402-1-peter.enderborg@sony.com>
+        Feng Tang <feng.tang@intel.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/2 V6]Add dma-buf counter
+Message-ID: <YH6RDgoJTPWsULDs@dhcp22.suse.cz>
 References: <20210420082220.7402-1-peter.enderborg@sony.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=DLnxHBFb c=1 sm=1 tr=0 a=fZcToFWbXLKijqHhjJ02CA==:117 a=3YhXtTcJ-WEA:10 a=iox4zFpeAAAA:8 a=z6gsHLkEAAAA:8 a=BIgLedd4eyWhQ11BBNUA:9 a=WzC6qhA0u3u7Ye7llzcV:22 a=d-OLMTCWyvARjPbQ-enb:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=jd6J4Gguk5HxikPWLKER:22
-X-SEG-SpamProfiler-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210420082220.7402-1-peter.enderborg@sony.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On system where dma-buf is used it can be many clients that adds up
-to a lot of memory. This can be relevant for OOM handling when
-running out of memory or how system handle this memory. It may be to free
-with a kill.
+On Tue 20-04-21 10:22:18, Peter Enderborg wrote:
+> The dma-buf counter is a metric for mapped memory used by it's clients.
+> It is a shared buffer that is typically used for interprocess communication
+> or process to hardware communication. In android we used to have ION,. but
+> it is now replaced with dma-buf. ION had some overview metrics that was similar.
 
-Suggested-by: Michal Hocko <mhocko@suse.com>
-Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
----
- lib/show_mem.c | 5 +++++
- 1 file changed, 5 insertions(+)
+The discussion around the previous version is still not over and as it
+seems your proposed approach is not really viable. So please do not send
+new versions until that is sorted out.
 
-diff --git a/lib/show_mem.c b/lib/show_mem.c
-index 1c26c14ffbb9..ec4748c64353 100644
---- a/lib/show_mem.c
-+++ b/lib/show_mem.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/mm.h>
- #include <linux/cma.h>
-+#include <linux/dma-buf.h>
- 
- void show_mem(unsigned int filter, nodemask_t *nodemask)
- {
-@@ -41,4 +42,8 @@ void show_mem(unsigned int filter, nodemask_t *nodemask)
- #ifdef CONFIG_MEMORY_FAILURE
- 	printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_pages));
- #endif
-+#ifdef CONFIG_DMA_SHARED_BUFFER
-+	printk("%lu pages dma-buf\n", dma_buf_allocated_pages());
-+#endif
-+
- }
+Thanks!
 -- 
-2.17.1
-
+Michal Hocko
+SUSE Labs
