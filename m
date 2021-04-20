@@ -2,98 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA924C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 10:19:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97A3C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 10:35:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3C39613C3
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 10:19:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6635F610CC
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 10:35:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230491AbhDTKTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 06:19:49 -0400
-Received: from mga02.intel.com ([134.134.136.20]:32092 "EHLO mga02.intel.com"
+        id S231466AbhDTKgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 06:36:11 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58584 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230408AbhDTKTt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Apr 2021 06:19:49 -0400
-IronPort-SDR: nXQCmfiJo2UNZfZRR9Bivdl293DE55dizKWc/HbDxOT95qfK8oSonCEZZGU4+2TPFKViE5Sy36
- A0h8XKWJ78vw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="182613274"
-X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; 
-   d="scan'208";a="182613274"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 03:19:17 -0700
-IronPort-SDR: t3ADhHXhqijj1LQOMzquan2ijzmI1t3zxWAB2jKPB7MhItZr09UYSnKPfjN4qjb5j3pgBuiU7t
- 6I2+aXFnPo8w==
-X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; 
-   d="scan'208";a="420351253"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 03:19:14 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lYnTL-005iEs-5X; Tue, 20 Apr 2021 13:19:11 +0300
-Date:   Tue, 20 Apr 2021 13:19:11 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Yury Norov <yury.norov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 0/2] bitmap_parselist: support 'all' semantics
-Message-ID: <YH6qnzU9iCg6Fvjs@smile.fi.intel.com>
-References: <20210420000131.21038-1-yury.norov@gmail.com>
+        id S231388AbhDTKgL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Apr 2021 06:36:11 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id AE038AFC8;
+        Tue, 20 Apr 2021 10:35:38 +0000 (UTC)
+Date:   Tue, 20 Apr 2021 12:35:33 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, naoya.horiguchi@nec.com,
+        joao.m.martins@oracle.com, duanxiongchun@bytedance.com,
+        fam.zheng@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 8/9] mm: memory_hotplug: disable memmap_on_memory
+ when hugetlb_free_vmemmap enabled
+Message-ID: <YH6udU5rKmDcx5dY@localhost.localdomain>
+References: <20210415084005.25049-1-songmuchun@bytedance.com>
+ <20210415084005.25049-9-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210420000131.21038-1-yury.norov@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210415084005.25049-9-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 05:01:29PM -0700, Yury Norov wrote:
-> RCU code supports a special group 'all' which selects all bits in a bitmap.
-> We have recently added 'N' extension for bitmap parse, so that '0-N' would
-> have exactly the same meaning as 'all'. But because the 'all' is already
-> used by RCU, it would be reasonable to support it in core bitmap code as a
-> common and easy-readable alias for '0-N'.
-> 
-> Moving the 'all' support to core bitmap code adds another level of
-> flexibility for system configuration by supporting patterns. For example,
-> every second bit in cpumask may be selected like this:
-> 	isolcpus=all:1/2
+On Thu, Apr 15, 2021 at 04:40:04PM +0800, Muchun Song wrote:
+>  bool mhp_supports_memmap_on_memory(unsigned long size)
+>  {
+> +	bool supported;
+>  	unsigned long nr_vmemmap_pages = size / PAGE_SIZE;
+>  	unsigned long vmemmap_size = nr_vmemmap_pages * sizeof(struct page);
+>  	unsigned long remaining_size = size - vmemmap_size;
+> @@ -1011,11 +1012,18 @@ bool mhp_supports_memmap_on_memory(unsigned long size)
+>  	 *	 altmap as an alternative source of memory, and we do not exactly
+>  	 *	 populate a single PMD.
+>  	 */
+> -	return memmap_on_memory &&
+> -	       IS_ENABLED(CONFIG_MHP_MEMMAP_ON_MEMORY) &&
+> -	       size == memory_block_size_bytes() &&
+> -	       IS_ALIGNED(vmemmap_size, PMD_SIZE) &&
+> -	       IS_ALIGNED(remaining_size, pageblock_nr_pages << PAGE_SHIFT);
+> +	supported = memmap_on_memory &&
+> +		    IS_ENABLED(CONFIG_MHP_MEMMAP_ON_MEMORY) &&
+> +		    size == memory_block_size_bytes() &&
+> +		    IS_ALIGNED(vmemmap_size, PMD_SIZE) &&
+> +		    IS_ALIGNED(remaining_size, pageblock_nr_pages << PAGE_SHIFT);
+> +
+> +	if (supported && is_hugetlb_free_vmemmap_enabled()) {
+> +		pr_info("Cannot enable memory_hotplug.memmap_on_memory, it is not compatible with hugetlb_free_vmemmap\n");
+> +		supported = false;
+> +	}
 
-After addressing a couple of nit-picks,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+I would not print anything and rather have
 
-> Yury Norov (2):
->   bitmap_parse: support 'all' semantics
->   rcu/tree_plugin: don't handle the case of 'all' CPU range
-> 
->  Documentation/admin-guide/kernel-parameters.rst | 5 +++++
->  kernel/rcu/tree_plugin.h                        | 9 +++------
->  lib/bitmap.c                                    | 9 +++++++++
->  lib/test_bitmap.c                               | 8 +++++++-
->  4 files changed, 24 insertions(+), 7 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+return memmap_on_memory &&
+       !is_hugetlb_free_vmemmap_enabled &&
+       IS_ENABLED(CONFIG_MHP_MEMMAP_ON_MEMORY) &&
+       size == memory_block_size_bytes() &&
+       IS_ALIGNED(vmemmap_size, PMD_SIZE) &&
+       IS_ALIGNED(remaining_size, pageblock_nr_pages << PAGE_SHIFT);
+
+Documentation/admin-guide/kernel-parameters.txt already provides an
+explanation on memory_hotplug.memmap_on_memory parameter that states
+that the feature cannot be enabled when using hugetlb-vmemmap
+optimization.
+
+Users can always check whether the feature is enabled via
+/sys/modules/memory_hotplug/parameters/memmap_on_memory.
+
+Also, I did not check if it is, but if not, the fact about hugetlb-vmemmmap vs
+hotplug-vmemmap should also be called out in the hugetlb-vmemmap kernel
+parameter.
+
+Thanks
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Oscar Salvador
+SUSE L3
