@@ -2,189 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13740C43461
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 03:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD305C43460
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 03:48:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE6E3613AF
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 03:28:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 811EA6100B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 03:48:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbhDTD3Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 23:29:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47638 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbhDTD3Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 23:29:24 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10933C06174A;
-        Mon, 19 Apr 2021 20:28:54 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id j4so19800989lfp.0;
-        Mon, 19 Apr 2021 20:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=sjA5c4MI/V/Us5khupc3zlEWJtPk9Lba1kHWIn9xqrM=;
-        b=aZSJaNW84mZRYAHIY5t88erflreGTdYjaH3FYtF1qHJPn6VWs0jryZT46tcKmPEGha
-         /og/FC8vcGojrzKljv51Y7lWbKJNsViPSNua0KzzWTeHQBaA77mtr8NCMQ4THd2QTzcC
-         W4NX+bAwjkGszUu3wkPlccw0aoYiZjMS+T4JTPsVHoVH+R4TOOISLvGTXFbJ16T+Dgur
-         kbNEKiwtz58pU2SAt4AjUcSxyUGvQb0yQueu6ghHyatn+Cc/mNZXXrnsQvXgxCwKXuNp
-         sZTyXkoz02r+DOAERoaXyqJHUX8rL4MjlDqKs+1CuVe940UruGYC9kE+b/nNTgV9xhkG
-         purg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=sjA5c4MI/V/Us5khupc3zlEWJtPk9Lba1kHWIn9xqrM=;
-        b=LgJPb5MBlEKi1REqgkAuvdlJjsp0gQpZhNPuzFcdyfII3Wkdw2WUL93Hhz5Yp/9s/z
-         Zg3K4GmkMz47pxCriTVhhLFa+EON2SMq/RUwepb7LMM7I0nyTU2HjfRMS/O5k2DUF7h6
-         dYKaMX88np5drCkQ3VCx9WuUfiml+evx0IN99nW0ssu3Vb9/aYOurM+c3WnyiX1Lyejn
-         q7uNJZm6MC/WC35f4g+0UdSpmrkh4zRUSH+bmQZU1DEIARkeRedC9zVo5cTd52D9b2Hz
-         8Lg8v95BMLJEnyFKvMm+eBXFz/WhbJ0o918UxMIpL4vwo2eI8q+SZCX0nZ1SqGGk/LrS
-         Exkw==
-X-Gm-Message-State: AOAM530Nb75ftxe060+0oeBb+vVmav6/Y7uUN3xTz1ok6Q2Z0C9FT6Bl
-        CF9Mupz/vZH60+Tz8lPd7DAow43Kjj+6XiluqSo=
-X-Google-Smtp-Source: ABdhPJxtNTC6hNyk2mAr0jYIRtC3Pnw65n4y2IU2BFaZPz0SzJ5eF0gkFi6YsfR4xYcNBc9nZPkqaJatjNPZ02gYJpQ=
-X-Received: by 2002:ac2:510d:: with SMTP id q13mr13835296lfb.75.1618889332453;
- Mon, 19 Apr 2021 20:28:52 -0700 (PDT)
+        id S229649AbhDTDtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 23:49:01 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51894 "EHLO 1wt.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229579AbhDTDtA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Apr 2021 23:49:00 -0400
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 13K3lniw030310;
+        Tue, 20 Apr 2021 05:47:49 +0200
+Date:   Tue, 20 Apr 2021 05:47:49 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <20210420034749.GA28662@1wt.eu>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+ <YHmMJWmzz2vZ3qQH@google.com>
+ <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
+ <YHmuX1NA5RF7C7XS@google.com>
+ <20210416161444.GA10484@1wt.eu>
+ <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
+ <20210416173717.GA10846@1wt.eu>
+ <CAKwvOd=RadTs7Skv6KUBo4qZQtdi0kugTzxvZM+5X_2gstjyaQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210415093250.3391257-1-Jianlin.Lv@arm.com> <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
- <d3949501-8f7d-57c4-b3fe-bcc3b24c09d8@isovalent.com> <CAADnVQJ2oHbYfgY9jqM_JMxUsoZxaNrxKSVFYfgCXuHVpDehpQ@mail.gmail.com>
- <0dea05ba-9467-0d84-4515-b8766f60318e@csgroup.eu>
-In-Reply-To: <0dea05ba-9467-0d84-4515-b8766f60318e@csgroup.eu>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Mon, 19 Apr 2021 20:28:41 -0700
-Message-ID: <CAADnVQ+oQT6C7Qv7P5TV-x7im54omKoCYYKtYhcnhb1Uv3LPMQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: Remove bpf_jit_enable=2 debugging mode
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Quentin Monnet <quentin@isovalent.com>,
-        Ian Rogers <irogers@google.com>,
-        Song Liu <songliubraving@fb.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Zi Shen Lim <zlim.lnx@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Sandipan Das <sandipan@linux.ibm.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
-        Shubham Bansal <illusionist.neo@gmail.com>,
-        Mahesh Bandewar <maheshb@google.com>,
-        Will Deacon <will@kernel.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Ilya Leoshkevich <iii@linux.ibm.com>, paulburton@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-mips@vger.kernel.org, grantseltzer@gmail.com,
-        Xi Wang <xi.wang@gmail.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        Kees Cook <keescook@chromium.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Luke Nelson <luke.r.nels@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        ppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        KP Singh <kpsingh@kernel.org>, iecedge@gmail.com,
-        Simon Horman <horms@verge.net.au>,
-        Borislav Petkov <bp@alien8.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Yonghong Song <yhs@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Vyukov <dvyukov@google.com>, tsbogend@alpha.franken.de,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Network Development <netdev@vger.kernel.org>,
-        David Ahern <dsahern@kernel.org>,
-        Wang YanQing <udknight@gmail.com>,
-        Martin KaFai Lau <kafai@fb.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, bpf <bpf@vger.kernel.org>,
-        Jianlin Lv <Jianlin.Lv@arm.com>,
-        "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=RadTs7Skv6KUBo4qZQtdi0kugTzxvZM+5X_2gstjyaQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 17, 2021 at 1:16 AM Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
->
->
->
-> Le 16/04/2021 =C3=A0 01:49, Alexei Starovoitov a =C3=A9crit :
-> > On Thu, Apr 15, 2021 at 8:41 AM Quentin Monnet <quentin@isovalent.com> =
-wrote:
-> >>
-> >> 2021-04-15 16:37 UTC+0200 ~ Daniel Borkmann <daniel@iogearbox.net>
-> >>> On 4/15/21 11:32 AM, Jianlin Lv wrote:
-> >>>> For debugging JITs, dumping the JITed image to kernel log is discour=
-aged,
-> >>>> "bpftool prog dump jited" is much better way to examine JITed dumps.
-> >>>> This patch get rid of the code related to bpf_jit_enable=3D2 mode an=
-d
-> >>>> update the proc handler of bpf_jit_enable, also added auxiliary
-> >>>> information to explain how to use bpf_jit_disasm tool after this cha=
-nge.
-> >>>>
-> >>>> Signed-off-by: Jianlin Lv <Jianlin.Lv@arm.com>
-> >>
-> >> Hello,
-> >>
-> >> For what it's worth, I have already seen people dump the JIT image in
-> >> kernel logs in Qemu VMs running with just a busybox, not for kernel
-> >> development, but in a context where buiding/using bpftool was not
-> >> possible.
-> >
-> > If building/using bpftool is not possible then majority of selftests wo=
-n't
-> > be exercised. I don't think such environment is suitable for any kind
-> > of bpf development. Much so for JIT debugging.
-> > While bpf_jit_enable=3D2 is nothing but the debugging tool for JIT deve=
-lopers.
-> > I'd rather nuke that code instead of carrying it from kernel to kernel.
-> >
->
-> When I implemented JIT for PPC32, it was extremely helpfull.
->
-> As far as I understand, for the time being bpftool is not usable in my en=
-vironment because it
-> doesn't support cross compilation when the target's endianess differs fro=
-m the building host
-> endianess, see discussion at
-> https://lore.kernel.org/bpf/21e66a09-514f-f426-b9e2-13baab0b938b@csgroup.=
-eu/
->
-> That's right that selftests can't be exercised because they don't build.
->
-> The question might be candid as I didn't investigate much about the repla=
-cement of "bpf_jit_enable=3D2
-> debugging mode" by bpftool, how do we use bpftool exactly for that ? Espe=
-cially when using the BPF
-> test module ?
+Hi Nick,
 
-the kernel developers can add any amount of printk and dumps to debug
-their code,
-but such debugging aid should not be part of the production kernel.
-That sysctl was two things at once: debugging tool for kernel devs and
-introspection for users.
-bpftool jit dump solves the 2nd part. It provides JIT introspection to user=
-s.
-Debugging of the kernel can be done with any amount of auxiliary code
-including calling print_hex_dump() during jiting.
+On Mon, Apr 19, 2021 at 05:24:33PM -0700, Nick Desaulniers wrote:
+> I don't think the introduction of Rust made Firefox _more_ insecure.
+> https://wiki.mozilla.org/Oxidation#Within_Firefox
+
+Browsers are human interfaces and do not fundamentally require low
+level access to memory/hardware/whatever. They can be written in
+about any language, only the resource usage and performance will
+make a difference. As such, some were even written in Java or JS
+for example.
+
+Operating systems, and particularly drivers *do* require low-level
+accesses, and stuff that can hardly be abstracted or understood by
+a compiler. You may have to perform two 16-bit reads/writes on a
+32-bit MMIO address to perform an operation and the compiler does
+not have to know it, just to obey.
+
+> Really, a key point is that a lot of common mistakes in C are compile
+> time errors in Rust. I know no "true" kernel dev would make such
+> mistakes in C,
+
+Everyone makes mistakes, the level of attention varies over time and
+the focus often changes when dealing with build errors. How many time
+some of us facing a bug remembered having changed the code very late
+after a build error, and being less careful from this point when the
+goal changed from "let's do it right" to "let's get this to build" ?
+
+> but is there nothing we can do to help our peers
+> writing drivers?  The point is to transfer cost from runtime to
+> compile time to avoid costs at runtime; like all of the memory safety
+> bugs which are costing our industry.
+
+And do we have stats on the number of logical bugs, some of which are
+caused by developers trying to work around compilers' stubbornness ?
+For me, personally speaking, they have *increased* over time, usually
+trying to avoid some annoying modern gcc warnings, resulting in integer
+casts being placed close to string formats, or returns being placed in
+switch/case to avoid the fall-through warning, etc. Thus I'm worried that
+a non-negligible part of the 70% of bugs caused by memory safety issues
+could be replaced with logic bugs to get to the point where the rust
+compiler finally accepts to compile the code. It makes me think about
+researchers trying to reduce the causes of certain deaths and claiming
+to "save lives" while in the end the people they "save" will simply die
+from something else.
+
+And I'm not particularly trying to blindly defend C here. I'm complaining
+every single day about some of its shortcomings like the vast amount of
+UB, stupid type promotion, counter-intuitive operators precedence when
+combining bit-ops with arithmetic, limited size of enums, lack of rotate
+operator, strict aliasing, or the recourse to asm() statements every 10
+lines to do stuff that can hardly be expressed in a way understandable
+by a compiler. I'm just seeing that a lot of the griefs I'm having
+against C come from the compiler trying to be too smart or too stubborn,
+so giving even more of the handle to a compiler doesn't appeal me at all.
+
+In addition, we all know how painful it is to work around compiler bugs
+by writing complex code that carefully avoids certain constructs. I'm
+wondering if we'll still have that luxury with a stricter compiler, or
+if the only response will have to be between "let's disable this driver
+that does not compile" or "please force distros to upgrade their
+compilers".
+
+But we'll see :-/
+
+Regards,
+Willy
