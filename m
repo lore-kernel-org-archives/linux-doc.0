@@ -2,76 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C580C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 14:05:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55533C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 14:52:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0153261164
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 14:05:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 182D66024A
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 14:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232449AbhDTOFj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 10:05:39 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55310 "EHLO mx2.suse.de"
+        id S232681AbhDTOwb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 10:52:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55724 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232359AbhDTOFj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Apr 2021 10:05:39 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1618927506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=N6JmTAHOdm3EBKzZL5WzHZUZAVTtx4LYm8/9OAbOF4I=;
-        b=ew4B6zpLgm7CnWgrZy5ZalklxOHOI4v6mQdTC0jd8h5GfQImJbMaPOEGLsGl7ig/z9vbMu
-        bESXKgEeT55ecoIIJ7whzdn0Q1nLOkLEWmvDf1fqwPTwAaFFS5KgerwM/fCj4bGcBUbez3
-        tmxzrHozEeNEGp+/qGyPBaZrJ/el3J8=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id BAF81B061;
-        Tue, 20 Apr 2021 14:05:06 +0000 (UTC)
-Date:   Tue, 20 Apr 2021 16:05:05 +0200
-From:   Michal Hocko <mhocko@suse.com>
+        id S231682AbhDTOwb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Apr 2021 10:52:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F3F6613C9;
+        Tue, 20 Apr 2021 14:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618930319;
+        bh=JpMF49XQzCztEq9qBMVVUAhpIKrxlZMr9gtph/RDnns=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DFmiGYcWMxauOWy6nBp2DbEzQ4/Xd2/5MxCZjp7sIXR8Jy8f/RuJuQIEcZUjdnBy5
+         cDcWJizyqC0jjXKNVsGTb7Mrxm0DoRe/ADAdMPTwOOfOeWUUhZvp/DX5Mwup7+I9zT
+         LVn6zAFbBX+s4dCDXHAn2uRg0r6gx5zZYrsRkseFAeMVqeYd775KFeLnYGUELNtooA
+         DVGWt6hWJSLO4/2adeHw2m4ibJQ7BcEvtGY4Bb0zqU6Xp0JZwndJvbYM70qvAEr6kb
+         qHiYsPq0vGLpoRO/OzM1zKg8EpbKOCU8r501caYB5funvMAHPHuAeewYToxShXs20D
+         L4woI7RPg/MzQ==
+Date:   Tue, 20 Apr 2021 17:51:51 +0300
+From:   Mike Rapoport <rppt@kernel.org>
 To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Eric Dumazet <eric.dumazet@gmail.com>,
+        Michal Hocko <mhocko@suse.com>,
         Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, netdev@vger.kernel.org
 Subject: Re: [PATCH v2] docs: proc.rst: meminfo: briefly describe gaps in
  memory accounting
-Message-ID: <YH7fkblsuxbHlUZn@dhcp22.suse.cz>
+Message-ID: <YH7qhwhbLt0yT3Zy@kernel.org>
 References: <20210420121354.1160437-1-rppt@kernel.org>
  <20210420132430.GB3596236@casper.infradead.org>
- <YH7ds1YOAOQt8Mpf@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YH7ds1YOAOQt8Mpf@dhcp22.suse.cz>
+In-Reply-To: <20210420132430.GB3596236@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 20-04-21 15:57:08, Michal Hocko wrote:
-[...]
-> Usual memory consumption is usually something like LRU pages + Slab
-> memory + kernel stack + vmalloc used + pcp.
+On Tue, Apr 20, 2021 at 02:24:30PM +0100, Matthew Wilcox wrote:
+> On Tue, Apr 20, 2021 at 03:13:54PM +0300, Mike Rapoport wrote:
+> > Add a paragraph that explains that it may happen that the counters in
+> > /proc/meminfo do not add up to the overall memory usage.
 > 
-> > But I know that KernelStack is allocated through vmalloc these days,
-> > and I don't know whether VmallocUsed includes KernelStack or whether I
-> > can sum them.  Similarly, is Mlocked a subset of Unevictable?
+> ... that is, the sum may be lower because memory is allocated for other
+> purposes that is not reported here, right?
+> 
+> Is it ever possible for it to be higher?  Maybe due to a race when
+> sampling the counters?
+> 
+> >  Provides information about distribution and utilization of memory.  This
+> > -varies by architecture and compile options.  The following is from a
+> > -16GB PIII, which has highmem enabled.  You may not have all of these fields.
+> > +varies by architecture and compile options. Please note that it may happen
+> > +that the memory accounted here does not add up to the overall memory usage
+> > +and the difference for some workloads can be substantial. In many cases there
+> > +are other means to find out additional memory using subsystem specific
+> > +interfaces, for instance /proc/net/sockstat for TCP memory allocations.
+> 
+> How about just:
+> 
+> +varies by architecture and compile options.  The memory reported here
+> +may not add up to the overall memory usage and the difference for some
+> +workloads can be substantial. [...]
 
-Forgot to reply to these two. Yes they do. So if we want to be precise
-then you have to check the stack allocation configuration. There are
-just so many traps lurking here. Something you get used to over time
-but this is certainly far far away from an ideal state. What else we can
-expect from an ad hoc approach to providing data to userspace that was
-historically applied to this and many other proc interfaces. We are
-trying to be strict for some time but some mistakes are simply hard to
-fix up (e.g. accounting shmem as a page cache to name some more).
+I like this. I also for adding a sentence about overlap in the counters:
+
++varies by architecture and compile options.  Some of the counters reported
++here overlap.  The memory reported by the non overlapping counters may not
++add up to the overall memory usage and the difference for some workloads
+can be substantial. [...]
+ 
+> But I'd like to be a bit more explicit about the reason, hence my question
+> above to be sure I understand.
+> 
+> It's also not entirely clear which of the fields in meminfo can be
+> usefully summed.  VmallocTotal is larger than MemTotal, for example.
+> But I know that KernelStack is allocated through vmalloc these days,
+> and I don't know whether VmallocUsed includes KernelStack or whether I
+> can sum them.  Similarly, is Mlocked a subset of Unevictable?
+> 
+> There is some attempt at explaining how these numbers fit together, but
+> it's outdated, and doesn't include Mlocked, Unevictable or KernelStack
+
+Fixing the outdated docs and adding more detailed explanation is obviously
+welcome, but it's beyond the scope of the current patch.
 
 -- 
-Michal Hocko
-SUSE Labs
+Sincerely yours,
+Mike.
