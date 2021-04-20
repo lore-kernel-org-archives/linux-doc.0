@@ -2,158 +2,268 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8BFAC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 11:11:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F8C9C43460
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 11:47:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B7E961363
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 11:11:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD943613D1
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 11:47:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231699AbhDTLL6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 07:11:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35746 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbhDTLL5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 07:11:57 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE444C06174A
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 04:11:25 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id i3so18873107edt.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 04:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jZ2eCCMOz5RQFGcMqABMs+NIPaISx90MnYdaa+4iJS4=;
-        b=FM+Z0jxuKLuWqzMDiIIpznohSRbkVF0ze4zmO28EWSf6ZjMeujfuLQ5s6VDHnDcm/K
-         QU8yO+sOwRVKh3hdafBoNIsc/gP7v9copWR1Rn7HUWD0nrWFklpexLRi09fejVvnSQEN
-         4OwuLMwFfc5sCodNSUwxqUjChjVPFzC8w6KXk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jZ2eCCMOz5RQFGcMqABMs+NIPaISx90MnYdaa+4iJS4=;
-        b=JOga7yummrtMC3Ds/2CydeD+lVMTIvHmLXFa9vHmFS/EVTAYGE7bfQBpR3sPAeq0VT
-         21mLw3OZl/E7MPqhSGBLuO/ND1Sfb9RMaeCwqXkk71P8hiXUF2xXECdmnwI95rCJXXrq
-         vZ0lgs/0WNmaEl1e0eEKu4XfV3nQybQiw5Y4/PdcdfuK253+ReUzhQxWDVA5k2cYBWop
-         qVZAIH78lN8orzhhQszbXGEIRjzJQ0VtUukVOPU2pTdA672HOioT/VBx/ePSJSWqOz2g
-         xg/6zO8kH1rlh+hU8NNvXC1/q4AgdCUzbxyFG5z4eHTowqHtLsorRjH0qIfKn9Bjd8zM
-         8Mng==
-X-Gm-Message-State: AOAM530FZyqqYpPa/WTeSdCY5hNlc5xPSCYukadh6fU/wwzmOknhoQpR
-        4vxgl2+IaHuEko4dSNQ9yA9+Lw==
-X-Google-Smtp-Source: ABdhPJxNr3fYdRNIJHqqw2j6y005xSkYU/6DyrQLB/+bgKJiESX3b+DWZMriP/Dad33tkhxlyM6NCg==
-X-Received: by 2002:a50:fd13:: with SMTP id i19mr16959833eds.375.1618917084518;
-        Tue, 20 Apr 2021 04:11:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id go38sm12118273ejc.40.2021.04.20.04.11.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 04:11:23 -0700 (PDT)
-Date:   Tue, 20 Apr 2021 13:11:21 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Gerd Hoffmann <kraxel@redhat.com>,
+        id S232297AbhDTLr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 07:47:58 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.109.102]:47064 "EHLO
+        de-smtp-delivery-102.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232300AbhDTLrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 07:47:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
+        t=1618919209;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Dtx1HpslgLwDNo+cZrr6/lfosvuJM0KIomZbB5ORQA8=;
+        b=HkhJYVjC5qKjtK3f1fOySWwq0XVV5Mv+BFcsoXnkftbxI9BUqcLllXXwJ4Z4n11d/3PQgD
+        baBDLB6wGna8pPgIuEA+8qCDDPIVaQfz3784UN+oLQ8dNkylxRaDUAajauOha8bt1bjf1W
+        hwifVM8vCIM1C4cGxvZZKC6oLU6Iiww=
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05lp2110.outbound.protection.outlook.com [104.47.17.110])
+ (Using TLS) by relay.mimecast.com with ESMTP id
+ de-mta-35-JZg3QnJTPEubXxg26mwsqg-5; Tue, 20 Apr 2021 13:46:47 +0200
+X-MC-Unique: JZg3QnJTPEubXxg26mwsqg-5
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DPOUozchl8cljvcVEVsRyOicRIKrJg+T24zDf5di82fqCedrSb2pOAejtcNXiMsFpUlh1MXeY/sGtpyzrzGNUqq7pJ+sPMkEECGvIxzRRtyOBvIFCi3s+cojVsqJN1CYUnWLTIHdkI2TckiDrGG25B3nNA02/AEuQbbyHZannJ0cp9aXZziteXD34JBdUMI57mk3luWU+W60CMtfcfBv9HVxGbh66U7AWHfgtTbM5pACW5zCrAjAUytVmd7SIrilGe7tr71nUahUL7ZgsGUdvJEsb7p41D89kLmO5nsvPQ0gZiQpTBwt0z7aq/HNvrYilk7il0UZDvsFiVAlt/djmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZXBTMCgIrSY1cHuJ/Qcn642Fg/21QQ2PFDUiHYMpMbc=;
+ b=LkvrPewPDA6nlYK8IYhwR3PIOy07Y32udbZsINT4oVG9P3IqS9kNDizWE+sc/GHQJV2owwU7RhMKODOGFhNqabg3vMESN6oAcGRzzxC7Ll20bQfCuarQJCQi5kn6JceDAJDSe+wShDsLtIlNCETwQUSDCJdaT55kHpFDC6H0CL5akXodHthHXAUMZ3xo8jfxy+5kBi82NYt7o0Efvz5bBD21E8rGHFh9loJNwV3V2b8nDDGriGlbct202SXi8DWvecs/itgVEtwPIjQzKEiSTwDTjaJyg8slcvHgOL4MH1Tgm1WAUhjs3EXrhY/dREs3YsUqNz3Xtvt8f5buHY8GIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=suse.com;
+Received: from AM0PR04MB5650.eurprd04.prod.outlook.com (2603:10a6:208:128::18)
+ by AM0PR04MB4995.eurprd04.prod.outlook.com (2603:10a6:208:c4::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.19; Tue, 20 Apr
+ 2021 11:46:45 +0000
+Received: from AM0PR04MB5650.eurprd04.prod.outlook.com
+ ([fe80::756a:86b8:8283:733d]) by AM0PR04MB5650.eurprd04.prod.outlook.com
+ ([fe80::756a:86b8:8283:733d%6]) with mapi id 15.20.4042.024; Tue, 20 Apr 2021
+ 11:46:45 +0000
+From:   Varad Gautam <varad.gautam@suse.com>
+To:     linux-crypto@vger.kernel.org
+CC:     varad.gautam@suse.com, dhowells@redhat.com,
+        herbert@gondor.apana.org.au, davem@davemloft.net, vt@altlinux.org,
+        tianjia.zhang@linux.alibaba.com, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jarkko@kernel.org,
+        Ben Boeckel <me@benboeckel.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        bluescreen_avenger@verizon.net,
-        Greg KH <gregkh@linuxfoundation.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v4 0/9] drm: Support simple-framebuffer devices and
- firmware fbs
-Message-ID: <YH622Ri2YJbNfBdA@phenom.ffwll.local>
-References: <20210416090048.11492-1-tzimmermann@suse.de>
- <CAMuHMdWcC8O+UzQDQj7Bm4uK_myjFT5D2ccTmneTJYi4SMfCRQ@mail.gmail.com>
- <YH6U92Q71ntU6Z1R@phenom.ffwll.local>
- <CAMuHMdU7BXN0P29wqWo2w3BWr=vQ=UHZHUnfFbMC--29ZBph-w@mail.gmail.com>
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-security-module@vger.kernel.org (open list:SECURITY SUBSYSTEM)
+Subject: [PATCH v3 18/18] keyctl_pkey: Add pkey parameters saltlen and mgfhash for PSS
+Date:   Tue, 20 Apr 2021 13:41:23 +0200
+Message-ID: <20210420114124.9684-19-varad.gautam@suse.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210420114124.9684-1-varad.gautam@suse.com>
+References: <20210420114124.9684-1-varad.gautam@suse.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [95.90.93.216]
+X-ClientProxiedBy: PR3P189CA0083.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:b4::28) To AM0PR04MB5650.eurprd04.prod.outlook.com
+ (2603:10a6:208:128::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdU7BXN0P29wqWo2w3BWr=vQ=UHZHUnfFbMC--29ZBph-w@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from xps13.suse.de (95.90.93.216) by PR3P189CA0083.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:b4::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend Transport; Tue, 20 Apr 2021 11:46:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8162cf49-5add-4cd2-0022-08d903f1f968
+X-MS-TrafficTypeDiagnostic: AM0PR04MB4995:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR04MB4995CFAFB7ABC6311669343AE0489@AM0PR04MB4995.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:765;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fuNmE30MKCe5WhlZc2k90IeNafgIFeNIRqFA88btmyhfpKhaOBfEUIHKH4BSyFo2HqLN/wrK005gwGqye8lVtaaDC387QH5/JP2Z5X/Pp2k6PG9nH+dO7xlBYqKNfTkynl7lQIZTUT2y7cmNjU/VfwqC/S5DMLWLDmezBuxPprEdi752PV4OzlREAjJ/jiSTnrfdO6d0Q2YMy3sEmAV7ixXvWd15ndQ1vnJpUilIfmeQaLiSBqh875XHrzToI4s/kZ6kfYN70w0VwGixboGhknSlVoKRU9xQtUQ3zAqktGdziFSFOeekO6ShjpYqZswZvA2ARQGdHvjgcfym8PfIJfCN1QeEKgzje2ymVHgZJSD69cCe+TWCd9h9B/BCewPcogvodKueg/7gfgtKeuSqCCqDFm8Y7ShvzR+L1RFATFzrAXoCfBHJDh8j3uYF6ucsfLAflfkOuE7Xs5o4WzF1+hZX01fnGYQChyDBGX7zgOYJzNKK8V1By6ZRBTz1AvgXUW0c1UeLHlHNDu4kk+Yj2r25imZLKQkHXOXb8qBAxL5GyjaxlG0zoWZUC1bGIcAnzQ/89zzwAA20vTaMz5razyMW6BukrUpikegrl7h6yUuljDd1Vh4J6lqItJJ9EIpItcUZGfiKWdvhsqKunPrA1g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5650.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(376002)(39850400004)(366004)(136003)(316002)(8936002)(83380400001)(6512007)(6486002)(52116002)(26005)(956004)(6506007)(54906003)(8676002)(16526019)(2616005)(7416002)(6916009)(478600001)(44832011)(4326008)(38100700002)(186003)(2906002)(66556008)(86362001)(66476007)(38350700002)(5660300002)(66946007)(1076003)(6666004)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?8D/zJbXtArmduRmpk9vkopRxsDcPL4JuRvXKvLjEgA18ukf6rOMd7OsZoIWj?=
+ =?us-ascii?Q?iWkrshckotpuzxhXh1qLeTeR37iVo+EN1twxtBOxBzy/+PzJgHHdOVQV8u63?=
+ =?us-ascii?Q?V6mNNtbsb7SsIz8ryeCwMFFqoRNOEGyNVnIdhSGlkfFNSEka/r30EZPC8jRB?=
+ =?us-ascii?Q?Sb6GyEIOgS2COy4Wg980YrjIQJIiRcivG9GEUYWQAdgp0VHDE8inA8+49QAP?=
+ =?us-ascii?Q?m+SzcejBWL+ZlrdXc3xKgSynl9XTfewQeAl9zbZryifB8mx+AZE+Mv/xa3kq?=
+ =?us-ascii?Q?Cz37LeWt5IRa+tzWNN/dSUZtwQ2FQlP6aS+8aE0rw3TqpP8u+rwauO9Lkb+h?=
+ =?us-ascii?Q?wRvZNqalsJPqa180yDOs5C6pbMgNaq/KcdPVEStXosOnZOrq6jiXREQsd96Q?=
+ =?us-ascii?Q?qk0zHqijosny1BBA62NzgzSRpiSc/iSF9SniPZZ0vrAU2twIoe+Miskn2D1z?=
+ =?us-ascii?Q?meby1otJaUvow6J5dzVGMLWhGu//xB+bCJySQh+alrY+JBnhix4qnxs1r9um?=
+ =?us-ascii?Q?OQvmOR5oDxU8ELHYg2Ct/FPhim6dzNapTu6JpOEodKfzsYXLvazOfYv6F+xq?=
+ =?us-ascii?Q?QeINwxZQeqQ0G8ccYbxeTK/DJsBtUM0tjjJGvGACx5iA7DMWxupOaXlFTUYV?=
+ =?us-ascii?Q?TjKU6rbww/NE8wqkjkjTax5iO0Rpy6QrGx1GH4jKxOMI4UNpIactor/sZZkz?=
+ =?us-ascii?Q?eiKlQzRj5kK5upL83p9QRXtnn16EPTU4vY8WsDj9PXumsmtrlMaIY94EpPS6?=
+ =?us-ascii?Q?GaEQ0LR0nMoMc0oOCc/848QM7SDEBd4zMGDviQR6zdADTBd3r5j0TTuE4VsJ?=
+ =?us-ascii?Q?Xe6OIxJrldBWRgl4I3oFvllXxGp9yEWcgEoKcx9VTgl9Iz1yl8CTiNcKw/IX?=
+ =?us-ascii?Q?/3JeoquhD3/6PHAIQupxI9rIx5wjLa5P+uRaydMRSiNGXBBGBJZc+gj5XVIu?=
+ =?us-ascii?Q?oSQJ16U116CnHB2TDXqrkrPj8H0KSsON7qVMkqy6LNBTSUWrDwvsIwOtNLHq?=
+ =?us-ascii?Q?YLY3UNlMbmcmBu2YRelHUT3pUfGZho3KT2pWQUS/sp5HHMUTuVbHsXQtwfsW?=
+ =?us-ascii?Q?PzqXunIcFBupozmHOtR8TMMJPcVsJMa4NwzPgisshqqi+vAszXPwohFpS/YL?=
+ =?us-ascii?Q?k1KITDxzYd5KcJsb9Z80RBh0hpBHm4trIs/5Q8LdoziqrlQfLeRjN6I2cUjN?=
+ =?us-ascii?Q?dj/hdf6LHCDNZF3SwHiyuQGktNDR2jiB+0F/6sYwGW2kCwGmupqB1c0TRnQL?=
+ =?us-ascii?Q?B+ARgTfQPJQM+7OhX4BOp6Bt0FO9ABcVDQH/1hEW4T62f8HLUAsEB0Hgw3dL?=
+ =?us-ascii?Q?abh63+OEtffHKGW9g89g0IXI?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8162cf49-5add-4cd2-0022-08d903f1f968
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB5650.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2021 11:46:45.7009
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k31+wdv5d1mVNKQu2RNfaiKKgJnwDuHMRlNFXzI/XhugZZl2maVW92YAa7lSXgFey7ctSXBykdgOz+hhga48OQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB4995
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 20, 2021 at 11:16:09AM +0200, Geert Uytterhoeven wrote:
-> Hi Daniel,
-> 
-> On Tue, Apr 20, 2021 at 10:46 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Mon, Apr 19, 2021 at 10:00:56AM +0200, Geert Uytterhoeven wrote:
-> > > On Fri, Apr 16, 2021 at 11:00 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > > This patchset adds support for simple-framebuffer platform devices and
-> > > > a handover mechanism for native drivers to take-over control of the
-> > > > hardware.
-> > > >
-> > > > The new driver, called simpledrm, binds to a simple-frambuffer platform
-> > > > device. The kernel's boot code creates such devices for firmware-provided
-> > > > framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
-> > > > loader sets up the framebuffers. Description via device tree is also an
-> > > > option.
-> > >
-> > > I guess this can be used as a replacement for offb, too...
-> > >
-> > > > Patches 4 to 8 add the simpledrm driver. It's build on simple DRM helpers
-> > > > and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
-> > >
-> > > .... if support for 8-bit frame buffers would be added?
-> >
-> > Is that 8-bit greyscale or 8-bit indexed with 256 entry palette? Former
-> 
-> 8-bit indexed with 256 entry palette.
-> 
-> > shouldn't be a big thing, but the latter is only really supported by the
-> > overall drm ecosystem in theory. Most userspace assumes that xrgb8888
-> > works, and we keep that illusion up by emulating it in kernel for hw which
-> > just doesn't support it. But reformatting xrgb8888 to c8 is tricky at
-> > best. The uapis are all there for setting the palette, and C8 is a defined
-> > format even with atomic kms interface, but really there's not much
-> > userspace for it. In other words, it would work as well as current offb
-> > would, but that's at least that.
-> 
-> Oh, that's good to know!
-> Does this mean fbdev is not deprecated for anything <= C8? ;-)
+keyctl pkey_* operations accept enc and hash parameters at present.
+RSASSA-PSS signatures also require passing in the signature salt
+length and the mgf hash function.
 
-Nope. It just means you wont be able to use drm-only userspace with it
-most likely, without also investing a ton of effort into porting those
-over.
+Add parameters:
+- 'saltlen' to feed in salt length of a PSS signature.
+- 'mgfhash' to feed in the hash function used for MGF.
 
-> A while ago, I was looking into converting an fbdev driver to drm, and
-> one of the things I ran into is lack of C4, C2, C1, Y8, Y4, Y2, and
-> monochrome support.  On top of that, lots of internal code seems to
-> assume pixels are never smaller than a byte (thus ignoring
-> char_per_block[]/block_w).  The lack of support for planar modes isn't
-> that bad, combined with the need for copying, as c2p conversion can be
-> done while copying, thus even making life easier for userspace
-> applications that can just always work on chunky data.
-> Then real work kicked in, before I got anything working...
+Signed-off-by: Varad Gautam <varad.gautam@suse.com>
+CC: Jarkko Sakkinen <jarkko@kernel.org>
+CC: Ben Boeckel <me@benboeckel.net>
+---
+v3: Rename slen to saltlen, update Documentation/security/keys/core.rst.
 
-We support drm_fourcc, so adding more pixel formats is not problem at all.
-Anything indexed/paletted will simply not work great with unchanged drm
-userspace, because you can't really convert it over from the common
-denominator of xrgb888. But if it's just about adding support, adding more
-fourcc codes isn't a big deal. The fbdev layer hasn't been taught about
-fourcc codes yet, but that's also just for lack of need by anyone.
+ Documentation/security/keys/core.rst     | 14 +++++++++++++-
+ crypto/asymmetric_keys/asymmetric_type.c |  2 ++
+ include/linux/keyctl.h                   |  2 ++
+ security/keys/keyctl_pkey.c              | 13 +++++++++++++
+ 4 files changed, 30 insertions(+), 1 deletion(-)
 
-Also we support abitrary uneven pixel packing too, with some generic
-support for anything that's at least somewhat regular. That's been the
-case for a while now. It was added for fancy tiling and compression
-formats, but works equally well for anything else that's aligned different
-than what can be described with simplistic bytes-per-pixel only.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+diff --git a/Documentation/security/keys/core.rst b/Documentation/security/=
+keys/core.rst
+index b3ed5c581034c..4bd774c56899e 100644
+--- a/Documentation/security/keys/core.rst
++++ b/Documentation/security/keys/core.rst
+@@ -1022,6 +1022,15 @@ The keyctl syscall functions are:
+ 			which hash function was used, the hash function can be
+ 			specified with this, eg. "hash=3Dsha256".
+=20
++	``mgfhash=3D<algo>`` In case of "RSASSA-PSS" ("enc=3Dpss"), this specifie=
+s
++			the hash function used with the Mask Generation Function
++			to generate a signature, eg. "mgfhash=3Dsha256". Supported
++			hashes are: sha1, sha224, sha256, sha384, and sha512.
++
++	``saltlen=3D<salt_length>`` In case of "RSASSA-PSS" ("enc=3Dpss"), this
++			specifies the salt length as a u16, used to generate a
++			signature. Eg. "saltlen=3D32".
++
+      The ``__spare[]`` space in the parameter block must be set to 0.  Thi=
+s is
+      intended, amongst other things, to allow the passing of passphrases
+      required to unlock a key.
+@@ -1700,6 +1709,8 @@ The structure has a number of fields, some of which a=
+re mandatory:
+ 			__u32	in2_len;
+ 		};
+ 		enum kernel_pkey_operation op : 8;
++		__u16		salt_len;
++		const char	*mgf_hash_algo;
+ 	};
+=20
+      This includes the key to be used; a string indicating the encoding to=
+ use
+@@ -1707,7 +1718,8 @@ The structure has a number of fields, some of which a=
+re mandatory:
+      RSASSA-PKCS1-v1.5 or RSAES-PKCS1-v1.5 encoding or "raw" if no encodin=
+g);
+      the name of the hash algorithm used to generate the data for a signat=
+ure
+      (if appropriate); the sizes of the input and output (or second input)
+-     buffers; and the ID of the operation to be performed.
++     buffers; the ID of the operation to be performed; salt length to be u=
+sed
++     in case of RSASSA-PSS; and hash algorithm used with MGF for RSASSA-PS=
+S.
+=20
+      For a given operation ID, the input and output buffers are used as
+      follows::
+diff --git a/crypto/asymmetric_keys/asymmetric_type.c b/crypto/asymmetric_k=
+eys/asymmetric_type.c
+index ad8af3d70ac04..2d3419509ec35 100644
+--- a/crypto/asymmetric_keys/asymmetric_type.c
++++ b/crypto/asymmetric_keys/asymmetric_type.c
+@@ -571,6 +571,8 @@ static int asymmetric_key_verify_signature(struct kerne=
+l_pkey_params *params,
+ 		.hash_algo	=3D params->hash_algo,
+ 		.digest		=3D (void *)in,
+ 		.s		=3D (void *)in2,
++		.salt_length	=3D params->salt_len,
++		.mgf_hash_algo	=3D params->mgf_hash_algo,
+ 	};
+=20
+ 	return verify_signature(params->key, &sig);
+diff --git a/include/linux/keyctl.h b/include/linux/keyctl.h
+index 5b79847207ef2..b0122ac6e11c9 100644
+--- a/include/linux/keyctl.h
++++ b/include/linux/keyctl.h
+@@ -37,6 +37,8 @@ struct kernel_pkey_params {
+ 		__u32	in2_len;	/* 2nd input data size (verify) */
+ 	};
+ 	enum kernel_pkey_operation op : 8;
++	__u16		salt_len;
++	const char	*mgf_hash_algo;
+ };
+=20
+ #endif /* __LINUX_KEYCTL_H */
+diff --git a/security/keys/keyctl_pkey.c b/security/keys/keyctl_pkey.c
+index 5de0d599a2748..019f112474dcd 100644
+--- a/security/keys/keyctl_pkey.c
++++ b/security/keys/keyctl_pkey.c
+@@ -24,11 +24,15 @@ enum {
+ 	Opt_err,
+ 	Opt_enc,		/* "enc=3D<encoding>" eg. "enc=3Doaep" */
+ 	Opt_hash,		/* "hash=3D<digest-name>" eg. "hash=3Dsha1" */
++	Opt_saltlen,		/* "saltlen=3D<salt-length>" eg. "saltlen=3D32" */
++	Opt_mgfhash,		/* "mgfhash=3D<digest-name>" eg. "mgfhash=3Dsha1" */
+ };
+=20
+ static const match_table_t param_keys =3D {
+ 	{ Opt_enc,	"enc=3D%s" },
+ 	{ Opt_hash,	"hash=3D%s" },
++	{ Opt_saltlen,	"saltlen=3D%u" },
++	{ Opt_mgfhash,	"mgfhash=3D%s" },
+ 	{ Opt_err,	NULL }
+ };
+=20
+@@ -63,6 +67,15 @@ static int keyctl_pkey_params_parse(struct kernel_pkey_p=
+arams *params)
+ 			params->hash_algo =3D q;
+ 			break;
+=20
++		case Opt_saltlen:
++			if (kstrtou16(q, 0, &params->salt_len))
++				return -EINVAL;
++			break;
++
++		case Opt_mgfhash:
++			params->mgf_hash_algo =3D q;
++			break;
++
+ 		default:
+ 			return -EINVAL;
+ 		}
+--=20
+2.30.2
+
