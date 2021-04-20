@@ -2,118 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3E62C43600
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 00:01:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFE9C43460
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 00:24:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BB7661354
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 00:01:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26D336135F
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 00:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232760AbhDTACI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 20:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59324 "EHLO
+        id S229999AbhDTAZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 20:25:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232527AbhDTACH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 20:02:07 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E6EFC06174A;
-        Mon, 19 Apr 2021 17:01:37 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id o5so37770336qkb.0;
-        Mon, 19 Apr 2021 17:01:37 -0700 (PDT)
+        with ESMTP id S229884AbhDTAZT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 20:25:19 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74AADC06138B
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 17:24:48 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id u25so3152735ljg.7
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 17:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2dNsqeGv2CjMAPvl9VxW5Vyc9Hyz/R+VIVig8yMnDck=;
-        b=Z2ZTfD+JpoBTssxkLMiPLdClzlrctpjggkVNnx0dCA7dTToOxMZxNyOII8HB26xsq5
-         tLVtg/tlVgSKbLzl2THozeAu0WTSTk5N7Qkd3jS0uVsEvHLocrqKQB8YVFD7DAAI6EYG
-         14ZhLoPGyoOB8Or6GypLqg8L905dxpekkA2fhRxld0LX7YSKLj4N9PZdVXq7cFsXnhfI
-         ZDvPW1zctUkCma2JwEv7z17tzmVMKYevyD4ylwq6jpuNlsWoY6Un2Srgrymx4yNwEn3h
-         4ux6SRYOECy52PPBka67LbQ+i6wTpp/hRAb3rdxSy+95z/0IeYpJXbzD+NYvV+g5H/Nt
-         wBow==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=FOsh3q0zxk4YO7I+1lA0GntuHcG2gh7NQXhaPukL/Mk=;
+        b=CoROqzssO42bQLqB6Rp8HopASoqkxTL5Lm2RfjSKld7xisl+V2Gbk3AO6vM4JzkdRI
+         7/bT4Hc0FhO+oUpZBbI3ETrfoixdNF0YZ2Ot1snmGj41r+v7P4MnbmNNIvDyP4HkXQi4
+         0ezICMAFt//RtS6SAEmMmnHQoRQXDWCi/r0cTvi63f80u8AKKqL38tod6F11ZAUc5Yhh
+         JVvJJkPdu2MX38h5FOqWPpU9SsWgW505gntYganD/ZpNPwZ1DLlGIpTQR2T09x5tK1qN
+         4mHRdzqo+xqGoNrjTwFPYvQ1oAtGPK3kY4952Y24iMMU10cQcZGbEv1upHPEYYoyxz3k
+         T5/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2dNsqeGv2CjMAPvl9VxW5Vyc9Hyz/R+VIVig8yMnDck=;
-        b=dm7ij4opyCbkR7oDFtE0ghUyeSqkMeanhZ9625iQJWgPNt6itSZv/SOJd5j8jig7fE
-         z/DIg7srLkPJooAJO4OpuDBuqJzIqc6FqQ01+nFvQybk4BjZA+xyn3rV91VduPNe8Xk2
-         H4xGjf7KtqLhewYvoakirHFEHIS74g4WcgE9eak2/Q2Sm4IzMQeLN+qkStWAprhXij1J
-         kroxIVBpPULAYAgv+knQhu8O0wqi2TXpj7uS3UGbqK8hyy4dfZfwGxU+I3GCbbGXONGs
-         FJIfsbn3ipD3h651Kt12Jajv7yCOno0PFDYyF1s2bsHx4PTM1GAy5xwz6EidDBIjLR8G
-         rijg==
-X-Gm-Message-State: AOAM531mAAfNVukmBmc6hzzqGHw0xicGT93cYi1ty+jH/nLFsUxQnN3q
-        y9r3Hnm8pH/G/hyGwX85gAi2cxJZXB0=
-X-Google-Smtp-Source: ABdhPJx7tyWynZK0k4yh68/qfQE4XWe9FMG5MBiP5D/eiR1cGPghkGtEfumVUhD2jFc/ILzy+a72Nw==
-X-Received: by 2002:a05:620a:a19:: with SMTP id i25mr2028337qka.416.1618876896413;
-        Mon, 19 Apr 2021 17:01:36 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
-        by smtp.gmail.com with ESMTPSA id b23sm229838qtp.17.2021.04.19.17.01.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 17:01:36 -0700 (PDT)
-From:   Yury Norov <yury.norov@gmail.com>
-To:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Yury Norov <yury.norov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH 2/2] rcu/tree_plugin: don't handle the case of 'all' CPU range
-Date:   Mon, 19 Apr 2021 17:01:31 -0700
-Message-Id: <20210420000131.21038-3-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210420000131.21038-1-yury.norov@gmail.com>
-References: <20210420000131.21038-1-yury.norov@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=FOsh3q0zxk4YO7I+1lA0GntuHcG2gh7NQXhaPukL/Mk=;
+        b=mkDB4C+Ib2xZaHbs3z7e4ZX35LOCsl25ehKa2B8wY5XAHHAHKMDA29q6a9Amg68dqc
+         zrs/OoD0/OGsEwTlEnKgIxuPyKAl4cw+/LsQFUXNy7sDV8ovxhnnjBra2iXUi5PiZs9O
+         fmLS7jFm+/BFO7+vmYZLbJuf7JGSnTNsIah+m6cJTkBeEUPayTk3Xv3lfr7sQKdHq5Sz
+         /sNCNLbM5ZjOHZNNZLqAQcrkMzLQCirDNSN/5FXQtaSnCdDOYOVTBBXPwZmdNwkzFyv7
+         ZwcBS5ybUqMBGepRpSBOGN6FU7E9DXpNSjJyFmagY7iLZFuEJjNdq2g6phBvY3XN0Qjb
+         egpw==
+X-Gm-Message-State: AOAM530dCreDNjxdWppQDZrka0f8JAEtWVjqvQlcdLMEiiShX6DaOkIZ
+        sEOaanzOiFwcxamjS36edzlEc8jWasaKUevpjpqy+w==
+X-Google-Smtp-Source: ABdhPJz5Js93YB2ex6G5WNbE1/JafHIcRDNChV3k45O5qMc5EmJ6/0INhkRfhrXeFh9c/TVfqqalk/EfusqMT2bjFbw=
+X-Received: by 2002:a2e:9cc1:: with SMTP id g1mr11473192ljj.0.1618878286604;
+ Mon, 19 Apr 2021 17:24:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210414184604.23473-1-ojeda@kernel.org> <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+ <YHmMJWmzz2vZ3qQH@google.com> <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
+ <YHmuX1NA5RF7C7XS@google.com> <20210416161444.GA10484@1wt.eu>
+ <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com> <20210416173717.GA10846@1wt.eu>
+In-Reply-To: <20210416173717.GA10846@1wt.eu>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 19 Apr 2021 17:24:33 -0700
+Message-ID: <CAKwvOd=RadTs7Skv6KUBo4qZQtdi0kugTzxvZM+5X_2gstjyaQ@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 'all' semantics is now supported by the bitmap_parselist() so we can
-drop supporting it as a special case in RCU code. This patch does not
-add any functional changes for existing users.
+On Fri, Apr 16, 2021 at 10:39 AM Willy Tarreau <w@1wt.eu> wrote:
+>
+> resources usage, I'm really not convinced at all it's suited for
+> low-level development. I understand the interest of the experiment
+> to help the language evolve into that direction, but I fear that
+> the kernel will soon be as bloated and insecure as a browser, and
+> that's really not to please me.
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- kernel/rcu/tree_plugin.h | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Dunno, I don't think the introduction of Rust made Firefox _more_ insecure.
+https://wiki.mozilla.org/Oxidation#Within_Firefox
 
-diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
-index 464b16132866..334eaf4d561f 100644
---- a/kernel/rcu/tree_plugin.h
-+++ b/kernel/rcu/tree_plugin.h
-@@ -1511,13 +1511,10 @@ static void rcu_cleanup_after_idle(void)
- static int __init rcu_nocb_setup(char *str)
- {
- 	alloc_bootmem_cpumask_var(&rcu_nocb_mask);
--	if (!strcasecmp(str, "all"))		/* legacy: use "0-N" instead */
-+	if (cpulist_parse(str, rcu_nocb_mask)) {
-+		pr_warn("rcu_nocbs= bad CPU range, all CPUs set\n");
- 		cpumask_setall(rcu_nocb_mask);
--	else
--		if (cpulist_parse(str, rcu_nocb_mask)) {
--			pr_warn("rcu_nocbs= bad CPU range, all CPUs set\n");
--			cpumask_setall(rcu_nocb_mask);
--		}
-+	}
- 	return 1;
- }
- __setup("rcu_nocbs=", rcu_nocb_setup);
--- 
-2.25.1
+I pray no executives ever see Dmitry Vyukov's 2019 Linux Plumbers Conf
+talk "Reflections on kernel quality, development process and testing."
+https://www.youtube.com/watch?v=3DiAfrrNdl2f4
+or his 2018 Linux Security Summit talk "Syzbot and the Tale of
+Thousand Kernel Bugs" https://www.youtube.com/watch?v=3DqrBVXxZDVQY
+(and they're just fuzzing the syscall interface and USB devices.
+Imagine once folks can more easily craft malformed bluetooth and wifi
+packets.)
 
+I'd imagine the first term that comes to mind for them might be
+"liability."  They are quite sensitive to these vulnerabilities with
+silly names, logos, and websites.  There are many of us that believe
+an incremental approach of introducing a memory safe language to our
+existing infrastructure at the very least to attempt to improve the
+quality of drivers for those that choose to use such tools is a better
+approach.
+
+I think a lot of the current discussion picking nits in syntax, format
+of docs, ease of installation, or theoretical memory models for which
+no language (not even the one the kernel is implemented in) provides
+all rightly should still be added to a revised RFC under "Why not
+[Rust]?" but perhaps are severely overlooking the benefits.  A
+tradeoff for sure though.
+
+Really, a key point is that a lot of common mistakes in C are compile
+time errors in Rust. I know no "true" kernel dev would make such
+mistakes in C, but is there nothing we can do to help our peers
+writing drivers?  The point is to transfer cost from runtime to
+compile time to avoid costs at runtime; like all of the memory safety
+bugs which are costing our industry.
+
+Curiously recurring statistics:
+https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are=
+-memory-safety-issues/
+"Microsoft security engineer Matt Miller said that over the last 12
+years, around 70 percent of all Microsoft patches were fixes for
+memory safety bugs."
+
+https://www.chromium.org/Home/chromium-security/memory-safety
+"The Chromium project finds that around 70% of our serious security
+bugs are memory safety problems."
+
+https://security.googleblog.com/2021/01/data-driven-security-hardening-in.h=
+tml
+(59% of Critical and High severity vulnerabilities fixed in Android
+Security Bulletins in 2019 are classified as "Memory," FWIW)
+
+https://hacks.mozilla.org/2019/02/rewriting-a-browser-component-in-rust/
+"If we=E2=80=99d had a time machine and could have written this component i=
+n
+Rust from the start, 51 (73.9%) of these bugs would not have been
+possible."
+--
+Thanks,
+~Nick Desaulniers
