@@ -2,73 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 981AFC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 13:12:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3150C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 13:26:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 539F861155
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 13:12:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79D27601FF
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 13:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232274AbhDTNMw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 09:12:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52398 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231526AbhDTNMr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Apr 2021 09:12:47 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1618924334; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vykaM9tEUkeV2xKObiXIhcw191WRtCqc+lXXd12ZJPc=;
-        b=QuT3uYFy6+F+ujFCMb8AcOqOw4g+MbeHpFir5leS0ICaMCKOk+Po3wtSNBLPoDv7diIP9W
-        4YLZERO3q3I5xBbXL3ZrezFJLasYEy2hO3lwgwopX6jYHmO4fieBKBtrIbNm2ZFzTfKswE
-        QzNP6R1vlI5MfHRITEySf4d8edS1j/Q=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 7676FAF65;
-        Tue, 20 Apr 2021 13:12:14 +0000 (UTC)
-Date:   Tue, 20 Apr 2021 15:12:13 +0200
-From:   Michal Hocko <mhocko@suse.com>
+        id S230479AbhDTN1E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 09:27:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232427AbhDTN1C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 09:27:02 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F1AC06174A;
+        Tue, 20 Apr 2021 06:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=VMqaJi7cREgHvXbfYZgCh1yWGauQvsEM/bV4hsp9kpI=; b=oYIjeBNLDU0bKUDPhFNTmvYkZK
+        g53/qZBWtJ4qmFYmHlqWepJ0FmGFsoXKciINNRiOUsXrKlFjZxMU+5w86z4jSxEqdVbPnmwLQJ0I4
+        QblDiYLB0ZwNnoShTB7pzUIEqXQYgkP6X4VfyjOkT4iwAeZJ9TWj8wO0hT8FfHroUCas+dMT2M2kk
+        BJWxhpuqViQNbWdBRh3SdfIw1+tKOj6jQvkPldSdiuK85EtimYx4m7BGUuQKErPN7+RwkxAlIkcl7
+        X9j4UCHiBwcgWOXAuuLZ9tNy0AZfLZtuNUpnfVfa/yHcmS7mmP/2grQ86rdMiimTFItKK9SLzpvDe
+        sL0DA9ZA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lYqMg-00FCb5-Gr; Tue, 20 Apr 2021 13:25:08 +0000
+Date:   Tue, 20 Apr 2021 14:24:30 +0100
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Mike Rapoport <rppt@kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Eric Dumazet <eric.dumazet@gmail.com>,
+        Michal Hocko <mhocko@suse.com>,
         Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, netdev@vger.kernel.org
 Subject: Re: [PATCH v2] docs: proc.rst: meminfo: briefly describe gaps in
  memory accounting
-Message-ID: <YH7TLRgKLwp73oWG@dhcp22.suse.cz>
+Message-ID: <20210420132430.GB3596236@casper.infradead.org>
 References: <20210420121354.1160437-1-rppt@kernel.org>
- <YH7HNHJLZyQKqmir@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YH7HNHJLZyQKqmir@kernel.org>
+In-Reply-To: <20210420121354.1160437-1-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 20-04-21 15:21:08, Mike Rapoport wrote:
-> On Tue, Apr 20, 2021 at 03:13:54PM +0300, Mike Rapoport wrote:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> > 
-> > Add a paragraph that explains that it may happen that the counters in
-> > /proc/meminfo do not add up to the overall memory usage.
-> > 
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> Ooops, forgot to add Michal's Ack, sorry.
+On Tue, Apr 20, 2021 at 03:13:54PM +0300, Mike Rapoport wrote:
+> Add a paragraph that explains that it may happen that the counters in
+> /proc/meminfo do not add up to the overall memory usage.
 
-Let's make it more explicit
-Acked-by: Michal Hocko <mhocko@suse.com>
+... that is, the sum may be lower because memory is allocated for other
+purposes that is not reported here, right?
 
-Thanks!
--- 
-Michal Hocko
-SUSE Labs
+Is it ever possible for it to be higher?  Maybe due to a race when
+sampling the counters?
+
+>  Provides information about distribution and utilization of memory.  This
+> -varies by architecture and compile options.  The following is from a
+> -16GB PIII, which has highmem enabled.  You may not have all of these fields.
+> +varies by architecture and compile options. Please note that it may happen
+> +that the memory accounted here does not add up to the overall memory usage
+> +and the difference for some workloads can be substantial. In many cases there
+> +are other means to find out additional memory using subsystem specific
+> +interfaces, for instance /proc/net/sockstat for TCP memory allocations.
+
+How about just:
+
++varies by architecture and compile options.  The memory reported here
++may not add up to the overall memory usage and the difference for some
++workloads can be substantial. [...]
+
+But I'd like to be a bit more explicit about the reason, hence my question
+above to be sure I understand.
+
+
+It's also not entirely clear which of the fields in meminfo can be
+usefully summed.  VmallocTotal is larger than MemTotal, for example.
+But I know that KernelStack is allocated through vmalloc these days,
+and I don't know whether VmallocUsed includes KernelStack or whether I
+can sum them.  Similarly, is Mlocked a subset of Unevictable?
+
+There is some attempt at explaining how these numbers fit together, but
+it's outdated, and doesn't include Mlocked, Unevictable or KernelStack
