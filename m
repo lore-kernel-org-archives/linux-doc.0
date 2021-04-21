@@ -2,252 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1802C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 03:43:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B82CC433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 06:11:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B8756140D
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 03:43:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52E6261421
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 06:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234913AbhDUDnm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 23:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233874AbhDUDnm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 23:43:42 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68069C06138C
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 20:43:09 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id h15so9698563pfv.2
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 20:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KmKEWuh5kX+xwliBF/7UPbgNwt5vdw/WaIbOHk7+c2c=;
-        b=D7SzKgyrUNQwXWF1oBPoS5L/TdTX7IV6DZcj4o3bXAG/nI1PLwARVLHG05VNer8PrQ
-         LqQMbArJmBX7eFaejaAcIQ+iDUsJRbdJudzkznKNK9i5Pj3hwzk3PZ3XrBB612K+qNVW
-         5eOZ9jXYCAGMnI7SMy2msbQj7sxWn7Kbwb6IQHRN+1DnNysKm6li7qWZ8HbocKa5HKgy
-         9cwTk9BczWKoSi9OqrNCmmRzVETsKrujTohOO8EO5gyyhP8jrBrHibLeN8qoNfx3wYK+
-         5PuE0RuIe7cSKlOmBrSiRb8uRzi3YAmBRGLNr/JV5aGCt7oYM/N+jrwUD0Sa/mCRj6Xa
-         DZgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KmKEWuh5kX+xwliBF/7UPbgNwt5vdw/WaIbOHk7+c2c=;
-        b=dK/laMCuPmB4yGBX33+gSfPF9Nu8Pgh0uUwKFZWCuzIjPuMVZUOomIP5YLzIOvKn5a
-         YGxHxblqxQvIaKGKzgrCD9tSsElaUmAlsO+HhIQWq5B12JNEbJXx4nDngDcBI+R9r2Wu
-         NL7KQ4Ge4fCtdKH7/EncsjXsQv6bKGMyxuUMaPO8AgjOi/Rz2BH7yduPrbfm+mDmiQe8
-         UsSOgeFHUKESvi+XXatIl5qEXEhYXfV0sPNe/a3iTiz+H+CWaZ8opaRRwy7BYYpK5mcK
-         kxUiHWwyzU1sLvUVvQx3GcxN2YxoLjpqOh1DEBTz+mRDc4u0VgjQrNbaTt7zjGbOGTwP
-         a7aQ==
-X-Gm-Message-State: AOAM5301j8evNF6jB1jTUGTCeceDAY6U/VEqyp+JE4+CHb0Gim+UXbT0
-        S6GkuuDIPoFNUXzh8Nz+YJx9vA7cZRFnKjy+dKBjmw==
-X-Google-Smtp-Source: ABdhPJxJBozIBcM52f25VJKMAu9Q4Z49o+wvjiK79PClh8TFh0Gj5u1gwWUVmU2G1T3AbtNVtkTL5Fx4chmzwPXwWD4=
-X-Received: by 2002:a05:6a00:8c7:b029:20f:1cf4:d02 with SMTP id
- s7-20020a056a0008c7b029020f1cf40d02mr28230925pfu.49.1618976588944; Tue, 20
- Apr 2021 20:43:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210415084005.25049-1-songmuchun@bytedance.com>
- <20210415084005.25049-7-songmuchun@bytedance.com> <5f914142-009b-3bfc-9cb2-46154f610e29@oracle.com>
- <CAMZfGtV+_mNRumR1RBWiu6OOqhUsTZyBvp--39CJHEEFKMX5Eg@mail.gmail.com> <8de3d7a0-f100-5d50-fe54-b83af07570f4@oracle.com>
-In-Reply-To: <8de3d7a0-f100-5d50-fe54-b83af07570f4@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 21 Apr 2021 11:42:31 +0800
-Message-ID: <CAMZfGtWMSjYS_Xqb8qXfvzsQCZG7Vn2hUxpxiOqLrPXgy80Suw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v20 6/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
-        X86 ML <x86@kernel.org>, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
+        id S235501AbhDUGML (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Apr 2021 02:12:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43242 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231821AbhDUGMK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Apr 2021 02:12:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3F65661420;
+        Wed, 21 Apr 2021 06:11:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618985497;
+        bh=YhPOHuGJ/c29KhIGdQUtJ/biKTM/tPQx+TdNyvwGiJ8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VtD+/yB1oLQwLgsb+e9qbA5z47LcOQckXo0SDV/pEz0+sEJEArmwhncjlEnc2AgdM
+         lnLMn9wFn9RgtD5sLjVJGyPriC3VIccLZIgpxxPHLAGTQPSj9dEDEqncfR91faE6tE
+         R8iMlVFIp3++aD+rEmQ/GRuGULNUWRaC6ke8cORTWi2z/Q2MT4PrnOGNTLIl43rA2L
+         YzkyplhIpZ4ecEmPUrRU11rM09KJxnnx0FKKqDlR0fXviPVPIyUvUgORZpsgTUUrHL
+         qHkSNzkWvo8zl7L4VrPdPLmKVjZra5M4GgGBLboGl1eEeNcy0Y8onTLIaGmTNrQlgR
+         cE1EwTSCIcEzg==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Eric Dumazet <eric.dumazet@gmail.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
         Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org
+Subject: [PATCH v3] docs: proc.rst: meminfo: briefly describe gaps in memory accounting
+Date:   Wed, 21 Apr 2021 09:11:27 +0300
+Message-Id: <20210421061127.1182723-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 21, 2021 at 1:48 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 4/20/21 1:46 AM, Muchun Song wrote:
-> > On Tue, Apr 20, 2021 at 7:20 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
-> >>
-> >> On 4/15/21 1:40 AM, Muchun Song wrote:
-> >>> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> >>> index 0abed7e766b8..6e970a7d3480 100644
-> >>> --- a/include/linux/hugetlb.h
-> >>> +++ b/include/linux/hugetlb.h
-> >>> @@ -525,6 +525,7 @@ unsigned long hugetlb_get_unmapped_area(struct file *file, unsigned long addr,
-> >>>   *   code knows it has only reference.  All other examinations and
-> >>>   *   modifications require hugetlb_lock.
-> >>>   * HPG_freed - Set when page is on the free lists.
-> >>> + * HPG_vmemmap_optimized - Set when the vmemmap pages of the page are freed.
-> >>>   *   Synchronization: hugetlb_lock held for examination and modification.
-> >>
-> >> I like the per-page flag.  In previous versions of the series, you just
-> >> checked the free_vmemmap_pages_per_hpage() to determine if vmemmmap
-> >> should be allocated.  Is there any change in functionality that makes is
-> >> necessary to set the flag in each page, or is it mostly for flexibility
-> >> going forward?
-> >
-> > Actually, only the routine of dissolving the page cares whether
-> > the page is on the buddy free list when update_and_free_page
-> > returns. But we cannot change the return type of the
-> > update_and_free_page (e.g. change return type from 'void' to 'int').
-> > Why? If the hugepage is freed through a kworker, we cannot
-> > know the return value when update_and_free_page returns.
-> > So adding a return value seems odd.
-> >
-> > In the dissolving routine, We can allocate vmemmap pages first,
-> > if it is successful, then we can make sure that
-> > update_and_free_page can successfully free page. So I need
-> > some stuff to mark the page which does not need to allocate
-> > vmemmap pages.
-> >
-> > On the surface, we seem to have a straightforward method
-> > to do this.
-> >
-> > Add a new parameter 'alloc_vmemmap' to update_and_free_page() to
-> > indicate that the caller is already allocated the vmemmap pages.
-> > update_and_free_page() do not need to allocate. Just like below.
-> >
-> >    void update_and_free_page(struct hstate *h, struct page *page, bool atomic,
-> >            bool alloc_vmemmap)
-> >    {
-> >        if (alloc_vmemmap)
-> >            // allocate vmemmap pages
-> >    }
-> >
-> > But if the page is freed through a kworker. How to pass
-> > 'alloc_vmemmap' to the kworker? We can embed this
-> > information into the per-page flag. So if we introduce
-> > HPG_vmemmap_optimized, the parameter of
-> > alloc_vmemmap is also necessary.
-> >
-> > So it seems that introducing HPG_vmemmap_optimized is
-> > a good choice.
->
-> Thanks for the explanation!
->
-> Agree that the flag is a good choice.  How about adding a comment like
-> this above the alloc_huge_page_vmemmap call in dissolve_free_huge_page?
->
-> /*
->  * Normally update_and_free_page will allocate required vmemmmap before
->  * freeing the page.  update_and_free_page will fail to free the page
->  * if it can not allocate required vmemmap.  We need to adjust
->  * max_huge_pages if the page is not freed.  Attempt to allocate
->  * vmemmmap here so that we can take appropriate action on failure.
->  */
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-Thanks. I will add this comment.
+Add a paragraph that explains that it may happen that the counters in
+/proc/meminfo do not add up to the overall memory usage.
 
->
-> ...
-> >>> +static void add_hugetlb_page(struct hstate *h, struct page *page,
-> >>> +                          bool adjust_surplus)
-> >>> +{
-> >>
-> >> We need to be a bit careful with hugepage specific flags that may be
-> >> set.  The routine remove_hugetlb_page which is called for 'page' before
-> >> this routine will not clear any of the hugepage specific flags.  If the
-> >> calling path goes through free_huge_page, most but not all flags are
-> >> cleared.
-> >>
-> >> We had a discussion about clearing the page->private field in Oscar's
-> >> series.  In the case of 'new' pages we can assume page->private is
-> >> cleared, but perhaps we should not make that assumption here.  Since we
-> >> hope to rarely call this routine, it might be safer to do something
-> >> like:
-> >>
-> >>         set_page_private(page, 0);
-> >>         SetHPageVmemmapOptimized(page);
-> >
-> > Agree. Thanks for your reminder. I will fix this.
-> >
-> >>
-> >>> +     int nid = page_to_nid(page);
-> >>> +
-> >>> +     lockdep_assert_held(&hugetlb_lock);
-> >>> +
-> >>> +     INIT_LIST_HEAD(&page->lru);
-> >>> +     h->nr_huge_pages++;
-> >>> +     h->nr_huge_pages_node[nid]++;
-> >>> +
-> >>> +     if (adjust_surplus) {
-> >>> +             h->surplus_huge_pages++;
-> >>> +             h->surplus_huge_pages_node[nid]++;
-> >>> +     }
-> >>> +
-> >>> +     set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
-> >>> +
-> >>> +     /*
-> >>> +      * The refcount can possibly be increased by memory-failure or
-> >>> +      * soft_offline handlers.
-> >>> +      */
-> >>> +     if (likely(put_page_testzero(page))) {
-> >>
-> >> In the existing code there is no such test.  Is the need for the test
-> >> because of something introduced in the new code?
-> >
-> > No.
-> >
-> >> Or, should this test be in the existing code?
-> >
-> > Yes. gather_surplus_pages should be fixed. I can fix it
-> > in a separate patch.
-> >
-> > The possible bad scenario:
-> >
-> > CPU0:                           CPU1:
-> >                                 set_compound_page_dtor(HUGETLB_PAGE_DTOR);
-> > memory_failure_hugetlb
-> >   get_hwpoison_page
-> >     __get_hwpoison_page
-> >       get_page_unless_zero
-> >                                 put_page_testzero()
-> >
-> >   put_page(page)
-> >
-> >
-> > More details and discussion can refer to:
-> >
-> > https://lore.kernel.org/linux-doc/CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com/
-> >
->
-> Thanks you!  I did not remember that discussion.
->
-> It would be helpful to add a separate patch for gather_surplus_pages.
-> Otherwise, we have the VM_BUG_ON there and not in add_hugetlb_page.
->
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+v3:
+* Add sentense about counters overlap
+* Use wording suggested by Matthew
 
-Agree. Will do.
+v2: Link: https://lore.kernel.org/lkml/20210420121354.1160437-1-rppt@kernel.org
+* Add brief changelog
+* Fix typo
+* Update example about network memory usage according to Eric's comment at
 
-> --
-> Mike Kravetz
+https://lore.kernel.org/lkml/CANn89iKprp7WYeZy4RRO5jHykprnSCcVBc7Tk14Ui_MA9OK7Fg@mail.gmail.com
+
+v1: Link: https://lore.kernel.org/lkml/20210420085105.1156640-1-rppt@kernel.org
+ Documentation/filesystems/proc.rst | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 48fbfc336ebf..0a07a5025571 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -929,8 +929,15 @@ meminfo
+ ~~~~~~~
+ 
+ Provides information about distribution and utilization of memory.  This
+-varies by architecture and compile options.  The following is from a
+-16GB PIII, which has highmem enabled.  You may not have all of these fields.
++varies by architecture and compile options.  Some of the counters reported
++here overlap.  The memory reported by the non overlapping counters may not
++add up to the overall memory usage and the difference for some workloads
++can be substantial.  In many cases there are other means to find out
++additional memory using subsystem specific interfaces, for instance
++/proc/net/sockstat for TCP memory allocations.
++
++The following is from a 16GB PIII, which has highmem enabled.
++You may not have all of these fields.
+ 
+ ::
+ 
+-- 
+2.29.2
+
