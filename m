@@ -2,366 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5EDC43460
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 11:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8B45C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 11:49:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 519F0613CE
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 11:08:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 69F7B6143D
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 11:49:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234093AbhDULJF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Apr 2021 07:09:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235139AbhDULJB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Apr 2021 07:09:01 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CECA0C06138D
-        for <linux-doc@vger.kernel.org>; Wed, 21 Apr 2021 04:08:26 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id u25so8908134ljg.7
-        for <linux-doc@vger.kernel.org>; Wed, 21 Apr 2021 04:08:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5vsFMFaKIMkhP70S7ONG1ckJYw2FgvZBNb6u59s1fGc=;
-        b=ZBT06dLsvztfw1xjQmmB/pjvhgkf7DMWRfAgP5YYSnz2HDVhcMXMiNOAyBXCcOvoHa
-         V0kTOSdtqSAGODZ0r0EZCgc6Z3dGLyQWzrN/d1oU1BQmVR0wIAUcPZVNIa8Af9j1FPYM
-         ff+2+S64VEiFGOaBDRgn1ifYr0tUQy7DoZjcCO7OjYHB+8v5tfeiF2ddXgauIwV+uNQ4
-         rj1zLdAzdhSiJ40iHxbdOkQzvmD1ONghDlJzZ38ncJ/wqUjHrSUUeE0FpLhLP3aYZ23S
-         ATZ5Qgm4/Rry1sJhqvHJ2wj4ouR72yFt8EkiAUtTZQkqxiweqcS7wbvYsQSiNviJUs5+
-         QJ+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5vsFMFaKIMkhP70S7ONG1ckJYw2FgvZBNb6u59s1fGc=;
-        b=T9FDYEA9X0PWTjFsGXwjLPFVQWUjqCJokMsZyziYcL0sWHL8WpTmkLkZGSA92VzBIj
-         ZentBKzU/g+hLU8IO41qzY6DR6KFlyQCQA0/sPfWyB29WhubSu3JRzW1gQMYqgwfN8By
-         Z+u4u4SNgxBnSz29bfBbLaZbBdNlEwJP+/UU2mB8ihCAzbLbPYtU1Fy/jxHEi0vJmff1
-         ywdfXTySNWjGzAZxLyw4PuRbh+HRF9CHIV8w4oeQ+8S44hSdST5/YN0AAkg72YtXMech
-         AH5pHceD21pCsq4fovgR5Cnh1+42Sgkj5t3MbWTZ5UqKJW3NzKVhRYme9vueO/YyEV4s
-         1XbQ==
-X-Gm-Message-State: AOAM530W3zFq0Nl6aETL+ooQ6XjW+AfRYfLs1YweiEBH5Az/MqWTPDPL
-        6P183TFnmGvVkh/v0VjPOrHGPm/J58Hko/gRPvL55Q==
-X-Google-Smtp-Source: ABdhPJwaegw70cJJy3Edi5i/4oe70hllUJl1y43pJwLDxP0VjpQewritsMBNzP3BZVbcnnaGSvQftnnQmer4QqTg/zU=
-X-Received: by 2002:a2e:9741:: with SMTP id f1mr7648316ljj.226.1619003304914;
- Wed, 21 Apr 2021 04:08:24 -0700 (PDT)
+        id S237041AbhDULuN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Apr 2021 07:50:13 -0400
+Received: from mga17.intel.com ([192.55.52.151]:23349 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230516AbhDULuN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Apr 2021 07:50:13 -0400
+IronPort-SDR: 2LzjT24BGDcCIaYsvNOUW+MRu7HbPXy5XLyQoyxfXXC/oE6RWzwOJ8x+6AwCbEAXgtlFOjpc9I
+ z7NLFnoJc0aw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="175790771"
+X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
+   d="scan'208";a="175790771"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 04:49:39 -0700
+IronPort-SDR: LeZS64Dz8X1emN1lnLuT4RJTIMGqxPxWrV8dcRLsJPUquCcfnPkn4kCsw+wl4nh0/1yXmeRkVa
+ 7kbArOFiF2Hw==
+X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
+   d="scan'208";a="455313292"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 04:49:36 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lZBML-0062F7-Cn; Wed, 21 Apr 2021 14:49:33 +0300
+Date:   Wed, 21 Apr 2021 14:49:33 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v5 05/13] module: Add printk formats to add module build
+ ID to stacktraces
+Message-ID: <YIARTVqnN8t/FA/P@smile.fi.intel.com>
+References: <20210420215003.3510247-1-swboyd@chromium.org>
+ <20210420215003.3510247-6-swboyd@chromium.org>
 MIME-Version: 1.0
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
- <20210301131127.793707-2-sumit.garg@linaro.org> <65dcc9fa28833e6beb1eadf98b0ed3402404d693.camel@linux.ibm.com>
-In-Reply-To: <65dcc9fa28833e6beb1eadf98b0ed3402404d693.camel@linux.ibm.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Wed, 21 Apr 2021 16:38:13 +0530
-Message-ID: <CAFA6WYOzD-qhHrcnzvd9P7iFvEqWwf0NCKXrgrEgvnB5i_-SxQ@mail.gmail.com>
-Subject: Re: [PATCH v9 1/4] KEYS: trusted: Add generic trusted keys framework
-To:     James Bottomley <jejb@linux.ibm.com>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        Elaine Palmer <erpalmer@us.ibm.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210420215003.3510247-6-swboyd@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
+On Tue, Apr 20, 2021 at 02:49:55PM -0700, Stephen Boyd wrote:
+> Let's make kernel stacktraces easier to identify by including the build
+> ID[1] of a module if the stacktrace is printing a symbol from a module.
+> This makes it simpler for developers to locate a kernel module's full
+> debuginfo for a particular stacktrace. Combined with
+> scripts/decode_stracktrace.sh, a developer can download the matching
+> debuginfo from a debuginfod[2] server and find the exact file and line
+> number for the functions plus offsets in a stacktrace that match the
+> module. This is especially useful for pstore crash debugging where the
+> kernel crashes are recorded in something like console-ramoops and the
+> recovery kernel/modules are different or the debuginfo doesn't exist on
+> the device due to space concerns (the debuginfo can be too large for
+> space limited devices).
+> 
+> Originally, I put this on the %pS format, but that was quickly rejected
+> given that %pS is used in other places such as ftrace where build IDs
+> aren't meaningful. There was some discussions on the list to put every
+> module build ID into the "Modules linked in:" section of the stacktrace
+> message but that quickly becomes very hard to read once you have more
+> than three or four modules linked in. It also provides too much
+> information when we don't expect each module to be traversed in a
+> stacktrace. Having the build ID for modules that aren't important just
+> makes things messy. Splitting it to multiple lines for each module
+> quickly explodes the number of lines printed in an oops too, possibly
+> wrapping the warning off the console. And finally, trying to stash away
+> each module used in a callstack to provide the ID of each symbol printed
+> is cumbersome and would require changes to each architecture to stash
+> away modules and return their build IDs once unwinding has completed.
+> 
+> Instead, we opt for the simpler approach of introducing new printk
+> formats '%pS[R]b' for "pointer symbolic backtrace with module build ID"
+> and '%pBb' for "pointer backtrace with module build ID" and then
+> updating the few places in the architecture layer where the stacktrace
+> is printed to use this new format.
+> 
+> Example:
 
-On Wed, 21 Apr 2021 at 04:47, James Bottomley <jejb@linux.ibm.com> wrote:
->
-> On Mon, 2021-03-01 at 18:41 +0530, Sumit Garg wrote:
-> > Current trusted keys framework is tightly coupled to use TPM device
-> > as an underlying implementation which makes it difficult for
-> > implementations like Trusted Execution Environment (TEE) etc. to
-> > provide trusted keys support in case platform doesn't posses a TPM
-> > device.
-> >
-> > Add a generic trusted keys framework where underlying implementations
-> > can be easily plugged in. Create struct trusted_key_ops to achieve
-> > this, which contains necessary functions of a backend.
-> >
-> > Also, define a module parameter in order to select a particular trust
-> > source in case a platform support multiple trust sources. In case its
-> > not specified then implementation itetrates through trust sources
-> > list starting with TPM and assign the first trust source as a backend
-> > which has initiazed successfully during iteration.
-> >
-> > Note that current implementation only supports a single trust source
-> > at runtime which is either selectable at compile time or during boot
-> > via aforementioned module parameter.
->
-> You never actually tested this, did you?  I'm now getting EINVAL from
-> all the trusted TPM key operations because of this patch.
->
+Please, shrink the example to leave only meaningful lines.
 
-Unfortunately, I don't possess a development machine with a TPM
-device. So mine testing was entirely based on TEE as a backend which
-doesn't support any optional parameters. And that being the reason I
-didn't catch this issue at first instance.
+Why, e.g., do we need to see register dump, is it somehow different?
 
-Is there any TPM emulation environment available that I can use for testing?
+...
 
-> The reason is quite simple:  this function:
->
-> > index 000000000000..0db86b44605d
-> > --- /dev/null
-> > +++ b/security/keys/trusted-keys/trusted_core.c
-> [...]
-> > +static int datablob_parse(char *datablob, struct trusted_key_payload
-> > *p)
-> > +{
-> > +     substring_t args[MAX_OPT_ARGS];
-> > +     long keylen;
-> > +     int ret = -EINVAL;
-> > +     int key_cmd;
-> > +     char *c;
-> > +
-> > +     /* main command */
-> > +     c = strsep(&datablob, " \t");
->
-> Modifies its argument to consume tokens and separates them with NULL.
->
-> so the arguments for
->
-> keyctl add trusted kmk "new 34 keyhandle=0x81000001"
->
-> Go into this function as
->
-> datablob="new 34 keyhandle=0x81000001"
->
-> After we leave it, it looks like
->
-> datablob="new\034\0keyhandle=0x81000001"
->
-> However here:
->
-> > +static int trusted_instantiate(struct key *key,
-> > +                            struct key_preparsed_payload *prep)
-> > +{
-> > +     struct trusted_key_payload *payload = NULL;
-> > +     size_t datalen = prep->datalen;
-> > +     char *datablob;
-> > +     int ret = 0;
-> > +     int key_cmd;
-> > +     size_t key_len;
-> > +
-> > +     if (datalen <= 0 || datalen > 32767 || !prep->data)
-> > +             return -EINVAL;
-> > +
-> > +     datablob = kmalloc(datalen + 1, GFP_KERNEL);
-> > +     if (!datablob)
-> > +             return -ENOMEM;
-> > +     memcpy(datablob, prep->data, datalen);
-> > +     datablob[datalen] = '\0';
-> > +
-> > +     payload = trusted_payload_alloc(key);
-> > +     if (!payload) {
-> > +             ret = -ENOMEM;
-> > +             goto out;
-> > +     }
-> > +
-> > +     key_cmd = datablob_parse(datablob, payload);
-> > +     if (key_cmd < 0) {
-> > +             ret = key_cmd;
-> > +             goto out;
-> > +     }
-> > +
-> > +     dump_payload(payload);
-> > +
-> > +     switch (key_cmd) {
-> > +     case Opt_load:
-> > +             ret = static_call(trusted_key_unseal)(payload,
-> > datablob);
->
-> We're passing the unmodified
->
-> datablob="new\034\0keyhandle=0x81000001"
->
-> Into the tpm trusted_key_unseal function.  However, it only sees "new"
-> and promply gives EINVAL because you've removed the ability to process
-> the new option from it.  What should have happened is you should have
-> moved data blob up to passed the consumed tokens, so it actually reads
->
-> datablob="keyhandle=0x81000001"
->
-> However, to do that you'd have to have the updated pointer passed out
-> of your datablob_parse() above.
+> +#ifdef CONFIG_STACKTRACE_BUILD_ID
+> +	/* Module build ID */
+> +	unsigned char build_id[BUILD_ID_SIZE_MAX];
 
-Thanks for the detailed explanation.
+Is it really string of characters? Perhaps u8 will be more explicit.
 
->
-> There's also a lost !tpm2 in the check for options->keyhandle, but I
-> suspect Jarkko lost that merging the two patches.  I think what's below
-> fixes all of this, so if you can test it for trusted_tee, I'll package
-> it up as two separate patches fixing all of this.
->
+...
 
-Below fixes look good to me and I have tested them using TEE as a
-backend too. So feel free to add:
+> +#include <linux/kernel.h>
 
-Tested-by: Sumit Garg <sumit.garg@linaro.org>
+What do you need this header for?
 
--Sumit
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> James
->
-> ---
->
-> diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-> index ec3a066a4b42..7c636212429b 100644
-> --- a/security/keys/trusted-keys/trusted_core.c
-> +++ b/security/keys/trusted-keys/trusted_core.c
-> @@ -62,7 +62,7 @@ static const match_table_t key_tokens = {
->   *
->   * On success returns 0, otherwise -EINVAL.
->   */
-> -static int datablob_parse(char *datablob, struct trusted_key_payload *p)
-> +static int datablob_parse(char **datablob, struct trusted_key_payload *p)
->  {
->         substring_t args[MAX_OPT_ARGS];
->         long keylen;
-> @@ -71,14 +71,14 @@ static int datablob_parse(char *datablob, struct trusted_key_payload *p)
->         char *c;
->
->         /* main command */
-> -       c = strsep(&datablob, " \t");
-> +       c = strsep(datablob, " \t");
->         if (!c)
->                 return -EINVAL;
->         key_cmd = match_token(c, key_tokens, args);
->         switch (key_cmd) {
->         case Opt_new:
->                 /* first argument is key size */
-> -               c = strsep(&datablob, " \t");
-> +               c = strsep(datablob, " \t");
->                 if (!c)
->                         return -EINVAL;
->                 ret = kstrtol(c, 10, &keylen);
-> @@ -89,7 +89,7 @@ static int datablob_parse(char *datablob, struct trusted_key_payload *p)
->                 break;
->         case Opt_load:
->                 /* first argument is sealed blob */
-> -               c = strsep(&datablob, " \t");
-> +               c = strsep(datablob, " \t");
->                 if (!c)
->                         return -EINVAL;
->                 p->blob_len = strlen(c) / 2;
-> @@ -138,7 +138,7 @@ static int trusted_instantiate(struct key *key,
->  {
->         struct trusted_key_payload *payload = NULL;
->         size_t datalen = prep->datalen;
-> -       char *datablob;
-> +       char *datablob, *orig_datablob;
->         int ret = 0;
->         int key_cmd;
->         size_t key_len;
-> @@ -146,7 +146,7 @@ static int trusted_instantiate(struct key *key,
->         if (datalen <= 0 || datalen > 32767 || !prep->data)
->                 return -EINVAL;
->
-> -       datablob = kmalloc(datalen + 1, GFP_KERNEL);
-> +       orig_datablob = datablob = kmalloc(datalen + 1, GFP_KERNEL);
->         if (!datablob)
->                 return -ENOMEM;
->         memcpy(datablob, prep->data, datalen);
-> @@ -158,7 +158,7 @@ static int trusted_instantiate(struct key *key,
->                 goto out;
->         }
->
-> -       key_cmd = datablob_parse(datablob, payload);
-> +       key_cmd = datablob_parse(&datablob, payload);
->         if (key_cmd < 0) {
->                 ret = key_cmd;
->                 goto out;
-> @@ -194,7 +194,7 @@ static int trusted_instantiate(struct key *key,
->                 ret = -EINVAL;
->         }
->  out:
-> -       kfree_sensitive(datablob);
-> +       kfree_sensitive(orig_datablob);
->         if (!ret)
->                 rcu_assign_keypointer(key, payload);
->         else
-> @@ -218,7 +218,7 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
->         struct trusted_key_payload *p;
->         struct trusted_key_payload *new_p;
->         size_t datalen = prep->datalen;
-> -       char *datablob;
-> +       char *datablob, *orig_datablob;
->         int ret = 0;
->
->         if (key_is_negative(key))
-> @@ -229,7 +229,7 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
->         if (datalen <= 0 || datalen > 32767 || !prep->data)
->                 return -EINVAL;
->
-> -       datablob = kmalloc(datalen + 1, GFP_KERNEL);
-> +       orig_datablob = datablob = kmalloc(datalen + 1, GFP_KERNEL);
->         if (!datablob)
->                 return -ENOMEM;
->
-> @@ -241,7 +241,7 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
->
->         memcpy(datablob, prep->data, datalen);
->         datablob[datalen] = '\0';
-> -       ret = datablob_parse(datablob, new_p);
-> +       ret = datablob_parse(&datablob, new_p);
->         if (ret != Opt_update) {
->                 ret = -EINVAL;
->                 kfree_sensitive(new_p);
-> @@ -265,7 +265,7 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
->         rcu_assign_keypointer(key, new_p);
->         call_rcu(&p->rcu, trusted_rcu_free);
->  out:
-> -       kfree_sensitive(datablob);
-> +       kfree_sensitive(orig_datablob);
->         return ret;
->  }
->
-> diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-> index 4e5c50138f92..bc702ba0a596 100644
-> --- a/security/keys/trusted-keys/trusted_tpm1.c
-> +++ b/security/keys/trusted-keys/trusted_tpm1.c
-> @@ -747,6 +747,9 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
->
->         opt->hash = tpm2 ? HASH_ALGO_SHA256 : HASH_ALGO_SHA1;
->
-> +       if (!c)
-> +               return 0;
-> +
->         while ((p = strsep(&c, " \t"))) {
->                 if (*p == '\0' || *p == ' ' || *p == '\t')
->                         continue;
-> @@ -944,7 +947,7 @@ static int trusted_tpm_unseal(struct trusted_key_payload *p, char *datablob)
->                 goto out;
->         dump_options(options);
->
-> -       if (!options->keyhandle) {
-> +       if (!options->keyhandle && !tpm2) {
->                 ret = -EINVAL;
->                 goto out;
->         }
->
->
+
