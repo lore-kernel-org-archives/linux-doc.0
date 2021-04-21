@@ -3,75 +3,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58936C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 15:30:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C88BBC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 15:57:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 133C66144B
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 15:30:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C6BE6144E
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 15:57:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240940AbhDUPbL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Apr 2021 11:31:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54876 "EHLO mail.kernel.org"
+        id S241086AbhDUP6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Apr 2021 11:58:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44530 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240811AbhDUPbL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Apr 2021 11:31:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E7F3761445;
-        Wed, 21 Apr 2021 15:30:37 +0000 (UTC)
+        id S235524AbhDUP6V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Apr 2021 11:58:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 52D0D6144B;
+        Wed, 21 Apr 2021 15:57:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619019037;
-        bh=718R0mWssWWbm9DM0aJGix93KoNJSCbMgOXMmPJ0jgs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HxH5fExVY5G00Yaucsbs0LugLx0HsqMzgzRe+A5a2hzPz8TmXqjJMzHCTeADU0HkR
-         7RlxA/xY3oakYs+jK319pxC+xUr3/kJeHqdA5nXcXWGffWzGOjq7dLNdkkcJKzIXG+
-         +WExcd807ziYZQf81BKjyNGTaLRP8moTIObiHK8/w8ejsUhxy48R1C5doif/sjk5XG
-         KCO8Xz3oICFV5HeAMD6quZW5gN99gIoRKA1HniF+xwrYHGRvMuwgrd0MCXgQpxw3K/
-         5RzjihjAokusuvYbk+8MgkGT1tREp24kL3WIa8qR68aqU894uVAuQCcPIiCQbTzEsK
-         zEk7L8uFxThqw==
-Received: by mail-ed1-f46.google.com with SMTP id y3so13589823eds.5;
-        Wed, 21 Apr 2021 08:30:37 -0700 (PDT)
-X-Gm-Message-State: AOAM5304ZT1LY/DlbfDGykEOnHmH/ex61jA0KYaTStKZyuY+Y6CkVPV+
-        lJlmzW4xnjs1WnZ4bAVXUMRiRywDzMj61RYN2w==
-X-Google-Smtp-Source: ABdhPJy//f7FU1zXPNeSv6PF0tDqCIoFAQ6hiYnWTU1NluOr5ecodptHdhmZ4BdAMTUfU0qmmTi4/E9bUHTYpAsZ09Y=
-X-Received: by 2002:aa7:cd51:: with SMTP id v17mr39467692edw.137.1619019034404;
- Wed, 21 Apr 2021 08:30:34 -0700 (PDT)
+        s=k20201202; t=1619020668;
+        bh=GDHTx2Ati79aaQDh5rPmeZsQfiHr4Gx4DzLeFLm/spM=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=AEDzDw9opEABVJro9JzkhQbRoqsUaPeb59uxeK7aiFy+oHL7XlbFz2UJSOWu/mlgj
+         krG0UQ8vDS1K6j5RwShDOkp+dNS48k4qRz4blK1gsCNIo27iys2GGcvJ2Ybzxn2FKE
+         FYoTOCPyaQKEK/i/+lRNlOWdZovy+cwWe/ZDUyK2O23pRm51+gnw3CwRY71+c3mRYb
+         Owa+VwHzl/KSZMZZRR1eQWoP7yB0J7nlixwK5k3754PT3/zHnDVGRfPXJ5RrWza1VS
+         POfwsi5ABoN5qgkZhEHmsX4inFuaT/OL37lHHE0U609Mgci2sdzKOCttdtqw536mCC
+         ReHXt903vgWIw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 0FC4C5C0267; Wed, 21 Apr 2021 08:57:48 -0700 (PDT)
+Date:   Wed, 21 Apr 2021 08:57:48 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 1/2] bitmap_parse: support 'all' semantics
+Message-ID: <20210421155748.GU975577@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20210421031326.72816-1-yury.norov@gmail.com>
+ <20210421031326.72816-2-yury.norov@gmail.com>
+ <20210421111932.36665920@gandalf.local.home>
 MIME-Version: 1.0
-References: <20210421143124.17873-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20210421143124.17873-1-lukas.bulwahn@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 21 Apr 2021 10:30:22 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+ApYJxd2zGFy-XXBkXXYsBeZBjV55cYS_4R3+Ce4u2qg@mail.gmail.com>
-Message-ID: <CAL_Jsq+ApYJxd2zGFy-XXBkXXYsBeZBjV55cYS_4R3+Ce4u2qg@mail.gmail.com>
-Subject: Re: [PATCH] of: address recent kernel-doc warnings
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        devicetree@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210421111932.36665920@gandalf.local.home>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 21, 2021 at 9:31 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
->
-> Recently, make htmldocs reports these kernel-doc warnings:
->
->   warning: Function parameter or member 'output' not described in 'of_property_read_string_index'
->   warning: Excess function parameter 'out_string' description in 'of_property_read_string_index'
->   warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->     * Overlay support
->
-> Address those kernel-doc warnings by simple adjustment of the comments.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> applies cleanly on next-20210421
->
-> Rob, please pick this minor clean-up patch for the devicetree tree.
+On Wed, Apr 21, 2021 at 11:19:32AM -0400, Steven Rostedt wrote:
+> On Tue, 20 Apr 2021 20:13:25 -0700
+> Yury Norov <yury.norov@gmail.com> wrote:
+> 
+> > @@ -76,6 +76,11 @@ to change, such as less cores in the CPU list, then N and any ranges using N
+> >  will also change.  Use the same on a small 4 core system, and "16-N" becomes
+> >  "16-3" and now the same boot input will be flagged as invalid (start > end).
+> >  
+> > +The special case-tolerant group name "all" has a meaning of selecting all CPUs,
+> > +such that "isolcpus=all" is the equivalent of "isolcpus=0-N".
+> 
+> I'm OK with the concept of this patch set, but really? That is a horrible
+> example. One should NEVER set isolcpus to all!
 
-Already got a similar fix.
+How about "isolcpus=all:2/4"?  ;-)
+
+							Thanx, Paul
+
+> -- Steve
+> 
+> 
+> > +
+> > +The semantics of "N" and "all" is supported on a level of bitmaps and holds for
+> > +all users of bitmap_parse().
+> >  
