@@ -2,279 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C30C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 23:40:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 552B3C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 01:34:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 026406141A
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Apr 2021 23:40:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22B5561415
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 01:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234354AbhDTXlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 19:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
+        id S234442AbhDUBf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 21:35:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234442AbhDTXlF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 19:41:05 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8484C06174A
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 16:40:32 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id s16so35027136iog.9
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 16:40:32 -0700 (PDT)
+        with ESMTP id S231475AbhDUBf1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 21:35:27 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD713C06174A
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 18:34:53 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id h11so9465017pfn.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 18:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fgWXnAm5K+neiT/gTZszeD6IV/HEAXXB0Ki6E/5iwoE=;
-        b=Shv3OSWuEO9YdF2qaRdYXt8oe6JJgdn4ON977AMM1rMFMnWw4wt/6k1m68jLY6nLs/
-         nofYo+WYIITrUPi06juLCcHiHemO0TVH1kIZXwyzSMhRi/6O319n/0ruHXD1Jpx1wRKC
-         +6XK3PdmkQ7OG4KIuKmChjojNecLzUFegO0x0=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=CrandOQ7+aLDU0bvcDkjqLF9g0uhiDS+goUodsmyGKg=;
+        b=MteEXcitIJyIdZVrjWiJOt2RAtLy2DDrkISys7whrB9roWODNIDgLZv/o7YmQ8XHMv
+         Sw+6WwmqhEjRqyqCeTywvypYunxjuxlOXrI2gI5y3MVRx8xhByTUofnJHICDcwV05Imh
+         FpYj1W7/N2hE5oYQvjavzvbR4uv+QNAD+BJA8t2CM3WSZ23Xhry8oGKJcIolNQpsc8ZJ
+         rT2zH5d8woOxkyWKFVmXEmBSscgBy6Rg0a+nr08/csNacxoPKolxiaYtfIt0znQfKRug
+         auUMntQ58cwQKtCv/xrXGLnbbeQk0R3fK3st3un3ny6clnYOVEUVdsvbCYa4pNvuMp82
+         eFeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fgWXnAm5K+neiT/gTZszeD6IV/HEAXXB0Ki6E/5iwoE=;
-        b=oANk4UcaaHR4ogQ84TKKFwX4pZjN76j0PdY7/O6/NMuwywqblJ+3G2U3UTQ159z+LQ
-         Om1vrTHBRQMGNHrgpXoLzhUOGb/obBmq9Ad7L635dOm0fIiN+y0aEn5dRiddGX3tzVtB
-         0DWf58PrcFAqp1PnxgWkJiCHqgCCss62GHZp4G4S1GNcFJyiiJ7Begyg8S+Fni8eGoxI
-         mzdRHrIgrQzjzc9v0GnLG5PWcifaTOpVYVJqC25q0h7b664I1AV9sRzFDK7plYyCfLXI
-         WF71DsNUunC4DO646xPZi+lqUGYzm8qHUFs+eD1XbrdgHxyciufYPDHuAbXVu/CoW8/f
-         TFOw==
-X-Gm-Message-State: AOAM530kTFpL6EBDG0CxEvI99Q/FXNeKYgmtLvI2cF2vZrz12b1vubok
-        HL3syNyiXBG+aYCrLh0/HJRbPA==
-X-Google-Smtp-Source: ABdhPJwXSPUsZwcpCGfMhLrRjcZz7pUJKDN7e2coIvECoJ+GsaW10kjQ6DLyKuEQ7KHsmuf6k/ioOg==
-X-Received: by 2002:a6b:b48e:: with SMTP id d136mr11453669iof.47.1618962032076;
-        Tue, 20 Apr 2021 16:40:32 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id 1sm181125ilz.11.2021.04.20.16.40.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Apr 2021 16:40:31 -0700 (PDT)
-Subject: Re: [PATCH v3] Documentation: dev-tools: Add Testing Overview
-To:     David Gow <davidgow@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Marco Elver <elver@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     linux-doc@vger.kernel.org,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210415054036.581117-1-davidgow@google.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <2a35b57e-3261-8ebe-d9f3-66b3dedff756@linuxfoundation.org>
-Date:   Tue, 20 Apr 2021 17:40:30 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=CrandOQ7+aLDU0bvcDkjqLF9g0uhiDS+goUodsmyGKg=;
+        b=PmkkYn5O7y2CGhBoR7Tf7c+h3DHPR0RbaWyBCQOZnQCXlFqQOQrjd5xJvX97pWRSAw
+         QkdFcdrEWq00sTcYajabB7GogOl8DErBK5vFOFJkdHLegL/eZfoUXZ3vJgLMgMUTWsgp
+         NY5tIeykg9ryjzxOxZJH0xADYNjcJ5ThXMVhmM8kFDe3ntEeB3mq6VKZ74PIZ1QT85rW
+         IkCj1xGgUIC3GKWGoyDYIGBUwPrPJNIgihj18NWcueli+S//ywH02FpbprRqiGvjIKRD
+         AHt11IRsySdAk+BPFodwWxZTenM6M04rhnpQzqHXWQH4v6QjQ8I9zXbCvrwD1/78Levb
+         WomQ==
+X-Gm-Message-State: AOAM533L1RFaj6PjWFpuEfZ3LwxpFaDrcDdJHelAb9JLf/AIBkeKVLvk
+        8SgBADyzb2NT0KxpBE/5jYFHzbzT6X7H/xOlysU=
+X-Google-Smtp-Source: ABdhPJx2ifm+sFpxKCPhxeSa+qcOj0lwzPwM+ar6fxpv54oK2sHriSWTAwD0AKSrLAgAhsMMUOQkI3I/TuiyNJqscwY=
+X-Received: by 2002:a17:90a:b292:: with SMTP id c18mr8486254pjr.179.1618968893475;
+ Tue, 20 Apr 2021 18:34:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210415054036.581117-1-davidgow@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <cover.1618568135.git.siyanteng@loongson.cn> <87lf9cip3m.fsf@meer.lwn.net>
+In-Reply-To: <87lf9cip3m.fsf@meer.lwn.net>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Wed, 21 Apr 2021 09:34:44 +0800
+Message-ID: <CAMU9jJohxSfv4kKD8rCDqeXentA9Yqan0NVNR2JfYYD=aKmXWg@mail.gmail.com>
+Subject: Re: [PATCH v7 00/11] docs/zh_CN: add core api and openrisc translation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
+        "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng01@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/14/21 11:40 PM, David Gow wrote:
-> The kernel now has a number of testing and debugging tools, and we've
-> seen a bit of confusion about what the differences between them are.
-> 
-> Add a basic documentation outlining the testing tools, when to use each,
-> and how they interact.
-> 
-> This is a pretty quick overview rather than the idealised "kernel
-> testing guide" that'd probably be optimal, but given the number of times
-> questions like "When do you use KUnit and when do you use Kselftest?"
-> are being asked, it seemed worth at least having something. Hopefully
-> this can form the basis for more detailed documentation later.
-> 
-> Signed-off-by: David Gow <davidgow@google.com>
-> Reviewed-by: Marco Elver <elver@google.com>
-> Reviewed-by: Daniel Latypov <dlatypov@google.com>
-> ---
-> 
-> Thanks again. Assuming no-one has any objections, I think this is good
-> to go.
-> 
-> -- David
-> 
-> Changes since v2:
-> https://lore.kernel.org/linux-kselftest/20210414081428.337494-1-davidgow@google.com/
-> - A few typo fixes (Thanks Daniel)
-> - Reworded description of dynamic analysis tools.
-> - Updated dev-tools index page to not use ':doc:' syntax, but to provide
->    a path instead.
-> - Added Marco and Daniel's Reviewed-by tags.
-> 
-> Changes since v1:
-> https://lore.kernel.org/linux-kselftest/20210410070529.4113432-1-davidgow@google.com/
-> - Note KUnit's speed and that one should provide selftests for syscalls
-> - Mention lockdep as a Dynamic Analysis Tool
-> - Refer to "Dynamic Analysis Tools" instead of "Sanitizers"
-> - A number of minor formatting tweaks and rewordings for clarity
-> 
->   Documentation/dev-tools/index.rst            |   4 +
->   Documentation/dev-tools/testing-overview.rst | 117 +++++++++++++++++++
->   2 files changed, 121 insertions(+)
->   create mode 100644 Documentation/dev-tools/testing-overview.rst
-> 
-> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-> index 1b1cf4f5c9d9..929d916ffd4c 100644
-> --- a/Documentation/dev-tools/index.rst
-> +++ b/Documentation/dev-tools/index.rst
-> @@ -7,6 +7,9 @@ be used to work on the kernel. For now, the documents have been pulled
->   together without any significant effort to integrate them into a coherent
->   whole; patches welcome!
->   
-> +A brief overview of testing-specific tools can be found in
-> +Documentation/dev-tools/testing-overview.rst
-> +
->   .. class:: toc-title
->   
->   	   Table of contents
-> @@ -14,6 +17,7 @@ whole; patches welcome!
->   .. toctree::
->      :maxdepth: 2
->   
-> +   testing-overview
->      coccinelle
->      sparse
->      kcov
-> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
-> new file mode 100644
-> index 000000000000..b5b46709969c
-> --- /dev/null
-> +++ b/Documentation/dev-tools/testing-overview.rst
-> @@ -0,0 +1,117 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================
-> +Kernel Testing Guide
-> +====================
-> +
-> +
-> +There are a number of different tools for testing the Linux kernel, so knowing
-> +when to use each of them can be a challenge. This document provides a rough
-> +overview of their differences, and how they fit together.
-> +
-> +
-> +Writing and Running Tests
-> +=========================
-> +
-> +The bulk of kernel tests are written using either the kselftest or KUnit
-> +frameworks. These both provide infrastructure to help make running tests and
-> +groups of tests easier, as well as providing helpers to aid in writing new
-> +tests.
-> +
-> +If you're looking to verify the behaviour of the Kernel — particularly specific
-> +parts of the kernel — then you'll want to use KUnit or kselftest.
-> +
-> +
-> +The Difference Between KUnit and kselftest
-> +------------------------------------------
-> +
-> +KUnit (Documentation/dev-tools/kunit/index.rst) is an entirely in-kernel system
-> +for "white box" testing: because test code is part of the kernel, it can access
-> +internal structures and functions which aren't exposed to userspace.
-> +
-> +KUnit tests therefore are best written against small, self-contained parts
-> +of the kernel, which can be tested in isolation. This aligns well with the
-> +concept of 'unit' testing.
-> +
-> +For example, a KUnit test might test an individual kernel function (or even a
-> +single codepath through a function, such as an error handling case), rather
-> +than a feature as a whole.
-> +
-> +This also makes KUnit tests very fast to build and run, allowing them to be
-> +run frequently as part of the development process.
-> +
-> +There is a KUnit test style guide which may give further pointers in
-> +Documentation/dev-tools/kunit/style.rst
-> +
-> +
-> +kselftest (Documentation/dev-tools/kselftest.rst), on the other hand, is
-> +largely implemented in userspace, and tests are normal userspace scripts or
-> +programs.
-> +
-> +This makes it easier to write more complicated tests, or tests which need to
-> +manipulate the overall system state more (e.g., spawning processes, etc.).
-> +However, it's not possible to call kernel functions directly from kselftest.
-> +This means that only kernel functionality which is exposed to userspace somehow
-> +(e.g. by a syscall, device, filesystem, etc.) can be tested with kselftest.  To
-> +work around this, some tests include a companion kernel module which exposes
-> +more information or functionality. If a test runs mostly or entirely within the
-> +kernel, however,  KUnit may be the more appropriate tool.
-> +
-> +kselftest is therefore suited well to tests of whole features, as these will
-> +expose an interface to userspace, which can be tested, but not implementation
-> +details. This aligns well with 'system' or 'end-to-end' testing.
-> +
-> +For example, all new system calls should be accompanied by kselftest tests.
-> +
-> +Code Coverage Tools
-> +===================
-> +
-> +The Linux Kernel supports two different code coverage measurement tools. These
-> +can be used to verify that a test is executing particular functions or lines
-> +of code. This is useful for determining how much of the kernel is being tested,
-> +and for finding corner-cases which are not covered by the appropriate test.
-> +
-> +:doc:`gcov` is GCC's coverage testing tool, which can be used with the kernel
-> +to get global or per-module coverage. Unlike KCOV, it does not record per-task
-> +coverage. Coverage data can be read from debugfs, and interpreted using the
-> +usual gcov tooling.
-> +
-> +:doc:`kcov` is a feature which can be built in to the kernel to allow
-> +capturing coverage on a per-task level. It's therefore useful for fuzzing and
-> +other situations where information about code executed during, for example, a
-> +single syscall is useful.
-> +
-> +
-> +Dynamic Analysis Tools
-> +======================
-> +
-> +The kernel also supports a number of dynamic analysis tools, which attempt to
-> +detect classes of issues when they occur in a running kernel. These typically
-> +each look for a different class of bugs, such as invalid memory accesses,
-> +concurrency issues such as data races, or other undefined behaviour like
-> +integer overflows.
-> +
-> +Some of these tools are listed below:
-> +
-> +* kmemleak detects possible memory leaks. See
-> +  Documentation/dev-tools/kmemleak.rst
-> +* KASAN detects invalid memory accesses such as out-of-bounds and
-> +  use-after-free errors. See Documentation/dev-tools/kasan.rst
-> +* UBSAN detects behaviour that is undefined by the C standard, like integer
-> +  overflows. See Documentation/dev-tools/ubsan.rst
-> +* KCSAN detects data races. See Documentation/dev-tools/kcsan.rst
-> +* KFENCE is a low-overhead detector of memory issues, which is much faster than
-> +  KASAN and can be used in production. See Documentation/dev-tools/kfence.rst
-> +* lockdep is a locking correctness validator. See
-> +  Documentation/locking/lockdep-design.rst
-> +* There are several other pieces of debug instrumentation in the kernel, many
-> +  of which can be found in lib/Kconfig.debug
-> +
-> +These tools tend to test the kernel as a whole, and do not "pass" like
-> +kselftest or KUnit tests. They can be combined with KUnit or kselftest by
-> +running tests on a kernel with these tools enabled: you can then be sure
-> +that none of these errors are occurring during the test.
-> +
-> +Some of these tools integrate with KUnit or kselftest and will
-> +automatically fail tests if an issue is detected.
-> +
-> 
+OK!
+Maybe I misunderstood the patch split=E3=80=82~>_<~
+And next time:
+when I add a new file, I will do the associated index.rst changes in
+the same patch.
 
-Thank for you writing this much needed document.
+Thanks,
 
-Looks great. How about adding a section for Static analysis tools?
-A mention coccicheck scripts and mention of smatch?
+Yanteng
 
-thanks,
--- Shuah
-
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B44=E6=9C=8821=E6=97=
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=886:11=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Yanteng Si <siyanteng@loongson.cn> writes:
+>
+> > This series of patches translates core-api/irq/* and openrisc/* into Ch=
+inese.
+> >
+> > v1 -> v2:
+> >
+> > Modify some words under Xiangcheng Wu's suggestion. Thanks for his rewi=
+ew!
+> >
+> > v2 -> v3:
+> >
+> > keep the signs number equal to the title char under Alex's suggestion.
+> > Thanks for his rewiew!
+> >
+> > v3 -> v4:
+> >
+> > Add Xiangcheng Wu's review sign to 0002=E3=80=810003 and 0008; Thanks f=
+or his rewiew!
+> >
+> > v4 -> v5:
+> >
+> > Split 1-7 into a separate series.
+> >
+> > v5 -> v6:
+> >
+> > Modify the Subject of patches 07 and 11.
+> > Patch 11 will not be sent if not modified. (name repeat)
+> >
+> > Revert to one series because there is no need to split into two series.
+> >
+> > v6 -> v7:
+> >
+> > Send patch 11 to the series. Thank you Xiangcheng for your help!
+> >
+> > Yanteng Si (11):
+> >   docs/zh_CN: add core-api irq concepts.rst translation
+> >   docs/zh_CN: add core-api irq irq-affinity.rst translation
+> >   docs/zh_CN: add core-api irq irq-domain.rst translation
+> >   docs/zh_CN: add core-api irq irqflags-tracing.rst translation
+> >   docs/zh_CN: add core-api irq index.rst translation
+> >   docs/zh_CN: add core-api index.rst translation
+> >   docs/zh_CN: add core api translation to zh_CN index
+> >   docs/zh_CN: add openrisc openrisc_port.rst translation
+> >   docs/zh_CN: add openrisc todo.rst translation
+> >   docs/zh_CN: add openrisc index.rst translation
+> >   docs/zh_CN: add openrisc translation to zh_CN index
+>
+> I have applied this series, thanks.
+>
+> I have a request for the future, though: when you add a new file, do the
+> associated index.rst changes *in the same patch*.  Among other things,
+> that helps bisectability - we'll know which patch adds a build error,
+> for example.  It's not hugely important for docs, but is a good way to
+> approach kernel work in general - don't stack up lots of work that only
+> becomes active as the result of a small patch at the end.
+>
+> THanks,
+>
+> jon
