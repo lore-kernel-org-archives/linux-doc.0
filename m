@@ -2,90 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F12EC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 01:42:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03C97C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 01:50:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 434DA606A5
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 01:42:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B11AC61414
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 01:50:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234520AbhDUBmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Apr 2021 21:42:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58432 "EHLO
+        id S233824AbhDUBv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Apr 2021 21:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbhDUBmt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 21:42:49 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66D6CC061763
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 18:42:14 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id a25so32558293ljm.11
-        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 18:42:14 -0700 (PDT)
+        with ESMTP id S232659AbhDUBv1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Apr 2021 21:51:27 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFE0BC06174A
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 18:50:53 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id d124so27111671pfa.13
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 18:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UczsTWIr8+6VGiM8h97MiUANVxQ4dEWzhNFeeY1J0DQ=;
-        b=cZLLvzHjL6Dq4J/0YCjfOBoiNTj7ewYzT1U23fS0KzQTjaU8mQUilogtZrIJ7+42GC
-         xJOaS/vJ9R4ip+jJO/7/VkfvKeZ1N19VH6bMk6p3sJvJ/8MV9k6b1Uhtuu5PnrTxoyuC
-         p3jJPx9WUIzvA+JNn1nRDIxk8RfPKu/c1iC52DBvnfnRH+ZjIXyN/LA4ViClEYddTO2v
-         DzcWFH1YGZZlpLMpxWHSPUOq3ln7wsmS9enK8A3069UZaL/Wge0m9zM81HBYTdf7wvfs
-         WHzZiDUmbadFm7ksECr9cHgRIxsyMVAJHfTTOpG3pD8KhUQTU49hOJFnr7JwSkjAva6H
-         qjiw==
+         :cc:content-transfer-encoding;
+        bh=MLr1/6rm60HUOmbkjw+p7yNzZW/jJpijovzhpLvGueE=;
+        b=Lu6CxHY9fSeChipHvDEXmdozT94hRTz3FlKU3k+R8JuCgjW5YgVHSsxrTbL9N8O30g
+         IfoS+D1wLS53uQ5o5FZenKsvoBZscHkWDfPcJcpKgAShjmBeyzkQamLkfOB9UQKURrfJ
+         zWNknLM/sQSgLvZKSHBVdXS5l0W63OGY3JkDDb+GQmJABXP3jADhocrsu/X2m+02erTU
+         5pUkzdZVj8s19AxhpCC4JYilcsT0+M0yrLQraK/O2Wi3N/oJYchHgHSw2R0id1laoKFt
+         CVwUV9HPH3su03KnS3OZe5nWtoMecw2pdU4tju3GQlf2AeAvdTtCobV1CNP5Zhug+LGa
+         x7mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UczsTWIr8+6VGiM8h97MiUANVxQ4dEWzhNFeeY1J0DQ=;
-        b=Vvs5ty57XGJRdn/teJy0ceJOyK2f1PpycNPdN7hBv7Z35rDB9vXDyRjRN7c2n8beZ/
-         kwSlqIirn4UGDpIEAuh6q67XtJq0hGdg1qSqnO6EP2L3723D1xa0gxSoJjfn7WnEcuns
-         bv8wASV19Llrp2N10exK8/7MEMSMRrkJJgDZqHmN/0U0XAMpkv5a5eIp9Y0F164KqU9R
-         ZSjzE8Ahz01YqK2ru14driJEfTQxMYoj2hwoVY3Pn3HXYHP1ltEaAPj9N4Rz+QlgUsBF
-         aU6kQE1X06vSr1MLMZB234YH6/8ofgzFoSukNSUG4Omg0fAr1sLamBpL6wLn3rgDGmbI
-         2+VA==
-X-Gm-Message-State: AOAM532mYsL+qG6GSukkoPbpy1mxKtj+zuR6pXe5Cy5tdFr6gwZIff/S
-        jkr2UWFsDkAonmZIYces3hcObUIuGL1D/C8wNbxQBg==
-X-Google-Smtp-Source: ABdhPJysu1OHhax+Ts9VQYHrJtlutyWAr60vpOpiyXjGPssUyyiGMaeV1ncpertHo98xbqHHp0y0CZsctY3Bm8Fe/CA=
-X-Received: by 2002:a2e:87c6:: with SMTP id v6mr17035527ljj.490.1618969332659;
- Tue, 20 Apr 2021 18:42:12 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=MLr1/6rm60HUOmbkjw+p7yNzZW/jJpijovzhpLvGueE=;
+        b=dd6uUuDPZW32QN/gELp0OR236OxTYKlxalN1Omu0QMxM1O26cuDa163k6DqGdQ2meA
+         njn+oQ6/UhnuvL8UN3PWaylSVrosh1JjohEDCoGYcrvWJtE5tVSeSxBBcS4qj4TB32QS
+         Tk+WOCfdqBDhsbglauMjcey3zXQ6UoONFYBqE05kdookkvilPwy6DSTxTzXYdBxqD7no
+         R1WnrMtUaodzErCIXgJaamWDOO/Io7oVoJNxYDMa5C93CV2lTMLRhOhR4XSKJkFu0sWh
+         s7zIU78t8lCANMpsHXVze35nspfNHsDvvTs1EP5+HC0H6nBwRDeGa4nr+aMBNYwJQfj9
+         xLRg==
+X-Gm-Message-State: AOAM533IqX67OkNurP2zBjf/5TCf7AI+XgK0cGOr4RmIDJRq1MIQR1xg
+        ii5qU8lTj1gxOAJkOfORHtmgEEgw5u1PwuHmjiU=
+X-Google-Smtp-Source: ABdhPJwX4ng/DgoRM6nKk+qJ+lYq+18nmuxr56m9L8syw9vgKm1fYLYmV/0O+3uzXp/1W7nxa1NeB6DL+znNKp1aSdU=
+X-Received: by 2002:a17:90a:f40a:: with SMTP id ch10mr7923552pjb.62.1618969853184;
+ Tue, 20 Apr 2021 18:50:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210415054036.581117-1-davidgow@google.com> <2a35b57e-3261-8ebe-d9f3-66b3dedff756@linuxfoundation.org>
-In-Reply-To: <2a35b57e-3261-8ebe-d9f3-66b3dedff756@linuxfoundation.org>
-From:   David Gow <davidgow@google.com>
-Date:   Wed, 21 Apr 2021 09:42:01 +0800
-Message-ID: <CABVgOS=2iYtqTVdxwH=mcFpcSuLP4cpJ4s6PKP4Gc-SH6jidgQ@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation: dev-tools: Add Testing Overview
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Marco Elver <elver@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <cover.1618836460.git.siyanteng@loongson.cn> <87pmyoipft.fsf@meer.lwn.net>
+In-Reply-To: <87pmyoipft.fsf@meer.lwn.net>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Wed, 21 Apr 2021 09:50:44 +0800
+Message-ID: <CAMU9jJpNoJJGeX7HjNwazXgRWXKmTA-E=SRRMCis7On++TF+XA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] add three core api docs
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
+        "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng01@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Thank for you writing this much needed document.
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B44=E6=9C=8821=E6=97=
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=886:04=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Yanteng Si <siyanteng@loongson.cn> writes:
+>
+> > This patch add three core api docs.
+> >
+> >
+> > Yanteng Si (3):
+> >   docs/zh_CN: add core-api kernel-api.rst translation
+> >   docs/zh_CN: add core-api printk-basics.rst translation
+> >   docs/zh_CN: add core-api printk-formats.rst translation
+> >
+> >  .../zh_CN/core-api/kernel-api.rst             | 433 +++++++++++++
+> >  .../zh_CN/core-api/printk-basics.rst          | 118 ++++
+> >  .../zh_CN/core-api/printk-formats.rst         | 577 ++++++++++++++++++
+> >  3 files changed, 1128 insertions(+)
+> >  create mode 100644 Documentation/translations/zh_CN/core-api/kernel-ap=
+i.rst
+> >  create mode 100644 Documentation/translations/zh_CN/core-api/printk-ba=
+sics.rst
+> >  create mode 100644 Documentation/translations/zh_CN/core-api/printk-fo=
+rmats.rst
+>
+> Please, don't forget to add these files to index.rst.  This suggests to
+> me that you haven't tried a docs build; please always do that too.
 
-Thanks, Shuah: I hope I haven't misrepresented kselftest too much. :-)
+Hi jonathan,
 
-> Looks great. How about adding a section for Static analysis tools?
-> A mention coccicheck scripts and mention of smatch?
+OK=EF=BC=81I add indexs when I test every time, but this time the indexs ar=
+e
+based on the
+previous set, so I'm worried that repeated commits will cause
+conflicts. I will add them to v2.
 
-Good idea. I agree it'd be great to have such a section, though I
-doubt I'm the most qualified person to write it. If no one else picks
-it up, though, I can try to put a basic follow-up patch together when
-I've got some time.
+and next time :
+when I add a new file, I will do the associated index.rst changes in
+the same patch.
 
-Cheers,
--- David
+BTW. My other gmail mailbox may be broken, the mail can't be sent,
+please don't be surprised if you receive two identical emails.
+
+
+Thanks,
+
+Yanteng
