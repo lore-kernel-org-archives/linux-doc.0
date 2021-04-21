@@ -2,86 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DC6C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 06:35:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F10C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 06:59:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C409F613B0
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 06:35:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C11E6102A
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 06:59:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235123AbhDUGfl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Apr 2021 02:35:41 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55250 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229536AbhDUGfl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Apr 2021 02:35:41 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1618986907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fDQ7emmRJXtP1ofpDwCVif6iy+cZGLJnS5pOEzgyEIE=;
-        b=ZvK/RC4pu63ZvJEwKjIt9sLxwHggqQoBSXC7DNEDktW4LOr4gBruarnt62dgpxaLS3FtIr
-        Ww7mm0wltC2K5nhoPQHen8N2JRXLykdPUg4zRpffZTc/o2I3z+Zh3gUP94ErcjFt1O/wQF
-        R6GpcWLn/wzNomrHhpmgwvY5+i8HMAc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 31CD2B0D7;
-        Wed, 21 Apr 2021 06:35:07 +0000 (UTC)
-Date:   Wed, 21 Apr 2021 08:35:06 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Eric Dumazet <eric.dumazet@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2] docs: proc.rst: meminfo: briefly describe gaps in
- memory accounting
-Message-ID: <YH/HmtmZfBhtBlFK@dhcp22.suse.cz>
-References: <20210420121354.1160437-1-rppt@kernel.org>
- <20210420132430.GB3596236@casper.infradead.org>
- <YH7ds1YOAOQt8Mpf@dhcp22.suse.cz>
- <YH8WYJU2Jk6S9YIJ@localhost.localdomain>
+        id S236314AbhDUG7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Apr 2021 02:59:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42266 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229536AbhDUG7s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Apr 2021 02:59:48 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F4FBC06174A
+        for <linux-doc@vger.kernel.org>; Tue, 20 Apr 2021 23:59:15 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1lZ6pC-0008ER-0X; Wed, 21 Apr 2021 08:59:02 +0200
+Received: from pengutronix.de (unknown [IPv6:2a03:f580:87bc:d400:f256:d952:a8:74c8])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id DD8AD612D81;
+        Wed, 21 Apr 2021 06:58:57 +0000 (UTC)
+Date:   Wed, 21 Apr 2021 08:58:57 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Erik Flodin <erik@flodin.me>
+Cc:     Oliver Hartkopp <socketcan@hartkopp.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] can: add a note that RECV_OWN_MSGS frames are subject to
+ filtering
+Message-ID: <20210421065857.rliinkphrzrllkci@pengutronix.de>
+References: <20210420191212.42753-1-erik@flodin.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="7jj7b47l3flytpb2"
 Content-Disposition: inline
-In-Reply-To: <YH8WYJU2Jk6S9YIJ@localhost.localdomain>
+In-Reply-To: <20210420191212.42753-1-erik@flodin.me>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 20-04-21 20:58:56, Alexey Dobriyan wrote:
-> On Tue, Apr 20, 2021 at 03:57:07PM +0200, Michal Hocko wrote:
-> > On Tue 20-04-21 14:24:30, Matthew Wilcox wrote:
-> > > On Tue, Apr 20, 2021 at 03:13:54PM +0300, Mike Rapoport wrote:
-> > > > Add a paragraph that explains that it may happen that the counters in
-> > > > /proc/meminfo do not add up to the overall memory usage.
-> > > 
-> > > ... that is, the sum may be lower because memory is allocated for other
-> > > purposes that is not reported here, right?
-> > 
-> > yes. Many direct page allocator users are not accounted in any of the
-> > existing counters.
-> 
-> Does virtio_balloon dereserve special mention?
 
-Yes
+--7jj7b47l3flytpb2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> From inside VM memory borrowing looks like one giant memory leak resulting
-> in support tickets (not that people who file them read internal kernel
-> documentation...)
+On 20.04.2021 21:12:00, Erik Flodin wrote:
+> Some parts of the documentation may lead the reader to think that the
+> socket's own frames are always received when CAN_RAW_RECV_OWN_MSGS is
+> enabled, but all frames are subject to filtering.
+>=20
+> As explained by Marc Kleine-Budde:
+>=20
+> On TX complete of a CAN frame it's pushed into the RX path of the
+> networking stack, along with the information of the originating socket.
+>=20
+> Then the CAN frame is delivered into AF_CAN, where it is passed on to
+> all registered receivers depending on filters. One receiver is the
+> sending socket in CAN_RAW. Then in CAN_RAW the it is checked if the
+> sending socket has RECV_OWN_MSGS enabled.
+>=20
+> Signed-off-by: Erik Flodin <erik@flodin.me>
 
-Even if people do not read that documentation it is really good to have
-a reference you can send when you are dealing with bug reports.
+Applied to linux-can-next/testing
 
-Thanks!
+Thanks,
+Marc
 
--- 
-Michal Hocko
-SUSE Labs
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--7jj7b47l3flytpb2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmB/zS4ACgkQqclaivrt
+76nMbAf/RpY8aEaWPpzJlUX8s9lLdi1bCLXcdQIsemiUny7GFT230Mnyx+7CusZW
+n9oFINWwLdvtDbDdemN0kNHx+d61dU8NJhSSf0IDRHhUBTMI/wpnOegh8trz786L
+skedUxSmsPvDfK8ecubT31GLV62v1VsHUUqaLHJd7ETQXdwmjIU/uxghQiLG82D5
+0J4MIuOlReUAJ4iFcjw9QUAq/k3p53yI/lqwcX0B6vmgfxnLYXfHV6ilCXpOuhEh
+bvM4cAMD1Adg6ySnrAs8+1YVftCqyeN97StTmGJ6bzdwpOvrUZOhjhaJ+xtOzwRT
+BOAMNhV59lddut8/RoG36A+QhQPzBw==
+=bc3f
+-----END PGP SIGNATURE-----
+
+--7jj7b47l3flytpb2--
