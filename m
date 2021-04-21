@@ -2,165 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78A31C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 17:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66264C43460
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 17:30:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A98A613B2
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 17:21:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 49CE56145B
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 17:30:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244632AbhDURWI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Apr 2021 13:22:08 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29412 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244628AbhDURWH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Apr 2021 13:22:07 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13LH2g7M113466;
-        Wed, 21 Apr 2021 13:21:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : content-transfer-encoding : mime-version; s=pp1;
- bh=lstJpaHwPFkUUecS6me/y6hgIuRLr1B2Zik2vEOtV1I=;
- b=d46kAqLLCLEbrPtCRsPmtm1U89QGxXVQSHqXIITTdg2OtAMICXksXzAHLA8llP/qoC60
- 6/p0cc4NGLDpXpuBCdhhwGLdCp2fltGN5vmMYysSIBT4t7H28rDXiUkbAchScDz8PbeC
- QIURB8kH0vGCzlQJNG9hjhMthuf+bpndktdEwfk9tdi1hY7327kwc+PBFB0YwD5tQq3P
- Y4tAWMFmxWuQUIUP826vmWocwRXGBipqyTwmVRwhwqHrkejDzqtFxqmW0l7Ii02kxh9e
- prYQeaNVgOWRWr3MO0YT4/NvQQeohRxxy/4FLDmE6opejJz4v/grRlJKEF9h16Z3edCN og== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 382pqjm504-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 21 Apr 2021 13:21:08 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13LH374m114846;
-        Wed, 21 Apr 2021 13:21:08 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com [169.47.144.26])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 382pqjm4xw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 21 Apr 2021 13:21:08 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
-        by ppma04wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13LHCZEJ012292;
-        Wed, 21 Apr 2021 17:21:06 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
-        by ppma04wdc.us.ibm.com with ESMTP id 3813tav4qy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 21 Apr 2021 17:21:06 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13LHL56629098260
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 21 Apr 2021 17:21:05 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4CD3D7805F;
-        Wed, 21 Apr 2021 17:21:04 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4DD4A78060;
-        Wed, 21 Apr 2021 17:21:00 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.85.203.222])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 21 Apr 2021 17:21:00 +0000 (GMT)
-Message-ID: <e7a91c8c09722afe1fb1ec3aa7b6544e713183af.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 1/4] KEYS: trusted: Add generic trusted keys framework
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
+        id S242669AbhDURam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Apr 2021 13:30:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49210 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242135AbhDURam (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Apr 2021 13:30:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EF1146145A;
+        Wed, 21 Apr 2021 17:30:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619026209;
+        bh=Kg+L7L5MnQr8ri1Son24ac2eGLQrFFY6Xdrl0VYSxQI=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=pbcvQO5igVyhs1GtiLnZkxt231dSqHE6eLSTBn8V/FRIDlUwNZmOaF8lDuGGRi2nc
+         g/x9BAoPkU4C3kuJlhO8BHgpeBva7FqBmqs7crBYljbnHGqomkEZ2owWOJq1rWPNzG
+         JD0kPZtkXqngPUwwjSxwrZY14MfFRefB609m8A1vZJb25mLgtroKsv4cUZ8iCjOTlb
+         cMxPX6DFjJcgXknORd17sFgApZcaQdzN2l4XmYXEEIXZQ7bRG7b1eAOnxPYl9Wfalx
+         ixKwgb/rt3xst7rOycH6VVSI9Z47isYxtMem6yYe3JH2LTMNgTCslhULbgpvO+16ql
+         NbZZ/UrkrGt3w==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 879D15C0267; Wed, 21 Apr 2021 10:30:08 -0700 (PDT)
+Date:   Wed, 21 Apr 2021 10:30:08 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Yury Norov <yury.norov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        Elaine Palmer <erpalmer@us.ibm.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Date:   Wed, 21 Apr 2021 10:20:59 -0700
-In-Reply-To: <CAFA6WYOzD-qhHrcnzvd9P7iFvEqWwf0NCKXrgrEgvnB5i_-SxQ@mail.gmail.com>
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
-         <20210301131127.793707-2-sumit.garg@linaro.org>
-         <65dcc9fa28833e6beb1eadf98b0ed3402404d693.camel@linux.ibm.com>
-         <CAFA6WYOzD-qhHrcnzvd9P7iFvEqWwf0NCKXrgrEgvnB5i_-SxQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: mF_mQJ94uIxxjn9pVwPv8BfLpLfMiGuW
-X-Proofpoint-GUID: 6unQ4mr8lhL0JY8r4cz4nOfNC94-vrI6
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v2 0/2] bitmap_parselist: support 'all' semantics
+Message-ID: <20210421173008.GV975577@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20210421031326.72816-1-yury.norov@gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-21_05:2021-04-21,2021-04-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- phishscore=0 priorityscore=1501 adultscore=0 clxscore=1015 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104210122
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210421031326.72816-1-yury.norov@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-04-21 at 16:38 +0530, Sumit Garg wrote:
-> Hi James,
+On Tue, Apr 20, 2021 at 08:13:24PM -0700, Yury Norov wrote:
+> RCU code supports a special group 'all' which selects all bits in a bitmap.
+> We have recently added 'N' extension for bitmap parse, so that '0-N' would
+> have exactly the same meaning as 'all'. But because the 'all' is already
+> used by RCU, it would be reasonable to support it in core bitmap code as a
+> common and easy-readable alias for '0-N'.
 > 
-> On Wed, 21 Apr 2021 at 04:47, James Bottomley <jejb@linux.ibm.com>
-> wrote:
-> > On Mon, 2021-03-01 at 18:41 +0530, Sumit Garg wrote:
-> > > Current trusted keys framework is tightly coupled to use TPM
-> > > device as an underlying implementation which makes it difficult
-> > > for implementations like Trusted Execution Environment (TEE) etc.
-> > > to provide trusted keys support in case platform doesn't posses a
-> > > TPM device.
-> > > 
-> > > Add a generic trusted keys framework where underlying
-> > > implementations can be easily plugged in. Create struct
-> > > trusted_key_ops to achieve this, which contains necessary
-> > > functions of a backend.
-> > > 
-> > > Also, define a module parameter in order to select a particular
-> > > trust source in case a platform support multiple trust sources.
-> > > In case its not specified then implementation itetrates through
-> > > trust sources list starting with TPM and assign the first trust
-> > > source as a backend which has initiazed successfully during
-> > > iteration.
-> > > 
-> > > Note that current implementation only supports a single trust
-> > > source at runtime which is either selectable at compile time or
-> > > during boot via aforementioned module parameter.
-> > 
-> > You never actually tested this, did you?  I'm now getting EINVAL
-> > from all the trusted TPM key operations because of this patch.
-> > 
+> Moving the 'all' support to core bitmap code adds another level of
+> flexibility for system configuration by supporting patterns. For example,
+> every second bit in cpumask may be selected like this:
+> 	isolcpus=all:1/2
 > 
-> Unfortunately, I don't possess a development machine with a TPM
-> device. So mine testing was entirely based on TEE as a backend which
-> doesn't support any optional parameters. And that being the reason I
-> didn't catch this issue at first instance.
+> v2:
+>  - cleanup patch 1;
+>  - in patch 2 explain why dropping legacy comment.
+
+Nice!
+
+I have pulled this into -rcu with some minor updates, including replacing
+the "isolcpus=all" with "rcu_nocbs=all:1/2" per Steve Rostedt's feedback.
+
+Could you please check to make sure that I didn't mess anything up?
+
+If tests go well, this will go into -next later today or tomorrow.
+Although I cannot prove that this will not make the upcoming merge window,
+but Murphy insists that it will instead be the v5.14 merge window.
+
+							Thanx, Paul
+
+> Yury Norov (2):
+>   bitmap_parse: support 'all' semantics
+>   rcu/tree_plugin: don't handle the case of 'all' CPU range
 > 
-> Is there any TPM emulation environment available that I can use for
-> testing?
-
-Well use the same as we all use: A software TPM running in the host
-coupled with a virtual machine guest for the kernel:
-
-https://en.opensuse.org/Software_TPM_Emulator_For_QEMU
-
-It doesn't catch interface issues (like TIS timeouts) but it does catch
-TPM operations problems like this patch had.
-
-James
-
-
+>  Documentation/admin-guide/kernel-parameters.rst | 5 +++++
+>  kernel/rcu/tree_plugin.h                        | 9 +++------
+>  lib/bitmap.c                                    | 9 +++++++++
+>  lib/test_bitmap.c                               | 7 +++++++
+>  4 files changed, 24 insertions(+), 6 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
