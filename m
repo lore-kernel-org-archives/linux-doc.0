@@ -2,112 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BD14C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 13:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 863CEC43460
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 14:09:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 221CF613F0
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 13:07:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 502C4613F6
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 14:09:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235830AbhDVNHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 09:07:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46760 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbhDVNHy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 09:07:54 -0400
-Received: from theia.8bytes.org (8bytes.org [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB6DC06174A;
-        Thu, 22 Apr 2021 06:07:19 -0700 (PDT)
-Received: from cap.home.8bytes.org (p5b0069de.dip0.t-ipconnect.de [91.0.105.222])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by theia.8bytes.org (Postfix) with ESMTPSA id C04D3133;
-        Thu, 22 Apr 2021 15:07:15 +0200 (CEST)
-From:   Joerg Roedel <joro@8bytes.org>
-To:     iommu@lists.linux-foundation.org
-Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        alexander.deucher@amd.com, d1nuc0m@protonmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Joerg Roedel <jroedel@suse.de>
-Subject: [PATCH] iommu/amd: Add amd_iommu=force_enable option
-Date:   Thu, 22 Apr 2021 15:07:01 +0200
-Message-Id: <20210422130701.29872-1-joro@8bytes.org>
-X-Mailer: git-send-email 2.31.1
+        id S236396AbhDVOKK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 10:10:10 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:42289 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236357AbhDVOKJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 10:10:09 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-282-h23dZCneOHWWwBdb6SzMnw-1; Thu, 22 Apr 2021 15:09:31 +0100
+X-MC-Unique: h23dZCneOHWWwBdb6SzMnw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 15:09:31 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Thu, 22 Apr 2021 15:09:30 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Linus Walleij' <linus.walleij@linaro.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>
+CC:     Peter Zijlstra <peterz@infradead.org>,
+        "ojeda@kernel.org" <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 00/13] [RFC] Rust support
+Thread-Topic: [PATCH 00/13] [RFC] Rust support
+Thread-Index: AQHXN17Az8CFzDjGVk2RBMeMGwuyearAkXcA
+Date:   Thu, 22 Apr 2021 14:09:30 +0000
+Message-ID: <b6bddd3ea41644b0a353b8a4b7028bdc@AcuMS.aculab.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHj02M3jMSweoP4l@google.com>
+ <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
+In-Reply-To: <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Joerg Roedel <jroedel@suse.de>
-
-Add this option to enable the IOMMU on platforms like AMD Stoney,
-where the kernel usually disables it because it may cause problems in
-some scenarios.
-
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
----
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- drivers/iommu/amd/init.c                        | 7 +++++++
- 2 files changed, 10 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 04545725f187..c9573f726707 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -303,6 +303,9 @@
- 					  allowed anymore to lift isolation
- 					  requirements as needed. This option
- 					  does not override iommu=pt
-+			force_enable - Force enable the IOMMU on platforms known
-+				       to be buggy with IOMMU enabled. Use this
-+				       option with care.
- 
- 	amd_iommu_dump=	[HW,X86-64]
- 			Enable AMD IOMMU driver option to dump the ACPI table
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 321f5906e6ed..3e2295d3b3e2 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -155,6 +155,7 @@ static int amd_iommu_xt_mode = IRQ_REMAP_XAPIC_MODE;
- 
- static bool amd_iommu_detected;
- static bool __initdata amd_iommu_disabled;
-+static bool __initdata amd_iommu_force_enable;
- static int amd_iommu_target_ivhd_type;
- 
- u16 amd_iommu_last_bdf;			/* largest PCI device id we have
-@@ -2882,6 +2883,9 @@ static bool detect_ivrs(void)
- 
- 	acpi_put_table(ivrs_base);
- 
-+	if (amd_iommu_force_enable)
-+		goto out;
-+
- 	/* Don't use IOMMU if there is Stoney Ridge graphics */
- 	for (i = 0; i < 32; i++) {
- 		u32 pci_id;
-@@ -2893,6 +2897,7 @@ static bool detect_ivrs(void)
- 		}
- 	}
- 
-+out:
- 	/* Make sure ACS will be enabled during PCI probe */
- 	pci_request_acs();
- 
-@@ -3148,6 +3153,8 @@ static int __init parse_amd_iommu_options(char *str)
- 	for (; *str; ++str) {
- 		if (strncmp(str, "fullflush", 9) == 0)
- 			amd_iommu_unmap_flush = true;
-+		if (strncmp(str, "force_enable", 12) == 0)
-+			amd_iommu_force_enable = true;
- 		if (strncmp(str, "off", 3) == 0)
- 			amd_iommu_disabled = true;
- 		if (strncmp(str, "force_isolation", 15) == 0)
--- 
-2.31.1
+RnJvbTogTGludXMgV2FsbGVpag0KPiBTZW50OiAyMiBBcHJpbCAyMDIxIDExOjAzDQouLi4NCj4g
+SSBnbyB0byBwYXRjaCAxMi8xMyBhbmQgSSBzZWUgdGhpbmdzIGxpa2UgdGhpczoNCj4gDQo+ICsv
+Ly8gQSBkZXNjcmlwdG9yIG9mIHdyYXBwZWQgbGlzdCBlbGVtZW50cy4NCj4gK3B1YiB0cmFpdCBH
+ZXRMaW5rc1dyYXBwZWQ6IEdldExpbmtzIHsNCj4gKyAgICAvLy8gU3BlY2lmaWVzIHdoaWNoIHdy
+YXBwZXIgKGUuZy4sIGBCb3hgIGFuZCBgQXJjYCkgd3JhcHMgdGhlIGxpc3QgZW50cmllcy4NCj4g
+KyAgICB0eXBlIFdyYXBwZWQ6IFdyYXBwZXI8U2VsZjo6RW50cnlUeXBlPjsNCj4gK30NCj4gKw0K
+PiAraW1wbDxUOiA/U2l6ZWQ+IEdldExpbmtzV3JhcHBlZCBmb3IgQm94PFQ+DQo+ICt3aGVyZQ0K
+PiArICAgIEJveDxUPjogR2V0TGlua3MsDQo+ICt7DQo+ICsgICAgdHlwZSBXcmFwcGVkID0gQm94
+PDxCb3g8VD4gYXMgR2V0TGlua3M+OjpFbnRyeVR5cGU+Ow0KPiArfQ0KPiArDQo+ICtpbXBsPFQ6
+IEdldExpbmtzICsgP1NpemVkPiBHZXRMaW5rcyBmb3IgQm94PFQ+IHsNCj4gKyAgICB0eXBlIEVu
+dHJ5VHlwZSA9IFQ6OkVudHJ5VHlwZTsNCj4gKyAgICBmbiBnZXRfbGlua3MoZGF0YTogJlNlbGY6
+OkVudHJ5VHlwZSkgLT4gJkxpbmtzPFNlbGY6OkVudHJ5VHlwZT4gew0KPiArICAgICAgICA8VCBh
+cyBHZXRMaW5rcz46OmdldF9saW5rcyhkYXRhKQ0KPiArICAgIH0NCj4gK30NCj4gDQo+IE15IEdv
+ZC4gTG9zZSB0aGUgaG9ycmlibGUgQ2FtZWxDYXNlIHRvIGJlZ2luIHdpdGguIEkgaG9wZSB0aGUN
+Cj4gbGFuZ3VhZ2Ugc3BlYyBkb2VzIG5vdCBtYW5kYXRlIHRoYXQgYmVjYXVzZSBvdXIga2VybmVs
+IEMgc3R5bGUNCj4gZG9lcyBub3QgdXNlIGl0Lg0KDQpUaGF0Og0KDQoxKSBMb29rcyBhcyB0aG91
+Z2ggaXQgY291bGQgYmUgZ2VuZXJhdGVkIGJ5IHRva2VuIHBhc3RpbmcgaW4gYSAjZGVmaW5lLg0K
+MikgU2VlbXMgdG8gYmUgZnVsbCBvZiB3aGF0IGxvb2sgbGlrZSBjYXN0cy4NCg0KSSByZWFsbHkg
+d291bGRuJ3Qgd2FudCB0byBidW1wIGludG8gbXVsdGlwbGUgY29waWVzIG9mIGl0Lg0KDQpUaGUg
+b3RoZXIgaXNzdWUgaXMgdGhhdCAoYWxsIG1vc3QpIGFsbCB1c2VzIG9mIGEgc3ltYm9sDQpjYW4g
+YmUgZm91bmQgYnkgcnVubmluZzoNCiAgIGdyZXAgLXIgLS1pbmNsdWRlICcqLltjaHNTXScgJ1w8
+c3ltYm9sXD4nIC4NCm9mdGVuIHVzZWQgYXM6DQogICB2aSBgZ3JlcCAtbCAtciAnXDxzeW1ib2xc
+PicgLmANCg0KQnV0IGl0IGxvb2tzIGxpa2UgdGhlIHJ1c3Qgd3JhcHBlcnMgYXJlIGdvaW5nIHRv
+IGJyZWFrIHRoYXQuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUs
+IEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJl
+Z2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
