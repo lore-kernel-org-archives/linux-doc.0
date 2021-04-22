@@ -2,115 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B8E5C43470
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:10:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F32C43470
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:35:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF69A6145D
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:10:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CA6061435
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:35:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235995AbhDVLKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 07:10:47 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:42466 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229972AbhDVLKq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Apr 2021 07:10:46 -0400
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx7+6AWYFgpFQMAA--.4507S2;
-        Thu, 22 Apr 2021 19:09:54 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>
-Cc:     Jesper Dangaard Brouer <brouer@redhat.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>
-Subject: [PATCH bpf-next v4] bpf: Fix some invalid links in bpf_devel_QA.rst
-Date:   Thu, 22 Apr 2021 19:09:50 +0800
-Message-Id: <1619089790-6252-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9Dx7+6AWYFgpFQMAA--.4507S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw1kJw1fKF1UKFyfZFW5Wrg_yoW8Kr1rpa
-        18Gr1a9r1Sgr1fXw4kKr4jvF4SvFs5Way7CFn7Jw1UZFyDZFykXr1S9rs8XanxGrykCFW5
-        ArnakryF9w18Z37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr
-        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-        8cxan2IY04v7MxkIecxEwVAFwVW8KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
-        WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
-        67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
-        IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
-        IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
-        C2KfnxnUUI43ZEXa7VUbG2NtUUUUU==
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        id S236064AbhDVLfr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 07:35:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54642 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236087AbhDVLfq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 07:35:46 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A75C06174A
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 04:35:11 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id k128so23903203wmk.4
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 04:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=RvmGnR6fqZoWGO+g5KCcukp75k8kdVWhlFSmREYCODM=;
+        b=coK/So83Z+mSD4tpAr7Z52tFLvTMp4KQbeAuXoQICTLfBRKytKCAl3MUT/jf7RLHkt
+         HlzZ/HLOiaIT9otzb5XeeRAvfOdTYmnDnIzLEMd1KBKj9Dg9TgQKgxxVUsywbO3O0o+i
+         tikPeYBQcT++BYYsMUbgxgw2+SusJ6gWl6J3pV/ZhPYmVdNAwqchPug9k7ZtGwiL6irT
+         FdMOWzlPcyex9V3FKyiJiRSy7gw7DX3ZV8y+2vNz/NW2Tn0BgnmKsvPKAO477ylz561R
+         cyNJp1MGMKnoNBuHph5LeHXJrl5Clk7tHqUXr4E10KAiAYbDdTYpz6nt7yhR12F+ADMf
+         WCgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=RvmGnR6fqZoWGO+g5KCcukp75k8kdVWhlFSmREYCODM=;
+        b=tlAXPtaHqD7nn6wHyTk+SuJ1DehNVTuq4uuJAv6xIBjjzfjF9O4142Wo0Nby99MgoS
+         a8fScP+TgIkLbrLbaFkoRQwCcNmijyF8tG1YwIAdIbtDqzKgj+lVAE4RSNiiO8vbHbvg
+         BsHmSZYgJGHif/ewm4Qu+tW2OJyaGAPJFE5BaY1srUEozAmw5wfwKnaP3/gVo/Zqt4Ec
+         /qK0NkOTv4p3pjjGf9VXHZRB+0A6EhIauBNPCEoJSxTU4RcKx7wj/C6lHl/foDpqN9iU
+         UndZvrXS9zv7nPE2a/UCBjFzL+hen4PaZlreg8mcT/drTB3UMYeGZ3BQ6tkk1l+P6XhW
+         unCQ==
+X-Gm-Message-State: AOAM533S8azqBAAQnGwKCTSSiRkOcTQQGdA0sx3NtbwGFRI2QqtWSkWu
+        lc+FaA+eYVMqxwPgokWJiA/nVg==
+X-Google-Smtp-Source: ABdhPJzrYExd2/JRMa38rbWMA4zaMAIHSyQcTpBabzlTpDnfo7zv0ijWlGMUItsEsf1w7znniQv5Ug==
+X-Received: by 2002:a1c:7707:: with SMTP id t7mr14745827wmi.76.1619091310528;
+        Thu, 22 Apr 2021 04:35:10 -0700 (PDT)
+Received: from mai.imgcgcw.net ([2a01:e34:ed2f:f020:e88d:2580:c20:b786])
+        by smtp.gmail.com with ESMTPSA id u6sm3237890wml.23.2021.04.22.04.35.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Apr 2021 04:35:09 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     daniel.lezcano@linaro.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Zhang Rui <rui.zhang@intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thara Gopinath <thara.gopinath@linaro.org>,
+        Flavio Suligoi <f.suligoi@asem.it>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        linux-pm@vger.kernel.org (open list:THERMAL)
+Subject: [PATCH 2/2] thermal/core: Remove unused EXPORT_SYMBOLS
+Date:   Thu, 22 Apr 2021 13:34:56 +0200
+Message-Id: <20210422113457.51578-2-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210422113457.51578-1-daniel.lezcano@linaro.org>
+References: <20210422113457.51578-1-daniel.lezcano@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There exist some errors "404 Not Found" when I click the link
-of "MAINTAINERS" [1], "samples/bpf/" [2] and "selftests" [3]
-in the documentation "HOWTO interact with BPF subsystem" [4].
+The functions exported in the thermal_helpers.c file are only used by
+the governors and those are not compilable as module.
 
-As Jesper Dangaard Brouer said, the links work if you are browsing
-the document via GitHub [5], so I think maybe it is better to use
-the corresponding GitHub links to fix the issues in the kernel.org
-official document [4], this change has no influence on GitHub and
-looks like more clear.
+Remove the EXPORT_SYMBOL as no module code needs them.
 
-[1] https://www.kernel.org/doc/html/MAINTAINERS
-[2] https://www.kernel.org/doc/html/samples/bpf/
-[3] https://www.kernel.org/doc/html/tools/testing/selftests/bpf/
-[4] https://www.kernel.org/doc/html/latest/bpf/bpf_devel_QA.html
-[5] https://github.com/torvalds/linux/blob/master/Documentation/bpf/bpf_devel_QA.rst
-
-Fixes: 542228384888 ("bpf, doc: convert bpf_devel_QA.rst to use RST formatting")
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 ---
+ .../driver-api/thermal/sysfs-api.rst          | 28 +------------------
+ drivers/thermal/thermal_helpers.c             |  3 --
+ 2 files changed, 1 insertion(+), 30 deletions(-)
 
-The initial aim is to fix the invalid links, sorry for the noisy.
-
-v4: Use the corresponding GitHub links
-
-v3: Remove "MAINTAINERS" and "samples/bpf/" links and
-    use correct link of "selftests"
-
-v2: Add Fixes: tag
-
- Documentation/bpf/bpf_devel_QA.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-index 2ed89ab..36a9b62 100644
---- a/Documentation/bpf/bpf_devel_QA.rst
-+++ b/Documentation/bpf/bpf_devel_QA.rst
-@@ -645,10 +645,10 @@ when:
+diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+index 4b638c14bc16..c35266bbc119 100644
+--- a/Documentation/driver-api/thermal/sysfs-api.rst
++++ b/Documentation/driver-api/thermal/sysfs-api.rst
+@@ -711,33 +711,7 @@ method, the sys I/F structure will be built like this::
+     |---temp1_input:		37000
+     |---temp1_crit:		100000
  
- .. Links
- .. _Documentation/process/: https://www.kernel.org/doc/html/latest/process/
--.. _MAINTAINERS: ../../MAINTAINERS
-+.. _MAINTAINERS: https://github.com/torvalds/linux/blob/master/MAINTAINERS
- .. _netdev-FAQ: ../networking/netdev-FAQ.rst
--.. _samples/bpf/: ../../samples/bpf/
--.. _selftests: ../../tools/testing/selftests/bpf/
-+.. _samples/bpf/: https://github.com/torvalds/linux/tree/master/samples/bpf
-+.. _selftests: https://github.com/torvalds/linux/tree/master/tools/testing/selftests/bpf
- .. _Documentation/dev-tools/kselftest.rst:
-    https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
- .. _Documentation/bpf/btf.rst: btf.rst
+-4. Export Symbol APIs
+-=====================
+-
+-4.1. get_tz_trend
+------------------
+-
+-This function returns the trend of a thermal zone, i.e the rate of change
+-of temperature of the thermal zone. Ideally, the thermal sensor drivers
+-are supposed to implement the callback. If they don't, the thermal
+-framework calculated the trend by comparing the previous and the current
+-temperature values.
+-
+-4.2. get_thermal_instance
+--------------------------
+-
+-This function returns the thermal_instance corresponding to a given
+-{thermal_zone, cooling_device, trip_point} combination. Returns NULL
+-if such an instance does not exist.
+-
+-4.3. thermal_cdev_update
+-------------------------
+-
+-This function serves as an arbitrator to set the state of a cooling
+-device. It sets the cooling device to the deepest cooling state if
+-possible.
+-
+-5. thermal_emergency_poweroff
++4. thermal_emergency_poweroff
+ =============================
+ 
+ On an event of critical trip temperature crossing. Thermal framework
+diff --git a/drivers/thermal/thermal_helpers.c b/drivers/thermal/thermal_helpers.c
+index 7f50f412e02a..0ecf2c66aa76 100644
+--- a/drivers/thermal/thermal_helpers.c
++++ b/drivers/thermal/thermal_helpers.c
+@@ -39,7 +39,6 @@ int get_tz_trend(struct thermal_zone_device *tz, int trip)
+ 
+ 	return trend;
+ }
+-EXPORT_SYMBOL(get_tz_trend);
+ 
+ struct thermal_instance *
+ get_thermal_instance(struct thermal_zone_device *tz,
+@@ -63,7 +62,6 @@ get_thermal_instance(struct thermal_zone_device *tz,
+ 
+ 	return target_instance;
+ }
+-EXPORT_SYMBOL(get_thermal_instance);
+ 
+ /**
+  * thermal_zone_get_temp() - returns the temperature of a thermal zone
+@@ -221,7 +219,6 @@ void thermal_cdev_update(struct thermal_cooling_device *cdev)
+ 	trace_cdev_update(cdev, target);
+ 	dev_dbg(&cdev->device, "set to state %lu\n", target);
+ }
+-EXPORT_SYMBOL(thermal_cdev_update);
+ 
+ /**
+  * thermal_zone_get_slope - return the slope attribute of the thermal zone
 -- 
-2.1.0
+2.25.1
 
