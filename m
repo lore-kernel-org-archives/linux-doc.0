@@ -2,125 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96AC6C43460
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 15:46:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5DE5C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 17:08:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C7C961354
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 15:46:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95DDA613C9
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 17:08:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236693AbhDVPrK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 11:47:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53672 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236709AbhDVPrJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 11:47:09 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE441C06174A;
-        Thu, 22 Apr 2021 08:46:34 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S236660AbhDVRIl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 13:08:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40195 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236684AbhDVRIk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 13:08:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619111285;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6iyRCQCEGRHHV6y2IaFBtD9oS6jvBRER/Lqe7zRME5s=;
+        b=ZTN7K54dBx2v6RP8uOlKR3VRO0K9wvEW0xe4lNmtwzMYCGpCvw421/UMuALkKgafsgu1B6
+        2jDDWg1fXykj6OWBAX47sKgs1vlPcal13GBqXR3/u12CkOVKKWpfcLWsp8QojntkmzuO8l
+        dRRvzqFS7VS4DcZqM8bhT0Z6dUoqSqg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-2ey14UIJOzuK4QqUFlPTBw-1; Thu, 22 Apr 2021 13:08:01 -0400
+X-MC-Unique: 2ey14UIJOzuK4QqUFlPTBw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B5ECB44A;
-        Thu, 22 Apr 2021 15:46:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B5ECB44A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1619106393; bh=pdu7hsbhhGkYv58bQsi3XOeVvdvaYtVS+UWp9QvoCTY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=hJUO+/8Gd/vq2XZ/FfniFxLt5R08sOGkT6GpZOSy5VhUxfoJXQdlDRhrcZ/NsUp/l
-         FfsZ7G7PnWaEym9PvkYnIgXIgP86Duc80zXfj4y7IacbUmsWiA0M0T93cIOrjVGLg3
-         UyxKgDEfeNsAiNDKtAOuBnCRD4eKf1tDsPf8BuUzv/KlqDwO/yHDFCahNmgHagbX3x
-         4J/zJFCrcnOc7EIPKiiwxR4Sv2Gbb1cJP1MggB8bBdeISoRpIJghlZ0V6c3EIGcS9h
-         3akHauOObQHiV2hCF2WuEWDnnXowsAATBOskzd3zNJXhlHz5DfVNGIGvEr39Sump37
-         2glQpjkvFq6Ew==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>,
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBB80A40C1;
+        Thu, 22 Apr 2021 17:07:58 +0000 (UTC)
+Received: from carbon (unknown [10.36.110.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AE4F25C27C;
+        Thu, 22 Apr 2021 17:07:51 +0000 (UTC)
+Date:   Thu, 22 Apr 2021 19:07:50 +0200
+From:   Jesper Dangaard Brouer <brouer@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Tiezhu Yang <yangtiezhu@loongson.cn>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andrii@kernel.org>,
         Martin KaFai Lau <kafai@fb.com>,
         Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
         John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>
-Cc:     Jesper Dangaard Brouer <brouer@redhat.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>
+        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        brouer@redhat.com
 Subject: Re: [PATCH bpf-next v4] bpf: Fix some invalid links in
  bpf_devel_QA.rst
-In-Reply-To: <1619089790-6252-1-git-send-email-yangtiezhu@loongson.cn>
+Message-ID: <20210422190750.7273292c@carbon>
+In-Reply-To: <87pmymcofa.fsf@meer.lwn.net>
 References: <1619089790-6252-1-git-send-email-yangtiezhu@loongson.cn>
-Date:   Thu, 22 Apr 2021 09:46:33 -0600
-Message-ID: <87pmymcofa.fsf@meer.lwn.net>
+        <87pmymcofa.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tiezhu Yang <yangtiezhu@loongson.cn> writes:
+On Thu, 22 Apr 2021 09:46:33 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> There exist some errors "404 Not Found" when I click the link
-> of "MAINTAINERS" [1], "samples/bpf/" [2] and "selftests" [3]
-> in the documentation "HOWTO interact with BPF subsystem" [4].
->
-> As Jesper Dangaard Brouer said, the links work if you are browsing
-> the document via GitHub [5], so I think maybe it is better to use
-> the corresponding GitHub links to fix the issues in the kernel.org
-> official document [4], this change has no influence on GitHub and
-> looks like more clear.
+> Tiezhu Yang <yangtiezhu@loongson.cn> writes:
+> 
+> > There exist some errors "404 Not Found" when I click the link
+> > of "MAINTAINERS" [1], "samples/bpf/" [2] and "selftests" [3]
+> > in the documentation "HOWTO interact with BPF subsystem" [4].
+> >
+> > As Jesper Dangaard Brouer said, the links work if you are browsing
+> > the document via GitHub [5], so I think maybe it is better to use
+> > the corresponding GitHub links to fix the issues in the kernel.org
+> > official document [4], this change has no influence on GitHub and
+> > looks like more clear.  
+> 
+> No, we really don't want to link to GitHub, that's what we have
+> kernel.org for.
 
-No, we really don't want to link to GitHub, that's what we have
-kernel.org for.
+I fully agree.
+I actually liked V3 better.
 
-> [1] https://www.kernel.org/doc/html/MAINTAINERS
-> [2] https://www.kernel.org/doc/html/samples/bpf/
-> [3] https://www.kernel.org/doc/html/tools/testing/selftests/bpf/
-> [4] https://www.kernel.org/doc/html/latest/bpf/bpf_devel_QA.html
-> [5] https://github.com/torvalds/linux/blob/master/Documentation/bpf/bpf_devel_QA.rst
->
-> Fixes: 542228384888 ("bpf, doc: convert bpf_devel_QA.rst to use RST formatting")
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
->
-> The initial aim is to fix the invalid links, sorry for the noisy.
->
-> v4: Use the corresponding GitHub links
->
-> v3: Remove "MAINTAINERS" and "samples/bpf/" links and
->     use correct link of "selftests"
->
-> v2: Add Fixes: tag
->
->  Documentation/bpf/bpf_devel_QA.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-> index 2ed89ab..36a9b62 100644
-> --- a/Documentation/bpf/bpf_devel_QA.rst
-> +++ b/Documentation/bpf/bpf_devel_QA.rst
-> @@ -645,10 +645,10 @@ when:
->  
->  .. Links
->  .. _Documentation/process/: https://www.kernel.org/doc/html/latest/process/
-> -.. _MAINTAINERS: ../../MAINTAINERS
-> +.. _MAINTAINERS: https://github.com/torvalds/linux/blob/master/MAINTAINERS
+Back when I wrote the documentation with these links, the BPF doc was
+not well integrated with the kernels doc-system.  It is today, so it
+makes sense to remove the links (that happens to work on GitHub) as you
+did in V3.
 
-https://www.kernel.org/doc/html/latest/process/maintainers.html
+Today BPF documentation is nicely organized via this link:
+ https://www.kernel.org/doc/html/latest/bpf/index.html
 
->  .. _netdev-FAQ: ../networking/netdev-FAQ.rst
-> -.. _samples/bpf/: ../../samples/bpf/
-> -.. _selftests: ../../tools/testing/selftests/bpf/
-> +.. _samples/bpf/: https://github.com/torvalds/linux/tree/master/samples/bpf
+-- 
+Best regards,
+  Jesper Dangaard Brouer
+  MSc.CS, Principal Kernel Engineer at Red Hat
+  LinkedIn: http://www.linkedin.com/in/brouer
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/samples/bpf
-
-...etc.
-
-Thanks,
-
-jon
