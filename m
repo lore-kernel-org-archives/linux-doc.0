@@ -2,159 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F32C43470
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:35:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA59AC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:53:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CA6061435
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:35:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B18C36143B
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:53:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236064AbhDVLfr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 07:35:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54642 "EHLO
+        id S235977AbhDVLxt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 07:53:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236087AbhDVLfq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 07:35:46 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A75C06174A
-        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 04:35:11 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id k128so23903203wmk.4
-        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 04:35:11 -0700 (PDT)
+        with ESMTP id S236074AbhDVLxs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 07:53:48 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CE6C06174A
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 04:53:14 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id h20so23408128plr.4
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 04:53:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RvmGnR6fqZoWGO+g5KCcukp75k8kdVWhlFSmREYCODM=;
-        b=coK/So83Z+mSD4tpAr7Z52tFLvTMp4KQbeAuXoQICTLfBRKytKCAl3MUT/jf7RLHkt
-         HlzZ/HLOiaIT9otzb5XeeRAvfOdTYmnDnIzLEMd1KBKj9Dg9TgQKgxxVUsywbO3O0o+i
-         tikPeYBQcT++BYYsMUbgxgw2+SusJ6gWl6J3pV/ZhPYmVdNAwqchPug9k7ZtGwiL6irT
-         FdMOWzlPcyex9V3FKyiJiRSy7gw7DX3ZV8y+2vNz/NW2Tn0BgnmKsvPKAO477ylz561R
-         cyNJp1MGMKnoNBuHph5LeHXJrl5Clk7tHqUXr4E10KAiAYbDdTYpz6nt7yhR12F+ADMf
-         WCgA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=oJ5PI+C0iW8MjYYI+zo8bYrw6tKqKNz0a6ReKOiPnic=;
+        b=lmakWLsF6TnHDfCWNmOebmdaXTVSd+Ue3lQGW11wPhnGii6yOhFeyOfN624e123ffU
+         SU7E25BrieeLyV6AoyJAbzxyyGrF3Z4qQndsw1u6oN49cOPYCUVsRVYaCmLi/to43fCm
+         iTEFO43zkfbW+mgE/GspzhP2qmxiA4ucj+Qc7EXtWjRf+9xuMxxYleBmbqClQxt3N4uk
+         VgQqgaWuR4te2sL5t0qmqCSYMjkAeSBpNgLLUReZUrCem9SOr8N5JaFWTW7VRwoqBT8f
+         bq0IvwZoFt/rv1mwAF0DUJkJBKXBAOKjt0HMulPFKq2hDIefHxm55/A1y8Fztd1V/xTd
+         XkIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RvmGnR6fqZoWGO+g5KCcukp75k8kdVWhlFSmREYCODM=;
-        b=tlAXPtaHqD7nn6wHyTk+SuJ1DehNVTuq4uuJAv6xIBjjzfjF9O4142Wo0Nby99MgoS
-         a8fScP+TgIkLbrLbaFkoRQwCcNmijyF8tG1YwIAdIbtDqzKgj+lVAE4RSNiiO8vbHbvg
-         BsHmSZYgJGHif/ewm4Qu+tW2OJyaGAPJFE5BaY1srUEozAmw5wfwKnaP3/gVo/Zqt4Ec
-         /qK0NkOTv4p3pjjGf9VXHZRB+0A6EhIauBNPCEoJSxTU4RcKx7wj/C6lHl/foDpqN9iU
-         UndZvrXS9zv7nPE2a/UCBjFzL+hen4PaZlreg8mcT/drTB3UMYeGZ3BQ6tkk1l+P6XhW
-         unCQ==
-X-Gm-Message-State: AOAM533S8azqBAAQnGwKCTSSiRkOcTQQGdA0sx3NtbwGFRI2QqtWSkWu
-        lc+FaA+eYVMqxwPgokWJiA/nVg==
-X-Google-Smtp-Source: ABdhPJzrYExd2/JRMa38rbWMA4zaMAIHSyQcTpBabzlTpDnfo7zv0ijWlGMUItsEsf1w7znniQv5Ug==
-X-Received: by 2002:a1c:7707:: with SMTP id t7mr14745827wmi.76.1619091310528;
-        Thu, 22 Apr 2021 04:35:10 -0700 (PDT)
-Received: from mai.imgcgcw.net ([2a01:e34:ed2f:f020:e88d:2580:c20:b786])
-        by smtp.gmail.com with ESMTPSA id u6sm3237890wml.23.2021.04.22.04.35.09
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oJ5PI+C0iW8MjYYI+zo8bYrw6tKqKNz0a6ReKOiPnic=;
+        b=HDIt4l0pwuMCLeWrlSQ/mZmqaqQcW+fXcDPB+2c1t23+aEnz9GF6753JUks3IXC9bH
+         KRxEW/3OSGqr4KWbTATNRPCReLXqFuRSOhUgC28DkzOC4P2G0pVwRpcLeXoQL5LnCIQl
+         0z3KJIHcbl0KNiCc3MxWatdtg8PRqj7/N2RYpIHzEyf5fg4DpjlReI4OdZtVp9hrMcvL
+         mFHBRablSm2XFjYk2XXaOsYFZ3HZSIgPCy4rfosqm0GDrhl05uxbyrcKclHq6FbJ+Wul
+         9qDFNx3YXqOWdPSyeBJVWaUuTQX+3WpSWCK+KvLjrJ6lTwkS2FSV1dGnvVlAqdn/Xwna
+         kqGQ==
+X-Gm-Message-State: AOAM533GHqdCRHklEGxziFCdp9lZP8JOpE6BwSvV5zFSjQAEVZBCYAsa
+        4dbQqFLmdLHvaxB6cB9xWLJbfyWIrqLhgg==
+X-Google-Smtp-Source: ABdhPJyvBI8w/qg0ggMAj7JbYXljgRJdzULHT3v2Qs3Quk1T927HwoNiaZ91ja0QjHP9y+WyYKYtVA==
+X-Received: by 2002:a17:90b:33c6:: with SMTP id lk6mr3636650pjb.37.1619092392514;
+        Thu, 22 Apr 2021 04:53:12 -0700 (PDT)
+Received: from localhost ([136.185.154.93])
+        by smtp.gmail.com with ESMTPSA id d21sm2254101pjx.24.2021.04.22.04.53.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 04:35:09 -0700 (PDT)
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     daniel.lezcano@linaro.org
+        Thu, 22 Apr 2021 04:53:11 -0700 (PDT)
+Date:   Thu, 22 Apr 2021 17:23:09 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Zhang Rui <rui.zhang@intel.com>,
         Amit Kucheria <amitk@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
         Thara Gopinath <thara.gopinath@linaro.org>,
         Flavio Suligoi <f.suligoi@asem.it>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-pm@vger.kernel.org (open list:THERMAL)
-Subject: [PATCH 2/2] thermal/core: Remove unused EXPORT_SYMBOLS
-Date:   Thu, 22 Apr 2021 13:34:56 +0200
-Message-Id: <20210422113457.51578-2-daniel.lezcano@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210422113457.51578-1-daniel.lezcano@linaro.org>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>
+Subject: Re: [PATCH 2/2] thermal/core: Remove unused EXPORT_SYMBOLS
+Message-ID: <20210422115309.atwqchh2fxpnpvtt@vireshk-i7>
 References: <20210422113457.51578-1-daniel.lezcano@linaro.org>
+ <20210422113457.51578-2-daniel.lezcano@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210422113457.51578-2-daniel.lezcano@linaro.org>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The functions exported in the thermal_helpers.c file are only used by
-the governors and those are not compilable as module.
+On 22-04-21, 13:34, Daniel Lezcano wrote:
+> The functions exported in the thermal_helpers.c file are only used by
+> the governors and those are not compilable as module.
+> 
+> Remove the EXPORT_SYMBOL as no module code needs them.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> ---
+>  .../driver-api/thermal/sysfs-api.rst          | 28 +------------------
+>  drivers/thermal/thermal_helpers.c             |  3 --
+>  2 files changed, 1 insertion(+), 30 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+> index 4b638c14bc16..c35266bbc119 100644
+> --- a/Documentation/driver-api/thermal/sysfs-api.rst
+> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
+> @@ -711,33 +711,7 @@ method, the sys I/F structure will be built like this::
+>      |---temp1_input:		37000
+>      |---temp1_crit:		100000
+>  
+> -4. Export Symbol APIs
+> -=====================
+> -
+> -4.1. get_tz_trend
+> ------------------
+> -
+> -This function returns the trend of a thermal zone, i.e the rate of change
+> -of temperature of the thermal zone. Ideally, the thermal sensor drivers
+> -are supposed to implement the callback. If they don't, the thermal
+> -framework calculated the trend by comparing the previous and the current
+> -temperature values.
+> -
+> -4.2. get_thermal_instance
+> --------------------------
+> -
+> -This function returns the thermal_instance corresponding to a given
+> -{thermal_zone, cooling_device, trip_point} combination. Returns NULL
+> -if such an instance does not exist.
+> -
+> -4.3. thermal_cdev_update
+> -------------------------
+> -
+> -This function serves as an arbitrator to set the state of a cooling
+> -device. It sets the cooling device to the deepest cooling state if
+> -possible.
+> -
+> -5. thermal_emergency_poweroff
+> +4. thermal_emergency_poweroff
+>  =============================
+>  
+>  On an event of critical trip temperature crossing. Thermal framework
+> diff --git a/drivers/thermal/thermal_helpers.c b/drivers/thermal/thermal_helpers.c
+> index 7f50f412e02a..0ecf2c66aa76 100644
+> --- a/drivers/thermal/thermal_helpers.c
+> +++ b/drivers/thermal/thermal_helpers.c
+> @@ -39,7 +39,6 @@ int get_tz_trend(struct thermal_zone_device *tz, int trip)
+>  
+>  	return trend;
+>  }
+> -EXPORT_SYMBOL(get_tz_trend);
+>  
+>  struct thermal_instance *
+>  get_thermal_instance(struct thermal_zone_device *tz,
+> @@ -63,7 +62,6 @@ get_thermal_instance(struct thermal_zone_device *tz,
+>  
+>  	return target_instance;
+>  }
+> -EXPORT_SYMBOL(get_thermal_instance);
+>  
+>  /**
+>   * thermal_zone_get_temp() - returns the temperature of a thermal zone
+> @@ -221,7 +219,6 @@ void thermal_cdev_update(struct thermal_cooling_device *cdev)
+>  	trace_cdev_update(cdev, target);
+>  	dev_dbg(&cdev->device, "set to state %lu\n", target);
+>  }
+> -EXPORT_SYMBOL(thermal_cdev_update);
+>  
+>  /**
+>   * thermal_zone_get_slope - return the slope attribute of the thermal zone
 
-Remove the EXPORT_SYMBOL as no module code needs them.
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
----
- .../driver-api/thermal/sysfs-api.rst          | 28 +------------------
- drivers/thermal/thermal_helpers.c             |  3 --
- 2 files changed, 1 insertion(+), 30 deletions(-)
-
-diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
-index 4b638c14bc16..c35266bbc119 100644
---- a/Documentation/driver-api/thermal/sysfs-api.rst
-+++ b/Documentation/driver-api/thermal/sysfs-api.rst
-@@ -711,33 +711,7 @@ method, the sys I/F structure will be built like this::
-     |---temp1_input:		37000
-     |---temp1_crit:		100000
- 
--4. Export Symbol APIs
--=====================
--
--4.1. get_tz_trend
-------------------
--
--This function returns the trend of a thermal zone, i.e the rate of change
--of temperature of the thermal zone. Ideally, the thermal sensor drivers
--are supposed to implement the callback. If they don't, the thermal
--framework calculated the trend by comparing the previous and the current
--temperature values.
--
--4.2. get_thermal_instance
---------------------------
--
--This function returns the thermal_instance corresponding to a given
--{thermal_zone, cooling_device, trip_point} combination. Returns NULL
--if such an instance does not exist.
--
--4.3. thermal_cdev_update
--------------------------
--
--This function serves as an arbitrator to set the state of a cooling
--device. It sets the cooling device to the deepest cooling state if
--possible.
--
--5. thermal_emergency_poweroff
-+4. thermal_emergency_poweroff
- =============================
- 
- On an event of critical trip temperature crossing. Thermal framework
-diff --git a/drivers/thermal/thermal_helpers.c b/drivers/thermal/thermal_helpers.c
-index 7f50f412e02a..0ecf2c66aa76 100644
---- a/drivers/thermal/thermal_helpers.c
-+++ b/drivers/thermal/thermal_helpers.c
-@@ -39,7 +39,6 @@ int get_tz_trend(struct thermal_zone_device *tz, int trip)
- 
- 	return trend;
- }
--EXPORT_SYMBOL(get_tz_trend);
- 
- struct thermal_instance *
- get_thermal_instance(struct thermal_zone_device *tz,
-@@ -63,7 +62,6 @@ get_thermal_instance(struct thermal_zone_device *tz,
- 
- 	return target_instance;
- }
--EXPORT_SYMBOL(get_thermal_instance);
- 
- /**
-  * thermal_zone_get_temp() - returns the temperature of a thermal zone
-@@ -221,7 +219,6 @@ void thermal_cdev_update(struct thermal_cooling_device *cdev)
- 	trace_cdev_update(cdev, target);
- 	dev_dbg(&cdev->device, "set to state %lu\n", target);
- }
--EXPORT_SYMBOL(thermal_cdev_update);
- 
- /**
-  * thermal_zone_get_slope - return the slope attribute of the thermal zone
 -- 
-2.25.1
-
+viresh
