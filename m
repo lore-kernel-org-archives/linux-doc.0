@@ -2,163 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA59AC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F64C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 12:26:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B18C36143B
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 11:53:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BF3260E0C
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 12:26:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235977AbhDVLxt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 07:53:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58592 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236074AbhDVLxs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 07:53:48 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CE6C06174A
-        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 04:53:14 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id h20so23408128plr.4
-        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 04:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=oJ5PI+C0iW8MjYYI+zo8bYrw6tKqKNz0a6ReKOiPnic=;
-        b=lmakWLsF6TnHDfCWNmOebmdaXTVSd+Ue3lQGW11wPhnGii6yOhFeyOfN624e123ffU
-         SU7E25BrieeLyV6AoyJAbzxyyGrF3Z4qQndsw1u6oN49cOPYCUVsRVYaCmLi/to43fCm
-         iTEFO43zkfbW+mgE/GspzhP2qmxiA4ucj+Qc7EXtWjRf+9xuMxxYleBmbqClQxt3N4uk
-         VgQqgaWuR4te2sL5t0qmqCSYMjkAeSBpNgLLUReZUrCem9SOr8N5JaFWTW7VRwoqBT8f
-         bq0IvwZoFt/rv1mwAF0DUJkJBKXBAOKjt0HMulPFKq2hDIefHxm55/A1y8Fztd1V/xTd
-         XkIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oJ5PI+C0iW8MjYYI+zo8bYrw6tKqKNz0a6ReKOiPnic=;
-        b=HDIt4l0pwuMCLeWrlSQ/mZmqaqQcW+fXcDPB+2c1t23+aEnz9GF6753JUks3IXC9bH
-         KRxEW/3OSGqr4KWbTATNRPCReLXqFuRSOhUgC28DkzOC4P2G0pVwRpcLeXoQL5LnCIQl
-         0z3KJIHcbl0KNiCc3MxWatdtg8PRqj7/N2RYpIHzEyf5fg4DpjlReI4OdZtVp9hrMcvL
-         mFHBRablSm2XFjYk2XXaOsYFZ3HZSIgPCy4rfosqm0GDrhl05uxbyrcKclHq6FbJ+Wul
-         9qDFNx3YXqOWdPSyeBJVWaUuTQX+3WpSWCK+KvLjrJ6lTwkS2FSV1dGnvVlAqdn/Xwna
-         kqGQ==
-X-Gm-Message-State: AOAM533GHqdCRHklEGxziFCdp9lZP8JOpE6BwSvV5zFSjQAEVZBCYAsa
-        4dbQqFLmdLHvaxB6cB9xWLJbfyWIrqLhgg==
-X-Google-Smtp-Source: ABdhPJyvBI8w/qg0ggMAj7JbYXljgRJdzULHT3v2Qs3Quk1T927HwoNiaZ91ja0QjHP9y+WyYKYtVA==
-X-Received: by 2002:a17:90b:33c6:: with SMTP id lk6mr3636650pjb.37.1619092392514;
-        Thu, 22 Apr 2021 04:53:12 -0700 (PDT)
-Received: from localhost ([136.185.154.93])
-        by smtp.gmail.com with ESMTPSA id d21sm2254101pjx.24.2021.04.22.04.53.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 04:53:11 -0700 (PDT)
-Date:   Thu, 22 Apr 2021 17:23:09 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Zhang Rui <rui.zhang@intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Flavio Suligoi <f.suligoi@asem.it>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH 2/2] thermal/core: Remove unused EXPORT_SYMBOLS
-Message-ID: <20210422115309.atwqchh2fxpnpvtt@vireshk-i7>
-References: <20210422113457.51578-1-daniel.lezcano@linaro.org>
- <20210422113457.51578-2-daniel.lezcano@linaro.org>
+        id S235232AbhDVM1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 08:27:07 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:28077 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230510AbhDVM1H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Apr 2021 08:27:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=CGOE8QASqaAxCYYMCvxIwL5nnv3QsBdzZekQu
+        AWRc6o=; b=UICJ2DYoXozdORBYCnqFzorbmMf5M02kCgGsVPgLXbGrOp2oTbxV/
+        QxnrmbkAwCjWwZvW8bvgBPaL4/b4KXLvIt+hQQGcCFU6U5B3GSE3yPJ6SskVjZe8
+        6cKtzDHa01AW+6T7AojNRseMCixZA6xTOt0tzbujiT27isFiXgC1wA=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgBnLkFra4FgFvQDAA--.12081S2;
+        Thu, 22 Apr 2021 20:26:21 +0800 (CST)
+Date:   Thu, 22 Apr 2021 20:26:19 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Alex Shi <alexs@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>,
+        hjh <huangjianghui@uniontech.com>
+Subject: [PATCH 0/6] docs/zh_CN: Add translation zh_CN/maintainer
+Message-ID: <cover.1619093668.git.bobwxc@email.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210422113457.51578-2-daniel.lezcano@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgBnLkFra4FgFvQDAA--.12081S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJrykCF4fXw17XrWktw1kKrg_yoW8Cry8p3
+        WIgr93C3WkAF17CF4fGFyUXF15Ja4Ik3y5GrnxW3Z5tryvy3yYyFyUtF9I9FW3WF48XF43
+        Zw4fCF1kW395CFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUg2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
+        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE14v_Xr1l42xK82
+        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
+        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+        AFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+        jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI
+        43ZEXa7IUUBWlPUUUUU==
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22-04-21, 13:34, Daniel Lezcano wrote:
-> The functions exported in the thermal_helpers.c file are only used by
-> the governors and those are not compilable as module.
-> 
-> Remove the EXPORT_SYMBOL as no module code needs them.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> ---
->  .../driver-api/thermal/sysfs-api.rst          | 28 +------------------
->  drivers/thermal/thermal_helpers.c             |  3 --
->  2 files changed, 1 insertion(+), 30 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
-> index 4b638c14bc16..c35266bbc119 100644
-> --- a/Documentation/driver-api/thermal/sysfs-api.rst
-> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
-> @@ -711,33 +711,7 @@ method, the sys I/F structure will be built like this::
->      |---temp1_input:		37000
->      |---temp1_crit:		100000
->  
-> -4. Export Symbol APIs
-> -=====================
-> -
-> -4.1. get_tz_trend
-> ------------------
-> -
-> -This function returns the trend of a thermal zone, i.e the rate of change
-> -of temperature of the thermal zone. Ideally, the thermal sensor drivers
-> -are supposed to implement the callback. If they don't, the thermal
-> -framework calculated the trend by comparing the previous and the current
-> -temperature values.
-> -
-> -4.2. get_thermal_instance
-> --------------------------
-> -
-> -This function returns the thermal_instance corresponding to a given
-> -{thermal_zone, cooling_device, trip_point} combination. Returns NULL
-> -if such an instance does not exist.
-> -
-> -4.3. thermal_cdev_update
-> -------------------------
-> -
-> -This function serves as an arbitrator to set the state of a cooling
-> -device. It sets the cooling device to the deepest cooling state if
-> -possible.
-> -
-> -5. thermal_emergency_poweroff
-> +4. thermal_emergency_poweroff
->  =============================
->  
->  On an event of critical trip temperature crossing. Thermal framework
-> diff --git a/drivers/thermal/thermal_helpers.c b/drivers/thermal/thermal_helpers.c
-> index 7f50f412e02a..0ecf2c66aa76 100644
-> --- a/drivers/thermal/thermal_helpers.c
-> +++ b/drivers/thermal/thermal_helpers.c
-> @@ -39,7 +39,6 @@ int get_tz_trend(struct thermal_zone_device *tz, int trip)
->  
->  	return trend;
->  }
-> -EXPORT_SYMBOL(get_tz_trend);
->  
->  struct thermal_instance *
->  get_thermal_instance(struct thermal_zone_device *tz,
-> @@ -63,7 +62,6 @@ get_thermal_instance(struct thermal_zone_device *tz,
->  
->  	return target_instance;
->  }
-> -EXPORT_SYMBOL(get_thermal_instance);
->  
->  /**
->   * thermal_zone_get_temp() - returns the temperature of a thermal zone
-> @@ -221,7 +219,6 @@ void thermal_cdev_update(struct thermal_cooling_device *cdev)
->  	trace_cdev_update(cdev, target);
->  	dev_dbg(&cdev->device, "set to state %lu\n", target);
->  }
-> -EXPORT_SYMBOL(thermal_cdev_update);
->  
->  /**
->   * thermal_zone_get_slope - return the slope attribute of the thermal zone
+Hi all,
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+This set of patches aims to add translations zh_CN/maintainer. 
 
+Please note that since each patch need to modify their own entry
+in zh_CN/maintainer/index.rst, patches should be applied in order.
+
+Thanks!
+
+Base on jc/docs-next
+
+Wu XiangCheng (6):
+  docs/zh_CN: Add translation zh_CN/maintainer/index.rst
+  docs/zh_CN: Add translation zh_CN/maintainer/configure-git.rst
+  docs/zh_CN: Add translation zh_CN/maintainer/rebasing-and-merging.rst
+  docs/zh_CN: Add translation zh_CN/maintainer/pull-requests.rst
+  docs/zh_CN: Add translation
+    zh_CN/maintainer/maintainer-entry-profile.rst
+  docs/zh_CN: Add translation zh_CN/maintainer/modifying-patches.rst
+
+ Documentation/translations/zh_CN/index.rst    |   1 +
+ .../zh_CN/maintainer/configure-git.rst        |  62 +++++++
+ .../translations/zh_CN/maintainer/index.rst   |  21 +++
+ .../maintainer/maintainer-entry-profile.rst   |  92 ++++++++++
+ .../zh_CN/maintainer/modifying-patches.rst    |  51 ++++++
+ .../zh_CN/maintainer/pull-requests.rst        | 148 ++++++++++++++++
+ .../zh_CN/maintainer/rebasing-and-merging.rst | 165 ++++++++++++++++++
+ 7 files changed, 540 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/maintainer/configure-git.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/index.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/maintainer-entry-profile.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/modifying-patches.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/pull-requests.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/rebasing-and-merging.rst
+
+
+base-commit: 441ca977a84dadac6173db7c07c25db110b76c1e
 -- 
-viresh
+2.20.1
+
