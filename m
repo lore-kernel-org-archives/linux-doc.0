@@ -2,165 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 809F5C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 09:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 823B9C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 10:03:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 403E061428
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 09:15:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CE7261131
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 10:03:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235610AbhDVJQb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 05:16:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40037 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235362AbhDVJQb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 05:16:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619082956;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZpZ4/lZdrqpUFu+LeCWRgSEcQffomnP0+mjACx6gy8c=;
-        b=A72lalvqTo0i1rfKgUi+Z7inRVuNse7Glc3M7AcX/SiD6fr8075LHJRp+t/rQ2otQS9z1k
-        82xtYHyfwKoB7VbgDMrlZLRNzu+xLOI8PFolEzfxZta2ndyz7x+jgaMdcC+szBvL10smvz
-        a+tx7ympxsswd/h+VbW6czG8Qj6UyFw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-GUXQldHaP8ag-HXEf6Mkrg-1; Thu, 22 Apr 2021 05:15:52 -0400
-X-MC-Unique: GUXQldHaP8ag-HXEf6Mkrg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2270F107ACCD;
-        Thu, 22 Apr 2021 09:15:50 +0000 (UTC)
-Received: from carbon (unknown [10.36.110.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A000919726;
-        Thu, 22 Apr 2021 09:15:41 +0000 (UTC)
-Date:   Thu, 22 Apr 2021 11:15:40 +0200
-From:   Jesper Dangaard Brouer <brouer@redhat.com>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
-        brouer@redhat.com
-Subject: Re: [PATCH bpf-next v3] bpf: Fix some invalid links in
- bpf_devel_QA.rst
-Message-ID: <20210422111540.7e37c004@carbon>
-In-Reply-To: <1619062560-30483-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1619062560-30483-1-git-send-email-yangtiezhu@loongson.cn>
+        id S235833AbhDVKEC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 06:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235815AbhDVKEA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 06:04:00 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067ECC06138C
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 03:03:26 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id a36so40303192ljq.8
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 03:03:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fi1nyojqm+ITv1jOfr1bYqtxzxCOpWmoUIo17W0BtvI=;
+        b=pPEh/5ux89ZxxJmLelA6aiTCu6nZP4KZan7I1fhxg5IM2mB/pMxqaykorlLBoHAAF4
+         BMwLxkvatGofd4g/7+fqs5W27wB9dZ9ZhACIq8AHx9wYErcvCBLxJQL0Waq9f9wS1u+g
+         ht4F4t5p/O9cXD7fTHrqQmB/HkFlmngsYDC/A3S/BdRExVGFpY72I+8AC343Vy6dWKl8
+         05OiqXHyputw/PXr55qoyVbKz9N21H9AnOjxyCORDXaFz5gzHgg7CJq7CDmr4EeoejnQ
+         ASEO0Ip6TWf9+beKJsxfqsnzWoOhq5DyC5nhFwIEVJ/tayxxWlrG2MAN38Bcw/RRaEKQ
+         hl3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fi1nyojqm+ITv1jOfr1bYqtxzxCOpWmoUIo17W0BtvI=;
+        b=ett9fEynlc58BLkksHzoCfG/uk7x4Iqen9sk3F1sYc5bRJlHz4GU1bSO793ymtF10O
+         KVQjPEZxXfFHbk4R6ZVtazPYujsnK5N5zDxATf9wz5xGQpWYyL3kJgcTjMzI7sqY8CLf
+         zxRLABB3lmbjvqQYEdQtMe3Ptbia5Qk50SaY17EG+iynBwsTzZpv0sH3/+rcfQUtS7tz
+         BjWHCK0Vh4OZhHUyrfTBH7fjz+zlmgyvdv1XTgv9OqMGWSUJd8fPQut1C4/5vks5NS9C
+         ym8ar+SfEk0bnlaNSbwHjCYhK6NaR2xfvplnezQ24QmVQ4dL5AcXIDhWEZJlCDlvC5uE
+         wwyQ==
+X-Gm-Message-State: AOAM532xqzIQoGhmHWvRNea/cHKED+1v+XNDXXea2gEiyA92gXekFOxY
+        qu3LZM+0Y6ZVPprIt3DkMKvfeAqy6Z8K2CHEwOGiug==
+X-Google-Smtp-Source: ABdhPJzdK6KgdWUAyHPUel0RqEsohUgn0il7lU/HJpySo22DK4nOdNaBNEQmaj5i8Gk/KaGKlqHxQcMn7KBTTYUGYQk=
+X-Received: by 2002:a05:651c:c1:: with SMTP id 1mr1859058ljr.467.1619085804376;
+ Thu, 22 Apr 2021 03:03:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHj02M3jMSweoP4l@google.com>
+In-Reply-To: <YHj02M3jMSweoP4l@google.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 22 Apr 2021 12:03:13 +0200
+Message-ID: <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Wedson Almeida Filho <wedsonaf@google.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 22 Apr 2021 11:36:00 +0800
-Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+Hi folks,
 
-> There exist some errors "404 Not Found" when I click the link
-> of "MAINTAINERS" [1], "samples/bpf/" [2] and "selftests" [3]
-> in the documentation "HOWTO interact with BPF subsystem" [4].
+"we will do less critical stuff, like device drivers, first".
 
-The links work if you are browsing the document via GitHub:
- https://github.com/torvalds/linux/blob/master/Documentation/bpf/bpf_devel_QA.rst
+OK I mostly do device drivers. Kind of like it. So I'd like to provide
+feedback from that angle.
 
-But I'm fine with removing those links as the official doc is here:
- https://www.kernel.org/doc/html/latest/bpf/bpf_devel_QA.html
+On Fri, Apr 16, 2021 at 4:22 AM Wedson Almeida Filho
+<wedsonaf@google.com> wrote:
 
+> We don't intend to directly expose C data structures to Rust code (outside the
+> kernel crate). Instead, we intend to provide wrappers that expose safe
+> interfaces even though the implementation may use unsafe blocks. So we expect
+> the vast majority of Rust code to just care about the Rust memory model.
 
-> As Alexei Starovoitov suggested, just remove "MAINTAINERS" and
-> "samples/bpf/" links and use correct link of "selftests".
-> 
-> [1] https://www.kernel.org/doc/html/MAINTAINERS
-> [2] https://www.kernel.org/doc/html/samples/bpf/
-> [3] https://www.kernel.org/doc/html/tools/testing/selftests/bpf/
-> [4] https://www.kernel.org/doc/html/latest/bpf/bpf_devel_QA.html
-> 
-> Fixes: 542228384888 ("bpf, doc: convert bpf_devel_QA.rst to use RST formatting")
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
-> 
-> v3: Remove "MAINTAINERS" and "samples/bpf/" links and
->     use correct link of "selftests"
-> 
-> v2: Add Fixes: tag
-> 
->  Documentation/bpf/bpf_devel_QA.rst | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-> index 2ed89ab..d05e67e 100644
-> --- a/Documentation/bpf/bpf_devel_QA.rst
-> +++ b/Documentation/bpf/bpf_devel_QA.rst
-> @@ -29,7 +29,7 @@ list:
->  This may also include issues related to XDP, BPF tracing, etc.
->  
->  Given netdev has a high volume of traffic, please also add the BPF
-> -maintainers to Cc (from kernel MAINTAINERS_ file):
-> +maintainers to Cc (from kernel ``MAINTAINERS`` file):
->  
->  * Alexei Starovoitov <ast@kernel.org>
->  * Daniel Borkmann <daniel@iogearbox.net>
-> @@ -234,11 +234,11 @@ be subject to change.
->  
->  Q: samples/bpf preference vs selftests?
->  ---------------------------------------
-> -Q: When should I add code to `samples/bpf/`_ and when to BPF kernel
-> -selftests_ ?
-> +Q: When should I add code to ``samples/bpf/`` and when to BPF kernel
-> +selftests_?
->  
->  A: In general, we prefer additions to BPF kernel selftests_ rather than
-> -`samples/bpf/`_. The rationale is very simple: kernel selftests are
-> +``samples/bpf/``. The rationale is very simple: kernel selftests are
->  regularly run by various bots to test for kernel regressions.
->  
->  The more test cases we add to BPF selftests, the better the coverage
-> @@ -246,9 +246,9 @@ and the less likely it is that those could accidentally break. It is
->  not that BPF kernel selftests cannot demo how a specific feature can
->  be used.
->  
-> -That said, `samples/bpf/`_ may be a good place for people to get started,
-> +That said, ``samples/bpf/`` may be a good place for people to get started,
->  so it might be advisable that simple demos of features could go into
-> -`samples/bpf/`_, but advanced functional and corner-case testing rather
-> +``samples/bpf/``, but advanced functional and corner-case testing rather
->  into kernel selftests.
->  
->  If your sample looks like a test case, then go for BPF kernel selftests
-> @@ -645,10 +645,9 @@ when:
->  
->  .. Links
->  .. _Documentation/process/: https://www.kernel.org/doc/html/latest/process/
-> -.. _MAINTAINERS: ../../MAINTAINERS
->  .. _netdev-FAQ: ../networking/netdev-FAQ.rst
-> -.. _samples/bpf/: ../../samples/bpf/
-> -.. _selftests: ../../tools/testing/selftests/bpf/
-> +.. _selftests:
-> +   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/
->  .. _Documentation/dev-tools/kselftest.rst:
->     https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
->  .. _Documentation/bpf/btf.rst: btf.rst
+I'm a bit worried about this.
 
+I am sure you are aware of this document:
+Documentation/process/stable-api-nonsense.rst
 
+We really like to change the internal APIs of the kernel, and it sounds to
+me like Rust really likes a rust-side-vs-C-side approach to APIs, requiring
+these wrappers to be written and maintained all over the place, and that
+is going to affect the mobility of the kernel-internal APIs and make them
+less mobile.
 
--- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+If it means I need to write and review less patches related to NULL
+dereference and use-after-free etc etc, then it may very well be worth
+it.
 
+But as subsystem maintainer I'd like a clear picture of this wrapper
+overhead, what does it usually entail? A typical kernel API has
+vtable and a few variables, not much more than that.
+
+I go to patch 12/13 and I see things like this:
+
++/// A descriptor of wrapped list elements.
++pub trait GetLinksWrapped: GetLinks {
++    /// Specifies which wrapper (e.g., `Box` and `Arc`) wraps the list entries.
++    type Wrapped: Wrapper<Self::EntryType>;
++}
++
++impl<T: ?Sized> GetLinksWrapped for Box<T>
++where
++    Box<T>: GetLinks,
++{
++    type Wrapped = Box<<Box<T> as GetLinks>::EntryType>;
++}
++
++impl<T: GetLinks + ?Sized> GetLinks for Box<T> {
++    type EntryType = T::EntryType;
++    fn get_links(data: &Self::EntryType) -> &Links<Self::EntryType> {
++        <T as GetLinks>::get_links(data)
++    }
++}
+
+My God. Lose the horrible CamelCase to begin with. I hope the
+language spec does not mandate that because our kernel C style
+does not use it.
+
+It becomes obvious that as subsystem maintainer for the Linux kernel
+a casual drive-by experience with Rust is not going to suffice by far.
+
+All subsystem maintainers are expected to understand and maintain
+wrappers like these, right? That means all subsystem maintainers need
+to be elevated to understand the above without effort if you wake them
+up in their sleep at 4 in the morning.
+
+This makes me a bit sceptic.
+
+Get me right, we are of course good at doing really complicated stuff,
+that's what engineers do. But we are not Iron Man. We need a clear
+way into understanding and maintaining wrappers and we need support
+with it when we don't understand it, so the kernel would need a Rust
+wrapper maintainer that we can trust to stay around for the long term,
+i.e. until their retirement, while actively teaching others for decades.
+For an example see how RCU is maintained.
+
+Developing trust in the people Miguel and Wedson is going to be more
+important than trust in Google the company for this.
+
+Yours,
+Linus Walleij
