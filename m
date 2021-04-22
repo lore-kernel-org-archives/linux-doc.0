@@ -2,354 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E894C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 00:27:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0772C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 01:27:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC39F6144D
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 00:27:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85F9E613B0
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 01:27:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343907AbhDVA1u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Apr 2021 20:27:50 -0400
-Received: from office2.cesnet.cz ([195.113.144.244]:57958 "EHLO
-        office2.cesnet.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343892AbhDVA1u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Apr 2021 20:27:50 -0400
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by office2.cesnet.cz (Postfix) with ESMTPSA id 6B23340006F;
-        Thu, 22 Apr 2021 02:27:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
-        s=office2-2020; t=1619051225;
-        bh=ZmF/r7mYwFTsWsCMUMfIsxKemaYlZAyFFv9421eoI+Q=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc;
-        b=Qf63FRJEd+45MArzuqnBvcZ2xLxqUjGyxYaaqZvj4fZK4oAaUdHshp/4L1OFR5TlT
-         Pr2xGthNNfe0m58SW/5TRFY0kS6KisOSSIGqBz27aDsp7QULx9MMwnqgI3xVtXFiqe
-         DHsmG+BVzDiAlMXxcPsXF6qpE22BHzNTKjzy7N/cIPkB33KJtDJSSyT9ye//2kx5VM
-         bh5xCpNPksafF0hMB/T/0tQsp/CLgFFnr2APU9kZjnv64s33UVULys/9qnAnG+a8gP
-         +X3dLBhom1KrO+ThJtpXKczkcdpAKkfMuphkJ8r8DfDqFs6y0LXJ0rrFHup07mUjOe
-         avTg4g3YKBe5w==
-Received: by mail-pg1-f173.google.com with SMTP id t22so122481pgu.0;
-        Wed, 21 Apr 2021 17:27:05 -0700 (PDT)
-X-Gm-Message-State: AOAM532fI1j8WS8Ak++V6LCdyCwhneMVQYUabFIakVdZWh1ihAAcU99x
-        IRVAi+caNPXcCsBVWT1qcVflv0HnPTPqESLBxIc=
-X-Google-Smtp-Source: ABdhPJwDNNv4fs6YxJ2aMiKZ54+ieTK7Jeq7DTklONqdhvM6fxzirb+eKm8PBOorvYemcfRve7vV3xNq8clmFiQRh1U=
-X-Received: by 2002:a63:5b0e:: with SMTP id p14mr769382pgb.110.1619051223705;
- Wed, 21 Apr 2021 17:27:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210413025948.901867-1-kubernat@cesnet.cz> <20210413025948.901867-2-kubernat@cesnet.cz>
- <20210419223340.GA229491@roeck-us.net>
-In-Reply-To: <20210419223340.GA229491@roeck-us.net>
-From:   =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
-Date:   Thu, 22 Apr 2021 02:26:52 +0200
-X-Gmail-Original-Message-ID: <CABKa3no1k3uJ4dMgg16+FE+qb=Rbg-r_F3fV=P-OE8mBa30QAQ@mail.gmail.com>
-Message-ID: <CABKa3no1k3uJ4dMgg16+FE+qb=Rbg-r_F3fV=P-OE8mBa30QAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] hwmon: (max31790) Fix and split pwm*_enable
-To:     Guenter Roeck <linux@roeck-us.net>
+        id S233514AbhDVB2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Apr 2021 21:28:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33460 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232130AbhDVB2S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Apr 2021 21:28:18 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58C71C06174A;
+        Wed, 21 Apr 2021 18:27:41 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id d25so6793811oij.5;
+        Wed, 21 Apr 2021 18:27:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fcNZfsXjWgubhkoG9HpEo4ENef1L3qrDLqtjAJX6TkA=;
+        b=KajQb+SSSMbK2zN7RtNet6tfRxx/CK61h1sqSPR26UPzYfuEQBRGo5tb/TYgI/eWh5
+         GevcdeycQ4sU/rURYt05kGbitsmYPtyj2QrR7wVlXtoSHCT8T7MXcLNGb7tgTakuQryt
+         f5WlUdXvMV4XI4PbprbuV+P7uOsPgFN2TelvVmzL4oMFQUNbcp4aVraghH9hXT7GxVbJ
+         QKR/2d6hNxQWoQEl3cW7tb3q378lqX1Om6XHBzmZ2Mbj7nMIMOA9lHBaZ6gl6JzTHDmK
+         2rFVHdYlG0KiZTcxFHE4bCx7eTMZeFt1zidPTbDcV8ivzdSjJTxwbj6VyoAvYYvY8QWe
+         1jHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=fcNZfsXjWgubhkoG9HpEo4ENef1L3qrDLqtjAJX6TkA=;
+        b=Wmg/Td/Im4ZNdDtIOF/lLGgPYRFfMej1UmIVQNgUPL7k0ViZ5Vpt7Mtj/Op6fDtqu3
+         Cdf0M8i6ORfRyyjvWtmL2R1H96nWcc+m4qR2U33evZsi9w9oSS8OH9HtMKfJQ14UsSdk
+         K/vTrXFN+NgotmrPRjKpCt9Hfnt2NQqr1OVYVdQ4v06dQXyWfZUPgwW1gnDH+KGnwgxa
+         QgHgjnQiqkK0DyjwZ3A3NwKkv0D8hKYeaCOqiHwhiC6QrrtgCZUzuj2hyYDm6UtX795j
+         HW8TNPe3HSmY0oBDrh6gmSgCx8XkUDB/Q3waPP0P84+Nhk8fdgfcLhZtEA3DB+d3hbdb
+         5gHA==
+X-Gm-Message-State: AOAM532tWy8o2G/b4qJ6znzC8BEZ6bTT9P6b80+cLI3TxbDBmCp8hoql
+        lVsThI/R3jKsJY4MK/N0onqfvzxs/xA=
+X-Google-Smtp-Source: ABdhPJwGMuO27MpsGKW67BzXbP4U/jtcGm4DDI9uVLgmwDiEyM9uB02nl7pLttdx9TeYAADwYryF4g==
+X-Received: by 2002:aca:a844:: with SMTP id r65mr555011oie.168.1619054860403;
+        Wed, 21 Apr 2021 18:27:40 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t3sm295760ooa.18.2021.04.21.18.27.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Apr 2021 18:27:39 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v2 1/5] hwmon: (max31790) Rework to use regmap
+To:     =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
 Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
         linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20210413025948.901867-1-kubernat@cesnet.cz>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <250c1c16-541a-984f-c720-1a8b6176e97e@roeck-us.net>
+Date:   Wed, 21 Apr 2021 18:27:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210413025948.901867-1-kubernat@cesnet.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Okay, no problem, I'll get rid of the full-speed mode (and update the
-documentation) in the next version of the patch. Do you think I should
-disable the value "0" in pwm*_enable?
+On 4/12/21 7:59 PM, Václav Kubernát wrote:
+> Converting the driver to use regmap makes it more generic. It also makes
+> it a lot easier to debug through debugfs.
+> 
+> Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
+> ---
+>  drivers/hwmon/Kconfig    |   1 +
+>  drivers/hwmon/max31790.c | 254 ++++++++++++++++++++-------------------
+>  2 files changed, 133 insertions(+), 122 deletions(-)
+> 
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 1ecf697d8d99..9f11d036c316 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1095,6 +1095,7 @@ config SENSORS_MAX6697
+>  config SENSORS_MAX31790
+>  	tristate "Maxim MAX31790 sensor chip"
+>  	depends on I2C
+> +	select REGMAP_I2C
+>  	help
+>  	  If you say yes here you get support for 6-Channel PWM-Output
+>  	  Fan RPM Controller.
+> diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+> index 2c6b333a28e9..e3765ce4444a 100644
+> --- a/drivers/hwmon/max31790.c
+> +++ b/drivers/hwmon/max31790.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/init.h>
+>  #include <linux/jiffies.h>
+>  #include <linux/module.h>
+> +#include <linux/regmap.h>
+>  #include <linux/slab.h>
+>  
+>  /* MAX31790 registers */
+> @@ -46,92 +47,53 @@
+>  
+>  #define NR_CHANNEL			6
+>  
+> +#define MAX31790_REG_USER_BYTE_67	0x67
+> +
+> +#define BULK_TO_U16(msb, lsb)		(((msb) << 8) + (lsb))
+> +#define U16_MSB(num)			(((num) & 0xFF00) >> 8)
+> +#define U16_LSB(num)			((num) & 0x00FF)
+> +
+> +static const struct regmap_range max31790_ro_range = {
+> +	.range_min = MAX31790_REG_TACH_COUNT(0),
+> +	.range_max = MAX31790_REG_PWMOUT(0) - 1,
+> +};
+> +
+> +static const struct regmap_access_table max31790_wr_table = {
+> +	.no_ranges = &max31790_ro_range,
+> +	.n_no_ranges = 1,
+> +};
+> +
+> +static const struct regmap_range max31790_volatile_ranges[] = {
+> +	regmap_reg_range(MAX31790_REG_TACH_COUNT(0), MAX31790_REG_TACH_COUNT(12)),
+> +	regmap_reg_range(MAX31790_REG_FAN_FAULT_STATUS2, MAX31790_REG_FAN_FAULT_STATUS1),
+> +};
+> +
+> +static const struct regmap_access_table max31790_volatile_table = {
+> +	.no_ranges = max31790_volatile_ranges,
+> +	.n_no_ranges = 2,
+> +	.n_yes_ranges = 0
+> +};
 
-V=C3=A1clav
+Looks like my reply to this got lost. Other regmap code suggests that
+volatile register ranges are identified with yes_ranges, not with no_ranges.
+"no" seems to mean "not volatile". Please verify and confirm if the
+above code does what you want it to do.
 
-=C3=BAt 20. 4. 2021 v 0:33 odes=C3=ADlatel Guenter Roeck <linux@roeck-us.ne=
-t> napsal:
->
-> On Tue, Apr 13, 2021 at 04:59:45AM +0200, V=C3=A1clav Kubern=C3=A1t wrote=
-:
-> > In the old code, pwm*_enable does two things. Firstly, it sets whether
-> > the chip should run in PWM or RPM mode. Secondly, it tells the chip
-> > whether it should monitor fan RPM. However, these two settings aren't
-> > tied together, so they shouldn't be set with a single value. In the new
-> > code, fan*_enable now controls fan RPM monitoring (pwm*_enable no longe=
-r
-> > controls that).
-> >
-> > According to the sysfs hwmon documentation, pwm*_enable has three
-> > possible values, 0 for "no control / full-speed", 1 for manual mode, an=
-d
-> > 2+ for automatic. The old code works fine for 1 and 2, but 0 only
-> > differs from 1 in that it just turns off fan speed monitoring. The chip
-> > actually does have a way to turn off fan controls (and only monitor),
-> > but what that does is that it sets PWM to 0% duty cycle (which is the
-> > opposite to full-speed) AND it also turns off fan speed monitoring.
-> > Because of this, I implemented the 0 value by setting PWM mode to 100%.
-> > This method does come with a problem: it is impossible to differentiate
-> > between full-speed and PWM mode just from the values on the chip. The
-> > new code solves this by saving a value indicating whether we're in
-> > full-speed mode. This value is initialized to 0, so full-speed mode
-> > won't persist across reboots.
-> >
-> I don't think this is a good idea, sorry. It is not just a problem across
-> reboots, but also when unloading and reloading the driver. I think we
-> should stick with chip capabilities and adjust the documentation
-> accordingly.
->
-> Guenter
->
-> > These two changes are closely connected together, mainly because the
-> > detection of the pwm*_enable value depended on whether fan speed
-> > monitoring is enabled (which is now controlled as written in the first
-> > paragraph).
-> >
-> > Signed-off-by: V=C3=A1clav Kubern=C3=A1t <kubernat@cesnet.cz>
-> > ---
-> >  Documentation/hwmon/max31790.rst |  8 +--
-> >  drivers/hwmon/max31790.c         | 87 ++++++++++++++++++++++----------
-> >  2 files changed, 66 insertions(+), 29 deletions(-)
-> >
-> > diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max=
-31790.rst
-> > index f301385d8cef..8979c8a02cd1 100644
-> > --- a/Documentation/hwmon/max31790.rst
-> > +++ b/Documentation/hwmon/max31790.rst
-> > @@ -34,10 +34,12 @@ also be configured to serve as tachometer inputs.
-> >  Sysfs entries
-> >  -------------
-> >
-> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +fan[1-12]_enable   RW  enable fan speed monitoring
-> >  fan[1-12]_input    RO  fan tachometer speed in RPM
-> >  fan[1-12]_fault    RO  fan experienced fault
-> >  fan[1-6]_target    RW  desired fan speed in RPM
-> > -pwm[1-6]_enable    RW  regulator mode, 0=3Ddisabled, 1=3Dmanual mode, =
-2=3Drpm mode
-> > +pwm[1-6]_enable    RW  regulator mode, 0=3Dfull speed, 1=3Dmanual (pwm=
-) mode, 2=3Drpm mode
-> > +                       setting rpm mode sets fan*_enable to 1
-> >  pwm[1-6]           RW  fan target duty cycle (0-255)
-> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
-> > index e3765ce4444a..ecdd55e12ffe 100644
-> > --- a/drivers/hwmon/max31790.c
-> > +++ b/drivers/hwmon/max31790.c
-> > @@ -39,6 +39,7 @@
-> >
-> >  #define FAN_RPM_MIN                  120
-> >  #define FAN_RPM_MAX                  7864320
-> > +#define MAX_PWM                              0XFF80
-> >
-> >  #define RPM_FROM_REG(reg, sr)                (((reg) >> 4) ? \
-> >                                        ((60 * (sr) * 8192) / ((reg) >> =
-4)) : \
-> > @@ -90,6 +91,7 @@ struct max31790_data {
-> >       struct regmap *regmap;
-> >
-> >       struct mutex update_lock;
-> > +     bool full_speed[NR_CHANNEL];
-> >       u8 fan_config[NR_CHANNEL];
-> >       u8 fan_dynamics[NR_CHANNEL];
-> >  };
-> > @@ -191,6 +193,9 @@ static int max31790_read_fan(struct device *dev, u3=
-2 attr, int channel,
-> >               else
-> >                       *val =3D !!(fault & (1 << channel));
-> >               return 0;
-> > +     case hwmon_fan_enable:
-> > +             *val =3D !!(data->fan_config[channel] & MAX31790_FAN_CFG_=
-TACH_INPUT_EN);
-> > +             return 0;
-> >       default:
-> >               return -EOPNOTSUPP;
-> >       }
-> > @@ -233,6 +238,15 @@ static int max31790_write_fan(struct device *dev, =
-u32 attr, int channel,
-> >                                    MAX31790_REG_TARGET_COUNT(channel),
-> >                                    target_count);
-> >               break;
-> > +     case hwmon_fan_enable:
-> > +             if (val =3D=3D 0)
-> > +                     data->fan_config[channel] &=3D ~MAX31790_FAN_CFG_=
-TACH_INPUT_EN;
-> > +             else
-> > +                     data->fan_config[channel] |=3D MAX31790_FAN_CFG_T=
-ACH_INPUT_EN;
-> > +             err =3D regmap_write(regmap,
-> > +                                MAX31790_REG_FAN_CONFIG(channel),
-> > +                                data->fan_config[channel]);
-> > +             break;
-> >       default:
-> >               err =3D -EOPNOTSUPP;
-> >               break;
-> > @@ -260,6 +274,11 @@ static umode_t max31790_fan_is_visible(const void =
-*_data, u32 attr, int channel)
-> >                   !(fan_config & MAX31790_FAN_CFG_TACH_INPUT))
-> >                       return 0644;
-> >               return 0;
-> > +     case hwmon_fan_enable:
-> > +             if (channel < NR_CHANNEL ||
-> > +                 (fan_config & MAX31790_FAN_CFG_TACH_INPUT))
-> > +                     return 0644;
-> > +             return 0;
-> >       default:
-> >               return 0;
-> >       }
-> > @@ -281,12 +300,12 @@ static int max31790_read_pwm(struct device *dev, =
-u32 attr, int channel,
-> >               *val =3D read >> 8;
-> >               return 0;
-> >       case hwmon_pwm_enable:
-> > -             if (data->fan_config[channel] & MAX31790_FAN_CFG_RPM_MODE=
-)
-> > +             if (data->full_speed[channel])
-> > +                     *val =3D 0;
-> > +             else if (data->fan_config[channel] & MAX31790_FAN_CFG_RPM=
-_MODE)
-> >                       *val =3D 2;
-> > -             else if (data->fan_config[channel] & MAX31790_FAN_CFG_TAC=
-H_INPUT_EN)
-> > +             else
-> >                       *val =3D 1;
-> > -             else
-> > -                     *val =3D 0;
-> >               return 0;
-> >       default:
-> >               return -EOPNOTSUPP;
-> > @@ -305,28 +324,42 @@ static int max31790_write_pwm(struct device *dev,=
- u32 attr, int channel,
-> >
-> >       switch (attr) {
-> >       case hwmon_pwm_input:
-> > -             if (val < 0 || val > 255) {
-> > +             if (data->full_speed[channel] || val < 0 || val > 255) {
-> >                       err =3D -EINVAL;
-> >                       break;
-> >               }
-> > +
-> >               err =3D write_reg_word(regmap, MAX31790_REG_PWMOUT(channe=
-l), val << 8);
-> >               break;
-> >       case hwmon_pwm_enable:
-> >               fan_config =3D data->fan_config[channel];
-> > -             if (val =3D=3D 0) {
-> > -                     fan_config &=3D ~(MAX31790_FAN_CFG_TACH_INPUT_EN =
-|
-> > -                                     MAX31790_FAN_CFG_RPM_MODE);
-> > -             } else if (val =3D=3D 1) {
-> > -                     fan_config =3D (fan_config |
-> > -                                   MAX31790_FAN_CFG_TACH_INPUT_EN) &
-> > -                                  ~MAX31790_FAN_CFG_RPM_MODE;
-> > +             if (val =3D=3D 0 || val =3D=3D 1) {
-> > +                     fan_config &=3D ~MAX31790_FAN_CFG_RPM_MODE;
-> >               } else if (val =3D=3D 2) {
-> > -                     fan_config |=3D MAX31790_FAN_CFG_TACH_INPUT_EN |
-> > -                                   MAX31790_FAN_CFG_RPM_MODE;
-> > +                     fan_config |=3D MAX31790_FAN_CFG_RPM_MODE;
-> >               } else {
-> >                       err =3D -EINVAL;
-> >                       break;
-> >               }
-> > +
-> > +             /*
-> > +              * The chip sets PWM to zero when using its "monitor only=
-" mode
-> > +              * and 0 means full speed.
-> > +              */
-> > +             if (val =3D=3D 0) {
-> > +                     data->full_speed[channel] =3D true;
-> > +                     err =3D write_reg_word(regmap, MAX31790_REG_PWMOU=
-T(channel), MAX_PWM);
-> > +             } else {
-> > +                     data->full_speed[channel] =3D false;
-> > +             }
-> > +
-> > +             /*
-> > +              * RPM mode implies enabled TACH input, so enable it in R=
-PM
-> > +              * mode.
-> > +              */
-> > +             if (val =3D=3D 2)
-> > +                     fan_config |=3D MAX31790_FAN_CFG_TACH_INPUT_EN;
-> > +
-> >               data->fan_config[channel] =3D fan_config;
-> >               err =3D regmap_write(regmap,
-> >                                  MAX31790_REG_FAN_CONFIG(channel),
-> > @@ -400,18 +433,18 @@ static umode_t max31790_is_visible(const void *da=
-ta,
-> >
-> >  static const struct hwmon_channel_info *max31790_info[] =3D {
-> >       HWMON_CHANNEL_INFO(fan,
-> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
-,
-> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
-,
-> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
-,
-> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
-,
-> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
-,
-> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
-,
-> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
-> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
-> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
-> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
-> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
-> > -                        HWMON_F_INPUT | HWMON_F_FAULT),
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
-T | HWMON_F_FAULT,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
-T | HWMON_F_FAULT,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
-T | HWMON_F_FAULT,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
-T | HWMON_F_FAULT,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
-T | HWMON_F_FAULT,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
-T | HWMON_F_FAULT,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
-,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
-,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
-,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
-,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
-,
-> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
-),
-> >       HWMON_CHANNEL_INFO(pwm,
-> >                          HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-> >                          HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-> > @@ -448,6 +481,8 @@ static int max31790_init_client(struct regmap *regm=
-ap,
-> >               if (rv < 0)
-> >                       return rv;
-> >               data->fan_dynamics[i] =3D rv;
-> > +
-> > +             data->full_speed[i] =3D false;
-> >       }
-> >
-> >       return 0;
+Thanks,
+Guenter
