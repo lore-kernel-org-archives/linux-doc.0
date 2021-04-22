@@ -2,146 +2,241 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E004AC43461
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 04:47:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C61C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 04:54:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7DF56144A
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 04:47:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D864561460
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 04:54:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbhDVErv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 00:47:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbhDVEru (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 00:47:50 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70FFAC06138B
-        for <linux-doc@vger.kernel.org>; Wed, 21 Apr 2021 21:47:16 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id b38so9153195ljf.5
-        for <linux-doc@vger.kernel.org>; Wed, 21 Apr 2021 21:47:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e8xSVHnbnPreLCUm7lSlAXXP6DIoYnAcQ4G8DoJd4po=;
-        b=VtdCM6R6wqO20+uZ6bRWiuSnZJL/C81YI/D91nz6KU/GcxI5P46Udak7Pod8u/G0AN
-         rUBQ4rOUoCb3bJZXZTNX72aSGAOqChTfNh+ZMKNNafbKqCyceaw6hKzX3IcLVZoT7+eH
-         pR4/WGEI26z6Y6amHnm0LqCBn4vHu9UjAkGuw+dEImVUgoFM1EDhscrpFf1I/z+8DYgn
-         ku2DgFfh/G82U3PruwU3KeNRw1egaE1iERchBMBjFKN18fKF21aYBCkhqmAbv/g4SmUY
-         L649YW352pvHgX2DwiDn8mDPPtCoQtujbiTyifvWVWSuFxZVNhRv4ael8Ddzcidzm1Hu
-         SdqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e8xSVHnbnPreLCUm7lSlAXXP6DIoYnAcQ4G8DoJd4po=;
-        b=MPphlBnMWVt0L3lIo01VGYTDaWynL7EHlCQwuBs925FJM+2HO+Z9moknGGPanCMjE9
-         BjZW2Vb2PPY9R5Is2NGYSJQ2FCVLlvVt3CvLV4uDN+IiU8SQiaCRF6s2qxZFHTCG99iK
-         FtrcNnF5RSBlfWyCLYdbP5Tc8XoJYI0r5VMF8xl4V6UM+oso6CSjJHy3Rkxo0LrcFuhH
-         zE2M63S8rjaMFpMPc8fAF34nxSonMT/Miz+IR0Qa1S5An9kGP5TTwV4d0Hw8DyC7t+69
-         1QuuSbdTQrJOCsw+AsnoxqjF3dB0QaQUvPJevt5p2QMVTTbuweapSamQIZHA6FdmlcBl
-         P84g==
-X-Gm-Message-State: AOAM533cJ2jxutWL1c4t3a/V9SBNBKA0lLOr2gEx7ryQ9T0BqWJz0HR2
-        wa4i78O4h0y2x8Fuu51mVSZZnpYGdMgWterDYGH8kw==
-X-Google-Smtp-Source: ABdhPJyZHxpDwI0EgkJCh5/0J5fqW292ra6TnpMN3+D+M/7dCIKQxqZY4Yov2+SeYHml0Acg2lTS/DUjtX+ig/efka8=
-X-Received: by 2002:a2e:9e98:: with SMTP id f24mr1134602ljk.442.1619066834900;
- Wed, 21 Apr 2021 21:47:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
- <20210301131127.793707-2-sumit.garg@linaro.org> <65dcc9fa28833e6beb1eadf98b0ed3402404d693.camel@linux.ibm.com>
- <CAFA6WYOzD-qhHrcnzvd9P7iFvEqWwf0NCKXrgrEgvnB5i_-SxQ@mail.gmail.com> <e7a91c8c09722afe1fb1ec3aa7b6544e713183af.camel@linux.ibm.com>
-In-Reply-To: <e7a91c8c09722afe1fb1ec3aa7b6544e713183af.camel@linux.ibm.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Thu, 22 Apr 2021 10:17:02 +0530
-Message-ID: <CAFA6WYOSVVhk91XxwbmqGkvpcUF5pkro4M7fay480Enocoj+=g@mail.gmail.com>
-Subject: Re: [PATCH v9 1/4] KEYS: trusted: Add generic trusted keys framework
-To:     James Bottomley <jejb@linux.ibm.com>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        Elaine Palmer <erpalmer@us.ibm.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Content-Type: text/plain; charset="UTF-8"
+        id S232824AbhDVEyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 00:54:55 -0400
+Received: from mga18.intel.com ([134.134.136.126]:45532 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230306AbhDVEyw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Apr 2021 00:54:52 -0400
+IronPort-SDR: Ourq/tovdnwffCLF2GT9hShRxTmxnUZA7NBH1JGOSeD70PUg/md5x0m/3OADgxGn+elh5qMdnY
+ K+J0qSXwj1sg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="183311516"
+X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; 
+   d="scan'208";a="183311516"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 21:54:16 -0700
+IronPort-SDR: qdKqGUa0FHzHAbRHJdzWhsII7wvPIbJDqxO8e8yCnveqsTJQtYEyYpyYgcbsGka8lA0BDodrKG
+ 0kkgNeMy5MRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; 
+   d="scan'208";a="524515410"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
+  by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2021 21:54:15 -0700
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
+        x86@kernel.org
+Cc:     len.brown@intel.com, dave.hansen@intel.com, hjl.tools@gmail.com,
+        Dave.Martin@arm.com, jannh@google.com, mpe@ellerman.id.au,
+        carlos@redhat.com, tony.luck@intel.com, ravi.v.shankar@intel.com,
+        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        chang.seok.bae@intel.com, Fenghua Yu <fenghua.yu@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v8 3/6] x86/elf: Support a new ELF aux vector AT_MINSIGSTKSZ
+Date:   Wed, 21 Apr 2021 21:48:53 -0700
+Message-Id: <20210422044856.27250-4-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210422044856.27250-1-chang.seok.bae@intel.com>
+References: <20210422044856.27250-1-chang.seok.bae@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 21 Apr 2021 at 22:51, James Bottomley <jejb@linux.ibm.com> wrote:
->
-> On Wed, 2021-04-21 at 16:38 +0530, Sumit Garg wrote:
-> > Hi James,
-> >
-> > On Wed, 21 Apr 2021 at 04:47, James Bottomley <jejb@linux.ibm.com>
-> > wrote:
-> > > On Mon, 2021-03-01 at 18:41 +0530, Sumit Garg wrote:
-> > > > Current trusted keys framework is tightly coupled to use TPM
-> > > > device as an underlying implementation which makes it difficult
-> > > > for implementations like Trusted Execution Environment (TEE) etc.
-> > > > to provide trusted keys support in case platform doesn't posses a
-> > > > TPM device.
-> > > >
-> > > > Add a generic trusted keys framework where underlying
-> > > > implementations can be easily plugged in. Create struct
-> > > > trusted_key_ops to achieve this, which contains necessary
-> > > > functions of a backend.
-> > > >
-> > > > Also, define a module parameter in order to select a particular
-> > > > trust source in case a platform support multiple trust sources.
-> > > > In case its not specified then implementation itetrates through
-> > > > trust sources list starting with TPM and assign the first trust
-> > > > source as a backend which has initiazed successfully during
-> > > > iteration.
-> > > >
-> > > > Note that current implementation only supports a single trust
-> > > > source at runtime which is either selectable at compile time or
-> > > > during boot via aforementioned module parameter.
-> > >
-> > > You never actually tested this, did you?  I'm now getting EINVAL
-> > > from all the trusted TPM key operations because of this patch.
-> > >
-> >
-> > Unfortunately, I don't possess a development machine with a TPM
-> > device. So mine testing was entirely based on TEE as a backend which
-> > doesn't support any optional parameters. And that being the reason I
-> > didn't catch this issue at first instance.
-> >
-> > Is there any TPM emulation environment available that I can use for
-> > testing?
->
-> Well use the same as we all use: A software TPM running in the host
-> coupled with a virtual machine guest for the kernel:
->
-> https://en.opensuse.org/Software_TPM_Emulator_For_QEMU
->
-> It doesn't catch interface issues (like TIS timeouts) but it does catch
-> TPM operations problems like this patch had.
->
+Historically, signal.h defines MINSIGSTKSZ (2KB) and SIGSTKSZ (8KB), for
+use by all architectures with sigaltstack(2). Over time, the hardware state
+size grew, but these constants did not evolve. Today, literal use of these
+constants on several architectures may result in signal stack overflow, and
+thus user data corruption.
 
-Thanks for the pointer. I will use it for future testing.
+A few years ago, the ARM team addressed this issue by establishing
+getauxval(AT_MINSIGSTKSZ). This enables the kernel to supply at runtime
+value that is an appropriate replacement on the current and future
+hardware.
 
--Sumit
+Add getauxval(AT_MINSIGSTKSZ) support to x86, analogous to the support
+added for ARM in commit 94b07c1f8c39 ("arm64: signal: Report signal frame
+size to userspace via auxv").
 
-> James
->
->
+Also, include a documentation to describe x86-specific auxiliary vectors.
+
+Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+Reviewed-by: Len Brown <len.brown@intel.com>
+Cc: H.J. Lu <hjl.tools@gmail.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>
+Cc: Dave Martin <Dave.Martin@arm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: x86@kernel.org
+Cc: libc-alpha@sourceware.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+Changes from v7:
+* Delegated the bugfix notion to the other patch.
+
+Changes from v6:
+* Revised the documentation and fixed the build issue. (Borislav Petkov)
+* Fixed the vertical alignment of '\'. (Borislav Petkov)
+
+Changes from v5:
+* Added a documentation.
+---
+ Documentation/x86/elf_auxvec.rst   | 53 ++++++++++++++++++++++++++++++
+ Documentation/x86/index.rst        |  1 +
+ arch/x86/include/asm/elf.h         |  4 +++
+ arch/x86/include/uapi/asm/auxvec.h |  4 +--
+ arch/x86/kernel/signal.c           |  5 +++
+ 5 files changed, 65 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/x86/elf_auxvec.rst
+
+diff --git a/Documentation/x86/elf_auxvec.rst b/Documentation/x86/elf_auxvec.rst
+new file mode 100644
+index 000000000000..6c75b26f5efb
+--- /dev/null
++++ b/Documentation/x86/elf_auxvec.rst
+@@ -0,0 +1,53 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==================================
++x86-specific ELF Auxiliary Vectors
++==================================
++
++This document describes the semantics of the x86 auxiliary vectors.
++
++Introduction
++============
++
++ELF Auxiliary vectors enable the kernel to efficiently provide
++configuration specific parameters to userspace. In this example, a program
++allocates an alternate stack based on the kernel-provided size::
++
++   #include <sys/auxv.h>
++   #include <elf.h>
++   #include <signal.h>
++   #include <stdlib.h>
++   #include <assert.h>
++   #include <err.h>
++
++   #ifndef AT_MINSIGSTKSZ
++   #define AT_MINSIGSTKSZ	51
++   #endif
++
++   ....
++   stack_t ss;
++
++   ss.ss_sp = malloc(ss.ss_size);
++   assert(ss.ss_sp);
++
++   ss.ss_size = getauxval(AT_MINSIGSTKSZ) + SIGSTKSZ;
++   ss.ss_flags = 0;
++
++   if (sigaltstack(&ss, NULL))
++        err(1, "sigaltstack");
++
++
++The exposed auxiliary vectors
++=============================
++
++AT_SYSINFO is used for locating the vsyscall entry point.  It is not
++exported on 64-bit mode.
++
++AT_SYSINFO_EHDR is the start address of the page containing the vDSO.
++
++AT_MINSIGSTKSZ denotes the minimum stack size required by the kernel to
++deliver a signal to user-space.  AT_MINSIGSTKSZ comprehends the space
++consumed by the kernel to accommodate the user context for the current
++hardware configuration.  It does not comprehend subsequent user-space stack
++consumption, which must be added by the user.  (e.g. Above, user-space adds
++SIGSTKSZ to AT_MINSIGSTKSZ.)
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 4693e192b447..d58614d5cde6 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -35,3 +35,4 @@ x86-specific Documentation
+    sva
+    sgx
+    features
++   elf_auxvec
+diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+index 9224d40cdefe..18d9b1117871 100644
+--- a/arch/x86/include/asm/elf.h
++++ b/arch/x86/include/asm/elf.h
+@@ -312,6 +312,7 @@ do {									\
+ 		NEW_AUX_ENT(AT_SYSINFO,	VDSO_ENTRY);			\
+ 		NEW_AUX_ENT(AT_SYSINFO_EHDR, VDSO_CURRENT_BASE);	\
+ 	}								\
++	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());		\
+ } while (0)
+ 
+ /*
+@@ -328,6 +329,7 @@ extern unsigned long task_size_32bit(void);
+ extern unsigned long task_size_64bit(int full_addr_space);
+ extern unsigned long get_mmap_base(int is_legacy);
+ extern bool mmap_address_hint_valid(unsigned long addr, unsigned long len);
++extern unsigned long get_sigframe_size(void);
+ 
+ #ifdef CONFIG_X86_32
+ 
+@@ -349,6 +351,7 @@ do {									\
+ 	if (vdso64_enabled)						\
+ 		NEW_AUX_ENT(AT_SYSINFO_EHDR,				\
+ 			    (unsigned long __force)current->mm->context.vdso); \
++	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());		\
+ } while (0)
+ 
+ /* As a historical oddity, the x32 and x86_64 vDSOs are controlled together. */
+@@ -357,6 +360,7 @@ do {									\
+ 	if (vdso64_enabled)						\
+ 		NEW_AUX_ENT(AT_SYSINFO_EHDR,				\
+ 			    (unsigned long __force)current->mm->context.vdso); \
++	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());		\
+ } while (0)
+ 
+ #define AT_SYSINFO		32
+diff --git a/arch/x86/include/uapi/asm/auxvec.h b/arch/x86/include/uapi/asm/auxvec.h
+index 580e3c567046..6beb55bbefa4 100644
+--- a/arch/x86/include/uapi/asm/auxvec.h
++++ b/arch/x86/include/uapi/asm/auxvec.h
+@@ -12,9 +12,9 @@
+ 
+ /* entries in ARCH_DLINFO: */
+ #if defined(CONFIG_IA32_EMULATION) || !defined(CONFIG_X86_64)
+-# define AT_VECTOR_SIZE_ARCH 2
++# define AT_VECTOR_SIZE_ARCH 3
+ #else /* else it's non-compat x86-64 */
+-# define AT_VECTOR_SIZE_ARCH 1
++# define AT_VECTOR_SIZE_ARCH 2
+ #endif
+ 
+ #endif /* _ASM_X86_AUXVEC_H */
+diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+index bf1e83d79326..ca8fd18fba1f 100644
+--- a/arch/x86/kernel/signal.c
++++ b/arch/x86/kernel/signal.c
+@@ -716,6 +716,11 @@ void __init init_sigframe_size(void)
+ 	max_frame_size = round_up(max_frame_size, FRAME_ALIGNMENT);
+ }
+ 
++unsigned long get_sigframe_size(void)
++{
++	return max_frame_size;
++}
++
+ static inline int is_ia32_compat_frame(struct ksignal *ksig)
+ {
+ 	return IS_ENABLED(CONFIG_IA32_EMULATION) &&
+-- 
+2.17.1
+
