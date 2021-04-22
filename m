@@ -2,241 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_NONE,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C61C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 04:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE79BC43460
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 07:47:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D864561460
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 04:54:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B51916145C
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 07:47:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232824AbhDVEyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 00:54:55 -0400
-Received: from mga18.intel.com ([134.134.136.126]:45532 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230306AbhDVEyw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Apr 2021 00:54:52 -0400
-IronPort-SDR: Ourq/tovdnwffCLF2GT9hShRxTmxnUZA7NBH1JGOSeD70PUg/md5x0m/3OADgxGn+elh5qMdnY
- K+J0qSXwj1sg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="183311516"
-X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; 
-   d="scan'208";a="183311516"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 21:54:16 -0700
-IronPort-SDR: qdKqGUa0FHzHAbRHJdzWhsII7wvPIbJDqxO8e8yCnveqsTJQtYEyYpyYgcbsGka8lA0BDodrKG
- 0kkgNeMy5MRg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; 
-   d="scan'208";a="524515410"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2021 21:54:15 -0700
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
-        x86@kernel.org
-Cc:     len.brown@intel.com, dave.hansen@intel.com, hjl.tools@gmail.com,
-        Dave.Martin@arm.com, jannh@google.com, mpe@ellerman.id.au,
-        carlos@redhat.com, tony.luck@intel.com, ravi.v.shankar@intel.com,
-        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        chang.seok.bae@intel.com, Fenghua Yu <fenghua.yu@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v8 3/6] x86/elf: Support a new ELF aux vector AT_MINSIGSTKSZ
-Date:   Wed, 21 Apr 2021 21:48:53 -0700
-Message-Id: <20210422044856.27250-4-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210422044856.27250-1-chang.seok.bae@intel.com>
-References: <20210422044856.27250-1-chang.seok.bae@intel.com>
+        id S235186AbhDVHro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 03:47:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235155AbhDVHrn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 03:47:43 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60969C06174A
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 00:47:09 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1lZU3E-0004XQ-0f; Thu, 22 Apr 2021 09:47:04 +0200
+Received: from [2a0a:edc0:0:900:2e4d:54ff:fe67:bfa5] (helo=ginster)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1lZU3C-0000Js-VA; Thu, 22 Apr 2021 09:47:02 +0200
+Received: from jbe by ginster with local (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1lZU3C-0002JA-Tv; Thu, 22 Apr 2021 09:47:02 +0200
+From:   Juergen Borleis <jbe@pengutronix.de>
+To:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@pengutronix.de
+Subject: [PATCH] leds: trigger/tty: feature data direction
+Date:   Thu, 22 Apr 2021 09:47:02 +0200
+Message-Id: <20210422074702.8831-1-jbe@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: jbe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Historically, signal.h defines MINSIGSTKSZ (2KB) and SIGSTKSZ (8KB), for
-use by all architectures with sigaltstack(2). Over time, the hardware state
-size grew, but these constants did not evolve. Today, literal use of these
-constants on several architectures may result in signal stack overflow, and
-thus user data corruption.
+The current implementation just signals a visible feedback on all kind of
+activity on the corresponding TTY. But sometimes it is useful to see what
+kind of activity just happens. This change adds the capability to filter
+the direction of TTY's data flow. It enables a user to forward both
+directions to separate LEDs for tx and rx on demand. Default behavior is
+still both directions.
 
-A few years ago, the ARM team addressed this issue by establishing
-getauxval(AT_MINSIGSTKSZ). This enables the kernel to supply at runtime
-value that is an appropriate replacement on the current and future
-hardware.
-
-Add getauxval(AT_MINSIGSTKSZ) support to x86, analogous to the support
-added for ARM in commit 94b07c1f8c39 ("arm64: signal: Report signal frame
-size to userspace via auxv").
-
-Also, include a documentation to describe x86-specific auxiliary vectors.
-
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Len Brown <len.brown@intel.com>
-Cc: H.J. Lu <hjl.tools@gmail.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>
-Cc: Dave Martin <Dave.Martin@arm.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: x86@kernel.org
-Cc: libc-alpha@sourceware.org
-Cc: linux-arch@vger.kernel.org
-Cc: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
 ---
-Changes from v7:
-* Delegated the bugfix notion to the other patch.
+ Documentation/leds/ledtrig-tty.rst | 47 ++++++++++++++++++++++++++
+ drivers/leds/trigger/ledtrig-tty.c | 53 +++++++++++++++++++++++++++++-
+ 2 files changed, 99 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/leds/ledtrig-tty.rst
 
-Changes from v6:
-* Revised the documentation and fixed the build issue. (Borislav Petkov)
-* Fixed the vertical alignment of '\'. (Borislav Petkov)
-
-Changes from v5:
-* Added a documentation.
----
- Documentation/x86/elf_auxvec.rst   | 53 ++++++++++++++++++++++++++++++
- Documentation/x86/index.rst        |  1 +
- arch/x86/include/asm/elf.h         |  4 +++
- arch/x86/include/uapi/asm/auxvec.h |  4 +--
- arch/x86/kernel/signal.c           |  5 +++
- 5 files changed, 65 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/x86/elf_auxvec.rst
-
-diff --git a/Documentation/x86/elf_auxvec.rst b/Documentation/x86/elf_auxvec.rst
+diff --git a/Documentation/leds/ledtrig-tty.rst b/Documentation/leds/ledtrig-tty.rst
 new file mode 100644
-index 000000000000..6c75b26f5efb
+index 00000000..6fc765c
 --- /dev/null
-+++ b/Documentation/x86/elf_auxvec.rst
-@@ -0,0 +1,53 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/leds/ledtrig-tty.rst
+@@ -0,0 +1,47 @@
++===============
++LED TTY Trigger
++===============
 +
-+==================================
-+x86-specific ELF Auxiliary Vectors
-+==================================
++This LED trigger flashes the LED whenever some data flows are happen on the
++corresponding TTY device. The TTY device can be freely selected, as well as the
++data flow direction.
 +
-+This document describes the semantics of the x86 auxiliary vectors.
++TTY trigger can be enabled and disabled from user space on led class devices,
++that support this trigger as shown below::
 +
-+Introduction
-+============
++	echo tty > trigger
++	echo none > trigger
 +
-+ELF Auxiliary vectors enable the kernel to efficiently provide
-+configuration specific parameters to userspace. In this example, a program
-+allocates an alternate stack based on the kernel-provided size::
++This trigger exports two properties, 'ttyname' and 'dirfilter'. When the
++tty trigger is activated both properties are set to default values, which means
++no related TTY device yet and the LED would flash on both directions.
 +
-+   #include <sys/auxv.h>
-+   #include <elf.h>
-+   #include <signal.h>
-+   #include <stdlib.h>
-+   #include <assert.h>
-+   #include <err.h>
++Selecting a corresponding trigger TTY::
 +
-+   #ifndef AT_MINSIGSTKSZ
-+   #define AT_MINSIGSTKSZ	51
-+   #endif
++	echo ttyS0 > ttyname
 +
-+   ....
-+   stack_t ss;
++This LED will now flash on data flow in both directions of 'ttyS0'.
 +
-+   ss.ss_sp = malloc(ss.ss_size);
-+   assert(ss.ss_sp);
++Selecting a direction::
 +
-+   ss.ss_size = getauxval(AT_MINSIGSTKSZ) + SIGSTKSZ;
-+   ss.ss_flags = 0;
++	echo in > dirfilter
++	echo out > dirfilter
++	echo inout > dirfilter
 +
-+   if (sigaltstack(&ss, NULL))
-+        err(1, "sigaltstack");
++This selection will flash the LED on data flow in the selected direction.
 +
++Example
++=======
 +
-+The exposed auxiliary vectors
-+=============================
++With the 'dirfilter' property one can use two LEDs to give a user a separate
++visual feedback about data flow.
 +
-+AT_SYSINFO is used for locating the vsyscall entry point.  It is not
-+exported on 64-bit mode.
++Flash on data send on one LED::
 +
-+AT_SYSINFO_EHDR is the start address of the page containing the vDSO.
++	echo ttyS0 > ttyname
++	echo out > dirfilter
 +
-+AT_MINSIGSTKSZ denotes the minimum stack size required by the kernel to
-+deliver a signal to user-space.  AT_MINSIGSTKSZ comprehends the space
-+consumed by the kernel to accommodate the user context for the current
-+hardware configuration.  It does not comprehend subsequent user-space stack
-+consumption, which must be added by the user.  (e.g. Above, user-space adds
-+SIGSTKSZ to AT_MINSIGSTKSZ.)
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index 4693e192b447..d58614d5cde6 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -35,3 +35,4 @@ x86-specific Documentation
-    sva
-    sgx
-    features
-+   elf_auxvec
-diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
-index 9224d40cdefe..18d9b1117871 100644
---- a/arch/x86/include/asm/elf.h
-+++ b/arch/x86/include/asm/elf.h
-@@ -312,6 +312,7 @@ do {									\
- 		NEW_AUX_ENT(AT_SYSINFO,	VDSO_ENTRY);			\
- 		NEW_AUX_ENT(AT_SYSINFO_EHDR, VDSO_CURRENT_BASE);	\
- 	}								\
-+	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());		\
- } while (0)
++Flash on data receive on a second LED::
++
++	echo ttyS0 > ttyname
++	echo in > dirfilter
+diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+index f62db7e..d3bd231 100644
+--- a/drivers/leds/trigger/ledtrig-tty.c
++++ b/drivers/leds/trigger/ledtrig-tty.c
+@@ -14,6 +14,8 @@ struct ledtrig_tty_data {
+ 	const char *ttyname;
+ 	struct tty_struct *tty;
+ 	int rx, tx;
++	unsigned indirection:1;
++	unsigned outdirection:1;
+ };
  
- /*
-@@ -328,6 +329,7 @@ extern unsigned long task_size_32bit(void);
- extern unsigned long task_size_64bit(int full_addr_space);
- extern unsigned long get_mmap_base(int is_legacy);
- extern bool mmap_address_hint_valid(unsigned long addr, unsigned long len);
-+extern unsigned long get_sigframe_size(void);
- 
- #ifdef CONFIG_X86_32
- 
-@@ -349,6 +351,7 @@ do {									\
- 	if (vdso64_enabled)						\
- 		NEW_AUX_ENT(AT_SYSINFO_EHDR,				\
- 			    (unsigned long __force)current->mm->context.vdso); \
-+	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());		\
- } while (0)
- 
- /* As a historical oddity, the x32 and x86_64 vDSOs are controlled together. */
-@@ -357,6 +360,7 @@ do {									\
- 	if (vdso64_enabled)						\
- 		NEW_AUX_ENT(AT_SYSINFO_EHDR,				\
- 			    (unsigned long __force)current->mm->context.vdso); \
-+	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());		\
- } while (0)
- 
- #define AT_SYSINFO		32
-diff --git a/arch/x86/include/uapi/asm/auxvec.h b/arch/x86/include/uapi/asm/auxvec.h
-index 580e3c567046..6beb55bbefa4 100644
---- a/arch/x86/include/uapi/asm/auxvec.h
-+++ b/arch/x86/include/uapi/asm/auxvec.h
-@@ -12,9 +12,9 @@
- 
- /* entries in ARCH_DLINFO: */
- #if defined(CONFIG_IA32_EMULATION) || !defined(CONFIG_X86_64)
--# define AT_VECTOR_SIZE_ARCH 2
-+# define AT_VECTOR_SIZE_ARCH 3
- #else /* else it's non-compat x86-64 */
--# define AT_VECTOR_SIZE_ARCH 1
-+# define AT_VECTOR_SIZE_ARCH 2
- #endif
- 
- #endif /* _ASM_X86_AUXVEC_H */
-diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-index bf1e83d79326..ca8fd18fba1f 100644
---- a/arch/x86/kernel/signal.c
-+++ b/arch/x86/kernel/signal.c
-@@ -716,6 +716,11 @@ void __init init_sigframe_size(void)
- 	max_frame_size = round_up(max_frame_size, FRAME_ALIGNMENT);
+ static void ledtrig_tty_restart(struct ledtrig_tty_data *trigger_data)
+@@ -76,6 +78,47 @@ static ssize_t ttyname_store(struct device *dev,
  }
+ static DEVICE_ATTR_RW(ttyname);
  
-+unsigned long get_sigframe_size(void)
++static ssize_t dirfilter_show(struct device *dev,
++			      struct device_attribute *attr, char *buf)
 +{
-+	return max_frame_size;
++	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
++
++	if (trigger_data->indirection)
++		return (ssize_t)sprintf(buf, "in\n");
++	if (trigger_data->outdirection)
++		return (ssize_t)sprintf(buf, "out\n");
++	return (ssize_t)sprintf(buf, "inout\n");
 +}
 +
- static inline int is_ia32_compat_frame(struct ksignal *ksig)
++static ssize_t dirfilter_store(struct device *dev,
++			       struct device_attribute *attr, const char *buf,
++			       size_t size)
++{
++	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
++	ssize_t ret = size;
++
++	if (size > 0 && buf[size - 1] == '\n')
++		size -= 1;
++
++	if (size) {
++		if (!strncmp(buf, "in", size)) {
++			trigger_data->indirection = 1;
++			trigger_data->outdirection = 0;
++			return ret;
++		}
++		if (!strncmp(buf, "out", size)) {
++			trigger_data->indirection = 0;
++			trigger_data->outdirection = 1;
++			return ret;
++		}
++	}
++
++	trigger_data->indirection = 0;
++	trigger_data->outdirection = 0;
++	return ret;
++}
++static DEVICE_ATTR_RW(dirfilter);
++
+ static void ledtrig_tty_work(struct work_struct *work)
  {
- 	return IS_ENABLED(CONFIG_IA32_EMULATION) &&
+ 	struct ledtrig_tty_data *trigger_data =
+@@ -122,7 +165,14 @@ static void ledtrig_tty_work(struct work_struct *work)
+ 
+ 	if (icount.rx != trigger_data->rx ||
+ 	    icount.tx != trigger_data->tx) {
+-		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
++		if (trigger_data->indirection) {
++			if (icount.rx != trigger_data->rx)
++				led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
++		} else if (trigger_data->outdirection) {
++			if (icount.tx != trigger_data->tx)
++				led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
++		} else
++			led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
+ 
+ 		trigger_data->rx = icount.rx;
+ 		trigger_data->tx = icount.tx;
+@@ -137,6 +187,7 @@ static void ledtrig_tty_work(struct work_struct *work)
+ 
+ static struct attribute *ledtrig_tty_attrs[] = {
+ 	&dev_attr_ttyname.attr,
++	&dev_attr_dirfilter.attr,
+ 	NULL
+ };
+ ATTRIBUTE_GROUPS(ledtrig_tty);
 -- 
-2.17.1
+2.20.1
 
