@@ -2,158 +2,354 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47548C43460
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 23:45:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E894C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 00:27:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E50E613DC
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Apr 2021 23:45:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC39F6144D
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 00:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244169AbhDUXqS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Apr 2021 19:46:18 -0400
-Received: from mail-eopbgr700064.outbound.protection.outlook.com ([40.107.70.64]:40232
-        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237429AbhDUXqR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Apr 2021 19:46:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=By+TPShso+V9xvOzsdj9ppqfFACt8lCNhEjiu8S/kfDAAiXktM5qeG9rbji/B75xEi0AlN0kN0jDsNLMO6SIbosvutSQBBDo/04vyZpHMR54qqz1yx//AXcMics2WK68z4r1RRZtdizomEvXkOCbD8BzqZjOGmHr9DJ2qAjuE/icZ8GA7ZFwFsHquRrrVo/c/Z/gqCSxsyK8y9GRq+MOs0TpBN4KZdB7T8gvnkgNZHdbauL0okhEVAYhyMkz+84oeut4QuaAVTK4sKGUteiUmC66H7GjJPqQcik7m0iW9X+I6g4sOi6TlGuiQ03Jj0V4A8otq6i1chAYDS4h3CZX6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4dDdnSL3EiNVtGwVBF2cblrL3zMuuhDvgYxckU+NWm8=;
- b=aSFCKs4m/W1NWWjYdblVqcs3A0I4/pDyoGsS2ollDk84uBzm4Q0UPMsmrM6sCx0FlEP2ROTEsBnTJc2+6DzDsuIcvcwrwVcReAlDwhxp7d5KVTGfaMMCTuyOYJR8OqKpaj2lE9TZAsz/o6xS+46iwj7W8npTuGp6r2fCZSnf9BNUK/1IK0BzpfliuxKFFBQePFsy+d2mWnbvTwqg1mdF8QelN8tNMikXnPVXEy9daPrBgVeMmELEmtN5joscZ/FHRZsGoPGCfzf3P0uwSZnEE9LtjWP8+8AoAbDAxsxUuv5I5XYuwPoTzBFbab3ujZRPpxyTMyPvVhwMS+8MPZZwAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4dDdnSL3EiNVtGwVBF2cblrL3zMuuhDvgYxckU+NWm8=;
- b=VuHU17seRTao4cB81eRV78a9RnURYMLM/XH0iwly+bSABwYrlo/GNFmaFmHYF3LPbXChD9F6nY0nsTnlydDxrOvruBHgiBWuTjf38ho1e8giy2x6UPU/dDOZXhOEtAK66cl4EHRS8C6ESCqim7jWPFxxAvbWkpGKkqtXFcAy1YQ=
-Authentication-Results: goodmis.org; dkim=none (message not signed)
- header.d=none;goodmis.org; dmarc=none action=none header.from=windriver.com;
-Received: from DM6PR11MB4545.namprd11.prod.outlook.com (2603:10b6:5:2ae::14)
- by DM4PR11MB5440.namprd11.prod.outlook.com (2603:10b6:5:39c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.19; Wed, 21 Apr
- 2021 23:45:42 +0000
-Received: from DM6PR11MB4545.namprd11.prod.outlook.com
- ([fe80::1caa:f0c2:b584:4aea]) by DM6PR11MB4545.namprd11.prod.outlook.com
- ([fe80::1caa:f0c2:b584:4aea%3]) with mapi id 15.20.4065.021; Wed, 21 Apr 2021
- 23:45:42 +0000
-Date:   Wed, 21 Apr 2021 19:45:27 -0400
-From:   Paul Gortmaker <paul.gortmaker@windriver.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH 1/2] bitmap_parse: support 'all' semantics
-Message-ID: <20210421234527.GD194948@windriver.com>
-References: <20210421031326.72816-1-yury.norov@gmail.com>
- <20210421031326.72816-2-yury.norov@gmail.com>
- <20210421111932.36665920@gandalf.local.home>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210421111932.36665920@gandalf.local.home>
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: BL1PR13CA0124.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::9) To DM6PR11MB4545.namprd11.prod.outlook.com
- (2603:10b6:5:2ae::14)
+        id S1343907AbhDVA1u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Apr 2021 20:27:50 -0400
+Received: from office2.cesnet.cz ([195.113.144.244]:57958 "EHLO
+        office2.cesnet.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343892AbhDVA1u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Apr 2021 20:27:50 -0400
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by office2.cesnet.cz (Postfix) with ESMTPSA id 6B23340006F;
+        Thu, 22 Apr 2021 02:27:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
+        s=office2-2020; t=1619051225;
+        bh=ZmF/r7mYwFTsWsCMUMfIsxKemaYlZAyFFv9421eoI+Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc;
+        b=Qf63FRJEd+45MArzuqnBvcZ2xLxqUjGyxYaaqZvj4fZK4oAaUdHshp/4L1OFR5TlT
+         Pr2xGthNNfe0m58SW/5TRFY0kS6KisOSSIGqBz27aDsp7QULx9MMwnqgI3xVtXFiqe
+         DHsmG+BVzDiAlMXxcPsXF6qpE22BHzNTKjzy7N/cIPkB33KJtDJSSyT9ye//2kx5VM
+         bh5xCpNPksafF0hMB/T/0tQsp/CLgFFnr2APU9kZjnv64s33UVULys/9qnAnG+a8gP
+         +X3dLBhom1KrO+ThJtpXKczkcdpAKkfMuphkJ8r8DfDqFs6y0LXJ0rrFHup07mUjOe
+         avTg4g3YKBe5w==
+Received: by mail-pg1-f173.google.com with SMTP id t22so122481pgu.0;
+        Wed, 21 Apr 2021 17:27:05 -0700 (PDT)
+X-Gm-Message-State: AOAM532fI1j8WS8Ak++V6LCdyCwhneMVQYUabFIakVdZWh1ihAAcU99x
+        IRVAi+caNPXcCsBVWT1qcVflv0HnPTPqESLBxIc=
+X-Google-Smtp-Source: ABdhPJwDNNv4fs6YxJ2aMiKZ54+ieTK7Jeq7DTklONqdhvM6fxzirb+eKm8PBOorvYemcfRve7vV3xNq8clmFiQRh1U=
+X-Received: by 2002:a63:5b0e:: with SMTP id p14mr769382pgb.110.1619051223705;
+ Wed, 21 Apr 2021 17:27:03 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from windriver.com (128.224.252.2) by BL1PR13CA0124.namprd13.prod.outlook.com (2603:10b6:208:2bb::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.16 via Frontend Transport; Wed, 21 Apr 2021 23:45:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1a34bca0-c9e2-4cc9-8277-08d9051f92dd
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5440:
-X-Microsoft-Antispam-PRVS: <DM4PR11MB544030BCC7810BC80A92990083479@DM4PR11MB5440.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YZ18ygSuWxsxzucoqKkgkn5el2IPdkzGo0BaA4/HKwnE0hxmFNIdzPiIiNdtW5EmyUvCmHXhjD/RKw4aLPbjCPn6JvrpGkZUXu6qK6sHEghOa3nttrg76fQNiCNKjhHJ8kcXfjJQ59e+34qhO+l4R0//QhZaMfDtCDnOyG1l1faQkpPi6Eh9LBYc8rPjOEA0tSMu3P7rFKxNd7lav7mTBY5M5YVy+2vu/1PNXRolSjMNZ4b24TPRWA/fxhwO6WEpXw/9qePEb46CP5LaqCN3dzB5k/4Ej4mWWrH+yK9kY2XjWULTueZy01pfWhfC2LTNekVh+2qjBtsyMJZuOLurjQ1wRY25ffKNcNebyoMrF6xh+MMmiUonZO/0/JW6s/uVVrl5t7G8s8cLHZAwKBR70EYPRujQbKJfSiYoeDEFKCOZ2b1S8979GKbsF4M73sxaKoThWznnaILDjVXijJEe3dXa90T8l/KGzsl9RUbRLBUQz0VwscMylAg/kr+xFMqMgV+7CmwTlLRz3A1CFHFdHx64udmQZ29lv30cxof0CD7ufK4H5rYNoVJMAckI8rS1bH8lbZgZHSiP9nig4ydoTqQZO8vb1NmmKw75nCX1mTHi7rZo992yxSIy/DOQeC+ekSEDCwnb89MDdYjhjzfpoep/rhbBDeAcNFp0LO6QTJc5YXrLjOPsfx5BiP8RjmXe
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4545.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(366004)(396003)(39850400004)(7696005)(86362001)(4326008)(186003)(8676002)(956004)(1076003)(38350700002)(36756003)(478600001)(54906003)(55016002)(33656002)(38100700002)(8936002)(7416002)(2906002)(52116002)(5660300002)(8886007)(316002)(44832011)(66476007)(66946007)(6916009)(26005)(16526019)(66556008)(2616005)(6666004)(27376004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?P0KIkLs7ZhwivWXFk8OnOt61Dt9hnzxsafvYiaW6UNSvsfnILaPWG1sqTNPB?=
- =?us-ascii?Q?YcDVM4AKRn20I/AHRV2PIYhSlGL/oiEuMw1FpT+LBtHScvpafYsgajeg3QN+?=
- =?us-ascii?Q?CD81rM0Lf4QlCXkeMoN8gVrqvXUmbNZgDARC17VUo0HGn/hnJQzmAV+9DgLU?=
- =?us-ascii?Q?jh/SBn5FlCqRZ6t2/IcXG3Bqm4kCwtKD06/v3X+xZ4JMKbeyJZkUy6iE3B7z?=
- =?us-ascii?Q?oLf7WIAMDt/yev+HWB2amqdeNkqgF/TZxTPt3VuooAbpnkVUd5ugWitaBG4H?=
- =?us-ascii?Q?mj4jeAcSJtx4WlGo0RdIeIrlqX9RbGTWmVwt7vA5Kj1B4VPo2zAGs/mlN01P?=
- =?us-ascii?Q?snf93JUvRAQvzgPpYBBqsc2eb3dnsBvYlOuOrX/mf6ZFfOPxkXPdrB+8k6YZ?=
- =?us-ascii?Q?Y8dBEmwfREMdnCGAkiYb9C8YqV0Emjl3KODB0BTliwSRCYuPlJ0seiMBwSYq?=
- =?us-ascii?Q?aiQKKsCDsRvVaMZgooIEwck90Lgi6RiLVXsFhmAD/oT7u3kpzamghwLNpfvV?=
- =?us-ascii?Q?h42KEc9erB26aZ8ZqWRfPujN4jXGI5q5X25iCsiN7Yx4KjWHCmxamVNadfu0?=
- =?us-ascii?Q?GssuplK+fyp9SvYhUwGNg6ddJ8mMu816ktwHcmpR7GPwfaCrhB41pey9qZv6?=
- =?us-ascii?Q?joWRyadamhCWWwVUDiXiGRjETAHN4GVzQc8Jr5orWgQwDwOYfxaRXbc/l+XD?=
- =?us-ascii?Q?BnPKOoiB9i1fUQj7TQN1eXvXQ0rWfuQdeVwJbzfE6dxgVeLPngkQCXu+9Gjs?=
- =?us-ascii?Q?P0h8QeMzzLv49VTW8bU10SbO7Ec1GohbvhYcSkdmZ8dsitqB9dk9VoqPDhx8?=
- =?us-ascii?Q?6RowBdAa3yekwIfsefm5sr51H0/fnQrggZ53WvmDuDRHWA1WIoKLZHkYaGdJ?=
- =?us-ascii?Q?m1V2XpzKV4HR90zqI18oAlCqbzPuQKrOuirBjUiZe3P9tsELECCT0VwWf2xZ?=
- =?us-ascii?Q?4ViOefI50vxizYNnUTGCyIRbuQGEPVcgUlEjixlq63HExaQbVmPW+asLVfl1?=
- =?us-ascii?Q?LfZEGnzDu3DS0D1JCHo74/TmNf4kvml4sjZVDDj9W+HCxbOnYnOL331TzoBw?=
- =?us-ascii?Q?za6y2Kq+SHxCSHpSs90y3pw9UtOlqkdfwKAQvLO6BYcVW48hRxld3LbJkqxA?=
- =?us-ascii?Q?mOmzv4q8hWoDtp9EizehXzThcjhBEkZ5h5BqT5Ywf8+zrTpSd89Mh+mShltf?=
- =?us-ascii?Q?LCM2DsC8pndhKK0hZ0xnu1iiJEYg3lckKCjcV+u4o84lgQTlblwxLTvirRnf?=
- =?us-ascii?Q?M0KJUz/JvyyjzlMiz9aP51b236ff8zaFfqBgxJQNUD8+5hysxiNWLpfVJ0D9?=
- =?us-ascii?Q?m+57oUm6Qn3Op3Q0cVz6qQ9U?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a34bca0-c9e2-4cc9-8277-08d9051f92dd
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4545.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2021 23:45:42.0998
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k3nN09nMSjlI+zkTf80Rbb9uMTx0svqw7/3Lv2xgk4cs9KN45WSKclgFP8tRC1RfwIBsnwD0EpV/bXCqksCjbZCvMzUITbkEUbfNB9ouyUc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5440
+References: <20210413025948.901867-1-kubernat@cesnet.cz> <20210413025948.901867-2-kubernat@cesnet.cz>
+ <20210419223340.GA229491@roeck-us.net>
+In-Reply-To: <20210419223340.GA229491@roeck-us.net>
+From:   =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
+Date:   Thu, 22 Apr 2021 02:26:52 +0200
+X-Gmail-Original-Message-ID: <CABKa3no1k3uJ4dMgg16+FE+qb=Rbg-r_F3fV=P-OE8mBa30QAQ@mail.gmail.com>
+Message-ID: <CABKa3no1k3uJ4dMgg16+FE+qb=Rbg-r_F3fV=P-OE8mBa30QAQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] hwmon: (max31790) Fix and split pwm*_enable
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Re: [PATCH 1/2] bitmap_parse: support 'all' semantics] On 21/04/2021 (Wed 11:19) Steven Rostedt wrote:
+Okay, no problem, I'll get rid of the full-speed mode (and update the
+documentation) in the next version of the patch. Do you think I should
+disable the value "0" in pwm*_enable?
 
-> On Tue, 20 Apr 2021 20:13:25 -0700
-> Yury Norov <yury.norov@gmail.com> wrote:
-> 
-> > @@ -76,6 +76,11 @@ to change, such as less cores in the CPU list, then N and any ranges using N
-> >  will also change.  Use the same on a small 4 core system, and "16-N" becomes
-> >  "16-3" and now the same boot input will be flagged as invalid (start > end).
-> >  
-> > +The special case-tolerant group name "all" has a meaning of selecting all CPUs,
-> > +such that "isolcpus=all" is the equivalent of "isolcpus=0-N".
-> 
-> I'm OK with the concept of this patch set, but really? That is a horrible
-> example. One should NEVER set isolcpus to all!
+V=C3=A1clav
 
-It wouldn't have parsed anyways.  The "isolcpus=" would just think "all" was
-an unsupported flag and discard it before it ever got to cpu/bitmap
-processing.   See 3662daf02350 "sched/isolation: Allow "isolcpus=" to
-skip unknown sub-parameters".
-
-The use case example Paul chose (not me; the smart Paul) is better.
-
-Paul.
---
-
-> 
-> -- Steve
-> 
-> 
+=C3=BAt 20. 4. 2021 v 0:33 odes=C3=ADlatel Guenter Roeck <linux@roeck-us.ne=
+t> napsal:
+>
+> On Tue, Apr 13, 2021 at 04:59:45AM +0200, V=C3=A1clav Kubern=C3=A1t wrote=
+:
+> > In the old code, pwm*_enable does two things. Firstly, it sets whether
+> > the chip should run in PWM or RPM mode. Secondly, it tells the chip
+> > whether it should monitor fan RPM. However, these two settings aren't
+> > tied together, so they shouldn't be set with a single value. In the new
+> > code, fan*_enable now controls fan RPM monitoring (pwm*_enable no longe=
+r
+> > controls that).
+> >
+> > According to the sysfs hwmon documentation, pwm*_enable has three
+> > possible values, 0 for "no control / full-speed", 1 for manual mode, an=
+d
+> > 2+ for automatic. The old code works fine for 1 and 2, but 0 only
+> > differs from 1 in that it just turns off fan speed monitoring. The chip
+> > actually does have a way to turn off fan controls (and only monitor),
+> > but what that does is that it sets PWM to 0% duty cycle (which is the
+> > opposite to full-speed) AND it also turns off fan speed monitoring.
+> > Because of this, I implemented the 0 value by setting PWM mode to 100%.
+> > This method does come with a problem: it is impossible to differentiate
+> > between full-speed and PWM mode just from the values on the chip. The
+> > new code solves this by saving a value indicating whether we're in
+> > full-speed mode. This value is initialized to 0, so full-speed mode
+> > won't persist across reboots.
+> >
+> I don't think this is a good idea, sorry. It is not just a problem across
+> reboots, but also when unloading and reloading the driver. I think we
+> should stick with chip capabilities and adjust the documentation
+> accordingly.
+>
+> Guenter
+>
+> > These two changes are closely connected together, mainly because the
+> > detection of the pwm*_enable value depended on whether fan speed
+> > monitoring is enabled (which is now controlled as written in the first
+> > paragraph).
+> >
+> > Signed-off-by: V=C3=A1clav Kubern=C3=A1t <kubernat@cesnet.cz>
+> > ---
+> >  Documentation/hwmon/max31790.rst |  8 +--
+> >  drivers/hwmon/max31790.c         | 87 ++++++++++++++++++++++----------
+> >  2 files changed, 66 insertions(+), 29 deletions(-)
+> >
+> > diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max=
+31790.rst
+> > index f301385d8cef..8979c8a02cd1 100644
+> > --- a/Documentation/hwmon/max31790.rst
+> > +++ b/Documentation/hwmon/max31790.rst
+> > @@ -34,10 +34,12 @@ also be configured to serve as tachometer inputs.
+> >  Sysfs entries
+> >  -------------
+> >
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +fan[1-12]_enable   RW  enable fan speed monitoring
+> >  fan[1-12]_input    RO  fan tachometer speed in RPM
+> >  fan[1-12]_fault    RO  fan experienced fault
+> >  fan[1-6]_target    RW  desired fan speed in RPM
+> > -pwm[1-6]_enable    RW  regulator mode, 0=3Ddisabled, 1=3Dmanual mode, =
+2=3Drpm mode
+> > +pwm[1-6]_enable    RW  regulator mode, 0=3Dfull speed, 1=3Dmanual (pwm=
+) mode, 2=3Drpm mode
+> > +                       setting rpm mode sets fan*_enable to 1
+> >  pwm[1-6]           RW  fan target duty cycle (0-255)
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+> > index e3765ce4444a..ecdd55e12ffe 100644
+> > --- a/drivers/hwmon/max31790.c
+> > +++ b/drivers/hwmon/max31790.c
+> > @@ -39,6 +39,7 @@
+> >
+> >  #define FAN_RPM_MIN                  120
+> >  #define FAN_RPM_MAX                  7864320
+> > +#define MAX_PWM                              0XFF80
+> >
+> >  #define RPM_FROM_REG(reg, sr)                (((reg) >> 4) ? \
+> >                                        ((60 * (sr) * 8192) / ((reg) >> =
+4)) : \
+> > @@ -90,6 +91,7 @@ struct max31790_data {
+> >       struct regmap *regmap;
+> >
+> >       struct mutex update_lock;
+> > +     bool full_speed[NR_CHANNEL];
+> >       u8 fan_config[NR_CHANNEL];
+> >       u8 fan_dynamics[NR_CHANNEL];
+> >  };
+> > @@ -191,6 +193,9 @@ static int max31790_read_fan(struct device *dev, u3=
+2 attr, int channel,
+> >               else
+> >                       *val =3D !!(fault & (1 << channel));
+> >               return 0;
+> > +     case hwmon_fan_enable:
+> > +             *val =3D !!(data->fan_config[channel] & MAX31790_FAN_CFG_=
+TACH_INPUT_EN);
+> > +             return 0;
+> >       default:
+> >               return -EOPNOTSUPP;
+> >       }
+> > @@ -233,6 +238,15 @@ static int max31790_write_fan(struct device *dev, =
+u32 attr, int channel,
+> >                                    MAX31790_REG_TARGET_COUNT(channel),
+> >                                    target_count);
+> >               break;
+> > +     case hwmon_fan_enable:
+> > +             if (val =3D=3D 0)
+> > +                     data->fan_config[channel] &=3D ~MAX31790_FAN_CFG_=
+TACH_INPUT_EN;
+> > +             else
+> > +                     data->fan_config[channel] |=3D MAX31790_FAN_CFG_T=
+ACH_INPUT_EN;
+> > +             err =3D regmap_write(regmap,
+> > +                                MAX31790_REG_FAN_CONFIG(channel),
+> > +                                data->fan_config[channel]);
+> > +             break;
+> >       default:
+> >               err =3D -EOPNOTSUPP;
+> >               break;
+> > @@ -260,6 +274,11 @@ static umode_t max31790_fan_is_visible(const void =
+*_data, u32 attr, int channel)
+> >                   !(fan_config & MAX31790_FAN_CFG_TACH_INPUT))
+> >                       return 0644;
+> >               return 0;
+> > +     case hwmon_fan_enable:
+> > +             if (channel < NR_CHANNEL ||
+> > +                 (fan_config & MAX31790_FAN_CFG_TACH_INPUT))
+> > +                     return 0644;
+> > +             return 0;
+> >       default:
+> >               return 0;
+> >       }
+> > @@ -281,12 +300,12 @@ static int max31790_read_pwm(struct device *dev, =
+u32 attr, int channel,
+> >               *val =3D read >> 8;
+> >               return 0;
+> >       case hwmon_pwm_enable:
+> > -             if (data->fan_config[channel] & MAX31790_FAN_CFG_RPM_MODE=
+)
+> > +             if (data->full_speed[channel])
+> > +                     *val =3D 0;
+> > +             else if (data->fan_config[channel] & MAX31790_FAN_CFG_RPM=
+_MODE)
+> >                       *val =3D 2;
+> > -             else if (data->fan_config[channel] & MAX31790_FAN_CFG_TAC=
+H_INPUT_EN)
+> > +             else
+> >                       *val =3D 1;
+> > -             else
+> > -                     *val =3D 0;
+> >               return 0;
+> >       default:
+> >               return -EOPNOTSUPP;
+> > @@ -305,28 +324,42 @@ static int max31790_write_pwm(struct device *dev,=
+ u32 attr, int channel,
+> >
+> >       switch (attr) {
+> >       case hwmon_pwm_input:
+> > -             if (val < 0 || val > 255) {
+> > +             if (data->full_speed[channel] || val < 0 || val > 255) {
+> >                       err =3D -EINVAL;
+> >                       break;
+> >               }
 > > +
-> > +The semantics of "N" and "all" is supported on a level of bitmaps and holds for
-> > +all users of bitmap_parse().
-> >  
+> >               err =3D write_reg_word(regmap, MAX31790_REG_PWMOUT(channe=
+l), val << 8);
+> >               break;
+> >       case hwmon_pwm_enable:
+> >               fan_config =3D data->fan_config[channel];
+> > -             if (val =3D=3D 0) {
+> > -                     fan_config &=3D ~(MAX31790_FAN_CFG_TACH_INPUT_EN =
+|
+> > -                                     MAX31790_FAN_CFG_RPM_MODE);
+> > -             } else if (val =3D=3D 1) {
+> > -                     fan_config =3D (fan_config |
+> > -                                   MAX31790_FAN_CFG_TACH_INPUT_EN) &
+> > -                                  ~MAX31790_FAN_CFG_RPM_MODE;
+> > +             if (val =3D=3D 0 || val =3D=3D 1) {
+> > +                     fan_config &=3D ~MAX31790_FAN_CFG_RPM_MODE;
+> >               } else if (val =3D=3D 2) {
+> > -                     fan_config |=3D MAX31790_FAN_CFG_TACH_INPUT_EN |
+> > -                                   MAX31790_FAN_CFG_RPM_MODE;
+> > +                     fan_config |=3D MAX31790_FAN_CFG_RPM_MODE;
+> >               } else {
+> >                       err =3D -EINVAL;
+> >                       break;
+> >               }
+> > +
+> > +             /*
+> > +              * The chip sets PWM to zero when using its "monitor only=
+" mode
+> > +              * and 0 means full speed.
+> > +              */
+> > +             if (val =3D=3D 0) {
+> > +                     data->full_speed[channel] =3D true;
+> > +                     err =3D write_reg_word(regmap, MAX31790_REG_PWMOU=
+T(channel), MAX_PWM);
+> > +             } else {
+> > +                     data->full_speed[channel] =3D false;
+> > +             }
+> > +
+> > +             /*
+> > +              * RPM mode implies enabled TACH input, so enable it in R=
+PM
+> > +              * mode.
+> > +              */
+> > +             if (val =3D=3D 2)
+> > +                     fan_config |=3D MAX31790_FAN_CFG_TACH_INPUT_EN;
+> > +
+> >               data->fan_config[channel] =3D fan_config;
+> >               err =3D regmap_write(regmap,
+> >                                  MAX31790_REG_FAN_CONFIG(channel),
+> > @@ -400,18 +433,18 @@ static umode_t max31790_is_visible(const void *da=
+ta,
+> >
+> >  static const struct hwmon_channel_info *max31790_info[] =3D {
+> >       HWMON_CHANNEL_INFO(fan,
+> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
+,
+> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
+,
+> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
+,
+> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
+,
+> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
+,
+> > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT=
+,
+> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
+> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
+> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
+> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
+> > -                        HWMON_F_INPUT | HWMON_F_FAULT,
+> > -                        HWMON_F_INPUT | HWMON_F_FAULT),
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
+T | HWMON_F_FAULT,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
+T | HWMON_F_FAULT,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
+T | HWMON_F_FAULT,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
+T | HWMON_F_FAULT,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
+T | HWMON_F_FAULT,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGE=
+T | HWMON_F_FAULT,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
+,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
+,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
+,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
+,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
+,
+> > +                        HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT=
+),
+> >       HWMON_CHANNEL_INFO(pwm,
+> >                          HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> >                          HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> > @@ -448,6 +481,8 @@ static int max31790_init_client(struct regmap *regm=
+ap,
+> >               if (rv < 0)
+> >                       return rv;
+> >               data->fan_dynamics[i] =3D rv;
+> > +
+> > +             data->full_speed[i] =3D false;
+> >       }
+> >
+> >       return 0;
