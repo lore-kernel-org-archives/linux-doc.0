@@ -2,214 +2,286 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B3FC43460
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 15:24:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68208C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 15:41:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ADBA8613F6
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 15:24:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27A9C61424
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Apr 2021 15:41:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237575AbhDVPYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 11:24:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236367AbhDVPYq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 11:24:46 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23934C06138C
-        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 08:24:11 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id q123-20020a1c43810000b029012c7d852459so4374395wma.0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 08:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1Rp8OfjVOSZyc4PmXdV4gllwWauLm90/cEmNM2YOoao=;
-        b=YmheUYy0JFRyTOg+K4+AwxPa27H30+GcG5q0kEtquthxbh65SNajPAlQ0uStVHWUd2
-         xZacQYvFay5OBSNVW05KkSipLF+fcOswbjQJeKwaWRLr3Z2MATvtYQRTxFEEWLzU4qbD
-         INY/3HoRfnkMuN7lOc6L4FTKjW5Id4ezhEdCaVAoY7xunKv27cZ5VtbebBZ3Kx7W75Mt
-         UZekoFANYM2mrJUjd6WdXFAKYSjqyo+JDgfQ3L6TrBMMdxLLxhRqieb2eEDvJmXQUQD9
-         5tqxvAbpE+PQGvjkkyvioJmXsnZz2XxLvmFxdkcJGEitbUyw1jpb3fiSyprxJ9d3fif3
-         SGmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1Rp8OfjVOSZyc4PmXdV4gllwWauLm90/cEmNM2YOoao=;
-        b=K9f84w05gEKvGavbi0RSNwhqKLGKX0npiTg+zrTB3B80gTEsQRcxGgnOjrIi2qzrKf
-         ZjVHg+dgx6MLCBlhTeB/PtPcZILC2Ik9Zz1+VNFHUaxglm9UcpMmTl1fi/tOjF4lzpMm
-         oslRK8V8PByd7bm5JUox2OMZ6ymb/GQoEkGPgc9WpchrjD/wigwUCpCc4ItsOZDIlrbx
-         F2+9gH+KOfm3xxCT3mCSjbhsacihmcxOZxnS7kyRqHp/26IWg1FZo2Vp+t5Thv5kq3u1
-         8jcJZD+mJFz3ozDvhxxEmi9tPS5YEBtjkMECtTlQnMNkXcjU7k3gURqB/WIY7bKANdHI
-         LEQg==
-X-Gm-Message-State: AOAM5327OeNCY2Wne6XpkJtYdUzVd9sAEVufZs6E4tBkMyMnq8DxTSCh
-        Spiv+56FHT3t9+a2ZZg/OlSS
-X-Google-Smtp-Source: ABdhPJwP1UTTNEtMjboT4KoKEwdKXPR9eB8oqTPSo7tqSdKoNAqg3Vwv1ccoDR1H2HLlj0ZOWYik4A==
-X-Received: by 2002:a1c:9853:: with SMTP id a80mr4448063wme.44.1619105049152;
-        Thu, 22 Apr 2021 08:24:09 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:209:35c3:2357:b268:5220])
-        by smtp.gmail.com with ESMTPSA id f1sm4078646wru.60.2021.04.22.08.24.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 08:24:08 -0700 (PDT)
-Date:   Thu, 22 Apr 2021 16:24:04 +0100
-From:   Wedson Almeida Filho <wedsonaf@google.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YIGVFCymUn+4HBIj@google.com>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com>
- <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
+        id S237782AbhDVPmK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 11:42:10 -0400
+Received: from smtp-8fa9.mail.infomaniak.ch ([83.166.143.169]:41505 "EHLO
+        smtp-8fa9.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236617AbhDVPmJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 11:42:09 -0400
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4FR1qb4dRyzMptYp;
+        Thu, 22 Apr 2021 17:41:31 +0200 (CEST)
+Received: from localhost (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4FR1qV5kmGzlmrs5;
+        Thu, 22 Apr 2021 17:41:26 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v34 00/13] Landlock LSM
+Date:   Thu, 22 Apr 2021 17:41:10 +0200
+Message-Id: <20210422154123.13086-1-mic@digikod.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-First of all, thanks for the thoughtful feedback.
+Hi,
 
-On Thu, Apr 22, 2021 at 12:03:13PM +0200, Linus Walleij wrote:
-> I am sure you are aware of this document:
-> Documentation/process/stable-api-nonsense.rst
-> 
-> We really like to change the internal APIs of the kernel, and it sounds to
-> me like Rust really likes a rust-side-vs-C-side approach to APIs, requiring
-> these wrappers to be written and maintained all over the place, and that
-> is going to affect the mobility of the kernel-internal APIs and make them
-> less mobile.
+This updated patch series adds a new patch on top of the previous ones.
+It brings a new flag to landlock_create_ruleset(2) that enables
+efficient and simple backward compatibility checks for future evolutions
+of Landlock (e.g. new access-control rights).  Indeed, it is important
+to help user space to follow a best-effort security.  This new flag is
+not strictly useful for applications using the current Landlock features
+but it will be useful when applications developed for newer kernels will
+be run on older kernels (e.g. the current one).
 
-The Rust-side-vs-C-side is because we want to provide an environment where we
-can write kernel code (e.g., a driver) and if we stick to safe code (i.e.,
-we don't use the Rust keyword "unsafe"), then we can be confident that our
-code is free of memory safety issues (assuming, of course, that the abstractions
-are sound).
+Here is an example of a (work in progress) library using this
+information to provide a nice backward compatible API:
+https://github.com/landlock-lsm/rust-landlock
 
-Calling C functions directly would not allow us to do this.
+The SLOC count is 1331 for security/landlock/ and 2626 for
+tools/testing/selftest/landlock/ .
+Test coverage for security/landlock/ is 93.6% of lines:
+https://landlock.io/linux-lcov/landlock-v34/security/landlock/index.html
+The code not covered only deals with internal kernel errors (e.g. memory
+allocation), race conditions and safety checks that should not be
+triggered.  This series is being fuzzed by syzkaller (covering internal
+kernel errors) that now supports Landlock:
+https://github.com/google/syzkaller/pull/2380
+syzkaller coverage reached 72% (ci-upstream-linux-next-kasan-gce-root):
+https://syzkaller.appspot.com/upstream
 
-As for mobility, I have the impression that this could potentially increase
-mobility in that for Rust maintainers would need to change one place (the
-wrapper) as opposed to a number of drivers using an API (if it's mostly an
-argument/change kind of thing). Of course, if it's something like removing an
-API then we'd have to change everywhere.
+The HTML documentation is available here:
+https://landlock.io/linux-doc/landlock-v34/userspace-api/landlock.html
 
-I'd like to reassure you that it is not our intention to create a stable api,
-restrict mobility, or anything of that sort. Though I do acknowledge Rust may
-complicate things (more on this below).
+This series can be applied on top of v5.12-rc3 .  This can be tested with
+CONFIG_SECURITY_LANDLOCK, CONFIG_SAMPLE_LANDLOCK and by prepending
+"landlock," to CONFIG_LSM.  This patch series can be found in a Git
+repository here:
+https://github.com/landlock-lsm/linux/commits/landlock-v34
+This patch series seems ready for upstream and I would really appreciate
+final reviews.
 
-> If it means I need to write and review less patches related to NULL
-> dereference and use-after-free etc etc, then it may very well be worth
-> it.
+Landlock LSM
+============
 
-Indeed that's part of our goal. A class of vulnerabilities is removed by
-construction; others are harder to create accidentally. Reviewers would also
-know that unsafe blocks need extra attention.
- 
-> But as subsystem maintainer I'd like a clear picture of this wrapper
-> overhead, what does it usually entail? A typical kernel API has
-> vtable and a few variables, not much more than that.
-> 
-> I go to patch 12/13 and I see things like this:
-> 
-> +/// A descriptor of wrapped list elements.
-> +pub trait GetLinksWrapped: GetLinks {
-> +    /// Specifies which wrapper (e.g., `Box` and `Arc`) wraps the list entries.
-> +    type Wrapped: Wrapper<Self::EntryType>;
-> +}
-> +
-> +impl<T: ?Sized> GetLinksWrapped for Box<T>
-> +where
-> +    Box<T>: GetLinks,
-> +{
-> +    type Wrapped = Box<<Box<T> as GetLinks>::EntryType>;
-> +}
-> +
-> +impl<T: GetLinks + ?Sized> GetLinks for Box<T> {
-> +    type EntryType = T::EntryType;
-> +    fn get_links(data: &Self::EntryType) -> &Links<Self::EntryType> {
-> +        <T as GetLinks>::get_links(data)
-> +    }
-> +}
+The goal of Landlock is to enable to restrict ambient rights (e.g.
+global filesystem access) for a set of processes.  Because Landlock is a
+stackable LSM [1], it makes possible to create safe security sandboxes
+as new security layers in addition to the existing system-wide
+access-controls. This kind of sandbox is expected to help mitigate the
+security impact of bugs or unexpected/malicious behaviors in user-space
+applications. Landlock empowers any process, including unprivileged
+ones, to securely restrict themselves.
 
-We want the runtime overhead to be zero. During development, as you rightly
-point out, there is the overhead of creating and maintaining these abstractions
-for use in Rust. The code above is not a good example of a wrapper because it's
-not wrapping kernel C functionality.
+Landlock is inspired by seccomp-bpf but instead of filtering syscalls
+and their raw arguments, a Landlock rule can restrict the use of kernel
+objects like file hierarchies, according to the kernel semantic.
+Landlock also takes inspiration from other OS sandbox mechanisms: XNU
+Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
 
-A better example is Pages, which wraps a pointer to struct page:
+In this current form, Landlock misses some access-control features.
+This enables to minimize this patch series and ease review.  This series
+still addresses multiple use cases, especially with the combined use of
+seccomp-bpf: applications with built-in sandboxing, init systems,
+security sandbox tools and security-oriented APIs [2].
 
-    pub struct Pages<const ORDER: u32> {
-        pages: *mut bindings::page,
-    }
+[1] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
+[2] https://lore.kernel.org/lkml/f646e1c7-33cf-333f-070c-0a40ad0468cd@digikod.net/
 
-If you call Pages::new(), alloc_pages() is called and returns a
-KernelResult<Pages>. If the allocation fails you get an error back, otherwise
-you get the pages: there is no possibility of forgetting to check the return
-value and accidentally dereferencing a NULL pointer.
+Previous versions:
+v33: https://lore.kernel.org/lkml/20210407160726.542794-1-mic@digikod.net/
+v32: https://lore.kernel.org/lkml/20210401205208.2756565-1-mic@digikod.net/
+v31: https://lore.kernel.org/lkml/20210324191520.125779-1-mic@digikod.net/
+v30: https://lore.kernel.org/lkml/20210316204252.427806-1-mic@digikod.net/
+v29: https://lore.kernel.org/lkml/20210225190614.2181147-1-mic@digikod.net/
+v28: https://lore.kernel.org/lkml/20210202162710.657398-1-mic@digikod.net/
+v27: https://lore.kernel.org/lkml/20210121205119.793296-1-mic@digikod.net/
+v26: https://lore.kernel.org/lkml/20201209192839.1396820-1-mic@digikod.net/
+v25: https://lore.kernel.org/lkml/20201201192322.213239-1-mic@digikod.net/
+v24: https://lore.kernel.org/lkml/20201112205141.775752-1-mic@digikod.net/
+v23: https://lore.kernel.org/lkml/20201103182109.1014179-1-mic@digikod.net/
+v22: https://lore.kernel.org/lkml/20201027200358.557003-1-mic@digikod.net/
+v21: https://lore.kernel.org/lkml/20201008153103.1155388-1-mic@digikod.net/
+v20: https://lore.kernel.org/lkml/20200802215903.91936-1-mic@digikod.net/
+v19: https://lore.kernel.org/lkml/20200707180955.53024-1-mic@digikod.net/
+v18: https://lore.kernel.org/lkml/20200526205322.23465-1-mic@digikod.net/
+v17: https://lore.kernel.org/lkml/20200511192156.1618284-1-mic@digikod.net/
+v16: https://lore.kernel.org/lkml/20200416103955.145757-1-mic@digikod.net/
+v15: https://lore.kernel.org/lkml/20200326202731.693608-1-mic@digikod.net/
+v14: https://lore.kernel.org/lkml/20200224160215.4136-1-mic@digikod.net/
+v13: https://lore.kernel.org/lkml/20191104172146.30797-1-mic@digikod.net/
+v12: https://lore.kernel.org/lkml/20191031164445.29426-1-mic@digikod.net/
+v11: https://lore.kernel.org/lkml/20191029171505.6650-1-mic@digikod.net/
+v10: https://lore.kernel.org/lkml/20190721213116.23476-1-mic@digikod.net/
+v9: https://lore.kernel.org/lkml/20190625215239.11136-1-mic@digikod.net/
+v8: https://lore.kernel.org/lkml/20180227004121.3633-1-mic@digikod.net/
+v7: https://lore.kernel.org/lkml/20170821000933.13024-1-mic@digikod.net/
+v6: https://lore.kernel.org/lkml/20170328234650.19695-1-mic@digikod.net/
+v5: https://lore.kernel.org/lkml/20170222012632.4196-1-mic@digikod.net/
+v4: https://lore.kernel.org/lkml/20161026065654.19166-1-mic@digikod.net/
+v3: https://lore.kernel.org/lkml/20160914072415.26021-1-mic@digikod.net/
+v2: https://lore.kernel.org/lkml/1472121165-29071-1-git-send-email-mic@digikod.net/
+v1: https://lore.kernel.org/kernel-hardening/1458784008-16277-1-git-send-email-mic@digikod.net/
 
-We have ORDER as a compile-time argument to the type, so we know at compile-time
-how many pages we have at no additional runtime cost. So, for example, when we
-have to free the pages, the destructor knows what the right argument is when
-calling free_pages.
+Casey Schaufler (1):
+  LSM: Infrastructure management of the superblock
 
-The fact that you have a destructor also ensures that you don't accidentally
-forget to free the pages, so no leaks. (We don't have it implemented because
-we haven't needed it yet, but we can have get_page/put_page with proper
-ownership, i.e., after the equivalent of put_page, you can no longer touch the
-page, enforced at compile time).
+Mickaël Salaün (12):
+  landlock: Add object management
+  landlock: Add ruleset and domain management
+  landlock: Set up the security framework and manage credentials
+  landlock: Add ptrace restrictions
+  fs,security: Add sb_delete hook
+  landlock: Support filesystem access-control
+  landlock: Add syscall implementations
+  arch: Wire up Landlock syscalls
+  selftests/landlock: Add user space tests
+  samples/landlock: Add a sandbox manager example
+  landlock: Add user and kernel documentation
+  landlock: Enable user space to infer supported features
 
-We provide an `insert_page` associated function that maps the given page to a
-vma by calling vm_insert_page. (Only works if ORDER is zero.)
+ Documentation/security/index.rst              |    1 +
+ Documentation/security/landlock.rst           |   85 +
+ Documentation/userspace-api/index.rst         |    1 +
+ Documentation/userspace-api/landlock.rst      |  311 ++
+ MAINTAINERS                                   |   15 +
+ arch/Kconfig                                  |    7 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |    3 +
+ arch/arm/tools/syscall.tbl                    |    3 +
+ arch/arm64/include/asm/unistd.h               |    2 +-
+ arch/arm64/include/asm/unistd32.h             |    6 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |    3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |    3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |    3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |    3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |    3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |    3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |    3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |    3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |    3 +
+ arch/um/Kconfig                               |    1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |    3 +
+ fs/super.c                                    |    1 +
+ include/linux/lsm_hook_defs.h                 |    1 +
+ include/linux/lsm_hooks.h                     |    4 +
+ include/linux/security.h                      |    4 +
+ include/linux/syscalls.h                      |    7 +
+ include/uapi/asm-generic/unistd.h             |    8 +-
+ include/uapi/linux/landlock.h                 |  137 +
+ kernel/sys_ni.c                               |    5 +
+ samples/Kconfig                               |    7 +
+ samples/Makefile                              |    1 +
+ samples/landlock/.gitignore                   |    1 +
+ samples/landlock/Makefile                     |   13 +
+ samples/landlock/sandboxer.c                  |  238 ++
+ security/Kconfig                              |   11 +-
+ security/Makefile                             |    2 +
+ security/landlock/Kconfig                     |   21 +
+ security/landlock/Makefile                    |    4 +
+ security/landlock/common.h                    |   20 +
+ security/landlock/cred.c                      |   46 +
+ security/landlock/cred.h                      |   58 +
+ security/landlock/fs.c                        |  692 ++++
+ security/landlock/fs.h                        |   70 +
+ security/landlock/limits.h                    |   21 +
+ security/landlock/object.c                    |   67 +
+ security/landlock/object.h                    |   91 +
+ security/landlock/ptrace.c                    |  120 +
+ security/landlock/ptrace.h                    |   14 +
+ security/landlock/ruleset.c                   |  473 +++
+ security/landlock/ruleset.h                   |  165 +
+ security/landlock/setup.c                     |   40 +
+ security/landlock/setup.h                     |   18 +
+ security/landlock/syscalls.c                  |  451 +++
+ security/security.c                           |   51 +-
+ security/selinux/hooks.c                      |   58 +-
+ security/selinux/include/objsec.h             |    6 +
+ security/selinux/ss/services.c                |    3 +-
+ security/smack/smack.h                        |    6 +
+ security/smack/smack_lsm.c                    |   35 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/landlock/.gitignore   |    2 +
+ tools/testing/selftests/landlock/Makefile     |   24 +
+ tools/testing/selftests/landlock/base_test.c  |  266 ++
+ tools/testing/selftests/landlock/common.h     |  183 ++
+ tools/testing/selftests/landlock/config       |    7 +
+ tools/testing/selftests/landlock/fs_test.c    | 2791 +++++++++++++++++
+ .../testing/selftests/landlock/ptrace_test.c  |  337 ++
+ tools/testing/selftests/landlock/true.c       |    5 +
+ 72 files changed, 6986 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/security/landlock.rst
+ create mode 100644 Documentation/userspace-api/landlock.rst
+ create mode 100644 include/uapi/linux/landlock.h
+ create mode 100644 samples/landlock/.gitignore
+ create mode 100644 samples/landlock/Makefile
+ create mode 100644 samples/landlock/sandboxer.c
+ create mode 100644 security/landlock/Kconfig
+ create mode 100644 security/landlock/Makefile
+ create mode 100644 security/landlock/common.h
+ create mode 100644 security/landlock/cred.c
+ create mode 100644 security/landlock/cred.h
+ create mode 100644 security/landlock/fs.c
+ create mode 100644 security/landlock/fs.h
+ create mode 100644 security/landlock/limits.h
+ create mode 100644 security/landlock/object.c
+ create mode 100644 security/landlock/object.h
+ create mode 100644 security/landlock/ptrace.c
+ create mode 100644 security/landlock/ptrace.h
+ create mode 100644 security/landlock/ruleset.c
+ create mode 100644 security/landlock/ruleset.h
+ create mode 100644 security/landlock/setup.c
+ create mode 100644 security/landlock/setup.h
+ create mode 100644 security/landlock/syscalls.c
+ create mode 100644 tools/testing/selftests/landlock/.gitignore
+ create mode 100644 tools/testing/selftests/landlock/Makefile
+ create mode 100644 tools/testing/selftests/landlock/base_test.c
+ create mode 100644 tools/testing/selftests/landlock/common.h
+ create mode 100644 tools/testing/selftests/landlock/config
+ create mode 100644 tools/testing/selftests/landlock/fs_test.c
+ create mode 100644 tools/testing/selftests/landlock/ptrace_test.c
+ create mode 100644 tools/testing/selftests/landlock/true.c
 
-We provide a `kmap` associated function that maps one of the pages and returns a
-mapping, which itself has a wrapper type that ensures that kunmap is called when
-it goes out of scope.
 
-Anyway, what I'm trying to show here is that the wrappers are quite thin and are
-intended to enforce safety (where possible) and correct usage. Does it make
-sense? I'm glad to go into more details if desired.
+base-commit: 1e28eed17697bcf343c6743f0028cc3b5dd88bf0
+-- 
+2.31.1
 
-> All subsystem maintainers are expected to understand and maintain
-> wrappers like these, right? That means all subsystem maintainers need
-> to be elevated to understand the above without effort if you wake them
-> up in their sleep at 4 in the morning.
-
-I suppose they'd need to understand the wrappers that I talked about above, not
-the ones you copied (those are wrapping something else and maintainers of other
-subsystems are not expected to write this sort of code).
-
-There are other possible approaches too:
-1. Explicitly exclude Rust support from certain subsystems, say, no Rust USB
-drivers (just a random example).
-2. Maintainers may choose to not care about Rust, breaking it on api changes.
-
-Naturally I'd prefer Rust support to be a first-class citizen but I mention the
-above for completeness.
-
-> Get me right, we are of course good at doing really complicated stuff,
-> that's what engineers do. But we are not Iron Man. We need a clear
-> way into understanding and maintaining wrappers and we need support
-> with it when we don't understand it, so the kernel would need a Rust
-> wrapper maintainer that we can trust to stay around for the long term,
-> i.e. until their retirement, while actively teaching others for decades.
-> For an example see how RCU is maintained.
-
-Agreed. The only part that I'm not sure about is whether we need to put all the
-burden on a single person for the rest of their career. In the beginning, of
-course, but over time I would expect (hope?) experts would emerge and some of
-the load would be distributed.
- 
-Cheers,
--Wedson
