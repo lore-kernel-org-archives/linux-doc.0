@@ -2,44 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CACC5C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E2C4C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAEF761450
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7CBBC61249
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232523AbhDWVGq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 17:06:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26910 "EHLO
+        id S244028AbhDWVHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 17:07:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35295 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232479AbhDWVGq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 17:06:46 -0400
+        by vger.kernel.org with ESMTP id S243975AbhDWVHA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 17:07:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619211968;
+        s=mimecast20190719; t=1619211976;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=KUWNzg/cZ/ucXhaBruj2wL7eCNhxSMkRoedTIeePld0=;
-        b=DOyGp03wJX+Ths0EpC1QbWLT9QYvQOmxnPxODIoOrtRiMqqbaPtoA47/jG940mMTWYZB7m
-        p3AEOWhlsqrt5uu5+1b35/hReTaGkxULaw5SYeeRR8AugveTDFFNfE9moRcVkNbBhDQqPc
-        WGvJNdIIqz5XD92e+7ZNuft3TvpY+dY=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5Rmfl6RGhwpJme8c2uv3h8RJU0D8MuWSUt2WN+3AipA=;
+        b=bZQwNihsYFyOVmvGKaunHj6YSnM1M93pNa166U2TVwIkYm3aemIKvLpXOV+RPw1k9pYCit
+        FF/lczid4Rs2mMx2qY7I6VJfrOpd3qgqN8B5oxFF7ZUOtU/FAaZOWdNzaFYBF30jJeaeub
+        3r5jl5GPSJEFR4zMz6qAijQQlg0frqk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-604-ER-rzzndOQKDa3fDpA56bw-1; Fri, 23 Apr 2021 17:06:07 -0400
-X-MC-Unique: ER-rzzndOQKDa3fDpA56bw-1
+ us-mta-11-GdDCf2ykMW24LHwyfxJrPg-1; Fri, 23 Apr 2021 17:06:14 -0400
+X-MC-Unique: GdDCf2ykMW24LHwyfxJrPg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A905E343A3;
-        Fri, 23 Apr 2021 21:06:05 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3EC781744F;
+        Fri, 23 Apr 2021 21:06:12 +0000 (UTC)
 Received: from x1.bristot.me.homenet.telecomitalia.it (ovpn-112-8.rdu2.redhat.com [10.10.112.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1863A5DEAD;
-        Fri, 23 Apr 2021 21:05:52 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C8D8A60C21;
+        Fri, 23 Apr 2021 21:06:09 +0000 (UTC)
 From:   Daniel Bristot de Oliveira <bristot@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Phil Auld <pauld@redhat.com>,
@@ -55,9 +56,11 @@ Cc:     Phil Auld <pauld@redhat.com>,
         Clark Willaims <williams@redhat.com>,
         John Kacur <jkacur@redhat.com>,
         Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: [RFC PATCH V2 0/9] hwlat improvements and osnoise/timerlat tracers
-Date:   Fri, 23 Apr 2021 23:05:35 +0200
-Message-Id: <cover.1619210818.git.bristot@redhat.com>
+Subject: [RFC PATCH V2 2/9] tracing/hwlat: Implement the mode config option
+Date:   Fri, 23 Apr 2021 23:05:37 +0200
+Message-Id: <0a8aa1a25e5c7deb2510eb786661d0aeee47096b.1619210818.git.bristot@redhat.com>
+In-Reply-To: <cover.1619210818.git.bristot@redhat.com>
+References: <cover.1619210818.git.bristot@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
@@ -65,101 +68,298 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series proposes a set of improvements and new features for the
-tracing subsystem to facilitate the debugging of low latency
-deployments.
+Provides the "mode" config to the hardware latency detector. hwlatd has
+two different operation modes. The default mode is the "round-robin" one,
+in which a single hwlatd thread runs, migrating among the allowed CPUs in a
+"round-robin" fashion. This is the current behavior.
 
-Currently, hwlat runs on a single CPU at a time, migrating across a
-set of CPUs in a round-robin fashion. This series improves hwlat 
-to allow hwlat to run on multiple CPUs in parallel, increasing the
-chances of detecting a hardware latency, at the cost of using more
-CPU time.
+The "none" sets the allowed cpumask for a single hwlatd thread at the
+startup, but skips the round-robin, letting the scheduler handle the
+migration.
 
-It also proposes a new tracer named osnoise, that aims to help users
-of isolcpus= (or a similar method) to measure how much noise the OS
-and the hardware add to the isolated application. The osnoise tracer
-bases on the hwlat detector code. The difference is that, instead of
-sampling with interrupts disabled, the osnoise tracer samples the CPU with
-interrupts and preemption enabled. In this way, the sampling thread will
-suffer any source of noise from the OS. The detection and classification
-of the type of noise are then made by observing the entry points of NMIs,
-IRQs, SoftIRQs, and threads. If none of these sources of noise is detected,
-the tool associates the noise with the hardware. The tool periodically
-prints a status, printing the total noise of the period, the max single
-noise observed, the percentage of CPU available for the task, along with
-the counters of each source of the noise. To debug the sources of noise,
-the tracer also adds a set of tracepoints that print any NMI, IRQ, SofIRQ,
-and thread occurrence. These tracepoints print the starting time and the
-noise's net duration at the end of the noise. In this way, it reduces the
-number of tracepoints (one instead of two) and the need to manually
-accounting the contribution of each noise independently.
+In preparation to the per-cpu mode.
 
-Finaly, the timerlat tracer aims to help the preemptive kernel developers
-to find sources of wakeup latencies of real-time threads. The tracer
-creates a per-cpu kernel thread with real-time priority. The tracer thread
-sets a periodic timer to wakeup itself, and goes to sleep waiting for the
-timer to fire. At the wakeup, the thread then computes a wakeup latency
-value as the difference between the current time and the absolute time
-that the timer was set to expire. The tracer prints two lines at every
-activation. The first is the timer latency observed at the hardirq context
-before the activation of the thread. The second is the timer latency
-observed by the thread, which is the same level that cyclictest reports.
-The ACTIVATION ID field serves to relate the irq execution to its
-respective thread execution. The tracer is build on top of osnoise tracer,
-and the osnoise: events can be used to trace the source of interference
-from NMI, IRQs and other threads. It also enables the capture of the
-stacktrace at the IRQ context, which helps to identify the code path
-that can cause thread delay.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Alexandre Chartre <alexandre.chartre@oracle.com>
+Cc: Clark Willaims <williams@redhat.com>
+Cc: John Kacur <jkacur@redhat.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
+---
+ Documentation/trace/hwlat_detector.rst |  12 +-
+ kernel/trace/trace_hwlat.c             | 171 +++++++++++++++++++++++--
+ 2 files changed, 169 insertions(+), 14 deletions(-)
 
-Changes from v1:
- - Remove `` from RST (Corbet)
- - Add RST files to the index (Corbet)
- - Fix text and typos (Rostedt)
- - Remove the cpus from hwlat (Rostedt)
- - Remove the disable_migrate/fallback to mode none on hwlat (Rostedt)
- - Add a generic way to read/write u64 and use it on
-   hwlat/osnoise/timerlat (Rostedt)
- - Make osnoise/timerlat to work properly with trace-cmd/tracer
-   instances (Rostedt)
- - osnoise using the tracing_threshold (Rostedt)
- - Rearrange tracepoint structure to avoid "holes" (Rostedt)
-
-Daniel Bristot de Oliveira (8):
-  tracing/hwlat: Fix Clark's email
-  tracing/hwlat: Implement the mode config option
-  tracing/hwlat: Switch disable_migrate to mode none
-  tracing/hwlat: Implement the per-cpu mode
-  tracing/trace: Add a generic function to read/write u64 values from
-    tracefs
-  trace/hwlat: Use the generic function to read/write width and window
-  tracing: Add osnoise tracer
-  tracing: Add timerlat tracer
-
-Steven Rostedt (1):
-  tracing: Add __print_ns_to_secs() and __print_ns_without_secs()
-    helpers
-
- Documentation/trace/hwlat_detector.rst  |   13 +-
- Documentation/trace/index.rst           |    2 +
- Documentation/trace/osnoise-tracer.rst  |  152 ++
- Documentation/trace/timerlat-tracer.rst |  158 ++
- include/linux/ftrace_irq.h              |   13 +
- include/trace/events/osnoise.h          |  142 ++
- include/trace/trace_events.h            |   25 +
- kernel/trace/Kconfig                    |   62 +
- kernel/trace/Makefile                   |    1 +
- kernel/trace/trace.c                    |   88 +-
- kernel/trace/trace.h                    |   31 +-
- kernel/trace/trace_entries.h            |   41 +
- kernel/trace/trace_hwlat.c              |  410 +++--
- kernel/trace/trace_osnoise.c            | 2118 +++++++++++++++++++++++
- kernel/trace/trace_output.c             |  119 +-
- 15 files changed, 3227 insertions(+), 148 deletions(-)
- create mode 100644 Documentation/trace/osnoise-tracer.rst
- create mode 100644 Documentation/trace/timerlat-tracer.rst
- create mode 100644 include/trace/events/osnoise.h
- create mode 100644 kernel/trace/trace_osnoise.c
-
+diff --git a/Documentation/trace/hwlat_detector.rst b/Documentation/trace/hwlat_detector.rst
+index 5739349649c8..4d952df0586a 100644
+--- a/Documentation/trace/hwlat_detector.rst
++++ b/Documentation/trace/hwlat_detector.rst
+@@ -76,8 +76,12 @@ in /sys/kernel/tracing:
+  - tracing_cpumask	- the CPUs to move the hwlat thread across
+  - hwlat_detector/width	- specified amount of time to spin within window (usecs)
+  - hwlat_detector/window	- amount of time between (width) runs (usecs)
++ - hwlat_detector/mode	- the thread mode
+ 
+-The hwlat detector's kernel thread will migrate across each CPU specified in
+-tracing_cpumask between each window. To limit the migration, either modify
+-tracing_cpumask, or modify the hwlat kernel thread (named [hwlatd]) CPU
+-affinity directly, and the migration will stop.
++By default, the hwlat detector's kernel thread will migrate across each CPU
++specified in cpumask at the beginning of a new window, in a round-robin
++fashion. This behavior can be changed by changing the thread mode,
++the available options are:
++
++ - none:        do not force migration
++ - round-robin: migrate across each CPU specified in cpumask [default]
+diff --git a/kernel/trace/trace_hwlat.c b/kernel/trace/trace_hwlat.c
+index 902f3cfa3878..293a969be269 100644
+--- a/kernel/trace/trace_hwlat.c
++++ b/kernel/trace/trace_hwlat.c
+@@ -59,6 +59,14 @@ static struct task_struct *hwlat_kthread;
+ 
+ static struct dentry *hwlat_sample_width;	/* sample width us */
+ static struct dentry *hwlat_sample_window;	/* sample window us */
++static struct dentry *hwlat_thread_mode;	/* hwlat thread mode */
++
++enum {
++	MODE_NONE = 0,
++	MODE_ROUND_ROBIN,
++	MODE_MAX
++};
++static char *thread_mode_str[] = { "none", "round-robin" };
+ 
+ /* Save the previous tracing_thresh value */
+ static unsigned long save_tracing_thresh;
+@@ -96,11 +104,16 @@ static struct hwlat_data {
+ 	u64	sample_window;		/* total sampling window (on+off) */
+ 	u64	sample_width;		/* active sampling portion of window */
+ 
++	int	thread_mode;		/* thread mode */
++
+ } hwlat_data = {
+ 	.sample_window		= DEFAULT_SAMPLE_WINDOW,
+ 	.sample_width		= DEFAULT_SAMPLE_WIDTH,
++	.thread_mode		= MODE_ROUND_ROBIN
+ };
+ 
++static bool hwlat_busy;
++
+ static void trace_hwlat_sample(struct hwlat_sample *sample)
+ {
+ 	struct trace_array *tr = hwlat_trace;
+@@ -328,7 +341,8 @@ static int kthread_fn(void *data)
+ 
+ 	while (!kthread_should_stop()) {
+ 
+-		move_to_next_cpu();
++		if (hwlat_data.thread_mode == MODE_ROUND_ROBIN)
++			move_to_next_cpu();
+ 
+ 		local_irq_disable();
+ 		get_sample();
+@@ -366,11 +380,6 @@ static int start_kthread(struct trace_array *tr)
+ 	if (hwlat_kthread)
+ 		return 0;
+ 
+-	/* Just pick the first CPU on first iteration */
+-	get_online_cpus();
+-	cpumask_and(current_mask, cpu_online_mask, tr->tracing_cpumask);
+-	put_online_cpus();
+-	next_cpu = cpumask_first(current_mask);
+ 
+ 	kthread = kthread_create(kthread_fn, NULL, "hwlatd");
+ 	if (IS_ERR(kthread)) {
+@@ -378,8 +387,19 @@ static int start_kthread(struct trace_array *tr)
+ 		return -ENOMEM;
+ 	}
+ 
+-	cpumask_clear(current_mask);
+-	cpumask_set_cpu(next_cpu, current_mask);
++
++	/* Just pick the first CPU on first iteration */
++	get_online_cpus();
++	cpumask_and(current_mask, cpu_online_mask, tr->tracing_cpumask);
++	put_online_cpus();
++
++	if (hwlat_data.thread_mode == MODE_ROUND_ROBIN) {
++		next_cpu = cpumask_first(current_mask);
++		cpumask_clear(current_mask);
++		cpumask_set_cpu(next_cpu, current_mask);
++
++	}
++
+ 	sched_setaffinity(kthread->pid, current_mask);
+ 
+ 	hwlat_kthread = kthread;
+@@ -511,6 +531,125 @@ hwlat_window_write(struct file *filp, const char __user *ubuf,
+ 	return cnt;
+ }
+ 
++static void *s_mode_start(struct seq_file *s, loff_t *pos)
++{
++	int mode = *pos;
++
++	if (mode >= MODE_MAX)
++		return NULL;
++
++	return pos;
++}
++
++static void *s_mode_next(struct seq_file *s, void *v, loff_t *pos)
++{
++	int mode = ++(*pos);
++
++	if (mode >= MODE_MAX)
++		return NULL;
++
++	return pos;
++}
++
++static int s_mode_show(struct seq_file *s, void *v)
++{
++	loff_t *pos = v;
++	int mode = *pos;
++
++	if (mode == hwlat_data.thread_mode)
++		seq_printf(s, "[%s]", thread_mode_str[mode]);
++	else
++		seq_printf(s, "%s", thread_mode_str[mode]);
++
++	if (mode != MODE_MAX)
++		seq_puts(s, " ");
++
++	return 0;
++}
++
++static void s_mode_stop(struct seq_file *s, void *v)
++{
++	seq_puts(s, "\n");
++}
++
++static const struct seq_operations thread_mode_seq_ops = {
++	.start		= s_mode_start,
++	.next		= s_mode_next,
++	.show		= s_mode_show,
++	.stop		= s_mode_stop
++};
++
++static int hwlat_mode_open(struct inode *inode, struct file *file)
++{
++	return seq_open(file, &thread_mode_seq_ops);
++};
++
++static void hwlat_tracer_start(struct trace_array *tr);
++static void hwlat_tracer_stop(struct trace_array *tr);
++/**
++ * hwlat_mode_write - Write function for "mode" entry
++ * @filp: The active open file structure
++ * @ubuf: The user buffer that contains the value to write
++ * @cnt: The maximum number of bytes to write to "file"
++ * @ppos: The current position in @file
++ *
++ * This function provides a write implementation for the "mode" interface
++ * to the hardware latency detector. hwlatd has different operation modes.
++ * The "none" sets the allowed cpumask for a single hwlatd thread at the
++ * startup and lets the scheduler handle the migration. The default mode is
++ * the "round-robin" one, in which a single hwlatd thread runs, migrating
++ * among the allowed CPUs in a round-robin fashion.
++ */
++static ssize_t hwlat_mode_write(struct file *filp, const char __user *ubuf,
++				 size_t cnt, loff_t *ppos)
++{
++	struct trace_array *tr = hwlat_trace;
++	const char *mode;
++	char buf[64];
++	int ret, i;
++
++	if (cnt >= sizeof(buf))
++		return -EINVAL;
++
++	if (copy_from_user(buf, ubuf, cnt))
++		return -EFAULT;
++
++	buf[cnt] = 0;
++
++	mode = strstrip(buf);
++
++	ret = -EINVAL;
++
++	/*
++	 * trace_types_lock is taken to avoid concurrency on start/stop
++	 * and hwlat_busy.
++	 */
++	mutex_lock(&trace_types_lock);
++	if (hwlat_busy)
++		hwlat_tracer_stop(tr);
++
++	mutex_lock(&hwlat_data.lock);
++
++	for (i = 0; i < MODE_MAX; i++) {
++		if (strcmp(mode, thread_mode_str[i]) == 0) {
++			hwlat_data.thread_mode = i;
++			ret = cnt;
++		}
++	}
++
++	mutex_unlock(&hwlat_data.lock);
++
++	if (hwlat_busy)
++		hwlat_tracer_start(tr);
++	mutex_unlock(&trace_types_lock);
++
++	*ppos += cnt;
++
++
++
++	return ret;
++}
++
+ static const struct file_operations width_fops = {
+ 	.open		= tracing_open_generic,
+ 	.read		= hwlat_read,
+@@ -523,6 +662,13 @@ static const struct file_operations window_fops = {
+ 	.write		= hwlat_window_write,
+ };
+ 
++static const struct file_operations thread_mode_fops = {
++	.open		= hwlat_mode_open,
++	.read		= seq_read,
++	.llseek		= seq_lseek,
++	.release	= seq_release,
++	.write		= hwlat_mode_write
++};
+ /**
+  * init_tracefs - A function to initialize the tracefs interface files
+  *
+@@ -558,6 +704,13 @@ static int init_tracefs(void)
+ 	if (!hwlat_sample_width)
+ 		goto err;
+ 
++	hwlat_thread_mode = trace_create_file("mode", 0644,
++					      top_dir,
++					      NULL,
++					      &thread_mode_fops);
++	if (!hwlat_thread_mode)
++		goto err;
++
+ 	return 0;
+ 
+  err:
+@@ -579,8 +732,6 @@ static void hwlat_tracer_stop(struct trace_array *tr)
+ 	stop_kthread();
+ }
+ 
+-static bool hwlat_busy;
+-
+ static int hwlat_tracer_init(struct trace_array *tr)
+ {
+ 	/* Only allow one instance to enable this */
 -- 
 2.26.3
 
