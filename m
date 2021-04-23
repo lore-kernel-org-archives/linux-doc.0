@@ -2,112 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52CC0C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 01:23:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5299FC433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 01:34:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10F236143B
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 01:23:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F51061452
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 01:34:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235569AbhDWBYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 21:24:23 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46838 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229888AbhDWBYX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Apr 2021 21:24:23 -0400
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3+2TIYJgBqgMAA--.4792S2;
-        Fri, 23 Apr 2021 09:23:32 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>
-Cc:     Arnaldo Carvalho de Melo <acme@redhat.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>
-Subject: [PATCH bpf-next] bpf: Document the pahole release info related to libbpf in bpf_devel_QA.rst
-Date:   Fri, 23 Apr 2021 09:23:30 +0800
-Message-Id: <1619141010-12521-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9Dx3+2TIYJgBqgMAA--.4792S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw43WF1DtrWDWFy5KFy7Awb_yoW8uryxpF
-        4j9r4fKrs8K3WFqrWkAw1xXFWS9FZ5Gr4fua1Yyr17Xr4kXayYvF1avr4YgFs8WFn3Ga15
-        WF1Ikr1rur1UZ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
-        WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
-        Yx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
-        WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7Cj
-        xVA2Y2ka0xkIwI1lc2xSY4AK67AK6w4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
-        v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
-        1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
-        AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0D
-        MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
-        VFxhVjvjDU0xZFpf9x0JUChFxUUUUU=
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        id S236041AbhDWBf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 21:35:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235302AbhDWBf1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 21:35:27 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A0A6C061756
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 18:34:51 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id s14so17438315pjl.5
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 18:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2u9IVBbrQtK5nxCkY5Ql7e2S1s+pJgrMEaI8rlOVi1A=;
+        b=kTIabuH9XG8EpGNkxN0ttB2TSmNE1UXivJVL/O3iBhAmQtRpUGW6mdNngm3gaVyfHk
+         mZd9igv/ZBylu7j0rFkbzyVbfgP+ZKtnZIFUq1iqZQmxygpodGL8feHFwTGP6bxSDycC
+         aS/dcIescNWiXHRyi86Y8JX+grwyam5ml+aVSu0fu1iKHlX2FNXST0o08A+dKXWyewrs
+         Kh2wSpw3Z38NA32RLIlAhlUrXsT3V8u9XqihnCW3TDKfRab7JiRIMyde0fJAEMOA6t0x
+         dHExxcIpGTZcYxxvXbTeDJKIXOlCaRLkaiKneXlRbAMT21PyRBSE/QeEK7EInSAU7Ulk
+         lR/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=2u9IVBbrQtK5nxCkY5Ql7e2S1s+pJgrMEaI8rlOVi1A=;
+        b=Rkii1ZZIf84nISKmyry7Gatdh1FUu+0UzxbhWAobCs562alDNEHWBQLdHH/j7dzepp
+         L4jAlwPgugtQosfX8Op26zDeH33QrhZ3gFx1dw6v6rxeAe0UHKO89i/dpKNiKaBsa3Je
+         sYRgb8glLdcHDtGfVmpmmyeo73ozckJtC1FE0un7afkVDUAemMxT51H6NOtMvTg7i+FV
+         U2IEOlVnWnJbVMzQZ+aA/w7A483O3uVLZ2Lpl4q8F1A+fJ+CKumHi3o4B203DvOrUKXk
+         dMypYNuohSBZrkPq04gwUgwJ8Z9OXzVHhMFYaflK/O77FEU602qyCXUEbopnraIPCRdE
+         YEgg==
+X-Gm-Message-State: AOAM533d5609uAArBnvH6ZLvOWiyI4zR4IpZdSMC+E79QL6rRnb2GZPD
+        Lv5tyUtrfP8rZNZ95lydvsHe0g==
+X-Google-Smtp-Source: ABdhPJyPGTWn9ZwTGF0D0ZB3bx8F9D7skQtSMEe+BuiaPPW01VWIa1OOFmwPEC3wIJMBb5FDn5+xdg==
+X-Received: by 2002:a17:90b:950:: with SMTP id dw16mr3058402pjb.68.1619141690659;
+        Thu, 22 Apr 2021 18:34:50 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id w140sm3106903pfc.176.2021.04.22.18.34.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Apr 2021 18:34:50 -0700 (PDT)
+Date:   Thu, 22 Apr 2021 18:34:50 -0700 (PDT)
+X-Google-Original-Date: Thu, 22 Apr 2021 18:34:48 PDT (-0700)
+Subject:     Re: [PATCH] riscv: Protect kernel linear mapping only if CONFIG_STRICT_KERNEL_RWX is set
+In-Reply-To: <72130961-0419-9b1f-e88e-aa1e933f2942@ghiti.fr>
+CC:     anup@brainfault.org, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
+        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     alex@ghiti.fr
+Message-ID: <mhng-45fde203-6fd8-408c-b911-3efbb83d9cf3@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-pahole starts to use libbpf definitions and APIs since v1.13 after the
-commit 21507cd3e97b ("pahole: add libbpf as submodule under lib/bpf").
-It works well with the git repository because the libbpf submodule will
-use "git submodule update --init --recursive" to update.
+On Sat, 17 Apr 2021 10:26:36 PDT (-0700), alex@ghiti.fr wrote:
+> Le 4/16/21 à 12:33 PM, Palmer Dabbelt a écrit :
+>> On Fri, 16 Apr 2021 03:47:19 PDT (-0700), alex@ghiti.fr wrote:
+>>> Hi Anup,
+>>>
+>>> Le 4/16/21 à 6:41 AM, Anup Patel a écrit :
+>>>> On Thu, Apr 15, 2021 at 4:34 PM Alexandre Ghiti <alex@ghiti.fr> wrote:
+>>>>>
+>>>>> If CONFIG_STRICT_KERNEL_RWX is not set, we cannot set different
+>>>>> permissions
+>>>>> to the kernel data and text sections, so make sure it is defined before
+>>>>> trying to protect the kernel linear mapping.
+>>>>>
+>>>>> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+>>>>
+>>>> Maybe you should add "Fixes:" tag in commit tag ?
+>>>
+>>> Yes you're right I should have done that. Maybe Palmer will squash it as
+>>> it just entered for-next?
+>>
+>> Ya, I'll do it.  My testing box was just tied up last night for the rc8
+>> PR, so I threw this on for-next to get the buildbots to take a look.
+>> It's a bit too late to take something for this week, as I try to be
+>> pretty conservative this late in the cycle.  There's another kprobes fix
+>> on the list so if we end up with an rc8 I might send this along with
+>> that, otherwise this'll just go onto for-next before the linear map
+>> changes that exercise the bug.
+>>
+>> You're more than welcome to just dig up the fixes tag and reply, my
+>> scripts pull all tags from replies (just like Revieweb-by).  Otherwise
+>> I'll do it myself, most people don't really post Fixes tags that
+>> accurately so I go through it for pretty much everything anyway.
+>
+> Here it is:
+>
+> Fixes: 4b67f48da707 ("riscv: Move kernel mapping outside of linear mapping")
 
-Unfortunately, the default github release source code does not contain
-libbpf submodule source code and this will cause build issues, the tarball
-from https://git.kernel.org/pub/scm/devel/pahole/pahole.git/ is same with
-github, you can get the source tarball with corresponding libbpf submodule
-codes from
+Thanks.  I just squashed it, though, as I had to rewrite this anyway.
 
-https://fedorapeople.org/~acme/dwarves
-
-This change documents the above issues to give more information so that
-we can get the tarball from the right place, early discussion is here:
-
-https://lore.kernel.org/bpf/2de4aad5-fa9e-1c39-3c92-9bb9229d0966@loongson.cn/
-
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- Documentation/bpf/bpf_devel_QA.rst | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-index d05e67e..253496a 100644
---- a/Documentation/bpf/bpf_devel_QA.rst
-+++ b/Documentation/bpf/bpf_devel_QA.rst
-@@ -449,6 +449,19 @@ from source at
- 
- https://github.com/acmel/dwarves
- 
-+pahole starts to use libbpf definitions and APIs since v1.13 after the
-+commit 21507cd3e97b ("pahole: add libbpf as submodule under lib/bpf").
-+It works well with the git repository because the libbpf submodule will
-+use "git submodule update --init --recursive" to update.
-+
-+Unfortunately, the default github release source code does not contain
-+libbpf submodule source code and this will cause build issues, the tarball
-+from https://git.kernel.org/pub/scm/devel/pahole/pahole.git/ is same with
-+github, you can get the source tarball with corresponding libbpf submodule
-+codes from
-+
-+https://fedorapeople.org/~acme/dwarves
-+
- Some distros have pahole version 1.16 packaged already, e.g.
- Fedora, Gentoo.
- 
--- 
-2.1.0
-
+>
+> Thanks,
+>
+>>
+>> Thanks for sorting this out so quickly!
+>>
+>>>
+>>>>
+>>>> Otherwise it looks good.
+>>>>
+>>>> Reviewed-by: Anup Patel <anup@brainfault.org>
+>>>
+>>> Thank you!
+>>>
+>>> Alex
+>>>
+>>>>
+>>>> Regards,
+>>>> Anup
+>>>>
+>>>>> ---
+>>>>>   arch/riscv/kernel/setup.c | 8 ++++----
+>>>>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+>>>>> index 626003bb5fca..ab394d173cd4 100644
+>>>>> --- a/arch/riscv/kernel/setup.c
+>>>>> +++ b/arch/riscv/kernel/setup.c
+>>>>> @@ -264,12 +264,12 @@ void __init setup_arch(char **cmdline_p)
+>>>>>
+>>>>>          sbi_init();
+>>>>>
+>>>>> -       if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX))
+>>>>> +       if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX)) {
+>>>>>                  protect_kernel_text_data();
+>>>>> -
+>>>>> -#if defined(CONFIG_64BIT) && defined(CONFIG_MMU)
+>>>>> -       protect_kernel_linear_mapping_text_rodata();
+>>>>> +#ifdef CONFIG_64BIT
+>>>>> +               protect_kernel_linear_mapping_text_rodata();
+>>>>>   #endif
+>>>>> +       }
+>>>>>
+>>>>>   #ifdef CONFIG_SWIOTLB
+>>>>>          swiotlb_init(1);
+>>>>> --
+>>>>> 2.20.1
+>>>>>
+>>>>
+>>>> _______________________________________________
+>>>> linux-riscv mailing list
+>>>> linux-riscv@lists.infradead.org
+>>>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>>>>
+>>
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
