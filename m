@@ -2,256 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56BB5C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 08:34:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DCDC43461
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:13:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DD3161460
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 08:34:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BFB960551
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:13:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230525AbhDWIeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 04:34:44 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:55361 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230059AbhDWIen (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 04:34:43 -0400
-X-Originating-IP: 2.7.49.219
-Received: from [192.168.1.12] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
-        (Authenticated sender: alex@ghiti.fr)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 178B620003;
-        Fri, 23 Apr 2021 08:34:02 +0000 (UTC)
-Subject: Re: [PATCH] riscv: Fix 32b kernel caused by 64b kernel mapping moving
- outside linear mapping
-To:     Anup Patel <anup@brainfault.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
+        id S231142AbhDWKOd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 06:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241995AbhDWKOb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 06:14:31 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD9EC06138B
+        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 03:13:54 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id g8so76770110lfv.12
+        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 03:13:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Gnaf3r9UNdG1FggI1YyKvtZjPl2wCw9hbk0IVarKdeY=;
+        b=rohJ3ApdIp8eIDty7ZTykL0M+0n3Epndq2W6IeNG7zaahDj/PopRDPrmIvMNC5+N5q
+         AbvRN7ueJnP4X2turnnaqbrP6Os4PRpq5vuSizTQDpO5+U7hQ8upLvlWgZ5Q9TBz2oRD
+         SzqgQhOBxMZv76R3gF7og4Q9hoI1fQZgXTPB8BfTIymSc8oUc62hJd9YYqip9qBV6xl0
+         1OeDqztS0gOfQxsE12iqR4DLWIe98uxJIdb5LaueIcey95FCDvFFxL5sGmlQ1gJtuMg2
+         JBH+yeQy2LyQLAkvjJnkBhNAy6ciRblNJIOHfcp2z8Ush5vGQicLNhE9yuknfI5K7Qg/
+         Dy1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Gnaf3r9UNdG1FggI1YyKvtZjPl2wCw9hbk0IVarKdeY=;
+        b=ECs+U9Vly1QqGRdLg0+gRVnzeM7xMNR0E7WPhxDmcm1yUyO8epSlqg5ujcAemWsT8m
+         dtjN8eXDKrFgABHcR7nx0EKs44uN6AQS21mMMyNc8jmYUzdSOT3pwa5lhQ4htZEKspB/
+         //ath1s6QNN8PRUsW388bZc2qk8/LCTm4hCDMgHcXPKyqM2Bz795sEI7q5TkZFWlZmRW
+         7Md4XY3VJ/DGOgx2ddIop14KXj2KX5fX4FkVC/YBCgqY3eIpv46QfSFgpHDhp7e0Rt8r
+         Bpjbi/oKMjTTFKWGrktKmjjL6FX5qTJ5MdIVFap3f2AIanVNjBG8jBu3LuJqKZo79CnK
+         nO+A==
+X-Gm-Message-State: AOAM532YLPX/BqX+2VXqnrwf3PSaG4OqYy9VUyCZxqgz5vQ/kGbH9aEp
+        ouYdUKTGssvvRncAUbh9yCC0pw==
+X-Google-Smtp-Source: ABdhPJz9uy18OLUxIti5N9jQtwFUmXPO5gGtMxzSl2Fy0S1+VLIN2ACGrMCf6lbceikj1AyzpdDXhA==
+X-Received: by 2002:a05:6512:308a:: with SMTP id z10mr2280947lfd.15.1619172831869;
+        Fri, 23 Apr 2021 03:13:51 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id h66sm505910lfd.248.2021.04.23.03.13.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Apr 2021 03:13:51 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id D32BC10257F; Fri, 23 Apr 2021 13:13:52 +0300 (+03)
+Date:   Fri, 23 Apr 2021 13:13:52 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        kasan-dev@googlegroups.com,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <20210417172159.32085-1-alex@ghiti.fr>
- <CAAhSdy23jRTp3VoBpnH8B79eSSmuw8qMEYrXyh-02ccWT3O5QQ@mail.gmail.com>
-From:   Alex Ghiti <alex@ghiti.fr>
-Message-ID: <66e9a8e0-5764-2eea-4070-bad3fb7ee48e@ghiti.fr>
-Date:   Fri, 23 Apr 2021 04:34:02 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v25 16/30] mm: Fixup places that call pte_mkwrite()
+ directly
+Message-ID: <20210423101352.zwvltq734peuec4g@box.shutemov.name>
+References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
+ <20210415221419.31835-17-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAhSdy23jRTp3VoBpnH8B79eSSmuw8qMEYrXyh-02ccWT3O5QQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210415221419.31835-17-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 4/20/21 à 12:18 AM, Anup Patel a écrit :
-> On Sat, Apr 17, 2021 at 10:52 PM Alexandre Ghiti <alex@ghiti.fr> wrote:
->>
->> Fix multiple leftovers when moving the kernel mapping outside the linear
->> mapping for 64b kernel that left the 32b kernel unusable.
->>
->> Fixes: 4b67f48da707 ("riscv: Move kernel mapping outside of linear mapping")
->> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+On Thu, Apr 15, 2021 at 03:14:05PM -0700, Yu-cheng Yu wrote:
+> When serving a page fault, maybe_mkwrite() makes a PTE writable if it is in
+> a writable vma.  A shadow stack vma is writable, but its PTEs need
+> _PAGE_DIRTY to be set to become writable.  For this reason, maybe_mkwrite()
+> has been updated.
 > 
-> Quite a few #ifdef but I don't see any better way at the moment. Maybe we can
-> clean this later. Otherwise looks good to me.
+> There are a few places that call pte_mkwrite() directly, but have the
+> same result as from maybe_mkwrite().  These sites need to be updated for
+> shadow stack as well.  Thus, change them to maybe_mkwrite():
 > 
-> Reviewed-by: Anup Patel <anup@brainfault.org>
-
-Thanks Anup!
-
-@Palmer: This is not on for-next yet and then rv32 is broken. This does 
-not apply immediately on top of for-next though, so if you need a new 
-version, I can do that. But this squashes nicely with the patch it fixes 
-if you prefer.
-
-Let me know, I can do that very quickly.
-
-Alex
-
+> - do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE directly
+>   and call pte_mkwrite(), which is the same as maybe_mkwrite().  Change
+>   them to maybe_mkwrite().
 > 
-> Regards,
-> Anup
+> - In do_numa_page(), if the numa entry was writable, then pte_mkwrite()
+>   is called directly.  Fix it by doing maybe_mkwrite().  Make the same
+>   changes to do_huge_pmd_numa_page().
 > 
->> ---
->>   arch/riscv/include/asm/page.h    |  9 +++++++++
->>   arch/riscv/include/asm/pgtable.h | 16 ++++++++++++----
->>   arch/riscv/mm/init.c             | 25 ++++++++++++++++++++++++-
->>   3 files changed, 45 insertions(+), 5 deletions(-)
->>
->> diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
->> index 22cfb2be60dc..f64b61296c0c 100644
->> --- a/arch/riscv/include/asm/page.h
->> +++ b/arch/riscv/include/asm/page.h
->> @@ -90,15 +90,20 @@ typedef struct page *pgtable_t;
->>
->>   #ifdef CONFIG_MMU
->>   extern unsigned long va_pa_offset;
->> +#ifdef CONFIG_64BIT
->>   extern unsigned long va_kernel_pa_offset;
->> +#endif
->>   extern unsigned long pfn_base;
->>   #define ARCH_PFN_OFFSET                (pfn_base)
->>   #else
->>   #define va_pa_offset           0
->> +#ifdef CONFIG_64BIT
->>   #define va_kernel_pa_offset    0
->> +#endif
->>   #define ARCH_PFN_OFFSET                (PAGE_OFFSET >> PAGE_SHIFT)
->>   #endif /* CONFIG_MMU */
->>
->> +#ifdef CONFIG_64BIT
->>   extern unsigned long kernel_virt_addr;
->>
->>   #define linear_mapping_pa_to_va(x)     ((void *)((unsigned long)(x) + va_pa_offset))
->> @@ -112,6 +117,10 @@ extern unsigned long kernel_virt_addr;
->>          (_x < kernel_virt_addr) ?                                               \
->>                  linear_mapping_va_to_pa(_x) : kernel_mapping_va_to_pa(_x);      \
->>          })
->> +#else
->> +#define __pa_to_va_nodebug(x)  ((void *)((unsigned long) (x) + va_pa_offset))
->> +#define __va_to_pa_nodebug(x)  ((unsigned long)(x) - va_pa_offset)
->> +#endif
->>
->>   #ifdef CONFIG_DEBUG_VIRTUAL
->>   extern phys_addr_t __virt_to_phys(unsigned long x);
->> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
->> index 80e63a93e903..5afda75cc2c3 100644
->> --- a/arch/riscv/include/asm/pgtable.h
->> +++ b/arch/riscv/include/asm/pgtable.h
->> @@ -16,19 +16,27 @@
->>   #else
->>
->>   #define ADDRESS_SPACE_END      (UL(-1))
->> -/*
->> - * Leave 2GB for kernel and BPF at the end of the address space
->> - */
->> +
->> +#ifdef CONFIG_64BIT
->> +/* Leave 2GB for kernel and BPF at the end of the address space */
->>   #define KERNEL_LINK_ADDR       (ADDRESS_SPACE_END - SZ_2G + 1)
->> +#else
->> +#define KERNEL_LINK_ADDR       PAGE_OFFSET
->> +#endif
->>
->>   #define VMALLOC_SIZE     (KERN_VIRT_SIZE >> 1)
->>   #define VMALLOC_END      (PAGE_OFFSET - 1)
->>   #define VMALLOC_START    (PAGE_OFFSET - VMALLOC_SIZE)
->>
->> -/* KASLR should leave at least 128MB for BPF after the kernel */
->>   #define BPF_JIT_REGION_SIZE    (SZ_128M)
->> +#ifdef CONFIG_64BIT
->> +/* KASLR should leave at least 128MB for BPF after the kernel */
->>   #define BPF_JIT_REGION_START   PFN_ALIGN((unsigned long)&_end)
->>   #define BPF_JIT_REGION_END     (BPF_JIT_REGION_START + BPF_JIT_REGION_SIZE)
->> +#else
->> +#define BPF_JIT_REGION_START   (PAGE_OFFSET - BPF_JIT_REGION_SIZE)
->> +#define BPF_JIT_REGION_END     (VMALLOC_END)
->> +#endif
->>
->>   /* Modules always live before the kernel */
->>   #ifdef CONFIG_64BIT
->> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
->> index 093f3a96ecfc..dc9b988e0778 100644
->> --- a/arch/riscv/mm/init.c
->> +++ b/arch/riscv/mm/init.c
->> @@ -91,8 +91,10 @@ static void print_vm_layout(void)
->>                    (unsigned long)VMALLOC_END);
->>          print_mlm("lowmem", (unsigned long)PAGE_OFFSET,
->>                    (unsigned long)high_memory);
->> +#ifdef CONFIG_64BIT
->>          print_mlm("kernel", (unsigned long)KERNEL_LINK_ADDR,
->>                    (unsigned long)ADDRESS_SPACE_END);
->> +#endif
->>   }
->>   #else
->>   static void print_vm_layout(void) { }
->> @@ -165,9 +167,11 @@ static struct pt_alloc_ops pt_ops;
->>   /* Offset between linear mapping virtual address and kernel load address */
->>   unsigned long va_pa_offset;
->>   EXPORT_SYMBOL(va_pa_offset);
->> +#ifdef CONFIG_64BIT
->>   /* Offset between kernel mapping virtual address and kernel load address */
->>   unsigned long va_kernel_pa_offset;
->>   EXPORT_SYMBOL(va_kernel_pa_offset);
->> +#endif
->>   unsigned long pfn_base;
->>   EXPORT_SYMBOL(pfn_base);
->>
->> @@ -410,7 +414,9 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
->>          load_sz = (uintptr_t)(&_end) - load_pa;
->>
->>          va_pa_offset = PAGE_OFFSET - load_pa;
->> +#ifdef CONFIG_64BIT
->>          va_kernel_pa_offset = kernel_virt_addr - load_pa;
->> +#endif
->>
->>          pfn_base = PFN_DOWN(load_pa);
->>
->> @@ -469,12 +475,16 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
->>                             pa + PMD_SIZE, PMD_SIZE, PAGE_KERNEL);
->>          dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PMD_SIZE - 1));
->>   #else /* CONFIG_BUILTIN_DTB */
->> +#ifdef CONFIG_64BIT
->>          /*
->>           * __va can't be used since it would return a linear mapping address
->>           * whereas dtb_early_va will be used before setup_vm_final installs
->>           * the linear mapping.
->>           */
->>          dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
->> +#else
->> +       dtb_early_va = __va(dtb_pa);
->> +#endif /* CONFIG_64BIT */
->>   #endif /* CONFIG_BUILTIN_DTB */
->>   #else
->>   #ifndef CONFIG_BUILTIN_DTB
->> @@ -486,7 +496,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
->>                             pa + PGDIR_SIZE, PGDIR_SIZE, PAGE_KERNEL);
->>          dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PGDIR_SIZE - 1));
->>   #else /* CONFIG_BUILTIN_DTB */
->> +#ifdef CONFIG_64BIT
->>          dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
->> +#else
->> +       dtb_early_va = __va(dtb_pa);
->> +#endif /* CONFIG_64BIT */
->>   #endif /* CONFIG_BUILTIN_DTB */
->>   #endif
->>          dtb_early_pa = dtb_pa;
->> @@ -571,12 +585,21 @@ static void __init setup_vm_final(void)
->>                  for (pa = start; pa < end; pa += map_size) {
->>                          va = (uintptr_t)__va(pa);
->>                          create_pgd_mapping(swapper_pg_dir, va, pa,
->> -                                          map_size, PAGE_KERNEL);
->> +                                          map_size,
->> +#ifdef CONFIG_64BIT
->> +                                          PAGE_KERNEL
->> +#else
->> +                                          PAGE_KERNEL_EXEC
->> +#endif
->> +                                       );
->> +
->>                  }
->>          }
->>
->> +#ifdef CONFIG_64BIT
->>          /* Map the kernel */
->>          create_kernel_page_table(swapper_pg_dir, PMD_SIZE);
->> +#endif
->>
->>          /* Clear fixmap PTE and PMD mappings */
->>          clear_fixmap(FIX_PTE);
->> --
->> 2.20.1
->>
+> - In change_pte_range(), pte_mkwrite() is called directly.  Replace it with
+>   maybe_mkwrite().
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Kees Cook <keescook@chromium.org>
+
+Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+
+-- 
+ Kirill A. Shutemov
