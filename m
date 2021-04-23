@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C20CAC43460
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA0D5C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C6BA6128A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE2836144D
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244029AbhDWVHX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 17:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52750 "EHLO
+        id S244078AbhDWVH2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 17:07:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31397 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244038AbhDWVHM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 17:07:12 -0400
+        by vger.kernel.org with ESMTP id S244082AbhDWVH2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 17:07:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619211992;
+        s=mimecast20190719; t=1619212010;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=iM9zZ3dl7MKFyPpE37V1HHeh5GppaKJwezmpd4kdRd0=;
-        b=UxN969b/dWWraHBHK5FBw62w1wyE9FZL9RmTZSn8lgtVzjOv+2iA94rjvKyLT5LAgJaqt2
-        AkDsi2VeTV+XdHTTUmBh44s+HiXdjd7r9JMDSUksg1vJ4OM1M+L0qrVtb4sui9KIrCLSNc
-        1/BPv7r8BxQSaxjtdpopCWV7mz0iPP0=
+        bh=Bf12E10qXY88Ef3Zfv3NCghKJLaHrxLUTgaFZlvjSnQ=;
+        b=MhLPe6Q00GQVwvLaGXF6gAjSX9/WLtxp88CxAAYT0vWEBvUdcbeZ6A6mSYC2carDfr07kW
+        3sBqBgfiJfItxbCoQ1rPT/3wfZceBaUZKHtuO6/nW+V/1btXvWspTytOmf2BDH9heQNhMo
+        lOYY4+4fdFsBidnkExnIcZUOgrK8OoI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-6kwJ3ZGuOEmW-hZDuRM7tg-1; Fri, 23 Apr 2021 17:06:31 -0400
-X-MC-Unique: 6kwJ3ZGuOEmW-hZDuRM7tg-1
+ us-mta-464-dISChYG6OLOGHkRAK0NT-w-1; Fri, 23 Apr 2021 17:06:49 -0400
+X-MC-Unique: dISChYG6OLOGHkRAK0NT-w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6CFE8030A0;
-        Fri, 23 Apr 2021 21:06:29 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C01388030A0;
+        Fri, 23 Apr 2021 21:06:47 +0000 (UTC)
 Received: from x1.bristot.me.homenet.telecomitalia.it (ovpn-112-8.rdu2.redhat.com [10.10.112.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3B35C29403;
-        Fri, 23 Apr 2021 21:06:26 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5F9A660C21;
+        Fri, 23 Apr 2021 21:06:36 +0000 (UTC)
 From:   Daniel Bristot de Oliveira <bristot@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Phil Auld <pauld@redhat.com>,
@@ -56,9 +56,9 @@ Cc:     Phil Auld <pauld@redhat.com>,
         Clark Willaims <williams@redhat.com>,
         John Kacur <jkacur@redhat.com>,
         Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: [RFC PATCH V2 4/9] tracing/hwlat: Implement the per-cpu mode
-Date:   Fri, 23 Apr 2021 23:05:39 +0200
-Message-Id: <9685d986a604738a9d6c127d469e68be23d9ec8d.1619210818.git.bristot@redhat.com>
+Subject: [RFC PATCH V2 6/9] tracing/hwlat: Use the generic function to read/write width and window
+Date:   Fri, 23 Apr 2021 23:05:41 +0200
+Message-Id: <aa21dd7615a61241398df6ed09fd9b1e244aca94.1619210818.git.bristot@redhat.com>
 In-Reply-To: <cover.1619210818.git.bristot@redhat.com>
 References: <cover.1619210818.git.bristot@redhat.com>
 MIME-Version: 1.0
@@ -68,12 +68,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implements the per-cpu mode in which a sampling thread is created for
-each cpu in the "cpus" (and tracing_mask).
-
-The per-cpu mode has the potention to speed up the hwlat detection by
-running on multiple CPUs at the same time, at the cost of higher cpu
-usage with irqs disabled. Use with care.
+Use the trace_ull_config generic implementation to reducing the code of
+hwlat detector.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Steven Rostedt <rostedt@goodmis.org>
@@ -88,330 +84,176 @@ Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
 ---
- Documentation/trace/hwlat_detector.rst |   3 +-
- kernel/trace/trace_hwlat.c             | 165 +++++++++++++++++++------
- 2 files changed, 130 insertions(+), 38 deletions(-)
+ kernel/trace/trace_hwlat.c | 135 ++++---------------------------------
+ 1 file changed, 14 insertions(+), 121 deletions(-)
 
-diff --git a/Documentation/trace/hwlat_detector.rst b/Documentation/trace/hwlat_detector.rst
-index 4d952df0586a..8881ce919553 100644
---- a/Documentation/trace/hwlat_detector.rst
-+++ b/Documentation/trace/hwlat_detector.rst
-@@ -78,10 +78,11 @@ in /sys/kernel/tracing:
-  - hwlat_detector/window	- amount of time between (width) runs (usecs)
-  - hwlat_detector/mode	- the thread mode
- 
--By default, the hwlat detector's kernel thread will migrate across each CPU
-+By default, one hwlat detector kernel thread will migrate across each CPU
- specified in cpumask at the beginning of a new window, in a round-robin
- fashion. This behavior can be changed by changing the thread mode,
- the available options are:
- 
-  - none:        do not force migration
-  - round-robin: migrate across each CPU specified in cpumask [default]
-+ - per-cpu:     create one thread for each cpu in tracing_cpumask
 diff --git a/kernel/trace/trace_hwlat.c b/kernel/trace/trace_hwlat.c
-index d5daeac351e5..289ccd56064a 100644
+index 289ccd56064a..08a39f2e4e65 100644
 --- a/kernel/trace/trace_hwlat.c
 +++ b/kernel/trace/trace_hwlat.c
-@@ -54,9 +54,6 @@ static struct trace_array	*hwlat_trace;
- #define DEFAULT_SAMPLE_WIDTH	500000			/* 0.5s */
- #define DEFAULT_LAT_THRESHOLD	10			/* 10us */
- 
--/* sampling thread*/
--static struct task_struct *hwlat_kthread;
--
- static struct dentry *hwlat_sample_width;	/* sample width us */
- static struct dentry *hwlat_sample_window;	/* sample window us */
- static struct dentry *hwlat_thread_mode;	/* hwlat thread mode */
-@@ -64,18 +61,26 @@ static struct dentry *hwlat_thread_mode;	/* hwlat thread mode */
- enum {
- 	MODE_NONE = 0,
- 	MODE_ROUND_ROBIN,
-+	MODE_PER_CPU,
- 	MODE_MAX
- };
--static char *thread_mode_str[] = { "none", "round-robin" };
-+static char *thread_mode_str[] = { "none", "round-robin", "per-cpu" };
- 
- /* Save the previous tracing_thresh value */
- static unsigned long save_tracing_thresh;
- 
--/* NMI timestamp counters */
--static u64 nmi_ts_start;
--static u64 nmi_total_ts;
--static int nmi_count;
--static int nmi_cpu;
-+/* runtime kthread data */
-+struct hwlat_kthread_data {
-+	struct task_struct *kthread;
-+	/* NMI timestamp counters */
-+	u64 nmi_ts_start;
-+	u64 nmi_total_ts;
-+	int nmi_count;
-+	int nmi_cpu;
-+};
-+
-+struct hwlat_kthread_data hwlat_single_cpu_data;
-+DEFINE_PER_CPU(struct hwlat_kthread_data, hwlat_per_cpu_data);
- 
- /* Tells NMIs to call back to the hwlat tracer to record timestamps */
- bool trace_hwlat_callback_enabled;
-@@ -112,6 +117,14 @@ static struct hwlat_data {
- 	.thread_mode		= MODE_ROUND_ROBIN
- };
- 
-+struct hwlat_kthread_data *get_cpu_data(void)
-+{
-+	if (hwlat_data.thread_mode == MODE_PER_CPU)
-+		return this_cpu_ptr(&hwlat_per_cpu_data);
-+	else
-+		return &hwlat_single_cpu_data;
-+}
-+
- static bool hwlat_busy;
- 
- static void trace_hwlat_sample(struct hwlat_sample *sample)
-@@ -149,7 +162,9 @@ static void trace_hwlat_sample(struct hwlat_sample *sample)
- 
- void trace_hwlat_callback(bool enter)
- {
--	if (smp_processor_id() != nmi_cpu)
-+	struct hwlat_kthread_data *kdata = get_cpu_data();
-+
-+	if (kdata->kthread)
- 		return;
- 
- 	/*
-@@ -158,13 +173,13 @@ void trace_hwlat_callback(bool enter)
- 	 */
- 	if (!IS_ENABLED(CONFIG_GENERIC_SCHED_CLOCK)) {
- 		if (enter)
--			nmi_ts_start = time_get();
-+			kdata->nmi_ts_start = time_get();
- 		else
--			nmi_total_ts += time_get() - nmi_ts_start;
-+			kdata->nmi_total_ts += time_get() - kdata->nmi_ts_start;
- 	}
- 
- 	if (enter)
--		nmi_count++;
-+		kdata->nmi_count++;
- }
- 
- /**
-@@ -176,6 +191,7 @@ void trace_hwlat_callback(bool enter)
-  */
- static int get_sample(void)
- {
-+	struct hwlat_kthread_data *kdata = get_cpu_data();
- 	struct trace_array *tr = hwlat_trace;
- 	struct hwlat_sample s;
- 	time_type start, t1, t2, last_t2;
-@@ -188,9 +204,8 @@ static int get_sample(void)
- 
- 	do_div(thresh, NSEC_PER_USEC); /* modifies interval value */
- 
--	nmi_cpu = smp_processor_id();
--	nmi_total_ts = 0;
--	nmi_count = 0;
-+	kdata->nmi_total_ts = 0;
-+	kdata->nmi_count = 0;
- 	/* Make sure NMIs see this first */
- 	barrier();
- 
-@@ -260,15 +275,15 @@ static int get_sample(void)
- 		ret = 1;
- 
- 		/* We read in microseconds */
--		if (nmi_total_ts)
--			do_div(nmi_total_ts, NSEC_PER_USEC);
-+		if (kdata->nmi_total_ts)
-+			do_div(kdata->nmi_total_ts, NSEC_PER_USEC);
- 
- 		hwlat_data.count++;
- 		s.seqnum = hwlat_data.count;
- 		s.duration = sample;
- 		s.outer_duration = outer_sample;
--		s.nmi_total_ts = nmi_total_ts;
--		s.nmi_count = nmi_count;
-+		s.nmi_total_ts = kdata->nmi_total_ts;
-+		s.nmi_count = kdata->nmi_count;
- 		s.count = count;
- 		trace_hwlat_sample(&s);
- 
-@@ -364,23 +379,43 @@ static int kthread_fn(void *data)
- }
- 
- /**
-- * start_kthread - Kick off the hardware latency sampling/detector kthread
-+ * stop_stop_kthread - Inform the hardware latency samping/detector kthread to stop
-+ *
-+ * This kicks the running hardware latency sampling/detector kernel thread and
-+ * tells it to stop sampling now. Use this on unload and at system shutdown.
-+ */
-+static void stop_single_kthread(void)
-+{
-+	struct hwlat_kthread_data *kdata = get_cpu_data();
-+	struct task_struct *kthread = kdata->kthread;
-+
-+	if (!kthread)
-+
-+		return;
-+	kthread_stop(kthread);
-+
-+	kdata->kthread = NULL;
-+}
-+
-+
-+/**
-+ * start_single_kthread - Kick off the hardware latency sampling/detector kthread
-  *
-  * This starts the kernel thread that will sit and sample the CPU timestamp
-  * counter (TSC or similar) and look for potential hardware latencies.
-  */
--static int start_kthread(struct trace_array *tr)
-+static int start_single_kthread(struct trace_array *tr)
- {
-+	struct hwlat_kthread_data *kdata = get_cpu_data();
- 	struct cpumask *current_mask = &save_cpumask;
- 	struct task_struct *kthread;
- 	int next_cpu;
- 
--	if (hwlat_kthread)
-+	if (kdata->kthread)
- 		return 0;
- 
--
- 	kthread = kthread_create(kthread_fn, NULL, "hwlatd");
--	if (IS_ERR(kthread)) {
-+	if (IS_ERR(kdata->kthread)) {
- 		pr_err(BANNER "could not start sampling thread\n");
- 		return -ENOMEM;
- 	}
-@@ -400,24 +435,73 @@ static int start_kthread(struct trace_array *tr)
- 
- 	sched_setaffinity(kthread->pid, current_mask);
- 
--	hwlat_kthread = kthread;
-+	kdata->kthread = kthread;
- 	wake_up_process(kthread);
- 
+@@ -504,115 +504,6 @@ static int start_per_cpu_kthreads(struct trace_array *tr)
  	return 0;
  }
  
- /**
-- * stop_kthread - Inform the hardware latency samping/detector kthread to stop
-+ * stop_per_cpu_kthread - Inform the hardware latency samping/detector kthread to stop
-  *
-- * This kicks the running hardware latency sampling/detector kernel thread and
-+ * This kicks the running hardware latency sampling/detector kernel threads and
-  * tells it to stop sampling now. Use this on unload and at system shutdown.
-  */
--static void stop_kthread(void)
-+static void stop_per_cpu_kthreads(void)
+-/*
+- * hwlat_read - Wrapper read function for reading both window and width
+- * @filp: The active open file structure
+- * @ubuf: The userspace provided buffer to read value into
+- * @cnt: The maximum number of bytes to read
+- * @ppos: The current "file" position
+- *
+- * This function provides a generic read implementation for the global state
+- * "hwlat_data" structure filesystem entries.
+- */
+-static ssize_t hwlat_read(struct file *filp, char __user *ubuf,
+-			  size_t cnt, loff_t *ppos)
+-{
+-	char buf[U64STR_SIZE];
+-	u64 *entry = filp->private_data;
+-	u64 val;
+-	int len;
+-
+-	if (!entry)
+-		return -EFAULT;
+-
+-	if (cnt > sizeof(buf))
+-		cnt = sizeof(buf);
+-
+-	val = *entry;
+-
+-	len = snprintf(buf, sizeof(buf), "%llu\n", val);
+-
+-	return simple_read_from_buffer(ubuf, cnt, ppos, buf, len);
+-}
+-
+-/**
+- * hwlat_width_write - Write function for "width" entry
+- * @filp: The active open file structure
+- * @ubuf: The user buffer that contains the value to write
+- * @cnt: The maximum number of bytes to write to "file"
+- * @ppos: The current position in @file
+- *
+- * This function provides a write implementation for the "width" interface
+- * to the hardware latency detector. It can be used to configure
+- * for how many us of the total window us we will actively sample for any
+- * hardware-induced latency periods. Obviously, it is not possible to
+- * sample constantly and have the system respond to a sample reader, or,
+- * worse, without having the system appear to have gone out to lunch. It
+- * is enforced that width is less that the total window size.
+- */
+-static ssize_t
+-hwlat_width_write(struct file *filp, const char __user *ubuf,
+-		  size_t cnt, loff_t *ppos)
+-{
+-	u64 val;
+-	int err;
+-
+-	err = kstrtoull_from_user(ubuf, cnt, 10, &val);
+-	if (err)
+-		return err;
+-
+-	mutex_lock(&hwlat_data.lock);
+-	if (val < hwlat_data.sample_window)
+-		hwlat_data.sample_width = val;
+-	else
+-		err = -EINVAL;
+-	mutex_unlock(&hwlat_data.lock);
+-
+-	if (err)
+-		return err;
+-
+-	return cnt;
+-}
+-
+-/**
+- * hwlat_window_write - Write function for "window" entry
+- * @filp: The active open file structure
+- * @ubuf: The user buffer that contains the value to write
+- * @cnt: The maximum number of bytes to write to "file"
+- * @ppos: The current position in @file
+- *
+- * This function provides a write implementation for the "window" interface
+- * to the hardware latency detector. The window is the total time
+- * in us that will be considered one sample period. Conceptually, windows
+- * occur back-to-back and contain a sample width period during which
+- * actual sampling occurs. Can be used to write a new total window size. It
+- * is enforced that any value written must be greater than the sample width
+- * size, or an error results.
+- */
+-static ssize_t
+-hwlat_window_write(struct file *filp, const char __user *ubuf,
+-		   size_t cnt, loff_t *ppos)
+-{
+-	u64 val;
+-	int err;
+-
+-	err = kstrtoull_from_user(ubuf, cnt, 10, &val);
+-	if (err)
+-		return err;
+-
+-	mutex_lock(&hwlat_data.lock);
+-	if (hwlat_data.sample_width < val)
+-		hwlat_data.sample_window = val;
+-	else
+-		err = -EINVAL;
+-	mutex_unlock(&hwlat_data.lock);
+-
+-	if (err)
+-		return err;
+-
+-	return cnt;
+-}
+-
+ static void *s_mode_start(struct seq_file *s, loff_t *pos)
  {
--	if (!hwlat_kthread)
--		return;
--	kthread_stop(hwlat_kthread);
--	hwlat_kthread = NULL;
-+	struct task_struct *kthread;
-+	int cpu;
-+
-+	for_each_online_cpu(cpu) {
-+		kthread = per_cpu(hwlat_per_cpu_data, cpu).kthread;
-+		if (kthread)
-+			kthread_stop(kthread);
-+	}
-+}
-+
-+/**
-+ * start_per_cpu_kthread - Kick off the hardware latency sampling/detector kthreads
-+ *
-+ * This starts the kernel threads that will sit on potentially all cpus and
-+ * sample the CPU timestamp counter (TSC or similar) and look for potential
-+ * hardware latencies.
-+ */
-+static int start_per_cpu_kthreads(struct trace_array *tr)
-+{
-+	struct cpumask *current_mask = &save_cpumask;
-+	struct cpumask *this_cpumask;
-+	struct task_struct *kthread;
-+	char comm[24];
-+	int cpu;
-+
-+	if (!alloc_cpumask_var(&this_cpumask, GFP_KERNEL))
-+		return -ENOMEM;
-+
-+	/*
-+	 * Run only on CPUs in which hwlat is allowed to run.
-+	 */
-+	get_online_cpus();
-+	cpumask_and(current_mask, cpu_online_mask, tr->tracing_cpumask);
-+	put_online_cpus();
-+
-+	for_each_online_cpu(cpu)
-+		per_cpu(hwlat_per_cpu_data, cpu).kthread = NULL;
-+
-+	for_each_cpu(cpu, current_mask) {
-+		snprintf(comm, 24, "hwlatd/%d", cpu);
-+
-+		kthread = kthread_create_on_cpu(kthread_fn, NULL, cpu, comm);
-+		if (IS_ERR(kthread)) {
-+			pr_err(BANNER "could not start sampling thread\n");
-+			stop_per_cpu_kthreads();
-+			return -ENOMEM;
-+		}
-+
-+		per_cpu(hwlat_per_cpu_data, cpu).kthread = kthread;
-+		wake_up_process(kthread);
-+	}
-+
-+	return 0;
+ 	int mode = *pos;
+@@ -733,16 +624,18 @@ static ssize_t hwlat_mode_write(struct file *filp, const char __user *ubuf,
+ 	return ret;
  }
  
- /*
-@@ -596,7 +680,8 @@ static void hwlat_tracer_stop(struct trace_array *tr);
-  * The "none" sets the allowed cpumask for a single hwlatd thread at the
-  * startup and lets the scheduler handle the migration. The default mode is
-  * the "round-robin" one, in which a single hwlatd thread runs, migrating
-- * among the allowed CPUs in a round-robin fashion.
-+ * among the allowed CPUs in a round-robin fashion. The "per-cpu" mode
-+ * creates one hwlatd thread per allowed CPU.
-  */
- static ssize_t hwlat_mode_write(struct file *filp, const char __user *ubuf,
- 				 size_t cnt, loff_t *ppos)
-@@ -720,14 +805,20 @@ static void hwlat_tracer_start(struct trace_array *tr)
- {
- 	int err;
+-static const struct file_operations width_fops = {
+-	.open		= tracing_open_generic,
+-	.read		= hwlat_read,
+-	.write		= hwlat_width_write,
++static struct trace_ull_config hwlat_width = {
++	.lock		= &hwlat_data.lock,
++	.val		= &hwlat_data.sample_width,
++	.max		= &hwlat_data.sample_window,
++	.min		= NULL,
+ };
  
--	err = start_kthread(tr);
-+	if (hwlat_data.thread_mode == MODE_PER_CPU)
-+		err = start_per_cpu_kthreads(tr);
-+	else
-+		err = start_single_kthread(tr);
- 	if (err)
- 		pr_err(BANNER "Cannot start hwlat kthread\n");
- }
+-static const struct file_operations window_fops = {
+-	.open		= tracing_open_generic,
+-	.read		= hwlat_read,
+-	.write		= hwlat_window_write,
++static struct trace_ull_config hwlat_window = {
++	.lock		= &hwlat_data.lock,
++	.val		= &hwlat_data.sample_window,
++	.max		= NULL,
++	.min		= &hwlat_data.sample_width,
+ };
  
- static void hwlat_tracer_stop(struct trace_array *tr)
- {
--	stop_kthread();
-+	if (hwlat_data.thread_mode == MODE_PER_CPU)
-+		stop_per_cpu_kthreads();
-+	else
-+		stop_single_kthread();
- }
+ static const struct file_operations thread_mode_fops = {
+@@ -775,15 +668,15 @@ static int init_tracefs(void)
  
- static int hwlat_tracer_init(struct trace_array *tr)
-@@ -756,7 +847,7 @@ static int hwlat_tracer_init(struct trace_array *tr)
+ 	hwlat_sample_window = tracefs_create_file("window", 0640,
+ 						  top_dir,
+-						  &hwlat_data.sample_window,
+-						  &window_fops);
++						  &hwlat_window,
++						  &trace_ull_config_fops);
+ 	if (!hwlat_sample_window)
+ 		goto err;
  
- static void hwlat_tracer_reset(struct trace_array *tr)
- {
--	stop_kthread();
-+	hwlat_tracer_stop(tr);
+ 	hwlat_sample_width = tracefs_create_file("width", 0644,
+ 						 top_dir,
+-						 &hwlat_data.sample_width,
+-						 &width_fops);
++						 &hwlat_width,
++						 &trace_ull_config_fops);
+ 	if (!hwlat_sample_width)
+ 		goto err;
  
- 	/* the tracing threshold is static between runs */
- 	last_tracing_thresh = tracing_thresh;
 -- 
 2.26.3
 
