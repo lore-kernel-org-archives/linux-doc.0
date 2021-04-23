@@ -2,193 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEA2C43461
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 07:19:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB85C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 07:44:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5D9561450
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 07:19:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9893961450
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 07:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbhDWHTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 03:19:49 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:18001 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229935AbhDWHTs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Apr 2021 03:19:48 -0400
-Received: from localhost (mailhub1-int [192.168.12.234])
-        by localhost (Postfix) with ESMTP id 4FRQdS46lvz9tynk;
-        Fri, 23 Apr 2021 09:19:08 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-        with ESMTP id 0oQPQKgd4ski; Fri, 23 Apr 2021 09:19:08 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 4FRQdS3HSvz9tynf;
-        Fri, 23 Apr 2021 09:19:08 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id C25808B798;
-        Fri, 23 Apr 2021 09:19:09 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id QeOANgzeLlXn; Fri, 23 Apr 2021 09:19:09 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id D2C2E8B765;
-        Fri, 23 Apr 2021 09:19:06 +0200 (CEST)
-Subject: Re: [PATCH bpf-next 1/2] bpf: Remove bpf_jit_enable=2 debugging mode
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Quentin Monnet <quentin@isovalent.com>,
-        Ian Rogers <irogers@google.com>,
-        Song Liu <songliubraving@fb.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Zi Shen Lim <zlim.lnx@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Sandipan Das <sandipan@linux.ibm.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
-        Shubham Bansal <illusionist.neo@gmail.com>,
-        Mahesh Bandewar <maheshb@google.com>,
-        Will Deacon <will@kernel.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Ilya Leoshkevich <iii@linux.ibm.com>, paulburton@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-mips@vger.kernel.org, grantseltzer@gmail.com,
-        Xi Wang <xi.wang@gmail.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        Kees Cook <keescook@chromium.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Luke Nelson <luke.r.nels@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        ppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        KP Singh <kpsingh@kernel.org>, iecedge@gmail.com,
-        Simon Horman <horms@verge.net.au>,
-        Borislav Petkov <bp@alien8.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Yonghong Song <yhs@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Vyukov <dvyukov@google.com>, tsbogend@alpha.franken.de,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Network Development <netdev@vger.kernel.org>,
-        David Ahern <dsahern@kernel.org>,
-        Wang YanQing <udknight@gmail.com>,
-        Martin KaFai Lau <kafai@fb.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, bpf <bpf@vger.kernel.org>,
-        Jianlin Lv <Jianlin.Lv@arm.com>,
-        "David S. Miller" <davem@davemloft.net>
-References: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
- <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
- <d3949501-8f7d-57c4-b3fe-bcc3b24c09d8@isovalent.com>
- <CAADnVQJ2oHbYfgY9jqM_JMxUsoZxaNrxKSVFYfgCXuHVpDehpQ@mail.gmail.com>
- <0dea05ba-9467-0d84-4515-b8766f60318e@csgroup.eu>
- <CAADnVQ+oQT6C7Qv7P5TV-x7im54omKoCYYKtYhcnhb1Uv3LPMQ@mail.gmail.com>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <be132117-f267-5817-136d-e1aeb8409c2a@csgroup.eu>
-Date:   Fri, 23 Apr 2021 09:19:06 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        id S241061AbhDWHpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 03:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37626 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229456AbhDWHpA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 03:45:00 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95216C061574
+        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 00:44:24 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lZqU8-0005LI-PZ; Fri, 23 Apr 2021 09:44:20 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lZqU7-0005zT-Mz; Fri, 23 Apr 2021 09:44:19 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
+        linux-doc@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH] pwm: reword docs about pwm_apply_state()
+Date:   Fri, 23 Apr 2021 09:44:11 +0200
+Message-Id: <20210423074411.2167332-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CAADnVQ+oQT6C7Qv7P5TV-x7im54omKoCYYKtYhcnhb1Uv3LPMQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The main issue is that the current documentation talks about the
+non-existent function pwm_get_last_applied_state. (This was right in the
+context of
+https://lore.kernel.org/linux-pwm/20210406073036.26857-1-u.kleine-koenig@pengutronix.de/
+but was then missed to adapt when this patch was reduced to a
+documentation update.)
 
+While at is also clarify "last applied PWM state" to "PWM state that was
+passed to the last invocation of pwm_apply_state()" to better
+distinguish to the last actually implemented state and reword to drop a
+word repetition.
 
-Le 20/04/2021 à 05:28, Alexei Starovoitov a écrit :
-> On Sat, Apr 17, 2021 at 1:16 AM Christophe Leroy
-> <christophe.leroy@csgroup.eu> wrote:
->>
->>
->>
->> Le 16/04/2021 à 01:49, Alexei Starovoitov a écrit :
->>> On Thu, Apr 15, 2021 at 8:41 AM Quentin Monnet <quentin@isovalent.com> wrote:
->>>>
->>>> 2021-04-15 16:37 UTC+0200 ~ Daniel Borkmann <daniel@iogearbox.net>
->>>>> On 4/15/21 11:32 AM, Jianlin Lv wrote:
->>>>>> For debugging JITs, dumping the JITed image to kernel log is discouraged,
->>>>>> "bpftool prog dump jited" is much better way to examine JITed dumps.
->>>>>> This patch get rid of the code related to bpf_jit_enable=2 mode and
->>>>>> update the proc handler of bpf_jit_enable, also added auxiliary
->>>>>> information to explain how to use bpf_jit_disasm tool after this change.
->>>>>>
->>>>>> Signed-off-by: Jianlin Lv <Jianlin.Lv@arm.com>
->>>>
->>>> Hello,
->>>>
->>>> For what it's worth, I have already seen people dump the JIT image in
->>>> kernel logs in Qemu VMs running with just a busybox, not for kernel
->>>> development, but in a context where buiding/using bpftool was not
->>>> possible.
->>>
->>> If building/using bpftool is not possible then majority of selftests won't
->>> be exercised. I don't think such environment is suitable for any kind
->>> of bpf development. Much so for JIT debugging.
->>> While bpf_jit_enable=2 is nothing but the debugging tool for JIT developers.
->>> I'd rather nuke that code instead of carrying it from kernel to kernel.
->>>
->>
->> When I implemented JIT for PPC32, it was extremely helpfull.
->>
->> As far as I understand, for the time being bpftool is not usable in my environment because it
->> doesn't support cross compilation when the target's endianess differs from the building host
->> endianess, see discussion at
->> https://lore.kernel.org/bpf/21e66a09-514f-f426-b9e2-13baab0b938b@csgroup.eu/
->>
->> That's right that selftests can't be exercised because they don't build.
->>
->> The question might be candid as I didn't investigate much about the replacement of "bpf_jit_enable=2
->> debugging mode" by bpftool, how do we use bpftool exactly for that ? Especially when using the BPF
->> test module ?
-> 
-> the kernel developers can add any amount of printk and dumps to debug
-> their code,
-> but such debugging aid should not be part of the production kernel.
-> That sysctl was two things at once: debugging tool for kernel devs and
-> introspection for users.
-> bpftool jit dump solves the 2nd part. It provides JIT introspection to users.
-> Debugging of the kernel can be done with any amount of auxiliary code
-> including calling print_hex_dump() during jiting.
-> 
+Fixes: 539ed98e2bd3 ("pwm: Clarify documentation about pwm_get_state()")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ Documentation/driver-api/pwm.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-I finally managed to cross compile bpftool with libbpf, libopcodes, readline, ncurses, libcap, libz 
-and all needed stuff. Was not easy but I made it.
+diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+index 381f3c46cdac..a7ca4f58305a 100644
+--- a/Documentation/driver-api/pwm.rst
++++ b/Documentation/driver-api/pwm.rst
+@@ -55,11 +55,11 @@ several parameter at once. For example, if you see pwm_config() and
+pwm_{enable,disable}() calls in the same function, this probably means you
+should switch to pwm_apply_state().
 
-Now, how do I use it ?
+The PWM user API also allows one to query the[-last applied-] PWM state [-with-]
+[-pwm_get_last_applied_state().-]{+that was passed to the+}
+{+last invocation of pwm_apply_state() using pwm_get_state().+} Note this is
+different to what the driver has actually implemented if the request cannot be
+[-implemented-]{+satisfied+} exactly with the hardware in use. There is currently no way for
+consumers to get the actually implemented settings.
 
-Let say I want to dump the jitted code generated from a call to 'tcpdump'. How do I do that with 
-'bpftool prog dump jited' ?
+In addition to the PWM state, the PWM API also exposes PWM arguments, which
+are the reference PWM config one should use on this PWM.
 
-I thought by calling this line I would then get programs dumped in a way or another just like when 
-setting 'bpf_jit_enable=2', but calling that line just provides me some bpftool help text.
+base-commit: 64d7d074acd52e1bdff621f2cb86c0aae9bcef80
+-- 
+2.30.2
 
-By the way, I would be nice to have a kernel OPTION that selects all OPTIONS required for building 
-bpftool. Because you discover them one by one at every build failure. I had to had CONFIG_IPV6, 
-CONFIG_DEBUG_BTF, CONFIG_CGROUPS, ... If there could be an option like "Build a 'bpftool' ready 
-kernel" that selected all those, it would be great.
-
-Christophe
