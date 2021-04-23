@@ -2,191 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC3E3C43461
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:26:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CC73C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:27:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F0A86145F
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:26:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BD41611CA
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241973AbhDWK06 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 06:26:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45060 "EHLO
+        id S231185AbhDWK1q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 06:27:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241898AbhDWK05 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 06:26:57 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0DE0C06174A
-        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 03:26:20 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id k128so25701395wmk.4
-        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 03:26:20 -0700 (PDT)
+        with ESMTP id S229772AbhDWK1p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 06:27:45 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27598C061574
+        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 03:27:09 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id t14so19635695lfe.1
+        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 03:27:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pZC3bOQbN5+fqyuA7H9ye81q8uOWfqddKhA+GXdAbe0=;
-        b=aSb/o1mV8h0CcE9ai+0+GIlXRSGlsJTPumKNmGEJ88Z4i3bGRbY+GZu4y+9bXJ2Ej0
-         Gnr1pQPVFxw/OkuLgXzy8PcFfaYDEZW1fihUNP/VtK/ltQ5OgS+ABY7Byb2o9rvuH3w9
-         aiiyIdPgdOTZ+hKQKeseFBSIHuPOG3wEViDcm9o+RO0YnIbhhMqz+iQQf7AY04+ybwHf
-         2nC4MhrVKh/73RRSCeoHklo+CLEPmhYLF8BmrTl+dusVmM5VfEfslHL7IoEnP1IXaaeU
-         +VlpWeuLfKHGTov0axRspP5fwSgIZ4r+kUdG1PRmBmRYDbmUFoGKlyjNhDcKQj1tRsaO
-         5EEA==
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eWgAF6RQPL0b2x8b0Xdx/qwinLYytBxZ3RTzqyQw9+Q=;
+        b=bkGdRfNnfy85o3qJkLv102MyP7pn4K3UpxeWrw33RGLg+1RUrWeCkMjX7a68IASh9K
+         9wzf55FBQ/p6M5U32HxtpUch5JfX6evOwg7Z9EC6S+zFI3bLvRcxDxDN+xAHOkxZwIq1
+         M1WP3vo6Mo/Y1pPSdKy4PHh5fYoQ4resPWoj4tp2E4pjP/dVNRz1h65VD6B05djccUfO
+         2lOkZhqMBNjGiW5iC46LLvNl55o4IncIgfWkrGVBknc7Nfgc7eGCc363QGxQ7SHI+l9A
+         lBTuyeynaCQEmtR1SO96RcUMq7y9QlmpTK61k5yeSEN2Drmyluw3He+Nd9tbhI8o5PQW
+         Gvbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pZC3bOQbN5+fqyuA7H9ye81q8uOWfqddKhA+GXdAbe0=;
-        b=P6UgHiIrM/S2AqpK0zj79uvbEVF1R96C1U7tBc83zGJeiSTXaKZFXUgIZGqYAFNsvP
-         gGYGDWmRqNTry3zuFNgmzSw5z4QZPXQ7Pqy31mch58djLAJGPO9QIm3DW78mq5/cvMhO
-         LZigBp0oTZkqsmsIRtDigTuHBKGKNhCp7tZ7akwBhadgGH+DRcJQo5oWjviLi+I5mplC
-         R+bjbikiIoda7/22NUzWCiocM93e1pQm3xMld933w7QfUSJD0fF2YatquWN4h5VVWBT6
-         Xfh/P58OftmlgsOXhCXpeMuU2UmOdoBw/VtD3i58NNngsDidUIwhx1CgTQNi9y8wkF4Z
-         TKgA==
-X-Gm-Message-State: AOAM531Cllla2sJq2ZUSoOgqdHrNwG9WDgaCKW7i6UjbFMr7CP52EIgE
-        Fl+jhVI2KZx25S7sKcDqhXe0pA==
-X-Google-Smtp-Source: ABdhPJwzRkVz3Ofbfxh8n0buCkcX7vCmdhQBvEZ1KP3t4/FvoWzwFRVeYSa0K9So4C2Yfv4k3szanw==
-X-Received: by 2002:a1c:b743:: with SMTP id h64mr3431829wmf.35.1619173579445;
-        Fri, 23 Apr 2021 03:26:19 -0700 (PDT)
-Received: from [192.168.1.8] ([149.86.88.56])
-        by smtp.gmail.com with ESMTPSA id b15sm8464544wrt.57.2021.04.23.03.26.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Apr 2021 03:26:18 -0700 (PDT)
-Subject: Re: [PATCH bpf-next 1/2] bpf: Remove bpf_jit_enable=2 debugging mode
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Ian Rogers <irogers@google.com>, Song Liu <songliubraving@fb.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Zi Shen Lim <zlim.lnx@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Sandipan Das <sandipan@linux.ibm.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
-        Shubham Bansal <illusionist.neo@gmail.com>,
-        Mahesh Bandewar <maheshb@google.com>,
-        Will Deacon <will@kernel.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Ilya Leoshkevich <iii@linux.ibm.com>, paulburton@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-mips@vger.kernel.org, grantseltzer@gmail.com,
-        Xi Wang <xi.wang@gmail.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        Kees Cook <keescook@chromium.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Luke Nelson <luke.r.nels@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        ppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        KP Singh <kpsingh@kernel.org>, iecedge@gmail.com,
-        Simon Horman <horms@verge.net.au>,
-        Borislav Petkov <bp@alien8.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Yonghong Song <yhs@fb.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eWgAF6RQPL0b2x8b0Xdx/qwinLYytBxZ3RTzqyQw9+Q=;
+        b=YBhXYRlSjssCz2yJRs4Kxcv8gfuSXMT2qvpftJu3SIqPSMJqBZnr7p4u6kHdi/tTwg
+         7dlAqiCYuzJEcVkr0CVr7YDV1QhwmJlEnzsORjyrac+WlFFSAKoHSFIOiPpDzP1uqp44
+         nCXTSOSjqQrOPwnc+Gy8mCJq50J9Ujje8cTCTIM87MNRTTjGul3QYxIUkrleBrFRi2c0
+         jxyww6J+nNWn8V0FxC2zksIrGfllU2KMlfF4Qm+P1oZDSoabcht/g4oH28GxsfJvdy+p
+         OrquoanVUSZuMI0moe+n6eSr2isO5sr072CBsSHD8IHpJIJB7QFUNtNiahLLZuc3kXXB
+         y86A==
+X-Gm-Message-State: AOAM532IAe9rPaQHPsMC4cyMy8LCPgmK+xhf85ew5pj1ckaz4z7dVGMJ
+        X5xx/dOFdvM/oxRB4QX8GgfnYw==
+X-Google-Smtp-Source: ABdhPJxVdMtHaH4N7qrL7rs/iFLid0SiR/0I34D5a7seDxpN0PPppOm4pkZaxAKafv5e87oh9CjIYQ==
+X-Received: by 2002:a05:6512:3c96:: with SMTP id h22mr2178504lfv.574.1619173627715;
+        Fri, 23 Apr 2021 03:27:07 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id z17sm511847lfd.87.2021.04.23.03.27.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Apr 2021 03:27:07 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id E050010257F; Fri, 23 Apr 2021 13:27:08 +0300 (+03)
+Date:   Fri, 23 Apr 2021 13:27:08 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Vyukov <dvyukov@google.com>, tsbogend@alpha.franken.de,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Network Development <netdev@vger.kernel.org>,
-        David Ahern <dsahern@kernel.org>,
-        Wang YanQing <udknight@gmail.com>,
-        Martin KaFai Lau <kafai@fb.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, bpf <bpf@vger.kernel.org>,
-        Jianlin Lv <Jianlin.Lv@arm.com>,
-        "David S. Miller" <davem@davemloft.net>
-References: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
- <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
- <d3949501-8f7d-57c4-b3fe-bcc3b24c09d8@isovalent.com>
- <CAADnVQJ2oHbYfgY9jqM_JMxUsoZxaNrxKSVFYfgCXuHVpDehpQ@mail.gmail.com>
- <0dea05ba-9467-0d84-4515-b8766f60318e@csgroup.eu>
- <CAADnVQ+oQT6C7Qv7P5TV-x7im54omKoCYYKtYhcnhb1Uv3LPMQ@mail.gmail.com>
- <be132117-f267-5817-136d-e1aeb8409c2a@csgroup.eu>
-From:   Quentin Monnet <quentin@isovalent.com>
-Message-ID: <58296f87-ad00-a0f5-954b-2150aa84efc4@isovalent.com>
-Date:   Fri, 23 Apr 2021 11:26:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v25 20/30] mm/mprotect: Exclude shadow stack from
+ preserve_write
+Message-ID: <20210423102708.bau7z4xmgvtubl5y@box.shutemov.name>
+References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
+ <20210415221419.31835-21-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <be132117-f267-5817-136d-e1aeb8409c2a@csgroup.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210415221419.31835-21-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2021-04-23 09:19 UTC+0200 ~ Christophe Leroy <christophe.leroy@csgroup.eu>
-
-[...]
-
-> I finally managed to cross compile bpftool with libbpf, libopcodes,
-> readline, ncurses, libcap, libz and all needed stuff. Was not easy but I
-> made it.
-
-Libcap is optional and bpftool does not use readline or ncurses. May I
-ask how you tried to build it?
-
+On Thu, Apr 15, 2021 at 03:14:09PM -0700, Yu-cheng Yu wrote:
+> In change_pte_range(), when a PTE is changed for prot_numa, _PAGE_RW is
+> preserved to avoid the additional write fault after the NUMA hinting fault.
+> However, pte_write() now includes both normal writable and shadow stack
+> (RW=0, Dirty=1) PTEs, but the latter does not have _PAGE_RW and has no need
+> to preserve it.
 > 
-> Now, how do I use it ?
+> Exclude shadow stack from preserve_write test, and apply the same change to
+> change_huge_pmd().
 > 
-> Let say I want to dump the jitted code generated from a call to
-> 'tcpdump'. How do I do that with 'bpftool prog dump jited' ?
-> 
-> I thought by calling this line I would then get programs dumped in a way
-> or another just like when setting 'bpf_jit_enable=2', but calling that
-> line just provides me some bpftool help text.
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-Well the purpose of this text is to help you find the way to call
-bpftool to do what you want :). For dumping your programs' instructions,
-you need to tell bpftool what program to dump: Bpftool isn't waiting
-until you load a program to dump it, instead you need to load your
-program first and then tell bpftool to retrieve the instructions from
-the kernel. To reference your program you could use a pinned path, or
-first list the programs on your system with "bpftool prog show":
+Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
-
-    # bpftool prog show
-    138: tracing  name foo  tag e54c922dfa54f65f  gpl
-            loaded_at 2021-02-25T01:32:30+0000  uid 0
-            xlated 256B  jited 154B  memlock 4096B  map_ids 64
-            btf_id 235
-
-Then you can use for example the program id displayed on the first line
-to reference and dump your program:
-
-    # bpftool prog dump jited id 138
-
-You should find additional documentation under
-tools/bpf/bpftool/Documentation.
-
-> 
-> By the way, I would be nice to have a kernel OPTION that selects all
-> OPTIONS required for building bpftool. Because you discover them one by
-> one at every build failure. I had to had CONFIG_IPV6, CONFIG_DEBUG_BTF,
-> CONFIG_CGROUPS, ... If there could be an option like "Build a 'bpftool'
-> ready kernel" that selected all those, it would be great.
-> 
-> Christophe
-
-I do not believe any of these are required to build bpftool.
-
-Quentin
+-- 
+ Kirill A. Shutemov
