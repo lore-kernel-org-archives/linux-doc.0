@@ -2,214 +2,746 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_SANE_1,WEIRD_QUOTING
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED31C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 04:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0138C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 05:11:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DDFA61452
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 04:12:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD282613CD
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 05:11:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232740AbhDWEN3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 00:13:29 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:44476 "EHLO
-        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229454AbhDWEN3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 00:13:29 -0400
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13N4CRVq030993;
-        Thu, 22 Apr 2021 21:12:27 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=Z3FqZmb3SraSr14CwyGvtZlpYgJa7lPO7hLKY5EiuR0=;
- b=LTqFvHg0gzAEYYYAuBLBAqItw9GafBQJ2bMmiEsua1WhQo0K9G7pfNMUtkisGO5shSHg
- YmgVu/g2gioJGAX0QPm/6kQWIHyxChEQG5bbscxlE0HRY4nUHuiublfvSe4nX1DJL/6Z
- XCup+GqpelmGzjSjOqrYXDP/Wt5Ff37JCcM= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by mx0a-00082601.pphosted.com with ESMTP id 3839usmu8a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Thu, 22 Apr 2021 21:12:26 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.199) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 22 Apr 2021 21:12:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LFN+Yu5EJSuhMNeVzjEtpVQoUDMMsa5beKK0S4aXC+jAnfLp0membBewlF0H63tlMl87fqICaz8Xe9G+y+1Ba4Z329/lqoHOacp7eTJhqQd4srFtypZbI9leX3lG21o5aPTA7iO6LE8Jt3cHZa1cq4ErNrwT5ul+OBQ0nPEPdxN5XHFbL38qw1gCd/5NP7V7Lnn0xbsYO2uui3HEgFpOj+ugsvOuHCHDhMhlHIjA9QrT79jg6o9xV3vuEgcsHpzWyJtCZMT8bYql1PTRA578Lr+LjEtHWhMTaz95EKYH269ybC4pxk5iFKTamNVbGA7EblzHGHpXY5B6yHWETJ2xWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ShQVit5bauhC+IcW+g/CPXmqReNiXiCl3UJNcmVGJ6k=;
- b=kuR5qYiD0QD1+4KJY/xRDPO2ZTpYpMGjqx53zqT080WuZW1Czs22JuTqbZdnnIjjSB1dUNgrdVwMinxG3s4fVlvobg5AjnIJVP74MRt4CycaIBepDZgrJawVapcSFc9REqvZV4X3s8s6PwrzDu2uwkjPy94fUElTDKHCTYV6mtJ/OPIivmgMokrzzjyWzhWps6Y+phWk1Rsi3CnMlnWKNaUcc3HQNYM9/uZv7z/O8H8c2SpcWBM4zBYn0S+i3uDMcxjXkr3RS9QMVm62IoeSXS6qvovR7EKIUA25ZEv4r3tixLjVbWEzJjGCCN4lHcJbBJDVY5CHKqf2YD0qmOUsvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Authentication-Results: loongson.cn; dkim=none (message not signed)
- header.d=none;loongson.cn; dmarc=none action=none header.from=fb.com;
-Received: from SN6PR1501MB2064.namprd15.prod.outlook.com (2603:10b6:805:d::27)
- by SA0PR15MB3968.namprd15.prod.outlook.com (2603:10b6:806:8d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Fri, 23 Apr
- 2021 04:12:24 +0000
-Received: from SN6PR1501MB2064.namprd15.prod.outlook.com
- ([fe80::f433:fd99:f905:8912]) by SN6PR1501MB2064.namprd15.prod.outlook.com
- ([fe80::f433:fd99:f905:8912%3]) with mapi id 15.20.4065.021; Fri, 23 Apr 2021
- 04:12:24 +0000
-Subject: Re: [PATCH bpf-next] bpf: Document the pahole release info related to
- libbpf in bpf_devel_QA.rst
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
-CC:     <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <bpf@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>
-References: <1619141010-12521-1-git-send-email-yangtiezhu@loongson.cn>
-From:   Yonghong Song <yhs@fb.com>
-Message-ID: <221ef66a-a7e4-14b7-e085-6062e8547b11@fb.com>
-Date:   Thu, 22 Apr 2021 21:12:19 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.1
-In-Reply-To: <1619141010-12521-1-git-send-email-yangtiezhu@loongson.cn>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-X-Originating-IP: [2620:10d:c090:400::5:83f]
-X-ClientProxiedBy: MW4PR03CA0275.namprd03.prod.outlook.com
- (2603:10b6:303:b5::10) To SN6PR1501MB2064.namprd15.prod.outlook.com
- (2603:10b6:805:d::27)
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2620:10d:c085:21e8::17f2] (2620:10d:c090:400::5:83f) by MW4PR03CA0275.namprd03.prod.outlook.com (2603:10b6:303:b5::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22 via Frontend Transport; Fri, 23 Apr 2021 04:12:22 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e337d8d2-b8e4-43e5-95d6-08d9060dff78
-X-MS-TrafficTypeDiagnostic: SA0PR15MB3968:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR15MB3968304C0DA048B7BA889ED7D3459@SA0PR15MB3968.namprd15.prod.outlook.com>
-X-FB-Source: Internal
-X-MS-Oob-TLC-OOBClassifiers: OLM:635;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VB1jkXtV8x50b6fzEq57kb1TXm/mMYsFl76MM1e6c6fV8sae4LRRRSQIJ9X5YFgxxXtQOut7GBYjtlhIyKK9lU/n3yC9SaN1E2q1GIy612oZ9geZBCYl772um4N9B/5KoZ5SvPIaJdFKdg5RSpmnqCZ2fuuVl8zDH7h/z6H7odRBR/8TSO8DfDtvaYzWbtXaixY6IglQlmo0UHz+svgSF58j2PXAVL8T2yuGflcqPMgT5fG1Kqv359hJfnBHwxdmrlFcGctw3JS24ugOpeEbdFeDgYjDhGy2x9JVa3pIy0FtfzzgBGjq/4RB0tZ5o9AP/xtP6J/VXorjhPClVf79+ujX1633VF6FhZB/tH8IJ/3hiXlPQszqrBJVZLav/tgSU75JpOX4w7+0U38mI5gpvZwXv/pH8h0TaqFKykX2WoEpbC/UdJmo53fSl51aKKBArDCIrxBtqJGHdTH99ADWQAfBAfMERwB8MkoNO+X/VKshbLlevttL0+sqXyWsfVjDrKQtY6UEsChe56iu09Ng4Z36OasNJ9kcyvZBG7SlVMtMJvOf+XzCU9ff88G3g1lMrsDlTQSNwpa/Q/VjebYfZaDDq/FSFX88r2yr1JRTOoAYshNLN4zaeZKZxTORqEARQQvakbcMf3Y98XsittPlxIb70Cyv/ckmdlGkbrMIeaBpZXWkzpT984MyH/xfZEhtZlKmnVtM2DwEoolK0sl6fcyAxeVcdrEtk6b/pI0BaSc6cnQcqStjymn3H1QCnukE8K5nNfVSrwWVB62WAPPxJpe15cRDXOaD/Tl3vOETn4U=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2064.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(39860400002)(396003)(346002)(366004)(136003)(2906002)(83380400001)(4326008)(31696002)(31686004)(5660300002)(966005)(6486002)(110136005)(478600001)(86362001)(6666004)(316002)(66476007)(66556008)(8936002)(7416002)(38100700002)(8676002)(36756003)(66946007)(2616005)(52116002)(186003)(53546011)(16526019)(921005)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TGlEQy9VYjhHUFlNMjd0R05xRTB6M05DbXV0MzAwVW1YR1JUZlZRVGQySjB1?=
- =?utf-8?B?S1JXM0tsUkdZNFp6US9UdURYMUd5dTQ5Y0tQaGczS3NVUnR0dmVpZWZPNWZV?=
- =?utf-8?B?cFJkSHMyMTR3Uk5lSGdRYW1HRzQ3OTIyODgvRFNzQWkrSjVxbjNDZkkxUit2?=
- =?utf-8?B?SGRSMDlUYmFTN1A5RHd0MHBWOEFmRi9qamxVQ0w4ZU9aY1hXbVlBYzJGM2hp?=
- =?utf-8?B?SUFYUjlYci83RWVYbFFxUFo2VTVsMFpjWTBWMWFlMm5mcFdETHRlRTdRc3pZ?=
- =?utf-8?B?dkt6d0ROZ3UzQVRUNzlXemVXdUZjV1Z2ckRqMzU4SGNWMjV0djZDakwraU5Y?=
- =?utf-8?B?dm5vUm1tSDhoUlJPYkZ6dHF0VDUrUGVvUG9wZldMenVuNHJwdDFwcWtHVVJZ?=
- =?utf-8?B?RlBsNE8xc2QxeGtnRDZXK3lXd3cyNnltNmdYSkw0WDdhdER2dFdWMkhvanhx?=
- =?utf-8?B?dFlEMmo2SkZ0TXZGNkNCVldmUW9ZdG14WGM2ZGZ1eHRXd2dMcERmc2VGa0tJ?=
- =?utf-8?B?eHJxZzFVVmtVcDJMdFB3dHhxNnZQZ0YzcUczZk80Z3Fxa1IweUZhVDZyRFhi?=
- =?utf-8?B?REI3aVJFRVNZbG1qWmVrbjQ4TGkwY1pQKzlIVFpuL1VPSmwzREUvRTErcWxz?=
- =?utf-8?B?OWRaeU1SenVUNkxmRXlNQW0vaURDRXIyZnNYeG1zUm5yRUo2NHRweVA2UGxz?=
- =?utf-8?B?UFZoWFdNSWtjK2M1TkswRi9zUmpTcjFXQUJqMTBFeHIzeDcxd0poTG1RNGVh?=
- =?utf-8?B?M1ZzMmgxTlBkUWFuZjZhNE96dEJHWlI0SndnOThCS0wwTmVsdnNZM0FJVmI5?=
- =?utf-8?B?ajVKaXVkSlUxS2JSWC9ycG9wTnZ2MnVmVVQzTzlXY0xKY2oyL1RoY2FkTHE3?=
- =?utf-8?B?VEZ3eWFWVzEwRWJiMndmWEN1VVp2YTVJWWxhZnM5cU1QWkNweGRPb2pTMFMy?=
- =?utf-8?B?R3FscVM0eENSTi9jWFpEMncyQ2hyaXFhYlY3UTJGazhvcklzWDBuN1pWLzFC?=
- =?utf-8?B?bldyTUE1ZUZiaUFyLytERFVsU2lCVFkwYUdNUmhKOElvNXRCN2x5YVY1bThP?=
- =?utf-8?B?MGZ1UGxzcGV4d0JpT2srdHEweEo2aVdWbUo5YThhamtiTTlnOEFXQ0xsQjdE?=
- =?utf-8?B?WkpNeEdiQzZySUh2V0JKMjdOT0J0bEQvcmoxcFF4aVFMQXFzaVVtYWtsRS84?=
- =?utf-8?B?WjJ4R1kxVHBMQjcvOUFsaEVQYVZud0Y1UVJ1dzlTajVnTTVJYm5aRHVzZDNN?=
- =?utf-8?B?TWlVYlV6SUdjN0lSYUFSUExwT3J5NEtVUFhQM1hXdWg1alVjcnVtVENpSXZH?=
- =?utf-8?B?d08wdG1DL05IVzlXdWFhdjNDd2hCQVNTT0tNM1J2am0zWTlNSEpuQ2pxODk3?=
- =?utf-8?B?aldDTTlqVlhjSlErTlhYcEZ4eDN5V2tlNWVCaHJuUGdUM3ptVEg1YWVVUFVN?=
- =?utf-8?B?Q204VWtrTnNyQWsrWlZJcU1sWUtYUy9DZ3hTMy9qQ0hOT2g1TzdsdGR4aEQz?=
- =?utf-8?B?b3QyL3h3YSs2c0xWZWk3dVozY0wxZUdTRFNnK1hUeXl5T0dyME1rc2QzaFpy?=
- =?utf-8?B?MUFNTDNPeDkvV2c1eDc1bUtINGpVSWF3R2FQVHV1UzVvZVBaaDQvcFRxUTZG?=
- =?utf-8?B?SGNtZ1dqejduR0JvR0JtbGVpZVJvaVB5Rk9oVjJuT3Qvc2N4MHZoa0FIaC9X?=
- =?utf-8?B?OFU1bUV5bk9tSUhhUU1ibE1qb3dMUUozN3o4MkVpU1B4WC9RbUZCUEVlY0hT?=
- =?utf-8?B?bWowNjVDbm9tK2kvN0twbU1Ka1BmczZ6TGdwRGx2NTZBZnhEVUFVQ1l4Vm1R?=
- =?utf-8?Q?J0bLoKXDtrFN6uF12SdUmG0x7i1oX1CagSuHk=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e337d8d2-b8e4-43e5-95d6-08d9060dff78
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2064.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2021 04:12:24.2148
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iWV4+DSAv/9GFLV3SRQR4yhPhIbTm9y/YdvN7hsB6ffZSolC1eoUY7kv/aVZ3zBq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR15MB3968
-X-OriginatorOrg: fb.com
-X-Proofpoint-GUID: dsrzasKR_d2b_n-4oaxLFlrlLzOElQEB
-X-Proofpoint-ORIG-GUID: dsrzasKR_d2b_n-4oaxLFlrlLzOElQEB
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 2 URL's were un-rewritten
+        id S240292AbhDWFLh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 01:11:37 -0400
+Received: from m32-153.88.com ([43.250.32.153]:26850 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229456AbhDWFLh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Apr 2021 01:11:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=2Lq0BxMJcDay5DZpA9U7TDheZRvpbJFEBdFpI
+        dRcQvM=; b=mUEdJFiMuxop9GKhkhHstZSCa44Mt6wYr8Fum8FEnnO6rxUmClSVc
+        IBrp0DGshEw2bhm8YELawdvfDz2rqHLJ585SdDuS3mbLVe+555N0vSHFqvOAztpD
+        ZrznvlTaH66PKv9icxwcteX+cAuNh/pQPSDqJvHmTr51O1yeA30ewA=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAHVljcVoJgFLwFAA--.15638S2;
+        Fri, 23 Apr 2021 13:10:54 +0800 (CST)
+Date:   Fri, 23 Apr 2021 13:10:52 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>,
+        hjh <huangjianghui@uniontech.com>
+Subject: Re: [PATCH 3/6] docs/zh_CN: Add translation
+ zh_CN/maintainer/rebasing-and-merging.rst
+Message-ID: <20210423051052.GA9310@bobwxc.top>
+References: <cover.1619093668.git.bobwxc@email.cn>
+ <4555934c0050db26ce0327ab84642d90367a230f.1619093668.git.bobwxc@email.cn>
+ <CAMU9jJr0iQqjVcn1PK8iniOADHfPdmhRdHjakiwqvy5+4kr7Ag@mail.gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-22_15:2021-04-22,2021-04-22 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 priorityscore=1501
- impostorscore=0 adultscore=0 mlxlogscore=999 clxscore=1011
- lowpriorityscore=0 mlxscore=0 malwarescore=0 suspectscore=0 spamscore=0
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104230024
-X-FB-Internal: deliver
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Disposition: inline
+In-Reply-To: <CAMU9jJr0iQqjVcn1PK8iniOADHfPdmhRdHjakiwqvy5+4kr7Ag@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgAHVljcVoJgFLwFAA--.15638S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3uFyxuF1rWryxKFWxAF1kZrb_yoW8Wr43to
+        ZYy3yS9w48Gw1UtFWY9a18ZFy7ZFs5CF47Cr4qvF43Cr1Yg3WFvw18t3W3JrW5urZ0kF4f
+        ta4xAFW5WF4UJFy3n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUU597k0a2IF6FyUM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+        IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vE
+        x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
+        kEcVAq07x20xvEncxIr21le4C267I2x7xF54xIwI1l5I8CrVACY4xI64kE6c02F40Ex7xf
+        McIj6x8ErcxFaVAv8VWxJr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42
+        xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWU
+        JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+        kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+        6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+        vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kfnx
+        nUUI43ZEXa7IUU3rc3UUUUU==
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 4/22/21 6:23 PM, Tiezhu Yang wrote:
-> pahole starts to use libbpf definitions and APIs since v1.13 after the
-> commit 21507cd3e97b ("pahole: add libbpf as submodule under lib/bpf").
-> It works well with the git repository because the libbpf submodule will
-> use "git submodule update --init --recursive" to update.
-> 
-> Unfortunately, the default github release source code does not contain
-> libbpf submodule source code and this will cause build issues, the tarball
-> from https://git.kernel.org/pub/scm/devel/pahole/pahole.git/ is same with
-> github, you can get the source tarball with corresponding libbpf submodule
-> codes from
-> 
-> https://fedorapeople.org/~acme/dwarves
-> 
-> This change documents the above issues to give more information so that
-> we can get the tarball from the right place, early discussion is here:
-> 
-> https://lore.kernel.org/bpf/2de4aad5-fa9e-1c39-3c92-9bb9229d0966@loongson.cn/
-> 
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
->   Documentation/bpf/bpf_devel_QA.rst | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-> index d05e67e..253496a 100644
-> --- a/Documentation/bpf/bpf_devel_QA.rst
-> +++ b/Documentation/bpf/bpf_devel_QA.rst
-> @@ -449,6 +449,19 @@ from source at
->   
->   https://github.com/acmel/dwarves
->   
-> +pahole starts to use libbpf definitions and APIs since v1.13 after the
-> +commit 21507cd3e97b ("pahole: add libbpf as submodule under lib/bpf").
-> +It works well with the git repository because the libbpf submodule will
-> +use "git submodule update --init --recursive" to update.
-> +
-> +Unfortunately, the default github release source code does not contain
-> +libbpf submodule source code and this will cause build issues, the tarball
-> +from https://git.kernel.org/pub/scm/devel/pahole/pahole.git/ is same with
-> +github, you can get the source tarball with corresponding libbpf submodule
-> +codes from
-> +
-> +https://fedorapeople.org/~acme/dwarves
-> +
+On Fri, Apr 23, 2021 at 09:47:48AM +0800, teng sterling wrote:
+> Wu XiangCheng <bobwxc@email.cn> =E4=BA=8E2021=E5=B9=B44=E6=9C=8822=E6=97=
+=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=888:28=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > Add a new translation
+> >   Documentation/translations/zh_CN/maintainer/rebasing-and-merging.rst
+> > and link it to zh_CN/maintainer/index.rst
+> >
+> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> > ---
+> >  .../translations/zh_CN/maintainer/index.rst   |   2 +-
+> >  .../zh_CN/maintainer/rebasing-and-merging.rst | 165 ++++++++++++++++++
+> >  2 files changed, 166 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/translations/zh_CN/maintainer/rebasin=
+g-and-merging.rst
+> >
+> > diff --git a/Documentation/translations/zh_CN/maintainer/index.rst b/Do=
+cumentation/translations/zh_CN/maintainer/index.rst
+> > index e263315f5e7a..21ab7cebf78b 100644
+> > --- a/Documentation/translations/zh_CN/maintainer/index.rst
+> > +++ b/Documentation/translations/zh_CN/maintainer/index.rst
+> > @@ -14,10 +14,10 @@
+> >     :maxdepth: 2
+> >
+> >     configure-git
+> > +   rebasing-and-merging
+> >
+> >  TODOList:
+> >
+> > --   rebasing-and-merging
+> >  -   pull-requests
+> >  -   maintainer-entry-profile
+> >  -   modifying-patches
+> > diff --git a/Documentation/translations/zh_CN/maintainer/rebasing-and-m=
+erging.rst b/Documentation/translations/zh_CN/maintainer/rebasing-and-mergi=
+ng.rst
+> > new file mode 100644
+> > index 000000000000..3886dff8d59c
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/maintainer/rebasing-and-merging.=
+rst
+> > @@ -0,0 +1,165 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +.. include:: ../disclaimer-zh_CN.rst
+> > +
+> > +:Original: Documentation/maintainer/rebasing-and-merging.rst
+> > +
+> > +:=E8=AF=91=E8=80=85:
+> > +
+> > + =E5=90=B4=E6=83=B3=E6=88=90 Wu XiangCheng <bobwxc@email.cn>
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=E5=8F=98=E5=9F=BA=E4=B8=8E=E5=90=88=E5=B9=B6
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +=E4=B8=80=E8=88=AC=E6=9D=A5=E8=AF=B4=EF=BC=8C=E7=BB=B4=E6=8A=A4=E5=AD=
+=90=E7=B3=BB=E7=BB=9F=E9=9C=80=E8=A6=81=E7=86=9F=E6=82=89Git=E6=BA=90=E4=BB=
+=A3=E7=A0=81=E7=AE=A1=E7=90=86=E7=B3=BB=E7=BB=9F=E3=80=82Git=E6=98=AF=E4=B8=
+=80=E4=B8=AA=E5=8A=9F=E8=83=BD=E5=BC=BA=E5=A4=A7=E7=9A=84=E5=B7=A5=E5=85=B7=
+=EF=BC=8C=E6=9C=89
+> > +=E5=BE=88=E5=A4=9A=E5=8A=9F=E8=83=BD=EF=BC=9B=E5=B0=B1=E5=83=8F=E8=BF=
+=99=E7=B1=BB=E5=B7=A5=E5=85=B7=E5=B8=B8=E5=87=BA=E7=8E=B0=E7=9A=84=E6=83=85=
+=E5=86=B5=E4=B8=80=E6=A0=B7=EF=BC=8C=E4=BD=BF=E7=94=A8=E8=BF=99=E4=BA=9B=E5=
+=8A=9F=E8=83=BD=E7=9A=84=E6=96=B9=E6=B3=95=E6=9C=89=E5=AF=B9=E6=9C=89=E9=94=
+=99=E3=80=82=E6=9C=AC=E6=96=87=E6=A1=A3
+> > +=E7=89=B9=E5=88=AB=E4=BB=8B=E7=BB=8D=E4=BA=86=E5=8F=98=E5=9F=BA=E4=B8=
+=8E=E5=90=88=E5=B9=B6=E7=9A=84=E7=94=A8=E6=B3=95=E3=80=82=E7=BB=B4=E6=8A=A4=
+=E8=80=85=E7=BB=8F=E5=B8=B8=E5=9C=A8=E9=94=99=E8=AF=AF=E4=BD=BF=E7=94=A8=E8=
+=BF=99=E4=BA=9B=E5=B7=A5=E5=85=B7=E6=97=B6=E9=81=87=E5=88=B0=E9=BA=BB=E7=83=
+=A6=EF=BC=8C=E4=BD=86=E9=81=BF=E5=85=8D
+> > +=E9=97=AE=E9=A2=98=E5=AE=9E=E9=99=85=E4=B8=8A=E5=B9=B6=E4=B8=8D=E9=82=
+=A3=E4=B9=88=E5=9B=B0=E9=9A=BE=E3=80=82
+> > +
+> > +=E6=80=BB=E7=9A=84=E6=9D=A5=E8=AF=B4=EF=BC=8C=E9=9C=80=E8=A6=81=E6=B3=
+=A8=E6=84=8F=E7=9A=84=E4=B8=80=E7=82=B9=E6=98=AF=EF=BC=9A=E4=B8=8E=E8=AE=B8=
+=E5=A4=9A=E5=85=B6=E4=BB=96=E9=A1=B9=E7=9B=AE=E4=B8=8D=E5=90=8C=EF=BC=8C=E5=
+=86=85=E6=A0=B8=E7=A4=BE=E5=8C=BA=E5=B9=B6=E4=B8=8D=E5=AE=B3=E6=80=95=E5=9C=
+=A8=E5=85=B6=E5=BC=80=E5=8F=91=E5=8E=86=E5=8F=B2
+> > +=E4=B8=AD=E7=9C=8B=E5=88=B0=E5=90=88=E5=B9=B6=E6=8F=90=E4=BA=A4=E3=80=
+=82=E4=BA=8B=E5=AE=9E=E4=B8=8A=EF=BC=8C=E8=80=83=E8=99=91=E5=88=B0=E8=AF=A5=
+=E9=A1=B9=E7=9B=AE=E7=9A=84=E8=A7=84=E6=A8=A1=EF=BC=8C=E9=81=BF=E5=85=8D=E5=
+=90=88=E5=B9=B6=E5=87=A0=E4=B9=8E=E6=98=AF=E4=B8=8D=E5=8F=AF=E8=83=BD=E7=9A=
+=84=E3=80=82=E7=BB=B4=E6=8A=A4=E8=80=85=E4=BC=9A
+> > +=E5=9C=A8=E5=B8=8C=E6=9C=9B=E9=81=BF=E5=85=8D=E5=90=88=E5=B9=B6=E6=97=
+=B6=E9=81=87=E5=88=B0=E4=B8=80=E4=BA=9B=E9=97=AE=E9=A2=98=EF=BC=8C=E8=80=8C=
+=E8=BF=87=E4=BA=8E=E9=A2=91=E7=B9=81=E7=9A=84=E5=90=88=E5=B9=B6=E4=B9=9F=E4=
+=BC=9A=E5=B8=A6=E6=9D=A5=E5=8F=A6=E4=B8=80=E4=BA=9B=E9=97=AE=E9=A2=98=E3=80=
+=82
 
-Arnaldo, could you take a look at this patch? Thanks!
+> =E7=BB=B4=E6=8A=A4=E8=80=85=E4=BC=9A=E5=B8=8C=E6=9C=9B=E5=9C=A8=E5=90=88=
+=E5=B9=B6=E6=97=B6=E9=81=BF=E5=85=8D=E9=81=87=E5=88=B0=E4=B8=80=E4=BA=9B=E9=
+=97=AE=E9=A2=98=EF=BC=9F
 
->   Some distros have pahole version 1.16 packaged already, e.g.
->   Fedora, Gentoo.
->   
-> 
+You seems misunderstood. Here means,
+
+Some maintainers want to always use fast-forward merge, thus there will be =
+no merge
+commit in the tree. Then, main tree will very clean and beautifull, no extr=
+a branch.
+When you use 'git log --graph', only appear one line.
+
+But when you avoid merge commit, may cause other problems.
+
+> > +
+> > +=E5=8F=98=E5=9F=BA
+> > +=3D=3D=3D=3D
+> > +
+> > +=E2=80=9C=E5=8F=98=E5=9F=BA=EF=BC=88Rebase=EF=BC=89=E2=80=9D=E6=98=AF=
+=E6=9B=B4=E6=94=B9=E5=AD=98=E5=82=A8=E5=BA=93=E4=B8=AD=E4=B8=80=E7=B3=BB=E5=
+=88=97=E6=8F=90=E4=BA=A4=E7=9A=84=E5=8E=86=E5=8F=B2=E8=AE=B0=E5=BD=95=E7=9A=
+=84=E8=BF=87=E7=A8=8B=E3=80=82=E6=9C=89=E4=B8=A4=E7=A7=8D=E4=B8=8D=E5=90=8C=
+=E5=9E=8B=E7=9A=84=E6=93=8D=E4=BD=9C
+> > +=E9=83=BD=E8=A2=AB=E7=A7=B0=E4=B8=BA=E5=8F=98=E5=9F=BA=EF=BC=8C=E5=9B=
+=A0=E4=B8=BA=E8=BF=99=E4=B8=A4=E7=A7=8D=E6=93=8D=E4=BD=9C=E9=83=BD=E4=BD=BF=
+=E7=94=A8 ``git rebase`` =E5=91=BD=E4=BB=A4=EF=BC=8C=E4=BD=86=E5=AE=83=E4=
+=BB=AC=E4=B9=8B=E9=97=B4=E5=AD=98=E5=9C=A8=E6=98=BE=E8=91=97
+> > +=E5=B7=AE=E5=BC=82=EF=BC=9A
+> > +
+> > + - =E6=9B=B4=E6=94=B9=E7=94=9F=E6=88=90=E4=B8=80=E7=B3=BB=E5=88=97=E4=
+=BF=AE=E8=A1=A5=E7=A8=8B=E5=BA=8F=E7=9A=84=E7=88=B6=EF=BC=88=E5=BC=80=E5=A7=
+=8B=EF=BC=89=E6=8F=90=E4=BA=A4=E3=80=82=E4=BE=8B=E5=A6=82=EF=BC=8C=E5=8F=98=
+=E5=9F=BA=E6=93=8D=E4=BD=9C=E5=8F=AF=E4=BB=A5=E5=B0=86=E5=9F=BA=E4=BA=8E=E4=
+=B8=8A=E4=B8=80
+> > +   =E5=86=85=E6=A0=B8=E7=89=88=E6=9C=AC=E7=9A=84=E4=B8=80=E4=B8=AA=E8=
+=A1=A5=E4=B8=81=E9=9B=86=E9=87=8D=E5=BB=BA=E5=88=B0=E5=BD=93=E5=89=8D=E7=89=
+=88=E6=9C=AC=E4=B8=8A=E3=80=82=E5=9C=A8=E4=B8=8B=E9=9D=A2=E7=9A=84=E8=AE=A8=
+=E8=AE=BA=E4=B8=AD=EF=BC=8C=E6=88=91=E4=BB=AC=E5=B0=86=E6=AD=A4=E6=93=8D=E4=
+=BD=9C=E7=A7=B0=E4=B8=BA
+> > +   =E2=80=9C=E5=8F=98=E6=A0=B9=E2=80=9D=E3=80=82
+> > +
+> > + - =E9=80=9A=E8=BF=87=E4=BF=AE=E5=A4=8D=EF=BC=88=E6=88=96=E5=88=A0=E9=
+=99=A4=EF=BC=89=E6=8D=9F=E5=9D=8F=E7=9A=84=E6=8F=90=E4=BA=A4=E3=80=81=E6=B7=
+=BB=E5=8A=A0=E8=A1=A5=E4=B8=81=E3=80=81=E6=B7=BB=E5=8A=A0=E6=A0=87=E8=AE=B0=
+=E4=BB=A5=E6=9B=B4=E6=94=B9=E4=B8=80=E7=B3=BB=E5=88=97=E8=A1=A5=E4=B8=81=E7=
+=9A=84=E5=8E=86=E5=8F=B2=EF=BC=8C
+> > +   =E6=9D=A5=E6=8F=90=E4=BA=A4=E5=8F=98=E6=9B=B4=E6=97=A5=E5=BF=97=E6=
+=88=96=E6=9B=B4=E6=94=B9=E5=B7=B2=E5=BA=94=E7=94=A8=E6=8F=90=E4=BA=A4=E7=9A=
+=84=E9=A1=BA=E5=BA=8F=E3=80=82=E5=9C=A8=E4=B8=8B=E6=96=87=E4=B8=AD=EF=BC=8C=
+=E8=BF=99=E7=A7=8D=E7=B1=BB=E5=9E=8B=E7=9A=84=E6=93=8D=E4=BD=9C=E7=A7=B0=E4=
+=B8=BA=E2=80=9C=E5=8E=86=E5=8F=B2
+> > +   =E4=BF=AE=E6=94=B9=E2=80=9D
+> > +
+> > +=E6=9C=AF=E8=AF=AD=E2=80=9C=E5=8F=98=E5=9F=BA=E2=80=9D=E5=B0=86=E7=94=
+=A8=E4=BA=8E=E6=8C=87=E4=BB=A3=E4=B8=8A=E8=BF=B0=E4=B8=A4=E7=A7=8D=E6=93=8D=
+=E4=BD=9C=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=BF=E7=94=A8=E5=BE=97=E5=BD=93=EF=
+=BC=8C=E5=8F=98=E5=9F=BA=E5=8F=AF=E4=BB=A5=E4=BA=A7=E7=94=9F=E6=9B=B4=E6=B8=
+=85=E6=99=B0=E3=80=81=E6=9B=B4=E6=B8=85=E6=99=B0=E7=9A=84
+
+> =E6=9B=B4=E6=B8=85=E6=99=B0=E3=80=81=E6=9B=B4=E6=95=B4=E6=B4=81=EF=BC=9Fo=
+r =E6=9B=B4=E6=B8=85=E6=99=B0=E3=80=81=E6=9B=B4=E5=B9=B2=E5=87=80=EF=BC=9F=
+=EF=BC=9A=EF=BC=89
+
+OK!
+use =E6=9B=B4=E6=B8=85=E6=99=B0=E3=80=81=E6=9B=B4=E6=95=B4=E6=B4=81
+
+> > +=E5=BC=80=E5=8F=91=E5=8E=86=E5=8F=B2=EF=BC=9B=E5=A6=82=E6=9E=9C=E4=BD=
+=BF=E7=94=A8=E4=B8=8D=E5=BD=93=EF=BC=8C=E5=AE=83=E5=8F=AF=E8=83=BD=E4=BC=9A=
+=E6=A8=A1=E7=B3=8A=E5=8E=86=E5=8F=B2=E5=B9=B6=E5=BC=95=E5=85=A5=E9=94=99=E8=
+=AF=AF=E3=80=82
+> > +
+> > +=E4=BB=A5=E4=B8=8B=E4=B8=80=E4=BA=9B=E7=BB=8F=E9=AA=8C=E6=B3=95=E5=88=
+=99=E5=8F=AF=E4=BB=A5=E5=B8=AE=E5=8A=A9=E5=BC=80=E5=8F=91=E8=80=85=E9=81=BF=
+=E5=85=8D=E6=9C=80=E7=B3=9F=E7=B3=95=E7=9A=84=E5=8F=98=E5=9F=BA=E9=A3=8E=E9=
+=99=A9=EF=BC=9A
+> > +
+> > + - =E5=B7=B2=E7=BB=8F=E5=8F=91=E5=B8=83=E5=88=B0=E4=BD=A0=E7=A7=81=E4=
+=BA=BA=E7=B3=BB=E7=BB=9F=E4=B9=8B=E5=A4=96=E4=B8=96=E7=95=8C=E7=9A=84=E5=8E=
+=86=E5=8F=B2=E9=80=9A=E5=B8=B8=E4=B8=8D=E5=BA=94=E6=94=B9=E5=8F=98=E3=80=82=
+=E5=85=B6=E4=BB=96=E4=BA=BA=E5=8F=AF=E8=83=BD=E4=BC=9A=E6=8B=89=E5=8F=96=E4=
+=BD=A0=E7=9A=84=E6=A0=91
+
+> =E6=94=B9=E5=8F=98 -> =E6=9B=B4=E6=94=B9=EF=BC=9F
+
+OK.
+
+> > +   =E7=9A=84=E5=89=AF=E6=9C=AC=EF=BC=8C=E7=84=B6=E5=90=8E=E5=9F=BA=E4=
+=BA=8E=E5=AE=83=E8=BF=9B=E8=A1=8C=E5=B7=A5=E4=BD=9C=EF=BC=9B=E4=BF=AE=E6=94=
+=B9=E4=BD=A0=E7=9A=84=E6=A0=91=E4=BC=9A=E7=BB=99=E4=BB=96=E4=BB=AC=E5=B8=A6=
+=E6=9D=A5=E9=BA=BB=E7=83=A6=E3=80=82=E5=A6=82=E6=9E=9C=E5=B7=A5=E4=BD=9C=E9=
+=9C=80=E8=A6=81=E5=8F=98=E5=9F=BA=EF=BC=8C
+> > +   =E8=BF=99=E9=80=9A=E5=B8=B8=E6=98=AF=E8=A1=A8=E6=98=8E=E5=AE=83=E8=
+=BF=98=E6=B2=A1=E6=9C=89=E5=87=86=E5=A4=87=E5=A5=BD=E6=8F=90=E4=BA=A4=E5=88=
+=B0=E5=85=AC=E5=85=B1=E5=AD=98=E5=82=A8=E5=BA=93=E7=9A=84=E4=BF=A1=E5=8F=B7=
+=E3=80=82
+> > +
+> > +   =E4=BD=86=E6=98=AF=EF=BC=8C=E6=80=BB=E6=9C=89=E4=BE=8B=E5=A4=96=E3=
+=80=82=E6=9C=89=E4=BA=9B=E6=A0=91=EF=BC=88linux-next=E6=98=AF=E4=B8=80=E4=
+=B8=AA=E5=85=B8=E5=9E=8B=E7=9A=84=E4=BE=8B=E5=AD=90=EF=BC=89=E7=94=B1=E4=BA=
+=8E=E5=AE=83=E4=BB=AC=E7=9A=84=E9=9C=80=E8=A6=81=E7=BB=8F=E5=B8=B8
+> > +   =E5=8F=98=E5=9F=BA=EF=BC=8C=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E7=
+=9F=A5=E9=81=93=E4=B8=8D=E8=A6=81=E5=9F=BA=E4=BA=8E=E5=AE=83=E4=BB=AC=E6=9D=
+=A5=E5=B7=A5=E4=BD=9C=E3=80=82=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E6=9C=89=
+=E6=97=B6=E4=BC=9A=E6=9A=B4=E9=9C=B2=E4=B8=80=E4=B8=AA=E4=B8=8D=E7=A8=B3=E5=
+=AE=9A=E7=9A=84=E5=88=86=E6=94=AF=EF=BC=8C
+> > +   =E4=BE=9B=E5=85=B6=E4=BB=96=E4=BA=BA=E6=88=96=E8=87=AA=E5=8A=A8=E6=
+=B5=8B=E8=AF=95=E6=9C=8D=E5=8A=A1=E8=BF=9B=E8=A1=8C=E6=B5=8B=E8=AF=95=E3=80=
+=82=E5=A6=82=E6=9E=9C=E6=82=A8=E7=A1=AE=E5=AE=9E=E4=BB=A5=E8=BF=99=E7=A7=8D=
+=E6=96=B9=E5=BC=8F=E6=9A=B4=E9=9C=B2=E4=BA=86=E4=B8=80=E4=B8=AA=E5=8F=AF=E8=
+=83=BD=E4=B8=8D=E7=A8=B3=E5=AE=9A
+
+> maybe =E6=9A=B4=E9=9C=B2 -> =E6=9B=9D=E5=85=89=EF=BC=9F=E5=85=AC=E5=BC=80=
+=EF=BC=9F
+
+use =E5=85=AC=E5=BC=80
+
+> > +   =E7=9A=84=E5=88=86=E6=94=AF=EF=BC=8C=E8=AF=B7=E7=A1=AE=E4=BF=9D=E6=
+=BD=9C=E5=9C=A8=E4=BD=BF=E7=94=A8=E8=80=85=E7=9F=A5=E9=81=93=E4=B8=8D=E8=A6=
+=81=E5=9F=BA=E4=BA=8E=E5=AE=83=E6=9D=A5=E5=B7=A5=E4=BD=9C=E3=80=82
+> > +
+> > + - =E4=B8=8D=E8=A6=81=E5=9C=A8=E5=8C=85=E5=90=AB=E7=94=B1=E4=BB=96=E4=
+=BA=BA=E5=88=9B=E5=BB=BA=E7=9A=84=E5=8E=86=E5=8F=B2=E7=9A=84=E5=88=86=E6=94=
+=AF=E4=B8=8A=E5=8F=98=E5=9F=BA=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=E4=BB=8E=
+=E5=88=AB=E7=9A=84=E5=BC=80=E5=8F=91=E8=80=85=E7=9A=84=E4=BB=93=E5=BA=93=E6=
+=8B=89=E5=8F=96=E4=BA=86=E5=8F=98=E6=9B=B4=EF=BC=8C
+
+> =E5=8E=86=E5=8F=B2=E7=9A=84=E5=88=86=E6=94=AF delete =E2=80=9C=E7=9A=84=
+=E2=80=9D
+
+=E4=B8=8D=E8=A6=81=E5=9C=A8 | =E5=8C=85=E5=90=AB=E7=94=B1=E4=BB=96=E4=BA=BA=
+=E5=88=9B=E5=BB=BA=E7=9A=84=E5=8E=86=E5=8F=B2 | =E7=9A=84=E5=88=86=E6=94=AF=
+=E4=B8=8A=E5=8F=98=E5=9F=BA
+
+> > +   =E9=82=A3=E4=BD=A0=E7=8E=B0=E5=9C=A8=E5=B0=B1=E6=88=90=E4=BA=86=E4=
+=BB=96=E4=BB=AC=E5=8E=86=E5=8F=B2=E8=AE=B0=E5=BD=95=E7=9A=84=E4=BF=9D=E7=AE=
+=A1=E4=BA=BA=E3=80=82=E4=BD=A0=E4=B8=8D=E5=BA=94=E8=AF=A5=E6=94=B9=E5=8F=98=
+=E5=AE=83=EF=BC=8C=E9=99=A4=E4=BA=86=E5=B0=91=E6=95=B0=E4=BE=8B=E5=A4=96=E6=
+=83=85=E5=86=B5=E3=80=82=E4=BE=8B=E5=A6=82
+> > +   =E6=A0=91=E4=B8=AD=E6=8D=9F=E5=9D=8F=E7=9A=84=E6=8F=90=E4=BA=A4=E5=
+=BF=85=E9=A1=BB=E6=98=BE=E5=BC=8F=E6=81=A2=E5=A4=8D=EF=BC=8C=E8=80=8C=E4=B8=
+=8D=E6=98=AF=E9=80=9A=E8=BF=87=E4=BF=AE=E6=94=B9=E5=8E=86=E5=8F=B2=E8=80=8C=
+=E6=B6=88=E5=A4=B1=E3=80=82
+
+> This sentence is not friendly to newbabys=E3=80=82
+> =E6=88=91=E8=A7=89=E5=BE=97=E5=A4=A7=E6=84=8F=E5=BA=94=E8=AF=A5=E6=98=AF=
+=E8=BF=99=E6=A0=B7=EF=BC=9A
+> =E5=8E=86=E5=8F=B2=E4=B8=8A=E6=9C=89=E4=BA=BA=E6=8F=90=E4=BA=A4=E7=9A=84=
+=E8=A1=A5=E4=B8=81=E4=BB=8A=E5=A4=A9=E5=8F=91=E7=8E=B0=E9=97=AE=E9=A2=98=E4=
+=BA=86=EF=BC=8C=E5=BF=85=E9=A1=BB=E9=80=9A=E8=BF=87=E5=8F=8D=E6=89=93=E8=A1=
+=A5=E4=B8=81=E6=81=A2=E5=A4=8D=EF=BC=8C=E8=80=8C=E4=B8=8D=E5=BA=94=E8=AF=A5=
+=E6=92=A4=E6=8E=89=E8=A1=A5=E4=B8=81=EF=BC=9F
+> =E4=BD=A0=E5=86=8D=E6=B1=82=E8=AF=81=E4=B8=8B=EF=BC=8C=E7=84=B6=E5=90=8E=
+=E7=BB=84=E7=BB=87=E4=B8=80=E4=B8=8B=E8=AF=AD=E8=A8=80=E3=80=82
+
+Yes, you are right!
+use
+=E6=A0=91=E4=B8=AD=E6=9C=89=E9=97=AE=E9=A2=98=E7=9A=84=E6=8F=90=E4=BA=A4=E5=
+=BF=85=E9=A1=BB=E6=98=BE=E5=BC=8F=E6=81=A2=E5=A4=8D=EF=BC=88=E5=8D=B3=E9=80=
+=9A=E8=BF=87=E5=8F=A6=E4=B8=80=E4=B8=AA=E8=A1=A5=E4=B8=81=E4=BF=AE=E5=A4=8D=
+=EF=BC=89=EF=BC=8C=E8=80=8C=E4=B8=8D=E6=98=AF=E9=80=9A=E8=BF=87=E4=BF=AE=E6=
+=94=B9=E5=8E=86=E5=8F=B2=E8=80=8C=E6=B6=88=E5=A4=B1=E3=80=82
+
+> > +
+> > + - =E6=B2=A1=E6=9C=89=E5=90=88=E7=90=86=E7=90=86=E7=94=B1=EF=BC=8C=E4=
+=B8=8D=E8=A6=81=E5=AF=B9=E6=A0=91=E5=8F=98=E6=A0=B9=E3=80=82=E4=BB=85=E4=B8=
+=BA=E4=BA=86=E5=88=87=E6=8D=A2=E5=88=B0=E6=9B=B4=E6=96=B0=E7=9A=84=E5=9F=BA=
+=E6=88=96=E9=81=BF=E5=85=8D=E4=B8=8E=E4=B8=8A=E6=B8=B8=E5=82=A8=E5=AD=98=E5=
+=BA=93=E7=9A=84=E5=90=88=E5=B9=B6
+> > +   =E9=80=9A=E5=B8=B8=E4=B8=8D=E6=98=AF=E5=90=88=E7=90=86=E7=90=86=E7=
+=94=B1=E3=80=82
+> > +
+> > + - =E5=A6=82=E6=9E=9C=E4=BD=A0=E5=BF=85=E9=A1=BB=E5=AF=B9=E5=82=A8=E5=
+=AD=98=E5=BA=93=E8=BF=9B=E8=A1=8C=E5=8F=98=E6=A0=B9=EF=BC=8C=E8=AF=B7=E4=B8=
+=8D=E8=A6=81=E9=9A=8F=E6=9C=BA=E9=80=89=E5=8F=96=E4=B8=80=E4=B8=AA=E6=8F=90=
+=E4=BA=A4=E4=BD=9C=E4=B8=BA=E6=96=B0=E5=9F=BA=E3=80=82=E5=9C=A8=E5=8F=91=E5=
+=B8=83=E8=8A=82=E7=82=B9=E4=B9=8B=E9=97=B4
+> > +   =E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E5=A4=84=E4=BA=8E=E4=B8=80=E4=
+=B8=AA=E7=9B=B8=E5=AF=B9=E4=B8=8D=E7=A8=B3=E5=AE=9A=E7=9A=84=E7=8A=B6=E6=80=
+=81=EF=BC=9B=E5=9F=BA=E4=BA=8E=E5=85=B6=E4=B8=AD=E6=9F=90=E7=82=B9=E8=BF=9B=
+=E8=A1=8C=E5=BC=80=E5=8F=91=E4=BC=9A=E5=A2=9E=E5=8A=A0=E9=81=87=E5=88=B0=E5=
+=A5=87=E6=80=AA=E9=94=99=E8=AF=AF=E7=9A=84
+
+> =E5=9F=BA=E4=BA=8E=E2=80=A6=E2=80=A6
+> I think this sentence translates wrong and reads strangely=E3=80=82
+
+use =E5=9F=BA=E4=BA=8E=E5=85=B6=E4=B8=AD=E6=9F=90=E7=82=B9=E8=BF=9B=E8=A1=
+=8C=E5=BC=80=E5=8F=91=E4=BC=9A=E5=A2=9E=E5=8A=A0=E9=81=87=E5=88=B0=E6=84=8F=
+=E5=A4=96=E9=94=99=E7=9A=84=E5=87=A0=E7=8E=87=E3=80=82
+
+=E8=AE=A1=E5=88=92 should be =E6=9C=BA=E4=BC=9A
+
+> > +   =E8=AE=A1=E5=88=92=E3=80=82=E5=BD=93=E4=B8=80=E7=B3=BB=E5=88=97=E8=
+=A1=A5=E4=B8=81=E5=BF=85=E9=A1=BB=E7=A7=BB=E5=8A=A8=E5=88=B0=E6=96=B0=E5=9F=
+=BA=E6=97=B6=EF=BC=8C=E8=AF=B7=E9=80=89=E6=8B=A9=E7=A7=BB=E5=8A=A8=E5=88=B0=
+=E4=B8=80=E4=B8=AA=E7=A8=B3=E5=AE=9A=E8=8A=82=E7=82=B9=EF=BC=88=E4=BE=8B=E5=
+=A6=82-rc=E7=89=88=E6=9C=AC
+> > +   =E8=8A=82=E7=82=B9=EF=BC=89=E3=80=82
+> > +
+> > + - =E8=AF=B7=E7=9F=A5=E6=82=89=E5=AF=B9=E8=A1=A5=E4=B8=81=E7=B3=BB=E5=
+=88=97=E8=BF=9B=E8=A1=8C=E5=8F=98=E6=A0=B9=EF=BC=88=E6=88=96=E5=81=9A=E6=98=
+=8E=E6=98=BE=E7=9A=84=E5=8E=86=E5=8F=B2=E4=BF=AE=E6=94=B9=EF=BC=89=E4=BC=9A=
+=E6=94=B9=E5=8F=98=E5=AE=83=E4=BB=AC=E7=9A=84=E5=BC=80=E5=8F=91=E7=8E=AF=E5=
+=A2=83=EF=BC=8C=E4=B8=94=E5=BE=88
+> > +   =E5=8F=AF=E8=83=BD=E4=BD=BF=E5=81=9A=E8=BF=87=E7=9A=84=E5=A4=A7=E9=
+=83=A8=E5=88=86=E6=B5=8B=E8=AF=95=E5=A4=B1=E6=95=88=E3=80=82=E4=B8=80=E8=88=
+=AC=E6=9D=A5=E8=AF=B4=EF=BC=8C=E5=8F=98=E5=9F=BA=E5=90=8E=E7=9A=84=E8=A1=A5=
+=E4=B8=81=E7=B3=BB=E5=88=97=E5=BA=94=E5=BD=93=E5=83=8F=E6=96=B0=E4=BB=A3=E7=
+=A0=81=E4=B8=80=E6=A0=B7=E5=AF=B9
+> > +   =E5=BE=85=EF=BC=8C=E5=B9=B6=E4=BB=8E=E5=A4=B4=E5=BC=80=E5=A7=8B=E9=
+=87=8D=E6=96=B0=E6=B5=8B=E8=AF=95=E3=80=82
+
+> =E4=BB=8E=E5=A4=B4=E5=BC=80=E5=A7=8B =3D =E9=87=8D=E6=96=B0 =EF=BC=9A=EF=
+=BC=89
+
+OK, remove it.
+
+> > +
+> > +=E5=90=88=E5=B9=B6=E7=AA=97=E5=8F=A3=E9=BA=BB=E7=83=A6=E7=9A=84=E4=B8=
+=80=E4=B8=AA=E5=B8=B8=E8=A7=81=E5=8E=9F=E5=9B=A0=E6=98=AF=EF=BC=8CLinus=E6=
+=94=B6=E5=88=B0=E4=BA=86=E4=B8=80=E4=B8=AA=E6=98=8E=E6=98=BE=E5=9C=A8=E6=8B=
+=89=E5=8F=96=E8=AF=B7=E6=B1=82=E5=8F=91=E9=80=81=E4=B9=8B=E5=89=8D=E4=B8=8D=
+=E4=B9=85=E6=89=8D=E5=8F=98=E6=A0=B9
+> > +=EF=BC=88=E9=80=9A=E5=B8=B8=E6=98=AF=E5=8F=98=E6=A0=B9=E5=88=B0=E9=9A=
+=8F=E6=9C=BA=E7=9A=84=E6=8F=90=E4=BA=A4=E4=B8=8A=EF=BC=89=E7=9A=84=E8=A1=A5=
+=E4=B8=81=E7=B3=BB=E5=88=97=E3=80=82=E8=BF=99=E6=A0=B7=E4=B8=80=E4=B8=AA=E7=
+=B3=BB=E5=88=97=E8=A2=AB=E5=85=85=E5=88=86=E6=B5=8B=E8=AF=95=E7=9A=84=E5=8F=
+=AF=E8=83=BD=E6=80=A7=E7=9B=B8=E5=AF=B9=E8=BE=83
+> > +=E4=BD=8E=EF=BC=8C=E6=8B=89=E5=8F=96=E8=AF=B7=E6=B1=82=E8=A2=AB=E6=8E=
+=A5=E5=8F=97=E7=9A=84=E5=87=A0=E7=8E=87=E4=B9=9F=E5=90=8C=E6=A0=B7=E8=BE=83=
+=E4=BD=8E=E3=80=82
+> > +
+> > +=E7=9B=B8=E5=8F=8D=EF=BC=8C=E5=A6=82=E6=9E=9C=E5=8F=98=E5=9F=BA=E4=BB=
+=85=E9=99=90=E4=BA=8E=E7=A7=81=E6=9C=89=E6=A0=91=E3=80=81=E6=8F=90=E4=BA=A4=
+=E5=9F=BA=E4=BA=8E=E4=B8=80=E4=B8=AA=E9=80=9A=E7=94=A8=E7=9A=84=E8=B5=B7=E7=
+=82=B9=E3=80=81=E4=B8=94=E7=BB=8F=E8=BF=87=E5=85=85=E5=88=86=E6=B5=8B=E8=AF=
+=95=EF=BC=8C=E5=88=99=E5=BC=95=E8=B5=B7
+> > +=E9=BA=BB=E7=83=A6=E7=9A=84=E5=8F=AF=E8=83=BD=E6=80=A7=E5=B0=B1=E5=BE=
+=88=E4=BD=8E=E3=80=82
+> > +
+> > +=E5=90=88=E5=B9=B6
+> > +=3D=3D=3D=3D
+> > +
+> > +=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=91=E8=BF=87=E7=A8=8B=E4=B8=AD=EF=BC=
+=8C=E5=90=88=E5=B9=B6=E6=98=AF=E4=B8=80=E4=B8=AA=E5=BE=88=E5=B8=B8=E8=A7=81=
+=E7=9A=84=E6=93=8D=E4=BD=9C=EF=BC=9B5.1=E7=89=88=E6=9C=AC=E5=BC=80=E5=8F=91=
+=E5=91=A8=E6=9C=9F=E4=B8=AD=E6=9C=89=E8=B6=85=E8=BF=871126=E4=B8=AA=E5=90=
+=88=E5=B9=B6
+> > +=E2=80=94=E2=80=94=E5=B7=AE=E4=B8=8D=E5=A4=9A=E5=8D=A0=E4=BA=86=E6=95=
+=B4=E4=BD=93=E7=9A=849%=E3=80=82=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=91=E5=B7=
+=A5=E4=BD=9C=E7=A7=AF=E7=B4=AF=E5=9C=A8100=E5=A4=9A=E4=B8=AA=E4=B8=8D=E5=90=
+=8C=E7=9A=84=E5=AD=90=E7=B3=BB=E7=BB=9F=E6=A0=91=E4=B8=AD=EF=BC=8C=E6=AF=8F=
+=E4=B8=AA
+> > +=E5=AD=90=E7=B3=BB=E7=BB=9F=E6=A0=91=E9=83=BD=E5=8F=AF=E8=83=BD=E5=8C=
+=85=E5=90=AB=E5=A4=9A=E4=B8=AA=E4=B8=BB=E9=A2=98=E5=88=86=E6=94=AF=EF=BC=9B=
+=E6=AF=8F=E4=B8=AA=E5=88=86=E6=94=AF=E9=80=9A=E5=B8=B8=E7=8B=AC=E7=AB=8B=E4=
+=BA=8E=E5=85=B6=E4=BB=96=E5=88=86=E6=94=AF=E8=BF=9B=E8=A1=8C=E5=BC=80=E5=8F=
+=91=E3=80=82=E5=9B=A0=E6=AD=A4
+> > +=E5=9C=A8=E4=BB=BB=E4=BD=95=E7=BB=99=E5=AE=9A=E5=88=86=E6=94=AF=E8=BF=
+=9B=E5=85=A5=E4=B8=8A=E6=B8=B8=E5=82=A8=E5=AD=98=E5=BA=93=E4=B9=8B=E5=89=8D=
+=EF=BC=8C=E8=87=B3=E5=B0=91=E9=9C=80=E8=A6=81=E4=B8=80=E6=AC=A1=E5=90=88=E5=
+=B9=B6=E3=80=82
+> > +
+> > +=E8=AE=B8=E5=A4=9A=E9=A1=B9=E7=9B=AE=E8=A6=81=E6=B1=82=E6=8B=89=E5=8F=
+=96=E8=AF=B7=E6=B1=82=E4=B8=AD=E7=9A=84=E5=88=86=E6=94=AF=E5=9F=BA=E4=BA=8E=
+=E5=BD=93=E5=89=8D=E4=B8=BB=E5=B9=B2=EF=BC=8C=E8=BF=99=E6=A0=B7=E5=8E=86=E5=
+=8F=B2=E8=AE=B0=E5=BD=95=E4=B8=AD=E5=B0=B1=E4=B8=8D=E4=BC=9A=E5=87=BA=E7=8E=
+=B0=E5=90=88=E5=B9=B6=E6=8F=90=E4=BA=A4=E3=80=82
+> > +=E5=86=85=E6=A0=B8=E5=B9=B6=E4=B8=8D=E6=98=AF=E8=BF=99=E6=A0=B7=EF=BC=
+=9B=E4=BB=BB=E4=BD=95=E4=B8=BA=E4=BA=86=E9=81=BF=E5=85=8D=E5=90=88=E5=B9=B6=
+=E8=80=8C=E9=87=8D=E6=96=B0=E5=AF=B9=E5=88=86=E6=94=AF=E5=8F=98=E5=9F=BA=E9=
+=83=BD=E5=BE=88=E5=8F=AF=E8=83=BD=E5=AF=BC=E8=87=B4=E9=BA=BB=E7=83=A6=E3=80=
+=82
+> > +
+> > +=E5=AD=90=E7=B3=BB=E7=BB=9F=E7=BB=B4=E6=8A=A4=E4=BA=BA=E5=91=98=E5=8F=
+=91=E7=8E=B0=E4=BB=96=E4=BB=AC=E5=BF=85=E9=A1=BB=E8=BF=9B=E8=A1=8C=E4=B8=A4=
+=E7=A7=8D=E7=B1=BB=E5=9E=8B=E7=9A=84=E5=90=88=E5=B9=B6=EF=BC=9A=E4=BB=8E=E8=
+=BE=83=E4=BD=8E=E5=B1=82=E7=BA=A7=E7=9A=84=E5=AD=90=E7=B3=BB=E7=BB=9F=E6=A0=
+=91=E5=92=8C=E4=BB=8E=E5=85=B6=E4=BB=96
+> > +=E5=AD=90=E7=B3=BB=E7=BB=9F=E6=A0=91=EF=BC=88=E5=90=8C=E7=BA=A7=E6=A0=
+=91=E6=88=96=E4=B8=BB=E7=BA=BF=EF=BC=89=E8=BF=9B=E8=A1=8C=E5=90=88=E5=B9=B6=
+=E3=80=82=E8=BF=99=E4=B8=A4=E7=A7=8D=E6=83=85=E5=86=B5=E4=B8=8B=E8=A6=81=E9=
+=81=B5=E5=BE=AA=E7=9A=84=E6=9C=80=E4=BD=B3=E5=AE=9E=E8=B7=B5=E6=98=AF=E4=B8=
+=8D=E5=90=8C=E7=9A=84=E3=80=82
+> > +
+> > +=E5=90=88=E5=B9=B6=E8=BE=83=E4=BD=8E=E5=B1=82=E7=BA=A7=E6=A0=91
+> > +--------------
+> > +
+> > +=E8=BE=83=E5=A4=A7=E7=9A=84=E5=AD=90=E7=B3=BB=E7=BB=9F=E5=BE=80=E5=BE=
+=80=E6=9C=89=E5=A4=9A=E4=B8=AA=E7=BA=A7=E5=88=AB=E7=9A=84=E7=BB=B4=E6=8A=A4=
+=E4=BA=BA=E5=91=98=EF=BC=8C=E8=BE=83=E4=BD=8E=E7=BA=A7=E5=88=AB=E7=9A=84=E7=
+=BB=B4=E6=8A=A4=E4=BA=BA=E5=91=98=E5=90=91=E8=BE=83=E9=AB=98=E7=BA=A7=E5=88=
+=AB=E5=8F=91=E9=80=81=E6=8B=89=E5=8F=96
+> > +=E8=AF=B7=E6=B1=82=E3=80=82=E5=90=88=E5=B9=B6=E8=BF=99=E6=A0=B7=E7=9A=
+=84=E8=AF=B7=E6=B1=82=E6=89=A7=E8=A1=8C=E5=87=A0=E4=B9=8E=E8=82=AF=E5=AE=9A=
+=E4=BC=9A=E7=94=9F=E6=88=90=E4=B8=80=E4=B8=AA=E5=90=88=E5=B9=B6=E6=8F=90=E4=
+=BA=A4=EF=BC=9B=E8=BF=99=E4=B9=9F=E6=98=AF=E5=BA=94=E8=AF=A5=E7=9A=84=E3=80=
+=82=E5=AE=9E=E9=99=85=E4=B8=8A=EF=BC=8C
+> > +=E5=AD=90=E7=B3=BB=E7=BB=9F=E7=BB=B4=E6=8A=A4=E4=BA=BA=E5=91=98=E5=8F=
+=AF=E8=83=BD=E5=B8=8C=E6=9C=9B=E5=9C=A8=E6=9E=81=E5=B0=91=E6=95=B0=E5=BF=AB=
+=E8=BF=9B=E5=90=88=E5=B9=B6=E6=83=85=E5=86=B5=E4=B8=8B=E4=BD=BF=E7=94=A8 ``=
+-=E2=80=93no-ff`` =E6=A0=87=E5=BF=97=E6=9D=A5=E5=BC=BA=E5=88=B6=E6=B7=BB=E5=
+=8A=A0
+> > +=E5=90=88=E5=B9=B6=E6=8F=90=E4=BA=A4=EF=BC=8C=E4=BB=A5=E4=BE=BF=E8=AE=
+=B0=E5=BD=95=E5=90=88=E5=B9=B6=E7=9A=84=E5=8E=9F=E5=9B=A0=E3=80=82 **=E4=BB=
+=BB=E4=BD=95** =E7=B1=BB=E5=9E=8B=E7=9A=84=E5=90=88=E5=B9=B6=E7=9A=84=E5=8F=
+=98=E6=9B=B4=E6=97=A5=E5=BF=97=E5=BF=85=E9=A1=BB=E8=AF=B4=E6=98=8E
+> > +*=E4=B8=BA=E4=BB=80=E4=B9=88* =E5=90=88=E5=B9=B6=E3=80=82=E5=AF=B9=E4=
+=BA=8E=E8=BE=83=E4=BD=8E=E7=BA=A7=E5=88=AB=E7=9A=84=E6=A0=91=EF=BC=8C=E2=80=
+=9C=E4=B8=BA=E4=BB=80=E4=B9=88=E2=80=9D=E9=80=9A=E5=B8=B8=E6=98=AF=E5=AF=B9=
+=E8=AF=A5=E5=8F=96=E6=89=80=E5=B8=A6=E6=9D=A5=E7=9A=84=E5=8F=98=E5=8C=96=E7=
+=9A=84=E6=80=BB=E7=BB=93=E3=80=82
+> > +
+> > +=E5=90=84=E7=BA=A7=E7=BB=B4=E6=8A=A4=E4=BA=BA=E5=91=98=E9=83=BD=E5=BA=
+=94=E5=9C=A8=E4=BB=96=E4=BB=AC=E7=9A=84=E6=8B=89=E5=8F=96=E8=AF=B7=E6=B1=82=
+=E4=B8=8A=E4=BD=BF=E7=94=A8=E7=BB=8F=E7=AD=BE=E5=90=8D=E7=9A=84=E6=A0=87=E7=
+=AD=BE=EF=BC=8C=E4=B8=8A=E6=B8=B8=E7=BB=B4=E6=8A=A4=E4=BA=BA=E5=91=98=E5=BA=
+=94=E5=9C=A8=E6=8B=89=E5=8F=96=E5=88=86=E6=94=AF
+> > +=E6=97=B6=E9=AA=8C=E8=AF=81=E6=A0=87=E7=AD=BE=E3=80=82=E4=B8=8D=E8=BF=
+=99=E6=A0=B7=E5=81=9A=E4=BC=9A=E5=A8=81=E8=83=81=E6=95=B4=E4=B8=AA=E5=BC=80=
+=E5=8F=91=E8=BF=87=E7=A8=8B=E7=9A=84=E5=AE=89=E5=85=A8=E3=80=82
+> > +
+> > +=E6=A0=B9=E6=8D=AE=E4=B8=8A=E9=9D=A2=E5=88=97=E5=87=BA=E7=9A=84=E8=A7=
+=84=E5=88=99=EF=BC=8C=E4=B8=80=E6=97=A6=E6=82=A8=E5=B0=86=E5=85=B6=E4=BB=96=
+=E4=BA=BA=E7=9A=84=E5=8E=86=E5=8F=B2=E8=AE=B0=E5=BD=95=E5=90=88=E5=B9=B6=E5=
+=88=B0=E6=A0=91=E4=B8=AD=EF=BC=8C=E6=82=A8=E5=B0=B1=E4=B8=8D=E5=BE=97=E5=AF=
+=B9=E8=AF=A5=E5=88=86=E6=94=AF=E8=BF=9B=E8=A1=8C
+> > +=E5=8F=98=E5=9F=BA=EF=BC=8C=E5=8D=B3=E4=BD=BF=E6=82=A8=E8=83=BD=E5=A4=
+=9F=E8=BF=99=E6=A0=B7=E5=81=9A=E3=80=82
+> > +
+> > +=E5=90=88=E5=B9=B6=E5=90=8C=E7=BA=A7=E6=A0=91=E6=88=96=E4=B8=8A=E6=B8=
+=B8=E6=A0=91
+> > +------------------
+> > +
+> > +=E8=99=BD=E7=84=B6=E6=9D=A5=E8=87=AA=E4=B8=8B=E6=B8=B8=E7=9A=84=E5=90=
+=88=E5=B9=B6=E6=98=AF=E5=B8=B8=E8=A7=81=E4=B8=94=E4=B8=8D=E8=B5=B7=E7=9C=BC=
+=E7=9A=84=EF=BC=8C=E4=BD=86=E5=BD=93=E9=9C=80=E8=A6=81=E5=B0=86=E4=B8=80=E4=
+=B8=AA=E5=88=86=E6=94=AF=E6=8E=A8=E5=90=91=E4=B8=8A=E6=B8=B8=E6=97=B6=EF=BC=
+=8C=E5=85=B6=E4=B8=AD=E6=9D=A5=E8=87=AA
+> > +=E5=85=B6=E4=BB=96=E6=A0=91=E7=9A=84=E5=90=88=E5=B9=B6=E5=BE=80=E5=BE=
+=80=E6=98=AF=E4=B8=80=E4=B8=AA=E5=8D=B1=E9=99=A9=E4=BF=A1=E5=8F=B7=E3=80=82=
+=E8=BF=99=E7=A7=8D=E5=90=88=E5=B9=B6=E9=9C=80=E8=A6=81=E4=BB=94=E7=BB=86=E8=
+=80=83=E8=99=91=E5=B9=B6=E5=8A=A0=E4=BB=A5=E5=85=85=E5=88=86=E8=AF=81=E6=98=
+=8E=EF=BC=8C=E5=90=A6=E5=88=99=E5=90=8E=E7=BB=AD
+> > +=E7=9A=84=E6=8B=89=E5=8F=96=E8=AF=B7=E6=B1=82=E5=BE=88=E5=8F=AF=E8=83=
+=BD=E4=BC=9A=E8=A2=AB=E6=8B=92=E7=BB=9D=E3=80=82
+> > +
+> > +=E6=83=B3=E8=A6=81=E5=B0=86=E4=B8=BB=E5=88=86=E6=94=AF=E5=90=88=E5=B9=
+=B6=E5=88=B0=E5=AD=98=E5=82=A8=E5=BA=93=E4=B8=AD=E6=98=AF=E5=BE=88=E8=87=AA=
+=E7=84=B6=E7=9A=84=EF=BC=9B=E8=BF=99=E7=A7=8D=E7=B1=BB=E5=9E=8B=E7=9A=84=E5=
+=90=88=E5=B9=B6=E9=80=9A=E5=B8=B8=E8=A2=AB=E7=A7=B0=E4=B8=BA=E2=80=9C=E5=8F=
+=8D=E5=90=91=E5=90=88=E5=B9=B6=E2=80=9D
+> > +=E3=80=82=E5=8F=8D=E5=90=91=E5=90=88=E5=B9=B6=E6=9C=89=E5=8A=A9=E4=BA=
+=8E=E7=A1=AE=E4=BF=9D=E4=B8=8E=E5=B9=B6=E8=A1=8C=E7=9A=84=E5=BC=80=E5=8F=91=
+=E6=B2=A1=E6=9C=89=E5=86=B2=E7=AA=81=EF=BC=8C=E5=B9=B6=E4=B8=94=E9=80=9A=E5=
+=B8=B8=E4=BC=9A=E7=BB=99=E4=BA=BA=E4=B8=80=E7=A7=8D=E6=B8=A9=E6=9A=96=E3=80=
+=81=E8=88=92=E6=9C=8D=E7=9A=84
+> > +=E6=84=9F=E8=A7=89=EF=BC=8C=E5=8D=B3=E5=A4=84=E4=BA=8E=E6=9C=80=E6=96=
+=B0=E3=80=82=E4=BD=86=E8=BF=99=E7=A7=8D=E8=AF=B1=E6=83=91=E5=87=A0=E4=B9=8E=
+=E6=80=BB=E6=98=AF=E5=BA=94=E8=AF=A5=E9=81=BF=E5=85=8D=E7=9A=84=E3=80=82
+> > +
+> > +=E4=B8=BA=E4=BB=80=E4=B9=88=E5=91=A2=EF=BC=9F=E5=8F=8D=E5=90=91=E5=90=
+=88=E5=B9=B6=E5=B0=86=E6=90=85=E4=B9=B1=E4=BD=A0=E8=87=AA=E5=B7=B1=E5=88=86=
+=E6=94=AF=E7=9A=84=E5=BC=80=E5=8F=91=E5=8E=86=E5=8F=B2=E3=80=82=E5=AE=83=E4=
+=BB=AC=E4=BC=9A=E5=A4=A7=E5=A4=A7=E5=A2=9E=E5=8A=A0=E4=BD=A0=E9=81=87=E5=88=
+=B0=E6=9D=A5=E8=87=AA=E7=A4=BE=E5=8C=BA
+> > +=E5=85=B6=E4=BB=96=E5=9C=B0=E6=96=B9=E7=9A=84=E9=94=99=E8=AF=AF=E7=9A=
+=84=E6=9C=BA=E4=BC=9A=EF=BC=8C=E4=B8=94=E4=BD=BF=E4=BD=A0=E5=BE=88=E9=9A=BE=
+=E7=A1=AE=E4=BF=9D=E4=BD=A0=E6=89=80=E7=AE=A1=E7=90=86=E7=9A=84=E5=B7=A5=E4=
+=BD=9C=E7=A8=B3=E5=AE=9A=E5=B9=B6=E5=87=86=E5=A4=87=E5=A5=BD=E5=90=88=E5=85=
+=A5=E4=B8=8A=E6=B8=B8=E3=80=82
+> > +=E9=A2=91=E7=B9=81=E7=9A=84=E5=90=88=E5=B9=B6=E8=BF=98=E5=8F=AF=E4=BB=
+=A5=E6=8E=A9=E7=9B=96=E6=A0=91=E4=B8=AD=E5=BC=80=E5=8F=91=E8=BF=87=E7=A8=8B=
+=E4=B8=AD=E7=9A=84=E9=97=AE=E9=A2=98=EF=BC=9B=E5=AE=83=E4=BB=AC=E4=BC=9A=E9=
+=9A=90=E8=97=8F=E4=B8=8E=E5=85=B6=E4=BB=96=E6=A0=91=E7=9A=84=E4=BA=A4=E4=BA=
+=92=EF=BC=8C=E8=80=8C=E8=BF=99=E4=BA=9B
+> > +=E4=BA=A4=E4=BA=92=E4=B8=8D=E5=BA=94=E8=AF=A5=EF=BC=88=E7=BB=8F=E5=B8=
+=B8=EF=BC=89=E5=8F=91=E7=94=9F=E5=9C=A8=E7=AE=A1=E7=90=86=E8=89=AF=E5=A5=BD=
+=E7=9A=84=E5=88=86=E6=94=AF=E4=B8=AD=E3=80=82
+> > +
+> > +=E4=B9=9F=E5=B0=B1=E6=98=AF=E8=AF=B4=EF=BC=8C=E5=81=B6=E5=B0=94=E9=9C=
+=80=E8=A6=81=E8=BF=9B=E8=A1=8C=E5=8F=8D=E5=90=91=E5=90=88=E5=B9=B6=EF=BC=9B=
+=E5=BD=93=E8=BF=99=E7=A7=8D=E6=83=85=E5=86=B5=E5=8F=91=E7=94=9F=E6=97=B6=EF=
+=BC=8C=E4=B8=80=E5=AE=9A=E8=A6=81=E5=9C=A8=E6=8F=90=E4=BA=A4=E4=BF=A1=E6=81=
+=AF=E4=B8=AD=E8=AE=B0=E5=BD=95
+> > +*=E4=B8=BA=E4=BB=80=E4=B9=88* =E3=80=82=E5=90=8C=E6=A0=B7=EF=BC=8C=E5=
+=9C=A8=E4=B8=80=E4=B8=AA=E4=BC=97=E6=89=80=E5=91=A8=E7=9F=A5=E7=9A=84=E7=A8=
+=B3=E5=AE=9A=E7=82=B9=E8=BF=9B=E8=A1=8C=E5=90=88=E5=B9=B6=EF=BC=8C=E8=80=8C=
+=E4=B8=8D=E6=98=AF=E9=9A=8F=E6=9C=BA=E6=8F=90=E4=BA=A4=E3=80=82=E5=8D=B3=E4=
+=BD=BF=E8=BF=99=E6=A0=B7=EF=BC=8C
+> > +=E4=BD=A0=E4=B9=9F=E4=B8=8D=E5=BA=94=E8=AF=A5=E5=8F=8D=E5=90=91=E5=90=
+=88=E5=B9=B6=E4=B8=80=E6=A3=B5=E6=AF=94=E4=BD=A0=E7=9A=84=E7=9B=B4=E6=8E=A5=
+=E4=B8=8A=E6=B8=B8=E6=A0=91=E6=9B=B4=E9=AB=98=E5=B1=82=E7=BA=A7=E7=9A=84=E6=
+=A0=91=EF=BC=9B=E5=A6=82=E6=9E=9C=E7=A1=AE=E5=AE=9E=E9=9C=80=E8=A6=81=E6=9B=
+=B4=E9=AB=98=E7=BA=A7=E5=88=AB=E7=9A=84
+> > +=E5=8F=8D=E5=90=91=E5=90=88=E5=B9=B6=EF=BC=8C=E5=BA=94=E9=A6=96=E5=85=
+=88=E5=9C=A8=E4=B8=8A=E6=B8=B8=E6=A0=91=E8=BF=9B=E8=A1=8C=E3=80=82
+> > +
+> > +=E5=AF=BC=E8=87=B4=E5=90=88=E5=B9=B6=E7=9B=B8=E5=85=B3=E9=97=AE=E9=A2=
+=98=E6=9C=80=E5=B8=B8=E8=A7=81=E7=9A=84=E5=8E=9F=E5=9B=A0=E4=B9=8B=E4=B8=80=
+=E6=98=AF=EF=BC=9A=E5=9C=A8=E5=8F=91=E9=80=81=E6=8B=89=E5=8F=96=E8=AF=B7=E6=
+=B1=82=E4=B9=8B=E5=89=8D=E7=BB=B4=E6=8A=A4=E8=80=85=E5=90=88=E5=B9=B6=E4=B8=
+=8A=E6=B8=B8=E4=BB=A5=E8=A7=A3=E5=86=B3
+> > +=E5=90=88=E5=B9=B6=E5=86=B2=E7=AA=81=E3=80=82=E5=90=8C=E6=A0=B7=EF=BC=
+=8C=E8=BF=99=E7=A7=8D=E8=AF=B1=E6=83=91=E5=BE=88=E5=AE=B9=E6=98=93=E7=90=86=
+=E8=A7=A3=EF=BC=8C=E4=BD=86=E7=BB=9D=E5=AF=B9=E5=BA=94=E8=AF=A5=E9=81=BF=E5=
+=85=8D=E3=80=82=E5=AF=B9=E4=BA=8E=E6=9C=80=E7=BB=88=E6=8B=89=E5=8F=96=E8=AF=
+=B7=E6=B1=82=E6=9D=A5=E8=AF=B4
+> > +=E5=B0=A4=E5=85=B6=E5=A6=82=E6=AD=A4=EF=BC=9ALinus=E5=9D=9A=E4=BF=A1=
+=E4=BB=96=E6=9B=B4=E6=84=BF=E6=84=8F=E7=9C=8B=E5=88=B0=E5=90=88=E5=B9=B6=E5=
+=86=B2=E7=AA=81=EF=BC=8C=E8=80=8C=E4=B8=8D=E6=98=AF=E4=B8=8D=E5=BF=85=E8=A6=
+=81=E7=9A=84=E5=8F=8D=E5=90=91=E5=90=88=E5=B9=B6=E3=80=82=E7=9C=8B=E5=88=B0=
+=E5=86=B2=E7=AA=81
+> > +=E5=8F=AF=E4=BB=A5=E8=AE=A9=E4=BB=96=E4=BA=86=E8=A7=A3=E6=BD=9C=E5=9C=
+=A8=E7=9A=84=E9=97=AE=E9=A2=98=E6=89=80=E5=9C=A8=E3=80=82=E4=BB=96=E5=81=9A=
+=E8=BF=87=E5=BE=88=E5=A4=9A=E5=90=88=E5=B9=B6=EF=BC=88=E5=9C=A85.1=E7=89=88=
+=E6=9C=AC=E5=BC=80=E5=8F=91=E5=91=A8=E6=9C=9F=E4=B8=AD=E6=98=AF382=E6=AC=A1=
+=EF=BC=89=EF=BC=8C
+> > +=E8=80=8C=E4=B8=94=E5=9C=A8=E8=A7=A3=E5=86=B3=E5=86=B2=E7=AA=81=E6=96=
+=B9=E9=9D=A2=E4=B9=9F=E5=BE=88=E5=9C=A8=E8=A1=8C=E2=80=94=E2=80=94=E9=80=9A=
+=E5=B8=B8=E6=AF=94=E5=8F=82=E4=B8=8E=E7=9A=84=E5=BC=80=E5=8F=91=E4=BA=BA=E5=
+=91=98=E8=A6=81=E5=BC=BA=E3=80=82
+> > +
+> > +=E9=82=A3=E4=B9=88=EF=BC=8C=E5=BD=93=E4=BB=96=E4=BB=AC=E7=9A=84=E5=AD=
+=90=E7=B3=BB=E7=BB=9F=E5=88=86=E6=94=AF=E5=92=8C=E4=B8=BB=E7=BA=BF=E4=B9=8B=
+=E9=97=B4=E5=8F=91=E7=94=9F=E5=86=B2=E7=AA=81=E6=97=B6=EF=BC=8C=E7=BB=B4=E6=
+=8A=A4=E4=BA=BA=E5=91=98=E5=BA=94=E8=AF=A5=E6=80=8E=E4=B9=88=E5=81=9A=E5=91=
+=A2=EF=BC=9F=E6=9C=80=E9=87=8D=E8=A6=81
+> > +=E7=9A=84=E4=B8=80=E6=AD=A5=E6=98=AF=E5=9C=A8=E6=8B=89=E5=8F=96=E8=AF=
+=B7=E6=B1=82=E4=B8=AD=E8=AD=A6=E5=91=8ALinus=E4=BC=9A=E5=8F=91=E7=94=9F=E5=
+=86=B2=E7=AA=81=EF=BC=9B=E5=A6=82=E6=9E=9C=E5=95=A5=E9=83=BD=E6=B2=A1=E8=AF=
+=B4=E5=88=99=E8=A1=A8=E6=98=8E=E6=82=A8=E7=9A=84=E5=88=86=E6=94=AF=E5=8F=AF=
+=E4=BB=A5=E6=AD=A3=E5=B8=B8
+
+> =E8=AD=A6=E5=91=8A -> =E6=8F=90=E7=A4=BA=EF=BC=9F =EF=BC=88It's a little =
+impolite to use a warning in a Chinese=EF=BC=89
+
+OK.
+
+> > +=E5=90=88=E5=85=A5=E3=80=82=E5=AF=B9=E4=BA=8E=E7=89=B9=E5=88=AB=E5=9B=
+=B0=E9=9A=BE=E7=9A=84=E5=86=B2=E7=AA=81=EF=BC=8C=E5=88=9B=E5=BB=BA=E5=B9=B6=
+=E6=8E=A8=E9=80=81=E4=B8=80=E4=B8=AA *=E7=8B=AC=E7=AB=8B* =E5=88=86=E6=94=
+=AF=E6=9D=A5=E5=B1=95=E7=A4=BA=E4=BD=A0=E5=B0=86=E5=A6=82=E4=BD=95=E8=A7=A3=
+=E5=86=B3=E9=97=AE=E9=A2=98=E3=80=82
+> > +=E5=9C=A8=E6=8B=89=E5=8F=96=E8=AF=B7=E6=B1=82=E4=B8=AD=E6=8F=90=E5=88=
+=B0=E8=AF=A5=E5=88=86=E6=94=AF=EF=BC=8C=E4=BD=86=E6=98=AF=E8=AF=B7=E6=B1=82=
+=E6=9C=AC=E8=BA=AB=E5=BA=94=E8=AF=A5=E9=92=88=E5=AF=B9=E6=9C=AA=E5=90=88=E5=
+=B9=B6=E7=9A=84=E5=88=86=E6=94=AF=E3=80=82
+> > +
+> > +=E5=8D=B3=E4=BD=BF=E4=B8=8D=E5=AD=98=E5=9C=A8=E5=B7=B2=E7=9F=A5=E5=86=
+=B2=E7=AA=81=EF=BC=8C=E5=9C=A8=E5=8F=91=E9=80=81=E6=8B=89=E5=8F=96=E8=AF=B7=
+=E6=B1=82=E4=B9=8B=E5=89=8D=E8=BF=9B=E8=A1=8C=E5=90=88=E5=B9=B6=E6=B5=8B=E8=
+=AF=95=E4=B9=9F=E6=98=AF=E4=B8=AA=E5=A5=BD=E4=B8=BB=E6=84=8F=E3=80=82=E5=AE=
+=83=E5=8F=AF=E8=83=BD=E4=BC=9A=E6=8F=90=E9=86=92
+> > +=E6=82=A8=E4=B8=80=E4=BA=9B=E5=9C=A8linux-next=E6=A0=91=E4=B8=AD=E6=B2=
+=A1=E6=9C=89=E5=8F=91=E7=8E=B0=E7=9A=84=E9=97=AE=E9=A2=98=EF=BC=8C=E5=B9=B6=
+=E5=B8=AE=E5=8A=A9=E6=82=A8=E5=87=86=E7=A1=AE=E5=9C=B0=E7=90=86=E8=A7=A3=E6=
+=82=A8=E6=AD=A3=E5=9C=A8=E8=A6=81=E6=B1=82=E4=B8=8A=E6=B8=B8=E5=81=9A=E4=BB=
+=80=E4=B9=88=E3=80=82
+> > +
+> > +=E5=90=88=E5=B9=B6=E4=B8=8A=E6=B8=B8=E6=A0=91=E6=88=96=E5=8F=A6=E4=B8=
+=80=E4=B8=AA=E5=AD=90=E7=B3=BB=E7=BB=9F=E6=A0=91=E7=9A=84=E5=8F=A6=E4=B8=80=
+=E4=B8=AA=E5=8E=9F=E5=9B=A0=E6=98=AF=E8=A7=A3=E5=86=B3=E4=BE=9D=E8=B5=96=E5=
+=85=B3=E7=B3=BB=E3=80=82=E8=BF=99=E4=BA=9B=E4=BE=9D=E8=B5=96=E6=80=A7=E9=97=
+=AE=E9=A2=98=E6=9C=89=E6=97=B6=E7=A1=AE=E5=AE=9E
+> > +=E4=BC=9A=E5=8F=91=E7=94=9F=EF=BC=8C=E8=80=8C=E4=B8=94=E6=9C=89=E6=97=
+=B6=E4=B8=8E=E5=8F=A6=E4=B8=80=E6=A3=B5=E6=A0=91=E4=BA=A4=E5=8F=89=E5=90=88=
+=E5=B9=B6=E6=98=AF=E8=A7=A3=E5=86=B3=E8=BF=99=E4=BA=9B=E9=97=AE=E9=A2=98=E7=
+=9A=84=E6=9C=80=E4=BD=B3=E6=96=B9=E6=B3=95=EF=BC=9B=E5=90=8C=E6=A0=B7=EF=BC=
+=8C=E5=9C=A8=E8=BF=99=E7=A7=8D=E6=83=85=E5=86=B5
+> > +=E4=B8=8B=EF=BC=8C=E5=90=88=E5=B9=B6=E6=8F=90=E4=BA=A4=E5=BA=94=E8=AF=
+=A5=E8=A7=A3=E9=87=8A=E4=B8=BA=E4=BB=80=E4=B9=88=E8=A6=81=E8=BF=9B=E8=A1=8C=
+=E5=90=88=E5=B9=B6=E3=80=82=E8=8A=B1=E7=82=B9=E6=97=B6=E9=97=B4=E6=8A=8A=E5=
+=AE=83=E5=81=9A=E5=A5=BD=EF=BC=9B=E4=BC=9A=E6=9C=89=E4=BA=BA=E9=98=85=E8=AF=
+=BB=E8=BF=99=E4=BA=9B=E5=8F=98=E6=9B=B4
+> > +=E6=97=A5=E5=BF=97=E3=80=82
+> > +
+> > +=E7=84=B6=E8=80=8C=E4=BE=9D=E8=B5=96=E6=80=A7=E9=97=AE=E9=A2=98=E9=80=
+=9A=E5=B8=B8=E8=A1=A8=E6=98=8E=E9=9C=80=E8=A6=81=E6=94=B9=E5=8F=98=E6=96=B9=
+=E6=B3=95=E3=80=82=E5=90=88=E5=B9=B6=E5=8F=A6=E4=B8=80=E4=B8=AA=E5=AD=90=E7=
+=B3=BB=E7=BB=9F=E6=A0=91=E4=BB=A5=E8=A7=A3=E5=86=B3=E4=BE=9D=E8=B5=96=E6=80=
+=A7=E9=A3=8E=E9=99=A9=E4=BC=9A=E5=B8=A6=E6=9D=A5
+> > +=E5=85=B6=E4=BB=96=E7=BC=BA=E9=99=B7=EF=BC=8C=E5=87=A0=E4=B9=8E=E6=B0=
+=B8=E8=BF=9C=E4=B8=8D=E5=BA=94=E8=BF=99=E6=A0=B7=E5=81=9A=E3=80=82=E5=A6=82=
+=E6=9E=9C=E8=AF=A5=E5=AD=90=E7=B3=BB=E7=BB=9F=E6=A0=91=E6=97=A0=E6=B3=95=E8=
+=A2=AB=E5=90=88=E5=88=B0=E4=B8=8A=E6=B8=B8=EF=BC=8C=E9=82=A3=E4=B9=88=E5=AE=
+=83=E7=9A=84=E4=BB=BB=E4=BD=95=E9=97=AE=E9=A2=98
+> > +=E4=B9=9F=E9=83=BD=E4=BC=9A=E9=98=BB=E7=A2=8D=E4=BD=A0=E7=9A=84=E6=A0=
+=91=E5=90=88=E5=B9=B6=E3=80=82=E6=9B=B4=E5=8F=AF=E5=8F=96=E7=9A=84=E9=80=89=
+=E6=8B=A9=E5=8C=85=E6=8B=AC=E4=B8=8E=E7=BB=B4=E6=8A=A4=E4=BA=BA=E5=91=98=E8=
+=BE=BE=E6=88=90=E4=B8=80=E8=87=B4=E6=84=8F=E8=A7=81=EF=BC=8C=E5=9C=A8=E5=85=
+=B6=E4=B8=AD=E4=B8=80=E4=B8=AA=E6=A0=91=E4=B8=AD
+> > +=E5=90=8C=E6=97=B6=E8=BF=9B=E8=A1=8C=E4=B8=A4=E7=BB=84=E6=9B=B4=E6=94=
+=B9=EF=BC=9B=E6=88=96=E8=80=85=E5=88=9B=E5=BB=BA=E4=B8=80=E4=B8=AA=E4=B8=BB=
+=E9=A2=98=E5=88=86=E6=94=AF=E4=B8=93=E9=97=A8=E5=A4=84=E7=90=86=E5=8F=AF=E4=
+=BB=A5=E5=90=88=E5=B9=B6=E5=88=B0=E4=B8=A4=E4=B8=AA=E6=A0=91=E4=B8=AD=E7=9A=
+=84=E5=85=88=E5=86=B3=E6=9D=A1=E4=BB=B6=E6=8F=90=E4=BA=A4=E3=80=82
+> > +=E5=A6=82=E6=9E=9C=E4=BE=9D=E8=B5=96=E5=85=B3=E7=B3=BB=E4=B8=8E=E4=B8=
+=BB=E8=A6=81=E7=9A=84=E5=9F=BA=E7=A1=80=E7=BB=93=E6=9E=84=E6=9B=B4=E6=94=B9=
+=E7=9B=B8=E5=85=B3=EF=BC=8C=E6=AD=A3=E7=A1=AE=E7=9A=84=E8=A7=A3=E5=86=B3=E6=
+=96=B9=E6=A1=88=E5=8F=AF=E8=83=BD=E6=98=AF=E5=B0=86=E4=BE=9D=E8=B5=96=E6=8F=
+=90=E4=BA=A4=E4=BF=9D=E7=95=99=E4=B8=80=E4=B8=AA
+> > +=E5=BC=80=E5=8F=91=E5=91=A8=E6=9C=9F=EF=BC=8C=E4=BB=A5=E4=BE=BF=E8=BF=
+=99=E4=BA=9B=E6=9B=B4=E6=94=B9=E6=9C=89=E6=97=B6=E9=97=B4=E5=9C=A8=E4=B8=BB=
+=E7=BA=BF=E4=B8=8A=E7=A8=B3=E5=AE=9A=E3=80=82
+> > +
+> > +=E6=9C=80=E5=90=8E
+> > +=3D=3D=3D=3D
+> > +
+> > +=E5=9C=A8=E5=BC=80=E5=8F=91=E5=91=A8=E6=9C=9F=E7=9A=84=E5=BC=80=E5=A4=
+=B4=E5=90=88=E5=B9=B6=E4=B8=BB=E7=BA=BF=E6=98=AF=E6=AF=94=E8=BE=83=E5=B8=B8=
+=E8=A7=81=E7=9A=84=EF=BC=8C=E5=8F=AF=E4=BB=A5=E8=8E=B7=E5=8F=96=E6=A0=91=E4=
+=B8=AD=E5=85=B6=E4=BB=96=E5=9C=B0=E6=96=B9=E7=9A=84=E6=9B=B4=E6=94=B9=E5=92=
+=8C=E4=BF=AE=E5=A4=8D=E3=80=82=E5=90=8C=E6=A0=B7=EF=BC=8C
+> > +=E8=BF=99=E6=A0=B7=E7=9A=84=E5=90=88=E5=B9=B6=E5=BA=94=E8=AF=A5=E9=80=
+=89=E6=8B=A9=E4=B8=80=E4=B8=AA=E4=BC=97=E6=89=80=E5=91=A8=E7=9F=A5=E7=9A=84=
+=E5=8F=91=E5=B8=83=E7=82=B9=EF=BC=8C=E8=80=8C=E4=B8=8D=E6=98=AF=E4=B8=80=E4=
+=BA=9B=E9=9A=8F=E6=9C=BA=E7=82=B9=E3=80=82=E5=A6=82=E6=9E=9C=E5=9C=A8=E5=90=
+=88=E5=B9=B6=E7=AA=97=E5=8F=A3=E6=9C=9F=E9=97=B4
+> > +=E4=B8=8A=E6=B8=B8=E5=88=86=E6=94=AF=E5=B7=B2=E5=AE=8C=E5=85=A8=E6=B8=
+=85=E7=A9=BA=E5=88=B0=E4=B8=BB=E7=BA=BF=E4=B8=AD=EF=BC=8C=E5=88=99=E5=8F=AF=
+=E4=BB=A5=E4=BD=BF=E7=94=A8=E4=BB=A5=E4=B8=8B=E5=91=BD=E4=BB=A4=E5=90=91=E5=
+=89=8D=E6=8B=89=E5=8F=96=E5=AE=83::
+> > +
+> > +  git merge v5.2-rc1^0
+> > +
+> > +=E2=80=9C^0=E2=80=9D=E4=BD=BFGit=E6=89=A7=E8=A1=8C=E5=BF=AB=E8=BF=9B=
+=E5=90=88=E5=B9=B6=EF=BC=88=E5=9C=A8=E8=BF=99=E7=A7=8D=E6=83=85=E5=86=B5=E4=
+=B8=8B=E8=BF=99=E5=BA=94=E8=AF=A5=E5=8F=AF=E4=BB=A5=EF=BC=89=EF=BC=8C=E4=BB=
+=8E=E8=80=8C=E9=81=BF=E5=85=8D=E5=A4=9A=E4=BD=99=E7=9A=84=E8=99=9A=E5=81=87=
+=E5=90=88=E5=B9=B6=E6=8F=90=E4=BA=A4=E3=80=82
+> > +
+> > +=E4=B8=8A=E9=9D=A2=E5=88=97=E5=87=BA=E7=9A=84=E5=B0=B1=E6=98=AF=E6=8C=
+=87=E5=AF=BC=E6=96=B9=E9=92=88=E4=BA=86=E3=80=82=E6=80=BB=E6=98=AF=E4=BC=9A=
+=E6=9C=89=E4=B8=80=E4=BA=9B=E6=83=85=E5=86=B5=E9=9C=80=E8=A6=81=E4=B8=8D=E5=
+=90=8C=E7=9A=84=E8=A7=A3=E5=86=B3=E6=96=B9=E6=A1=88=EF=BC=8C=E8=BF=99=E4=BA=
+=9B=E6=8C=87=E5=AF=BC=E5=8E=9F=E5=88=99
+> > +=E4=B8=8D=E5=BA=94=E9=98=BB=E6=AD=A2=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=
+=98=E5=9C=A8=E9=9C=80=E8=A6=81=E6=97=B6=E5=81=9A=E6=AD=A3=E7=A1=AE=E7=9A=84=
+=E4=BA=8B=E6=83=85=E3=80=82=E4=BD=86=E6=98=AF=EF=BC=8C=E6=88=91=E4=BB=AC=E5=
+=BA=94=E8=AF=A5=E6=97=B6=E5=88=BB=E8=80=83=E8=99=91=E6=98=AF=E5=90=A6=E7=9C=
+=9F=E7=9A=84=E5=87=BA=E7=8E=B0=E4=BA=86
+> > +=E8=BF=99=E6=A0=B7=E7=9A=84=E9=9C=80=E6=B1=82=EF=BC=8C=E5=B9=B6=E5=87=
+=86=E5=A4=87=E5=A5=BD=E8=A7=A3=E9=87=8A=E4=B8=BA=E4=BB=80=E4=B9=88=E9=9C=80=
+=E8=A6=81=E5=81=9A=E4=B8=80=E4=BA=9B=E4=B8=8D=E5=AF=BB=E5=B8=B8=E7=9A=84=E4=
+=BA=8B=E6=83=85=E3=80=82
+> > --
+> > 2.20.1
+> >
+>=20
+> I'll review the other patches later in the evening.
+>=20
+> Thinks=EF=BC=8C
+>=20
+> yanteng
+
+Thanks for your review!
+
+Do be too late a night, hair is important ;)
+
+Wu X.C.
+
+--h31gzZEtNLTqOjlF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCCVtgACgkQtlsoEiKC
+sIV9bAv7BLropP7iPtGof2PHg5neqyK/GY8xHmRuqwji6ccxT+l/GvuqzUuHZ3Du
+eRQAVlRNlruieCsgI4iNUjT8r/Mufyk7trz53BGCRSNQMaCsS3jLZNCFU4z/pqiP
++/65Y+/tpJs4o6poEooYSn/hYVlsMOZgaeYoeG5gZX3WmyobsX8KVrC8CF1KFiFa
+1Soug3pp2z4t47BFGByPbHpGwVoFfS2xRmtkKen+N8gj+KXrXfp5F2W7WR0rqbH5
+nYl85KT37TyM85+4UAnF2xIwTa9a14G4oNo+RANPrLNjgNEfGSEwzZz2AcGSmT7K
+4MQDzTfRiQnfmo5ZVy35lOuzeBWrm5WrCT6Hb6obYc8MD511iCMNmtYqabTY4FaJ
+zpB3yHxST1gA9puyKLYeId9PbaZ7jxWa5CLF6W8AZvRYhen9YUv+DMATsU48bHNe
+h5BLqRviUQkRbvl8Nw6N3v0FjbdtD5jFMk1kjWN7b+CC86638Qjjg2/J1qR6rUyw
+oQJ5mKto
+=5J2Q
+-----END PGP SIGNATURE-----
+
+--h31gzZEtNLTqOjlF--
+
