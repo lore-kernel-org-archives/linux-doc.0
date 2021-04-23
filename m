@@ -2,139 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D48C43603
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC9CBC43460
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:55:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45A23613CB
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:46:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 924D261462
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:55:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229809AbhDWKr1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 06:47:27 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:43462 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229885AbhDWKr0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Apr 2021 06:47:26 -0400
-Received: from localhost (mailhub1-int [192.168.12.234])
-        by localhost (Postfix) with ESMTP id 4FRWF12hTFz9vBLr;
-        Fri, 23 Apr 2021 12:46:45 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-        with ESMTP id OMUajc0KWjbX; Fri, 23 Apr 2021 12:46:45 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 4FRWF117fBz9vBKj;
-        Fri, 23 Apr 2021 12:46:45 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id CE9A68B849;
-        Fri, 23 Apr 2021 12:46:46 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id bnOKyCWI-iRB; Fri, 23 Apr 2021 12:46:46 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id B69ED8B765;
-        Fri, 23 Apr 2021 12:46:43 +0200 (CEST)
-Subject: Re: [PATCH bpf-next 1/2] bpf: Remove bpf_jit_enable=2 debugging mode
-To:     Quentin Monnet <quentin@isovalent.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Ian Rogers <irogers@google.com>, Song Liu <songliubraving@fb.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Zi Shen Lim <zlim.lnx@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Sandipan Das <sandipan@linux.ibm.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
-        Shubham Bansal <illusionist.neo@gmail.com>,
-        Mahesh Bandewar <maheshb@google.com>,
-        Will Deacon <will@kernel.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Ilya Leoshkevich <iii@linux.ibm.com>, paulburton@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-mips@vger.kernel.org, grantseltzer@gmail.com,
-        Xi Wang <xi.wang@gmail.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        Kees Cook <keescook@chromium.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Luke Nelson <luke.r.nels@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        ppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        KP Singh <kpsingh@kernel.org>, iecedge@gmail.com,
-        Simon Horman <horms@verge.net.au>,
-        Borislav Petkov <bp@alien8.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Yonghong Song <yhs@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Vyukov <dvyukov@google.com>, tsbogend@alpha.franken.de,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Network Development <netdev@vger.kernel.org>,
-        David Ahern <dsahern@kernel.org>,
-        Wang YanQing <udknight@gmail.com>,
-        Martin KaFai Lau <kafai@fb.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, bpf <bpf@vger.kernel.org>,
-        Jianlin Lv <Jianlin.Lv@arm.com>,
-        "David S. Miller" <davem@davemloft.net>
-References: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
- <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
- <d3949501-8f7d-57c4-b3fe-bcc3b24c09d8@isovalent.com>
- <CAADnVQJ2oHbYfgY9jqM_JMxUsoZxaNrxKSVFYfgCXuHVpDehpQ@mail.gmail.com>
- <0dea05ba-9467-0d84-4515-b8766f60318e@csgroup.eu>
- <CAADnVQ+oQT6C7Qv7P5TV-x7im54omKoCYYKtYhcnhb1Uv3LPMQ@mail.gmail.com>
- <be132117-f267-5817-136d-e1aeb8409c2a@csgroup.eu>
- <58296f87-ad00-a0f5-954b-2150aa84efc4@isovalent.com>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <6a809d3f-c9e3-0eb7-9c1d-a202ad848424@csgroup.eu>
-Date:   Fri, 23 Apr 2021 12:46:39 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S231185AbhDWK4O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 06:56:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229920AbhDWK4O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 06:56:14 -0400
+X-Greylist: delayed 124105 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 23 Apr 2021 03:55:38 PDT
+Received: from office2.cesnet.cz (office2.cesnet.cz [IPv6:2001:718:1:101::144:244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B6E1C061574;
+        Fri, 23 Apr 2021 03:55:38 -0700 (PDT)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by office2.cesnet.cz (Postfix) with ESMTPSA id A77A140006D;
+        Fri, 23 Apr 2021 12:55:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
+        s=office2-2020; t=1619175335;
+        bh=1yeYMi0WCy1lS6XRdT+6s3BjaTJRmrph2DZ2NtKBZ7Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc;
+        b=T86DGbl0TWI1yW+XdIJtJqaJD269CdVyONMzoTqm6IfJPR+x5gd5ggMmsjISFqg3m
+         WrUjl18Xl3n8AiGTD8MKLpJJhb18ztbUkKX0GlbDkcGYHuj4jx+larHfWAokvo5QQk
+         kIKHDDA1a+Goh+khymOPgW+BKsOiepSFuB8ok8uDVeefS2N5KUGuRUas1l2lycE319
+         zKoAvnsKLyVmeUcXB0lXuptuoDbUTdRWyFbbPtgPXfoLhyUoWjFmKGU/bWuZ8TmKc5
+         nuldEkIhwCvNZyA7Ohs9ddc9E4JF5urzq8xhbnXk6g7AhBamJE+m3Trxj3GjZv7eUe
+         IOJPbq2V/ufzQ==
+Received: by mail-pf1-f176.google.com with SMTP id a12so33828035pfc.7;
+        Fri, 23 Apr 2021 03:55:35 -0700 (PDT)
+X-Gm-Message-State: AOAM532MAmEggtfrem0tPj1zvlHkkQjuzwicSedAFKdyhuXU0ImlZA8U
+        GokBW63bvpHXnonCnQTbJDgvde5HnmhucLt71YI=
+X-Google-Smtp-Source: ABdhPJxTQMjUty9JIMUAmqBUv09g1c3ZieG90DPp7astHFrXECz+Knz1xcW/Icqm5u6r+ivGxEfnfrypn7ockzIO8bo=
+X-Received: by 2002:a63:5b0e:: with SMTP id p14mr3189000pgb.110.1619175334091;
+ Fri, 23 Apr 2021 03:55:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <58296f87-ad00-a0f5-954b-2150aa84efc4@isovalent.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+References: <20210413025948.901867-1-kubernat@cesnet.cz> <250c1c16-541a-984f-c720-1a8b6176e97e@roeck-us.net>
+In-Reply-To: <250c1c16-541a-984f-c720-1a8b6176e97e@roeck-us.net>
+From:   =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
+Date:   Fri, 23 Apr 2021 12:55:22 +0200
+X-Gmail-Original-Message-ID: <CABKa3nquWmP4Hx+eY5CpQ08M2uo2ePpmtZP-6yi45pVOh-Mqzw@mail.gmail.com>
+Message-ID: <CABKa3nquWmP4Hx+eY5CpQ08M2uo2ePpmtZP-6yi45pVOh-Mqzw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] hwmon: (max31790) Rework to use regmap
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello.
 
+I agree that it makes sense to swap yes_ranges and no_ranges. I tested
+that, but it seems like it doesn't have an effect, I could still see
+fan*_input changing (that's where I don't want caching). Does caching
+work automatically? As in, all registers are cached by default in
+regmap, and only registers that are in the volatile yes_ranges aren't?
 
-Le 23/04/2021 à 12:26, Quentin Monnet a écrit :
-> 2021-04-23 09:19 UTC+0200 ~ Christophe Leroy <christophe.leroy@csgroup.eu>
-> 
-> [...]
-> 
->> I finally managed to cross compile bpftool with libbpf, libopcodes,
->> readline, ncurses, libcap, libz and all needed stuff. Was not easy but I
->> made it.
-> 
-> Libcap is optional and bpftool does not use readline or ncurses. May I
-> ask how you tried to build it?
+V=C3=A1clav
 
-cd tools/bpf/
-
-make ARCH=powerpc CROSS_COMPILE=ppc-linux-
-
-
-Christophe
+=C4=8Dt 22. 4. 2021 v 3:31 odes=C3=ADlatel Guenter Roeck <linux@roeck-us.ne=
+t> napsal:
+>
+> On 4/12/21 7:59 PM, V=C3=A1clav Kubern=C3=A1t wrote:
+> > Converting the driver to use regmap makes it more generic. It also make=
+s
+> > it a lot easier to debug through debugfs.
+> >
+> > Signed-off-by: V=C3=A1clav Kubern=C3=A1t <kubernat@cesnet.cz>
+> > ---
+> >  drivers/hwmon/Kconfig    |   1 +
+> >  drivers/hwmon/max31790.c | 254 ++++++++++++++++++++-------------------
+> >  2 files changed, 133 insertions(+), 122 deletions(-)
+> >
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 1ecf697d8d99..9f11d036c316 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -1095,6 +1095,7 @@ config SENSORS_MAX6697
+> >  config SENSORS_MAX31790
+> >       tristate "Maxim MAX31790 sensor chip"
+> >       depends on I2C
+> > +     select REGMAP_I2C
+> >       help
+> >         If you say yes here you get support for 6-Channel PWM-Output
+> >         Fan RPM Controller.
+> > diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+> > index 2c6b333a28e9..e3765ce4444a 100644
+> > --- a/drivers/hwmon/max31790.c
+> > +++ b/drivers/hwmon/max31790.c
+> > @@ -12,6 +12,7 @@
+> >  #include <linux/init.h>
+> >  #include <linux/jiffies.h>
+> >  #include <linux/module.h>
+> > +#include <linux/regmap.h>
+> >  #include <linux/slab.h>
+> >
+> >  /* MAX31790 registers */
+> > @@ -46,92 +47,53 @@
+> >
+> >  #define NR_CHANNEL                   6
+> >
+> > +#define MAX31790_REG_USER_BYTE_67    0x67
+> > +
+> > +#define BULK_TO_U16(msb, lsb)                (((msb) << 8) + (lsb))
+> > +#define U16_MSB(num)                 (((num) & 0xFF00) >> 8)
+> > +#define U16_LSB(num)                 ((num) & 0x00FF)
+> > +
+> > +static const struct regmap_range max31790_ro_range =3D {
+> > +     .range_min =3D MAX31790_REG_TACH_COUNT(0),
+> > +     .range_max =3D MAX31790_REG_PWMOUT(0) - 1,
+> > +};
+> > +
+> > +static const struct regmap_access_table max31790_wr_table =3D {
+> > +     .no_ranges =3D &max31790_ro_range,
+> > +     .n_no_ranges =3D 1,
+> > +};
+> > +
+> > +static const struct regmap_range max31790_volatile_ranges[] =3D {
+> > +     regmap_reg_range(MAX31790_REG_TACH_COUNT(0), MAX31790_REG_TACH_CO=
+UNT(12)),
+> > +     regmap_reg_range(MAX31790_REG_FAN_FAULT_STATUS2, MAX31790_REG_FAN=
+_FAULT_STATUS1),
+> > +};
+> > +
+> > +static const struct regmap_access_table max31790_volatile_table =3D {
+> > +     .no_ranges =3D max31790_volatile_ranges,
+> > +     .n_no_ranges =3D 2,
+> > +     .n_yes_ranges =3D 0
+> > +};
+>
+> Looks like my reply to this got lost. Other regmap code suggests that
+> volatile register ranges are identified with yes_ranges, not with no_rang=
+es.
+> "no" seems to mean "not volatile". Please verify and confirm if the
+> above code does what you want it to do.
+>
+> Thanks,
+> Guenter
