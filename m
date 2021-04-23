@@ -2,138 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83766C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 19:12:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BEB5C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 19:15:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AB2161003
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 19:12:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6133461422
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 19:15:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243698AbhDWTNd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 15:13:33 -0400
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:38577 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243438AbhDWTNc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 15:13:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1619205175; x=1650741175;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=jFuDhHYlk4Hbe7hxXEZVh5/8lcG8Pt1iwjMqBmOsjHo=;
-  b=EreihZ3F704GpceiQ0iv/9JadYDYUR/JhU5nmaFtxxxlEkMQzU60sdT+
-   W7U0KDjJyItQoQXA1h/SE+oGb4xGvqJcapLmT5+Y8VgiFt87xFi4baq1V
-   0SNkLScP0KjkJu4DlFCgahCfo70fv3W00YzMo2Vh83JkubAonn9uFMUb4
-   jU0Qm20SMns+cRenotTnNkWaTbIs8mcBhobQe4TbOQ2v/TWetNr5VFZuQ
-   BmcSxZ11FaVN6YOxFR/DJjmBh6W+gY30HrBxtOeBoaYztIGhDnb3/0ctI
-   FixIcDje7DDpxyoEXnE5398cjJ7pUIO+5g1X9kWjI1SY1axVVQvhQ4jXb
-   g==;
-IronPort-SDR: iswriVtSl3G3gGsMS8xI4euUYDVEiXMH63Y/UlX7oorC41kfc88e3tHpAcX2OzOPGD8yrdhwQf
- AgOJsG4SCp64VeZ0pZy+SDtnZfLAA3aJlfSWMONdBfBt6uD6b7eAQPFOGAhjpIhlMeI+QPlrLi
- AXjkenfK8RDewftHsZ4ChzC8ohe5/gJIOL+RkcCoJnqs09BYMNByFA9WktjuxSVUwxlah4JIBa
- MRmDra2t1zjatZUjQ2FvFlGWQipNP8fNajlUKgQEGj+U/0Gi0s0E/hVpB44fmFjdNzFhZAWkPY
- cPY=
-X-IronPort-AV: E=Sophos;i="5.82,246,1613458800"; 
-   d="scan'208";a="112001288"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 23 Apr 2021 12:12:53 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 23 Apr 2021 12:12:46 -0700
-Received: from ROB-ULT-M18064N.mchp-main.com (10.10.115.15) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Fri, 23 Apr 2021 12:12:39 -0700
-From:   Tudor Ambarus <tudor.ambarus@microchip.com>
-To:     <mturquette@baylibre.com>, <sboyd@kernel.org>, <nsaenz@kernel.org>,
-        <maxime@cerno.tech>, <gregkh@linuxfoundation.org>,
-        <rafael@kernel.org>, <khilman@kernel.org>,
-        <ulf.hansson@linaro.org>, <len.brown@intel.com>, <pavel@ucw.cz>,
-        <robh+dt@kernel.org>, <frowand.list@gmail.com>, <maz@kernel.org>,
-        <tglx@linutronix.de>, <saravanak@google.com>,
-        <geert@linux-m68k.org>, <nsaenzjulienne@suse.de>,
-        <linux@roeck-us.net>, <guillaume.tucker@collabora.com>
-CC:     <linux-clk@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <corbet@lwn.net>, <nicolas.ferre@microchip.com>,
-        <claudiu.beznea@microchip.com>, <linux-doc@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-acpi@vger.kernel.org>, <kernel-team@android.com>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH] clk: Skip clk provider registration when np is NULL
-Date:   Fri, 23 Apr 2021 22:12:36 +0300
-Message-ID: <20210423191236.265996-1-tudor.ambarus@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210423171335.262316-1-tudor.ambarus@microchip.com>
-References: <20210423171335.262316-1-tudor.ambarus@microchip.com>
+        id S243698AbhDWTPl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 15:15:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231684AbhDWTPl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 15:15:41 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B69C061574;
+        Fri, 23 Apr 2021 12:15:04 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id c195so56820957ybf.9;
+        Fri, 23 Apr 2021 12:15:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dYBBVBUJb9QpmRIT8Xr6jh598vn6KpVl6M3aNNacvdQ=;
+        b=bPV6qGiepOZtKubGYKOwxJMzMjosn8zgBOMi6AfXqbc8iJO1Dpq5EEVzVbBo93Zu0M
+         1ZfiqNL/A5U0/lgXc2Oen56cFdYyxaiLRwSZwJ2jpdBBZPb2J4XwXHnwX0BOolcOjvCO
+         4aC2mPIPLfB0nkES7qreogNxs7YRvdOXq4csKiDzEtqGW7gx2Vce8nQc03rJFVSA+KEk
+         VEhyGTpHiga8X1/fbuTPPtq4lz7zuzL1sSH1Oqs+u6Tji2AWYxAOgvec58JyoQNcdjWk
+         zeSzdV0pHpwlJ1wX7lVm4YTv+w61hA2ujOmP8+i70y+6mBxLbZKGSj+sOOWcKErpNv5a
+         W/Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dYBBVBUJb9QpmRIT8Xr6jh598vn6KpVl6M3aNNacvdQ=;
+        b=NkMl8vSEljrZEEykw+cMWCcyFnMU0Af9sfXzDdxJJ/1VFsJakcRBYwKHASgiGaJbMR
+         inRHtaRf+xcs42NcqujWmX80ulPthxelcsJaf7yztvaQlAr9ZBxBHo/VLVsPgG/0k0oF
+         Esqr6xFSu2qHAJB8pesE6vxoqYldDvuq9OFQPnLbVG5sOtc0t16xrilfJewYRW7/pZAt
+         wSST5qxkBPN4XnIHS7ke+GUCvPDvIG7NgBkEr4v69P3+f4o2D2nr0XSBy2SReDB+4ur9
+         GtJjo6TSc0MYjcKX6Q0esq1zTOdCpmiDqmbHKmOksGrUnDdJVPfxhSzC1sjkGLGNhWx+
+         nM8Q==
+X-Gm-Message-State: AOAM532vcDk0G0AHx6Hz6KWGJRs3A5HWnMmKEVgooP5D5wRoU6Zc+bkF
+        q5RVRRP3gDJViM3FXVkWXY7LmfndzZpU4b9/3HM=
+X-Google-Smtp-Source: ABdhPJwLzB81isuGskELcFGhiWHaTvQIDCs9DoK/nbCuecsfWvXHIPGCxSlGveQbDXk30J5uEZXGUz/APREPvqqEzf0=
+X-Received: by 2002:a25:6803:: with SMTP id d3mr7979088ybc.422.1619205303516;
+ Fri, 23 Apr 2021 12:15:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20210423184012.39300-1-twoerner@gmail.com>
+In-Reply-To: <20210423184012.39300-1-twoerner@gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 23 Apr 2021 21:14:52 +0200
+Message-ID: <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
+Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model macros
+To:     Trevor Woerner <twoerner@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiri Kosina <trivial@kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Yorick de Wid <yorickdewid@users.noreply.github.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-commit 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is added")
-revealed that clk/bcm/clk-raspberrypi.c driver calls
-devm_of_clk_add_hw_provider(), with a NULL dev->of_node, which resulted in a
-NULL pointer dereference in of_clk_add_provider() when calling
-fwnode_dev_initialized().
+On Fri, Apr 23, 2021 at 8:40 PM Trevor Woerner <twoerner@gmail.com> wrote:
+>
+> The dev_printk()-like functions moved to include/linux/dev_print.h in
+> commit af628aae8640 ("device.h: move dev_printk()-like functions to
+> dev_printk.h").
+>
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 
-Returning 0 is reducing the if conditions in driver code and is being
-consistent with the CONFIG_OF=n inline stub that returns 0 when CONFIG_OF
-is disabled. The downside is that drivers will maybe register clkdev lookups
-when they don't need to and waste some memory.
+LGTM
 
-Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Fixes: 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is added")
-Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
----
-This would be the second approach, where we don't return an error when
-one calls devm_of_clk_add_hw_provider with a NULL of_node, but instead
-we just return 0 and skip the logic in the core and the drivers.
+    Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
- drivers/clk/clk.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index e2ec1b745243..5d10da3519ac 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -4540,6 +4540,9 @@ int of_clk_add_provider(struct device_node *np,
- 	struct of_clk_provider *cp;
- 	int ret;
- 
-+	if (!np)
-+		return 0;
-+
- 	cp = kzalloc(sizeof(*cp), GFP_KERNEL);
- 	if (!cp)
- 		return -ENOMEM;
-@@ -4579,6 +4582,9 @@ int of_clk_add_hw_provider(struct device_node *np,
- 	struct of_clk_provider *cp;
- 	int ret;
- 
-+	if (!np)
-+		return 0;
-+
- 	cp = kzalloc(sizeof(*cp), GFP_KERNEL);
- 	if (!cp)
- 		return -ENOMEM;
-@@ -4676,6 +4682,9 @@ void of_clk_del_provider(struct device_node *np)
- {
- 	struct of_clk_provider *cp;
- 
-+	if (!np)
-+		return 0;
-+
- 	mutex_lock(&of_clk_mutex);
- 	list_for_each_entry(cp, &of_clk_providers, link) {
- 		if (cp->node == np) {
--- 
-2.25.1
-
+Cheers,
+Miguel
