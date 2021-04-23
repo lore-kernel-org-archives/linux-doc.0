@@ -2,122 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05EA6C43470
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D48C43603
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:46:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD8BF6146B
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:31:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45A23613CB
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 10:46:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241927AbhDWKbw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 06:31:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbhDWKbv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 06:31:51 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BCABC061574
-        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 03:31:15 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id h36so22622354lfv.7
-        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 03:31:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nVeVlI4593fiW9RW+jOZR7+NI8aHLRggRFUJzlCEeiw=;
-        b=L3yNbVR7vDqlEzKpr1hvuZi2AA3e606pV/+AC8izKBNA4rT7CETixrpyX1NTYvZ0ht
-         OVTaTeyclEjTbP2SW+AKceSgQVQrh7zh2znDAAo2H4Jly6m9yz0kk3Gti6ludWRBO8Cd
-         HIZjL1WxraFcf7p6X9KMDuEkZoIhf/+kf+zRXW38PJu/x1uuAAEBoaKwNSneD0gUuiev
-         lBm1Vg6pdQo7t0GM5sQVpCEuHa6mIwqcbZm8VaMcqJNfiZYxhnf26a2rG/nvujI9KmVa
-         8YsGuedLN7jGQtTcIscE7OCuiLkt2c9d6AARaaScixmWvKqjrPzSLKOXlO8A1uP436ch
-         RMuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nVeVlI4593fiW9RW+jOZR7+NI8aHLRggRFUJzlCEeiw=;
-        b=fVLl5WB0auUSj/YrWB6utepwtqNJhF1Nc79BGVKnVSg4uNqAv7yyLEuYWgsEZGyyjl
-         Su0C16CY9mTDLT1HzBkIQbiEa2wDZ6QnkArP++qBOrrZOFKx/nCT7+9Xu8QmHffbG6zQ
-         AE9V5AOw4U+sgKPfQhJbev4XsivOQGEQWXKSyTEgBRLhW698A0vKXbViYdg6XS2NXAYn
-         zH9CXJiKf1i3mPueWtxIekcNnIuyhBASxx/zwWSqIDhv1UwzDB8pREzR1fSqullUEgzJ
-         Lt0okmPdikguLCkfL/yd4qeiiRIkJ92bJY25zOM8RIOpo9QF/9gukAC9Hb0ZGb0fiIuR
-         iTiQ==
-X-Gm-Message-State: AOAM53027w0QvJ9m5RMc0by80DVp3UE9U22AX97C2ZP7KFTmEWQfjvin
-        pUsFI0N8ORBnn86Sd1849M6J6w==
-X-Google-Smtp-Source: ABdhPJwVNorWa+AWglF5pbaAmSR9Pq5BC71Nyf4ZYyqMrppUpW+kSLOMonXik1nhCbMjO9HNpZZ1kA==
-X-Received: by 2002:ac2:4a76:: with SMTP id q22mr2191519lfp.475.1619173873766;
-        Fri, 23 Apr 2021 03:31:13 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id j9sm512647lfg.49.2021.04.23.03.31.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 03:31:13 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id E64B910257F; Fri, 23 Apr 2021 13:31:14 +0300 (+03)
-Date:   Fri, 23 Apr 2021 13:31:14 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S229809AbhDWKr1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 06:47:27 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:43462 "EHLO pegase1.c-s.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229885AbhDWKr0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Apr 2021 06:47:26 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 4FRWF12hTFz9vBLr;
+        Fri, 23 Apr 2021 12:46:45 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id OMUajc0KWjbX; Fri, 23 Apr 2021 12:46:45 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 4FRWF117fBz9vBKj;
+        Fri, 23 Apr 2021 12:46:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id CE9A68B849;
+        Fri, 23 Apr 2021 12:46:46 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id bnOKyCWI-iRB; Fri, 23 Apr 2021 12:46:46 +0200 (CEST)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id B69ED8B765;
+        Fri, 23 Apr 2021 12:46:43 +0200 (CEST)
+Subject: Re: [PATCH bpf-next 1/2] bpf: Remove bpf_jit_enable=2 debugging mode
+To:     Quentin Monnet <quentin@isovalent.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Ian Rogers <irogers@google.com>, Song Liu <songliubraving@fb.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Zi Shen Lim <zlim.lnx@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Sandipan Das <sandipan@linux.ibm.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+        Shubham Bansal <illusionist.neo@gmail.com>,
+        Mahesh Bandewar <maheshb@google.com>,
+        Will Deacon <will@kernel.org>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Ilya Leoshkevich <iii@linux.ibm.com>, paulburton@kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        linux-mips@vger.kernel.org, grantseltzer@gmail.com,
+        Xi Wang <xi.wang@gmail.com>, Albert Ou <aou@eecs.berkeley.edu>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v25 21/30] mm: Re-introduce vm_flags to do_mmap()
-Message-ID: <20210423103114.3hheurux4ixccrwv@box.shutemov.name>
-References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
- <20210415221419.31835-22-yu-cheng.yu@intel.com>
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Luke Nelson <luke.r.nels@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        ppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        KP Singh <kpsingh@kernel.org>, iecedge@gmail.com,
+        Simon Horman <horms@verge.net.au>,
+        Borislav Petkov <bp@alien8.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Yonghong Song <yhs@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Dmitry Vyukov <dvyukov@google.com>, tsbogend@alpha.franken.de,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Network Development <netdev@vger.kernel.org>,
+        David Ahern <dsahern@kernel.org>,
+        Wang YanQing <udknight@gmail.com>,
+        Martin KaFai Lau <kafai@fb.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>, bpf <bpf@vger.kernel.org>,
+        Jianlin Lv <Jianlin.Lv@arm.com>,
+        "David S. Miller" <davem@davemloft.net>
+References: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
+ <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
+ <d3949501-8f7d-57c4-b3fe-bcc3b24c09d8@isovalent.com>
+ <CAADnVQJ2oHbYfgY9jqM_JMxUsoZxaNrxKSVFYfgCXuHVpDehpQ@mail.gmail.com>
+ <0dea05ba-9467-0d84-4515-b8766f60318e@csgroup.eu>
+ <CAADnVQ+oQT6C7Qv7P5TV-x7im54omKoCYYKtYhcnhb1Uv3LPMQ@mail.gmail.com>
+ <be132117-f267-5817-136d-e1aeb8409c2a@csgroup.eu>
+ <58296f87-ad00-a0f5-954b-2150aa84efc4@isovalent.com>
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <6a809d3f-c9e3-0eb7-9c1d-a202ad848424@csgroup.eu>
+Date:   Fri, 23 Apr 2021 12:46:39 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210415221419.31835-22-yu-cheng.yu@intel.com>
+In-Reply-To: <58296f87-ad00-a0f5-954b-2150aa84efc4@isovalent.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 03:14:10PM -0700, Yu-cheng Yu wrote:
-> There was no more caller passing vm_flags to do_mmap(), and vm_flags was
-> removed from the function's input by:
-> 
->     commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap_pgoff()").
-> 
-> There is a new user now.  Shadow stack allocation passes VM_SHADOW_STACK to
-> do_mmap().  Thus, re-introduce vm_flags to do_mmap().
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Peter Collingbourne <pcc@google.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Oleg Nesterov <oleg@redhat.com>
-> Cc: linux-mm@kvack.org
 
-Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
--- 
- Kirill A. Shutemov
+Le 23/04/2021 à 12:26, Quentin Monnet a écrit :
+> 2021-04-23 09:19 UTC+0200 ~ Christophe Leroy <christophe.leroy@csgroup.eu>
+> 
+> [...]
+> 
+>> I finally managed to cross compile bpftool with libbpf, libopcodes,
+>> readline, ncurses, libcap, libz and all needed stuff. Was not easy but I
+>> made it.
+> 
+> Libcap is optional and bpftool does not use readline or ncurses. May I
+> ask how you tried to build it?
+
+cd tools/bpf/
+
+make ARCH=powerpc CROSS_COMPILE=ppc-linux-
+
+
+Christophe
