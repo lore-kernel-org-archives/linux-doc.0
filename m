@@ -2,130 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C545FC433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 13:22:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 139E0C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 13:25:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 760D461452
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 13:22:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8AC361462
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 13:25:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231169AbhDWNWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 09:22:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55368 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbhDWNWl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 09:22:41 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D795C061574;
-        Fri, 23 Apr 2021 06:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=tpTBKNV5/izxL1k5IlHIzvsRqg3svyXWJhuDCpXyO+A=; b=MHQet0QejLNMAzlp2D84sdDlE7
-        z8qe6n1GFkCB/BkNAYLvOt0ujj5k2q82CxRvH1HHwkRVSdTwGJD3uHa4Lt0tiB+mRGBHqQbPx8bW9
-        ZNRJxDU7mhF4xnEi5x3I+KV3s9Mr0E0piUmhIs+p6kzLRFpctHSgp9etgpFHI9XP090GBkHciinEw
-        FBX61IUTaDPEG307xfYRyg1uYVY41AP0wjIelDatlxEVOOCn6V3TdpL6ei6r9TLkxQgPHcLz9Hlh4
-        6PwP2aXWA/DTWTEK/zgquxOOan2HQNRD1sOoGm6hhQIjBOJ3PcCc3KmCw85PYI0WWH0/slyrxhcXE
-        esCUXA9w==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lZvkD-001tIH-3X; Fri, 23 Apr 2021 13:21:27 +0000
-Date:   Fri, 23 Apr 2021 14:21:17 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     corbet@lwn.net, lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC] scripts: kernel-doc: reduce repeated regex expressions
- into variables
-Message-ID: <20210423132117.GB235567@casper.infradead.org>
-References: <20210422191839.6119-1-yashsri421@gmail.com>
+        id S229931AbhDWNZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 09:25:37 -0400
+Received: from mga12.intel.com ([192.55.52.136]:31798 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229456AbhDWNZg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Apr 2021 09:25:36 -0400
+IronPort-SDR: kK0FOKpcJsrVU5ds7uOD45vpKD5enBULxfLehoun9FPz+s+dUqUjrCnZxsnhMZKTMcRF8bu0Um
+ 8XKmNBmVRJmw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9963"; a="175551467"
+X-IronPort-AV: E=Sophos;i="5.82,245,1613462400"; 
+   d="scan'208";a="175551467"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2021 06:24:59 -0700
+IronPort-SDR: fU1MwX/zwew2GLGuBMdwnSfJshhZBEqFxXeg9B7pmIkZEYkobjV2mCQOh8Iy5uLxNUnvqaJ/o1
+ edoxgT6ZBkWQ==
+X-IronPort-AV: E=Sophos;i="5.82,245,1613462400"; 
+   d="scan'208";a="456222695"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2021 06:24:56 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lZvnh-006ZPI-4z; Fri, 23 Apr 2021 16:24:53 +0300
+Date:   Fri, 23 Apr 2021 16:24:53 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v5 05/13] module: Add printk formats to add module build
+ ID to stacktraces
+Message-ID: <YILKpQ2KsBXCoHlG@smile.fi.intel.com>
+References: <20210420215003.3510247-1-swboyd@chromium.org>
+ <20210420215003.3510247-6-swboyd@chromium.org>
+ <YIARTVqnN8t/FA/P@smile.fi.intel.com>
+ <161913520061.46595.8469966711677906076@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210422191839.6119-1-yashsri421@gmail.com>
+In-Reply-To: <161913520061.46595.8469966711677906076@swboyd.mtv.corp.google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 23, 2021 at 12:48:39AM +0530, Aditya Srivastava wrote:
-> +my $pointer_function = qr{([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)};
+On Thu, Apr 22, 2021 at 04:46:40PM -0700, Stephen Boyd wrote:
+> Quoting Andy Shevchenko (2021-04-21 04:49:33)
+> > On Tue, Apr 20, 2021 at 02:49:55PM -0700, Stephen Boyd wrote:
 
-Is that a pointer-to-function?  Or as people who write C usually call it,
-a function pointer?  Wouldn't it be better to call it $function_pointer?
+...
 
-> @@ -1210,8 +1211,14 @@ sub dump_struct($$) {
->      my $decl_type;
->      my $members;
->      my $type = qr{struct|union};
-> +    my $packed = qr{__packed};
-> +    my $aligned = qr{__aligned};
-> +    my $cacheline_aligned_in_smp = qr{____cacheline_aligned_in_smp};
-> +    my $cacheline_aligned = qr{____cacheline_aligned};
+> > > Example:
+> > 
+> > Please, shrink the example to leave only meaningful lines.
+> > 
+> > Why, e.g., do we need to see register dump, is it somehow different?
+> 
+> Can you format it how you would like to see it? Should it be a unified
+> diff? I agree it would help to see "what changed" but also don't know
+> what you want so opted to provide more information, not less. I was
+> worried about the questions like "do you change other parts of a splat?"
+> so I just put the whole thing there.
 
-I don't think those four definitions actually simplify anything.
 
-> +    my $attribute = qr{__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)}i;
+Before:
+ ...line X...
+ ...
+ ...line Y...
 
-... whereas this one definitely does.
+After:
+ ...line X'...
+ ...
+ ...line Y'...
 
-> -	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
-> -	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
-> -	$members =~ s/\s*__packed\s*/ /gos;
-> +	$members =~ s/\s*$attribute/ /gi;
-> +	$members =~ s/\s*$aligned\s*\([^;]*\)/ /gos;
+Three lines of example per each paragraph, in each of them the middle one is
+simply [...].
 
-Maybe put the \s*\([^;]*\) into $aligned?  Then it becomes a useful
-abstraction.
+...
 
-> -    } elsif ($prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> -	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> -	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
-> -	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/)  {
-> +    } elsif ($prototype =~ m/^()($name)\s*$prototype_end1/ ||
-> +	$prototype =~ m/^(\w+)\s+($name)\s*$prototype_end1/ ||
-> +	$prototype =~ m/^(\w+\s*\*+)\s*($name)\s*$prototype_end1/ ||
-> +	$prototype =~ m/^(\w+\s+\w+)\s+($name)\s*$prototype_end1/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end1/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+($name)\s*$prototype_end1/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end1/ ||
-> +	$prototype =~ m/^()($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+)\s+($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+\s*\*+)\s*($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+\s+\w+)\s+($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end2/ ||
-> +	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*($name)\s*$prototype_end2/)  {
+> > > +#ifdef CONFIG_STACKTRACE_BUILD_ID
+> > > +     /* Module build ID */
+> > > +     unsigned char build_id[BUILD_ID_SIZE_MAX];
+> > 
+> > Is it really string of characters? Perhaps u8 will be more explicit.
+> 
+> I'm just matching the build ID API that uses unsigned char. If you want
+> u8 then we should update more places. I could do that in a followup
+> patch, but this one is already sorta big.
 
-This is probably the best patch I've seen so far this year.
+Unsigned char here is confusing. I would prefer a prerequisite patch to fix
+other places first.
 
-Now, can we go further?  For example:
-	$prototype_end = $prototype_end1|$prototype_end2
-That would let us cut the number of lines here in half.
+...
 
-Can we create a definition for a variable number of \w and \s and '*'
-in the return type?  In fact, can we define a regex that matches a type?
-So this would become:
+> > > +#include <linux/kernel.h>
+> > 
+> > What do you need this header for?
+> > 
+> 
+> For typeof_member().
 
-> +    } elsif ($prototype =~ m/^($type)\s*($name)\s*$prototype_end/) {
+Argh... We really need to split this and container_of to something else. Having
+entire kernel.h for that is an overkill.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
