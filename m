@@ -2,128 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDE76C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 18:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55AAEC43462
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 18:22:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CDD8B6144E
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 18:20:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2044C61462
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 18:22:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243485AbhDWSUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 14:20:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37744 "EHLO mail.kernel.org"
+        id S243572AbhDWSWp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 14:22:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40784 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231728AbhDWSUx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Apr 2021 14:20:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ABE5161261;
-        Fri, 23 Apr 2021 18:20:16 +0000 (UTC)
+        id S243555AbhDWSWp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Apr 2021 14:22:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F90D6144D;
+        Fri, 23 Apr 2021 18:22:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619202017;
-        bh=Arrt3Oq+jC3yqTEvvMU/AOmrJBBTknvHFVkqL1cxPrM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GA/CVmunIyH90LDcH9GUb1tSWNLJUbaLxJg2G3GG1oXX1MVh+ilAyvkER/aZYHt62
-         NaP/2y4BBIC4mlAmZ12iiSq928Bk5fG7vigAn9USw6D+aecWC1LNlwEg5AjqS6NBU1
-         VVFECpd2LTJUDGhITHvAueR8xbXK9TfE47+F5/BWRAulwSwH2KeaG+HqPgu0xWATBw
-         ocnJDT+LYUWR9EMdUaGdxZtGXq1FSfyWA0GT/AU5UQZNKEVdTKu6YOGXfOL04bvg0a
-         55Wo24E8K9a/CpRvcg2MGci1kKsGsYUgCxCK8qHGHpLHiA9rmFZDabcA02qp/uhdzG
-         rNYp6/mUZEFww==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id 052B440647; Fri, 23 Apr 2021 15:20:13 -0300 (-03)
-Date:   Fri, 23 Apr 2021 15:20:13 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Yonghong Song <yhs@fb.com>
-Cc:     Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>
-Subject: Re: [PATCH bpf-next] bpf: Document the pahole release info related
- to libbpf in bpf_devel_QA.rst
-Message-ID: <YIMP3flCE6uwYp69@kernel.org>
-References: <1619141010-12521-1-git-send-email-yangtiezhu@loongson.cn>
- <221ef66a-a7e4-14b7-e085-6062e8547b11@fb.com>
+        s=k20201202; t=1619202128;
+        bh=WAdxlQGbugIz8yOmDLwAmcT5y8V9JXDkna8OjiDows4=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=qKD0GwbREW9E6GvZk+Hp9L5bLoqeLQx/MVgNcaoxEq6rfGcsrEFz3cwD4AE7M168m
+         Pyc/VZY9lqIa0+LTVtq4OKM/tKo7ZQhjlZbYzpLEGGJ4TUO6e1BLc2JeAhLJllKkMZ
+         nIJ0F601OVFCvC73tA89K0tVdjrFuYT0t8Y8s7SCqWowoe8Uk/b2z904QGxlA8ySJD
+         +a9OXZItKyciwLZTRIWOxxdBKkhyP0WAEf5vtJFNX8lY++aIBlbPXVF1coUiIn9F4c
+         eWG2vHZocJPuL04o9USW4zv5wRg7mQcsRzAZ+Nt24eH5i+l1TGMKYsZX2EFFTtLFVl
+         sfmAeg0WPBDBQ==
+Message-ID: <528ab89224ba27f6164135a8ac00a828e7113805.camel@kernel.org>
+Subject: Re: [PATCH 1/2] clk: Do not register provider with a NULL
+ dev->of_node
+From:   nicolas saenz julienne <nsaenz@kernel.org>
+To:     Saravana Kannan <saravanak@google.com>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, maxime@cerno.tech,
+        gregkh@linuxfoundation.org, rafael@kernel.org, khilman@kernel.org,
+        ulf.hansson@linaro.org, len.brown@intel.com, pavel@ucw.cz,
+        robh+dt@kernel.org, frowand.list@gmail.com, maz@kernel.org,
+        tglx@linutronix.de, geert@linux-m68k.org, nsaenzjulienne@suse.de,
+        linux@roeck-us.net, guillaume.tucker@collabora.com,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, nicolas.ferre@microchip.com,
+        claudiu.beznea@microchip.com, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-acpi@vger.kernel.org, kernel-team@android.com,
+        linux-rpi-kernel@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Date:   Fri, 23 Apr 2021 20:21:59 +0200
+In-Reply-To: <CAGETcx-81hPTW_EVexMWaxGSOknuK-zESqKdiuQvye=n3TaHkA@mail.gmail.com>
+References: <20210423171335.262316-1-tudor.ambarus@microchip.com>
+         <20210423171335.262316-2-tudor.ambarus@microchip.com>
+         <CAGETcx-81hPTW_EVexMWaxGSOknuK-zESqKdiuQvye=n3TaHkA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <221ef66a-a7e4-14b7-e085-6062e8547b11@fb.com>
-X-Url:  http://acmel.wordpress.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, Apr 22, 2021 at 09:12:19PM -0700, Yonghong Song escreveu:
-> 
-> 
-> On 4/22/21 6:23 PM, Tiezhu Yang wrote:
-> > pahole starts to use libbpf definitions and APIs since v1.13 after the
-> > commit 21507cd3e97b ("pahole: add libbpf as submodule under lib/bpf").
-> > It works well with the git repository because the libbpf submodule will
-> > use "git submodule update --init --recursive" to update.
+Hi Saravana, Tudor,
+
+On Fri, 2021-04-23 at 10:24 -0700, Saravana Kannan wrote:
+> On Fri, Apr 23, 2021 at 10:14 AM Tudor Ambarus
+> <tudor.ambarus@microchip.com> wrote:
 > > 
-> > Unfortunately, the default github release source code does not contain
-> > libbpf submodule source code and this will cause build issues, the tarball
-> > from https://git.kernel.org/pub/scm/devel/pahole/pahole.git/ is same with
-> > github, you can get the source tarball with corresponding libbpf submodule
-> > codes from
+> > commit 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is added")
+> > revealed that clk/bcm/clk-raspberrypi.c driver calls
+> > devm_of_clk_add_hw_provider(), with a NULL dev->of_node.
 > > 
-> > https://fedorapeople.org/~acme/dwarves
+> > devm_of_clk_add_hw_provider() should not register the provider with
+> > a NULL dev->of_node, as there is no of_node. Apart of the NULL pointer
+> > dereference that will result when calling fwnode_dev_initialized() in
+> > of_clk_add_hw_provider(), another problem is that when two drivers calling
+> > of_clk_add_hw_provider() with np = NULL, their unregistration order is not
+> > guaranteed to be correct. Avoid all the problems and just return -ENODEV
+> > when the callers of devm_of_clk_add_hw_provider() use a NULL dev->of_node,
+> > which seems the natural way to do.
 > > 
-> > This change documents the above issues to give more information so that
-> > we can get the tarball from the right place, early discussion is here:
-> > 
-> > https://lore.kernel.org/bpf/2de4aad5-fa9e-1c39-3c92-9bb9229d0966@loongson.cn/
-> > 
-> > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> > Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > Fixes: 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is added")
+> > Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
 > > ---
-> >   Documentation/bpf/bpf_devel_QA.rst | 13 +++++++++++++
-> >   1 file changed, 13 insertions(+)
+> >  drivers/clk/clk.c | 12 +++++++-----
+> >  1 file changed, 7 insertions(+), 5 deletions(-)
 > > 
-> > diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-> > index d05e67e..253496a 100644
-> > --- a/Documentation/bpf/bpf_devel_QA.rst
-> > +++ b/Documentation/bpf/bpf_devel_QA.rst
-> > @@ -449,6 +449,19 @@ from source at
-> >   https://github.com/acmel/dwarves
-> > +pahole starts to use libbpf definitions and APIs since v1.13 after the
-> > +commit 21507cd3e97b ("pahole: add libbpf as submodule under lib/bpf").
-> > +It works well with the git repository because the libbpf submodule will
-> > +use "git submodule update --init --recursive" to update.
-> > +
-> > +Unfortunately, the default github release source code does not contain
-> > +libbpf submodule source code and this will cause build issues, the tarball
-> > +from https://git.kernel.org/pub/scm/devel/pahole/pahole.git/ is same with
-> > +github, you can get the source tarball with corresponding libbpf submodule
-> > +codes from
-> > +
-> > +https://fedorapeople.org/~acme/dwarves
+> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> > index e2ec1b745243..8b5077cc5e67 100644
+> > --- a/drivers/clk/clk.c
+> > +++ b/drivers/clk/clk.c
+> > @@ -4634,11 +4634,10 @@ static struct device_node *get_clk_provider_node(struct device *dev)
+> >   * @get: callback for decoding clk_hw
+> >   * @data: context pointer for @get callback
+> >   *
+> > - * Registers clock provider for given device's node. If the device has no DT
+> > - * node or if the device node lacks of clock provider information (#clock-cells)
+> > - * then the parent device's node is scanned for this information. If parent node
+> > - * has the #clock-cells then it is used in registration. Provider is
+> > - * automatically released at device exit.
+> > + * Registers clock provider for given device's node. If the device node lacks
+> > + * of clock provider information (#clock-cells) then the parent device's node is
+> > + * scanned for this information. If parent node has the #clock-cells then it is
+> > + * used in registration. Provider is automatically released at device exit.
+> >   *
+> >   * Return: 0 on success or an errno on failure.
+> >   */
+> > @@ -4650,6 +4649,9 @@ int devm_of_clk_add_hw_provider(struct device *dev,
+> >         struct device_node **ptr, *np;
+> >         int ret;
+> > 
+> > +       if (!dev->of_node)
+> > +               return -ENODEV;
 > > +
 > 
-> Arnaldo, could you take a look at this patch? Thanks!
+> Based on the other discussions, for now, just return 0. The error
+> might cause other issues in other drivers. We can clean this up later.
 
-Sure, he documented it as I expected from a previous interaction about
-this. Would be good to add a paragraph stating how to grab libbpf and
-graft it even on a tarball not containing it tho.
++1, Let's return 0 and do nothing skip the logic in the driver.
 
-Bonus points if the cmake files gets changed in a way that this gets
-notified to the user in the error message.
+Now, from what I read in devm_of_clk_add_hw_provider(), there is a use case for
+entering with '!dev->of_node'. See get_clk_provider_node()'s usage. So I think
+we should only bail if that function fails to provide a device_node.
 
-But these suggestions can come in another patch, for this I can give my:
+Regards,
+Nicolas
 
-Reviewed-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 
-- Arnaldo
- 
-> >   Some distros have pahole version 1.16 packaged already, e.g.
-> >   Fedora, Gentoo.
