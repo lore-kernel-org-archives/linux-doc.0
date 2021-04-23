@@ -2,322 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70781C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 20:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CACC5C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4710D6128A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 20:49:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAEF761450
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 21:06:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232537AbhDWUtx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 16:49:53 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:46501 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232193AbhDWUtw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 16:49:52 -0400
-X-Originating-IP: 2.7.49.219
-Received: from [192.168.1.12] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
-        (Authenticated sender: alex@ghiti.fr)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id CAC7460003;
-        Fri, 23 Apr 2021 20:49:10 +0000 (UTC)
-Subject: Re: [PATCH] riscv: Fix 32b kernel caused by 64b kernel mapping moving
- outside linear mapping
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     anup@brainfault.org, corbet@lwn.net,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
-        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org
-References: <mhng-5579c61f-d95b-4f9b-9f12-4df6bb24df0c@palmerdabbelt-glaptop>
-From:   Alex Ghiti <alex@ghiti.fr>
-Message-ID: <97819559-0af0-0422-5b6c-30872f759daa@ghiti.fr>
-Date:   Fri, 23 Apr 2021 16:49:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S232523AbhDWVGq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 17:06:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26910 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232479AbhDWVGq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 17:06:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619211968;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=KUWNzg/cZ/ucXhaBruj2wL7eCNhxSMkRoedTIeePld0=;
+        b=DOyGp03wJX+Ths0EpC1QbWLT9QYvQOmxnPxODIoOrtRiMqqbaPtoA47/jG940mMTWYZB7m
+        p3AEOWhlsqrt5uu5+1b35/hReTaGkxULaw5SYeeRR8AugveTDFFNfE9moRcVkNbBhDQqPc
+        WGvJNdIIqz5XD92e+7ZNuft3TvpY+dY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-604-ER-rzzndOQKDa3fDpA56bw-1; Fri, 23 Apr 2021 17:06:07 -0400
+X-MC-Unique: ER-rzzndOQKDa3fDpA56bw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A905E343A3;
+        Fri, 23 Apr 2021 21:06:05 +0000 (UTC)
+Received: from x1.bristot.me.homenet.telecomitalia.it (ovpn-112-8.rdu2.redhat.com [10.10.112.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1863A5DEAD;
+        Fri, 23 Apr 2021 21:05:52 +0000 (UTC)
+From:   Daniel Bristot de Oliveira <bristot@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
+Subject: [RFC PATCH V2 0/9] hwlat improvements and osnoise/timerlat tracers
+Date:   Fri, 23 Apr 2021 23:05:35 +0200
+Message-Id: <cover.1619210818.git.bristot@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <mhng-5579c61f-d95b-4f9b-9f12-4df6bb24df0c@palmerdabbelt-glaptop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This series proposes a set of improvements and new features for the
+tracing subsystem to facilitate the debugging of low latency
+deployments.
 
+Currently, hwlat runs on a single CPU at a time, migrating across a
+set of CPUs in a round-robin fashion. This series improves hwlat 
+to allow hwlat to run on multiple CPUs in parallel, increasing the
+chances of detecting a hardware latency, at the cost of using more
+CPU time.
 
-Le 4/23/21 à 12:57 PM, Palmer Dabbelt a écrit :
-> On Fri, 23 Apr 2021 01:34:02 PDT (-0700), alex@ghiti.fr wrote:
->> Le 4/20/21 à 12:18 AM, Anup Patel a écrit :
->>> On Sat, Apr 17, 2021 at 10:52 PM Alexandre Ghiti <alex@ghiti.fr> wrote:
->>>>
->>>> Fix multiple leftovers when moving the kernel mapping outside the 
->>>> linear
->>>> mapping for 64b kernel that left the 32b kernel unusable.
->>>>
->>>> Fixes: 4b67f48da707 ("riscv: Move kernel mapping outside of linear 
->>>> mapping")
->>>> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
->>>
->>> Quite a few #ifdef but I don't see any better way at the moment. 
->>> Maybe we can
->>> clean this later. Otherwise looks good to me.
-> 
-> Agreed.  I'd recently sent out a patch set that got NACK'd because we're 
-> supposed to be relying on the compiler to optimize away references that 
-> can be staticly determined to not be exercised, which is probably the 
-> way forward to getting rid of a lot of of preprocessor stuff.  That all 
-> seems very fragile and is a bigger problem than this, though, so it's 
-> probably best to do it as its own thing.
-> 
->>> Reviewed-by: Anup Patel <anup@brainfault.org>
->>
->> Thanks Anup!
->>
->> @Palmer: This is not on for-next yet and then rv32 is broken. This does
->> not apply immediately on top of for-next though, so if you need a new
->> version, I can do that. But this squashes nicely with the patch it fixes
->> if you prefer.
-> 
-> Thanks.  I just hadn't gotten to this one yet, but as you pointed out 
-> it's probably best to just squash it.  It's in the version on for-next 
-> now, it caused few conflicts but I think I got everything sorted out.
-> 
-> Now that everything is in I'm going to stop rewriting this stuff, as it 
-> touches pretty much the whole tree.  I don't have much of a patch back 
-> log as of right now, and as the new stuff will be on top of it that will 
-> make everyone's lives easier.
-> 
->>
->> Let me know, I can do that very quickly.
->>
->> Alex
->>
->>>
->>> Regards,
->>> Anup
->>>
->>>> ---
->>>>   arch/riscv/include/asm/page.h    |  9 +++++++++
->>>>   arch/riscv/include/asm/pgtable.h | 16 ++++++++++++----
->>>>   arch/riscv/mm/init.c             | 25 ++++++++++++++++++++++++-
->>>>   3 files changed, 45 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/arch/riscv/include/asm/page.h 
->>>> b/arch/riscv/include/asm/page.h
->>>> index 22cfb2be60dc..f64b61296c0c 100644
->>>> --- a/arch/riscv/include/asm/page.h
->>>> +++ b/arch/riscv/include/asm/page.h
->>>> @@ -90,15 +90,20 @@ typedef struct page *pgtable_t;
->>>>
->>>>   #ifdef CONFIG_MMU
->>>>   extern unsigned long va_pa_offset;
->>>> +#ifdef CONFIG_64BIT
->>>>   extern unsigned long va_kernel_pa_offset;
->>>> +#endif
->>>>   extern unsigned long pfn_base;
->>>>   #define ARCH_PFN_OFFSET                (pfn_base)
->>>>   #else
->>>>   #define va_pa_offset           0
->>>> +#ifdef CONFIG_64BIT
->>>>   #define va_kernel_pa_offset    0
->>>> +#endif
->>>>   #define ARCH_PFN_OFFSET                (PAGE_OFFSET >> PAGE_SHIFT)
->>>>   #endif /* CONFIG_MMU */
->>>>
->>>> +#ifdef CONFIG_64BIT
+It also proposes a new tracer named osnoise, that aims to help users
+of isolcpus= (or a similar method) to measure how much noise the OS
+and the hardware add to the isolated application. The osnoise tracer
+bases on the hwlat detector code. The difference is that, instead of
+sampling with interrupts disabled, the osnoise tracer samples the CPU with
+interrupts and preemption enabled. In this way, the sampling thread will
+suffer any source of noise from the OS. The detection and classification
+of the type of noise are then made by observing the entry points of NMIs,
+IRQs, SoftIRQs, and threads. If none of these sources of noise is detected,
+the tool associates the noise with the hardware. The tool periodically
+prints a status, printing the total noise of the period, the max single
+noise observed, the percentage of CPU available for the task, along with
+the counters of each source of the noise. To debug the sources of noise,
+the tracer also adds a set of tracepoints that print any NMI, IRQ, SofIRQ,
+and thread occurrence. These tracepoints print the starting time and the
+noise's net duration at the end of the noise. In this way, it reduces the
+number of tracepoints (one instead of two) and the need to manually
+accounting the contribution of each noise independently.
 
-This one is incorrect as kernel_virt_addr is used also in 32b kernel, 
-which causes 32b failure when CONFIG_DEBUG_VIRTUAL is set, the following 
-diff fixes it:
+Finaly, the timerlat tracer aims to help the preemptive kernel developers
+to find sources of wakeup latencies of real-time threads. The tracer
+creates a per-cpu kernel thread with real-time priority. The tracer thread
+sets a periodic timer to wakeup itself, and goes to sleep waiting for the
+timer to fire. At the wakeup, the thread then computes a wakeup latency
+value as the difference between the current time and the absolute time
+that the timer was set to expire. The tracer prints two lines at every
+activation. The first is the timer latency observed at the hardirq context
+before the activation of the thread. The second is the timer latency
+observed by the thread, which is the same level that cyclictest reports.
+The ACTIVATION ID field serves to relate the irq execution to its
+respective thread execution. The tracer is build on top of osnoise tracer,
+and the osnoise: events can be used to trace the source of interference
+from NMI, IRQs and other threads. It also enables the capture of the
+stacktrace at the IRQ context, which helps to identify the code path
+that can cause thread delay.
 
-diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
-index e280ba60cb34..6a7761c86ec2 100644
---- a/arch/riscv/include/asm/page.h
-+++ b/arch/riscv/include/asm/page.h
-@@ -106,9 +106,9 @@ extern unsigned long pfn_base;
-  #define ARCH_PFN_OFFSET                (PAGE_OFFSET >> PAGE_SHIFT)
-  #endif /* CONFIG_MMU */
+Changes from v1:
+ - Remove `` from RST (Corbet)
+ - Add RST files to the index (Corbet)
+ - Fix text and typos (Rostedt)
+ - Remove the cpus from hwlat (Rostedt)
+ - Remove the disable_migrate/fallback to mode none on hwlat (Rostedt)
+ - Add a generic way to read/write u64 and use it on
+   hwlat/osnoise/timerlat (Rostedt)
+ - Make osnoise/timerlat to work properly with trace-cmd/tracer
+   instances (Rostedt)
+ - osnoise using the tracing_threshold (Rostedt)
+ - Rearrange tracepoint structure to avoid "holes" (Rostedt)
 
--#ifdef CONFIG_64BIT
-  extern unsigned long kernel_virt_addr;
+Daniel Bristot de Oliveira (8):
+  tracing/hwlat: Fix Clark's email
+  tracing/hwlat: Implement the mode config option
+  tracing/hwlat: Switch disable_migrate to mode none
+  tracing/hwlat: Implement the per-cpu mode
+  tracing/trace: Add a generic function to read/write u64 values from
+    tracefs
+  trace/hwlat: Use the generic function to read/write width and window
+  tracing: Add osnoise tracer
+  tracing: Add timerlat tracer
 
-+#ifdef CONFIG_64BIT
-  #define linear_mapping_pa_to_va(x)     ((void *)((unsigned long)(x) + 
-va_pa_offset))
-  #ifdef CONFIG_XIP_KERNEL
-  #define kernel_mapping_pa_to_va(y)     ({ 
-                  \
+Steven Rostedt (1):
+  tracing: Add __print_ns_to_secs() and __print_ns_without_secs()
+    helpers
 
->>>>   extern unsigned long kernel_virt_addr;
->>>>
->>>>   #define linear_mapping_pa_to_va(x)     ((void *)((unsigned 
->>>> long)(x) + va_pa_offset))
->>>> @@ -112,6 +117,10 @@ extern unsigned long kernel_virt_addr;
->>>>          (_x < kernel_virt_addr) 
->>>> ?                                               \
->>>>                  linear_mapping_va_to_pa(_x) : 
->>>> kernel_mapping_va_to_pa(_x);      \
->>>>          })
->>>> +#else
->>>> +#define __pa_to_va_nodebug(x)  ((void *)((unsigned long) (x) + 
->>>> va_pa_offset))
->>>> +#define __va_to_pa_nodebug(x)  ((unsigned long)(x) - va_pa_offset)
->>>> +#endif
->>>>
->>>>   #ifdef CONFIG_DEBUG_VIRTUAL
->>>>   extern phys_addr_t __virt_to_phys(unsigned long x);
->>>> diff --git a/arch/riscv/include/asm/pgtable.h 
->>>> b/arch/riscv/include/asm/pgtable.h
->>>> index 80e63a93e903..5afda75cc2c3 100644
->>>> --- a/arch/riscv/include/asm/pgtable.h
->>>> +++ b/arch/riscv/include/asm/pgtable.h
->>>> @@ -16,19 +16,27 @@
->>>>   #else
->>>>
->>>>   #define ADDRESS_SPACE_END      (UL(-1))
->>>> -/*
->>>> - * Leave 2GB for kernel and BPF at the end of the address space
->>>> - */
->>>> +
->>>> +#ifdef CONFIG_64BIT
->>>> +/* Leave 2GB for kernel and BPF at the end of the address space */
->>>>   #define KERNEL_LINK_ADDR       (ADDRESS_SPACE_END - SZ_2G + 1)
->>>> +#else
->>>> +#define KERNEL_LINK_ADDR       PAGE_OFFSET
->>>> +#endif
->>>>
->>>>   #define VMALLOC_SIZE     (KERN_VIRT_SIZE >> 1)
->>>>   #define VMALLOC_END      (PAGE_OFFSET - 1)
->>>>   #define VMALLOC_START    (PAGE_OFFSET - VMALLOC_SIZE)
->>>>
->>>> -/* KASLR should leave at least 128MB for BPF after the kernel */
->>>>   #define BPF_JIT_REGION_SIZE    (SZ_128M)
->>>> +#ifdef CONFIG_64BIT
->>>> +/* KASLR should leave at least 128MB for BPF after the kernel */
->>>>   #define BPF_JIT_REGION_START   PFN_ALIGN((unsigned long)&_end)
->>>>   #define BPF_JIT_REGION_END     (BPF_JIT_REGION_START + 
->>>> BPF_JIT_REGION_SIZE)
->>>> +#else
->>>> +#define BPF_JIT_REGION_START   (PAGE_OFFSET - BPF_JIT_REGION_SIZE)
->>>> +#define BPF_JIT_REGION_END     (VMALLOC_END)
->>>> +#endif
->>>>
->>>>   /* Modules always live before the kernel */
->>>>   #ifdef CONFIG_64BIT
->>>> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
->>>> index 093f3a96ecfc..dc9b988e0778 100644
->>>> --- a/arch/riscv/mm/init.c
->>>> +++ b/arch/riscv/mm/init.c
->>>> @@ -91,8 +91,10 @@ static void print_vm_layout(void)
->>>>                    (unsigned long)VMALLOC_END);
->>>>          print_mlm("lowmem", (unsigned long)PAGE_OFFSET,
->>>>                    (unsigned long)high_memory);
->>>> +#ifdef CONFIG_64BIT
->>>>          print_mlm("kernel", (unsigned long)KERNEL_LINK_ADDR,
->>>>                    (unsigned long)ADDRESS_SPACE_END);
->>>> +#endif
->>>>   }
->>>>   #else
->>>>   static void print_vm_layout(void) { }
->>>> @@ -165,9 +167,11 @@ static struct pt_alloc_ops pt_ops;
->>>>   /* Offset between linear mapping virtual address and kernel load 
->>>> address */
->>>>   unsigned long va_pa_offset;
->>>>   EXPORT_SYMBOL(va_pa_offset);
->>>> +#ifdef CONFIG_64BIT
->>>>   /* Offset between kernel mapping virtual address and kernel load 
->>>> address */
->>>>   unsigned long va_kernel_pa_offset;
->>>>   EXPORT_SYMBOL(va_kernel_pa_offset);
->>>> +#endif
->>>>   unsigned long pfn_base;
->>>>   EXPORT_SYMBOL(pfn_base);
->>>>
->>>> @@ -410,7 +414,9 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
->>>>          load_sz = (uintptr_t)(&_end) - load_pa;
->>>>
->>>>          va_pa_offset = PAGE_OFFSET - load_pa;
->>>> +#ifdef CONFIG_64BIT
->>>>          va_kernel_pa_offset = kernel_virt_addr - load_pa;
->>>> +#endif
->>>>
->>>>          pfn_base = PFN_DOWN(load_pa);
->>>>
->>>> @@ -469,12 +475,16 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
->>>>                             pa + PMD_SIZE, PMD_SIZE, PAGE_KERNEL);
->>>>          dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & 
->>>> (PMD_SIZE - 1));
->>>>   #else /* CONFIG_BUILTIN_DTB */
->>>> +#ifdef CONFIG_64BIT
->>>>          /*
->>>>           * __va can't be used since it would return a linear 
->>>> mapping address
->>>>           * whereas dtb_early_va will be used before setup_vm_final 
->>>> installs
->>>>           * the linear mapping.
->>>>           */
->>>>          dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
->>>> +#else
->>>> +       dtb_early_va = __va(dtb_pa);
->>>> +#endif /* CONFIG_64BIT */
->>>>   #endif /* CONFIG_BUILTIN_DTB */
->>>>   #else
->>>>   #ifndef CONFIG_BUILTIN_DTB
->>>> @@ -486,7 +496,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
->>>>                             pa + PGDIR_SIZE, PGDIR_SIZE, PAGE_KERNEL);
->>>>          dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & 
->>>> (PGDIR_SIZE - 1));
->>>>   #else /* CONFIG_BUILTIN_DTB */
->>>> +#ifdef CONFIG_64BIT
->>>>          dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
->>>> +#else
->>>> +       dtb_early_va = __va(dtb_pa);
->>>> +#endif /* CONFIG_64BIT */
->>>>   #endif /* CONFIG_BUILTIN_DTB */
->>>>   #endif
->>>>          dtb_early_pa = dtb_pa;
->>>> @@ -571,12 +585,21 @@ static void __init setup_vm_final(void)
->>>>                  for (pa = start; pa < end; pa += map_size) {
->>>>                          va = (uintptr_t)__va(pa);
->>>>                          create_pgd_mapping(swapper_pg_dir, va, pa,
->>>> -                                          map_size, PAGE_KERNEL);
->>>> +                                          map_size,
->>>> +#ifdef CONFIG_64BIT
->>>> +                                          PAGE_KERNEL
->>>> +#else
->>>> +                                          PAGE_KERNEL_EXEC
->>>> +#endif
->>>> +                                       );
->>>> +
->>>>                  }
->>>>          }
->>>>
->>>> +#ifdef CONFIG_64BIT
->>>>          /* Map the kernel */
->>>>          create_kernel_page_table(swapper_pg_dir, PMD_SIZE);
->>>> +#endif
->>>>
->>>>          /* Clear fixmap PTE and PMD mappings */
->>>>          clear_fixmap(FIX_PTE);
->>>> -- 
->>>> 2.20.1
->>>>
+ Documentation/trace/hwlat_detector.rst  |   13 +-
+ Documentation/trace/index.rst           |    2 +
+ Documentation/trace/osnoise-tracer.rst  |  152 ++
+ Documentation/trace/timerlat-tracer.rst |  158 ++
+ include/linux/ftrace_irq.h              |   13 +
+ include/trace/events/osnoise.h          |  142 ++
+ include/trace/trace_events.h            |   25 +
+ kernel/trace/Kconfig                    |   62 +
+ kernel/trace/Makefile                   |    1 +
+ kernel/trace/trace.c                    |   88 +-
+ kernel/trace/trace.h                    |   31 +-
+ kernel/trace/trace_entries.h            |   41 +
+ kernel/trace/trace_hwlat.c              |  410 +++--
+ kernel/trace/trace_osnoise.c            | 2118 +++++++++++++++++++++++
+ kernel/trace/trace_output.c             |  119 +-
+ 15 files changed, 3227 insertions(+), 148 deletions(-)
+ create mode 100644 Documentation/trace/osnoise-tracer.rst
+ create mode 100644 Documentation/trace/timerlat-tracer.rst
+ create mode 100644 include/trace/events/osnoise.h
+ create mode 100644 kernel/trace/trace_osnoise.c
 
-I agree with you, too much #ifdef, it is hardly readable: I take a look 
-at how I can make it simpler.
+-- 
+2.26.3
 
-Sorry for all those fixes,
-
-Alex
-
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
