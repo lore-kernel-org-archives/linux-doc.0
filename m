@@ -8,130 +8,132 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87199C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 01:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 755F2C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 01:47:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F9AC61450
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 01:46:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D1F661176
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 01:47:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235569AbhDWBra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Apr 2021 21:47:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44424 "EHLO
+        id S235839AbhDWBrm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Apr 2021 21:47:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235302AbhDWBr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 21:47:29 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40911C061574
-        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 18:46:54 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id j7so24734937pgi.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 18:46:54 -0700 (PDT)
+        with ESMTP id S235302AbhDWBrm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Apr 2021 21:47:42 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D05BC061574
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 18:47:05 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id m11so33046034pfc.11
+        for <linux-doc@vger.kernel.org>; Thu, 22 Apr 2021 18:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=9GGnZINYaAnchH8DZmAx+rvqSHFaWbjIYjPyTTy9Z5A=;
-        b=XbTyQIzWIManNIJQPRAV+qwLBIjpMzQdIQ5C/1HBn44E7dwHUQmUW6pU0jBxtG09FY
-         PwtTI4V13GCJEyOIH6Lsv2SB3UYPKpV3WvBPzBsbRCcMEv1CTCWRYbUWAB2MXeHCSnE3
-         ylhhK3Gq4qRdRDCVCjtPBl/y8+xVSTNts9U7D4mc/nNgsXKU1DpAo+FzyBcZEfqtEMst
-         yFCIl5rHVbN32+sUa485gLTV3IhbEeWOxOceRkh9rYhMRXMia8NHJNxU6nkbFTND+8yZ
-         6E344MiofZUMsS+0Tfex++FFeZG4E9zCATmgE8Okg+MLW252Ki2oOCk3qq+bW0G1o0op
-         7k+Q==
+        bh=sEBIIMky4VDwVbIerPlApPu/qz46WKtwjxW+bYEECVY=;
+        b=BYyBVpfrWzsCUWezv4ZF95PsqpMqqODxJCNwjKCX0FIlKQowyxDIG+qdfh0IHU+XMW
+         m4Z5oWfLZ0TEGI1eu/hlleUSi+WoElED7mxVEGR0nmdRxU3pixzRZfVKyAZc2hIAHjcn
+         9ZMQaZzQ1SR8Y8s8EoAyV+Pl67VCfmKE7q9QulNBKci/Wx4viG0rLRcOpcQR8CQx3pjX
+         6987dCpawvztL61VoFE1tlNS4e/jx77CaavyI1yAFhQyrc8OiK5Mv4SdPpSCbMOwt9oz
+         0bEhd11TaO1ZOQ0TyW2oq+0qjzr3uhWJzYY3zXelo2UFGNl7Ypri6RpzJ2nW7womDOxq
+         jNlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9GGnZINYaAnchH8DZmAx+rvqSHFaWbjIYjPyTTy9Z5A=;
-        b=Afm+WmN4AWA/THjim7QxfwWMaS5CcsHMiLy3SN7Rda9VR8ST2Ha1THe03cZ5AiiYHf
-         tQJveuhnlNnT/UTwCx1P43Y218TZYnJqQ7+ZiQyGv87livtU64tH2hWySTC3elicZFDZ
-         4VMHQ1v7VaX1fMQUKCOu8GP0XHLThULDxQyEJ9r9aHbasHnv3jDvwRWiln/mVT7MPEFh
-         CKOdZ7FZcKfAyeMN4Br0r1QVYyVjo9XmWJVtR4aSzx1Coya8MaBD3MaJSMu2q2prAsy8
-         ++t8ge5TerB+ccndM3sFwJWNPmkGDNwoQtLqNrRzIhkWgMKUzZ6j3YF37m4buEu1WI+3
-         bnWg==
-X-Gm-Message-State: AOAM532oxsVOxJR+pTSWh6pMl+S15yQn6y6O7yHkJaNJFB+W54RTi75y
-        kDVUOvywPX6rVldIEL1aneyiHt0wwBg/H35+afg=
-X-Google-Smtp-Source: ABdhPJxMlpxv13qbKZy4+34Dkn75i7tFlfhZ2LU70apUKBKvcmrzqIXV3ZvVRXOVzrOFNyHM2BJi1S7br5uuSRVe+3o=
-X-Received: by 2002:a63:2c81:: with SMTP id s123mr1492622pgs.168.1619142413752;
- Thu, 22 Apr 2021 18:46:53 -0700 (PDT)
+        bh=sEBIIMky4VDwVbIerPlApPu/qz46WKtwjxW+bYEECVY=;
+        b=XQY0b07oA9uNiRPdaR7dW2eZ+0qoUt6XBUyIn1MSbucsGpgWjtXRdRdmwu4qTQ9GvO
+         IYYRH7NRN/XaC2fjCcgN2k4wpJpAOqIO/g7J5YMcy0CXbYAVfwMkETEkxPw8QJ0IORFb
+         ytGYuaxVgUg0SYhgNPsvs3DVyhNHrhkNuLEjeluEPnP6LoqBkkPAZGYFolPbj0Y4uUVR
+         zH+DQmBCo/GeeUBlSGsqGBPvtnSKilecxZNT5ERFPfhWHS5p8pAvhcMpTTm04lJEJiiO
+         8I0iWZW/IdIqOiejkNjTvxW8GWa3rEFkjFj5ixMjigOJdrZeeSJ2jx6N49bAmaydHx5a
+         jxdA==
+X-Gm-Message-State: AOAM5310bxi5FIkHZgvohzi7qrVh/M3A3bA/tyE5N7qFg7Z6jWYwCEKe
+        KUFsMji96FonHHEo0U8+QX/F3DEn2ZK9FqxPQGs=
+X-Google-Smtp-Source: ABdhPJwRNRs2IOARVyrpqJGxhRr7dQJRGE1sQ23s1IpInxXzeVFSFaH57A19VapRKGC8/L/Qr+xTY6C5PDGgRDgw64Y=
+X-Received: by 2002:a05:6a00:72b:b029:218:6603:a6a9 with SMTP id
+ 11-20020a056a00072bb02902186603a6a9mr1363171pfm.78.1619142424809; Thu, 22 Apr
+ 2021 18:47:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1619093668.git.bobwxc@email.cn> <17f5e1dea82388e64b3c90024d50650b663d0046.1619093668.git.bobwxc@email.cn>
-In-Reply-To: <17f5e1dea82388e64b3c90024d50650b663d0046.1619093668.git.bobwxc@email.cn>
+References: <cover.1619093668.git.bobwxc@email.cn> <406cc9cfa48b399119b654e49b79cd4538f5f765.1619093668.git.bobwxc@email.cn>
+In-Reply-To: <406cc9cfa48b399119b654e49b79cd4538f5f765.1619093668.git.bobwxc@email.cn>
 From:   teng sterling <sterlingteng@gmail.com>
-Date:   Fri, 23 Apr 2021 09:46:44 +0800
-Message-ID: <CAMU9jJq3+Tm29-OO8MuVABWHRiM2pNqhRre2jB-wqM-bPRcLHA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] docs/zh_CN: Add translation zh_CN/maintainer/index.rst
+Date:   Fri, 23 Apr 2021 09:46:54 +0800
+Message-ID: <CAMU9jJqgytAk+fcSqeaOhhH0TkfdtVuH_uUzu5R6kqXEJnjwPg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] docs/zh_CN: Add translation zh_CN/maintainer/configure-git.rst
 To:     Wu XiangCheng <bobwxc@email.cn>
 Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>,
         hjh <huangjianghui@uniontech.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
-Wu XiangCheng <bobwxc@email.cn> =E4=BA=8E2021=E5=B9=B44=E6=9C=8822=E6=97=A5=
-=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=888:27=E5=86=99=E9=81=93=EF=BC=9A
->
-> Add a new translation
->   Documentation/translations/zh_CN/maintainer/index.rst
-> and link it to zh_CN/index.rst
->
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> ---
-> Todolist in this file will be changed one-by-one in followed [Patch 5-6/6=
-]
->
->  Documentation/translations/zh_CN/index.rst    |  1 +
->  .../translations/zh_CN/maintainer/index.rst   | 19 +++++++++++++++++++
->  2 files changed, 20 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/maintainer/index.rst
->
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
-ranslations/zh_CN/index.rst
-> index ee6b20ca9080..3bfecfe179b8 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -21,6 +21,7 @@
->     dev-tools/index
->     doc-guide/index
->     kernel-hacking/index
-> +   maintainer/index
->     filesystems/index
->     arm64/index
->     sound/index
-> diff --git a/Documentation/translations/zh_CN/maintainer/index.rst b/Docu=
-mentation/translations/zh_CN/maintainer/index.rst
-> new file mode 100644
-> index 000000000000..4ce27c12f370
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/maintainer/index.rst
-> @@ -0,0 +1,19 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/maintainer/index.rst
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +=E5=86=85=E6=A0=B8=E7=BB=B4=E6=8A=A4=E8=80=85=E6=89=8B=E5=86=8C
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=E6=9C=AC=E6=96=87=E6=A1=A3=E6=9C=AC=E6=98=AF=E5=86=85=E6=A0=B8=E7=BB=B4=
-=E6=8A=A4=E8=80=85=E6=89=8B=E5=86=8C=E7=9A=84=E9=A6=96=E9=A1=B5=E3=80=82
-> +=E6=9C=AC=E6=89=8B=E5=86=8C=E8=BF=98=E9=9C=80=E8=A6=81=E5=A4=A7=E9=87=8F=
-=E5=AE=8C=E5=96=84=EF=BC=81=E8=AF=B7=E8=87=AA=E7=94=B1=E6=8F=90=E5=87=BA=EF=
-=BC=88=E5=92=8C=E7=BC=96=E5=86=99=EF=BC=89=E6=9C=AC=E6=89=8B=E5=86=8C=E7=9A=
-=84=E8=A1=A5=E5=85=85=E5=86=85=E5=AE=B9=E3=80=82
-> +*=E8=AF=91=E6=B3=A8=EF=BC=9A=E6=8C=87=E8=8B=B1=E6=96=87=E5=8E=9F=E7=89=
-=88*
-> +
-> +TODOList:
-> +
-> +-   configure-git
-> +-   rebasing-and-merging
-> +-   pull-requests
-> +-   maintainer-entry-profile
-> +-   modifying-patches
-> --
-> 2.20.1
->
+UmV2aWV3ZWQtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCg0KV3UgWGlh
+bmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NOaciDIy5pel5ZGo5ZubIOS4i+WN
+iDg6MjflhpnpgZPvvJoNCj4NCj4gQWRkIGEgbmV3IHRyYW5zbGF0aW9uDQo+ICAgRG9jdW1lbnRh
+dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbWFpbnRhaW5lci9jb25maWd1cmUtZ2l0LnJzdA0KPiBh
+bmQgbGluayBpdCB0byB6aF9DTi9tYWludGFpbmVyL2luZGV4LnJzdA0KPg0KPiBTaWduZWQtb2Zm
+LWJ5OiBXdSBYaWFuZ0NoZW5nIDxib2J3eGNAZW1haWwuY24+DQo+IC0tLQ0KPiAgLi4uL3poX0NO
+L21haW50YWluZXIvY29uZmlndXJlLWdpdC5yc3QgICAgICAgIHwgNjIgKysrKysrKysrKysrKysr
+KysrKw0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9tYWludGFpbmVyL2luZGV4LnJzdCAgIHwg
+IDYgKy0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgNjcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
+L21haW50YWluZXIvY29uZmlndXJlLWdpdC5yc3QNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL21haW50YWluZXIvY29uZmlndXJlLWdpdC5yc3QgYi9E
+b2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9tYWludGFpbmVyL2NvbmZpZ3VyZS1naXQu
+cnN0DQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAwMC4uYTQ1ZWE3
+MzZmNzNiDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
+bnMvemhfQ04vbWFpbnRhaW5lci9jb25maWd1cmUtZ2l0LnJzdA0KPiBAQCAtMCwwICsxLDYyIEBA
+DQo+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4gKw0KPiArOk9yaWdp
+bmFsOiBEb2N1bWVudGF0aW9uL21haW50YWluZXIvY29uZmlndXJlLWdpdC5yc3QNCj4gKw0KPiAr
+OuivkeiAhToNCj4gKw0KPiArIOWQtOaDs+aIkCBXdSBYaWFuZ0NoZW5nIDxib2J3eGNAZW1haWwu
+Y24+DQo+ICsNCj4gKy4uIF9jb25maWd1cmVnaXRfemg6DQo+ICsNCj4gK0dpdOmFjee9rg0KPiAr
+PT09PT09PQ0KPiArDQo+ICvmnKznq6DorrLov7Dkuobnu7TmiqTogIXnuqfliKvnmoRnaXTphY3n
+va7jgIINCj4gKw0KPiArRG9jdW1lbnRhdGlvbi9tYWludGFpbmVyL3B1bGwtcmVxdWVzdHMucnN0
+IOS4reS9v+eUqOeahOagh+iusOWIhuaUr+W6lOS9v+eUqOW8gOWPkeS6uuWRmOeahA0KPiArR1BH
+5YWs6ZKl6L+b6KGM562+5ZCN44CC5Y+v5Lul6YCa6L+H5bCGIGBgLXVgYCDmoIflv5fkvKDpgJLn
+u5kgYGBnaXQgdGFnYGAg5p2l5Yib5bu6562+5ZCN5qCH6K6w44CCDQo+ICvkvYbmmK/vvIznlLHk
+uo4gKumAmuW4uCog5a+55ZCM5LiA6aG555uu5L2/55So5ZCM5LiA5Liq5a+G6ZKl77yM5Zug5q2k
+5Y+v5Lul6K6+572uOjoNCj4gKw0KPiArICAgICAgIGdpdCBjb25maWcgdXNlci5zaWduaW5na2V5
+ICJrZXluYW1lIg0KPiArDQo+ICvmiJbogIXmiYvliqjnvJbovpHkvaDnmoQgYGAuZ2l0L2NvbmZp
+Z2BgIOaIliBgYH4vLmdpdGNvbmZpZ2BgIOaWh+S7tjo6DQo+ICsNCj4gKyAgICAgICBbdXNlcl0N
+Cj4gKyAgICAgICAgICAgICAgIG5hbWUgPSBKYW5lIERldmVsb3Blcg0KPiArICAgICAgICAgICAg
+ICAgZW1haWwgPSBqZEBkb21haW4ub3JnDQo+ICsgICAgICAgICAgICAgICBzaWduaW5na2V5ID0g
+amRAZG9tYWluLm9yZw0KPiArDQo+ICvkvaDlj6/og73pnIDopoHlkYror4kgYGBnaXRgYCDljrvk
+vb/nlKggYGBncGcyYGA6Og0KPiArDQo+ICsgICAgICAgW2dwZ10NCj4gKyAgICAgICAgICAgICAg
+IHByb2dyYW0gPSAvcGF0aC90by9ncGcyDQo+ICsNCj4gK+S9oOWPr+iDveS5n+mcgOimgeWRiuiv
+iSBgYGdwZ2BgIOWOu+S9v+eUqOWTquS4qiBgYHR0eWBgIO+8iOa3u+WKoOWIsOS9oOeahHNoZWxs
+IHJj5paH5Lu25Lit77yJOjoNCj4gKw0KPiArICAgICAgIGV4cG9ydCBHUEdfVFRZPSQodHR5KQ0K
+PiArDQo+ICsNCj4gK+WIm+W7uumTvuaOpeWIsGxvcmUua2VybmVsLm9yZ+eahOaPkOS6pA0KPiAr
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiArDQo+ICtodHRwOi8vbG9yZS5rZXJu
+ZWwub3JnIOe9keermeaYr+aJgOaciea2ieWPiuaIluW9seWTjeWGheaguOW8gOWPkeeahOmCruS7
+tuWIl+ihqOeahOaAu+WtmOaho+OAguWcqOi/memHjA0KPiAr5a2Y5YKo6KGl5LiB5a2Y5qGj5piv
+5o6o6I2Q55qE5YGa5rOV77yM5b2T57u05oqk5Lq65ZGY5bCG6KGl5LiB5bqU55So5Yiw5a2Q57O7
+57uf5qCR5pe277yM5pyA5aW95o+Q5L6b5LiA5Liq5oyH5ZCRDQo+ICtsb3Jl5a2Y5qGj6ZO+5o6l
+55qE5qCH562+77yM5Lul5L6/5rWP6KeI5o+Q5Lqk5Y6G5Y+y55qE5Lq65Y+v5Lul5om+5Yiw5p+Q
+5Liq5pu05pS56IOM5ZCO55qE55u45YWz6K6o6K665ZKM5Z+65pysDQo+ICvljp/nkIbjgILpk77m
+jqXmoIfnrb7lpoLkuIvmiYDnpLrvvJoNCj4gKw0KPiArICAgICAgIExpbms6IGh0dHBzOi8vbG9y
+ZS5rZXJuZWwub3JnL3IvPG1lc3NhZ2UtaWQ+DQo+ICsNCj4gK+mAmui/h+WcqGdpdOS4rea3u+WK
+oOS7peS4i+mSqeWtkO+8jOWPr+S7peWwhuatpOmFjee9ruS4uuWcqOWPkeW4gyBgYGdpdCBhbWBg
+IOaXtuiHquWKqOaJp+ihjO+8mg0KPiArDQo+ICsuLiBjb2RlLWJsb2NrOjogbm9uZQ0KPiArDQo+
+ICsgICAgICAgJCBnaXQgY29uZmlnIGFtLm1lc3NhZ2VpZCB0cnVlDQo+ICsgICAgICAgJCBjYXQg
+Pi5naXQvaG9va3MvYXBwbHlwYXRjaC1tc2cgPDwnRU9GJw0KPiArICAgICAgICMhL2Jpbi9zaA0K
+PiArICAgICAgIC4gZ2l0LXNoLXNldHVwDQo+ICsgICAgICAgcGVybCAtcGkgLWUgJ3N8Xk1lc3Nh
+Z2UtSWQ6XHMqPD8oW14+XSspPj8kfExpbms6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvJDF8
+ZzsnICIkMSINCj4gKyAgICAgICB0ZXN0IC14ICIkR0lUX0RJUi9ob29rcy9jb21taXQtbXNnIiAm
+Jg0KPiArICAgICAgICAgICAgICAgZXhlYyAiJEdJVF9ESVIvaG9va3MvY29tbWl0LW1zZyIgJHsx
+KyIkQCJ9DQo+ICsgICAgICAgOg0KPiArICAgICAgIEVPRg0KPiArICAgICAgICQgY2htb2QgYSt4
+IC5naXQvaG9va3MvYXBwbHlwYXRjaC1tc2cNCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
+dHJhbnNsYXRpb25zL3poX0NOL21haW50YWluZXIvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90
+cmFuc2xhdGlvbnMvemhfQ04vbWFpbnRhaW5lci9pbmRleC5yc3QNCj4gaW5kZXggNGNlMjdjMTJm
+MzcwLi5lMjYzMzE1ZjVlN2EgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL3poX0NOL21haW50YWluZXIvaW5kZXgucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL3poX0NOL21haW50YWluZXIvaW5kZXgucnN0DQo+IEBAIC0xMCw5ICsxMCwxMyBA
+QA0KPiAg5pys5omL5YaM6L+Y6ZyA6KaB5aSn6YeP5a6M5ZaE77yB6K+36Ieq55Sx5o+Q5Ye677yI
+5ZKM57yW5YaZ77yJ5pys5omL5YaM55qE6KGl5YWF5YaF5a6544CCDQo+ICAq6K+R5rOo77ya5oyH
+6Iux5paH5Y6f54mIKg0KPg0KPiArLi4gdG9jdHJlZTo6DQo+ICsgICA6bWF4ZGVwdGg6IDINCj4g
+Kw0KPiArICAgY29uZmlndXJlLWdpdA0KPiArDQo+ICBUT0RPTGlzdDoNCj4NCj4gLS0gICBjb25m
+aWd1cmUtZ2l0DQo+ICAtICAgcmViYXNpbmctYW5kLW1lcmdpbmcNCj4gIC0gICBwdWxsLXJlcXVl
+c3RzDQo+ICAtICAgbWFpbnRhaW5lci1lbnRyeS1wcm9maWxlDQo+IC0tDQo+IDIuMjAuMQ0KPg0K
