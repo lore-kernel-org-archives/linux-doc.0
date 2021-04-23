@@ -2,92 +2,256 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB85C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 07:44:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56BB5C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 08:34:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9893961450
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 07:44:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DD3161460
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Apr 2021 08:34:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241061AbhDWHpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 03:45:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37626 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbhDWHpA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 03:45:00 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95216C061574
-        for <linux-doc@vger.kernel.org>; Fri, 23 Apr 2021 00:44:24 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lZqU8-0005LI-PZ; Fri, 23 Apr 2021 09:44:20 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lZqU7-0005zT-Mz; Fri, 23 Apr 2021 09:44:19 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH] pwm: reword docs about pwm_apply_state()
-Date:   Fri, 23 Apr 2021 09:44:11 +0200
-Message-Id: <20210423074411.2167332-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        id S230525AbhDWIeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 04:34:44 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:55361 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230059AbhDWIen (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 04:34:43 -0400
+X-Originating-IP: 2.7.49.219
+Received: from [192.168.1.12] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+        (Authenticated sender: alex@ghiti.fr)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 178B620003;
+        Fri, 23 Apr 2021 08:34:02 +0000 (UTC)
+Subject: Re: [PATCH] riscv: Fix 32b kernel caused by 64b kernel mapping moving
+ outside linear mapping
+To:     Anup Patel <anup@brainfault.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        kasan-dev@googlegroups.com,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+References: <20210417172159.32085-1-alex@ghiti.fr>
+ <CAAhSdy23jRTp3VoBpnH8B79eSSmuw8qMEYrXyh-02ccWT3O5QQ@mail.gmail.com>
+From:   Alex Ghiti <alex@ghiti.fr>
+Message-ID: <66e9a8e0-5764-2eea-4070-bad3fb7ee48e@ghiti.fr>
+Date:   Fri, 23 Apr 2021 04:34:02 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAAhSdy23jRTp3VoBpnH8B79eSSmuw8qMEYrXyh-02ccWT3O5QQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The main issue is that the current documentation talks about the
-non-existent function pwm_get_last_applied_state. (This was right in the
-context of
-https://lore.kernel.org/linux-pwm/20210406073036.26857-1-u.kleine-koenig@pengutronix.de/
-but was then missed to adapt when this patch was reduced to a
-documentation update.)
+Le 4/20/21 à 12:18 AM, Anup Patel a écrit :
+> On Sat, Apr 17, 2021 at 10:52 PM Alexandre Ghiti <alex@ghiti.fr> wrote:
+>>
+>> Fix multiple leftovers when moving the kernel mapping outside the linear
+>> mapping for 64b kernel that left the 32b kernel unusable.
+>>
+>> Fixes: 4b67f48da707 ("riscv: Move kernel mapping outside of linear mapping")
+>> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+> 
+> Quite a few #ifdef but I don't see any better way at the moment. Maybe we can
+> clean this later. Otherwise looks good to me.
+> 
+> Reviewed-by: Anup Patel <anup@brainfault.org>
 
-While at is also clarify "last applied PWM state" to "PWM state that was
-passed to the last invocation of pwm_apply_state()" to better
-distinguish to the last actually implemented state and reword to drop a
-word repetition.
+Thanks Anup!
 
-Fixes: 539ed98e2bd3 ("pwm: Clarify documentation about pwm_get_state()")
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- Documentation/driver-api/pwm.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+@Palmer: This is not on for-next yet and then rv32 is broken. This does 
+not apply immediately on top of for-next though, so if you need a new 
+version, I can do that. But this squashes nicely with the patch it fixes 
+if you prefer.
 
-diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
-index 381f3c46cdac..a7ca4f58305a 100644
---- a/Documentation/driver-api/pwm.rst
-+++ b/Documentation/driver-api/pwm.rst
-@@ -55,11 +55,11 @@ several parameter at once. For example, if you see pwm_config() and
-pwm_{enable,disable}() calls in the same function, this probably means you
-should switch to pwm_apply_state().
+Let me know, I can do that very quickly.
 
-The PWM user API also allows one to query the[-last applied-] PWM state [-with-]
-[-pwm_get_last_applied_state().-]{+that was passed to the+}
-{+last invocation of pwm_apply_state() using pwm_get_state().+} Note this is
-different to what the driver has actually implemented if the request cannot be
-[-implemented-]{+satisfied+} exactly with the hardware in use. There is currently no way for
-consumers to get the actually implemented settings.
+Alex
 
-In addition to the PWM state, the PWM API also exposes PWM arguments, which
-are the reference PWM config one should use on this PWM.
-
-base-commit: 64d7d074acd52e1bdff621f2cb86c0aae9bcef80
--- 
-2.30.2
-
+> 
+> Regards,
+> Anup
+> 
+>> ---
+>>   arch/riscv/include/asm/page.h    |  9 +++++++++
+>>   arch/riscv/include/asm/pgtable.h | 16 ++++++++++++----
+>>   arch/riscv/mm/init.c             | 25 ++++++++++++++++++++++++-
+>>   3 files changed, 45 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
+>> index 22cfb2be60dc..f64b61296c0c 100644
+>> --- a/arch/riscv/include/asm/page.h
+>> +++ b/arch/riscv/include/asm/page.h
+>> @@ -90,15 +90,20 @@ typedef struct page *pgtable_t;
+>>
+>>   #ifdef CONFIG_MMU
+>>   extern unsigned long va_pa_offset;
+>> +#ifdef CONFIG_64BIT
+>>   extern unsigned long va_kernel_pa_offset;
+>> +#endif
+>>   extern unsigned long pfn_base;
+>>   #define ARCH_PFN_OFFSET                (pfn_base)
+>>   #else
+>>   #define va_pa_offset           0
+>> +#ifdef CONFIG_64BIT
+>>   #define va_kernel_pa_offset    0
+>> +#endif
+>>   #define ARCH_PFN_OFFSET                (PAGE_OFFSET >> PAGE_SHIFT)
+>>   #endif /* CONFIG_MMU */
+>>
+>> +#ifdef CONFIG_64BIT
+>>   extern unsigned long kernel_virt_addr;
+>>
+>>   #define linear_mapping_pa_to_va(x)     ((void *)((unsigned long)(x) + va_pa_offset))
+>> @@ -112,6 +117,10 @@ extern unsigned long kernel_virt_addr;
+>>          (_x < kernel_virt_addr) ?                                               \
+>>                  linear_mapping_va_to_pa(_x) : kernel_mapping_va_to_pa(_x);      \
+>>          })
+>> +#else
+>> +#define __pa_to_va_nodebug(x)  ((void *)((unsigned long) (x) + va_pa_offset))
+>> +#define __va_to_pa_nodebug(x)  ((unsigned long)(x) - va_pa_offset)
+>> +#endif
+>>
+>>   #ifdef CONFIG_DEBUG_VIRTUAL
+>>   extern phys_addr_t __virt_to_phys(unsigned long x);
+>> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+>> index 80e63a93e903..5afda75cc2c3 100644
+>> --- a/arch/riscv/include/asm/pgtable.h
+>> +++ b/arch/riscv/include/asm/pgtable.h
+>> @@ -16,19 +16,27 @@
+>>   #else
+>>
+>>   #define ADDRESS_SPACE_END      (UL(-1))
+>> -/*
+>> - * Leave 2GB for kernel and BPF at the end of the address space
+>> - */
+>> +
+>> +#ifdef CONFIG_64BIT
+>> +/* Leave 2GB for kernel and BPF at the end of the address space */
+>>   #define KERNEL_LINK_ADDR       (ADDRESS_SPACE_END - SZ_2G + 1)
+>> +#else
+>> +#define KERNEL_LINK_ADDR       PAGE_OFFSET
+>> +#endif
+>>
+>>   #define VMALLOC_SIZE     (KERN_VIRT_SIZE >> 1)
+>>   #define VMALLOC_END      (PAGE_OFFSET - 1)
+>>   #define VMALLOC_START    (PAGE_OFFSET - VMALLOC_SIZE)
+>>
+>> -/* KASLR should leave at least 128MB for BPF after the kernel */
+>>   #define BPF_JIT_REGION_SIZE    (SZ_128M)
+>> +#ifdef CONFIG_64BIT
+>> +/* KASLR should leave at least 128MB for BPF after the kernel */
+>>   #define BPF_JIT_REGION_START   PFN_ALIGN((unsigned long)&_end)
+>>   #define BPF_JIT_REGION_END     (BPF_JIT_REGION_START + BPF_JIT_REGION_SIZE)
+>> +#else
+>> +#define BPF_JIT_REGION_START   (PAGE_OFFSET - BPF_JIT_REGION_SIZE)
+>> +#define BPF_JIT_REGION_END     (VMALLOC_END)
+>> +#endif
+>>
+>>   /* Modules always live before the kernel */
+>>   #ifdef CONFIG_64BIT
+>> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+>> index 093f3a96ecfc..dc9b988e0778 100644
+>> --- a/arch/riscv/mm/init.c
+>> +++ b/arch/riscv/mm/init.c
+>> @@ -91,8 +91,10 @@ static void print_vm_layout(void)
+>>                    (unsigned long)VMALLOC_END);
+>>          print_mlm("lowmem", (unsigned long)PAGE_OFFSET,
+>>                    (unsigned long)high_memory);
+>> +#ifdef CONFIG_64BIT
+>>          print_mlm("kernel", (unsigned long)KERNEL_LINK_ADDR,
+>>                    (unsigned long)ADDRESS_SPACE_END);
+>> +#endif
+>>   }
+>>   #else
+>>   static void print_vm_layout(void) { }
+>> @@ -165,9 +167,11 @@ static struct pt_alloc_ops pt_ops;
+>>   /* Offset between linear mapping virtual address and kernel load address */
+>>   unsigned long va_pa_offset;
+>>   EXPORT_SYMBOL(va_pa_offset);
+>> +#ifdef CONFIG_64BIT
+>>   /* Offset between kernel mapping virtual address and kernel load address */
+>>   unsigned long va_kernel_pa_offset;
+>>   EXPORT_SYMBOL(va_kernel_pa_offset);
+>> +#endif
+>>   unsigned long pfn_base;
+>>   EXPORT_SYMBOL(pfn_base);
+>>
+>> @@ -410,7 +414,9 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>>          load_sz = (uintptr_t)(&_end) - load_pa;
+>>
+>>          va_pa_offset = PAGE_OFFSET - load_pa;
+>> +#ifdef CONFIG_64BIT
+>>          va_kernel_pa_offset = kernel_virt_addr - load_pa;
+>> +#endif
+>>
+>>          pfn_base = PFN_DOWN(load_pa);
+>>
+>> @@ -469,12 +475,16 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>>                             pa + PMD_SIZE, PMD_SIZE, PAGE_KERNEL);
+>>          dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PMD_SIZE - 1));
+>>   #else /* CONFIG_BUILTIN_DTB */
+>> +#ifdef CONFIG_64BIT
+>>          /*
+>>           * __va can't be used since it would return a linear mapping address
+>>           * whereas dtb_early_va will be used before setup_vm_final installs
+>>           * the linear mapping.
+>>           */
+>>          dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
+>> +#else
+>> +       dtb_early_va = __va(dtb_pa);
+>> +#endif /* CONFIG_64BIT */
+>>   #endif /* CONFIG_BUILTIN_DTB */
+>>   #else
+>>   #ifndef CONFIG_BUILTIN_DTB
+>> @@ -486,7 +496,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>>                             pa + PGDIR_SIZE, PGDIR_SIZE, PAGE_KERNEL);
+>>          dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PGDIR_SIZE - 1));
+>>   #else /* CONFIG_BUILTIN_DTB */
+>> +#ifdef CONFIG_64BIT
+>>          dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
+>> +#else
+>> +       dtb_early_va = __va(dtb_pa);
+>> +#endif /* CONFIG_64BIT */
+>>   #endif /* CONFIG_BUILTIN_DTB */
+>>   #endif
+>>          dtb_early_pa = dtb_pa;
+>> @@ -571,12 +585,21 @@ static void __init setup_vm_final(void)
+>>                  for (pa = start; pa < end; pa += map_size) {
+>>                          va = (uintptr_t)__va(pa);
+>>                          create_pgd_mapping(swapper_pg_dir, va, pa,
+>> -                                          map_size, PAGE_KERNEL);
+>> +                                          map_size,
+>> +#ifdef CONFIG_64BIT
+>> +                                          PAGE_KERNEL
+>> +#else
+>> +                                          PAGE_KERNEL_EXEC
+>> +#endif
+>> +                                       );
+>> +
+>>                  }
+>>          }
+>>
+>> +#ifdef CONFIG_64BIT
+>>          /* Map the kernel */
+>>          create_kernel_page_table(swapper_pg_dir, PMD_SIZE);
+>> +#endif
+>>
+>>          /* Clear fixmap PTE and PMD mappings */
+>>          clear_fixmap(FIX_PTE);
+>> --
+>> 2.20.1
+>>
