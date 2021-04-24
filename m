@@ -2,102 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8746C43461
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 01:17:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C23FC433B4
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 02:12:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CA7461480
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 01:17:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 735F761466
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 02:12:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232807AbhDXBSV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 21:18:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46420 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231386AbhDXBSU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Apr 2021 21:18:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 78CFF61207;
-        Sat, 24 Apr 2021 01:17:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619227063;
-        bh=By/NN3iKUDMMXc5KvREFSYtN3+1LHo46xXT/i+85luc=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=Z55so2ptj24WKgL+MBpW1ZrgDMQw+QeK3hSf4UTuSOuQ8hERuzwfYYJhBeveDYg8Q
-         RqJwuVSXGQm8knWyvYHOS5eFLGTo+xu+QCyVNM8/dJ25DGGPGUd5dR+B+EMuB28dy9
-         WQVrt+Qx3LYF8IVnrpEkOJmu0hSWguy/fDZw/tNf+qzpjqMrrYZVUQDjxdRst/IupS
-         1ymQbOeDbDsKpeGqxUNTOQhCo2RBXttoGOtzGTy4bHnrS3TW0tMWwFoS65jF31arnh
-         t/qK+tcL56qVXCMS3+x+mHJ7gHxn8nWewaSf922r9MxTtCEH9ubm27os5pFSzV2vLh
-         jtU+NkV0IRY7w==
-Content-Type: text/plain; charset="utf-8"
+        id S236492AbhDXCNI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 22:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55154 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232155AbhDXCNH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 22:13:07 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A156BC061574;
+        Fri, 23 Apr 2021 19:12:29 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id lr7so7871470pjb.2;
+        Fri, 23 Apr 2021 19:12:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5E+FauaBN+WPrBc1GDMP2MArFJ6JUGv4pjzyyuwtNBQ=;
+        b=PNplL1rXFigsbfDoZpb9ErxFVBZFMa90RlV5eCI0A39F2/PlZEVnBG2+udIeOel6OT
+         NiCRUpUUlgNpO7CQxC8sovojQdC8t9kOAXLM3c0IYloVcl6esUsIADKZfFrazYzRBaHo
+         Q+SIp4FSWwCGIMWjdKhCDbQjRpoe+hQlBOGnAJjhPvv1hWYI9/bAYyk15LROhA4mOwzz
+         yzUN5DYrMkY7WIFM+SdEjJdR4S0/8jJEt0eZsbqzHypK70Kt4HOeF3DFREhy/+INBBhk
+         eyD70wZmxGtzPJPbu0KG5tGa1jInLMNthFkKLPBhApx5unrbAUAVAC9PR+DciMYZf4w7
+         7MFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5E+FauaBN+WPrBc1GDMP2MArFJ6JUGv4pjzyyuwtNBQ=;
+        b=k6ohxc4E4faJ0O5BETulm4y9MGm9r3ZqTB9ffjWStn0orTUPxVTM0R+/HJuYdYC+ER
+         G32kSB8p42C//IdVQ0mVJv2OEkKcs0DQWhQXuKDHNaasK01eIKH3qZKXH8j7BE0JT3Z3
+         Xrfy/i3sjwNv7ixESwECRWQo9ELB9IWSP6937ltTcecxDLpkDC5Ji+I/SElX4b1tf4dV
+         XZl8CBdyJOK7r2fpYE+J5AvG3oA7T2CcG6D2ZbCrLnvLoLuwmH6fkgNfQUDyuIUkeqBg
+         9fC6Qf1Tl/V8KNPqeE0lrYDjd8UVCA+TTB0+2xm8KNabo4+nl4dF3m8FlE9rscV6EmtW
+         91+w==
+X-Gm-Message-State: AOAM5319DARtUg+bIIH39KdovtZMqcKbtqvkFcrGK9Ds5hUWQKKzO6eO
+        5GoOFidE+dk6F41++ZHd52hsUJMTfTcVA4Bx
+X-Google-Smtp-Source: ABdhPJxh21g0xYxoqx+gPDt8KVtsTxzFjpTvHMIC1vKFk89coiI79FHDo3/d5KmG9G9tmGjoEiOmzA==
+X-Received: by 2002:a17:90a:f2ca:: with SMTP id gt10mr7874302pjb.231.1619230348888;
+        Fri, 23 Apr 2021 19:12:28 -0700 (PDT)
+Received: from localhost.localdomain ([119.28.83.143])
+        by smtp.gmail.com with ESMTPSA id y8sm5940945pgr.48.2021.04.23.19.12.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Apr 2021 19:12:28 -0700 (PDT)
+From:   Hengqi Chen <hengqi.chen@gmail.com>
+To:     bpf@vger.kernel.org
+Cc:     ast@kernel.org, daniel@iogearbox.net, linux-doc@vger.kernel.org,
+        hengqi.chen@gmail.com
+Subject: [PATCH bpf-next] docs: bpf: Fix literal block
+Date:   Sat, 24 Apr 2021 10:12:08 +0800
+Message-Id: <20210424021208.832116-1-hengqi.chen@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210423191236.265996-1-tudor.ambarus@microchip.com>
-References: <20210423171335.262316-1-tudor.ambarus@microchip.com> <20210423191236.265996-1-tudor.ambarus@microchip.com>
-Subject: Re: [PATCH] clk: Skip clk provider registration when np is NULL
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, nicolas.ferre@microchip.com,
-        claudiu.beznea@microchip.com, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org, kernel-team@android.com,
-        linux-rpi-kernel@lists.infradead.org,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-To:     Tudor Ambarus <tudor.ambarus@microchip.com>,
-        frowand.list@gmail.com, geert@linux-m68k.org,
-        gregkh@linuxfoundation.org, guillaume.tucker@collabora.com,
-        khilman@kernel.org, len.brown@intel.com, linux@roeck-us.net,
-        maxime@cerno.tech, maz@kernel.org, mturquette@baylibre.com,
-        nsaenz@kernel.org, nsaenzjulienne@suse.de, pavel@ucw.cz,
-        rafael@kernel.org, robh+dt@kernel.org, saravanak@google.com,
-        tglx@linutronix.de, ulf.hansson@linaro.org
-Date:   Fri, 23 Apr 2021 18:17:42 -0700
-Message-ID: <161922706225.4054253.6359310296431247310@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Tudor Ambarus (2021-04-23 12:12:36)
-> commit 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is adde=
-d")
-> revealed that clk/bcm/clk-raspberrypi.c driver calls
-> devm_of_clk_add_hw_provider(), with a NULL dev->of_node, which resulted i=
-n a
-> NULL pointer dereference in of_clk_add_provider() when calling
-> fwnode_dev_initialized().
->=20
-> Returning 0 is reducing the if conditions in driver code and is being
-> consistent with the CONFIG_OF=3Dn inline stub that returns 0 when CONFIG_=
-OF
-> is disabled. The downside is that drivers will maybe register clkdev look=
-ups
-> when they don't need to and waste some memory.
->=20
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Fixes: 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is adde=
-d")
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
-> ---
+Add a missing colon so that the code block followed can be rendered
+properly.
 
-Please don't send patches as replies to previous threads. It makes it
-harder to find the patch at a glance of all threads.
+Signed-off-by: Hengqi Chen <hengqi.chen@gmail.com>
+---
+ Documentation/networking/filter.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It also seems to be a
+diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+index 251c6bd73d15..3e2221f4abe4 100644
+--- a/Documentation/networking/filter.rst
++++ b/Documentation/networking/filter.rst
+@@ -327,7 +327,7 @@ Examples for low-level BPF:
+   ret #-1
+   drop: ret #0
+ 
+-**icmp random packet sampling, 1 in 4**:
++**icmp random packet sampling, 1 in 4**::
+ 
+   ldh [12]
+   jne #0x800, drop
+-- 
+2.25.1
 
-Fixes: 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is added/=
-removed")
-
-so can you please have both Fixes tags?
-
-> This would be the second approach, where we don't return an error when
-> one calls devm_of_clk_add_hw_provider with a NULL of_node, but instead
-> we just return 0 and skip the logic in the core and the drivers.
-
-With the Fixes tag updated please send To: gregkh@ to pick up as the
-problematic patch (6579c8d97ad7) is in the driver tree and not the clk
-tree, and add my tag
-
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
