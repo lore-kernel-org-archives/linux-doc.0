@@ -8,263 +8,130 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1496C433B4
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 12:47:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C23A2C433ED
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 13:51:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75B1F6148E
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 12:47:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B74761490
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 13:51:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233651AbhDXMsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 24 Apr 2021 08:48:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50138 "EHLO
+        id S234118AbhDXNv5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 24 Apr 2021 09:51:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232867AbhDXMsT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Apr 2021 08:48:19 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A222C061574;
-        Sat, 24 Apr 2021 05:47:41 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id s22so15914508pgk.6;
-        Sat, 24 Apr 2021 05:47:41 -0700 (PDT)
+        with ESMTP id S233135AbhDXNv4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Apr 2021 09:51:56 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5199C061574;
+        Sat, 24 Apr 2021 06:51:16 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id 66so12794949qkf.2;
+        Sat, 24 Apr 2021 06:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=x46dloxAnBoN/LQXVFohrWguyCJk+h/VJA+1Fx1UBm0=;
-        b=rsF8W6/6yExOGiFNzk+xtp+EX+XcbOEmHJChKMWFhKjfQwZz5u4zqlUSMIhH3NU6ul
-         Lz3FH6gA3UM07D3CqVSuizq0W/PNJ0Pa0Ve/HiXpsSbni7D9J2NyREpVKPpZzRIOVp8F
-         wZ/GajJhiVKrqTOqgCe267xdrk52AZHagEFlilTO7M89dNohHOzM7rKDPzNtn1FS28Df
-         LWyBlb7OylGgEfEBhTJqv13a843dN4yAwbrjSPMGXjdu+ayqsqUJVpomCDee/U4KuIzA
-         GYWEwAJ/Xm89/HwIRsy/QT244RQon+QiBjYAcXsrnLmiTMwHAfanuzOy1cde4552K5Ge
-         aKuA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GU1PSQiRBnMzyBGiswgLuvLHbgQI5GYppVPc0QT3+Oo=;
+        b=iBxwak8H4Q+LJE0w73KRAan6E9eMv64AwDmZJ2ZI78jy58qU7j0OGNw8ZhCzT+T70h
+         ivP0Plbl3nvysQiaKyudGM596vZSMgEX8K5NFJAINPv+WNqlmdnh/uPaP2RwYI0ePOEA
+         pfwRE/T1YswMfM2soJ05qGuKrLrgzelx2OuINAEIVNgPYCgTBf8dStAmiJ/bPi9Nqmv6
+         oyLp3uG3Gs5+HAQF5A1+1PdEN3p430Oep3P1tm+/5Qd8IZdj5g/gFZFMxUWzxB0hUt0v
+         PKKoL2r887xCGCkweTkSN3P/JiX1iYd2qgD6BOgLyfokFNeCTTCZYbQtLzhLgVjRYURf
+         NEtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=x46dloxAnBoN/LQXVFohrWguyCJk+h/VJA+1Fx1UBm0=;
-        b=ClYrP/H8PbcJ/2bBto4g0t9nQmfVq0eamEFwBeRn5Y35g+lbroAN945QM+T62NTauF
-         tU8Gq6dKZKx/UwEx+LlaTtjMK2zdBWLnzliDZU2XtAWSHo+P211uUl5ho/ow9qgzbOQU
-         05vOYNjMLNf2r21hptllgmOjZxnWTBzNLE0R1TTfRw83tE1hOhoCZ9RLOeOAs8Odlp+7
-         JlZ6Q8u0qanN5xqu2UAvlbpDyOJCRVUEGsarA+u0TRKxeEW9hbqacSB292YYs0K/KHsy
-         9jM/MWeKcoPWH4Mi1aYJ/STJ+wKHWdluxP7pYX06dmWk+29FzAoVSQkj1OHQVHlxfDVL
-         tBIg==
-X-Gm-Message-State: AOAM530LR3mVUkK0GsB+shxfBAuSDb1MlVTWueQHrMTPVlUyMrnd2Dsd
-        swQXg01+Wo97rGlYx1iVZ8A=
-X-Google-Smtp-Source: ABdhPJyLxRm9mdrRXhmO7a6S9tSCRyd3KwhYQ9aKDB8ToyrQHPUWclyeXzCGZ+GUofNEGq7rZaxPwg==
-X-Received: by 2002:aa7:80d6:0:b029:258:9404:13e with SMTP id a22-20020aa780d60000b02902589404013emr8491677pfn.37.1619268460766;
-        Sat, 24 Apr 2021 05:47:40 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a089:2cc5:55e8:20f9:7536])
-        by smtp.googlemail.com with ESMTPSA id i131sm7138677pgc.20.2021.04.24.05.47.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GU1PSQiRBnMzyBGiswgLuvLHbgQI5GYppVPc0QT3+Oo=;
+        b=aPwe2GzcgQTbgvPqvD0JWeTzzxa+iwk1l8j/wR0TorfzIUZdQDjxfG0n7uj7LMNYXU
+         Ws0HMPbVskJ3PmwKS+HLDyJs3h90xkOZzbIwzXJ0xeDk8fO0grHnsXvSkgm+Vx0fL9Hg
+         67kXqstd+6fOayylj+R2Yibt68dDhvbu6RlJwunt+z3/2UT6VX4gWll4s4koREEt/O5i
+         hEL2rF7sl1Nh0+D4pk2SIDk9ZOMZ+HrpZwox7YUx0UewPXD0D4HkmNEBM9gNOyGKZ3AP
+         FWGPbeJ4ixE2gyxEamnPbJqAnf27kYsVhaVMrBUoQaF/tSWQPlfPPHPByLzYVanZXKjl
+         CQlQ==
+X-Gm-Message-State: AOAM531C4KjJhbR6+wXQyYoQhw0jsjlzMTHGpooGGOJMiGfDDqQMj0ao
+        5o1lNS4w8THfrrzzMeS0HPQ=
+X-Google-Smtp-Source: ABdhPJzvrIrLa9H+NSGWc13NeYSnD6BaRekfb1hJo7u1Lnovae4GTWrQFJnicIhpnEBPhD1VX4Wv/A==
+X-Received: by 2002:a05:620a:242:: with SMTP id q2mr8574791qkn.206.1619272275982;
+        Sat, 24 Apr 2021 06:51:15 -0700 (PDT)
+Received: from localhost.localdomain ([2804:431:d77f:e204:dc3c:c8fa:5d17:d49e])
+        by smtp.gmail.com with ESMTPSA id n18sm6304570qtv.87.2021.04.24.06.51.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 05:47:40 -0700 (PDT)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     corbet@lwn.net
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com, willy@infradead.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC v2] scripts: kernel-doc: reduce repeated regex expressions into variables
-Date:   Sat, 24 Apr 2021 18:17:31 +0530
-Message-Id: <20210424124731.29905-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <6f76ddcb-7076-4c91-9c4c-995002c4cb91@gmail.com>
-References: <6f76ddcb-7076-4c91-9c4c-995002c4cb91@gmail.com>
+        Sat, 24 Apr 2021 06:51:15 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     gregkh@linuxfoundation.org
+Cc:     chunfeng.yun@mediatek.com, sfr@canb.auug.org.au,
+        stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+        linux-next@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] usb: Fix up movement of USB core kerneldoc location
+Date:   Sat, 24 Apr 2021 10:51:03 -0300
+Message-Id: <20210424135103.2476670-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some regex expressions in the kernel-doc script, which are used
-repeatedly in the script.
+Commit 855b35ea96c4 ("usb: common: move function's kerneldoc next to its
+definition") moved the USB common function documentation out of the
+linux/usb/ch9.h header file into drivers/usb/common/common.c and
+drivers/usb/common/debug.c, which causes the following 'make htmldocs'
+build warning:
 
-Reduce such expressions into variables, which can be used everywhere.
+include/linux/usb/ch9.h:1: warning: no structured comments found
 
-A quick manual check found that no errors and warnings were added/removed
-in this process.
+Fix that up by pointing the documentation at the correct location.
 
-Suggested-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+Fixes: 855b35ea96c4 ("usb: common: move function's kerneldoc next to its definition")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
-Changes in v2:
-- Rename $pointer_function to $function_pointer
-- Combine elsif-block expressions at "sub dump_function" into lesser regex expressions
-- Combine $prototype_end1,$prototype_end2 expressions into a common $prototype_end
+Hi,
 
- scripts/kernel-doc | 80 +++++++++++++++++++++++-----------------------
- 1 file changed, 40 insertions(+), 40 deletions(-)
+I compared the generated HTML and now the following functions are
+also documented after this patch:
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 2a85d34fdcd0..fe7f51be44e0 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -406,6 +406,7 @@ my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
- my $doc_inline_end = '^\s*\*/\s*$';
- my $doc_inline_oneline = '^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$';
- my $export_symbol = '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
-+my $function_pointer = qr{([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)};
+usb_decode_interval()
+of_usb_get_dr_mode_by_phy()
+of_usb_host_tpl_support()
+of_usb_update_otg_caps()
+usb_of_get_companion_dev()
+
+They were not documented prior to 855b35ea96c4.
+
+Please let me know if this is OK or not.
+
+ Documentation/driver-api/usb/usb.rst | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/driver-api/usb/usb.rst b/Documentation/driver-api/usb/usb.rst
+index 078e981e2b16..543e70434da2 100644
+--- a/Documentation/driver-api/usb/usb.rst
++++ b/Documentation/driver-api/usb/usb.rst
+@@ -109,15 +109,16 @@ well as to make sure they aren't relying on some HCD-specific behavior.
+ USB-Standard Types
+ ==================
  
- my %parameterdescs;
- my %parameterdesc_start_lines;
-@@ -694,7 +695,7 @@ sub output_function_man(%) {
- 	    $post = ");";
- 	}
- 	$type = $args{'parametertypes'}{$parameter};
--	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
-+	if ($type =~ m/$function_pointer/) {
- 	    # pointer-to-function
- 	    print ".BI \"" . $parenth . $1 . "\" " . " \") (" . $2 . ")" . $post . "\"\n";
- 	} else {
-@@ -974,7 +975,7 @@ sub output_function_rst(%) {
- 	$count++;
- 	$type = $args{'parametertypes'}{$parameter};
+-In ``<linux/usb/ch9.h>`` you will find the USB data types defined in
+-chapter 9 of the USB specification. These data types are used throughout
+-USB, and in APIs including this host side API, gadget APIs, usb character
+-devices and debugfs interfaces.
++In ``drivers/usb/common/common.c`` and ``drivers/usb/common/debug.c`` you
++will find the USB data types defined in chapter 9 of the USB specification.
++These data types are used throughout USB, and in APIs including this host
++side API, gadget APIs, usb character devices and debugfs interfaces.
  
--	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
-+	if ($type =~ m/$function_pointer/) {
- 	    # pointer-to-function
- 	    print $1 . $parameter . ") (" . $2 . ")";
- 	} else {
-@@ -1210,8 +1211,14 @@ sub dump_struct($$) {
-     my $decl_type;
-     my $members;
-     my $type = qr{struct|union};
-+    my $packed = qr{__packed};
-+    my $aligned = qr{__aligned};
-+    my $cacheline_aligned_in_smp = qr{____cacheline_aligned_in_smp};
-+    my $cacheline_aligned = qr{____cacheline_aligned};
-+    my $attribute = qr{__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)}i;
-     # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
--    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
-+    my $definition_body = qr{\{(.*)\}(?:\s*(?:$packed|$aligned|$cacheline_aligned_in_smp|$cacheline_aligned|$attribute))*};
-+    my $struct_members = qr{($type)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;};
+-.. kernel-doc:: include/linux/usb/ch9.h
+-   :internal:
++.. kernel-doc:: drivers/usb/common/common.c
++   :export:
  
-     if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
- 	$decl_type = $1;
-@@ -1235,27 +1242,27 @@ sub dump_struct($$) {
- 	# strip comments:
- 	$members =~ s/\/\*.*?\*\///gos;
- 	# strip attributes
--	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
--	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
--	$members =~ s/\s*__packed\s*/ /gos;
-+	$members =~ s/\s*$attribute/ /gi;
-+	$members =~ s/\s*$aligned\s*\([^;]*\)/ /gos;
-+	$members =~ s/\s*$packed\s*/ /gos;
- 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
--	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
--	$members =~ s/\s*____cacheline_aligned/ /gos;
-+	$members =~ s/\s*$cacheline_aligned_in_smp/ /gos;
-+	$members =~ s/\s*$cacheline_aligned/ /gos;
+-.. _usb_header:
++.. kernel-doc:: drivers/usb/common/debug.c
++   :export:
  
-+	my $args = qr{([^,)]+)};
- 	# replace DECLARE_BITMAP
- 	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
--	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
-+	$members =~ s/DECLARE_BITMAP\s*\($args,\s*$args\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
- 	# replace DECLARE_HASHTABLE
--	$members =~ s/DECLARE_HASHTABLE\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
-+	$members =~ s/DECLARE_HASHTABLE\s*\($args,\s*$args\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
- 	# replace DECLARE_KFIFO
--	$members =~ s/DECLARE_KFIFO\s*\(([^,)]+),\s*([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
-+	$members =~ s/DECLARE_KFIFO\s*\($args,\s*$args,\s*$args\)/$2 \*$1/gos;
- 	# replace DECLARE_KFIFO_PTR
--	$members =~ s/DECLARE_KFIFO_PTR\s*\(([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
--
-+	$members =~ s/DECLARE_KFIFO_PTR\s*\($args,\s*$args\)/$2 \*$1/gos;
- 	my $declaration = $members;
- 
- 	# Split nested struct/union elements as newer ones
--	while ($members =~ m/(struct|union)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;/) {
-+	while ($members =~ m/$struct_members/) {
- 		my $newmember;
- 		my $maintype = $1;
- 		my $ids = $4;
-@@ -1315,7 +1322,7 @@ sub dump_struct($$) {
- 				}
- 			}
- 		}
--		$members =~ s/(struct|union)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;/$newmember/;
-+		$members =~ s/$struct_members/$newmember/;
- 	}
- 
- 	# Ignore other nested elements, like enums
-@@ -1555,8 +1562,9 @@ sub create_parameterlist($$$$) {
-     my $param;
- 
-     # temporarily replace commas inside function pointer definition
--    while ($args =~ /(\([^\),]+),/) {
--	$args =~ s/(\([^\),]+),/$1#/g;
-+    my $arg_expr = qr{\([^\),]+};
-+    while ($args =~ /$arg_expr,/) {
-+	$args =~ s/($arg_expr),/$1#/g;
-     }
- 
-     foreach my $arg (split($splitter, $args)) {
-@@ -1808,8 +1816,14 @@ sub dump_function($$) {
-     # - parport_register_device (function pointer parameters)
-     # - atomic_set (macro)
-     # - pci_match_device, __copy_to_user (long return type)
--
--    if ($define && $prototype =~ m/^()([a-zA-Z0-9_~:]+)\s+/) {
-+    my $name = qr{[a-zA-Z0-9_~:]+};
-+    my $prototype_end1 = qr{[^\(]*};
-+    my $prototype_end2 = qr{[^\{]*};
-+    my $prototype_end = qr{\(($prototype_end1|$prototype_end2)\)};
-+    my $type1 = qr{[\w\s]+};
-+    my $type2 = qr{$type1\*+};
-+
-+    if ($define && $prototype =~ m/^()($name)\s+/) {
-         # This is an object-like macro, it has no return type and no parameter
-         # list.
-         # Function-like macros are not allowed to have spaces between
-@@ -1817,23 +1831,9 @@ sub dump_function($$) {
-         $return_type = $1;
-         $declaration_name = $2;
-         $noret = 1;
--    } elsif ($prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
--	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
--	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
--	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/)  {
-+    } elsif ($prototype =~ m/^()($name)\s*$prototype_end/ ||
-+	$prototype =~ m/^($type1)\s+($name)\s*$prototype_end/ ||
-+	$prototype =~ m/^($type2)+\s*($name)\s*$prototype_end/)  {
- 	$return_type = $1;
- 	$declaration_name = $2;
- 	my $args = $3;
-@@ -2110,12 +2110,12 @@ sub process_name($$) {
-     } elsif (/$doc_decl/o) {
- 	$identifier = $1;
- 	my $is_kernel_comment = 0;
--	my $decl_start = qr{\s*\*};
-+	my $decl_start = qr{$doc_com};
- 	# test for pointer declaration type, foo * bar() - desc
- 	my $fn_type = qr{\w+\s*\*\s*}; 
- 	my $parenthesis = qr{\(\w*\)};
- 	my $decl_end = qr{[-:].*};
--	if (/^$decl_start\s*([\w\s]+?)$parenthesis?\s*$decl_end?$/) {
-+	if (/^$decl_start([\w\s]+?)$parenthesis?\s*$decl_end?$/) {
- 	    $identifier = $1;
- 	}
- 	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
-@@ -2125,8 +2125,8 @@ sub process_name($$) {
- 	}
- 	# Look for foo() or static void foo() - description; or misspelt
- 	# identifier
--	elsif (/^$decl_start\s*$fn_type?(\w+)\s*$parenthesis?\s*$decl_end?$/ ||
--	    /^$decl_start\s*$fn_type?(\w+.*)$parenthesis?\s*$decl_end$/) {
-+	elsif (/^$decl_start$fn_type?(\w+)\s*$parenthesis?\s*$decl_end?$/ ||
-+	    /^$decl_start$fn_type?(\w+.*)$parenthesis?\s*$decl_end$/) {
- 	    $identifier = $1;
- 	    $decl_type = 'function';
- 	    $identifier =~ s/^define\s+//;
+ Host-Side Data Types and Macros
+ ===============================
 -- 
-2.17.1
+2.25.1
 
