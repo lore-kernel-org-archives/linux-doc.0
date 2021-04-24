@@ -2,95 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C23FC433B4
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 02:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 367A3C433B4
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 11:57:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 735F761466
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 02:12:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F94661422
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 11:57:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236492AbhDXCNI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 22:13:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55154 "EHLO
+        id S233731AbhDXL6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 24 Apr 2021 07:58:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232155AbhDXCNH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 22:13:07 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A156BC061574;
-        Fri, 23 Apr 2021 19:12:29 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id lr7so7871470pjb.2;
-        Fri, 23 Apr 2021 19:12:29 -0700 (PDT)
+        with ESMTP id S231203AbhDXL6U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Apr 2021 07:58:20 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4ADDC061574;
+        Sat, 24 Apr 2021 04:57:40 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id g16so9649864plq.3;
+        Sat, 24 Apr 2021 04:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5E+FauaBN+WPrBc1GDMP2MArFJ6JUGv4pjzyyuwtNBQ=;
-        b=PNplL1rXFigsbfDoZpb9ErxFVBZFMa90RlV5eCI0A39F2/PlZEVnBG2+udIeOel6OT
-         NiCRUpUUlgNpO7CQxC8sovojQdC8t9kOAXLM3c0IYloVcl6esUsIADKZfFrazYzRBaHo
-         Q+SIp4FSWwCGIMWjdKhCDbQjRpoe+hQlBOGnAJjhPvv1hWYI9/bAYyk15LROhA4mOwzz
-         yzUN5DYrMkY7WIFM+SdEjJdR4S0/8jJEt0eZsbqzHypK70Kt4HOeF3DFREhy/+INBBhk
-         eyD70wZmxGtzPJPbu0KG5tGa1jInLMNthFkKLPBhApx5unrbAUAVAC9PR+DciMYZf4w7
-         7MFA==
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1obLN2ZKP0a6DWoAypmeePpnDE55lbsbkQk2JOkaCSk=;
+        b=HRurumi9Ig08GEqMevUwh9x1pdZ+Tc5efvmB7V5OVryoc2S942DNxWaqwG+zRO3wK1
+         3NiewSlC31NchUoDxyenWjclG2fAZIYQMkq1p34frHEoiaP3XZsZOWceBWr1VeQtdqFF
+         yMvDqTZUlN3Ei6nHxWB6uko4dPWcnR+jB+gyhsa7qs3GMHiwez8CavN8xvN/ifNsRfzA
+         L7Ad6j1Q3EULz2CF47mPMe8hyx5GX3cfeFnzLIYZdCjqoFL25Ta6PNXSoGAFEzLEb8lt
+         Wqsv/wi1s0gYkhF2IOEfjCgYWDcO5LcNNjzjXSKt9yM69xqq3q0/WG2XfjdVcpXC5pDD
+         ZD0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=5E+FauaBN+WPrBc1GDMP2MArFJ6JUGv4pjzyyuwtNBQ=;
-        b=k6ohxc4E4faJ0O5BETulm4y9MGm9r3ZqTB9ffjWStn0orTUPxVTM0R+/HJuYdYC+ER
-         G32kSB8p42C//IdVQ0mVJv2OEkKcs0DQWhQXuKDHNaasK01eIKH3qZKXH8j7BE0JT3Z3
-         Xrfy/i3sjwNv7ixESwECRWQo9ELB9IWSP6937ltTcecxDLpkDC5Ji+I/SElX4b1tf4dV
-         XZl8CBdyJOK7r2fpYE+J5AvG3oA7T2CcG6D2ZbCrLnvLoLuwmH6fkgNfQUDyuIUkeqBg
-         9fC6Qf1Tl/V8KNPqeE0lrYDjd8UVCA+TTB0+2xm8KNabo4+nl4dF3m8FlE9rscV6EmtW
-         91+w==
-X-Gm-Message-State: AOAM5319DARtUg+bIIH39KdovtZMqcKbtqvkFcrGK9Ds5hUWQKKzO6eO
-        5GoOFidE+dk6F41++ZHd52hsUJMTfTcVA4Bx
-X-Google-Smtp-Source: ABdhPJxh21g0xYxoqx+gPDt8KVtsTxzFjpTvHMIC1vKFk89coiI79FHDo3/d5KmG9G9tmGjoEiOmzA==
-X-Received: by 2002:a17:90a:f2ca:: with SMTP id gt10mr7874302pjb.231.1619230348888;
-        Fri, 23 Apr 2021 19:12:28 -0700 (PDT)
-Received: from localhost.localdomain ([119.28.83.143])
-        by smtp.gmail.com with ESMTPSA id y8sm5940945pgr.48.2021.04.23.19.12.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 19:12:28 -0700 (PDT)
-From:   Hengqi Chen <hengqi.chen@gmail.com>
-To:     bpf@vger.kernel.org
-Cc:     ast@kernel.org, daniel@iogearbox.net, linux-doc@vger.kernel.org,
-        hengqi.chen@gmail.com
-Subject: [PATCH bpf-next] docs: bpf: Fix literal block
-Date:   Sat, 24 Apr 2021 10:12:08 +0800
-Message-Id: <20210424021208.832116-1-hengqi.chen@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=1obLN2ZKP0a6DWoAypmeePpnDE55lbsbkQk2JOkaCSk=;
+        b=ia3eZWTL1C3bHPva3VzHdtHrG0U4hfHgMP6QSlZ41lWQmT38ItbXhvfZDM+VyU7rXs
+         iOQvMzbQRiXHPKen8up30niP/9za1Zzgy0XGhMu5xTBNFPK58N5fbdLbMdxgKhjfp9VI
+         rxWb6J3BJdnI3W7guV+2mxbR7S9xzq+Z8QlOpUSy+zSTwwARpxuShISWgBvjUzT094rs
+         P96gmYX+VNopv/QXMldL6XqWPgXyRuJ5hpnrVxLGpU9mHRBj5rjSDLIRm3PxdLXd/R5A
+         5kmFNSiczhg187vXt9V8wY6ep83k6FNt8qPzgIoibcUZzHr879g+YdxJUTV6rz7WjWd3
+         0wmQ==
+X-Gm-Message-State: AOAM532ZO+AbwrK4dlB+Ab/xUkW1vyIP7DLvyWFys2ovipw253ydbSTz
+        htPdYEsaaKQTIEihl0FzqT0oL/8epqdn3Q==
+X-Google-Smtp-Source: ABdhPJzOc524x4lR1bVjUOUQNmGWBNhq285gGf0/lJhTrxE8haEuCHcaBPoDETYQXzwxMRjXC70a+w==
+X-Received: by 2002:a17:90b:e8b:: with SMTP id fv11mr9674312pjb.66.1619265460165;
+        Sat, 24 Apr 2021 04:57:40 -0700 (PDT)
+Received: from ?IPv6:2405:201:600d:a089:2cc5:55e8:20f9:7536? ([2405:201:600d:a089:2cc5:55e8:20f9:7536])
+        by smtp.gmail.com with ESMTPSA id 14sm6770579pfl.1.2021.04.24.04.57.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 24 Apr 2021 04:57:39 -0700 (PDT)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+Subject: Re: [RFC] scripts: kernel-doc: reduce repeated regex expressions into
+ variables
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     corbet@lwn.net, lukas.bulwahn@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210422191839.6119-1-yashsri421@gmail.com>
+ <20210423132117.GB235567@casper.infradead.org>
+Message-ID: <6f76ddcb-7076-4c91-9c4c-995002c4cb91@gmail.com>
+Date:   Sat, 24 Apr 2021 17:27:34 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210423132117.GB235567@casper.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a missing colon so that the code block followed can be rendered
-properly.
+On 23/4/21 6:51 pm, Matthew Wilcox wrote:
+> On Fri, Apr 23, 2021 at 12:48:39AM +0530, Aditya Srivastava wrote:
+>> +my $pointer_function = qr{([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)};
+> 
+> Is that a pointer-to-function?  Or as people who write C usually call it,
+> a function pointer?  Wouldn't it be better to call it $function_pointer?
+> 
+Will do it.
 
-Signed-off-by: Hengqi Chen <hengqi.chen@gmail.com>
----
- Documentation/networking/filter.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>> @@ -1210,8 +1211,14 @@ sub dump_struct($$) {
+>>      my $decl_type;
+>>      my $members;
+>>      my $type = qr{struct|union};
+>> +    my $packed = qr{__packed};
+>> +    my $aligned = qr{__aligned};
+>> +    my $cacheline_aligned_in_smp = qr{____cacheline_aligned_in_smp};
+>> +    my $cacheline_aligned = qr{____cacheline_aligned};
+> 
+> I don't think those four definitions actually simplify anything.
+> 
+>> +    my $attribute = qr{__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)}i;
+> 
+> ... whereas this one definitely does.
+> 
+>> -	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
+>> -	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
+>> -	$members =~ s/\s*__packed\s*/ /gos;
+>> +	$members =~ s/\s*$attribute/ /gi;
+>> +	$members =~ s/\s*$aligned\s*\([^;]*\)/ /gos;
+> 
+> Maybe put the \s*\([^;]*\) into $aligned?  Then it becomes a useful
+> abstraction.
 
-diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index 251c6bd73d15..3e2221f4abe4 100644
---- a/Documentation/networking/filter.rst
-+++ b/Documentation/networking/filter.rst
-@@ -327,7 +327,7 @@ Examples for low-level BPF:
-   ret #-1
-   drop: ret #0
- 
--**icmp random packet sampling, 1 in 4**:
-+**icmp random packet sampling, 1 in 4**::
- 
-   ldh [12]
-   jne #0x800, drop
--- 
-2.25.1
+Actually, I had made these variables as they were repeated here and at
+-    my $definition_body =
+qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
++    my $definition_body =
+qr{\{(.*)\}(?:\s*(?:$packed|$aligned|$cacheline_aligned_in_smp|$cacheline_aligned|$attribute))*};
 
+So, defining them at a place might help.
+
+What do you think?
+
+> 
+>> -    } elsif ($prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+>> -	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+>> -	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+>> -	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/)  {
+>> +    } elsif ($prototype =~ m/^()($name)\s*$prototype_end1/ ||
+>> +	$prototype =~ m/^(\w+)\s+($name)\s*$prototype_end1/ ||
+>> +	$prototype =~ m/^(\w+\s*\*+)\s*($name)\s*$prototype_end1/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+)\s+($name)\s*$prototype_end1/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end1/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+($name)\s*$prototype_end1/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end1/ ||
+>> +	$prototype =~ m/^()($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+)\s+($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+\s*\*+)\s*($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+)\s+($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*($name)\s*$prototype_end2/ ||
+>> +	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*($name)\s*$prototype_end2/)  {
+> 
+> This is probably the best patch I've seen so far this year.
+> 
+> Now, can we go further?  For example:
+> 	$prototype_end = $prototype_end1|$prototype_end2
+> That would let us cut the number of lines here in half.
+> > Can we create a definition for a variable number of \w and \s and '*'
+> in the return type?  In fact, can we define a regex that matches a type?
+> So this would become:
+> 
+>> +    } elsif ($prototype =~ m/^($type)\s*($name)\s*$prototype_end/) {
+> 
+
+I have been able to reduce these expressions furthermore. Will send a
+v2 in few..
+
+Thanks
+Aditya
