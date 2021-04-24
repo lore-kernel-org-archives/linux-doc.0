@@ -2,93 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 810CEC433B4
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 00:08:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABCCDC433ED
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 00:09:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E5AD61477
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 00:08:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CE2D6147F
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 00:09:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232106AbhDXAJK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 20:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56634 "EHLO
+        id S235898AbhDXAKT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 20:10:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232101AbhDXAJJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 20:09:09 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63359C061574;
-        Fri, 23 Apr 2021 17:08:32 -0700 (PDT)
+        with ESMTP id S232101AbhDXAKT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 20:10:19 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88636C061574;
+        Fri, 23 Apr 2021 17:09:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=jZ0JGW4AdikCiQSQF+QylhizTZCJYUc5d0ULmwp16B8=; b=hzjWyBj0HLDPun/nggIhfnYrva
-        W/nOYte1rH5HIK0GVaXIDplkgTTP+z5L2OMSQPJ3FYQg9YTi67XAq5s/zce8xIlPASCBA6njDVqQo
-        rsLyEdPDXaS3DvrmupDDdXY2lBu7BEtQpGB3AKvCGimW9LPTQheJ9FtqGzLVBGrc5P83jJUj1BMhZ
-        2YZbetvu7mDmgxxqbKtF7wpyAjHqnah8s8PVBQ90B6Vt7drof2FU+X53+cUeFfmBL8E2y/CeaMe2y
-        n7luXklZgzHXVQRcvJIrL+bOpgye5LzxzoveUr3i14QYbH0J2Ks5WoAQHKaYke5eMOu/VmFoBMDw4
-        hCPX7uMA==;
-Received: from [2601:1c0:6280:3f0::df68]
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1la5qK-002dNr-O1; Sat, 24 Apr 2021 00:08:17 +0000
-Subject: Re: [PATCH 01/12] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
-To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=u8QVk0MzHlPN2Imc4naq07Rn98zlkk555SrSXp+LlQo=; b=euIM5eWlSVe/GGgxch3BXGtDm+
+        TEsS00kuXxc0hGQUqffHbpQE8L6OPJhFmGfzjSt9IXsGqL4nPuC6VYJaOBVozUPFzQnRpqlftoXuX
+        8RiqCuiFLs0jW63HoIfSzx6jzcfULhtyrapx3Au4uQIVCJYIMVrorrd4Myby7ieagabTOtFIi/hXF
+        rCzBYe3KNU5ycDifR7W5ViOePZUWyOXBPmXRQTfVEG/KGlBFVHpsJ13ED49JF3X2yVT0vYVh6dgUI
+        xqdx7olRMjB4l4nTt/H2UFjsIOkamaIAUI8naAxYqfgSdsZbHT63NoQbSDO6UaDbi+dCyvMeYpxK1
+        6MAzQ4SA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1la5qU-002XGV-LO; Sat, 24 Apr 2021 00:08:59 +0000
+Date:   Sat, 24 Apr 2021 01:08:26 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc:     "Raj, Ashok" <ashok.raj@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-References: <1-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d058f9ad-7ce1-c1b3-19cd-5f625ef4c670@infradead.org>
-Date:   Fri, 23 Apr 2021 17:08:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 1/2] mm/mmzone.h: fix existing kernel-doc comments and
+ link them to core-api
+Message-ID: <20210424000826.GF235567@casper.infradead.org>
+References: <20210423203811.1247508-1-rppt@kernel.org>
+ <20210423203811.1247508-2-rppt@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210423203811.1247508-2-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/23/21 4:02 PM, Jason Gunthorpe wrote:
-> @@ -171,7 +171,7 @@ config SAMPLE_VFIO_MDEV_MDPY_FB
+On Fri, Apr 23, 2021 at 11:38:10PM +0300, Mike Rapoport wrote:
+> +++ b/Documentation/core-api/mm-api.rst
+> @@ -92,3 +92,5 @@ More Memory Management Functions
+>     :export:
 >  
->  config SAMPLE_VFIO_MDEV_MBOCHS
->  	tristate "Build VFIO mdpy example mediated device sample code -- loadable modules only"
+>  .. kernel-doc:: mm/page_alloc.c
+> +
+> +.. kernel-doc:: include/linux/mmzone.h
 
-You can drop the ending of the prompt string.
+You didn't do this against linux-next ... I added a few other files this
+cycle:
 
-> -	depends on VFIO_MDEV_DEVICE && m
-> +	depends on VFIO_MDEV
->  	select DMA_SHARED_BUFFER
->  	help
->  	  Build a virtual display sample driver for use as a VFIO
+.. kernel-doc:: mm/page_alloc.c
+.. kernel-doc:: mm/mempolicy.c
+.. kernel-doc:: include/linux/mm_types.h
+   :internal:
+.. kernel-doc:: include/linux/mm.h
+   :internal:
 
+The content looks good.
 
--- 
-~Randy
-
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
