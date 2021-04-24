@@ -2,77 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABCCDC433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 00:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAD42C43460
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 00:24:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CE2D6147F
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 00:09:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B48C86144A
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Apr 2021 00:24:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235898AbhDXAKT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Apr 2021 20:10:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
+        id S237273AbhDXAZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Apr 2021 20:25:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232101AbhDXAKT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 20:10:19 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88636C061574;
-        Fri, 23 Apr 2021 17:09:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=u8QVk0MzHlPN2Imc4naq07Rn98zlkk555SrSXp+LlQo=; b=euIM5eWlSVe/GGgxch3BXGtDm+
-        TEsS00kuXxc0hGQUqffHbpQE8L6OPJhFmGfzjSt9IXsGqL4nPuC6VYJaOBVozUPFzQnRpqlftoXuX
-        8RiqCuiFLs0jW63HoIfSzx6jzcfULhtyrapx3Au4uQIVCJYIMVrorrd4Myby7ieagabTOtFIi/hXF
-        rCzBYe3KNU5ycDifR7W5ViOePZUWyOXBPmXRQTfVEG/KGlBFVHpsJ13ED49JF3X2yVT0vYVh6dgUI
-        xqdx7olRMjB4l4nTt/H2UFjsIOkamaIAUI8naAxYqfgSdsZbHT63NoQbSDO6UaDbi+dCyvMeYpxK1
-        6MAzQ4SA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1la5qU-002XGV-LO; Sat, 24 Apr 2021 00:08:59 +0000
-Date:   Sat, 24 Apr 2021 01:08:26 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 1/2] mm/mmzone.h: fix existing kernel-doc comments and
- link them to core-api
-Message-ID: <20210424000826.GF235567@casper.infradead.org>
-References: <20210423203811.1247508-1-rppt@kernel.org>
- <20210423203811.1247508-2-rppt@kernel.org>
+        with ESMTP id S232501AbhDXAZV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Apr 2021 20:25:21 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C87E2C061756;
+        Fri, 23 Apr 2021 17:12:56 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id b38so16322013ljf.5;
+        Fri, 23 Apr 2021 17:12:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JqEYldf8rH5nK8uqd8hXgk6MXCsNYg+ocZG7CbHu0ws=;
+        b=ICycUdOG160t2Rd4RVtyA0ux8qzqKzE7KZGpLRO64qYy1Pac7E4NkoY1dBr1TjRZQs
+         jeRUHLqt8xpQ+6BiryLnntA/hNlDQEBIMTV97fk9LNuhgYQwNMLDqYXYfPnF89wGXDod
+         KklCyDJVM4cPmx906SJbRSqLcRVQm/dAPfZtG++3266XK0DX+RqFjS6gFvguHEh4CN5y
+         cQ0/VfqTQquxwT9qASqE9Wnug6rC0TZODD1FUONxghsMVCdlTo2slsoxthQHPaZ/4tBs
+         cQuJ/2HBmFJM1jIr7MGoqcZyWV4HiCkgXy4pr5/Xw8F8dbKmVpJboNzoTnE8Rtdg4+cT
+         SUYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JqEYldf8rH5nK8uqd8hXgk6MXCsNYg+ocZG7CbHu0ws=;
+        b=C7tuhjzNZ99oLDW9VCBhKe5U7+NUTDR2J0zpwll6SqjLubhzSA6Aqzu1CedfKUGk93
+         CBZhAzZXOXAGRnCECfZg+zpUrK+M0kcxxfQo4GuS62ZO0C1hb5igEaQGJOWW6Kp53ceH
+         Hj/i/MhErUznf/rgAZWxODC2Q+CuERzslFeUoZlSL8LsY8TnqakHpHa6cSQpM4qtefnK
+         TZ+r94lvoK1Ek0eJZqrZ+WAxezTG6wwBZ2N3gRKFlnArTirjv4Rjc5QPhcwsWxthgjjn
+         8HtTCP4JmM9Oe1Q17ngbLalfj67+6Tsjd2AgJLlKAMV3PATWOq6LONeBstZ1yPvHo+q+
+         gD9w==
+X-Gm-Message-State: AOAM530i/6lwaK1O+OEuJ/Z6LO0+orW4hzMJaf0Us80ZBqEcGMlLpklH
+        g6kS5U0Jb3I8WYbAcZyRi32xOB5BoRXerL3zV88=
+X-Google-Smtp-Source: ABdhPJySXOX+6KNS5l3nzl3RAInlHL041eEhsLf+07F5czwWIRwnCOl+BE4w1KeFQ4MS7npskiMwNXXlP1mYO7Nprng=
+X-Received: by 2002:a2e:9f49:: with SMTP id v9mr4186669ljk.44.1619223175355;
+ Fri, 23 Apr 2021 17:12:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210423203811.1247508-2-rppt@kernel.org>
+References: <1619141010-12521-1-git-send-email-yangtiezhu@loongson.cn>
+ <221ef66a-a7e4-14b7-e085-6062e8547b11@fb.com> <YIMP3flCE6uwYp69@kernel.org>
+In-Reply-To: <YIMP3flCE6uwYp69@kernel.org>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Fri, 23 Apr 2021 17:12:44 -0700
+Message-ID: <CAADnVQJyX718j1FNEDVYVXv2R4Zgm3xPT1wKr-F_Kwe+Pckgqw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] bpf: Document the pahole release info related to
+ libbpf in bpf_devel_QA.rst
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc:     Yonghong Song <yhs@fb.com>, Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 23, 2021 at 11:38:10PM +0300, Mike Rapoport wrote:
-> +++ b/Documentation/core-api/mm-api.rst
-> @@ -92,3 +92,5 @@ More Memory Management Functions
->     :export:
->  
->  .. kernel-doc:: mm/page_alloc.c
-> +
-> +.. kernel-doc:: include/linux/mmzone.h
+On Fri, Apr 23, 2021 at 11:20 AM Arnaldo Carvalho de Melo
+<acme@kernel.org> wrote:
+>
+> Em Thu, Apr 22, 2021 at 09:12:19PM -0700, Yonghong Song escreveu:
+> >
+> >
+> > On 4/22/21 6:23 PM, Tiezhu Yang wrote:
+> > > pahole starts to use libbpf definitions and APIs since v1.13 after the
+> > > commit 21507cd3e97b ("pahole: add libbpf as submodule under lib/bpf").
+> > > It works well with the git repository because the libbpf submodule will
+> > > use "git submodule update --init --recursive" to update.
+> > >
+> > > Unfortunately, the default github release source code does not contain
+> > > libbpf submodule source code and this will cause build issues, the tarball
+> > > from https://git.kernel.org/pub/scm/devel/pahole/pahole.git/ is same with
+> > > github, you can get the source tarball with corresponding libbpf submodule
+> > > codes from
+> > >
+> > > https://fedorapeople.org/~acme/dwarves
+> > >
+> > > This change documents the above issues to give more information so that
+> > > we can get the tarball from the right place, early discussion is here:
+> > >
+> > > https://lore.kernel.org/bpf/2de4aad5-fa9e-1c39-3c92-9bb9229d0966@loongson.cn/
+> > >
+> > > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> > > ---
+> > >   Documentation/bpf/bpf_devel_QA.rst | 13 +++++++++++++
+> > >   1 file changed, 13 insertions(+)
+> > >
+> > > diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
+> > > index d05e67e..253496a 100644
+> > > --- a/Documentation/bpf/bpf_devel_QA.rst
+> > > +++ b/Documentation/bpf/bpf_devel_QA.rst
+> > > @@ -449,6 +449,19 @@ from source at
+> > >   https://github.com/acmel/dwarves
+> > > +pahole starts to use libbpf definitions and APIs since v1.13 after the
+> > > +commit 21507cd3e97b ("pahole: add libbpf as submodule under lib/bpf").
+> > > +It works well with the git repository because the libbpf submodule will
+> > > +use "git submodule update --init --recursive" to update.
+> > > +
+> > > +Unfortunately, the default github release source code does not contain
+> > > +libbpf submodule source code and this will cause build issues, the tarball
+> > > +from https://git.kernel.org/pub/scm/devel/pahole/pahole.git/ is same with
+> > > +github, you can get the source tarball with corresponding libbpf submodule
+> > > +codes from
+> > > +
+> > > +https://fedorapeople.org/~acme/dwarves
+> > > +
+> >
+> > Arnaldo, could you take a look at this patch? Thanks!
+>
+> Sure, he documented it as I expected from a previous interaction about
+> this. Would be good to add a paragraph stating how to grab libbpf and
+> graft it even on a tarball not containing it tho.
+>
+> Bonus points if the cmake files gets changed in a way that this gets
+> notified to the user in the error message.
+>
+> But these suggestions can come in another patch, for this I can give my:
+>
+> Reviewed-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 
-You didn't do this against linux-next ... I added a few other files this
-cycle:
-
-.. kernel-doc:: mm/page_alloc.c
-.. kernel-doc:: mm/mempolicy.c
-.. kernel-doc:: include/linux/mm_types.h
-   :internal:
-.. kernel-doc:: include/linux/mm.h
-   :internal:
-
-The content looks good.
-
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Applied. Thanks everyone.
