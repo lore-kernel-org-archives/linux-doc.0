@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED2EEC43461
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Apr 2021 03:35:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4141AC433B4
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Apr 2021 03:35:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C566B6157F
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Apr 2021 03:35:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1653F611C9
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Apr 2021 03:35:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbhDYDfy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 24 Apr 2021 23:35:54 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:38584 "EHLO loongson.cn"
+        id S230459AbhDYDgA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 24 Apr 2021 23:36:00 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:38648 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230449AbhDYDfx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 24 Apr 2021 23:35:53 -0400
+        id S230449AbhDYDgA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 24 Apr 2021 23:36:00 -0400
 Received: from localhost.localdomain (unknown [112.3.197.94])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxHchf44Rg1ZMNAA--.595S3;
-        Sun, 25 Apr 2021 11:35:00 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxHchf44Rg1ZMNAA--.595S5;
+        Sun, 25 Apr 2021 11:35:07 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net
 Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
@@ -29,456 +29,649 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
         linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
         siyanteng01@gmail.com, huangjianghui@uniontech.com,
         willy@infradead.org
-Subject: [PATCH v2 1/3] docs/zh_CN: add core-api kernel-api.rst translation
-Date:   Sun, 25 Apr 2021 11:35:39 +0800
-Message-Id: <098e3a6e56166cbea613c82df318652cb751cc93.1619317151.git.siyanteng@loongson.cn>
+Subject: [PATCH v2 3/3] docs/zh_CN: add core-api printk-formats.rst translation
+Date:   Sun, 25 Apr 2021 11:35:41 +0800
+Message-Id: <ef516931c38e6616a64d1667be7ba4dc2cb75423.1619317151.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1619317151.git.siyanteng@loongson.cn>
 References: <cover.1619317151.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxHchf44Rg1ZMNAA--.595S3
-X-Coremail-Antispam: 1UD129KBjvJXoWfJrWxCry5XF1DXF43urW5GFg_yoWDXFy7pF
-        nrurWxGrZ8Ary8Zw47ur48C3yUZa1rCw1Ykas7X34Fy342yF15ZwsrZFn3Xa4jg34qkr1U
-        JFnrJFyF93y5Zw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUP014x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-        A2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
-        M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
-        v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
-        F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
-        IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
-        wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
-        0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
-        xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
-        1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjeWlDUU
-        UUU==
+X-CM-TRANSID: AQAAf9AxHchf44Rg1ZMNAA--.595S5
+X-Coremail-Antispam: 1UD129KBjvAXoW3tF4ktryfZFyxGrWxKF1rZwb_yoW8Cw4fGo
+        Wj9398Zws7Kw15ta4Iqw45JrWUXFs3JFZrArsrKr15Wa47G3WxGwn8Aw15GF45Aw4rJF13
+        X3WfZw15AF17G3Z7n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUOj7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r1rM28IrcIa0x
+        kI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
+        jcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
+        1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+        3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+        IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+        M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+        kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+        14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+        kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+        wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+        4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd8n5U
+        UUUU=
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/core-api/kernel-api.rst into Chinese.
+This patch translates Documentation/core-api/printk-formats.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- .../translations/zh_CN/core-api/index.rst     |   5 +-
- .../zh_CN/core-api/kernel-api.rst             | 385 ++++++++++++++++++
- 2 files changed, 389 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/kernel-api.rst
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ .../zh_CN/core-api/printk-formats.rst         | 580 ++++++++++++++++++
+ 2 files changed, 581 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/printk-formats.rst
 
 diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index f1fa71e45c77..60e1566d57eb 100644
+index 5ecb23e3ba8c..c2d4614d9e68 100644
 --- a/Documentation/translations/zh_CN/core-api/index.rst
 +++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -19,9 +19,12 @@
- 来的大量 kerneldoc 信息；有朝一日，若有人有动力的话，应当把它们拆分
- 出来。
- 
--Todolist:
-+.. toctree::
-+   :maxdepth: 1
+@@ -24,10 +24,10 @@
  
     kernel-api
-+
-+Todolist:
-    workqueue
     printk-basics
-    printk-formats
-diff --git a/Documentation/translations/zh_CN/core-api/kernel-api.rst b/Documentation/translations/zh_CN/core-api/kernel-api.rst
++   printk-formats
+ 
+ Todolist:
+    workqueue
+-   printk-formats
+    symbol-namespaces
+ 
+ 数据结构和低级实用程序
+diff --git a/Documentation/translations/zh_CN/core-api/printk-formats.rst b/Documentation/translations/zh_CN/core-api/printk-formats.rst
 new file mode 100644
-index 000000000000..666d81f6548a
+index 000000000000..4e4cdf798358
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/kernel-api.rst
-@@ -0,0 +1,385 @@
++++ b/Documentation/translations/zh_CN/core-api/printk-formats.rst
+@@ -0,0 +1,580 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/core-api/kernel-api
++:Original: Documentation/core-api/printk-formats
 +:Translator: Yanteng Si <siyanteng@loongson.cn>
 +
-+.. _cn_kernel-api.rst:
++.. _cn_printk-formats.rst:
 +
 +
-+============
-+Linux内核API
-+============
++==============================
++如何获得正确的printk格式说明符
++==============================
 +
 +
-+列表管理函数
-+============
 +
-+.. kernel-doc:: include/linux/list.h
-+   :internal:
++:作者: Randy Dunlap <rdunlap@infradead.org>
++:作者: Andrew Murray <amurray@mpc-data.co.uk>
 +
-+基本的C库函数
-+=============
 +
-+在编写驱动程序时，一般不能使用C库中的普通程序。部分函数通常很有用，它
-+们在下面被列出。这些函数的行为可能会与ANSI定义的略有不同，这些偏差会
-+在文中注明。
++整数类型
++========
 +
-+字符串转换
++::
++
++	        若变量类型是Type，则使用printk格式说明符器。
++	        -------------------------------------------
++		char			%d 或 %x
++		unsigned char		%u 或 %x
++		short int		%d 或 %x
++		unsigned short int	%u 或 %x
++		int			%d 或 %x
++		unsigned int		%u 或 %x
++		long			%ld 或 %lx
++		unsigned long		%lu 或 %lx
++		long long		%lld 或 %llx
++		unsigned long long	%llu 或 %llx
++		size_t			%zu 或 %zx
++		ssize_t			%zd 或 %zx
++		s8			%d 或 %x
++		u8			%u 或 %x
++		s16			%d 或 %x
++		u16			%u 或 %x
++		s32			%d 或 %x
++		u32			%u 或 %x
++		s64			%lld 或 %llx
++		u64			%llu 或 %llx
++
++
++如果 <type> 的大小依赖于配置选项 (例如 sector_t, blkcnt_t) 或其大小依赖于架构
++(例如 tcflag_t)，则使用其可能的最大类型的格式说明符并显式强制转换为它。
++
++例如
++
++::
++
++	printk("test: sector number/total blocks: %llu/%llu\n",
++		(unsigned long long)sector, (unsigned long long)blockcount);
++
++提醒：sizeof()返回类型size_t。
++
++内核的printf不支持%n。浮点格式(%e, %f, %g, %a)也不被识别，原因很明显。使用任何不
++支持的说明符或长度限定符都会导致一个WARN和vsnprintf()的提前返回。
++
++指针类型
++========
++
++一个原始指针值可以用%p打印，它将在打印前对地址进行哈希处理。内核也支持扩展说明符来打印
++不同类型的指针。
++
++一些扩展说明符会打印给定地址上的数据，而不是打印地址本身。在这种情况下，以下错误消息可能
++会被打印出来，而不是无法访问的消息::
++
++	(null)	 data on plain NULL address
++	(efault) data on invalid address
++	(einval) invalid data on a valid address
++
++普通指针
 +----------
 +
-+.. kernel-doc:: lib/vsprintf.c
-+   :export:
++::
 +
-+.. kernel-doc:: include/linux/kernel.h
-+   :functions: kstrtol
++	%p	abcdef12 or 00000000abcdef12
 +
-+.. kernel-doc:: include/linux/kernel.h
-+   :functions: kstrtoul
++没有指定扩展名的指针（即没有修饰符的%p）被散列（hash），以防止内核内存布局消息的泄露。这
++样还有一个额外的好处，就是提供一个唯一的标识符。在64位机器上，前32位被清零。内核将打
++印 ``(ptrval)`` ，直到它收集到足够的熵。
 +
-+.. kernel-doc:: lib/kstrtox.c
-+   :export:
++如果可能的话，使用专门的修饰符，如%pS或%pB（如下所述），以避免打印一个必须事后解释的非哈
++希地址。如果不可能，而且打印地址的目的是为调试提供更多的消息，使用%p，并在调试过程中
++用 ``no_hash_pointers`` 参数启动内核，这将打印所有未修改的%p地址。如果你 *真的* 想知
++道未修改的地址，请看下面的%px。
 +
-+.. kernel-doc:: lib/string_helpers.c
-+   :export:
++如果（也只有在）你将地址作为虚拟文件的内容打印出来，例如在procfs或sysfs中（使用
++seq_printf()，而不是printk()）由用户空间进程读取，使用下面描述的%pK修饰符，不
++要用%p或%px。
 +
-+字符串处理
-+----------
 +
-+.. kernel-doc:: lib/string.c
-+   :export:
-+
-+.. kernel-doc:: include/linux/string.h
-+   :internal:
-+
-+.. kernel-doc:: mm/util.c
-+   :functions: kstrdup kstrdup_const kstrndup kmemdup kmemdup_nul memdup_user
-+               vmemdup_user strndup_user memdup_user_nul
-+
-+基本的内核库函数
-+================
-+
-+Linux内核提供了很多基本的实用函数。
-+
-+位运算
-+------
-+
-+.. kernel-doc:: include/asm-generic/bitops/instrumented-atomic.h
-+   :internal:
-+
-+.. kernel-doc:: include/asm-generic/bitops/instrumented-non-atomic.h
-+   :internal:
-+
-+.. kernel-doc:: include/asm-generic/bitops/instrumented-lock.h
-+   :internal:
-+
-+位图运算
++错误指针
 +--------
 +
-+.. kernel-doc:: lib/bitmap.c
-+   :doc: bitmap introduction
++::
 +
-+.. kernel-doc:: include/linux/bitmap.h
-+   :doc: declare bitmap
++	%pe	-ENOSPC
 +
-+.. kernel-doc:: include/linux/bitmap.h
-+   :doc: bitmap overview
++用于打印错误指针(即IS_ERR()为真的指针)的符号错误名。不知道符号名的错误值会以十进制打印，
++而作为%pe参数传递的非ERR_PTR会被视为普通的%p。
 +
-+.. kernel-doc:: include/linux/bitmap.h
-+   :doc: bitmap bitops
++符号/函数指针
++-------------
 +
-+.. kernel-doc:: lib/bitmap.c
-+   :export:
++::
 +
-+.. kernel-doc:: lib/bitmap.c
-+   :internal:
++	%pS	versatile_init+0x0/0x110
++	%ps	versatile_init
++	%pSR	versatile_init+0x9/0x110
++		(with __builtin_extract_return_addr() translation)
++	%pB	prev_fn_of_versatile_init+0x88/0x88
 +
-+.. kernel-doc:: include/linux/bitmap.h
-+   :internal:
 +
-+命令行解析
-+----------
++``S`` 和 ``s`` 说明符用于打印符号格式的指针。它们的结果是符号名称带有(S)或不带有(s)偏移
++量。如果禁用KALLSYMS，则打印符号地址。
 +
-+.. kernel-doc:: lib/cmdline.c
-+   :export:
++``B`` 说明符的结果是带有偏移量的符号名，在打印堆栈回溯时应该使用。说明符将考虑编译器优化
++的影响，当使用尾部调用并使用noreturn GCC属性标记时，可能会发生这种优化。
 +
-+排序
-+----
++来自BPF / tracing追踪的探查指针
++----------------------------------
 +
-+.. kernel-doc:: lib/sort.c
-+   :export:
++::
 +
-+.. kernel-doc:: lib/list_sort.c
-+   :export:
++	%pks	kernel string
++	%pus	user string
 +
-+文本检索
++``k`` 和 ``u`` 指定符用于打印来自内核内存(k)或用户内存(u)的先前探测的内存。后面的 ``s`` 指
++定符的结果是打印一个字符串。对于直接在常规的vsnprintf()中使用时，(k)和(u)注释被忽略，但是，当
++在BPF的bpf_trace_printk()之外使用时，它会读取它所指向的内存，不会出现错误。
++
++内核指针
 +--------
 +
-+.. kernel-doc:: lib/textsearch.c
-+   :doc: ts_intro
++::
 +
-+.. kernel-doc:: lib/textsearch.c
-+   :export:
++	%pK	01234567 or 0123456789abcdef
 +
-+.. kernel-doc:: include/linux/textsearch.h
-+   :functions: textsearch_find textsearch_next \
-+               textsearch_get_pattern textsearch_get_pattern_len
++用于打印应该对非特权用户隐藏的内核指针。%pK的行为取决于kptr_restrict sysctl——详见
++Documentation/admin-guide/sysctl/kernel.rst。
 +
-+Linux中的CRC和数学函数
-+======================
++未经修改的地址
++--------------
 +
++::
 +
-+CRC函数
-+-------
++	%px	01234567 or 0123456789abcdef
 +
-+*译注：CRC，Cyclic Redundancy Check，循环冗余校验*
++对于打印指针，当你 *真的* 想打印地址时。在用%px打印指针之前，请考虑你是否泄露了内核内
++存布局的敏感消息。%px在功能上等同于%lx（或%lu）。%px是首选，因为它在grep查找时更唯一。
++如果将来我们需要修改内核处理打印指针的方式，我们将能更好地找到调用点。
 +
-+.. kernel-doc:: lib/crc4.c
-+   :export:
++在使用%px之前，请考虑使用%p并在调试过程中启用' ' no_hash_pointer ' '内核参数是否足
++够(参见上面的%p描述)。%px的一个有效场景可能是在panic发生之前立即打印消息，这样无论如何
++都可以防止任何敏感消息被利用，使用%px就不需要用no_hash_pointer来重现panic。
 +
-+.. kernel-doc:: lib/crc7.c
-+   :export:
++指针差异
++--------
 +
-+.. kernel-doc:: lib/crc8.c
-+   :export:
++::
 +
-+.. kernel-doc:: lib/crc16.c
-+   :export:
++	%td	2560
++	%tx	a00
 +
-+.. kernel-doc:: lib/crc32.c
++为了打印指针的差异，使用ptrdiff_t的%t修饰符。
 +
-+.. kernel-doc:: lib/crc-ccitt.c
-+   :export:
++例如::
 +
-+.. kernel-doc:: lib/crc-itu-t.c
-+   :export:
++	printk("test: difference between pointers: %td\n", ptr2 - ptr1);
 +
-+基数为2的对数和幂函数
++结构体资源（Resources）
++-----------------------
++
++::
++
++	%pr	[mem 0x60000000-0x6fffffff flags 0x2200] or
++		[mem 0x0000000060000000-0x000000006fffffff flags 0x2200]
++	%pR	[mem 0x60000000-0x6fffffff pref] or
++		[mem 0x0000000060000000-0x000000006fffffff pref]
++
++用于打印结构体资源。 ``R`` 和 ``r`` 说明符的结果是打印出的资源带有（R）或不带有（r）解码标志
++成员。
++
++通过引用传递。
++
++物理地址类型 phys_addr_t
++------------------------
++
++::
++
++	%pa[p]	0x01234567 or 0x0123456789abcdef
++
++用于打印phys_addr_t类型（以及它的衍生物，如resource_size_t），该类型可以根据构建选项而
++变化，无论CPU数据路径的宽度如何。
++
++通过引用传递。
++
++DMA地址类型dma_addr_t
 +---------------------
 +
-+.. kernel-doc:: include/linux/log2.h
-+   :internal:
++::
 +
-+整数幂函数
-+----------
++	%pad	0x01234567 or 0x0123456789abcdef
 +
-+.. kernel-doc:: lib/math/int_pow.c
-+   :export:
++用于打印dma_addr_t类型，该类型可以根据构建选项而变化，而不考虑CPU数据路径的宽度。
 +
-+.. kernel-doc:: lib/math/int_sqrt.c
-+   :export:
++通过引用传递。
 +
-+除法函数
-+--------
++原始缓冲区为转义字符串
++----------------------
 +
-+.. kernel-doc:: include/asm-generic/div64.h
-+   :functions: do_div
++::
 +
-+.. kernel-doc:: include/linux/math64.h
-+   :internal:
++	%*pE[achnops]
 +
-+.. kernel-doc:: lib/math/div64.c
-+   :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64
++用于将原始缓冲区打印成转义字符串。对于以下缓冲区::
 +
-+.. kernel-doc:: lib/math/gcd.c
-+   :export:
++		1b 62 20 5c 43 07 22 90 0d 5d
 +
-+UUID/GUID
-+---------
++几个例子展示了如何进行转换（不包括两端的引号）。::
 +
-+.. kernel-doc:: lib/uuid.c
-+   :export:
++		%*pE		"\eb \C\a"\220\r]"
++		%*pEhp		"\x1bb \C\x07"\x90\x0d]"
++		%*pEa		"\e\142\040\\\103\a\042\220\r\135"
 +
-+内核IPC设备
-+===========
++转换规则是根据可选的标志组合来应用的(详见:c:func:`string_escape_mem` 内核文档):
 +
-+IPC实用程序
-+-----------
++	- a - ESCAPE_ANY
++	- c - ESCAPE_SPECIAL
++	- h - ESCAPE_HEX
++	- n - ESCAPE_NULL
++	- o - ESCAPE_OCTAL
++	- p - ESCAPE_NP
++	- s - ESCAPE_SPACE
 +
-+.. kernel-doc:: ipc/util.c
-+   :internal:
++默认情况下，使用 ESCAPE_ANY_NP。
 +
-+FIFO 缓冲区
-+===========
++ESCAPE_ANY_NP是许多情况下的明智选择，特别是对于打印SSID。
 +
-+kfifo接口
-+---------
++如果字段宽度被省略，那么将只转义1个字节。
 +
-+.. kernel-doc:: include/linux/kfifo.h
-+   :internal:
++原始缓冲区为十六进制字符串
++--------------------------
 +
-+转发接口支持
-+============
++::
 +
-+转发接口支持旨在为工具和设备提供一种有效的机制，将大量数据从内核空间
-+转发到用户空间。
++	%*ph	00 01 02  ...  3f
++	%*phC	00:01:02: ... :3f
++	%*phD	00-01-02- ... -3f
++	%*phN	000102 ... 3f
 +
-+转发接口
-+--------
++对于打印小的缓冲区（最长64个字节），可以用一定的分隔符作为一个
++十六进制字符串。对于较大的缓冲区，可以考虑使用
++:c:func:`print_hex_dump` 。
 +
-+.. kernel-doc:: kernel/relay.c
-+   :export:
-+
-+.. kernel-doc:: kernel/relay.c
-+   :internal:
-+
-+模块支持
-+========
-+
-+模块加载
-+--------
-+
-+.. kernel-doc:: kernel/kmod.c
-+   :export:
-+
-+模块接口支持
++MAC/FDDI地址
 +------------
 +
-+更多信息请参考文件kernel/module.c。
++::
 +
-+硬件接口
-+========
++	%pM	00:01:02:03:04:05
++	%pMR	05:04:03:02:01:00
++	%pMF	00-01-02-03-04-05
++	%pm	000102030405
++	%pmR	050403020100
 +
++用于打印以十六进制表示的6字节MAC/FDDI地址。 ``M`` 和 ``m`` 说明符导致打印的
++地址有(M)或没有(m)字节分隔符。默认的字节分隔符是冒号（：）。
 +
-+.. kernel-doc:: kernel/dma.c
-+   :export:
++对于FDDI地址，可以在 ``M`` 说明符之后使用 ``F`` 说明，以使用破折号(——)分隔符
++代替默认的分隔符。
 +
-+资源管理
++对于蓝牙地址， ``R`` 说明符应使用在 ``M`` 说明符之后，以使用反转的字节顺序，适
++合于以小尾端顺序的蓝牙地址的肉眼可见的解析。
++
++通过引用传递。
++
++IPv4地址
 +--------
 +
-+.. kernel-doc:: kernel/resource.c
-+   :internal:
++::
 +
-+.. kernel-doc:: kernel/resource.c
-+   :export:
++	%pI4	1.2.3.4
++	%pi4	001.002.003.004
++	%p[Ii]4[hnbl]
 +
-+MTRR处理
-+--------
++用于打印IPv4点分隔的十进制地址。 ``I4`` 和 ``i4`` 说明符的结果是打印的地址
++有(i4)或没有(I4)前导零。
 +
-+.. kernel-doc:: arch/x86/kernel/cpu/mtrr/mtrr.c
-+   :export:
++附加的 ``h`` 、 ``n`` 、 ``b`` 和 ``l`` 说明符分别用于指定主机、网络、大
++尾端或小尾端地址。如果没有提供说明符，则使用默认的网络/大尾端顺序。
 +
-+安全框架
-+========
++通过引用传递。
 +
-+.. kernel-doc:: security/security.c
-+   :internal:
++IPv6 地址
++---------
 +
-+.. kernel-doc:: security/inode.c
-+   :export:
++::
 +
-+审计接口
-+========
++	%pI6	0001:0002:0003:0004:0005:0006:0007:0008
++	%pi6	00010002000300040005000600070008
++	%pI6c	1:2:3:4:5:6:7:8
 +
-+.. kernel-doc:: kernel/audit.c
-+   :export:
++用于打印IPv6网络顺序的16位十六进制地址。 ``I6`` 和 ``i6`` 说明符的结果是
++打印的地址有(I6)或没有(i6)分号。始终使用前导零。
 +
-+.. kernel-doc:: kernel/auditsc.c
-+   :internal:
++额外的 ``c`` 说明符可与 ``I`` 说明符一起使用，以打印压缩的IPv6地址，如
++https://tools.ietf.org/html/rfc5952 所述
 +
-+.. kernel-doc:: kernel/auditfilter.c
-+   :internal:
++通过引用传递。
 +
-+核算框架
-+========
++IPv4/IPv6地址(generic, with port, flowinfo, scope)
++--------------------------------------------------
 +
-+.. kernel-doc:: kernel/acct.c
-+   :internal:
++::
 +
-+块设备
-+======
++	%pIS	1.2.3.4		or 0001:0002:0003:0004:0005:0006:0007:0008
++	%piS	001.002.003.004	or 00010002000300040005000600070008
++	%pISc	1.2.3.4		or 1:2:3:4:5:6:7:8
++	%pISpc	1.2.3.4:12345	or [1:2:3:4:5:6:7:8]:12345
++	%p[Ii]S[pfschnbl]
 +
-+.. kernel-doc:: block/blk-core.c
-+   :export:
++用于打印一个IP地址，不需要区分它的类型是AF_INET还是AF_INET6。一个指向有效结构
++体sockaddr的指针，通过 ``IS`` 或 ``IS`` 指定，可以传递给这个格式说明符。
 +
-+.. kernel-doc:: block/blk-core.c
-+   :internal:
++附加的 ``p`` 、  ``f`` 和 ``s`` 说明符用于指定port(IPv4, IPv6)、
++flowinfo (IPv6)和sope(IPv6)。port有一个 ``:`` 前缀，flowinfo是 ``/`` 和
++范围是 ``%`` ，每个后面都跟着实际的值。
 +
-+.. kernel-doc:: block/blk-map.c
-+   :export:
++对于IPv6地址，如果指定了额外的指定符 ``c`` ，则使用
++https://tools.ietf.org/html/rfc5952 描述的压缩IPv6地址。
++如https://tools.ietf.org/html/draft-ietf-6man-text-addr-representation-07
++所建议的，IPv6地址由'['，']'包围，以防止出现额外的说明符 ``p`` ， ``f`` 或 ``s`` 。
 +
-+.. kernel-doc:: block/blk-sysfs.c
-+   :internal:
++对于IPv4地址，也可以使用额外的 ``h`` ， ``n`` ， ``b`` 和 ``l`` 说
++明符，但对于IPv6地址则忽略。
 +
-+.. kernel-doc:: block/blk-settings.c
-+   :export:
++通过引用传递。
 +
-+.. kernel-doc:: block/blk-exec.c
-+   :export:
++更多例子::
 +
-+.. kernel-doc:: block/blk-flush.c
-+   :export:
++	%pISfc		1.2.3.4		or [1:2:3:4:5:6:7:8]/123456789
++	%pISsc		1.2.3.4		or [1:2:3:4:5:6:7:8]%1234567890
++	%pISpfc		1.2.3.4:12345	or [1:2:3:4:5:6:7:8]:12345/123456789
 +
-+.. kernel-doc:: block/blk-lib.c
-+   :export:
++UUID/GUID地址
++-------------
 +
-+.. kernel-doc:: block/blk-integrity.c
-+   :export:
++::
 +
-+.. kernel-doc:: kernel/trace/blktrace.c
-+   :internal:
++	%pUb	00010203-0405-0607-0809-0a0b0c0d0e0f
++	%pUB	00010203-0405-0607-0809-0A0B0C0D0E0F
++	%pUl	03020100-0504-0706-0809-0a0b0c0e0e0f
++	%pUL	03020100-0504-0706-0809-0A0B0C0E0E0F
 +
-+.. kernel-doc:: block/genhd.c
-+   :internal:
++用于打印16字节的UUID/GUIDs地址。附加的 ``l`` , ``L`` , ``b`` 和 ``B`` 说明符用
++于指定小写(l)或大写(L)十六进制表示法中的小尾端顺序，以及小写(b)或大写(B)十六进制表
++示法中的大尾端顺序。
 +
-+.. kernel-doc:: block/genhd.c
-+   :export:
++如果没有使用额外的说明符，则将打印带有小写十六进制表示法的默认大端顺序。
 +
-+字符设备
-+========
++通过引用传递。
 +
-+.. kernel-doc:: fs/char_dev.c
-+   :export:
++目录项（dentry）的名称
++----------------------
 +
-+时钟框架
-+========
++::
 +
-+时钟框架定义了编程接口，以支持系统时钟树的软件管理。该框架广泛用于系统级芯片（SOC）平
-+台，以支持电源管理和各种可能需要自定义时钟速率的设备。请注意，这些 “时钟”与计时或实
-+时时钟(RTC)无关，它们都有单独的框架。这些:c:type: `struct clk <clk>` 实例可用于管
-+理例如96 MHz信号，该信号用于将位移入和移出外设或总线，或以其他方式触发系统硬件中的同
-+步状态机转换。
++	%pd{,2,3,4}
++	%pD{,2,3,4}
 +
-+通过明确的软件时钟门控来支持电源管理：未使用的时钟被禁用，因此系统不会因为改变不在使用
-+中的晶体管的状态而浪费电源。在某些系统中，这可能是由硬件时钟门控支持的，其中时钟被门控
-+而不在软件中被禁用。芯片的部分，在供电但没有时钟的情况下，可能会保留其最后的状态。这种
-+低功耗状态通常被称为*保留模式*。这种模式仍然会产生漏电流，特别是在电路几何结构较细的情
-+况下，但对于CMOS电路来说，电源主要是通过时钟状态变化来使用的。
++用于打印dentry名称；如果我们用 :c:func:`d_move` 和它比较，名称可能是新旧混合的，但
++不会oops。 %pd dentry比较安全，其相当于我们以前用的%s dentry->d_name.name，%pd<n>打
++印 ``n`` 最后的组件。 %pD对结构文件做同样的事情。
 +
-+电源感知驱动程序只有在其管理的设备处于活动使用状态时才会启用时钟。此外，系统睡眠状态通
-+常根据哪些时钟域处于活动状态而有所不同：“待机”状态可能允许从多个活动域中唤醒，而
-+"mem"（暂停到RAM）状态可能需要更全面地关闭来自高速PLL和振荡器的时钟，从而限制了可能
-+的唤醒事件源的数量。驱动器的暂停方法可能需要注意目标睡眠状态的系统特定时钟约束。
 +
-+一些平台支持可编程时钟发生器。这些可以被各种外部芯片使用，如其他CPU、多媒体编解码器以
-+及对接口时钟有严格要求的设备。
++通过引用传递。
 +
-+.. kernel-doc:: include/linux/clk.h
-+   :internal:
++块设备（block_device）名称
++--------------------------
 +
-+同步原语
-+========
++::
 +
-+读-复制-更新（RCU）
-+-------------------
++	%pg	sda, sda1 or loop0p1
 +
-+.. kernel-doc:: include/linux/rcupdate.h
++用于打印block_device指针的名称。
 +
-+.. kernel-doc:: kernel/rcu/tree.c
++va_format结构体
++---------------
 +
-+.. kernel-doc:: kernel/rcu/tree_exp.h
++::
 +
-+.. kernel-doc:: kernel/rcu/update.c
++	%pV
 +
-+.. kernel-doc:: include/linux/srcu.h
++用于打印结构体va_format。这些结构包含一个格式字符串
++和va_list如下
 +
-+.. kernel-doc:: kernel/rcu/srcutree.c
++::
 +
-+.. kernel-doc:: include/linux/rculist_bl.h
++	struct va_format {
++		const char *fmt;
++		va_list *va;
++	};
 +
-+.. kernel-doc:: include/linux/rculist.h
++实现 "递归vsnprintf"。
 +
-+.. kernel-doc:: include/linux/rculist_nulls.h
++如果没有一些机制来验证格式字符串和va_list参数的正确性，请不要使用这个功能。
 +
-+.. kernel-doc:: include/linux/rcu_sync.h
++通过引用传递。
 +
-+.. kernel-doc:: kernel/rcu/sync.c
++设备树节点
++----------
++
++::
++
++	%pOF[fnpPcCF]
++
++
++用于打印设备树节点结构。默认行为相当于%pOFf。
++
++	- f - 设备节点全称
++	- n - 设备节点名
++	- p - 设备节点句柄
++	- P - 设备节点路径规范(名称+@单位)
++	- F - 设备节点标志
++	- c - 主要兼容字符串
++	- C - 全兼容字符串
++
++当使用多个参数时，分隔符是':'。
++
++例如
++
++::
++
++	%pOF	/foo/bar@0			- Node full name
++	%pOFf	/foo/bar@0			- Same as above
++	%pOFfp	/foo/bar@0:10			- Node full name + phandle
++	%pOFfcF	/foo/bar@0:foo,device:--P-	- Node full name +
++	                                          major compatible string +
++						  node flags
++							D - dynamic
++							d - detached
++							P - Populated
++							B - Populated bus
++
++通过引用传递。
++
++Fwnode handles
++--------------
++
++::
++
++	%pfw[fP]
++
++用于打印fwnode_handles的消息。默认情况下是打印完整的节点名称，包括路径。
++这些修饰符在功能上等同于上面的%pOF。
++
++	- f - 节点的全名，包括路径。
++	- P - 节点名称，包括地址（如果有的话）。
++
++例如 (ACPI)
++
++::
++
++	%pfwf	\_SB.PCI0.CIO2.port@1.endpoint@0	- Full node name
++	%pfwP	endpoint@0				- Node name
++
++例如 (OF)
++
++::
++
++	%pfwf	/ocp@68000000/i2c@48072000/camera@10/port/endpoint - Full name
++	%pfwP	endpoint				- Node name
++
++时间和日期
++----------
++
++::
++
++	%pt[RT]			YYYY-mm-ddTHH:MM:SS
++	%pt[RT]d		YYYY-mm-dd
++	%pt[RT]t		HH:MM:SS
++	%pt[RT][dt][r]
++
++用于打印日期和时间::
++
++	R  struct rtc_time structure
++	T  time64_t type
++
++以我们（人类）可读的格式。
++
++默认情况下，年将以1900为单位递增，月将以1为单位递增。 使用%pt[RT]r (raw)
++来抑制这种行为。
++
++通过引用传递。
++
++clk结构体
++---------
++
++::
++
++	%pC	pll1
++	%pCn	pll1
++
++用于打印clk结构。%pC 和 %pCn 打印时钟的名称（通用时钟框架）或唯一的32位
++ID（传统时钟框架）。
++
++通过引用传递。
++
++位图及其衍生物，如cpumask和nodemask
++-----------------------------------
++
++::
++
++	%*pb	0779
++	%*pbl	0,3-6,8-10
++
++对于打印位图（bitmap）及其派生的cpumask和nodemask，%*pb输出以字段宽度为位数的位图，
++%*pbl输出以字段宽度为位数的范围列表。
++
++字段宽度用值传递，位图用引用传递。可以使用辅助宏cpumask_pr_args()和
++nodemask_pr_args()来方便打印cpumask和nodemask。
++
++标志位字段，如页标志、gfp_flags
++-------------------------------
++
++::
++
++	%pGp	referenced|uptodate|lru|active|private|node=0|zone=2|lastcpupid=0x1fffff
++	%pGg	GFP_USER|GFP_DMA32|GFP_NOWARN
++	%pGv	read|exec|mayread|maywrite|mayexec|denywrite
++
++将flags位字段打印为构造值的符号常量集合。标志的类型由第三个字符给出。目前支持的
++是[p]age flags， [v]ma_flags(都期望 ``unsigned long *`` )和
++[g]fp_flags(期望 ``gfp_t *`` )。标志名称和打印顺序取决于特定的类型。
++
++注意，这种格式不应该直接用于跟踪点的:c:func:`TP_printk()` 部分。相反，应使
++用 <trace/events/mmflags.h>中的show_*_flags()函数。
++
++通过引用传递。
++
++网络设备特性
++------------
++
++::
++
++	%pNF	0x000000000000c000
++
++用于打印netdev_features_t。
++
++通过引用传递。
++
++V4L2和DRM FourCC代码(像素格式)
++------------------------------
++
++::
++
++	%p4cc
++
++打印V4L2或DRM使用的FourCC代码，包括格式端序及其十六进制的数值。
++
++通过引用传递。
++
++例如::
++
++	%p4cc	BG12 little-endian (0x32314742)
++	%p4cc	Y10  little-endian (0x20303159)
++	%p4cc	NV12 big-endian (0xb231564e)
++
++谢谢
++====
++
++如果您添加了其他%p扩展，请在可行的情况下，用一个或多个测试用例扩展<lib/test_printf.c>。
++
++谢谢你的合作和关注。
 -- 
 2.27.0
 
