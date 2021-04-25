@@ -2,676 +2,484 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4141AC433B4
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Apr 2021 03:35:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33CA0C433B4
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Apr 2021 07:12:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1653F611C9
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Apr 2021 03:35:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F21A611C9
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Apr 2021 07:12:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbhDYDgA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 24 Apr 2021 23:36:00 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:38648 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230449AbhDYDgA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 24 Apr 2021 23:36:00 -0400
-Received: from localhost.localdomain (unknown [112.3.197.94])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxHchf44Rg1ZMNAA--.595S5;
-        Sun, 25 Apr 2021 11:35:07 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net
-Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
-        siyanteng01@gmail.com, huangjianghui@uniontech.com,
-        willy@infradead.org
-Subject: [PATCH v2 3/3] docs/zh_CN: add core-api printk-formats.rst translation
-Date:   Sun, 25 Apr 2021 11:35:41 +0800
-Message-Id: <ef516931c38e6616a64d1667be7ba4dc2cb75423.1619317151.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1619317151.git.siyanteng@loongson.cn>
-References: <cover.1619317151.git.siyanteng@loongson.cn>
+        id S229798AbhDYHNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Apr 2021 03:13:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60706 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229480AbhDYHNY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Apr 2021 03:13:24 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC63EC061756
+        for <linux-doc@vger.kernel.org>; Sun, 25 Apr 2021 00:12:44 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id e9so10320760plj.2
+        for <linux-doc@vger.kernel.org>; Sun, 25 Apr 2021 00:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SrrgrZfrkSAUhmhJWHciXY/mINGKDb2rCzYOKOC7avw=;
+        b=doi7zjFLFUrpi7/LWMCmKKgZLaJJaZnU9RRHPXDH5c0bSnKmYIK6UvZjATHn2G/gOs
+         E4Cb4t/EHUIlK8jHf2rKZHXXZu9k2KzqzN/kOjxwh2Fqi8KF5Lgr2ZXR3fcx1xoBJmbm
+         UhnWseccXgn4qJqTb4/tOj0ZPbWxXgRBfkBdXzry5xhCxHNFbHFrMR0nnGnEKSJrcGu4
+         Ke4plk1EVtbDb6l5UQmvtIhUspYP66QYEGzFmtpb/2jocxu5SQ00LZ5FuLe29t5mutVi
+         LDkN/jzJqubzyC1d72cxokIlJ1E9lELOjlQxJtVjscGJ4cA50uTsA3KIbKIeE2QUEu3f
+         3X0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SrrgrZfrkSAUhmhJWHciXY/mINGKDb2rCzYOKOC7avw=;
+        b=DzFg8sD6N6a5eyD2zAozQCl/aLaKfb63oHOBNlig+Dm0lNva2Ub60eHfEjIRXPXS48
+         chwXD9b8eCvRGmU9kIXJYxqWWcIWT5Ej6BlnOiN8WyTjfncyA0ox8TuChvK5MHklHZma
+         RMNLfrxdkHM+ykQNxuzN97I7sWOO/Iz9+xX9JtmsL9DkxH62f3PsXEesXj+tXbLtZ1Hg
+         9boB9YUEQ6eGo8b/c+OI8/OP0E9RVlsIfxweTIgM1LB1Ibmdk5ftPkVfi9tDlBqQUNvZ
+         IvCgxcGI7DuS4QNxmQFVnL1eIzNhhTxB7tcI2v0DuO7L0EC4h6YFE3H0P6FAYzosWTHr
+         1P7A==
+X-Gm-Message-State: AOAM533gkzo3z0DNzF47yZpIFIrhBMM9479O0KUkoe8poAutWthDysZy
+        umIZsV0GPl/6FWfSq+3qBLh24g==
+X-Google-Smtp-Source: ABdhPJw1Af8ZSgTfby1K5h3m2TLg4IeGLcGr1BOUGO3oerB8npmloFjxrHPNssO9tkksvQdJ70A2vw==
+X-Received: by 2002:a17:90a:d347:: with SMTP id i7mr6247033pjx.231.1619334764283;
+        Sun, 25 Apr 2021 00:12:44 -0700 (PDT)
+Received: from localhost.localdomain ([139.177.225.255])
+        by smtp.gmail.com with ESMTPSA id h8sm8767125pjt.17.2021.04.25.00.12.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 25 Apr 2021 00:12:43 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
+        song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, joao.m.martins@oracle.com
+Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
+        zhengqi.arch@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v21 0/9] Free some vmemmap pages of HugeTLB page
+Date:   Sun, 25 Apr 2021 15:07:43 +0800
+Message-Id: <20210425070752.17783-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxHchf44Rg1ZMNAA--.595S5
-X-Coremail-Antispam: 1UD129KBjvAXoW3tF4ktryfZFyxGrWxKF1rZwb_yoW8Cw4fGo
-        Wj9398Zws7Kw15ta4Iqw45JrWUXFs3JFZrArsrKr15Wa47G3WxGwn8Aw15GF45Aw4rJF13
-        X3WfZw15AF17G3Z7n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOj7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r1rM28IrcIa0x
-        kI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
-        jcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
-        1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-        3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-        IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-        M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-        kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
-        14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
-        kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
-        wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
-        4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd8n5U
-        UUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/core-api/printk-formats.rst into Chinese.
+Hi,
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/core-api/index.rst     |   2 +-
- .../zh_CN/core-api/printk-formats.rst         | 580 ++++++++++++++++++
- 2 files changed, 581 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/printk-formats.rst
+Since Mike's patches (make hugetlb put_page safe for all calling contexts[1])
+applied into the next-20210412. We can move forward on this patch series now.
 
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 5ecb23e3ba8c..c2d4614d9e68 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -24,10 +24,10 @@
- 
-    kernel-api
-    printk-basics
-+   printk-formats
- 
- Todolist:
-    workqueue
--   printk-formats
-    symbol-namespaces
- 
- 数据结构和低级实用程序
-diff --git a/Documentation/translations/zh_CN/core-api/printk-formats.rst b/Documentation/translations/zh_CN/core-api/printk-formats.rst
-new file mode 100644
-index 000000000000..4e4cdf798358
---- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/printk-formats.rst
-@@ -0,0 +1,580 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/printk-formats
-+:Translator: Yanteng Si <siyanteng@loongson.cn>
-+
-+.. _cn_printk-formats.rst:
-+
-+
-+==============================
-+如何获得正确的printk格式说明符
-+==============================
-+
-+
-+
-+:作者: Randy Dunlap <rdunlap@infradead.org>
-+:作者: Andrew Murray <amurray@mpc-data.co.uk>
-+
-+
-+整数类型
-+========
-+
-+::
-+
-+	        若变量类型是Type，则使用printk格式说明符器。
-+	        -------------------------------------------
-+		char			%d 或 %x
-+		unsigned char		%u 或 %x
-+		short int		%d 或 %x
-+		unsigned short int	%u 或 %x
-+		int			%d 或 %x
-+		unsigned int		%u 或 %x
-+		long			%ld 或 %lx
-+		unsigned long		%lu 或 %lx
-+		long long		%lld 或 %llx
-+		unsigned long long	%llu 或 %llx
-+		size_t			%zu 或 %zx
-+		ssize_t			%zd 或 %zx
-+		s8			%d 或 %x
-+		u8			%u 或 %x
-+		s16			%d 或 %x
-+		u16			%u 或 %x
-+		s32			%d 或 %x
-+		u32			%u 或 %x
-+		s64			%lld 或 %llx
-+		u64			%llu 或 %llx
-+
-+
-+如果 <type> 的大小依赖于配置选项 (例如 sector_t, blkcnt_t) 或其大小依赖于架构
-+(例如 tcflag_t)，则使用其可能的最大类型的格式说明符并显式强制转换为它。
-+
-+例如
-+
-+::
-+
-+	printk("test: sector number/total blocks: %llu/%llu\n",
-+		(unsigned long long)sector, (unsigned long long)blockcount);
-+
-+提醒：sizeof()返回类型size_t。
-+
-+内核的printf不支持%n。浮点格式(%e, %f, %g, %a)也不被识别，原因很明显。使用任何不
-+支持的说明符或长度限定符都会导致一个WARN和vsnprintf()的提前返回。
-+
-+指针类型
-+========
-+
-+一个原始指针值可以用%p打印，它将在打印前对地址进行哈希处理。内核也支持扩展说明符来打印
-+不同类型的指针。
-+
-+一些扩展说明符会打印给定地址上的数据，而不是打印地址本身。在这种情况下，以下错误消息可能
-+会被打印出来，而不是无法访问的消息::
-+
-+	(null)	 data on plain NULL address
-+	(efault) data on invalid address
-+	(einval) invalid data on a valid address
-+
-+普通指针
-+----------
-+
-+::
-+
-+	%p	abcdef12 or 00000000abcdef12
-+
-+没有指定扩展名的指针（即没有修饰符的%p）被散列（hash），以防止内核内存布局消息的泄露。这
-+样还有一个额外的好处，就是提供一个唯一的标识符。在64位机器上，前32位被清零。内核将打
-+印 ``(ptrval)`` ，直到它收集到足够的熵。
-+
-+如果可能的话，使用专门的修饰符，如%pS或%pB（如下所述），以避免打印一个必须事后解释的非哈
-+希地址。如果不可能，而且打印地址的目的是为调试提供更多的消息，使用%p，并在调试过程中
-+用 ``no_hash_pointers`` 参数启动内核，这将打印所有未修改的%p地址。如果你 *真的* 想知
-+道未修改的地址，请看下面的%px。
-+
-+如果（也只有在）你将地址作为虚拟文件的内容打印出来，例如在procfs或sysfs中（使用
-+seq_printf()，而不是printk()）由用户空间进程读取，使用下面描述的%pK修饰符，不
-+要用%p或%px。
-+
-+
-+错误指针
-+--------
-+
-+::
-+
-+	%pe	-ENOSPC
-+
-+用于打印错误指针(即IS_ERR()为真的指针)的符号错误名。不知道符号名的错误值会以十进制打印，
-+而作为%pe参数传递的非ERR_PTR会被视为普通的%p。
-+
-+符号/函数指针
-+-------------
-+
-+::
-+
-+	%pS	versatile_init+0x0/0x110
-+	%ps	versatile_init
-+	%pSR	versatile_init+0x9/0x110
-+		(with __builtin_extract_return_addr() translation)
-+	%pB	prev_fn_of_versatile_init+0x88/0x88
-+
-+
-+``S`` 和 ``s`` 说明符用于打印符号格式的指针。它们的结果是符号名称带有(S)或不带有(s)偏移
-+量。如果禁用KALLSYMS，则打印符号地址。
-+
-+``B`` 说明符的结果是带有偏移量的符号名，在打印堆栈回溯时应该使用。说明符将考虑编译器优化
-+的影响，当使用尾部调用并使用noreturn GCC属性标记时，可能会发生这种优化。
-+
-+来自BPF / tracing追踪的探查指针
-+----------------------------------
-+
-+::
-+
-+	%pks	kernel string
-+	%pus	user string
-+
-+``k`` 和 ``u`` 指定符用于打印来自内核内存(k)或用户内存(u)的先前探测的内存。后面的 ``s`` 指
-+定符的结果是打印一个字符串。对于直接在常规的vsnprintf()中使用时，(k)和(u)注释被忽略，但是，当
-+在BPF的bpf_trace_printk()之外使用时，它会读取它所指向的内存，不会出现错误。
-+
-+内核指针
-+--------
-+
-+::
-+
-+	%pK	01234567 or 0123456789abcdef
-+
-+用于打印应该对非特权用户隐藏的内核指针。%pK的行为取决于kptr_restrict sysctl——详见
-+Documentation/admin-guide/sysctl/kernel.rst。
-+
-+未经修改的地址
-+--------------
-+
-+::
-+
-+	%px	01234567 or 0123456789abcdef
-+
-+对于打印指针，当你 *真的* 想打印地址时。在用%px打印指针之前，请考虑你是否泄露了内核内
-+存布局的敏感消息。%px在功能上等同于%lx（或%lu）。%px是首选，因为它在grep查找时更唯一。
-+如果将来我们需要修改内核处理打印指针的方式，我们将能更好地找到调用点。
-+
-+在使用%px之前，请考虑使用%p并在调试过程中启用' ' no_hash_pointer ' '内核参数是否足
-+够(参见上面的%p描述)。%px的一个有效场景可能是在panic发生之前立即打印消息，这样无论如何
-+都可以防止任何敏感消息被利用，使用%px就不需要用no_hash_pointer来重现panic。
-+
-+指针差异
-+--------
-+
-+::
-+
-+	%td	2560
-+	%tx	a00
-+
-+为了打印指针的差异，使用ptrdiff_t的%t修饰符。
-+
-+例如::
-+
-+	printk("test: difference between pointers: %td\n", ptr2 - ptr1);
-+
-+结构体资源（Resources）
-+-----------------------
-+
-+::
-+
-+	%pr	[mem 0x60000000-0x6fffffff flags 0x2200] or
-+		[mem 0x0000000060000000-0x000000006fffffff flags 0x2200]
-+	%pR	[mem 0x60000000-0x6fffffff pref] or
-+		[mem 0x0000000060000000-0x000000006fffffff pref]
-+
-+用于打印结构体资源。 ``R`` 和 ``r`` 说明符的结果是打印出的资源带有（R）或不带有（r）解码标志
-+成员。
-+
-+通过引用传递。
-+
-+物理地址类型 phys_addr_t
-+------------------------
-+
-+::
-+
-+	%pa[p]	0x01234567 or 0x0123456789abcdef
-+
-+用于打印phys_addr_t类型（以及它的衍生物，如resource_size_t），该类型可以根据构建选项而
-+变化，无论CPU数据路径的宽度如何。
-+
-+通过引用传递。
-+
-+DMA地址类型dma_addr_t
-+---------------------
-+
-+::
-+
-+	%pad	0x01234567 or 0x0123456789abcdef
-+
-+用于打印dma_addr_t类型，该类型可以根据构建选项而变化，而不考虑CPU数据路径的宽度。
-+
-+通过引用传递。
-+
-+原始缓冲区为转义字符串
-+----------------------
-+
-+::
-+
-+	%*pE[achnops]
-+
-+用于将原始缓冲区打印成转义字符串。对于以下缓冲区::
-+
-+		1b 62 20 5c 43 07 22 90 0d 5d
-+
-+几个例子展示了如何进行转换（不包括两端的引号）。::
-+
-+		%*pE		"\eb \C\a"\220\r]"
-+		%*pEhp		"\x1bb \C\x07"\x90\x0d]"
-+		%*pEa		"\e\142\040\\\103\a\042\220\r\135"
-+
-+转换规则是根据可选的标志组合来应用的(详见:c:func:`string_escape_mem` 内核文档):
-+
-+	- a - ESCAPE_ANY
-+	- c - ESCAPE_SPECIAL
-+	- h - ESCAPE_HEX
-+	- n - ESCAPE_NULL
-+	- o - ESCAPE_OCTAL
-+	- p - ESCAPE_NP
-+	- s - ESCAPE_SPACE
-+
-+默认情况下，使用 ESCAPE_ANY_NP。
-+
-+ESCAPE_ANY_NP是许多情况下的明智选择，特别是对于打印SSID。
-+
-+如果字段宽度被省略，那么将只转义1个字节。
-+
-+原始缓冲区为十六进制字符串
-+--------------------------
-+
-+::
-+
-+	%*ph	00 01 02  ...  3f
-+	%*phC	00:01:02: ... :3f
-+	%*phD	00-01-02- ... -3f
-+	%*phN	000102 ... 3f
-+
-+对于打印小的缓冲区（最长64个字节），可以用一定的分隔符作为一个
-+十六进制字符串。对于较大的缓冲区，可以考虑使用
-+:c:func:`print_hex_dump` 。
-+
-+MAC/FDDI地址
-+------------
-+
-+::
-+
-+	%pM	00:01:02:03:04:05
-+	%pMR	05:04:03:02:01:00
-+	%pMF	00-01-02-03-04-05
-+	%pm	000102030405
-+	%pmR	050403020100
-+
-+用于打印以十六进制表示的6字节MAC/FDDI地址。 ``M`` 和 ``m`` 说明符导致打印的
-+地址有(M)或没有(m)字节分隔符。默认的字节分隔符是冒号（：）。
-+
-+对于FDDI地址，可以在 ``M`` 说明符之后使用 ``F`` 说明，以使用破折号(——)分隔符
-+代替默认的分隔符。
-+
-+对于蓝牙地址， ``R`` 说明符应使用在 ``M`` 说明符之后，以使用反转的字节顺序，适
-+合于以小尾端顺序的蓝牙地址的肉眼可见的解析。
-+
-+通过引用传递。
-+
-+IPv4地址
-+--------
-+
-+::
-+
-+	%pI4	1.2.3.4
-+	%pi4	001.002.003.004
-+	%p[Ii]4[hnbl]
-+
-+用于打印IPv4点分隔的十进制地址。 ``I4`` 和 ``i4`` 说明符的结果是打印的地址
-+有(i4)或没有(I4)前导零。
-+
-+附加的 ``h`` 、 ``n`` 、 ``b`` 和 ``l`` 说明符分别用于指定主机、网络、大
-+尾端或小尾端地址。如果没有提供说明符，则使用默认的网络/大尾端顺序。
-+
-+通过引用传递。
-+
-+IPv6 地址
-+---------
-+
-+::
-+
-+	%pI6	0001:0002:0003:0004:0005:0006:0007:0008
-+	%pi6	00010002000300040005000600070008
-+	%pI6c	1:2:3:4:5:6:7:8
-+
-+用于打印IPv6网络顺序的16位十六进制地址。 ``I6`` 和 ``i6`` 说明符的结果是
-+打印的地址有(I6)或没有(i6)分号。始终使用前导零。
-+
-+额外的 ``c`` 说明符可与 ``I`` 说明符一起使用，以打印压缩的IPv6地址，如
-+https://tools.ietf.org/html/rfc5952 所述
-+
-+通过引用传递。
-+
-+IPv4/IPv6地址(generic, with port, flowinfo, scope)
-+--------------------------------------------------
-+
-+::
-+
-+	%pIS	1.2.3.4		or 0001:0002:0003:0004:0005:0006:0007:0008
-+	%piS	001.002.003.004	or 00010002000300040005000600070008
-+	%pISc	1.2.3.4		or 1:2:3:4:5:6:7:8
-+	%pISpc	1.2.3.4:12345	or [1:2:3:4:5:6:7:8]:12345
-+	%p[Ii]S[pfschnbl]
-+
-+用于打印一个IP地址，不需要区分它的类型是AF_INET还是AF_INET6。一个指向有效结构
-+体sockaddr的指针，通过 ``IS`` 或 ``IS`` 指定，可以传递给这个格式说明符。
-+
-+附加的 ``p`` 、  ``f`` 和 ``s`` 说明符用于指定port(IPv4, IPv6)、
-+flowinfo (IPv6)和sope(IPv6)。port有一个 ``:`` 前缀，flowinfo是 ``/`` 和
-+范围是 ``%`` ，每个后面都跟着实际的值。
-+
-+对于IPv6地址，如果指定了额外的指定符 ``c`` ，则使用
-+https://tools.ietf.org/html/rfc5952 描述的压缩IPv6地址。
-+如https://tools.ietf.org/html/draft-ietf-6man-text-addr-representation-07
-+所建议的，IPv6地址由'['，']'包围，以防止出现额外的说明符 ``p`` ， ``f`` 或 ``s`` 。
-+
-+对于IPv4地址，也可以使用额外的 ``h`` ， ``n`` ， ``b`` 和 ``l`` 说
-+明符，但对于IPv6地址则忽略。
-+
-+通过引用传递。
-+
-+更多例子::
-+
-+	%pISfc		1.2.3.4		or [1:2:3:4:5:6:7:8]/123456789
-+	%pISsc		1.2.3.4		or [1:2:3:4:5:6:7:8]%1234567890
-+	%pISpfc		1.2.3.4:12345	or [1:2:3:4:5:6:7:8]:12345/123456789
-+
-+UUID/GUID地址
-+-------------
-+
-+::
-+
-+	%pUb	00010203-0405-0607-0809-0a0b0c0d0e0f
-+	%pUB	00010203-0405-0607-0809-0A0B0C0D0E0F
-+	%pUl	03020100-0504-0706-0809-0a0b0c0e0e0f
-+	%pUL	03020100-0504-0706-0809-0A0B0C0E0E0F
-+
-+用于打印16字节的UUID/GUIDs地址。附加的 ``l`` , ``L`` , ``b`` 和 ``B`` 说明符用
-+于指定小写(l)或大写(L)十六进制表示法中的小尾端顺序，以及小写(b)或大写(B)十六进制表
-+示法中的大尾端顺序。
-+
-+如果没有使用额外的说明符，则将打印带有小写十六进制表示法的默认大端顺序。
-+
-+通过引用传递。
-+
-+目录项（dentry）的名称
-+----------------------
-+
-+::
-+
-+	%pd{,2,3,4}
-+	%pD{,2,3,4}
-+
-+用于打印dentry名称；如果我们用 :c:func:`d_move` 和它比较，名称可能是新旧混合的，但
-+不会oops。 %pd dentry比较安全，其相当于我们以前用的%s dentry->d_name.name，%pd<n>打
-+印 ``n`` 最后的组件。 %pD对结构文件做同样的事情。
-+
-+
-+通过引用传递。
-+
-+块设备（block_device）名称
-+--------------------------
-+
-+::
-+
-+	%pg	sda, sda1 or loop0p1
-+
-+用于打印block_device指针的名称。
-+
-+va_format结构体
-+---------------
-+
-+::
-+
-+	%pV
-+
-+用于打印结构体va_format。这些结构包含一个格式字符串
-+和va_list如下
-+
-+::
-+
-+	struct va_format {
-+		const char *fmt;
-+		va_list *va;
-+	};
-+
-+实现 "递归vsnprintf"。
-+
-+如果没有一些机制来验证格式字符串和va_list参数的正确性，请不要使用这个功能。
-+
-+通过引用传递。
-+
-+设备树节点
-+----------
-+
-+::
-+
-+	%pOF[fnpPcCF]
-+
-+
-+用于打印设备树节点结构。默认行为相当于%pOFf。
-+
-+	- f - 设备节点全称
-+	- n - 设备节点名
-+	- p - 设备节点句柄
-+	- P - 设备节点路径规范(名称+@单位)
-+	- F - 设备节点标志
-+	- c - 主要兼容字符串
-+	- C - 全兼容字符串
-+
-+当使用多个参数时，分隔符是':'。
-+
-+例如
-+
-+::
-+
-+	%pOF	/foo/bar@0			- Node full name
-+	%pOFf	/foo/bar@0			- Same as above
-+	%pOFfp	/foo/bar@0:10			- Node full name + phandle
-+	%pOFfcF	/foo/bar@0:foo,device:--P-	- Node full name +
-+	                                          major compatible string +
-+						  node flags
-+							D - dynamic
-+							d - detached
-+							P - Populated
-+							B - Populated bus
-+
-+通过引用传递。
-+
-+Fwnode handles
-+--------------
-+
-+::
-+
-+	%pfw[fP]
-+
-+用于打印fwnode_handles的消息。默认情况下是打印完整的节点名称，包括路径。
-+这些修饰符在功能上等同于上面的%pOF。
-+
-+	- f - 节点的全名，包括路径。
-+	- P - 节点名称，包括地址（如果有的话）。
-+
-+例如 (ACPI)
-+
-+::
-+
-+	%pfwf	\_SB.PCI0.CIO2.port@1.endpoint@0	- Full node name
-+	%pfwP	endpoint@0				- Node name
-+
-+例如 (OF)
-+
-+::
-+
-+	%pfwf	/ocp@68000000/i2c@48072000/camera@10/port/endpoint - Full name
-+	%pfwP	endpoint				- Node name
-+
-+时间和日期
-+----------
-+
-+::
-+
-+	%pt[RT]			YYYY-mm-ddTHH:MM:SS
-+	%pt[RT]d		YYYY-mm-dd
-+	%pt[RT]t		HH:MM:SS
-+	%pt[RT][dt][r]
-+
-+用于打印日期和时间::
-+
-+	R  struct rtc_time structure
-+	T  time64_t type
-+
-+以我们（人类）可读的格式。
-+
-+默认情况下，年将以1900为单位递增，月将以1为单位递增。 使用%pt[RT]r (raw)
-+来抑制这种行为。
-+
-+通过引用传递。
-+
-+clk结构体
-+---------
-+
-+::
-+
-+	%pC	pll1
-+	%pCn	pll1
-+
-+用于打印clk结构。%pC 和 %pCn 打印时钟的名称（通用时钟框架）或唯一的32位
-+ID（传统时钟框架）。
-+
-+通过引用传递。
-+
-+位图及其衍生物，如cpumask和nodemask
-+-----------------------------------
-+
-+::
-+
-+	%*pb	0779
-+	%*pbl	0,3-6,8-10
-+
-+对于打印位图（bitmap）及其派生的cpumask和nodemask，%*pb输出以字段宽度为位数的位图，
-+%*pbl输出以字段宽度为位数的范围列表。
-+
-+字段宽度用值传递，位图用引用传递。可以使用辅助宏cpumask_pr_args()和
-+nodemask_pr_args()来方便打印cpumask和nodemask。
-+
-+标志位字段，如页标志、gfp_flags
-+-------------------------------
-+
-+::
-+
-+	%pGp	referenced|uptodate|lru|active|private|node=0|zone=2|lastcpupid=0x1fffff
-+	%pGg	GFP_USER|GFP_DMA32|GFP_NOWARN
-+	%pGv	read|exec|mayread|maywrite|mayexec|denywrite
-+
-+将flags位字段打印为构造值的符号常量集合。标志的类型由第三个字符给出。目前支持的
-+是[p]age flags， [v]ma_flags(都期望 ``unsigned long *`` )和
-+[g]fp_flags(期望 ``gfp_t *`` )。标志名称和打印顺序取决于特定的类型。
-+
-+注意，这种格式不应该直接用于跟踪点的:c:func:`TP_printk()` 部分。相反，应使
-+用 <trace/events/mmflags.h>中的show_*_flags()函数。
-+
-+通过引用传递。
-+
-+网络设备特性
-+------------
-+
-+::
-+
-+	%pNF	0x000000000000c000
-+
-+用于打印netdev_features_t。
-+
-+通过引用传递。
-+
-+V4L2和DRM FourCC代码(像素格式)
-+------------------------------
-+
-+::
-+
-+	%p4cc
-+
-+打印V4L2或DRM使用的FourCC代码，包括格式端序及其十六进制的数值。
-+
-+通过引用传递。
-+
-+例如::
-+
-+	%p4cc	BG12 little-endian (0x32314742)
-+	%p4cc	Y10  little-endian (0x20303159)
-+	%p4cc	NV12 big-endian (0xb231564e)
-+
-+谢谢
-+====
-+
-+如果您添加了其他%p扩展，请在可行的情况下，用一个或多个测试用例扩展<lib/test_printf.c>。
-+
-+谢谢你的合作和关注。
+This patch series will free some vmemmap pages(struct page structures)
+associated with each HugeTLB page when preallocated to save memory.
+
+In order to reduce the difficulty of the first version of code review.
+From this version, we disable PMD/huge page mapping of vmemmap if this
+feature was enabled. This acutely eliminates a bunch of the complex code
+doing page table manipulation. When this patch series is solid, we cam add
+the code of vmemmap page table manipulation in the future.
+
+The struct page structures (page structs) are used to describe a physical
+page frame. By default, there is an one-to-one mapping from a page frame to
+it's corresponding page struct.
+
+The HugeTLB pages consist of multiple base page size pages and is supported
+by many architectures. See hugetlbpage.rst in the Documentation directory
+for more details. On the x86 architecture, HugeTLB pages of size 2MB and 1GB
+are currently supported. Since the base page size on x86 is 4KB, a 2MB
+HugeTLB page consists of 512 base pages and a 1GB HugeTLB page consists of
+4096 base pages. For each base page, there is a corresponding page struct.
+
+Within the HugeTLB subsystem, only the first 4 page structs are used to
+contain unique information about a HugeTLB page. HUGETLB_CGROUP_MIN_ORDER
+provides this upper limit. The only 'useful' information in the remaining
+page structs is the compound_head field, and this field is the same for all
+tail pages.
+
+By removing redundant page structs for HugeTLB pages, memory can returned to
+the buddy allocator for other uses.
+
+When the system boot up, every 2M HugeTLB has 512 struct page structs which
+size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
+
+    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | -------------> |     1     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     2     | -------------> |     2     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     3     | -------------> |     3     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     4     | -------------> |     4     |
+ |    2MB    |                     +-----------+                +-----------+
+ |           |                     |     5     | -------------> |     5     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     6     | -------------> |     6     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     7     | -------------> |     7     |
+ |           |                     +-----------+                +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
+
+The value of page->compound_head is the same for all tail pages. The first
+page of page structs (page 0) associated with the HugeTLB page contains the 4
+page structs necessary to describe the HugeTLB. The only use of the remaining
+pages of page structs (page 1 to page 7) is to point to page->compound_head.
+Therefore, we can remap pages 2 to 7 to page 1. Only 2 pages of page structs
+will be used for each HugeTLB page. This will allow us to free the remaining
+6 pages to the buddy allocator.
+
+Here is how things look after remapping.
+
+    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | -------------> |     1     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
+ |           |                     +-----------+                   | | | | |
+ |           |                     |     3     | ------------------+ | | | |
+ |           |                     +-----------+                     | | | |
+ |           |                     |     4     | --------------------+ | | |
+ |    2MB    |                     +-----------+                       | | |
+ |           |                     |     5     | ----------------------+ | |
+ |           |                     +-----------+                         | |
+ |           |                     |     6     | ------------------------+ |
+ |           |                     +-----------+                           |
+ |           |                     |     7     | --------------------------+
+ |           |                     +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
+
+When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
+vmemmap pages and restore the previous mapping relationship.
+
+Apart from 2MB HugeTLB page, we also have 1GB HugeTLB page. It is similar
+to the 2MB HugeTLB page. We also can use this approach to free the vmemmap
+pages.
+
+In this case, for the 1GB HugeTLB page, we can save 4094 pages. This is a
+very substantial gain. On our server, run some SPDK/QEMU applications which
+will use 1024GB HugeTLB page. With this feature enabled, we can save ~16GB
+(1G hugepage)/~12GB (2MB hugepage) memory.
+
+Because there are vmemmap page tables reconstruction on the freeing/allocating
+path, it increases some overhead. Here are some overhead analysis.
+
+1) Allocating 10240 2MB HugeTLB pages.
+
+   a) With this patch series applied:
+   # time echo 10240 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.166s
+   user     0m0.000s
+   sys      0m0.166s
+
+   # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; }
+     kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs -
+     @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [8K, 16K)           5476 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [16K, 32K)          4760 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@       |
+   [32K, 64K)             4 |                                                    |
+
+   b) Without this patch series:
+   # time echo 10240 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.067s
+   user     0m0.000s
+   sys      0m0.067s
+
+   # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; }
+     kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs -
+     @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [4K, 8K)           10147 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [8K, 16K)             93 |                                                    |
+
+   Summarize: this feature is about ~2x slower than before.
+
+2) Freeing 10240 2MB HugeTLB pages.
+
+   a) With this patch series applied:
+   # time echo 0 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.213s
+   user     0m0.000s
+   sys      0m0.213s
+
+   # bpftrace -e 'kprobe:free_pool_huge_page { @start[tid] = nsecs; }
+     kretprobe:free_pool_huge_page /@start[tid]/ { @latency = hist(nsecs -
+     @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [8K, 16K)              6 |                                                    |
+   [16K, 32K)         10227 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [32K, 64K)             7 |                                                    |
+
+   b) Without this patch series:
+   # time echo 0 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.081s
+   user     0m0.000s
+   sys      0m0.081s
+
+   # bpftrace -e 'kprobe:free_pool_huge_page { @start[tid] = nsecs; }
+     kretprobe:free_pool_huge_page /@start[tid]/ { @latency = hist(nsecs -
+     @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [4K, 8K)            6805 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [8K, 16K)           3427 |@@@@@@@@@@@@@@@@@@@@@@@@@@                          |
+   [16K, 32K)             8 |                                                    |
+
+   Summarize: The overhead of __free_hugepage is about ~2-3x slower than before.
+
+Although the overhead has increased, the overhead is not significant. Like Mike
+said, "However, remember that the majority of use cases create HugeTLB pages at
+or shortly after boot time and add them to the pool. So, additional overhead is
+at pool creation time. There is no change to 'normal run time' operations of
+getting a page from or returning a page to the pool (think page fault/unmap)".
+
+Despite the overhead and in addition to the memory gains from this series. The
+following data is obtained by Joao Martins. Very thanks to his effort.
+
+There's an additional benefit which is page (un)pinners will see an improvement
+and Joao presumes because there are fewer memmap pages and thus the tail/head
+pages are staying in cache more often.
+
+Out of the box Joao saw (when comparing linux-next against linux-next + this series)
+with gup_test and pinning a 16G HugeTLB file (with 1G pages):
+
+	get_user_pages(): ~32k -> ~9k
+	unpin_user_pages(): ~75k -> ~70k
+
+Usually any tight loop fetching compound_head(), or reading tail pages data (e.g.
+compound_head) benefit a lot. There's some unpinning inefficiencies Joao was
+fixing[2], but with that in added it shows even more:
+
+	unpin_user_pages(): ~27k -> ~3.8k
+
+[1] https://lore.kernel.org/linux-mm/20210409205254.242291-1-mike.kravetz@oracle.com/
+[2] https://lore.kernel.org/linux-mm/20210204202500.26474-1-joao.m.martins@oracle.com/
+
+Todo:
+  - Free all of the tail vmemmap pages
+    Now for the 2MB HugrTLB page, we only free 6 vmemmap pages. we really can
+    free 7 vmemmap pages. In this case, we can see 8 of the 512 struct page
+    structures has beed set PG_head flag. If we can adjust compound_head()
+    slightly and make compound_head() return the real head struct page when
+    the parameter is the tail struct page but with PG_head flag set.
+
+    In order to make the code evolution route clearer. This feature can can be
+    a separate patch after this patchset is solid.
+
+  - Support for other architectures (e.g. aarch64).
+  - Enable PMD/huge page mapping of vmemmap even if this feature was enabled.
+
+Changelog in v20 -> v21:
+  - Collect Reviewed-by tags.
+  - Rebase to next-20210421 which is on the top of Oscar's changes.
+  - Use size_to_hstate() directly in free_hpage_workfn() suggested by Mike.
+  - Add a comment above alloc_huge_page_vmemmap() in dissolve_free_huge_page()
+    suggested by Mike.
+  - Trim mhp_supports_memmap_on_memory() suggested by Oscar.
+
+  Thanks to Mike and Oscar's suggestions.
+
+Changelog in v19 -> v20:
+  - Rebase to next-20210412.
+  - Introduce workqueue to defer freeing HugeTLB pages.
+  - Remove all tags (Reviewed-by ot Tested-by) from patch 6.
+  - Disable memmap_on_memory when hugetlb_free_vmemmap enabled (patch 8).
+
+Changelog in v18 -> v19:
+  - Fix compiler error on sparc arch. Thanks Stephen.
+  - Make patch "gather discrete indexes of tail page" prior to "free the vmemmap
+    pages associated with each HugeTLB page".
+  - Remove some BUG_ON from patch #4.
+  - Update patch #6 changelog.
+  - Update Documentation/admin-guide/mm/memory-hotplug.rst.
+  - Drop the patch of "optimize the code with the help of the compiler".
+  - Update Documentation/admin-guide/kernel-parameters.txt in patch #7.
+  - Trim update_and_free_page.
+
+ Thanks to Michal, Oscar and Mike's review and suggestions.
+
+Changelog in v17 -> v18:
+  - Add complete copyright to bootmem_info.c (Suggested by Balbir).
+  - Fix some issues (in patch #4) suggested by Mike.
+
+  Thanks to Balbir and Mike's review. Also thanks to Chen Huang and
+  Bodeddula Balasubramaniam's test.
+
+Changelog in v16 -> v17:
+  - Fix issues suggested by Mike and Oscar.
+  - Update commit log suggested by Michal.
+
+  Thanks to Mike, David H and Michal's suggestions and review.
+
+Changelog in v15 -> v16:
+  - Use GFP_KERNEL to allocate vmemmap pages.
+
+  Thanks to Mike, David H and Michal's suggestions.
+
+Changelog in v14 -> v15:
+  - Fix some issues suggested by Oscar. Thanks to Oscar.
+  - Add numbers which Joao Martins tested to cover letter. Thanks to his effort.
+
+Changelog in v13 -> v14:
+  - Refuse to free the HugeTLB page when the system is under memory pressure.
+  - Use GFP_ATOMIC to allocate vmemmap pages instead of GFP_KERNEL.
+  - Rebase to linux-next 20210202.
+  - Fix and add some comments for vmemmap_remap_free().
+
+  Thanks to Oscar, Mike, David H and David R's suggestions and review.
+
+Changelog in v12 -> v13:
+  - Remove VM_WARN_ON_PAGE macro.
+  - Add more comments in vmemmap_pte_range() and vmemmap_remap_free().
+
+  Thanks to Oscar and Mike's suggestions and review.
+
+Changelog in v11 -> v12:
+  - Move VM_WARN_ON_PAGE to a separate patch.
+  - Call __free_hugepage() with hugetlb_lock (See patch #5.) to serialize
+    with dissolve_free_huge_page(). It is to prepare for patch #9.
+  - Introduce PageHugeInflight. See patch #9.
+
+Changelog in v10 -> v11:
+  - Fix compiler error when !CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
+  - Rework some comments and commit changes.
+  - Rework vmemmap_remap_free() to 3 parameters.
+
+  Thanks to Oscar and Mike's suggestions and review.
+
+Changelog in v9 -> v10:
+  - Fix a bug in patch #11. Thanks to Oscar for pointing that out.
+  - Rework some commit log or comments. Thanks Mike and Oscar for the suggestions.
+  - Drop VMEMMAP_TAIL_PAGE_REUSE in the patch #3.
+
+  Thank you very much Mike and Oscar for reviewing the code.
+
+Changelog in v8 -> v9:
+  - Rework some code. Very thanks to Oscar.
+  - Put all the non-hugetlb vmemmap functions under sparsemem-vmemmap.c.
+
+Changelog in v7 -> v8:
+  - Adjust the order of patches.
+
+  Very thanks to David and Oscar. Your suggestions are very valuable.
+
+Changelog in v6 -> v7:
+  - Rebase to linux-next 20201130
+  - Do not use basepage mapping for vmemmap when this feature is disabled.
+  - Rework some patchs.
+    [PATCH v6 08/16] mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+    [PATCH v6 10/16] mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb page
+
+  Thanks to Oscar and Barry.
+
+Changelog in v5 -> v6:
+  - Disable PMD/huge page mapping of vmemmap if this feature was enabled.
+  - Simplify the first version code.
+
+Changelog in v4 -> v5:
+  - Rework somme comments and code in the [PATCH v4 04/21] and [PATCH v4 05/21].
+
+  Thanks to Mike and Oscar's suggestions.
+
+Changelog in v3 -> v4:
+  - Move all the vmemmap functions to hugetlb_vmemmap.c.
+  - Make the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP default to y, if we want to
+    disable this feature, we should disable it by a boot/kernel command line.
+  - Remove vmemmap_pgtable_{init, deposit, withdraw}() helper functions.
+  - Initialize page table lock for vmemmap through core_initcall mechanism.
+
+  Thanks for Mike and Oscar's suggestions.
+
+Changelog in v2 -> v3:
+  - Rename some helps function name. Thanks Mike.
+  - Rework some code. Thanks Mike and Oscar.
+  - Remap the tail vmemmap page with PAGE_KERNEL_RO instead of PAGE_KERNEL.
+    Thanks Matthew.
+  - Add some overhead analysis in the cover letter.
+  - Use vmemap pmd table lock instead of a hugetlb specific global lock.
+
+Changelog in v1 -> v2:
+  - Fix do not call dissolve_compound_page in alloc_huge_page_vmemmap().
+  - Fix some typo and code style problems.
+  - Remove unused handle_vmemmap_fault().
+  - Merge some commits to one commit suggested by Mike.
+
+Muchun Song (9):
+  mm: memory_hotplug: factor out bootmem core functions to
+    bootmem_info.c
+  mm: hugetlb: introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+  mm: hugetlb: gather discrete indexes of tail page
+  mm: hugetlb: free the vmemmap pages associated with each HugeTLB page
+  mm: hugetlb: defer freeing of HugeTLB pages
+  mm: hugetlb: alloc the vmemmap pages associated with each HugeTLB page
+  mm: hugetlb: add a kernel parameter hugetlb_free_vmemmap
+  mm: memory_hotplug: disable memmap_on_memory when hugetlb_free_vmemmap
+    enabled
+  mm: hugetlb: introduce nr_free_vmemmap_pages in the struct hstate
+
+ Documentation/admin-guide/kernel-parameters.txt |  25 ++
+ Documentation/admin-guide/mm/hugetlbpage.rst    |  11 +
+ Documentation/admin-guide/mm/memory-hotplug.rst |  13 ++
+ arch/sparc/mm/init_64.c                         |   1 +
+ arch/x86/mm/init_64.c                           |  13 +-
+ drivers/acpi/acpi_memhotplug.c                  |   1 +
+ fs/Kconfig                                      |   5 +
+ include/linux/bootmem_info.h                    |  66 ++++++
+ include/linux/hugetlb.h                         |  46 +++-
+ include/linux/hugetlb_cgroup.h                  |  19 +-
+ include/linux/memory_hotplug.h                  |  27 ---
+ include/linux/mm.h                              |   5 +
+ mm/Makefile                                     |   2 +
+ mm/bootmem_info.c                               | 127 ++++++++++
+ mm/hugetlb.c                                    | 184 +++++++++++++--
+ mm/hugetlb_vmemmap.c                            | 297 ++++++++++++++++++++++++
+ mm/hugetlb_vmemmap.h                            |  45 ++++
+ mm/memory_hotplug.c                             | 117 +---------
+ mm/sparse-vmemmap.c                             | 267 +++++++++++++++++++++
+ mm/sparse.c                                     |   1 +
+ 20 files changed, 1093 insertions(+), 179 deletions(-)
+ create mode 100644 include/linux/bootmem_info.h
+ create mode 100644 mm/bootmem_info.c
+ create mode 100644 mm/hugetlb_vmemmap.c
+ create mode 100644 mm/hugetlb_vmemmap.h
+
 -- 
-2.27.0
+2.11.0
 
