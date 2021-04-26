@@ -2,106 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E01C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 07:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C28D0C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 07:00:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E219610C8
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 07:00:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A651761263
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 07:00:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231879AbhDZHAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 03:00:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
+        id S232062AbhDZHA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 03:00:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231939AbhDZHAr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 03:00:47 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D5CC06175F
-        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 00:00:06 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id y22-20020a17090a8b16b0290150ae1a6d2bso4726342pjn.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 00:00:06 -0700 (PDT)
+        with ESMTP id S231907AbhDZHA4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 03:00:56 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB2EC061574
+        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 00:00:15 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id p2so23996107pgh.4
+        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 00:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zQJFsnvvf+cAKiYz/Z4RGmPSASOASqem20+Xe3nf8L4=;
-        b=rFbAf5HW/enG9XTTfpSGA0WYelsHsonhsmYHuClYBdPVZc7Gaz9r9Jv5Kx2C0U+HXT
-         ndRKuwV7wVJoAfdW/BUEoKQ7tZZS2bmesu2dGZnFUVeiFRzkAptjEEzGoz4ZrnlXTD1G
-         dwsfvNKLwPRNzbwsrqYUtoCcJZokDMAhf3xxnGxnakGx7zk5k5PN8IRw7QX0QKwh2S64
-         c0aNhW34fLDcrKe6gtm8cb98zhFBxicTjJd6aXNcOmaEzJjiz2ozgTSs5PokG4DCrGsv
-         Fnj1OvqGq7utVziqCVPJTVuCWn7XBZpXwlH000Bghi6grQgWhMsS05alWhoWVS3SWO5J
-         K3yg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZTf4VDhB+vsAlWiKaTvh+bcNfZdV5PiIE39ZO2UyLSc=;
+        b=OzBm0TRrwP0w1UMWiqgYTFsquMLh/ibMx4tparnOh6D5BQP8Vxp5h4x0YzqlDgw/Cx
+         eHFF9TnavfKxRskT7kQ/ZDb08ZSq9/DnjtVv6B9T3C0W1HJhiXenSD7uxwhlSK/707Qg
+         qD4Tdh+ta4TccI/eMNcT5xzXvtMxNciyxefotosU8AiDTbFg7HNkRuEwMcJ/fAy6qo0E
+         dNJJApejzTl0Uisgb6zW6Sv4T9BI3zq10gKu7O/cEHsTpWvZ3jNkBd6QsHw0nCRw5kG9
+         iEwVnQRM13tQgkthHoqe6Zw6RTnXOLQzipsyIW1R1ViNgWbkDbx5H45cRQVUTdE8FUTT
+         z59Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zQJFsnvvf+cAKiYz/Z4RGmPSASOASqem20+Xe3nf8L4=;
-        b=F3RQwL+8o2MQirRsjYfuOiHiLxK3kvJvY6cYAcTMc07SjNsMmqDT45v5ChUdJMD9dP
-         P1oin+t0QGtamfcH4KaJtbFQ4HNmFQisfaTVozw3xQLCm082jx9FISHqDsSPHc5FaOFI
-         v9/QgfvpyJHZK+LUswzSOp74pvx+KSsF7gJf527eqmevaJ0iHRgjeX7HVRl+swB/G5LA
-         i9tdXBP9jx7uIRGXidZWA8Am17/10NY56ThBtdKzy1iJmPLlU97yB2YmDVk/GpJA4xtL
-         KOJIpETiu8+RW5cpqlVbmHTACR8mNyFWyxF+WHu3vWZjUs3SCZUF2gJuNEHcFt4X2ZaS
-         8C0w==
-X-Gm-Message-State: AOAM5326JO/nBRtmJnFw3RWZij2AykOwqCQMlIyY6kmWwWgFhST3aqp0
-        woeFK27/xDUaFwzvRvzWKJ2R9w==
-X-Google-Smtp-Source: ABdhPJyAhdfGUyej/IOi6zo0QWrwPfJ3xo69/SCuWDJDsQxtMxgPPaknIazk/RwZHxceolGv5fi8Sw==
-X-Received: by 2002:a17:90a:bb13:: with SMTP id u19mr19140620pjr.96.1619420405702;
-        Mon, 26 Apr 2021 00:00:05 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZTf4VDhB+vsAlWiKaTvh+bcNfZdV5PiIE39ZO2UyLSc=;
+        b=QR21TWt3AZYfwuSfLRuPtEEL3p+gAenD4Ds+3r6brsZ0EBNJcajDJiq7xNzxxFz0V+
+         t6eO6CzwgDFogiKPw5zNMMazJq0uLHCVr8Yk1d6Zo+OEXv99tjKato2SIMuf1ZXt8a98
+         CBInBVQ65+/Mrgvvu+aEokzgBA6IGRKX7nYjpuiebtImk1/KJ1ZQw9jp7VLB5sCa6YvI
+         IMTP35EV9twW6Q00YLO5b1iEpcd9DismgISM30250ZRhXDDtUM7kBJyg7i7coS1AaDXd
+         Bwweqi53md9GLtZFDIXv1Tz9eGa9rGKuP2ZPH6JXNiZVEcLfuijGDiR9Pk4poreaXo6U
+         /u/g==
+X-Gm-Message-State: AOAM532F6h5dGpQkhgN5+i+sL3u6wE6uJd57YSyN/C2tZS31NTEnZWqH
+        lZtqOQaO/mvMcCQvO+SVXHRS4A==
+X-Google-Smtp-Source: ABdhPJwYFD7MUi/5hvdyxTvyf2M6mrOhvBi5WWkars4S6BedJK7btjVTIZiPp+AcQYhNX7AfppHPPA==
+X-Received: by 2002:a62:194f:0:b029:25c:37cb:2132 with SMTP id 76-20020a62194f0000b029025c37cb2132mr16017661pfz.37.1619420413981;
+        Mon, 26 Apr 2021 00:00:13 -0700 (PDT)
 Received: from C02DV8HUMD6R.bytedance.net ([139.177.225.224])
-        by smtp.gmail.com with ESMTPSA id w14sm4535047pfn.3.2021.04.26.00.00.02
+        by smtp.gmail.com with ESMTPSA id w14sm4535047pfn.3.2021.04.26.00.00.10
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 26 Apr 2021 00:00:05 -0700 (PDT)
+        Mon, 26 Apr 2021 00:00:13 -0700 (PDT)
 From:   Abel Wu <wuyun.abel@bytedance.com>
 To:     akpm@linux-foundation.org, lizefan.x@bytedance.com, tj@kernel.org,
         hannes@cmpxchg.org, corbet@lwn.net
 Cc:     cgroups@vger.kernel.org, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Abel Wu <wuyun.abel@bytedance.com>
-Subject: [PATCH 0/3] cgroup2: introduce cpuset.mems.migration
-Date:   Mon, 26 Apr 2021 14:59:43 +0800
-Message-Id: <20210426065946.40491-1-wuyun.abel@bytedance.com>
+Subject: [PATCH 1/3] mm/mempolicy: apply cpuset limits to tasks using default policy
+Date:   Mon, 26 Apr 2021 14:59:44 +0800
+Message-Id: <20210426065946.40491-2-wuyun.abel@bytedance.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210426065946.40491-1-wuyun.abel@bytedance.com>
+References: <20210426065946.40491-1-wuyun.abel@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some of our services are quite performance sensitive and
-actually NUMA-aware designed, aka numa-service. The SLOs
-can be easily violated when co-locate numa-services with
-other workloads. Thus they are granted to occupy the whole
-NUMA node and when such assignment applies, the workload
-on that node needs to be moved away fast and complete.
+The nodemasks of non-default policies (pol->v) are calculated within
+the restriction of task->mems_allowed, while default policies are not.
+This may lead to improper results of mpol_misplaced(), since it can
+return a target node outside of current->mems_allowed for tasks using
+default policies. Although this is not a bug because migrating pages
+to that out-of-cpuset node will fail eventually due to sanity checks
+in page allocation, it still would be better to avoid such useless
+efforts.
 
-This new cgroup v2 interface is an enhancement of cgroup
-v1 interface cpuset.memory_migrate by adding a new mode
-called "lazy". With the help of the "lazy" mode migration
-we solved the aforementioned problem on fast eviction.
+This patch also changes the behavior of autoNUMA a bit by showing
+a tendency to move pages inside mems_allowed for tasks using default
+policies, which is good for memory isolation.
 
-Patch 1 applies cpusets limits to tasks that using default
-memory policies, which makes pages inside mems_allowed are
-preferred when autoNUMA is enabled. This is also necessary
-for the "lazy" mode of cpuset.mems.migration.
+Signed-off-by: Abel Wu <wuyun.abel@bytedance.com>
+---
+ mm/mempolicy.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Patch 2&3 introduce cpuset.mems.migration, see the patches
-for detailed information please.
-
-Abel Wu (3):
-  mm/mempolicy: apply cpuset limits to tasks using default policy
-  cgroup/cpuset: introduce cpuset.mems.migration
-  docs/admin-guide/cgroup-v2: add cpuset.mems.migration
-
- Documentation/admin-guide/cgroup-v2.rst |  36 ++++++++
- kernel/cgroup/cpuset.c                  | 104 +++++++++++++++++++-----
- mm/mempolicy.c                          |   7 +-
- 3 files changed, 124 insertions(+), 23 deletions(-)
-
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index d79fa299b70c..e0ae6997bbfb 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -2516,7 +2516,10 @@ int mpol_misplaced(struct page *page, struct vm_area_struct *vma, unsigned long
+ 
+ 	/* Migrate the page towards the node whose CPU is referencing it */
+ 	if (pol->flags & MPOL_F_MORON) {
+-		polnid = thisnid;
++		if (node_isset(thisnid, cpuset_current_mems_allowed))
++			polnid = thisnid;
++		else
++			polnid = node_random(&cpuset_current_mems_allowed);
+ 
+ 		if (!should_numa_migrate_memory(current, page, curnid, thiscpu))
+ 			goto out;
 -- 
 2.31.1
 
