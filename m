@@ -2,126 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3288C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 18:01:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 686BDC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 18:16:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D770613BC
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 18:01:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BD5261076
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 18:16:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237682AbhDZSCW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 14:02:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
+        id S234217AbhDZSRX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 14:17:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235357AbhDZSCS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 14:02:18 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D31C061574;
-        Mon, 26 Apr 2021 11:01:33 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id p126so12345668yba.1;
-        Mon, 26 Apr 2021 11:01:33 -0700 (PDT)
+        with ESMTP id S233842AbhDZSRX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 14:17:23 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F3BC061574;
+        Mon, 26 Apr 2021 11:16:41 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id d14so3025900edc.12;
+        Mon, 26 Apr 2021 11:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Jy4OFsO0PDb4s3VtfvvtXkiYMuYdbRS3kT7/Hvwb0lc=;
-        b=Cc0m3YnBbqfGZSKW9pO2qzUWrj0YihP9qtdd9ehIRk/+kz6tR4873rBCMwZSaqUM6G
-         jkoxmHjSGp0ha53OhAfkLfcm38V8ixOLFtgIEUIZHkE2J0uv3zEztiOSXOe9MhoInQ9z
-         iR3CXcCk3Sloff6y3nwbUvQ6y+vkCCjtspr1Ppx3EP2iqjFuxKTXLceQXGS/YiTbzgFy
-         uNjiG6iXo1g4GULV1udH2ZyrpEZX2Nl2hDuM0g6PC1U1IZbc4smsXqhK2RWzTabFKUc4
-         xbuz4VwCtjcX7zF/VnPOhZv93q7x7EMwqFkXIKXQ8f6pn9pEnnBMHCdF9XdQIS736nIn
-         4MdQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=xkTVD7TxqQ3Zluwvp9FancUs4koGyF+oIROL0cTLdhk=;
+        b=XUQJEpNTdYzJF4uxqnEwIbQVU13+kxG+1fTgzfVoKCcV2260aiookfc9nRP/w+YdEw
+         UPStvO2Hb9yEzvEgSF0rro3K6J6ctKM+BJFYlgNIIAVvWw+f5ntN0nmbu4NCmGfvS2Bw
+         jYlhT3PDOoyrZDjhcQy7oqfUja/1LFoYvwnIXU5wUeEPcxxnB5Ft83JkHKUJDRFhH6HS
+         A9NqRwFtOlq1gJvVJbPcPGleeog6oX7zqg/uLzpRgvuPEu7InxHJLncJos5FtcmvrWng
+         9cqfFJjEyAQct+d5jcZq4IXOtGAkodPfj53TkwfatCdME5/LJa16VgVqjI2trzWDABiS
+         obEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Jy4OFsO0PDb4s3VtfvvtXkiYMuYdbRS3kT7/Hvwb0lc=;
-        b=cLTyk+g1ggbJLvN8Bt5dFVUNW+r323ScrMW9vOjBaoP5F0xtMFoSFLIVTcBhMazrdZ
-         mq1SxFe4+hQE3/N5G4/rQ/Dm9V15BzSB8QIHkVQSAzbMDYCGmUEU/wdiPdtFW99aEdJS
-         o80A4bRCuMFbyXi6WUs9wpn29KD/uJa52hJF39Zgqic+cWVtmzvVcBRgAgOENu6IqnII
-         6KjY1H+fCF47YEWCH/TQiF3+MuaQEVZzPT/8jIDsEZonxutf0Z8MpLdy6u8QIvFqtqzB
-         ecWAl4geSZpBMW6DIwk076cMcn4JzxfoPtzKzZytyEZKpB6V6KTRayFhnql5jS7VVro/
-         ch2Q==
-X-Gm-Message-State: AOAM5325J3Td89PtXV8TXg2T9UtBqApYdvmELtWhAf37bq3SsX/7iYl1
-        DTbFDrk6oQRh8BkIt7ldmHmrG7h5oTkZ+iznoo0=
-X-Google-Smtp-Source: ABdhPJwP5wBlcrmkMKIEQfkfFF5xNCT0t11kzMWAEMF7lxCkrpnE3u/XrWU+Aasdl3+MAnjcikXH+i2L0ia9gqqNvec=
-X-Received: by 2002:a25:bfc9:: with SMTP id q9mr25486485ybm.33.1619460093262;
- Mon, 26 Apr 2021 11:01:33 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=xkTVD7TxqQ3Zluwvp9FancUs4koGyF+oIROL0cTLdhk=;
+        b=E4LSHpfXqfofvccAQGC7tSfTtI1K4aGbMNkZoCcStN6ny2fv8JybKnUSnh2utRXnlc
+         6ne+cKSNzZICeA/brFH1k2CzzH6TlDyGOVXSKTJGsNE/qMFO2IgAWA8y7g/SMnNnkFYR
+         2E3ImtFEFKk/+T8QGapwZOW3uC5AXnpgyWTu93MpIsBnhe1gqY66qNkMTAGTaxE8nsOM
+         0/UjE9w+12NZGR297AiE3XsjRsEJGhjkDZZP+nNzp1wBQ0QlQEucER3k+n1XQOC1EKtn
+         SR3+jgS857wvnrUHbRDGXCvx/e5hmgkrpBmHHOYEc01qRjqbiMW2zZN0dKv5MCUsyl/p
+         nMyA==
+X-Gm-Message-State: AOAM533vGyqlW5KqFHL8wR29toLQXokFHTTrtrrDhTWhGUksm5++ViuJ
+        ytiwHBgy7sukVDL3kPkczhc=
+X-Google-Smtp-Source: ABdhPJymRIS+gVeyUphhzNtTqGsyyEe/s3ziJnnm1ligBnz6W0XYn9FI1ooD0u92DUFBoIakGIfszw==
+X-Received: by 2002:aa7:c789:: with SMTP id n9mr23203387eds.352.1619460999822;
+        Mon, 26 Apr 2021 11:16:39 -0700 (PDT)
+Received: from skbuf (5-12-16-165.residential.rdsnet.ro. [5.12.16.165])
+        by smtp.gmail.com with ESMTPSA id h11sm497319eds.15.2021.04.26.11.16.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 11:16:39 -0700 (PDT)
+Date:   Mon, 26 Apr 2021 21:16:37 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Yangbo Lu <yangbo.lu@nxp.com>
+Cc:     netdev@vger.kernel.org, Richard Cochran <richardcochran@gmail.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [net-next, v2, 3/7] net: dsa: free skb->cb usage in core driver
+Message-ID: <20210426181637.2rneohfxkrvwctf2@skbuf>
+References: <20210426093802.38652-1-yangbo.lu@nxp.com>
+ <20210426093802.38652-4-yangbo.lu@nxp.com>
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <YIGVFCymUn+4HBIj@google.com> <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
-In-Reply-To: <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 26 Apr 2021 20:01:21 +0200
-Message-ID: <CANiq72=YAU1iNyUpXd-1VgQQDxy+wCRLkqp==a4QH2ir_pe5Jg@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210426093802.38652-4-yangbo.lu@nxp.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 2:18 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+On Mon, Apr 26, 2021 at 05:37:58PM +0800, Yangbo Lu wrote:
+> Free skb->cb usage in core driver and let device drivers decide to
+> use or not. The reason having a DSA_SKB_CB(skb)->clone was because
+> dsa_skb_tx_timestamp() which may set the clone pointer was called
+> before p->xmit() which would use the clone if any, and the device
+> driver has no way to initialize the clone pointer.
 >
-> static void yas53x_extract_calibration(u8 *data, struct yas5xx_calibration *c)
-> {
->         u64 val = get_unaligned_be64(data);
+> Although for now putting memset(skb->cb, 0, 48) at beginning of
+> dsa_slave_xmit() by this patch is not very good, there is still way
+> to improve this. Otherwise, some other new features, like one-step
+> timestamp which needs a flag of skb marked in dsa_skb_tx_timestamp(),
+> and handles as one-step timestamp in p->xmit() will face same
+> situation.
 >
->         c->a2 = FIELD_GET(GENMASK_ULL(63, 58), val) - 32;
->         c->a3 = FIELD_GET(GENMASK_ULL(57, 54), val) - 8;
->         c->a4 = FIELD_GET(GENMASK_ULL(53, 48), val) - 32;
->         c->a5 = FIELD_GET(GENMASK_ULL(47, 42), val) + 38;
->         c->a6 = FIELD_GET(GENMASK_ULL(41, 36), val) - 32;
->         c->a7 = FIELD_GET(GENMASK_ULL(35, 29), val) - 64;
->         c->a8 = FIELD_GET(GENMASK_ULL(28, 23), val) - 32;
->         c->a9 = FIELD_GET(GENMASK_ULL(22, 15), val);
->         c->k = FIELD_GET(GENMASK_ULL(14, 10), val) + 10;
->         c->dck = FIELD_GET(GENMASK_ULL(9, 7), val);
-> }
+> Signed-off-by: Yangbo Lu <yangbo.lu@nxp.com>
+> ---
+> Changes for v2:
+> 	- Added this patch.
+> ---
+>  drivers/net/dsa/ocelot/felix.c         |  1 +
+>  drivers/net/dsa/sja1105/sja1105_main.c |  2 +-
+>  drivers/net/dsa/sja1105/sja1105_ptp.c  |  4 +++-
+>  drivers/net/ethernet/mscc/ocelot.c     |  6 +++---
+>  drivers/net/ethernet/mscc/ocelot_net.c |  2 +-
+>  include/linux/dsa/sja1105.h            |  3 ++-
+>  include/net/dsa.h                      | 14 --------------
+>  include/soc/mscc/ocelot.h              |  8 ++++++++
+>  net/dsa/slave.c                        |  3 +--
+>  net/dsa/tag_ocelot.c                   |  8 ++++----
+>  net/dsa/tag_ocelot_8021q.c             |  8 ++++----
+>  11 files changed, 28 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/net/dsa/ocelot/felix.c b/drivers/net/dsa/ocelot/felix.c
+> index d679f023dc00..8980d56ee793 100644
+> --- a/drivers/net/dsa/ocelot/felix.c
+> +++ b/drivers/net/dsa/ocelot/felix.c
+> @@ -1403,6 +1403,7 @@ static bool felix_txtstamp(struct dsa_switch *ds, int port,
+>
+>  	if (ocelot->ptp && ocelot_port->ptp_cmd == IFH_REW_OP_TWO_STEP_PTP) {
+>  		ocelot_port_add_txtstamp_skb(ocelot, port, clone);
+> +		OCELOT_SKB_CB(skb)->clone = clone;
+>  		return true;
+>  	}
+>
 
-By the way, to give a more concrete example, this function could look like this:
+Uh-oh, this patch fails to build:
 
-    fn yas53x_extract_calibration(data: [u8; 8], c: &mut yas5xx_calibration)
-    {
-        let val = u64::from_be_bytes(data);
+In file included from ./include/soc/mscc/ocelot_vcap.h:9:0,
+                 from drivers/net/dsa/ocelot/felix.c:9:
+drivers/net/dsa/ocelot/felix.c: In function ‘felix_txtstamp’:
+drivers/net/dsa/ocelot/felix.c:1406:17: error: ‘skb’ undeclared (first use in this function)
+   OCELOT_SKB_CB(skb)->clone = clone;
+                 ^
+./include/soc/mscc/ocelot.h:698:29: note: in definition of macro ‘OCELOT_SKB_CB’
+  ((struct ocelot_skb_cb *)((skb)->cb))
+                             ^~~
+drivers/net/dsa/ocelot/felix.c:1406:17: note: each undeclared identifier is reported only once for each function it appears in
+   OCELOT_SKB_CB(skb)->clone = clone;
+                 ^
+./include/soc/mscc/ocelot.h:698:29: note: in definition of macro ‘OCELOT_SKB_CB’
+  ((struct ocelot_skb_cb *)((skb)->cb))
+                             ^~~
 
-        c.a2 = FIELD_GET(GENMASK_ULL(63, 58), val) - 32;
-        c.a3 = FIELD_GET(GENMASK_ULL(57, 54), val) - 8;
-        c.a4 = FIELD_GET(GENMASK_ULL(53, 48), val) - 32;
-        c.a5 = FIELD_GET(GENMASK_ULL(47, 42), val) + 38;
-        c.a6 = FIELD_GET(GENMASK_ULL(41, 36), val) - 32;
-        c.a7 = FIELD_GET(GENMASK_ULL(35, 29), val) - 64;
-        c.a8 = FIELD_GET(GENMASK_ULL(28, 23), val) - 32;
-        c.a9 = FIELD_GET(GENMASK_ULL(22, 15), val);
-        c.k = FIELD_GET(GENMASK_ULL(14, 10), val) + 10;
-        c.dck = FIELD_GET(GENMASK_ULL(9, 7), val) as u8;
-    }
-
-assuming `FIELD_GET()` returns `i32`. In particular, `GENMASK_ULL` and
-`FIELD_GET` can be written as normal functions, no need for macros
-(and can be `const fn` too -- i.e. can be evaluated at compile-time if
-needed).
-
-As you see, it looks remarkably similar, and there is no `unsafe`
-because we pass the array of bytes instead of a raw pointer.
-
-The caller needs to get the array from somewhere, of course -- if you
-only have a raw pointer to start with, then the caller will need an
-`unsafe` line to dereference it, as usual.
-
-Cheers,
-Miguel
+It depends on changes made in patch 3.
