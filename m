@@ -2,93 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B61C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 22:17:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28619C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 23:42:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CED461159
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 22:17:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F2B56127A
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 23:42:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232161AbhDZWSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 18:18:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38344 "EHLO
+        id S235224AbhDZXnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 19:43:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232116AbhDZWSk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 18:18:40 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3A9C061574;
-        Mon, 26 Apr 2021 15:17:58 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id 190so1508443qkl.11;
-        Mon, 26 Apr 2021 15:17:58 -0700 (PDT)
+        with ESMTP id S237778AbhDZXnF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 19:43:05 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A519C061756
+        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 16:42:17 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id g4-20020a9d6b040000b029029debbbb3ecso20798987otp.7
+        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 16:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pT8Z+BT2Uzmb9KP8iLMvUauv3UtnTngOEKOh9DM9qy4=;
-        b=ls88h6qyJchcgT2gheBMtudKdMq1gyb07dTcQOV8pEX9uxpTys/RsUPQg8mKcSczat
-         N3AQwYv1yH2AVQF6kTC7//Y6JGWsod8vPKVCN/NHqF88ETT4zerdjRIuSMjqXQxsvz2n
-         2PUrkKm00H5yDGX7LdUNkU9VMzb7z1KmIug7hMxRE+3M/SqERb0K+XdQ0LDjHc1Mwmr9
-         Q/MgfjEIR3UhkTeObEGz0vTnkDJWgVm4/s0kb3FvY0DHNeVRIpmE0STPoMDver35CK8d
-         C0CFtEXktUU4xM0z73+1cCpVKXsME2/Z//BAbumV00rpa/r3iz8MGU4glUaHGLXTEJyi
-         Xupw==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=rABt3tcBwh2XInWLEly6iJ6gJ5SfldgUQGQTM9kHuxw=;
+        b=C38KK+gKaqQ1I0W4asX+n3E9S4FujSL6FsuyShgIa96VKgIKlRYu9WJncqyF0rT08Y
+         EfTCOpK0WvdocQ2bHXQE2ZcoYNjJ0HSt4/sLmn4+T9HOKxYii3zgYwQgay+MtvCtmr09
+         r3E78n8WHv9RTqvDW4JLY5RcsmG0mdZqg1GFE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pT8Z+BT2Uzmb9KP8iLMvUauv3UtnTngOEKOh9DM9qy4=;
-        b=Tm7TaMW8qv0wG6hL0DPoTcFU407yeRfomQ8HEBT+kd+Olo/73/xXnfBmwd8VcNp1zr
-         CW86s3uPAUJCV/J7nS+zyw/yqJlfudiyUuQJBEJJl3JFeO+3sJZNv/sSrDu9faxIsg4M
-         XiXCeYvVTxn9N9CCdQQ5adJrv7UuCrdj1LHtS5Mv2s8Zb4d1Zn7MfHzCeYWpuM4Xeqpt
-         5TYs1aqEVsNYmvw/Sf1t5W+9O6WI8o4JXjhmtemNjHiN41g86tkobF4KVPgbfwdp0JwP
-         o/uMUgYRrWtVtk80oLENYAAYdSZdX8YVYGJk1JLTZ2VbCgjcNr5zwqNivGykYQ7ZX/dD
-         1Ltg==
-X-Gm-Message-State: AOAM530PBPFm8s8pCPyDctFchwej+q2GEAbGE/meN00GoaKx2tf4r6g+
-        DOKYT2NV6r1vZHnKRy9/xc4=
-X-Google-Smtp-Source: ABdhPJwHRhWj15+STILXHLcbrerqEPaFw9TR6Lud8ogKrGI6XqXY451mMzvcEH4xijSbRTNDATMIFg==
-X-Received: by 2002:a05:620a:670:: with SMTP id a16mr20732183qkh.428.1619475477527;
-        Mon, 26 Apr 2021 15:17:57 -0700 (PDT)
-Received: from localhost.localdomain ([156.146.37.247])
-        by smtp.gmail.com with ESMTPSA id x20sm1374111qkf.42.2021.04.26.15.17.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 15:17:56 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     corbet@lwn.net, nathan@kernel.org, linux-kernel@vger.kernel.org,
-        viresh.kumar@linaro.org, linux-doc@vger.kernel.org
-Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, viro@zeniv.linux.org.uk,
-        tglx@linutronix.de, gregkh@linuxfoundation.org,
-        rdunlap@infradead.org, akpm@linux-foundation.org,
-        torvalds@linux-foundation.org
-Subject: [PATCH  RESENDING 0/3] Removed oprofile stale entries
-Date:   Tue, 27 Apr 2021 03:38:44 +0530
-Message-Id: <cover.1619181632.git.unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=rABt3tcBwh2XInWLEly6iJ6gJ5SfldgUQGQTM9kHuxw=;
+        b=rVvWxA2b4cdH2mVAVc3WHPOwxAs2WJN1Q0D0WKHYKGzOrItsxqhxb4gGdvkjK+0kCm
+         A3d8CtPapffaQJrYPYJqheY5zD+UxZaDfEsp1GuFqrAh5rnlSydp50eGKxcVROQddOsJ
+         ZAsOeSsV46dk9OMp4s2GUHYM+0QT6eap4dBqBDCWkY5SelwDo2RcisSxEvtKaMIAkF5Y
+         Cz3qYbj+1v90ZCvmoxEvtuTueWceIsR/oEid+ZJjc/cIPFaKj8ChzX1gXpSGnNuw+PS3
+         caGmEUwVjteeQxRs0Au8KOESx7hUqbMTG3Q1AYKDkcX0YKHwif5O5M4jwOagSDmEUrAI
+         4sHg==
+X-Gm-Message-State: AOAM530lN/4zOeyQ6UQKur1HWB+Crw0rcO7A8BLp+HvubsTXJm02Jw+T
+        hTLe0mhFkMYVH98O+PHS10hxeNHajPfDIoXhJRg8fQ==
+X-Google-Smtp-Source: ABdhPJzhbVQr/cxzBwUXNgmJFIHkEi3C1tG3WUuIq0sbL8zZj9hc2x+BfnXKSs+VbtNBw+U4iJ0p4zCaMTppjLXeYRE=
+X-Received: by 2002:a9d:222a:: with SMTP id o39mr13079949ota.246.1619480536586;
+ Mon, 26 Apr 2021 16:42:16 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 26 Apr 2021 16:42:16 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YILKpQ2KsBXCoHlG@smile.fi.intel.com>
+References: <20210420215003.3510247-1-swboyd@chromium.org> <20210420215003.3510247-6-swboyd@chromium.org>
+ <YIARTVqnN8t/FA/P@smile.fi.intel.com> <161913520061.46595.8469966711677906076@swboyd.mtv.corp.google.com>
+ <YILKpQ2KsBXCoHlG@smile.fi.intel.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Mon, 26 Apr 2021 16:42:16 -0700
+Message-ID: <CAE-0n52Aq+hOXCJkDXBgNjVG=kP3yVMsc5czyi3R8SU=X362ug@mail.gmail.com>
+Subject: Re: [PATCH v5 05/13] module: Add printk formats to add module build
+ ID to stacktraces
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch series trying to clean up the remaining debris of removed
-functionality.Kindly see the commit : 24880bef417f(oprofile-removal)
+Quoting Andy Shevchenko (2021-04-23 06:24:53)
+> On Thu, Apr 22, 2021 at 04:46:40PM -0700, Stephen Boyd wrote:
+> > Quoting Andy Shevchenko (2021-04-21 04:49:33)
+> > > On Tue, Apr 20, 2021 at 02:49:55PM -0700, Stephen Boyd wrote:
+>
+> ...
+>
+> > > > Example:
+> > >
+> > > Please, shrink the example to leave only meaningful lines.
+> > >
+> > > Why, e.g., do we need to see register dump, is it somehow different?
+> >
+> > Can you format it how you would like to see it? Should it be a unified
+> > diff? I agree it would help to see "what changed" but also don't know
+> > what you want so opted to provide more information, not less. I was
+> > worried about the questions like "do you change other parts of a splat?"
+> > so I just put the whole thing there.
+>
+>
+> Before:
+>  ...line X...
+>  ...
+>  ...line Y...
+>
+> After:
+>  ...line X'...
+>  ...
+>  ...line Y'...
+>
+> Three lines of example per each paragraph, in each of them the middle one is
+> simply [...].
 
-In truest sense, it is all trivial in nature, so cc'ing that mail id too..
+Ok got it. Thanks for clarifying.
 
-trivial@vger.kernel.org
+>
+> ...
+>
+> > > > +#ifdef CONFIG_STACKTRACE_BUILD_ID
+> > > > +     /* Module build ID */
+> > > > +     unsigned char build_id[BUILD_ID_SIZE_MAX];
+> > >
+> > > Is it really string of characters? Perhaps u8 will be more explicit.
+> >
+> > I'm just matching the build ID API that uses unsigned char. If you want
+> > u8 then we should update more places. I could do that in a followup
+> > patch, but this one is already sorta big.
+>
+> Unsigned char here is confusing. I would prefer a prerequisite patch to fix
+> other places first.
+>
 
-Bhaskar Chowdhury (3):
-  Removed the oprofiled version option
-  oprofiled version output line removed from the list
-  Enlisted oprofile version line removed
-
- Documentation/process/changes.rst                    | 1 -
- Documentation/translations/it_IT/process/changes.rst | 1 -
- scripts/ver_linux                                    | 1 -
- 3 files changed, 3 deletions(-)
-
---
-2.26.3
-
+Does anyone else want this to happen first? Andrew? I'm inclined to fix
+this in a followup. As I said before, this would make this an even
+bigger patch series which I'd like to avoid.
