@@ -2,81 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 560A6C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:19:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78977C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:19:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C9E66101B
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:19:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4109661396
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:19:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233506AbhDZOT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 10:19:58 -0400
-Received: from verein.lst.de ([213.95.11.211]:41465 "EHLO verein.lst.de"
+        id S231862AbhDZOUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 10:20:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33322 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231862AbhDZOT4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Apr 2021 10:19:56 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id D12DF68C4E; Mon, 26 Apr 2021 16:19:11 +0200 (CEST)
-Date:   Mon, 26 Apr 2021 16:19:11 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        id S233637AbhDZOUQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Apr 2021 10:20:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1393B60E0C;
+        Mon, 26 Apr 2021 14:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619446775;
+        bh=SZoRCjNS7n0zZKfcX0q4e/N+EOpm1IX7g7LX8+u94y4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UK8aalI7zaK4IP34HP0sfRu/ONgB7D2Ievos/LSc0qAYNryQzv3iwnXMWxFwGQxkE
+         HLLpKcI0sI1d9O+lC5dYAJtw6G6/64qbv7doRnSsw++PFdYR5GZJtsoY6dLMYTzhzm
+         GtXq2sizXcdU6hJ+45nSpfCw7C4IzFXSehhJxi+gVCTvpGCOEElGyYH2fgyWbrQxLM
+         FsJHKdnuPgl4/ruY+4ylzz6p3mJlci01x0tu180DtKd83SSQz5IDulL370RRr4T8z8
+         gTgucY6MH466wBdSCKUBk/86CFoxWJU1jvtXgJkHrYTzcH512KVn64BFgVFDCjusFh
+         PeTVhcf+aywHg==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH 10/12] vfio/mdev: Remove mdev_parent_ops
-Message-ID: <20210426141911.GH15209@lst.de>
-References: <0-v1-d88406ed308e+418-vfio3_jgg@nvidia.com> <10-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v2 0/2] mmzone.h: fix kernel-doc and simplify is_highmem_idx
+Date:   Mon, 26 Apr 2021 17:19:25 +0300
+Message-Id: <20210426141927.1314326-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +The mediated bus driver's probe function should create a vfio_device on top of
-> +the mdev_device and connect it to an appropriate implementation of vfio_device_ops.
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-Overly long line.
+Hi,
 
-> +This will provide the 'mdev_supported_types/XX/create' files which can then be used
-> +to trigger the creation of a mdev_device. The created mdev_device will be attached
+There are several kernel-doc comments in include/linux/mmzone.h, but
+they have some formatting issues and they are not linked to the rest of
+the documentation.
 
-Two more.
+The first patch here fixes the formatting and adds the kernel-doc
+comments to the core-api/mm-api.rst.
 
-Otherwise looks good:
+The second patch simplifies a bit detection if a zone is a highmem zone.
+It does not generally depends on the first one, but they have a textual
+conflict.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+v2:
+* rebase on v5.12-rc8-mmots-2021-04-21-23-08
+* add Reviewed-by tags, thanks Anshuman and Matthew
+
+v1: Link: /home/mike/tmp/mm-docs/mmzone/v2/v2-0000-cover-letter.patch
+
+Mike Rapoport (2):
+  mm/mmzone.h: fix existing kernel-doc comments and link them to core-api
+  mm/mmzone.h: simplify is_highmem_idx()
+
+ Documentation/core-api/mm-api.rst |  1 +
+ include/linux/mmzone.h            | 56 ++++++++++++++-----------------
+ 2 files changed, 26 insertions(+), 31 deletions(-)
+
+
+base-commit: 5770176c2a0eaa998c58cfc7a9a5fe5b9291dd2a
+-- 
+2.29.2
+
