@@ -2,120 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C95C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 18:18:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FEACC43460
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 18:26:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D65D161165
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 18:18:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A4F3613C4
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 18:26:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234458AbhDZSTN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 14:19:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234304AbhDZSTN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 14:19:13 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAD1C061574;
-        Mon, 26 Apr 2021 11:18:31 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id i4so28479264ybe.2;
-        Mon, 26 Apr 2021 11:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F7v36cla8caxpSLJhOMdKWfComHLfYG2gbSrAEkLrOw=;
-        b=A1AFfE+2fVystHL7B+p4dhFFNrnZRzFxxOsH2x/tAB1afo1nksfGMvGLn1CzpLOhw7
-         19f/dgMkIRmUHi3WS8dkILKMSRG+qdG31sqbBDqyBwZG1qaCKY5peThW0OKBOnXi7TJH
-         WH1X6CPUDOZ+Bxax1/I9FC8i61tBZ4AshhRhe6n6HLl5yoyo4VWOQiQZosSrzbQRcPTd
-         32G4FpKQ+WBP5lmdO8pZiF432W2/5wLwLNH7UwCt+dvOvQZi4WATaGbm736K8+7PRPuS
-         FBAPB0vtCUhsjHsm0BN4WeiPWwcqg56XUG0sd7/wG6A98/Gu3ZkKPjI+zQvbmw9B7ab9
-         qYMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F7v36cla8caxpSLJhOMdKWfComHLfYG2gbSrAEkLrOw=;
-        b=VjGnC53kr4tORdxtYCKL6v1GeX09+s3J6wp9Gnftd64juvIDAYd4L4a2ab3X7nnFr0
-         2lujqePoKySS+5JTx8bZ9CgFZUlAz4qSEzVyG1Le2Bf49V/MvOa+YewXfBynLRv984E1
-         L07yLkEvBRh/ZcZR+ynbEoHHul8JRMLzP4py0HCWnRyS+vDHwZloWuGdz+1cfUAWVOpL
-         dZ5drcSygKn1KtqiEP7Pt1BAA3PPRJJW7/OYs5dJZPoYzTKay1MoNHqbl0+TlQmk/yhl
-         1mEmSaFP+Y4dflMT8QhZadLYrWTOeYfnT0v/XvMakoslba48McU+5OdTG34D+6Bugb7o
-         qEAg==
-X-Gm-Message-State: AOAM530qi3wAbwWekk/zbk60vbmaFayoVtqICPKRC33PsK5TkEBS3B+7
-        wlvRpt29+x2HkXBFW+oXX3TXcPyBA2emBmc0ZOE=
-X-Google-Smtp-Source: ABdhPJwA9XaKpU2FfRTf3EhmwLejH/FxBtccngRqJlzoiX2mOvpdI80qCUc5w+8GSCrLHIisaBXYdcoD7eqCChWN91I=
-X-Received: by 2002:a25:7909:: with SMTP id u9mr25819339ybc.22.1619461110782;
- Mon, 26 Apr 2021 11:18:30 -0700 (PDT)
+        id S234156AbhDZS1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 14:27:11 -0400
+Received: from mail-mw2nam12on2056.outbound.protection.outlook.com ([40.107.244.56]:38881
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233934AbhDZS1K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Apr 2021 14:27:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dgp+Fa5c8M1zniNpNntvRkBoHl2YPovZkYZUTzbmP1oT9+NOKHC1jgH/+QOI24X/2jmPKov1LN99/vDgrM8nrfCmNSa8tA9SUgNWz/vXEllRJY+i2ogUYOF7wHRqKs/U3C+aaDWpt8rRJYBkzDBQAGhtSERvq3y+XFuNSy30gwa4k6eEXOYgFXf/TxQdO+fbEZhssIQemcbzq19yOpOxdp/URiNRKp1a6Ihr6sszWfmgVEiXK8w17CprwQScHblqUU389YZg276k/ScU0nZF4RFY0BzO7Ka3bAca6PNVv9+5cczBu01uyou4w2dS9AMh09D7eWXflL/1EE3l2/bJ+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OwBACwtQf8D0tSrEHDM/10Oh3TlQXJ5AFZ2rAahhq6g=;
+ b=GWdcAi1qO9w23I0aVjtwY6Mvm7keNPoBxZeBR9hG/g/D5hdGZMhdV2BzkTo0Ly12wcA13zePVTylNIjd2gJPYG78Qi59yaNxnf0hRAlETS5AL1Ml29CzS2NUQCUtGNkvPFnVvwAv2+8+4vNurqCd1++gn3Hq1OcrJ6DMqVk2yOSPNiZ3qWUJRqxOt9M1peSD1uGUMgUGEuNgPu5P2+pRSMrfoImTFO6Wz0KFY74YHActS0WrNEGXeFtLKTUjkZjnl7pfQeo/OcI1Q3yOq+mdbOxyTjQHcKDYLtAXZKyj+wNLu7L+LMZ6+YGNu8wb1IgytES6XjmgR5qXAd24G7b0UA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OwBACwtQf8D0tSrEHDM/10Oh3TlQXJ5AFZ2rAahhq6g=;
+ b=fGQp72EuNWK6nsWK2PUvuT6Hux0GeHaClIw8uVev44qJfflMGKdc1XsI5LODCucmuR2tKRQgfusaZq0MRuEXHxnuzlasmQ64xmPOMvrfuHjL2OJYhebWYi4zhHSZYyIw4APMlh79zcTEhCEldYCZt4fLaQIAeJSLgjgc4vYDoHuU8EVwvRiJ3k0kVzf/aAUg50euQrYORWzCgZLEC6yYFUxWl6p6pI55cKCgY2qsvxQdi+5Kz2x3bNwVYgdfDdQmUDXj4CU2lkCn2GguERCxgxG5vKoVKH0s/LXXXWFi5krD3Da8kK4bWm4OkG9cw5nUGg1Wzq91Au5RDzFapCZzAg==
+Authentication-Results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3404.namprd12.prod.outlook.com (2603:10b6:5:3a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Mon, 26 Apr
+ 2021 18:26:27 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.4065.026; Mon, 26 Apr 2021
+ 18:26:27 +0000
+Date:   Mon, 26 Apr 2021 15:26:25 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 01/12] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
+Message-ID: <20210426182625.GY1370958@nvidia.com>
+References: <1-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
+ <d058f9ad-7ce1-c1b3-19cd-5f625ef4c670@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d058f9ad-7ce1-c1b3-19cd-5f625ef4c670@infradead.org>
+X-Originating-IP: [47.55.113.94]
+X-ClientProxiedBy: BLAPR03CA0063.namprd03.prod.outlook.com
+ (2603:10b6:208:329::8) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com> <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
-In-Reply-To: <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 26 Apr 2021 20:18:19 +0200
-Message-ID: <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (47.55.113.94) by BLAPR03CA0063.namprd03.prod.outlook.com (2603:10b6:208:329::8) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22 via Frontend Transport; Mon, 26 Apr 2021 18:26:26 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lb5w9-00DA1r-Kc; Mon, 26 Apr 2021 15:26:25 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f2b818ef-6c19-4296-b9cc-08d908e0cdc3
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3404:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3404EE40553CA26F0D763FB1C2429@DM6PR12MB3404.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0kHxFwycYxiOikzBw4WDroBcm3swntun7NgclzNi4ZhPeGW2v6JLJrJphJ/dY7QgMIpYqhhvI/tnIpu7cwzqvolSeKsjLfo9VWtykDJl9zbJWMNCY41ptko3Mb/5OJu8tO0F5eDzb1a/m3poyRlOaei9ZyYVR+WtZQh4ki1x0BeRuYCE35eKEkrouipQf9i7iA/pLPl1ISDpgY2+zxGqKvVz5aY9qa3hwvvzL+faSIcXwvq3kh6JfDoLjGHHQy5IIA/iWwF/mcqE0sntTZGr139rXocJ47aEfphgLnwQOQZ5fs56dB2EMyukcHYQY6kVvvGbEj1M7o9hsSeEIAJ9IYD29lAEX5XnNZ+80qBPWtdIoTtxvn+CWcMI5d7Tk638GlEZmR6POJq5d11171ccEzIU9Ipuijs928k+C+yy1O96WJMCRBwPtt8BHvw6ksj23gpwlVdhHr5ab4XhEMxV89SV9CxPbID8i1JAYn2mJ5JnZa+a/wrhCpT6C9/o+dqb0abzuIE2CVI6AOiTgdJjlEBM0jAnphpaVdBFdYpbFa7z2Vy8ADfP2FSYXtJ9RzXh9SWh+OfB/Cen/tGjxgEJcMkkGKGSfWW612PR/JctGhY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(366004)(136003)(396003)(376002)(5660300002)(66556008)(316002)(8676002)(8936002)(7416002)(4326008)(107886003)(66476007)(54906003)(478600001)(38100700002)(36756003)(6916009)(186003)(2616005)(426003)(2906002)(4744005)(33656002)(1076003)(53546011)(66946007)(9746002)(9786002)(86362001)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?XU5yW7jfbdS8/TE7Vye9XZQ1woncEWANZU6lt1tRtw5MSryhqbsx7a6iHeex?=
+ =?us-ascii?Q?e/+I/57lApWvRtK0gLAMA/UoKgxXkUOqzMCMbB3J6zfFDIGxKGasniOvmSfH?=
+ =?us-ascii?Q?yqL8Hgplgb5c1L+QI8uabCg+Ha/2dtF1UidKEZMnpQPkIczj4mpHa0ADMhAs?=
+ =?us-ascii?Q?PaxA1LKWuapZDm/V732zGgzrM3v+oZoqvBhbikUtZVEMXvx/oPu2txuzU9SJ?=
+ =?us-ascii?Q?2iogxPtprC3XfIoP/zD0rvbPVSoBMuuchthBw14xOXSuYkYXSgZWjfPTdCJT?=
+ =?us-ascii?Q?lKJBZhHsMHD8s/6oQZhuEdwlN3sJ9LNCF0b5w2GRWYYriWENeQNwegvP5IOW?=
+ =?us-ascii?Q?MSsyU4phwcDPUt4ilyH/5rDltUY5d+jNjJqQ6LTd9hmW3U2JTOFVKtQ4zx3s?=
+ =?us-ascii?Q?KrGfaeG2MoWWcUesU2rQX1fn90k1VXJSy4pgBeM5C31BqfcufwOjy08r43Hm?=
+ =?us-ascii?Q?B06Azsrl6GnUYRu3AJ8js87QXuYkt9ZoTVc9BL+Q4+2U0fKe5n+I9PVpn/v5?=
+ =?us-ascii?Q?nUc5nmoEOQPYUdk3axExih/A/8Z4BzeEeaof8N9ObQh+k1BRv4/jaM6McWhs?=
+ =?us-ascii?Q?eHi66QktT/iPaxsmmD6UEPOX7Joka02lWJh8BK1pubuli+UnWxp7+ULEKvOh?=
+ =?us-ascii?Q?1wlOpFLlJrdxeTRzAMnS/G3SBZu46cpGBW16kbB5KugwcNC/HLpk2FfBVEyE?=
+ =?us-ascii?Q?9SHMGjwtP1cRK1YNZXCUV79T2lJ8tdt3RTnPx0hCANZqWHChgRCAqvxWRSZC?=
+ =?us-ascii?Q?9qTPKxoLvaSiaS1lavIL0YGfgbVOlQfC5prIQfh3iy+QJqGK6CopSLHXaHm0?=
+ =?us-ascii?Q?ncliDxTZW4YuJFtNAoIwKF9GYGj/qxubGjYQ5SIpw9sDWLsSazs/yCYBYYh3?=
+ =?us-ascii?Q?lC/zfIE77UpqXMLzWgIn60fI6TU0P2ERTjwqoLCKoLP5YpAnD+OOaFtxA8Js?=
+ =?us-ascii?Q?PX4uceNdIxJl0MAWRct/awwUNoU7I7G3ntGmawgsjix4xni1NITWDtytPG+9?=
+ =?us-ascii?Q?hmcVYJJwZCywfmPVoUrPNOX4bvLR1ckA4X+ChStYTZZ9kiXK4EMVhvftPOFZ?=
+ =?us-ascii?Q?wPamoqG8pwt/myGLTX1B1JREq8JA7dVSRhOCsgDhiAGCbb7c/4Gtajgv5wGf?=
+ =?us-ascii?Q?RSp1WUap+togqFgwaMELtl7wykSTbQ3i4oi8NTkkOEGSbiLVfQN5mRwGJqkW?=
+ =?us-ascii?Q?pP8UvLrO+u7YCdcarLr89VGVRmnugrpj4d9oWWUVHYXDYBUfbuT69T0mSC4z?=
+ =?us-ascii?Q?a9cs0qQcAVUF7tiXlWvnrI3KPi4/ILzdhi1myCnBAgW9pdIZF/wrKMyA6ip6?=
+ =?us-ascii?Q?3Q2SGZhKmkwetxYzuu3XypyX?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2b818ef-6c19-4296-b9cc-08d908e0cdc3
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2021 18:26:27.0756
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MDkbfD/OpUGzYzc4ewhhSrlwqv/fAoPt0eNjNCmTkyahG6DklvIyin7E3y1Vrg5W
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3404
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 2:31 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> I think the Rust proponents should be open to the fact that their
-> work will eventually depend on themselves or someone else
-> fixing a working compiler for the maintained architectures in
-> the Linux kernel one way or the other, so they will be able to
-> work with Rust project anywhere in the kernel.
->
-> For example m68k is not going away. Avoiding this question
-> of compiler support, just waiting and hoping that these old
-> architectures will disappear is the wrong idea. The right idea
-> is to recognize that LLVM and/or GCC Rust needs to
-> support all these architectures so they can all use Rust.
-> Someone needs to put in the effort.
+On Fri, Apr 23, 2021 at 05:08:10PM -0700, Randy Dunlap wrote:
+> On 4/23/21 4:02 PM, Jason Gunthorpe wrote:
+> > @@ -171,7 +171,7 @@ config SAMPLE_VFIO_MDEV_MDPY_FB
+> >  
+> >  config SAMPLE_VFIO_MDEV_MBOCHS
+> >  	tristate "Build VFIO mdpy example mediated device sample code -- loadable modules only"
+> 
+> You can drop the ending of the prompt string.
 
-The RFC does not avoid the question -- please note it explicitly
-mentions the architecture/platform support issue and the current
-dependency on LLVM, as well as the possible ways to solve it.
+Hum, I see this whole sample kconfig file is filled with this '&& m'
+pattern, I wonder if there is a reason?
 
-We would love to not have that issue, of course, because that would
-enable Rust to be used in other parts of the kernel where it is likely
-to be quite useful too.
+I think I will put the '&& m' back, I thought it was some kconfig
+misunderstanding as it is very strange to see a naked '&& M'.
 
-But even if we did not have the issue today, it seems like starting
-with drivers and other "leaf" modules is a better approach. There are
-several reasons:
-
-  - If for reason reason we wanted to remove Rust from the kernel,
-then it would be easier to do so if only "leaf" bits had been written.
-
-  - We cannot compile the Rust support without nightly features yet,
-so it does not seem wise to make it a hard requirement right away.
-
-  - Kernel developers need time to learn a bit of Rust, thus writing
-subsystems or core pieces of the kernel in Rust would mean less people
-can understand them.
-
-Given that drivers are a big part of the new code introduced every
-release, that they are "leaf" modules and that in some cases they are
-only intended to be used with a given architecture, they seem like a
-good starting point.
-
-Cheers,
-Miguel
+Thanks
+Jason
