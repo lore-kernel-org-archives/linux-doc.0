@@ -2,108 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B96D5C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 13:47:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BBA4C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:14:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7279F60BD3
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 13:47:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39C246101C
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:14:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233560AbhDZNs0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 09:48:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37398 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbhDZNs0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 09:48:26 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B1B1C061574;
-        Mon, 26 Apr 2021 06:47:43 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id lr7so10884187pjb.2;
-        Mon, 26 Apr 2021 06:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bmdsWUiF+UouXeclb/QihxwtZO4aP5KYKDt52Zt+pR4=;
-        b=ILSFUuiLwE37BRQu5JDZqCTdAQAudrwHpuDt6K1EvUbXHNIdaVtaZr77Rh+vQSvjLe
-         thCqKkZtLDUVKa2r03sBgmJzXi5DOuf5IWZe+S/DgzEzD3E7JLDQKj+JE5sI1T0iv2CG
-         bq7ifvwCSFEm2GP+GqkfvqKkychzmZkrVY9rKLC33kx1X4F062Bcpjx5/WxNzwe0Xctt
-         nLL32sVGqka8QeWXSzXQKv9FsmDe/tnADo2SjlfiKzuOI9nuqPHNmc/a6UcNeNTbYE1k
-         Tm3XIDkd9DS6uuSc8pRUvuAcpqTT6CP23KadYr+fSBubYtgy6AOq9zEUXttaT2RNRDqr
-         1NaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bmdsWUiF+UouXeclb/QihxwtZO4aP5KYKDt52Zt+pR4=;
-        b=YcTTEVdClG+Gt9R2+glGxAKbupOYlGVw5Q4/2i1A70nBus7tkFBe6zCE+6iu18l5IV
-         59hGuU6+dsBKAv60vavLyF0HbRBO5pUlzlB1CZybYf2wwumSaigIctDUwc26fDkb05OG
-         mhzSmMiuHdKB/khlXQMYcz/z7ED1luPdC2Bm2f5RnB73YWxkbFMDtRx4BS/BJRAfzamX
-         lk2K6UJsDvJAl8HUb5UnGt4d2cnpqaXvMhVpGlB6ybC/WJfvijVE5v3BXyDCFYU77lGb
-         qpenis6G1dxMr2ScpYdrZcrYLw8meDCaI1ZnwoG6WtraZfD7LbnTZIAFaVpMK1AJ13b2
-         iD/A==
-X-Gm-Message-State: AOAM53022MAwuoQ0qlLNNo2idKzjeiYrTw+4e652IX2HqfW3QGe4j20H
-        asdoLs13aXln0V6F0WA3hWE=
-X-Google-Smtp-Source: ABdhPJydRykU+2De9QBNGf7IWO8IIPiFBuuveO5U4roLi5yOjmpVqFT7MCRru5SYj/BoVVmboO+9Ag==
-X-Received: by 2002:a17:902:9347:b029:e8:c21c:f951 with SMTP id g7-20020a1709029347b02900e8c21cf951mr18837629plp.14.1619444863043;
-        Mon, 26 Apr 2021 06:47:43 -0700 (PDT)
-Received: from hoboy.vegasvil.org ([2601:645:c000:35:e2d5:5eff:fea5:802f])
-        by smtp.gmail.com with ESMTPSA id fw24sm12326791pjb.21.2021.04.26.06.47.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 06:47:42 -0700 (PDT)
-Date:   Mon, 26 Apr 2021 06:47:39 -0700
-From:   Richard Cochran <richardcochran@gmail.com>
-To:     Yangbo Lu <yangbo.lu@nxp.com>
-Cc:     netdev@vger.kernel.org, Vladimir Oltean <vladimir.oltean@nxp.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S233573AbhDZOOl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 10:14:41 -0400
+Received: from verein.lst.de ([213.95.11.211]:41445 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233294AbhDZOOl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Apr 2021 10:14:41 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 1578768C4E; Mon, 26 Apr 2021 16:13:55 +0200 (CEST)
+Date:   Mon, 26 Apr 2021 16:13:55 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [net-next, v2, 0/7] Support Ocelot PTP Sync one-step timestamping
-Message-ID: <20210426134739.GB22518@hoboy.vegasvil.org>
-References: <20210426093802.38652-1-yangbo.lu@nxp.com>
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 08/12] vfio/gvt: Convert to use
+ vfio_register_group_dev()
+Message-ID: <20210426141355.GF15209@lst.de>
+References: <0-v1-d88406ed308e+418-vfio3_jgg@nvidia.com> <8-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210426093802.38652-1-yangbo.lu@nxp.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <8-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 05:37:55PM +0800, Yangbo Lu wrote:
-> This patch-set is to support Ocelot PTP Sync one-step timestamping.
-> Actually before that, this patch-set cleans up and optimizes the
-> DSA slave tx timestamp request handling process.
-> 
-> Changes for v2:
-> 	- Split tx timestamp optimization patch.
-> 	- Updated doc patch.
-> 	- Freed skb->cb usage in dsa core driver, and moved to device
-> 	  drivers.
-> 	- Other minor fixes.
-> 
-> Yangbo Lu (7):
->   net: dsa: check tx timestamp request in core driver
->   net: dsa: no longer identify PTP packet in core driver
->   net: dsa: free skb->cb usage in core driver
->   net: dsa: no longer clone skb in core driver
->   docs: networking: timestamping: update for DSA switches
->   net: mscc: ocelot: convert to ocelot_port_txtstamp_request()
->   net: mscc: ocelot: support PTP Sync one-step timestamping
+> diff --git a/drivers/vfio/mdev/Makefile b/drivers/vfio/mdev/Makefile
+> index ff9ecd80212503..7c236ba1b90eb1 100644
+> --- a/drivers/vfio/mdev/Makefile
+> +++ b/drivers/vfio/mdev/Makefile
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  
+> -mdev-y := mdev_core.o mdev_sysfs.o mdev_driver.o vfio_mdev.o
+> +mdev-y := mdev_core.o mdev_sysfs.o mdev_driver.o
+>  
+>  obj-$(CONFIG_VFIO_MDEV) += mdev.o
+> diff --git a/drivers/vfio/mdev/mdev_core.c b/drivers/vfio/mdev/mdev_core.c
+> index 51b8a9fcf866ad..f95d01b57fb168 100644
+> --- a/drivers/vfio/mdev/mdev_core.c
+> +++ b/drivers/vfio/mdev/mdev_core.c
 
-Please fix the memset.  Then, for the series:
+I think all these mdev core changes belong into a separate commit with a
+separate commit log.
 
-Acked-by: Richard Cochran <richardcochran@gmail.com>
+>  static int __init mdev_init(void)
+>  {
+> -	int rc;
+> -
+> -	rc = mdev_bus_register();
+> -	if (rc)
+> -		return rc;
+> -	rc = mdev_register_driver(&vfio_mdev_driver);
+> -	if (rc)
+> -		goto err_bus;
+> -	return 0;
+> -err_bus:
+> -	mdev_bus_unregister();
+> -	return rc;
+> +	return  mdev_bus_register();
+
+Weird indentation.  But I think it would be best to just kill off the
+mdev_init wrapper anyway.
+
+>  static void __exit mdev_exit(void)
+>  {
+> -	mdev_unregister_driver(&vfio_mdev_driver);
+> -
+>  	if (mdev_bus_compat_class)
+>  		class_compat_unregister(mdev_bus_compat_class);
+> -
+>  	mdev_bus_unregister();
+>  }
+
+Same here.
+
+> diff --git a/drivers/vfio/mdev/mdev_driver.c b/drivers/vfio/mdev/mdev_driver.c
+> index 6e96c023d7823d..0012a9ee7cb0a4 100644
+> --- a/drivers/vfio/mdev/mdev_driver.c
+> +++ b/drivers/vfio/mdev/mdev_driver.c
+> @@ -74,15 +74,8 @@ static int mdev_remove(struct device *dev)
+>  static int mdev_match(struct device *dev, struct device_driver *drv)
+>  {
+>  	struct mdev_device *mdev = to_mdev_device(dev);
+> +
+> +	return drv == &mdev->type->parent->ops->device_driver->driver;
+>  }
+
+Btw, I think we don't even need ->match with the switch to use
+device_bind_driver that I suggested.
+
+> -EXPORT_SYMBOL_GPL(vfio_init_group_dev);
+> +EXPORT_SYMBOL(vfio_init_group_dev);
+
+> -EXPORT_SYMBOL_GPL(vfio_register_group_dev);
+> +EXPORT_SYMBOL(vfio_register_group_dev);
+
+> -EXPORT_SYMBOL_GPL(vfio_unregister_group_dev);
+> +EXPORT_SYMBOL(vfio_unregister_group_dev);
+
+
+Err, no.  vfio should remain EXPORT_SYMBOL_GPL, just because the weird
+mdev "GPL condom" that should never have been merged in that form went away.
