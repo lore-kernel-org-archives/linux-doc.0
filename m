@@ -2,102 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 907C7C43460
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:17:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 560A6C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:19:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 643CF60E0C
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:17:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C9E66101B
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:19:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233759AbhDZOSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 10:18:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44062 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233560AbhDZOSa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 10:18:30 -0400
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D02C061574;
-        Mon, 26 Apr 2021 07:17:48 -0700 (PDT)
-Received: by mail-oo1-xc33.google.com with SMTP id a188-20020a4a4cc50000b02901f0ae7068a1so4271158oob.13;
-        Mon, 26 Apr 2021 07:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=+XfLmAGVjDqh4bLpk3FH98At1RwV7/JgpCPPTL5UDqA=;
-        b=bCMMgG/l35c6tfRPhcsXkIe6TzFlIMp/H+Lg7wTFhSxTb8RB5BOBXij9O8JXKaSqkP
-         9t8hcbVabGGELsFU1SJxJ6Y71G9r1MM7/TOwBxsd4U6OwYL+m9UYJ59pwYQV4GlX+RZV
-         T4KNGyDwFxxJ5RInHNYQ79zFvUk4kxwmhVtayUbA5rxQEb0xcDiwiCsXNxuHpqJvmG8m
-         34EhfBZ4m45IW676BOE0Yks48qqWPh3z1FhYGFx7qDG7luTKrZFKtvY0zIn73KWxz3v/
-         X/gbx+r/lRrnY59lnfohoiN89vLQRqB17xrn0wa2IADI0ZzK3ze/1FndMfCgnSqa2C9H
-         dDEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=+XfLmAGVjDqh4bLpk3FH98At1RwV7/JgpCPPTL5UDqA=;
-        b=pRPTCx2+6eCz2GD7NFMLvzD2jtsTKCwJZUl33eYQ7V6x1/wtA2Cz7ddmk6g0IRXth3
-         RRwAcXpz9DieOzl7Tt/lHVx+IOvnh5RUXWqTK41VSJgPdfd8emRghlGmnq0rcoHcdrdi
-         O1tcvIcaqSS0PrhJE3My86n8Y7R4OXLwexNhQ2EFEoRjJwE0rkIXfUF33T2ugbJPY59Y
-         aFDYJKS69zP1m32UwqX2eLPPJQEqYjoofQfeon5TrYL6sh1CV0A1zoDpzNmKLy+cZjVt
-         XYFYe2GRNbDf2KRDI6jJmdn+aZxj4IXxzQlcJyGbyIv5hZ3lTuI0ivmfT2cMxQP0poL5
-         bWZg==
-X-Gm-Message-State: AOAM532ZC5hmT0ZXHH4wODqUZjsTjXQRGBid3qH0sWQ5PwGbEjkzJNV1
-        w/ClslwFFgMOSb2ff63EBmI=
-X-Google-Smtp-Source: ABdhPJwuTWLQy2jDoLqFc7IzHqUfX97rJz5dFgYVhIK7DziYo1Wjn6BcAFyBsliLkHstZdoTf8+lEQ==
-X-Received: by 2002:a4a:4c43:: with SMTP id a64mr8182158oob.1.1619446668154;
-        Mon, 26 Apr 2021 07:17:48 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g5sm3079937oiy.24.2021.04.26.07.17.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 26 Apr 2021 07:17:47 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Mon, 26 Apr 2021 07:17:45 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     =?iso-8859-1?Q?V=E1clav_Kubern=E1t?= <kubernat@cesnet.cz>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] hwmon: (max31790) Rework to use regmap
-Message-ID: <20210426141745.GA257701@roeck-us.net>
-References: <20210413025948.901867-1-kubernat@cesnet.cz>
- <250c1c16-541a-984f-c720-1a8b6176e97e@roeck-us.net>
- <CABKa3npjrpq5Aw_Xqy3mFZtUHZcfB0YENxEDgo_MCwPUKqA4ww@mail.gmail.com>
+        id S233506AbhDZOT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 10:19:58 -0400
+Received: from verein.lst.de ([213.95.11.211]:41465 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231862AbhDZOT4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Apr 2021 10:19:56 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id D12DF68C4E; Mon, 26 Apr 2021 16:19:11 +0200 (CEST)
+Date:   Mon, 26 Apr 2021 16:19:11 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 10/12] vfio/mdev: Remove mdev_parent_ops
+Message-ID: <20210426141911.GH15209@lst.de>
+References: <0-v1-d88406ed308e+418-vfio3_jgg@nvidia.com> <10-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABKa3npjrpq5Aw_Xqy3mFZtUHZcfB0YENxEDgo_MCwPUKqA4ww@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <10-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 02:46:27PM +0200, Václav Kubernát wrote:
-> Hello.
-> 
-> I'm sending a new version of my patch on max31790. This new version
-> fixes the cache issue and actually makes it work by setting
-> .cache_type. You were right about the "yes/no" ranges, so I flipped
-> those.
-> 
-> By the way, it seems that the reason your reply got lost is because of
-> weird addresses in the "Cc:" email field, they end with "cesnet.cz",
-> so it could be that I'm sending email incorrectly. Let me know if I'm
-> doing something wrong.
-> 
+> +The mediated bus driver's probe function should create a vfio_device on top of
+> +the mdev_device and connect it to an appropriate implementation of vfio_device_ops.
 
-Yes, the To: field of your series is either empty (for the first patch
-of the series), or it is something like:
-	To: unlisted-recipients: no To-header on input <;
+Overly long line.
 
-Also, you send your follow-up series as response of the previous series
-which doesn't follow the guidance for submitting patches and may result
-in the entire series getting lost.
+> +This will provide the 'mdev_supported_types/XX/create' files which can then be used
+> +to trigger the creation of a mdev_device. The created mdev_device will be attached
 
-Guenter
+Two more.
+
+Otherwise looks good:
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
