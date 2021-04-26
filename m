@@ -2,315 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 638B0C43461
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98469C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:30:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B76961027
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:26:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C61F61289
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:30:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233560AbhDZO1F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 10:27:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46024 "EHLO
+        id S233849AbhDZOax (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 10:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231862AbhDZO1F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 10:27:05 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60671C061574;
-        Mon, 26 Apr 2021 07:26:22 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id p202so21400563ybg.8;
-        Mon, 26 Apr 2021 07:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EI9jo4JQbH631Mr5edp7e5oY1tsC6XRF7V3bc4iK7PM=;
-        b=GHQzBr2BT8TdDjgJyFpEopKcJGUo+cXX4cWVoPGwWJe2PwsVurB29beqxgJxfLEsNI
-         c2EVMIs3/HepVNEQ+33CAuGX9LFHPwRErm9LbqQ5rO7+VuEtV0/shUpmi8gwXm6TbOhD
-         Lu9pMg6FB4m6q84hIdJyC2mfjZHsvhpGMXhYYmFy4usNgJREUeYa0YfapfyFUUrfLDyr
-         pGJeCL0ddxViFxj0m7P7pEEThoVARbzjv74pjgaY6mEhYWesaecysfnl1h2qfw8tzWtf
-         QPY3mt5rJ3mXQ/c4tGESCd3ZSmAkV5qYxLzYd0tu2azeFfIGcdZ7yoDz8k105/RUW9FU
-         RNxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EI9jo4JQbH631Mr5edp7e5oY1tsC6XRF7V3bc4iK7PM=;
-        b=EekvFnregseSNMPUYIGpgBjoN9heWvPjkFB7BDHZIhARZB9yFzNT9/BjMBOUH+PiXp
-         MDsxdBz2vSQQoifshvuSUoQWK5Y6CFKDnW9CUIKMy+HWl2mg2UO8lKtRYXvCElog6QPK
-         qn7y3yvjp6H9i5jS7elAbClnlw4ROk1PBq0kfJr6fJco0xrjfvUSdHxuK5/B1w8JjZ4x
-         /61CWj4XwIO254+zPmhUmaAAeZKtkDlVIUQ3DPd3N/9J6uyHJBjF2b4e+XyCJzBTpCT3
-         oSZMVOkytAhzTIe4AVx4N8fmNbxbKqNxp0ZebPG52CmzV5k0bC8BD4AguD706YUVD9zK
-         jK6A==
-X-Gm-Message-State: AOAM531qPnLL1xiJ3C3hFdfnayCJoVvXMzfC0L+n9sFUlAzZFYcYratH
-        D0z7NGgds7eVmENsRTKxNaDuHE4cMKYBq86Ljqc=
-X-Google-Smtp-Source: ABdhPJwpj1gBQzkgi5Ndo1XHqsRqeOCUn8/2Im8QwYEvk7md0IjHHix0LNkneQ5rI3jPCEhh1+7IPrk/7TE5/poGODY=
-X-Received: by 2002:a25:23d7:: with SMTP id j206mr2090556ybj.247.1619447181629;
- Mon, 26 Apr 2021 07:26:21 -0700 (PDT)
+        with ESMTP id S231862AbhDZOaw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 10:30:52 -0400
+Received: from office2.cesnet.cz (office2.cesnet.cz [IPv6:2001:718:1:101::144:244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C652EC061574;
+        Mon, 26 Apr 2021 07:30:10 -0700 (PDT)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by office2.cesnet.cz (Postfix) with ESMTPSA id 2FEF4400052;
+        Mon, 26 Apr 2021 16:30:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
+        s=office2-2020; t=1619447408;
+        bh=z/yOEdUwTqe7Cju7xA0JehEFyghVOswc8ZFTFwd6EF8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc;
+        b=BBFw8yxGZmeaYREMBrgWlQ/H2dmC+msbVUjiW8NOu1UF24FRfMOibXYkIxFCeISY8
+         2f8VnyzNS+K19xEv8bHbdlpKhsr0pNbULvoVZk2BYp1ulnlHuPtBDvlEhVTazm5JiA
+         YsDp1TPylKpEUujN7ohPYbOV5Ibn6VSUXoQVRpLDerN1/NWIR0gzVPD7oN7W8nMSkc
+         TJaosa/LEG33NAOJRzCvOo653L7+2GvX9noomOm76FiSPJxhrnacyExp9AUpjdwENe
+         hr8OULEFNV9otSaW/8Ws5d2lyP4k9Em8h0g3FFy9gNbcZIOJZJ7fS0Qs8R/KtB7C6o
+         QfSpPvR7/5DwQ==
+Received: by mail-pj1-f43.google.com with SMTP id y22-20020a17090a8b16b0290150ae1a6d2bso5413038pjn.0;
+        Mon, 26 Apr 2021 07:30:08 -0700 (PDT)
+X-Gm-Message-State: AOAM530aUs0RN1IiBbh/ekkOFKmzfem96724IqoBdA5J/8HTggnrWQ6C
+        trNpTWH0oxMB9xOO567H4yP5st8GF+Drex8l7TM=
+X-Google-Smtp-Source: ABdhPJzY2F0vV+ycVTFKY+kJGuUUHc0GtcAB5VoEXe9hpIaYhT8MhH60TMGn4A5B+R9c7aRnoY63edVwF3++c6ja3Z4=
+X-Received: by 2002:a17:902:b408:b029:ec:e879:bbd8 with SMTP id
+ x8-20020a170902b408b02900ece879bbd8mr13449009plr.65.1619447406799; Mon, 26
+ Apr 2021 07:30:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <YIGVFCymUn+4HBIj@google.com> <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
-In-Reply-To: <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 26 Apr 2021 16:26:10 +0200
-Message-ID: <CANiq72m_rzWEZ2Z1vWF79OtTvpuwaB1mAKihjY=VqRv+vtWQYA@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210413025948.901867-1-kubernat@cesnet.cz> <250c1c16-541a-984f-c720-1a8b6176e97e@roeck-us.net>
+ <CABKa3npjrpq5Aw_Xqy3mFZtUHZcfB0YENxEDgo_MCwPUKqA4ww@mail.gmail.com> <20210426141745.GA257701@roeck-us.net>
+In-Reply-To: <20210426141745.GA257701@roeck-us.net>
+From:   =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
+Date:   Mon, 26 Apr 2021 16:29:55 +0200
+X-Gmail-Original-Message-ID: <CABKa3np=osah3zcNmwohL0h8sVOHYcGW6rNYhM=1OzrOiLo50A@mail.gmail.com>
+Message-ID: <CABKa3np=osah3zcNmwohL0h8sVOHYcGW6rNYhM=1OzrOiLo50A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] hwmon: (max31790) Rework to use regmap
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
-
-On Mon, Apr 26, 2021 at 2:18 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+po 26. 4. 2021 v 16:18 odes=C3=ADlatel Guenter Roeck <linux@roeck-us.net> n=
+apsal:
 >
-> I try to provide a good answer so I did sit down and look a bit more
-> at rust and looked over your Binder example to at least reach the
-> level of "a little knowledge of something is dangerous".
-
-Thanks *a lot* for having spent some time to get to know the language a bit!
-
-> For the record I kind of like the language.
-
-That is great to hear :)
-
-> A typical example is the way device drivers talk to actual hardware:
-> readl()/writel(), readw()/writew(), readb()/writeb() for memory-mapped
-> IO or inb()/outb() for port-mapped I/O.
+> On Mon, Apr 26, 2021 at 02:46:27PM +0200, V=C3=A1clav Kubern=C3=A1t wrote=
+:
+> > Hello.
+> >
+> > I'm sending a new version of my patch on max31790. This new version
+> > fixes the cache issue and actually makes it work by setting
+> > .cache_type. You were right about the "yes/no" ranges, so I flipped
+> > those.
+> >
+> > By the way, it seems that the reason your reply got lost is because of
+> > weird addresses in the "Cc:" email field, they end with "cesnet.cz",
+> > so it could be that I'm sending email incorrectly. Let me know if I'm
+> > doing something wrong.
+> >
 >
-> So there is for example this (drivers/gpio/gpio-pl061.c):
+> Yes, the To: field of your series is either empty (for the first patch
+> of the series), or it is something like:
+>         To: unlisted-recipients: no To-header on input <;
 >
->         writeb(pl061->csave_regs.gpio_is, pl061->base + GPIOIS);
->         writeb(pl061->csave_regs.gpio_ibe, pl061->base + GPIOIBE);
->         writeb(pl061->csave_regs.gpio_iev, pl061->base + GPIOIEV);
->         writeb(pl061->csave_regs.gpio_ie, pl061->base + GPIOIE);
+> Also, you send your follow-up series as response of the previous series
+> which doesn't follow the guidance for submitting patches and may result
+> in the entire series getting lost.
 >
-> We write a number of u32 into u32 sized registers, this
-> pl061->base is a void __iomem * so a pretty unsafe thing to
-> begin with and then we add an offset to get to the register
-> we want.
->
-> [...]
->
-> How would I write these 4 registers in Rust? From the actual
-> statements down to the CPU instructions, top to bottom,
-> that is what a driver writer wants to know.
 
-A function that writes to unconstrained addresses is indeed unsafe.
-However, if one constraints them, then the functions might be able to
-be made safe.
+Sorry, I will fix my email-sending procedure. Should I resend the
+patch series without the In-Reply-To field?
 
-For instance, we could have a macro where you describe your hardware
-registers and then code is generated that only allows to write to
-those addresses. Not only that, but also make it properly typed, do
-any needed masking/bit twiddling/unit conversion, etc.
+V=C3=A1clav
 
-This would be very similar to other code generation tools out there
-used to simplify talking to hardware and maintain HDL mappings.
-
-So instead of:
-
-    writeb(x, pl061->base + GPIOIS);
-
-you could say something like:
-
-    pl061.write_gpio_is(x)
-
-and the generated code should be the same (in fact, the Rust code
-could forward the actual call to C to avoid rewriting any assembly --
-but that can be done too if needed, e.g. if cross-language LTO does
-not manage to inline as much as we want).
-
-> If the result of the exercise is that a typical device driver
-> will contain more unsafe code than not, then device drivers
-> are not a good starting point for Rust in the Linux kernel.
-> In that case I would recommend that Rust start at a point
-> where there is a lot of abstract code that is prone to the
-> kind of problems that Rust is trying to solve. My intuition
-> would be such things as network protocols. But I may be
-> wrong.
-
-We may have some constructs that cannot be reasonably made safe, but
-that is fine! As long as one needs to spell those out as `unsafe`, the
-safe/unsafe split would be working as intended.
-
-It is likely that some code will be written in "C style" nevertheless,
-specially in the beginning. But, as explained above, we need to have a
-mindset of writing safe abstractions wherever possible; and not just
-try to mimic the kernel C side in everything.
-
-It is also true that Rust brings some features that can be very useful
-for non-HW-IO/"pure" code (state machines, ser/des, net protocols,
-etc.) -- if someone wants to use Rust there, that is great, of course.
-
-> I worry that it may become evident that introducing Rust
-> in device drivers is *only* suggested because the number
-> of affected platforms can be controlled (lacking some
-> compiler arch targets?) rather than that being a place
-> that needs memory safety. And then I think it is just a
-> playground for Rust experiments and need to be proposed
-> as such. But the idea was a real deployment I suppose.
-
-We are proposing "leaf" modules not just because of the platforms
-issue, but also because they introduce a smaller risk overall, i.e.
-Rust support could be more easily dropped if the kernel community ends
-up thinking it is not worth it.
-
-If some platforms start seeing benefits from using Rust, it is our
-hope that compiler vendors and companies behind arches will start
-putting more resources on supporting Rust for their platforms too.
-
-> It reminds me of Haskell monads for some reason.
-
-Indeed! Result is pretty much Either.
-
-> This is true for any constrained language. I suppose we could write
-> kernel modules in Haskell as well, or Prolog, given the right wrappers,
-> and that would also attain the same thing: you get the desired
-> restrictions in the target language by way of this adapter.
-
-You can indeed see Rust as a language that has brought some of the
-"good ideas" to the systems programming domains.
-
-However, while other languages can do all the fancy type things Rust
-can do, the key is that it also introduces the necessary bits to
-achieve manual (but safe) memory management for a lot of patterns;
-while at the same time reading pretty much like C and C++ and without
-removing some "down to the metal" features needed, such as raw
-pointers, inline assembly, etc.
-
-> The syntax and semantic meaning of things with lots of
-> impl <T: ?Sized> Wrapper<T> for ... is just really intimidating
-> but I suppose one can learn it. No big deal.
-
-That syntax does take some time to get used to, indeed (like any other
-generics or parameterized system).
-
-Since one cannot introduce UB by mistake, it is "safe" to "play with
-the language", which makes it way easier than e.g. some C++ features.
-Plus the compiler is quite helpful.
-
-> I have no idea how to perform this in
-> Rust despite reading quite a lot of examples. We have
-> created a lot of these helpers like FIELD_GET() and
-> that make this kind of operations simple.
-
-Bit twiddling and working with raw data can be done, e.g. take a look
-into `u64::from_be_bytes()` or `core::mem::transmute()`. Things like
-`offset_of`, `container_of`, intrinsics, inline assembly, etc. are
-also possible.
-
-In general, everything low-level you can do in C or C++, you can do in
-Rust (and get the same kind of codegen).
-
-When needed to simplify things, macros can be introduced too (we have
-a few of those already, e.g. to declare a kernel module, to declare
-file ops, etc.).
-
-> 1. Expressiveness of language.
->
-> If you look in include/linux/bitfield.h you can see how
-> this is elaborately implemented to be "a bit" typesafe
-> and if you follow the stuff around you will find that in
-> some cases it will resolve into per-CPU assembly
-> bitwise operations for efficiency. It's neat, it has this
-> nice handicrafty feeling to it, we control the machine
-> all the way down.
-
-All that is fine in Rust (see above).
-
-> But that took a few years to get here, and wherever
-> we want to write a device driver in
-> Rust this kind of stuff is (I suspect) something that is
-> going to have to be reinvented, in Rust.
-
-If you mean it in the sense that we need to have "similar" code in
-Rust, yes, of course. But we can also forward things to the C side, so
-some things do not need to be rewritten. The standard library also
-provides quite a few utilities (more than C's), which also helps.
-
-If you mean it in the sense that "Rust might be too high-level", not
-really (as explained above etc.). Rust was designed with this usage in
-mind; and is being used in embedded projects already.
-
-> So this is where Rust maintainers will be needed. I will
-> say something like "I need <linux/bitfield.h>
-> in Rust" which I guess will eventually become a
-> "use linux::bitfield" or something like that. Please
-> fill in the blanks. In the beginning pushing tasks like
-> that back on the driver writers will just encourage them
-> to go and write the driver in C. So the maintainers need
-> to pick it up.
-
-We will try to help here as much as possible :)
-
-This should also get fleshed out more when we have a couple drivers
-that talk to hardware directly.
-
-> 2. Duplication of core libraries.
->
-> I worry about that this could quite soon result in two
-> implementations of bitfield: one in C and one in Rust.
-> Because the language will have its preferred idiomatic
-> way of dealing with this, on the level above the
-> per-arch assembly optimized bitwise instructions
-> that need to be wrapped nicely for performance.
-> Which means wrappers all the way down. (Oh well.)
->
-> But double maintenance. Multiply with the number
-> of such kernel abstractions we have. So it better not
-> happen too much or pay off really well.
-
-The Rust abstractions should reuse the C wherever possible. So it is
-not a very big concern in that sense. But, yes, we need to have those
-wrappers.
-
-We expect that some modules will be easier to write than others,
-specially at the beginning. So some subsystem may start to see some
-drivers if the abstractions are already there or are easy enough to
-make; while others may take longer.
-
-> 3. Kickback in practical problem solving.
->
-> Believe it or not device driver authors are not mainly
-> interested in memory safety, overruns, dangling pointers,
-> memory leaks etc. Maybe in a perfect world they
-> would/should. But they are interested in getting hardware
-> to work and want a toolbox that gives the shortest path
-> from A to B. Telling them (or subsystem maintainers) all
-> about how these things are solved elegantly by Rust is
-> not a selling point.
-
-Some of those (overruns, leaks, etc.) can turn into functional bugs
-too (e.g. crashes), so even if some companies only care about "making
-it work", they are still a good thing to eliminate (from their
-perspective).
-
-Even outside the memory-safety topic, Rust provides extra features to
-make things reliable easier (like the strict typing and the error
-handling guarantees with `Result` etc. we discussed above), so
-companies should be up for it -- assuming the infrastructure is there
-already.
-
-But, of course, in the beginning, it will be harder for everyone
-involved because we are not accustomed to either the language, the
-utility functions ("headers" like `bitfield.h`), the way of writing
-drivers in Rust, etc.
-
-Cheers,
-Miguel
+> Guenter
