@@ -2,135 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F253DC43460
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:09:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6A13C43460
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD89C61184
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:09:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8893E611F0
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbhDZJJq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 05:09:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232705AbhDZJJF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 05:09:05 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DE6C061574
-        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 02:08:23 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id m12so18924315pgr.9
-        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 02:08:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HNdzFDdOgeWXGKXmnjDGLCV9ZQhV0CgleaBxzMVsBew=;
-        b=Zu3BggN8BFpvKZGn6qHGXUPTHBTV4x1GkM1zsI4Okx7UF40oT4oF5Pmw6uYulawjjb
-         0KlLYFgLhZvaknAJ+/IQfINmmgk96eMHEw89RwtnWU85lDW76coUguECJmDwWTADV7mo
-         i8DhqIGQCCJNYmZWbVFxUAd6UsCPsRA4APklA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HNdzFDdOgeWXGKXmnjDGLCV9ZQhV0CgleaBxzMVsBew=;
-        b=Q7fPU8YCUTy8zLcvHG9CkrRxuXkJYG0xF/V3GEXJVFewyF6k12HvuBGY/5tyAqx3YE
-         s6ooJBUjZnXq0vDYFJGI/binEOW0IfKc87hUx2twTryNzvYMYbVw1GPrMEniWG+saSLW
-         EbOFxnulsLLur++lJMeJfwN4bc4WCdPL4QHfCju3A9R8IZ5m1ldkFHPXe2qkXYsMbG+d
-         VFNSK7+uwoFFc2CR+VAU3VnG79yh7A/Ar9z7tjSZzsLeO6s4tN0Rz0OJXNEnKg25VGbT
-         YjiMP8jO1EJO5/adM2vfJD2AaMYW5Ji0ntL7Xew0vHnYCDrujGXVpu09awGh48sTTNfw
-         B1AA==
-X-Gm-Message-State: AOAM530aAaw/R+3sFLeKUzU0i/GIzDHtng5dDfBky3YETCqvSFYnKYwF
-        5SIjqsz2jVYUDRqDOBuZM6Xw/Q==
-X-Google-Smtp-Source: ABdhPJxCIKL4jdEbT9jB4QA6Zvprni9bDSdgXrCbWLLsGOXVPQwykN6qzWsE4gCtmVAhCaRxtGLepA==
-X-Received: by 2002:aa7:9046:0:b029:272:3729:e10a with SMTP id n6-20020aa790460000b02902723729e10amr9940066pfo.49.1619428103205;
-        Mon, 26 Apr 2021 02:08:23 -0700 (PDT)
-Received: from localhost (160.131.236.35.bc.googleusercontent.com. [35.236.131.160])
-        by smtp.gmail.com with UTF8SMTPSA id kk9sm12011641pjb.23.2021.04.26.02.08.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Apr 2021 02:08:22 -0700 (PDT)
-From:   Hikaru Nishida <hikalium@chromium.org>
-To:     kvm@vger.kernel.org
-Cc:     suleiman@google.com, Hikaru Nishida <hikalium@chromium.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        John Stultz <john.stultz@linaro.org>,
+        id S232469AbhDZJdH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 05:33:07 -0400
+Received: from inva020.nxp.com ([92.121.34.13]:42476 "EHLO inva020.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232592AbhDZJc7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Apr 2021 05:32:59 -0400
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 4AC1D1A3502;
+        Mon, 26 Apr 2021 11:32:05 +0200 (CEST)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 32DBD1A34EF;
+        Mon, 26 Apr 2021 11:31:59 +0200 (CEST)
+Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 5B0D5402F3;
+        Mon, 26 Apr 2021 11:31:51 +0200 (CEST)
+From:   Yangbo Lu <yangbo.lu@nxp.com>
+To:     netdev@vger.kernel.org
+Cc:     Yangbo Lu <yangbo.lu@nxp.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: [RFC PATCH 0/6] x86/kvm: Virtual suspend time injection support
-Date:   Mon, 26 Apr 2021 18:06:39 +0900
-Message-Id: <20210426090644.2218834-1-hikalium@chromium.org>
-X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [net-next, v2, 0/7] Support Ocelot PTP Sync one-step timestamping
+Date:   Mon, 26 Apr 2021 17:37:55 +0800
+Message-Id: <20210426093802.38652-1-yangbo.lu@nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This patch-set is to support Ocelot PTP Sync one-step timestamping.
+Actually before that, this patch-set cleans up and optimizes the
+DSA slave tx timestamp request handling process.
 
-Hi,
+Changes for v2:
+	- Split tx timestamp optimization patch.
+	- Updated doc patch.
+	- Freed skb->cb usage in dsa core driver, and moved to device
+	  drivers.
+	- Other minor fixes.
 
-This patch series adds virtual suspend time injection support to KVM.
+Yangbo Lu (7):
+  net: dsa: check tx timestamp request in core driver
+  net: dsa: no longer identify PTP packet in core driver
+  net: dsa: free skb->cb usage in core driver
+  net: dsa: no longer clone skb in core driver
+  docs: networking: timestamping: update for DSA switches
+  net: mscc: ocelot: convert to ocelot_port_txtstamp_request()
+  net: mscc: ocelot: support PTP Sync one-step timestamping
 
-Before this change, if the host goes into suspended state while the
-guest is running, the guest will experience a time jump after the host's
-resume. This can confuse some services in the guest since they can't
-detect if the system went into suspend or not by comparing
-CLOCK_BOOTTIME and CLOCK_MONOTONIC.
-
-To solve this problem, we wanted to add a way to adjust the guest clocks
-without actually suspending the guests. However, there was no way to
-modify a gap between CLOCK_BOOTTIME and CLOCK_MONOTONIC without actually
-suspending the guests. Therefore, this series introduce a new struct
-called kvm_host_suspend_time to share the suspend time between host and
-guest and a mechanism to inject a suspend time to the guest while
-keeping
-monotonicity of the clocks.
-
-Could you take a look and let me know how we can improve the patches if
-they are doing something wrong?
-
-Thanks,
-
-Hikaru Nishida
+ Documentation/networking/timestamping.rst     | 63 ++++++++------
+ .../net/dsa/hirschmann/hellcreek_hwtstamp.c   | 28 ++++---
+ .../net/dsa/hirschmann/hellcreek_hwtstamp.h   |  4 +-
+ drivers/net/dsa/mv88e6xxx/hwtstamp.c          | 26 ++++--
+ drivers/net/dsa/mv88e6xxx/hwtstamp.h          | 10 +--
+ drivers/net/dsa/ocelot/felix.c                | 19 +++--
+ drivers/net/dsa/sja1105/sja1105_main.c        |  2 +-
+ drivers/net/dsa/sja1105/sja1105_ptp.c         | 16 ++--
+ drivers/net/dsa/sja1105/sja1105_ptp.h         |  4 +-
+ drivers/net/ethernet/mscc/ocelot.c            | 83 +++++++++++++++++--
+ drivers/net/ethernet/mscc/ocelot_net.c        | 20 ++---
+ include/linux/dsa/sja1105.h                   |  3 +-
+ include/net/dsa.h                             | 18 +---
+ include/soc/mscc/ocelot.h                     | 21 ++++-
+ net/dsa/Kconfig                               |  2 +
+ net/dsa/slave.c                               | 23 +----
+ net/dsa/tag_ocelot.c                          | 27 +-----
+ net/dsa/tag_ocelot_8021q.c                    | 41 +++------
+ 18 files changed, 230 insertions(+), 180 deletions(-)
 
 
-
-Hikaru Nishida (6):
-  x86/kvm: Reserve KVM_FEATURE_HOST_SUSPEND_TIME and
-    MSR_KVM_HOST_SUSPEND_TIME
-  x86/kvm: Add a struct and constants for virtual suspend time injection
-  x86/kvm: Add CONFIG_KVM_VIRT_SUSPEND_TIMING
-  x86/kvm: Add a host side support for virtual suspend time injection
-  x86/kvm: Add CONFIG_KVM_VIRT_SUSPEND_TIMING_GUEST
-  x86/kvm: Add a guest side support for virtual suspend time injection
-
- Documentation/virt/kvm/cpuid.rst     |  3 +
- Documentation/virt/kvm/msr.rst       | 29 +++++++++
- arch/x86/Kconfig                     | 13 ++++
- arch/x86/include/asm/kvm_host.h      |  5 ++
- arch/x86/include/asm/kvm_para.h      |  9 +++
- arch/x86/include/uapi/asm/kvm_para.h |  6 ++
- arch/x86/kernel/kvmclock.c           | 25 ++++++++
- arch/x86/kvm/Kconfig                 | 13 ++++
- arch/x86/kvm/cpuid.c                 |  4 ++
- arch/x86/kvm/x86.c                   | 89 +++++++++++++++++++++++++++-
- include/linux/kvm_host.h             |  7 +++
- include/linux/timekeeper_internal.h  |  4 ++
- kernel/time/timekeeping.c            | 31 ++++++++++
- 13 files changed, 237 insertions(+), 1 deletion(-)
-
+base-commit: 0ea1041bfa3aa2971f858edd9e05477c2d3d54a0
 -- 
-2.31.1.498.g6c1eba8ee3d-goog
+2.25.1
 
