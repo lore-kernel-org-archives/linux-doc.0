@@ -2,109 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5CA3C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 19:05:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19658C43460
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 19:12:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 996D76115C
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 19:05:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4F3961154
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 19:12:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232492AbhDZTGW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 15:06:22 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:36784 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232868AbhDZTGW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 15:06:22 -0400
-Received: by mail-vs1-f49.google.com with SMTP id k124so28849004vsk.3
-        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 12:05:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1Z9q2q+by+XoICx7O5bq4s0qjl0Ui3wq+DFED5QpgnI=;
-        b=CFhTGiDTQCeksFHlW2hJtFeCbTG2qVD2o9XkXB8a7b67HwCswwh35R/U6hqvLPvj8r
-         /+F9BLh4ubmk4Wry5VJ2B7OvNooXc0leAQgcsuXXo6ToJV42dEcEV2mQZyuIeXUeiA0D
-         aytUWNa4Isg10GJR2ZH0FJEU6fQHcRc/MW653qy+J41fMAZwcqzTZd2ABmqgvRG35RJt
-         uo18o9LB0ph+GkbuMJlbE/MFtmVxKv5Z5yzA38bWYQW4JdX3C79G88WosIv6suUWF3S+
-         B92imauax+vTT8QCRbTGS9qd6FEyiUaoxxrGf7p9oEV7bVpTr5vRhopkXa0jPrDbhvL7
-         dcVw==
-X-Gm-Message-State: AOAM531M4GoVQp6TQCqrf51oi/hkHF3bnW1hd2OXUJQ9e7eHP7ggzm7E
-        kPTVUKl8JRPQYAcJ9JOJ/vt3oy/MsTU+X+NklIs=
-X-Google-Smtp-Source: ABdhPJzFyKjW1O90Y0MBq25L4BoxSoh1eregzeBg4Y17kP7i6270tN+MexYhXLWOJPYKWPcRKKJuueNLlzEA80hUIcA=
-X-Received: by 2002:a67:8745:: with SMTP id j66mr14878201vsd.18.1619463940025;
- Mon, 26 Apr 2021 12:05:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210416090048.11492-1-tzimmermann@suse.de> <CAMuHMdWcC8O+UzQDQj7Bm4uK_myjFT5D2ccTmneTJYi4SMfCRQ@mail.gmail.com>
- <YH6U92Q71ntU6Z1R@phenom.ffwll.local> <20210420092204.7azdb7nxgofegjht@sirius.home.kraxel.org>
- <CAMuHMdX=0H3LHP5Yme9tpN4JnmpJcnF=SQN8bc=4XTd-X6AVTg@mail.gmail.com> <e2d46fc0-5452-5d13-0354-e2e9bd407139@suse.de>
-In-Reply-To: <e2d46fc0-5452-5d13-0354-e2e9bd407139@suse.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Apr 2021 21:05:28 +0200
-Message-ID: <CAMuHMdW6HQCZYXS3N+xh4xPQqdKix9dP3vcMU49NJ95179BR9g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/9] drm: Support simple-framebuffer devices and
- firmware fbs
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>, bluescreen_avenger@verizon.net,
+        id S236726AbhDZTMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 15:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54090 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234229AbhDZTMy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 15:12:54 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B003C061574;
+        Mon, 26 Apr 2021 12:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=pnKzdbOPzZSQYjwLj7WyZcZU9565NzRjpCFzu8GyTfw=; b=efMIkUs4aQeMT6UgS/WiHk1rrm
+        +Qum2LujncESNM6fWI0GSAjQEp5UKm6AeQvgUDWTQfUboADhwgeGDfWYXU+ed0VFA0uPPg3mpLBkM
+        N+BaPeGVyYvQ96rsY4wsvvR31Fxp+/UxI7HcQAyjODSidR25QGGSBCsTDm5dmge+2kMjeulUAiybm
+        aWmi3sTfFHXxXJjwJ103LyXflCYgNZh8aAxmBkKnLFugg+JHQePuprcFp2Dwonv52GhzpdZPbBxRF
+        RjOkgC3/5v368BDxCR1UBmkitmRsP3pAjxxLNdWZAppE14a9APyYQz6J7oKc9voE2hBqnJJZ87pkS
+        KgX/kwnA==;
+Received: from [2601:1c0:6280:3f0::df68]
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lb6e7-005zpv-1Y; Mon, 26 Apr 2021 19:11:55 +0000
+Subject: Re: [PATCH 01/12] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        virtualization@lists.linux-foundation.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+References: <1-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
+ <d058f9ad-7ce1-c1b3-19cd-5f625ef4c670@infradead.org>
+ <20210426182625.GY1370958@nvidia.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <79ee612e-4830-2d04-c7eb-e2a51dd7e8e7@infradead.org>
+Date:   Mon, 26 Apr 2021 12:11:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <20210426182625.GY1370958@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thomas,
+On 4/26/21 11:26 AM, Jason Gunthorpe wrote:
+> On Fri, Apr 23, 2021 at 05:08:10PM -0700, Randy Dunlap wrote:
+>> On 4/23/21 4:02 PM, Jason Gunthorpe wrote:
+>>> @@ -171,7 +171,7 @@ config SAMPLE_VFIO_MDEV_MDPY_FB
+>>>  
+>>>  config SAMPLE_VFIO_MDEV_MBOCHS
+>>>  	tristate "Build VFIO mdpy example mediated device sample code -- loadable modules only"
+>>
+>> You can drop the ending of the prompt string.
+> 
+> Hum, I see this whole sample kconfig file is filled with this '&& m'
+> pattern, I wonder if there is a reason?
+> 
+> I think I will put the '&& m' back, I thought it was some kconfig
+> misunderstanding as it is very strange to see a naked '&& M'.
 
-On Mon, Apr 26, 2021 at 2:22 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Am 20.04.21 um 11:27 schrieb Geert Uytterhoeven:
-> > On Tue, Apr 20, 2021 at 11:22 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >>>>> Patches 4 to 8 add the simpledrm driver. It's build on simple DRM helpers
-> >>>>> and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
-> >>>>
-> >>>> .... if support for 8-bit frame buffers would be added?
-> >>>
-> >>> Is that 8-bit greyscale or 8-bit indexed with 256 entry palette? Former
-> >>> shouldn't be a big thing, but the latter is only really supported by the
-> >>> overall drm ecosystem in theory. Most userspace assumes that xrgb8888
-> >>> works, and we keep that illusion up by emulating it in kernel for hw which
-> >>> just doesn't support it. But reformatting xrgb8888 to c8 is tricky at
-> >>> best.
-> >>
-> >> Well.  cirrus converts xrgb8888 on the fly to rgb888 or rgb565
-> >> (depending on display resolution).  We could pull off the same trick
-> >> here and convert to rgb332 (assuming we can program the palette with the
-> >> color cube needed for that).  Wouldn't look pretty, but would probably
-> >> work better than expecting userspace know what color palettes are in
-> >> 2021 ...
-> >
-> > Yeah, I already had a similar idea for Amiga HAM ;-)
->
-> I vaguely remember that HAM mode uses some crazy format where pixel
-> colors depend in the values of their neighbors. (?) How complicated is
-> it to write a conversion from RGB to HAM?
-
-Not that complicated, unless you want to do it Good & Fast ;-)
-
-https://en.wikipedia.org/wiki/Hold-And-Modify
-
-Gr{oetje,eeting}s,
-
-                        Geert
+It just limits those kconfig items to being =m or not set,
+i.e., even though they are tristate, setting to =y is not
+allowed.  I guess the thinking is that samples don't need to
+reside in system memory for very long. However, if you want
+this one to be capable of =y, like your patch, you can still
+remove the end of the prompt string.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+~Randy
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
