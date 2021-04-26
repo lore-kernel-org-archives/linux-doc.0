@@ -2,78 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FROM_EXCESS_BASE64,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7168C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:56:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 306FCC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 15:08:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C68B61164
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:56:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06B8061289
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 15:08:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233471AbhDZO5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 10:57:35 -0400
-Received: from fallback13.mail.ru ([94.100.179.30]:36090 "EHLO
-        fallback13.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233825AbhDZO5d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 10:57:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
-        h=References:In-Reply-To:Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:To:From; bh=AjC14zRxH0dsM3/4RMYBGSVHHNUxLHQ9NUSRMvDknh8=;
-        b=LreRE+vuxM/O7bQyyDxNrCSS23/qZbxDYQCW4ML6YzSdXGuBZcsMsaBtNjV0D924shl7mDjWc69h98opDeakqSi1ONk0AYWieSDtain0TGGE5ruyKtZc3fimv6/Tdjz92dLwKhaihibIuhH/HfnvST7AQ3md0Nkp3aNwbl0AsU4=;
-Received: from [10.161.199.8] (port=46952 helo=f555.i.mail.ru)
-        by fallback13.m.smailru.net with esmtp (envelope-from <safinaskar@mail.ru>)
-        id 1lb2fK-0002X7-Aw
-        for linux-doc@vger.kernel.org; Mon, 26 Apr 2021 17:56:50 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
-        h=References:In-Reply-To:Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=AjC14zRxH0dsM3/4RMYBGSVHHNUxLHQ9NUSRMvDknh8=;
-        b=FijKmzmh8GSIOxoG2hbSW6ZeFP3WLnOMgLzSuyZ47+fce5gYbpBjU1qy9TqcQkEE/8Ehv+jJtPCAgiWqB2SvCsGMDMEgYnv0GCZN0HHvg6ZzYDS7U2VTFViaIQ5NPRWwZV+baE5xEwR5celJOish7gg1/bUEcIEuQVg+tsJyp8c=;
-Received: by f555.i.mail.ru with local (envelope-from <safinaskar@mail.ru>)
-        id 1lb2fG-0003d1-4I; Mon, 26 Apr 2021 17:56:46 +0300
-Received: by light.mail.ru with HTTP;
-        Mon, 26 Apr 2021 17:56:46 +0300
-From:   =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
-To:     =?UTF-8?B?Sm9uYXRoYW4gQ29yYmV0?= <corbet@lwn.net>,
-        =?UTF-8?B?bGludXgtZG9j?= <linux-doc@vger.kernel.org>
-Subject: =?UTF-8?B?UmU6IGRvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvcGF0aC1sb29rdXA6IHJl?=
- =?UTF-8?B?cGxhY2UgIlRoZXNlIHBhdGhzIiB3aXRoICJVc3VhbGx5IHBhdGhzIg==?=
+        id S233919AbhDZPJ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 11:09:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55538 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233573AbhDZPJZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 11:09:25 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13A07C061574
+        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 08:08:44 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id m5so3384807wmf.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 08:08:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OO83GWItv3al4uMKIJSIcf1TbyC1yzgEvIGCA7JJ1q8=;
+        b=ThS84KEYDB6DccAoy4K/DgXkkgnYptEl833hofd0DJROOCqjceuYwR5O7Dk7+m+S7u
+         Ge32dC6xtZoW/zNNI7UOs5wMQHN91VLUSN3VhqQDVCTlj4zLq30P67qX5eqe+8H/8BR9
+         iXs0McUH9OXqb3qhKOxPn/WN7ZZkwe9m6cOE0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OO83GWItv3al4uMKIJSIcf1TbyC1yzgEvIGCA7JJ1q8=;
+        b=eGtAym4OXnaDadl8F+NrJ+ReEGIW6I999Wp8DHSijh2C6HnAKeaWA0LTiaf6X/7W3b
+         WTcdJY3f5ec3gSAW46DyKQgaELj30E84d/XsP5YbQlZzSf4cUbCC+5F6L+SshCghbzpa
+         GzqPNO+FnD1bCu46ThsnEFRZOc9+2RCtzSUK+5sG9ynfW4UpUsacl6UH7rucoyqhqESC
+         6UAWD9TrTDUV4iplR3JBTB81J0RK39R/DmPmhcKFvQgCiurAAZ5UN6sl1N5NEb61PSgo
+         LqaO8yu3wKwPiAjwC1l4pbg0WRtSK1Lr2kLueXTWL2fJxCYjpqiwT1f02MbAdiPWxPlu
+         QaRg==
+X-Gm-Message-State: AOAM5339JSUOI15DP4i3cm3lGBs0ZvO6CfXi1HXaSFIz+npcuw4HQuJa
+        N+BRzQyLou6YXE6WNyXPurGW6g==
+X-Google-Smtp-Source: ABdhPJxCJ6gQCM3TE/b1oFhnJem+VjQGIDSaeTOcL+/Vi4vqJVUUPZGlmMgnbQGlLmdRAYG/drlWHg==
+X-Received: by 2002:a1c:7402:: with SMTP id p2mr21312797wmc.88.1619449722700;
+        Mon, 26 Apr 2021 08:08:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id g5sm354976wrq.30.2021.04.26.08.08.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 08:08:41 -0700 (PDT)
+Date:   Mon, 26 Apr 2021 17:08:03 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        bluescreen_avenger@verizon.net, Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        virtualization@lists.linux-foundation.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v4 0/9] drm: Support simple-framebuffer devices and
+ firmware fbs
+Message-ID: <YIbXUxLAjB5e5BV4@phenom.ffwll.local>
+References: <20210416090048.11492-1-tzimmermann@suse.de>
+ <CAMuHMdWcC8O+UzQDQj7Bm4uK_myjFT5D2ccTmneTJYi4SMfCRQ@mail.gmail.com>
+ <YH6U92Q71ntU6Z1R@phenom.ffwll.local>
+ <86308b36-57ec-a796-90c1-e4349e914823@suse.de>
 MIME-Version: 1.0
-X-Mailer: Mail.Ru Mailer 1.0
-Date:   Mon, 26 Apr 2021 17:56:46 +0300
-Reply-To: =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
-X-Priority: 3 (Normal)
-Message-ID: <1619449005.843327426@f555.i.mail.ru>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
-In-Reply-To: <1617226420.857151766@f480.i.mail.ru>
-References: <1616546322.499771404@f511.i.mail.ru>
- <87v997jcsk.fsf@meer.lwn.net>
- <1617226420.857151766@f480.i.mail.ru>
-X-7564579A: 646B95376F6C166E
-X-77F55803: 119C1F4DF6A9251C6CC94E1B8B7EE60C41676B003128C751602F0584FABBB986ABF6EAE57C0FACE9CEDDC91863545244C80D8DA628D0778512777C6D1F8B7ADB012184F85FB44711
-X-7FA49CB5: 70AAF3C13DB7016878DA827A17800CE77CEC0C0B4DE5B9CDC4224003CC8364768524C1701A65C63BBFD28B28ED4578739E625A9149C048EE1E561CDFBCA1751FB237B30BB4E08982B287FD4696A6DC2FA8DF7F3B2552694A4E2F5AFA99E116B42401471946AA11AF1661749BA6B97735C985AD5EA6085CF58F08D7030A58E5ADC58D69EE07B14084F39EFFDF887939037866D6147AF826D8F3ED3D88AD803E14FFA5F7A7888291DA117882F4460429724CE54428C33FAD305F5C1EE8F4F765FCAA867293B0326636D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B8C7ADC89C2F0B2A5A471835C12D1D977C4224003CC8364762BB6847A3DEAEFB0F43C7A68FF6260569E8FC8737B5C2249EC8D19AE6D49635B68655334FD4449CB9ECD01F8117BC8BEAAAE862A0553A39223F8577A6DFFEA7C009FDF061EA7BCA543847C11F186F3C59DAA53EE0834AAEE
-X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A24209795067102C07E8F7B195E1C97831937C3E349E0D8F7B03B6B7CA29D26CC3
-X-C1DE0DAB: 0D63561A33F958A5B33A722292184274316C169BC87E6D86C2DA0DCD014F9373BDC6A1CF3F042BAD6DF99611D93F60EF505D71D783575ABE699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D340297C696F996E3846A6115B99613462035D837CB714751AC3C8401402D9BD9332C1B85FBFBBB14CA1D7E09C32AA3244C105AEDADCF135C534CA590B076A3DD9381560E2432555DBB729B2BEF169E0186
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u8Y3PrTqANeitKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS329fgu+/vnDheSZXjwkIakpNGtwO1vVGnQ==
-X-Mailru-Sender: 583F1D7ACE8F49BDD1A7C3169173243BDB1DD8C402EC3599653AC2C2A8FCB8E469E9A4DF33814C9DC53CFCDA87AAFCFA3919A3F0584408A7E277D648EEF17123F32B7A1AD1AAC36A3BEC1D9798BA4B85D186BC2F9B8D6AD3EAB4BC95F72C04283CDA0F3B3F5B9367
-X-Mras: Ok
-X-Spam: undefined
-X-7564579A: 646B95376F6C166E
-X-77F55803: 6242723A09DB00B45562A35114C4D62A7E062EA9D3FBA00FCA139D773ACC0096049FFFDB7839CE9E0088CAACE7D2CDB936B885AF95EADF5B663857EFBC6F63BF19D2F5C6EC860C4D
-X-7FA49CB5: 0D63561A33F958A5758FF23C7F77044B2FC01F3C3B29D0E884BAA461F0A625A18941B15DA834481FA18204E546F3947C7BD21ED50D08CA4DF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637FBF931FEADDDACF0389733CBF5DBD5E9B5C8C57E37DE458BD96E472CDF7238E0725E5C173C3A84C3A6BFBE8EE7400A0E35872C767BF85DA2F004C90652538430E4A6367B16DE6309
-X-C1DE0DAB: 0D63561A33F958A5758FF23C7F77044B2FC01F3C3B29D0E8839146AC090C234B8E8E86DC7131B365E7726E8460B7C23C
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u8Y3PrTqANeitKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS329fgu+/vnDheSZXjwkIakqQi3RUK96N6Q==
-X-Mailru-MI: 800
-X-Mras: Ok
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86308b36-57ec-a796-90c1-e4349e914823@suse.de>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiA+ICJVc3VhbGx5IiBkb2Vzbid0IHNlZW0gcmlnaHQgaGVyZSAtIGl0IGltcGxpZXMgdGhhdCB0
-aGVyZSBhcmUgdGltZXMgd2hlbgo+ID4gdGhhdCBjYW5ub3QgYmUgZG9uZS4gIEEgYmV0dGVyIGZp
-eCBzZWVtcyBsaWtlIGp1c3QgdGFraW5nICJUaGVzZSIgb3V0Li4/Cj4gV2UgY2Fubm90IGRpdmlk
-ZSAiLyIgaW50byBmaW5hbCBjb21wb25lbnQgYW5kIGV2ZXJ5dGhpbmcgZWxzZS4KU28/Cgo9PQpB
-c2thciBTYWZpbgpodHRwczovL2dpdGh1Yi5jb20vc2FmaW5hc2thcgo=
+On Mon, Apr 26, 2021 at 02:18:05PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 20.04.21 um 10:46 schrieb Daniel Vetter:
+> > On Mon, Apr 19, 2021 at 10:00:56AM +0200, Geert Uytterhoeven wrote:
+> > > Hi Thomas,
+> > > 
+> > > On Fri, Apr 16, 2021 at 11:00 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > > This patchset adds support for simple-framebuffer platform devices and
+> > > > a handover mechanism for native drivers to take-over control of the
+> > > > hardware.
+> > > > 
+> > > > The new driver, called simpledrm, binds to a simple-frambuffer platform
+> > > > device. The kernel's boot code creates such devices for firmware-provided
+> > > > framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
+> > > > loader sets up the framebuffers. Description via device tree is also an
+> > > > option.
+> > > 
+> > > I guess this can be used as a replacement for offb, too...
+> > > 
+> > > > Patches 4 to 8 add the simpledrm driver. It's build on simple DRM helpers
+> > > > and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
+> > > 
+> > > .... if support for 8-bit frame buffers would be added?
+> 
+> Offb doesn't seem to be tied to the simple-framebuffer support. So adding a
+> new driver or extending the simple-framebuffer code would be required. Not a
+> big deal, though. Patch 3 of this patchset adds the ability to create
+> generic drivers within DRM.
+> 
+> > 
+> > Is that 8-bit greyscale or 8-bit indexed with 256 entry palette? Former
+> > shouldn't be a big thing, but the latter is only really supported by the
+> > overall drm ecosystem in theory. Most userspace assumes that xrgb8888
+> > works, and we keep that illusion up by emulating it in kernel for hw which
+> > just doesn't support it. But reformatting xrgb8888 to c8 is tricky at
+> > best. The uapis are all there for setting the palette, and C8 is a defined
+> > format even with atomic kms interface, but really there's not much
+> > userspace for it. In other words, it would work as well as current offb
+> > would, but that's at least that.
+> 
+> I think we can just use a shadow palette in the drm driver: If the drm
+> framebuffer is in C8, use the userspace's palette. If the drm framebuffer is
+> in XRGB, use a palette that represents RGB332. The driver would do
+> on-the-fly conversion; just like cirrus does.
+
+Hm yeah rgb332 palette sounds like a reasonable idea. Could even have that
+palette defined/generated in format conversion helpers, and then an
+xrgb8888->rgb332 converter.
+
+Lower palettes probably stop making sense as rgb, maybe there we just do
+greyscale or something like that for the xrgb8888 emulation.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
