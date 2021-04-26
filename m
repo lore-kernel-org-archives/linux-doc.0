@@ -2,326 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FROM_EXCESS_BASE64,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2517C43460
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:40:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7168C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:56:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA3516127A
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:40:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C68B61164
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 14:56:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233915AbhDZOlT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 10:41:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233674AbhDZOlS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 10:41:18 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8499C061760
-        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 07:40:35 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id k14so6247672wrv.5
-        for <linux-doc@vger.kernel.org>; Mon, 26 Apr 2021 07:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tn3qrOsiMw1/IX0OSROoijHoB0OaqBUuIka8PgnTleU=;
-        b=nj5G6vFXID5n9XiC+ZVR+NRFdPOwz3XcN/NyXhlq0NSQLw14Ck9S06jNdqxZJzcJHm
-         +Va6zYhD8mIQCNK1qboIAl4EFazRrn8iZ2fM9o7bZP+RBvqrae0Pacca7m4BPrR/5rYJ
-         PozEMPB1G50RNup98uiuSDq1Ay1H9ojwFQephOO0ex2//smmKNm+wBq3sLWmrr63W8j7
-         koYKMtxgGzYeV+J7/ztv4PMU24fOjJQLVIB0y0J+FLvo09PzV2mlaCScE7/jBav6qdAs
-         Kp07s/9eUAk6sYB4/36bVyRplVSMoZH4/KeMrS5hjs/jdf0HsXCemzx87bID3KvaZRGE
-         tW+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tn3qrOsiMw1/IX0OSROoijHoB0OaqBUuIka8PgnTleU=;
-        b=uH0vHjbrvnAh2dxIBZrB8MaevfuhJv+QTcwm7Ch0WKHThaM7mQemAKyQiiBANOOyQh
-         dYD6MaKoDDRuaJCXRxDN/31sQzGNAyofx3uESKblw8UFRI3O2flwxEEpUnAbgo66A1cT
-         7qUyJxi2WC++68TOx2GUqkz+HGgi2bAp4jLRW5E8XE71HePOcEGGM+jtigN/vsRPA2w4
-         0KOFoF9WkL5mvGIXxgEiexAJ4xPTq4DtPsh8OKf3Xj7jYSazdXg0HhVdQw9ZBOBubrT6
-         KWTiTOuGx2D3RkKlwwEHFp9lKqDKHJf1SOCRBshfmz39caM6bpKzRJJErDjU/Tm+a1r+
-         ydNA==
-X-Gm-Message-State: AOAM532Dzax4SRDwaxnJwcu1STLBCpJHKCRzyfqorZ8DPv74Qf/cdWZr
-        irDx9ReKtAiRI19TXug1Co/4
-X-Google-Smtp-Source: ABdhPJwK9v1cxTWILnlXaUnVUct8iApwqddngaa7udITL+7ryp25CVekyU9vkEZ0IdP0ZF0WHCtVxA==
-X-Received: by 2002:a5d:4acf:: with SMTP id y15mr23535602wrs.245.1619448034253;
-        Mon, 26 Apr 2021 07:40:34 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:209:12fe:7da3:d4af:86a4])
-        by smtp.gmail.com with ESMTPSA id t206sm17852026wmb.11.2021.04.26.07.40.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 07:40:33 -0700 (PDT)
-Date:   Mon, 26 Apr 2021 15:40:29 +0100
-From:   Wedson Almeida Filho <wedsonaf@google.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YIbQ3dHOpyD/yymW@google.com>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com>
- <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <YIGVFCymUn+4HBIj@google.com>
- <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
+        id S233471AbhDZO5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 10:57:35 -0400
+Received: from fallback13.mail.ru ([94.100.179.30]:36090 "EHLO
+        fallback13.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233825AbhDZO5d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 10:57:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
+        h=References:In-Reply-To:Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:To:From; bh=AjC14zRxH0dsM3/4RMYBGSVHHNUxLHQ9NUSRMvDknh8=;
+        b=LreRE+vuxM/O7bQyyDxNrCSS23/qZbxDYQCW4ML6YzSdXGuBZcsMsaBtNjV0D924shl7mDjWc69h98opDeakqSi1ONk0AYWieSDtain0TGGE5ruyKtZc3fimv6/Tdjz92dLwKhaihibIuhH/HfnvST7AQ3md0Nkp3aNwbl0AsU4=;
+Received: from [10.161.199.8] (port=46952 helo=f555.i.mail.ru)
+        by fallback13.m.smailru.net with esmtp (envelope-from <safinaskar@mail.ru>)
+        id 1lb2fK-0002X7-Aw
+        for linux-doc@vger.kernel.org; Mon, 26 Apr 2021 17:56:50 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
+        h=References:In-Reply-To:Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=AjC14zRxH0dsM3/4RMYBGSVHHNUxLHQ9NUSRMvDknh8=;
+        b=FijKmzmh8GSIOxoG2hbSW6ZeFP3WLnOMgLzSuyZ47+fce5gYbpBjU1qy9TqcQkEE/8Ehv+jJtPCAgiWqB2SvCsGMDMEgYnv0GCZN0HHvg6ZzYDS7U2VTFViaIQ5NPRWwZV+baE5xEwR5celJOish7gg1/bUEcIEuQVg+tsJyp8c=;
+Received: by f555.i.mail.ru with local (envelope-from <safinaskar@mail.ru>)
+        id 1lb2fG-0003d1-4I; Mon, 26 Apr 2021 17:56:46 +0300
+Received: by light.mail.ru with HTTP;
+        Mon, 26 Apr 2021 17:56:46 +0300
+From:   =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
+To:     =?UTF-8?B?Sm9uYXRoYW4gQ29yYmV0?= <corbet@lwn.net>,
+        =?UTF-8?B?bGludXgtZG9j?= <linux-doc@vger.kernel.org>
+Subject: =?UTF-8?B?UmU6IGRvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvcGF0aC1sb29rdXA6IHJl?=
+ =?UTF-8?B?cGxhY2UgIlRoZXNlIHBhdGhzIiB3aXRoICJVc3VhbGx5IHBhdGhzIg==?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
+X-Mailer: Mail.Ru Mailer 1.0
+Date:   Mon, 26 Apr 2021 17:56:46 +0300
+Reply-To: =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
+X-Priority: 3 (Normal)
+Message-ID: <1619449005.843327426@f555.i.mail.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+In-Reply-To: <1617226420.857151766@f480.i.mail.ru>
+References: <1616546322.499771404@f511.i.mail.ru>
+ <87v997jcsk.fsf@meer.lwn.net>
+ <1617226420.857151766@f480.i.mail.ru>
+X-7564579A: 646B95376F6C166E
+X-77F55803: 119C1F4DF6A9251C6CC94E1B8B7EE60C41676B003128C751602F0584FABBB986ABF6EAE57C0FACE9CEDDC91863545244C80D8DA628D0778512777C6D1F8B7ADB012184F85FB44711
+X-7FA49CB5: 70AAF3C13DB7016878DA827A17800CE77CEC0C0B4DE5B9CDC4224003CC8364768524C1701A65C63BBFD28B28ED4578739E625A9149C048EE1E561CDFBCA1751FB237B30BB4E08982B287FD4696A6DC2FA8DF7F3B2552694A4E2F5AFA99E116B42401471946AA11AF1661749BA6B97735C985AD5EA6085CF58F08D7030A58E5ADC58D69EE07B14084F39EFFDF887939037866D6147AF826D8F3ED3D88AD803E14FFA5F7A7888291DA117882F4460429724CE54428C33FAD305F5C1EE8F4F765FCAA867293B0326636D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B8C7ADC89C2F0B2A5A471835C12D1D977C4224003CC8364762BB6847A3DEAEFB0F43C7A68FF6260569E8FC8737B5C2249EC8D19AE6D49635B68655334FD4449CB9ECD01F8117BC8BEAAAE862A0553A39223F8577A6DFFEA7C009FDF061EA7BCA543847C11F186F3C59DAA53EE0834AAEE
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A24209795067102C07E8F7B195E1C97831937C3E349E0D8F7B03B6B7CA29D26CC3
+X-C1DE0DAB: 0D63561A33F958A5B33A722292184274316C169BC87E6D86C2DA0DCD014F9373BDC6A1CF3F042BAD6DF99611D93F60EF505D71D783575ABE699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D340297C696F996E3846A6115B99613462035D837CB714751AC3C8401402D9BD9332C1B85FBFBBB14CA1D7E09C32AA3244C105AEDADCF135C534CA590B076A3DD9381560E2432555DBB729B2BEF169E0186
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u8Y3PrTqANeitKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS329fgu+/vnDheSZXjwkIakpNGtwO1vVGnQ==
+X-Mailru-Sender: 583F1D7ACE8F49BDD1A7C3169173243BDB1DD8C402EC3599653AC2C2A8FCB8E469E9A4DF33814C9DC53CFCDA87AAFCFA3919A3F0584408A7E277D648EEF17123F32B7A1AD1AAC36A3BEC1D9798BA4B85D186BC2F9B8D6AD3EAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
+X-Spam: undefined
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B45562A35114C4D62A7E062EA9D3FBA00FCA139D773ACC0096049FFFDB7839CE9E0088CAACE7D2CDB936B885AF95EADF5B663857EFBC6F63BF19D2F5C6EC860C4D
+X-7FA49CB5: 0D63561A33F958A5758FF23C7F77044B2FC01F3C3B29D0E884BAA461F0A625A18941B15DA834481FA18204E546F3947C7BD21ED50D08CA4DF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637FBF931FEADDDACF0389733CBF5DBD5E9B5C8C57E37DE458BD96E472CDF7238E0725E5C173C3A84C3A6BFBE8EE7400A0E35872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-C1DE0DAB: 0D63561A33F958A5758FF23C7F77044B2FC01F3C3B29D0E8839146AC090C234B8E8E86DC7131B365E7726E8460B7C23C
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u8Y3PrTqANeitKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS329fgu+/vnDheSZXjwkIakqQi3RUK96N6Q==
+X-Mailru-MI: 800
+X-Mras: Ok
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Linus, again thanks for taking the time to look into this. I think it's great
-for us to get into this level of detail.
-
-On Mon, Apr 26, 2021 at 02:18:33AM +0200, Linus Walleij wrote:
-> For device drivers you will certainly have to wrap assembly as well.
-> Or C calls that only contain assembly to be precise.
-
-Sure, I don't think this would be a problem.
-
-> A typical example is the way device drivers talk to actual hardware:
-> readl()/writel(), readw()/writew(), readb()/writeb() for memory-mapped
-> IO or inb()/outb() for port-mapped I/O.
-> 
-> So there is for example this (drivers/gpio/gpio-pl061.c):
-> 
->         writeb(pl061->csave_regs.gpio_is, pl061->base + GPIOIS);
->         writeb(pl061->csave_regs.gpio_ibe, pl061->base + GPIOIBE);
->         writeb(pl061->csave_regs.gpio_iev, pl061->base + GPIOIEV);
->         writeb(pl061->csave_regs.gpio_ie, pl061->base + GPIOIE);
-> 
-> We write a number of u32 into u32 sized registers, this
-> pl061->base is a void __iomem * so a pretty unsafe thing to
-> begin with and then we add an offset to get to the register
-> we want.
-> 
-> writel() on ARM for example turns into (arch/arm/include/asm/io.h):
-> 
-> static inline void __raw_writel(u32 val, volatile void __iomem *addr)
-> {
->         asm volatile("str %1, %0"
->                      : : "Qo" (*(volatile u32 __force *)addr), "r" (val));
-> }
-> 
-> This is usually sprinkled all over a device driver, called in loops etc.
-> Some of these will contain things like buffer drains and memory
-> barriers. Elaborately researched for years so they will need to
-> be there.
-> 
-> I have no clue how this thing would be expressed in Rust.
-> Even less how it would call the right code in the end.
-> That makes me feel unsafe and puzzled so this is a specific
-> area where "the Rust way" needs to be made very tangible
-> and easy to understand.
-> 
-> How would I write these 4 registers in Rust? From the actual
-> statements down to the CPU instructions, top to bottom,
-> that is what a driver writer wants to know.
-
-Here's an example of how this could be implemented. Again, we're happy to
-iterate on this (just like any other piece of software, independently of
-language), but I think this will give you an idea. We'd begin with an
-abstraction for a mapped io region:
-
-pub struct IoMemBlock<const SIZE: usize> {
-    ptr: *mut u8
-}
-
-Note here that we encode the size of the block at compile time. We'll get our
-safety guarantees from it.
-
-For this abstraction, we provide the following implementation of the write
-function:
-
-impl<const SIZE: usize> IoMemBlock<SIZE> {
-    pub fn write<T>(&self, value: T, offset: usize) {
-        if let Some(end) = offset.checked_add(size_of::<T>()) {
-            if end <= SIZE {
-                // SAFETY: We just checked above that offset was within bounds.
-                let ptr = unsafe { self.ptr.add(offset) } as *mut T;
-                // SAFETY: We just checked that the offset+size was within bounds.
-                unsafe { ptr.write_volatile(value) };
-                return;
-            }
-        }
-        // SAFETY: Unimplemented function to cause compilation error.
-        unsafe { bad_write() };
-    }
-}
-
-Now suppose we have some struct like:
-
-pub struct MyDevice {
-    base: IoMemBlock<100>,
-    reg1: u32,
-    reg2: u64,
-}
-
-Then a function similar to your example would be this:
-
-pub fn do_something(pl061: &MyDevice) {
-    pl061.base.write(pl061.reg1, GPIOIS);
-    pl061.base.write(pl061.reg2, GPIOIBE);
-    pl061.base.write(20u8, 99);
-}
-
-I have this example here: https://rust.godbolt.org/z/chE3vjacE
-
-The x86 compiled output of the code above is as follows:
-
-        mov     eax, dword ptr [rdi + 16]
-        mov     rcx, qword ptr [rdi]
-        mov     dword ptr [rcx + 16], eax
-        mov     rax, qword ptr [rdi + 8]
-        mov     qword ptr [rcx + 32], rax
-        mov     byte ptr [rcx + 99], 20
-        ret
-
-Some observations:
-1. do_something is completely safe: all accesses to memory are checked.
-2. The only unsafe part that could involve the driver for this would be the
-creation of IoMemBlock: my expectation is that this would be implemented by the
-bus driver or some library that maps the appropriate region and caps the size.
-That is, we can also build a safe abstraction for this.
-3. All checks are optimised away because they uses compile-time constants. The
-code presented above is as efficient as C.
-4. All code is Rust code and therefore type-checked during compilation, there is
-no need for macros.
-5. Note that the code supports all sizes, and selects which one to use based on
-the type of the first argument (the example above has 8, 32, 64 bit examples).
-6. If the developer writing a driver accidentally uses an offset beyond the
-limit, they will get a compilation error (bad_write is left unimplemented).
-Perhaps we could find a better way to indicate this, but a compilation error is
-definitely better than corrupting state (potentially silently) at runtime.
-7. We could potentially design a way to limit which offsets are available for a
-given IoMemBlock, I just haven't thought through it yet, but it would also
-reduce the number of mistakes a developer could make.
-
-
-> If the result of the exercise is that a typical device driver
-> will contain more unsafe code than not, then device drivers
-> are not a good starting point for Rust in the Linux kernel.
-> In that case I would recommend that Rust start at a point
-> where there is a lot of abstract code that is prone to the
-> kind of problems that Rust is trying to solve. My intuition
-> would be such things as network protocols. But I may be
-> wrong.
-
-Agreed. But based on the example above, I don't expect a lot (if any) of unsafe
-code in drivers due accessing io memory.
-
-> This is really neat. I think it is a good example where Rust
-> really provides the right tool for the job.
-> 
-> And it is very far away from any device driver. Though some
-> drivers need pages.
-
-Sure, I didn't mean to imply that this is useful in drivers, I just meant it as
-an example.
-
-> This is true for any constrained language. I suppose we could write
-> kernel modules in Haskell as well, or Prolog, given the right wrappers,
-> and that would also attain the same thing: you get the desired
-> restrictions in the target language by way of this adapter.
-
-Agreed. Rust is different in that it doesn't need a garbage collector, so it can
-achieve performance comparable to C, which is something that we can't claim
-about Haskell and Prolog atm -- I actually like Haskell better than Rust, but
-it's not practical at the moment for kernel development.
-
-> The syntax and semantic meaning of things with lots of
-> impl <T: ?Sized> Wrapper<T> for ... is just really intimidating
-> but I suppose one can learn it. No big deal.
-
-I agree it's intimidating, but so are macros like ____MAKE_OP in bitfield.h --
-the former has the advantage of being type-checked. Writing macros like
-____MAKE_OP is a hit-and-miss exercise in my experience. However, I feel that
-both cases benefit from being specialised implementations that are somewhat
-rare.
-
-> What I need to know as device driver infrastructure maintainer is:
-> 
-> 1. If the language is expressive enough to do what device driver
->    authors need to do in an efficient and readable manner which
->    is as good or better than what we have today.
-
-What do you think of the example I provided above? I think that generics give
-Rust an edge over C in terms of expressiveness, though abusing it may
-significantly reduce readability.
-
-> 2. Worry about double implementations of core library functions.
-
-This indeed may be a problem, but I'm happy to have Rust wrappers call
-C/assembly functions. With LTO this should not affect performance.
-
-> 3. Kickback in practical problem solving.
-> 
-> This will be illustrated below.
-> 
-> Here is a device driver example that I wrote and merged
-> just the other week (drivers/iio/magnetometer/yamaha-yas530.c)
-> it's a nasty example, so I provide it to make a point.
-> 
-> static void yas53x_extract_calibration(u8 *data, struct yas5xx_calibration *c)
-> {
->         u64 val = get_unaligned_be64(data);
-> 
->         /*
->          * Bitfield layout for the axis calibration data, for factor
->          * a2 = 2 etc, k = k, c = clock divider
->          *
->          * n   7 6 5 4 3 2 1 0
->          * 0 [ 2 2 2 2 2 2 3 3 ] bits 63 .. 56
->          * 1 [ 3 3 4 4 4 4 4 4 ] bits 55 .. 48
->          * 2 [ 5 5 5 5 5 5 6 6 ] bits 47 .. 40
->          * 3 [ 6 6 6 6 7 7 7 7 ] bits 39 .. 32
->          * 4 [ 7 7 7 8 8 8 8 8 ] bits 31 .. 24
->          * 5 [ 8 9 9 9 9 9 9 9 ] bits 23 .. 16
->          * 6 [ 9 k k k k k c c ] bits 15 .. 8
->          * 7 [ c x x x x x x x ] bits  7 .. 0
->          */
->         c->a2 = FIELD_GET(GENMASK_ULL(63, 58), val) - 32;
->         c->a3 = FIELD_GET(GENMASK_ULL(57, 54), val) - 8;
->         c->a4 = FIELD_GET(GENMASK_ULL(53, 48), val) - 32;
->         c->a5 = FIELD_GET(GENMASK_ULL(47, 42), val) + 38;
->         c->a6 = FIELD_GET(GENMASK_ULL(41, 36), val) - 32;
->         c->a7 = FIELD_GET(GENMASK_ULL(35, 29), val) - 64;
->         c->a8 = FIELD_GET(GENMASK_ULL(28, 23), val) - 32;
->         c->a9 = FIELD_GET(GENMASK_ULL(22, 15), val);
->         c->k = FIELD_GET(GENMASK_ULL(14, 10), val) + 10;
->         c->dck = FIELD_GET(GENMASK_ULL(9, 7), val);
-> }
-> 
-> This extracts calibration for the sensor from an opaque
-> chunk of bytes. The calibration is stuffed into sequences of
-> bits to save space at different offsets and lengths. So we turn
-> the whole shebang passed in the u8 *data into a 64bit
-> integer and start picking out the pieces we want.
-> 
-> We know a priori that u8 *data will be more than or equal
-> to 64 bits of data. (Which is another problem but do not
-> focus on that, let us look at this function.)
-> 
-> I have no idea how to perform this in
-> Rust despite reading quite a lot of examples. We have
-> created a lot of these helpers like FIELD_GET() and
-> that make this kind of operations simple.
-
-Would you mind sharing more about which aspect of this you feel is challenging?
-
-I see now that Miguel has already responded to this thread so I'll stop here.
-Happy to follow up on anything.
-
-Thanks,
--Wedson
+PiA+ICJVc3VhbGx5IiBkb2Vzbid0IHNlZW0gcmlnaHQgaGVyZSAtIGl0IGltcGxpZXMgdGhhdCB0
+aGVyZSBhcmUgdGltZXMgd2hlbgo+ID4gdGhhdCBjYW5ub3QgYmUgZG9uZS4gIEEgYmV0dGVyIGZp
+eCBzZWVtcyBsaWtlIGp1c3QgdGFraW5nICJUaGVzZSIgb3V0Li4/Cj4gV2UgY2Fubm90IGRpdmlk
+ZSAiLyIgaW50byBmaW5hbCBjb21wb25lbnQgYW5kIGV2ZXJ5dGhpbmcgZWxzZS4KU28/Cgo9PQpB
+c2thciBTYWZpbgpodHRwczovL2dpdGh1Yi5jb20vc2FmaW5hc2thcgo=
