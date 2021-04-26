@@ -2,31 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6A13C43460
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3229CC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8893E611F0
+	by mail.kernel.org (Postfix) with ESMTP id E2FCE60E0C
 	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232469AbhDZJdH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 05:33:07 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:42476 "EHLO inva020.nxp.com"
+        id S232691AbhDZJdI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 05:33:08 -0400
+Received: from inva020.nxp.com ([92.121.34.13]:42628 "EHLO inva020.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232592AbhDZJc7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232601AbhDZJc7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 26 Apr 2021 05:32:59 -0400
 Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 4AC1D1A3502;
-        Mon, 26 Apr 2021 11:32:05 +0200 (CEST)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 1078D1A3506;
+        Mon, 26 Apr 2021 11:32:13 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 32DBD1A34EF;
-        Mon, 26 Apr 2021 11:31:59 +0200 (CEST)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id C575C1A34E0;
+        Mon, 26 Apr 2021 11:32:06 +0200 (CEST)
 Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 5B0D5402F3;
-        Mon, 26 Apr 2021 11:31:51 +0200 (CEST)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id DB758402DA;
+        Mon, 26 Apr 2021 11:31:58 +0200 (CEST)
 From:   Yangbo Lu <yangbo.lu@nxp.com>
 To:     netdev@vger.kernel.org
 Cc:     Yangbo Lu <yangbo.lu@nxp.com>,
@@ -43,57 +44,104 @@ Cc:     Yangbo Lu <yangbo.lu@nxp.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
         UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [net-next, v2, 0/7] Support Ocelot PTP Sync one-step timestamping
-Date:   Mon, 26 Apr 2021 17:37:55 +0800
-Message-Id: <20210426093802.38652-1-yangbo.lu@nxp.com>
+Subject: [net-next, v2, 5/7] docs: networking: timestamping: update for DSA switches
+Date:   Mon, 26 Apr 2021 17:38:00 +0800
+Message-Id: <20210426093802.38652-6-yangbo.lu@nxp.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210426093802.38652-1-yangbo.lu@nxp.com>
+References: <20210426093802.38652-1-yangbo.lu@nxp.com>
 X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch-set is to support Ocelot PTP Sync one-step timestamping.
-Actually before that, this patch-set cleans up and optimizes the
-DSA slave tx timestamp request handling process.
+Update timestamping doc for DSA switches to describe current
+implementation accurately. On TX, the skb cloning is no longer
+in DSA generic code.
 
+Signed-off-by: Yangbo Lu <yangbo.lu@nxp.com>
+---
 Changes for v2:
-	- Split tx timestamp optimization patch.
-	- Updated doc patch.
-	- Freed skb->cb usage in dsa core driver, and moved to device
-	  drivers.
-	- Other minor fixes.
+	- Split from tx timestamp optimization big patch.
+	- Updated the doc.
+---
+ Documentation/networking/timestamping.rst | 63 ++++++++++++++---------
+ 1 file changed, 39 insertions(+), 24 deletions(-)
 
-Yangbo Lu (7):
-  net: dsa: check tx timestamp request in core driver
-  net: dsa: no longer identify PTP packet in core driver
-  net: dsa: free skb->cb usage in core driver
-  net: dsa: no longer clone skb in core driver
-  docs: networking: timestamping: update for DSA switches
-  net: mscc: ocelot: convert to ocelot_port_txtstamp_request()
-  net: mscc: ocelot: support PTP Sync one-step timestamping
-
- Documentation/networking/timestamping.rst     | 63 ++++++++------
- .../net/dsa/hirschmann/hellcreek_hwtstamp.c   | 28 ++++---
- .../net/dsa/hirschmann/hellcreek_hwtstamp.h   |  4 +-
- drivers/net/dsa/mv88e6xxx/hwtstamp.c          | 26 ++++--
- drivers/net/dsa/mv88e6xxx/hwtstamp.h          | 10 +--
- drivers/net/dsa/ocelot/felix.c                | 19 +++--
- drivers/net/dsa/sja1105/sja1105_main.c        |  2 +-
- drivers/net/dsa/sja1105/sja1105_ptp.c         | 16 ++--
- drivers/net/dsa/sja1105/sja1105_ptp.h         |  4 +-
- drivers/net/ethernet/mscc/ocelot.c            | 83 +++++++++++++++++--
- drivers/net/ethernet/mscc/ocelot_net.c        | 20 ++---
- include/linux/dsa/sja1105.h                   |  3 +-
- include/net/dsa.h                             | 18 +---
- include/soc/mscc/ocelot.h                     | 21 ++++-
- net/dsa/Kconfig                               |  2 +
- net/dsa/slave.c                               | 23 +----
- net/dsa/tag_ocelot.c                          | 27 +-----
- net/dsa/tag_ocelot_8021q.c                    | 41 +++------
- 18 files changed, 230 insertions(+), 180 deletions(-)
-
-
-base-commit: 0ea1041bfa3aa2971f858edd9e05477c2d3d54a0
+diff --git a/Documentation/networking/timestamping.rst b/Documentation/networking/timestamping.rst
+index f682e88fa87e..7db3985359bc 100644
+--- a/Documentation/networking/timestamping.rst
++++ b/Documentation/networking/timestamping.rst
+@@ -630,30 +630,45 @@ hardware timestamping on it. This is because the SO_TIMESTAMPING API does not
+ allow the delivery of multiple hardware timestamps for the same packet, so
+ anybody else except for the DSA switch port must be prevented from doing so.
+ 
+-In code, DSA provides for most of the infrastructure for timestamping already,
+-in generic code: a BPF classifier (``ptp_classify_raw``) is used to identify
+-PTP event messages (any other packets, including PTP general messages, are not
+-timestamped), and provides two hooks to drivers:
+-
+-- ``.port_txtstamp()``: The driver is passed a clone of the timestampable skb
+-  to be transmitted, before actually transmitting it. Typically, a switch will
+-  have a PTP TX timestamp register (or sometimes a FIFO) where the timestamp
+-  becomes available. There may be an IRQ that is raised upon this timestamp's
+-  availability, or the driver might have to poll after invoking
+-  ``dev_queue_xmit()`` towards the host interface. Either way, in the
+-  ``.port_txtstamp()`` method, the driver only needs to save the clone for
+-  later use (when the timestamp becomes available). Each skb is annotated with
+-  a pointer to its clone, in ``DSA_SKB_CB(skb)->clone``, to ease the driver's
+-  job of keeping track of which clone belongs to which skb.
+-
+-- ``.port_rxtstamp()``: The original (and only) timestampable skb is provided
+-  to the driver, for it to annotate it with a timestamp, if that is immediately
+-  available, or defer to later. On reception, timestamps might either be
+-  available in-band (through metadata in the DSA header, or attached in other
+-  ways to the packet), or out-of-band (through another RX timestamping FIFO).
+-  Deferral on RX is typically necessary when retrieving the timestamp needs a
+-  sleepable context. In that case, it is the responsibility of the DSA driver
+-  to call ``netif_rx_ni()`` on the freshly timestamped skb.
++In the generic layer, DSA provides the following infrastructure for PTP
++timestamping:
++
++- ``.port_txtstamp()``: a hook called prior to the transmission of
++  packets with a hardware TX timestamping request from user space.
++  This is required for two-step timestamping, since the hardware
++  timestamp becomes available after the actual MAC transmission, so the
++  driver must be prepared to correlate the timestamp with the original
++  packet so that it can re-enqueue the packet back into the socket's
++  error queue. To save the packet for when the timestamp becomes
++  available, the driver can call ``skb_clone_sk`` , save the clone pointer
++  in skb->cb and enqueue a tx skb queue. Typically, a switch will have a
++  PTP TX timestamp register (or sometimes a FIFO) where the timestamp
++  becomes available. In case of a FIFO, the hardware might store
++  key-value pairs of PTP sequence ID/message type/domain number and the
++  actual timestamp. To perform the correlation correctly between the
++  packets in a queue waiting for timestamping and the actual timestamps,
++  drivers can use a BPF classifier (``ptp_classify_raw``) to identify
++  the PTP transport type, and ``ptp_parse_header`` to interpret the PTP
++  header fields. There may be an IRQ that is raised upon this
++  timestamp's availability, or the driver might have to poll after
++  invoking ``dev_queue_xmit()`` towards the host interface.
++  One-step TX timestamping do not require packet cloning, since there is
++  no follow-up message required by the PTP protocol (because the
++  TX timestamp is embedded into the packet by the MAC), and therefore
++  user space does not expect the packet annotated with the TX timestamp
++  to be re-enqueued into its socket's error queue.
++
++- ``.port_rxtstamp()``: On RX, the BPF classifier is run by DSA to
++  identify PTP event messages (any other packets, including PTP general
++  messages, are not timestamped). The original (and only) timestampable
++  skb is provided to the driver, for it to annotate it with a timestamp,
++  if that is immediately available, or defer to later. On reception,
++  timestamps might either be available in-band (through metadata in the
++  DSA header, or attached in other ways to the packet), or out-of-band
++  (through another RX timestamping FIFO). Deferral on RX is typically
++  necessary when retrieving the timestamp needs a sleepable context. In
++  that case, it is the responsibility of the DSA driver to call
++  ``netif_rx_ni()`` on the freshly timestamped skb.
+ 
+ 3.2.2 Ethernet PHYs
+ ^^^^^^^^^^^^^^^^^^^
 -- 
 2.25.1
 
