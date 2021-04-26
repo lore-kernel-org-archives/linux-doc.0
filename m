@@ -7,27 +7,27 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3229CC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D241C43470
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2FCE60E0C
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6EC4C6103E
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 09:32:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232691AbhDZJdI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 05:33:08 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:42628 "EHLO inva020.nxp.com"
+        id S232716AbhDZJdJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 05:33:09 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:54846 "EHLO inva021.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232601AbhDZJc7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232675AbhDZJc7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 26 Apr 2021 05:32:59 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 1078D1A3506;
-        Mon, 26 Apr 2021 11:32:13 +0200 (CEST)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 902CC2033CA;
+        Mon, 26 Apr 2021 11:32:08 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id C575C1A34E0;
-        Mon, 26 Apr 2021 11:32:06 +0200 (CEST)
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 50A7F2033CB;
+        Mon, 26 Apr 2021 11:32:02 +0200 (CEST)
 Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id DB758402DA;
-        Mon, 26 Apr 2021 11:31:58 +0200 (CEST)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 6061D4032D;
+        Mon, 26 Apr 2021 11:31:54 +0200 (CEST)
 From:   Yangbo Lu <yangbo.lu@nxp.com>
 To:     netdev@vger.kernel.org
 Cc:     Yangbo Lu <yangbo.lu@nxp.com>,
@@ -44,9 +44,9 @@ Cc:     Yangbo Lu <yangbo.lu@nxp.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
         UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [net-next, v2, 5/7] docs: networking: timestamping: update for DSA switches
-Date:   Mon, 26 Apr 2021 17:38:00 +0800
-Message-Id: <20210426093802.38652-6-yangbo.lu@nxp.com>
+Subject: [net-next, v2, 2/7] net: dsa: no longer identify PTP packet in core driver
+Date:   Mon, 26 Apr 2021 17:37:57 +0800
+Message-Id: <20210426093802.38652-3-yangbo.lu@nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210426093802.38652-1-yangbo.lu@nxp.com>
 References: <20210426093802.38652-1-yangbo.lu@nxp.com>
@@ -55,93 +55,212 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update timestamping doc for DSA switches to describe current
-implementation accurately. On TX, the skb cloning is no longer
-in DSA generic code.
+Move ptp_classify_raw out of dsa core driver for handling tx
+timestamp request. Let device drivers do this if they want.
+Not all drivers want to limit tx timestamping for only PTP
+packet.
 
 Signed-off-by: Yangbo Lu <yangbo.lu@nxp.com>
+Tested-by: Kurt Kanzenbach <kurt@linutronix.de>
 ---
 Changes for v2:
 	- Split from tx timestamp optimization big patch.
-	- Updated the doc.
 ---
- Documentation/networking/timestamping.rst | 63 ++++++++++++++---------
- 1 file changed, 39 insertions(+), 24 deletions(-)
+ drivers/net/dsa/hirschmann/hellcreek_hwtstamp.c |  7 ++++++-
+ drivers/net/dsa/hirschmann/hellcreek_hwtstamp.h |  2 +-
+ drivers/net/dsa/mv88e6xxx/hwtstamp.c            |  7 ++++++-
+ drivers/net/dsa/mv88e6xxx/hwtstamp.h            |  5 ++---
+ drivers/net/dsa/ocelot/felix.c                  |  2 +-
+ drivers/net/dsa/sja1105/sja1105_ptp.c           |  3 +--
+ drivers/net/dsa/sja1105/sja1105_ptp.h           |  2 +-
+ include/net/dsa.h                               |  2 +-
+ net/dsa/slave.c                                 | 12 ++----------
+ 9 files changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/networking/timestamping.rst b/Documentation/networking/timestamping.rst
-index f682e88fa87e..7db3985359bc 100644
---- a/Documentation/networking/timestamping.rst
-+++ b/Documentation/networking/timestamping.rst
-@@ -630,30 +630,45 @@ hardware timestamping on it. This is because the SO_TIMESTAMPING API does not
- allow the delivery of multiple hardware timestamps for the same packet, so
- anybody else except for the DSA switch port must be prevented from doing so.
+diff --git a/drivers/net/dsa/hirschmann/hellcreek_hwtstamp.c b/drivers/net/dsa/hirschmann/hellcreek_hwtstamp.c
+index 6ba5e2333066..5b2e023468fe 100644
+--- a/drivers/net/dsa/hirschmann/hellcreek_hwtstamp.c
++++ b/drivers/net/dsa/hirschmann/hellcreek_hwtstamp.c
+@@ -374,14 +374,19 @@ long hellcreek_hwtstamp_work(struct ptp_clock_info *ptp)
+ }
  
--In code, DSA provides for most of the infrastructure for timestamping already,
--in generic code: a BPF classifier (``ptp_classify_raw``) is used to identify
--PTP event messages (any other packets, including PTP general messages, are not
--timestamped), and provides two hooks to drivers:
--
--- ``.port_txtstamp()``: The driver is passed a clone of the timestampable skb
--  to be transmitted, before actually transmitting it. Typically, a switch will
--  have a PTP TX timestamp register (or sometimes a FIFO) where the timestamp
--  becomes available. There may be an IRQ that is raised upon this timestamp's
--  availability, or the driver might have to poll after invoking
--  ``dev_queue_xmit()`` towards the host interface. Either way, in the
--  ``.port_txtstamp()`` method, the driver only needs to save the clone for
--  later use (when the timestamp becomes available). Each skb is annotated with
--  a pointer to its clone, in ``DSA_SKB_CB(skb)->clone``, to ease the driver's
--  job of keeping track of which clone belongs to which skb.
--
--- ``.port_rxtstamp()``: The original (and only) timestampable skb is provided
--  to the driver, for it to annotate it with a timestamp, if that is immediately
--  available, or defer to later. On reception, timestamps might either be
--  available in-band (through metadata in the DSA header, or attached in other
--  ways to the packet), or out-of-band (through another RX timestamping FIFO).
--  Deferral on RX is typically necessary when retrieving the timestamp needs a
--  sleepable context. In that case, it is the responsibility of the DSA driver
--  to call ``netif_rx_ni()`` on the freshly timestamped skb.
-+In the generic layer, DSA provides the following infrastructure for PTP
-+timestamping:
-+
-+- ``.port_txtstamp()``: a hook called prior to the transmission of
-+  packets with a hardware TX timestamping request from user space.
-+  This is required for two-step timestamping, since the hardware
-+  timestamp becomes available after the actual MAC transmission, so the
-+  driver must be prepared to correlate the timestamp with the original
-+  packet so that it can re-enqueue the packet back into the socket's
-+  error queue. To save the packet for when the timestamp becomes
-+  available, the driver can call ``skb_clone_sk`` , save the clone pointer
-+  in skb->cb and enqueue a tx skb queue. Typically, a switch will have a
-+  PTP TX timestamp register (or sometimes a FIFO) where the timestamp
-+  becomes available. In case of a FIFO, the hardware might store
-+  key-value pairs of PTP sequence ID/message type/domain number and the
-+  actual timestamp. To perform the correlation correctly between the
-+  packets in a queue waiting for timestamping and the actual timestamps,
-+  drivers can use a BPF classifier (``ptp_classify_raw``) to identify
-+  the PTP transport type, and ``ptp_parse_header`` to interpret the PTP
-+  header fields. There may be an IRQ that is raised upon this
-+  timestamp's availability, or the driver might have to poll after
-+  invoking ``dev_queue_xmit()`` towards the host interface.
-+  One-step TX timestamping do not require packet cloning, since there is
-+  no follow-up message required by the PTP protocol (because the
-+  TX timestamp is embedded into the packet by the MAC), and therefore
-+  user space does not expect the packet annotated with the TX timestamp
-+  to be re-enqueued into its socket's error queue.
-+
-+- ``.port_rxtstamp()``: On RX, the BPF classifier is run by DSA to
-+  identify PTP event messages (any other packets, including PTP general
-+  messages, are not timestamped). The original (and only) timestampable
-+  skb is provided to the driver, for it to annotate it with a timestamp,
-+  if that is immediately available, or defer to later. On reception,
-+  timestamps might either be available in-band (through metadata in the
-+  DSA header, or attached in other ways to the packet), or out-of-band
-+  (through another RX timestamping FIFO). Deferral on RX is typically
-+  necessary when retrieving the timestamp needs a sleepable context. In
-+  that case, it is the responsibility of the DSA driver to call
-+  ``netif_rx_ni()`` on the freshly timestamped skb.
+ bool hellcreek_port_txtstamp(struct dsa_switch *ds, int port,
+-			     struct sk_buff *clone, unsigned int type)
++			     struct sk_buff *clone)
+ {
+ 	struct hellcreek *hellcreek = ds->priv;
+ 	struct hellcreek_port_hwtstamp *ps;
+ 	struct ptp_header *hdr;
++	unsigned int type;
  
- 3.2.2 Ethernet PHYs
- ^^^^^^^^^^^^^^^^^^^
+ 	ps = &hellcreek->ports[port].port_hwtstamp;
+ 
++	type = ptp_classify_raw(clone);
++	if (type == PTP_CLASS_NONE)
++		return false;
++
+ 	/* Make sure the message is a PTP message that needs to be timestamped
+ 	 * and the interaction with the HW timestamping is enabled. If not, stop
+ 	 * here
+diff --git a/drivers/net/dsa/hirschmann/hellcreek_hwtstamp.h b/drivers/net/dsa/hirschmann/hellcreek_hwtstamp.h
+index c0745ffa1ebb..728cd5dc650f 100644
+--- a/drivers/net/dsa/hirschmann/hellcreek_hwtstamp.h
++++ b/drivers/net/dsa/hirschmann/hellcreek_hwtstamp.h
+@@ -45,7 +45,7 @@ int hellcreek_port_hwtstamp_get(struct dsa_switch *ds, int port,
+ bool hellcreek_port_rxtstamp(struct dsa_switch *ds, int port,
+ 			     struct sk_buff *clone, unsigned int type);
+ bool hellcreek_port_txtstamp(struct dsa_switch *ds, int port,
+-			     struct sk_buff *clone, unsigned int type);
++			     struct sk_buff *clone);
+ 
+ int hellcreek_get_ts_info(struct dsa_switch *ds, int port,
+ 			  struct ethtool_ts_info *info);
+diff --git a/drivers/net/dsa/mv88e6xxx/hwtstamp.c b/drivers/net/dsa/mv88e6xxx/hwtstamp.c
+index 05ca1d3c6498..79514a54d903 100644
+--- a/drivers/net/dsa/mv88e6xxx/hwtstamp.c
++++ b/drivers/net/dsa/mv88e6xxx/hwtstamp.c
+@@ -469,11 +469,16 @@ long mv88e6xxx_hwtstamp_work(struct ptp_clock_info *ptp)
+ }
+ 
+ bool mv88e6xxx_port_txtstamp(struct dsa_switch *ds, int port,
+-			     struct sk_buff *clone, unsigned int type)
++			     struct sk_buff *clone)
+ {
+ 	struct mv88e6xxx_chip *chip = ds->priv;
+ 	struct mv88e6xxx_port_hwtstamp *ps = &chip->port_hwtstamp[port];
+ 	struct ptp_header *hdr;
++	unsigned int type;
++
++	type = ptp_classify_raw(clone);
++	if (type == PTP_CLASS_NONE)
++		return false;
+ 
+ 	hdr = mv88e6xxx_should_tstamp(chip, port, clone, type);
+ 	if (!hdr)
+diff --git a/drivers/net/dsa/mv88e6xxx/hwtstamp.h b/drivers/net/dsa/mv88e6xxx/hwtstamp.h
+index 9da9f197ba02..91fbc7838fc8 100644
+--- a/drivers/net/dsa/mv88e6xxx/hwtstamp.h
++++ b/drivers/net/dsa/mv88e6xxx/hwtstamp.h
+@@ -118,7 +118,7 @@ int mv88e6xxx_port_hwtstamp_get(struct dsa_switch *ds, int port,
+ bool mv88e6xxx_port_rxtstamp(struct dsa_switch *ds, int port,
+ 			     struct sk_buff *clone, unsigned int type);
+ bool mv88e6xxx_port_txtstamp(struct dsa_switch *ds, int port,
+-			     struct sk_buff *clone, unsigned int type);
++			     struct sk_buff *clone);
+ 
+ int mv88e6xxx_get_ts_info(struct dsa_switch *ds, int port,
+ 			  struct ethtool_ts_info *info);
+@@ -152,8 +152,7 @@ static inline bool mv88e6xxx_port_rxtstamp(struct dsa_switch *ds, int port,
+ }
+ 
+ static inline bool mv88e6xxx_port_txtstamp(struct dsa_switch *ds, int port,
+-					   struct sk_buff *clone,
+-					   unsigned int type)
++					   struct sk_buff *clone)
+ {
+ 	return false;
+ }
+diff --git a/drivers/net/dsa/ocelot/felix.c b/drivers/net/dsa/ocelot/felix.c
+index 1379f86d71ec..d679f023dc00 100644
+--- a/drivers/net/dsa/ocelot/felix.c
++++ b/drivers/net/dsa/ocelot/felix.c
+@@ -1396,7 +1396,7 @@ static bool felix_rxtstamp(struct dsa_switch *ds, int port,
+ }
+ 
+ static bool felix_txtstamp(struct dsa_switch *ds, int port,
+-			   struct sk_buff *clone, unsigned int type)
++			   struct sk_buff *clone)
+ {
+ 	struct ocelot *ocelot = ds->priv;
+ 	struct ocelot_port *ocelot_port = ocelot->ports[port];
+diff --git a/drivers/net/dsa/sja1105/sja1105_ptp.c b/drivers/net/dsa/sja1105/sja1105_ptp.c
+index 1b90570b257b..72d052de82d8 100644
+--- a/drivers/net/dsa/sja1105/sja1105_ptp.c
++++ b/drivers/net/dsa/sja1105/sja1105_ptp.c
+@@ -435,8 +435,7 @@ bool sja1105_port_rxtstamp(struct dsa_switch *ds, int port,
+  * the skb and have it available in DSA_SKB_CB in the .port_deferred_xmit
+  * callback, where we will timestamp it synchronously.
+  */
+-bool sja1105_port_txtstamp(struct dsa_switch *ds, int port,
+-			   struct sk_buff *skb, unsigned int type)
++bool sja1105_port_txtstamp(struct dsa_switch *ds, int port, struct sk_buff *skb)
+ {
+ 	struct sja1105_private *priv = ds->priv;
+ 	struct sja1105_port *sp = &priv->ports[port];
+diff --git a/drivers/net/dsa/sja1105/sja1105_ptp.h b/drivers/net/dsa/sja1105/sja1105_ptp.h
+index 3daa33e98e77..c70c4729a06d 100644
+--- a/drivers/net/dsa/sja1105/sja1105_ptp.h
++++ b/drivers/net/dsa/sja1105/sja1105_ptp.h
+@@ -105,7 +105,7 @@ bool sja1105_port_rxtstamp(struct dsa_switch *ds, int port,
+ 			   struct sk_buff *skb, unsigned int type);
+ 
+ bool sja1105_port_txtstamp(struct dsa_switch *ds, int port,
+-			   struct sk_buff *skb, unsigned int type);
++			   struct sk_buff *skb);
+ 
+ int sja1105_hwtstamp_get(struct dsa_switch *ds, int port, struct ifreq *ifr);
+ 
+diff --git a/include/net/dsa.h b/include/net/dsa.h
+index 507082959aa4..905066055b08 100644
+--- a/include/net/dsa.h
++++ b/include/net/dsa.h
+@@ -741,7 +741,7 @@ struct dsa_switch_ops {
+ 	int	(*port_hwtstamp_set)(struct dsa_switch *ds, int port,
+ 				     struct ifreq *ifr);
+ 	bool	(*port_txtstamp)(struct dsa_switch *ds, int port,
+-				 struct sk_buff *clone, unsigned int type);
++				 struct sk_buff *clone);
+ 	bool	(*port_rxtstamp)(struct dsa_switch *ds, int port,
+ 				 struct sk_buff *skb, unsigned int type);
+ 
+diff --git a/net/dsa/slave.c b/net/dsa/slave.c
+index b2a802e9330e..acaa52e60d7f 100644
+--- a/net/dsa/slave.c
++++ b/net/dsa/slave.c
+@@ -20,7 +20,6 @@
+ #include <linux/if_bridge.h>
+ #include <linux/if_hsr.h>
+ #include <linux/netpoll.h>
+-#include <linux/ptp_classify.h>
+ 
+ #include "dsa_priv.h"
+ 
+@@ -557,15 +556,10 @@ static void dsa_skb_tx_timestamp(struct dsa_slave_priv *p,
+ {
+ 	struct dsa_switch *ds = p->dp->ds;
+ 	struct sk_buff *clone;
+-	unsigned int type;
+ 
+ 	if (!(skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP))
+ 		return;
+ 
+-	type = ptp_classify_raw(skb);
+-	if (type == PTP_CLASS_NONE)
+-		return;
+-
+ 	if (!ds->ops->port_txtstamp)
+ 		return;
+ 
+@@ -573,7 +567,7 @@ static void dsa_skb_tx_timestamp(struct dsa_slave_priv *p,
+ 	if (!clone)
+ 		return;
+ 
+-	if (ds->ops->port_txtstamp(ds, p->dp->index, clone, type)) {
++	if (ds->ops->port_txtstamp(ds, p->dp->index, clone)) {
+ 		DSA_SKB_CB(skb)->clone = clone;
+ 		return;
+ 	}
+@@ -632,9 +626,7 @@ static netdev_tx_t dsa_slave_xmit(struct sk_buff *skb, struct net_device *dev)
+ 
+ 	DSA_SKB_CB(skb)->clone = NULL;
+ 
+-	/* Identify PTP protocol packets, clone them, and pass them to the
+-	 * switch driver
+-	 */
++	/* Handle tx timestamp if any */
+ 	dsa_skb_tx_timestamp(p, skb);
+ 
+ 	if (dsa_realloc_skb(skb, dev)) {
 -- 
 2.25.1
 
