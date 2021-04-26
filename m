@@ -2,144 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F424C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 12:40:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F1DC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 12:44:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9E32611C1
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 12:40:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B84A6127A
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 12:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231903AbhDZMku (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 08:40:50 -0400
-Received: from mail-wr1-f48.google.com ([209.85.221.48]:38491 "EHLO
-        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233509AbhDZMiu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 08:38:50 -0400
-Received: by mail-wr1-f48.google.com with SMTP id k14so5802866wrv.5;
-        Mon, 26 Apr 2021 05:38:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RA5vvjC6fYjBEhu3hg6HypYCy6fBqYfLd0XqaA1wLzE=;
-        b=Uaj7JirNZVJ+PkG2hmgjXtTC4s1P7ICd7lV5woAPaTdpxwN0CihVSTygzk/qWKNmcv
-         dUp6207I0qqWN8BzQhP6nRt72qUyDyyd+GdnCIUS2okOkG1SBNucDbqqvHOWuObhuK82
-         i1H/NFhQKi2xSzjOnWImz5GfSC896qUvUiThWoFm/7g+E8NrEopafF15Oqa2fJ/m63g5
-         nGJOc/D0G9KjAjGZgelyzus7ebyY0joPQP6pgDCCyFJakGKEUPn+x+4AKXibOcg5V8w9
-         z5p4eGlya017dKNh2dl6VZ5MU3u27qVR7Rpi05nJfBZva7IZhZg4WUNKwoqDxk3Fb6I+
-         xVGg==
-X-Gm-Message-State: AOAM532DPmT9SFVcTFKUTqxaIOu+cXXMoydSOZnrzxZ01aOoM+fVK0sB
-        H/iWLrxsThfVcv5wPjei+fM=
-X-Google-Smtp-Source: ABdhPJzIZ2jBTNwv0QiR/NORErnXtfS2nKvuiQLNff3kRT50nKRfOgyjkThnJl9Zq0gxyDx7ba3jlw==
-X-Received: by 2002:adf:ff89:: with SMTP id j9mr12702493wrr.416.1619440687704;
-        Mon, 26 Apr 2021 05:38:07 -0700 (PDT)
-Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
-        by smtp.gmail.com with ESMTPSA id u17sm18784168wmq.30.2021.04.26.05.38.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Apr 2021 05:38:07 -0700 (PDT)
-From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
-Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/5] hwmon: (max31790) Update documentation
-Date:   Mon, 26 Apr 2021 14:37:49 +0200
-Message-Id: <20210426123749.899654-5-kubernat@cesnet.cz>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210426123749.899654-1-kubernat@cesnet.cz>
-References: <20210413025948.901867-1-kubernat@cesnet.cz>
- <20210426123749.899654-1-kubernat@cesnet.cz>
+        id S233227AbhDZMo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 08:44:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34073 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232492AbhDZMow (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 08:44:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619441050;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TSlotn4fBSdFFf3NHGJvYzieEsXBeHjCWbwR+pEgCSM=;
+        b=fvGVwPCbB9cKx7a5DZ7UCHJTSueIrPx4SRqCSqzbLgtrjr53q7YfWo1xQRGnqzsMMKpmYq
+        aZyyHHosoxXJjfCPq5V8BkIbKHdTAkGqhflW5dWszIm0G+fXWH3BT6fpeKzXvZ8SXBHfCN
+        Nf68eunrAdEbRj5DjhWfMFd8QqyBR0M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-W1_il_x5O0-KQwH5hQ0CVw-1; Mon, 26 Apr 2021 08:44:07 -0400
+X-MC-Unique: W1_il_x5O0-KQwH5hQ0CVw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BB3587A83F;
+        Mon, 26 Apr 2021 12:44:03 +0000 (UTC)
+Received: from starship (unknown [10.40.192.73])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5F70F6268B;
+        Mon, 26 Apr 2021 12:43:49 +0000 (UTC)
+Message-ID: <6d7146021f3435330b42f2e1b917d4b5dea00edc.camel@redhat.com>
+Subject: Re: [PATCH v2 0/9] KVM: my debug patch queue
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Christopherson <seanjc@google.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Will Deacon <will@kernel.org>,
+        "open list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
+        <kvmarm@lists.cs.columbia.edu>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Jim Mattson <jmattson@google.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "open list:S390" <linux-s390@vger.kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Kieran Bingham <kbingham@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "moderated list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
+        <linux-arm-kernel@lists.infradead.org>,
+        James Morse <james.morse@arm.com>
+Date:   Mon, 26 Apr 2021 15:43:48 +0300
+In-Reply-To: <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
+References: <20210401135451.1004564-1-mlevitsk@redhat.com>
+         <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conditions for fan fault and its connection to the PWM mode are now
-documented.
+On Fri, 2021-04-02 at 10:38 -0700, Paolo Bonzini wrote:
+> On 01/04/21 15:54, Maxim Levitsky wrote:
+> > Hi!
+> > 
+> > I would like to publish two debug features which were needed for other stuff
+> > I work on.
+> > 
+> > One is the reworked lx-symbols script which now actually works on at least
+> > gdb 9.1 (gdb 9.2 was reported to fail to load the debug symbols from the kernel
+> > for some reason, not related to this patch) and upstream qemu.
+> 
+> Queued patches 2-5 for now.  6 is okay but it needs a selftest. (e.g. 
+> using KVM_VCPU_SET_EVENTS) and the correct name for the constant.
+Do you mean to add a kvm-unit-test or to add a test to kernel's kvm unit tests
+for this?
 
-The pwm_rate_of_change and fan_window are now mentioned. According to
-our testing with Sunon PF36281BX-000U-S99, these values are crucial in
-how RPM mode works and how long it takes for the RPM to stabilize. For
-example, setting 5000 RPM (the fan goes up to 23000), the
-pwm_rate_of_change needed to be changed to the lowest possible value,
-otherwise the chip would just go from pwm 0 to pwm 60 back and forth and
-never achieving 5000 RPM (and also signaling fan fault). Based on this
-testing, we found out that the pwm_rate_of_change and fan_window values
-need to be changed manually by the user, based on the user's exact fan
-configuration.
+Best regards,
+	Maxim Levitsky
 
-Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
----
- Documentation/hwmon/max31790.rst | 41 +++++++++++++++++++++++++++++++-
- 1 file changed, 40 insertions(+), 1 deletion(-)
+> 
+> Paolo
+> 
+> > The other feature is the ability to trap all guest exceptions (on SVM for now)
+> > and see them in kvmtrace prior to potential merge to double/triple fault.
+> > 
+> > This can be very useful and I already had to manually patch KVM a few
+> > times for this.
+> > I will, once time permits, implement this feature on Intel as well.
+> > 
+> > V2:
+> > 
+> >   * Some more refactoring and workarounds for lx-symbols script
+> > 
+> >   * added KVM_GUESTDBG_BLOCKEVENTS flag to enable 'block interrupts on
+> >     single step' together with KVM_CAP_SET_GUEST_DEBUG2 capability
+> >     to indicate which guest debug flags are supported.
+> > 
+> >     This is a replacement for unconditional block of interrupts on single
+> >     step that was done in previous version of this patch set.
+> >     Patches to qemu to use that feature will be sent soon.
+> > 
+> >   * Reworked the the 'intercept all exceptions for debug' feature according
+> >     to the review feedback:
+> > 
+> >     - renamed the parameter that enables the feature and
+> >       moved it to common kvm module.
+> >       (only SVM part is currently implemented though)
+> > 
+> >     - disable the feature for SEV guests as was suggested during the review
+> >     - made the vmexit table const again, as was suggested in the review as well.
+> > 
+> > Best regards,
+> > 	Maxim Levitsky
+> > 
+> > Maxim Levitsky (9):
+> >    scripts/gdb: rework lx-symbols gdb script
+> >    KVM: introduce KVM_CAP_SET_GUEST_DEBUG2
+> >    KVM: x86: implement KVM_CAP_SET_GUEST_DEBUG2
+> >    KVM: aarch64: implement KVM_CAP_SET_GUEST_DEBUG2
+> >    KVM: s390x: implement KVM_CAP_SET_GUEST_DEBUG2
+> >    KVM: x86: implement KVM_GUESTDBG_BLOCKEVENTS
+> >    KVM: SVM: split svm_handle_invalid_exit
+> >    KVM: x86: add force_intercept_exceptions_mask
+> >    KVM: SVM: implement force_intercept_exceptions_mask
+> > 
+> >   Documentation/virt/kvm/api.rst    |   4 +
+> >   arch/arm64/include/asm/kvm_host.h |   4 +
+> >   arch/arm64/kvm/arm.c              |   2 +
+> >   arch/arm64/kvm/guest.c            |   5 -
+> >   arch/s390/include/asm/kvm_host.h  |   4 +
+> >   arch/s390/kvm/kvm-s390.c          |   3 +
+> >   arch/x86/include/asm/kvm_host.h   |  12 ++
+> >   arch/x86/include/uapi/asm/kvm.h   |   1 +
+> >   arch/x86/kvm/svm/svm.c            |  87 +++++++++++--
+> >   arch/x86/kvm/svm/svm.h            |   6 +-
+> >   arch/x86/kvm/x86.c                |  14 ++-
+> >   arch/x86/kvm/x86.h                |   2 +
+> >   include/uapi/linux/kvm.h          |   1 +
+> >   kernel/module.c                   |   8 +-
+> >   scripts/gdb/linux/symbols.py      | 203 ++++++++++++++++++++----------
+> >   15 files changed, 272 insertions(+), 84 deletions(-)
+> > 
 
-diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
-index 2979addeac8f..6056b67c3a95 100644
---- a/Documentation/hwmon/max31790.rst
-+++ b/Documentation/hwmon/max31790.rst
-@@ -30,6 +30,44 @@ monitoring and control of fan RPM as well as detection of fan failure.
- Six pins are dedicated tachometer inputs. Any of the six PWM outputs can
- also be configured to serve as tachometer inputs.
- 
-+About pwm[1-6]_enable
-+---------------------
-+0 - full-speed
-+    The chip doesn't have a specific way to set "full speed", so setting
-+    pwm[1-6]_enable to 0 is just "set PWM mode with 255 duty cycle".
-+1 - PWM mode
-+    Fan speed is controlled by writing a value to pwm[1-6].
-+2 - RPM mode
-+    Fan speed is controlled by writing a value to fan[1-6]_target.
-+
-+About fan[1-6]_fault
-+--------------------
-+In PWM (or full-speed) mode, if the input RPM goes below what is set
-+in fan[1-6]_target, fan[1-6]_fault gets set to 1. In other words,
-+fan[1-6]_target works as the minimum input RPM before a fan fault goes off.
-+
-+In RPM mode, fan fault is set when the fan spins "too slowly" (exact
-+conditions are in the datasheet). RPM mode depends on four variables:
-+    target_speed:        This is set by fan[1-6]_target.
-+    speed_range:         This is set automatically when setting target_speed
-+                         or manually by fan[1-12]_div.
-+    pwm_rate_of_change:  NOT set by the driver.
-+    fan_window:          NOT set by the driver.
-+
-+The last two values are not set by the driver, because there's no generic way to
-+compute them. You should set them manually through i2c (in the bootloader for
-+example). Check the datasheet for details.
-+
-+The fan fault value latches, to reset it, set a value to pwm[1-6]
-+or fan[1-6]_target.
-+
-+About fan[1-12]_div
-+-------------------
-+This value affects the measurable range of the chip. The driver sets this value
-+automatically in RPM based on fan[1-6]_target. In PWM mode, you should set this
-+value manually based on the details from the datasheet. Setting the speed range
-+is disabled while in RPM mode to prevent overwriting the automatically
-+calculated value.
- 
- Sysfs entries
- -------------
-@@ -39,7 +77,8 @@ fan[1-12]_enable   RW  enable fan speed monitoring
- fan[1-12]_input    RO  fan tachometer speed in RPM
- fan[1-12]_fault    RO  fan experienced fault
- fan[1-12]_div      RW  set the measurable speed range, not available in RPM mode
--fan[1-6]_target    RW  desired fan speed in RPM
-+fan[1-6]_target    RW  RPM mode = desired fan speed
-+                       PWM mode = minimum fan speed until fault
- pwm[1-6]_enable    RW  regulator mode, 0=full speed, 1=manual (pwm) mode, 2=rpm mode
-                        setting rpm mode sets fan*_enable to 1
- pwm[1-6]           RW  fan target duty cycle (0-255)
--- 
-2.31.1
 
