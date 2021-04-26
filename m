@@ -2,63 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A8DFC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 20:57:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B61C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 22:17:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4511D61164
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 20:57:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CED461159
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 22:17:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233971AbhDZU6V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 16:58:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36190 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234743AbhDZU6U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Apr 2021 16:58:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 2E21961040;
-        Mon, 26 Apr 2021 20:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619470658;
-        bh=uOBWXZQVEAzyWhXmZKkYHruv+hC3J7GU0R4uFDhiFRU=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=uLWuSPtmkNcjxzzbfE+kYRz2fGIqmj68Q8ZdT4A/SHWUj/FarTZchhi5MirhTrzbC
-         s+Pbf1D5ERL8LezKDgQ6/40vl81s5NcqxGs9yo4o5LDsk1QgkT94cMwmA/ddntjnm+
-         dkCjczFTL2RpfgvAu7ASy9HhNO3UFmilaNZuexM2hl3UEsZ+8PkSS77Tyqg90KYLHu
-         dhBgzsb+9ohvZbQ9KSdxYnZxILHFd8B4u+SuM3wkQ4WiuGPK/hCraGBukNe3q8WxgX
-         i3kNgtxc0fmHoCv1UAVO1BsFzk6Gu5eJ/2u6cNV8Pjf0gW61llLyokAUZjCo5gIZzb
-         ncO/3Oq2Ucn4Q==
-Subject: Re: [GIT PULL] Documentation for 5.13
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87pmyh7ziz.fsf@meer.lwn.net>
-References: <87pmyh7ziz.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87pmyh7ziz.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.13
-X-PR-Tracked-Commit-Id: 441ca977a84dadac6173db7c07c25db110b76c1e
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2f9ef0559efbee18a10a3ca26eefe57f69918693
-Message-Id: <161947065816.16410.6399482534768951509.pr-tracker-bot@kernel.org>
-Date:   Mon, 26 Apr 2021 20:57:38 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+        id S232161AbhDZWSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 18:18:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232116AbhDZWSk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 18:18:40 -0400
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3A9C061574;
+        Mon, 26 Apr 2021 15:17:58 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id 190so1508443qkl.11;
+        Mon, 26 Apr 2021 15:17:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pT8Z+BT2Uzmb9KP8iLMvUauv3UtnTngOEKOh9DM9qy4=;
+        b=ls88h6qyJchcgT2gheBMtudKdMq1gyb07dTcQOV8pEX9uxpTys/RsUPQg8mKcSczat
+         N3AQwYv1yH2AVQF6kTC7//Y6JGWsod8vPKVCN/NHqF88ETT4zerdjRIuSMjqXQxsvz2n
+         2PUrkKm00H5yDGX7LdUNkU9VMzb7z1KmIug7hMxRE+3M/SqERb0K+XdQ0LDjHc1Mwmr9
+         Q/MgfjEIR3UhkTeObEGz0vTnkDJWgVm4/s0kb3FvY0DHNeVRIpmE0STPoMDver35CK8d
+         C0CFtEXktUU4xM0z73+1cCpVKXsME2/Z//BAbumV00rpa/r3iz8MGU4glUaHGLXTEJyi
+         Xupw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pT8Z+BT2Uzmb9KP8iLMvUauv3UtnTngOEKOh9DM9qy4=;
+        b=Tm7TaMW8qv0wG6hL0DPoTcFU407yeRfomQ8HEBT+kd+Olo/73/xXnfBmwd8VcNp1zr
+         CW86s3uPAUJCV/J7nS+zyw/yqJlfudiyUuQJBEJJl3JFeO+3sJZNv/sSrDu9faxIsg4M
+         XiXCeYvVTxn9N9CCdQQ5adJrv7UuCrdj1LHtS5Mv2s8Zb4d1Zn7MfHzCeYWpuM4Xeqpt
+         5TYs1aqEVsNYmvw/Sf1t5W+9O6WI8o4JXjhmtemNjHiN41g86tkobF4KVPgbfwdp0JwP
+         o/uMUgYRrWtVtk80oLENYAAYdSZdX8YVYGJk1JLTZ2VbCgjcNr5zwqNivGykYQ7ZX/dD
+         1Ltg==
+X-Gm-Message-State: AOAM530PBPFm8s8pCPyDctFchwej+q2GEAbGE/meN00GoaKx2tf4r6g+
+        DOKYT2NV6r1vZHnKRy9/xc4=
+X-Google-Smtp-Source: ABdhPJwHRhWj15+STILXHLcbrerqEPaFw9TR6Lud8ogKrGI6XqXY451mMzvcEH4xijSbRTNDATMIFg==
+X-Received: by 2002:a05:620a:670:: with SMTP id a16mr20732183qkh.428.1619475477527;
+        Mon, 26 Apr 2021 15:17:57 -0700 (PDT)
+Received: from localhost.localdomain ([156.146.37.247])
+        by smtp.gmail.com with ESMTPSA id x20sm1374111qkf.42.2021.04.26.15.17.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 15:17:56 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     corbet@lwn.net, nathan@kernel.org, linux-kernel@vger.kernel.org,
+        viresh.kumar@linaro.org, linux-doc@vger.kernel.org
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, viro@zeniv.linux.org.uk,
+        tglx@linutronix.de, gregkh@linuxfoundation.org,
+        rdunlap@infradead.org, akpm@linux-foundation.org,
+        torvalds@linux-foundation.org
+Subject: [PATCH  RESENDING 0/3] Removed oprofile stale entries
+Date:   Tue, 27 Apr 2021 03:38:44 +0530
+Message-Id: <cover.1619181632.git.unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Mon, 26 Apr 2021 10:59:16 -0600:
+This patch series trying to clean up the remaining debris of removed
+functionality.Kindly see the commit : 24880bef417f(oprofile-removal)
 
-> git://git.lwn.net/linux.git tags/docs-5.13
+In truest sense, it is all trivial in nature, so cc'ing that mail id too..
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2f9ef0559efbee18a10a3ca26eefe57f69918693
+trivial@vger.kernel.org
 
-Thank you!
+Bhaskar Chowdhury (3):
+  Removed the oprofiled version option
+  oprofiled version output line removed from the list
+  Enlisted oprofile version line removed
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+ Documentation/process/changes.rst                    | 1 -
+ Documentation/translations/it_IT/process/changes.rst | 1 -
+ scripts/ver_linux                                    | 1 -
+ 3 files changed, 3 deletions(-)
+
+--
+2.26.3
+
