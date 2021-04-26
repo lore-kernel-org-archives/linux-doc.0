@@ -2,99 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C6CC43461
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 11:11:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F013C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 11:14:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E248C60E09
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 11:11:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BDA961131
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 11:14:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233186AbhDZLMM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 07:12:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46112 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233112AbhDZLMH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Apr 2021 07:12:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1DFCF61075;
-        Mon, 26 Apr 2021 11:11:17 +0000 (UTC)
-Date:   Mon, 26 Apr 2021 12:11:15 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
+        id S232589AbhDZLOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 07:14:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34275 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232490AbhDZLOy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 07:14:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619435653;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=4EGSofxQx4brtBrsah9Z+zPRC9nWkVvSS5E/pnfMZn0=;
+        b=NopiZGl3CM6u5/QqGAOhKEOSdq8mRNAv98tV2ZE+5w8GGnPY/EbJDSLnjHUR+Snes0I4Uc
+        DoLrGjaIGNvcai0H7YoLUiYj3kniydeLYbdZEpg8yst/FwUXjAYxzGAZu034wChVYyOzBE
+        83yHu4zMnY9CHR+iW8zwtRhHy3yZAvc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-78yYM6mCOhS2wonT2h580w-1; Mon, 26 Apr 2021 07:14:11 -0400
+X-MC-Unique: 78yYM6mCOhS2wonT2h580w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABF3F84B9A7;
+        Mon, 26 Apr 2021 11:13:40 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.40.192.73])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BAE505D9F0;
+        Mon, 26 Apr 2021 11:13:35 +0000 (UTC)
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v25 29/30] mm: Update arch_validate_flags() to include
- vma anonymous
-Message-ID: <20210426111114.GF4985@arm.com>
-References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
- <20210415221419.31835-30-yu-cheng.yu@intel.com>
- <20210426064056.bqbeekpsogd32yvm@box.shutemov.name>
+        Paolo Bonzini <pbonzini@redhat.com>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        linux-kernel@vger.kernel.org (open list:X86 ARCHITECTURE (32-BIT AND
+        64-BIT)), "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Maxim Levitsky <mlevitsk@redhat.com>
+Subject: [PATCH v2 0/6] Introduce KVM_{GET|SET}_SREGS2 and fix PDPTR migration
+Date:   Mon, 26 Apr 2021 14:13:27 +0300
+Message-Id: <20210426111333.967729-1-mlevitsk@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210426064056.bqbeekpsogd32yvm@box.shutemov.name>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 09:40:56AM +0300, Kirill A. Shutemov wrote:
-> On Thu, Apr 15, 2021 at 03:14:18PM -0700, Yu-cheng Yu wrote:
-> > When newer VM flags are being created, such as VM_MTE, it becomes necessary
-> > for mmap/mprotect to verify if certain flags are being applied to an
-> > anonymous VMA.
-> > 
-> > To solve this, one approach is adding a VM flag to track that MAP_ANONYMOUS
-> > is specified [1], and then using the flag in arch_validate_flags().
-> > 
-> > Another approach is passing vma_is_anonymous() to arch_validate_flags().
-> > To prepare the introduction of PROT_SHSTK, which creates a shadow stack
-> > mapping and can only be applied to an anonymous VMA, update arch_validate_
-> > flags() to include anonymous VMA information.
-> 
-> I would rather pass down whole vma. Who knows what else
-> arch_validate_flags() would need to know about the VMA tomorrow:
-> 
-> 	arch_validate_flags(vma, newflags);
-> 
-> should do the trick.
+This patch set aims to fix few flaws that were discovered=0D
+in KVM_{GET|SET}_SREGS on x86:=0D
+=0D
+* There is no support for reading/writing PDPTRs although=0D
+  these are considered to be part of the guest state.=0D
+=0D
+* There is useless interrupt bitmap which isn't needed=0D
+=0D
+* No support for future extensions (via flags and such)=0D
+=0D
+Also if the user doesn't use the new SREG2 api, the PDPTR=0D
+load after migration is now done on KVM_REQ_GET_NESTED_STATE_PAGES=0D
+to at least read them correctly in cases when guest memory=0D
+map is not up to date when nested state is loaded.=0D
+=0D
+This patch series was tested by doing nested migration test=0D
+of 32 bit PAE L1 + 32 bit PAE L2 on AMD and Intel and by=0D
+nested migration test of 64 bit L1 + 32 bit PAE L2 on AMD.=0D
+The later test currently fails on Intel (regardless of my patches).=0D
+=0D
+Changes from V1:=0D
+  - move only PDPTRS load to KVM_REQ_GET_NESTED_STATE_PAGES on VMX=0D
+  - rebase on top of kvm/queue=0D
+  - improve the KVM_GET_SREGS2 to have flag for PDPTRS=0D
+    and remove padding=0D
+=0D
+Patches to qemu will be send soon as well.=0D
+=0D
+Best regards,=0D
+        Maxim Levitskky=0D
+=0D
+Maxim Levitsky (6):=0D
+  KVM: nSVM: refactor the CR3 reload on migration=0D
+  KVM: nVMX: delay loading of PDPTRs to KVM_REQ_GET_NESTED_STATE_PAGES=0D
+  KVM: x86: introduce kvm_register_clear_available=0D
+  KVM: x86: Introduce KVM_GET_SREGS2 / KVM_SET_SREGS2=0D
+  KVM: nSVM: avoid loading PDPTRs after migration when possible=0D
+  KVM: nVMX: avoid loading PDPTRs after migration when possible=0D
+=0D
+ Documentation/virt/kvm/api.rst  |  48 +++++++++++=0D
+ arch/x86/include/asm/kvm_host.h |   7 ++=0D
+ arch/x86/include/uapi/asm/kvm.h |  13 +++=0D
+ arch/x86/kvm/kvm_cache_regs.h   |  12 +++=0D
+ arch/x86/kvm/svm/nested.c       |  33 ++++++--=0D
+ arch/x86/kvm/svm/svm.c          |   6 +-=0D
+ arch/x86/kvm/vmx/nested.c       |  24 ++++--=0D
+ arch/x86/kvm/x86.c              | 139 ++++++++++++++++++++++++++------=0D
+ include/uapi/linux/kvm.h        |   4 +=0D
+ 9 files changed, 246 insertions(+), 40 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
-A reason why we added a separate VM_MTE_ALLOWED flag was that we wanted
-MTE on other RAM-based based mappings, not just anonymous pages. See
-51b0bff2f703 ("mm: Allow arm64 mmap(PROT_MTE) on RAM-based files").
-
-Anyway, the above change doesn't get in the way.
-
--- 
-Catalin
