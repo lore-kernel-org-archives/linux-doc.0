@@ -2,178 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F1DC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 12:44:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2853C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 12:46:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B84A6127A
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 12:44:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89F6F6023E
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 12:46:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233227AbhDZMo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 08:44:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34073 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232492AbhDZMow (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 08:44:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619441050;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TSlotn4fBSdFFf3NHGJvYzieEsXBeHjCWbwR+pEgCSM=;
-        b=fvGVwPCbB9cKx7a5DZ7UCHJTSueIrPx4SRqCSqzbLgtrjr53q7YfWo1xQRGnqzsMMKpmYq
-        aZyyHHosoxXJjfCPq5V8BkIbKHdTAkGqhflW5dWszIm0G+fXWH3BT6fpeKzXvZ8SXBHfCN
-        Nf68eunrAdEbRj5DjhWfMFd8QqyBR0M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-W1_il_x5O0-KQwH5hQ0CVw-1; Mon, 26 Apr 2021 08:44:07 -0400
-X-MC-Unique: W1_il_x5O0-KQwH5hQ0CVw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S233448AbhDZMrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 08:47:24 -0400
+Received: from office2.cesnet.cz ([195.113.144.244]:46088 "EHLO
+        office2.cesnet.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231862AbhDZMrY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 08:47:24 -0400
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BB3587A83F;
-        Mon, 26 Apr 2021 12:44:03 +0000 (UTC)
-Received: from starship (unknown [10.40.192.73])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5F70F6268B;
-        Mon, 26 Apr 2021 12:43:49 +0000 (UTC)
-Message-ID: <6d7146021f3435330b42f2e1b917d4b5dea00edc.camel@redhat.com>
-Subject: Re: [PATCH v2 0/9] KVM: my debug patch queue
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sean Christopherson <seanjc@google.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Will Deacon <will@kernel.org>,
-        "open list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
-        <kvmarm@lists.cs.columbia.edu>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Jim Mattson <jmattson@google.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "open list:S390" <linux-s390@vger.kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "moderated list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        James Morse <james.morse@arm.com>
-Date:   Mon, 26 Apr 2021 15:43:48 +0300
-In-Reply-To: <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
-References: <20210401135451.1004564-1-mlevitsk@redhat.com>
-         <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+        by office2.cesnet.cz (Postfix) with ESMTPSA id 422A6400052;
+        Mon, 26 Apr 2021 14:46:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
+        s=office2-2020; t=1619441201;
+        bh=vAAsbBiBH7LAbBh1t9loyx/hGv7nApOFY9XOY22lVNg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc;
+        b=aKdaeQQmkMCROGpYjyLcjsOEBCprIG7wrCPrVQ5HqomHNBDoHwBPWJZCn6ZQXtabE
+         pHsrmmkEicC00vRdQ2n3ELyIGG9hj3XNmHsb7seMPBpbRMk4Q/NN8hgtatP+uzMtfK
+         jKMjKJ919ECBYJPOiu48KDaZ4LCsMsjXQiu+x94SSnZ1PVS+ar2BPU15ptVfEmUBDC
+         q2DcT+/k3M0EI/fafovQ6F/XzFtvszfYxR+2EPp2j4Iw5QRegzB54985sppPZPT2IE
+         FyuAXeCp25b03P1aV5z1IA+qSVfbEtfTAD+m4HcUohDQuNUMi554u1DRSJRJ2rKU0J
+         d0IHLxGEQaWcg==
+Received: by mail-pj1-f45.google.com with SMTP id md17so1524734pjb.0;
+        Mon, 26 Apr 2021 05:46:41 -0700 (PDT)
+X-Gm-Message-State: AOAM531het5S/UIIBVooOVqB7eNTSrGHke5axXrG277hgfLVdqCbv7TP
+        WyJQLDVPDN97oJRw87FOZITEh30kCHgwcLCxngQ=
+X-Google-Smtp-Source: ABdhPJw45wCj7QeQGS20UcVMLO74ChUMRhb/yYlOPI3Wl6DXngaPVEiVwR8/pT7CtHuZCHWgY8+dy+ZmltO0gzr0AcY=
+X-Received: by 2002:a17:902:b408:b029:ec:e879:bbd8 with SMTP id
+ x8-20020a170902b408b02900ece879bbd8mr12993884plr.65.1619441199370; Mon, 26
+ Apr 2021 05:46:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20210413025948.901867-1-kubernat@cesnet.cz> <250c1c16-541a-984f-c720-1a8b6176e97e@roeck-us.net>
+In-Reply-To: <250c1c16-541a-984f-c720-1a8b6176e97e@roeck-us.net>
+From:   =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
+Date:   Mon, 26 Apr 2021 14:46:27 +0200
+X-Gmail-Original-Message-ID: <CABKa3npjrpq5Aw_Xqy3mFZtUHZcfB0YENxEDgo_MCwPUKqA4ww@mail.gmail.com>
+Message-ID: <CABKa3npjrpq5Aw_Xqy3mFZtUHZcfB0YENxEDgo_MCwPUKqA4ww@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] hwmon: (max31790) Rework to use regmap
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2021-04-02 at 10:38 -0700, Paolo Bonzini wrote:
-> On 01/04/21 15:54, Maxim Levitsky wrote:
-> > Hi!
-> > 
-> > I would like to publish two debug features which were needed for other stuff
-> > I work on.
-> > 
-> > One is the reworked lx-symbols script which now actually works on at least
-> > gdb 9.1 (gdb 9.2 was reported to fail to load the debug symbols from the kernel
-> > for some reason, not related to this patch) and upstream qemu.
-> 
-> Queued patches 2-5 for now.  6 is okay but it needs a selftest. (e.g. 
-> using KVM_VCPU_SET_EVENTS) and the correct name for the constant.
-Do you mean to add a kvm-unit-test or to add a test to kernel's kvm unit tests
-for this?
+Hello.
 
-Best regards,
-	Maxim Levitsky
+I'm sending a new version of my patch on max31790. This new version
+fixes the cache issue and actually makes it work by setting
+.cache_type. You were right about the "yes/no" ranges, so I flipped
+those.
 
-> 
-> Paolo
-> 
-> > The other feature is the ability to trap all guest exceptions (on SVM for now)
-> > and see them in kvmtrace prior to potential merge to double/triple fault.
-> > 
-> > This can be very useful and I already had to manually patch KVM a few
-> > times for this.
-> > I will, once time permits, implement this feature on Intel as well.
-> > 
-> > V2:
-> > 
-> >   * Some more refactoring and workarounds for lx-symbols script
-> > 
-> >   * added KVM_GUESTDBG_BLOCKEVENTS flag to enable 'block interrupts on
-> >     single step' together with KVM_CAP_SET_GUEST_DEBUG2 capability
-> >     to indicate which guest debug flags are supported.
-> > 
-> >     This is a replacement for unconditional block of interrupts on single
-> >     step that was done in previous version of this patch set.
-> >     Patches to qemu to use that feature will be sent soon.
-> > 
-> >   * Reworked the the 'intercept all exceptions for debug' feature according
-> >     to the review feedback:
-> > 
-> >     - renamed the parameter that enables the feature and
-> >       moved it to common kvm module.
-> >       (only SVM part is currently implemented though)
-> > 
-> >     - disable the feature for SEV guests as was suggested during the review
-> >     - made the vmexit table const again, as was suggested in the review as well.
-> > 
-> > Best regards,
-> > 	Maxim Levitsky
-> > 
-> > Maxim Levitsky (9):
-> >    scripts/gdb: rework lx-symbols gdb script
-> >    KVM: introduce KVM_CAP_SET_GUEST_DEBUG2
-> >    KVM: x86: implement KVM_CAP_SET_GUEST_DEBUG2
-> >    KVM: aarch64: implement KVM_CAP_SET_GUEST_DEBUG2
-> >    KVM: s390x: implement KVM_CAP_SET_GUEST_DEBUG2
-> >    KVM: x86: implement KVM_GUESTDBG_BLOCKEVENTS
-> >    KVM: SVM: split svm_handle_invalid_exit
-> >    KVM: x86: add force_intercept_exceptions_mask
-> >    KVM: SVM: implement force_intercept_exceptions_mask
-> > 
-> >   Documentation/virt/kvm/api.rst    |   4 +
-> >   arch/arm64/include/asm/kvm_host.h |   4 +
-> >   arch/arm64/kvm/arm.c              |   2 +
-> >   arch/arm64/kvm/guest.c            |   5 -
-> >   arch/s390/include/asm/kvm_host.h  |   4 +
-> >   arch/s390/kvm/kvm-s390.c          |   3 +
-> >   arch/x86/include/asm/kvm_host.h   |  12 ++
-> >   arch/x86/include/uapi/asm/kvm.h   |   1 +
-> >   arch/x86/kvm/svm/svm.c            |  87 +++++++++++--
-> >   arch/x86/kvm/svm/svm.h            |   6 +-
-> >   arch/x86/kvm/x86.c                |  14 ++-
-> >   arch/x86/kvm/x86.h                |   2 +
-> >   include/uapi/linux/kvm.h          |   1 +
-> >   kernel/module.c                   |   8 +-
-> >   scripts/gdb/linux/symbols.py      | 203 ++++++++++++++++++++----------
-> >   15 files changed, 272 insertions(+), 84 deletions(-)
-> > 
+By the way, it seems that the reason your reply got lost is because of
+weird addresses in the "Cc:" email field, they end with "cesnet.cz",
+so it could be that I'm sending email incorrectly. Let me know if I'm
+doing something wrong.
 
+Thanks,
+V=C3=A1clav
 
+=C4=8Dt 22. 4. 2021 v 3:31 odes=C3=ADlatel Guenter Roeck <linux@roeck-us.ne=
+t> napsal:
+>
+> On 4/12/21 7:59 PM, V=C3=A1clav Kubern=C3=A1t wrote:
+> > Converting the driver to use regmap makes it more generic. It also make=
+s
+> > it a lot easier to debug through debugfs.
+> >
+> > Signed-off-by: V=C3=A1clav Kubern=C3=A1t <kubernat@cesnet.cz>
+> > ---
+> >  drivers/hwmon/Kconfig    |   1 +
+> >  drivers/hwmon/max31790.c | 254 ++++++++++++++++++++-------------------
+> >  2 files changed, 133 insertions(+), 122 deletions(-)
+> >
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 1ecf697d8d99..9f11d036c316 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -1095,6 +1095,7 @@ config SENSORS_MAX6697
+> >  config SENSORS_MAX31790
+> >       tristate "Maxim MAX31790 sensor chip"
+> >       depends on I2C
+> > +     select REGMAP_I2C
+> >       help
+> >         If you say yes here you get support for 6-Channel PWM-Output
+> >         Fan RPM Controller.
+> > diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+> > index 2c6b333a28e9..e3765ce4444a 100644
+> > --- a/drivers/hwmon/max31790.c
+> > +++ b/drivers/hwmon/max31790.c
+> > @@ -12,6 +12,7 @@
+> >  #include <linux/init.h>
+> >  #include <linux/jiffies.h>
+> >  #include <linux/module.h>
+> > +#include <linux/regmap.h>
+> >  #include <linux/slab.h>
+> >
+> >  /* MAX31790 registers */
+> > @@ -46,92 +47,53 @@
+> >
+> >  #define NR_CHANNEL                   6
+> >
+> > +#define MAX31790_REG_USER_BYTE_67    0x67
+> > +
+> > +#define BULK_TO_U16(msb, lsb)                (((msb) << 8) + (lsb))
+> > +#define U16_MSB(num)                 (((num) & 0xFF00) >> 8)
+> > +#define U16_LSB(num)                 ((num) & 0x00FF)
+> > +
+> > +static const struct regmap_range max31790_ro_range =3D {
+> > +     .range_min =3D MAX31790_REG_TACH_COUNT(0),
+> > +     .range_max =3D MAX31790_REG_PWMOUT(0) - 1,
+> > +};
+> > +
+> > +static const struct regmap_access_table max31790_wr_table =3D {
+> > +     .no_ranges =3D &max31790_ro_range,
+> > +     .n_no_ranges =3D 1,
+> > +};
+> > +
+> > +static const struct regmap_range max31790_volatile_ranges[] =3D {
+> > +     regmap_reg_range(MAX31790_REG_TACH_COUNT(0), MAX31790_REG_TACH_CO=
+UNT(12)),
+> > +     regmap_reg_range(MAX31790_REG_FAN_FAULT_STATUS2, MAX31790_REG_FAN=
+_FAULT_STATUS1),
+> > +};
+> > +
+> > +static const struct regmap_access_table max31790_volatile_table =3D {
+> > +     .no_ranges =3D max31790_volatile_ranges,
+> > +     .n_no_ranges =3D 2,
+> > +     .n_yes_ranges =3D 0
+> > +};
+>
+> Looks like my reply to this got lost. Other regmap code suggests that
+> volatile register ranges are identified with yes_ranges, not with no_rang=
+es.
+> "no" seems to mean "not volatile". Please verify and confirm if the
+> above code does what you want it to do.
+>
+> Thanks,
+> Guenter
