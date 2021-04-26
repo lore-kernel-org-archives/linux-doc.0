@@ -2,114 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8494FC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 13:31:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A64DC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 13:38:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CAF261107
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 13:31:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10E3D61166
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Apr 2021 13:38:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233637AbhDZNcD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 09:32:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26438 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232575AbhDZNcC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 09:32:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619443881;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=f3iMS4ZD9vcBcKbInQFZuGVgR0cLzV0CMjanYaop2+w=;
-        b=MQ0Et86PBAvSIMUmH5juoX+T5lXBdipC62SH6mri2e0JJ9bSblLCY2B63cpG/oyrGgXgA1
-        sPxGkid6zi5cJV9tddiqgbQAtC9MrK3tA1AIODDZsi+fKuk+1NBnw6jTr5lgg36aM8hoRZ
-        tBNTLhDkQZxB4xqWP2XXKdgVFjCgq1A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-rP8L9APNOLuq6qo9zGuhAQ-1; Mon, 26 Apr 2021 09:31:19 -0400
-X-MC-Unique: rP8L9APNOLuq6qo9zGuhAQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1F3D8189C7;
-        Mon, 26 Apr 2021 13:31:17 +0000 (UTC)
-Received: from starship (unknown [10.40.192.73])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 283BC19704;
-        Mon, 26 Apr 2021 13:31:12 +0000 (UTC)
-Message-ID: <e887a66ea714cf244958b60e85db6f6f1336887a.camel@redhat.com>
-Subject: Re: [PATCH v2 4/6] KVM: x86: Introduce KVM_GET_SREGS2 /
- KVM_SET_SREGS2
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        id S233227AbhDZNjc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 09:39:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230250AbhDZNjc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 09:39:32 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9522C061574;
+        Mon, 26 Apr 2021 06:38:50 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id y22-20020a17090a8b16b0290150ae1a6d2bso5327254pjn.0;
+        Mon, 26 Apr 2021 06:38:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=6BA3bzR3xgCgttcDOM4HB5ATaqy4xRVcX1skX89C1tg=;
+        b=r0orE5Dmd6xs+cvP5uhd9uAMuwjIUwpeKt/Rbe/2F8f5zdUyyowuhsQNUozQ4e7A8D
+         FKl7kGfbmfoGjqQCc29+xa22ftvMRZr20Afui/L11w/XC1CAxSWE2nbgsGfWRVtvUTJg
+         19tLyG3YetkEY0hd2TnwGB0Wr2Ax5oRzENURxfWFXDlCbdRu74Z+JBM5BXIMhhiPtZbN
+         Owd6yS9efEnWgVJjHCGMUbVvzf2hnHgOlArFcQvNLmsSEJy+X5Y5jYtxMGoIi+nf0pD4
+         kbPk/vcrXd8JjGddec1A3j0mZMFFwQeck0rIKjTZ/dXOhMkyjbvN3khonFaC3koKBYCa
+         oQvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6BA3bzR3xgCgttcDOM4HB5ATaqy4xRVcX1skX89C1tg=;
+        b=jjAXBMyTexnd04DsrYcCpvDMgwVfUGEky4AE9WS71OLRla/PWnbYy5vq9NBIf7CK3y
+         +guEXeINli8HQ8p1Qq2S6dlWpiVcDIOzO1BAykxl13k0Lms/X9ppnLYjjeuJI7d6RW7E
+         Z9mWdCLXOzg3LLt69v4q2kYYwCj+ErPAiPWarHgp/ougc1kyFytUC1tFaFAmgowfkygz
+         d+z8e/pY2uiYtELQsNOBRHxE70bTou4/yf7SDEQ6p+c6ZvYRcUry77iC7H59inU+HKZO
+         Uz/AcHR8X3hjJv/p2OOLNl+D/fUOonFdbtX0M4J3N0R5ZCFV8K3UgVngH7JKmr4M1t1/
+         ildw==
+X-Gm-Message-State: AOAM531adWk32AMMJ9FrwKQBT39IFXYxnclAhkR38z1FX03kodDpQk4o
+        iKdGk4V93gVtYyEDgNW5xCg=
+X-Google-Smtp-Source: ABdhPJwwNvQ1kHrtUqbTFiR7NQTLzJI1fV0oh1o80FBJD0v/FiW1lAU7ut12s9m+//LAAQX2Julj2g==
+X-Received: by 2002:a17:902:e851:b029:eb:1fd0:fa8e with SMTP id t17-20020a170902e851b02900eb1fd0fa8emr19091530plg.38.1619444330258;
+        Mon, 26 Apr 2021 06:38:50 -0700 (PDT)
+Received: from hoboy.vegasvil.org ([2601:645:c000:35:e2d5:5eff:fea5:802f])
+        by smtp.gmail.com with ESMTPSA id t1sm12244834pjo.33.2021.04.26.06.38.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 06:38:49 -0700 (PDT)
+Date:   Mon, 26 Apr 2021 06:38:46 -0700
+From:   Richard Cochran <richardcochran@gmail.com>
+To:     Yangbo Lu <yangbo.lu@nxp.com>
+Cc:     netdev@vger.kernel.org, Vladimir Oltean <vladimir.oltean@nxp.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
-        <linux-kernel@vger.kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Joerg Roedel <joro@8bytes.org>
-Date:   Mon, 26 Apr 2021 16:31:11 +0300
-In-Reply-To: <05161b6e-6d85-be14-9e30-e61cb742f6d0@redhat.com>
-References: <20210426111333.967729-1-mlevitsk@redhat.com>
-         <20210426111333.967729-5-mlevitsk@redhat.com>
-         <898a9b18-4578-cb9d-ece7-f45ba5b7bb89@redhat.com>
-         <eeaa6c0f6efef926eb606b354052aba8cfef2c21.camel@redhat.com>
-         <05161b6e-6d85-be14-9e30-e61cb742f6d0@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [net-next, v2, 3/7] net: dsa: free skb->cb usage in core driver
+Message-ID: <20210426133846.GA22518@hoboy.vegasvil.org>
+References: <20210426093802.38652-1-yangbo.lu@nxp.com>
+ <20210426093802.38652-4-yangbo.lu@nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210426093802.38652-4-yangbo.lu@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2021-04-26 at 15:28 +0200, Paolo Bonzini wrote:
-> On 26/04/21 14:56, Maxim Levitsky wrote:
-> > On Mon, 2021-04-26 at 14:32 +0200, Paolo Bonzini wrote:
-> > > On 26/04/21 13:13, Maxim Levitsky wrote:
-> > > > +	if (sregs2->flags & KVM_SREGS2_FLAGS_PDPTRS_VALID) {
-> > > > +
-> > > > +		if (!is_pae_paging(vcpu))
-> > > > +			return -EINVAL;
-> > > > +
-> > > > +		for (i = 0 ; i < 4 ; i++)
-> > > > +			kvm_pdptr_write(vcpu, i, sregs2->pdptrs[i]);
-> > > > +
-> > > > +		kvm_register_mark_dirty(vcpu, VCPU_EXREG_PDPTR);
-> > > > +		mmu_reset_needed = 1;
-> > > > +	}
-> > > 
-> > > I think this should also have
-> > > 
-> > > 	else {
-> > > 		if (is_pae_paging(vcpu))
-> > > 			return -EINVAL;
-> > > 	}
-> > 
-> > What about the case when we migrate from qemu that doesn't use
-> > this ioctl to qemu that does?
-> 
-> Right, that makes sense but then the "else" branch should do the same as 
-> KVM_SET_SREGS.  Maybe add a "load_pdptrs" bool to __set_sregs_common?
+On Mon, Apr 26, 2021 at 05:37:58PM +0800, Yangbo Lu wrote:
+> @@ -624,7 +623,7 @@ static netdev_tx_t dsa_slave_xmit(struct sk_buff *skb, struct net_device *dev)
+>  
+>  	dev_sw_netstats_tx_add(dev, 1, skb->len);
+>  
+> -	DSA_SKB_CB(skb)->clone = NULL;
+> +	memset(skb->cb, 0, 48);
 
-Yes, I'll do something like that.
+Replace hard coded 48 with sizeof() please.
+
 Thanks,
-	Best regards,
-		Maxim Levitsky
-
-> 
-> Paolo
-> 
-
-
+Richard
