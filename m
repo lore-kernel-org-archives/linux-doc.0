@@ -2,151 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B298C43460
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 07:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09FFDC433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 09:54:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8EF461177
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 07:34:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8275613C6
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 09:54:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234857AbhD0He6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Apr 2021 03:34:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10068 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232824AbhD0He5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 03:34:57 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13R7XHHA076633;
-        Tue, 27 Apr 2021 03:34:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=dbwUouL94Tn6aMK5okMNidltYNKsURrD9rSSG24y+N8=;
- b=JlBYcGRZinkJQ1yL6heRHD3pud7q+grVvAnrNoVMNLWaK2KZOTrg7ISOe0e2zyBTewO2
- 1Yq5+jH8spWiL4RGCY0ebeZKRkhbBBTXz4nJSrs+4HDL2ehS3Alpkd7dHPaV452wSF18
- 4U191PPSIXGQuzZVE+ZQxTjDszgR1OSTHt9VdxybVLkWGnA34Ah1KytfPWIoKiGwbB5n
- gWjLyztpo8shuUBK+uxW2ZC2Qm5AhLBHuUpwHG47IoVT2LTt8DtersFVqNovqz0g00Kj
- TmnvSAAw+bGvEpM9NlyCwZdiiwvruwrXZ+jdNQkYd8uWLFU4McOxdbjRtbCDD8/NeVMR Gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 386cf2txe0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 27 Apr 2021 03:34:05 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13R7XlU4078010;
-        Tue, 27 Apr 2021 03:34:05 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 386cf2txc2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 27 Apr 2021 03:34:05 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
-        by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13R7Rane009579;
-        Tue, 27 Apr 2021 07:34:02 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma02fra.de.ibm.com with ESMTP id 384ay88nbr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 27 Apr 2021 07:34:02 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13R7XYL128049826
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 27 Apr 2021 07:33:34 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B0CDF4C046;
-        Tue, 27 Apr 2021 07:33:58 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AA4A24C040;
-        Tue, 27 Apr 2021 07:33:56 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.69.120])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 27 Apr 2021 07:33:56 +0000 (GMT)
-Subject: Re: [PATCH 00/12] Remove vfio_mdev.c, mdev_parent_ops and more
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        id S235004AbhD0Jy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 05:54:59 -0400
+Received: from void.so ([95.85.17.176]:22813 "EHLO void.so"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230341AbhD0Jy7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Apr 2021 05:54:59 -0400
+X-Greylist: delayed 599 seconds by postgrey-1.27 at vger.kernel.org; Tue, 27 Apr 2021 05:54:58 EDT
+Received: from void.so (localhost [127.0.0.1])
+        by void.so (Postfix) with ESMTP id 09D262B2FBA;
+        Tue, 27 Apr 2021 12:44:16 +0300 (MSK)
+Received: from void.so ([127.0.0.1])
+        by void.so (void.so [127.0.0.1]) (amavisd-new, port 10024) with LMTP
+        id Oi39z_JHYqM4; Tue, 27 Apr 2021 12:44:11 +0300 (MSK)
+Received: from rnd (unknown [91.244.183.205])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by void.so (Postfix) with ESMTPSA id 1F42D2B2FB9;
+        Tue, 27 Apr 2021 12:44:10 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=void.so; s=mail;
+        t=1619516651; bh=udsMXhoCPIqP09TaGi8Jjej4w+1ijnRhTTeyhYR6ZMc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=VYt/9ZQIhAJBl2nAa1cgTOHPDqShBi5Ei+cvze9QbyTQiJKhr0ByCRKo2sytBdrZr
+         SHrcV5aGliuiLisT9gMLxqXOjvSOhRdftMyNahoCo+8A1fVkPqF/Bcw9ITPq8yT11e
+         Qq0hWeYR3q0b+PseMIWH8ixQKdvyFcZRQDT77A0A=
+Date:   Tue, 27 Apr 2021 12:42:20 +0300
+From:   Pavel Balaev <mail@void.so>
+To:     David Ahern <dsahern@gmail.com>
+Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-References: <0-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
- <5def83bb-599c-27fa-9daa-efa27b5ac1d4@de.ibm.com>
- <20210426174250.GW1370958@nvidia.com>
-From:   Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <2ca13efa-3876-9496-edbf-4b12b93d721c@de.ibm.com>
-Date:   Tue, 27 Apr 2021 09:33:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
-In-Reply-To: <20210426174250.GW1370958@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: u76BFO76MsdtScWYP9TmTAIjYZRDCeQ_
-X-Proofpoint-ORIG-GUID: E3SdCeQ-8MC1eEvgYB2mhBcR57fsEB6B
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ido Schimmel <idosch@nvidia.com>
+Subject: Re: [PATCH v4 net-next] net: multipath routing: configurable seed
+Message-ID: <YIfcfEiym5PKAe0w@rnd>
+References: <YILPPCyMjlnhPmEN@rnd>
+ <93ca6644-fc5a-0977-db7d-16779ebd320c@gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-27_02:2021-04-27,2021-04-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=999 bulkscore=0 spamscore=0 mlxscore=0 adultscore=0
- phishscore=0 lowpriorityscore=0 priorityscore=1501 clxscore=1015
- malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104060000 definitions=main-2104270055
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <93ca6644-fc5a-0977-db7d-16779ebd320c@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 26.04.21 19:42, Jason Gunthorpe wrote:
-> On Mon, Apr 26, 2021 at 06:43:14PM +0200, Christian Borntraeger wrote:
->> On 24.04.21 01:02, Jason Gunthorpe wrote:
->>> Prologue
->>> ========
->>>
->>> This is series #3 in part of a larger work that arose from the minor
->>> remark that the mdev_parent_ops indirection shim is useless and
->>> complicates things.
->>>
->>> It applies on top of Alex's current tree and requires the prior two
->>> series.
->>
->> Do you have a tree somewhere?
+On Mon, Apr 26, 2021 at 09:21:53PM -0600, David Ahern wrote:
+> On 4/23/21 6:44 AM, Balaev Pavel wrote:
+> > Ability for a user to assign seed value to multipath route hashes.
+> > Now kernel uses random seed value to prevent hash-flooding DoS attacks;
+> > however, it disables some use cases, f.e:
+> > 
+> > +-------+        +------+        +--------+
+> > |       |-eth0---| FW0  |---eth0-|        |
+> > |       |        +------+        |        |
+> > |  GW0  |ECMP                ECMP|  GW1   |
+> > |       |        +------+        |        |
+> > |       |-eth1---| FW1  |---eth1-|        |
+> > +-------+        +------+        +--------+
+> > 
+> > In this use case, two ECMP routers balance traffic between two firewalls.
+> > If some flow transmits a response over a different channel than request,
+> > such flow will be dropped, because keep-state rules are created on
+> > the other firewall.
+> > 
+> > This patch adds sysctl variable: net.ipv4|ipv6.fib_multipath_hash_seed.
+> > User can set the same seed value on GW0 and GW1 for traffic to be
+> > mirror-balanced. By default, random value is used.
+> > 
+> > Signed-off-by: Balaev Pavel <balaevpa@infotecs.ru>
+> > ---
+> >  Documentation/networking/ip-sysctl.rst        |  14 +
+> >  include/net/flow_dissector.h                  |   4 +
+> >  include/net/netns/ipv4.h                      |   2 +
+> >  include/net/netns/ipv6.h                      |   3 +
+> >  net/core/flow_dissector.c                     |   9 +
+> >  net/ipv4/route.c                              |  10 +-
+> >  net/ipv4/sysctl_net_ipv4.c                    |  97 +++++
+> >  net/ipv6/route.c                              |  10 +-
+> >  net/ipv6/sysctl_net_ipv6.c                    |  96 +++++
+> >  .../testing/selftests/net/forwarding/Makefile |   1 +
+> >  tools/testing/selftests/net/forwarding/lib.sh |  41 +++
+> >  .../net/forwarding/router_mpath_seed.sh       | 347 ++++++++++++++++++
+> >  12 files changed, 632 insertions(+), 2 deletions(-)
+> >  create mode 100755 tools/testing/selftests/net/forwarding/router_mpath_seed.sh
 > 
-> [..]
->>> A preview of the future series's is here:
->>>     https://github.com/jgunthorpe/linux/pull/3/commits
+> this really needs to be multiple patches. At a minimum 1 for ipv4, 1 for
+> ipv6 and 1 for the test script (thank you for adding that).
 > 
-> Has everything, you'll want to go to:
->    cover-letter: Remove vfio_mdev.c, mdev_parent_ops and more
-> 
-> As there are additional WIPs in that tree.
+> [ cc'ed Ido since most of the tests under
+> tools/testing/selftests/net/forwarding come from him and team ]
 
-I gave this a quick spin on s390x vfio-ap and it seems to work ok.
-This is really just a quick test, but no obvious problem.
+OK, I will create 3 patches. Thanks for the advice.
+
+> > 
+> > diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+> > index 9701906f6..d1a67e6fe 100644
+> > --- a/Documentation/networking/ip-sysctl.rst
+> > +++ b/Documentation/networking/ip-sysctl.rst
+> > @@ -100,6 +100,20 @@ fib_multipath_hash_policy - INTEGER
+> >  	- 1 - Layer 4
+> >  	- 2 - Layer 3 or inner Layer 3 if present
+> >  
+> > +fib_multipath_hash_seed - STRING
+> > +	Controls seed value for multipath route hashes. By default
+> > +	random value is used. Only valid for kernels built with
+> > +	CONFIG_IP_ROUTE_MULTIPATH enabled.
+> > +
+> > +	Valid format: two hex values set off with comma or "random"
+> > +	keyword.
+> > +
+> > +	Example to generate the seed value::
+> > +
+> > +		RAND=$(openssl rand -hex 16) && echo "${RAND:0:16},${RAND:16:16}"
+> > +
+> > +	Default: "random"
+> > +
+> >  fib_sync_mem - UNSIGNED INTEGER
+> >  	Amount of dirty memory from fib entries that can be backlogged before
+> >  	synchronize_rcu is forced.
+> > diff --git a/include/net/flow_dissector.h b/include/net/flow_dissector.h
+> > index ffd386ea0..2bd4e28de 100644
+> > --- a/include/net/flow_dissector.h
+> > +++ b/include/net/flow_dissector.h
+> > @@ -348,6 +348,10 @@ static inline bool flow_keys_have_l4(const struct flow_keys *keys)
+> >  }
+> >  
+> >  u32 flow_hash_from_keys(struct flow_keys *keys);
+> > +#ifdef CONFIG_IP_ROUTE_MULTIPATH
+> > +u32 flow_multipath_hash_from_keys(struct flow_keys *keys,
+> > +			   const siphash_key_t *seed);
+> 
+> column alignment looks off here ^^^^ and a few other places; please
+> correct in the next version.
+> 
+After running "scripts/checkpatch.pl" I got warnings about alignment.
+So I run checkpatch.pl --fix and fixed alignment as a script did.
+So warnings goes away. I don't get the rules of alignment, can you 
+tell me the right way?
