@@ -2,152 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36216C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 15:20:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A9C4C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 15:35:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00F01613E8
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 15:20:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52CF960FF1
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 15:35:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236398AbhD0PVl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Apr 2021 11:21:41 -0400
-Received: from forward2-smtp.messagingengine.com ([66.111.4.226]:53885 "EHLO
-        forward2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236019AbhD0PVl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 11:21:41 -0400
-X-Greylist: delayed 484 seconds by postgrey-1.27 at vger.kernel.org; Tue, 27 Apr 2021 11:21:41 EDT
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailforward.nyi.internal (Postfix) with ESMTP id A68BA19409C9;
-        Tue, 27 Apr 2021 11:12:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Tue, 27 Apr 2021 11:12:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=P1Hqi4
-        PHicAFs4lHLdN9ZUQdjcf++Px2mQGjk8ekmiA=; b=tVGOkxtuv0wyL7RxhgaPKC
-        TRIxEl+J1wtc1S490MIOHDvQkwEN4ac9jgfGWxXyZz0Cu9CmMNkPsDDeDdp+sqL2
-        Df5meflPbbNTffzTiaX4jBd5sb9GE2Pvy3aBnMsuse4r/J3/SOJPwp81ISIkG7G5
-        CKbGW3tjVEBAzRKsjSDD3WhFPCNRalBrq3+BIC2R3CDwMvrLFBH2sjQSg+Vme2Ty
-        n5MrR8OLOIaz7tdeu2YaUg7/JBl0X2hxa+ZGALgWH3FiHeItfLQqQ8s28G8cFa1v
-        xorCvnTXALYkCcIhBk8nfXYxc7el8wzE+aJBIjoyaERvWS9qOfiYSLjh6AQXnwvw
-        ==
-X-ME-Sender: <xms:9CmIYBj27scQOjc1Es_1y5lFhxoPe22iJZ8tjJa5acihAKwyuurIlA>
-    <xme:9CmIYGB07sdOhT-VUKxhIw5N19Tswx-Vo-vbe_b_CsP1YEFQIddZGJfOHKWuSd7K4
-    8DhxVlir1uWVgKOjtg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvtddgkeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepvffujghfhfffkfggtgesthdtredttddttdenucfhrhhomhepffgrvhhiugcu
-    gfgumhhonhgushhonhcuoegumhgvsegumhgvrdhorhhgqeenucggtffrrghtthgvrhhnpe
-    fhkeeguedtvdegffffteehjedvjeeitefgfefgffdugeffffegudehgeetgeelkeenucfk
-    phepkedurddukeejrddviedrvdefkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpegumhgvsegumhgvrdhorhhg
-X-ME-Proxy: <xmx:9CmIYBEl9twTwITE7c0sxQJxTYZTN50czE_0gvrMl-yXhPvVuw6YnA>
-    <xmx:9CmIYGR6qmiaEedFWDfiaKMtfAHJuy5DZmlA7VQzxhRcftS-NBsvLA>
-    <xmx:9CmIYOy4_4IOg114m78WKP1JrkSlwmBVcpsunZbYuOtWiZbec9F8_Q>
-    <xmx:9SmIYJzWXU4pJWRRnxqnt5p0602gW2iPaxPdGlcR_N3Y7KGcRN6xlQ>
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net [81.187.26.238])
-        by mail.messagingengine.com (Postfix) with ESMTPA;
-        Tue, 27 Apr 2021 11:12:51 -0400 (EDT)
-Received: from localhost (disaster-area.hh.sledj.net [local])
-        by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 98a0580e;
-        Tue, 27 Apr 2021 15:12:50 +0000 (UTC)
-To:     Hikaru Nishida <hikalium@chromium.org>, kvm@vger.kernel.org
-Cc:     suleiman@google.com, Hikaru Nishida <hikalium@chromium.org>,
+        id S229571AbhD0Pgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 11:36:31 -0400
+Received: from mx0.infotecs.ru ([91.244.183.115]:56210 "EHLO mx0.infotecs.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236254AbhD0Pgb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Apr 2021 11:36:31 -0400
+Received: from mx0.infotecs-nt (localhost [127.0.0.1])
+        by mx0.infotecs.ru (Postfix) with ESMTP id 67595108A04B;
+        Tue, 27 Apr 2021 18:35:43 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx0.infotecs.ru 67595108A04B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infotecs.ru; s=mx;
+        t=1619537743; bh=KxbNYGfPwQJcQ49DgL87484lXfDTpag3H+aJRE9b52A=;
+        h=Date:From:To:CC:Subject:From;
+        b=i8CVO9rhOWeVh49XeEzit6nvpzMcwRong51cFMxFHl6ieEKJnVh4YpJIhpxmAIob0
+         nx3DnpvxwEqzgiHPsRAh3LFwQbuB3txPz4t7LC4qdVbeKheniNNL1iC3WOhQvq+SKB
+         OB61Bzcs3E8wer6D85LNFa59UDI/nkAYnO7DP0Oo=
+Received: from msk-exch-02.infotecs-nt (autodiscover.iitrust.ru [10.0.7.192])
+        by mx0.infotecs-nt (Postfix) with ESMTP id 647D4316F917;
+        Tue, 27 Apr 2021 18:35:43 +0300 (MSK)
+Date:   Tue, 27 Apr 2021 18:33:54 +0300
+From:   Pavel Balaev <balaevpa@infotecs.ru>
+To:     <netdev@vger.kernel.org>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/6] x86/kvm: Reserve KVM_FEATURE_HOST_SUSPEND_TIME
- and MSR_KVM_HOST_SUSPEND_TIME
-In-Reply-To: <20210426090644.2218834-2-hikalium@chromium.org>
-References: <20210426090644.2218834-1-hikalium@chromium.org>
- <20210426090644.2218834-2-hikalium@chromium.org>
-X-HGTTG: zarquon
-From:   David Edmondson <dme@dme.org>
-Date:   Tue, 27 Apr 2021 16:12:50 +0100
-Message-ID: <cunk0onkbgt.fsf@dme.org>
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Ido Schimmel <idosch@nvidia.com>
+Subject: [PATCH v5 net-next 0/3] net: multipath routing: configurable seed
+Message-ID: <YIgu4hLNSa69/oFZ@rnd>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+X-Originating-IP: [11.0.8.107]
+X-EXCLAIMER-MD-CONFIG: 208ac3cd-1ed4-4982-a353-bdefac89ac0a
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 163354 [Apr 27 2021]
+X-KLMS-AntiSpam-Version: 5.9.20.0
+X-KLMS-AntiSpam-Envelope-From: BalaevPA@infotecs.ru
+X-KLMS-AntiSpam-Rate: 0
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Auth: dkim=none
+X-KLMS-AntiSpam-Info: LuaCore: 443 443 d64ad0ad6f66abd85f8fb55fe5d831fdcc4c44a0, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}
+X-MS-Exchange-Organization-SCL: -1
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, bases: 2021/04/27 12:22:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/04/27 11:47:00 #16580367
+X-KLMS-AntiVirus-Status: Clean, skipped
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, 2021-04-26 at 18:06:40 +09, Hikaru Nishida wrote:
+This is the fifth version of the mpath seed series.
 
-> No functional change; just add documentation for
-> KVM_FEATURE_HOST_SUSPEND_TIME and its corresponding
-> MSR_KVM_HOST_SUSPEND_TIME to support virtual suspend timing injection in
-> later patches.
->
-> Signed-off-by: Hikaru Nishida <hikalium@chromium.org>
-> ---
->
->  Documentation/virt/kvm/cpuid.rst |  3 +++
->  Documentation/virt/kvm/msr.rst   | 29 +++++++++++++++++++++++++++++
->  2 files changed, 32 insertions(+)
->
-> diff --git a/Documentation/virt/kvm/cpuid.rst b/Documentation/virt/kvm/cpuid.rst
-> index cf62162d4be2..c7cb581b9a9b 100644
-> --- a/Documentation/virt/kvm/cpuid.rst
-> +++ b/Documentation/virt/kvm/cpuid.rst
-> @@ -96,6 +96,9 @@ KVM_FEATURE_MSI_EXT_DEST_ID        15          guest checks this feature bit
->                                                 before using extended destination
->                                                 ID bits in MSI address bits 11-5.
->  
-> +KVM_FEATURE_HOST_SUSPEND_TIME      16          host suspend time information
-> +                                               is available at msr 0x4b564d08.
-> +
->  KVM_FEATURE_CLOCKSOURCE_STABLE_BIT 24          host will warn if no guest-side
->                                                 per-cpu warps are expected in
->                                                 kvmclock
-> diff --git a/Documentation/virt/kvm/msr.rst b/Documentation/virt/kvm/msr.rst
-> index e37a14c323d2..de96743245c9 100644
-> --- a/Documentation/virt/kvm/msr.rst
-> +++ b/Documentation/virt/kvm/msr.rst
-> @@ -376,3 +376,32 @@ data:
->  	write '1' to bit 0 of the MSR, this causes the host to re-scan its queue
->  	and check if there are more notifications pending. The MSR is available
->  	if KVM_FEATURE_ASYNC_PF_INT is present in CPUID.
-> +
-> +MSR_KVM_HOST_SUSPEND_TIME:
-> +	0x4b564d08
-> +
-> +data:
-> +	8-byte alignment physical address of a memory area which must be
-> +	in guest RAM, plus an enable bit in bit 0. This memory is expected to
-> +	hold a copy of the following structure::
-> +
-> +	 struct kvm_host_suspend_time {
-> +		__u64   suspend_time_ns;
-> +	 };
-> +
-> +	whose data will be filled in by the hypervisor.
-> +	If the guest register this structure through the MSR write, the host
-> +	will stop all the clocks including TSCs observed by the guest during
-> +	the host's suspension and report the duration of suspend through this
-> +	structure. Fields have the following meanings:
-> +
-> +	host_suspend_time_ns:
+This patch series adds ability for a user to assign seed value
+to multipath route hashes.
 
-s/host_suspend_time_ns/suspend_time_ns/
+changes v4:
+- patch was splited to patch series
+- remove CONFIG_IP_ROUTE_MULTIPATH define from flow_multipath_hash_from_keys(),
+  it used in both IPv4/IPv6 protos.
 
-> +		Total number of nanoseconds passed during the host's suspend
-> +		while the VM is running. This value will be increasing
-> +		monotonically.
-> +
-> +	Note that although MSRs are per-CPU entities, the effect of this
-> +	particular MSR is global.
-> +
-> +	Availability of this MSR must be checked via bit 16 in 0x4000001 cpuid
-> +	leaf prior to usage.
-> -- 
-> 2.31.1.498.g6c1eba8ee3d-goog
+The mainlining discussion history of this branch:
+v4: https://lore.kernel.org/netdev/21a2fb1925b215cc48ab8e2f783a7de7@void.so
 
-dme.
--- 
-I do believe it's Madame Joy.
+Balaev Pavel (3):
+      net/ipv4: multipath routing: configurable seed
+      net/ipv6: multipath routing: configurable seed
+      selftests/net/forwarding: configurable seed tests
+
+ Documentation/networking/ip-sysctl.rst             |  14 +
+ include/net/flow_dissector.h                       |   2 +
+ include/net/netns/ipv4.h                           |   2 +
+ include/net/netns/ipv6.h                           |   3 +
+ net/core/flow_dissector.c                          |   7 +
+ net/ipv4/route.c                                   |  10 +-
+ net/ipv4/sysctl_net_ipv4.c                         |  97 ++++++
+ net/ipv6/route.c                                   |  10 +-
+ net/ipv6/sysctl_net_ipv6.c                         |  96 ++++++
+ tools/testing/selftests/net/forwarding/Makefile    |   1 +
+ tools/testing/selftests/net/forwarding/lib.sh      |  28 ++
+ .../net/forwarding/router_mpath_seed.sh (new +x)   | 347 +++++++++++++++++++++
+ 12 files changed, 615 insertions(+), 2 deletions(-)
