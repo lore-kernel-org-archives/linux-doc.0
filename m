@@ -2,108 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17999C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 11:06:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A99C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 11:13:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E84FA613C3
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 11:06:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A04A613D0
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 11:13:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235181AbhD0LGn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Apr 2021 07:06:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35288 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235370AbhD0LGZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 07:06:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619521542;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uo5IubiUgaEAcCKINk4U2wSN84Tzj30VgFH40sgQJoA=;
-        b=eIdTJl9k6kopMKIE5kip71pGLISxts8JCZACHKMp/5YtLNBrN5RNw9O2IXbFMJAUQd7Axc
-        ds2L9FL4/h6tNsCNYruG4m/qpeeSBt1HHO/60wIWuiyhK5mU5a2071XMLTHMNmtY5xRhQ6
-        AsWWOdelHSkiFDr2fqAtl6YNLH6FEok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-ZMaLEpRyNYaooxcSGpQ_2Q-1; Tue, 27 Apr 2021 07:05:38 -0400
-X-MC-Unique: ZMaLEpRyNYaooxcSGpQ_2Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A602107ACE4;
-        Tue, 27 Apr 2021 11:05:35 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-113-176.ams2.redhat.com [10.36.113.176])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DE31D60CC6;
-        Tue, 27 Apr 2021 11:05:26 +0000 (UTC)
-Date:   Tue, 27 Apr 2021 13:05:23 +0200
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v2 01/13] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
-Message-ID: <20210427130523.3345913d.cohuck@redhat.com>
-In-Reply-To: <1-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
-References: <0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
-        <1-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
-Organization: Red Hat GmbH
+        id S235469AbhD0LO3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 07:14:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39336 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235408AbhD0LO2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 07:14:28 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08D7EC061760
+        for <linux-doc@vger.kernel.org>; Tue, 27 Apr 2021 04:13:44 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id y4so52875905lfl.10
+        for <linux-doc@vger.kernel.org>; Tue, 27 Apr 2021 04:13:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+6WzqLyiZKhKSJY8jYMrMfFwc4Ih1W7DjlWwozGabCA=;
+        b=q1CvhHPZNPCzVXL+eN0+T90/rhrNDTEGeHe0B9InduoF98HXZ6LvqT0k/KkdpQhaed
+         EYTaQylYZdyTkkqgz1fD49HC52aY9k9EJf4jB0FqIG89QyCOUF9XRzT+M++d0Cnb39Rh
+         cERREkzpk5nPIwbUX2eUYtB75RizCNOSQ896EJJ2dNqVDg747j3Nn5a68phBMPu2GTcd
+         chMdUwv/6hDnvWVYJsH1UkfAW8BtT/e+NlHC9v7cVHhQXItZQ5eWD5KtWIDlXvjhIDDs
+         mLcouHkC4aPS0K3xk7ziJjNRwL5appkAd96MP7kBEHe92sm0TzjbPiTYodF3zQleS9mF
+         FJkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+6WzqLyiZKhKSJY8jYMrMfFwc4Ih1W7DjlWwozGabCA=;
+        b=S6TW2PVSTqVb/HhAIX03NsTOU9p2R+EixY6fbjyUMYIe6iZ1T/LUIvt0oRjwhD4X7K
+         0h4RaOq25NauzDVlkiDcz5+/BHWDzlxeR3x8WXlYL9/1s1r8YR2MG+r/zsh0tKg69nD+
+         bUI8g8DU3n3zU0BAb0g7tNt1/SVv6FJmjIRvnyX7ZMansoLpDVUF7b4diMpJtagbxshM
+         RqMqfjLM7tvG7ucCaUxvSFWDCkjLc6o2LvptCkBzsxGj5CSJKZGwy4Q9m2HSAImcjli2
+         RR7KPSrJToDsfNFquwUBvMKL1UwSInoShsBjcGHpuRmGLyfe3JYWL3ryNjiXhm/+6Ziy
+         zyPw==
+X-Gm-Message-State: AOAM532u5Kl5sVIGwuwjtZzquOY71VvhimKDR+2SRyZRY/lHHaMkNgrH
+        ik+DjlyyB7Ln40geaD6w0uH4eIUhC/JLR16kMbJLJA==
+X-Google-Smtp-Source: ABdhPJyq8TnYEmj5N3TDgDxEQ+7LEfs//gKfhBfewYP5TgeLHDcSCnq84n3Chlc6Zy3MWdsTAjYGHoh8vOWMSYDErMA=
+X-Received: by 2002:a19:c218:: with SMTP id l24mr16789090lfc.529.1619522022816;
+ Tue, 27 Apr 2021 04:13:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
+ <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
+ <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com> <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
+In-Reply-To: <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 27 Apr 2021 13:13:31 +0200
+Message-ID: <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 26 Apr 2021 17:00:03 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Mon, Apr 26, 2021 at 8:18 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+> On Mon, Apr 26, 2021 at 2:31 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> >
+> > I think the Rust proponents should be open to the fact that their
+> > work will eventually depend on themselves or someone else
+> > fixing a working compiler for the maintained architectures in
+> > the Linux kernel one way or the other, so they will be able to
+> > work with Rust project anywhere in the kernel.
+> >
+> > For example m68k is not going away. Avoiding this question
+> > of compiler support, just waiting and hoping that these old
+> > architectures will disappear is the wrong idea. The right idea
+> > is to recognize that LLVM and/or GCC Rust needs to
+> > support all these architectures so they can all use Rust.
+> > Someone needs to put in the effort.
+>
+> The RFC does not avoid the question -- please note it explicitly
+> mentions the architecture/platform support issue and the current
+> dependency on LLVM, as well as the possible ways to solve it.
 
-> For some reason the vfio_mdev shim mdev_driver has its own module and
-> kconfig. As the next patch requires access to it from mdev.ko merge the
-> two modules together and remove VFIO_MDEV_DEVICE.
-> 
-> A later patch deletes this driver entirely.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/s390/vfio-ap.rst   |  1 -
->  arch/s390/Kconfig                |  2 +-
->  drivers/gpu/drm/i915/Kconfig     |  2 +-
->  drivers/vfio/mdev/Kconfig        |  7 -------
->  drivers/vfio/mdev/Makefile       |  3 +--
->  drivers/vfio/mdev/mdev_core.c    | 16 ++++++++++++++--
->  drivers/vfio/mdev/mdev_private.h |  2 ++
->  drivers/vfio/mdev/vfio_mdev.c    | 24 +-----------------------
->  samples/Kconfig                  |  6 +++---
->  9 files changed, 23 insertions(+), 40 deletions(-)
+OK true. Sorry for being sloppy.
 
-This also fixes the dependencies for vfio-ccw, which never depended on
-VFIO_MDEV_DEVICE directly...
+Actually my reply to Wedson brought up a new issue, which is the
+quality of learning resources and the lack of an equivalent to
+The C Programming Language book.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> But even if we did not have the issue today, it seems like starting
+> with drivers and other "leaf" modules is a better approach. There are
+> several reasons:
+>
+>   - If for reason reason we wanted to remove Rust from the kernel,
+> then it would be easier to do so if only "leaf" bits had been written.
+>
+>   - We cannot compile the Rust support without nightly features yet,
+> so it does not seem wise to make it a hard requirement right away.
+>
+>   - Kernel developers need time to learn a bit of Rust, thus writing
+> subsystems or core pieces of the kernel in Rust would mean less people
+> can understand them.
+>
+> Given that drivers are a big part of the new code introduced every
+> release, that they are "leaf" modules and that in some cases they are
+> only intended to be used with a given architecture, they seem like a
+> good starting point.
 
+I'm not sure I agree with this.
+
+I think a good starting point would be to either fix Rust support in
+GCC or implement some more important ISAs in LLVM,
+whichever is easiest. I don't mind having just *one* compiler but
+I mind having *a* compiler for every arch we support.
+
+The situation for LLVM is very well described in the Wikipedia
+entry for LLVM: "but most of this hardware is mostly obsolete,
+and LLVM developers decided the support and maintenance
+costs were no longer justified" - this is what I would call
+deprecationism (deletionism). I think this is a detrimental force
+for both compilers and kernels. It encourages developers of
+compilers and kernels to do the wrong thing: instead of
+rewriting their compiler and kernel infrastructure such that
+maintenance of older ISAs and architectures becomes a bliss
+they do what mathematicians do "let's assume a simpler
+version of the problem". And this results in a less versatile
+infrastructure and less adaptable code in the end. Which will
+affect how agile and adaptive the software is. And when
+something new comes along it hits you in the head.
+
+Portability to old systems and ISAs is a virtue in itself
+because of the effect it has on code quality, not necessarily
+for the support itself.
+
+Deprecationism is more the side effect of a certain business
+strategy to toss new technology out every quarter without
+having to care about aftermarket or postmarket too much.
+This irritates people to the extent that there is now even
+a project called "PostmarketOS" (Linux based). It is not
+sustainable to use an emotional argument, but that is really
+not my point, I care about code quality and diversity of
+ISAs and target systems improves code quality in my book.
+
+I might be an extremist, but I do need to state this point.
+
+Yours,
+Linus Walleij
