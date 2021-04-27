@@ -2,406 +2,328 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F2AC43461
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C3FC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:09:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CD1C613D9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:03:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B415D613D9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:09:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236368AbhD0ODv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Apr 2021 10:03:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52860 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236306AbhD0ODu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Apr 2021 10:03:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A48FF6101B;
-        Tue, 27 Apr 2021 14:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619532187;
-        bh=fXv60qQ44m2dkDb5InkmbbYr24sfm+LfU8VfwqTHfVk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=OeHiTjzv0BWEkNAHZGQueKYP92qpuDvyuDaJ6addj6LcgeQP+lhcoN0IA9M5PAmwB
-         OcXBKOj8/wU840+FQTXna8y34sr72smNXnJdBpDbChmQhAu1wdxd/Su2kfAWr/ov79
-         ORvitayZVzCPIKr0vRPj9ufRO0usiFv4l6MNE5WbZmzvoF83pe5ndH6FSTOnVt7mkH
-         PgfmHxYaQqn4y9QcZxfMJunUz1NCtPQHwlLOXbadcu6zAFqa9ou+QldA8KsnQPrpBD
-         rgUrQpHpRayLg4SLvcwm5MXilp9AQSD3Zkc3kS39uGZr0Xc3cHpsxMWYOm1+d/bNTu
-         nd5WjMWlRB6hw==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lbOIq-000s9k-Aw; Tue, 27 Apr 2021 16:03:04 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] iio: Documentation: move incompatible ABI to obsolete
-Date:   Tue, 27 Apr 2021 16:03:00 +0200
-Message-Id: <a2c802049adee6a5710a58082cfdc1132c5e4c11.1619532170.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
+        id S236220AbhD0OKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 10:10:05 -0400
+Received: from m32-153.88.com ([43.250.32.153]:59489 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S236582AbhD0OKF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Apr 2021 10:10:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=2JutmRuH1BLQkZCgFMwkBq2vPUr5Enc2y78jf
+        PvJLyw=; b=XCaSIb1kMH0WT0aFSVYpi9mdpIFZ3QDLZKTUlSTRNrQ0E2OLh34kP
+        R8OuuWJKO+N9kllc/DxMsGw7buJ1qK1RHg8qOYpYw4TzLU90sdvcEQQ1Ft2vvNbj
+        2N1VPXLMVWCWBIsn0st2ygQmKKaF5rQwO3h+Dcq5sckDCuvZlpJ28A=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAHV1kIG4hgLc8OAA--.39613S2;
+        Tue, 27 Apr 2021 22:09:14 +0800 (CST)
+Date:   Tue, 27 Apr 2021 22:09:12 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH] docs/zh_CN: add core-api symbol-namespaces.rst
+ translation
+Message-ID: <20210427140910.GA32250@bobwxc.top>
+References: <20210426125530.3760955-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <20210426125530.3760955-1-siyanteng@loongson.cn>
+X-today: 5.12 released, new merge window!
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgAHV1kIG4hgLc8OAA--.39613S2
+X-Coremail-Antispam: 1UD129KBjvJXoWfXr15ZrWkCF1kJF4fJF4ktFb_yoWDCFWfpF
+        nayr97Kw1UJry7Zw1xGrWktr17Cw48WF17G34xJ34fJw1jyFWDGr47trykCFyxKry0kFWD
+        Ar4DZFy7AryjgFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUqG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK
+        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4
+        x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28E
+        F7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I
+        8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWxJr1UJwAm72CE4IkC6x0Yz7v_
+        Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI4
+        8JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAq
+        x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r
+        43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF
+        7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
+        WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0Jj-
+        VyxUUUUU=
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 63cd35f34d2e ("iio: Documentation: update definitions for bufferY and scan_elements")
-updated iio documentation in order to point to the newly
-per-buffer API, as it is now possible to support multi buffers.
+I think all `example` in this file should be replaced with ``example``.
+And also the original file also need a fix on this.
 
-While the previous ABI will be kept forever, the best is
-for applications to use the 5.11+ ABI. So, move the
-legacy one ABI/obsolete.
+>This patch translates Documentation/core-api/symbol-namespaces.rst into Chinese.
+>
+>Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+>---
+> .../translations/zh_CN/core-api/index.rst     |   5 +
+> .../zh_CN/core-api/symbol-namespaces.rst      | 143 ++++++++++++++++++
+> 2 files changed, 148 insertions(+)
+> create mode 100644 Documentation/translations/zh_CN/core-api/symbol-namespaces.rst
+>
+>diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+>index f1fa71e45c77..1af5a62fcc03 100644
+>--- a/Documentation/translations/zh_CN/core-api/index.rst
+>+++ b/Documentation/translations/zh_CN/core-api/index.rst
+>@@ -19,6 +19,11 @@
+> 来的大量 kerneldoc 信息；有朝一日，若有人有动力的话，应当把它们拆分
+> 出来。
+> 
+>+.. toctree::
+>+   :maxdepth: 1
+>+
+>+   symbol-namespaces
+>+
+> Todolist:
+> 
+>    kernel-api
+>diff --git a/Documentation/translations/zh_CN/core-api/symbol-namespaces.rst b/Documentation/translations/zh_CN/core-api/symbol-namespaces.rst
+>new file mode 100644
+>index 000000000000..e2417806242f
+>--- /dev/null
+>+++ b/Documentation/translations/zh_CN/core-api/symbol-namespaces.rst
+>@@ -0,0 +1,143 @@
+>+.. include:: ../disclaimer-zh_CN.rst
+>+
+>+:Original: Documentation/core-api/symbol-namespaces.rst
+>+:Translator: Yanteng Si <siyanteng@loongson.cn>
+>+
+>+.. _cn_symbol-namespaces.rst:
+>+
+>+
+>+============
+>+符号命名空间
+>+============
+>+
+>+下面的文件描述了如何使用符号命名空间来构造通过EXPORT_SYMBOL()系列宏导出的内核内符号的导出面。
 
-This fixes an issue with scripts/get_abi.pl, that doesn't
-accept two different Kernel version support for the same
-API set.
+下列内容 or 本文档 描述了……
 
-Fixes: 63cd35f34d2e ("iio: Documentation: update definitions for bufferY and scan_elements")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/ABI/obsolete/sysfs-bus-iio | 182 +++++++++++++++++++++++
- Documentation/ABI/testing/sysfs-bus-iio  |  82 ----------
- 2 files changed, 182 insertions(+), 82 deletions(-)
- create mode 100644 Documentation/ABI/obsolete/sysfs-bus-iio
+符号命名空间（Symbol Namespaces）
+首次出现最好括注一下
 
-diff --git a/Documentation/ABI/obsolete/sysfs-bus-iio b/Documentation/ABI/obsolete/sysfs-bus-iio
-new file mode 100644
-index 000000000000..c9531bb64816
---- /dev/null
-+++ b/Documentation/ABI/obsolete/sysfs-bus-iio
-@@ -0,0 +1,182 @@
-+What:		/sys/bus/iio/devices/iio:deviceX/buffer/length
-+KernelVersion:	2.6.35
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Number of scans contained by the buffer.
-+
-+		Since Kernel 5.11, multiple buffers are supported.
-+		so, it is better to use, instead:
-+			/sys/bus/iio/devices/iio:deviceX/bufferY/length
-+
-+What:		/sys/bus/iio/devices/iio:deviceX/buffer/enable
-+KernelVersion:	2.6.35
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Actually start the buffer capture up.  Will start trigger
-+		if first device and appropriate.
-+
-+		Since Kernel 5.11, multiple buffers are supported.
-+		so, it is better to use, instead:
-+			/sys/bus/iio/devices/iio:deviceX/bufferY/enable
-+
-+What:		/sys/bus/iio/devices/iio:deviceX/scan_elements
-+KernelVersion:	2.6.37
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Directory containing interfaces for elements that will be
-+		captured for a single triggered sample set in the buffer.
-+
-+		Since kernel 5.11 the scan_elements attributes are merged into
-+		the bufferY directory, to be configurable per buffer.
-+
-+What:		/sys/.../iio:deviceX/scan_elements/in_accel_x_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_accel_y_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_accel_z_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_x_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_y_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_z_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_magn_x_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_magn_y_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_magn_z_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_tilt_comp_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_tilt_comp_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY-voltageZ_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_incli_x_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_incli_y_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_pressure_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_en
-+What:		/sys/.../iio:deviceX/scan_elements/in_proximity_en
-+KernelVersion:	2.6.37
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Scan element control for triggered data capture.
-+
-+		Since kernel 5.11 the scan_elements attributes are merged into
-+		the bufferY directory, to be configurable per buffer.
-+
-+What:		/sys/.../iio:deviceX/scan_elements/in_accel_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_magn_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_incli_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltage_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_pressure_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_type
-+What:		/sys/.../iio:deviceX/scan_elements/in_proximity_type
-+KernelVersion:	2.6.37
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Description of the scan element data storage within the buffer
-+		and hence the form in which it is read from user-space.
-+		Form is [be|le]:[s|u]bits/storagebits[>>shift].
-+		be or le specifies big or little endian. s or u specifies if
-+		signed (2's complement) or unsigned. bits is the number of bits
-+		of data and storagebits is the space (after padding) that it
-+		occupies in the buffer. shift if specified, is the shift that
-+		needs to be applied prior to masking out unused bits. Some
-+		devices put their data in the middle of the transferred elements
-+		with additional information on both sides.  Note that some
-+		devices will have additional information in the unused bits
-+		so to get a clean value, the bits value must be used to mask
-+		the buffer output value appropriately.  The storagebits value
-+		also specifies the data alignment.  So s48/64>>2 will be a
-+		signed 48 bit integer stored in a 64 bit location aligned to
-+		a 64 bit boundary. To obtain the clean value, shift right 2
-+		and apply a mask to zero the top 16 bits of the result.
-+		For other storage combinations this attribute will be extended
-+		appropriately.
-+
-+		Since kernel 5.11 the scan_elements attributes are merged into
-+		the bufferY directory, to be configurable per buffer.
-+
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_accel_x_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_accel_y_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_accel_z_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_x_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_y_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_z_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_magn_x_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_magn_y_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_magn_z_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_tilt_comp_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_tilt_comp_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_incli_x_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_incli_y_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_pressure_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_index
-+What:		/sys/.../iio:deviceX/scan_elements/in_proximity_index
-+KernelVersion:	2.6.37
-+Description:
-+		A single positive integer specifying the position of this
-+		scan element in the buffer. Note these are not dependent on
-+		what is enabled and may not be contiguous. Thus for user-space
-+		to establish the full layout these must be used in conjunction
-+		with all _en attributes to establish which channels are present,
-+		and the relevant _type attributes to establish the data storage
-+		format.
-+
-+		Since kernel 5.11 the scan_elements attributes are merged into
-+		the bufferY directory, to be configurable per buffer.
-+
-+What:		/sys/bus/iio/devices/iio:deviceX/buffer/watermark
-+KernelVersion:	4.2
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		A single positive integer specifying the maximum number of scan
-+		elements to wait for.
-+
-+		Poll will block until the watermark is reached.
-+
-+		Blocking read will wait until the minimum between the requested
-+		read amount or the low water mark is available.
-+
-+		Non-blocking read will retrieve the available samples from the
-+		buffer even if there are less samples then watermark level. This
-+		allows the application to block on poll with a timeout and read
-+		the available samples after the timeout expires and thus have a
-+		maximum delay guarantee.
-+
-+		Since Kernel 5.11, multiple buffers are supported.
-+		so, it is better to use, instead:
-+			/sys/bus/iio/devices/iio:deviceX/bufferY/watermark
-+
-+What:		/sys/bus/iio/devices/iio:deviceX/buffer/data_available
-+KernelVersion: 4.16
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		A read-only value indicating the bytes of data available in the
-+		buffer. In the case of an output buffer, this indicates the
-+		amount of empty space available to write data to. In the case of
-+		an input buffer, this indicates the amount of data available for
-+		reading.
-+
-+		Since Kernel 5.11, multiple buffers are supported.
-+		so, it is better to use, instead:
-+			/sys/bus/iio/devices/iio:deviceX/bufferY/data_available
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-index 433fe0ab74be..1164e3779fd9 100644
---- a/Documentation/ABI/testing/sysfs-bus-iio
-+++ b/Documentation/ABI/testing/sysfs-bus-iio
-@@ -1195,16 +1195,12 @@ Description:
- 		The name of the trigger source being used, as per string given
- 		in /sys/class/iio/triggerY/name.
- 
--What:		/sys/bus/iio/devices/iio:deviceX/buffer/length
--KernelVersion:	2.6.35
- What:		/sys/bus/iio/devices/iio:deviceX/bufferY/length
- KernelVersion:	5.11
- Contact:	linux-iio@vger.kernel.org
- Description:
- 		Number of scans contained by the buffer.
- 
--What:		/sys/bus/iio/devices/iio:deviceX/buffer/enable
--KernelVersion:	2.6.35
- What:		/sys/bus/iio/devices/iio:deviceX/bufferY/enable
- KernelVersion:	5.11
- Contact:	linux-iio@vger.kernel.org
-@@ -1212,8 +1208,6 @@ Description:
- 		Actually start the buffer capture up.  Will start trigger
- 		if first device and appropriate.
- 
--What:		/sys/bus/iio/devices/iio:deviceX/scan_elements
--KernelVersion:	2.6.37
- What:		/sys/bus/iio/devices/iio:deviceX/bufferY
- KernelVersion:	5.11
- Contact:	linux-iio@vger.kernel.org
-@@ -1224,34 +1218,6 @@ Description:
- 		Since kernel 5.11 the scan_elements attributes are merged into
- 		the bufferY directory, to be configurable per buffer.
- 
--What:		/sys/.../iio:deviceX/scan_elements/in_accel_x_en
--What:		/sys/.../iio:deviceX/scan_elements/in_accel_y_en
--What:		/sys/.../iio:deviceX/scan_elements/in_accel_z_en
--What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_x_en
--What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_y_en
--What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_z_en
--What:		/sys/.../iio:deviceX/scan_elements/in_magn_x_en
--What:		/sys/.../iio:deviceX/scan_elements/in_magn_y_en
--What:		/sys/.../iio:deviceX/scan_elements/in_magn_z_en
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_en
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_en
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_tilt_comp_en
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_tilt_comp_en
--What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_en
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_en
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_en
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY-voltageZ_en
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_en
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_en
--What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_en
--What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_en
--What:		/sys/.../iio:deviceX/scan_elements/in_incli_x_en
--What:		/sys/.../iio:deviceX/scan_elements/in_incli_y_en
--What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_en
--What:		/sys/.../iio:deviceX/scan_elements/in_pressure_en
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_en
--What:		/sys/.../iio:deviceX/scan_elements/in_proximity_en
--KernelVersion:	2.6.37
- What:		/sys/.../iio:deviceX/bufferY/in_accel_x_en
- What:		/sys/.../iio:deviceX/bufferY/in_accel_y_en
- What:		/sys/.../iio:deviceX/bufferY/in_accel_z_en
-@@ -1284,23 +1250,6 @@ Contact:	linux-iio@vger.kernel.org
- Description:
- 		Scan element control for triggered data capture.
- 
--What:		/sys/.../iio:deviceX/scan_elements/in_accel_type
--What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_type
--What:		/sys/.../iio:deviceX/scan_elements/in_magn_type
--What:		/sys/.../iio:deviceX/scan_elements/in_incli_type
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_type
--What:		/sys/.../iio:deviceX/scan_elements/in_voltage_type
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_type
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_type
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_type
--What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_type
--What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_type
--What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_type
--What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_type
--What:		/sys/.../iio:deviceX/scan_elements/in_pressure_type
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_type
--What:		/sys/.../iio:deviceX/scan_elements/in_proximity_type
--KernelVersion:	2.6.37
- What:		/sys/.../iio:deviceX/bufferY/in_accel_type
- What:		/sys/.../iio:deviceX/bufferY/in_anglvel_type
- What:		/sys/.../iio:deviceX/bufferY/in_magn_type
-@@ -1347,33 +1296,6 @@ Description:
- 		If the type parameter can take one of a small set of values,
- 		this attribute lists them.
- 
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_index
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_index
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_index
--What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_index
--What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_index
--What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_index
--What:		/sys/.../iio:deviceX/scan_elements/in_accel_x_index
--What:		/sys/.../iio:deviceX/scan_elements/in_accel_y_index
--What:		/sys/.../iio:deviceX/scan_elements/in_accel_z_index
--What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_x_index
--What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_y_index
--What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_z_index
--What:		/sys/.../iio:deviceX/scan_elements/in_magn_x_index
--What:		/sys/.../iio:deviceX/scan_elements/in_magn_y_index
--What:		/sys/.../iio:deviceX/scan_elements/in_magn_z_index
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_index
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_index
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_tilt_comp_index
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_tilt_comp_index
--What:		/sys/.../iio:deviceX/scan_elements/in_incli_x_index
--What:		/sys/.../iio:deviceX/scan_elements/in_incli_y_index
--What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_index
--What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_index
--What:		/sys/.../iio:deviceX/scan_elements/in_pressure_index
--What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_index
--What:		/sys/.../iio:deviceX/scan_elements/in_proximity_index
--KernelVersion:	2.6.37
- What:		/sys/.../iio:deviceX/bufferY/in_voltageY_index
- What:		/sys/.../iio:deviceX/bufferY/in_voltageY_supply_index
- What:		/sys/.../iio:deviceX/bufferY/in_voltageY_i_index
-@@ -1613,8 +1535,6 @@ Description:
- 		Specifies number of seconds in which we compute the steps
- 		that occur in order to decide if the consumer is making steps.
- 
--What:		/sys/bus/iio/devices/iio:deviceX/buffer/watermark
--KernelVersion:	4.2
- What:		/sys/bus/iio/devices/iio:deviceX/bufferY/watermark
- KernelVersion:	5.11
- Contact:	linux-iio@vger.kernel.org
-@@ -1633,8 +1553,6 @@ Description:
- 		the available samples after the timeout expires and thus have a
- 		maximum delay guarantee.
- 
--What:		/sys/bus/iio/devices/iio:deviceX/buffer/data_available
--KernelVersion: 4.16
- What:		/sys/bus/iio/devices/iio:deviceX/bufferY/data_available
- KernelVersion:	5.11
- Contact:	linux-iio@vger.kernel.org
--- 
-2.30.2
+>+
+>+.. 目录
+>+
+>+	=== 1 简介
+>+	=== 2 如何定义命名空间
+                     ^^
+定义符号命名空间
+
+>+	   --- 2.1 使用EXPORT_SYMBOL宏
+>+	   --- 2.2 使用DEFAULT_SYMBOL_NAMESPACE定义
+>+	=== 3 如何使用命名空间中导出的符号
+>+	=== 4 加载使用命名空间符号的模块
+>+	=== 5 自动创建MODULE_IMPORT_NS声明
+>+
+>+1. 简介
+>+=======
+>+
+>+符号命名空间已经被引入，作为构造内核内API的导出面的一种手段。它允许子系统维护者将
+>+他们导出的符号划分进独立的命名空间。这对于文档的编写非常有用（想想SUBSYSTEM_DEBUG
+>+命名空间），也可以限制一组符号在内核其他部分的使用。从今天起，使用导出到命名空间
+
+今后，使用……
+
+>+的符号的模块必须导入命名空间。否则，内核将根据其配置，拒绝加载该模块或警告说缺少
+>+导入。
+>+
+>+2. 如何定义命名空间
+
+符号命名空间
+
+>+===================
+>+
+>+符号可以用不同的方法导出到命名空间。所有这些都在改变 EXPORT_SYMBOL 和伙伴（friends）
+>+被检测到的方式，以创建 ksymtab 条目。
+
+？？
+
+
+
+>+
+>+2.1 使用EXPORT_SYMBOL宏
+>+=======================
+>+
+>+除了允许将内核符号导出到内核符号表的宏EXPORT_SYMBOL()和EXPORT_SYMBOL_GPL()之外，
+>+这些宏的变体还可以将符号导出到某个命名空间。EXPORT_SYMBOL_NS() 和 EXPORT_SYMBOL_NS_GPL()。
+--------------------------------------------^^
+s/。/：/
+
+>+它们需要一个额外的参数：命名空间（the namespace）。请注意，由于宏扩展，该参数需
+>+要是一个预处理器符号。例如，要把符号usb_stor_suspend导出到命名空间 `USB_STORAGE`，
+
+`usb_stor_suspend`
+
+>+请使用。::
+
+remove 。
+
+>+
+>+	EXPORT_SYMBOL_NS(usb_stor_suspend, USB_STORAGE);
+>+
+>+相应的 ksymtab 条目 struct `kernel_symbol` 将有相应的成员 `命名空间` 设置。一
+
+s/struct/结构体/
+
+set 这里是 设置 还是 集？
+
+>+个没有命名空间的输出符号将指代 `NULL` 。如果没有定义命名空间，则默认没有。
+
+导出时未指明命名空间的符号将指向 ``NULL`` 。 ?
+
+>+` modpost` 和kernel/module.c分别在构建时或模块加载时使用名称空间。
+----------------------------------------------------------^^^^
+
+>+
+>+2.2 使用DEFAULT_SYMBOL_NAMESPACE定义
+>+====================================
+>+
+>+为一个子系统的所有符号定义命名空间可能会非常冗长， 并可能变得难以维护。因此， 我
+----------------------------------------------------^--------------------------^
+>+们提供了一个默认定义 （DEFAULT_SYMBOL_NAMESPACE）， 如果设置了这个定义， 它将成
+----------------------^------------------------------^--------------------^
+
+remove extra spaces
+
+>+为所有没有指定命名空间的 EXPORT_SYMBOL() 和 EXPORT_SYMBOL_GPL() 宏扩展的默认
+>+定义。
+>+
+>+有多种方法来指定这个定义，使用哪种方法取决于子系统和维护者的喜好。第一种方法是在
+>+子系统的Makefile中定义默认命名空间。例如，如果要将usb-common中定义的所有符号导
+
+``Makefile``
+
+>+出到USB_COMMON命名空间，可以在drivers/usb/common/Makefile中添加这样一行::
+>+
+>+	ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=USB_COMMON
+>+
+>+这将影响所有 EXPORT_SYMBOL() 和 EXPORT_SYMBOL_GPL() 语句。当这个定义存在时，
+>+用EXPORT_SYMBOL_NS()导出的符号仍然会被导出到作为命名空间参数传递的命名空间中，
+>+因为这个参数优先于默认的符号命名空间。
+>+
+>+定义默认命名空间的第二个选项是直接在编译单元中作为预处理声明。上面的例子就会变
+>+成::
+>+
+>+	#undef  DEFAULT_SYMBOL_NAMESPACE
+>+	#define DEFAULT_SYMBOL_NAMESPACE USB_COMMON
+>+
+>+在使用任何 EXPORT_SYMBOL 宏之前，在相应的编译单元中，都要使用这个宏。
+
+should be
+应置于相关编译单元中任何 EXPORT_SYMBOL 宏之前
+
+>+
+>+3. 如何使用命名空间中导出的符号
+>+===============================
+>+
+>+为了使用被导出到命名空间的符号，内核模块需要明确地导入这些命名空间。
+>+否则内核可能会拒绝加载该模块。模块代码需要使用宏MODULE_IMPORT_NS来
+>+表示它所使用的命名空间的符号。例如，一个使用usb_stor_suspend符号的
+>+模块，需要使用如下语句导入命名空间USB_STORAGE::
+>+
+>+	MODULE_IMPORT_NS(USB_STORAGE);
+>+
+>+这将在模块中为每个导入的命名空间创建一个 `modinfo` 标签。这有一个
+>+副作用，就是可以用modinfo检查模块的导入命名空间::
+
+这也顺带使得可以用modinfo检查模块已导入的命名空间
+
+>+
+>+	$ modinfo drivers/usb/storage/ums-karma.ko
+>+	[...]
+>+	import_ns:      USB_STORAGE
+>+	[...]
+>+
+>+
+>+建议将 MODULE_IMPORT_NS() 语句添加到靠近其他模块元数据定义的地方，
+>+如 MODULE_AUTHOR() 或 MODULE_LICENSE() 。关于自动创建缺失的导入
+>+语句的方法，请参考第5节。
+>+
+>+4. 加载使用命名空间符号的模块
+>+=============================
+>+
+>+在模块加载时（比如insmod），内核将检查每个从模块中引用的符号是否可
+
+``insmod``
+
+>+用，以及它可能被导出的名字空间是否被模块导入。内核的默认行为是拒绝
+
+导出到的
+
+>+加载那些没有指明足以导入的模块。一个错误将被记录下来，并且加载将以
+
+此错误会被记录下来
+
+>+EINVAL方式失败。为了允许加载不满足这个前提条件的模块，可以使用一个
+>+配置选项。设置 MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS=y 将使加
+
+要允许加载不满足这个前提条件的模块，可以使用此配置选项：
+
+>+载不受影响，但会发出警告。
+>+
+>+5. 自动创建MODULE_IMPORT_NS声明
+>+===============================
+>+
+>+缺少命名空间的导入可以在构建时很容易被检测到。事实上，如果一个模块
+>+使用了一个命名空间的符号而没有导入它，modpost会发出警告。
+>+MODULE_IMPORT_NS()语句通常会被添加到一个明确的位置（和其他模块元
+>+数据一起）。为了使模块作者（和子系统维护者）的生活更加轻松，我们提
+>+供了一个脚本和make目标来修复丢失的导入。修复丢失的导入可以用::
+>+
+>+	$ make nsdeps
+>+
+>+对模块作者来说，一个典型的情况是::
+
+maybe
+以下情况可能很典型
+
+>+
+>+	- write code that depends on a symbol from a not imported namespace
+>+	- `make`
+>+	- notice the warning of modpost telling about a missing import
+>+	- run `make nsdeps` to add the import to the correct code location
+>+
+>+对于引入命名空间的子系统维护者来说，其步骤非常相似。同样，make nsdeps最终将
+>+为树内模块添加缺失的命名空间导入::
+>+
+>+	- move or add symbols to a namespace (e.g. with EXPORT_SYMBOL_NS())
+>+	- `make` (preferably with an allmodconfig to cover all in-kernel
+>+	  modules)
+>+	- notice the warning of modpost telling about a missing import
+>+	- run `make nsdeps` to add the import to the correct code location
+>+
+
+above two blocks seem need to translate
+
+>+你也可以为外部模块的构建运行nsdeps。一个典型的用法是::
+
+典型用法是
+
+>+
+>+	$ make -C <path_to_kernel_src> M=$PWD nsdeps
+>-- 
+>2.27.0
+
+Thanks!
+
+Wu X.C.
 
