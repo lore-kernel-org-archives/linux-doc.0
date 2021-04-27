@@ -7,40 +7,38 @@ X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80FE0C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 17:34:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF2EC433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 17:35:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 450F7611C1
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 17:34:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E2FFB6103E
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 17:34:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235593AbhD0RfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Apr 2021 13:35:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39776 "EHLO
+        id S238255AbhD0Rfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 13:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230219AbhD0RfR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 13:35:17 -0400
+        with ESMTP id S230219AbhD0Rfm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 13:35:42 -0400
 Received: from haggis.mythic-beasts.com (haggis.mythic-beasts.com [IPv6:2a00:1098:0:86:1000:0:2:1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A46A8C061574
-        for <linux-doc@vger.kernel.org>; Tue, 27 Apr 2021 10:34:33 -0700 (PDT)
-Received: from [81.101.6.87] (port=33690 helo=jic23-huawei)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2D30C061574;
+        Tue, 27 Apr 2021 10:34:58 -0700 (PDT)
+Received: from [81.101.6.87] (port=33702 helo=jic23-huawei)
         by haggis.mythic-beasts.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92.3)
         (envelope-from <jic23@jic23.retrosnub.co.uk>)
-        id 1lbRWk-0008NX-Sk; Tue, 27 Apr 2021 18:29:39 +0100
-Date:   Tue, 27 Apr 2021 18:30:20 +0100
+        id 1lbRbt-00016k-1h; Tue, 27 Apr 2021 18:34:57 +0100
+Date:   Tue, 27 Apr 2021 18:35:42 +0100
 From:   Jonathan Cameron <jic23@jic23.retrosnub.co.uk>
 To:     linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>
-Subject: Re: [RFC PATCH 1/7] iio:ABI docs: Fix up duplicate *_calibbias_*
- documentation for icm42600
-Message-ID: <20210427183004.14fede9c@jic23-huawei>
-In-Reply-To: <20210221160529.0012c931@archlinux>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [RFC PATCH 4/7] iio:ABI docs: Fix issue around repeated
+ definition of out_currentY_raw
+Message-ID: <20210427183524.364ce96e@jic23-huawei>
+In-Reply-To: <20210117153816.696693-5-jic23@kernel.org>
 References: <20210117153816.696693-1-jic23@kernel.org>
-        <20210117153816.696693-2-jic23@kernel.org>
-        <20210221160529.0012c931@archlinux>
+        <20210117153816.696693-5-jic23@kernel.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -50,108 +48,116 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 21 Feb 2021 16:05:29 +0000
+On Sun, 17 Jan 2021 15:38:13 +0000
 Jonathan Cameron <jic23@kernel.org> wrote:
 
-> On Sun, 17 Jan 2021 15:38:10 +0000
-> Jonathan Cameron <jic23@kernel.org> wrote:
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 > 
-> > From: Jonathan Cameron <Jonathan.Cameron@huawei.com>  
-> @Jean-Baptiste.
+> This one is challenging as both the places this appears in specific drivers
+> are making 'unusual' uses of what looks like a simple output current
+> channel.
+> As a side note, this was particular bit of ABI occurs in other drivers
+> where the use is much more straight forward e.g. dac/ad5421
 > 
-> Whilst this is 'fairly obviously' fine, could you take a quick glance at it.
-> I'm never keen to take my own patches without someone having agreed
-> I haven't done anything particularly silly ;)
+> This patch attempts to make a best effort of adding it to the main docs but
+> retaining enough information. Both of these drivers probably need
+> specific documents being written to describe their unusual interfaces, but
+> those should be in the main documentation, not under Documentation/ABI.
+> That is a non trivial job so left for another time.
+> 
+> Fixes:
+> $ scripts/get_abi.pl validate
+> Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  ./Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
+> 
+> Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-As these are still frustrating Mauro's attempt to get the docs to build
-cleanly and it should be safe enough.
+Another one I think I can't have gotten wrong. Hence whilst I like to know
+they've had eyes on them, I'll take this one anyway.
 
-Applied to the togreg branch of iio.git and pushed out as testing for
-the autobuilders to poke at it.
+Applied to the togreg branch of iio.git and pushed out as testing.
+
+Thanks,
 
 Jonathan
 
+> ---
+>  Documentation/ABI/testing/sysfs-bus-iio               | 11 +++++++++++
+>  .../ABI/testing/sysfs-bus-iio-health-afe440x          | 10 ++--------
+>  .../ABI/testing/sysfs-bus-iio-light-lm3533-als        | 11 +++--------
+>  3 files changed, 16 insertions(+), 16 deletions(-)
 > 
-> Jonathan
-> 
-> > 
-> > This device has the unusual characteristic that the calibbias values
-> > have well defined units (more commonly they are tweaks to a DAC)
-> > Unfortunately the previous approach of having more specific documentation
-> > in sysfs-bus-iio-icm42600 results in warnings during the documentation
-> > build and random ordering in the resulting documentation.
-> > 
-> > To avoid this, add a note to the main documentation on this special
-> > characteristic for the icm42600.   The _available for calibbias was
-> > missing from the main sysfs-bus-iio docs so also add that, allowing
-> > us to drop the icm42600 specific file.
-> > 
-> > Fixes
-> > $ scripts/get_abi.pl validate warning:
-> > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
-> > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
-> > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
-> > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  ./Documentation/ABI/testing/sysfs-bus-iio:397
-> > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  ./Documentation/ABI/testing/sysfs-bus-iio:398
-> > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  ./Documentation/ABI/testing/sysfs-bus-iio:399
-> > 
-> > Cc: Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>
-> > Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-> >  Documentation/ABI/testing/sysfs-bus-iio       | 13 ++++++++++++
-> >  .../ABI/testing/sysfs-bus-iio-icm42600        | 20 -------------------
-> >  2 files changed, 13 insertions(+), 20 deletions(-)
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-> > index d957f5da5c04..d2dd9cc280f9 100644
-> > --- a/Documentation/ABI/testing/sysfs-bus-iio
-> > +++ b/Documentation/ABI/testing/sysfs-bus-iio
-> > @@ -408,6 +408,19 @@ Contact:	linux-iio@vger.kernel.org
-> >  Description:
-> >  		Hardware applied calibration offset (assumed to fix production
-> >  		inaccuracies).
-> > +		icm42600: For this device values are real physical offsets
-> > +		expressed in SI units (m/s^2 for accelerometers and rad/s
-> > +		for gyroscope)/
-> > +
-> > +What:		/sys/bus/iio/devices/iio:deviceX/in_accel_calibbias_available
-> > +What:		/sys/bus/iio/devices/iio:deviceX/in_anglvel_calibbias_available
-> > +KernelVersion:  5.8
-> > +Contact:        linux-iio@vger.kernel.org
-> > +Description:
-> > +		Available values of calibbias. Maybe expressed as either of:
-> > +
-> > +		- a small discrete set of values like "0 2 4 6 8"
-> > +		- a range specified as "[min step max]"
-> >  
-> >  What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_calibscale
-> >  What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_supply_calibscale
-> > diff --git a/Documentation/ABI/testing/sysfs-bus-iio-icm42600 b/Documentation/ABI/testing/sysfs-bus-iio-icm42600
-> > deleted file mode 100644
-> > index 0bf1fd4f5bf1..000000000000
-> > --- a/Documentation/ABI/testing/sysfs-bus-iio-icm42600
-> > +++ /dev/null
-> > @@ -1,20 +0,0 @@
-> > -What:		/sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias
-> > -What:		/sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias
-> > -What:		/sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias
-> > -What:		/sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias
-> > -What:		/sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias
-> > -What:		/sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias
-> > -KernelVersion:  5.8
-> > -Contact:        linux-iio@vger.kernel.org
-> > -Description:
-> > -		Hardware applied calibration offset (assumed to fix production
-> > -		inaccuracies). Values represent a real physical offset expressed
-> > -		in SI units (m/s^2 for accelerometer and rad/s for gyroscope).
-> > -
-> > -What:		/sys/bus/iio/devices/iio:deviceX/in_accel_calibbias_available
-> > -What:		/sys/bus/iio/devices/iio:deviceX/in_anglvel_calibbias_available
-> > -KernelVersion:  5.8
-> > -Contact:        linux-iio@vger.kernel.org
-> > -Description:
-> > -		Range of available values for hardware offset. Values in SI
-> > -		units (m/s^2 for accelerometer and rad/s for gyroscope).  
-> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+> index 9b5ceb22363d..ed50f4b21dcc 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-iio
+> +++ b/Documentation/ABI/testing/sysfs-bus-iio
+> @@ -631,6 +631,17 @@ Description:
+>  		specified and unique if the output corresponds to a single
+>  		channel.
+>  
+> +What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_raw
+> +Date:		May 2012
+> +KernelVersion:	3.5
+> +Contact:	Johan Hovold <jhovold@gmail.com>
+> +Description:
+> +		Set/get output current for channel Y. Units after application
+> +		of scale and offset are milliamps.
+> +		For some devices current channels are used to specify
+> +		current supplied to elements used in taking a measurement
+> +		of a different type. E.g. LED currents.
+> +
+>  What:		/sys/bus/iio/devices/iio:deviceX/events
+>  KernelVersion:	2.6.35
+>  Contact:	linux-iio@vger.kernel.org
+> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-health-afe440x b/Documentation/ABI/testing/sysfs-bus-iio-health-afe440x
+> index 66b621f10223..a8e04b41d9ff 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-iio-health-afe440x
+> +++ b/Documentation/ABI/testing/sysfs-bus-iio-health-afe440x
+> @@ -18,6 +18,8 @@ Description:
+>  		respectively which simply helper channels containing the
+>  		calculated difference in the value of stage 1 - 2 and 3 - 4.
+>  		The values are expressed in 24-bit twos complement.
+> +		The LED current for the stage is controlled via
+> +		out_currentY_raw.
+>  
+>  What:		/sys/bus/iio/devices/iio:deviceX/in_intensityY_offset
+>  Date:		May 2016
+> @@ -35,11 +37,3 @@ Contact:	Andrew F. Davis <afd@ti.com>
+>  Description:
+>  		Get and set the resistance and the capacitance settings for the
+>  		Transimpedance Amplifier during the associated stage.
+> -
+> -What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_raw
+> -Date:		May 2016
+> -KernelVersion:
+> -Contact:	Andrew F. Davis <afd@ti.com>
+> -Description:
+> -		Get and set the LED current for the specified LED active during
+> -		this stage. Y is the specific stage number.
+> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als b/Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als
+> index 22c5ea670971..c476d48d0f82 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als
+> +++ b/Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als
+> @@ -41,14 +41,6 @@ Description:
+>  		Get the current light zone (0..4) as defined by the
+>  		in_illuminance0_threshY_{falling,rising} thresholds.
+>  
+> -What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_raw
+> -Date:		May 2012
+> -KernelVersion:	3.5
+> -Contact:	Johan Hovold <jhovold@gmail.com>
+> -Description:
+> -		Get output current for channel Y (0..255), that is,
+> -		out_currentY_currentZ_raw, where Z is the current zone.
+> -
+>  What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_currentZ_raw
+>  Date:		May 2012
+>  KernelVersion:	3.5
+> @@ -59,3 +51,6 @@ Description:
+>  
+>  		These values correspond to the ALS-mapper target registers for
+>  		ALS-mapper Y + 1.
+> +
+> +		Note that out_currentY_raw provides the current for the
+> +		current zone.
 
