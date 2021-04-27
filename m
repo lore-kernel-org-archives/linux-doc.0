@@ -2,171 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10970C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 03:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7EF3C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 04:11:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B441D60BD3
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 03:22:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5C4C6101C
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 04:11:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231666AbhD0DWm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 23:22:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48458 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231363AbhD0DWm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 23:22:42 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D4E1C061574;
-        Mon, 26 Apr 2021 20:21:58 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id f75-20020a9d03d10000b0290280def9ab76so49015151otf.12;
-        Mon, 26 Apr 2021 20:21:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2y1skpQm5O9nY3/sAmsR/w1AbZytq1gVeLlk4C9o/lk=;
-        b=sBFtoSAUpLDJmX0PMdbcueyJLnj7Yd0LccPDGWnmTmDDIgiI4UGvR7xD+dgaoz+4a2
-         VbarueU/Mx26TxFOi29+mkj9r4yDziOxr/Srf7g5w4rztQVjBzDCds50y3Iak2EcUJhu
-         YcL+uS62BXr2Q8aUNAQIiYXYxeDAlXwZWmvZYBrVIfI0vj+JZ0vmzPRZMHz/HFVY1bGC
-         pcwrQz/UdLLoS61hdA64/pGcGNs15FTeqQjqk+QCZWvEtJk4vmkeQ+WasQ/+WTZsvV5I
-         a/KcNj+XZ/nw+BavnoBNvOQyXx5EYRvMhMFcuQSz3yKwu9p4vgheMljfe4+xcOB0yBij
-         ZGkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2y1skpQm5O9nY3/sAmsR/w1AbZytq1gVeLlk4C9o/lk=;
-        b=H4MHcXMklok5rBbjEGLjqYFtCy7HRV1lTIeRd4U+hypXaAdkkDxSniPOaBJnyOcq5T
-         rz/5vK86EmfQ65HPs2ELQ0js91EmZ15T+32vdcvjgvJOvfjsNzx25WnqJBnzWfqrJXfz
-         swKgFr8FUXRPmYDkQ1NOFrDN3modsoK86CycxeadJ99ObZsmVBq8dUhUaTeuxsSuDDa5
-         +xCqPIfIdPKgiggr1SqV7MKvVIDvJu+EmWYKLQA/irLdck4nzV8CmQAFSm3Re+Ov+Cf0
-         PyKdyihMUsNegR2ZjQWklrXj9NeJanOVfnQmXkm2fN3ONaqID80jYQqEzRORy6Hq/M03
-         T1jg==
-X-Gm-Message-State: AOAM532pBdELgw0oXK14sIXvEVVWoKzXIlzKg77NQG7IkOQFzX295tHj
-        IOhuG4l44SsRSeiNsqQYT2lMnGEo2Vo=
-X-Google-Smtp-Source: ABdhPJz7lv4mElFZRkcyXxzJygI9MnlneCXXDmSUqufdUZy4R+6DR2GDIqlPOM9PKHJKVsvf32sAog==
-X-Received: by 2002:a9d:6e8f:: with SMTP id a15mr11153409otr.169.1619493717525;
-        Mon, 26 Apr 2021 20:21:57 -0700 (PDT)
-Received: from Davids-MacBook-Pro.local ([8.48.134.33])
-        by smtp.googlemail.com with ESMTPSA id 3sm427755ood.46.2021.04.26.20.21.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Apr 2021 20:21:56 -0700 (PDT)
-Subject: Re: [PATCH v4 net-next] net: multipath routing: configurable seed
-To:     Balaev Pavel <balaevpa@infotecs.ru>, netdev@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
+        id S229541AbhD0EMY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 00:12:24 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:45128 "EHLO inva021.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229501AbhD0EMX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Apr 2021 00:12:23 -0400
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id C1D1220187C;
+        Tue, 27 Apr 2021 06:11:39 +0200 (CEST)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id AC6C6201879;
+        Tue, 27 Apr 2021 06:11:33 +0200 (CEST)
+Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 34E984029D;
+        Tue, 27 Apr 2021 06:11:26 +0200 (CEST)
+From:   Yangbo Lu <yangbo.lu@nxp.com>
+To:     netdev@vger.kernel.org
+Cc:     Yangbo Lu <yangbo.lu@nxp.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ido Schimmel <idosch@nvidia.com>
-References: <YILPPCyMjlnhPmEN@rnd>
-From:   David Ahern <dsahern@gmail.com>
-Message-ID: <93ca6644-fc5a-0977-db7d-16779ebd320c@gmail.com>
-Date:   Mon, 26 Apr 2021 21:21:53 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <YILPPCyMjlnhPmEN@rnd>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [net-next, v3, 0/7] Support Ocelot PTP Sync one-step timestamping
+Date:   Tue, 27 Apr 2021 12:21:56 +0800
+Message-Id: <20210427042203.26258-1-yangbo.lu@nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/23/21 6:44 AM, Balaev Pavel wrote:
-> Ability for a user to assign seed value to multipath route hashes.
-> Now kernel uses random seed value to prevent hash-flooding DoS attacks;
-> however, it disables some use cases, f.e:
-> 
-> +-------+        +------+        +--------+
-> |       |-eth0---| FW0  |---eth0-|        |
-> |       |        +------+        |        |
-> |  GW0  |ECMP                ECMP|  GW1   |
-> |       |        +------+        |        |
-> |       |-eth1---| FW1  |---eth1-|        |
-> +-------+        +------+        +--------+
-> 
-> In this use case, two ECMP routers balance traffic between two firewalls.
-> If some flow transmits a response over a different channel than request,
-> such flow will be dropped, because keep-state rules are created on
-> the other firewall.
-> 
-> This patch adds sysctl variable: net.ipv4|ipv6.fib_multipath_hash_seed.
-> User can set the same seed value on GW0 and GW1 for traffic to be
-> mirror-balanced. By default, random value is used.
-> 
-> Signed-off-by: Balaev Pavel <balaevpa@infotecs.ru>
-> ---
->  Documentation/networking/ip-sysctl.rst        |  14 +
->  include/net/flow_dissector.h                  |   4 +
->  include/net/netns/ipv4.h                      |   2 +
->  include/net/netns/ipv6.h                      |   3 +
->  net/core/flow_dissector.c                     |   9 +
->  net/ipv4/route.c                              |  10 +-
->  net/ipv4/sysctl_net_ipv4.c                    |  97 +++++
->  net/ipv6/route.c                              |  10 +-
->  net/ipv6/sysctl_net_ipv6.c                    |  96 +++++
->  .../testing/selftests/net/forwarding/Makefile |   1 +
->  tools/testing/selftests/net/forwarding/lib.sh |  41 +++
->  .../net/forwarding/router_mpath_seed.sh       | 347 ++++++++++++++++++
->  12 files changed, 632 insertions(+), 2 deletions(-)
->  create mode 100755 tools/testing/selftests/net/forwarding/router_mpath_seed.sh
+This patch-set is to support Ocelot PTP Sync one-step timestamping.
+Actually before that, this patch-set cleans up and optimizes the
+DSA slave tx timestamp request handling process.
 
-this really needs to be multiple patches. At a minimum 1 for ipv4, 1 for
-ipv6 and 1 for the test script (thank you for adding that).
+Changes for v2:
+	- Split tx timestamp optimization patch.
+	- Updated doc patch.
+	- Freed skb->cb usage in dsa core driver, and moved to device
+	  drivers.
+	- Other minor fixes.
+Changes for v3:
+	- Switched sequence of patch #3 and #4 with rebasing to fix build.
+	- Replaced hard coded 48 of memset(skb->cb, 0, 48) with sizeof().
 
-[ cc'ed Ido since most of the tests under
-tools/testing/selftests/net/forwarding come from him and team ]
+Yangbo Lu (7):
+  net: dsa: check tx timestamp request in core driver
+  net: dsa: no longer identify PTP packet in core driver
+  net: dsa: no longer clone skb in core driver
+  net: dsa: free skb->cb usage in core driver
+  docs: networking: timestamping: update for DSA switches
+  net: mscc: ocelot: convert to ocelot_port_txtstamp_request()
+  net: mscc: ocelot: support PTP Sync one-step timestamping
 
-> 
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-> index 9701906f6..d1a67e6fe 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-> @@ -100,6 +100,20 @@ fib_multipath_hash_policy - INTEGER
->  	- 1 - Layer 4
->  	- 2 - Layer 3 or inner Layer 3 if present
->  
-> +fib_multipath_hash_seed - STRING
-> +	Controls seed value for multipath route hashes. By default
-> +	random value is used. Only valid for kernels built with
-> +	CONFIG_IP_ROUTE_MULTIPATH enabled.
-> +
-> +	Valid format: two hex values set off with comma or "random"
-> +	keyword.
-> +
-> +	Example to generate the seed value::
-> +
-> +		RAND=$(openssl rand -hex 16) && echo "${RAND:0:16},${RAND:16:16}"
-> +
-> +	Default: "random"
-> +
->  fib_sync_mem - UNSIGNED INTEGER
->  	Amount of dirty memory from fib entries that can be backlogged before
->  	synchronize_rcu is forced.
-> diff --git a/include/net/flow_dissector.h b/include/net/flow_dissector.h
-> index ffd386ea0..2bd4e28de 100644
-> --- a/include/net/flow_dissector.h
-> +++ b/include/net/flow_dissector.h
-> @@ -348,6 +348,10 @@ static inline bool flow_keys_have_l4(const struct flow_keys *keys)
->  }
->  
->  u32 flow_hash_from_keys(struct flow_keys *keys);
-> +#ifdef CONFIG_IP_ROUTE_MULTIPATH
-> +u32 flow_multipath_hash_from_keys(struct flow_keys *keys,
-> +			   const siphash_key_t *seed);
+ Documentation/networking/timestamping.rst     | 63 ++++++++------
+ .../net/dsa/hirschmann/hellcreek_hwtstamp.c   | 28 ++++---
+ .../net/dsa/hirschmann/hellcreek_hwtstamp.h   |  4 +-
+ drivers/net/dsa/mv88e6xxx/hwtstamp.c          | 26 ++++--
+ drivers/net/dsa/mv88e6xxx/hwtstamp.h          | 10 +--
+ drivers/net/dsa/ocelot/felix.c                | 19 +++--
+ drivers/net/dsa/sja1105/sja1105_main.c        |  2 +-
+ drivers/net/dsa/sja1105/sja1105_ptp.c         | 16 ++--
+ drivers/net/dsa/sja1105/sja1105_ptp.h         |  4 +-
+ drivers/net/ethernet/mscc/ocelot.c            | 83 +++++++++++++++++--
+ drivers/net/ethernet/mscc/ocelot_net.c        | 20 ++---
+ include/linux/dsa/sja1105.h                   |  3 +-
+ include/net/dsa.h                             | 18 +---
+ include/soc/mscc/ocelot.h                     | 21 ++++-
+ net/dsa/Kconfig                               |  2 +
+ net/dsa/slave.c                               | 23 +----
+ net/dsa/tag_ocelot.c                          | 27 +-----
+ net/dsa/tag_ocelot_8021q.c                    | 41 +++------
+ 18 files changed, 230 insertions(+), 180 deletions(-)
 
-column alignment looks off here ^^^^ and a few other places; please
-correct in the next version.
 
+base-commit: 6d72e7c767acbbdd44ebc7d89c6690b405b32b57
+-- 
+2.25.1
 
