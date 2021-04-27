@@ -2,93 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 770E4C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:27:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73EB7C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:32:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40332613CA
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:27:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 448E7611ED
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:32:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236395AbhD0O2a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Apr 2021 10:28:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236220AbhD0O23 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 10:28:29 -0400
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83FCAC061574;
-        Tue, 27 Apr 2021 07:27:46 -0700 (PDT)
-Received: by mail-ot1-x333.google.com with SMTP id 65-20020a9d03470000b02902808b4aec6dso50667915otv.6;
-        Tue, 27 Apr 2021 07:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pDlD8dE3PQv85+6B9UWHdjEhvDTr44ZFo6L5hW8IgxI=;
-        b=nymKx8rWCaTxCUoWLBiey1Ja3eYYZNxjwyYZU4JnJVekgtIy2jTJrP3XCAIhYpvXAl
-         nouclLvkbfpPiFrLpAvtSMDOR8ZQOKAkyFmh+q3aqLLF2mBCHgig10QSc6M+sgIHdES+
-         oqFIfWVrMEJDsVwb8GeKl6ZAqq0K1r7F/DF8FyoV5xP3qmiuEluJbPFmvAE+mQ/chvaD
-         lOCQjcdravRGGZOnuGLcaXEi4ysPnmEW5kBApHkPfeNk93Ernt2K+XIXOSb1ME//NKW7
-         4uekRv6f6qBUuPEPjMbjNP6V/rErKJaoWUSirrxDAj/aF0Mdmf2d6wq4SfjfSzRIfrwq
-         SV0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pDlD8dE3PQv85+6B9UWHdjEhvDTr44ZFo6L5hW8IgxI=;
-        b=pKxi8NDsZkPvLOM/aYmCigPVQG/55k0CbuCq+tk6jzlWGqiBicJ2IzdX0qU8Hxaqxs
-         LNvmXgjm8a2zSUnKIavpPeVYZljCq2XCXeC5Av+JWlPk01ZsfaVYA1rA5jaSNmGSuHT/
-         A+HMxrSPYiMRT2KSXlN8ny+MhjLNzCUqkm9ABPEpvDfLmG25Dp6L+Mwn8C7SZIy0lnkF
-         UnC+vc75PfDekYYzr6BCMk9vnJwXIarXEBHguKB0A/jr9Mci+64absmxuZD/NeDEdnhL
-         ELYQ8EWmQ0C2KgJQpjOyGc+XB3vJ7Dh1NqTZSwzu3SAGQVgktj/mdlCdHReMRSapvIUL
-         lLhA==
-X-Gm-Message-State: AOAM533lb6jLUQy2SvbIgQz/mn6+0VfjKi38v6TngVWscvGbj8BYj7Aa
-        9uCftKZsqbuIuQBCwIcXGl3P0hqiQdE=
-X-Google-Smtp-Source: ABdhPJzX7952fFjCSOBmVsoK8xx88i5GIPaHXhKrnfQP26kXrVYS8acHATF5aTVU6vuBagOYLi5L9w==
-X-Received: by 2002:a9d:3a44:: with SMTP id j62mr552630otc.176.1619533665967;
-        Tue, 27 Apr 2021 07:27:45 -0700 (PDT)
-Received: from Davids-MacBook-Pro.local ([8.48.134.33])
-        by smtp.googlemail.com with ESMTPSA id n105sm198ota.45.2021.04.27.07.27.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Apr 2021 07:27:45 -0700 (PDT)
-Subject: Re: [PATCH v4 net-next] net: multipath routing: configurable seed
-To:     Pavel Balaev <mail@void.so>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ido Schimmel <idosch@nvidia.com>
-References: <YILPPCyMjlnhPmEN@rnd>
- <93ca6644-fc5a-0977-db7d-16779ebd320c@gmail.com> <YIfcfEiym5PKAe0w@rnd>
-From:   David Ahern <dsahern@gmail.com>
-Message-ID: <e5e46b25-065f-7c56-3c31-6b9cc130510d@gmail.com>
-Date:   Tue, 27 Apr 2021 08:27:42 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
+        id S236461AbhD0OdP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 10:33:15 -0400
+Received: from ms.lwn.net ([45.79.88.28]:60432 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236173AbhD0OdP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Apr 2021 10:33:15 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1E0BC2C1;
+        Tue, 27 Apr 2021 14:32:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1E0BC2C1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1619533951; bh=Gb7wiNNqlbPlp42zPyXWy/+V9Yc2Z/CrlIYpbL74jOI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=gZgNCb93URTijLQ8kRuP+3MHHX/EWyVg8qbobDs+DPL7wjsqZbtPBdfXKaZYOu/s+
+         7LMjnvPjx6mP0HBttSLv5BnZ2mDJGzR+stRUc6yD6OfDEK3R03kaU0dtmn1kTURWCl
+         ghGk5l4O8aJ80fN53BmMqeESREo6BKW5jp7jY1ZS7TbI0NUmIpbQ5Y1Xfbg2UQqmf5
+         qUR/0oSI8GY3FmkpjUe3v5zvUy4qVf9B9WMHe4/BySLP89+FsWyFy/Krn0N26KmTWy
+         2Qj9EpV1yVulB+u+nU/eYLuMKNHkj1yzdOy9jjc7UdzHRgmeM13lU0PyEz3A4IqW0O
+         QieTKHMWJ5fbg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, nathan@kernel.org,
+        linux-kernel@vger.kernel.org, viresh.kumar@linaro.org,
+        linux-doc@vger.kernel.org
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, viro@zeniv.linux.org.uk,
+        tglx@linutronix.de, gregkh@linuxfoundation.org,
+        rdunlap@infradead.org, akpm@linux-foundation.org,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH  RESENDING 0/3] Removed oprofile stale entries
+In-Reply-To: <20210426220844.HQ75oVReql8ttKS4sU3Qlcz-97Xx0o5baf7MqLul7dI@z>
+References: <20210426220844.HQ75oVReql8ttKS4sU3Qlcz-97Xx0o5baf7MqLul7dI@z>
+Date:   Tue, 27 Apr 2021 08:32:30 -0600
+Message-ID: <87a6pjer29.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <YIfcfEiym5PKAe0w@rnd>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/27/21 3:42 AM, Pavel Balaev wrote:
-> After running "scripts/checkpatch.pl" I got warnings about alignment.
-> So I run checkpatch.pl --fix and fixed alignment as a script did.
-> So warnings goes away. I don't get the rules of alignment, can you 
-> tell me the right way?
+Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
 
-I don't see any statements under Documentation/process; not sure where
-it is explicitly stated. You can get the general idea by following the
-surrounding code and then let checkpatch correct from there.
+> This patch series trying to clean up the remaining debris of removed
+> functionality.Kindly see the commit : 24880bef417f(oprofile-removal)
+>
+> In truest sense, it is all trivial in nature, so cc'ing that mail id too..
+>
+> trivial@vger.kernel.org
+>
+> Bhaskar Chowdhury (3):
+>   Removed the oprofiled version option
+>   oprofiled version output line removed from the list
+>   Enlisted oprofile version line removed
+>
+>  Documentation/process/changes.rst                    | 1 -
+>  Documentation/translations/it_IT/process/changes.rst | 1 -
+>  scripts/ver_linux                                    | 1 -
+>  3 files changed, 3 deletions(-)
+
+So why are you resending something that only showed up last Friday.  And
+during the merge window at that?  This is not an urgent fix...  Be
+patient and it will be handled.
+
+Thanks,
+
+jon
