@@ -2,135 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D5EDC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 20:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 275D5C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 21:31:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A141613FC
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 20:48:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1756608FE
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 21:31:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235440AbhD0UtZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Apr 2021 16:49:25 -0400
-Received: from mga09.intel.com ([134.134.136.24]:56328 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237078AbhD0UtC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Apr 2021 16:49:02 -0400
-IronPort-SDR: UjvretDLawR3PPg8fZnKVRni4ignPij4iv+DJNiVWEFT/YFhMz3ggXerBm8TVw4fJAHp1fn615
- kosHlL4YloJA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9967"; a="196699400"
-X-IronPort-AV: E=Sophos;i="5.82,255,1613462400"; 
-   d="scan'208";a="196699400"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2021 13:47:48 -0700
-IronPort-SDR: jmrqRM4rqQwkULfi1XbRRsErJAMs/mT3YuV7FAT2tJ2nNhGd9ZZPZ4nGh3yI7SbItL6qML+VEn
- ITgOp0I298Kg==
-X-IronPort-AV: E=Sophos;i="5.82,255,1613462400"; 
-   d="scan'208";a="457835107"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2021 13:47:48 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S239013AbhD0Vbp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 17:31:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43335 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238817AbhD0Vbn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 17:31:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619559058;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=owSuX0IYYbKuOWpVt2C5gN4EPBjP7c56j/CsuTAmQZ4=;
+        b=aLpJUCPpQ1Py8FiKkFMj6DPugHAhmo/Z5PxJix82mI7+DSxNQYt0/F16FBEvBAUmVgNyAa
+        iklRh3fZEgcyVZwII+hHKNC38G3R2jP3plKrjfdVt4Iv8eeHiAZWlswoXDNTFQcFyixgE+
+        0dwPxbazYZOt9Z8Ejy7GcZg+9kXPj2Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-zx3zw6DRMkeCyWY8RxI5DA-1; Tue, 27 Apr 2021 17:30:49 -0400
+X-MC-Unique: zx3zw6DRMkeCyWY8RxI5DA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C41CC7400;
+        Tue, 27 Apr 2021 21:30:45 +0000 (UTC)
+Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2E6761042A90;
+        Tue, 27 Apr 2021 21:30:43 +0000 (UTC)
+Date:   Tue, 27 Apr 2021 15:30:42 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>
-Subject: [PATCH v26 9/9] x86/vdso: Add ENDBR to __vdso_sgx_enter_enclave
-Date:   Tue, 27 Apr 2021 13:47:20 -0700
-Message-Id: <20210427204720.25007-10-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210427204720.25007-1-yu-cheng.yu@intel.com>
-References: <20210427204720.25007-1-yu-cheng.yu@intel.com>
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH v2 00/13] Remove vfio_mdev.c, mdev_parent_ops and more
+Message-ID: <20210427153042.103e12ab@redhat.com>
+In-Reply-To: <0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
+References: <0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
-component of CET.  IBT prevents attacks by ensuring that (most) indirect
-branches and function calls may only land at ENDBR instructions.  Branches
-that don't follow the rules will result in control flow (#CF) exceptions.
+On Mon, 26 Apr 2021 17:00:02 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
-instructions are inserted automatically by the compiler, but branch
-targets written in assembly must have ENDBR added manually.
+> The mdev bus's core part for managing the lifecycle of devices is mostly
+> as one would expect for a driver core bus subsystem.
+> 
+> However instead of having a normal 'struct device_driver' and binding the
+> actual mdev drivers through the standard driver core mechanisms it open
+> codes this with the struct mdev_parent_ops and provides a single driver
+> that shims between the VFIO core and the actual device driver.
+> 
+> Make every one of the mdev drivers implement an actual struct mdev_driver
+> and directly call vfio_register_group_dev() in the probe() function for
+> the mdev.
+> 
+> Squash what is left of the mdev_parent_ops into the mdev_driver and remap
+> create(), remove() and mdev_attr_groups to their driver core
+> equivalents. Arrange to bind the created mdev_device to the mdev_driver
+> that is provided by the end driver.
+> 
+> The actual execution flow doesn't change much, eg what was
+> parent_ops->create is now device_driver->probe and it is called at almost
+> the exact same time - except under the normal control of the driver core.
+> 
+> This allows deleting the entire mdev_drvdata, and tidying some of the
+> sysfs. Many places in the drivers start using container_of()
+> 
+> This cleanly splits the mdev sysfs GUID lifecycle management stuff from
+> the vfio_device implementation part, the only VFIO special part of mdev
+> that remains is the mdev specific iommu intervention.
+> 
+> v2:
+>  - Keep && m in samples kconfig
+>  - Restore accidently squashed removeal of vfio_mdev.c
+>  - Remove indirections to call bus_register()/bus_unregister()
+>  - Reflow long doc lines
+> v1: https://lore.kernel.org/r/0-v1-d88406ed308e+418-vfio3_jgg@nvidia.com
+> 
+> Jason
+> 
+> Cc: Leon Romanovsky <leonro@nvidia.com>
+> Cc: "Raj, Ashok" <ashok.raj@intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Max Gurtovoy <mgurtovoy@nvidia.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Tarun Gupta <targupta@nvidia.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> 
+> 
+> Jason Gunthorpe (13):
+>   vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
+>   vfio/mdev: Allow the mdev_parent_ops to specify the device driver to
+>     bind
+>   vfio/mtty: Convert to use vfio_register_group_dev()
+>   vfio/mdpy: Convert to use vfio_register_group_dev()
+>   vfio/mbochs: Convert to use vfio_register_group_dev()
+>   vfio/ap_ops: Convert to use vfio_register_group_dev()
+>   vfio/ccw: Convert to use vfio_register_group_dev()
+>   vfio/gvt: Convert to use vfio_register_group_dev()
+>   vfio/mdev: Remove vfio_mdev.c
+>   vfio/mdev: Remove mdev_parent_ops dev_attr_groups
+>   vfio/mdev: Remove mdev_parent_ops
+>   vfio/mdev: Use the driver core to create the 'remove' file
+>   vfio/mdev: Remove mdev drvdata
 
-Add ENDBR to __vdso_sgx_enter_enclave() branch targets.
+It'd be really helpful if you could consistently copy at least one
+list, preferably one monitored by patchwork, for an entire series.  The
+kvm list is missing patches 06 and 08.  I can find the latter hopping
+over to the intel-gfx or dri-devel projects as I did for the last
+series, but 06 only copied linux-s390, where I need to use lore and
+can't find a patchwork.  Thanks,
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
----
- arch/x86/entry/vdso/vsgx.S | 4 ++++
- 1 file changed, 4 insertions(+)
+Alex
 
-diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
-index 86a0e94f68df..f3ebd38d1898 100644
---- a/arch/x86/entry/vdso/vsgx.S
-+++ b/arch/x86/entry/vdso/vsgx.S
-@@ -4,6 +4,7 @@
- #include <asm/export.h>
- #include <asm/errno.h>
- #include <asm/enclu.h>
-+#include <asm/vdso.h>
- 
- #include "extable.h"
- 
-@@ -27,6 +28,7 @@
- SYM_FUNC_START(__vdso_sgx_enter_enclave)
- 	/* Prolog */
- 	.cfi_startproc
-+	ENDBR64
- 	push	%rbp
- 	.cfi_adjust_cfa_offset	8
- 	.cfi_rel_offset		%rbp, 0
-@@ -62,6 +64,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
- .Lasync_exit_pointer:
- .Lenclu_eenter_eresume:
- 	enclu
-+	ENDBR64
- 
- 	/* EEXIT jumps here unless the enclave is doing something fancy. */
- 	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
-@@ -91,6 +94,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
- 	jmp	.Lout
- 
- .Lhandle_exception:
-+	ENDBR64
- 	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
- 
- 	/* Set the exception info. */
--- 
-2.21.0
+> 
+>  .../driver-api/vfio-mediated-device.rst       |  56 ++---
+>  Documentation/s390/vfio-ap.rst                |   1 -
+>  arch/s390/Kconfig                             |   2 +-
+>  drivers/gpu/drm/i915/Kconfig                  |   2 +-
+>  drivers/gpu/drm/i915/gvt/kvmgt.c              | 210 +++++++++--------
+>  drivers/s390/cio/vfio_ccw_drv.c               |  21 +-
+>  drivers/s390/cio/vfio_ccw_ops.c               | 136 ++++++-----
+>  drivers/s390/cio/vfio_ccw_private.h           |   5 +
+>  drivers/s390/crypto/vfio_ap_ops.c             | 138 ++++++-----
+>  drivers/s390/crypto/vfio_ap_private.h         |   2 +
+>  drivers/vfio/mdev/Kconfig                     |   7 -
+>  drivers/vfio/mdev/Makefile                    |   1 -
+>  drivers/vfio/mdev/mdev_core.c                 |  67 ++++--
+>  drivers/vfio/mdev/mdev_driver.c               |  20 +-
+>  drivers/vfio/mdev/mdev_private.h              |   4 +-
+>  drivers/vfio/mdev/mdev_sysfs.c                |  37 ++-
+>  drivers/vfio/mdev/vfio_mdev.c                 | 180 ---------------
+>  drivers/vfio/vfio.c                           |   6 +-
+>  include/linux/mdev.h                          |  86 +------
+>  include/linux/vfio.h                          |   4 +
+>  samples/Kconfig                               |   6 +-
+>  samples/vfio-mdev/mbochs.c                    | 166 +++++++------
+>  samples/vfio-mdev/mdpy.c                      | 162 +++++++------
+>  samples/vfio-mdev/mtty.c                      | 218 +++++++-----------
+>  24 files changed, 651 insertions(+), 886 deletions(-)
+>  delete mode 100644 drivers/vfio/mdev/vfio_mdev.c
+> 
 
