@@ -2,95 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85BA3C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:58:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36216C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 15:20:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A5E861131
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 14:58:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00F01613E8
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 15:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238688AbhD0O7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Apr 2021 10:59:15 -0400
-Received: from void.so ([95.85.17.176]:13300 "EHLO void.so"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236173AbhD0O7K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Apr 2021 10:59:10 -0400
-Received: from void.so (localhost [127.0.0.1])
-        by void.so (Postfix) with ESMTP id CF9CB2B2FBA;
-        Tue, 27 Apr 2021 17:58:23 +0300 (MSK)
-Received: from void.so ([127.0.0.1])
-        by void.so (void.so [127.0.0.1]) (amavisd-new, port 10024) with LMTP
-        id pQ3HAm4e1keW; Tue, 27 Apr 2021 17:58:23 +0300 (MSK)
-Received: from mx.void.so (localhost [127.0.0.1])
-        by void.so (Postfix) with ESMTPA id 9D82F2B2FB9;
-        Tue, 27 Apr 2021 17:58:22 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=void.so; s=mail;
-        t=1619535503; bh=qKNua5KhGqsJ/P0wyBQaiw9GM/Sjie/sLfhRTHM+6fE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References;
-        b=mCxZVq9KNHoB9uxnBS10wKtL9SmftuxjrB9VzWp4GiPxDZ0zVK0q5VmbKtPFVQTg/
-         vtYBw+5Q8SQahC40fNNIVzWCVN1UV64BB+9A1nKVUTVe9bZLC7uOqnrVquSu4RxC1V
-         2xs03yOVXv2cwPVfl1w40y4uFak28tnHSaeBJXtA=
-MIME-Version: 1.0
-Date:   Tue, 27 Apr 2021 17:58:22 +0300
-From:   Void <mail@void.so>
-To:     David Ahern <dsahern@gmail.com>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S236398AbhD0PVl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Apr 2021 11:21:41 -0400
+Received: from forward2-smtp.messagingengine.com ([66.111.4.226]:53885 "EHLO
+        forward2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236019AbhD0PVl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Apr 2021 11:21:41 -0400
+X-Greylist: delayed 484 seconds by postgrey-1.27 at vger.kernel.org; Tue, 27 Apr 2021 11:21:41 EDT
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailforward.nyi.internal (Postfix) with ESMTP id A68BA19409C9;
+        Tue, 27 Apr 2021 11:12:53 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 27 Apr 2021 11:12:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=P1Hqi4
+        PHicAFs4lHLdN9ZUQdjcf++Px2mQGjk8ekmiA=; b=tVGOkxtuv0wyL7RxhgaPKC
+        TRIxEl+J1wtc1S490MIOHDvQkwEN4ac9jgfGWxXyZz0Cu9CmMNkPsDDeDdp+sqL2
+        Df5meflPbbNTffzTiaX4jBd5sb9GE2Pvy3aBnMsuse4r/J3/SOJPwp81ISIkG7G5
+        CKbGW3tjVEBAzRKsjSDD3WhFPCNRalBrq3+BIC2R3CDwMvrLFBH2sjQSg+Vme2Ty
+        n5MrR8OLOIaz7tdeu2YaUg7/JBl0X2hxa+ZGALgWH3FiHeItfLQqQ8s28G8cFa1v
+        xorCvnTXALYkCcIhBk8nfXYxc7el8wzE+aJBIjoyaERvWS9qOfiYSLjh6AQXnwvw
+        ==
+X-ME-Sender: <xms:9CmIYBj27scQOjc1Es_1y5lFhxoPe22iJZ8tjJa5acihAKwyuurIlA>
+    <xme:9CmIYGB07sdOhT-VUKxhIw5N19Tswx-Vo-vbe_b_CsP1YEFQIddZGJfOHKWuSd7K4
+    8DhxVlir1uWVgKOjtg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvtddgkeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepvffujghfhfffkfggtgesthdtredttddttdenucfhrhhomhepffgrvhhiugcu
+    gfgumhhonhgushhonhcuoegumhgvsegumhgvrdhorhhgqeenucggtffrrghtthgvrhhnpe
+    fhkeeguedtvdegffffteehjedvjeeitefgfefgffdugeffffegudehgeetgeelkeenucfk
+    phepkedurddukeejrddviedrvdefkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpegumhgvsegumhgvrdhorhhg
+X-ME-Proxy: <xmx:9CmIYBEl9twTwITE7c0sxQJxTYZTN50czE_0gvrMl-yXhPvVuw6YnA>
+    <xmx:9CmIYGR6qmiaEedFWDfiaKMtfAHJuy5DZmlA7VQzxhRcftS-NBsvLA>
+    <xmx:9CmIYOy4_4IOg114m78WKP1JrkSlwmBVcpsunZbYuOtWiZbec9F8_Q>
+    <xmx:9SmIYJzWXU4pJWRRnxqnt5p0602gW2iPaxPdGlcR_N3Y7KGcRN6xlQ>
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net [81.187.26.238])
+        by mail.messagingengine.com (Postfix) with ESMTPA;
+        Tue, 27 Apr 2021 11:12:51 -0400 (EDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+        by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 98a0580e;
+        Tue, 27 Apr 2021 15:12:50 +0000 (UTC)
+To:     Hikaru Nishida <hikalium@chromium.org>, kvm@vger.kernel.org
+Cc:     suleiman@google.com, Hikaru Nishida <hikalium@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ido Schimmel <idosch@nvidia.com>
-Subject: Re: [PATCH v4 net-next] net: multipath routing: configurable seed
-In-Reply-To: <e5e46b25-065f-7c56-3c31-6b9cc130510d@gmail.com>
-References: <YILPPCyMjlnhPmEN@rnd>
- <93ca6644-fc5a-0977-db7d-16779ebd320c@gmail.com> <YIfcfEiym5PKAe0w@rnd>
- <e5e46b25-065f-7c56-3c31-6b9cc130510d@gmail.com>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <21a2fb1925b215cc48ab8e2f783a7de7@void.so>
-X-Sender: mail@void.so
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+        Paolo Bonzini <pbonzini@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/6] x86/kvm: Reserve KVM_FEATURE_HOST_SUSPEND_TIME
+ and MSR_KVM_HOST_SUSPEND_TIME
+In-Reply-To: <20210426090644.2218834-2-hikalium@chromium.org>
+References: <20210426090644.2218834-1-hikalium@chromium.org>
+ <20210426090644.2218834-2-hikalium@chromium.org>
+X-HGTTG: zarquon
+From:   David Edmondson <dme@dme.org>
+Date:   Tue, 27 Apr 2021 16:12:50 +0100
+Message-ID: <cunk0onkbgt.fsf@dme.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-04-27 17:27, David Ahern wrote:
-> On 4/27/21 3:42 AM, Pavel Balaev wrote:
->> After running "scripts/checkpatch.pl" I got warnings about alignment.
->> So I run checkpatch.pl --fix and fixed alignment as a script did.
->> So warnings goes away. I don't get the rules of alignment, can you
->> tell me the right way?
-> 
-> I don't see any statements under Documentation/process; not sure where
-> it is explicitly stated. You can get the general idea by following the
-> surrounding code and then let checkpatch correct from there.
-I create 3 patches and check it:
+On Monday, 2021-04-26 at 18:06:40 +09, Hikaru Nishida wrote:
 
-./scripts/checkpatch.pl 
-0001-net-ipv4-multipath-routing-configurable-seed.patch
-total: 0 errors, 0 warnings, 0 checks, 186 lines checked
+> No functional change; just add documentation for
+> KVM_FEATURE_HOST_SUSPEND_TIME and its corresponding
+> MSR_KVM_HOST_SUSPEND_TIME to support virtual suspend timing injection in
+> later patches.
+>
+> Signed-off-by: Hikaru Nishida <hikalium@chromium.org>
+> ---
+>
+>  Documentation/virt/kvm/cpuid.rst |  3 +++
+>  Documentation/virt/kvm/msr.rst   | 29 +++++++++++++++++++++++++++++
+>  2 files changed, 32 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/cpuid.rst b/Documentation/virt/kvm/cpuid.rst
+> index cf62162d4be2..c7cb581b9a9b 100644
+> --- a/Documentation/virt/kvm/cpuid.rst
+> +++ b/Documentation/virt/kvm/cpuid.rst
+> @@ -96,6 +96,9 @@ KVM_FEATURE_MSI_EXT_DEST_ID        15          guest checks this feature bit
+>                                                 before using extended destination
+>                                                 ID bits in MSI address bits 11-5.
+>  
+> +KVM_FEATURE_HOST_SUSPEND_TIME      16          host suspend time information
+> +                                               is available at msr 0x4b564d08.
+> +
+>  KVM_FEATURE_CLOCKSOURCE_STABLE_BIT 24          host will warn if no guest-side
+>                                                 per-cpu warps are expected in
+>                                                 kvmclock
+> diff --git a/Documentation/virt/kvm/msr.rst b/Documentation/virt/kvm/msr.rst
+> index e37a14c323d2..de96743245c9 100644
+> --- a/Documentation/virt/kvm/msr.rst
+> +++ b/Documentation/virt/kvm/msr.rst
+> @@ -376,3 +376,32 @@ data:
+>  	write '1' to bit 0 of the MSR, this causes the host to re-scan its queue
+>  	and check if there are more notifications pending. The MSR is available
+>  	if KVM_FEATURE_ASYNC_PF_INT is present in CPUID.
+> +
+> +MSR_KVM_HOST_SUSPEND_TIME:
+> +	0x4b564d08
+> +
+> +data:
+> +	8-byte alignment physical address of a memory area which must be
+> +	in guest RAM, plus an enable bit in bit 0. This memory is expected to
+> +	hold a copy of the following structure::
+> +
+> +	 struct kvm_host_suspend_time {
+> +		__u64   suspend_time_ns;
+> +	 };
+> +
+> +	whose data will be filled in by the hypervisor.
+> +	If the guest register this structure through the MSR write, the host
+> +	will stop all the clocks including TSCs observed by the guest during
+> +	the host's suspension and report the duration of suspend through this
+> +	structure. Fields have the following meanings:
+> +
+> +	host_suspend_time_ns:
 
-0001-net-ipv4-multipath-routing-configurable-seed.patch has no obvious 
-style problems and is ready for submission.
-./scripts/checkpatch.pl 
-0002-net-ipv6-multipath-routing-configurable-seed.patch
-total: 0 errors, 0 warnings, 0 checks, 151 lines checked
+s/host_suspend_time_ns/suspend_time_ns/
 
-0002-net-ipv6-multipath-routing-configurable-seed.patch has no obvious 
-style problems and is ready for submission.
-./scripts/checkpatch.pl 
-0003-selftests-net-forwarding-configurable-seed-tests.patch
-WARNING: added, moved or deleted file(s), does MAINTAINERS need 
-updating?
-#76:
-new file mode 100755
+> +		Total number of nanoseconds passed during the host's suspend
+> +		while the VM is running. This value will be increasing
+> +		monotonically.
+> +
+> +	Note that although MSRs are per-CPU entities, the effect of this
+> +	particular MSR is global.
+> +
+> +	Availability of this MSR must be checked via bit 16 in 0x4000001 cpuid
+> +	leaf prior to usage.
+> -- 
+> 2.31.1.498.g6c1eba8ee3d-goog
 
-total: 0 errors, 1 warnings, 394 lines checked
-
-No alignment warnings at all.
+dme.
+-- 
+I do believe it's Madame Joy.
