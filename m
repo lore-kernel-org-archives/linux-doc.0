@@ -2,120 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 077CBC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 02:24:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10970C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 03:22:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CEF6260FDB
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 02:24:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B441D60BD3
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Apr 2021 03:22:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231450AbhD0CZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Apr 2021 22:25:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36042 "EHLO
+        id S231666AbhD0DWm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Apr 2021 23:22:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230516AbhD0CZR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 22:25:17 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6013C061574;
-        Mon, 26 Apr 2021 19:24:34 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id h15so18501613qvu.4;
-        Mon, 26 Apr 2021 19:24:34 -0700 (PDT)
+        with ESMTP id S231363AbhD0DWm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Apr 2021 23:22:42 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D4E1C061574;
+        Mon, 26 Apr 2021 20:21:58 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id f75-20020a9d03d10000b0290280def9ab76so49015151otf.12;
+        Mon, 26 Apr 2021 20:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Epce7Y/3bap3aJbKWMAz6YowhEr9vWrm6Tw9wo6KOtk=;
-        b=AvmGPwceUM5kYOZHebAvAVvfRhD7iauNzWksDJHtJ77OSUD1n4R2DMEAkSU4JAjSiA
-         wNX0pBFPRHrsYPXPY9ym59Xz2ZaHMiALDVQV7hT9dJ+HJEQXcDSd2BHHpfJWh7Gf4YcZ
-         a427yq/G/pqBZkbQBFx37BJ+/xxtxYElaDK0l3q49qaX1z7E75WAcp5pMzkdYFHsqTJ6
-         f0Bwl+IrNb15cQMXxgs7n/CZ6UY8CdwMhzxUkjpHm1PIO3Uc3/eMbWklc2Q9bjEiZvKt
-         earNJngSMw/beAVMSNik3eewbvcKEYTM18gi608t4UZVF/QKk5KMXvy2Rjp4OIDYvM7w
-         GdLQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2y1skpQm5O9nY3/sAmsR/w1AbZytq1gVeLlk4C9o/lk=;
+        b=sBFtoSAUpLDJmX0PMdbcueyJLnj7Yd0LccPDGWnmTmDDIgiI4UGvR7xD+dgaoz+4a2
+         VbarueU/Mx26TxFOi29+mkj9r4yDziOxr/Srf7g5w4rztQVjBzDCds50y3Iak2EcUJhu
+         YcL+uS62BXr2Q8aUNAQIiYXYxeDAlXwZWmvZYBrVIfI0vj+JZ0vmzPRZMHz/HFVY1bGC
+         pcwrQz/UdLLoS61hdA64/pGcGNs15FTeqQjqk+QCZWvEtJk4vmkeQ+WasQ/+WTZsvV5I
+         a/KcNj+XZ/nw+BavnoBNvOQyXx5EYRvMhMFcuQSz3yKwu9p4vgheMljfe4+xcOB0yBij
+         ZGkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Epce7Y/3bap3aJbKWMAz6YowhEr9vWrm6Tw9wo6KOtk=;
-        b=QXR7A2hzCQI/MRxLf4O0qyu/T9xfu7R33nVN+kfkkdTSWvm4WvsCXiCVivr/EUUJUo
-         4N7oiVvgElSuA/FRdM2Vr9D6wFoFjPbKe8owUOKmwtCKtl4Lo/50tgQajMN7wWdVADBe
-         eAs8eOwsMycyzvRUM7YgmEz1RPeho/rWa2TwCBiKezcl/omJh9PoSCwnQeUYjE7iZFXB
-         eYP2iFkEh8NP81aRl68AgB8OsmzjMhka6Wt68g0JVIf7waJUqvgLohMnU80NXlLSYiP1
-         Iwc//NUg503vO+6a8RBIWTwYgsmwX0Kg71QJADIy/BAHFMDy4nhpjXnBVWqj/wmyljDT
-         BJZA==
-X-Gm-Message-State: AOAM530WonTopexsuoU4lpVooomeZl2V0MUlZMCzWZBGmjLU9ySf753v
-        m1D1aM8q09IeAkXWIpkV7KX53pVLJ3k=
-X-Google-Smtp-Source: ABdhPJy5lxVrvvrFE1D2xjRuw8lE74gb8Zmm49+KTMmRZV+Ulmsb/R49/hMDSGKo9Vf0/C+QwtqQow==
-X-Received: by 2002:a05:6214:d6d:: with SMTP id 13mr21283135qvs.57.1619490273526;
-        Mon, 26 Apr 2021 19:24:33 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
-        by smtp.gmail.com with ESMTPSA id i6sm1919890qkf.96.2021.04.26.19.24.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 19:24:33 -0700 (PDT)
-Date:   Mon, 26 Apr 2021 19:24:31 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
-        Joe Perches <joe@perches.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2y1skpQm5O9nY3/sAmsR/w1AbZytq1gVeLlk4C9o/lk=;
+        b=H4MHcXMklok5rBbjEGLjqYFtCy7HRV1lTIeRd4U+hypXaAdkkDxSniPOaBJnyOcq5T
+         rz/5vK86EmfQ65HPs2ELQ0js91EmZ15T+32vdcvjgvJOvfjsNzx25WnqJBnzWfqrJXfz
+         swKgFr8FUXRPmYDkQ1NOFrDN3modsoK86CycxeadJ99ObZsmVBq8dUhUaTeuxsSuDDa5
+         +xCqPIfIdPKgiggr1SqV7MKvVIDvJu+EmWYKLQA/irLdck4nzV8CmQAFSm3Re+Ov+Cf0
+         PyKdyihMUsNegR2ZjQWklrXj9NeJanOVfnQmXkm2fN3ONaqID80jYQqEzRORy6Hq/M03
+         T1jg==
+X-Gm-Message-State: AOAM532pBdELgw0oXK14sIXvEVVWoKzXIlzKg77NQG7IkOQFzX295tHj
+        IOhuG4l44SsRSeiNsqQYT2lMnGEo2Vo=
+X-Google-Smtp-Source: ABdhPJz7lv4mElFZRkcyXxzJygI9MnlneCXXDmSUqufdUZy4R+6DR2GDIqlPOM9PKHJKVsvf32sAog==
+X-Received: by 2002:a9d:6e8f:: with SMTP id a15mr11153409otr.169.1619493717525;
+        Mon, 26 Apr 2021 20:21:57 -0700 (PDT)
+Received: from Davids-MacBook-Pro.local ([8.48.134.33])
+        by smtp.googlemail.com with ESMTPSA id 3sm427755ood.46.2021.04.26.20.21.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Apr 2021 20:21:56 -0700 (PDT)
+Subject: Re: [PATCH v4 net-next] net: multipath routing: configurable seed
+To:     Balaev Pavel <balaevpa@infotecs.ru>, netdev@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
- types
-Message-ID: <20210427022431.GA168962@yury-ThinkPad>
-References: <20210409204304.1273139-1-yury.norov@gmail.com>
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ido Schimmel <idosch@nvidia.com>
+References: <YILPPCyMjlnhPmEN@rnd>
+From:   David Ahern <dsahern@gmail.com>
+Message-ID: <93ca6644-fc5a-0977-db7d-16779ebd320c@gmail.com>
+Date:   Mon, 26 Apr 2021 21:21:53 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210409204304.1273139-1-yury.norov@gmail.com>
+In-Reply-To: <YILPPCyMjlnhPmEN@rnd>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
-> Recently added memfd_secret() syscall had a flags parameter passed
-> as unsigned long, which requires creation of compat entry for it.
-> It was possible to change the type of flags to unsigned int and so
-> avoid bothering with compat layer.
+On 4/23/21 6:44 AM, Balaev Pavel wrote:
+> Ability for a user to assign seed value to multipath route hashes.
+> Now kernel uses random seed value to prevent hash-flooding DoS attacks;
+> however, it disables some use cases, f.e:
 > 
-> https://www.spinics.net/lists/linux-mm/msg251550.html
+> +-------+        +------+        +--------+
+> |       |-eth0---| FW0  |---eth0-|        |
+> |       |        +------+        |        |
+> |  GW0  |ECMP                ECMP|  GW1   |
+> |       |        +------+        |        |
+> |       |-eth1---| FW1  |---eth1-|        |
+> +-------+        +------+        +--------+
 > 
-> Documentation/process/adding-syscalls.rst doesn't point clearly about
-> preference of ABI-agnostic types. This patch adds such notification.
+> In this use case, two ECMP routers balance traffic between two firewalls.
+> If some flow transmits a response over a different channel than request,
+> such flow will be dropped, because keep-state rules are created on
+> the other firewall.
 > 
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> This patch adds sysctl variable: net.ipv4|ipv6.fib_multipath_hash_seed.
+> User can set the same seed value on GW0 and GW1 for traffic to be
+> mirror-balanced. By default, random value is used.
+> 
+> Signed-off-by: Balaev Pavel <balaevpa@infotecs.ru>
 > ---
->  Documentation/process/adding-syscalls.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-> index 9af35f4ec728..46add16edf14 100644
-> --- a/Documentation/process/adding-syscalls.rst
-> +++ b/Documentation/process/adding-syscalls.rst
-> @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
->  registers.  (This concern does not apply if the arguments are part of a
->  structure that's passed in by pointer.)
->  
-> +Whenever possible, try to use ABI-agnostic types for passing parameters to
-> +a syscall in order to avoid creating compat entry for it. Linux supports two
-> +ABI models - ILP32 and LP64. The types like ``void *``, ``long``, ``size_t``,
-> +``off_t`` have different size in those ABIs; types like ``char`` and  ``int``
-> +have the same size and don't require a compat layer support. For flags, it's
-> +always better to use ``unsigned int``.
-> +
->  
->  Proposing the API
->  -----------------
-> -- 
-> 2.25.1
+>  Documentation/networking/ip-sysctl.rst        |  14 +
+>  include/net/flow_dissector.h                  |   4 +
+>  include/net/netns/ipv4.h                      |   2 +
+>  include/net/netns/ipv6.h                      |   3 +
+>  net/core/flow_dissector.c                     |   9 +
+>  net/ipv4/route.c                              |  10 +-
+>  net/ipv4/sysctl_net_ipv4.c                    |  97 +++++
+>  net/ipv6/route.c                              |  10 +-
+>  net/ipv6/sysctl_net_ipv6.c                    |  96 +++++
+>  .../testing/selftests/net/forwarding/Makefile |   1 +
+>  tools/testing/selftests/net/forwarding/lib.sh |  41 +++
+>  .../net/forwarding/router_mpath_seed.sh       | 347 ++++++++++++++++++
+>  12 files changed, 632 insertions(+), 2 deletions(-)
+>  create mode 100755 tools/testing/selftests/net/forwarding/router_mpath_seed.sh
 
-So, what about this patch? Mauro, are you OK with this? If no
-objections, I'd like to have it merged in this window.
+this really needs to be multiple patches. At a minimum 1 for ipv4, 1 for
+ipv6 and 1 for the test script (thank you for adding that).
+
+[ cc'ed Ido since most of the tests under
+tools/testing/selftests/net/forwarding come from him and team ]
+
+> 
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+> index 9701906f6..d1a67e6fe 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -100,6 +100,20 @@ fib_multipath_hash_policy - INTEGER
+>  	- 1 - Layer 4
+>  	- 2 - Layer 3 or inner Layer 3 if present
+>  
+> +fib_multipath_hash_seed - STRING
+> +	Controls seed value for multipath route hashes. By default
+> +	random value is used. Only valid for kernels built with
+> +	CONFIG_IP_ROUTE_MULTIPATH enabled.
+> +
+> +	Valid format: two hex values set off with comma or "random"
+> +	keyword.
+> +
+> +	Example to generate the seed value::
+> +
+> +		RAND=$(openssl rand -hex 16) && echo "${RAND:0:16},${RAND:16:16}"
+> +
+> +	Default: "random"
+> +
+>  fib_sync_mem - UNSIGNED INTEGER
+>  	Amount of dirty memory from fib entries that can be backlogged before
+>  	synchronize_rcu is forced.
+> diff --git a/include/net/flow_dissector.h b/include/net/flow_dissector.h
+> index ffd386ea0..2bd4e28de 100644
+> --- a/include/net/flow_dissector.h
+> +++ b/include/net/flow_dissector.h
+> @@ -348,6 +348,10 @@ static inline bool flow_keys_have_l4(const struct flow_keys *keys)
+>  }
+>  
+>  u32 flow_hash_from_keys(struct flow_keys *keys);
+> +#ifdef CONFIG_IP_ROUTE_MULTIPATH
+> +u32 flow_multipath_hash_from_keys(struct flow_keys *keys,
+> +			   const siphash_key_t *seed);
+
+column alignment looks off here ^^^^ and a few other places; please
+correct in the next version.
+
+
