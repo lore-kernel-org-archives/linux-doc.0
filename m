@@ -2,133 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10183C43460
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 20:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E00D5C43460
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 21:21:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BACE36144F
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 20:49:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95C7761441
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 21:21:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbhD1Utz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 16:49:55 -0400
-Received: from mga05.intel.com ([192.55.52.43]:44235 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229549AbhD1Utz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Apr 2021 16:49:55 -0400
-IronPort-SDR: oQslHqnxWIgintvtE7RYF1lX4vyqNHwVIRBySiHaDWo/pNx7jMxmRt1Mk+KLOoYXKf9T0ImSEs
- OjHlDktm57hQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282185508"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="282185508"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 13:49:10 -0700
-IronPort-SDR: vGWnJwbrgfpkN2beMuwcFAXncWISz0cuUun5JLR7YTtvYQETrR84ByQZ5LM6c2xCSLqPBh62Yf
- yPkIg66jONag==
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="423708019"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.133.34]) ([10.209.133.34])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 13:49:09 -0700
-Subject: Re: [PATCH v26 6/9] x86/vdso: Insert endbr32/endbr64 to vDSO
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204720.25007-1-yu-cheng.yu@intel.com>
- <20210427204720.25007-7-yu-cheng.yu@intel.com>
- <202104281332.94A153C@keescook>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <88dc2e45-5fd4-9a1a-c493-3ff868a627f4@intel.com>
-Date:   Wed, 28 Apr 2021 13:49:08 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S229814AbhD1VWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Apr 2021 17:22:09 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:35928 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229593AbhD1VWI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Apr 2021 17:22:08 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-25-QA2xojGMO0i6L1EhNbPR8w-1; Wed, 28 Apr 2021 22:21:20 +0100
+X-MC-Unique: QA2xojGMO0i6L1EhNbPR8w-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Wed, 28 Apr 2021 22:21:19 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Wed, 28 Apr 2021 22:21:19 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'mceier+kernel@gmail.com'" <mceier+kernel@gmail.com>,
+        "ojeda@kernel.org" <ojeda@kernel.org>
+CC:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 00/13] [RFC] Rust support
+Thread-Topic: [PATCH 00/13] [RFC] Rust support
+Thread-Index: AQHXPF0cOFPh/tHqwUWOAL+H8MAuYKrKb1Ew
+Date:   Wed, 28 Apr 2021 21:21:19 +0000
+Message-ID: <acce51322e1249f888e7d2815228e7af@AcuMS.aculab.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+In-Reply-To: <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-In-Reply-To: <202104281332.94A153C@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/28/2021 1:33 PM, Kees Cook wrote:
-> On Tue, Apr 27, 2021 at 01:47:17PM -0700, Yu-cheng Yu wrote:
->> From: "H.J. Lu" <hjl.tools@gmail.com>
->>
->> When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
->> called indirectly, and must have ENDBR32 or ENDBR64 as the first
->> instruction.  The compiler must support -fcf-protection=branch so that it
->> can be used to compile vDSO.
-> 
-> If you respin this, you can maybe rephrase this since CONFIG_X86_IBT
-> has already tested for the compiler support.
-> 
-
-Yes, I will fix this.  Thanks for reviewing!
-
-Yu-cheng
-
->>
->> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Cc: Andy Lutomirski <luto@kernel.org>
->> Cc: Kees Cook <keescook@chromium.org>
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> 
-> -Kees
-> 
->> ---
->> v24:
->> - Replace CONFIG_X86_CET with CONFIG_X86_IBT to reflect splitting of shadow
->>    stack and ibt.
->>
->>   arch/x86/entry/vdso/Makefile | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
->> index 05c4abc2fdfd..a773a5f03b63 100644
->> --- a/arch/x86/entry/vdso/Makefile
->> +++ b/arch/x86/entry/vdso/Makefile
->> @@ -93,6 +93,10 @@ endif
->>   
->>   $(vobjs): KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_LTO) $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
->>   
->> +ifdef CONFIG_X86_IBT
->> +$(vobjs) $(vobjs32): KBUILD_CFLAGS += -fcf-protection=branch
->> +endif
->> +
->>   #
->>   # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
->>   #
->> -- 
->> 2.21.0
->>
-> 
+RnJvbTogTWFyaXVzeiBDZWllcg0KPiBTZW50OiAyOCBBcHJpbCAyMDIxIDE5OjM0DQouLi4uDQo+
+IA0KPiBJIHN1Z2dlc3QgdG8gd2FpdCB1bnRpbCBmZWF0dXJlZnVsIEdQTCBpbXBsZW1lbnRhdGlv
+biBvZiBydXN0IGxhbmd1YWdlDQo+IGlzIG1hZGUgKGFzc3VtaW5nIEdOVSBSdXN0IGlzIG9uIHRo
+ZSB3YXkpIGJlZm9yZSBtZXJnaW5nIGFueSBydXN0IGNvZGUNCj4gaW4gdGhlIGtlcm5lbCBhbmQg
+d2hlbiB0aGF0IGltcGxlbWVudGF0aW9uIGlzIGRvbmUgbWFrZSBhIHJlcXVpcmVtZW50DQo+IHRo
+YXQgYWxsIHJ1c3QgY29kZSBtdXN0IGJlIGJ1aWxkYWJsZSBieSBhdCBsZWFzdCBHUEwgaW1wbGVt
+ZW50YXRpb24uDQo+IA0KPiBNYXliZSBpdCB3b3VsZCBhbHNvIGJlIHdvcnRod2hpbGUgdG8gbWFr
+ZSB0aGUgcmVxdWlyZW1lbnQgdGhhdCB0aGUNCj4ga2VybmVsIG11c3QgYmUgYnVpbGRhYmxlIHdp
+dGggZnJlZSBzb2Z0d2FyZSAobm90IGp1c3Qgb3BlbiBzb3VyY2UNCj4gc29mdHdhcmUpIGV4cGxp
+Y2l0ID8NCg0KT3IgcHV0IHRoZSB2ZXJzaW9uIG9mIHRoZSBjb21waWxlciB0aGF0IHdvcmtzIGlu
+IHRoZSBzb3VyY2UgdHJlZQ0Kd2l0aCB0aGUga2VybmVsIGFuZCB0aGVuIGJ1aWxkIGl0IGFzIHBh
+cnQgb2YgdGhlIGZ1bGwgYnVpbGQuDQoNCkl0IGlzIGVub3VnaCBvZiBhIFBJVEEgaGF2aW5nIHRv
+IGZpbmQgbGliZWxmLWRldmVsIGluIG9yZGVyIHRvDQpidWlsZCBvYmp0b29sLCBuZXZlciBtaW5k
+IGhhdmluZyB0byBmaW5kIHRoZSBjb3JyZWN0IHZlcnNpb24NCm9mIHNvbWV0aGluZyBlbHNlLg0K
+DQpnY2MgdGVuZHMgdG8gYmUgYXZhaWxhYmxlIGFuZCB0aGUgdmVyc2lvbiBkb2Vzbid0IG1hdHRl
+ciB0b28gbXVjaC4NCkJ1dCBldmVyIHRoYXQgZ2l2ZXMgcHJvYmxlbXMuDQoNCglEYXZpZA0KDQot
+DQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwg
+TWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2Fs
+ZXMpDQo=
 
