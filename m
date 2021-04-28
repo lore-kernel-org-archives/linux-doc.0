@@ -2,100 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B52D1C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 14:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E552C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 14:48:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E82C61442
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 14:00:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DB576142A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 14:48:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240089AbhD1OAs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 10:00:48 -0400
-Received: from foss.arm.com ([217.140.110.172]:43014 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240119AbhD1OAr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:00:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5961211B3;
-        Wed, 28 Apr 2021 07:00:02 -0700 (PDT)
-Received: from entos-ampere-02.shanghai.arm.com (entos-ampere-02.shanghai.arm.com [10.169.214.110])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 65F353F694;
-        Wed, 28 Apr 2021 06:59:56 -0700 (PDT)
-From:   Jia He <justin.he@arm.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S239061AbhD1OtX convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Apr 2021 10:49:23 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:30264 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238843AbhD1OtW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Apr 2021 10:49:22 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-213-Q40LSYhmNgio6b75f9Ipug-1; Wed, 28 Apr 2021 15:48:34 +0100
+X-MC-Unique: Q40LSYhmNgio6b75f9Ipug-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Wed, 28 Apr 2021 15:48:32 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Wed, 28 Apr 2021 15:48:32 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Yu-cheng Yu' <yu-cheng.yu@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@de.ibm.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-s390@vger.kernel.org, Jia He <justin.he@arm.com>
-Subject: [PATCH 4/4] lib/test_printf: Explicitly add components number to %pD and %pd
-Date:   Wed, 28 Apr 2021 21:59:29 +0800
-Message-Id: <20210428135929.27011-4-justin.he@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210428135929.27011-1-justin.he@arm.com>
-References: <20210428135929.27011-1-justin.he@arm.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        "Haitao Huang" <haitao.huang@intel.com>
+Subject: RE: [PATCH v26 0/9] Control-flow Enforcement: Indirect Branch
+ Tracking
+Thread-Topic: [PATCH v26 0/9] Control-flow Enforcement: Indirect Branch
+ Tracking
+Thread-Index: AQHXO6ae1Nsozyj+DkCGokhshY0p/arKAkvw
+Date:   Wed, 28 Apr 2021 14:48:32 +0000
+Message-ID: <0e03c50ea05440209d620971b9db4f29@AcuMS.aculab.com>
+References: <20210427204720.25007-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20210427204720.25007-1-yu-cheng.yu@intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After changing the default components number from 1 to 4 for %pD
-and %pd, it would be better to explicitly add the number in test_printf
-cases.
+From: Yu-cheng Yu
+> Sent: 27 April 2021 21:47
+> 
+> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+> return/jump-oriented programming attacks.  Details are in "Intel 64 and
+> IA-32 Architectures Software Developer's Manual" [1].
+...
 
-Add a test case of %pd5 to verify if it can be capped by 4 components.
+Does this feature require that 'binary blobs' for out of tree drivers
+be compiled by a version of gcc that adds the ENDBRA instructions?
 
-Signed-off-by: Jia He <justin.he@arm.com>
----
- lib/test_printf.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+If enabled for userspace, what happens if an old .so is dynamically
+loaded?
+Or do all userspace programs and libraries have to have been compiled
+with the ENDBRA instructions?
 
-diff --git a/lib/test_printf.c b/lib/test_printf.c
-index 27b964ec723d..899cd55d1c90 100644
---- a/lib/test_printf.c
-+++ b/lib/test_printf.c
-@@ -478,18 +478,20 @@ static struct dentry test_dentry[4] __initdata = {
- static void __init
- dentry(void)
- {
--	test("foo", "%pd", &test_dentry[0]);
-+	test("foo", "%pd1", &test_dentry[0]);
- 	test("foo", "%pd2", &test_dentry[0]);
- 
--	test("(null)", "%pd", NULL);
--	test("(efault)", "%pd", PTR_INVALID);
--	test("(null)", "%pD", NULL);
--	test("(efault)", "%pD", PTR_INVALID);
-+	test("(null)", "%pd1", NULL);
-+	test("(efault)", "%pd1", PTR_INVALID);
-+	test("(null)", "%pD1", NULL);
-+	test("(efault)", "%pD1", PTR_INVALID);
- 
--	test("romeo", "%pd", &test_dentry[3]);
-+	test("romeo", "%pd1", &test_dentry[3]);
- 	test("alfa/romeo", "%pd2", &test_dentry[3]);
- 	test("bravo/alfa/romeo", "%pd3", &test_dentry[3]);
- 	test("/bravo/alfa/romeo", "%pd4", &test_dentry[3]);
-+	test("/bravo/alfa/romeo", "%pd", &test_dentry[3]);
-+	test("/bravo/alfa/romeo", "%pd5", &test_dentry[3]);
- 	test("/bravo/alfa", "%pd4", &test_dentry[2]);
- 
- 	test("bravo/alfa  |bravo/alfa  ", "%-12pd2|%*pd2", &test_dentry[2], -12, &test_dentry[2]);
--- 
-2.17.1
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
