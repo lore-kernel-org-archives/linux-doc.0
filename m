@@ -2,111 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_RED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FABC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 15:10:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A2C8C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 15:14:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E249613F1
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 15:10:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4773C61445
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 15:14:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233738AbhD1PLR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 11:11:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbhD1PLR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Apr 2021 11:11:17 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7BAEC061573;
-        Wed, 28 Apr 2021 08:10:30 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id x7so63410142wrw.10;
-        Wed, 28 Apr 2021 08:10:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=caPcWX0HvCbUGxoKUybXsnQMiEeBgCwT/cgikCWDkpc=;
-        b=ZTYFlakBWBp2Opq/jD01M4nUgx0ti9JQ4aFD9Q+GvDNrPY6zj6++mTcAniLmsOC6p3
-         n3ZxHDzViQ1KclzV2l64XWnJooQN+CqlOSot0SwWzQwkczNOg4ujcabw/Y/Q7exfiHYy
-         IUcm65kebe92ZvH4PLQ9tukBAmZSrm52uEUoiAVyHlEDKf90TSlDbMFGrQRVCEomxUdN
-         0+0HgeOrajuXqr/Xbda3LkvUKjm/9/OT2jdoRtNoMCCEBUx4YgN/HzUeFztmUnWiRtsr
-         gPmTeMAB2S6A0aiJvtoOipgwQK7TFt7Ow9i8l6crZLd4fBdshk4uQzOVN+b8xpRuujrC
-         bHrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=caPcWX0HvCbUGxoKUybXsnQMiEeBgCwT/cgikCWDkpc=;
-        b=lgF4p3uKfwq03VeWVWlDowtUFin0K8fQd0ATxlHUSBdR8Lt+BUu2LsBrvzGuzi8xVO
-         hll+d4oBsxT/bSgoz2cQbCSzFMZA4TsyjuWSiDFfdpZoDUy73FBUu2jTpta7oesDs5EQ
-         FWBZcGCE4PRoJX40JhjCj1d23oCS0u4xys/U79jx+8MayL9MiVnwq/idhootZlIa44t2
-         9K4bfUIt0rTBN7T6PRSBq38bDM3b5iOcsx3IDoWAo2mt14EtyvB4N1AJFDSYwVdGlPuj
-         DUSPvLsnkrPVApEsZsgoG0S2sLQkpG3Dby8K93j2ST7I4ercpau1TKN1URsdCEQ5Q4kE
-         xvyg==
-X-Gm-Message-State: AOAM532KAgodls0egq8jcAtOWmEiQVOPNxJjGqG9Nkf3m2WSr2bVyzEh
-        lT7BcVpLWKFFKkq124HXlKmsDL60t0SqGJEEmvY=
-X-Google-Smtp-Source: ABdhPJxVN5btpbhyyFI3SSpFSYUJhcM6me5+lef8qqcMI92e90PN00NzDC1AMx2HcHRG/qI8ZSgbTRstZBP73rH4vZs=
-X-Received: by 2002:adf:f190:: with SMTP id h16mr22688829wro.393.1619622629615;
- Wed, 28 Apr 2021 08:10:29 -0700 (PDT)
+        id S239799AbhD1PPf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Apr 2021 11:15:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35708 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239751AbhD1PPf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Apr 2021 11:15:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 663D761447
+        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 15:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619622890;
+        bh=4Ws0+en3jeqx+lcLETHxSaMmCbFj64akFU1VEPRBU+0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ScedMa4pTRrbMQMckrxWa/W5fytapGxMaxWDH0qlymRF2Y9VLNEfZ52a8gzMHsd52
+         2ryrys+CYOK1xWIKrSs7xIDsGaZo0qKjaTOAxk8nNreE5vd1fGw4viUeltjoLfBNIP
+         HW8ySxMLlVoJNC29I9nCwWa1D76Zyk8vD5A/UPgMvlRmNd7LsqZzo/XF4JdhrvD4EU
+         HJ/OMpNw5to/qNYpA2J3gev0yOy5iopChmSc0MSy+m0m0zctmONRp8W0ey7BsyBMYF
+         UWXAHkifj/C3aJ1/51ufonU1ECY9WqyF1vtGSrN67dWbBEI3Wcrkh86DyUZgtvil1i
+         Id7nJ/+1aZj1Q==
+Received: by mail-ed1-f46.google.com with SMTP id c22so11037221edn.7
+        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 08:14:50 -0700 (PDT)
+X-Gm-Message-State: AOAM533bGBGhyT5Zq/R5KT8ES+vmUoUumQsHoxJRUGdBImdfqMMZopCP
+        b1ddCY2KE3sDsqZlHafVw051xZ1a6tUDJNg280H8Uw==
+X-Google-Smtp-Source: ABdhPJxwJpY1QIeAU6fDkKWgHdGb8D1MMF6TX8d4Wams5Yc1cZADwoIMzfDbopKAgEhXVvM9guavhPLCPGkwr5btYfc=
+X-Received: by 2002:a50:fc91:: with SMTP id f17mr11825671edq.23.1619622888769;
+ Wed, 28 Apr 2021 08:14:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210428135929.27011-1-justin.he@arm.com> <20210428135929.27011-2-justin.he@arm.com>
-In-Reply-To: <20210428135929.27011-2-justin.he@arm.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 28 Apr 2021 18:10:13 +0300
-Message-ID: <CAHp75Vfx8aGQGJR58o49t2bOtu5adkrSRfWW9bb63OBoePcj1g@mail.gmail.com>
-Subject: Re: [PATCH 2/4] lib/vsprintf.c: Make %p{D,d} mean as much components
- as possible
-To:     Jia He <justin.he@arm.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:TI WILINK WIRELES..." <linux-wireless@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, linux-s390@vger.kernel.org
+References: <20210427204720.25007-1-yu-cheng.yu@intel.com> <0e03c50ea05440209d620971b9db4f29@AcuMS.aculab.com>
+ <CALCETrUpZfznXzN3Ld33DMvQcHD2ACnhYf9KdP+5-xXuX_pVpA@mail.gmail.com> <CAMe9rOp7FauoqQ0vx+ZVPGOE9+ABspheuGLc++Chj_goE5HvWA@mail.gmail.com>
+In-Reply-To: <CAMe9rOp7FauoqQ0vx+ZVPGOE9+ABspheuGLc++Chj_goE5HvWA@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Wed, 28 Apr 2021 08:14:37 -0700
+X-Gmail-Original-Message-ID: <CALCETrVHUP9=2kX3aJJugcagsf26W0sLEPsDvVCZNnBmbWrOLQ@mail.gmail.com>
+Message-ID: <CALCETrVHUP9=2kX3aJJugcagsf26W0sLEPsDvVCZNnBmbWrOLQ@mail.gmail.com>
+Subject: Re: [PATCH v26 0/9] Control-flow Enforcement: Indirect Branch Tracking
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 28, 2021 at 5:56 PM Jia He <justin.he@arm.com> wrote:
+On Wed, Apr 28, 2021 at 7:57 AM H.J. Lu <hjl.tools@gmail.com> wrote:
 >
-> From: Linus Torvalds <torvalds@linux-foundation.org>
-
-Hmm... Okay.
-
-> We have '%pD'(no digit following) for printing a filename. It may not be
-> perfect (by default it only prints one component.
+> On Wed, Apr 28, 2021 at 7:52 AM Andy Lutomirski <luto@kernel.org> wrote:
+> >
+> > On Wed, Apr 28, 2021 at 7:48 AM David Laight <David.Laight@aculab.com> wrote:
+> > >
+> > > From: Yu-cheng Yu
+> > > > Sent: 27 April 2021 21:47
+> > > >
+> > > > Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+> > > > return/jump-oriented programming attacks.  Details are in "Intel 64 and
+> > > > IA-32 Architectures Software Developer's Manual" [1].
+> > > ...
+> > >
+> > > Does this feature require that 'binary blobs' for out of tree drivers
+> > > be compiled by a version of gcc that adds the ENDBRA instructions?
+> > >
+> > > If enabled for userspace, what happens if an old .so is dynamically
+> > > loaded?
 >
-> %pD4 should be more than good enough, but we should make plain "%pD" mean
-> "as much of the path that is reasonable" rather than "as few components as
-> possible" (ie 1).
+> CET will be disabled by ld.so in this case.
 
-Sorry, but from above I didn't get why.
+What if a program starts a thread and then dlopens a legacy .so?
 
-The commit message tells only about %pD, but patch changes behaviour
-of the ~100 or so users of "%pd" without any explanation.
+>
+> > > Or do all userspace programs and libraries have to have been compiled
+> > > with the ENDBRA instructions?
+>
+> Correct.  ld and ld.so check this.
+>
+> > If you believe that the userspace tooling for the legacy IBT table
+> > actually works, then it should just work.  Yu-cheng, etc: how well
+> > tested is it?
+> >
+>
+> Legacy IBT bitmap isn't unused since it doesn't cover legacy codes
+> generated by legacy JITs.
+>
 
-Besides that the patch is prepended only by one change (which is also
-not related to %pD), while we have ~30 users which behaviour got
-changed.
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+How does ld.so decide whether a legacy JIT is in use?
