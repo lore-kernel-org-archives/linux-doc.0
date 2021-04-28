@@ -2,226 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C2AFC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 17:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 393BBC433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 18:34:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C997E613EF
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 17:52:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E48D261434
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 18:34:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243192AbhD1Rx1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 13:53:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51276 "EHLO
+        id S239182AbhD1SfF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Apr 2021 14:35:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243187AbhD1Rx0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Apr 2021 13:53:26 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09DB2C061573;
-        Wed, 28 Apr 2021 10:52:40 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0c1700f2769e812f937597.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:1700:f276:9e81:2f93:7597])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2BB431EC0242;
-        Wed, 28 Apr 2021 19:52:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1619632359;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=uNuSRpt+Nn8E1Ie1R3utO4unCBUpAQGFbeK/Hl3lbwA=;
-        b=f66CoGete6UVNGpfGs/Fm2JVHxdlkjHe22uMROZcu8rr0x2vEvFY/1wCWVsC5/+qsG2d20
-        OC+P3YZqbuPB/ykR8uGOFeBXsaI3T1EXVnAIl5+CHOile1nSbGtjmvFoWjfMD3TKeplfm3
-        J6jPvXnOnMA5cMOUbp3RdC1kckLGAZU=
-Date:   Wed, 28 Apr 2021 19:52:38 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v26 22/30] x86/cet/shstk: Add user-mode shadow stack
- support
-Message-ID: <YImg5hmBnTZTkYIp@zn.tnic>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-23-yu-cheng.yu@intel.com>
+        with ESMTP id S232390AbhD1SfE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Apr 2021 14:35:04 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38EFC061573;
+        Wed, 28 Apr 2021 11:34:19 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id z1so75140982ybf.6;
+        Wed, 28 Apr 2021 11:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=IpwMZWX9MMsh2XzRMAHNnBtuqO5Gz5Ebo8LaLSW9Frs=;
+        b=bvgQyBXggfPL9PXPDfc4k6JiPuuR23ONCaADQxIpPw/GkcNPql7NWRxhRDyx1b9rkw
+         ot+pr/abV7T1IAEEOSp7zKZqDhik+f4WSZyYDwevPszbi5kkV9HwE7BvAlNO6/Fle+o2
+         2LkdrEsu4DPGrbZBqre1JeqxNVIfICWLZOsIIng17gipwhFMZSTBibXLTUlT6cGBPc1D
+         tCMrd65ixfIJWJAwoB5MUuFmn5ebkbDld7Ln2GI6+0DqVaIHueL0Ezj3VItBTwt+yybh
+         tV5TZE7LSkM6fUqNf5+LtP2bh2mMRB6yHYfg8DifZxXlTQYEzpj/v19uAswUJukWqI2b
+         0FJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=IpwMZWX9MMsh2XzRMAHNnBtuqO5Gz5Ebo8LaLSW9Frs=;
+        b=LOXmFeW9e0eDpyesgZGTnttW3NGohkOEDRXkSbrVPMVqblgzTXlQbx1hR+pTO+e5fy
+         5a8Ft41eetmKfOBlJc5OCsmr2mEQmKyPaoyQnW6sLpBzZik4EHL/BqbT7+N+wlmLl0Jd
+         2DwyU/cb20bmPcnLF3yfFAT6hqnyO9g+icI7UCv7rWkEqBpJGc79okFVNLsGkHnuzQ/5
+         g4/HMa14ppEdZN+N53oKqKIHOtSKgSzYjy3Lm0eG0WJP9rPS4SaIBWXOXsnjMwX3mmKP
+         /V+kEMI+QyIHKKH9jsSMNK/XJJWZ08jAZ4QBwcMDl82Bkv7CKfhdCs76E+zURm8ridqg
+         uW9Q==
+X-Gm-Message-State: AOAM531EBHShT3XccTOMBQJx/M4CiI4u2b7FvBZbyErUd3wIHAGVAD53
+        iYeqI3h4kVhVko0IRIjcSD5GgHHhd4WGmOzJnIo=
+X-Google-Smtp-Source: ABdhPJwf3NV+/9n1wPI5jRTOuJtRASDvQIfToSaSJiBU9Z3yKngNiIQ6FAtr30VsUqSnxo05g0Ac2WWGJBjXP8vj3Bs=
+X-Received: by 2002:a5b:303:: with SMTP id j3mr39601718ybp.433.1619634858689;
+ Wed, 28 Apr 2021 11:34:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210427204315.24153-23-yu-cheng.yu@intel.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
+Reply-To: mceier+kernel@gmail.com
+From:   Mariusz Ceier <mceier+kernel@gmail.com>
+Date:   Wed, 28 Apr 2021 18:34:07 +0000
+Message-ID: <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 01:43:07PM -0700, Yu-cheng Yu wrote:
-> @@ -535,6 +536,10 @@ struct thread_struct {
->  
->  	unsigned int		sig_on_uaccess_err:1;
->  
-> +#ifdef CONFIG_X86_SHADOW_STACK
-> +	struct cet_status	cet;
+Hello,
+  First of all IANAL, so I might be wrong regarding the issue below.
 
-A couple of versions ago I said:
+On 14/04/2021, ojeda@kernel.org <ojeda@kernel.org> wrote:
+>
+> ## Why not?
+>
+> Rust also has disadvantages compared to C in the context of
+> the Linux kernel:
+>
+>
+>   - Single implementation based on LLVM. There are third-party
+>     efforts underway to fix this, such as a GCC frontend,
+>     a `rustc` backend based on Cranelift and `mrustc`,
+>     a compiler intended to reduce the bootstrapping chain.
+>     Any help for those projects would be very welcome!
+>
+>   - Not standardized. While it is not clear whether standardization
+>     would be beneficial for the kernel, several points minimize
+>     this issue in any case: the Rust stability promise, the extensive
+>     documentation, the WIP reference, the detailed RFCs...
+>
 
-"	struct shstk_desc       shstk;
+After reading the interview referenced by https://lwn.net/Articles/854740/
+I think there might be issue with licensing - few quotes from the interview=
+:
 
-or so"
+> And on the other hand, I've seen a lot of BSD (or MIT or similar) license=
+d open source projects that just fragment when they become big enough to be=
+ commercially important, and the involved companies inevitably decide to tu=
+rn their own parts proprietary.
 
-but no movement here. That thing is still called cet_status even though
-there's nothing status-related with it.
+> So I think the GPLv2 is pretty much the perfect balance of "everybody wor=
+ks under the same rules", and still requires that people give back to the c=
+ommunity ("tit-for-tat")
 
-So what's up?
+> So forking isn't a problem, as long as you can then merge back the good p=
+arts. And that's where the GPLv2 comes in. The right to fork and do your ow=
+n thing is important, but the other side of the coin is equally important -=
+ the right to then always join back together when a fork was shown to be su=
+ccessful.
 
-> +static unsigned long alloc_shstk(unsigned long size)
-> +{
-> +	struct mm_struct *mm = current->mm;
-> +	unsigned long addr, populate;
-> +	int flags = MAP_ANONYMOUS | MAP_PRIVATE;
+Rust compiler license doesn't require for people to give back to the
+community - corporation can create their own version of rust compiler
+adding some proprietary extensions, develop drivers with it and even
+if the drivers code will be GPL'd they won't be buildable by anyone
+but that corporation. The rust compiler license doesn't require
+sharing changes when you modify it. The similar problem has flex and
+openssl required to build the kernel, but so far no one thought about
+abusing them afaik.
 
-The tip-tree preferred ordering of variable declarations at the
-beginning of a function is reverse fir tree order::
+That "single implementation based on LLVM" uses a mix of MIT, Apache,
+BSD-compatible and other licenses. It doesn't use strong copyleft
+license in contrast to almost every tool required to build the kernel,
+except for flex (BSD, no (L)GPL alternative afaik) and openssl (Apache
+license, gnutls could be used instead).
 
-	struct long_struct_name *descriptive_name;
-	unsigned long foo, bar;
-	unsigned int tmp;
-	int ret;
+I suggest to wait until featureful GPL implementation of rust language
+is made (assuming GNU Rust is on the way) before merging any rust code
+in the kernel and when that implementation is done make a requirement
+that all rust code must be buildable by at least GPL implementation.
 
-The above is faster to parse than the reverse ordering::
+Maybe it would also be worthwhile to make the requirement that the
+kernel must be buildable with free software (not just open source
+software) explicit ?
 
-	int ret;
-	unsigned int tmp;
-	unsigned long foo, bar;
-	struct long_struct_name *descriptive_name;
-
-And even more so than random ordering::
-
-	unsigned long foo, bar;
-	int ret;
-	struct long_struct_name *descriptive_name;
-	unsigned int tmp;
-
-Please fix it up everywhere.
-
-> +	mmap_write_lock(mm);
-> +	addr = do_mmap(NULL, 0, size, PROT_READ, flags, VM_SHADOW_STACK, 0,
-> +		       &populate, NULL);
-> +	mmap_write_unlock(mm);
-> +
-> +	return addr;
-> +}
-> +
-> +int shstk_setup(void)
-> +{
-> +	unsigned long addr, size;
-> +	struct cet_status *cet = &current->thread.cet;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		return -EOPNOTSUPP;
-> +
-> +	size = round_up(min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G), PAGE_SIZE);
-> +	addr = alloc_shstk(size);
-> +	if (IS_ERR_VALUE(addr))
-> +		return PTR_ERR((void *)addr);
-> +
-> +	cet->shstk_base = addr;
-> +	cet->shstk_size = size;
-> +
-> +	start_update_msrs();
-> +	wrmsrl(MSR_IA32_PL3_SSP, addr + size);
-> +	wrmsrl(MSR_IA32_U_CET, CET_SHSTK_EN);
-> +	end_update_msrs();
-
-<---- newline here.
-
-> +	return 0;
-> +}
-> +
-> +void shstk_free(struct task_struct *tsk)
-> +{
-> +	struct cet_status *cet = &tsk->thread.cet;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) ||
-> +	    !cet->shstk_size ||
-> +	    !cet->shstk_base)
-> +		return;
-> +
-> +	if (!tsk->mm)
-> +		return;
-
-Where are the comments you said you wanna add:
-
-https://lkml.kernel.org/r/b05ee7eb-1b5d-f84f-c8f3-bfe9426e8a7d@intel.com
-
-?
-
-> +
-> +	while (1) {
-> +		int r;
-> +
-> +		r = vm_munmap(cet->shstk_base, cet->shstk_size);
-
-		int r = vm_munmap...
-
-> +
-> +		/*
-> +		 * vm_munmap() returns -EINTR when mmap_lock is held by
-> +		 * something else, and that lock should not be held for a
-> +		 * long time.  Retry it for the case.
-> +		 */
-> +		if (r == -EINTR) {
-> +			cond_resched();
-> +			continue;
-> +		}
-> +		break;
-> +	}
-
-vm_munmap() can return other negative error values, where are you
-handling those?
-
-> +
-> +	cet->shstk_base = 0;
-> +	cet->shstk_size = 0;
-> +}
-> +
-> +void shstk_disable(void)
-> +{
-> +	struct cet_status *cet = &current->thread.cet;
-
-Same question as before: what guarantees that current doesn't change
-from under you here?
-
-One of the worst thing to do is to ignore review comments. I'd strongly
-suggest you pay more attention and avoid that in the future.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Best Regards,
+Mariusz Ceier
