@@ -2,497 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA7BC433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 12:36:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 399CBC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 12:54:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72693600CC
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 12:36:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 087816142E
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 12:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237984AbhD1Mhc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 08:37:32 -0400
-Received: from mx0.infotecs.ru ([91.244.183.115]:34866 "EHLO mx0.infotecs.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237785AbhD1Mhc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Apr 2021 08:37:32 -0400
-Received: from mx0.infotecs-nt (localhost [127.0.0.1])
-        by mx0.infotecs.ru (Postfix) with ESMTP id D87F0138252B;
-        Wed, 28 Apr 2021 15:36:44 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx0.infotecs.ru D87F0138252B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infotecs.ru; s=mx;
-        t=1619613405; bh=Kq9Krt5H+chEYjHPPBBWDeh4kni4tXTY3A+q7mTaPfs=;
-        h=Date:From:To:CC:Subject:From;
-        b=Ktas5b6rYUg9ZOWuPk8dMCyhKXxBtb32TwiNSbG+ck9SrnA7tQ1coSgl0j48P6kj5
-         rVjXn+yjsmG10ADN6YoXEOXOYtvCGHD299/tyBA0vaAGmr59zoJ2BAHEonuk5D7vWD
-         Z4jO6tBfzdRqfe0+C1XoG4ipDyhvoS/qeQ43ILuw=
-Received: from msk-exch-01.infotecs-nt (msk-exch-01.infotecs-nt [10.0.7.191])
-        by mx0.infotecs-nt (Postfix) with ESMTP id D6A143170B5F;
-        Wed, 28 Apr 2021 15:36:44 +0300 (MSK)
-Date:   Wed, 28 Apr 2021 15:34:55 +0300
-From:   Pavel Balaev <balaevpa@infotecs.ru>
-To:     <netdev@vger.kernel.org>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Ido Schimmel <idosch@nvidia.com>
-Subject: [PATCH v6 net-next 3/3] selftests/net/forwarding: configurable seed
- tests
-Message-ID: <YIlWbxO+AFZAFww7@rnd>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+        id S239638AbhD1Myw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Apr 2021 08:54:52 -0400
+Received: from mail-dm6nam10on2086.outbound.protection.outlook.com ([40.107.93.86]:63489
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S239604AbhD1MyK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Apr 2021 08:54:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j0TvgtFKL3T9ElT0bz2IRDGwCqBbrdmo0ZfI73fE3iSLXDYLWOFaZXloVhyf7oknKbjG3FKmaW7GaTr6LyIAj9ZgeXrWEFk0dUwB+c7DVFQY+7cnnD0JDlwnFyGrsMrHOw6Hla6dho7+p99WiVPP++QjfSv3w5Z8F0F0l3DWr/ilcIqL4fFmm3rbvugCHMmuXtT2cKNb9aoNBME6t2m42DaLN7nUZn0RKFIpLquSQwfGgZ2qxWFKwf7td2BoILq2gS3QDpDGQLDNk7Au8/EGBSOtUDfZsBamMS9gvjmUIxj1+wGFa3/u9EVoOuxLx3oiU2HxN/qVLaZDhjCdUDY8ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L2ISmGMoejstPayUHt5QlaF61EhE5qQMHPfUEfILqdw=;
+ b=SI+FEJNRQ0oL9ngXM23vf0/PbCqxEHduezGX3vlIxXR4oN4ILTsiJk3+eLYTMl7HT60TMdOsUl3rr5Hra7bZSM7iZlZJSXm/DGiv/oAwmetDG982Ni9FYv5JJxEuq+++VW/nHGzabnljx8z2wKxkgQTNvraYYrM0ulp1PUmqYb9IJnofqUEs1W3bkmOGBnRThxzjV0eXTSAPOp39xmu1vhGiD4RjuNK8RO5iHUqYVYvJcl0NIhE4iMKJGqFHdCHdQNxUtd9gAtGOEq+hHTN3EWQNm4huXwc3Vq8dFk2ssw7TVAi8c6VDxG+qI/ht28qsM6UgkXvaOyZnJQwfG8XGsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L2ISmGMoejstPayUHt5QlaF61EhE5qQMHPfUEfILqdw=;
+ b=qfuyOfi6PijToCghynLqzP71kVcBowetb7W1erhJ6/9kIVdDeVkPZnSHcLRn2gFa4Jh2+FDeGerWdLlJie2v+1AZqozotMjNnONYT2Lb4g/XbvhXT5ze02IfKevZGsO+o4Th6c6VUjdZEpJ+r7DYqBZR0raP+KvwHPCXwVQLvn8Aop1xxmHiLzpxCIQ9XpkfiEfK1rpGHjyrAdjLDFrX1Q5acX7GoaRWbP0rPpysNDy8WvqCvjtDPW0F0lPRSE+K4kKJqFQ0zqtFnyW+aL99+DvPDtbqSF96wPQkKAQLku+Ts/QCerxtT+qFfPjQnsaftK6OJ0McKXPsCyY6t73CGA==
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM5PR12MB1145.namprd12.prod.outlook.com (2603:10b6:3:77::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.27; Wed, 28 Apr
+ 2021 12:53:24 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.4065.027; Wed, 28 Apr 2021
+ 12:53:24 +0000
+Date:   Wed, 28 Apr 2021 09:53:21 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH v2 09/13] vfio/mdev: Remove vfio_mdev.c
+Message-ID: <20210428125321.GP1370958@nvidia.com>
+References: <9-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
+ <20210428060703.GA4973@lst.de>
+ <YIkCVnTFmTHiX3xn@kroah.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Originating-IP: [11.0.8.107]
-X-EXCLAIMER-MD-CONFIG: 208ac3cd-1ed4-4982-a353-bdefac89ac0a
-X-KLMS-Rule-ID: 1
-X-KLMS-Message-Action: clean
-X-KLMS-AntiSpam-Lua-Profiles: 163368 [Apr 28 2021]
-X-KLMS-AntiSpam-Version: 5.9.20.0
-X-KLMS-AntiSpam-Envelope-From: BalaevPA@infotecs.ru
-X-KLMS-AntiSpam-Rate: 0
-X-KLMS-AntiSpam-Status: not_detected
-X-KLMS-AntiSpam-Method: none
-X-KLMS-AntiSpam-Auth: dkim=none
-X-KLMS-AntiSpam-Info: LuaCore: 444 444 810d227eb39db4b6b1b4a1d2ddb57b8d8d084f93, {Tracking_from_domain_doesnt_match_to}
-X-MS-Exchange-Organization-SCL: -1
-X-KLMS-AntiSpam-Interceptor-Info: scan successful
-X-KLMS-AntiPhishing: Clean, bases: 2021/04/28 11:08:00
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/04/28 07:03:00 #16582427
-X-KLMS-AntiVirus-Status: Clean, skipped
+In-Reply-To: <YIkCVnTFmTHiX3xn@kroah.com>
+X-Originating-IP: [206.223.160.26]
+X-ClientProxiedBy: SJ0PR13CA0125.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::10) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (206.223.160.26) by SJ0PR13CA0125.namprd13.prod.outlook.com (2603:10b6:a03:2c6::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.8 via Frontend Transport; Wed, 28 Apr 2021 12:53:23 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lbjgv-00E0Ok-CA; Wed, 28 Apr 2021 09:53:21 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cdcd27dc-ffb0-4e2a-822f-08d90a449bbd
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1145:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB11458473E12D87A1A53B7B9DC2409@DM5PR12MB1145.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uUn+WUNFlM/fJwxhzcLVDHODy7r8ENtpgvVDRUHRRiOFUrimbxpoouAEiO7BuuQ4n1buoNghB65m7j55WxSLjD3zjT1lx0Ai/iVww9sZfFhrKEosbRjvfrC7CKN4rVQXpLmtksEJemPkTV2GPC4YAlfcK3BtoCj7wvMV2BTKDB+u8rEoltigGZJsGOH8hbxP1MGu6mJ6AKFAnlOmtUGdLaRsQgJ3Vu6FWGZBVmzPWx0ssMIZXW3yQlasekxLKpLgqvGsQ8JnYin77at4GWDLJcnME4gly+UDGOqfLUPC9IIk6lqGH0RW4EwiguyyZBfum22WX5sVKnrAO8LNEfSPs3CU5LXINVOvNTeRUT4/3Od+CkeHqLvPY9oQx3gB+1Gnw8Ro+NP7lzFU02MTtGa+fNndEW4aHVjfAawmbxrHqMbcjdWc9Pu7ki+Fac03w1digJhc/BExt1/YRxtfz9EGxb+QReJEPj72AjlkmKteBtGdvk1sZzlvE20UsXSWjv7qenbId/cnB9CztaEB5231e5qPTWYCnHCLMluzVNSEkHMAPE3xo7dSpI+uM89MzXf0K1Nugo9sXgmjUrTEzTKaPB9zQB1PQsGaAXI2QcUZU5g=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(39860400002)(346002)(376002)(136003)(36756003)(1076003)(33656002)(66556008)(66946007)(8936002)(86362001)(7416002)(2616005)(316002)(426003)(66476007)(107886003)(54906003)(478600001)(2906002)(26005)(8676002)(83380400001)(9786002)(38100700002)(186003)(6916009)(5660300002)(9746002)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?JNRcQ9Fa37ucDYaZPV19Z2kI6ZJ1FhbJxckzt20FddB6V85U+mU05cm5aHMB?=
+ =?us-ascii?Q?myJpV7jHrhq4ia8fRb0CCttsDmpSG4bFk9SyT340og0u4ZWsxPC9oclt5RfR?=
+ =?us-ascii?Q?bijRlz/7He7aCnflpIP+/+vjq/Z02RmuYeegG26OcbScZuvh67hGK+LkcaAN?=
+ =?us-ascii?Q?iSClzlIMI3KmK288I7zYwYwGtqYKgWme41tFBWcD2C/HaNYRmjvY9Bugxsmp?=
+ =?us-ascii?Q?Mn+S0US+kY2XIuHyZNQ0B07ASX+4Q6R/+kJGtWmj3BPPQW1Aa5kAZBAEcB2k?=
+ =?us-ascii?Q?UV3yGhQCG0ZzNqaRucAegN+VPHwZeAd10rR9CXzBM+7NaEYtYQO6fdZhgKok?=
+ =?us-ascii?Q?LfwGOE1I2IPrag+7VMCMGwQZ8480PodOhMInZKtL26uZTDJhPPWOkbo42hnx?=
+ =?us-ascii?Q?UiQlyup8tR9mUqV3aGyg6oB3oaDUF49Xl4vYFXa7+v9qVxxEzZSOAjd6vrMr?=
+ =?us-ascii?Q?VZmmxg9Uk/CE/jm06yVR4BM12wdNK3UtVwDWws5sF0alSl6HVXwHnDUD0gzQ?=
+ =?us-ascii?Q?KfVlFMVSR6bq1REpqA3NEYR7n9yxaemHZQqmjrmt9fJlY+vVg4G1vNPJ+Mr6?=
+ =?us-ascii?Q?lx15fIG5Yz9T2UfscZxYYtf/6SLqq80UAU8/qNT4sBtI2x5CtlXGOftxh1hk?=
+ =?us-ascii?Q?XE7gVNjxCbnXPCT3xXUJGmlK5oMuWamWdX3mbWBa0WBAZOEOVGrd0syRnLEZ?=
+ =?us-ascii?Q?TPhFCSQ9mWVGrabhcyRJvZU3YdPJSfs/7Ae8W579VPpITc7zq9Y9OnoIEwWT?=
+ =?us-ascii?Q?J0YaoElG1HLcIjqx5QsONFMzhXTZ7V+xbI5a9U7leBKKXoi4PF6dNK/Wq22c?=
+ =?us-ascii?Q?pCIQFy0Caf3qdEGsMaNNYG0Ygp7FSGTMU3Tn5lq+LRUW7v68bpJZdfBlhJFm?=
+ =?us-ascii?Q?IAzt+m8eiI3MyPib/0SZ4VKOpnRiCl/nj5WyzrcznJ8XsEJ9jUUm1EheLvgE?=
+ =?us-ascii?Q?dRLUlKuZvtuYgD82qx995sK/N4Ty1f7MzI7k9vrzHUXDniET4STnx+Aei/9l?=
+ =?us-ascii?Q?+09dfsCc2pkiotFRNJJNE+tBoNdGBbMKW4iHMlsKM3GI4Mfa+3eywmkhn2HT?=
+ =?us-ascii?Q?d30y+rC1UPA9pVaWpPy7qy2j5To8y3E8lzLh6J/eKQABmagKS+2aNChoFIOS?=
+ =?us-ascii?Q?zQxO/EGO4YBl/uGQUtCG1miTX07FfSIsLqn2T3X3XR3kVl37StC52F9xnlan?=
+ =?us-ascii?Q?VCqoLm9JvM6fMvfcppCV84W4B34lIn9dlLaXa8KgoMQgaBH6JS0CTfPWAH7Y?=
+ =?us-ascii?Q?QrPyCH+8FuEG0EbV4GZXPh5Y9fVfKJhJlz6YtGlFvz5SPiUH3DRcyiFLGKWu?=
+ =?us-ascii?Q?iOo43NQuy5SbKrkCPUFf0207?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdcd27dc-ffb0-4e2a-822f-08d90a449bbd
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 12:53:23.9526
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ppjSVUHqslAmWmf+eDSm3q5JrXu5tQr37MspNCy7u3gUcgmPAUIIi0Kyh+6cI5iA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1145
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Test equal and different seed values for IPv4/IPv6
-multipath routing.
+On Wed, Apr 28, 2021 at 08:36:06AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Apr 28, 2021 at 08:07:03AM +0200, Christoph Hellwig wrote:
+> > On Mon, Apr 26, 2021 at 05:00:11PM -0300, Jason Gunthorpe wrote:
+> > > Preserve VFIO's design of allowing mdev drivers to be !GPL by allowing the
+> > > three functions that replace this module for !GPL usage. This goes along
+> > > with the other 19 symbols that are already marked !GPL in VFIO.
+> > 
+> > NAK.  This was a sneak by Nvidia to try a GPL condom, and now that we
+> > remove that not working condom it does not mean core symbols can be
+> > just changed.
+> 
+> Agreed, these symbols should not be changed.
 
-Signed-off-by: Pavel Balaev <balaevpa@infotecs.ru>
----
- .../testing/selftests/net/forwarding/Makefile |   1 +
- tools/testing/selftests/net/forwarding/lib.sh |  28 ++
- .../net/forwarding/router_mpath_seed.sh       | 347 ++++++++++++++++++
- 3 files changed, 376 insertions(+)
- create mode 100755 tools/testing/selftests/net/forwarding/router_mpath_seed.sh
+During the development on this series I got a private email that
+people have existing !GPL mdev drivers.
 
-diff --git a/tools/testing/selftests/net/forwarding/Makefile b/tools/testing/selftests/net/forwarding/Makefile
-index d97bd6889..080af970c 100644
---- a/tools/testing/selftests/net/forwarding/Makefile
-+++ b/tools/testing/selftests/net/forwarding/Makefile
-@@ -38,6 +38,7 @@ TEST_PROGS = bridge_igmp.sh \
- 	router_mpath_nh.sh \
- 	router_multicast.sh \
- 	router_multipath.sh \
-+	router_mpath_seed.sh \
- 	router.sh \
- 	router_vid_1.sh \
- 	sch_ets.sh \
-diff --git a/tools/testing/selftests/net/forwarding/lib.sh b/tools/testing/selftests/net/forwarding/lib.sh
-index 42e28c983..b7445b1c5 100644
---- a/tools/testing/selftests/net/forwarding/lib.sh
-+++ b/tools/testing/selftests/net/forwarding/lib.sh
-@@ -10,6 +10,7 @@ PING6=${PING6:=ping6}
- MZ=${MZ:=mausezahn}
- ARPING=${ARPING:=arping}
- TEAMD=${TEAMD:=teamd}
-+OPENSSL=${OPENSSL:=openssl}
- WAIT_TIME=${WAIT_TIME:=5}
- PAUSE_ON_FAIL=${PAUSE_ON_FAIL:=no}
- PAUSE_ON_CLEANUP=${PAUSE_ON_CLEANUP:=no}
-@@ -698,6 +699,33 @@ link_stats_rx_errors_get()
- 	link_stats_get $1 rx errors
- }
- 
-+ns_link_stats_get()
-+{
-+	local netns=$1; shift
-+	local if_name=$1; shift
-+	local dir=$1; shift
-+	local stat=$1; shift
-+
-+	ip netns exec $netns ip -j -s link show dev $if_name \
-+		| jq '.[]["stats64"]["'$dir'"]["'$stat'"]'
-+}
-+
-+ns_link_stats_tx_packets_get()
-+{
-+	local netns=$1; shift
-+	local if_name=$1; shift
-+
-+	ns_link_stats_get $netns $if_name tx packets
-+}
-+
-+ns_link_stats_rx_errors_get()
-+{
-+	local netns=$1; shift
-+	local if_name=$1; shift
-+
-+	ns_link_stats_get $netns $if_name rx errors
-+}
-+
- tc_rule_stats_get()
- {
- 	local dev=$1; shift
-diff --git a/tools/testing/selftests/net/forwarding/router_mpath_seed.sh b/tools/testing/selftests/net/forwarding/router_mpath_seed.sh
-new file mode 100755
-index 000000000..b2f99f428
---- /dev/null
-+++ b/tools/testing/selftests/net/forwarding/router_mpath_seed.sh
-@@ -0,0 +1,347 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+
-+ALL_TESTS="multipath_seed_test"
-+NUM_NETIFS=8
-+source lib.sh
-+
-+veth_prepare()
-+{
-+	ip link add ecmp1l type veth peer name ecmp1r
-+	ip link add ecmp2l type veth peer name ecmp2r
-+	ip link add ecmphost1l type veth peer name ecmphost1r
-+	ip link add ecmphost2l type veth peer name ecmphost2r
-+}
-+
-+cl1_create()
-+{
-+	local ns_exec="ip netns exec ecmp_cl1"
-+
-+	ip netns add ecmp_cl1
-+	ip l set dev ecmphost1l netns ecmp_cl1
-+	$ns_exec ip l set dev ecmphost1l up
-+	$ns_exec ip a a 10.100.0.2/30 dev ecmphost1l
-+	$ns_exec ip a a 2001:db8:3::2/64 dev ecmphost1l
-+	$ns_exec ip r add default via 10.100.0.1
-+	$ns_exec ip r add default via 2001:db8:3::1
-+}
-+
-+cl2_create()
-+{
-+	local ns_exec="ip netns exec ecmp_cl2"
-+
-+	ip netns add ecmp_cl2
-+	ip l set dev ecmphost2l netns ecmp_cl2
-+	$ns_exec ip l set dev ecmphost2l up
-+	$ns_exec ip a a 10.200.0.2/30 dev ecmphost2l
-+	$ns_exec ip a a 2001:db8:4::2/64 dev ecmphost2l
-+	$ns_exec ip r add default via 10.200.0.1
-+	$ns_exec ip r add default via 2001:db8:4::1
-+}
-+
-+r1_create()
-+{
-+	local ns_exec="ip netns exec ecmp1"
-+
-+	ip netns add ecmp1
-+	ip l set dev ecmp1l netns ecmp1
-+	ip l set dev ecmp2l netns ecmp1
-+	ip l set dev ecmphost1r netns ecmp1
-+	$ns_exec ip l set dev ecmphost1r up
-+	$ns_exec ip l set dev ecmp1l up
-+	$ns_exec ip l set dev ecmp2l up
-+	$ns_exec ip a a 10.100.0.1/30 dev ecmphost1r
-+	$ns_exec ip a a 10.10.0.1/30 dev ecmp1l
-+	$ns_exec ip a a 10.20.0.1/30 dev ecmp2l
-+	$ns_exec ip a a 2001:db8:3::1/64 dev ecmphost1r
-+	$ns_exec ip a a 2001:db8:1::1/64 dev ecmp1l
-+	$ns_exec ip a a 2001:db8:2::1/64 dev ecmp2l
-+	$ns_exec sysctl -q net.ipv4.ip_forward=1
-+	$ns_exec sysctl -q net.ipv6.conf.all.forwarding=1
-+	$ns_exec sysctl -q net.ipv4.fib_multipath_hash_policy=1
-+	$ns_exec sysctl -q net.ipv6.fib_multipath_hash_policy=1
-+	$ns_exec ip route add 10.200.0.0/30 nexthop via 10.10.0.2 \
-+		  weight 1 nexthop via 10.20.0.2 weight 1
-+	$ns_exec ip route add 2001:db8:4::/64 nexthop via 2001:db8:1::2 \
-+		  weight 1 nexthop via 2001:db8:2::2 weight 1
-+}
-+
-+r2_create()
-+{
-+	local ns_exec="ip netns exec ecmp2"
-+
-+	ip netns add ecmp2
-+	ip l set dev ecmp1r netns ecmp2
-+	ip l set dev ecmp2r netns ecmp2
-+	ip l set dev ecmphost2r netns ecmp2
-+	$ns_exec ip l set dev ecmphost2r up
-+	$ns_exec ip l set dev ecmp1r up
-+	$ns_exec ip l set dev ecmp2r up
-+	$ns_exec ip a a 10.200.0.1/30 dev ecmphost2r
-+	$ns_exec ip a a 10.10.0.2/30 dev ecmp1r
-+	$ns_exec ip a a 10.20.0.2/30 dev ecmp2r
-+	$ns_exec ip a a 2001:db8:4::1/64 dev ecmphost2r
-+	$ns_exec ip a a 2001:db8:1::2/64 dev ecmp1r
-+	$ns_exec ip a a 2001:db8:2::2/64 dev ecmp2r
-+	$ns_exec sysctl -q net.ipv4.ip_forward=1
-+	$ns_exec sysctl -q net.ipv6.conf.all.forwarding=1
-+	$ns_exec sysctl -q net.ipv4.fib_multipath_hash_policy=1
-+	$ns_exec sysctl -q net.ipv6.fib_multipath_hash_policy=1
-+	$ns_exec ip route add 10.100.0.0/30 nexthop via 10.10.0.1 \
-+		  weight 1 nexthop via 10.20.0.1 weight 1
-+	$ns_exec ip route add 2001:db8:3::/64 nexthop via 2001:db8:1::1 \
-+		  weight 1 nexthop via 2001:db8:2::1 weight 1
-+}
-+
-+cl1_destroy()
-+{
-+	ip netns del ecmp_cl1
-+}
-+
-+cl2_destroy()
-+{
-+	ip netns del ecmp_cl2
-+}
-+
-+r1_destroy()
-+{
-+	ip netns del ecmp1
-+}
-+
-+r2_destroy()
-+{
-+	ip netns del ecmp2
-+}
-+
-+gen_udp4()
-+{
-+	local sp=$1; shift
-+	local dp=$1; shift
-+	local tx1_1_start tx1_2_start tx2_1_start tx2_2_start
-+	local tx1_1_end tx1_2_end tx2_1_end tx2_2_end
-+	local tx1_1 tx1_2 tx2_1 tx2_2
-+	local tx1_1_res tx1_2_res tx2_1_res tx2_2_res
-+	local chan1 chan2
-+	local cl1_exec="ip netns exec ecmp_cl1"
-+	local cl2_exec="ip netns exec ecmp_cl2"
-+
-+	tx1_1_start=$(ns_link_stats_tx_packets_get ecmp1 ecmp1l)
-+	tx1_2_start=$(ns_link_stats_tx_packets_get ecmp1 ecmp2l)
-+	tx2_1_start=$(ns_link_stats_tx_packets_get ecmp2 ecmp1r)
-+	tx2_2_start=$(ns_link_stats_tx_packets_get ecmp2 ecmp2r)
-+
-+	$cl1_exec $MZ ecmphost1l -q -c 20 -p 64 -A 10.100.0.2 -B 10.200.0.2 \
-+		-t udp "sp=${sp},dp=${dp}"
-+
-+	$cl2_exec $MZ ecmphost2l -q -c 20 -p 64 -A 10.200.0.2 -B 10.100.0.2 \
-+		-t udp "sp=${dp},dp=${sp}"
-+
-+	tx1_1_end=$(ns_link_stats_tx_packets_get ecmp1 ecmp1l)
-+	tx1_2_end=$(ns_link_stats_tx_packets_get ecmp1 ecmp2l)
-+	tx2_1_end=$(ns_link_stats_tx_packets_get ecmp2 ecmp1r)
-+	tx2_2_end=$(ns_link_stats_tx_packets_get ecmp2 ecmp2r)
-+
-+	let "tx1_1 = $tx1_1_end - $tx1_1_start"
-+	let "tx1_2 = $tx1_2_end - $tx1_2_start"
-+	let "tx2_1 = $tx2_1_end - $tx2_1_start"
-+	let "tx2_2 = $tx2_2_end - $tx2_2_start"
-+
-+	[ "$tx1_1" -ge 20 ] && tx1_1_res=1 || tx1_1_res=0
-+	[ "$tx1_2" -ge 20 ] && tx1_2_res=1 || tx1_2_res=0
-+	[ "$tx2_1" -ge 20 ] && tx2_1_res=1 || tx2_1_res=0
-+	[ "$tx2_2" -ge 20 ] && tx2_2_res=1 || tx2_2_res=0
-+
-+	let "chan1 = $tx1_1_res + $tx2_1_res"
-+	let "chan2 = $tx1_2_res + $tx2_2_res"
-+
-+	if [ $chan1 -eq 2 ] || [ $chan2 -eq 2 ]; then
-+		return 0
-+	fi
-+
-+	return 1;
-+}
-+
-+gen_udp6()
-+{
-+	local sp=$1; shift
-+	local dp=$1; shift
-+	local tx1_1_start tx1_2_start tx2_1_start tx2_2_start
-+	local tx1_1_end tx1_2_end tx2_1_end tx2_2_end
-+	local tx1_1 tx1_2 tx2_1 tx2_2
-+	local tx1_1_res tx1_2_res tx2_1_res tx2_2_res
-+	local chan1 chan2
-+	local cl1_exec="ip netns exec ecmp_cl1"
-+	local cl2_exec="ip netns exec ecmp_cl2"
-+
-+	tx1_1_start=$(ns_link_stats_tx_packets_get ecmp1 ecmp1l)
-+	tx1_2_start=$(ns_link_stats_tx_packets_get ecmp1 ecmp2l)
-+	tx2_1_start=$(ns_link_stats_tx_packets_get ecmp2 ecmp1r)
-+	tx2_2_start=$(ns_link_stats_tx_packets_get ecmp2 ecmp2r)
-+
-+	$cl1_exec $MZ ecmphost1l -6 -q -c 20 -p 64 -A 2001:db8:3::2 -B 2001:db8:4::2 \
-+		-t udp "sp=${sp},dp=${dp}"
-+
-+	$cl2_exec $MZ ecmphost2l -6 -q -c 20 -p 64 -A 2001:db8:4::2 -B 2001:db8:3::2 \
-+		-t udp "sp=${dp},dp=${sp}"
-+
-+	tx1_1_end=$(ns_link_stats_tx_packets_get ecmp1 ecmp1l)
-+	tx1_2_end=$(ns_link_stats_tx_packets_get ecmp1 ecmp2l)
-+	tx2_1_end=$(ns_link_stats_tx_packets_get ecmp2 ecmp1r)
-+	tx2_2_end=$(ns_link_stats_tx_packets_get ecmp2 ecmp2r)
-+
-+	let "tx1_1 = $tx1_1_end - $tx1_1_start"
-+	let "tx1_2 = $tx1_2_end - $tx1_2_start"
-+	let "tx2_1 = $tx2_1_end - $tx2_1_start"
-+	let "tx2_2 = $tx2_2_end - $tx2_2_start"
-+
-+	[ "$tx1_1" -ge 20 ] && tx1_1_res=1 || tx1_1_res=0
-+	[ "$tx1_2" -ge 20 ] && tx1_2_res=1 || tx1_2_res=0
-+	[ "$tx2_1" -ge 20 ] && tx2_1_res=1 || tx2_1_res=0
-+	[ "$tx2_2" -ge 20 ] && tx2_2_res=1 || tx2_2_res=0
-+
-+	let "chan1 = $tx1_1_res + $tx2_1_res"
-+	let "chan2 = $tx1_2_res + $tx2_2_res"
-+
-+	if [ $chan1 -eq 2 ] || [ $chan2 -eq 2 ]; then
-+		return 0
-+	fi
-+
-+	return 1;
-+}
-+
-+
-+seed4_test_equal()
-+{
-+	RET=0
-+	local sp
-+	local dp
-+	local i
-+	local res=0
-+	local seed=$(${OPENSSL} rand -hex 16)
-+
-+	seed=${seed:0:16},${seed:16:16}
-+
-+	ip netns exec ecmp1 sysctl -q \
-+		net.ipv4.fib_multipath_hash_seed=${seed}
-+	ip netns exec ecmp2 sysctl -q \
-+		net.ipv4.fib_multipath_hash_seed=${seed}
-+
-+	for i in {1..30}; do
-+		sp=$(shuf -i 1024-65000 -n 1)
-+		dp=$(shuf -i 1024-65000 -n 1)
-+		gen_udp4 $sp $dp && let res++
-+	done
-+
-+	[ $res != 30 ] && RET=1
-+	log_test "IPv4 multipath seed tests [equal seed]"
-+}
-+
-+seed4_test_diff()
-+{
-+	RET=0
-+	local sp
-+	local dp
-+	local i
-+	local res=0
-+	local seed1=$(${OPENSSL} rand -hex 16)
-+	local seed2=$(${OPENSSL} rand -hex 16)
-+
-+	seed1=${seed1:0:16},${seed1:16:16}
-+	seed2=${seed2:0:16},${seed2:16:16}
-+
-+	ip netns exec ecmp1 sysctl -q \
-+		net.ipv4.fib_multipath_hash_seed=${seed1}
-+	ip netns exec ecmp2 sysctl -q \
-+		net.ipv4.fib_multipath_hash_seed=${seed2}
-+
-+	for i in {1..30}; do
-+		sp=$(shuf -i 1024-65000 -n 1)
-+		dp=$(shuf -i 1024-65000 -n 1)
-+		gen_udp4 $sp $dp && let res++
-+	done
-+
-+	[ $res -eq 30 ] && RET=1
-+	log_test "IPv4 multipath seed tests [different seed]"
-+}
-+
-+seed6_test_equal()
-+{
-+	RET=0
-+	local sp
-+	local dp
-+	local i
-+	local res=0
-+	local seed=$(${OPENSSL} rand -hex 16)
-+
-+	seed=${seed:0:16},${seed:16:16}
-+
-+	ip netns exec ecmp1 sysctl -q \
-+		net.ipv6.fib_multipath_hash_seed=${seed}
-+	ip netns exec ecmp2 sysctl -q \
-+		net.ipv6.fib_multipath_hash_seed=${seed}
-+
-+	for i in {1..30}; do
-+		sp=$(shuf -i 1024-65000 -n 1)
-+		dp=$(shuf -i 1024-65000 -n 1)
-+		gen_udp6 $sp $dp && let res++
-+	done
-+
-+	[ $res != 30 ] && RET=1
-+	log_test "IPv6 multipath seed tests [equal seed]"
-+}
-+
-+seed6_test_diff()
-+{
-+	RET=0
-+	local sp
-+	local dp
-+	local i
-+	local res=0
-+	local seed1=$(${OPENSSL} rand -hex 16)
-+	local seed2=$(${OPENSSL} rand -hex 16)
-+
-+	seed1=${seed1:0:16},${seed1:16:16}
-+	seed2=${seed2:0:16},${seed2:16:16}
-+
-+	ip netns exec ecmp1 sysctl -q \
-+		net.ipv6.fib_multipath_hash_seed=${seed1}
-+	ip netns exec ecmp2 sysctl -q \
-+		net.ipv6.fib_multipath_hash_seed=${seed2}
-+
-+	for i in {1..30}; do
-+		sp=$(shuf -i 1024-65000 -n 1)
-+		dp=$(shuf -i 1024-65000 -n 1)
-+		gen_udp4 $sp $dp && let res++
-+	done
-+
-+	[ $res -eq 30 ] && RET=1
-+	log_test "IPv6 multipath seed tests [different seed]"
-+}
-+
-+multipath_seed_test()
-+{
-+	require_command $OPENSSL
-+	veth_prepare
-+	cl1_create
-+	cl2_create
-+	r1_create
-+	r2_create
-+
-+	log_info "Running IPv4 multipath seed tests [equal seed]"
-+	seed4_test_equal
-+	log_info "Running IPv4 multipath seed tests [different seed]"
-+	seed4_test_diff
-+	log_info "Running IPv6 multipath seed tests [equal seed]"
-+	seed6_test_equal
-+	log_info "Running IPv6 multipath seed tests [different seed]"
-+	seed6_test_diff
-+
-+	cl1_destroy
-+	cl2_destroy
-+	r1_destroy
-+	r2_destroy
-+}
-+
-+tests_run
-+
-+exit $EXIT_STATUS
--- 
-2.31.1
+When I checked I saw that VFIO community seems to have decided that
+!GPL is OK for mdev. I say this because many essential symbols for
+implementing a mdev in vfio.c have been marked !GPL:
 
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_info_cap_shift);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_info_add_capability);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_set_irqs_validate_and_prepare);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_pin_pages);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_unpin_pages);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_group_pin_pages);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_group_unpin_pages);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_dma_rw);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_register_notifier);
+drivers/vfio/vfio.c:EXPORT_SYMBOL(vfio_unregister_notifier);
+
+Why it is like this, I do not know. IMHO it is not some "condom" if a
+chunk of the core vfio.c code is marked !GPL and is called by mdev
+drivers.
+
+The Linux standard is one patch one change. It is inapporiate for me
+to backdoor sneak revert the VFIO communities past decisions on
+licensing inside some unrelated cleanup patch.
+
+If you two want to argue VFIO has err'd and should be using GPL for
+its API toward mdev then please send a patch to switch the above
+symbols and I'll rebase this series ontop of it.
+
+That way the change can get a proper airing and not be sneakily buried
+inside a cleanup patch.
+
+Otherwise this patch changes nothing - what existed today continues to
+exist, and nothing new is being allowed.
+
+Jason
