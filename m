@@ -2,228 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE798C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 06:31:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5208FC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 06:37:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BC9C613EE
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 06:31:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 11BA461446
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 06:37:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbhD2Gci (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 02:32:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47252 "EHLO
+        id S229904AbhD2Gi1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 02:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbhD2Gci (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 02:32:38 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22339C06138B;
-        Wed, 28 Apr 2021 23:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=QGDPuaBe6OyFqVcBPz0n15qtWRoyFEXYwJlGgdmu/00=; b=kRQnE7SUrvjzzr7b9P9Bw8y6M2
-        380BBlPPV7yh1WIygwUfqLAXSlURLYnfG0JqyKLX5K530J/7dKiEPcdIWatCh5cfHW3IROt1k4WUW
-        gDrHFCAXiKZSVOT8ejXb8T5GKlFT883FekYgKaQpoSRUtt/cm0qtjJHdrmS3IRDmlRVFPmDkOGwhw
-        XgHuC8DGru5T5V+5ooivzVGfTr12Qk4eB8r95/lytmMSLc9wUDb9u5to/TH310q8+X2a//tmXNmoS
-        qNugRD5VGYZbZCMl5sjvkrGKar+OJAJls7jUwmvjCXh+g27m9P+ICkaxBW/VS193YohGQD14LrXoT
-        4rdAC1Hg==;
-Received: from [2601:1c0:6280:3f0::3bc5] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lc0D7-009Hlc-MQ; Thu, 29 Apr 2021 06:31:47 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-doc@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] Documentation: input: joydev file corrections
-Date:   Wed, 28 Apr 2021 23:31:37 -0700
-Message-Id: <20210429063137.20232-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S230148AbhD2Gi0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 02:38:26 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18AA9C06138B;
+        Wed, 28 Apr 2021 23:37:40 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id lr7so15947424pjb.2;
+        Wed, 28 Apr 2021 23:37:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=DWvEqPxo5quJ67cNZw5T846UEoXgYHse2SDYouWmS8g=;
+        b=LWdylvemY/bsXptkS0JHBD0BVlJFgNs0PPHw4P/qWND/kR6wPAUbdV18IXjW5XhKsp
+         hOzHjR84p80bl5mEw/zPm/Qn9fxD/rgykA4IPtEPlF44lY9piNtXpeOBpjkCmSAc+0Wr
+         ZtHghNfZAFYJaAQckyhGbzbhU8VAwUPGdmAaIUWkZVIV7j7PZWzMu71UgF8D3CCUtYp1
+         3wr4771nTPMMmxXcFYt35KOkamgnPXvxEhDJf6MrH7mW1rSQLryHY4wKa3XK7+8exbLR
+         Ivo5zpji6TWEgDj8a2c824S8q4+nCYTPbLx/7ctxIMFt3WvdUk/j/AeEFflvPF+U2IUf
+         0lFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=DWvEqPxo5quJ67cNZw5T846UEoXgYHse2SDYouWmS8g=;
+        b=gl++Bhw8se2b6YbC+qslaZQt4gTHKwXi1ehXeJP4QHQeF+v6D+Vdnc+6TEC7vJKlWl
+         J8k3IZS3XabT3suqL/4cAjeKpEMOMgqAdSIAf/eGF5+s4qBRyni1DOrp0urX1e0I1uys
+         q3CmDFsXgmtmF6FeQYmiAha665CvqrN3L6/35SD5ZuFJZjdLKAAaXkHnWMeKgUM/xzqw
+         kRMdEuGKhoc/UDO4vAUDXF7Wbhk1GlvXvB+khRgtiyFxjTht9lUDGKSAOzOE8fkWrsiQ
+         7XXO/4auPD9/OKIJnbP4gWd/Ix0TzpW4fd4eekxbgZKweY+CKPZM2+nkdGkOiRxW8Wwm
+         Ukfw==
+X-Gm-Message-State: AOAM531Xn064/hhE7y4v5GS4t+lp0swdLmv7dp45mANSqJ7GWrkHNF5k
+        a0Rkjbgaky7dTlJv+e0X4fbJ9R7/WC8xeQ==
+X-Google-Smtp-Source: ABdhPJymbtsAxpkU843VHh5l1oAGwRNO6wiPW751bAvcs1M+W79Lh8KKrxAVE67pHGkWA1bS9yu/Wg==
+X-Received: by 2002:a17:90b:3b43:: with SMTP id ot3mr36306030pjb.100.1619678259362;
+        Wed, 28 Apr 2021 23:37:39 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:292c:376:689b:476d])
+        by smtp.googlemail.com with ESMTPSA id o9sm1573331pfh.217.2021.04.28.23.37.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 23:37:38 -0700 (PDT)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     corbet@lwn.net
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com, willy@infradead.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC v3] scripts: kernel-doc: reduce repeated regex expressions into variables
+Date:   Thu, 29 Apr 2021 12:07:29 +0530
+Message-Id: <20210429063729.8144-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210427165633.GA235567@casper.infradead.org>
+References: <20210427165633.GA235567@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix typos, grammar, punctuation in
-Documentation/input/joydev/*.rst files.
+There are some regex expressions in the kernel-doc script, which are used
+repeatedly in the script.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
+Reduce such expressions into variables, which can be used everywhere.
+
+A quick manual check found that no errors and warnings were added/removed
+in this process.
+
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
- Documentation/input/joydev/joystick-api.rst |   14 ++++-----
- Documentation/input/joydev/joystick.rst     |   26 +++++++++---------
- 2 files changed, 20 insertions(+), 20 deletions(-)
+Changes in v3:
+- Remove variables for separate qualifiers in "sub dump_struct"
+- Make a common variable for all the qualifiers
+- Make $attribute global variable to use it at "sub check_sections" as well
 
---- linux-next-20210428.orig/Documentation/input/joydev/joystick-api.rst
-+++ linux-next-20210428/Documentation/input/joydev/joystick-api.rst
-@@ -71,7 +71,7 @@ The possible values of ``type`` are::
- 	#define JS_EVENT_INIT           0x80    /* initial state of device */
+Changes in v2:
+- Rename $pointer_function to $function_pointer
+- Combine elsif-block expressions at "sub dump_function" into lesser regex expressions
+- Combine $prototype_end1,$prototype_end2 expressions into a common $prototype_end
+
+ scripts/kernel-doc | 71 ++++++++++++++++++++++------------------------
+ 1 file changed, 34 insertions(+), 37 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 2a85d34fdcd0..721005a02e64 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -406,6 +406,8 @@ my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
+ my $doc_inline_end = '^\s*\*/\s*$';
+ my $doc_inline_oneline = '^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$';
+ my $export_symbol = '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
++my $function_pointer = qr{([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)};
++my $attribute = qr{__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)}i;
  
- As mentioned above, the driver will issue synthetic JS_EVENT_INIT ORed
--events on open. That is, if it's issuing a INIT BUTTON event, the
-+events on open. That is, if it's issuing an INIT BUTTON event, the
- current type value will be::
+ my %parameterdescs;
+ my %parameterdesc_start_lines;
+@@ -694,7 +696,7 @@ sub output_function_man(%) {
+ 	    $post = ");";
+ 	}
+ 	$type = $args{'parametertypes'}{$parameter};
+-	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
++	if ($type =~ m/$function_pointer/) {
+ 	    # pointer-to-function
+ 	    print ".BI \"" . $parenth . $1 . "\" " . " \") (" . $2 . ")" . $post . "\"\n";
+ 	} else {
+@@ -974,7 +976,7 @@ sub output_function_rst(%) {
+ 	$count++;
+ 	$type = $args{'parametertypes'}{$parameter};
  
- 	int type = JS_EVENT_BUTTON | JS_EVENT_INIT;	/* 0x81 */
-@@ -100,8 +100,8 @@ is, you have both an axis 0 and a button
-         =============== =======
+-	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
++	if ($type =~ m/$function_pointer/) {
+ 	    # pointer-to-function
+ 	    print $1 . $parameter . ") (" . $2 . ")";
+ 	} else {
+@@ -1211,7 +1213,9 @@ sub dump_struct($$) {
+     my $members;
+     my $type = qr{struct|union};
+     # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
+-    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
++    my $qualifiers = qr{$attribute|__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned};
++    my $definition_body = qr{\{(.*)\}\s*$qualifiers*};
++    my $struct_members = qr{($type)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;};
  
- Hats vary from one joystick type to another. Some can be moved in 8
--directions, some only in 4, The driver, however, always reports a hat as two
--independent axis, even if the hardware doesn't allow independent movement.
-+directions, some only in 4. The driver, however, always reports a hat as two
-+independent axes, even if the hardware doesn't allow independent movement.
+     if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
+ 	$decl_type = $1;
+@@ -1235,27 +1239,27 @@ sub dump_struct($$) {
+ 	# strip comments:
+ 	$members =~ s/\/\*.*?\*\///gos;
+ 	# strip attributes
+-	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
++	$members =~ s/\s*$attribute/ /gi;
+ 	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
+ 	$members =~ s/\s*__packed\s*/ /gos;
+ 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
+ 	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
+ 	$members =~ s/\s*____cacheline_aligned/ /gos;
  
++	my $args = qr{([^,)]+)};
+ 	# replace DECLARE_BITMAP
+ 	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
+-	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
++	$members =~ s/DECLARE_BITMAP\s*\($args,\s*$args\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
+ 	# replace DECLARE_HASHTABLE
+-	$members =~ s/DECLARE_HASHTABLE\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
++	$members =~ s/DECLARE_HASHTABLE\s*\($args,\s*$args\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
+ 	# replace DECLARE_KFIFO
+-	$members =~ s/DECLARE_KFIFO\s*\(([^,)]+),\s*([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
++	$members =~ s/DECLARE_KFIFO\s*\($args,\s*$args,\s*$args\)/$2 \*$1/gos;
+ 	# replace DECLARE_KFIFO_PTR
+-	$members =~ s/DECLARE_KFIFO_PTR\s*\(([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
+-
++	$members =~ s/DECLARE_KFIFO_PTR\s*\($args,\s*$args\)/$2 \*$1/gos;
+ 	my $declaration = $members;
  
- js_event.value
-@@ -188,10 +188,10 @@ One reason for emptying the queue is tha
- missing events since the queue is finite, and older events will get
- overwritten.
+ 	# Split nested struct/union elements as newer ones
+-	while ($members =~ m/(struct|union)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;/) {
++	while ($members =~ m/$struct_members/) {
+ 		my $newmember;
+ 		my $maintype = $1;
+ 		my $ids = $4;
+@@ -1315,7 +1319,7 @@ sub dump_struct($$) {
+ 				}
+ 			}
+ 		}
+-		$members =~ s/(struct|union)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;/$newmember/;
++		$members =~ s/$struct_members/$newmember/;
+ 	}
  
--The other reason is that you want to know all what happened, and not
-+The other reason is that you want to know all that happened, and not
- delay the processing till later.
+ 	# Ignore other nested elements, like enums
+@@ -1555,8 +1559,9 @@ sub create_parameterlist($$$$) {
+     my $param;
  
--Why can get the queue full? Because you don't empty the queue as
-+Why can the queue get full? Because you don't empty the queue as
- mentioned, or because too much time elapses from one read to another
- and too many events to store in the queue get generated. Note that
- high system load may contribute to space those reads even more.
-@@ -277,7 +277,7 @@ to be in the stable part of the API, and
- warning in following releases of the driver.
+     # temporarily replace commas inside function pointer definition
+-    while ($args =~ /(\([^\),]+),/) {
+-	$args =~ s/(\([^\),]+),/$1#/g;
++    my $arg_expr = qr{\([^\),]+};
++    while ($args =~ /$arg_expr,/) {
++	$args =~ s/($arg_expr),/$1#/g;
+     }
  
- Both JSIOCSCORR and JSIOCGCORR expect &js_corr to be able to hold
--information for all axis. That is, struct js_corr corr[MAX_AXIS];
-+information for all axes. That is, struct js_corr corr[MAX_AXIS];
- 
- struct js_corr is defined as::
- 
-@@ -328,7 +328,7 @@ To test the state of the buttons,
- 	second_button_state = js.buttons & 2;
- 
- The axis values do not have a defined range in the original 0.x driver,
--except for that the values are non-negative. The 1.2.8+ drivers use a
-+except that the values are non-negative. The 1.2.8+ drivers use a
- fixed range for reporting the values, 1 being the minimum, 128 the
- center, and 255 maximum value.
- 
---- linux-next-20210428.orig/Documentation/input/joydev/joystick.rst
-+++ linux-next-20210428/Documentation/input/joydev/joystick.rst
-@@ -133,15 +133,15 @@ And add a line to your rc script executi
- This way, after the next reboot your joystick will remain calibrated. You
- can also add the ``jscal -p`` line to your shutdown script.
- 
--HW specific driver information
--==============================
-+Hardware-specific driver information
-+====================================
- 
- In this section each of the separate hardware specific drivers is described.
- 
- Analog joysticks
- ----------------
- 
--The analog.c uses the standard analog inputs of the gameport, and thus
-+The analog.c driver uses the standard analog inputs of the gameport, and thus
- supports all standard joysticks and gamepads. It uses a very advanced
- routine for this, allowing for data precision that can't be found on any
- other system.
-@@ -266,7 +266,7 @@ to:
- * Logitech WingMan Extreme Digital 3D
- 
- ADI devices are autodetected, and the driver supports up to two (any
--combination of) devices on a single gameport, using an Y-cable or chained
-+combination of) devices on a single gameport, using a Y-cable or chained
- together.
- 
- Logitech WingMan Joystick, Logitech WingMan Attack, Logitech WingMan
-@@ -288,7 +288,7 @@ supports:
- * Gravis Xterminator DualControl
- 
- All these devices are autodetected, and you can even use any combination
--of up to two of these pads either chained together or using an Y-cable on a
-+of up to two of these pads either chained together or using a Y-cable on a
- single gameport.
- 
- GrIP MultiPort isn't supported yet. Gravis Stinger is a serial device and is
-@@ -311,7 +311,7 @@ allow connecting analog joysticks to the
- driver as well to handle the attached joysticks.
- 
- The trackball should work with USB mousedev module as a normal mouse. See
--the USB documentation for how to setup an USB mouse.
-+the USB documentation for how to setup a USB mouse.
- 
- ThrustMaster DirectConnect (BSP)
- --------------------------------
-@@ -332,7 +332,7 @@ If you have one of these, contact me.
- 
- TMDC devices are autodetected, and thus no parameters to the module
- are needed. Up to two TMDC devices can be connected to one gameport, using
--an Y-cable.
-+a Y-cable.
- 
- Creative Labs Blaster
- ---------------------
-@@ -342,7 +342,7 @@ the:
- 
- * Creative Blaster GamePad Cobra
- 
--Up to two of these can be used on a single gameport, using an Y-cable.
-+Up to two of these can be used on a single gameport, using a Y-cable.
- 
- Genius Digital joysticks
- ------------------------
-@@ -381,7 +381,7 @@ card, 16 in case you have two in your sy
- Trident 4DWave / Aureal Vortex
- ------------------------------
- 
--Soundcards with a Trident 4DWave DX/NX or Aureal Vortex/Vortex2 chipsets
-+Soundcards with a Trident 4DWave DX/NX or Aureal Vortex/Vortex2 chipset
- provide an "Enhanced Game Port" mode where the soundcard handles polling the
- joystick.  This mode is supported by the pcigame.c module. Once loaded the
- analog driver can use the enhanced features of these gameports..
-@@ -454,7 +454,7 @@ Devices currently supported by spaceball
- * SpaceTec SpaceBall 4000 FLX
- 
- In addition to having the spaceorb/spaceball and serport modules in the
--kernel, you also need to attach a serial port to it. to do that, run the
-+kernel, you also need to attach a serial port to it. To do that, run the
- inputattach program::
- 
- 	inputattach --spaceorb /dev/tts/x &
-@@ -466,7 +466,7 @@ or::
- where /dev/tts/x is the serial port which the device is connected to. After
- doing this, the device will be reported and will start working.
- 
--There is one caveat with the SpaceOrb. The button #6, the on the bottom
-+There is one caveat with the SpaceOrb. The button #6, the one on the bottom
- side of the orb, although reported as an ordinary button, causes internal
- recentering of the spaceorb, moving the zero point to the position in which
- the ball is at the moment of pressing the button. So, think first before
-@@ -500,7 +500,7 @@ joy-magellan module. It currently suppor
- * Magellan 3D
- * Space Mouse
- 
--models, the additional buttons on the 'Plus' versions are not supported yet.
-+models; the additional buttons on the 'Plus' versions are not supported yet.
- 
- To use it, you need to attach the serial port to the driver using the::
- 
-@@ -575,7 +575,7 @@ FAQ
- :A: The device files don't exist. Create them (see section 2.2).
- 
- :Q: Is it possible to connect my old Atari/Commodore/Amiga/console joystick
--    or pad that uses a 9-pin D-type cannon connector to the serial port of my
-+    or pad that uses a 9-pin D-type Cannon connector to the serial port of my
-     PC?
- :A: Yes, it is possible, but it'll burn your serial port or the pad. It
-     won't work, of course.
+     foreach my $arg (split($splitter, $args)) {
+@@ -1707,7 +1712,7 @@ sub check_sections($$$$$) {
+ 		foreach $px (0 .. $#prms) {
+ 			$prm_clean = $prms[$px];
+ 			$prm_clean =~ s/\[.*\]//;
+-			$prm_clean =~ s/__attribute__\s*\(\([a-z,_\*\s\(\)]*\)\)//i;
++			$prm_clean =~ s/$attribute//i;
+ 			# ignore array size in a parameter string;
+ 			# however, the original param string may contain
+ 			# spaces, e.g.:  addr[6 + 2]
+@@ -1808,8 +1813,14 @@ sub dump_function($$) {
+     # - parport_register_device (function pointer parameters)
+     # - atomic_set (macro)
+     # - pci_match_device, __copy_to_user (long return type)
+-
+-    if ($define && $prototype =~ m/^()([a-zA-Z0-9_~:]+)\s+/) {
++    my $name = qr{[a-zA-Z0-9_~:]+};
++    my $prototype_end1 = qr{[^\(]*};
++    my $prototype_end2 = qr{[^\{]*};
++    my $prototype_end = qr{\(($prototype_end1|$prototype_end2)\)};
++    my $type1 = qr{[\w\s]+};
++    my $type2 = qr{$type1\*+};
++
++    if ($define && $prototype =~ m/^()($name)\s+/) {
+         # This is an object-like macro, it has no return type and no parameter
+         # list.
+         # Function-like macros are not allowed to have spaces between
+@@ -1817,23 +1828,9 @@ sub dump_function($$) {
+         $return_type = $1;
+         $declaration_name = $2;
+         $noret = 1;
+-    } elsif ($prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/)  {
++    } elsif ($prototype =~ m/^()($name)\s*$prototype_end/ ||
++	$prototype =~ m/^($type1)\s+($name)\s*$prototype_end/ ||
++	$prototype =~ m/^($type2)+\s*($name)\s*$prototype_end/)  {
+ 	$return_type = $1;
+ 	$declaration_name = $2;
+ 	my $args = $3;
+@@ -2110,12 +2107,12 @@ sub process_name($$) {
+     } elsif (/$doc_decl/o) {
+ 	$identifier = $1;
+ 	my $is_kernel_comment = 0;
+-	my $decl_start = qr{\s*\*};
++	my $decl_start = qr{$doc_com};
+ 	# test for pointer declaration type, foo * bar() - desc
+ 	my $fn_type = qr{\w+\s*\*\s*}; 
+ 	my $parenthesis = qr{\(\w*\)};
+ 	my $decl_end = qr{[-:].*};
+-	if (/^$decl_start\s*([\w\s]+?)$parenthesis?\s*$decl_end?$/) {
++	if (/^$decl_start([\w\s]+?)$parenthesis?\s*$decl_end?$/) {
+ 	    $identifier = $1;
+ 	}
+ 	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
+@@ -2125,8 +2122,8 @@ sub process_name($$) {
+ 	}
+ 	# Look for foo() or static void foo() - description; or misspelt
+ 	# identifier
+-	elsif (/^$decl_start\s*$fn_type?(\w+)\s*$parenthesis?\s*$decl_end?$/ ||
+-	    /^$decl_start\s*$fn_type?(\w+.*)$parenthesis?\s*$decl_end$/) {
++	elsif (/^$decl_start$fn_type?(\w+)\s*$parenthesis?\s*$decl_end?$/ ||
++	    /^$decl_start$fn_type?(\w+.*)$parenthesis?\s*$decl_end$/) {
+ 	    $identifier = $1;
+ 	    $decl_type = 'function';
+ 	    $identifier =~ s/^define\s+//;
+-- 
+2.17.1
+
