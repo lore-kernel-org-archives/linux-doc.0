@@ -2,126 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF77FC433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 22:38:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2F87C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 22:48:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B049B61461
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 22:38:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C87261409
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 22:48:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbhD2Wjb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 18:39:31 -0400
-Received: from mga12.intel.com ([192.55.52.136]:16569 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229591AbhD2Wja (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Apr 2021 18:39:30 -0400
-IronPort-SDR: nQKDJ9a5eRTVRD9q8eXTm2x1l5BIAQTvDiv4KsbjaW63TQifyj1Qrm532T7iZV2YdiZaTrU6it
- 89tN6KHyJ6zw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="176622132"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; 
-   d="scan'208";a="176622132"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 15:38:42 -0700
-IronPort-SDR: e9SUCFK908wqu5O6Kl1hbNlzRSADWjJS5hB5eZjN3B85WN38Hm0OBf/2g57AY2tQfW4wqDvqce
- Y/SHF2drnxBg==
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; 
-   d="scan'208";a="387120285"
-Received: from ndutta-mobl.amr.corp.intel.com (HELO [10.212.215.226]) ([10.212.215.226])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 15:38:41 -0700
-Subject: Re: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
- of sysfs pagebuf
-To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        id S229867AbhD2WtL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 18:49:11 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3972 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229757AbhD2WtH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 18:49:07 -0400
+Received: from dggeme760-chm.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FWVw55cB6zYdM5;
+        Fri, 30 Apr 2021 06:45:57 +0800 (CST)
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggeme760-chm.china.huawei.com (10.3.19.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 30 Apr 2021 06:48:16 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2176.012;
+ Fri, 30 Apr 2021 06:48:15 +0800
+From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To:     Dave Hansen <dave.hansen@intel.com>,
         "tiantao (H)" <tiantao6@hisilicon.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
+        "Valentin Schneider" <valentin.schneider@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Daniel Bristot de Oliveira <bristot@redhat.com>
+Subject: RE: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
+ of sysfs pagebuf
+Thread-Topic: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
+ of sysfs pagebuf
+Thread-Index: AQHXPMXH0SQBD1qG+ECo3ZrOidSRtqrLBimAgADzHOD//4cYAIAAjhuw//+CrICAAIZiwA==
+Date:   Thu, 29 Apr 2021 22:48:15 +0000
+Message-ID: <1daf0e3e1bc342c091304f1d168491a3@hisilicon.com>
 References: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
  <1619679819-45256-2-git-send-email-tiantao6@hisilicon.com>
  <146e051b-603c-a6d3-43d8-d083cf2c8119@intel.com>
  <602918a1e2214ea7bd0890a751975566@hisilicon.com>
  <7c663f7e-07e0-6d95-3012-6e31a1b78f7e@intel.com>
  <4bf6870f7f3942398e4d1fdaa42184c7@hisilicon.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <fd78ac30-dd3b-a7d7-eae8-193b09a7d49a@intel.com>
-Date:   Thu, 29 Apr 2021 15:38:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <4bf6870f7f3942398e4d1fdaa42184c7@hisilicon.com>
-Content-Type: text/plain; charset=utf-8
+ <fd78ac30-dd3b-a7d7-eae8-193b09a7d49a@intel.com>
+In-Reply-To: <fd78ac30-dd3b-a7d7-eae8-193b09a7d49a@intel.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.200.93]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/29/21 3:32 PM, Song Bao Hua (Barry Song) wrote:
-> $ strace numactl --hardware  2>&1 | grep cpu
-> openat(AT_FDCWD, "/sys/devices/system/cpu",
-> O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC) = 3
-> openat(AT_FDCWD, "/sys/devices/system/node/node0/cpumap", O_RDONLY) = 3
-> openat(AT_FDCWD, "/sys/devices/system/node/node1/cpumap", O_RDONLY) = 3
-> openat(AT_FDCWD, "/sys/devices/system/node/node2/cpumap", O_RDONLY) = 3
-> openat(AT_FDCWD, "/sys/devices/system/node/node3/cpumap", O_RDONLY) = 3
-> 
-> If we move to binary, it means we have to change those applications.
-
-I thought Greg was saying to using a sysfs binary attribute using
-something like like sysfs_create_bin_file().  Those don't have the
-PAGE_SIZE limitation.  But, there's also nothing to keep us from spewing
-nice human-readable text via the "binary" file.
-
-We don't need to change the file format, just the internal kernel API
-that we produce the files with.
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRGF2ZSBIYW5zZW4gW21h
+aWx0bzpkYXZlLmhhbnNlbkBpbnRlbC5jb21dDQo+IFNlbnQ6IEZyaWRheSwgQXByaWwgMzAsIDIw
+MjEgMTA6MzkgQU0NCj4gVG86IFNvbmcgQmFvIEh1YSAoQmFycnkgU29uZykgPHNvbmcuYmFvLmh1
+YUBoaXNpbGljb24uY29tPjsgdGlhbnRhbyAoSCkNCj4gPHRpYW50YW82QGhpc2lsaWNvbi5jb20+
+OyBjb3JiZXRAbHduLm5ldDsgZ3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmcNCj4gQ2M6IGxpbnV4
+LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IFJhZmFl
+bCBKLg0KPiBXeXNvY2tpIDxyYWZhZWxAa2VybmVsLm9yZz47IFBldGVyIFppamxzdHJhIDxwZXRl
+cnpAaW5mcmFkZWFkLm9yZz47IFZhbGVudGluDQo+IFNjaG5laWRlciA8dmFsZW50aW4uc2NobmVp
+ZGVyQGFybS5jb20+OyBEYXZlIEhhbnNlbg0KPiA8ZGF2ZS5oYW5zZW5AbGludXguaW50ZWwuY29t
+PjsgRGFuaWVsIEJyaXN0b3QgZGUgT2xpdmVpcmEgPGJyaXN0b3RAcmVkaGF0LmNvbT4NCj4gU3Vi
+amVjdDogUmU6IFtQQVRDSCAxLzJdIENQVSwgTlVNQSB0b3BvbG9neSBBQklzOiBjbGFyaWZ5IHRo
+ZSBvdmVyZmxvdyBpc3N1ZQ0KPiBvZiBzeXNmcyBwYWdlYnVmDQo+IA0KPiBPbiA0LzI5LzIxIDM6
+MzIgUE0sIFNvbmcgQmFvIEh1YSAoQmFycnkgU29uZykgd3JvdGU6DQo+ID4gJCBzdHJhY2UgbnVt
+YWN0bCAtLWhhcmR3YXJlICAyPiYxIHwgZ3JlcCBjcHUNCj4gPiBvcGVuYXQoQVRfRkRDV0QsICIv
+c3lzL2RldmljZXMvc3lzdGVtL2NwdSIsDQo+ID4gT19SRE9OTFl8T19OT05CTE9DS3xPX0RJUkVD
+VE9SWXxPX0NMT0VYRUMpID0gMw0KPiA+IG9wZW5hdChBVF9GRENXRCwgIi9zeXMvZGV2aWNlcy9z
+eXN0ZW0vbm9kZS9ub2RlMC9jcHVtYXAiLCBPX1JET05MWSkgPSAzDQo+ID4gb3BlbmF0KEFUX0ZE
+Q1dELCAiL3N5cy9kZXZpY2VzL3N5c3RlbS9ub2RlL25vZGUxL2NwdW1hcCIsIE9fUkRPTkxZKSA9
+IDMNCj4gPiBvcGVuYXQoQVRfRkRDV0QsICIvc3lzL2RldmljZXMvc3lzdGVtL25vZGUvbm9kZTIv
+Y3B1bWFwIiwgT19SRE9OTFkpID0gMw0KPiA+IG9wZW5hdChBVF9GRENXRCwgIi9zeXMvZGV2aWNl
+cy9zeXN0ZW0vbm9kZS9ub2RlMy9jcHVtYXAiLCBPX1JET05MWSkgPSAzDQo+ID4NCj4gPiBJZiB3
+ZSBtb3ZlIHRvIGJpbmFyeSwgaXQgbWVhbnMgd2UgaGF2ZSB0byBjaGFuZ2UgdGhvc2UgYXBwbGlj
+YXRpb25zLg0KPiANCj4gSSB0aG91Z2h0IEdyZWcgd2FzIHNheWluZyB0byB1c2luZyBhIHN5c2Zz
+IGJpbmFyeSBhdHRyaWJ1dGUgdXNpbmcNCj4gc29tZXRoaW5nIGxpa2UgbGlrZSBzeXNmc19jcmVh
+dGVfYmluX2ZpbGUoKS4gIFRob3NlIGRvbid0IGhhdmUgdGhlDQo+IFBBR0VfU0laRSBsaW1pdGF0
+aW9uLiAgQnV0LCB0aGVyZSdzIGFsc28gbm90aGluZyB0byBrZWVwIHVzIGZyb20gc3Bld2luZw0K
+PiBuaWNlIGh1bWFuLXJlYWRhYmxlIHRleHQgdmlhIHRoZSAiYmluYXJ5IiBmaWxlLg0KPiANCj4g
+V2UgZG9uJ3QgbmVlZCB0byBjaGFuZ2UgdGhlIGZpbGUgZm9ybWF0LCBqdXN0IHRoZSBpbnRlcm5h
+bCBrZXJuZWwgQVBJDQo+IHRoYXQgd2UgcHJvZHVjZSB0aGUgZmlsZXMgd2l0aC4NCg0KRGF2ZSwg
+dGhhbmtzIGZvciBjbGFyaWZpY2F0aW9uLiBTb3VuZHMgYSB3YXkgdG8gZ28uDQoNCkJhcnJ5DQo=
