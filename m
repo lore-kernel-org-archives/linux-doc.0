@@ -7,110 +7,134 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C6BC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 03:33:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE89C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 03:33:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA8A6613E8
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 03:33:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4FD9613E8
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 03:33:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236838AbhD2Ddy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 23:33:54 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50606 "EHLO loongson.cn"
+        id S231161AbhD2DeB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Apr 2021 23:34:01 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:50652 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229814AbhD2Ddx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Apr 2021 23:33:53 -0400
+        id S231874AbhD2DeB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Apr 2021 23:34:01 -0400
 Received: from localhost.localdomain (unknown [112.3.197.94])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH+_kKIpgjVwPAA--.8366S3;
-        Thu, 29 Apr 2021 11:32:59 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH+_kKIpgjVwPAA--.8366S4;
+        Thu, 29 Apr 2021 11:33:00 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net
 Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
         chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
         linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
         siyanteng01@gmail.com, huangjianghui@uniontech.com
-Subject: [PATCH 1/3] docs/zh_CN: add parisc index translation
-Date:   Thu, 29 Apr 2021 11:33:33 +0800
-Message-Id: <7e64ac33597d69635497b03b29d63e17f905c96f.1619665430.git.siyanteng@loongson.cn>
+Subject: [PATCH 2/3] docs/zh_CN: add parisc debugging.rst translation
+Date:   Thu, 29 Apr 2021 11:33:34 +0800
+Message-Id: <17f17ca148a9fd315340294f19cefbc80732336c.1619665430.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1619665430.git.siyanteng@loongson.cn>
 References: <cover.1619665430.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxH+_kKIpgjVwPAA--.8366S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrW3KF45uF4kZry8Gw13CFg_yoW8Xr4fpF
-        9rKryfK3WfJ347CrWfGF17Gr17G3WSk398Ja1IqwnYqr1DJrsYyr4Dt3s8KF97WrWSvFWD
-        XF4SkFW5Wryjkw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUP014x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-        x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-        8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxd
-        M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
-        v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
-        F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
-        IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
-        wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
-        0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
-        xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
-        1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbec_DUU
-        UUU==
+X-CM-TRANSID: AQAAf9DxH+_kKIpgjVwPAA--.8366S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxGrW3Wry8XF17Zr4xGr13CFg_yoW5ZFyUpa
+        srKryfGa1fAry2yryfKr17GryfGa4xJFZxG3WxX3W5tr1DJrW5t3s8t34YkFnxWr97AFWU
+        JF43KrWUCryjyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+        A2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0
+        owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+        IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+        M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+        kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+        14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+        kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+        wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+        4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUc6pPU
+        UUUU=
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This path translates Documentation/parisc/index.rst into Chinese.
+This translates Documentation/parisc/debugging.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/translations/zh_CN/index.rst    |  1 +
- .../translations/zh_CN/parisc/index.rst       | 24 +++++++++++++++++++
- 2 files changed, 25 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/parisc/index.rst
+ .../translations/zh_CN/parisc/debugging.rst   | 41 +++++++++++++++++++
+ .../translations/zh_CN/parisc/index.rst       |  6 ++-
+ 2 files changed, 46 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/parisc/debugging.rst
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index ee6b20ca9080..160a55f819bf 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -30,6 +30,7 @@
-    riscv/index
-    core-api/index
-    openrisc/index
-+   parisc/index
- 
- 目录和表格
- ----------
-diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/parisc/index.rst
+diff --git a/Documentation/translations/zh_CN/parisc/debugging.rst b/Documentation/translations/zh_CN/parisc/debugging.rst
 new file mode 100644
-index 000000000000..ef232d46b1ba
+index 000000000000..99af303fd3d8
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/parisc/index.rst
-@@ -0,0 +1,24 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/translations/zh_CN/parisc/debugging.rst
+@@ -0,0 +1,41 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/parisc/index.rst
++:Original: Documentation/parisc/debugging.rst
 +:Translator: Yanteng Si <siyanteng@loongson.cn>
 +
-+.. _cn_parisc_index:
++.. _cn_parisc_debugging:
 +
-+====================
-+PA-RISC体系架构
-+====================
++=================
++调试PA-RISC
++=================
++
++好吧，这里有一些关于调试linux/parisc的低级（偏硬件）部分的提示。
++
++
++1. 绝对地址
++=====================
++
++很多汇编代码目前是以实模式运行的，这意味着绝对地址被使用，而不是像内核其他
++部分那样使用虚拟地址。要将绝对地址转换为虚拟地址，你可以在System.map中查
++找，添加__PAGE_OFFSET（目前是0x10000000）。
++
++
++2. HPMCs
++========
++
++当实模式的代码试图访问不存在的内存时，你会得到一个HPMC，而不是一个内核opps。
++为了调试HPMC，尝试找到系统响应者/请求者地址。系统请求者地址应该与处理器的
++HPA（I/O范围内的高地址）相匹配；系统响应者地址是实模式代码试图访问的地址。
++
++系统响应者地址的典型值是大于__PAGE_OFFSET （0x10000000）的地址，这意味着
++在实际模式代码试图访问它之前，一个虚拟地址没有被翻译成一个物理地址。
++
++
++3. 有趣的Q位
++============
++
++某些非常关键的代码必须清除PSW中的Q位。当Q位被清除时，CPU不会更新中断处理
++程序所读取的寄存器，以找出机器被中断的位置——所以如果你在清除Q位的指令和再
++次设置Q位的RFI之间遇到中断，你不知道它到底发生在哪里。如果你幸运的话，IAOQ
++会指向清除Q位的指令，如果你不幸运的话，它会指向任何地方。通常Q位的问题会
++表现在无法解释的系统挂起或运行到物理内存的末端。
+diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/parisc/index.rst
+index ef232d46b1ba..b913d664e735 100644
+--- a/Documentation/translations/zh_CN/parisc/index.rst
++++ b/Documentation/translations/zh_CN/parisc/index.rst
+@@ -10,9 +10,13 @@
+ PA-RISC体系架构
+ ====================
+ 
+-Todolist:
++.. toctree::
++   :maxdepth: 2
+ 
+    debugging
 +
 +Todolist:
 +
-+   debugging
-+   registers
-+   features
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
+    registers
+    features
+ 
 -- 
 2.27.0
 
