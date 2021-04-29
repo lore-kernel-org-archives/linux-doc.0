@@ -2,250 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62305C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 04:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60895C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 05:21:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39D1B61040
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 04:06:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3456F61446
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 05:21:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236972AbhD2EHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 00:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44006 "EHLO
+        id S236839AbhD2FVo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 01:21:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236837AbhD2EHO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 00:07:14 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A89DC06138E
-        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 21:06:27 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id y22-20020a17090a8b16b0290150ae1a6d2bso10286896pjn.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 21:06:27 -0700 (PDT)
+        with ESMTP id S229792AbhD2FVn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 01:21:43 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96FF7C06138B;
+        Wed, 28 Apr 2021 22:20:57 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id l7so1665838ybf.8;
+        Wed, 28 Apr 2021 22:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=tByVU2/u0h5B8qFDAlBKuUrFE57FCfDg0qzGQJyDGCk=;
-        b=GzEwdUmvXMwlwPe4n+RRXiW6S75PfXanXmS5RZr+Djwzs3iXyqB2CzJvSTq4dTEg0y
-         MEXb31oD4DLJrkGpBwsQ7Rk77tvJoOrqVA86Isgy7+Ba04lzqFc3SVy6J06vc4HHw5kK
-         +vpn3/LBw82XnoSH5lgZCNudVDvdyROEqCtV+zmZwvDvCQ5Q3PVe61gIuUyLBQTa9gXO
-         HoxLWUWsnymTKtkgBJoA2EDky9A5dY2W+lhNKU46E4mNh0y0MSsyWGkokaEpYkrias3W
-         VSOtks6XHn/o8Wl89hp44JdQNessSDTCWNAcHdutfb/ZxTHSHxb+ICBI+Ii1cX9MizRp
-         jBbA==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to:cc;
+        bh=5a+doWvCrDoneaEbHIt4M6EKA+mAvMd79RmvxJp1T6c=;
+        b=s6yCkN8WCq8aIDz1642ZJ25bEzQZ8H3UHdLcOc1VPYrhpC3dPMZ6aSBKna5MozQ+5/
+         L9OcQs+ERFgtndAgzs1LaqFjHuUwI4TSD9EbE8YqZuufOudbQpoCn/1JrBShkL8Hixe1
+         AVw0r9UmaVveLzj5tTEgX3hTcbu/oOZZObz6sf4+avQTPXwftDWLi31pMDEYxAjiiDXW
+         9a2UfFmgTDMuK+yUDVizhGwyuYKrhc8PSZV1lmx7nzwg1MFtCVBgfjf/V/HjzWmfwQfN
+         dtL1OKjAYDXMyLsA+lFgJ1offIU95t600c42FbR6npRrvLpXI9q8GzsF2N8IcEYJIBuQ
+         Cafw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=tByVU2/u0h5B8qFDAlBKuUrFE57FCfDg0qzGQJyDGCk=;
-        b=g6gCl7XezpL3Z6CRzSPAr8hYcQcnObB4L6S9vsWKcrBT7As/oliinTjM8SVWfBQD4i
-         Dx3TRV1I3nzlrXkOTlrqG/XZQktP/zn4pPS1N5/nxcnKA4ZVkwIsM1oUsg+FRdgO5UJf
-         sJ9f+N/N/W3TCishTwEQrNGMPPSXLGtNNIFsnBQ7bikCKdEBov6XRlkCEW//qnCL7AUl
-         YoNSoD613F+YAnEBYX2fVV3dCAhiw8u30eyPFZrN9BW1M43dH+Nzj2mdBH3ByYFFbjrl
-         f1aV/MZKKqkx3BQIrippN+ncFDqvC75OtIRACuSDR7usOkDflGmytelnu4oBzNVZT0Sb
-         3aSA==
-X-Gm-Message-State: AOAM530se76F5jN2dFaGoAmfYSn7SmgOQjToyKcWP9V1ZZNKHdyVk9MP
-        9CyuSn2IxRy3MvRZ4C0lG/tHZZqPUVi8NoUQ895wXg==
-X-Google-Smtp-Source: ABdhPJzwQqZEhz6DE4p8vebSqPKCh6VGsrj5psCRE74y5y2SZWeln8KUIISMU/TpN/mzJr5bG4J06esgubysvxWXkTo=
-X-Received: by 2002:a17:902:e54e:b029:ed:6ed2:d0ab with SMTP id
- n14-20020a170902e54eb02900ed6ed2d0abmr8026963plf.24.1619669186522; Wed, 28
- Apr 2021 21:06:26 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=5a+doWvCrDoneaEbHIt4M6EKA+mAvMd79RmvxJp1T6c=;
+        b=rZwmfXEowbBCMT0N+RP720ZKZOn0gCJiBLgN2kXYitq7t9yujBjAtPDS93TEE4pI51
+         rNTbuccp53yK7qGaq4OCQGTjSBDUbgWug964z5ln4QUEymgE05lB6tuQ1mQJ19rYK7wc
+         NXKPGWmr0ZBAzCi7iMcI3yVzid021GF78bFrwBiCG9rnIHzDPOBttF/6i7nSbQO6UW1L
+         r840m0JlkCMYWyHv2oM9npIYKrTUF3BBXjnihLKO09q97QNwu+1f1anU1scP/dayO3aM
+         9hbMwT3lKw41aUs+Dz2m1j2e63UzGy5CD/XlDxrMxoLRkx18YP0bbGtPkEpal37OTFLj
+         6AXg==
+X-Gm-Message-State: AOAM531UYvKsv+lKvtiGD22Y5ak+YzSBMFA59be0BSCpft+W3q5TpnkS
+        WqrcB0Lg0JhBaYo0kwlyC4mmSLU6fh0+Fio53CnsfF7ZaRM=
+X-Google-Smtp-Source: ABdhPJxN2YlJYzRnh9tLhWBCkbzSpy4oOA2RwR//NMHClwdCplMlSpb7S2K7o7QIJ6xaMCLKvTod1bE0WPQhTNkU4/w=
+X-Received: by 2002:a25:b009:: with SMTP id q9mr46463800ybf.506.1619673656926;
+ Wed, 28 Apr 2021 22:20:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210425070752.17783-1-songmuchun@bytedance.com>
- <20210425070752.17783-7-songmuchun@bytedance.com> <956a52e4-3a2c-b0dc-3b5d-dd651a4aa54a@oracle.com>
-In-Reply-To: <956a52e4-3a2c-b0dc-3b5d-dd651a4aa54a@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 29 Apr 2021 12:05:49 +0800
-Message-ID: <CAMZfGtVOOBWeQ0yfZikYdW_Bt1Dd+1ZR13UZK6VDnaaDAOzhkw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v21 6/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
-        X86 ML <x86@kernel.org>, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Reply-To: mceier+kernel@gmail.com
+From:   Mariusz Ceier <mceier+kernel@gmail.com>
+Date:   Thu, 29 Apr 2021 05:20:45 +0000
+Message-ID: <CAJTyqKNsh1UgpuZYoqR6BshxaEEh55WMs=S87U=jYbhQfzvF3g@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     David Laight <David.Laight@aculab.com>
+Cc:     "ojeda@kernel.org" <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 10:43 AM Mike Kravetz <mike.kravetz@oracle.com> wro=
-te:
+On 28/04/2021, David Laight <David.Laight@aculab.com> wrote:
+> From: Mariusz Ceier
+>> Sent: 28 April 2021 19:34
+> ....
+>>
+>> I suggest to wait until featureful GPL implementation of rust language
+>> is made (assuming GNU Rust is on the way) before merging any rust code
+>> in the kernel and when that implementation is done make a requirement
+>> that all rust code must be buildable by at least GPL implementation.
+>>
+>> Maybe it would also be worthwhile to make the requirement that the
+>> kernel must be buildable with free software (not just open source
+>> software) explicit ?
 >
-> On 4/25/21 12:07 AM, Muchun Song wrote:
-> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> > index d523a345dc86..d3abaaec2a22 100644
-> > --- a/include/linux/hugetlb.h
-> > +++ b/include/linux/hugetlb.h
-> > @@ -525,6 +525,7 @@ unsigned long hugetlb_get_unmapped_area(struct file=
- *file, unsigned long addr,
-> >   *   code knows it has only reference.  All other examinations and
-> >   *   modifications require hugetlb_lock.
-> >   * HPG_freed - Set when page is on the free lists.
-> > + * HPG_vmemmap_optimized - Set when the vmemmap pages of the page are =
-freed.
-> >   *   Synchronization: hugetlb_lock held for examination and modificati=
-on.
-> >   */
-> >  enum hugetlb_page_flags {
-> > @@ -532,6 +533,7 @@ enum hugetlb_page_flags {
-> >       HPG_migratable,
-> >       HPG_temporary,
-> >       HPG_freed,
-> > +     HPG_vmemmap_optimized,
-> >       __NR_HPAGEFLAGS,
-> >  };
-> >
-> > @@ -577,6 +579,7 @@ HPAGEFLAG(RestoreReserve, restore_reserve)
-> >  HPAGEFLAG(Migratable, migratable)
-> >  HPAGEFLAG(Temporary, temporary)
-> >  HPAGEFLAG(Freed, freed)
-> > +HPAGEFLAG(VmemmapOptimized, vmemmap_optimized)
-> >
-> >  #ifdef CONFIG_HUGETLB_PAGE
-> >
+> Or put the version of the compiler that works in the source tree
+> with the kernel and then build it as part of the full build.
 >
-> During migration, the page->private field of the original page may be
-> cleared.  This will clear all hugetlb specific flags.  Prior to this
-> new flag that was OK, as the only flag which could be set during migratio=
-n
-> was the Temporary flag and that is transfered to the target page.
+That is an overkill :)
+Even hosting a copy of all required tools at kernel.org might be an
+overkill (but who knows);
+I think having links at
+https://www.kernel.org/doc/html/latest/process/changes.html#getting-updated-software
+is enough.
 
-I didn't realize this when I introduce the VmemmapOptimized.
-Anyway, thanks for you pointed out this. I will fix this.
-
+> It is enough of a PITA having to find libelf-devel in order to
+> build objtool, never mind having to find the correct version
+> of something else.
 >
-> If VmemmapOptimized optimized flag is cleared in the original page, we
-> will get an addressing exception as shown below.
-
-Thanks for your test.
-
+> gcc tends to be available and the version doesn't matter too much.
+> But ever that gives problems.
 >
-> We should preserve page->private with something like this:
+>       David
 >
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index b234c3f3acb7..128e3e4126a2 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -625,7 +625,9 @@ void migrate_page_states(struct page *newpage, struct=
- page *page)
->         if (PageSwapCache(page))
->                 ClearPageSwapCache(page);
->         ClearPagePrivate(page);
-> -       set_page_private(page, 0);
-> +       /* page->private contains hugetlb specific flags */
-> +       if (!PageHuge(page))
-> +               set_page_private(page, 0);
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1
+> 1PT, UK
+> Registration No: 1397386 (Wales)
 >
->         /*
->          * If any waiters have accumulated on the new page then
->
-> --
-> Mike Kravetz
->
->
-> [  209.568110] BUG: unable to handle page fault for address: ffffea0004a5=
-a000
-> [  209.569417] #PF: supervisor write access in kernel mode
-> [  209.570932] #PF: error_code(0x0003) - permissions violation
-> [  209.572059] PGD 23fff8067 P4D 23fff8067 PUD 23fff7067 PMD 23ffd9067 PT=
-E 800000021c98e061
-> [  209.573679] Oops: 0003 [#1] SMP PTI
-> [  209.574410] CPU: 1 PID: 1011 Comm: bash Not tainted 5.12.0-rc8-mm1+ #3
-> [  209.575730] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
-S 1.14.0-1.fc33 04/01/2014
-> [  209.577530] RIP: 0010:__update_and_free_page+0x58/0x2c0
-> [  209.578618] Code: a3 01 00 00 49 b8 00 00 00 00 00 16 00 00 4c 89 e0 b=
-f 01 00 00 00 49 b9 00 00 00 00 00 ea ff ff 4d 01 e0 49 c1 f8 06 83 c2 01 <=
-48> 81 20 d4 5e ff ff 48 83 c0 40 f7 c2 ff 03 00 00 0f 84 f3 00 00
-> [  209.582603] RSP: 0018:ffffc90001fdfa60 EFLAGS: 00010206
-> [  209.583629] RAX: ffffea0004a5a000 RBX: 0000000000000000 RCX: 000000000=
-0000009
-> [  209.585148] RDX: 0000000000000081 RSI: 0000000000000200 RDI: 000000000=
-0000001
-> [  209.586649] RBP: ffffffff839ada30 R08: 0000000000129600 R09: ffffea000=
-0000000
-> [  209.588096] R10: 0000000000000001 R11: 0000000000000001 R12: ffffea000=
-4a58000
-> [  209.589643] R13: 0000000000000200 R14: ffffea0005ff8000 R15: ffffc9000=
-1fdfba0
-> [  209.591194] FS:  00007f1e50065740(0000) GS:ffff888237d00000(0000) knlG=
-S:0000000000000000
-> [  209.592989] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  209.594222] CR2: ffffea0004a5a000 CR3: 000000018cd46004 CR4: 000000000=
-0370ee0
-> [  209.595762] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 000000000=
-0000000
-> [  209.597302] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 000000000=
-0000400
-> [  209.598925] Call Trace:
-> [  209.599496]  migrate_pages+0xd8f/0x1030
-> [  209.600372]  ? trace_event_raw_event_mm_migrate_pages_start+0xa0/0xa0
-> [  209.601745]  ? alloc_migration_target+0x1c0/0x1c0
-> [  209.602787]  alloc_contig_range+0x1e3/0x3d0
-> [  209.603718]  cma_alloc+0x1ae/0x5f0
-> [  209.604486]  alloc_fresh_huge_page+0x67/0x190
-> [  209.605481]  alloc_pool_huge_page+0x72/0xf0
-> [  209.606423]  set_max_huge_pages+0x128/0x2c0
-> [  209.607369]  __nr_hugepages_store_common+0x3d/0xb0
-> [  209.608442]  ? _kstrtoull+0x35/0xd0
-> [  209.609225]  nr_hugepages_store+0x73/0x80
-> [  209.610140]  kernfs_fop_write_iter+0x127/0x1c0
-> [  209.611162]  new_sync_write+0x11f/0x1b0
-> [  209.612069]  vfs_write+0x26f/0x380
-> [  209.612880]  ksys_write+0x68/0xe0
-> [  209.613628]  do_syscall_64+0x40/0x80
-> [  209.614456]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> [  209.615589] RIP: 0033:0x7f1e50155ff8
-> [  209.616474] Code: 89 02 48 c7 c0 ff ff ff ff eb b3 0f 1f 80 00 00 00 0=
-0 f3 0f 1e fa 48 8d 05 25 77 0d 00 8b 00 85 c0 75 17 b8 01 00 00 00 0f 05 <=
-48> 3d 00 f0 ff ff 77 58 c3 0f 1f 80 00 00 00 00 41 54 49 89 d4 55
-> [  209.620629] RSP: 002b:00007ffd7e3f97c8 EFLAGS: 00000246 ORIG_RAX: 0000=
-000000000001
-> [  209.622319] RAX: ffffffffffffffda RBX: 0000000000000002 RCX: 00007f1e5=
-0155ff8
-> [  209.623966] RDX: 0000000000000002 RSI: 00005585ef557960 RDI: 000000000=
-0000001
-> [  209.625568] RBP: 00005585ef557960 R08: 000000000000000a R09: 00007f1e5=
-01e7e80
-> [  209.627262] R10: 000000000000000a R11: 0000000000000246 R12: 00007f1e5=
-0229780
-> [  209.628916] R13: 0000000000000002 R14: 00007f1e50224740 R15: 000000000=
-0000002
-> [  209.630457] Modules linked in: ip6t_rpfilter ip6t_REJECT nf_reject_ipv=
-6 xt_conntrack ebtable_nat ip6table_nat ip6table_mangle ip6table_raw ip6tab=
-le_security iptable_nat nf_nat iptable_mangle iptable_raw iptable_security =
-nf_conntrack rfkill nf_defrag_ipv6 nf_defrag_ipv4 ebtable_filter ebtables 9=
-p ip6table_filter ip6_tables sunrpc snd_hda_codec_generic crct10dif_pclmul =
-crc32_pclmul snd_hda_intel snd_intel_dspcfg ghash_clmulni_intel snd_hda_cod=
-ec snd_hwdep joydev snd_hda_core snd_seq snd_seq_device snd_pcm virtio_ball=
-oon snd_timer snd soundcore 9pnet_virtio i2c_piix4 9pnet virtio_blk virtio_=
-console virtio_net net_failover failover 8139too qxl drm_ttm_helper ttm drm=
-_kms_helper crc32c_intel serio_raw drm 8139cp mii ata_generic virtio_pci vi=
-rtio_pci_modern_dev virtio_ring pata_acpi virtio
-> [  209.647105] CR2: ffffea0004a5a000
-> [  209.647913] ---[ end trace 48e9b007521233a7 ]---
