@@ -2,385 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5BFEC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:29:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F4072C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:35:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CB74613F8
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:29:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC3E061441
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232989AbhD2PaN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 11:30:13 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:57789 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232742AbhD2PaM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 11:30:12 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 61B9B580724;
-        Thu, 29 Apr 2021 11:29:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 29 Apr 2021 11:29:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=56UgBL
-        vtQeaL1SDnAyxm7+cCqt4PVKC9A9UAY4hz1/Q=; b=PLGRSTFNsBU24Pdg0jTZw1
-        HINdIitY5CZ2SfXmz0J9aB0AFyAAtCLEYKk0wDYu7iMa7O9BK5brnB9zib8Kt1wi
-        Yw/B9zUhtHoVz5o/1vLFJvgjo6kpdzlNIqYNnDT8tjqYU5nR1k1nRbM3DwaccAcL
-        zfmYzKlBDWDwBKamWoluxPA0D7tz2cPwWYWxP4D97Zloy21C1IbzFoa++JCBI+9i
-        fo2RLQAtDzdCqmoi31kXXoOFyQPPwgRKtA1Gfjd54erg7WdOSFHwmvEbu57nVQMP
-        5/P6V6QVDmyJuFSWGkKNPhda8GZsc6OdVtFleSFVedjql9E4f8OX8VgDfpb+YLAw
-        ==
-X-ME-Sender: <xms:1NCKYIYGO7DCRIKOzXehXk4LebfpnDWr_wk26JpKSlzyuopn-fIGow>
-    <xme:1NCKYDZHfJC_kytMvMgZg5yjd3jQ3c3ebafCGHyySmwq1V6N8kjMszV9BQ51LTFqT
-    0Gc7nmEkM9y7PI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvgedgledtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefkughoucfu
-    tghhihhmmhgvlhcuoehiughoshgthhesihguohhstghhrdhorhhgqeenucggtffrrghtth
-    gvrhhnpeeuteegheehgeduueehffeltdegveelteeukeetteethfeltddvhfdtuedvueei
-    feenucffohhmrghinhepnhhvihguihgrrdgtohhmpdgrrhhishhtrgdrtghomhenucfkph
-    epkeegrddvvdelrdduheefrddukeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomhepihguohhstghhsehiughoshgthhdrohhrgh
-X-ME-Proxy: <xmx:1NCKYC8uDZ6Ev90RBf97vZctaHEGiQ69sDK85wqay31Vzftu27Wg9A>
-    <xmx:1NCKYCpQUr1Tt4b3EBJPLBNuVBhBCfRjtB2ulBkdJRGlAkaW4-2SsQ>
-    <xmx:1NCKYDqiDR-mfaBUuUvni3O8YEAW3ipOET_CTS6vu8kmaN5EO3_XQg>
-    <xmx:1dCKYHcAsABsXfmp24NOeGIqHQkXIJ-EdRJ6HIDRKOUVgd06vPIVww>
-Received: from localhost (igld-84-229-153-187.inter.net.il [84.229.153.187])
-        by mail.messagingengine.com (Postfix) with ESMTPA;
-        Thu, 29 Apr 2021 11:29:23 -0400 (EDT)
-Date:   Thu, 29 Apr 2021 18:29:20 +0300
-From:   Ido Schimmel <idosch@idosch.org>
-To:     Pavel Balaev <balaevpa@infotecs.ru>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S233480AbhD2Pf6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 11:35:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232989AbhD2Pf6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 11:35:58 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7615DC06138B;
+        Thu, 29 Apr 2021 08:35:11 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id x19so75156955lfa.2;
+        Thu, 29 Apr 2021 08:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=NcAkcgWUhfxgZwil5d8C3vRdyW/yDoNbS/ihCZUtDM4=;
+        b=gujyDldbIafpjCimIN5d1oENjXlRpBWPx6LbKIXCQSDhlrS+TZ1n3P2wnv2s9TXmiB
+         /zDxN+HA+ip3dvVmO/HsBctLmcqv6JiDGBPNT4N2qe9T+c/v/FOs22OCDgDo6Z51bq+1
+         QllZw3QlORuv/QvbmkaeWgllFTa+6fblPPMw/5C/OU/uVQQKRdufUVttV6LBGmyzHBkF
+         6DqTz03iKvIetEhU68isxMyvs44VdBH3g4dn0TmzSYuLZ1Z2toONJdQjYYx2hdsjtyOm
+         bn+g/vkg5MmmtSGsK/A/G4MIkTWRJv9cx5/CmjQoXGEWHZfUnCzoD6blNINXBiJUbHQ5
+         M3AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=NcAkcgWUhfxgZwil5d8C3vRdyW/yDoNbS/ihCZUtDM4=;
+        b=Yc9aBz7Nvt9RKo3k/xAhaSH+vRntsiG0N4gtJYiGIyUbrWOVf8kzBy8M9cagOEgif+
+         pu8raCtN0bCkQSep3EfwvS6RDFNidtSnEvlAjxEu6dzm7gQdY8aINUozZoNbFREk33+/
+         Ip3pL3dXU8aBfl+g0DbxVR9XAd720ixs1MZfzV4dqB981nXTIyl3ENAvllXAqZrprWXB
+         demlnvBoMtTQ2YTnNsw01HdqRGcFrb2Sn4jjXi73DVehJyn5VsI72E++5XMuXthml+FY
+         Cx/yW7mw+H4sNz7PcT1f5T3p31ujyJRgCGoMtDqJcl6Skis+pbnwSqk/1WtNpb0dj+5x
+         gsWQ==
+X-Gm-Message-State: AOAM533BWjECDzZxBPkkLRb3r7yUcbTdocxMK4zc+y8yzkSVeRCI7AUz
+        TGJusZkfBFp/lqvY5vSYO+4=
+X-Google-Smtp-Source: ABdhPJzqldjYe0p+Yng3Oa3HkrP38wvsJi9/BzwznvqWoGnyPNmtPP1L5ewv/JuJVjcwSTrLuhzYVg==
+X-Received: by 2002:a19:9103:: with SMTP id t3mr67215lfd.471.1619710509903;
+        Thu, 29 Apr 2021 08:35:09 -0700 (PDT)
+Received: from grain.localdomain ([5.18.199.94])
+        by smtp.gmail.com with ESMTPSA id d11sm10455lfv.263.2021.04.29.08.35.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Apr 2021 08:35:08 -0700 (PDT)
+Received: by grain.localdomain (Postfix, from userid 1000)
+        id D1D14560156; Thu, 29 Apr 2021 18:35:06 +0300 (MSK)
+Date:   Thu, 29 Apr 2021 18:35:06 +0300
+From:   Cyrill Gorcunov <gorcunov@gmail.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ido Schimmel <idosch@nvidia.com>
-Subject: Re: [PATCH v6 net-next 1/3] net/ipv4: multipath routing:
- configurable seed
-Message-ID: <YIrQ0Nyse0fnwpEC@shredder.lan>
-References: <YIlVpYMCn/8WfE1P@rnd>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Andrey Vagin <avagin@gmail.com>
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+Message-ID: <YIrSKlGmH84A/RF5@grain>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+ <YIpgB5HbnNPWX4FP@grain>
+ <CALCETrW27rTeaymtuJYJCyNgHfuCqA90KinvzNzwBg_vCnZLTw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YIlVpYMCn/8WfE1P@rnd>
+In-Reply-To: <CALCETrW27rTeaymtuJYJCyNgHfuCqA90KinvzNzwBg_vCnZLTw@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 28, 2021 at 03:31:33PM +0300, Pavel Balaev wrote:
-> Ability for a user to assign seed value to multipath route hashes.
-> Now kernel uses random seed value to prevent hash-flooding DoS attacks;
-> however, it disables some use cases, f.e:
+On Thu, Apr 29, 2021 at 07:44:03AM -0700, Andy Lutomirski wrote:
+> On Thu, Apr 29, 2021 at 12:28 AM Cyrill Gorcunov <gorcunov@gmail.com> wrote:
+> >
+> > On Wed, Apr 28, 2021 at 04:03:55PM -0700, Andy Lutomirski wrote:
+> > > On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > > >
+> > > > When shadow stack is enabled, a task's shadow stack states must be saved
+> > > > along with the signal context and later restored in sigreturn.  However,
+> > > > currently there is no systematic facility for extending a signal context.
+> > > > There is some space left in the ucontext, but changing ucontext is likely
+> > > > to create compatibility issues and there is not enough space for further
+> > > > extensions.
+> > > >
+> > > > Introduce a signal context extension struct 'sc_ext', which is used to save
+> > > > shadow stack restore token address.  The extension is located above the fpu
+> > > > states, plus alignment.  The struct can be extended (such as the ibt's
+> > > > wait_endbr status to be introduced later), and sc_ext.total_size field
+> > > > keeps track of total size.
+> > >
+> > > I still don't like this.
+> > >
+> > > Here's how the signal layout works, for better or for worse:
+> > >
+> > > The kernel has:
+> > >
+> > > struct rt_sigframe {
+> > >     char __user *pretcode;
+> > >     struct ucontext uc;
+> > >     struct siginfo info;
+> > >     /* fp state follows here */
+> > > };
+> > >
+> > > This is roughly the actual signal frame.  But userspace does not have
+> > > this struct declared, and user code does not know the sizes of the
+> > > fields.  So it's accessed in a nonsensical way.  The signal handler
+> >
+> > Well, not really. While indeed this is not declared as a part of API
+> > the structure is widely used for rt_sigreturn syscall (and we're using
+> > it inside criu thus any change here will simply break the restore
+> > procedure). Sorry out of time right now, I'll read your mail more
+> > carefully once time permit.
 > 
-> +-------+        +------+        +--------+
-> |       |-eth0---| FW0  |---eth0-|        |
-> |       |        +------+        |        |
-> |  GW0  |ECMP                ECMP|  GW1   |
-> |       |        +------+        |        |
-> |       |-eth1---| FW1  |---eth1-|        |
-> +-------+        +------+        +--------+
+> I skimmed the CRIU code.  You appear to declare struct rt_sigframe,
+> and you use the offset from the start of rt_sigframe to uc.  You also
+> use the offset to the /* fp state follows here */ part, but that's
+> unnecessary -- you could just as easily have put the fp state at any
+> other address -- the kernel will happily follow the pointer you supply
+> regardless of where it points.  So the only issues I can see are if
+
+Yes, since rt_sigreturn is a very late stage of restore we've to preallocate
+memory early and surely doing it in one slab is a way more convenient, thus
+that's why fp context follows the structure declaration (well, it was at
+least I didn't touch this code for years already). Anyway, I meant that
+assuming "user code does not know the sizes of the fields" is not exactly
+true and strictly speaking current layout became a part of nondeclared api
+(simply because kernel use this structure run-time only and even if something
+get changed in kernel declaration for this structure the kernel itself will
+be fine because it doesn't save it on disk between kernel updates) but for
+tools like criu such change might require update. IOW, I mean that changing
+rt_sigreturn structure itself is not safe and we can't reorder the members
+and theirs size.
+
+Or I misunderstood you, and you meant only the fact that fp may be arbitrary,
+pointing for any place in userspace? If so then indeed, fp can be pointing
+to context placed anywere since kernel will fetch it from the address during
+rt_sigreturn processing.
+
+> you write the fp state on top of something else or if you
+> inadvertently fill in the proposed extension part of uc_flags.  Right
+> now you seem to be ignoring uc_flags, which I presume means that you
+> are filling it in as zero.  Even if the offset of the fp state in the
+
+yes
+
+> kernel rt_sigframe changes, the kernel should still successfully parse
+> the signal frame you generate.
 > 
-> In this use case, two ECMP routers balance traffic between two firewalls.
-> If some flow transmits a response over a different channel than request,
-> such flow will be dropped, because keep-state rules are created on
-> the other firewall.
-> 
-> This patch adds sysctl variable: net.ipv4.fib_multipath_hash_seed.
-> User can set the same seed value on GW0 and GW1 for traffic to be
-> mirror-balanced. By default, random value is used.
-> 
-> Signed-off-by: Pavel Balaev <balaevpa@infotecs.ru>
-> ---
->  Documentation/networking/ip-sysctl.rst | 14 ++++
->  include/net/flow_dissector.h           |  2 +
->  include/net/netns/ipv4.h               |  2 +
->  net/core/flow_dissector.c              |  7 ++
->  net/ipv4/route.c                       | 10 ++-
->  net/ipv4/sysctl_net_ipv4.c             | 97 ++++++++++++++++++++++++++
->  6 files changed, 131 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-> index 9701906f6..d1a67e6fe 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-> @@ -100,6 +100,20 @@ fib_multipath_hash_policy - INTEGER
->  	- 1 - Layer 4
->  	- 2 - Layer 3 or inner Layer 3 if present
->  
-> +fib_multipath_hash_seed - STRING
-> +	Controls seed value for multipath route hashes. By default
-> +	random value is used. Only valid for kernels built with
-> +	CONFIG_IP_ROUTE_MULTIPATH enabled.
-> +
-> +	Valid format: two hex values set off with comma or "random"
-> +	keyword.
-> +
-> +	Example to generate the seed value::
-> +
-> +		RAND=$(openssl rand -hex 16) && echo "${RAND:0:16},${RAND:16:16}"
-> +
-> +	Default: "random"
-> +
->  fib_sync_mem - UNSIGNED INTEGER
->  	Amount of dirty memory from fib entries that can be backlogged before
->  	synchronize_rcu is forced.
-> diff --git a/include/net/flow_dissector.h b/include/net/flow_dissector.h
-> index ffd386ea0..d104c013a 100644
-> --- a/include/net/flow_dissector.h
-> +++ b/include/net/flow_dissector.h
-> @@ -348,6 +348,8 @@ static inline bool flow_keys_have_l4(const struct flow_keys *keys)
->  }
->  
->  u32 flow_hash_from_keys(struct flow_keys *keys);
-> +u32 flow_multipath_hash_from_keys(struct flow_keys *keys,
-> +			   const siphash_key_t *seed);
->  void skb_flow_get_icmp_tci(const struct sk_buff *skb,
->  			   struct flow_dissector_key_icmp *key_icmp,
->  			   const void *data, int thoff, int hlen);
-> diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
-> index 87e161249..cb2830432 100644
-> --- a/include/net/netns/ipv4.h
-> +++ b/include/net/netns/ipv4.h
-> @@ -222,6 +222,8 @@ struct netns_ipv4 {
->  #ifdef CONFIG_IP_ROUTE_MULTIPATH
->  	u8 sysctl_fib_multipath_use_neigh;
->  	u8 sysctl_fib_multipath_hash_policy;
-> +	int sysctl_fib_multipath_hash_seed;
+> I suppose there is another potential issue: would CRIU have issues if
+> the *save* runs on a kernel that uses this proposed extension
+> mechanism?  Are you doing something with the saved state that would
+> get confused?
 
-Why 'int'?
+You know, actually I guess criu may not work with new extensions, we have
+a predefined max xsave frame size and any new extensions to cpu states
+will require additional support.
 
-> +	siphash_key_t __rcu *fib_multipath_hash_seed_ctx;
->  #endif
->  
->  	struct fib_notifier_ops	*notifier_ops;
-> diff --git a/net/core/flow_dissector.c b/net/core/flow_dissector.c
-> index 5985029e4..febd1094c 100644
-> --- a/net/core/flow_dissector.c
-> +++ b/net/core/flow_dissector.c
-> @@ -1560,6 +1560,13 @@ u32 flow_hash_from_keys(struct flow_keys *keys)
->  }
->  EXPORT_SYMBOL(flow_hash_from_keys);
->  
-> +u32 flow_multipath_hash_from_keys(struct flow_keys *keys,
-> +				  const siphash_key_t *seed)
-> +{
-> +	return __flow_hash_from_keys(keys, seed);
-> +}
-> +EXPORT_SYMBOL(flow_multipath_hash_from_keys);
-> +
->  static inline u32 ___skb_get_hash(const struct sk_buff *skb,
->  				  struct flow_keys *keys,
->  				  const siphash_key_t *keyval)
-> diff --git a/net/ipv4/route.c b/net/ipv4/route.c
-> index f6787c55f..79866b429 100644
-> --- a/net/ipv4/route.c
-> +++ b/net/ipv4/route.c
-> @@ -1912,6 +1912,7 @@ int fib_multipath_hash(const struct net *net, const struct flowi4 *fl4,
->  {
->  	u32 multipath_hash = fl4 ? fl4->flowi4_multipath_hash : 0;
->  	struct flow_keys hash_keys;
-> +	siphash_key_t *seed_ctx;
->  	u32 mhash;
->  
->  	switch (net->ipv4.sysctl_fib_multipath_hash_policy) {
-> @@ -1989,7 +1990,14 @@ int fib_multipath_hash(const struct net *net, const struct flowi4 *fl4,
->  		}
->  		break;
->  	}
-> -	mhash = flow_hash_from_keys(&hash_keys);
-> +
-> +	rcu_read_lock();
-> +	seed_ctx = rcu_dereference(net->ipv4.fib_multipath_hash_seed_ctx);
-> +	if (seed_ctx)
-> +		mhash = flow_multipath_hash_from_keys(&hash_keys, seed_ctx);
-> +	else
-> +		mhash = flow_hash_from_keys(&hash_keys);
-> +	rcu_read_unlock();
+I must confess I didn't follow much on CET internals yet so I must be simply
+wrong. CC'ing Anrew just in case.
 
-During netns initialization the per-netns seed can be initialized to a
-system global seed. When the sysctl is used this seed will be
-overridden. You can then remove this check and always call
-flow_multipath_hash_from_keys() with the per-netns seed.
-
-I'm not suggesting to initialize the seed of each netns differently as
-some users might be inadvertently relying on the fact that it is
-currently the same for all namespaces.
-
->  
->  	if (multipath_hash)
->  		mhash = jhash_2words(mhash, multipath_hash, 0);
-> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-> index a09e466ce..5dff59733 100644
-> --- a/net/ipv4/sysctl_net_ipv4.c
-> +++ b/net/ipv4/sysctl_net_ipv4.c
-> @@ -447,6 +447,8 @@ static int proc_tcp_available_ulp(struct ctl_table *ctl,
->  }
->  
->  #ifdef CONFIG_IP_ROUTE_MULTIPATH
-> +#define FIB_MULTIPATH_SEED_KEY_LENGTH sizeof(siphash_key_t)
-> +#define FIB_MULTIPATH_SEED_RANDOM "random"
->  static int proc_fib_multipath_hash_policy(struct ctl_table *table, int write,
->  					  void *buffer, size_t *lenp,
->  					  loff_t *ppos)
-> @@ -461,6 +463,93 @@ static int proc_fib_multipath_hash_policy(struct ctl_table *table, int write,
->  
->  	return ret;
->  }
-> +
-> +static int proc_fib_multipath_hash_seed(struct ctl_table *table, int write,
-> +					void *buffer, size_t *lenp,
-> +					loff_t *ppos)
-> +{
-> +	struct net *net = container_of(table->data, struct net,
-> +	    ipv4.sysctl_fib_multipath_hash_seed);
-> +	/* maxlen to print the keys in hex (*2) and a comma in between keys. */
-> +	struct ctl_table tbl = {
-> +		.maxlen = ((FIB_MULTIPATH_SEED_KEY_LENGTH * 2) + 2)
-> +	};
-> +	siphash_key_t user_key, *ctx;
-> +	__le64 key[2];
-> +	int ret;
-> +
-> +	tbl.data = kmalloc(tbl.maxlen, GFP_KERNEL);
-> +
-> +	if (!tbl.data)
-> +		return -ENOMEM;
-> +
-> +	rcu_read_lock();
-> +	ctx = rcu_dereference(net->ipv4.fib_multipath_hash_seed_ctx);
-> +	if (ctx) {
-> +		put_unaligned_le64(ctx->key[0], &key[0]);
-> +		put_unaligned_le64(ctx->key[1], &key[1]);
-> +		user_key.key[0] = le64_to_cpu(key[0]);
-> +		user_key.key[1] = le64_to_cpu(key[1]);
-> +
-> +		snprintf(tbl.data, tbl.maxlen, "%016llx,%016llx",
-> +			 user_key.key[0], user_key.key[1]);
-> +	} else {
-> +		snprintf(tbl.data, tbl.maxlen, "%s", FIB_MULTIPATH_SEED_RANDOM);
-> +	}
-> +	rcu_read_unlock();
-> +
-> +	ret = proc_dostring(&tbl, write, buffer, lenp, ppos);
-> +
-> +	if (write && ret == 0) {
-
-You can reduce nesting by using early return.
-
-> +		siphash_key_t *new_ctx, *old_ctx;
-> +
-> +		if (!strcmp(tbl.data, FIB_MULTIPATH_SEED_RANDOM)) {
-> +			rtnl_lock();
-> +			old_ctx = rtnl_dereference(net->ipv4.fib_multipath_hash_seed_ctx);
-> +			RCU_INIT_POINTER(net->ipv4.fib_multipath_hash_seed_ctx, NULL);
-> +			rtnl_unlock();
-> +			if (old_ctx) {
-> +				synchronize_net();
-> +				kfree_sensitive(old_ctx);
-> +			}
-> +
-> +			pr_debug("multipath hash seed set to random value\n");
-> +			goto out;
-> +		}
-> +
-> +		if (sscanf(tbl.data, "%llx,%llx", user_key.key, user_key.key + 1) != 2) {
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +
-> +		key[0] = cpu_to_le64(user_key.key[0]);
-> +		key[1] = cpu_to_le64(user_key.key[1]);
-> +		pr_debug("multipath hash seed set to 0x%llx,0x%llx\n",
-> +			 user_key.key[0], user_key.key[1]);
-
-This leaks the seed... I understand how these prints can be useful
-during development, but I believe they should be removed prior to
-submission.
-
-> +
-> +		new_ctx = kmalloc(sizeof(*new_ctx), GFP_KERNEL);
-> +		if (!new_ctx) {
-> +			ret = -ENOMEM;
-> +			goto out;
-> +		}
-> +
-> +		new_ctx->key[0] = get_unaligned_le64(&key[0]);
-> +		new_ctx->key[1] = get_unaligned_le64(&key[1]);
-> +
-> +		rtnl_lock();
-> +		old_ctx = rtnl_dereference(net->ipv4.fib_multipath_hash_seed_ctx);
-> +		rcu_assign_pointer(net->ipv4.fib_multipath_hash_seed_ctx, new_ctx);
-> +		rtnl_unlock();
-> +		if (old_ctx) {
-> +			synchronize_net();
-> +			kfree_sensitive(old_ctx);
-> +		}
-> +	}
-
-This looks overly complex to me and I believe a lot of users will ask
-themselves why they need to specify a seed using two hex numbers
-separated by a comma. Looking at other implementations that already
-allow specifying the seed, it is specified as a single integer.
-
-32-bit in Cumulus:
-https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-43/Layer-3/Routing/Equal-Cost-Multipath-Load-Sharing-Hardware-ECMP/#configure-a-hash-seed-to-avoid-hash-polarization
-
-Up to 16-bit in Arista:
-https://eos.arista.com/hashing-for-l2-port-channels-and-l3-ecmp/
-
-I believe you chose this interface because of the structure of the
-SipHash key that is used for the multipath hash calculation. This is an
-internal implementation detail and should not determine the user
-interface.
-
-Looking at the history of the code, the flow dissector was migrated to
-SipHash in commit 55667441c84f ("net/flow_dissector: switch to
-siphash"). The motivating use case was flow label generation since these
-are sent on the wire together with the fields from which they were
-computed, not multipath hash calculation that also happens to rely on
-the flow dissector.
-
-Given the above, do you see a problem with having the user specify a
-32-bit number for the multipath hash seed? Note that SipHash is still
-used and that the number can be used to fill the entire 128-bit space.
-
-The special value of "0" can be used to revert back to the random seed
-(needs to be documented, obviously).
-
-> +
-> +out:
-> +	kfree(tbl.data);
-> +	return ret;
-> +}
->  #endif
->  
->  static struct ctl_table ipv4_table[] = {
-> @@ -1052,6 +1141,14 @@ static struct ctl_table ipv4_net_table[] = {
->  		.extra1		= SYSCTL_ZERO,
->  		.extra2		= &two,
->  	},
-> +	{
-> +		.procname	= "fib_multipath_hash_seed",
-> +		.data		= &init_net.ipv4.sysctl_fib_multipath_hash_seed,
-> +		/* maxlen to print the keys in hex (*2) and a comma in between keys. */
-> +		.maxlen		= (FIB_MULTIPATH_SEED_KEY_LENGTH * 2) + 2,
-> +		.mode		= 0600,
-> +		.proc_handler	= proc_fib_multipath_hash_seed,
-> +	},
->  #endif
->  	{
->  		.procname	= "ip_unprivileged_port_start",
-> -- 
-> 2.31.1
-> 
+	Cyrill
