@@ -2,143 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAD63C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 07:28:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B44C43460
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 08:18:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9848561457
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 07:28:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AE4661185
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 08:18:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239509AbhD2H3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 03:29:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239542AbhD2H25 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 03:28:57 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08E48C06138F;
-        Thu, 29 Apr 2021 00:28:11 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id h36so49163112lfv.7;
-        Thu, 29 Apr 2021 00:28:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jdGoIRWBioljnz1nn4BBzNDaqsoqN9PPsguAeYrjWLg=;
-        b=HJX7+45yNzfNOqoK21ORJnfSS4SqA73WGkbuaPh5kcOvNYBW3pgUgci+P8nrnGhQNi
-         QZWfIOMDuLxP7E+IQpYLX9lQKKuah9ZA8zd1fRzmg+us00a0DmfVFSJnoglvDlrR5JPu
-         wZT0M0/aUfULpMBV9n6oztU1UyISEfYE99jx+Q8TP6g+4uRAG8uA8+yTJauJnN5AbBUY
-         qNoqboxDl+xzzGI7bhFrM+aicJFNWgbT7KP6ymuX4ynpdc3n//T15fOaV6b78MEdGhpM
-         FgBTL7grc3s+XEViMjWFpN6JTZThcff9VQa1IWXouixVnItPd6v/EBVeRr1oW/H3lGiu
-         /UIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jdGoIRWBioljnz1nn4BBzNDaqsoqN9PPsguAeYrjWLg=;
-        b=F7+IaO8wzRH5HaDZ7T77Gov35YfycrgsjdDmc/5Uz+pJbUnQSZzrU5lrgE64EQhJSP
-         32Lk8yfAiYARvKp8shBrftuGmLcoo0qws35hlHZkKmaMgohLu7GvpPRhbBsZ32ZOSgWi
-         oMOroKpoqpAKsqedrDZsnY9U12THMT0UMEIFYriBshw4xmcaFWca8fXO4ITnqb9iX6RR
-         osr1sxE1LfcqW6m17zK5polb/jxBA9GGCTBP2iXmptwNrb8WAfllNfT1ntJVIz1VIq40
-         Oa5gI4UTsU6qavlS3g4NLC5zoJ4RO2GeoNH7aZjxwb7W3mPYw1VDTMLzT7qJ1JoL1Jt+
-         jb9A==
-X-Gm-Message-State: AOAM531FUzHww6X9No679KWry/KHEaRq6pENdedH23LqD53HVRitJCdj
-        H0n7s7Bmx7zpKM0RozizhrY=
-X-Google-Smtp-Source: ABdhPJwuzpu7JK/CSqJabsNtmy0swVR3AkMVRzJ7rqYa3XCC6KgbaqN5bCkxJUe0VVIgGQcVOJHNpg==
-X-Received: by 2002:a05:6512:12d2:: with SMTP id p18mr4572032lfg.239.1619681289241;
-        Thu, 29 Apr 2021 00:28:09 -0700 (PDT)
-Received: from grain.localdomain ([5.18.199.94])
-        by smtp.gmail.com with ESMTPSA id f17sm260073lfu.215.2021.04.29.00.28.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 00:28:08 -0700 (PDT)
-Received: by grain.localdomain (Postfix, from userid 1000)
-        id 72CF5560116; Thu, 29 Apr 2021 10:28:07 +0300 (MSK)
-Date:   Thu, 29 Apr 2021 10:28:07 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
- signals for shadow stack)
-Message-ID: <YIpgB5HbnNPWX4FP@grain>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-26-yu-cheng.yu@intel.com>
- <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+        id S231405AbhD2IS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 04:18:57 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:59014 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239385AbhD2IS5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 04:18:57 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mtapsc-6-vki8S8smMJidjW5qU1ql5A-1; Thu, 29 Apr 2021 09:18:08 +0100
+X-MC-Unique: vki8S8smMJidjW5qU1ql5A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 09:18:07 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Thu, 29 Apr 2021 09:18:07 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'mceier+kernel@gmail.com'" <mceier+kernel@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
+CC:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 00/13] [RFC] Rust support
+Thread-Topic: [PATCH 00/13] [RFC] Rust support
+Thread-Index: AQHXPLdzOFPh/tHqwUWOAL+H8MAuYKrLJmrA
+Date:   Thu, 29 Apr 2021 08:18:07 +0000
+Message-ID: <a5e90fededc64ca2b8a29245a7d1d798@AcuMS.aculab.com>
+References: <CAJTyqKMLaav7VCAZS9p8wh0UamACYq9p6h=LsyrCeLqG_O2Jcw@mail.gmail.com>
+In-Reply-To: <CAJTyqKMLaav7VCAZS9p8wh0UamACYq9p6h=LsyrCeLqG_O2Jcw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 28, 2021 at 04:03:55PM -0700, Andy Lutomirski wrote:
-> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> >
-> > When shadow stack is enabled, a task's shadow stack states must be saved
-> > along with the signal context and later restored in sigreturn.  However,
-> > currently there is no systematic facility for extending a signal context.
-> > There is some space left in the ucontext, but changing ucontext is likely
-> > to create compatibility issues and there is not enough space for further
-> > extensions.
-> >
-> > Introduce a signal context extension struct 'sc_ext', which is used to save
-> > shadow stack restore token address.  The extension is located above the fpu
-> > states, plus alignment.  The struct can be extended (such as the ibt's
-> > wait_endbr status to be introduced later), and sc_ext.total_size field
-> > keeps track of total size.
-> 
-> I still don't like this.
-> 
-> Here's how the signal layout works, for better or for worse:
-> 
-> The kernel has:
-> 
-> struct rt_sigframe {
->     char __user *pretcode;
->     struct ucontext uc;
->     struct siginfo info;
->     /* fp state follows here */
-> };
-> 
-> This is roughly the actual signal frame.  But userspace does not have
-> this struct declared, and user code does not know the sizes of the
-> fields.  So it's accessed in a nonsensical way.  The signal handler
+RnJvbTogTWFyaXVzeiBDZWllcg0KPiBTZW50OiAyOSBBcHJpbCAyMDIxIDA2OjIxDQo+IA0KPiBP
+biAyOC8wNC8yMDIxLCBOaWNrIERlc2F1bG5pZXJzIDxuZGVzYXVsbmllcnNAZ29vZ2xlLmNvbT4g
+d3JvdGU6DQo+ID4gT24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgMTE6MzQgQU0gTWFyaXVzeiBDZWll
+ciA8bWNlaWVyK2tlcm5lbEBnbWFpbC5jb20+DQo+ID4gd3JvdGU6DQo+ID4+DQo+ID4+IE1heWJl
+IGl0IHdvdWxkIGFsc28gYmUgd29ydGh3aGlsZSB0byBtYWtlIHRoZSByZXF1aXJlbWVudCB0aGF0
+IHRoZQ0KPiA+PiBrZXJuZWwgbXVzdCBiZSBidWlsZGFibGUgd2l0aCBmcmVlIHNvZnR3YXJlIChu
+b3QganVzdCBvcGVuIHNvdXJjZQ0KPiA+PiBzb2Z0d2FyZSkgZXhwbGljaXQgPw0KPiA+DQo+ID4g
+VGhlIGtlcm5lbCBpcyBhbHJlYWR5IGJ1aWxkYWJsZSBieSBMTFZNIChhbmQgY2xhbmcpOyBpbiBm
+YWN0IEFuZHJvaWQsDQo+ID4gQ3JPUywgYW5kIEdvb2dsZSdzIHByb2R1Y3Rpb24gc2VydmVycyBh
+bHJlYWR5IGRvIHNvLg0KPiA+IGh0dHBzOi8vY2xhbmdidWlsdGxpbnV4LmdpdGh1Yi5pby8NCj4g
+DQo+IExMVk0vY2xhbmcgaXMgbm90IGZyZWUgc29mdHdhcmUgKGl0J3MganVzdCBvcGVuIHNvdXJj
+ZSksIHNvIGl0IGRvZXNuJ3QNCj4gbWF0dGVyIGlmIGtlcm5lbCBidWlsZHMgb3Igbm90IHdpdGgg
+aXQuIFdoYXQgc2hvdWxkIG1hdHRlciBpcyB3aGV0aGVyDQo+IGl0IGlzIGJ1aWxkYWJsZSB3aXRo
+IGF0IGxlYXN0IG9uZSBHUEwgY29tcGlsZXIgbGlrZSBHQ0MuDQoNCkkgc3VzcGVjdCB0aGF0IHdo
+YXQgbWF0dGVycyBmb3IgbW9zdCBwZW9wbGUgaXMgd2hldGhlciB0aGUgcmVxdWlyZWQNCmNvbXBp
+bGVycyAoZXRjKSBhcmUgaW5zdGFsbGVkIGJ5IGEgZGVmYXVsdC1pc2ggaW5zdGFsbCBvZiB0aGVp
+cg0KZmF2b3VyaXRlIGRpc3RyaWJ1dGlvbi4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRk
+cmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBN
+SzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-Well, not really. While indeed this is not declared as a part of API
-the structure is widely used for rt_sigreturn syscall (and we're using
-it inside criu thus any change here will simply break the restore
-procedure). Sorry out of time right now, I'll read your mail more
-carefully once time permit.
