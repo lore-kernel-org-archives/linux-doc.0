@@ -2,85 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57CF6C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C3EC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:12:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2241161441
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:05:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E5F1361449
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:12:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240295AbhD2JGD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 05:06:03 -0400
-Received: from mail-m17655.qiye.163.com ([59.111.176.55]:64246 "EHLO
-        mail-m17655.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240247AbhD2JGC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 05:06:02 -0400
-Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.250.176.229])
-        by mail-m17655.qiye.163.com (Hmail) with ESMTPA id B08B5400A7;
-        Thu, 29 Apr 2021 17:05:12 +0800 (CST)
-From:   Wang Qing <wangqing@vivo.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Wang Qing <wangqing@vivo.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Joe Perches <joe@perches.com>, Stephen Kitt <steve@sk2.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S237228AbhD2JNG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 05:13:06 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:42134 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232775AbhD2JNE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Apr 2021 05:13:04 -0400
+Received: from zn.tnic (p200300ec2f0a4f00fa8ecda271c3a3d7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:4f00:fa8e:cda2:71c3:a3d7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1DC2B1EC0288;
+        Thu, 29 Apr 2021 11:12:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1619687536;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=7zGmhNtr9fSMXiAv9CTHWxetCafBFfr5+g4Pp2O1zPA=;
+        b=VJ8KU5gDLEDcc86e/EfzBa0Fu1gTt/agw1fFBUNcKkgElWJVHz5ezJ1+abvUNWA/+YPW+c
+        hhXKF5mKvOhNpbhEILpk4RsYp4zZM9GJdcTDDXSIzZSnW5O74QppV0bnYsVdEpAKdndzIb
+        /RedeShYZzUdYUN0WSeW2H8EvvtriFM=
+Date:   Thu, 29 Apr 2021 11:12:19 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Santosh Sivaraj <santosh@fossix.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH V2,RESEND 4/4] doc: watchdog: Modify the doc related to "watchdog/%u"
-Date:   Thu, 29 Apr 2021 17:04:28 +0800
-Message-Id: <1619687073-24686-5-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1619687073-24686-2-git-send-email-wangqing@vivo.com>
-References: <1619687073-24686-2-git-send-email-wangqing@vivo.com>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 22/30] x86/cet/shstk: Add user-mode shadow stack
+ support
+Message-ID: <YIp4c95E9/9DYR6z@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-23-yu-cheng.yu@intel.com>
+ <YImg5hmBnTZTkYIp@zn.tnic>
+ <3a0ed2e3-b13d-0db6-87af-fecd394ddd2e@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZQhpOQ1ZDHx1PSU5NHRlMSUtVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
-        hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NAg6TSo6AT8JQ0kpTk0pFzYO
-        HT5PCVZVSlVKTUpCTUNMSkpITkpLVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
-        SU5LVUpMTVVJSUJZV1kIAVlBSEhMTDcG
-X-HM-Tid: 0a791ce001d2da01kuwsb08b5400a7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3a0ed2e3-b13d-0db6-87af-fecd394ddd2e@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"watchdog/%u" threads has be replaced by cpu_stop_work. The current
-description is extremely misleading.
----
- Documentation/admin-guide/sysctl/kernel.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On Wed, Apr 28, 2021 at 11:39:00AM -0700, Yu, Yu-cheng wrote:
+> Sorry about that.  After that email thread, we went ahead to separate shadow
+> stack and ibt into different files.  I thought about the struct, the file
+> names cet.h, etc.  The struct still needs to include ibt status, and if it
+> is shstk_desc, the name is not entirely true.  One possible approach is, we
+> don't make it a struct here, and put every item directly in thread_struct.
+> However, the benefit of putting all in a struct is understandable (you might
+> argue the opposite :-)).  Please make the call, and I will do the change.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 1d56a6b..32b0791
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1282,11 +1282,11 @@ This parameter can be used to control the soft lockup detector.
- = =================================
- 
- The soft lockup detector monitors CPUs for threads that are hogging the CPUs
--without rescheduling voluntarily, and thus prevent the 'watchdog/N' threads
--from running. The mechanism depends on the CPUs ability to respond to timer
--interrupts which are needed for the 'watchdog/N' threads to be woken up by
--the watchdog timer function, otherwise the NMI watchdog — if enabled — can
--detect a hard lockup condition.
-+without rescheduling voluntarily, and thus prevent the 'migration/N' threads
-+from running, causing the watchdog work fail to execute. The mechanism depends
-+on the CPUs ability to respond to timer interrupts which are needed for the
-+watchdog work to be queued by the watchdog timer function, otherwise the NMI
-+watchdog — if enabled — can detect a hard lockup condition.
- 
- 
- stack_erasing
+/me looks forward into the patchset...
+
+So this looks like the final version of it:
+
+@@ -15,6 +15,7 @@ struct cet_status {
+ 	unsigned long	shstk_base;
+ 	unsigned long	shstk_size;
+ 	unsigned int	locked:1;
++	unsigned int	ibt_enabled:1;
+ };
+
+If so, that thing should be simply:
+
+	struct cet {
+		unsigned long shstk_base;
+		unsigned long shstk_size;
+		unsigned int shstk_lock : 1,
+			     ibt	: 1;
+	}
+
+Is that ibt flag per thread or why is it here? I guess I'll find out.
+
+/me greps...
+
+ah yes, it is.
+
+> Yes, the comments are in patch #23: Handle thread shadow stack.  I wanted to
+> add that in the patch that takes the path.
+
+That comes next, I'll look there.
+
+> > vm_munmap() can return other negative error values, where are you
+> > handling those?
+> > 
+> 
+> For other error values, the loop stops.
+
+And then what happens?
+
+> > > +	cet->shstk_base = 0;
+> > > +	cet->shstk_size = 0;
+
+You clear those here without even checking whether unmap failed somehow.
+And then stuff leaks but we don't care, right?
+
+Someone else's problem, I'm sure.
+
 -- 
-2.7.4
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
