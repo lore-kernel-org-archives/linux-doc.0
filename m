@@ -2,106 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5812CC433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 08:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB27C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:04:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FB3561433
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 08:53:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0643B61457
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:04:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239882AbhD2Ixy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 04:53:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50670 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232400AbhD2Ixx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 04:53:53 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D5C3C06138B;
-        Thu, 29 Apr 2021 01:53:05 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id p17so6366020pjz.3;
-        Thu, 29 Apr 2021 01:53:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JOu/qK5HN825dhzv2XzFqxUs2XZc9mrKG/c5JbhDry8=;
-        b=GDYQ8++4fQq+mZaPkX6MdGs+654lMgCs5gVpuu1KCHnr9edys1E+gvB0jO/KuV14Rk
-         7z6GTwu0hzUIjiNhKS2oBwGJY8tBcMaXotpz9Zfc4JN/JNPqXuQjK9Li6JDPP7qOFIlZ
-         0ZHXxVYkQX5Vrjn5IwDStA4fOhm6llxPmUQ23Zs4MbJgO4kSfqdefcmO0d0V7re2QtGM
-         Z9hYke/bKghRTEMdGUYW6SiF/iEzkaC45EcmeBhoe5KIMjN7wq0BiXUQxps5jzVPohZD
-         3/vVoVKcHYqbTXEyYHE3IIVpHNKF/+qdAaRu6q96dmb2fdzduf892qUUccsC46hXgicq
-         cJ8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JOu/qK5HN825dhzv2XzFqxUs2XZc9mrKG/c5JbhDry8=;
-        b=lld7Pzna4CE7GDY7XQYmgQ58SeUQg6P0ciSUaVJVZJ4WSR266IVgl4cDfDZ0JX+LBc
-         Oy6+ZF6sEyuA8kzZXeHZU/XnBG0xPMDrlES2zTn3r4SY2BQU+OV1Xct/tP3wc+w2imAp
-         jO7T8kjgsnVOz/dkjKQ14Od9jlP5TUDIjQu7JvbPrrC6tnvpP6JilYsw/CEe9NThxfKw
-         uuApXfKIznOUZmIjGgvoCwuobe+KbjbMy/xomgdpb73IPwVjoupI6syLOeqz+9Kc47aY
-         qhddHX4UbA/GICjTO27CdRqES8DMEMdEWfAhujsQzJzE549IQ9PpTLhBkW9L04HyByUN
-         OOQg==
-X-Gm-Message-State: AOAM532vkkxmGrFAlsI92NBzNSy2gCLJ7fX1qhHk9JgA8r9Wk9A11kLw
-        yI6ldRw2KwEraA38/WFMioNXa9f8qfSaFy8VP50=
-X-Google-Smtp-Source: ABdhPJympxDsG2Ngi8NPlgJljS6eDQicsW6y9AwP+1/Y3H3kM1jS2J4gWlxALFAcZCZM7OBGOqUI7U6lRHPGArijjTI=
-X-Received: by 2002:a17:90b:1184:: with SMTP id gk4mr8719543pjb.129.1619686385054;
- Thu, 29 Apr 2021 01:53:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210428135929.27011-1-justin.he@arm.com> <20210428135929.27011-2-justin.he@arm.com>
- <YIpyZmi1Reh7iXeI@alley>
-In-Reply-To: <YIpyZmi1Reh7iXeI@alley>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 29 Apr 2021 11:52:49 +0300
-Message-ID: <CAHp75Vfa3ATc+-Luka9vJTwoCLAPVm38cciYyBYnWxzNQ1DPrg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] lib/vsprintf.c: Make %p{D,d} mean as much components
- as possible
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Jia He <justin.he@arm.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:TI WILINK WIRELES..." <linux-wireless@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, linux-s390@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S240148AbhD2JFh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 05:05:37 -0400
+Received: from mail-m17655.qiye.163.com ([59.111.176.55]:63808 "EHLO
+        mail-m17655.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240008AbhD2JFg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 05:05:36 -0400
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.250.176.229])
+        by mail-m17655.qiye.163.com (Hmail) with ESMTPA id 0A578400B3;
+        Thu, 29 Apr 2021 17:04:47 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Wang Qing <wangqing@vivo.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Joe Perches <joe@perches.com>, Stephen Kitt <steve@sk2.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Santosh Sivaraj <santosh@fossix.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH V2,RESEND 1/4] kernel: watchdog: Modify the explanation related to watchdog thread
+Date:   Thu, 29 Apr 2021 17:04:25 +0800
+Message-Id: <1619687073-24686-2-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZQhgYT1YfTUgfQhlKS04eHR1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+        hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ni46Ijo5Hj8LHkkICUwqFzg0
+        PQhPCTBVSlVKTUpCTUNMS0NMQ0lKVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5LVUpMTVVJSUJZV1kIAVlBSE1ITDcG
+X-HM-Tid: 0a791cdf9d82da01kuws0a578400b3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 11:47 AM Petr Mladek <pmladek@suse.com> wrote:
->
-> On Wed 2021-04-28 21:59:27, Jia He wrote:
-> > From: Linus Torvalds <torvalds@linux-foundation.org>
-> >
-> > We have '%pD'(no digit following) for printing a filename. It may not be
-> > perfect (by default it only prints one component.
-> >
-> > %pD4 should be more than good enough, but we should make plain "%pD" mean
-> > "as much of the path that is reasonable" rather than "as few components as
-> > possible" (ie 1).
->
-> Could you please provide link to the discussion where this idea was
-> came from?
+The watchdog thread has been replaced by cpu_stop_work, modify the 
+explanation related.
 
-https://lore.kernel.org/lkml/20210427025805.GD3122264@magnolia/
+Signed-off-by: Wang Qing <wangqing@vivo.com>
+---
+ kernel/watchdog.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
+diff --git a/kernel/watchdog.c b/kernel/watchdog.c
+index 7110906..d7fb4fb
+--- a/kernel/watchdog.c
++++ b/kernel/watchdog.c
+@@ -92,7 +92,7 @@ __setup("nmi_watchdog=", hardlockup_panic_setup);
+  * own hardlockup detector.
+  *
+  * watchdog_nmi_enable/disable can be implemented to start and stop when
+- * softlockup watchdog threads start and stop. The arch must select the
++ * softlockup watchdog start and stop. The arch must select the
+  * SOFTLOCKUP_DETECTOR Kconfig.
+  */
+ int __weak watchdog_nmi_enable(unsigned int cpu)
+@@ -322,7 +322,7 @@ static DEFINE_PER_CPU(struct completion, softlockup_completion);
+ static DEFINE_PER_CPU(struct cpu_stop_work, softlockup_stop_work);
+ 
+ /*
+- * The watchdog thread function - touches the timestamp.
++ * The watchdog feed function - touches the timestamp.
+  *
+  * It only runs once every sample_period seconds (4 seconds by
+  * default) to reset the softlockup timestamp. If this gets delayed
+@@ -551,11 +551,7 @@ static void lockup_detector_reconfigure(void)
+ }
+ 
+ /*
+- * Create the watchdog thread infrastructure and configure the detector(s).
+- *
+- * The threads are not unparked as watchdog_allowed_mask is empty.  When
+- * the threads are successfully initialized, take the proper locks and
+- * unpark the threads in the watchdog_cpumask if the watchdog is enabled.
++ * Create the watchdog infrastructure and configure the detector(s).
+  */
+ static __init void lockup_detector_setup(void)
+ {
+@@ -621,7 +617,7 @@ void lockup_detector_soft_poweroff(void)
+ 
+ #ifdef CONFIG_SYSCTL
+ 
+-/* Propagate any changes to the watchdog threads */
++/* Propagate any changes to the watchdog infrastructure */
+ static void proc_watchdog_update(void)
+ {
+ 	/* Remove impossible cpus to keep sysctl output clean. */
 -- 
-With Best Regards,
-Andy Shevchenko
+2.7.4
+
