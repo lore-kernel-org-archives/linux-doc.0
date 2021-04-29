@@ -2,248 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C76C43460
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 23:21:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0914BC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 01:00:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD91F6145E
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Apr 2021 23:21:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D93A96141E
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 01:00:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230084AbhD1XVq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 19:21:46 -0400
-Received: from mga07.intel.com ([134.134.136.100]:64609 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229762AbhD1XVq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Apr 2021 19:21:46 -0400
-IronPort-SDR: m8YbVTk4MRTQhtrAmssv13nqEqiStmC64357fBvY1XH8+ByTlArMRZJNB2QC96F3EcNSJiMv+k
- D27y/qReIefg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="260827167"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="260827167"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 16:21:00 -0700
-IronPort-SDR: TrwTu1/OF8qs0lC1qNUs2nYoZwr4G8MCIAphjrqGp83fIaNWNKuTxX4Q1GfaiIOSsr6MsZZgUl
- E5u9Shlt5ILA==
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="430555433"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.133.34]) ([10.209.133.34])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 16:20:56 -0700
-Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
- signals for shadow stack)
-To:     Andy Lutomirski <luto@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S232351AbhD2BA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Apr 2021 21:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60206 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230075AbhD2BA4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Apr 2021 21:00:56 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30442C06138D
+        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 18:00:11 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id f6-20020a17090a6546b029015088cf4a1eso10063437pjs.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 18:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=W1foyVnHpt10zkANi9y0LWp7jrRDQd/Q7wAouJW7aRU=;
+        b=l0enqpDX6x7/rQ/qhKF4XS/4BoLoz2AHWukBmE29ObLVOk7DOcHRi1ABbXlXZ/mbKI
+         gTvEh3P2XsGnujeGXSCa99jrGp4J6td9wZOVTUs/KZwwxIuVjCOKUuGkKsUl8QI1npFz
+         XfXBXDVswe5VSNifnAhJp2j/P3+ptoAye9aN/5HVivKg2Er7aGzTVLrDGU3hglCFMXic
+         YROk6OR7rBzv/ifeBonAwUsWOiHGGLTQWatjKEQtWK+CoT999dY+Fj26fsWVrAAnasKx
+         zMeNQzFD6UViMEA7Vg69DpU2tXqZlS44ForW8kl4IsPVVovQ2n3U9POGTXArPoWJVRWF
+         xyzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=W1foyVnHpt10zkANi9y0LWp7jrRDQd/Q7wAouJW7aRU=;
+        b=uKSD0FV0AqALHwU0VW+JDi3OLQxQi8R1myuxRM/6xSqvwFoBSPeSsOF25X03y+s5bV
+         k8OQDNrMP9PNWpeeJBRnFxRNR2BpivpGHe7uTE9oJ4i5rXyi9w60FKjHam/zFDNPIAzn
+         RAl1kBocsyMUM1DGuOPalXKluJ+f2e2hEr8j9aPSS+fj0tqDyvyBtTsByITDDJmd8KFm
+         y1YUnsBMTpb85FuY8VhthGmLXK4EWiStLN2Orc05GYdl0wtIvUrwW+ruBJWMl/CcNeXD
+         RRlO1vEm0f+/fbQqxkwtQYEUDJ2+jTmGQ5ntyXJPsLA95T4cUDZnaOlHLJk5ha4ji8q5
+         rTYA==
+X-Gm-Message-State: AOAM531T9OGy91sxVC5egx8W2dFTg0ZJSIFNlva6oSbq/ZVgsxeD6P+Z
+        DXVw2MRqFc4bhk7FPfICWEjZrg==
+X-Google-Smtp-Source: ABdhPJzn0rzOp7Odw2sXRwk+fWNrSxVdAPCKwhagPdWng4HyaQb+oJYvsO5jwpedNc8uRrmK9PtTZQ==
+X-Received: by 2002:a17:902:7e86:b029:ed:74b7:8fd4 with SMTP id z6-20020a1709027e86b02900ed74b78fd4mr4989129pla.21.1619658010508;
+        Wed, 28 Apr 2021 18:00:10 -0700 (PDT)
+Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
+        by smtp.gmail.com with ESMTPSA id 5sm729450pfi.43.2021.04.28.18.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 18:00:10 -0700 (PDT)
+Date:   Thu, 29 Apr 2021 01:00:06 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+Cc:     linux-kernel@vger.kernel.org, Denis Lunev <den@openvz.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-26-yu-cheng.yu@intel.com>
- <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <f6e61dae-9805-c855-8873-7481ceb7ea79@intel.com>
-Date:   Wed, 28 Apr 2021 16:20:55 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        Like Xu <like.xu@linux.intel.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4] KVM: x86: Fix KVM_GET_CPUID2 ioctl to return cpuid
+ entries count
+Message-ID: <YIoFFl72VSeuhCRt@google.com>
+References: <20210428172729.3551-1-valeriy.vdovin@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210428172729.3551-1-valeriy.vdovin@virtuozzo.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
-> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> When shadow stack is enabled, a task's shadow stack states must be saved
->> along with the signal context and later restored in sigreturn.  However,
->> currently there is no systematic facility for extending a signal context.
->> There is some space left in the ucontext, but changing ucontext is likely
->> to create compatibility issues and there is not enough space for further
->> extensions.
->>
->> Introduce a signal context extension struct 'sc_ext', which is used to save
->> shadow stack restore token address.  The extension is located above the fpu
->> states, plus alignment.  The struct can be extended (such as the ibt's
->> wait_endbr status to be introduced later), and sc_ext.total_size field
->> keeps track of total size.
-> 
-> I still don't like this.
-> 
-> Here's how the signal layout works, for better or for worse:
-> 
-> The kernel has:
-> 
-> struct rt_sigframe {
->      char __user *pretcode;
->      struct ucontext uc;
->      struct siginfo info;
->      /* fp state follows here */
-> };
-> 
-> This is roughly the actual signal frame.  But userspace does not have
-> this struct declared, and user code does not know the sizes of the
-> fields.  So it's accessed in a nonsensical way.  The signal handler
-> function is passed a pointer to the whole sigframe implicitly in RSP,
-> a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
-> User code can *find* the fp state by following a pointer from
-> mcontext, which is, in turn, found via uc:
-> 
-> struct ucontext {
->      unsigned long      uc_flags;
->      struct ucontext  *uc_link;
->      stack_t          uc_stack;
->      struct sigcontext uc_mcontext;  <-- fp pointer is in here
->      sigset_t      uc_sigmask;    /* mask last for extensibility */
-> };
-> 
-> The kernel, in sigreturn, works a bit differently.  The sigreturn
-> variants know the base address of the frame but don't have the benefit
-> of receiving pointers to the fields.  So instead the kernel takes
-> advantage of the fact that it knows the offset to uc and parses uc
-> accordingly.  And the kernel follows the pointer in mcontext to find
-> the fp state.  The latter bit is quite important later.  The kernel
-> does not parse info at all.
-> 
-> The fp state is its own mess.  When XSAVE happened, Intel kindly (?)
-> gave us a software defined area between the "legacy" x87 region and
-> the modern supposedly extensible part.  Linux sticks the following
-> structure in that hole:
-> 
-> struct _fpx_sw_bytes {
->      /*
->       * If set to FP_XSTATE_MAGIC1 then this is an xstate context.
->       * 0 if a legacy frame.
->       */
->      __u32                magic1;
-> 
->      /*
->       * Total size of the fpstate area:
->       *
->       *  - if magic1 == 0 then it's sizeof(struct _fpstate)
->       *  - if magic1 == FP_XSTATE_MAGIC1 then it's sizeof(struct _xstate)
->       *    plus extensions (if any)
->       */
->      __u32                extended_size;
-> 
->      /*
->       * Feature bit mask (including FP/SSE/extended state) that is present
->       * in the memory layout:
->       */
->      __u64                xfeatures;
-> 
->      /*
->       * Actual XSAVE state size, based on the xfeatures saved in the layout.
->       * 'extended_size' is greater than 'xstate_size':
->       */
->      __u32                xstate_size;
-> 
->      /* For future use: */
->      __u32                padding[7];
-> };
-> 
-> 
-> That's where we are right now upstream.  The kernel has a parser for
-> the FPU state that is bugs piled upon bugs and is going to have to be
-> rewritten sometime soon.  On top of all this, we have two upcoming
-> features, both of which require different kinds of extensions:
-> 
-> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
-> but no.  And AMX makes it worse.)  To make a long story short, we
-> promised user code many years ago that a signal frame fit in 2048
-> bytes with some room to spare.  With AVX-512 this is false.  With AMX
-> it's so wrong it's not even funny.  The only way out of the mess
-> anyone has come up with involves making the length of the FPU state
-> vary depending on which features are INIT, i.e. making it more compact
-> than "compact" mode is.  This has a side effect: it's no longer
-> possible to modify the state in place, because enabling a feature with
-> no space allocated will make the structure bigger, and the stack won't
-> have room.  Fortunately, one can relocate the entire FPU state, update
-> the pointer in mcontext, and the kernel will happily follow the
-> pointer.  So new code on a new kernel using a super-compact state
-> could expand the state by allocating new memory (on the heap? very
-> awkwardly on the stack?) and changing the pointer.  For all we know,
-> some code already fiddles with the pointer.  This is great, except
-> that your patch sticks more data at the end of the FPU block that no
-> one is expecting, and your sigreturn code follows that pointer, and
-> will read off into lala land.
-> 
-> 2. CET.  CET wants us to find a few more bytes somewhere, and those
-> bytes logically belong in ucontext, and here we are.
-> 
-> This is *almost*, but not quite, easy: struct ucontext is already
-> variable length!  Unfortunately, the whole variable length portion is
-> used up by uc_sigmask.  So I propose that we introduce a brand new
-> bona fide extension mechanism.  It works like this:
-> 
-> First, we add a struct ucontext_extension at the end.  It looks like:
-> 
-> struct ucontext_extension {
->    u64 length;  /* sizeof(struct ucontext_extension) */
->    u64 flags;  /* we will want this some day */
->    [CET stuff here]
->    [future stuff here]
-> };
-> 
-> And we locate it by scrounging a word somewhere in ucontext to give
-> the offset from the beginning of struct ucontext to
-> ucontext_extension.  We indicate the presence of this feature using a
-> new uc_flags bit.  I can think of a couple of vaguely reasonable
-> places:
-> 
-> a) the reserved word in sigcontext.  This is fine for x86 but not so
-> great if other architectures want to do this.
-> 
-> b) uc_link.  Fine everywhere but powerpc.  Oops.
-> 
-> c) use the high bits of uc_flags.  After all, once we add extensions,
-> we don't need new flags, so we can steal 16 high bits of uc_flags for
-> this.
-> 
-> I think I'm in favor of (c).  We do:
-> 
-> (uc_flags & 0xffff0000) == 0: extension not present
-> 
-> Otherwise the extension region is at ucontext + (uc_flags >> 16).
-> 
-> And sigreturn finds the extension the same way, because CRIU can
-> already migrate a signal frame from one kernel to another, your patch
-> breaks this, and having sigreturn hardcode the offset would also break
-> it.
-> 
-> What do you think?
-> 
+On Wed, Apr 28, 2021, Valeriy Vdovin wrote:
+> It's very explicit by the code that it was designed to receive some
+> small number of entries to return E2BIG along with the corrected number.
 
-There are a lot of things in here.  I think I could create some patches 
-for ucontext_extension and send out for discussion.  Thanks for 
-explaining this!
+LOL, saying KVM_GET_CPUID2 was "designed" is definitely giving the KVM
+forefathers the benefit of the doubt.
 
-Yu-cheng
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index efc7a82ab140..3f941b1f4e78 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -4773,14 +4773,17 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>  		r = -EFAULT;
+>  		if (copy_from_user(&cpuid, cpuid_arg, sizeof(cpuid)))
+>  			goto out;
+> +
+>  		r = kvm_vcpu_ioctl_get_cpuid2(vcpu, &cpuid,
+>  					      cpuid_arg->entries);
+> -		if (r)
+> +
+> +		if (r && r != -E2BIG)
+>  			goto out;
+> -		r = -EFAULT;
+> -		if (copy_to_user(cpuid_arg, &cpuid, sizeof(cpuid)))
+> +
+> +		if (copy_to_user(cpuid_arg, &cpuid, sizeof(cpuid))) {
+> +			r = -EFAULT;
+>  			goto out;
+
+As I pointed out[*], copying the number of entries but not the entries themselves
+is wrong.  All of my feedback on v1 still stands.
+
+[*] https://lkml.kernel.org/r/YIl4M/GgaYvwNuXv@google.com
+
+> -		r = 0;
+> +		}
+>  		break;
+>  	}
+>  	case KVM_GET_MSRS: {
