@@ -2,97 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B46F5C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 12:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 230AEC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 14:06:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7628C61453
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 12:12:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D30C761411
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 14:06:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233862AbhD2MMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 08:12:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38052 "EHLO
+        id S238960AbhD2OHB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 10:07:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235944AbhD2MMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 08:12:50 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 978E2C061343
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 05:12:03 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id z6so5402721wrm.4
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 05:12:03 -0700 (PDT)
+        with ESMTP id S235277AbhD2OHA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 10:07:00 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C99EAC06138B;
+        Thu, 29 Apr 2021 07:06:13 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id i4so41060986ybe.2;
+        Thu, 29 Apr 2021 07:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ymSp8rfZSWXVKAoyrk1VB6kKAVSstzHQFijBzDCf7V4=;
-        b=0WXvLpbTLG1tRoZSII9grqKOVMmJ//5onbjzjw3Hrr7ozsslJOL1Q1fWdQg27qyJMA
-         R1jsnOIFEYIMlxrQGpCtvWc1Vwm+TESo6CHKznijk5dAYL+RbcsPNA5x/sh5Vfp2vmbq
-         ucWGTQ2KmC5N2Qo4KODwjQY6kV3Ko0p/BwzC7Q9Xh9yiVniGIoWsSBqXK8KSvIZYS+r2
-         pgT1oRfr6+S77L3hPsyfPhxKyC666pPZypgYMdtuJYqb5WzwKnMS7Cc0iIIQYPBQflpK
-         XeCyT4tVITG9AJFXBVBdoCPg4wNdX4d2uulqw9v+xn+I6PzRWVX0WGDQ+UPsGLpACh7C
-         uxRA==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=cLdxcTNcrHMm88vNMbnQhEh8B6xhBdoL6bjYsKRPn+M=;
+        b=tN52Et9otdRUvDo0Zwauf9gP8dzOCsv3ZUqxHkiacxkNvLvekceUZgfCD6/OrHJ1Ay
+         WjohQWZebCmywOFs/KHaAMBQdKDTjZ4hjkSFAjUjjLCzMFBDn4xLHyzdcvCMDKWfzNqj
+         0RE5VdhckrF8zqM0vdTZaBH+0G6uQb70eNL0CCXKlUP7YJkLGsbR/+3AmYL7Fr/jQpP6
+         Si64xoFSJ49ZyHnRYE27V9UODvBy6atC7i1XELOzsh1dH7p9PEd8hXEFgp1FuOxNenMJ
+         /OEgcRk+4imzi7jLYq3lLRY5b3WZAxJlic0faDAx6tkWPwx++62WYG3n/cldifo12pSX
+         r+Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ymSp8rfZSWXVKAoyrk1VB6kKAVSstzHQFijBzDCf7V4=;
-        b=nbA2GS9S414VYa4RoxFpNEd7P7oly4rdTRmafeTiCDTdYIT5ObArAZ17ujYkU5zHV0
-         mFT8u1SjfqfM/sPeLf2Zcq/HxlmQwcnYf11bT1jo+EMGu93UJ8I9y5ocH39mwHbkIUcI
-         emqtwhROkcxzQR1F1375Ni/vZp1loyo4zkwvcOqMOz3+WANljC3ZH+WqHrr3TiroAXjf
-         gJHUiAf0pXCmWxiLbxbAlRR8dUqLs5aY2z/g32kyqUwn5UucNxXMc8SKmty+Ux5GIzQE
-         hQh4oLOKvLw+3jPnxgCr4wNVwfspk5s9psltP1aNMYhBgWug7OALdKoq9j5AA455yyZ+
-         +s9A==
-X-Gm-Message-State: AOAM530wvBMUMTJuNqkLOqAbBVAde7qmrtvdH5v1MjbssNn396aLrAoK
-        ZQoU8lDvhhUwF12enc5SRPxakw==
-X-Google-Smtp-Source: ABdhPJwmckvmYiN8ROxPFgYNNcFNtN9hKA8kcQk2aMDqu0TsLAaRfAW+3HnF6cPy+5U99P52ncQQzw==
-X-Received: by 2002:adf:e7c2:: with SMTP id e2mr23171822wrn.180.1619698322290;
-        Thu, 29 Apr 2021 05:12:02 -0700 (PDT)
-Received: from localhost.localdomain (dh207-97-15.xnet.hr. [88.207.97.15])
-        by smtp.googlemail.com with ESMTPSA id 18sm10075640wmo.47.2021.04.29.05.12.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 05:12:01 -0700 (PDT)
-From:   Robert Marko <robert.marko@sartura.hr>
-To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Robert Marko <robert.marko@sartura.hr>
-Subject: [PATCH 2/2] dt-bindings: hwmon: Add Texas Instruments TMP1075
-Date:   Thu, 29 Apr 2021 14:11:50 +0200
-Message-Id: <20210429121150.106804-2-robert.marko@sartura.hr>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210429121150.106804-1-robert.marko@sartura.hr>
-References: <20210429121150.106804-1-robert.marko@sartura.hr>
+        h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
+         :references:from:date:message-id:subject:to:cc;
+        bh=cLdxcTNcrHMm88vNMbnQhEh8B6xhBdoL6bjYsKRPn+M=;
+        b=Kr+zvZlmyCxgkXzOO4Eveyisxt7gJYJXSPmpeWGJe/JpOIVxPrWTqHzvw8UTtPHufa
+         QQeRnGPgoONrD064L8UzHavI8BmFy6r1eHMYrKyb5RAs8v4C8SDDa/3S97GmkP95n2fI
+         8ZR3Cz2TIzVHDhcKtbMiMSrU/DR2y4DiNoOyNufBfqPOlZRtT9BKl9Bh2uhVfEDWa4sz
+         z/667qmWGIRZOJbUoR82eHHJkd5Mi/cBmlzXiq62XRAG1QiV71S2XBffh2b084Qe+F5U
+         OlHvPAVTuiLvH3tpmmmhwC7+neLNUmR4Hb0VMmyCbW0TSK4hBgXX9QBzwea8lpA9heAS
+         2ZVA==
+X-Gm-Message-State: AOAM531QTaM0rMIPrEb18jqGYbyU9SJByGGYiUtX7FuXy406LecGqjjx
+        2IlwVCcOF2F3zj++VRGwAkV1iSPFJ9uOE/fuSl4=
+X-Google-Smtp-Source: ABdhPJxFa4LBdrlOsuAeSyQXloBMTyzgiyg/tzQxHyJPc0on+gpe3jlJY2fRjRcbNTCV3rvtReYagIw5BjwjQ8/brFM=
+X-Received: by 2002:a5b:98d:: with SMTP id c13mr48453837ybq.463.1619705173088;
+ Thu, 29 Apr 2021 07:06:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Reply-To: mceier+kernel@gmail.com
+Sender: mceier@gmail.com
+Received: by 2002:a05:7010:7651:b029:ab:612d:7d1d with HTTP; Thu, 29 Apr 2021
+ 07:06:12 -0700 (PDT)
+In-Reply-To: <878s51e3jc.fsf@gmail.com>
+References: <20210414184604.23473-1-ojeda@kernel.org> <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+ <878s51e3jc.fsf@gmail.com>
+From:   Mariusz Ceier <mceier+kernel@gmail.com>
+Date:   Thu, 29 Apr 2021 14:06:12 +0000
+X-Google-Sender-Auth: H8N9c0KcN-UhlKT59E9MAkIGKcg
+Message-ID: <CAJTyqKOEG1tF0YGOvNeyidjF+2MaXoY5kCo9-cZ4Ri_Jb8XV8Q@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Kajetan Puchalski <mrkajetanp@gmail.com>
+Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the DT compatible for TI TMP1075 which
-is a LM75 compatible sensor.
+On 29/04/2021, Kajetan Puchalski <mrkajetanp@gmail.com> wrote:
+>
+> Mariusz Ceier <mceier+kernel@gmail.com> writes:
+>
+>> Rust compiler license doesn't require for people to give back to
+>> the
+>> community - corporation can create their own version of rust
+>> compiler
+>> adding some proprietary extensions, develop drivers with it and
+>> even
+>> if the drivers code will be GPL'd they won't be buildable by
+>> anyone
+>> but that corporation. The rust compiler license doesn't require
+>> sharing changes when you modify it. The similar problem has flex
+>> and
+>> openssl required to build the kernel, but so far no one thought
+>> about
+>> abusing them afaik.
+>
+> Could you explain exactly what the issue you see there is?
+> Surely if someone develops a proprietary compiler and then writes
+> kernel
+> drivers that use that compiler, nobody else will be able to build
+> them.
+> Because of that, none of the maintainers will be able to run or
+> test
+> the code and it'll never actually get merged into the kernel.
+> Surely they'd effectively be sabotaging themselves.
+>
 
-Signed-off-by: Robert Marko <robert.marko@sartura.hr>
----
- Documentation/devicetree/bindings/hwmon/lm75.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Let's assume the hipothetical corporation wants to add some
+proprietary stuff to the kernel and avoid sharing the code (sharing
+the code is GPL requirement) - maybe they're producing proprietary
+hardware e.g. risc-v processor with proprietary ISA extension. So
+"none of the maintainers will be able to run or test the code and
+it'll never actually get merged into the kernel." is exactly what it
+wants.
 
-diff --git a/Documentation/devicetree/bindings/hwmon/lm75.yaml b/Documentation/devicetree/bindings/hwmon/lm75.yaml
-index 96eed5cc7841..72980d083c21 100644
---- a/Documentation/devicetree/bindings/hwmon/lm75.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/lm75.yaml
-@@ -30,6 +30,7 @@ properties:
-       - st,stds75
-       - st,stlm75
-       - microchip,tcn75
-+      - ti,tmp1075
-       - ti,tmp100
-       - ti,tmp101
-       - ti,tmp105
--- 
-2.31.1
+To do this they could modify any non-GPL tool required to build the
+kernel e.g. flex, rust or openssl so that for files with .proprietary
+extension they would execute some code (like "patch this file") taken
+from database of shell codes based just on .proprietary file name (so
+that the contents of .proprietary files will be freely modifiable -
+citing GPL: "The source code for a work means the preferred form of
+the work for making modifications to it.").
 
+These .proprietary files can be GPL'd since they don't contain any
+useful information for outsiders - all of it could be in the shell
+codes. The source code of the modified tool wouldn't have to be
+shared, since their license doesn't require it.
+
+I think such modified kernel source code would still be
+GPL-compatible, but not benefit the kernel community. If the tool was
+GPL-licensed, corporation would have to share it's source code - and I
+assume also the database of shell codes, due to:
+
+> You must cause any work that you distribute or publish, that in whole or in part contains or is derived from the Program or any part thereof, *to be licensed as a whole* at no charge to all third parties under the terms of this License.
+
+
+The issue here is, non-GPL tools enable development and distribution
+of GPL-compatible yet proprietary versions of the kernel, unless I'm
+mistaken.
+
+> --
+> Kind regards,
+> Kajetan
+>
