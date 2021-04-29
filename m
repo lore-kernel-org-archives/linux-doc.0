@@ -2,139 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C3EC433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:12:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 170A8C43460
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:24:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5F1361449
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:12:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAEBD6144E
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 09:24:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237228AbhD2JNG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 05:13:06 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:42134 "EHLO mail.skyhub.de"
+        id S236871AbhD2JZ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 05:25:27 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33476 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232775AbhD2JNE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Apr 2021 05:13:04 -0400
-Received: from zn.tnic (p200300ec2f0a4f00fa8ecda271c3a3d7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:4f00:fa8e:cda2:71c3:a3d7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1DC2B1EC0288;
-        Thu, 29 Apr 2021 11:12:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1619687536;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=7zGmhNtr9fSMXiAv9CTHWxetCafBFfr5+g4Pp2O1zPA=;
-        b=VJ8KU5gDLEDcc86e/EfzBa0Fu1gTt/agw1fFBUNcKkgElWJVHz5ezJ1+abvUNWA/+YPW+c
-        hhXKF5mKvOhNpbhEILpk4RsYp4zZM9GJdcTDDXSIzZSnW5O74QppV0bnYsVdEpAKdndzIb
-        /RedeShYZzUdYUN0WSeW2H8EvvtriFM=
-Date:   Thu, 29 Apr 2021 11:12:19 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S235125AbhD2JZ1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Apr 2021 05:25:27 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1619688280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=sFsswHYzmnsCtIuWtaEE2puDhfR/SZTmIoW2PDCisco=;
+        b=YHGyFKkt5FLMqBLrnT2gKXkMJrFdXxGIaYTsZwHTkZl/aJrBSyIWADryXxu0HwVHPiX68g
+        rmN+DZf1OlhdUd4aI/utae5zRHaqzTu9b+gp/ClXNvy1rzfYl9xTXY70yup6WHBLQUELlu
+        NxxbuOjqbhatlpjTgDyq0oNC5djBdXE=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id EB95FAFDC;
+        Thu, 29 Apr 2021 09:24:39 +0000 (UTC)
+Date:   Thu, 29 Apr 2021 11:24:39 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Jia He <justin.he@arm.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v26 22/30] x86/cet/shstk: Add user-mode shadow stack
- support
-Message-ID: <YIp4c95E9/9DYR6z@zn.tnic>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-23-yu-cheng.yu@intel.com>
- <YImg5hmBnTZTkYIp@zn.tnic>
- <3a0ed2e3-b13d-0db6-87af-fecd394ddd2e@intel.com>
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:TI WILINK WIRELES..." <linux-wireless@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-s390@vger.kernel.org
+Subject: Re: [PATCH 2/4] lib/vsprintf.c: Make %p{D,d} mean as much components
+ as possible
+Message-ID: <YIp7VxzE5MspQ0UX@alley>
+References: <20210428135929.27011-1-justin.he@arm.com>
+ <20210428135929.27011-2-justin.he@arm.com>
+ <YIpyZmi1Reh7iXeI@alley>
+ <CAHp75Vfa3ATc+-Luka9vJTwoCLAPVm38cciYyBYnWxzNQ1DPrg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3a0ed2e3-b13d-0db6-87af-fecd394ddd2e@intel.com>
+In-Reply-To: <CAHp75Vfa3ATc+-Luka9vJTwoCLAPVm38cciYyBYnWxzNQ1DPrg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 28, 2021 at 11:39:00AM -0700, Yu, Yu-cheng wrote:
-> Sorry about that.  After that email thread, we went ahead to separate shadow
-> stack and ibt into different files.  I thought about the struct, the file
-> names cet.h, etc.  The struct still needs to include ibt status, and if it
-> is shstk_desc, the name is not entirely true.  One possible approach is, we
-> don't make it a struct here, and put every item directly in thread_struct.
-> However, the benefit of putting all in a struct is understandable (you might
-> argue the opposite :-)).  Please make the call, and I will do the change.
-
-/me looks forward into the patchset...
-
-So this looks like the final version of it:
-
-@@ -15,6 +15,7 @@ struct cet_status {
- 	unsigned long	shstk_base;
- 	unsigned long	shstk_size;
- 	unsigned int	locked:1;
-+	unsigned int	ibt_enabled:1;
- };
-
-If so, that thing should be simply:
-
-	struct cet {
-		unsigned long shstk_base;
-		unsigned long shstk_size;
-		unsigned int shstk_lock : 1,
-			     ibt	: 1;
-	}
-
-Is that ibt flag per thread or why is it here? I guess I'll find out.
-
-/me greps...
-
-ah yes, it is.
-
-> Yes, the comments are in patch #23: Handle thread shadow stack.  I wanted to
-> add that in the patch that takes the path.
-
-That comes next, I'll look there.
-
-> > vm_munmap() can return other negative error values, where are you
-> > handling those?
-> > 
+On Thu 2021-04-29 11:52:49, Andy Shevchenko wrote:
+> On Thu, Apr 29, 2021 at 11:47 AM Petr Mladek <pmladek@suse.com> wrote:
+> >
+> > On Wed 2021-04-28 21:59:27, Jia He wrote:
+> > > From: Linus Torvalds <torvalds@linux-foundation.org>
+> > >
+> > > We have '%pD'(no digit following) for printing a filename. It may not be
+> > > perfect (by default it only prints one component.
+> > >
+> > > %pD4 should be more than good enough, but we should make plain "%pD" mean
+> > > "as much of the path that is reasonable" rather than "as few components as
+> > > possible" (ie 1).
+> >
+> > Could you please provide link to the discussion where this idea was
+> > came from?
 > 
-> For other error values, the loop stops.
+> https://lore.kernel.org/lkml/20210427025805.GD3122264@magnolia/
 
-And then what happens?
+Thanks for the link. I see that it was not clear whether the patch
+was good for %pd behavior.
 
-> > > +	cet->shstk_base = 0;
-> > > +	cet->shstk_size = 0;
+Linus actually suggests to keep %pd behavior as it was before, see
+https://lore.kernel.org/lkml/CAHk-=wimsMqGdzik187YWLb-ru+iktb4MYbMQG1rnZ81dXYFVg@mail.gmail.com/
 
-You clear those here without even checking whether unmap failed somehow.
-And then stuff leaks but we don't care, right?
+Well, I think that this is up to the file system developers to decide.
+I am not sure if the path would do more harm than good,
+or vice versa, for dentry names.
 
-Someone else's problem, I'm sure.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Best Regards,
+Petr
