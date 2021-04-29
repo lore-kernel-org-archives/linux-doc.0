@@ -2,118 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A37DC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 16:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60565C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 16:16:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61FE56147E
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 16:09:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27788613B0
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 16:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233132AbhD2QJz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 12:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34584 "EHLO
+        id S233642AbhD2QQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 12:16:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232004AbhD2QJy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 12:09:54 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A9FC06138B;
-        Thu, 29 Apr 2021 09:09:07 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id t94so25952802ybi.3;
-        Thu, 29 Apr 2021 09:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=EorVpKZRsSllfeM/atRN+mOPQqPmnCQhK0yD5RMKMnA=;
-        b=exMuXEFq9Lpu/2kRoWHVpmM7ZORD3azlEFRlEW56srfpFL10owsUofdBPuebOH1rBx
-         88aIZBFdeiDK/TDk3SHfpJIh1VlyTUComYGSL72pwi3iLnVxN63ojBV0MvqFW9jfcvyp
-         g7mislbiqp9ZMwNnvGEzsvYc0m9Ox0MrZWS7cvsYzXsZJunqcBYIf5W13QaW3F7LwNHe
-         lbK2ROp7jIQtHbej1CNSqOYKd5X+vzCfZ4Ho0XFR6lHI9sRvlmdq+qZSYU0ulJN3qpjP
-         5hGxYFwzwB09OXw+PJgloc8MqYhGBpJgL6K3tkuTkhHV13D0hXqoi2B6enADQm6v4INr
-         5FSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
-         :references:from:date:message-id:subject:to:cc;
-        bh=EorVpKZRsSllfeM/atRN+mOPQqPmnCQhK0yD5RMKMnA=;
-        b=TKz15QXqjrMpNGHJ/CZRnauVTUV6o+i8eQwHyMTRQ1pk2b4arsIvBlEjmW/8O54uKn
-         iC0s8kbdcN6av2TAOIdPtlL73jqbJYFbhV8wS4z5oy6K/+0h9QXLQPTJBxk6P+6WBWi+
-         MAfMHvqBfb1EFhSttRNEys/ymJZzdW8TChh8u6KTKH+Cjmgd1OYWqaJVIsPyrM2sEjD2
-         DwP4q2WdY51GL8yFgJNfFs8gmpXueoWKtET6Zd7EzfwZHnHQ5/nb4eLqXuWCNosQ32PF
-         5r7At0q7dPuRIljhRKGgQwEA85VG1UwVp4L7TioCYpNPi9IAeBdPO7g6yq1n6P8x10VF
-         oOgg==
-X-Gm-Message-State: AOAM532DLHYQvjQJ3SuCSeK+fCeFvNo54FuBwqAv+znCT/HMqgRRL+E9
-        /5yo9bW3npqkl0p4aCrJ1EskPOInta+X0xbFjUpnSxAprQI=
-X-Google-Smtp-Source: ABdhPJynyvLEYvj+6ufROnCezJtu6jzpTD3l/8sqOWhT9EvJTeDx42OofxLLatDsyHV5kYj3HJC/YzB9Q6yWGQZBRsM=
-X-Received: by 2002:a25:aa2e:: with SMTP id s43mr277929ybi.189.1619712546708;
- Thu, 29 Apr 2021 09:09:06 -0700 (PDT)
+        with ESMTP id S232004AbhD2QQt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 12:16:49 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 159EAC06138B
+        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 09:16:03 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 273852E0;
+        Thu, 29 Apr 2021 16:16:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 273852E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1619712962; bh=MPWS5rZ68JpJHYVnh4HvW6j73faZU8AwOJxXpE8TmlE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=hLbGI7a+EszURBQ/VDQYIQ5XfsczwLRXk3fnsx5NSQEO+EyY+5wHIwVmeKICetNr4
+         8WvJM/ERrCr5e0QePzul3Q1UmxX7QlQ/RR6aFaH9Zq03zAXRBSBIM4KZTDzXqVpmYX
+         E7vdwyybHtcnifTPIvZfStomNaSwoGQaPJBd9fseYZusXgoFi1vpee5lyrI9fszKcK
+         o0MVjmL502tw9cd4Gia+NnCaiGM70WcXTqLgoUjx1bDhliXhgIJYkGwDNX54PCBnwG
+         GkbWue1ULDTVyY9YoXa2oNR96tS4n9CyhDazjKCuKz2c62jQMVK6qnLYBngKSEzTIl
+         CDCLfCFKBiSDg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng@loongson.cn>
+Cc:     alexs@kernel.org, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com
+Subject: Re: [PATCH 1/3] docs/zh_CN: add parisc index translation
+In-Reply-To: <20210429151058.GA23087@bobwxc.top>
+References: <cover.1619665430.git.siyanteng@loongson.cn>
+ <7e64ac33597d69635497b03b29d63e17f905c96f.1619665430.git.siyanteng@loongson.cn>
+ <20210429151058.GA23087@bobwxc.top>
+Date:   Thu, 29 Apr 2021 10:16:01 -0600
+Message-ID: <87v985cbi6.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Reply-To: mceier+kernel@gmail.com
-Sender: mceier@gmail.com
-Received: by 2002:a05:7010:7651:b029:ab:612d:7d1d with HTTP; Thu, 29 Apr 2021
- 09:09:06 -0700 (PDT)
-In-Reply-To: <YIrLZ8Siip0C0d9b@zeniv-ca.linux.org.uk>
-References: <20210414184604.23473-1-ojeda@kernel.org> <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
- <878s51e3jc.fsf@gmail.com> <CAJTyqKOEG1tF0YGOvNeyidjF+2MaXoY5kCo9-cZ4Ri_Jb8XV8Q@mail.gmail.com>
- <YIrLZ8Siip0C0d9b@zeniv-ca.linux.org.uk>
-From:   Mariusz Ceier <mceier+kernel@gmail.com>
-Date:   Thu, 29 Apr 2021 16:09:06 +0000
-X-Google-Sender-Auth: TYi__oyZ27nAx95qHM9-WZ2MPLI
-Message-ID: <CAJTyqKOwxL8xGCtz82qdC563gjCduxag88MLo2M+OVhQMahzsQ@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Kajetan Puchalski <mrkajetanp@gmail.com>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/04/2021, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> On Thu, Apr 29, 2021 at 02:06:12PM +0000, Mariusz Ceier wrote:
->
->> > You must cause any work that you distribute or publish, that in whole or
->> > in part contains or is derived from the Program or any part thereof, *to
->> > be licensed as a whole* at no charge to all third parties under the
->> > terms of this License.
->>
->>
->> The issue here is, non-GPL tools enable development and distribution
->> of GPL-compatible yet proprietary versions of the kernel, unless I'm
->> mistaken.
->
-> And?  For your argument to work, we'd need to have the kernel somehow
-> locked into the use of tools that would have no non-GPL equivalents
-> *and* would be (somehow) protected from getting such equivalents.
-> How could that be done, anyway?  Undocumented and rapidly changing
-> features of the tools?  We would get screwed by those changes ourselves.
-> Copyrights on interfaces?  Software patents?  Some other foulness?
->
-> I honestly wonder about the mental contortions needed to describe
-> something of that sort as "free", but fortunately we are nowhere
-> near such situation anyway.
->
+"Wu X.C." <bobwxc@email.cn> writes:
 
-Equivalents are not a problem - they can exist as long as the
-distributed source would be buildable with GPL tools. I was thinking
-that adding a requirement that the distributed kernel source should be
-buildable by GPL tools would be enough to protect it from proprietary
-extensions. But maybe you're right that this is unrealistic.
-
-> I don't like Rust as a language and I'm sceptical about its usefulness
-> in the kernel, but let's not bring "gcc is better 'cuz GPL" crusades
-> into that - they are irrelevant anyway, since we demonstrably *not*
-> locked into gcc on all architectures your hypothetical company would
-> care about, Rust or no Rust.
+> On Thu, Apr 29, 2021 at 11:33:33AM +0800, Yanteng Si wrote:
+>> This path translates Documentation/parisc/index.rst into Chinese.
+>> 
+>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 >
+> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+>
+> PA-RISC docs are silent, lastest practical activity on 2013-07-09.
 
-I don't mind the language. I'm more concerned about featureful rust
-compiler suddenly being developed behind closed doors.
+Indeed...PA-RISC in general is not a hotbed of activity these days.  Is
+there some need in particular that is driving this translation?  The
+work is there and I'll apply it, but I do wonder why...
+
+Thanks,
+
+jon
