@@ -2,198 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 607EDC43460
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 07:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAD63C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 07:28:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17D3761457
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 07:03:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9848561457
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 07:28:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239709AbhD2HE1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 03:04:27 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:16169 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239364AbhD2HE0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 03:04:26 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FW5x904r5zpcPc;
-        Thu, 29 Apr 2021 15:00:29 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 29 Apr 2021 15:03:28 +0800
-From:   Tian Tao <tiantao6@hisilicon.com>
-To:     <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
-        <song.bao.hua@hisilicon.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
+        id S239509AbhD2H3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 03:29:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239542AbhD2H25 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 03:28:57 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08E48C06138F;
+        Thu, 29 Apr 2021 00:28:11 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id h36so49163112lfv.7;
+        Thu, 29 Apr 2021 00:28:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jdGoIRWBioljnz1nn4BBzNDaqsoqN9PPsguAeYrjWLg=;
+        b=HJX7+45yNzfNOqoK21ORJnfSS4SqA73WGkbuaPh5kcOvNYBW3pgUgci+P8nrnGhQNi
+         QZWfIOMDuLxP7E+IQpYLX9lQKKuah9ZA8zd1fRzmg+us00a0DmfVFSJnoglvDlrR5JPu
+         wZT0M0/aUfULpMBV9n6oztU1UyISEfYE99jx+Q8TP6g+4uRAG8uA8+yTJauJnN5AbBUY
+         qNoqboxDl+xzzGI7bhFrM+aicJFNWgbT7KP6ymuX4ynpdc3n//T15fOaV6b78MEdGhpM
+         FgBTL7grc3s+XEViMjWFpN6JTZThcff9VQa1IWXouixVnItPd6v/EBVeRr1oW/H3lGiu
+         /UIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jdGoIRWBioljnz1nn4BBzNDaqsoqN9PPsguAeYrjWLg=;
+        b=F7+IaO8wzRH5HaDZ7T77Gov35YfycrgsjdDmc/5Uz+pJbUnQSZzrU5lrgE64EQhJSP
+         32Lk8yfAiYARvKp8shBrftuGmLcoo0qws35hlHZkKmaMgohLu7GvpPRhbBsZ32ZOSgWi
+         oMOroKpoqpAKsqedrDZsnY9U12THMT0UMEIFYriBshw4xmcaFWca8fXO4ITnqb9iX6RR
+         osr1sxE1LfcqW6m17zK5polb/jxBA9GGCTBP2iXmptwNrb8WAfllNfT1ntJVIz1VIq40
+         Oa5gI4UTsU6qavlS3g4NLC5zoJ4RO2GeoNH7aZjxwb7W3mPYw1VDTMLzT7qJ1JoL1Jt+
+         jb9A==
+X-Gm-Message-State: AOAM531FUzHww6X9No679KWry/KHEaRq6pENdedH23LqD53HVRitJCdj
+        H0n7s7Bmx7zpKM0RozizhrY=
+X-Google-Smtp-Source: ABdhPJwuzpu7JK/CSqJabsNtmy0swVR3AkMVRzJ7rqYa3XCC6KgbaqN5bCkxJUe0VVIgGQcVOJHNpg==
+X-Received: by 2002:a05:6512:12d2:: with SMTP id p18mr4572032lfg.239.1619681289241;
+        Thu, 29 Apr 2021 00:28:09 -0700 (PDT)
+Received: from grain.localdomain ([5.18.199.94])
+        by smtp.gmail.com with ESMTPSA id f17sm260073lfu.215.2021.04.29.00.28.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Apr 2021 00:28:08 -0700 (PDT)
+Received: by grain.localdomain (Postfix, from userid 1000)
+        id 72CF5560116; Thu, 29 Apr 2021 10:28:07 +0300 (MSK)
+Date:   Thu, 29 Apr 2021 10:28:07 +0300
+From:   Cyrill Gorcunov <gorcunov@gmail.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>
-Subject: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue of sysfs pagebuf
-Date:   Thu, 29 Apr 2021 15:03:38 +0800
-Message-ID: <1619679819-45256-2-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
-References: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+Message-ID: <YIpgB5HbnNPWX4FP@grain>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Both numa node and cpu use cpu bitmap like 3,ffffffff to expose hardware
-topology. When cpu number is large, the page buffer of sysfs will over-
-flow. This doesn't really happen nowadays as the maximum NR_CPUS is 8196
-for X86_64 and 4096 for ARM64 since 8196 * 9 / 32 = 2305 is still smaller
-than 4KB page size.
+On Wed, Apr 28, 2021 at 04:03:55PM -0700, Andy Lutomirski wrote:
+> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> >
+> > When shadow stack is enabled, a task's shadow stack states must be saved
+> > along with the signal context and later restored in sigreturn.  However,
+> > currently there is no systematic facility for extending a signal context.
+> > There is some space left in the ucontext, but changing ucontext is likely
+> > to create compatibility issues and there is not enough space for further
+> > extensions.
+> >
+> > Introduce a signal context extension struct 'sc_ext', which is used to save
+> > shadow stack restore token address.  The extension is located above the fpu
+> > states, plus alignment.  The struct can be extended (such as the ibt's
+> > wait_endbr status to be introduced later), and sc_ext.total_size field
+> > keeps track of total size.
+> 
+> I still don't like this.
+> 
+> Here's how the signal layout works, for better or for worse:
+> 
+> The kernel has:
+> 
+> struct rt_sigframe {
+>     char __user *pretcode;
+>     struct ucontext uc;
+>     struct siginfo info;
+>     /* fp state follows here */
+> };
+> 
+> This is roughly the actual signal frame.  But userspace does not have
+> this struct declared, and user code does not know the sizes of the
+> fields.  So it's accessed in a nonsensical way.  The signal handler
 
-So the existing BUILD_BUG_ON() in drivers/base/node.c is pretty much
-preventing future problems similar with Y2K when hardware gets more
-and more CPUs.
-
-On the other hand, it should be more sensible to move the guard to common
-code which can protect both cpu and numa:
-/sys/devices/system/cpu/cpu0/topology/die_cpus etc.
-/sys/devices/system/node/node0/cpumap etc.
-
-Topology bitmap mask strings shouldn't be larger than PAGE_SIZE as
-lstopo and numactl depend on them. But other ABIs exposing cpu lists
-are not really used by common applications, so this patch also marks
-those lists could be trimmed as there is no any guarantee those lists
-are always less than PAGE_SIZE especially a list could be like this:
-0, 3, 5, 7, 9, 11... etc.
-
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Valentin Schneider <valentin.schneider@arm.com>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Daniel Bristot de Oliveira <bristot@redhat.com>
----
- Documentation/ABI/stable/sysfs-devices-node |  5 ++++-
- Documentation/admin-guide/cputopology.rst   | 15 +++++++++++++++
- drivers/base/node.c                         |  3 ---
- include/linux/cpumask.h                     |  6 ++++++
- 4 files changed, 25 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/ABI/stable/sysfs-devices-node b/Documentation/ABI/stable/sysfs-devices-node
-index 484fc04..82dfe64 100644
---- a/Documentation/ABI/stable/sysfs-devices-node
-+++ b/Documentation/ABI/stable/sysfs-devices-node
-@@ -47,7 +47,10 @@ What:		/sys/devices/system/node/nodeX/cpulist
- Date:		October 2002
- Contact:	Linux Memory Management list <linux-mm@kvack.org>
- Description:
--		The CPUs associated to the node.
-+		The CPUs associated to the node. The format is like 0-3,
-+		8-11, 14,17. maximum size is PAGE_SIZE, so the tail
-+		of the string will be trimmed while its size is larger
-+		than PAGE_SIZE.
- 
- What:		/sys/devices/system/node/nodeX/meminfo
- Date:		October 2002
-diff --git a/Documentation/admin-guide/cputopology.rst b/Documentation/admin-guide/cputopology.rst
-index b90dafc..4538d78 100644
---- a/Documentation/admin-guide/cputopology.rst
-+++ b/Documentation/admin-guide/cputopology.rst
-@@ -44,6 +44,9 @@ core_cpus:
- core_cpus_list:
- 
- 	human-readable list of CPUs within the same core.
-+	The format is like 0-3, 8-11, 14,17. The maximum size is PAGE_SIZE,
-+	so the tail of the string will be trimmed while its size is larger
-+	than PAGE_SIZE.
- 	(deprecated name: "thread_siblings_list");
- 
- package_cpus:
-@@ -54,6 +57,9 @@ package_cpus:
- package_cpus_list:
- 
- 	human-readable list of CPUs sharing the same physical_package_id.
-+	The format is like 0-3, 8-11, 14,17. The maximum size is PAGE_SIZE,
-+	so the tail of the string will be trimmed while its size is larger
-+	than PAGE_SIZE.
- 	(deprecated name: "core_siblings_list")
- 
- die_cpus:
-@@ -63,6 +69,9 @@ die_cpus:
- die_cpus_list:
- 
- 	human-readable list of CPUs within the same die.
-+	The format is like 0-3, 8-11, 14,17. The maximum size is PAGE_SIZE,
-+	so the tail of the string will be trimmed while its size is larger
-+	than PAGE_SIZE.
- 
- book_siblings:
- 
-@@ -73,6 +82,9 @@ book_siblings_list:
- 
- 	human-readable list of cpuX's hardware threads within the same
- 	book_id.
-+	The format is like 0-3, 8-11, 14,17. The maximum size is PAGE_SIZE,
-+	so the tail of the string will be trimmed while its size is larger
-+	than PAGE_SIZE.
- 
- drawer_siblings:
- 
-@@ -83,6 +95,9 @@ drawer_siblings_list:
- 
- 	human-readable list of cpuX's hardware threads within the same
- 	drawer_id.
-+	The format is like 0-3, 8-11, 14,17. The maximum size is PAGE_SIZE,
-+	so the tail of the string will be trimmed while its size is larger
-+	than PAGE_SIZE.
- 
- Architecture-neutral, drivers/base/topology.c, exports these attributes.
- However, the book and drawer related sysfs files will only be created if
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 2c36f61d..e24530c3 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -33,9 +33,6 @@ static ssize_t node_read_cpumap(struct device *dev, bool list, char *buf)
- 	cpumask_var_t mask;
- 	struct node *node_dev = to_node(dev);
- 
--	/* 2008/04/07: buf currently PAGE_SIZE, need 9 chars per 32 bits. */
--	BUILD_BUG_ON((NR_CPUS/32 * 9) > (PAGE_SIZE-1));
--
- 	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
- 		return 0;
- 
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index bfc4690..1882477 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -12,6 +12,7 @@
- #include <linux/bitmap.h>
- #include <linux/atomic.h>
- #include <linux/bug.h>
-+#include <asm/page.h>
- 
- /* Don't assign or return these: may not be this big! */
- typedef struct cpumask { DECLARE_BITMAP(bits, NR_CPUS); } cpumask_t;
-@@ -979,6 +980,11 @@ static inline bool cpu_dying(unsigned int cpu)
- static inline ssize_t
- cpumap_print_to_pagebuf(bool list, char *buf, const struct cpumask *mask)
- {
-+	/*
-+	 * 32bits requires 9bytes: "ff,ffffffff", thus, too many CPUs will
-+	 * cause the overflow of sysfs pagebuf
-+	 */
-+	BUILD_BUG_ON((NR_CPUS/32 * 9) > (PAGE_SIZE-1));
- 	return bitmap_print_to_pagebuf(list, buf, cpumask_bits(mask),
- 				      nr_cpu_ids);
- }
--- 
-2.7.4
-
+Well, not really. While indeed this is not declared as a part of API
+the structure is widely used for rt_sigreturn syscall (and we're using
+it inside criu thus any change here will simply break the restore
+procedure). Sorry out of time right now, I'll read your mail more
+carefully once time permit.
