@@ -2,144 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D085AC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 14:44:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78857C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:06:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 925186144B
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 14:44:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 347A861450
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:06:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238960AbhD2OpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 10:45:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55606 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238290AbhD2OpD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Apr 2021 10:45:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C759F61447
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 14:44:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619707456;
-        bh=P0/WSeSHefJ1bFNBptJX0+j0jR1O8Fl8GSgrXOuL6UM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HNOLQGobI3RtLIJxIjDYdC+Rc56LQ+LcDta43PhlMw4pvrvCAd6oDZdcDFq1aMsUn
-         NqGo2bBrs2GXUBvQcmvw5W9a7ICDkPQpjwKwxkatZBpscZAR6QMwyezNhwlratC2AC
-         HShLp2A2WH1iLV2bezvSqIfPB5ljN+DyuTwt+5cKclA6eQGRRlXCP2tBtDyWp7UHYV
-         rzi69lzzLpic6g2srl8pNk30+4yfQiRbGWXnZ8AEDxoXKNUpg5qYNs/qdQZhSoUw89
-         weSBuM6qdu5GzciV7kpS+lU5ilqo0dpvjgMoNi1w10g/OzPi6n0k79zC8kzgZbAjWm
-         4Z19sufXKr++g==
-Received: by mail-lj1-f182.google.com with SMTP id d12so499059lji.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 07:44:16 -0700 (PDT)
-X-Gm-Message-State: AOAM532nMM8PSL/5t3MdFGKiuCLwM518zLk2dCHUHxVKUIpBUxEPsNss
-        QM+0IL9wuhvX0W/zb+qSwUOG7riNHUOCijhaq6TXpQ==
-X-Google-Smtp-Source: ABdhPJx/nfYwEVo/0GHr3ytGoD4WhwvcC+R8fWV2IU0rcQQ4zXcZJMTsPbWIXC8AnlOwG3/0j0MKVIk3zL0pCGkD5y8=
-X-Received: by 2002:a2e:9bc7:: with SMTP id w7mr25176951ljj.170.1619707454776;
- Thu, 29 Apr 2021 07:44:14 -0700 (PDT)
+        id S234487AbhD2PHY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 11:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233290AbhD2PHW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 11:07:22 -0400
+Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0768AC06138B;
+        Thu, 29 Apr 2021 08:06:36 -0700 (PDT)
+Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lc8F5-009J9w-Rq; Thu, 29 Apr 2021 15:06:16 +0000
+Date:   Thu, 29 Apr 2021 15:06:15 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Mariusz Ceier <mceier+kernel@gmail.com>
+Cc:     Kajetan Puchalski <mrkajetanp@gmail.com>, ojeda@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YIrLZ8Siip0C0d9b@zeniv-ca.linux.org.uk>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+ <878s51e3jc.fsf@gmail.com>
+ <CAJTyqKOEG1tF0YGOvNeyidjF+2MaXoY5kCo9-cZ4Ri_Jb8XV8Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com> <20210427204315.24153-26-yu-cheng.yu@intel.com>
- <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com> <YIpgB5HbnNPWX4FP@grain>
-In-Reply-To: <YIpgB5HbnNPWX4FP@grain>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 29 Apr 2021 07:44:03 -0700
-X-Gmail-Original-Message-ID: <CALCETrW27rTeaymtuJYJCyNgHfuCqA90KinvzNzwBg_vCnZLTw@mail.gmail.com>
-Message-ID: <CALCETrW27rTeaymtuJYJCyNgHfuCqA90KinvzNzwBg_vCnZLTw@mail.gmail.com>
-Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
- signals for shadow stack)
-To:     Cyrill Gorcunov <gorcunov@gmail.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJTyqKOEG1tF0YGOvNeyidjF+2MaXoY5kCo9-cZ4Ri_Jb8XV8Q@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 12:28 AM Cyrill Gorcunov <gorcunov@gmail.com> wrote:
->
-> On Wed, Apr 28, 2021 at 04:03:55PM -0700, Andy Lutomirski wrote:
-> > On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > >
-> > > When shadow stack is enabled, a task's shadow stack states must be saved
-> > > along with the signal context and later restored in sigreturn.  However,
-> > > currently there is no systematic facility for extending a signal context.
-> > > There is some space left in the ucontext, but changing ucontext is likely
-> > > to create compatibility issues and there is not enough space for further
-> > > extensions.
-> > >
-> > > Introduce a signal context extension struct 'sc_ext', which is used to save
-> > > shadow stack restore token address.  The extension is located above the fpu
-> > > states, plus alignment.  The struct can be extended (such as the ibt's
-> > > wait_endbr status to be introduced later), and sc_ext.total_size field
-> > > keeps track of total size.
-> >
-> > I still don't like this.
-> >
-> > Here's how the signal layout works, for better or for worse:
-> >
-> > The kernel has:
-> >
-> > struct rt_sigframe {
-> >     char __user *pretcode;
-> >     struct ucontext uc;
-> >     struct siginfo info;
-> >     /* fp state follows here */
-> > };
-> >
-> > This is roughly the actual signal frame.  But userspace does not have
-> > this struct declared, and user code does not know the sizes of the
-> > fields.  So it's accessed in a nonsensical way.  The signal handler
->
-> Well, not really. While indeed this is not declared as a part of API
-> the structure is widely used for rt_sigreturn syscall (and we're using
-> it inside criu thus any change here will simply break the restore
-> procedure). Sorry out of time right now, I'll read your mail more
-> carefully once time permit.
+On Thu, Apr 29, 2021 at 02:06:12PM +0000, Mariusz Ceier wrote:
 
-I skimmed the CRIU code.  You appear to declare struct rt_sigframe,
-and you use the offset from the start of rt_sigframe to uc.  You also
-use the offset to the /* fp state follows here */ part, but that's
-unnecessary -- you could just as easily have put the fp state at any
-other address -- the kernel will happily follow the pointer you supply
-regardless of where it points.  So the only issues I can see are if
-you write the fp state on top of something else or if you
-inadvertently fill in the proposed extension part of uc_flags.  Right
-now you seem to be ignoring uc_flags, which I presume means that you
-are filling it in as zero.  Even if the offset of the fp state in the
-kernel rt_sigframe changes, the kernel should still successfully parse
-the signal frame you generate.
+> > You must cause any work that you distribute or publish, that in whole or in part contains or is derived from the Program or any part thereof, *to be licensed as a whole* at no charge to all third parties under the terms of this License.
+> 
+> 
+> The issue here is, non-GPL tools enable development and distribution
+> of GPL-compatible yet proprietary versions of the kernel, unless I'm
+> mistaken.
 
-I suppose there is another potential issue: would CRIU have issues if
-the *save* runs on a kernel that uses this proposed extension
-mechanism?  Are you doing something with the saved state that would
-get confused?
+And?  For your argument to work, we'd need to have the kernel somehow
+locked into the use of tools that would have no non-GPL equivalents
+*and* would be (somehow) protected from getting such equivalents.
+How could that be done, anyway?  Undocumented and rapidly changing
+features of the tools?  We would get screwed by those changes ourselves.
+Copyrights on interfaces?  Software patents?  Some other foulness?
 
---Andy
+I honestly wonder about the mental contortions needed to describe
+something of that sort as "free", but fortunately we are nowhere
+near such situation anyway.
+
+I don't like Rust as a language and I'm sceptical about its usefulness
+in the kernel, but let's not bring "gcc is better 'cuz GPL" crusades
+into that - they are irrelevant anyway, since we demonstrably *not*
+locked into gcc on all architectures your hypothetical company would
+care about, Rust or no Rust.
