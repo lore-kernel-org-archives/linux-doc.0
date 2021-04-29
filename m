@@ -2,74 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60565C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 16:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90026C43460
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 16:17:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27788613B0
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 16:16:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4607D613F1
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 16:17:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233642AbhD2QQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 12:16:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36072 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232004AbhD2QQt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 12:16:49 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 159EAC06138B
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 09:16:03 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 273852E0;
-        Thu, 29 Apr 2021 16:16:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 273852E0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1619712962; bh=MPWS5rZ68JpJHYVnh4HvW6j73faZU8AwOJxXpE8TmlE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=hLbGI7a+EszURBQ/VDQYIQ5XfsczwLRXk3fnsx5NSQEO+EyY+5wHIwVmeKICetNr4
-         8WvJM/ERrCr5e0QePzul3Q1UmxX7QlQ/RR6aFaH9Zq03zAXRBSBIM4KZTDzXqVpmYX
-         E7vdwyybHtcnifTPIvZfStomNaSwoGQaPJBd9fseYZusXgoFi1vpee5lyrI9fszKcK
-         o0MVjmL502tw9cd4Gia+NnCaiGM70WcXTqLgoUjx1bDhliXhgIJYkGwDNX54PCBnwG
-         GkbWue1ULDTVyY9YoXa2oNR96tS4n9CyhDazjKCuKz2c62jQMVK6qnLYBngKSEzTIl
-         CDCLfCFKBiSDg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng@loongson.cn>
-Cc:     alexs@kernel.org, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        siyanteng01@gmail.com, huangjianghui@uniontech.com
-Subject: Re: [PATCH 1/3] docs/zh_CN: add parisc index translation
-In-Reply-To: <20210429151058.GA23087@bobwxc.top>
-References: <cover.1619665430.git.siyanteng@loongson.cn>
- <7e64ac33597d69635497b03b29d63e17f905c96f.1619665430.git.siyanteng@loongson.cn>
- <20210429151058.GA23087@bobwxc.top>
-Date:   Thu, 29 Apr 2021 10:16:01 -0600
-Message-ID: <87v985cbi6.fsf@meer.lwn.net>
+        id S237244AbhD2QR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 12:17:57 -0400
+Received: from mga07.intel.com ([134.134.136.100]:12153 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233480AbhD2QR5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Apr 2021 12:17:57 -0400
+IronPort-SDR: u6RT5mR3NcX5bHVZOUpa+4AKjiaNPjx0dQF7RQ3RCA5o78NA04SE/8GxkXX2aKlplglR4vx5Wz
+ zFOWWKdPUXgQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="260990856"
+X-IronPort-AV: E=Sophos;i="5.82,259,1613462400"; 
+   d="scan'208";a="260990856"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 09:17:08 -0700
+IronPort-SDR: qpscS/NTPaNExpS/xy+h77DjUAj0MfSqWUBQ9aWY26+7MNzDWCTgXqKlTL6m4WaoZlZ1zH9tjB
+ 1WJjeFNQOWHQ==
+X-IronPort-AV: E=Sophos;i="5.82,259,1613462400"; 
+   d="scan'208";a="458834640"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.75.159]) ([10.212.75.159])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 09:17:07 -0700
+Subject: Re: [PATCH v26 22/30] x86/cet/shstk: Add user-mode shadow stack
+ support
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-23-yu-cheng.yu@intel.com> <YImg5hmBnTZTkYIp@zn.tnic>
+ <3a0ed2e3-b13d-0db6-87af-fecd394ddd2e@intel.com> <YIp4c95E9/9DYR6z@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <bdd41e35-29f0-896a-72ec-8b1abeafda0d@intel.com>
+Date:   Thu, 29 Apr 2021 09:17:06 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <YIp4c95E9/9DYR6z@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Wu X.C." <bobwxc@email.cn> writes:
+On 4/29/2021 2:12 AM, Borislav Petkov wrote:
+> On Wed, Apr 28, 2021 at 11:39:00AM -0700, Yu, Yu-cheng wrote:
+>> Sorry about that.  After that email thread, we went ahead to separate shadow
+>> stack and ibt into different files.  I thought about the struct, the file
+>> names cet.h, etc.  The struct still needs to include ibt status, and if it
+>> is shstk_desc, the name is not entirely true.  One possible approach is, we
+>> don't make it a struct here, and put every item directly in thread_struct.
+>> However, the benefit of putting all in a struct is understandable (you might
+>> argue the opposite :-)).  Please make the call, and I will do the change.
+> 
+> /me looks forward into the patchset...
+> 
+> So this looks like the final version of it:
+> 
+> @@ -15,6 +15,7 @@ struct cet_status {
+>   	unsigned long	shstk_base;
+>   	unsigned long	shstk_size;
+>   	unsigned int	locked:1;
+> +	unsigned int	ibt_enabled:1;
+>   };
+> 
+> If so, that thing should be simply:
+> 
+> 	struct cet {
+> 		unsigned long shstk_base;
+> 		unsigned long shstk_size;
+> 		unsigned int shstk_lock : 1,
+> 			     ibt	: 1;
+> 	}
+> 
+> Is that ibt flag per thread or why is it here? I guess I'll find out.
+> 
+> /me greps...
+> 
+> ah yes, it is.
+> 
 
-> On Thu, Apr 29, 2021 at 11:33:33AM +0800, Yanteng Si wrote:
->> This path translates Documentation/parisc/index.rst into Chinese.
->> 
->> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
->
-> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
->
-> PA-RISC docs are silent, lastest practical activity on 2013-07-09.
+The lock applies to both shadow stack and ibt.  So maybe just "locked"?
 
-Indeed...PA-RISC in general is not a hotbed of activity these days.  Is
-there some need in particular that is driving this translation?  The
-work is there and I'll apply it, but I do wonder why...
+>> Yes, the comments are in patch #23: Handle thread shadow stack.  I wanted to
+>> add that in the patch that takes the path.
+> 
+> That comes next, I'll look there.
+> 
+>>> vm_munmap() can return other negative error values, where are you
+>>> handling those?
+>>>
+>>
+>> For other error values, the loop stops.
+> 
+> And then what happens?
+> 
+>>>> +	cet->shstk_base = 0;
+>>>> +	cet->shstk_size = 0;
+> 
+> You clear those here without even checking whether unmap failed somehow.
+> And then stuff leaks but we don't care, right?
+> 
+> Someone else's problem, I'm sure.
+> 
 
-Thanks,
+vm_munmap() returns error as the following:
 
-jon
+(1) -EINVAL: address/size/alignment is wrong.
+	For shadow stack, the kernel keeps track of it, this cannot/should not 
+happen.  Should it happen, it is a bug.  The kernel can probably do WARN().
+
+(2) -ENOMEM: when doing __split_vma()/__vma_adjust(), kmem_cache_alloc() 
+fails.
+	Not much we can do.  Perhaps WARN()?
+
+(3) -EINTR: mmap_write_lock_killable(mm) fails.
+	This should only happen to a pthread.  When a thread is existing, its 
+siblings are holding mm->mmap_lock.  This is handled here.
+
+Right now, in the kernel, only the munmap() syscall returns 
+__vm_munmap() error code, otherwise the error is not checked.  Within 
+the kernel and if -EINTR is not expected, this makes sense as explained 
+above.
+
+Thanks for questioning.  This piece needs to be correct.
+
+Yu-cheng
