@@ -2,302 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8152BC43460
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 01:52:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 406C6C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 02:34:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5981961450
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 01:52:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B4CF6143A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 02:34:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235116AbhD2Bxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 21:53:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43366 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231874AbhD2Bxa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Apr 2021 21:53:30 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714F3C06138E
-        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 18:52:44 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id 82-20020a1c01550000b0290142562ff7c9so5731978wmb.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 18:52:44 -0700 (PDT)
+        id S229762AbhD2CfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Apr 2021 22:35:02 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:38952 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229718AbhD2CfC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Apr 2021 22:35:02 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13T2VB3w140460;
+        Thu, 29 Apr 2021 02:31:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=OcjnDgqEeMS7B9pSbILtLRg2VbE+Qgq9ZdV0FbA5cWQ=;
+ b=WHF7nnIXZvlYXRorHnUfILflkXLZlFj7B3fVbJ1mJgnSbQaCEfU4QxAr/r7WYvkgFVNf
+ KlREKfZK4Dfa32qykk9kD0cnBWRZxMphbc4vDFfoTLFcJLjKpY7XHrk0xmnP+iLBb1fu
+ t6u1/PRm96l0grcWAzawrIkhQ2kuyPwtoG9AqtbKlilH4n4PASuK2qa5p9tVypBa6Nwk
+ pFMKEkgM4h/dsR/t/rLz0IyESItYOBfztoPJqUcXwAqjEPCRDkdJIOQEzdy8SbhtalCh
+ twOf9qmbSWGKZ7foLiYbWH9XaKuyBwnQM4lmCzlQl/WQNtyVLmEP+yvib2cwRos3KcbN Xg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 385ahbttma-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 29 Apr 2021 02:31:59 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13T2UaRb111445;
+        Thu, 29 Apr 2021 02:31:58 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
+        by userp3020.oracle.com with ESMTP id 384w3vjguy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 29 Apr 2021 02:31:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UixyAqEXNS0KMcs1J3gDmw20Mv999cybhfcXMtg/e+D9pjRSst7CSI2Dqh849m7HSSee7mMWWfTeIVV0SGDtA8lY0MKixokSR5wVI/Mp1ZTFApzDC6u5cgWdlp7jLPxsCbY3+Km+tuwxHt/2ijuPyuGZhsPI0PFln2jJV3nUIlxei6iw0tJZJvmpax0SZ2nitN1Va+wSGhb7k7w5M7MvAxmCEz4cXklAZuqcj3NHa4WMqj2E2YKz+HbJM2NjFzH/OPM02Rc5hxT1RYX+3Ob1CYZ5vxCdiR+hYmB2N6JyGg7a+9mfAVrOWXeDu1+JD1fpMW+sVnOO1ZMNirpBpY54Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OcjnDgqEeMS7B9pSbILtLRg2VbE+Qgq9ZdV0FbA5cWQ=;
+ b=LdvSsqAbfbinQjBCOd/GONaCalWiCqp9IKGfnXmH6NsvkXHcHCd1edM9OmXCzOAj7tRZUtJ2GxPYNseVMyF86SZDG866Fb05izA3kS4tt+VOYC1IdMmm+mdDFjUcdMeusC7Uy3aM2q6Prx8ykURBbsudvaRYOkR7luCeYLwjS1kFJto/DAL5EfIOsJvBvBQNIoJ3pDFDYvY6XAWzmraQHya9Gz0NRTkXt3AnUBAyveuHphnlOlAYYT8bf0OHW5XwZgVpIz3Lhn2Rarf1WBPBPc0Wh5Is8yY8B6wci3xnJ9FlqGQk7KSvacOvAcPv4m8y5JXlymXWdJZyyQtAd4zSyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Z5QgDM+I2C6Hs4bMlAREKhvOvSoohgfPlmAYHKBQSac=;
-        b=wFJzphLMhpNV3HJcNbszgJWUQQ5CB2rRQ5bjSrZdr83GkfqSRBhtz7ZMMH0hpjQkyB
-         jgaS/mCGWkAmly4Oek4eXoSPOw+p/ysz/hBNsCH3ubP9pImRHtXj8IvLQZjErsWDeh+7
-         LIztEJskO7o9E695JhLZAxhqUXTFrBAVhKn4OEBlV5suAvf9Rbr7/bTEJkns0w062zf/
-         3ocmVA3fQtfN/sZdPexq7kTwPT3ZgMM0/xvoOjI8LvYv0UCZlODD5wHewbHke8xF6IBu
-         X00WdH4KYgdR6c5SRz7nJP11d8D9BSo5PsfLm4SlZT2WbvGeh964ConPMMkuG6vhRyLF
-         RRFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Z5QgDM+I2C6Hs4bMlAREKhvOvSoohgfPlmAYHKBQSac=;
-        b=FJ/+g/jg0dJgwC/PLnJBnH4onTx1liXqaw1+jTScJaRIczYO8+JifILhIOCov6y6pE
-         4DXepLri/zZQcxM3Popatv7qDXjD03quBFEjAyJcjzCtqWiVNP2BbW+6MKzDxSWQzsKj
-         vTzB2lvNo3zrAnZkPdnRx3WryIZlXI1FG9CoS3lqx0tjleaXHTxsyELE7e6YLwyRxd8U
-         YjmfiWG/uxPPnGQbEBBylOzxGBEym8QBTdvR3U2SoLnFSKuzGQmgX5BYXVajdJmEVxKF
-         wDbEsB/69ni+ExNYOfniciuebBm5jFyqTmIfzJJYPi+dLE1ctx2JFbIQPSHOkjHeGtFw
-         BWaw==
-X-Gm-Message-State: AOAM530prIyBtc5paZ5BE4N8gxh5ARkfv8Ei5Uv+nFlXvv8stpahj8Fj
-        klfUtrv+NgELfLXpKgypOCnM
-X-Google-Smtp-Source: ABdhPJxgLwUIMsb3SdFRZxYYgRWiO68DdgpipoFzoKf0OjSBvPyEMbT2ZgKwov6fK6KiP4ScBS+6Hg==
-X-Received: by 2002:a7b:c247:: with SMTP id b7mr7519773wmj.155.1619661162897;
-        Wed, 28 Apr 2021 18:52:42 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:209:ee88:aba3:edd5:1bd6])
-        by smtp.gmail.com with ESMTPSA id f7sm2361837wrp.48.2021.04.28.18.52.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 18:52:42 -0700 (PDT)
-Date:   Thu, 29 Apr 2021 02:52:38 +0100
-From:   Wedson Almeida Filho <wedsonaf@google.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YIoRZizWTn7LrEuz@google.com>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com>
- <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <YIGVFCymUn+4HBIj@google.com>
- <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
- <YIbQ3dHOpyD/yymW@google.com>
- <CACRpkdYM5DFLa5=t2NRnZh_TC4KXJYOuXL0oP6xcbifuNjegUg@mail.gmail.com>
-MIME-Version: 1.0
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OcjnDgqEeMS7B9pSbILtLRg2VbE+Qgq9ZdV0FbA5cWQ=;
+ b=hPzs4H+s5bL15H29xDZbrK/qMN42wnBjhlRx5AtcnLafAuzdPLepRwhIc8UbHrVj8Exb8tJIIxwZlD8y4H7l3cu6+YI7qjJ2ojcUNcH61hIflGlwFdGWIzSzGW5TrWlCFMO5EiPsozsrKo6okpPuaZbDfIgdRwiCmSMFIGRTTmw=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+ by SJ0PR10MB4686.namprd10.prod.outlook.com (2603:10b6:a03:2d7::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Thu, 29 Apr
+ 2021 02:31:54 +0000
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::4407:2ff6:c0a:5d90]) by BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::4407:2ff6:c0a:5d90%8]) with mapi id 15.20.4065.027; Thu, 29 Apr 2021
+ 02:31:54 +0000
+Subject: Re: [External] Re: [PATCH v21 0/9] Free some vmemmap pages of HugeTLB
+ page
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+        X86 ML <x86@kernel.org>, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20210425070752.17783-1-songmuchun@bytedance.com>
+ <ee3903ae-7033-7608-c7ed-1f16f0359663@oracle.com>
+ <CAMZfGtVbB6YwUMg2ECpdmniQ_vt_3AwdVAuu0GdUJfzWZgQpyg@mail.gmail.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <98f191e8-b509-e541-9d9d-76029c74d241@oracle.com>
+Date:   Wed, 28 Apr 2021 19:31:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+In-Reply-To: <CAMZfGtVbB6YwUMg2ECpdmniQ_vt_3AwdVAuu0GdUJfzWZgQpyg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdYM5DFLa5=t2NRnZh_TC4KXJYOuXL0oP6xcbifuNjegUg@mail.gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [50.38.35.18]
+X-ClientProxiedBy: MW4PR04CA0324.namprd04.prod.outlook.com
+ (2603:10b6:303:82::29) To BY5PR10MB4196.namprd10.prod.outlook.com
+ (2603:10b6:a03:20d::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.112] (50.38.35.18) by MW4PR04CA0324.namprd04.prod.outlook.com (2603:10b6:303:82::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.27 via Frontend Transport; Thu, 29 Apr 2021 02:31:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: de27a782-541c-4df0-dfe0-08d90ab6f3fb
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB4686:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SJ0PR10MB468636FFCF96E6C8086514B0E25F9@SJ0PR10MB4686.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: htXxT16OQAurTD+mI+8pe1x1nfwXmZggUwGvt+Q7S2B/Jf00qor00vhyW/z3W+Z2XcrgrdkZz6CKlviJSIlbPM7T4SB25D0Rhcguumk6+4Rsr0VOBZrxfKw16CwDkk+Ja7v4myfnGF1iEHsWIk4Uy1CMybzguz+bIj6I/TLReS2Zf6YJEz8kN3dboiK8zhh1BdfqRhYRNuKVnGsUSUn5dkbHG7HnVPcXlsVAbyt/fs0YV/Z5sQ+aZED7goarl34gPuhdODX99NYcP4GQtKwgJFq+X3tRBDcodDPEroj7B8VE3cXIISCm2KtPsqpXXiFbmBfR+3Zl0KFIidSURpcwkZsPVT9ASp2AbIcrCVpK3LvqjQ9OmHfdZGFb+cSuwE70yP6HDcLnHpwFSxQ66Kh3Iypl3J0SNBHpxl0/WBgnl4hbbwMBb665o8PcrJKIPgBmXGA4JVWOmVcJqUlnbir/FhPyN88+PBxi0NSQyH3k3sfLfbvazD0+EL9E5l03DmcRLn5EfKUoYHWev/1DT+xDjktDfVD5oX2zWA+E2zIGRpgDgYRY1pHs3e6nQCYjW8QeUVdNqM4mutKmd6+SPZXj3GBOGEGBMsWxIAEsr4ED6wy00/1dlQMwp38Jqrrq2DQs8F5HHCUa4zFOn2zcj9IAf/gN4dRaQDxARZeXJX0ujqACAqV6frYkVEej54HNPpz7/rqknHRMM3usB6eq19ezOUh5NeIIP7zntupZSi3YZes=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(376002)(346002)(136003)(396003)(39860400002)(5660300002)(4326008)(2616005)(8936002)(38350700002)(66556008)(54906003)(956004)(8676002)(66476007)(6916009)(186003)(26005)(86362001)(16526019)(66946007)(31686004)(316002)(7406005)(7416002)(478600001)(52116002)(53546011)(6486002)(44832011)(38100700002)(31696002)(83380400001)(36756003)(16576012)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QzJKYVFTaW1nb1B6eUUrWmtzK2pVVnYvYkRjNk1FNWVaZ21yZHN5dnB4RXRK?=
+ =?utf-8?B?STdsM2t3cldScEZLMlF5TDU2UlBDV2NtY3lZYjF4eVBhTzFjQ1M0eStkcDZB?=
+ =?utf-8?B?MXd0TnBaSWlydThIZEZRU3NnTmhyTm13TkxaVGRrY21HWmdLWVVVRE9qdVB2?=
+ =?utf-8?B?VGZJRHA3eG1yZUhMZW4xWEZ4b25ReTRuaC9KYnZEYmNSeElZdWQzZHNLOWNN?=
+ =?utf-8?B?Qk9uSXhyM1EvdWlnMkttc0pHeEZrKzVOaGV4M0tRRGE0eVFBb3V6aVlHWG1j?=
+ =?utf-8?B?NS9qQXhXYWRSdm1jeXFKQ1F4YTk0cjUrYmRZNUM1eWdOZm1xWHZJWS9xMnpK?=
+ =?utf-8?B?WU44SmtBcUlQRlhUTVhIZnNaTzUwWGVGY0Z1eTRwV0trZWtBTW55RzE3Q0hQ?=
+ =?utf-8?B?a1dPQ0s1N2l3ZWhGSEVxQ3RLak1ENFhIVkE2bEI3N3BacWhVOXJZYzEwbkMv?=
+ =?utf-8?B?WEtTV1UvUlR3aDZPVkRSdEhhWXdHYnkyem5tc0ROV2FxZ004bVVXelpsdDZa?=
+ =?utf-8?B?bXV1ajhNa1IrYUNWdkg3R1F5QVYvNFoxeTBIR3QvYTFwM3U4RFBWMXc3RTVt?=
+ =?utf-8?B?ZmZEbHhyZHp2M3BkQ0dwa0dxaGdOSk5ENktVRUY4STFMNTZVbzZvWi85SFJX?=
+ =?utf-8?B?dGczcWJuUXZtd2U3VysvSjlmV1ZZVkpGeDc0aytBTHNrRWNxVXJrQUdhK0ZW?=
+ =?utf-8?B?T1JLZVVjSGQvY3dodzdFZk1vMEw0Mml0U2RlcGxLb2JjNHU2bGtSK0VyUUlS?=
+ =?utf-8?B?aStDZktFN3RUZXAxT2plbmRKc20rSWh6TllLRlJCa3lZMEp0bXhwTHFYZFJP?=
+ =?utf-8?B?cUtRMnYzT1JlbUNFNGVSelJ4RjUxbmxIZllkdU1UMUpZRGZ6VGcrUFZGOGt3?=
+ =?utf-8?B?SHRqZmJOQXFhbU5XZXlENmxSazVXaVhaSTNGdnE5TEcxVmhrMk44dG15VVgy?=
+ =?utf-8?B?U294QVdPVnFlUVJ0dWVQTFJQMDFDZTA2RmEzTUVBQTBLMVFJOE1IMTB5bHpU?=
+ =?utf-8?B?N3k1VXlPU0tvUmtpSGtJeG84bStMRklqcitxZFI3NG45RnVlaHY5Qi81VVBq?=
+ =?utf-8?B?U09IKzg1YlJLMGNUQzBtVVhaWHBPNy94THVGQW5ncmxKSU1oYlpqc1BqRS9o?=
+ =?utf-8?B?bG44ekRtZXNycm5nZ1dkRCt4SFJleWZwSGhoVEVzcjgzNlZLc3pGS2hNaE9j?=
+ =?utf-8?B?REJJbTFhNlNNRHhXZjZXNmJML1lJUjdSWVVlcjJ2Y0xBNjEyaWJMdE9DVjVB?=
+ =?utf-8?B?Rk9IR3lzZjBOdzZmNlkvU2tscUN0cWUvcUlYa3dIRHZVcnRiMmFyTjZlWVF6?=
+ =?utf-8?B?Sjg3RHJMQlgyd0N1dHNtOHVZckdlT01Gb2hnc1JmOWsvOStvOHBUTld5d3d0?=
+ =?utf-8?B?MXlPcnVrWE9BaXg3K1ZTOTM0MnMzSk4rZllMeFVLaGtFYXFWc3kyTnY0NXo0?=
+ =?utf-8?B?RU5zNE05NS9ZY1dPVGI2YWFPVStOQWRxeUVsbnhhUDNDcFZaMEd2WXVIWmhC?=
+ =?utf-8?B?d2FZV28rck0rcis2QU9UcndjTW5TNEFiZW1VTmNEOUpnOUtnQk1nZ0QvNWth?=
+ =?utf-8?B?Rmc1UFFFUHpna0VxU29wcFdlWWNPRWlFbWpySlhkb0J0R1FXQVBPRWVaWmkw?=
+ =?utf-8?B?cnFVUnpTVTl6MDlyYUFEcklGb1NsaGQ3Kys0UE85UTUwQlZYNE1TZ24yS0xU?=
+ =?utf-8?B?Q25PUnR1KzYrbjEzSW9JL0dEVjZJaWM4QlFlNmJDekdRTlYvaCsvTnZnNDlh?=
+ =?utf-8?Q?iiXNOyMwXzZHd2sK4CSL5jMfC7Kp8RDOSd5/UkQ?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de27a782-541c-4df0-dfe0-08d90ab6f3fb
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2021 02:31:54.6298
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jlvo0vjS/abva+7JVGCEDkXM2abYLuRsvXSfRS2spMJ4hCZ4sKejhYvqN1DfYjy7u75AcPdEUz1Nktr/zbpXbQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4686
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9968 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0 mlxscore=0
+ mlxlogscore=999 bulkscore=0 phishscore=0 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104290017
+X-Proofpoint-GUID: FRFQCUtwD2O2wuA8BhXhLvy4FQV0dHc6
+X-Proofpoint-ORIG-GUID: FRFQCUtwD2O2wuA8BhXhLvy4FQV0dHc6
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9968 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1015 adultscore=0 suspectscore=0 spamscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104290017
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 12:54:00PM +0200, Linus Walleij wrote:
-> I really like the look of this. I don't fully understand it, but what
-> is needed for driver developers to adopt rust is something like a
-> detailed walk-through of examples like this that explains the
-> syntax 100% all the way down.
-
-Do you have a suggestion for a good place to host such walk-throughs? Also, do
-you have other examples in mind that might be useful?
-
-Have you had a chance to read the example I posted in Google's security blog?
-It's not particularly complex stuff but touches on some relevant concepts:
-https://security.googleblog.com/2021/04/rust-in-linux-kernel.html
-
-> This looks good, but cannot be done like this. The assembly versions
-> of writel() etc have to be used because the compiler simply will not
-> emit the right type of assembly for IO access, unless the compiler
-> (LLVM GCC) gains knowledge of what an IO address is, and so far
-> they have not.
-
-That code does not preclude the use of C/assembly wrappers. One way to do it
-would be to define a trait that allows types to specify their read/write
-functions. For example:
-
-pub trait IoMemType {
-    unsafe fn write(ptr: *mut Self, value: Self);
-    unsafe fn read(ptr: *const Self) -> Self;
-}
-
-Then we restrict T in my original example to only allow types that implement
-IoMemType. And we implement it for u8/16/32/64 as wrappers to the C/assembly
-implementations.
-
-> One *could* think about putting awareness about crazy stuff like
-> that into the language but ... I think you may want to avoid it
-> and just wrap the assembly. So a bit of low-level control of the
-> behavior there.
-
-Yes, I'm happy to have C/assembly be the source of truth, called from Rust
-through wrappers.
-
-> > 2. The only unsafe part that could involve the driver for this would be the
-> > creation of IoMemBlock: my expectation is that this would be implemented by the
-> > bus driver or some library that maps the appropriate region and caps the size.
-> > That is, we can also build a safe abstraction for this.
+On 4/28/21 5:26 AM, Muchun Song wrote:
+> On Wed, Apr 28, 2021 at 7:47 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+>>
+>> Thanks!  I will take a look at the modifications soon.
+>>
+>> I applied the patches to Andrew's mmotm-2021-04-21-23-03, ran some tests and
+>> got the following warning.  We may need to special case that call to
+>> __prep_new_huge_page/free_huge_page_vmemmap from alloc_and_dissolve_huge_page
+>> as it is holding hugetlb lock with IRQs disabled.
 > 
-> I suppose this is part of the problem in a way: a language tends to be
-> imperialistic: the developers will start thinking "it would all be so much
-> easier if I just rewrote also this thing in Rust".
-
-I'm not sure I agree with this. I actually just want to hook things up to the
-existing C code and expose a Rust interface that allows developers to benefit
-from the guarantees it offers. Unnecessarily rewriting things would slow me
-down, so my incentive is to avoid rewrites.
-
-> > 7. We could potentially design a way to limit which offsets are available for a
-> > given IoMemBlock, I just haven't thought through it yet, but it would also
-> > reduce the number of mistakes a developer could make.
+> Good catch. Thanks Mike. I will fix it in the next version. How about this:
 > 
-> The kernel has an abstraction for memory and register accesses,
-> which is the regmap, for example MMIO regmap for simple
-> memory-mapped IO:
-> drivers/base/regmap/regmap-mmio.c
+> @@ -1618,7 +1617,8 @@ static void __prep_new_huge_page(struct hstate
+> *h, struct page *page)
 > 
-> In a way this is memory safety implemented in C.
-
-I wasn't aware of this. I like it. Thanks for sharing.
-
-> If Rust wants to do this I would strongly recommend it to
-> try to look like regmap MMIO.
-> See for example drivers/clk/sprd/common.c:
+>  static void prep_new_huge_page(struct hstate *h, struct page *page, int nid)
+>  {
+> +       free_huge_page_vmemmap(h, page);
+>         __prep_new_huge_page(page);
+>         spin_lock_irq(&hugetlb_lock);
+>         __prep_account_new_huge_page(h, nid);
+>         spin_unlock_irq(&hugetlb_lock);
+> @@ -2429,6 +2429,7 @@ static int alloc_and_dissolve_huge_page(struct
+> hstate *h, struct page *old_page,
+>         if (!new_page)
+>                 return -ENOMEM;
 > 
-> static const struct regmap_config sprdclk_regmap_config = {
->         .reg_bits       = 32,
->         .reg_stride     = 4,
->         .val_bits       = 32,
->         .max_register   = 0xffff,
->         .fast_io        = true,
-> };
-> (...)
-> regmap = devm_regmap_init_mmio(&pdev->dev, base,
->                                                &sprdclk_regmap_config);
+> +       free_huge_page_vmemmap(h, new_page);
+>  retry:
+>         spin_lock_irq(&hugetlb_lock);
+>         if (!PageHuge(old_page)) {
+> @@ -2489,7 +2490,7 @@ static int alloc_and_dissolve_huge_page(struct
+> hstate *h, struct page *old_page,
 > 
-> It is also possible to provide a callback function to determine
-> if addresses are readable/writeable.
+>  free_new:
+>         spin_unlock_irq(&hugetlb_lock);
+> -       __free_pages(new_page, huge_page_order(h));
+> +       update_and_free_page(h, new_page, false);
 > 
-> This is really a devil-in-the-details place where Rust needs
-> to watch out to not reimplement regmap in a substandard
-> way from what is already available.
-
-At the moment we're only providing wrappers for things we need, so it is mostly
-restricted to what I needed for Binder.
-
-If someone wants to write a driver that would benefit from this, we will look
-into it and possibly wrap the C implementation.
-
-> Also in many cases developers do not use regmap MMIO
-> because it is just too much trouble. They tend to use it
-> not because "safety is nice" but because a certain register
-> region is very fractured and it is easy to do mistakes and
-> write into a read-only register by mistake. So they want
-> this, optionally, when the situation demands it.
-
-In Rust, we want all accesses to be safe (within reason), so we probably want to
-offer something like IoMemBlock for cases when regmap-mmio is too much hassle.
-
-> It looks nice but it is sadly unrealistic because we need to wrap
-> the real assembly accessors in practice (write memory barriers
-> and such) and another problem is that it shows that Rust has an
-> ambition to do a parallel implementation of regmap.
-
-There is no such ambition. The code in my previous email was written on the spot
-as a demonstration per your request.
-
-> > Would you mind sharing more about which aspect of this you feel is challenging?
+>         return ret;
+>  }
 > 
-> Good point.
 > 
-> This explanation is going to take some space.
 
-Thanks, I appreciate this.
+Another option would be to leave the prep* routines as is and only
+modify alloc_and_dissolve_huge_page as follows:
 
-> I am not able to express it in Rust at all and that is what
-> is challenging about it, the examples provided for Rust
-> are all about nice behaved computer programs like
-> cutesey fibonnacci series and such things and not really
-> complex stuff.
-
-I'm sure you're able to express functions and arguments, for example. So going
-into the details of the code would have been helpful to me.
-
-> Your binder example is however very good, the problem
-> is that it is not a textbook example so the intricacies of
-> it are not explained, top down. (I'm not blaming you for
-> this, I just say we need that kind of text to get to know
-> Rust in the details.)
-
-Do you think a write up about some of what's in there would be helpful? I was
-planning to publish some information about the code, including performance
-numbers and comparisons of past vulnerabilities once I completed the work.
-Probably not to the level of detail that you're seeking but I may look into
-having more details about the code if there is demand for it.
-
-> What we need is a good resource to learn it, that
-> skips the trivial aspects of the language and goes immediately
-> for the interesting details.
-> 
-> It's not like I didn't try.
-> I consulted the Rust book on the website of coure.
-
-Did you run into 'Rust for Embedded C Programmers' by any chance
-(https://docs.opentitan.org/doc/ug/rust_for_c/)? It's not all up to date but I
-found it useful.
-
-> The hard thing to understand in Rust is traits. I don't understand
-> traits. I have the level of "a little knowledge is dangerous" and
-> I clearly understand this: all kernel developers must have
-> a thorough and intuitive understanding of the inner transcendental
-> meaning of the concept of a TRAIT, how it was devised, how the
-> authors of the language conceptualized it, what effect it is supposed
-> to have on generated assembly.
-
-Perhaps we need a 'Rust for Linux Kernel Programmers' in a similar vain to the
-page I linked above. 
-
-> The language book per se is a bit too terse.
-> For example if I read
-> https://doc.rust-lang.org/book/appendix-02-operators.html
-> 
-> T: ?Sized : Allow generic type parameter to be a dynamically sized type
-> 
-> This is just self-referential. The description is written in a
-> strongly context-dependent language to make a pun ...
-> I think every word in that sentence except "allow"and "to be a"
-> is dependent on other Rust concepts and thus completely
-> unreadable without context.
-> 
-> Instead it is described in a later chapter:
-> https://doc.rust-lang.org/book/ch19-04-advanced-types.html
-> 
-> This is more to the point.
-> 
-> "Rust has a particular trait called the Sized trait to
-> determine whether or not a type’s size is known at compile time."
-> (...) "A trait bound on ?Sized is the opposite of a trait bound on
-> Sized: we would read this as “T may or may not be Sized.” This
-> syntax is only available for Sized, not any other traits."
-> 
-> But Jesus Christ. This makes me understand less not
-> more.
-
-I had similar frustrations when I started on the language, which wasn't that
-long ago. One thing that I found useful was to read through some of the RFCs
-related to the topic I was interested in: it was time-consuming but helped me
-understand not only what was going on but the rationale as well.
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 9c617c19fc18..f8e5013a6b46 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -2420,14 +2420,15 @@ static int alloc_and_dissolve_huge_page(struct hstate *h, struct page *old_page,
  
-> What I find very disturbing is that the authors of the Rust
-> language did NOT write it. I think this may be the source
-> of a serious flaw. We need this information straight from
-> the horse's mouth.
+ 	/*
+ 	 * Before dissolving the page, we need to allocate a new one for the
+-	 * pool to remain stable. Using alloc_buddy_huge_page() allows us to
+-	 * not having to deal with prep_new_huge_page() and avoids dealing of any
+-	 * counters. This simplifies and let us do the whole thing under the
+-	 * lock.
++	 * pool to remain stable.  Here, we allocate the page and 'prep' it
++	 * by doing everything but actually updating counters and adding to
++	 * the pool.  This simplifies and let us do most of the processing
++	 * under the lock.
+ 	 */
+ 	new_page = alloc_buddy_huge_page(h, gfp_mask, nid, NULL, NULL);
+ 	if (!new_page)
+ 		return -ENOMEM;
++	__prep_new_huge_page(h, new_page);
+ 
+ retry:
+ 	spin_lock_irq(&hugetlb_lock);
+@@ -2473,7 +2474,6 @@ static int alloc_and_dissolve_huge_page(struct hstate *h, struct page *old_page,
+ 		 * Reference count trick is needed because allocator gives us
+ 		 * referenced page but the pool requires pages with 0 refcount.
+ 		 */
+-		__prep_new_huge_page(h, new_page);
+ 		__prep_account_new_huge_page(h, nid);
+ 		page_ref_dec(new_page);
+ 		enqueue_huge_page(h, new_page);
+@@ -2489,7 +2489,7 @@ static int alloc_and_dissolve_huge_page(struct hstate *h, struct page *old_page,
+ 
+ free_new:
+ 	spin_unlock_irq(&hugetlb_lock);
+-	__free_pages(new_page, huge_page_order(h));
++	update_and_free_page(h, old_page, false);
+ 
+ 	return ret;
+ }
 
-Perhaps you're right... I don't share this feeling though.
-
-> I would strongly advice the Rust community to twist the
-> arms of the original Rust authors to go and review and
-> edit the Rust book. Possibly rewrite parts of it. This is what
-> the world needs to get a more adaptable Rust.
-> 
-> I understand this is a thick requirement, but hey, you are
-> competing with C.
-
-I don't think of this as a competition. I'm not arguing for C to be replaced,
-only for Rust to be an option for those inclined to use it.
-
-Thanks again,
--Wedson
+-- 
+Mike Kravetz
