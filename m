@@ -2,83 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B44C43460
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 08:18:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B51DC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 08:46:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AE4661185
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 08:18:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DCBB861040
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 08:46:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231405AbhD2IS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 04:18:57 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:59014 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239385AbhD2IS5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 04:18:57 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mtapsc-6-vki8S8smMJidjW5qU1ql5A-1; Thu, 29 Apr 2021 09:18:08 +0100
-X-MC-Unique: vki8S8smMJidjW5qU1ql5A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 09:18:07 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.015; Thu, 29 Apr 2021 09:18:07 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     "'mceier+kernel@gmail.com'" <mceier+kernel@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
-CC:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 00/13] [RFC] Rust support
-Thread-Topic: [PATCH 00/13] [RFC] Rust support
-Thread-Index: AQHXPLdzOFPh/tHqwUWOAL+H8MAuYKrLJmrA
-Date:   Thu, 29 Apr 2021 08:18:07 +0000
-Message-ID: <a5e90fededc64ca2b8a29245a7d1d798@AcuMS.aculab.com>
-References: <CAJTyqKMLaav7VCAZS9p8wh0UamACYq9p6h=LsyrCeLqG_O2Jcw@mail.gmail.com>
-In-Reply-To: <CAJTyqKMLaav7VCAZS9p8wh0UamACYq9p6h=LsyrCeLqG_O2Jcw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S234041AbhD2IrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 04:47:23 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38342 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229963AbhD2IrT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Apr 2021 04:47:19 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1619685991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=S3QDYnjvvBLgh2dAPtQ9pkVbfHfZNetkQxLpUjGW754=;
+        b=OtSF5u7L+L2LBMnAeCxzUjy4YNgAOoo0IsOcErHs3J8qzcRne5SXyyjiiQ88GBNySNydXZ
+        1n6ud3MbJ7JFIP3WhvO+1/xNL/zKyFgiNX4p6E/fDMPqj4Fux+z8ohPY7CpyFnk4PYh3r6
+        LANFD0TnI07HbOF7nmtvJ/3Vc5z0/MM=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 1F1F3AE56;
+        Thu, 29 Apr 2021 08:46:31 +0000 (UTC)
+Date:   Thu, 29 Apr 2021 10:46:30 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Jia He <justin.he@arm.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Subject: Re: [PATCH 2/4] lib/vsprintf.c: Make %p{D,d} mean as much components
+ as possible
+Message-ID: <YIpyZmi1Reh7iXeI@alley>
+References: <20210428135929.27011-1-justin.he@arm.com>
+ <20210428135929.27011-2-justin.he@arm.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210428135929.27011-2-justin.he@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogTWFyaXVzeiBDZWllcg0KPiBTZW50OiAyOSBBcHJpbCAyMDIxIDA2OjIxDQo+IA0KPiBP
-biAyOC8wNC8yMDIxLCBOaWNrIERlc2F1bG5pZXJzIDxuZGVzYXVsbmllcnNAZ29vZ2xlLmNvbT4g
-d3JvdGU6DQo+ID4gT24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgMTE6MzQgQU0gTWFyaXVzeiBDZWll
-ciA8bWNlaWVyK2tlcm5lbEBnbWFpbC5jb20+DQo+ID4gd3JvdGU6DQo+ID4+DQo+ID4+IE1heWJl
-IGl0IHdvdWxkIGFsc28gYmUgd29ydGh3aGlsZSB0byBtYWtlIHRoZSByZXF1aXJlbWVudCB0aGF0
-IHRoZQ0KPiA+PiBrZXJuZWwgbXVzdCBiZSBidWlsZGFibGUgd2l0aCBmcmVlIHNvZnR3YXJlIChu
-b3QganVzdCBvcGVuIHNvdXJjZQ0KPiA+PiBzb2Z0d2FyZSkgZXhwbGljaXQgPw0KPiA+DQo+ID4g
-VGhlIGtlcm5lbCBpcyBhbHJlYWR5IGJ1aWxkYWJsZSBieSBMTFZNIChhbmQgY2xhbmcpOyBpbiBm
-YWN0IEFuZHJvaWQsDQo+ID4gQ3JPUywgYW5kIEdvb2dsZSdzIHByb2R1Y3Rpb24gc2VydmVycyBh
-bHJlYWR5IGRvIHNvLg0KPiA+IGh0dHBzOi8vY2xhbmdidWlsdGxpbnV4LmdpdGh1Yi5pby8NCj4g
-DQo+IExMVk0vY2xhbmcgaXMgbm90IGZyZWUgc29mdHdhcmUgKGl0J3MganVzdCBvcGVuIHNvdXJj
-ZSksIHNvIGl0IGRvZXNuJ3QNCj4gbWF0dGVyIGlmIGtlcm5lbCBidWlsZHMgb3Igbm90IHdpdGgg
-aXQuIFdoYXQgc2hvdWxkIG1hdHRlciBpcyB3aGV0aGVyDQo+IGl0IGlzIGJ1aWxkYWJsZSB3aXRo
-IGF0IGxlYXN0IG9uZSBHUEwgY29tcGlsZXIgbGlrZSBHQ0MuDQoNCkkgc3VzcGVjdCB0aGF0IHdo
-YXQgbWF0dGVycyBmb3IgbW9zdCBwZW9wbGUgaXMgd2hldGhlciB0aGUgcmVxdWlyZWQNCmNvbXBp
-bGVycyAoZXRjKSBhcmUgaW5zdGFsbGVkIGJ5IGEgZGVmYXVsdC1pc2ggaW5zdGFsbCBvZiB0aGVp
-cg0KZmF2b3VyaXRlIGRpc3RyaWJ1dGlvbi4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRk
-cmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBN
-SzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+On Wed 2021-04-28 21:59:27, Jia He wrote:
+> From: Linus Torvalds <torvalds@linux-foundation.org>
+> 
+> We have '%pD'(no digit following) for printing a filename. It may not be
+> perfect (by default it only prints one component.
+> 
+> %pD4 should be more than good enough, but we should make plain "%pD" mean
+> "as much of the path that is reasonable" rather than "as few components as
+> possible" (ie 1).
 
+Could you please provide link to the discussion where this idea was
+came from?
+
+It would be great to add and example into the commit message how
+it improved the output.
+
+Also please explain why it is useful/safe to change the behavior
+for all existing users. It seems that you checked them and prevented
+any regression by the other patches in this patchset.
+
+Anyway, some regressions are fixed by the followup patches.
+It would break bisection.
+
+We either need to prevent the regression before this patch.
+Or the changes have to be done in this patch. For example,
+it would be perfectly fine to update test_printf.c in
+this patch.
+
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+If you want to keep Linus as the author and do more changes, you might
+describe here changes done by you, for example:
+
+[justin.he@arm.com: update documentation and test_printf]
+Signed-off-by: Jia He <justin.he@arm.com>
+
+Or you might make you the author and add
+
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+> ---
+>  Documentation/core-api/printk-formats.rst | 3 ++-
+>  lib/vsprintf.c                            | 4 ++--
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index 9be6de402cb9..aa76cbec0dae 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+
+Plese, update also the pattern:
+
+-	%pd{,2,3,4}
+-	%pD{,2,3,4}
++	%pd{1,2,3,4}
++	%pD{1,2,3,4}
+
+> @@ -413,7 +413,8 @@ dentry names
+>  For printing dentry name; if we race with :c:func:`d_move`, the name might
+>  be a mix of old and new ones, but it won't oops.  %pd dentry is a safer
+>  equivalent of %s dentry->d_name.name we used to use, %pd<n> prints ``n``
+> -last components.  %pD does the same thing for struct file.
+> +last components.  %pD does the same thing for struct file. By default, %p{D,d}
+> +is equal to %p{D,d}4.
+>  
+>  Passed by reference.
+
+Best Regards,
+Petr
