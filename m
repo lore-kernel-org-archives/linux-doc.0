@@ -2,133 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC9FCC43460
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 20:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D3AAC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 21:08:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACE3961460
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 20:51:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40DC161445
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 21:08:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236847AbhD2UwU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 16:52:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40404 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237288AbhD2UwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 16:52:13 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C13B5C06134A
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 13:51:21 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id f17-20020a05621400d1b029019a6fc802f7so31410591qvs.7
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 13:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=HDU3fipI2jIYDh7sBk6Haj682lgh4FX1OTAOz5rXBjE=;
-        b=VeNMi853XgTR4ZwjSKWeWZuMZT/uXhbsLUHgqCEBiTm+tUFXgXnoASbHoG35P5WbXc
-         SzDwqVMcH6jW1fHi0TwZ9me6Ro1qBgGgGypMF6UkWVgyAHRlTpASDKwZ9f8cXFayswQr
-         7+zODIxeNotj4t6CnPVzIxySK3W5YTet/jQyRV0mwQHOJub3U0rDuOE7t1COGeTSQwz+
-         iAqgKrVHTX3oREq8abD1LJhHq8usujK5hQYp2jb7n28twW8+G+nASLqSxFFpT5PrvAcF
-         YBqWduQpYUfpHDiEkmuaNrMvuMkwFC93KmWaFXT+3ojNYK9kla53DVD0EHLbjaam15lm
-         EVDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=HDU3fipI2jIYDh7sBk6Haj682lgh4FX1OTAOz5rXBjE=;
-        b=ZhE/i+FefE8/OzPMZuD04jzPCTModfxJs+UEmEWxwVhacsKeRy+OC4vzaSMzrg1pHZ
-         PbmRHrdM6uCdmm0Hyymv/hYWHkNXrnTeFTcEHHyl8w/BmyxQ3vvsgI5qekNMUi5KRm1/
-         kLx/2up1M7MNp6IG3KK/MwDdYFLuGpFPHkSkrZnQQxgWLRzXDTD8NbUUd/v6kptoY8E2
-         EmsNufpTyz1za7iWXf1E/hSmzcWNgGTQVgZdRIzjh4XqtM0Y3EZCceML36Lrk0cswL5a
-         yQuYzbi6zPf/PjOi2olCdxGcI47O/ZQrZOQ79pqXlBYmtIn5GWKirpfj9ad/RPhBDwWb
-         kWRg==
-X-Gm-Message-State: AOAM5310B42G6QPIWSUToFT3Ykge/qM5Y05hzysIgzDvJYUsSsS4FXLp
-        hUyg0fgjVIaeI21pdkS+kuincLzp7ArvsTxGIEa3iQ==
-X-Google-Smtp-Source: ABdhPJyczsqt0L1kdH5oIPdV6BbHXgNmTZ19a4myQKyLHjLLIPiLuVdM3HOvyO/rJh9EfN7C8i5Q/JqxLoPeuUqu81n1+A==
-X-Received: from mactruck.svl.corp.google.com ([2620:15c:2cb:201:bab5:c64e:5a6c:36bd])
- (user=brendanhiggins job=sendgmr) by 2002:a0c:c20b:: with SMTP id
- l11mr1999080qvh.1.1619729480971; Thu, 29 Apr 2021 13:51:20 -0700 (PDT)
-Date:   Thu, 29 Apr 2021 13:51:09 -0700
-In-Reply-To: <20210429205109.2847831-1-brendanhiggins@google.com>
-Message-Id: <20210429205109.2847831-5-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20210429205109.2847831-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
-Subject: [RFC v2 4/4] Documentation: kunit: document support for QEMU in kunit_tool
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     shuah@kernel.org, davidgow@google.com
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, sboyd@kernel.org, keescook@chromium.org,
-        frowand.list@gmail.com, dlatypov@google.com,
-        Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S233422AbhD2VJk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 17:09:40 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3096 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233284AbhD2VJk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 17:09:40 -0400
+Received: from dggeme762-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FWSgS12HrzWZ7B;
+        Fri, 30 Apr 2021 05:04:52 +0800 (CST)
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggeme762-chm.china.huawei.com (10.3.19.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 30 Apr 2021 05:08:51 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2176.012;
+ Fri, 30 Apr 2021 05:08:50 +0800
+From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To:     Dave Hansen <dave.hansen@intel.com>,
+        "tiantao (H)" <tiantao6@hisilicon.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Valentin Schneider" <valentin.schneider@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>
+Subject: RE: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
+ of sysfs pagebuf
+Thread-Topic: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
+ of sysfs pagebuf
+Thread-Index: AQHXPMXH0SQBD1qG+ECo3ZrOidSRtqrLBimAgADzHOA=
+Date:   Thu, 29 Apr 2021 21:08:50 +0000
+Message-ID: <602918a1e2214ea7bd0890a751975566@hisilicon.com>
+References: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
+ <1619679819-45256-2-git-send-email-tiantao6@hisilicon.com>
+ <146e051b-603c-a6d3-43d8-d083cf2c8119@intel.com>
+In-Reply-To: <146e051b-603c-a6d3-43d8-d083cf2c8119@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.200.93]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document QEMU support, what it does, and how to use it in kunit_tool.
-
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
----
- Documentation/dev-tools/kunit/usage.rst | 37 +++++++++++++++++++++----
- 1 file changed, 31 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 650f99590df57..b74bd7c87cc20 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -612,14 +612,39 @@ only things to be aware of when doing so.
- The biggest impediment will likely be that certain KUnit features and
- infrastructure may not support your target environment. For example, at this
- time the KUnit Wrapper (``tools/testing/kunit/kunit.py``) does not work outside
--of UML. Unfortunately, there is no way around this. Using UML (or even just a
--particular architecture) allows us to make a lot of assumptions that make it
--possible to do things which might otherwise be impossible.
-+of UML and QEMU. Unfortunately, there is no way around this. Using UML and QEMU
-+(or even just a particular architecture) allows us to make a lot of assumptions
-+that make it possible to do things which might otherwise be impossible.
- 
- Nevertheless, all core KUnit framework features are fully supported on all
--architectures, and using them is straightforward: all you need to do is to take
--your kunitconfig, your Kconfig options for the tests you would like to run, and
--merge them into whatever config your are using for your platform. That's it!
-+architectures, and using them is straightforward: Most popular architectures
-+are supported directly in the KUnit Wrapper via QEMU.  Currently, supported
-+architectures on QEMU include:
-+
-+*   i386
-+*   x86_64
-+*   arm
-+*   arm64
-+*   alpha
-+*   powerpc
-+*   riscv
-+*   s390
-+*   sparc
-+
-+In order to run KUnit tests on one of these architectures via QEMU with the
-+KUnit wrapper, all you need to do is specify the flags ``--arch`` and
-+``--cross_compile`` when invoking the KUnit Wrapper. For example, we could run
-+the default KUnit tests on ARM in the following manner (assuming we have an ARM
-+toolchain installed):
-+
-+.. code-block:: bash
-+
-+	tools/testing/kunit/kunit.py run --timeout=60 --jobs=12 --arch=arm --cross_compile=arm-linux-gnueabihf-
-+
-+Alternatively, if you want to run your tests on real hardware or in some other
-+emulation environment, all you need to do is to take your kunitconfig, your
-+Kconfig options for the tests you would like to run, and merge them into
-+whatever config your are using for your platform. That's it!
- 
- For example, let's say you have the following kunitconfig:
- 
--- 
-2.31.1.498.g6c1eba8ee3d-goog
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRGF2ZSBIYW5zZW4gW21h
+aWx0bzpkYXZlLmhhbnNlbkBpbnRlbC5jb21dDQo+IFNlbnQ6IEZyaWRheSwgQXByaWwgMzAsIDIw
+MjEgMjoyMSBBTQ0KPiBUbzogdGlhbnRhbyAoSCkgPHRpYW50YW82QGhpc2lsaWNvbi5jb20+OyBj
+b3JiZXRAbHduLm5ldDsNCj4gZ3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc7IFNvbmcgQmFvIEh1
+YSAoQmFycnkgU29uZykNCj4gPHNvbmcuYmFvLmh1YUBoaXNpbGljb24uY29tPg0KPiBDYzogbGlu
+dXgtZG9jQHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgUmFm
+YWVsIEouDQo+IFd5c29ja2kgPHJhZmFlbEBrZXJuZWwub3JnPjsgUGV0ZXIgWmlqbHN0cmEgPHBl
+dGVyekBpbmZyYWRlYWQub3JnPjsgVmFsZW50aW4NCj4gU2NobmVpZGVyIDx2YWxlbnRpbi5zY2hu
+ZWlkZXJAYXJtLmNvbT47IERhdmUgSGFuc2VuDQo+IDxkYXZlLmhhbnNlbkBsaW51eC5pbnRlbC5j
+b20+OyBEYW5pZWwgQnJpc3RvdCBkZSBPbGl2ZWlyYSA8YnJpc3RvdEByZWRoYXQuY29tPg0KPiBT
+dWJqZWN0OiBSZTogW1BBVENIIDEvMl0gQ1BVLCBOVU1BIHRvcG9sb2d5IEFCSXM6IGNsYXJpZnkg
+dGhlIG92ZXJmbG93IGlzc3VlDQo+IG9mIHN5c2ZzIHBhZ2VidWYNCj4gDQo+IE9uIDQvMjkvMjEg
+MTI6MDMgQU0sIFRpYW4gVGFvIHdyb3RlOg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9u
+L0FCSS9zdGFibGUvc3lzZnMtZGV2aWNlcy1ub2RlDQo+IGIvRG9jdW1lbnRhdGlvbi9BQkkvc3Rh
+YmxlL3N5c2ZzLWRldmljZXMtbm9kZQ0KPiA+IGluZGV4IDQ4NGZjMDQuLjgyZGZlNjQgMTAwNjQ0
+DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9BQkkvc3RhYmxlL3N5c2ZzLWRldmljZXMtbm9kZQ0K
+PiA+ICsrKyBiL0RvY3VtZW50YXRpb24vQUJJL3N0YWJsZS9zeXNmcy1kZXZpY2VzLW5vZGUNCj4g
+PiBAQCAtNDcsNyArNDcsMTAgQEAgV2hhdDoJCS9zeXMvZGV2aWNlcy9zeXN0ZW0vbm9kZS9ub2Rl
+WC9jcHVsaXN0DQo+ID4gIERhdGU6CQlPY3RvYmVyIDIwMDINCj4gPiAgQ29udGFjdDoJTGludXgg
+TWVtb3J5IE1hbmFnZW1lbnQgbGlzdCA8bGludXgtbW1Aa3ZhY2sub3JnPg0KPiA+ICBEZXNjcmlw
+dGlvbjoNCj4gPiAtCQlUaGUgQ1BVcyBhc3NvY2lhdGVkIHRvIHRoZSBub2RlLg0KPiA+ICsJCVRo
+ZSBDUFVzIGFzc29jaWF0ZWQgdG8gdGhlIG5vZGUuIFRoZSBmb3JtYXQgaXMgbGlrZSAwLTMsDQo+
+ID4gKwkJOC0xMSwgMTQsMTcuIG1heGltdW0gc2l6ZSBpcyBQQUdFX1NJWkUsIHNvIHRoZSB0YWls
+DQo+ID4gKwkJb2YgdGhlIHN0cmluZyB3aWxsIGJlIHRyaW1tZWQgd2hpbGUgaXRzIHNpemUgaXMg
+bGFyZ2VyDQo+ID4gKwkJdGhhbiBQQUdFX1NJWkUuDQo+IA0KPiBJIHRoaW5rIGl0J3MgcHJldHR5
+IGFyZ3VhYmxlIHRoYXQgdHJ1bmNhdGluZyBvdXRwdXQgb24gYSByZWFsIHN5c3RlbSBpcw0KPiBh
+biBBQkkgYnJlYWsuICBEb2luZyB0aGlzIHdvdWxkIG1ha2UgdGhlIGludGVyZmFjZSByYXRoZXIg
+dXNlbGVzcy4NCj4gDQo+IERvbid0IHdlIG5lZWQgYSByZWFsIHNvbHV0aW9uIHJhdGhlciB0aGFu
+IHRocm93aW5nIHVwIG91ciBoYW5kcz8NCj4gDQo+IERvIHdlIHRoaW5rID5QQUdFX1NJWkUgZGF0
+YSBvdXQgb2YgYSBzeXNmcyBmaWxlIGlzIGEgd29yc2UgQUJJIGJyZWFrIG9yDQo+IHNvbWV0aGlu
+Zz8NCg0KVGhpcyBraW5kIG9mIGNwdSBsaXN0IEFCSXMgaGF2ZSBiZWVuIHRoZXJlIGZvciBtYW55
+IHllYXJzIGJ1dCBoYXZlIA0KbmV2ZXIgYmVlbiBkb2N1bWVudGVkIHdlbGwuDQoNCldlIGhhdmUg
+dHdvIEFCSXM6DQp4eHhfY3B1cyAtIGluIGZvcm1hdCBsaWtlIDMzMzMzMzMzMzMNCnh4eF9jcHVz
+X2xpc3QgLSBpbiBmb3JtYXQgbGlrZSAwLDMsNSw3LDksMTEsMTMuLi4uDQoNCnh4eF9jcHVzX2xp
+c3QgaXMgYW5vdGhlciBodW1hbi1yZWFkYWJsZSB2ZXJzaW9uIG9mIHh4eF9jcHVzLiBJdCBkb2Vz
+bid0DQppbmNsdWRlIGFueSBtb3JlIHVzZWZ1bCBpbmZvcm1hdGlvbiB0aGFuIHh4eF9jcHVzLg0K
+DQp4eHhfY3B1cyB3b24ndCBvdmVyZmxvdyBiYXNlZCBvbiBCVUlMRF9CVUdfT04gYW5kIG1heGlt
+dW0gTlJfQ1BVUw0KaW4ga2NvbmZpZyBub3dhZGF5cy4NCg0KaWYgcGVvcGxlIGFsbCBhZ3JlZSB0
+aGUgdHJpbW1lZCBsaXN0IGlzIGEgYnJlYWsgb2YgQUJJLCBJIHRoaW5rIHdlIG1heQ0KdG90YWxs
+eSByZW1vdmUgdGhpcyBsaXN0LiBGb3IgdGhlc2UgZGF5cywgdGhpcyBsaXN0IHByb2JhYmx5IGhh
+cyBuZXZlcg0Kb3ZlcmZsb3dlZCBidXQgbGl0ZXJhbGx5IHRoaXMgY291bGQgaGFwcGVuLg0KDQp0
+aG91Z2h0cz8NCg0KVGhhbmtzDQpCYXJyeQ0K
