@@ -2,119 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C7EC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FAAC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:46:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9827A61418
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:38:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA79361185
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 15:46:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232989AbhD2PjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 11:39:08 -0400
-Received: from jptosegrel01.sonyericsson.com ([124.215.201.71]:1832 "EHLO
-        JPTOSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233420AbhD2PjH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 11:39:07 -0400
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Willy Tarreau <w@1wt.eu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Nick Desaulniers <ndesaulniers@google.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
+        id S233366AbhD2PrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 11:47:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46084 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232989AbhD2PrP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Apr 2021 11:47:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2FC3161418;
+        Thu, 29 Apr 2021 15:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1619711186;
+        bh=/VKU8BHFV59c+saQPJazlJKeZ1egZHPlDGpRVTaqF18=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oo+Tooz5WEkT5vZmP5cFl0QHgzIRrbjTSH8T8DDJnqg6EJk2ooRGKe86Xp3CVQj0D
+         kzwCVojGtFf4hs5GvKrAhXX/oU4ZjmI+TEFqWMDOYO75OkfBpd6uBhmmVMwR5aVbqz
+         1XGnYKH4qJHP+y+/Cb22Q3Yyih1kMZFFK3mF/kEg=
+Date:   Thu, 29 Apr 2021 17:46:24 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Tian Tao <tiantao6@hisilicon.com>, corbet@lwn.net,
+        song.bao.hua@hisilicon.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
- <YHmMJWmzz2vZ3qQH@google.com>
- <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
- <YHmuX1NA5RF7C7XS@google.com> <20210416161444.GA10484@1wt.eu>
- <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
- <20210416173717.GA10846@1wt.eu>
- <CAKwvOd=RadTs7Skv6KUBo4qZQtdi0kugTzxvZM+5X_2gstjyaQ@mail.gmail.com>
- <YH5tAqLr965MNZyW@kroah.com> <20210420061613.GA30890@1wt.eu>
-From:   peter enderborg <peter.enderborg@sony.com>
-Message-ID: <e3c591db-a272-5048-7396-3e934b071aab@sony.com>
-Date:   Thu, 29 Apr 2021 17:38:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>
+Subject: Re: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
+ of sysfs pagebuf
+Message-ID: <YIrU0GMcnk6/5mbP@kroah.com>
+References: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
+ <1619679819-45256-2-git-send-email-tiantao6@hisilicon.com>
+ <146e051b-603c-a6d3-43d8-d083cf2c8119@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210420061613.GA30890@1wt.eu>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=DLnxHBFb c=1 sm=1 tr=0 a=9drRLWArJOlETflmpfiyCA==:117 a=IkcTkHD0fZMA:10 a=3YhXtTcJ-WEA:10 a=W69p7wgkjsnNkqErQOcA:9 a=QEXdDO2ut3YA:10
-X-SEG-SpamProfiler-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <146e051b-603c-a6d3-43d8-d083cf2c8119@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/20/21 8:16 AM, Willy Tarreau wrote:
-> On Tue, Apr 20, 2021 at 07:56:18AM +0200, Greg Kroah-Hartman wrote:
->> I would LOVE it if some "executives" would see the above presentations,
->> because then they would maybe actually fund developers to fix bugs and
->> maintain the kernel code, instead of only allowing them to add new
->> features.
->>
->> Seriously, that's the real problem, that Dmitry's work has exposed, the
->> lack of people allowed to do this type of bugfixing and maintenance on
->> company time, for something that the company relies on, is a huge issue.
->> "executives" feel that they are willing to fund the initial work and
->> then "throw it over the wall to the community" once it is merged, and
->> then they can forget about it as "the community" will maintain it for
->> them for free.  And that's a lie, as Dmitry's work shows.
-> That's sadly the eternal situation, and I'm suspecting that software
-> development and maintenance is not identified as a requirement for a
-> large number of hardware vendors, especially on the consumer side where
-> margins are lower. A contractor is paid to develop a driver, *sometimes*
-> to try to mainline it (and the later they engage with the community, the
-> longer it takes in round trips), and once the code finally gets merged,
-> all the initial budget is depleted and no more software work will be
-> done.
->
-> Worse, we could imagine kicking unmaintained drivers faster off the
-> tree, but that would actually help these unscrupulous vendors by
-> forcing their customers to switch to the new model :-/  And most of
-> them wouldn't care either if their contributions were refused based
-> on their track record of not maintaining their code, since they often
-> see this as a convenience to please their customers and not something
-> they need (after all, relying on a bogus and vulnerable BSP has never
-> prevented from selling a device, quite the opposite).
->
-> In short, there is a parallel universe where running highly bogus and
-> vulnerable out-of-tree code seems like the norm and where there is no
-> sort of care for what is mainlined as it's possibly just made to look
-> "cool".
+On Thu, Apr 29, 2021 at 07:21:13AM -0700, Dave Hansen wrote:
+> On 4/29/21 12:03 AM, Tian Tao wrote:
+> > diff --git a/Documentation/ABI/stable/sysfs-devices-node b/Documentation/ABI/stable/sysfs-devices-node
+> > index 484fc04..82dfe64 100644
+> > --- a/Documentation/ABI/stable/sysfs-devices-node
+> > +++ b/Documentation/ABI/stable/sysfs-devices-node
+> > @@ -47,7 +47,10 @@ What:		/sys/devices/system/node/nodeX/cpulist
+> >  Date:		October 2002
+> >  Contact:	Linux Memory Management list <linux-mm@kvack.org>
+> >  Description:
+> > -		The CPUs associated to the node.
+> > +		The CPUs associated to the node. The format is like 0-3,
+> > +		8-11, 14,17. maximum size is PAGE_SIZE, so the tail
+> > +		of the string will be trimmed while its size is larger
+> > +		than PAGE_SIZE.
+> 
+> I think it's pretty arguable that truncating output on a real system is
+> an ABI break.  Doing this would make the interface rather useless.
+> 
+> Don't we need a real solution rather than throwing up our hands?
+> 
+> Do we think >PAGE_SIZE data out of a sysfs file is a worse ABI break or
+> something?
 
+There is a real way to get > PAGE_SIZE out of a sysfs file.  The LED
+developers had to do this when they ran into this same exact problem.
+Make it a binary sysfs file and promise to NEVER create such a file
+again in the future :)
 
-In the parallel universe where I spent most time everyone
-now need to learn how to make their things to work
-out-of-tree. And there is not much of business case trying
-to fix and improve core parts of linux. The turn around have
-increased a lot and there is no edge doing it.
+thanks,
 
-
-> We also need to recognize that it's expectable that some vendors are
-> not willing to engage on supporting a driver for a decade if they
-> expect their device to last 5 years only, and maybe we should make
-> some rules clear about mainlining drivers and what to expect for
-> users (in which case the end of support would be clear and nobody
-> would be surprised if the driver is removed at the end of its
-> maintenance, barring a switch to a community maintainer).
-
-Things have changed. Once upon a time the community was
-happy if it could get hardware specs.
-
-
-> Just my two cents,
-> Willy
-
-
+gre gk-h
