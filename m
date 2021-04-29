@@ -2,77 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD532C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 06:56:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBF0C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 07:03:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9677F6144B
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 06:56:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAD2361453
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 07:03:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbhD2G5U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 02:57:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57658 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229814AbhD2G5U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Apr 2021 02:57:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C30F61449;
-        Thu, 29 Apr 2021 06:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1619679394;
-        bh=nVx9mbNtcIxz+6mSyJ5bHl5bB0+psoXrXdhLRNO5wh0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BkVwU10m1FF7Foz5ANuGYc4a3NcxqfuxKTMHup/cCM7KHw9CefHsQqHj3TgYyWkhR
-         01Cd+hPSoE0nM2v6AHBgGvYRrmwotHJxFWnLlPbnrXoqmzDR9JqKXSDWSsnsywX5vG
-         uPa7Su6c5Z1B7OhwFxe9e9XRE4yBhK3tTuBpV3rg=
-Date:   Thu, 29 Apr 2021 08:56:31 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v2 09/13] vfio/mdev: Remove vfio_mdev.c
-Message-ID: <YIpYnz/isPaXsTYs@kroah.com>
-References: <9-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
- <20210428060703.GA4973@lst.de>
- <YIkCVnTFmTHiX3xn@kroah.com>
- <20210428125321.GP1370958@nvidia.com>
- <20210429065315.GC2882@lst.de>
+        id S230176AbhD2HE0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 03:04:26 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:16168 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237569AbhD2HEZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 03:04:25 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FW5x86xk9zpcPr;
+        Thu, 29 Apr 2021 15:00:28 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 29 Apr 2021 15:03:28 +0800
+From:   Tian Tao <tiantao6@hisilicon.com>
+To:     <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
+        <song.bao.hua@hisilicon.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Tian Tao <tiantao6@hisilicon.com>
+Subject: [PATCH 0/2] clarify and cleanup CPU and NUMA topology ABIs
+Date:   Thu, 29 Apr 2021 15:03:37 +0800
+Message-ID: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210429065315.GC2882@lst.de>
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 08:53:15AM +0200, Christoph Hellwig wrote:
-> On Wed, Apr 28, 2021 at 09:53:21AM -0300, Jason Gunthorpe wrote:
-> > The Linux standard is one patch one change. It is inapporiate for me
-> > to backdoor sneak revert the VFIO communities past decisions on
-> > licensing inside some unrelated cleanup patch.
-> 
-> That's not what you are doing.  You are removing weird condom code
-> that could never work, and remove the sneak attempt of an nvidia employee
-> to create a derived work that has no legal standing.
-> 
-> > Otherwise this patch changes nothing - what existed today continues to
-> > exist, and nothing new is being allowed.
-> 
-> No, it changes the existing exports, which is a complete no-go.
+patch #1: clarify the overflow issue of sysfs pagebuf, and Move the
+presence of BUILD_BUG_ON to more sensible place.
 
-Agreed, Jason, please do not change the existing exports.
+patch #2: move the interface that exists under
+/sys/devices/system/cpu/cpuX/topology/ to the more logical
+Documentation/ABI/ file that can be properly parsed and
+displayed to the user space.
 
-thanks,
+these two patches are a follow-up to Greg's comments in the below threads:
+https://lore.kernel.org/lkml/YFRGIedW1fUlnmi+@kroah.com/
+https://lore.kernel.org/lkml/YFR2kwakbcGiI37w@kroah.com/
 
-greg k-h
+Tian Tao (2):
+  CPU, NUMA topology ABIs: clarify the overflow issue of sysfs pagebuf
+  Documentation/ABI: Move the topology-related sysfs interface to the
+    right place
+
+ Documentation/ABI/stable/sysfs-devices-node       |   5 +-
+ Documentation/ABI/stable/sysfs-devices-system-cpu | 142 ++++++++++++++++++++++
+ Documentation/admin-guide/cputopology.rst         |  83 +------------
+ drivers/base/node.c                               |   3 -
+ include/linux/cpumask.h                           |   6 +
+ 5 files changed, 154 insertions(+), 85 deletions(-)
+
+-- 
+2.7.4
+
