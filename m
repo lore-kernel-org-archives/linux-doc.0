@@ -2,87 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1FEAC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 14:13:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6707DC43460
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 14:21:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAA9C6141E
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 14:13:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F0CB6141E
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 14:21:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237314AbhD2OOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 10:14:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235277AbhD2OOX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 10:14:23 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3EDCC06138B;
-        Thu, 29 Apr 2021 07:13:35 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 26-20020a05600c22dab029013efd7879b8so9570177wmg.0;
-        Thu, 29 Apr 2021 07:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8rixzT4B1KAAKcd3h0t8hYsII2C1zsLRX8iTNWsf0g8=;
-        b=SlNkVNa9WY+p38id+ZUpEWa3+04Fs1ksNp2uWDj4F6tGPMY9cJaSFeIum+ML0JGqrw
-         us1GACHx73MJbuUqfz99qA4n9hWrx3OUJzAMeQZeNtGnLBSjeTvC4r6MCYzAooCzg00b
-         P7bA6PNzaZPs8A619SnuvecOuGcmoGKZ2fsWWdPJTKwyreAOK1CsUkV+tRRZXTOp1ScZ
-         qNu9j8lzRAnm+peDx2AgXvtic0Exm1FQZDZK9IcHs8rO3U4K3UQQIasSyblkEn6a9av4
-         NTZMb7QcivI+LWNM1pjwI94Pxmr4tCl+s5CZBC2jlFl0fcY6voWzHTpfZf516aEYEVxM
-         Fcjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8rixzT4B1KAAKcd3h0t8hYsII2C1zsLRX8iTNWsf0g8=;
-        b=mAgRawQfDMu5um+o0vbxgT6niAwc2qxj/7W0TtJirkr0JJZs+bv3QS1rIE6iH/pWpd
-         HidC1Akw2fIyH+XSX35IQpwh6KW9BXWGuIadKDulFSAvegBgV5kKEDA2P+oc40wr/P3d
-         B5zKqg/4en/MEniHuZCNXSxda5aMeg1JPRkcYhFwtH5Tgfs5dQkBVTRN1baNlIoO7GWJ
-         Jk7hIyq0ft8FS4hMWJkgqiYHzBFq1Ok69jBPUBWVG3WP27j7iZX+EMdQ4QEUbNBsAeCY
-         Xx2rHbPDoVwx9ehrDFWGVz48Jf94Wcuzj9FikErH1rKdlCsia9ealQ0CwpEP7wgPzF3c
-         54nw==
-X-Gm-Message-State: AOAM530vheAI9eoS+rSFonAEsrBsHQKcjTzofDLA+MQyrhLRtbxDQHlS
-        5snh0FIR7PTYJKOGiLfpI/brYA3u+HSv4YxRn0w=
-X-Google-Smtp-Source: ABdhPJwOQrIh7CBQq+wWKHUpQhidWUWhX4DmgUlp1+WHgX848yi6EVenXqGOm1apOvzUoBofOv2QFnqAoIa3q6it4Dw=
-X-Received: by 2002:a05:600c:4a19:: with SMTP id c25mr230132wmp.94.1619705614413;
- Thu, 29 Apr 2021 07:13:34 -0700 (PDT)
+        id S239936AbhD2OWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 10:22:05 -0400
+Received: from mga11.intel.com ([192.55.52.93]:2507 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235277AbhD2OWF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Apr 2021 10:22:05 -0400
+IronPort-SDR: QON8KYeyAQX5PgyflekTMiuuTDSzffyVOhniStm1bwTBJ9E6GL7jTcwTIRRGymDgP6z08dMnbA
+ JMzJafsjsuog==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="193829153"
+X-IronPort-AV: E=Sophos;i="5.82,259,1613462400"; 
+   d="scan'208";a="193829153"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 07:21:17 -0700
+IronPort-SDR: j4YqGUIp2zuCAmOa/Uy5XZKAKw+oAnFxuG+Wi1aoXcDHbN8KcV4hFdmKA2rlrQBSjW0eb89nv/
+ xswrXBDvP/jw==
+X-IronPort-AV: E=Sophos;i="5.82,259,1613462400"; 
+   d="scan'208";a="386955325"
+Received: from ndutta-mobl.amr.corp.intel.com (HELO [10.212.215.226]) ([10.212.215.226])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 07:21:16 -0700
+Subject: Re: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
+ of sysfs pagebuf
+To:     Tian Tao <tiantao6@hisilicon.com>, corbet@lwn.net,
+        gregkh@linuxfoundation.org, song.bao.hua@hisilicon.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>
+References: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
+ <1619679819-45256-2-git-send-email-tiantao6@hisilicon.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <146e051b-603c-a6d3-43d8-d083cf2c8119@intel.com>
+Date:   Thu, 29 Apr 2021 07:21:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
- <878s51e3jc.fsf@gmail.com> <CAJTyqKOEG1tF0YGOvNeyidjF+2MaXoY5kCo9-cZ4Ri_Jb8XV8Q@mail.gmail.com>
-In-Reply-To: <CAJTyqKOEG1tF0YGOvNeyidjF+2MaXoY5kCo9-cZ4Ri_Jb8XV8Q@mail.gmail.com>
-From:   Sven Van Asbroeck <thesven73@gmail.com>
-Date:   Thu, 29 Apr 2021 10:13:23 -0400
-Message-ID: <CAGngYiXCui0iGW0890BMDUrTkgRe5HQNuiEyEbf=NdvFe06eug@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     mceier+kernel@gmail.com
-Cc:     Kajetan Puchalski <mrkajetanp@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1619679819-45256-2-git-send-email-tiantao6@hisilicon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 10:06 AM Mariusz Ceier <mceier+kernel@gmail.com> wrote:
->
-> Let's assume the hipothetical corporation wants to add some
-> proprietary stuff to the kernel and avoid sharing the code
+On 4/29/21 12:03 AM, Tian Tao wrote:
+> diff --git a/Documentation/ABI/stable/sysfs-devices-node b/Documentation/ABI/stable/sysfs-devices-node
+> index 484fc04..82dfe64 100644
+> --- a/Documentation/ABI/stable/sysfs-devices-node
+> +++ b/Documentation/ABI/stable/sysfs-devices-node
+> @@ -47,7 +47,10 @@ What:		/sys/devices/system/node/nodeX/cpulist
+>  Date:		October 2002
+>  Contact:	Linux Memory Management list <linux-mm@kvack.org>
+>  Description:
+> -		The CPUs associated to the node.
+> +		The CPUs associated to the node. The format is like 0-3,
+> +		8-11, 14,17. maximum size is PAGE_SIZE, so the tail
+> +		of the string will be trimmed while its size is larger
+> +		than PAGE_SIZE.
 
-Wouldn't Greg KH be itching to remove such patches from the kernel? If
-they made it in, in the first place.
+I think it's pretty arguable that truncating output on a real system is
+an ABI break.  Doing this would make the interface rather useless.
 
-GPL is a necessary, but not sufficient condition for code to be merged
-into the kernel. AFAIK the kernel community has the absolute
-discretion to refuse any GPLed code for any reason.
+Don't we need a real solution rather than throwing up our hands?
 
-IANAL.
+Do we think >PAGE_SIZE data out of a sysfs file is a worse ABI break or
+something?
