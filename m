@@ -2,248 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 283DCC433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 03:33:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDCCC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 04:03:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1010613E8
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 03:33:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B5426144E
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 04:03:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231874AbhD2DeM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Apr 2021 23:34:12 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50704 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233053AbhD2DeL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Apr 2021 23:34:11 -0400
-Received: from localhost.localdomain (unknown [112.3.197.94])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH+_kKIpgjVwPAA--.8366S5;
-        Thu, 29 Apr 2021 11:33:08 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net
-Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
-        siyanteng01@gmail.com, huangjianghui@uniontech.com
-Subject: [PATCH 3/3] docs/zh_CN: add parisc registers.rst translation
-Date:   Thu, 29 Apr 2021 11:33:35 +0800
-Message-Id: <45fb9f5b1000c99dff42aabbcfec94e429926235.1619665430.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1619665430.git.siyanteng@loongson.cn>
-References: <cover.1619665430.git.siyanteng@loongson.cn>
+        id S236839AbhD2EEQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 00:04:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235127AbhD2EEK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 00:04:10 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2E3BC06138E
+        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 21:03:24 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id t21so2944792plo.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Apr 2021 21:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BgKRdomt1eM7oewQ+UA6utKIEhGUPS/zeW1fYoQll3U=;
+        b=kVDAcgAuPe+/NbI2rxd0BlbgqIAyC8fhu/ek3Yb9xSySx4dsD7WKs3lRupAG0cMXtY
+         FP5RzPf/gAMMOsonUOM2GPIJz2rw4Gt/gqhqxYBslfv4SyDlxQtGLfYWxW0EGFJVY12Q
+         LKLGG5slmnuXOwaGHK3p2AoghFFOVcGS1DnaD11za2Cb2aEcxCxEdKfaXntmqxxo5rUj
+         6H7r+htb+3yudEcWzZ0QDPcPU2DtrF3RxIqoQkQsaY/Pace5nTvXJYb04EDGggbVpq01
+         8khI4ZnXRxLV4Rmf0HyBgUouxWa8zVv1sWHXzTqex/SkwOt9eSxKcYJ0nnamnyCkk1lI
+         gWCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BgKRdomt1eM7oewQ+UA6utKIEhGUPS/zeW1fYoQll3U=;
+        b=hXFWvu1w54rO4zy93G1RvUkX6rUGfj8W6xGKKCkYaVPv2jse33cBKOS8rLMSTbb9zd
+         KLHt+TJWA63MhqprbqGISDPJ1KccCNACCpEXzbSCXgVMDPXfcjg/IiouTLjSMTLdNWEY
+         RdGEAd6pD2Po5g3hjj+dpRqSimu1CRrpHx4oI+T6RGahVPkteyHXJdNkJVAlGKffpzTt
+         PfHqS8+DWMi291Z38IhS/k57Ds0ovL1+v+TcD8N3z1pnUAWxE+HpMsnvEujHfZhRpiQg
+         i1rrHtd4Kq2PqGchIOa8Z677FzHRKUzmKEKCK4wsErhQoBZkbrXKTA8QrVXFXHweeFT4
+         MiMg==
+X-Gm-Message-State: AOAM531Lj0qW4tiWf6g+yxzuAAFPSI38i6QKJeciI0gQLo9f+svUZJJV
+        3ai9W8z+D2IBYY7MKcnUkqSdC58LfP99+XedKT7I/A==
+X-Google-Smtp-Source: ABdhPJyKOjVYbyArfKUcKkdzEn5LiMhEGJaQDb94gqC4bSYk8kPeWBkXPfUoPD/pQRBUMMKbMO3L8y2/dyBk0IUHW94=
+X-Received: by 2002:a17:902:8308:b029:e9:d69:a2f with SMTP id
+ bd8-20020a1709028308b02900e90d690a2fmr33676088plb.20.1619669004051; Wed, 28
+ Apr 2021 21:03:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxH+_kKIpgjVwPAA--.8366S5
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gw1UXry5AFykJF1fur4Uurg_yoWxtr45pr
-        n3KryxG3WUGryUAr4UGr1UWr18Gr1UGr1DA3yxJr1rtr18Cr15Gw4UtFy8Gry7KryUAFyU
-        JrW5Kr18Kr1UAwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
-        x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-        A2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0
-        owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-        IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-        M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-        kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
-        14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
-        kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
-        wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1I6r4UMIIF0xvEx4A2jsIE14v26r1j6r
-        4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd8n5U
-        UUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+References: <20210425070752.17783-1-songmuchun@bytedance.com>
+ <ee3903ae-7033-7608-c7ed-1f16f0359663@oracle.com> <CAMZfGtVbB6YwUMg2ECpdmniQ_vt_3AwdVAuu0GdUJfzWZgQpyg@mail.gmail.com>
+ <98f191e8-b509-e541-9d9d-76029c74d241@oracle.com>
+In-Reply-To: <98f191e8-b509-e541-9d9d-76029c74d241@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 29 Apr 2021 12:02:46 +0800
+Message-ID: <CAMZfGtUqE6OzWwK6o5h0j6qHPotfvbKpGbzYpSPLLhYH2nJiAw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v21 0/9] Free some vmemmap pages of HugeTLB page
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+        X86 ML <x86@kernel.org>, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/parisc/registers.rst into Chinese.
+On Thu, Apr 29, 2021 at 10:32 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+>
+> On 4/28/21 5:26 AM, Muchun Song wrote:
+> > On Wed, Apr 28, 2021 at 7:47 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+> >>
+> >> Thanks!  I will take a look at the modifications soon.
+> >>
+> >> I applied the patches to Andrew's mmotm-2021-04-21-23-03, ran some tests and
+> >> got the following warning.  We may need to special case that call to
+> >> __prep_new_huge_page/free_huge_page_vmemmap from alloc_and_dissolve_huge_page
+> >> as it is holding hugetlb lock with IRQs disabled.
+> >
+> > Good catch. Thanks Mike. I will fix it in the next version. How about this:
+> >
+> > @@ -1618,7 +1617,8 @@ static void __prep_new_huge_page(struct hstate
+> > *h, struct page *page)
+> >
+> >  static void prep_new_huge_page(struct hstate *h, struct page *page, int nid)
+> >  {
+> > +       free_huge_page_vmemmap(h, page);
+> >         __prep_new_huge_page(page);
+> >         spin_lock_irq(&hugetlb_lock);
+> >         __prep_account_new_huge_page(h, nid);
+> >         spin_unlock_irq(&hugetlb_lock);
+> > @@ -2429,6 +2429,7 @@ static int alloc_and_dissolve_huge_page(struct
+> > hstate *h, struct page *old_page,
+> >         if (!new_page)
+> >                 return -ENOMEM;
+> >
+> > +       free_huge_page_vmemmap(h, new_page);
+> >  retry:
+> >         spin_lock_irq(&hugetlb_lock);
+> >         if (!PageHuge(old_page)) {
+> > @@ -2489,7 +2490,7 @@ static int alloc_and_dissolve_huge_page(struct
+> > hstate *h, struct page *old_page,
+> >
+> >  free_new:
+> >         spin_unlock_irq(&hugetlb_lock);
+> > -       __free_pages(new_page, huge_page_order(h));
+> > +       update_and_free_page(h, new_page, false);
+> >
+> >         return ret;
+> >  }
+> >
+> >
+>
+> Another option would be to leave the prep* routines as is and only
+> modify alloc_and_dissolve_huge_page as follows:
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/parisc/index.rst       |   2 +-
- .../translations/zh_CN/parisc/registers.rst   | 153 ++++++++++++++++++
- 2 files changed, 154 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/parisc/registers.rst
+OK. LGTM. I will use this. Thanks Mike.
 
-diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/parisc/index.rst
-index b913d664e735..a47454ebe32e 100644
---- a/Documentation/translations/zh_CN/parisc/index.rst
-+++ b/Documentation/translations/zh_CN/parisc/index.rst
-@@ -14,10 +14,10 @@ PA-RISC体系架构
-    :maxdepth: 2
- 
-    debugging
-+   registers
- 
- Todolist:
- 
--   registers
-    features
- 
- .. only::  subproject and html
-diff --git a/Documentation/translations/zh_CN/parisc/registers.rst b/Documentation/translations/zh_CN/parisc/registers.rst
-new file mode 100644
-index 000000000000..7a2193674cb0
---- /dev/null
-+++ b/Documentation/translations/zh_CN/parisc/registers.rst
-@@ -0,0 +1,153 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/parisc/registers.rst
-+:Translator: Yanteng Si <siyanteng@loongson.cn>
-+
-+.. _cn_parisc_registers:
-+
-+=========================
-+Linux/PA-RISC的寄存器用法
-+=========================
-+
-+[ 用星号表示目前尚未实现的计划用途。 ]
-+
-+ABI约定的通用寄存器
-+===================
-+
-+控制寄存器
-+----------
-+
-+============================    =================================
-+CR 0 (恢复计数器)               用于ptrace
-+CR 1-CR 7(无定义)               未使用
-+CR 8 (Protection ID)            每进程 value*
-+CR 9, 12, 13 (PIDS)             未使用的
-+CR10 (CCR)                      懒惰FPU saving*
-+CR11                            按照ABI的规定（SAR）。
-+CR14 (中断向量)                 初始化为 fault_vector
-+CR15 (EIEM)                     初始化为所有的 ones*
-+CR16 (间隔计时器)               读取周期数/写入开始时间间隔 Tmr
-+CR17-CR22                       中断参数
-+CR19                            中断指令寄存器
-+CR20                            中断空间寄存器
-+CR21                            中断偏移量寄存器
-+CR22                            中断 PSW
-+CR23 (EIRR)                     读取未决中断/写入清除位
-+CR24 (TR 0)                     内核空间页目录指针
-+CR25 (TR 1)                     用户空间页目录指针
-+CR26 (TR 2)                     不使用
-+CR27 (TR 3)                     线程描述符指针
-+CR28 (TR 4)                     不使用
-+CR29 (TR 5)                     不使用
-+CR30 (TR 6)                     当 / 0
-+CR31 (TR 7)                     临时寄存器，在不同地方使用
-+============================    =================================
-+
-+空间寄存器（内核模式）
-+----------------------
-+
-+========                        ==============================
-+SR0                             临时空间寄存器
-+SR4-SR7                         设置为0
-+SR1                             临时空间寄存器
-+SR2                             内核不应该破坏它
-+SR3                             用于用户空间访问（当前进程）。
-+========                        ==============================
-+
-+空间寄存器（用户模式）
-+----------------------
-+
-+========                        ============================
-+SR0                             临时空间寄存器
-+SR1                             临时空间寄存器
-+SR2                             保存Linux网关页的空间
-+SR3                             在内核中保存用户地址空间的值
-+SR4-SR7                         定义了用户/内核的短地址空间
-+========                        ============================
-+
-+
-+处理器状态字
-+------------
-+
-+======================          ================================================
-+W （64位地址）                  0
-+E （小尾端）                    0
-+S （安全间隔计时器）            0
-+T （产生分支陷阱）              0
-+H （高特权级陷阱）              0
-+L （低特权级陷阱）              0
-+N （撤销下一条指令）            被C代码使用
-+X （数据存储中断禁用）          0
-+B （产生分支）                  被C代码使用
-+C （代码地址转译）              1, 在执行实模式代码时为0
-+V （除法步长校正）              被C代码使用
-+M （HPMC 掩码）                 0, 在执行HPMC handler* 时为1
-+C/B （进/借 位）                被C代码使用
-+O （有序引用）                  1*
-+F （性能监视器）                0
-+R （回收计数器陷阱）            0
-+Q （收集中断状态）              1 （在rfi之前的代码中为0）
-+P （保护标识符）                1*
-+D （数据地址转译）              1, 在执行实模external interrupt mask式代码时为0
-+I （外部中断掩码）              由cli()/sti()宏使用。
-+======================          ================================================
-+
-+“隐形” 寄存器（影子寄存器）
-+---------------------------
-+
-+=============                   ===================
-+PSW W 默认值                    0
-+PSW E 默认值                    0
-+影子寄存器                      被中断处理代码使用
-+TOC启用位                       1
-+=============                   ===================
-+
-+----------------------------------------------------------
-+
-+PA-RISC架构定义了7个寄存器作为 "影子寄存器"。这些寄存器在
-+RETURN FROM INTERRUPTION AND RESTORE指令中使用，通过消
-+除中断处理程序中对一般寄存器（GR）的保存和恢复的需要来减
-+少状态保存和恢复时间。影子寄存器是GRs 1, 8, 9, 16, 17,
-+24和25。
-+
-+-------------------------------------------------------------------------
-+
-+寄存器使用说明，最初由约翰-马文提供，并由Randolph Chung提供一些补充说明。
-+
-+对于通用寄存器:
-+
-+r1,r2,r19-r26,r28,r29 & r31可以在不保存它们的情况下被使用。当然，如果你
-+关心它们，在调用另一个程序之前，你也需要保存它们。上面的一些寄存器确实
-+有特殊的含义，你应该注意一下:
-+
-+    r1:
-+    addil指令是硬性规定将其结果放在r1中，所以如果你使用这条指令要
-+    注意这点。
-+
-+    r2:
-+    这就是返回指针。一般来说，你不想使用它，因为你需要这个指针来返
-+    回给你的调用者。然而，它与这组寄存器组合在一起，因为调用者不能
-+    依赖你返回时的值是相同的，也就是说，你可以将r2复制到另一个寄存
-+    器，并在作废r2后通过该寄存器返回，这应该不会给调用程序带来问题。
-+
-+    r19-r22:
-+    这些通常被认为是临时寄存器。
-+    请注意，在64位中它们是arg7-arg4。
-+
-+    r23-r26:
-+    这些是arg3-arg0，也就是说，如果你不再关心传入的值，你可以使用
-+    它们。
-+
-+    r28,r29:
-+    是ret0和ret1。它们是你传递返回值的东西。r28是主要的返回。当返
-+    回小结构时，r29也可以用来将数据传回给调用者。
-+
-+    r30:
-+    栈指针
-+
-+    r31:
-+    ble指令将返回指针放在这里。
-+
-+
-+    r3-r18,r27,r30需要被保存和恢复。r3-r18只是一般用途的寄存器。
-+    r27是数据指针，用来使对全局变量的引用更容易。r30是栈指针。
--- 
-2.27.0
-
+>
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 9c617c19fc18..f8e5013a6b46 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -2420,14 +2420,15 @@ static int alloc_and_dissolve_huge_page(struct hstate *h, struct page *old_page,
+>
+>         /*
+>          * Before dissolving the page, we need to allocate a new one for the
+> -        * pool to remain stable. Using alloc_buddy_huge_page() allows us to
+> -        * not having to deal with prep_new_huge_page() and avoids dealing of any
+> -        * counters. This simplifies and let us do the whole thing under the
+> -        * lock.
+> +        * pool to remain stable.  Here, we allocate the page and 'prep' it
+> +        * by doing everything but actually updating counters and adding to
+> +        * the pool.  This simplifies and let us do most of the processing
+> +        * under the lock.
+>          */
+>         new_page = alloc_buddy_huge_page(h, gfp_mask, nid, NULL, NULL);
+>         if (!new_page)
+>                 return -ENOMEM;
+> +       __prep_new_huge_page(h, new_page);
+>
+>  retry:
+>         spin_lock_irq(&hugetlb_lock);
+> @@ -2473,7 +2474,6 @@ static int alloc_and_dissolve_huge_page(struct hstate *h, struct page *old_page,
+>                  * Reference count trick is needed because allocator gives us
+>                  * referenced page but the pool requires pages with 0 refcount.
+>                  */
+> -               __prep_new_huge_page(h, new_page);
+>                 __prep_account_new_huge_page(h, nid);
+>                 page_ref_dec(new_page);
+>                 enqueue_huge_page(h, new_page);
+> @@ -2489,7 +2489,7 @@ static int alloc_and_dissolve_huge_page(struct hstate *h, struct page *old_page,
+>
+>  free_new:
+>         spin_unlock_irq(&hugetlb_lock);
+> -       __free_pages(new_page, huge_page_order(h));
+> +       update_and_free_page(h, old_page, false);
+>
+>         return ret;
+>  }
+>
+> --
+> Mike Kravetz
