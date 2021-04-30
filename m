@@ -2,773 +2,256 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-28.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D3EC433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 23:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4BE6C43460
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 01:36:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6952A6147D
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Apr 2021 23:40:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8430A61445
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 01:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229892AbhD2Xkx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Apr 2021 19:40:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49924 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbhD2Xkw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Apr 2021 19:40:52 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F272C06138B
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 16:40:04 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id s9so20633421ljj.6
-        for <linux-doc@vger.kernel.org>; Thu, 29 Apr 2021 16:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CrGhUSb1q9Od+TSm8iHyWQK/+YMBzLFLu4/a6FauF/k=;
-        b=D7sbixqVvjvau1pLhlz+9m5EGOOPDfPYthgUBegXqvEaL66hZyiU6l8Sxhm63McGhV
-         LsmmV36gjy1AO9nZLqBLVdjlsQUCW0vJyDVgbiyGe4JZAwsK777FRBh9n6KeiN4iVhib
-         417ZEFablIUwzu1dBdY4TNmjlfHH/kn0O6bOjYGIjWRaIuJX612TXu1LfwSNz+9zDdWA
-         3NN94EFT8yyoe+LB13R8Y2yOVEG8BVuIkBfW8r6ITc6umM75jZLbFTSVSAVjVHgc0G4H
-         GPAwv8Tc4G8Sp6DVPFaoLtKJGeGJqhFQUKhGB1qqNHKRxhgIpgiEw/T/S3HKuBmPz/J7
-         fNTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CrGhUSb1q9Od+TSm8iHyWQK/+YMBzLFLu4/a6FauF/k=;
-        b=s2ZylGEEQVZR0IhryKAaZxFalFdWkEKMEXn1WOBTA3eoJqwT/cznNdrcznHJ/4vUaF
-         td7U3l/AydxqxJbptzDQ/CRjqsK79DUsxWIlt/RuGkyNn3pWeHxgaY0+QWboYHPtzPjk
-         JFTB+1iGutmw+Tm2lgPEl06albkNo3IbA7hUByh5NhUc2pniPEkv1Fkzx09KtAoWPXnD
-         JpawsICx/bjypf2bJb0vMqA2BSdUDt+Mbc1Yc4rbpy9ikhrCu3VHW4756I0Fmq0Erw+5
-         RE8rC9Tb/KVmiY+eptOPojwznf1B2Y+pflhWwwGa/c0uaGBl95fpzRtTU1iUCyXtfaS7
-         HXAQ==
-X-Gm-Message-State: AOAM533zRiiYx4mO/3YduMlnlfOSzkhvDU3yu+kUo4Y60YGgRXdKbklJ
-        QocYQZRbmx9ocQyluVCAvl8UHB+UyGaTl3sqm27Ijw==
-X-Google-Smtp-Source: ABdhPJy/UNIkQj1U/RCmPSEyao0+wex5qJ5rVmzMAPCWrYNvLfhmalEFYCVXU8CKoRbmlV2tQMrhFBmsiTIy0h7jXC8=
-X-Received: by 2002:a2e:b4a7:: with SMTP id q7mr1603489ljm.430.1619739602180;
- Thu, 29 Apr 2021 16:40:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210429205109.2847831-1-brendanhiggins@google.com> <20210429205109.2847831-4-brendanhiggins@google.com>
-In-Reply-To: <20210429205109.2847831-4-brendanhiggins@google.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Thu, 29 Apr 2021 16:39:50 -0700
-Message-ID: <CAGS_qxo3NA6o8R73q5NdfsC3nx6i4WJgXnHxH6-v=ybnvDTj6Q@mail.gmail.com>
-Subject: Re: [RFC v2 3/4] kunit: tool: add support for QEMU
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     shuah@kernel.org, David Gow <davidgow@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
+        id S229847AbhD3BhA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Apr 2021 21:37:00 -0400
+Received: from mail-eopbgr40053.outbound.protection.outlook.com ([40.107.4.53]:31617
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229519AbhD3Bg7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Apr 2021 21:36:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zyn6OEEbet91qGh+Q2Tqk9la3ms3IoPAKAzeRwFbAKU=;
+ b=SNJglyS5K8mqn3eqlPTVlfrZlW/VEN507JXqmFM1EjSS879wgWmnKBPpsuToRERW3YmZfAy5yho3CRdgAo28mCTQYREK41DXswQJOjaOjPdfxlBuqwyLh+uups/k1fRBxheKwL49hbDq924B2iL4vVMpbIzgmW85ASlHEwIYoAU=
+Received: from AS8PR04CA0033.eurprd04.prod.outlook.com (2603:10a6:20b:312::8)
+ by VI1PR0801MB2031.eurprd08.prod.outlook.com (2603:10a6:800:8b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Fri, 30 Apr
+ 2021 01:36:09 +0000
+Received: from VE1EUR03FT019.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:312:cafe::cb) by AS8PR04CA0033.outlook.office365.com
+ (2603:10a6:20b:312::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25 via Frontend
+ Transport; Fri, 30 Apr 2021 01:36:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; vger.kernel.org; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;vger.kernel.org; dmarc=pass action=none
+ header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT019.mail.protection.outlook.com (10.152.18.153) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4087.27 via Frontend Transport; Fri, 30 Apr 2021 01:36:08 +0000
+Received: ("Tessian outbound 13cdc29c30b8:v91"); Fri, 30 Apr 2021 01:36:07 +0000
+X-CR-MTA-TID: 64aa7808
+Received: from 29b35f613ced.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 03A3BCB1-A916-41D8-85F7-2E0AB6803F29.1;
+        Fri, 30 Apr 2021 01:36:01 +0000
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 29b35f613ced.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 30 Apr 2021 01:36:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iT+ozNgH4gGnFIR5MGEEIm7A3YxYDqX6waxa/b6dsux4Rfk5/pNF5OPLBDU/0Q/uPgCBnBoRCtI1RwA8dTXjN605+ztDCJU593PPofgbFaEbAN0m9x4gI9XH+2hocx7nUYpOX3gIHNgTP1GD9jI/BiOKmQ54GyKzzQXTP+hXT2SDiGvcgINgayNPdTyWqxUlvvHbkXrp/BhS7PhZ9Ppz+Zc4HbEVgzD61tSmYxSp8EVDUtKj5d/Kf+Pv6ToAQ46tjUcNs8ar0WALIGe1dhXAellOjm8fLuICD/8oxJsnlaM+x4Kh2qMSLbzwd0QvNy0RSqXGlQRAAwikEJNCgiixtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zyn6OEEbet91qGh+Q2Tqk9la3ms3IoPAKAzeRwFbAKU=;
+ b=nrhI48eNBhjDVozk3hc/QhoBCBUZ415zEDOryxTI++FOWvGCkw6jNKj2+qxWS4GRXzAQt0ir+WL+4NK1kpxDZn93WVBZgQCDxKW5xF8c00gxJyLqyqt8MITQJND3L/18si86BTv+ygezzGI/+/SVZ6vE84Eh9bPs1hIETFq9d2k3GTT0tqDPb9O2vcaFBiGWIvQhkjtEuGZcDfQ/rNxcnJkMQHC9GzqlGafP6+KhoMAnR5GDGOyfcXGFWsGXzb7YqigY+htv2pi5SVhkHt7i68nCCYwWQcZwzcqzvkN8inGAb+O5KFncL171QwxHMGFaNE4JPkGVqNKDOu9afZnMDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zyn6OEEbet91qGh+Q2Tqk9la3ms3IoPAKAzeRwFbAKU=;
+ b=SNJglyS5K8mqn3eqlPTVlfrZlW/VEN507JXqmFM1EjSS879wgWmnKBPpsuToRERW3YmZfAy5yho3CRdgAo28mCTQYREK41DXswQJOjaOjPdfxlBuqwyLh+uups/k1fRBxheKwL49hbDq924B2iL4vVMpbIzgmW85ASlHEwIYoAU=
+Received: from AM6PR08MB4376.eurprd08.prod.outlook.com (2603:10a6:20b:bb::21)
+ by AM5PR0802MB2484.eurprd08.prod.outlook.com (2603:10a6:203:a1::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.25; Fri, 30 Apr
+ 2021 01:35:58 +0000
+Received: from AM6PR08MB4376.eurprd08.prod.outlook.com
+ ([fe80::18c4:33fd:d055:fe60]) by AM6PR08MB4376.eurprd08.prod.outlook.com
+ ([fe80::18c4:33fd:d055:fe60%3]) with mapi id 15.20.4065.027; Fri, 30 Apr 2021
+ 01:35:58 +0000
+From:   Justin He <Justin.He@arm.com>
+To:     Petr Mladek <pmladek@suse.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kees Cook <keescook@chromium.org>, frowand.list@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        "open list:TI WILINK WIRELES..." <linux-wireless@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>
+Subject: RE: [PATCH 2/4] lib/vsprintf.c: Make %p{D,d} mean as much components
+ as possible
+Thread-Topic: [PATCH 2/4] lib/vsprintf.c: Make %p{D,d} mean as much components
+ as possible
+Thread-Index: AQHXPDbX6dZc1hpzh0aeFLXkWEMr5KrLL94AgAABxICAAAjlgIABDncg
+Date:   Fri, 30 Apr 2021 01:35:58 +0000
+Message-ID: <AM6PR08MB43764532743E2DC2BA778C7EF75E9@AM6PR08MB4376.eurprd08.prod.outlook.com>
+References: <20210428135929.27011-1-justin.he@arm.com>
+ <20210428135929.27011-2-justin.he@arm.com> <YIpyZmi1Reh7iXeI@alley>
+ <CAHp75Vfa3ATc+-Luka9vJTwoCLAPVm38cciYyBYnWxzNQ1DPrg@mail.gmail.com>
+ <YIp7VxzE5MspQ0UX@alley>
+In-Reply-To: <YIp7VxzE5MspQ0UX@alley>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ts-tracking-id: BF9EFF931D940B4A8979C232639C240C.0
+x-checkrecipientchecked: true
+Authentication-Results-Original: suse.com; dkim=none (message not signed)
+ header.d=none;suse.com; dmarc=none action=none header.from=arm.com;
+x-originating-ip: [203.126.0.113]
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: 397217d0-9bd0-4f2a-7e2b-08d90b785446
+x-ms-traffictypediagnostic: AM5PR0802MB2484:|VI1PR0801MB2031:
+X-Microsoft-Antispam-PRVS: <VI1PR0801MB20310C0D4B6A4EFF8AAB028DF75E9@VI1PR0801MB2031.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:9508;OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 33vkEBGjhMeb1HcZ95wJwcBM/mqGjZ/09f6zw1MSoVO58JO5Rfkz0Z4P7Uf32j7YRqiKRAX47H+NzAyvquO9t5ojmanj9ogJ3fKBsBbbfEwtCJT/X2jOlQUX2EsOUrUpD3EiJTWkCw5lIZuy8/eBVX7cbgzEZJjCss2N/C6OJnzcGQHONJNHxeePk8k5Dd0xxg6NTVVoaum052VO73aX+okFR+YPRRdyc+NShmXtNi1A3RNqJC9JLvHPRzdi0Nt8N5PyBLs+wRfXktyIteGPNYXH7aqPGLIceXPf2VhDWYTCeP4ypy0eaDvna2/geVXGPBzqVuRZ3ZbE3RdGxFXjA+ERuQf6NZqkuBS492k6gSnDWsxqnUvKgv11/NQf+UxeMr5RFJeVP+79JSZhRSVEzapQk6MSHCgAaw8Un3imcpu+VzQK6f2ikmyIjOLVdzwSwu1Py2qUNdgUv8nZq922dPGPdK+I3jYUs5nFM5d6o7XDDgCj59kSMzCiqKLopWBYYj6B56BX3FWJIP9MR4M6Y2fnwDhGVY8Bvm4EVjmNqAhEwyeP+RbFQcptRLcefkV8gKMBYjVy+gT/FimwILKRth0ojqvQdtmk1jSH2PGe37rQibyeKjZ53fXbcwNp+4h84/HMROleh0OLfSEo77xyUgRAfK8MPNJ6z757PPC/pWbpFVPnI4/z2beTh3VpwZp7
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB4376.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(66476007)(478600001)(66446008)(6506007)(7696005)(53546011)(7416002)(33656002)(66556008)(64756008)(110136005)(71200400001)(2906002)(316002)(26005)(66946007)(76116006)(966005)(54906003)(8936002)(9686003)(52536014)(8676002)(83380400001)(55016002)(86362001)(122000001)(38100700002)(5660300002)(4326008)(186003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?1TdrHWFLXd7pyaTXTZbk+ZDgONlADoQB5wnXfbwnqSrG2MnapfVCFk0nZchQ?=
+ =?us-ascii?Q?Gva/e5vAGXdoBXx4ESZbYcyq8Kk4qFuxQzHRtGf+/jc1am5W5jrB2IIs1WxC?=
+ =?us-ascii?Q?v+tyRaU4dMiegzwfi60I2I2rT/8BgJgxyu1y1hl5I9QPCe1/CbsYuJzOEx/m?=
+ =?us-ascii?Q?CkIMZ4LOJio6LTy2QZ3bk56keC18j0/RMSua62lm4TUTq09o828gYOqmHX4E?=
+ =?us-ascii?Q?4ikRHv8ag++jo56Jg05gXXlxJwdsrBjUoaPX08J8TsGrnRUPrHRSMSPDVUJI?=
+ =?us-ascii?Q?k3O7J3Hk9x1PeTRVgw73wvVE+kr+FTlW6+kxls246WTbVHRPbUNztJYSunte?=
+ =?us-ascii?Q?+BvVlwR4TmLXxLmIvePSDE9rMJ3n1lvL4Oy9XcqlCF6QIEdtBXrkcn3Gd1Wh?=
+ =?us-ascii?Q?WIhOeaoTpQ7DK4bBxftDFSm2q+XyGaZURKzUAwZ0Me0l0QgXDX+PaqBQq+ia?=
+ =?us-ascii?Q?1azArH3ulrO08rRXBTxUAsl+InjiNjuyOWQNVHqXUZV3ofYJYE9MYEBiBhYx?=
+ =?us-ascii?Q?V0sjCnZPK4Ca4yjv+oIPadqQSzuyS3s5GJ2bjOn6Itk2E5A8wo33TS8DQVnF?=
+ =?us-ascii?Q?EU4u1qFlH4xRm+19WPDKluVJl0C1XUEhXb9l2ccmtJauWty+GIYCaBlc0qMh?=
+ =?us-ascii?Q?1g/z1pF7rviIhpv35ucC0nBkL/6AfCDkOsMdamtmrHU0UEvGt7uXO1Mlfyk8?=
+ =?us-ascii?Q?Y2il6bUapJ1JgJSsfE7rVAx1J9pnA1cLtcy43aOk76Y8Ix02q6QAU3gaCYUT?=
+ =?us-ascii?Q?XyaIkRgFlya8m7hZKXjAGnzBVR8322BoG26b35JMf+CgCSp9zUf9RAdulSEE?=
+ =?us-ascii?Q?FaOVr9geAQa1+DiCDcN7WcZZXnALXCjUAswc7Xif3J+U4SM8w7+xPNOPDDwu?=
+ =?us-ascii?Q?rV5asLo63R+lWBNQS8HO5eQxqiINHYm5rt7NbeG9tVj4W+UdIu+yQewBMjCw?=
+ =?us-ascii?Q?2LFQVl+qrIh6fi4P2dSIW6Ja6vQ9GLppP3uOMXQdAQTPblQLMOcxgfktC2bs?=
+ =?us-ascii?Q?9G596BVlXbF2xAxqqs1cDLwJ4JtMyFNDldS+8lwQr1kxclNXfl2lSFj76G8d?=
+ =?us-ascii?Q?PZX/OQxh2WpWXA4jEo8WLQKoAzq19YjLkIxWoOtJEmNYjdE6O23qA5YnMM4g?=
+ =?us-ascii?Q?Kt3YKT4Wu57b/lQYaFsAKhSeuRTOOsrJ9iCM3CCQAytEfMk7y9GN8PWcHODY?=
+ =?us-ascii?Q?XVzSk1vC2ohbq413Qr1slBrVWvAuxL3ZBB0sc9y9XiiQa0FCRDGaOMF0E6/T?=
+ =?us-ascii?Q?ituomotD4nTaL4lOTWXhOJilysJW17u7yQYnl2b51zcnl21j2kZ8vk4x9XDd?=
+ =?us-ascii?Q?bYUaqdJwBzdix/8561cxH8EL?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2484
+Original-Authentication-Results: suse.com; dkim=none (message not signed)
+ header.d=none;suse.com; dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT019.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: a13381f8-7bba-4f2f-f77c-08d90b784e2d
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZYP2UuJSZiX/axZnuNElrrrD5jb5EJvxZtanxz4czKU0TFoAl4WxekNGsfVZ2f7T3CFc+R11a58Sf6LHrj+qi1suka/Rwws2rO6imRmMyY7VBAmeCvigMwKc/4QrSaaE+WLvxfa+kLA5NrR834prVwxgdDDtbLz5TYe7Liq93LKOXPIfTXPRF52OXCm4ykBbJCkX9UNZV2IrMQqcklnxbyhLRB4R+dA+U+6D9KHjNsNSS6POF0NUOcelThNtVdo8c1v9dOzT393KxhB4z9JgV7vishv0msmmW4LLqdM6nzQ3+KQY2enAl4xmzDLY4/0YG4C5HxjLujflk7Nc3ivPt+q/a7wSej3hoRt0feufV2Xma/BzWUq5JjELTBwwc0Vhk1yC9ZR6jwVNQJwOTIF2GB3AMuUsOYN3O4BZq4UAnMg2HfNgiX0g6VJVD5axbZIj3iYVLnqThp2xg4gCK2UjIPVIKSvf7r70iciqUIwccGpUCDu4LwUUvoT+tUYfoITl2ikzT0DKJeUXluPALN9tiamKkBjAV46BrbrldAAsjzd2ju1BMPpJc042BeOTZCd/SOgX8Bzp/r6J4HNoCBGBoAhZKG5Wb+MmAzf6jEjKK8NqsqQseyNFmTkZXPDYMv4vWPPll+JogWZZFWcaUD6UFyZVMOk5dc7Zk0dwzFwJgc9a9DmSmt9Pwkn1UHrwl5prH+VG7Am7oCkCHd01XGBNolQD9fC1oBhHkR8lHxICruniJkAaHjtZBNHWfvfEPTwbmwv1+n1zZQgxoDdYxQ0gng==
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(36840700001)(46966006)(6506007)(53546011)(110136005)(55016002)(54906003)(83380400001)(316002)(34020700004)(36860700001)(47076005)(7696005)(82310400003)(86362001)(478600001)(82740400003)(70206006)(186003)(5660300002)(81166007)(356005)(2906002)(8936002)(4326008)(8676002)(26005)(70586007)(966005)(9686003)(336012)(33656002)(52536014)(450100002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2021 01:36:08.4544
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 397217d0-9bd0-4f2a-7e2b-08d90b785446
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT019.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB2031
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 1:51 PM Brendan Higgins
-<brendanhiggins@google.com> wrote:
+Hi
+
+> -----Original Message-----
+> From: Petr Mladek <pmladek@suse.com>
+> Sent: Thursday, April 29, 2021 5:25 PM
+> To: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Cc: Justin He <Justin.He@arm.com>; Linus Torvalds <torvalds@linux-
+> foundation.org>; Steven Rostedt <rostedt@goodmis.org>; Sergey Senozhatsky
+> <senozhatsky@chromium.org>; Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com>; Rasmus Villemoes
+> <linux@rasmusvillemoes.dk>; Jonathan Corbet <corbet@lwn.net>; Luca Coelho
+> <luciano.coelho@intel.com>; Kalle Valo <kvalo@codeaurora.org>; David S.
+> Miller <davem@davemloft.net>; Jakub Kicinski <kuba@kernel.org>; Heiko
+> Carstens <hca@linux.ibm.com>; Vasily Gorbik <gor@linux.ibm.com>; Christia=
+n
+> Borntraeger <borntraeger@de.ibm.com>; Johannes Berg
+> <johannes.berg@intel.com>; Linux Documentation List <linux-
+> doc@vger.kernel.org>; Linux Kernel Mailing List <linux-
+> kernel@vger.kernel.org>; open list:TI WILINK WIRELES... <linux-
+> wireless@vger.kernel.org>; netdev <netdev@vger.kernel.org>; linux-
+> s390@vger.kernel.org
+> Subject: Re: [PATCH 2/4] lib/vsprintf.c: Make %p{D,d} mean as much
+> components as possible
 >
-> Add basic support to run QEMU via kunit_tool. Add support for i386,
-> x86_64, arm, arm64, and a bunch more.
-
-Hmmm, I'm wondering if I'm seeing unrelated breakages.
-Applied these patches on top of 55ba0fe059a5 ("Merge tag
-'for-5.13-tag' of
-git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux")
-
-$ make mrproper
-$ rm -rf .kunit/*   # just in case
-$ ./tools/testing/kunit/kunit.py run --arch=3Darm64
-...
-ERROR:root:arch/arm64/Makefile:25: ld does not support
---fix-cortex-a53-843419; kernel may be susceptible to erratum
-arch/arm64/Makefile:44: Detected assembler with broken .inst;
-disassembly will be unreliable
-gcc: error: unrecognized command-line option =E2=80=98-mlittle-endian=E2=80=
-=99
-
-So it seems like my version of ld might be out of date, but my gcc is 10.2.=
-1
-Is there a minimum version of the toolchain this would expect that we
-can call out in the commit message (and in the Documentation)?
-
---arch=3Dx86_64 worked just fine for me, however, which is mainly what I
-was interested in.
-
-I've mainly just left some nits and comments regarding typechecking.
-
+> On Thu 2021-04-29 11:52:49, Andy Shevchenko wrote:
+> > On Thu, Apr 29, 2021 at 11:47 AM Petr Mladek <pmladek@suse.com> wrote:
+> > >
+> > > On Wed 2021-04-28 21:59:27, Jia He wrote:
+> > > > From: Linus Torvalds <torvalds@linux-foundation.org>
+> > > >
+> > > > We have '%pD'(no digit following) for printing a filename. It may n=
+ot
+> be
+> > > > perfect (by default it only prints one component.
+> > > >
+> > > > %pD4 should be more than good enough, but we should make plain "%pD=
+"
+> mean
+> > > > "as much of the path that is reasonable" rather than "as few
+> components as
+> > > > possible" (ie 1).
+> > >
+> > > Could you please provide link to the discussion where this idea was
+> > > came from?
+> >
+> > https://lore.kernel.org/lkml/20210427025805.GD3122264@magnolia/
 >
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> ---
->  tools/testing/kunit/kunit.py           |  33 +++-
->  tools/testing/kunit/kunit_config.py    |   2 +-
->  tools/testing/kunit/kunit_kernel.py    | 207 +++++++++++++++++++++----
->  tools/testing/kunit/kunit_tool_test.py |  15 +-
->  4 files changed, 217 insertions(+), 40 deletions(-)
+> Thanks for the link. I see that it was not clear whether the patch
+> was good for %pd behavior.
 >
-> diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
-> index d5144fcb03acd..07ef80062873b 100755
-> --- a/tools/testing/kunit/kunit.py
-> +++ b/tools/testing/kunit/kunit.py
-> @@ -70,10 +70,10 @@ def build_tests(linux: kunit_kernel.LinuxSourceTree,
->         kunit_parser.print_with_timestamp('Building KUnit Kernel ...')
+> Linus actually suggests to keep %pd behavior as it was before, see
+> https://lore.kernel.org/lkml/CAHk-=3DwimsMqGdzik187YWLb-
+> ru+iktb4MYbMQG1rnZ81dXYFVg@mail.gmail.com/
+
+Okay, let me keep the default %pd behavior as before('%pd' is '%pd1') and
+change the behavior of %pD ('%pD' is '%pD4')
+
+--
+Cheers,
+Justin (Jia He)
 >
->         build_start =3D time.time()
-> -       success =3D linux.build_um_kernel(request.alltests,
-> -                                       request.jobs,
-> -                                       request.build_dir,
-> -                                       request.make_options)
-> +       success =3D linux.build_kernel(request.alltests,
-> +                                    request.jobs,
-> +                                    request.build_dir,
-> +                                    request.make_options)
->         build_end =3D time.time()
->         if not success:
->                 return KunitResult(KunitStatus.BUILD_FAILURE,
-> @@ -187,6 +187,14 @@ def add_common_opts(parser) -> None:
->                              help=3D'Path to Kconfig fragment that enable=
-s KUnit tests',
->                              metavar=3D'kunitconfig')
+> Well, I think that this is up to the file system developers to decide.
+> I am not sure if the path would do more harm than good,
+> or vice versa, for dentry names.
 >
-> +       parser.add_argument('--arch',
-> +                           help=3D'Specifies the architecture to run tes=
-ts under.',
-
-optional: perhaps add "(e.g. x86_64, um)"
-Most people using this would be able to infer that, but I prefer
-strings that are basically enums to document examples of useful
-values.
-(And x86 is probably the one most people want to use this flag for).
-
-> +                           type=3Dstr, default=3D'um', metavar=3D'arch')
-> +
-> +       parser.add_argument('--cross_compile',
-> +                           help=3D'Sets make\'s CROSS_COMPILE variable.'=
-,
-> +                           metavar=3D'cross_compile')
-> +
->  def add_build_opts(parser) -> None:
->         parser.add_argument('--jobs',
->                             help=3D'As in the make command, "Specifies  t=
-he number of '
-> @@ -268,7 +276,10 @@ def main(argv, linux=3DNone):
->                         os.mkdir(cli_args.build_dir)
->
->                 if not linux:
-> -                       linux =3D kunit_kernel.LinuxSourceTree(cli_args.b=
-uild_dir, kunitconfig_path=3Dcli_args.kunitconfig)
-> +                       linux =3D kunit_kernel.LinuxSourceTree(cli_args.b=
-uild_dir,
-> +                                       kunitconfig_path=3Dcli_args.kunit=
-config,
-> +                                       arch=3Dcli_args.arch,
-> +                                       cross_compile=3Dcli_args.cross_co=
-mpile)
->
->                 request =3D KunitRequest(cli_args.raw_output,
->                                        cli_args.timeout,
-> @@ -287,7 +298,9 @@ def main(argv, linux=3DNone):
->                         os.mkdir(cli_args.build_dir)
->
->                 if not linux:
-> -                       linux =3D kunit_kernel.LinuxSourceTree(cli_args.b=
-uild_dir, kunitconfig_path=3Dcli_args.kunitconfig)
-> +                       linux =3D kunit_kernel.LinuxSourceTree(cli_args.b=
-uild_dir,
-> +                                       kunitconfig_path=3Dcli_args.kunit=
-config,
-> +                                       arch=3Dcli_args.arch)
->
->                 request =3D KunitConfigRequest(cli_args.build_dir,
->                                              cli_args.make_options)
-> @@ -299,7 +312,9 @@ def main(argv, linux=3DNone):
->                         sys.exit(1)
->         elif cli_args.subcommand =3D=3D 'build':
->                 if not linux:
-> -                       linux =3D kunit_kernel.LinuxSourceTree(cli_args.b=
-uild_dir, kunitconfig_path=3Dcli_args.kunitconfig)
-> +                       linux =3D kunit_kernel.LinuxSourceTree(cli_args.b=
-uild_dir,
-> +                                       kunitconfig_path=3Dcli_args.kunit=
-config,
-> +                                       arch=3Dcli_args.arch)
->
->                 request =3D KunitBuildRequest(cli_args.jobs,
->                                             cli_args.build_dir,
-> @@ -313,7 +328,9 @@ def main(argv, linux=3DNone):
->                         sys.exit(1)
->         elif cli_args.subcommand =3D=3D 'exec':
->                 if not linux:
-> -                       linux =3D kunit_kernel.LinuxSourceTree(cli_args.b=
-uild_dir)
-> +                       linux =3D kunit_kernel.LinuxSourceTree(cli_args.b=
-uild_dir,
-> +                                       kunitconfig_path=3Dcli_args.kunit=
-config,
-> +                                       arch=3Dcli_args.arch)
->
->                 exec_request =3D KunitExecRequest(cli_args.timeout,
->                                                 cli_args.build_dir,
-> diff --git a/tools/testing/kunit/kunit_config.py b/tools/testing/kunit/ku=
-nit_config.py
-> index 1e2683dcc0e7a..07d76be392544 100644
-> --- a/tools/testing/kunit/kunit_config.py
-> +++ b/tools/testing/kunit/kunit_config.py
-> @@ -53,7 +53,7 @@ class Kconfig(object):
->                 return True
->
->         def write_to_file(self, path: str) -> None:
-> -               with open(path, 'w') as f:
-> +               with open(path, 'a+') as f:
-
-I might be missing something, but do we need this?
-
-w =3D> a means we wouldn't truncate the file if it exists. I can imagine
-I'm missing something that makes it necessary.
-+ =3D> opens for read/write: we don't do any reads with f afaict.
-
->                         for entry in self.entries():
->                                 f.write(str(entry) + '\n')
->
-> diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/ku=
-nit_kernel.py
-> index 7d5b77967d48f..b8b3b76aaa17e 100644
-> --- a/tools/testing/kunit/kunit_kernel.py
-> +++ b/tools/testing/kunit/kunit_kernel.py
-> @@ -15,6 +15,8 @@ from typing import Iterator
->
->  from contextlib import ExitStack
->
-> +from collections import namedtuple
-> +
->  import kunit_config
->  import kunit_parser
->
-> @@ -40,6 +42,10 @@ class BuildError(Exception):
->  class LinuxSourceTreeOperations(object):
->         """An abstraction over command line operations performed on a sou=
-rce tree."""
->
-> +       def __init__(self, linux_arch, cross_compile):
-
-nit: let's annotate these as `linux_arch: str, cross_compile: str` (or
-is it Optional[str] here?)
-I can see a reader thinking arch might be an enum and that
-cross_compile might be a bool.
-
-> +               self._linux_arch =3D linux_arch
-> +               self._cross_compile =3D cross_compile
-> +
->         def make_mrproper(self) -> None:
->                 try:
->                         subprocess.check_output(['make', 'mrproper'], std=
-err=3Dsubprocess.STDOUT)
-> @@ -48,12 +54,18 @@ class LinuxSourceTreeOperations(object):
->                 except subprocess.CalledProcessError as e:
->                         raise ConfigError(e.output.decode())
->
-> +       def make_arch_qemuconfig(self, build_dir):
-> +               pass
-> +
->         def make_olddefconfig(self, build_dir, make_options) -> None:
-> -               command =3D ['make', 'ARCH=3Dum', 'olddefconfig']
-> +               command =3D ['make', 'ARCH=3D' + self._linux_arch, 'oldde=
-fconfig']
-> +               if self._cross_compile:
-> +                       command +=3D ['CROSS_COMPILE=3D' + self._cross_co=
-mpile]
->                 if make_options:
->                         command.extend(make_options)
->                 if build_dir:
->                         command +=3D ['O=3D' + build_dir]
-> +               print(' '.join(command))
->                 try:
->                         subprocess.check_output(command, stderr=3Dsubproc=
-ess.STDOUT)
->                 except OSError as e:
-> @@ -61,6 +73,154 @@ class LinuxSourceTreeOperations(object):
->                 except subprocess.CalledProcessError as e:
->                         raise ConfigError(e.output.decode())
->
-> +       def make(self, jobs, build_dir, make_options) -> None:
-> +               command =3D ['make', 'ARCH=3D' + self._linux_arch, '--job=
-s=3D' + str(jobs)]
-> +               if make_options:
-> +                       command.extend(make_options)
-> +               if self._cross_compile:
-> +                       command +=3D ['CROSS_COMPILE=3D' + self._cross_co=
-mpile]
-> +               if build_dir:
-> +                       command +=3D ['O=3D' + build_dir]
-> +               print(' '.join(command))
-> +               try:
-> +                       proc =3D subprocess.Popen(command,
-> +                                               stderr=3Dsubprocess.PIPE,
-> +                                               stdout=3Dsubprocess.DEVNU=
-LL)
-> +               except OSError as e:
-> +                       raise BuildError('Could not call execute make: ' =
-+ e)
-
-pytype complains about this.
-You'd want `+ str(e)`
-
-
-> +               except subprocess.CalledProcessError as e:
-> +                       raise BuildError(e.output)
-> +               _, stderr =3D proc.communicate()
-> +               if proc.returncode !=3D 0:
-> +                       raise BuildError(stderr.decode())
-> +               if stderr:  # likely only due to build warnings
-> +                       print(stderr.decode())
-> +
-> +       def run(self, params, timeout, build_dir, outfile) -> None:
-> +               pass
-> +
-> +
-> +QemuArchParams =3D namedtuple('QemuArchParams', ['linux_arch',
-> +                                              'qemuconfig',
-> +                                              'qemu_arch',
-> +                                              'kernel_path',
-> +                                              'kernel_command_line',
-> +                                              'extra_qemu_params'])
-> +
-> +
-> +QEMU_ARCHS =3D {
-> +       'i386'          : QemuArchParams(linux_arch=3D'i386',
-> +                               qemuconfig=3D'CONFIG_SERIAL_8250=3Dy\nCON=
-FIG_SERIAL_8250_CONSOLE=3Dy',
-> +                               qemu_arch=3D'x86_64',
-> +                               kernel_path=3D'arch/x86/boot/bzImage',
-> +                               kernel_command_line=3D'console=3DttyS0',
-> +                               extra_qemu_params=3D['']),
-> +       'x86_64'        : QemuArchParams(linux_arch=3D'x86_64',
-> +                               qemuconfig=3D'CONFIG_SERIAL_8250=3Dy\nCON=
-FIG_SERIAL_8250_CONSOLE=3Dy',
-> +                               qemu_arch=3D'x86_64',
-> +                               kernel_path=3D'arch/x86/boot/bzImage',
-> +                               kernel_command_line=3D'console=3DttyS0',
-> +                               extra_qemu_params=3D['']),
-> +       'arm'           : QemuArchParams(linux_arch=3D'arm',
-> +                               qemuconfig=3D'''CONFIG_ARCH_VIRT=3Dy
-> +CONFIG_SERIAL_AMBA_PL010=3Dy
-> +CONFIG_SERIAL_AMBA_PL010_CONSOLE=3Dy
-> +CONFIG_SERIAL_AMBA_PL011=3Dy
-> +CONFIG_SERIAL_AMBA_PL011_CONSOLE=3Dy''',
-> +                               qemu_arch=3D'arm',
-> +                               kernel_path=3D'arch/arm/boot/zImage',
-> +                               kernel_command_line=3D'console=3DttyAMA0'=
-,
-> +                               extra_qemu_params=3D['-machine virt']),
-> +       'arm64'         : QemuArchParams(linux_arch=3D'arm64',
-> +                               qemuconfig=3D'''CONFIG_SERIAL_AMBA_PL010=
-=3Dy
-> +CONFIG_SERIAL_AMBA_PL010_CONSOLE=3Dy
-> +CONFIG_SERIAL_AMBA_PL011=3Dy
-> +CONFIG_SERIAL_AMBA_PL011_CONSOLE=3Dy''',
-> +                               qemu_arch=3D'aarch64',
-> +                               kernel_path=3D'arch/arm64/boot/Image.gz',
-> +                               kernel_command_line=3D'console=3DttyAMA0'=
-,
-> +                               extra_qemu_params=3D['-machine virt', '-c=
-pu cortex-a57']),
-> +       'alpha'         : QemuArchParams(linux_arch=3D'alpha',
-> +                               qemuconfig=3D'CONFIG_SERIAL_8250=3Dy\nCON=
-FIG_SERIAL_8250_CONSOLE=3Dy',
-> +                               qemu_arch=3D'alpha',
-> +                               kernel_path=3D'arch/alpha/boot/vmlinux',
-> +                               kernel_command_line=3D'console=3DttyS0',
-> +                               extra_qemu_params=3D['']),
-> +       'powerpc'       : QemuArchParams(linux_arch=3D'powerpc',
-> +                               qemuconfig=3D'CONFIG_PPC64=3Dy\nCONFIG_SE=
-RIAL_8250=3Dy\nCONFIG_SERIAL_8250_CONSOLE=3Dy\nCONFIG_HVC_CONSOLE=3Dy',
-> +                               qemu_arch=3D'ppc64',
-> +                               kernel_path=3D'vmlinux',
-> +                               kernel_command_line=3D'console=3DttyS0',
-> +                               extra_qemu_params=3D['-M pseries', '-cpu =
-power8']),
-> +       'riscv'         : QemuArchParams(linux_arch=3D'riscv',
-> +                               qemuconfig=3D'CONFIG_SOC_VIRT=3Dy\nCONFIG=
-_SERIAL_8250=3Dy\nCONFIG_SERIAL_8250_CONSOLE=3Dy\nCONFIG_SERIAL_OF_PLATFORM=
-=3Dy\nCONFIG_SERIAL_EARLYCON_RISCV_SBI=3Dy',
-> +                               qemu_arch=3D'riscv64',
-> +                               kernel_path=3D'arch/riscv/boot/Image',
-> +                               kernel_command_line=3D'console=3DttyS0',
-> +                               extra_qemu_params=3D['-machine virt', '-c=
-pu rv64', '-bios opensbi-riscv64-generic-fw_dynamic.bin']),
-> +       's390'          : QemuArchParams(linux_arch=3D's390',
-> +                               qemuconfig=3D'CONFIG_EXPERT=3Dy\nCONFIG_T=
-UNE_ZEC12=3Dy\nCONFIG_NUMA=3Dy\nCONFIG_MODULES=3Dy',
-> +                               qemu_arch=3D's390x',
-> +                               kernel_path=3D'arch/s390/boot/bzImage',
-> +                               kernel_command_line=3D'console=3DttyS0',
-> +                               extra_qemu_params=3D[
-> +                                               '-machine s390-ccw-virtio=
-',
-> +                                               '-cpu qemu',]),
-> +       'sparc'         : QemuArchParams(linux_arch=3D'sparc',
-> +                               qemuconfig=3D'CONFIG_SERIAL_8250=3Dy\nCON=
-FIG_SERIAL_8250_CONSOLE=3Dy',
-> +                               qemu_arch=3D'sparc',
-> +                               kernel_path=3D'arch/sparc/boot/zImage',
-> +                               kernel_command_line=3D'console=3DttyS0 me=
-m=3D256M',
-> +                               extra_qemu_params=3D['-m 256']),
-> +}
-
-Oh my.
-I don't know enough to say if there's a better way of doing this.
-
-But I think we should probably split this out into a separate python
-file, if this mapping remains necessary.
-E.g. in a qemu_configs.py file or the like.
-
-> +
-> +class LinuxSourceTreeOperationsQemu(LinuxSourceTreeOperations):
-
-I've called out the two errors pytype gives already, but mypy is even
-worse about this new class :(
-
-$ mypy tools/testing/kunit/*.py
-tools/testing/kunit/kunit_kernel.py:90: error: Unsupported operand
-types for + ("str" and "OSError")
-tools/testing/kunit/kunit_kernel.py:278: error: Incompatible types in
-assignment (expression has type "LinuxSourceTreeOperationsQemu",
-variable has type "Optional[LinuxSourceTreeOperationsUml]")
-tools/testing/kunit/kunit_kernel.py:298: error: Item "None" of
-"Optional[LinuxSourceTreeOperationsUml]" has no attribute
-"make_mrproper"
-tools/testing/kunit/kunit_kernel.py:324: error: Item "None" of
-"Optional[LinuxSourceTreeOperationsUml]" has no attribute
-"make_arch_qemuconfig"
-tools/testing/kunit/kunit_kernel.py:325: error: Item "None" of
-"Optional[LinuxSourceTreeOperationsUml]" has no attribute
-"make_olddefconfig"
-tools/testing/kunit/kunit_kernel.py:352: error: Item "None" of
-"Optional[LinuxSourceTreeOperationsUml]" has no attribute
-"make_allyesconfig"
-tools/testing/kunit/kunit_kernel.py:353: error: Item "None" of
-"Optional[LinuxSourceTreeOperationsUml]" has no attribute
-"make_arch_qemuconfig"
-tools/testing/kunit/kunit_kernel.py:354: error: Item "None" of
-"Optional[LinuxSourceTreeOperationsUml]" has no attribute
-"make_olddefconfig"
-tools/testing/kunit/kunit_kernel.py:355: error: Item "None" of
-"Optional[LinuxSourceTreeOperationsUml]" has no attribute "make"
-tools/testing/kunit/kunit_kernel.py:368: error: Item "None" of
-"Optional[LinuxSourceTreeOperationsUml]" has no attribute "run"
-
-So to make up for mypy being less smart, we can do this and get it down 2 e=
-rrors
-
-diff --git a/tools/testing/kunit/kunit_kernel.py
-b/tools/testing/kunit/kunit_kernel.py
-index b8b3b76aaa17..a0aaa28db4c1 100644
---- a/tools/testing/kunit/kunit_kernel.py
-+++ b/tools/testing/kunit/kunit_kernel.py
-@@ -11,7 +11,7 @@ import subprocess
- import os
- import shutil
- import signal
--from typing import Iterator
-+from typing import Iterator, Union
-
- from contextlib import ExitStack
-
-@@ -269,15 +269,16 @@ class LinuxSourceTree(object):
-
-        def __init__(self, build_dir: str, load_config=3DTrue,
-kunitconfig_path=3D'', arch=3DNone, cross_compile=3DNone) -> None:
-                signal.signal(signal.SIGINT, self.signal_handler)
--               self._ops =3D None
-+               ops =3D None # type: Union[None,
-LinuxSourceTreeOperationsUml, LinuxSourceTreeOperationsQemu]
-                if arch is None or arch =3D=3D 'um':
-                        self._arch =3D 'um'
--                       self._ops =3D LinuxSourceTreeOperationsUml()
-+                       ops =3D LinuxSourceTreeOperationsUml()
-                elif arch in QEMU_ARCHS:
-                        self._arch =3D arch
--                       self._ops =3D
-LinuxSourceTreeOperationsQemu(QEMU_ARCHS[arch],
-cross_compile=3Dcross_compile)
-+                       ops =3D
-LinuxSourceTreeOperationsQemu(QEMU_ARCHS[arch],
-cross_compile=3Dcross_compile)
-                else:
-                        raise ConfigError(arch + ' is not a valid arch')
-+               self._ops =3D ops
-
-                if not load_config:
-                        return
-
-> +
-> +       def __init__(self, qemu_arch_params, cross_compile):
-> +               super().__init__(linux_arch=3Dqemu_arch_params.linux_arch=
-,
-> +                                cross_compile=3Dcross_compile)
-> +               self._qemuconfig =3D qemu_arch_params.qemuconfig
-> +               self._qemu_arch =3D qemu_arch_params.qemu_arch
-> +               self._kernel_path =3D qemu_arch_params.kernel_path
-> +               print(self._kernel_path)
-looks like a leftover debugging print statement?
-
-> +               self._kernel_command_line =3D qemu_arch_params.kernel_com=
-mand_line + ' kunit_shutdown=3Dreboot'
-> +               self._extra_qemu_params =3D qemu_arch_params.extra_qemu_p=
-arams
-> +
-> +       def make_arch_qemuconfig(self, build_dir):
-> +               qemuconfig =3D kunit_config.Kconfig()
-> +               qemuconfig.parse_from_string(self._qemuconfig)
-> +               qemuconfig.write_to_file(get_kconfig_path(build_dir))
-> +
-> +       def run(self, params, timeout, build_dir, outfile):
-> +               kernel_path =3D os.path.join(build_dir, self._kernel_path=
-)
-> +               qemu_command =3D ['qemu-system-' + self._qemu_arch,
-> +                               '-nodefaults',
-> +                               '-m', '1024',
-> +                               '-kernel', kernel_path,
-> +                               '-append', '\'' + ' '.join(params + [self=
-._kernel_command_line]) + '\'',
-> +                               '-no-reboot',
-> +                               '-nographic',
-> +                               '-serial stdio'] + self._extra_qemu_param=
-s
-> +               print(' '.join(qemu_command))
-
-ditto, a debug statement?
-Though this one could be useful to actually print out for the user if
-we include some more context in the message.
-
-> +               with open(outfile, 'w') as output:
-> +                       process =3D subprocess.Popen(' '.join(qemu_comman=
-d),
-> +                                                  stdin=3Dsubprocess.PIP=
-E,
-> +                                                  stdout=3Doutput,
-> +                                                  stderr=3Dsubprocess.ST=
-DOUT,
-> +                                                  text=3DTrue, shell=3DT=
-rue)
-> +               try:
-> +                       process.wait(timeout=3Dtimeout)
-> +               except Exception as e:
-> +                       print(e)
-> +                       process.terminate()
-> +               return process
-> +
-> +class LinuxSourceTreeOperationsUml(LinuxSourceTreeOperations):
-> +       """An abstraction over command line operations performed on a sou=
-rce tree."""
-> +
-> +       def __init__(self):
-> +               super().__init__(linux_arch=3D'um', cross_compile=3DNone)
-> +
->         def make_allyesconfig(self, build_dir, make_options) -> None:
->                 kunit_parser.print_with_timestamp(
->                         'Enabling all CONFIGs for UML...')
-> @@ -83,32 +243,16 @@ class LinuxSourceTreeOperations(object):
->                 kunit_parser.print_with_timestamp(
->                         'Starting Kernel with all configs takes a few min=
-utes...')
->
-> -       def make(self, jobs, build_dir, make_options) -> None:
-> -               command =3D ['make', 'ARCH=3Dum', '--jobs=3D' + str(jobs)=
-]
-> -               if make_options:
-> -                       command.extend(make_options)
-> -               if build_dir:
-> -                       command +=3D ['O=3D' + build_dir]
-> -               try:
-> -                       proc =3D subprocess.Popen(command,
-> -                                               stderr=3Dsubprocess.PIPE,
-> -                                               stdout=3Dsubprocess.DEVNU=
-LL)
-> -               except OSError as e:
-> -                       raise BuildError('Could not call make command: ' =
-+ str(e))
-> -               _, stderr =3D proc.communicate()
-> -               if proc.returncode !=3D 0:
-> -                       raise BuildError(stderr.decode())
-> -               if stderr:  # likely only due to build warnings
-> -                       print(stderr.decode())
-> -
-> -       def linux_bin(self, params, timeout, build_dir) -> None:
-> +       def run(self, params, timeout, build_dir, outfile):
->                 """Runs the Linux UML binary. Must be named 'linux'."""
->                 linux_bin =3D get_file_path(build_dir, 'linux')
->                 outfile =3D get_outfile_path(build_dir)
->                 with open(outfile, 'w') as output:
->                         process =3D subprocess.Popen([linux_bin] + params=
-,
-> +                                                  stdin=3Dsubprocess.PIP=
-E,
->                                                    stdout=3Doutput,
-> -                                                  stderr=3Dsubprocess.ST=
-DOUT)
-> +                                                  stderr=3Dsubprocess.ST=
-DOUT,
-> +                                                  text=3DTrue)
->                         process.wait(timeout)
->
->  def get_kconfig_path(build_dir) -> str:
-> @@ -123,10 +267,17 @@ def get_outfile_path(build_dir) -> str:
->  class LinuxSourceTree(object):
->         """Represents a Linux kernel source tree with KUnit tests."""
->
-> -       def __init__(self, build_dir: str, load_config=3DTrue, kunitconfi=
-g_path=3D'') -> None:
-> +       def __init__(self, build_dir: str, load_config=3DTrue, kunitconfi=
-g_path=3D'', arch=3DNone, cross_compile=3DNone) -> None:
->                 signal.signal(signal.SIGINT, self.signal_handler)
-> -
-> -               self._ops =3D LinuxSourceTreeOperations()
-> +               self._ops =3D None
-> +               if arch is None or arch =3D=3D 'um':
-> +                       self._arch =3D 'um'
-> +                       self._ops =3D LinuxSourceTreeOperationsUml()
-> +               elif arch in QEMU_ARCHS:
-> +                       self._arch =3D arch
-> +                       self._ops =3D LinuxSourceTreeOperationsQemu(QEMU_=
-ARCHS[arch], cross_compile=3Dcross_compile)
-> +               else:
-> +                       raise ConfigError(arch + ' is not a valid arch')
->
->                 if not load_config:
->                         return
-> @@ -170,6 +321,7 @@ class LinuxSourceTree(object):
->                         os.mkdir(build_dir)
->                 self._kconfig.write_to_file(kconfig_path)
->                 try:
-> +                       self._ops.make_arch_qemuconfig(build_dir)
->                         self._ops.make_olddefconfig(build_dir, make_optio=
-ns)
->                 except ConfigError as e:
->                         logging.error(e)
-> @@ -192,10 +344,13 @@ class LinuxSourceTree(object):
->                         print('Generating .config ...')
->                         return self.build_config(build_dir, make_options)
->
-> -       def build_um_kernel(self, alltests, jobs, build_dir, make_options=
-) -> bool:
-> +       def build_kernel(self, alltests, jobs, build_dir, make_options) -=
-> bool:
->                 try:
->                         if alltests:
-> +                               if self._arch !=3D 'um':
-> +                                       raise ConfigError('Only the "um" =
-arch is supported for alltests')
->                                 self._ops.make_allyesconfig(build_dir, ma=
-ke_options)
-
-Minor note: pytype doesn't like this.
-The code is correct, but pytype can't figure out that ops can't be the
-QEMU variant.
-
-Pytype recognizes comments like " # pytype: disable=3Dattribute-error"
-but mypy doesn't.
-So I don't know that there's a way we can make both of them happy :/
-
-
-> +                       self._ops.make_arch_qemuconfig(build_dir)
->                         self._ops.make_olddefconfig(build_dir, make_optio=
-ns)
->                         self._ops.make(jobs, build_dir, make_options)
->                 except (ConfigError, BuildError) as e:
-> @@ -209,8 +364,8 @@ class LinuxSourceTree(object):
->                 args.extend(['mem=3D1G', 'console=3Dtty','kunit_shutdown=
-=3Dhalt'])
->                 if filter_glob:
->                         args.append('kunit.filter_glob=3D'+filter_glob)
-> -               self._ops.linux_bin(args, timeout, build_dir)
->                 outfile =3D get_outfile_path(build_dir)
-> +               self._ops.run(args, timeout, build_dir, outfile)
->                 subprocess.call(['stty', 'sane'])
->                 with open(outfile, 'r') as file:
->                         for line in file:
-> diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit=
-/kunit_tool_test.py
-> index 1ad3049e90698..25e8be95a575d 100755
-> --- a/tools/testing/kunit/kunit_tool_test.py
-> +++ b/tools/testing/kunit/kunit_tool_test.py
-> @@ -297,7 +297,7 @@ class KUnitMainTest(unittest.TestCase):
->
->                 self.linux_source_mock =3D mock.Mock()
->                 self.linux_source_mock.build_reconfig =3D mock.Mock(retur=
-n_value=3DTrue)
-> -               self.linux_source_mock.build_um_kernel =3D mock.Mock(retu=
-rn_value=3DTrue)
-> +               self.linux_source_mock.build_kernel =3D mock.Mock(return_=
-value=3DTrue)
->                 self.linux_source_mock.run_kernel =3D mock.Mock(return_va=
-lue=3Dall_passed_log)
->
->         def test_config_passes_args_pass(self):
-> @@ -308,7 +308,7 @@ class KUnitMainTest(unittest.TestCase):
->         def test_build_passes_args_pass(self):
->                 kunit.main(['build'], self.linux_source_mock)
->                 self.assertEqual(self.linux_source_mock.build_reconfig.ca=
-ll_count, 0)
-> -               self.linux_source_mock.build_um_kernel.assert_called_once=
-_with(False, 8, '.kunit', None)
-> +               self.linux_source_mock.build_kernel.assert_called_once_wi=
-th(False, 8, '.kunit', None)
->                 self.assertEqual(self.linux_source_mock.run_kernel.call_c=
-ount, 0)
->
->         def test_exec_passes_args_pass(self):
-> @@ -390,7 +390,7 @@ class KUnitMainTest(unittest.TestCase):
->         def test_build_builddir(self):
->                 build_dir =3D '.kunit'
->                 kunit.main(['build', '--build_dir', build_dir], self.linu=
-x_source_mock)
-> -               self.linux_source_mock.build_um_kernel.assert_called_once=
-_with(False, 8, build_dir, None)
-> +               self.linux_source_mock.build_kernel.assert_called_once_wi=
-th(False, 8, build_dir, None)
->
->         def test_exec_builddir(self):
->                 build_dir =3D '.kunit'
-> @@ -404,14 +404,19 @@ class KUnitMainTest(unittest.TestCase):
->                 mock_linux_init.return_value =3D self.linux_source_mock
->                 kunit.main(['run', '--kunitconfig=3Dmykunitconfig'])
->                 # Just verify that we parsed and initialized it correctly=
- here.
-> -               mock_linux_init.assert_called_once_with('.kunit', kunitco=
-nfig_path=3D'mykunitconfig')
-> +               mock_linux_init.assert_called_once_with('.kunit',
-> +                                                       kunitconfig_path=
-=3D'mykunitconfig',
-> +                                                       arch=3D'um',
-> +                                                       cross_compile=3DN=
-one)
->
->         @mock.patch.object(kunit_kernel, 'LinuxSourceTree')
->         def test_config_kunitconfig(self, mock_linux_init):
->                 mock_linux_init.return_value =3D self.linux_source_mock
->                 kunit.main(['config', '--kunitconfig=3Dmykunitconfig'])
->                 # Just verify that we parsed and initialized it correctly=
- here.
-> -               mock_linux_init.assert_called_once_with('.kunit', kunitco=
-nfig_path=3D'mykunitconfig')
-> +               mock_linux_init.assert_called_once_with('.kunit',
-> +                                                       kunitconfig_path=
-=3D'mykunitconfig',
-> +                                                       arch=3D'um')
->
->  if __name__ =3D=3D '__main__':
->         unittest.main()
-> --
-> 2.31.1.498.g6c1eba8ee3d-goog
->
+> Best Regards,
+> Petr
+IMPORTANT NOTICE: The contents of this email and any attachments are confid=
+ential and may also be privileged. If you are not the intended recipient, p=
+lease notify the sender immediately and do not disclose the contents to any=
+ other person, use it for any purpose, or store or copy the information in =
+any medium. Thank you.
