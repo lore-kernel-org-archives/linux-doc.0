@@ -2,230 +2,832 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-28.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA10C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 18:32:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0168BC433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 20:01:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 253FA6141E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 18:32:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B42E66143D
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 20:01:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231591AbhD3Sdi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Apr 2021 14:33:38 -0400
-Received: from mga06.intel.com ([134.134.136.31]:44389 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231204AbhD3Sdh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Apr 2021 14:33:37 -0400
-IronPort-SDR: cDH+ydm3F3DplhIR4xQRkjN44Uz0eqO4qXpLj66XWX7W6MDjH6a9FzzKYJIfaD3ggGbwZXs7jH
- u0o6Q9Z9+Hxg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9970"; a="258620576"
-X-IronPort-AV: E=Sophos;i="5.82,263,1613462400"; 
-   d="scan'208";a="258620576"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 11:32:48 -0700
-IronPort-SDR: BuEEwoZVskVpKur8QODMKzjWucceyRG+8FXzCydVCLpFg3qZhfZ48pTkcyex1irrACKguT+/Lo
- QORo15MQgF7A==
-X-IronPort-AV: E=Sophos;i="5.82,263,1613462400"; 
-   d="scan'208";a="537852516"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.119.226]) ([10.212.119.226])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 11:32:46 -0700
-Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
- signals for shadow stack)
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-26-yu-cheng.yu@intel.com>
- <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
- <8fd86049-930d-c9b7-379c-56c02a12cd77@intel.com>
- <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <a7c332c8-9368-40b1-e221-ec921f7db948@intel.com>
-Date:   Fri, 30 Apr 2021 11:32:45 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S235337AbhD3UCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Apr 2021 16:02:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234746AbhD3UCj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Apr 2021 16:02:39 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0639FC06174A
+        for <linux-doc@vger.kernel.org>; Fri, 30 Apr 2021 13:01:51 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so2331589pjh.1
+        for <linux-doc@vger.kernel.org>; Fri, 30 Apr 2021 13:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ckd51D/r5j2cpzFdqjsT8Yl+XDaly03GV7Cigg/JoWA=;
+        b=d1oie26vyiKb0Z6L86/ONncsxoyzg64UKYpM9x26ylXr6eGX6SnpGr3cu/Po2CzgAz
+         Q2bcg+F0kQxjq2piLaWyn4aQc8uMf9LNdqQ6aMmBm3FMwWrWmSbgSACnBT15BIWY/OEc
+         fYdqfEe5/20OnuV1YMuWIS1Qygl9S+j4LQtwXmyGK/xcs9bSl7lE5+nmNei4c9btFtwA
+         TBJGpd1wK5REhsKGD4s1UIx4t1uJAXuE5tXQO9MOR4rZIUROn7V5L63yY8LtZePHMfdS
+         3fToGsN0pLlw0QsdeNVApvFisdXzqD0LL4qw2z9lzld88nyv2MVEzwCf5I3X353FQdbg
+         1HFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ckd51D/r5j2cpzFdqjsT8Yl+XDaly03GV7Cigg/JoWA=;
+        b=IQCG5qWFAWTty51Pbcig14Aje8EkpFewj5bK75bkL1YrxnSP1Q6T2LggPn+r/OK80W
+         HI04uOwkpUtF7QGHbZIqGnareY04I+sT6jfIsJD0vcnSLozuJAwMziTEGwmKOxDgalQQ
+         XOXucDBr+Ixs1mGLJ9khWTh43JnMRngdi7QhFbsDnIK9Vr8NWCE1VY8GCbSrrVF4k4Dv
+         o0U27EFJez+PebL5K2oiY+en34YviY+9brNpwd0VfeBGV86oOcov21MDRYcpraxyD4R1
+         O5jvVrbm+RbG7/0LBZfkD1dxjtDHvcYpiiJGlpUYQ+Iokft+/w6Z504KoV+OcsZqRYI1
+         jfMg==
+X-Gm-Message-State: AOAM533oIQGR5xqIbuY1KtQjqA6qzgMZ2k5VmojTKoG3BwMe9o5Ai5US
+        ffe175Trg52944F7AUczQqyvTuJ9Yks4MP+tvqMZ+A==
+X-Google-Smtp-Source: ABdhPJxSzUb10/weyI73igwIefP2ud+/SuO6JzMFuOpsqNLJZlgmMbCooddLDo3K5WCb2J03z9DF7ZFNVtoCFaB8ypQ=
+X-Received: by 2002:a17:902:7892:b029:ea:b8a9:6190 with SMTP id
+ q18-20020a1709027892b02900eab8a96190mr6983596pll.80.1619812910153; Fri, 30
+ Apr 2021 13:01:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210429205109.2847831-1-brendanhiggins@google.com>
+ <20210429205109.2847831-4-brendanhiggins@google.com> <CAGS_qxo3NA6o8R73q5NdfsC3nx6i4WJgXnHxH6-v=ybnvDTj6Q@mail.gmail.com>
+In-Reply-To: <CAGS_qxo3NA6o8R73q5NdfsC3nx6i4WJgXnHxH6-v=ybnvDTj6Q@mail.gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Fri, 30 Apr 2021 13:01:38 -0700
+Message-ID: <CAFd5g44OL0BQ74ZGEnYzsLYVXEbOB-hBiNAf1+VLO=DoZwKOvA@mail.gmail.com>
+Subject: Re: [RFC v2 3/4] kunit: tool: add support for QEMU
+To:     Daniel Latypov <dlatypov@google.com>
+Cc:     shuah <shuah@kernel.org>, David Gow <davidgow@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/30/2021 10:47 AM, Andy Lutomirski wrote:
-> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->>
->> On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
->>> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>>>
->>>> When shadow stack is enabled, a task's shadow stack states must be saved
->>>> along with the signal context and later restored in sigreturn.  However,
->>>> currently there is no systematic facility for extending a signal context.
->>>> There is some space left in the ucontext, but changing ucontext is likely
->>>> to create compatibility issues and there is not enough space for further
->>>> extensions.
->>>>
->>>> Introduce a signal context extension struct 'sc_ext', which is used to save
->>>> shadow stack restore token address.  The extension is located above the fpu
->>>> states, plus alignment.  The struct can be extended (such as the ibt's
->>>> wait_endbr status to be introduced later), and sc_ext.total_size field
->>>> keeps track of total size.
->>>
->>> I still don't like this.
->>>
->>> Here's how the signal layout works, for better or for worse:
->>>
->>> The kernel has:
->>>
->>> struct rt_sigframe {
->>>       char __user *pretcode;
->>>       struct ucontext uc;
->>>       struct siginfo info;
->>>       /* fp state follows here */
->>> };
->>>
->>> This is roughly the actual signal frame.  But userspace does not have
->>> this struct declared, and user code does not know the sizes of the
->>> fields.  So it's accessed in a nonsensical way.  The signal handler
->>> function is passed a pointer to the whole sigframe implicitly in RSP,
->>> a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
->>> User code can *find* the fp state by following a pointer from
->>> mcontext, which is, in turn, found via uc:
->>>
->>> struct ucontext {
->>>       unsigned long      uc_flags;
->>>       struct ucontext  *uc_link;
->>>       stack_t          uc_stack;
->>>       struct sigcontext uc_mcontext;  <-- fp pointer is in here
->>>       sigset_t      uc_sigmask;    /* mask last for extensibility */
->>> };
->>>
->>> The kernel, in sigreturn, works a bit differently.  The sigreturn
->>> variants know the base address of the frame but don't have the benefit
->>> of receiving pointers to the fields.  So instead the kernel takes
->>> advantage of the fact that it knows the offset to uc and parses uc
->>> accordingly.  And the kernel follows the pointer in mcontext to find
->>> the fp state.  The latter bit is quite important later.  The kernel
->>> does not parse info at all.
->>>
->>> The fp state is its own mess.  When XSAVE happened, Intel kindly (?)
->>> gave us a software defined area between the "legacy" x87 region and
->>> the modern supposedly extensible part.  Linux sticks the following
->>> structure in that hole:
->>>
->>> struct _fpx_sw_bytes {
->>>       /*
->>>        * If set to FP_XSTATE_MAGIC1 then this is an xstate context.
->>>        * 0 if a legacy frame.
->>>        */
->>>       __u32                magic1;
->>>
->>>       /*
->>>        * Total size of the fpstate area:
->>>        *
->>>        *  - if magic1 == 0 then it's sizeof(struct _fpstate)
->>>        *  - if magic1 == FP_XSTATE_MAGIC1 then it's sizeof(struct _xstate)
->>>        *    plus extensions (if any)
->>>        */
->>>       __u32                extended_size;
->>>
->>>       /*
->>>        * Feature bit mask (including FP/SSE/extended state) that is present
->>>        * in the memory layout:
->>>        */
->>>       __u64                xfeatures;
->>>
->>>       /*
->>>        * Actual XSAVE state size, based on the xfeatures saved in the layout.
->>>        * 'extended_size' is greater than 'xstate_size':
->>>        */
->>>       __u32                xstate_size;
->>>
->>>       /* For future use: */
->>>       __u32                padding[7];
->>> };
->>>
->>>
->>> That's where we are right now upstream.  The kernel has a parser for
->>> the FPU state that is bugs piled upon bugs and is going to have to be
->>> rewritten sometime soon.  On top of all this, we have two upcoming
->>> features, both of which require different kinds of extensions:
->>>
->>> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
->>> but no.  And AMX makes it worse.)  To make a long story short, we
->>> promised user code many years ago that a signal frame fit in 2048
->>> bytes with some room to spare.  With AVX-512 this is false.  With AMX
->>> it's so wrong it's not even funny.  The only way out of the mess
->>> anyone has come up with involves making the length of the FPU state
->>> vary depending on which features are INIT, i.e. making it more compact
->>> than "compact" mode is.  This has a side effect: it's no longer
->>> possible to modify the state in place, because enabling a feature with
->>> no space allocated will make the structure bigger, and the stack won't
->>> have room.  Fortunately, one can relocate the entire FPU state, update
->>> the pointer in mcontext, and the kernel will happily follow the
->>> pointer.  So new code on a new kernel using a super-compact state
->>> could expand the state by allocating new memory (on the heap? very
->>> awkwardly on the stack?) and changing the pointer.  For all we know,
->>> some code already fiddles with the pointer.  This is great, except
->>> that your patch sticks more data at the end of the FPU block that no
->>> one is expecting, and your sigreturn code follows that pointer, and
->>> will read off into lala land.
->>>
->>
->> Then, what about we don't do that at all.  Is it possible from now on we
->> don't stick more data at the end, and take the relocating-fpu approach?
->>
->>> 2. CET.  CET wants us to find a few more bytes somewhere, and those
->>> bytes logically belong in ucontext, and here we are.
->>>
->>
->> Fortunately, we can spare CET the need of ucontext extension.  When the
->> kernel handles sigreturn, the user-mode shadow stack pointer is right at
->> the restore token.  There is no need to put that in ucontext.
-> 
-> That seems entirely reasonable.  This might also avoid needing to
-> teach CRIU about CET at all.
-> 
->>
->> However, the WAIT_ENDBR status needs to be saved/restored for signals.
->> Since IBT is now dependent on shadow stack, we can use a spare bit of
->> the shadow stack restore token for that.
-> 
-> That seems like unnecessary ABI coupling.  We have plenty of bits in
-> uc_flags, and we have an entire reserved word in sigcontext.  How
-> about just sticking this bit in one of those places?
+On Thu, Apr 29, 2021 at 4:40 PM Daniel Latypov <dlatypov@google.com> wrote:
+>
+> On Thu, Apr 29, 2021 at 1:51 PM Brendan Higgins
+> <brendanhiggins@google.com> wrote:
+> >
+> > Add basic support to run QEMU via kunit_tool. Add support for i386,
+> > x86_64, arm, arm64, and a bunch more.
+>
+> Hmmm, I'm wondering if I'm seeing unrelated breakages.
+> Applied these patches on top of 55ba0fe059a5 ("Merge tag
+> 'for-5.13-tag' of
+> git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux")
+>
+> $ make mrproper
+> $ rm -rf .kunit/*   # just in case
+> $ ./tools/testing/kunit/kunit.py run --arch=3Darm64
+> ...
 
-Yes, I will make it UC_WAIT_ENDBR.
+Huh, did you use a arm64 cross compiler? Maybe that's your issue.
 
-Thanks,
-Yu-cheng
+> ERROR:root:arch/arm64/Makefile:25: ld does not support
+> --fix-cortex-a53-843419; kernel may be susceptible to erratum
+> arch/arm64/Makefile:44: Detected assembler with broken .inst;
+> disassembly will be unreliable
+> gcc: error: unrecognized command-line option =E2=80=98-mlittle-endian=E2=
+=80=99
+>
+> So it seems like my version of ld might be out of date, but my gcc is 10.=
+2.1
+> Is there a minimum version of the toolchain this would expect that we
+> can call out in the commit message (and in the Documentation)?
+>
+> --arch=3Dx86_64 worked just fine for me, however, which is mainly what I
+> was interested in.
+>
+> I've mainly just left some nits and comments regarding typechecking.
+>
+> >
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > ---
+> >  tools/testing/kunit/kunit.py           |  33 +++-
+> >  tools/testing/kunit/kunit_config.py    |   2 +-
+> >  tools/testing/kunit/kunit_kernel.py    | 207 +++++++++++++++++++++----
+> >  tools/testing/kunit/kunit_tool_test.py |  15 +-
+> >  4 files changed, 217 insertions(+), 40 deletions(-)
+> >
+> > diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.p=
+y
+> > index d5144fcb03acd..07ef80062873b 100755
+> > --- a/tools/testing/kunit/kunit.py
+> > +++ b/tools/testing/kunit/kunit.py
+> > @@ -70,10 +70,10 @@ def build_tests(linux: kunit_kernel.LinuxSourceTree=
+,
+> >         kunit_parser.print_with_timestamp('Building KUnit Kernel ...')
+> >
+> >         build_start =3D time.time()
+> > -       success =3D linux.build_um_kernel(request.alltests,
+> > -                                       request.jobs,
+> > -                                       request.build_dir,
+> > -                                       request.make_options)
+> > +       success =3D linux.build_kernel(request.alltests,
+> > +                                    request.jobs,
+> > +                                    request.build_dir,
+> > +                                    request.make_options)
+> >         build_end =3D time.time()
+> >         if not success:
+> >                 return KunitResult(KunitStatus.BUILD_FAILURE,
+> > @@ -187,6 +187,14 @@ def add_common_opts(parser) -> None:
+> >                              help=3D'Path to Kconfig fragment that enab=
+les KUnit tests',
+> >                              metavar=3D'kunitconfig')
+> >
+> > +       parser.add_argument('--arch',
+> > +                           help=3D'Specifies the architecture to run t=
+ests under.',
+>
+> optional: perhaps add "(e.g. x86_64, um)"
+> Most people using this would be able to infer that, but I prefer
+> strings that are basically enums to document examples of useful
+> values.
+
+Good point, probably want to mention that I take the string name from
+the argument passed into the ARCH make variable.
+
+> (And x86 is probably the one most people want to use this flag for).
+
+Yep, but Linux refers to it as i386. Just trying to be consistent.
+
+> > +                           type=3Dstr, default=3D'um', metavar=3D'arch=
+')
+> > +
+> > +       parser.add_argument('--cross_compile',
+> > +                           help=3D'Sets make\'s CROSS_COMPILE variable=
+.',
+> > +                           metavar=3D'cross_compile')
+> > +
+> >  def add_build_opts(parser) -> None:
+> >         parser.add_argument('--jobs',
+> >                             help=3D'As in the make command, "Specifies =
+ the number of '
+> > @@ -268,7 +276,10 @@ def main(argv, linux=3DNone):
+> >                         os.mkdir(cli_args.build_dir)
+> >
+> >                 if not linux:
+> > -                       linux =3D kunit_kernel.LinuxSourceTree(cli_args=
+.build_dir, kunitconfig_path=3Dcli_args.kunitconfig)
+> > +                       linux =3D kunit_kernel.LinuxSourceTree(cli_args=
+.build_dir,
+> > +                                       kunitconfig_path=3Dcli_args.kun=
+itconfig,
+> > +                                       arch=3Dcli_args.arch,
+> > +                                       cross_compile=3Dcli_args.cross_=
+compile)
+> >
+> >                 request =3D KunitRequest(cli_args.raw_output,
+> >                                        cli_args.timeout,
+> > @@ -287,7 +298,9 @@ def main(argv, linux=3DNone):
+> >                         os.mkdir(cli_args.build_dir)
+> >
+> >                 if not linux:
+> > -                       linux =3D kunit_kernel.LinuxSourceTree(cli_args=
+.build_dir, kunitconfig_path=3Dcli_args.kunitconfig)
+> > +                       linux =3D kunit_kernel.LinuxSourceTree(cli_args=
+.build_dir,
+> > +                                       kunitconfig_path=3Dcli_args.kun=
+itconfig,
+> > +                                       arch=3Dcli_args.arch)
+> >
+> >                 request =3D KunitConfigRequest(cli_args.build_dir,
+> >                                              cli_args.make_options)
+> > @@ -299,7 +312,9 @@ def main(argv, linux=3DNone):
+> >                         sys.exit(1)
+> >         elif cli_args.subcommand =3D=3D 'build':
+> >                 if not linux:
+> > -                       linux =3D kunit_kernel.LinuxSourceTree(cli_args=
+.build_dir, kunitconfig_path=3Dcli_args.kunitconfig)
+> > +                       linux =3D kunit_kernel.LinuxSourceTree(cli_args=
+.build_dir,
+> > +                                       kunitconfig_path=3Dcli_args.kun=
+itconfig,
+> > +                                       arch=3Dcli_args.arch)
+> >
+> >                 request =3D KunitBuildRequest(cli_args.jobs,
+> >                                             cli_args.build_dir,
+> > @@ -313,7 +328,9 @@ def main(argv, linux=3DNone):
+> >                         sys.exit(1)
+> >         elif cli_args.subcommand =3D=3D 'exec':
+> >                 if not linux:
+> > -                       linux =3D kunit_kernel.LinuxSourceTree(cli_args=
+.build_dir)
+> > +                       linux =3D kunit_kernel.LinuxSourceTree(cli_args=
+.build_dir,
+> > +                                       kunitconfig_path=3Dcli_args.kun=
+itconfig,
+> > +                                       arch=3Dcli_args.arch)
+> >
+> >                 exec_request =3D KunitExecRequest(cli_args.timeout,
+> >                                                 cli_args.build_dir,
+> > diff --git a/tools/testing/kunit/kunit_config.py b/tools/testing/kunit/=
+kunit_config.py
+> > index 1e2683dcc0e7a..07d76be392544 100644
+> > --- a/tools/testing/kunit/kunit_config.py
+> > +++ b/tools/testing/kunit/kunit_config.py
+> > @@ -53,7 +53,7 @@ class Kconfig(object):
+> >                 return True
+> >
+> >         def write_to_file(self, path: str) -> None:
+> > -               with open(path, 'w') as f:
+> > +               with open(path, 'a+') as f:
+>
+> I might be missing something, but do we need this?
+>
+> w =3D> a means we wouldn't truncate the file if it exists. I can imagine
+> I'm missing something that makes it necessary.
+> + =3D> opens for read/write: we don't do any reads with f afaict.
+
+Yeah, probably only needs to be a, not a+. But we do want append for
+adding the arch configs. Idea is that we want to append those onto
+whatever a base kunitconfig.
+
+Nevertheless, your concern is valid, might be a better way to do this. Thou=
+ghts?
+
+> >                         for entry in self.entries():
+> >                                 f.write(str(entry) + '\n')
+> >
+> > diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/=
+kunit_kernel.py
+> > index 7d5b77967d48f..b8b3b76aaa17e 100644
+> > --- a/tools/testing/kunit/kunit_kernel.py
+> > +++ b/tools/testing/kunit/kunit_kernel.py
+> > @@ -15,6 +15,8 @@ from typing import Iterator
+> >
+> >  from contextlib import ExitStack
+> >
+> > +from collections import namedtuple
+> > +
+> >  import kunit_config
+> >  import kunit_parser
+> >
+> > @@ -40,6 +42,10 @@ class BuildError(Exception):
+> >  class LinuxSourceTreeOperations(object):
+> >         """An abstraction over command line operations performed on a s=
+ource tree."""
+> >
+> > +       def __init__(self, linux_arch, cross_compile):
+>
+> nit: let's annotate these as `linux_arch: str, cross_compile: str` (or
+> is it Optional[str] here?)
+> I can see a reader thinking arch might be an enum and that
+> cross_compile might be a bool.
+
+Fair. Will do.
+
+> > +               self._linux_arch =3D linux_arch
+> > +               self._cross_compile =3D cross_compile
+> > +
+> >         def make_mrproper(self) -> None:
+> >                 try:
+> >                         subprocess.check_output(['make', 'mrproper'], s=
+tderr=3Dsubprocess.STDOUT)
+> > @@ -48,12 +54,18 @@ class LinuxSourceTreeOperations(object):
+> >                 except subprocess.CalledProcessError as e:
+> >                         raise ConfigError(e.output.decode())
+> >
+> > +       def make_arch_qemuconfig(self, build_dir):
+> > +               pass
+> > +
+> >         def make_olddefconfig(self, build_dir, make_options) -> None:
+> > -               command =3D ['make', 'ARCH=3Dum', 'olddefconfig']
+> > +               command =3D ['make', 'ARCH=3D' + self._linux_arch, 'old=
+defconfig']
+> > +               if self._cross_compile:
+> > +                       command +=3D ['CROSS_COMPILE=3D' + self._cross_=
+compile]
+> >                 if make_options:
+> >                         command.extend(make_options)
+> >                 if build_dir:
+> >                         command +=3D ['O=3D' + build_dir]
+> > +               print(' '.join(command))
+> >                 try:
+> >                         subprocess.check_output(command, stderr=3Dsubpr=
+ocess.STDOUT)
+> >                 except OSError as e:
+> > @@ -61,6 +73,154 @@ class LinuxSourceTreeOperations(object):
+> >                 except subprocess.CalledProcessError as e:
+> >                         raise ConfigError(e.output.decode())
+> >
+> > +       def make(self, jobs, build_dir, make_options) -> None:
+> > +               command =3D ['make', 'ARCH=3D' + self._linux_arch, '--j=
+obs=3D' + str(jobs)]
+> > +               if make_options:
+> > +                       command.extend(make_options)
+> > +               if self._cross_compile:
+> > +                       command +=3D ['CROSS_COMPILE=3D' + self._cross_=
+compile]
+> > +               if build_dir:
+> > +                       command +=3D ['O=3D' + build_dir]
+> > +               print(' '.join(command))
+> > +               try:
+> > +                       proc =3D subprocess.Popen(command,
+> > +                                               stderr=3Dsubprocess.PIP=
+E,
+> > +                                               stdout=3Dsubprocess.DEV=
+NULL)
+> > +               except OSError as e:
+> > +                       raise BuildError('Could not call execute make: =
+' + e)
+>
+> pytype complains about this.
+> You'd want `+ str(e)`
+
+Got it. Will do. (I should probably also run pytype.)
+
+> > +               except subprocess.CalledProcessError as e:
+> > +                       raise BuildError(e.output)
+> > +               _, stderr =3D proc.communicate()
+> > +               if proc.returncode !=3D 0:
+> > +                       raise BuildError(stderr.decode())
+> > +               if stderr:  # likely only due to build warnings
+> > +                       print(stderr.decode())
+> > +
+> > +       def run(self, params, timeout, build_dir, outfile) -> None:
+> > +               pass
+> > +
+> > +
+> > +QemuArchParams =3D namedtuple('QemuArchParams', ['linux_arch',
+> > +                                              'qemuconfig',
+> > +                                              'qemu_arch',
+> > +                                              'kernel_path',
+> > +                                              'kernel_command_line',
+> > +                                              'extra_qemu_params'])
+> > +
+> > +
+> > +QEMU_ARCHS =3D {
+> > +       'i386'          : QemuArchParams(linux_arch=3D'i386',
+> > +                               qemuconfig=3D'CONFIG_SERIAL_8250=3Dy\nC=
+ONFIG_SERIAL_8250_CONSOLE=3Dy',
+> > +                               qemu_arch=3D'x86_64',
+> > +                               kernel_path=3D'arch/x86/boot/bzImage',
+> > +                               kernel_command_line=3D'console=3DttyS0'=
+,
+> > +                               extra_qemu_params=3D['']),
+> > +       'x86_64'        : QemuArchParams(linux_arch=3D'x86_64',
+> > +                               qemuconfig=3D'CONFIG_SERIAL_8250=3Dy\nC=
+ONFIG_SERIAL_8250_CONSOLE=3Dy',
+> > +                               qemu_arch=3D'x86_64',
+> > +                               kernel_path=3D'arch/x86/boot/bzImage',
+> > +                               kernel_command_line=3D'console=3DttyS0'=
+,
+> > +                               extra_qemu_params=3D['']),
+> > +       'arm'           : QemuArchParams(linux_arch=3D'arm',
+> > +                               qemuconfig=3D'''CONFIG_ARCH_VIRT=3Dy
+> > +CONFIG_SERIAL_AMBA_PL010=3Dy
+> > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=3Dy
+> > +CONFIG_SERIAL_AMBA_PL011=3Dy
+> > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=3Dy''',
+> > +                               qemu_arch=3D'arm',
+> > +                               kernel_path=3D'arch/arm/boot/zImage',
+> > +                               kernel_command_line=3D'console=3DttyAMA=
+0',
+> > +                               extra_qemu_params=3D['-machine virt']),
+> > +       'arm64'         : QemuArchParams(linux_arch=3D'arm64',
+> > +                               qemuconfig=3D'''CONFIG_SERIAL_AMBA_PL01=
+0=3Dy
+> > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=3Dy
+> > +CONFIG_SERIAL_AMBA_PL011=3Dy
+> > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=3Dy''',
+> > +                               qemu_arch=3D'aarch64',
+> > +                               kernel_path=3D'arch/arm64/boot/Image.gz=
+',
+> > +                               kernel_command_line=3D'console=3DttyAMA=
+0',
+> > +                               extra_qemu_params=3D['-machine virt', '=
+-cpu cortex-a57']),
+> > +       'alpha'         : QemuArchParams(linux_arch=3D'alpha',
+> > +                               qemuconfig=3D'CONFIG_SERIAL_8250=3Dy\nC=
+ONFIG_SERIAL_8250_CONSOLE=3Dy',
+> > +                               qemu_arch=3D'alpha',
+> > +                               kernel_path=3D'arch/alpha/boot/vmlinux'=
+,
+> > +                               kernel_command_line=3D'console=3DttyS0'=
+,
+> > +                               extra_qemu_params=3D['']),
+> > +       'powerpc'       : QemuArchParams(linux_arch=3D'powerpc',
+> > +                               qemuconfig=3D'CONFIG_PPC64=3Dy\nCONFIG_=
+SERIAL_8250=3Dy\nCONFIG_SERIAL_8250_CONSOLE=3Dy\nCONFIG_HVC_CONSOLE=3Dy',
+> > +                               qemu_arch=3D'ppc64',
+> > +                               kernel_path=3D'vmlinux',
+> > +                               kernel_command_line=3D'console=3DttyS0'=
+,
+> > +                               extra_qemu_params=3D['-M pseries', '-cp=
+u power8']),
+> > +       'riscv'         : QemuArchParams(linux_arch=3D'riscv',
+> > +                               qemuconfig=3D'CONFIG_SOC_VIRT=3Dy\nCONF=
+IG_SERIAL_8250=3Dy\nCONFIG_SERIAL_8250_CONSOLE=3Dy\nCONFIG_SERIAL_OF_PLATFO=
+RM=3Dy\nCONFIG_SERIAL_EARLYCON_RISCV_SBI=3Dy',
+> > +                               qemu_arch=3D'riscv64',
+> > +                               kernel_path=3D'arch/riscv/boot/Image',
+> > +                               kernel_command_line=3D'console=3DttyS0'=
+,
+> > +                               extra_qemu_params=3D['-machine virt', '=
+-cpu rv64', '-bios opensbi-riscv64-generic-fw_dynamic.bin']),
+> > +       's390'          : QemuArchParams(linux_arch=3D's390',
+> > +                               qemuconfig=3D'CONFIG_EXPERT=3Dy\nCONFIG=
+_TUNE_ZEC12=3Dy\nCONFIG_NUMA=3Dy\nCONFIG_MODULES=3Dy',
+> > +                               qemu_arch=3D's390x',
+> > +                               kernel_path=3D'arch/s390/boot/bzImage',
+> > +                               kernel_command_line=3D'console=3DttyS0'=
+,
+> > +                               extra_qemu_params=3D[
+> > +                                               '-machine s390-ccw-virt=
+io',
+> > +                                               '-cpu qemu',]),
+> > +       'sparc'         : QemuArchParams(linux_arch=3D'sparc',
+> > +                               qemuconfig=3D'CONFIG_SERIAL_8250=3Dy\nC=
+ONFIG_SERIAL_8250_CONSOLE=3Dy',
+> > +                               qemu_arch=3D'sparc',
+> > +                               kernel_path=3D'arch/sparc/boot/zImage',
+> > +                               kernel_command_line=3D'console=3DttyS0 =
+mem=3D256M',
+> > +                               extra_qemu_params=3D['-m 256']),
+> > +}
+>
+> Oh my.
+> I don't know enough to say if there's a better way of doing this.
+
+Yeah, I know it's gross, but I did not want to put too much effort
+into until I got some feedback on it.
+
+> But I think we should probably split this out into a separate python
+> file, if this mapping remains necessary.
+> E.g. in a qemu_configs.py file or the like.
+
+Definitely an improvement. Any other thoughts on how to make this look
+less gross?
+
+>
+> > +
+> > +class LinuxSourceTreeOperationsQemu(LinuxSourceTreeOperations):
+>
+> I've called out the two errors pytype gives already, but mypy is even
+> worse about this new class :(
+>
+> $ mypy tools/testing/kunit/*.py
+> tools/testing/kunit/kunit_kernel.py:90: error: Unsupported operand
+> types for + ("str" and "OSError")
+> tools/testing/kunit/kunit_kernel.py:278: error: Incompatible types in
+> assignment (expression has type "LinuxSourceTreeOperationsQemu",
+> variable has type "Optional[LinuxSourceTreeOperationsUml]")
+> tools/testing/kunit/kunit_kernel.py:298: error: Item "None" of
+> "Optional[LinuxSourceTreeOperationsUml]" has no attribute
+> "make_mrproper"
+> tools/testing/kunit/kunit_kernel.py:324: error: Item "None" of
+> "Optional[LinuxSourceTreeOperationsUml]" has no attribute
+> "make_arch_qemuconfig"
+> tools/testing/kunit/kunit_kernel.py:325: error: Item "None" of
+> "Optional[LinuxSourceTreeOperationsUml]" has no attribute
+> "make_olddefconfig"
+> tools/testing/kunit/kunit_kernel.py:352: error: Item "None" of
+> "Optional[LinuxSourceTreeOperationsUml]" has no attribute
+> "make_allyesconfig"
+> tools/testing/kunit/kunit_kernel.py:353: error: Item "None" of
+> "Optional[LinuxSourceTreeOperationsUml]" has no attribute
+> "make_arch_qemuconfig"
+> tools/testing/kunit/kunit_kernel.py:354: error: Item "None" of
+> "Optional[LinuxSourceTreeOperationsUml]" has no attribute
+> "make_olddefconfig"
+> tools/testing/kunit/kunit_kernel.py:355: error: Item "None" of
+> "Optional[LinuxSourceTreeOperationsUml]" has no attribute "make"
+> tools/testing/kunit/kunit_kernel.py:368: error: Item "None" of
+> "Optional[LinuxSourceTreeOperationsUml]" has no attribute "run"
+>
+> So to make up for mypy being less smart, we can do this and get it down 2=
+ errors
+
+Sounds good. Will do.
+
+> diff --git a/tools/testing/kunit/kunit_kernel.py
+> b/tools/testing/kunit/kunit_kernel.py
+> index b8b3b76aaa17..a0aaa28db4c1 100644
+> --- a/tools/testing/kunit/kunit_kernel.py
+> +++ b/tools/testing/kunit/kunit_kernel.py
+> @@ -11,7 +11,7 @@ import subprocess
+>  import os
+>  import shutil
+>  import signal
+> -from typing import Iterator
+> +from typing import Iterator, Union
+>
+>  from contextlib import ExitStack
+>
+> @@ -269,15 +269,16 @@ class LinuxSourceTree(object):
+>
+>         def __init__(self, build_dir: str, load_config=3DTrue,
+> kunitconfig_path=3D'', arch=3DNone, cross_compile=3DNone) -> None:
+>                 signal.signal(signal.SIGINT, self.signal_handler)
+> -               self._ops =3D None
+> +               ops =3D None # type: Union[None,
+> LinuxSourceTreeOperationsUml, LinuxSourceTreeOperationsQemu]
+>                 if arch is None or arch =3D=3D 'um':
+>                         self._arch =3D 'um'
+> -                       self._ops =3D LinuxSourceTreeOperationsUml()
+> +                       ops =3D LinuxSourceTreeOperationsUml()
+>                 elif arch in QEMU_ARCHS:
+>                         self._arch =3D arch
+> -                       self._ops =3D
+> LinuxSourceTreeOperationsQemu(QEMU_ARCHS[arch],
+> cross_compile=3Dcross_compile)
+> +                       ops =3D
+> LinuxSourceTreeOperationsQemu(QEMU_ARCHS[arch],
+> cross_compile=3Dcross_compile)
+>                 else:
+>                         raise ConfigError(arch + ' is not a valid arch')
+> +               self._ops =3D ops
+>
+>                 if not load_config:
+>                         return
+>
+> > +
+> > +       def __init__(self, qemu_arch_params, cross_compile):
+> > +               super().__init__(linux_arch=3Dqemu_arch_params.linux_ar=
+ch,
+> > +                                cross_compile=3Dcross_compile)
+> > +               self._qemuconfig =3D qemu_arch_params.qemuconfig
+> > +               self._qemu_arch =3D qemu_arch_params.qemu_arch
+> > +               self._kernel_path =3D qemu_arch_params.kernel_path
+> > +               print(self._kernel_path)
+> looks like a leftover debugging print statement?
+
+Oh yeah. Whoops.
+
+> > +               self._kernel_command_line =3D qemu_arch_params.kernel_c=
+ommand_line + ' kunit_shutdown=3Dreboot'
+> > +               self._extra_qemu_params =3D qemu_arch_params.extra_qemu=
+_params
+> > +
+> > +       def make_arch_qemuconfig(self, build_dir):
+> > +               qemuconfig =3D kunit_config.Kconfig()
+> > +               qemuconfig.parse_from_string(self._qemuconfig)
+> > +               qemuconfig.write_to_file(get_kconfig_path(build_dir))
+> > +
+> > +       def run(self, params, timeout, build_dir, outfile):
+> > +               kernel_path =3D os.path.join(build_dir, self._kernel_pa=
+th)
+> > +               qemu_command =3D ['qemu-system-' + self._qemu_arch,
+> > +                               '-nodefaults',
+> > +                               '-m', '1024',
+> > +                               '-kernel', kernel_path,
+> > +                               '-append', '\'' + ' '.join(params + [se=
+lf._kernel_command_line]) + '\'',
+> > +                               '-no-reboot',
+> > +                               '-nographic',
+> > +                               '-serial stdio'] + self._extra_qemu_par=
+ams
+> > +               print(' '.join(qemu_command))
+>
+> ditto, a debug statement?
+> Though this one could be useful to actually print out for the user if
+> we include some more context in the message.
+
+Yeah, this was initially a debug, but then I ended up finding it
+pretty useful since it spits out a full qemu command that you can just
+run outside of the tool, so I left it in.
+
+> > +               with open(outfile, 'w') as output:
+> > +                       process =3D subprocess.Popen(' '.join(qemu_comm=
+and),
+> > +                                                  stdin=3Dsubprocess.P=
+IPE,
+> > +                                                  stdout=3Doutput,
+> > +                                                  stderr=3Dsubprocess.=
+STDOUT,
+> > +                                                  text=3DTrue, shell=
+=3DTrue)
+> > +               try:
+> > +                       process.wait(timeout=3Dtimeout)
+> > +               except Exception as e:
+> > +                       print(e)
+> > +                       process.terminate()
+> > +               return process
+> > +
+> > +class LinuxSourceTreeOperationsUml(LinuxSourceTreeOperations):
+> > +       """An abstraction over command line operations performed on a s=
+ource tree."""
+> > +
+> > +       def __init__(self):
+> > +               super().__init__(linux_arch=3D'um', cross_compile=3DNon=
+e)
+> > +
+> >         def make_allyesconfig(self, build_dir, make_options) -> None:
+> >                 kunit_parser.print_with_timestamp(
+> >                         'Enabling all CONFIGs for UML...')
+> > @@ -83,32 +243,16 @@ class LinuxSourceTreeOperations(object):
+> >                 kunit_parser.print_with_timestamp(
+> >                         'Starting Kernel with all configs takes a few m=
+inutes...')
+> >
+> > -       def make(self, jobs, build_dir, make_options) -> None:
+> > -               command =3D ['make', 'ARCH=3Dum', '--jobs=3D' + str(job=
+s)]
+> > -               if make_options:
+> > -                       command.extend(make_options)
+> > -               if build_dir:
+> > -                       command +=3D ['O=3D' + build_dir]
+> > -               try:
+> > -                       proc =3D subprocess.Popen(command,
+> > -                                               stderr=3Dsubprocess.PIP=
+E,
+> > -                                               stdout=3Dsubprocess.DEV=
+NULL)
+> > -               except OSError as e:
+> > -                       raise BuildError('Could not call make command: =
+' + str(e))
+> > -               _, stderr =3D proc.communicate()
+> > -               if proc.returncode !=3D 0:
+> > -                       raise BuildError(stderr.decode())
+> > -               if stderr:  # likely only due to build warnings
+> > -                       print(stderr.decode())
+> > -
+> > -       def linux_bin(self, params, timeout, build_dir) -> None:
+> > +       def run(self, params, timeout, build_dir, outfile):
+> >                 """Runs the Linux UML binary. Must be named 'linux'."""
+> >                 linux_bin =3D get_file_path(build_dir, 'linux')
+> >                 outfile =3D get_outfile_path(build_dir)
+> >                 with open(outfile, 'w') as output:
+> >                         process =3D subprocess.Popen([linux_bin] + para=
+ms,
+> > +                                                  stdin=3Dsubprocess.P=
+IPE,
+> >                                                    stdout=3Doutput,
+> > -                                                  stderr=3Dsubprocess.=
+STDOUT)
+> > +                                                  stderr=3Dsubprocess.=
+STDOUT,
+> > +                                                  text=3DTrue)
+> >                         process.wait(timeout)
+> >
+> >  def get_kconfig_path(build_dir) -> str:
+> > @@ -123,10 +267,17 @@ def get_outfile_path(build_dir) -> str:
+> >  class LinuxSourceTree(object):
+> >         """Represents a Linux kernel source tree with KUnit tests."""
+> >
+> > -       def __init__(self, build_dir: str, load_config=3DTrue, kunitcon=
+fig_path=3D'') -> None:
+> > +       def __init__(self, build_dir: str, load_config=3DTrue, kunitcon=
+fig_path=3D'', arch=3DNone, cross_compile=3DNone) -> None:
+> >                 signal.signal(signal.SIGINT, self.signal_handler)
+> > -
+> > -               self._ops =3D LinuxSourceTreeOperations()
+> > +               self._ops =3D None
+> > +               if arch is None or arch =3D=3D 'um':
+> > +                       self._arch =3D 'um'
+> > +                       self._ops =3D LinuxSourceTreeOperationsUml()
+> > +               elif arch in QEMU_ARCHS:
+> > +                       self._arch =3D arch
+> > +                       self._ops =3D LinuxSourceTreeOperationsQemu(QEM=
+U_ARCHS[arch], cross_compile=3Dcross_compile)
+> > +               else:
+> > +                       raise ConfigError(arch + ' is not a valid arch'=
+)
+> >
+> >                 if not load_config:
+> >                         return
+> > @@ -170,6 +321,7 @@ class LinuxSourceTree(object):
+> >                         os.mkdir(build_dir)
+> >                 self._kconfig.write_to_file(kconfig_path)
+> >                 try:
+> > +                       self._ops.make_arch_qemuconfig(build_dir)
+> >                         self._ops.make_olddefconfig(build_dir, make_opt=
+ions)
+> >                 except ConfigError as e:
+> >                         logging.error(e)
+> > @@ -192,10 +344,13 @@ class LinuxSourceTree(object):
+> >                         print('Generating .config ...')
+> >                         return self.build_config(build_dir, make_option=
+s)
+> >
+> > -       def build_um_kernel(self, alltests, jobs, build_dir, make_optio=
+ns) -> bool:
+> > +       def build_kernel(self, alltests, jobs, build_dir, make_options)=
+ -> bool:
+> >                 try:
+> >                         if alltests:
+> > +                               if self._arch !=3D 'um':
+> > +                                       raise ConfigError('Only the "um=
+" arch is supported for alltests')
+> >                                 self._ops.make_allyesconfig(build_dir, =
+make_options)
+>
+> Minor note: pytype doesn't like this.
+> The code is correct, but pytype can't figure out that ops can't be the
+> QEMU variant.
+>
+> Pytype recognizes comments like " # pytype: disable=3Dattribute-error"
+> but mypy doesn't.
+> So I don't know that there's a way we can make both of them happy :/
+
+Hmmm...I could just add make_allyesconfig() to the base class and make
+it raise. That might be cleaner too.
+
+>
+> > +                       self._ops.make_arch_qemuconfig(build_dir)
+> >                         self._ops.make_olddefconfig(build_dir, make_opt=
+ions)
+> >                         self._ops.make(jobs, build_dir, make_options)
+> >                 except (ConfigError, BuildError) as e:
+> > @@ -209,8 +364,8 @@ class LinuxSourceTree(object):
+> >                 args.extend(['mem=3D1G', 'console=3Dtty','kunit_shutdow=
+n=3Dhalt'])
+> >                 if filter_glob:
+> >                         args.append('kunit.filter_glob=3D'+filter_glob)
+> > -               self._ops.linux_bin(args, timeout, build_dir)
+> >                 outfile =3D get_outfile_path(build_dir)
+> > +               self._ops.run(args, timeout, build_dir, outfile)
+> >                 subprocess.call(['stty', 'sane'])
+> >                 with open(outfile, 'r') as file:
+> >                         for line in file:
+> > diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kun=
+it/kunit_tool_test.py
+> > index 1ad3049e90698..25e8be95a575d 100755
+> > --- a/tools/testing/kunit/kunit_tool_test.py
+> > +++ b/tools/testing/kunit/kunit_tool_test.py
+> > @@ -297,7 +297,7 @@ class KUnitMainTest(unittest.TestCase):
+> >
+> >                 self.linux_source_mock =3D mock.Mock()
+> >                 self.linux_source_mock.build_reconfig =3D mock.Mock(ret=
+urn_value=3DTrue)
+> > -               self.linux_source_mock.build_um_kernel =3D mock.Mock(re=
+turn_value=3DTrue)
+> > +               self.linux_source_mock.build_kernel =3D mock.Mock(retur=
+n_value=3DTrue)
+> >                 self.linux_source_mock.run_kernel =3D mock.Mock(return_=
+value=3Dall_passed_log)
+> >
+> >         def test_config_passes_args_pass(self):
+> > @@ -308,7 +308,7 @@ class KUnitMainTest(unittest.TestCase):
+> >         def test_build_passes_args_pass(self):
+> >                 kunit.main(['build'], self.linux_source_mock)
+> >                 self.assertEqual(self.linux_source_mock.build_reconfig.=
+call_count, 0)
+> > -               self.linux_source_mock.build_um_kernel.assert_called_on=
+ce_with(False, 8, '.kunit', None)
+> > +               self.linux_source_mock.build_kernel.assert_called_once_=
+with(False, 8, '.kunit', None)
+> >                 self.assertEqual(self.linux_source_mock.run_kernel.call=
+_count, 0)
+> >
+> >         def test_exec_passes_args_pass(self):
+> > @@ -390,7 +390,7 @@ class KUnitMainTest(unittest.TestCase):
+> >         def test_build_builddir(self):
+> >                 build_dir =3D '.kunit'
+> >                 kunit.main(['build', '--build_dir', build_dir], self.li=
+nux_source_mock)
+> > -               self.linux_source_mock.build_um_kernel.assert_called_on=
+ce_with(False, 8, build_dir, None)
+> > +               self.linux_source_mock.build_kernel.assert_called_once_=
+with(False, 8, build_dir, None)
+> >
+> >         def test_exec_builddir(self):
+> >                 build_dir =3D '.kunit'
+> > @@ -404,14 +404,19 @@ class KUnitMainTest(unittest.TestCase):
+> >                 mock_linux_init.return_value =3D self.linux_source_mock
+> >                 kunit.main(['run', '--kunitconfig=3Dmykunitconfig'])
+> >                 # Just verify that we parsed and initialized it correct=
+ly here.
+> > -               mock_linux_init.assert_called_once_with('.kunit', kunit=
+config_path=3D'mykunitconfig')
+> > +               mock_linux_init.assert_called_once_with('.kunit',
+> > +                                                       kunitconfig_pat=
+h=3D'mykunitconfig',
+> > +                                                       arch=3D'um',
+> > +                                                       cross_compile=
+=3DNone)
+> >
+> >         @mock.patch.object(kunit_kernel, 'LinuxSourceTree')
+> >         def test_config_kunitconfig(self, mock_linux_init):
+> >                 mock_linux_init.return_value =3D self.linux_source_mock
+> >                 kunit.main(['config', '--kunitconfig=3Dmykunitconfig'])
+> >                 # Just verify that we parsed and initialized it correct=
+ly here.
+> > -               mock_linux_init.assert_called_once_with('.kunit', kunit=
+config_path=3D'mykunitconfig')
+> > +               mock_linux_init.assert_called_once_with('.kunit',
+> > +                                                       kunitconfig_pat=
+h=3D'mykunitconfig',
+> > +                                                       arch=3D'um')
+> >
+> >  if __name__ =3D=3D '__main__':
+> >         unittest.main()
+> > --
+> > 2.31.1.498.g6c1eba8ee3d-goog
+> >
