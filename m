@@ -2,227 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CF2C43600
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 10:58:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FAC3C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 11:06:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE7106145A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 10:58:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5247761458
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 11:06:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231402AbhD3K7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Apr 2021 06:59:37 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52122 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230030AbhD3K7g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Apr 2021 06:59:36 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 93C54B290;
-        Fri, 30 Apr 2021 10:58:47 +0000 (UTC)
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     daniel@ffwll.ch, airlied@linux.ie,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
-        broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
-        emil.l.velikov@gmail.com, geert+renesas@glider.be,
-        hdegoede@redhat.com, bluescreen_avenger@verizon.net,
-        gregkh@linuxfoundation.org
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v5 8/9] drm/simpledrm: Acquire regulators from DT device node
-Date:   Fri, 30 Apr 2021 12:58:39 +0200
-Message-Id: <20210430105840.30515-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210430105840.30515-1-tzimmermann@suse.de>
-References: <20210430105840.30515-1-tzimmermann@suse.de>
+        id S229598AbhD3LHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Apr 2021 07:07:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58056 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229543AbhD3LHG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Apr 2021 07:07:06 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2FF8C06174A
+        for <linux-doc@vger.kernel.org>; Fri, 30 Apr 2021 04:06:18 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id p17so8357372pjz.3
+        for <linux-doc@vger.kernel.org>; Fri, 30 Apr 2021 04:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2MEFbp6KPTYqgIUMgYJXiZoUbzUO0jUr7RYqY21a9nI=;
+        b=iPEWEfmJylg/WXG3j9lVU8KT3ITMcD1Js2Zv/3x2ebNPZO2umwN+Vde+aY7417NnOp
+         QBEg8b9OOiUiVeeplo6w+K4EL33g3CyhQYcNRoffuPeM43e+G93vvSfir5AAYBUcn75w
+         OVxIogqEGAcpIqZ1OF43GWUtFmJWI/G747SGObEbXphSMfRL2CzyYcN/4NQn+PmDPEzS
+         0Zm81a+CrYT45FOiqGKXpDN24Ve01CLxPS9JHRIg4yCYjb2bMjK8prOU57JR+ru/m92c
+         zVmXlUD3n9p2xGIC7EHcJW9mci7e6mZHrcWa7NVcLvYsZ6XvEeTEM7gxUnc+NB4LY6u6
+         r03A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2MEFbp6KPTYqgIUMgYJXiZoUbzUO0jUr7RYqY21a9nI=;
+        b=mKD6Hb9lwKpUlExal9r+1f8rBLuxqlPd55SO/X9/WTMWHh+dw6KH0wHUcp5CiNBhXq
+         f+dA4Pk8VcSKroXwPaLkMEJkUfPprpHNhdMh83SdXFSmQphKlz6RvKlgIkQQ1r8C1L6n
+         iarPxbmuTPsIR2maGGF79J03+iCitU9gVdO1rfbmJV1IBtK9h0hagpz7poZEmH8wlB3y
+         5TPECx5RmHFPb0ok/reCCI8dfy/xEN+fTvBark+V78kGCf6PC61dpDGj595ZJ/VPspaF
+         egY0RTdNd2w38iQK734XjpW53oG2gARA1U/OmjDb8MCYt5eC018YIyW4ytZIVmhR8qVn
+         5nCg==
+X-Gm-Message-State: AOAM5330cGy91h902EoE++8ho//p/813Wq2kIXalBKeczCeWcRV35XAW
+        f5c2CpNecGFcUGYVjKzw1c4=
+X-Google-Smtp-Source: ABdhPJxf1g7mJXRPaiF8j102JlTf6gH2AwsaGU9dXZsjXmpYGX0UZGgB/MIdakziW9LIdhJ7p0uA0w==
+X-Received: by 2002:a17:90a:1284:: with SMTP id g4mr4921229pja.66.1619780778420;
+        Fri, 30 Apr 2021 04:06:18 -0700 (PDT)
+Received: from [127.0.0.1] (93.179.119.173.16clouds.com. [93.179.119.173])
+        by smtp.gmail.com with ESMTPSA id e10sm1820644pfc.40.2021.04.30.04.06.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Apr 2021 04:06:17 -0700 (PDT)
+Subject: Re: [PATCH 1/3] docs/zh_CN: add core-api kernel-api.rst translation
+To:     Matthew Wilcox <willy@infradead.org>,
+        Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com
+References: <cover.1618836460.git.siyanteng@loongson.cn>
+ <301caca03324dd367830a50ff84e250882b91957.1618836460.git.siyanteng@loongson.cn>
+ <20210419133526.GB2531743@casper.infradead.org>
+From:   Alex Shi <seakeel@gmail.com>
+Message-ID: <77f0e536-9458-5ef2-6cd8-6d47f0452e14@gmail.com>
+Date:   Fri, 30 Apr 2021 19:06:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210419133526.GB2531743@casper.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make sure required hardware regulators are enabled while the firmware
-framebuffer is in use.
 
-The basic code has been taken from the simplefb driver and adapted
-to DRM. Regulators are released automatically via devres helpers.
 
-v2:
-	* use strscpy()
+On 2021/4/19 下午9:35, Matthew Wilcox wrote:
+> On Mon, Apr 19, 2021 at 09:10:55PM +0800, Yanteng Si wrote:
+>> This patch translates Documentation/core-api/kernel-api.rst into Chinese.
+> 
+> I don't speak one word of Chinese, but this can't be right?
+> 
+>> +列表管理函数
+>> +============
+>> +
+>> +Todolist:
+>> +
+>> +   :internal:
+> 
+> The corresponding section in English is:
+> 
+> List Management Functions
+> =========================
+> 
+> .. kernel-doc:: include/linux/list.h
+>    :internal:
+> 
+> and surely you need a '.. kernel-doc' to have the ':internal:' make sense?
+> 
+> Then, I wonder how useful it is to bring kernel-doc written in English
+> into a Chinese document?  Wouldn't we be better off admitting that we
+> don't provide Chinese documentation for kernel APIs and referring to
+> the English documents?
+> 
+> (I would love nothing more than to provide Chinese documentation for
+> kernel APIs, but we don't have any kind of system for providing that
+> today)
+> 
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
----
- drivers/gpu/drm/tiny/simpledrm.c | 128 +++++++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+I wouldn't reject the Chinese version of kernel-api, but a bit concern
+of the subtle of the doc could be kept in translation. It would be a
+big challenge. :)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 996318500abf..9d522473cd7c 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -4,6 +4,7 @@
- #include <linux/of_clk.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
-+#include <linux/regulator/consumer.h>
- 
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_connector.h>
-@@ -197,6 +198,11 @@ struct simpledrm_device {
- 	unsigned int clk_count;
- 	struct clk **clks;
- #endif
-+	/* regulators */
-+#if defined CONFIG_OF && defined CONFIG_REGULATOR
-+	unsigned int regulator_count;
-+	struct regulator **regulators;
-+#endif
- 
- 	/* simplefb settings */
- 	struct drm_display_mode mode;
-@@ -316,6 +322,125 @@ static int simpledrm_device_init_clocks(struct simpledrm_device *sdev)
- }
- #endif
- 
-+#if defined CONFIG_OF && defined CONFIG_REGULATOR
-+
-+#define SUPPLY_SUFFIX "-supply"
-+
-+/*
-+ * Regulator handling code.
-+ *
-+ * Here we handle the num-supplies and vin*-supply properties of our
-+ * "simple-framebuffer" dt node. This is necessary so that we can make sure
-+ * that any regulators needed by the display hardware that the bootloader
-+ * set up for us (and for which it provided a simplefb dt node), stay up,
-+ * for the life of the simplefb driver.
-+ *
-+ * When the driver unloads, we cleanly disable, and then release the
-+ * regulators.
-+ *
-+ * We only complain about errors here, no action is taken as the most likely
-+ * error can only happen due to a mismatch between the bootloader which set
-+ * up simplefb, and the regulator definitions in the device tree. Chances are
-+ * that there are no adverse effects, and if there are, a clean teardown of
-+ * the fb probe will not help us much either. So just complain and carry on,
-+ * and hope that the user actually gets a working fb at the end of things.
-+ */
-+
-+static void simpledrm_device_release_regulators(void *res)
-+{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(res);
-+	unsigned int i;
-+
-+	for (i = 0; i < sdev->regulator_count; ++i) {
-+		if (sdev->regulators[i]) {
-+			regulator_disable(sdev->regulators[i]);
-+			regulator_put(sdev->regulators[i]);
-+		}
-+	}
-+}
-+
-+static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
-+{
-+	struct drm_device *dev = &sdev->dev;
-+	struct platform_device *pdev = sdev->pdev;
-+	struct device_node *of_node = pdev->dev.of_node;
-+	struct property *prop;
-+	struct regulator *regulator;
-+	const char *p;
-+	unsigned int count = 0, i = 0;
-+	int ret;
-+
-+	if (dev_get_platdata(&pdev->dev) || !of_node)
-+		return 0;
-+
-+	/* Count the number of regulator supplies */
-+	for_each_property_of_node(of_node, prop) {
-+		p = strstr(prop->name, SUPPLY_SUFFIX);
-+		if (p && p != prop->name)
-+			++count;
-+	}
-+
-+	if (!count)
-+		return 0;
-+
-+	sdev->regulators = drmm_kzalloc(dev,
-+					count * sizeof(sdev->regulators[0]),
-+					GFP_KERNEL);
-+	if (!sdev->regulators)
-+		return -ENOMEM;
-+
-+	for_each_property_of_node(of_node, prop) {
-+		char name[32]; /* 32 is max size of property name */
-+		size_t len;
-+
-+		p = strstr(prop->name, SUPPLY_SUFFIX);
-+		if (!p || p == prop->name)
-+			continue;
-+		len = strlen(prop->name) - strlen(SUPPLY_SUFFIX) + 1;
-+		strscpy(name, prop->name, min(sizeof(name), len));
-+
-+		regulator = regulator_get_optional(&pdev->dev, name);
-+		if (IS_ERR(regulator)) {
-+			ret = PTR_ERR(regulator);
-+			if (ret == -EPROBE_DEFER)
-+				goto err;
-+			drm_err(dev, "regulator %s not found: %d\n",
-+				name, ret);
-+			continue;
-+		}
-+
-+		ret = regulator_enable(regulator);
-+		if (ret) {
-+			drm_err(dev, "failed to enable regulator %u: %d\n",
-+				i, ret);
-+			regulator_put(regulator);
-+		}
-+
-+		sdev->regulators[i++] = regulator;
-+	}
-+	sdev->regulator_count = i;
-+
-+	return devm_add_action_or_reset(&pdev->dev,
-+					simpledrm_device_release_regulators,
-+					sdev);
-+
-+err:
-+	while (i) {
-+		--i;
-+		if (sdev->regulators[i]) {
-+			regulator_disable(sdev->regulators[i]);
-+			regulator_put(sdev->regulators[i]);
-+		}
-+	}
-+	return ret;
-+}
-+#else
-+static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
-+{
-+	return 0;
-+}
-+#endif
-+
- /*
-  *  Simplefb settings
-  */
-@@ -658,6 +783,9 @@ simpledrm_device_create(struct drm_driver *drv, struct platform_device *pdev)
- 	platform_set_drvdata(pdev, sdev);
- 
- 	ret = simpledrm_device_init_clocks(sdev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	ret = simpledrm_device_init_regulators(sdev);
- 	if (ret)
- 		return ERR_PTR(ret);
- 	ret = simpledrm_device_init_fb(sdev);
--- 
-2.31.1
-
+Thanks
+Alex
