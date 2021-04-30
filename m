@@ -2,102 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C70DC433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 07:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE20EC433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 08:30:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7A2F6141C
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 07:00:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A488C6140C
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 08:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbhD3HA7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Apr 2021 03:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbhD3HA7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Apr 2021 03:00:59 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2756DC06174A
-        for <linux-doc@vger.kernel.org>; Fri, 30 Apr 2021 00:00:10 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id b5-20020a9d5d050000b02902a5883b0f4bso328235oti.2
-        for <linux-doc@vger.kernel.org>; Fri, 30 Apr 2021 00:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Tby4esKWeVGt+KmNV2WyuMp/kHDnibFbqo34oTQ123w=;
-        b=mMeI7NJw0NR6QibhEMfbgFvuZJ/GdjKvS9l5RHnT2mlpmwf6h+e2OJyt9S+Hmq8SmO
-         ucyhhWaDUf80AMu21OtK0MXQgO4mYuRJdYqFK81h9kdYTJLGeFKmWHcwOZN4u1KC50np
-         RUuvgFiDuTN6nxGyE+Zme2Gnxg4L/suHKt13dGw/K/I+hy0cNd2k5BJBEXU6ZVLFDlCl
-         khuQhXbzQMhfeUxGr4kmewP27KZpe9OT79hq3DrjMtsR/24TCA/q9ALR5OnjIHG2laJu
-         N6z3etKYJA4tXqql/rTEILWErbgcJxb5CKc/ZnGtXggxjjK7AdLSSIc6HDyyieOldgSE
-         AmeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Tby4esKWeVGt+KmNV2WyuMp/kHDnibFbqo34oTQ123w=;
-        b=p6yDfPi58uRkL/afsFlk8XPHvVyWqRcfmk4QHjFSswUqvssutCr2HwYc8EaN+45biG
-         N5W4SwakLzhfQ5/qszXR4/NuyZOR0scfI723+qerIKJ1PMG8qK6CngzinY/rR894wp3U
-         CCZzczHvnF/LNydIYFW+OdzkctMMDs4fU2jqrtqpvaAMC6BnUz5ASqD1COGuV3jH1irL
-         B5NWI5PsOWUgMT3kKaPlDeAj08mTMN+Pen+PwiGyON7kPTfa0W8uktxMCl364qUike26
-         azbcXsTaK4rq3ojkYfi6R0NBs2uscTXioZ2xTlIc82uZy3d5z+rUeoDfNl5cNEgBc9A2
-         kZ6w==
-X-Gm-Message-State: AOAM5322NPNLrVHQpqvdLUxMhzw+G4dREZ5zlntL5XT3eTsoz0QVw/cA
-        is43oe4Kc0yDJx7ckbZU5Jdzv1ALV4x0na3deW8=
-X-Google-Smtp-Source: ABdhPJxM2/jh1cKiLXwc054+ZLi3jFB0iQmjIf8NOxoKRktOtWEOrQvhHHHy1saDH/Ifq4p7Ur6iylo3Bv5EQialsdk=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr2475285otc.302.1619766009569;
- Fri, 30 Apr 2021 00:00:09 -0700 (PDT)
+        id S231397AbhD3IbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Apr 2021 04:31:05 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:59003 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229657AbhD3IbB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Apr 2021 04:31:01 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-40-Np76YJq-M2y5OMSF4pVFtw-1; Fri, 30 Apr 2021 09:30:08 +0100
+X-MC-Unique: Np76YJq-M2y5OMSF4pVFtw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Fri, 30 Apr 2021 09:30:08 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Fri, 30 Apr 2021 09:30:08 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Thomas Schoebel-Theuer' <tst@schoebel-theuer.de>,
+        Kajetan Puchalski <mrkajetanp@gmail.com>,
+        "mceier+kernel@gmail.com" <mceier+kernel@gmail.com>
+CC:     "ojeda@kernel.org" <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 00/13] [RFC] Rust support
+Thread-Topic: [PATCH 00/13] [RFC] Rust support
+Thread-Index: AQHXPYuWOFPh/tHqwUWOAL+H8MAuYKrMuQKA
+Date:   Fri, 30 Apr 2021 08:30:08 +0000
+Message-ID: <ac41b3c803364f0cbc6c931449c2a51d@AcuMS.aculab.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+ <878s51e3jc.fsf@gmail.com>
+ <7999ba57-9b95-265e-a189-d9ca01304b13@schoebel-theuer.de>
+In-Reply-To: <7999ba57-9b95-265e-a189-d9ca01304b13@schoebel-theuer.de>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-References: <cover.1619665430.git.siyanteng@loongson.cn> <7e64ac33597d69635497b03b29d63e17f905c96f.1619665430.git.siyanteng@loongson.cn>
- <20210429151058.GA23087@bobwxc.top> <87v985cbi6.fsf@meer.lwn.net> <CAEensMxWmRppXmxuYEsq-jS-psQ8N1Zim-d+CCOckig__RfN5w@mail.gmail.com>
-In-Reply-To: <CAEensMxWmRppXmxuYEsq-jS-psQ8N1Zim-d+CCOckig__RfN5w@mail.gmail.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Fri, 30 Apr 2021 14:59:59 +0800
-Message-ID: <CAEensMx2uidzxnwtvTyUs-XhkDEb28vGRxmE2xCiQf1p4MbPdQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] docs/zh_CN: add parisc index translation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng@loongson.cn>,
-        Alex Shi <alexs@kernel.org>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
-        huangjianghui@uniontech.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-yanteng si <siyanteng01@gmail.com> =E4=BA=8E2021=E5=B9=B44=E6=9C=8830=E6=97=
-=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=882:26=E5=86=99=E9=81=93=EF=BC=9A
->
->
->
-> Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B44=E6=9C=8830=E6=97=
-=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=8812:16=E5=86=99=E9=81=93=EF=BC=9A
->>
->> "Wu X.C." <bobwxc@email.cn> writes:
->>
->> > On Thu, Apr 29, 2021 at 11:33:33AM +0800, Yanteng Si wrote:
->> >> This path translates Documentation/parisc/index.rst into Chinese.
->> >>
->> >> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
->> >
->> > Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
->> >
->> > PA-RISC docs are silent, lastest practical activity on 2013-07-09.
->>
->> Indeed...PA-RISC in general is not a hotbed of activity these days.  Is
->> there some need in particular that is driving this translation?  The
->> work is there and I'll apply it, but I do wonder why...
->>
->
-> Just for fun, I just translated it after reading the English document.  ~=
->_<~
+RnJvbTogVGhvbWFzIFNjaG9lYmVsLVRoZXVlcg0KPiBTZW50OiAzMCBBcHJpbCAyMDIxIDA3OjQw
+DQouLi4NCj4gSW5kdXN0cnkgKHdoZXJlIEkgYW0gd29ya2luZykgb2Z0ZW4gcmVxdWlyZXMgYSAi
+c2Vjb25kIHNvdXJjZSIgdG8gYXZvaWQNCj4gdGhlIHNvLWNhbGxlZCAidmVuZG9yIGxvY2staW4i
+LCB3aGljaCBpcyB0aGUga2V5IHBvaW50IG9mIHRoaXMgcGFydCBvZg0KPiB0aGUgZGlzY3Vzc2lv
+bi4NCg0KVGhlcmUgaXMgYWxzbyB0aGUgcmVsYXRlZCBwcm9ibGVtIHRoYXQgeW91IG5lZWQgdG8g
+YmUgYWJsZSB0byBjb21lDQpiYWNrIGluIDUgeWVhcnMgdGltZSBhbmQgcmUtYnVpbGQgdGhlIG9y
+aWdpbmFsIGltYWdlLg0KWW91IGNhbiB0aGVuIG1ha2UgbWlub3IgY2hhbmdlcywgcmVidWlsZCwg
+YW5kIGhhdmUgYSByZWFzb25hYmxlDQpjb25maWRlbmNlIHRoYXQgdGhlcmUgYXJlIG5vIHNpZGUg
+ZWZmZWN0cy4NCg0KVGhpcyBtZWFucyB0aGF0IHdlYi1iYXNlZCBhbmQgYXV0by11cGRhdGVkIHRv
+b2xzIGNhbm5vdCBiZSB1c2VkLg0KRXZlbiBhIFZNIGltYWdlIG1pZ2h0IHN1ZGRlbmx5IGZhbGwg
+Zm91bCBvZiBjaGFuZ2VzIHRvIGh5cGVydmlzb3JzLg0KU28geW91IG5lZWQgdG8ga2VlcCAoYXQg
+bGVhc3QpIDIgc3lzdGVtIHRoYW4gY29udGFpbiBhbGwgdGhlIGJ1aWxkDQp0b29scyBqdXN0IGlu
+IGNhc2UgeW91IG5lZWQgdG8gZG8gYSBtYWludGVuYW5jZSBidWlsZCBvZiBhbiBvbGQgcmVsZWFz
+ZS4NCg0KQnV0IGV2ZW4gdGhlbiB3ZSBjYW4gbm8gbG9uZ2VyIGJ1aWxkIGRyaXZlcnMgZm9yIHNv
+bWUgd2luZG93cw0Kc3lzdGVtcyBiZWNhdXNlIHdlIGNhbid0IHNpZ24gdGhlbSB3aXRoIHRoZSBv
+bGQga2V5cy4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJh
+bWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0
+cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-My web version of Gmail occasionally switched to HTML mode and emails
-were dropped by the doc-list. T_T
