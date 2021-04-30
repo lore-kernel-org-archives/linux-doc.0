@@ -2,124 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A4F6C43461
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 06:45:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C70DC433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 07:00:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 668D46140C
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 06:45:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7A2F6141C
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 07:00:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230396AbhD3Gqk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Apr 2021 02:46:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50626 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230393AbhD3Gqj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Apr 2021 02:46:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619765151;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PFZmzCqPtD1TeQ1IgnxgwBuBBj2UfpUYGVhQ61V9gY0=;
-        b=CO1ZtfocqTxIz6aW0nd/4+5Y9Yz4QjnUh+TbPWjWzaTK7+XtPzCLTHUB9sBspp+qoA9r31
-        Lt6KUWv0GIPRF+EwGce5q45LOf/8sOfQQMuCOthTDWKdiym4vaK0bKSvVBnfVzUvwW0kk4
-        rxpPM0brZ8OkDEGQCoXHtIAcHgkpWP4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-bVvfBOJoOuGwtxj_hE5rSQ-1; Fri, 30 Apr 2021 02:45:46 -0400
-X-MC-Unique: bVvfBOJoOuGwtxj_hE5rSQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B23AB802939;
-        Fri, 30 Apr 2021 06:45:42 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-115-124.ams2.redhat.com [10.36.115.124])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A74C5D9C6;
-        Fri, 30 Apr 2021 06:45:27 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
- signals for shadow stack)
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
-        <20210427204315.24153-26-yu-cheng.yu@intel.com>
-        <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
-Date:   Fri, 30 Apr 2021 08:45:40 +0200
-In-Reply-To: <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
-        (Andy Lutomirski's message of "Wed, 28 Apr 2021 16:03:55 -0700")
-Message-ID: <87a6pgb78r.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        id S229769AbhD3HA7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Apr 2021 03:00:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229610AbhD3HA7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Apr 2021 03:00:59 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2756DC06174A
+        for <linux-doc@vger.kernel.org>; Fri, 30 Apr 2021 00:00:10 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id b5-20020a9d5d050000b02902a5883b0f4bso328235oti.2
+        for <linux-doc@vger.kernel.org>; Fri, 30 Apr 2021 00:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Tby4esKWeVGt+KmNV2WyuMp/kHDnibFbqo34oTQ123w=;
+        b=mMeI7NJw0NR6QibhEMfbgFvuZJ/GdjKvS9l5RHnT2mlpmwf6h+e2OJyt9S+Hmq8SmO
+         ucyhhWaDUf80AMu21OtK0MXQgO4mYuRJdYqFK81h9kdYTJLGeFKmWHcwOZN4u1KC50np
+         RUuvgFiDuTN6nxGyE+Zme2Gnxg4L/suHKt13dGw/K/I+hy0cNd2k5BJBEXU6ZVLFDlCl
+         khuQhXbzQMhfeUxGr4kmewP27KZpe9OT79hq3DrjMtsR/24TCA/q9ALR5OnjIHG2laJu
+         N6z3etKYJA4tXqql/rTEILWErbgcJxb5CKc/ZnGtXggxjjK7AdLSSIc6HDyyieOldgSE
+         AmeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Tby4esKWeVGt+KmNV2WyuMp/kHDnibFbqo34oTQ123w=;
+        b=p6yDfPi58uRkL/afsFlk8XPHvVyWqRcfmk4QHjFSswUqvssutCr2HwYc8EaN+45biG
+         N5W4SwakLzhfQ5/qszXR4/NuyZOR0scfI723+qerIKJ1PMG8qK6CngzinY/rR894wp3U
+         CCZzczHvnF/LNydIYFW+OdzkctMMDs4fU2jqrtqpvaAMC6BnUz5ASqD1COGuV3jH1irL
+         B5NWI5PsOWUgMT3kKaPlDeAj08mTMN+Pen+PwiGyON7kPTfa0W8uktxMCl364qUike26
+         azbcXsTaK4rq3ojkYfi6R0NBs2uscTXioZ2xTlIc82uZy3d5z+rUeoDfNl5cNEgBc9A2
+         kZ6w==
+X-Gm-Message-State: AOAM5322NPNLrVHQpqvdLUxMhzw+G4dREZ5zlntL5XT3eTsoz0QVw/cA
+        is43oe4Kc0yDJx7ckbZU5Jdzv1ALV4x0na3deW8=
+X-Google-Smtp-Source: ABdhPJxM2/jh1cKiLXwc054+ZLi3jFB0iQmjIf8NOxoKRktOtWEOrQvhHHHy1saDH/Ifq4p7Ur6iylo3Bv5EQialsdk=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr2475285otc.302.1619766009569;
+ Fri, 30 Apr 2021 00:00:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <cover.1619665430.git.siyanteng@loongson.cn> <7e64ac33597d69635497b03b29d63e17f905c96f.1619665430.git.siyanteng@loongson.cn>
+ <20210429151058.GA23087@bobwxc.top> <87v985cbi6.fsf@meer.lwn.net> <CAEensMxWmRppXmxuYEsq-jS-psQ8N1Zim-d+CCOckig__RfN5w@mail.gmail.com>
+In-Reply-To: <CAEensMxWmRppXmxuYEsq-jS-psQ8N1Zim-d+CCOckig__RfN5w@mail.gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Fri, 30 Apr 2021 14:59:59 +0800
+Message-ID: <CAEensMx2uidzxnwtvTyUs-XhkDEb28vGRxmE2xCiQf1p4MbPdQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs/zh_CN: add parisc index translation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng@loongson.cn>,
+        Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        huangjianghui@uniontech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Andy Lutomirski:
-
-> The kernel has:
+yanteng si <siyanteng01@gmail.com> =E4=BA=8E2021=E5=B9=B44=E6=9C=8830=E6=97=
+=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=882:26=E5=86=99=E9=81=93=EF=BC=9A
 >
-> struct rt_sigframe {
->     char __user *pretcode;
->     struct ucontext uc;
->     struct siginfo info;
->     /* fp state follows here */
-> };
 >
-> This is roughly the actual signal frame.  But userspace does not have
-> this struct declared, and user code does not know the sizes of the
-> fields.  So it's accessed in a nonsensical way.  The signal handler
-> function is passed a pointer to the whole sigframe implicitly in RSP,
-> a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
-> User code can *find* the fp state by following a pointer from
-> mcontext, which is, in turn, found via uc:
 >
-> struct ucontext {
->     unsigned long      uc_flags;
->     struct ucontext  *uc_link;
->     stack_t          uc_stack;
->     struct sigcontext uc_mcontext;  <-- fp pointer is in here
->     sigset_t      uc_sigmask;    /* mask last for extensibility */
-> };
+> Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B44=E6=9C=8830=E6=97=
+=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=8812:16=E5=86=99=E9=81=93=EF=BC=9A
+>>
+>> "Wu X.C." <bobwxc@email.cn> writes:
+>>
+>> > On Thu, Apr 29, 2021 at 11:33:33AM +0800, Yanteng Si wrote:
+>> >> This path translates Documentation/parisc/index.rst into Chinese.
+>> >>
+>> >> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+>> >
+>> > Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+>> >
+>> > PA-RISC docs are silent, lastest practical activity on 2013-07-09.
+>>
+>> Indeed...PA-RISC in general is not a hotbed of activity these days.  Is
+>> there some need in particular that is driving this translation?  The
+>> work is there and I'll apply it, but I do wonder why...
+>>
+>
+> Just for fun, I just translated it after reading the English document.  ~=
+>_<~
 
-I must say that I haven't reviewed this in detail, but for historic
-reasons, glibc userspace has a differently-sized sigset_t.  So the
-kernel ucontext (used in signals) and user ucontext (used for
-swapcontext et al.) are already fully decoupled?
-
-Thanks,
-Florian
-
+My web version of Gmail occasionally switched to HTML mode and emails
+were dropped by the doc-list. T_T
