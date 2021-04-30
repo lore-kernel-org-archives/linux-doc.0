@@ -2,188 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D20C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 06:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A4F6C43461
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 06:45:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6C21613CA
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 06:39:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 668D46140C
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Apr 2021 06:45:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbhD3Gkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Apr 2021 02:40:32 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:19693 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbhD3Gkc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Apr 2021 02:40:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1619764777; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=bVm8aeh/RhVR+0lCg2A9CegWl8+Z/njjNXJhRMkx4BsdaZKye/ULvbqoCHBkdpD9eI
-    SOEy8M9tWBFcRS6byzbMHiAOi8Z/oSiaB7+447y3tOuay5jU/RHrVPqflzSHtNYzKAFu
-    KfSFzdn3Noh/dBIlGtEUdQLulKTT3nOHvZ3MhFL1HxohXDrZtU5HDy/pXJIiN7NS/P11
-    MksOvgmAcPkMz/2cbajVCett/uVqqs2r9A0pr7NYrQzZ2CosrG+jF9sFDjnLDDP02Lie
-    stLkG8Tf2SH8EhRNJCHQC1cFYcyjlNlMgymvWJaNKXe8UspocFmTL69TLfLQ7fjY2+En
-    mttw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1619764777;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=6z6l9+rojPJlZtid+Fe8AU76hH1sc4rG7fZbTRHV48w=;
-    b=JilQsVn8WE+2yytr725uF6gw9hzqROzu0VokNeG8McFt8c6/JySHZ7cywDkD+RIKvH
-    oBjiS2yoGDNZ4fCDI6HIy1F3QhoynSLjC69x2A/7agw2LDsSH/DJf3l2oEZdFwPzR608
-    nEYqHzE1RDwpWX6yBgRsA+bpulOBOHFhY+GwotXdX/f3aEacThvGmoOkYXJ5ccpiSc1+
-    PO7wmYED1U9qcJf9nq++XjipU1cRkAVqMRVdev2wO9I0c+uj2YGo/VPy9cWkN15aSbvI
-    hqBcnyz4N737aaxGXzqFImpp4kF4N9KX5R1RcfYHPrxWmym0Q4c97IKvsZ/ydha1dIwl
-    hjPg==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1619764777;
-    s=strato-dkim-0002; d=schoebel-theuer.de;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=6z6l9+rojPJlZtid+Fe8AU76hH1sc4rG7fZbTRHV48w=;
-    b=BGRTb0gZLsxDJXWwHaMo38ytNFGAmOBE2h9QgLmzBykqTtQGWXN/TA8rgLOBTMWxrX
-    sYZku2a+bR8aOObXTpdlT3LD6QNEjJOCndEib5jT+2Jxehgn4rIwOzJzNdWDhy63rqJ6
-    Krv4Htb8aow6EtZSstRbtG0zXP4EAa3HHwVpZy6lAxPdb4guLtBzIN2Dv7A2NVKgMzfC
-    ajoFr7aoW/tzMdCKN69Q4L50F46yQRGqKfs6xwHbviYXnenG0+hqU4hXZU6uJoMF9yaD
-    9q/5Sow8Lo/aDRk1PJZgdduetc+1Ejsi1aJrKTPOxveB4AB/eOennUvXQa3Cz0qvXdsu
-    6Vpg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OH8QVVOrc/CP6za/qRmbF3BWedPGA1vjs2e0bDjfg8OiOrPJifeRMRhMYPeob5ctvy+gxYZSw1A="
-X-RZG-CLASS-ID: mo00
-Received: from [192.168.2.112]
-    by smtp.strato.de (RZmta 47.25.2 DYNA|AUTH)
-    with ESMTPSA id g052f6x3U6daAev
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Fri, 30 Apr 2021 08:39:36 +0200 (CEST)
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Kajetan Puchalski <mrkajetanp@gmail.com>, mceier+kernel@gmail.com
-Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Thomas Schoebel-Theuer <tst@schoebel-theuer.de>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
- <878s51e3jc.fsf@gmail.com>
-From:   Thomas Schoebel-Theuer <tst@schoebel-theuer.de>
-Message-ID: <7999ba57-9b95-265e-a189-d9ca01304b13@schoebel-theuer.de>
-Date:   Fri, 30 Apr 2021 08:39:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        id S230396AbhD3Gqk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Apr 2021 02:46:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50626 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230393AbhD3Gqj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Apr 2021 02:46:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619765151;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PFZmzCqPtD1TeQ1IgnxgwBuBBj2UfpUYGVhQ61V9gY0=;
+        b=CO1ZtfocqTxIz6aW0nd/4+5Y9Yz4QjnUh+TbPWjWzaTK7+XtPzCLTHUB9sBspp+qoA9r31
+        Lt6KUWv0GIPRF+EwGce5q45LOf/8sOfQQMuCOthTDWKdiym4vaK0bKSvVBnfVzUvwW0kk4
+        rxpPM0brZ8OkDEGQCoXHtIAcHgkpWP4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-bVvfBOJoOuGwtxj_hE5rSQ-1; Fri, 30 Apr 2021 02:45:46 -0400
+X-MC-Unique: bVvfBOJoOuGwtxj_hE5rSQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B23AB802939;
+        Fri, 30 Apr 2021 06:45:42 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (ovpn-115-124.ams2.redhat.com [10.36.115.124])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A74C5D9C6;
+        Fri, 30 Apr 2021 06:45:27 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+        <20210427204315.24153-26-yu-cheng.yu@intel.com>
+        <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+Date:   Fri, 30 Apr 2021 08:45:40 +0200
+In-Reply-To: <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+        (Andy Lutomirski's message of "Wed, 28 Apr 2021 16:03:55 -0700")
+Message-ID: <87a6pgb78r.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <878s51e3jc.fsf@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/04/2021 13:25, Kajetan Puchalski wrote:
+* Andy Lutomirski:
+
+> The kernel has:
 >
-> Mariusz Ceier <mceier+kernel@gmail.com> writes:
+> struct rt_sigframe {
+>     char __user *pretcode;
+>     struct ucontext uc;
+>     struct siginfo info;
+>     /* fp state follows here */
+> };
 >
->> Rust compiler license doesn't require for people to give back to the
->> community - corporation can create their own version of rust compiler
->> adding some proprietary extensions, develop drivers with it and even
->> if the drivers code will be GPL'd they won't be buildable by anyone
->> but that corporation.
+> This is roughly the actual signal frame.  But userspace does not have
+> this struct declared, and user code does not know the sizes of the
+> fields.  So it's accessed in a nonsensical way.  The signal handler
+> function is passed a pointer to the whole sigframe implicitly in RSP,
+> a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
+> User code can *find* the fp state by following a pointer from
+> mcontext, which is, in turn, found via uc:
 >
-> Could you explain exactly what the issue you see there is?
+> struct ucontext {
+>     unsigned long      uc_flags;
+>     struct ucontext  *uc_link;
+>     stack_t          uc_stack;
+>     struct sigcontext uc_mcontext;  <-- fp pointer is in here
+>     sigset_t      uc_sigmask;    /* mask last for extensibility */
+> };
 
+I must say that I haven't reviewed this in detail, but for historic
+reasons, glibc userspace has a differently-sized sigset_t.  So the
+kernel ucontext (used in signals) and user ucontext (used for
+swapcontext et al.) are already fully decoupled?
 
-Kajetan and others, this is an interesting discussion for me. Let us 
-compare the kernel-specific scope with general OpenSource community and 
-industry scope.
-
-Industry (where I am working) often requires a "second source" to avoid 
-the so-called "vendor lock-in", which is the key point of this part of 
-the discussion.
-
-As soon as Copyleft is involved, the requirement of "second source" is 
-_permanently_ met: anyone may fork it at any time, creating another 
-source, (theoretically) avoiding a dead end eternally. Lock-in is 
-prevented at license level.
-
-IMO this is a _requirement_ for Linux, otherwise its "business model" 
-wouldn't work in the long term (decades as is always necessary for basic 
-infrastructure / system software).
-
-If the requirement "second source" (by either way) is not met by Rust at 
-the moment, this needs to be fixed first.
-
-Other limitations like "development resources" might lead to similar 
-effects than lock-in. I am seeing the latter nearly every workday. 
-Software becomes "unmanageable" due to factors like technical debts / 
-resource restrictions / etc. Typical main reasons are almost always at a 
-_social_ / _human_ level, while purely technical reasons are playing 
-only a secondary role.
-
-This is the link to what Greg said earlier in this discussion: 
-development resources and their _dedication_ (e.g. maintenance vs 
-creation of "new" things) is the absolute key.
-
-Would Rust improve this problem area _provably_ by at least 30% ?
-
-I am insisting on a _quantifiable_ 30% improvement because this is the 
-"magic theshold" in industry after which the motto "never change a 
-running system" can be overcome from an investment perspective, and also 
-from a risk perspective.
-
-After this, another dimension is kicking in: maturity.
-
-You always need to invest a high effort for achieving "sufficient 
-maturity". According to the Pareto principle, maintenance is typically 
-around 70% to 90% of total cost for key infrastructure.
-
-In my working area where end-to-end SLAs of >99.98% have to met, the 
-Pareto ratio may be even higher.
-
-Pareto's law, as well as Zipf's law, are more or less observational 
-"natural laws" holding for almost _any_ complex / dynamic system. Even 
-if you try to improve such universal laws, e.g. by investing a lot of 
-effort / resources / money into maintenance reduction techniques, you 
-typically end up at a similar _total_ effort for maintenance (including 
-the extra effort for reduction of "ordinary" maintenance) than before.
-
-Otherwise, you would have found a way for bypassing natural laws like 
-the observed Pareto law. Even billions of years of biological evolution 
-on this earth weren't able to change this universal law in statistical 
-average (in global scale). Otherwise we couldn't observe it anymore.
-
-Even if you could improve the Pareto ratio, my experience is that upper 
-management will kick in and raise the SLA level so  that Pareto holds 
-again ;)
-
-So I'm sceptical that new technologies like Rust will change fundamental 
-laws, e.g. with respect to relative maintenance efforts.
-
-However, what _could_ be theoretically possible: _productivity_ gains, 
-improving both development of "new" things as well as "maintenance" 
-efforts, in total by more than 30% (but not the Pareto ratio between them).
-
-So the question is: can Rust _provably_ lead to *quantifiable* total 
-productivity gains of at least 30% ?
-
-If this would be the case, any business case needs further alternatives. 
-So it needs to be compared at least with alternative B: what would be 
-the effort and the productivity gain when introducing similar technology 
-non-disruptively into the current development ecosystem?
-
-Even if this A-B comparison would lead to a conclusion that 30% cannot 
-be met by a new and partly disruptive technology like Rust, the 
-discussion can be fruitful. There is always a chance to introduce some 
-parts of a new technology into a well-proven and mature "old" technology 
-non-disruptively.
-
-Cheers,
-
-Thomas
+Thanks,
+Florian
 
