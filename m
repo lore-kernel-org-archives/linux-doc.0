@@ -2,337 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3D9C43460
-	for <linux-doc@archiver.kernel.org>; Sat,  1 May 2021 04:17:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3849C433B4
+	for <linux-doc@archiver.kernel.org>; Sat,  1 May 2021 09:30:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C128C60FE4
-	for <linux-doc@archiver.kernel.org>; Sat,  1 May 2021 04:17:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D7B66141E
+	for <linux-doc@archiver.kernel.org>; Sat,  1 May 2021 09:30:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229546AbhEAESf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 May 2021 00:18:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59108 "EHLO
+        id S231853AbhEAJbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 May 2021 05:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbhEAESe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 May 2021 00:18:34 -0400
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 709ADC06174A;
-        Fri, 30 Apr 2021 21:17:45 -0700 (PDT)
-Received: by mail-oo1-xc33.google.com with SMTP id h9-20020a4a94090000b02901f9d4f64172so91492ooi.5;
-        Fri, 30 Apr 2021 21:17:45 -0700 (PDT)
+        with ESMTP id S231713AbhEAJbX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 May 2021 05:31:23 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26A4AC06138B;
+        Sat,  1 May 2021 02:30:31 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id l10-20020a17090a850ab0290155b06f6267so2992125pjn.5;
+        Sat, 01 May 2021 02:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mJDuvtfrc0RGLNATyN9LqOHLzLo5/nuR2eVlldf361U=;
-        b=F/XTece4lPxvU7e+hDbA5ZTepqltaHWDke39ztuxl5EdWMWw6Cd3qpLsFAtpX1GgQr
-         XRPyUJwrU8DNT6a6x/+uYOUfOLqPd75NCalZf3v8edobW8zC9AIL4D83cQtIv319zEHt
-         7ho0SGmb0mURmmxEg1+68QwJdwa/7wMRO582lrA1Ktff4do3NC/AEgiDSW/Lkd2It0Tv
-         lhQzoQrjPLP2ke1sJXclGN7vQUmB6z8wdpSr4KXWCNEJ9H7ymSYzdTn0Xkafw+OgpzLK
-         Pva7G9aQCSvmLu5M5HggI/p+W/KPQ9ObBr/SQhPBVMHl/6jtENT7nIH08sJbPZfqW6T3
-         7nsA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ozGWR7HUiB8PmJLBAJ188PKLUOh7dBweE/9zGbN2Zp0=;
+        b=D/0vPlgJu5jfqBOMQb50lihexlAJcQUP3pR3XMPv4HFKDZYb0SJapZVJ/gkmpAY8TG
+         PyqPT9PUsuY5+PRiuEIMkfFVa21wyRDP2Pzb+NcG0GI7fQ7JOom2ex00qPbddZLHsoXL
+         ckoFnKo9WAj563lpWcxYGf3SXQcLZUuOvRHmH8t5DnnODQ6ZIdpQ+2qJcm2KPuEjPR0n
+         AI2ghO+t6CLTwfnhl7EDL5y5FyzjED2pRzPgEgSjBxJ8wgk2QpG07MnVQ6KI20afJ4VK
+         o5Iq7bSCzkKekZFiGm8fYsq8aro5AtmnUKVvR2SDcx1kIOc6eqkw4CvoEyy3jBP9d/Sv
+         vRqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=mJDuvtfrc0RGLNATyN9LqOHLzLo5/nuR2eVlldf361U=;
-        b=AkujpaFUVMC/oze5K9rBIl1glod39AqTk6VYjSOJM26AkhY1VnPeyb3l0VaD+0fpkU
-         FsSB6cD4go5UJDV5Rnd/+ZtjqzrZIEO1fcZGMHEcR2VfeY2r5ZFGTvAqEEyJ2d3BfPkw
-         1gRvY+wrTLhAA97VU2EahCuvsLCv8yTH8KcDuQh1UF2b4NR0Sgg79PpDdqc2c1V4RdyX
-         DJdjWCzFzRTvBNrKJ6BJfN1U1bPiGQglq761zHP9n3KD9gKW9NWmvo2jyNWBVd/KPXcG
-         T+vleqGJkldJD0K+Ys3JkOQuEP3lqmDqKNU+qHpd54yGaH0/pHvlcMTud57E4rXXU/Yl
-         bw4w==
-X-Gm-Message-State: AOAM533Z3wQub0esYOxRzZrAZX+YbX6zLnzXYJdu3mE/qz1H+yZcWg4f
-        wB0bfwV3DiIwsTEXvTgH9vXtf3uvOes=
-X-Google-Smtp-Source: ABdhPJwR0dk3it5pmx6p0GD9EvVkBCXIdejSuukp1/zah2aiYz48ygtpTYbqRlov+oh6qcHBI2enJw==
-X-Received: by 2002:a4a:96e3:: with SMTP id t32mr7193949ooi.14.1619842664826;
-        Fri, 30 Apr 2021 21:17:44 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id z133sm949940ooa.2.2021.04.30.21.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 21:17:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 30 Apr 2021 21:17:43 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Erik Rosen <erik.rosen@metormote.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/zl6100) Update documentation for
- zl6100 driver
-Message-ID: <20210501041743.GA3202083@roeck-us.net>
-References: <20210423153329.33457-1-erik.rosen@metormote.com>
- <20210423153329.33457-3-erik.rosen@metormote.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ozGWR7HUiB8PmJLBAJ188PKLUOh7dBweE/9zGbN2Zp0=;
+        b=hGe1Pmz2mtoimFv446qByRriQt+joJEbiCE4Xy3DVsDLyZxuw3vJNBG/i9cFcN80Bs
+         6zkpNVNsQtOeQ8akWT54lztxlt7SZgtJ4poUjFLMWINCzpl/m3MV1sDeK2cEYW2cTrXd
+         jKJTmtkLTk0KHWiBdHi/Ddq+MYtvHWBL3WTlXEmtjHXyKisTeazsECxslKHo9/RXIL2/
+         EYlYgFP2weAFbncR0UVQAhfJgEV8UywVsD2fAE0jBQzr7SHwn3q7UTLoJen651Oly2R8
+         S5x5arRg38JWQKFsZsB9b/s62zXrBYgGGydcb89VglTzA8o8QFrvD10HUdmr8a7887lG
+         rnZA==
+X-Gm-Message-State: AOAM5330PHiBTdUv0b78WVTj9Covx52RmBuus3Onnq9UvCet9mI4TsdN
+        xYGuGogbvRPZc7MDXSWKelgkJtip54qsBQ==
+X-Google-Smtp-Source: ABdhPJwpm/0pMCfrGPM5UL4PfA3nBMBiph5MjUiyi4zHNxdxrqGxDn+fiDlj+fil1VWEFSLBopugoA==
+X-Received: by 2002:a17:90a:b292:: with SMTP id c18mr20434639pjr.179.1619861430361;
+        Sat, 01 May 2021 02:30:30 -0700 (PDT)
+Received: from ?IPv6:2405:201:600d:a089:4bc:4b06:bb39:6fa2? ([2405:201:600d:a089:4bc:4b06:bb39:6fa2])
+        by smtp.gmail.com with ESMTPSA id ms2sm453915pjb.8.2021.05.01.02.30.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 May 2021 02:30:30 -0700 (PDT)
+Subject: Re: [RFC v3] scripts: kernel-doc: reduce repeated regex expressions
+ into variables
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     lukas.bulwahn@gmail.com, willy@infradead.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210427165633.GA235567@casper.infradead.org>
+ <20210429063729.8144-1-yashsri421@gmail.com> <8735v8d5ja.fsf@meer.lwn.net>
+From:   Aditya Srivastava <yashsri421@gmail.com>
+Message-ID: <99186604-8ed6-ff72-0308-9ca788db3a51@gmail.com>
+Date:   Sat, 1 May 2021 15:00:24 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210423153329.33457-3-erik.rosen@metormote.com>
+In-Reply-To: <8735v8d5ja.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 23, 2021 at 05:33:29PM +0200, Erik Rosen wrote:
-> Update documentation for zl6100 driver and fix dead links to technical
-> specifications
+On 30/4/21 5:09 am, Jonathan Corbet wrote:
+> Aditya Srivastava <yashsri421@gmail.com> writes:
 > 
-> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
-
-Applied to hwmon-next.
-
-Thanks,
-Guenter
-
-> ---
->  Documentation/hwmon/zl6100.rst | 132 ++++++++++++++++++++++-----------
->  1 file changed, 89 insertions(+), 43 deletions(-)
+>> There are some regex expressions in the kernel-doc script, which are used
+>> repeatedly in the script.
+>>
+>> Reduce such expressions into variables, which can be used everywhere.
+>>
+>> A quick manual check found that no errors and warnings were added/removed
+>> in this process.
+>>
+>> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+>> ---
+>> Changes in v3:
+>> - Remove variables for separate qualifiers in "sub dump_struct"
+>> - Make a common variable for all the qualifiers
+>> - Make $attribute global variable to use it at "sub check_sections" as well
+>>
+>> Changes in v2:
+>> - Rename $pointer_function to $function_pointer
+>> - Combine elsif-block expressions at "sub dump_function" into lesser regex expressions
+>> - Combine $prototype_end1,$prototype_end2 expressions into a common $prototype_end
+>>
+>>  scripts/kernel-doc | 71 ++++++++++++++++++++++------------------------
+>>  1 file changed, 34 insertions(+), 37 deletions(-)
 > 
-> diff --git a/Documentation/hwmon/zl6100.rst b/Documentation/hwmon/zl6100.rst
-> index 968aff10ce0a..d42ed9d3ac69 100644
-> --- a/Documentation/hwmon/zl6100.rst
-> +++ b/Documentation/hwmon/zl6100.rst
-> @@ -3,87 +3,103 @@ Kernel driver zl6100
->  
->  Supported chips:
->  
-> -  * Intersil / Zilker Labs ZL2004
-> +  * Renesas / Intersil / Zilker Labs ZL2004
->  
->      Prefix: 'zl2004'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn6847.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl2004-datasheet.pdf
->  
-> -  * Intersil / Zilker Labs ZL2005
-> +  * Renesas / Intersil / Zilker Labs ZL2005
->  
->      Prefix: 'zl2005'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn6848.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl2005-datasheet.pdf
->  
-> -  * Intersil / Zilker Labs ZL2006
-> +  * Renesas / Intersil / Zilker Labs ZL2006
->  
->      Prefix: 'zl2006'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn6850.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl2006-datasheet.pdf
->  
-> -  * Intersil / Zilker Labs ZL2008
-> +  * Renesas / Intersil / Zilker Labs ZL2008
->  
->      Prefix: 'zl2008'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn6859.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl2008-datasheet.pdf
->  
-> -  * Intersil / Zilker Labs ZL2105
-> +  * Renesas / Intersil / Zilker Labs ZL2105
->  
->      Prefix: 'zl2105'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn6851.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl2105-datasheet.pdf
->  
-> -  * Intersil / Zilker Labs ZL2106
-> +  * Renesas / Intersil / Zilker Labs ZL2106
->  
->      Prefix: 'zl2106'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn6852.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl2106-datasheet.pdf
->  
-> -  * Intersil / Zilker Labs ZL6100
-> +  * Renesas / Intersil / Zilker Labs ZL6100
->  
->      Prefix: 'zl6100'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn6876.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl6100-datasheet.pdf
->  
-> -  * Intersil / Zilker Labs ZL6105
-> +  * Renesas / Intersil / Zilker Labs ZL6105
->  
->      Prefix: 'zl6105'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn6906.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl6105-datasheet.pdf
->  
-> -  * Intersil / Zilker Labs ZL9101M
-> +  * Renesas / Intersil / Zilker Labs ZL8802
-> +
-> +    Prefix: 'zl8802'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl8802-datasheet
-> +
-> +  * Renesas / Intersil / Zilker Labs ZL9101M
->  
->      Prefix: 'zl9101'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn7669.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl9101m-datasheet
->  
-> -  * Intersil / Zilker Labs ZL9117M
-> +  * Renesas / Intersil / Zilker Labs ZL9117M
->  
->      Prefix: 'zl9117'
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.intersil.com/data/fn/fn7914.pdf
-> +    Datasheet: https://www.renesas.com/us/en/document/dst/zl9117m-datasheet
-> +
-> +  * Renesas / Intersil / Zilker Labs ZLS1003, ZLS4009
-> +
-> +    Prefix: 'zls1003', zls4009
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: Not published
->  
-> -  * Ericsson BMR450, BMR451
-> +  * Flex BMR450, BMR451
->  
->      Prefix: 'bmr450', 'bmr451'
->  
-> @@ -91,17 +107,39 @@ Supported chips:
->  
->      Datasheet:
->  
-> -http://archive.ericsson.net/service/internet/picov/get?DocNo=28701-EN/LZT146401
-> +https://flexpowermodules.com/resources/fpm-techspec-bmr450-digital-pol-regulators-20a
->  
-> -  * Ericsson BMR462, BMR463, BMR464
-> +  * Flex BMR462, BMR463, BMR464
->  
->      Prefixes: 'bmr462', 'bmr463', 'bmr464'
->  
->      Addresses scanned: -
->  
-> -    Datasheet:
-> +    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-bmr462
-> +
-> +  * Flex BMR465, BMR467
-> +
-> +    Prefixes: 'bmr465', 'bmr467'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-bmr465-digital-pol
-> +
-> +  * Flex BMR466
-> +
-> +    Prefixes: 'bmr466'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-bmr466-8x12
->  
-> -	http://archive.ericsson.net/service/internet/picov/get?DocNo=28701-EN/LZT146256
-> +  * Flex BMR469
-> +
-> +    Prefixes: 'bmr469'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-bmr4696001
->  
->  Author: Guenter Roeck <linux@roeck-us.net>
->  
-> @@ -109,8 +147,8 @@ Author: Guenter Roeck <linux@roeck-us.net>
->  Description
->  -----------
->  
-> -This driver supports hardware monitoring for Intersil / Zilker Labs ZL6100 and
-> -compatible digital DC-DC controllers.
-> +This driver supports hardware monitoring for Renesas / Intersil / Zilker Labs
-> +ZL6100 and compatible digital DC-DC controllers.
->  
->  The driver is a client driver to the core PMBus driver. Please see
->  Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
-> @@ -147,12 +185,12 @@ Module parameters
->  delay
->  -----
->  
-> -Intersil/Zilker Labs DC-DC controllers require a minimum interval between I2C
-> -bus accesses. According to Intersil, the minimum interval is 2 ms, though 1 ms
-> -appears to be sufficient and has not caused any problems in testing. The problem
-> -is known to affect all currently supported chips. For manual override, the
-> -driver provides a writeable module parameter, 'delay', which can be used to set
-> -the interval to a value between 0 and 65,535 microseconds.
-> +Renesas/Intersil/Zilker Labs DC-DC controllers require a minimum interval
-> +between I2C bus accesses. According to Intersil, the minimum interval is 2 ms,
-> +though 1 ms appears to be sufficient and has not caused any problems in testing.
-> +The problem is known to affect all currently supported chips. For manual override,
-> +the driver provides a writeable module parameter, 'delay', which can be used
-> +to set the interval to a value between 0 and 65,535 microseconds.
->  
->  
->  Sysfs entries
-> @@ -182,24 +220,32 @@ in2_crit		Critical maximum VMON/VDRV voltage.
->  in2_lcrit_alarm		VMON/VDRV voltage critical low alarm.
->  in2_crit_alarm		VMON/VDRV voltage critical high alarm.
->  
-> -			vmon attributes are supported on ZL2004, ZL9101M,
-> -			and ZL9117M only.
-> +			vmon attributes are supported on ZL2004, ZL8802,
-> +			ZL9101M, ZL9117M and ZLS4009 only.
->  
-> -inX_label		"vout1"
-> +inX_label		"vout[12]"
->  inX_input		Measured output voltage.
->  inX_lcrit		Critical minimum output Voltage.
->  inX_crit		Critical maximum output voltage.
->  inX_lcrit_alarm		Critical output voltage critical low alarm.
->  inX_crit_alarm		Critical output voltage critical high alarm.
->  
-> -			X is 3 for ZL2004, ZL9101M, and ZL9117M, 2 otherwise.
-> +			X is 3 for ZL2004, ZL9101M, and ZL9117M,
-> +			3, 4 for ZL8802 and 2 otherwise.
-> +
-> +curr1_label		"iin"
-> +curr1_input		Measured input current.
-> +
-> +			iin attributes are supported on ZL8802 only
-> +
-> +currY_label		"iout[12]"
-> +currY_input		Measured output current.
-> +currY_lcrit		Critical minimum output current.
-> +currY_crit		Critical maximum output current.
-> +currY_lcrit_alarm	Output current critical low alarm.
-> +currY_crit_alarm	Output current critical high alarm.
->  
-> -curr1_label		"iout1"
-> -curr1_input		Measured output current.
-> -curr1_lcrit		Critical minimum output current.
-> -curr1_crit		Critical maximum output current.
-> -curr1_lcrit_alarm	Output current critical low alarm.
-> -curr1_crit_alarm	Output current critical high alarm.
-> +			Y is 2, 3 for ZL8802, 1 otherwise
->  
->  temp[12]_input		Measured temperature.
->  temp[12]_min		Minimum temperature.
+> So this looks good but ... it adds a warning to the build:
+> 
+> /stuff/k/git/kernel/Documentation/driver-api/media/v4l2-controls:823: ./include/media/v4l2-ctrls.h:964: WARNING: Invalid C declaration: Expected identifier in nested name. [error at 6]
+>   const * v4l2_ctrl_get_menu (u32 id)
+>   ------^
+> 
+> So it looks like something isn't being parsed quite identically?
+>
+
+Hi Jonathan!
+I could not reproduce this error..
+Can you suggest me how can I reproduce this error?
+I ran kernel-doc -none {$file} over the tree.
+
+Probably, this is not a kernel-doc error
+
+Thanks
+Aditya
