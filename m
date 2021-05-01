@@ -2,94 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9A75C433ED
-	for <linux-doc@archiver.kernel.org>; Sat,  1 May 2021 15:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE54C43470
+	for <linux-doc@archiver.kernel.org>; Sat,  1 May 2021 17:50:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E232B6161C
-	for <linux-doc@archiver.kernel.org>; Sat,  1 May 2021 15:52:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59ED061613
+	for <linux-doc@archiver.kernel.org>; Sat,  1 May 2021 17:50:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230195AbhEAPxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 May 2021 11:53:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230051AbhEAPxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 May 2021 11:53:23 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC6C4C06174A;
-        Sat,  1 May 2021 08:52:33 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id 130so1869681ybd.10;
-        Sat, 01 May 2021 08:52:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JjYGMVIHK5n7yoxDPMXd66Acol9hZKelHx5UT6nH47Y=;
-        b=blRUIoJdCmVMNiQDMHNaVJve98qPVFj9/24WjJdA429iQkxxVreNispe+BqiBA3d8W
-         Acr7BVauP7zkcs15L+68w5EqDvJuqgqAQiUpqTLpjFrGI4w60FlbBjkAovszT+DhAO2Y
-         tHmFz//OpI0cdY7Ho2lJ17ud/C/jzzNtemRy5ooBS5sildh6tdH/JXdOSWzcu0kUHuRk
-         sWuz3sEcBwnrjw3SmYkDYCFW6/LI+qbeU5bNDNEyCV8lhk15528w6zCTI7qv8GD3C2Qr
-         /6S1azORvcFztQ4nBtiPy2tzzOKKF9suofex4xX1vd9C6oVASMofpqqBqVOFa9w2DOS8
-         wBsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JjYGMVIHK5n7yoxDPMXd66Acol9hZKelHx5UT6nH47Y=;
-        b=Qj0cytMwHKa+C54soxDSPJ5wpqoLVQ1LfQJzoTvUYUrzzdUtdCgD5Aef9RswQZoMDr
-         A4gS5edmePtzHAK3/8XQEIqf+V5qwSzdcrFH2EKYMpg44W/Oyhrb+zfBhahWVKIxu+Gx
-         O2jfkt23hC35bI8LAhi1CrUU6Fdrk4r3Q8RJKDPTy2xl5EpfO4P6fdeo8ibwpW70NHgR
-         Sz35tIInhEYDc8UvA7KnXW1/kY+ozKVu2JcdVWd0xfBeaidN3QaHhYyCsw/0z/TQ/cHn
-         nrtAFhSpf5Rkp0RE+9SUcJ45srDpqd2TkEGEKe09r7at8DERI5C5dN6ggfoJKdhfKhC1
-         jNqA==
-X-Gm-Message-State: AOAM530ypY12b3kzT1eHOB5GQX++QSbkTDLHI1UIrenT2XtHMom/YH/3
-        kAM+6ADqOK4I+hPNo8UzFjV05meQtvpcpUtbma8=
-X-Google-Smtp-Source: ABdhPJwv4Dai1oxa4I+vtOog2Hw6tEyYe4CX42qPfvaPtHahj/3ak3VQm5m0KU7mUuftqlcL6+PQQToSr4CzLa32hoM=
-X-Received: by 2002:a25:c444:: with SMTP id u65mr14862039ybf.93.1619884352129;
- Sat, 01 May 2021 08:52:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210501151538.145449-1-masahiroy@kernel.org>
-In-Reply-To: <20210501151538.145449-1-masahiroy@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 1 May 2021 17:52:21 +0200
-Message-ID: <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+        id S231547AbhEARvI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 May 2021 13:51:08 -0400
+Received: from pegase2.c-s.fr ([93.17.235.10]:57807 "EHLO pegase2.c-s.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230450AbhEARvH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 1 May 2021 13:51:07 -0400
+X-Greylist: delayed 719 seconds by postgrey-1.27 at vger.kernel.org; Sat, 01 May 2021 13:51:07 EDT
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+        by localhost (Postfix) with ESMTP id 4FXc090hfmz9sS5;
+        Sat,  1 May 2021 19:38:17 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1YuCsbxWugQ6; Sat,  1 May 2021 19:38:16 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase2.c-s.fr (Postfix) with ESMTP id 4FXc086Xtbz9sS4;
+        Sat,  1 May 2021 19:38:16 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id C4A668B770;
+        Sat,  1 May 2021 19:38:16 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id 1mDE3OxKH6Jr; Sat,  1 May 2021 19:38:16 +0200 (CEST)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id BD8A88B763;
+        Sat,  1 May 2021 19:38:15 +0200 (CEST)
 Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Albert Ou <aou@eecs.berkeley.edu>, Arnd Bergmann <arnd@arndb.de>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+References: <20210501151538.145449-1-masahiroy@kernel.org>
+ <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <2ecdbfed-82c4-b0cb-85dc-857b3b06b353@csgroup.eu>
+Date:   Sat, 1 May 2021 19:38:14 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 1, 2021 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> More cleanups will be possible as follow-up patches, but this one must
-> be agreed and applied to the mainline first.
 
-+1 This will allow me to remove the __has_attribute hack in
-include/linux/compiler_attributes.h.
 
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+Le 01/05/2021 à 17:52, Miguel Ojeda a écrit :
+> On Sat, May 1, 2021 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>>
+>> More cleanups will be possible as follow-up patches, but this one must
+>> be agreed and applied to the mainline first.
+> 
+> +1 This will allow me to remove the __has_attribute hack in
+> include/linux/compiler_attributes.h.
+> 
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> 
 
-Cheers,
-Miguel
+On powerpc this will allow us to remove commit https://github.com/linuxppc/linux/commit/592bbe9c505d
+
+Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+
+Christophe
