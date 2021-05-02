@@ -2,79 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26938C433ED
-	for <linux-doc@archiver.kernel.org>; Sun,  2 May 2021 02:42:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F586C433ED
+	for <linux-doc@archiver.kernel.org>; Sun,  2 May 2021 08:51:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D56ED613BA
-	for <linux-doc@archiver.kernel.org>; Sun,  2 May 2021 02:42:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED608613C5
+	for <linux-doc@archiver.kernel.org>; Sun,  2 May 2021 08:51:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231128AbhEBCnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 May 2021 22:43:02 -0400
-Received: from smtprelay0191.hostedemail.com ([216.40.44.191]:37898 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230409AbhEBCnC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 May 2021 22:43:02 -0400
-Received: from omf20.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 2E2581822186F;
-        Sun,  2 May 2021 02:42:10 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id 0D7D518A5F1;
-        Sun,  2 May 2021 02:42:04 +0000 (UTC)
-Message-ID: <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-From:   Joe Perches <joe@perches.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        id S229754AbhEBIwM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 May 2021 04:52:12 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:47277 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229613AbhEBIwM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 May 2021 04:52:12 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 7B2A5580561;
+        Sun,  2 May 2021 04:51:20 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sun, 02 May 2021 04:51:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=nAMKrF
+        +bnNdI3pkgmLhVLX5VUAzgUMzelRzJuMYbyMs=; b=BUCCTogNZaYRRxzyJztiVI
+        xShJGneV54rIEyRyoSlS+fmXKMKcey9oOslb2tvsFHr5VTuXYNaJ7Wkdk15kKg+I
+        UXPFbX/sEpkLPozL30ovUQF1Nd++3oO29OGeXtHzOeweopCe5SoW4mB/g6+iKmFv
+        XQx3kuSsLHz+x2GEMld5s0kGTzDq3QyVtdZH+u7+ZPRtOTNV/BVa+ij9ccXdFbsz
+        WDNfDZz6bqLxs60DgQq54JGerzqFjNv7r7K5a5lagbQjg9DkyDgNN8nAGxf0eHye
+        yRht/U0kvcLiPz6kisiP3i6Qiqp/tDf7drGFmPfVYh65ry3AOfEE+O7Z8vMCcVXw
+        ==
+X-ME-Sender: <xms:B2iOYFUftyVxfNPqkT8bZZjNufyoqjRJ7vV5kG6yG2sCP8Lw5QHcVw>
+    <xme:B2iOYFnRcHWA-imQSrqnhGS3TUZE2T1XoLRkaqPbWtaE7KRJXZNscq6JHuS0mMFqR
+    VYA9bJqviR_Reo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdefuddgheelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefkughoucfu
+    tghhihhmmhgvlhcuoehiughoshgthhesihguohhstghhrdhorhhgqeenucggtffrrghtth
+    gvrhhnpeeuteegheehgeduueehffeltdegveelteeukeetteethfeltddvhfdtuedvueei
+    feenucffohhmrghinhepnhhvihguihgrrdgtohhmpdgrrhhishhtrgdrtghomhenucfkph
+    epudelfedrgeejrdduieehrddvhedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+    rghmpehmrghilhhfrhhomhepihguohhstghhsehiughoshgthhdrohhrgh
+X-ME-Proxy: <xmx:B2iOYBZxi4C23t6ZeW46_azG74D8pjdyHVcbx-L9YKDyYk5Pvh691Q>
+    <xmx:B2iOYIVWJJwr7H30sC2-afbXy0C_xF49HOBTeEX4XeSiNUIuttjHCQ>
+    <xmx:B2iOYPkYFHa-nLk3EPr2yoanlpfGqTN7G_x-UAcr0mIjK5vFX4wOog>
+    <xmx:CGiOYNVjBeLpxGXQKta1U2dLOXvtkGrDeFU3Ha1LsEWgcN3_rgOWcQ>
+Received: from localhost (unknown [193.47.165.251])
+        by mail.messagingengine.com (Postfix) with ESMTPA;
+        Sun,  2 May 2021 04:51:18 -0400 (EDT)
+Date:   Sun, 2 May 2021 11:51:15 +0300
+From:   Ido Schimmel <idosch@idosch.org>
+To:     Pavel Balaev <mail@void.so>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-In-Reply-To: <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
-References: <20210501151538.145449-1-masahiroy@kernel.org>
-         <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Date:   Sat, 01 May 2021 19:41:53 -0700
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ido Schimmel <idosch@nvidia.com>
+Subject: Re: [PATCH v6 net-next 1/3] net/ipv4: multipath routing:
+ configurable seed
+Message-ID: <YI5oA8XtW+DVE8xD@shredder>
+References: <YIlVpYMCn/8WfE1P@rnd>
+ <YIrQ0Nyse0fnwpEC@shredder.lan>
+ <YIvr0bohU95kDzU+@rnd>
 MIME-Version: 1.0
-User-Agent: Evolution 3.38.1-1 
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 0D7D518A5F1
-X-Stat-Signature: cq9jpwmborrqawmiw8kjkakc3j6bmyct
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19KtPWcnnFB2QBxLpInpQtqjaFCZ/4pjzg=
-X-HE-Tag: 1619923324-584352
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YIvr0bohU95kDzU+@rnd>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2021-05-01 at 17:52 +0200, Miguel Ojeda wrote:
-> On Sat, May 1, 2021 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Fri, Apr 30, 2021 at 02:36:49PM +0300, Pavel Balaev wrote:
+> On Thu, Apr 29, 2021 at 06:29:20PM +0300, Ido Schimmel wrote:
+> > On Wed, Apr 28, 2021 at 03:31:33PM +0300, Pavel Balaev wrote:
+> > This looks overly complex to me and I believe a lot of users will ask
+> > themselves why they need to specify a seed using two hex numbers
+> > separated by a comma. Looking at other implementations that already
+> > allow specifying the seed, it is specified as a single integer.
 > > 
-> > More cleanups will be possible as follow-up patches, but this one must
-> > be agreed and applied to the mainline first.
+> > 32-bit in Cumulus:
+> > https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-43/Layer-3/Routing/Equal-Cost-Multipath-Load-Sharing-Hardware-ECMP/#configure-a-hash-seed-to-avoid-hash-polarization
+> > 
+> > Up to 16-bit in Arista:
+> > https://eos.arista.com/hashing-for-l2-port-channels-and-l3-ecmp/
+> > 
+> > I believe you chose this interface because of the structure of the
+> > SipHash key that is used for the multipath hash calculation. This is an
+> > internal implementation detail and should not determine the user
+> > interface.
+> > 
+> > Looking at the history of the code, the flow dissector was migrated to
+> > SipHash in commit 55667441c84f ("net/flow_dissector: switch to
+> > siphash"). The motivating use case was flow label generation since these
+> > are sent on the wire together with the fields from which they were
+> > computed, not multipath hash calculation that also happens to rely on
+> > the flow dissector.
+> > 
+> > Given the above, do you see a problem with having the user specify a
+> > 32-bit number for the multipath hash seed? Note that SipHash is still
+> > used and that the number can be used to fill the entire 128-bit space.
 > 
-> +1 This will allow me to remove the __has_attribute hack in
-> include/linux/compiler_attributes.h.
+> Do you mean take 32-bit number from user and multiply it like this:
+> u32 key = val;
+> u64 key64;
+> memset(&key64, val, sizeof(u32));
+> memset(&key64 + sizeof(u32), val, sizeof(u32));
+> memset(seed.key[0], &key64, sizeof(u64));
+> memset(seed.key[1], &key64, sizeof(u64));
+> ?
 
-Why not raise the minimum gcc compiler version even higher?
-
-https://gcc.gnu.org/releases.html
-
-
-
+Something like that, yes. It's still only 32-bit of user input, but it
+can't hurt. Do you see a need to specify more than 32 bits for multipath
+hash seed when the purpose is to force the same seed on multiple
+machines?
