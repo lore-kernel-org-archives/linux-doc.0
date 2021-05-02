@@ -2,93 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67414C433B4
-	for <linux-doc@archiver.kernel.org>; Sun,  2 May 2021 22:31:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA973C433B4
+	for <linux-doc@archiver.kernel.org>; Sun,  2 May 2021 23:24:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42ECA61106
-	for <linux-doc@archiver.kernel.org>; Sun,  2 May 2021 22:31:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A98B661284
+	for <linux-doc@archiver.kernel.org>; Sun,  2 May 2021 23:24:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbhEBWcX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 May 2021 18:32:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232372AbhEBWcW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 May 2021 18:32:22 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5A5DC06174A;
-        Sun,  2 May 2021 15:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=sxg9T1l2P1TCAt0KGvVd11DgxmUSs0be5EJPC9/f71E=; b=udzO03mH7WI7B+E+YTdUOwtAf1
-        pjHtqAcqFvgk6A/VPnylKxmrsD2lIsft1hfQrFKrFeNBtjNS6w+ZE+mHiu5d5gHPflr/5ZEY0rMY3
-        j/Vp83jF/iLnG6XdNPzIyF+mF5/lYl4l1cbzzG1WNvagPbMrY6WOJxtjqyegDj+NUVKUcLudh1Jxj
-        aIs6ARBcGAieZGWtA+1xInBrNjRM1WzTAXphw3z434iaMpsXozUAAxgXsgOVhK/ROYowwzYtHNMjt
-        qTvAIs7sHWprczN8zI56TNESOK3PApv5dUV0ZiJ8bjyK89wcLViH+1YjrBh3jVl2hZIW2BIswvKuA
-        GSIUL4Rg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1ldKbH-00EKpr-87; Sun, 02 May 2021 22:30:19 +0000
-Date:   Sun, 2 May 2021 23:30:07 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Segher Boessenkool <segher@kernel.crashing.org>,
-        Joe Perches <joe@perches.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linux-riscv@lists.infradead.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-Message-ID: <20210502223007.GZ1847222@casper.infradead.org>
-References: <20210501151538.145449-1-masahiroy@kernel.org>
- <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
- <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
- <20210502183030.GF10366@gate.crashing.org>
- <81a926a3bdb70debe3ae2b13655ea8d249fb9991.camel@perches.com>
- <20210502203253.GH10366@gate.crashing.org>
- <CAHk-=wjGJskk5EwnDCccs6DcLytE2yx76+P_W-n1-B5zq0M3KA@mail.gmail.com>
+        id S232446AbhEBXYy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 May 2021 19:24:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58724 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232341AbhEBXYy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 2 May 2021 19:24:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D946613B0
+        for <linux-doc@vger.kernel.org>; Sun,  2 May 2021 23:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619997842;
+        bh=9XrmVhh3x/hu1xiO6wy8hQM4EVEmoIsidC0CNOUDewU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Xvk3lamcKONXtdY5uj063AqT9gflYjk1fOHzc1MCkTApqwbDua24lTAWDMxpEsZsX
+         lAHSS6SKBlozDYzK1NU/OaZPq2Mof8xS7ujGJWSw0nlJG0xl3kFyMYCujZo+PPmrUY
+         seqosSZHewIS5RM1c2DbHSz0RiFwGMZcDKbkd/+EOOMGkvIRyVYIG6qZh3qC5VVheT
+         vV07VCHhxySchqQrOBISbGaR7WQkUiDWSaRmQ1iiERMnQV/MayYQjhRAnN6E6dC4iz
+         3vmcvEYa6o8H4+MeSdO9zYAmLqPb4nSovMpsPmtPJ8PiEpTC3BsLZlmxO/wJ0+uvE0
+         HFsxdg81u2cxQ==
+Received: by mail-ej1-f45.google.com with SMTP id l4so5194294ejc.10
+        for <linux-doc@vger.kernel.org>; Sun, 02 May 2021 16:24:02 -0700 (PDT)
+X-Gm-Message-State: AOAM5310PPK23mQE/XVlpbbScvIfm7dkdGPQtLnXmRVyqk6Ezuo9zDU3
+        tD4Bvgzwm/TUrp+SQmDVbuKaR0fso44FRFBI7avAbA==
+X-Google-Smtp-Source: ABdhPJxm1N3T+YWyQb2yDHHBCRISxWp9egmNE6K4QfjQG5TdbGOhu2Unc6lEK9IdYfF41M2LfgrzKuOq540OPVCI6w0=
+X-Received: by 2002:a17:906:ccc9:: with SMTP id ot9mr1244151ejb.253.1619997840467;
+ Sun, 02 May 2021 16:24:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjGJskk5EwnDCccs6DcLytE2yx76+P_W-n1-B5zq0M3KA@mail.gmail.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com> <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+ <8fd86049-930d-c9b7-379c-56c02a12cd77@intel.com> <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
+In-Reply-To: <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Sun, 2 May 2021 16:23:49 -0700
+X-Gmail-Original-Message-ID: <CALCETrWnxd9-dGdYsw5LC+iRffAmuSzzDQGde8nYQdFJyFYp9Q@mail.gmail.com>
+Message-ID: <CALCETrWnxd9-dGdYsw5LC+iRffAmuSzzDQGde8nYQdFJyFYp9Q@mail.gmail.com>
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 02, 2021 at 02:08:31PM -0700, Linus Torvalds wrote:
-> What is relevant is what version of gcc various distributions actually
-> have reasonably easily available, and how old and relevant the
-> distributions are. We did decide that (just as an example) RHEL 7 was
-> too old to worry about when we updated the gcc version requirement
-> last time.
-> 
-> Last year, Arnd and Kirill (maybe others were involved too) made a
-> list of distros and older gcc versions. But I don't think anybody
-> actually _maintains_ such a list. It would be perhaps interesting to
-> have some way to check what compiler versions are being offered by
-> different distros.
+On Fri, Apr 30, 2021 at 10:47 AM Andy Lutomirski <luto@kernel.org> wrote:
+>
+> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+> >
+> > On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
+> > > On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > >>
+> > >> When shadow stack is enabled, a task's shadow stack states must be saved
+> > >> along with the signal context and later restored in sigreturn.  However,
+> > >> currently there is no systematic facility for extending a signal context.
+> > >> There is some space left in the ucontext, but changing ucontext is likely
+> > >> to create compatibility issues and there is not enough space for further
+> > >> extensions.
+> > >>
+> > >> Introduce a signal context extension struct 'sc_ext', which is used to save
+> > >> shadow stack restore token address.  The extension is located above the fpu
+> > >> states, plus alignment.  The struct can be extended (such as the ibt's
+> > >> wait_endbr status to be introduced later), and sc_ext.total_size field
+> > >> keeps track of total size.
+> > >
+> > > I still don't like this.
+> > >
+> > > Here's how the signal layout works, for better or for worse:
+> > >
+> > > The kernel has:
+> > >
+> > > struct rt_sigframe {
+> > >      char __user *pretcode;
+> > >      struct ucontext uc;
+> > >      struct siginfo info;
+> > >      /* fp state follows here */
+> > > };
+> > >
+> > > This is roughly the actual signal frame.  But userspace does not have
+> > > this struct declared, and user code does not know the sizes of the
+> > > fields.  So it's accessed in a nonsensical way.  The signal handler
+> > > function is passed a pointer to the whole sigframe implicitly in RSP,
+> > > a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
+> > > User code can *find* the fp state by following a pointer from
+> > > mcontext, which is, in turn, found via uc:
+> > >
+> > > struct ucontext {
+> > >      unsigned long      uc_flags;
+> > >      struct ucontext  *uc_link;
+> > >      stack_t          uc_stack;
+> > >      struct sigcontext uc_mcontext;  <-- fp pointer is in here
+> > >      sigset_t      uc_sigmask;    /* mask last for extensibility */
+> > > };
+> > >
+> > > The kernel, in sigreturn, works a bit differently.  The sigreturn
+> > > variants know the base address of the frame but don't have the benefit
+> > > of receiving pointers to the fields.  So instead the kernel takes
+> > > advantage of the fact that it knows the offset to uc and parses uc
+> > > accordingly.  And the kernel follows the pointer in mcontext to find
+> > > the fp state.  The latter bit is quite important later.  The kernel
+> > > does not parse info at all.
+> > >
+> > > The fp state is its own mess.  When XSAVE happened, Intel kindly (?)
+> > > gave us a software defined area between the "legacy" x87 region and
+> > > the modern supposedly extensible part.  Linux sticks the following
+> > > structure in that hole:
+> > >
+> > > struct _fpx_sw_bytes {
+> > >      /*
+> > >       * If set to FP_XSTATE_MAGIC1 then this is an xstate context.
+> > >       * 0 if a legacy frame.
+> > >       */
+> > >      __u32                magic1;
+> > >
+> > >      /*
+> > >       * Total size of the fpstate area:
+> > >       *
+> > >       *  - if magic1 == 0 then it's sizeof(struct _fpstate)
+> > >       *  - if magic1 == FP_XSTATE_MAGIC1 then it's sizeof(struct _xstate)
+> > >       *    plus extensions (if any)
+> > >       */
+> > >      __u32                extended_size;
+> > >
+> > >      /*
+> > >       * Feature bit mask (including FP/SSE/extended state) that is present
+> > >       * in the memory layout:
+> > >       */
+> > >      __u64                xfeatures;
+> > >
+> > >      /*
+> > >       * Actual XSAVE state size, based on the xfeatures saved in the layout.
+> > >       * 'extended_size' is greater than 'xstate_size':
+> > >       */
+> > >      __u32                xstate_size;
+> > >
+> > >      /* For future use: */
+> > >      __u32                padding[7];
+> > > };
+> > >
+> > >
+> > > That's where we are right now upstream.  The kernel has a parser for
+> > > the FPU state that is bugs piled upon bugs and is going to have to be
+> > > rewritten sometime soon.  On top of all this, we have two upcoming
+> > > features, both of which require different kinds of extensions:
+> > >
+> > > 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
+> > > but no.  And AMX makes it worse.)  To make a long story short, we
+> > > promised user code many years ago that a signal frame fit in 2048
+> > > bytes with some room to spare.  With AVX-512 this is false.  With AMX
+> > > it's so wrong it's not even funny.  The only way out of the mess
+> > > anyone has come up with involves making the length of the FPU state
+> > > vary depending on which features are INIT, i.e. making it more compact
+> > > than "compact" mode is.  This has a side effect: it's no longer
+> > > possible to modify the state in place, because enabling a feature with
+> > > no space allocated will make the structure bigger, and the stack won't
+> > > have room.  Fortunately, one can relocate the entire FPU state, update
+> > > the pointer in mcontext, and the kernel will happily follow the
+> > > pointer.  So new code on a new kernel using a super-compact state
+> > > could expand the state by allocating new memory (on the heap? very
+> > > awkwardly on the stack?) and changing the pointer.  For all we know,
+> > > some code already fiddles with the pointer.  This is great, except
+> > > that your patch sticks more data at the end of the FPU block that no
+> > > one is expecting, and your sigreturn code follows that pointer, and
+> > > will read off into lala land.
+> > >
+> >
+> > Then, what about we don't do that at all.  Is it possible from now on we
+> > don't stick more data at the end, and take the relocating-fpu approach?
+> >
+> > > 2. CET.  CET wants us to find a few more bytes somewhere, and those
+> > > bytes logically belong in ucontext, and here we are.
+> > >
+> >
+> > Fortunately, we can spare CET the need of ucontext extension.  When the
+> > kernel handles sigreturn, the user-mode shadow stack pointer is right at
+> > the restore token.  There is no need to put that in ucontext.
+>
+> That seems entirely reasonable.  This might also avoid needing to
+> teach CRIU about CET at all.
 
-fwiw, Debian 9 aka Stretch released June 2017 had gcc 6.3
-Debian 10 aka Buster released June 2019 had gcc 7.4 *and* 8.3.
-Debian 8 aka Jessie had gcc-4.8.4 and gcc-4.9.2.
+Wait, what's the actual shadow stack token format?  And is the token
+on the new stack or the old stack when sigaltstack is in use?  For
+that matter, is there any support for an alternate shadow stack for
+signals?
 
-So do we care about people who haven't bothered to upgrade userspace
-since 2017?  If so, we can't go past 4.9.
+--Andy
