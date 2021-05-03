@@ -2,410 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A204C433B4
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 11:12:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A449CC433B4
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 11:36:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53B8F6127A
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 11:12:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7432661244
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 11:36:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232835AbhECLND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 May 2021 07:13:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38966 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229823AbhECLND (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 May 2021 07:13:03 -0400
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF911611CB;
-        Mon,  3 May 2021 11:12:07 +0000 (UTC)
-Date:   Mon, 3 May 2021 12:12:59 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iio: Documentation: move incompatible ABI to
- obsolete
-Message-ID: <20210503121259.7a871bd0@jic23-huawei>
-In-Reply-To: <a2c802049adee6a5710a58082cfdc1132c5e4c11.1619532170.git.mchehab+huawei@kernel.org>
-References: <a2c802049adee6a5710a58082cfdc1132c5e4c11.1619532170.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S233336AbhECLhJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 May 2021 07:37:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:55267 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233108AbhECLhJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 May 2021 07:37:09 -0400
+Received: from mail-wr1-f52.google.com ([209.85.221.52]) by
+ mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1Mgvan-1l53CN3ueb-00hON9; Mon, 03 May 2021 13:36:14 +0200
+Received: by mail-wr1-f52.google.com with SMTP id l13so3572321wru.11;
+        Mon, 03 May 2021 04:36:14 -0700 (PDT)
+X-Gm-Message-State: AOAM533+SVOPQRH66lK1NWnm96PcQhTvICbcmV5CdYKe9WZYIZhOjBj0
+        xtXEk/jbRMd+2/1cQ2A8Vs3QjJfeyYmvglYFIQ8=
+X-Google-Smtp-Source: ABdhPJwIvsv/yMchaa4sUSYzSCPmfiG5zkCBHBNNq2yUma7fb0HtVe+fV0tBIbTslxWLhW72fs4l8PW7OasotEimGEc=
+X-Received: by 2002:adf:d223:: with SMTP id k3mr24144176wrh.99.1620041774578;
+ Mon, 03 May 2021 04:36:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210501151538.145449-1-masahiroy@kernel.org> <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+ <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
+ <20210502183030.GF10366@gate.crashing.org> <81a926a3bdb70debe3ae2b13655ea8d249fb9991.camel@perches.com>
+ <20210502203253.GH10366@gate.crashing.org> <CAHk-=wjGJskk5EwnDCccs6DcLytE2yx76+P_W-n1-B5zq0M3KA@mail.gmail.com>
+ <20210502223007.GZ1847222@casper.infradead.org>
+In-Reply-To: <20210502223007.GZ1847222@casper.infradead.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 3 May 2021 13:35:30 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1Vt17Yry_gTQ0dwr7_tEoFhuec+mQzzKzFvZGD5Hrnow@mail.gmail.com>
+Message-ID: <CAK8P3a1Vt17Yry_gTQ0dwr7_tEoFhuec+mQzzKzFvZGD5Hrnow@mail.gmail.com>
+Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Joe Perches <joe@perches.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:1RT98D034H4bxxDqcqvK/MknfpiMAh8Lj4Uy75Z3t8nH3cflvjo
+ H6yy2gNcNqK9Jg4nPt/RPIBgmwzm63L8Raf4Ic89saHYXIZLOtYjJEsErtRqbwvav+A6udE
+ UK8gtI2rn/CrjlaUVh1AXel7fBzW/u7o5sbjcTYnP6Ew9jAFJxSIJYShpo8XhmWRKWktj4a
+ y+mm+WmOsW9ZrxuOd5/jA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:V1gpe3VkJCY=:eJuu2sZvKATbOTT5MUVkAI
+ HzCn1Funnm7je4+9ugbIwHj6Pz9oDbrvi4SV92+nnlercW0BSEfcMeDAyrD6fcw8ggEWSDbP5
+ dzPF3Oj9t+s9iLeUckYECnrLQiQpcstFflleS1CM0xvjBMbxtGi5+ohcnL+oDPz1q6YjY7z0k
+ KgZYWlm24aKyVQZnQDlOR4HnYx0DVNxI8ay0ZQdlOougDebe46/lR23qmyuMKU1AXf88PcGN4
+ XcX1//kWryXT6+awD9JfUgVSqsQ2SuZbgDsVsndBe3/9c3vAikBXq6b46fUP9pQeUest3vkvn
+ Bteb+oCWKhE0JfRt54CZU7D16MCX5ThAvQvb0+YevN5jD6lXeuuf/c+ptP96ZVFZksxmx8sV0
+ PuHM/3TcEaQ9tt54+FpYStLIL68KVnm7tbWA2cXdJonCS++PFoySkPxI2WiXRmHrD5RyjfHnA
+ o5lr5IaBjYkTcgt9r9It8jO3zSVcIGQmdQfkRUtmaGAAMd9PX2reVxOTwmBLqrFgGrs+3XcXX
+ l8jBBKh/9rWHuE+vAlAq5D2msofQO1rQrXoWgLA2iEA79SOfnVKpYIfGi0HamxiJtGatlLQcX
+ BKPcKHzVccGQs7WJ6lPhFPG+LsvPyC4/+WHhu4IFqQNEX53hDNBUtwnCKjNcXfL3YSP8BqyX3
+ VPhM=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 27 Apr 2021 16:03:00 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Mon, May 3, 2021 at 12:32 AM Matthew Wilcox <willy@infradead.org> wrote:
+> On Sun, May 02, 2021 at 02:08:31PM -0700, Linus Torvalds wrote:
+> > What is relevant is what version of gcc various distributions actually
+> > have reasonably easily available, and how old and relevant the
+> > distributions are. We did decide that (just as an example) RHEL 7 was
+> > too old to worry about when we updated the gcc version requirement
+> > last time.
+> >
+> > Last year, Arnd and Kirill (maybe others were involved too) made a
+> > list of distros and older gcc versions. But I don't think anybody
+> > actually _maintains_ such a list. It would be perhaps interesting to
+> > have some way to check what compiler versions are being offered by
+> > different distros.
+>
+> fwiw, Debian 9 aka Stretch released June 2017 had gcc 6.3
+> Debian 10 aka Buster released June 2019 had gcc 7.4 *and* 8.3.
+> Debian 8 aka Jessie had gcc-4.8.4 and gcc-4.9.2.
+>
+> So do we care about people who haven't bothered to upgrade userspace
+> since 2017?  If so, we can't go past 4.9.
 
-> Commit 63cd35f34d2e ("iio: Documentation: update definitions for bufferY and scan_elements")
-> updated iio documentation in order to point to the newly
-> per-buffer API, as it is now possible to support multi buffers.
-> 
-> While the previous ABI will be kept forever, the best is
-> for applications to use the 5.11+ ABI. So, move the
-> legacy one ABI/obsolete.
-> 
-> This fixes an issue with scripts/get_abi.pl, that doesn't
-> accept two different Kernel version support for the same
-> API set.
-> 
-> Fixes: 63cd35f34d2e ("iio: Documentation: update definitions for bufferY and scan_elements")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+I would argue that we shouldn't care about distros that are officially
+end-of-life. Jessie support ended last July according to the official
+Debian pages at https://wiki.debian.org/LTS.
 
-Thanks for doing this Mauro.
+It's a little harder for distros that are still officially supported, like the
+RHEL7 case that Linus mentioned, Debian Stretch (gcc-6.3),
+Slackware 14.2 (gcc-5.3), or Ubuntu 18.04 (gcc-7.3). For any of
+these you could make the argument one way or the other: either
+say we care as long as the distro cares, or the users that want
+to build their own kernels can be reasonably expected to either
+upgrade their distro or install a newer compiler manually.
 
-Looks good to me.
+Looking at the Debian case specifically, I see these numbers
+from https://popcon.debian.org/:
 
-Applied to the togreg branch of iio.git and pushed out as testing for the
-autobuilders to ignore it.
+testing/unstable: 16730
+buster/stable: 113881
+stretch/oldstable: 39147
+jessie/oldoldstable: 19286
 
-Thanks,
+Assuming the numbers of users that installed popcon are
+proportional to the actual number of users, that's still a large
+chunk of people running stretch or older. Presumably,
+these users are actually less likely to build their own kernels.
 
-Jonathan
-
-> ---
->  Documentation/ABI/obsolete/sysfs-bus-iio | 182 +++++++++++++++++++++++
->  Documentation/ABI/testing/sysfs-bus-iio  |  82 ----------
->  2 files changed, 182 insertions(+), 82 deletions(-)
->  create mode 100644 Documentation/ABI/obsolete/sysfs-bus-iio
-> 
-> diff --git a/Documentation/ABI/obsolete/sysfs-bus-iio b/Documentation/ABI/obsolete/sysfs-bus-iio
-> new file mode 100644
-> index 000000000000..c9531bb64816
-> --- /dev/null
-> +++ b/Documentation/ABI/obsolete/sysfs-bus-iio
-> @@ -0,0 +1,182 @@
-> +What:		/sys/bus/iio/devices/iio:deviceX/buffer/length
-> +KernelVersion:	2.6.35
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		Number of scans contained by the buffer.
-> +
-> +		Since Kernel 5.11, multiple buffers are supported.
-> +		so, it is better to use, instead:
-> +			/sys/bus/iio/devices/iio:deviceX/bufferY/length
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/buffer/enable
-> +KernelVersion:	2.6.35
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		Actually start the buffer capture up.  Will start trigger
-> +		if first device and appropriate.
-> +
-> +		Since Kernel 5.11, multiple buffers are supported.
-> +		so, it is better to use, instead:
-> +			/sys/bus/iio/devices/iio:deviceX/bufferY/enable
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/scan_elements
-> +KernelVersion:	2.6.37
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		Directory containing interfaces for elements that will be
-> +		captured for a single triggered sample set in the buffer.
-> +
-> +		Since kernel 5.11 the scan_elements attributes are merged into
-> +		the bufferY directory, to be configurable per buffer.
-> +
-> +What:		/sys/.../iio:deviceX/scan_elements/in_accel_x_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_accel_y_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_accel_z_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_x_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_y_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_z_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_magn_x_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_magn_y_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_magn_z_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_tilt_comp_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_tilt_comp_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY-voltageZ_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_incli_x_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_incli_y_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_pressure_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_en
-> +What:		/sys/.../iio:deviceX/scan_elements/in_proximity_en
-> +KernelVersion:	2.6.37
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		Scan element control for triggered data capture.
-> +
-> +		Since kernel 5.11 the scan_elements attributes are merged into
-> +		the bufferY directory, to be configurable per buffer.
-> +
-> +What:		/sys/.../iio:deviceX/scan_elements/in_accel_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_magn_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_incli_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltage_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_pressure_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_type
-> +What:		/sys/.../iio:deviceX/scan_elements/in_proximity_type
-> +KernelVersion:	2.6.37
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		Description of the scan element data storage within the buffer
-> +		and hence the form in which it is read from user-space.
-> +		Form is [be|le]:[s|u]bits/storagebits[>>shift].
-> +		be or le specifies big or little endian. s or u specifies if
-> +		signed (2's complement) or unsigned. bits is the number of bits
-> +		of data and storagebits is the space (after padding) that it
-> +		occupies in the buffer. shift if specified, is the shift that
-> +		needs to be applied prior to masking out unused bits. Some
-> +		devices put their data in the middle of the transferred elements
-> +		with additional information on both sides.  Note that some
-> +		devices will have additional information in the unused bits
-> +		so to get a clean value, the bits value must be used to mask
-> +		the buffer output value appropriately.  The storagebits value
-> +		also specifies the data alignment.  So s48/64>>2 will be a
-> +		signed 48 bit integer stored in a 64 bit location aligned to
-> +		a 64 bit boundary. To obtain the clean value, shift right 2
-> +		and apply a mask to zero the top 16 bits of the result.
-> +		For other storage combinations this attribute will be extended
-> +		appropriately.
-> +
-> +		Since kernel 5.11 the scan_elements attributes are merged into
-> +		the bufferY directory, to be configurable per buffer.
-> +
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_accel_x_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_accel_y_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_accel_z_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_x_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_y_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_z_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_magn_x_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_magn_y_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_magn_z_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_tilt_comp_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_tilt_comp_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_incli_x_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_incli_y_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_pressure_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_index
-> +What:		/sys/.../iio:deviceX/scan_elements/in_proximity_index
-> +KernelVersion:	2.6.37
-> +Description:
-> +		A single positive integer specifying the position of this
-> +		scan element in the buffer. Note these are not dependent on
-> +		what is enabled and may not be contiguous. Thus for user-space
-> +		to establish the full layout these must be used in conjunction
-> +		with all _en attributes to establish which channels are present,
-> +		and the relevant _type attributes to establish the data storage
-> +		format.
-> +
-> +		Since kernel 5.11 the scan_elements attributes are merged into
-> +		the bufferY directory, to be configurable per buffer.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/buffer/watermark
-> +KernelVersion:	4.2
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		A single positive integer specifying the maximum number of scan
-> +		elements to wait for.
-> +
-> +		Poll will block until the watermark is reached.
-> +
-> +		Blocking read will wait until the minimum between the requested
-> +		read amount or the low water mark is available.
-> +
-> +		Non-blocking read will retrieve the available samples from the
-> +		buffer even if there are less samples then watermark level. This
-> +		allows the application to block on poll with a timeout and read
-> +		the available samples after the timeout expires and thus have a
-> +		maximum delay guarantee.
-> +
-> +		Since Kernel 5.11, multiple buffers are supported.
-> +		so, it is better to use, instead:
-> +			/sys/bus/iio/devices/iio:deviceX/bufferY/watermark
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/buffer/data_available
-> +KernelVersion: 4.16
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		A read-only value indicating the bytes of data available in the
-> +		buffer. In the case of an output buffer, this indicates the
-> +		amount of empty space available to write data to. In the case of
-> +		an input buffer, this indicates the amount of data available for
-> +		reading.
-> +
-> +		Since Kernel 5.11, multiple buffers are supported.
-> +		so, it is better to use, instead:
-> +			/sys/bus/iio/devices/iio:deviceX/bufferY/data_available
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-> index 433fe0ab74be..1164e3779fd9 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-iio
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio
-> @@ -1195,16 +1195,12 @@ Description:
->  		The name of the trigger source being used, as per string given
->  		in /sys/class/iio/triggerY/name.
->  
-> -What:		/sys/bus/iio/devices/iio:deviceX/buffer/length
-> -KernelVersion:	2.6.35
->  What:		/sys/bus/iio/devices/iio:deviceX/bufferY/length
->  KernelVersion:	5.11
->  Contact:	linux-iio@vger.kernel.org
->  Description:
->  		Number of scans contained by the buffer.
->  
-> -What:		/sys/bus/iio/devices/iio:deviceX/buffer/enable
-> -KernelVersion:	2.6.35
->  What:		/sys/bus/iio/devices/iio:deviceX/bufferY/enable
->  KernelVersion:	5.11
->  Contact:	linux-iio@vger.kernel.org
-> @@ -1212,8 +1208,6 @@ Description:
->  		Actually start the buffer capture up.  Will start trigger
->  		if first device and appropriate.
->  
-> -What:		/sys/bus/iio/devices/iio:deviceX/scan_elements
-> -KernelVersion:	2.6.37
->  What:		/sys/bus/iio/devices/iio:deviceX/bufferY
->  KernelVersion:	5.11
->  Contact:	linux-iio@vger.kernel.org
-> @@ -1224,34 +1218,6 @@ Description:
->  		Since kernel 5.11 the scan_elements attributes are merged into
->  		the bufferY directory, to be configurable per buffer.
->  
-> -What:		/sys/.../iio:deviceX/scan_elements/in_accel_x_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_accel_y_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_accel_z_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_x_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_y_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_z_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_magn_x_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_magn_y_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_magn_z_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_tilt_comp_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_tilt_comp_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY-voltageZ_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_incli_x_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_incli_y_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_pressure_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_en
-> -What:		/sys/.../iio:deviceX/scan_elements/in_proximity_en
-> -KernelVersion:	2.6.37
->  What:		/sys/.../iio:deviceX/bufferY/in_accel_x_en
->  What:		/sys/.../iio:deviceX/bufferY/in_accel_y_en
->  What:		/sys/.../iio:deviceX/bufferY/in_accel_z_en
-> @@ -1284,23 +1250,6 @@ Contact:	linux-iio@vger.kernel.org
->  Description:
->  		Scan element control for triggered data capture.
->  
-> -What:		/sys/.../iio:deviceX/scan_elements/in_accel_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_magn_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_incli_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltage_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_pressure_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_type
-> -What:		/sys/.../iio:deviceX/scan_elements/in_proximity_type
-> -KernelVersion:	2.6.37
->  What:		/sys/.../iio:deviceX/bufferY/in_accel_type
->  What:		/sys/.../iio:deviceX/bufferY/in_anglvel_type
->  What:		/sys/.../iio:deviceX/bufferY/in_magn_type
-> @@ -1347,33 +1296,6 @@ Description:
->  		If the type parameter can take one of a small set of values,
->  		this attribute lists them.
->  
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_supply_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_i_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltageY_q_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltage_i_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_voltage_q_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_accel_x_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_accel_y_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_accel_z_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_x_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_y_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_anglvel_z_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_magn_x_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_magn_y_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_magn_z_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_magnetic_tilt_comp_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_from_north_true_tilt_comp_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_incli_x_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_incli_y_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_timestamp_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_pressureY_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_pressure_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_rot_quaternion_index
-> -What:		/sys/.../iio:deviceX/scan_elements/in_proximity_index
-> -KernelVersion:	2.6.37
->  What:		/sys/.../iio:deviceX/bufferY/in_voltageY_index
->  What:		/sys/.../iio:deviceX/bufferY/in_voltageY_supply_index
->  What:		/sys/.../iio:deviceX/bufferY/in_voltageY_i_index
-> @@ -1613,8 +1535,6 @@ Description:
->  		Specifies number of seconds in which we compute the steps
->  		that occur in order to decide if the consumer is making steps.
->  
-> -What:		/sys/bus/iio/devices/iio:deviceX/buffer/watermark
-> -KernelVersion:	4.2
->  What:		/sys/bus/iio/devices/iio:deviceX/bufferY/watermark
->  KernelVersion:	5.11
->  Contact:	linux-iio@vger.kernel.org
-> @@ -1633,8 +1553,6 @@ Description:
->  		the available samples after the timeout expires and thus have a
->  		maximum delay guarantee.
->  
-> -What:		/sys/bus/iio/devices/iio:deviceX/buffer/data_available
-> -KernelVersion: 4.16
->  What:		/sys/bus/iio/devices/iio:deviceX/bufferY/data_available
->  KernelVersion:	5.11
->  Contact:	linux-iio@vger.kernel.org
-
+       Arnd
