@@ -2,102 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A66C433B4
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 12:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A094EC433ED
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 13:10:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55F9E611C9
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 12:30:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 681E3611C0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 13:10:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232195AbhECMa7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 May 2021 08:30:59 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47782 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229907AbhECMa6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 May 2021 08:30:58 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 52E8DAD22;
-        Mon,  3 May 2021 12:30:04 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-        id C7B22DA733; Mon,  3 May 2021 14:27:36 +0200 (CEST)
-Date:   Mon, 3 May 2021 14:27:36 +0200
-From:   David Sterba <dsterba@suse.cz>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-Message-ID: <20210503122736.GG7604@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-References: <20210501151538.145449-1-masahiroy@kernel.org>
+        id S234126AbhECNLn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 May 2021 09:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59994 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234120AbhECNLm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 May 2021 09:11:42 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA93C06174A;
+        Mon,  3 May 2021 06:10:48 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id 130so7406105ybd.10;
+        Mon, 03 May 2021 06:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=q6aPtToSrVgBi/90t1ZUB9kHaOhzD5C9bj4BQEcePPk=;
+        b=lqGGCtzE5m8F9orYtPate6N4BTFbRDldnXzGj2tE87HBcn1BRn7f5XfxsJmYODrxik
+         e8EkfaDCxloU/Q9iBapQyXgVjXP0S4DEJ0fXLrl9h3WPztOm88MubRYvbs9d3jfqGqx+
+         iy9k59bjEyTqA/JJgPQ3YBDSOg4s+trVOYoxK6J7Lt5Gi2GwquvTtB02IITfC21XkxNA
+         lGyAB0OIcRbwh0FVuTlthtGxfWSXpeBK0cMQGMm7c6fDD1CV4+4N2Ay8M/08fvry9jyw
+         TF22FDOSLWt3qkPw5KtV5L2sv6tZ8jOFNTAw83cA9C4ThWwXkIpT0aLKrSpPx/QUefiX
+         Kbxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=q6aPtToSrVgBi/90t1ZUB9kHaOhzD5C9bj4BQEcePPk=;
+        b=LhYwwpp4NP9mwa+00uuD8Ve1i2eGBBYRn/x6HWzhCDS/Hm/wPZbMOHoo1l23QKS5bE
+         hW/ngGdnPHi9bcSjq6cCCaUjuKwtAqkw8F96ps6iJvfmDjBzNelBggkB56/WF2k8EJF9
+         dqKDlUezpB6ic5EBX5lxIfGR/eRkTa1rfB/oFs9PqUTOaQsInjCCb2VAbe/ldb9F5l7L
+         toeXkjmm329Q+Y2Wm0eSgrZqJ177AILZkLVCqATm53JpoWV7YTLYBsZ08Ilh7kvVCTh6
+         OtjvPt25wu1cAUnZTyivN1fHfSfkpWvwdFfiLseHuH231sVtSJ5NUrnMPI4slHZ45ZZB
+         jVfw==
+X-Gm-Message-State: AOAM530TWO8Rm3f9fFUajAf2JMAhvDCFc9JyW1hgkK7ugpZnlTmd3Puq
+        3HmGtigkpjeTwVbeEPUq1nGfLaXTx4JZVwGHj3/IMembIh7YvA==
+X-Google-Smtp-Source: ABdhPJxvygbDWGxmRr6V8Vm4D83Fq4MRol9PEQb74s8BS9df3UUbSP8yls4vcRx2kU2tZhdFxHQp30hnnaM7RamlTpQ=
+X-Received: by 2002:a25:7909:: with SMTP id u9mr25466002ybc.22.1620047448169;
+ Mon, 03 May 2021 06:10:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210501151538.145449-1-masahiroy@kernel.org>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+References: <20210501151538.145449-1-masahiroy@kernel.org> <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+ <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
+ <20210502183030.GF10366@gate.crashing.org> <81a926a3bdb70debe3ae2b13655ea8d249fb9991.camel@perches.com>
+ <20210502203253.GH10366@gate.crashing.org> <CAHk-=wjGJskk5EwnDCccs6DcLytE2yx76+P_W-n1-B5zq0M3KA@mail.gmail.com>
+ <20210502223007.GZ1847222@casper.infradead.org> <YI+nhMcPSTs/5Ydp@ada-deb-carambola.ifak-system.com>
+ <CAK8P3a0kV4ZfMEFh0DcMDjXqxA0yhj8a8CL-YFGV6B4pszHeGg@mail.gmail.com> <fc0c7c092f274ab8b760b3c897830347@AcuMS.aculab.com>
+In-Reply-To: <fc0c7c092f274ab8b760b3c897830347@AcuMS.aculab.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 3 May 2021 15:10:37 +0200
+Message-ID: <CANiq72nyvrb6ZrVVeaT9py7D_Sv9q-a1HGYH-hNpqfmcCmb4dg@mail.gmail.com>
+Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Joe Perches <joe@perches.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 02, 2021 at 12:15:38AM +0900, Masahiro Yamada wrote:
-> The current minimum GCC version is 4.9 except ARCH=arm64 requiring
-> GCC 5.1.
-> 
-> When we discussed last time, we agreed to raise the minimum GCC version
-> to 5.1 globally. [1]
+On Mon, May 3, 2021 at 2:20 PM David Laight <David.Laight@aculab.com> wrote:
+>
+> It would be nice to be able to build current kernels (for local
+> use) on the 'new' system - but gcc is already too old.
 
-There are still a lot of comment references to old gcc releases with
-workarounds or bugfixes, a quick serarch:
+I have seen such environments too... However, for the kernel in
+particular, you could install a newer GCC in the 'new' machine (just
+for the kernel builds) or do your kernel builds in a different machine
+-- a 'new' 'new' one :)
 
-$ git grep -in 'gcc.*[234]\.x'
-arch/alpha/include/asm/string.h:30:/* For gcc 3.x, we cannot have the inline function named "memset" because
-arch/arc/include/asm/checksum.h:9: *  -gcc 4.4.x broke networking. Alias analysis needed to be primed.
-arch/arm/Makefile:127:# Need -Uarm for gcc < 3.x
-arch/ia64/lib/memcpy_mck.S:535: * Due to lack of local tag support in gcc 2.x assembler, it is not clear which
-arch/mips/include/asm/page.h:210: * also affect MIPS so we keep this one until GCC 3.x has been retired
-arch/x86/include/asm/page.h:53: * remove this Voodoo magic stuff. (i.e. once gcc3.x is deprecated)
-arch/x86/kvm/x86.c:5569:         * This union makes it completely explicit to gcc-3.x
-arch/x86/mm/pgtable.c:302:      if (PREALLOCATED_PMDS == 0) /* Work around gcc-3.4.x bug */
-drivers/net/ethernet/renesas/sh_eth.c:51: * that warning from W=1 builds. GCC has supported this option since 4.2.X, but
-lib/xz/xz_dec_lzma2.c:494: * of the code generated by GCC 3.x decreases 10-15 %. (GCC 4.3 doesn't care,
-lib/xz/xz_dec_lzma2.c:495: * and it generates 10-20 % faster code than GCC 3.x from this file anyway.)
-net/core/skbuff.c:32: * The functions in this file will not compile correctly with gcc 2.4.x
-
-This misses version-specific quirks, but the following returns 216
-results and not all are problematic (eg. just referring to gcc for some
-historical reason) so I'm not pasting it here.
-
-$ git grep -in 'gcc.*[234]\.[0-9]'
-...
+Cheers,
+Miguel
