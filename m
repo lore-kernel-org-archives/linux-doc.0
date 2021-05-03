@@ -2,122 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC33C433ED
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 15:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3C68C43461
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 15:40:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7EEB610E6
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 15:40:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0DF161364
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 15:40:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230335AbhECPlG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 May 2021 11:41:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39895 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230122AbhECPlF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 May 2021 11:41:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620056412;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ecMiMtDwOcYd8qIxuahdOpynUJcA9qmTkIzOJwjDg3g=;
-        b=TXnCUaUVW9V3bxW00i1l8GaQTDq0osms5OTF/g2I9ry+CBMr84FBkiJpvxxqXTfmFTayfx
-        ob//YMUoYTDUx2dM/tITiEMOU5R6BFHEdH9R91HBFVzmKBNPjFPCe0BBW6d9/M/bQo0I7H
-        WrQv06VRUYN4YsZY4HQd8rmv2pbZztc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-MkDfKqIaNGmttIfv6ijJKA-1; Mon, 03 May 2021 11:40:10 -0400
-X-MC-Unique: MkDfKqIaNGmttIfv6ijJKA-1
-Received: by mail-ed1-f72.google.com with SMTP id q18-20020a0564025192b02903888712212fso4623810edd.19
-        for <linux-doc@vger.kernel.org>; Mon, 03 May 2021 08:40:10 -0700 (PDT)
+        id S230416AbhECPlM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 May 2021 11:41:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37310 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230410AbhECPlL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 May 2021 11:41:11 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA6FC061763;
+        Mon,  3 May 2021 08:40:17 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id v24so5761949oiv.9;
+        Mon, 03 May 2021 08:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=34dF5ctgfAlTAtJG1sBGWWovdOzk0i2UvPd5qj/cqpI=;
+        b=s1q2l3fIsBxw/CGvfRSuij4fe4Vmoz7TTllOMPiOehTJaQJGWpP2fPT+pywJInE1k0
+         bJA+A77zq7zS4dlrOVUqZaS6Ac6siu9uUV6xXZtfAHDzF0qAs655gI7lbfGXgmNovjcy
+         ydvMzq/Nq3DsWlSbg1ZH+RMPGbrPwVSNObKbG2+I0KfOSWoJV5PU4HIlUh68oD8+8rb8
+         D0EoL5i1j0eCEQSWJ4tbM8nvgnJUis7XF7O8BHmCiiHKRENp9n0KHqYFDnNt2Vgj+Bys
+         aFvwAdcHT5fOQtfxq9ZqigUc4Q+m7DQ/nyDCJnJxy8Ef4vMSm/XW0p5mb5BQWTt+hZ3m
+         oTtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ecMiMtDwOcYd8qIxuahdOpynUJcA9qmTkIzOJwjDg3g=;
-        b=iADvincc+vuS1/R8srxoNiWg4PpbX/Yn8KM5Bkr6R4NozZuzV13AGVGAFhhgqnQGrz
-         pFeIaVO0sVVEvg6ib1A93A5YVKyLm5WU/lt40E2gRqqsMQtlDy7Dabb48ZJtTf0WT1zM
-         CzYAPMjpij7xjJW0UYTvqPzjP+uZT+AwYTXTw+7hk3d/1jyoWrO9XUlwSOjyKF4k+YX1
-         CEpJyGSSyQ4IYYgRZW67w2rV4FGcMVkS0JNGa/wZasNoUmg9Db11zFtNzbnwckFbqZd+
-         EKcJy2q5PI6mxCWsFd1F9JsVbTwU/0ecmz2J035Ehwxut+vFUfwZ3gKP6tMZwzmk8bIW
-         gwEg==
-X-Gm-Message-State: AOAM5330ch/u4C/ACjIjL+P7D8nryipXfINjVQUdi/Z0w93QRENLu3a+
-        zT2gnZGhf2zLQjoBzPqI7lMKU/LULlOo+oE+xiz3mQDu4+x1kBOSlUyjhEem6F2sd9aMyW7ppla
-        HJkJ+l9cYz5EQjXYtEIEa
-X-Received: by 2002:a05:6402:3495:: with SMTP id v21mr20519076edc.117.1620056409232;
-        Mon, 03 May 2021 08:40:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCSWEMOnAvKantgHsr2jFZf8+i4gKIV4OBcQbyNrP5M1pmL92Cx59EovfRT5ncXaNeES8sUw==
-X-Received: by 2002:a05:6402:3495:: with SMTP id v21mr20519062edc.117.1620056409030;
-        Mon, 03 May 2021 08:40:09 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id y16sm37248ejp.36.2021.05.03.08.40.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 May 2021 08:40:08 -0700 (PDT)
-Subject: Re: [PATCH] doc/kvm: Fix wrong entry for KVM_CAP_X86_MSR_FILTER
-To:     Siddharth Chandrasekaran <sidcha@amazon.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Graf <graf@amazon.com>
-Cc:     Alexander Graf <graf@amazon.de>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210503120059.9283-1-sidcha@amazon.de>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9be335ec-dcd4-97de-5f50-92c0dfc37df7@redhat.com>
-Date:   Mon, 3 May 2021 17:40:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=34dF5ctgfAlTAtJG1sBGWWovdOzk0i2UvPd5qj/cqpI=;
+        b=EfLR5FDSj+xmyGwy4gYOe7XTE0o4EIH7c2Nkjl6M7V81OO5dI0k3yHXQGZl1goEfGB
+         YErbWLq5mAnW1p9rKPfvE2qrT86HvIPS3wjQ87TccqbTZoCPBeQt24i89ZRtwGA1HviK
+         W2wFvtaytzUGvy2L+KYdXCjvUuEBXRMqCX6oR8WrCFeXHz5GAOmXOwmg9U8bZRdIswaj
+         1nNUIF81HG7hXN0Kwg1OtNXxtQEzavFUAWZZxpBDkkU4YVyRqZuZHdv+ZoUl2RhNgwd9
+         su6S4A/GNcQj9vW0FLFOoC6W5a/ASvYrs8Kwpzdv19xAJC7wyLZ+f0gVFM/20Cf2uzZa
+         ESbw==
+X-Gm-Message-State: AOAM530wTqN7ixQajHTMl1CXRwxTaW5c/uFb4043Vo4UKCkFThN9sUfB
+        8qZPHuNmc7LtXs+ckDnojD0pGrto8jg=
+X-Google-Smtp-Source: ABdhPJwhgY8mAkiNQqXi8RJjNt6DUyL9CyMDozpn646jH6IenhF6zuK8dzqQ/adVJOxzH4K4GLA24A==
+X-Received: by 2002:aca:409:: with SMTP id 9mr1462933oie.179.1620056416894;
+        Mon, 03 May 2021 08:40:16 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 88sm31956ott.51.2021.05.03.08.40.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 May 2021 08:40:16 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 3 May 2021 08:40:15 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Robert Marko <robert.marko@sartura.hr>
+Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] hwmon: lm75: Add TI TMP1075 support
+Message-ID: <20210503154015.GA707775@roeck-us.net>
+References: <20210429121150.106804-1-robert.marko@sartura.hr>
 MIME-Version: 1.0
-In-Reply-To: <20210503120059.9283-1-sidcha@amazon.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210429121150.106804-1-robert.marko@sartura.hr>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/05/21 14:00, Siddharth Chandrasekaran wrote:
-> The capability that exposes new ioctl KVM_X86_SET_MSR_FILTER to
-> userspace is specified incorrectly as the ioctl itself (instead of
-> KVM_CAP_X86_MSR_FILTER). This patch fixes it.
+On Thu, Apr 29, 2021 at 02:11:49PM +0200, Robert Marko wrote:
+> TI TMP1075 is a LM75 compatible sensor, so lets
+> add support for it.
 > 
-> Fixes: 1a155254ff93 ("KVM: x86: Introduce MSR filtering")
-> Cc: Alexander Graf <graf@amazon.de>
-> Signed-off-by: Siddharth Chandrasekaran <sidcha@amazon.de>
+> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+
+Applied to hwmon-next.
+
+Thanks,
+Guenter
+
 > ---
->   Documentation/virt/kvm/api.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/hwmon/lm75.rst |  6 ++++--
+>  drivers/hwmon/lm75.c         | 13 +++++++++++++
+>  2 files changed, 17 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 307f2fcf1b02..e778f4aa08f4 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -4713,7 +4713,7 @@ KVM_PV_VM_VERIFY
->   4.126 KVM_X86_SET_MSR_FILTER
->   ----------------------------
->   
-> -:Capability: KVM_X86_SET_MSR_FILTER
-> +:Capability: KVM_CAP_X86_MSR_FILTER
->   :Architectures: x86
->   :Type: vm ioctl
->   :Parameters: struct kvm_msr_filter
-> @@ -6586,7 +6586,7 @@ accesses that would usually trigger a #GP by KVM into the guest will
->   instead get bounced to user space through the KVM_EXIT_X86_RDMSR and
->   KVM_EXIT_X86_WRMSR exit notifications.
->   
-> -8.27 KVM_X86_SET_MSR_FILTER
-> +8.27 KVM_CAP_X86_MSR_FILTER
->   ---------------------------
->   
->   :Architectures: x86
-> 
-
-Queued, thanks.
-
-Paolo
-
+> diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
+> index 81257d5fc48f..8d0ab4ad5fb5 100644
+> --- a/Documentation/hwmon/lm75.rst
+> +++ b/Documentation/hwmon/lm75.rst
+> @@ -93,9 +93,9 @@ Supported chips:
+>  
+>  	       https://www.st.com/resource/en/datasheet/stlm75.pdf
+>  
+> -  * Texas Instruments TMP100, TMP101, TMP105, TMP112, TMP75, TMP75B, TMP75C, TMP175, TMP275
+> +  * Texas Instruments TMP100, TMP101, TMP105, TMP112, TMP75, TMP75B, TMP75C, TMP175, TMP275, TMP1075
+>  
+> -    Prefixes: 'tmp100', 'tmp101', 'tmp105', 'tmp112', 'tmp175', 'tmp75', 'tmp75b', 'tmp75c', 'tmp275'
+> +    Prefixes: 'tmp100', 'tmp101', 'tmp105', 'tmp112', 'tmp175', 'tmp75', 'tmp75b', 'tmp75c', 'tmp275', 'tmp1075'
+>  
+>      Addresses scanned: none
+>  
+> @@ -119,6 +119,8 @@ Supported chips:
+>  
+>  	       https://www.ti.com/product/tmp275
+>  
+> +         https://www.ti.com/product/TMP1075
+> +
+>    * NXP LM75B, PCT2075
+>  
+>      Prefix: 'lm75b', 'pct2075'
+> diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
+> index e447febd121a..afdbb63237b9 100644
+> --- a/drivers/hwmon/lm75.c
+> +++ b/drivers/hwmon/lm75.c
+> @@ -50,6 +50,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
+>  	tmp75,
+>  	tmp75b,
+>  	tmp75c,
+> +	tmp1075,
+>  };
+>  
+>  /**
+> @@ -293,6 +294,13 @@ static const struct lm75_params device_params[] = {
+>  		.clr_mask = 1 << 5,	/*not one-shot mode*/
+>  		.default_resolution = 12,
+>  		.default_sample_time = MSEC_PER_SEC / 12,
+> +	},
+> +	[tmp1075] = { /* not one-shot mode, 27.5 ms sample rate */
+> +		.clr_mask = 1 << 5 | 1 << 6 | 1 << 7,
+> +		.default_resolution = 12,
+> +		.default_sample_time = 28,
+> +		.num_sample_times = 4,
+> +		.sample_times = (unsigned int []){ 28, 55, 110, 220 },
+>  	}
+>  };
+>  
+> @@ -662,6 +670,7 @@ static const struct i2c_device_id lm75_ids[] = {
+>  	{ "tmp75", tmp75, },
+>  	{ "tmp75b", tmp75b, },
+>  	{ "tmp75c", tmp75c, },
+> +	{ "tmp1075", tmp1075, },
+>  	{ /* LIST END */ }
+>  };
+>  MODULE_DEVICE_TABLE(i2c, lm75_ids);
+> @@ -771,6 +780,10 @@ static const struct of_device_id __maybe_unused lm75_of_match[] = {
+>  		.compatible = "ti,tmp75c",
+>  		.data = (void *)tmp75c
+>  	},
+> +	{
+> +		.compatible = "ti,tmp1075",
+> +		.data = (void *)tmp1075
+> +	},
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(of, lm75_of_match);
