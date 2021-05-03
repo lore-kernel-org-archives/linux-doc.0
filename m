@@ -2,92 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA246C433B4
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 14:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8116C433ED
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 15:14:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BE0F6121D
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 14:54:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFF41611CE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 15:14:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbhECOz0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 May 2021 10:55:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46848 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229900AbhECOzZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 May 2021 10:55:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620053671;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3b540+x5tTROkhNIivHz2jfrf6p5DdmXEjkUmZeSpJM=;
-        b=A5Ptyk7vR/V2/ULPbO2gsdYtkQR9m7/9bs84JP3eCO6aB8enjn0FusPEUskvJzg9X7cQWa
-        XXbenGT2rs9cG15GFO5RKqB2hdOyodpilfitwuLAawtLaih4gp/n2x/e7YjdQ2MzyYfnJY
-        2dduNU8ihCEs7hXf1K/034g71hRTxiU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-8Kf4vWj6PTuXQAwNMMDu-g-1; Mon, 03 May 2021 10:54:30 -0400
-X-MC-Unique: 8Kf4vWj6PTuXQAwNMMDu-g-1
-Received: by mail-ed1-f71.google.com with SMTP id u30-20020a50a41e0000b0290385504d6e4eso4702464edb.7
-        for <linux-doc@vger.kernel.org>; Mon, 03 May 2021 07:54:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3b540+x5tTROkhNIivHz2jfrf6p5DdmXEjkUmZeSpJM=;
-        b=k8FX/LtXyx5OJ24iiwww1am7OdCokFbwi3sjEwxkRWoqJEqHD68nMJL4l1xlaOjumD
-         S1Q0bTXMzDCQpymhzKrQqF3Uoe5E5tsfRef6n2OJgTJDRjX899drrps/CL44MUfFCOaL
-         j/soDMn1nyRnwsNLCCDXd2zfwnsthzFICfOlz/E62xjtCe2Ij4U6pfluoq2KYu5ktA25
-         EJkhTQkYBcRSrRtnXEKEpdYS4lCf31ZsAqDIkK50n7K/1kVm/XPTKdfy0unBPpCcvcQ9
-         RVHLCaoUnPvu+140aHKJFUPDfUyyXPTivTICUyPj58B2jTZyTx4YVuXmSUIKLSE4Nmuv
-         GmYQ==
-X-Gm-Message-State: AOAM533L3HU0VkLoVEzoWbIGGEcI5CJZGPREoeL1PKrVj7ERy3WzqKIM
-        iOLS7Rp5sFldqyqLFSmHfMx/O+RIUeqCOntO+R2TWPL9cf/fyv2Zet5tYJDlMIhGDJjrz+GdPfy
-        lx7g33Yr6uaxwm9RgKFhj
-X-Received: by 2002:a17:906:3884:: with SMTP id q4mr3800238ejd.492.1620053669154;
-        Mon, 03 May 2021 07:54:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoR23CFOSjH9ccO37wfLz2PUmLdvsRxh6LTPVmadaUWrtpbDf7jx//gWJ/S64YXlz2inuaaw==
-X-Received: by 2002:a17:906:3884:: with SMTP id q4mr3800225ejd.492.1620053668986;
-        Mon, 03 May 2021 07:54:28 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id go38sm11070888ejc.40.2021.05.03.07.54.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 May 2021 07:54:28 -0700 (PDT)
-Subject: Re: [PATCH v4] KVM: x86: Fix KVM_GET_CPUID2 ioctl to return cpuid
- entries count
-To:     Sean Christopherson <seanjc@google.com>,
-        Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Cc:     linux-kernel@vger.kernel.org, Denis Lunev <den@openvz.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+        id S230301AbhECPOw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 May 2021 11:14:52 -0400
+Received: from mga12.intel.com ([192.55.52.136]:2810 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229717AbhECPOw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 May 2021 11:14:52 -0400
+IronPort-SDR: mQQqslQ6I2Eg5q0jPFgJ5fgJmbuvyCnqbEQS+G44c1t+zN1RrSZUI4q/bayx4ytp6gXCq1NuAr
+ XhtXIfVrigpA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="177294938"
+X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
+   d="scan'208";a="177294938"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 08:13:59 -0700
+IronPort-SDR: pWcsJXyFsd7b5TPpL4Vw5oqr/3WXl+APLR9msm7QUhLFaWu0dgX6ieePzgaMhnw05H/y9AQ1zU
+ zwVegWqY9wEQ==
+X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
+   d="scan'208";a="462597827"
+Received: from ijholwag-mobl1.amr.corp.intel.com (HELO [10.251.140.183]) ([10.251.140.183])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 08:13:58 -0700
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        Alexander Graf <graf@amazon.com>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        Like Xu <like.xu@linux.intel.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20210428172729.3551-1-valeriy.vdovin@virtuozzo.com>
- <YIoFFl72VSeuhCRt@google.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0d68dbc3-8462-7763-fbad-f3b895fcf6e6@redhat.com>
-Date:   Mon, 3 May 2021 16:54:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+ <8fd86049-930d-c9b7-379c-56c02a12cd77@intel.com>
+ <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
+ <CALCETrWnxd9-dGdYsw5LC+iRffAmuSzzDQGde8nYQdFJyFYp9Q@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <782ffe96-b830-d13b-db80-5b60f41ccdbf@intel.com>
+Date:   Mon, 3 May 2021 08:13:57 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <YIoFFl72VSeuhCRt@google.com>
+In-Reply-To: <CALCETrWnxd9-dGdYsw5LC+iRffAmuSzzDQGde8nYQdFJyFYp9Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -95,54 +84,86 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/04/21 03:00, Sean Christopherson wrote:
-> On Wed, Apr 28, 2021, Valeriy Vdovin wrote:
->> It's very explicit by the code that it was designed to receive some
->> small number of entries to return E2BIG along with the corrected number.
-> 
-> LOL, saying KVM_GET_CPUID2 was "designed" is definitely giving the KVM
-> forefathers the benefit of the doubt.
+On 5/2/2021 4:23 PM, Andy Lutomirski wrote:
+> On Fri, Apr 30, 2021 at 10:47 AM Andy Lutomirski <luto@kernel.org> wrote:
+>>
+>> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+>>>
+>>> On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
+>>>> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>>>>
+>>>>> When shadow stack is enabled, a task's shadow stack states must be saved
+>>>>> along with the signal context and later restored in sigreturn.  However,
+>>>>> currently there is no systematic facility for extending a signal context.
+>>>>> There is some space left in the ucontext, but changing ucontext is likely
+>>>>> to create compatibility issues and there is not enough space for further
+>>>>> extensions.
+>>>>>
+>>>>> Introduce a signal context extension struct 'sc_ext', which is used to save
+>>>>> shadow stack restore token address.  The extension is located above the fpu
+>>>>> states, plus alignment.  The struct can be extended (such as the ibt's
+>>>>> wait_endbr status to be introduced later), and sc_ext.total_size field
+>>>>> keeps track of total size.
+>>>>
+>>>> I still don't like this.
+>>>>
+>>>> Here's how the signal layout works, for better or for worse:
+>>>>
 
-I was going to make a different joke, i.e. that KVM_GET_CPUID2 was 
-indeed designed the way Valeriy described, but that design was forgotten 
-soon after.
+[...]
 
-Really, this ioctl has been such a trainwreck that I think the only good 
-solution here is to drop it.
+>>>>
+>>>> That's where we are right now upstream.  The kernel has a parser for
+>>>> the FPU state that is bugs piled upon bugs and is going to have to be
+>>>> rewritten sometime soon.  On top of all this, we have two upcoming
+>>>> features, both of which require different kinds of extensions:
+>>>>
+>>>> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
+>>>> but no.  And AMX makes it worse.)  To make a long story short, we
+>>>> promised user code many years ago that a signal frame fit in 2048
+>>>> bytes with some room to spare.  With AVX-512 this is false.  With AMX
+>>>> it's so wrong it's not even funny.  The only way out of the mess
+>>>> anyone has come up with involves making the length of the FPU state
+>>>> vary depending on which features are INIT, i.e. making it more compact
+>>>> than "compact" mode is.  This has a side effect: it's no longer
+>>>> possible to modify the state in place, because enabling a feature with
+>>>> no space allocated will make the structure bigger, and the stack won't
+>>>> have room.  Fortunately, one can relocate the entire FPU state, update
+>>>> the pointer in mcontext, and the kernel will happily follow the
+>>>> pointer.  So new code on a new kernel using a super-compact state
+>>>> could expand the state by allocating new memory (on the heap? very
+>>>> awkwardly on the stack?) and changing the pointer.  For all we know,
+>>>> some code already fiddles with the pointer.  This is great, except
+>>>> that your patch sticks more data at the end of the FPU block that no
+>>>> one is expecting, and your sigreturn code follows that pointer, and
+>>>> will read off into lala land.
+>>>>
+>>>
+>>> Then, what about we don't do that at all.  Is it possible from now on we
+>>> don't stick more data at the end, and take the relocating-fpu approach?
+>>>
+>>>> 2. CET.  CET wants us to find a few more bytes somewhere, and those
+>>>> bytes logically belong in ucontext, and here we are.
+>>>>
+>>>
+>>> Fortunately, we can spare CET the need of ucontext extension.  When the
+>>> kernel handles sigreturn, the user-mode shadow stack pointer is right at
+>>> the restore token.  There is no need to put that in ucontext.
+>>
+>> That seems entirely reasonable.  This might also avoid needing to
+>> teach CRIU about CET at all.
+> 
+> Wait, what's the actual shadow stack token format?  And is the token
+> on the new stack or the old stack when sigaltstack is in use?  For
+> that matter, is there any support for an alternate shadow stack for
+> signals?
+> 
 
-Paolo
+The restore token is a pointer pointing directly above itself and bit[0] 
+indicates 64-bit mode.
 
->> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
->> index efc7a82ab140..3f941b1f4e78 100644
->> --- a/arch/x86/kvm/x86.c
->> +++ b/arch/x86/kvm/x86.c
->> @@ -4773,14 +4773,17 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->>   		r = -EFAULT;
->>   		if (copy_from_user(&cpuid, cpuid_arg, sizeof(cpuid)))
->>   			goto out;
->> +
->>   		r = kvm_vcpu_ioctl_get_cpuid2(vcpu, &cpuid,
->>   					      cpuid_arg->entries);
->> -		if (r)
->> +
->> +		if (r && r != -E2BIG)
->>   			goto out;
->> -		r = -EFAULT;
->> -		if (copy_to_user(cpuid_arg, &cpuid, sizeof(cpuid)))
->> +
->> +		if (copy_to_user(cpuid_arg, &cpuid, sizeof(cpuid))) {
->> +			r = -EFAULT;
->>   			goto out;
-> 
-> As I pointed out[*], copying the number of entries but not the entries themselves
-> is wrong.  All of my feedback on v1 still stands.
-> 
-> [*] https://lkml.kernel.org/r/YIl4M/GgaYvwNuXv@google.com
-> 
->> -		r = 0;
->> +		}
->>   		break;
->>   	}
->>   	case KVM_GET_MSRS: {
-> 
+Because the shadow stack stores only return addresses, there is no 
+alternate shadow stack.  However, the application can allocate and 
+switch to a new shadow stack.
 
+Yu-cheng
