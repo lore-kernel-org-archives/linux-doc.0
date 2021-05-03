@@ -2,171 +2,364 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54335C433B4
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 20:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E74AC433B4
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 21:19:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21198611CB
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 20:25:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 389DE61185
+	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 21:19:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbhECU0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 May 2021 16:26:44 -0400
-Received: from mga18.intel.com ([134.134.136.126]:1357 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229472AbhECU0n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 May 2021 16:26:43 -0400
-IronPort-SDR: zmVTVZ7wQHoUYASfMcjgug3YRPRUOQoSaIHy1AbJSi5ngJvWfhmVQAMPPnchAyaf8l2lCJPqVF
- edkyx36mslIA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="185300685"
-X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
-   d="scan'208";a="185300685"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 13:25:49 -0700
-IronPort-SDR: j6W8Y+3CGbViGBD7u64rbmmAj2twhGDrTkWyR+4rqnaSG5yKCy1h1YedTyCLcYvHDTNJRSwYGH
- TRcfe9UbLFwQ==
-X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
-   d="scan'208";a="468203041"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.140.183]) ([10.251.140.183])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 13:25:46 -0700
-Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
- signals for shadow stack)
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S229497AbhECVUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 May 2021 17:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229499AbhECVUo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 May 2021 17:20:44 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5303C061574
+        for <linux-doc@vger.kernel.org>; Mon,  3 May 2021 14:19:50 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id m37so4709021pgb.8
+        for <linux-doc@vger.kernel.org>; Mon, 03 May 2021 14:19:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yceMbfuMe0LpHdlMjCg9uNAqiz9PqXs7W+bbHB3dVNg=;
+        b=lhfwPfdhxJtHhPnI4ckbIAgRtIJperDk2qcljZzzfZlr/B6mUmWQ/TR6zAsWCU8wPN
+         26bQ4z9wssZ8Hi8+eMgcP6fqUeAnn0yDgY5Vu19m44uFX8t467mphV7zZNIsMVPyRa+y
+         o7LbRGJnvzyzcMepXG8z5OlxL1yDMIGf53rBIYdXKMl6F5Q1s45zxQ2Ue+bl0lBjek1y
+         vgI1RjBpNzzsn6UWJqsqMMUaSfnPM9KUGsAVmoOnMa6gOVJ7zEHMHqs0NnjvXlJoGn9z
+         hT27bfWXhcf18Ijj/XhMUGBYj9riU55IMg/Q7TE9+fvUHm7KZhJl67jsKeS0cNRPEXHd
+         Jd9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yceMbfuMe0LpHdlMjCg9uNAqiz9PqXs7W+bbHB3dVNg=;
+        b=b9JEBrHLdHKZnyW4Mi5gCh0Uh0hsU3krlmXPslrVbBBO16+xvzYC1vYeHJDB3j8Dw8
+         bT5WSZhvKrpnYJ1zYZyscpx/TVBCvFEhMeq/asyXfeA9bgsMW+sspwRPEsqZ6OXFqU5u
+         hJ4yieHNatwyIhROMYD9c6Jk9jwBlFVKuQVVqGl5RaV+n0tc6N0i3EeQWkXHRBgnJ/iz
+         Iw48XHhaXl+DG20+DpyBG2uaVxc7FqPD9otHZwn0iiWRjVjIqY3gz4j3OtwzFdWA5tgc
+         PsqiltN6vXqS0AVSt9Cv3ao/RP0ZMfc5Pi9rjRqDpL8BfRFgAxvoNaEEdC7oWuanei5a
+         9NRQ==
+X-Gm-Message-State: AOAM532b4RFx6zycDVzkAsMCmi8BNZ1r0Y2aGlyXwt4mBzs3SfAWEPMK
+        pNkYuaRLLn8NNlJvuQXU6EKFRQ==
+X-Google-Smtp-Source: ABdhPJwgA1rV8UoR/D3oERz/rQz3RqU1+4C5dbctqKkTD+dr5PkRo/I9dfZMmNeRHJwCToUTg0zK2g==
+X-Received: by 2002:a17:90a:9511:: with SMTP id t17mr707351pjo.235.1620076790030;
+        Mon, 03 May 2021 14:19:50 -0700 (PDT)
+Received: from google.com ([2620:15c:2cb:201:aabe:5118:32ad:74bd])
+        by smtp.gmail.com with ESMTPSA id x23sm9783186pfc.170.2021.05.03.14.19.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 May 2021 14:19:49 -0700 (PDT)
+Date:   Mon, 3 May 2021 14:19:43 -0700
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     Daniel Latypov <dlatypov@google.com>
+Cc:     shuah <shuah@kernel.org>, David Gow <davidgow@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <782ffe96-b830-d13b-db80-5b60f41ccdbf@intel.com>
- <2D8926E4-F1B6-433A-96EA-995A66F3F42D@amacapital.net>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c6abe0fd-3d2b-05bc-3835-848969b540c6@intel.com>
-Date:   Mon, 3 May 2021 13:25:45 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Frank Rowand <frowand.list@gmail.com>
+Subject: Re: [RFC v2 3/4] kunit: tool: add support for QEMU
+Message-ID: <YJBo797fPy0DDQjS@google.com>
+References: <20210429205109.2847831-1-brendanhiggins@google.com>
+ <20210429205109.2847831-4-brendanhiggins@google.com>
+ <CAGS_qxo3NA6o8R73q5NdfsC3nx6i4WJgXnHxH6-v=ybnvDTj6Q@mail.gmail.com>
+ <CAFd5g44OL0BQ74ZGEnYzsLYVXEbOB-hBiNAf1+VLO=DoZwKOvA@mail.gmail.com>
+ <CAGS_qxp0++OzvZTuLAFdBqe0gY+P0bQdKsTLiqHycLb9kvz81g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2D8926E4-F1B6-433A-96EA-995A66F3F42D@amacapital.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGS_qxp0++OzvZTuLAFdBqe0gY+P0bQdKsTLiqHycLb9kvz81g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/3/2021 8:29 AM, Andy Lutomirski wrote:
+On Fri, Apr 30, 2021 at 01:14:29PM -0700, Daniel Latypov wrote:
+> On Fri, Apr 30, 2021 at 1:01 PM 'Brendan Higgins' via KUnit
+> Development <kunit-dev@googlegroups.com> wrote:
+> >
+> > On Thu, Apr 29, 2021 at 4:40 PM Daniel Latypov <dlatypov@google.com> wrote:
+> > >
+> > > On Thu, Apr 29, 2021 at 1:51 PM Brendan Higgins
+> > > <brendanhiggins@google.com> wrote:
+> > > >
+> > > > Add basic support to run QEMU via kunit_tool. Add support for i386,
+> > > > x86_64, arm, arm64, and a bunch more.
+> > >
+> > > Hmmm, I'm wondering if I'm seeing unrelated breakages.
+> > > Applied these patches on top of 55ba0fe059a5 ("Merge tag
+> > > 'for-5.13-tag' of
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux")
+> > >
+> > > $ make mrproper
+> > > $ rm -rf .kunit/*   # just in case
+> > > $ ./tools/testing/kunit/kunit.py run --arch=arm64
+> > > ...
+> >
+> > Huh, did you use a arm64 cross compiler? Maybe that's your issue.
 > 
->> On May 3, 2021, at 8:14 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->>
->> ﻿On 5/2/2021 4:23 PM, Andy Lutomirski wrote:
->>>> On Fri, Apr 30, 2021 at 10:47 AM Andy Lutomirski <luto@kernel.org> wrote:
->>>>
->>>> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->>>>>
->>>>> On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
->>>>>> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>>>>>>
->>>>>>> When shadow stack is enabled, a task's shadow stack states must be saved
->>>>>>> along with the signal context and later restored in sigreturn.  However,
->>>>>>> currently there is no systematic facility for extending a signal context.
->>>>>>> There is some space left in the ucontext, but changing ucontext is likely
->>>>>>> to create compatibility issues and there is not enough space for further
->>>>>>> extensions.
->>>>>>>
->>>>>>> Introduce a signal context extension struct 'sc_ext', which is used to save
->>>>>>> shadow stack restore token address.  The extension is located above the fpu
->>>>>>> states, plus alignment.  The struct can be extended (such as the ibt's
->>>>>>> wait_endbr status to be introduced later), and sc_ext.total_size field
->>>>>>> keeps track of total size.
->>>>>>
->>>>>> I still don't like this.
->>>>>>
->>>>>> Here's how the signal layout works, for better or for worse:
->>>>>>
->>
->> [...]
->>
->>>>>>
->>>>>> That's where we are right now upstream.  The kernel has a parser for
->>>>>> the FPU state that is bugs piled upon bugs and is going to have to be
->>>>>> rewritten sometime soon.  On top of all this, we have two upcoming
->>>>>> features, both of which require different kinds of extensions:
->>>>>>
->>>>>> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
->>>>>> but no.  And AMX makes it worse.)  To make a long story short, we
->>>>>> promised user code many years ago that a signal frame fit in 2048
->>>>>> bytes with some room to spare.  With AVX-512 this is false.  With AMX
->>>>>> it's so wrong it's not even funny.  The only way out of the mess
->>>>>> anyone has come up with involves making the length of the FPU state
->>>>>> vary depending on which features are INIT, i.e. making it more compact
->>>>>> than "compact" mode is.  This has a side effect: it's no longer
->>>>>> possible to modify the state in place, because enabling a feature with
->>>>>> no space allocated will make the structure bigger, and the stack won't
->>>>>> have room.  Fortunately, one can relocate the entire FPU state, update
->>>>>> the pointer in mcontext, and the kernel will happily follow the
->>>>>> pointer.  So new code on a new kernel using a super-compact state
->>>>>> could expand the state by allocating new memory (on the heap? very
->>>>>> awkwardly on the stack?) and changing the pointer.  For all we know,
->>>>>> some code already fiddles with the pointer.  This is great, except
->>>>>> that your patch sticks more data at the end of the FPU block that no
->>>>>> one is expecting, and your sigreturn code follows that pointer, and
->>>>>> will read off into lala land.
->>>>>>
->>>>>
->>>>> Then, what about we don't do that at all.  Is it possible from now on we
->>>>> don't stick more data at the end, and take the relocating-fpu approach?
->>>>>
->>>>>> 2. CET.  CET wants us to find a few more bytes somewhere, and those
->>>>>> bytes logically belong in ucontext, and here we are.
->>>>>>
->>>>>
->>>>> Fortunately, we can spare CET the need of ucontext extension.  When the
->>>>> kernel handles sigreturn, the user-mode shadow stack pointer is right at
->>>>> the restore token.  There is no need to put that in ucontext.
->>>>
->>>> That seems entirely reasonable.  This might also avoid needing to
->>>> teach CRIU about CET at all.
->>> Wait, what's the actual shadow stack token format?  And is the token
->>> on the new stack or the old stack when sigaltstack is in use?  For
->>> that matter, is there any support for an alternate shadow stack for
->>> signals?
->>
->> The restore token is a pointer pointing directly above itself and bit[0] indicates 64-bit mode.
->>
->> Because the shadow stack stores only return addresses, there is no alternate shadow stack.  However, the application can allocate and switch to a new shadow stack.
-> 
-> I think we should make the ABI support an alternate shadow stack even if we don’t implement it initially. After all, some day someone might want to register a handler for shadow stack overflow.
-> 
+> I didn't (and realized that like 2 minutes after I sent the email).
+> Please disregard.
 
-Agree.  We can probably add something in parallel of sigaltstack(), and 
-let the user choose separately alternate normal/shadow stacks.
+As I mention below, I had a conversation offline with David regarding
+the problem of figuring out the best way to specify qemu_configs, and I
+wanted to post the fruits of that discussion to get some early feedback
+on it. I am still working on addressing your other comments, but I think
+most of those are pretty straightforward and probably won't require much
+discussion.
 
-Thanks,
-Yu-cheng
+[...]
+> > > > +
+> > > > +QemuArchParams = namedtuple('QemuArchParams', ['linux_arch',
+> > > > +                                              'qemuconfig',
+> > > > +                                              'qemu_arch',
+> > > > +                                              'kernel_path',
+> > > > +                                              'kernel_command_line',
+> > > > +                                              'extra_qemu_params'])
+> > > > +
+> > > > +
+> > > > +QEMU_ARCHS = {
+> > > > +       'i386'          : QemuArchParams(linux_arch='i386',
+> > > > +                               qemuconfig='CONFIG_SERIAL_8250=y\nCONFIG_SERIAL_8250_CONSOLE=y',
+> > > > +                               qemu_arch='x86_64',
+> > > > +                               kernel_path='arch/x86/boot/bzImage',
+> > > > +                               kernel_command_line='console=ttyS0',
+> > > > +                               extra_qemu_params=['']),
+> > > > +       'x86_64'        : QemuArchParams(linux_arch='x86_64',
+> > > > +                               qemuconfig='CONFIG_SERIAL_8250=y\nCONFIG_SERIAL_8250_CONSOLE=y',
+> > > > +                               qemu_arch='x86_64',
+> > > > +                               kernel_path='arch/x86/boot/bzImage',
+> > > > +                               kernel_command_line='console=ttyS0',
+> > > > +                               extra_qemu_params=['']),
+> > > > +       'arm'           : QemuArchParams(linux_arch='arm',
+> > > > +                               qemuconfig='''CONFIG_ARCH_VIRT=y
+> > > > +CONFIG_SERIAL_AMBA_PL010=y
+> > > > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
+> > > > +CONFIG_SERIAL_AMBA_PL011=y
+> > > > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=y''',
+> > > > +                               qemu_arch='arm',
+> > > > +                               kernel_path='arch/arm/boot/zImage',
+> > > > +                               kernel_command_line='console=ttyAMA0',
+> > > > +                               extra_qemu_params=['-machine virt']),
+> > > > +       'arm64'         : QemuArchParams(linux_arch='arm64',
+> > > > +                               qemuconfig='''CONFIG_SERIAL_AMBA_PL010=y
+> > > > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
+> > > > +CONFIG_SERIAL_AMBA_PL011=y
+> > > > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=y''',
+> > > > +                               qemu_arch='aarch64',
+> > > > +                               kernel_path='arch/arm64/boot/Image.gz',
+> > > > +                               kernel_command_line='console=ttyAMA0',
+> > > > +                               extra_qemu_params=['-machine virt', '-cpu cortex-a57']),
+> > > > +       'alpha'         : QemuArchParams(linux_arch='alpha',
+> > > > +                               qemuconfig='CONFIG_SERIAL_8250=y\nCONFIG_SERIAL_8250_CONSOLE=y',
+> > > > +                               qemu_arch='alpha',
+> > > > +                               kernel_path='arch/alpha/boot/vmlinux',
+> > > > +                               kernel_command_line='console=ttyS0',
+> > > > +                               extra_qemu_params=['']),
+> > > > +       'powerpc'       : QemuArchParams(linux_arch='powerpc',
+> > > > +                               qemuconfig='CONFIG_PPC64=y\nCONFIG_SERIAL_8250=y\nCONFIG_SERIAL_8250_CONSOLE=y\nCONFIG_HVC_CONSOLE=y',
+> > > > +                               qemu_arch='ppc64',
+> > > > +                               kernel_path='vmlinux',
+> > > > +                               kernel_command_line='console=ttyS0',
+> > > > +                               extra_qemu_params=['-M pseries', '-cpu power8']),
+> > > > +       'riscv'         : QemuArchParams(linux_arch='riscv',
+> > > > +                               qemuconfig='CONFIG_SOC_VIRT=y\nCONFIG_SERIAL_8250=y\nCONFIG_SERIAL_8250_CONSOLE=y\nCONFIG_SERIAL_OF_PLATFORM=y\nCONFIG_SERIAL_EARLYCON_RISCV_SBI=y',
+> > > > +                               qemu_arch='riscv64',
+> > > > +                               kernel_path='arch/riscv/boot/Image',
+> > > > +                               kernel_command_line='console=ttyS0',
+> > > > +                               extra_qemu_params=['-machine virt', '-cpu rv64', '-bios opensbi-riscv64-generic-fw_dynamic.bin']),
+> > > > +       's390'          : QemuArchParams(linux_arch='s390',
+> > > > +                               qemuconfig='CONFIG_EXPERT=y\nCONFIG_TUNE_ZEC12=y\nCONFIG_NUMA=y\nCONFIG_MODULES=y',
+> > > > +                               qemu_arch='s390x',
+> > > > +                               kernel_path='arch/s390/boot/bzImage',
+> > > > +                               kernel_command_line='console=ttyS0',
+> > > > +                               extra_qemu_params=[
+> > > > +                                               '-machine s390-ccw-virtio',
+> > > > +                                               '-cpu qemu',]),
+> > > > +       'sparc'         : QemuArchParams(linux_arch='sparc',
+> > > > +                               qemuconfig='CONFIG_SERIAL_8250=y\nCONFIG_SERIAL_8250_CONSOLE=y',
+> > > > +                               qemu_arch='sparc',
+> > > > +                               kernel_path='arch/sparc/boot/zImage',
+> > > > +                               kernel_command_line='console=ttyS0 mem=256M',
+> > > > +                               extra_qemu_params=['-m 256']),
+> > > > +}
+> > >
+> > > Oh my.
+> > > I don't know enough to say if there's a better way of doing this.
+> >
+> > Yeah, I know it's gross, but I did not want to put too much effort
+> > into until I got some feedback on it.
+> >
+> > > But I think we should probably split this out into a separate python
+> > > file, if this mapping remains necessary.
+> > > E.g. in a qemu_configs.py file or the like.
+> >
+> > Definitely an improvement. Any other thoughts on how to make this look
+> > less gross?
+> 
+> Unfortunately not. Like you, I'm hoping someone else might have some
+> better ideas how we can maybe push this config out of python.
+> 
+> But if we don't find anything else, I think having the hard-coding
+> isolated into its own package is fine, tbh.
+
+So I chatted offline with David and one idea that came up was to keep
+the configs in Python, but make the configs dynamically loaded somehow
+with some kind of predefined format so that they are simple to add,
+*and* more importantly that adding new ones that don't go upstream won't
+be a burden to maintain. Basically a developer could have a QEMU config
+that is customized for her usecase, and is no way dependent on any kinds
+of changes to any upstream kunit_tool files.
+
+So here is what I came up with: We have these qemu_config files which
+can be specified anywhere within (subdirectories included) the
+kunit_tool root directory. The qemu_config is a Python file that imports
+the `QemuArchParams` object (above) defined by kunit_tool. It specifies
+one variable: `QEMU_ARCH` which is of type `QemuArchParams` which is
+then used as the arch listed above.
+
+Below I have a proof-of-concept diff, you can see view the proposed
+change on Gerrit here:
+
+https://kunit-review.googlesource.com/c/linux/+/4489
+
+
+diff --git a/tools/testing/kunit/__init__.py b/tools/testing/kunit/__init__.py
+new file mode 100644
+index 0000000000000..e69de29bb2d1d
+diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
+index f89def9e14dcd..eb9daf6896194 100755
+--- a/tools/testing/kunit/kunit.py
++++ b/tools/testing/kunit/kunit.py
+@@ -198,6 +198,11 @@ def add_common_opts(parser) -> None:
+ 			    help='Sets make\'s CROSS_COMPILE variable.',
+ 			    metavar='cross_compile')
+ 
++	parser.add_argument('--qemu_config',
++			    help=('Takes a path to a path to a file containing '
++				  'a QemuArchParams object.'),
++			    type=str, metavar='qemu_config')
++
+ def add_build_opts(parser) -> None:
+ 	parser.add_argument('--jobs',
+ 			    help='As in the make command, "Specifies  the number of '
+@@ -282,7 +287,8 @@ def main(argv, linux=None):
+ 			linux = kunit_kernel.LinuxSourceTree(cli_args.build_dir,
+ 					kunitconfig_path=cli_args.kunitconfig,
+ 					arch=cli_args.arch,
+-					cross_compile=cli_args.cross_compile)
++					cross_compile=cli_args.cross_compile,
++					qemu_config_path=cli_args.qemu_config)
+ 
+ 		request = KunitRequest(cli_args.raw_output,
+ 				       cli_args.timeout,
+diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+index 64d0fffc5b86e..bc9b847bda658 100644
+--- a/tools/testing/kunit/kunit_kernel.py
++++ b/tools/testing/kunit/kunit_kernel.py
+@@ -6,6 +6,7 @@
+ # Author: Felix Guo <felixguoxiuping@gmail.com>
+ # Author: Brendan Higgins <brendanhiggins@google.com>
+ 
++import importlib.util
+ import logging
+ import subprocess
+ import os
+@@ -20,7 +21,7 @@ from collections import namedtuple
+ 
+ import kunit_config
+ import kunit_parser
+-import qemu_configs
++import qemu_config
+ 
+ KCONFIG_PATH = '.config'
+ KUNITCONFIG_PATH = '.kunitconfig'
+@@ -107,7 +108,7 @@ class LinuxSourceTreeOperations(object):
+ 
+ class LinuxSourceTreeOperationsQemu(LinuxSourceTreeOperations):
+ 
+-	def __init__(self, qemu_arch_params: qemu_configs.QemuArchParams, cross_compile: Optional[str]):
++	def __init__(self, qemu_arch_params: qemu_config.QemuArchParams, cross_compile: Optional[str]):
+ 		super().__init__(linux_arch=qemu_arch_params.linux_arch,
+ 				 cross_compile=cross_compile)
+ 		self._qemuconfig = qemu_arch_params.qemuconfig
+@@ -197,19 +198,34 @@ def get_outfile_path(build_dir) -> str:
+ def get_source_tree_ops(arch: str, cross_compile: Optional[str]) -> LinuxSourceTreeOperations:
+ 	if arch == 'um':
+ 		return LinuxSourceTreeOperationsUml()
+-	elif arch in qemu_configs.QEMU_ARCHS:
+-		return LinuxSourceTreeOperationsQemu(qemu_configs.QEMU_ARCHS[arch],
++	elif arch in qemu_config.QEMU_ARCHS:
++		return LinuxSourceTreeOperationsQemu(qemu_config.QEMU_ARCHS[arch],
+ 						     cross_compile=cross_compile)
+ 	else:
+ 		raise ConfigError(arch + ' is not a valid arch')
+ 
++def get_source_tree_ops_from_qemu_config(config_path: str, cross_compile: Optional[str]) -> qemu_config.QemuArchParams:
++	abs_tool_path = os.path.abspath(os.path.dirname(__file__))
++	abs_config_path = os.path.abspath(config_path)
++	if os.path.commonpath([abs_tool_path, abs_config_path]) != abs_tool_path:
++		raise ConfigError('Given QEMU config file is not in a child directory of KUnit tool.')
++	relative_config_path = os.path.relpath(abs_config_path, abs_tool_path)
++	spec = importlib.util.spec_from_file_location('.' + relative_config_path, config_path)
++	config = importlib.util.module_from_spec(spec)
++	spec.loader.exec_module(config)
++	return config.QEMU_ARCH.linux_arch, LinuxSourceTreeOperationsQemu(
++			config.QEMU_ARCH, cross_compile=cross_compile)
++
+ class LinuxSourceTree(object):
+ 	"""Represents a Linux kernel source tree with KUnit tests."""
+ 
+-	def __init__(self, build_dir: str, load_config=True, kunitconfig_path='', arch=None, cross_compile=None) -> None:
++	def __init__(self, build_dir: str, load_config=True, kunitconfig_path='', arch=None, cross_compile=None, qemu_config_path=None) -> None:
+ 		signal.signal(signal.SIGINT, self.signal_handler)
+-		self._arch = 'um' if arch is None else arch
+-		self._ops = get_source_tree_ops(self._arch, cross_compile)
++		if qemu_config_path:
++			self._arch, self._ops = get_source_tree_ops_from_qemu_config(qemu_config_path, cross_compile)
++		else:
++			self._arch = 'um' if arch is None else arch
++			self._ops = get_source_tree_ops(self._arch, cross_compile)
+ 
+ 		if not load_config:
+ 			return
+diff --git a/tools/testing/kunit/qemu_configs.py b/tools/testing/kunit/qemu_config.py
+similarity index 100%
+rename from tools/testing/kunit/qemu_configs.py
+rename to tools/testing/kunit/qemu_config.py
+diff --git a/tools/testing/kunit/qemu_configs/__init__.py b/tools/testing/kunit/qemu_configs/__init__.py
+new file mode 100644
+index 0000000000000..e69de29bb2d1d
+diff --git a/tools/testing/kunit/qemu_configs/i386.py b/tools/testing/kunit/qemu_configs/i386.py
+new file mode 100644
+index 0000000000000..7f079db044cc7
+--- /dev/null
++++ b/tools/testing/kunit/qemu_configs/i386.py
+@@ -0,0 +1,8 @@
++from ..qemu_config import QemuArchParams
++
++QEMU_ARCH = QemuArchParams(linux_arch='i386',
++			   qemuconfig='CONFIG_SERIAL_8250=y\nCONFIG_SERIAL_8250_CONSOLE=y',
++			   qemu_arch='x86_64',
++			   kernel_path='arch/x86/boot/bzImage',
++			   kernel_command_line='console=ttyS0',
++			   extra_qemu_params=[''])
+
+An example of how kunit_tool with the above change could be invoked is
+as follows:
+
+tools/testing/kunit/kunit.py run --timeout=60 --jobs=12 --qemu_config=./tools/testing/kunit/qemu_configs/i386.py
+
+Let me know wha'cha think!
+
+[...]
