@@ -2,132 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A5BDC433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 09:50:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81393C43460
+	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 11:01:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06657610FC
-	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 09:50:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4EED0613BE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 11:01:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230130AbhEDJvU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 May 2021 05:51:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35313 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230112AbhEDJvU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 May 2021 05:51:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620121825;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TLLNqsS9L3JlqB+77pJZObONKY2VG8iKD+gJcR3gPl0=;
-        b=YCEOMXFZxZuPzLtV/h32fzuJLZfIDW5LGTkS7ez4eXNN6AHbostg9WBOjx0qSFNY3A8ytk
-        n1OM0O77/MY0pw2m1zW/4YzjPDA44s3T9cA58QTJbt0CBNhYKyqEw/5o1Lachn8VDQg6PG
-        n2jU/414Pu40PsNn9fgCia0CB35dJEY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-S-kJiEyQOrOJaWctLq0PDg-1; Tue, 04 May 2021 05:50:23 -0400
-X-MC-Unique: S-kJiEyQOrOJaWctLq0PDg-1
-Received: by mail-ed1-f72.google.com with SMTP id d6-20020a0564020786b0290387927a37e2so6093092edy.10
-        for <linux-doc@vger.kernel.org>; Tue, 04 May 2021 02:50:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TLLNqsS9L3JlqB+77pJZObONKY2VG8iKD+gJcR3gPl0=;
-        b=iKU/elH+3ffib4nTK0CSyfNb95eKnK/8hXb79riAD1uo4Tbt72rRVNwHl/9ZOEA444
-         Chvr6l6uqMmLE3tA8cCxDoRl9kKlZ/fRkA7gJnSV6xgQNghbrNU3FOBMpvqXxFmAvjNH
-         GkLJ7AQcDxsVS3RsGe3A6jz213ogX8tJGGodk3bQ08255EeJD8xdIiVqdzBAf7LqdpPf
-         KYVP3UBXFXcE51YMAHIWpC8rcJX8QK/QqqMCHtxm9UGlTQ+rRI8YmyTstoJnkb8XCjps
-         uELgG/U2vGhJhy3fOiG/uXUW/q7wiMvXObTCsusuc5whoZzrmsK3IxmZOOHRTBzcqgw5
-         MJvA==
-X-Gm-Message-State: AOAM531bYlb0InLgZAypjCmmNexi+F/Vc5R4igNoixrAxnMInRfgA4XL
-        sllP4H9cpmmoXY5DGTdclrdMGcccy4K3owrIRQNJM7VrQ/N9D6gV+xqYaW5OaFQG1og/t+NTlXp
-        HRBgz9g11XOlCQ/qiC6os
-X-Received: by 2002:a17:906:c9d0:: with SMTP id hk16mr21511729ejb.512.1620121822622;
-        Tue, 04 May 2021 02:50:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwCJyldKGwnVeDHhwh86DCOqVryoCavSu5rceiCbCiFV+ZSms3HzvvVKa6Wa6wLmzON+hplHw==
-X-Received: by 2002:a17:906:c9d0:: with SMTP id hk16mr21511719ejb.512.1620121822436;
-        Tue, 04 May 2021 02:50:22 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id v26sm1149040ejk.66.2021.05.04.02.50.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 May 2021 02:50:21 -0700 (PDT)
-Subject: Re: [PATCH v4] KVM: x86: Fix KVM_GET_CPUID2 ioctl to return cpuid
- entries count
-To:     Alexander Graf <graf@amazon.com>,
-        "Denis V. Lunev" <den@openvz.org>,
-        Sean Christopherson <seanjc@google.com>,
-        Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        Like Xu <like.xu@linux.intel.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20210428172729.3551-1-valeriy.vdovin@virtuozzo.com>
- <YIoFFl72VSeuhCRt@google.com>
- <0d68dbc3-8462-7763-fbad-f3b895fcf6e6@redhat.com>
- <be7eedf7-03a2-f998-079d-b18101b8b187@openvz.org>
- <63e54361-0018-ad3b-fb2b-e5dba6a0f221@redhat.com>
- <048b3f3a-379d-cff3-20b6-fc74dd12a98f@openvz.org>
- <514b5373-c07b-ad34-5fba-f8850faf6d68@redhat.com>
- <b4434730-9cd1-1d41-d012-f7beff7e351b@amazon.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <2c097165-bb13-4b9f-64f9-3c6d88a648b4@redhat.com>
-Date:   Tue, 4 May 2021 11:50:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S230322AbhEDLCM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 May 2021 07:02:12 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:18000 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230252AbhEDLCH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 May 2021 07:02:07 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FZGyp5TtYzPxFH;
+        Tue,  4 May 2021 18:57:54 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.200.189) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 4 May 2021 19:00:59 +0800
+From:   Barry Song <song.bao.hua@hisilicon.com>
+To:     <peterz@infradead.org>, <valentin.schneider@arm.com>,
+        <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linuxarm@huawei.com>, Barry Song <song.bao.hua@hisilicon.com>
+Subject: [PATCH] Documentation: scheduler: sched_debug_verbose cmdline should be sched_verbose
+Date:   Tue, 4 May 2021 22:53:43 +1200
+Message-ID: <20210504105344.31344-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <b4434730-9cd1-1d41-d012-f7beff7e351b@amazon.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.126.200.189]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/05/21 11:26, Alexander Graf wrote:
-> 
-> 
-> On 04.05.21 10:21, Paolo Bonzini wrote:
->>
->> On 04/05/21 10:15, Denis V. Lunev wrote:
->>> As far as I understand only some testing within kernel now.
->>> Though we have plans to expose it for QAPI as the series
->>> in QEMU
->>>    [PATCH 1/2] qapi: fix error handling for x-vz-query-cpu-model-cpuid
->>>    [PATCH 2/2] qapi: blacklisted x-vz-query-cpu-model-cpuid in tests
->>> is not coming in a good way.
->>> The idea was to avoid manual code rework in QEMU and
->>> expose collected model at least for debug.
->>
->> KVM_GET_CPUID2 as a VM ioctl cannot expose the whole truth about CPUID
->> either, since it doesn't handle the TSX_CTRL_CPUID_CLEAR bit.  Given
->> that QEMU doesn't need KVM_GET_CPUID2; it only needs to save whatever it
->> passed to KVM_SET_CPUID2.
-> 
-> What if we instead deflect CPUID into user space so it can emulate it in 
-> whatever way it likes? Is the performance difference going to be 
-> relevant? Are people still using cpuid as barrier these days?
+The cmdline should include sched_verbose but not sched_debug_verbose
+as sched_debug_verbose is only the variant name in code.
 
-There's enough weirdness in CPUID (e.g. the magic redirection of unknown 
-leaves to the highest Intel leaf) to make it relatively hard to 
-implement correctly.  So I think it should remain in the kernel.
+Fixes: 9406415f46 ("sched/debug: Rename the sched_debug parameter to sched_verbose")
+Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+---
+ Documentation/scheduler/sched-domains.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Paolo
+diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
+index 14ea2f2..84dcdcd 100644
+--- a/Documentation/scheduler/sched-domains.rst
++++ b/Documentation/scheduler/sched-domains.rst
+@@ -74,7 +74,7 @@ for a given topology level by creating a sched_domain_topology_level array and
+ calling set_sched_topology() with this array as the parameter.
+ 
+ The sched-domains debugging infrastructure can be enabled by enabling
+-CONFIG_SCHED_DEBUG and adding 'sched_debug_verbose' to your cmdline. If you
++CONFIG_SCHED_DEBUG and adding 'sched_verbose' to your cmdline. If you
+ forgot to tweak your cmdline, you can also flip the
+ /sys/kernel/debug/sched/verbose knob. This enables an error checking parse of
+ the sched domains which should catch most possible errors (described above). It
+-- 
+1.8.3.1
 
