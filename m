@@ -2,63 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3803AC433B4
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 22:58:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0EBBC433B4
+	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 02:14:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06E0561283
-	for <linux-doc@archiver.kernel.org>; Mon,  3 May 2021 22:58:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B773261168
+	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 02:14:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229499AbhECW7Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 May 2021 18:59:16 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43168 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229680AbhECW7P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 May 2021 18:59:15 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d:444a:d152:279d:1dbb])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BE1A72ED;
-        Mon,  3 May 2021 22:58:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE1A72ED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1620082701; bh=/wxRzKKm9ILisw0zqzRx2o+KzRBSeU3HsFY9OdFVbZQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=AXgzGPJu34DrVSXQIh5XWU8SX2PKRRewKVqhrJNZ5Xy+Baywga9wFddCUIjJYPuu7
-         znW0wa3fhMnXlb5/pFbvtxogR8lC95NPErcPEln3Yuo6HwDlso+6o6jrEF5MymPbpA
-         ALVGfefnhZIhb4fmA8LBWrAaU6uZqeneOzgjVQlMZDHyXD5ZhO3t0W8JpcYcXeTy2H
-         eLibrB1dhSwYpcmqsWXfp/eOLCRP9anBpaz1QxzmWqeDp11Z4LcZLZ697OdTQh0Y7f
-         TTvdhddQz3FkqTN2gkWQ9xnqgGQZQKShSjTet75MQKM6Nw3dk5sYoPqYan3q4s7/MO
-         U+89504DVS/hQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] docs: reporting-issues.rst: CC subsystem and
- maintainers on regressions
-In-Reply-To: <e1d2e16a-60b8-0a55-20d4-53db11e6821c@leemhuis.info>
-References: <dd13f10c30e79e550215e53a8103406daec4e593.1618482489.git.linux@leemhuis.info>
- <e1d2e16a-60b8-0a55-20d4-53db11e6821c@leemhuis.info>
-Date:   Mon, 03 May 2021 16:58:21 -0600
-Message-ID: <875yzzh1bm.fsf@meer.lwn.net>
+        id S229800AbhEDCPA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 May 2021 22:15:00 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:41841 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229693AbhEDCO7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 May 2021 22:14:59 -0400
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 1442Ddm3026036;
+        Tue, 4 May 2021 11:13:40 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 1442Ddm3026036
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1620094420;
+        bh=Flpk8WY3fI6JRVmVx74VCPIcuW76pW3yvcKLrKEQfcI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RcPTKSEZuzsHuullksFe1HmFYdJqmuQDvmRuMVscMUnbTGD1IAHfFUx7dg5iV8m8S
+         JVq+4OeY8GmRwgM90uoiXxUQ8GBU6DS/UE7YNkMpCRhQjemtdM4gmVoWnXnKkMsZ6P
+         wNzX+lqAga+GQCDJEkaLa0RsqmlOeV3Hv1gGqW3xwLbgXdat/s+21f6w35/UYErAzg
+         eYPRP+7AosJUwZ/dFtrG0VhYQzao1oonlLYcj98QF0Z/lCQfak8N8Dj6/pM0Hyk1Rm
+         0dH6xOgeIDzXhHXf/pxV1d72yKjZLx4ffhCHSdxGwxklgz893YkuvQdstcmBJwRsxN
+         0RDuMm6MsEa/Q==
+X-Nifty-SrcIP: [209.85.215.178]
+Received: by mail-pg1-f178.google.com with SMTP id m37so5336661pgb.8;
+        Mon, 03 May 2021 19:13:40 -0700 (PDT)
+X-Gm-Message-State: AOAM533WjKcCD2h0juyeAku81YcMg25NZe5V3yJ2z4UrhUyJeQWXVbdt
+        2uWke3Q4JS3wAL8bFYzCw27r1xiGI0n05PZjyBw=
+X-Google-Smtp-Source: ABdhPJzeIVApSQix0BuMNREdE8BGMBMEs/IGqBZW9NLCxeXtWVZOIBXs6zvGuxchr2x095EnqC+MdArD+HY3m1+ob/s=
+X-Received: by 2002:a63:e044:: with SMTP id n4mr21297348pgj.47.1620094419287;
+ Mon, 03 May 2021 19:13:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210501151538.145449-1-masahiroy@kernel.org> <8b5f1d57-1357-affd-565f-f4826f3ecbdf@csgroup.eu>
+In-Reply-To: <8b5f1d57-1357-affd-565f-f4826f3ecbdf@csgroup.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 4 May 2021 11:13:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASv=ev=MbA+iXsjQvKGe69+AmL7Ri7WQc9caoZpfyzEgw@mail.gmail.com>
+Message-ID: <CAK7LNASv=ev=MbA+iXsjQvKGe69+AmL7Ri7WQc9caoZpfyzEgw@mail.gmail.com>
+Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+On Mon, May 3, 2021 at 3:17 PM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+>
+>
+>
+> Le 01/05/2021 =C3=A0 17:15, Masahiro Yamada a =C3=A9crit :
+> > The current minimum GCC version is 4.9 except ARCH=3Darm64 requiring
+> > GCC 5.1.
+> >
+> > When we discussed last time, we agreed to raise the minimum GCC version
+> > to 5.1 globally. [1]
+> >
+> > I'd like to propose GCC 5.2 to clean up arch/powerpc/Kconfig as well.
+>
+> One point I missed when I saw your patch first time, but I realised durin=
+g the discussion:
+>
+> Up to 4.9, GCC was numbered with 3 digits, we had 4.8.0, 4.8.1, ... 4.8.5=
+, 4.9.0, 4.9.1, .... 4.9.4
+>
+> Then starting at 5, GCC switched to a 2 digits scheme, with 5.0, 5.1, 5.2=
+, ... 5.5
+>
+> So, that is not GCC 5.1 or 5.2 that you should target, but only GCC 5.
+> Then it is up to the user to use the latest available version of GCC 5, w=
+hich is 5.5 at the time
+> begin, just like the user would have selected 4.9.4 when 4.9 was the mini=
+mum GCC version.
+>
+> Christophe
 
-> Hi Jonathan. Wondering if this slipped through the cracks, as I haven't
-> heart anything (or did I miss it?). Would IMHO have been nice to have in
-> 5.13 as well, but it's not crucial.
 
-Hmm...I was sure I'd applied this one, guess not.  Sorry.  Applied now,
-I'll push it Linusward shortly.
 
-Thanks,
+One line below in Documentation/process/changes.rst,
+I see
 
-jon
+     Clang/LLVM (optional)  10.0.1           clang --version
+
+
+
+Clang 10.0.1 is a bug fix release of Clang 10
+
+
+I do not think GCC 5.2 is strange when we
+want to exclude the initial release of GCC 5.
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
