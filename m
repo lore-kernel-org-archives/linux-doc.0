@@ -2,492 +2,252 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5FDC43461
-	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 20:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB231C433ED
+	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 20:49:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FBBE613C5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 20:36:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AD54613C7
+	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 20:49:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232841AbhEDUhP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 May 2021 16:37:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56014 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232725AbhEDUhN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 May 2021 16:37:13 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD1FBC06138B
-        for <linux-doc@vger.kernel.org>; Tue,  4 May 2021 13:36:15 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2so15241055lft.4
-        for <linux-doc@vger.kernel.org>; Tue, 04 May 2021 13:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flodin-me.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iMDuXq8CnWsxBoTteWoy8qTwu96FgJNObP1qaPnL9Fc=;
-        b=ZvpLVLF6Bru8xoW0FnZJVcHEz5vB4KG8DmEn2S58qVvUNVonVz9SQFx25kCr8m4QHg
-         5mBSVKxjepRbG7l3PoZZiFbh5ADVAZ8eixyqG+P7YPDqviekEeE9tea/V/nt/v5mxSiI
-         /8ifZNgs0m1YmAcQt5doYPmg6E8MlxrV/c52Y0S2yu66xzBcxHI3l1Drzfh0qp2p/djt
-         9+b4k1IlWYHdW4SBaPefci99pmpNkgsU+1LqWBzdN2v0A/QLo/AryRLM15wZMgRvPZns
-         8Yeis8L5JMkakfAawjmvCo5SSN+ulrR81h8GRWfS+IBWPQ+ED+/8IepI+SU2fGV0TTU9
-         IJHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iMDuXq8CnWsxBoTteWoy8qTwu96FgJNObP1qaPnL9Fc=;
-        b=rCYx+0g6A6aqtSsTw2n6M+CceM/xVDqRauSRc6V1d2+y7VmFfkv4wNFRL10zB78whS
-         VLD0hz6+LtxxqcIe7URXMf3oP9f2iZQj8P2AUjJ6rmAU5rYRjpZSCzBu68x8kQlGnMeb
-         dWxwUH7eSSRfrHvW4fIPX780wP9TIUXH/feIuvln5DNhPWsAyz/fAoLb0fcDGf93yDSR
-         Izv69N68rOCSjX41IvcstuLMeqjTY713uoqFtwgNoVM+a38UTcPLYI5QntzwZpAjLh9H
-         alB6G76t++czDkiZ9iDS/ubSV1IFZvgk1Bpi38ynCLDLZqufwU1rt4T/llsSIzk2UBJw
-         AAjw==
-X-Gm-Message-State: AOAM532cMw602v3L6eq94MO3T+1rq8+TETfj85ZRSlZUqV3NlWw2jPe5
-        fb1o3zAlQvLs4EGCrmJrbE/1Lw==
-X-Google-Smtp-Source: ABdhPJy4ppgpyuMkpW1U7TEBPlmF1b3rZpCWlNpGsxNvwVCjUIliXPEIE6KSdJDm888S2Fp+Ac4vUw==
-X-Received: by 2002:a05:6512:3f8c:: with SMTP id x12mr17822059lfa.622.1620160573491;
-        Tue, 04 May 2021 13:36:13 -0700 (PDT)
-Received: from trillian.bjorktomta.lan (h-158-174-77-132.NA.cust.bahnhof.se. [158.174.77.132])
-        by smtp.gmail.com with ESMTPSA id v1sm1792222ljj.77.2021.05.04.13.36.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 May 2021 13:36:12 -0700 (PDT)
-From:   Erik Flodin <erik@flodin.me>
-To:     socketcan@hartkopp.net, mkl@pengutronix.de
-Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, Erik Flodin <erik@flodin.me>
-Subject: [PATCH v2 1/2] can: add support for filtering own messages only
-Date:   Tue,  4 May 2021 22:35:45 +0200
-Message-Id: <20210504203546.115734-2-erik@flodin.me>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210504203546.115734-1-erik@flodin.me>
-References: <20210504203546.115734-1-erik@flodin.me>
+        id S232443AbhEDUuA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 May 2021 16:50:00 -0400
+Received: from mga12.intel.com ([192.55.52.136]:25517 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230150AbhEDUuA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 May 2021 16:50:00 -0400
+IronPort-SDR: BiTzOCpr/sRVblL917FJK67gdIB0IIsdm8d5yabb1QarmW8cV+3HtMntt3EPHU48yrwk2kNSV9
+ TNvhmUbOZfVw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="177614963"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; 
+   d="scan'208";a="177614963"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 13:49:05 -0700
+IronPort-SDR: 6KDt1n8pfcb9gJH0NzrYGgA5EZXyDWXzCYb41j9NgDFcQB0vnbTXvsm/VpOSZC2ClLdLm+iNKj
+ OCE0Yn8pJhDw==
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; 
+   d="scan'208";a="388940055"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.140.235]) ([10.251.140.235])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 13:49:03 -0700
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+ <8fd86049-930d-c9b7-379c-56c02a12cd77@intel.com>
+ <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
+ <a7c332c8-9368-40b1-e221-ec921f7db948@intel.com>
+Message-ID: <5fc5dea4-0705-2aad-cf8f-7ff78a5e518a@intel.com>
+Date:   Tue, 4 May 2021 13:49:02 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <a7c332c8-9368-40b1-e221-ec921f7db948@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new flag to can_rx_register/unregister that, when set, requires
-that the received sk_buff's owning socket matches the socket pointer
-given when setting the filter. This makes it possible to set a filter
-that matches all frames sent on a given socket and nothing else.
+On 4/30/2021 11:32 AM, Yu, Yu-cheng wrote:
+> On 4/30/2021 10:47 AM, Andy Lutomirski wrote:
+>> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> 
+>> wrote:
+>>>
+>>> On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
+>>>> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> 
+>>>> wrote:
+>>>>>
+>>>>> When shadow stack is enabled, a task's shadow stack states must be 
+>>>>> saved
+>>>>> along with the signal context and later restored in sigreturn.  
+>>>>> However,
+>>>>> currently there is no systematic facility for extending a signal 
+>>>>> context.
+>>>>> There is some space left in the ucontext, but changing ucontext is 
+>>>>> likely
+>>>>> to create compatibility issues and there is not enough space for 
+>>>>> further
+>>>>> extensions.
+>>>>>
+>>>>> Introduce a signal context extension struct 'sc_ext', which is used 
+>>>>> to save
+>>>>> shadow stack restore token address.  The extension is located above 
+>>>>> the fpu
+>>>>> states, plus alignment.  The struct can be extended (such as the ibt's
+>>>>> wait_endbr status to be introduced later), and sc_ext.total_size field
+>>>>> keeps track of total size.
+>>>>
+>>>> I still don't like this.
+>>>>
+>>>> Here's how the signal layout works, for better or for worse:
+>>>>
+>>>> The kernel has:
+>>>>
+>>>> struct rt_sigframe {
+>>>>       char __user *pretcode;
+>>>>       struct ucontext uc;
+>>>>       struct siginfo info;
+>>>>       /* fp state follows here */
+>>>> };
+>>>>
+>>>> This is roughly the actual signal frame.  But userspace does not have
+>>>> this struct declared, and user code does not know the sizes of the
+>>>> fields.  So it's accessed in a nonsensical way.  The signal handler
+>>>> function is passed a pointer to the whole sigframe implicitly in RSP,
+>>>> a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
+>>>> User code can *find* the fp state by following a pointer from
+>>>> mcontext, which is, in turn, found via uc:
+>>>>
+>>>> struct ucontext {
+>>>>       unsigned long      uc_flags;
+>>>>       struct ucontext  *uc_link;
+>>>>       stack_t          uc_stack;
+>>>>       struct sigcontext uc_mcontext;  <-- fp pointer is in here
+>>>>       sigset_t      uc_sigmask;    /* mask last for extensibility */
+>>>> };
+>>>>
+>>>> The kernel, in sigreturn, works a bit differently.  The sigreturn
+>>>> variants know the base address of the frame but don't have the benefit
+>>>> of receiving pointers to the fields.  So instead the kernel takes
+>>>> advantage of the fact that it knows the offset to uc and parses uc
+>>>> accordingly.  And the kernel follows the pointer in mcontext to find
+>>>> the fp state.  The latter bit is quite important later.  The kernel
+>>>> does not parse info at all.
+>>>>
+>>>> The fp state is its own mess.  When XSAVE happened, Intel kindly (?)
+>>>> gave us a software defined area between the "legacy" x87 region and
+>>>> the modern supposedly extensible part.  Linux sticks the following
+>>>> structure in that hole:
+>>>>
+>>>> struct _fpx_sw_bytes {
+>>>>       /*
+>>>>        * If set to FP_XSTATE_MAGIC1 then this is an xstate context.
+>>>>        * 0 if a legacy frame.
+>>>>        */
+>>>>       __u32                magic1;
+>>>>
+>>>>       /*
+>>>>        * Total size of the fpstate area:
+>>>>        *
+>>>>        *  - if magic1 == 0 then it's sizeof(struct _fpstate)
+>>>>        *  - if magic1 == FP_XSTATE_MAGIC1 then it's sizeof(struct 
+>>>> _xstate)
+>>>>        *    plus extensions (if any)
+>>>>        */
+>>>>       __u32                extended_size;
+>>>>
+>>>>       /*
+>>>>        * Feature bit mask (including FP/SSE/extended state) that is 
+>>>> present
+>>>>        * in the memory layout:
+>>>>        */
+>>>>       __u64                xfeatures;
+>>>>
+>>>>       /*
+>>>>        * Actual XSAVE state size, based on the xfeatures saved in 
+>>>> the layout.
+>>>>        * 'extended_size' is greater than 'xstate_size':
+>>>>        */
+>>>>       __u32                xstate_size;
+>>>>
+>>>>       /* For future use: */
+>>>>       __u32                padding[7];
+>>>> };
+>>>>
+>>>>
+>>>> That's where we are right now upstream.  The kernel has a parser for
+>>>> the FPU state that is bugs piled upon bugs and is going to have to be
+>>>> rewritten sometime soon.  On top of all this, we have two upcoming
+>>>> features, both of which require different kinds of extensions:
+>>>>
+>>>> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
+>>>> but no.  And AMX makes it worse.)  To make a long story short, we
+>>>> promised user code many years ago that a signal frame fit in 2048
+>>>> bytes with some room to spare.  With AVX-512 this is false.  With AMX
+>>>> it's so wrong it's not even funny.  The only way out of the mess
+>>>> anyone has come up with involves making the length of the FPU state
+>>>> vary depending on which features are INIT, i.e. making it more compact
+>>>> than "compact" mode is.  This has a side effect: it's no longer
+>>>> possible to modify the state in place, because enabling a feature with
+>>>> no space allocated will make the structure bigger, and the stack won't
+>>>> have room.  Fortunately, one can relocate the entire FPU state, update
+>>>> the pointer in mcontext, and the kernel will happily follow the
+>>>> pointer.  So new code on a new kernel using a super-compact state
+>>>> could expand the state by allocating new memory (on the heap? very
+>>>> awkwardly on the stack?) and changing the pointer.  For all we know,
+>>>> some code already fiddles with the pointer.  This is great, except
+>>>> that your patch sticks more data at the end of the FPU block that no
+>>>> one is expecting, and your sigreturn code follows that pointer, and
+>>>> will read off into lala land.
+>>>>
+>>>
+>>> Then, what about we don't do that at all.  Is it possible from now on we
+>>> don't stick more data at the end, and take the relocating-fpu approach?
+>>>
+>>>> 2. CET.  CET wants us to find a few more bytes somewhere, and those
+>>>> bytes logically belong in ucontext, and here we are.
+>>>>
+>>>
+>>> Fortunately, we can spare CET the need of ucontext extension.  When the
+>>> kernel handles sigreturn, the user-mode shadow stack pointer is right at
+>>> the restore token.  There is no need to put that in ucontext.
+>>
+>> That seems entirely reasonable.  This might also avoid needing to
+>> teach CRIU about CET at all.
+>>
+>>>
+>>> However, the WAIT_ENDBR status needs to be saved/restored for signals.
+>>> Since IBT is now dependent on shadow stack, we can use a spare bit of
+>>> the shadow stack restore token for that.
+>>
+>> That seems like unnecessary ABI coupling.  We have plenty of bits in
+>> uc_flags, and we have an entire reserved word in sigcontext.  How
+>> about just sticking this bit in one of those places?
+> 
+> Yes, I will make it UC_WAIT_ENDBR.
 
-Signed-off-by: Erik Flodin <erik@flodin.me>
----
- include/linux/can/core.h |  4 ++--
- net/can/af_can.c         | 50 ++++++++++++++++++++++------------------
- net/can/af_can.h         |  1 +
- net/can/bcm.c            |  9 +++++---
- net/can/gw.c             |  7 +++---
- net/can/isotp.c          |  8 +++----
- net/can/j1939/main.c     |  4 ++--
- net/can/proc.c           | 11 +++++----
- net/can/raw.c            | 10 ++++----
- 9 files changed, 58 insertions(+), 46 deletions(-)
+Personally, I think an explicit flag is cleaner than using a reserved 
+word somewhere.  However, there is a small issue: ia32 has no uc_flags.
 
-diff --git a/include/linux/can/core.h b/include/linux/can/core.h
-index 5fb8d0e3f9c1..7ee68128dc10 100644
---- a/include/linux/can/core.h
-+++ b/include/linux/can/core.h
-@@ -48,12 +48,12 @@ extern int  can_proto_register(const struct can_proto *cp);
- extern void can_proto_unregister(const struct can_proto *cp);
- 
- int can_rx_register(struct net *net, struct net_device *dev,
--		    canid_t can_id, canid_t mask,
-+		    canid_t can_id, canid_t mask, bool match_sk,
- 		    void (*func)(struct sk_buff *, void *),
- 		    void *data, char *ident, struct sock *sk);
- 
- extern void can_rx_unregister(struct net *net, struct net_device *dev,
--			      canid_t can_id, canid_t mask,
-+			      canid_t can_id, canid_t mask, bool match_sk,
- 			      void (*func)(struct sk_buff *, void *),
- 			      void *data);
- 
-diff --git a/net/can/af_can.c b/net/can/af_can.c
-index cce2af10eb3e..7b639c121653 100644
---- a/net/can/af_can.c
-+++ b/net/can/af_can.c
-@@ -414,6 +414,7 @@ static struct hlist_head *can_rcv_list_find(canid_t *can_id, canid_t *mask,
-  * @dev: pointer to netdevice (NULL => subscribe from 'all' CAN devices list)
-  * @can_id: CAN identifier (see description)
-  * @mask: CAN mask (see description)
-+ * @match_sk: match socket pointer on received sk_buff (see description)
-  * @func: callback function on filter match
-  * @data: returned parameter for callback function
-  * @ident: string for calling module identification
-@@ -428,6 +429,9 @@ static struct hlist_head *can_rcv_list_find(canid_t *can_id, canid_t *mask,
-  *  The filter can be inverted (CAN_INV_FILTER bit set in can_id) or it can
-  *  filter for error message frames (CAN_ERR_FLAG bit set in mask).
-  *
-+ *  If match_sk is true, the received sk_buff's owning socket must also match
-+ *  the given socket pointer.
-+ *
-  *  The provided pointer to the sk_buff is guaranteed to be valid as long as
-  *  the callback function is running. The callback function must *not* free
-  *  the given sk_buff while processing it's task. When the given sk_buff is
-@@ -440,8 +444,9 @@ static struct hlist_head *can_rcv_list_find(canid_t *can_id, canid_t *mask,
-  *  -ENODEV unknown device
-  */
- int can_rx_register(struct net *net, struct net_device *dev, canid_t can_id,
--		    canid_t mask, void (*func)(struct sk_buff *, void *),
--		    void *data, char *ident, struct sock *sk)
-+		    canid_t mask, bool match_sk,
-+		    void (*func)(struct sk_buff *, void *), void *data,
-+		    char *ident, struct sock *sk)
- {
- 	struct receiver *rcv;
- 	struct hlist_head *rcv_list;
-@@ -468,6 +473,7 @@ int can_rx_register(struct net *net, struct net_device *dev, canid_t can_id,
- 
- 	rcv->can_id = can_id;
- 	rcv->mask = mask;
-+	rcv->match_sk = match_sk;
- 	rcv->matches = 0;
- 	rcv->func = func;
- 	rcv->data = data;
-@@ -503,6 +509,7 @@ static void can_rx_delete_receiver(struct rcu_head *rp)
-  * @dev: pointer to netdevice (NULL => unsubscribe from 'all' CAN devices list)
-  * @can_id: CAN identifier
-  * @mask: CAN mask
-+ * @match_sk: match socket pointer on received sk_buff
-  * @func: callback function on filter match
-  * @data: returned parameter for callback function
-  *
-@@ -510,8 +517,8 @@ static void can_rx_delete_receiver(struct rcu_head *rp)
-  *  Removes subscription entry depending on given (subscription) values.
-  */
- void can_rx_unregister(struct net *net, struct net_device *dev, canid_t can_id,
--		       canid_t mask, void (*func)(struct sk_buff *, void *),
--		       void *data)
-+		       canid_t mask, bool match_sk,
-+		       void (*func)(struct sk_buff *, void *), void *data)
- {
- 	struct receiver *rcv = NULL;
- 	struct hlist_head *rcv_list;
-@@ -535,7 +542,8 @@ void can_rx_unregister(struct net *net, struct net_device *dev, canid_t can_id,
- 	 */
- 	hlist_for_each_entry_rcu(rcv, rcv_list, list) {
- 		if (rcv->can_id == can_id && rcv->mask == mask &&
--		    rcv->func == func && rcv->data == data)
-+		    rcv->match_sk == match_sk && rcv->func == func &&
-+		    rcv->data == data)
- 			break;
- 	}
- 
-@@ -546,8 +554,8 @@ void can_rx_unregister(struct net *net, struct net_device *dev, canid_t can_id,
- 	 * a warning here.
- 	 */
- 	if (!rcv) {
--		pr_warn("can: receive list entry not found for dev %s, id %03X, mask %03X\n",
--			DNAME(dev), can_id, mask);
-+		pr_warn("can: receive list entry not found for dev %s, id %03X, mask %03X%s\n",
-+			DNAME(dev), can_id, mask, match_sk ? " (match sk)" : "");
- 		goto out;
- 	}
- 
-@@ -569,10 +577,14 @@ void can_rx_unregister(struct net *net, struct net_device *dev, canid_t can_id,
- }
- EXPORT_SYMBOL(can_rx_unregister);
- 
--static inline void deliver(struct sk_buff *skb, struct receiver *rcv)
-+static inline int deliver(struct sk_buff *skb, struct receiver *rcv)
- {
--	rcv->func(skb, rcv->data);
--	rcv->matches++;
-+	if (!rcv->match_sk || skb->sk == rcv->sk) {
-+		rcv->func(skb, rcv->data);
-+		rcv->matches++;
-+		return 1;
-+	}
-+	return 0;
- }
- 
- static int can_rcv_filter(struct can_dev_rcv_lists *dev_rcv_lists, struct sk_buff *skb)
-@@ -589,8 +601,7 @@ static int can_rcv_filter(struct can_dev_rcv_lists *dev_rcv_lists, struct sk_buf
- 		/* check for error message frame entries only */
- 		hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx[RX_ERR], list) {
- 			if (can_id & rcv->mask) {
--				deliver(skb, rcv);
--				matches++;
-+				matches += deliver(skb, rcv);
- 			}
- 		}
- 		return matches;
-@@ -598,23 +609,20 @@ static int can_rcv_filter(struct can_dev_rcv_lists *dev_rcv_lists, struct sk_buf
- 
- 	/* check for unfiltered entries */
- 	hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx[RX_ALL], list) {
--		deliver(skb, rcv);
--		matches++;
-+		matches += deliver(skb, rcv);
- 	}
- 
- 	/* check for can_id/mask entries */
- 	hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx[RX_FIL], list) {
- 		if ((can_id & rcv->mask) == rcv->can_id) {
--			deliver(skb, rcv);
--			matches++;
-+			matches += deliver(skb, rcv);
- 		}
- 	}
- 
- 	/* check for inverted can_id/mask entries */
- 	hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx[RX_INV], list) {
- 		if ((can_id & rcv->mask) != rcv->can_id) {
--			deliver(skb, rcv);
--			matches++;
-+			matches += deliver(skb, rcv);
- 		}
- 	}
- 
-@@ -625,15 +633,13 @@ static int can_rcv_filter(struct can_dev_rcv_lists *dev_rcv_lists, struct sk_buf
- 	if (can_id & CAN_EFF_FLAG) {
- 		hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx_eff[effhash(can_id)], list) {
- 			if (rcv->can_id == can_id) {
--				deliver(skb, rcv);
--				matches++;
-+				matches += deliver(skb, rcv);
- 			}
- 		}
- 	} else {
- 		can_id &= CAN_SFF_MASK;
- 		hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx_sff[can_id], list) {
--			deliver(skb, rcv);
--			matches++;
-+			matches += deliver(skb, rcv);
- 		}
- 	}
- 
-diff --git a/net/can/af_can.h b/net/can/af_can.h
-index 7c2d9161e224..ea98b10d93e7 100644
---- a/net/can/af_can.h
-+++ b/net/can/af_can.h
-@@ -52,6 +52,7 @@ struct receiver {
- 	struct hlist_node list;
- 	canid_t can_id;
- 	canid_t mask;
-+	bool match_sk;
- 	unsigned long matches;
- 	void (*func)(struct sk_buff *skb, void *data);
- 	void *data;
-diff --git a/net/can/bcm.c b/net/can/bcm.c
-index 909b9e684e04..d89dd82c2178 100644
---- a/net/can/bcm.c
-+++ b/net/can/bcm.c
-@@ -729,7 +729,8 @@ static void bcm_rx_unreg(struct net_device *dev, struct bcm_op *op)
- {
- 	if (op->rx_reg_dev == dev) {
- 		can_rx_unregister(dev_net(dev), dev, op->can_id,
--				  REGMASK(op->can_id), bcm_rx_handler, op);
-+				  REGMASK(op->can_id), false, bcm_rx_handler,
-+				  op);
- 
- 		/* mark as removed subscription */
- 		op->rx_reg_dev = NULL;
-@@ -775,6 +776,7 @@ static int bcm_delete_rx_op(struct list_head *ops, struct bcm_msg_head *mh,
- 				can_rx_unregister(sock_net(op->sk), NULL,
- 						  op->can_id,
- 						  REGMASK(op->can_id),
-+						  false,
- 						  bcm_rx_handler, op);
- 
- 			list_del(&op->list);
-@@ -1193,6 +1195,7 @@ static int bcm_rx_setup(struct bcm_msg_head *msg_head, struct msghdr *msg,
- 				err = can_rx_register(sock_net(sk), dev,
- 						      op->can_id,
- 						      REGMASK(op->can_id),
-+						      false,
- 						      bcm_rx_handler, op,
- 						      "bcm", sk);
- 
-@@ -1202,7 +1205,7 @@ static int bcm_rx_setup(struct bcm_msg_head *msg_head, struct msghdr *msg,
- 
- 		} else
- 			err = can_rx_register(sock_net(sk), NULL, op->can_id,
--					      REGMASK(op->can_id),
-+					      REGMASK(op->can_id), false,
- 					      bcm_rx_handler, op, "bcm", sk);
- 		if (err) {
- 			/* this bcm rx op is broken -> remove it */
-@@ -1500,7 +1503,7 @@ static int bcm_release(struct socket *sock)
- 			}
- 		} else
- 			can_rx_unregister(net, NULL, op->can_id,
--					  REGMASK(op->can_id),
-+					  REGMASK(op->can_id), false,
- 					  bcm_rx_handler, op);
- 
- 		bcm_remove_op(op);
-diff --git a/net/can/gw.c b/net/can/gw.c
-index ba4124805602..5dbc7b85e0fc 100644
---- a/net/can/gw.c
-+++ b/net/can/gw.c
-@@ -567,14 +567,15 @@ static void can_can_gw_rcv(struct sk_buff *skb, void *data)
- static inline int cgw_register_filter(struct net *net, struct cgw_job *gwj)
- {
- 	return can_rx_register(net, gwj->src.dev, gwj->ccgw.filter.can_id,
--			       gwj->ccgw.filter.can_mask, can_can_gw_rcv,
--			       gwj, "gw", NULL);
-+			       gwj->ccgw.filter.can_mask, false,
-+			       can_can_gw_rcv, gwj, "gw", NULL);
- }
- 
- static inline void cgw_unregister_filter(struct net *net, struct cgw_job *gwj)
- {
- 	can_rx_unregister(net, gwj->src.dev, gwj->ccgw.filter.can_id,
--			  gwj->ccgw.filter.can_mask, can_can_gw_rcv, gwj);
-+			  gwj->ccgw.filter.can_mask, false, can_can_gw_rcv,
-+			  gwj);
- }
- 
- static int cgw_notifier(struct notifier_block *nb,
-diff --git a/net/can/isotp.c b/net/can/isotp.c
-index 9f94ad3caee9..44d943bbe0b1 100644
---- a/net/can/isotp.c
-+++ b/net/can/isotp.c
-@@ -1029,7 +1029,7 @@ static int isotp_release(struct socket *sock)
- 			if (dev) {
- 				can_rx_unregister(net, dev, so->rxid,
- 						  SINGLE_MASK(so->rxid),
--						  isotp_rcv, sk);
-+						  false, isotp_rcv, sk);
- 				dev_put(dev);
- 			}
- 		}
-@@ -1111,7 +1111,7 @@ static int isotp_bind(struct socket *sock, struct sockaddr *uaddr, int len)
- 	if (do_rx_reg)
- 		can_rx_register(net, dev, addr->can_addr.tp.rx_id,
- 				SINGLE_MASK(addr->can_addr.tp.rx_id),
--				isotp_rcv, sk, "isotp", sk);
-+				false, isotp_rcv, sk, "isotp", sk);
- 
- 	dev_put(dev);
- 
-@@ -1122,7 +1122,7 @@ static int isotp_bind(struct socket *sock, struct sockaddr *uaddr, int len)
- 			if (dev) {
- 				can_rx_unregister(net, dev, so->rxid,
- 						  SINGLE_MASK(so->rxid),
--						  isotp_rcv, sk);
-+						  false, isotp_rcv, sk);
- 				dev_put(dev);
- 			}
- 		}
-@@ -1323,7 +1323,7 @@ static int isotp_notifier(struct notifier_block *nb, unsigned long msg,
- 		if (so->bound && (!(so->opt.flags & CAN_ISOTP_SF_BROADCAST)))
- 			can_rx_unregister(dev_net(dev), dev, so->rxid,
- 					  SINGLE_MASK(so->rxid),
--					  isotp_rcv, sk);
-+					  false, isotp_rcv, sk);
- 
- 		so->ifindex = 0;
- 		so->bound  = 0;
-diff --git a/net/can/j1939/main.c b/net/can/j1939/main.c
-index da3a7a7bcff2..466a20c76fb6 100644
---- a/net/can/j1939/main.c
-+++ b/net/can/j1939/main.c
-@@ -177,7 +177,7 @@ static int j1939_can_rx_register(struct j1939_priv *priv)
- 
- 	j1939_priv_get(priv);
- 	ret = can_rx_register(dev_net(ndev), ndev, J1939_CAN_ID, J1939_CAN_MASK,
--			      j1939_can_recv, priv, "j1939", NULL);
-+			      false, j1939_can_recv, priv, "j1939", NULL);
- 	if (ret < 0) {
- 		j1939_priv_put(priv);
- 		return ret;
-@@ -191,7 +191,7 @@ static void j1939_can_rx_unregister(struct j1939_priv *priv)
- 	struct net_device *ndev = priv->ndev;
- 
- 	can_rx_unregister(dev_net(ndev), ndev, J1939_CAN_ID, J1939_CAN_MASK,
--			  j1939_can_recv, priv);
-+			  false, j1939_can_recv, priv);
- 
- 	j1939_priv_put(priv);
- }
-diff --git a/net/can/proc.c b/net/can/proc.c
-index d1fe49e6f16d..d312077832a6 100644
---- a/net/can/proc.c
-+++ b/net/can/proc.c
-@@ -191,11 +191,12 @@ static void can_print_rcvlist(struct seq_file *m, struct hlist_head *rx_list,
- 
- 	hlist_for_each_entry_rcu(r, rx_list, list) {
- 		char *fmt = (r->can_id & CAN_EFF_FLAG)?
--			"   %-5s  %08x  %08x  %pK  %pK  %8ld  %s\n" :
--			"   %-5s     %03x    %08x  %pK  %pK  %8ld  %s\n";
-+			"   %-5s  %08x  %08x   %c   %pK  %pK  %8ld  %s\n" :
-+			"   %-5s     %03x    %08x   %c   %pK  %pK  %8ld  %s\n";
- 
- 		seq_printf(m, fmt, DNAME(dev), r->can_id, r->mask,
--				r->func, r->data, r->matches, r->ident);
-+				r->match_sk ? '*' : ' ', r->func, r->data,
-+				r->matches, r->ident);
- 	}
- }
- 
-@@ -206,9 +207,9 @@ static void can_print_recv_banner(struct seq_file *m)
- 	 *                 .......          0  tp20
- 	 */
- 	if (IS_ENABLED(CONFIG_64BIT))
--		seq_puts(m, "  device   can_id   can_mask      function          userdata       matches  ident\n");
-+		seq_puts(m, "  device   can_id   can_mask  own      function          userdata       matches  ident\n");
- 	else
--		seq_puts(m, "  device   can_id   can_mask  function  userdata   matches  ident\n");
-+		seq_puts(m, "  device   can_id   can_mask  own  function  userdata   matches  ident\n");
- }
- 
- static int can_stats_proc_show(struct seq_file *m, void *v)
-diff --git a/net/can/raw.c b/net/can/raw.c
-index 139d9471ddcf..acfbae28d451 100644
---- a/net/can/raw.c
-+++ b/net/can/raw.c
-@@ -187,13 +187,13 @@ static int raw_enable_filters(struct net *net, struct net_device *dev,
- 
- 	for (i = 0; i < count; i++) {
- 		err = can_rx_register(net, dev, filter[i].can_id,
--				      filter[i].can_mask,
-+				      filter[i].can_mask, false,
- 				      raw_rcv, sk, "raw", sk);
- 		if (err) {
- 			/* clean up successfully registered filters */
- 			while (--i >= 0)
- 				can_rx_unregister(net, dev, filter[i].can_id,
--						  filter[i].can_mask,
-+						  filter[i].can_mask, false,
- 						  raw_rcv, sk);
- 			break;
- 		}
-@@ -209,7 +209,7 @@ static int raw_enable_errfilter(struct net *net, struct net_device *dev,
- 
- 	if (err_mask)
- 		err = can_rx_register(net, dev, 0, err_mask | CAN_ERR_FLAG,
--				      raw_rcv, sk, "raw", sk);
-+				      false, raw_rcv, sk, "raw", sk);
- 
- 	return err;
- }
-@@ -222,7 +222,7 @@ static void raw_disable_filters(struct net *net, struct net_device *dev,
- 
- 	for (i = 0; i < count; i++)
- 		can_rx_unregister(net, dev, filter[i].can_id,
--				  filter[i].can_mask, raw_rcv, sk);
-+				  filter[i].can_mask, false, raw_rcv, sk);
- }
- 
- static inline void raw_disable_errfilter(struct net *net,
-@@ -233,7 +233,7 @@ static inline void raw_disable_errfilter(struct net *net,
- {
- 	if (err_mask)
- 		can_rx_unregister(net, dev, 0, err_mask | CAN_ERR_FLAG,
--				  raw_rcv, sk);
-+				  false, raw_rcv, sk);
- }
- 
- static inline void raw_disable_allfilters(struct net *net,
--- 
-2.31.1
+This series can support legacy apps up to now.  But, instead of creating 
+too many special cases, perhaps we should drop CET support of ia32?
 
+Thoughts?
+
+Thanks,
+Yu-cheng
