@@ -2,366 +2,282 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1679C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 08:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A67D2C433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 11:27:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7312A611AE
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 08:44:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A47661176
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 11:27:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232184AbhEEIpb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 04:45:31 -0400
-Received: from mail-dm6nam12on2091.outbound.protection.outlook.com ([40.107.243.91]:42272
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232286AbhEEIpZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 May 2021 04:45:25 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PNE/8zbpO75i/Jg1zLzdjOv9XkWXuxzmxpbwqQs7iyJUawT3oHjFqNZoo/LnIgo6MGaspUqSE02Sy82XUiU7i/xU1IJ2ILvz5j7oTSHpZyryjwO84XOARmoPgmgvPO+vXFaVoQpIue9ya0RFezud5V6p29pGBfrLD/RWOBsKO4lhszkXBcHGaYGV0RnIVT6dd90crJ9dnCiWgxLgCnxcEV6kMI46mByVocVb5BPNQ0P/Q2fEoBMdwW/Y1bDL/7/l2q3yqn7ZCceZyC1Ukoqvf8im5BhYYF8E8CHh77ZP9UiJFa6fxiHgP0M4i7FGoVWZilo/wPYCVm06DglPaFqrrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TQZqyqmRwVdJ97RVHf2k+XA5eGJWwQmpvSjJtW2VGnY=;
- b=aqiMiYsbq93MQa+T52CPt083DsDTiEz08ncYJRThqyX5f/Kry3dfn3j+CRzCfeHZ/MH3erHcbort7FTmZAsOPao/o9f38hH0djDk+st+KaEdz2jlTDHNSedDRJzhulA9G61XVrAP3y+gRT+zM3OYTrrdyBL58PhVX5v0YwYWB/ZYbnLWH2+6Ld+pSgGJbsBCu/hNNeskJCQe+qgKL9OOglp6Z2FhUv6Us+mCE3AJMQqgbPmAjUq2OQacL+QXy4PTmgKqroknELQc+oFVYA5Zm5wr33DYeKeRdFF3snDFamSqyN6rPvKoq1nNyn01nF18CV63iznveLpuYJf4Zo+44Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+        id S232845AbhEEL2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 07:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53444 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230001AbhEEL2K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 07:28:10 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09BC6C061574;
+        Wed,  5 May 2021 04:27:14 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id l129so1072486qke.8;
+        Wed, 05 May 2021 04:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TQZqyqmRwVdJ97RVHf2k+XA5eGJWwQmpvSjJtW2VGnY=;
- b=ua6hiWcIeavVO4390DymFNgbQJSHM2JusNbKYaHla2ewpnQTsErlgIlv8KCQtVMLBbS6UCy2IQryAxY8H33OcKCa+FMQM749b+4uRuOVQrQWWGM8vytnNctxMCeQ1x4daIkYcCi5hggg3g9XnKcXZmW3WbbAd/XxDVrbLGt/H3E=
-Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
- header.d=none;os.amperecomputing.com; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- MWHPR01MB2381.prod.exchangelabs.com (2603:10b6:300:46::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.25; Wed, 5 May 2021 08:44:23 +0000
-Received: from MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.4087.044; Wed, 5 May 2021
- 08:44:23 +0000
-Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add bindings for Ampere Altra
- SMPro drivers
-To:     Rob Herring <robh@kernel.org>
-Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20210422090843.4614-1-quan@os.amperecomputing.com>
- <20210422090843.4614-2-quan@os.amperecomputing.com>
- <20210430201918.GA3806853@robh.at.kernel.org>
-From:   Quan Nguyen <quan@os.amperecomputing.com>
-Message-ID: <52550615-ae38-d88e-a597-29dc9c71755a@os.amperecomputing.com>
-Date:   Wed, 5 May 2021 15:44:04 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
-In-Reply-To: <20210430201918.GA3806853@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [27.74.205.135]
-X-ClientProxiedBy: CH2PR03CA0007.namprd03.prod.outlook.com
- (2603:10b6:610:59::17) To MW2PR0102MB3482.prod.exchangelabs.com
- (2603:10b6:302:c::32)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.10.85] (27.74.205.135) by CH2PR03CA0007.namprd03.prod.outlook.com (2603:10b6:610:59::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24 via Frontend Transport; Wed, 5 May 2021 08:44:17 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6fca1013-d671-4073-1d84-08d90fa1fb46
-X-MS-TrafficTypeDiagnostic: MWHPR01MB2381:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR01MB238173B790B7FE6A5A23C101F2599@MWHPR01MB2381.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3D73IgSjmeX9PQsbOmE9xUpEiNXIxYuDEADtCep9OmqLjGrj+iudb2PlGrnZ3fz06sEGTmYAdQ5hCpWpx3LkOJ5rR+F82Vu37A7rta6y+uWiMx4hZ+VKFXrnG62zvucGVaAUzkbxa3TUD7NmvpwkqvcJg43TbiTFuveK/ZQDbxoNGyBS4KvLPoEI4kf7rMCkAzpTHiPNmLn4DpIcmerwfFdnrZ2Uxr7hDQAV96r58GB2aqmdhZnoYOAhFToctoFCORdkHi+3IJ05HA0Zo3T5iHW1MHKcwr7PR3anz8nLW7RT3mJB1kGTwClH6GxDJ3TYJ6gnCvqrohBOzeIyTfyt1fObxw9/RSJltCex9Z+K9XO0du1NX5mpNWV+fiw/E7eBwYG11zyitVmY3fDxOKy2ENPkEC6y+WH/GUTcwYdr8PfJr3gTA1erEiffwdUeB/oKNwcHITBTXtkCAE8ccNdnVB0LWPvtwCyUHZ+IgkyKhpndOD7WyP0affRabboHzvPl8FdUHKS8h8z1ZXwZjYzR1SWk8MONRfS96hjYFGom3sTsMuqhWJpAQujBLuaFBG9H3UbbXMJbFwcLM+N3Mg6g9pbCZML9v+Jkq3z4lx25gt9UGvxpNJC+jqiCR5L67RZiF8BtcEbsrXIcT8sLWOa+lmdT1GD12haQWfJZDQftMSOAotaxz3IUzwGVZobHMv45O8dqvMtbt3sm2+Jj8/f8ZZ94+FNy/hh0yvdSzzJj2e+jqFpcXU8bNHZFAhXPYwNUtkGBSv9GS1P2TT9yVLtyd8/Mu7n+RpBHHh+Fs6ET6nk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR0102MB3482.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39850400004)(396003)(376002)(346002)(366004)(66476007)(966005)(8936002)(31696002)(66946007)(26005)(186003)(5660300002)(66556008)(6486002)(53546011)(54906003)(478600001)(16576012)(6666004)(8676002)(107886003)(31686004)(316002)(2616005)(52116002)(83380400001)(4326008)(38100700002)(86362001)(956004)(7416002)(16526019)(6916009)(38350700002)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SGg0a1lWM0lCUi9CRTRWakVhYjNMUFNid1dWT3g5Zk5yRDRvMktMdGpHdkQx?=
- =?utf-8?B?Ny9Pc1kvaVp2RktPSTBncFpnNlpXMUZadDZSRTBIMW80V21UbFRpaU1ZY25r?=
- =?utf-8?B?Z2hLcXIxRFkyL0g1RytuY1g0cEJ2MUhsMVp0dnllN1I0R1pzU0FsQXFYS3Ix?=
- =?utf-8?B?N1hDNVdTMTRkUVFLcmZyQXJlUGR3NXlmaDF3cU9NdURsTjRlR2NTUmRqd29O?=
- =?utf-8?B?U0tJdlB6MUF3R2t4Q2FROEdKSzM0VnJ5RCtlVWE3Qit3TXNrcHRNRUp5aWJC?=
- =?utf-8?B?aEdwNFNMSk9hdXV1Y2NCWW43QUZNY3FLTmFBTkhmN0UvWTBOK3V5a1RMTzRn?=
- =?utf-8?B?Zmwyc0h5MFFBaUNvT2NxVFU0b3E4WTlFZS9xOHhjUUFqSHJnOXl3K1F3eVla?=
- =?utf-8?B?UjR5amd6d0pHbFRRd1NzbFZHYnU3L2JQamZIbE50aDNVNC9nemNnWFJHU0Zy?=
- =?utf-8?B?bjNIbmt5K2ZZL01pd3JDVm1nZ0RrZTkvb0xpdW1lbjlsSEFvVWEyN05BTWoz?=
- =?utf-8?B?VXc4ZlhCT290d2NQWFBVaDI1S0hpQzhFR1JwRVZaZ09LVFlsUjU2UmIya0dr?=
- =?utf-8?B?dTBTMkxwbFk1VE9CSUdqaFYvNm5TaWxvUVR0bFF0cnVFaklsN3lhSWphZ1c0?=
- =?utf-8?B?TFJUamdoelpvZkUzanczT0k0WnhjS3lFWnB2Y0tGT0pqM1gxZzFnTFUraFJ3?=
- =?utf-8?B?TXlFdmJyeFNIekZJTDlvUkc2ZUV2QktsOXljU2xRbnVyN2IrVXNNRkgvVVlT?=
- =?utf-8?B?Y0dEUUs1NjVMc1lxei9hdGRVcjVmQndsS0tLYk9wR0NRT2U0SmRSdFlac3ZR?=
- =?utf-8?B?NGMrRUVRNUNORDRZeS8wZ1BaZTJPZXNjTGVTcE1xZ2Q4WXFJRWE5cFlwR1dr?=
- =?utf-8?B?Q3R2VDk2eE54eXdRRzBsSDJiNlhYWkdWNmIyUWZTTkhiL1lkQUx5UUtZYXdy?=
- =?utf-8?B?Tk5QZXVaUVc5bFFxL1NCZ2FCV1JOOWo2VXNyRGFJU0x2ODZFMHhEQ2JTdzQr?=
- =?utf-8?B?eE1QclZsWXIzT2tEWkRyaWtxd3FKUmgva0NYK1FzT3hXOGNCeVVqUXVZT2I4?=
- =?utf-8?B?SVQxVmFBT1RkQzQyRkFRaGo4UnNaYklPSUxhUVkxcHJwTFpTWWtyaXp3WVVW?=
- =?utf-8?B?dGJmVDh2eTlKaVFqQXNIbVpVN29NMEJiMGprM3JFWExjbkNqdlN6ZlIyU3Q1?=
- =?utf-8?B?dzBPOW9aZjB4L1hFUVlSNmtrdzZ3UTlWRGFhN2w5cnBSWG9iMzVrSlZyVjFD?=
- =?utf-8?B?YTBEZ3JSM2xTTDZhWlNtQUJNSDd2YjNJOEllZjVhcDhRMzhWQURBNVBRd2hL?=
- =?utf-8?B?aytxODR0YjJya3Bid2RKbnpadFY0Q3M5Lzd0QVc0U3NkbjJ6VEllZk91MkFV?=
- =?utf-8?B?eFVhWmxPRUtGRk1oci8zNXp3OXFyZUpZbFVranpEUmVNREhFSkJvdzFGR0Ns?=
- =?utf-8?B?MC9lTDRKNEdhQ0pkeVhiWWgvd21DSjNQelpXbVZ5SlE2cmFuRDRQcUczMGNF?=
- =?utf-8?B?ZTJOZXliK091MWNvdzEvbGZJbmppcFE5UUdvYzJHNHRIQ1d0cG9IT0RmdEZX?=
- =?utf-8?B?QUFyYk9JMS9JakY1SlBaL0RqdG1ScnMva2ZvcFZQSXV2ZDB2bXlVdmQ1azY2?=
- =?utf-8?B?NFM1YkdQcGNSY1h5dTFHeGJYOFcvMlhqRUtLbkxpbkNGK0t5WFBKU3NENDdG?=
- =?utf-8?B?bnV2NlRGeG4waVNRSzRaOEloTkkrSWhGdWNsb01TS3YyN2Rwd01pZHFYODBk?=
- =?utf-8?Q?+qIUHaMreBKsxJoY2Z8pw+aQcsnDbcmfMeTVxqA?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fca1013-d671-4073-1d84-08d90fa1fb46
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 08:44:23.3491
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1TCgcZ2Q9YUXsFkN0K+YKcgvr+u6FrKBHyVTUqD8CXfSqmOJo7Z5YQ1s/pMmDdUU8f1DUF59xdaWYLJz9yN3mlu4jdv1+b71tEZ4hewbqzo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR01MB2381
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=gPADgVh5krNRNUX1muKGl2CiIc7g7KCS79IVQpyvN94=;
+        b=h2r/A6x14WtOm+/3a1IpQpLTzkGFyUum2eUt/g72xRfLH3unQViCnKCm7pWTFP4RkU
+         CKn/3KO1TWq3AxwlQ+Lf1QuuCBBmGR+vtPo+SsjQux8hUfQLoeYty7fvA73B3P52Z3Uc
+         SSCIntccNz0nK0xUsSmogwVuZ8LguiV9ZJ7iX6HBnrWnihW9dQw5Bhf3NjkfGoP2IM94
+         Ggn31Pqf2BvjaRszKfoAn3AivQV7OVRk6OxuEOCLy5OJM8/5MULcw8QuxTm5VETtrjZC
+         2byKdMqaivSEbNAeyZr4xWLuU9IRIbBmxI/DZshLte63IsDzgFip1WLn27/y0+1LFpcA
+         j2eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=gPADgVh5krNRNUX1muKGl2CiIc7g7KCS79IVQpyvN94=;
+        b=d8iWZcpXZ81zuTOot7vhXpOlDg8aEWcEsqz2ZLY8HSju3ET94Y+JL1K+/5cxCepBe6
+         UMB8VB++7bYei3BAOpt728i793xt3GosOkHscIbj7yS3tHXonWs+QPsGBqgQ389gKuZB
+         pNRpj55VOv7JyfCJvsXXRmYIDHRYANOAKXlH0V+byETEy4X/9EmYZumwoA4+czUkcSQx
+         pLp+CPP/egH4rLn73c/68iLp3JEfwgmc3JMQSeS4t/KioYvC9LUOhfujkS6PkdzSApIb
+         8T/0t0SWF3JGPI/JN4q3tRK7/fa9zTsOXa4w856n2RYdvjKE7oc9sNPnIwSc+EO4BaRy
+         AgTQ==
+X-Gm-Message-State: AOAM533fHFyKncdI8etg1GGZ437oCHXwHhtikXXnUgsCe/c0gB5i6eyn
+        dRIglNK+ipKDg5UNOm11J0o=
+X-Google-Smtp-Source: ABdhPJxMslouST2uxu94Nmqw3EOEE+SHgKAKkcWnQ+3fTR9AyvhfLaWDYN1LzejFYsQ3WK8bBIoxow==
+X-Received: by 2002:a05:620a:1442:: with SMTP id i2mr11864379qkl.45.1620214032799;
+        Wed, 05 May 2021 04:27:12 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id d3sm4661270qtm.56.2021.05.05.04.27.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 May 2021 04:27:12 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     akpm@linux-foundation.org, Jonathan.Cameron@Huawei.com,
+        aarcange@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
+        brendanhiggins@google.com, cai@lca.pw, colin.king@canonical.com,
+        corbet@lwn.net, david@redhat.com, dwmw@amazon.com,
+        elver@google.com, fan.du@intel.com, foersleo@amazon.de,
+        gthelen@google.com, irogers@google.com, jolsa@redhat.com,
+        kirill@shutemov.name, mark.rutland@arm.com, mgorman@suse.de,
+        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
+        peterz@infradead.org, rdunlap@infradead.org, riel@surriel.com,
+        rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
+        sblbir@amazon.com, shakeelb@google.com, shuah@kernel.org,
+        sj38.park@gmail.com, snu@amazon.de, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, yang.shi@linux.alibaba.com,
+        ying.huang@intel.com, zgf574564920@gmail.com,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: DAMON-based Proactive Reclamation for The Physical Address Space
+Date:   Wed,  5 May 2021 11:26:59 +0000
+Message-Id: <20210505112659.4172-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201216094221.11898-1-sjpark@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/05/2021 03:19, Rob Herring wrote:
-> On Thu, Apr 22, 2021 at 04:08:40PM +0700, Quan Nguyen wrote:
->> Adds device tree bindings for SMPro driver found on the Mt.Jade hardware
->> reference platform with Ampere's Altra Processor family.
->>
->> The SMpro co-processor on Ampere Altra processor family is to monitor
->> and report various data included hwmon-related info, RAS errors, and
->> other miscellaneous information. This parent SMPro MFD driver creates
->> a single simple register map to be shared by all sub-devices and leave
->> all the specific to be handled by the child drivers.
+From: SeongJae Park <sjpark@amazon.de>
+
+On Wed, 16 Dec 2020 10:42:08 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+
+> From: SeongJae Park <sjpark@amazon.de>
 > 
-> Again, just because you have multiple functions aka MFD, that doesn't
-> mean you need child nodes for each function. The only thing you have
-> in DT is a register address. Does this vary? If so, how often? How many
-> different versions of a DT do you currently or expect to have?
+> NOTE: This is only an RFC for future features of DAMON patchset[1], which is
+> not merged in the mainline yet.  The aim of this RFC is to show how DAMON would
+> be evolved once it is merged in.  So, if you have some interest in this RFC,
+> please consider reviewing the DAMON patchset, either.
 > 
-Hi Rob,
+[...]
 
-Thank you for your review.
-I will try to explain what I think below and expect to receive more 
-comments to improve these patches. And if any misundertood, please help 
-correct me.
+TL; DR: I confirmed DAMON's physical address monitoring works effectively by
+implementing a proactive reclamation system using DAMON and evaluating it with
+24 realistic workloads.
 
-The idea is to keep the SMPro MFD as a simple generic register map and 
-expect not to change or to handle any specific in this parent device 
-driver. This is why we see the simple_mfd_i2c fit in this case.
+DAMON's overhead control logics, namely 'region-based sampling' and 'adaptive
+regions adjustment', are based on an assumption.  That is, there would be a
+number of memory regions that pages in each region having similar access
+frequency.  In other words, a sort of spatial locality.
 
-And so, all the specific details will be handled in child devices driver 
-and we expect to have child nodes for these child devices. If the child 
-node exist we can then add any specific if necessary later.
+This made some people concerned about the accuracy of physical address space
+monitoring.  In detail, because any process in the system can make access to
+the physical address space, the pattern would be more chaotic and randomic than
+virtual address spaces.  As a result, the spatial locality assumption is broken
+and DAMON will give only poor quality monitoring results.
 
-One case is that, each socket (ie: the Ampere Altra processor) has it 
-own SMPro co-processor instance in form of register map and each socket 
-could be either slave or master. Some function may not available in 
-slave socket but exist in master socket and we simply choose not to 
-define the child node if that function not existed.
+I'd argue such case will be very rare in real.  After all, the assumption-based
+logics are only optional[1].  I also confirmed the physical address space
+monitoring results are accurate enough for basic profiling, with real
+production systems[2] and my test workloads.
 
-The other case is that if there are multi instances of the same function 
-in one SMPro MFD register map, then each instance might need to be 
-differentiated by using is own register address or maybe a DT property. 
-Then we can simply add them to the node of these instance.
+In the past, I shown the effectiveness of the DAMON's virtual address space
+monitoring with the monitoring-based proactive reclamation[3].  I call the
+implementation 'prcl'.  To show the effectiveness of the DAMON's physical
+address space monitoring and convince some more people, I did same work again,
+for the physical address space monitoring.  That is, I implemented a physical
+address space monitoring-based version of the proactive reclamation ('pprcl')
+and evaluated it's performance with 24 realistic workloads.  The setup is
+almost same to the previously shared one[3].
 
-For your specific questions:
+In detail, 'pprcl' finds memory regions in physical address space that didn't
+accessed for >=5 seconds and reclaim those.  'prcl' is similar but finds the
+regions from the virtual address space of the target workload, and the
+threshold time is tuned for each workload, so that it wouldn't incur too high
+runtime overhead.
 
-+ Does this vary ?
-yes, I think so. The register address in each child nodes may vary if 
-the SMPro co-processor firmware change its register map layout or maybe 
-other instances of a function added. Child device drivers are expected 
-to handle these changes if necessary.
 
-+ About how often ?
-I actually can't say how often but the purpose of this SMPro register 
-map is to provide the info to the BMC. The BMC will need more info from 
-the host so I think changes will be unavoidable.
+Reduction of Workload's Residential Sets
+-----------------------------------------
 
-Please help with your comments
-Thank you,
-- Quan
+Below shows the averaged RSS of each workload on the systems.
 
->>
->> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
->> ---
->> Changes in v4:
->>    + Revised the commit message to clarify how the specific info will
->>      be handled commented by Rob.
->>
->> Changes in v3:
->>    + Supported list of compatible string [Rob]
->>    + Introduced reg property in DT to specify reg offset [Rob]
->>    + Updated description and other minor changes in yaml file [Rob]
->>
->> Changes in v2:
->>    + Changed "ampere,ac01-smpro" to "ampere,smpro" [Quan]
->>
->>   .../bindings/hwmon/ampere,ac01-hwmon.yaml     |  28 +++++
->>   .../devicetree/bindings/mfd/ampere,smpro.yaml | 105 ++++++++++++++++++
->>   2 files changed, 133 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
->>   create mode 100644 Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
->> new file mode 100644
->> index 000000000000..fbf7ec754160
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
->> @@ -0,0 +1,28 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/hwmon/ampere,ac01-hwmon.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Hardware monitoring driver for the Ampere Altra SMPro
->> +
->> +maintainers:
->> +  - Quan Nguyen <quan@os.amperecomputing.com>
->> +
->> +description: |
->> +  This module is part of the Ampere Altra SMPro multi-function device. For more
->> +  details see ../mfd/ampere,smpro.yaml.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ampere,ac01-hwmon
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +
->> +additionalProperties: false
->> diff --git a/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml b/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
->> new file mode 100644
->> index 000000000000..5613c420869e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
->> @@ -0,0 +1,105 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/mfd/ampere,smpro.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Ampere Altra SMPro firmware driver
->> +
->> +maintainers:
->> +  - Quan Nguyen <quan@os.amperecomputing.com>
->> +
->> +description: |
->> +  Ampere Altra SMPro firmware may contain different blocks like hardware
->> +  monitoring, error monitoring and other miscellaneous features.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ampere,smpro
->> +
->> +  reg:
->> +    description:
->> +      I2C device address.
->> +    maxItems: 1
->> +
->> +  "#address-cells":
->> +    const: 1
->> +
->> +  "#size-cells":
->> +    const: 0
->> +
->> +patternProperties:
->> +  "^hwmon(@[0-9a-f]+)?$":
->> +    $ref: ../hwmon/ampere,ac01-hwmon.yaml
->> +
->> +  "^misc(@[0-9a-f]+)?$":
->> +    type: object
->> +    description: |
->> +      This module is part of the Ampere Altra SMPro multi-function device
->> +      to support miscellaneous features
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - ampere,ac01-misc
->> +      reg:
->> +        maxItems: 1
->> +
->> +    required:
->> +      - compatible
->> +      - reg
->> +
->> +  "^errmon(@[0-9a-f]+)?$":
->> +    type: object
->> +    description: |
->> +      This module is part of the Ampere Altra SMPro multi-function device
->> +      that supports error monitoring feature.
->> +
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - ampere,ac01-errmon
->> +      reg:
->> +        maxItems: 1
->> +
->> +    required:
->> +      - compatible
->> +      - reg
->> +
->> +required:
->> +  - "#address-cells"
->> +  - "#size-cells"
->> +  - compatible
->> +  - reg
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        smpro@4f {
->> +            compatible = "ampere,smpro";
->> +            reg = <0x4f>;
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->> +            hwmon@10 {
->> +                compatible = "ampere,ac01-hwmon";
->> +                reg = <0x10>;
->> +            };
->> +
->> +            misc@b0 {
->> +                compatible = "ampere,ac01-misc";
->> +                reg = <0xb0>;
->> +            };
->> +
->> +            errmon@80 {
->> +                compatible = "ampere,ac01-errmon";
->> +                reg = <0x80>;
->> +            };
->> +
->> +        };
->> +    };
->> -- 
->> 2.28.0
->>
+rss.avg                 orig         prcl         (overhead) pprcl        (overhead)
+parsec3/blackscholes    588658.400   255710.400   (-56.56)   291570.800   (-50.47)
+parsec3/bodytrack       32286.600    6714.200     (-79.20)   29023.200    (-10.11)
+parsec3/canneal         841353.400   841823.600   (0.06)     841721.800   (0.04)
+parsec3/dedup           1163860.000  561526.200   (-51.75)   922990.000   (-20.70)
+parsec3/facesim         311657.800   191045.600   (-38.70)   188238.200   (-39.60)
+parsec3/fluidanimate    531832.000   415361.600   (-21.90)   418925.800   (-21.23)
+parsec3/freqmine        552641.400   37270.000    (-93.26)   66849.800    (-87.90)
+parsec3/raytrace        885486.400   296335.800   (-66.53)   360111.000   (-59.33)
+parsec3/streamcluster   110838.200   109961.000   (-0.79)    108288.600   (-2.30)
+parsec3/swaptions       5697.600     3575.200     (-37.25)   1982.600     (-65.20)
+parsec3/vips            31849.200    27923.400    (-12.33)   29194.000    (-8.34)
+parsec3/x264            81749.800    81936.600    (0.23)     80098.600    (-2.02)
+splash2x/barnes         1217412.400  681704.000   (-44.00)   825071.200   (-32.23)
+splash2x/fft            10055745.800 8948474.600  (-11.01)   9049028.600  (-10.01)
+splash2x/lu_cb          511975.400   338240.000   (-33.93)   343283.200   (-32.95)
+splash2x/lu_ncb         511459.000   406830.400   (-20.46)   392444.400   (-23.27)
+splash2x/ocean_cp       3384642.800  3413014.800  (0.84)     3377972.000  (-0.20)
+splash2x/ocean_ncp      3943689.400  3950712.800  (0.18)     3896549.800  (-1.20)
+splash2x/radiosity      1472601.000  96327.400    (-93.46)   245859.800   (-83.30)
+splash2x/radix          2419770.000  2467029.400  (1.95)     2416935.600  (-0.12)
+splash2x/raytrace       23297.600    5559.200     (-76.14)   12799.000    (-45.06)
+splash2x/volrend        44117.400    16930.400    (-61.62)   20800.400    (-52.85)
+splash2x/water_nsquared 29403.200    13191.400    (-55.14)   25244.400    (-14.14)
+splash2x/water_spatial  663455.600   258882.000   (-60.98)   479496.000   (-27.73)
+total                   29415600.000 23426082.000 (-20.36)   24424396.000 (-16.97)
+average                 1225650.000  976087.000   (-37.99)   1017680.000  (-28.76)
 
+On average, 'prcl' saved 37.99% of memory, while 'pprcl' saved 28.76%.  The
+memory saving of 'pprcl' is smaller than that of 'prcl', though the difference
+is not significant.  Note that this machine has about 130 GiB memory, which is
+much larger than the RSS of the workloads (only about 1.2 GiB on average).  I
+believe this fact made the accuracy of the physical address monitoring worse
+than the virtual address monitoring.  Compared to the monitoring scope increase
+(about 100x), the accuracy degradation is very small.
+
+
+System Global Memory Saving
+---------------------------
+
+I further measured the amount of free memory of the system to calculate the
+system global memory footprint.
+
+memused.avg             orig         prcl         (overhead) pprcl        (overhead)
+parsec3/blackscholes    1838734.200  1617375.000  (-12.04)   321902.200   (-82.49)
+parsec3/bodytrack       1436094.400  1451703.200  (1.09)     256972.600   (-82.11)
+parsec3/canneal         1048424.600  1062165.200  (1.31)     885787.600   (-15.51)
+parsec3/dedup           2526629.800  2506042.600  (-0.81)    1777099.400  (-29.67)
+parsec3/facesim         546595.800   494834.200   (-9.47)    243344.600   (-55.48)
+parsec3/fluidanimate    581078.800   484461.200   (-16.63)   409179.000   (-29.58)
+parsec3/freqmine        994034.000   760863.000   (-23.46)   320619.200   (-67.75)
+parsec3/raytrace        1753114.800  1565592.600  (-10.70)   703991.600   (-59.84)
+parsec3/streamcluster   128533.400   142138.200   (10.58)    100322.200   (-21.95)
+parsec3/swaptions       22869.200    40935.000    (79.00)    -11221.800   (-149.07)
+parsec3/vips            2992238.000  2948726.000  (-1.45)    479531.000   (-83.97)
+parsec3/x264            3250209.000  3273603.400  (0.72)     691699.400   (-78.72)
+splash2x/barnes         1220499.800  955857.200   (-21.68)   978864.800   (-19.80)
+splash2x/fft            9674473.000  9803918.800  (1.34)     10242764.800 (5.87)
+splash2x/lu_cb          521333.400   365105.200   (-29.97)   323198.200   (-38.01)
+splash2x/lu_ncb         521936.200   431906.000   (-17.25)   384663.200   (-26.30)
+splash2x/ocean_cp       3295293.800  3311071.800  (0.48)     3281148.000  (-0.43)
+splash2x/ocean_ncp      3917407.800  3926460.000  (0.23)     3871557.000  (-1.17)
+splash2x/radiosity      1472602.400  431091.600   (-70.73)   496768.400   (-66.27)
+splash2x/radix          2394703.600  2340372.000  (-2.27)    2494416.400  (4.16)
+splash2x/raytrace       52380.400    61028.200    (16.51)    4832.600     (-90.77)
+splash2x/volrend        159425.800   167845.600   (5.28)     36449.600    (-77.14)
+splash2x/water_nsquared 50912.200    69023.600    (35.57)    12645.200    (-75.16)
+splash2x/water_spatial  681121.200   382255.200   (-43.88)   516789.200   (-24.13)
+total                   41080500.000 38594500.000 (-6.05)    28823200.000 (-29.84)
+average                 1711690.000  1608100.000  (-4.51)    1200970.000  (-48.55)
+
+On average, 'pprcl' (48.55 %) saved about 10 times more memory than 'prcl'
+(4.51 %).  I believe this is because 'pprcl' can reclaim any system memory
+while 'prcl' can do that for only the memory mapped to the workload.
+
+
+Runtime Overhead
+----------------
+
+I also measured the runtime of each workload, because the proactive reclamation
+could make workloads slowed down.  Note that we used 'zram' as a swap device[3]
+to minimize the degradation.
+
+runtime                 orig     prcl     (overhead) pprcl    (overhead)
+parsec3/blackscholes    138.566  146.351  (5.62)     139.731  (0.84)
+parsec3/bodytrack       125.359  141.542  (12.91)    127.269  (1.52)
+parsec3/canneal         203.778  216.348  (6.17)     225.055  (10.44)
+parsec3/dedup           18.261   20.552   (12.55)    19.662   (7.67)
+parsec3/facesim         338.071  367.367  (8.67)     344.212  (1.82)
+parsec3/fluidanimate    341.858  341.465  (-0.11)    332.765  (-2.66)
+parsec3/freqmine        437.206  449.147  (2.73)     444.311  (1.63)
+parsec3/raytrace        185.744  201.641  (8.56)     186.037  (0.16)
+parsec3/streamcluster   640.900  680.466  (6.17)     637.582  (-0.52)
+parsec3/swaptions       220.612  223.065  (1.11)     221.809  (0.54)
+parsec3/vips            87.661   91.613   (4.51)     94.582   (7.89)
+parsec3/x264            114.661  125.278  (9.26)     112.389  (-1.98)
+splash2x/barnes         128.298  145.497  (13.41)    139.424  (8.67)
+splash2x/fft            58.677   64.417   (9.78)     76.932   (31.11)
+splash2x/lu_cb          133.660  138.980  (3.98)     133.222  (-0.33)
+splash2x/lu_ncb         148.260  151.129  (1.93)     152.448  (2.82)
+splash2x/ocean_cp       75.966   76.765   (1.05)     76.880   (1.20)
+splash2x/ocean_ncp      153.289  162.596  (6.07)     172.197  (12.33)
+splash2x/radiosity      143.191  154.972  (8.23)     148.913  (4.00)
+splash2x/radix          51.190   51.030   (-0.31)    61.811   (20.75)
+splash2x/raytrace       133.835  147.047  (9.87)     135.699  (1.39)
+splash2x/volrend        120.789  129.783  (7.45)     121.455  (0.55)
+splash2x/water_nsquared 370.232  424.013  (14.53)    378.424  (2.21)
+splash2x/water_spatial  132.444  151.769  (14.59)    146.471  (10.59)
+total                   4502.510 4802.850 (6.67)     4629.270 (2.82)
+average                 187.605  200.119  (7.03)     192.886  (5.11)
+
+On average, 'pprcl' outperforms 'prcl' again, though the difference is only
+small.  'pprcl' incurs 5.11% slowdown to the workload, while 'prcl' incurs
+7.03% slowdown.
+
+Nevertheless, because the reclamation threshold (5 seconds) of 'pprcl' is not
+tuned for each workload, it sometimes do too aggressive reclamation and
+therefore incur high runtime overhead to some workloads, including splash2x/fft
+(31.11%) and splash2x/radix (20.75%).  In contrast, the worst-case runtime
+overhead of 'prcl' is only 14.59% (splash2x/water_spatial) because it uses
+different tuned thresholds that tuned for each workload.
+
+
+Conclusion
+----------
+
+Based on the above results, I argue that DAMON's overhead control mechanism can
+be effective enough for the physical address space.
+
+Nonetheless, note that DAMON is a framework for general access monitoring of
+any address space, and the overhead control logic is only optional.  You can
+always disable it if it doesn't make sense for your specific use case.
+
+If this results make you interested, please consider reviewing the DAMON
+patchset[2].
+
+
+[1] https://lore.kernel.org/linux-mm/20201216094221.11898-14-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-mm/20210413142904.556-1-sj38.park@gmail.com/
+[3] https://damonitor.github.io/doc/html/latest/vm/damon/eval.html#proactive-reclamation
+
+
+Thanks,
+SeongJae Park
