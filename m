@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0DCDC433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:10:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1476DC43460
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:10:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AEF3C6139A
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:10:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E2D2A6139A
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:10:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233558AbhEEMLP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 08:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34064 "EHLO
+        id S233761AbhEEMLZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 08:11:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233622AbhEEMKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 08:10:03 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92C5CC061351
-        for <linux-doc@vger.kernel.org>; Wed,  5 May 2021 05:08:06 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id h7so997428plt.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 May 2021 05:08:06 -0700 (PDT)
+        with ESMTP id S233650AbhEEMKJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 08:10:09 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 029D4C06137C
+        for <linux-doc@vger.kernel.org>; Wed,  5 May 2021 05:08:11 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id b3so972609plg.11
+        for <linux-doc@vger.kernel.org>; Wed, 05 May 2021 05:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ABIrOudAzeXYs/VYZbnAvP1ZidtTqHskW0YZBqm0gb8=;
-        b=BOiBKyLcsUaggywYNjX/iKKuOJdYHrWCWOBto1tDCAoUJzE/BretQYWi/7uC57xVlg
-         3uqmf+OeQZB9DSJziVa5JsJmeiwxpeoFkPoywVVTLrIN47xzh6eXeB2n/tztJ3qApitJ
-         SYBpaanRepeY2dMtxBDn86VTDnmtTqDRVwhpQ8FEO5JBU9Pw+/Ylg4wmB2XkhbMUcVM0
-         GMEHDoFyCwSUx7qb/uk6LoZ3Dl/LXiAS02VTi0MoNKdvQwsYMq4mVv25n9TdIn0jhX6p
-         m3surh3Q3ZcQ9DLIGeGqz0r2BVwC6C3tWDvKelW1kehOLEAMyMjFAEIMof8MqgaJdqem
-         xkEg==
+        bh=E/l5PYpsuyoULbb5Y0KN2TZxQ7IWOqPBaysmrn6lojw=;
+        b=TRx29EBQOGEDroSFz0NTKkFaosOyiENiZ7R8tLhWwuVcbbDZi1ZgB5keqMy2cNHLzU
+         9f5gk9pmqWigYBTo7YiS8/d5b3CoEpBQDRqPTdPnRUgOevlBBrzWf7UN8l0oBbYLvhha
+         2RUopSckTc4fdN3Jk1DKQRv2xOZtEEO/nlzs4V3+uHjYNSw2F+hXjnCGNVf45rabzUZK
+         w6Lg5rzKjMLoo6HMhSaQy5KwPoIr1YVBoSIsPWw/rsAE14xt48DNcIoivSPO/KIgujzH
+         xV/Q96DMyiGMBrM3bVp5zOojwzjTIDBzesu5zviiAlFPPNXvhoG/I9Nd0gMcFRq4urR3
+         4vwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ABIrOudAzeXYs/VYZbnAvP1ZidtTqHskW0YZBqm0gb8=;
-        b=KCcWpbS6saXnpHGWVnON+vznvEet6PNv4O1FpeQhnpmrEOEVYZX2BTKa1YGhWd4wQG
-         owEG8/7QWrde6Bh/w2j0Lx0duLzzsdYnQgGoeuqTYyM88CIboDj8x0nYw4EWPndYsMAC
-         Pc6aiN048M35ADMmL2bjfPWMt+l1LNkgP48TGKkMUXu2emqMwT8RuKUWs6loqVTezNqI
-         5l7PZIsuFikRP3CoQhibs5WGDCs0LK3RkCaYpc5ChubaZ3xtX36Jf1sr9GHhDTkQgs77
-         RDJMuf92KP1YF3LQi+Ot9or1DUdWUOUIixs3gi7bJasnaKH8dWipf+fAfbI3TfvrGwAy
-         d+hQ==
-X-Gm-Message-State: AOAM530SEWqylWNQCTLSRccf6T8bvltaGb0eIBvb6hQC+zPfaL7WdM0W
-        R0hFV2PpxWH2BpsO+ENRNSI=
-X-Google-Smtp-Source: ABdhPJyYBqZI0gQSBKAALgWPuqe6TpZNsgjXt+H/+oaFohv9H7lBc/+nbVXb0AYBGr35/UmTnt8CvQ==
-X-Received: by 2002:a17:902:ed95:b029:ee:aa46:547a with SMTP id e21-20020a170902ed95b02900eeaa46547amr26922997plj.27.1620216486213;
-        Wed, 05 May 2021 05:08:06 -0700 (PDT)
+        bh=E/l5PYpsuyoULbb5Y0KN2TZxQ7IWOqPBaysmrn6lojw=;
+        b=jeFr9lcSWDWKC5MV2I9OKh9M18mDrAcsgw3Zmk6mLg/moPByoiGEzBhWiCWnqL0/ea
+         vy3+D4MFcAzeggsM+fyOUcKs4A+oR2G0T2o4OjndsHylFf47JAfobAWuywHDhSLy5plj
+         cBXRGUpI994yGPFCzjuDJBrprqDLF6QbUqYuGwEik8+gmc3Q/kDQHpltMSWAiLjghDdu
+         HuGWc9H+tbwxDIlLGEc7jhB2DZyov8HQ8frz/EL/pPlc/KI+2rd4N1zkFGeWKVwWno61
+         0cABAti7MSQirPQ51uiRzG+HxqtUh4Mc3Eq8gkMWuqCRP0G/wLO6sITMkXTbXLM9AJyC
+         VAsQ==
+X-Gm-Message-State: AOAM530dnGV3YT8d/9OIrJnO9lz1zcQsKeOUCMN9LafL2Qx+SLkSmenf
+        xSXg2Ni2B9Jm45afnQbQJP4=
+X-Google-Smtp-Source: ABdhPJzXdkqYbo3UMRUtjVmZWqc38LQ86MyQTk7CcS7wn0BVnh/KZxxQV5qKtEcVwFJen5cwuWoOJw==
+X-Received: by 2002:a17:90a:dc0a:: with SMTP id i10mr33230947pjv.172.1620216490526;
+        Wed, 05 May 2021 05:08:10 -0700 (PDT)
 Received: from WRT-WX9.. ([141.164.41.4])
-        by smtp.gmail.com with ESMTPSA id j7sm14177959pfc.164.2021.05.05.05.08.02
+        by smtp.gmail.com with ESMTPSA id j7sm14177959pfc.164.2021.05.05.05.08.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 05:08:05 -0700 (PDT)
+        Wed, 05 May 2021 05:08:10 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Eric Van Hensbergen <ericvh@gmail.com>,
         Latchesar Ionkov <lucho@ionkov.net>,
         Dominique Martinet <asmadeus@codewreck.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 2/3] 9p: doc: move to a new dedicated folder
-Date:   Wed,  5 May 2021 20:07:47 +0800
-Message-Id: <20210505120748.8622-3-changbin.du@gmail.com>
+Subject: [PATCH 3/3] 9p: doc: add v9fsroot description
+Date:   Wed,  5 May 2021 20:07:48 +0800
+Message-Id: <20210505120748.8622-4-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210505120748.8622-1-changbin.du@gmail.com>
 References: <20210505120748.8622-1-changbin.du@gmail.com>
@@ -74,51 +74,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Later we will add another documentation for v9fs.
+This documentation is modified from cifs/cifsroot.rst.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- Documentation/filesystems/index.rst         |  2 +-
- Documentation/filesystems/{ => v9fs}/9p.rst |  0
- Documentation/filesystems/v9fs/index.rst    | 11 +++++++++++
- 3 files changed, 12 insertions(+), 1 deletion(-)
- rename Documentation/filesystems/{ => v9fs}/9p.rst (100%)
- create mode 100644 Documentation/filesystems/v9fs/index.rst
+ Documentation/filesystems/v9fs/index.rst    |  1 +
+ Documentation/filesystems/v9fs/v9fsroot.rst | 52 +++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+ create mode 100644 Documentation/filesystems/v9fs/v9fsroot.rst
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index d4853cb919d2..e53992636a49 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -63,7 +63,7 @@ Documentation for filesystem implementations.
- .. toctree::
-    :maxdepth: 2
- 
--   9p
-+   v9fs/index
-    adfs
-    affs
-    afs
-diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/v9fs/9p.rst
-similarity index 100%
-rename from Documentation/filesystems/9p.rst
-rename to Documentation/filesystems/v9fs/9p.rst
 diff --git a/Documentation/filesystems/v9fs/index.rst b/Documentation/filesystems/v9fs/index.rst
-new file mode 100644
-index 000000000000..a1e45b89e2a2
---- /dev/null
+index a1e45b89e2a2..65e1ceb04c9c 100644
+--- a/Documentation/filesystems/v9fs/index.rst
 +++ b/Documentation/filesystems/v9fs/index.rst
-@@ -0,0 +1,11 @@
+@@ -9,3 +9,4 @@ v9fs
+    :numbered:
+ 
+    9p
++   v9fsroot
+diff --git a/Documentation/filesystems/v9fs/v9fsroot.rst b/Documentation/filesystems/v9fs/v9fsroot.rst
+new file mode 100644
+index 000000000000..ce6b3c85e301
+--- /dev/null
++++ b/Documentation/filesystems/v9fs/v9fsroot.rst
+@@ -0,0 +1,52 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+====
-+v9fs
-+====
++==========================================
++Mounting root file system via v9fs (9p.ko)
++==========================================
 +
-+.. toctree::
-+   :maxdepth: 6
-+   :numbered:
++:Author: Changbin Du <changbin.du@gmail.com>
 +
-+   9p
++The CONFIG_9P_FS_ROOT option enables experimental root file system
++support for v9fs.
++
++It introduces a new kernel command-line option called 'v9fsroot='
++which will tell the kernel to mount the root file system by
++utilizing the 9p protocol.
++
++
++Kernel command line
++===================
++
++::
++
++    root=/dev/v9fs
++
++This is just a virtual device that basically tells the kernel to mount
++the root file system via 9p protocol.
++
++::
++
++    v9fsroot=<path>[,options]
++
++Enables the kernel to mount the root file system via 9p specified in this
++option.
++
++path
++	Could be a remote file server, Plan 9 From User Space applications
++	or mount tag of virtio transport.
++
++options
++	Optional mount options.
++
++Examples
++========
++Test it under QEMU on a kernel built with CONFIG_9P_FS_ROOT and
++CONFIG_IP_PNP options enabled::
++
++    # qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
++    -virtfs local,path=$rootfs_dir,mount_tag=r,security_model=passthrough,id=r \
++    -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
++    -append "root=/dev/v9fs v9fsroot=r,trans=virtio rw console=ttyS0 3"
++
++The above example mounts v9fs with tag 'r' as rootfs in qemu guest via
++virtio transport.
 -- 
 2.30.2
 
