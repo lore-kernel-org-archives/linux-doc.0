@@ -2,112 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 763E3C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 11:34:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A27FC43461
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:10:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3852E6109E
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 11:34:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43FFF613B3
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:10:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233085AbhEELfr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 07:35:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55204 "EHLO
+        id S233605AbhEEMLJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 08:11:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232995AbhEELfr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 07:35:47 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91440C061763
-        for <linux-doc@vger.kernel.org>; Wed,  5 May 2021 04:34:50 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id x2so2057081lff.10
-        for <linux-doc@vger.kernel.org>; Wed, 05 May 2021 04:34:50 -0700 (PDT)
+        with ESMTP id S233354AbhEEMKB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 08:10:01 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D4FC06134D
+        for <linux-doc@vger.kernel.org>; Wed,  5 May 2021 05:07:57 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id a11so992363plh.3
+        for <linux-doc@vger.kernel.org>; Wed, 05 May 2021 05:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IgvoE77MnMbex7B2S0TkrRa1RsaV/q1aQVIu3eT5F4I=;
-        b=dAIjjW2qqzmG32ewtdJN+Q3kO51I+XWS+ICZ5Q/QlSc2OVA+FPOXH5+6ZS9pXMnlZE
-         Wxkl5zEarjWAxfNUZtq5GqF0sd6K4VBDcbpjzDWdxZeMXHrEdAxDgvzeOWqFlMh12LiQ
-         Cq19ZFLDmD9FpgdjvSoafBFGgrQ67n6PLXpV7YuSoimkTtCr4Yo/pze+IqCqjBaOcPUp
-         rYKBPzZsjA6JkGrfrsqxLXLAjGsJEdMVrujwr59VLv4B0a9ClOIxKk4knJnJhEe4VLet
-         NgrSgD4d3S6nbuNcvaP39+rn0ISeLOg4fM86jrwl15wcqhO+SkMfUxMic+EcMKsMIHSx
-         sNmA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CTCXnBqJzw8EdcslAsLRuIPFhCc0EkuXToVqPMY/FA8=;
+        b=o6BwxizgnPbOuDGYY/aglFkacbBTnpKGAKO5gmtVW3jgRt52odwUeF96HuX20TBi6f
+         SBrNU3qO7ElngrzYpb4eqAw2gfNplPz9G4F40FRU9juVZJ7fBn3wPE1RX4DBORm746jO
+         sUYOdaA16G7EerRE5M0hd2KXfPQyswqfPpPg3RNX7vpwv95NMLA5K708nGPSptixkIF5
+         cDmtOvuwa4tTaN+eGxTkSJYfIzw+apsNhohGvlUJgfDdJQSL0DeZzGe5f3sL+/rk980x
+         aI6p1d7T+xrFNKN/BLdc5ITvatBwaEdFgG3hnXfmgKTi9jEKYT+XL0S3zBOkl6iOV6iY
+         +Egg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IgvoE77MnMbex7B2S0TkrRa1RsaV/q1aQVIu3eT5F4I=;
-        b=ZML54kizHrR5NJpeLlc2mtwhqqp0lLBFXYygcsoAj37REnjQiBCmezdU9xH7I/cxQH
-         aza6ZK3Cpjs+/KPQHUz6rlHJUoeQzQ6LmKyAd2YtC2gC6Bk5bVTeWSiCrdGxdAiOGQep
-         8cF6VzY5OYXaJ8IOoPWuJrZwP+wphNcA2wqWY8Zo1ip1n7jxYBHkShZoxAeKhySk1xuI
-         mFweQN7sRjg7ZV+wOrje5D6QtT57hlVXmuL7a0lr0Nn9w0B4DIYG4HHoWqWrlO2+NgD5
-         mAdy518jxNhhmHR7hJ+azjC/jenUGi9N2gTRTi+j3sUCBD1CgGvgg4Se6/hef397LrL9
-         0xJQ==
-X-Gm-Message-State: AOAM533pj4z/D7zKesTq9UsfUtUJw0RADPSP5CLYeYO+mXtUGRlO0iE6
-        5WhcI6qZXzyOjs3W/e+4m2uUGV775yUzmm1NibvNtQ==
-X-Google-Smtp-Source: ABdhPJzSF9AHtOJF7IjLoW++ovuVHUkakgCSuRT8+ZsyQan+kbMdLPrMBrXFyvwHLXQlXaBHgo0G0xAvZDHqik5psVs=
-X-Received: by 2002:ac2:5e36:: with SMTP id o22mr10820729lfg.529.1620214488167;
- Wed, 05 May 2021 04:34:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CTCXnBqJzw8EdcslAsLRuIPFhCc0EkuXToVqPMY/FA8=;
+        b=s78GmIh5z19WjHCpdAWanBjwopy1zcSJYnnIImNNR10dB/2HzUZbUsq/J5FF0hB8sZ
+         ZDLExLSD8SXvGQe9mJw+AHYKty0qFufrBIXzpjFoHTuWneu/W8iWErAOQxqks+S54pXt
+         8CsQZn9+0VxX6P8JNn0jGn1/oqD8eyya2DQHMJXGLXC3ghKGnvfFH84MAyIbkHEk/BTf
+         Q7JOHNHzWEeGji4e810WxB4smun3rmxLSQj59xAL0mclTeDerwIUoE7gTykt4UqgYHab
+         bJakjyq6udLAKmOTjIsft8p+CTbFrlqI2PZRepETGF7uz0uqUDsVSTi65V298H25UMK9
+         Frcg==
+X-Gm-Message-State: AOAM5329dzzZXyhouh7SQRmR/Q/kMtesjvExNDjDUvTHx7HbC2xCoEi7
+        CJVzSRj18Wh3mrW3wiqrm3g=
+X-Google-Smtp-Source: ABdhPJx+tAsnOTEZitt+4R8LhT6ruZQdghffFitQhXPA6IO2U9sfcz0eViMNBdcTlSZidh9xnqh6sA==
+X-Received: by 2002:a17:902:7081:b029:ed:5f:20af with SMTP id z1-20020a1709027081b02900ed005f20afmr30891943plk.60.1620216476820;
+        Wed, 05 May 2021 05:07:56 -0700 (PDT)
+Received: from WRT-WX9.. ([141.164.41.4])
+        by smtp.gmail.com with ESMTPSA id j7sm14177959pfc.164.2021.05.05.05.07.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 May 2021 05:07:56 -0700 (PDT)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Eric Van Hensbergen <ericvh@gmail.com>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH 0/3] 9p: add support for root file systems
+Date:   Wed,  5 May 2021 20:07:45 +0800
+Message-Id: <20210505120748.8622-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
- <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
- <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
- <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com> <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
-In-Reply-To: <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 5 May 2021 13:34:37 +0200
-Message-ID: <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 5, 2021 at 1:30 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
-> On Tue, May 4, 2021 at 11:21 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+Just like cifs and nfs, this short series enables rootfs support for 9p.
+Bellow is an example which mounts v9fs with tag 'r' as rootfs in qemu
+guest via virtio transport.
 
-> > I think right now the right thing for Rust is to work out-of-tree until
-> > there is Rust support for all archs, while encouraging kernel
-> > developers to learn the language.
->
-> That would be an option, yes, but if the decision ends up being made
-> and we are encouraging kernel developers to learn the language, what
-> do we achieve by keeping things out-of-tree?
->
-> In fact, by getting in-tree people, organizations & companies would be
-> encouraged to give more support sooner rather than later to the LLVM
-> backends they care about and/or to the GCC frontend for Rust. So, in a
-> way, it can be a win for those projects too.
+  $ qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
+        -virtfs local,path=$rootfs_dir,mount_tag=r,security_model=passthrough,id=r \
+        -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
+        -append "root=/dev/v9fs v9fsroot=r,trans=virtio rw console=ttyS0 3"
 
-In a way it is a fair point because for example Unix and C evolved
-together and were intermingled at the onset. And they kind of
-needed each other to evolve.
 
-Right now it seems like those organizations and companies
-would be some academic institutions who like rust (because they
-study languages and compilers) and Google. But that is a
-pretty nice start, and one upside I would see in it is that
-the academic people stop writing so many papers and get their
-hands dirty and work on practical problems in the kernel. So
-if that can be achieved I would be happy.
+Changbin Du (3):
+  9p: add support for root file systems
+  9p: doc: move to a new dedicated folder
+  9p: doc: add v9fsroot description
 
-Yours,
-Linus Walleij
+ Documentation/filesystems/index.rst         |  2 +-
+ Documentation/filesystems/{ => v9fs}/9p.rst |  0
+ Documentation/filesystems/v9fs/index.rst    | 12 ++++
+ Documentation/filesystems/v9fs/v9fsroot.rst | 52 +++++++++++++++++
+ fs/9p/Kconfig                               |  6 ++
+ fs/9p/Makefile                              |  1 +
+ fs/9p/v9fsroot.c                            | 64 +++++++++++++++++++++
+ include/linux/root_dev.h                    |  1 +
+ init/do_mounts.c                            | 46 +++++++++++++++
+ 9 files changed, 183 insertions(+), 1 deletion(-)
+ rename Documentation/filesystems/{ => v9fs}/9p.rst (100%)
+ create mode 100644 Documentation/filesystems/v9fs/index.rst
+ create mode 100644 Documentation/filesystems/v9fs/v9fsroot.rst
+ create mode 100644 fs/9p/v9fsroot.c
+
+-- 
+2.30.2
+
