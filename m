@@ -8,68 +8,69 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94BE1C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 21:30:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7218C433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 22:22:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 778CE613EB
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 21:30:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B17561157
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 22:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230268AbhEEVby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 17:31:54 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:41226 "EHLO
+        id S234015AbhEEWW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 18:22:59 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:35768 "EHLO
         aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229893AbhEEVbx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 17:31:53 -0400
+        with ESMTP id S233980AbhEEWWz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 18:22:55 -0400
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 145LJrso112566;
-        Wed, 5 May 2021 21:29:29 GMT
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 145MDWhY194335;
+        Wed, 5 May 2021 22:21:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
  references : from : message-id : date : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=a8jisN5m4z5D9OkxPgf0OwinBQiE1mLygoPx8AQxxdg=;
- b=VVPgiPSAg3v6lTqhvRTK3ZnPH9DwDTzvFgkRkaT92TkOgIwI2Usmqf7MZ7vsqYNI4ozz
- GkBMObq619AEzbpNs15DB5CGHrLGaJUr8h2U7rRYGUjQ8j0jS9qfLGkuMtR4L7mVqQJJ
- 8L13tUP3Ha3E7/AdZvR7PoYuGZ4E0kz0Bd5o+tjJ49e3n/G62HuVRm3E62NZKjS8iG38
- 09zWRKbKvR8XiEw+QdUdjuKW6tJBPkacU3CUZYn2QOIswl36j5Iwh5nQ/zalonUa373b
- lFl7PFCKGJTaTVOaLUwXiaBy0yA0RYSxRdmxecMHK/LCXP0PpEjcJUD5um7qwQuQWRaf pg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2130.oracle.com with ESMTP id 38begjb6jp-1
+ bh=SVuXdoyDEIQXnYJjA6d23SBYYcqC6WUdh0awiKnkqTA=;
+ b=ab0WKmdYWhavoJzpnZMihy7p7LJHNkXllsSlIO528rqg/t43AUBPT/3WKLwwV3Ul/8nM
+ duYDWOVU9k9Hek9QOxzLBnQ1ymnFoaedlSz4P7JrrPwbJDl9Mn90meSZlLfbT/FjLl9c
+ vcKV3npp+EBnL1MmPMhAb1CqsXu+VoVNkmsjBJnqVc/Yw8EZFT7h7dhQjuWWSHMvX+R1
+ Fjv6DEQtUqemH2+ISWiv6GGYCSxoy3SdSGCnnBs+CSkD3N4Gsn4gyZ7L419i5PEa7GFC
+ si9BgkLToPfY3rkj+QK2K0KPrvzIvvKc5Vk35kKN3nyr6gFdBjFAWLuJpIYICI4/M3u3 eQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2130.oracle.com with ESMTP id 38begjb9an-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 05 May 2021 21:29:29 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 145LLgqU145658;
-        Wed, 5 May 2021 21:29:29 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
-        by aserp3030.oracle.com with ESMTP id 38bewrf4nm-1
+        Wed, 05 May 2021 22:21:20 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 145MFHIZ058566;
+        Wed, 5 May 2021 22:21:19 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2048.outbound.protection.outlook.com [104.47.74.48])
+        by userp3030.oracle.com with ESMTP id 38bebu912m-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 05 May 2021 21:29:28 +0000
+        Wed, 05 May 2021 22:21:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YioLzOKteok5Dv8U2QPC30vo/cSoEVZE/I6/DuagNxOdhdYCOWJ7p4RI8nUj8md2XZlKSA6W0iyuxAs3SE1QF5WSLK7JUqtXVCerdhK+VMQsizi8WH7Eww2nxS2/4utpZr7oEp0t/dgWRWGYKpqX3LF1atVJUxJ5Pu4eNLKJXmmPjxDQ6GJQYAwMKKjrE+GmDjo5Cl/jHyT9dTcxAtDMN7mMdyfC37X3LPGjyyyEVynesdvCuH0u7jBIx8tqPR/pzP8qDfEpZqgxebxEShS2QbBMhXeKRbi7twnr2yKCYIflvv0dbKgl7YedQENIyHTZfLX0lt6m7k0cHLEP1Ge4zw==
+ b=S6DNR/2BQ+ihNZTgMO2fsFAErviC4wKmYjrQunPwMdjozAIm/st4a7aF+1GqYosn5uNzHIXEQNeJ9Fy6wN9OrNQSKcmcPQcKxAsWkrT0DjB5hJdq/LHHWejMTrZnwJw0kCemGAAgFoUQaCbQRa97JSXKjk6h/W57t+pcVq3br5rRQVzqaAvaMV/deNqd0n6bhIaqq8NIrH7uIdA6ncaLz/yY/+ByMiwTFrJJOzDEyqgu1whEH0FQnmnYCxb+qmvQKdAI0NW24HgMMab6NpxjSX3FLTHHgEMHy66sCLF9g/9M/+RMTfffhSbr0H4bgXRPG4/3Q7XyoCtaEYTUTt2wKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a8jisN5m4z5D9OkxPgf0OwinBQiE1mLygoPx8AQxxdg=;
- b=KJQAYjuIaIYgWnE9fdxKj/+TY3A4Ig/ACtPqRp4uAZ8p88svgIWs9XY3CwD0W4JHrHB5/Q52jrqJrgPXnTyaWJLbnvqVEDZx9XlSfQuYVF/eL2389W9TCZ0CByFQEKPv8lbg1ciKE/u08eS4WqFwPc73x7hOy2ccHmfX4Kg2oP2Mf/vhvS/wfk0FGmJGeIQm3tw/l5gGs5wkJ2Fbl5m8ZIa8VKPZ/wPrj+g+SegJndD70BNBFf9vFly3kR2enVHlp5ZY6YvTz+beE//eX0cp21oRotcdK1hgj9ZUpOGUNqBb5CWCAqcF3og1ugJV/CHBqafO3Mxelsw72xqxUYmVPA==
+ bh=SVuXdoyDEIQXnYJjA6d23SBYYcqC6WUdh0awiKnkqTA=;
+ b=fRM+9WqSvYaNbeS9AxAopfHdb40hiY+Xj4QlDVsaLRnPmoeifMX3p0Gk4WpIdvNSk4lXxkZms0a3FvV+3Vx+Q6Zo5IMudBBHxPnnMv6WvQxI6WCVhs98x3Vc2OCy8LtoVxnD46b+ArbsXxosFJI3GIzFjvqSvYQ4eOtuat1q0tRVs2uTsgs6oTe7OQUGsOCIBps0x1Kpx6Yryk0ZSn8JBy/N0CM2kQD2C7wHBHhusy6rpB/toIyblJuoZ9ZTzzLAo9t7wUJybsbKNeApmDgoXXc4NVT8owgmgHLv0/C8MR0SlepQIpDgpudxtDq7nYi9GI1GDuF0iPGXvbxXOJ5zOQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a8jisN5m4z5D9OkxPgf0OwinBQiE1mLygoPx8AQxxdg=;
- b=JkYCwSZgOVsTtv9XNeqRgk0spTpoi1ITR7rrVbKH9WeVAsDcUZYMRv5euZQfeSxsUxcQ2eL88Jc9ka+yO8XFImSrTqCNeJ+OMgmwJDm8C/cCN6lVbilh2casEHzhMfzypJSqyWidI7D76X+q8GVhHsweaHLs9i0mQboPJEI3zEg=
+ bh=SVuXdoyDEIQXnYJjA6d23SBYYcqC6WUdh0awiKnkqTA=;
+ b=j8NdEzcsRURieECXMT/Lek+50tkcGG2lsuemimpzkr9B6QLy6qYR250Ihq1vNrANxbdZFyF2kK+fkF47WTHqyBn8MVmPJCXoQVgoXXcYSOWiRmGkK80O8hCba8NTTWQpXZiir4oD9yTXBFlzt68Sp05L6ilOHNFbTLMqoWOhzIo=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
 Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
- by SJ0PR10MB5455.namprd10.prod.outlook.com (2603:10b6:a03:3b9::21) with
+ by BYAPR10MB3160.namprd10.prod.outlook.com (2603:10b6:a03:151::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.38; Wed, 5 May
- 2021 21:29:25 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.35; Wed, 5 May
+ 2021 22:21:15 +0000
 Received: from BY5PR10MB4196.namprd10.prod.outlook.com
  ([fe80::4407:2ff6:c0a:5d90]) by BY5PR10MB4196.namprd10.prod.outlook.com
  ([fe80::4407:2ff6:c0a:5d90%8]) with mapi id 15.20.4087.044; Wed, 5 May 2021
- 21:29:25 +0000
-Subject: Re: [PATCH v22 5/9] mm: hugetlb: defer freeing of HugeTLB pages
+ 22:21:15 +0000
+Subject: Re: [PATCH v22 6/9] mm: hugetlb: alloc the vmemmap pages associated
+ with each HugeTLB page
 To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
@@ -86,334 +87,217 @@ Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org
 References: <20210430031352.45379-1-songmuchun@bytedance.com>
- <20210430031352.45379-6-songmuchun@bytedance.com>
+ <20210430031352.45379-7-songmuchun@bytedance.com>
 From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <0fc1be18-22d3-ba6b-7f6f-1c79abce93a0@oracle.com>
-Date:   Wed, 5 May 2021 14:29:22 -0700
+Message-ID: <c2e8bc43-44dc-825d-9f59-0de300815fa4@oracle.com>
+Date:   Wed, 5 May 2021 15:21:11 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
-In-Reply-To: <20210430031352.45379-6-songmuchun@bytedance.com>
+In-Reply-To: <20210430031352.45379-7-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [50.38.35.18]
-X-ClientProxiedBy: MW3PR05CA0022.namprd05.prod.outlook.com
- (2603:10b6:303:2b::27) To BY5PR10MB4196.namprd10.prod.outlook.com
+X-ClientProxiedBy: MWHPR14CA0015.namprd14.prod.outlook.com
+ (2603:10b6:300:ae::25) To BY5PR10MB4196.namprd10.prod.outlook.com
  (2603:10b6:a03:20d::23)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.112] (50.38.35.18) by MW3PR05CA0022.namprd05.prod.outlook.com (2603:10b6:303:2b::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.8 via Frontend Transport; Wed, 5 May 2021 21:29:24 +0000
+Received: from [192.168.2.112] (50.38.35.18) by MWHPR14CA0015.namprd14.prod.outlook.com (2603:10b6:300:ae::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24 via Frontend Transport; Wed, 5 May 2021 22:21:13 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c08fc82e-5c3c-41dd-b747-08d9100cdb64
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5455:
+X-MS-Office365-Filtering-Correlation-Id: 762e8cc5-8d65-4070-9687-08d9101418b0
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3160:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB5455F40559393A59C31713B7E2599@SJ0PR10MB5455.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB3160C53A0BDC26CC9490BADBE2599@BYAPR10MB3160.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /s+jU6zgZTfk5Hv+O1TidtbD23AhDB7f12ZydCG/kqLLJo0+xHA5il+uE7vwONNI7hfe6GnanVjnySmFR2zCDq9+aopiV7gFsFtlC0fpDN+X97b8nLFLHwMSyjaWOPeIu9whzpZm+xnwuJeCShfHiOJcp5PEsxVO7E2WXsF2NSr/66ADIocO2VifDQ6keBEra/WSnxwM2ep07PMOZM8Q2LOEa/H2mjLbyEWCedCzZZltZue9k1iIT8tLxd0Mnxg9SvbvPHKCO7WXJshP3NuaOx/TdsOXlbjvcfc4pjI4ne7scQAR5d/fjw3xNQKQh4hbL9w0kqZy2F1Q+M1Tz46IeVcoEPtOOq6RBk9xVb9CCOK57CGMeNmHV9zfWTQF4xqdpYUsUyAXOxZH6RlgWtHO25X17EFBdXNEXAZdZMKDMH7Y896g3/5ODZ/6utbgjRQgMKjJkYyFCZ6KlmGP1TBs8BHFfw4zwVhXkjF2aOc+2xHiOZw71vc1Z4N3RlQk82VWTjCb3jTXhKkdWB69DSgz6irQgLHNad3QcxdvCVU+McRzCOaoPR9tNJfX2s/1JZffvw4lsbU3OtMZ6Q0qCODcUDmdLMI8df5NAZBCJC1vCBcveid84vjruOp3R9rhHbZCv/tL+zMut9hYTUFYFznG98KYFY0bmiLAuS6nxL5+/Sbky1aMws4ONwnJQ3vZBAiWwFERyNpKEVzzg1vC3c/IMsTTWBR0chQGD3I+iMTtfHU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(346002)(366004)(396003)(136003)(39860400002)(478600001)(16576012)(6486002)(31686004)(4326008)(44832011)(956004)(921005)(5660300002)(36756003)(38100700002)(31696002)(8676002)(2616005)(16526019)(83380400001)(7416002)(8936002)(26005)(86362001)(186003)(66946007)(316002)(6636002)(7406005)(53546011)(38350700002)(2906002)(66556008)(66476007)(52116002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cnBRWEdSWG96WHZkMDVBMTdPMW9XUGhCTXd1cEtWSUR5aElVWTJDMnlFR0Jr?=
- =?utf-8?B?YTFhcnpiK2NlK2piZXQvNG1LWmk4cC9wbERzMEZRR2I3b2phcEFyN2wwVnRU?=
- =?utf-8?B?MWlRQmtvUEJzTzJXeHVWb1NteER1bXcyVitobDBjL3Z3SGowWVBnNXRzaGFQ?=
- =?utf-8?B?UktZRzByVTdhQWVnQThGK2NGa01HOGpYaUhDRmI5L1ZjaE5RMGtnNzRIdTlE?=
- =?utf-8?B?OGdMM3hmMDdMZDZuSFpJY2lpeUxtMmNYY1M5L21CTy9yOHVCcTg3VURoMDFa?=
- =?utf-8?B?VFdxbmIwZHArTEE1cVZxQ0phK1dKdjVKRHlWeXQ1eUY2cTg4b0JsZXJVclZQ?=
- =?utf-8?B?R2Z0Vko5cjh6M3kxWkU4cE9XRHZoZ2lKKytpT01lUkNCYTBpWXplSzR3WGJP?=
- =?utf-8?B?WE1vMWxpRndRNG9hOVB5aDNUZC9lVFYyZlB0bUpZZ1NsNkM2NVYzcU5vTlNJ?=
- =?utf-8?B?aTA5ZURFd1lIa0NFMHJPU2pPNUdBSDVjejdBQ3ZGWXlISjJvTEFCVklvc3h3?=
- =?utf-8?B?aXpPTDBvY1M1NVdzK0lrODByejBPY05zRUxsYzRSVDc3V1JmdVZMdjR3UFZW?=
- =?utf-8?B?RjIxeUtVTEVCUUpHZ1Z2cTBNZnF3TVU5NkJEcHlXQWhqenhmdjIwNVM4eGl2?=
- =?utf-8?B?UUI0QytwR0xUN09mOGxQOGUyNlJRdm1uRUpzTGpwQUNzamFIZGl4YlNFczRF?=
- =?utf-8?B?SER3dXVBSm9vT0FML0g0M1hZaUdFcWhUV21CYXFFeHJwSWZ2Z3k1OGFEdUdS?=
- =?utf-8?B?cCtKZ1pERW93YXpZd2tsVDB4d1laODcyZGVEZzd4R0dWWHRCZ0Q0N0ltVFlx?=
- =?utf-8?B?dW9kMGZqRncvRlFHVW1pUG02RjBFb3BwWHdRZVpNY3lTMmNOaW4zNENNSUVk?=
- =?utf-8?B?alVKK0g5d2JTdWZVV200dEQwQ3BlMDkvMi9XQ1FtaWh4RGNveGt6ZVNlOHM0?=
- =?utf-8?B?aTE4ODBQNkpLWndMSG4yckpEYXI0UUlCV3Eva1BweHl3dS8vOVFQWHQwWVdW?=
- =?utf-8?B?TEE0R1NZbjlweHJvZkNhOGk1YjR0a2R5RVE1OWxjSEVacHRDakJXT0dQemV6?=
- =?utf-8?B?NC9ZdnZQZjR0YmV1aFVVamtlSlVCR3RWeW9YWjJFUFJMRFJBU0tDRWczelNL?=
- =?utf-8?B?ZTNzemtldCtmWEs5cGRINXRpZjZTbXhRUlk3UHdaNk5Ic25uTjVrdlM1Wm1u?=
- =?utf-8?B?TVBhaWVJMll5WkoxZ29KWldmV0ZyKzIyamtzUGN4ZTZ2SE5zWnc5c2dVbW9O?=
- =?utf-8?B?dC9MbjRla1lFTHpXODhUd2ZVaU1aeHBkRi9TeUw5b25TQXUzZDZ2Qk0waDI4?=
- =?utf-8?B?K21WTE9SWlBZZk4rTjdINGRYYjlXTzFNODEvM0I1WG4rRVJUWW0rQzVVenlP?=
- =?utf-8?B?TkU1bmNBblMwZWJobjVMdS93NE96VXBPR3ZZS211YmZZeFMrYTMrcEY4N2JB?=
- =?utf-8?B?SVpIVkNnVlc1bW9saGVpWEZxNS8ySkRBejZJSW4raVp3eHBuTjB4YlVZSG1q?=
- =?utf-8?B?Z09wMUkxdnlPTG43Qmp2YU5JY0EzLzlURkwvK0pBTWx0L1FaK0hwWUcrTzJC?=
- =?utf-8?B?dllRTjVTQnRjcFJPZ3BwWHJoSzE5TDdUSVpXQXBoMjA3dU5oZVNwMDJqeitK?=
- =?utf-8?B?K3N5T0tvdERTM1hoUTlyWjJraDRvdTZTUDFKL2dueXk4YlRGWGVTMTByRm1L?=
- =?utf-8?B?SUVDVHIxcy9rb0tSVWlwSFk3TXFVbnFMV0xDTnlzRjZBeUVucWtLRGgrdGFn?=
- =?utf-8?Q?XUrmy0F9RMwSUCMOM5UkdRIlsffeepIqnK9RoiE?=
+X-Microsoft-Antispam-Message-Info: nfzGcrRDu8cCiDUjab7EM1YdJEcqZol6XxgjJVOKE6IKFzzvWJGj8Mp9v61IkrtNb87GC6xhIFUzU0Of1aaXT9cmuJK9hE3IV4RYvriTfIhA/C5dz9xD5zOTkgDbb+4Yo+QUlLjXBPh8whOV0kLyKnTLLRqz469ro70Dc376OPp78I6LjaM3e8glV7jaVOeHuxJiNou+5eTkaF/IRJneS3hujRSGONt+rO9QprEdUC3qffi7vw4z74qh1RogqZcLCjYH8//xtQAD+AxLxdTiXaqZThzqO90Sgo68q4fb/H8BLJ42bDxoZKfvj/64eD3eqDrnk1NiHeqeIIiPgoRQ/LzFjRlQuvn8HLgggUG8Zrwcse78V7ZzaFQ9Rab2V5197WDvK5WyIhiKPDaLq9DqfPHTcsZ6POakoDjuPjftwl0Bgm171nSWmOD7h2+tTdKteEaYDwYfN/bzURalu5mRwdV9XxyAMH8pdcx6NiNHROAlCdWZVz17iF5YSdCV0WsLnD5R7y+DjQa1Sw6LPN8rN6JhC9xQ+5xcgiqdMm4j39YDs4Yn/oqfgLaDgiEspGLDo+KD+pM/vmUtNa6e7u1jnQrPetKtzHA/WLLquSb27mpb6zTQUlZvpGhMI+t708UmQtv2278VfBwytSlQJikPvYyUye2BbSPhovZN5VsF03LQL15nV7Vhc+fzi3/z22O4pD6YhawGkg/RTm+mT91hE2CZ8CuP8xRmDCb1kQoUxlQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(39860400002)(346002)(136003)(376002)(396003)(26005)(186003)(956004)(2616005)(31696002)(8676002)(921005)(2906002)(31686004)(16526019)(53546011)(4326008)(66946007)(66556008)(66476007)(83380400001)(38350700002)(86362001)(44832011)(38100700002)(8936002)(6636002)(7416002)(36756003)(7406005)(5660300002)(478600001)(316002)(16576012)(6486002)(52116002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MzlKcTJLYUJtNWJEUXQ2U1pIaGJZSmRvY05YVlkrdXk0WUFnT25ma2J6cGp4?=
+ =?utf-8?B?cUhPQ3dKcXIwdFp6L1MxNzNCWHNtUE9wRzc2OC9VVVFnZlEzbk1DcjF6N1kw?=
+ =?utf-8?B?YnlsS2tCU3hZczE3M2RQWTljdnBUM3hUWWlubFViSVNVY0FkTk1OejhLYTl6?=
+ =?utf-8?B?K3N5Z2JnUGpaOFVMU0xDOFcwdFNmUGpEOXVOdVcwUU1xSXZiTzF0dFE5WHBv?=
+ =?utf-8?B?cFRCZUJDQk9tMnZ0SGNkYzFWWEowOE5mRW5EWHVmMlBvVDAySzBlN0NiclB1?=
+ =?utf-8?B?SS9nTk1jeWZzVkErQ0xyUzgzOEN1Y0tsWXlJYXBZZURYaVlRVGxXZnMrcHhI?=
+ =?utf-8?B?eVBkdnd5YUVaL3Q5TlJWL2xDNXIxaUZRUmFXNjdJcm1QZkNTeVR4eUtKOWx6?=
+ =?utf-8?B?VElQTXFTMDNlcW1uSmkxWGY2d2w3UWRqcyt1NE01ekxuaGhXL2xiTnBCKzBr?=
+ =?utf-8?B?d3g2a2pRTWtUaXFFSzJ4eWwrcndqMy9JNzVGci81OTBrUGN0ZnhTV2gvMWFI?=
+ =?utf-8?B?SGwzM1VKVks0ZGlVeFd3bFRTS0dqTEpwODl2c1FoclYwNlRscmJIUE8vQWRm?=
+ =?utf-8?B?M0lYczg3NDlndmViVGo2SG1hTW94QnB1UllNZjFwNFpXZTVZYWZlZTRWdTNo?=
+ =?utf-8?B?MnBibWNhWWN2dFlzZzJkZG80OEdaWk1IVzdlUlVJWXFXMjkrbEl0YTJQbEVC?=
+ =?utf-8?B?bzBDYUQwbkIzeitEN2JRUnl6a0VxQzZkVE9yN204dXJNQzUyRk96U1VpSEo1?=
+ =?utf-8?B?MDFxT0NrYWJIQkZxNTgzc0tiUWRobGY2MlpranJzVEhhZ0IxQnNXa0FYVmVE?=
+ =?utf-8?B?WVpJN3VRWWxsVjErSks3MkdrWEhqaE9lazhmNVFuTFpQUUtCeEszemRwL0ZT?=
+ =?utf-8?B?S2tPczhWYW96RjdXU0RRV0g0Ykl2Mlp6QmM5WW5QVW9FdzZiYk5UL2wwcUhP?=
+ =?utf-8?B?RTByMTVDbGdnM0lPZTJpNjczMUd2anpoQmp3RC95dU5rampIZVJlOGxtTWpS?=
+ =?utf-8?B?a3BTbGZoZW1MOW0yTnplUUk5MFpWb1lUSks4UjdnMkQxaXVwRHU1ZGdwMEJ3?=
+ =?utf-8?B?c1NINWlyanBGVEJVNjhSU1gxQWJDTjN4M1lxOWFINU5HM3FYN1lsNTlveXNq?=
+ =?utf-8?B?bGZqQnROUUIyVFVjbDRoMk94aUVERVpqL2ZSS0JEQUZFc2d0ekxIMFhVR0hq?=
+ =?utf-8?B?WUhlQWtzV2lldmlmY2JnSDNRVElZT3l2OVMvWmJyQnN4MER0bnhJNDlYM25L?=
+ =?utf-8?B?R2xiVXp5QmVxdEdUTUo3bitUY2tKY2I1TWVvdlFUdFAzc1NGai9XWUdyenJs?=
+ =?utf-8?B?WmYwWlpnU2JuMGxLYzVjRUF3Q2xEUkt4UlJ4WFQrUWZGKzJpWmhyWUluNndz?=
+ =?utf-8?B?QUJoL3hUVnZBZDBSYVg2bmpRT3l5WS96WUtYMllCbjFUbGkwTjdQbFE2SlVN?=
+ =?utf-8?B?OWcyYmh4N2dtZ3R6akpsUmJ5ZmZlU1lmNEVRUUE1VnpZb1NMVGhhZFR5UnpJ?=
+ =?utf-8?B?SzZGYVNTdEM2bk9WeE81MXJCOGx3ZXcvSC9YSDRzMWJJSU1WdVMwSUNaKzdT?=
+ =?utf-8?B?VnZjaWt6YWhKemZWYTNnZ1RWa2pZaTRyVHczaWpDSTNzUEE3blBKUlZVYVdQ?=
+ =?utf-8?B?STdZbWRPcE1qdFJtY2ZLWThrRVlmM1NmdHc2dmlmazZBMHZ5aURiZjZzTklG?=
+ =?utf-8?B?YXAyd3VYdDJ3eU9tS1hUSFlpbElIajhnWnlSSHdoaytYMjJlUFRMK3pxVU9w?=
+ =?utf-8?Q?t6OTd3E7Q4igeooR4xvNWSTJ9djv6sksLfwBfaL?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c08fc82e-5c3c-41dd-b747-08d9100cdb64
+X-MS-Exchange-CrossTenant-Network-Message-Id: 762e8cc5-8d65-4070-9687-08d9101418b0
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 21:29:25.9324
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 22:21:15.2020
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QImKSzhBVzFuY9bzv+FRZHfHKWQq2Lk+vZUnJIiic1dLO0EKKxwmdi+GjmG2XpqWP68zAh5F2vMqEwBk41vsJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5455
+X-MS-Exchange-CrossTenant-UserPrincipalName: iFjrXOFQxwQ4uAEUOjzHnMErR2iRf2kvuduQKZjKkb/5boDNlUL6QCYXFrfBRgRcZ47T3ZGqViZhejeh9CIepA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3160
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9975 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
- suspectscore=0 bulkscore=0 spamscore=0 adultscore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
+ phishscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 bulkscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2105050147
-X-Proofpoint-GUID: lgDkRF5hgqSm1Vr6krk_YT6YnB8R1ikm
-X-Proofpoint-ORIG-GUID: lgDkRF5hgqSm1Vr6krk_YT6YnB8R1ikm
+ engine=8.12.0-2104060000 definitions=main-2105050152
+X-Proofpoint-GUID: ZfDNS75Qi7aHG2Cz5mEE3owwsO_PYkT9
+X-Proofpoint-ORIG-GUID: ZfDNS75Qi7aHG2Cz5mEE3owwsO_PYkT9
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9975 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 malwarescore=0
  mlxlogscore=999 lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0
  impostorscore=0 priorityscore=1501 suspectscore=0 mlxscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2105050147
+ definitions=main-2105050152
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 4/29/21 8:13 PM, Muchun Song wrote:
-> In the subsequent patch, we should allocate the vmemmap pages when
-> freeing a HugeTLB page. But update_and_free_page() can be called
-> under any context, so we cannot use GFP_KERNEL to allocate vmemmap
-> pages. However, we can defer the actual freeing in a kworker to
-> prevent from using GFP_ATOMIC to allocate the vmemmap pages.
+> When we free a HugeTLB page to the buddy allocator, we need to allocate
+> the vmemmap pages associated with it. However, we may not be able to
+> allocate the vmemmap pages when the system is under memory pressure. In
+> this case, we just refuse to free the HugeTLB page. This changes behavior
+> in some corner cases as listed below:
 > 
-> The __update_and_free_page() is where the call to allocate vmemmmap
-> pages will be inserted.
+>  1) Failing to free a huge page triggered by the user (decrease nr_pages).
+> 
+>     User needs to try again later.
+> 
+>  2) Failing to free a surplus huge page when freed by the application.
+> 
+>     Try again later when freeing a huge page next time.
+> 
+>  3) Failing to dissolve a free huge page on ZONE_MOVABLE via
+>     offline_pages().
+> 
+>     This can happen when we have plenty of ZONE_MOVABLE memory, but
+>     not enough kernel memory to allocate vmemmmap pages.  We may even
+>     be able to migrate huge page contents, but will not be able to
+>     dissolve the source huge page.  This will prevent an offline
+>     operation and is unfortunate as memory offlining is expected to
+>     succeed on movable zones.  Users that depend on memory hotplug
+>     to succeed for movable zones should carefully consider whether the
+>     memory savings gained from this feature are worth the risk of
+>     possibly not being able to offline memory in certain situations.
+> 
+>  4) Failing to dissolve a huge page on CMA/ZONE_MOVABLE via
+>     alloc_contig_range() - once we have that handling in place. Mainly
+>     affects CMA and virtio-mem.
+> 
+>     Similar to 3). virito-mem will handle migration errors gracefully.
+>     CMA might be able to fallback on other free areas within the CMA
+>     region.
+> 
+> Vmemmap pages are allocated from the page freeing context. In order for
+> those allocations to be not disruptive (e.g. trigger oom killer)
+> __GFP_NORETRY is used. hugetlb_lock is dropped for the allocation
+> because a non sleeping allocation would be too fragile and it could fail
+> too easily under memory pressure. GFP_ATOMIC or other modes to access
+> memory reserves is not used because we want to prevent consuming
+> reserves under heavy hugetlb freeing.
 > 
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > ---
->  mm/hugetlb.c         | 83 +++++++++++++++++++++++++++++++++++++++++++++++-----
->  mm/hugetlb_vmemmap.c | 12 --------
->  mm/hugetlb_vmemmap.h | 17 +++++++++++
->  3 files changed, 93 insertions(+), 19 deletions(-)
+>  Documentation/admin-guide/mm/hugetlbpage.rst    |  8 ++
+>  Documentation/admin-guide/mm/memory-hotplug.rst | 13 ++++
+>  include/linux/hugetlb.h                         |  3 +
+>  include/linux/mm.h                              |  2 +
+>  mm/hugetlb.c                                    | 98 +++++++++++++++++++++----
+>  mm/hugetlb_vmemmap.c                            | 34 +++++++++
+>  mm/hugetlb_vmemmap.h                            |  6 ++
+>  mm/migrate.c                                    |  5 +-
+>  mm/sparse-vmemmap.c                             | 75 ++++++++++++++++++-
+>  9 files changed, 227 insertions(+), 17 deletions(-)
 > 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index fd39fc94b23f..a3629c664f6a 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1376,7 +1376,7 @@ static void remove_hugetlb_page(struct hstate *h, struct page *page,
->  	h->nr_huge_pages_node[nid]--;
->  }
+> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
+> index f7b1c7462991..6988895d09a8 100644
+> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
+> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+> @@ -60,6 +60,10 @@ HugePages_Surp
+>          the pool above the value in ``/proc/sys/vm/nr_hugepages``. The
+>          maximum number of surplus huge pages is controlled by
+>          ``/proc/sys/vm/nr_overcommit_hugepages``.
+> +	Note: When the feature of freeing unused vmemmap pages associated
+> +	with each hugetlb page is enabled, the number of surplus huge pages
+> +	may be temporarily larger than the maximum number of surplus huge
+> +	pages when the system is under memory pressure.
+>  Hugepagesize
+>  	is the default hugepage size (in Kb).
+>  Hugetlb
+> @@ -80,6 +84,10 @@ returned to the huge page pool when freed by a task.  A user with root
+>  privileges can dynamically allocate more or free some persistent huge pages
+>  by increasing or decreasing the value of ``nr_hugepages``.
 >  
-> -static void update_and_free_page(struct hstate *h, struct page *page)
-> +static void __update_and_free_page(struct hstate *h, struct page *page)
->  {
->  	int i;
->  	struct page *subpage = page;
-> @@ -1399,12 +1399,79 @@ static void update_and_free_page(struct hstate *h, struct page *page)
->  	}
->  }
+> +Note: When the feature of freeing unused vmemmap pages associated with each
+> +hugetlb page is enabled, we can fail to free the huge pages triggered by
+> +the user when ths system is under memory pressure.  Please try again later.
+> +
+>  Pages that are used as huge pages are reserved inside the kernel and cannot
+>  be used for other purposes.  Huge pages cannot be swapped out under
+>  memory pressure.
+> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+> index 05d51d2d8beb..c6bae2d77160 100644
+> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
+> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+> @@ -357,6 +357,19 @@ creates ZONE_MOVABLE as following.
+>     Unfortunately, there is no information to show which memory block belongs
+>     to ZONE_MOVABLE. This is TBD.
 >  
-> +/*
-> + * As update_and_free_page() can be called under any context, so we cannot
-> + * use GFP_KERNEL to allocate vmemmap pages. However, we can defer the
-> + * actual freeing in a workqueue to prevent from using GFP_ATOMIC to allocate
-> + * the vmemmap pages.
-> + *
-> + * free_hpage_workfn() locklessly retrieves the linked list of pages to be
-> + * freed and frees them one-by-one. As the page->mapping pointer is going
-> + * to be cleared in free_hpage_workfn() anyway, it is reused as the llist_node
-> + * structure of a lockless linked list of huge pages to be freed.
-> + */
-> +static LLIST_HEAD(hpage_freelist);
+> +   Memory offlining can fail when dissolving a free huge page on ZONE_MOVABLE
+> +   and the feature of freeing unused vmemmap pages associated with each hugetlb
+> +   page is enabled.
 > +
-> +static void free_hpage_workfn(struct work_struct *work)
-> +{
-> +	struct llist_node *node;
+> +   This can happen when we have plenty of ZONE_MOVABLE memory, but not enough
+> +   kernel memory to allocate vmemmmap pages.  We may even be able to migrate
+> +   huge page contents, but will not be able to dissolve the source huge page.
+> +   This will prevent an offline operation and is unfortunate as memory offlining
+> +   is expected to succeed on movable zones.  Users that depend on memory hotplug
+> +   to succeed for movable zones should carefully consider whether the memory
+> +   savings gained from this feature are worth the risk of possibly not being
+> +   able to offline memory in certain situations.
 > +
-> +	node = llist_del_all(&hpage_freelist);
-> +
-> +	while (node) {
-> +		struct page *page;
-> +		struct hstate *h;
-> +
-> +		page = container_of((struct address_space **)node,
-> +				     struct page, mapping);
-> +		node = node->next;
-> +		page->mapping = NULL;
-> +		/*
-> +		 * The VM_BUG_ON_PAGE(!PageHuge(page), page) in page_hstate()
-> +		 * is going to trigger because a previous call to
-> +		 * remove_hugetlb_page() will set_compound_page_dtor(page,
-> +		 * NULL_COMPOUND_DTOR), so do not use page_hstate() directly.
-> +		 */
-> +		h = size_to_hstate(page_size(page));
-> +
-> +		__update_and_free_page(h, page);
-> +
-> +		cond_resched();
-> +	}
-> +}
-> +static DECLARE_WORK(free_hpage_work, free_hpage_workfn);
-> +
-> +static inline void flush_free_hpage_work(struct hstate *h)
-> +{
-> +	if (free_vmemmap_pages_per_hpage(h))
-> +		flush_work(&free_hpage_work);
-> +}
-> +
-> +static void update_and_free_page(struct hstate *h, struct page *page,
-> +				 bool atomic)
-> +{
-> +	if (!free_vmemmap_pages_per_hpage(h) || !atomic) {
+>  .. note::
+>     Techniques that rely on long-term pinnings of memory (especially, RDMA and
+>     vfio) are fundamentally problematic with ZONE_MOVABLE and, therefore, memory
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index d523a345dc86..d3abaaec2a22 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -525,6 +525,7 @@ unsigned long hugetlb_get_unmapped_area(struct file *file, unsigned long addr,
+>   *	code knows it has only reference.  All other examinations and
+>   *	modifications require hugetlb_lock.
+>   * HPG_freed - Set when page is on the free lists.
+> + * HPG_vmemmap_optimized - Set when the vmemmap pages of the page are freed.
+>   *	Synchronization: hugetlb_lock held for examination and modification.
 
-I like the addition of the atomic bool.  The only time atomic will be
-set is in calls from free_huge_page.  And, depending on the workload
-free_huge_page may only rarely free the page via update_and_free_page.
-Pool adjustments via set_max_huge_pages where many pages are freed will
-be done without atomic set and we will not defer to the work queue.
+You just moved the Synchronization comment so that it applies to both
+HPG_freed and HPG_vmemmap_optimized.  However, HPG_vmemmap_optimized is
+checked/modified both with and without hugetlb_lock.  Nothing wrong with
+that, just need to update/fix the comment.
 
-> +		__update_and_free_page(h, page);
-> +		return;
-> +	}
-> +
-> +	/*
-> +	 * Defer freeing to avoid using GFP_ATOMIC to allocate vmemmap pages.
-> +	 *
-> +	 * Only call schedule_work() if hpage_freelist is previously
-> +	 * empty. Otherwise, schedule_work() had been called but the workfn
-> +	 * hasn't retrieved the list yet.
-> +	 */
-> +	if (llist_add((struct llist_node *)&page->mapping, &hpage_freelist))
-> +		schedule_work(&free_hpage_work);
-> +}
-> +
->  static void update_and_free_pages_bulk(struct hstate *h, struct list_head *list)
->  {
->  	struct page *page, *t_page;
->  
->  	list_for_each_entry_safe(page, t_page, list, lru) {
-> -		update_and_free_page(h, page);
-> +		update_and_free_page(h, page, false);
->  		cond_resched();
->  	}
->  }
-> @@ -1471,12 +1538,12 @@ void free_huge_page(struct page *page)
->  	if (HPageTemporary(page)) {
->  		remove_hugetlb_page(h, page, false);
->  		spin_unlock_irqrestore(&hugetlb_lock, flags);
-> -		update_and_free_page(h, page);
-> +		update_and_free_page(h, page, true);
->  	} else if (h->surplus_huge_pages_node[nid]) {
->  		/* remove the page from active list */
->  		remove_hugetlb_page(h, page, true);
->  		spin_unlock_irqrestore(&hugetlb_lock, flags);
-> -		update_and_free_page(h, page);
-> +		update_and_free_page(h, page, true);
->  	} else {
->  		arch_clear_hugepage_flags(page);
->  		enqueue_huge_page(h, page);
-> @@ -1798,7 +1865,7 @@ int dissolve_free_huge_page(struct page *page)
->  		remove_hugetlb_page(h, page, false);
->  		h->max_huge_pages--;
->  		spin_unlock_irq(&hugetlb_lock);
-> -		update_and_free_page(h, head);
-> +		update_and_free_page(h, head, false);
->  		return 0;
->  	}
->  out:
-> @@ -2343,14 +2410,14 @@ static int alloc_and_dissolve_huge_page(struct hstate *h, struct page *old_page,
->  		 * Pages have been replaced, we can safely free the old one.
->  		 */
->  		spin_unlock_irq(&hugetlb_lock);
-> -		update_and_free_page(h, old_page);
-> +		update_and_free_page(h, old_page, false);
->  	}
->  
->  	return ret;
->  
->  free_new:
->  	spin_unlock_irq(&hugetlb_lock);
-> -	update_and_free_page(h, new_page);
-> +	update_and_free_page(h, new_page, false);
->  
->  	return ret;
->  }
-> @@ -2764,6 +2831,7 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
->  	 * pages in hstate via the proc/sysfs interfaces.
->  	 */
->  	mutex_lock(&h->resize_lock);
-> +	flush_free_hpage_work(h);
->  	spin_lock_irq(&hugetlb_lock);
->  
->  	/*
-> @@ -2873,6 +2941,7 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
->  	/* free the pages after dropping lock */
->  	spin_unlock_irq(&hugetlb_lock);
->  	update_and_free_pages_bulk(h, &page_list);
-> +	flush_free_hpage_work(h);
-
-The above calls to flush the work queue make sense in set_max_huge_pages
-as we are adjusting the pool count and want to make sure there is no
-outstanding work before doing so.
-
-I wonder if there are any other places where we want to flush the queue?
-I can not think of any myself.
-
-The addition of the work queue for deferred free processing is the
-primary change from the previously reviewed version of this patch.  The
-changes for this look correct to me.
+Everything else looks good to me,
 
 Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
+
 -- 
 Mike Kravetz
-
->  	spin_lock_irq(&hugetlb_lock);
->  
->  	while (count < persistent_huge_pages(h)) {
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index e45a138a7f85..cb28c5b6c9ff 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -180,18 +180,6 @@
->  #define RESERVE_VMEMMAP_NR		2U
->  #define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
->  
-> -/*
-> - * How many vmemmap pages associated with a HugeTLB page that can be freed
-> - * to the buddy allocator.
-> - *
-> - * Todo: Returns zero for now, which means the feature is disabled. We will
-> - * enable it once all the infrastructure is there.
-> - */
-> -static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
-> -{
-> -	return 0;
-> -}
-> -
->  static inline unsigned long free_vmemmap_pages_size_per_hpage(struct hstate *h)
->  {
->  	return (unsigned long)free_vmemmap_pages_per_hpage(h) << PAGE_SHIFT;
-> diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-> index 6923f03534d5..01f8637adbe0 100644
-> --- a/mm/hugetlb_vmemmap.h
-> +++ b/mm/hugetlb_vmemmap.h
-> @@ -12,9 +12,26 @@
->  
->  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
->  void free_huge_page_vmemmap(struct hstate *h, struct page *head);
-> +
-> +/*
-> + * How many vmemmap pages associated with a HugeTLB page that can be freed
-> + * to the buddy allocator.
-> + *
-> + * Todo: Returns zero for now, which means the feature is disabled. We will
-> + * enable it once all the infrastructure is there.
-> + */
-> +static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
-> +{
-> +	return 0;
-> +}
->  #else
->  static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
->  {
->  }
-> +
-> +static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
-> +{
-> +	return 0;
-> +}
->  #endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
->  #endif /* _LINUX_HUGETLB_VMEMMAP_H */
-> 
