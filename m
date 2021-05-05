@@ -2,146 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D2B7C433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 23:30:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8C25C43460
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 05:06:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36E6461185
-	for <linux-doc@archiver.kernel.org>; Tue,  4 May 2021 23:30:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AC6F611EE
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 05:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbhEDXbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 May 2021 19:31:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37878 "EHLO
+        id S231592AbhEEFHO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 01:07:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231226AbhEDXbf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 May 2021 19:31:35 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6D32C061574;
-        Tue,  4 May 2021 16:30:39 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id v188so325304ybe.1;
-        Tue, 04 May 2021 16:30:39 -0700 (PDT)
+        with ESMTP id S231318AbhEEFHN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 01:07:13 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A0C6C061574
+        for <linux-doc@vger.kernel.org>; Tue,  4 May 2021 22:06:15 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id s22so973209pgk.6
+        for <linux-doc@vger.kernel.org>; Tue, 04 May 2021 22:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0LsRUNPM5NdWoS3h9RSO3mAB34MIxNW5tjSsk4+LsLE=;
-        b=XZMtzbHjri0105Y1lVg/5Ncu9oGiuxK/pbBeGByRKgC0sKRo0I5Rd78m2bqkVeaMVa
-         4++Xilk5XHEsP/P3EV9WWEYB+0YWEse6uTzqzF7rpQ6msTw9Ov/KwLWx/kU04RQCb5oA
-         gxLl9+HPmOOddphhO0Vk+S9RuOGxHuChQ4IGWz0erJGxRKsIiKf2QynxKjX/5lIdL9HU
-         yWtYwijs1N+uic8qY0EI+wb4EPN5QOilsdknBVVbUmjHbsACggnDm+8dHoHA6y3U3ty9
-         opfQQigGVWs44iR9yPEmw4xzT3deyt+SxuGrWMvaLcMbGj0BoSnf1NbxaZvhK7KrJRzp
-         Ps7w==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7gpK7P2CpPVVCbVLUyVVTrI01QfMpCG4qxYH2m0q/WY=;
+        b=hRMfiR1c8aF8nkaibSuLvPsQ8VyCx/qSncGkzxu18vorhQYjFwpROhAEbXYMCNfquk
+         R79aCKblQiB16JvI81QOiFG7hoE+vwWFzuhbV1jcmU/QB6LmQwc8IoHRHHgrHKr1AooE
+         osQlLpZYwvRJRTQEWQKzZE0vUJAkPSCwibEEASukSg4xW9ERGzKZ40/yoQH+95owSb6v
+         iLEPDrI5blgVJviaQyBNxrHi4u/g5MffBYnIDhQOKoi0ygD8CMEeF9UCIMm87nzMRxHJ
+         P8UUlfcrr05jevKCiccoYy4X4FyQ6RYZzLzqVTr8I8qEmKxi4cqZReJU1TEVcBJWusH4
+         /VZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0LsRUNPM5NdWoS3h9RSO3mAB34MIxNW5tjSsk4+LsLE=;
-        b=nGcm4/JuMkuzH8+mKRBRwbA2i0tPdDGuPLAZmebtF1t6j0TGqssnhwIX7o3Uxp/EC2
-         wwx7eCYkm6dNX0lvqf2+mHLw9+RCXxJJpzBlJKYpvT9LdphUmLEa1QcyWvJ+Sg1WWUs+
-         gEeWy8K5cbtUFg0H2JC3pSA3dmXQ6cDmaPqdi1QIe5FCtp3kB5i4rtNLr2XvlHmCPLa2
-         gNW66ldw//8WsjBoP3TTvd01IJ/dIGdnTOyQtVy28/xcn6Fg4o9GVQoIzeQ38cb1f3mf
-         0BgKBjWf9M+2Ntj+UHbRxiMk9Xy2i+/yUqGgqiCgFFsFEDfGeXKauDExelfAiLRvZnjF
-         uZqQ==
-X-Gm-Message-State: AOAM531KRURxDlZ6p6J+AGUaE/OG1OEBF17TfaGGuEAB34NJLxBMmT5n
-        8/Q40f3QAYta+2Lfz8Q9gzpJaU2UgzH5JqnyPdI=
-X-Google-Smtp-Source: ABdhPJwCasFo5HIaTPDTfDvDc+XFDs+QeP6r/wfG3fsdURBUabG3johtzO5OD9xuHcXUqjx9/oUVIFMHAYF7dpIOI0M=
-X-Received: by 2002:a25:880f:: with SMTP id c15mr36952995ybl.247.1620171039053;
- Tue, 04 May 2021 16:30:39 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7gpK7P2CpPVVCbVLUyVVTrI01QfMpCG4qxYH2m0q/WY=;
+        b=ucuTusiRKJqeexnF/eW4nSlTl2r+rK/Uc8IjxIoJQyqRODL1Vo0c4+4yUQjbQton1N
+         oaWc9M/pi2J1X9HwFUkBTf6Xe+ILfVbd98tzRP2Gy/goPULoREyngfNbyGoVxU8s5M2w
+         qq4t+j65pkhljfMc9MguOenZkD4vC3dbWaY4VzNw7JpmF4KB1ObccpQ0HCHtP2cjz2pM
+         4gLRrsVM0kDHVEqexEsImHrzBL1nH7KiScyChSPeEDC0VA3EBJ3u/rXWX8pqGqfUVEJI
+         ONIpqkwnxpvqYUzofRTYazMKARK3brhlA3ekA0NuMfe80ZnaVX2+ACbzHou/AJyb99ok
+         hz5w==
+X-Gm-Message-State: AOAM531qL4G+xSYy4RAG7BuiZbsMthNsOoThnRiHoJKbNOtUn25eER00
+        Uv6OVsL0N+GuuDCNA/4WR6JBrg==
+X-Google-Smtp-Source: ABdhPJz9VCC3PefBm33FrYikAk5yJSpijtIJiHa1jMrpQcN0eALeOoj+FqzHKiLwil2NOY6iXfaG3A==
+X-Received: by 2002:a62:ed0b:0:b029:25c:9ea2:abea with SMTP id u11-20020a62ed0b0000b029025c9ea2abeamr27332089pfh.46.1620191174556;
+        Tue, 04 May 2021 22:06:14 -0700 (PDT)
+Received: from [10.254.93.79] ([139.177.225.238])
+        by smtp.gmail.com with ESMTPSA id k10sm13420308pff.140.2021.05.04.22.06.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 May 2021 22:06:14 -0700 (PDT)
+Subject: Re: [Phishing Risk] [External] Re: [PATCH 2/3] cgroup/cpuset:
+ introduce cpuset.mems.migration
+To:     Tejun Heo <tj@kernel.org>, hannes@cmpxchg.org
+Cc:     akpm@linux-foundation.org, lizefan.x@bytedance.com, corbet@lwn.net,
+        cgroups@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210426065946.40491-1-wuyun.abel@bytedance.com>
+ <20210426065946.40491-3-wuyun.abel@bytedance.com>
+ <YIgjE6CgU4nDsJiR@slm.duckdns.org>
+From:   Abel Wu <wuyun.abel@bytedance.com>
+Message-ID: <55582805-5103-96c0-d8e8-e6d0b01beff3@bytedance.com>
+Date:   Wed, 5 May 2021 13:06:09 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
- <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
- <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com> <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com>
-In-Reply-To: <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 5 May 2021 01:30:28 +0200
-Message-ID: <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YIgjE6CgU4nDsJiR@slm.duckdns.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 4, 2021 at 11:21 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> Another argument can be made that for Rust to be
-> perceived as mature, two independent implementations
-> should exist anyway.
+ping :)
 
-Many people agree, and in fact it may not be that far away. On related
-news, the GCC frontend for Rust is now in Compiler Explorer, e.g.
-https://godbolt.org/z/Wjbe5dTTb
-
-I just requested `mrustc` (the Rust transpiler written in C++ for
-bootstrapping purposes) to the Compiler Explorer folks to have it
-there too.
-
-> Fixing proper compilers may take a few years, like
-> 5 or 10. But who cares? We are in it for the long run
-
-I don't think it will take 5 years to see a new frontend (in
-particular if only for valid code).
-
-But even if it does, I don't see why we would need to wait for that to
-start setting up Rust for the kernel if the decision is made to do so.
-
-In fact, getting into the kernel can be an incentive for a new
-frontend to say "we are now able to compile the kernel".
-
-There are also other advantages to start the work now, such as working
-out the currently-nightly features we need in the Rust language and
-the standard library, getting them stabilized, submitting upstream
-fixes (I had to implement a couple small ones), etc.
-
-That way, when the time comes that we announce a minimum Rust stable
-version, all that is ready for other frontends too.
-
-> But I am not convinced that writing device drivers is the right
-> thing to use Rust for in the kernel.
-
-That is fair, hopefully the picture will be clearer when we get the
-first drivers that talk to real hardware.
-
-> There are some stuff in device driver frameworks, such as USB
-> hierarchies or (battery) charging state machines, that can be
-> really good to rewrite in Rust. But these rewrites would affect
-> anything with a USB port for example, including Nios II and
-> Motorola 68k systems.  So then the compiler support for all
-> archs is needed first.
-
-I would avoid a rewrite, but similarly to one of the previous points,
-I don't see why work cannot already start if a maintainer is keen on
-using Rust (and able to maintain both to some degree).
-
-> I think right now the right thing for Rust is to work out-of-tree until
-> there is Rust support for all archs, while encouraging kernel
-> developers to learn the language.
-
-That would be an option, yes, but if the decision ends up being made
-and we are encouraging kernel developers to learn the language, what
-do we achieve by keeping things out-of-tree?
-
-In fact, by getting in-tree people, organizations & companies would be
-encouraged to give more support sooner rather than later to the LLVM
-backends they care about and/or to the GCC frontend for Rust. So, in a
-way, it can be a win for those projects too.
-
-Cheers,
-Miguel
+On 4/27/21 10:43 PM, Tejun Heo wrote:
+> Hello,
+> 
+> On Mon, Apr 26, 2021 at 02:59:45PM +0800, Abel Wu wrote:
+>> When a NUMA node is assigned to numa-service, the workload
+>> on that node needs to be moved away fast and complete. The
+>> main aspects we cared about on the eviction are as follows:
+>>
+>> a) it should complete soon enough so that numa-services
+>>     won’t wait too long to hurt user experience
+>> b) the workloads to be evicted could have massive usage on
+>>     memory, and migrating such amount of memory may lead to
+>>     a sudden severe performance drop lasting tens of seconds
+>>     that some certain workloads may not afford
+>> c) the impact of the eviction should be limited within the
+>>     source and destination nodes
+>> d) cgroup interface is preferred
+>>
+>> So we come to a thought that:
+>>
+>> 1) fire up numa-services without waiting for memory migration
+>> 2) memory migration can be done asynchronously by using spare
+>>     memory bandwidth
+>>
+>> AutoNUMA seems to be a solution, but its scope is global which
+>> violates c&d. And cpuset.memory_migrate performs in a synchronous
+> 
+> I don't think d) in itself is a valid requirement. How does it violate c)?
+> 
+>> fashion which breaks a&b. So a mixture of them, the new cgroup2
+>> interface cpuset.mems.migration, is introduced.
+>>
+>> The new cpuset.mems.migration supports three modes:
+>>
+>>   - "none" mode, meaning migration disabled
+>>   - "sync" mode, which is exactly the same as the cgroup v1
+>>     interface cpuset.memory_migrate
+>>   - "lazy" mode, when walking through all the pages, unlike
+>>     cpuset.memory_migrate, it only sets pages to protnone,
+>>     and numa faults triggered by later touch will handle the
+>>     movement.
+> 
+> cpuset is already involved in NUMA allocation but it always felt like
+> something bolted on - it's weird to have cpu to NUMA node settings at global
+> level and then to have possibly conflicting direct NUMA configuration via
+> cpuset. My preference would be putting as much configuration as possible on
+> the mm / autonuma side and let cpuset's node confinements further restrict
+> their operations rather than cpuset having its own set of policy
+> configurations.
+> 
+> Johannes, what are your thoughts?
+> 
+> Thanks.
+> 
