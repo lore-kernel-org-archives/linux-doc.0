@@ -2,544 +2,366 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AAC6C433B4
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 07:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1679C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 08:44:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 689DF613C3
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 07:05:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7312A611AE
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 08:44:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229765AbhEEHGJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 03:06:09 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.52]:36688 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbhEEHGJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 03:06:09 -0400
-X-Greylist: delayed 341 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 May 2021 03:06:08 EDT
-ARC-Seal: i=1; a=rsa-sha256; t=1620197943; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=lNr4Vy2OGYD+ukLoF+gBuehqVVBlKPVBxfzlqLpAwq3uvo4JzvokcC9gNcDtAwKoHN
-    UrXP0PPJuCeoZXtBNTXKYkDmtAR8xKXpRzEhTaKo/xqu++qfX2n2p5ng3qoFtS4YKhiy
-    kWvVb7L67lp7USQRRCYa5mqBy+HLfnnuljO4o5kgoBO0hYNgOIgde+9qSTBPSI6JyVxy
-    QEmMY8bWNqh6p7pBIhtKbAmfgx4n1uBHAlRdDnxc/THszcVm2hKGk2eBINqF9JvtNKUK
-    DuyeNMMNsoNc3DYJ5+iiwX9H5IAgdRKLrYdqzQHZ6l+Y1KhVWwqhk9Mcy3ep2rsdta7+
-    7DHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1620197943;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=59fURQOBF4qaNQeg1KfuGini5qDL59lKgoyGjHYJD8c=;
-    b=rTikvHfTAluEnPrRtDCHiBkUakGxhVzJa+B+suJ+x+5qhDQBhHPJYaNWNl9PtZmVEN
-    /jSYsM+gc3CIV8WPnP7dGIcK1HHku3eHtCYW2FkfMuqjgX15mS+EhOmYVVliDYCjwgHH
-    8cvtNC68ywkva+BoID0k8BC5qlFyzo4NX3TJbMTk9r4tMZKeaECAIwETaSgEwgGj5AAi
-    FL0C5HGYT6KmYzSEM/BAXgX9PFRFy60VwiN1RY+ws9aflQJ4ObM+cfLNYcdQYmiA0jTD
-    TDiCxfhsILl4uetiodF/fm5uvHnJ7av1bucnrzdAxZW8MqEJr9YSIXB1rfJeKjHECDYe
-    FAig==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1620197943;
-    s=strato-dkim-0002; d=hartkopp.net;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=59fURQOBF4qaNQeg1KfuGini5qDL59lKgoyGjHYJD8c=;
-    b=VsPLvletOWxxXWqfbpPHvTBw/QFpIZo6qSxYCvNQu+euTgLI41KxdyL0lMrk4XBl9k
-    k8jo5Fxv+eeFU4IgzLgPIcrp4OXgDH+Kyxm0drU4bPTFTmHdWCuwg06rYdzqUzZyXv9u
-    nGEM0lLLGmQ4zrSYQacHPQRh9zqv7VAD2UGgm4XkaJtfm1wtDUTm9CeoGJbGpUfq9lCS
-    +G/U1ckeRRnXUAUpEnyq1X4U5qPSovY9LXRWYJ/2tG8WaLJSet7sNOemYvZmjuhJX4pP
-    yVPHtZ7foefIpl2TEpTPPNHkP2F2QdE3UGd/KGGA8GS/O5VIZUjHXbPmP2V7mk6tq67P
-    lDqw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjG14FZxedJy6qgO1o3TMaFqTEVR+J8xswl0="
-X-RZG-CLASS-ID: mo00
-Received: from [192.168.10.137]
-    by smtp.strato.de (RZmta 47.25.6 DYNA|AUTH)
-    with ESMTPSA id 40bb75x456x23Gg
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Wed, 5 May 2021 08:59:02 +0200 (CEST)
-Subject: Re: [PATCH v2 1/2] can: add support for filtering own messages only
-To:     Erik Flodin <erik@flodin.me>, mkl@pengutronix.de
-Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20210504203546.115734-1-erik@flodin.me>
- <20210504203546.115734-2-erik@flodin.me>
-From:   Oliver Hartkopp <socketcan@hartkopp.net>
-Message-ID: <cf5fdb14-47e2-2d08-0d29-c621bff7b312@hartkopp.net>
-Date:   Wed, 5 May 2021 08:58:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210504203546.115734-2-erik@flodin.me>
+        id S232184AbhEEIpb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 04:45:31 -0400
+Received: from mail-dm6nam12on2091.outbound.protection.outlook.com ([40.107.243.91]:42272
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232286AbhEEIpZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 May 2021 04:45:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PNE/8zbpO75i/Jg1zLzdjOv9XkWXuxzmxpbwqQs7iyJUawT3oHjFqNZoo/LnIgo6MGaspUqSE02Sy82XUiU7i/xU1IJ2ILvz5j7oTSHpZyryjwO84XOARmoPgmgvPO+vXFaVoQpIue9ya0RFezud5V6p29pGBfrLD/RWOBsKO4lhszkXBcHGaYGV0RnIVT6dd90crJ9dnCiWgxLgCnxcEV6kMI46mByVocVb5BPNQ0P/Q2fEoBMdwW/Y1bDL/7/l2q3yqn7ZCceZyC1Ukoqvf8im5BhYYF8E8CHh77ZP9UiJFa6fxiHgP0M4i7FGoVWZilo/wPYCVm06DglPaFqrrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TQZqyqmRwVdJ97RVHf2k+XA5eGJWwQmpvSjJtW2VGnY=;
+ b=aqiMiYsbq93MQa+T52CPt083DsDTiEz08ncYJRThqyX5f/Kry3dfn3j+CRzCfeHZ/MH3erHcbort7FTmZAsOPao/o9f38hH0djDk+st+KaEdz2jlTDHNSedDRJzhulA9G61XVrAP3y+gRT+zM3OYTrrdyBL58PhVX5v0YwYWB/ZYbnLWH2+6Ld+pSgGJbsBCu/hNNeskJCQe+qgKL9OOglp6Z2FhUv6Us+mCE3AJMQqgbPmAjUq2OQacL+QXy4PTmgKqroknELQc+oFVYA5Zm5wr33DYeKeRdFF3snDFamSqyN6rPvKoq1nNyn01nF18CV63iznveLpuYJf4Zo+44Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TQZqyqmRwVdJ97RVHf2k+XA5eGJWwQmpvSjJtW2VGnY=;
+ b=ua6hiWcIeavVO4390DymFNgbQJSHM2JusNbKYaHla2ewpnQTsErlgIlv8KCQtVMLBbS6UCy2IQryAxY8H33OcKCa+FMQM749b+4uRuOVQrQWWGM8vytnNctxMCeQ1x4daIkYcCi5hggg3g9XnKcXZmW3WbbAd/XxDVrbLGt/H3E=
+Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
+ header.d=none;os.amperecomputing.com; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
+ MWHPR01MB2381.prod.exchangelabs.com (2603:10b6:300:46::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4087.25; Wed, 5 May 2021 08:44:23 +0000
+Received: from MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.4087.044; Wed, 5 May 2021
+ 08:44:23 +0000
+Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add bindings for Ampere Altra
+ SMPro drivers
+To:     Rob Herring <robh@kernel.org>
+Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+References: <20210422090843.4614-1-quan@os.amperecomputing.com>
+ <20210422090843.4614-2-quan@os.amperecomputing.com>
+ <20210430201918.GA3806853@robh.at.kernel.org>
+From:   Quan Nguyen <quan@os.amperecomputing.com>
+Message-ID: <52550615-ae38-d88e-a597-29dc9c71755a@os.amperecomputing.com>
+Date:   Wed, 5 May 2021 15:44:04 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
+In-Reply-To: <20210430201918.GA3806853@robh.at.kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [27.74.205.135]
+X-ClientProxiedBy: CH2PR03CA0007.namprd03.prod.outlook.com
+ (2603:10b6:610:59::17) To MW2PR0102MB3482.prod.exchangelabs.com
+ (2603:10b6:302:c::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.10.85] (27.74.205.135) by CH2PR03CA0007.namprd03.prod.outlook.com (2603:10b6:610:59::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24 via Frontend Transport; Wed, 5 May 2021 08:44:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6fca1013-d671-4073-1d84-08d90fa1fb46
+X-MS-TrafficTypeDiagnostic: MWHPR01MB2381:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR01MB238173B790B7FE6A5A23C101F2599@MWHPR01MB2381.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3D73IgSjmeX9PQsbOmE9xUpEiNXIxYuDEADtCep9OmqLjGrj+iudb2PlGrnZ3fz06sEGTmYAdQ5hCpWpx3LkOJ5rR+F82Vu37A7rta6y+uWiMx4hZ+VKFXrnG62zvucGVaAUzkbxa3TUD7NmvpwkqvcJg43TbiTFuveK/ZQDbxoNGyBS4KvLPoEI4kf7rMCkAzpTHiPNmLn4DpIcmerwfFdnrZ2Uxr7hDQAV96r58GB2aqmdhZnoYOAhFToctoFCORdkHi+3IJ05HA0Zo3T5iHW1MHKcwr7PR3anz8nLW7RT3mJB1kGTwClH6GxDJ3TYJ6gnCvqrohBOzeIyTfyt1fObxw9/RSJltCex9Z+K9XO0du1NX5mpNWV+fiw/E7eBwYG11zyitVmY3fDxOKy2ENPkEC6y+WH/GUTcwYdr8PfJr3gTA1erEiffwdUeB/oKNwcHITBTXtkCAE8ccNdnVB0LWPvtwCyUHZ+IgkyKhpndOD7WyP0affRabboHzvPl8FdUHKS8h8z1ZXwZjYzR1SWk8MONRfS96hjYFGom3sTsMuqhWJpAQujBLuaFBG9H3UbbXMJbFwcLM+N3Mg6g9pbCZML9v+Jkq3z4lx25gt9UGvxpNJC+jqiCR5L67RZiF8BtcEbsrXIcT8sLWOa+lmdT1GD12haQWfJZDQftMSOAotaxz3IUzwGVZobHMv45O8dqvMtbt3sm2+Jj8/f8ZZ94+FNy/hh0yvdSzzJj2e+jqFpcXU8bNHZFAhXPYwNUtkGBSv9GS1P2TT9yVLtyd8/Mu7n+RpBHHh+Fs6ET6nk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR0102MB3482.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39850400004)(396003)(376002)(346002)(366004)(66476007)(966005)(8936002)(31696002)(66946007)(26005)(186003)(5660300002)(66556008)(6486002)(53546011)(54906003)(478600001)(16576012)(6666004)(8676002)(107886003)(31686004)(316002)(2616005)(52116002)(83380400001)(4326008)(38100700002)(86362001)(956004)(7416002)(16526019)(6916009)(38350700002)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SGg0a1lWM0lCUi9CRTRWakVhYjNMUFNid1dWT3g5Zk5yRDRvMktMdGpHdkQx?=
+ =?utf-8?B?Ny9Pc1kvaVp2RktPSTBncFpnNlpXMUZadDZSRTBIMW80V21UbFRpaU1ZY25r?=
+ =?utf-8?B?Z2hLcXIxRFkyL0g1RytuY1g0cEJ2MUhsMVp0dnllN1I0R1pzU0FsQXFYS3Ix?=
+ =?utf-8?B?N1hDNVdTMTRkUVFLcmZyQXJlUGR3NXlmaDF3cU9NdURsTjRlR2NTUmRqd29O?=
+ =?utf-8?B?U0tJdlB6MUF3R2t4Q2FROEdKSzM0VnJ5RCtlVWE3Qit3TXNrcHRNRUp5aWJC?=
+ =?utf-8?B?aEdwNFNMSk9hdXV1Y2NCWW43QUZNY3FLTmFBTkhmN0UvWTBOK3V5a1RMTzRn?=
+ =?utf-8?B?Zmwyc0h5MFFBaUNvT2NxVFU0b3E4WTlFZS9xOHhjUUFqSHJnOXl3K1F3eVla?=
+ =?utf-8?B?UjR5amd6d0pHbFRRd1NzbFZHYnU3L2JQamZIbE50aDNVNC9nemNnWFJHU0Zy?=
+ =?utf-8?B?bjNIbmt5K2ZZL01pd3JDVm1nZ0RrZTkvb0xpdW1lbjlsSEFvVWEyN05BTWoz?=
+ =?utf-8?B?VXc4ZlhCT290d2NQWFBVaDI1S0hpQzhFR1JwRVZaZ09LVFlsUjU2UmIya0dr?=
+ =?utf-8?B?dTBTMkxwbFk1VE9CSUdqaFYvNm5TaWxvUVR0bFF0cnVFaklsN3lhSWphZ1c0?=
+ =?utf-8?B?TFJUamdoelpvZkUzanczT0k0WnhjS3lFWnB2Y0tGT0pqM1gxZzFnTFUraFJ3?=
+ =?utf-8?B?TXlFdmJyeFNIekZJTDlvUkc2ZUV2QktsOXljU2xRbnVyN2IrVXNNRkgvVVlT?=
+ =?utf-8?B?Y0dEUUs1NjVMc1lxei9hdGRVcjVmQndsS0tLYk9wR0NRT2U0SmRSdFlac3ZR?=
+ =?utf-8?B?NGMrRUVRNUNORDRZeS8wZ1BaZTJPZXNjTGVTcE1xZ2Q4WXFJRWE5cFlwR1dr?=
+ =?utf-8?B?Q3R2VDk2eE54eXdRRzBsSDJiNlhYWkdWNmIyUWZTTkhiL1lkQUx5UUtZYXdy?=
+ =?utf-8?B?Tk5QZXVaUVc5bFFxL1NCZ2FCV1JOOWo2VXNyRGFJU0x2ODZFMHhEQ2JTdzQr?=
+ =?utf-8?B?eE1QclZsWXIzT2tEWkRyaWtxd3FKUmgva0NYK1FzT3hXOGNCeVVqUXVZT2I4?=
+ =?utf-8?B?SVQxVmFBT1RkQzQyRkFRaGo4UnNaYklPSUxhUVkxcHJwTFpTWWtyaXp3WVVW?=
+ =?utf-8?B?dGJmVDh2eTlKaVFqQXNIbVpVN29NMEJiMGprM3JFWExjbkNqdlN6ZlIyU3Q1?=
+ =?utf-8?B?dzBPOW9aZjB4L1hFUVlSNmtrdzZ3UTlWRGFhN2w5cnBSWG9iMzVrSlZyVjFD?=
+ =?utf-8?B?YTBEZ3JSM2xTTDZhWlNtQUJNSDd2YjNJOEllZjVhcDhRMzhWQURBNVBRd2hL?=
+ =?utf-8?B?aytxODR0YjJya3Bid2RKbnpadFY0Q3M5Lzd0QVc0U3NkbjJ6VEllZk91MkFV?=
+ =?utf-8?B?eFVhWmxPRUtGRk1oci8zNXp3OXFyZUpZbFVranpEUmVNREhFSkJvdzFGR0Ns?=
+ =?utf-8?B?MC9lTDRKNEdhQ0pkeVhiWWgvd21DSjNQelpXbVZ5SlE2cmFuRDRQcUczMGNF?=
+ =?utf-8?B?ZTJOZXliK091MWNvdzEvbGZJbmppcFE5UUdvYzJHNHRIQ1d0cG9IT0RmdEZX?=
+ =?utf-8?B?QUFyYk9JMS9JakY1SlBaL0RqdG1ScnMva2ZvcFZQSXV2ZDB2bXlVdmQ1azY2?=
+ =?utf-8?B?NFM1YkdQcGNSY1h5dTFHeGJYOFcvMlhqRUtLbkxpbkNGK0t5WFBKU3NENDdG?=
+ =?utf-8?B?bnV2NlRGeG4waVNRSzRaOEloTkkrSWhGdWNsb01TS3YyN2Rwd01pZHFYODBk?=
+ =?utf-8?Q?+qIUHaMreBKsxJoY2Z8pw+aQcsnDbcmfMeTVxqA?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fca1013-d671-4073-1d84-08d90fa1fb46
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 08:44:23.3491
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1TCgcZ2Q9YUXsFkN0K+YKcgvr+u6FrKBHyVTUqD8CXfSqmOJo7Z5YQ1s/pMmDdUU8f1DUF59xdaWYLJz9yN3mlu4jdv1+b71tEZ4hewbqzo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR01MB2381
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Erik,
-
-IMO putting linux-can@vger.kernel.org in CC would be sufficient in this 
-stage of discussion.
-
-On 04.05.21 22:35, Erik Flodin wrote:
-> Add a new flag to can_rx_register/unregister that, when set, requires
-> that the received sk_buff's owning socket matches the socket pointer
-> given when setting the filter. This makes it possible to set a filter
-> that matches all frames sent on a given socket and nothing else.
-
-This is a pretty simple requirement and you are touching almost every 
-CAN network layer file.
-
- From this description I would suggest a two-liner to be added in raw.c
-
-diff --git a/net/can/raw.c b/net/can/raw.c
-index 139d9471ddcf..8c6371a0c8a6 100644
---- a/net/can/raw.c
-+++ b/net/can/raw.c
-@@ -123,10 +123,14 @@ static void raw_rcv(struct sk_buff *oskb, void *data)
-
-         /* check the received tx sock reference */
-         if (!ro->recv_own_msgs && oskb->sk == sk)
-                 return;
-
-+       /* check the received tx sock reference */
-+       if (ro->recv_only_own_msgs && oskb->sk != sk)
-+               return;
-+
-         /* do not pass non-CAN2.0 frames to a legacy socket */
-         if (!ro->fd_frames && oskb->len != CAN_MTU)
-                 return;
-
-         /* eliminate multiple filter matches for the same skb */
-
-
-And then add CAN_RAW_RECV_ONLY_OWN_MSGS accordingly.
-
-Wouldn't that already match your requirements?
-
-Best regards,
-Oliver
-
-ps. please reduce the CC receipient list before answering, thanks.
-
+On 01/05/2021 03:19, Rob Herring wrote:
+> On Thu, Apr 22, 2021 at 04:08:40PM +0700, Quan Nguyen wrote:
+>> Adds device tree bindings for SMPro driver found on the Mt.Jade hardware
+>> reference platform with Ampere's Altra Processor family.
+>>
+>> The SMpro co-processor on Ampere Altra processor family is to monitor
+>> and report various data included hwmon-related info, RAS errors, and
+>> other miscellaneous information. This parent SMPro MFD driver creates
+>> a single simple register map to be shared by all sub-devices and leave
+>> all the specific to be handled by the child drivers.
 > 
-> Signed-off-by: Erik Flodin <erik@flodin.me>
-> ---
->   include/linux/can/core.h |  4 ++--
->   net/can/af_can.c         | 50 ++++++++++++++++++++++------------------
->   net/can/af_can.h         |  1 +
->   net/can/bcm.c            |  9 +++++---
->   net/can/gw.c             |  7 +++---
->   net/can/isotp.c          |  8 +++----
->   net/can/j1939/main.c     |  4 ++--
->   net/can/proc.c           | 11 +++++----
->   net/can/raw.c            | 10 ++++----
->   9 files changed, 58 insertions(+), 46 deletions(-)
+> Again, just because you have multiple functions aka MFD, that doesn't
+> mean you need child nodes for each function. The only thing you have
+> in DT is a register address. Does this vary? If so, how often? How many
+> different versions of a DT do you currently or expect to have?
 > 
-> diff --git a/include/linux/can/core.h b/include/linux/can/core.h
-> index 5fb8d0e3f9c1..7ee68128dc10 100644
-> --- a/include/linux/can/core.h
-> +++ b/include/linux/can/core.h
-> @@ -48,12 +48,12 @@ extern int  can_proto_register(const struct can_proto *cp);
->   extern void can_proto_unregister(const struct can_proto *cp);
->   
->   int can_rx_register(struct net *net, struct net_device *dev,
-> -		    canid_t can_id, canid_t mask,
-> +		    canid_t can_id, canid_t mask, bool match_sk,
->   		    void (*func)(struct sk_buff *, void *),
->   		    void *data, char *ident, struct sock *sk);
->   
->   extern void can_rx_unregister(struct net *net, struct net_device *dev,
-> -			      canid_t can_id, canid_t mask,
-> +			      canid_t can_id, canid_t mask, bool match_sk,
->   			      void (*func)(struct sk_buff *, void *),
->   			      void *data);
->   
-> diff --git a/net/can/af_can.c b/net/can/af_can.c
-> index cce2af10eb3e..7b639c121653 100644
-> --- a/net/can/af_can.c
-> +++ b/net/can/af_can.c
-> @@ -414,6 +414,7 @@ static struct hlist_head *can_rcv_list_find(canid_t *can_id, canid_t *mask,
->    * @dev: pointer to netdevice (NULL => subscribe from 'all' CAN devices list)
->    * @can_id: CAN identifier (see description)
->    * @mask: CAN mask (see description)
-> + * @match_sk: match socket pointer on received sk_buff (see description)
->    * @func: callback function on filter match
->    * @data: returned parameter for callback function
->    * @ident: string for calling module identification
-> @@ -428,6 +429,9 @@ static struct hlist_head *can_rcv_list_find(canid_t *can_id, canid_t *mask,
->    *  The filter can be inverted (CAN_INV_FILTER bit set in can_id) or it can
->    *  filter for error message frames (CAN_ERR_FLAG bit set in mask).
->    *
-> + *  If match_sk is true, the received sk_buff's owning socket must also match
-> + *  the given socket pointer.
-> + *
->    *  The provided pointer to the sk_buff is guaranteed to be valid as long as
->    *  the callback function is running. The callback function must *not* free
->    *  the given sk_buff while processing it's task. When the given sk_buff is
-> @@ -440,8 +444,9 @@ static struct hlist_head *can_rcv_list_find(canid_t *can_id, canid_t *mask,
->    *  -ENODEV unknown device
->    */
->   int can_rx_register(struct net *net, struct net_device *dev, canid_t can_id,
-> -		    canid_t mask, void (*func)(struct sk_buff *, void *),
-> -		    void *data, char *ident, struct sock *sk)
-> +		    canid_t mask, bool match_sk,
-> +		    void (*func)(struct sk_buff *, void *), void *data,
-> +		    char *ident, struct sock *sk)
->   {
->   	struct receiver *rcv;
->   	struct hlist_head *rcv_list;
-> @@ -468,6 +473,7 @@ int can_rx_register(struct net *net, struct net_device *dev, canid_t can_id,
->   
->   	rcv->can_id = can_id;
->   	rcv->mask = mask;
-> +	rcv->match_sk = match_sk;
->   	rcv->matches = 0;
->   	rcv->func = func;
->   	rcv->data = data;
-> @@ -503,6 +509,7 @@ static void can_rx_delete_receiver(struct rcu_head *rp)
->    * @dev: pointer to netdevice (NULL => unsubscribe from 'all' CAN devices list)
->    * @can_id: CAN identifier
->    * @mask: CAN mask
-> + * @match_sk: match socket pointer on received sk_buff
->    * @func: callback function on filter match
->    * @data: returned parameter for callback function
->    *
-> @@ -510,8 +517,8 @@ static void can_rx_delete_receiver(struct rcu_head *rp)
->    *  Removes subscription entry depending on given (subscription) values.
->    */
->   void can_rx_unregister(struct net *net, struct net_device *dev, canid_t can_id,
-> -		       canid_t mask, void (*func)(struct sk_buff *, void *),
-> -		       void *data)
-> +		       canid_t mask, bool match_sk,
-> +		       void (*func)(struct sk_buff *, void *), void *data)
->   {
->   	struct receiver *rcv = NULL;
->   	struct hlist_head *rcv_list;
-> @@ -535,7 +542,8 @@ void can_rx_unregister(struct net *net, struct net_device *dev, canid_t can_id,
->   	 */
->   	hlist_for_each_entry_rcu(rcv, rcv_list, list) {
->   		if (rcv->can_id == can_id && rcv->mask == mask &&
-> -		    rcv->func == func && rcv->data == data)
-> +		    rcv->match_sk == match_sk && rcv->func == func &&
-> +		    rcv->data == data)
->   			break;
->   	}
->   
-> @@ -546,8 +554,8 @@ void can_rx_unregister(struct net *net, struct net_device *dev, canid_t can_id,
->   	 * a warning here.
->   	 */
->   	if (!rcv) {
-> -		pr_warn("can: receive list entry not found for dev %s, id %03X, mask %03X\n",
-> -			DNAME(dev), can_id, mask);
-> +		pr_warn("can: receive list entry not found for dev %s, id %03X, mask %03X%s\n",
-> +			DNAME(dev), can_id, mask, match_sk ? " (match sk)" : "");
->   		goto out;
->   	}
->   
-> @@ -569,10 +577,14 @@ void can_rx_unregister(struct net *net, struct net_device *dev, canid_t can_id,
->   }
->   EXPORT_SYMBOL(can_rx_unregister);
->   
-> -static inline void deliver(struct sk_buff *skb, struct receiver *rcv)
-> +static inline int deliver(struct sk_buff *skb, struct receiver *rcv)
->   {
-> -	rcv->func(skb, rcv->data);
-> -	rcv->matches++;
-> +	if (!rcv->match_sk || skb->sk == rcv->sk) {
-> +		rcv->func(skb, rcv->data);
-> +		rcv->matches++;
-> +		return 1;
-> +	}
-> +	return 0;
->   }
->   
->   static int can_rcv_filter(struct can_dev_rcv_lists *dev_rcv_lists, struct sk_buff *skb)
-> @@ -589,8 +601,7 @@ static int can_rcv_filter(struct can_dev_rcv_lists *dev_rcv_lists, struct sk_buf
->   		/* check for error message frame entries only */
->   		hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx[RX_ERR], list) {
->   			if (can_id & rcv->mask) {
-> -				deliver(skb, rcv);
-> -				matches++;
-> +				matches += deliver(skb, rcv);
->   			}
->   		}
->   		return matches;
-> @@ -598,23 +609,20 @@ static int can_rcv_filter(struct can_dev_rcv_lists *dev_rcv_lists, struct sk_buf
->   
->   	/* check for unfiltered entries */
->   	hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx[RX_ALL], list) {
-> -		deliver(skb, rcv);
-> -		matches++;
-> +		matches += deliver(skb, rcv);
->   	}
->   
->   	/* check for can_id/mask entries */
->   	hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx[RX_FIL], list) {
->   		if ((can_id & rcv->mask) == rcv->can_id) {
-> -			deliver(skb, rcv);
-> -			matches++;
-> +			matches += deliver(skb, rcv);
->   		}
->   	}
->   
->   	/* check for inverted can_id/mask entries */
->   	hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx[RX_INV], list) {
->   		if ((can_id & rcv->mask) != rcv->can_id) {
-> -			deliver(skb, rcv);
-> -			matches++;
-> +			matches += deliver(skb, rcv);
->   		}
->   	}
->   
-> @@ -625,15 +633,13 @@ static int can_rcv_filter(struct can_dev_rcv_lists *dev_rcv_lists, struct sk_buf
->   	if (can_id & CAN_EFF_FLAG) {
->   		hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx_eff[effhash(can_id)], list) {
->   			if (rcv->can_id == can_id) {
-> -				deliver(skb, rcv);
-> -				matches++;
-> +				matches += deliver(skb, rcv);
->   			}
->   		}
->   	} else {
->   		can_id &= CAN_SFF_MASK;
->   		hlist_for_each_entry_rcu(rcv, &dev_rcv_lists->rx_sff[can_id], list) {
-> -			deliver(skb, rcv);
-> -			matches++;
-> +			matches += deliver(skb, rcv);
->   		}
->   	}
->   
-> diff --git a/net/can/af_can.h b/net/can/af_can.h
-> index 7c2d9161e224..ea98b10d93e7 100644
-> --- a/net/can/af_can.h
-> +++ b/net/can/af_can.h
-> @@ -52,6 +52,7 @@ struct receiver {
->   	struct hlist_node list;
->   	canid_t can_id;
->   	canid_t mask;
-> +	bool match_sk;
->   	unsigned long matches;
->   	void (*func)(struct sk_buff *skb, void *data);
->   	void *data;
-> diff --git a/net/can/bcm.c b/net/can/bcm.c
-> index 909b9e684e04..d89dd82c2178 100644
-> --- a/net/can/bcm.c
-> +++ b/net/can/bcm.c
-> @@ -729,7 +729,8 @@ static void bcm_rx_unreg(struct net_device *dev, struct bcm_op *op)
->   {
->   	if (op->rx_reg_dev == dev) {
->   		can_rx_unregister(dev_net(dev), dev, op->can_id,
-> -				  REGMASK(op->can_id), bcm_rx_handler, op);
-> +				  REGMASK(op->can_id), false, bcm_rx_handler,
-> +				  op);
->   
->   		/* mark as removed subscription */
->   		op->rx_reg_dev = NULL;
-> @@ -775,6 +776,7 @@ static int bcm_delete_rx_op(struct list_head *ops, struct bcm_msg_head *mh,
->   				can_rx_unregister(sock_net(op->sk), NULL,
->   						  op->can_id,
->   						  REGMASK(op->can_id),
-> +						  false,
->   						  bcm_rx_handler, op);
->   
->   			list_del(&op->list);
-> @@ -1193,6 +1195,7 @@ static int bcm_rx_setup(struct bcm_msg_head *msg_head, struct msghdr *msg,
->   				err = can_rx_register(sock_net(sk), dev,
->   						      op->can_id,
->   						      REGMASK(op->can_id),
-> +						      false,
->   						      bcm_rx_handler, op,
->   						      "bcm", sk);
->   
-> @@ -1202,7 +1205,7 @@ static int bcm_rx_setup(struct bcm_msg_head *msg_head, struct msghdr *msg,
->   
->   		} else
->   			err = can_rx_register(sock_net(sk), NULL, op->can_id,
-> -					      REGMASK(op->can_id),
-> +					      REGMASK(op->can_id), false,
->   					      bcm_rx_handler, op, "bcm", sk);
->   		if (err) {
->   			/* this bcm rx op is broken -> remove it */
-> @@ -1500,7 +1503,7 @@ static int bcm_release(struct socket *sock)
->   			}
->   		} else
->   			can_rx_unregister(net, NULL, op->can_id,
-> -					  REGMASK(op->can_id),
-> +					  REGMASK(op->can_id), false,
->   					  bcm_rx_handler, op);
->   
->   		bcm_remove_op(op);
-> diff --git a/net/can/gw.c b/net/can/gw.c
-> index ba4124805602..5dbc7b85e0fc 100644
-> --- a/net/can/gw.c
-> +++ b/net/can/gw.c
-> @@ -567,14 +567,15 @@ static void can_can_gw_rcv(struct sk_buff *skb, void *data)
->   static inline int cgw_register_filter(struct net *net, struct cgw_job *gwj)
->   {
->   	return can_rx_register(net, gwj->src.dev, gwj->ccgw.filter.can_id,
-> -			       gwj->ccgw.filter.can_mask, can_can_gw_rcv,
-> -			       gwj, "gw", NULL);
-> +			       gwj->ccgw.filter.can_mask, false,
-> +			       can_can_gw_rcv, gwj, "gw", NULL);
->   }
->   
->   static inline void cgw_unregister_filter(struct net *net, struct cgw_job *gwj)
->   {
->   	can_rx_unregister(net, gwj->src.dev, gwj->ccgw.filter.can_id,
-> -			  gwj->ccgw.filter.can_mask, can_can_gw_rcv, gwj);
-> +			  gwj->ccgw.filter.can_mask, false, can_can_gw_rcv,
-> +			  gwj);
->   }
->   
->   static int cgw_notifier(struct notifier_block *nb,
-> diff --git a/net/can/isotp.c b/net/can/isotp.c
-> index 9f94ad3caee9..44d943bbe0b1 100644
-> --- a/net/can/isotp.c
-> +++ b/net/can/isotp.c
-> @@ -1029,7 +1029,7 @@ static int isotp_release(struct socket *sock)
->   			if (dev) {
->   				can_rx_unregister(net, dev, so->rxid,
->   						  SINGLE_MASK(so->rxid),
-> -						  isotp_rcv, sk);
-> +						  false, isotp_rcv, sk);
->   				dev_put(dev);
->   			}
->   		}
-> @@ -1111,7 +1111,7 @@ static int isotp_bind(struct socket *sock, struct sockaddr *uaddr, int len)
->   	if (do_rx_reg)
->   		can_rx_register(net, dev, addr->can_addr.tp.rx_id,
->   				SINGLE_MASK(addr->can_addr.tp.rx_id),
-> -				isotp_rcv, sk, "isotp", sk);
-> +				false, isotp_rcv, sk, "isotp", sk);
->   
->   	dev_put(dev);
->   
-> @@ -1122,7 +1122,7 @@ static int isotp_bind(struct socket *sock, struct sockaddr *uaddr, int len)
->   			if (dev) {
->   				can_rx_unregister(net, dev, so->rxid,
->   						  SINGLE_MASK(so->rxid),
-> -						  isotp_rcv, sk);
-> +						  false, isotp_rcv, sk);
->   				dev_put(dev);
->   			}
->   		}
-> @@ -1323,7 +1323,7 @@ static int isotp_notifier(struct notifier_block *nb, unsigned long msg,
->   		if (so->bound && (!(so->opt.flags & CAN_ISOTP_SF_BROADCAST)))
->   			can_rx_unregister(dev_net(dev), dev, so->rxid,
->   					  SINGLE_MASK(so->rxid),
-> -					  isotp_rcv, sk);
-> +					  false, isotp_rcv, sk);
->   
->   		so->ifindex = 0;
->   		so->bound  = 0;
-> diff --git a/net/can/j1939/main.c b/net/can/j1939/main.c
-> index da3a7a7bcff2..466a20c76fb6 100644
-> --- a/net/can/j1939/main.c
-> +++ b/net/can/j1939/main.c
-> @@ -177,7 +177,7 @@ static int j1939_can_rx_register(struct j1939_priv *priv)
->   
->   	j1939_priv_get(priv);
->   	ret = can_rx_register(dev_net(ndev), ndev, J1939_CAN_ID, J1939_CAN_MASK,
-> -			      j1939_can_recv, priv, "j1939", NULL);
-> +			      false, j1939_can_recv, priv, "j1939", NULL);
->   	if (ret < 0) {
->   		j1939_priv_put(priv);
->   		return ret;
-> @@ -191,7 +191,7 @@ static void j1939_can_rx_unregister(struct j1939_priv *priv)
->   	struct net_device *ndev = priv->ndev;
->   
->   	can_rx_unregister(dev_net(ndev), ndev, J1939_CAN_ID, J1939_CAN_MASK,
-> -			  j1939_can_recv, priv);
-> +			  false, j1939_can_recv, priv);
->   
->   	j1939_priv_put(priv);
->   }
-> diff --git a/net/can/proc.c b/net/can/proc.c
-> index d1fe49e6f16d..d312077832a6 100644
-> --- a/net/can/proc.c
-> +++ b/net/can/proc.c
-> @@ -191,11 +191,12 @@ static void can_print_rcvlist(struct seq_file *m, struct hlist_head *rx_list,
->   
->   	hlist_for_each_entry_rcu(r, rx_list, list) {
->   		char *fmt = (r->can_id & CAN_EFF_FLAG)?
-> -			"   %-5s  %08x  %08x  %pK  %pK  %8ld  %s\n" :
-> -			"   %-5s     %03x    %08x  %pK  %pK  %8ld  %s\n";
-> +			"   %-5s  %08x  %08x   %c   %pK  %pK  %8ld  %s\n" :
-> +			"   %-5s     %03x    %08x   %c   %pK  %pK  %8ld  %s\n";
->   
->   		seq_printf(m, fmt, DNAME(dev), r->can_id, r->mask,
-> -				r->func, r->data, r->matches, r->ident);
-> +				r->match_sk ? '*' : ' ', r->func, r->data,
-> +				r->matches, r->ident);
->   	}
->   }
->   
-> @@ -206,9 +207,9 @@ static void can_print_recv_banner(struct seq_file *m)
->   	 *                 .......          0  tp20
->   	 */
->   	if (IS_ENABLED(CONFIG_64BIT))
-> -		seq_puts(m, "  device   can_id   can_mask      function          userdata       matches  ident\n");
-> +		seq_puts(m, "  device   can_id   can_mask  own      function          userdata       matches  ident\n");
->   	else
-> -		seq_puts(m, "  device   can_id   can_mask  function  userdata   matches  ident\n");
-> +		seq_puts(m, "  device   can_id   can_mask  own  function  userdata   matches  ident\n");
->   }
->   
->   static int can_stats_proc_show(struct seq_file *m, void *v)
-> diff --git a/net/can/raw.c b/net/can/raw.c
-> index 139d9471ddcf..acfbae28d451 100644
-> --- a/net/can/raw.c
-> +++ b/net/can/raw.c
-> @@ -187,13 +187,13 @@ static int raw_enable_filters(struct net *net, struct net_device *dev,
->   
->   	for (i = 0; i < count; i++) {
->   		err = can_rx_register(net, dev, filter[i].can_id,
-> -				      filter[i].can_mask,
-> +				      filter[i].can_mask, false,
->   				      raw_rcv, sk, "raw", sk);
->   		if (err) {
->   			/* clean up successfully registered filters */
->   			while (--i >= 0)
->   				can_rx_unregister(net, dev, filter[i].can_id,
-> -						  filter[i].can_mask,
-> +						  filter[i].can_mask, false,
->   						  raw_rcv, sk);
->   			break;
->   		}
-> @@ -209,7 +209,7 @@ static int raw_enable_errfilter(struct net *net, struct net_device *dev,
->   
->   	if (err_mask)
->   		err = can_rx_register(net, dev, 0, err_mask | CAN_ERR_FLAG,
-> -				      raw_rcv, sk, "raw", sk);
-> +				      false, raw_rcv, sk, "raw", sk);
->   
->   	return err;
->   }
-> @@ -222,7 +222,7 @@ static void raw_disable_filters(struct net *net, struct net_device *dev,
->   
->   	for (i = 0; i < count; i++)
->   		can_rx_unregister(net, dev, filter[i].can_id,
-> -				  filter[i].can_mask, raw_rcv, sk);
-> +				  filter[i].can_mask, false, raw_rcv, sk);
->   }
->   
->   static inline void raw_disable_errfilter(struct net *net,
-> @@ -233,7 +233,7 @@ static inline void raw_disable_errfilter(struct net *net,
->   {
->   	if (err_mask)
->   		can_rx_unregister(net, dev, 0, err_mask | CAN_ERR_FLAG,
-> -				  raw_rcv, sk);
-> +				  false, raw_rcv, sk);
->   }
->   
->   static inline void raw_disable_allfilters(struct net *net,
-> 
+Hi Rob,
+
+Thank you for your review.
+I will try to explain what I think below and expect to receive more 
+comments to improve these patches. And if any misundertood, please help 
+correct me.
+
+The idea is to keep the SMPro MFD as a simple generic register map and 
+expect not to change or to handle any specific in this parent device 
+driver. This is why we see the simple_mfd_i2c fit in this case.
+
+And so, all the specific details will be handled in child devices driver 
+and we expect to have child nodes for these child devices. If the child 
+node exist we can then add any specific if necessary later.
+
+One case is that, each socket (ie: the Ampere Altra processor) has it 
+own SMPro co-processor instance in form of register map and each socket 
+could be either slave or master. Some function may not available in 
+slave socket but exist in master socket and we simply choose not to 
+define the child node if that function not existed.
+
+The other case is that if there are multi instances of the same function 
+in one SMPro MFD register map, then each instance might need to be 
+differentiated by using is own register address or maybe a DT property. 
+Then we can simply add them to the node of these instance.
+
+For your specific questions:
+
++ Does this vary ?
+yes, I think so. The register address in each child nodes may vary if 
+the SMPro co-processor firmware change its register map layout or maybe 
+other instances of a function added. Child device drivers are expected 
+to handle these changes if necessary.
+
++ About how often ?
+I actually can't say how often but the purpose of this SMPro register 
+map is to provide the info to the BMC. The BMC will need more info from 
+the host so I think changes will be unavoidable.
+
+Please help with your comments
+Thank you,
+- Quan
+
+>>
+>> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+>> ---
+>> Changes in v4:
+>>    + Revised the commit message to clarify how the specific info will
+>>      be handled commented by Rob.
+>>
+>> Changes in v3:
+>>    + Supported list of compatible string [Rob]
+>>    + Introduced reg property in DT to specify reg offset [Rob]
+>>    + Updated description and other minor changes in yaml file [Rob]
+>>
+>> Changes in v2:
+>>    + Changed "ampere,ac01-smpro" to "ampere,smpro" [Quan]
+>>
+>>   .../bindings/hwmon/ampere,ac01-hwmon.yaml     |  28 +++++
+>>   .../devicetree/bindings/mfd/ampere,smpro.yaml | 105 ++++++++++++++++++
+>>   2 files changed, 133 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+>>   create mode 100644 Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+>> new file mode 100644
+>> index 000000000000..fbf7ec754160
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+>> @@ -0,0 +1,28 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/hwmon/ampere,ac01-hwmon.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Hardware monitoring driver for the Ampere Altra SMPro
+>> +
+>> +maintainers:
+>> +  - Quan Nguyen <quan@os.amperecomputing.com>
+>> +
+>> +description: |
+>> +  This module is part of the Ampere Altra SMPro multi-function device. For more
+>> +  details see ../mfd/ampere,smpro.yaml.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - ampere,ac01-hwmon
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> diff --git a/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml b/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+>> new file mode 100644
+>> index 000000000000..5613c420869e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+>> @@ -0,0 +1,105 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/mfd/ampere,smpro.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Ampere Altra SMPro firmware driver
+>> +
+>> +maintainers:
+>> +  - Quan Nguyen <quan@os.amperecomputing.com>
+>> +
+>> +description: |
+>> +  Ampere Altra SMPro firmware may contain different blocks like hardware
+>> +  monitoring, error monitoring and other miscellaneous features.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - ampere,smpro
+>> +
+>> +  reg:
+>> +    description:
+>> +      I2C device address.
+>> +    maxItems: 1
+>> +
+>> +  "#address-cells":
+>> +    const: 1
+>> +
+>> +  "#size-cells":
+>> +    const: 0
+>> +
+>> +patternProperties:
+>> +  "^hwmon(@[0-9a-f]+)?$":
+>> +    $ref: ../hwmon/ampere,ac01-hwmon.yaml
+>> +
+>> +  "^misc(@[0-9a-f]+)?$":
+>> +    type: object
+>> +    description: |
+>> +      This module is part of the Ampere Altra SMPro multi-function device
+>> +      to support miscellaneous features
+>> +    properties:
+>> +      compatible:
+>> +        enum:
+>> +          - ampere,ac01-misc
+>> +      reg:
+>> +        maxItems: 1
+>> +
+>> +    required:
+>> +      - compatible
+>> +      - reg
+>> +
+>> +  "^errmon(@[0-9a-f]+)?$":
+>> +    type: object
+>> +    description: |
+>> +      This module is part of the Ampere Altra SMPro multi-function device
+>> +      that supports error monitoring feature.
+>> +
+>> +    properties:
+>> +      compatible:
+>> +        enum:
+>> +          - ampere,ac01-errmon
+>> +      reg:
+>> +        maxItems: 1
+>> +
+>> +    required:
+>> +      - compatible
+>> +      - reg
+>> +
+>> +required:
+>> +  - "#address-cells"
+>> +  - "#size-cells"
+>> +  - compatible
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    i2c {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        smpro@4f {
+>> +            compatible = "ampere,smpro";
+>> +            reg = <0x4f>;
+>> +            #address-cells = <1>;
+>> +            #size-cells = <0>;
+>> +
+>> +            hwmon@10 {
+>> +                compatible = "ampere,ac01-hwmon";
+>> +                reg = <0x10>;
+>> +            };
+>> +
+>> +            misc@b0 {
+>> +                compatible = "ampere,ac01-misc";
+>> +                reg = <0xb0>;
+>> +            };
+>> +
+>> +            errmon@80 {
+>> +                compatible = "ampere,ac01-errmon";
+>> +                reg = <0x80>;
+>> +            };
+>> +
+>> +        };
+>> +    };
+>> -- 
+>> 2.28.0
+>>
+
