@@ -2,154 +2,263 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1476DC43460
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 045FCC433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:51:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2D2A6139A
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:10:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE52D613BF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 12:51:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233761AbhEEMLZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 08:11:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34066 "EHLO
+        id S230217AbhEEMwO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 08:52:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233650AbhEEMKJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 08:10:09 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 029D4C06137C
-        for <linux-doc@vger.kernel.org>; Wed,  5 May 2021 05:08:11 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id b3so972609plg.11
-        for <linux-doc@vger.kernel.org>; Wed, 05 May 2021 05:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=E/l5PYpsuyoULbb5Y0KN2TZxQ7IWOqPBaysmrn6lojw=;
-        b=TRx29EBQOGEDroSFz0NTKkFaosOyiENiZ7R8tLhWwuVcbbDZi1ZgB5keqMy2cNHLzU
-         9f5gk9pmqWigYBTo7YiS8/d5b3CoEpBQDRqPTdPnRUgOevlBBrzWf7UN8l0oBbYLvhha
-         2RUopSckTc4fdN3Jk1DKQRv2xOZtEEO/nlzs4V3+uHjYNSw2F+hXjnCGNVf45rabzUZK
-         w6Lg5rzKjMLoo6HMhSaQy5KwPoIr1YVBoSIsPWw/rsAE14xt48DNcIoivSPO/KIgujzH
-         xV/Q96DMyiGMBrM3bVp5zOojwzjTIDBzesu5zviiAlFPPNXvhoG/I9Nd0gMcFRq4urR3
-         4vwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=E/l5PYpsuyoULbb5Y0KN2TZxQ7IWOqPBaysmrn6lojw=;
-        b=jeFr9lcSWDWKC5MV2I9OKh9M18mDrAcsgw3Zmk6mLg/moPByoiGEzBhWiCWnqL0/ea
-         vy3+D4MFcAzeggsM+fyOUcKs4A+oR2G0T2o4OjndsHylFf47JAfobAWuywHDhSLy5plj
-         cBXRGUpI994yGPFCzjuDJBrprqDLF6QbUqYuGwEik8+gmc3Q/kDQHpltMSWAiLjghDdu
-         HuGWc9H+tbwxDIlLGEc7jhB2DZyov8HQ8frz/EL/pPlc/KI+2rd4N1zkFGeWKVwWno61
-         0cABAti7MSQirPQ51uiRzG+HxqtUh4Mc3Eq8gkMWuqCRP0G/wLO6sITMkXTbXLM9AJyC
-         VAsQ==
-X-Gm-Message-State: AOAM530dnGV3YT8d/9OIrJnO9lz1zcQsKeOUCMN9LafL2Qx+SLkSmenf
-        xSXg2Ni2B9Jm45afnQbQJP4=
-X-Google-Smtp-Source: ABdhPJzXdkqYbo3UMRUtjVmZWqc38LQ86MyQTk7CcS7wn0BVnh/KZxxQV5qKtEcVwFJen5cwuWoOJw==
-X-Received: by 2002:a17:90a:dc0a:: with SMTP id i10mr33230947pjv.172.1620216490526;
-        Wed, 05 May 2021 05:08:10 -0700 (PDT)
-Received: from WRT-WX9.. ([141.164.41.4])
-        by smtp.gmail.com with ESMTPSA id j7sm14177959pfc.164.2021.05.05.05.08.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 05:08:10 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Eric Van Hensbergen <ericvh@gmail.com>,
+        with ESMTP id S230199AbhEEMwO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 08:52:14 -0400
+Received: from nautica.notk.org (ipv6.notk.org [IPv6:2001:41d0:1:7a93::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D476C061574;
+        Wed,  5 May 2021 05:51:17 -0700 (PDT)
+Received: by nautica.notk.org (Postfix, from userid 108)
+        id 12BE9C01B; Wed,  5 May 2021 14:51:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+        t=1620219074; bh=K79smNROaNkMtfX4gl9qYK3itoGKn5ZoulACwxkOabs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=arieQ/wOQ0trz8U5kduJkZvAZ+mX+IT4Zoz1iWfrgf9fZf0O4LfYPsIZD8TV2joVD
+         J8NW8AdPSQ5rJBaCZzupSDIsdij2Vw0So8YOCmXVoRzo4nblFcP2ax/Nj4yccRrva/
+         SeJKCd/cYY9yiPp3Fr9uWt9e3UJlvdtsISywrkPW3hEK99hvam55UBaUb9d5yklODp
+         OL79uRGpdTPr2GM8qj5QeXT6ZRY7uImISjRGVg5AXGT672dC280W1NVHRkDEoCbIVk
+         pYcnU8Wkzff7qiL9tW+HkFxt376o7nIB1fcyDV8zpUqlk2Jx6Y/bE0qesDFW2jA3A/
+         6CSq8PMEucQIg==
+Received: from odin.codewreck.org (localhost [127.0.0.1])
+        by nautica.notk.org (Postfix) with ESMTPS id 059F2C009;
+        Wed,  5 May 2021 14:51:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+        t=1620219072; bh=K79smNROaNkMtfX4gl9qYK3itoGKn5ZoulACwxkOabs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JFBA5Obp2i8ITADn4tLJqSpRknJtKs7j2ozle7umi59vFtGyHb6L8sp9511jVZbhk
+         gLbY729gplOQ4m7QAGGYJiCBK1oSmz+arSsU3Y3x4DGxmqDoEVOYuZ56zEfA5ECgFq
+         nDA0MKwTV+YAjp122kGP013KkXYZrGaA+UglmDHClPs/FRcGXIcTL1wz5BqUvg2xYn
+         xTrxx3gmSVJ8XixkACkNPtnWGgOmRFI6C/scgLZTgbXYjPA2/gCq2ZwwHasT/MvYQf
+         L7D7o4p3usHJGcDBuRV2UyjaZM1qKFFFpVMRsKJ2kbZzCuR/SqMNY/hwplaQd2Gxbc
+         5TCsW5eaiF5pA==
+Received: from localhost (odin.codewreck.org [local])
+        by odin.codewreck.org (OpenSMTPD) with ESMTPA id 3f5dc009;
+        Wed, 5 May 2021 12:51:05 +0000 (UTC)
+Date:   Wed, 5 May 2021 21:50:50 +0900
+From:   Dominique Martinet <asmadeus@codewreck.org>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     Eric Van Hensbergen <ericvh@gmail.com>,
         Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 3/3] 9p: doc: add v9fsroot description
-Date:   Wed,  5 May 2021 20:07:48 +0800
-Message-Id: <20210505120748.8622-4-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210505120748.8622-1-changbin.du@gmail.com>
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        v9fs-developer@lists.sourceforge.net, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/3] 9p: add support for root file systems
+Message-ID: <YJKUqj5hY3q+qOia@codewreck.org>
 References: <20210505120748.8622-1-changbin.du@gmail.com>
+ <20210505120748.8622-2-changbin.du@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210505120748.8622-2-changbin.du@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This documentation is modified from cifs/cifsroot.rst.
+Why has this only been sent to direct maintainers and linux-doc@vger ?
+Please resend to at least v9fs-developer@sf, linux-fs@vger and whoever
+get_maintainer.pl deems appropriate for init/do_mounts.c changes
+(added the two lists to this mail)
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
----
- Documentation/filesystems/v9fs/index.rst    |  1 +
- Documentation/filesystems/v9fs/v9fsroot.rst | 52 +++++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 Documentation/filesystems/v9fs/v9fsroot.rst
 
-diff --git a/Documentation/filesystems/v9fs/index.rst b/Documentation/filesystems/v9fs/index.rst
-index a1e45b89e2a2..65e1ceb04c9c 100644
---- a/Documentation/filesystems/v9fs/index.rst
-+++ b/Documentation/filesystems/v9fs/index.rst
-@@ -9,3 +9,4 @@ v9fs
-    :numbered:
- 
-    9p
-+   v9fsroot
-diff --git a/Documentation/filesystems/v9fs/v9fsroot.rst b/Documentation/filesystems/v9fs/v9fsroot.rst
-new file mode 100644
-index 000000000000..ce6b3c85e301
---- /dev/null
-+++ b/Documentation/filesystems/v9fs/v9fsroot.rst
-@@ -0,0 +1,52 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================================
-+Mounting root file system via v9fs (9p.ko)
-+==========================================
-+
-+:Author: Changbin Du <changbin.du@gmail.com>
-+
-+The CONFIG_9P_FS_ROOT option enables experimental root file system
-+support for v9fs.
-+
-+It introduces a new kernel command-line option called 'v9fsroot='
-+which will tell the kernel to mount the root file system by
-+utilizing the 9p protocol.
-+
-+
-+Kernel command line
-+===================
-+
-+::
-+
-+    root=/dev/v9fs
-+
-+This is just a virtual device that basically tells the kernel to mount
-+the root file system via 9p protocol.
-+
-+::
-+
-+    v9fsroot=<path>[,options]
-+
-+Enables the kernel to mount the root file system via 9p specified in this
-+option.
-+
-+path
-+	Could be a remote file server, Plan 9 From User Space applications
-+	or mount tag of virtio transport.
-+
-+options
-+	Optional mount options.
-+
-+Examples
-+========
-+Test it under QEMU on a kernel built with CONFIG_9P_FS_ROOT and
-+CONFIG_IP_PNP options enabled::
-+
-+    # qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
-+    -virtfs local,path=$rootfs_dir,mount_tag=r,security_model=passthrough,id=r \
-+    -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
-+    -append "root=/dev/v9fs v9fsroot=r,trans=virtio rw console=ttyS0 3"
-+
-+The above example mounts v9fs with tag 'r' as rootfs in qemu guest via
-+virtio transport.
+As a whole for the series: I'm personally not sure I'd encourage this,
+it can currently be done with an initrd if someone cares enough and if
+we're going to add all remote filesystems that way there's going to be
+no end to it.
+
+That being said, I'm not 100% opposed to it if there is demand; but I'll
+expect you to help with whatever bug reports people come up with using
+this option.
+
+
+Changbin Du wrote on Wed, May 05, 2021 at 08:07:46PM +0800:
+> diff --git a/fs/9p/v9fsroot.c b/fs/9p/v9fsroot.c
+> new file mode 100644
+> index 000000000000..7dd91cc3814f
+> --- /dev/null
+> +++ b/fs/9p/v9fsroot.c
+> @@ -0,0 +1,64 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * SMB root file system support
+
+copy-paste error from fs/cifs/cifsroot.c
+
+> + *
+> + * Copyright (c) 2021 Changbin Du <changbin.du@gmail.com>
+> + */
+> +#include <linux/init.h>
+> +#include <linux/fs.h>
+> +#include <linux/types.h>
+> +#include <linux/ctype.h>
+> +#include <linux/string.h>
+> +#include <linux/root_dev.h>
+> +#include <linux/kernel.h>
+> +
+> +static char root_dev[2048] __initdata = "";
+> +static char root_opts[1024] __initdata = "";
+> +
+> +/* v9fsroot=<path>[,options] */
+> +static int __init v9fs_root_setup(char *line)
+> +{
+> +	char *s;
+> +	int len;
+> +
+> +	ROOT_DEV = Root_V9FS;
+> +
+> +	if (strlen(line) >= 1) {
+> +		/* make s point to ',' or '\0' at end of line */
+> +		s = strchrnul(line, ',');
+> +		/* len is strlen(unc) + '\0' */
+> +		len = s - line + 1;
+> +		if (len > sizeof(root_dev)) {
+> +			printk(KERN_ERR "Root-V9FS: path too long\n");
+
+9p has its own p9_debug helper; it's a bit awkward because even
+P9_DEBUG_ERROR right now is not displayed by default so I'm not against
+pr_err or pr_warn for important messages (I'd like to replace all such
+messages by either at some point), but at least stick to pr_xyz(...)
+rather than printk(KERN_XYZ...)
+
+> +			return 1;
+> +		}
+> +		strlcpy(root_dev, line, len);
+> +		if (*s) {
+> +			int n = snprintf(root_opts,
+> +					 sizeof(root_opts), "%s,%s",
+> +					 DEFAULT_MNT_OPTS, s + 1);
+
+Did you actually run with this? DEFAULT_MNT_OPTS is not defined here.
+
+> +			if (n >= sizeof(root_opts)) {
+> +				printk(KERN_ERR "Root-V9FS: mount options string too long\n");
+> +				root_opts[sizeof(root_opts)-1] = '\0';
+> +				return 1;
+> +			}
+> +		}
+> +	}
+> +
+> +	return 1;
+
+I'm also surprised this only ever returns 1, the cifs codes does the
+same but I'd be surprised the mount can work without a tag so there
+certainly should be some difference between working and not working?
+
+I'd also expect ROOT_DEV to only be set on success, this doesn't make
+sense to trigger 9p mounting mechanisms with something that can't be
+mounted, leading to a long timeout (5+10+15+30*2 seconds) before a hard
+error when the hard error can be given right away.
+
+> +}
+> +
+> +__setup("v9fsroot=", v9fs_root_setup);
+> +
+> +int __init v9fs_root_data(char **dev, char **opts)
+> +{
+> +	if (!root_dev[0]) {
+> +		printk(KERN_ERR "Root-V9FS: no rootdev specified\n");
+> +		return -1;
+> +	}
+> +
+> +	*dev = root_dev;
+> +	*opts = root_opts;
+> +
+> +	return 0;
+> +}
+> diff --git a/include/linux/root_dev.h b/include/linux/root_dev.h
+> index 4e78651371ba..becd0ee2ff87 100644
+> --- a/include/linux/root_dev.h
+> +++ b/include/linux/root_dev.h
+> @@ -9,6 +9,7 @@
+>  enum {
+>  	Root_NFS = MKDEV(UNNAMED_MAJOR, 255),
+>  	Root_CIFS = MKDEV(UNNAMED_MAJOR, 254),
+> +	Root_V9FS = MKDEV(UNNAMED_MAJOR, 253),
+>  	Root_RAM0 = MKDEV(RAMDISK_MAJOR, 0),
+>  	Root_RAM1 = MKDEV(RAMDISK_MAJOR, 1),
+>  	Root_FD0 = MKDEV(FLOPPY_MAJOR, 0),
+> diff --git a/init/do_mounts.c b/init/do_mounts.c
+> index a78e44ee6adb..60af89983a6b 100644
+> --- a/init/do_mounts.c
+> +++ b/init/do_mounts.c
+> @@ -287,6 +287,8 @@ dev_t name_to_dev_t(const char *name)
+>  		return Root_NFS;
+>  	if (strcmp(name, "/dev/cifs") == 0)
+>  		return Root_CIFS;
+> +	if (strcmp(name, "/dev/v9fs") == 0)
+> +		return Root_V9FS;
+>  	if (strcmp(name, "/dev/ram") == 0)
+>  		return Root_RAM0;
+>  #ifdef CONFIG_BLOCK
+> @@ -536,6 +538,43 @@ static int __init mount_cifs_root(void)
+>  }
+>  #endif
+>  
+> +#ifdef CONFIG_9P_FS_ROOT
+> +
+> +extern int v9fs_root_data(char **dev, char **opts);
+> +
+> +#define V9FSROOT_TIMEOUT_MIN	5
+> +#define V9FSROOT_TIMEOUT_MAX	30
+> +#define V9FSROOT_RETRY_MAX	5
+> +
+> +static int __init mount_v9fs_root(void)
+> +{
+> +	char *root_dev, *root_data;
+> +	unsigned int timeout;
+> +	int try, err;
+> +
+> +	err = v9fs_root_data(&root_dev, &root_data);
+> +	if (err != 0)
+> +		return 0;
+> +
+> +	timeout = V9FSROOT_TIMEOUT_MIN;
+> +	for (try = 1; ; try++) {
+> +		err = do_mount_root(root_dev, "9p",
+> +				    root_mountflags, root_data);
+> +		if (err == 0)
+> +			return 1;
+> +		if (try > V9FSROOT_RETRY_MAX)
+> +			break;
+> +
+> +		/* Wait, in case the server refused us immediately */
+> +		ssleep(timeout);
+> +		timeout <<= 1;
+> +		if (timeout > V9FSROOT_TIMEOUT_MAX)
+> +			timeout = V9FSROOT_TIMEOUT_MAX;
+> +	}
+> +	return 0;
+> +}
+> +#endif
+> +
+>  void __init mount_root(void)
+>  {
+>  #ifdef CONFIG_ROOT_NFS
+> @@ -552,6 +591,13 @@ void __init mount_root(void)
+>  		return;
+>  	}
+>  #endif
+> +#ifdef CONFIG_9P_FS_ROOT
+> +	if (ROOT_DEV == Root_V9FS) {
+> +		if (!mount_v9fs_root())
+> +			printk(KERN_ERR "VFS: Unable to mount root fs via 9p.\n");
+> +		return;
+> +	}
+> +#endif
+>  #ifdef CONFIG_BLOCK
+>  	{
+>  		int err = create_dev("/dev/root", ROOT_DEV);
 -- 
-2.30.2
-
+Dominique
