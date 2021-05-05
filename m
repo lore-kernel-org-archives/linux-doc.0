@@ -2,190 +2,200 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_NONE,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EAAEC43616
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 16:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2179FC433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 18:17:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34D1961155
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 16:57:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF2D961176
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 18:17:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236318AbhEEQ6D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 12:58:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43526 "EHLO mail.kernel.org"
+        id S233794AbhEESSq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 14:18:46 -0400
+Received: from foss.arm.com ([217.140.110.172]:49952 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236899AbhEEQzG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 May 2021 12:55:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E29F6197E;
-        Wed,  5 May 2021 16:38:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620232724;
-        bh=30ZBEloJOhrpOrUwYTmgHnw1w2jYLGePpX2CMegRb5M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bkr/OvCnlWrkwBpq43ELbUugw97o+jaynWVZ8Udh5J7VarjwcgMuaE/12nXiCkGm2
-         U4rkzJwSG+T76SEcZzp6qUb4F0cuC1R4q8CbEr+z/z45aUUowxNhxabBtdI59TeCVV
-         yGW+AZ7Gru44qLAalj8AoadBPnOK2/H5vCDkt/bVxvuUL7e7L5Gw7ARTWwt1F6dCXk
-         tYZIIwZX+g02jOG1fqUZuvFXQJYxlHYu1Og4pQfYJfYlKrDAm+R4c8r9iHgLZ+PN10
-         N5dg3h9e0OJ4A3NAk1uMws1kaAsRhU59S++KcHRzb1nSbarrWwH7qdDkZMSXmVdCKc
-         /xylogRYhcELA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 79/85] kbuild: generate Module.symvers only when vmlinux exists
-Date:   Wed,  5 May 2021 12:36:42 -0400
-Message-Id: <20210505163648.3462507-79-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210505163648.3462507-1-sashal@kernel.org>
-References: <20210505163648.3462507-1-sashal@kernel.org>
+        id S229901AbhEESSq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 May 2021 14:18:46 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A7BAC1FB;
+        Wed,  5 May 2021 11:17:47 -0700 (PDT)
+Received: from e113632-lin (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6BED53F718;
+        Wed,  5 May 2021 11:17:46 -0700 (PDT)
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Beata Michalska <beata.michalska@arm.com>,
+        linux-kernel@vger.kernel.org
+Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v2 2/3] sched/topology: Rework CPU capacity asymmetry detection
+In-Reply-To: <1619602363-1305-3-git-send-email-beata.michalska@arm.com>
+References: <1619602363-1305-1-git-send-email-beata.michalska@arm.com> <1619602363-1305-3-git-send-email-beata.michalska@arm.com>
+Date:   Wed, 05 May 2021 19:17:39 +0100
+Message-ID: <87czu5xcxo.mognet@arm.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 69bc8d386aebbd91a6bb44b6d33f77c8dfa9ed8c ]
+Nitpicks ahead...
 
-The external module build shows the following warning if Module.symvers
-is missing in the kernel tree.
+On 28/04/21 10:32, Beata Michalska wrote:
+> @@ -1958,65 +1958,308 @@ static bool topology_span_sane(struct sched_domain_topology_level *tl,
+>
+>       return true;
+>  }
+> +/**
+> + * Asym capacity bits
+> + */
+> +
+> +/**
+> + * Cached cpu masks for those sched domains, at a given topology level,
+> + * that do represent CPUs with asymmetric capacities.
+> + *
+> + * Each topology level will get the cached data assigned,
+> + * with asym cap sched_flags (SD_ASYM_CPUCAPACITY and SD_ASYM_CPUCAPACITY_FULL
+> + * accordingly) and the corresponding cpumask for:
+> + * - domains that do span CPUs with different capacities
+> + * - domains where all CPU capacities are visible for all CPUs within
+> + *   the domain
+> + *
+> + * Within a single topology level there might be domains
+> + * with different scope of asymmetry:
+> + *	none     -> .
+> + *	partial  -> SD_ASYM_CPUCAPACITY
+> + *	full     -> SD_ASYM_CPUCAPACITY|SD_ASYM_CPUCAPACITY_FULL
+> + */
+> +struct asym_cache_data {
+> +
+  ^
+That should go
 
-  WARNING: Symbol version dump "Module.symvers" is missing.
-           Modules may not have dependencies or modversions.
+[...]
 
-I think this is an important heads-up because the resulting modules may
-not work as expected. This happens when you did not build the entire
-kernel tree, for example, you might have prepared the minimal setups
-for external modules by 'make defconfig && make modules_preapre'.
+> -	if (!asym)
+> -		return NULL;
+> +	/* No asymmetry detected so skip the rest */
+> +	if (!(cap_count > 1))
+> +		goto leave;
+> +
+> +	if (!alloc_cpumask_var(&cpu_mask, GFP_KERNEL))
+> +		goto leave;
+>
+> +	/* Get the number of topology levels */
+> +	for_each_sd_topology(tl) level_count++;
+>       /*
+> -	 * Examine topology from all CPU's point of views to detect the lowest
+> -	 * sched_domain_topology_level where a highest capacity CPU is visible
+> -	 * to everyone.
+> +	 * Allocate an array to store cached data per each topology level
+>        */
 
-A problem is that 'make modules' creates Module.symvers even without
-vmlinux. In this case, that warning is suppressed since Module.symvers
-already exists in spite of its incomplete content.
+That comment can be squashed into a single line.
 
-The incomplete (i.e. invalid) Module.symvers should not be created.
+> -	for_each_cpu(i, cpu_map) {
+> -		unsigned long max_capacity = arch_scale_cpu_capacity(i);
+> -		int tl_id = 0;
+> +	scan_data = kcalloc(level_count, sizeof(*scan_data), GFP_KERNEL);
+> +	if (!scan_data) {
+> +		free_cpumask_var(cpu_mask);
+> +		goto leave;
+> +	}
+>
+> -		for_each_sd_topology(tl) {
+> -			if (tl_id < asym_level)
+> -				goto next_level;
+> +	level_count = 0;
+> +
+> +	for_each_sd_topology(tl) {
+> +		unsigned int local_cap_count;
+> +		bool full_asym = true;
+> +		const struct cpumask *mask;
+> +		struct asym_cache_data *data = &scan_data[level_count++];
+>
+> -			for_each_cpu_and(j, tl->mask(i), cpu_map) {
+> -				unsigned long capacity;
+> +#ifdef CONFIG_NUMA
+> +		/*
+> +		 * For NUMA we might end-up in a sched domain that spans numa
+> +		 * nodes with cpus with different capacities which would not be
+> +		 * caught  by the above scan as those will have separate
+                          ^
+Stray whitespace >>>>>>>>>^
 
-This commit changes the second pass of modpost to dump symbols into
-modules-only.symvers. The final Module.symvers is created by
-concatenating vmlinux.symvers and modules-only.symvers if both exist.
+> +		 * cpumasks - subject to numa level
+> +		 * @see: sched_domains_curr_level & sd_numa_mask
+> +		 * Considered to be a no-go
+> +		 */
+> +		if (WARN_ON_ONCE(tl->numa_level && !full_asym))
+> +			goto leave;
+> +#endif
+>
+> -				capacity = arch_scale_cpu_capacity(j);
+> +		if (asym_tl) {
+> +			data->sched_flags = SD_ASYM_CPUCAPACITY |
+> +					    SD_ASYM_CPUCAPACITY_FULL;
+> +			continue;
+> +		}
+>
+> -				if (capacity <= max_capacity)
+> -					continue;
+> +		cpumask_copy(cpu_mask, cpu_map);
+> +		cpu = cpumask_first(cpu_mask);
+> +
+> +		while (cpu < nr_cpu_ids) {
+> +			int i;
+> +
+> +			/*
+> +			 * Tracking each CPU capacity 'scan' id to distinguish
+> +			 * discovered capacity sets between different CPU masks
+> +			 * at each topology level: capturing unique capacity
+> +			 * values at each scan stage
+> +			 */
+> +			++scan_id;
+> +			local_cap_count = 0;
+>
+> -				max_capacity = capacity;
+> -				asym_level = tl_id;
+> -				asym_tl = tl;
+> +			mask = tl->mask(cpu);
+> +			for_each_cpu_and(i, mask, cpu_map) {
+> +
+  ^
+This should go.
 
-Module.symvers is supposed to collect symbols from both vmlinux and
-modules. It might be a bit confusing, and I am not quite sure if it
-is an official interface, but presumably it is difficult to rename it
-because some tools (e.g. kmod) parse it.
+> +				capacity = arch_scale_cpu_capacity(i);
+> +
+> +				list_for_each_entry(entry, &capacity_set, link) {
+> +					if (entry->capacity == capacity &&
+> +					    entry->scan_level < scan_id) {
+> +						entry->scan_level = scan_id;
+> +						++local_cap_count;
+> +					}
+> +				}
+> +				__cpumask_clear_cpu(i, cpu_mask);
+>                       }
+> -next_level:
+> -			tl_id++;
+> +			if (cap_count != local_cap_count)
+> +				full_asym = false;
+> +			if (local_cap_count > 1) {
+> +				int flags = (cap_count != local_cap_count)
+> +					 ? SD_ASYM_CPUCAPACITY
+> +					 : SD_ASYM_CPUCAPACITY
+> +					 | SD_ASYM_CPUCAPACITY_FULL;
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .gitignore               |  1 +
- Documentation/dontdiff   |  1 +
- Makefile                 |  2 +-
- scripts/Makefile.modpost | 15 ++++++++++++++-
- scripts/mod/modpost.c    | 15 +--------------
- 5 files changed, 18 insertions(+), 16 deletions(-)
+I haven't found many ternaries split over several lines, but those seem to
+still follow the "operand at EOL" thing. The end result isn't particularly
+pretty here (which is quite subjective, I know); another way to express
+this would be:
 
-diff --git a/.gitignore b/.gitignore
-index d01cda8e1177..67d2f3503128 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -55,6 +55,7 @@ modules.order
- /tags
- /TAGS
- /linux
-+/modules-only.symvers
- /vmlinux
- /vmlinux.32
- /vmlinux.symvers
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index e361fc95ca29..82e3eee7363b 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -178,6 +178,7 @@ mktables
- mktree
- mkutf8data
- modpost
-+modules-only.symvers
- modules.builtin
- modules.builtin.modinfo
- modules.nsdeps
-diff --git a/Makefile b/Makefile
-index ac2f14a067d3..98791ff4d12c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1483,7 +1483,7 @@ endif # CONFIG_MODULES
- # make distclean Remove editor backup files, patch leftover files and the like
- 
- # Directories & files removed with 'make clean'
--CLEAN_FILES += include/ksym vmlinux.symvers \
-+CLEAN_FILES += include/ksym vmlinux.symvers modules-only.symvers \
- 	       modules.builtin modules.builtin.modinfo modules.nsdeps \
- 	       compile_commands.json
- 
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index f54b6ac37ac2..12a87be0fb44 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -65,7 +65,20 @@ else
- ifeq ($(KBUILD_EXTMOD),)
- 
- input-symdump := vmlinux.symvers
--output-symdump := Module.symvers
-+output-symdump := modules-only.symvers
-+
-+quiet_cmd_cat = GEN     $@
-+      cmd_cat = cat $(real-prereqs) > $@
-+
-+ifneq ($(wildcard vmlinux.symvers),)
-+
-+__modpost: Module.symvers
-+Module.symvers: vmlinux.symvers modules-only.symvers FORCE
-+	$(call if_changed,cat)
-+
-+targets += Module.symvers
-+
-+endif
- 
- else
- 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index f882ce0d9327..e08f75aed429 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2481,19 +2481,6 @@ static void read_dump(const char *fname)
- 	fatal("parse error in symbol dump file\n");
- }
- 
--/* For normal builds always dump all symbols.
-- * For external modules only dump symbols
-- * that are not read from kernel Module.symvers.
-- **/
--static int dump_sym(struct symbol *sym)
--{
--	if (!external_module)
--		return 1;
--	if (sym->module->from_dump)
--		return 0;
--	return 1;
--}
--
- static void write_dump(const char *fname)
- {
- 	struct buffer buf = { };
-@@ -2504,7 +2491,7 @@ static void write_dump(const char *fname)
- 	for (n = 0; n < SYMBOL_HASH_SIZE ; n++) {
- 		symbol = symbolhash[n];
- 		while (symbol) {
--			if (dump_sym(symbol)) {
-+			if (!symbol->module->from_dump) {
- 				namespace = symbol->namespace;
- 				buf_printf(&buf, "0x%08x\t%s\t%s\t%s\t%s\n",
- 					   symbol->crc, symbol->name,
--- 
-2.30.2
+                                int flags = SD_ASYM_CPUCAPACITY |
+                                        SD_ASYM_CPUCAPACITY_FULL *
+                                        (cap_count == local_cap_count);
 
+which is... Meh.
