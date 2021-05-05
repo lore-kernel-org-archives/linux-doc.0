@@ -4,44 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B3DDC43462
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 16:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 266FFC433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 16:40:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B5B8613F9
-	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 16:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01891619F1
+	for <linux-doc@archiver.kernel.org>; Wed,  5 May 2021 16:40:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234229AbhEEQcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 12:32:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52638 "EHLO mail.kernel.org"
+        id S235250AbhEEQlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 May 2021 12:41:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39658 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234221AbhEEQco (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 May 2021 12:32:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 23AF5613F9;
-        Wed,  5 May 2021 16:31:46 +0000 (UTC)
+        id S235338AbhEEQjO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 May 2021 12:39:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 813CE613C4;
+        Wed,  5 May 2021 16:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620232307;
-        bh=DNyrzPIYnIKT/yacSx+rHOBrxPl3lZ0BfgEYN9f/8NQ=;
+        s=k20201202; t=1620232438;
+        bh=GrUZF6GbsZHI9+wKvQm4efPYNohePcq8A61DrT0KvYE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Sby0ih6KitBedugVva4rWXEx5N+rP0zSPG5+mmUV5UFOLc0Yr93ipiz7nNz0o5JpM
-         Ary5/VY3PpSptImK+CyGr2ksdKanlH1BSrCoXj43bBnZCcIo1vScPoccD5roLNHyUu
-         f0pzuQZ6D09FVxFNoy62+KB8H4w+Jg+qNrWN4v4QXaFqIba0oPnQFyWkFcjdIYwWR8
-         /mrLPmtaYd7gxuKjyEX3n6SRRV9ESkwrzRB375Ws8v+vmQ2Q3JVUjbXzB44xO6cyac
-         jIOTQ4kuUaPmt6S5D90DwWp4KnRzT18VWKgGiRTFXhTPmILl3GKiBImqx00u9NIq5c
-         xrOa4VnCMyp9w==
+        b=YCAnxuYXfjHNoObSpY87m630kTC3gDO10JMBx1IgUE1iiPfs4/HCdp9H76WLTnIM6
+         un1CKR1BUFjrxTo+IdU3Z/sw8vRwBTqjQmCc9S45pBWUfTnvYxHUoybFJ60dxzemR+
+         rTJJI1X2v1SOr64lfLjcvNcNNBiwgBvjwloY3TPkB3orb75FFQg/PNQQsH3Hu+7F/D
+         ESMS/1YWDo7M6R+Zeb/8vjjqEukJyO/T0Yv+kzd8uND5o5qlMYs/S4b1U2X2zoTx5N
+         4avXJ1OBPiCxrrzaaSZYkpa0twB4eY8ZZ/LGnlMe4H8SUgQEdFTgnbVQgnw/ctrOZU
+         InE3rJcwRHP2Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 016/116] Documentation: networking: switchdev: fix command for static FDB entries
-Date:   Wed,  5 May 2021 12:29:44 -0400
-Message-Id: <20210505163125.3460440-16-sashal@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 108/116] kbuild: generate Module.symvers only when vmlinux exists
+Date:   Wed,  5 May 2021 12:31:16 -0400
+Message-Id: <20210505163125.3460440-108-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210505163125.3460440-1-sashal@kernel.org>
 References: <20210505163125.3460440-1-sashal@kernel.org>
@@ -53,85 +50,142 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 787a4109f46847975ffae7d528a55c6b768ef0aa ]
+[ Upstream commit 69bc8d386aebbd91a6bb44b6d33f77c8dfa9ed8c ]
 
-The "bridge fdb add" command provided in the switchdev documentation is
-junk now, not only because it is syntactically incorrect and rejected by
-the iproute2 bridge program, but also because it was not updated in
-light of Arkadi Sharshevsky's radical switchdev refactoring in commit
-29ab586c3d83 ("net: switchdev: Remove bridge bypass support from
-switchdev"). Try to explain what the intended usage pattern is with the
-new kernel implementation.
+The external module build shows the following warning if Module.symvers
+is missing in the kernel tree.
 
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-Reviewed-by: Ido Schimmel <idosch@nvidia.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
+  WARNING: Symbol version dump "Module.symvers" is missing.
+           Modules may not have dependencies or modversions.
+
+I think this is an important heads-up because the resulting modules may
+not work as expected. This happens when you did not build the entire
+kernel tree, for example, you might have prepared the minimal setups
+for external modules by 'make defconfig && make modules_preapre'.
+
+A problem is that 'make modules' creates Module.symvers even without
+vmlinux. In this case, that warning is suppressed since Module.symvers
+already exists in spite of its incomplete content.
+
+The incomplete (i.e. invalid) Module.symvers should not be created.
+
+This commit changes the second pass of modpost to dump symbols into
+modules-only.symvers. The final Module.symvers is created by
+concatenating vmlinux.symvers and modules-only.symvers if both exist.
+
+Module.symvers is supposed to collect symbols from both vmlinux and
+modules. It might be a bit confusing, and I am not quite sure if it
+is an official interface, but presumably it is difficult to rename it
+because some tools (e.g. kmod) parse it.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/networking/switchdev.rst | 47 +++++++++++++++++++-------
- 1 file changed, 35 insertions(+), 12 deletions(-)
+ .gitignore               |  1 +
+ Documentation/dontdiff   |  1 +
+ Makefile                 |  2 +-
+ scripts/Makefile.modpost | 15 ++++++++++++++-
+ scripts/mod/modpost.c    | 15 +--------------
+ 5 files changed, 18 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
-index ddc3f35775dc..650553cdec79 100644
---- a/Documentation/networking/switchdev.rst
-+++ b/Documentation/networking/switchdev.rst
-@@ -181,18 +181,41 @@ To offloading L2 bridging, the switchdev driver/device should support:
- Static FDB Entries
- ^^^^^^^^^^^^^^^^^^
+diff --git a/.gitignore b/.gitignore
+index 3af66272d6f1..127012c1f717 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -57,6 +57,7 @@ modules.order
+ /tags
+ /TAGS
+ /linux
++/modules-only.symvers
+ /vmlinux
+ /vmlinux.32
+ /vmlinux.symvers
+diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+index e361fc95ca29..82e3eee7363b 100644
+--- a/Documentation/dontdiff
++++ b/Documentation/dontdiff
+@@ -178,6 +178,7 @@ mktables
+ mktree
+ mkutf8data
+ modpost
++modules-only.symvers
+ modules.builtin
+ modules.builtin.modinfo
+ modules.nsdeps
+diff --git a/Makefile b/Makefile
+index 78b0941f0de4..50c82ed67f6d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1513,7 +1513,7 @@ endif # CONFIG_MODULES
+ # make distclean Remove editor backup files, patch leftover files and the like
  
--The switchdev driver should implement ndo_fdb_add, ndo_fdb_del and ndo_fdb_dump
--to support static FDB entries installed to the device.  Static bridge FDB
--entries are installed, for example, using iproute2 bridge cmd::
--
--	bridge fdb add ADDR dev DEV [vlan VID] [self]
--
--The driver should use the helper switchdev_port_fdb_xxx ops for ndo_fdb_xxx
--ops, and handle add/delete/dump of SWITCHDEV_OBJ_ID_PORT_FDB object using
--switchdev_port_obj_xxx ops.
--
--XXX: what should be done if offloading this rule to hardware fails (for
--example, due to full capacity in hardware tables) ?
-+A driver which implements the ``ndo_fdb_add``, ``ndo_fdb_del`` and
-+``ndo_fdb_dump`` operations is able to support the command below, which adds a
-+static bridge FDB entry::
-+
-+        bridge fdb add dev DEV ADDRESS [vlan VID] [self] static
-+
-+(the "static" keyword is non-optional: if not specified, the entry defaults to
-+being "local", which means that it should not be forwarded)
-+
-+The "self" keyword (optional because it is implicit) has the role of
-+instructing the kernel to fulfill the operation through the ``ndo_fdb_add``
-+implementation of the ``DEV`` device itself. If ``DEV`` is a bridge port, this
-+will bypass the bridge and therefore leave the software database out of sync
-+with the hardware one.
-+
-+To avoid this, the "master" keyword can be used::
-+
-+        bridge fdb add dev DEV ADDRESS [vlan VID] master static
-+
-+The above command instructs the kernel to search for a master interface of
-+``DEV`` and fulfill the operation through the ``ndo_fdb_add`` method of that.
-+This time, the bridge generates a ``SWITCHDEV_FDB_ADD_TO_DEVICE`` notification
-+which the port driver can handle and use it to program its hardware table. This
-+way, the software and the hardware database will both contain this static FDB
-+entry.
-+
-+Note: for new switchdev drivers that offload the Linux bridge, implementing the
-+``ndo_fdb_add`` and ``ndo_fdb_del`` bridge bypass methods is strongly
-+discouraged: all static FDB entries should be added on a bridge port using the
-+"master" flag. The ``ndo_fdb_dump`` is an exception and can be implemented to
-+visualize the hardware tables, if the device does not have an interrupt for
-+notifying the operating system of newly learned/forgotten dynamic FDB
-+addresses. In that case, the hardware FDB might end up having entries that the
-+software FDB does not, and implementing ``ndo_fdb_dump`` is the only way to see
-+them.
+ # Directories & files removed with 'make clean'
+-CLEAN_FILES += include/ksym vmlinux.symvers \
++CLEAN_FILES += include/ksym vmlinux.symvers modules-only.symvers \
+ 	       modules.builtin modules.builtin.modinfo modules.nsdeps \
+ 	       compile_commands.json .thinlto-cache
  
- Note: by default, the bridge does not filter on VLAN and only bridges untagged
- traffic.  To enable VLAN support, turn on VLAN filtering::
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 066beffca09a..4ca5579af4e4 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -68,7 +68,20 @@ else
+ ifeq ($(KBUILD_EXTMOD),)
+ 
+ input-symdump := vmlinux.symvers
+-output-symdump := Module.symvers
++output-symdump := modules-only.symvers
++
++quiet_cmd_cat = GEN     $@
++      cmd_cat = cat $(real-prereqs) > $@
++
++ifneq ($(wildcard vmlinux.symvers),)
++
++__modpost: Module.symvers
++Module.symvers: vmlinux.symvers modules-only.symvers FORCE
++	$(call if_changed,cat)
++
++targets += Module.symvers
++
++endif
+ 
+ else
+ 
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 24725e50c7b4..10c3fba26f03 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2423,19 +2423,6 @@ static void read_dump(const char *fname)
+ 	fatal("parse error in symbol dump file\n");
+ }
+ 
+-/* For normal builds always dump all symbols.
+- * For external modules only dump symbols
+- * that are not read from kernel Module.symvers.
+- **/
+-static int dump_sym(struct symbol *sym)
+-{
+-	if (!external_module)
+-		return 1;
+-	if (sym->module->from_dump)
+-		return 0;
+-	return 1;
+-}
+-
+ static void write_dump(const char *fname)
+ {
+ 	struct buffer buf = { };
+@@ -2446,7 +2433,7 @@ static void write_dump(const char *fname)
+ 	for (n = 0; n < SYMBOL_HASH_SIZE ; n++) {
+ 		symbol = symbolhash[n];
+ 		while (symbol) {
+-			if (dump_sym(symbol)) {
++			if (!symbol->module->from_dump) {
+ 				namespace = symbol->namespace;
+ 				buf_printf(&buf, "0x%08x\t%s\t%s\t%s\t%s\n",
+ 					   symbol->crc, symbol->name,
 -- 
 2.30.2
 
