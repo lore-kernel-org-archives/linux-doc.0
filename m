@@ -2,228 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D792DC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 02:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C131DC43460
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 04:02:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B67D36139A
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 02:53:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D2DC611AD
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 04:02:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232096AbhEFCyg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 May 2021 22:54:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34210 "EHLO
+        id S231585AbhEFEDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 00:03:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232165AbhEFCyf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 May 2021 22:54:35 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81EF6C061574
-        for <linux-doc@vger.kernel.org>; Wed,  5 May 2021 19:53:37 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so2663696pjv.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 May 2021 19:53:37 -0700 (PDT)
+        with ESMTP id S232012AbhEFEDi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 00:03:38 -0400
+Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 203B6C06174A;
+        Wed,  5 May 2021 21:02:36 -0700 (PDT)
+Received: by mail-oo1-xc36.google.com with SMTP id h9-20020a4a94090000b02901f9d4f64172so975626ooi.5;
+        Wed, 05 May 2021 21:02:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YewfXLV+s6eseo7hxW6W1xEDd4aCTIQYY6fGFTM6318=;
-        b=1g6apy4Azt+HLbznoibVPTszQApPwt5wzruvbJC5FJnjkaIHYHo+Bkd4lgwAWi7NPW
-         FG2uf5WbZPNeI1sj9AWI79NRQyIGbGgASl8Hvh9TLzdRahLtITbx/vWLQcLAEOMeoqt6
-         o4CoFGCvqeBFGVkxvhGlpgZkReqTi1xh1Dh619tg3WDYfd+rUBX21oe8O4oiiW11A+/S
-         F/Fp3g5j0ChlmaFmRneBoxrv5Jxqs87Wd5p2WI+xAlYMSqilKnXV/Q4HJd34PXoHiOOF
-         CMc54ObYAPTg0Fe3Hd1Ammk7j0VlJY6u2D9DGWx8UTwCwMRl95U0OpcLwdtZAbsQSD57
-         UQ/A==
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=U5+6EEXuMcLvUcLHA4wlcVOVLXtB5D19/TGtJi1Zhgw=;
+        b=D+aNF15OMIC3EIoDiMVtATmCyaA3aERnmcIZtxAVKGMmgLbKCZkwcrL+CASUQyPAsY
+         h6lRdqXNlHAH38xIMag748b4sKvH9u03tKtjBamjKo4T63OdMoqwUuZidKmrp07VBM2R
+         2ipKBnh8tsdePEngZVb6dgxOlQOxb7agapodA4QJM2p/QtpLXOE2dBC1aW0Bv+NKecQK
+         K+R8Ieky5+r39PhblAaGRW1AbjIGH2QovPQMthHfvZcJC7tpMOEOhhMUys8839MkTraX
+         VVaOGpbuwyJLf3KCw4ZY7rGKZ8hrfcJjAgo3nTTSbZInD6J64wchUmc6btncYuymI5gM
+         xgHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YewfXLV+s6eseo7hxW6W1xEDd4aCTIQYY6fGFTM6318=;
-        b=ZpJpvMqZYqFBiJy7dpUQyvS5yLL95Gzn0g4w+qLXD6jOcPIwuAMboDSZ1mH4osEBHG
-         eD8ShSw7p0eY0u90OSllwaPf4tUjesV4J3/arHMzJomSYvGHMiJe1MN4lUwOZdsQnjJD
-         F3F52wf/+Ut8dqi2vhA2lMT7UMQs30M+YLqkfiUPtlHgH+knE+QiNWNVxCBQuQanoGRr
-         RFJZUdwkV78nGg4VwLD3WOyXGpFxE4bHx2zoO+WE6wKpw8xjve0X4bGFXP7nGoGJGWBS
-         VGMX3Sws4/GTtbpzw4fJj5UKLUSDKhEm678CKn/scccYYKKSUkbB15cuEvkokLWCoI+5
-         +i4g==
-X-Gm-Message-State: AOAM531IQUbrlYvVGxRzBtnHfwob1C22rpyMEAnUswTvidziPh0bEk2I
-        Rmf0Fv8t/+IRtPTVQqeS/+qcg2TAoZ90A0w/CMxfBA==
-X-Google-Smtp-Source: ABdhPJxB5teGJjRreLimTCPrUixDSsqCQ2MyfSkZEup9YXKNFbxR8Ed4DozyMoPQhS+fYL8hHVGbgv6P46OeJcEIY7I=
-X-Received: by 2002:a17:902:e54e:b029:ed:6ed2:d0ab with SMTP id
- n14-20020a170902e54eb02900ed6ed2d0abmr2031887plf.24.1620269616937; Wed, 05
- May 2021 19:53:36 -0700 (PDT)
+        h=x-gm-message-state:sender:subject:to:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=U5+6EEXuMcLvUcLHA4wlcVOVLXtB5D19/TGtJi1Zhgw=;
+        b=hFz7DBJYdGsyVaBjVEbhnSqKrC3r9X1Ndam7GHVCzV5bFxd5w1D963yhWULoI+Hekw
+         Pup01qsZajUaFI4fV1B0/o8mlSEq/HUFSaiuhHrzQzD77G7guHa8IQ1I5vxvTWCB8dFR
+         7aVDzLUhc3l6N27oA4kx80sODqT+rivamS4VQeh1G4c3oFxXn4fjgzcpisH8Phy8DaMF
+         woEt1wY6X9CdSDvkHoLMkVecqNAXXoMmmC+/U7Vz9Dkv7e9R9JDRVAY5cF5GVCdtiUdp
+         stu7t/CkLxjmXFZmPcuMr6pOx288xxgaOCOsnVzatFBUtQ7Iu2QXPXqIgU4xNMHCsyXT
+         YLYw==
+X-Gm-Message-State: AOAM531cMifJel53TXw/irvpOBlLE2pX7wbFFJxZ757zdB4F8JBwiJ8X
+        65O28EDp1CogedP+z8h7QR5FxaBOqpc=
+X-Google-Smtp-Source: ABdhPJw96Z0Rc3rv1ZadTzkWaz32IA7fme5mtyI47bqKjnplzZPhr92X4XisTzzzRCvQxtJ76hVC0Q==
+X-Received: by 2002:a4a:e886:: with SMTP id g6mr1591209ooe.49.1620273755280;
+        Wed, 05 May 2021 21:02:35 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u24sm338659otg.73.2021.05.05.21.02.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 May 2021 21:02:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH 3/3] hwmon: (pmbus) Add support for additional Flex BMR
+ converters to pmbus
+To:     Erik Rosen <erik.rosen@metormote.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210505183248.57082-1-erik.rosen@metormote.com>
+ <20210505183248.57082-4-erik.rosen@metormote.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <f2290036-3041-3ef2-b1fe-2be029652f7d@roeck-us.net>
+Date:   Wed, 5 May 2021 21:02:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210430031352.45379-1-songmuchun@bytedance.com>
- <20210430031352.45379-7-songmuchun@bytedance.com> <c2e8bc43-44dc-825d-9f59-0de300815fa4@oracle.com>
-In-Reply-To: <c2e8bc43-44dc-825d-9f59-0de300815fa4@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 6 May 2021 10:52:58 +0800
-Message-ID: <CAMZfGtWaSGCUaubv6kwc1hzRoc9=O2eXJBcU9t8bX3XeQtP9Yw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v22 6/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
-        X86 ML <x86@kernel.org>, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210505183248.57082-4-erik.rosen@metormote.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 6, 2021 at 6:21 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 4/29/21 8:13 PM, Muchun Song wrote:
-> > When we free a HugeTLB page to the buddy allocator, we need to allocate
-> > the vmemmap pages associated with it. However, we may not be able to
-> > allocate the vmemmap pages when the system is under memory pressure. In
-> > this case, we just refuse to free the HugeTLB page. This changes behavior
-> > in some corner cases as listed below:
-> >
-> >  1) Failing to free a huge page triggered by the user (decrease nr_pages).
-> >
-> >     User needs to try again later.
-> >
-> >  2) Failing to free a surplus huge page when freed by the application.
-> >
-> >     Try again later when freeing a huge page next time.
-> >
-> >  3) Failing to dissolve a free huge page on ZONE_MOVABLE via
-> >     offline_pages().
-> >
-> >     This can happen when we have plenty of ZONE_MOVABLE memory, but
-> >     not enough kernel memory to allocate vmemmmap pages.  We may even
-> >     be able to migrate huge page contents, but will not be able to
-> >     dissolve the source huge page.  This will prevent an offline
-> >     operation and is unfortunate as memory offlining is expected to
-> >     succeed on movable zones.  Users that depend on memory hotplug
-> >     to succeed for movable zones should carefully consider whether the
-> >     memory savings gained from this feature are worth the risk of
-> >     possibly not being able to offline memory in certain situations.
-> >
-> >  4) Failing to dissolve a huge page on CMA/ZONE_MOVABLE via
-> >     alloc_contig_range() - once we have that handling in place. Mainly
-> >     affects CMA and virtio-mem.
-> >
-> >     Similar to 3). virito-mem will handle migration errors gracefully.
-> >     CMA might be able to fallback on other free areas within the CMA
-> >     region.
-> >
-> > Vmemmap pages are allocated from the page freeing context. In order for
-> > those allocations to be not disruptive (e.g. trigger oom killer)
-> > __GFP_NORETRY is used. hugetlb_lock is dropped for the allocation
-> > because a non sleeping allocation would be too fragile and it could fail
-> > too easily under memory pressure. GFP_ATOMIC or other modes to access
-> > memory reserves is not used because we want to prevent consuming
-> > reserves under heavy hugetlb freeing.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  Documentation/admin-guide/mm/hugetlbpage.rst    |  8 ++
-> >  Documentation/admin-guide/mm/memory-hotplug.rst | 13 ++++
-> >  include/linux/hugetlb.h                         |  3 +
-> >  include/linux/mm.h                              |  2 +
-> >  mm/hugetlb.c                                    | 98 +++++++++++++++++++++----
-> >  mm/hugetlb_vmemmap.c                            | 34 +++++++++
-> >  mm/hugetlb_vmemmap.h                            |  6 ++
-> >  mm/migrate.c                                    |  5 +-
-> >  mm/sparse-vmemmap.c                             | 75 ++++++++++++++++++-
-> >  9 files changed, 227 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
-> > index f7b1c7462991..6988895d09a8 100644
-> > --- a/Documentation/admin-guide/mm/hugetlbpage.rst
-> > +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
-> > @@ -60,6 +60,10 @@ HugePages_Surp
-> >          the pool above the value in ``/proc/sys/vm/nr_hugepages``. The
-> >          maximum number of surplus huge pages is controlled by
-> >          ``/proc/sys/vm/nr_overcommit_hugepages``.
-> > +     Note: When the feature of freeing unused vmemmap pages associated
-> > +     with each hugetlb page is enabled, the number of surplus huge pages
-> > +     may be temporarily larger than the maximum number of surplus huge
-> > +     pages when the system is under memory pressure.
-> >  Hugepagesize
-> >       is the default hugepage size (in Kb).
-> >  Hugetlb
-> > @@ -80,6 +84,10 @@ returned to the huge page pool when freed by a task.  A user with root
-> >  privileges can dynamically allocate more or free some persistent huge pages
-> >  by increasing or decreasing the value of ``nr_hugepages``.
-> >
-> > +Note: When the feature of freeing unused vmemmap pages associated with each
-> > +hugetlb page is enabled, we can fail to free the huge pages triggered by
-> > +the user when ths system is under memory pressure.  Please try again later.
-> > +
-> >  Pages that are used as huge pages are reserved inside the kernel and cannot
-> >  be used for other purposes.  Huge pages cannot be swapped out under
-> >  memory pressure.
-> > diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> > index 05d51d2d8beb..c6bae2d77160 100644
-> > --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> > +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> > @@ -357,6 +357,19 @@ creates ZONE_MOVABLE as following.
-> >     Unfortunately, there is no information to show which memory block belongs
-> >     to ZONE_MOVABLE. This is TBD.
-> >
-> > +   Memory offlining can fail when dissolving a free huge page on ZONE_MOVABLE
-> > +   and the feature of freeing unused vmemmap pages associated with each hugetlb
-> > +   page is enabled.
-> > +
-> > +   This can happen when we have plenty of ZONE_MOVABLE memory, but not enough
-> > +   kernel memory to allocate vmemmmap pages.  We may even be able to migrate
-> > +   huge page contents, but will not be able to dissolve the source huge page.
-> > +   This will prevent an offline operation and is unfortunate as memory offlining
-> > +   is expected to succeed on movable zones.  Users that depend on memory hotplug
-> > +   to succeed for movable zones should carefully consider whether the memory
-> > +   savings gained from this feature are worth the risk of possibly not being
-> > +   able to offline memory in certain situations.
-> > +
-> >  .. note::
-> >     Techniques that rely on long-term pinnings of memory (especially, RDMA and
-> >     vfio) are fundamentally problematic with ZONE_MOVABLE and, therefore, memory
-> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> > index d523a345dc86..d3abaaec2a22 100644
-> > --- a/include/linux/hugetlb.h
-> > +++ b/include/linux/hugetlb.h
-> > @@ -525,6 +525,7 @@ unsigned long hugetlb_get_unmapped_area(struct file *file, unsigned long addr,
-> >   *   code knows it has only reference.  All other examinations and
-> >   *   modifications require hugetlb_lock.
-> >   * HPG_freed - Set when page is on the free lists.
-> > + * HPG_vmemmap_optimized - Set when the vmemmap pages of the page are freed.
-> >   *   Synchronization: hugetlb_lock held for examination and modification.
->
-> You just moved the Synchronization comment so that it applies to both
-> HPG_freed and HPG_vmemmap_optimized.  However, HPG_vmemmap_optimized is
-> checked/modified both with and without hugetlb_lock.  Nothing wrong with
-> that, just need to update/fix the comment.
->
+On 5/5/21 11:32 AM, Erik Rosen wrote:
+> Add support for Flex BMR310, BMR456, BMR457, BMR458, BMR480, BMR490,
+> BMR491 and BMR492 to the pmbus driver
+> 
+> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+> ---
+>  Documentation/hwmon/pmbus.rst | 11 +++++++----
+>  drivers/hwmon/pmbus/Kconfig   |  7 ++++---
+>  drivers/hwmon/pmbus/pmbus.c   | 24 ++++++++++++++++++++++--
+>  3 files changed, 33 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/pmbus.rst b/Documentation/hwmon/pmbus.rst
+> index c44f14115413..0514c3052d4a 100644
+> --- a/Documentation/hwmon/pmbus.rst
+> +++ b/Documentation/hwmon/pmbus.rst
+> @@ -3,15 +3,18 @@ Kernel driver pmbus
+>  
+>  Supported chips:
+>  
+> -  * Ericsson BMR453, BMR454
+> +  * Flex BMR453, BMR454, BMR456, BMR457, BMR458, BMR480,
+> +    BMR490, BMR491, BMR310, BMR492
+>  
+> -    Prefixes: 'bmr453', 'bmr454'
+> +    Prefixes: 'bmr453', 'bmr454', 'bmr456', 'bmr457', 'bmr458', 'bmr480',
+> +    'bmr490', 'bmr491', 'bmr310', 'bmr492'
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet:
+> +    Datasheets:
+> +
+> + 	https://flexpowermodules.com/products
+>  
+> - http://archive.ericsson.net/service/internet/picov/get?DocNo=28701-EN/LZT146395
+>  
+>    * ON Semiconductor ADP4000, NCP4200, NCP4208
+>  
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 32d2fc850621..59080d142bf7 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -19,9 +19,10 @@ config SENSORS_PMBUS
+>  	default y
+>  	help
+>  	  If you say yes here you get hardware monitoring support for generic
+> -	  PMBus devices, including but not limited to ADP4000, BMR453, BMR454,
+> -	  MAX20796, MDT040, NCP4200, NCP4208, PDT003, PDT006, PDT012, TPS40400,
+> -	  TPS544B20, TPS544B25, TPS544C20, TPS544C25, and UDT020.
+> +	  PMBus devices, including but not limited to ADP4000, BMR310, BMR453,
+> +	  BMR454, BMR456, BMR457, BMR458, BMR480, BMR490, BMR491, BMR492,
+> +	  MAX20796, MDT040, NCP4200, NCP4208, PDT003, PDT006, PDT012,
+> +	  TPS40400, TPS544B20, TPS544B25, TPS544C20, TPS544C25, and UDT020.
+>  
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called pmbus.
+> diff --git a/drivers/hwmon/pmbus/pmbus.c b/drivers/hwmon/pmbus/pmbus.c
+> index a1b4260e75b2..688c4a3a87e0 100644
+> --- a/drivers/hwmon/pmbus/pmbus.c
+> +++ b/drivers/hwmon/pmbus/pmbus.c
+> @@ -173,13 +173,18 @@ static int pmbus_probe(struct i2c_client *client)
+>  		return -ENOMEM;
+>  
+>  	device_info = (struct pmbus_device_info *)i2c_match_id(pmbus_id, client)->driver_data;
+> -	if (device_info->flags & PMBUS_SKIP_STATUS_CHECK) {
+> +	if (device_info->flags & PMBUS_SKIP_STATUS_CHECK ||
+> +	    device_info->flags & PMBUS_READ_STATUS_AFTER_FAILED_CHECK) {
 
-Thanks, Mike. I will update the comment.
+I don't think it makes sense to skip WRITE_PROTECT here.
+Just make this
+	if (device_info->flags) {
 
-> Everything else looks good to me,
->
-> Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
->
-> --
-> Mike Kravetz
+>  		pdata = devm_kzalloc(dev, sizeof(struct pmbus_platform_data),
+>  				     GFP_KERNEL);
+>  		if (!pdata)
+>  			return -ENOMEM;
+>  
+> -		pdata->flags = PMBUS_SKIP_STATUS_CHECK;
+> +		pdata->flags = 0;
+> +		if (device_info->flags & PMBUS_SKIP_STATUS_CHECK)
+> +			pdata->flags |= PMBUS_SKIP_STATUS_CHECK;
+> +		if (device_info->flags & PMBUS_READ_STATUS_AFTER_FAILED_CHECK)
+> +			pdata->flags |= PMBUS_READ_STATUS_AFTER_FAILED_CHECK;
+
+and this
+		pdata->flags = device_info->flags;
+
+Guenter
+
+>  	}
+>  
+>  	info->pages = device_info->pages;
+> @@ -193,22 +198,37 @@ static const struct pmbus_device_info pmbus_info_one = {
+>  	.pages = 1,
+>  	.flags = 0
+>  };
+> +
+>  static const struct pmbus_device_info pmbus_info_zero = {
+>  	.pages = 0,
+>  	.flags = 0
+>  };
+> +
+>  static const struct pmbus_device_info pmbus_info_one_skip = {
+>  	.pages = 1,
+>  	.flags = PMBUS_SKIP_STATUS_CHECK
+>  };
+>  
+> +static const struct pmbus_device_info pmbus_info_one_status = {
+> +	.pages = 1,
+> +	.flags = PMBUS_READ_STATUS_AFTER_FAILED_CHECK
+> +};
+> +
+>  /*
+>   * Use driver_data to set the number of pages supported by the chip.
+>   */
+>  static const struct i2c_device_id pmbus_id[] = {
+>  	{"adp4000", (kernel_ulong_t)&pmbus_info_one},
+> +	{"bmr310", (kernel_ulong_t)&pmbus_info_one_status},
+>  	{"bmr453", (kernel_ulong_t)&pmbus_info_one},
+>  	{"bmr454", (kernel_ulong_t)&pmbus_info_one},
+> +	{"bmr456", (kernel_ulong_t)&pmbus_info_one},
+> +	{"bmr457", (kernel_ulong_t)&pmbus_info_one},
+> +	{"bmr458", (kernel_ulong_t)&pmbus_info_one_status},
+> +	{"bmr480", (kernel_ulong_t)&pmbus_info_one_status},
+> +	{"bmr490", (kernel_ulong_t)&pmbus_info_one_status},
+> +	{"bmr491", (kernel_ulong_t)&pmbus_info_one_status},
+> +	{"bmr492", (kernel_ulong_t)&pmbus_info_one},
+>  	{"dps460", (kernel_ulong_t)&pmbus_info_one_skip},
+>  	{"dps650ab", (kernel_ulong_t)&pmbus_info_one_skip},
+>  	{"dps800", (kernel_ulong_t)&pmbus_info_one_skip},
+> 
+
