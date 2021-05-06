@@ -2,1037 +2,428 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30121C43460
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 13:04:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC7CC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 13:05:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC37061159
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 13:04:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3AD2B613C2
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 13:05:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233322AbhEFNFb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 May 2021 09:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56266 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233115AbhEFNFb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 09:05:31 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36E88C061574;
-        Thu,  6 May 2021 06:04:33 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id 65-20020a9d03470000b02902808b4aec6dso4780547otv.6;
-        Thu, 06 May 2021 06:04:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WEGH4MTbzyjlnbO2q1wmMyx1YnhDS2foSBOanTgWnnw=;
-        b=mBY9ox/WDA92PUToZyuFX54UQ/srx/8VgFdqKEbOo17aqC7u9BWpXw+SdG9B+se7H5
-         jDnJBOam8Ub2g8ObV+3y0nCnsQkYLnSTfLGKfTJ1SR/jXBM2s1JBE5urnxlbSmwfWBw0
-         59NfHJIYK/sTo6GK2k7JCdoP0F6VeDRq7zlPn/79JmQKACYm55tHXb2nsUlzKWyG7q8j
-         sncCX8YPH06usNdKlNWs7pGlSIVCMW0zaOKELw4RnQC27ylvSAKJe5CtYvcQYfnz0Nly
-         MQ4RH90Mn4eZS52K0oSS8I6L2W/Z2Eve8QXwaxnIaM9eNsPwiQDM09Z8/zNp13ZWrBNW
-         7S2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=WEGH4MTbzyjlnbO2q1wmMyx1YnhDS2foSBOanTgWnnw=;
-        b=QfWhJDcjUwb7qovOcN4gK4Ezi+X4rYn1NWX24hTV5ugENkxqIxrV6uAL2mznaXjNdY
-         rSelVbmSK+ZUFbo3L/pa3nA5vELaccmPkPeEGIo9b+RU2mlFIAJCiWxdwNLdd7jR85wY
-         bMwgWjjB8u+jX6FB1WVyqEqwlhm5SRR4BQjnYuy5OdrQWbAXhi3IgKYW2tPzN92YRR/H
-         4VueuALwU5lVm+aKYsSv6feTV0Xhp468/PQTzguv5qA29tTFUIhZx0zphvJTZJafgBbe
-         DGkvNLACegJzDSUXPF8wtEyIWefMSFOUpSi5oqVI84R2k6kR1cUFTOPTTgw0Td/rLQkw
-         GurQ==
-X-Gm-Message-State: AOAM5310JwDGQQenGIn1LTYLHx8qC55YTWuP/1XcwWlaGiYSoI9I+IPH
-        ZZlTupGffXhEpl/YcctDWvE=
-X-Google-Smtp-Source: ABdhPJyiU48WIe/LGp44tWUuCVFNRBhuWyYWoDbXrGeOyoVKVKpW9mHc80LpHNuIvAKEPJHzSImG0A==
-X-Received: by 2002:a05:6830:2086:: with SMTP id y6mr3472231otq.356.1620306272260;
-        Thu, 06 May 2021 06:04:32 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c7sm483978oot.42.2021.05.06.06.04.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 06:04:29 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 6 May 2021 06:04:27 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Campion Kang <campion.kang@advantech.com.tw>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        AceLan Kao <chia-lin.kao@canonical.com>
-Subject: Re: [PATCH v7 7/7] hwmon: ahc1ec0-hwmon: Add sub-device HWMON for
- Advantech embedded controller
-Message-ID: <20210506130427.GA2252703@roeck-us.net>
-References: <20210506081619.2443-1-campion.kang@advantech.com.tw>
- <20210506081619.2443-7-campion.kang@advantech.com.tw>
+        id S233357AbhEFNGh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 09:06:37 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:43502 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233053AbhEFNGh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 May 2021 09:06:37 -0400
+Received: from localhost.localdomain (unknown [112.3.197.94])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP++V6ZNgq8oSAA--.13075S2;
+        Thu, 06 May 2021 21:05:27 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net
+Cc:     alexs@kernel.org, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH] docs/zh_CN: add core-api workqueue.rst translation
+Date:   Thu,  6 May 2021 21:06:10 +0800
+Message-Id: <20210506130610.444696-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210506081619.2443-7-campion.kang@advantech.com.tw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxP++V6ZNgq8oSAA--.13075S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3CF47Xr1kGw1UtFykZw1xuFg_yoW8Aw1fZo
+        WYya1Ykr1UG3W5Xa4S9anxJrWUCr1fCrWIvws29r1avF1Uu3s5W3WkCa1aqr9xArWrKF43
+        WF18Xay5A3WIqasrn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUY77AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
+        x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
+        JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+        n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+        0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+        IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+        AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_
+        Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
+        XdbUUUUUU==
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 06, 2021 at 04:16:19PM +0800, Campion Kang wrote:
-> This is one of sub-device driver for Advantech embedded controller
-> AHC1EC0. This driver provides sysfs ABI for Advantech related
-> applications to monitor the system status.
-> 
-> Changed in V7:
-> 	Fix the patch according to reviewer's comment:
-> 	- add new document Documentation/hwmon/ahc1ec0-hwmon.rst to describe
-> 	  the sensors attributes
-> 	- pass the checking by checkpatch --strict command
-> 	- remove unnecessary error checks
-> 	- check channel account, return 0 if the second sensor is not
-> 	  supported
-> 	- make current sensor alone, not in hwmon sensors array
-> 
-> Changed in V6:
-> 	- remove unnecessary header files
-> 	- Using [devm_]hwmon_device_register_with_info() to register
-> 	  HWMON driver based on reviewer's suggestion
-> 
-> Signed-off-by: Campion Kang <campion.kang@advantech.com.tw>
-> ---
->  Documentation/hwmon/ahc1ec0-hwmon.rst |  73 +++
->  drivers/hwmon/Kconfig                 |  10 +
->  drivers/hwmon/Makefile                |   1 +
->  drivers/hwmon/ahc1ec0-hwmon.c         | 701 ++++++++++++++++++++++++++
->  4 files changed, 785 insertions(+)
->  create mode 100644 Documentation/hwmon/ahc1ec0-hwmon.rst
->  create mode 100644 drivers/hwmon/ahc1ec0-hwmon.c
-> 
-> diff --git a/Documentation/hwmon/ahc1ec0-hwmon.rst b/Documentation/hwmon/ahc1ec0-hwmon.rst
-> new file mode 100644
-> index 000000000000..7fcfb8b025d9
-> --- /dev/null
-> +++ b/Documentation/hwmon/ahc1ec0-hwmon.rst
-> @@ -0,0 +1,73 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver ahc1ec0-hwmon
-> +=================================
-> +
-> +Supported chips:
-> +
-> + * Advantech AHC1 Embedded Controller Chip for Advantech Devices
-> +
-> +   Prefix: 'ahc1ec0-hwmon'
-> +
-> +   Datasheet: Datasheet is not publicly available.
-> +
-> +Author: Campion Kang <campion.kang@advantech.com.tw>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +This driver adds the temperature, voltage, current support for the Advantech
-> +Devices with AHC1 Embedded Controller in Advantech IIoT Group.
-> +The AHC1EC0 firmware is responsible for sensor data sampling and recording in
-> +shared registers. The firmware is impleted by Advantech firmware team, it is
-> +a common design suitable for different hardware pins of Advantech devices.
-> +The host driver according to its hardware dynamic table and profile access its
-> +registers and exposes them to users as hwmon interfaces.
-> +
-> +The driver now is supports the AHC1EC0 for Advantech UNO, TPC series
-> +devices.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver will automatically probe and start via ahc1ec0 mfd driver
-> +according to the attributes in ACPI table or device tree. More detail settings
-> +you can refer the Documentation\devicetree\bindings\mfd\ahc1ec0.yaml.
-> +
-> +The ahc1ec0 driver will not probe automatic. You will have to instantiate
-> +devices explicitly. You can add it to /etc/modules.conf or insert module by
-> +the following command:
-> +
-> +	# insmod ahc1ec0
-> +
-> +
-> +Sysfs attributes
-> +----------------
-> +
-> +The following attributes are supported:
-> +
-> +- Advantech AHC1 Embedded Controller for Advantech UNO, TPC series:
-> +
-> +======================= =======================================================
-> +tempX_input             Temperature of the component (specified by tempX_label)
-> +tempX_crit              Temperature critical setpoint of the component
-> +temp1_label             "CPU Temp"
-> +temp2_label             "System Temp"
-> +
-> +inX_input               Measured voltage of the component (specified by
-> +                        inX_label and may different with devices)
-> +in0_label               "VBAT"
-> +in1_label               "5VSB"
-> +in2_label               "Vin"
-> +in3_label               "VCore"
-> +in4_label               "Vin1"
-> +in5_label               "Vin2"
-> +in6_label               "System Voltage"
-> +
-> +curr1_input             Measured current of Vin
-> +curr1_label             "Current"
-> +
-> +======================= =======================================================
-> +
-> +All the attributes are read-only.
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 87624902ea80..242ea59e994b 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -2147,6 +2147,16 @@ config SENSORS_INTEL_M10_BMC_HWMON
->  	  sensors monitor various telemetry data of different components on the
->  	  card, e.g. board temperature, FPGA core temperature/voltage/current.
->  
-> +config SENSORS_AHC1EC0_HWMON
-> +	tristate "Advantech AHC1EC0 Hardware Monitor Function"
-> +	depends on MFD_AHC1EC0
-> +	help
-> +	  This driver provide support for the hardware monitoring functionality
-> +	  for Advantech AHC1EC0 embedded controller on the board.
-> +
-> +	  This driver provides the sysfs attributes for applications to monitor
-> +	  the system status, including system temperatures, voltages, current.
-> +
->  if ACPI
->  
->  comment "ACPI drivers"
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 59e78bc212cf..2df3381bf124 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -44,6 +44,7 @@ obj-$(CONFIG_SENSORS_ADT7411)	+= adt7411.o
->  obj-$(CONFIG_SENSORS_ADT7462)	+= adt7462.o
->  obj-$(CONFIG_SENSORS_ADT7470)	+= adt7470.o
->  obj-$(CONFIG_SENSORS_ADT7475)	+= adt7475.o
-> +obj-$(CONFIG_SENSORS_AHC1EC0_HWMON) += ahc1ec0-hwmon.o
->  obj-$(CONFIG_SENSORS_AHT10)	+= aht10.o
->  obj-$(CONFIG_SENSORS_AMD_ENERGY) += amd_energy.o
->  obj-$(CONFIG_SENSORS_APPLESMC)	+= applesmc.o
-> diff --git a/drivers/hwmon/ahc1ec0-hwmon.c b/drivers/hwmon/ahc1ec0-hwmon.c
-> new file mode 100644
-> index 000000000000..5502e645048b
-> --- /dev/null
-> +++ b/drivers/hwmon/ahc1ec0-hwmon.c
-> @@ -0,0 +1,701 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+This patch translates Documentation/core-api/workqueue.rst into Chinese.
 
-This does not match MODULE_LICENSE below.
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/core-api/index.rst     |   5 +
+ .../translations/zh_CN/core-api/workqueue.rst | 336 ++++++++++++++++++
+ 2 files changed, 341 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/core-api/workqueue.rst
 
-> +/*
-> + * HWMON Driver for Advantech AHC1EC0 Embedded Controller
-> + *
-> + * Copyright 2021, Advantech IIoT Group
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/errno.h>
-> +#include <linux/hwmon-sysfs.h>
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index f1fa71e45c77..fb79ebe10823 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -19,6 +19,11 @@
+ 来的大量 kerneldoc 信息；有朝一日，若有人有动力的话，应当把它们拆分
+ 出来。
+ 
++.. toctree::
++   :maxdepth: 1
++
++   workqueue
++
+ Todolist:
+ 
+    kernel-api
+diff --git a/Documentation/translations/zh_CN/core-api/workqueue.rst b/Documentation/translations/zh_CN/core-api/workqueue.rst
+new file mode 100644
+index 000000000000..1b0c9c7558c2
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/workqueue.rst
+@@ -0,0 +1,336 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/workqueue.rst
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_workqueue.rst:
++
++
++=========================
++并发管理的工作队列 (cmwq)
++=========================
++
++:日期: September, 2010
++:作者: Tejun Heo <tj@kernel.org>
++:作者: Florian Mickler <florian@mickler.org>
++
++
++简介
++====
++
++在很多情况下，需要一个异步进程的执行环境，工作队列（wq）API是这种情况下
++最常用的机制。
++
++当需要这样一个异步执行上下文时，一个描述将要执行的函数的工作项（work，
++即一个待执行的任务）被放在队列中。一个独立的线程作为异步执行环境。该队
++列被称为workqueue，线程被称为工作者（worker，即执行这一队列的线程）。
++
++当工作队列上有工作项时，工作者会一个接一个地执行与工作项相关的函数。当
++工作队列中没有任何工作项时，工作者就会变得空闲。当一个新的工作项被排入
++队列时，工作者又开始执行。
++
++
++为什么要cmwq?
++=============
++
++在最初的wq实现中，多线程（MT）wq在每个CPU上有一个工作者线程，而单线程
++（ST）wq在全系统有一个工作者线程。一个MT wq需要保持与CPU数量相同的工
++作者数量。这些年来，内核增加了很多MT wq的用户，随着CPU核心数量的不断
++增加，一些系统刚启动就达到了默认的32k PID的饱和空间。
++
++尽管MT wq浪费了大量的资源，但所提供的并发性水平却不能令人满意。这个限
++制在ST和MT wq中都有，只是在MT中没有那么严重。每个wq都保持着自己独立的
++工作者池。一个MT wq只能为每个CPU提供一个执行环境，而一个ST wq则为整个
++系统提供一个。工作项必须竞争这些非常有限的执行上下文，从而导致各种问题，
++包括在单一执行上下文周围容易发生死锁。
++
++所提供的并发性水平和资源使用之间的矛盾也迫使其用户做出不必要的权衡，比
++如libata选择使用ST wq来轮询PIO，并接受一个不必要的限制，即没有两个轮
++询PIO可以同时进行。由于MT wq并没有提供更好的并发性，需要更高层次的并
++发性的用户，如async或fscache，不得不实现他们自己的线程池。
++
++并发管理工作队列（cmwq）是对wq的重新实现，重点是以下目标。
++
++* 保持与原始工作队列API的兼容性。
++
++* 使用由所有wq共享的每CPU统一的工作者池，在不浪费大量资源的情况下按
++* 需提供灵活的并发水平。
++
++* 自动调节工作者池和并发水平，使API用户不需要担心这些细节。
++
++
++设计
++====
++
++为了简化函数的异步执行，引入了一个新的抽象概念，即工作项。
++
++一个工作项是一个简单的结构，它持有一个指向将被异步执行的函数的指针。
++每当一个驱动程序或子系统希望一个函数被异步执行时，它必须建立一个指
++向该函数的工作项，并在工作队列中排队等待该工作项。（就是挂到workqueue
++队列里面去）
++
++特定目的线程，称为工作线程（工作者），一个接一个地执行队列中的功能。
++如果没有工作项排队，工作者线程就会闲置。这些工作者线程被管理在所谓
++的工作者池中。
++
++cmwq设计区分了面向用户的工作队列，子系统和驱动程序在上面排队工作，
++以及管理工作者池和处理排队工作项的后端机制。
++
++每个可能的CPU都有两个工作者池，一个用于正常的工作项，另一个用于高
++优先级的工作项，还有一些额外的工作者池，用于服务未绑定工作队列的工
++作项目——这些后备池的数量是动态的。
++
++当他们认为合适的时候，子系统和驱动程序可以通过特殊的
++``workqueue API`` 函数创建和排队工作项。他们可以通过在工作队列上
++设置标志来影响工作项执行方式的某些方面，他们把工作项放在那里。这些
++标志包括诸如CPU定位、并发限制、优先级等等。要获得详细的概述，请参
++考下面的 ``alloc_workqueue()`` 的 API 描述。
++
++当一个工作项被排入一个工作队列时，目标工作池将根据队列参数和工作队
++列属性确定，并被附加到工作池的共享工作列表上。例如，除非特别重写，
++否则一个绑定的工作队列的工作项将被排在与发起线程运行的CPU相关的普
++通或高级工作工作者池的工作项列表中。
++
++对于任何工作者池的实施，管理并发水平（有多少执行上下文处于活动状
++态）是一个重要问题。最低水平是为了节省资源，而饱和水平是指系统被
++充分使用。
++
++每个与实际CPU绑定的worker-pool通过钩住调度器来实现并发管理。每当
++一个活动的工作者被唤醒或睡眠时，工作者池就会得到通知，并跟踪当前可
++运行的工作着的数量。一般来说，工作项不会占用CPU并消耗很多周期。这
++意味着保持足够的并发性以防止工作处理停滞应该是最优的。只要CPU上有
++一个或多个可运行的工作者，工作者池就不会开始执行新的工作，但是，当
++最后一个运行的工作者进入睡眠状态时，它会立即安排一个新的工作者，这
++样CPU就不会在有待处理的工作项目时闲置。这允许在不损失执行带宽的情
++况下使用最少的工作者。
++
++除了kthreads的内存空间外，保留空闲的工作者并没有其他成本，所以cmwq
++在杀死它们之前会保留一段时间的空闲。
++
++对于非绑定的工作队列，后备池的数量是动态的。可以使用
++``apply_workqueue_attrs()`` 为非绑定工作队列分配自定义属性，
++workqueue将自动创建与属性相匹配的后备工作者池。调节并发水平的责任在
++用户身上。也有一个标志可以将绑定的wq标记为忽略并发管理。
++详情请参考API部分。
++
++前进进度的保证依赖于当需要更多的执行上下文时可以创建工作者，这也是
++通过使用救援工作者来保证的。所有可能在处理内存回收的代码路径上使用
++的工作项都需要在wq上排队，wq上保留了一个救援工作者，以便在内存有压
++力的情况下下执行。否则，工作者池就有可能出现死锁，等待执行上下文释
++放出来。
++
++
++应用程序编程接口 (API)
++======================
++
++``alloc_workqueue()`` 分配了一个wq。原来的 ``create_*workqueue()``
++函数已被废弃，并计划删除。 ``alloc_workqueue()`` 需要三个
++参数 - ``@name`` , ``@flags`` 和 ``@max_active`` 。
++``@name`` 是wq的名称，如果有的话，也用作救援线程的名称。
++
++一个wq不再管理执行资源，而是作为前进进度保证、冲洗(flush)和
++工作项属性的域。 ``@flags`` 和 ``@max_active`` 控制着工作
++项如何被分配执行资源、安排和执行。
++
++
++``flags``
++---------
++
++``WQ_UNBOUND``
++  排队到非绑定wq的工作项由特殊的工作者池提供服务，这些工作者不
++  绑定在任何特定的CPU上。这使得wq表现得像一个简单的执行环境提
++  供者，没有并发管理。非绑定工作者池试图尽快开始执行工作项。非
++  绑定的wq牺牲了局部性，但在以下情况下是有用的。
++
++  * 预计并发水平要求会有很大的波动，使用绑定的wq最终可能会在不
++    同的CPU上产生大量大部分未使用的工作者，因为发起线程在不同
++    的CPU上跳转。
++
++  * 长期运行的CPU密集型工作负载，可以由系统调度器更好地管理。
++
++``WQ_FREEZABLE``
++  一个可冻结的wq参与了系统暂停操作的冻结阶段。wq上的工作项被
++  排空，在解冻之前没有新的工作项开始执行。
++
++``WQ_MEM_RECLAIM``
++  所有可能在内存回收路径中使用的wq都必须设置这个标志。无论内
++  存压力如何，wq都能保证至少有一个执行上下文。
++
++``WQ_HIGHPRI``
++  高优先级wq的工作项目被排到目标cpu的高优先级工作者池中。高
++  优先级的工作者池由具有较高级别的工作者线程提供服务。
++
++  请注意，普通工作者池和高优先级工作者池之间并不相互影响。他
++  们各自维护其独立的工作者池，并在其工作者之间实现并发管理。
++
++``WQ_CPU_INTENSIVE``
++  CPU密集型wq的工作项对并发水平没有贡献。换句话说，可运行的
++  CPU密集型工作项不会阻止同一工作者池中的其他工作项开始执行。
++  这对于那些预计会占用CPU周期的绑定工作项很有用，这样它们的
++  执行就会受到系统调度器的监管。
++
++  尽管CPU密集型工作项不会对并发水平做出贡献，但它们的执行开
++  始仍然受到并发管理的管制，可运行的非CPU密集型工作项会延迟
++  CPU密集型工作项的执行。
++
++  这个标志对于未绑定的wq来说是没有意义的。
++
++请注意，标志 ``WQ_NON_REENTRANT`` 不再存在，因为现在所有的工作
++队列都是不可逆的——任何工作项都保证在任何时间内最多被整个系统的一
++个工作者执行。
++
++
++``max_active``
++--------------
++
++``@max_active`` 决定了每个CPU可以分配给wq的工作项的最大执行上
++下文数量。例如，如果 ``@max_active为16`` ，每个CPU最多可以同
++时执行16个wq的工作项。
++
++目前，对于一个绑定的wq， ``@max_active`` 的最大限制是512，当指
++定为0时使用的默认值是256。对于非绑定的wq，其限制是512和
++4 * ``num_possible_cpus()`` 中的较高值。这些值被选得足够高，所
++以它们不是限制性因素，同时会在失控情况下提供保护。
++
++一个wq的活动工作项的数量通常由wq的用户来调节，更具体地说，是由用
++户在同一时间可以排列多少个工作项来调节。除非有特定的需求来控制活动
++工作项的数量，否则建议指定 为"0"。
++
++一些用户依赖于ST wq的严格执行顺序。 ``@max_active`` 为1和 ``WQ_UNBOUND``
++的组合用来实现这种行为。这种wq上的工作项目总是被排到未绑定的工作池
++中，并且在任何时候都只有一个工作项目处于活动状态，从而实现与ST wq相
++同的排序属性。
++
++在目前的实现中，上述配置只保证了特定NUMA节点内的ST行为。相反，
++``alloc_ordered_queue()`` 应该被用来实现全系统的ST行为。
++
++
++执行场景示例
++============
++
++下面的示例执行场景试图说明cmwq在不同配置下的行为。
++
++ 工作项w0、w1、w2被排到同一个CPU上的一个绑定的wq q0上。w0
++ 消耗CPU 5ms，然后睡眠10ms，然后在完成之前再次消耗CPU 5ms。
++
++忽略所有其他的任务、工作和处理开销，并假设简单的FIFO调度，
++下面是一个高度简化的原始wq的可能事件序列的版本。::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 starts and burns CPU
++ 25		w1 sleeps
++ 35		w1 wakes up and finishes
++ 35		w2 starts and burns CPU
++ 40		w2 sleeps
++ 50		w2 wakes up and finishes
++
++And with cmwq with ``@max_active`` >= 3, ::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 starts and burns CPU
++ 10		w1 sleeps
++ 10		w2 starts and burns CPU
++ 15		w2 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 25		w2 wakes up and finishes
++
++如果 ``@max_active`` == 2, ::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 starts and burns CPU
++ 10		w1 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 20		w2 starts and burns CPU
++ 25		w2 sleeps
++ 35		w2 wakes up and finishes
++
++现在，我们假设w1和w2被排到了不同的wq q1上，这个wq q1
++有 ``WQ_CPU_INTENSIVE`` 设置::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 and w2 start and burn CPU
++ 10		w1 sleeps
++ 15		w2 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 25		w2 wakes up and finishes
++
++
++指南
++====
++
++* 如果一个wq可能处理在内存回收期间使用的工作项目，请不
++  要忘记使用 ``WQ_MEM_RECLAIM`` 。每个设置了
++  ``WQ_MEM_RECLAIM`` 的wq都有一个为其保留的执行环境。
++  如果在内存回收过程中使用的多个工作项之间存在依赖关系，
++  它们应该被排在不同的wq中，每个wq都有 ``WQ_MEM_RECLAIM`` 。
++
++* 除非需要严格排序，否则没有必要使用ST wq。
++
++* U除非有特殊需要，建议使用0作为@max_active。在大多数使用情
++  况下，并发水平通常保持在默认限制之下。
++
++* 一个wq作为前进进度保证（WQ_MEM_RECLAIM，冲洗（flush）和工
++  作项属性的域。不涉及内存回收的工作项，不需要作为工作项组的一
++  部分被刷新，也不需要任何特殊属性，可以使用系统中的一个wq。使
++  用专用wq和系统wq在执行特性上没有区别。
++
++* 除非工作项预计会消耗大量的CPU周期，否则使用绑定的wq通常是有
++  益的，因为wq操作和工作项执行中的定位水平提高了。
++
++
++调试
++====
++
++因为工作函数是由通用的工作者线程执行的，所以需要一些手段来揭示一些行为不端的工作队列用户。
++
++工作者线程在进程列表中显示为: ::
++
++  root      5671  0.0  0.0      0     0 ?        S    12:07   0:00 [kworker/0:1]
++  root      5672  0.0  0.0      0     0 ?        S    12:07   0:00 [kworker/1:2]
++  root      5673  0.0  0.0      0     0 ?        S    12:12   0:00 [kworker/0:0]
++  root      5674  0.0  0.0      0     0 ?        S    12:13   0:00 [kworker/1:0]
++
++如果kworkers失控了（使用了太多的cpu），有两类可能的问题:
++
++	1. 正在迅速调度的事情
++	2. 一个消耗大量cpu周期的工作项。
++
++第一个可以用追踪的方式进行跟踪: ::
++
++	$ echo workqueue:workqueue_queue_work > /sys/kernel/debug/tracing/set_event
++	$ cat /sys/kernel/debug/tracing/trace_pipe > out.txt
++	(wait a few secs)
++	^C
++
++如果有什么东西在工作队列上忙着做循环，它就会主导输出，可以用工作项函数确定违规者。
++
++对于第二类问题，应该可以只检查违规工作者线程的堆栈跟踪。 ::
++
++	$ cat /proc/THE_OFFENDING_KWORKER/stack
++
++工作项函数在堆栈追踪中应该是微不足道的。
++
++
++内核内联文档参考
++================
++
++.. kernel-doc:: include/linux/workqueue.h
++
++.. kernel-doc:: kernel/workqueue.c
+-- 
+2.27.0
 
-Unnecessary include.
-
-> +#include <linux/hwmon.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_data/ahc1ec0.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/property.h>
-> +#include <linux/string.h>
-> +#include <linux/types.h>
-> +
-> +#define EC_ACPI_THERMAL1_LOCAL_TEMP	0x60
-> +#define EC_ACPI_THERMAL1_REMOTE_TEMP	0x61
-> +
-> +struct ec_hwmon_attrs {
-> +	const char		*name;
-> +	umode_t			mode;
-> +	int (*read)(struct device *dev, long *val);
-> +};
-> +
-> +struct adv_hwmon_profile {
-> +	int offset;
-> +	unsigned long resolution, resolution_vin, resolution_sys, resolution_curr, resolution_power;
-> +	unsigned long r1, r1_vin, r1_sys, r1_curr, r1_power;
-> +	unsigned long r2, r2_vin, r2_sys, r2_curr, r2_power;
-> +	int hwmon_in_list_cnt;
-> +	int curr_list_cnt;
-> +	int temp_list_cnt;
-> +	int *hwmon_in_list;
-> +	int *curr_list;
-> +	int *temp_list;
-> +};
-> +
-> +struct ec_hwmon_data {
-> +	struct device *dev;
-
-Unnecessary.
-
-> +	struct device *hwmon_dev;
-
-Unnecessary.
-
-> +	struct adv_ec_ddata *ddata;
-> +	unsigned long temperature[3];
-
-Unused.
-
-> +	unsigned long ec_current[5];
-
-ec_current[0] and ec_current[1] are profile variables, ec_current[3]
-is written to but never read, the others are unused.
-
-> +	unsigned long power[5];
-
-Not used at all.
-
-> +	unsigned long voltage[7];
-
-Unnecessary array.
-
-> +
-> +	struct ec_hw_pin_table pin_tbl;
-
-I don't see this structure used in any other driver but here.
-Please declare it here.
-
-> +	struct ec_smbuso_em0 ec_smboem0;
-
-This is only written to and does not appear to be used.
-
-> +	struct adv_hwmon_profile *profile;
-> +};
-> +
-> +enum ec_hwmon_in_type {
-> +	EC_HWMON_IN_VBAT,
-> +	EC_HWMON_IN_5VSB,
-> +	EC_HWMON_IN_12V,
-> +	EC_HWMON_IN_VCORE,
-> +	EC_HWMON_IN_VIN1,
-> +	EC_HWMON_IN_VIN2,
-> +	EC_HWMON_IN_SYS_VOL,
-> +};
-
-Some of the above values do not appear to be used anywhere.
-
-> +
-> +enum ec_curr_type {
-> +	EC_VIN_CURRENT,
-> +};
-> +
-> +enum ec_temp_type {
-> +	EC_TEMP_CPU,
-> +	EC_TEMP_SYS,
-> +};
-> +
-> +static int hwmon_in_list_0[] = {
-> +	EC_HWMON_IN_VBAT,
-> +	EC_HWMON_IN_5VSB,
-> +	EC_HWMON_IN_12V,
-> +	EC_HWMON_IN_VCORE,
-> +};
-> +
-> +static int hwmon_in_list_1[] = {
-> +	EC_HWMON_IN_VBAT,
-> +	EC_HWMON_IN_5VSB,
-> +	EC_HWMON_IN_12V,
-> +	EC_HWMON_IN_VCORE,
-> +};
-> +
-> +static int curr_list_0[] = {
-> +	EC_VIN_CURRENT,
-> +};
-> +
-> +static int temp_list_0[] = {
-> +	EC_TEMP_CPU,
-> +};
-> +
-> +static int temp_list_1[] = {
-> +	EC_TEMP_CPU,
-> +	EC_TEMP_SYS,
-> +};
-> +
-> +static struct adv_hwmon_profile advec_profile[] = {
-> +	/* [0] AHC1EC0_HWMON_PRO_TEMPLATE
-> +	 * The following Advantech hardware devices are for this configuration:
-> +	 *		TPC-8100TR, TPC-651T-E3AE, TPC-1251T-E3AE, TPC-1551T-E3AE,
-> +	 *		TPC-1751T-E3AE, TPC-1051WP-E3AE, TPC-1551WP-E3AE, TPC-1581WP-433AE,
-> +	 *		TPC-1782H-433AE, UNO-1483G-434AE, UNO-2483G-434AE, UNO-3483G-374AE,
-> +	 *		UNO-2473G, UNO-2484G-6???AE, UNO-2484G-7???AE, UNO-3283G-674AE,
-> +	 *		UNO-3285G-674AE
-> +	 */
-
-/*
- * This is not the networking subsystem.
- * Please use standfard multi-line comments.
- */
-
-> +	{
-> +		.resolution = 2929,
-> +		.r1 = 1912,
-> +		.r2 = 1000,
-> +		.offset = 0,
-> +		.hwmon_in_list_cnt = ARRAY_SIZE(hwmon_in_list_0),
-> +		.hwmon_in_list = hwmon_in_list_0,
-> +		.temp_list_cnt = ARRAY_SIZE(temp_list_0),
-> +		.temp_list = temp_list_0,
-> +		.curr_list_cnt = ARRAY_SIZE(curr_list_0),
-> +		.curr_list = curr_list_0,
-> +	},
-> +	/* [1] AHC1EC0_HWMON_PRO_TPC5XXX
-> +	 * The following Advantech hardware devices are for 2nd configuration:
-> +	 *		TPC-B500-6??AE, TPC-5???T-6??AE, TPC-5???W-6??AE, TPC-B200-???AE,
-> +	 *		TPC-2???T-???AE, TPC-2???W-???AE
-> +	 */
-> +	{
-> +		.resolution = 2929,
-> +		.r1 = 1912,
-> +		.r2 = 1000,
-> +		.offset = 0,
-> +		.hwmon_in_list_cnt = ARRAY_SIZE(hwmon_in_list_1),
-> +		.hwmon_in_list = hwmon_in_list_1,
-> +		.temp_list_cnt = ARRAY_SIZE(temp_list_0),
-> +		.temp_list = temp_list_0,
-> +		.curr_list_cnt = 0,
-> +	},
-> +	/* [2] AHC1EC0_HWMON_PRO_PRVR4
-> +	 * The PR/VR4 devices are this configuration.
-> +	 */
-> +	{
-> +		.resolution = 2929,
-> +		.r1 = 1912,
-> +		.r2 = 1000,
-> +		.offset = 0,
-> +		.hwmon_in_list_cnt = ARRAY_SIZE(hwmon_in_list_1),
-> +		.hwmon_in_list = hwmon_in_list_1,
-> +		.temp_list_cnt = ARRAY_SIZE(temp_list_1),
-> +		.temp_list = temp_list_1,
-> +		.curr_list_cnt = 0,
-> +	},
-> +	/* [3] AHC1EC0_HWMON_PRO_UNO2271G
-> +	 * The following Advantech hardware devices are using this configuration:
-> +	 *     UNO-2271G-E22AE/E23AE/E022AE/E023AE series and UNO-420 devices
-> +	 */
-> +	{
-> +		.resolution = 2929,
-> +		.r1 = 1912,
-> +		.r2 = 1000,
-> +		.offset = 0,
-> +		.hwmon_in_list_cnt = ARRAY_SIZE(hwmon_in_list_1),
-> +		.hwmon_in_list = hwmon_in_list_1,
-> +		.temp_list_cnt = ARRAY_SIZE(temp_list_0),
-> +		.temp_list = temp_list_0,
-> +		.curr_list_cnt = 0,
-
-0 initializers are unnecessary.
-
-> +	},
-> +};
-> +
-> +static void adv_ec_init_hwmon_profile(u32 profile, struct ec_hwmon_data *lmsensor_data)
-> +{
-> +	int i;
-> +	struct ec_hw_pin_table *ptbl = &lmsensor_data->pin_tbl;
-> +	struct adv_ec_ddata *ddata = lmsensor_data->ddata;
-> +	struct ec_dynamic_table *dym_tbl = ddata->dym_tbl;
-> +
-> +	lmsensor_data->profile = &advec_profile[profile];
-> +
-> +	for (i = 0; i < EC_MAX_TBL_NUM ; i++) {
-> +		switch (dym_tbl[i].device_id) {
-> +		case EC_DID_CMOSBAT:
-> +			ptbl->vbat[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vbat[1] = 1;
-> +			break;
-> +		case EC_DID_CMOSBAT_X2:
-> +			ptbl->vbat[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vbat[1] = 2;
-> +			break;
-> +		case EC_DID_CMOSBAT_X10:
-> +			ptbl->vbat[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vbat[1] = 10;
-> +			break;
-> +		case EC_DID_5VS0:
-> +		case EC_DID_5VS5:
-> +			ptbl->v5[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->v5[1] = 1;
-> +			break;
-> +		case EC_DID_5VS0_X2:
-> +		case EC_DID_5VS5_X2:
-> +			ptbl->v5[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->v5[1] = 2;
-> +			break;
-> +		case EC_DID_5VS0_X10:
-> +		case EC_DID_5VS5_X10:
-> +			ptbl->v5[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->v5[1] = 10;
-> +			break;
-> +		case EC_DID_12VS0:
-> +			ptbl->v12[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->v12[1] = 1;
-> +			break;
-> +		case EC_DID_12VS0_X2:
-> +			ptbl->v12[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->v12[1] = 2;
-> +			break;
-> +		case EC_DID_12VS0_X10:
-> +			ptbl->v12[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->v12[1] = 10;
-> +			break;
-> +		case EC_DID_VCOREA:
-> +		case EC_DID_VCOREB:
-> +			ptbl->vcore[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vcore[1] = 1;
-> +			break;
-> +		case EC_DID_VCOREA_X2:
-> +		case EC_DID_VCOREB_X2:
-> +			ptbl->vcore[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vcore[1] = 2;
-> +			break;
-> +		case EC_DID_VCOREA_X10:
-> +		case EC_DID_VCOREB_X10:
-> +			ptbl->vcore[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vcore[1] = 10;
-> +			break;
-> +		case EC_DID_DC:
-> +			ptbl->vdc[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vdc[1] = 1;
-> +			break;
-> +		case EC_DID_DC_X2:
-> +			ptbl->vdc[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vdc[1] = 2;
-> +			break;
-> +		case EC_DID_DC_X10:
-> +			ptbl->vdc[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->vdc[1] = 10;
-> +			break;
-> +		case EC_DID_CURRENT:
-> +			ptbl->ec_current[0] = dym_tbl[i].hw_pin_num;
-> +			ptbl->ec_current[1] = 1;
-> +			break;
-> +		case EC_DID_SMBOEM0:
-> +			lmsensor_data->ec_smboem0.hw_pin_num = dym_tbl[i].hw_pin_num;
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +	}
-> +}
-> +
-> +static int get_ec_in_vbat_input(struct device *dev, long *val)
-> +{
-> +	unsigned int temp = 0;
-
-Unnecessary initialization.
-
-> +	unsigned long voltage = 0;
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +	struct ec_hw_pin_table *ptbl = &lmsensor_data->pin_tbl;
-> +	struct adv_hwmon_profile *profile = lmsensor_data->profile;
-> +	struct adv_ec_ddata *ddata = lmsensor_data->ddata;
-> +
-> +	temp = ahc1ec_read_adc_value(ddata, ptbl->vbat[0], ptbl->vbat[1]);
-> +
-> +	if (profile->r2 != 0)
-> +		voltage = temp * (profile->r1 + profile->r2) / profile->r2;
-
-r2 is always != 0.
-
-> +
-> +	if (profile->resolution != 0)
-> +		voltage =  temp * profile->resolution / 1000 / 1000;
-> +
-> +	if (profile->offset != 0)
-> +		voltage += (int)profile->offset * 100;
-> +
-> +	lmsensor_data->voltage[0] = 10 * voltage;
-
-This results in unnecessary loss of resolution. Please fix the calculations
-to avoid it.
-
-> +
-> +	*val = lmsensor_data->voltage[0];
-> +	return 0;
-> +}
-> +
-> +static int get_ec_in_v5_input(struct device *dev, long *val)
-> +{
-> +	unsigned int temp;
-> +	unsigned long voltage = 0;
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +	struct ec_hw_pin_table *ptbl = &lmsensor_data->pin_tbl;
-> +	struct adv_hwmon_profile *profile = lmsensor_data->profile;
-> +	struct adv_ec_ddata *ddata = lmsensor_data->ddata;
-> +
-> +	temp = ahc1ec_read_adc_value(ddata, ptbl->v5[0], ptbl->v5[1]);
-> +
-> +	if (profile->r2 != 0)
-> +		voltage = temp * (profile->r1 + profile->r2) / profile->r2;
-
-r2 is always != 0.
-
-> +
-> +	if (profile->resolution != 0)
-> +		voltage =  temp * profile->resolution / 1000 / 1000;
-> +
-> +	if (profile->offset != 0)
-> +		voltage += (int)profile->offset * 100;
-> +
-> +	lmsensor_data->voltage[1] = 10 * voltage;
-> +
-> +	*val = lmsensor_data->voltage[1];
-> +	return 0;
-> +}
-
-All those read functions pretty much repeat the same code.
-Please add a helper function which does all the common stuff.
-
-> +
-> +static int get_ec_in_v12_input(struct device *dev, long *val)
-> +{
-> +	int temp;
-> +	unsigned long voltage = 0;
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +	struct ec_hw_pin_table *ptbl = &lmsensor_data->pin_tbl;
-> +	struct adv_hwmon_profile *profile = lmsensor_data->profile;
-> +	struct adv_ec_ddata *ddata = lmsensor_data->ddata;
-> +
-> +	temp = ahc1ec_read_adc_value(ddata, ptbl->v12[0], ptbl->v12[1]);
-> +	if (temp == -1)
-> +		temp = ahc1ec_read_adc_value(ddata, ptbl->vdc[0], ptbl->vdc[1]);
-> +
-> +	if (profile->r2 != 0)
-> +		voltage = temp * (profile->r1 + profile->r2) / profile->r2;
-> +
-Same everywhere.
-
-> +	if (profile->resolution != 0)
-> +		voltage =  temp * profile->resolution / 1000 / 1000;
-> +
-> +	if (profile->offset != 0)
-> +		voltage += profile->offset * 100;
-> +
-> +	lmsensor_data->voltage[2] = 10 * voltage;
-> +
-> +	*val = lmsensor_data->voltage[2];
-> +	return 0;
-> +}
-> +
-> +static int get_ec_in_vcore_input(struct device *dev, long *val)
-> +{
-> +	int temp;
-> +	unsigned int voltage = 0;
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +	struct ec_hw_pin_table *ptbl = &lmsensor_data->pin_tbl;
-> +	struct adv_hwmon_profile *profile = lmsensor_data->profile;
-> +	struct adv_ec_ddata *ddata = lmsensor_data->ddata;
-> +
-> +	temp = ahc1ec_read_adc_value(ddata, ptbl->vcore[0], ptbl->vcore[1]);
-> +
-> +	if (profile->r2 != 0)
-> +		voltage = temp * (profile->r1 + profile->r2) / profile->r2;
-> +
-> +	if (profile->resolution != 0)
-> +		voltage = temp * profile->resolution / 1000 / 1000;
-> +
-> +	if (profile->offset != 0)
-> +		voltage += profile->offset * 100;
-> +
-> +	lmsensor_data->voltage[3] = 10 * voltage;
-> +
-> +	*val = lmsensor_data->voltage[3];
-> +	return 0;
-> +}
-> +
-> +static int get_ec_current1_input(struct device *dev, long *val)
-> +{
-> +	int temp;
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +	struct ec_hw_pin_table *ptbl = &lmsensor_data->pin_tbl;
-> +	struct adv_hwmon_profile *profile = lmsensor_data->profile;
-> +	struct adv_ec_ddata *ddata = lmsensor_data->ddata;
-> +
-> +	temp = ahc1ec_read_adc_value(ddata, ptbl->ec_current[0], ptbl->ec_current[1]);
-
-This function returns a negative error code which needs to be checked.
-
-> +
-> +	if (profile->r2 != 0)
-> +		temp = temp * (profile->r1 + profile->r2) / profile->r2;
-> +
-> +	if (profile->resolution != 0)
-> +		temp = temp * profile->resolution / 1000 / 1000;
-> +
-> +	if (profile->offset != 0)
-> +		temp += profile->offset * 100;
-> +
-> +	lmsensor_data->ec_current[3] = 10 * temp;
-> +
-> +	*val = lmsensor_data->ec_current[3];
-> +	return 0;
-> +}
-> +
-> +static int get_ec_cpu_temp(struct device *dev, long *val)
-> +{
-> +	int ret;
-> +	unsigned char value;
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +	struct adv_ec_ddata *ddata = lmsensor_data->ddata;
-> +
-> +	ret = ahc1ec_read_acpi_value(ddata, EC_ACPI_THERMAL1_REMOTE_TEMP, &value);
-> +	if (!ret)
-> +		*val = 1000 * value;
-> +	return ret;
-> +}
-> +
-> +static int get_ec_sys_temp(struct device *dev, long *val)
-> +{
-> +	int ret;
-> +	unsigned char value;
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +	struct adv_ec_ddata *ddata = lmsensor_data->ddata;
-> +
-> +	ret = ahc1ec_read_acpi_value(ddata, EC_ACPI_THERMAL1_LOCAL_TEMP, &value);
-
-This function could return both the error code and the value without extra
-pointer to the result.
-
-> +	if (!ret)
-> +		*val = 1000 * value;
-> +	return ret;
-
-This should be
-	if (ret)
-		return ret;
-	*val = ...
-	return 0;
-
-> +}
-
-Those two functions can be simplified into one with the sensor
-as additional parameter.
-
-> +
-> +const struct ec_hwmon_attrs ec_hwmon_in_attr_template[] = {
-> +	{"VBAT",	0444, get_ec_in_vbat_input},
-> +	{"5VSB",	0444, get_ec_in_v5_input},
-> +	{"Vin",		0444, get_ec_in_v12_input},
-> +	{"VCORE",	0444, get_ec_in_vcore_input},
-> +	{"Vin1",	0444, NULL},
-> +	{"Vin2",	0444, NULL},
-> +	{"System Voltage", 0444, NULL},
-
-What is the point of above three entries ?
-
-> +	{"Current",	0444, get_ec_current1_input},
-> +};
-> +
-> +const struct ec_hwmon_attrs ec_curr_attr_template[] = {
-> +	{"Current",	0444, get_ec_current1_input},
-> +};
-> +
-> +const struct ec_hwmon_attrs ec_temp_attrs_template[] = {
-> +	{"CPU Temp",	0444, get_ec_cpu_temp},
-> +	{"System Temp",	0444, get_ec_sys_temp},
-> +};
-> +
-> +static int ahc1ec0_read_in(struct device *dev, u32 attr, int channel, long *val)
-> +{
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +
-> +	if (attr == hwmon_in_input) {
-> +		int index = lmsensor_data->profile->hwmon_in_list[channel];
-> +		const struct ec_hwmon_attrs *ec_hwmon_attr = &ec_hwmon_in_attr_template[index];
-> +
-> +		return ec_hwmon_attr->read(dev, val);
-> +	}
-
-There is only one attribute, so the if check is really unnecessary.
-
-This entire code could be rearranged to not require the additional
-indirect read function, by providing appropriate parameters to a single
-function. This would reduce code size significantly. Please do that.
-
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int ahc1ec0_read_curr(struct device *dev, u32 attr, int channel, long *val)
-> +{
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +
-> +	if (attr == hwmon_curr_input) {
-> +		int index = lmsensor_data->profile->curr_list[channel];
-> +		const struct ec_hwmon_attrs *ec_hwmon_attr = &ec_curr_attr_template[index];
-> +
-> +		return ec_hwmon_attr->read(dev, val);
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int ahc1ec0_read_temp(struct device *dev, u32 attr, int channel, long *val)
-> +{
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +
-> +	switch (attr) {
-> +	case hwmon_temp_input: {
-> +		int index = lmsensor_data->profile->temp_list[channel];
-> +		const struct ec_hwmon_attrs *devec_hwmon_attr =
-> +			&ec_temp_attrs_template[index];
-> +
-> +		return devec_hwmon_attr->read(dev, val);
-> +	}
-> +	case hwmon_temp_crit:
-> +		/* both CPU temp and System temp are all this value */
-> +		*val = 100000;
-> +		return 0;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static int ahc1ec0_read_string(struct device *dev, enum hwmon_sensor_types type,
-> +			       u32 attr, int channel, const char **str)
-> +{
-> +	struct ec_hwmon_data *lmsensor_data = dev_get_drvdata(dev);
-> +
-> +	if (type == hwmon_in && attr == hwmon_in_label) {
-> +		int index = lmsensor_data->profile->hwmon_in_list[channel];
-> +		const struct ec_hwmon_attrs *ec_hwmon_attr = &ec_hwmon_in_attr_template[index];
-> +
-> +		*str = ec_hwmon_attr->name;
-> +		return 0;
-> +	}
-> +
-> +	if (type == hwmon_curr && attr == hwmon_curr_label) {
-> +		int index = lmsensor_data->profile->curr_list[channel];
-> +		const struct ec_hwmon_attrs *ec_hwmon_attr = &ec_curr_attr_template[index];
-> +
-> +		*str = ec_hwmon_attr->name;
-> +		return 0;
-> +	}
-> +
-> +	if (type == hwmon_temp && attr == hwmon_temp_label) {
-> +		int index = lmsensor_data->profile->temp_list[channel];
-> +		const struct ec_hwmon_attrs *ec_hwmon_attr = &ec_temp_attrs_template[index];
-> +
-> +		*str = ec_hwmon_attr->name;
-> +		return 0;
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int ahc1ec0_read(struct device *dev, enum hwmon_sensor_types type,
-> +			u32 attr, int channel, long *val)
-> +{
-> +	switch (type) {
-> +	case hwmon_in:
-> +		return ahc1ec0_read_in(dev, attr, channel, val);
-> +	case hwmon_curr:
-> +		return ahc1ec0_read_curr(dev, attr, channel, val);
-> +	case hwmon_temp:
-> +		return ahc1ec0_read_temp(dev, attr, channel, val);
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static umode_t ec_hwmon_in_visible(const void *data, u32 attr, int channel)
-> +{
-> +	struct ec_hwmon_data *lmsensor_data = (struct ec_hwmon_data *)data;
-> +
-> +	switch (attr) {
-> +	case hwmon_in_input:
-> +	case hwmon_in_label:
-> +		if (lmsensor_data->profile->hwmon_in_list_cnt > channel)
-
-This is confusing. Please use
-		if (channel < ...)
-
-> +			return 0444;
-> +		else
-> +			return 0;
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static umode_t ec_curr_visible(const void *data, u32 attr, int channel)
-> +{
-> +	struct ec_hwmon_data *lmsensor_data = (struct ec_hwmon_data *)data;
-> +
-> +	switch (attr) {
-> +	case hwmon_curr_input:
-> +	case hwmon_curr_label:
-> +		if (lmsensor_data->profile->curr_list_cnt > channel)
-> +			return 0444;
-> +		else
-> +			return 0;
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static umode_t ec_temp_visible(const void *data, u32 attr, int channel)
-> +{
-> +	struct ec_hwmon_data *lmsensor_data = (struct ec_hwmon_data *)data;
-> +
-> +	switch (attr) {
-> +	case hwmon_temp_input:
-> +	case hwmon_temp_crit:
-> +	case hwmon_temp_label:
-> +		if (lmsensor_data->profile->temp_list_cnt > channel)
-> +			return 0444;
-> +		else
-> +			return 0;
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static umode_t ahc1ec0_is_visible(const void *data, enum hwmon_sensor_types type,
-> +				  u32 attr, int channel)
-> +{
-> +	switch (type) {
-> +	case hwmon_in:
-> +		return ec_hwmon_in_visible(data, attr, channel);
-> +	case hwmon_curr:
-> +		return ec_curr_visible(data, attr, channel);
-> +	case hwmon_temp:
-> +		return ec_temp_visible(data, attr, channel);
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static const u32 ahc1ec0_in_config[] = {
-> +	HWMON_I_INPUT | HWMON_I_LABEL,
-> +	HWMON_I_INPUT | HWMON_I_LABEL,
-> +	HWMON_I_INPUT | HWMON_I_LABEL,
-> +	HWMON_I_INPUT | HWMON_I_LABEL,
-> +	0
-> +};
-> +
-> +static const struct hwmon_channel_info ahc1ec0_in = {
-> +	.type = hwmon_in,
-> +	.config = ahc1ec0_in_config,
-> +};
-> +
-> +static const u32 ahc1ec0_curr_config[] = {
-> +	HWMON_C_INPUT | HWMON_C_LABEL,
-> +	0
-> +};
-> +
-> +static const struct hwmon_channel_info ahc1ec0_curr = {
-> +	.type = hwmon_curr,
-> +	.config = ahc1ec0_curr_config,
-> +};
-> +
-> +static const u32 ahc1ec0_temp_config[] = {
-> +	HWMON_T_INPUT | HWMON_T_CRIT | HWMON_T_LABEL,
-> +	HWMON_T_INPUT | HWMON_T_CRIT | HWMON_T_LABEL,
-> +	0
-> +};
-> +
-> +static const struct hwmon_channel_info ahc1ec0_temp = {
-> +	.type = hwmon_temp,
-> +	.config = ahc1ec0_temp_config,
-> +};
-> +
-> +static const struct hwmon_channel_info *ahc1ec0_info[] = {
-> +	&ahc1ec0_in,
-> +	&ahc1ec0_curr,
-> +	&ahc1ec0_temp,
-> +	NULL
-> +};
-
-All the above can be simplified by using the HWMON_CHANNEL_INFO()
-macro.
-
-> +
-> +static const struct hwmon_ops ahc1ec0_hwmon_ops = {
-> +	.is_visible = ahc1ec0_is_visible,
-> +	.read = ahc1ec0_read,
-> +	.read_string = ahc1ec0_read_string,
-> +};
-> +
-> +static const struct hwmon_chip_info ahc1ec0_chip_info = {
-> +	.ops = &ahc1ec0_hwmon_ops,
-> +	.info = ahc1ec0_info,
-> +};
-> +
-> +static int adv_ec_hwmon_probe(struct platform_device *pdev)
-> +{
-> +	int ret;
-> +	u32 profile;
-> +	struct device *dev = &pdev->dev;
-> +	struct adv_ec_ddata *ddata;
-> +	struct ec_hwmon_data *lmsensor_data;
-> +
-> +	ddata = dev_get_drvdata(dev->parent);
-> +	if (!ddata)
-> +		return -EINVAL;
-> +
-> +	ret = device_property_read_u32(dev->parent, "advantech,hwmon-profile", &profile);
-> +	if (ret < 0) {
-> +		dev_dbg(dev, "get hwmon-profile failed! (%d)", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (profile >= ARRAY_SIZE(advec_profile)) {
-> +		dev_dbg(dev, "not support hwmon profile(%d)!\n", profile);
-
-s/not support/unsupported/
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	lmsensor_data = devm_kzalloc(dev, sizeof(*lmsensor_data), GFP_KERNEL);
-> +	if (!lmsensor_data)
-> +		return -ENOMEM;
-> +
-> +	lmsensor_data->ddata = ddata;
-> +	lmsensor_data->dev = dev;
-> +	dev_set_drvdata(dev, lmsensor_data);
-> +
-> +	adv_ec_init_hwmon_profile(profile, lmsensor_data);
-> +
-> +	lmsensor_data->hwmon_dev  =
-> +		devm_hwmon_device_register_with_info(dev, "ahc1ec0.hwmon", lmsensor_data,
-> +						     &ahc1ec0_chip_info, NULL);
-> +
-> +	return PTR_ERR_OR_ZERO(lmsensor_data->hwmon_dev);
-> +}
-> +
-> +static struct platform_driver adv_hwmon_drv = {
-> +	.driver = {
-> +		.name = "ahc1ec0-hwmon",
-> +	},
-> +	.probe = adv_ec_hwmon_probe,
-> +};
-> +module_platform_driver(adv_hwmon_drv);
-> +
-> +MODULE_LICENSE("Dual BSD/GPL");
-> +MODULE_ALIAS("platform:ahc1ec0-hwmon");
-> +MODULE_DESCRIPTION("Advantech Embedded Controller HWMON Driver.");
-> +MODULE_AUTHOR("Campion Kang <campion.kang@advantech.com.tw>");
-> +MODULE_AUTHOR("Jianfeng Dai <jianfeng.dai@advantech.com.cn>");
-> +MODULE_VERSION("1.0");
-> -- 
-> 2.17.1
-> 
