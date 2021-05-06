@@ -4,96 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAFF6C43460
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 08:22:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D38AC43460
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 08:26:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95A1E613C0
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 08:22:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F17D611ED
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 08:26:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233734AbhEFIXB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 May 2021 04:23:01 -0400
-Received: from mail-m176216.qiye.163.com ([59.111.176.216]:27122 "EHLO
-        mail-m176216.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233720AbhEFIW6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 04:22:58 -0400
-X-Greylist: delayed 406 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 May 2021 04:22:58 EDT
-Received: from wanjb-virtual-machine.localdomain (unknown [36.152.145.182])
-        by mail-m176216.qiye.163.com (Hmail) with ESMTPA id 16285C20158;
-        Thu,  6 May 2021 16:15:12 +0800 (CST)
-From:   Wan Jiabing <wanjiabing@vivo.com>
-To:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Wan Jiabing <wanjiabing@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kael_w@yeah.net
-Subject: [PATCH] docs/zh_CN: fix reference file and update translations
-Date:   Thu,  6 May 2021 16:14:01 +0800
-Message-Id: <20210506081414.14004-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.25.1
+        id S233770AbhEFI1j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 04:27:39 -0400
+Received: from aclms3.advantech.com.tw ([125.252.70.86]:61945 "EHLO
+        aclms3.advantech.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233767AbhEFI1i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 04:27:38 -0400
+X-Greylist: delayed 603 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 May 2021 04:27:37 EDT
+Received: from taipei09.ADVANTECH.CORP (unverified [172.20.0.236]) by ACLMS4.ADVANTECH.CORP
+ (Clearswift SMTPRS 5.6.0) with ESMTP id <Te64ee006b6ac14110e2c04@ACLMS4.ADVANTECH.CORP>;
+ Thu, 6 May 2021 16:16:22 +0800
+Received: from localhost (172.16.13.205) by taipei09.ADVANTECH.CORP
+ (172.20.0.236) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 6 May
+ 2021 16:16:21 +0800
+From:   Campion Kang <campion.kang@advantech.com.tw>
+To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-watchdog@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>,
+        AceLan Kao <chia-lin.kao@canonical.com>,
+        Campion Kang <campion.kang@advantech.com.tw>
+Subject: [PATCH v7 1/7] MAINTAINERS: Add Advantech AHC1EC0 embedded controller entry
+Date:   Thu, 6 May 2021 16:16:13 +0800
+Message-ID: <20210506081619.2443-1-campion.kang@advantech.com.tw>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZQh4eHVZDT0IeQkIfGEhOQxhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
-        hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PE06Mww4ND8TPEIsAhMuGTgM
-        KTAKFE9VSlVKTUlLSUNDQkpJTUhOVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
-        TVVKTklVSk9OVUpDSVlXWQgBWUFIT0xPNwY+
-X-HM-Tid: 0a7940bebb63d976kuws16285c20158
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [172.16.13.205]
+X-ClientProxiedBy: aclcas3.ADVANTECH.CORP (172.20.1.12) To
+ taipei09.ADVANTECH.CORP (172.20.0.236)
+X-TM-SNTS-SMTP: 7876205C7FEC843B581A29769A73260EFC38050E181FB3FE9EB1A7062F0750B12000:8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In commit da514157c4f06 ("docs: make reporting-bugs.rst obsolete"),
-reporting-bugs.rst was deleted and replaced by reporting-issues.rst.
+Changed in V7:
+	1. According to the reviewer's comment, add two files:
+	   Documentation/hwmon/ahc1ec0-hwmon.rst and
+	   drivers/platform/x86/ahc1ec0-core.c
 
-In commit cf6d6fc279360 ("docs: process/howto.rst: make sections on
-bug reporting match practice"), related sections were adjusted.
-
-Fix the reference file and update some translations.
-
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+Signed-off-by: Campion Kang <campion.kang@advantech.com.tw>
 ---
- .../translations/zh_CN/process/howto.rst         | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ MAINTAINERS | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-index ee3dee476d57..930ebc215fad 100644
---- a/Documentation/translations/zh_CN/process/howto.rst
-+++ b/Documentation/translations/zh_CN/process/howto.rst
-@@ -275,14 +275,8 @@ Linux-next 集成测试树
- 报告bug
- -------
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 83c2b1867586..984795eb6b5d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -572,6 +572,19 @@ S:	Maintained
+ F:	Documentation/scsi/advansys.rst
+ F:	drivers/scsi/advansys.c
  
--bugzilla.kernel.org是Linux内核开发者们用来跟踪内核Bug的网站。我们鼓励用
--户在这个工具中报告找到的所有bug。如何使用内核bugzilla的细节请访问：
--
--	http://test.kernel.org/bugzilla/faq.html
--
--内核源码主目录中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
--文件里有一个很好的模板。它指导用户如何报告可能的内核bug以及需要提供哪些信息
--来帮助内核开发者们找到问题的根源。
-+内核源码主目录中的 'Documentation/admin-guide/reporting-issues.rst' 文件介绍了
-+如何报告可能的内核bug，以及需要提供哪些信息来帮助内核开发者们找到问题的根源。
- 
- 
- 利用bug报告
-@@ -293,7 +287,11 @@ bugzilla.kernel.org是Linux内核开发者们用来跟踪内核Bug的网站。
- 者感受到你的存在。修改bug是赢得其他开发者赞誉的最好办法，因为并不是很多
- 人都喜欢浪费时间去修改别人报告的bug。
- 
--要尝试修改已知的bug，请访问 http://bugzilla.kernel.org 网址。
-+要尝试修复已知的bug，请找到你感兴趣的子系统，查看报告该子系统bug的
-+MAINTAINERS文件，通常它是一个邮件列表，很少有bug追踪信息。在这个
-+文件搜索获取最新的报告，并在你认为合适的地方提供帮助。你可能还需要查看
-+https://bugzilla.kernel.org 以获取bug报告，只有少数一些内核子系统积极地
-+通过它进行报告或追踪，但是整个内核的bug都被归档在那里。
- 
- 
- 邮件列表
++ADVANTECH AHC1EC0 EMBEDDED CONTROLLER DRIVER
++M:	Campion Kang <campion.kang@advantech.com.tw>
++L:	linux-kernel@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/mfd/ahc1ec0.yaml
++F:	Documentation/hwmon/ahc1ec0-hwmon.rst
++F:	drivers/hwmon/ahc1ec0-hwmon.c
++F:	drivers/mfd/ahc1ec0.c
++F:	drivers/platform/x86/ahc1ec0-core.c
++F:	drivers/watchdog/ahc1ec0-wdt.c
++F:	include/dt-bindings/mfd/ahc1ec0-dt.h
++F:	include/linux/platform_data/ahc1ec0.h
++
+ ADVANTECH SWBTN DRIVER
+ M:	Andrea Ho <Andrea.Ho@advantech.com.tw>
+ L:	platform-driver-x86@vger.kernel.org
 -- 
-2.25.1
+2.17.1
 
