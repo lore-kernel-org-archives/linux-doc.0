@@ -2,135 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8912CC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 23:19:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F103AC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 23:31:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 612FE61289
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 23:19:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0CA5613BA
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 23:31:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231218AbhEFXUK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 May 2021 19:20:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52726 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230460AbhEFXUJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 19:20:09 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DDFCC061574;
-        Thu,  6 May 2021 16:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=/IDrYv+WVlbIk8z5IXS/+Bzh2FwJWGRkdhrJyEjigS8=; b=nmAUQPtV/secjAI9Qc2ggIQzcP
-        VPWiwvP2gOJQKdWE7leQxtiwjeuFmVQgMTt6JGP83WSssnH0vr04H4cpaxUWAPcvE24fR5h7SGST5
-        8nbAd4hjafe6zCfIkEqD1+wMPXWlHISp4hnwnjFBU92rzqrU184YlIt3LcblutSN7zU6gNIfEaIuE
-        5SOQ2w1g8FG4nDz6cl1WdoTPK8oZn5yJI/+bEH0s4v6Q7E7e0hzTPrKDDnAgiDSL6UT7f9jB8ISS3
-        YR/4m6ZbHxf8UkAMirBN/ziGFeNK3xaQu8F+Pz3Detl6EUD1Bi8tEybeMnZXza3uCX7VQeDtiLOg3
-        ze9Sx/ZA==;
-Received: from [2601:1c0:6280:3f0::7376] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lenGv-006RpI-Es; Thu, 06 May 2021 23:19:09 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH] Documentation: drop optional BOMs
-Date:   Thu,  6 May 2021 16:19:07 -0700
-Message-Id: <20210506231907.14359-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        id S232296AbhEFXcS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 19:32:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52814 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231719AbhEFXcS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 May 2021 19:32:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A9CFB613BA
+        for <linux-doc@vger.kernel.org>; Thu,  6 May 2021 23:31:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620343879;
+        bh=IITCyoi4hOnQGgAjRVqRr7RtIsMxc4kk9HMuRUc4kAA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=N1T6PTE+RFbWB3avXhdSDYjXOHf2b71uQ/fL3u21uoAsgpzSqs1hJmi8t9vLiEZQD
+         g2JI3ttp49It3Px3GLiyljZuio2Y4JNFiUEu+9MX0hOEiEHw498EfzJwGZvLPaVnpg
+         n12avQSqalGzT84BCL8hMWX4pUrMcJKLl7s1SbC1ofYM5HSIXuo+7E/uNo8GCd/5lE
+         y83PyYHe69DjCpo/RiNgvNbbxRI5oH4ujIqMOPQ4j+xnnkaStQhq1ZXkCIrKXs1akQ
+         FLrAGUxM2AZ56a+9dlvcD1u3W9cWAP0UPgucz1OqtLZfo2YawBsGyOGQYa8jGc8NkZ
+         mu62RWDVchwtw==
+Received: by mail-ej1-f44.google.com with SMTP id gx5so10750110ejb.11
+        for <linux-doc@vger.kernel.org>; Thu, 06 May 2021 16:31:19 -0700 (PDT)
+X-Gm-Message-State: AOAM533xt7pjOwy7iAWZS1djjdHhn6P9ZMry5hCxsP2wmYjKnYmnBB1L
+        QMCyZ1fUsJvlvymtiT1rpY79dkt1fukn9UzZlqf4sg==
+X-Google-Smtp-Source: ABdhPJy/HzUeyVBBOPMQzBeIl7qYyB1Cn0Bw3qIUSRljI0+cxPtL7Jufl+V2qYgyD4Kr53bGa8ynkwEWn9q1gDRzC2M=
+X-Received: by 2002:a17:906:c010:: with SMTP id e16mr7123175ejz.214.1620343878143;
+ Thu, 06 May 2021 16:31:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com> <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+ <8fd86049-930d-c9b7-379c-56c02a12cd77@intel.com> <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
+ <a7c332c8-9368-40b1-e221-ec921f7db948@intel.com> <5fc5dea4-0705-2aad-cf8f-7ff78a5e518a@intel.com>
+ <bf16ab7e-bf27-68eb-efc9-c0468fb1c651@intel.com>
+In-Reply-To: <bf16ab7e-bf27-68eb-efc9-c0468fb1c651@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 6 May 2021 16:31:06 -0700
+X-Gmail-Original-Message-ID: <CALCETrWbOP_exK9cHT9vEDsQjorqC4SjhyU+gUzmGNdanO-enw@mail.gmail.com>
+Message-ID: <CALCETrWbOP_exK9cHT9vEDsQjorqC4SjhyU+gUzmGNdanO-enw@mail.gmail.com>
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A few of the Documentation .rst files begin with a Unicode
-byte order mark (BOM). The BOM may signify endianess for
-16-bit or 32-bit encodings or indicate that the text stream
-is indeed Unicode. We don't need it for either of those uses.
-It may also interfere with (confuse) some software.
+On Thu, May 6, 2021 at 3:05 PM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+>
+> On 5/4/2021 1:49 PM, Yu, Yu-cheng wrote:
+> > On 4/30/2021 11:32 AM, Yu, Yu-cheng wrote:
+> >> On 4/30/2021 10:47 AM, Andy Lutomirski wrote:
+> >>> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com>
+> >>> wrote:
+> >>>>
+> >>>> On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
+> >>>>> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com>
+> >>>>> wrote:
+> >>>>>>
+> >>>>>> When shadow stack is enabled, a task's shadow stack states must be
+> >>>>>> saved
+> >>>>>> along with the signal context and later restored in sigreturn.
+> >>>>>> However,
+> >>>>>> currently there is no systematic facility for extending a signal
+> >>>>>> context.
+> >>>>>> There is some space left in the ucontext, but changing ucontext is
+> >>>>>> likely
+> >>>>>> to create compatibility issues and there is not enough space for
+> >>>>>> further
+> >>>>>> extensions.
+> >>>>>>
+> >>>>>> Introduce a signal context extension struct 'sc_ext', which is
+> >>>>>> used to save
+> >>>>>> shadow stack restore token address.  The extension is located
+> >>>>>> above the fpu
+> >>>>>> states, plus alignment.  The struct can be extended (such as the
+> >>>>>> ibt's
+> >>>>>> wait_endbr status to be introduced later), and sc_ext.total_size
+> >>>>>> field
+> >>>>>> keeps track of total size.
+> >>>>>
+> >>>>> I still don't like this.
+> >>>>>
+>
+> [...]
+>
+> >>>>>
+> >>>>> That's where we are right now upstream.  The kernel has a parser for
+> >>>>> the FPU state that is bugs piled upon bugs and is going to have to be
+> >>>>> rewritten sometime soon.  On top of all this, we have two upcoming
+> >>>>> features, both of which require different kinds of extensions:
+> >>>>>
+> >>>>> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
+> >>>>> but no.  And AMX makes it worse.)  To make a long story short, we
+> >>>>> promised user code many years ago that a signal frame fit in 2048
+> >>>>> bytes with some room to spare.  With AVX-512 this is false.  With AMX
+> >>>>> it's so wrong it's not even funny.  The only way out of the mess
+> >>>>> anyone has come up with involves making the length of the FPU state
+> >>>>> vary depending on which features are INIT, i.e. making it more compact
+> >>>>> than "compact" mode is.  This has a side effect: it's no longer
+> >>>>> possible to modify the state in place, because enabling a feature with
+> >>>>> no space allocated will make the structure bigger, and the stack won't
+> >>>>> have room.  Fortunately, one can relocate the entire FPU state, update
+> >>>>> the pointer in mcontext, and the kernel will happily follow the
+> >>>>> pointer.  So new code on a new kernel using a super-compact state
+> >>>>> could expand the state by allocating new memory (on the heap? very
+> >>>>> awkwardly on the stack?) and changing the pointer.  For all we know,
+> >>>>> some code already fiddles with the pointer.  This is great, except
+> >>>>> that your patch sticks more data at the end of the FPU block that no
+> >>>>> one is expecting, and your sigreturn code follows that pointer, and
+> >>>>> will read off into lala land.
+> >>>>>
+> >>>>
+> >>>> Then, what about we don't do that at all.  Is it possible from now
+> >>>> on we
+> >>>> don't stick more data at the end, and take the relocating-fpu approach?
+> >>>>
+> >>>>> 2. CET.  CET wants us to find a few more bytes somewhere, and those
+> >>>>> bytes logically belong in ucontext, and here we are.
+> >>>>>
+> >>>>
+> >>>> Fortunately, we can spare CET the need of ucontext extension.  When the
+> >>>> kernel handles sigreturn, the user-mode shadow stack pointer is
+> >>>> right at
+> >>>> the restore token.  There is no need to put that in ucontext.
+> >>>
+> >>> That seems entirely reasonable.  This might also avoid needing to
+> >>> teach CRIU about CET at all.
+> >>>
+> >>>>
+> >>>> However, the WAIT_ENDBR status needs to be saved/restored for signals.
+> >>>> Since IBT is now dependent on shadow stack, we can use a spare bit of
+> >>>> the shadow stack restore token for that.
+> >>>
+> >>> That seems like unnecessary ABI coupling.  We have plenty of bits in
+> >>> uc_flags, and we have an entire reserved word in sigcontext.  How
+> >>> about just sticking this bit in one of those places?
+> >>
+> >> Yes, I will make it UC_WAIT_ENDBR.
+> >
+> > Personally, I think an explicit flag is cleaner than using a reserved
+> > word somewhere.  However, there is a small issue: ia32 has no uc_flags.
+> >
+> > This series can support legacy apps up to now.  But, instead of creating
+> > too many special cases, perhaps we should drop CET support of ia32?
+> >
+> > Thoughts?
 
-Since we don't need it and its use is optional, just delete
-the uses of it in Documentation/.
+I'm really not thrilled about coupling IBT and SHSTK like this.
 
-https://en.wikipedia.org/wiki/Byte_order_mark
+Here are a couple of possible solutions:
 
-Fixes: 898bd37a9206 ("docs: block: convert to ReST")
-Fixes: edba5eecfd6e ("doc:it_IT: add some process/* translations")
-Fixes: 675aaf05d898 ("docs: xen-tpmfront.txt: convert it to .rstX")
-Fixes: 458f69ef3665 ("docs: timers: convert docs to ReST and rename to *.rst")
-Fixes: d80b5005c5dd ("docs: usb: convert documents to ReST")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>
----
- Documentation/block/data-integrity.rst                 |    2 +-
- Documentation/process/kernel-enforcement-statement.rst |    2 +-
- Documentation/security/tpm/xen-tpmfront.rst            |    2 +-
- Documentation/timers/no_hz.rst                         |    2 +-
- Documentation/usb/mtouchusb.rst                        |    2 +-
- Documentation/usb/usb-serial.rst                       |    2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+- Don't support IBT in 32-bit mode, or maybe just don't support IBT
+with legacy 32-bit signals.  The actual mechanics of this could be
+awkward.  Maybe we would reject the sigaction() call or the
+IBT-enabling request if they conflict?
 
---- linux-next-20210506.orig/Documentation/block/data-integrity.rst
-+++ linux-next-20210506/Documentation/block/data-integrity.rst
-@@ -1,4 +1,4 @@
--﻿==============
-+==============
- Data Integrity
- ==============
- 
---- linux-next-20210506.orig/Documentation/process/kernel-enforcement-statement.rst
-+++ linux-next-20210506/Documentation/process/kernel-enforcement-statement.rst
-@@ -1,4 +1,4 @@
--﻿.. _process_statement_kernel:
-+.. _process_statement_kernel:
- 
- Linux Kernel Enforcement Statement
- ----------------------------------
---- linux-next-20210506.orig/Documentation/timers/no_hz.rst
-+++ linux-next-20210506/Documentation/timers/no_hz.rst
-@@ -1,4 +1,4 @@
--﻿======================================
-+======================================
- NO_HZ: Reducing Scheduling-Clock Ticks
- ======================================
- 
---- linux-next-20210506.orig/Documentation/usb/mtouchusb.rst
-+++ linux-next-20210506/Documentation/usb/mtouchusb.rst
-@@ -1,4 +1,4 @@
--﻿================
-+================
- mtouchusb driver
- ================
- 
---- linux-next-20210506.orig/Documentation/usb/usb-serial.rst
-+++ linux-next-20210506/Documentation/usb/usb-serial.rst
-@@ -1,4 +1,4 @@
--﻿==========
-+==========
- USB serial
- ==========
- 
---- linux-next-20210506.orig/Documentation/security/tpm/xen-tpmfront.rst
-+++ linux-next-20210506/Documentation/security/tpm/xen-tpmfront.rst
-@@ -1,4 +1,4 @@
--﻿=============================
-+=============================
- Virtual TPM interface for Xen
- =============================
- 
+- Find some space in the signal frame for these flags.  Looking around
+a bit, sigframe_ia32 has fpstate_unused, but I can imagine things like
+CRIU getting very confused if it stops being unused.  sigframe_ia32
+uses sigcontext_32, which has a bunch of reserved space in __gsh,
+__fsh, etc.
+
+rt_sigframe_ia32 has uc_flags, so this isn't a real problem.
+
+I don't have a brilliant solution here.
