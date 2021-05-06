@@ -2,129 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51CC9C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 18:16:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D4C8C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 21:21:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1AC29611AE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 18:16:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0612C60698
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 21:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbhEFSR0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 May 2021 14:17:26 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47586 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230138AbhEFSRZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 May 2021 14:17:25 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 757B3AEE7;
-        Thu,  6 May 2021 18:16:26 +0000 (UTC)
-Date:   Thu, 6 May 2021 20:16:25 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+        id S229572AbhEFVWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 17:22:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229544AbhEFVWf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 17:22:35 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FFB3C061574
+        for <linux-doc@vger.kernel.org>; Thu,  6 May 2021 14:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=pviLyuo0Npk5QGmvj41c+086Qx8lxZEs3YaL6YZPluE=; b=DodbdE7q1SUzab2I8kNen85NC0
+        ZfkSf8LzeaSaL3CD3Iq22ay1x3kl0EhiPtf/DgMHwsK+Oitvv813L/qTQp5IlHQd+3Gs8kC06QoRM
+        hOMduWqYHOlgJrQ+mTDLto60VS7EA/TaSwefxVlfOW65b/MkI/I0pmT5t6Z2jQNJYRjrSAnedMu7a
+        6cJyEzczACVEl7JcUiGHNGZt8Hbb0uAN/3P6JePyBXeB6QcBidTJH01YpRr2ChmexS5jnRn+uEqwf
+        CEGiEKskhcCBiW1FSwOkQY1nqugvARjQMLimho9D/VlPekuj03av4h6HX9tfFeTIPUzUMNLwJxeVJ
+        6K42vFyw==;
+Received: from [2601:1c0:6280:3f0::7376]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lelR5-006OoF-HO; Thu, 06 May 2021 21:21:31 +0000
 Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1' codec
  can't encode characters in position 18-20: ordinal not in range(256)
-Message-ID: <20210506181625.GJ6564@kitsune.suse.cz>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 References: <20210506103913.GE6564@kitsune.suse.cz>
  <30f2117f-aa38-6d60-f020-ff5cf8f004b5@darmarit.de>
  <20210506184641.6348a621@coco.lan>
  <0fd5bb54-a8fc-84b2-2bd6-31ab12f12303@darmarit.de>
- <20210506174849.GH6564@kitsune.suse.cz>
- <493bb1b6-9fc8-fce8-67f2-f6d2e86a07f3@darmarit.de>
+ <20210506192756.2a2cc273@coco.lan>
+ <cecb28f8-dfaa-3584-c9f5-fe15145ef3cf@infradead.org>
+ <20210506180842.GD388843@casper.infradead.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <be21de46-6655-152e-e431-144c2be6137c@infradead.org>
+Date:   Thu, 6 May 2021 14:21:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
+In-Reply-To: <20210506180842.GD388843@casper.infradead.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <493bb1b6-9fc8-fce8-67f2-f6d2e86a07f3@darmarit.de>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 06, 2021 at 07:59:18PM +0200, Markus Heiser wrote:
-> Am 06.05.21 um 19:48 schrieb Michal Suchánek:
-> > On Thu, May 06, 2021 at 07:04:44PM +0200, Markus Heiser wrote:
-> > > Am 06.05.21 um 18:46 schrieb Mauro Carvalho Chehab:
-> > > > Em Thu, 6 May 2021 17:57:15 +0200
-> > > > Markus Heiser <markus.heiser@darmarit.de> escreveu:
-> > > > 
-> > > > > Am 06.05.21 um 12:39 schrieb Michal Suchánek:
-> > > > > > When building HTML documentation I get this output:
-> > > > > ...
-> > > > > > [  412s] UnicodeEncodeError: 'latin-1' codec can't encode characters in position 18-20: ordinal not in range(256)
-> > > > > ...
-> > > > > > 
-> > > > > > It does not say which input file contains the offending character so I can't tell which file is broken.
-> > > > > > 
-> > > > > > Any idea how to debug?
-> > > > > 
-> > > > > I guess the build host is a very simple container, what does
-> > > > > 
-> > > > >      echo $LC_ALL
-> > > > >      echo $LANG
-> > It's actually set to en_US just before the build.
-> > > > > 
-> > > > > prompt?  If it is latin, change it to something using utf-8 (I recommend
-> > > > > 'en_US.utf8').
-> > > > > 
-> > > > > A UnicodeEncodeError can occour everywhere where characters are
-> > > > > encoded from (internal) unicode to the encoding of the stream.
-> > > > > 
-> > > > > By example:
-> > > > > 
-> > > > > A print or log statement which streams to stdout needs to encode
-> > > > > from unicode to stdout's encoding.  If there is one unicode symbol
-> > > > > which can not encoded to stream's encoding a UnicodeEncodeError
-> > > > > is raised.
-> > > > 
-> > > > Hi Markus,
-> > > > 
-> > > > It shouldn't matter the builder's locale when building the Kernel
-> > > > documentation (or any other documents built from other git trees
-> > > > on other open source projects), as the Kernel's *.rpm document charset
-> > > > won't change, no matter on what part of the globe it was built.
-> > > > 
-> > > > I vaguely remember about a change we made a couple of years ago
-> > > > in order to address this issue.
-> > > 
-> > > Hi Mauro :)
-> > > 
-> > > sure? .. what if the logger wants to log some symbols from the
-> > > chines translated parts to stdout and the encoding of stdout is
-> > > latin?
-> > 
-> > [  127s] + cd linux-5.12-next-20210506
-> > [  127s] + export LANG=en_US
-> > [  127s] + LANG=en_US
-> > [  127s] + mkdir -p html
-> > [  127s] + python3 -c 'print("↑ᛏ个")'
-> > [  127s] ↑ᛏ个
-> > [  127s] + echo 'print("↑ᛏ个")'
-> > [  127s] + python3 test.py
-> > [  127s] Traceback (most recent call last):
-> > [  127s]   File "test.py", line 1, in <module>
-> > [  127s]     print("\u2191\u16cf\u4e2a\uf8f9")
-> > [  127s] UnicodeEncodeError: 'latin-1' codec can't encode characters in
-> > position 0-3: ordinal not in range(256)
-> > 
-> > It certainly does not look like python can print unicode in this
-> > environment. It tells me where the problem is, though.
+On 5/6/21 11:08 AM, Matthew Wilcox wrote:
+> On Thu, May 06, 2021 at 10:57:53AM -0700, Randy Dunlap wrote:
+>> I have been going thru some of the Documentation/ files...
+>>
+>> Why do several of the files begin with
+>> (hex) ef bb bf    followed by "=================="
+>> for a heading, instead of just "===================".
+>> See e.g. Documentation/timers/no_hz.rst.
 > 
-> Can't speak for the image of your container, may you need to install
-> some utf-8 packages / but in most cases
+> 00000000  ef bb bf 3d 3d 3d 3d 3d  3d 3d 3d 3d 3d 3d 3d 3d  |...=============|
 > 
->   export LANG=en_US.UTF-8
+> ef bb bf is utf8 for 0b1111'111011'111111 = 0xFEFF which is the
+> https://en.wikipedia.org/wiki/Byte_order_mark
+> 
+> We should delete it.
+> 
 
-Yes, in this case export LANG=en_US.utf8 is an easy workaround.
+OK, thanks, I have started on that.
 
-The UTF-8 locale is already included in the build environment by
-default.
 
-Thanks
+Just another question: ("inquiring minds want to know")
 
-Michal
+Why is/are some docs using U+2217 '*' instead of ASCII '*'?
+E.g., Documentation/block/cdrom-standard.rst.
+
+Maybe some $EDITOR is doing this?
+
+thanks.
+-- 
+~Randy
+
