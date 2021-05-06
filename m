@@ -2,171 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 568C6C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 06:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02300C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 07:44:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 394BE611AD
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 06:09:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B964B6109E
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 07:44:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbhEFGKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 May 2021 02:10:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48642 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbhEFGKk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 02:10:40 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83351C061574
-        for <linux-doc@vger.kernel.org>; Wed,  5 May 2021 23:09:42 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id r26-20020a056830121ab02902a5ff1c9b81so3932663otp.11
-        for <linux-doc@vger.kernel.org>; Wed, 05 May 2021 23:09:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bj01kjcONAhONgb0Yvk0uOnZg5qgtKVXHSSwz4zSpL8=;
-        b=hCyinqMO13C5skXASzUXRFy0CedMD99vEPr/dkRBfEWJ/ecLzBhX7aMZdSBVhStUoI
-         MY6fPgITxveXeE2eYb5nwUFH0jiYj+0g+PW9uPtaubR68TMYIX262o+4FAdCuf9JflZc
-         MFHoJkTZSNq1B9HsrLkBBrMZsktHjv0sj2FzPmhFjXD1KfFYQcKL0Qe6Jolfin40IHlN
-         zLPi0mhdAZ8LhwW0AQmk2MMd5syp80F9dlRm/RMhtGaFmqhLoE8sU9uAS6LM5TVfE6fz
-         wo3prgy1ov+y3UK4UBH8SiTf4vsRbfCtOTNs+Tku+uxa+3jcCoU5PsWy2Uo4QrghLitd
-         lP8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bj01kjcONAhONgb0Yvk0uOnZg5qgtKVXHSSwz4zSpL8=;
-        b=Juqjq20goNZi6SdCdt/IG009AGONN8E3zGjXPQKoCJF12M2YhsT9wk9Zm7sCFq65JC
-         vD2MF8yX3QmO+pFrwqhkttlly6cosq9LorhcYcv9HdJMQco66+0E8RswugqwJVGRklNt
-         3jm8jaEQm8DyGAwPiXlofBvrAw587RQk/mQ3lL6C1vV7gSH2ifua0qfe/LzKlVKa/pMb
-         0hn2YxloJM8hJdkDhjSZZUZct2VvB5/md//1VQq+3nASQikhclQcaO9rzTtrWJ8Jz9Nm
-         1nu7FChbswrcrgFBlr5TXAYG+tseOWYRi4jt3uzAX+Qju6U38SVKGaiSxB8eMn9X0Xb8
-         wMOQ==
-X-Gm-Message-State: AOAM531lwT+ckpVQZrApeV2GRrUByvjYP5CQqGKKkbUbjphFCdEFKtB9
-        8qIxu1PabSxLVa2/sXECgfa6jEvgrZH9pTjbnaXMqvz+yjM=
-X-Google-Smtp-Source: ABdhPJypY3hYeCp5BCI06uuQMl74Sl9lfHaJWhf6g3E+4NIdweFe0ljzoVFSkFMWB6nStzgFa4TTG1uNsOS56I5+bQY=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr2088873otc.302.1620281381851;
- Wed, 05 May 2021 23:09:41 -0700 (PDT)
+        id S233340AbhEFHpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 03:45:00 -0400
+Received: from mail-bn1nam07on2050.outbound.protection.outlook.com ([40.107.212.50]:16718
+        "EHLO NAM02-BN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233527AbhEFHpA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 May 2021 03:45:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jd35PqN0jolJVQ177nPOm2qyAyeBXqUiWqSTMM+C08+3q7cnfjm53pE05xJ4P88lmmCJXfTGUFu1vWZQzF2wXVKVlAcFPBoyDV84P+BMzYPLTMOgjPId1p9qR0KkEZH43e/8/AIbTI63iwm/hUaEdbcKneT52rBnWZ/S5/76MXQVY74fQv69lZ3nWng/Pm0AeXiJBAEF80VhOpqt/KX+kscGT0lPlbrUkCTNQIbkWuxq02D+51/quySmjEcQbFTp51B3lJEXDURPKQmlsvic18I8vJAEzUdro/lSZjTv8DlXnH+P9R/CuOYnb6NVOVIGS0Xu1VEpxUjqEYc8K+szyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LDE9XH1jM5+h7rrVVVx4PrH/36hBQ28evpnHntDvfd0=;
+ b=XMHj4togSAntuJytVbTM219MSA45QoKUpyyCDp/h+7VNGNlj/exxwcj41pvtZITvU4NhcfID5nJ2G8pUefcu7KGopL4r29XE0dSoI66QPo8pPzlH1bGzMlkhNIWHnh2fTRKuSlA79h9h+xKKuYB4hpy3t4nyDYlqF3mCh8MU0UXs1Ge1/0cU9gaeXDOoQEExOLB2uPGB0kTpPwBOc2B+QJ3X/i9J3j/ykE6dY16Dto6f2Wk481RPij9JrB1X7DVNGEYAhTG5Jtul4ozXu0z33ZhhvR3/48+MHtJAcKtyu3UpPLTDiZqBxEIinamimHTCWi0gUflJQnZyOVvL/32LIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LDE9XH1jM5+h7rrVVVx4PrH/36hBQ28evpnHntDvfd0=;
+ b=rAFPDb5AfEbupSy6C0zW8cw0bEeC8U0wpmScGgF0wCKmXqurr5xuNAjEj3Elv/A/OXn4MjoYJvPrw060AGSohMlK+ilOxqyHPUKETctwejYiUQfrLexCqmuk1OZabSKj2vBC/RcsYl3M9G/67mclaAE4q73qG3t3IrBP/CiXEDBNHYrUC2bOBY0i2BcQUlIDXaJVz/DFRGbnHmM/mfaIKrOYZ2SItq2n57xilSjZruYMhepHMiTQ+995DYfodlKTFhmGKnroxSncG+b/jSQflYsex3MLvsW06kCwZqJMX3fMmxE3p/0+xAWNGSNjx5iQYD4cGbGE7fPZ76Xv5x7EFg==
+Received: from MWHPR2201CA0050.namprd22.prod.outlook.com
+ (2603:10b6:301:16::24) by BN6PR12MB1185.namprd12.prod.outlook.com
+ (2603:10b6:404:1e::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.35; Thu, 6 May
+ 2021 07:44:00 +0000
+Received: from CO1NAM11FT061.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:301:16:cafe::5c) by MWHPR2201CA0050.outlook.office365.com
+ (2603:10b6:301:16::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24 via Frontend
+ Transport; Thu, 6 May 2021 07:44:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ CO1NAM11FT061.mail.protection.outlook.com (10.13.175.200) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4108.25 via Frontend Transport; Thu, 6 May 2021 07:43:59 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 6 May
+ 2021 07:43:55 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     <linux-mm@kvack.org>
+CC:     <nouveau@lists.freedesktop.org>, <bskeggs@redhat.com>,
+        <akpm@linux-foundation.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
+        <jglisse@redhat.com>, <jgg@nvidia.com>, <hch@infradead.org>,
+        <daniel@ffwll.ch>, <willy@infradead.org>, <bsingharora@gmail.com>
+Subject: Re: [PATCH v8 0/8] Add support for SVM atomics in Nouveau
+Date:   Thu, 6 May 2021 17:43:53 +1000
+Message-ID: <2550644.JnOt3SL4Yy@nvdebian>
+In-Reply-To: <20210407084238.20443-1-apopple@nvidia.com>
+References: <20210407084238.20443-1-apopple@nvidia.com>
 MIME-Version: 1.0
-References: <cover.1619665430.git.siyanteng@loongson.cn> <17f17ca148a9fd315340294f19cefbc80732336c.1619665430.git.siyanteng@loongson.cn>
- <20210429151318.GB23087@bobwxc.top> <CAEensMx5AQh_e4pA9vSny_LDV-D=DHvjAKnoVvHS9Lb5-BRU7Q@mail.gmail.com>
- <20210504082458.GA28320@bobwxc.top>
-In-Reply-To: <20210504082458.GA28320@bobwxc.top>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Thu, 6 May 2021 14:09:32 +0800
-Message-ID: <CAEensMyVYjean0x9r-5QgBQtTSo2bPp3G8pWUWD=Q+O=45gB_w@mail.gmail.com>
-Subject: Re: [PATCH 2/3] docs/zh_CN: add parisc debugging.rst translation
-To:     "Wu X.C." <bobwxc@email.cn>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
-        huangjianghui@uniontech.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1a9016d9-b380-40fc-5918-08d91062b5ba
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1185:
+X-Microsoft-Antispam-PRVS: <BN6PR12MB11859E7FE6713DE06E6BCC60DF589@BN6PR12MB1185.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lPJ3PEH9pc2VBkC5HQXnqPFaRG5QulQJDgW0gSnYnSUvTIfbLEE9L1vzA4mrGXFws02DxqSnhugVbSSBn5Tg76T8jtggxHw93+ZQ/Hwtt3o8kGJIeatwJZkEBkiTUvcwyoN0sE6HzMjMbBiobu5Zg0PC/5u4+V7PcBUTWH6sl3k5nBJiBW3czFmhjuAxWKoyxZHAnXwUGu9vhs9sfhuqdqgAyMoxlxyw+eA5VlNZqoy62eBn/1uEbF3N3ewZjVg/RePYT4Ul8nPlUYNaZVcgXL+hV005RXl/QQSi9wuu4nyqu6vUKS8cKBeqIW+AYee2YRZSmOV1AXaCbioOXYdI/FEjA6+ngdtveh3VLhQNxUGHJFVDzdRz/ovClVg5F3wP0e2PNKfy5njHtqibIRrxU+Rp+wEuCLOMNw4mX3qYU/1NIoOUFmKApj6KwsbYHGIO2Sd0am936kmhfkXv46BhSmWoDt4WVHKe+7/BZ7PgxSKGuY1rHEz2kiAy94E/BhAfnGIQs2zCkYxl9N0zkkk5etSAm3CGMGRkzCkZl98jkVhk5upDFXzYHo3yNEMnFY+NKIf+t2F3CNeq9tQT8JPX31R/u82k8Krv58R9/nAaSXJViu/GkDBo9QVIBHOyW/Wwu8yLxfRECf/jIQclnDOqO4MS3cmJCHMVHX3yQfOc30MfrpFC+u1wVdWbyb6njRxfwKvtscqHio5OCF+/9KW01AFipDacnTIrjQdo1IzycJsYhP9CsyuA3HTfn3CxMtEn
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(39860400002)(376002)(346002)(396003)(36840700001)(46966006)(5660300002)(186003)(7636003)(316002)(478600001)(336012)(2906002)(16526019)(9686003)(426003)(70206006)(54906003)(36860700001)(33716001)(966005)(9576002)(6916009)(8676002)(7416002)(47076005)(86362001)(4326008)(8936002)(82310400003)(70586007)(82740400003)(26005)(356005)(83380400001)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 07:43:59.0784
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a9016d9-b380-40fc-5918-08d91062b5ba
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT061.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1185
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-V3UgWC5DLiA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NeaciDTml6Xlkajkuowg5LiL5Y2I
-NDoyNeWGmemBk++8mg0KPg0KPiBPbiBUdWUsIE1heSAwNCwgMjAyMSBhdCAwMjo1Njo0N1BNICsw
-ODAwLCB5YW50ZW5nIHNpIHdyb3RlOg0KPiA+IFd1IFguQy4gPGJvYnd4Y0BlbWFpbC5jbj4g5LqO
-MjAyMeW5tDTmnIgyOeaXpeWRqOWbmyDkuIvljYgxMToxM+WGmemBk++8mg0KPiA+ID4NCj4gPiA+
-IE9uIFRodSwgQXByIDI5LCAyMDIxIGF0IDExOjMzOjM0QU0gKzA4MDAsIFlhbnRlbmcgU2kgd3Jv
-dGU6DQo+ID4gPiA+IFRoaXMgdHJhbnNsYXRlcyBEb2N1bWVudGF0aW9uL3BhcmlzYy9kZWJ1Z2dp
-bmcucnN0IGludG8gQ2hpbmVzZS4NCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogWWFu
-dGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiA+ID4gPiAtLS0NCj4gPiA+ID4gIC4u
-Li90cmFuc2xhdGlvbnMvemhfQ04vcGFyaXNjL2RlYnVnZ2luZy5yc3QgICB8IDQxICsrKysrKysr
-KysrKysrKysrKysNCj4gPiA+ID4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vcGFyaXNjL2luZGV4
-LnJzdCAgICAgICB8ICA2ICsrLQ0KPiA+ID4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA0NiBpbnNlcnRp
-b25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1l
-bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcGFyaXNjL2RlYnVnZ2luZy5yc3QNCj4gPiA+ID4N
-Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Bh
-cmlzYy9kZWJ1Z2dpbmcucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcGFy
-aXNjL2RlYnVnZ2luZy5yc3QNCj4gPiA+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4g
-aW5kZXggMDAwMDAwMDAwMDAwLi45OWFmMzAzZmQzZDgNCj4gPiA+ID4gLS0tIC9kZXYvbnVsbA0K
-PiA+ID4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9wYXJpc2MvZGVi
-dWdnaW5nLnJzdA0KPiA+ID4gPiBAQCAtMCwwICsxLDQxIEBADQo+ID4gPiA+ICsuLiBpbmNsdWRl
-OjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4gPiA+ID4gKw0KPiA+ID4gPiArOk9yaWdpbmFs
-OiBEb2N1bWVudGF0aW9uL3BhcmlzYy9kZWJ1Z2dpbmcucnN0DQo+ID4gPiA+ICs6VHJhbnNsYXRv
-cjogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiA+ID4gPiArDQo+ID4gPiA+
-ICsuLiBfY25fcGFyaXNjX2RlYnVnZ2luZzoNCj4gPiA+ID4gKw0KPiA+ID4gPiArPT09PT09PT09
-PT09PT09PT0NCj4gPiA+ID4gK+iwg+ivlVBBLVJJU0MNCj4gPiA+ID4gKz09PT09PT09PT09PT09
-PT09DQo+ID4gPiA+ICsNCj4gPiA+ID4gK+WlveWQp++8jOi/memHjOacieS4gOS6m+WFs+S6juiw
-g+ivlWxpbnV4L3BhcmlzY+eahOS9jue6p++8iOWBj+ehrOS7tu+8iemDqOWIhueahOaPkOekuuOA
-gg0KPiA+ID4NCj4gPiA+IG1heWJlDQo+ID4gPiDovoPlupXlsYLpg6jliIbnmoTkv6Hmga/jgIIN
-Cj4gPiA+IGRlcGVuZCBvbiB5b3VyIGNob2ljZQ0KPiA+IE9LISB1c2Ug6L6D5bqV5bGC6YOo5YiG
-55qE5L+h5oGv44CCDQo+ID4gPg0KPiA+ID4gPiArDQo+ID4gPiA+ICsNCj4gPiA+ID4gKzEuIOe7
-neWvueWcsOWdgA0KPiA+ID4gPiArPT09PT09PT09PT09PT09PT09PT09DQo+ID4gPiA+ICsNCj4g
-PiA+ID4gK+W+iOWkmuaxh+e8luS7o+eggeebruWJjeaYr+S7peWunuaooeW8j+i/kOihjOeahO+8
-jOi/meaEj+WRs+edgOe7neWvueWcsOWdgOiiq+S9v+eUqO+8jOiAjOS4jeaYr+WDj+WGheaguOWF
-tuS7lg0KPiA+ID4NCj4gPiA+IOW+iOWkmuaxh+e8luS7o+eggeebruWJjei/kOihjOWcqOWunuao
-oeW8j+S4i++8jOi/meaEj+WRs+edgOS8muS9v+eUqOe7neWvueWcsOWdgO+8jOiAjOS4jeaYr+WD
-j+WGheaguOWFtuS7lg0KPiA+IG9rIQ0KPiA+ID4NCj4gPiA+ID4gK+mDqOWIhumCo+agt+S9v+eU
-qOiZmuaLn+WcsOWdgOOAguimgeWwhue7neWvueWcsOWdgOi9rOaNouS4uuiZmuaLn+WcsOWdgO+8
-jOS9oOWPr+S7peWcqFN5c3RlbS5tYXDkuK3mn6UNCj4gPiA+ID4gK+aJvu+8jOa3u+WKoF9fUEFH
-RV9PRkZTRVTvvIjnm67liY3mmK8weDEwMDAwMDAw77yJ44CCDQo+ID4gPiA+ICsNCj4gPiA+ID4g
-Kw0KPiA+ID4gPiArMi4gSFBNQ3MNCj4gPiA+ID4gKz09PT09PT09DQo+ID4gPiA+ICsNCj4gPiA+
-DQo+ID4gPiBoaWdoIHByaW9yaXR5IG1hY2hpbmUgY2hlY2sNCj4gPiBPSyENCj4NCj4g6L+Z5Liq
-5L2c5LiA5Liq6K+R5rOoIOaIluiAhSDlnKjkuIvkuIDlj6XnmoRIUE1D5ZCO6Z2i5ous5rOoDQo+
-DQpPS++8gXVzZSDkvaDkvJrlvpfliLDkuIDkuKogSFBNQ++8iGhpZ2ggcHJpb3JpdHkgbWFjaGlu
-ZSBjaGVja++8iQ0KPiA+ID4NCj4gPiA+ID4gK+W9k+WunuaooeW8j+eahOS7o+eggeivleWbvuiu
-v+mXruS4jeWtmOWcqOeahOWGheWtmOaXtu+8jOS9oOS8muW+l+WIsOS4gOS4qkhQTUPvvIzogIzk
-uI3mmK/kuIDkuKrlhoXmoLhvcHBz44CCDQo+ID4gPg0KPiA+ID4g5Lya5Ye6546wSFBNQ+iAjOS4
-jeaYr+WGheaguG9vcHPjgIINCj4gPiBIb3cgYWJvdXQg5Lya5omT5Y2wSFBNQ+iAjOS4jeaYr+WG
-heaguG9vcHPvvJ8NCj4NCj4gV2lsbCBpdCBqdXN0IGJlICdwcmludCcgPyBJJ20gbm90IHN1cmUu
-DQpPS++8gXVzZSDkvJrlh7rnjrBIUE1D6ICM5LiN5piv5YaF5qC4b29wc+OAgg0KPg0KPiA+ID4N
-Cj4gPiA+ID4gK+S4uuS6huiwg+ivlUhQTUPvvIzlsJ3or5Xmib7liLDns7vnu5/lk43lupTogIUv
-6K+35rGC6ICF5Zyw5Z2A44CC57O757uf6K+35rGC6ICF5Zyw5Z2A5bqU6K+l5LiO5aSE55CG5Zmo
-55qEDQo+ID4gPg0KPiA+ID4g6KaB6LCD6K+VSFBNQ++8jOivt+WwneivleKApuKApg0KPiA+IG1h
-eWJlIOiLpeimgeiwg+ivlUhQTUPvvIzor7flsJ3or5XigKbigKbvvJ8NCj4NCj4gT0suDQo+DQo+
-ID4gPg0KPiA+ID4g77yI5p+Q77yJ5aSE55CG5ZmoDQo+ID4gdXNlIOivpeWkhOeQhuWZqCDvvJ8N
-Cj4NCj4gKG9uZSBvZiB0aGUpDQo+IG9yIHVzZQ0KPiDlpITnkIblmajvvIjkuYvkuIDvvIkNCk9L
-77yBdXNlIO+8iOafkO+8ieWkhOeQhuWZqA0KPiA+ID4NCj4gPiA+IHMv5ZON5bqU6ICFL+WTjeW6
-lOeoi+W6jy9nDQo+ID4gPiBzL+ivt+axguiAhS/or7fmsYLnqIvluo8vZw0KPiA+ID4gcmVwbGFj
-ZSBhbGwNCj4gPiBPSyENCj4gPiA+DQo+ID4gPiA+ICtIUEHvvIhJL0/ojIPlm7TlhoXnmoTpq5jl
-nLDlnYDvvInnm7jljLnphY3vvJvns7vnu5/lk43lupTogIXlnLDlnYDmmK/lrp7mqKHlvI/ku6Pn
-oIHor5Xlm77orr/pl67nmoTlnLDlnYDjgIINCj4gPiA+ID4gKw0KPiA+ID4gPiAr57O757uf5ZON
-5bqU6ICF5Zyw5Z2A55qE5YW45Z6L5YC85piv5aSn5LqOX19QQUdFX09GRlNFVCDvvIgweDEwMDAw
-MDAw77yJ55qE5Zyw5Z2A77yM6L+Z5oSP5ZGz552ADQo+ID4gPiA+ICvlnKjlrp7pmYXmqKHlvI/k
-u6PnoIHor5Xlm77orr/pl67lroPkuYvliY3vvIzkuIDkuKromZrmi5/lnLDlnYDmsqHmnInooqvn
-v7vor5HmiJDkuIDkuKrniannkIblnLDlnYDjgIINCj4gPiA+DQo+ID4gPiDlnKjlrp7mqKHlvI/o
-r5Xlm77orr/pl67lroPkuYvliY3vvIzomZrmi5/lnLDlnYDmsqHmnInooqvnv7vor5HmiJDniann
-kIblnLDlnYDjgIINCj4gPiBPSyENCj4gPiA+DQo+ID4gPiA+ICsNCj4gPiA+ID4gKw0KPiA+ID4g
-PiArMy4g5pyJ6Laj55qEUeS9jQ0KPiA+ID4gPiArPT09PT09PT09PT09DQo+ID4gPiA+ICsNCj4g
-PiA+ID4gK+afkOS6m+mdnuW4uOWFs+mUrueahOS7o+eggeW/hemhu+a4hemZpFBTV+S4reeahFHk
-vY3jgILlvZNR5L2N6KKr5riF6Zmk5pe277yMQ1BV5LiN5Lya5pu05paw5Lit5pat5aSE55CGDQo+
-ID4gPiA+ICvnqIvluo/miYDor7vlj5bnmoTlr4TlrZjlmajvvIzku6Xmib7lh7rmnLrlmajooqvk
-uK3mlq3nmoTkvY3nva7igJTigJTmiYDku6XlpoLmnpzkvaDlnKjmuIXpmaRR5L2N55qE5oyH5Luk
-5ZKM5YaNDQo+ID4gPiA+ICvmrKHorr7nva5R5L2N55qEUkZJ5LmL6Ze06YGH5Yiw5Lit5pat77yM
-5L2g5LiN55+l6YGT5a6D5Yiw5bqV5Y+R55Sf5Zyo5ZOq6YeM44CC5aaC5p6c5L2g5bm46L+Q55qE
-6K+d77yMSUFPUQ0KPiA+ID4gPiAr5Lya5oyH5ZCR5riF6ZmkUeS9jeeahOaMh+S7pO+8jOWmguae
-nOS9oOS4jeW5uOi/kOeahOivne+8jOWug+S8muaMh+WQkeS7u+S9leWcsOaWueOAgumAmuW4uFHk
-vY3nmoTpl67popjkvJoNCj4gPiA+ID4gK+ihqOeOsOWcqOaXoOazleino+mHiueahOezu+e7n+aM
-gui1t+aIlui/kOihjOWIsOeJqeeQhuWGheWtmOeahOacq+err+OAgg0KPiA+ID4NCj4gPiA+IEhv
-dyBhYm91dCDooajnjrDkuLrml6Dms5Xop6Pph4rnmoTns7vnu5/mjILotbfmiJbniannkIblhoXl
-rZjotornlYzjgIINCj4gPiBBbmQgaG93IGFib3V0IOWHuueOsOWcqOaXoOazleino+mHiueahOez
-u+e7n+aMgui1t+aIlueJqeeQhuWGheWtmOi2iueVjOOAgu+8nw0KPiA+IOWHuueOsCAtLS0tPiDp
-l67popggOi0pDQo+DQo+IOihqOeOsOS4uiArIOafkOaDheaZr+OAgeeKtuaAgQ0KPg0KPiDlh7rn
-jrDlnKggKyDmn5DlpITjgIHpg6jliIbjgIHmlrnkvY3jgIHmn5Dml7YNCk9L77yBdXNlIOihqOeO
-sOS4uuaXoOazleino+mHiueahOezu+e7n+aMgui1t+aIlueJqeeQhuWGheWtmOi2iueVjOOAgg0K
-Pg0KPiBUaGFua3MNCj4NCj4gV3UgWC5DDQoNClRoYW5rcywNCg0KWWFudGVuZw0KPg0KPiA+ID4N
-Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Bh
-cmlzYy9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9wYXJpc2Mv
-aW5kZXgucnN0DQo+ID4gPiA+IGluZGV4IGVmMjMyZDQ2YjFiYS4uYjkxM2Q2NjRlNzM1IDEwMDY0
-NA0KPiA+ID4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9wYXJpc2Mv
-aW5kZXgucnN0DQo+ID4gPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
-L3BhcmlzYy9pbmRleC5yc3QNCj4gPiA+ID4gQEAgLTEwLDkgKzEwLDEzIEBADQo+ID4gPiA+ICBQ
-QS1SSVND5L2T57O75p625p6EDQo+ID4gPiA+ICA9PT09PT09PT09PT09PT09PT09PQ0KPiA+ID4g
-Pg0KPiA+ID4gPiAtVG9kb2xpc3Q6DQo+ID4gPiA+ICsuLiB0b2N0cmVlOjoNCj4gPiA+ID4gKyAg
-IDptYXhkZXB0aDogMg0KPiA+ID4gPg0KPiA+ID4gPiAgICAgZGVidWdnaW5nDQo+ID4gPiA+ICsN
-Cj4gPiA+ID4gK1RvZG9saXN0Og0KPiA+ID4gPiArDQo+ID4gPiA+ICAgICByZWdpc3RlcnMNCj4g
-PiA+ID4gICAgIGZlYXR1cmVzDQo+ID4gPiA+DQo+ID4gPiA+IC0tDQo+ID4gPiA+IDIuMjcuMA0K
-PiA+ID4NCj4gPiA+IFRoYW5rcw0KPiA+ID4NCj4gPiA+IFd1IFguQy4NCj4gPiA+DQo+ID4gVGhh
-bmtzIHlvdSByZXZpZXchDQo+ID4NCj4gPiBUaGFua3MsDQo+ID4NCj4gPiBZYW50ZW5nDQo+DQo=
+Hi Andrew,
+
+There is currently no outstanding feedback for this series so I am hoping it 
+may be considered for inclusion (or at least the mm portions - I still need 
+Reviews/Acks for the Nouveau bits). The main change for v8 was removal of 
+entries on fork rather than copying in response to feedback from Jason so any 
+follow up comments on patch 5 would also be welcome. The series contains a 
+number of general clean-ups suggested by Christoph along with a feature to 
+temporarily make selected user page mappings write-protected.
+
+This is needed to support OpenCL atomic operations in Nouveau to shared 
+virtual memory (SVM) regions allocated with the CL_MEM_SVM_ATOMICS clSVMAlloc 
+flag. A more complete description of the OpenCL SVM feature is available at 
+https://www.khronos.org/registry/OpenCL/specs/3.0-unified/html/
+OpenCL_API.html#_shared_virtual_memory .
+
+I have been testing this with Mesa 21.1.0 and a simple OpenCL program which 
+checks GPU atomic accesses to system memory are atomic. Without this series 
+the test fails as there is no way of write-protecting the userspace page 
+mapping which results in the device clobbering CPU writes. For reference the 
+test is available at https://ozlabs.org/~apopple/opencl_svm_atomics/ .
+
+ - Alistair
+
+On Wednesday, 7 April 2021 6:42:30 PM AEST Alistair Popple wrote:
+> This is the eighth version of a series to add support to Nouveau for atomic
+> memory operations on OpenCL shared virtual memory (SVM) regions.
+> 
+> The main change for this version is a simplification of device exclusive
+> entry handling. Instead of copying entries for copy-on-write mappings
+> during fork they are removed instead. This is safer because there could be
+> unique corner cases when copying, particularly for pinned pages which
+> should follow the same logic as copy_present_page(). Removing entries
+> avoids this possiblity by treating them as normal ptes.
+> 
+> Exclusive device access is implemented by adding a new swap entry type
+> (SWAP_DEVICE_EXCLUSIVE) which is similar to a migration entry. The main
+> difference is that on fault the original entry is immediately restored by
+> the fault handler instead of waiting.
+> 
+> Restoring the entry triggers calls to MMU notifers which allows a device
+> driver to revoke the atomic access permission from the GPU prior to the CPU
+> finalising the entry.
+> 
+> Patches 1 & 2 refactor existing migration and device private entry
+> functions.
+> 
+> Patches 3 & 4 rework try_to_unmap_one() by splitting out unrelated
+> functionality into separate functions - try_to_migrate_one() and
+> try_to_munlock_one(). These should not change any functionality, but any
+> help testing would be much appreciated as I have not been able to test
+> every usage of try_to_unmap_one().
+> 
+> Patch 5 contains the bulk of the implementation for device exclusive
+> memory.
+> 
+> Patch 6 contains some additions to the HMM selftests to ensure everything
+> works as expected.
+> 
+> Patch 7 is a cleanup for the Nouveau SVM implementation.
+> 
+> Patch 8 contains the implementation of atomic access for the Nouveau
+> driver.
+> 
+> This has been tested using the latest upstream Mesa userspace with a simple
+> OpenCL test program which checks the results of atomic GPU operations on a
+> SVM buffer whilst also writing to the same buffer from the CPU.
+> 
+> Alistair Popple (8):
+>   mm: Remove special swap entry functions
+>   mm/swapops: Rework swap entry manipulation code
+>   mm/rmap: Split try_to_munlock from try_to_unmap
+>   mm/rmap: Split migration into its own function
+>   mm: Device exclusive memory access
+>   mm: Selftests for exclusive device memory
+>   nouveau/svm: Refactor nouveau_range_fault
+>   nouveau/svm: Implement atomic SVM access
+> 
+>  Documentation/vm/hmm.rst                      |  19 +-
+>  Documentation/vm/unevictable-lru.rst          |  33 +-
+>  arch/s390/mm/pgtable.c                        |   2 +-
+>  drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
+>  drivers/gpu/drm/nouveau/nouveau_svm.c         | 156 ++++-
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
+>  .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 +
+>  fs/proc/task_mmu.c                            |  23 +-
+>  include/linux/mmu_notifier.h                  |  26 +-
+>  include/linux/rmap.h                          |  11 +-
+>  include/linux/swap.h                          |   8 +-
+>  include/linux/swapops.h                       | 123 ++--
+>  lib/test_hmm.c                                | 126 +++-
+>  lib/test_hmm_uapi.h                           |   2 +
+>  mm/debug_vm_pgtable.c                         |  12 +-
+>  mm/hmm.c                                      |  12 +-
+>  mm/huge_memory.c                              |  45 +-
+>  mm/hugetlb.c                                  |  10 +-
+>  mm/memcontrol.c                               |   2 +-
+>  mm/memory.c                                   | 196 +++++-
+>  mm/migrate.c                                  |  51 +-
+>  mm/mlock.c                                    |  10 +-
+>  mm/mprotect.c                                 |  18 +-
+>  mm/page_vma_mapped.c                          |  15 +-
+>  mm/rmap.c                                     | 612 +++++++++++++++---
+>  tools/testing/selftests/vm/hmm-tests.c        | 158 +++++
+>  26 files changed, 1366 insertions(+), 312 deletions(-)
+> 
+> 
+
+
+
+
