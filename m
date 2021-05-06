@@ -2,386 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56D08C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 13:17:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 220E6C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 13:32:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 203DB61104
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 13:17:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E650E61132
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 13:32:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233407AbhEFNSg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 May 2021 09:18:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231993AbhEFNSf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 09:18:35 -0400
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60BCAC061574;
-        Thu,  6 May 2021 06:17:37 -0700 (PDT)
-Received: by mail-oo1-xc30.google.com with SMTP id o202-20020a4a2cd30000b02901fcaada0306so1232746ooo.7;
-        Thu, 06 May 2021 06:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WLSAJ5a3eCq61WA8m6zKAmiEQMEoVgwKlSjIxhRwdGk=;
-        b=jrzpTgQkbHr85ev2ZPLtLXoQkXsmIFxAaEwhtC3R8Bvqhi28zn8Vk+UVG3gY8iX0ne
-         HCXwsV52uBscDUUBlPXELRD1N40NAKrGgVeFdUc8XcjuMwOJNeF0PCBGwxOu+VmwRQ4I
-         NVB5sK2ZWJs5ddC0E0hvb+taXoaOgcGNsNH/3C5A5LGB4TPYQWaCNX4IYoljkND22Nyt
-         BqcdeIvIXx9JYV8bKdeyeed9RvrcO2buNEQh4m+J2k/BMDCcoEjOxdgQxhBSSP8Rkpzz
-         kwmlHqIdIRqj2bda6MDkUEyP8sBtEbGmRWyvZTzyDjF+i1UQZwKHwjbKZRn6tS5dLlDr
-         pMEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=WLSAJ5a3eCq61WA8m6zKAmiEQMEoVgwKlSjIxhRwdGk=;
-        b=fMxVMCzs7UrmjELFn3EKFPlLg/WNG5p++kj+hvw2am1EpppqrbXHKUq3T9dshr2ksr
-         sArrS9J4n1tSLWOUrAhv0bBvvSC6MRb1nd5AUzMfOh2aeltIT/wOxd7YKw2uAX8gbBSm
-         GRQZv5ZMJ7Bnm3Oro6YIhWS5XwAs/23CoVkTFpcNMJNwP5G9H0gcOkadIZpDH9Qly26s
-         nias0nmB/Q7eZMydYowAIPQDCmV3u1jUFq04xN04UsMHeWMDK28gygCMzvcp0m4fehwc
-         2wzOu2U/kfM3d/SAVdOxZ/JQHRq75S233BkFKuOEZV5IWh+pQq/BzoX8nfyZveN1Lgex
-         XLuQ==
-X-Gm-Message-State: AOAM530/yZwquw+4kfp2rlyFFyikpohKA49kKrcua5HiVhohym/bisbq
-        +6B3GURSGTTRiWZQrOH3YP8=
-X-Google-Smtp-Source: ABdhPJzzxXJVd7nD1HXbYAmHXttMomlfmJPlPXrIYJFF5qhy6GI2Mx8gh0yx4nEk6OJNYvoFLlWhiw==
-X-Received: by 2002:a4a:37cf:: with SMTP id r198mr3434229oor.26.1620307056715;
-        Thu, 06 May 2021 06:17:36 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w10sm497378oou.35.2021.05.06.06.17.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 06:17:36 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 6 May 2021 06:17:34 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Campion Kang <campion.kang@advantech.com.tw>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        AceLan Kao <chia-lin.kao@canonical.com>
-Subject: Re: [PATCH v7 6/7] Watchdog: ahc1ec0-wdt: Add sub-device Watchdog
- for Advantech embedded controller
-Message-ID: <20210506131734.GB2252703@roeck-us.net>
-References: <20210506081619.2443-1-campion.kang@advantech.com.tw>
- <20210506081619.2443-6-campion.kang@advantech.com.tw>
+        id S234113AbhEFNdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 09:33:17 -0400
+Received: from mx2.suse.de ([195.135.220.15]:41954 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233461AbhEFNdN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 May 2021 09:33:13 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 24653B061;
+        Thu,  6 May 2021 13:32:14 +0000 (UTC)
+Date:   Thu, 6 May 2021 15:32:12 +0200
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1' codec
+ can't encode characters in position 18-20: ordinal not in range(256)
+Message-ID: <20210506133212.GF6564@kitsune.suse.cz>
+References: <20210506103913.GE6564@kitsune.suse.cz>
+ <20210506132006.22d97e04@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210506081619.2443-6-campion.kang@advantech.com.tw>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210506132006.22d97e04@coco.lan>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 06, 2021 at 04:16:18PM +0800, Campion Kang wrote:
-> This is one of sub-device driver for Advantech embedded controller
-> AHC1EC0. This driver provide Watchdog functionality for Advantech
-> related applications to restart the system.
+On Thu, May 06, 2021 at 01:20:06PM +0200, Mauro Carvalho Chehab wrote:
+> Em Thu, 6 May 2021 12:39:13 +0200
+> Michal Suchánek <msuchanek@suse.de> escreveu:
 > 
-> Changed in V7:
-> 	Fix the patch according to reviewer's comment:
-> 	- remove unnecessary variables and fix error checks
-> 	- remove error messages that avoid clogging the kernel log
-> 	- remove advwdt_notify_sys(), use watchdog subsystem to process
-> 	  reboot or shutdown
-> 	- delete mutex lock, the watchdog core has processed it
+> > When building HTML documentation I get this output:
+> > 
+> > [  120s] + make O=/home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/html PYTHON=python3 htmldocs
+> > [  120s] make[1]: Entering directory '/home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/html'
+> > [  120s] cat: /etc/os-release: No such file or directory
+> > [  121s]   SPHINX  htmldocs --> file:///home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/html/Documentation/output
+> > [  121s]   PARSE   include/uapi/linux/dvb/audio.h
+> > [  121s]   PARSE   include/uapi/linux/dvb/ca.h
+> > [  121s]   PARSE   include/uapi/linux/dvb/dmx.h
+> > [  121s]   PARSE   include/uapi/linux/dvb/frontend.h
+> > [  122s]   PARSE   include/uapi/linux/dvb/net.h
+> > [  122s]   PARSE   include/uapi/linux/dvb/video.h
+> > [  122s]   PARSE   include/uapi/linux/videodev2.h
+> > [  122s]   PARSE   include/uapi/linux/media.h
+> > [  122s]   PARSE   include/uapi/linux/cec.h
+> > [  122s]   PARSE   include/uapi/linux/lirc.h
+> > [  190s] ../include/linux/dcache.h:318: warning: expecting prototype for dget, dget_dlock(). Prototype was for dget_dlock() instead
+> > [  203s] ../include/linux/regulator/driver.h:388: warning: Function parameter or member 'ramp_reg' not described in 'regulator_desc'
+> > [  203s] ../include/linux/regulator/driver.h:388: warning: Function parameter or member 'ramp_mask' not described in 'regulator_desc'
+> > [  203s] ../include/linux/regulator/driver.h:388: warning: Function parameter or member 'ramp_delay_table' not described in 'regulator_desc'
+> > [  203s] ../include/linux/regulator/driver.h:388: warning: Function parameter or member 'n_ramp_values' not described in 'regulator_desc'
+> > [  203s] ../include/linux/spi/spi.h:671: warning: Function parameter or member 'devm_allocated' not described in 'spi_controller'
+> > [  203s] ../drivers/usb/dwc3/core.h:865: warning: Function parameter or member 'hwparams9' not described in 'dwc3_hwparams'
+> > [  233s] ../drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2808: warning: Excess function parameter 'vm_context' description in 'amdgpu_vm_init'
+> > [  233s] ../drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2808: warning: Excess function parameter 'vm_context' description in 'amdgpu_vm_init'
+> > [  233s] ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:426: warning: Function parameter or member 'disable_hpd_irq' not described in 'amdgpu_display_manager'
+> > [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess function parameter 'trampoline' description in 'intel_engine_cmd_parser'
+> > [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'jump_whitelist' not described in 'intel_engine_cmd_parser'
+> > [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'shadow_map' not described in 'intel_engine_cmd_parser'
+> > [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'batch_map' not described in 'intel_engine_cmd_parser'
+> > [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess function parameter 'trampoline' description in 'intel_engine_cmd_parser'
+> > [  233s] ../drivers/gpu/host1x/bus.c:774: warning: Excess function parameter 'key' description in '__host1x_client_register'
+> > [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/Documentation/ABI/testing/sysfs-platform-intel-pmc:2: WARNING: Definition list ends without a blank line; unexpected unindent.
+> > [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/Documentation/driver-api/serial/index.rst:17: WARNING: toctree contains reference to nonexisting document 'driver-api/serial/rocket'
+> > [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/Documentation/gpu/amdgpu:96: ../drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:323: WARNING: Unexpected indentation.
+> > [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/Documentation/gpu/amdgpu:96: ../drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:324: WARNING: Block quote ends without a blank line; unexpected unindent.
+> > [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/Documentation/gpu/amdgpu:96: ../drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:327: WARNING: Definition list ends without a blank line; unexpected unindent.
+> > [  307s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/Documentation/driver-api/usb/writing_usb_driver.rst:129: WARNING: undefined label: usb_header (if the link has no caption the label must precede a section header)
+> > [  412s] 
+> > [  412s] Sphinx parallel build error:
+> > [  412s] UnicodeEncodeError: 'latin-1' codec can't encode characters in position 18-20: ordinal not in range(256)
+> > [  431s] make[2]: *** [../Documentation/Makefile:91: htmldocs] Error 2
+> > [  431s] make[1]: *** [/home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/Makefile:1784: htmldocs] Error 2
+> > [  431s] make[1]: Leaving directory '/home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/linux-5.12-next-20210506/html'
+> > [  431s] make: *** [Makefile:222: __sub-make] Error 2
+> > [  431s] error: Bad exit status from /var/tmp/rpm-tmp.npkyVx (%build)
+> > 
+> > It does not say which input file contains the offending character so I can't tell which file is broken.
+> > 
+> > Any idea how to debug?
 > 
-> Changed in V6:
-> 	- remove unnecessary header files
-> 	- bug fixed: reboot halt if watchdog enabled
-> 	- Kconfig: add "AHC1EC0" string to clearly define the EC name
+> Yes. You probably has some weird file under Documentation/ABI.
+> Some text editors like kate tend to keep temporary files sometimes.
 > 
-> Signed-off-by: Campion Kang <campion.kang@advantech.com.tw>
-> ---
->  drivers/watchdog/Kconfig       |  11 +++
->  drivers/watchdog/Makefile      |   1 +
->  drivers/watchdog/ahc1ec0-wdt.c | 171 +++++++++++++++++++++++++++++++++
->  3 files changed, 183 insertions(+)
->  create mode 100644 drivers/watchdog/ahc1ec0-wdt.c
+> The scripts/get_ABI.pl (currently) doesn't have any logic
+> to recognize valid ABI files from trash stuff added at
+> the ABI dirs.
 > 
-> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-> index 355100dad60a..5fe9add0a12d 100644
-> --- a/drivers/watchdog/Kconfig
-> +++ b/drivers/watchdog/Kconfig
-> @@ -1005,6 +1005,17 @@ config ADVANTECH_WDT
->  	  feature. More information can be found at
->  	  <https://www.advantech.com.tw/products/>
->  
-> +config AHC1EC0_WDT
-> +	tristate "Advantech AHC1EC0 Watchdog Function"
-> +	depends on MFD_AHC1EC0
-> +	help
-> +	  This is sub-device for Advantech AHC1EC0 embedded controller.
-> +
-> +	  This driver provide watchdog functionality for Advantech related
-> +	  applications to restart the system.
-> +	  To compile this driver as a module, choose M here: the module will be
-> +	  called ahc1ec0-wdt.
-> +
->  config ALIM1535_WDT
->  	tristate "ALi M1535 PMU Watchdog Timer"
->  	depends on X86 && PCI
-> diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-> index a7eade8b4d45..0d78211e1412 100644
-> --- a/drivers/watchdog/Makefile
-> +++ b/drivers/watchdog/Makefile
-> @@ -142,6 +142,7 @@ obj-$(CONFIG_NI903X_WDT) += ni903x_wdt.o
->  obj-$(CONFIG_NIC7018_WDT) += nic7018_wdt.o
->  obj-$(CONFIG_MLX_WDT) += mlx_wdt.o
->  obj-$(CONFIG_KEEMBAY_WATCHDOG) += keembay_wdt.o
-> +obj-$(CONFIG_AHC1EC0_WDT) += ahc1ec0-wdt.o
->  
->  # M68K Architecture
->  obj-$(CONFIG_M54xx_WATCHDOG) += m54xx_wdt.o
-> diff --git a/drivers/watchdog/ahc1ec0-wdt.c b/drivers/watchdog/ahc1ec0-wdt.c
-> new file mode 100644
-> index 000000000000..efa955c41a81
-> --- /dev/null
-> +++ b/drivers/watchdog/ahc1ec0-wdt.c
-> @@ -0,0 +1,171 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> Just doing a git status (or a git clean) and removing such
+> files should fix the build.
 
-GPL or GPLv2 ?
+This is clean git-archived tarball uploaded to a build service so the
+likehood of some garbage files popping out in Documentation/ABI out of
+nowhere is quite small.
 
-> +/*
-> + * Watchdog Driver for Advantech AHC1EC0 Embedded Controller
-> + *
-> + * Copyright 2021, Advantech IIoT Group
-> + */
-> +
-> +#include <linux/errno.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/notifier.h>
+Thanks
 
-Unnecessary.
-
-> +#include <linux/platform_data/ahc1ec0.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reboot.h>
-
-Unnecessary.
-
-> +#include <linux/types.h>
-> +#include <linux/watchdog.h>
-> +
-> +struct ec_wdt_data {
-> +	struct watchdog_device wdtdev;
-> +	struct adv_ec_ddata *ddata;
-> +	unsigned short timeout_in_ds; /* a decisecond */
-
-This variable is unnecessary.
-
-> +};
-> +
-> +#define EC_WDT_MIN_TIMEOUT	1   /* The watchdog devices minimum timeout value (in seconds). */
-> +#define EC_WDT_MAX_TIMEOUT	600 /* The watchdog devices maximum timeout value (in seconds) */
-
-Please use constant alignment, and "The watchdog devices " is really
-unnecessary.
-
-> +#define EC_WDT_DEFAULT_TIMEOUT	45
-> +
-> +static int set_delay(struct adv_ec_ddata *ddata, unsigned short delay_timeout_in_ms)
-> +{
-> +	if (ahc1ec_write_hw_ram(ddata, EC_RESET_DELAY_TIME_L,
-> +				delay_timeout_in_ms & 0x00FF))
-> +		return -EINVAL;
-> +
-> +	if (ahc1ec_write_hw_ram(ddata, EC_RESET_DELAY_TIME_H,
-> +				(delay_timeout_in_ms & 0xFF00) >> 8))
-
-Those functions presumably return a valid error code which should be passed
-on and not replaced.
-
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ec_wdt_start(struct watchdog_device *wdd)
-> +{
-> +	int ret;
-> +	struct ec_wdt_data *ec_wdt_data = watchdog_get_drvdata(wdd);
-> +	struct adv_ec_ddata *ddata;
-> +
-> +	ddata = ec_wdt_data->ddata;
-> +
-
-Might as well be written as
-	struct adv_ec_ddata *ddata = ec_wdt_data->ddata;
-
-> +	/*
-> +	 * Because an unit of ahc1ec0_wdt is 0.1 seconds, timeout 100 is 10 seconds
-> +	 */
-> +	ec_wdt_data->timeout_in_ds = wdd->timeout * 10;
-
-timeout_in_ds can be a local variable (if not omitted entirely).
-
-> +
-> +	ret = set_delay(ddata, (ec_wdt_data->timeout_in_ds - 1));
-
-Unnecessary ( ) around second parameter.
-
-> +	if (ret)
-> +		goto exit;
-
-	if (ret)
-		return ret;
-
-> +
-> +	ahc1ec_write_hwram_command(ddata, EC_WDT_STOP);
-> +	ret = ahc1ec_write_hwram_command(ddata, EC_WDT_START);
-> +	if (ret)
-> +		goto exit;
-
-Unnecessary.
-
-> +
-> +exit:
-
-Unnecessary label.
-
-> +	return ret;
-> +}
-> +
-> +static int ec_wdt_stop(struct watchdog_device *wdd)
-> +{
-> +	struct ec_wdt_data *ec_wdt_data = watchdog_get_drvdata(wdd);
-> +	struct adv_ec_ddata *ddata;
-> +
-> +	ddata = ec_wdt_data->ddata;
-> +
-> +	return ahc1ec_write_hwram_command(ddata, EC_WDT_STOP);
-> +}
-> +
-> +static int ec_wdt_ping(struct watchdog_device *wdd)
-> +{
-> +	int ret;
-> +	struct ec_wdt_data *ec_wdt_data = watchdog_get_drvdata(wdd);
-> +	struct adv_ec_ddata *ddata;
-> +
-> +	ddata = ec_wdt_data->ddata;
-> +
-> +	ret = ahc1ec_write_hwram_command(ddata, EC_WDT_RESET);
-> +	if (ret)
-> +		return -EINVAL;
-
-	return ret;
-
-but then above you have
-	return ahc1ec_write_hwram_command(ddata, EC_WDT_STOP);
-
-Please be consistent.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int ec_wdt_set_timeout(struct watchdog_device *wdd,
-> +			      unsigned int timeout)
-> +{
-> +	wdd->timeout = timeout;
-> +
-> +	if (watchdog_active(wdd))
-> +		return ec_wdt_start(wdd);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct watchdog_info ec_watchdog_info = {
-> +	.options = WDIOF_SETTIMEOUT | WDIOF_KEEPALIVEPING | WDIOF_MAGICCLOSE,
-> +	.identity = "AHC1EC0 Watchdog",
-> +};
-> +
-> +static const struct watchdog_ops ec_watchdog_ops = {
-> +	.owner = THIS_MODULE,
-> +	.start = ec_wdt_start,
-> +	.stop = ec_wdt_stop,
-> +	.ping = ec_wdt_ping,
-> +	.set_timeout = ec_wdt_set_timeout,
-> +};
-> +
-> +static int adv_ec_wdt_probe(struct platform_device *pdev)
-> +{
-> +	int ret;
-> +	struct device *dev = &pdev->dev;
-> +	struct adv_ec_ddata *ddata;
-> +	struct ec_wdt_data *ec_wdt_data;
-> +	struct watchdog_device *wdd;
-> +
-> +	ddata = dev_get_drvdata(dev->parent);
-> +	if (!ddata)
-> +		return -EINVAL;
-> +
-> +	ec_wdt_data = devm_kzalloc(dev, sizeof(*ec_wdt_data), GFP_KERNEL);
-> +	if (!ec_wdt_data)
-> +		return -ENOMEM;
-> +
-> +	ec_wdt_data->ddata = ddata;
-> +	wdd = &ec_wdt_data->wdtdev;
-> +
-> +	watchdog_init_timeout(&ec_wdt_data->wdtdev, 0, dev);
-> +
-
-This should be after wdd->timeout is set, and please use wdd.
-
-> +	/* watchdog_set_nowayout(&ec_wdt_data->wdtdev, WATCHDOG_NOWAYOUT); */
-> +	watchdog_set_drvdata(&ec_wdt_data->wdtdev, ec_wdt_data);
-
-Please use wdd.
-
-> +	platform_set_drvdata(pdev, ec_wdt_data);
-
-Is this used anywhere ?
-
-> +
-> +	wdd->info = &ec_watchdog_info;
-> +	wdd->ops = &ec_watchdog_ops;
-> +	wdd->min_timeout = EC_WDT_MIN_TIMEOUT;
-> +	wdd->max_timeout = EC_WDT_MAX_TIMEOUT;
-> +	wdd->parent = dev;
-> +
-> +	ec_wdt_data->wdtdev.timeout = EC_WDT_DEFAULT_TIMEOUT;
-
-	wdd->timeout = EC_WDT_DEFAULT_TIMEOUT;
-
-> +
-> +	watchdog_stop_on_reboot(wdd);
-> +	watchdog_stop_on_unregister(wdd);
-> +
-> +	ret = devm_watchdog_register_device(dev, wdd);
-> +	if (ret == 0)
-> +		dev_info(dev, "ahc1ec0 watchdog register success\n");
-
-This is noise.
-
-> +
-> +	return ret;
-> +}
-> +
-> +static struct platform_driver adv_wdt_drv = {
-> +	.driver = {
-> +		.name = "ahc1ec0-wdt",
-> +	},
-> +	.probe = adv_ec_wdt_probe,
-> +};
-> +module_platform_driver(adv_wdt_drv);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform:ahc1ec0-wdt");
-> +MODULE_DESCRIPTION("Advantech Embedded Controller Watchdog Driver.");
-> +MODULE_AUTHOR("Campion Kang <campion.kang@advantech.com.tw>");
-> +MODULE_VERSION("1.0");
-> -- 
-> 2.17.1
-> 
+Michal
