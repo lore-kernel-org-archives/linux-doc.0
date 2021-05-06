@@ -2,157 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8057BC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 11:20:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AADC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 11:28:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E2D761157
-	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 11:20:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77E64613E3
+	for <linux-doc@archiver.kernel.org>; Thu,  6 May 2021 11:28:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234699AbhEFLVI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 May 2021 07:21:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36818 "EHLO mail.kernel.org"
+        id S234603AbhEFL3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 07:29:53 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:36648 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234589AbhEFLVI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 May 2021 07:21:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 62ACC61168;
-        Thu,  6 May 2021 11:20:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620300010;
-        bh=Y8upb1SnRou62RCvq4toTlRXQ2cvCfh4g7LGWlaF67I=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=s1GOUYEorQSgsqIzcpIu/aF5aF8s+yw9nOhIcPs15llRxYaEKQ8CjEOQu4bjyjRAF
-         4MsW1uBPyGEgDwHj2+dL0RsUlFDbB8x+kF/dhb/liUyW4c4hurpi4Ekve690OJxB5H
-         WPRZg0VUD/+clbghJi2RnH2TbhRRggLVgdRFfkdIo946w0OAO+WhEbZpIC5Zj7lnul
-         5fu0Gl/6JliQegDk6kAoLHCjjuXYdnYyIE2YX4W/7xCLBvHYFK2uX/GaL0SFQE703x
-         YPPDs8IWvK/U5je/s+Lr9VsxgCXp14iUBrn7XuzyLI2rvWoV+SgNSBF8LZuq9BK3Qx
-         feDa2xHlttEyQ==
-Date:   Thu, 6 May 2021 13:20:06 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1'
- codec can't encode characters in position 18-20: ordinal not in range(256)
-Message-ID: <20210506132006.22d97e04@coco.lan>
-In-Reply-To: <20210506103913.GE6564@kitsune.suse.cz>
-References: <20210506103913.GE6564@kitsune.suse.cz>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S234589AbhEFL3w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 May 2021 07:29:52 -0400
+Received: from zn.tnic (p200300ec2f0c9f00fce1694b4b9f4649.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:9f00:fce1:694b:4b9f:4649])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C23B51EC027D;
+        Thu,  6 May 2021 13:28:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1620300532;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=qSr9erdTtmFQPEy602QmLuBnh3zcDUD+5x1WA62Gp+s=;
+        b=S0Ay0D2tcJf1nvmCdFfOP4DuXox9u49JhYvP3D/iyu4r8tjMKRCyf8MtMZSrxTb6kYycdM
+        UxfWd0kweP9a63tuK5PfcHK9ru/YLFqMtRmDtZ/7ZovuUxiGy/lt2T03gP2mCNWV1BDBFW
+        M12WgYv5i2/yiz14ZWWX5Klh1HsmIAs=
+Date:   Thu, 6 May 2021 13:28:50 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Constantine Shulyupin <constantine.shulyupin@gmail.com>
+Cc:     linux-doc@vger.kernel.org,
+        kernelnewbies <kernelnewbies@kernelnewbies.org>, aaptel@suse.com,
+        aisheng.dong@nxp.com, alexandru.elisei@arm.com,
+        alex.williamson@redhat.com, andreyknvl@google.com,
+        anshuman.khandual@arm.com, aquini@redhat.com,
+        Arnd Bergmann <arnd@arndb.de>, ast@kernel.org, axboe@kernel.dk,
+        bernard@vivo.com, bobwxc@email.cn, brijesh.singh@amd.com,
+        broonie@kernel.org, catalin.marinas@arm.com,
+        chris.packham@alliedtelesis.co.nz,
+        Jonathan Corbet <corbet@lwn.net>, cw00.choi@samsung.com,
+        daniel@iogearbox.net, davem@davemloft.net, davidgow@google.com,
+        dhowells@redhat.com, dikshita@codeaurora.org, dlatypov@google.com,
+        eesposit@redhat.com, eric.auger@redhat.com, erik@flodin.me,
+        erik.rosen@metormote.com, federico.vaga@vaga.pv.it,
+        festevam@gmail.com, georgi.djakov@linaro.org,
+        gi-oh.kim@cloud.ionos.com, gi-oh.kim@ionos.com,
+        gregkh@linuxfoundation.org, Gustavo.Pimentel@synopsys.com,
+        haren@linux.ibm.com, hca@linux.ibm.com, hch@lst.de,
+        hdegoede@redhat.com, heikki.krogerus@linux.intel.com,
+        hengqi.chen@gmail.com, hverkuil-cisco@xs4all.nl, i@zenithal.me,
+        jaegeuk@kernel.org, James.Bottomley@hansenpartnership.com,
+        jamorris@linux.microsoft.com, jarkko@kernel.org, jgg@nvidia.com,
+        jianyong.wu@arm.com, jonas@protocubo.io,
+        Jonathan.Cameron@huawei.com, kabel@kernel.org,
+        keescook@chromium.org, kuba@kernel.org, kubernat@cesnet.cz,
+        linus.walleij@linaro.org, linux@leemhuis.info,
+        linux@rasmusvillemoes.dk, Guenter Roeck <linux@roeck-us.net>,
+        luzmaximilian@gmail.com, macro@orcam.me.uk, marcan@marcan.st,
+        masahiroy@kernel.org, mathieu.poirier@linaro.org, maz@kernel.org,
+        mchehab+huawei@kernel.org, mic@linux.microsoft.com,
+        mkl@pengutronix.de, mpe@ellerman.id.au, mszeredi@redhat.com,
+        natet@google.com, nicolas.dichtel@6wind.com,
+        niklas.soderlund+renesas@ragnatech.se, npiggin@gmail.com,
+        ogabbay@kernel.org, parav@nvidia.com, pbonzini@redhat.com,
+        pcc@google.com, peterz@infradead.org, pmladek@suse.com,
+        rafael.j.wysocki@intel.com, rppt@linux.ibm.com, saeedm@nvidia.com,
+        sakari.ailus@linux.intel.com, sbhat@linux.ibm.com,
+        schnelle@linux.ibm.com, sean.j.christopherson@intel.com,
+        sebastian.reichel@collabora.com, shy828301@gmail.com,
+        siyanteng@loongson.cn, skhan@linuxfoundation.org, sozeri@habana.ai,
+        srutherford@google.com, stanimir.varbanov@linaro.org,
+        stephane.blondon@gmail.com, stern@rowland.harvard.edu,
+        stfrench@microsoft.com, sumit.garg@linaro.org,
+        tamar.mashiah@intel.com, tglx@linutronix.de,
+        tom.zanussi@linux.intel.com, torvalds@linux-foundation.org,
+        unixbhaskar@gmail.com, vbabka@suse.cz, vincenzo.frascino@arm.com,
+        vkoul@kernel.org, vladyslavt@nvidia.com,
+        wilken.gottwalt@posteo.net, willy@infradead.org, yangbo.lu@nxp.com,
+        yangtiezhu@loongson.cn, yuchao0@huawei.com, yuzenghui@huawei.com
+Subject: Re: Wikibook Linux kernel
+Message-ID: <YJPS8i3XYGnXiCak@zn.tnic>
+References: <CAE7jHC_r86KNb_+beU10Vq3DU9wGA3X=sHpDjH-QQNrDGU5taw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAE7jHC_r86KNb_+beU10Vq3DU9wGA3X=sHpDjH-QQNrDGU5taw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 6 May 2021 12:39:13 +0200
-Michal Such=C3=A1nek <msuchanek@suse.de> escreveu:
+On Thu, May 06, 2021 at 01:58:35PM +0300, Constantine Shulyupin wrote:
+> Dear Linux kernel documentation writers and readers:
+> 
+> Writing Linux documentation is a huge complex collaborative process.
+> To make it better I invite you to contribute to
+> https://en.wikibooks.org/wiki/The_Linux_Kernel .
 
-> When building HTML documentation I get this output:
->=20
-> [  120s] + make O=3D/home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.2=
-0210506/linux-5.12-next-20210506/html PYTHON=3Dpython3 htmldocs
-> [  120s] make[1]: Entering directory '/home/abuild/rpmbuild/BUILD/kernel-=
-docs-5.12.0.next.20210506/linux-5.12-next-20210506/html'
-> [  120s] cat: /etc/os-release: No such file or directory
-> [  121s]   SPHINX  htmldocs --> file:///home/abuild/rpmbuild/BUILD/kernel=
--docs-5.12.0.next.20210506/linux-5.12-next-20210506/html/Documentation/outp=
-ut
-> [  121s]   PARSE   include/uapi/linux/dvb/audio.h
-> [  121s]   PARSE   include/uapi/linux/dvb/ca.h
-> [  121s]   PARSE   include/uapi/linux/dvb/dmx.h
-> [  121s]   PARSE   include/uapi/linux/dvb/frontend.h
-> [  122s]   PARSE   include/uapi/linux/dvb/net.h
-> [  122s]   PARSE   include/uapi/linux/dvb/video.h
-> [  122s]   PARSE   include/uapi/linux/videodev2.h
-> [  122s]   PARSE   include/uapi/linux/media.h
-> [  122s]   PARSE   include/uapi/linux/cec.h
-> [  122s]   PARSE   include/uapi/linux/lirc.h
-> [  190s] ../include/linux/dcache.h:318: warning: expecting prototype for =
-dget, dget_dlock(). Prototype was for dget_dlock() instead
-> [  203s] ../include/linux/regulator/driver.h:388: warning: Function param=
-eter or member 'ramp_reg' not described in 'regulator_desc'
-> [  203s] ../include/linux/regulator/driver.h:388: warning: Function param=
-eter or member 'ramp_mask' not described in 'regulator_desc'
-> [  203s] ../include/linux/regulator/driver.h:388: warning: Function param=
-eter or member 'ramp_delay_table' not described in 'regulator_desc'
-> [  203s] ../include/linux/regulator/driver.h:388: warning: Function param=
-eter or member 'n_ramp_values' not described in 'regulator_desc'
-> [  203s] ../include/linux/spi/spi.h:671: warning: Function parameter or m=
-ember 'devm_allocated' not described in 'spi_controller'
-> [  203s] ../drivers/usb/dwc3/core.h:865: warning: Function parameter or m=
-ember 'hwparams9' not described in 'dwc3_hwparams'
-> [  233s] ../drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2808: warning: Excess =
-function parameter 'vm_context' description in 'amdgpu_vm_init'
-> [  233s] ../drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2808: warning: Excess =
-function parameter 'vm_context' description in 'amdgpu_vm_init'
-> [  233s] ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:426: warnin=
-g: Function parameter or member 'disable_hpd_irq' not described in 'amdgpu_=
-display_manager'
-> [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess =
-function parameter 'trampoline' description in 'intel_engine_cmd_parser'
-> [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Functio=
-n parameter or member 'jump_whitelist' not described in 'intel_engine_cmd_p=
-arser'
-> [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Functio=
-n parameter or member 'shadow_map' not described in 'intel_engine_cmd_parse=
-r'
-> [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Functio=
-n parameter or member 'batch_map' not described in 'intel_engine_cmd_parser'
-> [  233s] ../drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess =
-function parameter 'trampoline' description in 'intel_engine_cmd_parser'
-> [  233s] ../drivers/gpu/host1x/bus.c:774: warning: Excess function parame=
-ter 'key' description in '__host1x_client_register'
-> [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/lin=
-ux-5.12-next-20210506/Documentation/ABI/testing/sysfs-platform-intel-pmc:2:=
- WARNING: Definition list ends without a blank line; unexpected unindent.
-> [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/lin=
-ux-5.12-next-20210506/Documentation/driver-api/serial/index.rst:17: WARNING=
-: toctree contains reference to nonexisting document 'driver-api/serial/roc=
-ket'
-> [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/lin=
-ux-5.12-next-20210506/Documentation/gpu/amdgpu:96: ../drivers/gpu/drm/amd/a=
-mdgpu/amdgpu_ras.c:323: WARNING: Unexpected indentation.
-> [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/lin=
-ux-5.12-next-20210506/Documentation/gpu/amdgpu:96: ../drivers/gpu/drm/amd/a=
-mdgpu/amdgpu_ras.c:324: WARNING: Block quote ends without a blank line; une=
-xpected unindent.
-> [  234s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/lin=
-ux-5.12-next-20210506/Documentation/gpu/amdgpu:96: ../drivers/gpu/drm/amd/a=
-mdgpu/amdgpu_ras.c:327: WARNING: Definition list ends without a blank line;=
- unexpected unindent.
-> [  307s] /home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.next.20210506/lin=
-ux-5.12-next-20210506/Documentation/driver-api/usb/writing_usb_driver.rst:1=
-29: WARNING: undefined label: usb_header (if the link has no caption the la=
-bel must precede a section header)
-> [  412s]=20
-> [  412s] Sphinx parallel build error:
-> [  412s] UnicodeEncodeError: 'latin-1' codec can't encode characters in p=
-osition 18-20: ordinal not in range(256)
-> [  431s] make[2]: *** [../Documentation/Makefile:91: htmldocs] Error 2
-> [  431s] make[1]: *** [/home/abuild/rpmbuild/BUILD/kernel-docs-5.12.0.nex=
-t.20210506/linux-5.12-next-20210506/Makefile:1784: htmldocs] Error 2
-> [  431s] make[1]: Leaving directory '/home/abuild/rpmbuild/BUILD/kernel-d=
-ocs-5.12.0.next.20210506/linux-5.12-next-20210506/html'
-> [  431s] make: *** [Makefile:222: __sub-make] Error 2
-> [  431s] error: Bad exit status from /var/tmp/rpm-tmp.npkyVx (%build)
->=20
-> It does not say which input file contains the offending character so I ca=
-n't tell which file is broken.
->=20
-> Any idea how to debug?
+You have seen this, right?
 
-Yes. You probably has some weird file under Documentation/ABI.
-Some text editors like kate tend to keep temporary files sometimes.
+https://www.kernel.org/doc/html/latest/
 
-The scripts/get_ABI.pl (currently) doesn't have any logic
-to recognize valid ABI files from trash stuff added at
-the ABI dirs.
+which is generated from the kernel repo.
 
-Just doing a git status (or a git clean) and removing such
-files should fix the build.
+I'm sure Jon has even a grand idea about how to organize our
+documentation in an even better way.
 
-Regards,
-Mauro
+So it looks like we already have most of the topics and you could
+probably even generate the wikibook from the kernel documentation. :)
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
