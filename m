@@ -2,100 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26FF4C43461
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 18:23:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C000C43460
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 19:40:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB6306147F
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 18:23:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1E4C6142D
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 19:40:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbhEGSYz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 May 2021 14:24:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbhEGSYz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 May 2021 14:24:55 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38675C061574;
-        Fri,  7 May 2021 11:23:55 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id v188so13114135ybe.1;
-        Fri, 07 May 2021 11:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iQl3KwkW0S0op9RGJzgj75C3Xc1gHhg/kbxv4NJL6hU=;
-        b=BLjEoo2bOaGm1oezp4g0stT4NXZFZYMgZShX3ZUoAfASJE+Vn5FqYKTHlRpKYRJjom
-         8uxLJjZ/vo10ZPN1l3y/Bxz6VGVdJ0iCD4ziGDMtjkKTGktx/XM4i9twXYTxcp9NY4gD
-         gDnTiCNRMvL2ZD3XX7yGJKF3gBFyEDupC/L9EC7BFNBBDvX7ya8kz5arIjbwv+/VuieW
-         yPWIuPUQzcEBMxmrgPJFa2JHQcVCGL/XLr3eryev9qZDwhh0Lspk7b7R6rrzKuj9ltbo
-         riNgs524FWof0SBOpUsDaRffEYFjEgcv1sPaUr4uhyN3ONSGzxb9myXu839Sg2zw2yAb
-         24UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iQl3KwkW0S0op9RGJzgj75C3Xc1gHhg/kbxv4NJL6hU=;
-        b=X78ox/+q8qLAhfYJV7u7kk+6/6pnB8liWOvoxnBcZvxFmCb4y4mXxQN9TyMu0l8VtO
-         0CwRbfztgOqLWlWjku00uiiUoVBdmc6HJoZCg4k2PEER4HBQlqV7pKNon7vjp/bJB5zk
-         s1GKHB5LzjNZA0QRmRBaTFa7SH5854jHDts6+vzea1EppikGGL6k9e9ApOlhsZPTV9+6
-         xp3zFOng4H5hOTD13trGY+GhYMMn2TBWrgJOZeIC7dC2Y2gdNhQRRQAGu2J+rakzzjK2
-         2pg6s24pr0vrmf1erhSVm8abcFKDUYUXWM1uDzZM44vYCgc/cbd3RuC2aN/Wc4JQvHIW
-         l+UQ==
-X-Gm-Message-State: AOAM531/7AThXdpAn++G0VawDG39xXDgExlI8VZwHXCRzVzxMYBpF9LF
-        cZixVMUunvyCCPqPlTBbGNwR5ea/2HXurlzOEsg=
-X-Google-Smtp-Source: ABdhPJz2zQM9Cq/d1NG9Xbcput7Bzhx9cumExs2uctjgSfmYiPWMI4RU3fRlKAkXQU6A5I30/dCbOdlTpmWADwNOmik=
-X-Received: by 2002:a25:442:: with SMTP id 63mr269510ybe.93.1620411834534;
- Fri, 07 May 2021 11:23:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
- <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
- <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
- <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com>
- <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
- <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com>
- <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com> <CACRpkdYpM=38K2WLS-+R2OhWweO8Q9SFndgGC2Py7uBjjxNdAA@mail.gmail.com>
-In-Reply-To: <CACRpkdYpM=38K2WLS-+R2OhWweO8Q9SFndgGC2Py7uBjjxNdAA@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 7 May 2021 20:23:43 +0200
-Message-ID: <CANiq72mofJ4gR6kV3qeuRZO_CAkAYvwy616wuWkK5aD32ARnAg@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S229872AbhEGTlc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 May 2021 15:41:32 -0400
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:31175 "EHLO
+        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229658AbhEGTlb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 May 2021 15:41:31 -0400
+Received: from s807.loopia.se (localhost [127.0.0.1])
+        by s807.loopia.se (Postfix) with ESMTP id B06C41AA2757
+        for <linux-doc@vger.kernel.org>; Fri,  7 May 2021 21:40:28 +0200 (CEST)
+Received: from s499.loopia.se (unknown [172.22.191.6])
+        by s807.loopia.se (Postfix) with ESMTP id A09172E36757;
+        Fri,  7 May 2021 21:40:28 +0200 (CEST)
+Received: from s898.loopia.se (unknown [172.22.191.6])
+        by s499.loopia.se (Postfix) with ESMTP id 9B1AD1CE61DF;
+        Fri,  7 May 2021 21:40:28 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at amavis.loopia.se
+Received: from s645.loopia.se ([172.22.191.6])
+        by s898.loopia.se (s898.loopia.se [172.22.190.17]) (amavisd-new, port 10024)
+        with LMTP id enOMCyl4eEO3; Fri,  7 May 2021 21:40:28 +0200 (CEST)
+X-Loopia-Auth: user
+X-Loopia-User: carl@hgsystem.se
+X-Loopia-Originating-IP: 155.4.133.180
+Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
+        (Authenticated sender: carl@hgsystem.se)
+        by s645.loopia.se (Postfix) with ESMTPSA id C23EF157A04C;
+        Fri,  7 May 2021 21:40:27 +0200 (CEST)
+From:   Erik Rosen <erik.rosen@metormote.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Erik Rosen <erik.rosen@metormote.com>
+Subject: [PATCH v2 1/3] hwmon: (pmbus) Add new flag PMBUS_READ_STATUS_AFTER_FAILED_CHECK
+Date:   Fri,  7 May 2021 21:40:21 +0200
+Message-Id: <20210507194023.61138-2-erik.rosen@metormote.com>
+X-Mailer: git-send-email 2.11.0 (Apple Git-81)
+In-Reply-To: <20210507194023.61138-1-erik.rosen@metormote.com>
+References: <20210507194023.61138-1-erik.rosen@metormote.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 6, 2021 at 2:47 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> I was referring to entities interested in using Rust for the
-> Linux kernel. Not just "using rust". And that interest is coming
-> from Google and a few academic institutions AFAICT.
+Some PMBus chips end up in an undefined state when trying to read an
+unsupported register. For such chips, it is necessary to reset the
+chip pmbus controller to a known state after a failed register check.
+This can be done by reading a known register. By setting this flag the
+driver will try to read the STATUS register after each failed
+register check. This read may fail, but it will put the chip into a
+known state.
 
-There is interest from a handful of major companies in using Rust for
-the Linux kernel. For instance, we had a few present in our latest
-informal call.
+Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+---
+ drivers/hwmon/pmbus/pmbus_core.c |  2 ++
+ include/linux/pmbus.h            | 13 +++++++++++++
+ 2 files changed, 15 insertions(+)
 
-I am also aware of at least two having or looking to
-have someone working on testing the waters of what we have done so
-far for their use cases.
+diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+index aadea85fe630..cb0b3c7c3434 100644
+--- a/drivers/hwmon/pmbus/pmbus_core.c
++++ b/drivers/hwmon/pmbus/pmbus_core.c
+@@ -512,6 +512,8 @@ static bool pmbus_check_register(struct i2c_client *client,
+ 	rv = func(client, page, reg);
+ 	if (rv >= 0 && !(data->flags & PMBUS_SKIP_STATUS_CHECK))
+ 		rv = pmbus_check_status_cml(client);
++	if (rv < 0 && (data->flags & PMBUS_READ_STATUS_AFTER_FAILED_CHECK))
++		data->read_status(client, -1);
+ 	pmbus_clear_fault_page(client, -1);
+ 	return rv >= 0;
+ }
+diff --git a/include/linux/pmbus.h b/include/linux/pmbus.h
+index 12cbbf305969..edd7c84fef65 100644
+--- a/include/linux/pmbus.h
++++ b/include/linux/pmbus.h
+@@ -43,6 +43,19 @@
+  */
+ #define PMBUS_NO_CAPABILITY			BIT(2)
+ 
++/*
++ * PMBUS_READ_STATUS_AFTER_FAILED_CHECK
++ *
++ * Some PMBus chips end up in an undefined state when trying to read an
++ * unsupported register. For such chips, it is necessary to reset the
++ * chip pmbus controller to a known state after a failed register check.
++ * This can be done by reading a known register. By setting this flag the
++ * driver will try to read the STATUS register after each failed
++ * register check. This read may fail, but it will put the chip in a
++ * known state.
++ */
++#define PMBUS_READ_STATUS_AFTER_FAILED_CHECK	BIT(3)
++
+ struct pmbus_platform_data {
+ 	u32 flags;		/* Device specific flags */
+ 
+-- 
+2.20.1
 
-Cheers,
-Miguel
