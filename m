@@ -2,172 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBADBC43460
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 19:40:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B48BC433B4
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 21:31:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D2F36142D
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 19:40:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A8826101A
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 21:31:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbhEGTlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 May 2021 15:41:39 -0400
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:31237 "EHLO
-        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbhEGTlf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 May 2021 15:41:35 -0400
-Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id 128EE2E62ED2
-        for <linux-doc@vger.kernel.org>; Fri,  7 May 2021 21:40:31 +0200 (CEST)
-Received: from s899.loopia.se (unknown [172.22.191.5])
-        by s807.loopia.se (Postfix) with ESMTP id 02B3F2E36753;
-        Fri,  7 May 2021 21:40:31 +0200 (CEST)
-Received: from s474.loopia.se (unknown [172.22.191.5])
-        by s899.loopia.se (Postfix) with ESMTP id F2DE22C8B9FC;
-        Fri,  7 May 2021 21:40:30 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-Received: from s645.loopia.se ([172.22.191.6])
-        by s474.loopia.se (s474.loopia.se [172.22.190.14]) (amavisd-new, port 10024)
-        with LMTP id 8ii12dFevLzj; Fri,  7 May 2021 21:40:30 +0200 (CEST)
-X-Loopia-Auth: user
-X-Loopia-User: carl@hgsystem.se
-X-Loopia-Originating-IP: 155.4.133.180
-Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
-        (Authenticated sender: carl@hgsystem.se)
-        by s645.loopia.se (Postfix) with ESMTPSA id 34932157A02D;
-        Fri,  7 May 2021 21:40:30 +0200 (CEST)
-From:   Erik Rosen <erik.rosen@metormote.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH v2 3/3] hwmon: (pmbus) Add support for additional Flex BMR converters to pmbus
-Date:   Fri,  7 May 2021 21:40:23 +0200
-Message-Id: <20210507194023.61138-4-erik.rosen@metormote.com>
-X-Mailer: git-send-email 2.11.0 (Apple Git-81)
-In-Reply-To: <20210507194023.61138-1-erik.rosen@metormote.com>
-References: <20210507194023.61138-1-erik.rosen@metormote.com>
+        id S229707AbhEGVcb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 May 2021 17:32:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhEGVcb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 May 2021 17:32:31 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6B25C061574
+        for <linux-doc@vger.kernel.org>; Fri,  7 May 2021 14:31:30 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id l9-20020a5b0b890000b02904f7fb53ca12so11709266ybq.15
+        for <linux-doc@vger.kernel.org>; Fri, 07 May 2021 14:31:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=cQaK7keE0QRM0e4/CjmvDPViL+K1rpJ0LQ0dw+WC038=;
+        b=dmpwqmI+QNSidbhJ4KlBhhjHMA/XLMoX4551oMz4YuRiLwKYQ4kyNztcr7FP+TxdNm
+         6UMyxG4lt3swikmwV1K+XjayREeQH60E6UnD6qL4zjO1yU+CGggvPzWM+CTzITeB42nV
+         xbKPtNhTf/5tW84bsIguhK0RjUjVIf9E9xD34vzKluZaWOqYguVw5UMwqwl6XdpACpO6
+         w7EwmW4xPbVpsJtiNjKDJMJOjpDeOd/nnBN5Yiw8qgS8DnVQv7zBO2ZBYNX8gRj1t4RY
+         eWitCrJczy+bp1dq1mjTdqpQxiB7Fj+xxOoIscAk1Gjk/tUSRPE/+mTwfdDt+Hv669p9
+         SWBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=cQaK7keE0QRM0e4/CjmvDPViL+K1rpJ0LQ0dw+WC038=;
+        b=rTiuk3lh3pS6G/y+k7e9Cq0tbjDiRPKrSe/tw4kCFwt9uZrjDJPoe6Asmx06GIgEWm
+         Z7ITKWff5D6Nik48SUu3hMt7bWsxwzxVfK56cvw6V1E+nFOwrNRb1Mei6laYjQvqjknD
+         ubWLDFrgRq+QJSStxw2fDxFdHtaaxmD92YHIOQ9U6QhCzMa4gtbpFnaD2UEBp8NPj0vg
+         xXESLgd9Lq3hfZ5DpuqyCh7+g5VmbYZEV/Doew93MmMG7glE3qPRbqNPF5sj5sTezm5N
+         A/f9oG7nDIneIkfpZZeDndEyYQc10I0pZctfgUgLRIFRxHoh/6pyBv+7PJsKQuvhY1Lw
+         XwzQ==
+X-Gm-Message-State: AOAM530Yoa4LiwnTAoMwgkWE8JD71sVHQB9lZ+NTIaSCUdCqTQ0QKUc6
+        9B0QxonHehxMqqEBjxVm9FLIWHyshPSw/xbyI9X2Zw==
+X-Google-Smtp-Source: ABdhPJw04MjOEIGjcdEhEjiyjvznn6dnzusSglnmDUp3y5c7FjnTyuOyWeSrKMe2H5uzSZflWys2THpyshdaXtJkxvY6mQ==
+X-Received: from mactruck.svl.corp.google.com ([2620:15c:2cb:201:8b7:10d:a11b:ba0c])
+ (user=brendanhiggins job=sendgmr) by 2002:a25:d04f:: with SMTP id
+ h76mr12140487ybg.261.1620423090124; Fri, 07 May 2021 14:31:30 -0700 (PDT)
+Date:   Fri,  7 May 2021 14:31:06 -0700
+Message-Id: <20210507213110.155492-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.607.g51e8a6a459-goog
+Subject: [PATCH v1 0/4] kunit: tool: add support for QEMU
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     shuah@kernel.org, davidgow@google.com
+Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, sboyd@kernel.org, keescook@chromium.org,
+        frowand.list@gmail.com, dlatypov@google.com,
+        Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for Flex BMR310, BMR456, BMR457, BMR458, BMR480, BMR490,
-BMR491 and BMR492 to the pmbus driver
+TL;DR: Add support to kunit_tool to dispatch tests via QEMU. Also add
+support to immediately shutdown a kernel after running KUnit tests.
 
-Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
----
- Documentation/hwmon/pmbus.rst | 11 +++++++----
- drivers/hwmon/pmbus/Kconfig   |  7 ++++---
- drivers/hwmon/pmbus/pmbus.c   | 19 +++++++++++++++++--
- 3 files changed, 28 insertions(+), 9 deletions(-)
+Background
+----------
 
-diff --git a/Documentation/hwmon/pmbus.rst b/Documentation/hwmon/pmbus.rst
-index c44f14115413..b51de98ab825 100644
---- a/Documentation/hwmon/pmbus.rst
-+++ b/Documentation/hwmon/pmbus.rst
-@@ -3,15 +3,18 @@ Kernel driver pmbus
- 
- Supported chips:
- 
--  * Ericsson BMR453, BMR454
-+  * Flex BMR310, BMR453, BMR454, BMR456, BMR457, BMR458, BMR480,
-+    BMR490, BMR491, BMR492
- 
--    Prefixes: 'bmr453', 'bmr454'
-+    Prefixes: 'bmr310', 'bmr453', 'bmr454', 'bmr456', 'bmr457', 'bmr458', 'bmr480',
-+    'bmr490', 'bmr491', 'bmr492'
- 
-     Addresses scanned: -
- 
--    Datasheet:
-+    Datasheets:
-+
-+ 	https://flexpowermodules.com/products
- 
-- http://archive.ericsson.net/service/internet/picov/get?DocNo=28701-EN/LZT146395
- 
-   * ON Semiconductor ADP4000, NCP4200, NCP4208
- 
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 32d2fc850621..59080d142bf7 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -19,9 +19,10 @@ config SENSORS_PMBUS
- 	default y
- 	help
- 	  If you say yes here you get hardware monitoring support for generic
--	  PMBus devices, including but not limited to ADP4000, BMR453, BMR454,
--	  MAX20796, MDT040, NCP4200, NCP4208, PDT003, PDT006, PDT012, TPS40400,
--	  TPS544B20, TPS544B25, TPS544C20, TPS544C25, and UDT020.
-+	  PMBus devices, including but not limited to ADP4000, BMR310, BMR453,
-+	  BMR454, BMR456, BMR457, BMR458, BMR480, BMR490, BMR491, BMR492,
-+	  MAX20796, MDT040, NCP4200, NCP4208, PDT003, PDT006, PDT012,
-+	  TPS40400, TPS544B20, TPS544B25, TPS544C20, TPS544C25, and UDT020.
- 
- 	  This driver can also be built as a module. If so, the module will
- 	  be called pmbus.
-diff --git a/drivers/hwmon/pmbus/pmbus.c b/drivers/hwmon/pmbus/pmbus.c
-index a1b4260e75b2..dc4f0c586f8c 100644
---- a/drivers/hwmon/pmbus/pmbus.c
-+++ b/drivers/hwmon/pmbus/pmbus.c
-@@ -173,13 +173,13 @@ static int pmbus_probe(struct i2c_client *client)
- 		return -ENOMEM;
- 
- 	device_info = (struct pmbus_device_info *)i2c_match_id(pmbus_id, client)->driver_data;
--	if (device_info->flags & PMBUS_SKIP_STATUS_CHECK) {
-+	if (device_info->flags) {
- 		pdata = devm_kzalloc(dev, sizeof(struct pmbus_platform_data),
- 				     GFP_KERNEL);
- 		if (!pdata)
- 			return -ENOMEM;
- 
--		pdata->flags = PMBUS_SKIP_STATUS_CHECK;
-+		pdata->flags = device_info->flags;
- 	}
- 
- 	info->pages = device_info->pages;
-@@ -193,22 +193,37 @@ static const struct pmbus_device_info pmbus_info_one = {
- 	.pages = 1,
- 	.flags = 0
- };
-+
- static const struct pmbus_device_info pmbus_info_zero = {
- 	.pages = 0,
- 	.flags = 0
- };
-+
- static const struct pmbus_device_info pmbus_info_one_skip = {
- 	.pages = 1,
- 	.flags = PMBUS_SKIP_STATUS_CHECK
- };
- 
-+static const struct pmbus_device_info pmbus_info_one_status = {
-+	.pages = 1,
-+	.flags = PMBUS_READ_STATUS_AFTER_FAILED_CHECK
-+};
-+
- /*
-  * Use driver_data to set the number of pages supported by the chip.
-  */
- static const struct i2c_device_id pmbus_id[] = {
- 	{"adp4000", (kernel_ulong_t)&pmbus_info_one},
-+	{"bmr310", (kernel_ulong_t)&pmbus_info_one_status},
- 	{"bmr453", (kernel_ulong_t)&pmbus_info_one},
- 	{"bmr454", (kernel_ulong_t)&pmbus_info_one},
-+	{"bmr456", (kernel_ulong_t)&pmbus_info_one},
-+	{"bmr457", (kernel_ulong_t)&pmbus_info_one},
-+	{"bmr458", (kernel_ulong_t)&pmbus_info_one_status},
-+	{"bmr480", (kernel_ulong_t)&pmbus_info_one_status},
-+	{"bmr490", (kernel_ulong_t)&pmbus_info_one_status},
-+	{"bmr491", (kernel_ulong_t)&pmbus_info_one_status},
-+	{"bmr492", (kernel_ulong_t)&pmbus_info_one},
- 	{"dps460", (kernel_ulong_t)&pmbus_info_one_skip},
- 	{"dps650ab", (kernel_ulong_t)&pmbus_info_one_skip},
- 	{"dps800", (kernel_ulong_t)&pmbus_info_one_skip},
+KUnit has supported running on all architectures for quite some time;
+however, kunit_tool - the script commonly used to invoke KUnit tests -
+has only fully supported KUnit run on UML. Its functionality has been
+broken up for some time to separate the configure, build, run, and parse
+phases making it possible to be used in part on other architectures to a
+small extent. Nevertheless, kunit_tool has not supported running tests
+on other architectures.
+
+What this patchset does
+-----------------------
+
+This patchset introduces first class support to kunit_tool for KUnit to
+be run on many popular architectures via QEMU. It does this by adding
+two new flags: `--arch` and `--cross_compile`.
+
+`--arch` allows an architecture to be specified by the name the
+architecture is given in `arch/`. It uses the specified architecture to
+select a minimal amount of Kconfigs and QEMU configs needed for the
+architecture to run in QEMU and provide a console from which KTAP
+results can be scraped.
+
+`--cross_compile` allows a toolchain prefix to be specified to make
+similar to how `CROSS_COMPILE` is used.
+
+Additionally, this patchset revives the previously considered "kunit:
+tool: add support for QEMU"[1] patchs. The motivation for this new
+kernel command line flags, `kunit_shutdown`, is to better support
+running KUnit tests inside of QEMU. For most popular architectures, QEMU
+can be made to terminate when the Linux kernel that is being run is
+reboted, halted, or powered off. As Kees pointed out in a previous
+discussion[2], it is possible to make a kernel initrd that can reboot
+the kernel immediately, doing this for every architecture would likely
+be infeasible. Instead, just having an option for the kernel to shutdown
+when it is done with testing seems a lot simpler, especially since it is
+an option which would only available in testing configurations of the
+kernel anyway.
+
+Changes since last revision
+---------------------------
+
+Mostly fixed lots of minor issues suggested/poited out by David and
+Daniel. Also reworked how qemu_configs are loaded: Now each config is in
+its own Python file and is loaded dynamically. Given the number of
+improvements that address the biggest concerns I had in the last RFC, I
+decided to promote this to a normal patch set.
+
+What discussion remains for this patchset?
+------------------------------------------
+
+I am still hoping to see some discussion regarding the kunit_shutdown
+patch: I want to make sure with the added context of QEMU running under
+kunit_tool that this is now a reasonable approach. Nevertheless, I am
+pretty happy with this patchset as is, and I did not get any negative
+feedback on the previous revision, so I think we can probably just move
+forward as is.
+
+Brendan Higgins (3):
+  Documentation: Add kunit_shutdown to kernel-parameters.txt
+  kunit: tool: add support for QEMU
+  Documentation: kunit: document support for QEMU in kunit_tool
+
+David Gow (1):
+  kunit: Add 'kunit_shutdown' option
+
+ .../admin-guide/kernel-parameters.txt         |   8 +
+ Documentation/dev-tools/kunit/usage.rst       |  37 +++-
+ lib/kunit/executor.c                          |  20 ++
+ tools/testing/kunit/kunit.py                  |  57 +++++-
+ tools/testing/kunit/kunit_config.py           |   7 +-
+ tools/testing/kunit/kunit_kernel.py           | 172 +++++++++++++++---
+ tools/testing/kunit/kunit_parser.py           |   2 +-
+ tools/testing/kunit/kunit_tool_test.py        |  18 +-
+ tools/testing/kunit/qemu_config.py            |  17 ++
+ tools/testing/kunit/qemu_configs/alpha.py     |  10 +
+ tools/testing/kunit/qemu_configs/arm.py       |  13 ++
+ tools/testing/kunit/qemu_configs/arm64.py     |  12 ++
+ tools/testing/kunit/qemu_configs/i386.py      |  10 +
+ tools/testing/kunit/qemu_configs/powerpc.py   |  12 ++
+ tools/testing/kunit/qemu_configs/riscv.py     |  31 ++++
+ tools/testing/kunit/qemu_configs/s390.py      |  14 ++
+ tools/testing/kunit/qemu_configs/sparc.py     |  10 +
+ tools/testing/kunit/qemu_configs/x86_64.py    |  10 +
+ 18 files changed, 411 insertions(+), 49 deletions(-)
+ create mode 100644 tools/testing/kunit/qemu_config.py
+ create mode 100644 tools/testing/kunit/qemu_configs/alpha.py
+ create mode 100644 tools/testing/kunit/qemu_configs/arm.py
+ create mode 100644 tools/testing/kunit/qemu_configs/arm64.py
+ create mode 100644 tools/testing/kunit/qemu_configs/i386.py
+ create mode 100644 tools/testing/kunit/qemu_configs/powerpc.py
+ create mode 100644 tools/testing/kunit/qemu_configs/riscv.py
+ create mode 100644 tools/testing/kunit/qemu_configs/s390.py
+ create mode 100644 tools/testing/kunit/qemu_configs/sparc.py
+ create mode 100644 tools/testing/kunit/qemu_configs/x86_64.py
+
+
+base-commit: 38182162b50aa4e970e5997df0a0c4288147a153
 -- 
-2.20.1
+2.31.1.607.g51e8a6a459-goog
 
