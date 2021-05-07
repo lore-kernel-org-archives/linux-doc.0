@@ -2,85 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 550B1C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 00:50:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 187B5C433B4
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 01:30:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 073EE610CE
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 00:50:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E393F610F7
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 01:30:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230054AbhEGAvI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 May 2021 20:51:08 -0400
-Received: from mail-oi1-f181.google.com ([209.85.167.181]:45992 "EHLO
-        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbhEGAvI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 20:51:08 -0400
-Received: by mail-oi1-f181.google.com with SMTP id n184so7200179oia.12;
-        Thu, 06 May 2021 17:50:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AatibMOA4li3CEKliirVfNvmikRqrNF2aRa+qxSbEeU=;
-        b=uDQ2e7M7xS/NSb81HMI3UBi8rHTS3zgPnqXKfoQ2VKISsgJ/W2M3aYPTjTFnPbE/nG
-         7LZh0Hyt6BiDbxsZi2yjut2ptiLLIOMqq2vCBTQEeIY5C2TXCElfqS7d0dcNor31b8rA
-         c+SUArSLGh7+k7aBdtS2UY4FIWcOEcdHuOnJiTkdP3kU6xbB5Y0uA/lFcoZMlzB2fq2B
-         26GsVH4sDmWR/pUySuvOMED+HPtpqb/eE3joBsq+V3nWZpHC1zsB7Z35z5m2yDwWVRCV
-         Epdbpn+zUlYlkW4sRprIpSPlg2/tYb97sb3+aLO05QDFkntLLg4kYI2BO1yvT2ZLOTwe
-         GkOA==
-X-Gm-Message-State: AOAM531DlC7Eo8Q6/rLx5j1xH++sb4j1TYy/DtJKMeZsTQk4G2GBGCue
-        tlp7IG9odhFIyUszUGO78qO2NfNC1g==
-X-Google-Smtp-Source: ABdhPJxhLgGETpHSMwcVoV7CyaAQ8SZKnS58vrwPhF76bcec4Vpykg2hPc3hfxvLcP44hmxF3nc3Ng==
-X-Received: by 2002:aca:6088:: with SMTP id u130mr13045856oib.51.1620348609095;
-        Thu, 06 May 2021 17:50:09 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r17sm821604oos.39.2021.05.06.17.50.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 17:50:08 -0700 (PDT)
-Received: (nullmailer pid 1093815 invoked by uid 1000);
-        Fri, 07 May 2021 00:50:06 -0000
-Date:   Thu, 6 May 2021 19:50:06 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Campion Kang <campion.kang@advantech.com.tw>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        AceLan Kao <chia-lin.kao@canonical.com>
-Subject: Re: [PATCH v7 1/7] MAINTAINERS: Add Advantech AHC1EC0 embedded
- controller entry
-Message-ID: <20210507005006.GA854303@robh.at.kernel.org>
-References: <20210506081619.2443-1-campion.kang@advantech.com.tw>
- <6b86bd36-b934-c204-9e56-079ab8cd4b54@redhat.com>
+        id S233632AbhEGBbw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 May 2021 21:31:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53608 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231461AbhEGBbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 May 2021 21:31:51 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB33FC061574;
+        Thu,  6 May 2021 18:30:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=rAm1iRpliBxibQ8h0Xt8N0Wh5webtMgmvFRNqSghInw=; b=vy2mXg5mWFCYkYZXahI1qdb2MB
+        sgYXBTXHJBqF2eUH5ZyB5Xtq+UZ8zpiBpZ8qCNZXKFE8ZwnnR75fjsfvhnMr2HI/JP0kK3lH0leo0
+        F39MomHSR55YlPJAmpJBBf6RqWcmX03pwytDC+YDlLbc+o9aGN9y39dSO+lCbisO7wSztLO+kLsYc
+        NXl5dYHqg9IHl9V1SlqpooZ39FjUxDkw0fc6QK+fDGSUuXKme/ax6Y4dQNHug/3WjJBoNapAHmCKU
+        ka6IQSPA+yOhtCi5OTGQB35lLOl0JaDnFSrbJdw+kVcjEIEhFh/VZ+4yGjJYKhwLcDZxin8hY4sC3
+        NAZBSFhg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lepK2-002gxz-FQ; Fri, 07 May 2021 01:30:41 +0000
+Date:   Fri, 7 May 2021 02:30:30 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] Documentation: drop optional BOMs
+Message-ID: <YJSYNiYMGCfOjjqC@casper.infradead.org>
+References: <20210506231907.14359-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6b86bd36-b934-c204-9e56-079ab8cd4b54@redhat.com>
+In-Reply-To: <20210506231907.14359-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 06, 2021 at 10:47:22AM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> I'm replying here since this series has no cover-letter, for
-> the next version for a series touching so many different
-> sub-systems it would be good to start with a cover-letter
-> providing some background info on the series.
-> 
-> I see this is binding to an ACPI device, yet it is also using
-> devicetree bindings and properties.
-> 
-> So I take it this means that your ACPI tables are using the
-> optional capability of embedded device-tree blobs inside the
-> ACPI tables ?
+On Thu, May 06, 2021 at 04:19:07PM -0700, Randy Dunlap wrote:
+> A few of the Documentation .rst files begin with a Unicode
+> byte order mark (BOM). The BOM may signify endianess for
+> 16-bit or 32-bit encodings or indicate that the text stream
+> is indeed Unicode. We don't need it for either of those uses.
+> It may also interfere with (confuse) some software.
 
-Ugg, really. I would have stopped caring if I had realized.
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
