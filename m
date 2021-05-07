@@ -2,131 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6025AC433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 09:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46289C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 10:06:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C90C613CD
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 09:51:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0860161001
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 10:06:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235666AbhEGJws (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 May 2021 05:52:48 -0400
-Received: from smtp3.goneo.de ([85.220.129.37]:40856 "EHLO smtp3.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233300AbhEGJws (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 May 2021 05:52:48 -0400
-Received: from [192.168.1.127] (dyndsl-091-096-161-150.ewe-ip-backbone.de [91.96.161.150])
-        by smtp3.goneo.de (Postfix) with ESMTPSA id 4ABF3203F75C;
-        Fri,  7 May 2021 11:51:47 +0200 (CEST)
-Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1' codec
- can't encode characters in position 18-20: ordinal not in range(256)
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <20210506103913.GE6564@kitsune.suse.cz>
- <30f2117f-aa38-6d60-f020-ff5cf8f004b5@darmarit.de>
- <20210506184641.6348a621@coco.lan>
- <0fd5bb54-a8fc-84b2-2bd6-31ab12f12303@darmarit.de>
- <20210506192756.2a2cc273@coco.lan>
- <cecb28f8-dfaa-3584-c9f5-fe15145ef3cf@infradead.org>
- <20210506180842.GD388843@casper.infradead.org>
- <be21de46-6655-152e-e431-144c2be6137c@infradead.org>
- <20210507083924.7b8ec1fe@coco.lan> <20210507100435.3095f924@coco.lan>
- <20210507083527.GL6564@kitsune.suse.cz>
- <85bebda3-df0b-8554-5f90-45aa097ce405@darmarit.de>
- <20210507111451.36f063bb@coco.lan>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <43583d9c-bfc4-e3c2-96d9-7cffec9e2909@darmarit.de>
-Date:   Fri, 7 May 2021 11:51:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S235606AbhEGKHh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 May 2021 06:07:37 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:41578 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235305AbhEGKHg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 May 2021 06:07:36 -0400
+Received: from localhost.localdomain (unknown [112.3.197.94])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr+4cEZVgvScTAA--.12861S4;
+        Fri, 07 May 2021 18:06:28 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net
+Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com
+Subject: [PATCH v2 2/3] docs/zh_CN: add parisc debugging.rst translation
+Date:   Fri,  7 May 2021 18:07:04 +0800
+Message-Id: <cacc2de08ff0fee5f8aedb6ee53abf1637da3189.1620284974.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1620284974.git.siyanteng@loongson.cn>
+References: <cover.1620284974.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-In-Reply-To: <20210507111451.36f063bb@coco.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxr+4cEZVgvScTAA--.12861S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxGrW3Wr4xGry7tFyUtFy3CFg_yoW5ZF45p3
+        ZrKryfGa1xA342y34Skr17GryfGayxJFZ3G3Z2y3W5tr1kJFW5t398t34YkFn7Wr97AFWU
+        AF4akrWUCryjyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBE14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+        A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+        0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+        IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+        Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+        xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
+        6r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2
+        Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
+        Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMI
+        IF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUc6pPUUUUU
+        =
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 07.05.21 um 11:14 schrieb Mauro Carvalho Chehab:
-> Em Fri, 7 May 2021 10:56:39 +0200
-> Markus Heiser <markus.heiser@darmarit.de> escreveu:
-> 
->> Am 07.05.21 um 10:35 schrieb Michal Suchánek:
->>> So the bottom line is that UTF-8 in the files will stay, and Sphinx
->>> cannot handle UTF-8 when the locale is not UTF-8.
->>>
->>> In the long run it might be nice to fix Sphinx to properly set the
->>> encoding of the files it reads and writes. Or maybe there is some
->>> parameter that specifies it?
->>
->> Let's not mix things up. The Unicode-Error is not related or limited
->> to log nor to sphinx, it is related to the fact that we (you) try to
->> run a utf-8 application in an environment which is not full utf-8
->> functional.
-> 
-> No. The application itself is not UTF-8. The application input files are.
+This translates Documentation/parisc/debugging.rst into Chinese.
 
-May be we have a different view on this, for me an application which
-reads UTF-8 in and spids out UTF-8 is an UTF-8 application.
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/parisc/debugging.rst   | 42 +++++++++++++++++++
+ .../translations/zh_CN/parisc/index.rst       |  6 ++-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/parisc/debugging.rst
 
-hint: HTML is just one Sphinx writer, there exist also other writers
-e.g. LaTeX.
+diff --git a/Documentation/translations/zh_CN/parisc/debugging.rst b/Documentation/translations/zh_CN/parisc/debugging.rst
+new file mode 100644
+index 000000000000..c21beb986e15
+--- /dev/null
++++ b/Documentation/translations/zh_CN/parisc/debugging.rst
+@@ -0,0 +1,42 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/parisc/debugging.rst
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_parisc_debugging:
++
++=================
++调试PA-RISC
++=================
++
++好吧，这里有一些关于调试linux/parisc的较底层部分的信息。
++
++
++1. 绝对地址
++=====================
++
++很多汇编代码目前运行在实模式下，这意味着会使用绝对地址，而不是像内核其他
++部分那样使用虚拟地址。要将绝对地址转换为虚拟地址，你可以在System.map中查
++找，添加__PAGE_OFFSET（目前是0x10000000）。
++
++
++2. HPMCs
++========
++
++当实模式的代码试图访问不存在的内存时，会出现HPMC（high priority machine
++check）而不是内核oops。若要调试HPMC，请尝试找到系统响应程序/请求程序地址。
++系统请求程序地址应该与（某）处理器的HPA（I/O范围内的高地址）相匹配；系统响应程
++序地址是实模式代码试图访问的地址。
++
++系统响应程序地址的典型值是大于__PAGE_OFFSET （0x10000000）的地址，这意味着
++在实模式试图访问它之前，虚拟地址没有被翻译成物理地址。
++
++
++3. 有趣的Q位
++============
++
++某些非常关键的代码必须清除PSW中的Q位。当Q位被清除时，CPU不会更新中断处理
++程序所读取的寄存器，以找出机器被中断的位置——所以如果你在清除Q位的指令和再
++次设置Q位的RFI之间遇到中断，你不知道它到底发生在哪里。如果你幸运的话，IAOQ
++会指向清除Q位的指令，如果你不幸运的话，它会指向任何地方。通常Q位的问题会
++表现为无法解释的系统挂起或物理内存越界。
+diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/parisc/index.rst
+index ef232d46b1ba..b913d664e735 100644
+--- a/Documentation/translations/zh_CN/parisc/index.rst
++++ b/Documentation/translations/zh_CN/parisc/index.rst
+@@ -10,9 +10,13 @@
+ PA-RISC体系架构
+ ====================
+ 
+-Todolist:
++.. toctree::
++   :maxdepth: 2
+ 
+    debugging
++
++Todolist:
++
+    registers
+    features
+ 
+-- 
+2.27.0
 
-> The big issue with the way python works with charsets is due to that:
-> it does a very poor job with regards to that.
-
-This is your POV, the python developers have a different view on
-handling strings.  There are epic discussions around about.
-
-But all this discussions won't help, since we can't change the
-principles of python.
-
-Personally I think I can't ignore the principles of a language
-and I'm feeling well with setting up an UTF-8 environment.
-
-> I remember that in the past I had to use this quite often
-> (before UTF-8 being default on the distros I was using on that time):
-> 
-> 	LANG=C <some_python_script>
-> 
-> Just to avoid them to crash.
-> 
-> If I'm not mistaken, older Fedora/Mandrake distros had some bugs with
-> python-written scripts that, if the machine's language were not
-> English, such scripts crash, as the i18n translated messages were
-> on a different charset than what the python script would be expecting.
-
-For me "i18n translated message" is a good example that I'm not
-wrong with my opinions.  This is not true for all devices but
-on those device you won't run an applications like Sphinx.
-
->>> For the short term I think it is reasonable to run a python test script
->>> that prints fancy unicode characters before running Sphinx and bail if
->>> the test script fails.
->>
->> To be assure, I recommend to set UTF-8 locale environment in the
->> Makefile.
->>
->> My experience shows that this is the default with almost all
->> containers (images), there are only a few where this is not the
->> case (may be suse?).
-> 
-> That may not be true on certain parts of the globe.
-
-Sorry, I have spoken about common LXC images.
-
-> I've no idea what charsets the most-used distributions in Asian
-> Countries use use ;-)
-
-I guess these days most often they will use UTF-8 since ASCII
-haven't helped in the past 80s ;-)
-
-   -- Markus --
