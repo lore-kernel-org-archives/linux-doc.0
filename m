@@ -2,161 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F69C433B4
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 08:35:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB76C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 08:52:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 722BC60FDC
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 08:35:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B07661430
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 08:52:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230118AbhEGIgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 May 2021 04:36:31 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36602 "EHLO mx2.suse.de"
+        id S233079AbhEGIxV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 May 2021 04:53:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49712 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230215AbhEGIga (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 May 2021 04:36:30 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 43366B15D;
-        Fri,  7 May 2021 08:35:29 +0000 (UTC)
-Date:   Fri, 7 May 2021 10:35:27 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Markus Heiser <markus.heiser@darmarit.de>,
+        id S231906AbhEGIxU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 May 2021 04:53:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E02161443;
+        Fri,  7 May 2021 08:52:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620377541;
+        bh=B1EvHxNtZfx053N5lQwM9L6bg2iMxtlTLQnX75YvYmI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BqP89u2UoIUVtfm6NIuXDTdN8vv1+XpV0CHO6F1r/y/xICENczuaiz7cuNCMiffFm
+         V02rgZTabIsGor5GTvrve4immQYtu4XC8FIoLgd+rj7ki6snTcGI/KHPGFwAk0fTVH
+         YZY5AlVX5h7jr4w6BE7w46gTfCWtogP413sY/A6r138otARKuxKDhc+oZOvF2wiq2p
+         WqJ3KmJYpgtvW136F1M5d7Z1VNz0rT408SD+P+W6c0AML1EuecQ1C7bUWuY3KzTyQj
+         MMf3nEgzXRzB6Ibn0Xu6nJm3xn+9iMVSMU7ArkK9E87xZf8xPbm71Bj3/nj2RZiEFI
+         mape0wN0EZcjQ==
+Date:   Fri, 7 May 2021 10:52:15 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+Cc:     Markus Heiser <markus.heiser@darmarit.de>,
         linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1' codec
- can't encode characters in position 18-20: ordinal not in range(256)
-Message-ID: <20210507083527.GL6564@kitsune.suse.cz>
+Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1'
+ codec can't encode characters in position 18-20: ordinal not in range(256)
+Message-ID: <20210507105215.0902461d@coco.lan>
+In-Reply-To: <20210506180625.GI6564@kitsune.suse.cz>
 References: <20210506103913.GE6564@kitsune.suse.cz>
- <30f2117f-aa38-6d60-f020-ff5cf8f004b5@darmarit.de>
- <20210506184641.6348a621@coco.lan>
- <0fd5bb54-a8fc-84b2-2bd6-31ab12f12303@darmarit.de>
- <20210506192756.2a2cc273@coco.lan>
- <cecb28f8-dfaa-3584-c9f5-fe15145ef3cf@infradead.org>
- <20210506180842.GD388843@casper.infradead.org>
- <be21de46-6655-152e-e431-144c2be6137c@infradead.org>
- <20210507083924.7b8ec1fe@coco.lan>
- <20210507100435.3095f924@coco.lan>
+        <30f2117f-aa38-6d60-f020-ff5cf8f004b5@darmarit.de>
+        <20210506184641.6348a621@coco.lan>
+        <0fd5bb54-a8fc-84b2-2bd6-31ab12f12303@darmarit.de>
+        <20210506192756.2a2cc273@coco.lan>
+        <b6059fb8-dd68-5564-a29f-8d8e828b2946@darmarit.de>
+        <20210506180625.GI6564@kitsune.suse.cz>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210507100435.3095f924@coco.lan>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 07, 2021 at 10:04:35AM +0200, Mauro Carvalho Chehab wrote:
-> Em Fri, 7 May 2021 08:39:24 +0200
-> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-> 
-> > Em Thu, 6 May 2021 14:21:01 -0700
-> > Randy Dunlap <rdunlap@infradead.org> escreveu:
-> > 
-> > > On 5/6/21 11:08 AM, Matthew Wilcox wrote:  
-> > > > On Thu, May 06, 2021 at 10:57:53AM -0700, Randy Dunlap wrote:    
-> > > >> I have been going thru some of the Documentation/ files...
-> > > >>
-> > > >> Why do several of the files begin with
-> > > >> (hex) ef bb bf    followed by "=================="
-> > > >> for a heading, instead of just "===================".
-> > > >> See e.g. Documentation/timers/no_hz.rst.    
-> > 
-> > No idea! It seems that the text editor I used on that time added
-> > it for whatever reason.
-> > 
-> > > > 
-> > > > 00000000  ef bb bf 3d 3d 3d 3d 3d  3d 3d 3d 3d 3d 3d 3d 3d  |...=============|
-> > > > 
-> > > > ef bb bf is utf8 for 0b1111'111011'111111 = 0xFEFF which is the
-> > > > https://en.wikipedia.org/wiki/Byte_order_mark
-> > > > 
-> > > > We should delete it.
-> > > >     
-> > > 
-> > > OK, thanks, I have started on that.
-> > > 
-> > > 
-> > > Just another question: ("inquiring minds want to know")
-> > > 
-> > > Why is/are some docs using U+2217 '*' instead of ASCII '*'?
-> > > E.g., Documentation/block/cdrom-standard.rst.  
-> > 
-> > The cdrom doc is a very special case: it was originally written in LaTeX.
-> > I don't remember any other document in LaTeX inside the Kernel docs during
-> > the conversions I made. See:
-> > 	e327cfcb2542 ("docs: cdrom-standard.tex: convert from LaTeX to ReST")
-> > 
-> > In order to convert it to .rst, I used some tool to first turn it
-> > into plain text (probably LaTeX, but I don't remember anymore), and then
-> > I manually reviewed the entire file, adding ReST tags where needed.
-> > 
-> > I didn't realize that utf-8 chars were used instead of normal ASCII chars,
-> > as both appear the same when editing it[1].
-> > 
-> > [1] I use Fedora here. Fedora changed the default charset to utf-8 a long
-> >     time ago.
-> > 
-> > Anyway, we should be able of get rid of weird UTF-8 chars from it with:
-> > 
-> > 	$ iconv -f utf-8 -t ascii//TRANSLIT Documentation/cdrom/cdrom-standard.rst
-> > 
-> > I'll prepare a patch fixing it. Some care should be taken, however, as
-> > it has two places where UTF-8 chars should be used[2].
-> > 
-> > [2] There are two German person names that use UTF-8 chars:
-> >     - 'o' + umlat;
-> >     - a LATIN SMALL LETTER SHARP S (Eszett)
-> 
-> Btw, I did a quick check here: excluding translations, there are 182
-> files with UTF-8 chars at next-20210429. It seems that most of them
-> are on files that got converted from DocBook and html.
-> 
-> Several of them are valid ones: the ones used on names 
-> (like Günther, Alcôve, ...). 
+Em Thu, 6 May 2021 20:06:25 +0200
+Michal Such=C3=A1nek <msuchanek@suse.de> escreveu:
 
-> 2. Some UTF-8 symbols, like:
-> 
-> 	- ® 
-> 	- ™
-> 	- ² - used mainly for I²C
-> 	- …
-> 	- ⬍ ↑ ↓   
-> 	- µs - used for microsseconds
+> On Thu, May 06, 2021 at 07:53:25PM +0200, Markus Heiser wrote:
 
-> 3. There are couple of places which uses UTF-8 graphic characters, like:
-> 
->         /sys/devices/system/edac/
->         ├── mc
->         │   ├── mc0
->         │   │   ├── ce_count
->         │   │   ├── ce_noinfo_count
+> > Hi Mauro,
+> >=20
+> > it is not comfortable but is it mad? ..
+> >=20
+> > Most often languages (or applications) do not handle encoding
+> > of strings they just piping a binary stream while python
+> > decode / encodes strings.
+> >=20
+> > "The Zen of Python" [1] says
+> >=20
+> >    Explicit is better than implicit.
 
-> I'm preparing a patchset to address the UTF-8 issues on the top of
-> today's next, but before posting, it seems reasonable to discuss
-> what to do with the above cases. Comments?
+This was taken into an extreme with regards to charsets:
 
-So the bottom line is that UTF-8 in the files will stay, and Sphinx
-cannot handle UTF-8 when the locale is not UTF-8.
+	 "better" should never be translated to "crash" ;-)
 
-In the long run it might be nice to fix Sphinx to properly set the
-encoding of the files it reads and writes. Or maybe there is some
-parameter that specifies it?
+> > If a stream can't encode symbols and these symbols should be ignored
+> > you have to set the encoding of the stream explicit to ignore
+> > such symbols. =20
+>=20
+> The problem is this part never happened. Loggers are supposed to tell
+> you about the error in your application, not crash it.
 
-For the short term I think it is reasonable to run a python test script
-that prints fancy unicode characters before running Sphinx and bail if
-the test script fails.
+It is insane to crash the error log due to a charset issue ;-)
 
-eg.
-echo 'print("↑ᛏ个")' > test.py
-python3 test.py
+> But the problem with Sphinx may be that the output file is also assumed
+> to be in the locale encoding, and the output encoding is never set. It's
+> HTML so it could be encoded with entities, too.
+>=20
+> The idea about handlinng encoding precisely is not mad in itself but then
+> everybody working with just ASCII and never testing their software works
+> in the cases where explicit handling is needed is the mad part.=20
 
-Thanks
+True. The machine's locale shouldn't affect *at all* the produced
+documents. See, there's a hole set of non-latin family of charsets
+supported on Linux:
 
-Michal
+	https://man7.org/linux/man-pages/man7/charsets.7.html
+
+Nothing prevents that someone using a machine whose default encoding is
+KOI8-R/BIG-5/GB 2312/JIS X 0208/... to use Sphinx to produce=20
+UTF-8 [1] documents.
+
+[1] or whatever other output encoding
+
+Ok, the logger may not be able to correctly display certain
+chars, but it it be perfectly fine and sane to use //TRANSLIT (or
+something similar) in order to do a charset conversion.=20
+
+Even to just print a <?> for all chars that aren't printable at
+the logger's output using the charset set by LANG/LC_* is=20
+better/saner than crashing.
+
+Thanks,
+Mauro
