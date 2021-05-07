@@ -2,169 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D634C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 11:48:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F70C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 11:53:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BFF860FF3
-	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 11:48:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4353661431
+	for <linux-doc@archiver.kernel.org>; Fri,  7 May 2021 11:53:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234729AbhEGLtn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 May 2021 07:49:43 -0400
-Received: from mail-db8eur05on2078.outbound.protection.outlook.com ([40.107.20.78]:17888
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235328AbhEGLtm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 May 2021 07:49:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iMMKUa5r5fZrKOkr8p0LjaO6qBjAN7Pz3sg1xxxz/m6TqYj+aw7s2pKpzpQFeItwHVSN0T6AkUgeOH6kIlTXOAiqbQ4OkI+EVX44rqIm2A61fW0wU6PpRRk/bdJbO9a/ZTmysaKf+v5t6Z/2WP0Rv86l1uGpt99FF5PmFxL4/+MePflMcz3B27PGrPbRiDvWHJk3LkMC+tL1L7FIzBkoL3gggOjzVTrJAAcBFLh6OGU1ST3EVNEjO9zkWZxZT8XD3YZ0Zsg2UKrfPCQibxDGFHXwTSbbJ/pyHCoY6vEau1fd94iZ2vQQvgA3bDai803yo4P2gOznTGuGrCSY1qxFMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=01f437XOs2KyHgQWDEagqS5C/UDWO8zr6WF743JjPbQ=;
- b=bJ5yq/s93fHK9ox/ld05H8/cPTeryRs+Ex2vop3j1K4o94Q7pjlduTB/VDMSNe97DxB+GiKqJwjTJUxbIYSewHtBWvxs1XFnqKTL5Kri6FjNKFTmROTyvZGCMESlIj+esJW5ihc+JiqeZ7ewyBp5h6gMg6KeXM48OYvovZLI4IY3/siEkCWXqQAh7fZdYV8Wr3rz4g/wH1Ekvx93TzOs60m83bM1RbCWY+zovmnfwNVIi/wwJkplqCSU+BYmS1efLjdoyAJ83M4leDMr1nmhse/2wgCba6FlrYBZYVuceNHQFBqvqd4wliz9uBMQwqnxD8zeWVvYZBjANZxrtqPfbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=01f437XOs2KyHgQWDEagqS5C/UDWO8zr6WF743JjPbQ=;
- b=TKcenVuJ2urCyfRyqWTaV7vL2XBV42fFUNUvjWpo7TX4cLcKTjdsxeWrR+NvMZEJ7+P9kP5OTJh3fbnEMhQDCGVVbWzfSkhJ8ZhfUSI4xImq0ML8y+k5tABCzClSWxrjYtttyffSWs6a/hWy6xeuMHFjI8yLkEYqgsz/fRKEAYY=
-Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
- by VE1PR04MB6640.eurprd04.prod.outlook.com (2603:10a6:803:122::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Fri, 7 May
- 2021 11:48:38 +0000
-Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
- ([fe80::f0c0:cb99:d153:e39b]) by VI1PR04MB5136.eurprd04.prod.outlook.com
- ([fe80::f0c0:cb99:d153:e39b%7]) with mapi id 15.20.4108.028; Fri, 7 May 2021
- 11:48:38 +0000
-From:   Vladimir Oltean <vladimir.oltean@nxp.com>
-To:     "Y.b. Lu" <yangbo.lu@nxp.com>
-CC:     Tobias Waldekranz <tobias@waldekranz.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Richard Cochran <richardcochran@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [net-next, v2, 3/7] net: dsa: free skb->cb usage in core driver
-Thread-Topic: [net-next, v2, 3/7] net: dsa: free skb->cb usage in core driver
-Thread-Index: AQHXOn8JAwAhGEvKKUeIpvbpNi0+oarKZYAAgA2NKwCAAAYrgA==
-Date:   Fri, 7 May 2021 11:48:37 +0000
-Message-ID: <20210507114837.aybpln6twhstelqd@skbuf>
-References: <20210426093802.38652-1-yangbo.lu@nxp.com>
- <20210426093802.38652-4-yangbo.lu@nxp.com> <87y2d2noe5.fsf@waldekranz.com>
- <DB7PR04MB5017DD1C470A06A66ADBB5DEF8579@DB7PR04MB5017.eurprd04.prod.outlook.com>
-In-Reply-To: <DB7PR04MB5017DD1C470A06A66ADBB5DEF8579@DB7PR04MB5017.eurprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nxp.com; dkim=none (message not signed)
- header.d=none;nxp.com; dmarc=none action=none header.from=nxp.com;
-x-originating-ip: [86.127.41.210]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 08e510c4-a534-466f-bfc6-08d9114e0d81
-x-ms-traffictypediagnostic: VE1PR04MB6640:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VE1PR04MB6640881FFFFE0B18FDEA7247E0579@VE1PR04MB6640.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0sUDGPwPEx5EqbtTPLCNYf/Lnvc+3vVaQq/Qbv2lmmpAXRa2y5qsQ54NjFJbhuLZ3ak7RKQyX4VkawCDrpRyFPbqKk8FZToe/GCIJXva3pQdMnQPmJy8lIBOTAawKxDg8HTSSl15YxLVXvMdzhZ4lZCUYuA7lO+M+5HAJ6dxcZi+cSZgp6gYx8mvROUk+/OuKz0hFLBihkZA71ZDB49/ypGvDeHTuC+5n7LhLipogW5tuNPSeQ4Z8BlRg+3PnH6MeiBH/s6ObYvaW4aYemqc1qjFT3NBdH+Quoihj1f+isaeOdPCZ+vyYlqhG7ZEYCNdrDZIdoPdMoX79Wy3ezms4zmpGB2Sycubpu2Qh2z0KxyADOQsbwVXQ8ZeQqgK0bTkZrO5VLkAwXFgxGNxP4rLR+RoxnnztsedF9QUyofFxyA4jvUEqQkCPHL+5T5CJ4AHLdILbrPbsaKBGA0XjQGiFzemEJhUyyGnX3ra+JuJQIBSkTAZhEY+aRX+ic9pHeLD6YK78Ja+YYsoSJJIbxOeGBjraBgMyP736F4+s4D5BXxePY8TzMvqJg6GIoQVzyiNJHGb9C4IY0sDjW2nIcgUJjUopoCmxy/oFWCxFjzZxn9iFhVGdFsBEX6l5bWkGMScuttZLY7YOf3kEaDAX2y6SOSQvyONMSAeeN2mWPSYm8+DuFzpfxRTu1Qc1B2Ga96k
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(4636009)(396003)(346002)(136003)(366004)(376002)(39850400004)(64756008)(66556008)(66446008)(6512007)(66476007)(66946007)(76116006)(86362001)(9686003)(71200400001)(4326008)(54906003)(33716001)(186003)(53546011)(6506007)(316002)(44832011)(8936002)(478600001)(966005)(6636002)(8676002)(122000001)(38100700002)(1076003)(7416002)(5660300002)(26005)(2906002)(6862004)(6486002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?Ry2F+RTqwKoGUs4iLwkvEz1YwGM82SD/lkarUrtBgGHSucYmfcfcP5yP42JF?=
- =?us-ascii?Q?rV0AFha2I6+495nAkx6VWRm9SO3qvlUbwpWTihO7yS6O2XaqVkdSXyHFkse4?=
- =?us-ascii?Q?jh2XRJz6APhnk23oQnffM6Va8jmsTN1TRn62Oajbp4MsAWLFSOFvDvJOdIe2?=
- =?us-ascii?Q?Sm8RBthih0U+GTDnQBLWezZolqqs7UOrXHkJx+0yFr2tk/eWBMCY7znSFtMo?=
- =?us-ascii?Q?X762G0MKGbsf/xTgwWPEvI2KXmDSZJ1zJNoSzeVdpDVRSlHmMlooTiFQkTDx?=
- =?us-ascii?Q?jqOBSVtcOQLYzLJPGtrAoMeB2HlmDYDVMFBm9ATujf+UmYpMXgtRuJ3x/0M/?=
- =?us-ascii?Q?C/0Vt44CKnunM6Ve4YZIVAUhbmziQD+1x1rsOP1Zq8oMS2vZDT4dwwvn1PZb?=
- =?us-ascii?Q?84nOlX4pY/qnXVvJEjtRbzUOcXwIUMaWzMEgNX1sJx48r5NADW9AJzcrfK96?=
- =?us-ascii?Q?5QT+vz/iHF6B/qj/8lB/sUVtvoM31shFtRgbquwgcNMtgR8+P1/xABib6vqG?=
- =?us-ascii?Q?IYDyS44cywQIyhLw18ROxwqJD35guZahxaWPgycXiCCKwlzhI31ADx8w5vJp?=
- =?us-ascii?Q?3FFDfdRvycTQUHZ5GiDAope8ISwc3+F7N+et2/W3pw8lxas5L/4abSlMXgss?=
- =?us-ascii?Q?a8jh3Df6sxCmjkXjtU9ZIfGrxnAl7aNGcGEGijeAOc1f8Q+Zu+fOcv4ME0GS?=
- =?us-ascii?Q?HS65LWJC79vkj3iJpSSZNGjTlKPqRyrUGO8oPWWuWH86gE3+/wcKqiBYQ4pb?=
- =?us-ascii?Q?BIm47nZ53u5fBPO3jxt875L1qtive49YNmlxBYdX/bOCdYZqGOD1uCI5XVWs?=
- =?us-ascii?Q?TtodQDvlZ9Ca1fAz23WNLowmn86E4lwDWhLo9SRLoZ+mcJsbaIcJ0ZQVICnO?=
- =?us-ascii?Q?uk+z7hM4nRvkH/spCPI0KQtte+YemfctH4icGEoForwFaY24gij/Dgoaglz+?=
- =?us-ascii?Q?vLulbPWWS2j5bWClxR5Lt2e8Ua+p/prwiFK6Mc3MTKPOaEyntdWuPTKRMypL?=
- =?us-ascii?Q?IhabDnJ8UxiKvtrApkOnFmXnJgUTRbjL/D72456CSPc0DaQp+yTTgqhJGb8s?=
- =?us-ascii?Q?C1AGF0j1H+FB38RbxFx8GhJKEf6iWpt6Wx2GMo+C3Bk0+Z8wROibrVA9rFaT?=
- =?us-ascii?Q?rBRpM+Q/X+Ur3EbfhmjEcpZvxfxOzM85Mel7vfmSOqUJxcEWon45VJdsJiiH?=
- =?us-ascii?Q?jRWD0PcqiobpSdAg9Ns+tXKbb7p2rRnE8sixT8PtGckLK0VHd9R1cTKLYLYY?=
- =?us-ascii?Q?qCZRyUnaRSDJ0+kMD4zlzWjbhPBjaW48rr8He/3gAeSW1df1Av8z3zC40jhE?=
- =?us-ascii?Q?7QcXrvQ3tOxmxn0E42AvAtN0?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DCB6125002829E4396D20FF43E7339DB@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S235313AbhEGLyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 May 2021 07:54:38 -0400
+Received: from aclms3.advantech.com.tw ([125.252.70.86]:64313 "EHLO
+        aclms3.advantech.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230412AbhEGLyh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 May 2021 07:54:37 -0400
+Received: from taipei09.ADVANTECH.CORP (unverified [172.20.0.236]) by ACLMS4.ADVANTECH.CORP
+ (Clearswift SMTPRS 5.6.0) with ESMTP id <Te654cd0384ac14110e2488@ACLMS4.ADVANTECH.CORP>;
+ Fri, 7 May 2021 19:53:20 +0800
+Received: from localhost (172.16.13.205) by taipei09.ADVANTECH.CORP
+ (172.20.0.236) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 7 May
+ 2021 19:53:19 +0800
+From:   Campion Kang <campion.kang@advantech.com.tw>
+To:     <hdegoede@redhat.com>
+CC:     <andy.shevchenko@gmail.com>, <campion.kang@advantech.com.tw>,
+        <chia-lin.kao@canonical.com>, <corbet@lwn.net>,
+        <devicetree@vger.kernel.org>, <jdelvare@suse.com>,
+        <lee.jones@linaro.org>, <linux-doc@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-watchdog@vger.kernel.org>, <linux@roeck-us.net>,
+        <mgross@linux.intel.com>, <platform-driver-x86@vger.kernel.org>,
+        <robh+dt@kernel.org>, <wim@linux-watchdog.org>
+Subject: Re: [PATCH v7 1/7] MAINTAINERS: Add Advantech AHC1EC0 embedded controller entry
+Date:   Fri, 7 May 2021 19:53:19 +0800
+Message-ID: <20210507115319.22109-1-campion.kang@advantech.com.tw>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cf181436-152c-7cd8-76cf-350705cd2bcb@redhat.com>
+References: <cf181436-152c-7cd8-76cf-350705cd2bcb@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08e510c4-a534-466f-bfc6-08d9114e0d81
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2021 11:48:37.9645
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0iNzVljQ3Qm1vxoMENrOTVNv9lBi+eYUJjm6N9x9SS5swcRw3OsV6RPUBf10WPck0NVw1nOefU9vTqgwX33Qbg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6640
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [172.16.13.205]
+X-ClientProxiedBy: ACLCAS4.ADVANTECH.CORP (172.20.2.20) To
+ taipei09.ADVANTECH.CORP (172.20.0.236)
+X-TM-SNTS-SMTP: 4B8C7CD8814247C1F67AD58EF2BF9FAF5F4E7C8A84C91213BA7094E79A2771972000:8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 07, 2021 at 11:26:32AM +0000, Y.b. Lu wrote:
-> > From: Tobias Waldekranz <tobias@waldekranz.com>
-> > On Mon, Apr 26, 2021 at 17:37, Yangbo Lu <yangbo.lu@nxp.com> wrote:
-> > > Free skb->cb usage in core driver and let device drivers decide to us=
-e
-> > > or not. The reason having a DSA_SKB_CB(skb)->clone was because
-> > > dsa_skb_tx_timestamp() which may set the clone pointer was called
-> > > before p->xmit() which would use the clone if any, and the device
-> > > driver has no way to initialize the clone pointer.
-> > >
-> > > Although for now putting memset(skb->cb, 0, 48) at beginning of
-> > > dsa_slave_xmit() by this patch is not very good, there is still way t=
-o
-> > > improve this. Otherwise, some other new features, like one-step
-> >
-> > Could you please expand on this improvement?
-> >
-> > This memset makes it impossible to carry control buffer information fro=
-m
-> > driver callbacks that run before .ndo_start_xmit, for
-> > example .ndo_select_queue, to a tagger's .xmit.
-> >
-> > It seems to me that if the drivers are to handle the CB internally from=
- now on,
-> > that should go for both setting and clearing of the required fields.
+Hi, Very thanks your time for reviewing.
+
+>-----Original Message-----
+>From: Hans de Goede <hdegoede@redhat.com>
+>Sent: Thursday, May 6, 2021 5:39 PM
+>Subject: Re: [PATCH v7 1/7] MAINTAINERS: Add Advantech AHC1EC0 embedded
+>controller entry
 >
-> For the timestamping case, dsa_skb_tx_timestamp may not touch
-> .port_txtstamp callback, so we had to put skb->cb initialization at
-> beginning of dsa_slave_xmit.
-> To avoid breaking future skb->cb usage you mentioned, do you think we
-> can back to Vladimir's idea initializing only field required, or even
-> just add a callback for cb initialization for timestamping?
+>Hi,
+>
+>On 5/6/21 11:23 AM, Andy Shevchenko wrote:
+>> On Thu, May 6, 2021 at 11:48 AM Hans de Goede <hdegoede@redhat.com>
+>wrote:
+>>> I'm replying here since this series has no cover-letter, for
+>>> the next version for a series touching so many different
+>>> sub-systems it would be good to start with a cover-letter
+>>> providing some background info on the series.
+>>>
 
-I would like to avoid overengineering, which a callback for skb->cb
-initialization would introduce, given the needs we have now.
+Sorry about that, i will study what is cover-letter and its content.
+Would you kindly provide me a good reference?
+Can I resend a [Patch v7 0/7] for these patch or provide it in next version?
 
-FWIW, we may not even be able to touch skb->cb in .ndo_select_queue for
-Tobias's use case, that discussion is here:
-https://patchwork.kernel.org/project/netdevbpf/patch/20210426170411.1789186=
--7-tobias@waldekranz.com/=
+
+>>> I see this is binding to an ACPI device, yet it is also using
+>>> devicetree bindings and properties.
+>>>
+>>> So I take it this means that your ACPI tables are using the
+>>> optional capability of embedded device-tree blobs inside the
+>>> ACPI tables ?
+>>>
+>>> That is an unusual combination on a x86 device, note it is
+>>> not wrong
+>>
+>> It's actually not okay. We have agreed at some point with DT people,
+>> that ACPI should not use non-native variants of natively supported
+>> things. For example, it shouldn't use "interrupt" property for IOxAPIC
+>> (or xIC) provided interrupts, rather Interrupt() has to be used and so
+>> on.
+
+In our experience, most risc platforms are using devicetree, and x86/64 platforms
+are using ACPI table or grub configure for their specific settings in different HW paltform.
+In this case, EC chip is a LPC interface that can be integrated in whenever risc or x86/64.
+So in my understand, I think it is not conflict.
+(please correct me if i am misunderstanding, i will try to describe more)
+
+If the EC chip is connected to the risc processor, we will bind its properties in the device-tree without modifing the source.
+If the EC chip is connected to the X86/64 processor, we bind its the properties in the ACPI table and also without modifing the source.
+Why do we need to bind the properties in ACPI or in the device-tree? Because it is an LPC interface, it cannot automatically load the driver like a USB or PCI device.
+In the early days, we had to install the EC driver module in our HW platform and manually load it at every boot. Different Advantech HW platforms have different properties for HWMON and others sub-systems. This causes the EC source to be a bit dirty. It is necessary to obtain the hardware platform name from the BIOS DMI table and determine its attributes according to its platform name.
+Now bind the attributes to ACPI table or device-tree, the EC source is more clear and universal for Advantech devices, and it is important that if the ACPI table matches, it can be automatically loaded.
+
+>
+>Right, but that is not the case here, they are using 2 device-tree
+>properties (1), from patch 3/7:
+>
+>+properties:
+>+  compatible:
+>+    const: advantech,ahc1ec0
+>+
+>+  advantech,hwmon-profile:
+>+    description:
+>+      The number of sub-devices specified in the platform. Defines for the
+>+      hwmon profiles can found in dt-bindings/mfd/ahc1ec0-dt.
+>+    $ref: /schemas/types.yaml#/definitions/uint32
+>+    maxItems: 1
+>+
+>+  advantech,has-watchdog:
+>+    description:
+>+      Some implementations of the EC include a watchdog used to monitor
+>the
+>+      system. This boolean flag is used to specify whether this watchdog is
+>+      present or not. Default is true, otherwise set to false.
+>+    type: boolean
+>
+>
+>>> but AFAIK you are the first to do this on x86.
+>>
+>> No, not the first. Once Intel tried to invent the pin control
+>> configuration and muxing properties in ACPI, it was luckily rejected
+>> (ACPI 6.x OTOH provides a set of special resources for that).
+>>
+>> So, NAK from me, *if* it's really the case. ACPI tables must be revisited.
+>
+
+I am not sure it supports vendor self-defined attributes for ACPI table?
+
+>AFAIK Advantech are not defining things for which an ACPI standard exists,
+>although these 2 properties might just as well may be 2 simple ACPI integer
+>methods, which would actually make things a bit simpler (.e.g it would
+>allow dropping patch 2/7 and 3/7 from the set).
+>
+>Campion, any reason why you went this route; and can the ACPI tables
+>still be changed?
+>
+
+If patches 2/7 and 3/7 are removed, it will be even simpler.
+This means that there is no device-tree binding designed, in fact, the EC chip only be integrated in the x86/64 platform at present.
+Sorry, ACPI table now is integrated in the BIOS for Advantech UNO device, 
+it may be revert to previous rule, that is, there is no ACPI table binding and manually loaded the EC driver. If you have any suggestons I would be very grateful.
+
+>Regards,
+>
+>Hans
