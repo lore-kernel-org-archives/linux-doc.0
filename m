@@ -2,128 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE53C433ED
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 15:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A0EEC433B4
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 15:55:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4084161090
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 15:36:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CCB2C61261
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 15:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbhEHPh6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 May 2021 11:37:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45836 "EHLO
+        id S229500AbhEHP4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 May 2021 11:56:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbhEHPh6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 11:37:58 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E20C061574
-        for <linux-doc@vger.kernel.org>; Sat,  8 May 2021 08:36:55 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id di13so13761757edb.2
-        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 08:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T80RW0N0f2bW+RbqzRU+sONErcUEsqlqhrSCovQJd4U=;
-        b=J06BUQYI0u+DnqsTFDFBW9BAol4dCToP14yYTvqrpw03eRMBn6wqgvdBIcmTmtUa4A
-         5W0K6bMRkpOlnT6CwcVWRYVNjl9UHUiTVQt8AyjTba2fa2urqSpsnng7MZQLkZqrRfpu
-         j85e+lD83jQdKI1jb6V7KdAg91qs6OZW5Fam0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T80RW0N0f2bW+RbqzRU+sONErcUEsqlqhrSCovQJd4U=;
-        b=BStpTZPkXJwMe1Dj4utYyZhp/BNylWlJcBBnJf6A/5r0zhQ62WaavM98kQFrYy4Glq
-         cEkUtILXKoU7QIIAB2+/7eYkkfjWSzZAKKg+6CsQHsBVqghb6Mllhb0QzJaueo93Te8h
-         YRGHRjS/xBCjkNTnX46VxA9PV3BIhY7JT+YGmVXdCOpn/vM3glLg8uqXtOkSlb4cM1wK
-         IiDaho1M+UpPztAQtDuAE8OvQIpefaenxFnNzh1l3gzK2Ul+Nx8JvCc8vLy/IAoYG8pY
-         XGK3O8+nHRYELEPE3WQFaNm+BAIe3n9O4w54nZPp/ynkxgAfVmW52MfBUZzTrmV518Z7
-         kqEA==
-X-Gm-Message-State: AOAM531ZBv1eAztoXfup1UTSmO3QdTfDF75+CgBD/iCzJ2RO4EwKA3np
-        dERz94/OYpRTQ7kfzZxMqIc5WnXMGYwQ3DrAv6E=
-X-Google-Smtp-Source: ABdhPJxd2ihbBCoNX3KCbYeuMGz6LAH28O/agJ8+IoyPINGLWacDgf4oBDsosMAnFMARrrg9AJSd2A==
-X-Received: by 2002:a05:6402:c1:: with SMTP id i1mr18423654edu.315.1620488214236;
-        Sat, 08 May 2021 08:36:54 -0700 (PDT)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
-        by smtp.gmail.com with ESMTPSA id q25sm5390236ejd.9.2021.05.08.08.36.54
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 May 2021 08:36:54 -0700 (PDT)
-Received: by mail-ej1-f49.google.com with SMTP id s20so12619035ejr.9
-        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 08:36:54 -0700 (PDT)
-X-Received: by 2002:a05:651c:1311:: with SMTP id u17mr12053441lja.48.1620487859712;
- Sat, 08 May 2021 08:30:59 -0700 (PDT)
+        with ESMTP id S229521AbhEHP4V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 11:56:21 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61123C061574
+        for <linux-doc@vger.kernel.org>; Sat,  8 May 2021 08:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=QKPAWlId70tl1To7T1s4kmN1atFjaIJssdGSeq5kJqA=; b=36QOicAmd9KfqN2zfEjA7DHbHJ
+        2REdrBNm1kwyMRTmoD2cgrA4c2KuCHp0oxKL2qLmfCEkiZ4XsCwG2a7ptbQYlz+O5FUA33rrY3n38
+        dOr9K6kXCbie3iRvsM123V07fbY0KwVQ7IHRpHhfH51YP/iJA0P3fmqY0rD4oEb/JLlacXLZO/UTo
+        hRejriIwd0JBDlD+Kao5t6mTPhEyfXAfGOwOhsQZExSPO4bYmhxrxkPrwD17RQcK4VCjm33qhvjSY
+        85v/XojNgLmQm+eC5V3Qq2cmMlLUC+lsc9WOUKXhMfXac97HDtrs0zVSZDTyoKaCLWlM612KcmBa/
+        /gy9yoSw==;
+Received: from [2601:1c0:6280:3f0::7376]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lfPIP-007cgi-2S; Sat, 08 May 2021 15:55:13 +0000
+Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1' codec
+ can't encode characters in position 18-20: ordinal not in range(256)
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+References: <20210506103913.GE6564@kitsune.suse.cz>
+ <30f2117f-aa38-6d60-f020-ff5cf8f004b5@darmarit.de>
+ <20210506184641.6348a621@coco.lan>
+ <0fd5bb54-a8fc-84b2-2bd6-31ab12f12303@darmarit.de>
+ <20210506192756.2a2cc273@coco.lan>
+ <cecb28f8-dfaa-3584-c9f5-fe15145ef3cf@infradead.org>
+ <20210506180842.GD388843@casper.infradead.org>
+ <be21de46-6655-152e-e431-144c2be6137c@infradead.org>
+ <20210507083924.7b8ec1fe@coco.lan> <20210508112205.41946ac7@coco.lan>
+ <20210508104157.GC12700@kitsune.suse.cz> <20210508164145.26f7b1e0@coco.lan>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <347657c8-f5ae-517c-0b43-fb60d50f1dd8@infradead.org>
+Date:   Sat, 8 May 2021 08:55:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-References: <20210508122530.1971-1-justin.he@arm.com> <20210508122530.1971-2-justin.he@arm.com>
-In-Reply-To: <20210508122530.1971-2-justin.he@arm.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 8 May 2021 08:30:43 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgSFUUWJKW1DXa67A0DXVzQ+OATwnC3FCwhqfTJZsvj1A@mail.gmail.com>
-Message-ID: <CAHk-=wgSFUUWJKW1DXa67A0DXVzQ+OATwnC3FCwhqfTJZsvj1A@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/3] fs: introduce helper d_path_fast()
-To:     Jia He <justin.he@arm.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Al Viro <viro@ftp.linux.org.uk>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210508164145.26f7b1e0@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 8, 2021 at 5:29 AM Jia He <justin.he@arm.com> wrote:
->
-> This helper is similar to d_path except for not taking seqlock/spinlock.
+Hi Mauro,
 
-I see why you did it that way, but conditional locking is something we
-really really try to avoid in the kernel.
+On 5/8/21 7:41 AM, Mauro Carvalho Chehab wrote:
+> Em Sat, 8 May 2021 12:41:57 +0200
+> Michal Suchánek <msuchanek@suse.de> escreveu:
+> 
+>> On Sat, May 08, 2021 at 11:22:05AM +0200, Mauro Carvalho Chehab wrote:
+>>> Em Fri, 7 May 2021 08:39:24 +0200
+>>> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+>>>   
+>>>> Em Thu, 6 May 2021 14:21:01 -0700
+>>>> Randy Dunlap <rdunlap@infradead.org> escreveu:
+>>>>   
+>>>   
+>>>> I'll prepare a patch fixing it. Some care should be taken, however, as
+>>>> it has two places where UTF-8 chars should be used[2].  
+>>>
+>>> Ok, I did a small script in order to check what special chars we
+>>> currently have (next-20210507) at Documentation/ excluding the
+>>> translations.
+>>>
+>>> Based on my script results, we have those groups:
+>>>
+>>> 1. Latin accented characters:
+>>> 	- U+00c7 (LATIN CAPITAL LETTER C WITH CEDILLA) (Ç)
+>>> 	- U+00df (LATIN SMALL LETTER SHARP S) (ß)
+>>> 	- U+00e1 (LATIN SMALL LETTER A WITH ACUTE) (á)
+>>> 	- U+00e4 (LATIN SMALL LETTER A WITH DIAERESIS) (ä)
+>>> 	- U+00e6 (LATIN SMALL LETTER AE) (æ)
+>>> 	- U+00e7 (LATIN SMALL LETTER C WITH CEDILLA) (ç)
+>>> 	- U+00e9 (LATIN SMALL LETTER E WITH ACUTE) (é)
+>>> 	- U+00ea (LATIN SMALL LETTER E WITH CIRCUMFLEX) (ê)
+>>> 	- U+00eb (LATIN SMALL LETTER E WITH DIAERESIS) (ë)
+>>> 	- U+00f3 (LATIN SMALL LETTER O WITH ACUTE) (ó)
+>>> 	- U+00f4 (LATIN SMALL LETTER O WITH CIRCUMFLEX) (ô)
+>>> 	- U+00f6 (LATIN SMALL LETTER O WITH DIAERESIS) (ö)
+>>> 	- U+00f8 (LATIN SMALL LETTER O WITH STROKE) (ø)
+>>> 	- U+00fc (LATIN SMALL LETTER U WITH DIAERESIS) (ü)
+>>> 	- U+011f (LATIN SMALL LETTER G WITH BREVE) (ğ)
+>>> 	- U+0142 (LATIN SMALL LETTER L WITH STROKE) (ł)
+>>>
+>>> 2. symbols:
+>>> 	- U+00a9 (COPYRIGHT SIGN) (©)
+>>> 	- U+2122 (TRADE MARK SIGN) (™)
+>>> 	- U+00ae (REGISTERED SIGN) (®)
+>>> 	- U+00b0 (DEGREE SIGN) (°)
+>>> 	- U+00b1 (PLUS-MINUS SIGN) (±)
+>>> 	- U+00b2 (SUPERSCRIPT TWO) (²)
+>>> 	- U+00b5 (MICRO SIGN) (µ)
+>>> 	- U+00bd (VULGAR FRACTION ONE HALF) (½)
+>>> 	- U+2026 (HORIZONTAL ELLIPSIS) (…)
+>>>
+>>> 3. arrows:
+>>> 	- U+2191 (UPWARDS ARROW) (↑)
+>>> 	- U+2192 (RIGHTWARDS ARROW) (→)
+>>> 	- U+2193 (DOWNWARDS ARROW) (↓)
+>>> 	- U+2b0d (UP DOWN BLACK ARROW) (⬍)
+>>>
+>>> 4. box drawings:
+>>> 	- U+2500 (BOX DRAWINGS LIGHT HORIZONTAL) (─)
+>>> 	- U+2502 (BOX DRAWINGS LIGHT VERTICAL) (│)
+>>> 	- U+2514 (BOX DRAWINGS LIGHT UP AND RIGHT) (└)
+>>> 	- U+251c (BOX DRAWINGS LIGHT VERTICAL AND RIGHT) (├)
+>>>
+>>> 5. math symbols:
+>>> 	- U+00b7 (MIDDLE DOT) (·)
+>>> 	- U+00d7 (MULTIPLICATION SIGN) (×)
+>>> 	- U+2212 (MINUS SIGN) (−)
+>>> 	- U+2217 (ASTERISK OPERATOR) (∗)
+>>> 	- U+223c (TILDE OPERATOR) (∼)
+>>> 	- U+2264 (LESS-THAN OR EQUAL TO) (≤)
+>>> 	- U+2265 (GREATER-THAN OR EQUAL TO) (≥)
+>>> 	- U+27e8 (MATHEMATICAL LEFT ANGLE BRACKET) (⟨)
+>>> 	- U+27e9 (MATHEMATICAL RIGHT ANGLE BRACKET) (⟩)
+>>> 	- U+00ac (NOT SIGN) (¬)  
+>>
+> 
+>>
+>> Use of ¬ is also very dubious in documentation (in fonts it is understandable):
+>> Documentation/ABI/obsolete/sysfs-kernel-fadump_registered:This ABI is renamed and moved to a new location /sys/kernel/fadump/registered.¬
+>> Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem:This ABI is renamed and moved to a new location /sys/kernel/fadump/release_mem.¬
+> 
+> 
+>> Documentation/powerpc/transactional_memory.rst:  if (MSR 29:31 ¬ = 0b010 | SRR1 29:31 ¬ = 0b000) then
+> 
+> Yeah, this should probably be better written as:
+> 
+>   if (MSR 29:31 == 0b010 | SRR1 29:31 == 0b000) then
 
-It basically makes a lot of static tools unable to follow the locking
-rules, and it makes it hard for people to se what's going on too.
+If the original with the 'NOT SIGN' was correct, then this
+version can't be correct. Or do you suspect that the "original"
+was corrupted somehow?
 
-So instead of passing a "bool need_lock" thing down, the way to do
-these things is generally to extract the code inside the locked region
-into a helper function of its own, and then you have
 
-  __unlocked_version(...)
-  {
-       .. do the actual work
-  }
+> In the mean time, I'm already preparing a patch series addressing
+> the issues inside documentation, using some scripting to avoid
+> manual mistakes:
+> 
+> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=fix_utf8
+> 
+> (patch series is not 100% yet... some adjustments are still
+> needed on some places).
 
-  locked_version(..)
-  {
-      take_lock(..)
-      retval = __unlocked_version(..);
-      release_lock(..);
-      return retval;
-  }
 
-this prepend_path() case is a bit more complicated because there's two
-layers of locking, but I think the pattern should still work fine.
+Thanks for digging into this and providing fixes.
 
-In fact, I think it would clean up prepend_path() and make it more
-legible to have the two layers of mount_lock / rename_lock be done in
-callers with the restarting being done as a loop in the caller rather
-than as "goto restart_*".
+-- 
+~Randy
 
-              Linus
