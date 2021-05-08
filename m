@@ -2,278 +2,401 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FE7C433B4
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 14:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0121C433B4
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 15:20:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E36DD6105A
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 14:41:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8842B6103E
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 15:20:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbhEHOmw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 May 2021 10:42:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44938 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229497AbhEHOmw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 8 May 2021 10:42:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E603D61057;
-        Sat,  8 May 2021 14:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620484910;
-        bh=9xoaZBLFUC9ZMeKB9X6iYWPYrRpSQYLmnkZQUSv6yME=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PFrYXS9wF8sWo01kfeT6Eq9+7vdTxliPWtJCRnDYq/880WQWtNA7IVwIgU5VfSpRZ
-         jDIEECwhJuyeiVq2wALaRUVXPsJwsbiWhr51rDNoObvj4yFTu7KrXF5uzhb4UCq0iH
-         H+O7dafrR6A01/HiqBVGc+YWTBiaHo5nZ/iG8aCSJ3/2+el4sJ9R95i25cY2YRxUMC
-         B+GeEkeUrDopgKbYMJDoH55z6un6iAs03yloOfuzmlA3LnD2sFc+d3mabfUnC8x0SB
-         hQzmo44IxG7831sDa+XBI6wjvLBiFnp0iy5qDmH/uoTrSnIq2+RJiFx1Rk1gaq9Mk3
-         U5T0A2R0VIE4g==
-Date:   Sat, 8 May 2021 16:41:45 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1'
- codec can't encode characters in position 18-20: ordinal not in range(256)
-Message-ID: <20210508164145.26f7b1e0@coco.lan>
-In-Reply-To: <20210508104157.GC12700@kitsune.suse.cz>
-References: <20210506103913.GE6564@kitsune.suse.cz>
-        <30f2117f-aa38-6d60-f020-ff5cf8f004b5@darmarit.de>
-        <20210506184641.6348a621@coco.lan>
-        <0fd5bb54-a8fc-84b2-2bd6-31ab12f12303@darmarit.de>
-        <20210506192756.2a2cc273@coco.lan>
-        <cecb28f8-dfaa-3584-c9f5-fe15145ef3cf@infradead.org>
-        <20210506180842.GD388843@casper.infradead.org>
-        <be21de46-6655-152e-e431-144c2be6137c@infradead.org>
-        <20210507083924.7b8ec1fe@coco.lan>
-        <20210508112205.41946ac7@coco.lan>
-        <20210508104157.GC12700@kitsune.suse.cz>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229558AbhEHPVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 May 2021 11:21:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229500AbhEHPVY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 11:21:24 -0400
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF44C061574
+        for <linux-doc@vger.kernel.org>; Sat,  8 May 2021 08:20:21 -0700 (PDT)
+Received: by mail-ot1-x335.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso10533764otn.3
+        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 08:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=G8ey2wgKPVOoSs5gcg3mIea1dUKxGbcBFCpioF2embI=;
+        b=JHkKV2jQ8342avLqqzyu1gsMxZpiUVIo+OOaicB/7Y0rlBN0E+4wTQsFq3P4VcixiI
+         ewSGKliqMx0lLab+5JxYUSXbVRJL5+8rIGX6sDXL9iPgnTYwB0jrlnXitX8oZtrTaIIB
+         gS4/vKV3WriTFkXyDrOeqXYdsoiptJeU0w0N7pxV2ZF5szFsMwR1w1PVtCyBiDrY5MXa
+         w1AX/dRz+u2q4N4ESIP4ZjOiaUpIPDB954deTcQ/jGo05IiK0rzRMeLVRE5PRooreAFP
+         WK9pgW9E9SXPcNzW664Uoejil41dtm0BVPflmmf9KmCe1VhHJ4sfoSmVTHhc6QhtuL1l
+         WaXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=G8ey2wgKPVOoSs5gcg3mIea1dUKxGbcBFCpioF2embI=;
+        b=nQ2o0tSGeuNBL2Hs05nJlbpKady1WwCghEzGObVu5HQ3F63t1PqUYlmUcDkNXSRbta
+         bnlJGLYLMiEGO3+kj554Rl4173jE8c3QoCnKar/QiAdM5SGhjzmuMHxYxXAj0VGUumlk
+         HiLPFsMnqe4M74hWtUSsn0+kfMV2/1egtWnAa+txTQKJsc36rHH97yRJelVA2QXCd5+m
+         g0d2JEZY2C1ZneTE1ssKdG0yQirCeDX02+JM3dZfEXeWcsKtq/IDT9h4slYEua2aAv/p
+         JJA/W+TTsONiV5I4RSGfQgGAcWtteEypMlpgcGRH+VPqcYyN/uvCesjcJqU3j09l0aP3
+         pU/g==
+X-Gm-Message-State: AOAM5332rGXIHOPidZxxGLzXb/1KF0U21XIJ5stqKCF64JfoERDkZ9e0
+        AukjpvN2AdaD9/1pi0EBRDjFnHINHw2KF97Qy90=
+X-Google-Smtp-Source: ABdhPJwC2fXYTFaYE0isUyUp3pU6KtGcBJ3a2Mq7J2oCt5h9sB+WQsJNLAhmcRkDWT6NG3XF/6R0/gtbBm5dz28MUdI=
+X-Received: by 2002:a05:6830:1e70:: with SMTP id m16mr5907216otr.340.1620487220192;
+ Sat, 08 May 2021 08:20:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20210506130610.444696-1-siyanteng@loongson.cn> <4e54050c-2670-0ac7-e937-9559978f6be3@gmail.com>
+In-Reply-To: <4e54050c-2670-0ac7-e937-9559978f6be3@gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Sat, 8 May 2021 23:20:09 +0800
+Message-ID: <CAEensMwq=i+nek6sNeqOJJMY648Q9ZF8cTKpXdJVuqdQQnMWUw@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: add core-api workqueue.rst translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, huangjianghui@uniontech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 8 May 2021 12:41:57 +0200
-Michal Such=C3=A1nek <msuchanek@suse.de> escreveu:
-
-> On Sat, May 08, 2021 at 11:22:05AM +0200, Mauro Carvalho Chehab wrote:
-> > Em Fri, 7 May 2021 08:39:24 +0200
-> > Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-> >  =20
-> > > Em Thu, 6 May 2021 14:21:01 -0700
-> > > Randy Dunlap <rdunlap@infradead.org> escreveu:
-> > >  =20
-> > > > On 5/6/21 11:08 AM, Matthew Wilcox wrote:   =20
-> > > > > On Thu, May 06, 2021 at 10:57:53AM -0700, Randy Dunlap wrote:    =
- =20
-> > > > >> I have been going thru some of the Documentation/ files...
-> > > > >>
-> > > > >> Why do several of the files begin with
-> > > > >> (hex) ef bb bf    followed by "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D"
-> > > > >> for a heading, instead of just "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D".
-> > > > >> See e.g. Documentation/timers/no_hz.rst.     =20
-> > >=20
-> > > No idea! It seems that the text editor I used on that time added
-> > > it for whatever reason. =20
-> >  =20
-> > > I'll prepare a patch fixing it. Some care should be taken, however, as
-> > > it has two places where UTF-8 chars should be used[2]. =20
-> >=20
-> > Ok, I did a small script in order to check what special chars we
-> > currently have (next-20210507) at Documentation/ excluding the
-> > translations.
-> >=20
-> > Based on my script results, we have those groups:
-> >=20
-> > 1. Latin accented characters:
-> > 	- U+00c7 (LATIN CAPITAL LETTER C WITH CEDILLA) (=C3=87)
-> > 	- U+00df (LATIN SMALL LETTER SHARP S) (=C3=9F)
-> > 	- U+00e1 (LATIN SMALL LETTER A WITH ACUTE) (=C3=A1)
-> > 	- U+00e4 (LATIN SMALL LETTER A WITH DIAERESIS) (=C3=A4)
-> > 	- U+00e6 (LATIN SMALL LETTER AE) (=C3=A6)
-> > 	- U+00e7 (LATIN SMALL LETTER C WITH CEDILLA) (=C3=A7)
-> > 	- U+00e9 (LATIN SMALL LETTER E WITH ACUTE) (=C3=A9)
-> > 	- U+00ea (LATIN SMALL LETTER E WITH CIRCUMFLEX) (=C3=AA)
-> > 	- U+00eb (LATIN SMALL LETTER E WITH DIAERESIS) (=C3=AB)
-> > 	- U+00f3 (LATIN SMALL LETTER O WITH ACUTE) (=C3=B3)
-> > 	- U+00f4 (LATIN SMALL LETTER O WITH CIRCUMFLEX) (=C3=B4)
-> > 	- U+00f6 (LATIN SMALL LETTER O WITH DIAERESIS) (=C3=B6)
-> > 	- U+00f8 (LATIN SMALL LETTER O WITH STROKE) (=C3=B8)
-> > 	- U+00fc (LATIN SMALL LETTER U WITH DIAERESIS) (=C3=BC)
-> > 	- U+011f (LATIN SMALL LETTER G WITH BREVE) (=C4=9F)
-> > 	- U+0142 (LATIN SMALL LETTER L WITH STROKE) (=C5=82)
-> >=20
-> > 2. symbols:
-> > 	- U+00a9 (COPYRIGHT SIGN) (=C2=A9)
-> > 	- U+2122 (TRADE MARK SIGN) (=E2=84=A2)
-> > 	- U+00ae (REGISTERED SIGN) (=C2=AE)
-> > 	- U+00b0 (DEGREE SIGN) (=C2=B0)
-> > 	- U+00b1 (PLUS-MINUS SIGN) (=C2=B1)
-> > 	- U+00b2 (SUPERSCRIPT TWO) (=C2=B2)
-> > 	- U+00b5 (MICRO SIGN) (=C2=B5)
-> > 	- U+00bd (VULGAR FRACTION ONE HALF) (=C2=BD)
-> > 	- U+2026 (HORIZONTAL ELLIPSIS) (=E2=80=A6)
-> >=20
-> > 3. arrows:
-> > 	- U+2191 (UPWARDS ARROW) (=E2=86=91)
-> > 	- U+2192 (RIGHTWARDS ARROW) (=E2=86=92)
-> > 	- U+2193 (DOWNWARDS ARROW) (=E2=86=93)
-> > 	- U+2b0d (UP DOWN BLACK ARROW) (=E2=AC=8D)
-> >=20
-> > 4. box drawings:
-> > 	- U+2500 (BOX DRAWINGS LIGHT HORIZONTAL) (=E2=94=80)
-> > 	- U+2502 (BOX DRAWINGS LIGHT VERTICAL) (=E2=94=82)
-> > 	- U+2514 (BOX DRAWINGS LIGHT UP AND RIGHT) (=E2=94=94)
-> > 	- U+251c (BOX DRAWINGS LIGHT VERTICAL AND RIGHT) (=E2=94=9C)
-> >=20
-> > 5. math symbols:
-> > 	- U+00b7 (MIDDLE DOT) (=C2=B7)
-> > 	- U+00d7 (MULTIPLICATION SIGN) (=C3=97)
-> > 	- U+2212 (MINUS SIGN) (=E2=88=92)
-> > 	- U+2217 (ASTERISK OPERATOR) (=E2=88=97)
-> > 	- U+223c (TILDE OPERATOR) (=E2=88=BC)
-> > 	- U+2264 (LESS-THAN OR EQUAL TO) (=E2=89=A4)
-> > 	- U+2265 (GREATER-THAN OR EQUAL TO) (=E2=89=A5)
-> > 	- U+27e8 (MATHEMATICAL LEFT ANGLE BRACKET) (=E2=9F=A8)
-> > 	- U+27e9 (MATHEMATICAL RIGHT ANGLE BRACKET) (=E2=9F=A9)
-> > 	- U+00ac (NOT SIGN) (=C2=AC) =20
->=20
-
-Hi Michal,
-
-> Clearly his is supposed to be ASCII tilde:
-> Documentation/cdrom/cdrom-standard.rst: if (cdo->capability & =E2=88=BCcd=
-i->mask & CDC _=E2=9F=A8capability=E2=9F=A9)
-
-Yes, for this specific file, iconv //translit should solve everything.
-
-In the case of cdrom-standard, those came from the LaTeX conversion.
->=20
-> Use of =C2=AC is also very dubious in documentation (in fonts it is under=
-standable):
-> Documentation/ABI/obsolete/sysfs-kernel-fadump_registered:This ABI is ren=
-amed and moved to a new location /sys/kernel/fadump/registered.=C2=AC
-> Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem:This ABI is re=
-named and moved to a new location /sys/kernel/fadump/release_mem.=C2=AC
-
-
-> Documentation/powerpc/transactional_memory.rst:  if (MSR 29:31 =C2=AC =3D=
- 0b010 | SRR1 29:31 =C2=AC =3D 0b000) then
-
-Yeah, this should probably be better written as:
-
-  if (MSR 29:31 =3D=3D 0b010 | SRR1 29:31 =3D=3D 0b000) then
-
-> The use of =E2=88=92 is rare can could be replaed with ASCII hyphen-minus=
- entirely
-> without making the text harder to understand:
->=20
-> Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml:          0: RE=
-FIN1(+)/REFIN1(=E2=88=92).
-> Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml:          1: RE=
-FIN2(+)/REFIN2(=E2=88=92).
-> Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml:      External =
-reference applied between the P1/REFIN2(+) and P0/REFIN2(=E2=88=92) pins.
-> Documentation/scheduler/sched-deadline.rst:     ((M =E2=88=92 1) =C2=B7 W=
-CET_max =E2=88=92 WCET_min)/(M =E2=88=92 (M =E2=88=92 2) =C2=B7 U_max) + WC=
-ET_max
-> drivers/gpu/drm/drm_color_mgmt.c: * - range: [-2^2, 2^2 - 2^=E2=88=9215]
-> drivers/iio/light/tsl2583.c:                     * sheet (TAOS134 =E2=88=
-=92 MARCH 2011):
-> drivers/staging/iio/adc/ad7280a.c:       *                         (Numbe=
-r of Conversions per Part)) =E2=88=92
-> sound/soc/codecs/sgtl5000.c: * is the array index and the following formu=
-la: 10^((idx=E2=88=9215)/40) * 100
-
-Agreed.
-
-> Asterisk operator is clearly meant to be ASCII:
-> Documentation/cdrom/cdrom-standard.rst:         NULL,                   /=
-=E2=88=97 lseek =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         block _read ,           /=
-=E2=88=97 read=E2=80=94general block-dev read =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         block _write,           /=
-=E2=88=97 write=E2=80=94general block-dev write =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         NULL,                   /=
-=E2=88=97 readdir =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         NULL,                   /=
-=E2=88=97 select =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         cdrom_ioctl,            /=
-=E2=88=97 ioctl =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         NULL,                   /=
-=E2=88=97 mmap =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         cdrom_open,             /=
-=E2=88=97 open =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         cdrom_release,          /=
-=E2=88=97 release =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         NULL,                   /=
-=E2=88=97 fsync =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         NULL,                   /=
-=E2=88=97 fasync =E2=88=97/
-> Documentation/cdrom/cdrom-standard.rst:         NULL                    /=
-=E2=88=97 revalidate =E2=88=97/
-> Documentation/filesystems/ext4/blockgroup.rst:filesystem size to 2^21 =E2=
-=88=97 2^27 =3D 2^48bytes or 256TiB.
->=20
-> There is only one place where =E2=9F=A8=E2=9F=A9 is used which is very du=
-bious:
-> Documentation/cdrom/cdrom-standard.rst: if (cdo->capability & =E2=88=BCcd=
-i->mask & CDC _=E2=9F=A8capability=E2=9F=A9) ...
-
-Yeah. Again, this was due to LaTeX to text conversion.
-
-> The middle dot is mostly used in mathmatical formulas that would be
-> unintelligible otherwise but there are a few odd uses:
-> Documentation/ABI/testing/sysfs-module:KernelVersion:=C2=BB=C2=B73.3
-> Documentation/ABI/testing/sysfs-module:KernelVersion:=C2=BB=C2=B73.3
-> Documentation/devicetree/bindings/clock/qcom,rpmcc.txt:                 "=
-qcom,rpmcc-msm8992",=C2=B7"qcom,rpmcc"
-> Documentation/devicetree/bindings/clock/qcom,rpmcc.txt:                 "=
-qcom,rpmcc-msm8994",=C2=B7"qcom,rpmcc"
-
-Yeah. It sounds that space would be the best replacement there.
-
-> Documentation/translations/zh_CN/kernel-hacking/hacking.rst:    =E9=98=BF=
-=E5=88=97=E5=85=8B=E8=B0=A2=C2=B7=E5=BA=93=E5=85=B9=E6=B6=85=E4=BD=90=E5=A4=
-=AB=E4=BA=AB=E7=94=A8=E7=9A=84=E7=B3=9F=E7=B3=95=E4=BC=8F=E7=89=B9=E5=8A=A0=
-=E6=9C=89=E5=85=B3=E3=80=82
-> Documentation/translations/zh_CN/process/howto.rst:   =E3=80=8AC=E7=A8=8B=
-=E5=BA=8F=E8=AE=BE=E8=AE=A1=E8=AF=AD=E8=A8=80=EF=BC=88=E7=AC=AC2=E7=89=88=
-=C2=B7=E6=96=B0=E7=89=88=EF=BC=89=E3=80=8B=EF=BC=88=E5=BE=90=E5=AE=9D=E6=96=
-=87 =E6=9D=8E=E5=BF=97 =E8=AF=91=EF=BC=89[=E6=9C=BA=E6=A2=B0=E5=B7=A5=E4=B8=
-=9A=E5=87=BA=E7=89=88=E7=A4=BE]
-> Documentation/translations/zh_CN/process/management-style.rst:.. [#cnf2] =
-=E4=BF=9D=E7=BD=97=C2=B7=E8=A5=BF=E8=92=99=E6=BC=94=E5=94=B1=E4=BA=86=E2=80=
-=9C=E7=A6=BB=E5=BC=80=E7=88=B1=E4=BA=BA=E7=9A=8450=E7=A7=8D=E6=96=B9=E6=B3=
-=95=E2=80=9D=EF=BC=8C=E5=9B=A0=E4=B8=BA=E5=9D=A6=E7=8E=87=E5=9C=B0=E8=AF=B4=
-=EF=BC=8C=E2=80=9C=E5=91=8A=E8=AF=89=E5=BC=80=E5=8F=91=E8=80=85
-
-I wouldn't touch translations.
-
-> The =C3=97 =E2=89=A4 and =E2=89=A5 uses look fine.
-
-Agreed.
-
-Thanks for double-checking those. I'll address them.
-
-In the mean time, I'm already preparing a patch series addressing
-the issues inside documentation, using some scripting to avoid
-manual mistakes:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Dfix_utf8
-
-(patch series is not 100% yet... some adjustments are still
-needed on some places).
-
-Thanks,
-Mauro
+QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIx5bm0NeaciDjml6Xlkajlha0g5LiK
+5Y2IMTA6NTXlhpnpgZPvvJoNCj4NCj4NCj4NCj4gT24gMjAyMS81LzYg5LiL5Y2IOTowNiwgWWFu
+dGVuZyBTaSB3cm90ZToNCj4gPiBUaGlzIHBhdGNoIHRyYW5zbGF0ZXMgRG9jdW1lbnRhdGlvbi9j
+b3JlLWFwaS93b3JrcXVldWUucnN0IGludG8gQ2hpbmVzZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYt
+Ynk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiAtLS0NCj4gPiAgLi4u
+L3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9pbmRleC5yc3QgICAgIHwgICA1ICsNCj4gPiAg
+Li4uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS93b3JrcXVldWUucnN0IHwgMzM2ICsrKysr
+KysrKysrKysrKysrKw0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDM0MSBpbnNlcnRpb25zKCspDQo+
+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9j
+b3JlLWFwaS93b3JrcXVldWUucnN0DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90
+cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0DQo+ID4gaW5kZXggZjFmYTcxZTQ1
+Yzc3Li5mYjc5ZWJlMTA4MjMgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xh
+dGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90
+cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0DQo+ID4gQEAgLTE5LDYgKzE5LDEx
+IEBADQo+ID4gIOadpeeahOWkp+mHjyBrZXJuZWxkb2Mg5L+h5oGv77yb5pyJ5pyd5LiA5pel77yM
+6Iul5pyJ5Lq65pyJ5Yqo5Yqb55qE6K+d77yM5bqU5b2T5oqK5a6D5Lus5ouG5YiGDQo+ID4gIOWH
+uuadpeOAgg0KPiA+DQo+ID4gKy4uIHRvY3RyZWU6Og0KPiA+ICsgICA6bWF4ZGVwdGg6IDENCj4g
+PiArDQo+ID4gKyAgIHdvcmtxdWV1ZQ0KPiA+ICsNCj4gPiAgVG9kb2xpc3Q6DQo+ID4NCj4gPiAg
+ICAga2VybmVsLWFwaQ0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy96aF9DTi9jb3JlLWFwaS93b3JrcXVldWUucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
+bnMvemhfQ04vY29yZS1hcGkvd29ya3F1ZXVlLnJzdA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0
+DQo+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi4xYjBjOWM3NTU4YzINCj4gPiAtLS0gL2Rldi9udWxs
+DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvd29y
+a3F1ZXVlLnJzdA0KPiA+IEBAIC0wLDAgKzEsMzM2IEBADQo+ID4gKy4uIFNQRFgtTGljZW5zZS1J
+ZGVudGlmaWVyOiBHUEwtMi4wDQo+ID4gKy4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NO
+LnJzdA0KPiA+ICsNCj4gPiArOk9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL2NvcmUtYXBpL3dvcmtx
+dWV1ZS5yc3QNCj4gPiArOlRyYW5zbGF0b3I6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nv
+bi5jbj4NCj4gPiArDQo+ID4gKy4uIF9jbl93b3JrcXVldWUucnN0Og0KPiA+ICsNCj4gPiArDQo+
+ID4gKz09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiAr5bm25Y+R566h55CG55qE5bel5L2c
+6Zif5YiXIChjbXdxKQ0KPiA+ICs9PT09PT09PT09PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+
+ICs65pel5pyfOiBTZXB0ZW1iZXIsIDIwMTANCj4gPiArOuS9nOiAhTogVGVqdW4gSGVvIDx0akBr
+ZXJuZWwub3JnPg0KPiA+ICs65L2c6ICFOiBGbG9yaWFuIE1pY2tsZXIgPGZsb3JpYW5AbWlja2xl
+ci5vcmc+DQo+ID4gKw0KPiA+ICsNCj4gPiAr566A5LuLDQo+ID4gKz09PT0NCj4gPiArDQo+ID4g
+K+WcqOW+iOWkmuaDheWGteS4i++8jOmcgOimgeS4gOS4quW8guatpei/m+eoi+eahOaJp+ihjOeO
+r+Wig++8jOW3peS9nOmYn+WIl++8iHdx77yJQVBJ5piv6L+Z56eN5oOF5Ya15LiLDQo+ID4gK+ac
+gOW4uOeUqOeahOacuuWItuOAgg0KPiA+ICsNCj4gPiAr5b2T6ZyA6KaB6L+Z5qC35LiA5Liq5byC
+5q2l5omn6KGM5LiK5LiL5paH5pe277yM5LiA5Liq5o+P6L+w5bCG6KaB5omn6KGM55qE5Ye95pWw
+55qE5bel5L2c6aG577yId29ya++8jA0KPiA+ICvljbPkuIDkuKrlvoXmiafooYznmoTku7vliqHv
+vInooqvmlL7lnKjpmJ/liJfkuK3jgILkuIDkuKrni6znq4vnmoTnur/nqIvkvZzkuLrlvILmraXm
+iafooYznjq/looPjgILor6XpmJ8NCj4gPiAr5YiX6KKr56ew5Li6d29ya3F1ZXVl77yM57q/56iL
+6KKr56ew5Li65bel5L2c6ICF77yId29ya2Vy77yM5Y2z5omn6KGM6L+Z5LiA6Zif5YiX55qE57q/
+56iL77yJ44CCDQo+ID4gKw0KPiA+ICvlvZPlt6XkvZzpmJ/liJfkuIrmnInlt6XkvZzpobnml7bv
+vIzlt6XkvZzogIXkvJrkuIDkuKrmjqXkuIDkuKrlnLDmiafooYzkuI7lt6XkvZzpobnnm7jlhbPn
+moTlh73mlbDjgILlvZMNCj4gPiAr5bel5L2c6Zif5YiX5Lit5rKh5pyJ5Lu75L2V5bel5L2c6aG5
+5pe277yM5bel5L2c6ICF5bCx5Lya5Y+Y5b6X56m66Zey44CC5b2T5LiA5Liq5paw55qE5bel5L2c
+6aG56KKr5o6S5YWlDQo+ID4gK+mYn+WIl+aXtu+8jOW3peS9nOiAheWPiOW8gOWni+aJp+ihjOOA
+gg0KPiA+ICsNCj4gPiArDQo+ID4gK+S4uuS7gOS5iOimgWNtd3E/DQo+ID4gKz09PT09PT09PT09
+PT0NCj4gPiArDQo+ID4gK+WcqOacgOWIneeahHdx5a6e546w5Lit77yM5aSa57q/56iL77yITVTv
+vIl3ceWcqOavj+S4qkNQVeS4iuacieS4gOS4quW3peS9nOiAhee6v+eoi++8jOiAjOWNlee6v+eo
+iw0KPiA+ICvvvIhTVO+8iXdx5Zyo5YWo57O757uf5pyJ5LiA5Liq5bel5L2c6ICF57q/56iL44CC
+5LiA5LiqTVQgd3HpnIDopoHkv53mjIHkuI5DUFXmlbDph4/nm7jlkIznmoTlt6UNCj4gPiAr5L2c
+6ICF5pWw6YeP44CC6L+Z5Lqb5bm05p2l77yM5YaF5qC45aKe5Yqg5LqG5b6I5aSaTVQgd3HnmoTn
+lKjmiLfvvIzpmo/nnYBDUFXmoLjlv4PmlbDph4/nmoTkuI3mlq0NCj4gPiAr5aKe5Yqg77yM5LiA
+5Lqb57O757uf5Yia5ZCv5Yqo5bCx6L6+5Yiw5LqG6buY6K6k55qEMzJrIFBJROeahOmlseWSjOep
+uumXtOOAgg0KPiA+ICsNCj4gPiAr5bC9566hTVQgd3HmtarotLnkuoblpKfph4/nmoTotYTmupDv
+vIzkvYbmiYDmj5DkvpvnmoTlubblj5HmgKfmsLTlubPljbTkuI3og73ku6Tkurrmu6HmhI/jgILo
+v5nkuKrpmZANCj4gPiAr5Yi25ZyoU1TlkoxNVCB3ceS4remDveacie+8jOWPquaYr+WcqE1U5Lit
+5rKh5pyJ6YKj5LmI5Lil6YeN44CC5q+P5Liqd3Hpg73kv53mjIHnnYDoh6rlt7Hni6znq4vnmoQN
+Cj4gPiAr5bel5L2c6ICF5rGg44CC5LiA5LiqTVQgd3Hlj6rog73kuLrmr4/kuKpDUFXmj5Dkvpvk
+uIDkuKrmiafooYznjq/looPvvIzogIzkuIDkuKpTVCB3ceWImeS4uuaVtOS4qg0KPiA+ICvns7vn
+u5/mj5DkvpvkuIDkuKrjgILlt6XkvZzpobnlv4Xpobvnq57kuonov5nkupvpnZ7luLjmnInpmZDn
+moTmiafooYzkuIrkuIvmlofvvIzku47ogIzlr7zoh7TlkITnp43pl67popjvvIwNCj4gPiAr5YyF
+5ous5Zyo5Y2V5LiA5omn6KGM5LiK5LiL5paH5ZGo5Zu05a655piT5Y+R55Sf5q276ZSB44CCDQo+
+ID4gKw0KPiA+ICvmiYDmj5DkvpvnmoTlubblj5HmgKfmsLTlubPlkozotYTmupDkvb/nlKjkuYvp
+l7TnmoTnn5vnm77kuZ/ov6vkvb/lhbbnlKjmiLflgZrlh7rkuI3lv4XopoHnmoTmnYPooaHvvIzm
+r5QNCj4gKE1UIHdxKeaJgOaPkOS+m+eahOOAguOAguOAgiDvvJ8NCk9L77yBDQo+DQo+ID4gK+Wm
+gmxpYmF0YemAieaLqeS9v+eUqFNUIHdx5p2l6L2u6K+iUElP77yM5bm25o6l5Y+X5LiA5Liq5LiN
+5b+F6KaB55qE6ZmQ5Yi277yM5Y2z5rKh5pyJ5Lik5Liq6L2uDQo+ID4gK+ivolBJT+WPr+S7peWQ
+jOaXtui/m+ihjOOAgueUseS6jk1UIHdx5bm25rKh5pyJ5o+Q5L6b5pu05aW955qE5bm25Y+R5oCn
+77yM6ZyA6KaB5pu06auY5bGC5qyh55qE5bm2DQo+ID4gK+WPkeaAp+eahOeUqOaIt++8jOWmgmFz
+eW5j5oiWZnNjYWNoZe+8jOS4jeW+l+S4jeWunueOsOS7luS7rOiHquW3seeahOe6v+eoi+axoOOA
+gg0KPiA+ICsNCj4gPiAr5bm25Y+R566h55CG5bel5L2c6Zif5YiX77yIY213ce+8ieaYr+WvuXdx
+55qE6YeN5paw5a6e546w77yM6YeN54K55piv5Lul5LiL55uu5qCH44CCDQo+ID4gKw0KPiA+ICsq
+IOS/neaMgeS4juWOn+Wni+W3peS9nOmYn+WIl0FQSeeahOWFvOWuueaAp+OAgg0KPiA+ICsNCj4g
+PiArKiDkvb/nlKjnlLHmiYDmnIl3ceWFseS6q+eahOavj0NQVee7n+S4gOeahOW3peS9nOiAheax
+oO+8jOWcqOS4jea1qui0ueWkp+mHj+i1hOa6kOeahOaDheWGteS4i+aMiQ0KPiA+ICsqIOmcgOaP
+kOS+m+eBtea0u+eahOW5tuWPkeawtOW5s+OAgg0KPiA+ICsNCj4gPiArKiDoh6rliqjosIPoioLl
+t6XkvZzogIXmsaDlkozlubblj5HmsLTlubPvvIzkvb9BUEnnlKjmiLfkuI3pnIDopoHmi4Xlv4Po
+v5nkupvnu4boioLjgIINCj4gPiArDQo+ID4gKw0KPiA+ICvorr7orqENCj4gPiArPT09PQ0KPiA+
+ICsNCj4gPiAr5Li65LqG566A5YyW5Ye95pWw55qE5byC5q2l5omn6KGM77yM5byV5YWl5LqG5LiA
+5Liq5paw55qE5oq96LGh5qaC5b+177yM5Y2z5bel5L2c6aG544CCDQo+ID4gKw0KPiA+ICvkuIDk
+uKrlt6XkvZzpobnmmK/kuIDkuKrnroDljZXnmoTnu5PmnoTvvIzlroPmjIHmnInkuIDkuKrmjIfl
+kJHlsIbooqvlvILmraXmiafooYznmoTlh73mlbDnmoTmjIfpkojjgIINCj4gPiAr5q+P5b2T5LiA
+5Liq6amx5Yqo56iL5bqP5oiW5a2Q57O757uf5biM5pyb5LiA5Liq5Ye95pWw6KKr5byC5q2l5omn
+6KGM5pe277yM5a6D5b+F6aG75bu656uL5LiA5Liq5oyHDQo+ID4gK+WQkeivpeWHveaVsOeahOW3
+peS9nOmhue+8jOW5tuWcqOW3peS9nOmYn+WIl+S4reaOkumYn+etieW+heivpeW3peS9nOmhueOA
+gu+8iOWwseaYr+aMguWIsHdvcmtxdWV1ZQ0KPiA+ICvpmJ/liJfph4zpnaLljrvvvIkNCj4gPiAr
+DQo+ID4gK+eJueWumuebrueahOe6v+eoi++8jOensOS4uuW3peS9nOe6v+eoi++8iOW3peS9nOiA
+he+8ie+8jOS4gOS4quaOpeS4gOS4quWcsOaJp+ihjOmYn+WIl+S4reeahOWKn+iDveOAgg0KPiA+
+ICvlpoLmnpzmsqHmnInlt6XkvZzpobnmjpLpmJ/vvIzlt6XkvZzogIXnur/nqIvlsLHkvJrpl7Ln
+va7jgILov5nkupvlt6XkvZzogIXnur/nqIvooqvnrqHnkIblnKjmiYDosJMNCj4gPiAr55qE5bel
+5L2c6ICF5rGg5Lit44CCDQo+ID4gKw0KPiA+ICtjbXdx6K6+6K6h5Yy65YiG5LqG6Z2i5ZCR55So
+5oi355qE5bel5L2c6Zif5YiX77yM5a2Q57O757uf5ZKM6amx5Yqo56iL5bqP5Zyo5LiK6Z2i5o6S
+6Zif5bel5L2c77yMDQo+ID4gK+S7peWPiueuoeeQhuW3peS9nOiAheaxoOWSjOWkhOeQhuaOkumY
+n+W3peS9nOmhueeahOWQjuerr+acuuWItuOAgg0KPiA+ICsNCj4gPiAr5q+P5Liq5Y+v6IO955qE
+Q1BV6YO95pyJ5Lik5Liq5bel5L2c6ICF5rGg77yM5LiA5Liq55So5LqO5q2j5bi455qE5bel5L2c
+6aG577yM5Y+m5LiA5Liq55So5LqO6auYDQo+ID4gK+S8mOWFiOe6p+eahOW3peS9nOmhue+8jOi/
+mOacieS4gOS6m+mineWklueahOW3peS9nOiAheaxoO+8jOeUqOS6juacjeWKoeacque7keWumuW3
+peS9nOmYn+WIl+eahOW3pQ0KPiA+ICvkvZzpobnnm67igJTigJTov5nkupvlkI7lpIfmsaDnmoTm
+lbDph4/mmK/liqjmgIHnmoTjgIINCj4gPiArDQo+ID4gK+W9k+S7luS7rOiupOS4uuWQiOmAguea
+hOaXtuWAme+8jOWtkOezu+e7n+WSjOmpseWKqOeoi+W6j+WPr+S7pemAmui/h+eJueauiueahA0K
+PiA+ICtgYHdvcmtxdWV1ZSBBUElgYCDlh73mlbDliJvlu7rlkozmjpLpmJ/lt6XkvZzpobnjgILk
+u5bku6zlj6/ku6XpgJrov4flnKjlt6XkvZzpmJ/liJfkuIoNCj4gPiAr6K6+572u5qCH5b+X5p2l
+5b2x5ZON5bel5L2c6aG55omn6KGM5pa55byP55qE5p+Q5Lqb5pa56Z2i77yM5LuW5Lus5oqK5bel
+5L2c6aG55pS+5Zyo6YKj6YeM44CC6L+Z5LqbDQo+ID4gK+agh+W/l+WMheaLrOivuOWmgkNQVeWu
+muS9jeOAgeW5tuWPkemZkOWItuOAgeS8mOWFiOe6p+etieetieOAguimgeiOt+W+l+ivpue7huea
+hOamgui/sO+8jOivt+WPgg0KPiA+ICvogIPkuIvpnaLnmoQgYGBhbGxvY193b3JrcXVldWUoKWBg
+IOeahCBBUEkg5o+P6L+w44CCDQo+ID4gKw0KPiA+ICvlvZPkuIDkuKrlt6XkvZzpobnooqvmjpLl
+haXkuIDkuKrlt6XkvZzpmJ/liJfml7bvvIznm67moIflt6XkvZzmsaDlsIbmoLnmja7pmJ/liJfl
+j4LmlbDlkozlt6XkvZzpmJ8NCj4gPiAr5YiX5bGe5oCn56Gu5a6a77yM5bm26KKr6ZmE5Yqg5Yiw
+5bel5L2c5rGg55qE5YWx5Lqr5bel5L2c5YiX6KGo5LiK44CC5L6L5aaC77yM6Zmk6Z2e54m55Yir
+6YeN5YaZ77yMDQo+ID4gK+WQpuWImeS4gOS4que7keWumueahOW3peS9nOmYn+WIl+eahOW3peS9
+nOmhueWwhuiiq+aOkuWcqOS4juWPkei1t+e6v+eoi+i/kOihjOeahENQVeebuOWFs+eahOaZrg0K
+PiA+ICvpgJrmiJbpq5jnuqflt6XkvZzlt6XkvZzogIXmsaDnmoTlt6XkvZzpobnliJfooajkuK3j
+gIINCj4gPiArDQo+ID4gK+WvueS6juS7u+S9leW3peS9nOiAheaxoOeahOWunuaWve+8jOeuoeeQ
+huW5tuWPkeawtOW5s++8iOacieWkmuWwkeaJp+ihjOS4iuS4i+aWh+WkhOS6jua0u+WKqOeKtg0K
+PiA+ICvmgIHvvInmmK/kuIDkuKrph43opoHpl67popjjgILmnIDkvY7msLTlubPmmK/kuLrkuobo
+ioLnnIHotYTmupDvvIzogIzppbHlkozmsLTlubPmmK/mjIfns7vnu5/ooqsNCj4gPiAr5YWF5YiG
+5L2/55So44CCDQo+ID4gKw0KPiA+ICvmr4/kuKrkuI7lrp7pmYVDUFXnu5HlrprnmoR3b3JrZXIt
+cG9vbOmAmui/h+mSqeS9j+iwg+W6puWZqOadpeWunueOsOW5tuWPkeeuoeeQhuOAguavj+W9kw0K
+PiA+ICvkuIDkuKrmtLvliqjnmoTlt6XkvZzogIXooqvllKTphpLmiJbnnaHnnKDml7bvvIzlt6Xk
+vZzogIXmsaDlsLHkvJrlvpfliLDpgJrnn6XvvIzlubbot5/ouKrlvZPliY3lj68NCj4gPiAr6L+Q
+6KGM55qE5bel5L2c552A55qE5pWw6YeP44CC5LiA6Iis5p2l6K+077yM5bel5L2c6aG55LiN5Lya
+5Y2g55SoQ1BV5bm25raI6ICX5b6I5aSa5ZGo5pyf44CC6L+ZDQo+DQo+IOW3peS9nOedgC/ogIUN
+Ck9L77yBDQrlt6XkvZzogIUNCj4NCj4gPiAr5oSP5ZGz552A5L+d5oyB6Laz5aSf55qE5bm25Y+R
+5oCn5Lul6Ziy5q2i5bel5L2c5aSE55CG5YGc5rue5bqU6K+l5piv5pyA5LyY55qE44CC5Y+q6KaB
+Q1BV5LiK5pyJDQo+ID4gK+S4gOS4quaIluWkmuS4quWPr+i/kOihjOeahOW3peS9nOiAhe+8jOW3
+peS9nOiAheaxoOWwseS4jeS8muW8gOWni+aJp+ihjOaWsOeahOW3peS9nO+8jOS9huaYr++8jOW9
+kw0KPiA+ICvmnIDlkI7kuIDkuKrov5DooYznmoTlt6XkvZzogIXov5vlhaXnnaHnnKDnirbmgIHm
+l7bvvIzlroPkvJrnq4vljbPlronmjpLkuIDkuKrmlrDnmoTlt6XkvZzogIXvvIzov5kNCj4gPiAr
+5qC3Q1BV5bCx5LiN5Lya5Zyo5pyJ5b6F5aSE55CG55qE5bel5L2c6aG555uu5pe26Zey572u44CC
+6L+Z5YWB6K645Zyo5LiN5o2f5aSx5omn6KGM5bim5a6955qE5oOFDQo+ID4gK+WGteS4i+S9v+eU
+qOacgOWwkeeahOW3peS9nOiAheOAgg0KPiA+ICsNCj4gPiAr6Zmk5LqGa3RocmVhZHPnmoTlhoXl
+rZjnqbrpl7TlpJbvvIzkv53nlZnnqbrpl7LnmoTlt6XkvZzogIXlubbmsqHmnInlhbbku5bmiJDm
+nKzvvIzmiYDku6VjbXdxDQo+ID4gK+WcqOadgOatu+Wug+S7rOS5i+WJjeS8muS/neeVmeS4gOau
+teaXtumXtOeahOepuumXsuOAgg0KPiA+ICsNCj4gPiAr5a+55LqO6Z2e57uR5a6a55qE5bel5L2c
+6Zif5YiX77yM5ZCO5aSH5rGg55qE5pWw6YeP5piv5Yqo5oCB55qE44CC5Y+v5Lul5L2/55SoDQo+
+ID4gK2BgYXBwbHlfd29ya3F1ZXVlX2F0dHJzKClgYCDkuLrpnZ7nu5Hlrprlt6XkvZzpmJ/liJfl
+iIbphY3oh6rlrprkuYnlsZ7mgKfvvIwNCj4gPiArd29ya3F1ZXVl5bCG6Ieq5Yqo5Yib5bu65LiO
+5bGe5oCn55u45Yy56YWN55qE5ZCO5aSH5bel5L2c6ICF5rGg44CC6LCD6IqC5bm25Y+R5rC05bmz
+55qE6LSj5Lu75ZyoDQo+ID4gK+eUqOaIt+i6q+S4iuOAguS5n+acieS4gOS4quagh+W/l+WPr+S7
+peWwhue7keWumueahHdx5qCH6K6w5Li65b+955Wl5bm25Y+R566h55CG44CCDQo+ID4gK+ivpuaD
+heivt+WPguiAg0FQSemDqOWIhuOAgg0KPiA+ICsNCj4gPiAr5YmN6L+b6L+b5bqm55qE5L+d6K+B
+5L6d6LWW5LqO5b2T6ZyA6KaB5pu05aSa55qE5omn6KGM5LiK5LiL5paH5pe25Y+v5Lul5Yib5bu6
+5bel5L2c6ICF77yM6L+Z5Lmf5pivDQo+ID4gK+mAmui/h+S9v+eUqOaVkeaPtOW3peS9nOiAhead
+peS/neivgeeahOOAguaJgOacieWPr+iDveWcqOWkhOeQhuWGheWtmOWbnuaUtueahOS7o+eggei3
+r+W+hOS4iuS9v+eUqA0KPiA+ICvnmoTlt6XkvZzpobnpg73pnIDopoHlnKh3ceS4iuaOkumYn++8
+jHdx5LiK5L+d55WZ5LqG5LiA5Liq5pWR5o+05bel5L2c6ICF77yM5Lul5L6/5Zyo5YaF5a2Y5pyJ
+5Y6LDQo+ID4gK+WKm+eahOaDheWGteS4i+S4i+aJp+ihjOOAguWQpuWIme+8jOW3peS9nOiAheax
+oOWwseacieWPr+iDveWHuueOsOatu+mUge+8jOetieW+heaJp+ihjOS4iuS4i+aWh+mHig0KPiA+
+ICvmlL7lh7rmnaXjgIINCj4gPiArDQo+ID4gKw0KPiA+ICvlupTnlKjnqIvluo/nvJbnqIvmjqXl
+j6MgKEFQSSkNCj4gPiArPT09PT09PT09PT09PT09PT09PT09PQ0KPiA+ICsNCj4gPiArYGBhbGxv
+Y193b3JrcXVldWUoKWBgIOWIhumFjeS6huS4gOS4qndx44CC5Y6f5p2l55qEIGBgY3JlYXRlXyp3
+b3JrcXVldWUoKWBgDQo+ID4gK+WHveaVsOW3suiiq+W6n+W8g++8jOW5tuiuoeWIkuWIoOmZpOOA
+giBgYGFsbG9jX3dvcmtxdWV1ZSgpYGAg6ZyA6KaB5LiJ5LiqDQo+ID4gK+WPguaVsCAtIGBgQG5h
+bWVgYCAsIGBgQGZsYWdzYGAg5ZKMIGBgQG1heF9hY3RpdmVgYCDjgIINCj4gPiArYGBAbmFtZWBg
+IOaYr3dx55qE5ZCN56ew77yM5aaC5p6c5pyJ55qE6K+d77yM5Lmf55So5L2c5pWR5o+057q/56iL
+55qE5ZCN56ew44CCDQo+ID4gKw0KPiA+ICvkuIDkuKp3ceS4jeWGjeeuoeeQhuaJp+ihjOi1hOa6
+kO+8jOiAjOaYr+S9nOS4uuWJjei/m+i/m+W6puS/neivgeOAgeWGsua0lyhmbHVzaCnlkowNCj4N
+Cj4gZmx1c2gg5Yi35paw77yfDQpmbHVzaDrmtJflubLlh4DvvIzmr5TlpoJmbHVzaCBjYWNoZe+8
+jOWwseaYr+WDj+WGsumprOahtuS4gOagt+WGsua0l+aOieiEj+aVsOaNruOAgg0KQnV0IG1hbnkg
+cGxhY2VzIHRyYW5zbGF0ZSBmbHVzaCBhcyDliLfmlrDvvIxhbmQg5Yi35pawIGlzIGFsc28gYXZh
+aWxhYmxlLg0KSSB3aWxsIHVzZSDliLfmlrANCj4NCj4gPiAr5bel5L2c6aG55bGe5oCn55qE5Z+f
+44CCIGBgQGZsYWdzYGAg5ZKMIGBgQG1heF9hY3RpdmVgYCDmjqfliLbnnYDlt6XkvZwNCj4gPiAr
+6aG55aaC5L2V6KKr5YiG6YWN5omn6KGM6LWE5rqQ44CB5a6J5o6S5ZKM5omn6KGM44CCDQo+ID4g
+Kw0KPiA+ICsNCj4gPiArYGBmbGFnc2BgDQo+ID4gKy0tLS0tLS0tLQ0KPiA+ICsNCj4gPiArYGBX
+UV9VTkJPVU5EYGANCj4gPiArICDmjpLpmJ/liLDpnZ7nu5Hlrpp3ceeahOW3peS9nOmhueeUseeJ
+ueauiueahOW3peS9nOiAheaxoOaPkOS+m+acjeWKoe+8jOi/meS6m+W3peS9nOiAheS4jQ0KPiA+
+ICsgIOe7keWumuWcqOS7u+S9leeJueWumueahENQVeS4iuOAgui/meS9v+W+l3dx6KGo546w5b6X
+5YOP5LiA5Liq566A5Y2V55qE5omn6KGM546v5aKD5o+QDQo+ID4gKyAg5L6b6ICF77yM5rKh5pyJ
+5bm25Y+R566h55CG44CC6Z2e57uR5a6a5bel5L2c6ICF5rGg6K+V5Zu+5bC95b+r5byA5aeL5omn
+6KGM5bel5L2c6aG544CC6Z2eDQo+ID4gKyAg57uR5a6a55qEd3HnibrnibLkuoblsYDpg6jmgKfv
+vIzkvYblnKjku6XkuIvmg4XlhrXkuIvmmK/mnInnlKjnmoTjgIINCj4gPiArDQo+ID4gKyAgKiDp
+ooTorqHlubblj5HmsLTlubPopoHmsYLkvJrmnInlvojlpKfnmoTms6LliqjvvIzkvb/nlKjnu5Hl
+rprnmoR3ceacgOe7iOWPr+iDveS8muWcqOS4jQ0KPiA+ICsgICAg5ZCM55qEQ1BV5LiK5Lqn55Sf
+5aSn6YeP5aSn6YOo5YiG5pyq5L2/55So55qE5bel5L2c6ICF77yM5Zug5Li65Y+R6LW357q/56iL
+5Zyo5LiN5ZCMDQo+ID4gKyAgICDnmoRDUFXkuIrot7PovazjgIINCj4gPiArDQo+ID4gKyAgKiDp
+lb/mnJ/ov5DooYznmoRDUFXlr4bpm4blnovlt6XkvZzotJ/ovb3vvIzlj6/ku6XnlLHns7vnu5/o
+sIPluqblmajmm7Tlpb3lnLDnrqHnkIbjgIINCj4gPiArDQo+ID4gK2BgV1FfRlJFRVpBQkxFYGAN
+Cj4gPiArICDkuIDkuKrlj6/lhrvnu5PnmoR3ceWPguS4juS6huezu+e7n+aaguWBnOaTjeS9nOea
+hOWGu+e7k+mYtuauteOAgndx5LiK55qE5bel5L2c6aG56KKrDQo+ID4gKyAg5o6S56m677yM5Zyo
+6Kej5Ya75LmL5YmN5rKh5pyJ5paw55qE5bel5L2c6aG55byA5aeL5omn6KGM44CCDQo+ID4gKw0K
+PiA+ICtgYFdRX01FTV9SRUNMQUlNYGANCj4gPiArICDmiYDmnInlj6/og73lnKjlhoXlrZjlm57m
+lLbot6/lvoTkuK3kvb/nlKjnmoR3cemDveW/hemhu+iuvue9rui/meS4quagh+W/l+OAguaXoOiu
+uuWGhQ0KPiA+ICsgIOWtmOWOi+WKm+WmguS9le+8jHdx6YO96IO95L+d6K+B6Iez5bCR5pyJ5LiA
+5Liq5omn6KGM5LiK5LiL5paH44CCDQo+ID4gKw0KPiA+ICtgYFdRX0hJR0hQUklgYA0KPiA+ICsg
+IOmrmOS8mOWFiOe6p3dx55qE5bel5L2c6aG555uu6KKr5o6S5Yiw55uu5qCHY3B155qE6auY5LyY
+5YWI57qn5bel5L2c6ICF5rGg5Lit44CC6auYDQo+ID4gKyAg5LyY5YWI57qn55qE5bel5L2c6ICF
+5rGg55Sx5YW35pyJ6L6D6auY57qn5Yir55qE5bel5L2c6ICF57q/56iL5o+Q5L6b5pyN5Yqh44CC
+DQo+ID4gKw0KPiA+ICsgIOivt+azqOaEj++8jOaZrumAmuW3peS9nOiAheaxoOWSjOmrmOS8mOWF
+iOe6p+W3peS9nOiAheaxoOS5i+mXtOW5tuS4jeebuOS6kuW9seWTjeOAguS7lg0KPiA+ICsgIOS7
+rOWQhOiHque7tOaKpOWFtueLrOeri+eahOW3peS9nOiAheaxoO+8jOW5tuWcqOWFtuW3peS9nOiA
+heS5i+mXtOWunueOsOW5tuWPkeeuoeeQhuOAgg0KPiA+ICsNCj4gPiArYGBXUV9DUFVfSU5URU5T
+SVZFYGANCj4gPiArICBDUFXlr4bpm4blnot3ceeahOW3peS9nOmhueWvueW5tuWPkeawtOW5s+ay
+oeaciei0oeeMruOAguaNouWPpeivneivtO+8jOWPr+i/kOihjOeahA0KPiA+ICsgIENQVeWvhumb
+huWei+W3peS9nOmhueS4jeS8mumYu+atouWQjOS4gOW3peS9nOiAheaxoOS4reeahOWFtuS7luW3
+peS9nOmhueW8gOWni+aJp+ihjOOAgg0KPiA+ICsgIOi/meWvueS6jumCo+S6m+mihOiuoeS8muWN
+oOeUqENQVeWRqOacn+eahOe7keWumuW3peS9nOmhueW+iOacieeUqO+8jOi/meagt+Wug+S7rOea
+hA0KPiA+ICsgIOaJp+ihjOWwseS8muWPl+WIsOezu+e7n+iwg+W6puWZqOeahOebkeeuoeOAgg0K
+PiA+ICsNCj4gPiArICDlsL3nrqFDUFXlr4bpm4blnovlt6XkvZzpobnkuI3kvJrlr7nlubblj5Hm
+sLTlubPlgZrlh7rotKHnjK7vvIzkvYblroPku6znmoTmiafooYzlvIANCj4gPiArICDlp4vku43n
+hLblj5fliLDlubblj5HnrqHnkIbnmoTnrqHliLbvvIzlj6/ov5DooYznmoTpnZ5DUFXlr4bpm4bl
+novlt6XkvZzpobnkvJrlu7bov58NCj4gPiArICBDUFXlr4bpm4blnovlt6XkvZzpobnnmoTmiafo
+oYzjgIINCj4gPiArDQo+ID4gKyAg6L+Z5Liq5qCH5b+X5a+55LqO5pyq57uR5a6a55qEd3HmnaXo
+r7TmmK/msqHmnInmhI/kuYnnmoTjgIINCj4gPiArDQo+ID4gK+ivt+azqOaEj++8jOagh+W/lyBg
+YFdRX05PTl9SRUVOVFJBTlRgYCDkuI3lho3lrZjlnKjvvIzlm6DkuLrnjrDlnKjmiYDmnInnmoTl
+t6XkvZwNCj4gPiAr6Zif5YiX6YO95piv5LiN5Y+v6YCG55qE4oCU4oCU5Lu75L2V5bel5L2c6aG5
+6YO95L+d6K+B5Zyo5Lu75L2V5pe26Ze05YaF5pyA5aSa6KKr5pW05Liq57O757uf55qE5LiADQo+
+ID4gK+S4quW3peS9nOiAheaJp+ihjOOAgg0KPiA+ICsNCj4gPiArDQo+ID4gK2BgbWF4X2FjdGl2
+ZWBgDQo+ID4gKy0tLS0tLS0tLS0tLS0tDQo+ID4gKw0KPiA+ICtgYEBtYXhfYWN0aXZlYGAg5Yaz
+5a6a5LqG5q+P5LiqQ1BV5Y+v5Lul5YiG6YWN57uZd3HnmoTlt6XkvZzpobnnmoTmnIDlpKfmiafo
+oYzkuIoNCj4gPiAr5LiL5paH5pWw6YeP44CC5L6L5aaC77yM5aaC5p6cIGBgQG1heF9hY3RpdmXk
+uLoxNmBgIO+8jOavj+S4qkNQVeacgOWkmuWPr+S7peWQjA0KPiA+ICvml7bmiafooYwxNuS4qndx
+55qE5bel5L2c6aG544CCDQo+ID4gKw0KPiA+ICvnm67liY3vvIzlr7nkuo7kuIDkuKrnu5Hlrprn
+moR3ce+8jCBgYEBtYXhfYWN0aXZlYGAg55qE5pyA5aSn6ZmQ5Yi25pivNTEy77yM5b2T5oyHDQo+
+ID4gK+WumuS4ujDml7bkvb/nlKjnmoTpu5jorqTlgLzmmK8yNTbjgILlr7nkuo7pnZ7nu5Hlrprn
+moR3ce+8jOWFtumZkOWItuaYrzUxMuWSjA0KPiA+ICs0ICogYGBudW1fcG9zc2libGVfY3B1cygp
+YGAg5Lit55qE6L6D6auY5YC844CC6L+Z5Lqb5YC86KKr6YCJ5b6X6Laz5aSf6auY77yM5omADQo+
+ID4gK+S7peWug+S7rOS4jeaYr+mZkOWItuaAp+WboOe0oO+8jOWQjOaXtuS8muWcqOWkseaOp+aD
+heWGteS4i+aPkOS+m+S/neaKpOOAgg0KPiA+ICsNCj4gPiAr5LiA5Liqd3HnmoTmtLvliqjlt6Xk
+vZzpobnnmoTmlbDph4/pgJrluLjnlLF3ceeahOeUqOaIt+adpeiwg+iKgu+8jOabtOWFt+S9k+Wc
+sOivtO+8jOaYr+eUseeUqA0KPiA+ICvmiLflnKjlkIzkuIDml7bpl7Tlj6/ku6XmjpLliJflpJrl
+sJHkuKrlt6XkvZzpobnmnaXosIPoioLjgILpmaTpnZ7mnInnibnlrprnmoTpnIDmsYLmnaXmjqfl
+iLbmtLvliqgNCj4gPiAr5bel5L2c6aG555qE5pWw6YeP77yM5ZCm5YiZ5bu66K6u5oyH5a6aIOS4
+uiIwIuOAgg0KPiA+ICsNCj4gPiAr5LiA5Lqb55So5oi35L6d6LWW5LqOU1Qgd3HnmoTkuKXmoLzm
+iafooYzpobrluo/jgIIgYGBAbWF4X2FjdGl2ZWBgIOS4ujHlkowgYGBXUV9VTkJPVU5EYGANCj4g
+PiAr55qE57uE5ZCI55So5p2l5a6e546w6L+Z56eN6KGM5Li644CC6L+Z56eNd3HkuIrnmoTlt6Xk
+vZzpobnnm67mgLvmmK/ooqvmjpLliLDmnKrnu5HlrprnmoTlt6XkvZzmsaANCj4gPiAr5Lit77yM
+5bm25LiU5Zyo5Lu75L2V5pe25YCZ6YO95Y+q5pyJ5LiA5Liq5bel5L2c6aG555uu5aSE5LqO5rS7
+5Yqo54q25oCB77yM5LuO6ICM5a6e546w5LiOU1Qgd3Hnm7gNCj4gPiAr5ZCM55qE5o6S5bqP5bGe
+5oCn44CCDQo+ID4gKw0KPiA+ICvlnKjnm67liY3nmoTlrp7njrDkuK3vvIzkuIrov7DphY3nva7l
+j6rkv53or4HkuobnibnlrppOVU1B6IqC54K55YaF55qEU1TooYzkuLrjgILnm7jlj43vvIwNCj4g
+PiArYGBhbGxvY19vcmRlcmVkX3F1ZXVlKClgYCDlupTor6XooqvnlKjmnaXlrp7njrDlhajns7vn
+u5/nmoRTVOihjOS4uuOAgg0KPiA+ICsNCj4gPiArDQo+ID4gK+aJp+ihjOWcuuaZr+ekuuS+iw0K
+PiA+ICs9PT09PT09PT09PT0NCj4gPiArDQo+ID4gK+S4i+mdoueahOekuuS+i+aJp+ihjOWcuuaZ
+r+ivleWbvuivtOaYjmNtd3HlnKjkuI3lkIzphY3nva7kuIvnmoTooYzkuLrjgIINCj4gPiArDQo+
+ID4gKyDlt6XkvZzpobl3MOOAgXcx44CBdzLooqvmjpLliLDlkIzkuIDkuKpDUFXkuIrnmoTkuIDk
+uKrnu5HlrprnmoR3cSBxMOS4iuOAgncwDQo+ID4gKyDmtojogJdDUFUgNW1z77yM54S25ZCO552h
+55ygMTBtc++8jOeEtuWQjuWcqOWujOaIkOS5i+WJjeWGjeasoea2iOiAl0NQVSA1bXPjgIINCj4g
+PiArDQo+ID4gK+W/veeVpeaJgOacieWFtuS7lueahOS7u+WKoeOAgeW3peS9nOWSjOWkhOeQhuW8
+gOmUgO+8jOW5tuWBh+iuvueugOWNleeahEZJRk/osIPluqbvvIwNCj4gPiAr5LiL6Z2i5piv5LiA
+5Liq6auY5bqm566A5YyW55qE5Y6f5aeLd3HnmoTlj6/og73kuovku7bluo/liJfnmoTniYjmnKzj
+gII6Og0KPiA+ICsNCj4gPiArIFRJTUUgSU4gTVNFQ1MgICAgICAgRVZFTlQNCj4gPiArIDAgICAg
+ICAgICAgIHcwIHN0YXJ0cyBhbmQgYnVybnMgQ1BVDQo+ID4gKyA1ICAgICAgICAgICB3MCBzbGVl
+cHMNCj4gPiArIDE1ICAgICAgICAgIHcwIHdha2VzIHVwIGFuZCBidXJucyBDUFUNCj4gPiArIDIw
+ICAgICAgICAgIHcwIGZpbmlzaGVzDQo+ID4gKyAyMCAgICAgICAgICB3MSBzdGFydHMgYW5kIGJ1
+cm5zIENQVQ0KPiA+ICsgMjUgICAgICAgICAgdzEgc2xlZXBzDQo+ID4gKyAzNSAgICAgICAgICB3
+MSB3YWtlcyB1cCBhbmQgZmluaXNoZXMNCj4gPiArIDM1ICAgICAgICAgIHcyIHN0YXJ0cyBhbmQg
+YnVybnMgQ1BVDQo+ID4gKyA0MCAgICAgICAgICB3MiBzbGVlcHMNCj4gPiArIDUwICAgICAgICAg
+IHcyIHdha2VzIHVwIGFuZCBmaW5pc2hlcw0KPiA+ICsNCj4gPiArQW5kIHdpdGggY213cSB3aXRo
+IGBgQG1heF9hY3RpdmVgYCA+PSAzLCA6Og0KPiA+ICsNCj4gPiArIFRJTUUgSU4gTVNFQ1MgICAg
+ICAgRVZFTlQNCj4gPiArIDAgICAgICAgICAgIHcwIHN0YXJ0cyBhbmQgYnVybnMgQ1BVDQo+ID4g
+KyA1ICAgICAgICAgICB3MCBzbGVlcHMNCj4gPiArIDUgICAgICAgICAgIHcxIHN0YXJ0cyBhbmQg
+YnVybnMgQ1BVDQo+ID4gKyAxMCAgICAgICAgICB3MSBzbGVlcHMNCj4gPiArIDEwICAgICAgICAg
+IHcyIHN0YXJ0cyBhbmQgYnVybnMgQ1BVDQo+ID4gKyAxNSAgICAgICAgICB3MiBzbGVlcHMNCj4g
+PiArIDE1ICAgICAgICAgIHcwIHdha2VzIHVwIGFuZCBidXJucyBDUFUNCj4gPiArIDIwICAgICAg
+ICAgIHcwIGZpbmlzaGVzDQo+ID4gKyAyMCAgICAgICAgICB3MSB3YWtlcyB1cCBhbmQgZmluaXNo
+ZXMNCj4gPiArIDI1ICAgICAgICAgIHcyIHdha2VzIHVwIGFuZCBmaW5pc2hlcw0KPiA+ICsNCj4g
+PiAr5aaC5p6cIGBgQG1heF9hY3RpdmVgYCA9PSAyLCA6Og0KPiA+ICsNCj4gPiArIFRJTUUgSU4g
+TVNFQ1MgICAgICAgRVZFTlQNCj4gPiArIDAgICAgICAgICAgIHcwIHN0YXJ0cyBhbmQgYnVybnMg
+Q1BVDQo+ID4gKyA1ICAgICAgICAgICB3MCBzbGVlcHMNCj4gPiArIDUgICAgICAgICAgIHcxIHN0
+YXJ0cyBhbmQgYnVybnMgQ1BVDQo+ID4gKyAxMCAgICAgICAgICB3MSBzbGVlcHMNCj4gPiArIDE1
+ICAgICAgICAgIHcwIHdha2VzIHVwIGFuZCBidXJucyBDUFUNCj4gPiArIDIwICAgICAgICAgIHcw
+IGZpbmlzaGVzDQo+ID4gKyAyMCAgICAgICAgICB3MSB3YWtlcyB1cCBhbmQgZmluaXNoZXMNCj4g
+PiArIDIwICAgICAgICAgIHcyIHN0YXJ0cyBhbmQgYnVybnMgQ1BVDQo+ID4gKyAyNSAgICAgICAg
+ICB3MiBzbGVlcHMNCj4gPiArIDM1ICAgICAgICAgIHcyIHdha2VzIHVwIGFuZCBmaW5pc2hlcw0K
+PiA+ICsNCj4gPiAr546w5Zyo77yM5oiR5Lus5YGH6K6+dzHlkox3Muiiq+aOkuWIsOS6huS4jeWQ
+jOeahHdxIHEx5LiK77yM6L+Z5Liqd3EgcTENCj4gPiAr5pyJIGBgV1FfQ1BVX0lOVEVOU0lWRWBg
+IOiuvue9rjo6DQo+ID4gKw0KPiA+ICsgVElNRSBJTiBNU0VDUyAgICAgICBFVkVOVA0KPiA+ICsg
+MCAgICAgICAgICAgdzAgc3RhcnRzIGFuZCBidXJucyBDUFUNCj4gPiArIDUgICAgICAgICAgIHcw
+IHNsZWVwcw0KPiA+ICsgNSAgICAgICAgICAgdzEgYW5kIHcyIHN0YXJ0IGFuZCBidXJuIENQVQ0K
+PiA+ICsgMTAgICAgICAgICAgdzEgc2xlZXBzDQo+ID4gKyAxNSAgICAgICAgICB3MiBzbGVlcHMN
+Cj4gPiArIDE1ICAgICAgICAgIHcwIHdha2VzIHVwIGFuZCBidXJucyBDUFUNCj4gPiArIDIwICAg
+ICAgICAgIHcwIGZpbmlzaGVzDQo+ID4gKyAyMCAgICAgICAgICB3MSB3YWtlcyB1cCBhbmQgZmlu
+aXNoZXMNCj4gPiArIDI1ICAgICAgICAgIHcyIHdha2VzIHVwIGFuZCBmaW5pc2hlcw0KPiA+ICsN
+Cj4gPiArDQo+ID4gK+aMh+WNlw0KPiA+ICs9PT09DQo+ID4gKw0KPiA+ICsqIOWmguaenOS4gOS4
+qndx5Y+v6IO95aSE55CG5Zyo5YaF5a2Y5Zue5pS25pyf6Ze05L2/55So55qE5bel5L2c6aG555uu
+77yM6K+35LiNDQo+ID4gKyAg6KaB5b+Y6K6w5L2/55SoIGBgV1FfTUVNX1JFQ0xBSU1gYCDjgILm
+r4/kuKrorr7nva7kuoYNCj4gPiArICBgYFdRX01FTV9SRUNMQUlNYGAg55qEd3Hpg73mnInkuIDk
+uKrkuLrlhbbkv53nlZnnmoTmiafooYznjq/looPjgIINCj4gPiArICDlpoLmnpzlnKjlhoXlrZjl
+m57mlLbov4fnqIvkuK3kvb/nlKjnmoTlpJrkuKrlt6XkvZzpobnkuYvpl7TlrZjlnKjkvp3otZbl
+hbPns7vvvIwNCj4gPiArICDlroPku6zlupTor6XooqvmjpLlnKjkuI3lkIznmoR3ceS4re+8jOav
+j+S4qndx6YO95pyJIGBgV1FfTUVNX1JFQ0xBSU1gYCDjgIINCj4gPiArDQo+ID4gKyog6Zmk6Z2e
+6ZyA6KaB5Lil5qC85o6S5bqP77yM5ZCm5YiZ5rKh5pyJ5b+F6KaB5L2/55SoU1Qgd3HjgIINCj4g
+PiArDQo+ID4gKyogVemZpOmdnuacieeJueauiumcgOimge+8jOW7uuiuruS9v+eUqDDkvZzkuLpA
+bWF4X2FjdGl2ZeOAguWcqOWkp+WkmuaVsOS9v+eUqOaDhQ0KPg0KPiBVID8NCmRlbGV0ZQ0Kfj5f
+PH4NCj4NCj4gVGhhbmtzDQo+IEFsZXgNCj4NCj4gPiArICDlhrXkuIvvvIzlubblj5HmsLTlubPp
+gJrluLjkv53mjIHlnKjpu5jorqTpmZDliLbkuYvkuIvjgIINCj4gPiArDQo+ID4gKyog5LiA5Liq
+d3HkvZzkuLrliY3ov5vov5vluqbkv53or4HvvIhXUV9NRU1fUkVDTEFJTe+8jOWGsua0l++8iGZs
+dXNo77yJ5ZKM5belDQo+ID4gKyAg5L2c6aG55bGe5oCn55qE5Z+f44CC5LiN5raJ5Y+K5YaF5a2Y
+5Zue5pS255qE5bel5L2c6aG577yM5LiN6ZyA6KaB5L2c5Li65bel5L2c6aG557uE55qE5LiADQo+
+ID4gKyAg6YOo5YiG6KKr5Yi35paw77yM5Lmf5LiN6ZyA6KaB5Lu75L2V54m55q6K5bGe5oCn77yM
+5Y+v5Lul5L2/55So57O757uf5Lit55qE5LiA5Liqd3HjgILkvb8NCj4gPiArICDnlKjkuJPnlKh3
+ceWSjOezu+e7n3dx5Zyo5omn6KGM54m55oCn5LiK5rKh5pyJ5Yy65Yir44CCDQo+ID4gKw0KPiA+
+ICsqIOmZpOmdnuW3peS9nOmhuemihOiuoeS8mua2iOiAl+Wkp+mHj+eahENQVeWRqOacn++8jOWQ
+puWImeS9v+eUqOe7keWumueahHdx6YCa5bi45piv5pyJDQo+ID4gKyAg55uK55qE77yM5Zug5Li6
+d3Hmk43kvZzlkozlt6XkvZzpobnmiafooYzkuK3nmoTlrprkvY3msLTlubPmj5Dpq5jkuobjgIIN
+Cj4gPiArDQo+ID4gKw0KPiA+ICvosIPor5UNCj4gPiArPT09PQ0KPiA+ICsNCj4gPiAr5Zug5Li6
+5bel5L2c5Ye95pWw5piv55Sx6YCa55So55qE5bel5L2c6ICF57q/56iL5omn6KGM55qE77yM5omA
+5Lul6ZyA6KaB5LiA5Lqb5omL5q615p2l5o+t56S65LiA5Lqb6KGM5Li65LiN56uv55qE5bel5L2c
+6Zif5YiX55So5oi344CCDQo+ID4gKw0KPiA+ICvlt6XkvZzogIXnur/nqIvlnKjov5vnqIvliJfo
+oajkuK3mmL7npLrkuLo6IDo6DQo+ID4gKw0KPiA+ICsgIHJvb3QgICAgICA1NjcxICAwLjAgIDAu
+MCAgICAgIDAgICAgIDAgPyAgICAgICAgUyAgICAxMjowNyAgIDA6MDAgW2t3b3JrZXIvMDoxXQ0K
+PiA+ICsgIHJvb3QgICAgICA1NjcyICAwLjAgIDAuMCAgICAgIDAgICAgIDAgPyAgICAgICAgUyAg
+ICAxMjowNyAgIDA6MDAgW2t3b3JrZXIvMToyXQ0KPiA+ICsgIHJvb3QgICAgICA1NjczICAwLjAg
+IDAuMCAgICAgIDAgICAgIDAgPyAgICAgICAgUyAgICAxMjoxMiAgIDA6MDAgW2t3b3JrZXIvMDow
+XQ0KPiA+ICsgIHJvb3QgICAgICA1Njc0ICAwLjAgIDAuMCAgICAgIDAgICAgIDAgPyAgICAgICAg
+UyAgICAxMjoxMyAgIDA6MDAgW2t3b3JrZXIvMTowXQ0KPiA+ICsNCj4gPiAr5aaC5p6ca3dvcmtl
+cnPlpLHmjqfkuobvvIjkvb/nlKjkuoblpKrlpJrnmoRjcHXvvInvvIzmnInkuKTnsbvlj6/og73n
+moTpl67popg6DQo+ID4gKw0KPiA+ICsgICAgIDEuIOato+WcqOi/hemAn+iwg+W6pueahOS6i+aD
+hQ0KPiA+ICsgICAgIDIuIOS4gOS4qua2iOiAl+Wkp+mHj2NwdeWRqOacn+eahOW3peS9nOmhueOA
+gg0KPiA+ICsNCj4gPiAr56ys5LiA5Liq5Y+v5Lul55So6L+96Liq55qE5pa55byP6L+b6KGM6Lef
+6LiqOiA6Og0KPiA+ICsNCj4gPiArICAgICAkIGVjaG8gd29ya3F1ZXVlOndvcmtxdWV1ZV9xdWV1
+ZV93b3JrID4gL3N5cy9rZXJuZWwvZGVidWcvdHJhY2luZy9zZXRfZXZlbnQNCj4gPiArICAgICAk
+IGNhdCAvc3lzL2tlcm5lbC9kZWJ1Zy90cmFjaW5nL3RyYWNlX3BpcGUgPiBvdXQudHh0DQo+ID4g
+KyAgICAgKHdhaXQgYSBmZXcgc2VjcykNCj4gPiArICAgICBeQw0KPiA+ICsNCj4gPiAr5aaC5p6c
+5pyJ5LuA5LmI5Lic6KW/5Zyo5bel5L2c6Zif5YiX5LiK5b+Z552A5YGa5b6q546v77yM5a6D5bCx
+5Lya5Li75a+86L6T5Ye677yM5Y+v5Lul55So5bel5L2c6aG55Ye95pWw56Gu5a6a6L+d6KeE6ICF
+44CCDQo+ID4gKw0KPiA+ICvlr7nkuo7nrKzkuoznsbvpl67popjvvIzlupTor6Xlj6/ku6Xlj6rm
+o4Dmn6Xov53op4Tlt6XkvZzogIXnur/nqIvnmoTloIbmoIjot5/ouKrjgIIgOjoNCj4gPiArDQo+
+ID4gKyAgICAgJCBjYXQgL3Byb2MvVEhFX09GRkVORElOR19LV09SS0VSL3N0YWNrDQo+ID4gKw0K
+PiA+ICvlt6XkvZzpobnlh73mlbDlnKjloIbmoIjov73ouKrkuK3lupTor6XmmK/lvq7kuI3otrPp
+gZPnmoTjgIINCj4gPiArDQo+ID4gKw0KPiA+ICvlhoXmoLjlhoXogZTmlofmoaPlj4LogIMNCj4g
+PiArPT09PT09PT09PT09PT09PQ0KPiA+ICsNCj4gPiArLi4ga2VybmVsLWRvYzo6IGluY2x1ZGUv
+bGludXgvd29ya3F1ZXVlLmgNCj4gPiArDQo+ID4gKy4uIGtlcm5lbC1kb2M6OiBrZXJuZWwvd29y
+a3F1ZXVlLmMNCj4gPg0KVGhhbmsgeW91IGZvciB5b3VyIHJldmlldyENCg0KVGhhbmtzLA0KDQpZ
+YW50ZW5nDQo=
