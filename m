@@ -2,141 +2,266 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EA9C433B4
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 04:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81705C433B4
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 05:31:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E6B161435
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 04:38:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D97A61458
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 05:31:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbhEHEjz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 May 2021 00:39:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45166 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229467AbhEHEjy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 00:39:54 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17CF6C061574;
-        Fri,  7 May 2021 21:38:53 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id m37so8824294pgb.8;
-        Fri, 07 May 2021 21:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mGk0kVg1R4M2lDrV1XZ1qOw5t+AQ596A0i9SpPo96oQ=;
-        b=iD46IKEY6zTfDT4bs9KpSFt3SisfygC8LQkkATDzrCOd50sHRxg09x9EiZmrxu6W3c
-         GLDXxP4rCAHk06QAjGhtQ6LDVY6/t+mTr7hQxMJJYFoA9EgfZq1PRPQ/FxMIziB5kRqn
-         TEsRxEXLL3cmXnLA5DY5kf6Y5vQ2PbzQRtGcMUkvRzREvEfcpMrMpsJq6zGOkGyWalBN
-         xXTVHOX+jS1Iq29TNKkeUpSkGwT7+HmoqzlGpEbQWqLwxMEmsWzD8/PeXgou5pF9ca3L
-         t90MlmeD68tj92C3hI2XBCcQGXXYpN+O5oD3rcMHLnWrdvRhigZl2CTJTJ+fWFFrLn1t
-         JUzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mGk0kVg1R4M2lDrV1XZ1qOw5t+AQ596A0i9SpPo96oQ=;
-        b=idSjjGHsT34p5DPoq3kXeUmRgyfgYNGCxbSPfgXaNfk0UZKPGL2g5yHsDtbzYdS5Rj
-         V1tZVFDBokeyzFiMM5E3U/NPOdUe4ddXDQlUJQDe2VmStM2qjsJeixG/dbf98PMx6C9U
-         lVCnqIRK1TC6dFfXhEpF8Rtx9j/fCK9LFH0mqnAa/PMXKRy09uxHsoQ7SwZy+8JdeTfm
-         X3vCfP0tgvJsTWm3jz0T2D2Q8/GJc2EaDP95NkrZjnNMFEos0RQBot6+TEkhwJEk2CrG
-         p+3EDK/zkGTUBK6IyHlYzzxOQSPuJLfS+fXgWy9dbPpIP53fuVFmBkPnI7Kxz2CIqtOo
-         fO4Q==
-X-Gm-Message-State: AOAM532TtpgEn0OKBKlvQJdtRf8MAs5xmwv43csOxt4XOPI1cIggeWaR
-        FLLR1zH0CnW4xvYCVrjRsHxkpHxhZu7vndWfgEs=
-X-Google-Smtp-Source: ABdhPJw7eJ67syCIfdLg7HJ8JUfNMhxHCscfv7dPVwMV5rOPlzPY50SrTQfsyRtem5jKQxGz4Q+93qUGFS17IVqE+Ik=
-X-Received: by 2002:a62:aa04:0:b029:28e:f2ee:f7a8 with SMTP id
- e4-20020a62aa040000b029028ef2eef7a8mr14304317pff.62.1620448732515; Fri, 07
- May 2021 21:38:52 -0700 (PDT)
+        id S229946AbhEHFcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 May 2021 01:32:20 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:14034 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229841AbhEHFcU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 8 May 2021 01:32:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=t9La0M2XJb2kTnI64idgHWHTOEexiHTqeqTIy
+        9fUt+w=; b=n5JYkh0eJcu68SugRg4qq3Q6sKfiEfW3RicFa4LgwVro4P8Z5qFbk
+        mR8iBG/0Y+epK5PL8YP2JkLA8umY7FfCRVn9ijTTxeSA8n4gfROriSL9j58A4B3I
+        TGZmHoSew4RtqyEDbb+O9yrCMVZspe0mjPMoyL/ATJac/T9MIvtDx0=
+Received: from bobwxc.top (unknown [120.238.248.9])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgB3PkEaIpZg0PAeAA--.13433S2;
+        Sat, 08 May 2021 13:31:08 +0800 (CST)
+Date:   Sat, 8 May 2021 13:31:06 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com,
+        huangjianghui@uniontech.com
+Subject: Re: [PATCH v2 3/3] docs/zh_CN: add parisc registers.rst translation
+Message-ID: <20210508053105.GA7017@bobwxc.top>
+References: <cover.1620284974.git.siyanteng@loongson.cn>
+ <13db946725e43f1b490142f745e03ec63a7cec3b.1620284974.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-References: <20210508030741.82655-1-wanjiabing@vivo.com>
-In-Reply-To: <20210508030741.82655-1-wanjiabing@vivo.com>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Sat, 8 May 2021 12:38:43 +0800
-Message-ID: <CAMU9jJo47KgsoCaCm-+hRjBgAbqkTDvTkZmjwWA_PC_F8nhRSQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Remove obsolete translation file
-To:     Wan Jiabing <wanjiabing@vivo.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kael_w@yeah.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <13db946725e43f1b490142f745e03ec63a7cec3b.1620284974.git.siyanteng@loongson.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgB3PkEaIpZg0PAeAA--.13433S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3GF13uF1fJw45ZFy8tF1fJFb_yoW3Gw43pr
+        n3Kr97G3W8AryUAr47Gr18Wr18Cr1UGF4DA34fJr18Jr18Cr1UKr4UtFy8GrW7GryUAFyU
+        ArWYgr10kr1UCw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUqvb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
+        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
+        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMx
+        AIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+        67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+        IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+        14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
+        W8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07Un189U
+        UUUU=
+X-Originating-IP: [120.238.248.9]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-UmV2aWV3ZWQtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCg0KV2FuIEpp
-YWJpbmcgPHdhbmppYWJpbmdAdml2by5jb20+IOS6jjIwMjHlubQ15pyIOOaXpeWRqOWFrSDkuIrl
-jYgxMTowOOWGmemBk++8mg0KPg0KPiBUaGlzIHRyYW5zbGF0aW9uIGZpbGUgd2FzIHJlcGxhY2Vk
-IGJ5DQo+ICAgIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FkbWluLWd1aWRlL3Nl
-Y3VyaXR5LWJ1Z3MucnN0DQo+IHdoaWNoIHdhcyBjcmVhdGVkIGluIGNvbW1pdCAyZDE1MzU3MTAw
-M2IgKCJkb2NzL3poX0NOOiBBZGQNCj4gemhfQ04vYWRtaW4tZ3VpZGUvc2VjdXJpdHktYnVncy5y
-c3QiKS4NCj4gVGhpcyBpcyBhIHRyYW5zbGF0aW9uIGxlZnQgb3ZlciBmcm9tIGhpc3RvcnkuIFJl
-bW92ZSBpdC4NCj4NCj4gU2lnbmVkLW9mZi1ieTogV2FuIEppYWJpbmcgPHdhbmppYWJpbmdAdml2
-by5jb20+DQo+IC0tLQ0KPiAgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vU2VjdXJp
-dHlCdWdzIHwgNTAgLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDUwIGRl
-bGV0aW9ucygtKQ0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL3poX0NOL1NlY3VyaXR5QnVncw0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90
-cmFuc2xhdGlvbnMvemhfQ04vU2VjdXJpdHlCdWdzIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
-bnMvemhfQ04vU2VjdXJpdHlCdWdzDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRl
-eCAyZDBmZmZkMTIyY2UuLjAwMDAwMDAwMDAwMA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi9TZWN1cml0eUJ1Z3MNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSw1MCAr
-MCwwIEBADQo+IC1DaGluZXNlIHRyYW5zbGF0ZWQgdmVyc2lvbiBvZiBEb2N1bWVudGF0aW9uL2Fk
-bWluLWd1aWRlL3NlY3VyaXR5LWJ1Z3MucnN0DQo+IC0NCj4gLUlmIHlvdSBoYXZlIGFueSBjb21t
-ZW50IG9yIHVwZGF0ZSB0byB0aGUgY29udGVudCwgcGxlYXNlIGNvbnRhY3QgdGhlDQo+IC1vcmln
-aW5hbCBkb2N1bWVudCBtYWludGFpbmVyIGRpcmVjdGx5LiAgSG93ZXZlciwgaWYgeW91IGhhdmUg
-YSBwcm9ibGVtDQo+IC1jb21tdW5pY2F0aW5nIGluIEVuZ2xpc2ggeW91IGNhbiBhbHNvIGFzayB0
-aGUgQ2hpbmVzZSBtYWludGFpbmVyIGZvcg0KPiAtaGVscC4gIENvbnRhY3QgdGhlIENoaW5lc2Ug
-bWFpbnRhaW5lciBpZiB0aGlzIHRyYW5zbGF0aW9uIGlzIG91dGRhdGVkDQo+IC1vciBpZiB0aGVy
-ZSBpcyBhIHByb2JsZW0gd2l0aCB0aGUgdHJhbnNsYXRpb24uDQo+IC0NCj4gLUNoaW5lc2UgbWFp
-bnRhaW5lcjogSGFycnkgV2VpIDxoYXJyeXhpeW91QGdtYWlsLmNvbT4NCj4gLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LQ0KPiAtRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9zZWN1cml0eS1idWdzLnJzdCDnmoTkuK3m
-lofnv7vor5ENCj4gLQ0KPiAt5aaC5p6c5oOz6K+E6K665oiW5pu05paw5pys5paH55qE5YaF5a65
-77yM6K+355u05o6l6IGU57O75Y6f5paH5qGj55qE57u05oqk6ICF44CC5aaC5p6c5L2g5L2/55So
-6Iux5paHDQo+IC3kuqTmtYHmnInlm7Dpmr7nmoTor53vvIzkuZ/lj6/ku6XlkJHkuK3mlofniYjn
-u7TmiqTogIXmsYLliqnjgILlpoLmnpzmnKznv7vor5Hmm7TmlrDkuI3lj4rml7bmiJbogIXnv7sN
-Cj4gLeivkeWtmOWcqOmXrumimO+8jOivt+iBlOezu+S4reaWh+eJiOe7tOaKpOiAheOAgg0KPiAt
-DQo+IC3kuK3mlofniYjnu7TmiqTogIXvvJog6LS+5aiB5aiBIEhhcnJ5IFdlaSA8aGFycnl4aXlv
-dUBnbWFpbC5jb20+DQo+IC3kuK3mlofniYjnv7vor5HogIXvvJog6LS+5aiB5aiBIEhhcnJ5IFdl
-aSA8aGFycnl4aXlvdUBnbWFpbC5jb20+DQo+IC3kuK3mlofniYjmoKHor5HogIXvvJog6LS+5aiB
-5aiBIEhhcnJ5IFdlaSA8aGFycnl4aXlvdUBnbWFpbC5jb20+DQo+IC0NCj4gLQ0KPiAt5Lul5LiL
-5Li65q2j5paHDQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLUxpbnV45YaF5qC45byA5Y+R6ICF6K6k5Li6
-5a6J5YWo6Z2e5bi46YeN6KaB44CC5Zug5q2k77yM5oiR5Lus5oOz6KaB55+l6YGT5b2T5LiA5Liq
-5pyJ5YWz5LqODQo+IC3lronlhajnmoTmvI/mtJ7ooqvlj5HnjrDnmoTml7blgJnvvIzlubbkuJTl
-roPlj6/og73kvJrooqvlsL3lv6vnmoTkv67lpI3miJbogIXlhazlvIDjgILor7fmiorov5nkuKrl
-ronlhagNCj4gLea8j+a0nuaKpeWRiue7mUxpbnV45YaF5qC45a6J5YWo5Zui6Zif44CCDQo+IC0N
-Cj4gLTEpIOiBlOezuw0KPiAtDQo+IC1saW51eOWGheaguOWuieWFqOWboumYn+WPr+S7pemAmui/
-h2VtYWlsPHNlY3VyaXR5QGtlcm5lbC5vcmc+5p2l6IGU57O744CC6L+Z5pivDQo+IC3kuIDnu4Tn
-i6znq4vnmoTlronlhajlt6XkvZzkurrlkZjvvIzlj6/ku6XluK7liqnmlLnlloTmvI/mtJ7miqXl
-kYrlubbkuJTlhazluIPlkozlj5bmtojkuIDkuKrkv67lpI3jgILlrokNCj4gLeWFqOWboumYn+ac
-ieWPr+iDveS8muS7jumDqOWIhueahOe7tOaKpOiAhemCo+mHjOW8lei/m+mineWklueahOW4ruWK
-qeadpeS6huino+W5tuS4lOS/ruWkjeWuieWFqOa8j+a0nuOAgg0KPiAt5b2T6YGH5Yiw5Lu75L2V
-5ryP5rSe77yM5omA6IO95o+Q5L6b55qE5L+h5oGv6LaK5aSa5bCx6LaK6IO96K+K5pat5ZKM5L+u
-5aSN44CC5aaC5p6c5L2g5LiN5riF5qWa5LuA5LmIDQo+IC3mmK/mnInluK7liqnnmoTkv6Hmga/v
-vIzpgqPlsLHor7fph43muKnkuIDkuIthZG1pbi1ndWlkZS9yZXBvcnRpbmctYnVncy5yc3Tmlofk
-u7bkuK3nmoTmpoLov7Dov4fnqIvjgILku7sNCj4gLeS9leaUu+WHu+aAp+eahOS7o+eggemDveaY
-r+mdnuW4uOacieeUqOeahO+8jOacque7j+aKpeWRiuiAheeahOWQjOaEj+S4jeS8muiiq+WPlua2
-iO+8jOmZpOmdnuWug+W3sue7jw0KPiAt6KKr5YWs5biD5LqO5LyX44CCDQo+IC0NCj4gLTIpIOWF
-rOW8gA0KPiAtDQo+IC1MaW51eOWGheaguOWuieWFqOWboumYn+eahOWul+aXqOWwseaYr+WSjOa8
-j+a0nuaPkOS6pOiAheS4gOi1t+WkhOeQhua8j+a0nueahOino+WGs+aWueahiOebtA0KPiAt5Yiw
-5YWs5byA44CC5oiR5Lus5Zac5qyi5bC95b+r5Zyw5a6M5YWo5YWs5byA5ryP5rSe44CC5b2T5LiA
-5Liq5ryP5rSe5oiW6ICF5L+u5aSN6L+Y5rKh5pyJ6KKr5a6M5YWo5Zyw55CGDQo+IC3op6PvvIzo
-p6PlhrPmlrnmoYjmsqHmnInpgJrov4fmtYvor5XmiJbogIXkvpvlupTllYbljY/osIPvvIzlj6/k
-u6XlkIjnkIblnLDlu7bov5/lhazlvIDjgILnhLbogIzvvIzmiJHku6wNCj4gLeacn+acm+i/meS6
-m+W7tui/n+WwveWPr+iDveeahOefreS6m++8jOaYr+WPr+aVsOeahOWHoOWkqe+8jOiAjOS4jeaY
-r+WHoOS4quaYn+acn+aIluiAheWHoOS4quaciOOAguWFrOW8gA0KPiAt5pel5pyf5piv6YCa6L+H
-5a6J5YWo5Zui6Zif5ZKM5ryP5rSe5o+Q5L6b6ICF5Lul5Y+K5L6b5bqU5ZWG5rS96LCI5ZCO55qE
-57uT5p6c44CC5YWs5byA5pe26Ze06KGo5piv5LuO5b6IDQo+IC3nn63vvIjnibnmrornmoTvvIzl
-roPlt7Lnu4/ooqvlhazkvJfmiYDnn6XpgZPvvInliLDlh6DkuKrmmJ/mnJ/jgILkvZzkuLrkuIDk
-uKrln7rmnKznmoTpu5jorqTmlL/nrZbvvIzmiJENCj4gLeS7rOaJgOacn+acm+mAmuefpeWFrOS8
-l+eahOaXpeacn+aYrzflpKnnmoTlronmjpLjgIINCj4gLQ0KPiAtMykg5L+d5a+G5Y2P6K6uDQo+
-IC0NCj4gLUxpbnV45YaF5qC45a6J5YWo5Zui6Zif5LiN5piv5LiA5Liq5q2j5byP55qE5Zui5L2T
-77yM5Zug5q2k5LiN6IO95Yqg5YWl5Lu75L2V55qE5L+d5a+G5Y2P6K6u44CCDQo+IC0tDQo+IDIu
-MjAuMQ0KPg0K
+On Fri, May 07, 2021 at 06:07:05PM +0800, Yanteng Si wrote:
+> This patch translates Documentation/parisc/registers.rst into Chinese.
+> 
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/parisc/index.rst       |   2 +-
+>  .../translations/zh_CN/parisc/registers.rst   | 153 ++++++++++++++++++
+>  2 files changed, 154 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/parisc/registers.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/parisc/index.rst
+> index b913d664e735..a47454ebe32e 100644
+> --- a/Documentation/translations/zh_CN/parisc/index.rst
+> +++ b/Documentation/translations/zh_CN/parisc/index.rst
+> @@ -14,10 +14,10 @@ PA-RISC体系架构
+>     :maxdepth: 2
+>  
+>     debugging
+> +   registers
+>  
+>  Todolist:
+>  
+> -   registers
+>     features
+>  
+>  .. only::  subproject and html
+> diff --git a/Documentation/translations/zh_CN/parisc/registers.rst b/Documentation/translations/zh_CN/parisc/registers.rst
+> new file mode 100644
+> index 000000000000..ecae1b079aec
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/parisc/registers.rst
+> @@ -0,0 +1,153 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/parisc/registers.rst
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_parisc_registers:
+> +
+> +=========================
+> +Linux/PA-RISC的寄存器用法
+> +=========================
+> +
+> +[ 用星号表示目前尚未实现的计划用途。 ]
+> +
+> +ABI约定的通用寄存器
+> +===================
+> +
+> +控制寄存器
+> +----------
+> +
+> +============================    =================================
+> +CR 0 (恢复计数器)               用于ptrace
+> +CR 1-CR 7(无定义)               未使用
+> +CR 8 (Protection ID)            每进程值*
+> +CR 9, 12, 13 (PIDS)             未使用
+> +CR10 (CCR)                      FPU延迟保存*
+> +CR11                            按照ABI的规定（SAR）
+> +CR14 (中断向量)                 初始化为 fault_vector
+> +CR15 (EIEM)                     所有位初始化为1*
+> +CR16 (间隔计时器)               读取周期数/写入开始时间间隔计时器
+> +CR17-CR22                       中断参数
+> +CR19                            中断指令寄存器
+> +CR20                            中断空间寄存器
+> +CR21                            中断偏移量寄存器
+> +CR22                            中断 PSW
+> +CR23 (EIRR)                     读取未决中断/写入清除位
+> +CR24 (TR 0)                     内核空间页目录指针
+> +CR25 (TR 1)                     用户空间页目录指针
+> +CR26 (TR 2)                     不使用
+> +CR27 (TR 3)                     线程描述符指针
+> +CR28 (TR 4)                     不使用
+> +CR29 (TR 5)                     不使用
+> +CR30 (TR 6)                     当前 / 0
+> +CR31 (TR 7)                     临时寄存器，在不同地方使用
+> +============================    =================================
+> +
+> +空间寄存器（内核模式）
+> +----------------------
+> +
+> +========                        ==============================
+> +SR0                             临时空间寄存器
+> +SR4-SR7                         设置为0
+> +SR1                             临时空间寄存器
+> +SR2                             内核不应该破坏它
+> +SR3                             用于用户空间访问（当前进程）
+> +========                        ==============================
+> +
+> +空间寄存器（用户模式）
+> +----------------------
+> +
+> +========                        ============================
+> +SR0                             临时空间寄存器
+> +SR1                             临时空间寄存器
+> +SR2                             保存Linux gateway page的空间
+> +SR3                             在内核中保存用户地址空间的值
+> +SR4-SR7                         定义了用户/内核的短地址空间
+> +========                        ============================
+> +
+> +
+> +处理器状态字
+> +------------
+> +
+> +======================          ================================================
+> +W （64位地址）                  0
+> +E （小尾端）                    0
+> +S （安全间隔计时器）            0
+> +T （产生分支陷阱）              0
+> +H （高特权级陷阱）              0
+> +L （低特权级陷阱）              0
+> +N （撤销下一条指令）            被C代码使用
+> +X （数据存储中断禁用）          0
+> +B （产生分支）                  被C代码使用
+> +C （代码地址转译）              1, 在执行实模式代码时为0
+> +V （除法步长校正）              被C代码使用
+> +M （HPMC 掩码）                 0, 在执行HPMC操作*时为1
+> +C/B （进/借 位）                被C代码使用
+> +O （有序引用）                  1*
+> +F （性能监视器）                0
+> +R （回收计数器陷阱）            0
+> +Q （收集中断状态）              1 （在rfi之前的代码中为0）
+> +P （保护标识符）                1*
+> +D （数据地址转译）              1, 在执行实模式代码时为0
+> +I （外部中断掩码）              由cli()/sti()宏使用。
+> +======================          ================================================
+> +
+> +“隐形”寄存器（影子寄存器）
+> +---------------------------
+> +
+> +=============                   ===================
+> +PSW W 默认值                    0
+> +PSW E 默认值                    0
+> +影子寄存器                      被中断处理代码使用
+> +TOC启用位                       1
+> +=============                   ===================
+> +
+> +----------------------------------------------------------
+> +
+> +PA-RISC架构定义了7个寄存器作为“影子寄存器”。这些寄存器在
+> +RETURN FROM INTERRUPTION AND RESTORE指令中使用，通过消
+> +除中断处理程序中对一般寄存器（GR）的保存和恢复的需要来减
+> +少状态保存和恢复时间。影子寄存器是GRs 1, 8, 9, 16, 17,
+> +24和25。
+> +
+> +-------------------------------------------------------------------------
+> +
+> +寄存器使用说明，最初由约翰-马文John Marvin提供，并由Randolph Chung提供一些补充说明。
+                         ^^^^^^^^^
+
+> +
+> +对于通用寄存器:
+> +
+> +r1,r2,r19-r26,r28,r29 & r31可以在不保存它们的情况下被使用。当然，如果你
+> +关心它们，在调用另一个程序之前，你也需要保存它们。上面的一些寄存器确实
+> +有特殊的含义，你应该注意一下:
+> +
+> +    r1:
+> +       addil指令是硬性规定将其结果放在r1中，所以如果你使用这条指令要
+> +       注意这点。
+> +
+> +    r2:
+> +       这就是返回指针。一般来说，你不想使用它，因为你需要这个指针来返
+> +       回给你的调用者。然而，它与这组寄存器组合在一起，因为调用者不能
+> +       依赖你返回时的值是相同的，也就是说，你可以将r2复制到另一个寄存
+> +       器，并在作废r2后通过该寄存器返回，这应该不会给调用程序带来问题。
+> +
+> +    r19-r22:
+> +       这些通常被认为是临时寄存器。
+> +       请注意，在64位中它们是arg7-arg4。
+> +
+> +    r23-r26:
+> +       这些是arg3-arg0，也就是说，如果你不再关心传入的值，你可以使用
+> +       它们。
+> +
+> +    r28,r29:
+> +       这俩是ret0和ret1。它们是你传入返回值的地方。r28是主返回值。当返回
+> +       小结构体时，r29也可以用来将数据传回给调用程序。
+> +
+> +    r30:
+> +       栈指针
+> +
+> +    r31:
+> +       ble指令将返回指针放在这里。
+> +
+> +
+
+I've specifically reminded you that there's no need to change the indentation
+of the next paragraph 😂.
+
+> +       r3-r18,r27,r30需要被保存和恢复。r3-r18只是一般用途的寄存器。
+> +       r27是数据指针，用来使对全局变量的引用更容易。r30是栈指针。
+> -- 
+> 2.27.0
+
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+
+Thanks,
+Wu X.C
+
