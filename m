@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A420C433B4
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 22:25:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49E80C433B4
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 22:42:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3D2761402
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 22:25:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D71E6100C
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 22:42:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229549AbhEHW0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 May 2021 18:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49840 "EHLO
+        id S229631AbhEHWnX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 May 2021 18:43:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbhEHW0x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 18:26:53 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9C2C061574
-        for <linux-doc@vger.kernel.org>; Sat,  8 May 2021 15:25:51 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id z9so17856047lfu.8
-        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 15:25:51 -0700 (PDT)
+        with ESMTP id S229549AbhEHWnV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 18:43:21 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70C6BC06175F
+        for <linux-doc@vger.kernel.org>; Sat,  8 May 2021 15:42:19 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id w15so16127182ljo.10
+        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 15:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=EHc9UIBjTxYwQ2qdPehUPMXva9JHKCzKPwFeTF9Fa94=;
-        b=heC0caQARc4D7+OqUNzmbrsEYq2uK5KdJ/cWF8iq0+1cYFFdyg+INwvRb25pkTTOsr
-         7x7TQNNF36nD2Gmf+fvnO9HRiTdBVsNWjLMZ5jQJk1oktUnPxFyM43QdMrl0YfvfSk9Y
-         k9cDINYHtih4EAW+qlMGno1XJVtz6+rOIKDt4=
+        bh=8qvrf78C1VckxwN+Rd5iRKXM/TVBAx3SQ0yt8T9W1XI=;
+        b=DHL714aYp4X3y/ZDPD/BxJq1zv4WKtKia+ktMgIzEElXklJlzicJbZPsvSVxT/1xq/
+         ll2tgIA7+11guksgQhLfWHypKFmuq96HS2x73V3P8fR1NgWiz+KeFKOCZmlgoTLzSEA6
+         tLX8U9qAEO26/nlzd5qfUVlzthZNMMtHZNWBQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=EHc9UIBjTxYwQ2qdPehUPMXva9JHKCzKPwFeTF9Fa94=;
-        b=h1TdsNLe5WcvbS8v07pO7gxYUl0I7n5YmdXLOdh5Fm0n1e9YY7qNDX45Y2Zux3Nbhx
-         aufo2aTbp0hF7AEud9CoUqTbbXu+7OKri5Px34WujKHKyh4ZRZmTQLQjxGiBxRWTUszY
-         f02OPjVaJerta7eebgKj0qOFEz4L8IN3FnIKqgL9P/5/JS6yUAXlcCDJvd82AMCUwxL4
-         HQxUgVdeSvuTUhyYXjk1DLKvm+PUxpv5GORKTyMND304hcOar1kxiQZY9KIg+oPq3+1q
-         pNV5vcCOki5v93bssRecfdpmROukwXGk2iQxmqtCdivb7aMJJixk8H1kQdRbpcQDK14J
-         QBsQ==
-X-Gm-Message-State: AOAM531Duk+1wnO9sRj2U2ATi6oOU0FhljV0fyxfixf1AgtINulTy8hu
-        SDa/r6skcxG7TnarwvjqC1eKujKvmKhWaasW05E=
-X-Google-Smtp-Source: ABdhPJy8SCsD/NL0oD4FwqwXeVUDRjxB2JRurWtY8hVw2suvXQZ0yH/bmqi+Liv9KPNMH2tjjh6vKA==
-X-Received: by 2002:a19:808f:: with SMTP id b137mr11459108lfd.162.1620512749313;
-        Sat, 08 May 2021 15:25:49 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id y23sm332400lfg.21.2021.05.08.15.25.49
+        bh=8qvrf78C1VckxwN+Rd5iRKXM/TVBAx3SQ0yt8T9W1XI=;
+        b=Bz8AceBhZd6hOtghg7KisAchKBVblniepi92Uyqrkifz18SgfTJHYiWH8AasErCc4J
+         f+TaTskn4nAdrNZy5YL6BKavW3MtH7r+9HKLq2HtFbshuWO8nSc07Nqh1tujEOz3CoY5
+         iGQSEIUXqu8OQ9c3XaeMAvO9iXq7UNOTjc1XC5Y1y3mX0ngfGsgQijxVJQdFgWiccCAk
+         I6fhrpNKHe1Z+0m4AqrCu70DHi5ptK4H3tT1Jj4rSzblXz6Uz8tEZkabAEiyyF4aaWvm
+         ra/p3aG0FlgT6obRFZ6jWSCqqTDk11Yln6hTeZGjMGpZqrSyCKy71JC+mFmCKbqy+5a/
+         lVeQ==
+X-Gm-Message-State: AOAM533YnCNz45MQftyhHkuKz0wuWrnOlXQggaP9pHgEqCISpUEjchNh
+        CN7v1wWtC1YLneMiEBqN0jph9W5BDZVhh+t8iP0=
+X-Google-Smtp-Source: ABdhPJxpBVjTex7LPzaTZvKx7/slWiZO2mGxmqOUIve2Pdy8NZAqRQPgaYX9US44UOojIoG0wOZDGw==
+X-Received: by 2002:a2e:97c3:: with SMTP id m3mr13830267ljj.231.1620513737607;
+        Sat, 08 May 2021 15:42:17 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id z21sm1710518lfq.164.2021.05.08.15.42.16
         for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 May 2021 15:25:49 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id a36so16096985ljq.8
-        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 15:25:49 -0700 (PDT)
-X-Received: by 2002:a05:6512:374b:: with SMTP id a11mr10956114lfs.377.1620512280216;
- Sat, 08 May 2021 15:18:00 -0700 (PDT)
+        Sat, 08 May 2021 15:42:16 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id c11so17897082lfi.9
+        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 15:42:16 -0700 (PDT)
+X-Received: by 2002:a19:c30b:: with SMTP id t11mr11039558lff.421.1620513735912;
+ Sat, 08 May 2021 15:42:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210508122530.1971-1-justin.he@arm.com> <20210508122530.1971-2-justin.he@arm.com>
  <CAHk-=wgSFUUWJKW1DXa67A0DXVzQ+OATwnC3FCwhqfTJZsvj1A@mail.gmail.com>
@@ -63,9 +63,9 @@ References: <20210508122530.1971-1-justin.he@arm.com> <20210508122530.1971-2-jus
  <YJb9KFBO7MwJeDHz@zeniv-ca.linux.org.uk>
 In-Reply-To: <YJb9KFBO7MwJeDHz@zeniv-ca.linux.org.uk>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 8 May 2021 15:17:44 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjgXvy9EoE1_8KpxE9P3J_a-NF7xRKaUzi9MPSCmYnq+Q@mail.gmail.com>
-Message-ID: <CAHk-=wjgXvy9EoE1_8KpxE9P3J_a-NF7xRKaUzi9MPSCmYnq+Q@mail.gmail.com>
+Date:   Sat, 8 May 2021 15:42:00 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjhrhkWbV_EY0gupi2ea7QHpGW=68x7g09j_Tns5ZnsLA@mail.gmail.com>
+Message-ID: <CAHk-=wjhrhkWbV_EY0gupi2ea7QHpGW=68x7g09j_Tns5ZnsLA@mail.gmail.com>
 Subject: Re: [PATCH RFC 1/3] fs: introduce helper d_path_fast()
 To:     Al Viro <viro@zeniv.linux.org.uk>
 Cc:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
@@ -95,44 +95,29 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Sat, May 8, 2021 at 2:06 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
 >
-> On Sat, May 08, 2021 at 01:39:45PM -0700, Linus Torvalds wrote:
->
-> > +static inline int prepend_entries(struct prepend_buffer *b, const struct path *path, const struct path *root, struct mount *mnt)
->
-> If anything, s/path/dentry/, since vfsmnt here will be equal to &mnt->mnt all along.
-
-Too subtle for me.
-
-And is it? Because mnt is from
-
-     mnt = real_mount(path->mnt);
-
-earlier, while vfsmount is plain "path->mnt".
-
-> > +                     return 2;               // detached or not attached yet
-> > +                     break;
->
-> ?
-
-Leftover. Good catch.
-
-> > +             parent = dentry->d_parent;
-> > +             prefetch(parent);
-> > +             error = prepend_name(b, &dentry->d_name);
-> > +             if (error)
-> > +                     break;
->
-> return error, surely?
-
-Surely. Bad conversion to the separate function where I missed one of
-the "break" statements.
-
 > FWIW, if we go that way, I would make that
+>
+>         while (dentry != root->dentry || &mnt->mnt != root->mnt) {
+>                 int error;
+>                 struct dentry *parent = READ_ONCE(dentry->d_parent);
 
-No arguments against that - I tried to keep it with the same structure
-it had when it was inside prepend_path().
+Side note: you've added that READ_ONCE() to the parent reading, and I
+think that's a bug-fix regardless. The old code does that plain
 
-Which I obviously wasn't very good at (see your fixes above ;), but it
-was *meant* to be a minimal patch with no structural change.
+                parent = dentry->d_parent;
 
-                      Linus
+(after doing the mountpoint stuff). And d_parent isn't actually
+guaranteed stable here.
+
+It probably does not matter - we are in a RCU read-locked section, so
+it's not like parent will go away, but in theory we might end up with
+(for example) pre-fetching a different parent than the one we then
+walk down.
+
+But your READ_ONCE() is definitely the right thing to do (whether we
+do your re-org or not, and whether we do this "prepend_buffer" thing
+or not).
+
+Do you want to do a final version with your fixes?
+
+               Linus
