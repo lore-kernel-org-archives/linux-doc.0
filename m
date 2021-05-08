@@ -7,66 +7,67 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E86C433B4
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 22:48:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 148BAC433B4
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 22:48:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 412A061402
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 22:48:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7B7E61421
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 22:48:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbhEHWtD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 May 2021 18:49:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54570 "EHLO
+        id S229616AbhEHWtj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 May 2021 18:49:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbhEHWtA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 18:49:00 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65B9AC061574
-        for <linux-doc@vger.kernel.org>; Sat,  8 May 2021 15:47:58 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id h4so17992089lfv.0
-        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 15:47:58 -0700 (PDT)
+        with ESMTP id S229577AbhEHWtj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 18:49:39 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DECA1C061574
+        for <linux-doc@vger.kernel.org>; Sat,  8 May 2021 15:48:36 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id c11so17908699lfi.9
+        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 15:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uU2C84LxLUzQFwZElgypUBzdpgy1KMmCT9LOJvhbML4=;
-        b=RAYIrloAyTI0escC4FJrZEqff58mGNKpKYKPCWyfaq6tPSVX7E0HvbEpZICexuWOJl
-         cTb8VTtrxxvNrokrOEsTOilRR8r0Du+gtbA27yAia0bgOluq1xb1ES21ZBT6x5owDQfQ
-         d+VnnukbT/eYVV1K8DnY34CmcMlPrprr6+vgE=
+        bh=0kA/KDUDO096vq2rEKxFXAZivI52axFruzSdRkQyvoI=;
+        b=PWRMIeUKO0nmSZhexye/3YzAUVpInwAh7XXlaTHnWhlKIAuWvggExHJgbfmaYh9nR0
+         DRNpc5CAKtPEke/TFa5iaD4eYxQPerPxY17lVXLaNXY4SEls6TLdUjya9c5Rt62dxKkG
+         IgPGuzEDzfaGsPkyXdCfqJY1xki5yy39Ae+Yg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uU2C84LxLUzQFwZElgypUBzdpgy1KMmCT9LOJvhbML4=;
-        b=p1M7a2pJE8NiHo/uWYMIsyEBuHTCfBVqRuLxv8WQEpWjGOqk5BfHuVBUiTxJpFYGr2
-         tP4KprNYYYKceiSXtVd9dDWooByWUGnS9O4HJvgruiEay0eqi0BFCgiByLSFiIKRy775
-         4sUcqPyzkR+kDwp2oGLCbxaIfIQBiCAsrqSu6WzaOpb17nxoz1dhh/QvUXyI9ZBHg+AF
-         wlzxxSVvsN7PhjBL9MQgSS/28n84RtJ+be3jf9aqcw/lB2M37LNTwr1FDsE5waivsSOP
-         4tzSLRMUEbugHhugE27N+biaBEj/jmEqvq0xss/4rJXuonWwDl9mK1Y0Ofe+7/4R2Dq3
-         4epg==
-X-Gm-Message-State: AOAM530eRkJjmB5C3O6pdCUpua7fKDOLRTYsriyIEnINzuMemN+M//7d
-        KtOYE6oFkbiyiQXa6KaTmgZVgPIUdzbuJ8noXYc=
-X-Google-Smtp-Source: ABdhPJyKFe2ckS1ln36NjzLTHIgnDLwj20v1X1m39QNdrL8F1T8pOKRdNud7JWDuQeFal2HO+2uHyg==
-X-Received: by 2002:a05:6512:3b9b:: with SMTP id g27mr11807614lfv.230.1620514075850;
-        Sat, 08 May 2021 15:47:55 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id h8sm457368lfv.63.2021.05.08.15.47.54
+        bh=0kA/KDUDO096vq2rEKxFXAZivI52axFruzSdRkQyvoI=;
+        b=Xla1niBoh4HXBheEXc4lF8fRj71gbXNOSZNw7a8u9ml4D/mN1m+l6lDb/DEVntg/m4
+         HHqZaaj/gCuwuGmqLyQRZ7xyyk/pGCcdRVK9xcbQfXij9qm16xFt1WKnxngfOSK+saa5
+         LC+meDwYquhdHD/LnEOoX/sCs7hWxkqApXwdY4nYdVdRNtIMUDOchPQAph5u0SGsnAL8
+         c3z+DmIM6PGG0/k0wb966jujHPs2EcukWnu5mClfxxQUpjh9RhXJdkNotDI8ONhcftiV
+         gnlbK7Qc/sbfIZ+Btsp/gcTjT075/W0seUG5aqTcncX2MlUrgSyyX33MD7GiZwWGSUn0
+         x9zw==
+X-Gm-Message-State: AOAM533qTonU15BC6i0uavaQUzW35YWflVr7femRalHrC5iT7cjojYU+
+        4s+Qz3+cGscsC5sGxL+3YjDXz3hf7FuJ+GnPQFU=
+X-Google-Smtp-Source: ABdhPJz+LSWXhprzyyHG80yJFZbnkCFlOTsunHyDiH96objbmfpQk+87v3hFEcyEaQ6QMfVSJdo1UA==
+X-Received: by 2002:ac2:43ac:: with SMTP id t12mr11317359lfl.258.1620514115306;
+        Sat, 08 May 2021 15:48:35 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
+        by smtp.gmail.com with ESMTPSA id p20sm2496217ljn.86.2021.05.08.15.48.34
         for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 May 2021 15:47:54 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id r5so734977lfr.5
-        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 15:47:54 -0700 (PDT)
-X-Received: by 2002:a05:6512:1095:: with SMTP id j21mr10765354lfg.40.1620514074003;
- Sat, 08 May 2021 15:47:54 -0700 (PDT)
+        Sat, 08 May 2021 15:48:34 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id c11so17908659lfi.9
+        for <linux-doc@vger.kernel.org>; Sat, 08 May 2021 15:48:34 -0700 (PDT)
+X-Received: by 2002:ac2:5e6e:: with SMTP id a14mr10896192lfr.201.1620514114222;
+ Sat, 08 May 2021 15:48:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210508122530.1971-1-justin.he@arm.com> <20210508122530.1971-2-justin.he@arm.com>
  <CAHk-=wgSFUUWJKW1DXa67A0DXVzQ+OATwnC3FCwhqfTJZsvj1A@mail.gmail.com>
  <YJbivrA4Awp4FXo8@zeniv-ca.linux.org.uk> <CAHk-=whZhNXiOGgw8mXG+PTpGvxnRG1v5_GjtjHpoYXd2Fn_Ow@mail.gmail.com>
- <YJb9KFBO7MwJeDHz@zeniv-ca.linux.org.uk> <CAHk-=wjhrhkWbV_EY0gupi2ea7QHpGW=68x7g09j_Tns5ZnsLA@mail.gmail.com>
-In-Reply-To: <CAHk-=wjhrhkWbV_EY0gupi2ea7QHpGW=68x7g09j_Tns5ZnsLA@mail.gmail.com>
+ <YJb9KFBO7MwJeDHz@zeniv-ca.linux.org.uk> <CAHk-=wjgXvy9EoE1_8KpxE9P3J_a-NF7xRKaUzi9MPSCmYnq+Q@mail.gmail.com>
+ <YJcUvwo2pn0JEs27@zeniv-ca.linux.org.uk>
+In-Reply-To: <YJcUvwo2pn0JEs27@zeniv-ca.linux.org.uk>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 8 May 2021 15:47:38 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiOPkSm-01yZzamTvX2RPdJ0784+uWa0OMK-at+3XDd0g@mail.gmail.com>
-Message-ID: <CAHk-=wiOPkSm-01yZzamTvX2RPdJ0784+uWa0OMK-at+3XDd0g@mail.gmail.com>
+Date:   Sat, 8 May 2021 15:48:18 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgbaLFNU3448HhUX7AZB1xxqTg=A8PLbzazQxR_ukyJsw@mail.gmail.com>
+Message-ID: <CAHk-=wgbaLFNU3448HhUX7AZB1xxqTg=A8PLbzazQxR_ukyJsw@mail.gmail.com>
 Subject: Re: [PATCH RFC 1/3] fs: introduce helper d_path_fast()
 To:     Al Viro <viro@zeniv.linux.org.uk>
 Cc:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
@@ -94,24 +95,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 8, 2021 at 3:42 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Sat, May 8, 2021 at 3:46 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
 >
-> But your READ_ONCE() is definitely the right thing to do (whether we
-> do your re-org or not, and whether we do this "prepend_buffer" thing
-> or not).
+> static inline struct mount *real_mount(struct vfsmount *mnt)
+> {
+>         return container_of(mnt, struct mount, mnt);
 
-Oh, and looking at it some more, I think it would probably be a good
-thing to make __dentry_path() take a
+Too subtle for me indeed.
 
-       struct prepend_buffer *orig
-
-argument, the same way prepend_path() does. Also, like prepend_path(),
-the terminating NUL should probably be done by the caller.
-
-Doing those two changes would simplify the hackery we now have in
-"dentry_path()" due to the "//deleted" games. The whole "restore '/'
-that was overwritten by the NUL added by __dentry_path() is
-unbelievably ugly.
-
-            Linus
+           Linus
