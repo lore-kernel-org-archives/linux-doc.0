@@ -2,266 +2,537 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81705C433B4
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 05:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 116E1C433ED
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 05:40:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D97A61458
-	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 05:31:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF64C61458
+	for <linux-doc@archiver.kernel.org>; Sat,  8 May 2021 05:40:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbhEHFcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 May 2021 01:32:20 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:14034 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229841AbhEHFcU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 8 May 2021 01:32:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=t9La0M2XJb2kTnI64idgHWHTOEexiHTqeqTIy
-        9fUt+w=; b=n5JYkh0eJcu68SugRg4qq3Q6sKfiEfW3RicFa4LgwVro4P8Z5qFbk
-        mR8iBG/0Y+epK5PL8YP2JkLA8umY7FfCRVn9ijTTxeSA8n4gfROriSL9j58A4B3I
-        TGZmHoSew4RtqyEDbb+O9yrCMVZspe0mjPMoyL/ATJac/T9MIvtDx0=
-Received: from bobwxc.top (unknown [120.238.248.9])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgB3PkEaIpZg0PAeAA--.13433S2;
-        Sat, 08 May 2021 13:31:08 +0800 (CST)
-Date:   Sat, 8 May 2021 13:31:06 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com,
-        huangjianghui@uniontech.com
-Subject: Re: [PATCH v2 3/3] docs/zh_CN: add parisc registers.rst translation
-Message-ID: <20210508053105.GA7017@bobwxc.top>
-References: <cover.1620284974.git.siyanteng@loongson.cn>
- <13db946725e43f1b490142f745e03ec63a7cec3b.1620284974.git.siyanteng@loongson.cn>
+        id S229970AbhEHFlC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 May 2021 01:41:02 -0400
+Received: from alt-proxy16.mail.unifiedlayer.com ([70.40.197.35]:42183 "EHLO
+        gproxy9-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229841AbhEHFlC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 May 2021 01:41:02 -0400
+X-Greylist: delayed 1210 seconds by postgrey-1.27 at vger.kernel.org; Sat, 08 May 2021 01:41:02 EDT
+Received: from cmgw13.unifiedlayer.com (unknown [10.9.0.13])
+        by gproxy9.mail.unifiedlayer.com (Postfix) with ESMTP id 3E48E8029320
+        for <linux-doc@vger.kernel.org>; Sat,  8 May 2021 05:19:51 +0000 (UTC)
+Received: from md-in-79.webhostbox.net ([43.225.55.182])
+        by cmsmtp with ESMTP
+        id fFNUlDzcYjFr2fFNWlApiW; Fri, 07 May 2021 23:19:51 -0600
+X-Authority-Reason: nr=8
+X-Authority-Analysis: v=2.4 cv=N8xKq0xB c=1 sm=1 tr=0 ts=60961f77
+ a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=LfuyaZh/8e9VOkaVZk0aRw==:17
+ a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=5FLXtPjwQuUA:10 a=oz0wMknONp8A:10
+ a=vU9dKmh3AAAA:8 a=NcCfH-bgAAAA:8 a=lhsWNlwdHoQvLuVuHl0A:9
+ a=rsP06fVo5MYu2ilr0aT5:22 a=nZLUJm6UEJn402BoZzOq:22 a=pHzHmUro8NiASowvMSCR:22
+ a=Ew2E2A-JSTLzCXPT_086:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
+        ; s=default; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=eNQrwguVRDQ+gFV2BAONwnF0mXGn8VDVt2fb9wwNT+0=; b=NbBl76VA4yW16HpFTONgILr2D5
+        8ehp3AyiXJnl4exCE5kW4V1X2nY+K8clYMxW5+AYo40GKJaXfgKH8Mu/T9Afh3p4XN73c+ARkfG7H
+        naGcZKRAS7lCTtxzxG/xgqXoyNwYbbSy+kYKppxRq7IPFkznUc5YXmjNEWwtM51XMZowNWwrm/+yO
+        e6It55wtGvAL5uzPBTdxDnzgVJqF4kUe+9BFIJOzdDq8ipyqUgWNk9yCT9GppiIBm0UD+k8pUgQg1
+        wE7yO+jz+jXGpmBGQ6iIRMomqInAgMm0N3PtB1aZUEnybkEWZcJuPTHRwwdpWkSlO24oPMTPwGznL
+        Goj3trHQ==;
+Received: from [117.202.189.152] (port=58710 helo=localhost.localdomain)
+        by md-in-79.webhostbox.net with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <navin@linumiz.com>)
+        id 1lfFNT-003rwa-SR; Sat, 08 May 2021 05:19:47 +0000
+From:   Navin Sankar Velliangiri <navin@linumiz.com>
+Cc:     navin@linumiz.com, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] hwmon: Add sht4x Temperature and Humidity Sensor Driver
+Date:   Sat,  8 May 2021 10:50:00 +0530
+Message-Id: <20210508052002.14732-1-navin@linumiz.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <13db946725e43f1b490142f745e03ec63a7cec3b.1620284974.git.siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgB3PkEaIpZg0PAeAA--.13433S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3GF13uF1fJw45ZFy8tF1fJFb_yoW3Gw43pr
-        n3Kr97G3W8AryUAr47Gr18Wr18Cr1UGF4DA34fJr18Jr18Cr1UKr4UtFy8GrW7GryUAFyU
-        ArWYgr10kr1UCw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUqvb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
-        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
-        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMx
-        AIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-        67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
-        IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
-        14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
-        W8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07Un189U
-        UUUU=
-X-Originating-IP: [120.238.248.9]
-X-CM-SenderInfo: pere453f6hztlloou0/
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - linumiz.com
+X-BWhitelist: no
+X-Source-IP: 117.202.189.152
+X-Source-L: No
+X-Exim-ID: 1lfFNT-003rwa-SR
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (localhost.localdomain) [117.202.189.152]:58710
+X-Source-Auth: linumcmc
+X-Email-Count: 2
+X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
+X-Local-Domain: yes
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 07, 2021 at 06:07:05PM +0800, Yanteng Si wrote:
-> This patch translates Documentation/parisc/registers.rst into Chinese.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/parisc/index.rst       |   2 +-
->  .../translations/zh_CN/parisc/registers.rst   | 153 ++++++++++++++++++
->  2 files changed, 154 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/parisc/registers.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/parisc/index.rst
-> index b913d664e735..a47454ebe32e 100644
-> --- a/Documentation/translations/zh_CN/parisc/index.rst
-> +++ b/Documentation/translations/zh_CN/parisc/index.rst
-> @@ -14,10 +14,10 @@ PA-RISC体系架构
->     :maxdepth: 2
->  
->     debugging
-> +   registers
->  
->  Todolist:
->  
-> -   registers
->     features
->  
->  .. only::  subproject and html
-> diff --git a/Documentation/translations/zh_CN/parisc/registers.rst b/Documentation/translations/zh_CN/parisc/registers.rst
-> new file mode 100644
-> index 000000000000..ecae1b079aec
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/parisc/registers.rst
-> @@ -0,0 +1,153 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/parisc/registers.rst
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_parisc_registers:
-> +
-> +=========================
-> +Linux/PA-RISC的寄存器用法
-> +=========================
-> +
-> +[ 用星号表示目前尚未实现的计划用途。 ]
-> +
-> +ABI约定的通用寄存器
-> +===================
-> +
-> +控制寄存器
-> +----------
-> +
-> +============================    =================================
-> +CR 0 (恢复计数器)               用于ptrace
-> +CR 1-CR 7(无定义)               未使用
-> +CR 8 (Protection ID)            每进程值*
-> +CR 9, 12, 13 (PIDS)             未使用
-> +CR10 (CCR)                      FPU延迟保存*
-> +CR11                            按照ABI的规定（SAR）
-> +CR14 (中断向量)                 初始化为 fault_vector
-> +CR15 (EIEM)                     所有位初始化为1*
-> +CR16 (间隔计时器)               读取周期数/写入开始时间间隔计时器
-> +CR17-CR22                       中断参数
-> +CR19                            中断指令寄存器
-> +CR20                            中断空间寄存器
-> +CR21                            中断偏移量寄存器
-> +CR22                            中断 PSW
-> +CR23 (EIRR)                     读取未决中断/写入清除位
-> +CR24 (TR 0)                     内核空间页目录指针
-> +CR25 (TR 1)                     用户空间页目录指针
-> +CR26 (TR 2)                     不使用
-> +CR27 (TR 3)                     线程描述符指针
-> +CR28 (TR 4)                     不使用
-> +CR29 (TR 5)                     不使用
-> +CR30 (TR 6)                     当前 / 0
-> +CR31 (TR 7)                     临时寄存器，在不同地方使用
-> +============================    =================================
-> +
-> +空间寄存器（内核模式）
-> +----------------------
-> +
-> +========                        ==============================
-> +SR0                             临时空间寄存器
-> +SR4-SR7                         设置为0
-> +SR1                             临时空间寄存器
-> +SR2                             内核不应该破坏它
-> +SR3                             用于用户空间访问（当前进程）
-> +========                        ==============================
-> +
-> +空间寄存器（用户模式）
-> +----------------------
-> +
-> +========                        ============================
-> +SR0                             临时空间寄存器
-> +SR1                             临时空间寄存器
-> +SR2                             保存Linux gateway page的空间
-> +SR3                             在内核中保存用户地址空间的值
-> +SR4-SR7                         定义了用户/内核的短地址空间
-> +========                        ============================
-> +
-> +
-> +处理器状态字
-> +------------
-> +
-> +======================          ================================================
-> +W （64位地址）                  0
-> +E （小尾端）                    0
-> +S （安全间隔计时器）            0
-> +T （产生分支陷阱）              0
-> +H （高特权级陷阱）              0
-> +L （低特权级陷阱）              0
-> +N （撤销下一条指令）            被C代码使用
-> +X （数据存储中断禁用）          0
-> +B （产生分支）                  被C代码使用
-> +C （代码地址转译）              1, 在执行实模式代码时为0
-> +V （除法步长校正）              被C代码使用
-> +M （HPMC 掩码）                 0, 在执行HPMC操作*时为1
-> +C/B （进/借 位）                被C代码使用
-> +O （有序引用）                  1*
-> +F （性能监视器）                0
-> +R （回收计数器陷阱）            0
-> +Q （收集中断状态）              1 （在rfi之前的代码中为0）
-> +P （保护标识符）                1*
-> +D （数据地址转译）              1, 在执行实模式代码时为0
-> +I （外部中断掩码）              由cli()/sti()宏使用。
-> +======================          ================================================
-> +
-> +“隐形”寄存器（影子寄存器）
-> +---------------------------
-> +
-> +=============                   ===================
-> +PSW W 默认值                    0
-> +PSW E 默认值                    0
-> +影子寄存器                      被中断处理代码使用
-> +TOC启用位                       1
-> +=============                   ===================
-> +
-> +----------------------------------------------------------
-> +
-> +PA-RISC架构定义了7个寄存器作为“影子寄存器”。这些寄存器在
-> +RETURN FROM INTERRUPTION AND RESTORE指令中使用，通过消
-> +除中断处理程序中对一般寄存器（GR）的保存和恢复的需要来减
-> +少状态保存和恢复时间。影子寄存器是GRs 1, 8, 9, 16, 17,
-> +24和25。
-> +
-> +-------------------------------------------------------------------------
-> +
-> +寄存器使用说明，最初由约翰-马文John Marvin提供，并由Randolph Chung提供一些补充说明。
-                         ^^^^^^^^^
+This patch adds a hwmon driver for the SHT4x Temperature and
+Humidity sensor.
 
-> +
-> +对于通用寄存器:
-> +
-> +r1,r2,r19-r26,r28,r29 & r31可以在不保存它们的情况下被使用。当然，如果你
-> +关心它们，在调用另一个程序之前，你也需要保存它们。上面的一些寄存器确实
-> +有特殊的含义，你应该注意一下:
-> +
-> +    r1:
-> +       addil指令是硬性规定将其结果放在r1中，所以如果你使用这条指令要
-> +       注意这点。
-> +
-> +    r2:
-> +       这就是返回指针。一般来说，你不想使用它，因为你需要这个指针来返
-> +       回给你的调用者。然而，它与这组寄存器组合在一起，因为调用者不能
-> +       依赖你返回时的值是相同的，也就是说，你可以将r2复制到另一个寄存
-> +       器，并在作废r2后通过该寄存器返回，这应该不会给调用程序带来问题。
-> +
-> +    r19-r22:
-> +       这些通常被认为是临时寄存器。
-> +       请注意，在64位中它们是arg7-arg4。
-> +
-> +    r23-r26:
-> +       这些是arg3-arg0，也就是说，如果你不再关心传入的值，你可以使用
-> +       它们。
-> +
-> +    r28,r29:
-> +       这俩是ret0和ret1。它们是你传入返回值的地方。r28是主返回值。当返回
-> +       小结构体时，r29也可以用来将数据传回给调用程序。
-> +
-> +    r30:
-> +       栈指针
-> +
-> +    r31:
-> +       ble指令将返回指针放在这里。
-> +
-> +
+Signed-off-by: Navin Sankar Velliangiri <navin@linumiz.com>
+---
 
-I've specifically reminded you that there's no need to change the indentation
-of the next paragraph 😂.
+Changes in v2:
 
-> +       r3-r18,r27,r30需要被保存和恢复。r3-r18只是一般用途的寄存器。
-> +       r27是数据指针，用来使对全局变量的引用更容易。r30是栈指针。
-> -- 
-> 2.27.0
+* Removed unused macro SHT4X_MIN_POLL_INTERVAL
+* Replaced time_after instead of ktime_after
+* Used goto statements for error handling
+* Hardcorded the interval_time instead of clamp_val().
 
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+Changes in v3:
 
-Thanks,
-Wu X.C
+* Accept the poll interval if it is greater than SHT4X_MIN_POLL_INTERVAL and
+  return -EINVAL for negative values & less than SHT4X_MIN_POLL_INTERVAL.
+* Changed the data type of update_interval and last_upadated to long.
+
+Changes in v4:
+
+* "update interval" is long but msecs_to_jiffies() accepts only unsigned int.
+  clamp_val() api is used to assign the update_interval stays within UINT_MAX.
+
+ Documentation/hwmon/index.rst |   1 +
+ Documentation/hwmon/sht4x.rst |  45 +++++
+ drivers/hwmon/Kconfig         |  13 +-
+ drivers/hwmon/Makefile        |   1 +
+ drivers/hwmon/sht4x.c         | 305 ++++++++++++++++++++++++++++++++++
+ 5 files changed, 364 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/hwmon/sht4x.rst
+ create mode 100644 drivers/hwmon/sht4x.c
+
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 8d5a2df1ecb6..2a20c6616e21 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -160,6 +160,7 @@ Hardware Monitoring Kernel Drivers
+    sht15
+    sht21
+    sht3x
++   sht4x
+    shtc1
+    sis5595
+    sl28cpld
+diff --git a/Documentation/hwmon/sht4x.rst b/Documentation/hwmon/sht4x.rst
+new file mode 100644
+index 000000000000..3b37abcd4a46
+--- /dev/null
++++ b/Documentation/hwmon/sht4x.rst
+@@ -0,0 +1,45 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Kernel driver sht4x
++===================
++
++Supported Chips:
++
++  * Sensirion SHT4X
++
++    Prefix: 'sht4x'
++
++    Addresses scanned: None
++
++    Datasheet:
++
++      English: https://www.sensirion.com/fileadmin/user_upload/customers/sensirion/Dokumente/2_Humidity_Sensors/Datasheets/Sensirion_Humidity_Sensors_SHT4x_Datasheet.pdf
++
++Author: Navin Sankar Velliangiri <navin@linumiz.com>
++
++
++Description
++-----------
++
++This driver implements support for the Sensirion SHT4x chip, a humidity
++and temperature sensor. Temperature is measured in degree celsius, relative
++humidity is expressed as a percentage. In sysfs interface, all values are
++scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
++
++Usage Notes
++-----------
++
++The device communicates with the I2C protocol. Sensors can have the I2C
++address 0x44. See Documentation/i2c/instantiating-devices.rst for methods
++to instantiate the device.
++
++Sysfs entries
++-------------
++
++=============== ============================================
++temp1_input     Measured temperature in millidegrees Celcius
++humidity1_input Measured humidity in %H
++update_interval The minimum interval for polling the sensor,
++                in milliseconds. Writable. Must be at least
++                2000.
++============== =============================================
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 54f04e61fb83..ad10469d7b13 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1583,6 +1583,17 @@ config SENSORS_SHT3x
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called sht3x.
+
++config SENSORS_SHT4x
++	tristate "Sensiron humidity and temperature sensors. SHT4x and compat."
++	depends on I2C
++	select CRC8
++	help
++	  If you say yes here you get support for thr Sensiron SHT40, SHT41 and
++	  SHT45 humidity and temperature sensors.
++
++	  This driver can also be built as a module. If so, the module
++	  will be called sht4x.
++
+ config SENSORS_SHTC1
+ 	tristate "Sensiron humidity and temperature sensors. SHTC1 and compat."
+ 	depends on I2C
+@@ -1798,7 +1809,7 @@ config SENSORS_ADS7871
+
+ config SENSORS_AMC6821
+ 	tristate "Texas Instruments AMC6821"
+-	depends on I2C
++	depends on I2C
+ 	help
+ 	  If you say yes here you get support for the Texas Instruments
+ 	  AMC6821 hardware monitoring chips.
+diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+index fe38e8a5c979..62cee3e03c7f 100644
+--- a/drivers/hwmon/Makefile
++++ b/drivers/hwmon/Makefile
+@@ -170,6 +170,7 @@ obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
+ obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
+ obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
+ obj-$(CONFIG_SENSORS_SHT3x)	+= sht3x.o
++obj-$(CONFIG_SENSORS_SHT4x)	+= sht4x.o
+ obj-$(CONFIG_SENSORS_SHTC1)	+= shtc1.o
+ obj-$(CONFIG_SENSORS_SIS5595)	+= sis5595.o
+ obj-$(CONFIG_SENSORS_SMM665)	+= smm665.o
+diff --git a/drivers/hwmon/sht4x.c b/drivers/hwmon/sht4x.c
+new file mode 100644
+index 000000000000..e33a0ba3aaed
+--- /dev/null
++++ b/drivers/hwmon/sht4x.c
+@@ -0,0 +1,305 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++/*
++ * Copyright (c) Linumiz 2021
++ *
++ * sht4x.c - Linux hwmon driver for SHT4x Temperature and Humidity sensor
++ *
++ * Author: Navin Sankar Velliangiri <navin@linumiz.com>
++ */
++
++#include <linux/crc8.h>
++#include <linux/delay.h>
++#include <linux/hwmon.h>
++#include <linux/i2c.h>
++#include <linux/jiffies.h>
++#include <linux/module.h>
++#include <linux/ktime.h>
++
++/*
++ * Poll intervals (in milliseconds)
++ */
++#define SHT4X_MIN_POLL_INTERVAL	2000
++
++/*
++ * I2C command delays (in microseconds)
++ */
++#define SHT4X_MEAS_DELAY	1000
++#define SHT4X_DELAY_EXTRA	10000
++
++/*
++ * Command Bytes
++ */
++#define SHT4X_CMD_MEASURE_HPM	0b11111101
++#define SHT4X_CMD_RESET		0b10010100
++
++#define SHT4X_CMD_LEN		1
++#define SHT4X_CRC8_LEN		1
++#define SHT4X_WORD_LEN		2
++#define SHT4X_RESPONSE_LENGTH	6
++#define SHT4X_CRC8_POLYNOMIAL	0x31
++#define SHT4X_CRC8_INIT		0xff
++#define SHT4X_MIN_TEMPERATURE	-45000
++#define SHT4X_MAX_TEMPERATURE	125000
++#define SHT4X_MIN_HUMIDITY	0
++#define SHT4X_MAX_HUMIDITY	100000
++
++DECLARE_CRC8_TABLE(sht4x_crc8_table);
++
++/**
++ * struct sht4x_data - All the data required to operate an SHT4X chip
++ * @client: the i2c client associated with the SHT4X
++ * @lock: a mutex that is used to prevent parallel access to the i2c client
++ * @update_interval: the minimum poll interval
++ * @last_updated: the previous time that the SHT4X was polled
++ * @temperature: the latest temperature value received from the SHT4X
++ * @humidity: the latest humidity value received from the SHT4X
++ */
++struct sht4x_data {
++	struct i2c_client	*client;
++	struct mutex		lock;	/* atomic read data updates */
++	bool			valid;	/* validity of fields below */
++	long			update_interval;	/* in milli-seconds */
++	long			last_updated;	/* in jiffies */
++	s32			temperature;
++	s32			humidity;
++};
++
++/**
++ * sht4x_read_values() - read and parse the raw data from the SHT4X
++ * @sht4x_data: the struct sht4x_data to use for the lock
++ * Return: 0 if succesfull, 1 if not
++ */
++static int sht4x_read_values(struct sht4x_data *data)
++{
++	int ret;
++	u16 t_ticks, rh_ticks;
++	unsigned long next_update;
++	struct i2c_client *client = data->client;
++	u8 crc, raw_data[SHT4X_RESPONSE_LENGTH],
++	cmd[] = {SHT4X_CMD_MEASURE_HPM};
++
++	mutex_lock(&data->lock);
++	next_update = data->last_updated +
++		      msecs_to_jiffies(data->update_interval);
++	if (!data->valid || time_after(jiffies, next_update)) {
++		ret = i2c_master_send(client, cmd, SHT4X_CMD_LEN);
++		if (ret < 0)
++			goto unlock;
++
++		usleep_range(SHT4X_MEAS_DELAY,
++			     SHT4X_MEAS_DELAY + SHT4X_DELAY_EXTRA);
++
++		ret = i2c_master_recv(client, raw_data, SHT4X_RESPONSE_LENGTH);
++		if (ret != SHT4X_RESPONSE_LENGTH) {
++			if (ret >= 0)
++				ret = -ENODATA;
++
++			goto unlock;
++		}
++
++		t_ticks = raw_data[0] << 8 | raw_data[1];
++		rh_ticks = raw_data[3] << 8 | raw_data[4];
++
++		crc = crc8(sht4x_crc8_table, &raw_data[0], SHT4X_WORD_LEN, CRC8_INIT_VALUE);
++		if (crc != raw_data[2]) {
++			dev_err(&client->dev, "data integrity check failed\n");
++			ret = -EIO;
++			goto unlock;
++		}
++
++		crc = crc8(sht4x_crc8_table, &raw_data[3], SHT4X_WORD_LEN, CRC8_INIT_VALUE);
++		if (crc != raw_data[5]) {
++			dev_err(&client->dev, "data integrity check failed\n");
++			ret = -EIO;
++			goto unlock;
++		}
++
++		data->temperature = ((21875 * (int32_t)t_ticks) >> 13) - 45000;
++		data->humidity = ((15625 * (int32_t)rh_ticks) >> 13) - 6000;
++		data->last_updated = jiffies;
++		data->valid = true;
++	}
++
++unlock:
++	mutex_unlock(&data->lock);
++	return ret;
++}
++
++static ssize_t sht4x_interval_write(struct sht4x_data *data,
++				    long val)
++{
++	if (val >= SHT4X_MIN_POLL_INTERVAL)
++		data->update_interval = val;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++
++/**
++ * sht4x_interval_read() - read the minimum poll interval
++ *			   in milliseconds
++ */
++static size_t sht4x_interval_read(struct sht4x_data *data,
++				  long *val)
++{
++	*val = data->update_interval;
++	return 0;
++}
++
++/**
++ * sht4x_temperature1_read() - read the temperature in millidegrees
++ */
++static int sht4x_temperature1_read(struct sht4x_data *data, long *val)
++{
++	int ret;
++
++	ret = sht4x_read_values(data);
++	if (ret < 0)
++		return ret;
++
++	*val = data->temperature;
++
++	return 0;
++}
++
++/**
++ * sht4x_humidity1_read() - read a relative humidity in millipercent
++ */
++static int sht4x_humidity1_read(struct sht4x_data *data, long *val)
++{
++	int ret;
++
++	ret = sht4x_read_values(data);
++	if (ret < 0)
++		return ret;
++
++	*val = data->humidity;
++
++	return 0;
++}
++
++static umode_t sht4x_hwmon_visible(const void *data,
++				   enum hwmon_sensor_types type,
++				   u32 attr, int channel)
++{
++	switch (type) {
++	case hwmon_temp:
++	case hwmon_humidity:
++		return 0444;
++	case hwmon_chip:
++		return 0644;
++	default:
++		return 0;
++	}
++}
++
++static int sht4x_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
++			    u32 attr, int channel, long *val)
++{
++	struct sht4x_data *data = dev_get_drvdata(dev);
++
++	switch (type) {
++	case hwmon_temp:
++		return sht4x_temperature1_read(data, val);
++	case hwmon_humidity:
++		return sht4x_humidity1_read(data, val);
++	case hwmon_chip:
++		return sht4x_interval_read(data, val);
++	default:
++		return -EOPNOTSUPP;
++	}
++}
++
++static int sht4x_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
++			     u32 attr, int channel, long val)
++{
++	struct sht4x_data *data = dev_get_drvdata(dev);
++
++	switch (type) {
++	case hwmon_chip:
++		return sht4x_interval_write(data, val);
++	default:
++		return -EOPNOTSUPP;
++	}
++}
++
++static const struct hwmon_channel_info *sht4x_info[] = {
++	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
++	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
++	HWMON_CHANNEL_INFO(humidity, HWMON_H_INPUT),
++	NULL,
++};
++
++static const struct hwmon_ops sht4x_hwmon_ops = {
++	.is_visible = sht4x_hwmon_visible,
++	.read = sht4x_hwmon_read,
++	.write = sht4x_hwmon_write,
++};
++
++static const struct hwmon_chip_info sht4x_chip_info = {
++	.ops = &sht4x_hwmon_ops,
++	.info = sht4x_info,
++};
++
++static int sht4x_probe(struct i2c_client *client,
++		       const struct i2c_device_id *sht4x_id)
++{
++	struct device *device = &client->dev;
++	struct device *hwmon_dev;
++	struct sht4x_data *data;
++	u8 cmd[] = {SHT4X_CMD_RESET};
++	int ret;
++
++	/*
++	 * we require full i2c support since the sht4x uses multi-byte read and
++	 * writes as well as multi-byte commands which are not supported by
++	 * the smbus protocol
++	 */
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
++		return -EOPNOTSUPP;
++
++	data = devm_kzalloc(device, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	data->update_interval = SHT4X_MIN_POLL_INTERVAL;
++	data->client = client;
++
++	mutex_init(&data->lock);
++
++	crc8_populate_msb(sht4x_crc8_table, SHT4X_CRC8_POLYNOMIAL);
++
++	ret = i2c_master_send(client, cmd, SHT4X_CMD_LEN);
++	if (ret != SHT4X_CMD_LEN)
++		return -EIO;
++
++	hwmon_dev = devm_hwmon_device_register_with_info(device,
++							 client->name,
++							 data,
++							 &sht4x_chip_info,
++							 NULL);
++
++	return PTR_ERR_OR_ZERO(hwmon_dev);
++}
++
++static const struct i2c_device_id sht4x_id[] = {
++	{ "sht4x", 0 },
++	{ },
++};
++MODULE_DEVICE_TABLE(i2c, sht4x_id);
++
++static struct i2c_driver sht4x_driver = {
++	.driver = {
++		.name = "sht4x",
++	},
++	.probe		= sht4x_probe,
++	.id_table	= sht4x_id,
++};
++
++module_i2c_driver(sht4x_driver);
++
++MODULE_AUTHOR("Navin Sankar Velliangiri <navin@linumiz.com>");
++MODULE_DESCRIPTION("Sensirion SHT4x humidity and temperature sensor driver");
++MODULE_LICENSE("GPL v2");
+--
+2.31.1
 
