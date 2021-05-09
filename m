@@ -2,184 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72334C433B4
-	for <linux-doc@archiver.kernel.org>; Sun,  9 May 2021 19:17:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97637C433ED
+	for <linux-doc@archiver.kernel.org>; Sun,  9 May 2021 22:58:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4195461288
-	for <linux-doc@archiver.kernel.org>; Sun,  9 May 2021 19:17:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DC0B61132
+	for <linux-doc@archiver.kernel.org>; Sun,  9 May 2021 22:58:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbhEITSs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 May 2021 15:18:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38990 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229662AbhEITSs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 9 May 2021 15:18:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 815526140B;
-        Sun,  9 May 2021 19:17:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620587864;
-        bh=CV4rIl9CyEpAvSLMmV+Wi3FcGolfY9PY6+Q6Fuygklg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ib6tvNkc2uHzxeVPdvZvnETI58bSjMAF1FbaoWASPsHdvA4H32kl1b9q5bhskRCqN
-         XZUwJBKHNKz249VNaFh6nYqebJeQ9QQAktP8gYKu3C3NZoUaMQpvmPuQUWK/FCESri
-         0+njcDBKBpnb7NR+GT3C4lyxnu43ApsUWyjAYBHMOrvDLGa2i5/H3dGPQ9oqdLpxc3
-         mbPeq2JraH/dn3AOoYkL8Z9nrVt/Zbv4XP9Eyi3yMPyrS8VWadxRgE3f8eFMkoQ50p
-         79FXxG3B0twcNkryEZIUDw3YUY9vsQFkxZlfKJQLQhPPtXtmlABynPId6icwAVoXgz
-         IfmULIHZBAIkA==
-Received: by mail-oi1-f181.google.com with SMTP id z3so12667418oib.5;
-        Sun, 09 May 2021 12:17:44 -0700 (PDT)
-X-Gm-Message-State: AOAM532o+9VcYysLiL46Ucbo0ljoKoKd+QDFZT5TiZPfoXdYqnWhD+yM
-        bcXgwwxQ3eo0/p+HJwQtNUwq9VA3/AIhx1LoRNc=
-X-Google-Smtp-Source: ABdhPJwGAmjCyKrau3g+4xJBVPdRbIhO4glLGE0QurdmX3sKAWmXXqcsGtHCuQ+MRotVnzG+iMOFJOVob3yCUkRTgfk=
-X-Received: by 2002:aca:e142:: with SMTP id y63mr15544276oig.33.1620587863681;
- Sun, 09 May 2021 12:17:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210509173029.1653182-1-f.fainelli@gmail.com>
-In-Reply-To: <20210509173029.1653182-1-f.fainelli@gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Sun, 9 May 2021 21:17:32 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGt1zrRQused3xgXzhQYfDchgH325iRDCZrx+7o1+bUnA@mail.gmail.com>
-Message-ID: <CAMj1kXGt1zrRQused3xgXzhQYfDchgH325iRDCZrx+7o1+bUnA@mail.gmail.com>
-Subject: Re: [PATCH stable 5.10 0/3] ARM FDT relocation backports
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     "# 3.4.x" <stable@vger.kernel.org>,
+        id S229933AbhEIW7k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 May 2021 18:59:40 -0400
+Received: from out01.mta.xmission.com ([166.70.13.231]:59514 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229840AbhEIW7k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 May 2021 18:59:40 -0400
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out01.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1lfsNX-00Bfev-Eb; Sun, 09 May 2021 16:58:27 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1lfsNW-0007E1-CE; Sun, 09 May 2021 16:58:27 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@gooogle.com>,
-        Joe Perches <joe@perches.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Al Viro <viro@ftp.linux.org.uk>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+References: <20210508122530.1971-1-justin.he@arm.com>
+        <20210508122530.1971-2-justin.he@arm.com>
+        <CAHk-=wgSFUUWJKW1DXa67A0DXVzQ+OATwnC3FCwhqfTJZsvj1A@mail.gmail.com>
+        <YJbivrA4Awp4FXo8@zeniv-ca.linux.org.uk>
+        <CAHk-=whZhNXiOGgw8mXG+PTpGvxnRG1v5_GjtjHpoYXd2Fn_Ow@mail.gmail.com>
+        <YJb9KFBO7MwJeDHz@zeniv-ca.linux.org.uk>
+        <CAHk-=wjgXvy9EoE1_8KpxE9P3J_a-NF7xRKaUzi9MPSCmYnq+Q@mail.gmail.com>
+        <YJcUvwo2pn0JEs27@zeniv-ca.linux.org.uk>
+        <YJcbkJxrFAheQ5yO@zeniv-ca.linux.org.uk>
+Date:   Sun, 09 May 2021 17:58:22 -0500
+In-Reply-To: <YJcbkJxrFAheQ5yO@zeniv-ca.linux.org.uk> (Al Viro's message of
+        "Sat, 8 May 2021 23:15:28 +0000")
+Message-ID: <m1r1ifzf8x.fsf@fess.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1lfsNW-0007E1-CE;;;mid=<m1r1ifzf8x.fsf@fess.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX19tSme8j0LKpThFXtoRB35Tb0qwDIZQAOo=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH RFC 1/3] fs: introduce helper d_path_fast()
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 9 May 2021 at 19:30, Florian Fainelli <f.fainelli@gmail.com> wrote:
->
-> Hi Greg, Sasha,
->
-> These patches were not marked with a Fixes: tag but they do fix booting
-> ARM 32-bit platforms that have specific FDT placement and would cause
-> boot failures like these:
->
+Al Viro <viro@zeniv.linux.org.uk> writes:
 
-I don't have any objections to backporting these changes, but it would
-be helpful if you could explain why this is a regression. Also, you'll
-need to pull in the following patch as well
+> On Sat, May 08, 2021 at 10:46:23PM +0000, Al Viro wrote:
+>> On Sat, May 08, 2021 at 03:17:44PM -0700, Linus Torvalds wrote:
+>> > On Sat, May 8, 2021 at 2:06 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>> > >
+>> > > On Sat, May 08, 2021 at 01:39:45PM -0700, Linus Torvalds wrote:
+>> > >
+>> > > > +static inline int prepend_entries(struct prepend_buffer *b, const struct path *path, const struct path *root, struct mount *mnt)
+>> > >
+>> > > If anything, s/path/dentry/, since vfsmnt here will be equal to &mnt->mnt all along.
+>> > 
+>> > Too subtle for me.
+>> > 
+>> > And is it? Because mnt is from
+>> > 
+>> >      mnt = real_mount(path->mnt);
+>> > 
+>> > earlier, while vfsmount is plain "path->mnt".
+>> 
+>> static inline struct mount *real_mount(struct vfsmount *mnt)
+>> {
+>>         return container_of(mnt, struct mount, mnt);
+>> }
+>
+> Basically, struct vfsmount instances are always embedded into struct mount ones.
+> All information about the mount tree is in the latter (and is visible only if
+> you manage to include fs/mount.h); here we want to walk towards root, so...
+>
+> Rationale: a lot places use struct vfsmount pointers, but they've no need to
+> access all that stuff.  So struct vfsmount got trimmed down, with most of the
+> things that used to be there migrating into the containing structure.
+>
+> [Christian Browner Cc'd]
+> BTW, WTF do we have struct mount.user_ns and struct vfsmount.mnt_userns?
+> Can they ever be different?  Christian?
 
-10fce53c0ef8 ARM: 9027/1: head.S: explicitly map DT even if it lives
-in the first physical section
+I presume you are asking about struct mnt_namespace.user_ns and
+struct vfsmount.mnt_userns.
 
+That must the idmapped mounts work.
 
-> [    0.000000] 8<--- cut here ---
-> [    0.000000] Unable to handle kernel paging request at virtual address
-> ffa14000
-> [    0.000000] pgd = (ptrval)
-> [    0.000000] [ffa14000] *pgd=80000040007003, *pmd=00000000
-> [    0.000000] Internal error: Oops: 206 [#1] SMP ARM
-> [    0.000000] Modules linked in:
-> [    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.4.85-1.0 #1
-> [    0.000000] Hardware name: Broadcom STB (Flattened Device Tree)
-> [    0.000000] PC is at fdt_check_header+0xc/0x21c
-> [    0.000000] LR is at __unflatten_device_tree+0x7c/0x2f8
-> [    0.000000] pc : [<c0d30e44>]    lr : [<c0a6c0fc>]    psr: 600000d3
-> [    0.000000] sp : c1401eac  ip : c1401ec8  fp : c1401ec4
-> [    0.000000] r10: 00000000  r9 : c150523c  r8 : 00000000
-> [    0.000000] r7 : c124eab4  r6 : ffa14000  r5 : 00000000  r4 :
-> c14ba920
-> [    0.000000] r3 : 00000000  r2 : c150523c  r1 : 00000000  r0 :
-> ffa14000
-> [    0.000000] Flags: nZCv  IRQs off  FIQs off  Mode SVC_32  ISA ARM
-> Segment user
-> [    0.000000] Control: 30c5383d  Table: 40003000  DAC: fffffffd
-> [    0.000000] Process swapper (pid: 0, stack limit = 0x(ptrval))
-> [    0.000000] Stack: (0xc1401eac to 0xc1402000)
-> [    0.000000] 1ea0:                            c14ba920 00000000
-> ffa14000 c1401ef4 c1401ec8
-> [    0.000000] 1ec0: c0a6c0fc c0d30e44 c124eab4 c124eab4 00000000
-> c14ebfc0 c140e5b8 00000000
-> [    0.000000] 1ee0: 00000001 c126f5a0 c1401f14 c1401ef8 c1250064
-> c0a6c08c 00000000 c1401f08
-> [    0.000000] 1f00: c022ddac c140ce80 c1401f9c c1401f18 c120506c
-> c125002c 00000000 00000000
-> [    0.000000] 1f20: 00000000 00000000 ffffffff c1401f94 c1401f6c
-> c1406308 3fffffff 00000001
-> [    0.000000] 1f40: 00000000 00000001 c1432b58 c14ca180 c1213ca4
-> c1406308 c1406300 30c0387d
-> [    0.000000] 1f60: c1401f8c c1401f70 c028e0ec 00000000 c1401f94
-> c1406308 c1406300 30c0387d
-> [    0.000000] 1f80: 00000000 7fa14000 420f1000 30c5387d c1401ff4
-> c1401fa0 c1200c98 c120467c
-> [    0.000000] 1fa0: 00000000 00000000 00000000 00000000 00000000
-> 00000000 00000000 c127fa44
-> [    0.000000] 1fc0: 00000000 00000000 00000000 c1200330 00000000
-> 30c0387d ffffffff 7fa14000
-> [    0.000000] 1fe0: 420f1000 30c5387d 00000000 c1401ff8 00000000
-> c1200c28 00000000 00000000
-> [    0.000000] Backtrace:
-> [    0.000000] [<c0d30e38>] (fdt_check_header) from [<c0a6c0fc>]
-> (__unflatten_device_tree+0x7c/0x2f8)
-> [    0.000000]  r6:ffa14000 r5:00000000 r4:c14ba920
-> [    0.000000] [<c0a6c080>] (__unflatten_device_tree) from [<c1250064>]
-> (unflatten_device_tree+0x44/0x54)
-> [    0.000000]  r10:c126f5a0 r9:00000001 r8:00000000 r7:c140e5b8
-> r6:c14ebfc0 r5:00000000
-> [    0.000000]  r4:c124eab4 r3:c124eab4
-> [    0.000000] [<c1250020>] (unflatten_device_tree) from [<c120506c>]
-> (setup_arch+0x9fc/0xc84)
-> [    0.000000]  r4:c140ce80
-> [    0.000000] [<c1204670>] (setup_arch) from [<c1200c98>]
-> (start_kernel+0x7c/0x540)
-> [    0.000000]  r10:30c5387d r9:420f1000 r8:7fa14000 r7:00000000
-> r6:30c0387d r5:c1406300
-> [    0.000000]  r4:c1406308
-> [    0.000000] [<c1200c1c>] (start_kernel) from [<00000000>] (0x0)
-> [    0.000000]  r10:30c5387d r9:420f1000 r8:7fa14000 r7:ffffffff
-> r6:30c0387d r5:00000000
-> [    0.000000]  r4:c1200330
-> [    0.000000] Code: e89da800 e1a0c00d e92dd870 e24cb004 (e5d03000)
-> [    0.000000] random: get_random_bytes called from
-> print_oops_end_marker+0x50/0x58 with crng_init=0
-> [    0.000000] ---[ end trace f34b4929828506c1 ]---
-> [    0.000000] Kernel panic - not syncing: Attempted to kill the idle
-> task!
-> [    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill
-> the idle task! ]---
->
->
-> Ard Biesheuvel (3):
->   ARM: 9011/1: centralize phys-to-virt conversion of DT/ATAGS address
->   ARM: 9012/1: move device tree mapping out of linear region
->   ARM: 9020/1: mm: use correct section size macro to describe the FDT
->     virtual address
->
->  Documentation/arm/memory.rst  |  7 ++++++-
->  arch/arm/include/asm/fixmap.h |  2 +-
->  arch/arm/include/asm/memory.h |  5 +++++
->  arch/arm/include/asm/prom.h   |  4 ++--
->  arch/arm/kernel/atags.h       |  4 ++--
->  arch/arm/kernel/atags_parse.c |  6 +++---
->  arch/arm/kernel/devtree.c     |  6 +++---
->  arch/arm/kernel/head.S        |  5 ++---
->  arch/arm/kernel/setup.c       | 19 ++++++++++++++-----
->  arch/arm/mm/init.c            |  1 -
->  arch/arm/mm/mmu.c             | 20 ++++++++++++++------
->  arch/arm/mm/pv-fixup-asm.S    |  4 ++--
->  12 files changed, 54 insertions(+), 29 deletions(-)
->
-> --
-> 2.25.1
->
+In short mnt_namespace.user_ns is the user namespace that owns
+the mount namespace.
+
+vfsmount.mnt_userns functionally could be reduced to just some struct
+uid_gid_map structures hanging off the vfsmount.  It's purpose is
+to add a generic translation of uids and gids on from the filesystem
+view to the what we want to show userspace.
+
+That code could probably benefit from some refactoring so it is clearer,
+and some serious fixes.  I reported it earlier but it looks like there
+is some real breakage in chown if you use idmapped mounts.
+
+Eric
