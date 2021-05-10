@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5138BC4361A
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 15:05:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28E9C43618
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 15:05:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D87B61421
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 15:05:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 855E061421
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 15:05:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242352AbhEJPGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 11:06:55 -0400
-Received: from mga03.intel.com ([134.134.136.65]:18899 "EHLO mga03.intel.com"
+        id S242051AbhEJPGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 11:06:54 -0400
+Received: from mga14.intel.com ([192.55.52.115]:14230 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235326AbhEJPFY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 11:05:24 -0400
-IronPort-SDR: 3d5S3Swa/9p9Ugalhr8YwapLF6TJL2CYMzXfJm9s3KELeX4eI2GRlLMRMZUDR0Vs+43a0oG97Y
- u1ObvhnBRwSQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199266347"
+        id S235028AbhEJPFI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 11:05:08 -0400
+IronPort-SDR: UkIR35QGWofuJcJeYhRLNNtJRi+8sxk/IFoNHA10RBAN79Tq146G/9krR6IlY5hy5mDK69CexA
+ QxLdtzZ0HcIA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="198891287"
 X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; 
-   d="scan'208";a="199266347"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 08:04:02 -0700
-IronPort-SDR: IOjie96ZhmgBakkWhU2dJA996iOyKlZJgdodqHtw3Qv0We3mF69WZ562+YavWqrvP7cHA1djcp
- KCtcD6gLXJ3w==
+   d="scan'208";a="198891287"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 08:04:01 -0700
+IronPort-SDR: vtCioZJlQQudEsVBPUFAdiRcXz8hr8ByH7nkY/1QzNUsTgRdwzS673eAs+6b+hMtXD267On8EP
+ QquePXuHOn1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; 
-   d="scan'208";a="468259165"
+   d="scan'208";a="536448298"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 10 May 2021 08:03:56 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 10 May 2021 08:03:56 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 88ECF1D2; Mon, 10 May 2021 18:04:16 +0300 (EEST)
+        id 7EA3F147; Mon, 10 May 2021 18:04:16 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
         Joe Perches <joe@perches.com>,
@@ -55,9 +55,9 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Jason Wessel <jason.wessel@windriver.com>,
         Daniel Thompson <daniel.thompson@linaro.org>,
         Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v1 4/4] usb: host: xhci-tegra: Switch to use %ptTs
-Date:   Mon, 10 May 2021 18:04:13 +0300
-Message-Id: <20210510150413.59356-4-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 3/4] nilfs2: Switch to use %ptTs
+Date:   Mon, 10 May 2021 18:04:12 +0300
+Message-Id: <20210510150413.59356-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
 References: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
@@ -70,38 +70,66 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Use %ptTs instead of open coded variant to print contents
 of time64_t type in human readable form.
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Use sysfs_emit() at the same time in the changed functions.
+
+Cc: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: linux-nilfs@vger.kernel.org
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/usb/host/xhci-tegra.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ fs/nilfs2/sysfs.c | 19 +++----------------
+ 1 file changed, 3 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index ce97ff054c68..937b78cba89b 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -890,7 +890,6 @@ static int tegra_xusb_load_firmware(struct tegra_xusb *tegra)
- 	struct xhci_op_regs __iomem *op;
- 	unsigned long timeout;
- 	time64_t timestamp;
--	struct tm time;
- 	u64 address;
- 	u32 value;
- 	int err;
-@@ -987,11 +986,8 @@ static int tegra_xusb_load_firmware(struct tegra_xusb *tegra)
- 	}
+diff --git a/fs/nilfs2/sysfs.c b/fs/nilfs2/sysfs.c
+index 303d71430bdd..4e10423f0448 100644
+--- a/fs/nilfs2/sysfs.c
++++ b/fs/nilfs2/sysfs.c
+@@ -19,19 +19,6 @@
+ /* /sys/fs/<nilfs>/ */
+ static struct kset *nilfs_kset;
  
- 	timestamp = le32_to_cpu(header->fwimg_created_time);
--	time64_to_tm(timestamp, 0, &time);
+-#define NILFS_SHOW_TIME(time_t_val, buf) ({ \
+-		struct tm res; \
+-		int count = 0; \
+-		time64_to_tm(time_t_val, 0, &res); \
+-		res.tm_year += 1900; \
+-		res.tm_mon += 1; \
+-		count = scnprintf(buf, PAGE_SIZE, \
+-				    "%ld-%.2d-%.2d %.2d:%.2d:%.2d\n", \
+-				    res.tm_year, res.tm_mon, res.tm_mday, \
+-				    res.tm_hour, res.tm_min, res.tm_sec);\
+-		count; \
+-})
+-
+ #define NILFS_DEV_INT_GROUP_OPS(name, parent_name) \
+ static ssize_t nilfs_##name##_attr_show(struct kobject *kobj, \
+ 					struct attribute *attr, char *buf) \
+@@ -576,7 +563,7 @@ nilfs_segctor_last_seg_write_time_show(struct nilfs_segctor_attr *attr,
+ 	ctime = nilfs->ns_ctime;
+ 	up_read(&nilfs->ns_segctor_sem);
  
--	dev_info(dev, "Firmware timestamp: %ld-%02d-%02d %02d:%02d:%02d UTC\n",
--		 time.tm_year + 1900, time.tm_mon + 1, time.tm_mday,
--		 time.tm_hour, time.tm_min, time.tm_sec);
-+	dev_info(dev, "Firmware timestamp: %ptTs UTC\n", &timestamp);
- 
- 	return 0;
+-	return NILFS_SHOW_TIME(ctime, buf);
++	return sysfs_emit(buf, "%ptTs\n", &ctime);
  }
+ 
+ static ssize_t
+@@ -604,7 +591,7 @@ nilfs_segctor_last_nongc_write_time_show(struct nilfs_segctor_attr *attr,
+ 	nongc_ctime = nilfs->ns_nongc_ctime;
+ 	up_read(&nilfs->ns_segctor_sem);
+ 
+-	return NILFS_SHOW_TIME(nongc_ctime, buf);
++	return sysfs_emit(buf, "%ptTs\n", &nongc_ctime);
+ }
+ 
+ static ssize_t
+@@ -724,7 +711,7 @@ nilfs_superblock_sb_write_time_show(struct nilfs_superblock_attr *attr,
+ 	sbwtime = nilfs->ns_sbwtime;
+ 	up_read(&nilfs->ns_sem);
+ 
+-	return NILFS_SHOW_TIME(sbwtime, buf);
++	return sysfs_emit(buf, "%ptTs\n", &sbwtime);
+ }
+ 
+ static ssize_t
 -- 
 2.30.2
 
