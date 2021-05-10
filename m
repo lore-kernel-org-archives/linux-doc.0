@@ -4,46 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2764CC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:32:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FE18C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:32:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2E8561934
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:32:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46C6B61601
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:32:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232212AbhEJKdo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:33:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40400 "EHLO mail.kernel.org"
+        id S230319AbhEJKds (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:33:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40468 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231364AbhEJKbk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:31:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EB4A161601;
-        Mon, 10 May 2021 10:27:23 +0000 (UTC)
+        id S231219AbhEJKbn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:31:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 10EAE61934;
+        Mon, 10 May 2021 10:27:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642444;
-        bh=jioxfYQEAZJHM7vUpkbi4bioydkL+hH7U0N0/80717Q=;
+        bh=XV3BlLVsbLXy8P+v3fW8y64kD1zGLO02X8eZISsJWyI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QGxfv/dzUFDNIhEgvRwGe+4xhXIgzAhDXite3H3ABCjNV5YmUzEPbL2jpPWhcQVZp
-         7JJXhGxerlhHo+IKC9tXpUm1QXFRiSVATJQcmgf+tXkF4ow7MENHh7KIiTlSiOZy0F
-         7O30u1MBLDKNT0bAjucVe80toRflL50xNyMU+Kq4nMjkS+OXcf+ghxD/SzM8WLjdTx
-         h0NGUYXmAzN1L7Me/rcwzu0yzqB/6pvnu5YsYPcLfSXrDq60T/4cJUshKKNWsuoulH
-         rgUdSunGMQ0znLFtNz6WF5TKcjT5G76BvfMQGntU2bpmQE8iJltrNZxRWYVnqU+KiT
-         aTtizOWPvw7gg==
+        b=qDMIrvawz0L+ZZxAdOVIpuDu592EBudvr1R7jbb/Fcf4PisF9UwIfu+FnTlP1+j4O
+         grtIFKw5HVuN5Yvg2yApfV4hnd70yUBg5hK104aFeyJQ06I0TSZ0iilKkgokTz2hG0
+         027fJSalD9WNjE4/ZNmcM2RE0HG3p4qeYZc8LJnBW8fhMDov284fBQqLcoJSSiQTNG
+         0as7Nvu+3wvkmbXFXzQcbbEisy3FtXZYbnujsl9vHewXrBxORJl46ODRganHqHeKOj
+         33KdrDMGLdhz19OwgJpGvvow3v/FgsCd5gqceasSvACECPkVEnw4TYYHvk+d7WNsCp
+         PZTxmzf3n7ReQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38E-000UQa-1q; Mon, 10 May 2021 12:27:22 +0200
+        id 1lg38E-000UQm-67; Mon, 10 May 2021 12:27:22 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@nvidia.com>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH 35/53] docs: networking: devlink: devlink-dpipe.rst: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:47 +0200
-Message-Id: <ef67533dd90ecdeb6cd8aa3e1697c11187d62d8e.1620641727.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Joe Perches <joe@perches.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 38/53] docs: scheduler: sched-deadline.rst: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:50 +0200
+Message-Id: <b61e003ec84ecc1ee3216e9bed2471d43dae05d0.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -59,26 +57,36 @@ While UTF-8 characters can be used at the Linux documentation,
 the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+2013 ('–'): EN DASH
+	- U+2212 ('−'): MINUS SIGN
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/devlink/devlink-dpipe.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/scheduler/sched-deadline.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/networking/devlink/devlink-dpipe.rst b/Documentation/networking/devlink/devlink-dpipe.rst
-index af37f250df43..2df7cbf1ba70 100644
---- a/Documentation/networking/devlink/devlink-dpipe.rst
-+++ b/Documentation/networking/devlink/devlink-dpipe.rst
-@@ -52,7 +52,7 @@ purposes as a standard complementary tool. The system's view from
- ``devlink-dpipe`` should change according to the changes done by the
- standard configuration tools.
+diff --git a/Documentation/scheduler/sched-deadline.rst b/Documentation/scheduler/sched-deadline.rst
+index 9d9be52f221a..0ff353ecf24e 100644
+--- a/Documentation/scheduler/sched-deadline.rst
++++ b/Documentation/scheduler/sched-deadline.rst
+@@ -359,7 +359,7 @@ Deadline Task Scheduling
+  More precisely, it can be proven that using a global EDF scheduler the
+  maximum tardiness of each task is smaller or equal than
  
--For example, it’s quite common to  implement Access Control Lists (ACL)
-+For example, it's quite common to  implement Access Control Lists (ACL)
- using Ternary Content Addressable Memory (TCAM). The TCAM memory can be
- divided into TCAM regions. Complex TC filters can have multiple rules with
- different priorities and different lookup keys. On the other hand hardware
+-	((M − 1) · WCET_max − WCET_min)/(M − (M − 2) · U_max) + WCET_max
++	((M - 1) · WCET_max - WCET_min)/(M - (M - 2) · U_max) + WCET_max
+ 
+  where WCET_max = max{WCET_i} is the maximum WCET, WCET_min=min{WCET_i}
+  is the minimum WCET, and U_max = max{WCET_i/P_i} is the maximum
+@@ -515,7 +515,7 @@ Deadline Task Scheduling
+       pp 760-768, 2005.
+   10 - J. Goossens, S. Funk and S. Baruah, Priority-Driven Scheduling of
+        Periodic Task Systems on Multiprocessors. Real-Time Systems Journal,
+-       vol. 25, no. 2–3, pp. 187–205, 2003.
++       vol. 25, no. 2-3, pp. 187-205, 2003.
+   11 - R. Davis and A. Burns. A Survey of Hard Real-Time Scheduling for
+        Multiprocessor Systems. ACM Computing Surveys, vol. 43, no. 4, 2011.
+        http://www-users.cs.york.ac.uk/~robdavis/papers/MPSurveyv5.0.pdf
 -- 
 2.30.2
 
