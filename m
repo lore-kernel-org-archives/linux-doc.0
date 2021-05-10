@@ -2,85 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A901C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 16:31:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3597DC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 16:33:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11222611AB
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 16:31:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03F18611AB
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 16:33:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231697AbhEJQcw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 12:32:52 -0400
-Received: from foss.arm.com ([217.140.110.172]:34020 "EHLO foss.arm.com"
+        id S231744AbhEJQfA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 12:35:00 -0400
+Received: from foss.arm.com ([217.140.110.172]:34076 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231626AbhEJQcf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 12:32:35 -0400
+        id S231696AbhEJQep (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 12:34:45 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2197B169C;
-        Mon, 10 May 2021 09:31:30 -0700 (PDT)
-Received: from e113131-lin.cambridge.arm.com (e113131-lin.cambridge.arm.com [10.1.195.76])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C3EAC3F73B;
-        Mon, 10 May 2021 09:31:28 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BC10168F;
+        Mon, 10 May 2021 09:33:40 -0700 (PDT)
+Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C655B3F73B;
+        Mon, 10 May 2021 09:33:37 -0700 (PDT)
+Date:   Mon, 10 May 2021 17:33:29 +0100
 From:   Beata Michalska <beata.michalska@arm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
+        mingo@redhat.com, juri.lelli@redhat.com,
         vincent.guittot@linaro.org, valentin.schneider@arm.com,
-        dietmar.eggemann@arm.com, corbet@lwn.net, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v3 3/3] sched/doc: Update the CPU capacity asymmetry bits
-Date:   Mon, 10 May 2021 17:30:58 +0100
-Message-Id: <1620664258-11045-4-git-send-email-beata.michalska@arm.com>
-In-Reply-To: <1620664258-11045-1-git-send-email-beata.michalska@arm.com>
-References: <1620664258-11045-1-git-send-email-beata.michalska@arm.com>
+        dietmar.eggemann@arm.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v2 3/3] sched/doc: Update the CPU capacity asymmetry
+ bits
+Message-ID: <20210510163329.GA8567@e120325.cambridge.arm.com>
+References: <1619602363-1305-1-git-send-email-beata.michalska@arm.com>
+ <1619602363-1305-4-git-send-email-beata.michalska@arm.com>
+ <79223641-6b3e-6b48-50df-3a9c73c003cd@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <79223641-6b3e-6b48-50df-3a9c73c003cd@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the documentation bits referring to capacity aware scheduling
-with regards to newly introduced SD_ASYM_CPUCAPACITY_FULL sched_domain
-flag.
+On Wed, Apr 28, 2021 at 10:19:10AM -0700, Randy Dunlap wrote:
+> On 4/28/21 2:32 AM, Beata Michalska wrote:
+> > Update the documentation bits referring to capacity aware scheduling
+> > with regards to newly introduced SD_ASYM_CPUCAPACITY_FULL shed_domain
+> 
+>                                                             sched_domain
+> I guess.
+> 
+> > flag.
+> > 
+> > Signed-off-by: Beata Michalska <beata.michalska@arm.com>
+> > ---
+> >  Documentation/scheduler/sched-capacity.rst | 6 ++++--
+> >  Documentation/scheduler/sched-energy.rst   | 2 +-
+> >  2 files changed, 5 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
+> > index 9b7cbe4..92d16e7 100644
+> > --- a/Documentation/scheduler/sched-capacity.rst
+> > +++ b/Documentation/scheduler/sched-capacity.rst
+> > @@ -284,8 +284,10 @@ whether the system exhibits asymmetric CPU capacities. Should that be the
+> >  case:
+> >  
+> >  - The sched_asym_cpucapacity static key will be enabled.
+> > -- The SD_ASYM_CPUCAPACITY flag will be set at the lowest sched_domain level that
+> > -  spans all unique CPU capacity values.
+> > +- The SD_ASYM_CPUCAPACITY_FULL flag will be set at the lowest sched_domain
+> > +  level that spans all unique CPU capacity values.
+> > +- The SD_ASYM_CPUCAPACITY flag will be set for any sched_domain that spans
+> > +  cpus with any range of asymmetry.
+> 
+>      CPUs
+> please.
+> 
+> >  
+> >  The sched_asym_cpucapacity static key is intended to guard sections of code that
+> >  cater to asymmetric CPU capacity systems. Do note however that said key is
+> > diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+> > index afe02d3..8fbce5e 100644
+> > --- a/Documentation/scheduler/sched-energy.rst
+> > +++ b/Documentation/scheduler/sched-energy.rst
+> > @@ -328,7 +328,7 @@ section lists these dependencies and provides hints as to how they can be met.
+> >  
+> >  As mentioned in the introduction, EAS is only supported on platforms with
+> >  asymmetric CPU topologies for now. This requirement is checked at run-time by
+> > -looking for the presence of the SD_ASYM_CPUCAPACITY flag when the scheduling
+> > +looking for the presence of the SD_ASYM_CPUCAPACITY_FULL flag when the scheduling
+> >  domains are built.
+> >  
+> >  See Documentation/scheduler/sched-capacity.rst for requirements to be met for this
+> > 
+>
 
-Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
+Thank you for having a look!
+Fixes applied to v3.
+
 ---
- Documentation/scheduler/sched-capacity.rst | 6 ++++--
- Documentation/scheduler/sched-energy.rst   | 2 +-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+BR
+B.
 
-diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
-index 9b7cbe4..805f85f 100644
---- a/Documentation/scheduler/sched-capacity.rst
-+++ b/Documentation/scheduler/sched-capacity.rst
-@@ -284,8 +284,10 @@ whether the system exhibits asymmetric CPU capacities. Should that be the
- case:
- 
- - The sched_asym_cpucapacity static key will be enabled.
--- The SD_ASYM_CPUCAPACITY flag will be set at the lowest sched_domain level that
--  spans all unique CPU capacity values.
-+- The SD_ASYM_CPUCAPACITY_FULL flag will be set at the lowest sched_domain
-+  level that spans all unique CPU capacity values.
-+- The SD_ASYM_CPUCAPACITY flag will be set for any sched_domain that spans
-+  CPUs with any range of asymmetry.
- 
- The sched_asym_cpucapacity static key is intended to guard sections of code that
- cater to asymmetric CPU capacity systems. Do note however that said key is
-diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-index afe02d3..8fbce5e 100644
---- a/Documentation/scheduler/sched-energy.rst
-+++ b/Documentation/scheduler/sched-energy.rst
-@@ -328,7 +328,7 @@ section lists these dependencies and provides hints as to how they can be met.
- 
- As mentioned in the introduction, EAS is only supported on platforms with
- asymmetric CPU topologies for now. This requirement is checked at run-time by
--looking for the presence of the SD_ASYM_CPUCAPACITY flag when the scheduling
-+looking for the presence of the SD_ASYM_CPUCAPACITY_FULL flag when the scheduling
- domains are built.
- 
- See Documentation/scheduler/sched-capacity.rst for requirements to be met for this
--- 
-2.7.4
-
+> thanks.
+> -- 
+> ~Randy
+> 
