@@ -2,220 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A927C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 14:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 674A5C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 14:19:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B202610F8
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 14:17:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3410460E09
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 14:19:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241271AbhEJOSt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 10:18:49 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:59686 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232009AbhEJORD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 10:17:03 -0400
-Received: from zn.tnic (p200300ec2f066d00159cc50318b4d41b.dip0.t-ipconnect.de [IPv6:2003:ec:2f06:6d00:159c:c503:18b4:d41b])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3CCFD1EC0350;
-        Mon, 10 May 2021 16:15:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1620656146;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=o2aoaH2RymU6wxi8X7V+6fjKICNEkCYu8vfZLJTg/WM=;
-        b=r4xTua/evyV7MIbUF+KfrYv8m7oot0Y5Z+nHZRk9uPtU1XfbM2yO8UnOjpCQOMi8FzBIwA
-        PUewBV0RTv/uqtgZbIlCXnskJ1wspzZu6DiFOn9gKpKLxni5yqrf3Pk2xKgia/oY21j8pf
-        PjDV2UJsf4y20ufm418bw+P+7VMh8O4=
-Date:   Mon, 10 May 2021 16:15:43 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
-Message-ID: <YJlADyc/9pn8Sjkn@zn.tnic>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-24-yu-cheng.yu@intel.com>
+        id S233115AbhEJOUF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 10:20:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235134AbhEJORr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 10:17:47 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C271C061377
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 06:53:44 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id l4so24632069ejc.10
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 06:53:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=3/BpnWJEv4o5FfX0aIZJ40Ru/5e0Tbvo6Tknzzoadv8=;
+        b=UkesQq7U/Vv6j8enBp4w98nDH5cgHq2J7P37F7StYDrpooPI34/pzSH+hT06U1W2/C
+         SrQRPskipuF0pIQL1UWCrC9wa00Z1+Yz3mVw580J9TEeRv3YPQHJNDnWVxiWayqSliYW
+         RvfQn8L7qemW7Hrg0OdX5lvb5WihYgqnewGXnOLz045bXvi4zEi2/Oxj+Wauz/coV+oI
+         ruLiqiRfuX3z5K7puwuN3t4pIlz9v0QtXaRPLKqSGgZn8bn9dS0VOVSQB9yNuoNxLH6Y
+         +PLT34lTaDhXYKBD18/9HqcwDBz7y26rzkTPDRoLriu+O7/qfQSeCtDJd0B1431ESYj1
+         CgPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3/BpnWJEv4o5FfX0aIZJ40Ru/5e0Tbvo6Tknzzoadv8=;
+        b=beGACoy9yRz5J7CnKRP8P9thP6o3Ve3jy67cuR106vBpbnNgtXy3/9SmAOkZsPpoMp
+         ZvvsXCea7oqmpPTtFL7x12X1v50xEs269D1dfoPCTEcgk/su/w6ooM+7cLBwoCJUrGvN
+         SzHbI/7//jHPbVf4/HmmCAdgPdmDYM9IW5xQ4sN/68pnpRmerQRSO5hyuIWBbNz13OiR
+         MgxqfeEpZT048dE/q3zbFhkk2C4/FpdfwvoXOfkXgGyWu5WtaTQDYPx3slBPxDOSdcTn
+         x48EsysvduMfiHFp10Uwf4F2342z7DFXt3by0UvyzfLOXglaHGVeSMEdTFPR0NDhUUhJ
+         X2BQ==
+X-Gm-Message-State: AOAM5330uVIdT2fyZewFi42zf9ewYkuqon0gJwTZibeEmBfojNY6aDE4
+        bEavR0469UKFku7SOg45F2lDO1ShU15pMEU2qFPshA==
+X-Google-Smtp-Source: ABdhPJxTc1BkzCj3RKu6aUlgFJxgyFP3L14QOJWTKLIzRzZDXDruv3cMRlZzIFPCM95csvx+Esb4EjCSrpUflzt4+aE=
+X-Received: by 2002:a17:906:fa86:: with SMTP id lt6mr25351839ejb.547.1620654822363;
+ Mon, 10 May 2021 06:53:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210427204315.24153-24-yu-cheng.yu@intel.com>
+References: <cover.1620641727.git.mchehab+huawei@kernel.org> <16298d18c8bada9775e32d5f7f9edf664bce820d.1620641727.git.mchehab+huawei@kernel.org>
+In-Reply-To: <16298d18c8bada9775e32d5f7f9edf664bce820d.1620641727.git.mchehab+huawei@kernel.org>
+From:   Guenter Roeck <groeck@google.com>
+Date:   Mon, 10 May 2021 06:53:30 -0700
+Message-ID: <CABXOdTctRP0qHzgJGKXuE6AnroP-J1yJVYEDNQ4O-NKMC0ajcA@mail.gmail.com>
+Subject: Re: [PATCH 41/53] docs: ABI: avoid using UTF-8 chars
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Steven Price <steven.price@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Tom Rix <trix@redhat.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 01:43:08PM -0700, Yu-cheng Yu wrote:
-> @@ -181,6 +184,12 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
->  	if (clone_flags & CLONE_SETTLS)
->  		ret = set_new_tls(p, tls);
->  
-> +#ifdef CONFIG_X86_64
+On Mon, May 10, 2021 at 3:27 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> While UTF-8 characters can be used at the Linux documentation,
+> the best is to use them only when ASCII doesn't offer a good replacement.
+> So, replace the occurences of the following UTF-8 characters:
+>
+>         - U+2013 ('=E2=80=93'): EN DASH
+>         - U+2018 ('=E2=80=98'): LEFT SINGLE QUOTATION MARK
+>         - U+2019 ('=E2=80=99'): RIGHT SINGLE QUOTATION MARK
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-IS_ENABLED
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
-> +	/* Allocate a new shadow stack for pthread */
-> +	if (!ret)
-> +		ret = shstk_setup_thread(p, clone_flags, stack_size);
-> +#endif
-> +
-
-And why is this addition here...
-
->  	if (!ret && unlikely(test_tsk_thread_flag(current, TIF_IO_BITMAP)))
->  		io_bitmap_share(p);
-
-... instead of here?
-
-<---
-
->  
-> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-> index c815c7507830..d387df84b7f1 100644
-> --- a/arch/x86/kernel/shstk.c
-> +++ b/arch/x86/kernel/shstk.c
-> @@ -70,6 +70,55 @@ int shstk_setup(void)
->  	return 0;
->  }
-
-> +int shstk_setup_thread(struct task_struct *tsk, unsigned long clone_flags,
-
-Judging by what this function does, its name wants to be
-
-shstk_alloc_thread_stack()
-
-or so?
-
-> +		       unsigned long stack_size)
-> +{
-> +	unsigned long addr, size;
-> +	struct cet_user_state *state;
-> +	struct cet_status *cet = &tsk->thread.cet;
-
-The tip-tree preferred ordering of variable declarations at the
-beginning of a function is reverse fir tree order::
-
-	struct long_struct_name *descriptive_name;
-	unsigned long foo, bar;
-	unsigned int tmp;
-	int ret;
-
-The above is faster to parse than the reverse ordering::
-
-	int ret;
-	unsigned int tmp;
-	unsigned long foo, bar;
-	struct long_struct_name *descriptive_name;
-
-And even more so than random ordering::
-
-	unsigned long foo, bar;
-	int ret;
-	struct long_struct_name *descriptive_name;
-	unsigned int tmp;
-
-> +
-> +	if (!cet->shstk_size)
-> +		return 0;
-> +
-
-This check needs a comment.
-
-> +	if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
-> +		return 0;
-> +
-> +	state = get_xsave_addr(&tsk->thread.fpu.state.xsave,
-> +			       XFEATURE_CET_USER);
-
-Let that line stick out.
-
-> +
-> +	if (!state)
-> +		return -EINVAL;
-> +
-> +	if (stack_size == 0)
-
-	if (!stack_size)
-
-> +		return -EINVAL;
-
-and that test needs to be done first in the function.
-
-> +
-> +	/* Cap shadow stack size to 4 GB */
-
-Why?
-
-> +	size = min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G);
-> +	size = min(size, stack_size);
-> +
-> +	/*
-> +	 * Compat-mode pthreads share a limited address space.
-> +	 * If each function call takes an average of four slots
-> +	 * stack space, allocate 1/4 of stack size for shadow stack.
-> +	 */
-> +	if (in_compat_syscall())
-> +		size /= 4;
-
-<---- newline here.
-
-> +	size = round_up(size, PAGE_SIZE);
-> +	addr = alloc_shstk(size);
-> +
-
-^ Superfluous newline.
-
-> +	if (IS_ERR_VALUE(addr)) {
-> +		cet->shstk_base = 0;
-> +		cet->shstk_size = 0;
-> +		return PTR_ERR((void *)addr);
-> +	}
-> +
-> +	fpu__prepare_write(&tsk->thread.fpu);
-> +	state->user_ssp = (u64)(addr + size);
-
-cet_user_state has u64, cet_status has unsigned longs. Make them all u64.
-
-And since cet_status is per thread, but I had suggested struct
-shstk_desc, I think now that that should be called
-
-struct thread_shstk
-
-or so to denote *exactly* what it is.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> ---
+>  .../ABI/testing/sysfs-class-chromeos-driver-cros-ec-lightbar  | 2 +-
+>  Documentation/ABI/testing/sysfs-class-net-cdc_ncm             | 2 +-
+>  Documentation/ABI/testing/sysfs-devices-platform-ipmi         | 2 +-
+>  Documentation/ABI/testing/sysfs-devices-platform-trackpoint   | 2 +-
+>  Documentation/ABI/testing/sysfs-devices-soc                   | 4 ++--
+>  5 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-class-chromeos-driver-cros-e=
+c-lightbar b/Documentation/ABI/testing/sysfs-class-chromeos-driver-cros-ec-=
+lightbar
+> index 57a037791403..a7fb8f1169f2 100644
+> --- a/Documentation/ABI/testing/sysfs-class-chromeos-driver-cros-ec-light=
+bar
+> +++ b/Documentation/ABI/testing/sysfs-class-chromeos-driver-cros-ec-light=
+bar
+> @@ -29,7 +29,7 @@ KernelVersion:        4.2
+>  Description:
+>                 This allows you to control each LED segment. If the
+>                 lightbar is already running one of the automatic
+> -               sequences, you probably won=E2=80=99t see anything change=
+ because
+> +               sequences, you probably won't see anything change because
+>                 your color setting will be almost immediately replaced.
+>                 To get useful results, you should stop the lightbar
+>                 sequence first.
+> diff --git a/Documentation/ABI/testing/sysfs-class-net-cdc_ncm b/Document=
+ation/ABI/testing/sysfs-class-net-cdc_ncm
+> index 06416d0e163d..41a1eef0d0e7 100644
+> --- a/Documentation/ABI/testing/sysfs-class-net-cdc_ncm
+> +++ b/Documentation/ABI/testing/sysfs-class-net-cdc_ncm
+> @@ -93,7 +93,7 @@ Contact:      Bj=C3=B8rn Mork <bjorn@mork.no>
+>  Description:
+>                 - Bit 0: 16-bit NTB supported (set to 1)
+>                 - Bit 1: 32-bit NTB supported
+> -               - Bits 2 =E2=80=93 15: reserved (reset to zero; must be i=
+gnored by host)
+> +               - Bits 2 - 15: reserved (reset to zero; must be ignored b=
+y host)
+>
+>  What:          /sys/class/net/<iface>/cdc_ncm/dwNtbInMaxSize
+>  Date:          May 2014
+> diff --git a/Documentation/ABI/testing/sysfs-devices-platform-ipmi b/Docu=
+mentation/ABI/testing/sysfs-devices-platform-ipmi
+> index 07df0ddc0b69..3935cdedea0e 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-platform-ipmi
+> +++ b/Documentation/ABI/testing/sysfs-devices-platform-ipmi
+> @@ -52,7 +52,7 @@ Date:         Mar, 2006
+>  KernelVersion: v2.6.17
+>  Contact:       openipmi-developer@lists.sourceforge.net
+>  Description:
+> -               (RO) Lists the IPMI =E2=80=98logical device=E2=80=99 comm=
+ands and functions
+> +               (RO) Lists the IPMI 'logical device' commands and functio=
+ns
+>                 that the controller supports that are in addition to the
+>                 mandatory IPM and Application commands.
+>
+> diff --git a/Documentation/ABI/testing/sysfs-devices-platform-trackpoint =
+b/Documentation/ABI/testing/sysfs-devices-platform-trackpoint
+> index df11901a6b3d..82a38ac0435c 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-platform-trackpoint
+> +++ b/Documentation/ABI/testing/sysfs-devices-platform-trackpoint
+> @@ -105,7 +105,7 @@ KernelVersion:      3.19
+>  Contact:       linux-input@vger.kernel.org
+>  Description:
+>                 (RW) This parameter controls the period of time to test f=
+or a
+> -               =E2=80=98hands off=E2=80=99 condition (i.e. when no force=
+ is applied) before a
+> +               'hands off' condition (i.e. when no force is applied) bef=
+ore a
+>                 drift (noise) calibration occurs.
+>
+>                 IBM Trackpoints have a feature to compensate for drift by
+> diff --git a/Documentation/ABI/testing/sysfs-devices-soc b/Documentation/=
+ABI/testing/sysfs-devices-soc
+> index ea999e292f11..7f90c6a44610 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-soc
+> +++ b/Documentation/ABI/testing/sysfs-devices-soc
+> @@ -27,11 +27,11 @@ Description:
+>                 (e.g. DB8500).
+>
+>                 On many of ARM based silicon with SMCCC v1.2+ compliant f=
+irmware
+> -               this will contain the JEDEC JEP106 manufacturer=E2=80=99s=
+ identification
+> +               this will contain the JEDEC JEP106 manufacturer's identif=
+ication
+>                 code. The format is "jep106:XXYY" where XX is identity co=
+de and
+>                 YY is continuation code.
+>
+> -               This manufacturer=E2=80=99s identification code is define=
+d by one
+> +               This manufacturer's identification code is defined by one
+>                 or more eight (8) bit fields, each consisting of seven (7=
+)
+>                 data bits plus one (1) odd parity bit. It is a single fie=
+ld,
+>                 limiting the possible number of vendors to 126. To expand
+> --
+> 2.30.2
+>
