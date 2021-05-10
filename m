@@ -7,40 +7,51 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 826EFC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 864DCC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4655861968
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 478E761963
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbhEJKcO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:32:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60482 "EHLO mail.kernel.org"
+        id S232038AbhEJKcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:32:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60542 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231422AbhEJKaZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:30:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C452A6187E;
+        id S231414AbhEJKa3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:30:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C5EAB61919;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642443;
-        bh=jePJiKnUrenmcW2bcjH1VDz5dQntzoSjJz/YCuEOB5o=;
+        bh=GsPr03fOaT4mhUHTjqTPtFZzHQfxI0qpOypuFt8WL1E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sZb3fpeaIaz6xP2ffLsHONOIdChglXwMqn4Mp99CgdzlAoBoo87X0TYYGiFwrFPri
-         yCKrxAEHLRF5exsbRhI10yNNcG9EUUpgKqWBQ1yWbmvTo8AwzWFqUwvEKXxAmGMqSl
-         zHayVXjU0lHxnbr0nEUWPyovwzpC+3cum7Sb3cLzQ1rnlhchaiCSm2QUKJ3iq7rljT
-         9n4Gyu+ngNtJSaeN/nkq+z+wR2I4P2NRGu1KCzwJoNGqNNubqr6CV//f67MHQoZqir
-         3qGNEq3Zip+zOvn/HsgSuaYLig6H9MX7EjhHuryEguirFLExJKKQjUV+Qzt8nfmylP
-         0cIuHmcadtEDw==
+        b=TA2UjSRsnd6dAZoMs33bi0wvJ3sN3e4DfZIPWxfc2SIgeTbNVPlSa+jFW2UpxOHW3
+         u3lV6KWWOs6JU/k2UMZJKqVCaqXcELxHdAWzD+1UFn1WPdYvjaQRGBDTGtjtyQWGr3
+         nZ373BWmyfJdx2+L4oWi0SaghXMk1jleugvWZfI2VlmOOnFbUXlBp/G4zu8eJSdeoN
+         mTlRP3pNif1Gvaq2raumyr40diLptwWgdAB6Yp5JlSf8RUMUU9eae2PpOh/8h/YXHk
+         984gDFOMOFYaXkIgbhSbmqGaenGyEYmFQa6AtyPcB+4H7b/g5oqnN72MuEPjN0nZ8d
+         3cPcayJTXcF3g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38C-000UOR-Cu; Mon, 10 May 2021 12:27:20 +0200
+        id 1lg38C-000UP6-TU; Mon, 10 May 2021 12:27:20 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 02/53] docs: ABI: remove a meaningless UTF-8 character
-Date:   Mon, 10 May 2021 12:26:14 +0200
-Message-Id: <6cd3f0b47568fecb7889fd18d1d744c3aaf73866.1620641727.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Ertman <david.m.ertman@intel.com>,
+        Drew Fustini <drew@beagleboard.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Michael Walle <michael@walle.cc>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 12/53] docs: driver-api: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:24 +0200
+Message-Id: <77e554fee3df340349bc80e7adb8deb255df235f.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -52,37 +63,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those two files have this character:
-	- U+00ac ('¬'): NOT SIGN
+While UTF-8 characters can be used at the Linux documentation,
+the best is to use them only when ASCII doesn't offer a good replacement.
+So, replace the occurences of the following UTF-8 characters:
 
-at the end of the first line, apparently for no reason. Drop them.
+	- U+00a0 (' '): NO-BREAK SPACE
+	- U+2014 ('—'): EM DASH
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/obsolete/sysfs-kernel-fadump_registered  | 2 +-
- Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/driver-api/index.rst | 2 +-
+ Documentation/driver-api/ioctl.rst | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/ABI/obsolete/sysfs-kernel-fadump_registered b/Documentation/ABI/obsolete/sysfs-kernel-fadump_registered
-index 0360be39c98e..dae880b1a5d5 100644
---- a/Documentation/ABI/obsolete/sysfs-kernel-fadump_registered
-+++ b/Documentation/ABI/obsolete/sysfs-kernel-fadump_registered
-@@ -1,4 +1,4 @@
--This ABI is renamed and moved to a new location /sys/kernel/fadump/registered.¬
-+This ABI is renamed and moved to a new location /sys/kernel/fadump/registered.
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index f5a3207aa7fa..29eb9230b7a9 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -4,7 +4,7 @@ The Linux driver implementer's API guide
  
- What:		/sys/kernel/fadump_registered
- Date:		Feb 2012
-diff --git a/Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem b/Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem
-index 6ce0b129ab12..ca2396edb5f1 100644
---- a/Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem
-+++ b/Documentation/ABI/obsolete/sysfs-kernel-fadump_release_mem
-@@ -1,4 +1,4 @@
--This ABI is renamed and moved to a new location /sys/kernel/fadump/release_mem.¬
-+This ABI is renamed and moved to a new location /sys/kernel/fadump/release_mem.
+ The kernel offers a wide variety of interfaces to support the development
+ of device drivers.  This document is an only somewhat organized collection
+-of some of those interfaces — it will hopefully get better over time!  The
++of some of those interfaces - it will hopefully get better over time!  The
+ available subsections can be seen below.
  
- What:		/sys/kernel/fadump_release_mem
- Date:		Feb 2012
+ .. class:: toc-title
+diff --git a/Documentation/driver-api/ioctl.rst b/Documentation/driver-api/ioctl.rst
+index c455db0e1627..5b76e765827d 100644
+--- a/Documentation/driver-api/ioctl.rst
++++ b/Documentation/driver-api/ioctl.rst
+@@ -25,9 +25,9 @@ ioctl commands that follow modern conventions: ``_IO``, ``_IOR``,
+ with the correct parameters:
+ 
+ _IO/_IOR/_IOW/_IOWR
+-   The macro name specifies how the argument will be used.  It may be a
++   The macro name specifies how the argument will be used.  It may be a
+    pointer to data to be passed into the kernel (_IOW), out of the kernel
+-   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
++   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
+    argument or those passing an integer value instead of a pointer.
+    It is recommended to only use _IO for commands without arguments,
+    and use pointers for passing data.
+@@ -200,10 +200,10 @@ cause an information leak, which can be used to defeat kernel address
+ space layout randomization (KASLR), helping in an attack.
+ 
+ For this reason (and for compat support) it is best to avoid any
+-implicit padding in data structures.  Where there is implicit padding
++implicit padding in data structures.  Where there is implicit padding
+ in an existing structure, kernel drivers must be careful to fully
+ initialize an instance of the structure before copying it to user
+-space.  This is usually done by calling memset() before assigning to
++space.  This is usually done by calling memset() before assigning to
+ individual members.
+ 
+ Subsystem abstractions
 -- 
 2.30.2
 
