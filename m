@@ -2,107 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DA2CC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 07:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89079C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 07:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E57E1600CD
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 07:21:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A65061433
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 07:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbhEJHWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 03:22:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60550 "EHLO mail.kernel.org"
+        id S230116AbhEJHpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 03:45:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51716 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230002AbhEJHV4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 03:21:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E9EE3600CD;
-        Mon, 10 May 2021 07:20:45 +0000 (UTC)
-Date:   Mon, 10 May 2021 09:20:43 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S229852AbhEJHpA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 03:45:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 72FEB61432;
+        Mon, 10 May 2021 07:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1620632635;
+        bh=YceyRvX1NNA1NSeo7fUGpx6VBE/Ls+2Bt+2HbYnKf20=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bJFIaEz1MiWXCTWqZGUuZSncMfFFxSU926DEulZPSQyuS5RikCVA84oqlr3i4/9F8
+         ohv6r3+xWA6kEHswpHwzN04Nv0hMsq7DK8Iy95nwtqJgE2nQQZ6PsDthEqoKXoHo0T
+         ZPJH2pA4NF/V/JQSd9kRIi5RgTrGjmR04QCssQh0=
+Date:   Mon, 10 May 2021 09:43:52 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        "# 3.4.x" <stable@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@ftp.linux.org.uk>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@gooogle.com>,
+        Joe Perches <joe@perches.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH RFC 1/3] fs: introduce helper d_path_fast()
-Message-ID: <20210510072043.lde2n3hbk7lgeddv@wittgenstein>
-References: <20210508122530.1971-1-justin.he@arm.com>
- <20210508122530.1971-2-justin.he@arm.com>
- <CAHk-=wgSFUUWJKW1DXa67A0DXVzQ+OATwnC3FCwhqfTJZsvj1A@mail.gmail.com>
- <YJbivrA4Awp4FXo8@zeniv-ca.linux.org.uk>
- <CAHk-=whZhNXiOGgw8mXG+PTpGvxnRG1v5_GjtjHpoYXd2Fn_Ow@mail.gmail.com>
- <YJb9KFBO7MwJeDHz@zeniv-ca.linux.org.uk>
- <CAHk-=wjgXvy9EoE1_8KpxE9P3J_a-NF7xRKaUzi9MPSCmYnq+Q@mail.gmail.com>
- <YJcUvwo2pn0JEs27@zeniv-ca.linux.org.uk>
- <YJcbkJxrFAheQ5yO@zeniv-ca.linux.org.uk>
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH stable 5.10 0/3] ARM FDT relocation backports
+Message-ID: <YJjkOLg/Ivo2kMOS@kroah.com>
+References: <20210509173029.1653182-1-f.fainelli@gmail.com>
+ <CAMj1kXGt1zrRQused3xgXzhQYfDchgH325iRDCZrx+7o1+bUnA@mail.gmail.com>
+ <5f8fed97-8c73-73b0-6576-bf3fbcdb1440@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YJcbkJxrFAheQ5yO@zeniv-ca.linux.org.uk>
+In-Reply-To: <5f8fed97-8c73-73b0-6576-bf3fbcdb1440@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 08, 2021 at 11:15:28PM +0000, Al Viro wrote:
-> On Sat, May 08, 2021 at 10:46:23PM +0000, Al Viro wrote:
-> > On Sat, May 08, 2021 at 03:17:44PM -0700, Linus Torvalds wrote:
-> > > On Sat, May 8, 2021 at 2:06 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
-> > > >
-> > > > On Sat, May 08, 2021 at 01:39:45PM -0700, Linus Torvalds wrote:
-> > > >
-> > > > > +static inline int prepend_entries(struct prepend_buffer *b, const struct path *path, const struct path *root, struct mount *mnt)
-> > > >
-> > > > If anything, s/path/dentry/, since vfsmnt here will be equal to &mnt->mnt all along.
-> > > 
-> > > Too subtle for me.
-> > > 
-> > > And is it? Because mnt is from
-> > > 
-> > >      mnt = real_mount(path->mnt);
-> > > 
-> > > earlier, while vfsmount is plain "path->mnt".
+On Sun, May 09, 2021 at 06:22:05PM -0700, Florian Fainelli wrote:
+> 
+> 
+> On 5/9/2021 12:17 PM, Ard Biesheuvel wrote:
+> > On Sun, 9 May 2021 at 19:30, Florian Fainelli <f.fainelli@gmail.com> wrote:
+> >>
+> >> Hi Greg, Sasha,
+> >>
+> >> These patches were not marked with a Fixes: tag but they do fix booting
+> >> ARM 32-bit platforms that have specific FDT placement and would cause
+> >> boot failures like these:
+> >>
 > > 
-> > static inline struct mount *real_mount(struct vfsmount *mnt)
-> > {
-> >         return container_of(mnt, struct mount, mnt);
-> > }
+> > I don't have any objections to backporting these changes, but it would
+> > be helpful if you could explain why this is a regression. Also, you'll
+> > need to pull in the following patch as well
 > 
-> Basically, struct vfsmount instances are always embedded into struct mount ones.
-> All information about the mount tree is in the latter (and is visible only if
-> you manage to include fs/mount.h); here we want to walk towards root, so...
-> 
-> Rationale: a lot places use struct vfsmount pointers, but they've no need to
-> access all that stuff.  So struct vfsmount got trimmed down, with most of the
-> things that used to be there migrating into the containing structure.
-> 
-> [Christian Browner Cc'd]
-> BTW, WTF do we have struct mount.user_ns and struct vfsmount.mnt_userns?
-> Can they ever be different?  Christian?
+> This does not qualify as a regression in that it has never worked for
+> the specific platform that I have shown above until your 3 commits came
+> in and fixed that particular FDT placement. To me this qualifies as a
+> bug fix, and given that the 3 (now 4) commits applied without hunks, it
+> seems reasonable to me to back port those to stable.
 
-Yes, they can.
+As this isn't a regression, why not just use 5.12 on these platforms?
+Why is 5.4 and 5.10 needed?
 
-> 
-> 	Sigh...  Namespace flavours always remind me of old joke -
-> Highlander II: There Should've Been Only One...
+thanks,
 
-(I'd prefer if mount propagation would die first.)
+greg k-h
