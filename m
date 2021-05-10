@@ -2,182 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1593BC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 08:18:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB8FC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 09:37:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F028E61364
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 08:18:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07B0361430
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 09:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230106AbhEJITH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 04:19:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53264 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230163AbhEJITG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 04:19:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A5455613C9;
-        Mon, 10 May 2021 08:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620634682;
-        bh=sb7aFJDk1Xdm1dvd+WBdvPQ3MLcfqilPn4wl/3wJweI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BERLFRJ3mnBuoJohMGs2602eO7+iGQ/Ba/dY/BNAAXO7mDa3vX9jV2WdYsfu+iw2L
-         VajKAnsmReheKp5C8fLa8Lzv11jVPXMRBKiOcgGPVKfsF2An3IiIt7xpWwTobT9TJv
-         BuN+AA+puksAStpnTMqT/c8pl0Fw1c7b9z9+mgy6g3wsc8jv4dyWUGtlQt5OSPuLQr
-         E4d6tZZHm5maluBDdOcAJGcp2REYdXbwWDI13qflO7MJnrMcqPBb864pR0kKFzMwWx
-         GTd9CchmcZig+ppMS6iHtH+mfPRZ2ECs3MeZVM0KEsDkscHaKeupn8wx/+/JOd8SfX
-         +vxGGtMTVYzuQ==
-Date:   Mon, 10 May 2021 10:17:57 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1'
- codec can't encode characters in position 18-20: ordinal not in range(256)
-Message-ID: <20210510101757.145087d3@coco.lan>
-In-Reply-To: <347657c8-f5ae-517c-0b43-fb60d50f1dd8@infradead.org>
-References: <20210506103913.GE6564@kitsune.suse.cz>
-        <30f2117f-aa38-6d60-f020-ff5cf8f004b5@darmarit.de>
-        <20210506184641.6348a621@coco.lan>
-        <0fd5bb54-a8fc-84b2-2bd6-31ab12f12303@darmarit.de>
-        <20210506192756.2a2cc273@coco.lan>
-        <cecb28f8-dfaa-3584-c9f5-fe15145ef3cf@infradead.org>
-        <20210506180842.GD388843@casper.infradead.org>
-        <be21de46-6655-152e-e431-144c2be6137c@infradead.org>
-        <20210507083924.7b8ec1fe@coco.lan>
-        <20210508112205.41946ac7@coco.lan>
-        <20210508104157.GC12700@kitsune.suse.cz>
-        <20210508164145.26f7b1e0@coco.lan>
-        <347657c8-f5ae-517c-0b43-fb60d50f1dd8@infradead.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230133AbhEJJiT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 05:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54626 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230093AbhEJJiT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 05:38:19 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9CE0C06175F
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 02:37:14 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id v5so19973752ljg.12
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 02:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bcaG0GmT4B++jjY5eIwmc96+jWhlisDKnwVvc2I6woM=;
+        b=c7YXWVgbyBcZvROVb48PSKo/2j5k+2aKRYx9Fiz6FF1rb0+sS0HKZwZ4q/pYKHJJM2
+         8MysZ42J7qQfS1AaGPL06y6GI+7dQNX2KXdoxIW+vThGB7c0gNm0qHtIrXT1vk38lfDt
+         TT2GZMho23oeO5kRg0xP7BxqTU5vxyF+P7XQjy9LIQHAbYlMk8Z99cN/aZ9gg8/2UqBi
+         M9dPo8OsEef7WinTvd5CddJ9KRsqkDvw3m99o8JebrqZPdldkc58CjzIMla38vSdtAvt
+         1FKAzYzpJEQB0XPTJkPnFVBHJIbtHhc4tNpCGMh62fTJXwOtXJGfcu+LRhkOQ5k7EloK
+         NVJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bcaG0GmT4B++jjY5eIwmc96+jWhlisDKnwVvc2I6woM=;
+        b=ExLuSeHjuVHE181y6PXe5B7Tg5rthM9J89DTAZvPRM5rHZ4XwwA8DgyGNiuk4Y1PZg
+         5FYzCh9nktfNXIb8HdVlJzUlbB9r5EfTs/NaMpzhg6VPSRJsld/V69fJZDRn6lyB2zUP
+         SCNA+kZAhyT8DqXRjpr4TgwNCe1VNfR75m+sLnBO8XRnAkhkj9DvnBYJRpWrMTebQ3Vu
+         L/myd3hm/rlE+dYmFBEZzPLCmEEaSSdUKKb11fuU91r1gZjg+kxxkU8ghGQCKo701Yjl
+         uNW0N+Whxa0KiN3i7VzqH1ag4KdXrkUTgnpYx/rlYQBPeQgYMBAINSmQ3muM5hnLELq5
+         eMcg==
+X-Gm-Message-State: AOAM5327r8kXWXJBVx3dMV3KazgX7DTkas5yRfEDBqYv1SLoU1mOqbdY
+        FOZoSuPfdT6UKWukay7cQ6fsumsZT4E6G71qoxMqEQ==
+X-Google-Smtp-Source: ABdhPJzzR8Bq+uJPCq3kNj0Kl2N0G07wycK7PvUp8MhBy3xa1S2E6qHMsRmJTZwM7lEx/u4FpQIAzzlq7UYI/tcm+Ck=
+X-Received: by 2002:a05:651c:503:: with SMTP id o3mr19635907ljp.368.1620639433379;
+ Mon, 10 May 2021 02:37:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20210509173029.1653182-1-f.fainelli@gmail.com>
+ <CAMj1kXGt1zrRQused3xgXzhQYfDchgH325iRDCZrx+7o1+bUnA@mail.gmail.com>
+ <5f8fed97-8c73-73b0-6576-bf3fbcdb1440@gmail.com> <YJjkOLg/Ivo2kMOS@kroah.com>
+In-Reply-To: <YJjkOLg/Ivo2kMOS@kroah.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 10 May 2021 11:37:01 +0200
+Message-ID: <CACRpkdb+4OFpsJAPkEjTBBf_+VTUvKkzsDb9xaSOxqhNSWkeeg@mail.gmail.com>
+Subject: Re: [PATCH stable 5.10 0/3] ARM FDT relocation backports
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        "# 3.4.x" <stable@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@gooogle.com>,
+        Joe Perches <joe@perches.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        Sasha Levin <sashal@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 8 May 2021 08:55:11 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+On Mon, May 10, 2021 at 9:43 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Sun, May 09, 2021 at 06:22:05PM -0700, Florian Fainelli wrote:
 
-> > In the mean time, I'm already preparing a patch series addressing
-> > the issues inside documentation, using some scripting to avoid
-> > manual mistakes:
-> >=20
-> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Dfix_utf8
-> >=20
-> > (patch series is not 100% yet... some adjustments are still
-> > needed on some places). =20
->=20
->=20
-> Thanks for digging into this and providing fixes.
+> > This does not qualify as a regression in that it has never worked for
+> > the specific platform that I have shown above until your 3 commits came
+> > in and fixed that particular FDT placement. To me this qualifies as a
+> > bug fix, and given that the 3 (now 4) commits applied without hunks, it
+> > seems reasonable to me to back port those to stable.
+>
+> As this isn't a regression, why not just use 5.12 on these platforms?
+> Why is 5.4 and 5.10 needed?
 
-Just pushed a new version there, rebasing the branch:
+Actually I think it *is* a regression, but not a common one. The bug that
+Ard is fixing can appear when the kernel grows over a certain size.
 
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Dfix_utf8
+If a user compile in a new set of functionality and the kernel size
+reach a tripping point so that the DTB ends up just outside the 1:1
+lowmem map, disaster strikes.
 
-The first tree patches were manually written, in order to address=20
-a couple of special cases.
+This has been a long standing mysterious bug for people using
+attached device trees.
 
-I'll be submitting the patches via e-mail later today.
-
-The remaining ones were generated by a script that seeks for UTF-8
-characters only inside Documentation .rst and ABI files, doing this
-conversion:
-
-my %char_map =3D (
-	0x2010 =3D> '-',		# HYPHEN
-	0xad   =3D> '-',		# SOFT HYPHEN
-	0x2013 =3D> '-',		# EN DASH
-	0x2014 =3D> '-',		# EM DASH
-
-	0x2018 =3D> "'",		# LEFT SINGLE QUOTATION MARK
-	0x2019 =3D> "'",		# RIGHT SINGLE QUOTATION MARK
-	0xb4   =3D> "'",		# ACUTE ACCENT
-
-	0x201c =3D> '"',		# LEFT DOUBLE QUOTATION MARK
-	0x201d =3D> '"',		# RIGHT DOUBLE QUOTATION MARK
-
-	0x2212 =3D> '-',		# MINUS SIGN
-	0x2217 =3D> '*',		# ASTERISK OPERATOR
-	0xd7   =3D> 'x',		# MULTIPLICATION SIGN
-
-	0xbb   =3D> '>',		# RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
-
-	0xa0   =3D> ' ',		# NO-BREAK SPACE
-	0xfeff =3D> '',		# ZERO WIDTH NO-BREAK SPACE
-);
-
-Basically, after the conversion, those UTF-8 chars will remain
-at Documentation/:
-
-	- U+00a9 ('=C2=A9'): COPYRIGHT SIGN
-	- U+00ac ('=C2=AC'): NOT SIGN		# only at Documentation/powerpc/transaction=
-al_memory.rst
-	- U+00ae ('=C2=AE'): REGISTERED SIGN
-	- U+00b0 ('=C2=B0'): DEGREE SIGN
-	- U+00b1 ('=C2=B1'): PLUS-MINUS SIGN
-	- U+00b2 ('=C2=B2'): SUPERSCRIPT TWO
-	- U+00b5 ('=C2=B5'): MICRO SIGN
-	- U+00b7 ('=C2=B7'): MIDDLE DOT		# See below
-	- U+00bd ('=C2=BD'): VULGAR FRACTION ONE HALF
-	- U+00c7 ('=C3=87'): LATIN CAPITAL LETTER C WITH CEDILLA
-	- U+00df ('=C3=9F'): LATIN SMALL LETTER SHARP S
-	- U+00e1 ('=C3=A1'): LATIN SMALL LETTER A WITH ACUTE
-	- U+00e4 ('=C3=A4'): LATIN SMALL LETTER A WITH DIAERESIS
-	- U+00e6 ('=C3=A6'): LATIN SMALL LETTER AE
-	- U+00e7 ('=C3=A7'): LATIN SMALL LETTER C WITH CEDILLA
-	- U+00e9 ('=C3=A9'): LATIN SMALL LETTER E WITH ACUTE
-	- U+00ea ('=C3=AA'): LATIN SMALL LETTER E WITH CIRCUMFLEX
-	- U+00eb ('=C3=AB'): LATIN SMALL LETTER E WITH DIAERESIS
-	- U+00f3 ('=C3=B3'): LATIN SMALL LETTER O WITH ACUTE
-	- U+00f4 ('=C3=B4'): LATIN SMALL LETTER O WITH CIRCUMFLEX
-	- U+00f6 ('=C3=B6'): LATIN SMALL LETTER O WITH DIAERESIS
-	- U+00f8 ('=C3=B8'): LATIN SMALL LETTER O WITH STROKE
-	- U+00fa ('=C3=BA'): LATIN SMALL LETTER U WITH ACUTE
-	- U+00fc ('=C3=BC'): LATIN SMALL LETTER U WITH DIAERESIS
-	- U+00fd ('=C3=BD'): LATIN SMALL LETTER Y WITH ACUTE
-	- U+011f ('=C4=9F'): LATIN SMALL LETTER G WITH BREVE
-	- U+0142 ('=C5=82'): LATIN SMALL LETTER L WITH STROKE
-	- U+03bc ('=CE=BC'): GREEK SMALL LETTER MU
-	- U+2026 ('=E2=80=A6'): HORIZONTAL ELLIPSIS
-	- U+2122 ('=E2=84=A2'): TRADE MARK SIGN
-	- U+2191 ('=E2=86=91'): UPWARDS ARROW
-	- U+2192 ('=E2=86=92'): RIGHTWARDS ARROW
-	- U+2193 ('=E2=86=93'): DOWNWARDS ARROW
-	- U+2264 ('=E2=89=A4'): LESS-THAN OR EQUAL TO
-	- U+2265 ('=E2=89=A5'): GREATER-THAN OR EQUAL TO
-	- U+2500 ('=E2=94=80'): BOX DRAWINGS LIGHT HORIZONTAL
-	- U+2502 ('=E2=94=82'): BOX DRAWINGS LIGHT VERTICAL
-	- U+2514 ('=E2=94=94'): BOX DRAWINGS LIGHT UP AND RIGHT
-	- U+251c ('=E2=94=9C'): BOX DRAWINGS LIGHT VERTICAL AND RIGHT
-	- U+2b0d ('=E2=AC=8D'): UP DOWN BLACK ARROW
-
-For U+00b7 ('=C2=B7'): MIDDLE DOT, I opted to keep it on a few places:
-
-- Documentation/devicetree/bindings/clock/qcom,rpmcc.txt
-
-  As this file will be some day converted to yaml, where the=20
-  MIDDLE DOT will be removed, I guess it is not worth touching it.
-
-- Documentation/scheduler/sched-deadline.rst
-
-  There, it is used on a math expressions. So, better to keep.
-
-- Documentation/devicetree/bindings/media/video-interface-devices.yaml
-
-  There, it part of an ASCII artwork.
-
-- translations/zh_CN
-
-  I prefer not touching it, as it might have some special meaning
-  in Simplified Chinese.
-
-Thanks,
-Mauro
+Yours,
+Linus Walleij
