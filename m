@@ -2,224 +2,435 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3A49C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 01:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C56DC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 01:59:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BDB026103E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 01:22:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01CDC613C5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 01:59:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230103AbhEJBXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 May 2021 21:23:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229941AbhEJBXU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 May 2021 21:23:20 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50878C061573;
-        Sun,  9 May 2021 18:22:15 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id i13so12611902pfu.2;
-        Sun, 09 May 2021 18:22:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SoLhD7ineASZqqR0oXIoyOceHC0bJ5NdY1er3QmkfNA=;
-        b=rz33cacOclNxw4snydhYgWUUlwjzMxoZs+nduRbwaxpaPmO7EfhoTwvEL7uskl5m1Z
-         fRdwt8dihpJeUAC4xPl/kE1jA4Y5h4iCkls+eVq2hwmniE+a3RFgDIoMuH7oRzHwmxYa
-         wh8P56+ywJwEaibZeXDzd+co0HuEr0PBf6PUX4/uvfcmY/X/BbxSeYRTFFWGPDD/xwcp
-         rYtx3dkfFTbxrI2BGDIOqYYZOHh214R7hjlKZJeckwf9XUzAZY3vT6oxKSxPenda1Rs9
-         Q3hq7Qu+p6FpvYmb3pOpzizv678DGx6U2FsaHZqA9tOZIZ+J59UY58fmK4tn+vpOMM6+
-         GiQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SoLhD7ineASZqqR0oXIoyOceHC0bJ5NdY1er3QmkfNA=;
-        b=r6sHSyS+hod9bA/jtQnbvbMYBicXvgVKpLSfi+1EBzBNq43rzqlSUT2LMbX+uXov54
-         //E+dqxyvF9UVZ2nTGtnAacVxDLy/Yo0IMgAzX50mgZAlMgVdcXwqX3KaYVeVOAHyzUm
-         dJ4Lh6HDHkMbejKU8CplbhB5ydDUFCYed+paOD1/VdQc87NKBX1C//M8G/FimhDnt+aV
-         OMhXg6il+vfd1dJanZAVNkMiRVR6ecBfmiWaxZyuVMwlyFPYAcJnO2Y/1K7JttP6zkei
-         CUaiuHG64I6VHXAEEDWo2caHp2MX0m4dWfYzXQ76se1CwFSjOjjLVaWE9NQQ+ZBJrB11
-         VI0A==
-X-Gm-Message-State: AOAM530ZTP57SZIPYCyHfNBoGPmnX6xciKILH5uYJcHAGGZrPzXudodF
-        EUiXHIlyT7AuV55x69jkQwo=
-X-Google-Smtp-Source: ABdhPJwFsmcGs6qhm+6/8JK2XGHvs9gGuw87SLsCybvhOc7ng7bPYADNFK7w7egNsfQCx3x/whfqww==
-X-Received: by 2002:a65:4887:: with SMTP id n7mr682536pgs.284.1620609734780;
-        Sun, 09 May 2021 18:22:14 -0700 (PDT)
-Received: from [10.230.29.202] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id c13sm17527088pjv.21.2021.05.09.18.22.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 May 2021 18:22:14 -0700 (PDT)
-Subject: Re: [PATCH stable 5.10 0/3] ARM FDT relocation backports
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     "# 3.4.x" <stable@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@gooogle.com>,
-        Joe Perches <joe@perches.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>
-References: <20210509173029.1653182-1-f.fainelli@gmail.com>
- <CAMj1kXGt1zrRQused3xgXzhQYfDchgH325iRDCZrx+7o1+bUnA@mail.gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <5f8fed97-8c73-73b0-6576-bf3fbcdb1440@gmail.com>
-Date:   Sun, 9 May 2021 18:22:05 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.1
+        id S230060AbhEJCAN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 May 2021 22:00:13 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:34238 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230038AbhEJCAN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 9 May 2021 22:00:13 -0400
+Received: from localhost.localdomain (unknown [112.3.197.94])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxD+9ek5hgmkkUAA--.14592S2;
+        Mon, 10 May 2021 09:58:56 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v2] docs/zh_CN: add core-api workqueue.rst translation
+Date:   Mon, 10 May 2021 09:59:38 +0800
+Message-Id: <20210510015938.1590715-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <CAMj1kXGt1zrRQused3xgXzhQYfDchgH325iRDCZrx+7o1+bUnA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxD+9ek5hgmkkUAA--.14592S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3CF47Xr1kGw1UtFykZw1xuFg_yoW8Cr13uo
+        WYya1Ykr1UG3W5Xa4S9anxJrWUCr1fCrWIvws29r1avF1Uu3s5W3WkCa1aqr9xArWrKF43
+        WF18Xay5A3WxXasrn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUYx7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
+        x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWx
+        JVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+        W8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
+        McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7
+        v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF
+        7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+        0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+        tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+        CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv
+        67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf
+        9x0JUdHUDUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+v2:
 
+Some bad translations have been modified as suggested by Alex.Thank you for your review.
+https://lore.kernel.org/linux-doc/CAEensMwq=i+nek6sNeqOJJMY648Q9ZF8cTKpXdJVuqdQQnMWUw@mail.gmail.com/T/#t
 
-On 5/9/2021 12:17 PM, Ard Biesheuvel wrote:
-> On Sun, 9 May 2021 at 19:30, Florian Fainelli <f.fainelli@gmail.com> wrote:
->>
->> Hi Greg, Sasha,
->>
->> These patches were not marked with a Fixes: tag but they do fix booting
->> ARM 32-bit platforms that have specific FDT placement and would cause
->> boot failures like these:
->>
-> 
-> I don't have any objections to backporting these changes, but it would
-> be helpful if you could explain why this is a regression. Also, you'll
-> need to pull in the following patch as well
+v1:
 
-This does not qualify as a regression in that it has never worked for
-the specific platform that I have shown above until your 3 commits came
-in and fixed that particular FDT placement. To me this qualifies as a
-bug fix, and given that the 3 (now 4) commits applied without hunks, it
-seems reasonable to me to back port those to stable.
+This patch translates Documentation/core-api/workqueue.rst into Chinese.
 
-> 
-> 10fce53c0ef8 ARM: 9027/1: head.S: explicitly map DT even if it lives
-> in the first physical section
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/core-api/index.rst     |   5 +
+ .../translations/zh_CN/core-api/workqueue.rst | 336 ++++++++++++++++++
+ 2 files changed, 341 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/core-api/workqueue.rst
 
-Thanks, I will add this and resubmit.
-
-> 
-> 
->> [    0.000000] 8<--- cut here ---
->> [    0.000000] Unable to handle kernel paging request at virtual address
->> ffa14000
->> [    0.000000] pgd = (ptrval)
->> [    0.000000] [ffa14000] *pgd=80000040007003, *pmd=00000000
->> [    0.000000] Internal error: Oops: 206 [#1] SMP ARM
->> [    0.000000] Modules linked in:
->> [    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.4.85-1.0 #1
->> [    0.000000] Hardware name: Broadcom STB (Flattened Device Tree)
->> [    0.000000] PC is at fdt_check_header+0xc/0x21c
->> [    0.000000] LR is at __unflatten_device_tree+0x7c/0x2f8
->> [    0.000000] pc : [<c0d30e44>]    lr : [<c0a6c0fc>]    psr: 600000d3
->> [    0.000000] sp : c1401eac  ip : c1401ec8  fp : c1401ec4
->> [    0.000000] r10: 00000000  r9 : c150523c  r8 : 00000000
->> [    0.000000] r7 : c124eab4  r6 : ffa14000  r5 : 00000000  r4 :
->> c14ba920
->> [    0.000000] r3 : 00000000  r2 : c150523c  r1 : 00000000  r0 :
->> ffa14000
->> [    0.000000] Flags: nZCv  IRQs off  FIQs off  Mode SVC_32  ISA ARM
->> Segment user
->> [    0.000000] Control: 30c5383d  Table: 40003000  DAC: fffffffd
->> [    0.000000] Process swapper (pid: 0, stack limit = 0x(ptrval))
->> [    0.000000] Stack: (0xc1401eac to 0xc1402000)
->> [    0.000000] 1ea0:                            c14ba920 00000000
->> ffa14000 c1401ef4 c1401ec8
->> [    0.000000] 1ec0: c0a6c0fc c0d30e44 c124eab4 c124eab4 00000000
->> c14ebfc0 c140e5b8 00000000
->> [    0.000000] 1ee0: 00000001 c126f5a0 c1401f14 c1401ef8 c1250064
->> c0a6c08c 00000000 c1401f08
->> [    0.000000] 1f00: c022ddac c140ce80 c1401f9c c1401f18 c120506c
->> c125002c 00000000 00000000
->> [    0.000000] 1f20: 00000000 00000000 ffffffff c1401f94 c1401f6c
->> c1406308 3fffffff 00000001
->> [    0.000000] 1f40: 00000000 00000001 c1432b58 c14ca180 c1213ca4
->> c1406308 c1406300 30c0387d
->> [    0.000000] 1f60: c1401f8c c1401f70 c028e0ec 00000000 c1401f94
->> c1406308 c1406300 30c0387d
->> [    0.000000] 1f80: 00000000 7fa14000 420f1000 30c5387d c1401ff4
->> c1401fa0 c1200c98 c120467c
->> [    0.000000] 1fa0: 00000000 00000000 00000000 00000000 00000000
->> 00000000 00000000 c127fa44
->> [    0.000000] 1fc0: 00000000 00000000 00000000 c1200330 00000000
->> 30c0387d ffffffff 7fa14000
->> [    0.000000] 1fe0: 420f1000 30c5387d 00000000 c1401ff8 00000000
->> c1200c28 00000000 00000000
->> [    0.000000] Backtrace:
->> [    0.000000] [<c0d30e38>] (fdt_check_header) from [<c0a6c0fc>]
->> (__unflatten_device_tree+0x7c/0x2f8)
->> [    0.000000]  r6:ffa14000 r5:00000000 r4:c14ba920
->> [    0.000000] [<c0a6c080>] (__unflatten_device_tree) from [<c1250064>]
->> (unflatten_device_tree+0x44/0x54)
->> [    0.000000]  r10:c126f5a0 r9:00000001 r8:00000000 r7:c140e5b8
->> r6:c14ebfc0 r5:00000000
->> [    0.000000]  r4:c124eab4 r3:c124eab4
->> [    0.000000] [<c1250020>] (unflatten_device_tree) from [<c120506c>]
->> (setup_arch+0x9fc/0xc84)
->> [    0.000000]  r4:c140ce80
->> [    0.000000] [<c1204670>] (setup_arch) from [<c1200c98>]
->> (start_kernel+0x7c/0x540)
->> [    0.000000]  r10:30c5387d r9:420f1000 r8:7fa14000 r7:00000000
->> r6:30c0387d r5:c1406300
->> [    0.000000]  r4:c1406308
->> [    0.000000] [<c1200c1c>] (start_kernel) from [<00000000>] (0x0)
->> [    0.000000]  r10:30c5387d r9:420f1000 r8:7fa14000 r7:ffffffff
->> r6:30c0387d r5:00000000
->> [    0.000000]  r4:c1200330
->> [    0.000000] Code: e89da800 e1a0c00d e92dd870 e24cb004 (e5d03000)
->> [    0.000000] random: get_random_bytes called from
->> print_oops_end_marker+0x50/0x58 with crng_init=0
->> [    0.000000] ---[ end trace f34b4929828506c1 ]---
->> [    0.000000] Kernel panic - not syncing: Attempted to kill the idle
->> task!
->> [    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill
->> the idle task! ]---
->>
->>
->> Ard Biesheuvel (3):
->>   ARM: 9011/1: centralize phys-to-virt conversion of DT/ATAGS address
->>   ARM: 9012/1: move device tree mapping out of linear region
->>   ARM: 9020/1: mm: use correct section size macro to describe the FDT
->>     virtual address
->>
->>  Documentation/arm/memory.rst  |  7 ++++++-
->>  arch/arm/include/asm/fixmap.h |  2 +-
->>  arch/arm/include/asm/memory.h |  5 +++++
->>  arch/arm/include/asm/prom.h   |  4 ++--
->>  arch/arm/kernel/atags.h       |  4 ++--
->>  arch/arm/kernel/atags_parse.c |  6 +++---
->>  arch/arm/kernel/devtree.c     |  6 +++---
->>  arch/arm/kernel/head.S        |  5 ++---
->>  arch/arm/kernel/setup.c       | 19 ++++++++++++++-----
->>  arch/arm/mm/init.c            |  1 -
->>  arch/arm/mm/mmu.c             | 20 ++++++++++++++------
->>  arch/arm/mm/pv-fixup-asm.S    |  4 ++--
->>  12 files changed, 54 insertions(+), 29 deletions(-)
->>
->> --
->> 2.25.1
->>
-
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index f1fa71e45c77..fb79ebe10823 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -19,6 +19,11 @@
+ 来的大量 kerneldoc 信息；有朝一日，若有人有动力的话，应当把它们拆分
+ 出来。
+ 
++.. toctree::
++   :maxdepth: 1
++
++   workqueue
++
+ Todolist:
+ 
+    kernel-api
+diff --git a/Documentation/translations/zh_CN/core-api/workqueue.rst b/Documentation/translations/zh_CN/core-api/workqueue.rst
+new file mode 100644
+index 000000000000..832514830e0b
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/workqueue.rst
+@@ -0,0 +1,336 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/workqueue.rst
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_workqueue.rst:
++
++
++=========================
++并发管理的工作队列 (cmwq)
++=========================
++
++:日期: September, 2010
++:作者: Tejun Heo <tj@kernel.org>
++:作者: Florian Mickler <florian@mickler.org>
++
++
++简介
++====
++
++在很多情况下，需要一个异步进程的执行环境，工作队列（wq）API是这种情况下
++最常用的机制。
++
++当需要这样一个异步执行上下文时，一个描述将要执行的函数的工作项（work，
++即一个待执行的任务）被放在队列中。一个独立的线程作为异步执行环境。该队
++列被称为workqueue，线程被称为工作者（worker，即执行这一队列的线程）。
++
++当工作队列上有工作项时，工作者会一个接一个地执行与工作项相关的函数。当
++工作队列中没有任何工作项时，工作者就会变得空闲。当一个新的工作项被排入
++队列时，工作者又开始执行。
++
++
++为什么要cmwq?
++=============
++
++在最初的wq实现中，多线程（MT）wq在每个CPU上有一个工作者线程，而单线程
++（ST）wq在全系统有一个工作者线程。一个MT wq需要保持与CPU数量相同的工
++作者数量。这些年来，内核增加了很多MT wq的用户，随着CPU核心数量的不断
++增加，一些系统刚启动就达到了默认的32k PID的饱和空间。
++
++尽管MT wq浪费了大量的资源，但所提供的并发性水平却不能令人满意。这个限
++制在ST和MT wq中都有，只是在MT中没有那么严重。每个wq都保持着自己独立的
++工作者池。一个MT wq只能为每个CPU提供一个执行环境，而一个ST wq则为整个
++系统提供一个。工作项必须竞争这些非常有限的执行上下文，从而导致各种问题，
++包括在单一执行上下文周围容易发生死锁。
++
++(MT wq)所提供的并发性水平和资源使用之间的矛盾也迫使其用户做出不必要的权衡，比
++如libata选择使用ST wq来轮询PIO，并接受一个不必要的限制，即没有两个轮
++询PIO可以同时进行。由于MT wq并没有提供更好的并发性，需要更高层次的并
++发性的用户，如async或fscache，不得不实现他们自己的线程池。
++
++并发管理工作队列（cmwq）是对wq的重新实现，重点是以下目标。
++
++* 保持与原始工作队列API的兼容性。
++
++* 使用由所有wq共享的每CPU统一的工作者池，在不浪费大量资源的情况下按
++* 需提供灵活的并发水平。
++
++* 自动调节工作者池和并发水平，使API用户不需要担心这些细节。
++
++
++设计
++====
++
++为了简化函数的异步执行，引入了一个新的抽象概念，即工作项。
++
++一个工作项是一个简单的结构，它持有一个指向将被异步执行的函数的指针。
++每当一个驱动程序或子系统希望一个函数被异步执行时，它必须建立一个指
++向该函数的工作项，并在工作队列中排队等待该工作项。（就是挂到workqueue
++队列里面去）
++
++特定目的线程，称为工作线程（工作者），一个接一个地执行队列中的功能。
++如果没有工作项排队，工作者线程就会闲置。这些工作者线程被管理在所谓
++的工作者池中。
++
++cmwq设计区分了面向用户的工作队列，子系统和驱动程序在上面排队工作，
++以及管理工作者池和处理排队工作项的后端机制。
++
++每个可能的CPU都有两个工作者池，一个用于正常的工作项，另一个用于高
++优先级的工作项，还有一些额外的工作者池，用于服务未绑定工作队列的工
++作项目——这些后备池的数量是动态的。
++
++当他们认为合适的时候，子系统和驱动程序可以通过特殊的
++``workqueue API`` 函数创建和排队工作项。他们可以通过在工作队列上
++设置标志来影响工作项执行方式的某些方面，他们把工作项放在那里。这些
++标志包括诸如CPU定位、并发限制、优先级等等。要获得详细的概述，请参
++考下面的 ``alloc_workqueue()`` 的 API 描述。
++
++当一个工作项被排入一个工作队列时，目标工作池将根据队列参数和工作队
++列属性确定，并被附加到工作池的共享工作列表上。例如，除非特别重写，
++否则一个绑定的工作队列的工作项将被排在与发起线程运行的CPU相关的普
++通或高级工作工作者池的工作项列表中。
++
++对于任何工作者池的实施，管理并发水平（有多少执行上下文处于活动状
++态）是一个重要问题。最低水平是为了节省资源，而饱和水平是指系统被
++充分使用。
++
++每个与实际CPU绑定的worker-pool通过钩住调度器来实现并发管理。每当
++一个活动的工作者被唤醒或睡眠时，工作者池就会得到通知，并跟踪当前可
++运行的工作者的数量。一般来说，工作项不会占用CPU并消耗很多周期。这
++意味着保持足够的并发性以防止工作处理停滞应该是最优的。只要CPU上有
++一个或多个可运行的工作者，工作者池就不会开始执行新的工作，但是，当
++最后一个运行的工作者进入睡眠状态时，它会立即安排一个新的工作者，这
++样CPU就不会在有待处理的工作项目时闲置。这允许在不损失执行带宽的情
++况下使用最少的工作者。
++
++除了kthreads的内存空间外，保留空闲的工作者并没有其他成本，所以cmwq
++在杀死它们之前会保留一段时间的空闲。
++
++对于非绑定的工作队列，后备池的数量是动态的。可以使用
++``apply_workqueue_attrs()`` 为非绑定工作队列分配自定义属性，
++workqueue将自动创建与属性相匹配的后备工作者池。调节并发水平的责任在
++用户身上。也有一个标志可以将绑定的wq标记为忽略并发管理。
++详情请参考API部分。
++
++前进进度的保证依赖于当需要更多的执行上下文时可以创建工作者，这也是
++通过使用救援工作者来保证的。所有可能在处理内存回收的代码路径上使用
++的工作项都需要在wq上排队，wq上保留了一个救援工作者，以便在内存有压
++力的情况下下执行。否则，工作者池就有可能出现死锁，等待执行上下文释
++放出来。
++
++
++应用程序编程接口 (API)
++======================
++
++``alloc_workqueue()`` 分配了一个wq。原来的 ``create_*workqueue()``
++函数已被废弃，并计划删除。 ``alloc_workqueue()`` 需要三个
++参数 - ``@name`` , ``@flags`` 和 ``@max_active`` 。
++``@name`` 是wq的名称，如果有的话，也用作救援线程的名称。
++
++一个wq不再管理执行资源，而是作为前进进度保证、刷新(flush)和
++工作项属性的域。 ``@flags`` 和 ``@max_active`` 控制着工作
++项如何被分配执行资源、安排和执行。
++
++
++``flags``
++---------
++
++``WQ_UNBOUND``
++  排队到非绑定wq的工作项由特殊的工作者池提供服务，这些工作者不
++  绑定在任何特定的CPU上。这使得wq表现得像一个简单的执行环境提
++  供者，没有并发管理。非绑定工作者池试图尽快开始执行工作项。非
++  绑定的wq牺牲了局部性，但在以下情况下是有用的。
++
++  * 预计并发水平要求会有很大的波动，使用绑定的wq最终可能会在不
++    同的CPU上产生大量大部分未使用的工作者，因为发起线程在不同
++    的CPU上跳转。
++
++  * 长期运行的CPU密集型工作负载，可以由系统调度器更好地管理。
++
++``WQ_FREEZABLE``
++  一个可冻结的wq参与了系统暂停操作的冻结阶段。wq上的工作项被
++  排空，在解冻之前没有新的工作项开始执行。
++
++``WQ_MEM_RECLAIM``
++  所有可能在内存回收路径中使用的wq都必须设置这个标志。无论内
++  存压力如何，wq都能保证至少有一个执行上下文。
++
++``WQ_HIGHPRI``
++  高优先级wq的工作项目被排到目标cpu的高优先级工作者池中。高
++  优先级的工作者池由具有较高级别的工作者线程提供服务。
++
++  请注意，普通工作者池和高优先级工作者池之间并不相互影响。他
++  们各自维护其独立的工作者池，并在其工作者之间实现并发管理。
++
++``WQ_CPU_INTENSIVE``
++  CPU密集型wq的工作项对并发水平没有贡献。换句话说，可运行的
++  CPU密集型工作项不会阻止同一工作者池中的其他工作项开始执行。
++  这对于那些预计会占用CPU周期的绑定工作项很有用，这样它们的
++  执行就会受到系统调度器的监管。
++
++  尽管CPU密集型工作项不会对并发水平做出贡献，但它们的执行开
++  始仍然受到并发管理的管制，可运行的非CPU密集型工作项会延迟
++  CPU密集型工作项的执行。
++
++  这个标志对于未绑定的wq来说是没有意义的。
++
++请注意，标志 ``WQ_NON_REENTRANT`` 不再存在，因为现在所有的工作
++队列都是不可逆的——任何工作项都保证在任何时间内最多被整个系统的一
++个工作者执行。
++
++
++``max_active``
++--------------
++
++``@max_active`` 决定了每个CPU可以分配给wq的工作项的最大执行上
++下文数量。例如，如果 ``@max_active为16`` ，每个CPU最多可以同
++时执行16个wq的工作项。
++
++目前，对于一个绑定的wq， ``@max_active`` 的最大限制是512，当指
++定为0时使用的默认值是256。对于非绑定的wq，其限制是512和
++4 * ``num_possible_cpus()`` 中的较高值。这些值被选得足够高，所
++以它们不是限制性因素，同时会在失控情况下提供保护。
++
++一个wq的活动工作项的数量通常由wq的用户来调节，更具体地说，是由用
++户在同一时间可以排列多少个工作项来调节。除非有特定的需求来控制活动
++工作项的数量，否则建议指定 为"0"。
++
++一些用户依赖于ST wq的严格执行顺序。 ``@max_active`` 为1和 ``WQ_UNBOUND``
++的组合用来实现这种行为。这种wq上的工作项目总是被排到未绑定的工作池
++中，并且在任何时候都只有一个工作项目处于活动状态，从而实现与ST wq相
++同的排序属性。
++
++在目前的实现中，上述配置只保证了特定NUMA节点内的ST行为。相反，
++``alloc_ordered_queue()`` 应该被用来实现全系统的ST行为。
++
++
++执行场景示例
++============
++
++下面的示例执行场景试图说明cmwq在不同配置下的行为。
++
++ 工作项w0、w1、w2被排到同一个CPU上的一个绑定的wq q0上。w0
++ 消耗CPU 5ms，然后睡眠10ms，然后在完成之前再次消耗CPU 5ms。
++
++忽略所有其他的任务、工作和处理开销，并假设简单的FIFO调度，
++下面是一个高度简化的原始wq的可能事件序列的版本。::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 starts and burns CPU
++ 25		w1 sleeps
++ 35		w1 wakes up and finishes
++ 35		w2 starts and burns CPU
++ 40		w2 sleeps
++ 50		w2 wakes up and finishes
++
++And with cmwq with ``@max_active`` >= 3, ::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 starts and burns CPU
++ 10		w1 sleeps
++ 10		w2 starts and burns CPU
++ 15		w2 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 25		w2 wakes up and finishes
++
++如果 ``@max_active`` == 2, ::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 starts and burns CPU
++ 10		w1 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 20		w2 starts and burns CPU
++ 25		w2 sleeps
++ 35		w2 wakes up and finishes
++
++现在，我们假设w1和w2被排到了不同的wq q1上，这个wq q1
++有 ``WQ_CPU_INTENSIVE`` 设置::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 and w2 start and burn CPU
++ 10		w1 sleeps
++ 15		w2 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 25		w2 wakes up and finishes
++
++
++指南
++====
++
++* 如果一个wq可能处理在内存回收期间使用的工作项目，请不
++  要忘记使用 ``WQ_MEM_RECLAIM`` 。每个设置了
++  ``WQ_MEM_RECLAIM`` 的wq都有一个为其保留的执行环境。
++  如果在内存回收过程中使用的多个工作项之间存在依赖关系，
++  它们应该被排在不同的wq中，每个wq都有 ``WQ_MEM_RECLAIM`` 。
++
++* 除非需要严格排序，否则没有必要使用ST wq。
++
++* 除非有特殊需要，建议使用0作为@max_active。在大多数使用情
++  况下，并发水平通常保持在默认限制之下。
++
++* 一个wq作为前进进度保证（WQ_MEM_RECLAIM，冲洗（flush）和工
++  作项属性的域。不涉及内存回收的工作项，不需要作为工作项组的一
++  部分被刷新，也不需要任何特殊属性，可以使用系统中的一个wq。使
++  用专用wq和系统wq在执行特性上没有区别。
++
++* 除非工作项预计会消耗大量的CPU周期，否则使用绑定的wq通常是有
++  益的，因为wq操作和工作项执行中的定位水平提高了。
++
++
++调试
++====
++
++因为工作函数是由通用的工作者线程执行的，所以需要一些手段来揭示一些行为不端的工作队列用户。
++
++工作者线程在进程列表中显示为: ::
++
++  root      5671  0.0  0.0      0     0 ?        S    12:07   0:00 [kworker/0:1]
++  root      5672  0.0  0.0      0     0 ?        S    12:07   0:00 [kworker/1:2]
++  root      5673  0.0  0.0      0     0 ?        S    12:12   0:00 [kworker/0:0]
++  root      5674  0.0  0.0      0     0 ?        S    12:13   0:00 [kworker/1:0]
++
++如果kworkers失控了（使用了太多的cpu），有两类可能的问题:
++
++	1. 正在迅速调度的事情
++	2. 一个消耗大量cpu周期的工作项。
++
++第一个可以用追踪的方式进行跟踪: ::
++
++	$ echo workqueue:workqueue_queue_work > /sys/kernel/debug/tracing/set_event
++	$ cat /sys/kernel/debug/tracing/trace_pipe > out.txt
++	(wait a few secs)
++	^C
++
++如果有什么东西在工作队列上忙着做循环，它就会主导输出，可以用工作项函数确定违规者。
++
++对于第二类问题，应该可以只检查违规工作者线程的堆栈跟踪。 ::
++
++	$ cat /proc/THE_OFFENDING_KWORKER/stack
++
++工作项函数在堆栈追踪中应该是微不足道的。
++
++
++内核内联文档参考
++================
++
++.. kernel-doc:: include/linux/workqueue.h
++
++.. kernel-doc:: kernel/workqueue.c
 -- 
-Florian
+2.27.0
+
