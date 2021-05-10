@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAA3DC4360C
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C37FFC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CA4A61990
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9624061990
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232014AbhEJKfu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:35:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40012 "EHLO mail.kernel.org"
+        id S231708AbhEJKft (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:35:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41940 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232527AbhEJKex (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:34:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 92EF3617C9;
+        id S232391AbhEJKea (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:34:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C0F06143B;
         Mon, 10 May 2021 10:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642492;
-        bh=bvAp2WsPdEAnS4cT5tTgRmwfd4Xl/OZGOvJ5sReZudg=;
+        bh=qbGBdK6Dwqp+EOhX3dciZCOOsQHVxjxZ9wKH8IR54CA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OBvSFPm9Pow+gDMnwWvp6W/odudwFDmbssdpyklWPKnDCST/sztlAyNLl/T0Ja2TX
-         rPz/WjVXP7vfrfS3iqHqSc7yOHcTnU8JF1Dz/J9VJGv7JbA67n/+dg0awu9S996pyQ
-         Dx9jeIXDbmh0gACePHkxk4vU6yY+htEdvGU5uMqQ+bUMrX7wUeeI7Nx3rWQ8xeOpLj
-         pU7FUI8yfN8nPbyZPFNv0Ek4SzGXQgRnkNtQNE0ApvFPuJRv03FlTWXKOBe52XFJ9M
-         OLlvTvB4w7p8J7vXao3Cisn1DmGWDfiJbLSLe00YyYgKUYfd7zgq1M1nb0nUFv/LJl
-         PfZ7bacBlwqeg==
+        b=oXVjlzU0SjDh0Vnv0rdDspZTLTt4S5KHjPrwAeqEz1brn33i36hB+nXJlzuVMIgfP
+         xuwhc7yaBIYyOIoRTLuH92YIUt2UCsa16SSe//4AXpCaPvF4oMuAk0y2NzwmOSHZ2m
+         JGCNGaUXuUTPRXV3oCEDAS7TL2DENwFHhAHQq6o8BRsp6ExTvkb4wxA3BpjTX8ka0O
+         65DcW6uShXQ5vV5OKJKLfVKKTjnPN6fINBUH6e1k4J5lydTldGTWE2k0cN/dmHmAB2
+         e+gs0pqlbhF7VONie+gGzzQwnk4l7vC5yus/umWvDNomjr7MDUBAp1zxIqHsUFTXW9
+         fL9WbtRtOJYNg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38z-000UYB-GR; Mon, 10 May 2021 12:28:09 +0200
+        id 1lg38z-000UY7-EY; Mon, 10 May 2021 12:28:09 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org
-Subject: [PATCH 47/53] docs: infiniband: tag_matching.rst: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:59 +0200
-Message-Id: <723f330f99b58b3ea8188e3cd2346519b8d576e4.1620641727.git.mchehab+huawei@kernel.org>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 46/53] docs: arm64: arm-acpi.rst: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:58 +0200
+Message-Id: <ea4905192df5262beed5bf2edbed08a32c5cb67e.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -59,38 +59,50 @@ While UTF-8 characters can be used at the Linux documentation,
 the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2013 ('–'): EN DASH
 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/infiniband/tag_matching.rst | 8 ++++----
+ Documentation/arm64/arm-acpi.rst | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/infiniband/tag_matching.rst b/Documentation/infiniband/tag_matching.rst
-index ef56ea585f92..b89528a31d10 100644
---- a/Documentation/infiniband/tag_matching.rst
-+++ b/Documentation/infiniband/tag_matching.rst
-@@ -8,15 +8,15 @@ match the following source and destination parameters:
+diff --git a/Documentation/arm64/arm-acpi.rst b/Documentation/arm64/arm-acpi.rst
+index 47ecb9930dde..ceb109ff82aa 100644
+--- a/Documentation/arm64/arm-acpi.rst
++++ b/Documentation/arm64/arm-acpi.rst
+@@ -36,12 +36,12 @@ of the summary text almost directly, to be honest.
  
- *	Communicator
- *	User tag - wild card may be specified by the receiver
--*	Source rank – wild car may be specified by the receiver
--*	Destination rank – wild
-+*	Source rank - wild car may be specified by the receiver
-+*	Destination rank - wild
+ The short form of the rationale for ACPI on ARM is:
  
- The ordering rules require that when more than one pair of send and receive
- message envelopes may match, the pair that includes the earliest posted-send
- and the earliest posted-receive is the pair that must be used to satisfy the
--matching operation. However, this doesn’t imply that tags are consumed in
-+matching operation. However, this doesn't imply that tags are consumed in
- the order they are created, e.g., a later generated tag may be consumed, if
--earlier tags can’t be used to satisfy the matching rules.
-+earlier tags can't be used to satisfy the matching rules.
+--  ACPI’s byte code (AML) allows the platform to encode hardware behavior,
++-  ACPI's byte code (AML) allows the platform to encode hardware behavior,
+    while DT explicitly does not support this.  For hardware vendors, being
+    able to encode behavior is a key tool used in supporting operating
+    system releases on new hardware.
  
- When a message is sent from the sender to the receiver, the communication
- library may attempt to process the operation either after or before the
+--  ACPI’s OSPM defines a power management model that constrains what the
++-  ACPI's OSPM defines a power management model that constrains what the
+    platform is allowed to do into a specific model, while still providing
+    flexibility in hardware design.
+ 
+@@ -69,7 +69,7 @@ Key to the use of ACPI is the support model.  For servers in general, the
+ responsibility for hardware behaviour cannot solely be the domain of the
+ kernel, but rather must be split between the platform and the kernel, in
+ order to allow for orderly change over time.  ACPI frees the OS from needing
+-to understand all the minute details of the hardware so that the OS doesn’t
++to understand all the minute details of the hardware so that the OS doesn't
+ need to be ported to each and every device individually.  It allows the
+ hardware vendors to take responsibility for power management behaviour without
+ depending on an OS release cycle which is not under their control.
+@@ -81,7 +81,7 @@ in place.  DT does exactly what Linux needs it to when working with vertically
+ integrated devices, but there are no good processes for supporting what the
+ server vendors need.  Linux could potentially get there with DT, but doing so
+ really just duplicates something that already works.  ACPI already does what
+-the hardware vendors need, Microsoft won’t collaborate on DT, and hardware
++the hardware vendors need, Microsoft won't collaborate on DT, and hardware
+ vendors would still end up providing two completely separate firmware
+ interfaces -- one for Linux and one for Windows.
+ 
 -- 
 2.30.2
 
