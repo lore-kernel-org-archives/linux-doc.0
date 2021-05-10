@@ -2,175 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D813DC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 19:28:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF17C43461
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 19:36:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96C8661584
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 19:28:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 49AC8613C8
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 19:36:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232035AbhEJT3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 15:29:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46714 "EHLO
+        id S230045AbhEJThy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 15:37:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231214AbhEJT3k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 15:29:40 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C3AC061574
-        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 12:28:34 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id fa21-20020a17090af0d5b0290157eb6b590fso10954191pjb.5
-        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 12:28:34 -0700 (PDT)
+        with ESMTP id S230002AbhEJThx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 15:37:53 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72466C061574;
+        Mon, 10 May 2021 12:36:48 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id l6so16876867oii.1;
+        Mon, 10 May 2021 12:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=M6r3DxlNPkhf3OhaNDcaTGeOLH6RJOY6MQ8JuEMMRNM=;
-        b=YVcybWWsu7oECIEqY0eEpQTKr6s6lwa3FSiHPeDPAK2x9lqLcMQHbkxX4J2SYORT5L
-         4qFl61PaPMXY5VNonjTPU0olAfYur8XLRxytz2Enww7aHEdpvtfhot62LymVipbXRQev
-         QBdD+TxtQXT+wgwxwWLwDpdORhRskJfZxT7gqRbfSXGNDsDIpwR3H+ySgHdcMcpPMsPR
-         OlMlIGxZ1GqNwptG16p+mp5AN9XJp/1AF0fFYWwiMVN7SjXtJqMj2n6la/8Irw4XSK0y
-         JugyKoO1onEPUsm1K4rqswIse+jtB4TzSzdwbyaxzbcCE3sM1hjJQXYZLpvII1xdrFrn
-         l+nQ==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rfwM6aeV64dlStCtynVwqpYhrKx+20fvdPRxkUUNoPk=;
+        b=mxmiFt5qvY4oygWWBZxPyrzPAzIDNPiRcZSHCSYNuvlWGg8DdQseRAuHq9FSY4Tulj
+         rTPDmvc2kJn1gm/Rc5Oyhvk22cnWgQ6DwjLFryi8ks3TwScNLTffiDchRZYJGv7cU0Ho
+         3cQ/72SWBHLm95nxpzNwLYuBEnTRnMg7Wjx7k1FQcwJ+yXpiErHlCMIU/wENp432qolY
+         XsgfAxICnVrKS2y6S44pXIiBJoJZ+F13bL9LW3esNjjfCmViHQj55iiCYPRwZswAF4EO
+         gIG6z/C2KJGqNXH2ElAzW9TWhgwYULSpttiV0EBleBsYBCgEjnYYioHiwotB8K0Rb37c
+         uzJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=M6r3DxlNPkhf3OhaNDcaTGeOLH6RJOY6MQ8JuEMMRNM=;
-        b=Tm59RnJcEWklbBvYIfJjfQ6hlfV3W0OKQWHkNlNvHQ77QBz1LZJcmTpCUyPir0C0eT
-         o0kSdnmqcftg9BQ+cpMXQvwXq/ZpRMgn1nbvos30GtKQPTOOwSuz9Dlkaiy6XxdVBURe
-         F6ujAz1JtrM3RuTKFn5rPVcAi4kdCJfvHBE4F67jmQnIFz4cex3Q/UW/RZdMv9y/uAyJ
-         kVyDNXWd3epQfJwb+NCVsxkuNeNFhjUB+S6KO+Zvos+gOiHFI89//zTbe96GAj5waZuZ
-         mH0hPJhprCAKGXF0kgqehlqloNPwJw8OcagG17LlGS17N1MNiFAwlHM59tWMK2q7d4gi
-         UONA==
-X-Gm-Message-State: AOAM533JZMu75d3FnIKauM17RY9yCfE7bzxpPq76muZp4mBvdkqln5xY
-        5DDrVv8kqf3JugJkLy4Dvaft8Q==
-X-Google-Smtp-Source: ABdhPJyOAvl6ZVZvajZL73lLVLm5p37MJ4skw/vdQnrqNxMUbXsiz/M2+1a8utNEdtgKFYrdN8UrVg==
-X-Received: by 2002:a17:90a:d246:: with SMTP id o6mr29771057pjw.57.1620674913422;
-        Mon, 10 May 2021 12:28:33 -0700 (PDT)
-Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id n8sm11649402pgm.7.2021.05.10.12.28.31
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=rfwM6aeV64dlStCtynVwqpYhrKx+20fvdPRxkUUNoPk=;
+        b=hE0ItELCGgYlU4JX0txKaZQElbOT+i+fYQnIeX18Wg5rEdUdU08YNWCrNoV1BUT1Fz
+         poZi8O6HsJVGYA90f0Ijh0ssHGpuK9S2LhgLriUD3SM6Cn7C7hhiTfseSVuei+VeEFe1
+         w2URoWGAfO4SPPoj4VZtbk30jlMQMyjrnxfUUYvfUFqaP/peHOPbAT1XXeOprsZMzMRn
+         Vxfp+HaDtYmVvaqzBdpsVikXjSYBOoCbjv+dSqSSdK52n2RNvoY8+hioUf7oQ563Zevl
+         KEHCLP/cdmDNLbNkZp9jJKKYRkCwiwRmkHjK23BOLVVZmy1XX6DCeK9DyDjj31jUce5A
+         AV4w==
+X-Gm-Message-State: AOAM530OwcOcXZrZJPXLvVzEzQ8yj4ljIxkXQm+uKs4V0EqClhVATGdU
+        CW2rHROXaTPnYPf6Vq000Yw=
+X-Google-Smtp-Source: ABdhPJz99SSWF74iI7aVgrfSha6fpI7t5Ox7OPhvT9ZInZpyUwZvMG07nJMrZkS9zEDf/bXgZ7WPdQ==
+X-Received: by 2002:aca:4004:: with SMTP id n4mr19028827oia.89.1620675407817;
+        Mon, 10 May 2021 12:36:47 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id g11sm288735oif.27.2021.05.10.12.36.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 12:28:32 -0700 (PDT)
-Date:   Mon, 10 May 2021 13:28:30 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
-        Mike Leach <mike.leach@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 11/53] docs: trace: coresight:
- coresight-etm4x-reference.rst: avoid using UTF-8 chars
-Message-ID: <20210510192830.GA7232@xps15>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <859218d35d495d5d2c2893bf8e6e087394a107a7.1620641727.git.mchehab+huawei@kernel.org>
+        Mon, 10 May 2021 12:36:47 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 10 May 2021 12:36:45 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
+        mturquette@baylibre.com, sboyd@kernel.org, nsaenz@kernel.org,
+        maxime@cerno.tech, khilman@kernel.org, ulf.hansson@linaro.org,
+        len.brown@intel.com, pavel@ucw.cz, robh+dt@kernel.org,
+        frowand.list@gmail.com, maz@kernel.org, tglx@linutronix.de,
+        saravanak@google.com, geert@linux-m68k.org, nsaenzjulienne@suse.de,
+        guillaume.tucker@collabora.com, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        nicolas.ferre@microchip.com, claudiu.beznea@microchip.com,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        kernel-team@android.com, linux-rpi-kernel@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v2] clk: Skip clk provider registration when np is NULL
+Message-ID: <20210510193645.GA3920948@roeck-us.net>
+References: <20210426065618.588144-1-tudor.ambarus@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <859218d35d495d5d2c2893bf8e6e087394a107a7.1620641727.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20210426065618.588144-1-tudor.ambarus@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 10, 2021 at 12:26:23PM +0200, Mauro Carvalho Chehab wrote:
-> While UTF-8 characters can be used at the Linux documentation,
-> the best is to use them only when ASCII doesn't offer a good replacement.
-> So, replace the occurences of the following UTF-8 characters:
+On Mon, Apr 26, 2021 at 09:56:18AM +0300, Tudor Ambarus wrote:
+> commit 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is added")
+> revealed that clk/bcm/clk-raspberrypi.c driver calls
+> devm_of_clk_add_hw_provider(), with a NULL dev->of_node, which resulted in a
+> NULL pointer dereference in of_clk_add_hw_provider() when calling
+> fwnode_dev_initialized().
 > 
-> 	- U+00a0 (' '): NO-BREAK SPACE
-> 	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-> 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+> Returning 0 is reducing the if conditions in driver code and is being
+> consistent with the CONFIG_OF=n inline stub that returns 0 when CONFIG_OF
+> is disabled. The downside is that drivers will maybe register clkdev lookups
+> when they don't need to and waste some memory.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Fixes: 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is added")
+> Fixes: 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is added/removed")
+> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
+> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->  .../coresight/coresight-etm4x-reference.rst      | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+> v2:
+> - s/return 0;/return; in void of_clk_del_provider()
+> - add second fixes tag and Stephen's R-b tag
+> The opinions on whether to return an error or zero were split. Returning 0
+> and skipping the logic was considered safer as we don't know for sure if
+> other drivers are affected. See:
+> https://lore.kernel.org/lkml/d24bebc5-0f78-021f-293f-e58defa32531@samsung.com/
+> https://lore.kernel.org/lkml/20210423171335.262316-1-tudor.ambarus@microchip.com/
 > 
-> diff --git a/Documentation/trace/coresight/coresight-etm4x-reference.rst b/Documentation/trace/coresight/coresight-etm4x-reference.rst
-> index b64d9a9c79df..e8ddfc144d9a 100644
-> --- a/Documentation/trace/coresight/coresight-etm4x-reference.rst
-> +++ b/Documentation/trace/coresight/coresight-etm4x-reference.rst
-> @@ -15,14 +15,14 @@ Root: ``/sys/bus/coresight/devices/etm<N>``
+>  drivers/clk/clk.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index a3b30f7de2ef..b47460b40d14 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -4552,6 +4552,9 @@ int of_clk_add_provider(struct device_node *np,
+>  	struct of_clk_provider *cp;
+>  	int ret;
 >  
->  The following paragraphs explain the association between sysfs files and the
->  ETMv4 registers that they effect. Note the register names are given without
-> -the ‘TRC’ prefix.
-> +the 'TRC' prefix.
+> +	if (!np)
+> +		return 0;
+> +
+>  	cp = kzalloc(sizeof(*cp), GFP_KERNEL);
+>  	if (!cp)
+>  		return -ENOMEM;
+> @@ -4591,6 +4594,9 @@ int of_clk_add_hw_provider(struct device_node *np,
+>  	struct of_clk_provider *cp;
+>  	int ret;
 >  
->  ----
+> +	if (!np)
+> +		return 0;
+> +
+>  	cp = kzalloc(sizeof(*cp), GFP_KERNEL);
+>  	if (!cp)
+>  		return -ENOMEM;
+> @@ -4688,6 +4694,9 @@ void of_clk_del_provider(struct device_node *np)
+>  {
+>  	struct of_clk_provider *cp;
 >  
->  :File:            ``mode`` (rw)
->  :Trace Registers: {CONFIGR + others}
->  :Notes:
-> -    Bit select trace features. See ‘mode’ section below. Bits
-> +    Bit select trace features. See 'mode' section below. Bits
->      in this will cause equivalent programming of trace config and
->      other registers to enable the features requested.
->  
-> @@ -89,7 +89,7 @@ the ‘TRC’ prefix.
->  :Notes:
->      Pair of addresses for a range selected by addr_idx. Include
->      / exclude according to the optional parameter, or if omitted
-> -    uses the current ‘mode’ setting. Select comparator range in
-> +    uses the current 'mode' setting. Select comparator range in
->      control register. Error if index is odd value.
->  
->  :Depends: ``mode, addr_idx``
-> @@ -277,7 +277,7 @@ the ‘TRC’ prefix.
->  :Trace Registers: VICTLR{23:20}
->  :Notes:
->      Program non-secure exception level filters. Set / clear NS
-> -    exception filter bits. Setting ‘1’ excludes trace from the
-> +    exception filter bits. Setting '1' excludes trace from the
->      exception level.
->  
->  :Syntax:
-> @@ -427,7 +427,7 @@ the ‘TRC’ prefix.
->  :Syntax:
->      ``echo idx > vmid_idx``
->  
-> -    Where idx <  numvmidc
-> +    Where idx <  numvmidc
->  
->  ----
->  
-> @@ -628,7 +628,7 @@ the reset parameter::
->  
->  
->  
-> -The ‘mode’ sysfs parameter.
-> +The 'mode' sysfs parameter.
->  ---------------------------
->  
->  This is a bitfield selection parameter that sets the overall trace mode for the
-> @@ -696,7 +696,7 @@ Bit assignments shown below:-
->      ETM_MODE_QELEM(val)
->  
->  **description:**
-> -    ‘val’ determines level of Q element support enabled if
-> +    'val' determines level of Q element support enabled if
->      implemented by the ETM [IDR0]
->  
->  
-> @@ -780,7 +780,7 @@ Bit assignments shown below:-
->  ----
->  
->  *Note a)* On startup the ETM is programmed to trace the complete address space
-> -using address range comparator 0. ‘mode’ bits 30 / 31 modify this setting to
-> +using address range comparator 0. 'mode' bits 30 / 31 modify this setting to
->  set EL exclude bits for NS state in either user space (EL0) or kernel space
->  (EL1) in the address range comparator. (the default setting excludes all
->  secure EL, and NS EL2)
+> +	if (!np)
+> +		return;
+> +
+>  	mutex_lock(&of_clk_mutex);
+>  	list_for_each_entry(cp, &of_clk_providers, link) {
+>  		if (cp->node == np) {
 > -- 
-> 2.30.2
+> 2.25.1
 > 
