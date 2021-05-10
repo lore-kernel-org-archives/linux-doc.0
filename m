@@ -4,48 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D61D5C43470
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E8D4C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3F3461924
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76E3A60FE9
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232084AbhEJKce (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231563AbhEJKce (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 10 May 2021 06:32:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60844 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:33954 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231635AbhEJKah (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231725AbhEJKah (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 10 May 2021 06:30:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CC1936191A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E21A061924;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642443;
-        bh=EU2r5/qQuL1o99O82KhZSnDOsgNg5571ceroSUVJZiY=;
+        bh=LBi6AhTmHaBJf1LFIsgL//SvYHB4PUd2G5MRXtVej0o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G9ltI7mA23iDZx3X4S7668m4sgK93aCcGX+u2aYe+Nh+zkBRX7EwPOxbNtLwkVgxe
-         o+F9aoYAOFQtHJPWJh233eFQkDxkghfAs/ycG6hp+JXUBkiGu6dw6qAsyydTmVzoUP
-         3i7eoqNQ5D/eJuE3zxR+yMs+b47Oy/2pAxj/X38R+/otw4DKmDdJBs++/0DHe77ci/
-         aYLa1biXpVj92c/oo+C2hQyVb0u3ETyBDNdJaTwq5AzQTcx5kZMlYUNkQ68LlUUk5g
-         nXB45cPS9y1h2gsf7shU+mw1T/UxdbuLcHs6fWogMJPUB3js9aSbRDSwM5c+A2qFXB
-         uxgKzabP0Z5OA==
+        b=GCyF56VIOGbfiYm6M51T+I4vBnqU1hFicNzrM4aQv2G3Z1IdkE/NyP1N0yyOOMCjW
+         l1H8mU8BZk3JLJM8jn0qvWIOKyIJr/PfXKhhAizOOIECFoJKv4JnByVuTcMccN44RZ
+         bIb/SF+adKkO/YI7sbXBch3TV3ocoen0vk+h3JhsMMrumkmC5Y5esWe1MuzYbTJYOO
+         1MrOXO+Oa5hgckDGV9hZnHWYFYEz25orhvwpw/dOkeajCgYr7cOExTrsp5J7QqqaLs
+         GMu0J4RRv90HX/NKVdmFnKy7EKweauTlsD7ozaBG/+Yg6mHRbG9H9J6m+X8xHb7hLx
+         GJbYLxOOWBb/w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UPI-29; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38D-000UPg-B4; Mon, 10 May 2021 12:27:21 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [PATCH 15/53] docs: driver-api: thermal: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:27 +0200
-Message-Id: <211acd2166c5ede7b50ebb90225c11386a48cadf.1620641727.git.mchehab+huawei@kernel.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 21/53] docs: process: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:33 +0200
+Message-Id: <dc751a6524cd959cb2674bc34cbb53846f64b373.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -61,99 +58,38 @@ While UTF-8 characters can be used at the Linux documentation,
 the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+feff ('﻿'): ZERO WIDTH NO-BREAK SPACE
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../driver-api/thermal/cpu-idle-cooling.rst        | 14 +++++++-------
- .../driver-api/thermal/intel_powerclamp.rst        |  6 +++---
- .../thermal/x86_pkg_temperature_thermal.rst        |  2 +-
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ Documentation/process/code-of-conduct.rst              | 2 +-
+ Documentation/process/kernel-enforcement-statement.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-index c2a7ca676853..60934a518560 100644
---- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-+++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-@@ -49,7 +49,7 @@ belong to the same cluster, with a duration greater than the cluster
- idle state target residency, we lead to dropping the static and the
- dynamic leakage for this period (modulo the energy needed to enter
- this state). So the sustainable power with idle cycles has a linear
--relation with the OPP’s sustainable power and can be computed with a
-+relation with the OPP's sustainable power and can be computed with a
- coefficient similar to::
+diff --git a/Documentation/process/code-of-conduct.rst b/Documentation/process/code-of-conduct.rst
+index be50294aebd5..2060834b9cee 100644
+--- a/Documentation/process/code-of-conduct.rst
++++ b/Documentation/process/code-of-conduct.rst
+@@ -32,7 +32,7 @@ Examples of unacceptable behavior by participants include:
+   advances
+ * Trolling, insulting/derogatory comments, and personal or political attacks
+ * Public or private harassment
+-* Publishing others’ private information, such as a physical or electronic
++* Publishing others' private information, such as a physical or electronic
+   address, without explicit permission
+ * Other conduct which could reasonably be considered inappropriate in a
+   professional setting
+diff --git a/Documentation/process/kernel-enforcement-statement.rst b/Documentation/process/kernel-enforcement-statement.rst
+index e5a1be476047..dc2d813b2e79 100644
+--- a/Documentation/process/kernel-enforcement-statement.rst
++++ b/Documentation/process/kernel-enforcement-statement.rst
+@@ -1,4 +1,4 @@
+-﻿.. _process_statement_kernel:
++.. _process_statement_kernel:
  
- 	    Power(IdleCycle) = Coef x Power(OPP)
-@@ -134,7 +134,7 @@ The idle injection duration value must comply with the constraints:
-   user experience, reactivity vs performance trade off we want. This
-   value should be specified.
- 
--- It is greater than the idle state’s target residency we want to go
-+- It is greater than the idle state's target residency we want to go
-   for thermal mitigation, otherwise we end up consuming more energy.
- 
- Power considerations
-@@ -146,11 +146,11 @@ power for a specific temperature but at this time we consume::
-  Power = Capacitance x Voltage^2 x Frequency x Utilisation
- 
- ... which is more than the sustainable power (or there is something
--wrong in the system setup). The ‘Capacitance’ and ‘Utilisation’ are a
--fixed value, ‘Voltage’ and the ‘Frequency’ are fixed artificially
--because we don’t want to change the OPP. We can group the
--‘Capacitance’ and the ‘Utilisation’ into a single term which is the
--‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have::
-+wrong in the system setup). The 'Capacitance' and 'Utilisation' are a
-+fixed value, 'Voltage' and the 'Frequency' are fixed artificially
-+because we don't want to change the OPP. We can group the
-+'Capacitance' and the 'Utilisation' into a single term which is the
-+'Dynamic Power Coefficient (Cdyn)' Simplifying the above, we have::
- 
-  Pdyn = Cdyn x Voltage^2 x Frequency
- 
-diff --git a/Documentation/driver-api/thermal/intel_powerclamp.rst b/Documentation/driver-api/thermal/intel_powerclamp.rst
-index 3f6dfb0b3ea6..d349c1b64281 100644
---- a/Documentation/driver-api/thermal/intel_powerclamp.rst
-+++ b/Documentation/driver-api/thermal/intel_powerclamp.rst
-@@ -29,7 +29,7 @@ By:
- INTRODUCTION
- ============
- 
--Consider the situation where a system’s power consumption must be
-+Consider the situation where a system's power consumption must be
- reduced at runtime, due to power budget, thermal constraint, or noise
- level, and where active cooling is not preferred. Software managed
- passive power reduction must be performed to prevent the hardware
-@@ -39,7 +39,7 @@ Currently, P-states, T-states (clock modulation), and CPU offlining
- are used for CPU throttling.
- 
- On Intel CPUs, C-states provide effective power reduction, but so far
--they’re only used opportunistically, based on workload. With the
-+they're only used opportunistically, based on workload. With the
- development of intel_powerclamp driver, the method of synchronizing
- idle injection across all online CPU threads was introduced. The goal
- is to achieve forced and controllable C-state residency.
-@@ -264,7 +264,7 @@ CPUs).
- Usage and Interfaces
- ====================
- The powerclamp driver is registered to the generic thermal layer as a
--cooling device. Currently, it’s not bound to any thermal zones::
-+cooling device. Currently, it's not bound to any thermal zones::
- 
-   jacob@chromoly:/sys/class/thermal/cooling_device14$ grep . *
-   cur_state:0
-diff --git a/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst b/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-index 2ac42ccd236f..5b95af96e40f 100644
---- a/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-+++ b/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-@@ -13,7 +13,7 @@ Authors: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
- Reference
- ---------
- 
--Intel® 64 and IA-32 Architectures Software Developer’s Manual (Jan, 2013):
-+Intel® 64 and IA-32 Architectures Software Developer's Manual (Jan, 2013):
- Chapter 14.6: PACKAGE LEVEL THERMAL MANAGEMENT
- 
- Description
+ Linux Kernel Enforcement Statement
+ ----------------------------------
 -- 
 2.30.2
 
