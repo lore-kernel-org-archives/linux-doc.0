@@ -7,42 +7,46 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC221C43611
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 610BFC43603
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA63561990
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28210619AC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231724AbhEJKfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:35:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33954 "EHLO mail.kernel.org"
+        id S231750AbhEJKfn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:35:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41606 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231374AbhEJKcc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231338AbhEJKcc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 10 May 2021 06:32:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 68F876195B;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2596B6192F;
         Mon, 10 May 2021 10:27:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642444;
-        bh=ZLCX4dRWRX3OQsCf8RA5tIRwPfjnTyhzpWsAYNd3C+s=;
+        bh=cLg46e9/YeifDGAuTIUxyVNGgRec++ObTANYcNmIf8M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GR4UTeBfp+Lnuos2yj9vMy1bbQw3BVbxS/FLxLiRh9tugDQZVW4iEdz4cCDmW8OxE
-         VgDS3Qge4so9VWAcwS8Otm9hzuX+LY8p0cruMrX3gc4IltJ0XwyOIYGAxqMeXf5CVM
-         TP2ecwtJ445otpC6hfloPEiE+3y0HZHvOO1UsRv4VvH3hrc/Pl4lTYb3zAwSctB5bj
-         TsghM6iEKUKpWD9qxLPtjVOtPTZ9v+aFq5SChtnzG9zs9Y0k6Gvr3mW2MiCWZEPawn
-         smgDl5TxC0be69t3p4LCicA3g87ASnpiV2fyi5EjiAitf8NiS5hmKnLAptXs8ztROv
-         6pp80k8g5nh3Q==
+        b=S/5qN/rNEKpOPrWZtzAMnSnoOE1/5nLCxJdQqQkO6kDOLzegk1nZFbRKJd8sTni1W
+         xTq7QGHY5d6ZYz+Xievfcjk5iZlfoarvSddw2mCVy+D9/mRZQVb7nCcoSNsMinSsf3
+         m5j105wxHMCOOWZN2LQ/M1EQpatZNx9r7ENVU5iixD38GL76eOf872FigByhjVUVYq
+         Y3TN3OdN1INBTh/iaXM2N1O2s1RQde4f57z86TA4UVrP/vBoH86PNsfAhsZyt8uULn
+         LG56P/lXLoNfG8hf4pW++bzekO8vRUdmK5YxUhYGzUcEuKzbKL/mnkLk+mQu8ePQ5x
+         ks9Bque1rJQlQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UQ0-JI; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38E-000UQu-8r; Mon, 10 May 2021 12:27:22 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 26/53] docs: vm: zswap.rst: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:38 +0200
-Message-Id: <725f9130eced1b12c8a8630478a291ebe46dea2f.1620641727.git.mchehab+huawei@kernel.org>
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Zhang Rui <rui.zhang@intel.com>, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH 40/53] docs: power: powercap: powercap.rst: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:52 +0200
+Message-Id: <3eac877511acf0d8f33af2177e831ebde1927be8.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -62,31 +66,232 @@ So, replace the occurences of the following UTF-8 characters:
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/vm/zswap.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/power/powercap/powercap.rst | 210 +++++++++++-----------
+ 1 file changed, 105 insertions(+), 105 deletions(-)
 
-diff --git a/Documentation/vm/zswap.rst b/Documentation/vm/zswap.rst
-index d8d9fa4a1f0d..8edb8d578caf 100644
---- a/Documentation/vm/zswap.rst
-+++ b/Documentation/vm/zswap.rst
-@@ -10,7 +10,7 @@ Overview
- Zswap is a lightweight compressed cache for swap pages. It takes pages that are
- in the process of being swapped out and attempts to compress them into a
- dynamically allocated RAM-based memory pool.  zswap basically trades CPU cycles
--for potentially reduced swap I/O.  This trade-off can also result in a
-+for potentially reduced swap I/O.  This trade-off can also result in a
- significant performance improvement if reads from the compressed cache are
- faster than reads from a swap device.
- 
-@@ -26,7 +26,7 @@ faster than reads from a swap device.
-   performance impact of swapping.
- * Overcommitted guests that share a common I/O resource can
-   dramatically reduce their swap I/O pressure, avoiding heavy handed I/O
--  throttling by the hypervisor. This allows more work to get done with less
-+  throttling by the hypervisor. This allows more work to get done with less
-   impact to the guest workload and guests sharing the I/O subsystem
- * Users with SSDs as swap devices can extend the life of the device by
-   drastically reducing life-shortening writes.
+diff --git a/Documentation/power/powercap/powercap.rst b/Documentation/power/powercap/powercap.rst
+index e75d12596dac..c99122e0a1c8 100644
+--- a/Documentation/power/powercap/powercap.rst
++++ b/Documentation/power/powercap/powercap.rst
+@@ -34,113 +34,113 @@ Example sysfs interface tree::
+   /sys/devices/virtual/powercap
+   └──intel-rapl
+       ├──intel-rapl:0
+-      │   ├──constraint_0_name
+-      │   ├──constraint_0_power_limit_uw
+-      │   ├──constraint_0_time_window_us
+-      │   ├──constraint_1_name
+-      │   ├──constraint_1_power_limit_uw
+-      │   ├──constraint_1_time_window_us
+-      │   ├──device -> ../../intel-rapl
+-      │   ├──energy_uj
+-      │   ├──intel-rapl:0:0
+-      │   │   ├──constraint_0_name
+-      │   │   ├──constraint_0_power_limit_uw
+-      │   │   ├──constraint_0_time_window_us
+-      │   │   ├──constraint_1_name
+-      │   │   ├──constraint_1_power_limit_uw
+-      │   │   ├──constraint_1_time_window_us
+-      │   │   ├──device -> ../../intel-rapl:0
+-      │   │   ├──energy_uj
+-      │   │   ├──max_energy_range_uj
+-      │   │   ├──name
+-      │   │   ├──enabled
+-      │   │   ├──power
+-      │   │   │   ├──async
+-      │   │   │   []
+-      │   │   ├──subsystem -> ../../../../../../class/power_cap
+-      │   │   └──uevent
+-      │   ├──intel-rapl:0:1
+-      │   │   ├──constraint_0_name
+-      │   │   ├──constraint_0_power_limit_uw
+-      │   │   ├──constraint_0_time_window_us
+-      │   │   ├──constraint_1_name
+-      │   │   ├──constraint_1_power_limit_uw
+-      │   │   ├──constraint_1_time_window_us
+-      │   │   ├──device -> ../../intel-rapl:0
+-      │   │   ├──energy_uj
+-      │   │   ├──max_energy_range_uj
+-      │   │   ├──name
+-      │   │   ├──enabled
+-      │   │   ├──power
+-      │   │   │   ├──async
+-      │   │   │   []
+-      │   │   ├──subsystem -> ../../../../../../class/power_cap
+-      │   │   └──uevent
+-      │   ├──max_energy_range_uj
+-      │   ├──max_power_range_uw
+-      │   ├──name
+-      │   ├──enabled
+-      │   ├──power
+-      │   │   ├──async
+-      │   │   []
+-      │   ├──subsystem -> ../../../../../class/power_cap
+-      │   ├──enabled
+-      │   ├──uevent
++      │   ├──constraint_0_name
++      │   ├──constraint_0_power_limit_uw
++      │   ├──constraint_0_time_window_us
++      │   ├──constraint_1_name
++      │   ├──constraint_1_power_limit_uw
++      │   ├──constraint_1_time_window_us
++      │   ├──device -> ../../intel-rapl
++      │   ├──energy_uj
++      │   ├──intel-rapl:0:0
++      │   │   ├──constraint_0_name
++      │   │   ├──constraint_0_power_limit_uw
++      │   │   ├──constraint_0_time_window_us
++      │   │   ├──constraint_1_name
++      │   │   ├──constraint_1_power_limit_uw
++      │   │   ├──constraint_1_time_window_us
++      │   │   ├──device -> ../../intel-rapl:0
++      │   │   ├──energy_uj
++      │   │   ├──max_energy_range_uj
++      │   │   ├──name
++      │   │   ├──enabled
++      │   │   ├──power
++      │   │   │   ├──async
++      │   │   │   []
++      │   │   ├──subsystem -> ../../../../../../class/power_cap
++      │   │   └──uevent
++      │   ├──intel-rapl:0:1
++      │   │   ├──constraint_0_name
++      │   │   ├──constraint_0_power_limit_uw
++      │   │   ├──constraint_0_time_window_us
++      │   │   ├──constraint_1_name
++      │   │   ├──constraint_1_power_limit_uw
++      │   │   ├──constraint_1_time_window_us
++      │   │   ├──device -> ../../intel-rapl:0
++      │   │   ├──energy_uj
++      │   │   ├──max_energy_range_uj
++      │   │   ├──name
++      │   │   ├──enabled
++      │   │   ├──power
++      │   │   │   ├──async
++      │   │   │   []
++      │   │   ├──subsystem -> ../../../../../../class/power_cap
++      │   │   └──uevent
++      │   ├──max_energy_range_uj
++      │   ├──max_power_range_uw
++      │   ├──name
++      │   ├──enabled
++      │   ├──power
++      │   │   ├──async
++      │   │   []
++      │   ├──subsystem -> ../../../../../class/power_cap
++      │   ├──enabled
++      │   ├──uevent
+       ├──intel-rapl:1
+-      │   ├──constraint_0_name
+-      │   ├──constraint_0_power_limit_uw
+-      │   ├──constraint_0_time_window_us
+-      │   ├──constraint_1_name
+-      │   ├──constraint_1_power_limit_uw
+-      │   ├──constraint_1_time_window_us
+-      │   ├──device -> ../../intel-rapl
+-      │   ├──energy_uj
+-      │   ├──intel-rapl:1:0
+-      │   │   ├──constraint_0_name
+-      │   │   ├──constraint_0_power_limit_uw
+-      │   │   ├──constraint_0_time_window_us
+-      │   │   ├──constraint_1_name
+-      │   │   ├──constraint_1_power_limit_uw
+-      │   │   ├──constraint_1_time_window_us
+-      │   │   ├──device -> ../../intel-rapl:1
+-      │   │   ├──energy_uj
+-      │   │   ├──max_energy_range_uj
+-      │   │   ├──name
+-      │   │   ├──enabled
+-      │   │   ├──power
+-      │   │   │   ├──async
+-      │   │   │   []
+-      │   │   ├──subsystem -> ../../../../../../class/power_cap
+-      │   │   └──uevent
+-      │   ├──intel-rapl:1:1
+-      │   │   ├──constraint_0_name
+-      │   │   ├──constraint_0_power_limit_uw
+-      │   │   ├──constraint_0_time_window_us
+-      │   │   ├──constraint_1_name
+-      │   │   ├──constraint_1_power_limit_uw
+-      │   │   ├──constraint_1_time_window_us
+-      │   │   ├──device -> ../../intel-rapl:1
+-      │   │   ├──energy_uj
+-      │   │   ├──max_energy_range_uj
+-      │   │   ├──name
+-      │   │   ├──enabled
+-      │   │   ├──power
+-      │   │   │   ├──async
+-      │   │   │   []
+-      │   │   ├──subsystem -> ../../../../../../class/power_cap
+-      │   │   └──uevent
+-      │   ├──max_energy_range_uj
+-      │   ├──max_power_range_uw
+-      │   ├──name
+-      │   ├──enabled
+-      │   ├──power
+-      │   │   ├──async
+-      │   │   []
+-      │   ├──subsystem -> ../../../../../class/power_cap
+-      │   ├──uevent
++      │   ├──constraint_0_name
++      │   ├──constraint_0_power_limit_uw
++      │   ├──constraint_0_time_window_us
++      │   ├──constraint_1_name
++      │   ├──constraint_1_power_limit_uw
++      │   ├──constraint_1_time_window_us
++      │   ├──device -> ../../intel-rapl
++      │   ├──energy_uj
++      │   ├──intel-rapl:1:0
++      │   │   ├──constraint_0_name
++      │   │   ├──constraint_0_power_limit_uw
++      │   │   ├──constraint_0_time_window_us
++      │   │   ├──constraint_1_name
++      │   │   ├──constraint_1_power_limit_uw
++      │   │   ├──constraint_1_time_window_us
++      │   │   ├──device -> ../../intel-rapl:1
++      │   │   ├──energy_uj
++      │   │   ├──max_energy_range_uj
++      │   │   ├──name
++      │   │   ├──enabled
++      │   │   ├──power
++      │   │   │   ├──async
++      │   │   │   []
++      │   │   ├──subsystem -> ../../../../../../class/power_cap
++      │   │   └──uevent
++      │   ├──intel-rapl:1:1
++      │   │   ├──constraint_0_name
++      │   │   ├──constraint_0_power_limit_uw
++      │   │   ├──constraint_0_time_window_us
++      │   │   ├──constraint_1_name
++      │   │   ├──constraint_1_power_limit_uw
++      │   │   ├──constraint_1_time_window_us
++      │   │   ├──device -> ../../intel-rapl:1
++      │   │   ├──energy_uj
++      │   │   ├──max_energy_range_uj
++      │   │   ├──name
++      │   │   ├──enabled
++      │   │   ├──power
++      │   │   │   ├──async
++      │   │   │   []
++      │   │   ├──subsystem -> ../../../../../../class/power_cap
++      │   │   └──uevent
++      │   ├──max_energy_range_uj
++      │   ├──max_power_range_uw
++      │   ├──name
++      │   ├──enabled
++      │   ├──power
++      │   │   ├──async
++      │   │   []
++      │   ├──subsystem -> ../../../../../class/power_cap
++      │   ├──uevent
+       ├──power
+-      │   ├──async
+-      │   []
++      │   ├──async
++      │   []
+       ├──subsystem -> ../../../../class/power_cap
+       ├──enabled
+       └──uevent
 -- 
 2.30.2
 
