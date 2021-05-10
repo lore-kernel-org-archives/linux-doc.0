@@ -2,92 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 342C0C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 09:46:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE781C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:08:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10F22610CC
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 09:46:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4F5E6143C
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:08:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbhEJJrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 05:47:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33204 "EHLO mail.kernel.org"
+        id S230039AbhEJKJZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:09:25 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51522 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230093AbhEJJrz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 05:47:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B54960FDA;
-        Mon, 10 May 2021 09:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620640010;
-        bh=21GdrFSAMQTXMFVqvxpKiSR1Lz6xlfRm4Wzori0Wuyg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=caotaLPrm2BobhTu6NiJSLEk3GWqQuWfa8ZP7fUS671MX7PbGKUGdv7/M4475rDTp
-         tRAqHDBN/yQ1rI+qYO75gU7VUYwJj2Kp5d1gey/kBNzt2xgMJzVoxNSTwkPW7N1hep
-         xJd3RgAJKFL8qo2E9HocZdWhTrhxYevXfV3LSANM=
-Date:   Mon, 10 May 2021 11:46:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "# 3.4.x" <stable@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@gooogle.com>,
-        Joe Perches <joe@perches.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH stable 5.10 0/3] ARM FDT relocation backports
-Message-ID: <YJkBCMUpKUax0idB@kroah.com>
-References: <20210509173029.1653182-1-f.fainelli@gmail.com>
- <CAMj1kXGt1zrRQused3xgXzhQYfDchgH325iRDCZrx+7o1+bUnA@mail.gmail.com>
- <5f8fed97-8c73-73b0-6576-bf3fbcdb1440@gmail.com>
- <YJjkOLg/Ivo2kMOS@kroah.com>
- <CACRpkdb+4OFpsJAPkEjTBBf_+VTUvKkzsDb9xaSOxqhNSWkeeg@mail.gmail.com>
+        id S230002AbhEJKJZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:09:25 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A9CFCB034;
+        Mon, 10 May 2021 10:08:19 +0000 (UTC)
+Date:   Mon, 10 May 2021 12:08:14 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, naoya.horiguchi@nec.com,
+        joao.m.martins@oracle.com, duanxiongchun@bytedance.com,
+        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v23 8/9] mm: memory_hotplug: disable memmap_on_memory
+ when hugetlb_free_vmemmap enabled
+Message-ID: <20210510100809.GA22664@linux>
+References: <20210510030027.56044-1-songmuchun@bytedance.com>
+ <20210510030027.56044-9-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACRpkdb+4OFpsJAPkEjTBBf_+VTUvKkzsDb9xaSOxqhNSWkeeg@mail.gmail.com>
+In-Reply-To: <20210510030027.56044-9-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 10, 2021 at 11:37:01AM +0200, Linus Walleij wrote:
-> On Mon, May 10, 2021 at 9:43 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Sun, May 09, 2021 at 06:22:05PM -0700, Florian Fainelli wrote:
-> 
-> > > This does not qualify as a regression in that it has never worked for
-> > > the specific platform that I have shown above until your 3 commits came
-> > > in and fixed that particular FDT placement. To me this qualifies as a
-> > > bug fix, and given that the 3 (now 4) commits applied without hunks, it
-> > > seems reasonable to me to back port those to stable.
-> >
-> > As this isn't a regression, why not just use 5.12 on these platforms?
-> > Why is 5.4 and 5.10 needed?
-> 
-> Actually I think it *is* a regression, but not a common one. The bug that
-> Ard is fixing can appear when the kernel grows over a certain size.
-> 
-> If a user compile in a new set of functionality and the kernel size
-> reach a tripping point so that the DTB ends up just outside the 1:1
-> lowmem map, disaster strikes.
-> 
-> This has been a long standing mysterious bug for people using
-> attached device trees.
+On Mon, May 10, 2021 at 11:00:26AM +0800, Muchun Song wrote:
+> diff --git a/drivers/acpi/acpi_memhotplug.c b/drivers/acpi/acpi_memhotplug.c
+> index 8cc195c4c861..0d7f595ee441 100644
+> --- a/drivers/acpi/acpi_memhotplug.c
+> +++ b/drivers/acpi/acpi_memhotplug.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/acpi.h>
+>  #include <linux/memory.h>
+>  #include <linux/memory_hotplug.h>
+> +#include <linux/hugetlb.h>
+>  
+>  #include "internal.h"
 
-Ok, then feel free to ack them when they get resubmitted.
+Uhm, I am confused.
+Why do we need this here? AFAICS, we do not.
 
-thanks,
+The function is in memory_hotplug.c, and that alrady has that include.
+What am I missing?
 
-greg k-h
+
+-- 
+Oscar Salvador
+SUSE L3
