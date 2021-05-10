@@ -2,100 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B87F4C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 14:39:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17402C43616
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 15:05:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 939A2613C2
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 14:39:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8F9461492
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 15:05:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232343AbhEJOkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 10:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37048 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235503AbhEJOhY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 10:37:24 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D84CC08E8A9;
-        Mon, 10 May 2021 07:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=i6vAxLOytNOYwyM1NYfARO0i+7jkuFK7y9pYt7pXuwE=; b=djb3CWn/LU378IzapvABLkn8Gd
-        Mp82QkScestEUeQW2L+zqtEN7XvYp31eFRebvjBEITr//+6YOo6+SYheq9BxF7YMTeqbS+RN1ORYU
-        WcTwnub1JAhAEwo1EbdH4ZtDbzKRVhVt7KKBx8eH43WzT6ZsZkO7OQPiITlB671P2UStmst5kwHpO
-        oLDGkct+Pf7s4vCchonkHPjgJ2dHAgGdY9eEvhnNfgt0nMzg4EJ/N8O7mpCEUjiq1yDlLopkoOUQy
-        tCb7mahOMAZ84vugzBeIjfIYkNlViOtJdTlUAmJVQy5eePLrQct4R8yXLPW7Hy+DjovMg5jAZGdoa
-        yuW/o03A==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lg6RA-006DIB-7H; Mon, 10 May 2021 13:59:19 +0000
-Date:   Mon, 10 May 2021 14:59:08 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Edward Cree <ecree.xilinx@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
-Message-ID: <YJk8LMFViV7Z3Uu7@casper.infradead.org>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
- <20210510135518.305cc03d@coco.lan>
- <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
+        id S232146AbhEJPGx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 11:06:53 -0400
+Received: from mga03.intel.com ([134.134.136.65]:19251 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235007AbhEJPFI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 11:05:08 -0400
+IronPort-SDR: egPS5qznSNDhObjvz9Lo89HVkplex6iVr0AsiKH2Odym4yA+fYEqVMCinVZvVNCb4pgluE1hiI
+ uOjztmTXJFHA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199266334"
+X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; 
+   d="scan'208";a="199266334"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 08:04:01 -0700
+IronPort-SDR: AJdgKEvFkR6LVFQAOb+kyPg6KA1RN5I0Wrszn6j4A5d+9D8OTc7WPxmPH56SnIBOYaUFJmfdlq
+ 4zOMaM+sZ2VQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; 
+   d="scan'208";a="609132501"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga005.jf.intel.com with ESMTP; 10 May 2021 08:03:56 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 741EE142; Mon, 10 May 2021 18:04:16 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
+        Joe Perches <joe@perches.com>,
+        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        kgdb-bugreport@lists.sourceforge.net
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        Jason Wessel <jason.wessel@windriver.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH v1 2/4] kdb: Switch to use %ptTs
+Date:   Mon, 10 May 2021 18:04:11 +0300
+Message-Id: <20210510150413.59356-2-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
+References: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 10, 2021 at 02:16:16PM +0100, Edward Cree wrote:
-> On 10/05/2021 12:55, Mauro Carvalho Chehab wrote:
-> > The main point on this series is to replace just the occurrences
-> > where ASCII represents the symbol equally well
-> 
-> > 	- U+2014 ('—'): EM DASH
-> Em dash is not the same thing as hyphen-minus, and the latter does not
->  serve 'equally well'.  People use em dashes because — even in
->  monospace fonts — they make text easier to read and comprehend, when
->  used correctly.
-> I accept that some of the other distinctions — like en dashes — are
->  needlessly pedantic (though I don't doubt there is someone out there
->  who will gladly defend them with the same fervour with which I argue
->  for the em dash) and I wouldn't take the trouble to use them myself;
->  but I think there is a reasonable assumption that when someone goes
->  to the effort of using a Unicode punctuation mark that is semantic
->  (rather than merely typographical), they probably had a reason for
->  doing so.
+Use %ptTs instead of open-coded variant to print contents
+of time64_t type in human readable form.
 
-I think you're overestimating the amount of care and typographical
-knowledge that your average kernel developer has.  Most of these
-UTF-8 characters come from latex conversions and really aren't
-necessary (and are being used incorrectly).
+Cc: Jason Wessel <jason.wessel@windriver.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: kgdb-bugreport@lists.sourceforge.net
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ kernel/debug/kdb/kdb_main.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-You seem quite knowedgeable about the various differences.  Perhaps
-you'd be willing to write a document for Documentation/doc-guide/
-that provides guidance for when to use which kinds of horizontal
-line?  https://www.punctuationmatters.com/hyphen-dash-n-dash-and-m-dash/
-talks about it in the context of publications, but I think we need
-something more suited to our needs for kernel documentation.
+diff --git a/kernel/debug/kdb/kdb_main.c b/kernel/debug/kdb/kdb_main.c
+index 1baa96a2ecb8..622410c45da1 100644
+--- a/kernel/debug/kdb/kdb_main.c
++++ b/kernel/debug/kdb/kdb_main.c
+@@ -2488,7 +2488,6 @@ static void kdb_sysinfo(struct sysinfo *val)
+ static int kdb_summary(int argc, const char **argv)
+ {
+ 	time64_t now;
+-	struct tm tm;
+ 	struct sysinfo val;
+ 
+ 	if (argc)
+@@ -2502,13 +2501,7 @@ static int kdb_summary(int argc, const char **argv)
+ 	kdb_printf("domainname %s\n", init_uts_ns.name.domainname);
+ 
+ 	now = __ktime_get_real_seconds();
+-	time64_to_tm(now, 0, &tm);
+-	kdb_printf("date       %04ld-%02d-%02d %02d:%02d:%02d "
+-		   "tz_minuteswest %d\n",
+-		1900+tm.tm_year, tm.tm_mon+1, tm.tm_mday,
+-		tm.tm_hour, tm.tm_min, tm.tm_sec,
+-		sys_tz.tz_minuteswest);
+-
++	kdb_printf("date       %ptTs tz_minuteswest %d\n", &now, sys_tz.tz_minuteswest);
+ 	kdb_sysinfo(&val);
+ 	kdb_printf("uptime     ");
+ 	if (val.uptime > (24*60*60)) {
+-- 
+2.30.2
+
