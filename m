@@ -7,42 +7,40 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E8D4C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CE31C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76E3A60FE9
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E4436101D
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231563AbhEJKce (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:32:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33954 "EHLO mail.kernel.org"
+        id S232090AbhEJKcf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:32:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33952 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231725AbhEJKah (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:30:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E21A061924;
+        id S231735AbhEJKai (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:30:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DB72061921;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642443;
-        bh=LBi6AhTmHaBJf1LFIsgL//SvYHB4PUd2G5MRXtVej0o=;
+        bh=K81lP2IJe6F92g35GyK7GwsLSYxXRw45oY6NL6QPjkg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GCyF56VIOGbfiYm6M51T+I4vBnqU1hFicNzrM4aQv2G3Z1IdkE/NyP1N0yyOOMCjW
-         l1H8mU8BZk3JLJM8jn0qvWIOKyIJr/PfXKhhAizOOIECFoJKv4JnByVuTcMccN44RZ
-         bIb/SF+adKkO/YI7sbXBch3TV3ocoen0vk+h3JhsMMrumkmC5Y5esWe1MuzYbTJYOO
-         1MrOXO+Oa5hgckDGV9hZnHWYFYEz25orhvwpw/dOkeajCgYr7cOExTrsp5J7QqqaLs
-         GMu0J4RRv90HX/NKVdmFnKy7EKweauTlsD7ozaBG/+Yg6mHRbG9H9J6m+X8xHb7hLx
-         GJbYLxOOWBb/w==
+        b=rI5riaooeiAr6Tan6MBCXeDXppiFLTpbr6phfxBXQ3xckImegzuVDIZxiZRLmx995
+         iFLkdswS9j8F12kFoBEcdM8gEXS03BeTZmGmxgWI/8OpXI/BNOTkXlVP+qtvFvRU86
+         9hDAKQIuNcadWuLV6Mx+AYTiY/Nc0Tkvd5M5+NZwiXD7QLQAvzpzhxGtu05wOtNcvk
+         2G0BU/Dhz767GnnXy2gwH2GHKskx1yTwi2fjn+Qt9xXN1VIA0poDhqd9pZuZwqyp1m
+         kighftvKiJJet0se08fLLtnj8MGpqmUwBgPKQDSCxMSHOlJPrDvgrNvZcaxVL84eGU
+         xTwMGPhkpm8KA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UPg-B4; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38D-000UPQ-54; Mon, 10 May 2021 12:27:21 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 21/53] docs: process: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:33 +0200
-Message-Id: <dc751a6524cd959cb2674bc34cbb53846f64b373.1620641727.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 17/53] docs: driver-api: firmware: other_interfaces.rst: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:29 +0200
+Message-Id: <df85ad0207e3d91b6f30d274ea8968f626f7080e.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -59,37 +57,25 @@ the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
-	- U+feff ('﻿'): ZERO WIDTH NO-BREAK SPACE
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/process/code-of-conduct.rst              | 2 +-
- Documentation/process/kernel-enforcement-statement.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/driver-api/firmware/other_interfaces.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/process/code-of-conduct.rst b/Documentation/process/code-of-conduct.rst
-index be50294aebd5..2060834b9cee 100644
---- a/Documentation/process/code-of-conduct.rst
-+++ b/Documentation/process/code-of-conduct.rst
-@@ -32,7 +32,7 @@ Examples of unacceptable behavior by participants include:
-   advances
- * Trolling, insulting/derogatory comments, and personal or political attacks
- * Public or private harassment
--* Publishing others’ private information, such as a physical or electronic
-+* Publishing others' private information, such as a physical or electronic
-   address, without explicit permission
- * Other conduct which could reasonably be considered inappropriate in a
-   professional setting
-diff --git a/Documentation/process/kernel-enforcement-statement.rst b/Documentation/process/kernel-enforcement-statement.rst
-index e5a1be476047..dc2d813b2e79 100644
---- a/Documentation/process/kernel-enforcement-statement.rst
-+++ b/Documentation/process/kernel-enforcement-statement.rst
-@@ -1,4 +1,4 @@
--﻿.. _process_statement_kernel:
-+.. _process_statement_kernel:
+diff --git a/Documentation/driver-api/firmware/other_interfaces.rst b/Documentation/driver-api/firmware/other_interfaces.rst
+index b81794e0cfbb..6711b3572408 100644
+--- a/Documentation/driver-api/firmware/other_interfaces.rst
++++ b/Documentation/driver-api/firmware/other_interfaces.rst
+@@ -23,7 +23,7 @@ Exception Level 3 (EL3).
  
- Linux Kernel Enforcement Statement
- ----------------------------------
+ The Intel Stratix10 SoC service layer provides an in kernel API for
+ drivers to request access to the secure features. The requests are queued
+-and processed one by one. ARM’s SMCCC is used to pass the execution
++and processed one by one. ARM's SMCCC is used to pass the execution
+ of the requests on to a secure monitor (EL3).
+ 
+ .. kernel-doc:: include/linux/firmware/intel/stratix10-svc-client.h
 -- 
 2.30.2
 
