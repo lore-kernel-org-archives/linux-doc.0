@@ -4,43 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40960C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87203C43462
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C77F6101E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53E6A61924
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232102AbhEJKcr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:32:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60976 "EHLO mail.kernel.org"
+        id S231866AbhEJKcu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:32:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231860AbhEJKap (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231859AbhEJKap (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 10 May 2021 06:30:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EBC826192A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E3B8461926;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642444;
-        bh=5XvKweeJlfByIWyqx5n3/rwhfkl4jZwsOIYU0G0wXTM=;
+        bh=/5KMYe58DrtVU6l39giXpj+U2gVE007fTByxX+3Tg3c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gWr6lfrr/p7MFRe58W8gbMix0N4mF7ECGSjy8KP4cABfEVzYgtkVRDyxNxlx1+3aK
-         4zMs5fevq+5DkA3QExPfJ1pqLhdBYHReJ3NLOEg4kHnTzh02JRTDO+Up6Sk8opb6EN
-         uyonhAHoA0xPAMfluLddVCj2ItlkfZaiBUXGRPAbt02q+SDyJvV7UToj+aBvkir34v
-         vhrH93d+KPGFDtqH98521/haSU/GPKPKBo9CYFzjPFzf/7+IN2ewGqFhMre3yCJtSH
-         OpIvBG9kC5WMFLWvalnVDUD/mIpMaqFoFqGRylO5gqYBB4O9LH04Tl2kbqvm3uikxL
-         H5K+PFJljUeOw==
+        b=ouvWHnUkWNIek6ysDZyOLr0orzQJUsSM8F8wrl+uiRMvNbKSPC7MeEXnDeDqjHe0p
+         5uiQ56iJ+5zDgQOB5CDlcR4Ujp8RWoJUrBWtB6pFI+R294nrQNinF15XHAgxs0fMGY
+         peTHkiJqz+lotfT9CzM0o+Ykfrb53WF8tQ6VJRhvQa+edVR4IdJRHRmAvrZ5MiKjV/
+         gy+NxdTtxOCYNcMAknc7K9huM+yAQD60dG0yQY5Fxr0ZJ1hodjRR6RBwZJM7lPEf04
+         nzOsfCRTxilgDc1TXHfWHXrhoDlmo/skvw+JApgekIcVml9K91BflNXE2tANCztzt7
+         EYf43lP2VZ70A==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UQK-RE; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38D-000UPM-3K; Mon, 10 May 2021 12:27:21 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 31/53] docs: security: tpm: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:43 +0200
-Message-Id: <1e6958e5e5e65479da9fe5b53752b872cc252269.1620641727.git.mchehab+huawei@kernel.org>
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net
+Subject: [PATCH 16/53] docs: driver-api: media: drivers: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:28 +0200
+Message-Id: <572748e2c82217ca8e7ffb8417389365b526b947.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -56,38 +61,64 @@ While UTF-8 characters can be used at the Linux documentation,
 the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
-	- U+feff ('﻿'): ZERO WIDTH NO-BREAK SPACE
+	- U+00ad ('­'): SOFT HYPHEN
+	- U+00b4 ('´'): ACUTE ACCENT
+	- U+2014 ('—'): EM DASH
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/security/tpm/tpm_event_log.rst | 2 +-
- Documentation/security/tpm/xen-tpmfront.rst  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../driver-api/media/drivers/sh_mobile_ceu_camera.rst     | 8 ++++----
+ Documentation/driver-api/media/drivers/vidtv.rst          | 4 ++--
+ Documentation/driver-api/media/drivers/zoran.rst          | 2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/security/tpm/tpm_event_log.rst b/Documentation/security/tpm/tpm_event_log.rst
-index f00f7a1d5e92..9f2716c170bb 100644
---- a/Documentation/security/tpm/tpm_event_log.rst
-+++ b/Documentation/security/tpm/tpm_event_log.rst
-@@ -20,7 +20,7 @@ process.
- The main application for this is remote attestation and the reason why
- it is useful is nicely put in the very first section of [1]:
+diff --git a/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst b/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
+index 822fcb8368ae..280a322c34c6 100644
+--- a/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
++++ b/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
+@@ -30,10 +30,10 @@ Generic scaling / cropping scheme
+ 	|                       `. .6--
+ 	|
+ 	|                        . .6'-
+-	|                      .´
+-	|           ... -4'- .´
+-	|       ...´             - -7'.
+-	+-5'- .´               -/
++	|                      .'
++	|           ... -4'- .'
++	|       ...'             - -7'.
++	+-5'- .'               -/
+ 	|            -- -3'- -/
+ 	|         --/
+ 	|      --/
+diff --git a/Documentation/driver-api/media/drivers/vidtv.rst b/Documentation/driver-api/media/drivers/vidtv.rst
+index 673bdff919ea..abb454302ac5 100644
+--- a/Documentation/driver-api/media/drivers/vidtv.rst
++++ b/Documentation/driver-api/media/drivers/vidtv.rst
+@@ -458,8 +458,8 @@ Add a way to test video
  
--"Attestation is used to provide information about the platform’s state
-+"Attestation is used to provide information about the platform's state
- to a challenger. However, PCR contents are difficult to interpret;
- therefore, attestation is typically more useful when the PCR contents
- are accompanied by a measurement log. While not trusted on their own,
-diff --git a/Documentation/security/tpm/xen-tpmfront.rst b/Documentation/security/tpm/xen-tpmfront.rst
-index 00d5b1db227d..31c67522f2ad 100644
---- a/Documentation/security/tpm/xen-tpmfront.rst
-+++ b/Documentation/security/tpm/xen-tpmfront.rst
-@@ -1,4 +1,4 @@
--﻿=============================
-+=============================
- Virtual TPM interface for Xen
- =============================
+ Currently, vidtv can only encode PCM audio. It would be great to implement
+ a barebones version of MPEG-2 video encoding so we can also test video. The
+-first place to look into is *ISO 13818-2: Information technology — Generic
+-coding of moving pictures and associated audio information — Part 2: Video*,
++first place to look into is *ISO 13818-2: Information technology - Generic
++coding of moving pictures and associated audio information - Part 2: Video*,
+ which covers the encoding of compressed video in MPEG Transport Streams.
  
+ This might optionally use the Video4Linux2 Test Pattern Generator, v4l2-tpg,
+diff --git a/Documentation/driver-api/media/drivers/zoran.rst b/Documentation/driver-api/media/drivers/zoran.rst
+index 83cbae9cedef..b205e10c3154 100644
+--- a/Documentation/driver-api/media/drivers/zoran.rst
++++ b/Documentation/driver-api/media/drivers/zoran.rst
+@@ -319,7 +319,7 @@ Conexant bt866 TV encoder
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ - is used in AVS6EYES, and
+-- can generate: NTSC/PAL, PAL­M, PAL­N
++- can generate: NTSC/PAL, PAL-M, PAL-N
+ 
+ The adv717x, should be able to produce PAL N. But you find nothing PAL N
+ specific in the registers. Seem that you have to reuse a other standard
 -- 
 2.30.2
 
