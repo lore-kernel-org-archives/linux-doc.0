@@ -7,47 +7,45 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62550C43460
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 113E0C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2873B61954
+	by mail.kernel.org (Postfix) with ESMTP id D793C61940
 	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231974AbhEJKbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:31:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59988 "EHLO mail.kernel.org"
+        id S231533AbhEJKb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:31:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60020 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231680AbhEJK3f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:29:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 854456157F;
+        id S231186AbhEJK3u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:29:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AA65A616E9;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642443;
-        bh=JrLMYL4JThvq3F8iBkWp1UK3eSd5nAUFv6Kg0wHMGcE=;
+        bh=ql3fH9YF+Tp5Cdc+ks9xGMNWAcomJ3IyUAsw5MhHPbI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YnWY2hZWNeHAPr7IU+RXYtk/YCOhzkDj4igjW97kvMGX+dGYkPWgEA5G4RTwDEA/M
-         sB/skEROu0R62Q0g+d3FJXlrl0Ox46VyjGPv5d9SVkqdxnECOc0NMPTSjDFSndqcBy
-         Nmna0XJ7NqWro49eat00KYeKPZ/ekODKeue/CQMheyP1CPEqxSWB43VA/GMN0BHPaw
-         KeqFwI1xcBgbtSJm8mH0WufW8++SFBG/Izo/289+NgNzIx2eUpLsN5fy3/S4y1ZtWg
-         0B6ZP39Ro+PYej0LgbGrVsKUoAISVnYMF2OdpxsJ3ToysYHkANZqhgK7sOsfxTKPXA
-         hYebhXr+7EqNw==
+        b=frxEZ0X2fnSoTgU9+JLGE5I7t/YU/G9oiXxRS1X0xW2Rv+v8hoiKZPVF6zZK6gmuK
+         YWraBoSxpZGipN4NdE4hqBK52JTen8IA1LsfqLifc5tF7W8C+WUVaqz8X5FZ39OZBs
+         VeQ1meZ6FZVB53BiRJuawwZv49MOAYRIh/piw8Dxtp5IfRCR3wlzFrc8s9+xD7ISX5
+         2tVOlYb5BhDw77vso25ycg41imjrpl1aK40Ev8uKhIz/hqvflrvPJHmSsiA+ZSdZxE
+         2mIYEZVS/u4bXDyph0ZTenGw+N40Gpjcgkr5xTN0nTAo8go9WORp7Sicj56oXYjY+N
+         8m+X5ej6mV+Cg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UPs-GF; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38C-000UOW-E6; Mon, 10 May 2021 12:27:20 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH 24/53] docs: userspace-api: media: v4l: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:36 +0200
-Message-Id: <7bfa245cf54bfea669e2f46de4a91eeb3155c169.1620641727.git.mchehab+huawei@kernel.org>
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 03/53] docs: ABI: remove some spurious characters
+Date:   Mon, 10 May 2021 12:26:15 +0200
+Message-Id: <6d774ad6cb3795a177309503a39f8f1b5e309d64.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -59,172 +57,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While UTF-8 characters can be used at the Linux documentation,
-the best is to use them only when ASCII doesn't offer a good replacement.
-So, replace the occurences of the following UTF-8 characters:
-
-	- U+00a0 (' '): NO-BREAK SPACE
-	- U+00d7 ('×'): MULTIPLICATION SIGN
-	- U+2014 ('—'): EM DASH
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+The KernelVersion tag contains some spurious UTF-8 characters
+for no reason. Drop them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/userspace-api/media/v4l/biblio.rst |  8 ++++----
- Documentation/userspace-api/media/v4l/crop.rst   | 16 ++++++++--------
- .../userspace-api/media/v4l/dev-decoder.rst      |  6 +++---
- .../userspace-api/media/v4l/diff-v4l.rst         |  2 +-
- Documentation/userspace-api/media/v4l/open.rst   |  2 +-
- .../userspace-api/media/v4l/vidioc-cropcap.rst   |  4 ++--
- 6 files changed, 19 insertions(+), 19 deletions(-)
+ Documentation/ABI/testing/sysfs-module | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
-index 64d241daf63c..6e07b78bd39d 100644
---- a/Documentation/userspace-api/media/v4l/biblio.rst
-+++ b/Documentation/userspace-api/media/v4l/biblio.rst
-@@ -51,7 +51,7 @@ ISO 13818-1
- ===========
+diff --git a/Documentation/ABI/testing/sysfs-module b/Documentation/ABI/testing/sysfs-module
+index a485434d2a0f..88bddf192ceb 100644
+--- a/Documentation/ABI/testing/sysfs-module
++++ b/Documentation/ABI/testing/sysfs-module
+@@ -37,13 +37,13 @@ Description:	Maximum time allowed for periodic transfers per microframe (μs)
  
+ What:		/sys/module/*/{coresize,initsize}
+ Date:		Jan 2012
+-KernelVersion:»·3.3
++KernelVersion:	3.3
+ Contact:	Kay Sievers <kay.sievers@vrfy.org>
+ Description:	Module size in bytes.
  
--:title:     ITU-T Rec. H.222.0 | ISO/IEC 13818-1 "Information technology — Generic coding of moving pictures and associated audio information: Systems"
-+:title:     ITU-T Rec. H.222.0 | ISO/IEC 13818-1 "Information technology - Generic coding of moving pictures and associated audio information: Systems"
- 
- :author:    International Telecommunication Union (http://www.itu.ch), International Organisation for Standardisation (http://www.iso.ch)
- 
-@@ -61,7 +61,7 @@ ISO 13818-2
- ===========
- 
- 
--:title:     ITU-T Rec. H.262 | ISO/IEC 13818-2 "Information technology — Generic coding of moving pictures and associated audio information: Video"
-+:title:     ITU-T Rec. H.262 | ISO/IEC 13818-2 "Information technology - Generic coding of moving pictures and associated audio information: Video"
- 
- :author:    International Telecommunication Union (http://www.itu.ch), International Organisation for Standardisation (http://www.iso.ch)
- 
-@@ -150,7 +150,7 @@ ITU-T.81
- ========
- 
- 
--:title:     ITU-T Recommendation T.81 "Information Technology — Digital Compression and Coding of Continous-Tone Still Images — Requirements and Guidelines"
-+:title:     ITU-T Recommendation T.81 "Information Technology - Digital Compression and Coding of Continous-Tone Still Images - Requirements and Guidelines"
- 
- :author:    International Telecommunication Union (http://www.itu.int)
- 
-@@ -310,7 +310,7 @@ ISO 12232:2006
- ==============
- 
- 
--:title:     Photography — Digital still cameras — Determination of exposure index, ISO speed ratings, standard output sensitivity, and recommended exposure index
-+:title:     Photography - Digital still cameras - Determination of exposure index, ISO speed ratings, standard output sensitivity, and recommended exposure index
- 
- :author:    International Organization for Standardization (http://www.iso.org)
- 
-diff --git a/Documentation/userspace-api/media/v4l/crop.rst b/Documentation/userspace-api/media/v4l/crop.rst
-index 3fe185e25ccf..23c2b71f449e 100644
---- a/Documentation/userspace-api/media/v4l/crop.rst
-+++ b/Documentation/userspace-api/media/v4l/crop.rst
-@@ -130,22 +130,22 @@ the driver state and therefore only adjust the requested rectangle.
- 
- Suppose scaling on a video capture device is restricted to a factor 1:1
- or 2:1 in either direction and the target image size must be a multiple
--of 16 × 16 pixels. The source cropping rectangle is set to defaults,
--which are also the upper limit in this example, of 640 × 400 pixels at
--offset 0, 0. An application requests an image size of 300 × 225 pixels,
-+of 16 x 16 pixels. The source cropping rectangle is set to defaults,
-+which are also the upper limit in this example, of 640 x 400 pixels at
-+offset 0, 0. An application requests an image size of 300 x 225 pixels,
- assuming video will be scaled down from the "full picture" accordingly.
--The driver sets the image size to the closest possible values 304 × 224,
-+The driver sets the image size to the closest possible values 304 x 224,
- then chooses the cropping rectangle closest to the requested size, that
--is 608 × 224 (224 × 2:1 would exceed the limit 400). The offset 0, 0 is
-+is 608 x 224 (224 x 2:1 would exceed the limit 400). The offset 0, 0 is
- still valid, thus unmodified. Given the default cropping rectangle
- reported by :ref:`VIDIOC_CROPCAP <VIDIOC_CROPCAP>` the application can
- easily propose another offset to center the cropping rectangle.
- 
- Now the application may insist on covering an area using a picture
- aspect ratio closer to the original request, so it asks for a cropping
--rectangle of 608 × 456 pixels. The present scaling factors limit
--cropping to 640 × 384, so the driver returns the cropping size 608 × 384
--and adjusts the image size to closest possible 304 × 192.
-+rectangle of 608 x 456 pixels. The present scaling factors limit
-+cropping to 640 x 384, so the driver returns the cropping size 608 x 384
-+and adjusts the image size to closest possible 304 x 192.
- 
- 
- Examples
-diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-index 3d4138a4ba69..5b9b83feeceb 100644
---- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-@@ -38,7 +38,7 @@ Conventions and Notations Used in This Document
- 6. i = [a..b]: sequence of integers from a to b, inclusive, i.e. i =
-    [0..2]: i = 0, 1, 2.
- 
--7. Given an ``OUTPUT`` buffer A, then A’ represents a buffer on the ``CAPTURE``
-+7. Given an ``OUTPUT`` buffer A, then A' represents a buffer on the ``CAPTURE``
-    queue containing data that resulted from processing buffer A.
- 
- .. _decoder-glossary:
-@@ -288,7 +288,7 @@ Initialization
- 
-       Changing the ``OUTPUT`` format may change the currently set ``CAPTURE``
-       format. How the new ``CAPTURE`` format is determined is up to the decoder
--      and the client must ensure it matches its needs afterwards.
-+      and the client must ensure it matches its needs afterwards.
- 
- 2.  Allocate source (bytestream) buffers via :c:func:`VIDIOC_REQBUFS` on
-     ``OUTPUT``.
-@@ -874,7 +874,7 @@ it may be affected as per normal decoder operation.
- 
-    any of the following results on the ``CAPTURE`` queue is allowed:
- 
--     {A’, B’, G’, H’}, {A’, G’, H’}, {G’, H’}.
-+     {A', B', G', H'}, {A', G', H'}, {G', H'}.
- 
-    To determine the CAPTURE buffer containing the first decoded frame after the
-    seek, the client may observe the timestamps to match the CAPTURE and OUTPUT
-diff --git a/Documentation/userspace-api/media/v4l/diff-v4l.rst b/Documentation/userspace-api/media/v4l/diff-v4l.rst
-index 33243ecb5033..9ce60e625974 100644
---- a/Documentation/userspace-api/media/v4l/diff-v4l.rst
-+++ b/Documentation/userspace-api/media/v4l/diff-v4l.rst
-@@ -447,7 +447,7 @@ name ``V4L2_FBUF_FLAG_CHROMAKEY``.
- 
- In V4L, storing a bitmap pointer in ``clips`` and setting ``clipcount``
- to ``VIDEO_CLIP_BITMAP`` (-1) requests bitmap clipping, using a fixed
--size bitmap of 1024 × 625 bits. Struct :c:type:`v4l2_window`
-+size bitmap of 1024 x 625 bits. Struct :c:type:`v4l2_window`
- has a separate ``bitmap`` pointer field for this purpose and the bitmap
- size is determined by ``w.width`` and ``w.height``.
- 
-diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
-index 18bfb9b8137d..b015bbbdf8b5 100644
---- a/Documentation/userspace-api/media/v4l/open.rst
-+++ b/Documentation/userspace-api/media/v4l/open.rst
-@@ -100,7 +100,7 @@ Where ``X`` is a non-negative integer.
- 	$ tree /dev/v4l
- 	/dev/v4l
- 	├── by-id
--	│   └── usb-OmniVision._USB_Camera-B4.04.27.1-video-index0 -> ../../video0
-+	│   └── usb-OmniVision._USB_Camera-B4.04.27.1-video-index0 -> ../../video0
- 	└── by-path
- 	    └── pci-0000:00:14.0-usb-0:2:1.0-video-index0 -> ../../video0
- 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst b/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
-index 551ac9d3c6ef..4ea652e66401 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
-@@ -69,8 +69,8 @@ overlay devices.
-     * - struct :ref:`v4l2_rect <v4l2-rect-crop>`
-       - ``defrect``
-       - Default cropping rectangle, it shall cover the "whole picture".
--	Assuming pixel aspect 1/1 this could be for example a 640 × 480
--	rectangle for NTSC, a 768 × 576 rectangle for PAL and SECAM
-+	Assuming pixel aspect 1/1 this could be for example a 640 x 480
-+	rectangle for NTSC, a 768 x 576 rectangle for PAL and SECAM
- 	centered over the active picture area. The same co-ordinate system
- 	as for ``bounds`` is used.
-     * - struct :c:type:`v4l2_fract`
+ What:		/sys/module/*/taint
+ Date:		Jan 2012
+-KernelVersion:»·3.3
++KernelVersion:	3.3
+ Contact:	Kay Sievers <kay.sievers@vrfy.org>
+ Description:	Module taint flags:
+ 			==  =====================
 -- 
 2.30.2
 
