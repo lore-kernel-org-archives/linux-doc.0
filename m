@@ -7,40 +7,42 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01665C43603
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F75C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C0C116191C
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BD0B6186A
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231809AbhEJKbn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:31:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60258 "EHLO mail.kernel.org"
+        id S231630AbhEJKbt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:31:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38422 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231822AbhEJKaM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:30:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CC3D76191C;
+        id S231834AbhEJKaN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:30:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C55266190A;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642443;
-        bh=z9PrVdVXAHvCaRn+C1s2vWYKe0TVKExCVwxvWswapsc=;
+        bh=F8nZoWzH89/rBepWAsXTSR/Xntv7YEnimf4HW1jZedc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=msPW4EIcjQKYLlClKbhfMCeBqk2XriApF00XoMZFnSiB6Z7yGFGDA7NQmrbNTDXnT
-         fqv4mQDpkzdbcLmKkN30pCdvr72FY2gDV5IwoXbFMQQidp2bVilosmURccyvPmycoN
-         1LXdnb0vFUUAfnp/tmZowzECULrF6qPqkyA75jdK09rIQz/Y81n7ph3wOgh3pEewcN
-         loBlHx7ORo+c/qSuN6uPMbAPvBbYuFfOxIqHluGp981/esW6+kBBiDjKuQXkjrwIQO
-         hxvYQHoT6ZWWrBg4Cg+4WwcjeJYkAo1K6YvLUxW7AjoeOvw01GcxWarFaaf2G/zHuL
-         RMIr1rKVl1HOA==
+        b=j9LiZUbici3PrWQ7dTN+D+h5UEi/+51sD4hfQcIkvJceyQPcGrKzu6afxA9al8LxF
+         pJ2TJpXHB8EQ1t1Ci+VIjQz373nHMIonKRjNSoL9gcnFeAYTod3m2in4LQxQaRTEFV
+         7y9D3EytyMvmOpnoYjarq12GvLDG9LG8tTGcPMC//9RBs9Mt2Q8nIvXUmS59NtRTUy
+         3V4R/J8EeS2l60w5Gew7cS3B2o4p404wpzk+pmWyVnZ9K7O2gO2kz4ODpF7rAWZngU
+         hdobAX8u3oHayrjjwtGUDjIy10RgfyBUWfToLtga8gA3INLkhxkULaG6k+nFdfez9B
+         owPwSP03UC5OQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UPk-Ck; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38D-000UPY-7h; Mon, 10 May 2021 12:27:21 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 22/53] docs: block: data-integrity.rst: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:34 +0200
-Message-Id: <ddc1ab317831fe660f74ee9a6a5728e794ae636a.1620641727.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 19/53] docs: fault-injection: nvme-fault-injection.rst: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:31 +0200
+Message-Id: <197d802b2a5f4fe0b651b8577aa79b8b8f2c90fb.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -56,22 +58,26 @@ While UTF-8 characters can be used at the Linux documentation,
 the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+feff ('﻿'): ZERO WIDTH NO-BREAK SPACE
+	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
+	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/block/data-integrity.rst | 2 +-
+ Documentation/fault-injection/nvme-fault-injection.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/block/data-integrity.rst b/Documentation/block/data-integrity.rst
-index 4f2452a95c43..07a97aa26668 100644
---- a/Documentation/block/data-integrity.rst
-+++ b/Documentation/block/data-integrity.rst
-@@ -1,4 +1,4 @@
--﻿==============
-+==============
- Data Integrity
- ==============
+diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
+index 1d4427890d75..d372ce66a244 100644
+--- a/Documentation/fault-injection/nvme-fault-injection.rst
++++ b/Documentation/fault-injection/nvme-fault-injection.rst
+@@ -25,7 +25,7 @@ Example 1: Inject default status code with no retry
+ 
+ Expected Result::
+ 
+-  cp: cannot stat ‘/mnt/a.file’: Input/output error
++  cp: cannot stat '/mnt/a.file': Input/output error
+ 
+ Message from dmesg::
  
 -- 
 2.30.2
