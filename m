@@ -2,108 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91B40C43460
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 22:36:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42200C43460
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 22:58:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C88F615FF
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 22:36:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 185E56161C
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 22:58:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230436AbhEJWh3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 18:37:29 -0400
-Received: from tartarus.angband.pl ([51.83.246.204]:34704 "EHLO
-        tartarus.angband.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230271AbhEJWh2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 18:37:28 -0400
-X-Greylist: delayed 1784 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 May 2021 18:37:20 EDT
-Received: from kilobyte by tartarus.angband.pl with local (Exim 4.94.2)
-        (envelope-from <kilobyte@angband.pl>)
-        id 1lgDtp-00EKjz-Lm; Mon, 10 May 2021 23:57:13 +0200
-Date:   Mon, 10 May 2021 23:57:13 +0200
-From:   Adam Borowski <kilobyte@angband.pl>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
-Message-ID: <YJmsOYzPIsQ04Zxb@angband.pl>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
+        id S229641AbhEJW7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 18:59:13 -0400
+Received: from mga02.intel.com ([134.134.136.20]:14343 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229502AbhEJW7M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 18:59:12 -0400
+IronPort-SDR: 5CCxM31DrQ8NpRCc57zhv8RqDO51fL6JXRIul4MJVkw5VTUsKQCY8WFY9rtcImWpqRy2Aq/LHQ
+ EakplwnAGuvQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="186440128"
+X-IronPort-AV: E=Sophos;i="5.82,288,1613462400"; 
+   d="scan'208";a="186440128"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 15:58:06 -0700
+IronPort-SDR: QsXO/4wRx+z3mdOQUqRrWo77zUAK8pyl2+PvaaF/SdE5zZB8LiimPlTFQZZ4cYaXz9oRpRzdWf
+ iJ15TiTGHg8g==
+X-IronPort-AV: E=Sophos;i="5.82,288,1613462400"; 
+   d="scan'208";a="434014879"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.144.113]) ([10.251.144.113])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 15:58:00 -0700
+Subject: Re: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-24-yu-cheng.yu@intel.com> <YJlADyc/9pn8Sjkn@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com>
+Date:   Mon, 10 May 2021 15:57:56 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
-X-Junkbait: aaron@angband.pl, zzyx@angband.pl
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: kilobyte@angband.pl
-X-SA-Exim-Scanned: No (on tartarus.angband.pl); SAEximRunCond expanded to false
+In-Reply-To: <YJlADyc/9pn8Sjkn@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 10, 2021 at 12:26:12PM +0200, Mauro Carvalho Chehab wrote:
-> There are several UTF-8 characters at the Kernel's documentation.
+On 5/10/2021 7:15 AM, Borislav Petkov wrote:
+> On Tue, Apr 27, 2021 at 01:43:08PM -0700, Yu-cheng Yu wrote:
+
 [...]
-> Other UTF-8 characters were added along the time, but they're easily
-> replaceable by ASCII chars.
+
+>> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+>> index c815c7507830..d387df84b7f1 100644
+>> --- a/arch/x86/kernel/shstk.c
+>> +++ b/arch/x86/kernel/shstk.c
+>> @@ -70,6 +70,55 @@ int shstk_setup(void)
+>>   	return 0;
+>>   }
 > 
-> As Linux developers are all around the globe, and not everybody has UTF-8
-> as their default charset
+>> +int shstk_setup_thread(struct task_struct *tsk, unsigned long clone_flags,
+> 
+> Judging by what this function does, its name wants to be
+> 
+> shstk_alloc_thread_stack()
+> 
+> or so?
+> 
+>> +		       unsigned long stack_size)
+>> +{
+>> +	unsigned long addr, size;
+>> +	struct cet_user_state *state;
+>> +	struct cet_status *cet = &tsk->thread.cet;
+> 
+> The tip-tree preferred ordering of variable declarations at the
+> beginning of a function is reverse fir tree order::
+> 
+> 	struct long_struct_name *descriptive_name;
+> 	unsigned long foo, bar;
+> 	unsigned int tmp;
+> 	int ret;
+> 
+> The above is faster to parse than the reverse ordering::
+> 
+> 	int ret;
+> 	unsigned int tmp;
+> 	unsigned long foo, bar;
+> 	struct long_struct_name *descriptive_name;
+> 
+> And even more so than random ordering::
+> 
+> 	unsigned long foo, bar;
+> 	int ret;
+> 	struct long_struct_name *descriptive_name;
+> 	unsigned int tmp;
+> 
+>> +
+>> +	if (!cet->shstk_size)
+>> +		return 0;
+>> +
+> 
+> This check needs a comment.
+> 
+>> +	if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
+>> +		return 0;
+>> +
+>> +	state = get_xsave_addr(&tsk->thread.fpu.state.xsave,
+>> +			       XFEATURE_CET_USER);
+> 
+> Let that line stick out.
+> 
+>> +
+>> +	if (!state)
+>> +		return -EINVAL;
+>> +
+>> +	if (stack_size == 0)
+> 
+> 	if (!stack_size)
+> 
+>> +		return -EINVAL;
+> 
+> and that test needs to be done first in the function.
+> 
+>> +
+>> +	/* Cap shadow stack size to 4 GB */
+> 
+> Why?
+> 
 
-I'm not aware of a distribution that still allows selecting a non-UTF-8
-charset in a normal flow in their installer.  And if they haven't purged
-support for ancient encodings, that support is thoroughly bitrotten.
-Thus, I disagree that this is a legitimate concern.
+This is not necessary.  I will make it just stack_size, which is passed 
+in from copy_thread().
 
-What _could_ be a legitimate reason is that someone is on a _terminal_
-that can't display a wide enough set of glyphs.  Such terminals are:
- • Linux console (because of vgacon limitations; patchsets to improve
-   other cons haven't been mainlined)
- • some Windows terminals (putty, old Windows console) that can't borrow
-   glyphs from other fonts like fontconfig can
+>> +	size = min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G);
+>> +	size = min(size, stack_size);
+>> +
+>> +	/*
+>> +	 * Compat-mode pthreads share a limited address space.
+>> +	 * If each function call takes an average of four slots
+>> +	 * stack space, allocate 1/4 of stack size for shadow stack.
+>> +	 */
+>> +	if (in_compat_syscall())
+>> +		size /= 4;
+> 
+> <---- newline here.
+> 
+>> +	size = round_up(size, PAGE_SIZE);
+>> +	addr = alloc_shstk(size);
+>> +
+> 
+> ^ Superfluous newline.
+> 
+>> +	if (IS_ERR_VALUE(addr)) {
+>> +		cet->shstk_base = 0;
+>> +		cet->shstk_size = 0;
+>> +		return PTR_ERR((void *)addr);
+>> +	}
+>> +
+>> +	fpu__prepare_write(&tsk->thread.fpu);
+>> +	state->user_ssp = (u64)(addr + size);
+> 
+> cet_user_state has u64, cet_status has unsigned longs. Make them all u64.
+> 
+> And since cet_status is per thread, but I had suggested struct
+> shstk_desc, I think now that that should be called
+> 
+> struct thread_shstk
+> 
+> or so to denote *exactly* what it is.
+> 
 
-For the former, it's whatever your distribution ships in
-/usr/share/consolefonts/ or an equivalent, which is based on historic
-ISO-8859 and VT100 traditions.
+So this struct will be:
 
-For the latter, the near-guaranteed character set is WGL4.
+struct thread_shstk {
+	u64 shstk_base;
+	u64 shstk_size;
+	u64 locked:1;
+	u64 ibt:1;
+};
 
+Ok?
 
-Thus, at least two of your choices seem to disagree with the above:
-[dropped]
-> 	0xd7   => 'x',		# MULTIPLICATION SIGN
-[retained]
-> 	- U+2b0d ('⬍'): UP DOWN BLACK ARROW
-
-× is present in ISO-8859, V100, WGL4; I've found no font in
-/usr/share/consolefonts/ on my Debian unstable box that lacks this
-character.
-
-⬍ is not found in any of the above.  You might want to at least
-convert it to ↕ which is at least present in WGL4, and thus likely
-to be supported in fonts heeding Windows/Mac/OpenType recommendations.
-That still won't make it work on VT.
-
-
-Meow!
--- 
-⢀⣴⠾⠻⢶⣦⠀ .--[ Makefile ]
-⣾⠁⢠⠒⠀⣿⡁ # beware of races
-⢿⡄⠘⠷⠚⠋⠀ all: pillage burn
-⠈⠳⣄⠀⠀⠀⠀ `----
+Thanks,
+Yu-cheng
