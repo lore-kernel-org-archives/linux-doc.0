@@ -7,45 +7,40 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B96C6C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40960C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 881FD6191C
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C77F6101E
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232093AbhEJKcl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:32:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59860 "EHLO mail.kernel.org"
+        id S232102AbhEJKcr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:32:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60976 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231738AbhEJKao (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:30:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EBDF56192D;
+        id S231860AbhEJKap (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:30:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EBC826192A;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642444;
-        bh=1pGsLkW90Hkv2TIwTQmqfigD/Ezq8Ys098ssjaqakVU=;
+        bh=5XvKweeJlfByIWyqx5n3/rwhfkl4jZwsOIYU0G0wXTM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YBYtzJpJ/BKC79x9zApyNZgnF0mVm+qYeRZ33rfwMX7E+ddHqqyqLarw45XiuaNFv
-         +SUld8LGfHOsp3V1VOxVlEcLNbJC7Mg4IeKfRSRPF+tOMdlp6UVF9fSKggfsyaqQm1
-         h3Dj1PeFWDx3v6KaExWLT4837Jb/pZcUSp0WFba4kPR756AOH5Lw5fulLf8AbQFWjy
-         kWCBPzoDT6taDyHL6L+p8h9yqqEc+t4EYcJkX3wMVBooYrxjdgUI342EYNhQMRIMyX
-         qSZFJI6xMzyEc4MtM6n3V4XEBTUKNSxOWfOSYo4yQx2pf2USsNqclcLMo2AC85O6i0
-         IO+SHgA4D1gRw==
+        b=gWr6lfrr/p7MFRe58W8gbMix0N4mF7ECGSjy8KP4cABfEVzYgtkVRDyxNxlx1+3aK
+         4zMs5fevq+5DkA3QExPfJ1pqLhdBYHReJ3NLOEg4kHnTzh02JRTDO+Up6Sk8opb6EN
+         uyonhAHoA0xPAMfluLddVCj2ItlkfZaiBUXGRPAbt02q+SDyJvV7UToj+aBvkir34v
+         vhrH93d+KPGFDtqH98521/haSU/GPKPKBo9CYFzjPFzf/7+IN2ewGqFhMre3yCJtSH
+         OpIvBG9kC5WMFLWvalnVDUD/mIpMaqFoFqGRylO5gqYBB4O9LH04Tl2kbqvm3uikxL
+         H5K+PFJljUeOw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UQS-Ui; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38D-000UQK-RE; Mon, 10 May 2021 12:27:21 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alex@ghiti.fr>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: [PATCH 33/53] docs: riscv: vm-layout.rst: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:45 +0200
-Message-Id: <050eb90d1cfe167f6cc2e25608d825c18aa7c559.1620641727.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 31/53] docs: security: tpm: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:43 +0200
+Message-Id: <1e6958e5e5e65479da9fe5b53752b872cc252269.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -61,26 +56,38 @@ While UTF-8 characters can be used at the Linux documentation,
 the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2013 ('–'): EN DASH
+	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+feff ('﻿'): ZERO WIDTH NO-BREAK SPACE
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/riscv/vm-layout.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/security/tpm/tpm_event_log.rst | 2 +-
+ Documentation/security/tpm/xen-tpmfront.rst  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-index 329d32098af4..545f8ab51f1a 100644
---- a/Documentation/riscv/vm-layout.rst
-+++ b/Documentation/riscv/vm-layout.rst
-@@ -22,7 +22,7 @@ RISC-V Linux Kernel 64bit
- =========================
+diff --git a/Documentation/security/tpm/tpm_event_log.rst b/Documentation/security/tpm/tpm_event_log.rst
+index f00f7a1d5e92..9f2716c170bb 100644
+--- a/Documentation/security/tpm/tpm_event_log.rst
++++ b/Documentation/security/tpm/tpm_event_log.rst
+@@ -20,7 +20,7 @@ process.
+ The main application for this is remote attestation and the reason why
+ it is useful is nicely put in the very first section of [1]:
  
- The RISC-V privileged architecture document states that the 64bit addresses
--"must have bits 63–48 all equal to bit 47, or else a page-fault exception will
-+"must have bits 63-48 all equal to bit 47, or else a page-fault exception will
- occur.": that splits the virtual address space into 2 halves separated by a very
- big hole, the lower half is where the userspace resides, the upper half is where
- the RISC-V Linux Kernel resides.
+-"Attestation is used to provide information about the platform’s state
++"Attestation is used to provide information about the platform's state
+ to a challenger. However, PCR contents are difficult to interpret;
+ therefore, attestation is typically more useful when the PCR contents
+ are accompanied by a measurement log. While not trusted on their own,
+diff --git a/Documentation/security/tpm/xen-tpmfront.rst b/Documentation/security/tpm/xen-tpmfront.rst
+index 00d5b1db227d..31c67522f2ad 100644
+--- a/Documentation/security/tpm/xen-tpmfront.rst
++++ b/Documentation/security/tpm/xen-tpmfront.rst
+@@ -1,4 +1,4 @@
+-﻿=============================
++=============================
+ Virtual TPM interface for Xen
+ =============================
+ 
 -- 
 2.30.2
 
