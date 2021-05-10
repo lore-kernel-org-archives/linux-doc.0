@@ -7,47 +7,48 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6D85C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC046C43460
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C49461990
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F9EA61990
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:34:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231789AbhEJKfn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:35:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41610 "EHLO mail.kernel.org"
+        id S231877AbhEJKfo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:35:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33952 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232052AbhEJKcc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:32:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EBCF66192B;
-        Mon, 10 May 2021 10:27:23 +0000 (UTC)
+        id S231391AbhEJKcd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:32:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F7D56188B;
+        Mon, 10 May 2021 10:27:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642444;
-        bh=a/lHErjxeq8Px/VYkN0n+YdbY/CWB8GjcIQuglK7QWg=;
+        bh=VcaQSZIsq7mD+wAS9jpIB7+FO3hpRfDHG83wwmYCZVA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LZnWzXJrkHuG+yU9PYes9q1+5s/2e5Xyn6tkDeHreXPEftgwqghhmhsDb+c73Yhoc
-         eCf8TPvbNZCR1aWKHy3/FNaiHambNIk5MPES2VOwVN2fzMO2hHeHDcBKzNbZV0MlhS
-         gJ8EY8qicuv/m385ErxgkqXLdKb9AJdiD2+K2wgEX4UmF3JqqmFf6SvHzyGPIvh/3n
-         AzlWVEK0ypbY1zS1XxDgoWpFKoQxPniOBFKPtJsrp869+SOV3Iz7hchM+qdn3vkRmV
-         iDOaW1qwIXZx8lmTxeIIvwsbHeC0IHG8dWe3wMu727JXiWpKON8EnR4JazWpXdK3Xd
-         a/DtpLT7Y2nUg==
+        b=g2w1p1MXnNawAC5FuZnuQWC5U5XbTgql+7Ar3t5rOJMsHfJty8gWY/iSptt3rjqy/
+         RK3rRhHgxeZgnbG+ASWaE9SCSX5s2ax0K4RoQtu+WfsQGm8MLnitowI3ZveX8nCVq2
+         YPx6Y+5pVSIVLUqX1K+VU5+RRkOxKQKNu8hxH21cYpSI/MWGyC+CDne4aZ7XsH/PWI
+         hUXY35hCqq0pLyocCTK/24BhfVcftbK8W5GIfORQxM0OM5KeZwJr8zs1IZfTOjLN3O
+         1LyJHoUdCqdWAC84g8Lke4AV2E+ftaVGwA+WVDuVktvxKZ97l6j70AQCK0mwi6FIbD
+         +dFms8gtkxaEA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UQG-Pe; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38E-000UQe-3f; Mon, 10 May 2021 12:27:22 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Mark O'Donovan" <shiftee@posteo.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 30/53] docs: hid: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:42 +0200
-Message-Id: <a978fba250cb40dcf764eac79a939ea48b816e9a.1620641727.git.mchehab+huawei@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Shannon Nelson <snelson@pensando.io>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH 36/53] docs: networking: device_drivers: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:48 +0200
+Message-Id: <9d14421bef0641bb1a45dbf87865b0cd361f64d6.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -64,362 +65,124 @@ the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
 	- U+00a0 (' '): NO-BREAK SPACE
+	- U+2013 ('–'): EN DASH
+	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
+	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/hid/hid-sensor.rst    |  70 ++++----
- Documentation/hid/intel-ish-hid.rst | 246 ++++++++++++++--------------
- 2 files changed, 158 insertions(+), 158 deletions(-)
+ .../device_drivers/ethernet/intel/i40e.rst           | 12 ++++++------
+ .../device_drivers/ethernet/intel/iavf.rst           |  6 +++---
+ .../device_drivers/ethernet/netronome/nfp.rst        | 12 ++++++------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/hid/hid-sensor.rst b/Documentation/hid/hid-sensor.rst
-index c1c9b8d8dca6..b98d7a415cda 100644
---- a/Documentation/hid/hid-sensor.rst
-+++ b/Documentation/hid/hid-sensor.rst
-@@ -173,39 +173,39 @@ An example of this representation on sysfs::
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
+index 8a9b18573688..64024c77c9ca 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
+@@ -173,7 +173,7 @@ Director rule is added from ethtool (Sideband filter), ATR is turned off by the
+ driver. To re-enable ATR, the sideband can be disabled with the ethtool -K
+ option. For example::
  
-   /sys/devices/pci0000:00/INT33C2:00/i2c-0/i2c-INT33D1:00/0018:8086:09FA.0001/HID-SENSOR-2000e1.6.auto$ tree -R
-   .
--  │   ├──  enable_sensor
--  │   │   ├── feature-0-200316
--  │   │   │   ├── feature-0-200316-maximum
--  │   │   │   ├── feature-0-200316-minimum
--  │   │   │   ├── feature-0-200316-name
--  │   │   │   ├── feature-0-200316-size
--  │   │   │   ├── feature-0-200316-unit-expo
--  │   │   │   ├── feature-0-200316-units
--  │   │   │   ├── feature-0-200316-value
--  │   │   ├── feature-1-200201
--  │   │   │   ├── feature-1-200201-maximum
--  │   │   │   ├── feature-1-200201-minimum
--  │   │   │   ├── feature-1-200201-name
--  │   │   │   ├── feature-1-200201-size
--  │   │   │   ├── feature-1-200201-unit-expo
--  │   │   │   ├── feature-1-200201-units
--  │   │   │   ├── feature-1-200201-value
--  │   │   ├── input-0-200201
--  │   │   │   ├── input-0-200201-maximum
--  │   │   │   ├── input-0-200201-minimum
--  │   │   │   ├── input-0-200201-name
--  │   │   │   ├── input-0-200201-size
--  │   │   │   ├── input-0-200201-unit-expo
--  │   │   │   ├── input-0-200201-units
--  │   │   │   ├── input-0-200201-value
--  │   │   ├── input-1-200202
--  │   │   │   ├── input-1-200202-maximum
--  │   │   │   ├── input-1-200202-minimum
--  │   │   │   ├── input-1-200202-name
--  │   │   │   ├── input-1-200202-size
--  │   │   │   ├── input-1-200202-unit-expo
--  │   │   │   ├── input-1-200202-units
--  │   │   │   ├── input-1-200202-value
-+  │   ├──  enable_sensor
-+  │   │   ├── feature-0-200316
-+  │   │   │   ├── feature-0-200316-maximum
-+  │   │   │   ├── feature-0-200316-minimum
-+  │   │   │   ├── feature-0-200316-name
-+  │   │   │   ├── feature-0-200316-size
-+  │   │   │   ├── feature-0-200316-unit-expo
-+  │   │   │   ├── feature-0-200316-units
-+  │   │   │   ├── feature-0-200316-value
-+  │   │   ├── feature-1-200201
-+  │   │   │   ├── feature-1-200201-maximum
-+  │   │   │   ├── feature-1-200201-minimum
-+  │   │   │   ├── feature-1-200201-name
-+  │   │   │   ├── feature-1-200201-size
-+  │   │   │   ├── feature-1-200201-unit-expo
-+  │   │   │   ├── feature-1-200201-units
-+  │   │   │   ├── feature-1-200201-value
-+  │   │   ├── input-0-200201
-+  │   │   │   ├── input-0-200201-maximum
-+  │   │   │   ├── input-0-200201-minimum
-+  │   │   │   ├── input-0-200201-name
-+  │   │   │   ├── input-0-200201-size
-+  │   │   │   ├── input-0-200201-unit-expo
-+  │   │   │   ├── input-0-200201-units
-+  │   │   │   ├── input-0-200201-value
-+  │   │   ├── input-1-200202
-+  │   │   │   ├── input-1-200202-maximum
-+  │   │   │   ├── input-1-200202-minimum
-+  │   │   │   ├── input-1-200202-name
-+  │   │   │   ├── input-1-200202-size
-+  │   │   │   ├── input-1-200202-unit-expo
-+  │   │   │   ├── input-1-200202-units
-+  │   │   │   ├── input-1-200202-value
+-  ethtool –K [adapter] ntuple [off|on]
++  ethtool -K [adapter] ntuple [off|on]
  
- Here there is a custom sensor with four fields: two feature and two inputs.
- Each field is represented by a set of attributes. All fields except the "value"
-@@ -234,8 +234,8 @@ Once enabled and powered on, sensor can report value using HID reports.
- These reports are pushed using misc device interface in a FIFO order::
+ If sideband is re-enabled after ATR is re-enabled, ATR remains enabled until a
+ TCP-IP flow is added. When all TCP-IP sideband rules are deleted, ATR is
+@@ -466,7 +466,7 @@ network. PTP support varies among Intel devices that support this driver. Use
+ "ethtool -T <netdev name>" to get a definitive list of PTP capabilities
+ supported by the device.
  
- 	/dev$ tree | grep HID-SENSOR-2000e1.6.auto
--	│   │   │   ├── 10:53 -> ../HID-SENSOR-2000e1.6.auto
--	│   ├──  HID-SENSOR-2000e1.6.auto
-+	│   │   │   ├── 10:53 -> ../HID-SENSOR-2000e1.6.auto
-+	│   ├──  HID-SENSOR-2000e1.6.auto
+-IEEE 802.1ad (QinQ) Support
++IEEE 802.1ad (QinQ) Support
+ ---------------------------
+ The IEEE 802.1ad standard, informally known as QinQ, allows for multiple VLAN
+ IDs within a single Ethernet frame. VLAN IDs are sometimes referred to as
+@@ -523,8 +523,8 @@ of a port's bandwidth (should it be available). The sum of all the values for
+ Maximum Bandwidth is not restricted, because no more than 100% of a port's
+ bandwidth can ever be used.
  
- Each report can be of variable length preceded by a header. This header
- consists of a 32-bit usage id, 64-bit time stamp and 32-bit length field of raw
-diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
-index 7a851252267a..a525cdefc937 100644
---- a/Documentation/hid/intel-ish-hid.rst
-+++ b/Documentation/hid/intel-ish-hid.rst
-@@ -355,133 +355,133 @@ To debug ISH, event tracing mechanism is used. To enable debug logs::
-   root@otcpl-ThinkPad-Yoga-260:~# tree -l /sys/bus/iio/devices/
-   /sys/bus/iio/devices/
-   ├── iio:device0 -> ../../../devices/0044:8086:22D8.0001/HID-SENSOR-200073.9.auto/iio:device0
--  │   ├── buffer
--  │   │   ├── enable
--  │   │   ├── length
--  │   │   └── watermark
-+  │   ├── buffer
-+  │   │   ├── enable
-+  │   │   ├── length
-+  │   │   └── watermark
-   ...
--  │   ├── in_accel_hysteresis
--  │   ├── in_accel_offset
--  │   ├── in_accel_sampling_frequency
--  │   ├── in_accel_scale
--  │   ├── in_accel_x_raw
--  │   ├── in_accel_y_raw
--  │   ├── in_accel_z_raw
--  │   ├── name
--  │   ├── scan_elements
--  │   │   ├── in_accel_x_en
--  │   │   ├── in_accel_x_index
--  │   │   ├── in_accel_x_type
--  │   │   ├── in_accel_y_en
--  │   │   ├── in_accel_y_index
--  │   │   ├── in_accel_y_type
--  │   │   ├── in_accel_z_en
--  │   │   ├── in_accel_z_index
--  │   │   └── in_accel_z_type
-+  │   ├── in_accel_hysteresis
-+  │   ├── in_accel_offset
-+  │   ├── in_accel_sampling_frequency
-+  │   ├── in_accel_scale
-+  │   ├── in_accel_x_raw
-+  │   ├── in_accel_y_raw
-+  │   ├── in_accel_z_raw
-+  │   ├── name
-+  │   ├── scan_elements
-+  │   │   ├── in_accel_x_en
-+  │   │   ├── in_accel_x_index
-+  │   │   ├── in_accel_x_type
-+  │   │   ├── in_accel_y_en
-+  │   │   ├── in_accel_y_index
-+  │   │   ├── in_accel_y_type
-+  │   │   ├── in_accel_z_en
-+  │   │   ├── in_accel_z_index
-+  │   │   └── in_accel_z_type
-   ...
--  │   │   ├── devices
--  │   │   │   │   ├── buffer
--  │   │   │   │   │   ├── enable
--  │   │   │   │   │   ├── length
--  │   │   │   │   │   └── watermark
--  │   │   │   │   ├── dev
--  │   │   │   │   ├── in_intensity_both_raw
--  │   │   │   │   ├── in_intensity_hysteresis
--  │   │   │   │   ├── in_intensity_offset
--  │   │   │   │   ├── in_intensity_sampling_frequency
--  │   │   │   │   ├── in_intensity_scale
--  │   │   │   │   ├── name
--  │   │   │   │   ├── scan_elements
--  │   │   │   │   │   ├── in_intensity_both_en
--  │   │   │   │   │   ├── in_intensity_both_index
--  │   │   │   │   │   └── in_intensity_both_type
--  │   │   │   │   ├── trigger
--  │   │   │   │   │   └── current_trigger
-+  │   │   ├── devices
-+  │   │   │   │   ├── buffer
-+  │   │   │   │   │   ├── enable
-+  │   │   │   │   │   ├── length
-+  │   │   │   │   │   └── watermark
-+  │   │   │   │   ├── dev
-+  │   │   │   │   ├── in_intensity_both_raw
-+  │   │   │   │   ├── in_intensity_hysteresis
-+  │   │   │   │   ├── in_intensity_offset
-+  │   │   │   │   ├── in_intensity_sampling_frequency
-+  │   │   │   │   ├── in_intensity_scale
-+  │   │   │   │   ├── name
-+  │   │   │   │   ├── scan_elements
-+  │   │   │   │   │   ├── in_intensity_both_en
-+  │   │   │   │   │   ├── in_intensity_both_index
-+  │   │   │   │   │   └── in_intensity_both_type
-+  │   │   │   │   ├── trigger
-+  │   │   │   │   │   └── current_trigger
-   ...
--  │   │   │   │   ├── buffer
--  │   │   │   │   │   ├── enable
--  │   │   │   │   │   ├── length
--  │   │   │   │   │   └── watermark
--  │   │   │   │   ├── dev
--  │   │   │   │   ├── in_magn_hysteresis
--  │   │   │   │   ├── in_magn_offset
--  │   │   │   │   ├── in_magn_sampling_frequency
--  │   │   │   │   ├── in_magn_scale
--  │   │   │   │   ├── in_magn_x_raw
--  │   │   │   │   ├── in_magn_y_raw
--  │   │   │   │   ├── in_magn_z_raw
--  │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_raw
--  │   │   │   │   ├── in_rot_hysteresis
--  │   │   │   │   ├── in_rot_offset
--  │   │   │   │   ├── in_rot_sampling_frequency
--  │   │   │   │   ├── in_rot_scale
--  │   │   │   │   ├── name
-+  │   │   │   │   ├── buffer
-+  │   │   │   │   │   ├── enable
-+  │   │   │   │   │   ├── length
-+  │   │   │   │   │   └── watermark
-+  │   │   │   │   ├── dev
-+  │   │   │   │   ├── in_magn_hysteresis
-+  │   │   │   │   ├── in_magn_offset
-+  │   │   │   │   ├── in_magn_sampling_frequency
-+  │   │   │   │   ├── in_magn_scale
-+  │   │   │   │   ├── in_magn_x_raw
-+  │   │   │   │   ├── in_magn_y_raw
-+  │   │   │   │   ├── in_magn_z_raw
-+  │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_raw
-+  │   │   │   │   ├── in_rot_hysteresis
-+  │   │   │   │   ├── in_rot_offset
-+  │   │   │   │   ├── in_rot_sampling_frequency
-+  │   │   │   │   ├── in_rot_scale
-+  │   │   │   │   ├── name
-   ...
--  │   │   │   │   ├── scan_elements
--  │   │   │   │   │   ├── in_magn_x_en
--  │   │   │   │   │   ├── in_magn_x_index
--  │   │   │   │   │   ├── in_magn_x_type
--  │   │   │   │   │   ├── in_magn_y_en
--  │   │   │   │   │   ├── in_magn_y_index
--  │   │   │   │   │   ├── in_magn_y_type
--  │   │   │   │   │   ├── in_magn_z_en
--  │   │   │   │   │   ├── in_magn_z_index
--  │   │   │   │   │   ├── in_magn_z_type
--  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_en
--  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_index
--  │   │   │   │   │   └── in_rot_from_north_magnetic_tilt_comp_type
--  │   │   │   │   ├── trigger
--  │   │   │   │   │   └── current_trigger
-+  │   │   │   │   ├── scan_elements
-+  │   │   │   │   │   ├── in_magn_x_en
-+  │   │   │   │   │   ├── in_magn_x_index
-+  │   │   │   │   │   ├── in_magn_x_type
-+  │   │   │   │   │   ├── in_magn_y_en
-+  │   │   │   │   │   ├── in_magn_y_index
-+  │   │   │   │   │   ├── in_magn_y_type
-+  │   │   │   │   │   ├── in_magn_z_en
-+  │   │   │   │   │   ├── in_magn_z_index
-+  │   │   │   │   │   ├── in_magn_z_type
-+  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_en
-+  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_index
-+  │   │   │   │   │   └── in_rot_from_north_magnetic_tilt_comp_type
-+  │   │   │   │   ├── trigger
-+  │   │   │   │   │   └── current_trigger
-   ...
--  │   │   │   │   ├── buffer
--  │   │   │   │   │   ├── enable
--  │   │   │   │   │   ├── length
--  │   │   │   │   │   └── watermark
--  │   │   │   │   ├── dev
--  │   │   │   │   ├── in_anglvel_hysteresis
--  │   │   │   │   ├── in_anglvel_offset
--  │   │   │   │   ├── in_anglvel_sampling_frequency
--  │   │   │   │   ├── in_anglvel_scale
--  │   │   │   │   ├── in_anglvel_x_raw
--  │   │   │   │   ├── in_anglvel_y_raw
--  │   │   │   │   ├── in_anglvel_z_raw
--  │   │   │   │   ├── name
--  │   │   │   │   ├── scan_elements
--  │   │   │   │   │   ├── in_anglvel_x_en
--  │   │   │   │   │   ├── in_anglvel_x_index
--  │   │   │   │   │   ├── in_anglvel_x_type
--  │   │   │   │   │   ├── in_anglvel_y_en
--  │   │   │   │   │   ├── in_anglvel_y_index
--  │   │   │   │   │   ├── in_anglvel_y_type
--  │   │   │   │   │   ├── in_anglvel_z_en
--  │   │   │   │   │   ├── in_anglvel_z_index
--  │   │   │   │   │   └── in_anglvel_z_type
--  │   │   │   │   ├── trigger
--  │   │   │   │   │   └── current_trigger
-+  │   │   │   │   ├── buffer
-+  │   │   │   │   │   ├── enable
-+  │   │   │   │   │   ├── length
-+  │   │   │   │   │   └── watermark
-+  │   │   │   │   ├── dev
-+  │   │   │   │   ├── in_anglvel_hysteresis
-+  │   │   │   │   ├── in_anglvel_offset
-+  │   │   │   │   ├── in_anglvel_sampling_frequency
-+  │   │   │   │   ├── in_anglvel_scale
-+  │   │   │   │   ├── in_anglvel_x_raw
-+  │   │   │   │   ├── in_anglvel_y_raw
-+  │   │   │   │   ├── in_anglvel_z_raw
-+  │   │   │   │   ├── name
-+  │   │   │   │   ├── scan_elements
-+  │   │   │   │   │   ├── in_anglvel_x_en
-+  │   │   │   │   │   ├── in_anglvel_x_index
-+  │   │   │   │   │   ├── in_anglvel_x_type
-+  │   │   │   │   │   ├── in_anglvel_y_en
-+  │   │   │   │   │   ├── in_anglvel_y_index
-+  │   │   │   │   │   ├── in_anglvel_y_type
-+  │   │   │   │   │   ├── in_anglvel_z_en
-+  │   │   │   │   │   ├── in_anglvel_z_index
-+  │   │   │   │   │   └── in_anglvel_z_type
-+  │   │   │   │   ├── trigger
-+  │   │   │   │   │   └── current_trigger
-   ...
--  │   │   │   │   ├── buffer
--  │   │   │   │   │   ├── enable
--  │   │   │   │   │   ├── length
--  │   │   │   │   │   └── watermark
--  │   │   │   │   ├── dev
--  │   │   │   │   ├── in_anglvel_hysteresis
--  │   │   │   │   ├── in_anglvel_offset
--  │   │   │   │   ├── in_anglvel_sampling_frequency
--  │   │   │   │   ├── in_anglvel_scale
--  │   │   │   │   ├── in_anglvel_x_raw
--  │   │   │   │   ├── in_anglvel_y_raw
--  │   │   │   │   ├── in_anglvel_z_raw
--  │   │   │   │   ├── name
--  │   │   │   │   ├── scan_elements
--  │   │   │   │   │   ├── in_anglvel_x_en
--  │   │   │   │   │   ├── in_anglvel_x_index
--  │   │   │   │   │   ├── in_anglvel_x_type
--  │   │   │   │   │   ├── in_anglvel_y_en
--  │   │   │   │   │   ├── in_anglvel_y_index
--  │   │   │   │   │   ├── in_anglvel_y_type
--  │   │   │   │   │   ├── in_anglvel_z_en
--  │   │   │   │   │   ├── in_anglvel_z_index
--  │   │   │   │   │   └── in_anglvel_z_type
--  │   │   │   │   ├── trigger
--  │   │   │   │   │   └── current_trigger
-+  │   │   │   │   ├── buffer
-+  │   │   │   │   │   ├── enable
-+  │   │   │   │   │   ├── length
-+  │   │   │   │   │   └── watermark
-+  │   │   │   │   ├── dev
-+  │   │   │   │   ├── in_anglvel_hysteresis
-+  │   │   │   │   ├── in_anglvel_offset
-+  │   │   │   │   ├── in_anglvel_sampling_frequency
-+  │   │   │   │   ├── in_anglvel_scale
-+  │   │   │   │   ├── in_anglvel_x_raw
-+  │   │   │   │   ├── in_anglvel_y_raw
-+  │   │   │   │   ├── in_anglvel_z_raw
-+  │   │   │   │   ├── name
-+  │   │   │   │   ├── scan_elements
-+  │   │   │   │   │   ├── in_anglvel_x_en
-+  │   │   │   │   │   ├── in_anglvel_x_index
-+  │   │   │   │   │   ├── in_anglvel_x_type
-+  │   │   │   │   │   ├── in_anglvel_y_en
-+  │   │   │   │   │   ├── in_anglvel_y_index
-+  │   │   │   │   │   ├── in_anglvel_y_type
-+  │   │   │   │   │   ├── in_anglvel_z_en
-+  │   │   │   │   │   ├── in_anglvel_z_index
-+  │   │   │   │   │   └── in_anglvel_z_type
-+  │   │   │   │   ├── trigger
-+  │   │   │   │   │   └── current_trigger
-   ...
+-NOTE: X710/XXV710 devices fail to enable Max VFs (64) when Multiple Functions
+-per Port (MFP) and SR-IOV are enabled. An error from i40e is logged that says
++NOTE: X710/XXV710 devices fail to enable Max VFs (64) when Multiple Functions
++per Port (MFP) and SR-IOV are enabled. An error from i40e is logged that says
+ "add vsi failed for VF N, aq_err 16". To workaround the issue, enable less than
+ 64 virtual functions (VFs).
+ 
+@@ -680,7 +680,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
+ 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
+ number of queues for all tcs is 64 or number of cores, whichever is lower.)
+ 
+-hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
++hw 1 mode channel: 'channel' with 'hw' set to 1 is a new new hardware
+ offload mode in mqprio that makes full use of the mqprio options, the
+ TCs, the queue configurations, and the QoS parameters.
+ 
+@@ -688,7 +688,7 @@ shaper bw_rlimit: for each tc, sets minimum and maximum bandwidth rates.
+ Totals must be equal or less than port speed.
+ 
+ For example: min_rate 1Gbit 3Gbit: Verify bandwidth limit using network
+-monitoring tools such as ifstat or sar –n DEV [interval] [number of samples]
++monitoring tools such as ifstat or sar -n DEV [interval] [number of samples]
+ 
+ 2. Enable HW TC offload on interface::
+ 
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
+index 52e037b11c97..25e98494b385 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
+@@ -113,7 +113,7 @@ which the AVF is associated. The following are base mode features:
+ - AVF device ID
+ - HW mailbox is used for VF to PF communications (including on Windows)
+ 
+-IEEE 802.1ad (QinQ) Support
++IEEE 802.1ad (QinQ) Support
+ ---------------------------
+ The IEEE 802.1ad standard, informally known as QinQ, allows for multiple VLAN
+ IDs within a single Ethernet frame. VLAN IDs are sometimes referred to as
+@@ -171,7 +171,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
+ 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
+ number of queues for all tcs is 64 or number of cores, whichever is lower.)
+ 
+-hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
++hw 1 mode channel: 'channel' with 'hw' set to 1 is a new new hardware
+ offload mode in mqprio that makes full use of the mqprio options, the
+ TCs, the queue configurations, and the QoS parameters.
+ 
+@@ -179,7 +179,7 @@ shaper bw_rlimit: for each tc, sets minimum and maximum bandwidth rates.
+ Totals must be equal or less than port speed.
+ 
+ For example: min_rate 1Gbit 3Gbit: Verify bandwidth limit using network
+-monitoring tools such as ifstat or sar –n DEV [interval] [number of samples]
++monitoring tools such as ifstat or sar -n DEV [interval] [number of samples]
+ 
+ NOTE:
+   Setting up channels via ethtool (ethtool -L) is not supported when the
+diff --git a/Documentation/networking/device_drivers/ethernet/netronome/nfp.rst b/Documentation/networking/device_drivers/ethernet/netronome/nfp.rst
+index ada611fb427c..949c036e8667 100644
+--- a/Documentation/networking/device_drivers/ethernet/netronome/nfp.rst
++++ b/Documentation/networking/device_drivers/ethernet/netronome/nfp.rst
+@@ -62,14 +62,14 @@ actual firmware files in application-named subdirectories in
+     $ tree /lib/firmware/netronome/
+     /lib/firmware/netronome/
+     ├── bpf
+-    │   ├── nic_AMDA0081-0001_1x40.nffw
+-    │   └── nic_AMDA0081-0001_4x10.nffw
++    │   ├── nic_AMDA0081-0001_1x40.nffw
++    │   └── nic_AMDA0081-0001_4x10.nffw
+     ├── flower
+-    │   ├── nic_AMDA0081-0001_1x40.nffw
+-    │   └── nic_AMDA0081-0001_4x10.nffw
++    │   ├── nic_AMDA0081-0001_1x40.nffw
++    │   └── nic_AMDA0081-0001_4x10.nffw
+     ├── nic
+-    │   ├── nic_AMDA0081-0001_1x40.nffw
+-    │   └── nic_AMDA0081-0001_4x10.nffw
++    │   ├── nic_AMDA0081-0001_1x40.nffw
++    │   └── nic_AMDA0081-0001_4x10.nffw
+     ├── nic_AMDA0081-0001_1x40.nffw -> bpf/nic_AMDA0081-0001_1x40.nffw
+     └── nic_AMDA0081-0001_4x10.nffw -> bpf/nic_AMDA0081-0001_4x10.nffw
+ 
 -- 
 2.30.2
 
