@@ -2,137 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9ED8C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 13:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07AB8C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 13:41:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8094161076
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 13:41:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C89446101B
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 13:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237806AbhEJNme (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 09:42:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47602 "EHLO
+        id S237813AbhEJNmp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 09:42:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236863AbhEJNR0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 09:17:26 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED3A6C06138C;
-        Mon, 10 May 2021 06:16:19 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 82-20020a1c01550000b0290142562ff7c9so8868251wmb.3;
-        Mon, 10 May 2021 06:16:19 -0700 (PDT)
+        with ESMTP id S240673AbhEJNWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 09:22:53 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FEC1C06175F;
+        Mon, 10 May 2021 06:21:26 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id b14-20020a17090a6e0eb0290155c7f6a356so8258624pjk.0;
+        Mon, 10 May 2021 06:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Sh4i9feljTPFrIfpR/IU/E8n0D3Fda88xyQfypmum7w=;
-        b=GfQpYA/u/ESXNzCwhJN35I1L0Sb2vRVeukRNG83W8xG2OMlDA6+i5W0OODo/+LWE9E
-         ivWW5//Dci3M+PXPgJnH/odM7KtTO7yjQKrEe7KAvh4E7fvrd/ZuLkJAZP62sWtsDMuB
-         AIqgCRqoTLZzj0iGC6/REa3QuGlmZjiRxifV0mZYrMLJSap8JjiujnvbMmFTzTlx+O95
-         x9XnwiLNDr5qqWcsdoyW+ETG1hWAlzA+FW12aKJEwh2j5DlnppfpjkE6ahf9DAyZ8V+v
-         c4HLN0tsaWZM2+zfMzrOFU3u/mXI98pyg6LlDYSgFBtDuHlk1DmX0lhge4HX1KOLhtwA
-         z+4g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KXKAAx7CLKZeMl7TpKKmKCAcmvO/BVIrKGp8RbmnYl4=;
+        b=ktNuLJvMdYPmD+eEECMycfREiHqhZ0aQyc3Xt7bg5Hb3W9FzI35GnKewl/XThQbRw8
+         PH+eGY7acezEiqZIbxPUZemRl214WomKV8pyM7avp39eyjUgeFKMOHr/YW6MhHnXfPE7
+         MRUkoHKh2+4m0Tyv2moqvFAVkX6E0nA1NNgeusG1XaaXR7wItOB6g08tiIBXhWc5YEv5
+         TbafHPVUw2AllM8HVSm4vN03ME8MCvp6/3rzsHkcRtZD+8dXEyXDVEUiQ93pJ2syXbmg
+         q+gZ6LwnSccj1mrZPnnSgGeYzjXaBEW/2jeM4gHprgOLh5yoQIUL505ptxGsEhPbcqpx
+         BqKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Sh4i9feljTPFrIfpR/IU/E8n0D3Fda88xyQfypmum7w=;
-        b=cYGoVbnuzC8qi/rSzJ+ExaPcPY6WDiRnoQYrUOJUW/LDLaupeK70YlIz31CC6DpEIO
-         YjQqqXw2K1KRvLE2EmkMqZgmSNaOqjLw3WgaQER7nKYN78smSnUQvql/Lq9C3BYIAbbS
-         A89hiMUo84LxHpIIH5PXWbH2rmZnREpJ+CAq/H0QPEPvY3481ifRRLSpOK8Cv3AHyzwB
-         Y9C4Y5kQCgYC6MsNt9LSL+mATP7JJWBNR9KZjed7REYhOTmkJTYOrQnd1aSrwgzazjvo
-         Ixtv6yd4OPdU4nF7WYCxOtY9Watsai28mxpDWeEFK5xhy198jgxuKAvRFJqigderRiYZ
-         zU/w==
-X-Gm-Message-State: AOAM5320WfRdSTq1VXESkXjcB7G2WrDl9rtLEDxZcnwiFr7WOtK+XUaU
-        ikYqT3CuD1N4pbhEXWdxDhI=
-X-Google-Smtp-Source: ABdhPJysoQ4YBpE1J87NsTC/Z24p8NQqGLKPSudpVCmtLwZFhM2Wy0R7/k0aKiXMKdpTI23nPdYVEw==
-X-Received: by 2002:a05:600c:47d7:: with SMTP id l23mr36980376wmo.95.1620652578722;
-        Mon, 10 May 2021 06:16:18 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159425-cmbg20-2-0-cust403.5-4.cable.virginm.net. [86.7.189.148])
-        by smtp.gmail.com with ESMTPSA id s1sm27945073wmj.8.2021.05.10.06.16.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 May 2021 06:16:17 -0700 (PDT)
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
- <20210510135518.305cc03d@coco.lan>
-From:   Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
-Date:   Mon, 10 May 2021 14:16:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        bh=KXKAAx7CLKZeMl7TpKKmKCAcmvO/BVIrKGp8RbmnYl4=;
+        b=bcDnrqHubKZVgw3FP9ReEughUucvAs4yOfjvXifC9KiGOaIVya0TQpkP8KuHrCoLE8
+         kn6S4TRf7ZSU6r6QpqW0EpnL64o1N70+OU/asAtJT5M8uZHDqwfghVx6Do3afcApKYeH
+         cN5O3toKZnr7ud4eoCiFfjbvHuz4+sv86g81C+CKmTphcszQJWAh6SqADITiqOtNTUk9
+         ZjsMBH0+4aPAzNm/NPbWPqarJvZ+dtzzai0BwZYAalYkNYBynFxnxidEo+HsIzpx71Iy
+         ilix3pJIZd8T/ys703hMPau0oCDl1s+LezjWPgcYbY4wzhECgPrPVzFZ0bbXKEjK3j0/
+         IxMg==
+X-Gm-Message-State: AOAM532vpfDh5+XZrYrPwKh3UIcMTNMBvh//ZirIqEjHAqPZjpteJUzV
+        YSkJvbP4MyzeicCbbvJVoUGvxQUAe68=
+X-Google-Smtp-Source: ABdhPJxbnhLcJlh4AL6c1viAaMMnrPzJZPbwlcQa7PKeTkiqLVYseG0hsTY0dq6FneuYJqFduEFkdg==
+X-Received: by 2002:a17:90a:1150:: with SMTP id d16mr27443482pje.47.1620652885387;
+        Mon, 10 May 2021 06:21:25 -0700 (PDT)
+Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id n8sm11129351pgm.7.2021.05.10.06.21.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 May 2021 06:21:24 -0700 (PDT)
+From:   Florian Fainelli <f.fainelli@gmail.com>
+To:     stable@vger.kernel.org
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Joe Perches <joe@perches.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH stable 5.10 v2 0/4] ARM FDT relocation backports
+Date:   Mon, 10 May 2021 06:21:07 -0700
+Message-Id: <20210510132111.1690943-1-f.fainelli@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210510135518.305cc03d@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/05/2021 12:55, Mauro Carvalho Chehab wrote:
-> The main point on this series is to replace just the occurrences
-> where ASCII represents the symbol equally well
+Hi Greg, Sasha,
 
-> 	- U+2014 ('—'): EM DASH
-Em dash is not the same thing as hyphen-minus, and the latter does not
- serve 'equally well'.  People use em dashes because — even in
- monospace fonts — they make text easier to read and comprehend, when
- used correctly.
-I accept that some of the other distinctions — like en dashes — are
- needlessly pedantic (though I don't doubt there is someone out there
- who will gladly defend them with the same fervour with which I argue
- for the em dash) and I wouldn't take the trouble to use them myself;
- but I think there is a reasonable assumption that when someone goes
- to the effort of using a Unicode punctuation mark that is semantic
- (rather than merely typographical), they probably had a reason for
- doing so.
+These patches were not marked with a Fixes: tag but they do fix booting
+ARM 32-bit platforms that have specific FDT placement and would cause
+boot failures like these:
 
-> 	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-> 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
-> 	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
-> 	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
-(These are purely typographic, I have no problem with dumping them.)
+[    0.000000] 8<--- cut here ---
+[    0.000000] Unable to handle kernel paging request at virtual address
+ffa14000
+[    0.000000] pgd = (ptrval)
+[    0.000000] [ffa14000] *pgd=80000040007003, *pmd=00000000
+[    0.000000] Internal error: Oops: 206 [#1] SMP ARM
+[    0.000000] Modules linked in:
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.4.85-1.0 #1
+[    0.000000] Hardware name: Broadcom STB (Flattened Device Tree)
+[    0.000000] PC is at fdt_check_header+0xc/0x21c
+[    0.000000] LR is at __unflatten_device_tree+0x7c/0x2f8
+[    0.000000] pc : [<c0d30e44>]    lr : [<c0a6c0fc>]    psr: 600000d3
+[    0.000000] sp : c1401eac  ip : c1401ec8  fp : c1401ec4
+[    0.000000] r10: 00000000  r9 : c150523c  r8 : 00000000
+[    0.000000] r7 : c124eab4  r6 : ffa14000  r5 : 00000000  r4 :
+c14ba920
+[    0.000000] r3 : 00000000  r2 : c150523c  r1 : 00000000  r0 :
+ffa14000
+[    0.000000] Flags: nZCv  IRQs off  FIQs off  Mode SVC_32  ISA ARM
+Segment user
+[    0.000000] Control: 30c5383d  Table: 40003000  DAC: fffffffd
+[    0.000000] Process swapper (pid: 0, stack limit = 0x(ptrval))
+[    0.000000] Stack: (0xc1401eac to 0xc1402000)
+[    0.000000] 1ea0:                            c14ba920 00000000
+ffa14000 c1401ef4 c1401ec8
+[    0.000000] 1ec0: c0a6c0fc c0d30e44 c124eab4 c124eab4 00000000
+c14ebfc0 c140e5b8 00000000
+[    0.000000] 1ee0: 00000001 c126f5a0 c1401f14 c1401ef8 c1250064
+c0a6c08c 00000000 c1401f08
+[    0.000000] 1f00: c022ddac c140ce80 c1401f9c c1401f18 c120506c
+c125002c 00000000 00000000
+[    0.000000] 1f20: 00000000 00000000 ffffffff c1401f94 c1401f6c
+c1406308 3fffffff 00000001
+[    0.000000] 1f40: 00000000 00000001 c1432b58 c14ca180 c1213ca4
+c1406308 c1406300 30c0387d
+[    0.000000] 1f60: c1401f8c c1401f70 c028e0ec 00000000 c1401f94
+c1406308 c1406300 30c0387d
+[    0.000000] 1f80: 00000000 7fa14000 420f1000 30c5387d c1401ff4
+c1401fa0 c1200c98 c120467c
+[    0.000000] 1fa0: 00000000 00000000 00000000 00000000 00000000
+00000000 00000000 c127fa44
+[    0.000000] 1fc0: 00000000 00000000 00000000 c1200330 00000000
+30c0387d ffffffff 7fa14000
+[    0.000000] 1fe0: 420f1000 30c5387d 00000000 c1401ff8 00000000
+c1200c28 00000000 00000000
+[    0.000000] Backtrace:
+[    0.000000] [<c0d30e38>] (fdt_check_header) from [<c0a6c0fc>]
+(__unflatten_device_tree+0x7c/0x2f8)
+[    0.000000]  r6:ffa14000 r5:00000000 r4:c14ba920
+[    0.000000] [<c0a6c080>] (__unflatten_device_tree) from [<c1250064>]
+(unflatten_device_tree+0x44/0x54)
+[    0.000000]  r10:c126f5a0 r9:00000001 r8:00000000 r7:c140e5b8
+r6:c14ebfc0 r5:00000000
+[    0.000000]  r4:c124eab4 r3:c124eab4
+[    0.000000] [<c1250020>] (unflatten_device_tree) from [<c120506c>]
+(setup_arch+0x9fc/0xc84)
+[    0.000000]  r4:c140ce80
+[    0.000000] [<c1204670>] (setup_arch) from [<c1200c98>]
+(start_kernel+0x7c/0x540)
+[    0.000000]  r10:30c5387d r9:420f1000 r8:7fa14000 r7:00000000
+r6:30c0387d r5:c1406300
+[    0.000000]  r4:c1406308
+[    0.000000] [<c1200c1c>] (start_kernel) from [<00000000>] (0x0)
+[    0.000000]  r10:30c5387d r9:420f1000 r8:7fa14000 r7:ffffffff
+r6:30c0387d r5:00000000
+[    0.000000]  r4:c1200330
+[    0.000000] Code: e89da800 e1a0c00d e92dd870 e24cb004 (e5d03000)
+[    0.000000] random: get_random_bytes called from
+print_oops_end_marker+0x50/0x58 with crng_init=0
+[    0.000000] ---[ end trace f34b4929828506c1 ]---
+[    0.000000] Kernel panic - not syncing: Attempted to kill the idle
+task!
+[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill
+the idle task! ]---
 
-> 	- U+00d7 ('×'): MULTIPLICATION SIGN
-Presumably this is appearing in mathematical formulae, in which case
- changing it to 'x' loses semantic information.
+Changes in v2:
 
-> Using the above symbols will just trick tools like grep for no good
-> reason.
-NBSP, sure.  That one's probably an artefact of some document format
- conversion somewhere along the line, anyway.
-But what kinds of things with × or — in are going to be grept for?
+- include "ARM: 9027/1: head.S: explicitly map DT even if it lives in
+  the first physical section" as suggested by Ard.
 
-If there are em dashes lying around that semantically _should_ be
- hyphen-minus (one of your patches I've seen, for instance, fixes an
- *en* dash moonlighting as the option character in an `ethtool`
- command line), then sure, convert them.
-But any time someone is using a Unicode character to *express
- semantics*, even if you happen to think the semantic distinction
- involved is a pedantic or unimportant one, I think you need an
- explicit grep case to justify ASCIIfying it.
+Ard Biesheuvel (4):
+  ARM: 9011/1: centralize phys-to-virt conversion of DT/ATAGS address
+  ARM: 9012/1: move device tree mapping out of linear region
+  ARM: 9020/1: mm: use correct section size macro to describe the FDT
+    virtual address
+  ARM: 9027/1: head.S: explicitly map DT even if it lives in the first
+    physical section
 
--ed
+ Documentation/arm/memory.rst  |  7 ++++++-
+ arch/arm/include/asm/fixmap.h |  2 +-
+ arch/arm/include/asm/memory.h |  5 +++++
+ arch/arm/include/asm/prom.h   |  4 ++--
+ arch/arm/kernel/atags.h       |  4 ++--
+ arch/arm/kernel/atags_parse.c |  6 +++---
+ arch/arm/kernel/devtree.c     |  6 +++---
+ arch/arm/kernel/head.S        |  9 ++++-----
+ arch/arm/kernel/setup.c       | 19 ++++++++++++++-----
+ arch/arm/mm/init.c            |  1 -
+ arch/arm/mm/mmu.c             | 20 ++++++++++++++------
+ arch/arm/mm/pv-fixup-asm.S    |  4 ++--
+ 12 files changed, 56 insertions(+), 31 deletions(-)
+
+-- 
+2.25.1
+
