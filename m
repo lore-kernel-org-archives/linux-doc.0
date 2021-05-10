@@ -2,213 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42200C43460
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 22:58:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F5C1C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 23:35:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 185E56161C
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 22:58:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F73361585
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 23:35:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229641AbhEJW7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 18:59:13 -0400
-Received: from mga02.intel.com ([134.134.136.20]:14343 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229502AbhEJW7M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 18:59:12 -0400
-IronPort-SDR: 5CCxM31DrQ8NpRCc57zhv8RqDO51fL6JXRIul4MJVkw5VTUsKQCY8WFY9rtcImWpqRy2Aq/LHQ
- EakplwnAGuvQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="186440128"
-X-IronPort-AV: E=Sophos;i="5.82,288,1613462400"; 
-   d="scan'208";a="186440128"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 15:58:06 -0700
-IronPort-SDR: QsXO/4wRx+z3mdOQUqRrWo77zUAK8pyl2+PvaaF/SdE5zZB8LiimPlTFQZZ4cYaXz9oRpRzdWf
- iJ15TiTGHg8g==
-X-IronPort-AV: E=Sophos;i="5.82,288,1613462400"; 
-   d="scan'208";a="434014879"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.144.113]) ([10.251.144.113])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 15:58:00 -0700
-Subject: Re: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-24-yu-cheng.yu@intel.com> <YJlADyc/9pn8Sjkn@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com>
-Date:   Mon, 10 May 2021 15:57:56 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S229992AbhEJXgs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 19:36:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229561AbhEJXgs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 19:36:48 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5218C061574
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 16:35:42 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id l2so18257308wrm.9
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 16:35:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=MTIwXTzHXOJftQAkS6hRZav8xAp3ouEqr22Jgozijd0=;
+        b=TG39l+dEQiUoQPzYJeEbgV1oq274A7ys6iCq25lMs6umAtJiwMXdIUCb3a9pFigWkT
+         lUbzUtAE07b5+qPoATG6vD8cuGPmux79786vGrdNuva3MOvWLavS3Ngg/CUYc8yPjV2q
+         e5J8zTZKsNnLC/R04L4lQYBX4OX37YHZbdCCrkudbdItddObysK1syPZdVwD2RIes+b0
+         73+ChbfGreK5J1oOWYayZIPYddRLeljbUOBxkDlAvRj37VtFU3+cmhZSipuLyZuil2ZN
+         78wq01yjVa6JXgqGlI99DyXcVkkxFjTc2cD38v5ExFiaxmJo/J2L/2HYKVGcARAmnTez
+         no5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=MTIwXTzHXOJftQAkS6hRZav8xAp3ouEqr22Jgozijd0=;
+        b=A2alj4O2VLIOY+K+FDZXK1Q1HRVjKh7/IU4QIoSFdoDncWu+Pa5BgaWbP1ZTJLbRfA
+         idxPaTC4swlStMw8t00ixIgxerrmylnryY1bro9zEPDmA94wiamVZxT+Px5VpQjDBMNs
+         ToZXkyHohHsn3xcos8NwrMUCD6ByDOWbWViJZQuz+DfOgWXETDaptfoFCcfo4U4bYpsI
+         VJtltujswo0x7chAO3mXonHkB7tQyoYgI4vmvYvKlnYc7pmxZ3R20blHqMKt+ESkI37n
+         NezvM3ttiLEMNec69FyUVNr6H3jnwWOpexk0VHuskzVkrLiA9t8APz3vrrWknr2vgKLw
+         s9Xw==
+X-Gm-Message-State: AOAM530WGDlPS+LqXi3CRcywpWSj2zPnCV7H6DGEC/c213YRzDV1RaZb
+        jCA7UpDe4J7ilDqgwcOfcwu0fClzZPEqPLnDCdeUUg==
+X-Google-Smtp-Source: ABdhPJxaB4u4pQznfxVYx52VusHoUNm3f5d37JNmD2jZj3+96D3sPJ6/NzLK3HXNFWhlb9L6aj8Ba24l8xt4zem0GXI=
+X-Received: by 2002:adf:fc42:: with SMTP id e2mr34565804wrs.302.1620689741391;
+ Mon, 10 May 2021 16:35:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YJlADyc/9pn8Sjkn@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1620641727.git.mchehab+huawei@kernel.org> <1591224255d095d14ff3bc2bf4e7796dcc55c77d.1620641727.git.mchehab+huawei@kernel.org>
+In-Reply-To: <1591224255d095d14ff3bc2bf4e7796dcc55c77d.1620641727.git.mchehab+huawei@kernel.org>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 11 May 2021 07:35:29 +0800
+Message-ID: <CABVgOSn67XkxasNeMvcs-ciL8F8zmMEVoZMNqf8xRdUg1heX_g@mail.gmail.com>
+Subject: Re: [PATCH 39/53] docs: dev-tools: testing-overview.rst: avoid using
+ UTF-8 chars
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Latypov <dlatypov@google.com>,
+        Marco Elver <elver@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/10/2021 7:15 AM, Borislav Petkov wrote:
-> On Tue, Apr 27, 2021 at 01:43:08PM -0700, Yu-cheng Yu wrote:
+On Mon, May 10, 2021 at 6:27 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> While UTF-8 characters can be used at the Linux documentation,
+> the best is to use them only when ASCII doesn't offer a good replacement.
+> So, replace the occurences of the following UTF-8 characters:
+>
+>         - U+2014 ('=E2=80=94'): EM DASH
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
 
-[...]
+Oh dear, I do have a habit of overusing em-dashes. I've no problem in
+theory with exchanging them for an ASCII approximation.
+I suppose there's a reason it's the one dash to rule them all: :-)
+https://twitter.com/FakeUnicode/status/727888721312260096/photo/1
 
->> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
->> index c815c7507830..d387df84b7f1 100644
->> --- a/arch/x86/kernel/shstk.c
->> +++ b/arch/x86/kernel/shstk.c
->> @@ -70,6 +70,55 @@ int shstk_setup(void)
->>   	return 0;
->>   }
-> 
->> +int shstk_setup_thread(struct task_struct *tsk, unsigned long clone_flags,
-> 
-> Judging by what this function does, its name wants to be
-> 
-> shstk_alloc_thread_stack()
-> 
-> or so?
-> 
->> +		       unsigned long stack_size)
->> +{
->> +	unsigned long addr, size;
->> +	struct cet_user_state *state;
->> +	struct cet_status *cet = &tsk->thread.cet;
-> 
-> The tip-tree preferred ordering of variable declarations at the
-> beginning of a function is reverse fir tree order::
-> 
-> 	struct long_struct_name *descriptive_name;
-> 	unsigned long foo, bar;
-> 	unsigned int tmp;
-> 	int ret;
-> 
-> The above is faster to parse than the reverse ordering::
-> 
-> 	int ret;
-> 	unsigned int tmp;
-> 	unsigned long foo, bar;
-> 	struct long_struct_name *descriptive_name;
-> 
-> And even more so than random ordering::
-> 
-> 	unsigned long foo, bar;
-> 	int ret;
-> 	struct long_struct_name *descriptive_name;
-> 	unsigned int tmp;
-> 
->> +
->> +	if (!cet->shstk_size)
->> +		return 0;
->> +
-> 
-> This check needs a comment.
-> 
->> +	if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
->> +		return 0;
->> +
->> +	state = get_xsave_addr(&tsk->thread.fpu.state.xsave,
->> +			       XFEATURE_CET_USER);
-> 
-> Let that line stick out.
-> 
->> +
->> +	if (!state)
->> +		return -EINVAL;
->> +
->> +	if (stack_size == 0)
-> 
-> 	if (!stack_size)
-> 
->> +		return -EINVAL;
-> 
-> and that test needs to be done first in the function.
-> 
->> +
->> +	/* Cap shadow stack size to 4 GB */
-> 
-> Why?
-> 
+>  Documentation/dev-tools/testing-overview.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation=
+/dev-tools/testing-overview.rst
+> index b5b46709969c..8adffc26a2ec 100644
+> --- a/Documentation/dev-tools/testing-overview.rst
+> +++ b/Documentation/dev-tools/testing-overview.rst
+> @@ -18,8 +18,8 @@ frameworks. These both provide infrastructure to help m=
+ake running tests and
+>  groups of tests easier, as well as providing helpers to aid in writing n=
+ew
+>  tests.
+>
+> -If you're looking to verify the behaviour of the Kernel =E2=80=94 partic=
+ularly specific
+> -parts of the kernel =E2=80=94 then you'll want to use KUnit or kselftest=
+.
+> +If you're looking to verify the behaviour of the Kernel - particularly s=
+pecific
+> +parts of the kernel - then you'll want to use KUnit or kselftest.
 
-This is not necessary.  I will make it just stack_size, which is passed 
-in from copy_thread().
+As Marco pointed out, having multiple HYPHEN-MINUS symbols in a row is
+probably a better replacement, as it does distinguish the em-dash from
+smaller dashes better.
+However, I need three for sphinx to output an em-dash here (2 hyphens
+only gives me an en-dash).
 
->> +	size = min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G);
->> +	size = min(size, stack_size);
->> +
->> +	/*
->> +	 * Compat-mode pthreads share a limited address space.
->> +	 * If each function call takes an average of four slots
->> +	 * stack space, allocate 1/4 of stack size for shadow stack.
->> +	 */
->> +	if (in_compat_syscall())
->> +		size /= 4;
-> 
-> <---- newline here.
-> 
->> +	size = round_up(size, PAGE_SIZE);
->> +	addr = alloc_shstk(size);
->> +
-> 
-> ^ Superfluous newline.
-> 
->> +	if (IS_ERR_VALUE(addr)) {
->> +		cet->shstk_base = 0;
->> +		cet->shstk_size = 0;
->> +		return PTR_ERR((void *)addr);
->> +	}
->> +
->> +	fpu__prepare_write(&tsk->thread.fpu);
->> +	state->user_ssp = (u64)(addr + size);
-> 
-> cet_user_state has u64, cet_status has unsigned longs. Make them all u64.
-> 
-> And since cet_status is per thread, but I had suggested struct
-> shstk_desc, I think now that that should be called
-> 
-> struct thread_shstk
-> 
-> or so to denote *exactly* what it is.
-> 
+So, if we want to get rid of the UTF-8 em-dash, my preferences would
+be (in descending order):
+1. Three hyphens: '---' (sphinx generates an em-dash)
+2. Two hyphens: '--' (worst case, an en-dash surrounded by spaces --
+as sphinx generates for me -- is still readable, and it's still
+readable as an em-dash in plain text)
+3. One hyphen as in this patch (which I don't like as much, but will
+no doubt learn to live with)
 
-So this struct will be:
+But it looks like you've got several similar comments on other patches
+in this series, so I'm happy for you to use whatever ends up being
+agreed upon generally.
 
-struct thread_shstk {
-	u64 shstk_base;
-	u64 shstk_size;
-	u64 locked:1;
-	u64 ibt:1;
-};
-
-Ok?
-
-Thanks,
-Yu-cheng
+Cheers,
+-- David
