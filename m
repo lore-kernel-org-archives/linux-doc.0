@@ -2,107 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC57C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 16:38:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41943C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 17:05:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 371066115C
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 16:38:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 140F5611BE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 17:05:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231420AbhEJQjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 12:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36506 "EHLO
+        id S232241AbhEJRGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 13:06:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231651AbhEJQje (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 12:39:34 -0400
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A898C061574;
-        Mon, 10 May 2021 09:38:28 -0700 (PDT)
-Received: by mail-ot1-x330.google.com with SMTP id r26-20020a056830121ab02902a5ff1c9b81so14971990otp.11;
-        Mon, 10 May 2021 09:38:28 -0700 (PDT)
+        with ESMTP id S232287AbhEJRGZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 13:06:25 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4DCAC061574
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 10:03:42 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id a2so3434686lfc.9
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 10:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0xhZ81Mu+Dii62ySfi8EoTDORPoeeiPBjShy1dHMvUE=;
-        b=HrewtCBh95j/pkw1TX8Kc3U8atuMts1t1hTObhLpF5G7xfAM1AGtXugnItyyQqtovx
-         YoKwqkMZ16yQ/ClSPRB7e6C38PWPsz6muT26aVgKPsidNdMjPAf+ty6fX5OHe55B7ftB
-         p3EEVuqjIMpqjNFX66Sa4yjp3mtPC6oO7A3enlUL/0js9PkhD6qIrWZ07ogz1/eDZpYE
-         CGZY5pyrzVXv1pGpjU5m7yt4anAlncYo5v7+P4Ro4owRJCQSKPKJpktdxuV+KzyIEfMn
-         YttahR0BW5+onkPI545ebhjgCGTEcIdqkUQUovXgUIA0+wiS8e4zxIXDuoe+zPvF2lAj
-         Halg==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=M1eiob8yefqeM/4lQ3qAm9Yi0Ncpt48q5ul29v+Xq2c=;
+        b=F5KPsThm+B/hNJwfEfSsphP6+tJzOvUUoyRJDzDPpWJ5+M81YHmp5q6kc3NHXwI+NX
+         Mc6fNZ9gODek4bDptwj3D+Ka+Ar0jPnltod+iKxngn/yVax6lIBjujOZoyRHkKXW1rdK
+         ijaTUd6bNrV69ZmFpNnh7JIb7M++aRgC7xK14=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=0xhZ81Mu+Dii62ySfi8EoTDORPoeeiPBjShy1dHMvUE=;
-        b=YpAvXdEut6K0oxQ10QVJIzjwgJQmaCpZQHjNLHJs3pbiixVeUYnn5OTpzQ0InsazaK
-         JIVasXdGikVrqTfzbZccePAsJn2XBQw/wLHvlIITikoxfG4qjApnCFb00/1lQg7ljyni
-         aG7DILxJksFsOeFr+psMCct9cYu4CwOgliMmrTkq2ooGXlwG96d4ZDBtw1G8YuJUHDwa
-         KMqk5A4p+lPxcV6wnqnWHXvlqNIzTX06H9ds5tMsXUJFWH07ZdidU2ywNrIY5C7AkH2m
-         XADURuoZBP//MJ6WtrSz4IhITamGlIls6kuYBT8w4dj0RA9NEp7giL0yo0psLi2fqR1P
-         kk8A==
-X-Gm-Message-State: AOAM531CxXwF+KH1q3llwOFpBJkplfNg4+/QhynrOLlLQP8KG+DEdAyb
-        pYL0rOINEx5+KqY6qciA1seS5LA+Wuw=
-X-Google-Smtp-Source: ABdhPJy2uuILpJQNU+3pb10TlqnJZmtDCQjB7ohuBSRP4ijy80TkPUgZKm8p5mro5jDuTM83OfX87A==
-X-Received: by 2002:a05:6830:2449:: with SMTP id x9mr3409624otr.250.1620664707719;
-        Mon, 10 May 2021 09:38:27 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v19sm3233423otq.35.2021.05.10.09.38.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 09:38:27 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Mon, 10 May 2021 09:38:25 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Erik Rosen <erik.rosen@metormote.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] hwmon: (pmbus) Add support for additional Flex
- BMR converters to the pmbus driver
-Message-ID: <20210510163825.GA838760@roeck-us.net>
-References: <20210507194023.61138-1-erik.rosen@metormote.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M1eiob8yefqeM/4lQ3qAm9Yi0Ncpt48q5ul29v+Xq2c=;
+        b=SlQ4PHtfviG5jg4iL10x1ZiF4Y2qFYKN2IxJI/ja2oPMnovReY3zN4cmfI4q3RhZ5A
+         utTKC3dfcKpx2XTF6WxPJve/m2XMvEqMdD0+OM8NKITts+mVcqJknyhG2aEnx5DACUx4
+         4Oae/rNTN6vIQK8ioTNyh08YM44OKrrJqCubR63WhnSOEMX5H6KyP11JA31tCt62yBjg
+         vxLEs3TweMQddadyF4oKIF4R1u/dGFQHBXOLtlUJvG/lYTjwsmpNdJEHbSjA6bSFvi/5
+         kZ623rXMSKUTsjhe3bph3dxx2iozOzhSxFDKGA6pIDcFPBylvIGIhZxNLZF6374tjFes
+         P2Kg==
+X-Gm-Message-State: AOAM532dGS3ihkx8BQy0cEqrsvmd6Ag8JtFtBuGBG/ofl+WkYsnvFjm8
+        Z0Q7stdIPmkw5sGBE1XrYnUb8sJ8V+k3mRV2
+X-Google-Smtp-Source: ABdhPJwGEZHX/XHu9OZU2a+QoyIx3au9OMJ6Cl0u3Jn7sUPNiT5kVi6VqPBlbfGffswyguo2Mu73Ag==
+X-Received: by 2002:a19:ca11:: with SMTP id a17mr16961961lfg.271.1620666221189;
+        Mon, 10 May 2021 10:03:41 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
+        by smtp.gmail.com with ESMTPSA id h4sm2296107lfv.264.2021.05.10.10.03.38
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 May 2021 10:03:39 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id t11so24367796lfl.11
+        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 10:03:38 -0700 (PDT)
+X-Received: by 2002:a05:6512:374b:: with SMTP id a11mr17210794lfs.377.1620666218738;
+ Mon, 10 May 2021 10:03:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210507194023.61138-1-erik.rosen@metormote.com>
+References: <20210508122530.1971-1-justin.he@arm.com> <20210508122530.1971-2-justin.he@arm.com>
+ <CAHk-=wgSFUUWJKW1DXa67A0DXVzQ+OATwnC3FCwhqfTJZsvj1A@mail.gmail.com>
+ <YJbivrA4Awp4FXo8@zeniv-ca.linux.org.uk> <CAHk-=whZhNXiOGgw8mXG+PTpGvxnRG1v5_GjtjHpoYXd2Fn_Ow@mail.gmail.com>
+ <AM6PR08MB43763B43D0965E36937022F2F7549@AM6PR08MB4376.eurprd08.prod.outlook.com>
+In-Reply-To: <AM6PR08MB43763B43D0965E36937022F2F7549@AM6PR08MB4376.eurprd08.prod.outlook.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 10 May 2021 10:03:22 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wi5G9yZxd9rrNvfZPmVdGW2=2jznD9r8+Xjjz0zQSCUuw@mail.gmail.com>
+Message-ID: <CAHk-=wi5G9yZxd9rrNvfZPmVdGW2=2jznD9r8+Xjjz0zQSCUuw@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/3] fs: introduce helper d_path_fast()
+To:     Justin He <Justin.He@arm.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@ftp.linux.org.uk>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 07, 2021 at 09:40:20PM +0200, Erik Rosen wrote:
-> Some Flex pmbus converters (BMR310, BMR458, BMR80, BMR490 and BMR491)
-> end up in an undefined state when trying to read a register that does
-> not exist in the chip. This causes the following chip access to also
-> fail even if it is a valid register read or write. This will mess up the
-> pmbus driver auto-detection process.
-> 
-> One way to reset the pmbus state machine to a known state is to read
-> a register that is known to exist. This read will fail but will also
-> reset the chip into a known state.
-> 
-> For such chips we suggest adding a new pmbus flag:
-> PMBUS_READ_STATUS_AFTER_FAILED_CHECK
-> By setting this flag the driver will try to read the STATUS register
-> after each failed register check. This read may fail, but it will put
-> the chip into a known state so that the auto-detection process can
-> proceed correctly.
-> 
-> Add support for Flex BMR310, BMR456, BMR457, BMR458, BMR480, BMR490,
-> BMR491 and BMR492 to the pmbus driver
-> 
-> This patch has been tested with Flex BMR310, BMR456, BMR457, BMR458,
-> BMR480, BMR490, BMR491 and BMR492 converter modules
-> 
-> v2
-> -Copy all flags to pmbus_platform_data struct instead of one by one
-> -Fix code formatting in pmbus_core documentation
-> -Add documentation for flag NO_CAPABILITY
-> -Fix sorting of chip names and prefix in pmbus documentation
-> 
-Series applied, with minor whitespace fixes in documentation.
+On Mon, May 10, 2021 at 8:08 AM Justin He <Justin.He@arm.com> wrote:
+>
+> >
+> > char *dentry_path(const struct dentry *dentry, char *buf, int buflen)
+> > {
+> >-      char *p = NULL;
+> >+      struct prepend_buffer b = { buf + buflen, buflen };
+> >       char *retval;
+> >+      char *p = NULL;
+> >
+> >       if (d_unlinked(dentry)) {
+> >-              p = buf + buflen;
+> >-              if (prepend(&p, &buflen, "//deleted", 10) != 0)
+> >+              if (prepend(&b, "//deleted", 10) != 0)
+> >                       goto Elong;
+> >-              buflen++;
+> >+
+> >+              // save away beginning of "//deleted" string
+> >+              // and let "__dentry_path()" overwrite one byte
+> >+              // with the terminating NUL that we'll restore
+> >+              // below.
+> >+              p = b.ptr;
+> >+              b.ptr++;
+> >+              b.len++;
+> >       }
+> >-      retval = __dentry_path(dentry, buf, buflen);
+> >+      retval = __dentry_path(dentry, b.ptr, b.len);
+>
+> I didn't quite understand the logic here. Seems it is not equal to
+> the previous. Should it be s/b.ptr/buf here? Otherwise, in __dentry_path,
+> it will use the range [b.ptr, b.ptr+b.len] instead of [buf, buf+b.len].
+> Am I missing anything here?
 
-Guenter
+No, you're right. That __dentry_path() call should get "buf, b.len" as
+arguments.
+
+I knew it was squirrelly, but didn't think it through. I actually
+wanted to change "__dentry_path()" to take a "struct prepend_buffer",
+and not add the NUL at the end (so that the caller would have to do it
+first), because that would have made the logic much more
+straightforward (and made the semantics the same as the other internal
+helpers).
+
+And that would have fixed that bug of mine too. But then I didn't do
+it, and just mentioned it  as a later cleanup.
+
+Good catch.
+
+                  Linus
