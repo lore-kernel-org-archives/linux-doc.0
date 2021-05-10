@@ -7,42 +7,41 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F75C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF68C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BD0B6186A
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:30:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E185861962
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 10:31:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231630AbhEJKbt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 06:31:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38422 "EHLO mail.kernel.org"
+        id S231853AbhEJKcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 06:32:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58886 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231834AbhEJKaN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 06:30:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C55266190A;
+        id S231330AbhEJKaY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 06:30:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BBE5561874;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642443;
-        bh=F8nZoWzH89/rBepWAsXTSR/Xntv7YEnimf4HW1jZedc=;
+        bh=8OWnxyINF4IimotgguBdQhBjBpmBAqKnwiD4LyY/94Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=j9LiZUbici3PrWQ7dTN+D+h5UEi/+51sD4hfQcIkvJceyQPcGrKzu6afxA9al8LxF
-         pJ2TJpXHB8EQ1t1Ci+VIjQz373nHMIonKRjNSoL9gcnFeAYTod3m2in4LQxQaRTEFV
-         7y9D3EytyMvmOpnoYjarq12GvLDG9LG8tTGcPMC//9RBs9Mt2Q8nIvXUmS59NtRTUy
-         3V4R/J8EeS2l60w5Gew7cS3B2o4p404wpzk+pmWyVnZ9K7O2gO2kz4ODpF7rAWZngU
-         hdobAX8u3oHayrjjwtGUDjIy10RgfyBUWfToLtga8gA3INLkhxkULaG6k+nFdfez9B
-         owPwSP03UC5OQ==
+        b=rbqW4YSJ/PUy9wtQNDEHZ/z+yaRWRDTC7FtSwXCJxrWu2vDmMMIlB9CFL7a2rCz3M
+         VjCNgnqo2R/1g1Hmp7WSApWFUbO1KkZ0AEkcP7CFGuIfYa83VLkO8MMW6nlh331doe
+         qEIzWo8ABGt00gQ2ulWSmJbZmZ0EKh4WZ+BamJApG0hHyvHK3Nnfhx9ytVWmCJBrAL
+         uZkSdsS3uTHZcZCNjGOQ/OHyZB9mWJkxV6OMwKvNahiy/sFYnw+AKCu/+NmGSfcVKC
+         mkD9aZy1kmTeygsxfid340AJRU73G7nk9jIquse+0SqKM6p1P6Uj7tjSKHqOYmeuLU
+         FERY+tkJmY5JA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UPY-7h; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38C-000UOO-BF; Mon, 10 May 2021 12:27:20 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
+        "Jonathan Corbet" <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 19/53] docs: fault-injection: nvme-fault-injection.rst: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:31 +0200
-Message-Id: <197d802b2a5f4fe0b651b8577aa79b8b8f2c90fb.1620641727.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 01/53] docs: cdrom-standard.rst: get rid of uneeded UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:13 +0200
+Message-Id: <79c3f482da17ea48d69b6e6ad1b7fb102b9dd7bf.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -54,31 +53,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While UTF-8 characters can be used at the Linux documentation,
-the best is to use them only when ASCII doesn't offer a good replacement.
-So, replace the occurences of the following UTF-8 characters:
-
-	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+This file was converted from a LaTeX one. The conversion used
+some UTF-8 characters at the literal blocks. Replace them
+by normal ASCII characters.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/fault-injection/nvme-fault-injection.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/cdrom/cdrom-standard.rst | 30 +++++++++++++-------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
-index 1d4427890d75..d372ce66a244 100644
---- a/Documentation/fault-injection/nvme-fault-injection.rst
-+++ b/Documentation/fault-injection/nvme-fault-injection.rst
-@@ -25,7 +25,7 @@ Example 1: Inject default status code with no retry
+diff --git a/Documentation/cdrom/cdrom-standard.rst b/Documentation/cdrom/cdrom-standard.rst
+index 70500b189cc8..5845960ca382 100644
+--- a/Documentation/cdrom/cdrom-standard.rst
++++ b/Documentation/cdrom/cdrom-standard.rst
+@@ -146,18 +146,18 @@ with the kernel as a block device by registering the following general
+ *struct file_operations*::
  
- Expected Result::
+ 	struct file_operations cdrom_fops = {
+-		NULL,			/∗ lseek ∗/
+-		block _read ,		/∗ read—general block-dev read ∗/
+-		block _write,		/∗ write—general block-dev write ∗/
+-		NULL,			/∗ readdir ∗/
+-		NULL,			/∗ select ∗/
+-		cdrom_ioctl,		/∗ ioctl ∗/
+-		NULL,			/∗ mmap ∗/
+-		cdrom_open,		/∗ open ∗/
+-		cdrom_release,		/∗ release ∗/
+-		NULL,			/∗ fsync ∗/
+-		NULL,			/∗ fasync ∗/
+-		NULL			/∗ revalidate ∗/
++		NULL,			/* lseek */
++		block _read ,		/* read--general block-dev read */
++		block _write,		/* write--general block-dev write */
++		NULL,			/* readdir */
++		NULL,			/* select */
++		cdrom_ioctl,		/* ioctl */
++		NULL,			/* mmap */
++		cdrom_open,		/* open */
++		cdrom_release,		/* release */
++		NULL,			/* fsync */
++		NULL,			/* fasync */
++		NULL			/* revalidate */
+ 	};
  
--  cp: cannot stat ‘/mnt/a.file’: Input/output error
-+  cp: cannot stat '/mnt/a.file': Input/output error
+ Every active CD-ROM device shares this *struct*. The routines
+@@ -250,12 +250,12 @@ The drive-specific, minor-like information that is registered with
+ `cdrom.c`, currently contains the following fields::
  
- Message from dmesg::
+   struct cdrom_device_info {
+-	const struct cdrom_device_ops * ops; 	/* device operations for this major */
++	const struct cdrom_device_ops * ops;	/* device operations for this major */
+ 	struct list_head list;			/* linked list of all device_info */
+ 	struct gendisk * disk;			/* matching block layer disk */
+ 	void *  handle;				/* driver-dependent data */
  
+-	int mask; 				/* mask of capability: disables them */
++	int mask;				/* mask of capability: disables them */
+ 	int speed;				/* maximum speed for reading data */
+ 	int capacity;				/* number of discs in a jukebox */
+ 
+@@ -569,7 +569,7 @@ the *CDC_CLOSE_TRAY* bit in *mask*.
+ 
+ In the file `cdrom.c` you will encounter many constructions of the type::
+ 
+-	if (cdo->capability & ∼cdi->mask & CDC _⟨capability⟩) ...
++	if (cdo->capability & ~cdi->mask & CDC _<capability>) ...
+ 
+ There is no *ioctl* to set the mask... The reason is that
+ I think it is better to control the **behavior** rather than the
 -- 
 2.30.2
 
