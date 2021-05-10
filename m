@@ -2,130 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E2FC43461
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 20:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8606EC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 21:16:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFF2F6145C
-	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 20:20:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 484AB613CF
+	for <linux-doc@archiver.kernel.org>; Mon, 10 May 2021 21:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231997AbhEJUVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 16:21:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43348 "EHLO mail.kernel.org"
+        id S231486AbhEJVRR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 17:17:17 -0400
+Received: from ms.lwn.net ([45.79.88.28]:54158 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229566AbhEJUVx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 May 2021 16:21:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 94A36613C4;
-        Mon, 10 May 2021 20:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620678048;
-        bh=NnI6Jar/M7IdxLtxsAWt4IwLrWaSY6o6+asG73lwypk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p2hJI9M83cDG45oqbIlVUmrDpuGSgTqB+rZgiTLQy5ADDbE7geoZmjUIYljGm50RU
-         9gd5JGSGKWBoSz8eqe/8nso7itp0CL1VLUdZVpFJbtUwUsRTRWMTfTYgZwfNxxllNc
-         StwmKEjeAsTcOFbJvKO0TQRH86N2tlNuoBX98XpgLV5KDfPYLIkssGqez7lQ/dLqn8
-         t4vUQ4KtvWWxucZOLo1aQfy+YnSFI8f0XUkPTGjnt4IwpYdznHXj9I2TWF7VUoLaNT
-         bFRwIZy6GyhzjWr8KCS63nd6m8DxWLwP9kJ2mbA7EkhKyFYVTD5Tso8Vb90VC/NTsi
-         9DANZXpaUwlDA==
-Date:   Mon, 10 May 2021 13:20:39 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Tudor Ambarus <tudor.ambarus@microchip.com>
-Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
-        mturquette@baylibre.com, sboyd@kernel.org, nsaenz@kernel.org,
-        maxime@cerno.tech, khilman@kernel.org, ulf.hansson@linaro.org,
-        len.brown@intel.com, pavel@ucw.cz, robh+dt@kernel.org,
-        frowand.list@gmail.com, maz@kernel.org, tglx@linutronix.de,
-        saravanak@google.com, geert@linux-m68k.org, nsaenzjulienne@suse.de,
-        linux@roeck-us.net, guillaume.tucker@collabora.com,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, nicolas.ferre@microchip.com,
-        claudiu.beznea@microchip.com, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org, kernel-team@android.com,
-        linux-rpi-kernel@lists.infradead.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH v2] clk: Skip clk provider registration when np is NULL
-Message-ID: <YJmVlwu4swD1upym@archlinux-ax161>
-References: <20210426065618.588144-1-tudor.ambarus@microchip.com>
+        id S229810AbhEJVRQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 May 2021 17:17:16 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1237A2B4;
+        Mon, 10 May 2021 21:16:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1237A2B4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1620681371; bh=9fSJSehdcwDLUl6vB/Uilc8ih9eBrfT7IxzSt1HoGHk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=mud/R0SFzJXCvc207rFOma/RK16ZZdS1G9bzF1fcBM2V95GoAmly0N8FEzZ/+AtRw
+         EpEpOJBDbjwHjMSwV9C5MKGZ+E2q2CtWYCWF9EHNggdKQBVa88IDn59qhhFGkJ9Up1
+         nLSKLIYfgbZDuDM931B9XWXlJ4+yUGSCao9vSPwMe86n2FVCfCJZBxvBo3Vk/kBbYL
+         zXjHspFujWXCTEv2zp80b1ShVQZr3Kj0m3kTz9VwKbnod2B+Q29sW1wlRQKmWrSkwP
+         0dXMOp7WwB6JTV+nrHqyyd3axErqJgbny0wJZId7UN+31cEGdZp9f82CllGOKyRas3
+         A7O1/ABBdMgiQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wan Jiabing <wanjiabing@vivo.com>, Alex Shi <alexs@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kael_w@yeah.net, Wan Jiabing <wanjiabing@vivo.com>
+Subject: Re: [PATCH] docs/zh_CN: Remove obsolete translation file
+In-Reply-To: <20210508030741.82655-1-wanjiabing@vivo.com>
+References: <20210508030741.82655-1-wanjiabing@vivo.com>
+Date:   Mon, 10 May 2021 15:16:10 -0600
+Message-ID: <87a6p2ffxh.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210426065618.588144-1-tudor.ambarus@microchip.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 09:56:18AM +0300, Tudor Ambarus wrote:
-> commit 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is added")
-> revealed that clk/bcm/clk-raspberrypi.c driver calls
-> devm_of_clk_add_hw_provider(), with a NULL dev->of_node, which resulted in a
-> NULL pointer dereference in of_clk_add_hw_provider() when calling
-> fwnode_dev_initialized().
-> 
-> Returning 0 is reducing the if conditions in driver code and is being
-> consistent with the CONFIG_OF=n inline stub that returns 0 when CONFIG_OF
-> is disabled. The downside is that drivers will maybe register clkdev lookups
-> when they don't need to and waste some memory.
-> 
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Fixes: 6579c8d97ad7 ("clk: Mark fwnodes when their clock provider is added")
-> Fixes: 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is added/removed")
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+Wan Jiabing <wanjiabing@vivo.com> writes:
 
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
+> This translation file was replaced by 
+>    Documentation/translations/zh_CN/admin-guide/security-bugs.rst
+> which was created in commit 2d153571003b ("docs/zh_CN: Add
+> zh_CN/admin-guide/security-bugs.rst").
+> This is a translation left over from history. Remove it.
+>
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 > ---
-> v2:
-> - s/return 0;/return; in void of_clk_del_provider()
-> - add second fixes tag and Stephen's R-b tag
-> The opinions on whether to return an error or zero were split. Returning 0
-> and skipping the logic was considered safer as we don't know for sure if
-> other drivers are affected. See:
-> https://lore.kernel.org/lkml/d24bebc5-0f78-021f-293f-e58defa32531@samsung.com/
-> https://lore.kernel.org/lkml/20210423171335.262316-1-tudor.ambarus@microchip.com/
-> 
->  drivers/clk/clk.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index a3b30f7de2ef..b47460b40d14 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -4552,6 +4552,9 @@ int of_clk_add_provider(struct device_node *np,
->  	struct of_clk_provider *cp;
->  	int ret;
->  
-> +	if (!np)
-> +		return 0;
-> +
->  	cp = kzalloc(sizeof(*cp), GFP_KERNEL);
->  	if (!cp)
->  		return -ENOMEM;
-> @@ -4591,6 +4594,9 @@ int of_clk_add_hw_provider(struct device_node *np,
->  	struct of_clk_provider *cp;
->  	int ret;
->  
-> +	if (!np)
-> +		return 0;
-> +
->  	cp = kzalloc(sizeof(*cp), GFP_KERNEL);
->  	if (!cp)
->  		return -ENOMEM;
-> @@ -4688,6 +4694,9 @@ void of_clk_del_provider(struct device_node *np)
->  {
->  	struct of_clk_provider *cp;
->  
-> +	if (!np)
-> +		return;
-> +
->  	mutex_lock(&of_clk_mutex);
->  	list_for_each_entry(cp, &of_clk_providers, link) {
->  		if (cp->node == np) {
-> -- 
-> 2.25.1
-> 
+>  Documentation/translations/zh_CN/SecurityBugs | 50 -------------------
+>  1 file changed, 50 deletions(-)
+>  delete mode 100644 Documentation/translations/zh_CN/SecurityBugs
+
+Applied, thanks.
+
+jon
