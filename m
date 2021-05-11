@@ -2,120 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CDF3C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 18:55:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E63C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 19:10:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22E7C611BD
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 18:55:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD72A6162B
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 19:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232060AbhEKS5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 14:57:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53352 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232123AbhEKS5D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 14:57:03 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF5B1C06174A;
-        Tue, 11 May 2021 11:55:56 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id w22so6094280oiw.9;
-        Tue, 11 May 2021 11:55:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=X/inxSdHa2xkHeZ/z/iFZSnWLzX3PF9gerUaj96qbOs=;
-        b=ZpFVCGh5PiOkgIx5BzNFjepdYuS7fWbiIC6yn6BChmzd7wGzfjVJYSyWKL0WEQBzd3
-         zKZ4hDBSYAZn18vJH4bHJiE1ubdFDM0+R8OoDaLU6uEn8sHWmfuwpv9+t7kQFnBBjeVL
-         ZQ9ukZqTomNH6tRY9nG4G+6pwR78QJaik0wEKoKvX9u/FVW6q0NQvxLw2SbLzg5G7gHm
-         MJCxbAUkGXvSkN3dD8bsScPjNcQdJZBNtGqAc5P+G9aiFWaifdqyhkz7exL4V2+DvNuJ
-         rk2sVsemkz33xxQktmxfmIaBBhaFhSIdoQSHMk+veyfUq1r5P2D2U1md39lIq0gsGAtE
-         g+Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=X/inxSdHa2xkHeZ/z/iFZSnWLzX3PF9gerUaj96qbOs=;
-        b=F2WwfrNDWLPH6uBcvSvye7o4PUSXEwQtELid7StVNxD0rJxpu90bXeFvsjNQsjb+dn
-         rDjsQJyIg0cja3aMuYZVfzReacas3Mn8bd8zP57bw7zEUzwaKU/f64KUkTtRple4YoAg
-         wSTqzeIEKk18t/BNyA/rFAeDAJ+YKfSVbM+bMSRFkXj6n6pKWXWtjGYmmm3C1hCWPOOZ
-         xO/0v6grdyv1fyRDAplpbFVe1iQwsy2MakUwWiySuI1WktHq1UlJpGi5v3VPINjGMkT2
-         pW0E3Zp+bxN0r52RswI8xbPFPeD/osbWEFu/G6YGDkMdDAjbyiR5xsGy6HKkwEzTSeTa
-         YZ6g==
-X-Gm-Message-State: AOAM531NkU0WR4bF8HlY3gfdFEiXw7dHaN1Un7gNEE+OQum7I3REPERo
-        VxmtJ4IavNMlUNu/MzGPuxiQZaknyHM=
-X-Google-Smtp-Source: ABdhPJx5wUxdHhc5LZFOzyHoYbCdHBlVGSvhyfJgo+SkJ6OArTs1D2AKrpAr8pFjZvXSOEZ/nqIQyA==
-X-Received: by 2002:a05:6808:309:: with SMTP id i9mr12450789oie.14.1620759355829;
-        Tue, 11 May 2021 11:55:55 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u14sm3418904oif.41.2021.05.11.11.55.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 May 2021 11:55:55 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH 4/5] docs: hwmon: tmp103.rst: fix bad usage of UTF-8 chars
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jean Delvare <jdelvare@suse.com>,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+        id S231877AbhEKTLl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 15:11:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50758 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231439AbhEKTLl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 May 2021 15:11:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D1CE661626;
+        Tue, 11 May 2021 19:10:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620760234;
+        bh=e54D+JL7G0fBmcvlSsTLoGw5QlbnsspS2RdH8ESWbLg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Mw2rodQrteAc7YOIRxIl2TsI0vlaRbRWOhWt/N3R4Vou6GUuZDCD0NY9j4YljQgyz
+         atAwkCCqXc7HLwaXvYrqa8MLJosjjgC6Vbl5U/bdQt//JGlf/pmueW8BN+WKUCJtx2
+         BS7AVC2k75NT+WJMh+9tQslurOQ5EpMhdgc+9ZFQnX6JuHFpOR3FDSwPgEToJC/HUz
+         J7CShSGPDmGMCgjDcf17jxx09XhC+3VYRKeGQb7dYwGFrjA2EeNyThD+mMW3jpOsnS
+         AjuQ3F6zLxMXRGH+ZrHo0qo9EjHKK5XbhHXyLIhe/NSobmMHDYae2fShv+00Tl6f9Y
+         WQv0lV53C0T4g==
+Date:   Tue, 11 May 2021 21:10:28 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 5/5] docs: networking: device_drivers: fix bad usage of
+ UTF-8 chars
+Message-ID: <20210511211028.557de948@coco.lan>
+In-Reply-To: <YJrRcgmrqJLSOjR5@casper.infradead.org>
 References: <cover.1620744606.git.mchehab+huawei@kernel.org>
- <73b3c7c1eef5c12ddc941624d23689313bd56529.1620744606.git.mchehab+huawei@kernel.org>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <a4d0e1cf-20f1-d87c-0af6-b39f45afae5f@roeck-us.net>
-Date:   Tue, 11 May 2021 11:55:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        <95eb2a48d0ca3528780ce0dfce64359977fa8cb3.1620744606.git.mchehab+huawei@kernel.org>
+        <YJq9abOeuBla3Jiw@lunn.ch>
+        <8735utdt6z.fsf@meer.lwn.net>
+        <YJrRcgmrqJLSOjR5@casper.infradead.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <73b3c7c1eef5c12ddc941624d23689313bd56529.1620744606.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/11/21 8:01 AM, Mauro Carvalho Chehab wrote:
-> While UTF-8 characters can be used at the Linux documentation,
-> the best is to use them only when ASCII doesn't offer a good replacement.
-> So, replace the occurences of the following UTF-8 characters:
-> 
-> 	- U+2013 ('–'): EN DASH
-> 
-> In this specific case, EN DASH was used instead of a minus
-> sign. So, replace it by a single hyphen.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Em Tue, 11 May 2021 19:48:18 +0100
+Matthew Wilcox <willy@infradead.org> escreveu:
 
-Confused. Is that supposed to replace the earlier patch (docs: hwmon:
-avoid using UTF-8 chars) ? I thought that was more comprehensive
-and just as valid. Anyway, should I drop that patch ?
+> On Tue, May 11, 2021 at 12:24:52PM -0600, Jonathan Corbet wrote:
+> > Andrew Lunn <andrew@lunn.ch> writes:
+> >  =20
+> > >> -monitoring tools such as ifstat or sar =E2=80=93n DEV [interval] [n=
+umber of samples]
+> > >> +monitoring tools such as `ifstat` or `sar -n DEV [interval] [number=
+ of samples]` =20
+> > >
+> > > ...
+> > > =20
+> > >>  For example: min_rate 1Gbit 3Gbit: Verify bandwidth limit using net=
+work
+> > >> -monitoring tools such as ifstat or sar =E2=80=93n DEV [interval] [n=
+umber of samples]
+> > >> +monitoring tools such as ``ifstat`` or ``sar -n DEV [interval] [num=
+ber of samples]`` =20
+> > >
+> > > Is there a difference between ` and `` ? Does it make sense to be
+> > > consistent? =20
+> >=20
+> > This is `just weird quotes` =20
 
-Guenter
+Gah, sorry for that! I sent a wrong version of this patch...
+i40e.rst should also be using:
 
-> ---
->   Documentation/hwmon/tmp103.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/tmp103.rst b/Documentation/hwmon/tmp103.rst
-> index e195a7d14309..b3ef81475cf8 100644
-> --- a/Documentation/hwmon/tmp103.rst
-> +++ b/Documentation/hwmon/tmp103.rst
-> @@ -21,10 +21,10 @@ Description
->   The TMP103 is a digital output temperature sensor in a four-ball
->   wafer chip-scale package (WCSP). The TMP103 is capable of reading
->   temperatures to a resolution of 1°C. The TMP103 is specified for
-> -operation over a temperature range of –40°C to +125°C.
-> +operation over a temperature range of -40°C to +125°C.
->   
->   Resolution: 8 Bits
-> -Accuracy: ±1°C Typ (–10°C to +100°C)
-> +Accuracy: ±1°C Typ (-10°C to +100°C)
->   
->   The driver provides the common sysfs-interface for temperatures (see
->   Documentation/hwmon/sysfs-interface.rst under Temperatures).
-> 
+	monitoring tools such as ``ifstat`` or ``sar -n DEV [interval] [number of =
+samples]``=20
 
+I'll fix it on the next spin.
+
+>=20
+> umm ... `this` is supposed to be "interpreted text"
+> https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#inline=
+-markup
+>=20
+> Maybe we don't actually interpret it.
+
+Well, if we use it as something like :ref:`foo`, it is then interpreted ;-)
+
+using `foo` on Sphinx produces, in practice, the same effect as
+``foo`` (at least on the initial versions): it also sets the font to
+monospace and stops parsing other markups inside the `interpreted text`
+string.=20
+
+I remember that, at the very beginning, I did some ReST conversions
+using `foo`. Then, I realized that this actually wrong, from the
+definition PoV, and started using ``foo``.
+
+>=20
+> > This is ``literal text`` set in monospace in processed output.
+> >=20
+> > There is a certain tension between those who want to see liberal use of
+> > literal-text markup, and those who would rather have less markup in the
+> > text overall; certainly, it's better not to go totally nuts with it. =20
+>=20
+> I really appreciate the work you did to reduce the amount of
+> markup that's needed!
+
+In the specific case of using things like: ``command -n``, I would
+put it on a literal block, either like the proposed path, or as:
+
+	monitoring tools such as::
+
+		ifstat
+
+	or::
+		sar -n DEV [interval] [number of samples]
+
+ifstat is there using the same monospaced font just for
+consistency purposes.
+
+See, if you use just: sar -n
+
+The Sphinx output could convert the hyphen to a dash.
+
+Btw, if there was two hyphens, like: "ifstat --help"
+
+This would be converted into "ifstat =E2=80=93help", using the EN DASH UTF-8
+character.
+
+So, I strongly recommend that programs (specially when followed
+by arguments) to always use a literal block markup.
+
+
+Thanks,
+Mauro
