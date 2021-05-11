@@ -2,123 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC2EC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 09:37:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6367C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 11:35:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79A6F6192A
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 09:37:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B37F461921
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 11:35:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231205AbhEKJig (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 05:38:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52066 "EHLO mail.kernel.org"
+        id S231126AbhEKLgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 07:36:31 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51518 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230434AbhEKJif (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 May 2021 05:38:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A14E161925;
-        Tue, 11 May 2021 09:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620725848;
-        bh=6o759ShUxJ4M0iPoewavcBs0joP5lvg0/UyuatoupKw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VmShZQzrJkNUYpzDiT8lkPsxOAMSd9Mve7i5gQll5qndGWVpx/umg+CXxAKGpoNMA
-         r3FMkUmVknRLOM40Or9NWwNOL92NSwkHrq/d0ndNeQRTu32uCCDHx2IbSd5VG2b4ul
-         nosZAixjCj57nhk32NpeqSVxAJnPk2eny4EB88KTc/gQGnVuXNqo0yWlzvNXSmu4ZF
-         mRycl9aLbRnBPpCgKOBrtmqpOvb6P16yZBfRn67Vau0A0Tq2FleVuS/QpC4INaUcg7
-         P/ifJQg2MpIKloJneBuh4wLQ19EHMgDmJrDBTumwAHsRVeIkB/VjkEIaNgqi+q08au
-         3pae3xKzjvu8Q==
-Date:   Tue, 11 May 2021 11:37:17 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Theodore Ts'o" <tytso@mit.edu>
-Cc:     David Woodhouse <dwmw2@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as
- ASCII
-Message-ID: <20210511113717.5c8b68f7@coco.lan>
-In-Reply-To: <YJmH2irxoRsyNudb@mit.edu>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
-        <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
-        <20210510135518.305cc03d@coco.lan>
-        <de6d1fa5b7934f4afd61370d9c58502bef588466.camel@infradead.org>
-        <YJmH2irxoRsyNudb@mit.edu>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230501AbhEKLga (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 May 2021 07:36:30 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1620732923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=X9ftnEprnJR+ecG9/KIu42CmG3FUYjZYMpe6qMgEarE=;
+        b=ske5PixWDoCRPpfIHj7Q9RLA35KvPYh3oejmOcRz7cIRInPeazbnvZODdpJA0AtN2vSeFM
+        hIb3buKHSCUJy6uN4jg9Pa8DlLt+OL/J7tG5qG4QryLSwTYL4+J1TVAla7CVhCTws7v1q2
+        giJJlIBrHBHh7S0z7Sr79RPy2cxrMHs=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 12785B05C;
+        Tue, 11 May 2021 11:35:23 +0000 (UTC)
+Date:   Tue, 11 May 2021 13:35:21 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v6 05/13] module: Add printk formats to add module build
+ ID to stacktraces
+Message-ID: <YJpr+T616Wki2542@alley>
+References: <20210511003845.2429846-1-swboyd@chromium.org>
+ <20210511003845.2429846-6-swboyd@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210511003845.2429846-6-swboyd@chromium.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 10 May 2021 15:22:02 -0400
-"Theodore Ts'o" <tytso@mit.edu> escreveu:
+On Mon 2021-05-10 17:38:37, Stephen Boyd wrote:
+> Let's make kernel stacktraces easier to identify by including the build
+> ID[1] of a module if the stacktrace is printing a symbol from a module.
 
-> On Mon, May 10, 2021 at 02:49:44PM +0100, David Woodhouse wrote:
-> > On Mon, 2021-05-10 at 13:55 +0200, Mauro Carvalho Chehab wrote: =20
-> > > This patch series is doing conversion only when using ASCII makes
-> > > more sense than using UTF-8.=20
-> > >=20
-> > > See, a number of converted documents ended with weird characters
-> > > like ZERO WIDTH NO-BREAK SPACE (U+FEFF) character. This specific
-> > > character doesn't do any good.
-> > >=20
-> > > Others use NO-BREAK SPACE (U+A0) instead of 0x20. Harmless, until
-> > > someone tries to use grep[1]. =20
-> >=20
-> > Replacing those makes sense. But replacing emdashes =E2=80=94 which are=
- a
-> > distinct character that has no direct replacement in ASCII and which
-> > people do *deliberately* use instead of hyphen-minus =E2=80=94 does not=
-. =20
->=20
-> I regularly use --- for em-dashes and -- for en-dashes.  Markdown will
-> automatically translate 3 ASCII hypens to em-dashes, and 2 ASCII
-> hyphens to en-dashes.  It's much, much easier for me to type 2 or 3
-> hypens into my text editor of choice than trying to enter the UTF-8
-> characters.=20
+> --- a/include/linux/module.h
+> +++ b/include/linux/module.h
+> @@ -11,6 +11,7 @@
+>  
+>  #include <linux/list.h>
+>  #include <linux/stat.h>
+> +#include <linux/buildid.h>
+>  #include <linux/compiler.h>
+>  #include <linux/cache.h>
+>  #include <linux/kmod.h>
+> @@ -364,6 +365,11 @@ struct module {
+>  	/* Unique handle for this module */
+>  	char name[MODULE_NAME_LEN];
+>  
+> +#ifdef CONFIG_STACKTRACE_BUILD_ID
+> +	/* Module build ID */
+> +	unsigned char build_id[BUILD_ID_SIZE_MAX];
+> +#endif
+> +
+>  	/* Sysfs stuff. */
+>  	struct module_kobject mkobj;
+>  	struct module_attribute *modinfo_attrs;
+> @@ -627,7 +633,7 @@ void *dereference_module_function_descriptor(struct module *mod, void *ptr);
+>  const char *module_address_lookup(unsigned long addr,
+>  			    unsigned long *symbolsize,
+>  			    unsigned long *offset,
+> -			    char **modname,
+> +			    char **modname, const unsigned char **modbuildid,
 
-Yeah, typing those UTF-8 chars are a lot harder than typing -- and ---
-on several text editors ;-)
+Nit: It would have been better to follow the existing style and put only one
+     parameter per-line.
 
-Here, I only type UTF-8 chars for accents (my US-layout keyboards are=20
-all set to US international, so typing those are easy).
+Please, fix it in the next version if there is any. But no need
+to resend it just because of this unless Jessica asks for it.
 
-> If we can make sphinx do this translation, maybe that's
-> the best way of dealing with these two characters?
+>  			    char *namebuf);
+>  int lookup_module_symbol_name(unsigned long addr, char *symname);
+>  int lookup_module_symbol_attrs(unsigned long addr, unsigned long *size, unsigned long *offset, char *modname, char *name);
 
-Sphinx already does that by default[1], using smartquotes:
+> diff --git a/kernel/module.c b/kernel/module.c
+> index 30479355ab85..a5eaf5188a83 100644
+> --- a/kernel/module.c
+> +++ b/kernel/module.c
+> @@ -4235,7 +4257,7 @@ void * __weak dereference_module_function_descriptor(struct module *mod,
+>  const char *module_address_lookup(unsigned long addr,
+>  			    unsigned long *size,
+>  			    unsigned long *offset,
+> -			    char **modname,
+> +			    char **modname, const unsigned char **modbuildid,
 
-	https://docutils.sourceforge.io/docs/user/smartquotes.html
+Same here.
 
-Those are the conversions that are done there:
+>  			    char *namebuf)
+>  {
+>  	const char *ret = NULL;
 
-      - Straight quotes (" and ') turned into "curly" quote characters;
-      - dashes (-- and ---) turned into en- and em-dash entities;
-      - three consecutive dots (... or . . .) turned into an ellipsis char.
+Otherwise, it looks good.
 
-So, we can simply use single/double commas, hyphens and dots for
-curly commas and ellipses.
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-[1] There's a way to disable it at conf.py, but at the Kernel this is
-    kept on its default: to automatically do such conversions.=20
-
-Thanks,
-Mauro
+Best Regards,
+Petr
