@@ -2,45 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F0B9C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:22:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AABCC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:31:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D48661353
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:22:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D40FB60C3D
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:31:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbhEKOXH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 10:23:07 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36234 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231154AbhEKOXH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 May 2021 10:23:07 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1620742919; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=45i14jgdilkL4c57omliQFKc/dMVSrDzuFT1ipWFf8M=;
-        b=nePkdhpO47MaoTKB9P1sGYbCGxxIKDlBZDpre7MdnhCkKh+rpbX9XqDNiV9WACT/ogMQcK
-        B1qI9Qhbokav6j3HT+Gb1NYLnw63gOnl7y52YpzKp3A/LvbBONIa9Zval7qh4L6KmjmgGo
-        ijgmbxV7l3Ar/kDGcReiLeT/3zh7Exw=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 889F8B11D;
-        Tue, 11 May 2021 14:21:59 +0000 (UTC)
-Date:   Tue, 11 May 2021 16:21:59 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     David Laight <David.Laight@aculab.com>
-Cc:     'Steven Rostedt' <rostedt@goodmis.org>,
+        id S231809AbhEKOct convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 10:32:49 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:41254 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231804AbhEKOct (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 10:32:49 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-32-ksxxKfZ1MOGdNqOWBkuFfw-1; Tue, 11 May 2021 15:31:40 +0100
+X-MC-Unique: ksxxKfZ1MOGdNqOWBkuFfw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Tue, 11 May 2021 15:31:38 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Tue, 11 May 2021 15:31:38 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Petr Mladek' <pmladek@suse.com>
+CC:     'Steven Rostedt' <rostedt@goodmis.org>,
         'Stephen Boyd' <swboyd@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
+        "Alexei Starovoitov" <ast@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Baoquan He <bhe@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Baoquan He <bhe@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Young <dyoung@redhat.com>,
         Evan Green <evgreen@chromium.org>,
@@ -53,7 +50,7 @@ Cc:     'Steven Rostedt' <rostedt@goodmis.org>,
         <linux-arm-kernel@lists.infradead.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        "Rasmus Villemoes" <linux@rasmusvillemoes.dk>,
         Sasha Levin <sashal@kernel.org>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -61,49 +58,75 @@ Cc:     'Steven Rostedt' <rostedt@goodmis.org>,
         "x86@kernel.org" <x86@kernel.org>,
         Christoph Hellwig <hch@infradead.org>,
         peter enderborg <peter.enderborg@sony.com>
-Subject: Re: [PATCH v6 00/13] Add build ID to stacktraces
-Message-ID: <YJqTB5pJiRqS1yGY@alley>
+Subject: RE: [PATCH v6 00/13] Add build ID to stacktraces
+Thread-Topic: [PATCH v6 00/13] Add build ID to stacktraces
+Thread-Index: AQHXRf4HnT90HedmH0WFx6bjKadex6reN/jQ///0T4CAABGGcIAAB3WAgAASvAA=
+Date:   Tue, 11 May 2021 14:31:38 +0000
+Message-ID: <f09e9d68e4b14de58e881050a3c78ec1@AcuMS.aculab.com>
 References: <20210511003845.2429846-1-swboyd@chromium.org>
  <b30f6d396edf4db5974a2b90364b6314@AcuMS.aculab.com>
  <20210511085235.09bc38a7@gandalf.local.home>
- <37ca7834a8514a5695ed002e073a83b6@AcuMS.aculab.com>
+ <37ca7834a8514a5695ed002e073a83b6@AcuMS.aculab.com> <YJqTB5pJiRqS1yGY@alley>
+In-Reply-To: <YJqTB5pJiRqS1yGY@alley>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37ca7834a8514a5695ed002e073a83b6@AcuMS.aculab.com>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 2021-05-11 12:58:47, David Laight wrote:
-> From: Steven Rostedt
-> > Sent: 11 May 2021 13:53
-> > 
-> > On Tue, 11 May 2021 12:36:06 +0000
-> > David Laight <David.Laight@ACULAB.COM> wrote:
-> > 
-> > > >  x1 : ffffff93fef15788 x0 : ffffffe3622352e0
-> > > >  Call trace:
-> > > >   lkdtm_WARNING+0x28/0x30 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-> > > >   direct_entry+0x16c/0x1b4 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-> > > >   full_proxy_write+0x74/0xa4
+From: Petr Mladek
+> Sent: 11 May 2021 15:22
+> 
+> On Tue 2021-05-11 12:58:47, David Laight wrote:
+> > From: Steven Rostedt
+> > > Sent: 11 May 2021 13:53
 > > >
-> > > Is there any way to get it to print each module ID only once?
-> > 
-> > If there's a trivial way to do that, then perhaps it should be done, but for
-> > now, this patch series isn't as obnoxious as the previous versions. It only
-> > affects stack traces, and I'm fine with that.
+> > > On Tue, 11 May 2021 12:36:06 +0000
+> > > David Laight <David.Laight@ACULAB.COM> wrote:
+> > >
+> > > > >  x1 : ffffff93fef15788 x0 : ffffffe3622352e0
+> > > > >  Call trace:
+> > > > >   lkdtm_WARNING+0x28/0x30 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+> > > > >   direct_entry+0x16c/0x1b4 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+> > > > >   full_proxy_write+0x74/0xa4
+> > > >
+> > > > Is there any way to get it to print each module ID only once?
+> > >
+> > > If there's a trivial way to do that, then perhaps it should be done, but for
+> > > now, this patch series isn't as obnoxious as the previous versions. It only
+> > > affects stack traces, and I'm fine with that.
+> >
+> > True. Printing the id in the module list was horrid.
+> >
+> > The real downside is all the extra text that will overflow the
+> > in-kernel buffer.
+> > At least it shouldn't be extra lines causing screen wrap.
+> > Unless the variable names are long - hi rust :-)
 > 
-> True. Printing the id in the module list was horrid.
-> 
-> The real downside is all the extra text that will overflow the
-> in-kernel buffer.
-> At least it shouldn't be extra lines causing screen wrap.
-> Unless the variable names are long - hi rust :-)
+> Note that the ID is printed only when CONFIG_STACKTRACE_BUILD_ID
+> is enabled. It will be used only by some distros/vendors that
+> use it to download the debuginfo packages.
 
-Note that the ID is printed only when CONFIG_STACKTRACE_BUILD_ID
-is enabled. It will be used only by some distros/vendors that
-use it to download the debuginfo packages.
+Until Ubuntu decide to turn it on :-)
 
-Best Regards,
-Petr
+Actually, for the use case, the id could be trimmed significantly.
+It is only trying to differentiate between builds of a specific module.
+So even 8 digits would be plenty.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
