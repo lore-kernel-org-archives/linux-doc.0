@@ -2,204 +2,253 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A4CC43461
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 11:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AFA3C43462
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 11:48:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7654B613B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 11:48:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E92826143C
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 11:48:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231495AbhEKLtV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 07:49:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58414 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231472AbhEKLtU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 07:49:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620733694;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tCTd+S2Axg2X1q7f2AmsrNqMwgII9y4Yy/+j9XgTu+E=;
-        b=Fj5+kR1LJgadz7sTIhDZjJ2YVjyRGrbmTl4MXsm9A/Ea/t9Mh//IZbpzY9NaZ6SMsEmUja
-        102W88HF+4bboXUXLGFasAymz7fbFtDgG7GIAirIL9PqArLpSeDKAyWXRqwbqxVh42shbo
-        HSEaWuDEMswxEpiWP0urDsJj6s+IPWY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-VrzHppygNSCwaeytnoKJUw-1; Tue, 11 May 2021 07:48:12 -0400
-X-MC-Unique: VrzHppygNSCwaeytnoKJUw-1
-Received: by mail-ed1-f72.google.com with SMTP id d13-20020a056402144db0290387e63c95d8so10809012edx.11
-        for <linux-doc@vger.kernel.org>; Tue, 11 May 2021 04:48:12 -0700 (PDT)
+        id S231530AbhEKLuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 07:50:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40502 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230400AbhEKLuB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 07:50:01 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2847C061760
+        for <linux-doc@vger.kernel.org>; Tue, 11 May 2021 04:48:53 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id i9so21635947lfe.13
+        for <linux-doc@vger.kernel.org>; Tue, 11 May 2021 04:48:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OxdoaKPOQuUdKzkVcLxQZyyXBdgyHiRS3tUGaZINUts=;
+        b=pu5+cwzEKuzc6EKXsqJ7EaWSkxB7rCn6gNQ30VMCpZCLAPn9ir6RnzaGipRTyxVm+K
+         pSnBAdAG4NNgwEkwdQTxjhsKwtxFqJ99SznjFTuhezxvdIHgaI6BBv3p+8p0XsHszG+V
+         RQaHASxm9Et0cxJy0qUKzFBFViubxluBaNVVg45aQybB/7wIbjaw1IMMvZVohB06z+O9
+         3s8uL1JLKzVYvB1RZkPBju2l4gzFHKeK2tL7LkbfaYQ8lrlvI566AMHvwhvFVbRBso9Z
+         tDguC2zPMdW7HGa4bDpl5xh98LNl9ydjJwxQSDPvWhWqmX6vFAPsI2/5z5P21MbGsP3t
+         13iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=tCTd+S2Axg2X1q7f2AmsrNqMwgII9y4Yy/+j9XgTu+E=;
-        b=Yrl6zxo3xmh1GhxMAP0vZfyK03d3x5qaUMsaG3bBlwnclmguQAXML+b0o/MGJpQsV0
-         0bO/YAQUJN0ph3GthLkx54IUCShENbVhrOPp7LPrVUeaEJuoVAME+s0JW5ID4YJLQBBT
-         5LfN4xAlCevpOmxJU0EA5mkupeGHoVJZIARaloJyKA0hxCUbxYJDajfPU2BD/Ucsjweu
-         DxHCebHsZtA7pnP3xhPUg1/g0E9+uqYzJWjxTjy4Aqv9FhGdgX+MdFd/kkp0TeHPqzlm
-         3tTzMx/RZk4Xs1fndUhq2jO285o03Dmu30ElGavuPYeMrWlJgcEzd4f7qDUMGFF36sqC
-         eFgQ==
-X-Gm-Message-State: AOAM531AXZXTE0CVUpZHrCrXtE1GvCKyR+h2EKTs+6yGaqyi2PX1P6I+
-        5oGsOHcPrKOeMl8vZjg60kCLXNW9IxKi8NbLFDmdC67tQd+anx6hLuRtlQDoKx4s9xDctSX1nV7
-        00cGE+rXNc8CaxY56+uYK
-X-Received: by 2002:a17:907:f91:: with SMTP id kb17mr30722715ejc.521.1620733691344;
-        Tue, 11 May 2021 04:48:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyK1wG8GPs1uiWXaXij0uLW/nSHZ5xv/Mp/aP4/ksfEpDozfyQJa04/xi8Vel+362v042qcCA==
-X-Received: by 2002:a17:907:f91:: with SMTP id kb17mr30722691ejc.521.1620733691162;
-        Tue, 11 May 2021 04:48:11 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id ga28sm11316864ejc.20.2021.05.11.04.48.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 May 2021 04:48:10 -0700 (PDT)
-Subject: Re: [PATCH v7 1/7] MAINTAINERS: Add Advantech AHC1EC0 embedded
- controller entry
-To:     Campion Kang <campion.kang@advantech.com.tw>
-Cc:     andy.shevchenko@gmail.com, chia-lin.kao@canonical.com,
-        corbet@lwn.net, devicetree@vger.kernel.org, jdelvare@suse.com,
-        lee.jones@linaro.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux@roeck-us.net,
-        mgross@linux.intel.com, platform-driver-x86@vger.kernel.org,
-        robh+dt@kernel.org, wim@linux-watchdog.org
-References: <cf181436-152c-7cd8-76cf-350705cd2bcb@redhat.com>
- <20210507115319.22109-1-campion.kang@advantech.com.tw>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <0a64dcbd-25d6-ddcd-4a4e-18619e8270ba@redhat.com>
-Date:   Tue, 11 May 2021 13:48:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OxdoaKPOQuUdKzkVcLxQZyyXBdgyHiRS3tUGaZINUts=;
+        b=LZbGzgBbloluCtaAtoBk5z2MbD1/0RaUqTUfvv++UcortXjvJXghNfqr5aEFNaaG0R
+         YrmPPQVBEgjaP4ymYmxmd7Z7D+BsCgZeG41R8f02gRSIyLsuBbSp0kzlO631xeQc6Q+C
+         nWPHp6bxY9KXi8cDA6F7Q1J/vDwTdT/YiaT/ZjBqG64I4s3V71d4Jyy1gRb6HwceU2Ma
+         wVpkxALhni2Krbpo3N78sw1UwrKBBW4o5DYb7Tlc/8kSgza9BDk27FieRixdXktkoXRl
+         QimBATymZzyHhTmfI8Q4RksimUwOeJfTtyGKe/k0oRsymgEffG0CJJ+ExHwSUBdIdOYT
+         8l3g==
+X-Gm-Message-State: AOAM530aAVpi/v15TqA5B3LEWF1ev9xkRmhCPRlXwlzt+3k5X5SN9okF
+        TQCr82LGUnCRUtpU7St3jvBpEg==
+X-Google-Smtp-Source: ABdhPJydVEzMQLCZSWLjQHEgnr+jpAeuIOL0TV29D90uqoPSgdYZuwn5zByK9Fy6Y0UQztu1N5pypA==
+X-Received: by 2002:a05:6512:b8e:: with SMTP id b14mr20299532lfv.404.1620733732151;
+        Tue, 11 May 2021 04:48:52 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id x19sm2604242lfa.22.2021.05.11.04.48.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 May 2021 04:48:51 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 40BD0102615; Tue, 11 May 2021 14:48:52 +0300 (+03)
+Date:   Tue, 11 May 2021 14:48:52 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v26 30/30] mm: Introduce PROT_SHADOW_STACK for shadow
+ stack
+Message-ID: <20210511114852.5wm6a5z72xjlqc4c@box>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-31-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210507115319.22109-1-campion.kang@advantech.com.tw>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210427204315.24153-31-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Tue, Apr 27, 2021 at 01:43:15PM -0700, Yu-cheng Yu wrote:
+> There are three possible options to create a shadow stack allocation API:
+> an arch_prctl, a new syscall, or adding PROT_SHADOW_STACK to mmap() and
+> mprotect().  Each has its advantages and compromises.
+> 
+> An arch_prctl() is the least intrusive.  However, the existing x86
+> arch_prctl() takes only two parameters.  Multiple parameters must be
+> passed in a memory buffer.  There is a proposal to pass more parameters in
+> registers [1], but no active discussion on that.
+> 
+> A new syscall minimizes compatibility issues and offers an extensible frame
+> work to other architectures, but this will likely result in some overlap of
+> mmap()/mprotect().
+> 
+> The introduction of PROT_SHADOW_STACK to mmap()/mprotect() takes advantage
+> of existing APIs.  The x86-specific PROT_SHADOW_STACK is translated to
+> VM_SHADOW_STACK and a shadow stack mapping is created without reinventing
+> the wheel.  There are potential pitfalls though.  The most obvious one
+> would be using this as a bypass to shadow stack protection.  However, the
+> attacker would have to get to the syscall first.
+> 
+> [1] https://lore.kernel.org/lkml/20200828121624.108243-1-hjl.tools@gmail.com/
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> ---
+> v26:
+> - Change PROT_SHSTK to PROT_SHADOW_STACK.
+> - Remove (vm_flags & VM_SHARED) check, since it is covered by
+>   !vma_is_anonymous().
+> 
+> v24:
+> - Update arch_calc_vm_prot_bits(), leave PROT* checking to
+>   arch_validate_prot().
+> - Update arch_validate_prot(), leave vma flags checking to
+>   arch_validate_flags().
+> - Add arch_validate_flags().
+> 
+>  arch/x86/include/asm/mman.h      | 60 +++++++++++++++++++++++++++++++-
+>  arch/x86/include/uapi/asm/mman.h |  2 ++
+>  include/linux/mm.h               |  1 +
+>  3 files changed, 62 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/mman.h b/arch/x86/include/asm/mman.h
+> index 629f6c81263a..fbb90f1b02c0 100644
+> --- a/arch/x86/include/asm/mman.h
+> +++ b/arch/x86/include/asm/mman.h
+> @@ -20,11 +20,69 @@
+>  		((vm_flags) & VM_PKEY_BIT2 ? _PAGE_PKEY_BIT2 : 0) |	\
+>  		((vm_flags) & VM_PKEY_BIT3 ? _PAGE_PKEY_BIT3 : 0))
+>  
+> -#define arch_calc_vm_prot_bits(prot, key) (		\
+> +#define pkey_vm_prot_bits(prot, key) (			\
+>  		((key) & 0x1 ? VM_PKEY_BIT0 : 0) |      \
+>  		((key) & 0x2 ? VM_PKEY_BIT1 : 0) |      \
+>  		((key) & 0x4 ? VM_PKEY_BIT2 : 0) |      \
+>  		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
+> +#else
+> +#define pkey_vm_prot_bits(prot, key) (0)
+>  #endif
+>  
+> +static inline unsigned long arch_calc_vm_prot_bits(unsigned long prot,
+> +						   unsigned long pkey)
+> +{
+> +	unsigned long vm_prot_bits = pkey_vm_prot_bits(prot, pkey);
+> +
+> +	if (prot & PROT_SHADOW_STACK)
+> +		vm_prot_bits |= VM_SHADOW_STACK;
+> +
+> +	return vm_prot_bits;
+> +}
+> +
+> +#define arch_calc_vm_prot_bits(prot, pkey) arch_calc_vm_prot_bits(prot, pkey)
+> +
+> +#ifdef CONFIG_X86_SHADOW_STACK
+> +static inline bool arch_validate_prot(unsigned long prot, unsigned long addr)
+> +{
+> +	unsigned long valid = PROT_READ | PROT_WRITE | PROT_EXEC | PROT_SEM |
+> +			      PROT_SHADOW_STACK;
+> +
+> +	if (prot & ~valid)
+> +		return false;
+> +
+> +	if (prot & PROT_SHADOW_STACK) {
+> +		if (!current->thread.cet.shstk_size)
+> +			return false;
+> +
+> +		/*
+> +		 * A shadow stack mapping is indirectly writable by only
+> +		 * the CALL and WRUSS instructions, but not other write
+> +		 * instructions).  PROT_SHADOW_STACK and PROT_WRITE are
+> +		 * mutually exclusive.
+> +		 */
+> +		if (prot & PROT_WRITE)
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +#define arch_validate_prot arch_validate_prot
+> +
+> +static inline bool arch_validate_flags(struct vm_area_struct *vma, unsigned long vm_flags)
+> +{
+> +	/*
+> +	 * Shadow stack must be anonymous and not shared.
+> +	 */
+> +	if ((vm_flags & VM_SHADOW_STACK) && !vma_is_anonymous(vma))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +#define arch_validate_flags(vma, vm_flags) arch_validate_flags(vma, vm_flags)
+> +
+> +#endif /* CONFIG_X86_SHADOW_STACK */
+> +
+>  #endif /* _ASM_X86_MMAN_H */
+> diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
+> index f28fa4acaeaf..4c36b263cf0a 100644
+> --- a/arch/x86/include/uapi/asm/mman.h
+> +++ b/arch/x86/include/uapi/asm/mman.h
+> @@ -4,6 +4,8 @@
+>  
+>  #define MAP_32BIT	0x40		/* only give out 32bit addresses */
+>  
+> +#define PROT_SHADOW_STACK	0x10	/* shadow stack pages */
+> +
+>  #include <asm-generic/mman.h>
+>  
+>  #endif /* _UAPI_ASM_X86_MMAN_H */
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 1ccec5cc399b..9a7652eea207 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -342,6 +342,7 @@ extern unsigned int kobjsize(const void *objp);
+>  
+>  #if defined(CONFIG_X86)
+>  # define VM_PAT		VM_ARCH_1	/* PAT reserves whole VMA at once (x86) */
+> +# define VM_ARCH_CLEAR	VM_SHADOW_STACK
 
-On 5/7/21 1:53 PM, Campion Kang wrote:
-> Hi, Very thanks your time for reviewing.
-> 
->> -----Original Message-----
->> From: Hans de Goede <hdegoede@redhat.com>
->> Sent: Thursday, May 6, 2021 5:39 PM
->> Subject: Re: [PATCH v7 1/7] MAINTAINERS: Add Advantech AHC1EC0 embedded
->> controller entry
->>
->> Hi,
->>
->> On 5/6/21 11:23 AM, Andy Shevchenko wrote:
->>> On Thu, May 6, 2021 at 11:48 AM Hans de Goede <hdegoede@redhat.com>
->> wrote:
->>>> I'm replying here since this series has no cover-letter, for
->>>> the next version for a series touching so many different
->>>> sub-systems it would be good to start with a cover-letter
->>>> providing some background info on the series.
->>>>
-> 
-> Sorry about that, i will study what is cover-letter and its content.
-> Would you kindly provide me a good reference?
-> Can I resend a [Patch v7 0/7] for these patch or provide it in next version?
+Nit: you can put VM_SHADOW_STACK directly into VM_FLAGS_CLEAR. It's
+already conditinal on the feature enabled and VM_NONE otherwise.
 
-Please add a cover letter to the next version, which will hopefully
-also address some of the other remarks already made.
+Up to you.
 
-Regards,
+Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
-Hans
-
-
-> 
-> 
->>>> I see this is binding to an ACPI device, yet it is also using
->>>> devicetree bindings and properties.
->>>>
->>>> So I take it this means that your ACPI tables are using the
->>>> optional capability of embedded device-tree blobs inside the
->>>> ACPI tables ?
->>>>
->>>> That is an unusual combination on a x86 device, note it is
->>>> not wrong
->>>
->>> It's actually not okay. We have agreed at some point with DT people,
->>> that ACPI should not use non-native variants of natively supported
->>> things. For example, it shouldn't use "interrupt" property for IOxAPIC
->>> (or xIC) provided interrupts, rather Interrupt() has to be used and so
->>> on.
-> 
-> In our experience, most risc platforms are using devicetree, and x86/64 platforms
-> are using ACPI table or grub configure for their specific settings in different HW paltform.
-> In this case, EC chip is a LPC interface that can be integrated in whenever risc or x86/64.
-> So in my understand, I think it is not conflict.
-> (please correct me if i am misunderstanding, i will try to describe more)
-> 
-> If the EC chip is connected to the risc processor, we will bind its properties in the device-tree without modifing the source.
-> If the EC chip is connected to the X86/64 processor, we bind its the properties in the ACPI table and also without modifing the source.
-> Why do we need to bind the properties in ACPI or in the device-tree? Because it is an LPC interface, it cannot automatically load the driver like a USB or PCI device.
-> In the early days, we had to install the EC driver module in our HW platform and manually load it at every boot. Different Advantech HW platforms have different properties for HWMON and others sub-systems. This causes the EC source to be a bit dirty. It is necessary to obtain the hardware platform name from the BIOS DMI table and determine its attributes according to its platform name.
-> Now bind the attributes to ACPI table or device-tree, the EC source is more clear and universal for Advantech devices, and it is important that if the ACPI table matches, it can be automatically loaded.
-> 
->>
->> Right, but that is not the case here, they are using 2 device-tree
->> properties (1), from patch 3/7:
->>
->> +properties:
->> +  compatible:
->> +    const: advantech,ahc1ec0
->> +
->> +  advantech,hwmon-profile:
->> +    description:
->> +      The number of sub-devices specified in the platform. Defines for the
->> +      hwmon profiles can found in dt-bindings/mfd/ahc1ec0-dt.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    maxItems: 1
->> +
->> +  advantech,has-watchdog:
->> +    description:
->> +      Some implementations of the EC include a watchdog used to monitor
->> the
->> +      system. This boolean flag is used to specify whether this watchdog is
->> +      present or not. Default is true, otherwise set to false.
->> +    type: boolean
->>
->>
->>>> but AFAIK you are the first to do this on x86.
->>>
->>> No, not the first. Once Intel tried to invent the pin control
->>> configuration and muxing properties in ACPI, it was luckily rejected
->>> (ACPI 6.x OTOH provides a set of special resources for that).
->>>
->>> So, NAK from me, *if* it's really the case. ACPI tables must be revisited.
->>
-> 
-> I am not sure it supports vendor self-defined attributes for ACPI table?
-> 
->> AFAIK Advantech are not defining things for which an ACPI standard exists,
->> although these 2 properties might just as well may be 2 simple ACPI integer
->> methods, which would actually make things a bit simpler (.e.g it would
->> allow dropping patch 2/7 and 3/7 from the set).
->>
->> Campion, any reason why you went this route; and can the ACPI tables
->> still be changed?
->>
-> 
-> If patches 2/7 and 3/7 are removed, it will be even simpler.
-> This means that there is no device-tree binding designed, in fact, the EC chip only be integrated in the x86/64 platform at present.
-> Sorry, ACPI table now is integrated in the BIOS for Advantech UNO device, 
-> it may be revert to previous rule, that is, there is no ACPI table binding and manually loaded the EC driver. If you have any suggestons I would be very grateful.
-> 
->> Regards,
->>
->> Hans
-> 
-
+-- 
+ Kirill A. Shutemov
