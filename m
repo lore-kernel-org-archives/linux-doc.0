@@ -2,87 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73587C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 18:24:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48CECC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 18:35:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 423806187E
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 18:24:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E6D06186A
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 18:35:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231502AbhEKS0A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 14:26:00 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35682 "EHLO ms.lwn.net"
+        id S231896AbhEKSgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 14:36:18 -0400
+Received: from mga06.intel.com ([134.134.136.31]:42688 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231329AbhEKS0A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 May 2021 14:26:00 -0400
-X-Greylist: delayed 5005 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 May 2021 14:26:00 EDT
-Received: from localhost (unknown [IPv6:2601:281:8300:104d:444a:d152:279d:1dbb])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 505484BF;
-        Tue, 11 May 2021 18:24:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 505484BF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1620757493; bh=9sU3ahlIQ4NVEGbfN/aeZtX+52ui1CI9/vl021LPM1U=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=PD4SBIWrd2qF4jBts8tkLj+dOD8PeMpRMY6MQ2tW8mQ2JgUXHEEhZU+ekEzLQvPFs
-         kYce01dJPs7PGlsbLAYPormV3zSabfNRxdZ+094RmneJy6cOXIOibiQ0Hnhy6nyX0o
-         YybTFnADzTeyIbwqkBgXCM+lLRxTjrEwjbLGoesTo7x8nR4vCr9iHqNI9w/BPToEjQ
-         6Buf1D6flDuONDV8rJZJ42hX0kVfFz0+FAYHlHz0ZS64O57rf6Jg2L/mQJalqCR+kQ
-         omQrHuKO/XSfYpBj9D+JC/o25dIcYMFrhTncUqdIfDGY54ZeiVYqhUj7B/FKa0heIn
-         qdQSDbPKtA9dQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 5/5] docs: networking: device_drivers: fix bad usage of
- UTF-8 chars
-In-Reply-To: <YJq9abOeuBla3Jiw@lunn.ch>
-References: <cover.1620744606.git.mchehab+huawei@kernel.org>
- <95eb2a48d0ca3528780ce0dfce64359977fa8cb3.1620744606.git.mchehab+huawei@kernel.org>
- <YJq9abOeuBla3Jiw@lunn.ch>
-Date:   Tue, 11 May 2021 12:24:52 -0600
-Message-ID: <8735utdt6z.fsf@meer.lwn.net>
+        id S231858AbhEKSgS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 May 2021 14:36:18 -0400
+IronPort-SDR: VLN+z1pa7BfBiZJFHMOFrVeCfEv5JbOkgdQlsnnA1nGJAlBdL1oVdqZxfGjUtF8HgYMk4kM4vn
+ lQB5w4qYtIhA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="260779848"
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; 
+   d="scan'208";a="260779848"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 11:35:06 -0700
+IronPort-SDR: 2KWMocZbxX5tyqZAg7OsM0mkEVoJfqigNIZiG7v7OmxmAmJ4UREKqpCUEnT+ESKdjh0nogGOde
+ b12AZro4a4Mg==
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; 
+   d="scan'208";a="537136995"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.34.147]) ([10.212.34.147])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 11:35:04 -0700
+Subject: Re: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-24-yu-cheng.yu@intel.com> <YJlADyc/9pn8Sjkn@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <a645aefc-632f-b1eb-4f4e-1c5b0f9e75d5@intel.com>
+Date:   Tue, 11 May 2021 11:35:03 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YJlADyc/9pn8Sjkn@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andrew Lunn <andrew@lunn.ch> writes:
+On 5/10/2021 7:15 AM, Borislav Petkov wrote:
+> On Tue, Apr 27, 2021 at 01:43:08PM -0700, Yu-cheng Yu wrote:
+>> @@ -181,6 +184,12 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
+>>   	if (clone_flags & CLONE_SETTLS)
+>>   		ret = set_new_tls(p, tls);
+>>   
+>> +#ifdef CONFIG_X86_64
+> 
+> IS_ENABLED
+> 
+>> +	/* Allocate a new shadow stack for pthread */
+>> +	if (!ret)
+>> +		ret = shstk_setup_thread(p, clone_flags, stack_size);
+>> +#endif
+>> +
+> 
+> And why is this addition here...
+> 
+>>   	if (!ret && unlikely(test_tsk_thread_flag(current, TIF_IO_BITMAP)))
+>>   		io_bitmap_share(p);
+> 
+> ... instead of here?
+> 
+> <---
+> 
 
->> -monitoring tools such as ifstat or sar =E2=80=93n DEV [interval] [numbe=
-r of samples]
->> +monitoring tools such as `ifstat` or `sar -n DEV [interval] [number of =
-samples]`
->
-> ...
->
->>  For example: min_rate 1Gbit 3Gbit: Verify bandwidth limit using network
->> -monitoring tools such as ifstat or sar =E2=80=93n DEV [interval] [numbe=
-r of samples]
->> +monitoring tools such as ``ifstat`` or ``sar -n DEV [interval] [number =
-of samples]``
->
-> Is there a difference between ` and `` ? Does it make sense to be
-> consistent?
+io_bitmap_share() does refcount_inc(&current->thread.io_bitmap->refcnt), 
+and the function won't fail.  However, shadow stack allocation can fail. 
+  So, maybe leave io_bitmap_share() at the end?
 
-This is `just weird quotes`
-This is ``literal text`` set in monospace in processed output.
-
-There is a certain tension between those who want to see liberal use of
-literal-text markup, and those who would rather have less markup in the
-text overall; certainly, it's better not to go totally nuts with it.
-
-jon
+Thanks,
+Yu-cheng
