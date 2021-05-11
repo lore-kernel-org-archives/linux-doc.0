@@ -2,65 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22D71C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 03:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D820C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 04:26:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 026EE61494
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 03:16:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4506561926
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 04:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229586AbhEKDRm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 23:17:42 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2764 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229465AbhEKDRm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 23:17:42 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FfNKP69qJzmg6H;
-        Tue, 11 May 2021 11:13:13 +0800 (CST)
-Received: from [10.136.110.154] (10.136.110.154) by smtp.huawei.com
- (10.3.19.214) with Microsoft SMTP Server (TLS) id 14.3.498.0; Tue, 11 May
- 2021 11:16:29 +0800
-Subject: Re: [f2fs-dev] [PATCH 27/53] docs: filesystems: f2fs.rst: avoid using
- UTF-8 chars
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        Jaegeuk Kim <jaegeuk@kernel.org>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <c320db751bc326efbd1d619c0f8007d9965a32ab.1620641727.git.mchehab+huawei@kernel.org>
-From:   Chao Yu <yuchao0@huawei.com>
-Message-ID: <5454cb69-1193-83e2-754d-7d8807ad12e5@huawei.com>
-Date:   Tue, 11 May 2021 11:16:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S229900AbhEKE1q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 00:27:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44766 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229809AbhEKE1q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 May 2021 00:27:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 49F7B61924;
+        Tue, 11 May 2021 04:26:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620707200;
+        bh=wRXSAlpFD5A3K59gxjiDb9yv86dHCRapJK897k/KZVM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=l14XsSKl9CxxOWYR42hUKlBFXXCqRsNU0iQ4lXBq84RT8rQETaimZfDzd2C1O3cJ8
+         ygzYxkJuXRaxvAlaso+ih1MmvzmUQGvQdB/p5jgvZE4b3agkOHQbIIg/+6PvbfAD9B
+         aK+EBGI6IftrjECs634bxCoLoY8Q2ZFKFH5YN1xXgO+yrZIo+MsvOaeF4Y96Rzd4/9
+         /YakEPdViMqYioKWHCcUCPmXwEfFna+c9tHKT7HMCEr1FGdJgUqOKUcaKRD3hOe1Ss
+         Ir3in3DzvZsc60STYQByK6eRJGTYKK6UHT9gRCeGoNrIsnYrOm+4B+9WRJ7uMinmKw
+         XdR5n98ZXteUA==
+Received: by mail-ot1-f54.google.com with SMTP id t4-20020a05683014c4b02902ed26dd7a60so6309424otq.7;
+        Mon, 10 May 2021 21:26:40 -0700 (PDT)
+X-Gm-Message-State: AOAM533QfxNr6mtt6RnQOf7S82HlyVDUZfzouF8plRJz3e3ssQRj+y0q
+        8rTbLN7QGHU04tDWqL6zvJMN3ynUp+rgOwbC7VA=
+X-Google-Smtp-Source: ABdhPJxIuXe2hgWJqDZi6HFqhc1wS2t8jnlgjjTQXKEZ+ZD0Ui2Gc8hVEmFRQk0JpLMfEp9szwbdJXyk0wvSepFglJw=
+X-Received: by 2002:a9d:69c5:: with SMTP id v5mr23927948oto.108.1620707199581;
+ Mon, 10 May 2021 21:26:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c320db751bc326efbd1d619c0f8007d9965a32ab.1620641727.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.136.110.154]
-X-CFilter-Loop: Reflected
+References: <20210511021656.17719-1-ansuelsmth@gmail.com> <YJnq3Y3/I1kdV1Ov@casper.infradead.org>
+ <YJnswvYFUjlNS7Fa@Ansuel-xps.localdomain>
+In-Reply-To: <YJnswvYFUjlNS7Fa@Ansuel-xps.localdomain>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Tue, 11 May 2021 06:26:28 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGLihr4gq3iwHy6mLKG4UHWnh5XAgxZDZmnmNPErfJ-bg@mail.gmail.com>
+Message-ID: <CAMj1kXGLihr4gq3iwHy6mLKG4UHWnh5XAgxZDZmnmNPErfJ-bg@mail.gmail.com>
+Subject: Re: [PATCH] arm: Enlarge IO_SPACE_LIMIT needed for some SoC
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/5/10 18:26, Mauro Carvalho Chehab wrote:
-> While UTF-8 characters can be used at the Linux documentation,
-> the best is to use them only when ASCII doesn't offer a good replacement.
-> So, replace the occurences of the following UTF-8 characters:
-> 
-> 	- U+2013 ('–'): EN DASH
-> 	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
-> 	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Tue, 11 May 2021 at 04:32, Ansuel Smith <ansuelsmth@gmail.com> wrote:
+>
+> On Tue, May 11, 2021 at 03:24:29AM +0100, Matthew Wilcox wrote:
+> > On Tue, May 11, 2021 at 04:16:54AM +0200, Ansuel Smith wrote:
+> > > Ipq8064 SoC requires larger IO_SPACE_LIMIT on second and third pci port.
+> >
+> > Do you really?  I mean, yes, theoretically, I understand it, the
+> > hardware supports 64kB of I/O port space per root port.  But I/O
+> > port space is rather deprecated these days.  My laptop has precisely
+> > two devices with I/O ports, one with 64 bytes and the other with 32
+> > bytes.  Would you really suffer by allocating 16kB of I/O port
+> > space to each root port?
+>
+> We were talking about this in the other wrong patch. I also think this
+> much space looks wrong. The current ipq806x dts have this space so it's
+> actually broken from a long time. The only reason pci worked before was
+> because the pci driver didn't actually check if the settings were right.
+> New kernel introduced more checks and this problem showed up. (to be
+> more precise, the pci port are commonly used by the ath10k wifi and the
+> second ath10k wifi fails to init because of this problem)
+> If you can give me any hint on how to check if the space can be reduced
+> I would be very happy to investigate it.
+> In the driver I notice that the max buffer is set to 2k, could be this a
+> hint?
+>
 
-Reviewed-by: Chao Yu <yuchao0@huawei.com>
+Could you share the output of lspci -vv from such a system?
 
-Thanks,
+I agree with Matthew that fiddling with the size of the I/O space
+range probably papers over another problem, and with the odd
+exception, no PCIe card used on ARM systems actually uses their I/O
+BARs, even when they have them. (I used to carry a PCIe serial port
+card to UEFI plugfests because that was the only thing that would stop
+working if a system configured its I/O resource window incorrectly)
