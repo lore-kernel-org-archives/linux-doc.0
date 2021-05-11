@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 396B7C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A69C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:55:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0024E6023B
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:54:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A39E613CD
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:55:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231771AbhEKOzm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 10:55:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54636 "EHLO
+        id S231643AbhEKO4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 10:56:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231684AbhEKOzj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 10:55:39 -0400
+        with ESMTP id S231609AbhEKO4n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 10:56:43 -0400
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C421C061574;
-        Tue, 11 May 2021 07:54:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38650C06174A;
+        Tue, 11 May 2021 07:55:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
         MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=4msCzCUsyxau2TU6VXE1qeMg6CinUsxc6jRiNjbi3tc=; b=OzYPs8WpahnCaMws+AN28mbvA
-        WjnznZcTPMVdwjPvEKihdw6zgH7SLO7wzAXCE6ufQWl6bX3pPQZ373uGIo3n5IVd9rVdYFjnFZ5x/
-        l+d7OD2KFlXq+xhfiLYrr1pagReW3+RRKfa31wOqsYOHwk9i0r34zhZUqQ27eHP4k+wwoO5pzQhix
-        r6zd8eOvb6uGNQuhzGUfG0tI3CQAjMQaLmAG5V0nXGR6jbrFaLXcc1vs4p+srl0ZWhdE20+3tC5Zr
-        4i1xAJ1ola9Ldrnk4u76Mrq6fSFhPfFEzXKnZqezrYh2KXKJzeRqwxecTbyjVRV3kMXeCEYqVFX4q
-        a49bb9VdA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43866)
+         bh=X8lDMzJEEbXETyVQFtFTx8ZhSJFE1TZtWKxi3YFPp0c=; b=toF8HtbtqJXqfoBCRkXfHJJnN
+        bHuW1jFiDft5IunD0UGQxOp6uUWyDaAHqBZF6CUXEWfx5rlZ8ZLAi69tQwZTWenffikWdnQVtQ6zy
+        GTtVzqT2WmStzeRXO7K73YC35ig06Abf41+kuIbfbAuHfBQuM4FU0MOm86aILtvui+M/LrWm+Jp6Q
+        K2bpD0++pRGcaiMqhRJXaxzVhJ8B2aMH0E2BJZeIFl0s1evTfEWXYiT6IH1nBPfQQvtyIWXxalRpX
+        Igi3anwmDEHCdkeG48pYVtgxYqbRLOI6jkH7ptCfZJ3mcI01CCDZIMZtiAftQM9Nii7WgDiOKZfS0
+        e6kvjacKQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43868)
         by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <linux@armlinux.org.uk>)
-        id 1lgTm6-0002mh-Tl; Tue, 11 May 2021 15:54:18 +0100
+        id 1lgTnF-0002nL-Qc; Tue, 11 May 2021 15:55:29 +0100
 Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
         (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1lgTm4-0001Am-E1; Tue, 11 May 2021 15:54:16 +0100
-Date:   Tue, 11 May 2021 15:54:16 +0100
+        id 1lgTnF-0001B9-JL; Tue, 11 May 2021 15:55:29 +0100
+Date:   Tue, 11 May 2021 15:55:29 +0100
 From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
 To:     Ansuel Smith <ansuelsmth@gmail.com>
 Cc:     Ard Biesheuvel <ardb@kernel.org>,
@@ -57,51 +57,39 @@ Cc:     Ard Biesheuvel <ardb@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>
 Subject: Re: [PATCH] arm: Enlarge IO_SPACE_LIMIT needed for some SoC
-Message-ID: <20210511145416.GM1336@shell.armlinux.org.uk>
+Message-ID: <20210511145529.GN1336@shell.armlinux.org.uk>
 References: <20210511021656.17719-1-ansuelsmth@gmail.com>
  <YJnq3Y3/I1kdV1Ov@casper.infradead.org>
  <YJnswvYFUjlNS7Fa@Ansuel-xps.localdomain>
  <CAMj1kXGLihr4gq3iwHy6mLKG4UHWnh5XAgxZDZmnmNPErfJ-bg@mail.gmail.com>
  <YJp1WYTXHsSAA0ES@Ansuel-xps.localdomain>
+ <CAMj1kXHoc283aHT2EjxyRe8_cTWn_SUGoVLNKJ+40ia8Fppynw@mail.gmail.com>
+ <YJp6mbJRMlN5yFC7@Ansuel-xps.localdomain>
+ <CAMj1kXFDY0Go9yDXAfAiN8pm-q0qGSYaWNw0LVw044ErZ0zKvQ@mail.gmail.com>
+ <YJp9w7FqxO6+SVT6@Ansuel-xps.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YJp1WYTXHsSAA0ES@Ansuel-xps.localdomain>
+In-Reply-To: <YJp9w7FqxO6+SVT6@Ansuel-xps.localdomain>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 11, 2021 at 02:15:21PM +0200, Ansuel Smith wrote:
-> 0000:01:00.0 Network controller: Qualcomm Atheros QCA9984 802.11ac Wave 2 Wireless Network Adapter
->         Subsystem: Qualcomm Atheros Device cafe
->         Device tree node: /sys/firmware/devicetree/base/soc/pci@1b500000/bridge@0,0/wifi@1,0
->         Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr+ Stepping- SERR+ FastB2B- DisINTx+
->         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
->         Latency: 0, Cache Line Size: 64 bytes
->         Interrupt: pin A routed to IRQ 53
->         Region 0: Memory at 08000000 (64-bit, non-prefetchable) [size=2M]
+On Tue, May 11, 2021 at 02:51:15PM +0200, Ansuel Smith wrote:
+> On Tue, May 11, 2021 at 02:46:49PM +0200, Ard Biesheuvel wrote:
+> > OK, so the entire second host bridge fails to probe, because there is
+> > no virtual address space left for the I/O window.
+> > 
+> > Just change the 'downstream I/O' window size in the DT to 64k
+> > (0x10000) - I assume the current size (0x100000) is a typo anyway.
+> 
+> Ok, so my fear were right... someone just typo the IO when the dtsi was
+> pushed and was wrong from all that times. Much easier and cleaner
+> solution. 
 
-It seems this Atheros device does not make any use of I/O, so this
-device should be fine.
-
-> 0001:01:00.0 Network controller: Qualcomm Atheros QCA9984 802.11ac Wave 2 Wireless Network Adapter
->         Subsystem: Qualcomm Atheros Device cafe
->         Device tree node: /sys/firmware/devicetree/base/soc/pci@1b700000/bridge@0,0/wifi@1,0
->         Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr+ Stepping- SERR+ FastB2B- DisINTx+
->         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
->         Latency: 0, Cache Line Size: 64 bytes
->         Interrupt: pin A routed to IRQ 54
->         Region 0: Memory at 2e000000 (64-bit, non-prefetchable) [size=2M]
-
-This device also seems to not make use of any I/O.
-
-I don't see any reason probing of these two drivers should fail if
-there is no or reduced I/O space.
-
-Please can you share the kernel messages so we can see exactly what is
-failing and how?
+Great news.
 
 -- 
 RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
