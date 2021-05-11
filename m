@@ -2,86 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E4F0C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:36:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5768BC433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D810611F1
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:36:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FDDF61288
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231681AbhEKOho (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 10:37:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231652AbhEKOhn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 10:37:43 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227A1C061574;
-        Tue, 11 May 2021 07:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=INAkIN4SBQvoIBYvJ03SumbjRNWdtamuLnKi9O35Hxc=; b=Uv1dwxn5bh2d/tg/FP0HBf+mqY
-        NEQBgZwWFCoph900CFGJ6NE4qFrtVmwssRC92hw4fjI9xfykBbinku1r+3waXe3hGG0igMHXtlQcf
-        84vEFr/lv1EkydVj+IbjB6z4DcDMtoTXr0csjCfDN7hHsYqR3t9wFlYSUOdC4X+NLypjuyDnKPxVf
-        Oxib7suJdC08HbdjrkyqO1l6zeDvwNhd+zt1xGOzNIb7A4Kbdi306RN+5ajt5qfLoO1+KIPE2EBol
-        hcB5/IL1rZPgO++DBXlz5tiN9wYSyjDrvbqjKfHYaTjexZMo5F1G5uemEgUTpPtkqsPN6l+MgWQwF
-        Gt0T+LQQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lgTTu-007Mpv-Ly; Tue, 11 May 2021 14:35:39 +0000
-Date:   Tue, 11 May 2021 15:35:30 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     David Laight <David.Laight@aculab.com>
-Cc:     'Petr Mladek' <pmladek@suse.com>,
-        'Steven Rostedt' <rostedt@goodmis.org>,
-        'Stephen Boyd' <swboyd@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Baoquan He <bhe@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Young <dyoung@redhat.com>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Ingo Molnar <mingo@redhat.com>, Jessica Yu <jeyu@kernel.org>,
-        Jiri Olsa <jolsa@kernel.org>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sasha Levin <sashal@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        id S231779AbhEKOpO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 10:45:14 -0400
+Received: from mga11.intel.com ([192.55.52.93]:37055 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231154AbhEKOpO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 May 2021 10:45:14 -0400
+IronPort-SDR: gMK/SnPUHjREfJMdcX7vd2KPn7jaQN86UdRUfMrOOsVDLJDh83csQYkxmQZ2DkOIPkE+qEf2rQ
+ DZxZsJGV3YlA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="196362832"
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; 
+   d="scan'208";a="196362832"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 07:44:08 -0700
+IronPort-SDR: 7V+9fvwXTKhUEpN2lvCIsHN2TqNwmLJvPUcOKEsw//yhaLuJGNRifnvWmU/hT2zoRsJ46EEfyI
+ vzjaY6esLPCw==
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; 
+   d="scan'208";a="468935466"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.34.147]) ([10.212.34.147])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 07:44:07 -0700
+Subject: Re: [PATCH v26 30/30] mm: Introduce PROT_SHADOW_STACK for shadow
+ stack
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Vivek Goyal <vgoyal@redhat.com>, Will Deacon <will@kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        peter enderborg <peter.enderborg@sony.com>
-Subject: Re: [PATCH v6 00/13] Add build ID to stacktraces
-Message-ID: <YJqWMgiirWPNNvnX@casper.infradead.org>
-References: <20210511003845.2429846-1-swboyd@chromium.org>
- <b30f6d396edf4db5974a2b90364b6314@AcuMS.aculab.com>
- <20210511085235.09bc38a7@gandalf.local.home>
- <37ca7834a8514a5695ed002e073a83b6@AcuMS.aculab.com>
- <YJqTB5pJiRqS1yGY@alley>
- <f09e9d68e4b14de58e881050a3c78ec1@AcuMS.aculab.com>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-31-yu-cheng.yu@intel.com>
+ <20210511114852.5wm6a5z72xjlqc4c@box>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <b395ae6c-dfbe-59c2-0f12-e65a111a532a@intel.com>
+Date:   Tue, 11 May 2021 07:44:07 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f09e9d68e4b14de58e881050a3c78ec1@AcuMS.aculab.com>
+In-Reply-To: <20210511114852.5wm6a5z72xjlqc4c@box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 11, 2021 at 02:31:38PM +0000, David Laight wrote:
-> Actually, for the use case, the id could be trimmed significantly.
-> It is only trying to differentiate between builds of a specific module.
-> So even 8 digits would be plenty.
+On 5/11/2021 4:48 AM, Kirill A. Shutemov wrote:
+> On Tue, Apr 27, 2021 at 01:43:15PM -0700, Yu-cheng Yu wrote:
+>> There are three possible options to create a shadow stack allocation API:
+>> an arch_prctl, a new syscall, or adding PROT_SHADOW_STACK to mmap() and
+>> mprotect().  Each has its advantages and compromises.
+>>
+>> An arch_prctl() is the least intrusive.  However, the existing x86
+>> arch_prctl() takes only two parameters.  Multiple parameters must be
+>> passed in a memory buffer.  There is a proposal to pass more parameters in
+>> registers [1], but no active discussion on that.
+>>
+>> A new syscall minimizes compatibility issues and offers an extensible frame
+>> work to other architectures, but this will likely result in some overlap of
+>> mmap()/mprotect().
+>>
+>> The introduction of PROT_SHADOW_STACK to mmap()/mprotect() takes advantage
+>> of existing APIs.  The x86-specific PROT_SHADOW_STACK is translated to
+>> VM_SHADOW_STACK and a shadow stack mapping is created without reinventing
+>> the wheel.  There are potential pitfalls though.  The most obvious one
+>> would be using this as a bypass to shadow stack protection.  However, the
+>> attacker would have to get to the syscall first.
+>>
+>> [1] https://lore.kernel.org/lkml/20200828121624.108243-1-hjl.tools@gmail.com/
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+>> ---
+>> v26:
+>> - Change PROT_SHSTK to PROT_SHADOW_STACK.
+>> - Remove (vm_flags & VM_SHARED) check, since it is covered by
+>>    !vma_is_anonymous().
+>>
+>> v24:
+>> - Update arch_calc_vm_prot_bits(), leave PROT* checking to
+>>    arch_validate_prot().
+>> - Update arch_validate_prot(), leave vma flags checking to
+>>    arch_validate_flags().
+>> - Add arch_validate_flags().
+>>
+>>   arch/x86/include/asm/mman.h      | 60 +++++++++++++++++++++++++++++++-
+>>   arch/x86/include/uapi/asm/mman.h |  2 ++
+>>   include/linux/mm.h               |  1 +
+>>   3 files changed, 62 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/x86/include/asm/mman.h b/arch/x86/include/asm/mman.h
+>> index 629f6c81263a..fbb90f1b02c0 100644
+>> --- a/arch/x86/include/asm/mman.h
+>> +++ b/arch/x86/include/asm/mman.h
+>> @@ -20,11 +20,69 @@
+>>   		((vm_flags) & VM_PKEY_BIT2 ? _PAGE_PKEY_BIT2 : 0) |	\
+>>   		((vm_flags) & VM_PKEY_BIT3 ? _PAGE_PKEY_BIT3 : 0))
+>>   
+>> -#define arch_calc_vm_prot_bits(prot, key) (		\
+>> +#define pkey_vm_prot_bits(prot, key) (			\
+>>   		((key) & 0x1 ? VM_PKEY_BIT0 : 0) |      \
+>>   		((key) & 0x2 ? VM_PKEY_BIT1 : 0) |      \
+>>   		((key) & 0x4 ? VM_PKEY_BIT2 : 0) |      \
+>>   		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
+>> +#else
+>> +#define pkey_vm_prot_bits(prot, key) (0)
+>>   #endif
+>>   
+>> +static inline unsigned long arch_calc_vm_prot_bits(unsigned long prot,
+>> +						   unsigned long pkey)
+>> +{
+>> +	unsigned long vm_prot_bits = pkey_vm_prot_bits(prot, pkey);
+>> +
+>> +	if (prot & PROT_SHADOW_STACK)
+>> +		vm_prot_bits |= VM_SHADOW_STACK;
+>> +
+>> +	return vm_prot_bits;
+>> +}
+>> +
+>> +#define arch_calc_vm_prot_bits(prot, pkey) arch_calc_vm_prot_bits(prot, pkey)
+>> +
+>> +#ifdef CONFIG_X86_SHADOW_STACK
+>> +static inline bool arch_validate_prot(unsigned long prot, unsigned long addr)
+>> +{
+>> +	unsigned long valid = PROT_READ | PROT_WRITE | PROT_EXEC | PROT_SEM |
+>> +			      PROT_SHADOW_STACK;
+>> +
+>> +	if (prot & ~valid)
+>> +		return false;
+>> +
+>> +	if (prot & PROT_SHADOW_STACK) {
+>> +		if (!current->thread.cet.shstk_size)
+>> +			return false;
+>> +
+>> +		/*
+>> +		 * A shadow stack mapping is indirectly writable by only
+>> +		 * the CALL and WRUSS instructions, but not other write
+>> +		 * instructions).  PROT_SHADOW_STACK and PROT_WRITE are
+>> +		 * mutually exclusive.
+>> +		 */
+>> +		if (prot & PROT_WRITE)
+>> +			return false;
+>> +	}
+>> +
+>> +	return true;
+>> +}
+>> +
+>> +#define arch_validate_prot arch_validate_prot
+>> +
+>> +static inline bool arch_validate_flags(struct vm_area_struct *vma, unsigned long vm_flags)
+>> +{
+>> +	/*
+>> +	 * Shadow stack must be anonymous and not shared.
+>> +	 */
+>> +	if ((vm_flags & VM_SHADOW_STACK) && !vma_is_anonymous(vma))
+>> +		return false;
+>> +
+>> +	return true;
+>> +}
+>> +
+>> +#define arch_validate_flags(vma, vm_flags) arch_validate_flags(vma, vm_flags)
+>> +
+>> +#endif /* CONFIG_X86_SHADOW_STACK */
+>> +
+>>   #endif /* _ASM_X86_MMAN_H */
+>> diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
+>> index f28fa4acaeaf..4c36b263cf0a 100644
+>> --- a/arch/x86/include/uapi/asm/mman.h
+>> +++ b/arch/x86/include/uapi/asm/mman.h
+>> @@ -4,6 +4,8 @@
+>>   
+>>   #define MAP_32BIT	0x40		/* only give out 32bit addresses */
+>>   
+>> +#define PROT_SHADOW_STACK	0x10	/* shadow stack pages */
+>> +
+>>   #include <asm-generic/mman.h>
+>>   
+>>   #endif /* _UAPI_ASM_X86_MMAN_H */
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index 1ccec5cc399b..9a7652eea207 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -342,6 +342,7 @@ extern unsigned int kobjsize(const void *objp);
+>>   
+>>   #if defined(CONFIG_X86)
+>>   # define VM_PAT		VM_ARCH_1	/* PAT reserves whole VMA at once (x86) */
+>> +# define VM_ARCH_CLEAR	VM_SHADOW_STACK
+> 
+> Nit: you can put VM_SHADOW_STACK directly into VM_FLAGS_CLEAR. It's
+> already conditinal on the feature enabled and VM_NONE otherwise.
+> 
+> Up to you.
+> 
+> Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> 
 
-asked and answered.  please review the bidding.
+Thanks!
