@@ -2,180 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D63FFC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:57:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D0C0C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 15:01:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9EE14613DE
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:57:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 498826128E
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 15:01:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231735AbhEKO6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 10:58:12 -0400
-Received: from mga03.intel.com ([134.134.136.65]:1059 "EHLO mga03.intel.com"
+        id S231785AbhEKPCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 11:02:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231604AbhEKO6M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 May 2021 10:58:12 -0400
-IronPort-SDR: apC16J+4AF0c2a+ZLQMklF7Q9r6o/cV8k/aqDaynICZjdfFdrlf84osuzd9JE8yj5pOLszTKi9
- f9tQLgSWqo2g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="199514448"
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; 
-   d="scan'208";a="199514448"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 07:57:05 -0700
-IronPort-SDR: 8PQcwvpWU6Dh0UpthJR9/VCiXxCuDjTvMOh/WTQFuV/wJApSX5qc5E38iTSMC3V6n/LRYT2qN2
- dP3l2iQdzTCg==
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; 
-   d="scan'208";a="468941442"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 07:57:00 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lgToe-00BTUX-KM; Tue, 11 May 2021 17:56:56 +0300
-Date:   Tue, 11 May 2021 17:56:56 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     JC Kuo <jckuo@nvidia.com>, Joe Perches <joe@perches.com>,
-        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        kgdb-bugreport@lists.sourceforge.net,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v1 1/4] lib/vsprintf: Allow to override date and time
- separator
-Message-ID: <YJqbONasNp9BXx9Q@smile.fi.intel.com>
-References: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
- <YJqRYNlAu0SfWpb5@alley>
+        id S231684AbhEKPCo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 May 2021 11:02:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7471861363;
+        Tue, 11 May 2021 15:01:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620745297;
+        bh=ql3fH9YF+Tp5Cdc+ks9xGMNWAcomJ3IyUAsw5MhHPbI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hHtpyBNisnriqDe3uxmTK4KqCU2B5H7tfIvgqTFnV5/kA9l3mKN0afwMpfL2kI/rU
+         nGkSaAC+U0T6sEfgOrtaQ2BeP6+KaBG4kE3B72Nf4UsnFsrgTSFVwOGQWfm7EB7ovM
+         OQj0Zr+dOQe+OUtonQA2G4pDnllcJfXJks2u5IpwtwQ7lcBOMw1v9PHjRcgmhIdWKz
+         GThl4CTzJ1+DPXPxTmjyAJtQ3N7vkNJ30QoqAI1TXSh7xpUyueu/CWbyz/d/P25VRU
+         DnRT6FaHWGBd+/Z7iPOoV7IJSi34QYez8Amfg7fYWqjaE0pgRrkoXXgtSS6gdcj0+S
+         k15XVMB3dIlsg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lgTt7-000k18-T5; Tue, 11 May 2021 17:01:33 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Oded Gabbay <oded.gabbay@gmail.com>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 3/5] docs: ABI: remove some spurious characters
+Date:   Tue, 11 May 2021 17:01:30 +0200
+Message-Id: <6d774ad6cb3795a177309503a39f8f1b5e309d64.1620744606.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1620744606.git.mchehab+huawei@kernel.org>
+References: <cover.1620744606.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YJqRYNlAu0SfWpb5@alley>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 11, 2021 at 04:14:56PM +0200, Petr Mladek wrote:
-> On Mon 2021-05-10 18:04:10, Andy Shevchenko wrote:
-> > ISO 8601 defines 'T' as a separator between date and time. Though,
-> > some ABIs use time and date with ' ' separator instead.
-> > 
-> > Add a flavour to the %pt specifier to override default separator.
+The KernelVersion tag contains some spurious UTF-8 characters
+for no reason. Drop them.
 
-...
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/ABI/testing/sysfs-module | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> >  	%pt[RT]			YYYY-mm-ddTHH:MM:SS
-> > +	%pt[RT]s		YYYY-mm-dd HH:MM:SS
-> >  	%pt[RT]d		YYYY-mm-dd
-> >  	%pt[RT]t		HH:MM:SS
-> > -	%pt[RT][dt][r]
-> > +	%pt[RT][dt][rs]
-> 
-> Sigh, we do not have clear rules what [xy] means. It might be:
-> 
->       + always use one of them
->       + optionally use one of them
->       + always use any of them
->       + optionally use any of them
-> 
-> %pt[RT][dt][rs] is a great mix:
-> 
->       + R or T is required, the rest is optional
->       + 'd' or 't' can be used but both together are not supported 
->       + any variant of 'r' and 's' is supported including various ordering
-> 
-> Honestly, I do not know about any magic solution that might make it
-> easier to understand these monster modifiers.
-> 
-> Well, what about using the following at least in this case:
-> 
-> 	%pt[RT][dt][r][s]
-> 
-> It might help to understand that both 'r' and 's' can be used at the
-> same time.
-
-This is the case, yes, thanks for catching it.
-
-> An attempt to distinguishing all the possibilities might be:
-> 
-> 	%pt{RT}[{dt}][r][s]
-> 
-> where [] means that it is optional and {} means one of them must be
-> chosen. But I am not sure if it really makes the life easier. Anyway,
-> this would be for another patch that updates the entire printk-formats.rst.
-
-No, this is not the case, the d and t can go in any combinations: none, d, t,
-dt, or td.
-
-> 
-> >  For printing date and time as represented by::
-> >  
-> > @@ -528,6 +529,9 @@ in human readable format.
-> >  By default year will be incremented by 1900 and month by 1.
-> >  Use %pt[RT]r (raw) to suppress this behaviour.
-> >  
-> > +The %pt[RT]s (space) will override ISO 8601 by using ' ' instead of 'T'
-> > +between date and time. It won't have any effect when date or time is omitted.
-
-...
-
-> > +	do {
-> > +		switch (fmt[count++]) {
-> > +		case 'r':
-> > +			raw = true;
-> > +			break;
-> > +		case 's':
-> > +			space = true;
-> > +			break;
-> > +		default:
-> > +			found = false;
-> > +			break;
-> > +		}
-> > +	} while (found);
-> >  
-> >  	if (have_d)
-> >  		buf = date_str(buf, end, tm, raw);
-> >  	if (have_d && have_t) {
-> >  		/* Respect ISO 8601 */
-> 
-> The comment is slightly misleding now. What about something like?
-> 
-> 		/* 'T' by ISO 8601. */
-> 
-> Or maybe call the variable: iso_8601, remove the comment, and
-> invert the logic:
-
-Okay, I will think how to improve, thanks!
-
-> 		bool iso_8601 = true;
-> 
-> 		case 's':
-> 			iso_8601 = false;
-> 			break;
-> 
-> 		*buf = iso_8601 ? 'T' : ' ';
-> 
-> >  		if (buf < end)
-> > -			*buf = 'T';
-> > +			*buf = space ? ' ' : 'T';
-> >  		buf++;
-> >  	}
-
+diff --git a/Documentation/ABI/testing/sysfs-module b/Documentation/ABI/testing/sysfs-module
+index a485434d2a0f..88bddf192ceb 100644
+--- a/Documentation/ABI/testing/sysfs-module
++++ b/Documentation/ABI/testing/sysfs-module
+@@ -37,13 +37,13 @@ Description:	Maximum time allowed for periodic transfers per microframe (μs)
+ 
+ What:		/sys/module/*/{coresize,initsize}
+ Date:		Jan 2012
+-KernelVersion:»·3.3
++KernelVersion:	3.3
+ Contact:	Kay Sievers <kay.sievers@vrfy.org>
+ Description:	Module size in bytes.
+ 
+ What:		/sys/module/*/taint
+ Date:		Jan 2012
+-KernelVersion:»·3.3
++KernelVersion:	3.3
+ Contact:	Kay Sievers <kay.sievers@vrfy.org>
+ Description:	Module taint flags:
+ 			==  =====================
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.30.2
 
