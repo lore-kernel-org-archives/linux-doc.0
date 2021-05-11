@@ -2,95 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A69C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D63FFC433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:57:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A39E613CD
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:55:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EE14613DE
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 14:57:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231643AbhEKO4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 10:56:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231609AbhEKO4n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 10:56:43 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38650C06174A;
-        Tue, 11 May 2021 07:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=X8lDMzJEEbXETyVQFtFTx8ZhSJFE1TZtWKxi3YFPp0c=; b=toF8HtbtqJXqfoBCRkXfHJJnN
-        bHuW1jFiDft5IunD0UGQxOp6uUWyDaAHqBZF6CUXEWfx5rlZ8ZLAi69tQwZTWenffikWdnQVtQ6zy
-        GTtVzqT2WmStzeRXO7K73YC35ig06Abf41+kuIbfbAuHfBQuM4FU0MOm86aILtvui+M/LrWm+Jp6Q
-        K2bpD0++pRGcaiMqhRJXaxzVhJ8B2aMH0E2BJZeIFl0s1evTfEWXYiT6IH1nBPfQQvtyIWXxalRpX
-        Igi3anwmDEHCdkeG48pYVtgxYqbRLOI6jkH7ptCfZJ3mcI01CCDZIMZtiAftQM9Nii7WgDiOKZfS0
-        e6kvjacKQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43868)
-        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1lgTnF-0002nL-Qc; Tue, 11 May 2021 15:55:29 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1lgTnF-0001B9-JL; Tue, 11 May 2021 15:55:29 +0100
-Date:   Tue, 11 May 2021 15:55:29 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Ansuel Smith <ansuelsmth@gmail.com>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
+        id S231735AbhEKO6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 10:58:12 -0400
+Received: from mga03.intel.com ([134.134.136.65]:1059 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231604AbhEKO6M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 May 2021 10:58:12 -0400
+IronPort-SDR: apC16J+4AF0c2a+ZLQMklF7Q9r6o/cV8k/aqDaynICZjdfFdrlf84osuzd9JE8yj5pOLszTKi9
+ f9tQLgSWqo2g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="199514448"
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; 
+   d="scan'208";a="199514448"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 07:57:05 -0700
+IronPort-SDR: 8PQcwvpWU6Dh0UpthJR9/VCiXxCuDjTvMOh/WTQFuV/wJApSX5qc5E38iTSMC3V6n/LRYT2qN2
+ dP3l2iQdzTCg==
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; 
+   d="scan'208";a="468941442"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 07:57:00 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lgToe-00BTUX-KM; Tue, 11 May 2021 17:56:56 +0300
+Date:   Tue, 11 May 2021 17:56:56 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     JC Kuo <jckuo@nvidia.com>, Joe Perches <joe@perches.com>,
+        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        kgdb-bugreport@lists.sourceforge.net,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] arm: Enlarge IO_SPACE_LIMIT needed for some SoC
-Message-ID: <20210511145529.GN1336@shell.armlinux.org.uk>
-References: <20210511021656.17719-1-ansuelsmth@gmail.com>
- <YJnq3Y3/I1kdV1Ov@casper.infradead.org>
- <YJnswvYFUjlNS7Fa@Ansuel-xps.localdomain>
- <CAMj1kXGLihr4gq3iwHy6mLKG4UHWnh5XAgxZDZmnmNPErfJ-bg@mail.gmail.com>
- <YJp1WYTXHsSAA0ES@Ansuel-xps.localdomain>
- <CAMj1kXHoc283aHT2EjxyRe8_cTWn_SUGoVLNKJ+40ia8Fppynw@mail.gmail.com>
- <YJp6mbJRMlN5yFC7@Ansuel-xps.localdomain>
- <CAMj1kXFDY0Go9yDXAfAiN8pm-q0qGSYaWNw0LVw044ErZ0zKvQ@mail.gmail.com>
- <YJp9w7FqxO6+SVT6@Ansuel-xps.localdomain>
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        Jason Wessel <jason.wessel@windriver.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v1 1/4] lib/vsprintf: Allow to override date and time
+ separator
+Message-ID: <YJqbONasNp9BXx9Q@smile.fi.intel.com>
+References: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
+ <YJqRYNlAu0SfWpb5@alley>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YJp9w7FqxO6+SVT6@Ansuel-xps.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+In-Reply-To: <YJqRYNlAu0SfWpb5@alley>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 11, 2021 at 02:51:15PM +0200, Ansuel Smith wrote:
-> On Tue, May 11, 2021 at 02:46:49PM +0200, Ard Biesheuvel wrote:
-> > OK, so the entire second host bridge fails to probe, because there is
-> > no virtual address space left for the I/O window.
+On Tue, May 11, 2021 at 04:14:56PM +0200, Petr Mladek wrote:
+> On Mon 2021-05-10 18:04:10, Andy Shevchenko wrote:
+> > ISO 8601 defines 'T' as a separator between date and time. Though,
+> > some ABIs use time and date with ' ' separator instead.
 > > 
-> > Just change the 'downstream I/O' window size in the DT to 64k
-> > (0x10000) - I assume the current size (0x100000) is a typo anyway.
-> 
-> Ok, so my fear were right... someone just typo the IO when the dtsi was
-> pushed and was wrong from all that times. Much easier and cleaner
-> solution. 
+> > Add a flavour to the %pt specifier to override default separator.
 
-Great news.
+...
+
+> >  	%pt[RT]			YYYY-mm-ddTHH:MM:SS
+> > +	%pt[RT]s		YYYY-mm-dd HH:MM:SS
+> >  	%pt[RT]d		YYYY-mm-dd
+> >  	%pt[RT]t		HH:MM:SS
+> > -	%pt[RT][dt][r]
+> > +	%pt[RT][dt][rs]
+> 
+> Sigh, we do not have clear rules what [xy] means. It might be:
+> 
+>       + always use one of them
+>       + optionally use one of them
+>       + always use any of them
+>       + optionally use any of them
+> 
+> %pt[RT][dt][rs] is a great mix:
+> 
+>       + R or T is required, the rest is optional
+>       + 'd' or 't' can be used but both together are not supported 
+>       + any variant of 'r' and 's' is supported including various ordering
+> 
+> Honestly, I do not know about any magic solution that might make it
+> easier to understand these monster modifiers.
+> 
+> Well, what about using the following at least in this case:
+> 
+> 	%pt[RT][dt][r][s]
+> 
+> It might help to understand that both 'r' and 's' can be used at the
+> same time.
+
+This is the case, yes, thanks for catching it.
+
+> An attempt to distinguishing all the possibilities might be:
+> 
+> 	%pt{RT}[{dt}][r][s]
+> 
+> where [] means that it is optional and {} means one of them must be
+> chosen. But I am not sure if it really makes the life easier. Anyway,
+> this would be for another patch that updates the entire printk-formats.rst.
+
+No, this is not the case, the d and t can go in any combinations: none, d, t,
+dt, or td.
+
+> 
+> >  For printing date and time as represented by::
+> >  
+> > @@ -528,6 +529,9 @@ in human readable format.
+> >  By default year will be incremented by 1900 and month by 1.
+> >  Use %pt[RT]r (raw) to suppress this behaviour.
+> >  
+> > +The %pt[RT]s (space) will override ISO 8601 by using ' ' instead of 'T'
+> > +between date and time. It won't have any effect when date or time is omitted.
+
+...
+
+> > +	do {
+> > +		switch (fmt[count++]) {
+> > +		case 'r':
+> > +			raw = true;
+> > +			break;
+> > +		case 's':
+> > +			space = true;
+> > +			break;
+> > +		default:
+> > +			found = false;
+> > +			break;
+> > +		}
+> > +	} while (found);
+> >  
+> >  	if (have_d)
+> >  		buf = date_str(buf, end, tm, raw);
+> >  	if (have_d && have_t) {
+> >  		/* Respect ISO 8601 */
+> 
+> The comment is slightly misleding now. What about something like?
+> 
+> 		/* 'T' by ISO 8601. */
+> 
+> Or maybe call the variable: iso_8601, remove the comment, and
+> invert the logic:
+
+Okay, I will think how to improve, thanks!
+
+> 		bool iso_8601 = true;
+> 
+> 		case 's':
+> 			iso_8601 = false;
+> 			break;
+> 
+> 		*buf = iso_8601 ? 'T' : ' ';
+> 
+> >  		if (buf < end)
+> > -			*buf = 'T';
+> > +			*buf = space ? ' ' : 'T';
+> >  		buf++;
+> >  	}
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+With Best Regards,
+Andy Shevchenko
+
+
