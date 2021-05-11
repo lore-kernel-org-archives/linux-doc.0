@@ -2,86 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C4BCC433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 17:04:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23166C43460
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 17:09:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2380D61168
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 17:04:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E294361378
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 17:09:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231304AbhEKRFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 13:05:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55888 "EHLO
+        id S231304AbhEKRKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 13:10:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230315AbhEKRFG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 13:05:06 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3820C061574;
-        Tue, 11 May 2021 10:03:59 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d:444a:d152:279d:1dbb])
+        with ESMTP id S230315AbhEKRKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 13:10:53 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 521CBC061574;
+        Tue, 11 May 2021 10:09:47 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0ec70020ab858661d7f414.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:c700:20ab:8586:61d7:f414])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7D7EF4BF;
-        Tue, 11 May 2021 17:03:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7D7EF4BF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1620752639; bh=jhHj1OrFaSajf+GTqsAGMNP6qfJhYZW7T49Hk6PMTfI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=tiWuI7ZoTQf2NDCjVjX7gggToVewaeq5yTHC+YQPCecOg8rau6cEA2/wD/BkSl289
-         wGwpp1zN+2ldrduwpB6WErhw7mYq+mW8mZnOlhWvuC0IOr5HaR3sHSVZ592zh5qHcf
-         D0fSx/GgsE25H0DK75A4NyeP+6lHHwH/Z+CTGSIuDP+gLe3V7AxtSP6mjTDpbci79p
-         2bh0sz6K1tQbusLhBiRbz37fPSOVIbfOy947zGKtG7ctUypVBPgAQQHQlBL883URHL
-         kYZnN8PvdbNlJ7sJb8DDQgsvBLSkGR1+Dg062xF/QTeWUzAzUxEsRYXNAz4JGTY9K6
-         zOPWTVPN5eZZw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] Remove link to nonexistent rocket driver docs
-In-Reply-To: <20210511134937.2442291-1-desmondcheongzx@gmail.com>
-References: <20210511134937.2442291-1-desmondcheongzx@gmail.com>
-Date:   Tue, 11 May 2021 11:03:58 -0600
-Message-ID: <87bl9hdwxt.fsf@meer.lwn.net>
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 134C61EC02E6;
+        Tue, 11 May 2021 19:09:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1620752985;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=oXj+aT1NLTLdq4xvPpDkmK4mlSpKcyX1kXRzqY9sy/I=;
+        b=bLcn8++CHPCwI1r2+fGHgbqQmPMj0/Kw1DAyubBcNj+IKE9PD5aHN82t0EOQYgw9zkmX8U
+        VMpPrqq8dwdNUvdWd3XkPDW+VrSH9QT2L5Yp2JzKL44ITn0WeVVb2mlJjcR4IxfCdcZh0e
+        tVqiaLj/s+Svo/KGRT6NwRVyr9HxLRg=
+Date:   Tue, 11 May 2021 19:09:41 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
+Message-ID: <YJq6VZ/XMAtfkrMc@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-24-yu-cheng.yu@intel.com>
+ <YJlADyc/9pn8Sjkn@zn.tnic>
+ <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com> writes:
-
-> Fixes: 3b00b6af7a5b ("tty: rocket, remove the driver")
-> The rocket driver and documentation were removed in this commit, but
-> the corresponding entry in index.rst was not removed.
+On Mon, May 10, 2021 at 03:57:56PM -0700, Yu, Yu-cheng wrote:
+> So this struct will be:
 >
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> struct thread_shstk {
+> 	u64 shstk_base;
+> 	u64 shstk_size;
+> 	u64 locked:1;
+> 	u64 ibt:1;
+> };
+> 
+> Ok?
 
-Please note: the "Fixes" tag should be down at the end with your
-signoff. 
+Pretty much.
 
->  Documentation/driver-api/serial/index.rst | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/serial/index.rst b/Documentation/driver-api/serial/index.rst
-> index 21351b8c95a4..8f7d7af3b90b 100644
-> --- a/Documentation/driver-api/serial/index.rst
-> +++ b/Documentation/driver-api/serial/index.rst
-> @@ -19,7 +19,6 @@ Serial drivers
->  
->      moxa-smartio
->      n_gsm
-> -    rocket
->      serial-iso7816
->      serial-rs485
+You can even remove the "shstk_" from the members and when you call the
+pointer "shstk", accessing the members will read
 
-Otherwise this looks like a good fix.  I've applied it (with Fixes in
-the right place), thanks.
+	shstk->base
+	shstk->size
+	...
 
-jon
+and all is organic and readable :)
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
