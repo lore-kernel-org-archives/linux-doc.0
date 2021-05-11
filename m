@@ -2,247 +2,303 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C3DC43460
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 12:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E640C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 12:30:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC76A61921
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 12:29:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36C3C61920
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 12:30:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231437AbhEKMbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 08:31:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231432AbhEKMbF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 08:31:05 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB780C061574
-        for <linux-doc@vger.kernel.org>; Tue, 11 May 2021 05:29:57 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id lj11-20020a17090b344bb029015bc3073608so1260105pjb.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 May 2021 05:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NJeKSxY0jhlEWrhOHmwz+RSc+9pNKvguvoVWg9nzhZc=;
-        b=BcwYpCNBzeyW28OZW5Dj/ahVU21PPRSCOgMe4fY/D15befBia5wl8HOM9FB+IhKgdO
-         LvGAsJadK2V7tGHbr+FbtU6NitBbFoMcb0gcujkw/EvhIS8OMXsQ8XsmfXhvvJpILD1r
-         4Ru0VaqqtiXbamkuRdlpdBaajmb8gEHhz8s5ERi0H8z6eaXlBEOSyCbvIKpdfl5Lpa4j
-         +fhQsD+aia0cH58iRAS0h7mg8dW694mKQABINfmPoil5xYJFBcTBR6n1/Sp5lSphXrGB
-         NcTxVtkORc9iYWx+bOd620RJH3CFoWTCF50n2pDNjKTL+rrHXfebLWTMNULuGPyy9za6
-         wnOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NJeKSxY0jhlEWrhOHmwz+RSc+9pNKvguvoVWg9nzhZc=;
-        b=VbRvM+0gcgNLqrNRfmsHtR+J0XsKppEdjrfwM5+iKBKfdgn6BLRDE1ghBO7C0f9/Nh
-         hxr8miv/3eMWcZr/TFoI5+fxrp9cmg84PNDVDII/Eq5O0hQwUQqJqwZlmfbtq1YkNyJH
-         6EGPzHSxKUZPqYi7JpYP1GcR+4ajlAcr7OFW/CdG+vgCpogcseDwh09eZ13Igvh8XEZ+
-         EArtP+l/CxhGF2LVNEr9+ytp4xfqL+/rNp7TJ+P0EyGch7zjKnTENpRJrNBfdfE1SKpt
-         hsQuwHbupvbag3KBVl/FYRRS9I0qhV3KE8+TUlPD3yjaH5e3IUVBgAEKg9nSoqYph/nE
-         QHUQ==
-X-Gm-Message-State: AOAM530A+yYBxauXGSO0BeR5JB7MbWkRT5rpRtut+P6awAPE+tNBWAF+
-        eh4v4uySUM4I5xcz3Mrna517rCTzbcfpDv0+V2U8FwI78uI=
-X-Google-Smtp-Source: ABdhPJxUvxn5SAAFyf1rsVnJCY1na3qf6Y8q3d2brLtG08pmKHTHNa0AEmOkdFjY5tBkVbpik5sdVPVmJV+1c/0S24s=
-X-Received: by 2002:a17:90b:2393:: with SMTP id mr19mr4730332pjb.24.1620736197150;
- Tue, 11 May 2021 05:29:57 -0700 (PDT)
+        id S231432AbhEKMbz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 08:31:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38760 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231592AbhEKMby (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 May 2021 08:31:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6461A61921;
+        Tue, 11 May 2021 12:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620736248;
+        bh=jpZ5cR86JSwRZDYhz1qvrbQUpo1SJlN+gEWO4fx8vRA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rdu7UrS3Hex5ufFxePDVhehyQktEtajxKHjtljxkrlB0rdJ+uGCm8mmcNTpR3KxNJ
+         W0SA7xkFycfc7LBQswThDVm6ERZMgTuPqHlbAFx/dS1d5G7kosehcvlmyMmRrrVzmc
+         HA6r8uaOnK+vLahz6RHvORTuipiYcZG9CqmIMQZgxY+XeA+53ffa2+NdfSg+mEuKin
+         Yvv5Y6IomQUFGNlJlw8Tbks+eHDy/Zv4DFFzptm262D8NTbhsxz6jy/N7xwDlgswII
+         hakiGF8T8eHlLB0UuCdD/wKQJjcqSxAqhi5GqJKQEhQ57ogr2swWEHsl6ZByamtN/L
+         s12M5CwKqa1eA==
+Received: by mail-oi1-f177.google.com with SMTP id n184so18815222oia.12;
+        Tue, 11 May 2021 05:30:48 -0700 (PDT)
+X-Gm-Message-State: AOAM531Mrvm7lBKBIve6lD2hLJiC1xO0WG/QU4B4tuJZfmrVgxag4ELo
+        CsRY0l6McCG1zkPEzxUlyi09r7JqEjuglHO9+Fk=
+X-Google-Smtp-Source: ABdhPJw/GaYxpJf0uQIF3bzfdW2008J7TREEl7X5OMUhoPQXhSmvS2ekyyv09y84DJrohyUSdAH2zAa/BYypTb+c96c=
+X-Received: by 2002:aca:e142:: with SMTP id y63mr22076477oig.33.1620736247524;
+ Tue, 11 May 2021 05:30:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210509150735.GA30084@bobwxc.top> <20210511115127.GA9712@bobwxc.top>
-In-Reply-To: <20210511115127.GA9712@bobwxc.top>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Tue, 11 May 2021 20:29:46 +0800
-Message-ID: <CAMU9jJor_V_G6wG1vWnDvgQADeXaPxg9E47w27nk_sBNGJpuEg@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: sync reporting-issues.rst
-To:     Wu XiangCheng <bobwxc@email.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        linux-doc@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
+References: <20210511021656.17719-1-ansuelsmth@gmail.com> <YJnq3Y3/I1kdV1Ov@casper.infradead.org>
+ <YJnswvYFUjlNS7Fa@Ansuel-xps.localdomain> <CAMj1kXGLihr4gq3iwHy6mLKG4UHWnh5XAgxZDZmnmNPErfJ-bg@mail.gmail.com>
+ <YJp1WYTXHsSAA0ES@Ansuel-xps.localdomain>
+In-Reply-To: <YJp1WYTXHsSAA0ES@Ansuel-xps.localdomain>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Tue, 11 May 2021 14:30:36 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXHoc283aHT2EjxyRe8_cTWn_SUGoVLNKJ+40ia8Fppynw@mail.gmail.com>
+Message-ID: <CAMj1kXHoc283aHT2EjxyRe8_cTWn_SUGoVLNKJ+40ia8Fppynw@mail.gmail.com>
+Subject: Re: [PATCH] arm: Enlarge IO_SPACE_LIMIT needed for some SoC
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-UmV2aWV3ZWQtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCg0KV3UgWGlh
-bmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NeaciDEx5pel5ZGo5LqMIOS4i+WN
-iDc6NTLlhpnpgZPvvJoNCj4NCj4gU3luYyB6aF9DTi9hZG1pbi1ndWlkZS9yZXBvcnRpbmctaXNz
-dWVzLnJzdCB0byBuZXdlc3QgdmVyc2lvbg0KPg0KPiBjb21taXQgMDA0M2YwYjI3YTA0MCAoImRv
-Y3M6IHJlcG9ydGluZy1pc3N1ZXMucnN0OiBDQyBzdWJzeXN0ZW0gYW5kDQo+ICAgICAgICAgICAg
-ICAgICAgICAgICAgbWFpbnRhaW5lcnMgb24gcmVncmVzc2lvbnMiKQ0KPg0KPiBTaWduZWQtb2Zm
-LWJ5OiBXdSBYaWFuZ0NoZW5nIDxib2J3eGNAZW1haWwuY24+DQo+IFJldmlld2VkLWJ5OiBBbGV4
-IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCj4gLS0tDQo+IHYyOg0KPiAqIE1vZGlmeSBzb21lIHdv
-cmRzIHVuZGVyIFlhblRlbmcgU2kncyBhZHZpY2VzDQo+ICogUGljayBBbGV4IFNoaSdzIHJldmll
-d2VkLWJ5IHRhZw0KPiBUaGFua3MgZm9yIHRoZWlyIHJldmlldyENCj4NCj4gdjE6DQo+IDxodHRw
-czovL2xvcmUua2VybmVsLm9yZy9saW51eC1kb2MvMjAyMTA1MDkxNTA3MzUuR0EzMDA4NEBib2J3
-eGMudG9wLz4NCj4NCj4gIC4uLi96aF9DTi9hZG1pbi1ndWlkZS9yZXBvcnRpbmctaXNzdWVzLnJz
-dCAgICB8IDU4ICsrKysrKysrKysrKy0tLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAzOCBpbnNl
-cnRpb25zKCspLCAyMCBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
-b24vdHJhbnNsYXRpb25zL3poX0NOL2FkbWluLWd1aWRlL3JlcG9ydGluZy1pc3N1ZXMucnN0IGIv
-RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRtaW4tZ3VpZGUvcmVwb3J0aW5nLWlz
-c3Vlcy5yc3QNCj4gaW5kZXggNmI0OTg4ZGEyYzVhLi42Y2IwOThmZWVkOTQgMTAwNjQ0DQo+IC0t
-LSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FkbWluLWd1aWRlL3JlcG9ydGlu
-Zy1pc3N1ZXMucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Fk
-bWluLWd1aWRlL3JlcG9ydGluZy1pc3N1ZXMucnN0DQo+IEBAIC0yOSw3ICsyOSw5IEBADQo+ICDo
-r7fmkJzntKIgYExLTUzlhoXmoLjpgq7ku7bliJfooaggPGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
-L2xrbWwvPmBfIOWSjA0KPiAgYExpbnV456iz5a6a54mI6YKu5Lu25YiX6KGoIDxodHRwczovL2xv
-cmUua2VybmVsLm9yZy9zdGFibGUvPmBfIOWtmOaho+S4reWMuemFjeeahOaKpeWRiuW5tg0KPiAg
-5Yqg5YWl6K6o6K6644CC5aaC5p6c5om+5LiN5Yiw5Yy56YWN55qE5oql5ZGK77yM6K+35a6J6KOF
-6K+l57O75YiX55qE5pyA5paw54mI5pys44CC5aaC5p6c5a6D5LuN54S25Ye6546w6Zeu6aKY77yM
-DQo+IC3miqXlkYrnu5nnqLPlrprniYjpgq7ku7bliJfooajvvIhzdGFibGVAdmdlci5rZXJuZWwu
-b3Jn77yJ44CCDQo+ICvor7fmiqXlkYrnu5nnqLPlrprniYjpgq7ku7bliJfooajvvIhzdGFibGVA
-dmdlci5rZXJuZWwub3Jn77yJ5bm25oqE6YCB5Zue5b2S6YKu5Lu25YiX6KGoDQo+ICvvvIhyZWdy
-ZXNzaW9uc0BsaXN0cy5saW51eC5kZXbvvInvvJvnkIbmg7Pmg4XlhrXkuIvvvIzov5jlj6/ku6Xm
-ioTpgIHnu7TmiqTogIXlkoznm7jlhbPlrZDns7vnu5/nmoQNCj4gK+mCruS7tuWIl+ihqOOAgg0K
-Pg0KPiAg5Zyo5omA5pyJ5YW25LuW5oOF5Ya15LiL77yM6K+35bC95Y+v6IO954yc5rWL5piv5ZOq
-5Liq5YaF5qC46YOo5YiG5a+86Ie05LqG6Zeu6aKY44CC5p+l55yLTUFJTlRBSU5FUlPmlofku7bv
-vIwNCj4gIOS6huino+W8gOWPkeS6uuWRmOW4jOacm+WmguS9leW+l+efpemXrumimO+8jOWkp+Wk
-muaVsOaDheWGteS4i++8jOaKpeWRiumXrumimOmDveaYr+mAmui/h+eUteWtkOmCruS7tuWSjOaK
-hOmAgQ0KPiBAQCAtNDYsOSArNDgsMTAgQEANCj4gIOacieS9v+eUqOmZhOWKoOaooeWdl++8ieOA
-gui/mOimgeehruS/neWug+aYr+WcqOS4gOS4quato+W4uOeahOeOr+Wig+S4reaehOW7uuWSjOi/
-kOihjO+8jOW5tuS4lOWcqOmXrumimOWPkeeUnw0KPiAg5LmL5YmN5rKh5pyJ6KKr5rGh5p+T77yI
-dGFpbnRlZO+8ieOAgg0KPg0KPiAt5Zyo57yW5YaZ5oql5ZGK5pe277yM6KaB5ra155uW5LiO6Zeu
-6aKY55u45YWz55qE5omA5pyJ5L+h5oGv77yM5aaC5L2/55So55qE5YaF5qC45ZKM5Y+R6KGM54mI
-44CC5Zyo56Kw6KeB5Zue5b2S5pe277yMDQo+IC3lsJ3or5Xnu5nlh7rlvJXlhaXlroPnmoTmm7Tm
-lLnnmoTmj5DkuqRJRO+8jOS6jOWIhuWPr+S7peaJvuWIsOWug+OAguWmguaenOaCqOWQjOaXtumd
-ouS4tExpbnV45YaF5qC455qE5aSa5LiqDQo+IC3pl67popjvvIzor7fliIbliKvmiqXlkYrmr4/k
-uKrpl67popjjgIINCj4gK+W9k+S9oOWQjOaXtumdouS4tExpbnV45YaF5qC455qE5aSa5Liq6Zeu
-6aKY5pe277yM6K+35YiG5Yir5oql5ZGK44CC5Zyo57yW5YaZ5oql5ZGK5pe277yM6KaB5ra155uW
-5LiO6Zeu6aKYDQo+ICvnm7jlhbPnmoTmiYDmnInkv6Hmga/vvIzlpoLkvb/nlKjnmoTlhoXmoLjl
-kozlj5HooYzniYjjgILlpoLmnpznorDop4Hlm57lvZLvvIzor7fmiormiqXlkYrmioTpgIHlm57l
-vZLpgq7ku7bliJfooagNCj4gK++8iHJlZ3Jlc3Npb25zQGxpc3RzLmxpbnV4LmRldu+8ieOAguS5
-n+ivt+ivleivleeUqOS6jOWIhuazleaJvuWHuua6kOWktO+8m+WmguaenOaIkOWKn+aJvuWIsO+8
-jOivtw0KPiAr5Zyo5oql5ZGK5Lit5YaZ5LiK5a6D55qE5o+Q5LqkSUTlubbmioTpgIFzaWduLW9m
-Zi1ieemTvuS4reeahOaJgOacieS6uuOAgg0KPg0KPiAg5LiA5pem5oql5ZGK5Y+R5Ye677yM6K+3
-5Zue562U5Lu75L2V5Ye6546w55qE6Zeu6aKY77yM5bm25bC95Y+v6IO95Zyw5o+Q5L6b5biu5Yqp
-44CC6L+Z5YyF5ous6YCa6L+H5LiN5pe26YeN5pawDQo+ICDmtYvor5XmlrDniYjmnKzlubblj5Hp
-gIHnirbmgIHmm7TmlrDmnaXmjqjliqjov5vlsZXjgIINCj4gQEAgLTE1Niw5ICsxNTksMTAgQEAN
-Cj4gICAgIOWtmOWcqOmXrumimO+8jOWboOS4uumXrumimOWPr+iDveW3sue7j+WcqOmCo+mHjOii
-q+S/ruWkjeS6huOAguWmguaenOaCqOesrOS4gOasoeWPkeeOsOS+m+W6lOWVhuWGheaguOeahOmX
-rumimO+8jA0KPiAgICAg6K+35qOA5p+l5bey55+l5pyA5paw54mI5pys55qE5pmu6YCa5p6E5bu6
-5piv5ZCm5Y+v5Lul5q2j5bi46L+Q6KGM44CCDQo+DQo+IC0gKiDlkJFMaW51eOeos+WumueJiOmC
-ruS7tuWIl+ihqOWPkemAgeS4gOS4queugOefreeahOmXrumimOaKpeWRiihzdGFibGVAdmdlci5r
-ZXJuZWwub3JnKeOAguWkp+iHtA0KPiAtICAg5o+P6L+w6Zeu6aKY77yM5bm26Kej6YeK5aaC5L2V
-5aSN546w44CC6K6y5riF5qWa6aaW5Liq5Ye6546w6Zeu6aKY55qE54mI5pys5ZKM5pyA5ZCO5LiA
-5Liq5bel5L2c5q2j5bi455qE54mI5pys44CCDQo+IC0gICDnhLblkI7nrYnlvoXov5vkuIDmraXn
-moTmjIfnpLrjgIINCj4gKyAqIOWQkUxpbnV456iz5a6a54mI6YKu5Lu25YiX6KGo5Y+R6YCB5LiA
-5Liq566A55+t55qE6Zeu6aKY5oql5ZGK77yIc3RhYmxlQHZnZXIua2VybmVsLm9yZ++8ieW5tuaK
-hOmAgQ0KPiArICAgTGludXjlm57lvZLpgq7ku7bliJfooajvvIhyZWdyZXNzaW9uc0BsaXN0cy5s
-aW51eC5kZXbvvInvvJvlpoLmnpzkvaDmgIDnlpHmmK/nlLHmn5DlrZDns7vnu58NCj4gKyAgIOW8
-lei1t+eahO+8jOivt+aKhOmAgeWFtue7tOaKpOS6uuWRmOWSjOWtkOezu+e7n+mCruS7tuWIl+ih
-qOOAguWkp+iHtOaPj+i/sOmXrumimO+8jOW5tuino+mHiuWmguS9leWkjeeOsOOAgg0KPiArICAg
-6K6y5riF5qWa6aaW5Liq5Ye6546w6Zeu6aKY55qE54mI5pys5ZKM5pyA5ZCO5LiA5Liq5bel5L2c
-5q2j5bi455qE54mI5pys44CC54S25ZCO562J5b6F6L+b5LiA5q2l55qE5oyH56S644CCDQo+DQo+
-ICDkuIvpnaLnmoTlj4LogIPnq6DoioLpg6jliIbor6bnu4bop6Pph4rkuobov5nkupvmraXpqqTk
-uK3nmoTmr4/kuIDmraXjgIINCj4NCj4gQEAgLTU5MSw3ICs1OTUsOCBAQCBhdGgxMGtAbGlzdHMu
-aW5mcmFkZWFkLm9yZ+KAne+8jOWwhuW8leWvvOaCqOWIsGF0aDEwa+mCruS7tuWIl+ihqOeahOS/
-oeaBr+mhte+8jA0KPiAg5pCc57Si5byV5pOO77yM5bm25re75Yqg57G75Ly84oCcc2l0ZTpsaXN0
-cy5pbmZhZGVhZC5vcmcvcGlwZXJtYWlsL2F0aDEway/igJ3ov5kNCj4gIOagt+eahOaQnOe0ouad
-oeS7tu+8jOi/meS8muaKiue7k+aenOmZkOWItuWcqOivpemTvuaOpeS4reeahOaho+ahiOOAgg0K
-Pg0KPiAt5Lmf6K+36L+b5LiA5q2l5pCc57Si572R57uc44CBTEtNTOWSjGJ1Z3ppbGxhLmtlcm5l
-bC5vcmfnvZHnq5njgIINCj4gK+S5n+ivt+i/m+S4gOatpeaQnOe0oue9kee7nOOAgUxLTUzlkoxi
-dWd6aWxsYS5rZXJuZWwub3Jn572R56uZ44CC5aaC5p6c5L2g55qE5oql5ZGK6ZyA6KaB5Y+R6YCB
-5Yiw57y66Zm3DQo+ICvot5/ouKrlmajkuK3vvIzpgqPkuYjmgqjlj6/og73ov5jpnIDopoHmo4Dm
-n6XlrZDns7vnu5/nmoTpgq7ku7bliJfooajlrZjmoaPvvIzlm6DkuLrlj6/og73mnInkurrlj6rl
-nKjpgqPph4zmiqXlkYrkuoblroPjgIINCj4NCj4gIOacieWFs+WmguS9leaQnOe0ouS7peWPiuWc
-qOaJvuWIsOWMuemFjeaKpeWRiuaXtuWmguS9leaTjeS9nOeahOivpue7huS/oeaBr++8jOivt+WP
-gumYheS4iumdoueahOKAnOaQnOe0oueOsOacieaKpeWRig0KPiAg77yI56ys5LiA6YOo5YiG77yJ
-4oCd44CCDQo+IEBAIC04MjUsOCArODMwLDcgQEAgTGludXgg6aaW5bit5byA5Y+R6ICFIExpbnVz
-IFRvcnZhbGRzIOiupOS4uiBMaW51eCDlhoXmoLjmsLjov5zkuI3lupTmgbbljJbvvIzov5kNCj4N
-Cj4gIOWcqOaVtOS4qui/h+eoi+S4re+8jOivt+iusOS9j++8muWPquacieW9k+aXp+WGheaguOWS
-jOaWsOWGheaguOeahOmFjee9ruebuOS8vOaXtu+8jOmXrumimOaJjeeul+WbnuW9kuOAguacgOWl
-vQ0KPiAg55qE5pa55rOV5piv77ya5oqK6YWN572u5paH5Lu277yIYGAuY29uZmlnYGDvvInku47m
-l6fnmoTlt6XkvZzlhoXmoLjnm7TmjqXlpI3liLbliLDkvaDlsJ3or5XnmoTmr4/kuKrmlrDlhoUN
-Cj4gLeaguOeJiOacrOOAguS5i+WQjui/kOihjCBgYG1ha2Ugb2xkbm9jb25maWdgYCDmnaXosIPm
-lbTlroPku6XpgILlupTmlrDniYjmnKznmoTpnIDopoHvvIzogIzkuI3lkK/nlKgNCj4gLeS7u+S9
-leaWsOeahOWKn+iDve+8jOWboOS4uumCo+S6m+WKn+iDveS5n+WPr+iDveWvvOiHtOWbnuW9kuOA
-gg0KPiAr5qC454mI5pys44CC5LmL5ZCO6L+Q6KGMIGBgbWFrZSBvbGRkZWZjb25maWdgYCDmnaXo
-sIPmlbTlroPku6XpgILlupTmlrDniYjmnKznmoTpnIDopoHjgIINCj4NCj4NCj4gIOaSsOWGmeW5
-tuWPkemAgeaKpeWRig0KPiBAQCAtOTU5LDExICs5NjMsMTkgQEAgTGludXgg6aaW5bit5byA5Y+R
-6ICFIExpbnVzIFRvcnZhbGRzIOiupOS4uiBMaW51eCDlhoXmoLjmsLjov5zkuI3lupTmgbbljJbv
-vIzov5kNCj4gICoq6Z2e5bi45Lil6YeN55qE57y66Zm3Kiog77ya56Gu5L+d5Zyo5Li76aKY5oiW
-5bel5Y2V5qCH6aKY5Lul5Y+K56ys5LiA5q615Lit5piO5pi+5qCH5Ye6IHNldmVyZW5lc3MNCj4g
-IO+8iOmdnuW4uOS4pemHjeeahO+8ieOAgg0KPg0KPiAtKirlm57lvZIqKiDvvJrlpoLmnpzpl67p
-opjmmK/kuIDkuKrlm57lvZLvvIzor7flnKjpgq7ku7bnmoTkuLvpopjmiJbnvLrpmbfot5/ouKrl
-majnmoTmoIfpopjkuK3mt7vliqANCj4gLVtSRUdSRVNTSU9OXeOAguWmguaenOaCqOayoeaciei/
-m+ihjOS6jOWIhu+8jOivt+iHs+WwkeazqOaYjuaCqOa1i+ivleeahOacgOaWsOS4u+e6v+eJiOac
-rO+8iOavlOWmgiA1LjfvvIkNCj4gLeWSjOWHuueOsOmXrumimOeahOacgOaWsOeJiOacrO+8iOav
-lOWmgiA1LjjvvInjgILlpoLmnpzmgqjmiJDlip/lnLDov5vooYzkuobkuozliIbvvIzor7fms6jm
-mI7lr7zoh7Tlm57lvZINCj4gLeeahOaPkOS6pElE5ZKM5Li76aKY44CC5Lmf6K+35re75Yqg6K+l
-5Y+Y5pu055qE5L2c6ICF5Yiw5L2g55qE5oql5ZGK5Lit77yb5aaC5p6c5oKo6ZyA6KaB5bCG5oKo
-55qE57y66Zm35o+Q5LqkDQo+IC3liLDnvLrpmbfot5/ouKrlmajkuK3vvIzor7flsIbmiqXlkYrk
-u6Xnp4Hkurrpgq7ku7bnmoTlvaLlvI/ovazlj5Hnu5nku5bvvIzlubbms6jmmI7miqXlkYrmj5Dk
-uqTlnLDngrnjgIINCj4gKyoq5Zue5b2SKiog77ya5oql5ZGK55qE5Li76aKY5bqU5Lul4oCcW1JF
-R1JFU1NJT05d4oCd5byA5aS044CCDQo+ICsNCj4gK+WmguaenOaCqOaIkOWKn+eUqOS6jOWIhuaz
-leWumuS9jeS6humXrumimO+8jOivt+S9v+eUqOW8leWFpeWbnuW9kuS5i+abtOaUueeahOagh+mi
-mOS9nOS4uuS4u+mimOeahOesrOS6jOmDqOWIhuOAgg0KPiAr6K+35Zyo5oql5ZGK5Lit5YaZ5piO
-4oCc572q6a2B56W46aaW4oCd55qE5o+Q5LqkSUTjgILlpoLmnpzmnKrog73miJDlip/kuozliIbv
-vIzor7flnKjmiqXlkYrkuK3orrLmmI7mnIDlkI7kuIDkuKoNCj4gK+ato+W4uOW3peS9nOeahOeJ
-iOacrO+8iOS+i+WmgjUuN++8ieWSjOacgOWFiOWPkeeUn+mXrumimOeahOeJiOacrO+8iOS+i+Wm
-gjUuOC1yYzHvvInjgIINCj4gKw0KPiAr6YCa6L+H6YKu5Lu25Y+R6YCB5oql5ZGK5pe277yM6K+3
-5oqE6YCBTGludXjlm57lvZLpgq7ku7bliJfooajvvIhyZWdyZXNzaW9uc0BsaXN0cy5saW51eC5k
-ZXbvvInjgIINCj4gK+WmguaenOaKpeWRiumcgOimgeaPkOS6pOWIsOafkOS4qndlYui/vei4quWZ
-qO+8jOivt+e7p+e7reaPkOS6pO+8m+W5tuWcqOaPkOS6pOWQju+8jOmAmui/h+mCruS7tuWwhuaK
-peWRiui9rOWPkQ0KPiAr6Iez5Zue5b2S5YiX6KGo77yb5oqE6YCB55u45YWz5a2Q57O757uf55qE
-57u05oqk5Lq65ZGY5ZKM6YKu5Lu25YiX6KGo44CC6K+356Gu5L+d5oql5ZGK5piv5YaF6IGU6L2s
-5Y+R55qE77yM5LiN6KaBDQo+ICvmiorlroPkvZzkuLrpmYTku7bjgILlj6blpJbor7flnKjpobbp
-g6jmt7vliqDkuIDkuKrnroDnn63nmoTor7TmmI7vvIzlnKjpgqPph4zlhpnkuIrlt6XljZXnmoTn
-vZHlnYDjgIINCj4gKw0KPiAr5Zyo6YKu5a+E5oiW6L2s5Y+R5oql5ZGK5pe277yM5aaC5p6c5oiQ
-5Yqf5LqM5YiG77yM6ZyA6KaB5bCG4oCc572q6a2B56W46aaW4oCd55qE5L2c6ICF5re75Yqg5Yiw
-5pS25Lu25Lq65Lit77yb5ZCM5pe2DQo+ICvmioTpgIFzaWduZWQtb2ZmLWJ56ZO+5Lit55qE5q+P
-5Liq5Lq677yM5oKo5Y+v5Lul5Zyo5o+Q5Lqk5raI5oGv55qE5pyr5bC+5om+5Yiw44CCDQo+DQo+
-ICAqKuWuieWFqOmXrumimCoqIO+8muWvueS6jui/meenjemXrumimO+8jOS9oOWwhuW/hemhu+iv
-hOS8sO+8muWmguaenOe7huiKguiiq+WFrOW8gOaKq+mcsu+8jOaYr+WQpuS8muWvueWFtuS7lg0K
-PiAg55So5oi35Lqn55Sf55+t5pyf6aOO6Zmp44CC5aaC5p6c5LiN5Lya77yM5Y+q6ZyA5oyJ54Wn
-5omA6L+w57un57ut5oql5ZGK6Zeu6aKY44CC5aaC5p6c5pyJ5q2k6aOO6Zmp77yM5L2g6ZyA6KaB
-DQo+IEBAIC0xMTczLDE0ICsxMTg1LDE4IEBAIEZMT1NTIOmXrumimOaKpeWRiueahOS6uueci++8
-jOivoumXruS7luS7rOeahOaEj+ingeOAguWQjOaXtuW+geaxguS7luS7rOWFs+S6jg0KPiAg5oql
-5ZGK5Zue5b2SDQo+ICB+fn5+fn5+fn5+DQo+DQo+IC0gICAgKuWQkUxpbnV456iz5a6a54mI6YKu
-5Lu25YiX6KGo5Y+R6YCB5LiA5Liq566A55+t55qE6Zeu6aKY5oql5ZGKKHN0YWJsZUB2Z2VyLmtl
-cm5lbC5vcmcp44CCDQo+IC0gICAg5aSn6Ie05o+P6L+w6Zeu6aKY77yM5bm26Kej6YeK5aaC5L2V
-5aSN546w44CC6K6y5riF5qWa6aaW5Liq5Ye6546w6Zeu6aKY55qE54mI5pys5ZKM5pyA5ZCO5LiA
-5Liq5bel5L2c5q2j5bi4DQo+IC0gICAg55qE54mI5pys44CC54S25ZCO562J5b6F6L+b5LiA5q2l
-55qE5oyH56S644CCKg0KPiArICAgICrlkJFMaW51eOeos+WumueJiOmCruS7tuWIl+ihqOWPkemA
-geS4gOS4queugOefreeahOmXrumimOaKpeWRiihzdGFibGVAdmdlci5rZXJuZWwub3JnKeW5tg0K
-PiArICAgIOaKhOmAgUxpbnV45Zue5b2S6YKu5Lu25YiX6KGo77yIcmVncmVzc2lvbnNAbGlzdHMu
-bGludXguZGV277yJ77yb5aaC5p6c5L2g5oCA55aR5piv55Sx5p+QDQo+ICsgICAg5a2Q57O757uf
-5byV6LW355qE77yM6K+35oqE6YCB5YW257u05oqk5Lq65ZGY5ZKM5a2Q57O757uf6YKu5Lu25YiX
-6KGo44CC5aSn6Ie05o+P6L+w6Zeu6aKY77yM5bm26Kej6YeK5aaCDQo+ICsgICAg5L2V5aSN546w
-44CC6K6y5riF5qWa6aaW5Liq5Ye6546w6Zeu6aKY55qE54mI5pys5ZKM5pyA5ZCO5LiA5Liq5bel
-5L2c5q2j5bi455qE54mI5pys44CC54S25ZCO562J5b6F6L+b5LiADQo+ICsgICAg5q2l55qE5oyH
-56S644CCKg0KPg0KPiAg5b2T5oql5ZGK5Zyo56iz5a6a54mI5oiW6ZW/5pyf5pSv5oyB5YaF5qC4
-57q/5YaF5Y+R55Sf55qE5Zue5b2S77yI5L6L5aaC5Zyo5LuONS4xMC405pu05paw5YiwNS4xMC41
-5pe277yJ77yMDQo+IC3kuIDku73nroDnn63nmoTmiqXlkYrotrPku6Xlv6vpgJ/miqXlkYrpl67p
-opjjgILlm6DmraTlj6rpnIDopoHnspfnlaXnmoTmj4/ov7DjgIINCj4gK+S4gOS7veeugOefreea
-hOaKpeWRiui2s+S7peW/q+mAn+aKpeWRiumXrumimOOAguWboOatpOWPqumcgOWQkeeos+WumueJ
-iOWSjOWbnuW9kumCruS7tuWIl+ihqOWPkemAgeeyl+eVpeeahOaPj+i/sO+8mw0KPiAr5LiN6L+H
-5aaC5p6c5L2g5oCA55aR5p+Q5a2Q57O757uf5a+86Ie05q2k6Zeu6aKY55qE6K+d77yM6K+35LiA
-5bm25oqE6YCB5YW257u05oqk5Lq65ZGY5ZKM5a2Q57O757uf6YKu5Lu25YiX6KGo77yMDQo+ICvo
-v5nkvJrliqDlv6vov5vnqIvjgIINCj4NCj4gLeS9huaYr+ivt+azqOaEj++8jOWmguaenOaCqOiD
-veWkn+aMh+aYjuW8leWFpemXrumimOeahOehruWIh+eJiOacrO+8jOi/meWwhuWvueW8gOWPkeS6
-uuWRmOacieW+iOWkp+W4ruWKqeOAguWboOatpA0KPiAr6K+35rOo5oSP77yM5aaC5p6c5oKo6IO9
-5aSf5oyH5piO5byV5YWl6Zeu6aKY55qE56Gu5YiH54mI5pys77yM6L+Z5bCG5a+55byA5Y+R5Lq6
-5ZGY5pyJ5b6I5aSn5biu5Yqp44CC5Zug5q2kDQo+ICDlpoLmnpzmnInml7bpl7TnmoTor53vvIzo
-r7flsJ3or5Xkvb/nlKjmma7pgJrlhoXmoLjmib7liLDor6XniYjmnKzjgILorqnmiJHku6zlgYfo
-rr7lj5HooYzniYjlj5HluINMaW51eOWGheaguA0KPiAgNS4xMC415YiwNS4xMC4455qE5pu05paw
-5pe25Y+R55Sf5LqG5pWF6Zqc44CC6YKj5LmI5oyJ54Wn5LiK6Z2i55qE5oyH56S677yM5Y675qOA
-5p+l6K+l54mI5pys57q/5Lit55qE5pyA5pawDQo+ICDlhoXmoLjvvIzmr5TlpoI1LjEwLjnjgILl
-poLmnpzpl67popjlh7rnjrDvvIzor7flsJ3or5Xmma7pgJo1LjEwLjXvvIzku6Xnoa7kv53kvpvl
-upTllYblupTnlKjnmoTooaXkuIHkuI3kvJoNCj4gQEAgLTExOTEsNiArMTIwNyw4IEBAIEZMT1NT
-IOmXrumimOaKpeWRiueahOS6uueci++8jOivoumXruS7luS7rOeahOaEj+ingeOAguWQjOaXtuW+
-geaxguS7luS7rOWFs+S6jg0KPiAg5oql5ZGK77yM5Zug5Li65a6D5YWB6K6457K+56Gu5Zyw5a6a
-5L2N5a+86Ie06Zeu6aKY55qE56Gu5YiH5pu05pS577yI54S25ZCO5b6I5a655piT6KKr5oGi5aSN
-5Lul5b+r6YCf5L+u5aSN6Zeu6aKY77yJ44CCDQo+ICDlm6DmraTlpoLmnpzml7bpl7TlhYHorrjv
-vIzogIPomZHnq4vljbPov5vooYzpgILlvZPnmoTkuozliIbjgILmnInlhbPlpoLkvZXor6bnu4bk
-v6Hmga/vvIzor7flj4LpmIXigJzlr7nlm57lvZLnmoQNCj4gIOeJueWIq+WFs+eFp+KAnemDqOWI
-huWSjOaWh+aho+KAnERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FkbWluLWd1aWRl
-L2J1Zy1iaXNlY3QucnN04oCd44CCDQo+ICvlpoLmnpzmiJDlip/kuozliIbnmoTor53vvIzor7fl
-sIbigJznvarprYHnpbjpppbigJ3nmoTkvZzogIXmt7vliqDliLDmlLbku7bkurrkuK3vvJvlkIzm
-l7bmioTpgIHmiYDmnInlnKgNCj4gK3NpZ25lZC1vZmYtYnnpk77kuK3nmoTkurrvvIzmgqjlj6/k
-u6XlnKjmj5DkuqTmtojmga/nmoTmnKvlsL7mib7liLDjgIINCj4NCj4NCj4gIOKAnOaKpeWRiuS7
-heWcqOaXp+WGheaguOeJiOacrOe6v+S4reWPkeeUn+eahOmXrumimOKAneeahOWPguiAgw0KPiAt
-LQ0KPiAyLjIwLjENCj4NCg==
+On Tue, 11 May 2021 at 14:15, Ansuel Smith <ansuelsmth@gmail.com> wrote:
+>
+> On Tue, May 11, 2021 at 06:26:28AM +0200, Ard Biesheuvel wrote:
+> > On Tue, 11 May 2021 at 04:32, Ansuel Smith <ansuelsmth@gmail.com> wrote:
+> > >
+> > > On Tue, May 11, 2021 at 03:24:29AM +0100, Matthew Wilcox wrote:
+> > > > On Tue, May 11, 2021 at 04:16:54AM +0200, Ansuel Smith wrote:
+> > > > > Ipq8064 SoC requires larger IO_SPACE_LIMIT on second and third pci port.
+> > > >
+> > > > Do you really?  I mean, yes, theoretically, I understand it, the
+> > > > hardware supports 64kB of I/O port space per root port.  But I/O
+> > > > port space is rather deprecated these days.  My laptop has precisely
+> > > > two devices with I/O ports, one with 64 bytes and the other with 32
+> > > > bytes.  Would you really suffer by allocating 16kB of I/O port
+> > > > space to each root port?
+> > >
+> > > We were talking about this in the other wrong patch. I also think this
+> > > much space looks wrong. The current ipq806x dts have this space so it's
+> > > actually broken from a long time. The only reason pci worked before was
+> > > because the pci driver didn't actually check if the settings were right.
+> > > New kernel introduced more checks and this problem showed up. (to be
+> > > more precise, the pci port are commonly used by the ath10k wifi and the
+> > > second ath10k wifi fails to init because of this problem)
+> > > If you can give me any hint on how to check if the space can be reduced
+> > > I would be very happy to investigate it.
+> > > In the driver I notice that the max buffer is set to 2k, could be this a
+> > > hint?
+> > >
+> >
+> > Could you share the output of lspci -vv from such a system?
+> >
+> > I agree with Matthew that fiddling with the size of the I/O space
+> > range probably papers over another problem, and with the odd
+> > exception, no PCIe card used on ARM systems actually uses their I/O
+> > BARs, even when they have them. (I used to carry a PCIe serial port
+> > card to UEFI plugfests because that was the only thing that would stop
+> > working if a system configured its I/O resource window incorrectly)
+>
+> Here is the output of lspci -vv
+>
+> 0000:00:00.0 PCI bridge: Qualcomm Device 0101 (prog-if 00 [Normal decode])
+>         Bus: primary=00, secondary=01, subordinate=ff, sec-latency=0
+>         I/O behind bridge: [disabled]
+>         Memory behind bridge: 08000000-081fffff [size=2M]
+>         Prefetchable memory behind bridge: [disabled]
+
+So this a MMIO window to the endpoint
+
+...
+
+>
+> 0000:01:00.0 Network controller: Qualcomm Atheros QCA9984 802.11ac Wave 2 Wireless Network Adapter
+>         Region 0: Memory at 08000000 (64-bit, non-prefetchable) [size=2M]
+
+... and the endpoint has a single *MMIO* BAR of size 2 MiB.
+
+This has *nothing* to do with port I/O, which is what you are
+modifying with your patch.
+
+Did you check that the problem exists without the patch, and that the
+patch makes it go away?
+
+
+
+>         Capabilities: [40] Power Management version 3
+>                 Flags: PMEClk- DSI- D1- D2- AuxCurrent=375mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
+>                 Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
+>         Capabilities: [50] MSI: Enable+ Count=1/32 Maskable+ 64bit+
+>                 Address: 000000004361bc88  Data: 0001
+>                 Masking: fffffffe  Pending: 00000000
+>         Capabilities: [70] Express (v2) Endpoint, MSI 00
+>                 DevCap: MaxPayload 256 bytes, PhantFunc 0, Latency L0s unlimited, L1 unlimited
+>                         ExtTag- AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 0.000W
+>                 DevCtl: CorrErr- NonFatalErr- FatalErr- UnsupReq-
+>                         RlxdOrd+ ExtTag- PhantFunc- AuxPwr- NoSnoop-
+>                         MaxPayload 128 bytes, MaxReadReq 128 bytes
+>                 DevSta: CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr+ TransPend-
+>                 LnkCap: Port #0, Speed 5GT/s, Width x1, ASPM not supported
+>                         ClockPM+ Surprise- LLActRep- BwNot- ASPMOptComp+
+>                 LnkCtl: ASPM Disabled; RCB 64 bytes, Disabled- CommClk-
+>                         ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>                 LnkSta: Speed 5GT/s (ok), Width x1 (ok)
+>                         TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
+>                 DevCap2: Completion Timeout: Range ABCD, TimeoutDis+ NROPrPrP- LTR+
+>                          10BitTagComp- 10BitTagReq- OBFF Not Supported, ExtFmt- EETLPPrefix-
+>                          EmergencyPowerReduction Not Supported, EmergencyPowerReductionInit-
+>                          FRS- TPHComp- ExtTPHComp-
+>                          AtomicOpsCap: 32bit- 64bit- 128bitCAS-
+>                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis- LTR- OBFF Disabled,
+>                          AtomicOpsCtl: ReqEn-
+>                 LnkCap2: Supported Link Speeds: 2.5-5GT/s, Crosslink- Retimer- 2Retimers- DRS-
+>                 LnkCtl2: Target Link Speed: 5GT/s, EnterCompliance- SpeedDis-
+>                          Transmit Margin: Normal Operating Range, EnterModifiedCompliance- ComplianceSOS-
+>                          Compliance De-emphasis: -6dB
+>                 LnkSta2: Current De-emphasis Level: -6dB, EqualizationComplete- EqualizationPhase1-
+>                          EqualizationPhase2- EqualizationPhase3- LinkEqualizationRequest-
+>                          Retimer- 2Retimers- CrosslinkRes: unsupported
+>         Capabilities: [100 v2] Advanced Error Reporting
+>                 UESta:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
+>                 UEMsk:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
+>                 UESvrt: DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
+>                 CESta:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr-
+>                 CEMsk:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr+
+>                 AERCap: First Error Pointer: 00, ECRCGenCap+ ECRCGenEn- ECRCChkCap+ ECRCChkEn-
+>                         MultHdrRecCap- MultHdrRecEn- TLPPfxPres- HdrLogCap-
+>                 HeaderLog: 00000000 00000000 00000000 00000000
+>         Capabilities: [148 v1] Device Serial Number 00-00-00-00-00-00-00-00
+>         Capabilities: [158 v1] Latency Tolerance Reporting
+>                 Max snoop latency: 0ns
+>                 Max no snoop latency: 0ns
+>         Capabilities: [160 v1] L1 PM Substates
+>                 L1SubCap: PCI-PM_L1.2- PCI-PM_L1.1- ASPM_L1.2- ASPM_L1.1- L1_PM_Substates-
+>                 L1SubCtl1: PCI-PM_L1.2- PCI-PM_L1.1- ASPM_L1.2- ASPM_L1.1-
+>                 L1SubCtl2:
+>         Kernel driver in use: ath10k_pci
+>
+> 0001:00:00.0 PCI bridge: Qualcomm Device 0101 (prog-if 00 [Normal decode])
+>         Device tree node: /sys/firmware/devicetree/base/soc/pci@1b700000/bridge@0,0
+>         Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr+ Stepping- SERR+ FastB2B- DisINTx+
+>         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+>         Latency: 0, Cache Line Size: 64 bytes
+>         Interrupt: pin A routed to IRQ 46
+>         Bus: primary=00, secondary=01, subordinate=ff, sec-latency=0
+>         I/O behind bridge: [disabled]
+>         Memory behind bridge: 2e000000-2e1fffff [size=2M]
+>         Prefetchable memory behind bridge: [disabled]
+>         Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- <SERR- <PERR-
+>         BridgeCtl: Parity+ SERR+ NoISA- VGA- VGA16- MAbort- >Reset- FastB2B-
+>                 PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+>         Capabilities: [40] Power Management version 3
+>                 Flags: PMEClk- DSI- D1+ D2- AuxCurrent=375mA PME(D0+,D1+,D2-,D3hot+,D3cold-)
+>                 Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
+>         Capabilities: [50] MSI: Enable+ Count=1/1 Maskable- 64bit+
+>                 Address: 00000000435e8688  Data: 0000
+>         Capabilities: [70] Express (v2) Root Port (Slot-), MSI 00
+>                 DevCap: MaxPayload 128 bytes, PhantFunc 0
+>                         ExtTag- RBE+
+>                 DevCtl: CorrErr+ NonFatalErr+ FatalErr+ UnsupReq+
+>                         RlxdOrd+ ExtTag- PhantFunc- AuxPwr- NoSnoop-
+>                         MaxPayload 128 bytes, MaxReadReq 128 bytes
+>                 DevSta: CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr- TransPend-
+>                 LnkCap: Port #0, Speed 5GT/s, Width x4, ASPM L0s L1, Exit Latency L0s <1us, L1 <16us
+>                         ClockPM- Surprise- LLActRep+ BwNot+ ASPMOptComp+
+>                 LnkCtl: ASPM Disabled; RCB 64 bytes, Disabled- CommClk-
+>                         ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>                 LnkSta: Speed 2.5GT/s (downgraded), Width x1 (downgraded)
+>                         TrErr- Train- SlotClk+ DLActive+ BWMgmt- ABWMgmt-
+>                 RootCap: CRSVisible-
+>                 RootCtl: ErrCorrectable- ErrNon-Fatal- ErrFatal- PMEIntEna- CRSVisible-
+>                 RootSta: PME ReqID 0000, PMEStatus- PMEPending-
+>                 DevCap2: Completion Timeout: Not Supported, TimeoutDis+ NROPrPrP+ LTR-
+>                          10BitTagComp- 10BitTagReq- OBFF Not Supported, ExtFmt- EETLPPrefix-
+>                          EmergencyPowerReduction Not Supported, EmergencyPowerReductionInit-
+>                          FRS- LN System CLS Not Supported, TPHComp- ExtTPHComp- ARIFwd-
+>                          AtomicOpsCap: Routing- 32bit- 64bit- 128bitCAS-
+>                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis- LTR- OBFF Disabled, ARIFwd-
+>                          AtomicOpsCtl: ReqEn- EgressBlck-
+>                 LnkCap2: Supported Link Speeds: 2.5-5GT/s, Crosslink- Retimer- 2Retimers- DRS-
+>                 LnkCtl2: Target Link Speed: 2.5GT/s, EnterCompliance- SpeedDis-
+>                          Transmit Margin: Normal Operating Range, EnterModifiedCompliance- ComplianceSOS-
+>                          Compliance De-emphasis: -6dB
+>                 LnkSta2: Current De-emphasis Level: -3.5dB, EqualizationComplete- EqualizationPhase1-
+>                          EqualizationPhase2- EqualizationPhase3- LinkEqualizationRequest-
+>                          Retimer- 2Retimers- CrosslinkRes: unsupported
+>         Capabilities: [100 v1] Advanced Error Reporting
+>                 UESta:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
+>                 UEMsk:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
+>                 UESvrt: DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
+>                 CESta:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr-
+>                 CEMsk:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr+
+>                 AERCap: First Error Pointer: 00, ECRCGenCap+ ECRCGenEn- ECRCChkCap+ ECRCChkEn-
+>                         MultHdrRecCap- MultHdrRecEn- TLPPfxPres- HdrLogCap-
+>                 HeaderLog: 00000000 00000000 00000000 00000000
+>                 RootCmd: CERptEn+ NFERptEn+ FERptEn+
+>                 RootSta: CERcvd- MultCERcvd- UERcvd- MultUERcvd-
+>                          FirstFatal- NonFatalMsg- FatalMsg- IntMsg 0
+>                 ErrorSrc: ERR_COR: 0000 ERR_FATAL/NONFATAL: 0000
+>         Kernel driver in use: pcieport
+>
+> 0001:01:00.0 Network controller: Qualcomm Atheros QCA9984 802.11ac Wave 2 Wireless Network Adapter
+>         Subsystem: Qualcomm Atheros Device cafe
+>         Device tree node: /sys/firmware/devicetree/base/soc/pci@1b700000/bridge@0,0/wifi@1,0
+>         Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr+ Stepping- SERR+ FastB2B- DisINTx+
+>         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+>         Latency: 0, Cache Line Size: 64 bytes
+>         Interrupt: pin A routed to IRQ 54
+>         Region 0: Memory at 2e000000 (64-bit, non-prefetchable) [size=2M]
+>         Capabilities: [40] Power Management version 3
+>                 Flags: PMEClk- DSI- D1- D2- AuxCurrent=375mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
+>                 Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
+>         Capabilities: [50] MSI: Enable+ Count=1/32 Maskable+ 64bit+
+>                 Address: 00000000435e8688  Data: 0001
+>                 Masking: fffffffe  Pending: 00000000
+>         Capabilities: [70] Express (v2) Endpoint, MSI 00
+>                 DevCap: MaxPayload 256 bytes, PhantFunc 0, Latency L0s unlimited, L1 unlimited
+>                         ExtTag- AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 0.000W
+>                 DevCtl: CorrErr- NonFatalErr- FatalErr- UnsupReq-
+>                         RlxdOrd+ ExtTag- PhantFunc- AuxPwr- NoSnoop-
+>                         MaxPayload 128 bytes, MaxReadReq 128 bytes
+>                 DevSta: CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr+ TransPend-
+>                 LnkCap: Port #0, Speed 5GT/s, Width x1, ASPM not supported
+>                         ClockPM+ Surprise- LLActRep- BwNot- ASPMOptComp+
+>                 LnkCtl: ASPM Disabled; RCB 64 bytes, Disabled- CommClk-
+>                         ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>                 LnkSta: Speed 2.5GT/s (downgraded), Width x1 (ok)
+>                         TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
+>                 DevCap2: Completion Timeout: Range ABCD, TimeoutDis+ NROPrPrP- LTR+
+>                          10BitTagComp- 10BitTagReq- OBFF Not Supported, ExtFmt- EETLPPrefix-
+>                          EmergencyPowerReduction Not Supported, EmergencyPowerReductionInit-
+>                          FRS- TPHComp- ExtTPHComp-
+>                          AtomicOpsCap: 32bit- 64bit- 128bitCAS-
+>                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis- LTR- OBFF Disabled,
+>                          AtomicOpsCtl: ReqEn-
+>                 LnkCap2: Supported Link Speeds: 2.5-5GT/s, Crosslink- Retimer- 2Retimers- DRS-
+>                 LnkCtl2: Target Link Speed: 5GT/s, EnterCompliance- SpeedDis-
+>                          Transmit Margin: Normal Operating Range, EnterModifiedCompliance- ComplianceSOS-
+>                          Compliance De-emphasis: -6dB
+>                 LnkSta2: Current De-emphasis Level: -3.5dB, EqualizationComplete- EqualizationPhase1-
+>                          EqualizationPhase2- EqualizationPhase3- LinkEqualizationRequest-
+>                          Retimer- 2Retimers- CrosslinkRes: unsupported
+>         Capabilities: [100 v2] Advanced Error Reporting
+>                 UESta:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
+>                 UEMsk:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
+>                 UESvrt: DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
+>                 CESta:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr-
+>                 CEMsk:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr+
+>                 AERCap: First Error Pointer: 00, ECRCGenCap+ ECRCGenEn- ECRCChkCap+ ECRCChkEn-
+>                         MultHdrRecCap- MultHdrRecEn- TLPPfxPres- HdrLogCap-
+>                 HeaderLog: 00000000 00000000 00000000 00000000
+>         Capabilities: [148 v1] Device Serial Number 00-00-00-00-00-00-00-00
+>         Capabilities: [158 v1] Latency Tolerance Reporting
+>                 Max snoop latency: 0ns
+>                 Max no snoop latency: 0ns
+>         Capabilities: [160 v1] L1 PM Substates
+>                 L1SubCap: PCI-PM_L1.2- PCI-PM_L1.1- ASPM_L1.2- ASPM_L1.1- L1_PM_Substates-
+>                 L1SubCtl1: PCI-PM_L1.2- PCI-PM_L1.1- ASPM_L1.2- ASPM_L1.1-
+>                 L1SubCtl2:
+>         Kernel driver in use: ath10k_pci
