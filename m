@@ -2,54 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53DEFC433ED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C78C43460
 	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 15:01:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2677D61396
+	by mail.kernel.org (Postfix) with ESMTP id 7D37861396
 	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 15:01:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231867AbhEKPCq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 11:02:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35108 "EHLO mail.kernel.org"
+        id S231934AbhEKPCr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 11:02:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35152 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231756AbhEKPCo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231782AbhEKPCo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 11 May 2021 11:02:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 78A5361396;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F217613C1;
         Tue, 11 May 2021 15:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620745297;
-        bh=qY7RgSbBhtJrOZl3S+BtvW9dnG8fpGtapUyyA8e+AFM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JtBCQQSYMVVyYLTTnMTsn/gslJON3WpDPHgBNkGTKUC1k9PthZjW/OtZ96o4H+cZF
-         LwvTMrP2wBm39AI5tZe2DYm5TzfkSH3wCMfhhSKUCp3Iw30TLhZQlZg6yTDI0rVkJi
-         Cp0YG0xjfKfWFj7NifyKLyxXtnvQGqKzeHggcdlsl+6fqVuIpydbl0xNhG7AzopSb5
-         b2yXxyvknpNSQ51guwzH1CPbya2u0hd2x/3xRQdJu4EzB0fHupQUmL7jA2Yv4Sbm7W
-         AAlNGDWF8NnmZKENg0iP/V3qjS9NI2YNnV/+NpYqoKRDAxL5ahcH3IT/OMZtIeve/g
-         8oQTRSV4Rhzqw==
+        bh=CGntqTzT0CjwBnD8m2IoNs2tKZ5vRmYFfQ0jAL/UEb8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=panu4sVvuTFMZuqoZPlBkXPO1+Kh+4Bp7wMgfwwhZeIJ22TPqPX+LNgC81uNqjndt
+         Yr99x1IRXYnyYKXssWNKnICXlOMNRnUy0uE5I3bPlgo2t9CStA38Vy3VkQC5iqM6ni
+         apXbgb5KKoleKiXgAGhnYEV3iXjZTDgpkKJKqo10RnzxpF0C/p8ixNRp0t857htG06
+         RvTMwBONaCF/Z3OZOfdrF0JmxogubCngp2wgSEjXEUoRlOKrakqnOZlp9ktaXJYMhq
+         EJ7nfcBbg0H39QjX+8+xJtNS6UOYdTcYNKJda7JGVIJy69mksb5VWbVtI/oYJuVijz
+         9Ft1gfPEazwXg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgTt7-000k1I-VT; Tue, 11 May 2021 17:01:33 +0200
+        id 1lgTt7-000k0z-Pq; Tue, 11 May 2021 17:01:33 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>, Jens Axboe <axboe@kernel.dk>,
+        intel-wired-lan@lists.osuosl.org, linux-hwmon@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH 5/5] docs: networking: device_drivers: fix bad usage of UTF-8 chars
-Date:   Tue, 11 May 2021 17:01:32 +0200
-Message-Id: <95eb2a48d0ca3528780ce0dfce64359977fa8cb3.1620744606.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 0/5] Fix some UTF-8 bad usages
+Date:   Tue, 11 May 2021 17:01:27 +0200
+Message-Id: <cover.1620744606.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1620744606.git.mchehab+huawei@kernel.org>
-References: <cover.1620744606.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -58,57 +56,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Probably because the original file was pre-processed by some
-tool, both i40e.rst and iavf.rst files are using this character:
+This series follow up this past series:
+	https://lore.kernel.org/lkml/cover.1620641727.git.mchehab+huawei@kernel.org/
 
-	- U+2013 ('â€“'): EN DASH
+Containing just the manual fixes from it. I'll respin the remaining
+patches on a separate series.
 
-meaning an hyphen when calling a command line application, which
-is obviously wrong. So, replace them by an hyphen, ensuring
-that it will be properly displayed as literals when building
-the documentation.
+Please note that patches 1 to 3 are identical to the ones posted
+on the original series.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../networking/device_drivers/ethernet/intel/i40e.rst         | 4 ++--
- .../networking/device_drivers/ethernet/intel/iavf.rst         | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Patch 1 is special: it fixes some left-overs from a convertion
+from cdrom-standard.tex: there, some characters that are
+valid in C were converted to some visually similar UTF-8 by LaTeX.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-index 8a9b18573688..2d3f6bd969a2 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-@@ -173,7 +173,7 @@ Director rule is added from ethtool (Sideband filter), ATR is turned off by the
- driver. To re-enable ATR, the sideband can be disabled with the ethtool -K
- option. For example::
- 
--  ethtool â€“K [adapter] ntuple [off|on]
-+  ethtool -K [adapter] ntuple [off|on]
- 
- If sideband is re-enabled after ATR is re-enabled, ATR remains enabled until a
- TCP-IP flow is added. When all TCP-IP sideband rules are deleted, ATR is
-@@ -688,7 +688,7 @@ shaper bw_rlimit: for each tc, sets minimum and maximum bandwidth rates.
- Totals must be equal or less than port speed.
- 
- For example: min_rate 1Gbit 3Gbit: Verify bandwidth limit using network
--monitoring tools such as ifstat or sar â€“n DEV [interval] [number of samples]
-+monitoring tools such as `ifstat` or `sar -n DEV [interval] [number of samples]`
- 
- 2. Enable HW TC offload on interface::
- 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-index 52e037b11c97..25330b7b5168 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-@@ -179,7 +179,7 @@ shaper bw_rlimit: for each tc, sets minimum and maximum bandwidth rates.
- Totals must be equal or less than port speed.
- 
- For example: min_rate 1Gbit 3Gbit: Verify bandwidth limit using network
--monitoring tools such as ifstat or sar â€“n DEV [interval] [number of samples]
-+monitoring tools such as ``ifstat`` or ``sar -n DEV [interval] [number of samples]``
- 
- NOTE:
-   Setting up channels via ethtool (ethtool -L) is not supported when the
+Patch 2 remove U+00ac ('¬'): NOT SIGN characters at the end of
+the first line of two files. No idea why those ended being there :-p
+
+Patch 3 replaces:
+	KernelVersion:»·3.3
+by:
+	KernelVersion:	3.3
+
+which is the expected format for the KernelVersion field;
+
+Patches 4 and 5 fix some bad usages of EM DASH/EN DASH on
+places that it should be, instead, a normal hyphen. I suspect
+that they ended being there due to the usage of some conversion
+toolset.
+
+Mauro Carvalho Chehab (5):
+  docs: cdrom-standard.rst: get rid of uneeded UTF-8 chars
+  docs: ABI: remove a meaningless UTF-8 character
+  docs: ABI: remove some spurious characters
+  docs: hwmon: tmp103.rst: fix bad usage of UTF-8 chars
+  docs: networking: device_drivers: fix bad usage of UTF-8 chars
+
+ .../obsolete/sysfs-kernel-fadump_registered   |  2 +-
+ .../obsolete/sysfs-kernel-fadump_release_mem  |  2 +-
+ Documentation/ABI/testing/sysfs-module        |  4 +--
+ Documentation/cdrom/cdrom-standard.rst        | 30 +++++++++----------
+ Documentation/hwmon/tmp103.rst                |  4 +--
+ .../device_drivers/ethernet/intel/i40e.rst    |  4 +--
+ .../device_drivers/ethernet/intel/iavf.rst    |  2 +-
+ 7 files changed, 24 insertions(+), 24 deletions(-)
+
 -- 
 2.30.2
+
 
