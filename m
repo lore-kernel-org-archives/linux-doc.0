@@ -2,90 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBCE1C43460
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 08:07:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A056C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 08:42:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CB0C61448
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 08:07:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F9166186A
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 08:42:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230129AbhEKIIZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 04:08:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55464 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230126AbhEKIIY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 May 2021 04:08:24 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 9CBD8AD2D;
-        Tue, 11 May 2021 08:07:15 +0000 (UTC)
-Date:   Tue, 11 May 2021 10:07:10 +0200
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
-        X86 ML <x86@kernel.org>, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v23 6/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <YJo7LpvBjT/j86Hx@localhost.localdomain>
-References: <20210510030027.56044-1-songmuchun@bytedance.com>
- <20210510030027.56044-7-songmuchun@bytedance.com>
- <20210510104524.GD22664@linux>
- <CAMZfGtUrYismcOai6zsx+X+Mixy=uUtrWU0CQJLxJn8kcfB+8A@mail.gmail.com>
+        id S230476AbhEKInr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 04:43:47 -0400
+Received: from mail-vs1-f50.google.com ([209.85.217.50]:45644 "EHLO
+        mail-vs1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231126AbhEKInj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 04:43:39 -0400
+Received: by mail-vs1-f50.google.com with SMTP id x188so4225007vsx.12;
+        Tue, 11 May 2021 01:42:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yzRdx62Sq3AaDnhd51+rCUJyJIfzNZKgNx2jthkjD/E=;
+        b=UmzsMKflBIc0YxXMZLC4EpFQPhAbEb6MOQ0fP5lK/n5NvPeqgRETZ0Vji7njkaI8Pr
+         v3JIfJcBPiLOXLdT7CITzCpxVGvGyUUY4lvtD6tplcNp9tY1ocI0hcZyuLCpVXX3JmdM
+         hgDpSJw6ltlajJ2iYIJX8mbtBiWZ2v+ihtWr/bbJkyZ9WzyIrpFweNuwPiSLyiWb6jB6
+         tio0JhRBLbKj33+ErYtJPDfAqqEuAL95wLyBCSyYR2gjMFmPgXMSYqtgmn1Pe7JbiQ40
+         sn4G2HvkDJRxJQEyEEPfn6aS1T9Jj9iyCsziWBknvkbAmAF03bj2YW7pY62q9nsvrnZw
+         JLpQ==
+X-Gm-Message-State: AOAM533lZVGZqGkhGkqG5E2EKagCZE7/hRWdWX87dqg3gI/75wR0v/Js
+        XEG1gRyBDzy3EqDq0tXP1QAtjf/RZfwWx3yY2L4=
+X-Google-Smtp-Source: ABdhPJxidzMgN+SIFQ8O4Pmyfgrc3FjU9fVcUqfJeBTcd/MTQvdGjLXfxIWnE3wqGu11LDO+cBZsOZvFeZQ6Fc7RGVA=
+X-Received: by 2002:a67:8745:: with SMTP id j66mr24922894vsd.18.1620722552807;
+ Tue, 11 May 2021 01:42:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZfGtUrYismcOai6zsx+X+Mixy=uUtrWU0CQJLxJn8kcfB+8A@mail.gmail.com>
+References: <cover.1617016509.git.gustavo.pimentel@synopsys.com> <daa1efe23850e77d6807dc3f371728fc0b7548b8.1617016509.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <daa1efe23850e77d6807dc3f371728fc0b7548b8.1617016509.git.gustavo.pimentel@synopsys.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 11 May 2021 10:42:21 +0200
+Message-ID: <CAMuHMdWvMpZ35Y-8k1ZOJeD53HyUoWLbzgZa_OMGCq3FOCf19w@mail.gmail.com>
+Subject: Re: [PATCH v10 1/4] misc: Add Synopsys DesignWare xData IP driver
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 10, 2021 at 08:19:47PM +0800, Muchun Song wrote:
-> Not exactly right. free_huge_page() does not clear HPageTemporary
-> if the page is temporarily allocated when freeing. You are right that
-> dissolve_free_huge_page() does not clear HPageFreed.
+Hi Gustavo,
 
-Right, I missed that.
+On Mon, Mar 29, 2021 at 1:19 PM Gustavo Pimentel
+<Gustavo.Pimentel@synopsys.com> wrote:
+> Add Synopsys DesignWare xData IP driver. This driver enables/disables
+> the PCI traffic generator module pertain to the Synopsys DesignWare
+> prototype.
+>
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 
-> Because I think it is the reverse operation of remove_hugetlb_page,
-> I named it add_hugetlb_page. Do you have any suggestions for
-> renaming?
+Thanks for your patch, which is now commit e8a30eef6ef6da49 ("misc: Add
+Synopsys DesignWare xData IP driver") in v5.13-rc1.
 
-Ok, if it is the counter part, the name makes sense.
-I would have appreciated a comment explaining e.g: under which
-circumtances is being called, etc. but not a blocker, can be done on
-top.
+> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> index f532c59..e6af9ff 100644
+> --- a/drivers/misc/Kconfig
+> +++ b/drivers/misc/Kconfig
+> @@ -402,6 +402,16 @@ config SRAM
+>  config SRAM_EXEC
+>         bool
+>
+> +config DW_XDATA_PCIE
+> +       depends on PCI
+> +       tristate "Synopsys DesignWare xData PCIe driver"
+> +       help
+> +         This driver allows controlling Synopsys DesignWare PCIe traffic
+> +         generator IP also known as xData, present in Synopsys DesignWare
+> +         PCIe Endpoint prototype.
 
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
+Hence shouldn't this depend on PCIE_DW_EP, and perhaps be moved to
+drivers/pcie/?
+Or is that a driver for a different Synopsys DesignWare PCIe Endpoint?
 
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Oscar Salvador
-SUSE L3
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
