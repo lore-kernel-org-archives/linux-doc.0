@@ -2,558 +2,217 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FBAAC433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 00:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0401C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 01:12:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5168661629
-	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 00:39:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C133561480
+	for <linux-doc@archiver.kernel.org>; Tue, 11 May 2021 01:12:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230267AbhEKAkE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 May 2021 20:40:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230227AbhEKAkC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 20:40:02 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71C6C061760
-        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 17:38:54 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id z6-20020a17090a1706b0290155e8a752d8so306726pjd.4
-        for <linux-doc@vger.kernel.org>; Mon, 10 May 2021 17:38:54 -0700 (PDT)
+        id S230154AbhEKBNI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 May 2021 21:13:08 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:33034 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230252AbhEKBNH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 May 2021 21:13:07 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14B1AlFv125114;
+        Tue, 11 May 2021 01:10:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=6hS9GIRR7BbfjVLkpDO4mDkpIkxNHmj71tBTZ6oJbEU=;
+ b=zaRv+Nf9r+a2cak4ILkD9iSLbS/0Q0qZ8jIw5ZfTguUA7SaU8iiGyppG+IlvBO8010/G
+ P4mf4o7K0nlDcViTnZ2e6x4Ifk0x+Sb1ZlpYldYWZIPwhXp0KthDY4qlf3tR4kHfcxB6
+ Ek2u29PDjehut+7DLdmpY21FX3OvhKVsCwyvui+l8NPNViT4K/RaFrFvPGZDRKUUGDVN
+ IiF27X01xZV9y0cnRXODgBfVbYvhZ0tdCZZPzpJmq2lI3LutLkb4GV/zAGOOlDn9Q2yS
+ 3xJw0hQBjltYO/Bk9t4OCloGwv3fu64VIWMXgzWdq7LgZ41l7ONMfD8U69w0ZME6Q/A5 eQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 38e285cagu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 11 May 2021 01:10:46 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14B15ZNt136302;
+        Tue, 11 May 2021 01:10:46 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2042.outbound.protection.outlook.com [104.47.74.42])
+        by userp3030.oracle.com with ESMTP id 38dfrwd6vf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 11 May 2021 01:10:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TbLbKzVO86sNvDAHNB8D7skkdDnpTi934VNhxlz7ZeUnqX9BKGiyaVsUz6MexjklXJpNLj7qolfR7TTKoZHdySkjwchWFFDwqRUu4gmZi06Cr5kZP6kC21Whqa668Eu4AvC70d3n/6VruQACoNmanhvFm7qZgJm3dqr8CckUthyIBeDChbrr7qnKJ0xnFQQjlVhTDlE3G6kLtKQvInYc9/6VajmHP9E9/EdULuXPaSA6AA4XiZF+nrylEotUd8y0d9yvgkNmUXS8Ava1CPnj2H6yL9Sre0X7HDDP3dW2ysNuUtQWd9Gxq/0FswghJom6pvplw3cyV7rdzktlQUghhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6hS9GIRR7BbfjVLkpDO4mDkpIkxNHmj71tBTZ6oJbEU=;
+ b=b2TAso/y9pdr5papcqvlsUbpChC7nV7Diu9zzJiDwHqn0paFUPXSfztZzTb3HRXhgiUwb/gFwBfNlwBDptFB1mfSLqFs/UxkWSvCYoYX5Lzi40zpDHEhXSRHIji8ANCJPB9nYTuRQANnXTnLTiE2Dh/i+W2DDlq2Q5QHKlyOAY5Aa5aMQGfAkfMeGpQs36SIvvEEjNPSrwVnRl9FN3cySPhwmr3fbFHGPEcqtHkGmSETuHD0CS4P66zl5hB1dyAzb41Snr1hZxY6fYKUvTVdgx6hzRutTNbBe546nsnEBl18qVkjPfjKWi19pDIW+VNToDFUko9SUefEeEWjrT6ryQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=w/z2FmS6asU52eCUaCQF8B+KPI/wsT6XxzrWFwYAPQw=;
-        b=a+f7PtY6U9PujNXAMbv7JSEFYzuxeGL9TP1rgWp/gJQceUg65+PbCbv2vv0VdOpMZx
-         xJMmQQAIdzAbtij/+DTlxszREGPfs/YowJi/6iBdX3e0dDuorG4YRlekRZBPeOzlN2Mb
-         zw+v57PmS8gsXTLC+Au/YWTHUN9mvx5UWqf1A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=w/z2FmS6asU52eCUaCQF8B+KPI/wsT6XxzrWFwYAPQw=;
-        b=ki/eX7SXlgdVmq+eCVzhfWXhlNZ0rfOE1reRpyQxnRA9ywX5JiJ1lcss2kgTAAjnXP
-         vGhaPXFYDtmRFhRGyGhjZ6f0lXD+E7b8QGSsu17JFqOJm2IA0W+HV/d8RgBAG9bT8k8F
-         8MF9b3oxMRmc2w9kAkSt3RXFRCAmYssKRdtC/HUrtF8Wq7ZQSjUmirnpFJezAgzeGbMJ
-         jONrg1pKG+qkIDIxd+tXrt+YCN0pL7P91WozRuga0W18Ad0rEB87TqjnwA9RTbGfTzOk
-         QvMEjr9HHKmKkweElXYWKM5j4uSZ6EN5TMvMGmkealHBXkdKGTUlaKd8AePgdfe5Wuly
-         i/Hg==
-X-Gm-Message-State: AOAM532J7xHcn1iSDkWyZRnVzvoFfWmECMttIyZcoz1vVQKuzz4UpmFJ
-        rZEiNAcmgk0TdZ0cvs2h/I1V1Q==
-X-Google-Smtp-Source: ABdhPJx2qZJ8cTQProLvenbww3zfcwmOprNP0h7WaVpYQz08IK/3l9KZf8D3xlwAmo/3FNNbyoLMAg==
-X-Received: by 2002:a17:902:6ac3:b029:e6:c6a3:a697 with SMTP id i3-20020a1709026ac3b02900e6c6a3a697mr27501405plt.2.1620693534151;
-        Mon, 10 May 2021 17:38:54 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:6765:417e:19fc:9756])
-        by smtp.gmail.com with ESMTPSA id d26sm12142539pfq.215.2021.05.10.17.38.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 17:38:53 -0700 (PDT)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>
-Cc:     linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v6 05/13] module: Add printk formats to add module build ID to stacktraces
-Date:   Mon, 10 May 2021 17:38:37 -0700
-Message-Id: <20210511003845.2429846-6-swboyd@chromium.org>
-X-Mailer: git-send-email 2.31.1.607.g51e8a6a459-goog
-In-Reply-To: <20210511003845.2429846-1-swboyd@chromium.org>
-References: <20210511003845.2429846-1-swboyd@chromium.org>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6hS9GIRR7BbfjVLkpDO4mDkpIkxNHmj71tBTZ6oJbEU=;
+ b=N6HFFjKmwPyCjB+v5UUdyxpYLqba1nJ8JOkesk0YRQdtchr91MFF/Kjo0R6oLZuNS7AYLdR8mcjv67a/+3vZE/ox48DLSklR4fE8iYrY+0EgK39NAjGL8Mwnf9nyke6mfzKxw2TIe5J4U8onSqXxVR0ViIhwM8NQd7qlMGLx6S4=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+ by BYAPR10MB3494.namprd10.prod.outlook.com (2603:10b6:a03:11d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Tue, 11 May
+ 2021 01:10:43 +0000
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::4407:2ff6:c0a:5d90]) by BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::4407:2ff6:c0a:5d90%8]) with mapi id 15.20.4108.031; Tue, 11 May 2021
+ 01:10:43 +0000
+Subject: Re: [External] Re: [PATCH v23 6/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+To:     Muchun Song <songmuchun@bytedance.com>,
+        Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+        X86 ML <x86@kernel.org>, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20210510030027.56044-1-songmuchun@bytedance.com>
+ <20210510030027.56044-7-songmuchun@bytedance.com>
+ <20210510104524.GD22664@linux>
+ <CAMZfGtUrYismcOai6zsx+X+Mixy=uUtrWU0CQJLxJn8kcfB+8A@mail.gmail.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <188b3f52-05d7-7fe8-70e0-88009d7d70b8@oracle.com>
+Date:   Mon, 10 May 2021 18:10:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+In-Reply-To: <CAMZfGtUrYismcOai6zsx+X+Mixy=uUtrWU0CQJLxJn8kcfB+8A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [50.38.35.18]
+X-ClientProxiedBy: MWHPR13CA0013.namprd13.prod.outlook.com
+ (2603:10b6:300:16::23) To BY5PR10MB4196.namprd10.prod.outlook.com
+ (2603:10b6:a03:20d::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.112] (50.38.35.18) by MWHPR13CA0013.namprd13.prod.outlook.com (2603:10b6:300:16::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.12 via Frontend Transport; Tue, 11 May 2021 01:10:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fb31f344-8587-4e37-14ea-08d91419998f
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3494:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR10MB3494054C232D61A719703C9BE2539@BYAPR10MB3494.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: y3pdoP3Pw3C8L0txT9qRMuIodMWlLoTLwuAeUHJQOeJN5CvumqyO1lx4ewfk288MKPaHsBSlCLfFwNKMY9byQJit6csq9MbZp0ldeT/6lhlttanBh1+7gANwv9R90WZeuaLmOxuXu+3ZECS9qGR+9M6QECKy4LSgVGhguk4sBqrks6Cm1eK09PuM404Em8/0mYbjgq+L+Uae1tfsEJ+8W5nEY6QSJ2HyaT5HW9En0EnXAGAhtaqZATMA8p4mHtaFff+oeFjLL0jPsBLzmotsS7SE/iMESIVz8M+7wmzvdZwW9LpJyykjllTQEaxKCZZ8lzDv69bS8ZGkipk2uDtbrGXk6BvAA8ar/JpS4e8Sv1z14Jtrjd6jyYzskggmOvvaOf5J9pW2QQablSvxK4go8aHBwKq+4gvyhLXJHFCBT9pcLGfisMKhEe1KsFH3i5/8srQSqSBOZcUljlEwKwPrx+ru4X9gWs8MsZdUC8U5ICnENhQScD0a9TzrvXagXNXINpAu1CqkXh/DGlauAMa3fM/+Ca3YBW9AXGRptAN6op6T8l+exHAz1ONHD8OkK2sSYPN/jthS9yQxaRZUbFjeM+QFnDg4nS394IquLRHDx6bR5FU1jn8CjSYPmr32v6hh5xXFevL5um1gpeeorLv7w/1x+bJ1HQrUzg0q8MvxmmFa121RgSvorfgOYqChPRww8V3R/pECBobeJ0XxJnwI9Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(396003)(376002)(136003)(346002)(39860400002)(6486002)(8676002)(16576012)(54906003)(316002)(31696002)(31686004)(44832011)(36756003)(2616005)(53546011)(52116002)(956004)(26005)(5660300002)(16526019)(110136005)(478600001)(186003)(7416002)(66476007)(66946007)(2906002)(38100700002)(4326008)(7406005)(8936002)(38350700002)(83380400001)(86362001)(66556008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aTdldHVEcDlWVHlzUHdRdHhhTWRQTXBpOWk2VUlqUTRJOFNyYUlPWHpuZm9I?=
+ =?utf-8?B?K0gxcDdPb3Z1aHczQVFlemRBSW12YlNnTXEzRm1DSXdGVzBBUzlYeENMMXll?=
+ =?utf-8?B?RTNNK1NFQWJjUk02VnBoRURqcmlYMGp4RUdyd0JGUXYzdFh6T1A1WEplYnIy?=
+ =?utf-8?B?NE5zMEhwcHhhZEJnNElXT0ZoZFh5WDVVVTRFWmpJZDFCbDJJZHUvbGNUaSs4?=
+ =?utf-8?B?b3N4TXQ1aWtjTW80ZjYyY1BWNGtUUFZTaDkyV0d2MFZOcjBIRzVJK29LakZR?=
+ =?utf-8?B?bEpkUkZ0UTFFK0tLNXBzc2FRRjE3UXJPcERZUGpDNjc0WDZuZ0FWTzUwMEFx?=
+ =?utf-8?B?MGNVamJIQkFvVHVvOGwzTWVjZFd4OXQzVnJYSE9Yb0t0dEUrZDMxalJNeUZI?=
+ =?utf-8?B?OVcxNFFFcjVReFdLamVER1dOR2d5ais0SDQwMVNBTk10R2tOWmVOeW1OTVZu?=
+ =?utf-8?B?NmJCV29mS0p0Ri80WFRTWmJnTGQ1eXJ5WFVpcEZZNXc4NTBvaDR1MG5YRkcw?=
+ =?utf-8?B?MEFoWXdaMnlrQ2YzMjlwVS9oZExPUmN1WEVlRk10REtaOVFQZ2xjL05iWXAz?=
+ =?utf-8?B?bndCYnZ0aFUxYzBrbytlWEwwMU51SlkwWmI1bk9KZml1bEJEN211TjVjT0hy?=
+ =?utf-8?B?dFRJa0plbUwxYjhGb1NLMEtvZENtclZDLzQySEpzYWF4SnR6a0puNWx1OUl1?=
+ =?utf-8?B?SzQ5RlI4aWNKYldaT09LNDg0RzFlQ1g1V09lUTV1dlN3RUt3V3VVV1Rub0NV?=
+ =?utf-8?B?bTM3dlVyejBiRFJ1aU5KVFJjUkxRaU9GUFJiYXZiWDdtcUI1b3ZCbU9PVlRP?=
+ =?utf-8?B?b3dyd2JNdmREOWpTOFhMaGtjMkgvMG5ZNWEzR0ZhU1F3VnN1dEtpT1N5NmFT?=
+ =?utf-8?B?MDBTTU1ZQ0ZxNFdESGFTb3NaRlJxUUhQVlBXSmJKcng5eUF5Mkk5QTJMeGRS?=
+ =?utf-8?B?Qm5wUlpPSkxFQlhCcW5sU3prdTVpMkhzalE1eWhOdHRiU0NyUWk4SFhpZFow?=
+ =?utf-8?B?MTRHREVsb0V5dG1vVS9pZGtPUHpZbExEK2F5ZHY1LytrcXZLaWZrbWFEYkJ2?=
+ =?utf-8?B?TUk3S2JPeTBSWENCYWppMmRXdm1WbmVZaFpoOG16UEl0Vmwxc05qdWtkMGt5?=
+ =?utf-8?B?dXhtRXVYcm5FcVF4cVNBcEFQdWhFdXpOTTg5Q0IxUWQvWE1pVC9qL2ZmenNX?=
+ =?utf-8?B?RHo4NmJKdXJBc1UvUGRZMW1ySENOUXVVZFhsams0cjRrc2o1ZGxISHMxYlBQ?=
+ =?utf-8?B?TUZsNGFvRmg2RWJ1L1Urdmt5RTJQVGVkWE9NZnBkTXJpc3JscTcxdXdmb2Zt?=
+ =?utf-8?B?WWJxcmNtczhoZGpyQ282aHEwYWdGMnlXNGptVXNPam1kSDRFRHVjQldHS1RM?=
+ =?utf-8?B?QnFQUXRkUkVDMHVWOFZnMVJCZkh5eWFFYjkrUHJhbVpBbnY1Z2VZem1wVm5Y?=
+ =?utf-8?B?bzVjREZzWjZiWWZtKzJidURKSHh6WGVsb0pxS3E5cHJRaHBweENXMldVamdy?=
+ =?utf-8?B?U2JUaGwxUS9OYUNobDIvZlVrSGFDaDVZY29iVXJBc3Z3ekxkZXBtb2tnYzR3?=
+ =?utf-8?B?QllESTZ2K0w5QjE4NWQ5aWRMaWlSK3lnVENDcDRvc3ByWGl5bVc4b2Y2cUhl?=
+ =?utf-8?B?OVVzTTVkL0Y5MWpBWXBwdlZEci9URnczbWliangyenlPTSt5K2U4dnU0cUNR?=
+ =?utf-8?B?M1NJSTFsYVBuTTM4bEhqWU9YQWRWMVkvSEdZeG5RR0hMSnF4SHNvUGVwOGpG?=
+ =?utf-8?Q?wG7ZWgP8Z8MMF94HMFErcNt+uoyR/m6BDvyN2Ik?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb31f344-8587-4e37-14ea-08d91419998f
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2021 01:10:43.6438
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DG1B1kNS9Nsj1ARTTLp94HbVs3JSkTW6XB46NfEQ6UoOY0doHFBCC49/TopmcnOfmTdRwmmDwd0fqnYz+JXUYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3494
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9980 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ adultscore=0 bulkscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105110004
+X-Proofpoint-GUID: Mt3O7UaO0JmlT3Gs3aDUfpFdoFROjkPs
+X-Proofpoint-ORIG-GUID: Mt3O7UaO0JmlT3Gs3aDUfpFdoFROjkPs
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9980 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
+ clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105110004
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Let's make kernel stacktraces easier to identify by including the build
-ID[1] of a module if the stacktrace is printing a symbol from a module.
-This makes it simpler for developers to locate a kernel module's full
-debuginfo for a particular stacktrace. Combined with
-scripts/decode_stracktrace.sh, a developer can download the matching
-debuginfo from a debuginfod[2] server and find the exact file and line
-number for the functions plus offsets in a stacktrace that match the
-module. This is especially useful for pstore crash debugging where the
-kernel crashes are recorded in something like console-ramoops and the
-recovery kernel/modules are different or the debuginfo doesn't exist on
-the device due to space concerns (the debuginfo can be too large for
-space limited devices).
+On 5/10/21 5:19 AM, Muchun Song wrote:
+> On Mon, May 10, 2021 at 6:45 PM Oscar Salvador <osalvador@suse.de> wrote:
+>>
+>> On Mon, May 10, 2021 at 11:00:24AM +0800, Muchun Song wrote:
+>>> --- a/mm/hugetlb.c
+>>> +++ b/mm/hugetlb.c
+>>> @@ -1376,6 +1376,39 @@ static void remove_hugetlb_page(struct hstate *h, struct page *page,
+>>>       h->nr_huge_pages_node[nid]--;
+>>>  }
+>>>
+>>> +static void add_hugetlb_page(struct hstate *h, struct page *page,
+>>> +                          bool adjust_surplus)
+>>> +{
+<snip>
+>>
+>> I think this function would benefit from some renaming. add_hugetlb_page() gives
+>> me no hint of what is this about, although I can figure it out reading the code.
+> 
+> Because I think it is the reverse operation of remove_hugetlb_page,
+> I named it add_hugetlb_page. Do you have any suggestions for
+> renaming?
+> 
 
-Originally, I put this on the %pS format, but that was quickly rejected
-given that %pS is used in other places such as ftrace where build IDs
-aren't meaningful. There was some discussions on the list to put every
-module build ID into the "Modules linked in:" section of the stacktrace
-message but that quickly becomes very hard to read once you have more
-than three or four modules linked in. It also provides too much
-information when we don't expect each module to be traversed in a
-stacktrace. Having the build ID for modules that aren't important just
-makes things messy. Splitting it to multiple lines for each module
-quickly explodes the number of lines printed in an oops too, possibly
-wrapping the warning off the console. And finally, trying to stash away
-each module used in a callstack to provide the ID of each symbol printed
-is cumbersome and would require changes to each architecture to stash
-away modules and return their build IDs once unwinding has completed.
-
-Instead, we opt for the simpler approach of introducing new printk
-formats '%pS[R]b' for "pointer symbolic backtrace with module build ID"
-and '%pBb' for "pointer backtrace with module build ID" and then
-updating the few places in the architecture layer where the stacktrace
-is printed to use this new format.
-
-Before:
-
- Call trace:
-  lkdtm_WARNING+0x28/0x30 [lkdtm]
-  direct_entry+0x16c/0x1b4 [lkdtm]
-  full_proxy_write+0x74/0xa4
-  vfs_write+0xec/0x2e8
-
-After:
-
- Call trace:
-  lkdtm_WARNING+0x28/0x30 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
-  direct_entry+0x16c/0x1b4 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
-  full_proxy_write+0x74/0xa4
-  vfs_write+0xec/0x2e8
-
-Cc: Jiri Olsa <jolsa@kernel.org>
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Jessica Yu <jeyu@kernel.org>
-Cc: Evan Green <evgreen@chromium.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: <linux-doc@vger.kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Link: https://fedoraproject.org/wiki/Releases/FeatureBuildId [1]
-Link: https://sourceware.org/elfutils/Debuginfod.html [2]
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- Documentation/core-api/printk-formats.rst |  11 +++
- include/linux/kallsyms.h                  |  20 ++++-
- include/linux/module.h                    |   8 +-
- kernel/kallsyms.c                         | 101 +++++++++++++++++-----
- kernel/module.c                           |  31 ++++++-
- lib/vsprintf.c                            |   8 +-
- 6 files changed, 154 insertions(+), 25 deletions(-)
-
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 160e710d992f..5f60533f2a56 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -114,6 +114,17 @@ used when printing stack backtraces. The specifier takes into
- consideration the effect of compiler optimisations which may occur
- when tail-calls are used and marked with the noreturn GCC attribute.
- 
-+If the pointer is within a module, the module name and optionally build ID is
-+printed after the symbol name with an extra ``b`` appended to the end of the
-+specifier.
-+
-+::
-+	%pS	versatile_init+0x0/0x110 [module_name]
-+	%pSb	versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+	%pSRb	versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+		(with __builtin_extract_return_addr() translation)
-+	%pBb	prev_fn_of_versatile_init+0x88/0x88 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+
- Probed Pointers from BPF / tracing
- ----------------------------------
- 
-diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
-index 465060acc981..f760cb839775 100644
---- a/include/linux/kallsyms.h
-+++ b/include/linux/kallsyms.h
-@@ -7,6 +7,7 @@
- #define _LINUX_KALLSYMS_H
- 
- #include <linux/errno.h>
-+#include <linux/buildid.h>
- #include <linux/kernel.h>
- #include <linux/stddef.h>
- #include <linux/mm.h>
-@@ -15,8 +16,9 @@
- #include <asm/sections.h>
- 
- #define KSYM_NAME_LEN 128
--#define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s]") + (KSYM_NAME_LEN - 1) + \
--			 2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + 1)
-+#define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + (KSYM_NAME_LEN - 1) + \
-+			 2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
-+			 (BUILD_ID_SIZE_MAX * 2) + 1)
- 
- struct cred;
- struct module;
-@@ -91,8 +93,10 @@ const char *kallsyms_lookup(unsigned long addr,
- 
- /* Look up a kernel symbol and return it in a text buffer. */
- extern int sprint_symbol(char *buffer, unsigned long address);
-+extern int sprint_symbol_build_id(char *buffer, unsigned long address);
- extern int sprint_symbol_no_offset(char *buffer, unsigned long address);
- extern int sprint_backtrace(char *buffer, unsigned long address);
-+extern int sprint_backtrace_build_id(char *buffer, unsigned long address);
- 
- int lookup_symbol_name(unsigned long addr, char *symname);
- int lookup_symbol_attrs(unsigned long addr, unsigned long *size, unsigned long *offset, char *modname, char *name);
-@@ -128,6 +132,12 @@ static inline int sprint_symbol(char *buffer, unsigned long addr)
- 	return 0;
- }
- 
-+static inline int sprint_symbol_build_id(char *buffer, unsigned long address)
-+{
-+	*buffer = '\0';
-+	return 0;
-+}
-+
- static inline int sprint_symbol_no_offset(char *buffer, unsigned long addr)
- {
- 	*buffer = '\0';
-@@ -140,6 +150,12 @@ static inline int sprint_backtrace(char *buffer, unsigned long addr)
- 	return 0;
- }
- 
-+static inline int sprint_backtrace_build_id(char *buffer, unsigned long addr)
-+{
-+	*buffer = '\0';
-+	return 0;
-+}
-+
- static inline int lookup_symbol_name(unsigned long addr, char *symname)
- {
- 	return -ERANGE;
-diff --git a/include/linux/module.h b/include/linux/module.h
-index da4b6fbe8ebe..4145a53ff9d8 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/list.h>
- #include <linux/stat.h>
-+#include <linux/buildid.h>
- #include <linux/compiler.h>
- #include <linux/cache.h>
- #include <linux/kmod.h>
-@@ -364,6 +365,11 @@ struct module {
- 	/* Unique handle for this module */
- 	char name[MODULE_NAME_LEN];
- 
-+#ifdef CONFIG_STACKTRACE_BUILD_ID
-+	/* Module build ID */
-+	unsigned char build_id[BUILD_ID_SIZE_MAX];
-+#endif
-+
- 	/* Sysfs stuff. */
- 	struct module_kobject mkobj;
- 	struct module_attribute *modinfo_attrs;
-@@ -627,7 +633,7 @@ void *dereference_module_function_descriptor(struct module *mod, void *ptr);
- const char *module_address_lookup(unsigned long addr,
- 			    unsigned long *symbolsize,
- 			    unsigned long *offset,
--			    char **modname,
-+			    char **modname, const unsigned char **modbuildid,
- 			    char *namebuf);
- int lookup_module_symbol_name(unsigned long addr, char *symname);
- int lookup_module_symbol_attrs(unsigned long addr, unsigned long *size, unsigned long *offset, char *modname, char *name);
-diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index 8043a90aa50e..b1ad3df3d71b 100644
---- a/kernel/kallsyms.c
-+++ b/kernel/kallsyms.c
-@@ -25,7 +25,10 @@
- #include <linux/filter.h>
- #include <linux/ftrace.h>
- #include <linux/kprobes.h>
-+#include <linux/build_bug.h>
- #include <linux/compiler.h>
-+#include <linux/module.h>
-+#include <linux/kernel.h>
- 
- /*
-  * These will be re-linked against their real values
-@@ -273,21 +276,13 @@ int kallsyms_lookup_size_offset(unsigned long addr, unsigned long *symbolsize,
- 		get_symbol_pos(addr, symbolsize, offset);
- 		return 1;
- 	}
--	return !!module_address_lookup(addr, symbolsize, offset, NULL, namebuf) ||
-+	return !!module_address_lookup(addr, symbolsize, offset, NULL, NULL, namebuf) ||
- 	       !!__bpf_address_lookup(addr, symbolsize, offset, namebuf);
- }
- 
--/*
-- * Lookup an address
-- * - modname is set to NULL if it's in the kernel.
-- * - We guarantee that the returned name is valid until we reschedule even if.
-- *   It resides in a module.
-- * - We also guarantee that modname will be valid until rescheduled.
-- */
--const char *kallsyms_lookup(unsigned long addr,
--			    unsigned long *symbolsize,
--			    unsigned long *offset,
--			    char **modname, char *namebuf)
-+const char *kallsyms_lookup_buildid(unsigned long addr, unsigned long *symbolsize,
-+				    unsigned long *offset, char **modname,
-+				    const unsigned char **modbuildid, char *namebuf)
- {
- 	const char *ret;
- 
-@@ -303,12 +298,14 @@ const char *kallsyms_lookup(unsigned long addr,
- 				       namebuf, KSYM_NAME_LEN);
- 		if (modname)
- 			*modname = NULL;
-+		if (modbuildid)
-+			*modbuildid = NULL;
- 		return namebuf;
- 	}
- 
- 	/* See if it's in a module or a BPF JITed image. */
- 	ret = module_address_lookup(addr, symbolsize, offset,
--				    modname, namebuf);
-+				    modname, modbuildid, namebuf);
- 	if (!ret)
- 		ret = bpf_address_lookup(addr, symbolsize,
- 					 offset, modname, namebuf);
-@@ -319,6 +316,22 @@ const char *kallsyms_lookup(unsigned long addr,
- 	return ret;
- }
- 
-+/*
-+ * Lookup an address
-+ * - modname is set to NULL if it's in the kernel.
-+ * - We guarantee that the returned name is valid until we reschedule even if.
-+ *   It resides in a module.
-+ * - We also guarantee that modname will be valid until rescheduled.
-+ */
-+const char *kallsyms_lookup(unsigned long addr,
-+			    unsigned long *symbolsize,
-+			    unsigned long *offset,
-+			    char **modname, char *namebuf)
-+{
-+	return kallsyms_lookup_buildid(addr, symbolsize, offset, modname,
-+				       NULL, namebuf);
-+}
-+
- int lookup_symbol_name(unsigned long addr, char *symname)
- {
- 	symname[0] = '\0';
-@@ -359,15 +372,17 @@ int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
- 
- /* Look up a kernel symbol and return it in a text buffer. */
- static int __sprint_symbol(char *buffer, unsigned long address,
--			   int symbol_offset, int add_offset)
-+			   int symbol_offset, int add_offset, int add_buildid)
- {
- 	char *modname;
-+	const unsigned char *buildid;
- 	const char *name;
- 	unsigned long offset, size;
- 	int len;
- 
- 	address += symbol_offset;
--	name = kallsyms_lookup(address, &size, &offset, &modname, buffer);
-+	name = kallsyms_lookup_buildid(address, &size, &offset, &modname, &buildid,
-+				       buffer);
- 	if (!name)
- 		return sprintf(buffer, "0x%lx", address - symbol_offset);
- 
-@@ -379,8 +394,17 @@ static int __sprint_symbol(char *buffer, unsigned long address,
- 	if (add_offset)
- 		len += sprintf(buffer + len, "+%#lx/%#lx", offset, size);
- 
--	if (modname)
--		len += sprintf(buffer + len, " [%s]", modname);
-+	if (modname) {
-+		len += sprintf(buffer + len, " [%s", modname);
-+#if IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
-+		if (add_buildid && buildid) {
-+			/* build ID should match length of sprintf */
-+			static_assert(sizeof(typeof_member(struct module, build_id)) == 20);
-+			len += sprintf(buffer + len, " %20phN", buildid);
-+		}
-+#endif
-+		len += sprintf(buffer + len, "]");
-+	}
- 
- 	return len;
- }
-@@ -398,10 +422,27 @@ static int __sprint_symbol(char *buffer, unsigned long address,
-  */
- int sprint_symbol(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, 0, 1);
-+	return __sprint_symbol(buffer, address, 0, 1, 0);
- }
- EXPORT_SYMBOL_GPL(sprint_symbol);
- 
-+/**
-+ * sprint_symbol_build_id - Look up a kernel symbol and return it in a text buffer
-+ * @buffer: buffer to be stored
-+ * @address: address to lookup
-+ *
-+ * This function looks up a kernel symbol with @address and stores its name,
-+ * offset, size, module name and module build ID to @buffer if possible. If no
-+ * symbol was found, just saves its @address as is.
-+ *
-+ * This function returns the number of bytes stored in @buffer.
-+ */
-+int sprint_symbol_build_id(char *buffer, unsigned long address)
-+{
-+	return __sprint_symbol(buffer, address, 0, 1, 1);
-+}
-+EXPORT_SYMBOL_GPL(sprint_symbol_build_id);
-+
- /**
-  * sprint_symbol_no_offset - Look up a kernel symbol and return it in a text buffer
-  * @buffer: buffer to be stored
-@@ -415,7 +456,7 @@ EXPORT_SYMBOL_GPL(sprint_symbol);
-  */
- int sprint_symbol_no_offset(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, 0, 0);
-+	return __sprint_symbol(buffer, address, 0, 0, 0);
- }
- EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
- 
-@@ -435,7 +476,27 @@ EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
-  */
- int sprint_backtrace(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, -1, 1);
-+	return __sprint_symbol(buffer, address, -1, 1, 0);
-+}
-+
-+/**
-+ * sprint_backtrace_build_id - Look up a backtrace symbol and return it in a text buffer
-+ * @buffer: buffer to be stored
-+ * @address: address to lookup
-+ *
-+ * This function is for stack backtrace and does the same thing as
-+ * sprint_symbol() but with modified/decreased @address. If there is a
-+ * tail-call to the function marked "noreturn", gcc optimized out code after
-+ * the call so that the stack-saved return address could point outside of the
-+ * caller. This function ensures that kallsyms will find the original caller
-+ * by decreasing @address. This function also appends the module build ID to
-+ * the @buffer if @address is within a kernel module.
-+ *
-+ * This function returns the number of bytes stored in @buffer.
-+ */
-+int sprint_backtrace_build_id(char *buffer, unsigned long address)
-+{
-+	return __sprint_symbol(buffer, address, -1, 1, 1);
- }
- 
- /* To avoid using get_symbol_offset for every symbol, we carry prefix along. */
-diff --git a/kernel/module.c b/kernel/module.c
-index 30479355ab85..a5eaf5188a83 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -13,6 +13,7 @@
- #include <linux/trace_events.h>
- #include <linux/init.h>
- #include <linux/kallsyms.h>
-+#include <linux/buildid.h>
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/sysfs.h>
-@@ -2780,6 +2781,26 @@ static void add_kallsyms(struct module *mod, const struct load_info *info)
- }
- #endif /* CONFIG_KALLSYMS */
- 
-+#if IS_ENABLED(CONFIG_KALLSYMS) && IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
-+static void init_build_id(struct module *mod, const struct load_info *info)
-+{
-+	const Elf_Shdr *sechdr;
-+	unsigned int i;
-+
-+	for (i = 0; i < info->hdr->e_shnum; i++) {
-+		sechdr = &info->sechdrs[i];
-+		if (!sect_empty(sechdr) && sechdr->sh_type == SHT_NOTE &&
-+		    !build_id_parse_buf((void *)sechdr->sh_addr, mod->build_id,
-+					sechdr->sh_size))
-+			break;
-+	}
-+}
-+#else
-+static void init_build_id(struct module *mod, const struct load_info *info)
-+{
-+}
-+#endif
-+
- static void dynamic_debug_setup(struct module *mod, struct _ddebug *debug, unsigned int num)
- {
- 	if (!debug)
-@@ -4004,6 +4025,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
- 		goto free_arch_cleanup;
- 	}
- 
-+	init_build_id(mod, info);
- 	dynamic_debug_setup(mod, info->debug, info->num_debug);
- 
- 	/* Ftrace init must be called in the MODULE_STATE_UNFORMED state */
-@@ -4235,7 +4257,7 @@ void * __weak dereference_module_function_descriptor(struct module *mod,
- const char *module_address_lookup(unsigned long addr,
- 			    unsigned long *size,
- 			    unsigned long *offset,
--			    char **modname,
-+			    char **modname, const unsigned char **modbuildid,
- 			    char *namebuf)
- {
- 	const char *ret = NULL;
-@@ -4246,6 +4268,13 @@ const char *module_address_lookup(unsigned long addr,
- 	if (mod) {
- 		if (modname)
- 			*modname = mod->name;
-+		if (modbuildid) {
-+#if IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
-+			*modbuildid = mod->build_id;
-+#else
-+			*modbuildid = NULL;
-+#endif
-+		}
- 
- 		ret = find_kallsyms_symbol(mod, addr, size, offset);
- 	}
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 41ddc353ebb8..fee5282ebb0a 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -966,8 +966,12 @@ char *symbol_string(char *buf, char *end, void *ptr,
- 	value = (unsigned long)ptr;
- 
- #ifdef CONFIG_KALLSYMS
--	if (*fmt == 'B')
-+	if (*fmt == 'B' && fmt[1] == 'b')
-+		sprint_backtrace_build_id(sym, value);
-+	else if (*fmt == 'B')
- 		sprint_backtrace(sym, value);
-+	else if (*fmt == 'S' && (fmt[1] == 'b' || (fmt[1] == 'R' && fmt[2] == 'b')))
-+		sprint_symbol_build_id(sym, value);
- 	else if (*fmt != 's')
- 		sprint_symbol(sym, value);
- 	else
-@@ -2129,9 +2133,11 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
-  * - 'S' For symbolic direct pointers (or function descriptors) with offset
-  * - 's' For symbolic direct pointers (or function descriptors) without offset
-  * - '[Ss]R' as above with __builtin_extract_return_addr() translation
-+ * - 'S[R]b' as above with module build ID (for use in backtraces)
-  * - '[Ff]' %pf and %pF were obsoleted and later removed in favor of
-  *	    %ps and %pS. Be careful when re-using these specifiers.
-  * - 'B' For backtraced symbolic direct pointers with offset
-+ * - 'Bb' as above with module build ID (for use in backtraces)
-  * - 'R' For decoded struct resource, e.g., [mem 0x0-0x1f 64bit pref]
-  * - 'r' For raw struct resource, e.g., [mem 0x0-0x1f flags 0x201]
-  * - 'b[l]' For a bitmap, the number of bits is determined by the field
+FWIW, I am fine with the naming.  As Muchun mentions, it is the opposite
+of remove_hugetlb_page.  At one time, I created a function with the same
+name to be used by set_max_huge_pages and other routines which add pages
+to the hugetlb pool.  It would be much more obvious than the current
+code path in which we call put_page which calls the hugetlb destructor
+free_huge_page to add the page to the pool.
 -- 
-https://chromeos.dev
-
+Mike Kravetz
