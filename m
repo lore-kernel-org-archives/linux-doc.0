@@ -4,50 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28AD2C433B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C604EC43462
 	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E447B6143A
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9620B61139
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231305AbhELMwv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:52:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52112 "EHLO mail.kernel.org"
+        id S231313AbhELMww (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:52:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52122 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231286AbhELMwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231166AbhELMwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:52:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2272D61026;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2412461104;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=4ofQsASU/MTwLwGKXLy4pALcxYirc0LvzC8mUKPB/jw=;
+        bh=jmDA7OBIG40e3rzXAsGJ5fdtuKiC6QO6Mo48AVXXMFM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ehzI2dkTGNdt5gGWNwWX6aEbUWTKTcHsHA94sroT8TDjUq/Q3pkOpjXDQv+s4Yi/s
-         PBHz9zWgtT4LkxetufTeN1UleiUQD/OEl5xiI2fCXEZa9/yG805RxRe76wtalNjJUy
-         GHUCgCdyu+0OsC3NIfKKKTcaaH+kBE8g0Zdz1ZUZl8ZGQNOyYYLKIUk3NqN/JeyJtW
-         m7G2j4ROxj7snXxIU1NczZuchYo/F5ypGxi2gGbX2mrI0+rBWUsyiWaFi9OY8+KpUk
-         k6aDYvX9D1L/hEACwIfirnbguoAcMprcG+OjFdB3vZ9z3ZCUJwE7Lcm/wmhS8+KYFY
-         Cb64hvbzq4zAQ==
+        b=pL4SydUtBWPym3d0Xl+3VdgdUWCpgr6afKhS9Uqc+AS4VcDS82cLP2ihz6GbIeqLw
+         FCefDFmi/6n7F1tEU2K/51sL8IGLso+cBQBa0Mk2uS7y/eQWNM8+jl8Ot3DcKsJ2H9
+         EGCzKw6UFrWSmYs9LG+N/T5ULbWdV7SONKwr+GMBJ+Q2LRYs9+c+CqTLborlcXU4RU
+         mLvJPtag5QX/wNVrn5Tk7KU1QvUDbwLf8tjkoycXMiy2hpe3dvq0hSEE7QwZ6ha7K7
+         vn7hK5Mzm+3ljP3HXxEHk6UADrzEs83V/vEj5lmYmx42o9eUrF3CLMFE+cx9eCXVLI
+         KzJ1SyYJSZteg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018h3-78; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018gr-3F; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        Frank Li <Frank.li@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 04/40] docs: admin-guide: perf: imx-ddr.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:08 +0200
-Message-Id: <b892deb6bff0d0781dac0d7a49aff38cd5d5f031.1620823573.git.mchehab+huawei@kernel.org>
+        Charles Hsu <hsu.yungteng@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 01/40] docs: hwmon: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:05 +0200
+Message-Id: <8a84b20ef52e012850a88be99c4a5450abfeda13.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -74,27 +71,55 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
-	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
+	- U+2010 ('‐'): HYPHEN
+	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/perf/imx-ddr.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/hwmon/ir36021.rst  | 2 +-
+ Documentation/hwmon/ltc2992.rst  | 2 +-
+ Documentation/hwmon/pm6764tr.rst | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/perf/imx-ddr.rst b/Documentation/admin-guide/perf/imx-ddr.rst
-index 90926d0fb8ec..269d0b564903 100644
---- a/Documentation/admin-guide/perf/imx-ddr.rst
-+++ b/Documentation/admin-guide/perf/imx-ddr.rst
-@@ -9,7 +9,7 @@ control register which causes a large number of PERF signals to be generated.
+diff --git a/Documentation/hwmon/ir36021.rst b/Documentation/hwmon/ir36021.rst
+index ca3436b04e20..1faa85c39f1b 100644
+--- a/Documentation/hwmon/ir36021.rst
++++ b/Documentation/hwmon/ir36021.rst
+@@ -19,7 +19,7 @@ Authors:
+ Description
+ -----------
  
- Selection of the value for each counter is done via the config registers. There
- is one register for each counter. Counter 0 is special in that it always counts
--“time” and when expired causes a lock on itself and the other counters and an
-+"time" and when expired causes a lock on itself and the other counters and an
- interrupt is raised. If any other counter overflows, it continues counting, and
- no interrupt is raised.
+-The IR36021 is a dual‐loop digital multi‐phase buck controller designed for
++The IR36021 is a dual-loop digital multi-phase buck controller designed for
+ point of load applications.
  
+ Usage Notes
+diff --git a/Documentation/hwmon/ltc2992.rst b/Documentation/hwmon/ltc2992.rst
+index 46aa1aa84a1a..a0bcd867a0f5 100644
+--- a/Documentation/hwmon/ltc2992.rst
++++ b/Documentation/hwmon/ltc2992.rst
+@@ -19,7 +19,7 @@ This driver supports hardware monitoring for Linear Technology LTC2992 power mon
+ LTC2992 is a rail-to-rail system monitor that measures current,
+ voltage, and power of two supplies.
+ 
+-Two ADCs simultaneously measure each supply’s current. A third ADC monitors
++Two ADCs simultaneously measure each supply's current. A third ADC monitors
+ the input voltages and four auxiliary external voltages.
+ 
+ 
+diff --git a/Documentation/hwmon/pm6764tr.rst b/Documentation/hwmon/pm6764tr.rst
+index a1fb8fea2326..294a8ffc8bd8 100644
+--- a/Documentation/hwmon/pm6764tr.rst
++++ b/Documentation/hwmon/pm6764tr.rst
+@@ -20,7 +20,7 @@ Description:
+ ------------
+ 
+ This driver supports the STMicroelectronics PM6764TR chip. The PM6764TR is a high
+-performance digital controller designed to power Intel’s VR12.5 processors and memories.
++performance digital controller designed to power Intel's VR12.5 processors and memories.
+ 
+ The device utilizes digital technology to implement all control and power management
+ functions to provide maximum flexibility and performance. The NVM is embedded to store
 -- 
 2.30.2
 
