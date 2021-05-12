@@ -2,121 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB7EC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 22:38:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 364BAC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 23:32:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F99E61073
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 22:38:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10CA8613FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 23:32:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233483AbhELWjP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 18:39:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53742 "EHLO mail.kernel.org"
+        id S230252AbhELXda (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 19:33:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33472 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1391721AbhELVat (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 May 2021 17:30:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E08C613B5;
-        Wed, 12 May 2021 21:29:39 +0000 (UTC)
+        id S1349917AbhELWtt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 May 2021 18:49:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 22C1B613F6;
+        Wed, 12 May 2021 22:48:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620854979;
-        bh=NJiYq8O1tWN0uhyFbIsznz9WLdKwSXYXjkFgfE2Ir90=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=LcrriKRxoXHzRiwpmWbqT571U+xRdEIZ3UBG/Bwh1L+eu5nhWolHL9mqx3Te6aIL8
-         S6HhQTLNFNFzYVLVrOx1D5xT4e/yTg9rHQQnSIL35SgqC09BxQwv1rEk9aJ6MOeyeF
-         jLW/NTMheTE8/ZzGqcfHJaeSUHqLtOWCXKtxZfPwpi+vSr7iylc7HFhvGhy1YOlZoR
-         P9UOmEbOp3seMe5P0DNJQt96Olui5WAfzEBMZMUHDqI5p1YtwmU8tJmEWUMcq1TwQW
-         Qt/W1Vy6V7y0vpv2lGSivb1dGs6Y0JfhmuyfUz0h/dupYuayVWc3diQKXi6cMhExlf
-         7arpZt6fKIuEw==
-Date:   Wed, 12 May 2021 16:29:38 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Subject: Re: [PATCH v2 31/40] docs: PCI: acpi-info.rst: Use ASCII subset
- instead of UTF-8 alternate symbols
-Message-ID: <20210512212938.GA2516413@bjorn-Precision-5520>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7fd9d4360a3d0f761b169b95d9997f4f5d06319c.1620823573.git.mchehab+huawei@kernel.org>
+        s=k20201202; t=1620859721;
+        bh=RV5KSsyjN5zrSi+plYiBq6iX76+2FIQJwELu21I+eAo=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=GlNvIpwmFeUU9H6B4pHeuBmhQBEtFpX6QkqHKzBlWsavbUxQLmfPKfEawX9VUac1I
+         WV+dh4k9PgcgpVSanDTanqPZmqH9QamxsHnYdRBKLIM3s8viG9+H1pXEDAamkp0omE
+         XsMEtg5FKuHk4JDwiiZ2xDCyhA8XJcKNBY7+EZksY78n6E3oad/FysR5THkVI3nrQn
+         bJYWZUxUxLVLWwYIjVr+imq7Fv+Un27aJNVwOkoJaaxZIiN2estdo46XDlyIA/cQcD
+         yz8lAmxd0XyAXjW+wRc+HuUUFAJgKfyULyRub0sqoUdV8//xpQRXp4NHnNqF/AwKm1
+         qrzdNDdVqB/PQ==
+Subject: Re: [GIT PULL] Documentation fixes
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <87mtszad8p.fsf@meer.lwn.net>
+References: <87mtszad8p.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87mtszad8p.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.13-3
+X-PR-Tracked-Commit-Id: 7240cd200541543008a7ce4fcaf2ba5a5556128f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c06a2ba62fc401b7aaefd23f5d0bc06d2457ccc1
+Message-Id: <162085972110.12307.14492533564881183670.pr-tracker-bot@kernel.org>
+Date:   Wed, 12 May 2021 22:48:41 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-1) The subject line convention in Documentation/PCI has been
-"Documentation: PCI: ...", but that is a little wordy, and if you want
-to start a wider convention of "docs: PCI: ..." I'm OK with that.
+The pull request you sent on Wed, 12 May 2021 14:49:58 -0600:
 
-2) IMO, including the filename ("acpi-info.rst") in the subject is not
-really all that interesting.  In fact, I'd be fine with doing this
-sort of mechanical conversion with a patch per directory or even a
-single patch for *all* of Documentation/.
+> git://git.lwn.net/linux.git tags/docs-5.13-3
 
-On Wed, May 12, 2021 at 02:50:35PM +0200, Mauro Carvalho Chehab wrote:
-> The conversion tools used during DocBook/LaTeX/Markdown->ReST conversion
-> and some automatic rules which exists on certain text editors like
-> LibreOffice turned ASCII characters into some UTF-8 alternatives that
-> are better displayed on html and PDF.
-> 
-> While it is OK to use UTF-8 characters in Linux, it is better to
-> use the ASCII subset instead of using an UTF-8 equivalent character
-> as it makes life easier for tools like grep, and are easier to edit
-> with the some commonly used text/source code editors.
-> 
-> Also, Sphinx already do such conversion automatically outside literal blocks:
->    https://docutils.sourceforge.io/docs/user/smartquotes.html
-> 
-> So, replace the occurences of the following UTF-8 characters:
-> 
-> 	- U+00a0 (' '): NO-BREAK SPACE
-> 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
-> 
-> Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c06a2ba62fc401b7aaefd23f5d0bc06d2457ccc1
 
-Yes, this is annoying.  Thanks for doing this.
+Thank you!
 
-I noticed a few other anomalies.  If you want to keep this series as
-just a mechanical thing and leave the things below for later, I'm OK
-with that, too.
-
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-> ---
->  Documentation/PCI/acpi-info.rst | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/PCI/acpi-info.rst b/Documentation/PCI/acpi-info.rst
-> index 060217081c79..30d0fc85dd8e 100644
-> --- a/Documentation/PCI/acpi-info.rst
-> +++ b/Documentation/PCI/acpi-info.rst
-> @@ -22,9 +22,9 @@ or if the device has INTx interrupts connected by platform interrupt
->  controllers and a _PRT is needed to describe those connections.
->  
->  ACPI resource description is done via _CRS objects of devices in the ACPI
-> -namespace [2].   The _CRS is like a generalized PCI BAR: the OS can read
-> +namespace [2].   The _CRS is like a generalized PCI BAR: the OS can read
-
-s/   The _CRS/  The _CRS/
-
-Remove one of the spaces at the end of this sentence.  One space is
-OK, two is the convention in this file, and three is way too many :)
-
-> @@ -66,7 +66,7 @@ the PNP0A03/PNP0A08 device itself.  The workaround was to describe the
->  bridge registers (including ECAM space) in PNP0C02 catch-all devices [6].
->  With the exception of ECAM, the bridge register space is device-specific
->  anyway, so the generic PNP0A03/PNP0A08 driver (pci_root.c) has no need to
-> -know about it.  
-> +know about it.  
-
-Remove all the whitespace at the end of this line.
-
-Bjorn
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
