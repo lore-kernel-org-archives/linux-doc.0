@@ -2,161 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A08CCC433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAA5FC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 13:46:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E98C61026
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5720461007
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 13:46:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233428AbhELMxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53208 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231665AbhELMxD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 May 2021 08:53:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A87E6192C;
-        Wed, 12 May 2021 12:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620823903;
-        bh=a2ciNHKQtdy9yKU7hgq+HbZ1G3BlRKUgnhBsmHQl52Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FhOgSFeSes/0Y4VigsXGqH46I33Iif1FNXc8PCR5FWAYIq0aY0AQAYxB6d7q+zxvC
-         4DOh6Y8pnik83uGrWspdaaxkO4jSqtSMz0TZb4X7jZrjjP8f8gCiyBPHoiSnU90yRH
-         XsnVdToIuqUqOUVE4H3QO3Dir5vCd/GOpoMJIPSuVV6iTLGfo0e8oeg1gJXnocgLYn
-         vaIhea9QJyjaUZu5Xlj5XDt6ogA2nqcr1rko0GAlYrAJDunmW9okqoJS7V0kzOBk7I
-         ONys0cf7Fihlp2kOAHTRMuPFFpb9uFDj+FaOoUDJOqmk2n81eKk5Hj5zTswx7rFr7r
-         65GtdzwtYbRwQ==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018hB-9I; Wed, 12 May 2021 14:51:40 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mike Leach <mike.leach@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/40] docs: trace: coresight: coresight-etm4x-reference.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:10 +0200
-Message-Id: <14c34b8034d4916c5f81c59b6c7f28d622a84bb4.1620823573.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
+        id S230213AbhELNri convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 09:47:38 -0400
+Received: from mail-oi1-f169.google.com ([209.85.167.169]:38608 "EHLO
+        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230037AbhELNri (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 May 2021 09:47:38 -0400
+Received: by mail-oi1-f169.google.com with SMTP id z3so21066012oib.5;
+        Wed, 12 May 2021 06:46:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=FO9kJ+b8x1JLXLkbxxF4NNo5vEWgE/7j3BQaY1Hzph8=;
+        b=KVifyYQqqqHydbSzCz976hqv4ide4etfM7fyX1t5+1tuJ/1LEcaWCdaIxXI70le5FH
+         McGegwKrQio59v8pTKW+eoAzvsYBbSJ84wmlcFTQvW3p98ejoaeZOkcE7RoMtgHxZYW3
+         1k/81TZwGlBT0QgjQVfAH1zdoiEh4n9shyvNgHbECGFVPC505e7S6LDWOxpQ2lNLxjcg
+         uOpo7QI+6o5/HsUU7A0lDau8HcD+xWSQauy96F8tznReL22ybjCUz+/rOKXepF2K9z92
+         rp5YfYDK42mc2YyRMuavZT712z3g6zOk4qYs/ymium0uIgQO0x9b24YBbrjbF17oAV1F
+         QVuA==
+X-Gm-Message-State: AOAM531Ik1pkdadSYhTkqA/UQ/h49Sv9rvNvyy6eLWPGKDAnHCiXrsUc
+        mur8eeN8NpVqlk39UqDZnCT1vDK+trnfOKELDjFfeNTJ
+X-Google-Smtp-Source: ABdhPJw04Q8b2d2WMH54gp48NYOZpg54ce9CF0WHxsWceg5d4ctFV/dx03lgJxIP/XuforxOBNTOD2NMIzw//w0WW5M=
+X-Received: by 2002:aca:1815:: with SMTP id h21mr6941028oih.69.1620827189861;
+ Wed, 12 May 2021 06:46:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1620823573.git.mchehab+huawei@kernel.org> <14b86d84efa6b2c5a7a27e58671e0abcb493cb57.1620823573.git.mchehab+huawei@kernel.org>
+In-Reply-To: <14b86d84efa6b2c5a7a27e58671e0abcb493cb57.1620823573.git.mchehab+huawei@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 12 May 2021 15:46:18 +0200
+Message-ID: <CAJZ5v0iShOdq13k4OQnp5Kz8nj58jvot6GxhKBmMLc=7aenBnQ@mail.gmail.com>
+Subject: Re: [PATCH v2 37/40] docs: firmware-guide: acpi: lpit.rst: Use ASCII
+ subset instead of UTF-8 alternate symbols
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conversion tools used during DocBook/LaTeX/Markdown->ReST conversion
-and some automatic rules which exists on certain text editors like
-LibreOffice turned ASCII characters into some UTF-8 alternatives that
-are better displayed on html and PDF.
+On Wed, May 12, 2021 at 2:52 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> The conversion tools used during DocBook/LaTeX/Markdown->ReST conversion
+> and some automatic rules which exists on certain text editors like
+> LibreOffice turned ASCII characters into some UTF-8 alternatives that
+> are better displayed on html and PDF.
+>
+> While it is OK to use UTF-8 characters in Linux, it is better to
+> use the ASCII subset instead of using an UTF-8 equivalent character
+> as it makes life easier for tools like grep, and are easier to edit
+> with the some commonly used text/source code editors.
+>
+> Also, Sphinx already do such conversion automatically outside literal blocks:
+>    https://docutils.sourceforge.io/docs/user/smartquotes.html
+>
+> So, replace the occurences of the following UTF-8 characters:
+>
+>         - U+201c ('“'): LEFT DOUBLE QUOTATION MARK
+>         - U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While it is OK to use UTF-8 characters in Linux, it is better to
-use the ASCII subset instead of using an UTF-8 equivalent character
-as it makes life easier for tools like grep, and are easier to edit
-with the some commonly used text/source code editors.
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Also, Sphinx already do such conversion automatically outside literal blocks:
-   https://docutils.sourceforge.io/docs/user/smartquotes.html
-
-So, replace the occurences of the following UTF-8 characters:
-
-	- U+00a0 (' '): NO-BREAK SPACE
-	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
-
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../coresight/coresight-etm4x-reference.rst      | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/trace/coresight/coresight-etm4x-reference.rst b/Documentation/trace/coresight/coresight-etm4x-reference.rst
-index b64d9a9c79df..e8ddfc144d9a 100644
---- a/Documentation/trace/coresight/coresight-etm4x-reference.rst
-+++ b/Documentation/trace/coresight/coresight-etm4x-reference.rst
-@@ -15,14 +15,14 @@ Root: ``/sys/bus/coresight/devices/etm<N>``
- 
- The following paragraphs explain the association between sysfs files and the
- ETMv4 registers that they effect. Note the register names are given without
--the ‘TRC’ prefix.
-+the 'TRC' prefix.
- 
- ----
- 
- :File:            ``mode`` (rw)
- :Trace Registers: {CONFIGR + others}
- :Notes:
--    Bit select trace features. See ‘mode’ section below. Bits
-+    Bit select trace features. See 'mode' section below. Bits
-     in this will cause equivalent programming of trace config and
-     other registers to enable the features requested.
- 
-@@ -89,7 +89,7 @@ the ‘TRC’ prefix.
- :Notes:
-     Pair of addresses for a range selected by addr_idx. Include
-     / exclude according to the optional parameter, or if omitted
--    uses the current ‘mode’ setting. Select comparator range in
-+    uses the current 'mode' setting. Select comparator range in
-     control register. Error if index is odd value.
- 
- :Depends: ``mode, addr_idx``
-@@ -277,7 +277,7 @@ the ‘TRC’ prefix.
- :Trace Registers: VICTLR{23:20}
- :Notes:
-     Program non-secure exception level filters. Set / clear NS
--    exception filter bits. Setting ‘1’ excludes trace from the
-+    exception filter bits. Setting '1' excludes trace from the
-     exception level.
- 
- :Syntax:
-@@ -427,7 +427,7 @@ the ‘TRC’ prefix.
- :Syntax:
-     ``echo idx > vmid_idx``
- 
--    Where idx <  numvmidc
-+    Where idx <  numvmidc
- 
- ----
- 
-@@ -628,7 +628,7 @@ the reset parameter::
- 
- 
- 
--The ‘mode’ sysfs parameter.
-+The 'mode' sysfs parameter.
- ---------------------------
- 
- This is a bitfield selection parameter that sets the overall trace mode for the
-@@ -696,7 +696,7 @@ Bit assignments shown below:-
-     ETM_MODE_QELEM(val)
- 
- **description:**
--    ‘val’ determines level of Q element support enabled if
-+    'val' determines level of Q element support enabled if
-     implemented by the ETM [IDR0]
- 
- 
-@@ -780,7 +780,7 @@ Bit assignments shown below:-
- ----
- 
- *Note a)* On startup the ETM is programmed to trace the complete address space
--using address range comparator 0. ‘mode’ bits 30 / 31 modify this setting to
-+using address range comparator 0. 'mode' bits 30 / 31 modify this setting to
- set EL exclude bits for NS state in either user space (EL0) or kernel space
- (EL1) in the address range comparator. (the default setting excludes all
- secure EL, and NS EL2)
--- 
-2.30.2
-
+> ---
+>  Documentation/firmware-guide/acpi/lpit.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/firmware-guide/acpi/lpit.rst b/Documentation/firmware-guide/acpi/lpit.rst
+> index 37922a903573..d7d6c406074a 100644
+> --- a/Documentation/firmware-guide/acpi/lpit.rst
+> +++ b/Documentation/firmware-guide/acpi/lpit.rst
+> @@ -5,7 +5,7 @@ Low Power Idle Table (LPIT)
+>  ===========================
+>
+>  To enumerate platform Low Power Idle states, Intel platforms are using
+> -“Low Power Idle Table” (LPIT). More details about this table can be
+> +"Low Power Idle Table" (LPIT). More details about this table can be
+>  downloaded from:
+>  https://www.uefi.org/sites/default/files/resources/Intel_ACPI_Low_Power_S0_Idle.pdf
+>
+> --
+> 2.30.2
+>
