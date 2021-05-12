@@ -2,99 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67772C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73842C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:20:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23E31613C3
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:14:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FDF8613E9
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:20:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbhELIPp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 04:15:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33804 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229968AbhELIPo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 May 2021 04:15:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4DD40613C0;
-        Wed, 12 May 2021 08:14:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620807276;
-        bh=NpIFlszRtKWRCTyCPgKhgBzC2KWJNOHscSYvFzJ1CcM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=gcHovoQQ2+ccEfVf0QZz6L1Z9eyxVOZqPyh/OWDH/9HlxcWhr0asX/mnwSelJQv3j
-         uRKdfk4dCN9VDJUUi9cQFDPJFLC5MOEZRgYDu7876eKnzMfx96tuY+AOBQhgNXgRqq
-         O0VkKLyeiCsapUUwVIpD0e55mK9h8jCrf4pkR3QBTmjOohZWcyIyGvXp02+6lNPIAl
-         Xcqacc/pA8b87BkY6j4R3Rv2gvFl/hM2E7N5ksHXOGn5OnjJ5IHB53gYO7+cYg4saO
-         B4NHdM7WUwiskhlPuAhbfHHXB3YNA1jiSkUMAla6fcevqt/aquFbf+nHF58yEcYKq0
-         JhH3Y7aIkNSgg==
-Date:   Wed, 12 May 2021 10:14:32 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     David Gow <davidgow@google.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Latypov <dlatypov@google.com>,
-        Marco Elver <elver@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 39/53] docs: dev-tools: testing-overview.rst: avoid
- using UTF-8 chars
-Message-ID: <20210512101432.32f91125@coco.lan>
-In-Reply-To: <CABVgOSn67XkxasNeMvcs-ciL8F8zmMEVoZMNqf8xRdUg1heX_g@mail.gmail.com>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
-        <1591224255d095d14ff3bc2bf4e7796dcc55c77d.1620641727.git.mchehab+huawei@kernel.org>
-        <CABVgOSn67XkxasNeMvcs-ciL8F8zmMEVoZMNqf8xRdUg1heX_g@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230168AbhELIVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 04:21:34 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:50688 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230184AbhELIVd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 May 2021 04:21:33 -0400
+Received: from localhost.localdomain (unknown [112.3.197.94])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP+7Aj5tgJWQVAA--.17234S3;
+        Wed, 12 May 2021 16:20:20 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com,
+        huangjianghui@uniontech.com
+Subject: [PATCH v4 1/3] docs/zh_CN: add parisc index translation
+Date:   Wed, 12 May 2021 16:20:57 +0800
+Message-Id: <c13ce34b11a65e1f18c4e37566509ead82f2c15f.1620805100.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1620805100.git.siyanteng@loongson.cn>
+References: <cover.1620805100.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxP+7Aj5tgJWQVAA--.17234S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4kGw47urWrJry3ur1xKrg_yoW8WFW5pF
+        9rK34fK3W8X347CrWfGF17Gr17G3WxCayDJa1IqwnYqrn8Jr4Fyrs8tryYgF97WrWFvFWU
+        XF4fKFW5Gryjkw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBE14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+        x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+        8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+        0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+        IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+        Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+        xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
+        6r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2
+        Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
+        Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMI
+        IF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUqAp5UUUUU
+        =
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 11 May 2021 07:35:29 +0800
-David Gow <davidgow@google.com> escreveu:
+This patch translates Documentation/parisc/index.rst into Chinese.
 
-> On Mon, May 10, 2021 at 6:27 PM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > While UTF-8 characters can be used at the Linux documentation,
-> > the best is to use them only when ASCII doesn't offer a good replacemen=
-t.
-> > So, replace the occurences of the following UTF-8 characters:
-> >
-> >         - U+2014 ('=E2=80=94'): EM DASH
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > --- =20
->=20
-> Oh dear, I do have a habit of overusing em-dashes. I've no problem in
-> theory with exchanging them for an ASCII approximation.
-> I suppose there's a reason it's the one dash to rule them all: :-)
-> https://twitter.com/FakeUnicode/status/727888721312260096/photo/1
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+---
+ Documentation/translations/zh_CN/index.rst    |  2 +-
+ .../translations/zh_CN/parisc/index.rst       | 24 +++++++++++++++++++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/parisc/index.rst
 
-No, there's no such rule, although there's a preference to keep
-the texts easy to edit/read as text files[1]. The main rationale for
-this series is that the conversion from other formats to ReST ended
-introducing a lot of UTF-8 noise.
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index d56d6b7092e6..420c0a809357 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -153,6 +153,7 @@ TODOList:
+    arm64/index
+    riscv/index
+    openrisc/index
++   parisc/index
+ 
+ TODOList:
+ 
+@@ -160,7 +161,6 @@ TODOList:
+ * ia64/index
+ * m68k/index
+ * nios2/index
+-* parisc/index
+ * powerpc/index
+ * s390/index
+ * sh/index
+diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/parisc/index.rst
+new file mode 100644
+index 000000000000..ef232d46b1ba
+--- /dev/null
++++ b/Documentation/translations/zh_CN/parisc/index.rst
+@@ -0,0 +1,24 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/parisc/index.rst
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_parisc_index:
++
++====================
++PA-RISC体系架构
++====================
++
++Todolist:
++
++   debugging
++   registers
++   features
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+-- 
+2.27.0
 
-[1] IMO, the best is to use UTF-8 characters for symbols that
-    aren't properly represented in ASCII, like Latin accents,
-    Greek letters, etc.
-
-In the specific case of dashes, you can use:
-
-	"--" for EN DASH
-	"---" for EM DASH
-
-Those will automatically be translated by Sphinx when building=20
-the docs. Using ASCII there usually makes life simpler for
-developers whose editors can't easily type EN/EM DASH.
-
-Btw, Sphinx will also replace commas to curly commas
-automatically on its output (except for literal blocks).
-
-Thanks,
-Mauro
