@@ -4,45 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4586EC433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20FC8C43603
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 154F561104
+	by mail.kernel.org (Postfix) with ESMTP id E6544613EE
 	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231166AbhELMxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52584 "EHLO mail.kernel.org"
+        id S231623AbhELMxC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231310AbhELMwv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231308AbhELMwv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:52:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F8C961417;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CA0C613FE;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=NJ4jcd2S0MqqF1GQjKPHZyD2C+Se0R8Fi4ONAk1Od5M=;
+        bh=gBojUuAxkEIMMYcr4yqiMf2CAE+iYREtTJ0SySLQafU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UkIGVodtiNfZaIiqZpBbckPirT9lNAlpAdDow9Ib8GOoKK3n58dvKMwKxAaCrcAvu
-         PDRYCxVJnHpD642pDLxMi6RVXhcfrPsYw7V2HdLaWaVtlDae8bVb3ENLSYCPGiVETP
-         ehxJJ2ZJoFVUxQYZ2O9gTLJ46kCmKjEtCyQZ2htzN8rdvVQMfaBBcpillTfO+JjjBD
-         4gigNapxnbh4QNePQASImJQlJ1TCjUggTLhGe4xax0QFOE3RqETFUUOIEuXMK/xYdg
-         KoGYAANN9rlqT8/9jIfQDp4IXgKhtMn+r+YsdGudWEvsHOn1JFscu5eGr9JIfzbd5j
-         J/3SDO6JPfAOw==
+        b=RS2dnaaG4Peowz7mEncXM71htgkxYx4eu7bN4QiWUF1PpM0CqPkD8YUD02Bjz/M+l
+         c1vyG3OBlLEBjlsHdhplqDN4koCozEOswNOS1PNzOKLzjtqrfeEOig+tXQ1AIq1u7j
+         P64PUf5HTtBZbf+QMBNcsjakFcxLZTbwhw18S+3c9xMIsXNi02HnLHA1fsHdf6/2Py
+         6TNuRp/89vvS4U8+arJgh7/vtKoj0Hy9Bid+rRBCQHxLhcFz5iZld7iLI9617g5lMr
+         uNNs1Elhvu3yQvcpQU5s1cdmUKnyjaY/m0YuWTXuGWYMqrtKwqR+ASkdtRq1PgQPg8
+         iFkLRxeJIlBSQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018hV-EM; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018hN-CM; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 11/40] docs: fault-injection: nvme-fault-injection.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:15 +0200
-Message-Id: <1c7520a02119fc356fa71732b9162f5892016f5d.1620823573.git.mchehab+huawei@kernel.org>
+        Corentin Labbe <clabbe@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net
+Subject: [PATCH v2 09/40] docs: driver-api: media: drivers: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:13 +0200
+Message-Id: <99228c03965f3347cd910e20f7c914e14c7243b7.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -69,27 +71,47 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+00ad ('­'): SOFT HYPHEN
+	- U+00b4 ('´'): ACUTE ACCENT
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/fault-injection/nvme-fault-injection.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../driver-api/media/drivers/sh_mobile_ceu_camera.rst     | 8 ++++----
+ Documentation/driver-api/media/drivers/zoran.rst          | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
-index 1d4427890d75..d372ce66a244 100644
---- a/Documentation/fault-injection/nvme-fault-injection.rst
-+++ b/Documentation/fault-injection/nvme-fault-injection.rst
-@@ -25,7 +25,7 @@ Example 1: Inject default status code with no retry
+diff --git a/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst b/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
+index 822fcb8368ae..280a322c34c6 100644
+--- a/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
++++ b/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
+@@ -30,10 +30,10 @@ Generic scaling / cropping scheme
+ 	|                       `. .6--
+ 	|
+ 	|                        . .6'-
+-	|                      .´
+-	|           ... -4'- .´
+-	|       ...´             - -7'.
+-	+-5'- .´               -/
++	|                      .'
++	|           ... -4'- .'
++	|       ...'             - -7'.
++	+-5'- .'               -/
+ 	|            -- -3'- -/
+ 	|         --/
+ 	|      --/
+diff --git a/Documentation/driver-api/media/drivers/zoran.rst b/Documentation/driver-api/media/drivers/zoran.rst
+index 83cbae9cedef..b205e10c3154 100644
+--- a/Documentation/driver-api/media/drivers/zoran.rst
++++ b/Documentation/driver-api/media/drivers/zoran.rst
+@@ -319,7 +319,7 @@ Conexant bt866 TV encoder
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
  
- Expected Result::
+ - is used in AVS6EYES, and
+-- can generate: NTSC/PAL, PAL­M, PAL­N
++- can generate: NTSC/PAL, PAL-M, PAL-N
  
--  cp: cannot stat ‘/mnt/a.file’: Input/output error
-+  cp: cannot stat '/mnt/a.file': Input/output error
- 
- Message from dmesg::
- 
+ The adv717x, should be able to produce PAL N. But you find nothing PAL N
+ specific in the registers. Seem that you have to reuse a other standard
 -- 
 2.30.2
 
