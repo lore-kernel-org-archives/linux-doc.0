@@ -4,48 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F46AC433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E51C43462
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1979C61412
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65BD361026
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231330AbhELMww (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:52:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52110 "EHLO mail.kernel.org"
+        id S231421AbhELMw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:52:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52138 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231224AbhELMwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231289AbhELMwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:52:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2515061139;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D2AB61177;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=bnu1cBkpfu6XTv2fqQnm+Wxaf59PXRV8jPumsy3FHs8=;
+        bh=9ZrdEXP9uF/1gywNsqqqNVwR7m3JOM+kWEVqticTO7o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WDcRtBsBng0JUHK9CgbB58zQcXc0Srwj0bqrsRVVObHhVcU6eY/5brUTEAdXuEkso
-         qhqM2PqgMnDmLM7q0JQJ7qnvZm1Mhi/0Sfbzsnc6x0148WwFfXNJ0lPFyLHurEALwO
-         yWjlc1yLwQgZNqVph52DEIGsBPniyClMPysjErxPjr0xAzN/yWwEEAQNgXbnHPXYXd
-         FhZD4uwi7KZ29F0PM9eY63JtD4/k3wLIJ7MegOl9WJjMSG68QntEkI1vwQeFvMyZfP
-         PcVfW+RzO30jYIuyI2Gt8FvbQ/uDhnp6XvM1Z0MwwVO3CD5YsG0ercLSwjimPzTT3/
-         TLO3ffQA99q9g==
+        b=a8R6KfiuBdkQUoal0yj23vXyClXR3ungJ8ExFyoxj9nWavV4zFy9WoEJ850DV7/UM
+         j6XWVapuxbuqoeKQb3FQsbdxndsLJrGr0gxvdSg2+m6764hmfhdEZmG1T5CO7GpDY/
+         CP3pyQPXBLYY2w+tLFJ3CcZvq3vPlna3eNrZcUwrwOXniO6cTZXoMCwGetzvauhOJu
+         a+l0np8gLr9oVAXowGJkN/951Xhv8DulMigdYNQh++VorgPtTDDzbXRD/SrxYhx2IN
+         DwDJPhsLR7/MdRBU7X1OU1Lmg2BQcmF3EwUj4jVgDx5pCvqvWg3ma5NDE7q6TMAnNf
+         e8niC4hc1yA/w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018gy-5n; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018hF-AH; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v2 03/40] docs: admin-guide: media: ipu3.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:07 +0200
-Message-Id: <54995f43fcba6c52b6f2163cd9f9e39cb702b40b.1620823573.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 07/40] docs: driver-api: ioctl.rst: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:11 +0200
+Message-Id: <5cf0219649d914d5657adcc7fcda64e59f1aec12.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -72,27 +67,42 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
-	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
+	- U+00a0 (' '): NO-BREAK SPACE
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/ipu3.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/driver-api/ioctl.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
-index f59697c7b374..f77cb1384dc3 100644
---- a/Documentation/admin-guide/media/ipu3.rst
-+++ b/Documentation/admin-guide/media/ipu3.rst
-@@ -244,7 +244,7 @@ larger bayer frame for further YUV processing than "VIDEO" mode to get high
- quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
- "STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
- will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
--“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
-+"VIDEO" mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
- (currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
- and set the running mode. For user, there is no difference for buffer queueing
- between the "VIDEO" and "STILL" mode, mandatory input and main output node
+diff --git a/Documentation/driver-api/ioctl.rst b/Documentation/driver-api/ioctl.rst
+index c455db0e1627..5b76e765827d 100644
+--- a/Documentation/driver-api/ioctl.rst
++++ b/Documentation/driver-api/ioctl.rst
+@@ -25,9 +25,9 @@ ioctl commands that follow modern conventions: ``_IO``, ``_IOR``,
+ with the correct parameters:
+ 
+ _IO/_IOR/_IOW/_IOWR
+-   The macro name specifies how the argument will be used.  It may be a
++   The macro name specifies how the argument will be used.  It may be a
+    pointer to data to be passed into the kernel (_IOW), out of the kernel
+-   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
++   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
+    argument or those passing an integer value instead of a pointer.
+    It is recommended to only use _IO for commands without arguments,
+    and use pointers for passing data.
+@@ -200,10 +200,10 @@ cause an information leak, which can be used to defeat kernel address
+ space layout randomization (KASLR), helping in an attack.
+ 
+ For this reason (and for compat support) it is best to avoid any
+-implicit padding in data structures.  Where there is implicit padding
++implicit padding in data structures.  Where there is implicit padding
+ in an existing structure, kernel drivers must be careful to fully
+ initialize an instance of the structure before copying it to user
+-space.  This is usually done by calling memset() before assigning to
++space.  This is usually done by calling memset() before assigning to
+ individual members.
+ 
+ Subsystem abstractions
 -- 
 2.30.2
 
