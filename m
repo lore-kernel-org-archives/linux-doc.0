@@ -4,45 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A1F0C43461
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F27FC43619
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1961D61104
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA77761104
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231767AbhELMxF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52774 "EHLO mail.kernel.org"
+        id S231720AbhELMxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52780 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231377AbhELMwz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231389AbhELMwz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:52:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9493C61438;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8CEA661434;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=Y2KVSxhah3pojp2XuakMiwzKqgZbNRAw0zXzRSJpvvw=;
+        bh=qN4Xto9q7BDAdXgMgIL7kT5vL081HfY6IT10ClR3inc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=o/eh0swUcaAz1kqzhgKEw75AMmPAfN3iPD4acrzPAhOvdBZdNUf4sO13OxNcy2TwM
-         68hy1tqLakl4jCC5Ehu+rrIN+fjnHhpZatRWZFMgfB3Yls4xMsa6CIz/kEFn4io0gh
-         e7xuhZKIp3gg5qtKH5KFrBvXk2Co1EkPV1xvzbNNd733VyGFnIoZLlk0xTmMsUD0xv
-         3NiSR2ZYZoThD/49f1bEuHlTfgu5ve0jsSuuYvqH2Izj6+26/TtHQ9t55ZEVJAm3Ws
-         EJYWXOOci7B1wPAC+Vp9C6jReqf4f1NH8BkqnakJ0LaA63sHisfaUN6K2l9pfR+umI
-         LhMKQby1CVSMQ==
+        b=DGeLH8hN5cv5F/plR/w5nPL2vN/UHSeumvMtO8JYvmtrXodeHPvgDClbohFVfZ5yz
+         oCmRFs6m0i4oq5UPCiCL0Nn3pW9eOvhj/2Ekf+yj04zljGP0uQSTkiKAJm70UtGCAZ
+         +K+Pslo5TUV4ItKS3qkMMgS8byCGC8WR6a1nvezjJxMbXJVbwz/FmFLhYxPLFoUWyT
+         lcMEH/sxAZMsJ9seaR8a6SEncDgW+NHTPAi9v5tjSdZ/PffxRp4LjC40dc7GoiGFfd
+         F3IQZGf8nnBpkw8kNQSz0YvKy2peSt8EvSGQa/4BxAIJmhiYgkOK9EeiYFZhWXg1U2
+         /kM3pnblXT2iA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018ht-Oc; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018hp-N4; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 17/40] docs: vm: zswap.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:21 +0200
-Message-Id: <fdcde66462ff29d6ee3d80e191b48091fd1e8bda.1620823573.git.mchehab+huawei@kernel.org>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 16/40] docs: userspace-api: media: dvb: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:20 +0200
+Message-Id: <ce5783afc7452bfe1eb8d812c18f498cf78d34b1.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -70,34 +71,124 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 So, replace the occurences of the following UTF-8 characters:
 
 	- U+00a0 (' '): NO-BREAK SPACE
+	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
+	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/vm/zswap.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../userspace-api/media/dvb/audio-set-bypass-mode.rst       | 2 +-
+ Documentation/userspace-api/media/dvb/audio.rst             | 2 +-
+ Documentation/userspace-api/media/dvb/dmx-fopen.rst         | 2 +-
+ Documentation/userspace-api/media/dvb/dmx-fread.rst         | 2 +-
+ Documentation/userspace-api/media/dvb/dmx-set-filter.rst    | 2 +-
+ Documentation/userspace-api/media/dvb/intro.rst             | 6 +++---
+ Documentation/userspace-api/media/dvb/video.rst             | 2 +-
+ 7 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/vm/zswap.rst b/Documentation/vm/zswap.rst
-index d8d9fa4a1f0d..8edb8d578caf 100644
---- a/Documentation/vm/zswap.rst
-+++ b/Documentation/vm/zswap.rst
-@@ -10,7 +10,7 @@ Overview
- Zswap is a lightweight compressed cache for swap pages. It takes pages that are
- in the process of being swapped out and attempts to compress them into a
- dynamically allocated RAM-based memory pool.  zswap basically trades CPU cycles
--for potentially reduced swap I/O.  This trade-off can also result in a
-+for potentially reduced swap I/O.  This trade-off can also result in a
- significant performance improvement if reads from the compressed cache are
- faster than reads from a swap device.
+diff --git a/Documentation/userspace-api/media/dvb/audio-set-bypass-mode.rst b/Documentation/userspace-api/media/dvb/audio-set-bypass-mode.rst
+index ecac02f1b2fc..80d551a2053a 100644
+--- a/Documentation/userspace-api/media/dvb/audio-set-bypass-mode.rst
++++ b/Documentation/userspace-api/media/dvb/audio-set-bypass-mode.rst
+@@ -50,7 +50,7 @@ Description
  
-@@ -26,7 +26,7 @@ faster than reads from a swap device.
-   performance impact of swapping.
- * Overcommitted guests that share a common I/O resource can
-   dramatically reduce their swap I/O pressure, avoiding heavy handed I/O
--  throttling by the hypervisor. This allows more work to get done with less
-+  throttling by the hypervisor. This allows more work to get done with less
-   impact to the guest workload and guests sharing the I/O subsystem
- * Users with SSDs as swap devices can extend the life of the device by
-   drastically reducing life-shortening writes.
+ This ioctl call asks the Audio Device to bypass the Audio decoder and
+ forward the stream without decoding. This mode shall be used if streams
+-that can’t be handled by the Digital TV system shall be decoded. Dolby
++that can't be handled by the Digital TV system shall be decoded. Dolby
+ DigitalTM streams are automatically forwarded by the Digital TV subsystem if
+ the hardware can handle it.
+ 
+diff --git a/Documentation/userspace-api/media/dvb/audio.rst b/Documentation/userspace-api/media/dvb/audio.rst
+index eaae5675a47d..aa753336b31f 100644
+--- a/Documentation/userspace-api/media/dvb/audio.rst
++++ b/Documentation/userspace-api/media/dvb/audio.rst
+@@ -11,7 +11,7 @@ TV hardware. It can be accessed through ``/dev/dvb/adapter?/audio?``. Data
+ types and ioctl definitions can be accessed by including
+ ``linux/dvb/audio.h`` in your application.
+ 
+-Please note that some Digital TV cards don’t have their own MPEG decoder, which
++Please note that some Digital TV cards don't have their own MPEG decoder, which
+ results in the omission of the audio and video device.
+ 
+ These ioctls were also used by V4L2 to control MPEG decoders implemented
+diff --git a/Documentation/userspace-api/media/dvb/dmx-fopen.rst b/Documentation/userspace-api/media/dvb/dmx-fopen.rst
+index 8f0a2b831d4a..50b36eb4371e 100644
+--- a/Documentation/userspace-api/media/dvb/dmx-fopen.rst
++++ b/Documentation/userspace-api/media/dvb/dmx-fopen.rst
+@@ -82,7 +82,7 @@ appropriately.
+     :widths: 1 16
+ 
+     -  -  ``EMFILE``
+-       -  “Too many open files”, i.e. no more filters available.
++       -  "Too many open files", i.e. no more filters available.
+ 
+ The generic error codes are described at the
+ :ref:`Generic Error Codes <gen-errors>` chapter.
+diff --git a/Documentation/userspace-api/media/dvb/dmx-fread.rst b/Documentation/userspace-api/media/dvb/dmx-fread.rst
+index 78e9daef595a..88c4cddf7c30 100644
+--- a/Documentation/userspace-api/media/dvb/dmx-fread.rst
++++ b/Documentation/userspace-api/media/dvb/dmx-fread.rst
+@@ -34,7 +34,7 @@ Description
+ 
+ This system call returns filtered data, which might be section or Packetized
+ Elementary Stream (PES) data. The filtered data is transferred from
+-the driver’s internal circular buffer to ``buf``. The maximum amount of data
++the driver's internal circular buffer to ``buf``. The maximum amount of data
+ to be transferred is implied by count.
+ 
+ .. note::
+diff --git a/Documentation/userspace-api/media/dvb/dmx-set-filter.rst b/Documentation/userspace-api/media/dvb/dmx-set-filter.rst
+index f43455b7adae..1b8c8071b14f 100644
+--- a/Documentation/userspace-api/media/dvb/dmx-set-filter.rst
++++ b/Documentation/userspace-api/media/dvb/dmx-set-filter.rst
+@@ -37,7 +37,7 @@ parameters provided. A timeout may be defined stating number of seconds
+ to wait for a section to be loaded. A value of 0 means that no timeout
+ should be applied. Finally there is a flag field where it is possible to
+ state whether a section should be CRC-checked, whether the filter should
+-be a ”one-shot” filter, i.e. if the filtering operation should be
++be a "one-shot" filter, i.e. if the filtering operation should be
+ stopped after the first section is received, and whether the filtering
+ operation should be started immediately (without waiting for a
+ :ref:`DMX_START` ioctl call). If a filter was previously set-up, this
+diff --git a/Documentation/userspace-api/media/dvb/intro.rst b/Documentation/userspace-api/media/dvb/intro.rst
+index a935f3914e56..6784ae79657c 100644
+--- a/Documentation/userspace-api/media/dvb/intro.rst
++++ b/Documentation/userspace-api/media/dvb/intro.rst
+@@ -107,7 +107,7 @@ Audio and video decoder
+       a Systems on a Chip (SoC) integrated circuit.
+ 
+       It may also not be needed for certain usages (e.g. for data-only
+-      uses like “internet over satellite”).
++      uses like "internet over satellite").
+ 
+ :ref:`stb_components` shows a crude schematic of the control and data
+ flow between those components.
+@@ -148,9 +148,9 @@ individual devices are called:
+ 
+ -  ``/dev/dvb/adapterN/caM``,
+ 
+-where ``N`` enumerates the Digital TV cards in a system starting from 0, and
++where ``N`` enumerates the Digital TV cards in a system starting from 0, and
+ ``M`` enumerates the devices of each type within each adapter, starting
+-from 0, too. We will omit the “``/dev/dvb/adapterN/``\ ” in the further
++from 0, too. We will omit the "``/dev/dvb/adapterN/``\ " in the further
+ discussion of these devices.
+ 
+ More details about the data structures and function calls of all the
+diff --git a/Documentation/userspace-api/media/dvb/video.rst b/Documentation/userspace-api/media/dvb/video.rst
+index 38a8d39a1d25..808705b769a1 100644
+--- a/Documentation/userspace-api/media/dvb/video.rst
++++ b/Documentation/userspace-api/media/dvb/video.rst
+@@ -16,7 +16,7 @@ stream, not its presentation on the TV or computer screen. On PCs this
+ is typically handled by an associated video4linux device, e.g.
+ **/dev/video**, which allows scaling and defining output windows.
+ 
+-Some Digital TV cards don’t have their own MPEG decoder, which results in the
++Some Digital TV cards don't have their own MPEG decoder, which results in the
+ omission of the audio and video device as well as the video4linux
+ device.
+ 
 -- 
 2.30.2
 
