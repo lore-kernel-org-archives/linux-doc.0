@@ -2,263 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB2EC433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 13:54:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 968DBC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 14:15:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99E87613CF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 13:54:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FF876127A
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 14:15:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230370AbhELNzX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 09:55:23 -0400
-Received: from mail-ot1-f52.google.com ([209.85.210.52]:46625 "EHLO
-        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbhELNzX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 May 2021 09:55:23 -0400
-Received: by mail-ot1-f52.google.com with SMTP id d3-20020a9d29030000b029027e8019067fso20555220otb.13;
-        Wed, 12 May 2021 06:54:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8k7fXJHKs3qEqdSCFnnEZA0g6/Swnyh77SrQbBo91mU=;
-        b=l9Tmiq9dUJntkU0yboTBzEyE/UkIZjIZ1HsABBmabxj269pBsZ6gJQ+hekHApeS0BK
-         DXU/9vqeh8ym2jqXWKTWOcrXNCX8hPXTZ70e1d7ZKO/86bCfqQHHOJvcdWSgmfTdE4k3
-         8Xd49AL3qIJ6r/+qwFwiwuoYBJmzGCOyHFWHmWUyQ0L2XeZlzCyfmAiJzJxccRyQBUdz
-         itt1POdYpPO9wIEVtqzcGiEu3xeseJznHsSzrQgXloEVgSgUKySikwxho+Msn8fb98dO
-         KJLOnDjYJYL4cUDhRcyBDpZ6x8QtErVsn+RHsbu4NOON/W3nSPtvc1UEhQwVJ1c6jJ4D
-         qNMA==
-X-Gm-Message-State: AOAM530JK3CPTra+S7+8arvVP3G2hs1wcnvs0hKoHz2XEoGx7nVaFqI8
-        Dq0YNH+1RXlk5baZa/f05cNXg3bBHnV8O5tPGPo=
-X-Google-Smtp-Source: ABdhPJy3o+O4ia+oyT37XRxH1xIfxa0p9sVrvqGehuQKwSs2b3yOrmuAhdjEdITCX+CEzduweZjSJay17suU1zdQ1LE=
-X-Received: by 2002:a05:6830:55b:: with SMTP id l27mr30562885otb.260.1620827654759;
- Wed, 12 May 2021 06:54:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1620823573.git.mchehab+huawei@kernel.org> <55d3ee048747fa5ad5f7eeacd4cdc2e3d83927b7.1620823573.git.mchehab+huawei@kernel.org>
-In-Reply-To: <55d3ee048747fa5ad5f7eeacd4cdc2e3d83927b7.1620823573.git.mchehab+huawei@kernel.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 12 May 2021 15:54:03 +0200
-Message-ID: <CAJZ5v0hgYQEsXGDVN_b_tyGYMuPJcO82EVNnH+wv+MNBkK2ygA@mail.gmail.com>
-Subject: Re: [PATCH v2 29/40] docs: power: powercap: powercap.rst: Use ASCII
- subset instead of UTF-8 alternate symbols
+        id S231462AbhELORC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 10:17:02 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:41050 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231630AbhELOQh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 May 2021 10:16:37 -0400
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 14CEEiap031112
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 12 May 2021 10:14:45 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 448C815C39C2; Wed, 12 May 2021 10:14:44 -0400 (EDT)
+Date:   Wed, 12 May 2021 10:14:44 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
+        rcu@vger.kernel.org
+Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
+ symbols
+Message-ID: <YJvi1L2ss5Tfi+My@mit.edu>
+References: <cover.1620823573.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gV2VkLCBNYXkgMTIsIDIwMjEgYXQgMjo1MiBQTSBNYXVybyBDYXJ2YWxobyBDaGVoYWINCjxt
-Y2hlaGFiK2h1YXdlaUBrZXJuZWwub3JnPiB3cm90ZToNCj4NCj4gVGhlIGNvbnZlcnNpb24gdG9v
-bHMgdXNlZCBkdXJpbmcgRG9jQm9vay9MYVRlWC9NYXJrZG93bi0+UmVTVCBjb252ZXJzaW9uDQo+
-IGFuZCBzb21lIGF1dG9tYXRpYyBydWxlcyB3aGljaCBleGlzdHMgb24gY2VydGFpbiB0ZXh0IGVk
-aXRvcnMgbGlrZQ0KPiBMaWJyZU9mZmljZSB0dXJuZWQgQVNDSUkgY2hhcmFjdGVycyBpbnRvIHNv
-bWUgVVRGLTggYWx0ZXJuYXRpdmVzIHRoYXQNCj4gYXJlIGJldHRlciBkaXNwbGF5ZWQgb24gaHRt
-bCBhbmQgUERGLg0KPg0KPiBXaGlsZSBpdCBpcyBPSyB0byB1c2UgVVRGLTggY2hhcmFjdGVycyBp
-biBMaW51eCwgaXQgaXMgYmV0dGVyIHRvDQo+IHVzZSB0aGUgQVNDSUkgc3Vic2V0IGluc3RlYWQg
-b2YgdXNpbmcgYW4gVVRGLTggZXF1aXZhbGVudCBjaGFyYWN0ZXINCj4gYXMgaXQgbWFrZXMgbGlm
-ZSBlYXNpZXIgZm9yIHRvb2xzIGxpa2UgZ3JlcCwgYW5kIGFyZSBlYXNpZXIgdG8gZWRpdA0KPiB3
-aXRoIHRoZSBzb21lIGNvbW1vbmx5IHVzZWQgdGV4dC9zb3VyY2UgY29kZSBlZGl0b3JzLg0KPg0K
-PiBBbHNvLCBTcGhpbnggYWxyZWFkeSBkbyBzdWNoIGNvbnZlcnNpb24gYXV0b21hdGljYWxseSBv
-dXRzaWRlIGxpdGVyYWwgYmxvY2tzOg0KPiAgICBodHRwczovL2RvY3V0aWxzLnNvdXJjZWZvcmdl
-LmlvL2RvY3MvdXNlci9zbWFydHF1b3Rlcy5odG1sDQo+DQo+IFNvLCByZXBsYWNlIHRoZSBvY2N1
-cmVuY2VzIG9mIHRoZSBmb2xsb3dpbmcgVVRGLTggY2hhcmFjdGVyczoNCj4NCj4gICAgICAgICAt
-IFUrMDBhMCAoJyAnKTogTk8tQlJFQUsgU1BBQ0UNCj4NCj4gU2lnbmVkLW9mZi1ieTogTWF1cm8g
-Q2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiK2h1YXdlaUBrZXJuZWwub3JnPg0KDQpBY2tlZC1ieTog
-UmFmYWVsIEouIFd5c29ja2kgPHJhZmFlbC5qLnd5c29ja2lAaW50ZWwuY29tPg0KDQo+IC0tLQ0K
-PiAgRG9jdW1lbnRhdGlvbi9wb3dlci9wb3dlcmNhcC9wb3dlcmNhcC5yc3QgfCAyMTAgKysrKysr
-KysrKystLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEwNSBpbnNlcnRpb25zKCspLCAx
-MDUgZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Bvd2VyL3Bv
-d2VyY2FwL3Bvd2VyY2FwLnJzdCBiL0RvY3VtZW50YXRpb24vcG93ZXIvcG93ZXJjYXAvcG93ZXJj
-YXAucnN0DQo+IGluZGV4IGU3NWQxMjU5NmRhYy4uYzk5MTIyZTBhMWM4IDEwMDY0NA0KPiAtLS0g
-YS9Eb2N1bWVudGF0aW9uL3Bvd2VyL3Bvd2VyY2FwL3Bvd2VyY2FwLnJzdA0KPiArKysgYi9Eb2N1
-bWVudGF0aW9uL3Bvd2VyL3Bvd2VyY2FwL3Bvd2VyY2FwLnJzdA0KPiBAQCAtMzQsMTEzICszNCwx
-MTMgQEAgRXhhbXBsZSBzeXNmcyBpbnRlcmZhY2UgdHJlZTo6DQo+ICAgIC9zeXMvZGV2aWNlcy92
-aXJ0dWFsL3Bvd2VyY2FwDQo+ICAgIOKUlOKUgOKUgGludGVsLXJhcGwNCj4gICAgICAgIOKUnOKU
-gOKUgGludGVsLXJhcGw6MA0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8wX25h
-bWUNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMF9wb3dlcl9saW1pdF91dw0K
-PiAtICAgICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8wX3RpbWVfd2luZG93X3VzDQo+IC0g
-ICAgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzFfbmFtZQ0KPiAtICAgICAg4pSCICAg4pSc
-4pSA4pSAY29uc3RyYWludF8xX3Bvd2VyX2xpbWl0X3V3DQo+IC0gICAgICDilIIgICDilJzilIDi
-lIBjb25zdHJhaW50XzFfdGltZV93aW5kb3dfdXMNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgGRl
-dmljZSAtPiAuLi8uLi9pbnRlbC1yYXBsDQo+IC0gICAgICDilIIgICDilJzilIDilIBlbmVyZ3lf
-dWoNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgGludGVsLXJhcGw6MDowDQo+IC0gICAgICDilIIg
-ICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzBfbmFtZQ0KPiAtICAgICAg4pSCICAg4pSCICAg
-4pSc4pSA4pSAY29uc3RyYWludF8wX3Bvd2VyX2xpbWl0X3V3DQo+IC0gICAgICDilIIgICDilIIg
-ICDilJzilIDilIBjb25zdHJhaW50XzBfdGltZV93aW5kb3dfdXMNCj4gLSAgICAgIOKUgiAgIOKU
-giAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV9uYW1lDQo+IC0gICAgICDilIIgICDilIIgICDilJzi
-lIDilIBjb25zdHJhaW50XzFfcG93ZXJfbGltaXRfdXcNCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKU
-nOKUgOKUgGNvbnN0cmFpbnRfMV90aW1lX3dpbmRvd191cw0KPiAtICAgICAg4pSCICAg4pSCICAg
-4pSc4pSA4pSAZGV2aWNlIC0+IC4uLy4uL2ludGVsLXJhcGw6MA0KPiAtICAgICAg4pSCICAg4pSC
-ICAg4pSc4pSA4pSAZW5lcmd5X3VqDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBtYXhf
-ZW5lcmd5X3JhbmdlX3VqDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBuYW1lDQo+IC0g
-ICAgICDilIIgICDilIIgICDilJzilIDilIBlbmFibGVkDQo+IC0gICAgICDilIIgICDilIIgICDi
-lJzilIDilIBwb3dlcg0KPiAtICAgICAg4pSCICAg4pSCICAg4pSCICAg4pSc4pSA4pSAYXN5bmMN
-Cj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUgiAgIFtdDQo+IC0gICAgICDilIIgICDilIIgICDilJzi
-lIDilIBzdWJzeXN0ZW0gLT4gLi4vLi4vLi4vLi4vLi4vLi4vY2xhc3MvcG93ZXJfY2FwDQo+IC0g
-ICAgICDilIIgICDilIIgICDilJTilIDilIB1ZXZlbnQNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKU
-gGludGVsLXJhcGw6MDoxDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBjb25zdHJhaW50
-XzBfbmFtZQ0KPiAtICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8wX3Bvd2Vy
-X2xpbWl0X3V3DQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzBfdGlt
-ZV93aW5kb3dfdXMNCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV9u
-YW1lDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzFfcG93ZXJfbGlt
-aXRfdXcNCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV90aW1lX3dp
-bmRvd191cw0KPiAtICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAZGV2aWNlIC0+IC4uLy4uL2lu
-dGVsLXJhcGw6MA0KPiAtICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAZW5lcmd5X3VqDQo+IC0g
-ICAgICDilIIgICDilIIgICDilJzilIDilIBtYXhfZW5lcmd5X3JhbmdlX3VqDQo+IC0gICAgICDi
-lIIgICDilIIgICDilJzilIDilIBuYW1lDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBl
-bmFibGVkDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBwb3dlcg0KPiAtICAgICAg4pSC
-ICAg4pSCICAg4pSCICAg4pSc4pSA4pSAYXN5bmMNCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUgiAg
-IFtdDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBzdWJzeXN0ZW0gLT4gLi4vLi4vLi4v
-Li4vLi4vLi4vY2xhc3MvcG93ZXJfY2FwDQo+IC0gICAgICDilIIgICDilIIgICDilJTilIDilIB1
-ZXZlbnQNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgG1heF9lbmVyZ3lfcmFuZ2VfdWoNCj4gLSAg
-ICAgIOKUgiAgIOKUnOKUgOKUgG1heF9wb3dlcl9yYW5nZV91dw0KPiAtICAgICAg4pSCICAg4pSc
-4pSA4pSAbmFtZQ0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAZW5hYmxlZA0KPiAtICAgICAg4pSC
-ICAg4pSc4pSA4pSAcG93ZXINCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGFzeW5jDQo+
-IC0gICAgICDilIIgICDilIIgICBbXQ0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAc3Vic3lzdGVt
-IC0+IC4uLy4uLy4uLy4uLy4uL2NsYXNzL3Bvd2VyX2NhcA0KPiAtICAgICAg4pSCICAg4pSc4pSA
-4pSAZW5hYmxlZA0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAdWV2ZW50DQo+ICsgICAgICDilIIg
-ICDilJzilIDilIBjb25zdHJhaW50XzBfbmFtZQ0KPiArICAgICAg4pSCICAg4pSc4pSA4pSAY29u
-c3RyYWludF8wX3Bvd2VyX2xpbWl0X3V3DQo+ICsgICAgICDilIIgICDilJzilIDilIBjb25zdHJh
-aW50XzBfdGltZV93aW5kb3dfdXMNCj4gKyAgICAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRf
-MV9uYW1lDQo+ICsgICAgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzFfcG93ZXJfbGltaXRf
-dXcNCj4gKyAgICAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV90aW1lX3dpbmRvd191cw0K
-PiArICAgICAg4pSCICAg4pSc4pSA4pSAZGV2aWNlIC0+IC4uLy4uL2ludGVsLXJhcGwNCj4gKyAg
-ICAgIOKUgiAgIOKUnOKUgOKUgGVuZXJneV91ag0KPiArICAgICAg4pSCICAg4pSc4pSA4pSAaW50
-ZWwtcmFwbDowOjANCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMF9u
-YW1lDQo+ICsgICAgICDilIIgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzBfcG93ZXJfbGlt
-aXRfdXcNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMF90aW1lX3dp
-bmRvd191cw0KPiArICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8xX25hbWUN
-Cj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV9wb3dlcl9saW1pdF91
-dw0KPiArICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8xX3RpbWVfd2luZG93
-X3VzDQo+ICsgICAgICDilIIgICDilIIgICDilJzilIDilIBkZXZpY2UgLT4gLi4vLi4vaW50ZWwt
-cmFwbDowDQo+ICsgICAgICDilIIgICDilIIgICDilJzilIDilIBlbmVyZ3lfdWoNCj4gKyAgICAg
-IOKUgiAgIOKUgiAgIOKUnOKUgOKUgG1heF9lbmVyZ3lfcmFuZ2VfdWoNCj4gKyAgICAgIOKUgiAg
-IOKUgiAgIOKUnOKUgOKUgG5hbWUNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGVuYWJs
-ZWQNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgHBvd2VyDQo+ICsgICAgICDilIIgICDi
-lIIgICDilIIgICDilJzilIDilIBhc3luYw0KPiArICAgICAg4pSCICAg4pSCICAg4pSCICAgW10N
-Cj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgHN1YnN5c3RlbSAtPiAuLi8uLi8uLi8uLi8u
-Li8uLi9jbGFzcy9wb3dlcl9jYXANCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUlOKUgOKUgHVldmVu
-dA0KPiArICAgICAg4pSCICAg4pSc4pSA4pSAaW50ZWwtcmFwbDowOjENCj4gKyAgICAgIOKUgiAg
-IOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMF9uYW1lDQo+ICsgICAgICDilIIgICDilIIgICDi
-lJzilIDilIBjb25zdHJhaW50XzBfcG93ZXJfbGltaXRfdXcNCj4gKyAgICAgIOKUgiAgIOKUgiAg
-IOKUnOKUgOKUgGNvbnN0cmFpbnRfMF90aW1lX3dpbmRvd191cw0KPiArICAgICAg4pSCICAg4pSC
-ICAg4pSc4pSA4pSAY29uc3RyYWludF8xX25hbWUNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKU
-gOKUgGNvbnN0cmFpbnRfMV9wb3dlcl9saW1pdF91dw0KPiArICAgICAg4pSCICAg4pSCICAg4pSc
-4pSA4pSAY29uc3RyYWludF8xX3RpbWVfd2luZG93X3VzDQo+ICsgICAgICDilIIgICDilIIgICDi
-lJzilIDilIBkZXZpY2UgLT4gLi4vLi4vaW50ZWwtcmFwbDowDQo+ICsgICAgICDilIIgICDilIIg
-ICDilJzilIDilIBlbmVyZ3lfdWoNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgG1heF9l
-bmVyZ3lfcmFuZ2VfdWoNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgG5hbWUNCj4gKyAg
-ICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGVuYWJsZWQNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKU
-nOKUgOKUgHBvd2VyDQo+ICsgICAgICDilIIgICDilIIgICDilIIgICDilJzilIDilIBhc3luYw0K
-PiArICAgICAg4pSCICAg4pSCICAg4pSCICAgW10NCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKU
-gOKUgHN1YnN5c3RlbSAtPiAuLi8uLi8uLi8uLi8uLi8uLi9jbGFzcy9wb3dlcl9jYXANCj4gKyAg
-ICAgIOKUgiAgIOKUgiAgIOKUlOKUgOKUgHVldmVudA0KPiArICAgICAg4pSCICAg4pSc4pSA4pSA
-bWF4X2VuZXJneV9yYW5nZV91ag0KPiArICAgICAg4pSCICAg4pSc4pSA4pSAbWF4X3Bvd2VyX3Jh
-bmdlX3V3DQo+ICsgICAgICDilIIgICDilJzilIDilIBuYW1lDQo+ICsgICAgICDilIIgICDilJzi
-lIDilIBlbmFibGVkDQo+ICsgICAgICDilIIgICDilJzilIDilIBwb3dlcg0KPiArICAgICAg4pSC
-ICAg4pSCICAg4pSc4pSA4pSAYXN5bmMNCj4gKyAgICAgIOKUgiAgIOKUgiAgIFtdDQo+ICsgICAg
-ICDilIIgICDilJzilIDilIBzdWJzeXN0ZW0gLT4gLi4vLi4vLi4vLi4vLi4vY2xhc3MvcG93ZXJf
-Y2FwDQo+ICsgICAgICDilIIgICDilJzilIDilIBlbmFibGVkDQo+ICsgICAgICDilIIgICDilJzi
-lIDilIB1ZXZlbnQNCj4gICAgICAgIOKUnOKUgOKUgGludGVsLXJhcGw6MQ0KPiAtICAgICAg4pSC
-ICAg4pSc4pSA4pSAY29uc3RyYWludF8wX25hbWUNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgGNv
-bnN0cmFpbnRfMF9wb3dlcl9saW1pdF91dw0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAY29uc3Ry
-YWludF8wX3RpbWVfd2luZG93X3VzDQo+IC0gICAgICDilIIgICDilJzilIDilIBjb25zdHJhaW50
-XzFfbmFtZQ0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8xX3Bvd2VyX2xpbWl0
-X3V3DQo+IC0gICAgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzFfdGltZV93aW5kb3dfdXMN
-Cj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgGRldmljZSAtPiAuLi8uLi9pbnRlbC1yYXBsDQo+IC0g
-ICAgICDilIIgICDilJzilIDilIBlbmVyZ3lfdWoNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgGlu
-dGVsLXJhcGw6MTowDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzBf
-bmFtZQ0KPiAtICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8wX3Bvd2VyX2xp
-bWl0X3V3DQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzBfdGltZV93
-aW5kb3dfdXMNCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV9uYW1l
-DQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzFfcG93ZXJfbGltaXRf
-dXcNCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV90aW1lX3dpbmRv
-d191cw0KPiAtICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAZGV2aWNlIC0+IC4uLy4uL2ludGVs
-LXJhcGw6MQ0KPiAtICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAZW5lcmd5X3VqDQo+IC0gICAg
-ICDilIIgICDilIIgICDilJzilIDilIBtYXhfZW5lcmd5X3JhbmdlX3VqDQo+IC0gICAgICDilIIg
-ICDilIIgICDilJzilIDilIBuYW1lDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBlbmFi
-bGVkDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBwb3dlcg0KPiAtICAgICAg4pSCICAg
-4pSCICAg4pSCICAg4pSc4pSA4pSAYXN5bmMNCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUgiAgIFtd
-DQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBzdWJzeXN0ZW0gLT4gLi4vLi4vLi4vLi4v
-Li4vLi4vY2xhc3MvcG93ZXJfY2FwDQo+IC0gICAgICDilIIgICDilIIgICDilJTilIDilIB1ZXZl
-bnQNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgGludGVsLXJhcGw6MToxDQo+IC0gICAgICDilIIg
-ICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzBfbmFtZQ0KPiAtICAgICAg4pSCICAg4pSCICAg
-4pSc4pSA4pSAY29uc3RyYWludF8wX3Bvd2VyX2xpbWl0X3V3DQo+IC0gICAgICDilIIgICDilIIg
-ICDilJzilIDilIBjb25zdHJhaW50XzBfdGltZV93aW5kb3dfdXMNCj4gLSAgICAgIOKUgiAgIOKU
-giAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV9uYW1lDQo+IC0gICAgICDilIIgICDilIIgICDilJzi
-lIDilIBjb25zdHJhaW50XzFfcG93ZXJfbGltaXRfdXcNCj4gLSAgICAgIOKUgiAgIOKUgiAgIOKU
-nOKUgOKUgGNvbnN0cmFpbnRfMV90aW1lX3dpbmRvd191cw0KPiAtICAgICAg4pSCICAg4pSCICAg
-4pSc4pSA4pSAZGV2aWNlIC0+IC4uLy4uL2ludGVsLXJhcGw6MQ0KPiAtICAgICAg4pSCICAg4pSC
-ICAg4pSc4pSA4pSAZW5lcmd5X3VqDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBtYXhf
-ZW5lcmd5X3JhbmdlX3VqDQo+IC0gICAgICDilIIgICDilIIgICDilJzilIDilIBuYW1lDQo+IC0g
-ICAgICDilIIgICDilIIgICDilJzilIDilIBlbmFibGVkDQo+IC0gICAgICDilIIgICDilIIgICDi
-lJzilIDilIBwb3dlcg0KPiAtICAgICAg4pSCICAg4pSCICAg4pSCICAg4pSc4pSA4pSAYXN5bmMN
-Cj4gLSAgICAgIOKUgiAgIOKUgiAgIOKUgiAgIFtdDQo+IC0gICAgICDilIIgICDilIIgICDilJzi
-lIDilIBzdWJzeXN0ZW0gLT4gLi4vLi4vLi4vLi4vLi4vLi4vY2xhc3MvcG93ZXJfY2FwDQo+IC0g
-ICAgICDilIIgICDilIIgICDilJTilIDilIB1ZXZlbnQNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKU
-gG1heF9lbmVyZ3lfcmFuZ2VfdWoNCj4gLSAgICAgIOKUgiAgIOKUnOKUgOKUgG1heF9wb3dlcl9y
-YW5nZV91dw0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAbmFtZQ0KPiAtICAgICAg4pSCICAg4pSc
-4pSA4pSAZW5hYmxlZA0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAcG93ZXINCj4gLSAgICAgIOKU
-giAgIOKUgiAgIOKUnOKUgOKUgGFzeW5jDQo+IC0gICAgICDilIIgICDilIIgICBbXQ0KPiAtICAg
-ICAg4pSCICAg4pSc4pSA4pSAc3Vic3lzdGVtIC0+IC4uLy4uLy4uLy4uLy4uL2NsYXNzL3Bvd2Vy
-X2NhcA0KPiAtICAgICAg4pSCICAg4pSc4pSA4pSAdWV2ZW50DQo+ICsgICAgICDilIIgICDilJzi
-lIDilIBjb25zdHJhaW50XzBfbmFtZQ0KPiArICAgICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWlu
-dF8wX3Bvd2VyX2xpbWl0X3V3DQo+ICsgICAgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzBf
-dGltZV93aW5kb3dfdXMNCj4gKyAgICAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV9uYW1l
-DQo+ICsgICAgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzFfcG93ZXJfbGltaXRfdXcNCj4g
-KyAgICAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV90aW1lX3dpbmRvd191cw0KPiArICAg
-ICAg4pSCICAg4pSc4pSA4pSAZGV2aWNlIC0+IC4uLy4uL2ludGVsLXJhcGwNCj4gKyAgICAgIOKU
-giAgIOKUnOKUgOKUgGVuZXJneV91ag0KPiArICAgICAg4pSCICAg4pSc4pSA4pSAaW50ZWwtcmFw
-bDoxOjANCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMF9uYW1lDQo+
-ICsgICAgICDilIIgICDilIIgICDilJzilIDilIBjb25zdHJhaW50XzBfcG93ZXJfbGltaXRfdXcN
-Cj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMF90aW1lX3dpbmRvd191
-cw0KPiArICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8xX25hbWUNCj4gKyAg
-ICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNvbnN0cmFpbnRfMV9wb3dlcl9saW1pdF91dw0KPiAr
-ICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSAY29uc3RyYWludF8xX3RpbWVfd2luZG93X3VzDQo+
-ICsgICAgICDilIIgICDilIIgICDilJzilIDilIBkZXZpY2UgLT4gLi4vLi4vaW50ZWwtcmFwbDox
-DQo+ICsgICAgICDilIIgICDilIIgICDilJzilIDilIBlbmVyZ3lfdWoNCj4gKyAgICAgIOKUgiAg
-IOKUgiAgIOKUnOKUgOKUgG1heF9lbmVyZ3lfcmFuZ2VfdWoNCj4gKyAgICAgIOKUgiAgIOKUgiAg
-IOKUnOKUgOKUgG5hbWUNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGVuYWJsZWQNCj4g
-KyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgHBvd2VyDQo+ICsgICAgICDilIIgICDilIIgICDi
-lIIgICDilJzilIDilIBhc3luYw0KPiArICAgICAg4pSCICAg4pSCICAg4pSCICAgW10NCj4gKyAg
-ICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgHN1YnN5c3RlbSAtPiAuLi8uLi8uLi8uLi8uLi8uLi9j
-bGFzcy9wb3dlcl9jYXANCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUlOKUgOKUgHVldmVudA0KPiAr
-ICAgICAg4pSCICAg4pSc4pSA4pSAaW50ZWwtcmFwbDoxOjENCj4gKyAgICAgIOKUgiAgIOKUgiAg
-IOKUnOKUgOKUgGNvbnN0cmFpbnRfMF9uYW1lDQo+ICsgICAgICDilIIgICDilIIgICDilJzilIDi
-lIBjb25zdHJhaW50XzBfcG93ZXJfbGltaXRfdXcNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKU
-gOKUgGNvbnN0cmFpbnRfMF90aW1lX3dpbmRvd191cw0KPiArICAgICAg4pSCICAg4pSCICAg4pSc
-4pSA4pSAY29uc3RyYWludF8xX25hbWUNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgGNv
-bnN0cmFpbnRfMV9wb3dlcl9saW1pdF91dw0KPiArICAgICAg4pSCICAg4pSCICAg4pSc4pSA4pSA
-Y29uc3RyYWludF8xX3RpbWVfd2luZG93X3VzDQo+ICsgICAgICDilIIgICDilIIgICDilJzilIDi
-lIBkZXZpY2UgLT4gLi4vLi4vaW50ZWwtcmFwbDoxDQo+ICsgICAgICDilIIgICDilIIgICDilJzi
-lIDilIBlbmVyZ3lfdWoNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgG1heF9lbmVyZ3lf
-cmFuZ2VfdWoNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgG5hbWUNCj4gKyAgICAgIOKU
-giAgIOKUgiAgIOKUnOKUgOKUgGVuYWJsZWQNCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKU
-gHBvd2VyDQo+ICsgICAgICDilIIgICDilIIgICDilIIgICDilJzilIDilIBhc3luYw0KPiArICAg
-ICAg4pSCICAg4pSCICAg4pSCICAgW10NCj4gKyAgICAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgHN1
-YnN5c3RlbSAtPiAuLi8uLi8uLi8uLi8uLi8uLi9jbGFzcy9wb3dlcl9jYXANCj4gKyAgICAgIOKU
-giAgIOKUgiAgIOKUlOKUgOKUgHVldmVudA0KPiArICAgICAg4pSCICAg4pSc4pSA4pSAbWF4X2Vu
-ZXJneV9yYW5nZV91ag0KPiArICAgICAg4pSCICAg4pSc4pSA4pSAbWF4X3Bvd2VyX3JhbmdlX3V3
-DQo+ICsgICAgICDilIIgICDilJzilIDilIBuYW1lDQo+ICsgICAgICDilIIgICDilJzilIDilIBl
-bmFibGVkDQo+ICsgICAgICDilIIgICDilJzilIDilIBwb3dlcg0KPiArICAgICAg4pSCICAg4pSC
-ICAg4pSc4pSA4pSAYXN5bmMNCj4gKyAgICAgIOKUgiAgIOKUgiAgIFtdDQo+ICsgICAgICDilIIg
-ICDilJzilIDilIBzdWJzeXN0ZW0gLT4gLi4vLi4vLi4vLi4vLi4vY2xhc3MvcG93ZXJfY2FwDQo+
-ICsgICAgICDilIIgICDilJzilIDilIB1ZXZlbnQNCj4gICAgICAgIOKUnOKUgOKUgHBvd2VyDQo+
-IC0gICAgICDilIIgICDilJzilIDilIBhc3luYw0KPiAtICAgICAg4pSCICAgW10NCj4gKyAgICAg
-IOKUgiAgIOKUnOKUgOKUgGFzeW5jDQo+ICsgICAgICDilIIgICBbXQ0KPiAgICAgICAg4pSc4pSA
-4pSAc3Vic3lzdGVtIC0+IC4uLy4uLy4uLy4uL2NsYXNzL3Bvd2VyX2NhcA0KPiAgICAgICAg4pSc
-4pSA4pSAZW5hYmxlZA0KPiAgICAgICAg4pSU4pSA4pSAdWV2ZW50DQo+IC0tDQo+IDIuMzAuMg0K
-Pg0K
+On Wed, May 12, 2021 at 02:50:04PM +0200, Mauro Carvalho Chehab wrote:
+> v2:
+> - removed EM/EN DASH conversion from this patchset;
+
+Are you still thinking about doing the
+
+EN DASH --> "--"
+EM DASH --> "---"
+
+conversion?  That's not going to change what the documentation will
+look like in the HTML and PDF output forms, and I think it would make
+life easier for people are reading and editing the Documentation/*
+files in text form.
+
+				- Ted
