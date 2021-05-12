@@ -7,48 +7,41 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA30C43611
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B97EFC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C63761104
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87AB161104
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233242AbhELMxa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52632 "EHLO mail.kernel.org"
+        id S233335AbhELMxc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53114 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231230AbhELMxA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231512AbhELMxA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:53:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1144561439;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BAB161584;
         Wed, 12 May 2021 12:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823903;
-        bh=WJnZZbvp/3S4+mp/P3c374P9sXWpRT/tkUrjwqlxuBE=;
+        bh=ejiB+UWymQa1W+uDq7gSHwijTlvt5QhzfdCJAzX0GHI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hpmPUvze122Z88MbxyJ83KfRXPlS2//fnIasq9quewJJDo/CrzSl4AS78cU/EnY6Q
-         7Zu3BewUGA5I8YJeVnP1kc1yq1neWzk3aigdwcY8TojJt/zmg0jmaz3GEBZPe9rhh4
-         dWjjJqbfsYmFOQDY4EhuJRv60WP2o+wxGMI5t10Zo7fZ1RUV5qIemUuWOCb7Tw+siZ
-         jABs8/7Wow/b+7XoBX81eTatEJxanmlokwbYLZvUO0IQ5SMKJAOI+SIjWxj7GPgJaq
-         9spMdsMvSJ0msgdG2kBmOu0hrps8lZt5WxithYsEUDMoTDsVsvkFUovZfO01q0KA/m
-         3/sfVaScsThuQ==
+        b=WIYp5ItZkYS8mzagQTW5qnRSBYZO/qEime7xrxULzwqMS/zslIaqWSGlCh9SOrsl4
+         WppN1kZYVKca5kYnBBvR6aoCDXqcK191E5NEpDvAYg5O00d74oi4pXOjwzYEgmc7W4
+         i20Lr2WICaStaPwE6A7mYI46SMUAbvF1Y0l1zNZCLqF7rQIQA5JR/EMENWoWlLa+BF
+         K+leeBs5hKT4+WGkj/pEf8/65t5Xfeh8mStpOz4YE84X2XgV+gKTqiMhYqv46XnviJ
+         5EO/n8aeZO7f1H+PiAd0v05GKk14m3FOydA/+yc2Y/1nFUNK09BhG/G+dCR0BwGzBq
+         ICuT8HU0H7jGA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKz-0018iU-6a; Wed, 12 May 2021 14:51:41 +0200
+        id 1lgoKz-0018ic-95; Wed, 12 May 2021 14:51:41 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Shannon Nelson <snelson@pensando.io>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v2 26/40] docs: networking: device_drivers: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:30 +0200
-Message-Id: <aa49206f65b7302f6d579d3be726242dedebdb79.1620823573.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Joe Perches <joe@perches.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 28/40] docs: scheduler: sched-deadline.rst: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:32 +0200
+Message-Id: <730dba19074ce5bc761232a3421b8b933252b262.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -75,97 +68,26 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+00a0 (' '): NO-BREAK SPACE
-	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+2212 ('−'): MINUS SIGN
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../device_drivers/ethernet/intel/i40e.rst           |  8 ++++----
- .../device_drivers/ethernet/intel/iavf.rst           |  4 ++--
- .../device_drivers/ethernet/netronome/nfp.rst        | 12 ++++++------
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ Documentation/scheduler/sched-deadline.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-index 2d3f6bd969a2..d0e9b783a224 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-@@ -466,7 +466,7 @@ network. PTP support varies among Intel devices that support this driver. Use
- "ethtool -T <netdev name>" to get a definitive list of PTP capabilities
- supported by the device.
+diff --git a/Documentation/scheduler/sched-deadline.rst b/Documentation/scheduler/sched-deadline.rst
+index 9d9be52f221a..657ffb04b4d6 100644
+--- a/Documentation/scheduler/sched-deadline.rst
++++ b/Documentation/scheduler/sched-deadline.rst
+@@ -359,7 +359,7 @@ Deadline Task Scheduling
+  More precisely, it can be proven that using a global EDF scheduler the
+  maximum tardiness of each task is smaller or equal than
  
--IEEE 802.1ad (QinQ) Support
-+IEEE 802.1ad (QinQ) Support
- ---------------------------
- The IEEE 802.1ad standard, informally known as QinQ, allows for multiple VLAN
- IDs within a single Ethernet frame. VLAN IDs are sometimes referred to as
-@@ -523,8 +523,8 @@ of a port's bandwidth (should it be available). The sum of all the values for
- Maximum Bandwidth is not restricted, because no more than 100% of a port's
- bandwidth can ever be used.
+-	((M − 1) · WCET_max − WCET_min)/(M − (M − 2) · U_max) + WCET_max
++	((M - 1) · WCET_max - WCET_min)/(M - (M - 2) · U_max) + WCET_max
  
--NOTE: X710/XXV710 devices fail to enable Max VFs (64) when Multiple Functions
--per Port (MFP) and SR-IOV are enabled. An error from i40e is logged that says
-+NOTE: X710/XXV710 devices fail to enable Max VFs (64) when Multiple Functions
-+per Port (MFP) and SR-IOV are enabled. An error from i40e is logged that says
- "add vsi failed for VF N, aq_err 16". To workaround the issue, enable less than
- 64 virtual functions (VFs).
- 
-@@ -680,7 +680,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
- 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
- number of queues for all tcs is 64 or number of cores, whichever is lower.)
- 
--hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
-+hw 1 mode channel: 'channel' with 'hw' set to 1 is a new new hardware
- offload mode in mqprio that makes full use of the mqprio options, the
- TCs, the queue configurations, and the QoS parameters.
- 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-index 25330b7b5168..b70eea67c3d9 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-@@ -113,7 +113,7 @@ which the AVF is associated. The following are base mode features:
- - AVF device ID
- - HW mailbox is used for VF to PF communications (including on Windows)
- 
--IEEE 802.1ad (QinQ) Support
-+IEEE 802.1ad (QinQ) Support
- ---------------------------
- The IEEE 802.1ad standard, informally known as QinQ, allows for multiple VLAN
- IDs within a single Ethernet frame. VLAN IDs are sometimes referred to as
-@@ -171,7 +171,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
- 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
- number of queues for all tcs is 64 or number of cores, whichever is lower.)
- 
--hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
-+hw 1 mode channel: 'channel' with 'hw' set to 1 is a new new hardware
- offload mode in mqprio that makes full use of the mqprio options, the
- TCs, the queue configurations, and the QoS parameters.
- 
-diff --git a/Documentation/networking/device_drivers/ethernet/netronome/nfp.rst b/Documentation/networking/device_drivers/ethernet/netronome/nfp.rst
-index ada611fb427c..949c036e8667 100644
---- a/Documentation/networking/device_drivers/ethernet/netronome/nfp.rst
-+++ b/Documentation/networking/device_drivers/ethernet/netronome/nfp.rst
-@@ -62,14 +62,14 @@ actual firmware files in application-named subdirectories in
-     $ tree /lib/firmware/netronome/
-     /lib/firmware/netronome/
-     ├── bpf
--    │   ├── nic_AMDA0081-0001_1x40.nffw
--    │   └── nic_AMDA0081-0001_4x10.nffw
-+    │   ├── nic_AMDA0081-0001_1x40.nffw
-+    │   └── nic_AMDA0081-0001_4x10.nffw
-     ├── flower
--    │   ├── nic_AMDA0081-0001_1x40.nffw
--    │   └── nic_AMDA0081-0001_4x10.nffw
-+    │   ├── nic_AMDA0081-0001_1x40.nffw
-+    │   └── nic_AMDA0081-0001_4x10.nffw
-     ├── nic
--    │   ├── nic_AMDA0081-0001_1x40.nffw
--    │   └── nic_AMDA0081-0001_4x10.nffw
-+    │   ├── nic_AMDA0081-0001_1x40.nffw
-+    │   └── nic_AMDA0081-0001_4x10.nffw
-     ├── nic_AMDA0081-0001_1x40.nffw -> bpf/nic_AMDA0081-0001_1x40.nffw
-     └── nic_AMDA0081-0001_4x10.nffw -> bpf/nic_AMDA0081-0001_4x10.nffw
- 
+  where WCET_max = max{WCET_i} is the maximum WCET, WCET_min=min{WCET_i}
+  is the minimum WCET, and U_max = max{WCET_i/P_i} is the maximum
 -- 
 2.30.2
 
