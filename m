@@ -2,82 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 978C3C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:24:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63061C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:29:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F5EE613B5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:24:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23771613C0
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:29:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230154AbhELIZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 04:25:51 -0400
-Received: from mx.kolabnow.com ([95.128.36.40]:47930 "EHLO mx.kolabnow.com"
+        id S230134AbhELIaP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 04:30:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43948 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230137AbhELIZu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 May 2021 04:25:50 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 657F3A25;
-        Wed, 12 May 2021 10:24:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:content-disposition:content-type:content-type
-        :mime-version:references:message-id:subject:subject:from:from
-        :date:date:received:received:received; s=dkim20160331; t=
-        1620807881; x=1622622282; bh=pNpMgAtoXuEvhZFZGFGFSlbgwGZCqEROhfU
-        xoFMcU6Q=; b=pbxnJTxVVB1PN5OzW7C20wvi+ffHLXsJnRnAKXu07iPfScSQpMh
-        vBKj37a9muPy0BALtFEnKdHSdljKEGb7QNAjDhGGKWwtvKmI0fK1UVCCSm9w8kSz
-        Odij16bDpwVlSG9gN7XmY0fS+6jCiCWRdP0lPQ1ClWOvidQtoELlM87eIKyusN2d
-        heNx8vSW7/yPhQrAoByd/MNVYL29lbD6Kodi08hGzvX3oT+g8ocQGPH6tf7Qzxg7
-        Wt2sH2ky7gu5FWaqhLSIAPg3w7vaehG72KPEEGQw+CHVUH1Z/PXhR3GWj8Fklpyu
-        FNTlncxOG3jti3hJvh6yryb7naIfy+4SAik00GtrJ2O//cFL+fJJUIqVtMveX9IQ
-        nqqQ4OFKYqQwvihb4g/W3DX0NjiYfOo5HgBPcqAdiaBffbXGQSiHKHVFZdt5BSJc
-        /oxZi36FdCpv1viSm3jenqwHtkYB5pcPwTbgnx3bMhYERzododCYenZ+C07apFAK
-        1g+gWxblhGAikTLQ2MopCjtcYFf+4NnlgdHpM/De7dF86LL4YquDHU4B3fqTw4pL
-        GzeQDN7zIexitPQm2nob6dQ9U5nEB9Pv/kL8GVyzVdEcDkrOooY7jKw7ViJHy9AI
-        f6WZ0I9mCs5MYj1s84/138MpuNQngYvYXBnzDb8VGjvPbN2jKuMt50Kw=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0UGH77h8ZQpR; Wed, 12 May 2021 10:24:41 +0200 (CEST)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id C6E4A465;
-        Wed, 12 May 2021 10:24:40 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id EEC5A11A62;
-        Wed, 12 May 2021 10:24:37 +0200 (CEST)
-Date:   Wed, 12 May 2021 10:24:35 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Sanjeev Gupta <ghane0@gmail.com>
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 2/2] Documentation/translations/it_IT: switch some links
- to https
-Message-ID: <20210512082434.timdb2sxntl6mktl@numero86.vaga.pv.it>
-References: <cce90d8d.ANEAAKAcMY8AAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgmMlr@mailjet.com>
+        id S230019AbhELIaO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 May 2021 04:30:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F0B1611CE;
+        Wed, 12 May 2021 08:29:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620808147;
+        bh=7gd5CmNGOJIefPoc1YnRuWUilvs0IIYYKBaqlByUW98=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=gbvQJ7jnRRwSgVE1A41/VzurZI31My1M6hhfO4gpSULBgb55OeNQFtWMzexQxO5QP
+         oLKvgIQBDP1btdd6A4nGOGHLW3weDd7F8rJOHxSzLemzbysmhK8rXSb/5S7cVT1ujy
+         BdIjClGIrr58d0dlkrd2Nht0Os3lfMIcegLJL8V+/fsT215TLKcW32f+K63J/eb2EM
+         C6meyfNEkP/TnbLwKjFiPEeQbrwg89w4Xut+8n1UvvZlNFuFSB1G8rBMVVgHYrKpRb
+         ngq2+hujs9UzlFzONleDU5psqVlJ0YNTUNbjWicZZze1IPFj0/6P83PNjUGSO/lV84
+         mTwbIojPvahBQ==
+Date:   Wed, 12 May 2021 10:29:01 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     David Gow <davidgow@google.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Latypov <dlatypov@google.com>,
+        Marco Elver <elver@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 39/53] docs: dev-tools: testing-overview.rst: avoid
+ using UTF-8 chars
+Message-ID: <20210512102901.3de0fdb7@coco.lan>
+In-Reply-To: <CABVgOSn67XkxasNeMvcs-ciL8F8zmMEVoZMNqf8xRdUg1heX_g@mail.gmail.com>
+References: <cover.1620641727.git.mchehab+huawei@kernel.org>
+        <1591224255d095d14ff3bc2bf4e7796dcc55c77d.1620641727.git.mchehab+huawei@kernel.org>
+        <CABVgOSn67XkxasNeMvcs-ciL8F8zmMEVoZMNqf8xRdUg1heX_g@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <cce90d8d.ANEAAKAcMY8AAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgmMlr@mailjet.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Em Tue, 11 May 2021 07:35:29 +0800
+David Gow <davidgow@google.com> escreveu:
 
-On Mon, May 10, 2021 at 12:58:29PM +0800, Sanjeev Gupta wrote:
->Links have been checked to ensure that the old and new URL
->return the same page.  This is not true for many links.
->
->Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+> On Mon, May 10, 2021 at 6:27 PM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> >
+> > While UTF-8 characters can be used at the Linux documentation,
+> > the best is to use them only when ASCII doesn't offer a good replacemen=
+t.
+> > So, replace the occurences of the following UTF-8 characters:
+> >
+> >         - U+2014 ('=E2=80=94'): EM DASH
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > --- =20
+>=20
+> Oh dear, I do have a habit of overusing em-dashes. I've no problem in
+> theory with exchanging them for an ASCII approximation.
+> I suppose there's a reason it's the one dash to rule them all: :-)
+> https://twitter.com/FakeUnicode/status/727888721312260096/photo/1
+>=20
+> >  Documentation/dev-tools/testing-overview.rst | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentati=
+on/dev-tools/testing-overview.rst
+> > index b5b46709969c..8adffc26a2ec 100644
+> > --- a/Documentation/dev-tools/testing-overview.rst
+> > +++ b/Documentation/dev-tools/testing-overview.rst
+> > @@ -18,8 +18,8 @@ frameworks. These both provide infrastructure to help=
+ make running tests and
+> >  groups of tests easier, as well as providing helpers to aid in writing=
+ new
+> >  tests.
+> >
+> > -If you're looking to verify the behaviour of the Kernel =E2=80=94 part=
+icularly specific
+> > -parts of the kernel =E2=80=94 then you'll want to use KUnit or kselfte=
+st.
+> > +If you're looking to verify the behaviour of the Kernel - particularly=
+ specific
+> > +parts of the kernel - then you'll want to use KUnit or kselftest. =20
+>=20
+> As Marco pointed out, having multiple HYPHEN-MINUS symbols in a row is
+> probably a better replacement, as it does distinguish the em-dash from
+> smaller dashes better.
+> However, I need three for sphinx to output an em-dash here (2 hyphens
+> only gives me an en-dash).
+>=20
+> So, if we want to get rid of the UTF-8 em-dash, my preferences would
+> be (in descending order):
+> 1. Three hyphens: '---' (sphinx generates an em-dash)
+> 2. Two hyphens: '--' (worst case, an en-dash surrounded by spaces --
+> as sphinx generates for me -- is still readable, and it's still
+> readable as an em-dash in plain text)
+> 3. One hyphen as in this patch (which I don't like as much, but will
+> no doubt learn to live with)
+>=20
+> But it looks like you've got several similar comments on other patches
+> in this series, so I'm happy for you to use whatever ends up being
+> agreed upon generally.
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+Yeah, from the comments I received so far, it seems that most developers
+want to use '---' for EM DASH and '--' for EN DASH, typing it as ASCII
+instead of using U+<number> as this is easier on most editors.
 
->---
-> .../translations/it_IT/doc-guide/kernel-doc.rst        |  2 +-
-> Documentation/translations/it_IT/doc-guide/sphinx.rst  | 10 +++++-----
-> Documentation/translations/it_IT/process/changes.rst   |  2 +-
-> .../translations/it_IT/process/coding-style.rst        |  2 +-
-> 4 files changed, 8 insertions(+), 8 deletions(-)
+Yet, my understanding is that we don't have a consensus with that
+regards, as some patches I sent using a single hyphen were=20
+accepted/reviewed/acked.
+
+So, I sent (and it was already applied) a small patch series (/5)
+fixing the cases where UTF-8 chars (including DASH) were added
+by mistake (probably due to some conversion tool).=20
+
+For the remaining issues, my plan is to split this series in two
+parts:
+
+The first one with non-polemic UTF-8 changes, and a second one with
+just EM/EN DASH, using '---' to replace EM DASH and '--' to replace
+EN DASH, as this way, the produced HTML/LaTeX/PDF docs won't change.
+
+This should make easier to discuss the EM/EN DASH changes on
+each patch, and see if the above default is the better fit for a
+particular usecase.
+
+Thanks,
+Mauro
