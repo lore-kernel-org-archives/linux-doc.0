@@ -7,44 +7,45 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C604EC43462
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F46AC433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9620B61139
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1979C61412
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231313AbhELMww (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231330AbhELMww (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 12 May 2021 08:52:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52122 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:52110 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231166AbhELMwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231224AbhELMwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:52:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2412461104;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2515061139;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=jmDA7OBIG40e3rzXAsGJ5fdtuKiC6QO6Mo48AVXXMFM=;
+        bh=bnu1cBkpfu6XTv2fqQnm+Wxaf59PXRV8jPumsy3FHs8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pL4SydUtBWPym3d0Xl+3VdgdUWCpgr6afKhS9Uqc+AS4VcDS82cLP2ihz6GbIeqLw
-         FCefDFmi/6n7F1tEU2K/51sL8IGLso+cBQBa0Mk2uS7y/eQWNM8+jl8Ot3DcKsJ2H9
-         EGCzKw6UFrWSmYs9LG+N/T5ULbWdV7SONKwr+GMBJ+Q2LRYs9+c+CqTLborlcXU4RU
-         mLvJPtag5QX/wNVrn5Tk7KU1QvUDbwLf8tjkoycXMiy2hpe3dvq0hSEE7QwZ6ha7K7
-         vn7hK5Mzm+3ljP3HXxEHk6UADrzEs83V/vEj5lmYmx42o9eUrF3CLMFE+cx9eCXVLI
-         KzJ1SyYJSZteg==
+        b=WDcRtBsBng0JUHK9CgbB58zQcXc0Srwj0bqrsRVVObHhVcU6eY/5brUTEAdXuEkso
+         qhqM2PqgMnDmLM7q0JQJ7qnvZm1Mhi/0Sfbzsnc6x0148WwFfXNJ0lPFyLHurEALwO
+         yWjlc1yLwQgZNqVph52DEIGsBPniyClMPysjErxPjr0xAzN/yWwEEAQNgXbnHPXYXd
+         FhZD4uwi7KZ29F0PM9eY63JtD4/k3wLIJ7MegOl9WJjMSG68QntEkI1vwQeFvMyZfP
+         PcVfW+RzO30jYIuyI2Gt8FvbQ/uDhnp6XvM1Z0MwwVO3CD5YsG0ercLSwjimPzTT3/
+         TLO3ffQA99q9g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018gr-3F; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018gy-5n; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Charles Hsu <hsu.yungteng@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/40] docs: hwmon: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:05 +0200
-Message-Id: <8a84b20ef52e012850a88be99c4a5450abfeda13.1620823573.git.mchehab+huawei@kernel.org>
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 03/40] docs: admin-guide: media: ipu3.rst: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:07 +0200
+Message-Id: <54995f43fcba6c52b6f2163cd9f9e39cb702b40b.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -71,55 +72,27 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2010 ('‐'): HYPHEN
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
+	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/hwmon/ir36021.rst  | 2 +-
- Documentation/hwmon/ltc2992.rst  | 2 +-
- Documentation/hwmon/pm6764tr.rst | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/media/ipu3.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/hwmon/ir36021.rst b/Documentation/hwmon/ir36021.rst
-index ca3436b04e20..1faa85c39f1b 100644
---- a/Documentation/hwmon/ir36021.rst
-+++ b/Documentation/hwmon/ir36021.rst
-@@ -19,7 +19,7 @@ Authors:
- Description
- -----------
- 
--The IR36021 is a dual‐loop digital multi‐phase buck controller designed for
-+The IR36021 is a dual-loop digital multi-phase buck controller designed for
- point of load applications.
- 
- Usage Notes
-diff --git a/Documentation/hwmon/ltc2992.rst b/Documentation/hwmon/ltc2992.rst
-index 46aa1aa84a1a..a0bcd867a0f5 100644
---- a/Documentation/hwmon/ltc2992.rst
-+++ b/Documentation/hwmon/ltc2992.rst
-@@ -19,7 +19,7 @@ This driver supports hardware monitoring for Linear Technology LTC2992 power mon
- LTC2992 is a rail-to-rail system monitor that measures current,
- voltage, and power of two supplies.
- 
--Two ADCs simultaneously measure each supply’s current. A third ADC monitors
-+Two ADCs simultaneously measure each supply's current. A third ADC monitors
- the input voltages and four auxiliary external voltages.
- 
- 
-diff --git a/Documentation/hwmon/pm6764tr.rst b/Documentation/hwmon/pm6764tr.rst
-index a1fb8fea2326..294a8ffc8bd8 100644
---- a/Documentation/hwmon/pm6764tr.rst
-+++ b/Documentation/hwmon/pm6764tr.rst
-@@ -20,7 +20,7 @@ Description:
- ------------
- 
- This driver supports the STMicroelectronics PM6764TR chip. The PM6764TR is a high
--performance digital controller designed to power Intel’s VR12.5 processors and memories.
-+performance digital controller designed to power Intel's VR12.5 processors and memories.
- 
- The device utilizes digital technology to implement all control and power management
- functions to provide maximum flexibility and performance. The NVM is embedded to store
+diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
+index f59697c7b374..f77cb1384dc3 100644
+--- a/Documentation/admin-guide/media/ipu3.rst
++++ b/Documentation/admin-guide/media/ipu3.rst
+@@ -244,7 +244,7 @@ larger bayer frame for further YUV processing than "VIDEO" mode to get high
+ quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
+ "STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
+ will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
+-“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
++"VIDEO" mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
+ (currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
+ and set the running mode. For user, there is no difference for buffer queueing
+ between the "VIDEO" and "STILL" mode, mandatory input and main output node
 -- 
 2.30.2
 
