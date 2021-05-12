@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C171CC43460
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E643AC43470
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8FA0D61104
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBFE1613CA
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233247AbhELMxq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52776 "EHLO mail.kernel.org"
+        id S233413AbhELMxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231676AbhELMxD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231697AbhELMxD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:53:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E3C461937;
-        Wed, 12 May 2021 12:51:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C09A0613CF;
+        Wed, 12 May 2021 12:51:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620823903;
-        bh=OVSqy/JSKyWtBY0OErxo4l2GIuXyNKw7839n8D1BuyY=;
+        s=k20201202; t=1620823907;
+        bh=KhhltWu1xUVw2pD4Trd/CN7IzcyIW+WTUTWitSy+z/I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SQTmXH4aLBXFpWGx46uYHjS01fSUGZJomKzH6pcv+Rkv47JgYZg+V1RG/pN5sG+cj
-         RJkxxcLnAa0jVvVlBZwKEDV2Qb/tBqB4lcEYgqGWbnkBYfMx1TZHBFOJZU35o2wemv
-         zbtTSFf2+VRa32d/ri6xuNvs22Y9PiTfXwaf9mmYxiPDdHAqz61TzbHJR/tOLl475P
-         awyx55/ZOlKtNuqtpxjRAqm2tYvTs9cjLJrmTry8MPzTGZZL/mrNMdZT/kVEvhCE0Q
-         C9w9jhf6O4cP815hDSQy/Qe4hal18DwXPXwkVQrz9hJtq76Ag6qWNW8zTE/6Hxi+pt
-         5+FCjf0vtZFEA==
+        b=AxFK1YvocmBh5HfqOl2PyantD5jziIq4z1u02HE3/veBEo5R1TMaL6TTX3ObhGuvq
+         PgvjdteH5vS+uRpFFB9o+Lg6/PbIE+NyAuuXXp3uMnnbMhYPIYCuJvX9Cw9ejJpS3v
+         02HC+tRQB/Jv5iu1pXo3md4EnHgE3jC+rMp0jPBKoSJ4wcoU8BMPgjGlDtGPHH6yc3
+         HjFJ8XWFTwJMmG3Uytkx9AsZErYr4vEliIh7JQJpcDFlK7clPKfptNjuv7YRk5bJcV
+         EnI5qyfChfR3ytKG2n+lWDF3GeCOTVPZX5OjTpo6KmloYAuQUXQQ8ncdBV6Mjb2mNi
+         Vh0dra9j86S6g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018h7-8A; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoL3-0018nn-R4; Wed, 12 May 2021 14:51:45 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [PATCH v2 05/40] docs: admin-guide: pm: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:09 +0200
-Message-Id: <f24d5bd469a42f4a97b9fa5de13575698789dcd6.1620823573.git.mchehab+huawei@kernel.org>
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 37/40] docs: firmware-guide: acpi: lpit.rst: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:41 +0200
+Message-Id: <14b86d84efa6b2c5a7a27e58671e0abcb493cb57.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -70,58 +70,27 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
+	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/pm/intel_idle.rst   | 4 ++--
- Documentation/admin-guide/pm/intel_pstate.rst | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/firmware-guide/acpi/lpit.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/admin-guide/pm/intel_idle.rst
-index 89309e1b0e48..c3c4f5d4c806 100644
---- a/Documentation/admin-guide/pm/intel_idle.rst
-+++ b/Documentation/admin-guide/pm/intel_idle.rst
-@@ -28,7 +28,7 @@ logical CPU executing it is idle and so it may be possible to put some of the
- processor's functional blocks into low-power states.  That instruction takes two
- arguments (passed in the ``EAX`` and ``ECX`` registers of the target CPU), the
- first of which, referred to as a *hint*, can be used by the processor to
--determine what can be done (for details refer to Intel Software Developer’s
-+determine what can be done (for details refer to Intel Software Developer's
- Manual [1]_).  Accordingly, ``intel_idle`` refuses to work with processors in
- which the support for the ``MWAIT`` instruction has been disabled (for example,
- via the platform firmware configuration menu) or which do not support that
-@@ -261,7 +261,7 @@ restrict the range of permissible idle states to the ones with core-level only
- References
- ==========
+diff --git a/Documentation/firmware-guide/acpi/lpit.rst b/Documentation/firmware-guide/acpi/lpit.rst
+index 37922a903573..d7d6c406074a 100644
+--- a/Documentation/firmware-guide/acpi/lpit.rst
++++ b/Documentation/firmware-guide/acpi/lpit.rst
+@@ -5,7 +5,7 @@ Low Power Idle Table (LPIT)
+ ===========================
  
--.. [1] *Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 2B*,
-+.. [1] *Intel® 64 and IA-32 Architectures Software Developer's Manual Volume 2B*,
-        https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-2b-manual.html
+ To enumerate platform Low Power Idle states, Intel platforms are using
+-“Low Power Idle Table” (LPIT). More details about this table can be
++"Low Power Idle Table" (LPIT). More details about this table can be
+ downloaded from:
+ https://www.uefi.org/sites/default/files/resources/Intel_ACPI_Low_Power_S0_Idle.pdf
  
- .. [2] *Advanced Configuration and Power Interface (ACPI) Specification*,
-diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentation/admin-guide/pm/intel_pstate.rst
-index df29b4f1f219..d881a32acb6d 100644
---- a/Documentation/admin-guide/pm/intel_pstate.rst
-+++ b/Documentation/admin-guide/pm/intel_pstate.rst
-@@ -26,7 +26,7 @@ than just an operating frequency or an operating performance point (see the
- LinuxCon Europe 2015 presentation by Kristen Accardi [1]_ for more
- information about that).  For this reason, the representation of P-states used
- by ``intel_pstate`` internally follows the hardware specification (for details
--refer to Intel Software Developer’s Manual [2]_).  However, the ``CPUFreq`` core
-+refer to Intel Software Developer's Manual [2]_).  However, the ``CPUFreq`` core
- uses frequencies for identifying operating performance points of CPUs and
- frequencies are involved in the user space interface exposed by it, so
- ``intel_pstate`` maps its internal representation of P-states to frequencies too
-@@ -756,7 +756,7 @@ References
- .. [1] Kristen Accardi, *Balancing Power and Performance in the Linux Kernel*,
-        https://events.static.linuxfound.org/sites/events/files/slides/LinuxConEurope_2015.pdf
- 
--.. [2] *Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 3: System Programming Guide*,
-+.. [2] *Intel® 64 and IA-32 Architectures Software Developer's Manual Volume 3: System Programming Guide*,
-        https://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-system-programming-manual-325384.html
- 
- .. [3] *Advanced Configuration and Power Interface Specification*,
 -- 
 2.30.2
 
