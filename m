@@ -2,124 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73842C433B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB94DC433ED
 	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:20:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FDF8613E9
+	by mail.kernel.org (Postfix) with ESMTP id BB03B613E9
 	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:20:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230168AbhELIVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229968AbhELIVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 12 May 2021 04:21:34 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50688 "EHLO loongson.cn"
+Received: from mail.loongson.cn ([114.242.206.163]:50686 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230184AbhELIVd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230181AbhELIVd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 04:21:33 -0400
 Received: from localhost.localdomain (unknown [112.3.197.94])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP+7Aj5tgJWQVAA--.17234S3;
-        Wed, 12 May 2021 16:20:20 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP+7Aj5tgJWQVAA--.17234S2;
+        Wed, 12 May 2021 16:20:17 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com,
         huangjianghui@uniontech.com
-Subject: [PATCH v4 1/3] docs/zh_CN: add parisc index translation
-Date:   Wed, 12 May 2021 16:20:57 +0800
-Message-Id: <c13ce34b11a65e1f18c4e37566509ead82f2c15f.1620805100.git.siyanteng@loongson.cn>
+Subject: [PATCH v4 0/3] docs/zh_CN: add parisc Chinese documents
+Date:   Wed, 12 May 2021 16:20:56 +0800
+Message-Id: <cover.1620805100.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1620805100.git.siyanteng@loongson.cn>
-References: <cover.1620805100.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxP+7Aj5tgJWQVAA--.17234S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4kGw47urWrJry3ur1xKrg_yoW8WFW5pF
-        9rK34fK3W8X347CrWfGF17Gr17G3WxCayDJa1IqwnYqrn8Jr4Fyrs8tryYgF97WrWFvFWU
-        XF4fKFW5Gryjkw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBE14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-        x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-        8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
-        0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-        IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-        Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
-        xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
-        6r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2
-        Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
-        Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMI
-        IF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUqAp5UUUUU
-        =
+X-CM-TRANSID: AQAAf9DxP+7Aj5tgJWQVAA--.17234S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw1UZw13Ar1fCw47ZFW5ZFb_yoW8Wr4Upa
+        s3Kr1fGa18Aryakr4xCr47Xry7C3WfG3y5GFW2qwnaqrs8Kr95tr15K39I9a9xWry8ZF4U
+        Xr4fKry8u34jyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+        Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+        xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+        MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+        0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AK
+        xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
+        fUoOJ5UUUUU
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/parisc/index.rst into Chinese.
+v3 -> v4:
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
----
- Documentation/translations/zh_CN/index.rst    |  2 +-
- .../translations/zh_CN/parisc/index.rst       | 24 +++++++++++++++++++
- 2 files changed, 25 insertions(+), 1 deletion(-)
+fix detailed description of the contents of the patch 1/3 and 2/3.
+
+diff:
+
+-This ptch translates Documentation/parisc/index.rst into Chinese.
++This patch translates Documentation/parisc/index.rst into Chinese.
+
+-This translates Documentation/parisc/debugging.rst into Chinese.
++This patch translates Documentation/parisc/debugging.rst into Chinese.
+
+v2 -> v3
+
+* Pick Xiangcheng Wu's review-by tag for [patch 2-3/3]
+
+v1 -> v2:
+
+* Some bad translations have been modified as suggested by Xiangcheng.Thank you for your review.
+    https://lore.kernel.org/linux-doc/cover.1619665430.git.siyanteng@loongson.cn/T/#t
+
+* Update [PATCH 1/3].
+    Because zh_CN/inxdex.rst has been refactored by Xiangcheng Wu.
+
+* Pick Xiangcheng Wu's review-by tag for [patch 1/3]
+
+v1:
+
+* This set translates Documentation/parisc/* into Chinese.
+
+Yanteng Si (3):
+  docs/zh_CN: add parisc index translation
+  docs/zh_CN: add parisc debugging.rst translation
+  docs/zh_CN: add parisc registers.rst translation
+
+ Documentation/translations/zh_CN/index.rst    |   2 +-
+ .../translations/zh_CN/parisc/debugging.rst   |  42 +++++
+ .../translations/zh_CN/parisc/index.rst       |  28 ++++
+ .../translations/zh_CN/parisc/registers.rst   | 153 ++++++++++++++++++
+ 4 files changed, 224 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/parisc/debugging.rst
  create mode 100644 Documentation/translations/zh_CN/parisc/index.rst
+ create mode 100644 Documentation/translations/zh_CN/parisc/registers.rst
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index d56d6b7092e6..420c0a809357 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -153,6 +153,7 @@ TODOList:
-    arm64/index
-    riscv/index
-    openrisc/index
-+   parisc/index
- 
- TODOList:
- 
-@@ -160,7 +161,6 @@ TODOList:
- * ia64/index
- * m68k/index
- * nios2/index
--* parisc/index
- * powerpc/index
- * s390/index
- * sh/index
-diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/parisc/index.rst
-new file mode 100644
-index 000000000000..ef232d46b1ba
---- /dev/null
-+++ b/Documentation/translations/zh_CN/parisc/index.rst
-@@ -0,0 +1,24 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/parisc/index.rst
-+:Translator: Yanteng Si <siyanteng@loongson.cn>
-+
-+.. _cn_parisc_index:
-+
-+====================
-+PA-RISC体系架构
-+====================
-+
-+Todolist:
-+
-+   debugging
-+   registers
-+   features
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
 -- 
 2.27.0
 
