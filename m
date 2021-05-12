@@ -4,48 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABBAC43461
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4586EC433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36BA361139
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 154F561104
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231506AbhELMxA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52514 "EHLO mail.kernel.org"
+        id S231166AbhELMxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52584 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231302AbhELMwv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231310AbhELMwv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:52:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 358C1613EE;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F8C961417;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=rGHnZz0sSHB5d7aG1LRrcHqBY8ZGCas2wbdtc/wHeoE=;
+        bh=NJ4jcd2S0MqqF1GQjKPHZyD2C+Se0R8Fi4ONAk1Od5M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VxhU+vEzUdpzfB0/Gxa/QVlH0MlsDQDVw0HBZGvdYEjSX8PSosKE5ViYj3++hNQfP
-         UhDB06S4PbYz5LngiXFO3NZnuEAuEQCzc65lHh6EU6hQAMx6EK5N5J34bZoA7P+PAp
-         M+agXs6/f/4xK+aaJxaha1Djnq28h/Zy/KubrzLmVqqp4NVP+yOQSfwtX21KfcMMMZ
-         Xc9ut4MytSk4BsjBZ3qMgeUnkU4RNmoJPBlStTCyfnJkrzn7l0K0yNQ7WMejQkIQFa
-         CVDdGz2EL4R6MlRZLllKmlnwwzmxxy+OchQ1kV3FabuBHu+k1Qlvm2rgoDl9Hzcvli
-         gOpmjJxov8/uA==
+        b=UkIGVodtiNfZaIiqZpBbckPirT9lNAlpAdDow9Ib8GOoKK3n58dvKMwKxAaCrcAvu
+         PDRYCxVJnHpD642pDLxMi6RVXhcfrPsYw7V2HdLaWaVtlDae8bVb3ENLSYCPGiVETP
+         ehxJJ2ZJoFVUxQYZ2O9gTLJ46kCmKjEtCyQZ2htzN8rdvVQMfaBBcpillTfO+JjjBD
+         4gigNapxnbh4QNePQASImJQlJ1TCjUggTLhGe4xax0QFOE3RqETFUUOIEuXMK/xYdg
+         KoGYAANN9rlqT8/9jIfQDp4IXgKhtMn+r+YsdGudWEvsHOn1JFscu5eGr9JIfzbd5j
+         J/3SDO6JPfAOw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018hJ-BG; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018hV-EM; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [PATCH v2 08/40] docs: driver-api: thermal: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:12 +0200
-Message-Id: <6866f10fbfbe599448fafa0ca35f1b5b262ce60f.1620823573.git.mchehab+huawei@kernel.org>
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 11/40] docs: fault-injection: nvme-fault-injection.rst: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:15 +0200
+Message-Id: <1c7520a02119fc356fa71732b9162f5892016f5d.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -77,94 +74,22 @@ So, replace the occurences of the following UTF-8 characters:
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../driver-api/thermal/cpu-idle-cooling.rst        | 14 +++++++-------
- .../driver-api/thermal/intel_powerclamp.rst        |  6 +++---
- .../thermal/x86_pkg_temperature_thermal.rst        |  2 +-
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ Documentation/fault-injection/nvme-fault-injection.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-index c2a7ca676853..60934a518560 100644
---- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-+++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-@@ -49,7 +49,7 @@ belong to the same cluster, with a duration greater than the cluster
- idle state target residency, we lead to dropping the static and the
- dynamic leakage for this period (modulo the energy needed to enter
- this state). So the sustainable power with idle cycles has a linear
--relation with the OPP’s sustainable power and can be computed with a
-+relation with the OPP's sustainable power and can be computed with a
- coefficient similar to::
+diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
+index 1d4427890d75..d372ce66a244 100644
+--- a/Documentation/fault-injection/nvme-fault-injection.rst
++++ b/Documentation/fault-injection/nvme-fault-injection.rst
+@@ -25,7 +25,7 @@ Example 1: Inject default status code with no retry
  
- 	    Power(IdleCycle) = Coef x Power(OPP)
-@@ -134,7 +134,7 @@ The idle injection duration value must comply with the constraints:
-   user experience, reactivity vs performance trade off we want. This
-   value should be specified.
+ Expected Result::
  
--- It is greater than the idle state’s target residency we want to go
-+- It is greater than the idle state's target residency we want to go
-   for thermal mitigation, otherwise we end up consuming more energy.
+-  cp: cannot stat ‘/mnt/a.file’: Input/output error
++  cp: cannot stat '/mnt/a.file': Input/output error
  
- Power considerations
-@@ -146,11 +146,11 @@ power for a specific temperature but at this time we consume::
-  Power = Capacitance x Voltage^2 x Frequency x Utilisation
+ Message from dmesg::
  
- ... which is more than the sustainable power (or there is something
--wrong in the system setup). The ‘Capacitance’ and ‘Utilisation’ are a
--fixed value, ‘Voltage’ and the ‘Frequency’ are fixed artificially
--because we don’t want to change the OPP. We can group the
--‘Capacitance’ and the ‘Utilisation’ into a single term which is the
--‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have::
-+wrong in the system setup). The 'Capacitance' and 'Utilisation' are a
-+fixed value, 'Voltage' and the 'Frequency' are fixed artificially
-+because we don't want to change the OPP. We can group the
-+'Capacitance' and the 'Utilisation' into a single term which is the
-+'Dynamic Power Coefficient (Cdyn)' Simplifying the above, we have::
- 
-  Pdyn = Cdyn x Voltage^2 x Frequency
- 
-diff --git a/Documentation/driver-api/thermal/intel_powerclamp.rst b/Documentation/driver-api/thermal/intel_powerclamp.rst
-index 3f6dfb0b3ea6..d349c1b64281 100644
---- a/Documentation/driver-api/thermal/intel_powerclamp.rst
-+++ b/Documentation/driver-api/thermal/intel_powerclamp.rst
-@@ -29,7 +29,7 @@ By:
- INTRODUCTION
- ============
- 
--Consider the situation where a system’s power consumption must be
-+Consider the situation where a system's power consumption must be
- reduced at runtime, due to power budget, thermal constraint, or noise
- level, and where active cooling is not preferred. Software managed
- passive power reduction must be performed to prevent the hardware
-@@ -39,7 +39,7 @@ Currently, P-states, T-states (clock modulation), and CPU offlining
- are used for CPU throttling.
- 
- On Intel CPUs, C-states provide effective power reduction, but so far
--they’re only used opportunistically, based on workload. With the
-+they're only used opportunistically, based on workload. With the
- development of intel_powerclamp driver, the method of synchronizing
- idle injection across all online CPU threads was introduced. The goal
- is to achieve forced and controllable C-state residency.
-@@ -264,7 +264,7 @@ CPUs).
- Usage and Interfaces
- ====================
- The powerclamp driver is registered to the generic thermal layer as a
--cooling device. Currently, it’s not bound to any thermal zones::
-+cooling device. Currently, it's not bound to any thermal zones::
- 
-   jacob@chromoly:/sys/class/thermal/cooling_device14$ grep . *
-   cur_state:0
-diff --git a/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst b/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-index 2ac42ccd236f..5b95af96e40f 100644
---- a/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-+++ b/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-@@ -13,7 +13,7 @@ Authors: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
- Reference
- ---------
- 
--Intel® 64 and IA-32 Architectures Software Developer’s Manual (Jan, 2013):
-+Intel® 64 and IA-32 Architectures Software Developer's Manual (Jan, 2013):
- Chapter 14.6: PACKAGE LEVEL THERMAL MANAGEMENT
- 
- Description
 -- 
 2.30.2
 
