@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A51DC43460
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 01:31:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE62C43600
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 01:31:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B75B6192B
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 01:31:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CC4961928
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 01:31:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230104AbhELBcN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 May 2021 21:32:13 -0400
-Received: from mail-ej1-f48.google.com ([209.85.218.48]:43969 "EHLO
-        mail-ej1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230095AbhELBcL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 21:32:11 -0400
-Received: by mail-ej1-f48.google.com with SMTP id l4so32535398ejc.10;
-        Tue, 11 May 2021 18:31:03 -0700 (PDT)
+        id S230181AbhELBcR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 May 2021 21:32:17 -0400
+Received: from mail-ed1-f54.google.com ([209.85.208.54]:39710 "EHLO
+        mail-ed1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230124AbhELBcQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 May 2021 21:32:16 -0400
+Received: by mail-ed1-f54.google.com with SMTP id g14so25127129edy.6;
+        Tue, 11 May 2021 18:31:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=utrWOu42FjJA8Nbe/rYRDIaHKdb4rk7dPi0KGMnX07w=;
-        b=VCRDcJmIWWYwZ35CKOC5ZrldQpXdEQDn/dTbv2FlpY1OyRu9CQh8HAq70xFVWityBy
-         vnIt788xIsH0y9k2ShxOGGbJsxaL8i3IdP/cOVG6nKmL7zG7xjCx7rsPNTfs6UahOzAp
-         Fgoc0Jvj5+Faf7Z4GX+dDs/WrO570cB6nCJo0fUN3AXWu9toZkaUIKzEsD1oan8Jv8uH
-         LKETtobugH6NNhU4/Yo7P9ahybeKXxhKP29StmBcrhGVStpDVE1+b6F3LEhvK6joOINS
-         DxQbfsmegFV2RhhXZLw2ij/sipb/aFr1Ru5T3OvLKRQDvPthGz/CQ+6rH68ECe/DZ6fP
-         Wq/A==
-X-Gm-Message-State: AOAM5324Wtz4GlTID81rI8iSIxTvFaEy74HNKRdvVXeH8XTN7yi92Jxj
-        D9HBvgo/HzW6zX2mLqQe5JE=
-X-Google-Smtp-Source: ABdhPJwQoNZvtD9Bf4lGU4rP6qs+F+DXYHt1XeKq8a7reswJSBfb22wjxF4iopf7TA+z6DFdPPicgg==
-X-Received: by 2002:a17:906:33da:: with SMTP id w26mr35348167eja.472.1620783062958;
-        Tue, 11 May 2021 18:31:02 -0700 (PDT)
+        bh=fu9dr07tUrhZL/WE8RSa90SkTQUI7KqZiD+NnVvcBNI=;
+        b=EaoJJAnVVq6mIBQd1C40I2iQRLzYXwwot0CkZmkrEv9Uofa+kR2t9FDKcrgg8l6XRj
+         Rb1ItU5BV556NUlYJaaG/RTYrgx36A0jnym1rpAenKpdUEAy7A3nySyF1L/Tkbx1oNbb
+         cZZRyMxSxI4b1VwzMK1OCHoAyNglePBjuw7TZTc8HPBiv5fO12/T1YxL6ZqRcF27nKrm
+         WsiK53lJQZvOyTraU3OoOGkp02MvYkY/rqPQR+OO7nZsTHDbPX8klUbeBB2Bhx7uNtcA
+         jJOAk/V7hWp/RZGHO+iTOeqVpEhWWIqjxhJhyantGSAzDQFmkN9Z/meZk3tZZsfkue/G
+         Y97A==
+X-Gm-Message-State: AOAM532rWdCmltBx3BopSbmQUYrSSCkx0OyyXFp7SXB0lsjyXxWnHa2D
+        ajwzWXggDkxkdxOpsAdfwchojNU68Qhzy9VX
+X-Google-Smtp-Source: ABdhPJzAdcv0Bb9731uLtmAWjJy47qC/e5oW2m31UeiNPkzIOCOa2RJXFmF94wgb+JQYfKm2KcK1BQ==
+X-Received: by 2002:a05:6402:1807:: with SMTP id g7mr39398970edy.335.1620783067881;
+        Tue, 11 May 2021 18:31:07 -0700 (PDT)
 Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
-        by smtp.gmail.com with ESMTPSA id c3sm2276855edn.16.2021.05.11.18.31.02
+        by smtp.gmail.com with ESMTPSA id o3sm16416033edr.84.2021.05.11.18.31.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 May 2021 18:31:02 -0700 (PDT)
+        Tue, 11 May 2021 18:31:07 -0700 (PDT)
 From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
 To:     Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
-Subject: [PATCH v5 3/5] hwmon: (max31790) Show 0 RPM/fault when input disabled
-Date:   Wed, 12 May 2021 03:30:49 +0200
-Message-Id: <20210512013052.903297-3-kubernat@cesnet.cz>
+Subject: [PATCH v5 5/5] hwmon: (max31790) Update documentation
+Date:   Wed, 12 May 2021 03:30:51 +0200
+Message-Id: <20210512013052.903297-5-kubernat@cesnet.cz>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210512013052.903297-1-kubernat@cesnet.cz>
 References: <20210512013052.903297-1-kubernat@cesnet.cz>
@@ -60,40 +60,84 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When fan speed input is disabled, it makes no sense to show values in
-fan*_input and fan*_fault.
+The conditions for fan fault and its connection to the PWM mode are now
+documented.
+
+The pwm_rate_of_change and fan_window are now mentioned. According to
+our testing with Sunon PF36281BX-000U-S99, these values are crucial in
+how RPM mode works and how long it takes for the RPM to stabilize. For
+example, setting 5000 RPM (the fan goes up to 23000), the
+pwm_rate_of_change needed to be changed to the lowest possible value,
+otherwise the chip would just go from pwm 0 to pwm 60 back and forth and
+never achieving 5000 RPM (and also signaling fan fault). Based on this
+testing, we found out that the pwm_rate_of_change and fan_window values
+need to be changed manually by the user, based on the user's exact fan
+configuration.
 
 Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
 ---
- drivers/hwmon/max31790.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ Documentation/hwmon/max31790.rst | 41 +++++++++++++++++++++++++++++++-
+ 1 file changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
-index 5d4c551df010..6e0ffbcf0d28 100644
---- a/drivers/hwmon/max31790.c
-+++ b/drivers/hwmon/max31790.c
-@@ -165,6 +165,9 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
+index 35afa5f0395a..e70aae9f71a2 100644
+--- a/Documentation/hwmon/max31790.rst
++++ b/Documentation/hwmon/max31790.rst
+@@ -30,6 +30,44 @@ monitoring and control of fan RPM as well as detection of fan failure.
+ Six pins are dedicated tachometer inputs. Any of the six PWM outputs can
+ also be configured to serve as tachometer inputs.
  
- 	switch (attr) {
- 	case hwmon_fan_input:
-+		if (!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN))
-+			return -ENODATA;
++About pwm[1-6]_enable
++---------------------
++0 - full-speed
++    The chip doesn't have a specific way to set "full speed", so setting
++    pwm[1-6]_enable to 0 is just "set PWM mode with 255 duty cycle".
++1 - PWM mode
++    Fan speed is controlled by writing a value to pwm[1-6].
++2 - RPM mode
++    Fan speed is controlled by writing a value to fan[1-6]_target.
 +
- 		tach = read_reg_word(regmap, MAX31790_REG_TACH_COUNT(channel));
- 		if (tach < 0)
- 			return tach;
-@@ -179,6 +182,11 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
- 		*val = RPM_FROM_REG(tach, get_tach_period(data->fan_dynamics[channel]));
- 		return 0;
- 	case hwmon_fan_fault:
-+		if (!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN)) {
-+			*val = 0;
-+			return 0;
-+		}
++About fan[1-6]_fault
++--------------------
++In PWM (or full-speed) mode, if the input RPM goes below what is set
++in fan[1-6]_target, fan[1-6]_fault gets set to 1. In other words,
++fan[1-6]_target works as the minimum input RPM before a fan fault goes off.
 +
- 		if (channel > 6)
- 			fault = read_reg_byte(regmap, MAX31790_REG_FAN_FAULT_STATUS2);
- 		else
++In RPM mode, fan fault is set when the fan spins "too slowly" (exact
++conditions are in the datasheet). RPM mode depends on four variables:
++    target_speed:        This is set by fan[1-6]_target.
++    speed_range:         This is set automatically when setting target_speed
++                         or manually by fan[1-12]_div.
++    pwm_rate_of_change:  NOT set by the driver.
++    fan_window:          NOT set by the driver.
++
++The last two values are not set by the driver, because there's no generic way to
++compute them. You should set them manually through i2c (in the bootloader for
++example). Check the datasheet for details.
++
++The fan fault value latches, to reset it, set a value to pwm[1-6]
++or fan[1-6]_target.
++
++About fan[1-12]_div
++-------------------
++This value affects the measurable range of the chip. The driver sets this value
++automatically in RPM based on fan[1-6]_target. In PWM mode, you should set this
++value manually based on the details from the datasheet. Setting the speed range
++is disabled while in RPM mode to prevent overwriting the automatically
++calculated value.
+ 
+ Sysfs entries
+ -------------
+@@ -39,7 +77,8 @@ fan[1-12]_enable   RW  enable fan speed monitoring
+ fan[1-12]_input    RO  fan tachometer speed in RPM
+ fan[1-12]_fault    RO  fan experienced fault
+ fan[1-12]_div      RW  set the measurable speed range, not available in RPM mode
+-fan[1-6]_target    RW  desired fan speed in RPM
++fan[1-6]_target    RW  RPM mode = desired fan speed
++                       PWM mode = minimum fan speed until fault
+ pwm[1-6]_enable    RW  regulator mode, 0=no control, sets 0% PWM,
+ 				       1=manual (pwm) mode,
+ 				       2=rpm mode
 -- 
 2.31.1
 
