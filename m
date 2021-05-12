@@ -7,52 +7,45 @@ X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B87BC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F56C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:52:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 341C8613CD
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:49:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98089613D3
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 08:52:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbhELIvB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 04:51:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34700 "EHLO mail.kernel.org"
+        id S230479AbhELIxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 04:53:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37012 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230037AbhELIvB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 May 2021 04:51:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 924C9613EE;
-        Wed, 12 May 2021 08:49:49 +0000 (UTC)
+        id S230247AbhELIxY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 May 2021 04:53:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 77236613C4;
+        Wed, 12 May 2021 08:52:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620809393;
-        bh=sgr4pNVw9LZJjQw+GkyhASsiZHhfZWrLikxWIMHCsn4=;
+        s=k20201202; t=1620809536;
+        bh=UWfzmL5bcKO7/0ueBsJdbkjAUd2vt/UsQ2Yl+A3kgHU=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZOW50uQs1gRUsEJun6YIPTU8TIOp6yLAW0uYrfmgcM3mToFw0h9o5cJ11HhF4Bbbc
-         S1BzZCT69mLeYapKbC/kYIlNiGR+C2HWiq5CUMc4xpcCz+xAkk47MqNfmo5opApv4Z
-         Xfn8Yqi52DKB++75+74vfJ/1stVIjDBTbjJcONLLMW8zRQtuFNjSohVkM98MuAo3XX
-         lEer2ClcqD1kYgn2++x4XQw1Vz+w4zMPYewBi7C3uYC8GRu6/kjNA8Y3hoXNrgY4eN
-         /TBJK6Ya19+L9k7Ludpl8ARfk9/KwUqirU1KqYNgFqGAKUogRM1DUhKLkKLumvpNH7
-         Obe1zDcCCuexw==
-Date:   Wed, 12 May 2021 10:49:46 +0200
+        b=uT8Du6z3dUJdMcmV+wo/VQiWgGczQv4hCJkCJqBS0EuFbvevl0Ny4bhCNXClcFONI
+         zfzctRIObo5NVpYMJdN9Jp4lL17jwHohiLEaFWTl29ZzzhqVIPp80LOBjSc4JIeOfE
+         G8hkXRWrmwOWP5YZRzj7laIv12iPQmu7ZRQVxjP0ddhOYSBsioR/eIG0V91YMSc++h
+         UUbD/dY7OGAH/v+1DQ/usgcWw3pLkQRetcZbQPaiFZFut0iu6xSNI9pdFYgXfeKLXc
+         amFLkiiS6R+scke2tyFns3LXA+iFMGaeHZFwrbQlT69kIr3fl1QipG5P1ciQ4117+9
+         BtD6kMuuzAsAQ==
+Date:   Wed, 12 May 2021 10:52:11 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Marco Elver <elver@google.com>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Ertman <david.m.ertman@intel.com>,
-        Drew Fustini <drew@beagleboard.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Michael Walle <michael@walle.cc>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 12/53] docs: driver-api: avoid using UTF-8 chars
-Message-ID: <20210512104946.2fb26eeb@coco.lan>
-In-Reply-To: <CAHp75Vegsb-+fVppv3C7Jp0a=mEGAh2pchX=Cr5ZvOMFt+G73Q@mail.gmail.com>
+        Daniel Latypov <dlatypov@google.com>,
+        David Gow <davidgow@google.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 39/53] docs: dev-tools: testing-overview.rst: avoid
+ using UTF-8 chars
+Message-ID: <20210512105211.7d40a3ad@coco.lan>
+In-Reply-To: <CANpmjNNnSechXTHno3j_8aXHkgVQ1je6QynGO44roAFKot-mgA@mail.gmail.com>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
-        <77e554fee3df340349bc80e7adb8deb255df235f.1620641727.git.mchehab+huawei@kernel.org>
-        <CAHp75Vegsb-+fVppv3C7Jp0a=mEGAh2pchX=Cr5ZvOMFt+G73Q@mail.gmail.com>
+        <1591224255d095d14ff3bc2bf4e7796dcc55c77d.1620641727.git.mchehab+huawei@kernel.org>
+        <CANpmjNNnSechXTHno3j_8aXHkgVQ1je6QynGO44roAFKot-mgA@mail.gmail.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,100 +54,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 10 May 2021 14:05:12 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+Em Mon, 10 May 2021 12:48:22 +0200
+Marco Elver <elver@google.com> escreveu:
 
-> On Monday, May 10, 2021, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> wrote:
->=20
+> On Mon, 10 May 2021 at 12:27, Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> >
 > > While UTF-8 characters can be used at the Linux documentation,
 > > the best is to use them only when ASCII doesn't offer a good replacemen=
 t.
 > > So, replace the occurences of the following UTF-8 characters:
 > >
-> >         - U+00a0 (' '): NO-BREAK SPACE
-> >         - U+2014 ('=E2=80=94'): EM DASH =20
->=20
->=20
-> Strictly speaking the EM Dash equivalent is =E2=80=98--=E2=80=98.
-
-Yes, EM DASH is equivalent to multiple '-'.
-
-Sphinx (and other similar tools) use those rules:
-
-	-- is equivalent to EN DASH;
-	--- is equivalent to EM DASH
-
-Anyway, I'll change this on a next spin.
-
->=20
->=20
+> >         - U+2014 ('=E2=80=94'): EM DASH
 > >
 > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > > ---
-> >  Documentation/driver-api/index.rst | 2 +-
-> >  Documentation/driver-api/ioctl.rst | 8 ++++----
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
+> >  Documentation/dev-tools/testing-overview.rst | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/Documentation/driver-api/index.rst
-> > b/Documentation/driver-api/index.rst
-> > index f5a3207aa7fa..29eb9230b7a9 100644
-> > --- a/Documentation/driver-api/index.rst
-> > +++ b/Documentation/driver-api/index.rst
-> > @@ -4,7 +4,7 @@ The Linux driver implementer's API guide
+> > diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentati=
+on/dev-tools/testing-overview.rst
+> > index b5b46709969c..8adffc26a2ec 100644
+> > --- a/Documentation/dev-tools/testing-overview.rst
+> > +++ b/Documentation/dev-tools/testing-overview.rst
+> > @@ -18,8 +18,8 @@ frameworks. These both provide infrastructure to help=
+ make running tests and
+> >  groups of tests easier, as well as providing helpers to aid in writing=
+ new
+> >  tests.
 > >
-> >  The kernel offers a wide variety of interfaces to support the developm=
-ent
-> >  of device drivers.  This document is an only somewhat organized collec=
-tion
-> > -of some of those interfaces =E2=80=94 it will hopefully get better ove=
-r time!  The
-> > +of some of those interfaces - it will hopefully get better over time! =
- The
-> >  available subsections can be seen below.
-> >
-> >  .. class:: toc-title
-> > diff --git a/Documentation/driver-api/ioctl.rst
-> > b/Documentation/driver-api/ioctl.rst
-> > index c455db0e1627..5b76e765827d 100644
-> > --- a/Documentation/driver-api/ioctl.rst
-> > +++ b/Documentation/driver-api/ioctl.rst
-> > @@ -25,9 +25,9 @@ ioctl commands that follow modern conventions: ``_IO`=
-`,
-> > ``_IOR``,
-> >  with the correct parameters:
-> >
-> >  _IO/_IOR/_IOW/_IOWR
-> > -   The macro name specifies how the argument will be used.  It may be a
-> > +   The macro name specifies how the argument will be used.  It may be a
-> >     pointer to data to be passed into the kernel (_IOW), out of the ker=
-nel
-> > -   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
-> > +   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
-> >     argument or those passing an integer value instead of a pointer.
-> >     It is recommended to only use _IO for commands without arguments,
-> >     and use pointers for passing data.
-> > @@ -200,10 +200,10 @@ cause an information leak, which can be used to
-> > defeat kernel address
-> >  space layout randomization (KASLR), helping in an attack.
-> >
-> >  For this reason (and for compat support) it is best to avoid any
-> > -implicit padding in data structures.  Where there is implicit padding
-> > +implicit padding in data structures.  Where there is implicit padding
-> >  in an existing structure, kernel drivers must be careful to fully
-> >  initialize an instance of the structure before copying it to user
-> > -space.  This is usually done by calling memset() before assigning to
-> > +space.  This is usually done by calling memset() before assigning to
-> >  individual members.
-> >
-> >  Subsystem abstractions
-> > --
-> > 2.30.2
-> >
-> > =20
+> > -If you're looking to verify the behaviour of the Kernel =E2=80=94 part=
+icularly specific
+> > -parts of the kernel =E2=80=94 then you'll want to use KUnit or kselfte=
+st.
+> > +If you're looking to verify the behaviour of the Kernel - particularly=
+ specific
+> > +parts of the kernel - then you'll want to use KUnit or kselftest. =20
 >=20
+> Single dash is incorrect punctuation here. So that Sphinx gives us the
+> correct em dash, these should be '--'.
 
+On Sphinx[1]:
 
+	-- is equivalent to EN DASH;
+	--- is equivalent to EM DASH.
+
+[1] https://docutils.sourceforge.io/docs/user/smartquotes.html
+
+I'll change this on a next spin.
 
 Thanks,
 Mauro
