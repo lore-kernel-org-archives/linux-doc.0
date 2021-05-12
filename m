@@ -2,49 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F421DC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 05:33:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F5DC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 06:22:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D051B6157F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 05:33:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC1D961933
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 06:22:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbhELFen (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 01:34:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57282 "EHLO mail.kernel.org"
+        id S229580AbhELGXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 02:23:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47082 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230017AbhELFem (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 May 2021 01:34:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C386D613C2;
-        Wed, 12 May 2021 05:33:33 +0000 (UTC)
+        id S229776AbhELGXu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 May 2021 02:23:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0047061928;
+        Wed, 12 May 2021 06:22:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620797615;
-        bh=USzfXL7rhbiNnC/UNNFOQgAUDuwKT0jR8zKV7J6vvp4=;
+        s=k20201202; t=1620800562;
+        bh=+GtcoEGn48W18sQPB5jjhcR6X0ZWVJ8sGeKiDqqJNmc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tY80cvzTIrxVZ/KlZkv4hTSQ0d6QMpNymy43XFKK4Nl4pg5jBiKiaaVe96lBT3sne
-         elPv0NK/sEy6D8KvvT99q6vd09rylQLChwFHrA2dxkbosxTt9iza8zPCXcL3RVUcpz
-         tR8QQCigsZGcNbYKbyHoeYgo0opjKqs/VqdoafsgvJbHpUP/UAg2CV4dThNi57rHlz
-         lWQwpz2czPHlvszx5g7ovXvuxtzhYuWaX2v4SjxSx0ijOrwd+Qe8pcNkbKEfiC5CAG
-         7HoXNA8R+NWu01QvHBNz2VZrcmewfLAv4NZ9AsNZ9f/uzMGEAlDGYHjQSsPW6nyDRR
-         iqp5x1wXGHYsQ==
-Date:   Wed, 12 May 2021 07:33:30 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] docs: hwmon: tmp103.rst: fix bad usage of UTF-8
- chars
-Message-ID: <20210512073330.2b48e81a@coco.lan>
-In-Reply-To: <a4d0e1cf-20f1-d87c-0af6-b39f45afae5f@roeck-us.net>
-References: <cover.1620744606.git.mchehab+huawei@kernel.org>
-        <73b3c7c1eef5c12ddc941624d23689313bd56529.1620744606.git.mchehab+huawei@kernel.org>
-        <a4d0e1cf-20f1-d87c-0af6-b39f45afae5f@roeck-us.net>
+        b=nY7YNKDrhy/9g9UPpZtkdUi3OlfrL8uhBXwFA+KqNU9fnXJHMm54u33BsBqjoHhQm
+         CdpuVThMbGgV4D4jonEXdeen9FYnAjBFt0gGHtGTqVEVmg4ar1sf+2aLBCPlZ4jkq3
+         kTgpfHTdFdUmLoaUtDItYwBVhQ7PxRKb5Eo8BT5zeGbg8iYGponXyJxSfqW3RgQImF
+         Y19ZERQHfWutKt0jH6Zq8bWMvUcZqhEIJNil0jjKG+1u6y9Jr5HkyJzjow8QcoXxJF
+         vN6lS3H2UxcEO79s13l+jLIV6VaP459oKExbfTub8I6QwyznE643JSSDcYV8aJMVgK
+         z7FTjS9KNIUlg==
+Date:   Wed, 12 May 2021 08:22:38 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+Cc:     Markus Heiser <markus.heiser@darmarit.de>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: Sphinx parallel build error: UnicodeEncodeError: 'latin-1'
+ codec can't encode characters in position 18-20: ordinal not in range(256)
+Message-ID: <20210512082238.682f6aea@coco.lan>
+In-Reply-To: <20210506174849.GH6564@kitsune.suse.cz>
+References: <20210506103913.GE6564@kitsune.suse.cz>
+        <30f2117f-aa38-6d60-f020-ff5cf8f004b5@darmarit.de>
+        <20210506184641.6348a621@coco.lan>
+        <0fd5bb54-a8fc-84b2-2bd6-31ab12f12303@darmarit.de>
+        <20210506174849.GH6564@kitsune.suse.cz>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -53,87 +52,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Guenter,
+Hi Michal,
 
-Em Tue, 11 May 2021 11:55:53 -0700
-Guenter Roeck <linux@roeck-us.net> escreveu:
+Em Thu, 6 May 2021 19:48:49 +0200
+Michal Such=C3=A1nek <msuchanek@suse.de> escreveu:
 
-> On 5/11/21 8:01 AM, Mauro Carvalho Chehab wrote:
-> > While UTF-8 characters can be used at the Linux documentation,
-> > the best is to use them only when ASCII doesn't offer a good replacemen=
-t.
-> > So, replace the occurences of the following UTF-8 characters:
-> >=20
-> > 	- U+2013 ('=E2=80=93'): EN DASH
-> >=20
-> > In this specific case, EN DASH was used instead of a minus
-> > sign. So, replace it by a single hyphen.
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org> =20
->=20
-> Confused. Is that supposed to replace the earlier patch (docs: hwmon:
-> avoid using UTF-8 chars) ? I thought that was more comprehensive
-> and just as valid. Anyway, should I drop that patch ?
+> [  127s] + :
+> [  127s] + locale
+> [  128s] LANG=3Den_US
+> [  128s] LC_CTYPE=3D"en_US"
+> [  128s] LC_NUMERIC=3D"en_US"
+> [  128s] LC_TIME=3D"en_US"
+> [  128s] LC_COLLATE=3D"en_US"
+> [  128s] LC_MONETARY=3D"en_US"
+> [  128s] LC_MESSAGES=3D"en_US"
+> [  128s] LC_PAPER=3D"en_US"
+> [  128s] LC_NAME=3D"en_US"
+> [  128s] LC_ADDRESS=3D"en_US"
+> [  128s] LC_TELEPHONE=3D"en_US"
+> [  128s] LC_MEASUREMENT=3D"en_US"
+> [  128s] LC_IDENTIFICATION=3D"en_US"
+> [  128s] LC_ALL=3D
+> [  128s] + echo LC_ALL=3D
+> [  128s] LC_ALL=3D
+> [  128s] + echo LANG=3Den_US
+> [  128s] LANG=3Den_US
 
-If you applied already the previous patch, that's OK. Just ignore this
-one.
+Where those the locale settings that you used when the build
+failed?
 
-It is just that, after some discussions around EM/EN DASH on
-patch 00/53[1], I opted to split the changes on three parts:
+I tried to reproduce the bug here with, disabling the parallel run (as
+it masks the real error) with both:
 
-	- UTF-8 fixes;
-	- non DASH UTF-8 replacements;
-	- EM/EN DASH.
+	$ for i in LANG LC_ALL LC_ADDRESS LC_IDENTIFICATION LC_MEASUREMENT LC_MONE=
+TARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME; do echo $i=3Den_US; =
+done
+	$ make cleandocs && make SPHINXOPTS=3D-j1 htmldocs
 
-in order to make easier for reviewers to discuss EM/EN DASH if needed.
+(this one caused lots of warnings on Debian, due to the
+ settings at /etc/locale.gen)
 
--
+and:
 
-[1] You can see the full thread at:
+	$ for i in LANG LC_ALL LC_ADDRESS LC_IDENTIFICATION LC_MEASUREMENT LC_MONE=
+TARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME; do echo $i=3Den_US.I=
+SO-8859-1; done
+	$ make cleandocs && make SPHINXOPTS=3D-j1 htmldocs
 
-	https://lore.kernel.org/lkml/cover.1620641727.git.mchehab+huawei@kernel.or=
-g/
+Without any success.
 
-    In summary, my original patchset were replacing both
-    EM/EN DASH to a single hyphen.
-
-    Yet, several maintainers seem to prefer using "--" for EN DASH
-    and either "--" or "---" for EM DASH.
-
-    Neither -- nor --- would make any sense on tmp103.rst, as here it
-    means a minus sign.
-   =20
-
->=20
-> Guenter
->=20
-> > ---
-> >   Documentation/hwmon/tmp103.rst | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/Documentation/hwmon/tmp103.rst b/Documentation/hwmon/tmp10=
-3.rst
-> > index e195a7d14309..b3ef81475cf8 100644
-> > --- a/Documentation/hwmon/tmp103.rst
-> > +++ b/Documentation/hwmon/tmp103.rst
-> > @@ -21,10 +21,10 @@ Description
-> >   The TMP103 is a digital output temperature sensor in a four-ball
-> >   wafer chip-scale package (WCSP). The TMP103 is capable of reading
-> >   temperatures to a resolution of 1=C2=B0C. The TMP103 is specified for
-> > -operation over a temperature range of =E2=80=9340=C2=B0C to +125=C2=B0=
-C.
-> > +operation over a temperature range of -40=C2=B0C to +125=C2=B0C.
-> >  =20
-> >   Resolution: 8 Bits
-> > -Accuracy: =C2=B11=C2=B0C Typ (=E2=80=9310=C2=B0C to +100=C2=B0C)
-> > +Accuracy: =C2=B11=C2=B0C Typ (-10=C2=B0C to +100=C2=B0C)
-> >  =20
-> >   The driver provides the common sysfs-interface for temperatures (see
-> >   Documentation/hwmon/sysfs-interface.rst under Temperatures).
-> >  =20
->=20
-
-
+Could you please provide more details about the build VM and the git=20
+changeset that caused the issue?
 
 Thanks,
 Mauro
