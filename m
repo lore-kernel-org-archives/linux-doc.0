@@ -4,46 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F8BC43617
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E447C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21AE5613EB
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D68BF61026
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233321AbhELMxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52580 "EHLO mail.kernel.org"
+        id S233346AbhELMxc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53108 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231504AbhELMxA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231503AbhELMxA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:53:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0448261490;
-        Wed, 12 May 2021 12:51:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0898261554;
+        Wed, 12 May 2021 12:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823903;
-        bh=P9S9FDPjkGyLPgGS0Ee7GPWkFYrytOORnj43F6Ph9g0=;
+        bh=Jyxa5b0wJDyAovUPme/k22k6PLvmyAwA/dwR9wmQyok=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q/i0bYQzJEf+oPMgJbfcEZMj9nJMClHeAJd6N7TG3sOkWH2pYhds4rR7KcKXZi1ld
-         YMXwah/poZy7ExyXbFoFXsBVDp/pIjbnHnPn5DaVYvoabTgnrytJe7BXh/Sd0yI1/l
-         tcnMu1Ulul2q3a/g/o6c8/+nfTmiO1rlCuSlO5nL2g5KkRlb21EMaTL8fVcbTWK+US
-         x2C1frgjGTqKvHhGj7PEPzykbGwdqPL5qYWFbGwkSUsAECzRzVvDK7+r1lA9QT3Hdz
-         5i7zKrOQHTwCLbrNMJJwU1Idq+Hfmhm8J6MfNwaT6v4kH2uvpfhXheAR6NCq3lSufK
-         KNrDNNhDimw+Q==
+        b=bhao1Phh7hKgBdCV4xH59/Bcm+sV6c7r23FpdOth3Hrvsp3dUIB8seChyFazMlWpF
+         Y59jxoNka6Lq80Mc7Ev0YT2aExqH1PEJzYX0wUVbOJqD0sz//JpV/yoi4MPH2a6zCL
+         m+xbf0aWRRs8lePB2fDOCmh4b6NEfRakE5AGJQ9rWzXzLf3guyeYwjAarzyjb9J1yc
+         CtlQ8ehObd7x1RvFuqoGVC96vQRXcK9Jbstn6SzKaZ5Z6T8IpVriCNvVzw3ZMiNpKD
+         WLMJY0Ve6xZkb8R0nav/u8MbtxSjS/82EcXECCFJcOn3Rr65GZLNb42AeaRD3ETGQo
+         fPslSipMau70w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKz-0018iQ-5a; Wed, 12 May 2021 14:51:41 +0200
+        id 1lgoKz-0018iI-2c; Wed, 12 May 2021 14:51:41 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@nvidia.com>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 25/40] docs: networking: devlink: devlink-dpipe.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:29 +0200
-Message-Id: <ac0eb250139c41c6f90a79a187f7e46d8ef38ed8.1620823573.git.mchehab+huawei@kernel.org>
+        James Bottomley <jejb@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>, keyrings@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 23/40] docs: security: keys: trusted-encrypted.rst: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:27 +0200
+Message-Id: <c727cd640cefea283213d89f524a4432779ed5dc.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -70,26 +71,29 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
+	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/devlink/devlink-dpipe.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/security/keys/trusted-encrypted.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/networking/devlink/devlink-dpipe.rst b/Documentation/networking/devlink/devlink-dpipe.rst
-index af37f250df43..2df7cbf1ba70 100644
---- a/Documentation/networking/devlink/devlink-dpipe.rst
-+++ b/Documentation/networking/devlink/devlink-dpipe.rst
-@@ -52,7 +52,7 @@ purposes as a standard complementary tool. The system's view from
- ``devlink-dpipe`` should change according to the changes done by the
- standard configuration tools.
+diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+index 80d5a5af62a1..3697cbb4fc2c 100644
+--- a/Documentation/security/keys/trusted-encrypted.rst
++++ b/Documentation/security/keys/trusted-encrypted.rst
+@@ -108,8 +108,8 @@ Encrypted Keys
  
--For example, it’s quite common to  implement Access Control Lists (ACL)
-+For example, it's quite common to  implement Access Control Lists (ACL)
- using Ternary Content Addressable Memory (TCAM). The TCAM memory can be
- divided into TCAM regions. Complex TC filters can have multiple rules with
- different priorities and different lookup keys. On the other hand hardware
+ Encrypted keys do not depend on a trust source, and are faster, as they use AES
+ for encryption/decryption. New keys are created from kernel-generated random
+-numbers, and are encrypted/decrypted using a specified ‘master’ key. The
+-‘master’ key can either be a trusted-key or user-key type. The main disadvantage
++numbers, and are encrypted/decrypted using a specified 'master' key. The
++'master' key can either be a trusted-key or user-key type. The main disadvantage
+ of encrypted keys is that if they are not rooted in a trusted key, they are only
+ as secure as the user key encrypting them. The master user key should therefore
+ be loaded in as secure a way as possible, preferably early in boot.
 -- 
 2.30.2
 
