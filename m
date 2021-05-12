@@ -7,43 +7,47 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC01C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36063C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B5A961026
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBB7861412
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232500AbhELMxU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52780 "EHLO mail.kernel.org"
+        id S232804AbhELMxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53116 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231656AbhELMxD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 May 2021 08:53:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 341C7616E9;
-        Wed, 12 May 2021 12:51:43 +0000 (UTC)
+        id S231514AbhELMxB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 May 2021 08:53:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB04A61442;
+        Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823903;
-        bh=mv6LmDTZqB4qEwkep20CW6JiwxGthmk9rWUgZqXguUg=;
+        bh=Kk11vvdpqmF0cZ2tgc4BefQKiqLRAn74Q/I4wTEDIYA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Opzo/UinbtsUDqpCoqHHa/hUCkxHRYzGhLgk5+vbTCrlxx5DhB3lzwTkOCVO4KE0a
-         RXJrtIXVRHvGOhRgPqUpH0vSpAm2NfJ7wnmH+FDSayB6Woa7459CZNOJS2P8r4574Y
-         YIaoXMgFw6J5GdBqzh4wETPmsFq8yWll/uYXkiDkykXCjsNp3kjHj0HCaQglU8S82e
-         P7TPBXi6Y3aTGFvAP3CvzJXEE7pCWNgBZhv1rnm2r5pO9Qgt0+cE5Ft4dIBgK1gydR
-         ZPqxa29MonxKpPXf2bMq5yUTkzY35+gLUrkOovy10J4swuw8m4S5ROIMYm0rNeshgH
-         iUx6YiQwRb4Pw==
+        b=f3TG62LaQojTzevTAiDOyoFReZbHD6UONh/GiH3E43mdHseOmujLbCoMVdjJWbsjg
+         7kLOic67pSaUlHXnca7EozRVRvV2eiqKuYRwqYR1AjetOE+IKP5so8u1r/djbv2UCH
+         +O8NbLRDJv64UHUlJcZBRGEPIGWOMdN1AKQzVZ6lpQzx+0bCplMJGB8yMY47bhwv0R
+         wBjNoEkf+W8mNmAU6W0IPMPXa+vvU1bSyJ/124ZwU8bORrzfr1He5o/k6idLgIzjnW
+         2ijqrpfBX9Pi6wI1RI7+DfQoA2zZomDBcckMCP8zyBUabchA5os0cEyL32bHpXvTO8
+         uPNYI7fvDhWcQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKz-0018io-CU; Wed, 12 May 2021 14:51:41 +0200
+        id 1lgoKy-0018iA-VR; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>
-Subject: [PATCH v2 31/40] docs: PCI: acpi-info.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:35 +0200
-Message-Id: <7fd9d4360a3d0f761b169b95d9997f4f5d06319c.1620823573.git.mchehab+huawei@kernel.org>
+        "Mark O'Donovan" <shiftee@posteo.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 21/40] docs: hid: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:25 +0200
+Message-Id: <c9241635fbc24fb8aeb205b2af05cfb710410226.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -71,89 +75,362 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 So, replace the occurences of the following UTF-8 characters:
 
 	- U+00a0 (' '): NO-BREAK SPACE
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
 
-Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/PCI/acpi-info.rst | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ Documentation/hid/hid-sensor.rst    |  70 ++++----
+ Documentation/hid/intel-ish-hid.rst | 246 ++++++++++++++--------------
+ 2 files changed, 158 insertions(+), 158 deletions(-)
 
-diff --git a/Documentation/PCI/acpi-info.rst b/Documentation/PCI/acpi-info.rst
-index 060217081c79..30d0fc85dd8e 100644
---- a/Documentation/PCI/acpi-info.rst
-+++ b/Documentation/PCI/acpi-info.rst
-@@ -22,9 +22,9 @@ or if the device has INTx interrupts connected by platform interrupt
- controllers and a _PRT is needed to describe those connections.
+diff --git a/Documentation/hid/hid-sensor.rst b/Documentation/hid/hid-sensor.rst
+index c1c9b8d8dca6..b98d7a415cda 100644
+--- a/Documentation/hid/hid-sensor.rst
++++ b/Documentation/hid/hid-sensor.rst
+@@ -173,39 +173,39 @@ An example of this representation on sysfs::
  
- ACPI resource description is done via _CRS objects of devices in the ACPI
--namespace [2].   The _CRS is like a generalized PCI BAR: the OS can read
-+namespace [2].   The _CRS is like a generalized PCI BAR: the OS can read
- _CRS and figure out what resource is being consumed even if it doesn't have
--a driver for the device [3].  That's important because it means an old OS
-+a driver for the device [3].  That's important because it means an old OS
- can work correctly even on a system with new devices unknown to the OS.
- The new devices might not do anything, but the OS can at least make sure no
- resources conflict with them.
-@@ -41,15 +41,15 @@ ACPI, that device will have a specific _HID/_CID that tells the OS what
- driver to bind to it, and the _CRS tells the OS and the driver where the
- device's registers are.
+   /sys/devices/pci0000:00/INT33C2:00/i2c-0/i2c-INT33D1:00/0018:8086:09FA.0001/HID-SENSOR-2000e1.6.auto$ tree -R
+   .
+-  │   ├──  enable_sensor
+-  │   │   ├── feature-0-200316
+-  │   │   │   ├── feature-0-200316-maximum
+-  │   │   │   ├── feature-0-200316-minimum
+-  │   │   │   ├── feature-0-200316-name
+-  │   │   │   ├── feature-0-200316-size
+-  │   │   │   ├── feature-0-200316-unit-expo
+-  │   │   │   ├── feature-0-200316-units
+-  │   │   │   ├── feature-0-200316-value
+-  │   │   ├── feature-1-200201
+-  │   │   │   ├── feature-1-200201-maximum
+-  │   │   │   ├── feature-1-200201-minimum
+-  │   │   │   ├── feature-1-200201-name
+-  │   │   │   ├── feature-1-200201-size
+-  │   │   │   ├── feature-1-200201-unit-expo
+-  │   │   │   ├── feature-1-200201-units
+-  │   │   │   ├── feature-1-200201-value
+-  │   │   ├── input-0-200201
+-  │   │   │   ├── input-0-200201-maximum
+-  │   │   │   ├── input-0-200201-minimum
+-  │   │   │   ├── input-0-200201-name
+-  │   │   │   ├── input-0-200201-size
+-  │   │   │   ├── input-0-200201-unit-expo
+-  │   │   │   ├── input-0-200201-units
+-  │   │   │   ├── input-0-200201-value
+-  │   │   ├── input-1-200202
+-  │   │   │   ├── input-1-200202-maximum
+-  │   │   │   ├── input-1-200202-minimum
+-  │   │   │   ├── input-1-200202-name
+-  │   │   │   ├── input-1-200202-size
+-  │   │   │   ├── input-1-200202-unit-expo
+-  │   │   │   ├── input-1-200202-units
+-  │   │   │   ├── input-1-200202-value
++  │   ├──  enable_sensor
++  │   │   ├── feature-0-200316
++  │   │   │   ├── feature-0-200316-maximum
++  │   │   │   ├── feature-0-200316-minimum
++  │   │   │   ├── feature-0-200316-name
++  │   │   │   ├── feature-0-200316-size
++  │   │   │   ├── feature-0-200316-unit-expo
++  │   │   │   ├── feature-0-200316-units
++  │   │   │   ├── feature-0-200316-value
++  │   │   ├── feature-1-200201
++  │   │   │   ├── feature-1-200201-maximum
++  │   │   │   ├── feature-1-200201-minimum
++  │   │   │   ├── feature-1-200201-name
++  │   │   │   ├── feature-1-200201-size
++  │   │   │   ├── feature-1-200201-unit-expo
++  │   │   │   ├── feature-1-200201-units
++  │   │   │   ├── feature-1-200201-value
++  │   │   ├── input-0-200201
++  │   │   │   ├── input-0-200201-maximum
++  │   │   │   ├── input-0-200201-minimum
++  │   │   │   ├── input-0-200201-name
++  │   │   │   ├── input-0-200201-size
++  │   │   │   ├── input-0-200201-unit-expo
++  │   │   │   ├── input-0-200201-units
++  │   │   │   ├── input-0-200201-value
++  │   │   ├── input-1-200202
++  │   │   │   ├── input-1-200202-maximum
++  │   │   │   ├── input-1-200202-minimum
++  │   │   │   ├── input-1-200202-name
++  │   │   │   ├── input-1-200202-size
++  │   │   │   ├── input-1-200202-unit-expo
++  │   │   │   ├── input-1-200202-units
++  │   │   │   ├── input-1-200202-value
  
--PCI host bridges are PNP0A03 or PNP0A08 devices.  Their _CRS should
--describe all the address space they consume.  This includes all the windows
-+PCI host bridges are PNP0A03 or PNP0A08 devices.  Their _CRS should
-+describe all the address space they consume.  This includes all the windows
- they forward down to the PCI bus, as well as registers of the host bridge
--itself that are not forwarded to PCI.  The host bridge registers include
-+itself that are not forwarded to PCI.  The host bridge registers include
- things like secondary/subordinate bus registers that determine the bus
- range below the bridge, window registers that describe the apertures, etc.
- These are all device-specific, non-architected things, so the only way a
- PNP0A03/PNP0A08 driver can manage them is via _PRS/_CRS/_SRS, which contain
--the device-specific details.  The host bridge registers also include ECAM
-+the device-specific details.  The host bridge registers also include ECAM
- space, since it is consumed by the host bridge.
+ Here there is a custom sensor with four fields: two feature and two inputs.
+ Each field is represented by a set of attributes. All fields except the "value"
+@@ -234,8 +234,8 @@ Once enabled and powered on, sensor can report value using HID reports.
+ These reports are pushed using misc device interface in a FIFO order::
  
- ACPI defines a Consumer/Producer bit to distinguish the bridge registers
-@@ -66,7 +66,7 @@ the PNP0A03/PNP0A08 device itself.  The workaround was to describe the
- bridge registers (including ECAM space) in PNP0C02 catch-all devices [6].
- With the exception of ECAM, the bridge register space is device-specific
- anyway, so the generic PNP0A03/PNP0A08 driver (pci_root.c) has no need to
--know about it.  
-+know about it.  
+ 	/dev$ tree | grep HID-SENSOR-2000e1.6.auto
+-	│   │   │   ├── 10:53 -> ../HID-SENSOR-2000e1.6.auto
+-	│   ├──  HID-SENSOR-2000e1.6.auto
++	│   │   │   ├── 10:53 -> ../HID-SENSOR-2000e1.6.auto
++	│   ├──  HID-SENSOR-2000e1.6.auto
  
- New architectures should be able to use "Consumer" Extended Address Space
- descriptors in the PNP0A03 device for bridge registers, including ECAM,
-@@ -75,9 +75,9 @@ ia64 kernels assume all address space descriptors, including "Consumer"
- Extended Address Space ones, are windows, so it would not be safe to
- describe bridge registers this way on those architectures.
- 
--PNP0C02 "motherboard" devices are basically a catch-all.  There's no
-+PNP0C02 "motherboard" devices are basically a catch-all.  There's no
- programming model for them other than "don't use these resources for
--anything else."  So a PNP0C02 _CRS should claim any address space that is
-+anything else."  So a PNP0C02 _CRS should claim any address space that is
- (1) not claimed by _CRS under any other device object in the ACPI namespace
- and (2) should not be assigned by the OS to something else.
- 
-@@ -125,7 +125,7 @@ address always corresponds to bus 0, even if the bus range below the bridge
-     requirements of the device.  It may also call _CRS to find the current
-     resource settings for the device.  Using this information, the Plug and
-     Play system determines what resources the device should consume and
--    sets those resources by calling the device’s _SRS control method.
-+    sets those resources by calling the device's _SRS control method.
- 
-     In ACPI, devices can consume resources (for example, legacy keyboards),
-     provide resources (for example, a proprietary PCI bridge), or do both.
-@@ -156,7 +156,7 @@ address always corresponds to bus 0, even if the bus range below the bridge
-     4.1.3) must be reserved by declaring a motherboard resource.  For most
-     systems, the motherboard resource would appear at the root of the ACPI
-     namespace (under \_SB) in a node with a _HID of EISAID (PNP0C02), and
--    the resources in this case should not be claimed in the root PCI bus’s
-+    the resources in this case should not be claimed in the root PCI bus's
-     _CRS.  The resources can optionally be returned in Int15 E820 or
-     EFIGetMemoryMap as reserved memory but must always be reported through
-     ACPI as a motherboard resource.
+ Each report can be of variable length preceded by a header. This header
+ consists of a 32-bit usage id, 64-bit time stamp and 32-bit length field of raw
+diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
+index 7a851252267a..a525cdefc937 100644
+--- a/Documentation/hid/intel-ish-hid.rst
++++ b/Documentation/hid/intel-ish-hid.rst
+@@ -355,133 +355,133 @@ To debug ISH, event tracing mechanism is used. To enable debug logs::
+   root@otcpl-ThinkPad-Yoga-260:~# tree -l /sys/bus/iio/devices/
+   /sys/bus/iio/devices/
+   ├── iio:device0 -> ../../../devices/0044:8086:22D8.0001/HID-SENSOR-200073.9.auto/iio:device0
+-  │   ├── buffer
+-  │   │   ├── enable
+-  │   │   ├── length
+-  │   │   └── watermark
++  │   ├── buffer
++  │   │   ├── enable
++  │   │   ├── length
++  │   │   └── watermark
+   ...
+-  │   ├── in_accel_hysteresis
+-  │   ├── in_accel_offset
+-  │   ├── in_accel_sampling_frequency
+-  │   ├── in_accel_scale
+-  │   ├── in_accel_x_raw
+-  │   ├── in_accel_y_raw
+-  │   ├── in_accel_z_raw
+-  │   ├── name
+-  │   ├── scan_elements
+-  │   │   ├── in_accel_x_en
+-  │   │   ├── in_accel_x_index
+-  │   │   ├── in_accel_x_type
+-  │   │   ├── in_accel_y_en
+-  │   │   ├── in_accel_y_index
+-  │   │   ├── in_accel_y_type
+-  │   │   ├── in_accel_z_en
+-  │   │   ├── in_accel_z_index
+-  │   │   └── in_accel_z_type
++  │   ├── in_accel_hysteresis
++  │   ├── in_accel_offset
++  │   ├── in_accel_sampling_frequency
++  │   ├── in_accel_scale
++  │   ├── in_accel_x_raw
++  │   ├── in_accel_y_raw
++  │   ├── in_accel_z_raw
++  │   ├── name
++  │   ├── scan_elements
++  │   │   ├── in_accel_x_en
++  │   │   ├── in_accel_x_index
++  │   │   ├── in_accel_x_type
++  │   │   ├── in_accel_y_en
++  │   │   ├── in_accel_y_index
++  │   │   ├── in_accel_y_type
++  │   │   ├── in_accel_z_en
++  │   │   ├── in_accel_z_index
++  │   │   └── in_accel_z_type
+   ...
+-  │   │   ├── devices
+-  │   │   │   │   ├── buffer
+-  │   │   │   │   │   ├── enable
+-  │   │   │   │   │   ├── length
+-  │   │   │   │   │   └── watermark
+-  │   │   │   │   ├── dev
+-  │   │   │   │   ├── in_intensity_both_raw
+-  │   │   │   │   ├── in_intensity_hysteresis
+-  │   │   │   │   ├── in_intensity_offset
+-  │   │   │   │   ├── in_intensity_sampling_frequency
+-  │   │   │   │   ├── in_intensity_scale
+-  │   │   │   │   ├── name
+-  │   │   │   │   ├── scan_elements
+-  │   │   │   │   │   ├── in_intensity_both_en
+-  │   │   │   │   │   ├── in_intensity_both_index
+-  │   │   │   │   │   └── in_intensity_both_type
+-  │   │   │   │   ├── trigger
+-  │   │   │   │   │   └── current_trigger
++  │   │   ├── devices
++  │   │   │   │   ├── buffer
++  │   │   │   │   │   ├── enable
++  │   │   │   │   │   ├── length
++  │   │   │   │   │   └── watermark
++  │   │   │   │   ├── dev
++  │   │   │   │   ├── in_intensity_both_raw
++  │   │   │   │   ├── in_intensity_hysteresis
++  │   │   │   │   ├── in_intensity_offset
++  │   │   │   │   ├── in_intensity_sampling_frequency
++  │   │   │   │   ├── in_intensity_scale
++  │   │   │   │   ├── name
++  │   │   │   │   ├── scan_elements
++  │   │   │   │   │   ├── in_intensity_both_en
++  │   │   │   │   │   ├── in_intensity_both_index
++  │   │   │   │   │   └── in_intensity_both_type
++  │   │   │   │   ├── trigger
++  │   │   │   │   │   └── current_trigger
+   ...
+-  │   │   │   │   ├── buffer
+-  │   │   │   │   │   ├── enable
+-  │   │   │   │   │   ├── length
+-  │   │   │   │   │   └── watermark
+-  │   │   │   │   ├── dev
+-  │   │   │   │   ├── in_magn_hysteresis
+-  │   │   │   │   ├── in_magn_offset
+-  │   │   │   │   ├── in_magn_sampling_frequency
+-  │   │   │   │   ├── in_magn_scale
+-  │   │   │   │   ├── in_magn_x_raw
+-  │   │   │   │   ├── in_magn_y_raw
+-  │   │   │   │   ├── in_magn_z_raw
+-  │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_raw
+-  │   │   │   │   ├── in_rot_hysteresis
+-  │   │   │   │   ├── in_rot_offset
+-  │   │   │   │   ├── in_rot_sampling_frequency
+-  │   │   │   │   ├── in_rot_scale
+-  │   │   │   │   ├── name
++  │   │   │   │   ├── buffer
++  │   │   │   │   │   ├── enable
++  │   │   │   │   │   ├── length
++  │   │   │   │   │   └── watermark
++  │   │   │   │   ├── dev
++  │   │   │   │   ├── in_magn_hysteresis
++  │   │   │   │   ├── in_magn_offset
++  │   │   │   │   ├── in_magn_sampling_frequency
++  │   │   │   │   ├── in_magn_scale
++  │   │   │   │   ├── in_magn_x_raw
++  │   │   │   │   ├── in_magn_y_raw
++  │   │   │   │   ├── in_magn_z_raw
++  │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_raw
++  │   │   │   │   ├── in_rot_hysteresis
++  │   │   │   │   ├── in_rot_offset
++  │   │   │   │   ├── in_rot_sampling_frequency
++  │   │   │   │   ├── in_rot_scale
++  │   │   │   │   ├── name
+   ...
+-  │   │   │   │   ├── scan_elements
+-  │   │   │   │   │   ├── in_magn_x_en
+-  │   │   │   │   │   ├── in_magn_x_index
+-  │   │   │   │   │   ├── in_magn_x_type
+-  │   │   │   │   │   ├── in_magn_y_en
+-  │   │   │   │   │   ├── in_magn_y_index
+-  │   │   │   │   │   ├── in_magn_y_type
+-  │   │   │   │   │   ├── in_magn_z_en
+-  │   │   │   │   │   ├── in_magn_z_index
+-  │   │   │   │   │   ├── in_magn_z_type
+-  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_en
+-  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_index
+-  │   │   │   │   │   └── in_rot_from_north_magnetic_tilt_comp_type
+-  │   │   │   │   ├── trigger
+-  │   │   │   │   │   └── current_trigger
++  │   │   │   │   ├── scan_elements
++  │   │   │   │   │   ├── in_magn_x_en
++  │   │   │   │   │   ├── in_magn_x_index
++  │   │   │   │   │   ├── in_magn_x_type
++  │   │   │   │   │   ├── in_magn_y_en
++  │   │   │   │   │   ├── in_magn_y_index
++  │   │   │   │   │   ├── in_magn_y_type
++  │   │   │   │   │   ├── in_magn_z_en
++  │   │   │   │   │   ├── in_magn_z_index
++  │   │   │   │   │   ├── in_magn_z_type
++  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_en
++  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_index
++  │   │   │   │   │   └── in_rot_from_north_magnetic_tilt_comp_type
++  │   │   │   │   ├── trigger
++  │   │   │   │   │   └── current_trigger
+   ...
+-  │   │   │   │   ├── buffer
+-  │   │   │   │   │   ├── enable
+-  │   │   │   │   │   ├── length
+-  │   │   │   │   │   └── watermark
+-  │   │   │   │   ├── dev
+-  │   │   │   │   ├── in_anglvel_hysteresis
+-  │   │   │   │   ├── in_anglvel_offset
+-  │   │   │   │   ├── in_anglvel_sampling_frequency
+-  │   │   │   │   ├── in_anglvel_scale
+-  │   │   │   │   ├── in_anglvel_x_raw
+-  │   │   │   │   ├── in_anglvel_y_raw
+-  │   │   │   │   ├── in_anglvel_z_raw
+-  │   │   │   │   ├── name
+-  │   │   │   │   ├── scan_elements
+-  │   │   │   │   │   ├── in_anglvel_x_en
+-  │   │   │   │   │   ├── in_anglvel_x_index
+-  │   │   │   │   │   ├── in_anglvel_x_type
+-  │   │   │   │   │   ├── in_anglvel_y_en
+-  │   │   │   │   │   ├── in_anglvel_y_index
+-  │   │   │   │   │   ├── in_anglvel_y_type
+-  │   │   │   │   │   ├── in_anglvel_z_en
+-  │   │   │   │   │   ├── in_anglvel_z_index
+-  │   │   │   │   │   └── in_anglvel_z_type
+-  │   │   │   │   ├── trigger
+-  │   │   │   │   │   └── current_trigger
++  │   │   │   │   ├── buffer
++  │   │   │   │   │   ├── enable
++  │   │   │   │   │   ├── length
++  │   │   │   │   │   └── watermark
++  │   │   │   │   ├── dev
++  │   │   │   │   ├── in_anglvel_hysteresis
++  │   │   │   │   ├── in_anglvel_offset
++  │   │   │   │   ├── in_anglvel_sampling_frequency
++  │   │   │   │   ├── in_anglvel_scale
++  │   │   │   │   ├── in_anglvel_x_raw
++  │   │   │   │   ├── in_anglvel_y_raw
++  │   │   │   │   ├── in_anglvel_z_raw
++  │   │   │   │   ├── name
++  │   │   │   │   ├── scan_elements
++  │   │   │   │   │   ├── in_anglvel_x_en
++  │   │   │   │   │   ├── in_anglvel_x_index
++  │   │   │   │   │   ├── in_anglvel_x_type
++  │   │   │   │   │   ├── in_anglvel_y_en
++  │   │   │   │   │   ├── in_anglvel_y_index
++  │   │   │   │   │   ├── in_anglvel_y_type
++  │   │   │   │   │   ├── in_anglvel_z_en
++  │   │   │   │   │   ├── in_anglvel_z_index
++  │   │   │   │   │   └── in_anglvel_z_type
++  │   │   │   │   ├── trigger
++  │   │   │   │   │   └── current_trigger
+   ...
+-  │   │   │   │   ├── buffer
+-  │   │   │   │   │   ├── enable
+-  │   │   │   │   │   ├── length
+-  │   │   │   │   │   └── watermark
+-  │   │   │   │   ├── dev
+-  │   │   │   │   ├── in_anglvel_hysteresis
+-  │   │   │   │   ├── in_anglvel_offset
+-  │   │   │   │   ├── in_anglvel_sampling_frequency
+-  │   │   │   │   ├── in_anglvel_scale
+-  │   │   │   │   ├── in_anglvel_x_raw
+-  │   │   │   │   ├── in_anglvel_y_raw
+-  │   │   │   │   ├── in_anglvel_z_raw
+-  │   │   │   │   ├── name
+-  │   │   │   │   ├── scan_elements
+-  │   │   │   │   │   ├── in_anglvel_x_en
+-  │   │   │   │   │   ├── in_anglvel_x_index
+-  │   │   │   │   │   ├── in_anglvel_x_type
+-  │   │   │   │   │   ├── in_anglvel_y_en
+-  │   │   │   │   │   ├── in_anglvel_y_index
+-  │   │   │   │   │   ├── in_anglvel_y_type
+-  │   │   │   │   │   ├── in_anglvel_z_en
+-  │   │   │   │   │   ├── in_anglvel_z_index
+-  │   │   │   │   │   └── in_anglvel_z_type
+-  │   │   │   │   ├── trigger
+-  │   │   │   │   │   └── current_trigger
++  │   │   │   │   ├── buffer
++  │   │   │   │   │   ├── enable
++  │   │   │   │   │   ├── length
++  │   │   │   │   │   └── watermark
++  │   │   │   │   ├── dev
++  │   │   │   │   ├── in_anglvel_hysteresis
++  │   │   │   │   ├── in_anglvel_offset
++  │   │   │   │   ├── in_anglvel_sampling_frequency
++  │   │   │   │   ├── in_anglvel_scale
++  │   │   │   │   ├── in_anglvel_x_raw
++  │   │   │   │   ├── in_anglvel_y_raw
++  │   │   │   │   ├── in_anglvel_z_raw
++  │   │   │   │   ├── name
++  │   │   │   │   ├── scan_elements
++  │   │   │   │   │   ├── in_anglvel_x_en
++  │   │   │   │   │   ├── in_anglvel_x_index
++  │   │   │   │   │   ├── in_anglvel_x_type
++  │   │   │   │   │   ├── in_anglvel_y_en
++  │   │   │   │   │   ├── in_anglvel_y_index
++  │   │   │   │   │   ├── in_anglvel_y_type
++  │   │   │   │   │   ├── in_anglvel_z_en
++  │   │   │   │   │   ├── in_anglvel_z_index
++  │   │   │   │   │   └── in_anglvel_z_type
++  │   │   │   │   ├── trigger
++  │   │   │   │   │   └── current_trigger
+   ...
 -- 
 2.30.2
 
