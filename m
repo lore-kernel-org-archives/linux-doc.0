@@ -4,43 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E51C43462
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48441C43603
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65BD361026
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B73F6141C
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231421AbhELMw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231286AbhELMw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 12 May 2021 08:52:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52138 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:52158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231289AbhELMwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231293AbhELMwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:52:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D2AB61177;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 306C1613CF;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=9ZrdEXP9uF/1gywNsqqqNVwR7m3JOM+kWEVqticTO7o=;
+        bh=Tbm1lU5lr00378ByC1nMvAs2HAItbU4kcrpdqRshg3w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a8R6KfiuBdkQUoal0yj23vXyClXR3ungJ8ExFyoxj9nWavV4zFy9WoEJ850DV7/UM
-         j6XWVapuxbuqoeKQb3FQsbdxndsLJrGr0gxvdSg2+m6764hmfhdEZmG1T5CO7GpDY/
-         CP3pyQPXBLYY2w+tLFJ3CcZvq3vPlna3eNrZcUwrwOXniO6cTZXoMCwGetzvauhOJu
-         a+l0np8gLr9oVAXowGJkN/951Xhv8DulMigdYNQh++VorgPtTDDzbXRD/SrxYhx2IN
-         DwDJPhsLR7/MdRBU7X1OU1Lmg2BQcmF3EwUj4jVgDx5pCvqvWg3ma5NDE7q6TMAnNf
-         e8niC4hc1yA/w==
+        b=WWcChBZ5QwAuyJyX/8U3XsMMjLRnJYA79eUSinMRZflN+8V/2sCH+vBle37aIDXbm
+         yS/DMVV6WVUSRZD/C/AsYrd2BPGTF08QgXZMymi2fy2kKgZeAPI1qQf46+Tn4WI/KJ
+         2hkGH8wdJxOcvXQ8Mm376bB9Fs3sKP7EkiCAuf/6D8MQzELQWBLo3SQJYrwYLurJ50
+         b5X1rbpfHPcwJoXF+Q/dwV0KxTSU4/52HXl+0osoO1ZLvZkkfKsHQZGvo+EKjuXMFA
+         AdimOyisxtcYO5T7qbW+5beinFl0mxHEau8P0hk66bZShg6hND6AuREwykMW+a9nUJ
+         rcB5kzPLtdUXA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018hF-AH; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018gu-4M; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/40] docs: driver-api: ioctl.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:11 +0200
-Message-Id: <5cf0219649d914d5657adcc7fcda64e59f1aec12.1620823573.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Borislav Petkov <bp@alien8.de>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 02/40] docs: admin-guide: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:06 +0200
+Message-Id: <a0e9db59df5dafa9fbd5f2f3a9d39a9fa2864726.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -71,38 +77,120 @@ So, replace the occurences of the following UTF-8 characters:
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/ioctl.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/ras.rst             | 86 +++++++++----------
+ .../admin-guide/reporting-issues.rst          |  2 +-
+ 2 files changed, 44 insertions(+), 44 deletions(-)
 
-diff --git a/Documentation/driver-api/ioctl.rst b/Documentation/driver-api/ioctl.rst
-index c455db0e1627..5b76e765827d 100644
---- a/Documentation/driver-api/ioctl.rst
-+++ b/Documentation/driver-api/ioctl.rst
-@@ -25,9 +25,9 @@ ioctl commands that follow modern conventions: ``_IO``, ``_IOR``,
- with the correct parameters:
+diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
+index 7b481b2a368e..e1adbd27d1d8 100644
+--- a/Documentation/admin-guide/ras.rst
++++ b/Documentation/admin-guide/ras.rst
+@@ -443,49 +443,49 @@ A typical EDAC system has the following structure under
  
- _IO/_IOR/_IOW/_IOWR
--   The macro name specifies how the argument will be used.  It may be a
-+   The macro name specifies how the argument will be used.  It may be a
-    pointer to data to be passed into the kernel (_IOW), out of the kernel
--   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
-+   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
-    argument or those passing an integer value instead of a pointer.
-    It is recommended to only use _IO for commands without arguments,
-    and use pointers for passing data.
-@@ -200,10 +200,10 @@ cause an information leak, which can be used to defeat kernel address
- space layout randomization (KASLR), helping in an attack.
+ 	/sys/devices/system/edac/
+ 	├── mc
+-	│   ├── mc0
+-	│   │   ├── ce_count
+-	│   │   ├── ce_noinfo_count
+-	│   │   ├── dimm0
+-	│   │   │   ├── dimm_ce_count
+-	│   │   │   ├── dimm_dev_type
+-	│   │   │   ├── dimm_edac_mode
+-	│   │   │   ├── dimm_label
+-	│   │   │   ├── dimm_location
+-	│   │   │   ├── dimm_mem_type
+-	│   │   │   ├── dimm_ue_count
+-	│   │   │   ├── size
+-	│   │   │   └── uevent
+-	│   │   ├── max_location
+-	│   │   ├── mc_name
+-	│   │   ├── reset_counters
+-	│   │   ├── seconds_since_reset
+-	│   │   ├── size_mb
+-	│   │   ├── ue_count
+-	│   │   ├── ue_noinfo_count
+-	│   │   └── uevent
+-	│   ├── mc1
+-	│   │   ├── ce_count
+-	│   │   ├── ce_noinfo_count
+-	│   │   ├── dimm0
+-	│   │   │   ├── dimm_ce_count
+-	│   │   │   ├── dimm_dev_type
+-	│   │   │   ├── dimm_edac_mode
+-	│   │   │   ├── dimm_label
+-	│   │   │   ├── dimm_location
+-	│   │   │   ├── dimm_mem_type
+-	│   │   │   ├── dimm_ue_count
+-	│   │   │   ├── size
+-	│   │   │   └── uevent
+-	│   │   ├── max_location
+-	│   │   ├── mc_name
+-	│   │   ├── reset_counters
+-	│   │   ├── seconds_since_reset
+-	│   │   ├── size_mb
+-	│   │   ├── ue_count
+-	│   │   ├── ue_noinfo_count
+-	│   │   └── uevent
+-	│   └── uevent
++	│   ├── mc0
++	│   │   ├── ce_count
++	│   │   ├── ce_noinfo_count
++	│   │   ├── dimm0
++	│   │   │   ├── dimm_ce_count
++	│   │   │   ├── dimm_dev_type
++	│   │   │   ├── dimm_edac_mode
++	│   │   │   ├── dimm_label
++	│   │   │   ├── dimm_location
++	│   │   │   ├── dimm_mem_type
++	│   │   │   ├── dimm_ue_count
++	│   │   │   ├── size
++	│   │   │   └── uevent
++	│   │   ├── max_location
++	│   │   ├── mc_name
++	│   │   ├── reset_counters
++	│   │   ├── seconds_since_reset
++	│   │   ├── size_mb
++	│   │   ├── ue_count
++	│   │   ├── ue_noinfo_count
++	│   │   └── uevent
++	│   ├── mc1
++	│   │   ├── ce_count
++	│   │   ├── ce_noinfo_count
++	│   │   ├── dimm0
++	│   │   │   ├── dimm_ce_count
++	│   │   │   ├── dimm_dev_type
++	│   │   │   ├── dimm_edac_mode
++	│   │   │   ├── dimm_label
++	│   │   │   ├── dimm_location
++	│   │   │   ├── dimm_mem_type
++	│   │   │   ├── dimm_ue_count
++	│   │   │   ├── size
++	│   │   │   └── uevent
++	│   │   ├── max_location
++	│   │   ├── mc_name
++	│   │   ├── reset_counters
++	│   │   ├── seconds_since_reset
++	│   │   ├── size_mb
++	│   │   ├── ue_count
++	│   │   ├── ue_noinfo_count
++	│   │   └── uevent
++	│   └── uevent
+ 	└── uevent
  
- For this reason (and for compat support) it is best to avoid any
--implicit padding in data structures.  Where there is implicit padding
-+implicit padding in data structures.  Where there is implicit padding
- in an existing structure, kernel drivers must be careful to fully
- initialize an instance of the structure before copying it to user
--space.  This is usually done by calling memset() before assigning to
-+space.  This is usually done by calling memset() before assigning to
- individual members.
+ In the ``dimmX`` directories are EDAC control and attribute files for
+diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+index 18d8e25ba9df..d7ac13f789cc 100644
+--- a/Documentation/admin-guide/reporting-issues.rst
++++ b/Documentation/admin-guide/reporting-issues.rst
+@@ -1248,7 +1248,7 @@ paragraph makes the severeness obvious.
  
- Subsystem abstractions
+ In case you performed a successful bisection, use the title of the change that
+ introduced the regression as the second part of your subject. Make the report
+-also mention the commit id of the culprit. In case of an unsuccessful bisection,
++also mention the commit id of the culprit. In case of an unsuccessful bisection,
+ make your report mention the latest tested version that's working fine (say 5.7)
+ and the oldest where the issue occurs (say 5.8-rc1).
+ 
 -- 
 2.30.2
 
