@@ -4,57 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAEAFC43461
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCF9FC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 980CE613EB
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 934EB61026
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233231AbhELMxl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53102 "EHLO mail.kernel.org"
+        id S232211AbhELMxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52504 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231897AbhELMxJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 May 2021 08:53:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C7E7361454;
+        id S231757AbhELMxF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 May 2021 08:53:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C858961461;
         Wed, 12 May 2021 12:51:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823907;
-        bh=VpLsYBUyxDPAUDeiKOZVygRyVEGODhV1GMIGsuEHRw8=;
+        bh=5Y/5Sq1wRSGXoldO0sQDb3+KvKQ0vjGyLgU9p/3cJcA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d4ErpNmWuXPXwpYmM0WD3X3ndNvX6sdaPHNGfQox7AganJxqVD8ocW4BEWnv4nmKn
-         XJTJvPp6CoXKohvw2txq7Ia6t/6Duy85XYaH/SZss+4lvjGHh1A4W8cBE2HCEdW1ee
-         28A2w8PErov9IzB9E6gHlP5wEmnyox03kNDKNZPVItCOsZbxIwMWlQHfwQQJ2Xe+7F
-         NTY9V12DhSzXMyj49d1frFU3PmSdOTt1aqVQpo2jziGcr9mQw+9kYpS64xhA9Hnmto
-         jmeXAwbSkKb2RT1erWYvNYfiRiE3lArGVMEqCqnhfDdLkvviVtfgCdVp1XDan0twvu
-         t9JgY28eMeI7A==
+        b=tfM97qNJ3LzXj70sWi7fbjJTJHTrkyFFQvRmdST/NWO8zL4EZwfpCHjYkc5bYp5Ik
+         z+Q6Yx/g4ex3MNRyNsnnTf+QKfnDbFsgIpaYj3lYqmp1lxTj6CHcwickbCwo/pMUci
+         xd0dh7/PaLIfJxw9S4TcvcpeLWwSD2Lh0FzPiIcLkRqYhmp8XPgcgGHBxDb67GdGE6
+         PEy4nzVXNqfkUl3xEO+jjaT2Uj4LKH8xMwV4Oqp46RzUcPFg79IuscMKrvniqMbnRk
+         SxE2HxVCqk7cczDqLzn1wHHCP8Okz3+CJij4BH2xsMZETi6MgvRtlY3qI7n9Y3mXMt
+         IgbkyHC42TAvw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoL3-0018nT-IX; Wed, 12 May 2021 14:51:45 +0200
+        id 1lgoL3-0018ne-O1; Wed, 12 May 2021 14:51:45 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        "James (Qian) Wang" <james.qian.wang@arm.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mihail Atanassov <mihail.atanassov@arm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v2 32/40] docs: gpu: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:36 +0200
-Message-Id: <2edfac4e4081d531f039cbebd9545789ebdcca6c.1620823573.git.mchehab+huawei@kernel.org>
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org
+Subject: [PATCH v2 35/40] docs: infiniband: tag_matching.rst: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:39 +0200
+Message-Id: <e24e9f703d46b4faadff0fad462d3139efc71b2a.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -83,40 +72,27 @@ So, replace the occurences of the following UTF-8 characters:
 
 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/gpu/i915.rst       | 2 +-
- Documentation/gpu/komeda-kms.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/infiniband/tag_matching.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index 486c720f3890..2cbf54460b48 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -361,7 +361,7 @@ Locking Guidelines
- 	  real bad.
+diff --git a/Documentation/infiniband/tag_matching.rst b/Documentation/infiniband/tag_matching.rst
+index ef56ea585f92..f7583b48963f 100644
+--- a/Documentation/infiniband/tag_matching.rst
++++ b/Documentation/infiniband/tag_matching.rst
+@@ -14,9 +14,9 @@ match the following source and destination parameters:
+ The ordering rules require that when more than one pair of send and receive
+ message envelopes may match, the pair that includes the earliest posted-send
+ and the earliest posted-receive is the pair that must be used to satisfy the
+-matching operation. However, this doesn’t imply that tags are consumed in
++matching operation. However, this doesn't imply that tags are consumed in
+ the order they are created, e.g., a later generated tag may be consumed, if
+-earlier tags can’t be used to satisfy the matching rules.
++earlier tags can't be used to satisfy the matching rules.
  
- #. Do not nest different lru/memory manager locks within each other.
--   Take them in turn to update memory allocations, relying on the object’s
-+   Take them in turn to update memory allocations, relying on the object's
-    dma_resv ww_mutex to serialize against other operations.
- 
- #. The suggestion for lru/memory managers locks is that they are small
-diff --git a/Documentation/gpu/komeda-kms.rst b/Documentation/gpu/komeda-kms.rst
-index eb693c857e2d..c2067678e92c 100644
---- a/Documentation/gpu/komeda-kms.rst
-+++ b/Documentation/gpu/komeda-kms.rst
-@@ -324,7 +324,7 @@ the control-abilites of device.
- 
- We have &komeda_dev, &komeda_pipeline, &komeda_component. Now fill devices with
- pipelines. Since komeda is not for D71 only but also intended for later products,
--of course we’d better share as much as possible between different products. To
-+of course we'd better share as much as possible between different products. To
- achieve this, split the komeda device into two layers: CORE and CHIP.
- 
- -   CORE: for common features and capabilities handling.
+ When a message is sent from the sender to the receiver, the communication
+ library may attempt to process the operation either after or before the
 -- 
 2.30.2
 
