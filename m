@@ -7,44 +7,49 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E447C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F67C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D68BF61026
-	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5031761026
+	for <linux-doc@archiver.kernel.org>; Wed, 12 May 2021 12:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233346AbhELMxc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53108 "EHLO mail.kernel.org"
+        id S232992AbhELMx3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 May 2021 08:53:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52626 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231503AbhELMxA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231513AbhELMxA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 12 May 2021 08:53:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0898261554;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 167AA61469;
         Wed, 12 May 2021 12:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823903;
-        bh=Jyxa5b0wJDyAovUPme/k22k6PLvmyAwA/dwR9wmQyok=;
+        bh=5grcpmVWK6qFXGk84Uc7pxJTRe6T83rcuW2ekjlJZ/Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bhao1Phh7hKgBdCV4xH59/Bcm+sV6c7r23FpdOth3Hrvsp3dUIB8seChyFazMlWpF
-         Y59jxoNka6Lq80Mc7Ev0YT2aExqH1PEJzYX0wUVbOJqD0sz//JpV/yoi4MPH2a6zCL
-         m+xbf0aWRRs8lePB2fDOCmh4b6NEfRakE5AGJQ9rWzXzLf3guyeYwjAarzyjb9J1yc
-         CtlQ8ehObd7x1RvFuqoGVC96vQRXcK9Jbstn6SzKaZ5Z6T8IpVriCNvVzw3ZMiNpKD
-         WLMJY0Ve6xZkb8R0nav/u8MbtxSjS/82EcXECCFJcOn3Rr65GZLNb42AeaRD3ETGQo
-         fPslSipMau70w==
+        b=RRD8okc4zu3jTa2huY7IN/0Gw30InHdOBTA0JnnqfjFsd4u7dXS9jKeCZrWQ2mR5v
+         5PALdyrT1cPyl30hJZnNlQZyAPwAdtBAIl+yC6v/68ZoAYqlk/k0NZEm3K3442BE2c
+         SbwV+c3mqX75Fzz3ih4TdGdNNy/27VcNcuygC4soJdNlYW7lbsBtx8i4oV56HjP9sV
+         v0ZxMpIvlShBRO8Bx95DEh5UfNSm57BKg9WewQQo/HoXkbKr35YRl/F3Z1qK0o09K2
+         P6RJJTRf/toWaUmoMU9Yaw1cVO/7QjqVFk8z+Nmb+/iY7QveKavqMmc3DmQ0TzNYQU
+         6fKXyJMouHEJQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKz-0018iI-2c; Wed, 12 May 2021 14:51:41 +0200
+        id 1lgoKz-0018iY-82; Wed, 12 May 2021 14:51:41 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        James Bottomley <jejb@linux.ibm.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Jonathan Corbet" <corbet@lwn.net>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Jarkko Sakkinen <jarkko@kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>, keyrings@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 23/40] docs: security: keys: trusted-encrypted.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:27 +0200
-Message-Id: <c727cd640cefea283213d89f524a4432779ed5dc.1620823573.git.mchehab+huawei@kernel.org>
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, linux-sgx@vger.kernel.org,
+        x86@kernel.org
+Subject: [PATCH v2 27/40] docs: x86: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:31 +0200
+Message-Id: <7af1f56ef0237c6adeea85e4d4155b872db21b34.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -71,29 +76,50 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
+	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/security/keys/trusted-encrypted.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/x86/resctrl.rst | 2 +-
+ Documentation/x86/sgx.rst     | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 80d5a5af62a1..3697cbb4fc2c 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -108,8 +108,8 @@ Encrypted Keys
+diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+index 71a531061e4e..511cd5b76ed1 100644
+--- a/Documentation/x86/resctrl.rst
++++ b/Documentation/x86/resctrl.rst
+@@ -519,7 +519,7 @@ Cache pseudo-locking increases the probability that data will remain
+ in the cache via carefully configuring the CAT feature and controlling
+ application behavior. There is no guarantee that data is placed in
+ cache. Instructions like INVD, WBINVD, CLFLUSH, etc. can still evict
+-“locked” data from cache. Power management C-states may shrink or
++"locked" data from cache. Power management C-states may shrink or
+ power off cache. Deeper C-states will automatically be restricted on
+ pseudo-locked region creation.
  
- Encrypted keys do not depend on a trust source, and are faster, as they use AES
- for encryption/decryption. New keys are created from kernel-generated random
--numbers, and are encrypted/decrypted using a specified ‘master’ key. The
--‘master’ key can either be a trusted-key or user-key type. The main disadvantage
-+numbers, and are encrypted/decrypted using a specified 'master' key. The
-+'master' key can either be a trusted-key or user-key type. The main disadvantage
- of encrypted keys is that if they are not rooted in a trusted key, they are only
- as secure as the user key encrypting them. The master user key should therefore
- be loaded in as secure a way as possible, preferably early in boot.
+diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+index dd0ac96ff9ef..7ccf63d0d083 100644
+--- a/Documentation/x86/sgx.rst
++++ b/Documentation/x86/sgx.rst
+@@ -88,7 +88,7 @@ Enclave build functions
+ -----------------------
+ 
+ In addition to the traditional compiler and linker build process, SGX has a
+-separate enclave “build” process.  Enclaves must be built before they can be
++separate enclave "build" process.  Enclaves must be built before they can be
+ executed (entered). The first step in building an enclave is opening the
+ **/dev/sgx_enclave** device.  Since enclave memory is protected from direct
+ access, special privileged instructions are Then used to copy data into enclave
+@@ -147,7 +147,7 @@ Page reclaimer
+ 
+ Similar to the core kswapd, ksgxd, is responsible for managing the
+ overcommitment of enclave memory.  If the system runs out of enclave memory,
+-*ksgxwapd* “swaps” enclave memory to normal memory.
++*ksgxwapd* "swaps" enclave memory to normal memory.
+ 
+ Launch Control
+ ==============
 -- 
 2.30.2
 
