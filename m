@@ -2,303 +2,1100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F57AC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 17:54:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D4AC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 18:47:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E466611CE
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 17:54:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9A0A613D3
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 18:47:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231453AbhEMRzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 13:55:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231468AbhEMRzL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 May 2021 13:55:11 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4084FC061760
-        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 10:54:00 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id v6-20020a6261060000b029028e72db2cfdso18310755pfb.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 10:54:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=4h31K2eiyFYJECD6jlXNAVHQd0JiCpNhIBmP2KCnD4c=;
-        b=ofKtuEEcDD4yCmeEIuSCquHKovbV1slPISxwCQTyw4iykw/j2ncspJ0htUgP4AWxYm
-         rSlAVzTDcK+inbYAWvLiarcwGutQB6dA5ySpZo+TT4zzJ0CuGmfcZfvem1/Rlhzt5xjs
-         PD7X0d7fA30y+r8JmzzpGw6DXAFut/Bq2H184JYsu8js4vbXNOXQCqxa6W8R2B2I005W
-         pdn6PN+RmkQNuZldg5kDR/QKAfGUpwHDkehDFK4Hw5ljWMF5uDt8Ou2FjZrHC0Q6nyzv
-         ceIRFzEONJGOKB43ddrTtEQJf9Dg3oovy+TYa0zqrl5ob1hruZa2BSqWZJrSGeixShBq
-         rqmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=4h31K2eiyFYJECD6jlXNAVHQd0JiCpNhIBmP2KCnD4c=;
-        b=uDihPD7inx0nYKAeCluJp4hKTSqcx5QP9inaarO+F5VzBv275qDDDfIAI0YPRe4MfD
-         nhOwI6km/AdGANrgarxuYb+p4Jpv9e0IsOlweX4Zwz2W/KpFGvSouHrCYx7swbBB64Yf
-         xFyYoCv/Ay3ok91zSayo24OnqHwjMvnCR+RGKTqFgIHlcjwjOTXaqTkqDa82RByrvhVT
-         ajTvdtE5aPCl9s4jDKHBN41RWfmVjnlqn1i/ZBbPAfs2UbgRVYTh9ci2To3WxJ6a2I8b
-         dnQNp4Wjq9PTpVYgtiyF6HVvc1O+ngSYe/PmhTHrOrtLGS/KjX+QHdVFH7y6t10EF5x9
-         Jdmw==
-X-Gm-Message-State: AOAM533z791HIVKs0w6V9Mq11qWlLeuevOQpfc3vEh3xyNPnW2nax6B2
-        PKzqNF53skPTMkzdL+1oJLcqeEt7jWg=
-X-Google-Smtp-Source: ABdhPJxHPu2QPsy8y6naNODAyq0c2q6tVGXFYvsc/7U+J2gWtm/+DmC2EGP8TzQrAjoke41LFE3sDd3/QLk=
-X-Received: from surenb1.mtv.corp.google.com ([2620:15c:211:200:f5d3:2ce1:2b19:735e])
- (user=surenb job=sendgmr) by 2002:a17:90a:4487:: with SMTP id
- t7mr533181pjg.1.1620928439289; Thu, 13 May 2021 10:53:59 -0700 (PDT)
-Date:   Thu, 13 May 2021 10:53:49 -0700
-Message-Id: <20210513175349.959661-1-surenb@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
-Subject: [PATCH 1/1] cgroup: make per-cgroup pressure stall tracking configurable
-From:   Suren Baghdasaryan <surenb@google.com>
-To:     tj@kernel.org
-Cc:     hannes@cmpxchg.org, lizefan.x@bytedance.com, mingo@redhat.com,
-        peterz@infradead.org, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        minchan@kernel.org, corbet@lwn.net, bristot@redhat.com,
-        paulmck@kernel.org, rdunlap@infradead.org,
-        akpm@linux-foundation.org, tglx@linutronix.de, macro@orcam.me.uk,
-        viresh.kumar@linaro.org, mike.kravetz@oracle.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, surenb@google.com, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+        id S231173AbhEMSsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 14:48:20 -0400
+Received: from m32-153.88.com ([43.250.32.153]:8237 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230314AbhEMSsU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 May 2021 14:48:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=0fYcfMvyR3gzYSW5XZzTDw06+f4XhUTBw75D6
+        zoH0rQ=; b=dr2tHBoePSfbMNmSfRBr3GVnKdZ7zV/G3VCxXkBzQqHknTSM93tmJ
+        UGwMGOchE3wjRVxy2h9zffM1Gof0k4Mddj3y5sCNmABPE0a0q2Nh0+1MHRKSXLNe
+        I2+EWcmyCqPq0SD0zRQGQhzxh0o6Uge6h05cytuI3jtVo1Kl3UmFuM=
+Received: from bobwxc.top (unknown [112.96.109.117])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCn9lgfdJ1giEgvAA--.55207S2;
+        Fri, 14 May 2021 02:46:57 +0800 (CST)
+Date:   Fri, 14 May 2021 02:46:55 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com,
+        huangjianghui@uniontech.com
+Subject: Re: [PATCH] docs/zh_CN: add core api kobject translation
+Message-ID: <20210513184653.GA16187@bobwxc.top>
+References: <20210512072543.4188612-1-siyanteng@loongson.cn>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2oS5YaxWCcQjTEyO"
+Content-Disposition: inline
+In-Reply-To: <20210512072543.4188612-1-siyanteng@loongson.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgCn9lgfdJ1giEgvAA--.55207S2
+X-Coremail-Antispam: 1UD129KBjvAXoWfury5Cw4UGw1xCF4DZFy3XFb_yoW8Kw1DAo
+        WjvrWakwn5Aa4rtF92yrsxKrWUZF15KFWjyan3W3srAw1UKr1rAr1xJw43tF1xArZ8CF15
+        J34xXw4a9a4Yya15n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUU597k0a2IF6w4xM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+        IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
+        x4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcx
+        kEcVAq07x20xvEncxIr21le4C267I2x7xF54xIwI1l5I8CrVACY4xI64kE6c02F40Ex7xf
+        McIj6x8ErcxFaVAv8VWxJr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42
+        xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWU
+        JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+        kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+        6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+        vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kfnx
+        nUUI43ZEXa7IUUOzVUUUUUU==
+X-Originating-IP: [112.96.109.117]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PSI accounts stalls for each cgroup separately and aggregates it at each
-level of the hierarchy. This causes additional overhead with psi_avgs_work
-being called for each cgroup in the hierarchy. psi_avgs_work has been
-highly optimized, however on systems with large number of cgroups the
-overhead becomes noticeable.
-Systems which use PSI only at the system level could avoid this overhead
-if PSI can be configured to skip per-cgroup stall accounting.
-Add "cgroup_disable=pressure" kernel command-line option to allow
-requesting system-wide only pressure stall accounting. When set, it
-keeps system-wide accounting under /proc/pressure/ but skips accounting
-for individual cgroups and does not expose PSI nodes in cgroup hierarchy.
 
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
----
- .../admin-guide/kernel-parameters.txt         |  9 +++-
- include/linux/cgroup-defs.h                   |  1 +
- include/linux/cgroup.h                        |  7 +++
- kernel/cgroup/cgroup.c                        | 46 +++++++++++++++++++
- kernel/sched/psi.c                            |  8 +++-
- 5 files changed, 67 insertions(+), 4 deletions(-)
+--2oS5YaxWCcQjTEyO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cb89dbdedc46..653c62142f07 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -497,16 +497,21 @@
- 	ccw_timeout_log	[S390]
- 			See Documentation/s390/common_io.rst for details.
- 
--	cgroup_disable=	[KNL] Disable a particular controller
--			Format: {name of the controller(s) to disable}
-+	cgroup_disable=	[KNL] Disable a particular controller or optional feature
-+			Format: {name of the controller(s) or feature(s) to disable}
- 			The effects of cgroup_disable=foo are:
- 			- foo isn't auto-mounted if you mount all cgroups in
- 			  a single hierarchy
- 			- foo isn't visible as an individually mountable
- 			  subsystem
-+			- if foo is an optional feature then the feature is
-+			  disabled and corresponding cgroup files are not
-+			  created
- 			{Currently only "memory" controller deal with this and
- 			cut the overhead, others just disable the usage. So
- 			only cgroup_disable=memory is actually worthy}
-+			Specifying "pressure" disables per-cgroup pressure
-+			stall information accounting feature
- 
- 	cgroup_no_v1=	[KNL] Disable cgroup controllers and named hierarchies in v1
- 			Format: { { controller | "all" | "named" }
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 559ee05f86b2..671f55cac0f0 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -110,6 +110,7 @@ enum {
- 	CFTYPE_NO_PREFIX	= (1 << 3),	/* (DON'T USE FOR NEW FILES) no subsys prefix */
- 	CFTYPE_WORLD_WRITABLE	= (1 << 4),	/* (DON'T USE FOR NEW FILES) S_IWUGO */
- 	CFTYPE_DEBUG		= (1 << 5),	/* create when cgroup_debug */
-+	CFTYPE_PRESSURE		= (1 << 6),	/* only if pressure feature is enabled */
- 
- 	/* internal flags, do not use outside cgroup core proper */
- 	__CFTYPE_ONLY_ON_DFL	= (1 << 16),	/* only on default hierarchy */
-diff --git a/include/linux/cgroup.h b/include/linux/cgroup.h
-index 4f2f79de083e..b929f589968b 100644
---- a/include/linux/cgroup.h
-+++ b/include/linux/cgroup.h
-@@ -676,6 +676,8 @@ static inline struct psi_group *cgroup_psi(struct cgroup *cgrp)
- 	return &cgrp->psi;
- }
- 
-+bool cgroup_psi_enabled(void);
-+
- static inline void cgroup_init_kthreadd(void)
- {
- 	/*
-@@ -735,6 +737,11 @@ static inline struct psi_group *cgroup_psi(struct cgroup *cgrp)
- 	return NULL;
- }
- 
-+static inline bool cgroup_psi_enabled(void)
-+{
-+	return false;
-+}
-+
- static inline bool task_under_cgroup_hierarchy(struct task_struct *task,
- 					       struct cgroup *ancestor)
- {
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index e049edd66776..c4b16c82e199 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -209,6 +209,22 @@ struct cgroup_namespace init_cgroup_ns = {
- static struct file_system_type cgroup2_fs_type;
- static struct cftype cgroup_base_files[];
- 
-+/* cgroup optional features */
-+enum cgroup_opt_features {
-+#ifdef CONFIG_PSI
-+	OPT_FEATURE_PRESSURE,
-+#endif
-+	OPT_FEATURE_COUNT
-+};
-+
-+static const char *cgroup_opt_feature_names[OPT_FEATURE_COUNT] = {
-+#ifdef CONFIG_PSI
-+	"pressure",
-+#endif
-+};
-+
-+static u16 cgroup_feature_disable_mask __read_mostly;
-+
- static int cgroup_apply_control(struct cgroup *cgrp);
- static void cgroup_finalize_control(struct cgroup *cgrp, int ret);
- static void css_task_iter_skip(struct css_task_iter *it,
-@@ -3631,6 +3647,18 @@ static void cgroup_pressure_release(struct kernfs_open_file *of)
- {
- 	psi_trigger_replace(&of->priv, NULL);
- }
-+
-+bool cgroup_psi_enabled(void)
-+{
-+	return (cgroup_feature_disable_mask & (1 << OPT_FEATURE_PRESSURE)) == 0;
-+}
-+
-+#else /* CONFIG_PSI */
-+bool cgroup_psi_enabled(void)
-+{
-+	return false;
-+}
-+
- #endif /* CONFIG_PSI */
- 
- static int cgroup_freeze_show(struct seq_file *seq, void *v)
-@@ -3881,6 +3909,8 @@ static int cgroup_addrm_files(struct cgroup_subsys_state *css,
- restart:
- 	for (cft = cfts; cft != cft_end && cft->name[0] != '\0'; cft++) {
- 		/* does cft->flags tell us to skip this file on @cgrp? */
-+		if ((cft->flags & CFTYPE_PRESSURE) && !cgroup_psi_enabled())
-+			continue;
- 		if ((cft->flags & __CFTYPE_ONLY_ON_DFL) && !cgroup_on_dfl(cgrp))
- 			continue;
- 		if ((cft->flags & __CFTYPE_NOT_ON_DFL) && cgroup_on_dfl(cgrp))
-@@ -3958,6 +3988,9 @@ static int cgroup_init_cftypes(struct cgroup_subsys *ss, struct cftype *cfts)
- 
- 		WARN_ON(cft->ss || cft->kf_ops);
- 
-+		if ((cft->flags & CFTYPE_PRESSURE) && !cgroup_psi_enabled())
-+			continue;
-+
- 		if (cft->seq_start)
- 			kf_ops = &cgroup_kf_ops;
- 		else
-@@ -4866,6 +4899,7 @@ static struct cftype cgroup_base_files[] = {
- #ifdef CONFIG_PSI
- 	{
- 		.name = "io.pressure",
-+		.flags = CFTYPE_PRESSURE,
- 		.seq_show = cgroup_io_pressure_show,
- 		.write = cgroup_io_pressure_write,
- 		.poll = cgroup_pressure_poll,
-@@ -4873,6 +4907,7 @@ static struct cftype cgroup_base_files[] = {
- 	},
- 	{
- 		.name = "memory.pressure",
-+		.flags = CFTYPE_PRESSURE,
- 		.seq_show = cgroup_memory_pressure_show,
- 		.write = cgroup_memory_pressure_write,
- 		.poll = cgroup_pressure_poll,
-@@ -4880,6 +4915,7 @@ static struct cftype cgroup_base_files[] = {
- 	},
- 	{
- 		.name = "cpu.pressure",
-+		.flags = CFTYPE_PRESSURE,
- 		.seq_show = cgroup_cpu_pressure_show,
- 		.write = cgroup_cpu_pressure_write,
- 		.poll = cgroup_pressure_poll,
-@@ -6216,6 +6252,13 @@ static int __init cgroup_disable(char *str)
- 				continue;
- 			cgroup_disable_mask |= 1 << i;
- 		}
-+
-+		for (i = 0; i < OPT_FEATURE_COUNT; i++) {
-+			if (strcmp(token, cgroup_opt_feature_names[i]))
-+				continue;
-+			cgroup_feature_disable_mask |= 1 << i;
-+			break;
-+		}
- 	}
- 	return 1;
- }
-@@ -6514,6 +6557,9 @@ static ssize_t show_delegatable_files(struct cftype *files, char *buf,
- 		if (!(cft->flags & CFTYPE_NS_DELEGATABLE))
- 			continue;
- 
-+		if ((cft->flags & CFTYPE_PRESSURE) && !cgroup_psi_enabled())
-+			continue;
-+
- 		if (prefix)
- 			ret += snprintf(buf + ret, size - ret, "%s.", prefix);
- 
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index cc25a3cff41f..c73efd7d4fba 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -747,9 +747,12 @@ static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
- #ifdef CONFIG_CGROUPS
- 	struct cgroup *cgroup = NULL;
- 
--	if (!*iter)
-+	if (!*iter) {
-+		/* Skip to psi_system if per-cgroup accounting is disabled */
-+		if (!cgroup_psi_enabled())
-+			goto update_sys;
- 		cgroup = task->cgroups->dfl_cgrp;
--	else if (*iter == &psi_system)
-+	} else if (*iter == &psi_system)
- 		return NULL;
- 	else
- 		cgroup = cgroup_parent(*iter);
-@@ -758,6 +761,7 @@ static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
- 		*iter = cgroup;
- 		return cgroup_psi(cgroup);
- 	}
-+update_sys:
- #else
- 	if (*iter)
- 		return NULL;
--- 
-2.31.1.607.g51e8a6a459-goog
+On Wed, May 12, 2021 at 03:25:43PM +0800, Yanteng Si wrote:
+> This patch translates Documentation/core-api/kobject.rst into Chinese.
+>=20
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/core-api/index.rst     |   6 +-
+>  .../translations/zh_CN/core-api/kobject.rst   | 379 ++++++++++++++++++
+>  2 files changed, 384 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/kobject.rst
+>=20
+> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Docume=
+ntation/translations/zh_CN/core-api/index.rst
+> index f1fa71e45c77..b4cfb4adfcc3 100644
+> --- a/Documentation/translations/zh_CN/core-api/index.rst
+> +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> @@ -32,9 +32,13 @@ Todolist:
+> =20
+>  =E5=9C=A8=E6=95=B4=E4=B8=AA=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=BF=E7=94=A8=
+=E7=9A=84=E5=87=BD=E6=95=B0=E5=BA=93=E3=80=82
+> =20
+> -Todolist:
+> +.. toctree::
+> +   :maxdepth: 1
+> =20
+>     kobject
+> +
+> +Todolist:
+> +
+>     kref
+>     assoc_array
+>     xarray
+> diff --git a/Documentation/translations/zh_CN/core-api/kobject.rst b/Docu=
+mentation/translations/zh_CN/core-api/kobject.rst
+> new file mode 100644
+> index 000000000000..ac75fbe04007
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/kobject.rst
+> @@ -0,0 +1,379 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/core-api/kobject.rst
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_core_api_kobject.rst:
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +=E5=85=B3=E4=BA=8Ekobjects=E3=80=81ksets=E5=92=8Cktypes=E7=9A=84=E4=B8=
+=80=E5=88=87=E4=BD=A0=E6=B2=A1=E6=83=B3=E8=BF=87=E9=9C=80=E8=A6=81=E4=BA=86=
+=E8=A7=A3=E7=9A=84=E4=B8=9C=E8=A5=BF
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +:=E4=BD=9C=E8=80=85: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> +:=E6=9C=80=E5=90=8E=E4=B8=80=E6=AC=A1=E6=9B=B4=E6=96=B0: December 19, 20=
+07
+
+2007=E5=B9=B412=E6=9C=8819=E6=97=A5
+
+> +
+> +=E6=A0=B9=E6=8D=AEJon Corbet=E4=BA=8E2003=E5=B9=B410=E6=9C=881=E6=97=A5=
+=E4=B8=BAlwn.net=E6=92=B0=E5=86=99=E7=9A=84=E5=8E=9F=E5=88=9B=E6=96=87=E7=
+=AB=A0=E6=94=B9=E7=BC=96=EF=BC=8C=E7=BD=91=E5=9D=80=E6=98=AF=EF=BC=9A
+> +https://lwn.net/Articles/51437/
+> +
+> +=E7=90=86=E8=A7=A3=E9=A9=B1=E5=8A=A8=E6=A8=A1=E5=9E=8B=E5=92=8C=E5=BB=BA=
+=E7=AB=8B=E5=9C=A8=E5=85=B6=E4=B8=8A=E7=9A=84kobject=E6=8A=BD=E8=B1=A1=E7=
+=9A=84=E9=83=A8=E5=88=86=E7=9A=84=E5=9B=B0=E9=9A=BE=E5=9C=A8=E4=BA=8E=EF=BC=
+=8C=E6=B2=A1=E6=9C=89=E6=98=8E=E6=98=BE=E7=9A=84=E4=B8=8B=E6=89=8B=E7=82=B9=
+=E3=80=82
+
+=E5=88=87=E5=85=A5=E7=82=B9=EF=BC=9F
+
+> +=E5=A4=84=E7=90=86kobjects=E9=9C=80=E8=A6=81=E7=90=86=E8=A7=A3=E4=B8=80=
+=E4=BA=9B=E4=B8=8D=E5=90=8C=E7=9A=84=E7=B1=BB=E5=9E=8B=EF=BC=8C=E6=89=80=E6=
+=9C=89=E8=BF=99=E4=BA=9B=E7=B1=BB=E5=9E=8B=E9=83=BD=E4=BC=9A=E7=9B=B8=E4=BA=
+=92=E5=BC=95=E7=94=A8=E3=80=82=E4=B8=BA=E4=BA=86=E4=BD=BF=E4=BA=8B=E6=83=85
+> +=E5=8F=98=E5=BE=97=E6=9B=B4=E7=AE=80=E5=8D=95=EF=BC=8C=E6=88=91=E4=BB=AC=
+=E5=B0=86=E9=87=87=E5=8F=96=E4=B8=80=E7=A7=8D=E5=A4=9A=E9=80=94=E5=BE=84=E7=
+=9A=84=E6=96=B9=E6=B3=95=EF=BC=8C=E4=BB=8E=E6=A8=A1=E7=B3=8A=E7=9A=84=E6=9C=
+=AF=E8=AF=AD=E5=BC=80=E5=A7=8B=EF=BC=8C=E5=B9=B6=E5=9C=A8=E6=88=91=E4=BB=AC=
+=E8=BF=9B=E8=A1=8C=E8=BF=87
+> +=E7=A8=8B=E4=B8=AD=E9=80=82=E5=BD=93=E7=9A=84=E6=97=B6=E5=80=99=E5=A2=9E=
+=E5=8A=A0=E7=BB=86=E8=8A=82=E3=80=82=E4=B8=BA=E6=AD=A4=EF=BC=8C=E8=BF=99=E9=
+=87=8C=E6=9C=89=E4=B8=80=E4=BA=9B=E6=88=91=E4=BB=AC=E5=B0=86=E8=A6=81=E4=BD=
+=BF=E7=94=A8=E7=9A=84=E6=9C=AF=E8=AF=AD=E7=9A=84=E5=BF=AB=E9=80=9F=E5=AE=9A=
+=E4=B9=89=E3=80=82
+
+How about
+=E6=88=91=E4=BB=AC=E5=B0=86=E5=A4=9A=E8=B7=AF=E5=B9=B6=E8=BF=9B=EF=BC=8C=E4=
+=BB=8E=E6=A8=A1=E7=B3=8A=E7=9A=84=E6=9C=AF=E8=AF=AD=E5=BC=80=E5=A7=8B=EF=BC=
+=8C=E5=B9=B6=E9=80=90=E6=B8=90=E5=A2=9E=E5=8A=A0=E7=BB=86=E8=8A=82=E3=80=82=
+=E9=82=A3=E4=B9=88=EF=BC=8C=E5=85=88=E6=9D=A5=E4=BA=86=E8=A7=A3=E4=B8=80=E4=
+=BA=9B=E6=88=91=E4=BB=AC
+=E5=B0=86=E8=A6=81=E4=BD=BF=E7=94=A8=E7=9A=84=E6=9C=AF=E8=AF=AD=E7=9A=84=E7=
+=AE=80=E6=98=8E=E5=AE=9A=E4=B9=89=E5=90=A7=E3=80=82
+?
+
+> +
+> + - =E4=B8=80=E4=B8=AAkobject=E6=98=AF=E4=B8=80=E4=B8=AAstruct kobject=E7=
+=B1=BB=E5=9E=8B=E7=9A=84=E5=AF=B9=E8=B1=A1=E3=80=82Kobjects=E6=9C=89=E4=B8=
+=80=E4=B8=AA=E5=90=8D=E5=AD=97=E5=92=8C=E4=B8=80=E4=B8=AA
+
+struct
+
+> +   =E5=BC=95=E7=94=A8=E8=AE=A1=E6=95=B0=E3=80=82=E4=B8=80=E4=B8=AAkobjec=
+t=E4=B9=9F=E6=9C=89=E4=B8=80=E4=B8=AA=E7=88=B6=E6=8C=87=E9=92=88=EF=BC=88=
+=E5=85=81=E8=AE=B8=E5=AF=B9=E8=B1=A1=E8=A2=AB=E6=8E=92=E5=88=97=E6=88=90=E5=
+=B1=82=E6=AC=A1=E7=BB=93=E6=9E=84=EF=BC=89=EF=BC=8C=E4=B8=80=E4=B8=AA
+> +   =E7=89=B9=E5=AE=9A=E7=9A=84=E7=B1=BB=E5=9E=8B=EF=BC=8C=E5=B9=B6=E4=B8=
+=94=EF=BC=8C=E9=80=9A=E5=B8=B8=E5=9C=A8sysfs=E8=99=9A=E6=8B=9F=E6=96=87=E4=
+=BB=B6=E7=B3=BB=E7=BB=9F=E4=B8=AD=E8=A1=A8=E7=A4=BA=E3=80=82
+> +
+> +  Kobjects=E6=9C=AC=E8=BA=AB=E9=80=9A=E5=B8=B8=E5=B9=B6=E4=B8=8D=E6=9C=
+=89=E8=B6=A3=EF=BC=9B=E7=9B=B8=E5=8F=8D=EF=BC=8C=E5=AE=83=E4=BB=AC=E9=80=9A=
+=E5=B8=B8=E8=A2=AB=E5=B5=8C=E5=85=A5=E5=88=B0=E5=85=B6=E4=BB=96=E7=BB=93=E6=
+=9E=84=E4=BD=93=E4=B8=AD=EF=BC=8C=E8=BF=99=E4=BA=9B=E7=BB=93=E6=9E=84
+
+=E5=B9=B6=E4=B8=8D=E5=BC=95=E4=BA=BA=E5=85=B3=E6=B3=A8=EF=BC=9B=E7=9B=B8=E5=
+=8F=8D=E5=AE=83=E4=BB=AC=E5=B8=B8=E5=B8=B8=E8=A2=AB=E5=B5=8C=E5=85=A5=E5=88=
+=B0=E5=85=B6=E4=BB=96=E5=8C=85=E5=90=AB=E7=9C=9F=E6=AD=A3=E5=BC=95=E4=BA=BA=
+=E6=B3=A8=E7=9B=AE=E7=9A=84=E4=BB=A3=E7=A0=81=E7=9A=84=E7=BB=93=E6=9E=84=E4=
+=BD=93=E4=B8=AD=E3=80=82
+
+> +  =E4=BD=93=E5=8C=85=E5=90=AB=E4=BB=A3=E7=A0=81=E7=9C=9F=E6=AD=A3=E6=84=
+=9F=E5=85=B4=E8=B6=A3=E7=9A=84=E4=B8=9C=E8=A5=BF=E3=80=82
+> +
+> +  =E4=BB=BB=E4=BD=95=E7=BB=93=E6=9E=84=E4=BD=93=E9=83=BD=E4=B8=8D=E5=BA=
+=94=E8=AF=A5=E6=9C=89=E4=B8=80=E4=B8=AA=E4=BB=A5=E4=B8=8A=E7=9A=84kobject=
+=E5=B5=8C=E5=85=A5=E5=85=B6=E4=B8=AD=E3=80=82=E5=A6=82=E6=9E=9C=E6=9C=89=E7=
+=9A=84=E8=AF=9D=EF=BC=8C=E5=AF=B9=E8=B1=A1=E7=9A=84=E5=BC=95=E7=94=A8=E8=AE=
+=A1
+
+=E9=83=BD **=E4=B8=8D=E5=BA=94=E8=AF=A5** =E6=9C=89
+
+> +  =E6=95=B0=E8=82=AF=E5=AE=9A=E4=BC=9A=E8=A2=AB=E6=89=93=E4=B9=B1=EF=BC=
+=8C=E8=80=8C=E4=B8=94=E4=B8=8D=E6=AD=A3=E7=A1=AE=EF=BC=8C=E4=BD=A0=E7=9A=84=
+=E4=BB=A3=E7=A0=81=E5=B0=B1=E4=BC=9A=E5=87=BA=E7=8E=B0=E9=94=99=E8=AF=AF=E3=
+=80=82=E6=89=80=E4=BB=A5=E4=B8=8D=E8=A6=81=E8=BF=99=E6=A0=B7=E5=81=9A=E3=80=
+=82
+> +
+> + - ktype=E6=98=AF=E5=B5=8C=E5=85=A5=E4=B8=80=E4=B8=AAkobject=E7=9A=84=E5=
+=AF=B9=E8=B1=A1=E7=9A=84=E7=B1=BB=E5=9E=8B=E3=80=82=E6=AF=8F=E4=B8=AA=E5=B5=
+=8C=E5=85=A5kobject=E7=9A=84=E7=BB=93=E6=9E=84=E4=BD=93=E9=83=BD=E9=9C=80=
+=E8=A6=81=E4=B8=80=E4=B8=AA
+> +   =E7=9B=B8=E5=BA=94=E7=9A=84ktype=E3=80=82ktype=E6=8E=A7=E5=88=B6=E7=
+=9D=80kobject=E5=9C=A8=E8=A2=AB=E5=88=9B=E5=BB=BA=E5=92=8C=E9=94=80=E6=AF=
+=81=E6=97=B6=E7=9A=84=E6=83=85=E5=86=B5=E3=80=82
+
+what happend
+s/=E6=83=85=E5=86=B5/=E8=A1=8C=E4=B8=BA/
+
+> +
+> + - =E4=B8=80=E4=B8=AAkset=E6=98=AF=E4=B8=80=E7=BB=84kobjects=E3=80=82=E8=
+=BF=99=E4=BA=9Bkobjects=E5=8F=AF=E4=BB=A5=E6=98=AF=E7=9B=B8=E5=90=8C=E7=9A=
+=84ktype=E6=88=96=E8=80=85=E5=B1=9E=E4=BA=8E=E4=B8=8D=E5=90=8C=E7=9A=84
+> +   ktype=E3=80=82kset=E6=98=AFkobjects=E9=9B=86=E5=90=88=E7=9A=84=E5=9F=
+=BA=E6=9C=AC=E5=AE=B9=E5=99=A8=E7=B1=BB=E5=9E=8B=E3=80=82Ksets=E5=8C=85=E5=
+=90=AB=E5=AE=83=E4=BB=AC=E8=87=AA=E5=B7=B1=E7=9A=84kobjects=EF=BC=8C
+> +   =E4=BD=86=E4=BD=A0=E5=8F=AF=E4=BB=A5=E5=AE=89=E5=85=A8=E5=9C=B0=E5=BF=
+=BD=E7=95=A5=E8=BF=99=E4=B8=AA=E5=AE=9E=E7=8E=B0=E7=BB=86=E8=8A=82=EF=BC=8C=
+=E5=9B=A0=E4=B8=BAkset=E7=9A=84=E6=A0=B8=E5=BF=83=E4=BB=A3=E7=A0=81=E4=BC=
+=9A=E8=87=AA=E5=8A=A8=E5=A4=84=E7=90=86=E8=BF=99=E4=B8=AAkobject=E3=80=82
+> +
+> + =E5=BD=93=E4=BD=A0=E7=9C=8B=E5=88=B0=E4=B8=80=E4=B8=AA=E4=B8=8B=E9=9D=
+=A2=E5=85=A8=E6=98=AF=E5=85=B6=E4=BB=96=E7=9B=AE=E5=BD=95=E7=9A=84sysfs=E7=
+=9B=AE=E5=BD=95=E6=97=B6=EF=BC=8C=E9=80=9A=E5=B8=B8=E8=BF=99=E4=BA=9B=E7=9B=
+=AE=E5=BD=95=E4=B8=AD=E7=9A=84=E6=AF=8F=E4=B8=80=E4=B8=AA=E9=83=BD=E5=AF=B9=
+=E5=BA=94
+> + =E4=BA=8E=E5=90=8C=E4=B8=80=E4=B8=AAkset=E4=B8=AD=E7=9A=84=E4=B8=80=E4=
+=B8=AAkobject=E3=80=82
+> +
+> + =E6=88=91=E4=BB=AC=E5=B0=86=E7=A0=94=E7=A9=B6=E5=A6=82=E4=BD=95=E5=88=
+=9B=E5=BB=BA=E5=92=8C=E6=93=8D=E4=BD=9C=E6=89=80=E6=9C=89=E8=BF=99=E4=BA=9B=
+=E7=B1=BB=E5=9E=8B=E3=80=82=E5=B0=86=E9=87=87=E5=8F=96=E4=B8=80=E7=A7=8D=E8=
+=87=AA=E4=B8=8B=E8=80=8C=E4=B8=8A=E7=9A=84=E6=96=B9=E6=B3=95=EF=BC=8C=E6=89=
+=80=E4=BB=A5=E6=88=91=E4=BB=AC
+> + =E5=B0=86=E5=9B=9E=E5=88=B0kobjects=E3=80=82
+> +
+> +
+> +=E5=B5=8C=E5=85=A5kobjects
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=81=E5=BE=88=E5=B0=91=E5=88=9B=E5=BB=BA=
+=E5=AD=A4=E7=AB=8B=E7=9A=84kobject=EF=BC=8C=E5=8F=AA=E6=9C=89=E4=B8=80=E4=
+=B8=AA=E9=87=8D=E8=A6=81=E7=9A=84=E4=BE=8B=E5=A4=96=EF=BC=8C=E4=B8=8B=E9=9D=
+=A2=E4=BC=9A=E8=A7=A3=E9=87=8A=E3=80=82=E7=9B=B8=E5=8F=8D=EF=BC=8C
+
+major =E9=87=8D=E8=A6=81 or =E4=B8=BB=E8=A6=81?
+
+> +kobjects=E8=A2=AB=E7=94=A8=E6=9D=A5=E6=8E=A7=E5=88=B6=E5=AF=B9=E4=B8=80=
+=E4=B8=AA=E6=9B=B4=E5=A4=A7=E7=9A=84=E3=80=81=E7=89=B9=E5=AE=9A=E9=A2=86=E5=
+=9F=9F=E7=9A=84=E5=AF=B9=E8=B1=A1=E7=9A=84=E8=AE=BF=E9=97=AE=E3=80=82=E4=B8=
+=BA=E6=AD=A4=EF=BC=8Ckobjects=E4=BC=9A=E8=A2=AB
+> +=E5=B5=8C=E5=85=A5=E5=88=B0=E5=85=B6=E4=BB=96=E7=BB=93=E6=9E=84=E4=B8=AD=
+=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=E4=B9=A0=E6=83=AF=E4=BA=8E=E7=94=A8=E9=
+=9D=A2=E5=90=91=E5=AF=B9=E8=B1=A1=E7=9A=84=E6=9C=AF=E8=AF=AD=E6=9D=A5=E6=80=
+=9D=E8=80=83=E9=97=AE=E9=A2=98=EF=BC=8C=E9=82=A3=E4=B9=88kobjects=E5=8F=AF
+> +=E4=BB=A5=E8=A2=AB=E7=9C=8B=E4=BD=9C=E6=98=AF=E4=B8=80=E4=B8=AA=E9=A1=B6=
+=E7=BA=A7=E7=9A=84=E6=8A=BD=E8=B1=A1=E7=B1=BB=EF=BC=8C=E5=85=B6=E4=BB=96=E7=
+=9A=84=E7=B1=BB=E9=83=BD=E6=98=AF=E4=BB=8E=E5=AE=83=E6=B4=BE=E7=94=9F=E5=87=
+=BA=E6=9D=A5=E7=9A=84=E3=80=82=E4=B8=80=E4=B8=AAkobject=E5=AE=9E=E7=8E=B0=
+=E4=BA=86
+> +=E4=B8=80=E7=B3=BB=E5=88=97=E7=9A=84=E5=8A=9F=E8=83=BD=EF=BC=8C=E8=BF=99=
+=E4=BA=9B=E5=8A=9F=E8=83=BD=E6=9C=AC=E8=BA=AB=E5=B9=B6=E4=B8=8D=E7=89=B9=E5=
+=88=AB=E6=9C=89=E7=94=A8=EF=BC=8C=E4=BD=86=E5=9C=A8=E5=85=B6=E4=BB=96=E5=AF=
+=B9=E8=B1=A1=E4=B8=AD=E5=8D=B4=E5=BE=88=E5=A5=BD=E7=94=A8=E3=80=82C=E8=AF=
+=AD=E8=A8=80=E4=B8=8D=E5=85=81
+> +=E8=AE=B8=E7=9B=B4=E6=8E=A5=E8=A1=A8=E8=BE=BE=E7=BB=A7=E6=89=BF=EF=BC=8C=
+=E6=89=80=E4=BB=A5=E5=BF=85=E9=A1=BB=E4=BD=BF=E7=94=A8=E5=85=B6=E4=BB=96=E6=
+=8A=80=E6=9C=AF=E2=80=94=E2=80=94=E6=AF=94=E5=A6=82=E7=BB=93=E6=9E=84=E4=BD=
+=93=E5=B5=8C=E5=85=A5=E3=80=82
+> +
+> +=E4=BD=9C=E4=B8=BA=E4=B8=80=E4=B8=AA=E6=97=81=E8=A7=82=E8=80=85=EF=BC=8C=
+=E5=AF=B9=E4=BA=8E=E9=82=A3=E4=BA=9B=E7=86=9F=E6=82=89=E5=86=85=E6=A0=B8=E9=
+=93=BE=E8=A1=A8=E5=AE=9E=E7=8E=B0=E7=9A=84=E4=BA=BA=E6=9D=A5=E8=AF=B4=EF=BC=
+=8C=E8=BF=99=E7=B1=BB=E4=BC=BC=E4=BA=8E=E2=80=9Clist_head=E2=80=9D=E7=BB=93
+
+miss a =EF=BC=88
+
+as an aside =E4=BD=9C=E4=B8=BA=E6=97=81=E7=99=BD
+            =E8=BF=99=E9=87=8C=E5=8F=AF=E4=BB=A5=E4=B8=8D=E7=BF=BB=E8=AF=91=
+=EF=BC=8C=E7=9B=B4=E6=8E=A5=E5=88=A0=E6=8E=89
+
+> +=E6=9E=84=E6=9C=AC=E8=BA=AB=E5=BE=88=E5=B0=91=E6=9C=89=E7=94=A8=EF=BC=8C=
+=E4=BD=86=E6=80=BB=E6=98=AF=E8=A2=AB=E5=B5=8C=E5=85=A5=E5=88=B0=E6=84=9F=E5=
+=85=B4=E8=B6=A3=E7=9A=84=E6=9B=B4=E5=A4=A7=E7=9A=84=E5=AF=B9=E8=B1=A1=E4=B8=
+=AD=EF=BC=89=E3=80=82
+> +
+> +=E4=BE=8B=E5=A6=82=EF=BC=8C ``drivers/uio/uio.c`` =E4=B8=AD=E7=9A=84IO=
+=E4=BB=A3=E7=A0=81=E6=9C=89=E4=B8=80=E4=B8=AA=E7=BB=93=E6=9E=84=E4=BD=93=EF=
+=BC=8C=E5=AE=9A=E4=B9=89=E4=BA=86=E4=B8=8Euio=E8=AE=BE=E5=A4=87=E7=9B=B8
+> +=E5=85=B3=E7=9A=84=E5=86=85=E5=AD=98=E5=8C=BA=E5=9F=9F::
+> +
+> +    struct uio_map {
+> +            struct kobject kobj;
+> +            struct uio_mem *mem;
+> +    };
+> +
+> +=E5=A6=82=E6=9E=9C=E4=BD=A0=E6=9C=89=E4=B8=80=E4=B8=AAuio_map=E7=BB=93=
+=E6=9E=84=E4=BD=93=EF=BC=8C=E6=89=BE=E5=88=B0=E5=85=B6=E5=B5=8C=E5=85=A5=E7=
+=9A=84kobject=E5=8F=AA=E6=98=AF=E4=B8=80=E4=B8=AA=E4=BD=BF=E7=94=A8kobj=E6=
+=88=90=E5=91=98=E7=9A=84=E9=97=AE=E9=A2=98=E3=80=82
+> +=E7=84=B6=E8=80=8C=EF=BC=8C=E4=B8=8Ekobjects=E4=B8=80=E8=B5=B7=E5=B7=A5=
+=E4=BD=9C=E7=9A=84=E4=BB=A3=E7=A0=81=E5=BE=80=E5=BE=80=E4=BC=9A=E9=81=87=E5=
+=88=B0=E7=9B=B8=E5=8F=8D=E7=9A=84=E9=97=AE=E9=A2=98=EF=BC=9A=E7=BB=99=E5=AE=
+=9A=E4=B8=80=E4=B8=AA=E7=BB=93=E6=9E=84=E4=BD=93kobject
+> +=E7=9A=84=E6=8C=87=E9=92=88=EF=BC=8C=E6=8C=87=E5=90=91=E5=8C=85=E5=90=AB=
+=E7=BB=93=E6=9E=84=E4=BD=93=E7=9A=84=E6=8C=87=E9=92=88=E6=98=AF=E4=BB=80=E4=
+=B9=88=EF=BC=9F=E4=BD=A0=E5=BF=85=E9=A1=BB=E9=81=BF=E5=85=8D=E4=BD=BF=E7=94=
+=A8=E4=B8=80=E4=BA=9B=E6=8A=80=E5=B7=A7=EF=BC=88=E6=AF=94=E5=A6=82=E5=81=87=
+=E8=AE=BE
+> +kobject=E5=9C=A8=E7=BB=93=E6=9E=84=E7=9A=84=E5=BC=80=E5=A4=B4=EF=BC=89=
+=EF=BC=8C=E7=9B=B8=E5=8F=8D=EF=BC=8C=E4=BD=A0=E5=BE=97=E4=BD=BF=E7=94=A8con=
+tainer_of()=E5=AE=8F=EF=BC=8C=E5=85=B6=E5=8F=AF=E4=BB=A5=E5=9C=A8 ``<linux/=
+kernel.h>``
+> +=E4=B8=AD=E6=89=BE=E5=88=B0::
+> +
+> +    container_of(ptr, type, member)
+> +
+> +=E5=85=B6=E4=B8=AD:
+> +
+> +  * ``ptr`` =E6=98=AF=E4=B8=80=E4=B8=AA=E6=8C=87=E5=90=91=E5=B5=8C=E5=85=
+=A5kobject=E7=9A=84=E6=8C=87=E9=92=88=EF=BC=8C
+> +  * ``type`` =E6=98=AF=E5=8C=85=E5=90=AB=E7=BB=93=E6=9E=84=E4=BD=93=E7=
+=9A=84=E7=B1=BB=E5=9E=8B=EF=BC=8C
+> +  * ``member`` =E6=98=AF ``=E6=8C=87=E9=92=88`` =E6=89=80=E6=8C=87=E5=90=
+=91=E7=9A=84=E7=BB=93=E6=9E=84=E4=BD=93=E5=9F=9F=E7=9A=84=E5=90=8D=E7=A7=B0=
+=E3=80=82
+> +
+> +container_of()=E7=9A=84=E8=BF=94=E5=9B=9E=E5=80=BC=E6=98=AF=E4=B8=80=E4=
+=B8=AA=E6=8C=87=E5=90=91=E7=9B=B8=E5=BA=94=E5=AE=B9=E5=99=A8=E7=B1=BB=E5=9E=
+=8B=E7=9A=84=E6=8C=87=E9=92=88=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E4=BE=8B=
+=E5=A6=82=EF=BC=8C=E4=B8=80=E4=B8=AA=E5=B5=8C=E5=85=A5=E5=88=B0
+> +uio_map=E7=BB=93=E6=9E=84 **=E4=B8=AD** =E7=9A=84kobject=E7=BB=93=E6=9E=
+=84=E4=BD=93=E7=9A=84=E6=8C=87=E9=92=88kp=E5=8F=AF=E4=BB=A5=E8=A2=AB=E8=BD=
+=AC=E6=8D=A2=E4=B8=BA=E4=B8=80=E4=B8=AA=E6=8C=87=E5=90=91 **=E5=8C=85=E5=90=
+=AB** uio_map
+> +=E7=BB=93=E6=9E=84=E4=BD=93=E7=9A=84=E6=8C=87=E9=92=88=EF=BC=8C=E6=96=B9=
+=E6=B3=95=E6=98=AF::
+> +
+> +    struct uio_map *u_map =3D container_of(kp, struct uio_map, kobj);
+> +
+> +=E4=B8=BA=E4=BA=86=E6=96=B9=E4=BE=BF=E8=B5=B7=E8=A7=81=EF=BC=8C=E7=A8=8B=
+=E5=BA=8F=E5=91=98=E7=BB=8F=E5=B8=B8=E5=AE=9A=E4=B9=89=E4=B8=80=E4=B8=AA=E7=
+=AE=80=E5=8D=95=E7=9A=84=E5=AE=8F=EF=BC=8C=E7=94=A8=E4=BA=8E=E5=B0=86kobjec=
+t=E6=8C=87=E9=92=88 **=E5=8F=8D=E6=8E=A8** =E5=88=B0=E5=8C=85=E5=90=AB
+> +=E7=B1=BB=E5=9E=8B=E3=80=82=E5=9C=A8=E6=97=A9=E6=9C=9F=E7=9A=84 ``driver=
+s/uio/uio.c`` =E4=B8=AD=E6=AD=A3=E6=98=AF=E5=A6=82=E6=AD=A4=EF=BC=8C=E4=BD=
+=A0=E5=8F=AF=E4=BB=A5=E5=9C=A8=E8=BF=99=E9=87=8C=E7=9C=8B=E5=88=B0::
+> +
+> +    struct uio_map {
+> +            struct kobject kobj;
+> +            struct uio_mem *mem;
+> +    };
+> +
+> +    #define to_map(map) container_of(map, struct uio_map, kobj)
+> +
+> +=E5=85=B6=E4=B8=AD=E5=AE=8F=E7=9A=84=E5=8F=82=E6=95=B0=E2=80=9Cmap=E2=80=
+=9D=E6=98=AF=E4=B8=80=E4=B8=AA=E6=8C=87=E5=90=91=E6=9C=89=E5=85=B3=E7=9A=84=
+kobject=E7=BB=93=E6=9E=84=E4=BD=93=E7=9A=84=E6=8C=87=E9=92=88=E3=80=82=E8=
+=AF=A5=E5=AE=8F=E9=9A=8F=E5=90=8E=E8=A2=AB=E8=B0=83=E7=94=A8::
+> +
+> +    struct uio_map *map =3D to_map(kobj);
+> +
+> +
+> +kobjects=E7=9A=84=E5=88=9D=E5=A7=8B=E5=8C=96
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E5=BD=93=E7=84=B6=EF=BC=8C=E5=88=9B=E5=BB=BAkobject=E7=9A=84=E4=BB=A3=
+=E7=A0=81=E5=BF=85=E9=A1=BB=E5=88=9D=E5=A7=8B=E5=8C=96=E8=AF=A5=E5=AF=B9=E8=
+=B1=A1=E3=80=82=E4=B8=80=E4=BA=9B=E5=86=85=E9=83=A8=E5=AD=97=E6=AE=B5=E6=98=
+=AF=E9=80=9A=E8=BF=87=E8=B0=83=E7=94=A8kobject_init()
+> +=E6=9D=A5=E8=AE=BE=E7=BD=AE=E7=9A=84=EF=BC=88=E5=BC=BA=E5=88=B6=EF=BC=89=
+::
+
+=EF=BC=88=E5=BC=BA=E5=88=B6=EF=BC=89=E8=B0=83=E7=94=A8
+
+> +
+> +    void kobject_init(struct kobject *kobj, struct kobj_type *ktype);
+> +
+> +ktype=E6=98=AF=E6=AD=A3=E7=A1=AE=E5=88=9B=E5=BB=BAkobject=E7=9A=84=E5=BF=
+=85=E8=A6=81=E6=9D=A1=E4=BB=B6=EF=BC=8C=E5=9B=A0=E4=B8=BA=E6=AF=8F=E4=B8=AA=
+kobject=E9=83=BD=E5=BF=85=E9=A1=BB=E6=9C=89=E4=B8=80=E4=B8=AA=E7=9B=B8=E5=
+=85=B3=E7=9A=84kobj_type=E3=80=82
+> +=E5=9C=A8=E8=B0=83=E7=94=A8kobject_init()=E5=90=8E=EF=BC=8C=E4=B8=BA=E4=
+=BA=86=E5=90=91sysfs=E6=B3=A8=E5=86=8Ckobject=EF=BC=8C=E5=BF=85=E9=A1=BB=E8=
+=B0=83=E7=94=A8=E5=87=BD=E6=95=B0kobject_add()::
+> +
+> +    int kobject_add(struct kobject *kobj, struct kobject *parent,
+> +                    const char *fmt, ...);
+> +
+> +=E8=BF=99=E5=B0=86=E6=AD=A3=E7=A1=AE=E8=AE=BE=E7=BD=AEkobject=E7=9A=84=
+=E7=88=B6=E7=BA=A7=E5=92=8Ckobject=E7=9A=84=E5=90=8D=E7=A7=B0=E3=80=82=E5=
+=A6=82=E6=9E=9C=E8=AF=A5kobject=E8=A6=81=E4=B8=8E=E4=B8=80=E4=B8=AA=E7=89=
+=B9=E5=AE=9A=E7=9A=84kset=E7=9B=B8=E5=85=B3
+> +=E8=81=94=EF=BC=8C=E5=9C=A8=E8=B0=83=E7=94=A8kobject_add()=E4=B9=8B=E5=
+=89=8D=E5=BF=85=E9=A1=BB=E5=88=86=E9=85=8Dkobj->kset=E3=80=82=E5=A6=82=E6=
+=9E=9Ckset=E4=B8=8Ekobject=E7=9B=B8=E5=85=B3=E8=81=94=EF=BC=8C=E9=82=A3=E4=
+=B9=88
+> +kobject=E7=9A=84=E7=88=B6=E7=BA=A7=E5=8F=AF=E4=BB=A5=E5=9C=A8=E8=B0=83=
+=E7=94=A8kobject_add()=E6=97=B6=E8=A2=AB=E8=AE=BE=E7=BD=AE=E4=B8=BANULL=EF=
+=BC=8C=E9=82=A3=E4=B9=88kobject=E7=9A=84=E7=88=B6=E7=BA=A7=E5=B0=86=E6=98=
+=AFkset
+
+s/=E9=82=A3=E4=B9=88/=E5=88=99/
+
+> +=E6=9C=AC=E8=BA=AB=E3=80=82
+> +
+> +=E7=94=B1=E4=BA=8Ekobject=E7=9A=84=E5=90=8D=E5=AD=97=E6=98=AF=E5=9C=A8=
+=E5=AE=83=E8=A2=AB=E6=B7=BB=E5=8A=A0=E5=88=B0=E5=86=85=E6=A0=B8=E6=97=B6=E8=
+=AE=BE=E7=BD=AE=E7=9A=84=EF=BC=8C=E6=89=80=E4=BB=A5kobject=E7=9A=84=E5=90=
+=8D=E5=AD=97=E4=B8=8D=E5=BA=94=E8=AF=A5=E8=A2=AB=E7=9B=B4=E6=8E=A5=E6=93=8D=
+=E4=BD=9C=E3=80=82
+> +=E5=A6=82=E6=9E=9C=E4=BD=A0=E5=BF=85=E9=A1=BB=E6=94=B9=E5=8F=98kobject=
+=E7=9A=84=E5=90=8D=E5=AD=97=EF=BC=8C=E8=AF=B7=E8=B0=83=E7=94=A8kobject_rena=
+me()::
+> +
+> +    int kobject_rename(struct kobject *kobj, const char *new_name);
+> +
+> +kobject_rename()=E4=B8=8D=E6=89=A7=E8=A1=8C=E4=BB=BB=E4=BD=95=E9=94=81=
+=EF=BC=8C=E4=B9=9F=E4=B8=8D=E7=9F=A5=E9=81=93=E4=BB=80=E4=B9=88=E5=90=8D=E5=
+=AD=97=E6=98=AF=E6=9C=89=E6=95=88=E7=9A=84=EF=BC=8C=E6=89=80=E4=BB=A5=E8=B0=
+=83=E7=94=A8=E8=80=85=E5=BF=85=E9=A1=BB=E6=8F=90=E4=BE=9B=E8=87=AA=E5=B7=B1
+> +=E7=9A=84=E7=90=86=E6=99=BA=E6=A3=80=E6=9F=A5=EF=BC=88=E8=B0=83=E7=94=A8=
+=E4=B9=8B=E5=89=8D=E8=87=AA=E5=B7=B1=E6=83=B3=E6=B8=85=E6=A5=9A=EF=BC=89=E5=
+=92=8C=E5=BA=8F=E5=88=97=E5=8C=96=E3=80=82
+
+=E8=AF=B7=E8=B0=83=E6=95=B4=E4=B8=80=E4=B8=8B=E8=BF=99=E4=B8=AA=E5=8F=A5=E5=
+=AD=90
+
+> +
+> +=E6=9C=89=E4=B8=80=E4=B8=AA=E5=8F=ABkobject_set_name()=E7=9A=84=E5=87=BD=
+=E6=95=B0=EF=BC=8C=E4=BD=86=E9=82=A3=E6=98=AF=E9=81=97=E7=95=99=E7=9A=84=E5=
+=9E=83=E5=9C=BE=EF=BC=8C=E6=AD=A3=E5=9C=A8=E8=A2=AB=E5=88=A0=E9=99=A4=E3=80=
+=82=E5=A6=82=E6=9E=9C=E4=BD=A0=E7=9A=84=E4=BB=A3=E7=A0=81=E9=9C=80
+
+s/=E9=81=97=E7=95=99=E7=9A=84=E5=9E=83=E5=9C=BE/=E5=8E=86=E5=8F=B2=E9=81=97=
+=E4=BA=A7/
+
+> +=E8=A6=81=E8=B0=83=E7=94=A8=E8=BF=99=E4=B8=AA=E5=87=BD=E6=95=B0=EF=BC=8C=
+=E9=82=A3=E4=B9=88=E5=AE=83=E6=98=AF=E4=B8=8D=E6=AD=A3=E7=A1=AE=E7=9A=84=EF=
+=BC=8C=E9=9C=80=E8=A6=81=E8=A2=AB=E4=BF=AE=E5=A4=8D=E3=80=82
+> +
+> +=E8=A6=81=E6=AD=A3=E7=A1=AE=E8=AE=BF=E9=97=AEkobject=E7=9A=84=E5=90=8D=
+=E7=A7=B0=EF=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=A8=E5=87=BD=E6=95=B0kobject_name=
+()::
+> +
+> +    const char *kobject_name(const struct kobject * kobj);
+> +
+> +=E6=9C=89=E4=B8=80=E4=B8=AA=E8=BE=85=E5=8A=A9=E5=87=BD=E6=95=B0=E5=8F=AF=
+=E4=BB=A5=E5=90=8C=E6=97=B6=E5=88=9D=E5=A7=8B=E5=8C=96=E5=92=8C=E6=B7=BB=E5=
+=8A=A0kobject=E5=88=B0=E5=86=85=E6=A0=B8=E4=B8=AD=EF=BC=8C=E4=BB=A4=E4=BA=
+=BA=E6=83=8A=E8=AE=B6=E7=9A=84=E6=98=AF=EF=BC=8C=E8=AF=A5=E5=87=BD=E6=95=B0=
+=E8=A2=AB=E7=A7=B0=E4=B8=BA
+> +kobject_init_and_add()::
+> +
+> +    int kobject_init_and_add(struct kobject *kobj, struct kobj_type *kty=
+pe,
+> +                             struct kobject *parent, const char *fmt, ..=
+=2E);
+> +
+> +=E5=8F=82=E6=95=B0=E4=B8=8E=E4=B8=8A=E9=9D=A2=E6=8F=8F=E8=BF=B0=E7=9A=84=
+=E5=8D=95=E4=B8=AAkobject_init()=E5=92=8Ckobject_add()=E5=87=BD=E6=95=B0=E7=
+=9B=B8=E5=90=8C=E3=80=82
+> +
+> +
+> +Uevents
+> +=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E5=BD=93=E4=B8=80=E4=B8=AAkobject=E8=A2=AB=E6=B3=A8=E5=86=8C=E5=88=B0ko=
+bject=E6=A0=B8=E5=BF=83=E5=90=8E=EF=BC=8C=E4=BD=A0=E9=9C=80=E8=A6=81=E5=90=
+=91=E5=85=A8=E4=B8=96=E7=95=8C=E5=AE=A3=E5=B8=83=E5=AE=83=E5=B7=B2=E7=BB=8F=
+=E8=A2=AB=E5=88=9B=E5=BB=BA=E4=BA=86=E3=80=82=E8=BF=99=E5=8F=AF=E4=BB=A5=E9=
+=80=9A
+> +=E8=BF=87=E8=B0=83=E7=94=A8kobject_uevent()=E6=9D=A5=E5=AE=9E=E7=8E=B0::
+> +
+> +    int kobject_uevent(struct kobject *kobj, enum kobject_action action);
+> +
+> +=E5=BD=93kobject=E7=AC=AC=E4=B8=80=E6=AC=A1=E8=A2=AB=E6=B7=BB=E5=8A=A0=
+=E5=88=B0=E5=86=85=E6=A0=B8=E6=97=B6=EF=BC=8C=E4=BD=BF=E7=94=A8 *KOBJ_ADD* =
+=E8=A1=8C=E4=B8=BA=E3=80=82=E8=BF=99=E5=BA=94=E8=AF=A5=E5=9C=A8=E8=AF=A5kob=
+ject=E7=9A=84=E4=BB=BB
+
+=E5=BD=93kobject=E7=AC=AC=E4=B8=80=E6=AC=A1=E8=A2=AB=E6=B7=BB=E5=8A=A0=E5=
+=88=B0=E5=86=85=E6=A0=B8=E6=97=B6=E8=A6=81=E4=BD=BF=E7=94=A8 **KOBJ_ADD** =
+=E5=8A=A8=E4=BD=9C=E3=80=82
+
+> +=E4=BD=95=E5=B1=9E=E6=80=A7=E6=88=96=E5=AD=90=E5=AF=B9=E8=B1=A1=E8=A2=AB=
+=E6=AD=A3=E7=A1=AE=E5=88=9D=E5=A7=8B=E5=8C=96=E5=90=8E=E8=BF=9B=E8=A1=8C=EF=
+=BC=8C=E5=9B=A0=E4=B8=BA=E5=BD=93=E8=BF=99=E4=B8=AA=E8=B0=83=E7=94=A8=E5=8F=
+=91=E7=94=9F=E6=97=B6=EF=BC=8C=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E4=BC=9A=
+=E7=AB=8B=E5=8D=B3=E5=BC=80=E5=A7=8B=E5=AF=BB
+> +=E6=89=BE=E5=AE=83=E4=BB=AC=E3=80=82
+> +
+> +=E5=BD=93kobject=E4=BB=8E=E5=86=85=E6=A0=B8=E4=B8=AD=E7=A7=BB=E9=99=A4=
+=E6=97=B6=EF=BC=88=E5=85=B3=E4=BA=8E=E5=A6=82=E4=BD=95=E5=81=9A=E7=9A=84=E7=
+=BB=86=E8=8A=82=E5=9C=A8=E4=B8=8B=E9=9D=A2=EF=BC=89=EF=BC=8C *KOBJ_REMOVE* =
+=E7=9A=84uevent
+
+**KOBJ_REMOVE**
+
+> +=E5=B0=86=E7=94=B1kobject=E6=A0=B8=E5=BF=83=E8=87=AA=E5=8A=A8=E5=88=9B=
+=E5=BB=BA=EF=BC=8C=E6=89=80=E4=BB=A5=E8=B0=83=E7=94=A8=E8=80=85=E4=B8=8D=E5=
+=BF=85=E6=8B=85=E5=BF=83=E6=89=8B=E5=8A=A8=E6=93=8D=E4=BD=9C=E3=80=82
+> +
+> +
+> +=E5=BC=95=E7=94=A8=E8=AE=A1=E6=95=B0
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +kobject=E7=9A=84=E5=85=B3=E9=94=AE=E5=8A=9F=E8=83=BD=E4=B9=8B=E4=B8=80=
+=E6=98=AF=E4=BD=9C=E4=B8=BA=E5=AE=83=E6=89=80=E5=B5=8C=E5=85=A5=E7=9A=84=E5=
+=AF=B9=E8=B1=A1=E7=9A=84=E4=B8=80=E4=B8=AA=E5=BC=95=E7=94=A8=E8=AE=A1=E6=95=
+=B0=E5=99=A8=E3=80=82=E5=8F=AA=E8=A6=81=E5=AF=B9=E8=AF=A5=E5=AF=B9=E8=B1=A1=
+=E7=9A=84=E5=BC=95=E7=94=A8
+> +=E5=AD=98=E5=9C=A8=EF=BC=8C=E8=AF=A5=E5=AF=B9=E8=B1=A1=EF=BC=88=E4=BB=A5=
+=E5=8F=8A=E6=94=AF=E6=8C=81=E5=AE=83=E7=9A=84=E4=BB=A3=E7=A0=81=EF=BC=89=E5=
+=B0=B1=E5=BF=85=E9=A1=BB=E7=BB=A7=E7=BB=AD=E5=AD=98=E5=9C=A8=E3=80=82=E7=94=
+=A8=E4=BA=8E=E6=93=8D=E4=BD=9Ckobject=E7=9A=84=E5=BC=95=E7=94=A8=E8=AE=A1=
+=E6=95=B0=E7=9A=84=E4=BD=8E
+> +=E7=BA=A7=E5=87=BD=E6=95=B0=E6=98=AF::
+> +
+> +    struct kobject *kobject_get(struct kobject *kobj);
+> +    void kobject_put(struct kobject *kobj);
+> +
+> +=E5=AF=B9kobject_get()=E7=9A=84=E6=88=90=E5=8A=9F=E8=B0=83=E7=94=A8=E5=
+=B0=86=E5=A2=9E=E5=8A=A0kobject=E7=9A=84=E5=BC=95=E7=94=A8=E8=AE=A1=E6=95=
+=B0=E5=99=A8=E5=80=BC=E5=B9=B6=E8=BF=94=E5=9B=9Ekobject=E7=9A=84=E6=8C=87=
+=E9=92=88=E3=80=82
+> +
+> +=E5=BD=93=E5=BC=95=E7=94=A8=E8=A2=AB=E9=87=8A=E6=94=BE=E6=97=B6=EF=BC=8C=
+=E5=AF=B9kobject_put()=E7=9A=84=E8=B0=83=E7=94=A8=E5=B0=86=E9=80=92=E5=87=
+=8F=E5=BC=95=E7=94=A8=E8=AE=A1=E6=95=B0=E5=80=BC=EF=BC=8C=E5=B9=B6=E5=8F=AF=
+=E8=83=BD=E9=87=8A=E6=94=BE=E8=AF=A5=E5=AF=B9=E8=B1=A1=E3=80=82=E8=AF=B7=E6=
+=B3=A8
+> +=E6=84=8F=EF=BC=8Ckobject_init()=E5=B0=86=E5=BC=95=E7=94=A8=E8=AE=A1=E6=
+=95=B0=E8=AE=BE=E7=BD=AE=E4=B8=BA1=EF=BC=8C=E6=89=80=E4=BB=A5=E8=AE=BE=E7=
+=BD=AEkobject=E7=9A=84=E4=BB=A3=E7=A0=81=E6=9C=80=E7=BB=88=E9=9C=80=E8=A6=
+=81=E5=81=9A=E4=B8=80=E4=B8=AA
+
+maybe remove =E5=81=9A=E4=B8=80=E4=B8=AA
+
+> +kobject_put()=E6=9D=A5=E9=87=8A=E6=94=BE=E8=AF=A5=E5=BC=95=E7=94=A8=E3=
+=80=82
+> +
+> +=E5=9B=A0=E4=B8=BAkobjects=E6=98=AF=E5=8A=A8=E6=80=81=E7=9A=84=EF=BC=8C=
+=E6=89=80=E4=BB=A5=E5=AE=83=E4=BB=AC=E4=B8=8D=E8=83=BD=E4=BB=A5=E9=9D=99=E6=
+=80=81=E6=96=B9=E5=BC=8F=E6=88=96=E5=9C=A8=E5=A0=86=E6=A0=88=E4=B8=AD=E5=A3=
+=B0=E6=98=8E=EF=BC=8C=E8=80=8C=E6=80=BB=E6=98=AF=E4=BB=A5=E5=8A=A8=E6=80=81=
+=E6=96=B9=E5=BC=8F=E5=88=86
+> +=E9=85=8D=E3=80=82=E6=9C=AA=E6=9D=A5=E7=89=88=E6=9C=AC=E7=9A=84=E5=86=85=
+=E6=A0=B8=E5=B0=86=E5=8C=85=E5=90=AB=E5=AF=B9=E9=9D=99=E6=80=81=E5=88=9B=E5=
+=BB=BA=E7=9A=84kobjects=E7=9A=84=E8=BF=90=E8=A1=8C=E6=97=B6=E6=A3=80=E6=9F=
+=A5=EF=BC=8C=E5=B9=B6=E5=B0=86=E8=AD=A6=E5=91=8A=E5=BC=80=E5=8F=91=E8=80=85=
+=E8=BF=99=E7=A7=8D=E4=B8=8D
+> +=E6=AD=A3=E5=BD=93=E7=9A=84=E4=BD=BF=E7=94=A8=E3=80=82
+
+s/=E4=B8=8D=E6=AD=A3=E5=BD=93/=E4=B8=8D=E5=BD=93/
+
+> +
+> +=E5=A6=82=E6=9E=9C=E4=BD=A0=E6=83=B3=E4=BD=BF=E7=94=A8kobject=E5=8F=AA=
+=E6=98=AF=E4=B8=BA=E4=BA=86=E7=BB=99=E4=BD=A0=E7=9A=84=E7=BB=93=E6=9E=84=E4=
+=BD=93=E6=8F=90=E4=BE=9B=E4=B8=80=E4=B8=AA=E5=BC=95=E7=94=A8=E8=AE=A1=E6=95=
+=B0=E5=99=A8=EF=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=A8struct kref
+
+maybe remove =E6=83=B3
+
+and  struct
+
+> +=E6=9D=A5=E4=BB=A3=E6=9B=BF=EF=BC=9Bkobject=E6=98=AF=E5=A4=9A=E4=BD=99=
+=E7=9A=84=E3=80=82=E5=85=B3=E4=BA=8E=E5=A6=82=E4=BD=95=E4=BD=BF=E7=94=A8=E7=
+=BB=93=E6=9E=84kref=E7=9A=84=E6=9B=B4=E5=A4=9A=E4=BF=A1=E6=81=AF=EF=BC=8C=
+=E8=AF=B7=E5=8F=82=E8=A7=81Linux=E5=86=85=E6=A0=B8=E6=BA=90=E4=BB=A3
+
+s/=E7=BB=93=E6=9E=84kref/kref=E7=BB=93=E6=9E=84=E4=BD=93/
+
+> +=E7=A0=81=E6=A0=91=E4=B8=AD=E7=9A=84=E6=96=87=E4=BB=B6=E3=80=8A=E4=B8=BA=
+=E5=86=85=E6=A0=B8=E5=AF=B9=E8=B1=A1=E6=B7=BB=E5=8A=A0=E5=BC=95=E7=94=A8=E8=
+=AE=A1=E6=95=B0=E5=99=A8=EF=BC=88krefs=EF=BC=89=E3=80=8B=E3=80=82
+
+Documentation/core-api/kref.rst
+
+> +
+> +
+> +=E5=88=9B=E5=BB=BA=E2=80=9C=E7=AE=80=E5=8D=95=E7=9A=84=E2=80=9Dkobjects
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E6=9C=89=E6=97=B6=EF=BC=8C=E5=BC=80=E5=8F=91=E8=80=85=E6=83=B3=E8=A6=81=
+=E7=9A=84=E5=8F=AA=E6=98=AF=E5=9C=A8sysfs=E5=B1=82=E6=AC=A1=E7=BB=93=E6=9E=
+=84=E4=B8=AD=E5=88=9B=E5=BB=BA=E4=B8=80=E4=B8=AA=E7=AE=80=E5=8D=95=E7=9A=84=
+=E7=9B=AE=E5=BD=95=EF=BC=8C=E8=80=8C=E4=B8=8D=E5=BF=85=E5=8E=BB=E6=90=9E=E9=
+=82=A3=E4=BA=9B=E5=A4=8D=E6=9D=82
+> +=E7=9A=84ksets=E3=80=81=E6=98=BE=E7=A4=BA=E5=92=8C=E5=AD=98=E5=82=A8=E5=
+=87=BD=E6=95=B0=EF=BC=8C=E4=BB=A5=E5=8F=8A=E5=85=B6=E4=BB=96=E7=BB=86=E8=8A=
+=82=E3=80=82=E8=BF=99=E6=98=AF=E4=B8=80=E4=B8=AA=E5=BA=94=E8=AF=A5=E5=88=9B=
+=E5=BB=BA=E5=8D=95=E4=B8=AAkobject=E7=9A=84=E4=BE=8B=E5=A4=96=E3=80=82=E8=
+=A6=81
+> +=E5=88=9B=E5=BB=BA=E8=BF=99=E6=A0=B7=E4=B8=80=E4=B8=AA=E6=9D=A1=E7=9B=AE=
+=EF=BC=88=E5=8D=B3=E7=AE=80=E5=8D=95=E7=9A=84=E7=9B=AE=E5=BD=95=EF=BC=89=EF=
+=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=A8=E5=87=BD=E6=95=B0::
+> +
+> +    struct kobject *kobject_create_and_add(const char *name, struct kobj=
+ect *parent);
+> +
+> +=E8=BF=99=E4=B8=AA=E5=87=BD=E6=95=B0=E5=B0=86=E5=88=9B=E5=BB=BA=E4=B8=80=
+=E4=B8=AAkobject=EF=BC=8C=E5=B9=B6=E5=B0=86=E5=85=B6=E6=94=BE=E5=9C=A8sysfs=
+=E4=B8=AD=E6=8C=87=E5=AE=9A=E7=9A=84=E7=88=B6kobject=E4=B8=8B=E9=9D=A2=E7=
+=9A=84=E4=BD=8D=E7=BD=AE=E3=80=82=E8=A6=81=E5=88=9B
+> +=E5=BB=BA=E4=B8=8E=E6=AD=A4kobject=E7=9B=B8=E5=85=B3=E7=9A=84=E7=AE=80=
+=E5=8D=95=E5=B1=9E=E6=80=A7=EF=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=A8::
+> +
+> +    int sysfs_create_file(struct kobject *kobj, const struct attribute *=
+attr);
+> +
+> +=E6=88=96=E8=80=85::
+> +
+> +    int sysfs_create_group(struct kobject *kobj, const struct attribute_=
+group *grp);
+> +
+> +=E8=BF=99=E9=87=8C=E4=BD=BF=E7=94=A8=E7=9A=84=E4=B8=A4=E7=A7=8D=E7=B1=BB=
+=E5=9E=8B=E7=9A=84=E5=B1=9E=E6=80=A7=EF=BC=8C=E4=B8=8E=E5=B7=B2=E7=BB=8F=E7=
+=94=A8kobject_create_and_add()=E5=88=9B=E5=BB=BA=E7=9A=84kobject=EF=BC=8C
+> +=E9=83=BD=E5=8F=AF=E4=BB=A5=E6=98=AFkobj_attribute=E7=B1=BB=E5=9E=8B=EF=
+=BC=8C=E6=89=80=E4=BB=A5=E4=B8=8D=E9=9C=80=E8=A6=81=E5=88=9B=E5=BB=BA=E7=89=
+=B9=E6=AE=8A=E7=9A=84=E8=87=AA=E5=AE=9A=E4=B9=89=E5=B1=9E=E6=80=A7=E3=80=82
+> +
+> +=E5=8F=82=E8=A7=81=E7=A4=BA=E4=BE=8B=E6=A8=A1=E5=9D=97=EF=BC=8C ``sample=
+s/kobject/kobject-example.c`` =EF=BC=8C=E4=BA=86=E8=A7=A3=E4=B8=80=E4=B8=AA=
+=E7=AE=80=E5=8D=95=E7=9A=84
+                                                        =E4=BB=A5
+> +kobject=E5=92=8C=E5=B1=9E=E6=80=A7=E7=9A=84=E5=AE=9E=E7=8E=B0=E3=80=82
+> +
+> +
+> +
+> +ktypes=E5=92=8C=E9=87=8A=E6=94=BE=E6=96=B9=E6=B3=95
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E4=BB=A5=E4=B8=8A=E8=AE=A8=E8=AE=BA=E4=B8=AD=E8=BF=98=E7=BC=BA=E5=B0=91=
+=E4=B8=80=E4=BB=B6=E9=87=8D=E8=A6=81=E7=9A=84=E4=BA=8B=E6=83=85=EF=BC=8C=E9=
+=82=A3=E5=B0=B1=E6=98=AF=E5=BD=93=E4=B8=80=E4=B8=AAkobject=E7=9A=84=E5=BC=
+=95=E7=94=A8=E6=AC=A1=E6=95=B0=E8=BE=BE=E5=88=B0=E9=9B=B6=E7=9A=84=E6=97=B6=
+=E5=80=99
+> +=E4=BC=9A=E5=8F=91=E7=94=9F=E4=BB=80=E4=B9=88=E3=80=82=E5=88=9B=E5=BB=BA=
+kobject=E7=9A=84=E4=BB=A3=E7=A0=81=E9=80=9A=E5=B8=B8=E4=B8=8D=E7=9F=A5=E9=
+=81=93=E4=BD=95=E6=97=B6=E4=BC=9A=E5=8F=91=E7=94=9F=E8=BF=99=E7=A7=8D=E6=83=
+=85=E5=86=B5=EF=BC=9B=E5=A6=82=E6=9E=9C=E5=AE=83=E7=9F=A5=E9=81=93=EF=BC=8C=
+=E9=82=A3
+> +=E4=B9=88=E9=A6=96=E5=85=88=E4=BD=BF=E7=94=A8kobject=E5=B0=B1=E6=B2=A1=
+=E6=9C=89=E4=BB=80=E4=B9=88=E6=84=8F=E4=B9=89=E3=80=82=E5=BD=93sysfs=E8=A2=
+=AB=E5=BC=95=E5=85=A5=E6=97=B6=EF=BC=8C=E5=8D=B3=E4=BD=BF=E6=98=AF=E5=8F=AF=
+=E9=A2=84=E6=B5=8B=E7=9A=84=E5=AF=B9=E8=B1=A1=E7=94=9F=E5=91=BD
+
+in the first place =E9=A6=96=E5=85=88 ?
+
+> +=E5=91=A8=E6=9C=9F=E4=B9=9F=E4=BC=9A=E5=8F=98=E5=BE=97=E6=9B=B4=E5=8A=A0=
+=E5=A4=8D=E6=9D=82=EF=BC=8C=E5=9B=A0=E4=B8=BA=E5=86=85=E6=A0=B8=E7=9A=84=E5=
+=85=B6=E4=BB=96=E9=83=A8=E5=88=86=E5=8F=AF=E4=BB=A5=E8=8E=B7=E5=BE=97=E5=9C=
+=A8=E7=B3=BB=E7=BB=9F=E4=B8=AD=E6=B3=A8=E5=86=8C=E7=9A=84=E4=BB=BB=E4=BD=95=
+kobject
+> +=E7=9A=84=E5=BC=95=E7=94=A8=E3=80=82
+> +
+> +=E6=9C=80=E7=BB=88=E7=9A=84=E7=BB=93=E6=9E=9C=E6=98=AF=EF=BC=8C=E4=B8=80=
+=E4=B8=AA=E7=94=B1kobject=E4=BF=9D=E6=8A=A4=E7=9A=84=E7=BB=93=E6=9E=84=E4=
+=BD=93=E5=9C=A8=E5=85=B6=E5=BC=95=E7=94=A8=E8=AE=A1=E6=95=B0=E5=BD=92=E9=9B=
+=B6=E4=B9=8B=E5=89=8D=E4=B8=8D=E8=83=BD=E8=A2=AB=E9=87=8A=E6=94=BE=E3=80=82=
+=E5=BC=95
+> +=E7=94=A8=E8=AE=A1=E6=95=B0=E4=B8=8D=E5=8F=97=E5=88=9B=E5=BB=BAkobject=
+=E7=9A=84=E4=BB=A3=E7=A0=81=E7=9A=84=E7=9B=B4=E6=8E=A5=E6=8E=A7=E5=88=B6=E3=
+=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E6=AF=8F=E5=BD=93=E5=AE=83=E7=9A=84=E4=B8=
+=80=E4=B8=AAkobjects=E7=9A=84=E6=9C=80=E5=90=8E=E4=B8=80
+> +=E4=B8=AA=E5=BC=95=E7=94=A8=E6=B6=88=E5=A4=B1=E6=97=B6=EF=BC=8C=E5=BF=85=
+=E9=A1=BB=E5=BC=82=E6=AD=A5=E9=80=9A=E7=9F=A5=E8=AF=A5=E4=BB=A3=E7=A0=81=E3=
+=80=82
+> +
+> +=E4=B8=80=E6=97=A6=E4=BD=A0=E9=80=9A=E8=BF=87kobject_add()=E6=B3=A8=E5=
+=86=8C=E4=BA=86=E4=BD=A0=E7=9A=84kobject=EF=BC=8C=E4=BD=A0=E7=BB=9D=E5=AF=
+=B9=E4=B8=8D=E8=83=BD=E4=BD=BF=E7=94=A8kfree()=E6=9D=A5=E7=9B=B4=E6=8E=A5=
+=E9=87=8A
+> +=E6=94=BE=E5=AE=83=E3=80=82=E5=94=AF=E4=B8=80=E5=AE=89=E5=85=A8=E7=9A=84=
+=E6=96=B9=E6=B3=95=E6=98=AF=E4=BD=BF=E7=94=A8kobject_put()=E3=80=82=E5=9C=
+=A8kobject_init()=E4=B9=8B=E5=90=8E=E6=80=BB=E6=98=AF=E4=BD=BF=E7=94=A8
+> +kobject_put()=E6=98=AF=E4=B8=80=E4=B8=AA=E5=BE=88=E5=A5=BD=E7=9A=84=E5=
+=81=9A=E6=B3=95=EF=BC=8C=E4=BB=A5=E9=81=BF=E5=85=8D=E9=94=99=E8=AF=AF=E7=9A=
+=84=E5=8F=91=E7=94=9F=E3=80=82
+
+=E5=9C=A8kobject_init()=E4=B9=8B=E5=90=8E=E6=80=BB=E6=98=AF=E4=BD=BF=E7=94=
+=A8kobject_put()=E4=BB=A5=E9=81=BF=E5=85=8D=E9=94=99=E8=AF=AF=E7=9A=84=E5=
+=8F=91=E7=94=9F=E6=98=AF=E4=B8=80=E4=B8=AA=E5=BE=88=E5=A5=BD=E7=9A=84=E5=81=
+=9A=E6=B3=95=E3=80=82
+
+> +
+> +=E8=BF=99=E4=B8=AA=E9=80=9A=E7=9F=A5=E6=98=AF=E9=80=9A=E8=BF=87kobject=
+=E7=9A=84release()=E6=96=B9=E6=B3=95=E5=AE=8C=E6=88=90=E7=9A=84=E3=80=82=E9=
+=80=9A=E5=B8=B8=E8=BF=99=E6=A0=B7=E7=9A=84=E6=96=B9=E6=B3=95=E6=9C=89=E5=A6=
+=82=E4=B8=8B=E5=BD=A2=E5=BC=8F::
+> +
+> +    void my_object_release(struct kobject *kobj)
+> +    {
+> +            struct my_object *mine =3D container_of(kobj, struct my_obje=
+ct, kobj);
+> +
+> +            /* Perform any additional cleanup on this object, then... */
+> +            kfree(mine);
+> +    }
+> +
+> +=E6=9C=89=E4=B8=80=E7=82=B9=E5=BE=88=E9=87=8D=E8=A6=81=EF=BC=9A=E6=AF=8F=
+=E4=B8=AAkobject=E9=83=BD=E5=BF=85=E9=A1=BB=E6=9C=89=E4=B8=80=E4=B8=AArelea=
+se()=E6=96=B9=E6=B3=95=EF=BC=8C=E8=80=8C=E4=B8=94=E8=BF=99=E4=B8=AAkobject=
+=E5=BF=85
+> +=E9=A1=BB=E6=8C=81=E7=BB=AD=E5=AD=98=E5=9C=A8=EF=BC=88=E5=A4=84=E4=BA=8E=
+=E4=B8=80=E8=87=B4=E7=9A=84=E7=8A=B6=E6=80=81=EF=BC=89=EF=BC=8C=E7=9B=B4=E5=
+=88=B0=E8=BF=99=E4=B8=AA=E6=96=B9=E6=B3=95=E8=A2=AB=E8=B0=83=E7=94=A8=E3=80=
+=82=E5=A6=82=E6=9E=9C=E8=BF=99=E4=BA=9B=E7=BA=A6=E6=9D=9F=E6=9D=A1=E4=BB=B6=
+=E6=B2=A1=E6=9C=89
+> +=E5=BE=97=E5=88=B0=E6=BB=A1=E8=B6=B3=EF=BC=8C=E9=82=A3=E4=B9=88=E4=BB=A3=
+=E7=A0=81=E5=B0=B1=E6=98=AF=E6=9C=89=E7=BC=BA=E9=99=B7=E7=9A=84=E3=80=82=E6=
+=B3=A8=E6=84=8F=EF=BC=8C=E5=A6=82=E6=9E=9C=E4=BD=A0=E5=BF=98=E8=AE=B0=E6=8F=
+=90=E4=BE=9Brelease()=E6=96=B9=E6=B3=95=EF=BC=8C=E5=86=85
+> +=E6=A0=B8=E4=BC=9A=E8=AD=A6=E5=91=8A=E4=BD=A0=E3=80=82=E4=B8=8D=E8=A6=81=
+=E8=AF=95=E5=9B=BE=E9=80=9A=E8=BF=87=E6=8F=90=E4=BE=9B=E4=B8=80=E4=B8=AA "=
+=E7=A9=BA "=E7=9A=84=E9=87=8A=E6=94=BE=E5=87=BD=E6=95=B0=E6=9D=A5=E6=91=86=
+=E8=84=B1=E8=BF=99=E4=B8=AA=E8=AD=A6=E5=91=8A=E3=80=82
+
+=E2=80=9C=E2=80=9D
+
+> +
+> +=E5=A6=82=E6=9E=9C=E4=BD=A0=E7=9A=84=E6=B8=85=E7=90=86=E5=87=BD=E6=95=B0=
+=E5=8F=AA=E9=9C=80=E8=A6=81=E8=B0=83=E7=94=A8kfree()=EF=BC=8C=E9=82=A3=E4=
+=B9=88=E4=BD=A0=E5=BF=85=E9=A1=BB=E5=88=9B=E5=BB=BA=E4=B8=80=E4=B8=AA=E5=8C=
+=85=E8=A3=85=E5=87=BD=E6=95=B0=EF=BC=8C=E8=AF=A5=E5=87=BD=E6=95=B0
+> +=E4=BD=BF=E7=94=A8container_of()=E6=9D=A5=E4=B8=8A=E4=BC=A0=E5=88=B0=E6=
+=AD=A3=E7=A1=AE=E7=9A=84=E7=B1=BB=E5=9E=8B=EF=BC=88=E5=A6=82=E4=B8=8A=E9=9D=
+=A2=E7=9A=84=E4=BE=8B=E5=AD=90=E6=89=80=E7=A4=BA=EF=BC=89=EF=BC=8C=E7=84=B6=
+=E5=90=8E=E5=9C=A8=E6=95=B4=E4=B8=AA
+
+upcast =E5=90=91=E4=B8=8A=E9=80=A0=E5=9E=8B
+
+> +=E7=BB=93=E6=9E=84=E4=BD=93=E4=B8=8A=E8=B0=83=E7=94=A8kfree()=E3=80=82
+> +
+> +=E6=B3=A8=E6=84=8F=EF=BC=8Ckobject=E7=9A=84=E5=90=8D=E5=AD=97=E5=9C=A8re=
+lease=E5=87=BD=E6=95=B0=E4=B8=AD=E6=98=AF=E5=8F=AF=E7=94=A8=E7=9A=84=EF=BC=
+=8C=E4=BD=86=E5=AE=83=E4=B8=8D=E8=83=BD=E5=9C=A8=E8=BF=99=E4=B8=AA=E5=9B=9E=
+=E8=B0=83=E4=B8=AD=E8=A2=AB=E6=94=B9
+> +=E5=8F=98=E3=80=82=E5=90=A6=E5=88=99=EF=BC=8C=E5=9C=A8kobject=E6=A0=B8=
+=E5=BF=83=E4=B8=AD=E4=BC=9A=E6=9C=89=E4=B8=80=E4=B8=AA=E5=86=85=E5=AD=98=E6=
+=B3=84=E6=BC=8F=EF=BC=8C=E8=BF=99=E8=AE=A9=E4=BA=BA=E5=BE=88=E4=B8=8D=E7=88=
+=BD=E3=80=82
+
+s/=E6=9C=89=E4=B8=80=E4=B8=AA/=E5=87=BA=E7=8E=B0/
+
+> +
+> +=E6=9C=89=E8=B6=A3=E7=9A=84=E6=98=AF=EF=BC=8Crelease()=E6=96=B9=E6=B3=95=
+=E5=B9=B6=E4=B8=8D=E5=AD=98=E5=82=A8=E5=9C=A8kobject=E6=9C=AC=E8=BA=AB=EF=
+=BC=9B=E7=9B=B8=E5=8F=8D=EF=BC=8C=E5=AE=83=E4=B8=8Ektype=E7=9B=B8=E5=85=B3=
+=E3=80=82
+> +=E5=9B=A0=E6=AD=A4=EF=BC=8C=E8=AE=A9=E6=88=91=E4=BB=AC=E5=BC=95=E5=85=A5=
+=E7=BB=93=E6=9E=84=E4=BD=93kobj_type::
+> +
+> +    struct kobj_type {
+> +            void (*release)(struct kobject *kobj);
+> +            const struct sysfs_ops *sysfs_ops;
+> +            struct attribute **default_attrs;
+> +            const struct attribute_group **default_groups;
+> +            const struct kobj_ns_type_operations *(*child_ns_type)(struc=
+t kobject *kobj);
+> +            const void *(*namespace)(struct kobject *kobj);
+> +            void (*get_ownership)(struct kobject *kobj, kuid_t *uid, kgi=
+d_t *gid);
+> +    };
+> +
+> +=E8=BF=99=E4=B8=AA=E7=BB=93=E6=9E=84=E6=8F=90=E7=94=A8=E6=9D=A5=E6=8F=8F=
+=E8=BF=B0=E4=B8=80=E4=B8=AA=E7=89=B9=E5=AE=9A=E7=B1=BB=E5=9E=8B=E7=9A=84kob=
+ject=EF=BC=88=E6=88=96=E8=80=85=E6=9B=B4=E6=AD=A3=E7=A1=AE=E5=9C=B0=E8=AF=
+=B4=EF=BC=8C=E5=8C=85=E5=90=AB=E5=AF=B9=E8=B1=A1=E7=9A=84
+> +=E7=B1=BB=E5=9E=8B=EF=BC=89=E3=80=82=E6=AF=8F=E4=B8=AAkobject=E9=83=BD=
+=E9=9C=80=E8=A6=81=E6=9C=89=E4=B8=80=E4=B8=AA=E7=9B=B8=E5=85=B3=E7=9A=84kob=
+j_type=E7=BB=93=E6=9E=84=EF=BC=9B=E5=BD=93=E4=BD=A0=E8=B0=83=E7=94=A8
+> +kobject_init()=E6=88=96kobject_init_and_add()=E6=97=B6=E5=BF=85=E9=A1=BB=
+=E6=8C=87=E5=AE=9A=E4=B8=80=E4=B8=AA=E6=8C=87=E5=90=91=E8=AF=A5=E7=BB=93=E6=
+=9E=84=E7=9A=84
+> +=E6=8C=87=E9=92=88=E3=80=82
+> +
+> +=E5=BD=93=E7=84=B6=EF=BC=8Ckobj_type=E7=BB=93=E6=9E=84=E4=B8=AD=E7=9A=84=
+release=E5=AD=97=E6=AE=B5=E6=98=AF=E6=8C=87=E5=90=91=E8=BF=99=E7=A7=8D=E7=
+=B1=BB=E5=9E=8B=E7=9A=84kobject=E7=9A=84release()
+> +=E6=96=B9=E6=B3=95=E7=9A=84=E4=B8=80=E4=B8=AA=E6=8C=87=E9=92=88=E3=80=82=
+=E5=8F=A6=E5=A4=96=E4=B8=A4=E4=B8=AA=E5=AD=97=E6=AE=B5=EF=BC=88sysfs_ops =
+=E5=92=8C default_attrs=EF=BC=89=E6=8E=A7=E5=88=B6=E8=BF=99=E7=A7=8D
+> +=E7=B1=BB=E5=9E=8B=E7=9A=84=E5=AF=B9=E8=B1=A1=E5=A6=82=E4=BD=95=E5=9C=A8=
+ sysfs =E4=B8=AD=E8=A2=AB=E8=A1=A8=E7=A4=BA=EF=BC=9B=E5=AE=83=E4=BB=AC=E8=
+=B6=85=E5=87=BA=E4=BA=86=E6=9C=AC=E6=96=87=E7=9A=84=E8=8C=83=E5=9B=B4=E3=80=
+=82
+> +
+> +default_attrs =E6=8C=87=E9=92=88=E6=98=AF=E4=B8=80=E4=B8=AA=E9=BB=98=E8=
+=AE=A4=E5=B1=9E=E6=80=A7=E7=9A=84=E5=88=97=E8=A1=A8=EF=BC=8C=E5=AE=83=E5=B0=
+=86=E4=B8=BA=E4=BB=BB=E4=BD=95=E7=94=A8=E8=BF=99=E4=B8=AA ktype =E6=B3=A8=
+=E5=86=8C
+> +=E7=9A=84 kobject =E8=87=AA=E5=8A=A8=E5=88=9B=E5=BB=BA=E3=80=82
+> +
+> +
+> +ksets
+> +=3D=3D=3D=3D=3D
+> +
+> +=E4=B8=80=E4=B8=AAkset=E4=BB=85=E4=BB=85=E6=98=AF=E4=B8=80=E4=B8=AA=E5=
+=B8=8C=E6=9C=9B=E7=9B=B8=E4=BA=92=E5=85=B3=E8=81=94=E7=9A=84kobjects=E7=9A=
+=84=E9=9B=86=E5=90=88=E3=80=82=E6=B2=A1=E6=9C=89=E9=99=90=E5=88=B6=E5=AE=83=
+=E4=BB=AC=E5=BF=85=E9=A1=BB=E6=98=AF=E7=9B=B8
+> +=E5=90=8C=E7=9A=84ktype=EF=BC=8C=E4=BD=86=E6=98=AF=E5=A6=82=E6=9E=9C=E5=
+=AE=83=E4=BB=AC=E4=B8=8D=E6=98=AF=E7=9B=B8=E5=90=8C=E7=9A=84=EF=BC=8C=E5=B0=
+=B1=E8=A6=81=E9=9D=9E=E5=B8=B8=E5=B0=8F=E5=BF=83=E3=80=82
+> +
+> +=E4=B8=80=E4=B8=AAkset=E6=9C=89=E4=BB=A5=E4=B8=8B=E5=8A=9F=E8=83=BD:
+> +
+> + - =E5=AE=83=E5=83=8F=E6=98=AF=E4=B8=80=E4=B8=AA=E5=8C=85=E5=90=AB=E4=B8=
+=80=E7=BB=84=E5=AF=B9=E8=B1=A1=E7=9A=84=E8=A2=8B=E5=AD=90=E3=80=82=E4=B8=80=
+=E4=B8=AAkset=E5=8F=AF=E4=BB=A5=E8=A2=AB=E5=86=85=E6=A0=B8=E7=94=A8=E6=9D=
+=A5=E8=BF=BD=E8=B8=AA "=E6=89=80=E6=9C=89=E5=9D=97
+> +   =E8=AE=BE=E5=A4=87" =E6=88=96 "=E6=89=80=E6=9C=89PCI=E8=AE=BE=E5=A4=
+=87=E9=A9=B1=E5=8A=A8"=E3=80=82
+
+=E2=80=9C=E2=80=9D
+=E2=80=9C=E2=80=9D
+
+> +
+> + - kset=E4=B9=9F=E6=98=AFsysfs=E4=B8=AD=E7=9A=84=E4=B8=80=E4=B8=AA=E5=AD=
+=90=E7=9B=AE=E5=BD=95=EF=BC=8C=E4=B8=8Ekset=E7=9B=B8=E5=85=B3=E7=9A=84kobje=
+cts=E5=8F=AF=E4=BB=A5=E5=9C=A8=E8=BF=99=E9=87=8C=E6=98=BE=E7=A4=BA
+> +   =E5=87=BA=E6=9D=A5=E3=80=82=E6=AF=8F=E4=B8=AAkset=E9=83=BD=E5=8C=85=
+=E5=90=AB=E4=B8=80=E4=B8=AAkobject=EF=BC=8C=E5=AE=83=E5=8F=AF=E4=BB=A5=E8=
+=A2=AB=E8=AE=BE=E7=BD=AE=E4=B8=BA=E5=85=B6=E4=BB=96kobject=E7=9A=84=E7=88=
+=B6=E5=AF=B9=E8=B1=A1=EF=BC=9B
+> +   sysfs=E5=B1=82=E6=AC=A1=E7=BB=93=E6=9E=84=E7=9A=84=E9=A1=B6=E7=BA=A7=
+=E7=9B=AE=E5=BD=95=E5=B0=B1=E6=98=AF=E4=BB=A5=E8=BF=99=E7=A7=8D=E6=96=B9=E5=
+=BC=8F=E6=9E=84=E5=BB=BA=E7=9A=84=E3=80=82
+> +
+> + - Ksets=E5=8F=AF=E4=BB=A5=E6=94=AF=E6=8C=81kobjects=E7=9A=84 "=E7=83=AD=
+=E6=8F=92=E6=8B=94"=EF=BC=8C=E5=B9=B6=E5=BD=B1=E5=93=8Duevent=E4=BA=8B=E4=
+=BB=B6=E5=A6=82=E4=BD=95=E8=A2=AB=E6=8A=A5=E5=91=8A=E7=BB=99
+
+=E2=80=9C=E2=80=9D
+
+> +   =E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E3=80=82
+> +
+> + =E5=9C=A8=E9=9D=A2=E5=90=91=E5=AF=B9=E8=B1=A1=E7=9A=84=E6=9C=AF=E8=AF=
+=AD=E4=B8=AD=EF=BC=8C"kset "=E6=98=AF=E9=A1=B6=E7=BA=A7=E7=9A=84=E5=AE=B9=
+=E5=99=A8=E7=B1=BB=EF=BC=9Bksets=E5=8C=85=E5=90=AB=E5=AE=83=E4=BB=AC=E8=87=
+=AA=E5=B7=B1=E7=9A=84kobject=EF=BC=8C
+
+=E2=80=9C=E2=80=9D
+
+> + =E4=BD=86=E6=98=AF=E8=BF=99=E4=B8=AAkobject=E6=98=AF=E7=94=B1kset=E4=BB=
+=A3=E7=A0=81=E7=AE=A1=E7=90=86=E7=9A=84=EF=BC=8C=E4=B8=8D=E5=BA=94=E8=AF=A5=
+=E8=A2=AB=E4=BB=BB=E4=BD=95=E5=85=B6=E4=BB=96=E7=94=A8=E6=88=B7=E6=89=80=E6=
+=93=8D=E7=BA=B5=E3=80=82
+> +
+> + kset=E5=9C=A8=E6=A0=87=E5=87=86=E7=9A=84=E5=86=85=E6=A0=B8=E9=93=BE=E8=
+=A1=A8=E4=B8=AD=E4=BF=9D=E5=AD=98=E5=AE=83=E7=9A=84=E5=AD=90=E5=AF=B9=E8=B1=
+=A1=E3=80=82Kobjects=E9=80=9A=E8=BF=87=E5=85=B6kset=E5=AD=97=E6=AE=B5=E6=8C=
+=87=E5=90=91=E5=85=B6
+
+=E4=B8=80=E4=B8=AA=E6=A0=87=E5=87=86=E7=9A=84=E5=86=85=E6=A0=B8=E9=93=BE=E8=
+=A1=A8
+
+> + =E5=8C=85=E5=90=AB=E7=9A=84kset=E3=80=82=E5=9C=A8=E5=87=A0=E4=B9=8E=E6=
+=89=80=E6=9C=89=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E5=B1=9E=E4=BA=
+=8E=E4=B8=80=E4=B8=AAkset=E7=9A=84kobjects=E5=9C=A8=E5=AE=83=E4=BB=AC=E7=9A=
+=84=E7=88=B6
+> + =E5=AF=B9=E8=B1=A1=E4=B8=AD=E9=83=BD=E6=9C=89=E9=82=A3=E4=B8=AAkset=EF=
+=BC=88=E6=88=96=E8=80=85=EF=BC=8C=E4=B8=A5=E6=A0=BC=E5=9C=B0=E8=AF=B4=EF=BC=
+=8C=E5=AE=83=E7=9A=84=E5=B5=8C=E5=85=A5kobject=EF=BC=89=E3=80=82
+> +=20
+---^
+remove a space
+
+> + =E7=94=B1=E4=BA=8Ekset=E4=B8=AD=E5=8C=85=E5=90=AB=E4=B8=80=E4=B8=AAkobj=
+ect=EF=BC=8C=E5=AE=83=E5=BA=94=E8=AF=A5=E6=80=BB=E6=98=AF=E8=A2=AB=E5=8A=A8=
+=E6=80=81=E5=9C=B0=E5=88=9B=E5=BB=BA=EF=BC=8C=E8=80=8C=E4=B8=8D=E6=98=AF=E9=
+=9D=99=E6=80=81=E5=9C=B0
+> + =E6=88=96=E5=9C=A8=E5=A0=86=E6=A0=88=E4=B8=AD=E5=A3=B0=E6=98=8E=E3=80=
+=82=E8=A6=81=E5=88=9B=E5=BB=BA=E4=B8=80=E4=B8=AA=E6=96=B0=E7=9A=84kset=EF=
+=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=A8::
+> +
+> +  struct kset *kset_create_and_add(const char *name,
+> +                                   const struct kset_uevent_ops *uevent_=
+ops,
+> +                                   struct kobject *parent_kobj);
+> +
+> +=E5=BD=93=E4=BD=A0=E5=AE=8C=E6=88=90=E5=AF=B9kset=E7=9A=84=E5=A4=84=E7=
+=90=86=E5=90=8E=EF=BC=8C=E8=B0=83=E7=94=A8::
+> +
+> +  void kset_unregister(struct kset *k);
+> +
+> +=E6=9D=A5=E9=94=80=E6=AF=81=E5=AE=83=E3=80=82=E8=BF=99=E5=B0=86=E4=BB=8E=
+sysfs=E4=B8=AD=E5=88=A0=E9=99=A4=E8=AF=A5kset=E5=B9=B6=E9=80=92=E5=87=8F=E5=
+=85=B6=E5=BC=95=E7=94=A8=E8=AE=A1=E6=95=B0=E5=80=BC=E3=80=82=E5=BD=93=E5=BC=
+=95=E7=94=A8=E8=AE=A1=E6=95=B0
+> +=E4=B8=BA=E9=9B=B6=E6=97=B6=EF=BC=8C=E8=AF=A5 kset =E5=B0=86=E8=A2=AB=E9=
+=87=8A=E6=94=BE=E3=80=82=E5=9B=A0=E4=B8=BA=E5=AF=B9=E8=AF=A5 kset =E7=9A=84=
+=E5=85=B6=E4=BB=96=E5=BC=95=E7=94=A8=E5=8F=AF=E8=83=BD=E4=BB=8D=E7=84=B6=E5=
+=AD=98=E5=9C=A8=EF=BC=8C
+-------------^----^------------------^----^
+
+> +=E9=87=8A=E6=94=BE=E5=8F=AF=E8=83=BD=E5=8F=91=E7=94=9F=E5=9C=A8 kset_unr=
+egister() =E8=BF=94=E5=9B=9E=E4=B9=8B=E5=90=8E=E3=80=82
+-----------------^-----------------^
+
+> +
+> +=E4=B8=80=E4=B8=AA=E4=BD=BF=E7=94=A8kset=E7=9A=84=E4=BE=8B=E5=AD=90=E5=
+=8F=AF=E4=BB=A5=E5=9C=A8=E5=86=85=E6=A0=B8=E6=A0=91=E4=B8=AD=E7=9A=84 ``sam=
+ples/kobject/kset-example.c``
+> +=E6=96=87=E4=BB=B6=E4=B8=AD=E7=9C=8B=E5=88=B0=E3=80=82
+> +
+> +=E5=A6=82=E6=9E=9C=E4=B8=80=E4=B8=AAkset=E5=B8=8C=E6=9C=9B=E6=8E=A7=E5=
+=88=B6=E4=B8=8E=E5=AE=83=E7=9B=B8=E5=85=B3=E7=9A=84kobjects=E7=9A=84uevent=
+=E6=93=8D=E4=BD=9C=EF=BC=8C=E5=AE=83=E5=8F=AF=E4=BB=A5=E4=BD=BF=E7=94=A8
+> +=E7=BB=93=E6=9E=84=E4=BD=93kset_uevent_ops=E6=9D=A5=E5=A4=84=E7=90=86=E5=
+=AE=83::
+> +
+> +  struct kset_uevent_ops {
+> +          int (* const filter)(struct kset *kset, struct kobject *kobj);
+> +          const char *(* const name)(struct kset *kset, struct kobject *=
+kobj);
+> +          int (* const uevent)(struct kset *kset, struct kobject *kobj,
+> +                        struct kobj_uevent_env *env);
+> +  };
+> +
+> +
+> +=E8=BF=87=E6=BB=A4=E5=99=A8=E5=87=BD=E6=95=B0=E5=85=81=E8=AE=B8kset=E9=
+=98=BB=E6=AD=A2=E4=B8=80=E4=B8=AA=E7=89=B9=E5=AE=9Akobject=E7=9A=84uevent=
+=E8=A2=AB=E5=8F=91=E5=B0=84=E5=88=B0=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E3=
+=80=82
+
+=E5=8F=91=E5=B0=84=EF=BC=9F
+
+> +=E5=A6=82=E6=9E=9C=E8=AF=A5=E5=87=BD=E6=95=B0=E8=BF=94=E5=9B=9E0=EF=BC=
+=8C=E8=AF=A5uevent=E5=B0=86=E4=B8=8D=E4=BC=9A=E8=A2=AB=E5=8F=91=E5=B0=84=E5=
+=87=BA=E5=8E=BB=E3=80=82
+> +
+> +name=E5=87=BD=E6=95=B0=E5=B0=86=E8=A2=AB=E8=B0=83=E7=94=A8=E4=BB=A5=E8=
+=A6=86=E7=9B=96uevent=E5=8F=91=E9=80=81=E5=88=B0=E7=94=A8=E6=88=B7=E7=A9=BA=
+=E9=97=B4=E7=9A=84kset=E7=9A=84=E9=BB=98=E8=AE=A4=E5=90=8D=E7=A7=B0=E3=80=
+=82=E9=BB=98
+> +=E8=AE=A4=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E8=AF=A5=E5=90=8D=E7=A7=B0=
+=E5=B0=86=E4=B8=8Ekset=E6=9C=AC=E8=BA=AB=E7=9B=B8=E5=90=8C=EF=BC=8C=E4=BD=
+=86=E8=BF=99=E4=B8=AA=E5=87=BD=E6=95=B0=EF=BC=8C=E5=A6=82=E6=9E=9C=E5=AD=98=
+=E5=9C=A8=EF=BC=8C=E5=8F=AF=E4=BB=A5=E8=A6=86=E7=9B=96
+> +=E8=AF=A5=E5=90=8D=E7=A7=B0=E3=80=82
+> +
+> +=E5=BD=93uevent=E5=8D=B3=E5=B0=86=E8=A2=AB=E5=8F=91=E9=80=81=E8=87=B3=E7=
+=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E6=97=B6=EF=BC=8Cuevent=E5=87=BD=E6=95=B0=
+=E5=B0=86=E8=A2=AB=E8=B0=83=E7=94=A8=EF=BC=8C=E4=BB=A5=E5=85=81=E8=AE=B8=E6=
+=9B=B4=E5=A4=9A
+> +=E7=9A=84=E7=8E=AF=E5=A2=83=E5=8F=98=E9=87=8F=E8=A2=AB=E6=B7=BB=E5=8A=A0=
+=E5=88=B0uevent=E4=B8=AD=E3=80=82
+> +
+> +=E6=9C=89=E4=BA=BA=E5=8F=AF=E8=83=BD=E4=BC=9A=E9=97=AE=EF=BC=8C=E9=89=B4=
+=E4=BA=8E=E6=B2=A1=E6=9C=89=E6=8F=90=E5=87=BA=E6=89=A7=E8=A1=8C=E8=AF=A5=E5=
+=8A=9F=E8=83=BD=E7=9A=84=E5=87=BD=E6=95=B0=EF=BC=8C=E7=A9=B6=E7=AB=9F=E5=A6=
+=82=E4=BD=95=E5=B0=86=E4=B8=80=E4=B8=AAkobject
+> +=E6=B7=BB=E5=8A=A0=E5=88=B0=E4=B8=80=E4=B8=AAkset=E4=B8=AD=E3=80=82=E7=
+=AD=94=E6=A1=88=E6=98=AF=E8=BF=99=E4=B8=AA=E4=BB=BB=E5=8A=A1=E6=98=AF=E7=94=
+=B1kobject_add()=E5=A4=84=E7=90=86=E7=9A=84=E3=80=82=E5=BD=93=E4=B8=80=E4=
+=B8=AA
+> +kobject=E8=A2=AB=E4=BC=A0=E9=80=92=E7=BB=99kobject_add()=E6=97=B6=EF=BC=
+=8C=E5=AE=83=E7=9A=84kset=E6=88=90=E5=91=98=E5=BA=94=E8=AF=A5=E6=8C=87=E5=
+=90=91=E8=BF=99=E4=B8=AAkobject
+> +=E6=89=80=E5=B1=9E=E7=9A=84kset=E3=80=82 kobject_add()=E5=B0=86=E5=A4=84=
+=E7=90=86=E5=89=A9=E4=B8=8B=E7=9A=84=E9=83=A8=E5=88=86=E3=80=82
+> +
+> +=E5=A6=82=E6=9E=9C=E5=B1=9E=E4=BA=8E=E4=B8=80=E4=B8=AAkset=E7=9A=84kobje=
+ct=E6=B2=A1=E6=9C=89=E7=88=B6kobject=E9=9B=86=EF=BC=8C=E5=AE=83=E5=B0=86=E8=
+=A2=AB=E6=B7=BB=E5=8A=A0=E5=88=B0kset=E7=9A=84=E7=9B=AE
+> +=E5=BD=95=E4=B8=AD=E3=80=82=E5=B9=B6=E9=9D=9E=E6=89=80=E6=9C=89=E7=9A=84=
+kset=E6=88=90=E5=91=98=E9=83=BD=E5=BF=85=E9=A1=BB=E4=BD=8F=E5=9C=A8kset=E7=
+=9B=AE=E5=BD=95=E4=B8=AD=E3=80=82=E5=A6=82=E6=9E=9C=E5=9C=A8=E6=B7=BB=E5=8A=
+=A0kobject
+> +=E4=B9=8B=E5=89=8D=E5=88=86=E9=85=8D=E4=BA=86=E4=B8=80=E4=B8=AA=E6=98=8E=
+=E7=A1=AE=E7=9A=84=E7=88=B6kobject=EF=BC=8C=E9=82=A3=E4=B9=88=E8=AF=A5kobje=
+ct=E5=B0=86=E8=A2=AB=E6=B3=A8=E5=86=8C=E5=88=B0kset=E4=B8=AD=EF=BC=8C
+> +=E4=BD=86=E6=98=AF=E8=A2=AB=E6=B7=BB=E5=8A=A0=E5=88=B0=E7=88=B6kobject=
+=E4=B8=8B=E9=9D=A2=E3=80=82
+> +
+> +
+> +=E7=A7=BB=E9=99=A4Kobject
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E5=BD=93=E4=B8=80=E4=B8=AAkobject=E5=9C=A8kobject=E6=A0=B8=E5=BF=83=E6=
+=B3=A8=E5=86=8C=E6=88=90=E5=8A=9F=E5=90=8E=EF=BC=8C=E5=BD=93=E4=BB=A3=E7=A0=
+=81=E4=BD=BF=E7=94=A8=E5=AE=8C=E5=AE=83=E6=97=B6=EF=BC=8C=E5=BF=85=E9=A1=BB=
+=E5=B0=86=E5=85=B6
+
+=E4=B8=A4=E4=B8=AA=E5=BD=93=EF=BC=8C=E4=BC=98=E5=8C=96=E4=B8=8B=E5=8F=A5=E5=
+=AD=90
+
+> +=E6=B8=85=E7=90=86=E6=8E=89=E3=80=82=E8=A6=81=E5=81=9A=E5=88=B0=E8=BF=99=
+=E4=B8=80=E7=82=B9=EF=BC=8C=E8=AF=B7=E8=B0=83=E7=94=A8kobject_put()=E3=80=
+=82=E9=80=9A=E8=BF=87=E8=BF=99=E6=A0=B7=E5=81=9A=EF=BC=8Ckobject=E6=A0=B8
+> +=E5=BF=83=E4=BC=9A=E8=87=AA=E5=8A=A8=E6=B8=85=E7=90=86=E8=BF=99=E4=B8=AA=
+kobject=E5=88=86=E9=85=8D=E7=9A=84=E6=89=80=E6=9C=89=E5=86=85=E5=AD=98=E3=
+=80=82=E5=A6=82=E6=9E=9C=E4=B8=BA=E8=BF=99=E4=B8=AA=E5=AF=B9=E8=B1=A1=E5=8F=
+=91=E9=80=81=E4=BA=86 ``KOBJ_ADD``
+> +uevent=EF=BC=8C=E9=82=A3=E4=B9=88=E7=9B=B8=E5=BA=94=E7=9A=84 ``KOBJ_REMO=
+VE`` uevent=E4=B9=9F=E5=B0=86=E8=A2=AB=E5=8F=91=E9=80=81=EF=BC=8C=E4=BB=BB=
+=E4=BD=95=E5=85=B6=E4=BB=96=E7=9A=84
+> +sysfs=E5=86=85=E5=8A=A1=E5=B0=86=E8=A2=AB=E6=AD=A3=E7=A1=AE=E5=A4=84=E7=
+=90=86=E3=80=82
+> +
+> +=E5=A6=82=E6=9E=9C=E4=BD=A0=E9=9C=80=E8=A6=81=E5=AF=B9kobject=E8=BF=9B=
+=E8=A1=8C=E4=B8=A4=E9=98=B6=E6=AE=B5=E7=9A=84=E5=88=A0=E9=99=A4=EF=BC=88=E6=
+=AF=94=E5=A6=82=E8=AF=B4=E5=BD=93=E4=BD=A0=E9=9C=80=E8=A6=81=E9=94=80=E6=AF=
+=81=E5=AF=B9=E8=B1=A1=E6=97=B6=EF=BC=8C=E4=BD=A0
+
+=E4=B8=A4=E6=AE=B5=E5=BC=8F=E5=88=A0=E9=99=A4=EF=BC=9F
+
+=E6=AF=94=E5=A6=82=E8=AF=B4=E5=9C=A8=E4=BD=A0=E8=A6=81=E9=94=80=E6=AF=81=E5=
+=AF=B9=E8=B1=A1=E6=97=B6=E6=97=A0=E6=9D=83=E7=9D=A1=E7=9C=A0=EF=BC=9F
+
+> +=E4=B8=8D=E5=85=81=E8=AE=B8=E7=9D=A1=E7=9C=A0=EF=BC=89=EF=BC=8C=E9=82=A3=
+=E4=B9=88=E8=B0=83=E7=94=A8kobject_del()=E5=B0=86=E4=BB=8Esysfs=E4=B8=AD=E5=
+=8F=96=E6=B6=88kobject=E7=9A=84=E6=B3=A8=E5=86=8C=E3=80=82
+> +=E8=BF=99=E4=BD=BF=E5=BE=97kobject "=E4=B8=8D=E5=8F=AF=E8=A7=81"=EF=BC=
+=8C=E4=BD=86=E5=AE=83=E5=B9=B6=E6=B2=A1=E6=9C=89=E8=A2=AB=E6=B8=85=E7=90=86=
+=E6=8E=89=EF=BC=8C=E8=80=8C=E4=B8=94=E8=AF=A5=E5=AF=B9=E8=B1=A1=E7=9A=84=E5=
+=BC=95=E7=94=A8=E8=AE=A1=E6=95=B0=E4=BB=8D
+
+=E2=80=9C=E2=80=9D
+
+> +=E7=84=B6=E6=98=AF=E4=B8=80=E6=A0=B7=E7=9A=84=E3=80=82=E5=9C=A8=E7=A8=8D=
+=E5=90=8E=E7=9A=84=E6=97=B6=E9=97=B4=E8=B0=83=E7=94=A8kobject_put()=E6=9D=
+=A5=E5=AE=8C=E6=88=90=E4=B8=8E=E8=AF=A5kobject=E7=9B=B8=E5=85=B3=E7=9A=84
+> +=E5=86=85=E5=AD=98=E7=9A=84=E6=B8=85=E7=90=86=E3=80=82
+> +
+> +kobject_del()=E5=8F=AF=E4=BB=A5=E7=94=A8=E6=9D=A5=E6=94=BE=E5=BC=83=E5=
+=AF=B9=E7=88=B6=E5=AF=B9=E8=B1=A1=E7=9A=84=E5=BC=95=E7=94=A8=EF=BC=8C=E5=A6=
+=82=E6=9E=9C=E5=BE=AA=E7=8E=AF=E5=BC=95=E7=94=A8=E8=A2=AB=E6=9E=84=E5=BB=BA=
+=E7=9A=84=E8=AF=9D=E3=80=82
+> +=E5=9C=A8=E6=9F=90=E4=BA=9B=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E4=B8=80=
+=E4=B8=AA=E7=88=B6=E5=AF=B9=E8=B1=A1=E5=BC=95=E7=94=A8=E4=B8=80=E4=B8=AA=E5=
+=AD=90=E5=AF=B9=E8=B1=A1=E6=98=AF=E6=9C=89=E6=95=88=E7=9A=84=E3=80=82=E5=BE=
+=AA=E7=8E=AF=E5=BC=95=E7=94=A8=E5=BF=85=E9=A1=BB=E9=80=9A=E8=BF=87=E6=98=8E
+> +=E7=A1=AE=E8=B0=83=E7=94=A8kobject_del()=E6=9D=A5=E6=89=93=E6=96=AD=EF=
+=BC=8C=E8=BF=99=E6=A0=B7=E4=B8=80=E4=B8=AA=E9=87=8A=E6=94=BE=E5=87=BD=E6=95=
+=B0=E5=B0=B1=E4=BC=9A=E8=A2=AB=E8=B0=83=E7=94=A8=EF=BC=8C=E5=89=8D=E4=B8=80=
+=E4=B8=AA=E5=BE=AA=E7=8E=AF
+> +=E4=B8=AD=E7=9A=84=E5=AF=B9=E8=B1=A1=E4=BC=9A=E7=9B=B8=E4=BA=92=E9=87=8A=
+=E6=94=BE=E3=80=82
+> +
+> +
+> +=E7=A4=BA=E4=BE=8B=E4=BB=A3=E7=A0=81=E5=87=BA=E5=A4=84
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E5=85=B3=E4=BA=8E=E6=AD=A3=E7=A1=AE=E4=BD=BF=E7=94=A8ksets=E5=92=8Ckobj=
+ects=E7=9A=84=E6=9B=B4=E5=AE=8C=E6=95=B4=E7=9A=84=E4=BE=8B=E5=AD=90=EF=BC=
+=8C=E8=AF=B7=E5=8F=82=E8=A7=81=E7=A4=BA=E4=BE=8B=E7=A8=8B=E5=BA=8F
+> +``samples/kobject/{kobject-example.c,kset-example.c}`` =EF=BC=8C=E5=A6=
+=82=E6=9E=9C
+> +=E6=82=A8=E9=80=89=E6=8B=A9 ``CONFIG_SAMPLE_KOBJECT`` =EF=BC=8C=E5=AE=83=
+=E4=BB=AC=E5=B0=86=E8=A2=AB=E6=9E=84=E5=BB=BA=E4=B8=BA=E5=8F=AF=E5=8A=A0=E8=
+=BD=BD=E6=A8=A1=E5=9D=97=E3=80=82
+> --=20
+> 2.27.0
+
+Thanks,
+
+Wu XiangCheng
+
+--2oS5YaxWCcQjTEyO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCddBoACgkQtlsoEiKC
+sIU24Av/dXdY8y2XsdwrXTazYdcQqNo+ahjdy/AijoDlW7pxuO/bQ+ZrLGW4f5Qq
+N7aKgxnQj0uXl/DSmbZGATiId6x/omxw5uJ97Cl2Nq4TF+WZY8YbE49Up9hrfg6y
+tkch5to0Ob2q4ny6C/WKPaRYe5jPgv90dtvbbwJtgNa6RmnrD7Ab+x529OC3ppBD
+RGZspeCQGnV1BQz85jke77OOX4zDQJlafIapJb0RaR/eBumdYbGnPbio7kmEF9/W
+5neLcYoWeyXaj/YlvxMABc09z5g/zKu61xT7eiIfNTYX3RdA3dBfRW7qjHTZmkYZ
+Qwg3GNdjmqMzDHxjSRk6M8hP3oR+qqRd/aT2OnTac33UI1xwsPAZicbumuo6BCk4
+gjP/PXRYiiOrBLQ/sqMRTy4ZjglKIjFKHLupc+tB6ShLj9eO46HKjWJ6Y9fBlepl
+wTJhuUHPrLTZpB1ddtrjUi/3lbjaoYCvSST40KgPMPsrXjriS2y8eHlKyChuHwFE
+NcQ+aGUx
+=Fmvm
+-----END PGP SIGNATURE-----
+
+--2oS5YaxWCcQjTEyO--
 
