@@ -2,157 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,CHARSET_FARAWAY,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A600C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:45:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F165C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 16:18:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8F266101B
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:45:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7CCA961435
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 16:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbhEMPqV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 11:46:21 -0400
-Received: from m12-18.163.com ([220.181.12.18]:37122 "EHLO m12-18.163.com"
+        id S235053AbhEMQTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 12:19:51 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44182 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229724AbhEMPqT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 May 2021 11:46:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Vg1i4
-        JnEVrC30pUtE31hOKpLd5CgEV4D/izw1/ldg84=; b=dKRCqS4neoJV+S1Vvcelq
-        gw2kl9YmmMEFCt636ixXpu4pB3FxBMZZri9ItgOCQuh/RrFCXuE0XdiWulRpxfn1
-        6/IJGLV8UcVuVocSCznjn5CrW1nW20jaTuSQ1fb3ySTQVOqp4oBzDnwbMeRauoKr
-        1ZYzVzFXixmrYYngf8FDvw=
-Received: from localhost.localdomain (unknown [36.170.37.157])
-        by smtp14 (Coremail) with SMTP id EsCowACHe7tvSZ1gxy72jA--.63931S2;
-        Thu, 13 May 2021 23:44:48 +0800 (CST)
-From:   Hailong Liu <liuhailongg6@163.com>
-To:     Alex Shi <alexs@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hailong Liu <liu.hailong6@zte.com.cn>
-Subject: [PATCH] docs/zh_CN: Add zh_CN/admin-guide/lockup-watchdogs.rst
-Date:   Thu, 13 May 2021 23:44:25 +0800
-Message-Id: <20210513154425.93603-1-liuhailongg6@163.com>
-X-Mailer: git-send-email 2.17.1
+        id S229521AbhEMQTu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 May 2021 12:19:50 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A1B811C12;
+        Thu, 13 May 2021 16:18:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1B811C12
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1620922720; bh=l25DjLmkgCz45CsShV+ujVrwg8QeKhTDM64XVDSHgXc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=mPoGMd5+wG6kNEzJhm9uy1dxPXCyKZvh+hqDBdn0Y7Qw2Af1WW3PQ4NXeym44BQY1
+         XCkluwfBi5eDf7TK6iNxhAdrkT77ux5kQaNBirVo1s9EjcLUeVnm03jho/P0oM7TF+
+         0q2weUy2EKS8JWkwfm7LEXqz7HPwfttpSoE+fVKlJgHFmBSd+Yj5LhlnLY0RL9IObL
+         XCG89A/bpvaGFXeAk6nBE6LIFBVFiaEES7RW1zFYRMN5ySwS8E5oRj2RS8vIGgo85G
+         Amwvu1G+QAftGr3eC2yYvSLN3xdr4ot0ABMWQiKxJPPIgOE/2ZHennmMBe/v2YYCcr
+         Q5btOMKxS3Qug==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com,
+        Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>
+Subject: Re: [PATCH v3] docs/zh_CN: add core-api workqueue.rst translation
+In-Reply-To: <87lf8i7jbj.fsf@meer.lwn.net>
+References: <20210512083341.914-1-siyanteng@loongson.cn>
+ <87lf8i7jbj.fsf@meer.lwn.net>
+Date:   Thu, 13 May 2021 10:18:40 -0600
+Message-ID: <87o8de61zz.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EsCowACHe7tvSZ1gxy72jA--.63931S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUDHqcUUUUU
-X-Originating-IP: [36.170.37.157]
-X-CM-SenderInfo: xolxxtxlor0wjjw6il2tof0z/1tbiDRCRYFQHWILGqAAAsL
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Hailong Liu <liu.hailong6@zte.com.cn>
+Jonathan Corbet <corbet@lwn.net> writes:
 
-Add translation zh_CN/admin-guide/lockup-watchdogs.rst and link it to
-zh_CN/admin-guide/index.rst while clean its todo entry.
+> I've applied this, but...
+>
+> Yanteng Si <siyanteng@loongson.cn> writes:
+>
+>> v3:
+>>
+>> * Pick Alex'S review-by tag.
+>>
+>> v2:
+>>
+>> Some bad translations have been modified as suggested by Alex.Thank you for your review.
+>> https://lore.kernel.org/linux-doc/CAEensMwq=i+nek6sNeqOJJMY648Q9ZF8cTKpXdJVuqdQQnMWUw@mail.gmail.com/T/#t
+>>
+>> v1:
+>
+> Text like the above belongs below the "---" line so I don't have to edit
+> it out of the changelog by hand.
+>
+>> This patch translates Documentation/core-api/workqueue.rst into Chinese.
+>>
+>>
+>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+>> Reviewed-by: Alex Shi <alexs@kenrel.org>
+>
+> I fixed that typo too - it appears to originate from Alex...:)
 
-Signed-off-by: Hailong Liu <liu.hailong6@zte.com.cn>
----
- .../translations/zh_CN/admin-guide/index.rst  |  2 +-
- .../zh_CN/admin-guide/lockup-watchdogs.rst    | 65 +++++++++++++++++++
- 2 files changed, 66 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
+Actually, I've dropped this back out; it creates vast numbers of
+warnings:
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-index be835ec8e632..460034cbc2ab 100644
---- a/Documentation/translations/zh_CN/admin-guide/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-@@ -65,6 +65,7 @@ Todolist:
- 
-    clearing-warn-once
-    cpu-load
-+   lockup-watchdogs
-    unicode
- 
- Todolist:
-@@ -100,7 +101,6 @@ Todolist:
-    laptops/index
-    lcd-panel-cgram
-    ldm
--   lockup-watchdogs
-    LSM/index
-    md
-    media/index
-diff --git a/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst b/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
-new file mode 100644
-index 000000000000..1dd1e8061781
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
-@@ -0,0 +1,65 @@
-+===============================================================
-+Softlockup与hardlockup检测机制(又名:nmi_watchdog)
-+===============================================================
-+
-+Linux中内核实现了一种用以检测系统发生softlockup和hardlockup的
-+看门狗机制。
-+
-+Softlockup是一种在内核持续循使用CPU超过20秒（详见下面“实现”小节）
-+导致其他任务无法得到运行的内核问题。一旦检测到'softlockup'发生，默认
-+情况下系统会打印当前堆栈跟踪信息并进入锁定状态。也可配置使其在检测到
-+'softlockup'后进入panic状态；通过sysctl命令设置
-+“kernel.softlockup_panic”、使用内核启动参数“softlockup_panic”（详见
-+Documentation/admin-guide/kernel-parameters.rst）以及使能内核编译选项
-+“BOOTPARAM_SOFTLOCKUP_PANIC”都可实现这种配置。
-+
-+而'hardlockup'是内核中持续循环超过10秒钟（详见"实现"小节）导致其他中
-+断无法运行的问题。与'softlockup'情况类似，除了使用sysctl命令设置
-+'hardlockup_panic'、使能内核选项“BOOTPARAM_HARDLOCKUP_PANIC”以及使用
-+内核参数"nmi_watchdog"(详见:
-+”Documentation/admin-guide/kernel-parameters.rst“)外，一旦检测到
-+'hardlockup'默认情况下系统打印当前堆栈跟踪信息，然后进入锁定状态。
-+
-+这个panic选项也可以与panic_timeout结合使用（这个panic_timeout是通过稍
-+具迷惑性的sysctl命令"kernel.panic"来设置），使系统在panic指定时间后自
-+动重启。
-+
-+实现
-+==============
-+
-+Softlockup和hardlockup分别建立hrtimer(高精度定时器)和perf两个子系统上
-+而实现。这也就意味着理论上任何架构只要实现了这两个子系统就支持这两种
-+检测机制。
-+
-+Hrtimer用于周期性产生中断并唤醒watchdog任务；而NMI perf事件则以
-+”watchdog_thresh“(编译时默认初始化为10秒，也可通过”watchdog_thresh“这
-+个sysctl接口来进行配置修改)为间隔周期产生以检测 hardlockups。如果一个
-+CPU在这个时间段内没有检测到hrtimer中断发生，'hardlockup 检测器'(即
-+NMI perf事件处理函数)将会视系统配置而选择产生内核告警或者直接panic。
-+
-+而watchdog任务本质上是一个高优先级内核线程，每调度一次就对时间戳进行一
-+次更新。如果在时间戳在2*watchdog_thresh秒(这个是softlockup的触发门限)
-+都未更新那么"softlocup 检测器"(内部hrtimer定时器回调函数)会将相关的调试
-+信息打印到系统日志中，然后如果系统配置了进入panic流程则进入panic，否则
-+内核继续执行。
-+
-+Hrtimer定时器的周期是2*watchdog_thresh/5，也就是说在hardlockup被触发前
-+hrtimer有2~3次机会产生时钟中断。
-+
-+如上所述,内核相当于为系统管理员提供了一个可调节hrtimer定时器和perf事件
-+的周期长短的旋钮。对于特定的场景通过这个旋钮配置一个合理的周期值需要权
-+衡lockups检测的响应速度和检测的开销。
-+
-+默认情况下所有在线cpu上都会运行一个watchdog任务。不过在内核配置了
-+”NO_HZ_FULL“的情况下watchdog默认只会运行在管家(housekeeping)cpu上，而
-+”nohz_full“启动参数指定的cpu上则不会有watchdog任务运行。想象一下，如果
-+我们允许watchdog任务在”nohz_full“指定的cpu上运行，这些cpu上必须得运行时
-+钟定时器来激发watchdog任务调度；这样一来就会使”nohz_full“保护用户程序免
-+受内核干扰的功能失效。当然，副作用就是”nohz_full“指定的cpu即使在内核产生
-+了lockup问题我们也无法检测到。不过，至少我们可以允许watchdog在管家
-+(non-tickless)核上继续运行以便我们能够继续正常的监测这些cpus上的lockups
-+事件。
-+
-+不论哪种情况都可以通过sysctl命令kernel.watchdog_cpumask来调节未运行
-+watchdog的cpu集合.对于nohz_full而言,如果nohz_full cpu上有异常挂住的情况,
-+通过这种方式打开这些cpu上的watchdog进行调试可能会有所作用。
--- 
-2.17.1
+> Documentation/core-api/workqueue:398: ./include/linux/workqueue.h:3: WARNING: Duplicate C declaration, also
+> defined at translations/zh_CN/core-api/workqueue:3.
 
+This will be the result of the ".. kernel-doc::" directives at the end,
+which create new definitions (within sphinx) for all the symbols pulled
+in.
+
+In the long term, we may want to try to find some sort of fix for this.
+But we're really just recreating a bunch of (English-language)
+documentation that's already rendered once; I'm not sure it makes any
+real sense to do that.  So I would suggest that, for now, when you are
+translating documents with kernel-doc directives, you should leave those
+directives out.  Stick in a note directing readers to the original if
+they want to see that material...
+
+Make sense?
+
+Thanks,
+
+jon
 
