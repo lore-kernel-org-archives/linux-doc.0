@@ -2,250 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 641A4C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:05:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA87C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:06:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FDF3601FE
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:05:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 109DB6109F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:06:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233100AbhEMLGL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 07:06:11 -0400
-Received: from mga02.intel.com ([134.134.136.20]:45138 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232776AbhEMLE4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 May 2021 07:04:56 -0400
-IronPort-SDR: VO5Uwcz1s7cglbI9HeD+WCvZE4j9Yn9TJnyQpyZLxrUrEaynvzl0aU6u5J1rSKc+3rw0MMVXxh
- 6Z1xM+4Pburw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="187048406"
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
-   d="scan'208";a="187048406"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 04:01:31 -0700
-IronPort-SDR: Gcvd0heUu5Qpp4h0DBF1BcV/EuAd7y/R7hMd8DCnjqb8rnGomajjvSXnKx68NfSclkuLZnPTI9
- HgPhTcIeb0uw==
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
-   d="scan'208";a="625984335"
-Received: from gna-dev.igk.intel.com ([10.102.80.34])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 04:01:29 -0700
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>
-Subject: [PATCH v3 14/14] intel_gna: add power management
-Date:   Thu, 13 May 2021 13:00:40 +0200
-Message-Id: <20210513110040.2268-15-maciej.kwapulinski@linux.intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+        id S233143AbhEMLHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 07:07:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52994 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233183AbhEMLGe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 May 2021 07:06:34 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A65B8C06138E;
+        Thu, 13 May 2021 04:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=BoBJ4XmGvGv9Rh+akhyS1h6qYWC0leGzYa19oQ06nOY=; b=bQ96GKI8ZS6JHqs7pqvVfm4NkF
+        cIwSiL9/2rDXKfDMn2NmmQlR6c1HpY0FZApxg2HBj5FCIGnBApMaStFnC3Jayh2LPqN+xfWaDhmu3
+        L2SIO5Sh/1l0IHVm+xhhaQQDjT8JcgWeZx5xCaIoUa9D0Bf6U6S8WiuX+MTenkSFjse9P+QeuREhz
+        eewkXb4NiNnyHjtpN7JIoFnE+YTrZFMjZuhsagUdpYFBRVQKZ1btr0hscHXgHwDl0aBpP0me5O1Zc
+        cwtqHTPqfK2Sl/rHtZg4dm7wQUrCHQQ3MQvD5mknNgy4qTTbWxh826BUrkHXOPufpuQppw/Vy+tvU
+        Dzz+zmLQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lh99U-005O7T-VU; Thu, 13 May 2021 11:05:13 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 86F3E30019C;
+        Thu, 13 May 2021 13:05:11 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 70DF02D3BB1B6; Thu, 13 May 2021 13:05:11 +0200 (CEST)
+Date:   Thu, 13 May 2021 13:05:11 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Beata Michalska <beata.michalska@arm.com>
+Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+Message-ID: <YJ0H5+P4uHJVh5qF@hirez.programming.kicks-ass.net>
+References: <1620664258-11045-1-git-send-email-beata.michalska@arm.com>
+ <1620664258-11045-3-git-send-email-beata.michalska@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1620664258-11045-3-git-send-email-beata.michalska@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implement power management in intel_gna driver
+On Mon, May 10, 2021 at 05:30:57PM +0100, Beata Michalska wrote:
+> Currently the CPU capacity asymmetry detection, performed through
+> asym_cpu_capacity_level, tries to identify the lowest topology level
+> at which the highest CPU capacity is being observed, not necessarily
+> finding the level at which all possible capacity values are visible
+> to all CPUs, which might be bit problematic for some possible/valid
+> asymmetric topologies i.e.:
+> 
+> DIE      [                                ]
+> MC       [                       ][       ]
+> 
+> CPU       [0] [1] [2] [3] [4] [5]  [6] [7]
+> Capacity  |.....| |.....| |.....|  |.....|
+> 	     L	     M       B        B
+> 
+> Where:
+>  arch_scale_cpu_capacity(L) = 512
+>  arch_scale_cpu_capacity(M) = 871
+>  arch_scale_cpu_capacity(B) = 1024
 
-Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Tested-by: Savo Novakovic <savox.novakovic@intel.com>
-Co-developed-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Co-developed-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
-Signed-off-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
----
- drivers/misc/intel/gna/device.c  | 55 +++++++++++++++++++++++++++++++-
- drivers/misc/intel/gna/device.h  |  3 ++
- drivers/misc/intel/gna/hw.h      |  1 +
- drivers/misc/intel/gna/pci.c     |  3 ++
- drivers/misc/intel/gna/request.c | 15 +++++++++
- 5 files changed, 76 insertions(+), 1 deletion(-)
+Low, High
+Small, Big
 
-diff --git a/drivers/misc/intel/gna/device.c b/drivers/misc/intel/gna/device.c
-index c882055de8cf..d7b0697bdd7c 100644
---- a/drivers/misc/intel/gna/device.c
-+++ b/drivers/misc/intel/gna/device.c
-@@ -22,6 +22,30 @@ module_param(recovery_timeout, int, 0644);
- MODULE_PARM_DESC(recovery_timeout, "Recovery timeout in seconds");
- #endif
- 
-+static int __maybe_unused gna_runtime_suspend(struct device *dev)
-+{
-+	struct gna_private *gna_priv = dev_get_drvdata(dev);
-+	u32 val = gna_reg_read(gna_priv, GNA_MMIO_D0I3C);
-+
-+	dev_dbg(dev, "%s D0I3, reg %.8x\n", __func__, val);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused gna_runtime_resume(struct device *dev)
-+{
-+	struct gna_private *gna_priv = dev_get_drvdata(dev);
-+	u32 val = gna_reg_read(gna_priv, GNA_MMIO_D0I3C);
-+
-+	dev_dbg(dev, "%s D0I3, reg %.8x\n", __func__, val);
-+
-+	return 0;
-+}
-+
-+const struct dev_pm_ops __maybe_unused gna_pm = {
-+	SET_RUNTIME_PM_OPS(gna_runtime_suspend, gna_runtime_resume, NULL)
-+};
-+
- static int gna_open(struct inode *inode, struct file *f)
- {
- 	struct gna_file_private *file_priv;
-@@ -123,6 +147,22 @@ static int gna_devm_register_misc_dev(struct device *parent, struct miscdevice *
- 	return ret;
- }
- 
-+static void gna_pm_init(struct device *dev)
-+{
-+	pm_runtime_set_autosuspend_delay(dev, 200);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_allow(dev);
-+	pm_runtime_put_noidle(dev);
-+}
-+
-+static void gna_pm_remove(void *data)
-+{
-+	struct device *dev = data;
-+
-+	pm_runtime_get_noresume(dev);
-+}
-+
- static irqreturn_t gna_interrupt(int irq, void *priv)
- {
- 	struct gna_private *gna_priv;
-@@ -245,7 +285,20 @@ int gna_probe(struct device *parent, struct gna_dev_info *dev_info, void __iomem
- 	gna_priv->misc.fops = &gna_file_ops;
- 	gna_priv->misc.mode = 0666;
- 
--	return gna_devm_register_misc_dev(parent, &gna_priv->misc);
-+	ret = gna_devm_register_misc_dev(parent, &gna_priv->misc);
-+	if (ret)
-+		return ret;
-+
-+	dev_set_drvdata(parent, gna_priv);
-+
-+	gna_pm_init(parent);
-+	ret = devm_add_action(parent, gna_pm_remove, parent);
-+	if (ret) {
-+		dev_err(parent, "could not add devm action for pm\n");
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static u32 gna_device_type_by_hwid(u32 hwid)
-diff --git a/drivers/misc/intel/gna/device.h b/drivers/misc/intel/gna/device.h
-index ea3caf679c77..a0e28d05ebfa 100644
---- a/drivers/misc/intel/gna/device.h
-+++ b/drivers/misc/intel/gna/device.h
-@@ -10,6 +10,7 @@
- #include <linux/list.h>
- #include <linux/miscdevice.h>
- #include <linux/mutex.h>
-+#include <linux/pm_runtime.h>
- #include <linux/types.h>
- 
- #include "hw.h"
-@@ -75,6 +76,8 @@ struct gna_private {
- int gna_probe(struct device *parent, struct gna_dev_info *dev_info, void __iomem *iobase, int irq);
- int gna_getparam(struct gna_private *gna_priv, union gna_parameter *param);
- 
-+extern const struct dev_pm_ops __maybe_unused gna_pm;
-+
- static inline u32 gna_reg_read(struct gna_private *gna_priv, u32 reg)
- {
- 	return readl(gna_priv->iobase + reg);
-diff --git a/drivers/misc/intel/gna/hw.h b/drivers/misc/intel/gna/hw.h
-index 2a6890fb748e..c0a8120b84d9 100644
---- a/drivers/misc/intel/gna/hw.h
-+++ b/drivers/misc/intel/gna/hw.h
-@@ -49,6 +49,7 @@ struct gna_private;
- #define GNA_MMIO_CTRL		0x84
- #define GNA_MMIO_PTC		0x8C
- #define GNA_MMIO_PSC		0x90
-+#define GNA_MMIO_D0I3C		0xA8
- #define GNA_MMIO_DESBASE	0xB0
- #define GNA_MMIO_IBUFFS		0xB4
- 
-diff --git a/drivers/misc/intel/gna/pci.c b/drivers/misc/intel/gna/pci.c
-index a31f0142a4f2..4aad4cf702b7 100644
---- a/drivers/misc/intel/gna/pci.c
-+++ b/drivers/misc/intel/gna/pci.c
-@@ -139,6 +139,9 @@ static struct pci_driver gna_pci_driver = {
- 	.name = GNA_DV_NAME,
- 	.id_table = gna_pci_ids,
- 	.probe = gna_pci_probe,
-+	.driver = {
-+		.pm = &gna_pm,
-+	},
- };
- 
- module_pci_driver(gna_pci_driver);
-diff --git a/drivers/misc/intel/gna/request.c b/drivers/misc/intel/gna/request.c
-index eabbab8924be..e923f0d2651d 100644
---- a/drivers/misc/intel/gna/request.c
-+++ b/drivers/misc/intel/gna/request.c
-@@ -6,6 +6,7 @@
- #include <linux/idr.h>
- #include <linux/mm.h>
- #include <linux/mutex.h>
-+#include <linux/pm_runtime.h>
- #include <linux/uaccess.h>
- #include <linux/slab.h>
- 
-@@ -65,6 +66,14 @@ static void gna_request_process(struct work_struct *work)
- 
- 	score_request->drv_perf.pre_processing = ktime_get_ns();
- 
-+	ret = pm_runtime_get_sync(gna_parent(gna_priv));
-+	if (ret < 0 && ret != -EACCES) {
-+		dev_warn(gna_dev(gna_priv), "pm_runtime_get_sync() failed: %d\n", ret);
-+		score_request->status = -ENODEV;
-+		pm_runtime_put_noidle(gna_parent(gna_priv));
-+		goto end;
-+	}
-+
- 	/* Set busy flag before kicking off HW. The isr will clear it and wake up us. There is
- 	 * no difference if isr is missed in a timeout situation of the last request. We just
- 	 * always set it busy and let the wait_event_timeout check the reset.
-@@ -75,6 +84,8 @@ static void gna_request_process(struct work_struct *work)
- 
- 	ret = gna_score(score_request);
- 	if (ret) {
-+		if (pm_runtime_put(gna_parent(gna_priv)) < 0)
-+			dev_warn(gna_dev(gna_priv), "pm_runtime_put() failed: %d\n", ret);
- 		score_request->status = ret;
- 		goto end;
- 	}
-@@ -94,6 +105,10 @@ static void gna_request_process(struct work_struct *work)
- 	gna_request_update_status(score_request);
- 	gna_abort_hw(gna_priv);
- 
-+	ret = pm_runtime_put(gna_parent(gna_priv));
-+	if (ret < 0)
-+		dev_warn(gna_dev(gna_priv), "pm_runtime_put() failed: %d\n", ret);
-+
- 	buffer = score_request->buffer_list;
- 	for (i = 0; i < score_request->buffer_count; i++, buffer++) {
- 		mutex_lock(&gna_priv->memidr_lock);
--- 
-2.28.0
+But you appear to have picked: Low and Big, which just doesn't make any
+sense. (Worse, L can also be Large :-)
 
+> In this particular case, the asymmetric topology level will point
+> at MC, as all possible CPU  masks for that level do cover the CPU
+> with the highest capacity. It will work just fine for the first
+> cluster, not so much for the second one though (consider the
+> find_energy_efficient_cpu which might end up attempting the energy
+> aware wake-up for a domain that does not see any asymmetry at all)
+> 
+> Rework the way the capacity asymmetry levels are being detected,
+> to point to the lowest topology level( for a given CPU), where full
+> range of available CPU capacities is visible to all CPUs within given
+> domain. As a result, the per-cpu sd_asym_cpucapacity might differ
+> across the domains. This will have an impact on EAS wake-up placement
+> in a way that it might see different rage of CPUs to be considered,
+> depending on the given current and target CPUs.
+> 
+> Additionally, those levels, where any range of asymmetry (not
+> necessarily full) is being detected will get identified as well.
+> The selected asymmetric topology level will be denoted by
+> SD_ASYM_CPUCAPACITY_FULL sched domain flag whereas the 'sub-levels'
+> would receive the already used SD_ASYM_CPUCAPACITY flag. This allows
+> maintaining the current behaviour for asymmetric topologies, with
+> misfit migration operating correctly on lower levels, if applicable,
+> as any asymmetry is enough to trigger the misfit migration.
+> The logic there relies on the SD_ASYM_CPUCAPACITY flag and does not
+> relate to the full asymmetry level denoted by the sd_asym_cpucapacity
+> pointer.
+
+My head hurts trying to untangle this.
+
+Would it not be much easier to have a cpumask for each type and then
+have something like:
+
+
+enum asym_type {
+	full,
+	asym,
+	none,
+};
+
+static struct cpumask *asym_masks[];
+static int asym_nr;
+
+enum asym_type classify_asym_domain(struct sched_domain *sd)
+{
+	int i, n = 0;
+
+	for (i = 0; i < asym_nr; i++) {
+		if (cpumask_intersects(sched_domain_span(sd), asym_mask[i]))
+			n++;
+	}
+
+	WARN_ON_ONCE(!n);
+
+	if (n == 1)
+		return none;
+	if (n == asym_nr)
+		return full;
+	return asym;
+}
+
+Or am I missing the point?
