@@ -2,91 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAD9EC433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 22:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE83C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 23:07:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A683C6143C
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 22:06:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05F3861260
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 23:07:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230384AbhEMWHf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 18:07:35 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:52704 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229459AbhEMWHf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 May 2021 18:07:35 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 6981BE9B;
-        Fri, 14 May 2021 00:06:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:content-disposition:content-type:content-type
-        :mime-version:references:message-id:subject:subject:from:from
-        :date:date:received:received:received; s=dkim20160331; t=
-        1620943582; x=1622757983; bh=uOVnuyTx76fjc++a6fCp7lDpTCoLRyILUYa
-        bEozmYHc=; b=ibN3cezms0qmI6IhgdYkD7OBSdtFAYb40V4c2xyJG/CC8V1uMsF
-        GGIms9+i8H83rgvS0QZdS1QLN+txaWi+mXbciHK2FCuUlMfft3/3CDdfdSqcuOE8
-        2sphIKb+ISDwOS6xYiomd4rkV43BzyJZ8ASj/vpAt10pRZH1PTDlwSPlhUXiFFf8
-        /LqKfhwgJg5MKbnpOm0b8e5EES1GdZd7vaxAYHuVFAWlU98ImOmxGn5iB4ssubUR
-        4pdWU8ghtLg8QffdRuX5LXFpmoyJVxsUifgPA/DUx2YhNbT3WHNfe2Ph0E0g6sYU
-        7rea3BhzvEnpcrgbendWjSpjMGzXuFqM1Q4SC/pxQE1KDEVRY5PYXFkgJKN/rOq8
-        +kwZFDkJElKDz2IKpVQAqURpXnz6x9HVXFWg6dWR5Da4yNQmA96nOuy9GCYXgOCn
-        3DXjKxNQLXg+Auqn9roTrjiDRUyVvBPj4To/HwyKMhShIXUmgwktD//Og68w4I8f
-        E2Wy7OmFaV18oYp1lRBkDpgmxG69eib7a48FNtuuWxXPcOq1Yzq9lAJ5gVfnjg+5
-        182tfCV9/JwNN4FrViqFts6x44Y8dnp5SYnMLNIOLR/rll69FRc1UP1MJObZs59m
-        HqnwXJPLWIa8JA3UstAJVNilYLEogJuz2n27DU+MFdpzNlo8Ayyo4TG8=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ahmrRA5mUzWN; Fri, 14 May 2021 00:06:22 +0200 (CEST)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id D4FEDE07;
-        Fri, 14 May 2021 00:06:20 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id BFD7F11CF9;
-        Fri, 14 May 2021 00:06:18 +0200 (CEST)
-Date:   Fri, 14 May 2021 00:06:16 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Sanjeev Gupta <ghane0@gmail.com>, linux-doc@vger.kernel.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 2/2] Documentation/translations/it_IT: switch some links
- to https
-Message-ID: <20210513220615.5a2shg7y65umyqf4@numero86.vaga.pv.it>
-References: <cce90d8d.ANEAAKAcMY8AAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgmMlr@mailjet.com>
- <20210512082434.timdb2sxntl6mktl@numero86.vaga.pv.it>
- <87h7j67j95.fsf@meer.lwn.net>
+        id S229693AbhEMXIi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 19:08:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45954 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229863AbhEMXIh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 May 2021 19:08:37 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B247FC06174A
+        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 16:07:25 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id h6so24358110ila.7
+        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 16:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Bou5KXeCvHfl4/qHpjsymnMf5AsOCJ/K4VqDNbdqdkY=;
+        b=X7YVbJy4ppZrHv1bHPlY+C+GoiwZMyeHIxdxmgLs4FmXw2szFAgX1eVYIRdGrRiHKp
+         htSSNmYFtuGfiIXFdaDdfDjGTARDKMpzVag4r6YlxsyEg6pANHiOph72LPWoCtkIFgF9
+         3zH8L9Sb1vTlA55IVr8DU4yK4JsDBct/XJhA0F71SJDH15THOTosGIO7DGe75Om8vtga
+         v5I2ibDPie5KVFkawdMyWAN8vVnrzfQmNbF1tgFxj2IPIkSPPA8iIa9Hz6sgCIcMpEAQ
+         utB35246/6y+5+yGrsQFUba6ES1+vTz/UIQa8EUDP5Kl6q/OvmwFrSkIwTHFDWfMIitl
+         WZlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Bou5KXeCvHfl4/qHpjsymnMf5AsOCJ/K4VqDNbdqdkY=;
+        b=SRj7UmoX0Qy0ODki0u66etEh9PETB/LTOHkx//tueoxaCBwUHWNsn5EfEPUYddUzqk
+         nRKpADiXdPnVPwIjwR/ZL/8PLno5wt9FmfCcF7eCr6q7uVikJbU3KcVgkhbZinzm8wpj
+         RLkD6YepOXB4z24eZoA2OwIpiWW/EOpClgalqe/2hXq/D7L/otn0hZjpQsyJ5E2/Wy6G
+         q8WqUlbfkSJsuCNwAcU7jJFbbMtwWoESWoOFjoCsDuEyxA5B6BE+SxOSatk6i0t2+1Vb
+         ocLM49FyQ4Ep+1GU5HLtjeMH7Ho3CZo78m8g7QKZ9Y/7lo049iEC6i3qSjXYuFNFZtCo
+         MFmQ==
+X-Gm-Message-State: AOAM531+SmyDLShKe/Kb/jcCJIENNFvwXTDzAJNGjarQkp5DtHTVCM/x
+        jF1dFqIckm1x2Xe4gMlE0S1Qkcjq0mtfGtELTre/Zg==
+X-Google-Smtp-Source: ABdhPJz4R66VGFen2Ru+lT1VNd1sy/SfX6XIaF9ommoJgsudkcPrsEsYn6C2L5M2093GG9jDVbD5KeB+s/Ra4aT3HoM=
+X-Received: by 2002:a92:d5cd:: with SMTP id d13mr37013472ilq.133.1620947245043;
+ Thu, 13 May 2021 16:07:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87h7j67j95.fsf@meer.lwn.net>
+References: <20210513193204.816681-1-davidgow@google.com> <20210513193204.816681-3-davidgow@google.com>
+In-Reply-To: <20210513193204.816681-3-davidgow@google.com>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Thu, 13 May 2021 16:07:13 -0700
+Message-ID: <CAGS_qxpck5qy14OOJm2-_MBd160BXnBDyGu+iTzQCh1ay=VkGw@mail.gmail.com>
+Subject: Re: [PATCH v2 03/10] Documentation: kunit: Clean up some string casts
+ in examples
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 13, 2021 at 09:20:38AM -0600, Jonathan Corbet wrote:
->Federico Vaga <federico.vaga@vaga.pv.it> writes:
+On Thu, May 13, 2021 at 12:36 PM David Gow <davidgow@google.com> wrote:
 >
->> On Mon, May 10, 2021 at 12:58:29PM +0800, Sanjeev Gupta wrote:
->>>Links have been checked to ensure that the old and new URL
->>>return the same page.  This is not true for many links.
->>>
->>>Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
->>
->> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> As the type checking is no longer excessively strict, get rid of the
+> unsightly (char*) casts -- and comment discussing them -- from the KUnit
+> usage page.
 >
->I'm confused...why are you sending a signed-off-by here?  Did you mean
->acked-by?
+> Signed-off-by: David Gow <davidgow@google.com>
 
-I'm sorry, you are right
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
 
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
+Thanks!
 
+> ---
+>  Documentation/dev-tools/kunit/usage.rst | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 >
->Thanks,
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> index 650f99590df5..756747417a19 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -465,10 +465,9 @@ fictitious example for ``sha1sum(1)``
 >
->jon
+>  .. code-block:: c
+>
+> -       /* Note: the cast is to satisfy overly strict type-checking. */
+>         #define TEST_SHA1(in, want) \
+>                 sha1sum(in, out); \
+> -               KUNIT_EXPECT_STREQ_MSG(test, (char *)out, want, "sha1sum(%s)", in);
+> +               KUNIT_EXPECT_STREQ_MSG(test, out, want, "sha1sum(%s)", in);
+>
+>         char out[40];
+>         TEST_SHA1("hello world",  "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed");
+> @@ -507,7 +506,7 @@ In some cases, it can be helpful to write a *table-driven test* instead, e.g.
+>         };
+>         for (i = 0; i < ARRAY_SIZE(cases); ++i) {
+>                 sha1sum(cases[i].str, out);
+> -               KUNIT_EXPECT_STREQ_MSG(test, (char *)out, cases[i].sha1,
+> +               KUNIT_EXPECT_STREQ_MSG(test, out, cases[i].sha1,
+>                                       "sha1sum(%s)", cases[i].str);
+>         }
+>
+> @@ -568,7 +567,7 @@ Reusing the same ``cases`` array from above, we can write the test as a
+>                 struct sha1_test_case *test_param = (struct sha1_test_case *)(test->param_value);
+>
+>                 sha1sum(test_param->str, out);
+> -               KUNIT_EXPECT_STREQ_MSG(test, (char *)out, test_param->sha1,
+> +               KUNIT_EXPECT_STREQ_MSG(test, out, test_param->sha1,
+>                                       "sha1sum(%s)", test_param->str);
+>         }
+>
+> --
+> 2.31.1.751.gd2f1c929bd-goog
+>
