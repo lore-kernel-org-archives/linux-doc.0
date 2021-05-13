@@ -7,78 +7,64 @@ X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1A2C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:19:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F989C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:20:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 550D861166
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:19:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DDC161166
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:20:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234760AbhEMPUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 11:20:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54588 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234757AbhEMPUY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 May 2021 11:20:24 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7D0C061574
-        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 08:19:13 -0700 (PDT)
+        id S234833AbhEMPVu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 11:21:50 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42914 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234788AbhEMPVt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 May 2021 11:21:49 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 55245153;
-        Thu, 13 May 2021 15:19:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 55245153
+        by ms.lwn.net (Postfix) with ESMTPSA id DDD83153;
+        Thu, 13 May 2021 15:20:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DDD83153
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1620919153; bh=lcpueckNHobuxUqTxZoIvZ7yrsn2k4sxH7S/hlLyh8E=;
+        t=1620919239; bh=1GxC20Eyje0ZIdRmzwDiw8d1/lPC46A2ArGVMZcAyLM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=BcuZ7YHs9OE85rGxLgn+SYvZTayheMp2EnCR/sDcuE8wnfKB71Reh8jLUBZNJIs/a
-         Hlnza9vpU8rk5P9N2NnmAnDHmtRxpUaSYE+4oERbtZ7leGf2WJJCfyAaO9UEqCoZ5l
-         9AYXaS/AI+RmqPkh1FCOKOht5cN6B8dvt/x1n5lWBHOAV3e2Y04ANeMtYoV5Ou9Yy5
-         Ueq6jsZT+xOqs7JIGEWoMVycxc+hueK9RkeB6ZR5cww9y/pIF+/cqZCG30XqHFv6Kb
-         mHax9M2zXKZULBPLS+UZ560m3oVIY+kn2GDX+UNUqUlFO4A+7TZey5CCLN4NSTN+z4
-         AxhzAFa4WSXUg==
+        b=CQM8/gd15dSYIkGgBcjK1kv6n2vooJuW+Ud8hut6y+hGukgmPgVOxdlGzLYYpho+t
+         kDOtmdCHtj5gbe21gndUGTyt4JRx1GBuWxMFV9Ifw8xzrY/iAF8iscCJ+IzVhJGknR
+         kjz6/t728GG2VcGT5muMq29ZAgxe4v8u0MFuTG6y+WdxtDNkpD2L05cydXZK8+xuox
+         bHHu3jY2lBc06apTHxZAUpHq3cjL58BPbktwZEbdRwtf0ivkX3w4QuQTy12/jgtGyl
+         myzUhvoJxBEAfl5D3rypFkXNsC2eh2EVrw4yBrPdOGPPwgVugnxr/eaceEFR8EwszV
+         /Aeq6X9Qu0QAQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org
-Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
-        siyanteng01@gmail.com, huangjianghui@uniontech.com,
-        Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kenrel.org>
-Subject: Re: [PATCH v3] docs/zh_CN: add core-api workqueue.rst translation
-In-Reply-To: <20210512083341.914-1-siyanteng@loongson.cn>
-References: <20210512083341.914-1-siyanteng@loongson.cn>
-Date:   Thu, 13 May 2021 09:19:12 -0600
-Message-ID: <87lf8i7jbj.fsf@meer.lwn.net>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        Sanjeev Gupta <ghane0@gmail.com>
+Cc:     linux-doc@vger.kernel.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 2/2] Documentation/translations/it_IT: switch some links
+ to https
+In-Reply-To: <20210512082434.timdb2sxntl6mktl@numero86.vaga.pv.it>
+References: <cce90d8d.ANEAAKAcMY8AAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgmMlr@mailjet.com>
+ <20210512082434.timdb2sxntl6mktl@numero86.vaga.pv.it>
+Date:   Thu, 13 May 2021 09:20:38 -0600
+Message-ID: <87h7j67j95.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I've applied this, but...
+Federico Vaga <federico.vaga@vaga.pv.it> writes:
 
-Yanteng Si <siyanteng@loongson.cn> writes:
+> On Mon, May 10, 2021 at 12:58:29PM +0800, Sanjeev Gupta wrote:
+>>Links have been checked to ensure that the old and new URL
+>>return the same page.  This is not true for many links.
+>>
+>>Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+>
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-> v3:
->
-> * Pick Alex'S review-by tag.
->
-> v2:
->
-> Some bad translations have been modified as suggested by Alex.Thank you for your review.
-> https://lore.kernel.org/linux-doc/CAEensMwq=i+nek6sNeqOJJMY648Q9ZF8cTKpXdJVuqdQQnMWUw@mail.gmail.com/T/#t
->
-> v1:
-
-Text like the above belongs below the "---" line so I don't have to edit
-it out of the changelog by hand.
-
-> This patch translates Documentation/core-api/workqueue.rst into Chinese.
->
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> Reviewed-by: Alex Shi <alexs@kenrel.org>
-
-I fixed that typo too - it appears to originate from Alex...:)
+I'm confused...why are you sending a signed-off-by here?  Did you mean
+acked-by?
 
 Thanks,
 
