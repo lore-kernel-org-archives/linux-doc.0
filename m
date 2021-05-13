@@ -2,92 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C3BC433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 16:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A7A3C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 17:09:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C43276143E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 16:24:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F258F6143B
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 17:09:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234503AbhEMQZZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 12:25:25 -0400
-Received: from mout.gmx.net ([212.227.17.20]:55329 "EHLO mout.gmx.net"
+        id S229780AbhEMRKU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 13:10:20 -0400
+Received: from mga05.intel.com ([192.55.52.43]:41146 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235110AbhEMQZV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 May 2021 12:25:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1620923047;
-        bh=n5VZorDxJ4E3jMomn5t3g5gHnoDeyVEV26lJvjdJRRI=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=JDyBIhMtzZgrx25iUSpxUB0z4jz1lgj2+J2cnmtQuakwEuGoyRUj17R9x2PkVtE4U
-         iabmZpLOG3Gd9+2LzQdcDY4rJhn6BmrohGJK7usbKagvKPDpVYueSY/Pm2t7E73mbS
-         sAE2kn5gEfh9fo51wGZax8yUKV8LthJ3MxL2QDFM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.214.126]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MLi8m-1lyl0x2fi4-00Hel9; Thu, 13
- May 2021 18:24:07 +0200
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH RESEND] scripts/jobserver-exec: Fix a typo ("envirnoment")
-Date:   Thu, 13 May 2021 18:24:02 +0200
-Message-Id: <20210513162403.1726052-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.30.2
+        id S229906AbhEMRKT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 May 2021 13:10:19 -0400
+IronPort-SDR: HjyYSErb/UN5phqlqCNm0JO3Yp7i+x/otmb1PcH5Mlt1wRwkJ7xJ6k4TjXEu0vnBNSSo5gaqqJ
+ N6rWlx1XjbpQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9983"; a="285503925"
+X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
+   d="scan'208";a="285503925"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 10:06:22 -0700
+IronPort-SDR: STnDbgJ5e1/EV9FwXRDSk2rhqhGIUjO3A+kFrPQAukeCA1MYQe7kafsPMf9QsE7mdEGw4jPE8l
+ gOgUgVhS2zVA==
+X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
+   d="scan'208";a="626308346"
+Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 10:06:20 -0700
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com> <20210513110040.2268-13-maciej.kwapulinski@linux.intel.com> <YJ0K7f0NiRwQBPPA@kroah.com>
+User-agent: mu4e 1.4.13; emacs 26.3
+From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Savo Novakovic <savox.novakovic@intel.com>
+Subject: Re: [PATCH v3 12/14] intel_gna: add a 'misc' device
+In-reply-to: <YJ0K7f0NiRwQBPPA@kroah.com>
+Date:   Thu, 13 May 2021 19:06:18 +0200
+Message-ID: <85r1iaimwl.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:s4PK8UcCSrXKUnihlvfSqrb0O5+JpfBu6lu0D7A51gSnvAjJmHL
- pNBuNRGjnBlUahRZ5E1vyacp1KIQVQvTvCmXA2v4ORgi0nuVh9BBiIL0DISLVar932nYvXu
- KB/JZ9zYbLbF4j/brISIA7FdURr0gcXIEnZTjdANwgvMq9Olx56adtFazk3tq1VRZHNyAbC
- zej8sJ62m04DmFtRQnwNg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mQ24yDbn0As=:YCKXE/IiZLC4l7hDJsLwZW
- GFNcTAJAMtktJqZ4F09au/K1yclZXYywnR5PF3zw2XH2dFDHDz6iZYBwkLR0pxtmEaLHifE2K
- OAtUI4olmvLrcKDrcb8bKXdyxNblkyiXHZl9XqfxWtcmk32My7EupW8u8YjwcQI2GWMYGOKqN
- GBaIyPs6Y6qMIihlaGkZWa7gyrIFLPieI5XXLH6oXMSrpFn9S5/JU2xMgWjh/glSUwyMgitZk
- YcxGnEG1FBCzrtXyO3kfD++e6UrG4L6h0SSwAZECWqFg9T5jWr4FeLTGLnc822BqaG1bhOQuY
- HSiQ1Em7P2j2y6Yzf5d01NniTROjwM9eWKK3J7rCr7QpXVis5nAHGFiHBfIniwhQZWTBmGYZL
- +Xe05Kup+13K/DJ2g9whrg4pFXPOcVfWoQ6N9UYuHZW2oBRmcpwI9gFi6O5XhsOMLoA/dPVEZ
- kkEB+6R4bbgqHecJqL/QmxO9+ilKoV/yCSM1d8vyrvStSTQcBxqLwcKDX/xBkDptXguGw4H1R
- 0HugbX/NyLmFuEFKxAKQ6R6VGdWyMJhWOMHzuwQGDMndCLQoW6leGDc+h9oyGGfp7gXA3/RaK
- RGUX6Iep9oEk5STKBTlrMvF82texEdRbiZNxZHhkQJLair8LUIlLOhvGJHuh++tE+rUXgziJm
- 2aVVtbLDPit536C/QcgkUq+rOpn0EapswbgosJyMWwU0e1dVMf2di/Gd/DHy6T+cp4Poj7aGL
- nTaORMHKsQszjHt0wy1zunn9CNz5i1R3NRxtkH9vlf/8ypMkXh8jvoA/7FJeDPcVJai84YMJ0
- OReCVzFuJHdYUp7x+c0wuFHExOUuKwfwNGkvcxWEjQfegbqJwedotvpAJZefKKDOChBaz0EeS
- Uj047jad+dBnLZ4trVO/+q1KeK18E1oSxgnB0+L8++Nre47wfWsov6w2eEcBG0djyjM42PbBe
- sVXRyl0Ji3ov/UH7SfR9Pp9SgNCPmD/sx4vUcRq39vJpLYeCIlzK2sIzLULfT10yqbcJ0AX0q
- fXFQMG76DeeGoONctpPEImwipseVoj5rPpmOHgE0i1sUzQAFNuxM1NLww+QIrGdLjO+VaePKR
- zI2cZAit3dI6LnTwP+pnW8A7UqNfO5CgP07QH8p02ULajNtRJA2ueH8tJ5Y/TjO00zZfWFCOL
- MrF59coQuV1yuRvM+QViMdcen9GsdPG8txwaGvguzO8uftlJSkMicJ7Uso041AF07GjeXdb5C
- pCYZxxgB0ow4s8gmF
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- scripts/jobserver-exec | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
-index 0fdb31a790a81..1c779cd1ccb48 100755
-=2D-- a/scripts/jobserver-exec
-+++ b/scripts/jobserver-exec
-@@ -10,7 +10,7 @@ from __future__ import print_function
- import os, sys, errno
- import subprocess
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
 
--# Extract and prepare jobserver file descriptors from envirnoment.
-+# Extract and prepare jobserver file descriptors from environment.
- claim =3D 0
- jobs =3D b""
- try:
-=2D-
-2.29.2
+> On Thu, May 13, 2021 at 01:00:38PM +0200, Maciej Kwapulinski wrote:
+>> The new 'misc' device is the node for applications in user space to
+>> interact with the driver.
+>> 
+>> Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+>> Tested-by: Savo Novakovic <savox.novakovic@intel.com>
+>> ---
+>>  drivers/misc/intel/gna/device.c | 52 +++++++++++++++++++++++++++++++--
+>>  drivers/misc/intel/gna/device.h | 11 +++----
+>>  2 files changed, 55 insertions(+), 8 deletions(-)
+>> 
+>> diff --git a/drivers/misc/intel/gna/device.c b/drivers/misc/intel/gna/device.c
+>> index 0e31b8c6bb70..1e6345a8325b 100644
+>> --- a/drivers/misc/intel/gna/device.c
+>> +++ b/drivers/misc/intel/gna/device.c
+>> @@ -20,6 +20,18 @@ module_param(recovery_timeout, int, 0644);
+>>  MODULE_PARM_DESC(recovery_timeout, "Recovery timeout in seconds");
+>>  #endif
+>>  
+>> +struct file;
+>> +
+>> +static int gna_open(struct inode *inode, struct file *f)
+>> +{
+>> +	return -EPERM;
+>> +}
+>
+> That sucks, why have an open that does nothing but fail?
+
+next patch provides complete implementation of gna_open(), here it's
+just a protection if someone would incidentally run gna in the middle of patch series
+
+>
+>> +
+>> +static const struct file_operations gna_file_ops = {
+>> +	.owner		=	THIS_MODULE,
+>> +	.open		=	gna_open,
+>> +};
+>> +
+>>  static void gna_devm_idr_destroy(void *data)
+>>  {
+>>  	struct idr *idr = data;
+>> @@ -27,6 +39,36 @@ static void gna_devm_idr_destroy(void *data)
+>>  	idr_destroy(idr);
+>>  }
+>>  
+>> +static void gna_devm_deregister_misc_dev(void *data)
+>
+> Why is this a void *?
+
+it goes to devm_add_action() api.
+
+>
+> This isn't windows, use real pointer types everywhere in the kernel
+> please.
+>
+>> +{
+>> +	struct miscdevice *misc = data;
+>> +
+>> +	misc_deregister(misc);
+>> +}
+>> +
+>> +static int gna_devm_register_misc_dev(struct device *parent, struct miscdevice *misc)
+>> +{
+>> +	int ret;
+>> +
+>> +	ret = misc_register(misc);
+>> +	if (ret) {
+>> +		dev_err(parent, "misc device %s registering failed. errcode: %d\n",
+>> +			misc->name, ret);
+>> +		gna_devm_deregister_misc_dev(misc);
+>> +	} else {
+>> +		dev_dbg(parent, "device: %s registered\n",
+>> +			misc->name);
+>
+> You have loads of debugging in this driver still, is it really needed?
+>
+>> +	}
+>> +
+>> +	ret = devm_add_action(parent, gna_devm_deregister_misc_dev, misc);
+>
+> Why do you need this?
+
+I'd like to avoid having gna_probe's fail path at all.
+
+>
+>
+> thanks,
+>
+> greg k-h
 
