@@ -2,72 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A1EC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 12:49:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3F9BC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 13:48:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C2AE61421
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 12:49:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B32A5613C7
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 13:48:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232439AbhEMMuN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 08:50:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46704 "EHLO mail.kernel.org"
+        id S234092AbhEMNtr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 09:49:47 -0400
+Received: from foss.arm.com ([217.140.110.172]:35862 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231140AbhEMMuM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 May 2021 08:50:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5905761154;
-        Thu, 13 May 2021 12:49:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620910142;
-        bh=HgdIHeZib83/Z6f6pPdeUSwiU8GORWLQNoCbyvVNcgk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QqB7EoJa4CcvhF8HCHcdnZ2K9lMjmXCjBboQ56AK9f5SL6WjgDN+zN+f6bzaoffT7
-         BvSw3FfZCNhqnIbMcIuMMaVLeOrM9UYEpISIds0VQnR85HtvUw9Xl5Tb5Ik3kp/MJN
-         R8UvQ/VH0xuASqMM+aTS5dVnuLCeHpB80bBGMCxY=
-Date:   Thu, 13 May 2021 14:49:00 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
-        Joe Perches <joe@perches.com>,
-        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        kgdb-bugreport@lists.sourceforge.net,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2 4/4] usb: host: xhci-tegra: Switch to use %ptTs
-Message-ID: <YJ0gPBHHP6VkhSdb@kroah.com>
-References: <20210511153958.34527-1-andriy.shevchenko@linux.intel.com>
- <20210511153958.34527-4-andriy.shevchenko@linux.intel.com>
+        id S234047AbhEMNtr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 May 2021 09:49:47 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E1F86169E;
+        Thu, 13 May 2021 06:48:36 -0700 (PDT)
+Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6916F3F73B;
+        Thu, 13 May 2021 06:48:35 -0700 (PDT)
+Date:   Thu, 13 May 2021 14:48:32 +0100
+From:   Beata Michalska <beata.michalska@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+Message-ID: <20210513134832.GB15289@e120325.cambridge.arm.com>
+References: <1620664258-11045-1-git-send-email-beata.michalska@arm.com>
+ <1620664258-11045-3-git-send-email-beata.michalska@arm.com>
+ <YJ0H5+P4uHJVh5qF@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210511153958.34527-4-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <YJ0H5+P4uHJVh5qF@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 11, 2021 at 06:39:58PM +0300, Andy Shevchenko wrote:
-> Use %ptTs instead of open coded variant to print contents
-> of time64_t type in human readable form.
+Hi Peter,
+
+Thanks for having a look at that.
+
+On Thu, May 13, 2021 at 01:05:11PM +0200, Peter Zijlstra wrote:
+> On Mon, May 10, 2021 at 05:30:57PM +0100, Beata Michalska wrote:
+> > Currently the CPU capacity asymmetry detection, performed through
+> > asym_cpu_capacity_level, tries to identify the lowest topology level
+> > at which the highest CPU capacity is being observed, not necessarily
+> > finding the level at which all possible capacity values are visible
+> > to all CPUs, which might be bit problematic for some possible/valid
+> > asymmetric topologies i.e.:
+> > 
+> > DIE      [                                ]
+> > MC       [                       ][       ]
+> > 
+> > CPU       [0] [1] [2] [3] [4] [5]  [6] [7]
+> > Capacity  |.....| |.....| |.....|  |.....|
+> > 	     L	     M       B        B
+> > 
+> > Where:
+> >  arch_scale_cpu_capacity(L) = 512
+> >  arch_scale_cpu_capacity(M) = 871
+> >  arch_scale_cpu_capacity(B) = 1024
 > 
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Low, High
+> Small, Big
+> 
+> But you appear to have picked: Low and Big, which just doesn't make any
+> sense. (Worse, L can also be Large :-)
+>
+(L)ittle, (M)edium, (B)ig
+I can re-arrange the abbreviations used here.
 
+> > In this particular case, the asymmetric topology level will point
+> > at MC, as all possible CPU  masks for that level do cover the CPU
+> > with the highest capacity. It will work just fine for the first
+> > cluster, not so much for the second one though (consider the
+> > find_energy_efficient_cpu which might end up attempting the energy
+> > aware wake-up for a domain that does not see any asymmetry at all)
+> > 
+> > Rework the way the capacity asymmetry levels are being detected,
+> > to point to the lowest topology level( for a given CPU), where full
+> > range of available CPU capacities is visible to all CPUs within given
+> > domain. As a result, the per-cpu sd_asym_cpucapacity might differ
+> > across the domains. This will have an impact on EAS wake-up placement
+> > in a way that it might see different rage of CPUs to be considered,
+> > depending on the given current and target CPUs.
+> > 
+> > Additionally, those levels, where any range of asymmetry (not
+> > necessarily full) is being detected will get identified as well.
+> > The selected asymmetric topology level will be denoted by
+> > SD_ASYM_CPUCAPACITY_FULL sched domain flag whereas the 'sub-levels'
+> > would receive the already used SD_ASYM_CPUCAPACITY flag. This allows
+> > maintaining the current behaviour for asymmetric topologies, with
+> > misfit migration operating correctly on lower levels, if applicable,
+> > as any asymmetry is enough to trigger the misfit migration.
+> > The logic there relies on the SD_ASYM_CPUCAPACITY flag and does not
+> > relate to the full asymmetry level denoted by the sd_asym_cpucapacity
+> > pointer.
+> 
+> My head hurts trying to untangle this.
+> 
+> Would it not be much easier to have a cpumask for each type and then
+> have something like:
+> 
+> 
+> enum asym_type {
+> 	full,
+> 	asym,
+> 	none,
+> };
+> 
+> static struct cpumask *asym_masks[];
+> static int asym_nr;
+> 
+> enum asym_type classify_asym_domain(struct sched_domain *sd)
+> {
+> 	int i, n = 0;
+> 
+> 	for (i = 0; i < asym_nr; i++) {
+> 		if (cpumask_intersects(sched_domain_span(sd), asym_mask[i]))
+> 			n++;
+> 	}
+> 
+> 	WARN_ON_ONCE(!n);
+> 
+> 	if (n == 1)
+> 		return none;
+> 	if (n == asym_nr)
+> 		return full;
+> 	return asym;
+> }
+> 
+> Or am I missing the point?
+Your suggestion should work - thanks for that!
+Guess that's just an example of overthinking.
+Will change the implementation and see how that plays, but the idea looks good.
+Thanks again.
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+BR
+B.
