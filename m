@@ -2,72 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D803C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:30:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 649DCC43460
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 12:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5256D60E0B
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:30:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35D9161186
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 12:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231682AbhEMLbi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 07:31:38 -0400
-Received: from mga12.intel.com ([192.55.52.136]:2476 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232053AbhEMLbh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 May 2021 07:31:37 -0400
-IronPort-SDR: dTFj5oE8xMuBDBPU/DS+xPDqWf8Zhe/h5bUUW/Vj9gYRWqonQnnroZAS42iq8vgbrD1KnEQ+2C
- L259qXcitLSg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="179518689"
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
-   d="scan'208";a="179518689"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 04:30:19 -0700
-IronPort-SDR: yvf6jmwwr4tssydRHtpls6ps19cYX91aDvI5CVQgi41mr56EZAWCfvYzUbAuZfmGwHSi/nV5F9
- ZHgrE5KKYWZw==
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
-   d="scan'208";a="431201788"
-Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 04:30:16 -0700
-References: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com> <20210324183610.4574-2-maciej.kwapulinski@linux.intel.com> <CAHp75Vf54GNsw_xWqiOhZx5aHHnQ_-wUWugQ8w9vJPRheLxHFA@mail.gmail.com>
-User-agent: mu4e 1.4.13; emacs 26.3
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S233635AbhEMMHu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 08:07:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39666 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233653AbhEMMHg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 May 2021 08:07:36 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AAF0C061761
+        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 05:06:23 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d16so802913pfn.12
+        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 05:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=LiqqNhlGxeXjrKxJif9khEnQvHkdwIs+05Gzjqmjpcc=;
+        b=JSy1a6GCJq2YyfpTNSfJS8qqrILCcxtDE5ElH2K2/E24R3FWXdOQ02VULX9h2Pj+I+
+         NtrEoxuFD2ShSH71n+IAsSvw74CstZseJ176nvisB5OpUB7L1E7Ary5a0jtBHXhivVKF
+         kD+16nkHtwzi2iAoAEmeBpD4ePQ/xbCiBUASU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LiqqNhlGxeXjrKxJif9khEnQvHkdwIs+05Gzjqmjpcc=;
+        b=HloexCQc81Bbo7yogytJFrQMVDgmbvuK1W51mX3K5ZrONIsdV6k6/UgTzy/Uy0Y1eC
+         Xg2++/mrCTCoSBw8UdLlFNRfSz7iJip2B77YTJgBYYuhr4utBx5lghICyGkaSYNiWptn
+         YKzd3Bk+V6ZZSGP/L7XxL6QI6czpRXzNhv6eJ/5UaIsFcyU0YBjALGB8P7xWYaMRME9S
+         xeW/x4ik1gdyljT5fWoOgcqXKDb6HVj503t5J1hfdQ6Arh5uaHLgJ8Bdo06BE39lgKn2
+         z4NmHeEQh4vSrIUeuR47Mz18TejjOEiX3LcBdNyGJUjxT0a3G6NjOKkOei/wmJhOklOi
+         HxJQ==
+X-Gm-Message-State: AOAM531OUGFNRzSL3Bbuy1x9/NCzDpfm8ASYDU/dY2FIjdBDjHsr/6tM
+        ZQCPlNkkU7OxDr4g1aq5A3uo8g==
+X-Google-Smtp-Source: ABdhPJwfllyYOMfe4rEresq4fLk8nKv6sDRzFnk94yymmf2sl08gP8XdMvFcQyRYMXfrGcMKqNEoqQ==
+X-Received: by 2002:a17:90a:2d8e:: with SMTP id p14mr4752238pjd.121.1620907583031;
+        Thu, 13 May 2021 05:06:23 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:161f:cde2:c883:ef91])
+        by smtp.gmail.com with ESMTPSA id f14sm5112636pjj.53.2021.05.13.05.06.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 May 2021 05:06:22 -0700 (PDT)
+Date:   Thu, 13 May 2021 21:06:14 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        JC Kuo <jckuo@nvidia.com>, Joe Perches <joe@perches.com>,
+        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        kgdb-bugreport@lists.sourceforge.net,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v2 01/13] intel_gna: add driver module
-In-reply-to: <CAHp75Vf54GNsw_xWqiOhZx5aHHnQ_-wUWugQ8w9vJPRheLxHFA@mail.gmail.com>
-Date:   Thu, 13 May 2021 13:30:13 +0200
-Message-ID: <85tun6j2gq.fsf@linux.intel.com>
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        Jason Wessel <jason.wessel@windriver.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 1/4] lib/vsprintf: Allow to override ISO 8601 date and
+ time separator
+Message-ID: <YJ0WNuFr7JmSrN62@google.com>
+References: <20210511153958.34527-1-andriy.shevchenko@linux.intel.com>
+ <YJzymZ7m3R1ELjGD@alley>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YJzymZ7m3R1ELjGD@alley>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On (21/05/13 11:34), Petr Mladek wrote:
+> On Tue 2021-05-11 18:39:55, Andy Shevchenko wrote:
+> > ISO 8601 defines 'T' as a separator between date and time. Though,
+> > some ABIs use time and date with ' ' (space) separator instead.
+> > 
+> > Add a flavour to the %pt specifier to override default separator.
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> 
+> I am going to queue the entire patchset for 5.14 via the printk tree
+> the following week unless anyone complains in the meantime.
 
-Andy Shevchenko <andy.shevchenko@gmail.com> writes:
+Looks good to me
 
-> On Wed, Mar 24, 2021 at 8:38 PM Maciej Kwapulinski
-> <maciej.kwapulinski@linux.intel.com> wrote:
->>
-....
->> +static int recovery_timeout = 60;
->> +module_param(recovery_timeout, int, 0644);
->> +MODULE_PARM_DESC(recovery_timeout, "Recovery timeout in seconds");
->
-> Why module parameters?!
->
-
-Used for testing on slower FPGA boards - in v3, it is present under
-CONFIG_DEBUG_INTEL_GNA flag.
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
