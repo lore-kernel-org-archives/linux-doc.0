@@ -4,85 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEAEAC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:23:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6D51C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:25:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1F7E61396
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:23:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B48A613C5
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 15:25:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234874AbhEMPYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 11:24:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230406AbhEMPYd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 May 2021 11:24:33 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18A8C061574;
-        Thu, 13 May 2021 08:23:22 -0700 (PDT)
+        id S234842AbhEMP00 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 11:26:26 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42982 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234259AbhEMP0X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 May 2021 11:26:23 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 91724153;
-        Thu, 13 May 2021 15:23:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 91724153
+        by ms.lwn.net (Postfix) with ESMTPSA id 4AD80153;
+        Thu, 13 May 2021 15:25:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4AD80153
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1620919402; bh=nCLDeCCv39g0a3SBIn30K6a6wMHFoEfUP22lU3VdG0E=;
+        t=1620919509; bh=eU3irNX0Hto0HdXTq4Ht+geqf/k2ZBNvV/8YFySSPzM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ZQcDFVMtPryOuy1uWN+52z4pCdeqPQnkV0nns8YJUifoBCi2aS4lKYUFUCNQvNq1F
-         UMPrnVJ5NUyGSEIA3/ALJLwlV6fR7mqSTAUg7Jl0PqcxqnC3CIijOTbPhUpQVtgBQk
-         EK77GjZjmtM/8oZ62RLOfn2CgPCV7BZX2P4FNzKvoNcn2iGn9aiEnGbmN95ynECjh+
-         33LVthL5y9iWwdJtPjvV0/FkCxgLK4euOAjBQtCn6No1d08N58AkYACZMnlydmS5G2
-         ygXCKy4OS8gAia0BHecOu4VpIMpOHhPmGZwL6CbRE5rfdLsMhNFc8wJph1fvMbrMNc
-         bKoU+ueknyd1Q==
+        b=CEYJJzICjOIpu/fPzv+LvDyImnCsKoQ77Y+Xo+A7HpBe0V982hr1t62LKay0e9VFt
+         fIPziG9vdqi1qeMN5vTvhw0YAKwZFb2Tam1rhy5arLZb+/L2qHLNxOpAdARrRNibll
+         0S5rchKCBcHZtOPub8DIZpj9Fg+4sOXZoyEQf7GoTK9nQicxeAO317Zjj+qLqB98Gf
+         KNq5Z1jGcHEbDucCLQelEKlziOwxPcOIxJadoASWkIBVFCdYGc9aY/apYW/g9Eq4t+
+         lmVK30Ax7mcb/790YOt7CmgzuZ9eNh7DM7I/3fwq7o0KOlIpMLH95XO8cnl8kJYy4R
+         jp0v2w4HVuSuA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Kay Sievers <kay.sievers@vrfy.org>,
-        Greg Kroah-Hartman <gregkh@suse.de>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: admin-guide: update description for
- kernel.hotplug sysctl
-In-Reply-To: <20210420120638.1104016-1-linux@rasmusvillemoes.dk>
-References: <20210420120638.1104016-1-linux@rasmusvillemoes.dk>
-Date:   Thu, 13 May 2021 09:23:21 -0600
-Message-ID: <87cztu7j4m.fsf@meer.lwn.net>
+To:     Wei Ming Chen <jj251510319013@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        Wei Ming Chen <jj251510319013@gmail.com>
+Subject: Re: [PATCH] docs: usb: function: Modify path name
+In-Reply-To: <20210506122020.7117-1-jj251510319013@gmail.com>
+References: <20210506122020.7117-1-jj251510319013@gmail.com>
+Date:   Thu, 13 May 2021 09:25:08 -0600
+Message-ID: <878s4i7j1n.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rasmus Villemoes <linux@rasmusvillemoes.dk> writes:
+Wei Ming Chen <jj251510319013@gmail.com> writes:
 
-> It's been a few releases since this defaulted to /sbin/hotplug. Update
-> the text, and include pointers to the two CONFIG_UEVENT_HELPER{,_PATH}
-> config knobs whose help text could provide more info, but also hint
-> that the user probably doesn't need to care at all.
+> Original path does not exists, so changed to
+> "Documentation/ABI/testing/configfs-usb-gadget"
 >
-> Fixes: 7934779a69f1 ("Driver-Core: disable /sbin/hotplug by default")
-> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Signed-off-by: Wei Ming Chen <jj251510319013@gmail.com>
 > ---
->  Documentation/admin-guide/sysctl/kernel.rst | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  Documentation/usb/gadget_configfs.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 1d56a6b73a4e..c24f57f2c782 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -333,7 +333,12 @@ hotplug
->  =======
->  
->  Path for the hotplug policy agent.
-> -Default value is "``/sbin/hotplug``".
-> +Default value is ``CONFIG_UEVENT_HELPER_PATH``, which in turn defaults
-> +to the empty string.
-> +
-> +This file only exists when ``CONFIG_UEVENT_HELPER`` is enabled. Most
-> +modern systems rely exclusively on the netlink-based uevent source and
-> +don't need this.
+> diff --git a/Documentation/usb/gadget_configfs.rst b/Documentation/usb/gadget_configfs.rst
+> index 158e48dab586..e4566ffb223f 100644
+> --- a/Documentation/usb/gadget_configfs.rst
+> +++ b/Documentation/usb/gadget_configfs.rst
+> @@ -140,7 +140,7 @@ is an arbitrary string allowed in a filesystem, e.g.::
+>  Each function provides its specific set of attributes, with either read-only
+>  or read-write access. Where applicable they need to be written to as
+>  appropriate.
+> -Please refer to Documentation/ABI/*/configfs-usb-gadget* for more information.
+> +Please refer to Documentation/ABI/testing/configfs-usb-gadget for more information.
 
 Applied, thanks.
 
