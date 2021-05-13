@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35084C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2EEFC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:01:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B63C611BE
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:01:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C45DB611BE
+	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 11:01:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232968AbhEMLCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 07:02:23 -0400
-Received: from mga02.intel.com ([134.134.136.20]:45133 "EHLO mga02.intel.com"
+        id S232929AbhEMLC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 May 2021 07:02:29 -0400
+Received: from mga02.intel.com ([134.134.136.20]:45141 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232320AbhEMLCQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 May 2021 07:02:16 -0400
-IronPort-SDR: U/BXwl/hh83/5ILD+pjaeGMUsEV7+ipqZME6MVNivp3jEiNnLT37juvF5lUa1LY29Vt1Y0zdIP
- kGjpuapnRDzw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="187048276"
+        id S232940AbhEMLCU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 May 2021 07:02:20 -0400
+IronPort-SDR: poBYz2QKiyXRmgSDNuZgIUyT3hSDVvCbEKDDf1dcl0x5lboSnJH/WtZ/YWnY/saObQLZ+E9/rv
+ Sl7jI9Y527gA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="187048298"
 X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
-   d="scan'208";a="187048276"
+   d="scan'208";a="187048298"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 04:01:02 -0700
-IronPort-SDR: /jUSWvsBR/ZzeILd2CcLHSaBvVx/xVbYBpr+1Uzg4fYexL71YsjmEgCbWH5zRgUTpOmMuDcgzc
- twcaaXriCYpQ==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 04:01:07 -0700
+IronPort-SDR: oRrRNuMNPtq/+ZrkwyvS/ajAnIZybwfvicLx4XPNkqaaa3Durn/yvWi8qiBaIqoGX1iOxIn0yh
+ Y14QTp808c2w==
 X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
-   d="scan'208";a="625983828"
+   d="scan'208";a="625984040"
 Received: from gna-dev.igk.intel.com ([10.102.80.34])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 04:00:59 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 04:01:05 -0700
 From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -42,11 +42,10 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
         Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: [PATCH v3 03/14] intel_gna: read hardware info in the driver
-Date:   Thu, 13 May 2021 13:00:29 +0200
-Message-Id: <20210513110040.2268-4-maciej.kwapulinski@linux.intel.com>
+        Savo Novakovic <savox.novakovic@intel.com>
+Subject: [PATCH v3 05/14] intel_gna: initialize mmu
+Date:   Thu, 13 May 2021 13:00:31 +0200
+Message-Id: <20210513110040.2268-6-maciej.kwapulinski@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
 References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
@@ -58,69 +57,39 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
 
-Get the hardware information from register MMIO_IBUFFS
+Setup mmu in the driver with a new memory component.
 
 Signed-off-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
 Tested-by: Savo Novakovic <savox.novakovic@intel.com>
-Co-developed-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Co-developed-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Co-Developed-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 ---
- drivers/misc/intel/gna/device.c | 4 ++++
- drivers/misc/intel/gna/device.h | 1 +
- drivers/misc/intel/gna/hw.h     | 4 ++++
- 3 files changed, 9 insertions(+)
+ drivers/misc/intel/gna/device.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/misc/intel/gna/device.c b/drivers/misc/intel/gna/device.c
-index 8722935d26bf..45b4b6df64ef 100644
+index ed7d3c0223df..50cac8139dcc 100644
 --- a/drivers/misc/intel/gna/device.c
 +++ b/drivers/misc/intel/gna/device.c
-@@ -21,6 +21,7 @@ int gna_probe(struct device *parent, struct gna_dev_info *dev_info, void __iomem
- 	static atomic_t dev_last_idx = ATOMIC_INIT(-1);
- 	struct gna_private *gna_priv;
- 	const char *dev_misc_name;
-+	u32 bld_reg;
- 	int ret;
+@@ -59,6 +59,18 @@ int gna_probe(struct device *parent, struct gna_dev_info *dev_info, void __iomem
+ 	bld_reg = gna_reg_read(gna_priv, GNA_MMIO_IBUFFS);
+ 	gna_priv->hw_info.in_buf_s = bld_reg & GENMASK(7, 0);
  
- 	gna_priv = devm_kzalloc(parent, sizeof(*gna_priv), GFP_KERNEL);
-@@ -48,6 +49,9 @@ int gna_probe(struct device *parent, struct gna_dev_info *dev_info, void __iomem
- 		}
- 	}
- 
-+	bld_reg = gna_reg_read(gna_priv, GNA_MMIO_IBUFFS);
-+	gna_priv->hw_info.in_buf_s = bld_reg & GENMASK(7, 0);
++	ret = gna_mmu_alloc(gna_priv);
++	if (ret) {
++		dev_err(parent, "mmu allocation failed\n");
++		return ret;
 +
- 	return 0;
- }
- 
-diff --git a/drivers/misc/intel/gna/device.h b/drivers/misc/intel/gna/device.h
-index a188f482a273..057dec0e1983 100644
---- a/drivers/misc/intel/gna/device.h
-+++ b/drivers/misc/intel/gna/device.h
-@@ -24,6 +24,7 @@ struct gna_private {
- 	/* device related resources */
- 	void __iomem *iobase;
- 	struct gna_dev_info info;
-+	struct gna_hw_info hw_info;
- };
- 
- int gna_probe(struct device *parent, struct gna_dev_info *dev_info, void __iomem *iobase);
-diff --git a/drivers/misc/intel/gna/hw.h b/drivers/misc/intel/gna/hw.h
-index f9c0566cbe60..f61792f9dd52 100644
---- a/drivers/misc/intel/gna/hw.h
-+++ b/drivers/misc/intel/gna/hw.h
-@@ -47,6 +47,10 @@ struct gna_desc_info {
- 	struct gna_mmu_info mmu_info;
- };
- 
-+struct gna_hw_info {
-+	u8 in_buf_s;
-+};
++	}
++	dev_dbg(parent, "maximum memory size %llu num pd %d\n",
++		gna_priv->info.max_hw_mem, gna_priv->info.num_pagetables);
++	dev_dbg(parent, "desc rsvd size %d mmu vamax size %d\n",
++		gna_priv->info.desc_info.rsvd_size,
++		gna_priv->info.desc_info.mmu_info.vamax_size);
 +
- struct gna_dev_info {
- 	u32 hwid;
- 	u32 num_pagetables;
+ 	mutex_init(&gna_priv->mmu_lock);
+ 
+ 	idr_init(&gna_priv->memory_idr);
 -- 
 2.28.0
 
