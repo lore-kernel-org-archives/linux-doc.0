@@ -2,78 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C46C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C67C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:35:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7E40613F5
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:32:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23A6D61451
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:35:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbhENIdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 04:33:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49336 "EHLO mail.kernel.org"
+        id S233626AbhENIgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 04:36:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50024 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229704AbhENIdV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 May 2021 04:33:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 288F861442;
-        Fri, 14 May 2021 08:32:10 +0000 (UTC)
+        id S233615AbhENIgN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 May 2021 04:36:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ED09861458;
+        Fri, 14 May 2021 08:35:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620981130;
-        bh=xu2oLOgWDImEy3UAklFSVgTWGQJIJ7KjJ6FuDnVx580=;
+        s=korg; t=1620981302;
+        bh=7yTjkhKbow1AdmlKzv5oAHooV40fOTH61AScihEp7B0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WbqwXwpZXwcF0Bftzqxhv4soKjL1/cQ8bysTrtM3b3XdnnTBTlPyrjHTc5Lcnzwog
-         Kjm8KAnoVnrVkHd6M889UmX/B6l0bFQdcZ1Ui9uoLwRDuvIEkr3yGIAj0wDKM7Y0D+
-         E+DqsjRq8XsLTiwQ0FVzrEVFZmQk+lWOyQR49rIQ=
-Date:   Fri, 14 May 2021 10:32:07 +0200
+        b=Vm+eqqzyh2x6512Ywx0mQGLgRBFGDFsPb5KnsBaPe3sfACJLA5+M/DKL1vEWKiC3i
+         EIvjllOBtoMMJ0ICdFn4GBkbT3oyFqH3r9f2G4dFcsHJkLFe7y2l+Utnk5GcDHxoF7
+         HCWXNT21R8/wkPguFzcZLbNZOmiQH80LJmEHbUZY=
+Date:   Fri, 14 May 2021 10:34:56 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
         Derek Kiernan <derek.kiernan@xilinx.com>,
         Dragan Cvetic <dragan.cvetic@xilinx.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v3 11/14] intel_gna: add ioctl handler
-Message-ID: <YJ41h6lt8lSqaH7r@kroah.com>
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+Message-ID: <YJ42MEgwDZrAEQLl@kroah.com>
 References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <20210513110040.2268-12-maciej.kwapulinski@linux.intel.com>
- <YJ0MXK2XSISC1fIl@kroah.com>
- <85o8ddiv51.fsf@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <85o8ddiv51.fsf@linux.intel.com>
+In-Reply-To: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 14, 2021 at 10:20:42AM +0200, Maciej Kwapulinski wrote:
+On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
+> Dear kernel maintainers,
 > 
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-> 
-> > On Thu, May 13, 2021 at 01:00:37PM +0200, Maciej Kwapulinski wrote:
-> >> From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
-> >> 
-> >> Add ioctl handler into GNA driver.
-> >> The ioctl interface provides the ability to do the following:
-> >>  - Map and unmap memory buffers for GNA computation requests.
-> >>  - Retrieve capabilities of the underlying GNA IP.
-> >>  - Submit GNA computation requests.
-> >>  - Request notification of scoring completion.
-> >
-> > Do you have a pointer to the userspace code that uses this ioctl?
-> > That's kind of required here, otherwise we have no idea how this all
-> > works.
-> >
-> 
-> yes, it's present under following link:
-> 
-> https://github.com/intel/gna
+> This submission is a kernel driver to support Intel(R) Gaussian & Neural
+> Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
+> available on multiple Intel platforms. AI developers and users can offload
+> continuous inference workloads to an Intel(R) GNA device in order to free
+> processor resources and save power. Noise reduction and speech recognition
+> are the examples of the workloads Intel(R) GNA deals with while its usage
+> is not limited to the two.
 
-Then that needs to go here in this changelog text, right?
+How does this compare with the "nnpi" driver being proposed here:
+	https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
+
+Please work with those developers to share code and userspace api and
+tools.  Having the community review two totally different apis and
+drivers for the same type of functionality from the same company is
+totally wasteful of our time and energy.
+
+thanks,
+
+greg k-h
