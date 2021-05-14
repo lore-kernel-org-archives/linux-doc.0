@@ -2,152 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69D65C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:59:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C69FC433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:01:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 501C1613AA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:59:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EC2F613AA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:01:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233804AbhENJA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 05:00:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41216 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233802AbhENJA6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 05:00:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620982786;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uHHdZRj+IUb7JeWXnl6L+YoOqF4PMKN1l/DvgHVBRRo=;
-        b=IYM+0w1DoKCcx7Sl2+76+hhH4aGvV0Rx9Dff3likf8+vVDoOQGXAq9w57nHZ6/wp3AUCHh
-        CcpPNuUGyMIaQkm8Q0hwY0KRjy0nb08m+rdNewuqD6eO9p0IPyUrLqCY44YfxNqSG/rmn2
-        f9fFhqlVPk+9gV/P/uMr1j+A4mUm8wI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-PxAHG5PSNEmLjhHQ6lCtFA-1; Fri, 14 May 2021 04:59:44 -0400
-X-MC-Unique: PxAHG5PSNEmLjhHQ6lCtFA-1
-Received: by mail-ej1-f71.google.com with SMTP id kg5-20020a17090776e5b02903d343c715d9so959813ejc.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 01:59:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uHHdZRj+IUb7JeWXnl6L+YoOqF4PMKN1l/DvgHVBRRo=;
-        b=j3TZ5xjVG1ssaHN8/x/8ucNH61oykCvLddCwI/Eyl+PPb3QoA8zlDlfEqekCBstV4g
-         SRgbXR5zmg2Q09hzJ9N9nRXaJXbt5cg23npSrDirrUOQXxfEs7/bC7EBAxW89jo/3u1R
-         +3RKNY9QR5GlMCcA/MeYWSuyWbDCy1lXpZjXBYjX2CBYYfrN3Wyc1GQ9UUT4M5p+Sf5B
-         SldM1dCClzZA1L65AwIBcvKQ5wuz6s1UTfkiGIBrN4IudRaIYaSoomE7IHcLncPg35Es
-         1psHlPjiZtQ5D/s+OeTWlJMBmBfc1GMX2DH45qJ1PSkyMuZtro0WVhe07ax6aqJul93q
-         kSQQ==
-X-Gm-Message-State: AOAM530MKes76S+Ult2vVclPpgtyur4lzu798wc2rMU8B1mul0S5NMVf
-        7VSnmQCHtviXJU4/YFsrnLP8nRBJjIcmWZmZw4PcF7qfCcH+YJfqGwR8RCgeHnY1RTqSV9ddbXL
-        cGKGOKyoYNDrH1IG3AvUyULwDHZwvvjWfa5aWePeaBSH++cmsVu0ILEp0zyjdXJR9NhOYGVE=
-X-Received: by 2002:a50:ab16:: with SMTP id s22mr12554780edc.323.1620982783508;
-        Fri, 14 May 2021 01:59:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzbHzKPptQuaaax4koD1wMpjMJEFq7M/LzJ7igQfcDFxcMxcHYQVz8KIa7v8exjQBQGjVcL/g==
-X-Received: by 2002:a50:ab16:: with SMTP id s22mr12554755edc.323.1620982783321;
-        Fri, 14 May 2021 01:59:43 -0700 (PDT)
-Received: from x1.bristot.me (host-87-19-51-73.retail.telecomitalia.it. [87.19.51.73])
-        by smtp.gmail.com with ESMTPSA id u8sm3932538edo.71.2021.05.14.01.59.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 May 2021 01:59:43 -0700 (PDT)
-Subject: Re: [RFC PATCH V2 9/9] tracing: Add timerlat tracer
-To:     Juri Lelli <juri.lelli@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>, linux-doc@vger.kernel.org
-References: <cover.1619210818.git.bristot@redhat.com>
- <1f3b97ca52e6a4eec58f18bf190218bdbfe30f20.1619210818.git.bristot@redhat.com>
- <YJ47Gc6ej9jeAsoK@localhost.localdomain>
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-Message-ID: <154ce81c-0a65-1639-740d-a506fd8cdaef@redhat.com>
-Date:   Fri, 14 May 2021 10:59:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S230433AbhENJCx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 05:02:53 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:49121 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229544AbhENJCw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 05:02:52 -0400
+Received: from mail-wr1-f46.google.com ([209.85.221.46]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1N1wdd-1lWuzd2Wxl-012KIx; Fri, 14 May 2021 11:01:40 +0200
+Received: by mail-wr1-f46.google.com with SMTP id q5so9880073wrs.4;
+        Fri, 14 May 2021 02:01:40 -0700 (PDT)
+X-Gm-Message-State: AOAM531WJ6ocJGOWRd6zQP2eLShEJPKrCGBfIKcIL0zRCJjAcBvZo7eZ
+        jSPnw/J5uUtkjXqhWDIXgtft+QWwfFnzeJ/Rx2M=
+X-Google-Smtp-Source: ABdhPJxv8VHGNOfjV9RrpHv39iyVnm5Pe9Y1SE1w04mZzpcZsc9bQBxbeEAkxeuQgpaiiu9clQ99pqFXwi1H5Br2ZIE=
+X-Received: by 2002:adf:fe04:: with SMTP id n4mr433994wrr.361.1620982900203;
+ Fri, 14 May 2021 02:01:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YJ47Gc6ej9jeAsoK@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com> <YJ42MEgwDZrAEQLl@kroah.com>
+In-Reply-To: <YJ42MEgwDZrAEQLl@kroah.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 14 May 2021 11:00:38 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+Message-ID: <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:TZYJvnLo3oPdqLhaYe7eUU7lGFrSxHlgB1OmPXFlYg8wHxIiotb
+ 8uXKIWvggNw+WY2MkYq0a5G7HNpbKf2HDoEWsFCcnHs8ZwVKQCcKnINH+M0xq06W6X8z/S7
+ 38UTpvlDnza4ljTo1ODuFKgjmRPbY77pEjbCDAxoco8WwuzdXplUeE0J5JNaXmZRueAf3yE
+ oDQH95zL0q/kRdro1XDug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mlSdnVNAovA=:GWpmC+mYR8tjjhuCD9Jzyr
+ CTi1c376xdcaQ7EAiJ2tzTXJAUycnPJrQ1sCqMWSIrq8kFqBg0uw5mBVAzQNhygQ9XyJhr0sn
+ xqF7KKsttpMmZ+ppoIBbGXriifvpydaNLNn/Ab2Xgy9qAdEukhwHTZe43UNiVg+JXUCWoq4Dm
+ f82rAf9DmDvrbP9YJR3or+85wYCzJI+UwCz4F5ew29nTHGWV2xLqZDqOrDjEvD5RRChZ74l6d
+ A9/KPDYD6exSCuh2pp02FTl02KPrOPS6M7jZGtBMnoeuyCzPCg4/rZheJUw+ajJQRNDzb2+MR
+ bq2RxaHl1C9RqD8fISMxAppuhc59jDtrxsenKk/T+ZdKCBYhuCn7X04o1kjDt56LNbpY+H1LJ
+ SRtQFowy2A2YDfB5lqhK+frWt6i7uzlQlIE3GvPXSUcmWTM0Et1hsJpAmnZq/MDAoEUR7tLHJ
+ qg5UuxlcHgFrX3Vn/W8G81yZ1sEKdPryKjiJ0kOy6HuJzH4tzv/SDuZwuD2UJjbUl1KEVifdI
+ DW/cPQbIqxXq9DZJQ/xm0k=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/14/21 10:55 AM, Juri Lelli wrote:
-> Hi Daniel,
-> 
-> Just a couple of things I noticed while playing with this nice additon.
-> 
-> On 23/04/21 23:05, Daniel Bristot de Oliveira wrote:
-> 
-> ...
-> 
->> +/**
->> + * tlat_var_reset - Reset the values of the given timerlat_variables
->> + */
->> +static inline void tlat_var_reset(void)
->> +{
->> +	struct timerlat_variables *tlat_var;
->> +	int cpu;
->>  	/*
->>  	 * So far, all the values are initialized as 0, so
->>  	 * zeroing the structure is perfect.
->>  	 */
->> -	memset(osn_var, 0, sizeof(struct osnoise_variables));
->> +	for_each_cpu(cpu, cpu_online_mask) {
->> +		memset(tlat_var, 0, sizeof(struct timerlat_variables));
->> +		tlat_var = per_cpu_ptr(&per_cpu_timerlat_var, cpu);
-> 
-> Think these two above want to be the other way around?
+On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
+> > Dear kernel maintainers,
+> >
+> > This submission is a kernel driver to support Intel(R) Gaussian & Neural
+> > Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
+> > available on multiple Intel platforms. AI developers and users can offload
+> > continuous inference workloads to an Intel(R) GNA device in order to free
+> > processor resources and save power. Noise reduction and speech recognition
+> > are the examples of the workloads Intel(R) GNA deals with while its usage
+> > is not limited to the two.
+>
+> How does this compare with the "nnpi" driver being proposed here:
+>         https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
+>
+> Please work with those developers to share code and userspace api and
+> tools.  Having the community review two totally different apis and
+> drivers for the same type of functionality from the same company is
+> totally wasteful of our time and energy.
 
-Arrrggg! :-) you are right...
+Agreed, but I think we should go further than this and work towards a
+subsystem across companies for machine learning and neural networks
+accelerators for both inferencing and training.
 
->> +	}
->>  }
-> 
-> ...
-> 
->> +#ifdef CONFIG_TIMERLAT_TRACER
->> +static void timerlat_tracer_start(struct trace_array *tr)
->> +{
->> +	int retval;
->> +
->> +	if (osnoise_busy)
->> +		return;
->> +
->> +	retval = __osnoise_tracer_start(tr);
->> +	if (retval)
->> +		goto out_err;
->> +
->> +	osnoise_data.timerlat_tracer = 1;
-> 
-> It seems this needs to be set before calling __osnoise_tracer_start()?
+We have support for Intel habanalabs hardware in drivers/misc, and there are
+countless hardware solutions out of tree that would hopefully go the same
+way with an upstream submission and open source user space, including
 
-Yep, my bad! two last minute cleanups that broke things...
+- Intel/Mobileye EyeQ
+- Intel/Movidius Keembay
+- Nvidia NVDLA
+- Gyrfalcon Lightspeeur
+- Apple Neural Engine
+- Google TPU
+- Arm Ethos
 
-I will change these two things in the v3.
+plus many more that are somewhat less likely to gain fully open source
+driver stacks.
 
-Thanks!
--- Daniel
-
-> Thanks!
-> 
-> Juri
-> 
-
+       Arnd
