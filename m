@@ -2,106 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B063C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5997C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:47:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F25061457
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:42:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9088E6145B
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:47:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbhENLnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 07:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231481AbhENLnf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 07:43:35 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D6D7C061574;
-        Fri, 14 May 2021 04:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=MdMngczTJp2eNddFPzOfewyFvaPceCIk8FSUZMqbx7M=; b=WN+214LIDtc7IWUZgPQNZg3gUP
-        RY4WgyT2H0dzxNMPtxc4w8KBdHZfYXR47ILnkCX/saycrkY9wM5X9dkOc9L72VwTJ9COZ8DV9XzXq
-        39ZMwGyAxW1fwscIu/6IoNIIbDO6T6BArFj/+rY7i3w4hWF5wnAfz/7hym5GbV2zEIzJcBq45ZXvv
-        8KFnZkcldbr+cJ7P3sfNJ71Qm/Gr7QfLIVRqeRcFkuKrb6J0G2T8dWp6/NSmgavSHY3H6KYzLKXTe
-        PaeBZdBQr6ZgdkiCy+qfgRc4Wwjg7ZZI/GR+XJTApBu0DnqosdTpnTLVjSM9vhoHiwhxccaCdzSjS
-        Kck9YCrw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lhWCa-007wf5-44; Fri, 14 May 2021 11:41:56 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7EAC2300233;
-        Fri, 14 May 2021 13:41:54 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 64AFC2BB7C83F; Fri, 14 May 2021 13:41:54 +0200 (CEST)
-Date:   Fri, 14 May 2021 13:41:54 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     tj@kernel.org, hannes@cmpxchg.org, lizefan.x@bytedance.com,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        minchan@kernel.org, corbet@lwn.net, bristot@redhat.com,
-        paulmck@kernel.org, rdunlap@infradead.org,
-        akpm@linux-foundation.org, tglx@linutronix.de, macro@orcam.me.uk,
-        viresh.kumar@linaro.org, mike.kravetz@oracle.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH 1/1] cgroup: make per-cgroup pressure stall tracking
- configurable
-Message-ID: <YJ5iAvqAmIhzJRot@hirez.programming.kicks-ass.net>
-References: <20210513175349.959661-1-surenb@google.com>
+        id S229681AbhENLsc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 07:48:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60530 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229445AbhENLsc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 May 2021 07:48:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C0F3461451;
+        Fri, 14 May 2021 11:47:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1620992841;
+        bh=cqBDYFIise7BzFH9pyRmTy35CizPahqpg4N2b5yr9vs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BGc4UgXZHB9JW/LqevKrCXznQZ89zsJJmZfIWgQ0zuvb5o6gWseDNDgSIdTW8+HiG
+         TQ9KG4yq1toN4IsIoFqOs9IsCavh25Q/TBpeUGesik32lXyI5g1x/jxPLpIsxDZUOZ
+         2tZ4HfDapfN2GGumld/cylkNEZMglMC5HasOUOQY=
+Date:   Fri, 14 May 2021 13:47:17 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Luiz Sampaio <sampaio.ime@gmail.com>
+Cc:     zbr@ioremap.net, corbet@lwn.net, rikard.falkeborn@gmail.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 0/6] w1: ds2438: adding support for calibration of
+ current measurements
+Message-ID: <YJ5jRYRkFSo4OxFe@kroah.com>
+References: <20210409031533.442123-1-sampaio.ime@gmail.com>
+ <20210416221739.501090-1-sampaio.ime@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210513175349.959661-1-surenb@google.com>
+In-Reply-To: <20210416221739.501090-1-sampaio.ime@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 13, 2021 at 10:53:49AM -0700, Suren Baghdasaryan wrote:
+On Fri, Apr 16, 2021 at 07:17:33PM -0300, Luiz Sampaio wrote:
+> The following patches aim to make a user able to calibrate the current
+> measurement of the DS2438. This chip uses a offset register in page1, which
+> is added to the current register to give the user the current measurement.
+> If this value is wrong, the user will get an offset current value, even if
+> the current is zero, for instance. This patch gives support for reading the
+> page1 registers (including the offset register) and for writing to the
+> offset register. The DS2438 datasheet shows a calibration routine, and with
+> this patch, the user can do this quickly by writing the correct value to
+> the offset register. This patch was tested on real hardware using a power
+> supply and an electronic load.
+> Please help to review this series of patches.
+> 
+> Best regards!
+> Sampaio
+> ---
+> Changes in v7:
+> - Build test again
 
-> +bool cgroup_psi_enabled(void)
-> +{
-> +	return (cgroup_feature_disable_mask & (1 << OPT_FEATURE_PRESSURE)) == 0;
-> +}
+Can you fix the warning in patch 6/6 that the kernel test robot found,
+and resend?
 
-> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-> index cc25a3cff41f..c73efd7d4fba 100644
-> --- a/kernel/sched/psi.c
-> +++ b/kernel/sched/psi.c
-> @@ -747,9 +747,12 @@ static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
->  #ifdef CONFIG_CGROUPS
->  	struct cgroup *cgroup = NULL;
->  
-> -	if (!*iter)
-> +	if (!*iter) {
-> +		/* Skip to psi_system if per-cgroup accounting is disabled */
-> +		if (!cgroup_psi_enabled())
-> +			goto update_sys;
->  		cgroup = task->cgroups->dfl_cgrp;
-> -	else if (*iter == &psi_system)
-> +	} else if (*iter == &psi_system)
->  		return NULL;
->  	else
->  		cgroup = cgroup_parent(*iter);
-> @@ -758,6 +761,7 @@ static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
->  		*iter = cgroup;
->  		return cgroup_psi(cgroup);
->  	}
-> +update_sys:
->  #else
->  	if (*iter)
->  		return NULL;
+thanks,
 
-I'm confused; shouldn't that do the same as that #else branch? Also, can
-you pretty please make cgroup_psi_enabled() a static_key ?
+greg k-h
