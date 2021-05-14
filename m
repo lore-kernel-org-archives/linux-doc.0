@@ -2,122 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7E75C43460
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:08:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B063C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:42:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F0656145D
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:08:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F25061457
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbhENLJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 07:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35466 "EHLO
+        id S231496AbhENLnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 07:43:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbhENLJu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 07:09:50 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39449C061574;
-        Fri, 14 May 2021 04:08:39 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id n17-20020a7bc5d10000b0290169edfadac9so1248684wmk.1;
-        Fri, 14 May 2021 04:08:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DnsDrIqkWnYf7da8HpIWFBQQt2XImu+6ZyHWBvjrfcE=;
-        b=sDX/4vOZ59ic93Kj1k7EQHH5H75TwRxFQdfU97NsB2/Y+xVttZgCu6VcmdiZBbTXV4
-         Yd9dS94Y1asR2VIYZN7NEerfwgmtEUFK3NZSUIzeY6J/4AmyVofgnwxiuO5puvulkCHX
-         zAH+iCNJUU2yLFhQkplxklOlcyZUbrmQbTIThNq4BukYbZy9X610Bla24hpoPnMCKKtF
-         HaX7GWwtAjZyjiNuvWcCoIBPkXTf9xY5aCFfjMGcrbRCdRoMLY/c+VX1+t1XGHSYNqtQ
-         /vEAS8jymBn+QTD3oR/5dtU3nH62pPJpzKh6iPn38AjBb8Fr8EpkCArPsjTRrMSNZ8n3
-         9CtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DnsDrIqkWnYf7da8HpIWFBQQt2XImu+6ZyHWBvjrfcE=;
-        b=TD856n5ZaQSeJHGEx9lBl3DYJwSrmzWVHV1McUmXOwhUBLbSBNiZ/6VlNVh199g9Ri
-         9ldmsRKsgTpW0jJKu8wKKq9vTGxH8oYk1RYzr0pjjLyUXEWToFutGV6NHvDxrr3dRNcd
-         xpI6drJa0q8KxQI7Q383NhY5taZvAWG0bu4SH+Vv8KsL8GmXv+26WjLv17OjGJIsC9KP
-         zFk3FPiWWaCXwZzHBuEalGXketW02Jwpz/pzIJrrM7hhmVXx0ONOcWgQH31a0goO2DN0
-         0t4ahJ7da1+KepMU+CFz4Dgi5zZsjD3BtWZd2x/DzFYx57euWgcPya3+ADCpQXiDX1a0
-         9KEw==
-X-Gm-Message-State: AOAM530kBEY1aeTl7/fqP01xjKBxsG+XUhMJjIAC3GW4JTFpOAA74x2o
-        06yceDCYnkP+PZ9QsYvx+4mADfV1+btBCg==
-X-Google-Smtp-Source: ABdhPJwViz0BDPUuVH349RqXP0p4zCVFhrVjXNorTYnm55dAjMiaqH0FajvtM+sJwCYcinjBh5k1qQ==
-X-Received: by 2002:a7b:c005:: with SMTP id c5mr21007074wmb.113.1620990517974;
-        Fri, 14 May 2021 04:08:37 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159425-cmbg20-2-0-cust403.5-4.cable.virginm.net. [86.7.189.148])
-        by smtp.gmail.com with ESMTPSA id b10sm7116349wrr.27.2021.05.14.04.08.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 May 2021 04:08:37 -0700 (PDT)
-Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
- symbols
-To:     David Woodhouse <dwmw2@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
- <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
- <20210514102118.1b71bec3@coco.lan>
- <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
-From:   Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <8b8bc929-2f07-049d-f24c-cb1f1d85bbaa@gmail.com>
-Date:   Fri, 14 May 2021 12:08:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        with ESMTP id S231481AbhENLnf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 07:43:35 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D6D7C061574;
+        Fri, 14 May 2021 04:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=MdMngczTJp2eNddFPzOfewyFvaPceCIk8FSUZMqbx7M=; b=WN+214LIDtc7IWUZgPQNZg3gUP
+        RY4WgyT2H0dzxNMPtxc4w8KBdHZfYXR47ILnkCX/saycrkY9wM5X9dkOc9L72VwTJ9COZ8DV9XzXq
+        39ZMwGyAxW1fwscIu/6IoNIIbDO6T6BArFj/+rY7i3w4hWF5wnAfz/7hym5GbV2zEIzJcBq45ZXvv
+        8KFnZkcldbr+cJ7P3sfNJ71Qm/Gr7QfLIVRqeRcFkuKrb6J0G2T8dWp6/NSmgavSHY3H6KYzLKXTe
+        PaeBZdBQr6ZgdkiCy+qfgRc4Wwjg7ZZI/GR+XJTApBu0DnqosdTpnTLVjSM9vhoHiwhxccaCdzSjS
+        Kck9YCrw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lhWCa-007wf5-44; Fri, 14 May 2021 11:41:56 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7EAC2300233;
+        Fri, 14 May 2021 13:41:54 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 64AFC2BB7C83F; Fri, 14 May 2021 13:41:54 +0200 (CEST)
+Date:   Fri, 14 May 2021 13:41:54 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     tj@kernel.org, hannes@cmpxchg.org, lizefan.x@bytedance.com,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        minchan@kernel.org, corbet@lwn.net, bristot@redhat.com,
+        paulmck@kernel.org, rdunlap@infradead.org,
+        akpm@linux-foundation.org, tglx@linutronix.de, macro@orcam.me.uk,
+        viresh.kumar@linaro.org, mike.kravetz@oracle.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH 1/1] cgroup: make per-cgroup pressure stall tracking
+ configurable
+Message-ID: <YJ5iAvqAmIhzJRot@hirez.programming.kicks-ass.net>
+References: <20210513175349.959661-1-surenb@google.com>
 MIME-Version: 1.0
-In-Reply-To: <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210513175349.959661-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Fri, 2021-05-14 at 10:21 +0200, Mauro Carvalho Chehab wrote:
->> I do use a lot of UTF-8 here, as I type texts in Portuguese, but I rely
->> on the US-intl keyboard settings, that allow me to type as "'a" for á.
->> However, there's no shortcut for non-Latin UTF-codes, as far as I know.
->>
->> So, if would need to type a curly comma on the text editors I normally 
->> use for development (vim, nano, kate), I would need to cut-and-paste
->> it from somewhere
+On Thu, May 13, 2021 at 10:53:49AM -0700, Suren Baghdasaryan wrote:
 
-For anyone who doesn't know about it: X has this wonderful thing called
- the Compose key[1].  For instance, type ⎄--- to get —, or ⎄<" for “.
-Much more mnemonic than Unicode codepoints; and you can extend it with
- user-defined sequences in your ~/.XCompose file.
-(I assume Wayland supports all this too, but don't know the details.)
+> +bool cgroup_psi_enabled(void)
+> +{
+> +	return (cgroup_feature_disable_mask & (1 << OPT_FEATURE_PRESSURE)) == 0;
+> +}
 
-On 14/05/2021 10:06, David Woodhouse wrote:
-> Again, if you want to make specific fixes like removing non-breaking
-> spaces and byte order marks, with specific reasons, then those make
-> sense. But it's got very little to do with UTF-8 and how easy it is to
-> type them. And the excuse you've put in the commit comment for your
-> patches is utterly bogus.
+> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+> index cc25a3cff41f..c73efd7d4fba 100644
+> --- a/kernel/sched/psi.c
+> +++ b/kernel/sched/psi.c
+> @@ -747,9 +747,12 @@ static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
+>  #ifdef CONFIG_CGROUPS
+>  	struct cgroup *cgroup = NULL;
+>  
+> -	if (!*iter)
+> +	if (!*iter) {
+> +		/* Skip to psi_system if per-cgroup accounting is disabled */
+> +		if (!cgroup_psi_enabled())
+> +			goto update_sys;
+>  		cgroup = task->cgroups->dfl_cgrp;
+> -	else if (*iter == &psi_system)
+> +	} else if (*iter == &psi_system)
+>  		return NULL;
+>  	else
+>  		cgroup = cgroup_parent(*iter);
+> @@ -758,6 +761,7 @@ static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
+>  		*iter = cgroup;
+>  		return cgroup_psi(cgroup);
+>  	}
+> +update_sys:
+>  #else
+>  	if (*iter)
+>  		return NULL;
 
-+1
-
--ed
-
-[1] https://en.wikipedia.org/wiki/Compose_key
+I'm confused; shouldn't that do the same as that #else branch? Also, can
+you pretty please make cgroup_psi_enabled() a static_key ?
