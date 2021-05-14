@@ -2,126 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE83C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 23:07:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ACA1C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 04:53:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05F3861260
-	for <linux-doc@archiver.kernel.org>; Thu, 13 May 2021 23:07:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A97C61448
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 04:53:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229693AbhEMXIi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 May 2021 19:08:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45954 "EHLO
+        id S231967AbhENEyx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 00:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbhEMXIh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 May 2021 19:08:37 -0400
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B247FC06174A
-        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 16:07:25 -0700 (PDT)
-Received: by mail-il1-x131.google.com with SMTP id h6so24358110ila.7
-        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 16:07:25 -0700 (PDT)
+        with ESMTP id S230491AbhENEyx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 00:54:53 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17ABAC061574
+        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 21:53:43 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id gc22-20020a17090b3116b02901558435aec1so1052121pjb.4
+        for <linux-doc@vger.kernel.org>; Thu, 13 May 2021 21:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Bou5KXeCvHfl4/qHpjsymnMf5AsOCJ/K4VqDNbdqdkY=;
-        b=X7YVbJy4ppZrHv1bHPlY+C+GoiwZMyeHIxdxmgLs4FmXw2szFAgX1eVYIRdGrRiHKp
-         htSSNmYFtuGfiIXFdaDdfDjGTARDKMpzVag4r6YlxsyEg6pANHiOph72LPWoCtkIFgF9
-         3zH8L9Sb1vTlA55IVr8DU4yK4JsDBct/XJhA0F71SJDH15THOTosGIO7DGe75Om8vtga
-         v5I2ibDPie5KVFkawdMyWAN8vVnrzfQmNbF1tgFxj2IPIkSPPA8iIa9Hz6sgCIcMpEAQ
-         utB35246/6y+5+yGrsQFUba6ES1+vTz/UIQa8EUDP5Kl6q/OvmwFrSkIwTHFDWfMIitl
-         WZlg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=uHaj3NBbZoYiX/gHLczEU01oL/UcBH9A6Sa4k+Dr6bs=;
+        b=Yr/Ge0VhDcdsv9SLDrFNMW6f3dvGxPBePbFyoNNwrMMC1UbIAt/dQtmFqSkCr8Pb27
+         C2FFT3Lp1fw1tGqPyDj3C2Y3JelD1wa6o23nA7xZ2PbOStedfFQ18tN72jNh7iuq1t2J
+         xWxqtrt6O0EJgV6sBcUplsdiMUvAm9R5UuIiG3sWfPFYtHhM+obJUOD4dfwXW0u+UdRX
+         KlttBUv8Sh8jxKrjjPRAK85SSQg3fiejB10CM+z1u25EOIcyTcxUUqIl4yIVvU7YoWHg
+         fbyLd/7rh0Z1sfg1eJIjjSD/fwZTQX8gIleBxVFns4RKk1q7rHbVM1AoK1vMCIAEV+gK
+         FeSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Bou5KXeCvHfl4/qHpjsymnMf5AsOCJ/K4VqDNbdqdkY=;
-        b=SRj7UmoX0Qy0ODki0u66etEh9PETB/LTOHkx//tueoxaCBwUHWNsn5EfEPUYddUzqk
-         nRKpADiXdPnVPwIjwR/ZL/8PLno5wt9FmfCcF7eCr6q7uVikJbU3KcVgkhbZinzm8wpj
-         RLkD6YepOXB4z24eZoA2OwIpiWW/EOpClgalqe/2hXq/D7L/otn0hZjpQsyJ5E2/Wy6G
-         q8WqUlbfkSJsuCNwAcU7jJFbbMtwWoESWoOFjoCsDuEyxA5B6BE+SxOSatk6i0t2+1Vb
-         ocLM49FyQ4Ep+1GU5HLtjeMH7Ho3CZo78m8g7QKZ9Y/7lo049iEC6i3qSjXYuFNFZtCo
-         MFmQ==
-X-Gm-Message-State: AOAM531+SmyDLShKe/Kb/jcCJIENNFvwXTDzAJNGjarQkp5DtHTVCM/x
-        jF1dFqIckm1x2Xe4gMlE0S1Qkcjq0mtfGtELTre/Zg==
-X-Google-Smtp-Source: ABdhPJz4R66VGFen2Ru+lT1VNd1sy/SfX6XIaF9ommoJgsudkcPrsEsYn6C2L5M2093GG9jDVbD5KeB+s/Ra4aT3HoM=
-X-Received: by 2002:a92:d5cd:: with SMTP id d13mr37013472ilq.133.1620947245043;
- Thu, 13 May 2021 16:07:25 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=uHaj3NBbZoYiX/gHLczEU01oL/UcBH9A6Sa4k+Dr6bs=;
+        b=TS5PSthpgFfeUrEgoQoGHpKTWXOgsotkrApvIMPlnk2p6pUpDopr0dEqGBkXaotDzG
+         nSPLzH8H3dD67GO7cGggpSDlbfpUMq315DXQzFKX1w8CtRlwCOP5VdiKZFpoKKDdHDJ7
+         RYpzxbq6iFzbYvyov35WSxHAKQezMOSHzGbk9p6jHfVtKVmaAToCIZBiJAZeYTeURCIy
+         oca/ejPbtDvigxFEhzoE5MTyXQkgQDex1ahohczURsnTkU54yUa8VSiQDECzueAfCz2K
+         nEmrXOFQl/pUanFkEdkpfT76kR4EU9gtlY6rnedesb+3QcZynpQJdagPvuQ+iMc9z6WG
+         YPeQ==
+X-Gm-Message-State: AOAM5319twIHMiy3TOPMtoVNFI/HX31hpBsheobA5dmXFgb7R+OQehvZ
+        DPQZpWojdMIvluHh9kXPmSM=
+X-Google-Smtp-Source: ABdhPJx4R/ZM3vtHE8Q2QC+9gXnnrJh9OOKESCAeILCenyZsF7wEkW3WgHlq51YZImHquLQ45mH3Pw==
+X-Received: by 2002:a17:902:7b8e:b029:ec:982d:7a7e with SMTP id w14-20020a1709027b8eb02900ec982d7a7emr44049100pll.55.1620968022667;
+        Thu, 13 May 2021 21:53:42 -0700 (PDT)
+Received: from [172.28.99.179] ([119.28.155.243])
+        by smtp.gmail.com with ESMTPSA id k9sm3478793pgq.27.2021.05.13.21.53.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 May 2021 21:53:42 -0700 (PDT)
+Subject: Re: [PATCH v3] docs/zh_CN: add core-api workqueue.rst translation
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com
+References: <20210512083341.914-1-siyanteng@loongson.cn>
+ <87lf8i7jbj.fsf@meer.lwn.net> <87o8de61zz.fsf@meer.lwn.net>
+From:   Alex Shi <seakeel@gmail.com>
+Message-ID: <4eb9f549-d734-a5d2-aa2a-e66d009a31e5@gmail.com>
+Date:   Fri, 14 May 2021 12:53:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210513193204.816681-1-davidgow@google.com> <20210513193204.816681-3-davidgow@google.com>
-In-Reply-To: <20210513193204.816681-3-davidgow@google.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Thu, 13 May 2021 16:07:13 -0700
-Message-ID: <CAGS_qxpck5qy14OOJm2-_MBd160BXnBDyGu+iTzQCh1ay=VkGw@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] Documentation: kunit: Clean up some string casts
- in examples
-To:     David Gow <davidgow@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <87o8de61zz.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 13, 2021 at 12:36 PM David Gow <davidgow@google.com> wrote:
->
-> As the type checking is no longer excessively strict, get rid of the
-> unsightly (char*) casts -- and comment discussing them -- from the KUnit
-> usage page.
->
-> Signed-off-by: David Gow <davidgow@google.com>
 
-Reviewed-by: Daniel Latypov <dlatypov@google.com>
 
-Thanks!
+On 2021/5/14 上午12:18, Jonathan Corbet wrote:
+>>> This patch translates Documentation/core-api/workqueue.rst into Chinese.
+>>>
+>>>
+>>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+>>> Reviewed-by: Alex Shi <alexs@kenrel.org>
+>> I fixed that typo too - it appears to originate from Alex...:)
 
-> ---
->  Documentation/dev-tools/kunit/usage.rst | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> index 650f99590df5..756747417a19 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -465,10 +465,9 @@ fictitious example for ``sha1sum(1)``
->
->  .. code-block:: c
->
-> -       /* Note: the cast is to satisfy overly strict type-checking. */
->         #define TEST_SHA1(in, want) \
->                 sha1sum(in, out); \
-> -               KUNIT_EXPECT_STREQ_MSG(test, (char *)out, want, "sha1sum(%s)", in);
-> +               KUNIT_EXPECT_STREQ_MSG(test, out, want, "sha1sum(%s)", in);
->
->         char out[40];
->         TEST_SHA1("hello world",  "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed");
-> @@ -507,7 +506,7 @@ In some cases, it can be helpful to write a *table-driven test* instead, e.g.
->         };
->         for (i = 0; i < ARRAY_SIZE(cases); ++i) {
->                 sha1sum(cases[i].str, out);
-> -               KUNIT_EXPECT_STREQ_MSG(test, (char *)out, cases[i].sha1,
-> +               KUNIT_EXPECT_STREQ_MSG(test, out, cases[i].sha1,
->                                       "sha1sum(%s)", cases[i].str);
->         }
->
-> @@ -568,7 +567,7 @@ Reusing the same ``cases`` array from above, we can write the test as a
->                 struct sha1_test_case *test_param = (struct sha1_test_case *)(test->param_value);
->
->                 sha1sum(test_param->str, out);
-> -               KUNIT_EXPECT_STREQ_MSG(test, (char *)out, test_param->sha1,
-> +               KUNIT_EXPECT_STREQ_MSG(test, out, test_param->sha1,
->                                       "sha1sum(%s)", test_param->str);
->         }
->
-> --
-> 2.31.1.751.gd2f1c929bd-goog
->
+Sorry for the typo.
+
+> Actually, I've dropped this back out; it creates vast numbers of
+> warnings:
+> 
+>> Documentation/core-api/workqueue:398: ./include/linux/workqueue.h:3: WARNING: Duplicate C declaration, also
+>> defined at translations/zh_CN/core-api/workqueue:3.
+> This will be the result of the ".. kernel-doc::" directives at the end,
+> which create new definitions (within sphinx) for all the symbols pulled
+> in.
+> 
+> In the long term, we may want to try to find some sort of fix for this.
+> But we're really just recreating a bunch of (English-language)
+> documentation that's already rendered once; I'm not sure it makes any
+> real sense to do that.  So I would suggest that, for now, when you are
+> translating documents with kernel-doc directives, you should leave those
+> directives out.  Stick in a note directing readers to the original if
+> they want to see that material...
+> 
+> Make sense?
+
+Yes, it is a reasonable solution for now.
+
+Thanks
+Alex
+> 
+> Thanks,
+> 
+> jon
+> 
