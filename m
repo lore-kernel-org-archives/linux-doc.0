@@ -2,72 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5997C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:47:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 570A1C43462
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 14:18:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9088E6145B
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 11:47:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36BE06145D
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 14:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbhENLsc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 07:48:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60530 "EHLO mail.kernel.org"
+        id S233326AbhENOTu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 10:19:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37092 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229445AbhENLsc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 May 2021 07:48:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0F3461451;
-        Fri, 14 May 2021 11:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620992841;
-        bh=cqBDYFIise7BzFH9pyRmTy35CizPahqpg4N2b5yr9vs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BGc4UgXZHB9JW/LqevKrCXznQZ89zsJJmZfIWgQ0zuvb5o6gWseDNDgSIdTW8+HiG
-         TQ9KG4yq1toN4IsIoFqOs9IsCavh25Q/TBpeUGesik32lXyI5g1x/jxPLpIsxDZUOZ
-         2tZ4HfDapfN2GGumld/cylkNEZMglMC5HasOUOQY=
-Date:   Fri, 14 May 2021 13:47:17 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Luiz Sampaio <sampaio.ime@gmail.com>
-Cc:     zbr@ioremap.net, corbet@lwn.net, rikard.falkeborn@gmail.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 0/6] w1: ds2438: adding support for calibration of
- current measurements
-Message-ID: <YJ5jRYRkFSo4OxFe@kroah.com>
-References: <20210409031533.442123-1-sampaio.ime@gmail.com>
- <20210416221739.501090-1-sampaio.ime@gmail.com>
+        id S230097AbhENOTu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 May 2021 10:19:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C73C61408;
+        Fri, 14 May 2021 14:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621001918;
+        bh=c7dfcDSUedN/VQoQv/XM8fRZG2HhOOW57vq4i3XI37w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OQ+w8jq41p/pK8QPzt383K43rnWDvG9IebEZzoZj7WKu0EgpEM3a4OB9pZnDV5/lC
+         MxVWpkmQpp2inFtKTGn6bM1fAR+gA+04aBXFsHrR34k+VM9wQUFTEenWCHNxw8mV5S
+         Rr3kzMIGVT+KJ8CgQJfj5jt0KJvZQg0gfBfD7ImGjDrz6TXEWqjpD0nn1NC8t6bBSV
+         Y2m7PBzQCXheFvsYF9jZqx3chr66nJXcElBiHfvACPcxjY0VNJoiSeft4M6sPjRp9i
+         /15Ta8qfh6z3LjSIBpnNeZl0hFKEsFjvWWGKfF/qxDT0jcgdTLCyifuXI2D1S1QhIL
+         whK9i7cORQs2g==
+Date:   Fri, 14 May 2021 16:18:25 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Edward Cree <ecree.xilinx@gmail.com>
+Cc:     David Woodhouse <dwmw2@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
+        rcu@vger.kernel.org
+Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
+ symbols
+Message-ID: <20210514161825.4e4c0d3e@coco.lan>
+In-Reply-To: <8b8bc929-2f07-049d-f24c-cb1f1d85bbaa@gmail.com>
+References: <cover.1620823573.git.mchehab+huawei@kernel.org>
+        <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
+        <20210514102118.1b71bec3@coco.lan>
+        <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
+        <8b8bc929-2f07-049d-f24c-cb1f1d85bbaa@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210416221739.501090-1-sampaio.ime@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 07:17:33PM -0300, Luiz Sampaio wrote:
-> The following patches aim to make a user able to calibrate the current
-> measurement of the DS2438. This chip uses a offset register in page1, which
-> is added to the current register to give the user the current measurement.
-> If this value is wrong, the user will get an offset current value, even if
-> the current is zero, for instance. This patch gives support for reading the
-> page1 registers (including the offset register) and for writing to the
-> offset register. The DS2438 datasheet shows a calibration routine, and with
-> this patch, the user can do this quickly by writing the correct value to
-> the offset register. This patch was tested on real hardware using a power
-> supply and an electronic load.
-> Please help to review this series of patches.
-> 
-> Best regards!
-> Sampaio
-> ---
-> Changes in v7:
-> - Build test again
+Em Fri, 14 May 2021 12:08:36 +0100
+Edward Cree <ecree.xilinx@gmail.com> escreveu:
 
-Can you fix the warning in patch 6/6 that the kernel test robot found,
-and resend?
+> For anyone who doesn't know about it: X has this wonderful thing called
+>  the Compose key[1].  For instance, type =E2=8E=84--- to get =E2=80=94, o=
+r =E2=8E=84<" for =E2=80=9C.
+> Much more mnemonic than Unicode codepoints; and you can extend it with
+>  user-defined sequences in your ~/.XCompose file.
 
-thanks,
+Good tip. I haven't use composite for years, as US-intl with dead keys is
+enough for 99.999% of my needs.=20
 
-greg k-h
+Btw, at least on Fedora with Mate, Composite is disabled by default. It has
+to be enabled first using the same tool that allows changing the Keyboard
+layout[1].
+
+Yet, typing an EN DASH for example, would be "<composite>--.", with is 4
+keystrokes instead of just two ('--'). It means twice the effort ;-)
+
+[1] KDE, GNome, Mate, ... have different ways to enable it and to=20
+    select what key would be considered <composite>:
+
+	https://dry.sailingissues.com/us-international-keyboard-layout.html
+	https://help.ubuntu.com/community/ComposeKey
+
+Thanks,
+Mauro
