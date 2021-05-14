@@ -7,65 +7,130 @@ X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C67C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79730C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:56:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23A6D61451
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:35:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46BB6613DF
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 08:56:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233626AbhENIgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 04:36:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50024 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233615AbhENIgN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 May 2021 04:36:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED09861458;
-        Fri, 14 May 2021 08:35:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620981302;
-        bh=7yTjkhKbow1AdmlKzv5oAHooV40fOTH61AScihEp7B0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Vm+eqqzyh2x6512Ywx0mQGLgRBFGDFsPb5KnsBaPe3sfACJLA5+M/DKL1vEWKiC3i
-         EIvjllOBtoMMJ0ICdFn4GBkbT3oyFqH3r9f2G4dFcsHJkLFe7y2l+Utnk5GcDHxoF7
-         HCWXNT21R8/wkPguFzcZLbNZOmiQH80LJmEHbUZY=
-Date:   Fri, 14 May 2021 10:34:56 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-Message-ID: <YJ42MEgwDZrAEQLl@kroah.com>
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+        id S233612AbhENI5K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 04:57:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44087 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231562AbhENI5K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 04:57:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1620982558;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7SRl+mtOr1MBJ1v0HNyfzl2qKEhHpIhbfEOzZEj6rYg=;
+        b=EgYlFDJ8BV9XIzKOj1xfL0BKNP5TRiafGQVTQ4tbFdafFaDHdQCPjvlAkmjIEh1bQ2ZWSM
+        N04xs2Xl/tqXM9FtzrlmppafIp7ZEjqFYVXliqBWvJtPEaXhF8n3CLYv1i1cU5HPALVdbH
+        1uTODc4+9as7nHdQsKoYYwP06meRcPU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-C5WS2imhPiSiq6TfL1lK-A-1; Fri, 14 May 2021 04:55:57 -0400
+X-MC-Unique: C5WS2imhPiSiq6TfL1lK-A-1
+Received: by mail-wm1-f70.google.com with SMTP id 129-20020a1c02870000b029016fa2bab83bso848580wmc.7
+        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 01:55:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7SRl+mtOr1MBJ1v0HNyfzl2qKEhHpIhbfEOzZEj6rYg=;
+        b=B0Cv6RDZ7Kjcdd1hfDLzLQSKfAn2OTizqXT1fFK6QJQ1xnvoRvI1OETSUCgwD/mCUn
+         mkx3uoftknAM9eadoHw6UwLR/F1NeN+jQv4k9zi9erxj0SQzdwjiTOsjDNGX+b4X3Rrc
+         fS6vCasIzIGcR+a2KAWQGowMHhvqp9ju3gv7unpB53OS5nSsO3PFwv5bGNeYs8gdf4/b
+         hjCxgDCZWsM2ruuGisD6zL0oMUXzngJkprxdlap7WeaPI+KoXqbwjaNC63pZZvIFxpFZ
+         TPwZhiX1gwMCFJdYt07tAJOGsW7My74Aeiu7NB6e54Chb6Sb2GEyi/Hid7ME5U9cR5OV
+         whoA==
+X-Gm-Message-State: AOAM5335r6MyLvoZ6Xr9fvTEXoeiWLhduO3LhZRBf5j1SoUIo/J90kob
+        R88t/SSRrOTfQyJjjYfPJ3wZRhswTGjIuyN2eeNQqRPnyZVqE7Vat3t7g3gr+Yh7KS3hfB6jJdd
+        cqDjKLyTtjxwOtPXGpNf6
+X-Received: by 2002:a5d:490d:: with SMTP id x13mr7358550wrq.49.1620982556187;
+        Fri, 14 May 2021 01:55:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxKBj4lQTNdPmXIPyr2HKo7tkkQszMUgyBGoGSGvvQj0Rs2TyHrXbICVB6fiCDDztyHQqsow==
+X-Received: by 2002:a5d:490d:: with SMTP id x13mr7358525wrq.49.1620982555978;
+        Fri, 14 May 2021 01:55:55 -0700 (PDT)
+Received: from localhost.localdomain ([151.29.91.215])
+        by smtp.gmail.com with ESMTPSA id o13sm4800369wmh.34.2021.05.14.01.55.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 May 2021 01:55:55 -0700 (PDT)
+Date:   Fri, 14 May 2021 10:55:53 +0200
+From:   Juri Lelli <juri.lelli@redhat.com>
+To:     Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH V2 9/9] tracing: Add timerlat tracer
+Message-ID: <YJ47Gc6ej9jeAsoK@localhost.localdomain>
+References: <cover.1619210818.git.bristot@redhat.com>
+ <1f3b97ca52e6a4eec58f18bf190218bdbfe30f20.1619210818.git.bristot@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+In-Reply-To: <1f3b97ca52e6a4eec58f18bf190218bdbfe30f20.1619210818.git.bristot@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
-> Dear kernel maintainers,
-> 
-> This submission is a kernel driver to support Intel(R) Gaussian & Neural
-> Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
-> available on multiple Intel platforms. AI developers and users can offload
-> continuous inference workloads to an Intel(R) GNA device in order to free
-> processor resources and save power. Noise reduction and speech recognition
-> are the examples of the workloads Intel(R) GNA deals with while its usage
-> is not limited to the two.
+Hi Daniel,
 
-How does this compare with the "nnpi" driver being proposed here:
-	https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
+Just a couple of things I noticed while playing with this nice additon.
 
-Please work with those developers to share code and userspace api and
-tools.  Having the community review two totally different apis and
-drivers for the same type of functionality from the same company is
-totally wasteful of our time and energy.
+On 23/04/21 23:05, Daniel Bristot de Oliveira wrote:
 
-thanks,
+...
 
-greg k-h
+> +/**
+> + * tlat_var_reset - Reset the values of the given timerlat_variables
+> + */
+> +static inline void tlat_var_reset(void)
+> +{
+> +	struct timerlat_variables *tlat_var;
+> +	int cpu;
+>  	/*
+>  	 * So far, all the values are initialized as 0, so
+>  	 * zeroing the structure is perfect.
+>  	 */
+> -	memset(osn_var, 0, sizeof(struct osnoise_variables));
+> +	for_each_cpu(cpu, cpu_online_mask) {
+> +		memset(tlat_var, 0, sizeof(struct timerlat_variables));
+> +		tlat_var = per_cpu_ptr(&per_cpu_timerlat_var, cpu);
+
+Think these two above want to be the other way around?
+
+> +	}
+>  }
+
+...
+
+> +#ifdef CONFIG_TIMERLAT_TRACER
+> +static void timerlat_tracer_start(struct trace_array *tr)
+> +{
+> +	int retval;
+> +
+> +	if (osnoise_busy)
+> +		return;
+> +
+> +	retval = __osnoise_tracer_start(tr);
+> +	if (retval)
+> +		goto out_err;
+> +
+> +	osnoise_data.timerlat_tracer = 1;
+
+It seems this needs to be set before calling __osnoise_tracer_start()?
+
+Thanks!
+
+Juri
+
