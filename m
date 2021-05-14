@@ -2,170 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9068C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD27C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:47:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7426F613F6
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:30:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C48B961451
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:47:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232697AbhENJcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 05:32:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41588 "EHLO
+        id S231479AbhENJsz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 05:48:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230440AbhENJcG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 05:32:06 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D20C061574
-        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 02:30:55 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id o17-20020a17090a9f91b029015cef5b3c50so1381035pjp.4
-        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 02:30:55 -0700 (PDT)
+        with ESMTP id S230444AbhENJsy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 05:48:54 -0400
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1DA5C061574
+        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 02:47:42 -0700 (PDT)
+Received: by mail-ot1-x335.google.com with SMTP id g15-20020a9d128f0000b02902a7d7a7bb6eso25996774otg.9
+        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 02:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=94YPOinxQrcgwz9y/LSGoxsE090NjEt4+K58ZqBhz1E=;
-        b=YsUEVO4gaqiVT8fq5gnPe14tDNxmVnf48zne8Nj9wz04j7yh3GycEkwMtZM5UFRh/q
-         1ETWs1r+b5fEace934FrAc4B/8ycXaYeuJzr7HFuaTquyJFx1/NoZfFNMYuMqTl7ZmAA
-         86hAMmVK6u6H/u7nTs0KJRFf3sPLiaHbQg7zdUgmfvv47zyPqOZckPVXWvwt75K/rRdT
-         cOirRloNW++29dV054siDp3kHTiiv+MFAy4hamSiGr8f4gG27mvfiSMaaFk/zW9FpM+v
-         RiOh3lWl979FbdRUb1oT4xLPmFgcZkZ94AUr5SbvI8MMogX72dr9YlTI2f+GNZT0XVpA
-         KUNw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=H0sw9PgWYZEA5+nFmT+DHOWqsEA0QrIszEzgbMErT7c=;
+        b=e+PpD1M3mwUxsHCouIiXZl8B31ON4w3Uxs0+DqjSTT/SbD9iNPIlXUkDGKLJSD4sei
+         bk7pBaJINpRaKuuTlSjCG80RACLW+W8KFtyNOQGJcN22fIgzbG+oHJhClf3IVnz0oiXz
+         D6wa0VB8QNZIaaN7igtJyDJJvsI1VffsgPMZ9P6lL9CaR4ofGJ0TnWwxF+NbLzJJX/Fp
+         Zgz3MyARNGYN31WmtOw6DBnztLV045p0/yb3lPVPex68dSQ4oG7tcZyrf9sfD9Z5aI1g
+         to8pROeMkeiud6FzE7OR6vZRq7YRX8VGYxBh6XtmHBPoLCzjBNUuQ8C2+cUFGJT5oXWq
+         Fz/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=94YPOinxQrcgwz9y/LSGoxsE090NjEt4+K58ZqBhz1E=;
-        b=Jz5wzJpRK1GuaX1OaTjScsmle8CtNecGAwchJcG7l5GVP6ZVWdmbQvYVYsoqBzUpJJ
-         VsgBMF3wGJ2xQ5CEbvyHC0FQ2tcNjFQjwXQdbBSEtPihxMFx6fbaRznuWv9CGX6Y/LXA
-         yrY97GP74BtTK0wu7580TVA1ahFXCazTZ/MLzlAyxAlroep/XPFqUzy+0ltoKtvxeITd
-         ep0YRK1Xx9pYSITXBhGG317jSTgoEB6dOlNi/sBNsMn18W0pIjrYJdh8+G1IXubTAdr3
-         KqJjmACeQQzoG1TnTEwg1YFjEqaIHcwpb3MMOIQKCL5ReHU9kh3oV5bq+auz/ah4VBOg
-         cDmQ==
-X-Gm-Message-State: AOAM532Xfu56iyZ6kqh7HdytkQP3m62Qj4mgPHzlc2dTHkjMNzU/5mOk
-        ljcRTnUFAl7uIzMs3Yj5x9Y=
-X-Google-Smtp-Source: ABdhPJzMO1UE/xgXX9fjMfhZdmtuyWP1Fq6L9Vbg+JLqZ8/QrdmQFw8t5b4W24V+hTsiAYMwGb1wbA==
-X-Received: by 2002:a17:90b:1e43:: with SMTP id pi3mr51536715pjb.51.1620984655107;
-        Fri, 14 May 2021 02:30:55 -0700 (PDT)
-Received: from [172.28.99.179] ([119.28.155.243])
-        by smtp.gmail.com with ESMTPSA id kk7sm5739656pjb.16.2021.05.14.02.30.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 May 2021 02:30:54 -0700 (PDT)
-Subject: Re: [PATCH v3 6/6] docs/zh_CN: Add translation
- zh_CN/maintainer/modifying-patches.rst
-To:     Wu XiangCheng <bobwxc@email.cn>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>
-References: <cover.1620932189.git.bobwxc@email.cn>
- <683aff6409087841713738816067a01f250008c8.1620932189.git.bobwxc@email.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <11ebacfe-994b-5df6-8411-3830d8df3ca7@gmail.com>
-Date:   Fri, 14 May 2021 17:30:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=H0sw9PgWYZEA5+nFmT+DHOWqsEA0QrIszEzgbMErT7c=;
+        b=pey1BQkE2AAxnamwObdEwvJZhgaiF/XwWI1FR5hFrenpwlkFj/Y/AakaGxmMiAW0uV
+         iwV3JD5Tqb1cWRJwLpf9SkzMnaJpuPeyFYn30SmXW4BwwzT28+Sk8OQNXl6erDyhPYIc
+         8UuT8wkUnv0YyVnphQWn9ngypP/u8rJk8lZ0QKgiD6zQo5g2Xeb2hqZXbq37Kbdoa88L
+         YXrfAZFVaH+EWy2C0m/oyO6ZjS9kXmbop5g9EEj8l2Y6KRuw8uljcNXTG8XqVOeExu76
+         uMmrr3xPgg7I13ZpGiAtmDoTuIdn4csNfq2Ow5VkNyKGM6E/wILUK6HF1EItKrY4jSnD
+         bRUw==
+X-Gm-Message-State: AOAM531HK7Tl7Pmx8abYTIxKTDeEhkYP7CFq/Um6NGuGiouFHWZGFwon
+        E08NSNTtouNJNGYFRbnhvXoJD9wOfwrwrUJhaTDMQ9A7GAg=
+X-Google-Smtp-Source: ABdhPJww/rADtyNlUpW0dd6VDwoQJ+XpozSDk1cPCl0DndUflpx8tKV+D/Yg57ej5miDn84ypBsyF5PbwVeMzOWzoa4=
+X-Received: by 2002:a9d:58c5:: with SMTP id s5mr40237403oth.243.1620985662122;
+ Fri, 14 May 2021 02:47:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <683aff6409087841713738816067a01f250008c8.1620932189.git.bobwxc@email.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210512083341.914-1-siyanteng@loongson.cn> <87lf8i7jbj.fsf@meer.lwn.net>
+ <87o8de61zz.fsf@meer.lwn.net> <4eb9f549-d734-a5d2-aa2a-e66d009a31e5@gmail.com>
+ <CAEensMx6HxD5_Gv2Snd+OGOF0MNU4fsuB_z_pCDWyW8z+5SC=Q@mail.gmail.com> <c91e7f95-0c48-292c-d353-d2ca4ac62051@gmail.com>
+In-Reply-To: <c91e7f95-0c48-292c-d353-d2ca4ac62051@gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Fri, 14 May 2021 17:47:31 +0800
+Message-ID: <CAEensMzfzYasxCjnwR9T7ULa6EW7NWB4Y=nnLP+HX8RLvxiNVQ@mail.gmail.com>
+Subject: Re: [PATCH v3] docs/zh_CN: add core-api workqueue.rst translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, huangjianghui@uniontech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Alex Shi <seakeel@gmail.com> =E4=BA=8E2021=E5=B9=B45=E6=9C=8814=E6=97=A5=E5=
+=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=885:30=E5=86=99=E9=81=93=EF=BC=9A
+>
+>
+>
+> On 2021/5/14 =E4=B8=8B=E5=8D=885:09, yanteng si wrote:
+> > Alex Shi <seakeel@gmail.com> =E4=BA=8E2021=E5=B9=B45=E6=9C=8814=E6=97=
+=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8812:53=E5=86=99=E9=81=93=EF=BC=9A
+> >>
+> >>
+> >>
+> >> On 2021/5/14 =E4=B8=8A=E5=8D=8812:18, Jonathan Corbet wrote:
+> >>>>> This patch translates Documentation/core-api/workqueue.rst into Chi=
+nese.
+> >>>>>
+> >>>>>
+> >>>>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> >>>>> Reviewed-by: Alex Shi <alexs@kenrel.org>
+> >>>> I fixed that typo too - it appears to originate from Alex...:)
+> >>
+> >> Sorry for the typo.
+> >>
+> >>> Actually, I've dropped this back out; it creates vast numbers of
+> >>> warnings:
+> >>>
+> >>>> Documentation/core-api/workqueue:398: ./include/linux/workqueue.h:3:=
+ WARNING: Duplicate C declaration, also
+> >>>> defined at translations/zh_CN/core-api/workqueue:3.
+> >>> This will be the result of the ".. kernel-doc::" directives at the en=
+d,
+> >>> which create new definitions (within sphinx) for all the symbols pull=
+ed
+> >>> in.
+> >>>
+> >>> In the long term, we may want to try to find some sort of fix for thi=
+s.
+> >>> But we're really just recreating a bunch of (English-language)
+> >>> documentation that's already rendered once; I'm not sure it makes any
+> >>> real sense to do that.  So I would suggest that, for now, when you ar=
+e
+> >>> translating documents with kernel-doc directives, you should leave th=
+ose
+> >>> directives out.  Stick in a note directing readers to the original if
+> >>> they want to see that material...
+> >>>
+> >>> Make sense?
+> >>
+> >> Yes, it is a reasonable solution for now.
+> > OK, I will.
+> > I will remove them and then direct the reader to the original
+> > document. just like:
+> >
+> > .. note:: =E6=8A=B1=E6=AD=89=EF=BC=8C=E7=94=B1=E4=BA=8E=E5=8E=9F=E5=A7=
+=8B=E6=96=87=E6=A1=A3=E5=9C=A8=E6=AD=A4=E5=A4=84=E4=BA=A4=E5=8F=89=E5=BC=95=
+=E7=94=A8=E4=BA=86=E4=BB=A3=E7=A0=81=E4=B8=AD=E7=9A=84=E6=B3=A8=E9=87=8A=EF=
+=BC=8C=E8=80=8C=E7=8E=B0=E5=9C=A8=E5=B9=B6=E4=B8=8D=E6=98=AF=E7=BF=BB=E8=AF=
+=91=E8=BF=99=E4=BA=9B=E6=B3=A8=E9=87=8A=E7=9A=84=E5=A5=BD=E6=97=B6=E6=9C=BA=
+=EF=BC=88=E5=B0=86=E4=BC=9A=E5=B8=A6=E6=9D=A5=E5=BE=88=E5=A4=9A=E7=BC=96=E8=
+=AF=91=E8=AD=A6=E5=91=8A=EF=BC=89=EF=BC=8C=E6=89=80=E4=BB=A5=E8=AF=B7=E6=9A=
+=82=E6=97=B6=E6=B5=8F=E8=A7=88=E8=8B=B1=E6=96=87=E6=96=87=E6=A1=A3=EF=BC=8C=
+=E9=93=BE=E6=8E=A5=E5=9C=A8=E6=9C=AC=E6=96=87=E6=A1=A3=E9=A1=B6=E9=83=A8=E3=
+=80=82
+>
+> Jon said just remove kernel-doc, not all line? If so, don't need above ex=
+planation.
+just like:
 
+ +=E5=88=97=E8=A1=A8=E7=AE=A1=E7=90=86=E5=87=BD=E6=95=B0
+ +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ +
+-+.. kernel-doc:: include/linux/list.h
++ include/linux/list.h
+ +   :internal:
+ +
+ +=E5=9F=BA=E6=9C=AC=E7=9A=84C=E5=BA=93=E5=87=BD=E6=95=B0
+ +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>_< ?
 
-On 2021/5/14 上午3:08, Wu XiangCheng wrote:
-> Add a new translation
->   Documentation/translations/zh_CN/maintainer/modifying-patches.rst
-> and link it to zh_CN/maintainer/index.rst
-> 
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/maintainer/index.rst   |  4 +-
->  .../zh_CN/maintainer/modifying-patches.rst    | 51 +++++++++++++++++++
->  2 files changed, 52 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/maintainer/modifying-patches.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/maintainer/index.rst b/Documentation/translations/zh_CN/maintainer/index.rst
-> index 18a820741f52..eb75ccea9a21 100644
-> --- a/Documentation/translations/zh_CN/maintainer/index.rst
-> +++ b/Documentation/translations/zh_CN/maintainer/index.rst
-> @@ -17,7 +17,5 @@
->     rebasing-and-merging
->     pull-requests
->     maintainer-entry-profile
-> +   modifying-patches
->  
-> -TODOList:
-> -
-> --   modifying-patches
-> diff --git a/Documentation/translations/zh_CN/maintainer/modifying-patches.rst b/Documentation/translations/zh_CN/maintainer/modifying-patches.rst
-> new file mode 100644
-> index 000000000000..6f3bf493440c
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/maintainer/modifying-patches.rst
-> @@ -0,0 +1,51 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/maintainer/modifying-patches.rst
-> +
-> +:译者:
-> +
-> + 吴想成 Wu XiangCheng <bobwxc@email.cn>
-> +
-> +.. _modifyingpatches_zh:
-> +
-> +修改补丁
-> +========
-> +
-> +如果你是子系统或者分支的维护者，由于代码在你的和提交者的树中并不完全相同，
-> +有时你需要稍微修改一下收到的补丁以合并它们。
-> +
-> +如果你严格遵守开发者来源证书的规则（c），你应该要求提交者重做，但这完全是会
-> +适得其反的时间、精力浪费。规则（b）允许你调整代码，但这样修改提交者的代码并
-> +让他背书你的错误是非常不礼貌的。为解决此问题，建议在你之前最后一个
-> +Signed-off-by标签和你的之间添加一行，以指示更改的性质。这没有强制性要求，最
-> +好在描述前面加上你的邮件和/或姓名，用方括号括住整行，以明显指出你对最后一刻
-> +的更改负责。例如::
-> +
-> +        Signed-off-by: Random J Developer <random@developer.example.org>
-> +        [lucky@maintainer.example.org: struct foo moved from foo.c to foo.h]
-> +        Signed-off-by: Lucky K Maintainer <lucky@maintainer.example.org>
-> +
-> +如果您维护着一个稳定的分支，并希望同时明确贡献、跟踪更改、合并修复，并保护
-> +提交者免受责难，这种做法尤其有用。请注意，在任何情况下都不得更改作者的身份
-> +（From头），因为它会在变更日志中显示。
-> +
-> +回传（back-port）者特别要注意：为了便于跟踪，请在提交消息的顶部（就在主题行
+Thanks,
 
-I saw backport was translated a lot as 回合. Need a reconsideration?
-
-Thanks
-Alex
-
-> +之后）插入补丁的来源，这是一种常见而有用的做法。例如，我们可以在3.x稳定版本
-> +中看到以下内容::
-> +
-> +        Date:   Tue Oct 7 07:26:38 2014 -0400
-> +
-> +        libata: Un-break ATA blacklist
-> +
-> +        commit 1c40279960bcd7d52dbdf1d466b20d24b99176c8 upstream.
-> +
-> +下面是一个旧的内核在某补丁被回传后会出现的::
-> +
-> +        Date:   Tue May 13 22:12:27 2008 +0200
-> +
-> +        wireless, airo: waitbusy() won't delay
-> +
-> +        [backport of 2.6 commit b7acbdfbd1f277c1eb23f344f899cfa4cd0bf36a]
-> +
-> +不管什么格式，这些信息都为人们跟踪你的树，以及试图解决你树中的错误的人提供了
-> +有价值的帮助。
+Yanteng
