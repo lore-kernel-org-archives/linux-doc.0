@@ -2,356 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89C79C43460
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:06:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC1C1C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:09:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60FA061406
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:06:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB285613DF
+	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 09:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233763AbhENJHX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 05:07:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36056 "EHLO
+        id S231496AbhENJKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 05:10:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230525AbhENJHW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 05:07:22 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD7B5C061574;
-        Fri, 14 May 2021 02:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Mime-Version:Content-Type:References:
-        In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=wJ/s2QfMNTOyTmAVrtCY2CXjxIzIo3n63jc+NCKOLVA=; b=qSdZ8XEu7oRfN3BBgzEHopiTqS
-        jG82n131hUCIcPhL/w7BpeBcjIKG4Se8cut+H2eYH3uOfbcNc7XGdGIVO0uSQfx4iK4PzAeAUbF47
-        s4NeyxYEZrokaZG8vXvllhAVi13S8TKrRyssrgAp/z1xL56gQXAHbyDmNqp2B+nCcPBR4b3vKKP/6
-        WZap8/pZ+M0Fu6/S+LcKQXTZOBM21oBFJBC6bs4YY8zXYLoGfBXcTU+OOoEdKTC+f8945eYS5r8vY
-        zeI/I13z7D3mRVVokdlbY8t5yWaIvIxQI9QWgqVafmOYRy9Cc/IPb3MSh4WbRqO6atJAiwzvd5UcX
-        0kfhSlGA==;
-Received: from 54-240-197-239.amazon.com ([54.240.197.239] helo=iad7-dhcp-95-145-115.iad7.amazon.com)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lhTln-00BqP5-JN; Fri, 14 May 2021 09:06:08 +0000
-Message-ID: <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
-Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
- symbols
-From:   David Woodhouse <dwmw2@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org
-Date:   Fri, 14 May 2021 10:06:01 +0100
-In-Reply-To: <20210514102118.1b71bec3@coco.lan>
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
-         <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
-         <20210514102118.1b71bec3@coco.lan>
-Content-Type: multipart/signed; micalg="sha-256";
-        protocol="application/x-pkcs7-signature";
-        boundary="=-yaWQTSPMGuNj6joXfKRG"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+        with ESMTP id S231362AbhENJKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 05:10:53 -0400
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FDE9C061574
+        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 02:09:41 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id t4-20020a05683014c4b02902ed26dd7a60so15793509otq.7
+        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 02:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=zVCHNU9croTm9+AFFA++qGI5Gme6Ic4s5L5cKzCmit0=;
+        b=AIjRHlL38EfgXM2u1Lol82rvBfirO8moHdwLSv0eE6JRnAGQVkjXl2wsfvXYfeO5nN
+         rGQQVrWvR8iZTt75Bjd17Dvzgv+Evs0EgYxVl2Bf/kCnHVht5h3JKOFOdLArOxQdN44d
+         1gg8gJv3sncJa5iQ8R0DI8SRnmAT11UeN1aoCsBL3NkLC5NTCcM2mk8uODw9f9nQomuC
+         hsum1pewhgTB321jEQ6iqrtWa/GWkCEA9MqZ2EPg8W+TKoMaQUBrKF7+L/xZSqztzSFX
+         O18zBD3awl2WQ2mVk7lZfoehfH/IAFRh7zp6Els8E7dfLj/BejlZ2qxrfI3EV1tTS2J6
+         Rg+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=zVCHNU9croTm9+AFFA++qGI5Gme6Ic4s5L5cKzCmit0=;
+        b=EcF9iatJ0c27DQtBOUGlzIh0qke9UX6oKO9FabSpiUViRQqgZYOfUG5WPCoV6yAczL
+         S+8vjnG7EpAnYzr1uRggswKCGIKfSIMIvkEfoRpd1hsIdrYTOt9dkeZT/nZJpJigWPAu
+         5B/1ncvw4Iag2noq9/l5kOihoyvS+ZUbqXWrmwgvWy8zpQ5WQLmnTcYcNzVba2ejz1RV
+         hHU2DBIQ60mzo7dwoWYQtemJQcyPJWpId/AMUPJW7CFIxEKv5HLdFZWO1YDWHX8riFP7
+         nsZA7LIs8oGnTh8vcQZOXqVFvrXcJ2MkLZUsn5OxIB2M2DoRHqyBy5q+BtCqn3uaZIwd
+         malg==
+X-Gm-Message-State: AOAM5339LqohyoP8Lsg8zG7YnJOin/IwFybjwpJW2/rRlAQg95Mx140A
+        e45HjNwXDVrPhTj36W16dp2Os0euQpdYwsmFVnA=
+X-Google-Smtp-Source: ABdhPJyF+pM/xd0kKxGmaNBI9il0FAx9FjILULyrhhzuVPTTKN4y2e++p0SjPIiJGFPs+R7jSUJbbyHdl2SrKH2OcHU=
+X-Received: by 2002:a9d:58c5:: with SMTP id s5mr40103562oth.243.1620983380841;
+ Fri, 14 May 2021 02:09:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210512083341.914-1-siyanteng@loongson.cn> <87lf8i7jbj.fsf@meer.lwn.net>
+ <87o8de61zz.fsf@meer.lwn.net> <4eb9f549-d734-a5d2-aa2a-e66d009a31e5@gmail.com>
+In-Reply-To: <4eb9f549-d734-a5d2-aa2a-e66d009a31e5@gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Fri, 14 May 2021 17:09:30 +0800
+Message-ID: <CAEensMx6HxD5_Gv2Snd+OGOF0MNU4fsuB_z_pCDWyW8z+5SC=Q@mail.gmail.com>
+Subject: Re: [PATCH v3] docs/zh_CN: add core-api workqueue.rst translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, huangjianghui@uniontech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Alex Shi <seakeel@gmail.com> =E4=BA=8E2021=E5=B9=B45=E6=9C=8814=E6=97=A5=E5=
+=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8812:53=E5=86=99=E9=81=93=EF=BC=9A
+>
+>
+>
+> On 2021/5/14 =E4=B8=8A=E5=8D=8812:18, Jonathan Corbet wrote:
+> >>> This patch translates Documentation/core-api/workqueue.rst into Chine=
+se.
+> >>>
+> >>>
+> >>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> >>> Reviewed-by: Alex Shi <alexs@kenrel.org>
+> >> I fixed that typo too - it appears to originate from Alex...:)
+>
+> Sorry for the typo.
+>
+> > Actually, I've dropped this back out; it creates vast numbers of
+> > warnings:
+> >
+> >> Documentation/core-api/workqueue:398: ./include/linux/workqueue.h:3: W=
+ARNING: Duplicate C declaration, also
+> >> defined at translations/zh_CN/core-api/workqueue:3.
+> > This will be the result of the ".. kernel-doc::" directives at the end,
+> > which create new definitions (within sphinx) for all the symbols pulled
+> > in.
+> >
+> > In the long term, we may want to try to find some sort of fix for this.
+> > But we're really just recreating a bunch of (English-language)
+> > documentation that's already rendered once; I'm not sure it makes any
+> > real sense to do that.  So I would suggest that, for now, when you are
+> > translating documents with kernel-doc directives, you should leave thos=
+e
+> > directives out.  Stick in a note directing readers to the original if
+> > they want to see that material...
+> >
+> > Make sense?
+>
+> Yes, it is a reasonable solution for now.
+OK, I will.
+I will remove them and then direct the reader to the original
+document. just like:
 
---=-yaWQTSPMGuNj6joXfKRG
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 2021-05-14 at 10:21 +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 12 May 2021 18:07:04 +0100
-> David Woodhouse <dwmw2@infradead.org> escreveu:
->=20
-> > On Wed, 2021-05-12 at 14:50 +0200, Mauro Carvalho Chehab wrote:
-> > > Such conversion tools - plus some text editor like LibreOffice  or si=
-milar  - have
-> > > a set of rules that turns some typed ASCII characters into UTF-8 alte=
-rnatives,
-> > > for instance converting commas into curly commas and adding non-break=
-able
-> > > spaces. All of those are meant to produce better results when the tex=
-t is
-> > > displayed in HTML or PDF formats. =20
-> >=20
-> > And don't we render our documentation into HTML or PDF formats?=20
->=20
-> Yes.
->=20
-> > Are
-> > some of those non-breaking spaces not actually *useful* for their
-> > intended purpose?
->=20
-> No.
->=20
-> The thing is: non-breaking space can cause a lot of problems.
->=20
-> We even had to disable Sphinx usage of non-breaking space for
-> PDF outputs, as this was causing bad LaTeX/PDF outputs.
->=20
-> See, commit: 3b4c963243b1 ("docs: conf.py: adjust the LaTeX document outp=
-ut")
->=20
-> The afore mentioned patch disables Sphinx default behavior of
-> using NON-BREAKABLE SPACE on literal blocks and strings, using this
-> special setting: "parsedliteralwraps=3Dtrue".
->=20
-> When NON-BREAKABLE SPACE were used on PDF outputs, several parts of=20
-> the media uAPI docs were violating the document margins by far,
-> causing texts to be truncated.
->=20
-> So, please **don't add NON-BREAKABLE SPACE**, unless you test
-> (and keep testing it from time to time) if outputs on all
-> formats are properly supporting it on different Sphinx versions.
-
-And there you have a specific change with a specific fix. Nothing to do
-with whether NON-BREAKABLE SPACE is =E2=88=89 ASCII, and *certainly* nothin=
-g to
-do with the fact that, like *every* character in every kernel file
-except the *binary* files, it's representable in UTF-8.
-
-By all means fix the specific characters which are typographically
-wrong or which, like NON-BREAKABLE SPACE, cause problems for rendering
-the documentation.
+.. note:: =E6=8A=B1=E6=AD=89=EF=BC=8C=E7=94=B1=E4=BA=8E=E5=8E=9F=E5=A7=8B=
+=E6=96=87=E6=A1=A3=E5=9C=A8=E6=AD=A4=E5=A4=84=E4=BA=A4=E5=8F=89=E5=BC=95=E7=
+=94=A8=E4=BA=86=E4=BB=A3=E7=A0=81=E4=B8=AD=E7=9A=84=E6=B3=A8=E9=87=8A=EF=BC=
+=8C=E8=80=8C=E7=8E=B0=E5=9C=A8=E5=B9=B6=E4=B8=8D=E6=98=AF=E7=BF=BB=E8=AF=91=
+=E8=BF=99=E4=BA=9B=E6=B3=A8=E9=87=8A=E7=9A=84=E5=A5=BD=E6=97=B6=E6=9C=BA=EF=
+=BC=88=E5=B0=86=E4=BC=9A=E5=B8=A6=E6=9D=A5=E5=BE=88=E5=A4=9A=E7=BC=96=E8=AF=
+=91=E8=AD=A6=E5=91=8A=EF=BC=89=EF=BC=8C=E6=89=80=E4=BB=A5=E8=AF=B7=E6=9A=82=
+=E6=97=B6=E6=B5=8F=E8=A7=88=E8=8B=B1=E6=96=87=E6=96=87=E6=A1=A3=EF=BC=8C=E9=
+=93=BE=E6=8E=A5=E5=9C=A8=E6=9C=AC=E6=96=87=E6=A1=A3=E9=A1=B6=E9=83=A8=E3=80=
+=82
 
 
-> Also, most of those came from conversion tools, together with other
-> eccentricities, like the usage of U+FEFF (BOM) character at the
-> start of some documents. The remaining ones seem to came from=20
-> cut-and-paste.
-
-... or which are just entirely redundant and gratuitous, like a BOM in
-an environment where all files are UTF-8 and never 16-bit encodings
-anyway.
-
-> > > While it is perfectly fine to use UTF-8 characters in Linux, and spec=
-ially at
-> > > the documentation,  it is better to  stick to the ASCII subset  on su=
-ch
-> > > particular case,  due to a couple of reasons:
-> > >=20
-> > > 1. it makes life easier for tools like grep; =20
-> >=20
-> > Barely, as noted, because of things like line feeds.
->=20
-> You can use grep with "-z" to seek for multi-line strings(*), Like:
->=20
-> 	$ grep -Pzl 'grace period started,\s*then' $(find Documentation/ -type f=
-)
-> 	Documentation/RCU/Design/Data-Structures/Data-Structures.rst
-
-Yeah, right. That works if you don't just use the text that you'll have
-seen in the HTML/PDF "grace period started, then", and if you instead
-craft a *regex* for it, replacing the spaces with '\s*'. Or is that
-[[:space:]]* if you don't want to use the experimental Perl regex
-feature?
-
- $ grep -zlr 'grace[[:space:]]\+period[[:space:]]\+started,[[:space:]]\+the=
-n' Documentation/RCU
-Documentation/RCU/Design/Data-Structures/Data-Structures.rst
-
-And without '-l' it'll obviously just give you the whole file. No '-A5
--B5' to see the surroundings... it's hardly a useful thing, is it?
-
-> (*) Unfortunately, while "git grep" also has a "-z" flag, it
->     seems that this is (currently?) broken with regards of handling multi=
-lines:
->=20
-> 	$ git grep -Pzl 'grace period started,\s*then'
-> 	$
-
-Even better. So no, multiline grep isn't really a commonly usable
-feature at all.
-
-This is why we prefer to put user-visible strings on one line in C
-source code, even if it takes the lines over 80 characters =E2=80=94 to all=
-ow
-for grep to find them.
-
-> > > 2. they easier to edit with the some commonly used text/source
-> > >    code editors. =20
-> >=20
-> > That is nonsense. Any but the most broken and/or anachronistic
-> > environments and editors will be just fine.
->=20
-> Not really.
->=20
-> I do use a lot of UTF-8 here, as I type texts in Portuguese, but I rely
-> on the US-intl keyboard settings, that allow me to type as "'a" for =C3=
-=A1.
-> However, there's no shortcut for non-Latin UTF-codes, as far as I know.
->=20
-> So, if would need to type a curly comma on the text editors I normally=
-=20
-> use for development (vim, nano, kate), I would need to cut-and-paste
-> it from somewhere[1].
-
-That's entirely irrelevant. You don't need to be able to *type* every
-character that you see in front of you, as long as your editor will
-render it correctly and perhaps let you cut/paste it as you're editing
-the document if you're moving things around.
-
-> [1] If I have a table with UTF-8 codes handy, I could type the UTF-8=20
->     number manually... However, it seems that this is currently broken=
-=20
->     at least on Fedora 33 (with Mate Desktop and US intl keyboard with=
-=20
->     dead keys).
->=20
->     Here, <CTRL><SHIFT>U is not working. No idea why. I haven't=20
->     test it for *years*, as I din't see any reason why I would
->     need to type UTF-8 characters by numbers until we started
->     this thread.
-
-Please provide the bug number for this; I'd like to track it.
-
-> But even in the best case scenario where I know the UTF-8 and
-> <CTRL><SHIFT>U works, if I wanted to use, for instance, a curly
-> comma, the keystroke sequence would be:
->=20
-> 	<CTRL><SHIFT>U201csome string<CTRL><SHIFT>U201d
->=20
-> That's a lot harder than typing and has a higher chances of
-> mistakenly add a wrong symbol than just typing:
->=20
-> 	"some string"
->=20
-> Knowing that both will produce *exactly* the same output, why
-> should I bother doing it the hard way?
-
-Nobody's asked you to do it the "hard way". That's completely
-irrelevant to the discussion we were having.
-
-> Now, I'm not arguing that you can't use whatever UTF-8 symbol you
-> want on your docs. I'm just saying that, now that the conversion=20
-> is over and a lot of documents ended getting some UTF-8 characters
-> by accident, it is time for a cleanup.
-
-All text documents are *full* of UTF-8 characters. If there is a file
-in the source code which has *any* non-UTF8, we call that a 'binary
-file'.
-
-Again, if you want to make specific fixes like removing non-breaking
-spaces and byte order marks, with specific reasons, then those make
-sense. But it's got very little to do with UTF-8 and how easy it is to
-type them. And the excuse you've put in the commit comment for your
-patches is utterly bogus.
-
-
---=-yaWQTSPMGuNj6joXfKRG
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCECow
-ggUcMIIEBKADAgECAhEA4rtJSHkq7AnpxKUY8ZlYZjANBgkqhkiG9w0BAQsFADCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwHhcNMTkwMTAyMDAwMDAwWhcNMjIwMTAxMjM1
-OTU5WjAkMSIwIAYJKoZIhvcNAQkBFhNkd213MkBpbmZyYWRlYWQub3JnMIIBIjANBgkqhkiG9w0B
-AQEFAAOCAQ8AMIIBCgKCAQEAsv3wObLTCbUA7GJqKj9vHGf+Fa+tpkO+ZRVve9EpNsMsfXhvFpb8
-RgL8vD+L133wK6csYoDU7zKiAo92FMUWaY1Hy6HqvVr9oevfTV3xhB5rQO1RHJoAfkvhy+wpjo7Q
-cXuzkOpibq2YurVStHAiGqAOMGMXhcVGqPuGhcVcVzVUjsvEzAV9Po9K2rpZ52FE4rDkpDK1pBK+
-uOAyOkgIg/cD8Kugav5tyapydeWMZRJQH1vMQ6OVT24CyAn2yXm2NgTQMS1mpzStP2ioPtTnszIQ
-Ih7ASVzhV6csHb8Yrkx8mgllOyrt9Y2kWRRJFm/FPRNEurOeNV6lnYAXOymVJwIDAQABo4IB0zCC
-Ac8wHwYDVR0jBBgwFoAUgq9sjPjF/pZhfOgfPStxSF7Ei8AwHQYDVR0OBBYEFLfuNf820LvaT4AK
-xrGK3EKx1DE7MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUF
-BwMEBggrBgEFBQcDAjBGBgNVHSAEPzA9MDsGDCsGAQQBsjEBAgEDBTArMCkGCCsGAQUFBwIBFh1o
-dHRwczovL3NlY3VyZS5jb21vZG8ubmV0L0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3Js
-LmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWls
-Q0EuY3JsMIGLBggrBgEFBQcBAQR/MH0wVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuY29tb2RvY2Eu
-Y29tL0NPTU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwJAYI
-KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAeBgNVHREEFzAVgRNkd213MkBpbmZy
-YWRlYWQub3JnMA0GCSqGSIb3DQEBCwUAA4IBAQALbSykFusvvVkSIWttcEeifOGGKs7Wx2f5f45b
-nv2ghcxK5URjUvCnJhg+soxOMoQLG6+nbhzzb2rLTdRVGbvjZH0fOOzq0LShq0EXsqnJbbuwJhK+
-PnBtqX5O23PMHutP1l88AtVN+Rb72oSvnD+dK6708JqqUx2MAFLMevrhJRXLjKb2Mm+/8XBpEw+B
-7DisN4TMlLB/d55WnT9UPNHmQ+3KFL7QrTO8hYExkU849g58Dn3Nw3oCbMUgny81ocrLlB2Z5fFG
-Qu1AdNiBA+kg/UxzyJZpFbKfCITd5yX49bOriL692aMVDyqUvh8fP+T99PqorH4cIJP6OxSTdxKM
-MIIFHDCCBASgAwIBAgIRAOK7SUh5KuwJ6cSlGPGZWGYwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDEwMjAwMDAwMFoXDTIyMDEwMTIz
-NTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCASIwDQYJKoZIhvcN
-AQEBBQADggEPADCCAQoCggEBALL98Dmy0wm1AOxiaio/bxxn/hWvraZDvmUVb3vRKTbDLH14bxaW
-/EYC/Lw/i9d98CunLGKA1O8yogKPdhTFFmmNR8uh6r1a/aHr301d8YQea0DtURyaAH5L4cvsKY6O
-0HF7s5DqYm6tmLq1UrRwIhqgDjBjF4XFRqj7hoXFXFc1VI7LxMwFfT6PStq6WedhROKw5KQytaQS
-vrjgMjpICIP3A/CroGr+bcmqcnXljGUSUB9bzEOjlU9uAsgJ9sl5tjYE0DEtZqc0rT9oqD7U57My
-ECIewElc4VenLB2/GK5MfJoJZTsq7fWNpFkUSRZvxT0TRLqznjVepZ2AFzsplScCAwEAAaOCAdMw
-ggHPMB8GA1UdIwQYMBaAFIKvbIz4xf6WYXzoHz0rcUhexIvAMB0GA1UdDgQWBBS37jX/NtC72k+A
-CsaxitxCsdQxOzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEF
-BQcDBAYIKwYBBQUHAwIwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwUwKzApBggrBgEFBQcCARYd
-aHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwWgYDVR0fBFMwUTBPoE2gS4ZJaHR0cDovL2Ny
-bC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
-bENBLmNybDCBiwYIKwYBBQUHAQEEfzB9MFUGCCsGAQUFBzAChklodHRwOi8vY3J0LmNvbW9kb2Nh
-LmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQG
-CCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAC20spBbrL71ZEiFrbXBHonzhhirO1sdn+X+O
-W579oIXMSuVEY1LwpyYYPrKMTjKECxuvp24c829qy03UVRm742R9Hzjs6tC0oatBF7KpyW27sCYS
-vj5wbal+TttzzB7rT9ZfPALVTfkW+9qEr5w/nSuu9PCaqlMdjABSzHr64SUVy4ym9jJvv/FwaRMP
-gew4rDeEzJSwf3eeVp0/VDzR5kPtyhS+0K0zvIWBMZFPOPYOfA59zcN6AmzFIJ8vNaHKy5QdmeXx
-RkLtQHTYgQPpIP1Mc8iWaRWynwiE3ecl+PWzq4i+vdmjFQ8qlL4fHz/k/fT6qKx+HCCT+jsUk3cS
-jDCCBeYwggPOoAMCAQICEGqb4Tg7/ytrnwHV2binUlYwDQYJKoZIhvcNAQEMBQAwgYUxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSswKQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRp
-b24gQXV0aG9yaXR5MB4XDTEzMDExMDAwMDAwMFoXDTI4MDEwOTIzNTk1OVowgZcxCzAJBgNVBAYT
-AkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNV
-BAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAvrOeV6wodnVAFsc4A5jTxhh2IVDzJXkLTLWg0X06WD6cpzEup/Y0dtmEatrQPTRI5Or1u6zf
-+bGBSyD9aH95dDSmeny1nxdlYCeXIoymMv6pQHJGNcIDpFDIMypVpVSRsivlJTRENf+RKwrB6vcf
-WlP8dSsE3Rfywq09N0ZfxcBa39V0wsGtkGWC+eQKiz4pBZYKjrc5NOpG9qrxpZxyb4o4yNNwTqza
-aPpGRqXB7IMjtf7tTmU2jqPMLxFNe1VXj9XB1rHvbRikw8lBoNoSWY66nJN/VCJv5ym6Q0mdCbDK
-CMPybTjoNCQuelc0IAaO4nLUXk0BOSxSxt8kCvsUtQIDAQABo4IBPDCCATgwHwYDVR0jBBgwFoAU
-u69+Aj36pvE8hI6t7jiY7NkyMtQwHQYDVR0OBBYEFIKvbIz4xf6WYXzoHz0rcUhexIvAMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMBEGA1UdIAQKMAgwBgYEVR0gADBMBgNVHR8E
-RTBDMEGgP6A9hjtodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9u
-QXV0aG9yaXR5LmNybDBxBggrBgEFBQcBAQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29t
-b2RvY2EuY29tL0NPTU9ET1JTQUFkZFRydXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2Nz
-cC5jb21vZG9jYS5jb20wDQYJKoZIhvcNAQEMBQADggIBAHhcsoEoNE887l9Wzp+XVuyPomsX9vP2
-SQgG1NgvNc3fQP7TcePo7EIMERoh42awGGsma65u/ITse2hKZHzT0CBxhuhb6txM1n/y78e/4ZOs
-0j8CGpfb+SJA3GaBQ+394k+z3ZByWPQedXLL1OdK8aRINTsjk/H5Ns77zwbjOKkDamxlpZ4TKSDM
-KVmU/PUWNMKSTvtlenlxBhh7ETrN543j/Q6qqgCWgWuMAXijnRglp9fyadqGOncjZjaaSOGTTFB+
-E2pvOUtY+hPebuPtTbq7vODqzCM6ryEhNhzf+enm0zlpXK7q332nXttNtjv7VFNYG+I31gnMrwfH
-M5tdhYF/8v5UY5g2xANPECTQdu9vWPoqNSGDt87b3gXb1AiGGaI06vzgkejL580ul+9hz9D0S0U4
-jkhJiA7EuTecP/CFtR72uYRBcunwwH3fciPjviDDAI9SnC/2aPY8ydehzuZutLbZdRJ5PDEJM/1t
-yZR2niOYihZ+FCbtf3D9mB12D4ln9icgc7CwaxpNSCPt8i/GqK2HsOgkL3VYnwtx7cJUmpvVdZ4o
-gnzgXtgtdk3ShrtOS1iAN2ZBXFiRmjVzmehoMof06r1xub+85hFQzVxZx5/bRaTKTlL8YXLI8nAb
-R9HWdFqzcOoB/hxfEyIQpx9/s81rgzdEZOofSlZHynoSMYIDyjCCA8YCAQEwga0wgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
-ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEw
-NTE0MDkwNjAxWjAvBgkqhkiG9w0BCQQxIgQgRtNzbeu5bsoNcbDbiy2DI8xBXrnEUoNy+3PeRBi7
-ocwwgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
-PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
-aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
-DQEBAQUABIIBAG4iEcQoKZbciqO8UTjj3Ul3XZurUfbBSxRFkr4krMkAtIXtGzBe5kw5UgEtQ43c
-adrLgLYJ5JYMqy67j+r7p8zEgeXNx9rUvKjuR0eQsUyBEfmTQIuYgX67ChBAONPO/cDR6AqQP2Kc
-scoU4Lzl2O+p+KE0kPvscY2Mm91fuwKxarqZY9lNI+VoyW9uYIuD6BSiZIaWpZiuaryxLelhWHay
-8OYH/pRSvgjry42MLa1GUePUXm5M4NqeD0vKZVyzpFAftfHc6urFB3TNQ8yjeSBaxw3wkVBShkuB
-yhc3/6yoegNWASNgF5veVsrZ/2L+VxVQi7icYamHNJ9gu4g7KkgAAAAAAAA=
-
-
---=-yaWQTSPMGuNj6joXfKRG--
-
+Thanks=EF=BC=8C
+Yanteng
+>
+> Thanks
+> Alex
+> >
+> > Thanks,
+> >
+> > jon
+> >
