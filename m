@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7D7C433B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8B06C433ED
 	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:10:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8BCF461401
+	by mail.kernel.org (Postfix) with ESMTP id 7CFF561152
 	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:10:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230252AbhEOILM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231127AbhEOILM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 15 May 2021 04:11:12 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:48628 "EHLO loongson.cn"
+Received: from mail.loongson.cn ([114.242.206.163]:48632 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230426AbhEOILL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230252AbhEOILL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 15 May 2021 04:11:11 -0400
 Received: from localhost.localdomain (unknown [112.20.109.240])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3+3MgZ9gctIWAA--.17843S3;
-        Sat, 15 May 2021 16:09:52 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3+3MgZ9gctIWAA--.17843S4;
+        Sat, 15 May 2021 16:09:53 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com,
         huangjianghui@uniontech.com
-Subject: [PATCH v6 1/3] docs/zh_CN: add core-api kernel-api.rst translation
-Date:   Sat, 15 May 2021 16:10:29 +0800
-Message-Id: <e8a6975086ad54b5abdde2b816f6fa06dc98fcf7.1621062577.git.siyanteng@loongson.cn>
+Subject: [PATCH v6 2/3] docs/zh_CN: add core-api printk-basics.rst translation
+Date:   Sat, 15 May 2021 16:10:30 +0800
+Message-Id: <88c52f48d18d6a6c16c6dbb63d9b89ccad6824aa.1621062577.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1621062577.git.siyanteng@loongson.cn>
 References: <cover.1621062577.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx3+3MgZ9gctIWAA--.17843S3
-X-Coremail-Antispam: 1UD129KBjvAXoWfJrWxCryftr4fCw13Aw1UZFb_yoW8JryDCo
-        Z29rW5CF4UJrs5Gr90yw43Wayakrs7XF18XrnxAwnF9w1kX343XFW0va4xu3sxKw45Jasr
-        JrnxJa1fCa98tF4fn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOr7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r18M28IrcIa0x
-        kI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
-        jcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM2
+X-CM-TRANSID: AQAAf9Dx3+3MgZ9gctIWAA--.17843S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxtr1rtFyUCF1UCw1kuFyxGrg_yoWxAw4Dpr
+        n3GryxJF4DJryUZr4DJFyDJr1UGF18A3WDK3Wvyry0qF1UAr4UJw4UJryrJryUGryUA34U
+        JF1DJryUJr10yrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPC14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
         8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
         e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
         8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
@@ -54,432 +54,156 @@ X-Coremail-Antispam: 1UD129KBjvAXoWfJrWxCryftr4fCw13Aw1UZFb_yoW8JryDCo
         AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
         cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
         80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7VUjzVbPUUUUU==
+        43ZEXa7VUUc18PUUUUU==
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/core-api/kernel-api.rst into Chinese.
+This patch translates Documentation/core-api/printk-basics.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- .../translations/zh_CN/core-api/index.rst     |   5 +-
- .../zh_CN/core-api/kernel-api.rst             | 385 ++++++++++++++++++
- 2 files changed, 389 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/kernel-api.rst
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ .../zh_CN/core-api/printk-basics.rst          | 111 ++++++++++++++++++
+ 2 files changed, 112 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/printk-basics.rst
 
 diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index f1fa71e45c77..60e1566d57eb 100644
+index 60e1566d57eb..5ecb23e3ba8c 100644
 --- a/Documentation/translations/zh_CN/core-api/index.rst
 +++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -19,9 +19,12 @@
- 来的大量 kerneldoc 信息；有朝一日，若有人有动力的话，应当把它们拆分
- 出来。
- 
--Todolist:
-+.. toctree::
-+   :maxdepth: 1
+@@ -23,10 +23,10 @@
+    :maxdepth: 1
  
     kernel-api
-+
-+Todolist:
++   printk-basics
+ 
+ Todolist:
     workqueue
-    printk-basics
+-   printk-basics
     printk-formats
-diff --git a/Documentation/translations/zh_CN/core-api/kernel-api.rst b/Documentation/translations/zh_CN/core-api/kernel-api.rst
+    symbol-namespaces
+ 
+diff --git a/Documentation/translations/zh_CN/core-api/printk-basics.rst b/Documentation/translations/zh_CN/core-api/printk-basics.rst
 new file mode 100644
-index 000000000000..2b4d38ec64bf
+index 000000000000..a4b46d81c3fd
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/kernel-api.rst
-@@ -0,0 +1,385 @@
++++ b/Documentation/translations/zh_CN/core-api/printk-basics.rst
+@@ -0,0 +1,111 @@
++.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/core-api/kernel-api.rst
++:Original: Documentation/core-api/printk-basics.rst
 +:Translator: Yanteng Si <siyanteng@loongson.cn>
 +
-+.. _cn_kernel-api.rst:
++.. _cn_printk-basics.rst:
 +
 +
-+============
-+Linux内核API
-+============
++==================
++使用printk记录消息
++==================
 +
++printk()是Linux内核中最广为人知的函数之一。它是我们打印消息的标准工具，通常也是追踪和调试
++的最基本方法。如果你熟悉printf(3)，你就能够知道printk()是基于它的，尽管它在功能上有一些不
++同之处:
 +
-+列表管理函数
-+============
++  - printk() 消息可以指定日志级别。
 +
-+check the functions in include/linux/list.h in kernel source code.
-+   :internal:
++  - 格式字符串虽然与C99基本兼容，但并不遵循完全相同的规范。它有一些扩展和一些限制（没
++    有 ``%n`` 或浮点转换指定符）。参见:ref: `如何正确地获得printk格式指定符<printk-specifiers>` 。
 +
-+基本的C库函数
-+=============
++所有的printk()消息都会被打印到内核日志缓冲区，这是一个通过/dev/kmsg输出到用户空间的环
++形缓冲区。读取它的通常方法是使用 ``dmesg`` 。
 +
-+在编写驱动程序时，一般不能使用C库中的普通程序。部分函数通常很有用，它
-+们在下面被列出。这些函数的行为可能会与ANSI定义的略有不同，这些偏差会
-+在文中注明。
++printk()的用法通常是这样的::
 +
-+字符串转换
-+----------
++  printk(KERN_INFO "Message: %s\n", arg);
 +
-+check the functions in lib/vsprintf.c in kernel source code.
-+   :export:
++其中 ``KERN_INFO`` 是日志级别（注意，它与格式字符串连在一起，日志级别不是一个单独的参数）。
++可用的日志级别是：
 +
-+check the functions in include/linux/kernel.h in kernel source code.
-+   :functions: kstrtol
 +
-+check the functions in include/linux/kernel.h in kernel source code.
-+   :functions: kstrtoul
+++----------------+--------+-----------------------------------------------+
++| 名称           | 字符串 |  别名函数                                     |
+++================+========+===============================================+
++| KERN_EMERG     | "0"    | pr_emerg()                                    |
+++----------------+--------+-----------------------------------------------+
++| KERN_ALERT     | "1"    | pr_alert()                                    |
+++----------------+--------+-----------------------------------------------+
++| KERN_CRIT      | "2"    | pr_crit()                                     |
+++----------------+--------+-----------------------------------------------+
++| KERN_ERR       | "3"    | pr_err()                                      |
+++----------------+--------+-----------------------------------------------+
++| KERN_WARNING   | "4"    | pr_warn()                                     |
+++----------------+--------+-----------------------------------------------+
++| KERN_NOTICE    | "5"    | pr_notice()                                   |
+++----------------+--------+-----------------------------------------------+
++| KERN_INFO      | "6"    | pr_info()                                     |
+++----------------+--------+-----------------------------------------------+
++| KERN_DEBUG     | "7"    | pr_debug() and pr_devel()  若定义了DEBUG      |
+++----------------+--------+-----------------------------------------------+
++| KERN_DEFAULT   | ""     |                                               |
+++----------------+--------+-----------------------------------------------+
++| KERN_CONT      | "c"    | pr_cont()                                     |
+++----------------+--------+-----------------------------------------------+
 +
-+check the functions in lib/kstrtox.c in kernel source code.
-+   :export:
 +
-+check the functions in lib/string_helpers.c in kernel source code.
-+   :export:
++日志级别指定了一条消息的重要性。内核根据日志级别和当前 *console_loglevel* （一个内核变量）决
++定是否立即显示消息（将其打印到当前控制台）。如果消息的优先级比 *console_loglevel* 高（日志级
++别值较低），消息将被打印到控制台。
 +
-+字符串处理
-+----------
++如果省略了日志级别，则以 ``KERN_DEFAULT`` 级别打印消息。
 +
-+check the functions in lib/string.c in kernel source code.
-+   :export:
++你可以用以下方法检查当前的 *console_loglevel* ::
 +
-+check the functions in include/linux/string.h in kernel source code.
-+   :internal:
++  $ cat /proc/sys/kernel/printk
++  4        4        1        7
 +
-+check the functions in mm/util.c in kernel source code.
-+   :functions: kstrdup kstrdup_const kstrndup kmemdup kmemdup_nul memdup_user
-+               vmemdup_user strndup_user memdup_user_nul
++结果显示了 *current*, *default*, *minimum* 和 *boot-time-default* 日志级别
 +
-+基本的内核库函数
-+================
++要改变当前的 console_loglevel，只需在 ``/proc/sys/kernel/printk`` 中写入所需的
++级别。例如，要打印所有的消息到控制台上::
 +
-+Linux内核提供了很多基本的实用函数。
++  # echo 8 > /proc/sys/kernel/printk
 +
-+位运算
-+------
++另一种方式，使用 ``dmesg``::
 +
-+check the functions in include/asm-generic/bitops/instrumented-atomic.h in kernel source code.
-+   :internal:
++  # dmesg -n 5
 +
-+check the functions in include/asm-generic/bitops/instrumented-non-atomic.h in kernel source code.
-+   :internal:
++设置 console_loglevel 打印 KERN_WARNING (4) 或更严重的消息到控制台。更多消息参
++见 ``dmesg(1)`` 。
 +
-+check the functions in include/asm-generic/bitops/instrumented-lock.h in kernel source code.
-+   :internal:
++作为printk()的替代方案，你可以使用 ``pr_*()`` 别名来记录日志。这个系列的宏在宏名中
++嵌入了日志级别。例如::
 +
-+位图运算
-+--------
++  pr_info("Info message no. %d\n", msg_num);
 +
-+check the functions in lib/bitmap.c in kernel source code.
-+   :doc: bitmap introduction
++打印 ``KERN_INFO`` 消息。
 +
-+check the functions in include/linux/bitmap.h in kernel source code.
-+   :doc: declare bitmap
++除了比等效的printk()调用更简洁之外，它们还可以通过pr_fmt()宏为格式字符串使用一个通用
++的定义。例如，在源文件的顶部（在任何  ``#include`` 指令之前）定义这样的内容。::
 +
-+check the functions in include/linux/bitmap.h in kernel source code.
-+   :doc: bitmap overview
++  #define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
 +
-+check the functions in include/linux/bitmap.h in kernel source code.
-+   :doc: bitmap bitops
++会在该文件中的每一条 pr_*() 消息前加上发起该消息的模块和函数名称。
 +
-+check the functions in lib/bitmap.c in kernel source code.
-+   :export:
++为了调试，还有两个有条件编译的宏：
++pr_debug()和pr_devel()，除非定义了 ``DEBUG`` (或者在pr_debug()的情况下定义了
++``CONFIG_DYNAMIC_DEBUG`` )，否则它们会被编译。
 +
-+check the functions in lib/bitmap.c in kernel source code.
-+   :internal:
 +
-+check the functions in include/linux/bitmap.h in kernel source code.
-+   :internal:
-+
-+命令行解析
-+----------
-+
-+check the functions in lib/cmdline.c in kernel source code.
-+   :export:
-+
-+排序
-+----
-+
-+check the functions in lib/sort.c in kernel source code.
-+   :export:
-+
-+check the functions in lib/list_sort.c in kernel source code.
-+   :export:
-+
-+文本检索
-+--------
-+
-+check the functions in lib/textsearch.c in kernel source code.
-+   :doc: ts_intro
-+
-+check the functions in lib/textsearch.c in kernel source code.
-+   :export:
-+
-+check the functions in include/linux/textsearch.h in kernel source code.
-+   :functions: textsearch_find textsearch_next \
-+               textsearch_get_pattern textsearch_get_pattern_len
-+
-+Linux中的CRC和数学函数
-+======================
-+
-+
-+CRC函数
-+-------
-+
-+*译注：CRC，Cyclic Redundancy Check，循环冗余校验*
-+
-+check the functions in lib/crc4.c in kernel source code.
-+   :export:
-+
-+check the functions in lib/crc7.c in kernel source code.
-+   :export:
-+
-+check the functions in lib/crc8.c in kernel source code.
-+   :export:
-+
-+check the functions in lib/crc16.c in kernel source code.
-+   :export:
-+
-+check the functions in lib/crc32.c in kernel source code.
-+
-+check the functions in lib/crc-ccitt.c in kernel source code.
-+   :export:
-+
-+check the functions in lib/crc-itu-t.c in kernel source code.
-+   :export:
-+
-+基数为2的对数和幂函数
-+---------------------
-+
-+check the functions in include/linux/log2.h in kernel source code.
-+   :internal:
-+
-+整数幂函数
-+----------
-+
-+check the functions in lib/math/int_pow.c in kernel source code.
-+   :export:
-+
-+check the functions in lib/math/int_sqrt.c in kernel source code.
-+   :export:
-+
-+除法函数
-+--------
-+
-+check the functions in include/asm-generic/div64.h in kernel source code.
-+   :functions: do_div
-+
-+check the functions in include/linux/math64.h in kernel source code.
-+   :internal:
-+
-+check the functions in lib/math/div64.c in kernel source code.
-+   :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64 in kernel source code.
-+
-+check the functions in lib/math/gcd.c in kernel source code.
-+   :export:
-+
-+UUID/GUID
-+---------
-+
-+check the functions in lib/uuid.c in kernel source code.
-+   :export:
-+
-+内核IPC设备
-+===========
-+
-+IPC实用程序
-+-----------
-+
-+check the functions in ipc/util.c in kernel source code.
-+   :internal:
-+
-+FIFO 缓冲区
-+===========
-+
-+kfifo接口
-+---------
-+
-+check the functions in include/linux/kfifo.h in kernel source code.
-+   :internal:
-+
-+转发接口支持
-+============
-+
-+转发接口支持旨在为工具和设备提供一种有效的机制，将大量数据从内核空间
-+转发到用户空间。
-+
-+转发接口
-+--------
-+
-+check the functions in kernel/relay.c in kernel source code.
-+   :export:
-+
-+check the functions in kernel/relay.c in kernel source code.
-+   :internal:
-+
-+模块支持
++函数接口
 +========
 +
-+模块加载
-+--------
++check the functions in kernel/printk/printk.c in kernel source code.
++   :functions: printk
 +
-+check the functions in kernel/kmod.c in kernel source code.
-+   :export:
-+
-+模块接口支持
-+------------
-+
-+更多信息请参考文件kernel/module.c。
-+
-+硬件接口
-+========
-+
-+
-+check the functions in kernel/dma.c in kernel source code.
-+   :export:
-+
-+资源管理
-+--------
-+
-+check the functions in kernel/resource.c in kernel source code.
-+   :internal:
-+
-+check the functions in kernel/resource.c in kernel source code.
-+   :export:
-+
-+MTRR处理
-+--------
-+
-+check the functions in arch/x86/kernel/cpu/mtrr/mtrr.c in kernel source code.
-+   :export:
-+
-+安全框架
-+========
-+
-+check the functions in security/security.c in kernel source code.
-+   :internal:
-+
-+check the functions in security/inode.c in kernel source code.
-+   :export:
-+
-+审计接口
-+========
-+
-+check the functions in kernel/audit.c in kernel source code.
-+   :export:
-+
-+check the functions in kernel/auditsc.c in kernel source code.
-+   :internal:
-+
-+check the functions in kernel/auditfilter.c in kernel source code.
-+   :internal:
-+
-+核算框架
-+========
-+
-+check the functions in kernel/acct.c in kernel source code.
-+   :internal:
-+
-+块设备
-+======
-+
-+check the functions in block/blk-core.c in kernel source code.
-+   :export:
-+
-+check the functions in block/blk-core.c in kernel source code.
-+   :internal:
-+
-+check the functions in block/blk-map.c in kernel source code.
-+   :export:
-+
-+check the functions in block/blk-sysfs.c in kernel source code.
-+   :internal:
-+
-+check the functions in block/blk-settings.c in kernel source code.
-+   :export:
-+
-+check the functions in block/blk-exec.c in kernel source code.
-+   :export:
-+
-+check the functions in block/blk-flush.c in kernel source code.
-+   :export:
-+
-+check the functions in block/blk-lib.c in kernel source code.
-+   :export:
-+
-+check the functions in block/blk-integrity.c in kernel source code.
-+   :export:
-+
-+check the functions in kernel/trace/blktrace.c in kernel source code.
-+   :internal:
-+
-+check the functions in block/genhd.c in kernel source code.
-+   :internal:
-+
-+check the functions in block/genhd.c in kernel source code.
-+   :export:
-+
-+字符设备
-+========
-+
-+check the functions in fs/char_dev.c in kernel source code.
-+   :export:
-+
-+时钟框架
-+========
-+
-+时钟框架定义了编程接口，以支持系统时钟树的软件管理。该框架广泛用于系统级芯片（SOC）平
-+台，以支持电源管理和各种可能需要自定义时钟速率的设备。请注意，这些 “时钟”与计时或实
-+时时钟(RTC)无关，它们都有单独的框架。这些:c:type: `struct clk <clk>` 实例可用于管
-+理例如96 MHz信号，该信号用于将位移入和移出外设或总线，或以其他方式触发系统硬件中的同
-+步状态机转换。
-+
-+通过明确的软件时钟门控来支持电源管理：未使用的时钟被禁用，因此系统不会因为改变不在使用
-+中的晶体管的状态而浪费电源。在某些系统中，这可能是由硬件时钟门控支持的，其中时钟被门控
-+而不在软件中被禁用。芯片的部分，在供电但没有时钟的情况下，可能会保留其最后的状态。这种
-+低功耗状态通常被称为*保留模式*。这种模式仍然会产生漏电流，特别是在电路几何结构较细的情
-+况下，但对于CMOS电路来说，电源主要是通过时钟状态变化来使用的。
-+
-+电源感知驱动程序只有在其管理的设备处于活动使用状态时才会启用时钟。此外，系统睡眠状态通
-+常根据哪些时钟域处于活动状态而有所不同：“待机”状态可能允许从多个活动域中唤醒，而
-+"mem"（暂停到RAM）状态可能需要更全面地关闭来自高速PLL和振荡器的时钟，从而限制了可能
-+的唤醒事件源的数量。驱动器的暂停方法可能需要注意目标睡眠状态的系统特定时钟约束。
-+
-+一些平台支持可编程时钟发生器。这些可以被各种外部芯片使用，如其他CPU、多媒体编解码器以
-+及对接口时钟有严格要求的设备。
-+
-+check the functions in include/linux/clk.h in kernel source code.
-+   :internal:
-+
-+同步原语
-+========
-+
-+读-复制-更新（RCU）
-+-------------------
-+
-+check the functions in include/linux/rcupdate.h in kernel source code.
-+
-+check the functions in kernel/rcu/tree.c in kernel source code.
-+
-+check the functions in kernel/rcu/tree_exp.h in kernel source code.
-+
-+check the functions in kernel/rcu/update.c in kernel source code.
-+
-+check the functions in include/linux/srcu.h in kernel source code.
-+
-+check the functions in kernel/rcu/srcutree.c in kernel source code.
-+
-+check the functions in include/linux/rculist_bl.h in kernel source code.
-+
-+check the functions in include/linux/rculist.h in kernel source code.
-+
-+check the functions in include/linux/rculist_nulls.h in kernel source code.
-+
-+check the functions in include/linux/rcu_sync.h in kernel source code.
-+
-+check the functions in kernel/rcu/sync.c in kernel source code.
++check the functions in include/linux/printk.h in kernel source code.
++   :functions: pr_emerg pr_alert pr_crit pr_err pr_warn pr_notice pr_info
++      pr_fmt pr_debug pr_devel pr_cont
 -- 
 2.27.0
 
