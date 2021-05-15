@@ -2,254 +2,484 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24081C433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7D7C433B4
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:10:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0484B61401
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:02:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8BCF461401
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:10:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229659AbhEOIDE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 May 2021 04:03:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58344 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230426AbhEOICt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 May 2021 04:02:49 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8985C06175F
-        for <linux-doc@vger.kernel.org>; Sat, 15 May 2021 01:01:32 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id z130so826405wmg.2
-        for <linux-doc@vger.kernel.org>; Sat, 15 May 2021 01:01:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3GhGIQXJYm3c9wF2B/g2I1QQEI83xUicEz8GuTG+nec=;
-        b=sptYazft61QRyDzC3g2bXrAXAFkXewkyaSM0Snfr3lCwbfIyhDAosebG49Yhnq5gl6
-         wd3lzsEdQfgoA2cyu+VYUGk4vnBsWK5077EjSlRv2XF3gmPvx1mUp2x8w9nOzjCE3b/N
-         PP/0mzEbi+iRsOFGyNtJ6yL1jpR3hFIFJ3PJdQIEdGtnXYXoix2hwFVwsqXeGtWZw2sP
-         PzbektU/KdyJC2lzEt6/0yvKv9EnYOX/FpoT6gZZj99xPSTcCYmFGGIfOxhsmzO/EDBg
-         nu/ys0LT9+M+QDSz+T3oHzHHFp5OeJW9iTTLx7NlpGB40QjTRNG3UQ5l0tdHB4qv4bWV
-         4xsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3GhGIQXJYm3c9wF2B/g2I1QQEI83xUicEz8GuTG+nec=;
-        b=Soe1LZO6h7PuEkynB4pp5EukyN+Of+X/G1YEgLTPZby4vbVLaiM8tYHLO1OtWH4qSB
-         5H3eZnHgNLgM7pJdFvFv+CERvtgdK0vo3ku2cJIlWOsvSDunPq/FiixCrB7fcXRqnLDh
-         5BBlVECWjj35/awwiFBCQBBn/KkG8s488DAZw9v7IFUdsnCdZQyZjokq0CG6cOLx8b8f
-         nEFF0EhZdwkjoY74q5J1jdM05VpYOU0R0Y+xIc/Q5akZXY0+Nhl5objXsIPnIM+Q6p4F
-         x+l/pkB8pck9z9mKVL3bgPTmzHUf8vIlvV1m9aPqLohrH355cx7wrrssYiOeRd2cXDIF
-         6zIg==
-X-Gm-Message-State: AOAM5313cw8LVYVVOBfHCUiPqk871YcU4zFWfRUP4M+xFWuCmLeBLjPt
-        xPWs6KGVckEtR3hHUjYm2SwbZIFnmQkZxBtgXphu/Q==
-X-Google-Smtp-Source: ABdhPJyKPIlIZ0bxkvUSqXLXQZ9YQLa9M+aKwQT7Edx2LUu1xpXuxf0xpJtdqHQnkEjzic0CariTe6Mxs8xDoVd/PoQ=
-X-Received: by 2002:a05:600c:3205:: with SMTP id r5mr53380672wmp.78.1621065691477;
- Sat, 15 May 2021 01:01:31 -0700 (PDT)
+        id S230252AbhEOILM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 May 2021 04:11:12 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:48628 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230426AbhEOILL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 15 May 2021 04:11:11 -0400
+Received: from localhost.localdomain (unknown [112.20.109.240])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3+3MgZ9gctIWAA--.17843S3;
+        Sat, 15 May 2021 16:09:52 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com,
+        huangjianghui@uniontech.com
+Subject: [PATCH v6 1/3] docs/zh_CN: add core-api kernel-api.rst translation
+Date:   Sat, 15 May 2021 16:10:29 +0800
+Message-Id: <e8a6975086ad54b5abdde2b816f6fa06dc98fcf7.1621062577.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1621062577.git.siyanteng@loongson.cn>
+References: <cover.1621062577.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-References: <20210507213110.155492-1-brendanhiggins@google.com> <20210507213110.155492-5-brendanhiggins@google.com>
-In-Reply-To: <20210507213110.155492-5-brendanhiggins@google.com>
-From:   David Gow <davidgow@google.com>
-Date:   Sat, 15 May 2021 16:01:20 +0800
-Message-ID: <CABVgOSnnb=LB2hQOVqarDd3Tv17f7JHHomvSfWeQaFSsH1PD2g@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] Documentation: kunit: document support for QEMU in kunit_tool
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Shuah Khan <shuah@kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Daniel Latypov <dlatypov@google.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000b8df5a05c259c406"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx3+3MgZ9gctIWAA--.17843S3
+X-Coremail-Antispam: 1UD129KBjvAXoWfJrWxCryftr4fCw13Aw1UZFb_yoW8JryDCo
+        Z29rW5CF4UJrs5Gr90yw43Wayakrs7XF18XrnxAwnF9w1kX343XFW0va4xu3sxKw45Jasr
+        JrnxJa1fCa98tF4fn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUOr7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r18M28IrcIa0x
+        kI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
+        jcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM2
+        8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
+        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
+        kIwI1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
+        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
+        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
+        cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
+        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
+        43ZEXa7VUjzVbPUUUUU==
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000b8df5a05c259c406
-Content-Type: text/plain; charset="UTF-8"
+This patch translates Documentation/core-api/kernel-api.rst into Chinese.
 
-On Sat, May 8, 2021 at 5:31 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> Document QEMU support, what it does, and how to use it in kunit_tool.
->
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> ---
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+---
+ .../translations/zh_CN/core-api/index.rst     |   5 +-
+ .../zh_CN/core-api/kernel-api.rst             | 385 ++++++++++++++++++
+ 2 files changed, 389 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/kernel-api.rst
 
-This is a good start, and probably meets the minimum requirements, but
-I do have a number of comments and suggestions below.
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index f1fa71e45c77..60e1566d57eb 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -19,9 +19,12 @@
+ 来的大量 kerneldoc 信息；有朝一日，若有人有动力的话，应当把它们拆分
+ 出来。
+ 
+-Todolist:
++.. toctree::
++   :maxdepth: 1
+ 
+    kernel-api
++
++Todolist:
+    workqueue
+    printk-basics
+    printk-formats
+diff --git a/Documentation/translations/zh_CN/core-api/kernel-api.rst b/Documentation/translations/zh_CN/core-api/kernel-api.rst
+new file mode 100644
+index 000000000000..2b4d38ec64bf
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/kernel-api.rst
+@@ -0,0 +1,385 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/kernel-api.rst
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_kernel-api.rst:
++
++
++============
++Linux内核API
++============
++
++
++列表管理函数
++============
++
++check the functions in include/linux/list.h in kernel source code.
++   :internal:
++
++基本的C库函数
++=============
++
++在编写驱动程序时，一般不能使用C库中的普通程序。部分函数通常很有用，它
++们在下面被列出。这些函数的行为可能会与ANSI定义的略有不同，这些偏差会
++在文中注明。
++
++字符串转换
++----------
++
++check the functions in lib/vsprintf.c in kernel source code.
++   :export:
++
++check the functions in include/linux/kernel.h in kernel source code.
++   :functions: kstrtol
++
++check the functions in include/linux/kernel.h in kernel source code.
++   :functions: kstrtoul
++
++check the functions in lib/kstrtox.c in kernel source code.
++   :export:
++
++check the functions in lib/string_helpers.c in kernel source code.
++   :export:
++
++字符串处理
++----------
++
++check the functions in lib/string.c in kernel source code.
++   :export:
++
++check the functions in include/linux/string.h in kernel source code.
++   :internal:
++
++check the functions in mm/util.c in kernel source code.
++   :functions: kstrdup kstrdup_const kstrndup kmemdup kmemdup_nul memdup_user
++               vmemdup_user strndup_user memdup_user_nul
++
++基本的内核库函数
++================
++
++Linux内核提供了很多基本的实用函数。
++
++位运算
++------
++
++check the functions in include/asm-generic/bitops/instrumented-atomic.h in kernel source code.
++   :internal:
++
++check the functions in include/asm-generic/bitops/instrumented-non-atomic.h in kernel source code.
++   :internal:
++
++check the functions in include/asm-generic/bitops/instrumented-lock.h in kernel source code.
++   :internal:
++
++位图运算
++--------
++
++check the functions in lib/bitmap.c in kernel source code.
++   :doc: bitmap introduction
++
++check the functions in include/linux/bitmap.h in kernel source code.
++   :doc: declare bitmap
++
++check the functions in include/linux/bitmap.h in kernel source code.
++   :doc: bitmap overview
++
++check the functions in include/linux/bitmap.h in kernel source code.
++   :doc: bitmap bitops
++
++check the functions in lib/bitmap.c in kernel source code.
++   :export:
++
++check the functions in lib/bitmap.c in kernel source code.
++   :internal:
++
++check the functions in include/linux/bitmap.h in kernel source code.
++   :internal:
++
++命令行解析
++----------
++
++check the functions in lib/cmdline.c in kernel source code.
++   :export:
++
++排序
++----
++
++check the functions in lib/sort.c in kernel source code.
++   :export:
++
++check the functions in lib/list_sort.c in kernel source code.
++   :export:
++
++文本检索
++--------
++
++check the functions in lib/textsearch.c in kernel source code.
++   :doc: ts_intro
++
++check the functions in lib/textsearch.c in kernel source code.
++   :export:
++
++check the functions in include/linux/textsearch.h in kernel source code.
++   :functions: textsearch_find textsearch_next \
++               textsearch_get_pattern textsearch_get_pattern_len
++
++Linux中的CRC和数学函数
++======================
++
++
++CRC函数
++-------
++
++*译注：CRC，Cyclic Redundancy Check，循环冗余校验*
++
++check the functions in lib/crc4.c in kernel source code.
++   :export:
++
++check the functions in lib/crc7.c in kernel source code.
++   :export:
++
++check the functions in lib/crc8.c in kernel source code.
++   :export:
++
++check the functions in lib/crc16.c in kernel source code.
++   :export:
++
++check the functions in lib/crc32.c in kernel source code.
++
++check the functions in lib/crc-ccitt.c in kernel source code.
++   :export:
++
++check the functions in lib/crc-itu-t.c in kernel source code.
++   :export:
++
++基数为2的对数和幂函数
++---------------------
++
++check the functions in include/linux/log2.h in kernel source code.
++   :internal:
++
++整数幂函数
++----------
++
++check the functions in lib/math/int_pow.c in kernel source code.
++   :export:
++
++check the functions in lib/math/int_sqrt.c in kernel source code.
++   :export:
++
++除法函数
++--------
++
++check the functions in include/asm-generic/div64.h in kernel source code.
++   :functions: do_div
++
++check the functions in include/linux/math64.h in kernel source code.
++   :internal:
++
++check the functions in lib/math/div64.c in kernel source code.
++   :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64 in kernel source code.
++
++check the functions in lib/math/gcd.c in kernel source code.
++   :export:
++
++UUID/GUID
++---------
++
++check the functions in lib/uuid.c in kernel source code.
++   :export:
++
++内核IPC设备
++===========
++
++IPC实用程序
++-----------
++
++check the functions in ipc/util.c in kernel source code.
++   :internal:
++
++FIFO 缓冲区
++===========
++
++kfifo接口
++---------
++
++check the functions in include/linux/kfifo.h in kernel source code.
++   :internal:
++
++转发接口支持
++============
++
++转发接口支持旨在为工具和设备提供一种有效的机制，将大量数据从内核空间
++转发到用户空间。
++
++转发接口
++--------
++
++check the functions in kernel/relay.c in kernel source code.
++   :export:
++
++check the functions in kernel/relay.c in kernel source code.
++   :internal:
++
++模块支持
++========
++
++模块加载
++--------
++
++check the functions in kernel/kmod.c in kernel source code.
++   :export:
++
++模块接口支持
++------------
++
++更多信息请参考文件kernel/module.c。
++
++硬件接口
++========
++
++
++check the functions in kernel/dma.c in kernel source code.
++   :export:
++
++资源管理
++--------
++
++check the functions in kernel/resource.c in kernel source code.
++   :internal:
++
++check the functions in kernel/resource.c in kernel source code.
++   :export:
++
++MTRR处理
++--------
++
++check the functions in arch/x86/kernel/cpu/mtrr/mtrr.c in kernel source code.
++   :export:
++
++安全框架
++========
++
++check the functions in security/security.c in kernel source code.
++   :internal:
++
++check the functions in security/inode.c in kernel source code.
++   :export:
++
++审计接口
++========
++
++check the functions in kernel/audit.c in kernel source code.
++   :export:
++
++check the functions in kernel/auditsc.c in kernel source code.
++   :internal:
++
++check the functions in kernel/auditfilter.c in kernel source code.
++   :internal:
++
++核算框架
++========
++
++check the functions in kernel/acct.c in kernel source code.
++   :internal:
++
++块设备
++======
++
++check the functions in block/blk-core.c in kernel source code.
++   :export:
++
++check the functions in block/blk-core.c in kernel source code.
++   :internal:
++
++check the functions in block/blk-map.c in kernel source code.
++   :export:
++
++check the functions in block/blk-sysfs.c in kernel source code.
++   :internal:
++
++check the functions in block/blk-settings.c in kernel source code.
++   :export:
++
++check the functions in block/blk-exec.c in kernel source code.
++   :export:
++
++check the functions in block/blk-flush.c in kernel source code.
++   :export:
++
++check the functions in block/blk-lib.c in kernel source code.
++   :export:
++
++check the functions in block/blk-integrity.c in kernel source code.
++   :export:
++
++check the functions in kernel/trace/blktrace.c in kernel source code.
++   :internal:
++
++check the functions in block/genhd.c in kernel source code.
++   :internal:
++
++check the functions in block/genhd.c in kernel source code.
++   :export:
++
++字符设备
++========
++
++check the functions in fs/char_dev.c in kernel source code.
++   :export:
++
++时钟框架
++========
++
++时钟框架定义了编程接口，以支持系统时钟树的软件管理。该框架广泛用于系统级芯片（SOC）平
++台，以支持电源管理和各种可能需要自定义时钟速率的设备。请注意，这些 “时钟”与计时或实
++时时钟(RTC)无关，它们都有单独的框架。这些:c:type: `struct clk <clk>` 实例可用于管
++理例如96 MHz信号，该信号用于将位移入和移出外设或总线，或以其他方式触发系统硬件中的同
++步状态机转换。
++
++通过明确的软件时钟门控来支持电源管理：未使用的时钟被禁用，因此系统不会因为改变不在使用
++中的晶体管的状态而浪费电源。在某些系统中，这可能是由硬件时钟门控支持的，其中时钟被门控
++而不在软件中被禁用。芯片的部分，在供电但没有时钟的情况下，可能会保留其最后的状态。这种
++低功耗状态通常被称为*保留模式*。这种模式仍然会产生漏电流，特别是在电路几何结构较细的情
++况下，但对于CMOS电路来说，电源主要是通过时钟状态变化来使用的。
++
++电源感知驱动程序只有在其管理的设备处于活动使用状态时才会启用时钟。此外，系统睡眠状态通
++常根据哪些时钟域处于活动状态而有所不同：“待机”状态可能允许从多个活动域中唤醒，而
++"mem"（暂停到RAM）状态可能需要更全面地关闭来自高速PLL和振荡器的时钟，从而限制了可能
++的唤醒事件源的数量。驱动器的暂停方法可能需要注意目标睡眠状态的系统特定时钟约束。
++
++一些平台支持可编程时钟发生器。这些可以被各种外部芯片使用，如其他CPU、多媒体编解码器以
++及对接口时钟有严格要求的设备。
++
++check the functions in include/linux/clk.h in kernel source code.
++   :internal:
++
++同步原语
++========
++
++读-复制-更新（RCU）
++-------------------
++
++check the functions in include/linux/rcupdate.h in kernel source code.
++
++check the functions in kernel/rcu/tree.c in kernel source code.
++
++check the functions in kernel/rcu/tree_exp.h in kernel source code.
++
++check the functions in kernel/rcu/update.c in kernel source code.
++
++check the functions in include/linux/srcu.h in kernel source code.
++
++check the functions in kernel/rcu/srcutree.c in kernel source code.
++
++check the functions in include/linux/rculist_bl.h in kernel source code.
++
++check the functions in include/linux/rculist.h in kernel source code.
++
++check the functions in include/linux/rculist_nulls.h in kernel source code.
++
++check the functions in include/linux/rcu_sync.h in kernel source code.
++
++check the functions in kernel/rcu/sync.c in kernel source code.
+-- 
+2.27.0
 
-Cheers,
--- David
-
->  Documentation/dev-tools/kunit/usage.rst | 37 +++++++++++++++++++++----
->  1 file changed, 31 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> index 650f99590df57..b74bd7c87cc20 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -612,14 +612,39 @@ only things to be aware of when doing so.
->  The biggest impediment will likely be that certain KUnit features and
->  infrastructure may not support your target environment. For example, at this
->  time the KUnit Wrapper (``tools/testing/kunit/kunit.py``) does not work outside
-> -of UML. Unfortunately, there is no way around this. Using UML (or even just a
-> -particular architecture) allows us to make a lot of assumptions that make it
-> -possible to do things which might otherwise be impossible.
-> +of UML and QEMU. Unfortunately, there is no way around this. Using UML and QEMU
-> +(or even just a particular architecture) allows us to make a lot of assumptions
-> +that make it possible to do things which might otherwise be impossible.
-
-This is a bit more awkward now, and I don't think gives quite the
-right impression. Particularly the "Unfortunately, there is no way
-around this." bit: there's no fundamental reason that someone couldn't
-implement support for some other emulator (or even a setup which
-pushed to real hardware and read results over serial), it'd just take
-a bit of work to implement (like this patch series has done for qemu).
-
-Personally, I think it'd be easiest to simplify this section and say
-that kunit_tool currently only fully supports some architectures, via
-UML and QEMU.
-
->
->  Nevertheless, all core KUnit framework features are fully supported on all
-> -architectures, and using them is straightforward: all you need to do is to take
-> -your kunitconfig, your Kconfig options for the tests you would like to run, and
-> -merge them into whatever config your are using for your platform. That's it!
-> +architectures, and using them is straightforward: Most popular architectures
-> +are supported directly in the KUnit Wrapper via QEMU.  Currently, supported
-> +architectures on QEMU include:
-> +
-> +*   i386
-> +*   x86_64
-> +*   arm
-> +*   arm64
-> +*   alpha
-> +*   powerpc
-> +*   riscv
-> +*   s390
-> +*   sparc
-> +
-> +In order to run KUnit tests on one of these architectures via QEMU with the
-> +KUnit wrapper, all you need to do is specify the flags ``--arch`` and
-> +``--cross_compile`` when invoking the KUnit Wrapper. For example, we could run
-> +the default KUnit tests on ARM in the following manner (assuming we have an ARM
-> +toolchain installed):
-> +
-> +.. code-block:: bash
-> +
-> +       tools/testing/kunit/kunit.py run --timeout=60 --jobs=12 --arch=arm --cross_compile=arm-linux-gnueabihf-
-> +
-
-Is it worth also documenting the --qemu_config option here?
-(Particularly given the restriction on its path?) Or is that something
-best added to the kunit_tool page?
-
-That being said, changes to the kunit_tool page are probably worth
-adding as a section in the updated page:
-https://patchwork.kernel.org/project/linux-kselftest/patch/20210417034553.1048895-1-davidgow@google.com/
-
-At the very least, it'd be nice to have the new QEMU-related options
-documented there.
-
-
-> +Alternatively, if you want to run your tests on real hardware or in some other
-> +emulation environment, all you need to do is to take your kunitconfig, your
-> +Kconfig options for the tests you would like to run, and merge them into
-> +whatever config your are using for your platform. That's it!
->
->  For example, let's say you have the following kunitconfig:
->
-> --
-> 2.31.1.607.g51e8a6a459-goog
->
-
---000000000000b8df5a05c259c406
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnAYJKoZIhvcNAQcCoIIPjTCCD4kCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz2MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-ILbFHw0h01NI0v+AeczGMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwgZoGCCsGAQUF
-BwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9nc2F0
-bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNv
-bS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouseLHIb
-0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vY2Ev
-Z3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQCNr3LBERPjVctGdVEb
-/hN6/N6F2eUWxZLSUbuV7fOle0OvI8xz2AUBrOYQLp94ox9LqmsATKPsBl2uiktsvfs/AXNMcmOz
-qsWHzfqp4XlvNgQsC/UyUMWxZoEyTDfTSat09yQjkFJ7viwzrqqscmTx5oTZz8TPRt0mbxwx3qry
-wDzYxadSUQXNpNnfi0FBDYUUfuCLFWPsPsAXmgh483u0RbNik9OY/ozNq1Gvg/U0jQOlJf2IiKbE
-kUL5Vq8gDDu6bETx5bHmRmSjHhwo7eVbxywczpzdFsU3dauZ3BzqhLy2pRGGzZybSH/3mf7o9y15
-gmRHE7WzPLrsULHG/TM8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xv
-YmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAyMDIw
-AhABm/kO+4pd09krN7Fjk8ypMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCqE3J4
-R8hdya2vZJzwNsq5lX45jIvSqV4aLximl+BRCzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwG
-CSqGSIb3DQEJBTEPFw0yMTA1MTUwODAxMzFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEq
-MAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqG
-SIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEANLOdBegAVhX5dZi9kQkCgBkI
-LYHabOC661IUPKvd51qwregM2+OThiZ0HyfdM5PUjLAu/U+EIvc+GymF44N5l8tCFlQGt0ysqRWj
-vAh7KX24h1v9oJiUx3obCTWsi6SbOp95JzEAyA70sAm/BrIMkTgmLPtMzEFwyF5t5/Wnz1l5S7En
-5U2Nttv4+SgFb0h/igeUhyWOfnBeMvmz6kpK9+y5OaJHuiPhS5cQz4n1rgFltdf9X/bZU3grzkGL
-EjX4T17L3Al3JLBQCLQR4F/etdbFHAWv96jcdtpbAdIQKvYw1wE0ilbZfP/HdddHfbwLzQXCwpj4
-6UobTD6PO2I22w==
---000000000000b8df5a05c259c406--
