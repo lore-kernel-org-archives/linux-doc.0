@@ -2,1330 +2,495 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA8B2C43461
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 20:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A66DC433B4
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 02:55:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2F3961454
-	for <linux-doc@archiver.kernel.org>; Fri, 14 May 2021 20:52:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F4C86144A
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 02:55:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232717AbhENUxz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 May 2021 16:53:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26007 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232498AbhENUxr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 16:53:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621025554;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ntcwLDAHn1j1+W6JBLGRKllZsY5PXAbQt9h5GfMGves=;
-        b=KVJ3inUTWSfqTQ8fxnkR4aLSTwoTQHm6lDhhnjlLrUyJraITXHT3aC38Ul6KAVmj+o5zFk
-        2Ch72vLbu8KIFZMVODPg+96DI+ic25rJ/MsjJ7rvc184E1feVnnizEmjTH0DYRd48DnTKm
-        OCDw88RJcKV/77JmcMEGaX/9C/GXKa4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-3NInjC6dPrmvNczaBhodCQ-1; Fri, 14 May 2021 16:52:30 -0400
-X-MC-Unique: 3NInjC6dPrmvNczaBhodCQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E0368186F1;
-        Fri, 14 May 2021 20:52:28 +0000 (UTC)
-Received: from x1.bristot.me.homenet.telecomitalia.it (ovpn-113-210.rdu2.redhat.com [10.10.113.210])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 245E91971B;
-        Fri, 14 May 2021 20:52:23 +0000 (UTC)
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: [PATCH V3 9/9] tracing: Add timerlat tracer
-Date:   Fri, 14 May 2021 22:51:18 +0200
-Message-Id: <b650672b9973887ef1420bc1e76b97940b6522d6.1621024265.git.bristot@redhat.com>
-In-Reply-To: <cover.1621024265.git.bristot@redhat.com>
-References: <cover.1621024265.git.bristot@redhat.com>
+        id S232735AbhEOC47 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 May 2021 22:56:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48712 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232860AbhEOC47 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 May 2021 22:56:59 -0400
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB50C06174A
+        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 19:55:47 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so954131oth.5
+        for <linux-doc@vger.kernel.org>; Fri, 14 May 2021 19:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=j7JJ1UGG0xOMV95jJ+FfGUQ6lWLzjD7ynsbpTgNSaow=;
+        b=VCbIINGXgdQ/A842xzPO6d7kc/cAH9Xef2htar1/xLMHTrLFviBzd4TWY0cK0z9B06
+         99G6kFZeqzPcYwVJjTNsPTfsPtSXSf46uIlTR8DZekdcDS58w+juLKxU9quSejDJ1wBA
+         xb3HvE4YMUAhJ9jjkkUxv6PYetH4aey426pUQE7Jz+eRLAMcJB9Q8OIlf7UJ8/kC4dy6
+         c0uh50Cuc0pkAYzFzbcym2wtOZKGXUS7dcxYK2d3uO5XnWxqMz/TrD9Oe5TPBY4Ui8Ka
+         MHw0QU5N91hPDCfUwdU1Ca0cHfhMhv/E94m10j8r1ZQ3gMtmKv2d0ERynqf8sTig7mUQ
+         iaIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=j7JJ1UGG0xOMV95jJ+FfGUQ6lWLzjD7ynsbpTgNSaow=;
+        b=HwdpQe75/Pfo615AMedMQjKFfD+5kH2eWHnWfPBnRr36JvQfQjfFVvodDaZf6WburE
+         T8RLn02Gf6j1wY7owPmjEO1XrjaoEJTF6MSWmz24qroNXjbB6ssVtpxxSxvxDKX5Lj0b
+         1nUCuWFKRdiG0CGH7N7qDk0ACMGQS9zZqxWJdyZ//2pVFwYE4/xg7vc9viNDeX8cLzIn
+         jZ4/SOS+jI4bTuV343tQ9ifdYpKys+unk9f4rFPeSIZLR8nbAwvyy5okOIYABynxwJ8j
+         05p5ZU3ZLqa8Oh+Aesh+K0N6mMOu9cmclDwG57t6WzmGU8AvOppbnrJl3IEZ+ghbZ02G
+         uUAA==
+X-Gm-Message-State: AOAM531p0yhFZ9ICpC+hlqkDlhnhD81djFQkHrYr4Nov6w4Bq+tPN9Pf
+        Ek0VYTCCHfq3UriBZ+zavg2lrNpmaF+D+EdvMZ9v6j3hkD6ZAg==
+X-Google-Smtp-Source: ABdhPJwnQaWsmQsOWciq4ycqgbfltsy/AFt5gfJzG9NN6Hak6AmHCSvOyzAdqGHpkqZ20EpFeU0ELIiknl9WzFod2Ps=
+X-Received: by 2002:a9d:1d45:: with SMTP id m63mr21116019otm.302.1621047346067;
+ Fri, 14 May 2021 19:55:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20210512072543.4188612-1-siyanteng@loongson.cn> <20210513184653.GA16187@bobwxc.top>
+In-Reply-To: <20210513184653.GA16187@bobwxc.top>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Sat, 15 May 2021 10:55:35 +0800
+Message-ID: <CAEensMw+PPjwS4p7k39xouww0hz8D2LZG67Nm1hq9vSrRmFqJw@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: add core api kobject translation
+To:     "Wu X.C." <bobwxc@email.cn>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        huangjianghui@uniontech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The timerlat tracer aims to help the preemptive kernel developers to
-found souces of wakeup latencies of real-time threads. Like cyclictest,
-the tracer sets a periodic timer that wakes up a thread. The thread then
-computes a *wakeup latency* value as the difference between the *current
-time* and the *absolute time* that the timer was set to expire. The main
-goal of timerlat is tracing in such a way to help kernel developers.
-
-Usage
-
-Write the ASCII text "timerlat" into the current_tracer file of the
-tracing system (generally mounted at /sys/kernel/tracing).
-
-For example:
-
-        [root@f32 ~]# cd /sys/kernel/tracing/
-        [root@f32 tracing]# echo timerlat > current_tracer
-
-It is possible to follow the trace by reading the trace trace file::
-
-  [root@f32 tracing]# cat trace
-  # tracer: timerlat
-  #
-  #                              _-----=> irqs-off
-  #                             / _----=> need-resched
-  #                            | / _---=> hardirq/softirq
-  #                            || / _--=> preempt-depth
-  #                            || /
-  #                            ||||             ACTIVATION
-  #         TASK-PID      CPU# ||||   TIMESTAMP    ID            CONTEXT                LATENCY
-  #            | |         |   ||||      |         |                  |                       |
-          <idle>-0       [000] d.h1    54.029328: #1     context    irq timer_latency       932 ns
-           <...>-867     [000] ....    54.029339: #1     context thread timer_latency     11700 ns
-          <idle>-0       [001] dNh1    54.029346: #1     context    irq timer_latency      2833 ns
-           <...>-868     [001] ....    54.029353: #1     context thread timer_latency      9820 ns
-          <idle>-0       [000] d.h1    54.030328: #2     context    irq timer_latency       769 ns
-           <...>-867     [000] ....    54.030330: #2     context thread timer_latency      3070 ns
-          <idle>-0       [001] d.h1    54.030344: #2     context    irq timer_latency       935 ns
-           <...>-868     [001] ....    54.030347: #2     context thread timer_latency      4351 ns
-
-The tracer creates a per-cpu kernel thread with real-time priority that
-prints two lines at every activation. The first is the *timer latency*
-observed at the *hardirq* context before the activation of the thread.
-The second is the *timer latency* observed by the thread, which is the
-same level that cyclictest reports. The ACTIVATION ID field
-serves to relate the *irq* execution to its respective *thread* execution.
-
-The irq/thread splitting is important to clarify at which context
-the unexpected high value is coming from. The *irq* context can be
-delayed by hardware related actions, such as SMIs, NMIs, IRQs
-or by a thread masking interrupts. Once the timer happens, the delay
-can also be influenced by blocking caused by threads. For example, by
-postponing the scheduler execution via preempt_disable(),  by the
-scheduler execution, or by masking interrupts. Threads can
-also be delayed by the interference from other threads and IRQs.
-
-The timerlat can also take advantage of the osnoise: traceevents.
-For example:
-
-        [root@f32 ~]# cd /sys/kernel/tracing/
-        [root@f32 tracing]# echo timerlat > current_tracer
-        [root@f32 tracing]# echo osnoise > set_event
-        [root@f32 tracing]# echo 25 > osnoise/stop_tracing_out_us
-        [root@f32 tracing]# tail -10 trace
-             cc1-87882   [005] d..h...   548.771078: #402268 context    irq timer_latency      1585 ns
-             cc1-87882   [005] dNLh1..   548.771082: irq_noise: local_timer:236 start 548.771077442 duration 4597 ns
-             cc1-87882   [005] dNLh2..   548.771083: irq_noise: reschedule:253 start 548.771083017 duration 56 ns
-             cc1-87882   [005] dNLh2..   548.771086: irq_noise: call_function_single:251 start 548.771083811 duration 2048 ns
-             cc1-87882   [005] dNLh2..   548.771088: irq_noise: call_function_single:251 start 548.771086814 duration 1495 ns
-             cc1-87882   [005] dNLh2..   548.771091: irq_noise: call_function_single:251 start 548.771089194 duration 1558 ns
-             cc1-87882   [005] dNLh2..   548.771094: irq_noise: call_function_single:251 start 548.771091719 duration 1932 ns
-             cc1-87882   [005] dNLh2..   548.771096: irq_noise: call_function_single:251 start 548.771094696 duration 1050 ns
-             cc1-87882   [005] d...3..   548.771101: thread_noise:      cc1:87882 start 548.771078243 duration 10909 ns
-      timerlat/5-1035    [005] .......   548.771103: #402268 context thread timer_latency     25960 ns
-
-For further information see: Documentation/trace/timerlat-tracer.rst
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Alexandre Chartre <alexandre.chartre@oracle.com>
-Cc: Clark Willaims <williams@redhat.com>
-Cc: John Kacur <jkacur@redhat.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
----
- Documentation/trace/index.rst           |   1 +
- Documentation/trace/timerlat-tracer.rst | 158 ++++++
- kernel/trace/Kconfig                    |  28 ++
- kernel/trace/trace.h                    |   2 +
- kernel/trace/trace_entries.h            |  16 +
- kernel/trace/trace_osnoise.c            | 625 ++++++++++++++++++++++--
- kernel/trace/trace_output.c             |  47 ++
- 7 files changed, 846 insertions(+), 31 deletions(-)
- create mode 100644 Documentation/trace/timerlat-tracer.rst
-
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index 608107b27cc0..3769b9b7aed8 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -24,6 +24,7 @@ Linux Tracing Technologies
-    boottime-trace
-    hwlat_detector
-    osnoise-tracer
-+   timerlat-tracer
-    intel_th
-    ring-buffer-design
-    stm
-diff --git a/Documentation/trace/timerlat-tracer.rst b/Documentation/trace/timerlat-tracer.rst
-new file mode 100644
-index 000000000000..902d2f9a489f
---- /dev/null
-+++ b/Documentation/trace/timerlat-tracer.rst
-@@ -0,0 +1,158 @@
-+###############
-+Timerlat tracer
-+###############
-+
-+The timerlat tracer aims to help the preemptive kernel developers to
-+found souces of wakeup latencies of real-time threads. Like cyclictest,
-+the tracer sets a periodic timer that wakes up a thread. The thread then
-+computes a *wakeup latency* value as the difference between the *current
-+time* and the *absolute time* that the timer was set to expire. The main
-+goal of timerlat is tracing in such a way to help kernel developers.
-+
-+Usage
-+-----
-+
-+Write the ASCII text "timerlat" into the current_tracer file of the
-+tracing system (generally mounted at /sys/kernel/tracing).
-+
-+For example::
-+
-+        [root@f32 ~]# cd /sys/kernel/tracing/
-+        [root@f32 tracing]# echo timerlat > current_tracer
-+
-+It is possible to follow the trace by reading the trace trace file::
-+
-+  [root@f32 tracing]# cat trace
-+  # tracer: timerlat
-+  #
-+  #                              _-----=> irqs-off
-+  #                             / _----=> need-resched
-+  #                            | / _---=> hardirq/softirq
-+  #                            || / _--=> preempt-depth
-+  #                            || /
-+  #                            ||||             ACTIVATION
-+  #         TASK-PID      CPU# ||||   TIMESTAMP    ID            CONTEXT                LATENCY
-+  #            | |         |   ||||      |         |                  |                       |
-+          <idle>-0       [000] d.h1    54.029328: #1     context    irq timer_latency       932 ns
-+           <...>-867     [000] ....    54.029339: #1     context thread timer_latency     11700 ns
-+          <idle>-0       [001] dNh1    54.029346: #1     context    irq timer_latency      2833 ns
-+           <...>-868     [001] ....    54.029353: #1     context thread timer_latency      9820 ns
-+          <idle>-0       [000] d.h1    54.030328: #2     context    irq timer_latency       769 ns
-+           <...>-867     [000] ....    54.030330: #2     context thread timer_latency      3070 ns
-+          <idle>-0       [001] d.h1    54.030344: #2     context    irq timer_latency       935 ns
-+           <...>-868     [001] ....    54.030347: #2     context thread timer_latency      4351 ns
-+
-+
-+The tracer creates a per-cpu kernel thread with real-time priority that
-+prints two lines at every activation. The first is the *timer latency*
-+observed at the *hardirq* context before the activation of the thread.
-+The second is the *timer latency* observed by the thread, which is the
-+same level that cyclictest reports. The ACTIVATION ID field
-+serves to relate the *irq* execution to its respective *thread* execution.
-+
-+The *irq*/*thread* splitting is important to clarify at which context
-+the unexpected high value is coming from. The *irq* context can be
-+delayed by hardware related actions, such as SMIs, NMIs, IRQs
-+or by a thread masking interrupts. Once the timer happens, the delay
-+can also be influenced by blocking caused by threads. For example, by
-+postponing the scheduler execution via preempt_disable(),  by the
-+scheduler execution, or by masking interrupts. Threads can
-+also be delayed by the interference from other threads and IRQs.
-+
-+Tracer options
-+---------------------
-+
-+The timerlat tracer is built on top of osnoise tracer.
-+So its configuration is also done in the osnoise/ config
-+directory. The timerlat configs are:
-+
-+ - cpus: CPUs at which a timerlat thread will execute.
-+ - timerlat_period_us: the period of the timerlat thread.
-+ - osnoise/stop_tracing_in_us: stop the system tracing if a
-+   timer latency at the *irq* context higher than the configured
-+   value happens. Writing 0 disables this option.
-+ - stop_tracing_out_us: stop the system tracing if a
-+   timer latency at the *thread* context higher than the configured
-+   value happens. Writing 0 disables this option.
-+ - print_stack: save the stack of the IRQ ocurrence, and print
-+   it after the *thread* read the latency.
-+
-+timerlat and osnoise
-+----------------------------
-+
-+The timerlat can also take advantage of the osnoise: traceevents.
-+For example::
-+
-+        [root@f32 ~]# cd /sys/kernel/tracing/
-+        [root@f32 tracing]# echo timerlat > current_tracer
-+        [root@f32 tracing]# echo osnoise > set_event
-+        [root@f32 tracing]# echo 25 > osnoise/stop_tracing_out_us
-+        [root@f32 tracing]# tail -10 trace
-+             cc1-87882   [005] d..h...   548.771078: #402268 context    irq timer_latency      1585 ns
-+             cc1-87882   [005] dNLh1..   548.771082: irq_noise: local_timer:236 start 548.771077442 duration 4597 ns
-+             cc1-87882   [005] dNLh2..   548.771083: irq_noise: reschedule:253 start 548.771083017 duration 56 ns
-+             cc1-87882   [005] dNLh2..   548.771086: irq_noise: call_function_single:251 start 548.771083811 duration 2048 ns
-+             cc1-87882   [005] dNLh2..   548.771088: irq_noise: call_function_single:251 start 548.771086814 duration 1495 ns
-+             cc1-87882   [005] dNLh2..   548.771091: irq_noise: call_function_single:251 start 548.771089194 duration 1558 ns
-+             cc1-87882   [005] dNLh2..   548.771094: irq_noise: call_function_single:251 start 548.771091719 duration 1932 ns
-+             cc1-87882   [005] dNLh2..   548.771096: irq_noise: call_function_single:251 start 548.771094696 duration 1050 ns
-+             cc1-87882   [005] d...3..   548.771101: thread_noise:      cc1:87882 start 548.771078243 duration 10909 ns
-+      timerlat/5-1035    [005] .......   548.771103: #402268 context thread timer_latency     25960 ns
-+
-+In this case, the root cause of the timer latency does not point for a
-+single, but to a series of call_function_single IPIs, followed by a 10
-+*us* delay from a cc1 thread noise, along with the regular timer
-+activation. It is worth mentioning that the *duration* values reported
-+by the osnoise events are *net* values. For example, the
-+thread_noise does not include the duration of the overhead caused
-+by the IRQ execution (which indeed accounted for 12736 ns).
-+
-+Such pieces of evidence are useful for the developer to use other
-+tracing methods to figure out how to optimize the environment.
-+
-+IRQ stacktrace
-+---------------------------
-+
-+The osnoise/print_stack option is helpful for the cases in which a thread
-+noise causes the major factor for the timer latency, because of preempt or
-+irq disabled. For example::
-+
-+        [root@f32 tracing]# echo 500 > osnoise/stop_tracing_out_us
-+        [root@f32 tracing]# echo 500 > osnoise/print_stack
-+        [root@f32 tracing]# echo timerlat > current_tracer
-+        [root@f32 tracing]# tail -21 per_cpu/cpu7/trace
-+          insmod-1026    [007] dN.h1..   200.201948: irq_noise: local_timer:236 start 200.201939376 duration 7872 ns
-+          insmod-1026    [007] d..h1..   200.202587: #29800 context    irq timer_latency      1616 ns
-+          insmod-1026    [007] dN.h2..   200.202598: irq_noise: local_timer:236 start 200.202586162 duration 11855 ns
-+          insmod-1026    [007] dN.h3..   200.202947: irq_noise: local_timer:236 start 200.202939174 duration 7318 ns
-+          insmod-1026    [007] d...3..   200.203444: thread_noise:   insmod:1026 start 200.202586933 duration 838681 ns
-+      timerlat/7-1001    [007] .......   200.203445: #29800 context thread timer_latency    859978 ns
-+      timerlat/7-1001    [007] ....1..   200.203446: <stack trace>
-+  => timerlat_irq
-+  => __hrtimer_run_queues
-+  => hrtimer_interrupt
-+  => __sysvec_apic_timer_interrupt
-+  => asm_call_irq_on_stack
-+  => sysvec_apic_timer_interrupt
-+  => asm_sysvec_apic_timer_interrupt
-+  => delay_tsc
-+  => dummy_load_1ms_pd_init
-+  => do_one_initcall
-+  => do_init_module
-+  => __do_sys_finit_module
-+  => do_syscall_64
-+  => entry_SYSCALL_64_after_hwframe
-+
-+In this case, it is possible to see that the thread added the highest
-+contribution to the *timer latency* and the stack trace points to
-+a function named dummy_load_1ms_pd_init, which had the following
-+code (on purpose)::
-+
-+	static int __init dummy_load_1ms_pd_init(void)
-+	{
-+		preempt_disable();
-+		mdelay(1);
-+		preempt_enable();
-+		return 0;
-+
-+	}
-diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-index 41582ae4682b..d567b1717c4c 100644
---- a/kernel/trace/Kconfig
-+++ b/kernel/trace/Kconfig
-@@ -390,6 +390,34 @@ config OSNOISE_TRACER
- 	  To enable this tracer, echo in "osnoise" into the current_tracer
-           file.
- 
-+config TIMERLAT_TRACER
-+	bool "Timerlat tracer"
-+	select OSNOISE_TRACER
-+	select GENERIC_TRACER
-+	help
-+	  The timerlat tracer aims to help the preemptive kernel developers
-+	  to find sources of wakeup latencies of real-time threads.
-+
-+	  The tracer creates a per-cpu kernel thread with real-time priority.
-+	  The tracer thread sets a periodic timer to wakeup itself, and goes
-+	  to sleep waiting for the timer to fire. At the wakeup, the thread
-+	  then computes a wakeup latency value as the difference between
-+	  the current time and the absolute time that the timer was set
-+	  to expire.
-+
-+	  The tracer prints two lines at every activation. The first is the
-+	  timer latency observed at the hardirq context before the
-+	  activation of the thread. The second is the timer latency observed
-+	  by the thread, which is the same level that cyclictest reports. The
-+	  ACTIVATION ID field serves to relate the irq execution to its
-+	  respective thread execution.
-+
-+	  The tracer is build on top of osnoise tracer, and the osnoise:
-+	  events can be used to trace the source of interference from NMI,
-+	  IRQs and other threads. It also enables the capture of the
-+	  stacktrace at the IRQ context, which helps to identify the code
-+	  path that can cause thread delay.
-+
- config MMIOTRACE
- 	bool "Memory mapped IO tracing"
- 	depends on HAVE_MMIOTRACE_SUPPORT && PCI
-diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
-index 754dfe8987a2..889986242c40 100644
---- a/kernel/trace/trace.h
-+++ b/kernel/trace/trace.h
-@@ -45,6 +45,7 @@ enum trace_type {
- 	TRACE_BPUTS,
- 	TRACE_HWLAT,
- 	TRACE_OSNOISE,
-+	TRACE_TIMERLAT,
- 	TRACE_RAW_DATA,
- 	TRACE_FUNC_REPEATS,
- 
-@@ -448,6 +449,7 @@ extern void __ftrace_bad_type(void);
- 		IF_ASSIGN(var, ent, struct bputs_entry, TRACE_BPUTS);	\
- 		IF_ASSIGN(var, ent, struct hwlat_entry, TRACE_HWLAT);	\
- 		IF_ASSIGN(var, ent, struct osnoise_entry, TRACE_OSNOISE);\
-+		IF_ASSIGN(var, ent, struct timerlat_entry, TRACE_TIMERLAT);\
- 		IF_ASSIGN(var, ent, struct raw_data_entry, TRACE_RAW_DATA);\
- 		IF_ASSIGN(var, ent, struct trace_mmiotrace_rw,		\
- 			  TRACE_MMIO_RW);				\
-diff --git a/kernel/trace/trace_entries.h b/kernel/trace/trace_entries.h
-index 158c0984b59b..cd41e863b51c 100644
---- a/kernel/trace/trace_entries.h
-+++ b/kernel/trace/trace_entries.h
-@@ -385,3 +385,19 @@ FTRACE_ENTRY(osnoise, osnoise_entry,
- 		 __entry->softirq_count,
- 		 __entry->thread_count)
- );
-+
-+FTRACE_ENTRY(timerlat, timerlat_entry,
-+
-+	TRACE_TIMERLAT,
-+
-+	F_STRUCT(
-+		__field(	unsigned int,		seqnum		)
-+		__field(	int,			context		)
-+		__field(	u64,			timer_latency	)
-+	),
-+
-+	F_printk("seq:%u\tcontext:%d\ttimer_latency:%llu\n",
-+		 __entry->seqnum,
-+		 __entry->context,
-+		 __entry->timer_latency)
-+);
-diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
-index 9bd40b514d84..3a8d70fbb57f 100644
---- a/kernel/trace/trace_osnoise.c
-+++ b/kernel/trace/trace_osnoise.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-  * OS Noise Tracer: computes the OS Noise suffered by a running thread.
-+ * Timerlat Tracer: measures the wakeup latency of a timer triggered IRQ and thread.
-  *
-  * Based on "hwlat_detector" tracer by:
-  *   Copyright (C) 2008-2009 Jon Masters, Red Hat, Inc. <jcm@redhat.com>
-@@ -21,6 +22,7 @@
- #include <linux/cpumask.h>
- #include <linux/delay.h>
- #include <linux/sched/clock.h>
-+#include <uapi/linux/sched/types.h>
- #include <linux/sched.h>
- #include "trace.h"
- 
-@@ -45,6 +47,9 @@ static struct trace_array	*osnoise_trace;
- #define DEFAULT_SAMPLE_PERIOD	1000000			/* 1s */
- #define DEFAULT_SAMPLE_RUNTIME	1000000			/* 1s */
- 
-+#define DEFAULT_TIMERLAT_PERIOD	1000			/* 1ms */
-+#define DEFAULT_TIMERLAT_PRIO	95			/* FIFO 95 */
-+
- /*
-  * NMI runtime info.
-  */
-@@ -62,6 +67,8 @@ struct irq {
- 	u64 delta_start;
- };
- 
-+#define IRQ_CONTEXT	0
-+#define THREAD_CONTEXT	1
- /*
-  * SofIRQ runtime info.
-  */
-@@ -108,32 +115,76 @@ static inline struct osnoise_variables *this_cpu_osn_var(void)
- 	return this_cpu_ptr(&per_cpu_osnoise_var);
- }
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+/*
-+ * Runtime information for the timer mode.
-+ */
-+struct timerlat_variables {
-+	struct task_struct *kthread;
-+	struct hrtimer timer;
-+	u64 rel_period;
-+	u64 abs_period;
-+	bool tracing_thread;
-+	u64 count;
-+};
-+
-+DEFINE_PER_CPU(struct timerlat_variables, per_cpu_timerlat_var);
-+
- /**
-- * osn_var_reset - Reset the values of the given osnoise_variables
-+ * this_cpu_tmr_var - Return the per-cpu timerlat_variables on its relative CPU
-+ */
-+static inline struct timerlat_variables *this_cpu_tmr_var(void)
-+{
-+	return this_cpu_ptr(&per_cpu_timerlat_var);
-+}
-+
-+/**
-+ * tlat_var_reset - Reset the values of the given timerlat_variables
-  */
--static inline void osn_var_reset(struct osnoise_variables *osn_var)
-+static inline void tlat_var_reset(void)
- {
-+	struct timerlat_variables *tlat_var;
-+	int cpu;
- 	/*
- 	 * So far, all the values are initialized as 0, so
- 	 * zeroing the structure is perfect.
- 	 */
--	memset(osn_var, 0, sizeof(struct osnoise_variables));
-+	for_each_cpu(cpu, cpu_online_mask) {
-+		tlat_var = per_cpu_ptr(&per_cpu_timerlat_var, cpu);
-+		memset(tlat_var, 0, sizeof(struct timerlat_variables));
-+	}
- }
-+#else /* CONFIG_TIMERLAT_TRACER */
-+#define tlat_var_reset()	do {} while (0)
-+#endif /* CONFIG_TIMERLAT_TRACER */
- 
- /**
-- * osn_var_reset_all - Reset the value of all per-cpu osnoise_variables
-+ * osn_var_reset - Reset the values of the given osnoise_variables
-  */
--static inline void osn_var_reset_all(void)
-+static inline void osn_var_reset(void)
- {
- 	struct osnoise_variables *osn_var;
- 	int cpu;
- 
-+	/*
-+	 * So far, all the values are initialized as 0, so
-+	 * zeroing the structure is perfect.
-+	 */
- 	for_each_cpu(cpu, cpu_online_mask) {
- 		osn_var = per_cpu_ptr(&per_cpu_osnoise_var, cpu);
--		osn_var_reset(osn_var);
-+		memset(osn_var, 0, sizeof(struct osnoise_variables));
- 	}
- }
- 
-+/**
-+ * osn_var_reset_all - Reset the value of all per-cpu osnoise_variables
-+ */
-+static inline void osn_var_reset_all(void)
-+{
-+	osn_var_reset();
-+	tlat_var_reset();
-+}
-+
- /*
-  * Tells NMIs to call back to the osnoise tracer to record timestamps.
-  */
-@@ -154,6 +205,18 @@ struct osnoise_sample {
- 	int			thread_count;	/* # Threads during this sample */
- };
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+/*
-+ * timerlat sample structure definition. Used to store the statistics of
-+ * a sample run.
-+ */
-+struct timerlat_sample {
-+	u64			seqnum;		/* unique sequence */
-+	u64			timer_latency;	/* timer_latency */
-+	int			context;	/* timer context */
-+};
-+#endif
-+
- /*
-  * Protect the interface.
-  */
-@@ -165,13 +228,23 @@ struct mutex interface_lock;
- static struct osnoise_data {
- 	u64	sample_period;		/* total sampling period */
- 	u64	sample_runtime;		/* active sampling portion of period */
--	u64	stop_tracing_in;	/* stop trace in the inside operation (loop) */
--	u64	stop_tracing_out;	/* stop trace in the outside operation (report) */
-+	u64	stop_tracing_in;	/* stop trace in the inside operation (loop/irq) */
-+	u64	stop_tracing_out;	/* stop trace in the outside operation (report/thread) */
-+#ifdef CONFIG_TIMERLAT_TRACER
-+	u64	timerlat_period;	/* timerlat period */
-+	u64	print_stack;		/* print IRQ stack if total > */
-+	int	timerlat_tracer;	/* timerlat tracer */
-+#endif
- } osnoise_data = {
- 	.sample_period			= DEFAULT_SAMPLE_PERIOD,
- 	.sample_runtime			= DEFAULT_SAMPLE_RUNTIME,
- 	.stop_tracing_in		= 0,
- 	.stop_tracing_out		= 0,
-+#ifdef CONFIG_TIMERLAT_TRACER
-+	.print_stack			= 0,
-+	.timerlat_period		= DEFAULT_TIMERLAT_PERIOD,
-+	.timerlat_tracer		= 0,
-+#endif
- };
- 
- /*
-@@ -232,6 +305,125 @@ static void trace_osnoise_sample(struct osnoise_sample *sample)
- 		trace_buffer_unlock_commit_nostack(buffer, event);
- }
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+/*
-+ * Print the timerlat header info.
-+ */
-+static void print_timerlat_headers(struct seq_file *s)
-+{
-+	seq_puts(s, "#                                _-----=> irqs-off\n");
-+	seq_puts(s, "#                               / _----=> need-resched\n");
-+	seq_puts(s, "#                              | / _---=> hardirq/softirq\n");
-+	seq_puts(s, "#                              || / _--=> preempt-depth\n");
-+	seq_puts(s, "#                              || /\n");
-+	seq_puts(s, "#                              ||||             ACTIVATION\n");
-+	seq_puts(s, "#           TASK-PID      CPU# ||||   TIMESTAMP    ID     ");
-+	seq_puts(s, "       CONTEXT                LATENCY\n");
-+	seq_puts(s, "#              | |         |   ||||      |         |      ");
-+	seq_puts(s, "            |                       |\n");
-+}
-+
-+/*
-+ * Record an timerlat_sample into the tracer buffer.
-+ */
-+static void trace_timerlat_sample(struct timerlat_sample *sample)
-+{
-+	struct trace_array *tr = osnoise_trace;
-+	struct trace_event_call *call = &event_osnoise;
-+	struct trace_buffer *buffer = tr->array_buffer.buffer;
-+	struct ring_buffer_event *event;
-+	struct timerlat_entry *entry;
-+
-+	event = trace_buffer_lock_reserve(buffer, TRACE_TIMERLAT, sizeof(*entry),
-+					  tracing_gen_ctx());
-+	if (!event)
-+		return;
-+	entry	= ring_buffer_event_data(event);
-+	entry->seqnum			= sample->seqnum;
-+	entry->context			= sample->context;
-+	entry->timer_latency		= sample->timer_latency;
-+
-+	if (!call_filter_check_discard(call, entry, buffer, event))
-+		trace_buffer_unlock_commit_nostack(buffer, event);
-+}
-+
-+#ifdef CONFIG_STACKTRACE
-+/*
-+ * Stack trace will take place only at IRQ level, so, no need
-+ * to control nesting here.
-+ */
-+struct trace_stack {
-+	int stack_size;
-+	int nr_entries;
-+	unsigned long           calls[PAGE_SIZE];
-+};
-+
-+static DEFINE_PER_CPU(struct trace_stack, trace_stack);
-+
-+/**
-+ * timerlat_save_stack - save a stack trace without printing
-+ *
-+ * Save the current stack trace without printing. The
-+ * stack will be printed later, after the end of the measurement.
-+ */
-+static void timerlat_save_stack(int skip)
-+{
-+	unsigned int size, nr_entries;
-+	struct trace_stack *fstack;
-+
-+	fstack = this_cpu_ptr(&trace_stack);
-+
-+	size = ARRAY_SIZE(fstack->calls);
-+
-+	nr_entries = stack_trace_save(fstack->calls, size, skip);
-+
-+	fstack->stack_size = nr_entries * sizeof(unsigned long);
-+	fstack->nr_entries = nr_entries;
-+
-+	return;
-+
-+}
-+/**
-+ * timerlat_dump_stack - dump a stack trace previously saved
-+ *
-+ * Dump a saved stack trace into the trace buffer.
-+ */
-+static void timerlat_dump_stack(void)
-+{
-+	struct trace_event_call *call = &event_osnoise;
-+	struct trace_array *tr = osnoise_trace;
-+	struct trace_buffer *buffer = tr->array_buffer.buffer;
-+	struct ring_buffer_event *event;
-+	struct trace_stack *fstack;
-+	struct stack_entry *entry;
-+	unsigned int size;
-+
-+	preempt_disable_notrace();
-+	fstack = this_cpu_ptr(&trace_stack);
-+	size = fstack->stack_size;
-+
-+	event = trace_buffer_lock_reserve(buffer, TRACE_STACK, sizeof(*entry) + size,
-+					  tracing_gen_ctx());
-+	if (!event)
-+		goto out;
-+
-+	entry = ring_buffer_event_data(event);
-+
-+	memcpy(&entry->caller, fstack->calls, size);
-+	entry->size = fstack->nr_entries;
-+
-+	if (!call_filter_check_discard(call, entry, buffer, event))
-+		trace_buffer_unlock_commit_nostack(buffer, event);
-+
-+out:
-+	preempt_enable_notrace();
-+}
-+#else
-+#define timerlat_dump_stack() do {} while (0)
-+#define timerlat_save_stack(a) do {} while (0)
-+#endif /* CONFIG_STACKTRACE */
-+#endif /* CONFIG_TIMERLAT_TRACER */
-+
- /**
-  * Macros to encapsulate the time capturing infrastructure.
-  */
-@@ -373,6 +565,30 @@ set_int_safe_time(struct osnoise_variables *osn_var, u64 *time)
- 	return int_counter;
- }
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+/**
-+ * copy_int_safe_time - Copy *src into *desc aware of interference
-+ */
-+static u64
-+copy_int_safe_time(struct osnoise_variables *osn_var, u64 *dst, u64 *src)
-+{
-+	u64 int_counter;
-+
-+	do {
-+		int_counter = local_read(&osn_var->int_counter);
-+		/* synchronize with interrupts */
-+		barrier();
-+
-+		*dst = *src;
-+
-+		/* synchronize with interrupts */
-+		barrier();
-+	} while (int_counter != local_read(&osn_var->int_counter));
-+
-+	return int_counter;
-+}
-+#endif /* CONFIG_TIMERLAT_TRACER */
-+
- /**
-  * trace_osnoise_callback - NMI entry/exit callback
-  *
-@@ -801,6 +1017,22 @@ void trace_softirq_exit_callback(void *data, unsigned int vec_nr)
- 	if (!osn_var->sampling)
- 		return;
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+	/*
-+	 * If the timerlat is enabled, but the irq handler did
-+	 * not run yet enabling timerlat_tracer, do not trace.
-+	 */
-+	if (unlikely(osnoise_data.timerlat_tracer)) {
-+		struct timerlat_variables *tlat_var;
-+		tlat_var = this_cpu_tmr_var();
-+		if (!tlat_var->tracing_thread) {
-+			osn_var->softirq.arrival_time = 0;
-+			osn_var->softirq.delta_start = 0;
-+			return;
-+		}
-+	}
-+#endif
-+
- 	duration = get_int_safe_duration(osn_var, &osn_var->softirq.delta_start);
- 	trace_softirq_noise(vec_nr, osn_var->softirq.arrival_time, duration);
- 	cond_move_thread_delta_start(osn_var, duration);
-@@ -893,6 +1125,18 @@ thread_exit(struct osnoise_variables *osn_var, struct task_struct *t)
- 	if (!osn_var->sampling)
- 		return;
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+	if (osnoise_data.timerlat_tracer) {
-+		struct timerlat_variables *tlat_var;
-+		tlat_var = this_cpu_tmr_var();
-+		if (!tlat_var->tracing_thread) {
-+			osn_var->thread.delta_start = 0;
-+			osn_var->thread.arrival_time = 0;
-+			return;
-+		}
-+	}
-+#endif
-+
- 	duration = get_int_safe_duration(osn_var, &osn_var->thread.delta_start);
- 
- 	trace_thread_noise(t, osn_var->thread.arrival_time, duration);
-@@ -1182,6 +1426,197 @@ static int osnoise_main(void *data)
- 	return 0;
- }
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+/**
-+ * timerlat_irq - hrtimer handler for timerlat.
-+ */
-+static enum hrtimer_restart timerlat_irq(struct hrtimer *timer)
-+{
-+	struct osnoise_variables *osn_var = this_cpu_osn_var();
-+	struct trace_array *tr = osnoise_trace;
-+	struct timerlat_variables *tlat;
-+	struct timerlat_sample s;
-+	u64 now;
-+	u64 diff;
-+
-+	/*
-+	 * I am not sure if the timer was armed for this CPU. So, get
-+	 * the timerlat struct from the timer itself, not from this
-+	 * CPU.
-+	 */
-+	tlat = container_of(timer, struct timerlat_variables, timer);
-+
-+	now = ktime_to_ns(hrtimer_cb_get_time(&tlat->timer));
-+
-+	/*
-+	 * Enable the osnoise: events for thread an softirq.
-+	 */
-+	tlat->tracing_thread = true;
-+
-+	osn_var->thread.arrival_time = time_get();
-+
-+	/*
-+	 * A hardirq is running: the timer IRQ. It is for sure preempting
-+	 * a thread, and potentially preempting a softirq.
-+	 *
-+	 * At this point, it is not interesting to know the duration of the
-+	 * preempted thread (and maybe softirq), but how much time they will
-+	 * delay the beginning of the execution of the timer thread.
-+	 *
-+	 * To get the correct (net) delay added by the softirq, its delta_start
-+	 * is set as the IRQ one. In this way, at the return of the IRQ, the delta
-+	 * start of the sofitrq will be zeroed, accounting then only the time
-+	 * after that.
-+	 *
-+	 * The thread follows the same principle. However, if a softirq is
-+	 * running, the thread needs to receive the softirq delta_start. The
-+	 * reason being is that the softirq will be the last to be unfolded,
-+	 * resseting the thread delay to zero.
-+	 */
-+#ifndef CONFIG_PREEMPT_RT
-+	if (osn_var->softirq.delta_start) {
-+		copy_int_safe_time(osn_var, &osn_var->thread.delta_start,
-+				   &osn_var->softirq.delta_start);
-+
-+		copy_int_safe_time(osn_var, &osn_var->softirq.delta_start,
-+				    &osn_var->irq.delta_start);
-+	} else {
-+		copy_int_safe_time(osn_var, &osn_var->thread.delta_start,
-+				    &osn_var->irq.delta_start);
-+	}
-+#else /* CONFIG_PREEMPT_RT */
-+	/*
-+	 * The sofirqs run as threads on RT, so there is not need
-+	 * to keep track of it.
-+	 */
-+	copy_int_safe_time(osn_var, &osn_var->thread.delta_start, &osn_var->irq.delta_start);
-+#endif /* CONFIG_PREEMPT_RT */
-+
-+	/*
-+	 * Compute the current time with the expected time.
-+	 */
-+	diff = now - tlat->abs_period;
-+
-+	tlat->count++;
-+	s.seqnum = tlat->count;
-+	s.timer_latency = diff;
-+	s.context = IRQ_CONTEXT;
-+
-+	trace_timerlat_sample(&s);
-+
-+	/* Keep a running maximum ever recorded os noise "latency" */
-+	if (diff > tr->max_latency) {
-+		tr->max_latency = diff;
-+		latency_fsnotify(tr);
-+	}
-+
-+	if (osnoise_data.stop_tracing_in)
-+		if (time_to_us(diff) >= osnoise_data.stop_tracing_in)
-+			osnoise_stop_tracing();
-+
-+	wake_up_process(tlat->kthread);
-+
-+#ifdef CONFIG_STACKTRACE
-+	if (osnoise_data.print_stack)
-+		timerlat_save_stack(0);
-+#endif
-+
-+	return HRTIMER_NORESTART;
-+}
-+
-+/**
-+ * wait_next_period - Wait for the next period for timerlat
-+ */
-+static int wait_next_period(struct timerlat_variables *tlat)
-+{
-+	ktime_t next_abs_period, now;
-+	u64 rel_period = osnoise_data.timerlat_period * 1000;
-+
-+	now = hrtimer_cb_get_time(&tlat->timer);
-+	next_abs_period = ns_to_ktime(tlat->abs_period + rel_period);
-+
-+	/*
-+	 * Save the next abs_period.
-+	 */
-+	tlat->abs_period = (u64) ktime_to_ns(next_abs_period);
-+
-+	/*
-+	 * If the new abs_period is in the past, skip the activation.
-+	 */
-+	while (ktime_compare(now, next_abs_period) > 0) {
-+		next_abs_period = ns_to_ktime(tlat->abs_period + rel_period);
-+		tlat->abs_period = (u64) ktime_to_ns(next_abs_period);
-+	}
-+
-+	set_current_state(TASK_INTERRUPTIBLE);
-+
-+	hrtimer_start(&tlat->timer, next_abs_period, HRTIMER_MODE_ABS_PINNED_HARD);
-+	schedule();
-+	return 1;
-+}
-+
-+/**
-+ * timerlat_main- Timerlat main
-+ */
-+static int timerlat_main(void *data)
-+{
-+	struct osnoise_variables *osn_var = this_cpu_osn_var();
-+	struct timerlat_variables *tlat = this_cpu_tmr_var();
-+	struct timerlat_sample s;
-+	struct sched_param sp;
-+	u64 now, diff;
-+
-+	/*
-+	 * Make the thread RT, that is how cyclictest is usually used.
-+	 */
-+	sp.sched_priority = DEFAULT_TIMERLAT_PRIO;
-+	sched_setscheduler_nocheck(current, SCHED_FIFO, &sp);
-+
-+	tlat->count = 0;
-+	tlat->tracing_thread = false;
-+
-+	hrtimer_init(&tlat->timer, CLOCK_MONOTONIC, HRTIMER_MODE_ABS_PINNED_HARD);
-+	tlat->timer.function = timerlat_irq;
-+	tlat->kthread = current;
-+	osn_var->pid = current->pid;
-+	/*
-+	 * Anotate the arrival time.
-+	 */
-+	tlat->abs_period = hrtimer_cb_get_time(&tlat->timer);
-+
-+	wait_next_period(tlat);
-+
-+	osn_var->sampling = 1;
-+
-+	while (!kthread_should_stop()) {
-+		now = ktime_to_ns(hrtimer_cb_get_time(&tlat->timer));
-+		diff = now - tlat->abs_period;
-+
-+		s.seqnum = tlat->count;
-+		s.timer_latency = diff;
-+		s.context = THREAD_CONTEXT;
-+
-+		trace_timerlat_sample(&s);
-+
-+#ifdef CONFIG_STACKTRACE
-+	if (osnoise_data.print_stack)
-+		if (osnoise_data.print_stack <= time_to_us(diff))
-+			timerlat_dump_stack();
-+#endif /* CONFIG_STACKTRACE */
-+
-+		tlat->tracing_thread = false;
-+		if (osnoise_data.stop_tracing_out)
-+			if (time_to_us(diff) >= osnoise_data.stop_tracing_out)
-+				osnoise_stop_tracing();
-+
-+		wait_next_period(tlat);
-+	}
-+
-+	hrtimer_cancel(&tlat->timer);
-+	return 0;
-+}
-+#endif /* CONFIG_TIMERLAT_TRACER */
-+
- /**
-  * stop_per_cpu_kthread - stop per-cpu threads
-  *
-@@ -1212,6 +1647,7 @@ static int start_per_cpu_kthreads(struct trace_array *tr)
- 	struct cpumask *current_mask = &save_cpumask;
- 	struct task_struct *kthread;
- 	char comm[24];
-+	void *main = osnoise_main;
- 	int cpu;
- 
- 	get_online_cpus();
-@@ -1229,9 +1665,17 @@ static int start_per_cpu_kthreads(struct trace_array *tr)
- 		per_cpu(per_cpu_osnoise_var, cpu).kthread = NULL;
- 
- 	for_each_cpu(cpu, current_mask) {
-+#ifdef CONFIG_TIMERLAT_TRACER
-+		if (osnoise_data.timerlat_tracer) {
-+			snprintf(comm, 24, "timerlat/%d", cpu);
-+			main = timerlat_main;
-+		} else {
-+			snprintf(comm, 24, "osnoise/%d", cpu);
-+		}
-+#else
- 		snprintf(comm, 24, "osnoise/%d", cpu);
--
--		kthread = kthread_create_on_cpu(osnoise_main, NULL, cpu, comm);
-+#endif
-+		kthread = kthread_create_on_cpu(main, NULL, cpu, comm);
- 
- 		if (IS_ERR(kthread)) {
- 			pr_err(BANNER "could not start sampling thread\n");
-@@ -1373,6 +1817,31 @@ static struct trace_ull_config osnoise_stop_total = {
- 	.min	= NULL,
- };
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+/*
-+ * osnoise/print_stack: print the stacktrace of the IRQ handler if the total
-+ * latency is higher than val.
-+ */
-+static struct trace_ull_config osnoise_print_stack = {
-+	.lock	= &interface_lock,
-+	.val	= &osnoise_data.print_stack,
-+	.max	= NULL,
-+	.min	= NULL,
-+};
-+
-+/*
-+ * osnoise/timerlat_period: min 100 us, max 1 s
-+ */
-+u64 timerlat_min_period = 100;
-+u64 timerlat_max_period = 1000000;
-+static struct trace_ull_config timerlat_period = {
-+	.lock	= &interface_lock,
-+	.val	= &osnoise_data.timerlat_period,
-+	.max	= &timerlat_max_period,
-+	.min	= &timerlat_min_period,
-+};
-+#endif
-+
- static const struct file_operations cpus_fops = {
- 	.open		= tracing_open_generic,
- 	.read		= osnoise_cpus_read,
-@@ -1383,10 +1852,9 @@ static const struct file_operations cpus_fops = {
- /**
-  * init_tracefs - A function to initialize the tracefs interface files
-  *
-- * This function creates entries in tracefs for "osnoise". It creates the
-- * "osnoise" directory in the tracing directory, and within that
-- * directory is the count, runtime and period files to change and view
-- * those values.
-+ * This function creates entries in tracefs for "osnoise" and "timerlat".
-+ * It creates these directories in the tracing directory, and within that
-+ * directory the use can change and view the configs.
-  */
- static int init_tracefs(void)
- {
-@@ -1400,7 +1868,7 @@ static int init_tracefs(void)
- 
- 	top_dir = tracefs_create_dir("osnoise", NULL);
- 	if (!top_dir)
--		return -ENOMEM;
-+		return 0;
- 
- 	tmp = tracefs_create_file("period_us", 0640, top_dir,
- 				  &osnoise_period, &trace_ull_config_fops);
-@@ -1425,6 +1893,19 @@ static int init_tracefs(void)
- 	tmp = trace_create_file("cpus", 0644, top_dir, NULL, &cpus_fops);
- 	if (!tmp)
- 		goto err;
-+#ifdef CONFIG_TIMERLAT_TRACER
-+#ifdef CONFIG_STACKTRACE
-+	tmp = tracefs_create_file("print_stack", 0640, top_dir,
-+				  &osnoise_print_stack, &trace_ull_config_fops);
-+	if (!tmp)
-+		goto err;
-+#endif
-+
-+	tmp = tracefs_create_file("timerlat_period_us", 0640, top_dir,
-+				  &timerlat_period, &trace_ull_config_fops);
-+	if (!tmp)
-+		goto err;
-+#endif
- 
- 	return 0;
- 
-@@ -1465,18 +1946,15 @@ static int osnoise_hook_events(void)
- 	return -EINVAL;
- }
- 
--static void osnoise_tracer_start(struct trace_array *tr)
-+static int __osnoise_tracer_start(struct trace_array *tr)
- {
- 	int retval;
- 
--	if (osnoise_busy)
--		return;
--	
- 	osn_var_reset_all();
- 
- 	retval = osnoise_hook_events();
- 	if (retval)
--		goto out_err;
-+		return retval;
- 	/*
- 	 * Make sure NMIs see reseted values.
- 	 */
-@@ -1484,15 +1962,27 @@ static void osnoise_tracer_start(struct trace_array *tr)
- 	trace_osnoise_callback_enabled = true;
- 
- 	retval = start_per_cpu_kthreads(tr);
--	/*
--	 * all fine!
--	 */
--	if (!retval)
-+	if (retval) {
-+		unhook_irq_events();
-+		return retval;
-+	}
-+
-+	osnoise_busy = true;
-+
-+	return 0;
-+}
-+
-+static void osnoise_tracer_start(struct trace_array *tr)
-+{
-+	int retval;
-+
-+	if (osnoise_busy)
- 		return;
- 
--out_err:
--	unhook_irq_events();
--	pr_err(BANNER "Error starting osnoise tracer\n");
-+	retval = __osnoise_tracer_start(tr);
-+	if (retval)
-+		pr_err(BANNER "Error starting osnoise tracer\n");
-+
- }
- 
- static void osnoise_tracer_stop(struct trace_array *tr)
-@@ -1514,18 +2004,16 @@ static void osnoise_tracer_stop(struct trace_array *tr)
- 
- static int osnoise_tracer_init(struct trace_array *tr)
- {
-+
- 	/* Only allow one instance to enable this */
- 	if (osnoise_busy)
- 		return -EBUSY;
- 
- 	osnoise_trace = tr;
--
- 	tr->max_latency = 0;
- 
- 	osnoise_tracer_start(tr);
- 
--	osnoise_busy = true;
--
- 	return 0;
- }
- 
-@@ -1544,6 +2032,71 @@ static struct tracer osnoise_tracer __read_mostly = {
- 	.allow_instances = true,
- };
- 
-+#ifdef CONFIG_TIMERLAT_TRACER
-+static void timerlat_tracer_start(struct trace_array *tr)
-+{
-+	int retval;
-+
-+	if (osnoise_busy)
-+		return;
-+
-+	osnoise_data.timerlat_tracer = 1;
-+
-+	retval = __osnoise_tracer_start(tr);
-+	if (retval)
-+		goto out_err;
-+
-+	return;
-+out_err:
-+	pr_err(BANNER "Error starting timerlat tracer\n");
-+}
-+
-+static void timerlat_tracer_stop(struct trace_array *tr)
-+{
-+	int cpu;
-+
-+	if (!osnoise_busy)
-+		return;
-+
-+	for_each_online_cpu(cpu)
-+		per_cpu(per_cpu_osnoise_var, cpu).sampling = 0;
-+
-+	osnoise_tracer_stop(tr);
-+
-+	osnoise_data.timerlat_tracer = 0;
-+}
-+
-+static int timerlat_tracer_init(struct trace_array *tr)
-+{
-+	/* Only allow one instance to enable this */
-+	if (osnoise_busy)
-+		return -EBUSY;
-+
-+	osnoise_trace = tr;
-+
-+	tr->max_latency = 0;
-+
-+	timerlat_tracer_start(tr);
-+
-+	return 0;
-+}
-+
-+static void timerlat_tracer_reset(struct trace_array *tr)
-+{
-+	timerlat_tracer_stop(tr);
-+}
-+
-+static struct tracer timerlat_tracer __read_mostly = {
-+	.name		= "timerlat",
-+	.init		= timerlat_tracer_init,
-+	.reset		= timerlat_tracer_reset,
-+	.start		= timerlat_tracer_start,
-+	.stop		= timerlat_tracer_stop,
-+	.print_header	= print_timerlat_headers,
-+	.allow_instances = true,
-+};
-+#endif /* CONFIG_TIMERLAT_TRACER */
-+
- __init static int init_osnoise_tracer(void)
- {
- 	int ret;
-@@ -1553,8 +2106,18 @@ __init static int init_osnoise_tracer(void)
- 	cpumask_copy(&osnoise_cpumask, cpu_all_mask);
- 
- 	ret = register_tracer(&osnoise_tracer);
--	if (ret)
-+	if (ret) {
-+		pr_err(BANNER "Error registering osnoise!\n");
- 		return ret;
-+	}
-+
-+#ifdef CONFIG_TIMERLAT_TRACER
-+	ret = register_tracer(&timerlat_tracer);
-+	if (ret) {
-+		pr_err(BANNER "Error registering timerlat\n");
-+		return ret;
-+	}
-+#endif
- 
- 	init_tracefs();
- 
-diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
-index 642b6584eba5..a0bf446bb034 100644
---- a/kernel/trace/trace_output.c
-+++ b/kernel/trace/trace_output.c
-@@ -1301,6 +1301,52 @@ static struct trace_event trace_osnoise_event = {
- 	.funcs		= &trace_osnoise_funcs,
- };
- 
-+/* TRACE_TIMERLAT */
-+static enum print_line_t
-+trace_timerlat_print(struct trace_iterator *iter, int flags,
-+		     struct trace_event *event)
-+{
-+	struct trace_entry *entry = iter->ent;
-+	struct trace_seq *s = &iter->seq;
-+	struct timerlat_entry *field;
-+
-+	trace_assign_type(field, entry);
-+
-+	trace_seq_printf(s, "#%-5u context %6s timer_latency %9llu ns\n",
-+			 field->seqnum,
-+			 field->context ? "thread" : "irq",
-+			 field->timer_latency);
-+
-+	return trace_handle_return(s);
-+}
-+
-+static enum print_line_t
-+trace_timerlat_raw(struct trace_iterator *iter, int flags,
-+		   struct trace_event *event)
-+{
-+	struct timerlat_entry *field;
-+	struct trace_seq *s = &iter->seq;
-+
-+	trace_assign_type(field, iter->ent);
-+
-+	trace_seq_printf(s, "%u %d %llu\n",
-+			 field->seqnum,
-+			 field->context,
-+			 field->timer_latency);
-+
-+	return trace_handle_return(s);
-+}
-+
-+static struct trace_event_functions trace_timerlat_funcs = {
-+	.trace		= trace_timerlat_print,
-+	.raw		= trace_timerlat_raw,
-+};
-+
-+static struct trace_event trace_timerlat_event = {
-+	.type		= TRACE_TIMERLAT,
-+	.funcs		= &trace_timerlat_funcs,
-+};
-+
- /* TRACE_BPUTS */
- static enum print_line_t
- trace_bputs_print(struct trace_iterator *iter, int flags,
-@@ -1512,6 +1558,7 @@ static struct trace_event *events[] __initdata = {
- 	&trace_print_event,
- 	&trace_hwlat_event,
- 	&trace_osnoise_event,
-+	&trace_timerlat_event,
- 	&trace_raw_data_event,
- 	&trace_func_repeats_event,
- 	NULL
--- 
-2.26.3
-
+V3UgWC5DLiA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NeaciDE05pel5ZGo5LqUIOS4iuWN
+iDI6NDflhpnpgZPvvJoNCj4NCj4gT24gV2VkLCBNYXkgMTIsIDIwMjEgYXQgMDM6MjU6NDNQTSAr
+MDgwMCwgWWFudGVuZyBTaSB3cm90ZToNCj4gPiBUaGlzIHBhdGNoIHRyYW5zbGF0ZXMgRG9jdW1l
+bnRhdGlvbi9jb3JlLWFwaS9rb2JqZWN0LnJzdCBpbnRvIENoaW5lc2UuDQo+ID4NCj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4gLS0tDQo+
+ID4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0ICAgICB8ICAgNiAr
+LQ0KPiA+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2tvYmplY3QucnN0ICAgfCAz
+NzkgKysrKysrKysrKysrKysrKysrDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMzg0IGluc2VydGlv
+bnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2tvYmplY3QucnN0DQo+ID4NCj4gPiBkaWZm
+IC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgu
+cnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0
+DQo+ID4gaW5kZXggZjFmYTcxZTQ1Yzc3Li5iNGNmYjRhZGZjYzMgMTAwNjQ0DQo+ID4gLS0tIGEv
+RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0DQo+ID4g
+KysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0
+DQo+ID4gQEAgLTMyLDkgKzMyLDEzIEBAIFRvZG9saXN0Og0KPiA+DQo+ID4gIOWcqOaVtOS4quWG
+heaguOS4reS9v+eUqOeahOWHveaVsOW6k+OAgg0KPiA+DQo+ID4gLVRvZG9saXN0Og0KPiA+ICsu
+LiB0b2N0cmVlOjoNCj4gPiArICAgOm1heGRlcHRoOiAxDQo+ID4NCj4gPiAgICAga29iamVjdA0K
+PiA+ICsNCj4gPiArVG9kb2xpc3Q6DQo+ID4gKw0KPiA+ICAgICBrcmVmDQo+ID4gICAgIGFzc29j
+X2FycmF5DQo+ID4gICAgIHhhcnJheQ0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
+YW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9rb2JqZWN0LnJzdCBiL0RvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2tvYmplY3QucnN0DQo+ID4gbmV3IGZpbGUgbW9kZSAx
+MDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmFjNzVmYmUwNDAwNw0KPiA+IC0tLSAvZGV2
+L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFw
+aS9rb2JqZWN0LnJzdA0KPiA+IEBAIC0wLDAgKzEsMzc5IEBADQo+ID4gKy4uIGluY2x1ZGU6OiAu
+Li9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiA+ICsNCj4gPiArOk9yaWdpbmFsOiBEb2N1bWVudGF0
+aW9uL2NvcmUtYXBpL2tvYmplY3QucnN0DQo+ID4gKzpUcmFuc2xhdG9yOiBZYW50ZW5nIFNpIDxz
+aXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4gKw0KPiA+ICsuLiBfY25fY29yZV9hcGlfa29iamVj
+dC5yc3Q6DQo+ID4gKw0KPiA+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09DQo+ID4gK+WFs+S6jmtvYmplY3Rz44CBa3NldHPlkoxrdHlwZXPn
+moTkuIDliIfkvaDmsqHmg7Pov4fpnIDopoHkuobop6PnmoTkuJzopb8NCj4gPiArPT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA+ICsNCj4g
+PiArOuS9nOiAhTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9y
+Zz4NCj4gPiArOuacgOWQjuS4gOasoeabtOaWsDogRGVjZW1iZXIgMTksIDIwMDcNCj4NCj4gMjAw
+N+W5tDEy5pyIMTnml6UNCj4NCj4gPiArDQo+ID4gK+agueaNrkpvbiBDb3JiZXTkuo4yMDAz5bm0
+MTDmnIgx5pel5Li6bHduLm5ldOaSsOWGmeeahOWOn+WIm+aWh+eroOaUuee8lu+8jOe9keWdgOaY
+r++8mg0KPiA+ICtodHRwczovL2x3bi5uZXQvQXJ0aWNsZXMvNTE0MzcvDQo+ID4gKw0KPiA+ICvn
+kIbop6PpqbHliqjmqKHlnovlkozlu7rnq4vlnKjlhbbkuIrnmoRrb2JqZWN05oq96LGh55qE6YOo
+5YiG55qE5Zuw6Zq+5Zyo5LqO77yM5rKh5pyJ5piO5pi+55qE5LiL5omL54K544CCDQo+DQo+IOWI
+h+WFpeeCue+8nw0KT0shDQo+DQo+ID4gK+WkhOeQhmtvYmplY3Rz6ZyA6KaB55CG6Kej5LiA5Lqb
+5LiN5ZCM55qE57G75Z6L77yM5omA5pyJ6L+Z5Lqb57G75Z6L6YO95Lya55u45LqS5byV55So44CC
+5Li65LqG5L2/5LqL5oOFDQo+ID4gK+WPmOW+l+abtOeugOWNle+8jOaIkeS7rOWwhumHh+WPluS4
+gOenjeWkmumAlOW+hOeahOaWueazle+8jOS7juaooeeziueahOacr+ivreW8gOWni++8jOW5tuWc
+qOaIkeS7rOi/m+ihjOi/hw0KPiA+ICvnqIvkuK3pgILlvZPnmoTml7blgJnlop7liqDnu4boioLj
+gILkuLrmraTvvIzov5nph4zmnInkuIDkupvmiJHku6zlsIbopoHkvb/nlKjnmoTmnK/or63nmoTl
+v6vpgJ/lrprkuYnjgIINCj4NCj4gSG93IGFib3V0DQo+IOaIkeS7rOWwhuWkmui3r+W5tui/m++8
+jOS7juaooeeziueahOacr+ivreW8gOWni++8jOW5tumAkOa4kOWinuWKoOe7huiKguOAgumCo+S5
+iO+8jOWFiOadpeS6huino+S4gOS6m+aIkeS7rA0KPiDlsIbopoHkvb/nlKjnmoTmnK/or63nmoTn
+roDmmI7lrprkuYnlkKfjgIINCj4gPw0KZ3JlYXQhDQo+DQo+ID4gKw0KPiA+ICsgLSDkuIDkuKpr
+b2JqZWN05piv5LiA5Liqc3RydWN0IGtvYmplY3TnsbvlnovnmoTlr7nosaHjgIJLb2JqZWN0c+ac
+ieS4gOS4quWQjeWtl+WSjOS4gOS4qg0KPg0KPiBzdHJ1Y3QNCmtvYmplY3Tnu5PmnoTkvZMNCj4N
+Cj4gPiArICAg5byV55So6K6h5pWw44CC5LiA5Liqa29iamVjdOS5n+acieS4gOS4queItuaMh+mS
+iO+8iOWFgeiuuOWvueixoeiiq+aOkuWIl+aIkOWxguasoee7k+aehO+8ie+8jOS4gOS4qg0KPiA+
+ICsgICDnibnlrprnmoTnsbvlnovvvIzlubbkuJTvvIzpgJrluLjlnKhzeXNmc+iZmuaLn+aWh+S7
+tuezu+e7n+S4reihqOekuuOAgg0KPiA+ICsNCj4gPiArICBLb2JqZWN0c+acrOi6q+mAmuW4uOW5
+tuS4jeaciei2o++8m+ebuOWPje+8jOWug+S7rOmAmuW4uOiiq+W1jOWFpeWIsOWFtuS7lue7k+ae
+hOS9k+S4re+8jOi/meS6m+e7k+aehA0KPg0KPiDlubbkuI3lvJXkurrlhbPms6jvvJvnm7jlj43l
+roPku6zluLjluLjooqvltYzlhaXliLDlhbbku5bljIXlkKvnnJ/mraPlvJXkurrms6jnm67nmoTk
+u6PnoIHnmoTnu5PmnoTkvZPkuK3jgIINCk9LIQ0KPg0KPiA+ICsgIOS9k+WMheWQq+S7o+eggeec
+n+ato+aEn+WFtOi2o+eahOS4nOilv+OAgg0KPiA+ICsNCj4gPiArICDku7vkvZXnu5PmnoTkvZPp
+g73kuI3lupTor6XmnInkuIDkuKrku6XkuIrnmoRrb2JqZWN05bWM5YWl5YW25Lit44CC5aaC5p6c
+5pyJ55qE6K+d77yM5a+56LGh55qE5byV55So6K6hDQo+DQo+IOmDvSAqKuS4jeW6lOivpSoqIOac
+iQ0KT0shDQo+DQo+ID4gKyAg5pWw6IKv5a6a5Lya6KKr5omT5Lmx77yM6ICM5LiU5LiN5q2j56Gu
+77yM5L2g55qE5Luj56CB5bCx5Lya5Ye6546w6ZSZ6K+v44CC5omA5Lul5LiN6KaB6L+Z5qC35YGa
+44CCDQo+ID4gKw0KPiA+ICsgLSBrdHlwZeaYr+W1jOWFpeS4gOS4qmtvYmplY3TnmoTlr7nosaHn
+moTnsbvlnovjgILmr4/kuKrltYzlhaVrb2JqZWN055qE57uT5p6E5L2T6YO96ZyA6KaB5LiA5Liq
+DQo+ID4gKyAgIOebuOW6lOeahGt0eXBl44CCa3R5cGXmjqfliLbnnYBrb2JqZWN05Zyo6KKr5Yib
+5bu65ZKM6ZSA5q+B5pe255qE5oOF5Ya144CCDQo+DQo+IHdoYXQgaGFwcGVuZA0KPiBzL+aDheWG
+tS/ooYzkuLovDQpPSyENCj4NCj4gPiArDQo+ID4gKyAtIOS4gOS4qmtzZXTmmK/kuIDnu4Rrb2Jq
+ZWN0c+OAgui/meS6m2tvYmplY3Rz5Y+v5Lul5piv55u45ZCM55qEa3R5cGXmiJbogIXlsZ7kuo7k
+uI3lkIznmoQNCj4gPiArICAga3R5cGXjgIJrc2V05piva29iamVjdHPpm4blkIjnmoTln7rmnKzl
+rrnlmajnsbvlnovjgIJLc2V0c+WMheWQq+Wug+S7rOiHquW3seeahGtvYmplY3Rz77yMDQo+ID4g
+KyAgIOS9huS9oOWPr+S7peWuieWFqOWcsOW/veeVpei/meS4quWunueOsOe7huiKgu+8jOWboOS4
+umtzZXTnmoTmoLjlv4Pku6PnoIHkvJroh6rliqjlpITnkIbov5nkuKprb2JqZWN044CCDQo+ID4g
+Kw0KPiA+ICsg5b2T5L2g55yL5Yiw5LiA5Liq5LiL6Z2i5YWo5piv5YW25LuW55uu5b2V55qEc3lz
+ZnPnm67lvZXml7bvvIzpgJrluLjov5nkupvnm67lvZXkuK3nmoTmr4/kuIDkuKrpg73lr7nlupQN
+Cj4gPiArIOS6juWQjOS4gOS4qmtzZXTkuK3nmoTkuIDkuKprb2JqZWN044CCDQo+ID4gKw0KPiA+
+ICsg5oiR5Lus5bCG56CU56m25aaC5L2V5Yib5bu65ZKM5pON5L2c5omA5pyJ6L+Z5Lqb57G75Z6L
+44CC5bCG6YeH5Y+W5LiA56eN6Ieq5LiL6ICM5LiK55qE5pa55rOV77yM5omA5Lul5oiR5LusDQo+
+ID4gKyDlsIblm57liLBrb2JqZWN0c+OAgg0KPiA+ICsNCj4gPiArDQo+ID4gK+W1jOWFpWtvYmpl
+Y3RzDQo+ID4gKz09PT09PT09PT09PT0NCj4gPiArDQo+ID4gK+WGheaguOS7o+eggeW+iOWwkeWI
+m+W7uuWtpOeri+eahGtvYmplY3TvvIzlj6rmnInkuIDkuKrph43opoHnmoTkvovlpJbvvIzkuIvp
+naLkvJrop6Pph4rjgILnm7jlj43vvIwNCj4NCj4gbWFqb3Ig6YeN6KaBIG9yIOS4u+imgT8NCnVz
+ZSDkuLvopoENCj4NCj4gPiAra29iamVjdHPooqvnlKjmnaXmjqfliLblr7nkuIDkuKrmm7TlpKfn
+moTjgIHnibnlrprpoobln5/nmoTlr7nosaHnmoTorr/pl67jgILkuLrmraTvvIxrb2JqZWN0c+S8
+muiiqw0KPiA+ICvltYzlhaXliLDlhbbku5bnu5PmnoTkuK3jgILlpoLmnpzkvaDkuaDmg6/kuo7n
+lKjpnaLlkJHlr7nosaHnmoTmnK/or63mnaXmgJ3ogIPpl67popjvvIzpgqPkuYhrb2JqZWN0c+WP
+rw0KPiA+ICvku6XooqvnnIvkvZzmmK/kuIDkuKrpobbnuqfnmoTmir3osaHnsbvvvIzlhbbku5bn
+moTnsbvpg73mmK/ku47lroPmtL7nlJ/lh7rmnaXnmoTjgILkuIDkuKprb2JqZWN05a6e546w5LqG
+DQo+ID4gK+S4gOezu+WIl+eahOWKn+iDve+8jOi/meS6m+WKn+iDveacrOi6q+W5tuS4jeeJueWI
+q+acieeUqO+8jOS9huWcqOWFtuS7luWvueixoeS4reWNtOW+iOWlveeUqOOAgkPor63oqIDkuI3l
+hYENCj4gPiAr6K6455u05o6l6KGo6L6+57un5om/77yM5omA5Lul5b+F6aG75L2/55So5YW25LuW
+5oqA5pyv4oCU4oCU5q+U5aaC57uT5p6E5L2T5bWM5YWl44CCDQo+ID4gKw0KPiA+ICvkvZzkuLrk
+uIDkuKrml4Hop4LogIXvvIzlr7nkuo7pgqPkupvnhp/mgonlhoXmoLjpk77ooajlrp7njrDnmoTk
+urrmnaXor7TvvIzov5nnsbvkvLzkuo7igJxsaXN0X2hlYWTigJ3nu5MNCj4NCj4gbWlzcyBhIO+8
+iA0KPg0KPiBhcyBhbiBhc2lkZSDkvZzkuLrml4Hnmb0NCj4gICAgICAgICAgICAg6L+Z6YeM5Y+v
+5Lul5LiN57+76K+R77yM55u05o6l5Yig5o6JDQpPS++8gQ0KPg0KPiA+ICvmnoTmnKzouqvlvojl
+sJHmnInnlKjvvIzkvYbmgLvmmK/ooqvltYzlhaXliLDmhJ/lhbTotqPnmoTmm7TlpKfnmoTlr7no
+saHkuK3vvInjgIINCj4gPiArDQo+ID4gK+S+i+Wmgu+8jCBgYGRyaXZlcnMvdWlvL3Vpby5jYGAg
+5Lit55qESU/ku6PnoIHmnInkuIDkuKrnu5PmnoTkvZPvvIzlrprkuYnkuobkuI51aW/orr7lpIfn
+m7gNCj4gPiAr5YWz55qE5YaF5a2Y5Yy65Z+fOjoNCj4gPiArDQo+ID4gKyAgICBzdHJ1Y3QgdWlv
+X21hcCB7DQo+ID4gKyAgICAgICAgICAgIHN0cnVjdCBrb2JqZWN0IGtvYmo7DQo+ID4gKyAgICAg
+ICAgICAgIHN0cnVjdCB1aW9fbWVtICptZW07DQo+ID4gKyAgICB9Ow0KPiA+ICsNCj4gPiAr5aaC
+5p6c5L2g5pyJ5LiA5LiqdWlvX21hcOe7k+aehOS9k++8jOaJvuWIsOWFtuW1jOWFpeeahGtvYmpl
+Y3Tlj6rmmK/kuIDkuKrkvb/nlKhrb2Jq5oiQ5ZGY55qE6Zeu6aKY44CCDQo+ID4gK+eEtuiAjO+8
+jOS4jmtvYmplY3Rz5LiA6LW35bel5L2c55qE5Luj56CB5b6A5b6A5Lya6YGH5Yiw55u45Y+N55qE
+6Zeu6aKY77ya57uZ5a6a5LiA5Liq57uT5p6E5L2Ta29iamVjdA0KPiA+ICvnmoTmjIfpkojvvIzm
+jIflkJHljIXlkKvnu5PmnoTkvZPnmoTmjIfpkojmmK/ku4DkuYjvvJ/kvaDlv4Xpobvpgb/lhY3k
+vb/nlKjkuIDkupvmioDlt6fvvIjmr5TlpoLlgYforr4NCj4gPiAra29iamVjdOWcqOe7k+aehOea
+hOW8gOWktO+8ie+8jOebuOWPje+8jOS9oOW+l+S9v+eUqGNvbnRhaW5lcl9vZigp5a6P77yM5YW2
+5Y+v5Lul5ZyoIGBgPGxpbnV4L2tlcm5lbC5oPmBgDQo+ID4gK+S4reaJvuWIsDo6DQo+ID4gKw0K
+PiA+ICsgICAgY29udGFpbmVyX29mKHB0ciwgdHlwZSwgbWVtYmVyKQ0KPiA+ICsNCj4gPiAr5YW2
+5LitOg0KPiA+ICsNCj4gPiArICAqIGBgcHRyYGAg5piv5LiA5Liq5oyH5ZCR5bWM5YWla29iamVj
+dOeahOaMh+mSiO+8jA0KPiA+ICsgICogYGB0eXBlYGAg5piv5YyF5ZCr57uT5p6E5L2T55qE57G7
+5Z6L77yMDQo+ID4gKyAgKiBgYG1lbWJlcmBgIOaYryBgYOaMh+mSiGBgIOaJgOaMh+WQkeeahOe7
+k+aehOS9k+Wfn+eahOWQjeensOOAgg0KPiA+ICsNCj4gPiArY29udGFpbmVyX29mKCnnmoTov5Tl
+m57lgLzmmK/kuIDkuKrmjIflkJHnm7jlupTlrrnlmajnsbvlnovnmoTmjIfpkojjgILlm6DmraTv
+vIzkvovlpoLvvIzkuIDkuKrltYzlhaXliLANCj4gPiArdWlvX21hcOe7k+aehCAqKuS4rSoqIOea
+hGtvYmplY3Tnu5PmnoTkvZPnmoTmjIfpkohrcOWPr+S7peiiq+i9rOaNouS4uuS4gOS4quaMh+WQ
+kSAqKuWMheWQqyoqIHVpb19tYXANCj4gPiAr57uT5p6E5L2T55qE5oyH6ZKI77yM5pa55rOV5piv
+OjoNCj4gPiArDQo+ID4gKyAgICBzdHJ1Y3QgdWlvX21hcCAqdV9tYXAgPSBjb250YWluZXJfb2Yo
+a3AsIHN0cnVjdCB1aW9fbWFwLCBrb2JqKTsNCj4gPiArDQo+ID4gK+S4uuS6huaWueS+v+i1t+in
+ge+8jOeoi+W6j+WRmOe7j+W4uOWumuS5ieS4gOS4queugOWNleeahOWuj++8jOeUqOS6juWwhmtv
+YmplY3TmjIfpkoggKirlj43mjqgqKiDliLDljIXlkKsNCj4gPiAr57G75Z6L44CC5Zyo5pep5pyf
+55qEIGBgZHJpdmVycy91aW8vdWlvLmNgYCDkuK3mraPmmK/lpoLmraTvvIzkvaDlj6/ku6XlnKjo
+v5nph4znnIvliLA6Og0KPiA+ICsNCj4gPiArICAgIHN0cnVjdCB1aW9fbWFwIHsNCj4gPiArICAg
+ICAgICAgICAgc3RydWN0IGtvYmplY3Qga29iajsNCj4gPiArICAgICAgICAgICAgc3RydWN0IHVp
+b19tZW0gKm1lbTsNCj4gPiArICAgIH07DQo+ID4gKw0KPiA+ICsgICAgI2RlZmluZSB0b19tYXAo
+bWFwKSBjb250YWluZXJfb2YobWFwLCBzdHJ1Y3QgdWlvX21hcCwga29iaikNCj4gPiArDQo+ID4g
+K+WFtuS4reWuj+eahOWPguaVsOKAnG1hcOKAneaYr+S4gOS4quaMh+WQkeacieWFs+eahGtvYmpl
+Y3Tnu5PmnoTkvZPnmoTmjIfpkojjgILor6Xlro/pmo/lkI7ooqvosIPnlKg6Og0KPiA+ICsNCj4g
+PiArICAgIHN0cnVjdCB1aW9fbWFwICptYXAgPSB0b19tYXAoa29iaik7DQo+ID4gKw0KPiA+ICsN
+Cj4gPiAra29iamVjdHPnmoTliJ3lp4vljJYNCj4gPiArPT09PT09PT09PT09PT09PQ0KPiA+ICsN
+Cj4gPiAr5b2T54S277yM5Yib5bu6a29iamVjdOeahOS7o+eggeW/hemhu+WIneWni+WMluivpeWv
+ueixoeOAguS4gOS6m+WGhemDqOWtl+auteaYr+mAmui/h+iwg+eUqGtvYmplY3RfaW5pdCgpDQo+
+ID4gK+adpeiuvue9rueahO+8iOW8uuWItu+8iTo6DQo+DQo+IO+8iOW8uuWItu+8ieiwg+eUqA0K
+T0vvvIENCj4NCj4gPiArDQo+ID4gKyAgICB2b2lkIGtvYmplY3RfaW5pdChzdHJ1Y3Qga29iamVj
+dCAqa29iaiwgc3RydWN0IGtvYmpfdHlwZSAqa3R5cGUpOw0KPiA+ICsNCj4gPiAra3R5cGXmmK/m
+raPnoa7liJvlu7prb2JqZWN055qE5b+F6KaB5p2h5Lu277yM5Zug5Li65q+P5Liqa29iamVjdOmD
+veW/hemhu+acieS4gOS4quebuOWFs+eahGtvYmpfdHlwZeOAgg0KPiA+ICvlnKjosIPnlKhrb2Jq
+ZWN0X2luaXQoKeWQju+8jOS4uuS6huWQkXN5c2Zz5rOo5YaMa29iamVjdO+8jOW/hemhu+iwg+eU
+qOWHveaVsGtvYmplY3RfYWRkKCk6Og0KPiA+ICsNCj4gPiArICAgIGludCBrb2JqZWN0X2FkZChz
+dHJ1Y3Qga29iamVjdCAqa29iaiwgc3RydWN0IGtvYmplY3QgKnBhcmVudCwNCj4gPiArICAgICAg
+ICAgICAgICAgICAgICBjb25zdCBjaGFyICpmbXQsIC4uLik7DQo+ID4gKw0KPiA+ICvov5nlsIbm
+raPnoa7orr7nva5rb2JqZWN055qE54i257qn5ZKMa29iamVjdOeahOWQjeensOOAguWmguaenOiv
+pWtvYmplY3TopoHkuI7kuIDkuKrnibnlrprnmoRrc2V055u45YWzDQo+ID4gK+iBlO+8jOWcqOiw
+g+eUqGtvYmplY3RfYWRkKCnkuYvliY3lv4XpobvliIbphY1rb2JqLT5rc2V044CC5aaC5p6ca3Nl
+dOS4jmtvYmplY3Tnm7jlhbPogZTvvIzpgqPkuYgNCj4gPiAra29iamVjdOeahOeItue6p+WPr+S7
+peWcqOiwg+eUqGtvYmplY3RfYWRkKCnml7booqvorr7nva7kuLpOVUxM77yM6YKj5LmIa29iamVj
+dOeahOeItue6p+WwhuaYr2tzZXQNCj4NCj4gcy/pgqPkuYgv5YiZLw0KT0vvvIENCj4NCj4gPiAr
+5pys6Lqr44CCDQo+ID4gKw0KPiA+ICvnlLHkuo5rb2JqZWN055qE5ZCN5a2X5piv5Zyo5a6D6KKr
+5re75Yqg5Yiw5YaF5qC45pe26K6+572u55qE77yM5omA5Lula29iamVjdOeahOWQjeWtl+S4jeW6
+lOivpeiiq+ebtOaOpeaTjeS9nOOAgg0KPiA+ICvlpoLmnpzkvaDlv4XpobvmlLnlj5hrb2JqZWN0
+55qE5ZCN5a2X77yM6K+36LCD55Soa29iamVjdF9yZW5hbWUoKTo6DQo+ID4gKw0KPiA+ICsgICAg
+aW50IGtvYmplY3RfcmVuYW1lKHN0cnVjdCBrb2JqZWN0ICprb2JqLCBjb25zdCBjaGFyICpuZXdf
+bmFtZSk7DQo+ID4gKw0KPiA+ICtrb2JqZWN0X3JlbmFtZSgp5LiN5omn6KGM5Lu75L2V6ZSB77yM
+5Lmf5LiN55+l6YGT5LuA5LmI5ZCN5a2X5piv5pyJ5pWI55qE77yM5omA5Lul6LCD55So6ICF5b+F
+6aG75o+Q5L6b6Ieq5bexDQo+ID4gK+eahOeQhuaZuuajgOafpe+8iOiwg+eUqOS5i+WJjeiHquW3
+seaDs+a4healmu+8ieWSjOW6j+WIl+WMluOAgg0KPg0KPiDor7fosIPmlbTkuIDkuIvov5nkuKrl
+j6XlrZANCmtvYmplY3RfcmVuYW1lKCnlh73mlbDkuI3kvJrmiafooYzku7vkvZXplIHlrprmk43k
+vZzvvIzkuZ/kuI3kvJrlr7luYW1l6L+b6KGM5Y+v6Z2g5oCn5qOA5p+l77yM5omA5Lul6LCD55So
+6ICF6IeqDQrlt7Hmo4Dmn6XlkozkuLLooYzljJbmk43kvZzmmK/mmI7mmbrnmoTpgInmi6kNCj4N
+Cj4gPiArDQo+ID4gK+acieS4gOS4quWPq2tvYmplY3Rfc2V0X25hbWUoKeeahOWHveaVsO+8jOS9
+humCo+aYr+mBl+eVmeeahOWeg+Wcvu+8jOato+WcqOiiq+WIoOmZpOOAguWmguaenOS9oOeahOS7
+o+eggemcgA0KPg0KPiBzL+mBl+eVmeeahOWeg+Wcvi/ljoblj7LpgZfkuqcvDQpPSyENCj4NCj4g
+PiAr6KaB6LCD55So6L+Z5Liq5Ye95pWw77yM6YKj5LmI5a6D5piv5LiN5q2j56Gu55qE77yM6ZyA
+6KaB6KKr5L+u5aSN44CCDQo+ID4gKw0KPiA+ICvopoHmraPnoa7orr/pl65rb2JqZWN055qE5ZCN
+56ew77yM6K+35L2/55So5Ye95pWwa29iamVjdF9uYW1lKCk6Og0KPiA+ICsNCj4gPiArICAgIGNv
+bnN0IGNoYXIgKmtvYmplY3RfbmFtZShjb25zdCBzdHJ1Y3Qga29iamVjdCAqIGtvYmopOw0KPiA+
+ICsNCj4gPiAr5pyJ5LiA5Liq6L6F5Yqp5Ye95pWw5Y+v5Lul5ZCM5pe25Yid5aeL5YyW5ZKM5re7
+5Yqga29iamVjdOWIsOWGheaguOS4re+8jOS7pOS6uuaDiuiutueahOaYr++8jOivpeWHveaVsOii
+q+ensOS4ug0KPiA+ICtrb2JqZWN0X2luaXRfYW5kX2FkZCgpOjoNCj4gPiArDQo+ID4gKyAgICBp
+bnQga29iamVjdF9pbml0X2FuZF9hZGQoc3RydWN0IGtvYmplY3QgKmtvYmosIHN0cnVjdCBrb2Jq
+X3R5cGUgKmt0eXBlLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBr
+b2JqZWN0ICpwYXJlbnQsIGNvbnN0IGNoYXIgKmZtdCwgLi4uKTsNCj4gPiArDQo+ID4gK+WPguaV
+sOS4juS4iumdouaPj+i/sOeahOWNleS4qmtvYmplY3RfaW5pdCgp5ZKMa29iamVjdF9hZGQoKeWH
+veaVsOebuOWQjOOAgg0KPiA+ICsNCj4gPiArDQo+ID4gK1VldmVudHMNCj4gPiArPT09PT09PQ0K
+PiA+ICsNCj4gPiAr5b2T5LiA5Liqa29iamVjdOiiq+azqOWGjOWIsGtvYmplY3TmoLjlv4PlkI7v
+vIzkvaDpnIDopoHlkJHlhajkuJbnlYzlrqPluIPlroPlt7Lnu4/ooqvliJvlu7rkuobjgILov5nl
+j6/ku6XpgJoNCj4gPiAr6L+H6LCD55Soa29iamVjdF91ZXZlbnQoKeadpeWunueOsDo6DQo+ID4g
+Kw0KPiA+ICsgICAgaW50IGtvYmplY3RfdWV2ZW50KHN0cnVjdCBrb2JqZWN0ICprb2JqLCBlbnVt
+IGtvYmplY3RfYWN0aW9uIGFjdGlvbik7DQo+ID4gKw0KPiA+ICvlvZNrb2JqZWN056ys5LiA5qyh
+6KKr5re75Yqg5Yiw5YaF5qC45pe277yM5L2/55SoICpLT0JKX0FERCog6KGM5Li644CC6L+Z5bqU
+6K+l5Zyo6K+la29iamVjdOeahOS7uw0KPg0KPiDlvZNrb2JqZWN056ys5LiA5qyh6KKr5re75Yqg
+5Yiw5YaF5qC45pe26KaB5L2/55SoICoqS09CSl9BREQqKiDliqjkvZzjgIINCk9LIQ0KPg0KPiA+
+ICvkvZXlsZ7mgKfmiJblrZDlr7nosaHooqvmraPnoa7liJ3lp4vljJblkI7ov5vooYzvvIzlm6Dk
+uLrlvZPov5nkuKrosIPnlKjlj5HnlJ/ml7bvvIznlKjmiLfnqbrpl7TkvJrnq4vljbPlvIDlp4vl
+r7sNCj4gPiAr5om+5a6D5Lus44CCDQo+ID4gKw0KPiA+ICvlvZNrb2JqZWN05LuO5YaF5qC45Lit
+56e76Zmk5pe277yI5YWz5LqO5aaC5L2V5YGa55qE57uG6IqC5Zyo5LiL6Z2i77yJ77yMICpLT0JK
+X1JFTU9WRSog55qEdWV2ZW50DQo+DQo+ICoqS09CSl9SRU1PVkUqKg0KT0shID5fPA0KPg0KPiA+
+ICvlsIbnlLFrb2JqZWN05qC45b+D6Ieq5Yqo5Yib5bu677yM5omA5Lul6LCD55So6ICF5LiN5b+F
+5ouF5b+D5omL5Yqo5pON5L2c44CCDQo+ID4gKw0KPiA+ICsNCj4gPiAr5byV55So6K6h5pWwDQo+
+ID4gKz09PT09PT09DQo+ID4gKw0KPiA+ICtrb2JqZWN055qE5YWz6ZSu5Yqf6IO95LmL5LiA5piv
+5L2c5Li65a6D5omA5bWM5YWl55qE5a+56LGh55qE5LiA5Liq5byV55So6K6h5pWw5Zmo44CC5Y+q
+6KaB5a+56K+l5a+56LGh55qE5byV55SoDQo+ID4gK+WtmOWcqO+8jOivpeWvueixoe+8iOS7peWP
+iuaUr+aMgeWug+eahOS7o+egge+8ieWwseW/hemhu+e7p+e7reWtmOWcqOOAgueUqOS6juaTjeS9
+nGtvYmplY3TnmoTlvJXnlKjorqHmlbDnmoTkvY4NCj4gPiAr57qn5Ye95pWw5pivOjoNCj4gPiAr
+DQo+ID4gKyAgICBzdHJ1Y3Qga29iamVjdCAqa29iamVjdF9nZXQoc3RydWN0IGtvYmplY3QgKmtv
+YmopOw0KPiA+ICsgICAgdm9pZCBrb2JqZWN0X3B1dChzdHJ1Y3Qga29iamVjdCAqa29iaik7DQo+
+ID4gKw0KPiA+ICvlr7lrb2JqZWN0X2dldCgp55qE5oiQ5Yqf6LCD55So5bCG5aKe5Yqga29iamVj
+dOeahOW8leeUqOiuoeaVsOWZqOWAvOW5tui/lOWbnmtvYmplY3TnmoTmjIfpkojjgIINCj4gPiAr
+DQo+ID4gK+W9k+W8leeUqOiiq+mHiuaUvuaXtu+8jOWvuWtvYmplY3RfcHV0KCnnmoTosIPnlKjl
+sIbpgJLlh4/lvJXnlKjorqHmlbDlgLzvvIzlubblj6/og73ph4rmlL7or6Xlr7nosaHjgILor7fm
+s6gNCj4gPiAr5oSP77yMa29iamVjdF9pbml0KCnlsIblvJXnlKjorqHmlbDorr7nva7kuLox77yM
+5omA5Lul6K6+572ua29iamVjdOeahOS7o+eggeacgOe7iOmcgOimgeWBmuS4gOS4qg0KPg0KPiBt
+YXliZSByZW1vdmUg5YGa5LiA5LiqDQpPSyENCj4NCj4gPiAra29iamVjdF9wdXQoKeadpemHiuaU
+vuivpeW8leeUqOOAgg0KPiA+ICsNCj4gPiAr5Zug5Li6a29iamVjdHPmmK/liqjmgIHnmoTvvIzm
+iYDku6XlroPku6zkuI3og73ku6XpnZnmgIHmlrnlvI/miJblnKjloIbmoIjkuK3lo7DmmI7vvIzo
+gIzmgLvmmK/ku6XliqjmgIHmlrnlvI/liIYNCj4gPiAr6YWN44CC5pyq5p2l54mI5pys55qE5YaF
+5qC45bCG5YyF5ZCr5a+56Z2Z5oCB5Yib5bu655qEa29iamVjdHPnmoTov5DooYzml7bmo4Dmn6Xv
+vIzlubblsIborablkYrlvIDlj5HogIXov5nnp43kuI0NCj4gPiAr5q2j5b2T55qE5L2/55So44CC
+DQo+DQo+IHMv5LiN5q2j5b2TL+S4jeW9ky8NCk9LIQ0KPg0KPiA+ICsNCj4gPiAr5aaC5p6c5L2g
+5oOz5L2/55Soa29iamVjdOWPquaYr+S4uuS6hue7meS9oOeahOe7k+aehOS9k+aPkOS+m+S4gOS4
+quW8leeUqOiuoeaVsOWZqO+8jOivt+S9v+eUqHN0cnVjdCBrcmVmDQo+DQo+IG1heWJlIHJlbW92
+ZSDmg7MNCk9LIQ0KPg0KPiBhbmQgIHN0cnVjdA0KT0vvvIENCj4NCj4gPiAr5p2l5Luj5pu/77yb
+a29iamVjdOaYr+WkmuS9meeahOOAguWFs+S6juWmguS9leS9v+eUqOe7k+aehGtyZWbnmoTmm7Tl
+pJrkv6Hmga/vvIzor7flj4Lop4FMaW51eOWGheaguOa6kOS7ow0KPg0KPiBzL+e7k+aehGtyZWYv
+a3JlZue7k+aehOS9ky8NCk9LIQ0KPg0KPiA+ICvnoIHmoJHkuK3nmoTmlofku7bjgIrkuLrlhoXm
+oLjlr7nosaHmt7vliqDlvJXnlKjorqHmlbDlmajvvIhrcmVmc++8ieOAi+OAgg0KPg0KPiBEb2N1
+bWVudGF0aW9uL2NvcmUtYXBpL2tyZWYucnN0DQpPS++8gQ0KPg0KPiA+ICsNCj4gPiArDQo+ID4g
+K+WIm+W7uuKAnOeugOWNleeahOKAnWtvYmplY3RzDQo+ID4gKz09PT09PT09PT09PT09PT09PT09
+DQo+ID4gKw0KPiA+ICvmnInml7bvvIzlvIDlj5HogIXmg7PopoHnmoTlj6rmmK/lnKhzeXNmc+Wx
+guasoee7k+aehOS4reWIm+W7uuS4gOS4queugOWNleeahOebruW9le+8jOiAjOS4jeW/heWOu+aQ
+numCo+S6m+Wkjeadgg0KPiA+ICvnmoRrc2V0c+OAgeaYvuekuuWSjOWtmOWCqOWHveaVsO+8jOS7
+peWPiuWFtuS7lue7huiKguOAgui/meaYr+S4gOS4quW6lOivpeWIm+W7uuWNleS4qmtvYmplY3Tn
+moTkvovlpJbjgILopoENCj4gPiAr5Yib5bu66L+Z5qC35LiA5Liq5p2h55uu77yI5Y2z566A5Y2V
+55qE55uu5b2V77yJ77yM6K+35L2/55So5Ye95pWwOjoNCj4gPiArDQo+ID4gKyAgICBzdHJ1Y3Qg
+a29iamVjdCAqa29iamVjdF9jcmVhdGVfYW5kX2FkZChjb25zdCBjaGFyICpuYW1lLCBzdHJ1Y3Qg
+a29iamVjdCAqcGFyZW50KTsNCj4gPiArDQo+ID4gK+i/meS4quWHveaVsOWwhuWIm+W7uuS4gOS4
+qmtvYmplY3TvvIzlubblsIblhbbmlL7lnKhzeXNmc+S4reaMh+WumueahOeItmtvYmplY3TkuIvp
+naLnmoTkvY3nva7jgILopoHliJsNCj4gPiAr5bu65LiO5q2ka29iamVjdOebuOWFs+eahOeugOWN
+leWxnuaAp++8jOivt+S9v+eUqDo6DQo+ID4gKw0KPiA+ICsgICAgaW50IHN5c2ZzX2NyZWF0ZV9m
+aWxlKHN0cnVjdCBrb2JqZWN0ICprb2JqLCBjb25zdCBzdHJ1Y3QgYXR0cmlidXRlICphdHRyKTsN
+Cj4gPiArDQo+ID4gK+aIluiAhTo6DQo+ID4gKw0KPiA+ICsgICAgaW50IHN5c2ZzX2NyZWF0ZV9n
+cm91cChzdHJ1Y3Qga29iamVjdCAqa29iaiwgY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9ncm91cCAq
+Z3JwKTsNCj4gPiArDQo+ID4gK+i/memHjOS9v+eUqOeahOS4pOenjeexu+Wei+eahOWxnuaAp++8
+jOS4juW3sue7j+eUqGtvYmplY3RfY3JlYXRlX2FuZF9hZGQoKeWIm+W7uueahGtvYmplY3TvvIwN
+Cj4gPiAr6YO95Y+v5Lul5piva29ial9hdHRyaWJ1dGXnsbvlnovvvIzmiYDku6XkuI3pnIDopoHl
+iJvlu7rnibnmrornmoToh6rlrprkuYnlsZ7mgKfjgIINCj4gPiArDQo+ID4gK+WPguingeekuuS+
+i+aooeWdl++8jCBgYHNhbXBsZXMva29iamVjdC9rb2JqZWN0LWV4YW1wbGUuY2BgIO+8jOS6huin
+o+S4gOS4queugOWNleeahA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIOS7pQ0KPiA+ICtrb2JqZWN05ZKM5bGe5oCn55qE5a6e546w44CC
+DQo+ID4gKw0KPiA+ICsNCj4gPiArDQo+ID4gK2t0eXBlc+WSjOmHiuaUvuaWueazlQ0KPiA+ICs9
+PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+ICvku6XkuIrorqjorrrkuK3ov5jnvLrlsJHkuIDk
+u7bph43opoHnmoTkuovmg4XvvIzpgqPlsLHmmK/lvZPkuIDkuKprb2JqZWN055qE5byV55So5qyh
+5pWw6L6+5Yiw6Zu255qE5pe25YCZDQo+ID4gK+S8muWPkeeUn+S7gOS5iOOAguWIm+W7umtvYmpl
+Y3TnmoTku6PnoIHpgJrluLjkuI3nn6XpgZPkvZXml7bkvJrlj5HnlJ/ov5nnp43mg4XlhrXvvJvl
+poLmnpzlroPnn6XpgZPvvIzpgqMNCj4gPiAr5LmI6aaW5YWI5L2/55Soa29iamVjdOWwseayoeac
+ieS7gOS5iOaEj+S5ieOAguW9k3N5c2Zz6KKr5byV5YWl5pe277yM5Y2z5L2/5piv5Y+v6aKE5rWL
+55qE5a+56LGh55Sf5ZG9DQo+DQo+IGluIHRoZSBmaXJzdCBwbGFjZSDpppblhYggPw0K6aaW5YWI
+77yM5aaC5p6c5a6D55+l6YGT77yM6YKjDQo+DQo+ID4gK+WRqOacn+S5n+S8muWPmOW+l+abtOWK
+oOWkjeadgu+8jOWboOS4uuWGheaguOeahOWFtuS7lumDqOWIhuWPr+S7peiOt+W+l+WcqOezu+e7
+n+S4reazqOWGjOeahOS7u+S9lWtvYmplY3QNCj4gPiAr55qE5byV55So44CCDQo+ID4gKw0KPiA+
+ICvmnIDnu4jnmoTnu5PmnpzmmK/vvIzkuIDkuKrnlLFrb2JqZWN05L+d5oqk55qE57uT5p6E5L2T
+5Zyo5YW25byV55So6K6h5pWw5b2S6Zu25LmL5YmN5LiN6IO96KKr6YeK5pS+44CC5byVDQo+ID4g
+K+eUqOiuoeaVsOS4jeWPl+WIm+W7umtvYmplY3TnmoTku6PnoIHnmoTnm7TmjqXmjqfliLbjgILl
+m6DmraTvvIzmr4/lvZPlroPnmoTkuIDkuKprb2JqZWN0c+eahOacgOWQjuS4gA0KPiA+ICvkuKrl
+vJXnlKjmtojlpLHml7bvvIzlv4XpobvlvILmraXpgJrnn6Xor6Xku6PnoIHjgIINCj4gPiArDQo+
+ID4gK+S4gOaXpuS9oOmAmui/h2tvYmplY3RfYWRkKCnms6jlhozkuobkvaDnmoRrb2JqZWN077yM
+5L2g57ud5a+55LiN6IO95L2/55Soa2ZyZWUoKeadpeebtOaOpemHig0KPiA+ICvmlL7lroPjgILl
+lK/kuIDlronlhajnmoTmlrnms5XmmK/kvb/nlKhrb2JqZWN0X3B1dCgp44CC5Zyoa29iamVjdF9p
+bml0KCnkuYvlkI7mgLvmmK/kvb/nlKgNCj4gPiAra29iamVjdF9wdXQoKeaYr+S4gOS4quW+iOWl
+veeahOWBmuazle+8jOS7pemBv+WFjemUmeivr+eahOWPkeeUn+OAgg0KPg0KPiDlnKhrb2JqZWN0
+X2luaXQoKeS5i+WQjuaAu+aYr+S9v+eUqGtvYmplY3RfcHV0KCnku6Xpgb/lhY3plJnor6/nmoTl
+j5HnlJ/mmK/kuIDkuKrlvojlpb3nmoTlgZrms5XjgIINCk9L77yBDQo+DQo+ID4gKw0KPiA+ICvo
+v5nkuKrpgJrnn6XmmK/pgJrov4drb2JqZWN055qEcmVsZWFzZSgp5pa55rOV5a6M5oiQ55qE44CC
+6YCa5bi46L+Z5qC355qE5pa55rOV5pyJ5aaC5LiL5b2i5byPOjoNCj4gPiArDQo+ID4gKyAgICB2
+b2lkIG15X29iamVjdF9yZWxlYXNlKHN0cnVjdCBrb2JqZWN0ICprb2JqKQ0KPiA+ICsgICAgew0K
+PiA+ICsgICAgICAgICAgICBzdHJ1Y3QgbXlfb2JqZWN0ICptaW5lID0gY29udGFpbmVyX29mKGtv
+YmosIHN0cnVjdCBteV9vYmplY3QsIGtvYmopOw0KPiA+ICsNCj4gPiArICAgICAgICAgICAgLyog
+UGVyZm9ybSBhbnkgYWRkaXRpb25hbCBjbGVhbnVwIG9uIHRoaXMgb2JqZWN0LCB0aGVuLi4uICov
+DQo+ID4gKyAgICAgICAgICAgIGtmcmVlKG1pbmUpOw0KPiA+ICsgICAgfQ0KPiA+ICsNCj4gPiAr
+5pyJ5LiA54K55b6I6YeN6KaB77ya5q+P5Liqa29iamVjdOmDveW/hemhu+acieS4gOS4qnJlbGVh
+c2UoKeaWueazle+8jOiAjOS4lOi/meS4qmtvYmplY3Tlv4UNCj4gPiAr6aG75oyB57ut5a2Y5Zyo
+77yI5aSE5LqO5LiA6Ie055qE54q25oCB77yJ77yM55u05Yiw6L+Z5Liq5pa55rOV6KKr6LCD55So
+44CC5aaC5p6c6L+Z5Lqb57qm5p2f5p2h5Lu25rKh5pyJDQo+ID4gK+W+l+WIsOa7oei2s++8jOmC
+o+S5iOS7o+eggeWwseaYr+aciee8uumZt+eahOOAguazqOaEj++8jOWmguaenOS9oOW/mOiusOaP
+kOS+m3JlbGVhc2UoKeaWueazle+8jOWGhQ0KPiA+ICvmoLjkvJrorablkYrkvaDjgILkuI3opoHo
+r5Xlm77pgJrov4fmj5DkvpvkuIDkuKogIuepuiAi55qE6YeK5pS+5Ye95pWw5p2l5pGG6ISx6L+Z
+5Liq6K2m5ZGK44CCDQo+DQo+IOKAnOKAnQ0KT0shDQoNCg0KPg0KPiA+ICsNCj4gPiAr5aaC5p6c
+5L2g55qE5riF55CG5Ye95pWw5Y+q6ZyA6KaB6LCD55Soa2ZyZWUoKe+8jOmCo+S5iOS9oOW/hemh
+u+WIm+W7uuS4gOS4quWMheijheWHveaVsO+8jOivpeWHveaVsA0KPiA+ICvkvb/nlKhjb250YWlu
+ZXJfb2YoKeadpeS4iuS8oOWIsOato+ehrueahOexu+Wei++8iOWmguS4iumdoueahOS+i+WtkOaJ
+gOekuu+8ie+8jOeEtuWQjuWcqOaVtOS4qg0KPg0KPiB1cGNhc3Qg5ZCR5LiK6YCg5Z6LDQpPS++8
+gQ0KPg0KPiA+ICvnu5PmnoTkvZPkuIrosIPnlKhrZnJlZSgp44CCDQo+ID4gKw0KPiA+ICvms6jm
+hI/vvIxrb2JqZWN055qE5ZCN5a2X5ZyocmVsZWFzZeWHveaVsOS4reaYr+WPr+eUqOeahO+8jOS9
+huWug+S4jeiDveWcqOi/meS4quWbnuiwg+S4reiiq+aUuQ0KPiA+ICvlj5jjgILlkKbliJnvvIzl
+nKhrb2JqZWN05qC45b+D5Lit5Lya5pyJ5LiA5Liq5YaF5a2Y5rOE5ryP77yM6L+Z6K6p5Lq65b6I
+5LiN54i944CCDQo+DQo+IHMv5pyJ5LiA5LiqL+WHuueOsC8NCk9L77yBDQo+DQo+ID4gKw0KPiA+
+ICvmnInotqPnmoTmmK/vvIxyZWxlYXNlKCnmlrnms5XlubbkuI3lrZjlgqjlnKhrb2JqZWN05pys
+6Lqr77yb55u45Y+N77yM5a6D5LiOa3R5cGXnm7jlhbPjgIINCj4gPiAr5Zug5q2k77yM6K6p5oiR
+5Lus5byV5YWl57uT5p6E5L2Ta29ial90eXBlOjoNCj4gPiArDQo+ID4gKyAgICBzdHJ1Y3Qga29i
+al90eXBlIHsNCj4gPiArICAgICAgICAgICAgdm9pZCAoKnJlbGVhc2UpKHN0cnVjdCBrb2JqZWN0
+ICprb2JqKTsNCj4gPiArICAgICAgICAgICAgY29uc3Qgc3RydWN0IHN5c2ZzX29wcyAqc3lzZnNf
+b3BzOw0KPiA+ICsgICAgICAgICAgICBzdHJ1Y3QgYXR0cmlidXRlICoqZGVmYXVsdF9hdHRyczsN
+Cj4gPiArICAgICAgICAgICAgY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9ncm91cCAqKmRlZmF1bHRf
+Z3JvdXBzOw0KPiA+ICsgICAgICAgICAgICBjb25zdCBzdHJ1Y3Qga29ial9uc190eXBlX29wZXJh
+dGlvbnMgKigqY2hpbGRfbnNfdHlwZSkoc3RydWN0IGtvYmplY3QgKmtvYmopOw0KPiA+ICsgICAg
+ICAgICAgICBjb25zdCB2b2lkICooKm5hbWVzcGFjZSkoc3RydWN0IGtvYmplY3QgKmtvYmopOw0K
+PiA+ICsgICAgICAgICAgICB2b2lkICgqZ2V0X293bmVyc2hpcCkoc3RydWN0IGtvYmplY3QgKmtv
+YmosIGt1aWRfdCAqdWlkLCBrZ2lkX3QgKmdpZCk7DQo+ID4gKyAgICB9Ow0KPiA+ICsNCj4gPiAr
+6L+Z5Liq57uT5p6E5o+Q55So5p2l5o+P6L+w5LiA5Liq54m55a6a57G75Z6L55qEa29iamVjdO+8
+iOaIluiAheabtOato+ehruWcsOivtO+8jOWMheWQq+WvueixoeeahA0KPiA+ICvnsbvlnovvvInj
+gILmr4/kuKprb2JqZWN06YO96ZyA6KaB5pyJ5LiA5Liq55u45YWz55qEa29ial90eXBl57uT5p6E
+77yb5b2T5L2g6LCD55SoDQo+ID4gK2tvYmplY3RfaW5pdCgp5oiWa29iamVjdF9pbml0X2FuZF9h
+ZGQoKeaXtuW/hemhu+aMh+WumuS4gOS4quaMh+WQkeivpee7k+aehOeahA0KPiA+ICvmjIfpkojj
+gIINCj4gPiArDQo+ID4gK+W9k+eEtu+8jGtvYmpfdHlwZee7k+aehOS4reeahHJlbGVhc2XlrZfm
+rrXmmK/mjIflkJHov5nnp43nsbvlnovnmoRrb2JqZWN055qEcmVsZWFzZSgpDQo+ID4gK+aWueaz
+leeahOS4gOS4quaMh+mSiOOAguWPpuWkluS4pOS4quWtl+aute+8iHN5c2ZzX29wcyDlkowgZGVm
+YXVsdF9hdHRyc++8ieaOp+WItui/meenjQ0KPiA+ICvnsbvlnovnmoTlr7nosaHlpoLkvZXlnKgg
+c3lzZnMg5Lit6KKr6KGo56S677yb5a6D5Lus6LaF5Ye65LqG5pys5paH55qE6IyD5Zu044CCDQo+
+ID4gKw0KPiA+ICtkZWZhdWx0X2F0dHJzIOaMh+mSiOaYr+S4gOS4qum7mOiupOWxnuaAp+eahOWI
+l+ihqO+8jOWug+WwhuS4uuS7u+S9leeUqOi/meS4qiBrdHlwZSDms6jlhowNCj4gPiAr55qEIGtv
+YmplY3Qg6Ieq5Yqo5Yib5bu644CCDQo+ID4gKw0KPiA+ICsNCj4gPiAra3NldHMNCj4gPiArPT09
+PT0NCj4gPiArDQo+ID4gK+S4gOS4qmtzZXTku4Xku4XmmK/kuIDkuKrluIzmnJvnm7jkupLlhbPo
+gZTnmoRrb2JqZWN0c+eahOmbhuWQiOOAguayoeaciemZkOWItuWug+S7rOW/hemhu+aYr+ebuA0K
+PiA+ICvlkIznmoRrdHlwZe+8jOS9huaYr+WmguaenOWug+S7rOS4jeaYr+ebuOWQjOeahO+8jOWw
+seimgemdnuW4uOWwj+W/g+OAgg0KPiA+ICsNCj4gPiAr5LiA5Liqa3NldOacieS7peS4i+WKn+iD
+vToNCj4gPiArDQo+ID4gKyAtIOWug+WDj+aYr+S4gOS4quWMheWQq+S4gOe7hOWvueixoeeahOii
+i+WtkOOAguS4gOS4qmtzZXTlj6/ku6XooqvlhoXmoLjnlKjmnaXov73ouKogIuaJgOacieWdlw0K
+PiA+ICsgICDorr7lpIciIOaIliAi5omA5pyJUENJ6K6+5aSH6amx5YqoIuOAgg0KPg0KPiDigJzi
+gJ0NCj4g4oCc4oCdDQpPS++8gQ0KPg0KPiA+ICsNCj4gPiArIC0ga3NldOS5n+aYr3N5c2Zz5Lit
+55qE5LiA5Liq5a2Q55uu5b2V77yM5LiOa3NldOebuOWFs+eahGtvYmplY3Rz5Y+v5Lul5Zyo6L+Z
+6YeM5pi+56S6DQo+ID4gKyAgIOWHuuadpeOAguavj+S4qmtzZXTpg73ljIXlkKvkuIDkuKprb2Jq
+ZWN077yM5a6D5Y+v5Lul6KKr6K6+572u5Li65YW25LuWa29iamVjdOeahOeItuWvueixoe+8mw0K
+PiA+ICsgICBzeXNmc+Wxguasoee7k+aehOeahOmhtue6p+ebruW9leWwseaYr+S7pei/meenjeaW
+ueW8j+aehOW7uueahOOAgg0KPiA+ICsNCj4gPiArIC0gS3NldHPlj6/ku6XmlK/mjIFrb2JqZWN0
+c+eahCAi54Ot5o+S5ouUIu+8jOW5tuW9seWTjXVldmVudOS6i+S7tuWmguS9leiiq+aKpeWRiue7
+mQ0KPg0KPiDigJzigJ0NCj4NCj4gPiArICAg55So5oi356m66Ze044CCDQo+ID4gKw0KPiA+ICsg
+5Zyo6Z2i5ZCR5a+56LGh55qE5pyv6K+t5Lit77yMImtzZXQgIuaYr+mhtue6p+eahOWuueWZqOex
+u++8m2tzZXRz5YyF5ZCr5a6D5Lus6Ieq5bex55qEa29iamVjdO+8jA0KPg0KPiDigJzigJ0NCk9L
+77yBDQo+DQo+ID4gKyDkvYbmmK/ov5nkuKprb2JqZWN05piv55Sxa3NldOS7o+eggeeuoeeQhuea
+hO+8jOS4jeW6lOivpeiiq+S7u+S9leWFtuS7lueUqOaIt+aJgOaTjee6teOAgg0KPiA+ICsNCj4g
+PiArIGtzZXTlnKjmoIflh4bnmoTlhoXmoLjpk77ooajkuK3kv53lrZjlroPnmoTlrZDlr7nosaHj
+gIJLb2JqZWN0c+mAmui/h+WFtmtzZXTlrZfmrrXmjIflkJHlhbYNCj4NCj4g5LiA5Liq5qCH5YeG
+55qE5YaF5qC46ZO+6KGoDQpPS++8gQ0KPg0KPiA+ICsg5YyF5ZCr55qEa3NldOOAguWcqOWHoOS5
+juaJgOacieeahOaDheWGteS4i++8jOWxnuS6juS4gOS4qmtzZXTnmoRrb2JqZWN0c+WcqOWug+S7
+rOeahOeItg0KPiA+ICsg5a+56LGh5Lit6YO95pyJ6YKj5Liqa3NldO+8iOaIluiAhe+8jOS4peag
+vOWcsOivtO+8jOWug+eahOW1jOWFpWtvYmplY3TvvInjgIINCj4gPiArDQo+IC0tLV4NCj4gcmVt
+b3ZlIGEgc3BhY2UNCk9L77yBDQo+DQo+ID4gKyDnlLHkuo5rc2V05Lit5YyF5ZCr5LiA5Liqa29i
+amVjdO+8jOWug+W6lOivpeaAu+aYr+iiq+WKqOaAgeWcsOWIm+W7uu+8jOiAjOS4jeaYr+mdmeaA
+geWcsA0KPiA+ICsg5oiW5Zyo5aCG5qCI5Lit5aOw5piO44CC6KaB5Yib5bu65LiA5Liq5paw55qE
+a3NldO+8jOivt+S9v+eUqDo6DQo+ID4gKw0KPiA+ICsgIHN0cnVjdCBrc2V0ICprc2V0X2NyZWF0
+ZV9hbmRfYWRkKGNvbnN0IGNoYXIgKm5hbWUsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgY29uc3Qgc3RydWN0IGtzZXRfdWV2ZW50X29wcyAqdWV2ZW50X29wcywNCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3Qga29iamVjdCAqcGFy
+ZW50X2tvYmopOw0KPiA+ICsNCj4gPiAr5b2T5L2g5a6M5oiQ5a+5a3NldOeahOWkhOeQhuWQju+8
+jOiwg+eUqDo6DQo+ID4gKw0KPiA+ICsgIHZvaWQga3NldF91bnJlZ2lzdGVyKHN0cnVjdCBrc2V0
+ICprKTsNCj4gPiArDQo+ID4gK+adpemUgOavgeWug+OAgui/meWwhuS7jnN5c2Zz5Lit5Yig6Zmk
+6K+la3NldOW5tumAkuWHj+WFtuW8leeUqOiuoeaVsOWAvOOAguW9k+W8leeUqOiuoeaVsA0KPiA+
+ICvkuLrpm7bml7bvvIzor6Uga3NldCDlsIbooqvph4rmlL7jgILlm6DkuLrlr7nor6Uga3NldCDn
+moTlhbbku5blvJXnlKjlj6/og73ku43nhLblrZjlnKjvvIwNCj4gLS0tLS0tLS0tLS0tLV4tLS0t
+Xi0tLS0tLS0tLS0tLS0tLS0tLV4tLS0tXg0KT0vvvIENCj4NCj4gPiAr6YeK5pS+5Y+v6IO95Y+R
+55Sf5ZyoIGtzZXRfdW5yZWdpc3RlcigpIOi/lOWbnuS5i+WQjuOAgg0KPiAtLS0tLS0tLS0tLS0t
+LS0tLV4tLS0tLS0tLS0tLS0tLS0tLV4NCk9L77yBDQo+DQo+ID4gKw0KPiA+ICvkuIDkuKrkvb/n
+lKhrc2V055qE5L6L5a2Q5Y+v5Lul5Zyo5YaF5qC45qCR5Lit55qEIGBgc2FtcGxlcy9rb2JqZWN0
+L2tzZXQtZXhhbXBsZS5jYGANCj4gPiAr5paH5Lu25Lit55yL5Yiw44CCDQo+ID4gKw0KPiA+ICvl
+poLmnpzkuIDkuKprc2V05biM5pyb5o6n5Yi25LiO5a6D55u45YWz55qEa29iamVjdHPnmoR1ZXZl
+bnTmk43kvZzvvIzlroPlj6/ku6Xkvb/nlKgNCj4gPiAr57uT5p6E5L2Ta3NldF91ZXZlbnRfb3Bz
+5p2l5aSE55CG5a6DOjoNCj4gPiArDQo+ID4gKyAgc3RydWN0IGtzZXRfdWV2ZW50X29wcyB7DQo+
+ID4gKyAgICAgICAgICBpbnQgKCogY29uc3QgZmlsdGVyKShzdHJ1Y3Qga3NldCAqa3NldCwgc3Ry
+dWN0IGtvYmplY3QgKmtvYmopOw0KPiA+ICsgICAgICAgICAgY29uc3QgY2hhciAqKCogY29uc3Qg
+bmFtZSkoc3RydWN0IGtzZXQgKmtzZXQsIHN0cnVjdCBrb2JqZWN0ICprb2JqKTsNCj4gPiArICAg
+ICAgICAgIGludCAoKiBjb25zdCB1ZXZlbnQpKHN0cnVjdCBrc2V0ICprc2V0LCBzdHJ1Y3Qga29i
+amVjdCAqa29iaiwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGtvYmpfdWV2
+ZW50X2VudiAqZW52KTsNCj4gPiArICB9Ow0KPiA+ICsNCj4gPiArDQo+ID4gK+i/h+a7pOWZqOWH
+veaVsOWFgeiuuGtzZXTpmLvmraLkuIDkuKrnibnlrpprb2JqZWN055qEdWV2ZW506KKr5Y+R5bCE
+5Yiw55So5oi356m66Ze044CCDQo+DQo+IOWPkeWwhO+8nw0K5Y+R6YCBDQo+DQo+ID4gK+Wmguae
+nOivpeWHveaVsOi/lOWbnjDvvIzor6V1ZXZlbnTlsIbkuI3kvJrooqvlj5HlsITlh7rljrvjgIIN
+Cj4gPiArDQo+ID4gK25hbWXlh73mlbDlsIbooqvosIPnlKjku6Xopobnm5Z1ZXZlbnTlj5HpgIHl
+iLDnlKjmiLfnqbrpl7TnmoRrc2V055qE6buY6K6k5ZCN56ew44CC6buYDQo+ID4gK+iupOaDheWG
+teS4i++8jOivpeWQjeensOWwhuS4jmtzZXTmnKzouqvnm7jlkIzvvIzkvYbov5nkuKrlh73mlbDv
+vIzlpoLmnpzlrZjlnKjvvIzlj6/ku6Xopobnm5YNCj4gPiAr6K+l5ZCN56ew44CCDQo+ID4gKw0K
+PiA+ICvlvZN1ZXZlbnTljbPlsIbooqvlj5HpgIHoh7PnlKjmiLfnqbrpl7Tml7bvvIx1ZXZlbnTl
+h73mlbDlsIbooqvosIPnlKjvvIzku6XlhYHorrjmm7TlpJoNCj4gPiAr55qE546v5aKD5Y+Y6YeP
+6KKr5re75Yqg5YiwdWV2ZW505Lit44CCDQo+ID4gKw0KPiA+ICvmnInkurrlj6/og73kvJrpl67v
+vIzpibTkuo7msqHmnInmj5Dlh7rmiafooYzor6Xlip/og73nmoTlh73mlbDvvIznqbbnq5/lpoLk
+vZXlsIbkuIDkuKprb2JqZWN0DQo+ID4gK+a3u+WKoOWIsOS4gOS4qmtzZXTkuK3jgILnrZTmoYjm
+mK/ov5nkuKrku7vliqHmmK/nlLFrb2JqZWN0X2FkZCgp5aSE55CG55qE44CC5b2T5LiA5LiqDQo+
+ID4gK2tvYmplY3TooqvkvKDpgJLnu5lrb2JqZWN0X2FkZCgp5pe277yM5a6D55qEa3NldOaIkOWR
+mOW6lOivpeaMh+WQkei/meS4qmtvYmplY3QNCj4gPiAr5omA5bGe55qEa3NldOOAgiBrb2JqZWN0
+X2FkZCgp5bCG5aSE55CG5Ymp5LiL55qE6YOo5YiG44CCDQo+ID4gKw0KPiA+ICvlpoLmnpzlsZ7k
+uo7kuIDkuKprc2V055qEa29iamVjdOayoeacieeItmtvYmplY3Tpm4bvvIzlroPlsIbooqvmt7vl
+iqDliLBrc2V055qE55uuDQo+ID4gK+W9leS4reOAguW5tumdnuaJgOacieeahGtzZXTmiJDlkZjp
+g73lv4XpobvkvY/lnKhrc2V055uu5b2V5Lit44CC5aaC5p6c5Zyo5re75Yqga29iamVjdA0KPiA+
+ICvkuYvliY3liIbphY3kuobkuIDkuKrmmI7noa7nmoTniLZrb2JqZWN077yM6YKj5LmI6K+la29i
+amVjdOWwhuiiq+azqOWGjOWIsGtzZXTkuK3vvIwNCj4gPiAr5L2G5piv6KKr5re75Yqg5Yiw54i2
+a29iamVjdOS4i+mdouOAgg0KPiA+ICsNCj4gPiArDQo+ID4gK+enu+mZpEtvYmplY3QNCj4gPiAr
+PT09PT09PT09PT0NCj4gPiArDQo+ID4gK+W9k+S4gOS4qmtvYmplY3TlnKhrb2JqZWN05qC45b+D
+5rOo5YaM5oiQ5Yqf5ZCO77yM5b2T5Luj56CB5L2/55So5a6M5a6D5pe277yM5b+F6aG75bCG5YW2
+DQo+DQo+IOS4pOS4quW9k++8jOS8mOWMluS4i+WPpeWtkA0K5b2T5LiA5Liqa29iamVjdOWcqGtv
+YmplY3TmoLjlv4Pms6jlhozmiJDlip/lkI7vvIzlnKjku6PnoIHkvb/nlKjlrozlroPml7bvvIzl
+v4XpobvlsIblhbYNCj4NCj4gPiAr5riF55CG5o6J44CC6KaB5YGa5Yiw6L+Z5LiA54K577yM6K+3
+6LCD55Soa29iamVjdF9wdXQoKeOAgumAmui/h+i/meagt+WBmu+8jGtvYmplY3TmoLgNCj4gPiAr
+5b+D5Lya6Ieq5Yqo5riF55CG6L+Z5Liqa29iamVjdOWIhumFjeeahOaJgOacieWGheWtmOOAguWm
+guaenOS4uui/meS4quWvueixoeWPkemAgeS6hiBgYEtPQkpfQUREYGANCj4gPiArdWV2ZW5077yM
+6YKj5LmI55u45bqU55qEIGBgS09CSl9SRU1PVkVgYCB1ZXZlbnTkuZ/lsIbooqvlj5HpgIHvvIzk
+u7vkvZXlhbbku5bnmoQNCj4gPiArc3lzZnPlhoXliqHlsIbooqvmraPnoa7lpITnkIbjgIINCj4g
+PiArDQo+ID4gK+WmguaenOS9oOmcgOimgeWvuWtvYmplY3Tov5vooYzkuKTpmLbmrrXnmoTliKDp
+maTvvIjmr5TlpoLor7TlvZPkvaDpnIDopoHplIDmr4Hlr7nosaHml7bvvIzkvaANCj4NCj4g5Lik
+5q615byP5Yig6Zmk77yfDQrkuKTmrrXlvI8gVG9vIGFic3RyYWN0DQpob3cgYWJvdXQg5YiG5Lik
+5qyh5a+5a29iamVjdOi/m+ihjOWIoOmZpO+8nw0KPg0KPiDmr5TlpoLor7TlnKjkvaDopoHplIDm
+r4Hlr7nosaHml7bml6DmnYPnnaHnnKDvvJ8NCk9L77yBDQo+DQo+ID4gK+S4jeWFgeiuuOedoeec
+oO+8ie+8jOmCo+S5iOiwg+eUqGtvYmplY3RfZGVsKCnlsIbku45zeXNmc+S4reWPlua2iGtvYmpl
+Y3TnmoTms6jlhozjgIINCj4gPiAr6L+Z5L2/5b6Xa29iamVjdCAi5LiN5Y+v6KeBIu+8jOS9huWu
+g+W5tuayoeacieiiq+a4heeQhuaOie+8jOiAjOS4lOivpeWvueixoeeahOW8leeUqOiuoeaVsOS7
+jQ0KPg0KPiDigJzigJ0NCk9L77yBDQo+DQo+ID4gK+eEtuaYr+S4gOagt+eahOOAguWcqOeojeWQ
+jueahOaXtumXtOiwg+eUqGtvYmplY3RfcHV0KCnmnaXlrozmiJDkuI7or6Vrb2JqZWN055u45YWz
+55qEDQo+ID4gK+WGheWtmOeahOa4heeQhuOAgg0KPiA+ICsNCj4gPiAra29iamVjdF9kZWwoKeWP
+r+S7peeUqOadpeaUvuW8g+WvueeItuWvueixoeeahOW8leeUqO+8jOWmguaenOW+queOr+W8leeU
+qOiiq+aehOW7uueahOivneOAgg0KPiA+ICvlnKjmn5Dkupvmg4XlhrXkuIvvvIzkuIDkuKrniLbl
+r7nosaHlvJXnlKjkuIDkuKrlrZDlr7nosaHmmK/mnInmlYjnmoTjgILlvqrnjq/lvJXnlKjlv4Xp
+obvpgJrov4fmmI4NCj4gPiAr56Gu6LCD55Soa29iamVjdF9kZWwoKeadpeaJk+aWre+8jOi/meag
+t+S4gOS4qumHiuaUvuWHveaVsOWwseS8muiiq+iwg+eUqO+8jOWJjeS4gOS4quW+queOrw0KPiA+
+ICvkuK3nmoTlr7nosaHkvJrnm7jkupLph4rmlL7jgIINCj4gPiArDQo+ID4gKw0KPiA+ICvnpLrk
+vovku6PnoIHlh7rlpIQNCj4gPiArPT09PT09PT09PT09DQo+ID4gKw0KPiA+ICvlhbPkuo7mraPn
+oa7kvb/nlKhrc2V0c+WSjGtvYmplY3Rz55qE5pu05a6M5pW055qE5L6L5a2Q77yM6K+35Y+C6KeB
+56S65L6L56iL5bqPDQo+ID4gK2Bgc2FtcGxlcy9rb2JqZWN0L3trb2JqZWN0LWV4YW1wbGUuYyxr
+c2V0LWV4YW1wbGUuY31gYCDvvIzlpoLmnpwNCj4gPiAr5oKo6YCJ5oupIGBgQ09ORklHX1NBTVBM
+RV9LT0JKRUNUYGAg77yM5a6D5Lus5bCG6KKr5p6E5bu65Li65Y+v5Yqg6L295qih5Z2X44CCDQo+
+ID4gLS0NCj4gPiAyLjI3LjANCj4NCj4gVGhhbmtzLA0KPg0KPiBXdSBYaWFuZ0NoZW5nDQoNClRo
+YW5rcywNCg0KWWFudGVuZw0K
