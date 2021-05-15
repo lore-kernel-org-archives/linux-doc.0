@@ -2,677 +2,403 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66766C433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4838C43460
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:22:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C0D7613FC
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:10:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A5FA61401
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 08:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231726AbhEOILR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 May 2021 04:11:17 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:48670 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230426AbhEOILQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 15 May 2021 04:11:16 -0400
-Received: from localhost.localdomain (unknown [112.20.109.240])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3+3MgZ9gctIWAA--.17843S5;
-        Sat, 15 May 2021 16:09:54 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com,
-        huangjianghui@uniontech.com
-Subject: [PATCH v6 3/3] docs/zh_CN: add core-api printk-formats.rst translation
-Date:   Sat, 15 May 2021 16:10:31 +0800
-Message-Id: <ff5bfdf71ffbb248a7eca480bb7028fb7f30c083.1621062577.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1621062577.git.siyanteng@loongson.cn>
-References: <cover.1621062577.git.siyanteng@loongson.cn>
+        id S234404AbhEOIYC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 May 2021 04:24:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32862 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230403AbhEOIYB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 15 May 2021 04:24:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C190613B9;
+        Sat, 15 May 2021 08:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621066968;
+        bh=GZ+Kn4jT0gb7iB9pP/pJk26tOsd2+CGQf4jvs2zdqBw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=iG7hTAT03WHgFWqqoj0DV+re/0SLdMb3cUSY+SSuTzLrJYQKUGl36xxPlzpJM+obe
+         aYXsMgr2FnrS3UmbhM6x/v0hyySs4FwS7nZabhVI4uZ7oSvYetpsNsa8YF+pHbxJBR
+         Pvc7xud7ZTl9KAziTz3eT27vowbOqKYiG2XDc1TE977RvXZd58WPI/7xagMPnTojJ/
+         GJWlmOneBx01cy6SZcbDkvz0BdOwIrrlmQD5XJjxn9s8e2uY2fdVvUP3k7z3IeULok
+         mtqmqeDzUbwgUVG+WJhEq15O9UonBwspCZS/Ybte0/0w+ceHppeg8djn6HLQSfz0bi
+         sBmNf+UX/Tqtg==
+Date:   Sat, 15 May 2021 10:22:39 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     David Woodhouse <dwmw2@infradead.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
+        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
+        keyrings@vger.kernel.org, kvm@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-edac@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
+        rcu@vger.kernel.org
+Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
+ symbols
+Message-ID: <20210515102239.2ffd0451@coco.lan>
+In-Reply-To: <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
+References: <cover.1620823573.git.mchehab+huawei@kernel.org>
+        <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
+        <20210514102118.1b71bec3@coco.lan>
+        <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
+Followup-To: dri-devel@lists.freedesktop.org
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx3+3MgZ9gctIWAA--.17843S5
-X-Coremail-Antispam: 1UD129KBjvAXoW3tF4ktryUXFWfKr1UWryDKFg_yoW8Zr1fJo
-        Wj9398Zws7Kw4jqa4Iqw45JrWUXFs3JFZrJrsrKr13G3W7G3WxGwn0yw15Ga15ArWrGF13
-        X3WfZw15JF1UJ3Z7n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOF7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r1rM28IrcIa0x
-        kI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
-        jcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJw
-        A2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
-        M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
-        v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
-        F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
-        IY04v7MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
-        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
-        AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
-        jxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
-        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
-        0xZFpf9x0JUh0eQUUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/core-api/printk-formats.rst into Chinese.
+Em Fri, 14 May 2021 10:06:01 +0100
+David Woodhouse <dwmw2@infradead.org> escreveu:
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
+> On Fri, 2021-05-14 at 10:21 +0200, Mauro Carvalho Chehab wrote:
+> > Em Wed, 12 May 2021 18:07:04 +0100
+> > David Woodhouse <dwmw2@infradead.org> escreveu:
+> >  =20
+> > > On Wed, 2021-05-12 at 14:50 +0200, Mauro Carvalho Chehab wrote: =20
+> > > > Such conversion tools - plus some text editor like LibreOffice  or =
+similar  - have
+> > > > a set of rules that turns some typed ASCII characters into UTF-8 al=
+ternatives,
+> > > > for instance converting commas into curly commas and adding non-bre=
+akable
+> > > > spaces. All of those are meant to produce better results when the t=
+ext is
+> > > > displayed in HTML or PDF formats.   =20
+> > >=20
+> > > And don't we render our documentation into HTML or PDF formats?  =20
+> >=20
+> > Yes.
+> >  =20
+> > > Are
+> > > some of those non-breaking spaces not actually *useful* for their
+> > > intended purpose? =20
+> >=20
+> > No.
+> >=20
+> > The thing is: non-breaking space can cause a lot of problems.
+> >=20
+> > We even had to disable Sphinx usage of non-breaking space for
+> > PDF outputs, as this was causing bad LaTeX/PDF outputs.
+> >=20
+> > See, commit: 3b4c963243b1 ("docs: conf.py: adjust the LaTeX document ou=
+tput")
+> >=20
+> > The afore mentioned patch disables Sphinx default behavior of
+> > using NON-BREAKABLE SPACE on literal blocks and strings, using this
+> > special setting: "parsedliteralwraps=3Dtrue".
+> >=20
+> > When NON-BREAKABLE SPACE were used on PDF outputs, several parts of=20
+> > the media uAPI docs were violating the document margins by far,
+> > causing texts to be truncated.
+> >=20
+> > So, please **don't add NON-BREAKABLE SPACE**, unless you test
+> > (and keep testing it from time to time) if outputs on all
+> > formats are properly supporting it on different Sphinx versions. =20
+>=20
+> And there you have a specific change with a specific fix. Nothing to do
+> with whether NON-BREAKABLE SPACE is =E2=88=89 ASCII, and *certainly* noth=
+ing to
+> do with the fact that, like *every* character in every kernel file
+> except the *binary* files, it's representable in UTF-8.
+>=20
+> By all means fix the specific characters which are typographically
+> wrong or which, like NON-BREAKABLE SPACE, cause problems for rendering
+> the documentation.
+>=20
+>=20
+> > Also, most of those came from conversion tools, together with other
+> > eccentricities, like the usage of U+FEFF (BOM) character at the
+> > start of some documents. The remaining ones seem to came from=20
+> > cut-and-paste. =20
+>=20
+> ... or which are just entirely redundant and gratuitous, like a BOM in
+> an environment where all files are UTF-8 and never 16-bit encodings
+> anyway.
+
+Agreed.
+
+>=20
+> > > > While it is perfectly fine to use UTF-8 characters in Linux, and sp=
+ecially at
+> > > > the documentation,  it is better to  stick to the ASCII subset  on =
+such
+> > > > particular case,  due to a couple of reasons:
+> > > >=20
+> > > > 1. it makes life easier for tools like grep;   =20
+> > >=20
+> > > Barely, as noted, because of things like line feeds. =20
+> >=20
+> > You can use grep with "-z" to seek for multi-line strings(*), Like:
+> >=20
+> > 	$ grep -Pzl 'grace period started,\s*then' $(find Documentation/ -type=
+ f)
+> > 	Documentation/RCU/Design/Data-Structures/Data-Structures.rst =20
+>=20
+> Yeah, right. That works if you don't just use the text that you'll have
+> seen in the HTML/PDF "grace period started, then", and if you instead
+> craft a *regex* for it, replacing the spaces with '\s*'. Or is that
+> [[:space:]]* if you don't want to use the experimental Perl regex
+> feature?
+>=20
+>  $ grep -zlr 'grace[[:space:]]\+period[[:space:]]\+started,[[:space:]]\+t=
+hen' Documentation/RCU
+> Documentation/RCU/Design/Data-Structures/Data-Structures.rst
+>=20
+> And without '-l' it'll obviously just give you the whole file. No '-A5
+> -B5' to see the surroundings... it's hardly a useful thing, is it?
+>=20
+> > (*) Unfortunately, while "git grep" also has a "-z" flag, it
+> >     seems that this is (currently?) broken with regards of handling mul=
+tilines:
+> >=20
+> > 	$ git grep -Pzl 'grace period started,\s*then'
+> > 	$ =20
+>=20
+> Even better. So no, multiline grep isn't really a commonly usable
+> feature at all.
+>=20
+> This is why we prefer to put user-visible strings on one line in C
+> source code, even if it takes the lines over 80 characters =E2=80=94 to a=
+llow
+> for grep to find them.
+
+Makes sense, but in case of documentation, this is a little more
+complex than that.=20
+
+Btw, the theme used when building html by default[1] has a search
+box (written in Javascript) that could be able to find multi-line
+patterns, working somewhat similar to "git grep foo -a bar".
+
+[1] https://github.com/readthedocs/sphinx_rtd_theme
+
+> > [1] If I have a table with UTF-8 codes handy, I could type the UTF-8=20
+> >     number manually... However, it seems that this is currently broken=
+=20
+> >     at least on Fedora 33 (with Mate Desktop and US intl keyboard with=
+=20
+> >     dead keys).
+> >=20
+> >     Here, <CTRL><SHIFT>U is not working. No idea why. I haven't=20
+> >     test it for *years*, as I din't see any reason why I would
+> >     need to type UTF-8 characters by numbers until we started
+> >     this thread. =20
+>=20
+> Please provide the bug number for this; I'd like to track it.
+
+Just opened a BZ and added you as c/c.
+
+> > Now, I'm not arguing that you can't use whatever UTF-8 symbol you
+> > want on your docs. I'm just saying that, now that the conversion=20
+> > is over and a lot of documents ended getting some UTF-8 characters
+> > by accident, it is time for a cleanup. =20
+>=20
+> All text documents are *full* of UTF-8 characters. If there is a file
+> in the source code which has *any* non-UTF8, we call that a 'binary
+> file'.
+>=20
+> Again, if you want to make specific fixes like removing non-breaking
+> spaces and byte order marks, with specific reasons, then those make
+> sense. But it's got very little to do with UTF-8 and how easy it is to
+> type them. And the excuse you've put in the commit comment for your
+> patches is utterly bogus.
+
+Let's take one step back, in order to return to the intents of this
+UTF-8, as the discussions here are not centered into the patches, but
+instead, on what to do and why.
+
+-
+
+This discussion started originally at linux-doc ML.
+
+While discussing about an issue when machine's locale was not set
+to UTF-8 on a build VM, we discovered that some converted docs ended
+with BOM characters. Those specific changes were introduced by some
+of my convert patches, probably converted via pandoc.
+
+So, I went ahead in order to check what other possible weird things
+were introduced by the conversion, where several scripts and tools
+were used on files that had already a different markup.
+
+I actually checked the current UTF-8 issues, and asked people at
+linux-doc to comment what of those are valid usecases, and what
+should be replaced by plain ASCII.
+
+Basically, this is the current situation (at docs/docs-next), for the
+ReST files under Documentation/, excluding translations is:
+
+1. Spaces and BOM
+
+	- U+00a0 ('=C2=A0'): NO-BREAK SPACE
+	- U+feff ('=EF=BB=BF'): ZERO WIDTH NO-BREAK SPACE (BOM)
+
+Based on the discussions there and on this thread, those should be
+dropped, as BOM is useless and NO-BREAK SPACE can cause problems
+at the html/pdf output;
+
+2. Symbols
+
+	- U+00a9 ('=C2=A9'): COPYRIGHT SIGN
+	- U+00ac ('=C2=AC'): NOT SIGN
+	- U+00ae ('=C2=AE'): REGISTERED SIGN
+	- U+00b0 ('=C2=B0'): DEGREE SIGN
+	- U+00b1 ('=C2=B1'): PLUS-MINUS SIGN
+	- U+00b2 ('=C2=B2'): SUPERSCRIPT TWO
+	- U+00b5 ('=C2=B5'): MICRO SIGN
+	- U+03bc ('=CE=BC'): GREEK SMALL LETTER MU
+	- U+00b7 ('=C2=B7'): MIDDLE DOT
+	- U+00bd ('=C2=BD'): VULGAR FRACTION ONE HALF
+	- U+2122 ('=E2=84=A2'): TRADE MARK SIGN
+	- U+2264 ('=E2=89=A4'): LESS-THAN OR EQUAL TO
+	- U+2265 ('=E2=89=A5'): GREATER-THAN OR EQUAL TO
+	- U+2b0d ('=E2=AC=8D'): UP DOWN BLACK ARROW
+
+Those seem OK on my eyes.
+
+On a side note, both MICRO SIGN and GREEK SMALL LETTER MU are
+used several docs to represent microseconds, micro-volts and
+micro-amp=C3=A8res. If we write an orientation document, it probably
+makes sense to recommend using MICRO SIGN on such cases.
+
+3. Latin
+
+	- U+00c7 ('=C3=87'): LATIN CAPITAL LETTER C WITH CEDILLA
+	- U+00df ('=C3=9F'): LATIN SMALL LETTER SHARP S
+	- U+00e1 ('=C3=A1'): LATIN SMALL LETTER A WITH ACUTE
+	- U+00e4 ('=C3=A4'): LATIN SMALL LETTER A WITH DIAERESIS
+	- U+00e6 ('=C3=A6'): LATIN SMALL LETTER AE
+	- U+00e7 ('=C3=A7'): LATIN SMALL LETTER C WITH CEDILLA
+	- U+00e9 ('=C3=A9'): LATIN SMALL LETTER E WITH ACUTE
+	- U+00ea ('=C3=AA'): LATIN SMALL LETTER E WITH CIRCUMFLEX
+	- U+00eb ('=C3=AB'): LATIN SMALL LETTER E WITH DIAERESIS
+	- U+00f3 ('=C3=B3'): LATIN SMALL LETTER O WITH ACUTE
+	- U+00f4 ('=C3=B4'): LATIN SMALL LETTER O WITH CIRCUMFLEX
+	- U+00f6 ('=C3=B6'): LATIN SMALL LETTER O WITH DIAERESIS
+	- U+00f8 ('=C3=B8'): LATIN SMALL LETTER O WITH STROKE
+	- U+00fa ('=C3=BA'): LATIN SMALL LETTER U WITH ACUTE
+	- U+00fc ('=C3=BC'): LATIN SMALL LETTER U WITH DIAERESIS
+	- U+00fd ('=C3=BD'): LATIN SMALL LETTER Y WITH ACUTE
+	- U+011f ('=C4=9F'): LATIN SMALL LETTER G WITH BREVE
+	- U+0142 ('=C5=82'): LATIN SMALL LETTER L WITH STROKE
+
+Those should be kept as well, as they're used for non-English names.
+
+4. arrows and box drawing symbols:
+	- U+2191 ('=E2=86=91'): UPWARDS ARROW
+	- U+2192 ('=E2=86=92'): RIGHTWARDS ARROW
+	- U+2193 ('=E2=86=93'): DOWNWARDS ARROW
+
+	- U+2500 ('=E2=94=80'): BOX DRAWINGS LIGHT HORIZONTAL
+	- U+2502 ('=E2=94=82'): BOX DRAWINGS LIGHT VERTICAL
+	- U+2514 ('=E2=94=94'): BOX DRAWINGS LIGHT UP AND RIGHT
+	- U+251c ('=E2=94=9C'): BOX DRAWINGS LIGHT VERTICAL AND RIGHT
+
+Also should be kept.
+
+In summary, based on the discussions we have so far, I suspect that
+there's not much to be discussed for the above cases.
+
+So, I'll post a v3 of this series, changing only:
+
+	- U+00a0 ('=C2=A0'): NO-BREAK SPACE
+	- U+feff ('=EF=BB=BF'): ZERO WIDTH NO-BREAK SPACE (BOM)
+
 ---
- .../translations/zh_CN/core-api/index.rst     |   2 +-
- .../zh_CN/core-api/printk-formats.rst         | 580 ++++++++++++++++++
- 2 files changed, 581 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/printk-formats.rst
 
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 5ecb23e3ba8c..c2d4614d9e68 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -24,10 +24,10 @@
- 
-    kernel-api
-    printk-basics
-+   printk-formats
- 
- Todolist:
-    workqueue
--   printk-formats
-    symbol-namespaces
- 
- 数据结构和低级实用程序
-diff --git a/Documentation/translations/zh_CN/core-api/printk-formats.rst b/Documentation/translations/zh_CN/core-api/printk-formats.rst
-new file mode 100644
-index 000000000000..624a090e6ee5
---- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/printk-formats.rst
-@@ -0,0 +1,580 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/printk-formats.rst
-+:Translator: Yanteng Si <siyanteng@loongson.cn>
-+
-+.. _cn_printk-formats.rst:
-+
-+
-+==============================
-+如何获得正确的printk格式占位符
-+==============================
-+
-+
-+
-+:作者: Randy Dunlap <rdunlap@infradead.org>
-+:作者: Andrew Murray <amurray@mpc-data.co.uk>
-+
-+
-+整数类型
-+========
-+
-+::
-+
-+	        若变量类型是Type，则使用printk格式占位符。
-+	        -------------------------------------------
-+		char			%d 或 %x
-+		unsigned char		%u 或 %x
-+		short int		%d 或 %x
-+		unsigned short int	%u 或 %x
-+		int			%d 或 %x
-+		unsigned int		%u 或 %x
-+		long			%ld 或 %lx
-+		unsigned long		%lu 或 %lx
-+		long long		%lld 或 %llx
-+		unsigned long long	%llu 或 %llx
-+		size_t			%zu 或 %zx
-+		ssize_t			%zd 或 %zx
-+		s8			%d 或 %x
-+		u8			%u 或 %x
-+		s16			%d 或 %x
-+		u16			%u 或 %x
-+		s32			%d 或 %x
-+		u32			%u 或 %x
-+		s64			%lld 或 %llx
-+		u64			%llu 或 %llx
-+
-+
-+如果 <type> 的大小依赖于配置选项 (例如 sector_t, blkcnt_t) 或其大小依赖于架构
-+(例如 tcflag_t)，则使用其可能的最大类型的格式占位符并显式强制转换为它。
-+
-+例如
-+
-+::
-+
-+	printk("test: sector number/total blocks: %llu/%llu\n",
-+		(unsigned long long)sector, (unsigned long long)blockcount);
-+
-+提醒：sizeof()返回类型为size_t。
-+
-+内核的printf不支持%n。显而易见，浮点格式(%e, %f, %g, %a)也不被识别。使用任何不
-+支持的占位符或长度限定符都会导致一个WARN并且终止vsnprintf()执行。
-+
-+指针类型
-+========
-+
-+一个原始指针值可以用%p打印，它将在打印前对地址进行哈希处理。内核也支持扩展占位符来打印
-+不同类型的指针。
-+
-+一些扩展占位符会打印给定地址上的数据，而不是打印地址本身。在这种情况下，以下错误消息可能
-+会被打印出来，而不是无法访问的消息::
-+
-+	(null)	 data on plain NULL address
-+	(efault) data on invalid address
-+	(einval) invalid data on a valid address
-+
-+普通指针
-+----------
-+
-+::
-+
-+	%p	abcdef12 or 00000000abcdef12
-+
-+没有指定扩展名的指针（即没有修饰符的%p）被哈希（hash），以防止内核内存布局消息的泄露。这
-+样还有一个额外的好处，就是提供一个唯一的标识符。在64位机器上，前32位被清零。当没有足够的
-+熵进行散列处理时，内核将打印(ptrval)代替
-+
-+如果可能的话，使用专门的修饰符，如%pS或%pB（如下所述），以避免打印一个必须事后解释的非哈
-+希地址。如果不可能，而且打印地址的目的是为调试提供更多的消息，使用%p，并在调试过程中
-+用 ``no_hash_pointers`` 参数启动内核，这将打印所有未修改的%p地址。如果你 *真的* 想知
-+道未修改的地址，请看下面的%px。
-+
-+如果（也只有在）你将地址作为虚拟文件的内容打印出来，例如在procfs或sysfs中（使用
-+seq_printf()，而不是printk()）由用户空间进程读取，使用下面描述的%pK修饰符，不
-+要用%p或%px。
-+
-+
-+错误指针
-+--------
-+
-+::
-+
-+	%pe	-ENOSPC
-+
-+用于打印错误指针(即IS_ERR()为真的指针)的符号错误名。不知道符号名的错误值会以十进制打印，
-+而作为%pe参数传递的非ERR_PTR会被视为普通的%p。
-+
-+符号/函数指针
-+-------------
-+
-+::
-+
-+	%pS	versatile_init+0x0/0x110
-+	%ps	versatile_init
-+	%pSR	versatile_init+0x9/0x110
-+		(with __builtin_extract_return_addr() translation)
-+	%pB	prev_fn_of_versatile_init+0x88/0x88
-+
-+
-+``S`` 和 ``s`` 占位符用于打印符号格式的指针。它们的结果是符号名称带有(S)或不带有(s)偏移
-+量。如果禁用KALLSYMS，则打印符号地址。
-+
-+``B`` 占位符的结果是带有偏移量的符号名，在打印堆栈回溯时应该使用。占位符将考虑编译器优化
-+的影响，当使用尾部调用并使用noreturn GCC属性标记时，可能会发生这种优化。
-+
-+来自BPF / tracing追踪的探查指针
-+----------------------------------
-+
-+::
-+
-+	%pks	kernel string
-+	%pus	user string
-+
-+``k`` 和 ``u`` 指定符用于打印来自内核内存(k)或用户内存(u)的先前探测的内存。后面的 ``s`` 指
-+定符的结果是打印一个字符串。对于直接在常规的vsnprintf()中使用时，(k)和(u)注释被忽略，但是，当
-+在BPF的bpf_trace_printk()之外使用时，它会读取它所指向的内存，不会出现错误。
-+
-+内核指针
-+--------
-+
-+::
-+
-+	%pK	01234567 or 0123456789abcdef
-+
-+用于打印应该对非特权用户隐藏的内核指针。%pK的行为取决于kptr_restrict sysctl——详见
-+Documentation/admin-guide/sysctl/kernel.rst。
-+
-+未经修改的地址
-+--------------
-+
-+::
-+
-+	%px	01234567 or 0123456789abcdef
-+
-+对于打印指针，当你 *真的* 想打印地址时。在用%px打印指针之前，请考虑你是否泄露了内核内
-+存布局的敏感消息。%px在功能上等同于%lx（或%lu）。%px是首选，因为它在grep查找时更唯一。
-+如果将来我们需要修改内核处理打印指针的方式，我们将能更好地找到调用点。
-+
-+在使用%px之前，请考虑使用%p并在调试过程中启用' ' no_hash_pointer ' '内核参数是否足
-+够(参见上面的%p描述)。%px的一个有效场景可能是在panic发生之前立即打印消息，这样无论如何
-+都可以防止任何敏感消息被利用，使用%px就不需要用no_hash_pointer来重现panic。
-+
-+指针差异
-+--------
-+
-+::
-+
-+	%td	2560
-+	%tx	a00
-+
-+为了打印指针的差异，使用ptrdiff_t的%t修饰符。
-+
-+例如::
-+
-+	printk("test: difference between pointers: %td\n", ptr2 - ptr1);
-+
-+结构体资源（Resources）
-+-----------------------
-+
-+::
-+
-+	%pr	[mem 0x60000000-0x6fffffff flags 0x2200] or
-+		[mem 0x0000000060000000-0x000000006fffffff flags 0x2200]
-+	%pR	[mem 0x60000000-0x6fffffff pref] or
-+		[mem 0x0000000060000000-0x000000006fffffff pref]
-+
-+用于打印结构体资源。 ``R`` 和 ``r`` 占位符的结果是打印出的资源带有（R）或不带有（r）解码标志
-+成员。
-+
-+通过引用传递。
-+
-+物理地址类型 phys_addr_t
-+------------------------
-+
-+::
-+
-+	%pa[p]	0x01234567 or 0x0123456789abcdef
-+
-+用于打印phys_addr_t类型（以及它的衍生物，如resource_size_t），该类型可以根据构建选项而
-+变化，无论CPU数据真实物理地址宽度如何。
-+
-+通过引用传递。
-+
-+DMA地址类型dma_addr_t
-+---------------------
-+
-+::
-+
-+	%pad	0x01234567 or 0x0123456789abcdef
-+
-+用于打印dma_addr_t类型，该类型可以根据构建选项而变化，而不考虑CPU数据路径的宽度。
-+
-+通过引用传递。
-+
-+原始缓冲区为转义字符串
-+----------------------
-+
-+::
-+
-+	%*pE[achnops]
-+
-+用于将原始缓冲区打印成转义字符串。对于以下缓冲区::
-+
-+		1b 62 20 5c 43 07 22 90 0d 5d
-+
-+几个例子展示了如何进行转换（不包括两端的引号）。::
-+
-+		%*pE		"\eb \C\a"\220\r]"
-+		%*pEhp		"\x1bb \C\x07"\x90\x0d]"
-+		%*pEa		"\e\142\040\\\103\a\042\220\r\135"
-+
-+转换规则是根据可选的标志组合来应用的(详见:c:func:`string_escape_mem` 内核文档):
-+
-+	- a - ESCAPE_ANY
-+	- c - ESCAPE_SPECIAL
-+	- h - ESCAPE_HEX
-+	- n - ESCAPE_NULL
-+	- o - ESCAPE_OCTAL
-+	- p - ESCAPE_NP
-+	- s - ESCAPE_SPACE
-+
-+默认情况下，使用 ESCAPE_ANY_NP。
-+
-+ESCAPE_ANY_NP是许多情况下的明智选择，特别是对于打印SSID。
-+
-+如果字段宽度被省略，那么将只转义1个字节。
-+
-+原始缓冲区为十六进制字符串
-+--------------------------
-+
-+::
-+
-+	%*ph	00 01 02  ...  3f
-+	%*phC	00:01:02: ... :3f
-+	%*phD	00-01-02- ... -3f
-+	%*phN	000102 ... 3f
-+
-+对于打印小的缓冲区（最长64个字节），可以用一定的分隔符作为一个
-+十六进制字符串。对于较大的缓冲区，可以考虑使用
-+:c:func:`print_hex_dump` 。
-+
-+MAC/FDDI地址
-+------------
-+
-+::
-+
-+	%pM	00:01:02:03:04:05
-+	%pMR	05:04:03:02:01:00
-+	%pMF	00-01-02-03-04-05
-+	%pm	000102030405
-+	%pmR	050403020100
-+
-+用于打印以十六进制表示的6字节MAC/FDDI地址。 ``M`` 和 ``m`` 占位符导致打印的
-+地址有(M)或没有(m)字节分隔符。默认的字节分隔符是冒号（：）。
-+
-+对于FDDI地址，可以在 ``M`` 占位符之后使用 ``F`` 说明，以使用破折号(——)分隔符
-+代替默认的分隔符。
-+
-+对于蓝牙地址， ``R`` 占位符应使用在 ``M`` 占位符之后，以使用反转的字节顺序，适
-+合于以小尾端顺序的蓝牙地址的肉眼可见的解析。
-+
-+通过引用传递。
-+
-+IPv4地址
-+--------
-+
-+::
-+
-+	%pI4	1.2.3.4
-+	%pi4	001.002.003.004
-+	%p[Ii]4[hnbl]
-+
-+用于打印IPv4点分隔的十进制地址。 ``I4`` 和 ``i4`` 占位符的结果是打印的地址
-+有(i4)或没有(I4)前导零。
-+
-+附加的 ``h`` 、 ``n`` 、 ``b`` 和 ``l`` 占位符分别用于指定主机、网络、大
-+尾端或小尾端地址。如果没有提供占位符，则使用默认的网络/大尾端顺序。
-+
-+通过引用传递。
-+
-+IPv6 地址
-+---------
-+
-+::
-+
-+	%pI6	0001:0002:0003:0004:0005:0006:0007:0008
-+	%pi6	00010002000300040005000600070008
-+	%pI6c	1:2:3:4:5:6:7:8
-+
-+用于打印IPv6网络顺序的16位十六进制地址。 ``I6`` 和 ``i6`` 占位符的结果是
-+打印的地址有(I6)或没有(i6)分号。始终使用前导零。
-+
-+额外的 ``c`` 占位符可与 ``I`` 占位符一起使用，以打印压缩的IPv6地址，如
-+https://tools.ietf.org/html/rfc5952 所述
-+
-+通过引用传递。
-+
-+IPv4/IPv6地址(generic, with port, flowinfo, scope)
-+--------------------------------------------------
-+
-+::
-+
-+	%pIS	1.2.3.4		or 0001:0002:0003:0004:0005:0006:0007:0008
-+	%piS	001.002.003.004	or 00010002000300040005000600070008
-+	%pISc	1.2.3.4		or 1:2:3:4:5:6:7:8
-+	%pISpc	1.2.3.4:12345	or [1:2:3:4:5:6:7:8]:12345
-+	%p[Ii]S[pfschnbl]
-+
-+用于打印一个IP地址，不需要区分它的类型是AF_INET还是AF_INET6。一个指向有效结构
-+体sockaddr的指针，通过 ``IS`` 或 ``IS`` 指定，可以传递给这个格式占位符。
-+
-+附加的 ``p`` 、  ``f`` 和 ``s`` 占位符用于指定port(IPv4, IPv6)、
-+flowinfo (IPv6)和sope(IPv6)。port有一个 ``:`` 前缀，flowinfo是 ``/`` 和
-+范围是 ``%`` ，每个后面都跟着实际的值。
-+
-+对于IPv6地址，如果指定了额外的指定符 ``c`` ，则使用
-+https://tools.ietf.org/html/rfc5952 描述的压缩IPv6地址。
-+如https://tools.ietf.org/html/draft-ietf-6man-text-addr-representation-07
-+所建议的，IPv6地址由'['，']'包围，以防止出现额外的占位符 ``p`` ， ``f`` 或 ``s`` 。
-+
-+对于IPv4地址，也可以使用额外的 ``h`` ， ``n`` ， ``b`` 和 ``l`` 说
-+明符，但对于IPv6地址则忽略。
-+
-+通过引用传递。
-+
-+更多例子::
-+
-+	%pISfc		1.2.3.4		or [1:2:3:4:5:6:7:8]/123456789
-+	%pISsc		1.2.3.4		or [1:2:3:4:5:6:7:8]%1234567890
-+	%pISpfc		1.2.3.4:12345	or [1:2:3:4:5:6:7:8]:12345/123456789
-+
-+UUID/GUID地址
-+-------------
-+
-+::
-+
-+	%pUb	00010203-0405-0607-0809-0a0b0c0d0e0f
-+	%pUB	00010203-0405-0607-0809-0A0B0C0D0E0F
-+	%pUl	03020100-0504-0706-0809-0a0b0c0e0e0f
-+	%pUL	03020100-0504-0706-0809-0A0B0C0E0E0F
-+
-+用于打印16字节的UUID/GUIDs地址。附加的 ``l`` , ``L`` , ``b`` 和 ``B`` 占位符用
-+于指定小写(l)或大写(L)十六进制表示法中的小尾端顺序，以及小写(b)或大写(B)十六进制表
-+示法中的大尾端顺序。
-+
-+如果没有使用额外的占位符，则将打印带有小写十六进制表示法的默认大端顺序。
-+
-+通过引用传递。
-+
-+目录项（dentry）的名称
-+----------------------
-+
-+::
-+
-+	%pd{,2,3,4}
-+	%pD{,2,3,4}
-+
-+用于打印dentry名称；如果我们用 :c:func:`d_move` 和它比较，名称可能是新旧混合的，但
-+不会oops。 %pd dentry比较安全，其相当于我们以前用的%s dentry->d_name.name，%pd<n>打
-+印 ``n`` 最后的组件。 %pD对结构文件做同样的事情。
-+
-+
-+通过引用传递。
-+
-+块设备（block_device）名称
-+--------------------------
-+
-+::
-+
-+	%pg	sda, sda1 or loop0p1
-+
-+用于打印block_device指针的名称。
-+
-+va_format结构体
-+---------------
-+
-+::
-+
-+	%pV
-+
-+用于打印结构体va_format。这些结构包含一个格式字符串
-+和va_list如下
-+
-+::
-+
-+	struct va_format {
-+		const char *fmt;
-+		va_list *va;
-+	};
-+
-+实现 "递归vsnprintf"。
-+
-+如果没有一些机制来验证格式字符串和va_list参数的正确性，请不要使用这个功能。
-+
-+通过引用传递。
-+
-+设备树节点
-+----------
-+
-+::
-+
-+	%pOF[fnpPcCF]
-+
-+
-+用于打印设备树节点结构。默认行为相当于%pOFf。
-+
-+	- f - 设备节点全称
-+	- n - 设备节点名
-+	- p - 设备节点句柄
-+	- P - 设备节点路径规范(名称+@单位)
-+	- F - 设备节点标志
-+	- c - 主要兼容字符串
-+	- C - 全兼容字符串
-+
-+当使用多个参数时，分隔符是':'。
-+
-+例如
-+
-+::
-+
-+	%pOF	/foo/bar@0			- Node full name
-+	%pOFf	/foo/bar@0			- Same as above
-+	%pOFfp	/foo/bar@0:10			- Node full name + phandle
-+	%pOFfcF	/foo/bar@0:foo,device:--P-	- Node full name +
-+	                                          major compatible string +
-+						  node flags
-+							D - dynamic
-+							d - detached
-+							P - Populated
-+							B - Populated bus
-+
-+通过引用传递。
-+
-+Fwnode handles
-+--------------
-+
-+::
-+
-+	%pfw[fP]
-+
-+用于打印fwnode_handles的消息。默认情况下是打印完整的节点名称，包括路径。
-+这些修饰符在功能上等同于上面的%pOF。
-+
-+	- f - 节点的全名，包括路径。
-+	- P - 节点名称，包括地址（如果有的话）。
-+
-+例如 (ACPI)
-+
-+::
-+
-+	%pfwf	\_SB.PCI0.CIO2.port@1.endpoint@0	- Full node name
-+	%pfwP	endpoint@0				- Node name
-+
-+例如 (OF)
-+
-+::
-+
-+	%pfwf	/ocp@68000000/i2c@48072000/camera@10/port/endpoint - Full name
-+	%pfwP	endpoint				- Node name
-+
-+时间和日期
-+----------
-+
-+::
-+
-+	%pt[RT]			YYYY-mm-ddTHH:MM:SS
-+	%pt[RT]d		YYYY-mm-dd
-+	%pt[RT]t		HH:MM:SS
-+	%pt[RT][dt][r]
-+
-+用于打印日期和时间::
-+
-+	R  struct rtc_time structure
-+	T  time64_t type
-+
-+以我们（人类）可读的格式。
-+
-+默认情况下，年将以1900为单位递增，月将以1为单位递增。 使用%pt[RT]r (raw)
-+来抑制这种行为。
-+
-+通过引用传递。
-+
-+clk结构体
-+---------
-+
-+::
-+
-+	%pC	pll1
-+	%pCn	pll1
-+
-+用于打印clk结构。%pC 和 %pCn 打印时钟的名称（通用时钟框架）或唯一的32位
-+ID（传统时钟框架）。
-+
-+通过引用传递。
-+
-+位图及其衍生物，如cpumask和nodemask
-+-----------------------------------
-+
-+::
-+
-+	%*pb	0779
-+	%*pbl	0,3-6,8-10
-+
-+对于打印位图（bitmap）及其派生的cpumask和nodemask，%*pb输出以字段宽度为位数的位图，
-+%*pbl输出以字段宽度为位数的范围列表。
-+
-+字段宽度用值传递，位图用引用传递。可以使用辅助宏cpumask_pr_args()和
-+nodemask_pr_args()来方便打印cpumask和nodemask。
-+
-+标志位字段，如页标志、gfp_flags
-+-------------------------------
-+
-+::
-+
-+	%pGp	referenced|uptodate|lru|active|private|node=0|zone=2|lastcpupid=0x1fffff
-+	%pGg	GFP_USER|GFP_DMA32|GFP_NOWARN
-+	%pGv	read|exec|mayread|maywrite|mayexec|denywrite
-+
-+将flags位字段打印为构造值的符号常量集合。标志的类型由第三个字符给出。目前支持的
-+是[p]age flags， [v]ma_flags(都期望 ``unsigned long *`` )和
-+[g]fp_flags(期望 ``gfp_t *`` )。标志名称和打印顺序取决于特定的类型。
-+
-+注意，这种格式不应该直接用于跟踪点的:c:func:`TP_printk()` 部分。相反，应使
-+用 <trace/events/mmflags.h>中的show_*_flags()函数。
-+
-+通过引用传递。
-+
-+网络设备特性
-+------------
-+
-+::
-+
-+	%pNF	0x000000000000c000
-+
-+用于打印netdev_features_t。
-+
-+通过引用传递。
-+
-+V4L2和DRM FourCC代码(像素格式)
-+------------------------------
-+
-+::
-+
-+	%p4cc
-+
-+打印V4L2或DRM使用的FourCC代码，包括格式端序及其十六进制的数值。
-+
-+通过引用传递。
-+
-+例如::
-+
-+	%p4cc	BG12 little-endian (0x32314742)
-+	%p4cc	Y10  little-endian (0x20303159)
-+	%p4cc	NV12 big-endian (0xb231564e)
-+
-+谢谢
-+====
-+
-+如果您添加了其他%p扩展，请在可行的情况下，用一个或多个测试用例扩展<lib/test_printf.c>。
-+
-+谢谢你的合作和关注。
--- 
-2.27.0
+Now, this specific patch series address also this extra case:
 
+5. curly commas:
+
+	- U+2018 ('=E2=80=98'): LEFT SINGLE QUOTATION MARK
+	- U+2019 ('=E2=80=99'): RIGHT SINGLE QUOTATION MARK
+	- U+201c ('=E2=80=9C'): LEFT DOUBLE QUOTATION MARK
+	- U+201d ('=E2=80=9D'): RIGHT DOUBLE QUOTATION MARK
+
+IMO, those should be replaced by ASCII commas: ' and ".
+
+The rationale is simple:=20
+
+- most were introduced during the conversion from Docbook,
+  markdown and LaTex;
+- they don't add any extra value, as using "foo" of =E2=80=9Cfoo=E2=80=9D m=
+eans
+  the same thing;
+- Sphinx already use "fancy" commas at the output.=20
+
+I guess I will put this on a separate series, as this is not a bug
+fix, but just a cleanup from the conversion work.
+
+I'll re-post those cleanups on a separate series, for patch per patch
+review.
+
+---
+
+The remaining cases are future work, outside the scope of this v2:
+
+6. Hyphen/Dashes and ellipsis
+
+	- U+2212 ('=E2=88=92'): MINUS SIGN
+	- U+00ad ('=C2=AD'): SOFT HYPHEN
+	- U+2010 ('=E2=80=90'): HYPHEN
+
+	    Those three are used on places where a normal ASCII hyphen/minus
+	    should be used instead. There are even a couple of C files which
+	    use them instead of '-' on comments.
+
+	    IMO are fixes/cleanups from conversions and bad cut-and-paste.
+
+	- U+2013 ('=E2=80=93'): EN DASH
+	- U+2014 ('=E2=80=94'): EM DASH
+	- U+2026 ('=E2=80=A6'): HORIZONTAL ELLIPSIS
+
+	    Those are auto-replaced by Sphinx from "--", "---" and "...",
+	    respectively.
+
+	    I guess those are a matter of personal preference about
+	    weather using ASCII or UTF-8.
+
+            My personal preference (and Ted seems to have a similar
+	    opinion) is to let Sphinx do the conversion.
+
+	    For those, I intend to post a separate series, to be
+	    reviewed patch per patch, as this is really a matter
+	    of personal taste. Hardly we'll reach a consensus here.
+
+7. math symbols:
+
+	- U+00d7 ('=C3=97'): MULTIPLICATION SIGN
+
+	   This one is used mostly do describe video resolutions, but this is
+	   on a smaller changeset than the ones that use "x" letter.
+
+	- U+2217 ('=E2=88=97'): ASTERISK OPERATOR
+
+	   This is used only here:
+		Documentation/filesystems/ext4/blockgroup.rst:filesystem size to 2^21 =E2=
+=88=97 2^27 =3D 2^48bytes or 256TiB.
+
+	   Probably added by some conversion tool. IMO, this one should
+	   also be replaced by an ASCII asterisk.
+
+I guess I'll post a patch for the ASTERISK OPERATOR.
+Thanks,
+Mauro
