@@ -2,94 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C95E4C433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 20:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CFCC433ED
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 21:46:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A28E461075
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 20:51:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0206E61287
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 21:46:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234959AbhEOUwh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 May 2021 16:52:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56808 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234955AbhEOUwh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 May 2021 16:52:37 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C258C061573;
-        Sat, 15 May 2021 13:51:22 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id k10so3452726ejj.8;
-        Sat, 15 May 2021 13:51:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nD4KmsDMUkEUKKIBOvAk9bAQ3hbSzjXm6+efyP8kl18=;
-        b=hSpxZc82y+5vB4apH2zZUzUFie/W6GIdC8lj2sf9E2gHpI5DJ+yblJDyt6mW7Zzio6
-         fjsH0GorvfYPPlFiCS4ldNiimed8lJrjn2uD6GpfojwmADu+8lq13c1BzUUVUTLb+A0x
-         i5OsSah1aRNk102pxkJcHLDGYwt+ypRsh4dEjmGRjO+n3w4uLfOq0VUS+ntQYVBA67kb
-         VYvKb4IryWXYJCB3vVm7zfxGiUM7Tez0cFoxEFXQwhC7IWR5Yo0EI75lrJR8lE5jKm0v
-         zrhWe5KOZqmRCrE6w29XDYXvUJslioILXaJ1+MHvja7Xgi84OHP6rBbItg27TKmB/ITM
-         7tXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nD4KmsDMUkEUKKIBOvAk9bAQ3hbSzjXm6+efyP8kl18=;
-        b=rkucuyd3TAwWoQ2Kj/NuByh3yrG6CNO06V7XhLPHkeUDURfaD4kSnhokehucde/84e
-         ZuvnPmiqGGExdtUe0Gg93ZNvhA7SQK6A4RcQj9AO4UZyz/bRODloQ/sc8errXso3RFJV
-         YozsOR4z2lsnbzFIvO7IuFqnZHaDptt18DXpngy/fjtHWGTIpTtz5krSFnIiFnlJ0mN5
-         X5ug4lPRNfuhyxjhnoAoLt+JDuajcc6TPVRO/AGlNehaRer1qkH1PkwlC0z9Xg7eRwF0
-         HqxPxpKDlL63dCQql2EdHRH9/jyK+AtcSyuRhWh38vX90aCorXq8u9sIrh/DY2BatK5O
-         kpBA==
-X-Gm-Message-State: AOAM5334kopSh6nRKLlpazHLX51B6neLrlhXMlGG5fwv6J6q/cew2v2O
-        om6QccIZNc7/hLSh3fJNZ1o=
-X-Google-Smtp-Source: ABdhPJwqOiPQZp37c7+SnQuH9bLDHhgBAi6r0DPiQAYqKsx1tCa7jHrpKxuHwBsFcLSKOn88cg4cpg==
-X-Received: by 2002:a17:907:969e:: with SMTP id hd30mr37860431ejc.501.1621111881088;
-        Sat, 15 May 2021 13:51:21 -0700 (PDT)
-Received: from ubuntu.localdomain (bbcs-125-250.pub.wingo.ch. [144.2.125.250])
-        by smtp.gmail.com with ESMTPSA id j14sm5866939eja.49.2021.05.15.13.51.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 May 2021 13:51:20 -0700 (PDT)
-From:   Chun-Hung Tseng <henrybear327@gmail.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chun-Hung Tseng <henrybear327@gmail.com>
-Subject: [PATCH v3] Documentation: scheduler: fixed a typo in sched-nice-design.rst
-Date:   Sun, 16 May 2021 04:51:18 +0800
-Message-Id: <20210515205118.116359-1-henrybear327@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S235140AbhEOVsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 May 2021 17:48:05 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:1480 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235133AbhEOVsF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 15 May 2021 17:48:05 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 28840891;
+        Sat, 15 May 2021 23:46:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        in-reply-to:content-transfer-encoding:content-disposition
+        :content-type:content-type:mime-version:references:message-id
+        :subject:subject:from:from:date:date:received:received:received;
+         s=dkim20160331; t=1621115208; x=1622929609; bh=eaJHCHUjbjCOs253
+        ucS2E+23HKRDmXY1/ctfNTFqYqo=; b=wXIhRgOAyE4d/E5L+6b1pEp7T3wxljzj
+        s69+HBjXtfoBSL6St1lwU1sUMl1yoYWhUVyj11D5KkNraLNt0WKny8hnJlUfPPkm
+        EZ76V7XQZDdrbAtmbQy7xFsv1vUA6adxP1/9rb+q2GHMudKNOOyX2V7tRVE5Jzzb
+        RjnWZhe1g+u+u5Kale62FpEW9sGxZIAwR6wMX3Lz7yT2LXFu7RaoAes+iFg1f4RC
+        MGPaIBASVBY387WWlK1+NuMDzjDPe8cLwMDAAuDYeEbA8ZsMYcMiQwr1R1j+D1Ru
+        SQLJPIdnh6bbTOgAaVkOzNqGdhaUeXf+qadhBCXMQQWHdFhW6RSaxJf7IaeeAW4t
+        kBbRqwPKAGkn0OmHuVdOnVqwUmL44HD734eOSVl4IRNnZd2qCfvYk+vYXnMxpB3g
+        Un+d7q6chJLxjigcJhHyn461wVCy8OiU13N/GLMaFzZCEb6t1p86NMkV8bJhlhJq
+        7RHGqZZm+nktM3L5FkllMZzzd+9FLbGKBGNpQgRNgFP3y2gDOwkz8Iszay1GQJV8
+        QWPQ/ChcjsVZV7T0q/4dra3AR96Jeq9vjIAoWyp5fXJBDUZVeItq3ll3NZfrvxuv
+        lhdTGhOlBwVk8SN2AAQZKKE8qO7UUf1xbdsk+SbDkRgv1ldvUWtIm2Guh+HEI3eN
+        Ru2g+GrNxt4=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id B4eNjsr2Bvl4; Sat, 15 May 2021 23:46:48 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 58CD1627;
+        Sat, 15 May 2021 23:46:48 +0200 (CEST)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 98D56410;
+        Sat, 15 May 2021 23:46:46 +0200 (CEST)
+Date:   Sat, 15 May 2021 23:46:42 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Sanjeev Gupta <ghane0@gmail.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v2 2/3] Documentation/translations/it_IT: switch some
+ links to https
+Message-ID: <20210515214642.exmxqsvo4yx4elhb@numero86.vaga.pv.it>
+References: <7263fc90.AUcAAC_sKFEAAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgn5QG@mailjet.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <7263fc90.AUcAAC_sKFEAAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgn5QG@mailjet.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch fixed a spelling error in the documentation.
+On Sat, May 15, 2021 at 03:08:18PM +0800, Sanjeev Gupta wrote:
+>Links have been checked to ensure that the old and new URL
+>return the same page.  This is not true for many links.
+>
+>Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+>
+>---
+> .../translations/it_IT/doc-guide/kernel-doc.rst        |  2 +-
+> Documentation/translations/it_IT/doc-guide/sphinx.rst  | 10 +++++-----
+> Documentation/translations/it_IT/process/changes.rst   |  2 +-
+> .../translations/it_IT/process/coding-style.rst        |  2 +-
+> 4 files changed, 8 insertions(+), 8 deletions(-)
+>
+>diff --git a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+>index 009cdac014b6..4d22df6a59d6 100644
+>--- a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+>+++ b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+>@@ -24,7 +24,7 @@ vengono filtrare per cercare i riferimenti ed i marcatori.
+>
+> Vedere di seguito per maggiori dettagli.
+>
+>-.. _`dominio Sphinx per il C`: http://www.sphinx-doc.org/en/stable/domains.html
+>+.. _`dominio Sphinx per il C`: https://www.sphinx-doc.org/en/stable/domains.html
+>
+> Tutte le funzioni esportate verso i moduli esterni utilizzando
+> ``EXPORT_SYMBOL`` o ``EXPORT_SYMBOL_GPL`` dovrebbero avere un commento
+>diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst b/Documentation/translations/it_IT/doc-guide/sphinx.rst
+>index 0046d75d9a70..f7db5db3766f 100644
+>--- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
+>+++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
+>@@ -14,7 +14,7 @@ Per generare la documentazione in HTML o PDF, usate comandi ``make htmldocs`` o
+> ``make pdfdocs``. La documentazione così generata sarà disponibile nella
+> cartella ``Documentation/output``.
+>
+>-.. _Sphinx: http://www.sphinx-doc.org/
+>+.. _Sphinx: https://www.sphinx-doc.org/
+> .. _reStructuredText: http://docutils.sourceforge.net/rst.html
+>
+> I file reStructuredText possono contenere delle direttive che permettono di
+>@@ -175,7 +175,7 @@ Aggiungere nuova documentazione è semplice:
+> 2. aggiungete un riferimento ad esso nell'indice (`TOC tree`_) in
+>    ``Documentation/index.rst``.
+>
+>-.. _TOC tree: http://www.sphinx-doc.org/en/stable/markup/toctree.html
+>+.. _TOC tree: https://www.sphinx-doc.org/en/stable/markup/toctree.html
+>
+> Questo, di solito, è sufficiente per la documentazione più semplice (come
+> quella che state leggendo ora), ma per una documentazione più elaborata è
+>@@ -191,8 +191,8 @@ informazione circa le loro potenzialità. In particolare, il
+> cui cominciare. Esistono, inoltre, anche alcuni
+> `costruttori specifici per Sphinx`_.
+>
+>-.. _`manuale introduttivo a reStructuredText`: http://www.sphinx-doc.org/en/stable/rest.html
+>-.. _`costruttori specifici per Sphinx`: http://www.sphinx-doc.org/en/stable/markup/index.html
+>+.. _`manuale introduttivo a reStructuredText`: https://www.sphinx-doc.org/en/stable/rest.html
+>+.. _`costruttori specifici per Sphinx`: https://www.sphinx-doc.org/en/stable/markup/index.html
+>
+> Guide linea per la documentazione del kernel
+> --------------------------------------------
+>@@ -417,7 +417,7 @@ formato SVG (:ref:`it_svg_image_example`)::
+> Le direttive del kernel per figure ed immagini supportano il formato **DOT**,
+> per maggiori informazioni
+>
+>-* DOT: http://graphviz.org/pdf/dotguide.pdf
+>+* DOT: https://graphviz.org/pdf/dotguide.pdf
+> * Graphviz: http://www.graphviz.org/content/dot-language
 
-Signed-off-by: Chun-Hung Tseng <henrybear327@gmail.com>
----
- Documentation/scheduler/sched-nice-design.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Why not also the last link?
 
-diff --git a/Documentation/scheduler/sched-nice-design.rst b/Documentation/scheduler/sched-nice-design.rst
-index 0571f1b47e64..3511d86575e7 100644
---- a/Documentation/scheduler/sched-nice-design.rst
-+++ b/Documentation/scheduler/sched-nice-design.rst
-@@ -60,7 +60,7 @@ within the constraints of HZ and jiffies and their nasty design level
- coupling to timeslices and granularity it was not really viable.
- 
- The second (less frequent but still periodically occurring) complaint
--about Linux's nice level support was its assymetry around the origo
-+about Linux's nice level support was its asymmetry around the origo
- (which you can see demonstrated in the picture above), or more
- accurately: the fact that nice level behavior depended on the _absolute_
- nice level as well, while the nice API itself is fundamentally
--- 
-2.25.1
-
+https://graphviz.org/doc/info/lang.html
