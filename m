@@ -2,75 +2,268 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 598F8C433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 07:27:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC6DC43461
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 07:58:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39298613F1
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 07:27:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0EAB5613F7
+	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 07:58:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231330AbhEOH3G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 May 2021 03:29:06 -0400
-Received: from smtprelay0168.hostedemail.com ([216.40.44.168]:46554 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231217AbhEOH3F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 May 2021 03:29:05 -0400
-Received: from omf06.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 6060118026A05;
-        Sat, 15 May 2021 07:27:51 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id B36F22448B4;
-        Sat, 15 May 2021 07:27:46 +0000 (UTC)
-Message-ID: <acff710e1cde66db686273d430a0798c4ea4f41e.camel@perches.com>
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-From:   Joe Perches <joe@perches.com>
-To:     Pavel Machek <pavel@ucw.cz>, Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Date:   Sat, 15 May 2021 00:27:45 -0700
-In-Reply-To: <20210515071410.GA27201@amd>
-References: <20210501151538.145449-1-masahiroy@kernel.org>
-         <20210515071410.GA27201@amd>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        id S233861AbhEOH7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 May 2021 03:59:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233640AbhEOH7f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 May 2021 03:59:35 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A961C061756
+        for <linux-doc@vger.kernel.org>; Sat, 15 May 2021 00:58:22 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id o6-20020a05600c4fc6b029015ec06d5269so820012wmq.0
+        for <linux-doc@vger.kernel.org>; Sat, 15 May 2021 00:58:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9lN374feJlnnH4EVecGPmTJFKz4it616vf5xlTU37po=;
+        b=Z8hsMBoSShiZKswQCp/E5k9+XMjhaeBH2/MdrK0+hIw/KwW65iHuumhxIGxUfxYa7x
+         TYekSQvosoo5tCWrlIby5gGklq77DFhhKOOO2Cs2/VucGFaJ691LtO59XVfiJijgC0jB
+         bTW6+B97upCYIHM7wjSgAXQPLiVY+1c9MG5MIlhB2ozecLlTBQs0v8dmCFJMUUJQwZYJ
+         w/pRmjELGq9QyXk4N6aQVq9gnFXvLYmPYkrN0kCep/wAzhL+lvIm10yMxzjPiAM+r3R1
+         0lD7yW4iROPDSxhnNUhPfYppdRQWP8lF8SQ5LHFlCsyvtoRbZf3q3qA891MLpLmA+dn9
+         twcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9lN374feJlnnH4EVecGPmTJFKz4it616vf5xlTU37po=;
+        b=oI8tg8/0DLzBA2tUo9MD51tOJRR5+0QCLSm7YTHnYz8RYhRDgdJpAEV6/KezpUBSIi
+         cTILV52AcyOUisoDg9CnisH/QqHWTcoDoJ/DGvUzTQ1u1z0Y+ve4R3GdIORNk1YLFjM2
+         jZKZrRQnoV+qGxMbs8x8Ne57xoySOAdtjBxugG+DoZGPsOE6dN2rJqPnIG+WUUNTlXXm
+         oCp3T7n2Kp/GcKpVBCwndQKsIzhUXpESpBlTxop2Fc8lpk4IdN29K0XJImwRZaSE49Tp
+         PuEWSP+DzmQ9NbwML6TUsJAMgcQHmBUTkh95PRuOa8qu+YoI2H0aD/INSWPzdjMCe/FV
+         hWAQ==
+X-Gm-Message-State: AOAM530C0KvnhrryB2r22jsLmk8xcHEX3mG11iMPqCavN629jPr2yTtq
+        EbY/9UuC54szGlCPzbJBt6vO8W39AQ6+AP/mi6G2sQ==
+X-Google-Smtp-Source: ABdhPJxZSjlEs4lhOYcHSFP7XeWXGYCEwWe+6Moyq+QxDgwX95Df9Ate+/s2uq7owzYjUJZ5YoV5U+mypVQs+z+Vz/s=
+X-Received: by 2002:a05:600c:218d:: with SMTP id e13mr13326454wme.151.1621065499581;
+ Sat, 15 May 2021 00:58:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: B36F22448B4
-X-Stat-Signature: sk6bp1su8mgpmhdudeekd6zmd57nm8uk
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18VobztuKx5cPb+cCAmoDLIOZAXmsA6C+8=
-X-HE-Tag: 1621063666-295586
+References: <20210507213110.155492-1-brendanhiggins@google.com> <20210507213110.155492-2-brendanhiggins@google.com>
+In-Reply-To: <20210507213110.155492-2-brendanhiggins@google.com>
+From:   David Gow <davidgow@google.com>
+Date:   Sat, 15 May 2021 15:58:08 +0800
+Message-ID: <CABVgOS=3ToE-w8PT_p_xqxqs4AR_a4u4LwFAFE-TrMtEEySG=A@mail.gmail.com>
+Subject: Re: [PATCH v1 1/4] kunit: Add 'kunit_shutdown' option
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Shuah Khan <shuah@kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Daniel Latypov <dlatypov@google.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000478a0905c259b9f7"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2021-05-15 at 09:14 +0200, Pavel Machek wrote:
-> On Sun 2021-05-02 00:15:38, Masahiro Yamada wrote:
-> > The current minimum GCC version is 4.9 except ARCH=arm64 requiring
-> > GCC 5.1.
-> 
-> Please don't. I'm still on 4.9 on machine I can't easily update,
+--000000000000478a0905c259b9f7
+Content-Type: text/plain; charset="UTF-8"
 
-Why is that?  Later compiler versions are available.
-http://cdn.kernel.org/pub/tools/crosstool/
+On Sat, May 8, 2021 at 5:31 AM Brendan Higgins
+<brendanhiggins@google.com> wrote:
+>
+> From: David Gow <davidgow@google.com>
+>
+> Add a new kernel command-line option, 'kunit_shutdown', which allows the
+> user to specify that the kernel poweroff, halt, or reboot after
+> completing all KUnit tests; this is very handy for running KUnit tests
+> on UML or a VM so that the UML/VM process exits cleanly immediately
+> after running all tests without needing a special initramfs.
+>
+> Signed-off-by: David Gow <davidgow@google.com>
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+> Tested-By: Daniel Latypov <dlatypov@google.com>
+> ---
 
-Is there some other reason your machine can not have the compiler
-version updated?
+Obviously I'm okay with this change, but I did find a minor whitespace
+nitpick below.
+
+>  lib/kunit/executor.c                | 20 ++++++++++++++++++++
+>  tools/testing/kunit/kunit_kernel.py |  2 +-
+>  tools/testing/kunit/kunit_parser.py |  2 +-
+>  3 files changed, 22 insertions(+), 2 deletions(-)
+>
+> diff --git a/lib/kunit/executor.c b/lib/kunit/executor.c
+> index 15832ed446685..7db619624437c 100644
+> --- a/lib/kunit/executor.c
+> +++ b/lib/kunit/executor.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>
+> +#include <linux/reboot.h>
+>  #include <kunit/test.h>
+>  #include <linux/glob.h>
+>  #include <linux/moduleparam.h>
+> @@ -18,6 +19,9 @@ module_param(filter_glob, charp, 0);
+>  MODULE_PARM_DESC(filter_glob,
+>                 "Filter which KUnit test suites run at boot-time, e.g. list*");
+>
+> +static char *kunit_shutdown;
+> +core_param(kunit_shutdown, kunit_shutdown, charp, 0644);
+> +
+>  static struct kunit_suite * const *
+>  kunit_filter_subsuite(struct kunit_suite * const * const subsuite)
+>  {
+> @@ -82,6 +86,20 @@ static struct suite_set kunit_filter_suites(void)
+>         return filtered;
+>  }
+>
+> +static void kunit_handle_shutdown(void)
+> +{
+> +       if (!kunit_shutdown)
+> +               return;
+> +
+> +       if (!strcmp(kunit_shutdown, "poweroff"))
+> +               kernel_power_off();
+> +       else if (!strcmp(kunit_shutdown, "halt"))
+> +               kernel_halt();
+> +       else if (!strcmp(kunit_shutdown, "reboot"))
+> +               kernel_restart(NULL);
+> +
+> +}
+> +
+>  static void kunit_print_tap_header(struct suite_set *suite_set)
+>  {
+>         struct kunit_suite * const * const *suites, * const *subsuite;
+> @@ -112,6 +130,8 @@ int kunit_run_all_tests(void)
+>                 kfree(suite_set.start);
+>         }
+>
+> +       kunit_handle_shutdown();
+> +
+>         return 0;
+>  }
+>
+> diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+> index 89a7d4024e878..e22ade9d91ad5 100644
+> --- a/tools/testing/kunit/kunit_kernel.py
+> +++ b/tools/testing/kunit/kunit_kernel.py
+> @@ -208,7 +208,7 @@ class LinuxSourceTree(object):
+>         def run_kernel(self, args=None, build_dir='', filter_glob='', timeout=None) -> Iterator[str]:
+>                 if not args:
+>                         args = []
+> -               args.extend(['mem=1G', 'console=tty'])
+> +               args.extend(['mem=1G', 'console=tty','kunit_shutdown=halt'])
+Nit: space here between 'console=tty', and 'kunit_shutdown=halt'.
 
 
+>                 if filter_glob:
+>                         args.append('kunit.filter_glob='+filter_glob)
+>                 self._ops.linux_bin(args, timeout, build_dir)
+> diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/kunit_parser.py
+> index e8bcc139702e2..8d8d4d70b39dd 100644
+> --- a/tools/testing/kunit/kunit_parser.py
+> +++ b/tools/testing/kunit/kunit_parser.py
+> @@ -49,7 +49,7 @@ class TestStatus(Enum):
+>
+>  kunit_start_re = re.compile(r'TAP version [0-9]+$')
+>  kunit_end_re = re.compile('(List of all partitions:|'
+> -                         'Kernel panic - not syncing: VFS:)')
+> +                         'Kernel panic - not syncing: VFS:|reboot: System halted)')
+>
+>  def isolate_kunit_output(kernel_output) -> Iterator[str]:
+>         started = False
+> --
+> 2.31.1.607.g51e8a6a459-goog
+>
+
+--000000000000478a0905c259b9f7
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnAYJKoZIhvcNAQcCoIIPjTCCD4kCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz2MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+ILbFHw0h01NI0v+AeczGMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwgZoGCCsGAQUF
+BwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9nc2F0
+bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNv
+bS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouseLHIb
+0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vY2Ev
+Z3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQCNr3LBERPjVctGdVEb
+/hN6/N6F2eUWxZLSUbuV7fOle0OvI8xz2AUBrOYQLp94ox9LqmsATKPsBl2uiktsvfs/AXNMcmOz
+qsWHzfqp4XlvNgQsC/UyUMWxZoEyTDfTSat09yQjkFJ7viwzrqqscmTx5oTZz8TPRt0mbxwx3qry
+wDzYxadSUQXNpNnfi0FBDYUUfuCLFWPsPsAXmgh483u0RbNik9OY/ozNq1Gvg/U0jQOlJf2IiKbE
+kUL5Vq8gDDu6bETx5bHmRmSjHhwo7eVbxywczpzdFsU3dauZ3BzqhLy2pRGGzZybSH/3mf7o9y15
+gmRHE7WzPLrsULHG/TM8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xv
+YmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAyMDIw
+AhABm/kO+4pd09krN7Fjk8ypMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCB5j5li
+TSYzMqxVRnyFvHZkg/R4+g5YVXPnETZiA4RyfDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwG
+CSqGSIb3DQEJBTEPFw0yMTA1MTUwNzU4MTlaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEq
+MAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqG
+SIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEADu6p9jMgHkqpMJdw1K54ONWR
+/C6KGOTzrWTLGD1B2r0P28GCzCHBRL8MzM5aENGnVA48XPgJJZZw2YfIuz5QmpAOSJRqMhYin/Tb
+8KFxJ3B4WYmvxGAwnllHRKknE42KcCI3UWvdhdP1Ihf2jFSfPX/M26S0DRFocfegSejtEI+kBdUO
+crRYM3T+vlGTYHKd4upcCBey6wEX7oIW6r/bFztv0m3J30GfCheEJGdr/fT7tH40l8VVOXjhIOLG
+KaW4XqI6xjtHAGJPCR1rDNr2f5k1a9VZ+pirZ+NUgP5qsACcyvzW5ZuXhn4DQBNAJlLhPKfTObYq
+ww0+Vtbk5FO9HQ==
+--000000000000478a0905c259b9f7--
