@@ -7,42 +7,45 @@ X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0409BC43611
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA6A8C43616
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB489611BE
+	by mail.kernel.org (Postfix) with ESMTP id D04BB611CE
 	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231901AbhEPKT5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231962AbhEPKT5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sun, 16 May 2021 06:19:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37670 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:37686 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231336AbhEPKTx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231339AbhEPKTx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sun, 16 May 2021 06:19:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 77FFB611F0;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7442F611BE;
         Sun, 16 May 2021 10:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621160317;
-        bh=fMr8KefFV1oiO0umnN9TstGa5i+97O0wPSkwr8OS2Nw=;
+        bh=D3zFdOFBQ734SZ45tSNdikND8nbKTg1RO1R/H4WwiHU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n+eVedEueBQRoj47Nyf1fm8giAGYWpSkCi9a8VC8tXjNOW7ZhyHgGd8EffPKQ1ctM
-         ZwRt60VRJRC3nRSaeHiTokmCWuTNDE7dhNxYfNtM1reZo3txdtj7LEDC795uKLCtXw
-         cf80dls1US29YeVv9hDlAombtz8siLh3minPzvsjluVgzh/PA+EpjlFXb2JmDTjoK0
-         0RqXy6P1AOPPt/ItnErz7O//BckaoUFbOv2UGNsNARrfMMALoKF2N8nsChIgW6IRUf
-         LJKQBMvBiqOj/cuwwlBVJkoRS0XfSz7Zfg6eAhNKIeeAAJ8DezZiEG1NrTiYJLjRs0
-         gUcCCKfgLSZCw==
+        b=K8b3WEyCXNpVAtA1kBwXxsaBXkC6cpOgCA7Gb4GBBsrleHqNDGH6BzoxhLDgKGZjh
+         SdhECrO5D16uEmfsGxDIXBsrrAlkAaJPd8+whyY30IA3CRqQg9UtwOKeRUbN14eVyF
+         kjYbxXUJZF2dQdLdWJutApLMq8I1K6aOeX7UH+43o9cyPh8tlEX57ftKWDPZZakIC1
+         Dj9Sipfa6qpG8ovZ5zUVnoMQIXTLMZFJkreS4hBBtXHP5/GLWZkYYLtrATS+70rCCm
+         da7kDKLK/e96E6Wn1T4JQuT+VM+nvhzAmK4Y1wrZOBs/d6HXnNgzAcSdRnZwM20X4m
+         9akeu5kO8GXPQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1liDr1-003o8i-Gm; Sun, 16 May 2021 12:18:35 +0200
+        id 1liDr1-003o8I-9m; Sun, 16 May 2021 12:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
+        "Jonathan Corbet" <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mike Leach <mike.leach@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 09/16] docs: vm: zswap.rst: replace some characters
-Date:   Sun, 16 May 2021 12:18:26 +0200
-Message-Id: <22eafb9660fc19b42eb2b57895fcf7ceae33e35b.1621159997.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 03/16] docs: trace: coresight: coresight-etm4x-reference.rst: replace some characters
+Date:   Sun, 16 May 2021 12:18:20 +0200
+Message-Id: <355f031f97f42c19e2dd1983409a199e649a1df7.1621159997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621159997.git.mchehab+huawei@kernel.org>
 References: <cover.1621159997.git.mchehab+huawei@kernel.org>
@@ -66,31 +69,22 @@ Replace the occurences of the following characters:
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/vm/zswap.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/trace/coresight/coresight-etm4x-reference.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/vm/zswap.rst b/Documentation/vm/zswap.rst
-index d8d9fa4a1f0d..8edb8d578caf 100644
---- a/Documentation/vm/zswap.rst
-+++ b/Documentation/vm/zswap.rst
-@@ -10,7 +10,7 @@ Overview
- Zswap is a lightweight compressed cache for swap pages. It takes pages that are
- in the process of being swapped out and attempts to compress them into a
- dynamically allocated RAM-based memory pool.  zswap basically trades CPU cycles
--for potentially reduced swap I/O.  This trade-off can also result in a
-+for potentially reduced swap I/O.  This trade-off can also result in a
- significant performance improvement if reads from the compressed cache are
- faster than reads from a swap device.
+diff --git a/Documentation/trace/coresight/coresight-etm4x-reference.rst b/Documentation/trace/coresight/coresight-etm4x-reference.rst
+index b64d9a9c79df..d25dfe86af9b 100644
+--- a/Documentation/trace/coresight/coresight-etm4x-reference.rst
++++ b/Documentation/trace/coresight/coresight-etm4x-reference.rst
+@@ -427,7 +427,7 @@ the ‘TRC’ prefix.
+ :Syntax:
+     ``echo idx > vmid_idx``
  
-@@ -26,7 +26,7 @@ faster than reads from a swap device.
-   performance impact of swapping.
- * Overcommitted guests that share a common I/O resource can
-   dramatically reduce their swap I/O pressure, avoiding heavy handed I/O
--  throttling by the hypervisor. This allows more work to get done with less
-+  throttling by the hypervisor. This allows more work to get done with less
-   impact to the guest workload and guests sharing the I/O subsystem
- * Users with SSDs as swap devices can extend the life of the device by
-   drastically reducing life-shortening writes.
+-    Where idx <  numvmidc
++    Where idx <  numvmidc
+ 
+ ----
+ 
 -- 
 2.31.1
 
