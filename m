@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70500C433B4
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:38:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ADF7C433B4
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:40:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D3DC61177
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:38:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73E8261177
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:40:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232059AbhEPLkJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 May 2021 07:40:09 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:52685 "EHLO
+        id S232080AbhEPLln (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 May 2021 07:41:43 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:33383 "EHLO
         out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231135AbhEPLkI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 07:40:08 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 6CE815C0218;
-        Sun, 16 May 2021 07:38:53 -0400 (EDT)
+        by vger.kernel.org with ESMTP id S231135AbhEPLlm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 07:41:42 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id CCBC85C021B;
+        Sun, 16 May 2021 07:40:27 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sun, 16 May 2021 07:38:53 -0400
+  by compute3.internal (MEProxy); Sun, 16 May 2021 07:40:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
         subject:to:cc:references:from:message-id:date:mime-version
-        :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=G
-        6s8ATXR31BDwqP+ZR0ablesz3kOvV0OKIgtjHIT+LQ=; b=lQKwxPeaVFyfnRl2O
-        e3lOE7eUtrn9hJyYlfaMS8w2kwbORFYJlZKODisIzeHBp54mYdr2HggJH8Zns6Vg
-        kToYXb2zOvZXyuH121frny5KWsDUDqJl6tbd1XpS+ePPZ7RKL9lzD6XGmZ2gCAVe
-        TIxm9IxBPD3qDGvYHPCgC090YeItMQYTKmpFDHbb1iVr70s5rmhDIOXI7xtKBeYp
-        nZiyjxY6GNSGa7Ut1RIRZnmNVpvGbhjyS5AusLqIBSTStxsrSVVXe4AkBhbjEsh5
-        zdFVz4VWtMLAVG4zYsNpVkuRahPj8CiuLeh0Ubs8oapIJFgCPOuL3O7QaUk23GQP
-        e7WGQ==
+        :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=n
+        IjmgEyfIaJmJjkF/dLvwtf2X8jXZWhk0dCRY9Xp3sM=; b=DjQN4P8vuuM6h5B+U
+        Gd1sS2s05fR9qFY+BMWK2jkGXvhUEA7/WnWRHcDUS4RBzLyUpsKGSG87u6hNW+Gj
+        FQlt7KaQRklS4hGsfqarVTKd3rH28NZfpVfcKxu+/kEgBsxRRgg8EpzdVN/Qalp1
+        4gJorATI1kDIZa5rJDliIcgLEyCRcFh3IXFqchN0uDhzIdb2MY/sGVhZio23aYa8
+        WyW52n/19jkEZRkXXt8C0wSVaoImaaKhtbeqfcNkFPoL+pMqQTeU1esbYK01Z7im
+        e6KFkyqoOf9KV0QyessfApo1imA+YUgbhLKhjkrKDl2ltReTbssb4pGjlipQMMok
+        T4x8w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:content-type
         :date:from:in-reply-to:message-id:mime-version:references
         :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=G6s8ATXR31BDwqP+ZR0ablesz3kOvV0OKIgtjHIT+
-        LQ=; b=pCROl43Es0rtv9bo9yTMtumwhm3n9gUzjPH7OSphkf+kZ7jilfmfBMoe0
-        hENTXUJIue0sxjuUirZt6K6ihcFFgyMRNIN7DBQ1a0BXki8c5dHnUOG2IQ+6LnKN
-        ckMcCa8CTLJWWhhAaUt95MK48/2FOuhAKDP1dMvXc/Nf+mUWwfWI3aKEmA8kC+Xn
-        Z80KndimG6gGzHg8hA82dX0ihnoW0NLrOxYtK+898L6TS1rtIZISqBxZB/dUyFel
-        ryQZhiykqeVTq38TuhLV+6D3xoc5VLIHcC/suwvbvDDjT7xka70XcGj8EZWrnvNb
-        8KggWo3cAHK01+MCsZLS/78ByPWvQ==
-X-ME-Sender: <xms:TQShYNa-fsRcIrLwTYcxBa5QBFYTCYaIHIuyBUKctRm9FPkNL7ARzA>
-    <xme:TQShYEahqVKUXDZxGOHkPiCcddJyyDuoKMJdzrhnxqQb7tUheX01i6Z6hpl6znkh6
-    U0nVQwz_s0DFehudJQ>
+        :x-sasl-enc; s=fm2; bh=nIjmgEyfIaJmJjkF/dLvwtf2X8jXZWhk0dCRY9Xp3
+        sM=; b=nCMllb3SLny/o6i4qv8SCpUGoH8Oz5aKoDU+LSXdb/B7deSRzbudStTpV
+        wKzanB2i/39Sf3mV7HGBdNmH7ylUMqWUFUf96/p3olUneHsc/no94cCYW6hE0o0X
+        g/JCbk7TpunmHZ+aY+zcMLO1SBt/FIb1hHdsbNU7eTSUvVN6+aRBR+Cga6QI/Cr3
+        ubTmWbGAJ/jcb0KNQfy4yOB8OjHy28Lcv7zZdDwbPHN1W4o5Z5tmZG+S403dyCYy
+        /ZHP5QKMPkxX4dN+oEi6vAOeAquOpbE++8iIiwSv2BYvnNXlKPAsxx1Jo1XNzBIw
+        SZM2YP0/V8KHVMNjRd9dMeCaNG9iA==
+X-ME-Sender: <xms:qgShYFvn7wu1z8tGtR2csfOjQ-Sc4hRGYpQ-kf0WCbJw0-ye2ujkVQ>
+    <xme:qgShYOdf2xjudkdh7J8ni6Jf62-s0gVpLIYWdrIvvkuXT3OG4b2E9YzkHKKmwo-G8
+    8MF7cAEhMznxGBQuOY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeifedggeduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -57,14 +57,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeifedggeduucetufdoteggod
     ffeugeevfefgfeenucfkphepiedtrddukeeirddvvdejrddukeehnecuvehluhhsthgvrh
     fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghes
     fhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:TQShYP_mBvEDqG-zNgMqAnIbXrK6nsGJFEm6YtNX9xU5_FikU-g0gw>
-    <xmx:TQShYLrgcC2j0G98FlOy6oMzgq5ImX5pupiVn2j8nFxR_Ia06Iiygw>
-    <xmx:TQShYIqPsnYWf0ChnHDaLGUcLLYLJb_NeFxK574TfQrQ81X0i4F3ig>
-    <xmx:TQShYJeFEUbPXfqR2a3kWgNZbtnwLsUP5GlXPcm9VFFXojkB11AU4w>
+X-ME-Proxy: <xmx:qgShYIy35V9w3XdnQ9aCPp6pfNBVE8M_XkBuJbnW8lV8KCvsJp3H-w>
+    <xmx:qgShYMNaqhmbcFoc716T7YGrFJyYOPOIl86BKdhgTqh0cHeDPT-f4Q>
+    <xmx:qgShYF-bG_3RnE825YKvbwc7pfgwKVSvKqNOjGQxpPHjdubxHoTR_w>
+    <xmx:qwShYFzZYYjjb0mbG5_GQJmQVGWTD3peKVesxTP2CPDNfj34rK4-dw>
 Received: from [192.168.14.19] (unknown [60.186.227.185])
         by mail.messagingengine.com (Postfix) with ESMTPA;
-        Sun, 16 May 2021 07:38:49 -0400 (EDT)
-Subject: Re: [PATCH v6 2/3] docs/zh_CN: add core-api printk-basics.rst
+        Sun, 16 May 2021 07:40:23 -0400 (EDT)
+Subject: Re: [PATCH v6 3/3] docs/zh_CN: add core-api printk-formats.rst
  translation
 To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
         alexs@kernel.org
@@ -72,14 +72,14 @@ Cc:     chenhuacai@kernel.org, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com,
         huangjianghui@uniontech.com
 References: <cover.1621062577.git.siyanteng@loongson.cn>
- <88c52f48d18d6a6c16c6dbb63d9b89ccad6824aa.1621062577.git.siyanteng@loongson.cn>
+ <ff5bfdf71ffbb248a7eca480bb7028fb7f30c083.1621062577.git.siyanteng@loongson.cn>
 From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <2ad36de2-abdd-aaf8-34a1-097437a70f7b@flygoat.com>
-Date:   Sun, 16 May 2021 19:38:47 +0800
+Message-ID: <ceb73924-868b-8ee8-b46a-84d39da74e10@flygoat.com>
+Date:   Sun, 16 May 2021 19:40:21 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <88c52f48d18d6a6c16c6dbb63d9b89ccad6824aa.1621062577.git.siyanteng@loongson.cn>
+In-Reply-To: <ff5bfdf71ffbb248a7eca480bb7028fb7f30c083.1621062577.git.siyanteng@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -90,14 +90,15 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 在 2021/5/15 16:10, Yanteng Si 写道:
-> This patch translates Documentation/core-api/printk-basics.rst into Chinese.
+> This patch translates Documentation/core-api/printk-formats.rst into Chinese.
 >
 > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 > Reviewed-by: Alex Shi <alexs@kernel.org>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Jiaxun Yang <jaixun.yang@flygoat.com>
 
-Good job~
+Thanks.
 
 - Jiaxun
-
+> ---
+>
