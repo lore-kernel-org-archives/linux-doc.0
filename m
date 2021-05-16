@@ -7,46 +7,43 @@ X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B7C4C433ED
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69187C433ED
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D63E61183
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DAFC6117A
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229437AbhEPKTz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229982AbhEPKTz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sun, 16 May 2021 06:19:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37558 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:37642 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230192AbhEPKTw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231127AbhEPKTw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sun, 16 May 2021 06:19:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 671C5611BD;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6FC51611BF;
         Sun, 16 May 2021 10:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621160317;
-        bh=KkW/7nbwWkyWdFUNcytqxDFBTFIc9rHCdM7IZE9+lWQ=;
+        bh=s1c6FRQrk3Zywp//EKJchxvYSWvmD48lKnYMpgt+0B0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qpGd0UaOdwdEt4q7M09CMjnC28KJiVtNOtteSe/SC+xsKMN/NwTY0XPht8YcYm/Tr
-         z7+6UdJHU4cmkP6zrwsOkq6rLPlbxbd+Uwk1pmEx1Hpkr8m8h80WKOZXEgpKInq5s5
-         nyntv80XL6OHHpPhj2Fn+ebGiruSTZVDSiq71IH6OLKH5lzHCZIJt4M6vkWwgCqB1D
-         KWVL9U92WVFXuvja0xJOoBta6S82E81CAQcXzgPmuvK1A007OxJncRuHzoGAzgHAet
-         tQE5Tg3ZGLZCSJb46USsFxVhLwHyjH7yLJiBuSZNNS7xjam+sAFXU0lzd48ustC1Qw
-         XN/Brn+qVn5+g==
+        b=YJuSbr6FqahOnloOnH81PnVaoACs4c5ebe7j4HP5O4hgbj6F6Ibjy47zA+Dc15s1Y
+         /2cQWVVTM7cAF1U1flKBR0yavDmV3e3kqJT+jMVxf3qolteplAZW3EnwgCZp4/HWKq
+         pcW53gBM9VeuFHi3Xq+4rNxYOKJGSfswu2puWcw9kZVN6b25/RV29rThG/Ts1ucBqf
+         KAA6AbVN+CUE+Oq1auf7rUJRAx3wBVRNs2bJ68Vh/X8Jn7ceoVVssXLdNhVGaPwJve
+         Jz8V5B5Ie9/dtgE7JB4/xoI5HWituvALF7zgaGigNwLqWqdRpfkgFqHjWlGFwWnv9N
+         veuOHEu2zLNkQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1liDr1-003o8a-ER; Sun, 16 May 2021 12:18:35 +0200
+        id 1liDr1-003o8m-I3; Sun, 16 May 2021 12:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v3 07/16] docs: userspace-api: media: v4l: dev-decoder.rst: replace some characters
-Date:   Sun, 16 May 2021 12:18:24 +0200
-Message-Id: <5f8891ecd376b613fd2658e008af27780f41fa72.1621159997.git.mchehab+huawei@kernel.org>
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 10/16] docs: filesystems: ext4: blockgroup.rst: replace some characters
+Date:   Sun, 16 May 2021 12:18:27 +0200
+Message-Id: <5457dec1f5acbd168e7eead268541cadb2d8018c.1621159997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621159997.git.mchehab+huawei@kernel.org>
 References: <cover.1621159997.git.mchehab+huawei@kernel.org>
@@ -65,27 +62,27 @@ troubles when parsed by the documentation build system.
 
 Replace the occurences of the following characters:
 
-	- U+00a0 (' '): NO-BREAK SPACE
-	  as it can cause lines being truncated on PDF output
+	- U+2217 ('∗'): ASTERISK OPERATOR
+	  use ASCII asterisk instead of the ASTERISK OPERATOR
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/userspace-api/media/v4l/dev-decoder.rst | 2 +-
+ Documentation/filesystems/ext4/blockgroup.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-index 3d4138a4ba69..7de5705c07f8 100644
---- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-@@ -288,7 +288,7 @@ Initialization
+diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
+index 3da156633339..d5d652addce5 100644
+--- a/Documentation/filesystems/ext4/blockgroup.rst
++++ b/Documentation/filesystems/ext4/blockgroup.rst
+@@ -84,7 +84,7 @@ Without the option META\_BG, for safety concerns, all block group
+ descriptors copies are kept in the first block group. Given the default
+ 128MiB(2^27 bytes) block group size and 64-byte group descriptors, ext4
+ can have at most 2^27/64 = 2^21 block groups. This limits the entire
+-filesystem size to 2^21 ∗ 2^27 = 2^48bytes or 256TiB.
++filesystem size to 2^21 * 2^27 = 2^48bytes or 256TiB.
  
-       Changing the ``OUTPUT`` format may change the currently set ``CAPTURE``
-       format. How the new ``CAPTURE`` format is determined is up to the decoder
--      and the client must ensure it matches its needs afterwards.
-+      and the client must ensure it matches its needs afterwards.
- 
- 2.  Allocate source (bytestream) buffers via :c:func:`VIDIOC_REQBUFS` on
-     ``OUTPUT``.
+ The solution to this problem is to use the metablock group feature
+ (META\_BG), which is already in ext3 for all 2.6 releases. With the
 -- 
 2.31.1
 
