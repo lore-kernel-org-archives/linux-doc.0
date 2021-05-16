@@ -2,88 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E70E4C433ED
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CC2C433ED
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:00:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3AD761184
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:28:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A159761075
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:00:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229937AbhEPK3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 May 2021 06:29:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36130 "EHLO
+        id S230024AbhEPLBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 May 2021 07:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230248AbhEPK3X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 06:29:23 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A786C061573;
-        Sun, 16 May 2021 03:28:09 -0700 (PDT)
-Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1liE0E-000328-KE; Sun, 16 May 2021 12:28:06 +0200
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-References: <cover.1621159997.git.mchehab+huawei@kernel.org>
- <5625907ed95964321c39a8688b70c54bac6d8e95.1621159997.git.mchehab+huawei@kernel.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v3 02/16] docs: admin-guide: reporting-issues.rst: replace
- some characters
-Message-ID: <a138a130-6208-be63-b6ea-b08f3d66012a@leemhuis.info>
-Date:   Sun, 16 May 2021 12:28:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        with ESMTP id S229504AbhEPLBP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 07:01:15 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1B51C061573;
+        Sun, 16 May 2021 03:59:59 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id k10so4905964ejj.8;
+        Sun, 16 May 2021 03:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CGj9qzzaMLYMLxf4NzeJuVvuLLfG/hpvWhkYItySrDk=;
+        b=PpfoTTovf4OnLbZ2TnCchMOoeh87a/loX5wL9OSYYXTMjtAQheUPtpoKQOv6mV5Bng
+         Hr1Cn0QiOJ6x43OuqVtewReMlrAj7aNBayeVR7/BM0ebY10tjcBZQJ6xAHJu0vlcCbT/
+         xDkJLv6tIlzHU6utSShMKwOMv++fj3tYYXNERsMz1xK86+hM+HODk1JZaCr3KfVqgeTI
+         FNuNAPt7sh39WV9JuXpWH6RvIv0JXEwcsef2syxsZLMP9NZSWrdmxR5BhNOqj2Dp7RdT
+         lcAdxAFcVrLsZXawZgeQ0Xg/pZ49ED9+laM47/ZXe5jb5VI3BJrWKhCKTTURjoToOkja
+         GN/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CGj9qzzaMLYMLxf4NzeJuVvuLLfG/hpvWhkYItySrDk=;
+        b=R9KHe3DTj6v/XmDREHsQNrHoeKZlHNJVrw/XUXF3BL8tT1oomP8LzuGINhhk6NLtni
+         KYMhNIoBi2xhgHOxaMo5CKfqpZm7fRKxfmAQbQj3RSf4HDWj2HY5hh1S6As+6K/4hjpa
+         qp6vMJkuLEn3r+tgetFMBRJdeKfoXQAiA0P5068jyXc7pH18v/mu+jGM4hg16aVz7Q55
+         pGSAYeUxtXaYG0NcjVIi/skR4EAHITIs6pzbTHLRb28itTxj3pnu0JoCCO1jBZZ7IFLf
+         AWxckvqSzM2JPEHJWg7e+RJQoLze81y89IsoEezovZgqNaqqRwNkDhFydelXd4Mr1nMO
+         0o8g==
+X-Gm-Message-State: AOAM530wwKOu89W3trQsmwIFP+5KZbP/myS44xJXiaIfKP6E7RpuDU/R
+        UZwTu3YIt6kg0BFQj0EUJyc=
+X-Google-Smtp-Source: ABdhPJy8w5e1pPfjmSixdIgu8klBFatqxxXcUPKfiXYdOHwD2fVHQrcVHxB9ZuVcL1eUybqdSMRCNw==
+X-Received: by 2002:a17:906:1ed1:: with SMTP id m17mr57751038ejj.208.1621162798446;
+        Sun, 16 May 2021 03:59:58 -0700 (PDT)
+Received: from ubuntu.localdomain (bbcs-125-250.pub.wingo.ch. [144.2.125.250])
+        by smtp.gmail.com with ESMTPSA id t22sm8855625edw.29.2021.05.16.03.59.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 May 2021 03:59:57 -0700 (PDT)
+From:   Chun-Hung Tseng <henrybear327@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chun-Hung Tseng <henrybear327@gmail.com>
+Subject: [PATCH v4] Documentation: scheduler: fixed 2 typos in sched-nice-design.rst
+Date:   Sun, 16 May 2021 18:59:55 +0800
+Message-Id: <20210516105955.120651-1-henrybear327@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <5625907ed95964321c39a8688b70c54bac6d8e95.1621159997.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1621160889;0a20e3d2;
-X-HE-SMSGID: 1liE0E-000328-KE
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lo! On one hand I think it would be good to fix the tools to make them
-understand non-breakable spaces in places where the author chose to use
-them, but whatever, their use in that sentence is definitely not
-important, so feel free to add:
+This patch fixed 2 spelling errors in the documentation.
 
-Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
+Signed-off-by: Chun-Hung Tseng <henrybear327@gmail.com>
+---
+ Documentation/scheduler/sched-nice-design.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for working on this. Ciao, Thorsten
+diff --git a/Documentation/scheduler/sched-nice-design.rst b/Documentation/scheduler/sched-nice-design.rst
+index 0571f1b47e64..889bf2b737dc 100644
+--- a/Documentation/scheduler/sched-nice-design.rst
++++ b/Documentation/scheduler/sched-nice-design.rst
+@@ -60,7 +60,7 @@ within the constraints of HZ and jiffies and their nasty design level
+ coupling to timeslices and granularity it was not really viable.
+ 
+ The second (less frequent but still periodically occurring) complaint
+-about Linux's nice level support was its assymetry around the origo
++about Linux's nice level support was its asymmetry around the origin
+ (which you can see demonstrated in the picture above), or more
+ accurately: the fact that nice level behavior depended on the _absolute_
+ nice level as well, while the nice API itself is fundamentally
+-- 
+2.25.1
 
-On 16.05.21 12:18, Mauro Carvalho Chehab wrote:
-> The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
-> conversion and some cut-and-pasted text contain some characters that
-> aren't easily reachable on standard keyboards and/or could cause
-> troubles when parsed by the documentation build system.
-> 
-> Replace the occurences of the following characters:
-> 
-> 	- U+00a0 (' '): NO-BREAK SPACE
-> 	  as it can cause lines being truncated on PDF output
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/admin-guide/reporting-issues.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-> index 18d8e25ba9df..d7ac13f789cc 100644
-> --- a/Documentation/admin-guide/reporting-issues.rst
-> +++ b/Documentation/admin-guide/reporting-issues.rst
-> @@ -1248,7 +1248,7 @@ paragraph makes the severeness obvious.
->  
->  In case you performed a successful bisection, use the title of the change that
->  introduced the regression as the second part of your subject. Make the report
-> -also mention the commit id of the culprit. In case of an unsuccessful bisection,
-> +also mention the commit id of the culprit. In case of an unsuccessful bisection,
->  make your report mention the latest tested version that's working fine (say 5.7)
->  and the oldest where the issue occurs (say 5.8-rc1).
->  
-> 
