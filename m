@@ -4,49 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 416D6C43618
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A8AC4363C
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35BCB6117A
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A52561182
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232048AbhEPKT7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 May 2021 06:19:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37710 "EHLO mail.kernel.org"
+        id S232263AbhEPKUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 May 2021 06:20:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37558 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231417AbhEPKTx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231480AbhEPKTx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sun, 16 May 2021 06:19:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 79394611CC;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8941961242;
         Sun, 16 May 2021 10:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621160317;
-        bh=SMT4rzTFUsUUFwX28Tw+35D0iDjQAGtKW8R9r//yWxI=;
+        bh=vfreIcvlPF/8OZus3kXkczSP81akAE9RkS16w+hHttA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EQsKL4o4vRQLmhkHRO1w4TTbVFhi1nTLa4JrJnUyGAQWAiS17ACBTrhK058a6KRc/
-         wml5C011SoSeXxdIyjaPHR53aSl+SgUEIs+FArB43+sbDqGWz8Fg/jrn//dB9x7lCR
-         eW14ypC01j46CBTfxClsIs36GqHTsMFvrxyelSPXetjFuR65+4At3pknCtEDcdyB36
-         5UE8X9BxIuI6p3VN5Q2cOQZc9To3tXSkOPKKFJdUr7aQUfynS07S12YAErBALwGyzZ
-         g7XoQBkE4JDWxznPXCtJQNblgrfDnXBgqCJqHMd1UxQ7qx1TNw/AccTZFTKBGjFoG7
-         avKFMR0GXZTTg==
+        b=HwEBNtghW9V/jdln44alW/pcRzsAKaWn4I/FBghqmMFEbIuQ7jbjvX7EwOm4sZAtv
+         U7plEhjM+Kpzj5sEyxEjZLAu/XL1lWRuZYeDJ+AwA5SoIj7fMOPbh8Md4LGXl2674a
+         BXHfTHf5UM2qWrOJvM4hURQCGiu12+xLYon2xqrxGP91Pb6JDQh1sVTYfWFawDCssJ
+         KhzbNsv8V320MvZpvPcYpNjv09gnSI2z+ei5vfB1EKGaxt1QDIp4SSpHka1MzzF+Ne
+         XpP8fKHN7lFZeLw6ObJDJ6AAmhRcWRS0A6ipXLQXt0QwaJxZiRGlFa66Fo8IfVIXF5
+         FymixdsGColjw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1liDr1-003o8q-JL; Sun, 16 May 2021 12:18:35 +0200
+        id 1liDr1-003o96-Of; Sun, 16 May 2021 12:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v3 11/16] docs: networking: device_drivers: replace some characters
-Date:   Sun, 16 May 2021 12:18:28 +0200
-Message-Id: <23247f10ab58ae1b54ac368f8a2d2769562adcf4.1621159997.git.mchehab+huawei@kernel.org>
+        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 15/16] docs: virt: kvm: api.rst: replace some characters
+Date:   Sun, 16 May 2021 12:18:32 +0200
+Message-Id: <19f884773a95649e7b11609d8d3075f30db00aef.1621159997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621159997.git.mchehab+huawei@kernel.org>
 References: <cover.1621159997.git.mchehab+huawei@kernel.org>
@@ -70,47 +66,88 @@ Replace the occurences of the following characters:
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../networking/device_drivers/ethernet/intel/i40e.rst       | 6 +++---
- .../networking/device_drivers/ethernet/intel/iavf.rst       | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/virt/kvm/api.rst | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-index 2d3f6bd969a2..ac35bd472bdc 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-@@ -466,7 +466,7 @@ network. PTP support varies among Intel devices that support this driver. Use
- "ethtool -T <netdev name>" to get a definitive list of PTP capabilities
- supported by the device.
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 22d077562149..295daf6178f8 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -850,7 +850,7 @@ in-kernel irqchip (GIC), and for in-kernel irqchip can tell the GIC to
+ use PPIs designated for specific cpus.  The irq field is interpreted
+ like this::
  
--IEEE 802.1ad (QinQ) Support
-+IEEE 802.1ad (QinQ) Support
- ---------------------------
- The IEEE 802.1ad standard, informally known as QinQ, allows for multiple VLAN
- IDs within a single Ethernet frame. VLAN IDs are sometimes referred to as
-@@ -523,8 +523,8 @@ of a port's bandwidth (should it be available). The sum of all the values for
- Maximum Bandwidth is not restricted, because no more than 100% of a port's
- bandwidth can ever be used.
+-  bits:  |  31 ... 28  | 27 ... 24 | 23  ... 16 | 15 ... 0 |
++  bits:  |  31 ... 28  | 27 ... 24 | 23  ... 16 | 15 ... 0 |
+   field: | vcpu2_index | irq_type  | vcpu_index |  irq_id  |
  
--NOTE: X710/XXV710 devices fail to enable Max VFs (64) when Multiple Functions
--per Port (MFP) and SR-IOV are enabled. An error from i40e is logged that says
-+NOTE: X710/XXV710 devices fail to enable Max VFs (64) when Multiple Functions
-+per Port (MFP) and SR-IOV are enabled. An error from i40e is logged that says
- "add vsi failed for VF N, aq_err 16". To workaround the issue, enable less than
- 64 virtual functions (VFs).
+ The irq_type field has the following values:
+@@ -2144,10 +2144,10 @@ prior to calling the KVM_RUN ioctl.
+ Errors:
  
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-index 25330b7b5168..151af0a8da9c 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-@@ -113,7 +113,7 @@ which the AVF is associated. The following are base mode features:
- - AVF device ID
- - HW mailbox is used for VF to PF communications (including on Windows)
+   ======   ============================================================
+-  ENOENT   no such register
+-  EINVAL   invalid register ID, or no such register or used with VMs in
++  ENOENT   no such register
++  EINVAL   invalid register ID, or no such register or used with VMs in
+            protected virtualization mode on s390
+-  EPERM    (arm64) register access not allowed before vcpu finalization
++  EPERM    (arm64) register access not allowed before vcpu finalization
+   ======   ============================================================
  
--IEEE 802.1ad (QinQ) Support
-+IEEE 802.1ad (QinQ) Support
- ---------------------------
- The IEEE 802.1ad standard, informally known as QinQ, allows for multiple VLAN
- IDs within a single Ethernet frame. VLAN IDs are sometimes referred to as
+ (These error codes are indicative only: do not rely on a specific error
+@@ -2585,10 +2585,10 @@ following id bit patterns::
+ Errors include:
+ 
+   ======== ============================================================
+-  ENOENT   no such register
+-  EINVAL   invalid register ID, or no such register or used with VMs in
++  ENOENT   no such register
++  EINVAL   invalid register ID, or no such register or used with VMs in
+            protected virtualization mode on s390
+-  EPERM    (arm64) register access not allowed before vcpu finalization
++  EPERM    (arm64) register access not allowed before vcpu finalization
+   ======== ============================================================
+ 
+ (These error codes are indicative only: do not rely on a specific error
+@@ -3107,13 +3107,13 @@ current state.  "addr" is ignored.
+ Errors:
+ 
+   ======     =================================================================
+-  EINVAL     the target is unknown, or the combination of features is invalid.
+-  ENOENT     a features bit specified is unknown.
++  EINVAL     the target is unknown, or the combination of features is invalid.
++  ENOENT     a features bit specified is unknown.
+   ======     =================================================================
+ 
+ This tells KVM what type of CPU to present to the guest, and what
+-optional features it should have.  This will cause a reset of the cpu
+-registers to their initial values.  If this is not called, KVM_RUN will
++optional features it should have.  This will cause a reset of the cpu
++registers to their initial values.  If this is not called, KVM_RUN will
+ return ENOEXEC for that vcpu.
+ 
+ The initial values are defined as:
+@@ -3234,8 +3234,8 @@ VCPU matching underlying host.
+ Errors:
+ 
+   =====      ==============================================================
+-  E2BIG      the reg index list is too big to fit in the array specified by
+-             the user (the number required will be written into n).
++  E2BIG      the reg index list is too big to fit in the array specified by
++             the user (the number required will be written into n).
+   =====      ==============================================================
+ 
+ ::
+@@ -3283,7 +3283,7 @@ specific device.
+ ARM/arm64 divides the id field into two parts, a device id and an
+ address type id specific to the individual device::
+ 
+-  bits:  | 63        ...       32 | 31    ...    16 | 15    ...    0 |
++  bits:  | 63        ...       32 | 31    ...    16 | 15    ...    0 |
+   field: |        0x00000000      |     device id   |  addr type id  |
+ 
+ ARM/arm64 currently only require this when using the in-kernel GIC
 -- 
 2.31.1
 
