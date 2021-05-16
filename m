@@ -4,43 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD4BAC43460
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC520C43461
 	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB55D61182
+	by mail.kernel.org (Postfix) with ESMTP id D047E611BF
 	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231448AbhEPKTx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 May 2021 06:19:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37514 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229643AbhEPKTw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231264AbhEPKTw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sun, 16 May 2021 06:19:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D54361184;
+Received: from mail.kernel.org ([198.145.29.99]:37506 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229586AbhEPKTv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 16 May 2021 06:19:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B16E61183;
         Sun, 16 May 2021 10:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621160317;
-        bh=XfaDbhyWTZnv4WQEdwoApJzDRlUwiFS9TASTuCgnwjg=;
+        bh=CTBuH+LNVhsBxUwNdF586jYH3Pgby8Vqy5VANBKVw/M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E8cPllnsEOG2erjZj1nYC+t0BGjdBPfaHyFPdSptsavw5hN4trhk8y34460xiA2Iy
-         TfDZpBNNqs2i0fYMfOUtpnJZ6RMD3vBakVDgjTDFuQ2PxUCXZNgWcH7X7pAIYtj8Ef
-         lOrBBxhhDIByPHmdEHHoEyzhw5vcw3azvCDfDU0dGwBm5rfO/xDBEd/TAZFhsFzCZV
-         tkqtzoOaznJqVcIFoSYrZNxX0vkrYRJDuM4CxfTRJTsxw91xqquoNiKI4X1Swz7UFY
-         ELdnjQC3vfCDOp0mbASF7HhNAzOCB7tejyyFFk06fUk7gZJyRsHqeOVoZiXxIYvDCs
-         lwSFynCJ1gUVQ==
+        b=Ib2VqkT+/CeQxHv3Cx90FooD0wSdPp4zfIF88Q0d9XrDRdFfwwC0NiwaUmItQOR2C
+         CFKev9aRfRsFUvWSWpBviL954i4S9NPkc630zw8ENpPO1OgEqiht6u2eKs9LWfqG0d
+         40PxpkHxzolSqBxNRY608+7unmucOFeLDuH7X81ai2AQm+cwdhxMfFUCrBkea0YJ5L
+         Q9rcZRZw4cS8qwycNMVZiVZzm02+huNBCcv4oBpLBxixG/xXwm2LJE9fI/mevLmqxc
+         6AZ7MojZBDRBT3A1u0ZqjlDOfIlMa2eAzMqt7c+Ys1uGXvCjwpMU4rhyZLmaEp+IBn
+         xH4hIY1gtShfw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1liDr1-003o8O-B4; Sun, 16 May 2021 12:18:35 +0200
+        id 1liDr1-003o8e-Fc; Sun, 16 May 2021 12:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 04/16] docs: driver-api: ioctl.rst: replace some characters
-Date:   Sun, 16 May 2021 12:18:21 +0200
-Message-Id: <218839a44e1bb3332fbcf5bcf03e7700ff1ab679.1621159997.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v3 08/16] docs: userspace-api: media: dvb: intro.rst: replace some characters
+Date:   Sun, 16 May 2021 12:18:25 +0200
+Message-Id: <e0b326e9fe056467fff9bbd32b4db7d1fe5261b1.1621159997.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621159997.git.mchehab+huawei@kernel.org>
 References: <cover.1621159997.git.mchehab+huawei@kernel.org>
@@ -64,38 +66,25 @@ Replace the occurences of the following characters:
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/ioctl.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/userspace-api/media/dvb/intro.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/driver-api/ioctl.rst b/Documentation/driver-api/ioctl.rst
-index c455db0e1627..5b76e765827d 100644
---- a/Documentation/driver-api/ioctl.rst
-+++ b/Documentation/driver-api/ioctl.rst
-@@ -25,9 +25,9 @@ ioctl commands that follow modern conventions: ``_IO``, ``_IOR``,
- with the correct parameters:
+diff --git a/Documentation/userspace-api/media/dvb/intro.rst b/Documentation/userspace-api/media/dvb/intro.rst
+index a935f3914e56..c39ad9fc94f1 100644
+--- a/Documentation/userspace-api/media/dvb/intro.rst
++++ b/Documentation/userspace-api/media/dvb/intro.rst
+@@ -148,9 +148,9 @@ individual devices are called:
  
- _IO/_IOR/_IOW/_IOWR
--   The macro name specifies how the argument will be used.  It may be a
-+   The macro name specifies how the argument will be used.  It may be a
-    pointer to data to be passed into the kernel (_IOW), out of the kernel
--   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
-+   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
-    argument or those passing an integer value instead of a pointer.
-    It is recommended to only use _IO for commands without arguments,
-    and use pointers for passing data.
-@@ -200,10 +200,10 @@ cause an information leak, which can be used to defeat kernel address
- space layout randomization (KASLR), helping in an attack.
+ -  ``/dev/dvb/adapterN/caM``,
  
- For this reason (and for compat support) it is best to avoid any
--implicit padding in data structures.  Where there is implicit padding
-+implicit padding in data structures.  Where there is implicit padding
- in an existing structure, kernel drivers must be careful to fully
- initialize an instance of the structure before copying it to user
--space.  This is usually done by calling memset() before assigning to
-+space.  This is usually done by calling memset() before assigning to
- individual members.
+-where ``N`` enumerates the Digital TV cards in a system starting from 0, and
++where ``N`` enumerates the Digital TV cards in a system starting from 0, and
+ ``M`` enumerates the devices of each type within each adapter, starting
+-from 0, too. We will omit the “``/dev/dvb/adapterN/``\ ” in the further
++from 0, too. We will omit the “``/dev/dvb/adapterN/``\ ” in the further
+ discussion of these devices.
  
- Subsystem abstractions
+ More details about the data structures and function calls of all the
 -- 
 2.31.1
 
