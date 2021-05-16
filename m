@@ -2,87 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C93B2C43462
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:19:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E70E4C433ED
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:28:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A921661185
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:19:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3AD761184
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 10:28:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232273AbhEPKUw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 May 2021 06:20:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37524 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230191AbhEPKTw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 16 May 2021 06:19:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 63C4761185;
-        Sun, 16 May 2021 10:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621160317;
-        bh=Y90K4iDzT1mxgEqpYhzOZAeShTC+oGg4jL4yjkpiy0c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bubrMmAkvj7yJJmyG3EfGBditcT3qZj35/ytp5KFj9GBgVjf2UgRg0BOChuQ0A9Oq
-         2fxwShY7XHmWDyNLM4LTIuawJ8FfISfsxOzol8lyTh1t1sCq6fzlLpJv/ii3X424an
-         3CqIX+31yZ/+CLt+TdkoeS6fXSYlSuhVKipac2tkAKsNZY36fMcnHW7vnocnVGye7h
-         GYNwkSOs02oniNFxJ0eroGLcnfKP/rVgDuuGC02PYFmGay0odtS5ZyHwvAo0UYYZIa
-         kNI7IZKWiAvvxye7hpfL15uDqMtEV2RytP3uFKBg8XjgzCgLkL7wJPwmJFxhkWuMyS
-         re4rQ7CPViHAA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1liDr1-003o8C-77; Sun, 16 May 2021 12:18:35 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 01/16] docs: hwmon: ir36021.rst: replace some characters
-Date:   Sun, 16 May 2021 12:18:18 +0200
-Message-Id: <ba8b5122ac9d4918fd966d0eb0a5ca9d89044b04.1621159997.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1621159997.git.mchehab+huawei@kernel.org>
+        id S229937AbhEPK3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 May 2021 06:29:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36130 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230248AbhEPK3X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 06:29:23 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A786C061573;
+        Sun, 16 May 2021 03:28:09 -0700 (PDT)
+Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1liE0E-000328-KE; Sun, 16 May 2021 12:28:06 +0200
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
 References: <cover.1621159997.git.mchehab+huawei@kernel.org>
+ <5625907ed95964321c39a8688b70c54bac6d8e95.1621159997.git.mchehab+huawei@kernel.org>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 02/16] docs: admin-guide: reporting-issues.rst: replace
+ some characters
+Message-ID: <a138a130-6208-be63-b6ea-b08f3d66012a@leemhuis.info>
+Date:   Sun, 16 May 2021 12:28:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <5625907ed95964321c39a8688b70c54bac6d8e95.1621159997.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-BS
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1621160889;0a20e3d2;
+X-HE-SMSGID: 1liE0E-000328-KE
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
-conversion and some cut-and-pasted text contain some characters that
-aren't easily reachable on standard keyboards and/or could cause
-troubles when parsed by the documentation build system.
+Lo! On one hand I think it would be good to fix the tools to make them
+understand non-breakable spaces in places where the author chose to use
+them, but whatever, their use in that sentence is definitely not
+important, so feel free to add:
 
-Replace the occurences of the following characters:
+Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
 
-	- U+2010 ('‐'): HYPHEN
-	  as ASCII HYPHEN is preferred over U+2010
+Thanks for working on this. Ciao, Thorsten
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/hwmon/ir36021.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/hwmon/ir36021.rst b/Documentation/hwmon/ir36021.rst
-index ca3436b04e20..1faa85c39f1b 100644
---- a/Documentation/hwmon/ir36021.rst
-+++ b/Documentation/hwmon/ir36021.rst
-@@ -19,7 +19,7 @@ Authors:
- Description
- -----------
- 
--The IR36021 is a dual‐loop digital multi‐phase buck controller designed for
-+The IR36021 is a dual-loop digital multi-phase buck controller designed for
- point of load applications.
- 
- Usage Notes
--- 
-2.31.1
-
+On 16.05.21 12:18, Mauro Carvalho Chehab wrote:
+> The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
+> conversion and some cut-and-pasted text contain some characters that
+> aren't easily reachable on standard keyboards and/or could cause
+> troubles when parsed by the documentation build system.
+> 
+> Replace the occurences of the following characters:
+> 
+> 	- U+00a0 (' '): NO-BREAK SPACE
+> 	  as it can cause lines being truncated on PDF output
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/admin-guide/reporting-issues.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+> index 18d8e25ba9df..d7ac13f789cc 100644
+> --- a/Documentation/admin-guide/reporting-issues.rst
+> +++ b/Documentation/admin-guide/reporting-issues.rst
+> @@ -1248,7 +1248,7 @@ paragraph makes the severeness obvious.
+>  
+>  In case you performed a successful bisection, use the title of the change that
+>  introduced the regression as the second part of your subject. Make the report
+> -also mention the commit id of the culprit. In case of an unsuccessful bisection,
+> +also mention the commit id of the culprit. In case of an unsuccessful bisection,
+>  make your report mention the latest tested version that's working fine (say 5.7)
+>  and the oldest where the issue occurs (say 5.8-rc1).
+>  
+> 
