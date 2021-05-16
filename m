@@ -2,139 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CFCC433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 21:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 825DAC433B4
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 03:30:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0206E61287
-	for <linux-doc@archiver.kernel.org>; Sat, 15 May 2021 21:46:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5187261059
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 03:30:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235140AbhEOVsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 May 2021 17:48:05 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:1480 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235133AbhEOVsF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 15 May 2021 17:48:05 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 28840891;
-        Sat, 15 May 2021 23:46:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:content-transfer-encoding:content-disposition
-        :content-type:content-type:mime-version:references:message-id
-        :subject:subject:from:from:date:date:received:received:received;
-         s=dkim20160331; t=1621115208; x=1622929609; bh=eaJHCHUjbjCOs253
-        ucS2E+23HKRDmXY1/ctfNTFqYqo=; b=wXIhRgOAyE4d/E5L+6b1pEp7T3wxljzj
-        s69+HBjXtfoBSL6St1lwU1sUMl1yoYWhUVyj11D5KkNraLNt0WKny8hnJlUfPPkm
-        EZ76V7XQZDdrbAtmbQy7xFsv1vUA6adxP1/9rb+q2GHMudKNOOyX2V7tRVE5Jzzb
-        RjnWZhe1g+u+u5Kale62FpEW9sGxZIAwR6wMX3Lz7yT2LXFu7RaoAes+iFg1f4RC
-        MGPaIBASVBY387WWlK1+NuMDzjDPe8cLwMDAAuDYeEbA8ZsMYcMiQwr1R1j+D1Ru
-        SQLJPIdnh6bbTOgAaVkOzNqGdhaUeXf+qadhBCXMQQWHdFhW6RSaxJf7IaeeAW4t
-        kBbRqwPKAGkn0OmHuVdOnVqwUmL44HD734eOSVl4IRNnZd2qCfvYk+vYXnMxpB3g
-        Un+d7q6chJLxjigcJhHyn461wVCy8OiU13N/GLMaFzZCEb6t1p86NMkV8bJhlhJq
-        7RHGqZZm+nktM3L5FkllMZzzd+9FLbGKBGNpQgRNgFP3y2gDOwkz8Iszay1GQJV8
-        QWPQ/ChcjsVZV7T0q/4dra3AR96Jeq9vjIAoWyp5fXJBDUZVeItq3ll3NZfrvxuv
-        lhdTGhOlBwVk8SN2AAQZKKE8qO7UUf1xbdsk+SbDkRgv1ldvUWtIm2Guh+HEI3eN
-        Ru2g+GrNxt4=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id B4eNjsr2Bvl4; Sat, 15 May 2021 23:46:48 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 58CD1627;
-        Sat, 15 May 2021 23:46:48 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 98D56410;
-        Sat, 15 May 2021 23:46:46 +0200 (CEST)
-Date:   Sat, 15 May 2021 23:46:42 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Sanjeev Gupta <ghane0@gmail.com>
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH v2 2/3] Documentation/translations/it_IT: switch some
- links to https
-Message-ID: <20210515214642.exmxqsvo4yx4elhb@numero86.vaga.pv.it>
-References: <7263fc90.AUcAAC_sKFEAAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgn5QG@mailjet.com>
+        id S231776AbhEPDbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 May 2021 23:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229983AbhEPDbf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 May 2021 23:31:35 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674E5C061573
+        for <linux-doc@vger.kernel.org>; Sat, 15 May 2021 20:30:21 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id m124so2319538pgm.13
+        for <linux-doc@vger.kernel.org>; Sat, 15 May 2021 20:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Xnje/7RVbMX8u5ELk5cZEjX3/e8yyIcVpKhjDnccS6c=;
+        b=qRBwEqXgxa9EmBXWP6AR8vdSRSR2taiU++DXCTRt2NYnLIHMsxnWnHE61X3cr2zOfC
+         70IYNjz8cSx+x4qUMjht1whZQui+Y+fhA2Tl6nVAzTsDoJ3j+XIYJmcJQz2zQE+PTc6J
+         mxRxR+I7/XZMzPdwvlHCo4COHEkqv5sqP862GvZSN7sy5haGbmOWQ0TE8/hYTWEnDX2E
+         eY2RCEEObjDqwiHhikFQ6RHcmimZSilsVixC5VyCA4Jkgn12MCeLci9iqQ0QHJ4pLV5i
+         3KhCiwQTQA20Xx8UeRgi8SbrSeVddKNZNDq/AciN1fIO3DzbE43z0UOBw0/rAXAcdLtQ
+         DNGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Xnje/7RVbMX8u5ELk5cZEjX3/e8yyIcVpKhjDnccS6c=;
+        b=ObD28tJPomHdY2e9eYxG10+P4QxIfsDNK4FWQH2llpZFtG4tdNs5z+ExXprDSerNVK
+         +Za3iHArIn2IlU1JnDuToFCwId+riVMtUfe1oi1+BLoeeYtrtx86sc0xv1jwEl9sc+ZM
+         aZDKqcKifW0APK78y7GR1zMBCM0NvUlUP9oxqcdj+mGBtg5cBezzgze+n9ckwmI7Yk/h
+         fNY9mzSXkn/W4H7vn1ko0gDLFfVNaakid4F+13BdItlgKDITBr0yNNBLBYfAYDyOmwX8
+         hvPtzCG80645q4DChvGZW/LXuTWxS1GXRey1/CDWT7s5qQh0mXY0BiwoLUI0em4WIWft
+         DEzw==
+X-Gm-Message-State: AOAM5324xnqMqrQiGRkD5VVksjF+lr9DSSyohjT9mtfjteVPgqSKO6W/
+        h2XSfbHbvDKhV4RW2JTGotM=
+X-Google-Smtp-Source: ABdhPJx+eiqcy6x+2IvnX8RQqhe8VepE5StAUYhPhshvcc+x3pLqPBUHC743Sm5rRirAdBtNimiKsg==
+X-Received: by 2002:a63:b206:: with SMTP id x6mr41661948pge.341.1621135820754;
+        Sat, 15 May 2021 20:30:20 -0700 (PDT)
+Received: from [172.28.99.179] ([119.28.155.243])
+        by smtp.gmail.com with ESMTPSA id s16sm7334887pga.5.2021.05.15.20.30.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 May 2021 20:30:20 -0700 (PDT)
+Subject: Re: [PATCH v6 1/3] docs/zh_CN: add core-api kernel-api.rst
+ translation
+To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
+        alexs@kernel.org
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com
+References: <cover.1621062577.git.siyanteng@loongson.cn>
+ <e8a6975086ad54b5abdde2b816f6fa06dc98fcf7.1621062577.git.siyanteng@loongson.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Message-ID: <87f7bb59-cb85-de95-4e8d-72784686b9b9@gmail.com>
+Date:   Sun, 16 May 2021 11:30:15 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+In-Reply-To: <e8a6975086ad54b5abdde2b816f6fa06dc98fcf7.1621062577.git.siyanteng@loongson.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7263fc90.AUcAAC_sKFEAAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgn5QG@mailjet.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 15, 2021 at 03:08:18PM +0800, Sanjeev Gupta wrote:
->Links have been checked to ensure that the old and new URL
->return the same page.  This is not true for many links.
->
->Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
->
->---
-> .../translations/it_IT/doc-guide/kernel-doc.rst        |  2 +-
-> Documentation/translations/it_IT/doc-guide/sphinx.rst  | 10 +++++-----
-> Documentation/translations/it_IT/process/changes.rst   |  2 +-
-> .../translations/it_IT/process/coding-style.rst        |  2 +-
-> 4 files changed, 8 insertions(+), 8 deletions(-)
->
->diff --git a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
->index 009cdac014b6..4d22df6a59d6 100644
->--- a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
->+++ b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
->@@ -24,7 +24,7 @@ vengono filtrare per cercare i riferimenti ed i marcatori.
->
-> Vedere di seguito per maggiori dettagli.
->
->-.. _`dominio Sphinx per il C`: http://www.sphinx-doc.org/en/stable/domains.html
->+.. _`dominio Sphinx per il C`: https://www.sphinx-doc.org/en/stable/domains.html
->
-> Tutte le funzioni esportate verso i moduli esterni utilizzando
-> ``EXPORT_SYMBOL`` o ``EXPORT_SYMBOL_GPL`` dovrebbero avere un commento
->diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst b/Documentation/translations/it_IT/doc-guide/sphinx.rst
->index 0046d75d9a70..f7db5db3766f 100644
->--- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
->+++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
->@@ -14,7 +14,7 @@ Per generare la documentazione in HTML o PDF, usate comandi ``make htmldocs`` o
-> ``make pdfdocs``. La documentazione così generata sarà disponibile nella
-> cartella ``Documentation/output``.
->
->-.. _Sphinx: http://www.sphinx-doc.org/
->+.. _Sphinx: https://www.sphinx-doc.org/
-> .. _reStructuredText: http://docutils.sourceforge.net/rst.html
->
-> I file reStructuredText possono contenere delle direttive che permettono di
->@@ -175,7 +175,7 @@ Aggiungere nuova documentazione è semplice:
-> 2. aggiungete un riferimento ad esso nell'indice (`TOC tree`_) in
->    ``Documentation/index.rst``.
->
->-.. _TOC tree: http://www.sphinx-doc.org/en/stable/markup/toctree.html
->+.. _TOC tree: https://www.sphinx-doc.org/en/stable/markup/toctree.html
->
-> Questo, di solito, è sufficiente per la documentazione più semplice (come
-> quella che state leggendo ora), ma per una documentazione più elaborata è
->@@ -191,8 +191,8 @@ informazione circa le loro potenzialità. In particolare, il
-> cui cominciare. Esistono, inoltre, anche alcuni
-> `costruttori specifici per Sphinx`_.
->
->-.. _`manuale introduttivo a reStructuredText`: http://www.sphinx-doc.org/en/stable/rest.html
->-.. _`costruttori specifici per Sphinx`: http://www.sphinx-doc.org/en/stable/markup/index.html
->+.. _`manuale introduttivo a reStructuredText`: https://www.sphinx-doc.org/en/stable/rest.html
->+.. _`costruttori specifici per Sphinx`: https://www.sphinx-doc.org/en/stable/markup/index.html
->
-> Guide linea per la documentazione del kernel
-> --------------------------------------------
->@@ -417,7 +417,7 @@ formato SVG (:ref:`it_svg_image_example`)::
-> Le direttive del kernel per figure ed immagini supportano il formato **DOT**,
-> per maggiori informazioni
->
->-* DOT: http://graphviz.org/pdf/dotguide.pdf
->+* DOT: https://graphviz.org/pdf/dotguide.pdf
-> * Graphviz: http://www.graphviz.org/content/dot-language
 
-Why not also the last link?
 
-https://graphviz.org/doc/info/lang.html
+On 2021/5/15 下午4:10, Yanteng Si wrote:
+
+> +安全框架
+> +========
+> +
+> +check the functions in security/security.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in security/inode.c in kernel source code.
+> +   :export:
+> +
+> +审计接口
+> +========
+> +
+> +check the functions in kernel/audit.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in kernel/auditsc.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in kernel/auditfilter.c in kernel source code.
+> +   :internal:
+> +
+
+Too verbose w/o much useful info, Is the following better?
+
+  APIs in kernel code: kernel/audit.c, kernel/auitsc.c and kernel/auditfilter.c
+
+  该 APIs 在以下内核代码中 kernel/audit.c, kernel/auitsc.c and kernel/auditfilter.c
+
+
+Thanks
+Alex
