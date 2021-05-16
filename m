@@ -2,149 +2,535 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B399C433ED
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D02E6C433ED
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:37:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2055E61168
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:14:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A119D6117A
+	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 11:37:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbhEPLPP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 May 2021 07:15:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56138 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230001AbhEPLPP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 16 May 2021 07:15:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E649161164;
-        Sun, 16 May 2021 11:13:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621163640;
-        bh=bxIW72OBGlUVbKXIO28RbGD+VrGPRvwYLITR6ZFMjjU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=kvkSsjUwYa1V714tMzdnqN6zgVoaNNC3jZaMjlQG4uoFAbITDWPw75pi5xgdRVG5p
-         EKGaPZN4o3OFFkM4VeLebdU562quM996k1R5RbJldOVSmVLDORld5n18OrZh5G+xeo
-         yquBoE7haM25TjstGcjy4b8Lj5JYW6jv6TAMENd4C3Vs/k2Do4V1xFhB+PrLVpwd+z
-         sqpTahBXZs2VAOK/x9j6YKkGaMk8TrwOPZ2sucI3BsFmSaA2OXU7x/0f6FMy3triBY
-         cwv8At9hogUYBCk/UuJAzkat5N6P3UXWGBNJeruA5WhLWZ3Wq+hXLK3FDFfbLJEpxT
-         FvNvTNbVrW1Lw==
-Date:   Sun, 16 May 2021 13:13:55 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 02/16] docs: admin-guide: reporting-issues.rst:
- replace some characters
-Message-ID: <20210516131355.30c73b7d@coco.lan>
-In-Reply-To: <a138a130-6208-be63-b6ea-b08f3d66012a@leemhuis.info>
-References: <cover.1621159997.git.mchehab+huawei@kernel.org>
-        <5625907ed95964321c39a8688b70c54bac6d8e95.1621159997.git.mchehab+huawei@kernel.org>
-        <a138a130-6208-be63-b6ea-b08f3d66012a@leemhuis.info>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231840AbhEPLiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 May 2021 07:38:51 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:38227 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231135AbhEPLiu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 07:38:50 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id DFC965C0216;
+        Sun, 16 May 2021 07:37:33 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Sun, 16 May 2021 07:37:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+        subject:to:cc:references:from:message-id:date:mime-version
+        :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=o
+        WqIGoW+DMKc6mcRiW+CBsq4ucDYn6MDTPi7K7xo0iw=; b=p7AScBMRyfUzatoDh
+        pagc9YgBDnvhfTcBGecHmMOSnTZVm8KwYVF/DrnKJ3PhWNgvzCR4wVVzGwAK2wMw
+        aK5nj0AdqnQlYSLOg5nxW3a4KXugxwk61CDFYJqKj/9ds99UMVGhMWx4g5WeCrrT
+        T4x6ZjPqXXZKsc4yAJ9skR/4jnGu9nOdPKNbZT9Yr8xhE4YvwcIKAV8JRVLCdhgJ
+        RJCvRm7xiGfYvYfZpaiWGJaZLE7wvT+AHSuOx5XYIrhhV07a+ZQZlnXz2CWQ24lN
+        1qyvOPZz4qzPsDIw4een+bDsSoT6KX9WeNDCZ1sMseY85QeO4aC3XL5/vQq9UiQf
+        bhQIQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=oWqIGoW+DMKc6mcRiW+CBsq4ucDYn6MDTPi7K7xo0
+        iw=; b=NCtmHaQ01UHnKpaYEzQ83D093q0xH/Ok6WvkPRe7GTtGHlZkvoSzZ2Etz
+        28gxxPc320DCk57at8PPwWUUvuH2xTXXiBD0k94AxuQ14hxWakeKs+sF9x8IrhTw
+        BeZxDCVc6LUtGKJwG4KWo6vTPhA+UFhXRaQfb+rXB3XZhK6/OhzIxMqMDMnEfe2H
+        WfVUmoE8nIBr8BiSDk98L7G+hOCcv+q3g10VSgVflPVbmH5n/LfMYciAqts1Jg7H
+        b5Lr4hgVMSeHI/M7Sag5Xx07V9CZIrF22Op9SXfd+58h/Dg8qELPg9d2xQoKMeG1
+        /6HqacNO4khzMmZQyghNBS0FYbTnQ==
+X-ME-Sender: <xms:_AOhYPoVodGCuBB9W1jW4l2A2YxWMnY0usEuxh2DViWLXJEc2fNTFA>
+    <xme:_AOhYJoTw1E7Y0RyRb9yCtV9fNHo9cNGlAb1f2EpqdT2IYYx0a7wc2mO_1BEyDqle
+    z7xQx-6fU0aZnwdQ4s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeifedggedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
+    uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+    ggtffrrghtthgvrhhnpeeihffghfeikedugeejvefgffevgeevgeehfffhudeiieffffev
+    ffeugeevfefgfeenucfkphepiedtrddukeeirddvvdejrddukeehnecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghes
+    fhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:_AOhYMMMBKkAaqmbJeDKBMaZ_5ZT8si6HU5fXv21XNcQmQ_errCGYA>
+    <xmx:_AOhYC4N2LyRQMfKB8TvJ3iW4kyncFCAUDe-DKNZsn3vwIjp7pKkZQ>
+    <xmx:_AOhYO60gMrtKlXPP4MeBjeb2vU49aEgV92HRMl2nL_eO8AkquqZGA>
+    <xmx:_QOhYLvtx9zHLW22Sc5A0Qj1BO48vWPHAIa4lFlNwWZZbb8qTWvcww>
+Received: from [192.168.14.19] (unknown [60.186.227.185])
+        by mail.messagingengine.com (Postfix) with ESMTPA;
+        Sun, 16 May 2021 07:37:29 -0400 (EDT)
+Subject: Re: [PATCH v6 1/3] docs/zh_CN: add core-api kernel-api.rst
+ translation
+To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
+        alexs@kernel.org
+Cc:     chenhuacai@kernel.org, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com,
+        huangjianghui@uniontech.com
+References: <cover.1621062577.git.siyanteng@loongson.cn>
+ <e8a6975086ad54b5abdde2b816f6fa06dc98fcf7.1621062577.git.siyanteng@loongson.cn>
+From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <a6188573-a34e-fc2e-b8db-17197fce1307@flygoat.com>
+Date:   Sun, 16 May 2021 19:37:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <e8a6975086ad54b5abdde2b816f6fa06dc98fcf7.1621062577.git.siyanteng@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 16 May 2021 12:28:06 +0200
-Thorsten Leemhuis <linux@leemhuis.info> escreveu:
-
-> Lo! On one hand I think it would be good to fix the tools to make them
-> understand non-breakable spaces in places where the author chose to use
-> them,
-
-Fixing it is not trivial ;-)
-
-See, while DocBook, LaTeX and other similar tools allow the author
-to specify exactly how the output will be produced, Markup languages=20
-are not meant to give full control to the author, but, instead, to make
-their work easier by letting the toolset to take decisions about line
-breaks, font type and size, etc.
-
-In the specific case of Sphinx, the main tool parses the ReST files,
-and an output module is responsible to generate the actual output.
-
-So, there's one module for LaTeX, another one for HTML and a
-third party one for PDF (we currently don't use the last one).
-
-It is the output module that will actually decide to do line
-breaks and to honor the document margins and to add non-breakable
-spaces when needed.
-
-When the output is a web page, it shouldn't be a problem to use
-unbreakable spaces, provided that the output module is smart enough
-to detect it, adding an horizontal scroll bar if needed to avoid
-long lines to be simply truncated if the window is smaller than
-the lines.
-
-For e-pub, LaTeX and PDF, though, unbreakable spaces should be
-replaced by normal ones if the string is too long, or the lines
-will simply be truncated, with text loses.
-
-So, while it could be possible to use such characters, extra
-care should be taken, as all output formats need to be tested.
-
-Also, as Kernel patches and toolset improvements could change,
-for instance, the used font, or a change somewhere could lead
-into a different column width, such the tests need to be
-repeated from time to time and with different Sphinx versions.
-
-So, this ends by being a maintenance nightmare. Better to live
-without those ;-)
-
-> but whatever, their use in that sentence is definitely not
-> important, so feel free to add:
->=20
-> Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
->=20
-> Thanks for working on this. Ciao, Thorsten
-
-Thanks!
-Mauro
->=20
-> On 16.05.21 12:18, Mauro Carvalho Chehab wrote:
-> > The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
-> > conversion and some cut-and-pasted text contain some characters that
-> > aren't easily reachable on standard keyboards and/or could cause
-> > troubles when parsed by the documentation build system.
-> >=20
-> > Replace the occurences of the following characters:
-> >=20
-> > 	- U+00a0 ('=C2=A0'): NO-BREAK SPACE
-> > 	  as it can cause lines being truncated on PDF output
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/admin-guide/reporting-issues.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documenta=
-tion/admin-guide/reporting-issues.rst
-> > index 18d8e25ba9df..d7ac13f789cc 100644
-> > --- a/Documentation/admin-guide/reporting-issues.rst
-> > +++ b/Documentation/admin-guide/reporting-issues.rst
-> > @@ -1248,7 +1248,7 @@ paragraph makes the severeness obvious.
-> > =20
-> >  In case you performed a successful bisection, use the title of the cha=
-nge that
-> >  introduced the regression as the second part of your subject. Make the=
- report
-> > -also mention the commit=C2=A0id of the culprit. In case of an unsucces=
-sful bisection,
-> > +also mention the commit id of the culprit. In case of an unsuccessful =
-bisection,
-> >  make your report mention the latest tested version that's working fine=
- (say 5.7)
-> >  and the oldest where the issue occurs (say 5.8-rc1).
-> > =20
-> >  =20
 
 
+在 2021/5/15 16:10, Yanteng Si 写道:
+> This patch translates Documentation/core-api/kernel-api.rst into Chinese.
 
-Thanks,
-Mauro
+Hi Yanteng,
+
+Thanks for your l10n works,
+see my comments blow:
+
+>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+> ---
+>   .../translations/zh_CN/core-api/index.rst     |   5 +-
+>   .../zh_CN/core-api/kernel-api.rst             | 385 ++++++++++++++++++
+>   2 files changed, 389 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/core-api/kernel-api.rst
+>
+> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+> index f1fa71e45c77..60e1566d57eb 100644
+> --- a/Documentation/translations/zh_CN/core-api/index.rst
+> +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> @@ -19,9 +19,12 @@
+>   来的大量 kerneldoc 信息；有朝一日，若有人有动力的话，应当把它们拆分
+>   出来。
+>   
+> -Todolist:
+> +.. toctree::
+> +   :maxdepth: 1
+>   
+>      kernel-api
+> +
+> +Todolist:
+>      workqueue
+>      printk-basics
+>      printk-formats
+> diff --git a/Documentation/translations/zh_CN/core-api/kernel-api.rst b/Documentation/translations/zh_CN/core-api/kernel-api.rst
+> new file mode 100644
+> index 000000000000..2b4d38ec64bf
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/kernel-api.rst
+> @@ -0,0 +1,385 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/core-api/kernel-api.rst
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_kernel-api.rst:
+> +
+> +
+> +============
+> +Linux内核API
+> +============
+> +
+> +
+> +列表管理函数
+> +============
+> +
+> +check the functions in include/linux/list.h in kernel source code.
+> +   :internal:
+> +
+> +基本的C库函数
+> +=============
+> +
+> +在编写驱动程序时，一般不能使用C库中的普通程序。部分函数通常很有用，它
+> +们在下面被列出。这些函数的行为可能会与ANSI定义的略有不同，这些偏差会
+> +在文中注明。
+^普通程序？
+
+How about 下面将列出内核中常用的C标准函数?
+> +
+> +字符串转换
+> +----------
+> +
+> +check the functions in lib/vsprintf.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in include/linux/kernel.h in kernel source code.
+> +   :functions: kstrtol
+> +
+> +check the functions in include/linux/kernel.h in kernel source code.
+> +   :functions: kstrtoul
+> +
+> +check the functions in lib/kstrtox.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/string_helpers.c in kernel source code.
+> +   :export:
+> +
+> +字符串处理
+> +----------
+> +
+> +check the functions in lib/string.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in include/linux/string.h in kernel source code.
+> +   :internal:
+> +
+> +check the functions in mm/util.c in kernel source code.
+> +   :functions: kstrdup kstrdup_const kstrndup kmemdup kmemdup_nul memdup_user
+> +               vmemdup_user strndup_user memdup_user_nul
+> +
+> +基本的内核库函数
+> +================
+> +
+> +Linux内核提供了很多基本的实用函数。
+实用的基本函数
+
+> +
+> +位运算
+> +------
+> +
+> +check the functions in include/asm-generic/bitops/instrumented-atomic.h in kernel source code.
+> +   :internal:
+> +
+> +check the functions in include/asm-generic/bitops/instrumented-non-atomic.h in kernel source code.
+> +   :internal:
+> +
+> +check the functions in include/asm-generic/bitops/instrumented-lock.h in kernel source code.
+> +   :internal:
+> +
+> +位图运算
+> +--------
+> +
+> +check the functions in lib/bitmap.c in kernel source code.
+> +   :doc: bitmap introduction
+> +
+> +check the functions in include/linux/bitmap.h in kernel source code.
+> +   :doc: declare bitmap
+> +
+> +check the functions in include/linux/bitmap.h in kernel source code.
+> +   :doc: bitmap overview
+> +
+> +check the functions in include/linux/bitmap.h in kernel source code.
+> +   :doc: bitmap bitops
+> +
+> +check the functions in lib/bitmap.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/bitmap.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in include/linux/bitmap.h in kernel source code.
+> +   :internal:
+> +
+> +命令行解析
+> +----------
+> +
+> +check the functions in lib/cmdline.c in kernel source code.
+> +   :export:
+> +
+> +排序
+> +----
+> +
+> +check the functions in lib/sort.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/list_sort.c in kernel source code.
+> +   :export:
+> +
+> +文本检索
+> +--------
+> +
+> +check the functions in lib/textsearch.c in kernel source code.
+> +   :doc: ts_intro
+> +
+> +check the functions in lib/textsearch.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in include/linux/textsearch.h in kernel source code.
+> +   :functions: textsearch_find textsearch_next \
+> +               textsearch_get_pattern textsearch_get_pattern_len
+> +
+> +Linux中的CRC和数学函数
+> +======================
+> +
+> +
+> +CRC函数
+> +-------
+> +
+> +*译注：CRC，Cyclic Redundancy Check，循环冗余校验*
+> +
+> +check the functions in lib/crc4.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/crc7.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/crc8.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/crc16.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/crc32.c in kernel source code.
+> +
+> +check the functions in lib/crc-ccitt.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/crc-itu-t.c in kernel source code.
+> +   :export:
+> +
+> +基数为2的对数和幂函数
+> +---------------------
+> +
+> +check the functions in include/linux/log2.h in kernel source code.
+> +   :internal:
+> +
+> +整数幂函数
+> +----------
+> +
+> +check the functions in lib/math/int_pow.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in lib/math/int_sqrt.c in kernel source code.
+> +   :export:
+> +
+> +除法函数
+> +--------
+> +
+> +check the functions in include/asm-generic/div64.h in kernel source code.
+> +   :functions: do_div
+> +
+> +check the functions in include/linux/math64.h in kernel source code.
+> +   :internal:
+> +
+> +check the functions in lib/math/div64.c in kernel source code.
+> +   :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64 in kernel source code.
+> +
+> +check the functions in lib/math/gcd.c in kernel source code.
+> +   :export:
+> +
+> +UUID/GUID
+> +---------
+> +
+> +check the functions in lib/uuid.c in kernel source code.
+> +   :export:
+> +
+> +内核IPC设备
+> +===========
+> +
+> +IPC实用程序
+> +-----------
+> +
+> +check the functions in ipc/util.c in kernel source code.
+> +   :internal:
+> +
+> +FIFO 缓冲区
+> +===========
+> +
+> +kfifo接口
+> +---------
+> +
+> +check the functions in include/linux/kfifo.h in kernel source code.
+> +   :internal:
+> +
+> +转发接口支持
+> +============
+> +
+> +转发接口支持旨在为工具和设备提供一种有效的机制，将大量数据从内核空间
+> +转发到用户空间。
+> +
+> +转发接口
+> +--------
+> +
+> +check the functions in kernel/relay.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in kernel/relay.c in kernel source code.
+> +   :internal:
+> +
+> +模块支持
+> +========
+> +
+> +模块加载
+> +--------
+> +
+> +check the functions in kernel/kmod.c in kernel source code.
+> +   :export:
+> +
+> +模块接口支持
+> +------------
+> +
+> +更多信息请参考文件kernel/module.c。
+> +
+> +硬件接口
+> +========
+> +
+> +
+> +check the functions in kernel/dma.c in kernel source code.
+> +   :export:
+> +
+> +资源管理
+> +--------
+> +
+> +check the functions in kernel/resource.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in kernel/resource.c in kernel source code.
+> +   :export:
+> +
+> +MTRR处理
+> +--------
+> +
+> +check the functions in arch/x86/kernel/cpu/mtrr/mtrr.c in kernel source code.
+> +   :export:
+> +
+> +安全框架
+> +========
+> +
+> +check the functions in security/security.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in security/inode.c in kernel source code.
+> +   :export:
+> +
+> +审计接口
+> +========
+> +
+> +check the functions in kernel/audit.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in kernel/auditsc.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in kernel/auditfilter.c in kernel source code.
+> +   :internal:
+> +
+> +核算框架
+> +========
+> +
+> +check the functions in kernel/acct.c in kernel source code.
+> +   :internal:
+> +
+> +块设备
+> +======
+> +
+> +check the functions in block/blk-core.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in block/blk-core.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in block/blk-map.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in block/blk-sysfs.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in block/blk-settings.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in block/blk-exec.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in block/blk-flush.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in block/blk-lib.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in block/blk-integrity.c in kernel source code.
+> +   :export:
+> +
+> +check the functions in kernel/trace/blktrace.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in block/genhd.c in kernel source code.
+> +   :internal:
+> +
+> +check the functions in block/genhd.c in kernel source code.
+> +   :export:
+> +
+> +字符设备
+> +========
+> +
+> +check the functions in fs/char_dev.c in kernel source code.
+> +   :export:
+> +
+> +时钟框架
+> +========
+> +
+> +时钟框架定义了编程接口，以支持系统时钟树的软件管理。该框架广泛用于系统级芯片（SOC）平
+> +台，以支持电源管理和各种可能需要自定义时钟速率的设备。请注意，这些 “时钟”与计时或实
+> +时时钟(RTC)无关，它们都有单独的框架。这些:c:type: `struct clk <clk>` 实例可用于管
+> +理例如96 MHz信号，该信号用于将位移入和移出外设或总线，或以其他方式触发系统硬件中的同
+> +步状态机转换。
+指代不明，
+
+可用于管理各种时钟信号，例如一个96 
+MHz的时钟信号，该信号可被用于总线或外设的数据交换，或以其他方式触发系统硬件中的同步状态机转换。 
+
+> +
+> +通过明确的软件时钟门控来支持电源管理：未使用的时钟被禁用，因此系统不会因为改变不在使用
+明确->显式？
+> +中的晶体管的状态而浪费电源。在某些系统中，这可能是由硬件时钟门控支持的，其中时钟被门控
+电路翻转？
+> +而不在软件中被禁用。芯片的部分，在供电但没有时钟的情况下，可能会保留其最后的状态。这种
+> +低功耗状态通常被称为*保留模式*。这种模式仍然会产生漏电流，特别是在电路几何结构较细的情
+保持模式 （表达保持当前状态）
+> +况下，但对于CMOS电路来说，电源主要是通过时钟状态变化来使用的。
+电能主要是随着时钟翻转而被消耗的？
+
+- Jiaxun
+
+> +
+> +电源感知驱动程序只有在其管理的设备处于活动使用状态时才会启用时钟。此外，系统睡眠状态通
+> +常根据哪些时钟域处于活动状态而有所不同：“待机”状态可能允许从多个活动域中唤醒，而
+> +"mem"（暂停到RAM）状态可能需要更全面地关闭来自高速PLL和振荡器的时钟，从而限制了可能
+> +的唤醒事件源的数量。驱动器的暂停方法可能需要注意目标睡眠状态的系统特定时钟约束。
+> +
+> +一些平台支持可编程时钟发生器。这些可以被各种外部芯片使用，如其他CPU、多媒体编解码器以
+> +及对接口时钟有严格要求的设备。
+> +
+> +check the functions in include/linux/clk.h in kernel source code.
+> +   :internal:
+> +
+> +同步原语
+> +========
+> +
+> +读-复制-更新（RCU）
+> +-------------------
+> +
+> +check the functions in include/linux/rcupdate.h in kernel source code.
+> +
+> +check the functions in kernel/rcu/tree.c in kernel source code.
+> +
+> +check the functions in kernel/rcu/tree_exp.h in kernel source code.
+> +
+> +check the functions in kernel/rcu/update.c in kernel source code.
+> +
+> +check the functions in include/linux/srcu.h in kernel source code.
+> +
+> +check the functions in kernel/rcu/srcutree.c in kernel source code.
+> +
+> +check the functions in include/linux/rculist_bl.h in kernel source code.
+> +
+> +check the functions in include/linux/rculist.h in kernel source code.
+> +
+> +check the functions in include/linux/rculist_nulls.h in kernel source code.
+> +
+> +check the functions in include/linux/rcu_sync.h in kernel source code.
+> +
+> +check the functions in kernel/rcu/sync.c in kernel source code.
+
