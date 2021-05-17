@@ -2,216 +2,240 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0713CC43460
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 20:55:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEFEBC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 21:24:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4C61611EE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 20:55:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9800861244
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 21:24:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237333AbhEQU4d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 16:56:33 -0400
-Received: from mga05.intel.com ([192.55.52.43]:11856 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233271AbhEQU4c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 16:56:32 -0400
-IronPort-SDR: JtVE8OpCLu8+RxtHKZDwD5TToUFcPMNT/N7/2zot4uaTP31iMfSRwVA5zrUYTb8/fiNOoX6Gn+
- wBBxzVZwi9Qg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="286093933"
-X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; 
-   d="scan'208";a="286093933"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2021 13:55:15 -0700
-IronPort-SDR: TZcXoTiIbYniVOmf1LN1Ev8wIo3ZErYhJYjAMAmVqWeQUZ6eIC8Vwm+cxtyTHYjB5Jkzk7NDh5
- UipVJ/gBm2sA==
-X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; 
-   d="scan'208";a="541464404"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.147.139]) ([10.251.147.139])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2021 13:55:13 -0700
-Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
- setup/verify routines
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-25-yu-cheng.yu@intel.com> <YKIfIEyW+sR+bDCk@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
-Date:   Mon, 17 May 2021 13:55:01 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S238105AbhEQVZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 17:25:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49968 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235754AbhEQVZv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 17:25:51 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 500ABC061573
+        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 14:24:34 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id d3-20020a9d29030000b029027e8019067fso6784004otb.13
+        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 14:24:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=oH3TC5arSRaF8BIUZrshZTlog0VnB0gntUMJVypigfs=;
+        b=QlV40N7TUAOs+IaxiBtG2dynhiNN5tjMcrB4KWStLHrfT6rF8D6urPDb/mCdYExe0a
+         ILKInm+TsP6pUhtSZQuHzJeW+Mn2/u3WVlG5HEo/kcXAa9ba6sVSA0Ssa6dHooMiKsVU
+         pmY+uNvFXWeVbdKI3p5q+KkBdWiTvvw+383cs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=oH3TC5arSRaF8BIUZrshZTlog0VnB0gntUMJVypigfs=;
+        b=Ns0C0Qme7s0KX0a8eSVQggrxNNgiVSUJ2CzI6nnbIx14fUNJlyTx85QItDD+b5H98m
+         ehU0sBu/rlEItbh6VXGmSVCzdHmCEs2C4bLoMexkH26MW0RQl+GhVrfKysjsBu4r9GqF
+         t3X8wWUhHbP5mEl7MKRQyZUq5BkvDsr7WteE5ERi9lIqsKTIeVeGbFKayCQwm7VNd0SA
+         EDPCxRG5NkwYDmOg78u4xgCpvX9Hjee8XNG1WZHB5jKJ+M+ghBI2vu5g6pz1gnB9kwQy
+         g124GiK0z3HgDt4AVIf2R7V/FKcjalSA7ypuO72xYGXPV2boOzEuewVNZmG60unUYnDz
+         TIHw==
+X-Gm-Message-State: AOAM530c+Jce6AZP083AbPd7ZkCO+wcUg4mPXZUudniheEleH7DSA8nR
+        qjHXmCIzH1PH3Qc/HPs8i35NyeuYxP9EowtjzJ6U3Q==
+X-Google-Smtp-Source: ABdhPJzrwoWiHD2mtk/siqfX//KYKHvA4aU+bJpxgwj9Oy8SYByX/Hk+oEtYAvMYN5Rhize33/aEXzNiNEpmwmVrUeI=
+X-Received: by 2002:a05:6830:1155:: with SMTP id x21mr1248964otq.303.1621286673578;
+ Mon, 17 May 2021 14:24:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YKIfIEyW+sR+bDCk@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+ <YJ42MEgwDZrAEQLl@kroah.com> <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+ <YKIeBdwFb9Ng275X@phenom.ffwll.local> <503d101d-7273-757a-2809-e272db93c45d@suse.de>
+ <CAPj87rMqYNdHMT5v9fiMuDzcB8462nJuthB9To70JOsORgxk=w@mail.gmail.com> <6e26562f-5ccf-9014-c0c4-00241659a95b@suse.de>
+In-Reply-To: <6e26562f-5ccf-9014-c0c4-00241659a95b@suse.de>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Mon, 17 May 2021 23:24:22 +0200
+Message-ID: <CAKMK7uH2-4jRNwb9BhU-oxdF6Y4PnmrPq2TFD1dMFmdioX8iOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Daniel Stone <daniel@fooishbar.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Derek Kiernan <derek.kiernan@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/17/2021 12:45 AM, Borislav Petkov wrote:
-> On Tue, Apr 27, 2021 at 01:43:09PM -0700, Yu-cheng Yu wrote:
->> +static inline int write_user_shstk_32(u32 __user *addr, u32 val)
->> +{
->> +	WARN_ONCE(1, "%s used but not supported.\n", __func__);
->> +	return -EFAULT;
->> +}
->> +#endif
-> 
-> What is that supposed to catch? Any concrete (mis-)use cases?
-> 
+On Mon, May 17, 2021 at 10:10 PM Thomas Zimmermann <tzimmermann@suse.de> wr=
+ote:
+>
+> Hi
+>
+> Am 17.05.21 um 21:32 schrieb Daniel Stone:
+> > Hi,
+> >
+> > On Mon, 17 May 2021 at 20:12, Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+> >> Am 17.05.21 um 09:40 schrieb Daniel Vetter:
+> >>> We have, it's called drivers/gpu. Feel free to rename to drivers/xpu =
+or
+> >>> think G as in General, not Graphisc.
+> >>
+> >> I hope this was a joke.
+> >>
+> >> Just some thoughts:
+> >>
+> >> AFAICT AI first came as an application of GPUs, but has now
+> >> evolved/specialized into something of its own. I can imagine sharing
+> >> some code among the various subsystems, say GEM/TTM internals for memo=
+ry
+> >> management. Besides that there's probably little that can be shared in
+> >> the userspace interfaces. A GPU is device that puts an image onto the
+> >> screen and an AI accelerator isn't.
+> >
+> > But it isn't. A GPU is a device that has a kernel-arbitrated MMU
+> > hosting kernel-managed buffers, executes user-supplied compiled
+> > programs with reference to those buffers and other jobs, and informs
+> > the kernel about progress.
+> >
+> > KMS lies under the same third-level directory, but even when GPU and
+> > display are on the same die, they're totally different IP blocks
+> > developed on different schedules which are just periodically glued
+> > together.
+>
+> I mentioned this elsewhere: it's not about the chip architecture, it's
+> about the UAPI. In the end, the GPU is about displaying things on a
+> screen. Even if the rendering and the scanout engines are on different
+> IP blocks. (Or different devices.)
 
-If 32-bit apps are not supported, there should be no need of 32-bit 
-shadow stack write, otherwise there is a bug.
+Sure, but that's ignoring the reality there there's enormous amounts
+of code needed to make this rendering possible. All of which keeps
+existing if you take away the display, use your gpu to do compute,
+throw out the the raster and texture fetch blocks and rebalance your
+compute units to be much faster at the bfloat16 and u8 math (or
+whatever it is the NN people love today) than fp32, where traditional
+render gpus are kind. At that point you have a NN/AI chip, and like
+Daniel Stone says, the difference here is often much smaller than the
+difference between drm/lima and drm/amdgpu. Which at least on the 3d
+side happen to share large chunks of our stack (more sharing in
+userspace than the kernel, but still quite some sharing overall in
+concepts and code).
 
-[...]
+There's overall substantially more code to make this work than the
+modeset drivers you think are the corner stone of a gpu driver.
 
->> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
->> index d387df84b7f1..48a0c87414ef 100644
->> --- a/arch/x86/kernel/shstk.c
->> +++ b/arch/x86/kernel/shstk.c
->> @@ -20,6 +20,7 @@
->>   #include <asm/fpu/xstate.h>
->>   #include <asm/fpu/types.h>
->>   #include <asm/cet.h>
->> +#include <asm/special_insns.h>
->>   
->>   static void start_update_msrs(void)
->>   {
->> @@ -176,3 +177,128 @@ void shstk_disable(void)
->>   
->>   	shstk_free(current);
->>   }
->> +
->> +static unsigned long _get_user_shstk_addr(void)
-> 
-> What's the "_" prefix in the name supposed to denote?
-> 
-> Ditto for the other functions with "_" prefix you're adding.
-> 
+Also if you want to do broad strokes refactoring like pulling the
+memory management/command submission stuff out of drm, then the right
+thing would be to pull the modeset stuff out and merge it with maybe
+v4l. modesetting was a 10 years later addition to drm, this entire
+thing started with memory/command submission management.
 
-These are static functions.  I thought that would make the static scope 
-clear.  I can remove "_".
+And a lot of people got rather mad that the drm folks reinvented their
+own modeset api and didn't use one of the existing ones. We eclipsed
+them by now with atomic support, so somewhat moot point now, but not
+when it landed 10 years ago.
 
->> +{
->> +	struct fpu *fpu = &current->thread.fpu;
->> +	unsigned long ssp = 0;
->> +
->> +	fpregs_lock();
->> +
->> +	if (fpregs_state_valid(fpu, smp_processor_id())) {
->> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
->> +	} else {
->> +		struct cet_user_state *p;
->> +
->> +		p = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
->> +		if (p)
->> +			ssp = p->user_ssp;
->> +	}
->> +
->> +	fpregs_unlock();
-> 
-> <---- newline here.
-> 
->> +	return ssp;
->> +}
->> +
->> +#define TOKEN_MODE_MASK	3UL
->> +#define TOKEN_MODE_64	1UL
->> +#define IS_TOKEN_64(token) (((token) & TOKEN_MODE_MASK) == TOKEN_MODE_64)
->> +#define IS_TOKEN_32(token) (((token) & TOKEN_MODE_MASK) == 0)
-> 
-> Why do you have to look at the second, busy bit, too in order to
-> determine the mode?
-> 
+> The fact that one can do general purpose computing on a GPU is a
+> byproduct of the evolution of graphics hardware. It never was the goal.
 
-If the busy bit is set, it is only for SAVEPREVSSP, and invalid as a 
-normal restore token.
+I think we've crossed now the point where 50% of gpu sales are
+displayless. It stopped being a byproduct long ago and became the main
+goal in many areas and markets.
 
-> Also, you don't need most of those defines - see below.
-> 
->> +/*
->> + * Create a restore token on the shadow stack.  A token is always 8-byte
->> + * and aligned to 8.
->> + */
->> +static int _create_rstor_token(bool ia32, unsigned long ssp,
->> +			       unsigned long *token_addr)
->> +{
->> +	unsigned long addr;
->> +
->> +	*token_addr = 0;
-> 
-> What for? Callers should check this function's retval and then interpret
-> the validity of token_addr and it should not unconditionally write into
-> it.
-> 
+But also the core of drivers/gpu _is_ the memory management stuff.
+That's what this subsystem has been doing for 20 years or so by now.
+The modeset stuff is a comparitively recent addition (but has grown a
+lot thanks to tons of new drivers that landed and fbdev essentially
+dying).
 
-Ok.
+> >> Treating both as the same, even if
+> >> they share similar chip architectures, seems like a stretch. They migh=
+t
+> >> evolve in different directions and fit less and less under the same
+> >> umbrella.
+> >
+> > Why not? All we have in common in GPU land right now is MMU + buffer
+> > references + job scheduling + synchronisation. None of this has common
+> > top-level API, or even a common top-level model. It's not just ISA
+> > differences, but we have very old-school devices where the kernel
+> > needs to register fill on every job, living next to middle-age devices
+> > where the kernel and userspace co-operate to fill a ring buffer,
+> > living next to modern devices where userspace does some stuff and then
+> > the hardware makes it happen with the bare minimum of kernel
+> > awareness.
+>
+> I see all this as an example why AI should not live under gpu/. There
+> are already many generations of GPUs with different feature sets
+> supported. Why lump more behind the same abstractions if AI can take a
+> fresh start? Why should we care about AI and why should AI care about
+> all our legacy.
 
->> +
->> +	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
-> 
-> Flip this logic:
-> 
-> 	if ((ia32 && !IS_ALIGNED(ssp, 4)) || !IS_ALIGNED(ssp, 8))
-> 
->> +		return -EINVAL;
->> +
->> +	addr = ALIGN_DOWN(ssp, 8) - 8;
-> 
-> Yah, so this is weird. Why does the restore token need to be at -8
-> instead on the shadow stack address itself?
+Fresh start here means "ignore all the lessons learned from 20 years
+of accelerator driver hacking" I think.
 
-With the lower two bits masked out, the restore token must point 
-directly above itself.
+> We can still share all the internal code if AI needs any of it.
+> Meanwhile AI drivers can provide their own UAPIs until a common
+> framework emerges.
 
-> 
-> Looking at
-> 
-> Figure 18-2. RSTORSSP to Switch to New Shadow Stack
-> Figure 18-3. SAVEPREVSSP to Save a Restore Point
-> 
-> in the SDM, it looks like unnecessarily more complex than it should be.
-> But maybe there's some magic I'm missing.
-> 
->> +
->> +	/* Is the token for 64-bit? */
->> +	if (!ia32)
->> +		ssp |= TOKEN_MODE_64;
-> 
-> 		    |= BIT(0);
-> 
+Again the no 1 lesson of writing accel drivers is that you need the
+fully open userspace stack, or it's game over long term. No amount of
+"we'll share code later on" will save you from that, because that's
+just not going to be an option. There's a few other lessons like you
+don't actually want to have a standardized uapi for the accelerator
+command submission and memory management, but there are some
+standardized approaches that make sense (we've probably tried them
+all).
 
-Ok, then, we don't use #define's.  I will put in comments about what it 
-is doing, and fix the rest.
+This has nothing to do with how you organize the kernel subsystem, but
+all about how you set up the overall driver stack. Of which the
+userspace side is the important part.
 
-Thanks,
-Yu-cheng
+And back to your point that display is the main reason why drivers/gpu
+exists: None of this has anything to do with display, but is exactly
+what the render _accelerator_ part of dri-devel has been doing for a
+rather long time by now. Which is why other accelarators should
+probably do the same thing instead of going "nah we're different,
+there's no DP output connected to our accelator".
+
+Cheers, Daniel
+
+PS: Also there are NN chips with DP/HDMI ports thrown in for the lolz.
+Turns out that these NN things are pretty useful when building video
+processing pipelines.
+
+> Again, just my 2 cents.
+>
+> Best regards
+> Thomas
+>
+> >
+> > Honestly I think there's more difference between lima and amdgpu then
+> > there is between amdgpu and current NN/ML devices.
+> >
+> > Cheers,
+> > Daniel
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
