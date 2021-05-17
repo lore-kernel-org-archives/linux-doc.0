@@ -2,137 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57782C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:00:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77977C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:12:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F10560FF0
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:00:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FE996121F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:12:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235354AbhEQICI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 04:02:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41552 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235692AbhEQIBS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 04:01:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0FC66105A;
-        Mon, 17 May 2021 08:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621238402;
-        bh=P4h/zP4hu3xUeYH1FCb7Jn+H1STMmMvvHTnVqyKxP9Y=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=fghbKWNQxTrJdalIvKxa78I7kaT56lZbLJl6dwQA0tfnzaRfdHeJ1x8M8SbTmXM4i
-         H3tmpXCkgbo+IQy54+SxpO3SHvmZzKzWO1LtPc/axqPejNlFGKEcW7Wr5BMz77gmdq
-         WpbEV8bTTVPHxhxDWgQi08LSqu/jCcTDUJj0s3Yw=
-Date:   Mon, 17 May 2021 10:00:00 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>,
-        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-Message-ID: <YKIigHrwqp8zd036@kroah.com>
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <YJ42MEgwDZrAEQLl@kroah.com>
- <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
- <YKIeBdwFb9Ng275X@phenom.ffwll.local>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKIeBdwFb9Ng275X@phenom.ffwll.local>
+        id S229755AbhEQIN7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 04:13:59 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:56512 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230507AbhEQIN7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 04:13:59 -0400
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH+93JaJgzDYYAA--.19893S2;
+        Mon, 17 May 2021 16:12:40 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Documentation: checkpatch: add description if no filenames are given
+Date:   Mon, 17 May 2021 16:12:39 +0800
+Message-Id: <1621239159-21139-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf9DxH+93JaJgzDYYAA--.19893S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4Dtw4xXryUtry7JryxZrb_yoWkGwcEkr
+        45tFs5WryxJrWUt3Z0yF4rXrW2vw45Zw18Awn5ZryDZ34F9a98XFZ7Kr9Fyr1UCrW29Fnx
+        Cw45Za90yFs7AjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb2AYjsxI4VWkCwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
+        C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr
+        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8ZwCF04k2
+        0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
+        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
+        IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+        AIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+        x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j2WlgUUUUU=
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 17, 2021 at 09:40:53AM +0200, Daniel Vetter wrote:
-> On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
-> > On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > > On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
-> > > > Dear kernel maintainers,
-> > > >
-> > > > This submission is a kernel driver to support Intel(R) Gaussian & Neural
-> > > > Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
-> > > > available on multiple Intel platforms. AI developers and users can offload
-> > > > continuous inference workloads to an Intel(R) GNA device in order to free
-> > > > processor resources and save power. Noise reduction and speech recognition
-> > > > are the examples of the workloads Intel(R) GNA deals with while its usage
-> > > > is not limited to the two.
-> > >
-> > > How does this compare with the "nnpi" driver being proposed here:
-> > >         https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
-> > >
-> > > Please work with those developers to share code and userspace api and
-> > > tools.  Having the community review two totally different apis and
-> > > drivers for the same type of functionality from the same company is
-> > > totally wasteful of our time and energy.
-> > 
-> > Agreed, but I think we should go further than this and work towards a
-> > subsystem across companies for machine learning and neural networks
-> > accelerators for both inferencing and training.
-> 
-> We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or
-> think G as in General, not Graphisc.
-> 
-> > We have support for Intel habanalabs hardware in drivers/misc, and there are
-> > countless hardware solutions out of tree that would hopefully go the same
-> > way with an upstream submission and open source user space, including
-> > 
-> > - Intel/Mobileye EyeQ
-> > - Intel/Movidius Keembay
-> > - Nvidia NVDLA
-> > - Gyrfalcon Lightspeeur
-> > - Apple Neural Engine
-> > - Google TPU
-> > - Arm Ethos
-> > 
-> > plus many more that are somewhat less likely to gain fully open source
-> > driver stacks.
-> 
-> We also had this entire discussion 2 years ago with habanalabs. The
-> hang-up is that drivers/gpu folks require fully open source userspace,
-> including compiler and anything else you need to actually use the chip.
-> Greg doesn't, he's happy if all he has is the runtime library with some
-> tests.
+After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
+if no filenames are given, it will read patch from stdin rather than exit
+directly, it is a bit confusing whether the script hangs, I do not quite
+know what to do next until I understood the code logic.
 
-All you need is a library, what you write on top of that is always
-application-specific, so how can I ask for "more"?
+It is unnecessary to print some info if no filenames are given, because it
+is like trying to make cat without command line arguments emit something,
+just add description for somebody that actually reads the available kernel
+documentation on checkpatch.
 
-> These two drivers here look a lot more like classic gpus than habanalabs
-> did, at least from a quick look they operate with explicit buffer
-> allocations/registration model. So even more reasons to just reuse all the
-> stuff we have already. But also I don't expect these drivers here to come
-> with open compilers, they never do, not initially at least before you
-> started talking with the vendor. Hence I expect there'll be more
-> drivers/totally-not-drm acceleration subsystem nonsense.
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ Documentation/dev-tools/checkpatch.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-As these are both from Intel, why aren't they using the same open
-compiler?  Why aren't they using the same userspace api as well?  What's
-preventing them from talking to each other about this and not forcing
-the community (i.e. outsiders) from being the one to force this to
-happen?
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index 51fed1b..3eb9ead 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -22,6 +22,8 @@ Usage::
+ 
+   ./scripts/checkpatch.pl [OPTION]... [FILE]...
+ 
++When FILE is -, or absent, checkpatch reads from standard input.
++
+ Available options:
+ 
+  - -q,  --quiet
+-- 
+2.1.0
 
-> Anyway this horse has been throughroughly beaten to death and more, the
-> agreement is that accel drivers in drivers/misc must not use any gpu
-> stuff, so that drivers/gpu people dont end up in a prickly situation they
-> never signed up for. E.g. I removed some code sharing from habanalabs.
-> This means interop between gpu and nn/ai drivers will be no-go until this
-> is resolved, but *shrug*.
-
-I'm all for making this unified, but these are not really devices doing
-graphics so putting it all into DRM always feels wrong to me.  The fact
-that people abuse GPU devices for not graphic usages would indicate to
-me that that code should be moving _out_ of the drm subsystem :)
-
-thanks,
-
-greg k-h
