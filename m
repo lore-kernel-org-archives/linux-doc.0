@@ -2,171 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DD0C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 11:55:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B710C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 12:04:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C65DC61184
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 11:55:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FB85611CC
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 12:04:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236859AbhEQL4e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 07:56:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbhEQL4d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 07:56:33 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B9C0C061573;
-        Mon, 17 May 2021 04:55:17 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id gb21-20020a17090b0615b029015d1a863a91so5421839pjb.2;
-        Mon, 17 May 2021 04:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ofjIyFEqH+7WozIJCmE480eSgTaWZPmeSBdcRECXJis=;
-        b=mXO7ZhJSPfKtHLNKVr4WDbaAtD3yrYXItsdqwovHZLBQocO8KZfsR0ipDkbzw+DJLn
-         wddLb82NK8mf4owZm3C05Q1Fz9PY0Feb7O4GcyYjnok6RRzBZhgaKpJZvpdWE+WEaB36
-         04UvBwhgf4FJMuxnmRzN59Zb5C2prGWlRiBAoutaMWiOZIWph7MqUV/mZYWtK3V4AbVc
-         WVzLki5u2g4lzEMjPrREOyu73aDdaiuwDksQL47ePsT8GnUoErl7QkzqnmMgcn041iEn
-         HSTZ+SQsAUXc+RMxP9qPy+LnJJc8KtysIpJTHCgLWZdzrBec3q7KyPm2lk0Fft18X04T
-         q1ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ofjIyFEqH+7WozIJCmE480eSgTaWZPmeSBdcRECXJis=;
-        b=E0LrSH2Qj/YW1AkE2TkHXUOb7VHprQ7YGT020Ttl/gH5tM8kTNySyv/NGpWdyIRyMx
-         MJpw9+i09R+hTd31pdQf5aAJQNBbUukbXs0ll19PH31hkE1TxoruFqd1iIboaEIL2NGu
-         ox/pKr4v6RFl0pT/Rv1E4dP2QJFQFcKs0QDiN1B1VGhJKOWYY8XQBfxL1RAV8AfOpBoQ
-         1AqFwPQ2J/HMzwarsdTyUhmGvC6iIg9oOyOJ0Xk66wS8XrCTidVLbBTvNyTE9DAsSetw
-         SNqhNvbciRLc0dP4D2s45tcKTryFJL6sbjEFkFJ3vbby21EUtUcKVr1QdsBoOuKkta03
-         LR/g==
-X-Gm-Message-State: AOAM530A5pCY2fPOY87yGCCaD/oz5wgSWfymOzm/Brb3IaQCyAZ10Yt+
-        EZ6cZ5V+8R12cJ5gwTH7p2yH323fcC4SWw==
-X-Google-Smtp-Source: ABdhPJxb7dGfS/9MSFW7k9eaStxevFWdaq8ErD2qNHtOT9Hyj1xP+ujvKramZmfeRAPGo2+oZK7iPQ==
-X-Received: by 2002:a17:903:20cc:b029:f0:cc11:51c2 with SMTP id i12-20020a17090320ccb02900f0cc1151c2mr9847849plb.32.1621252516720;
-        Mon, 17 May 2021 04:55:16 -0700 (PDT)
-Received: from localhost (g1.222-224-229.ppp.wakwak.ne.jp. [222.224.229.1])
-        by smtp.gmail.com with ESMTPSA id e1sm10534600pgl.25.2021.05.17.04.55.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 04:55:16 -0700 (PDT)
-From:   Stafford Horne <shorne@gmail.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     jirislaby@kernel.org, Stafford Horne <shorne@gmail.com>,
-        Florent Kermarrec <florent@enjoy-digital.fr>,
-        Mateusz Holenko <mholenko@antmicro.com>,
-        Joel Stanley <joel@jms.id.au>,
-        "Gabriel L . Somlo" <gsomlo@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Karol Gugala <kgugala@antmicro.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-doc@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: [PATCH v2] serial: liteuart: Add support for earlycon
-Date:   Mon, 17 May 2021 20:54:52 +0900
-Message-Id: <20210517115453.24365-1-shorne@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        id S236921AbhEQMFt convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 08:05:49 -0400
+Received: from foss.arm.com ([217.140.110.172]:49458 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236859AbhEQMFr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 08:05:47 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D3CE113E;
+        Mon, 17 May 2021 05:04:31 -0700 (PDT)
+Received: from e113632-lin (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3AD163F73B;
+        Mon, 17 May 2021 05:04:30 -0700 (PDT)
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Beata Michalska <beata.michalska@arm.com>,
+        linux-kernel@vger.kernel.org
+Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] sched/topology: Rework CPU capacity asymmetry detection
+In-Reply-To: <1621239831-5870-3-git-send-email-beata.michalska@arm.com>
+References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com> <1621239831-5870-3-git-send-email-beata.michalska@arm.com>
+Date:   Mon, 17 May 2021 13:04:25 +0100
+Message-ID: <87mtst1s8m.mognet@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Most litex boards using RISC-V soft cores us the sbi earlycon, however
-this is not available for non RISC-V litex SoC's.  This patch enables
-earlycon for liteuart which is available on all Litex SoC's making
-support for earycon debugging more widely available.
+On 17/05/21 09:23, Beata Michalska wrote:
+> Currently the CPU capacity asymmetry detection, performed through
+> asym_cpu_capacity_level, tries to identify the lowest topology level
+> at which the highest CPU capacity is being observed, not necessarily
+> finding the level at which all possible capacity values are visible
+> to all CPUs, which might be bit problematic for some possible/valid
+> asymmetric topologies i.e.:
+>
+> DIE      [                                ]
+> MC       [                       ][       ]
+>
+> CPU       [0] [1] [2] [3] [4] [5]  [6] [7]
+> Capacity  |.....| |.....| |.....|  |.....|
+>            L	     M       B        B
+>
+> Where:
+>  arch_scale_cpu_capacity(L) = 512
+>  arch_scale_cpu_capacity(M) = 871
+>  arch_scale_cpu_capacity(B) = 1024
+>
+> In this particular case, the asymmetric topology level will point
+> at MC, as all possible CPU masks for that level do cover the CPU
+> with the highest capacity. It will work just fine for the first
+> cluster, not so much for the second one though (consider the
+> find_energy_efficient_cpu which might end up attempting the energy
+> aware wake-up for a domain that does not see any asymmetry at all)
+>
+> Rework the way the capacity asymmetry levels are being detected,
+> allowing to point to the lowest topology level (for a given CPU), where
+> full range of available CPU capacities is visible to all CPUs within given
+> domain. As a result, the per-cpu sd_asym_cpucapacity might differ across
+> the domains. This will have an impact on EAS wake-up placement in a way
+> that it might see different rage of CPUs to be considered, depending on
+> the given current and target CPUs.
+>
+> Additionally, those levels, where any range of asymmetry (not
+> necessarily full) is being detected will get identified as well.
+> The selected asymmetric topology level will be denoted by
+> SD_ASYM_CPUCAPACITY_FULL sched domain flag whereas the 'sub-levels'
+> would receive the already used SD_ASYM_CPUCAPACITY flag. This allows
+> maintaining the current behaviour for asymmetric topologies, with
+> misfit migration operating correctly on lower levels, if applicable,
+> as any asymmetry is enough to trigger the misfit migration.
+> The logic there relies on the SD_ASYM_CPUCAPACITY flag and does not
+> relate to the full asymmetry level denoted by the sd_asym_cpucapacity
+> pointer.
+>
+> Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
 
-Signed-off-by: Stafford Horne <shorne@gmail.com>
-Cc: Florent Kermarrec <florent@enjoy-digital.fr>
-Cc: Mateusz Holenko <mholenko@antmicro.com>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: Gabriel L. Somlo <gsomlo@gmail.com>
-Reviewed-and-tested-by: Gabriel Somlo <gsomlo@gmail.com>
----
-Changes since v1:
- - Fixed subject
- - Fixed ifdef and config issues pointed out by Jiri
- - Use liteuart_putchar instead of early_liteuart_putc
+That does look quite simpler :-)
 
- .../admin-guide/kernel-parameters.txt         |  5 +++++
- drivers/tty/serial/Kconfig                    |  1 +
- drivers/tty/serial/liteuart.c                 | 21 +++++++++++++++++++
- 3 files changed, 27 insertions(+)
+A lesson for me as a reviewer here is to resist biting into the nitty
+gritty code details and spend more time on a first conceptual / high level
+review pass. It's not the first time I'm guilty of it, so I do need to work
+on that.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 04545725f187..2d4a43af8de2 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1084,6 +1084,11 @@
- 			the driver will use only 32-bit accessors to read/write
- 			the device registers.
- 
-+		liteuart,<addr>
-+			Start an early console on a litex serial port at the
-+			specified address. The serial port must already be
-+			setup and configured. Options are not yet supported.
-+
- 		meson,<addr>
- 			Start an early, polled-mode console on a meson serial
- 			port at the specified address. The serial port must
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index 0c4cd4a348f4..af41e534483c 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -1550,6 +1550,7 @@ config SERIAL_LITEUART_CONSOLE
- 	bool "LiteUART serial port console support"
- 	depends on SERIAL_LITEUART=y
- 	select SERIAL_CORE_CONSOLE
-+	select SERIAL_EARLYCON
- 	help
- 	  Say 'Y' or 'M' here if you wish to use the FPGA-based LiteUART serial
- 	  controller from LiteX SoC builder as the system console
-diff --git a/drivers/tty/serial/liteuart.c b/drivers/tty/serial/liteuart.c
-index 64842f3539e1..1b75a4bf7c56 100644
---- a/drivers/tty/serial/liteuart.c
-+++ b/drivers/tty/serial/liteuart.c
-@@ -370,6 +370,27 @@ static int __init liteuart_console_init(void)
- 	return 0;
- }
- console_initcall(liteuart_console_init);
-+
-+static void early_liteuart_write(struct console *console, const char *s,
-+				    unsigned int count)
-+{
-+	struct earlycon_device *device = console->data;
-+	struct uart_port *port = &device->port;
-+
-+	uart_console_write(port, s, count, liteuart_putchar);
-+}
-+
-+static int __init early_liteuart_setup(struct earlycon_device *device,
-+				       const char *options)
-+{
-+	if (!device->port.membase)
-+		return -ENODEV;
-+
-+	device->con->write = early_liteuart_write;
-+	return 0;
-+}
-+
-+OF_EARLYCON_DECLARE(liteuart, "litex,liteuart", early_liteuart_setup);
- #endif /* CONFIG_SERIAL_LITEUART_CONSOLE */
- 
- static int __init liteuart_init(void)
--- 
-2.31.1
+> ---
+>  kernel/sched/topology.c | 129 +++++++++++++++++++++++++++++-------------------
+>  1 file changed, 79 insertions(+), 50 deletions(-)
+>
+> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+> index 55a0a24..81957f7 100644
+> --- a/kernel/sched/topology.c
+> +++ b/kernel/sched/topology.c
+> @@ -675,7 +675,7 @@ static void update_top_cache_domain(int cpu)
+>       sd = highest_flag_domain(cpu, SD_ASYM_PACKING);
+>       rcu_assign_pointer(per_cpu(sd_asym_packing, cpu), sd);
+>
+> -	sd = lowest_flag_domain(cpu, SD_ASYM_CPUCAPACITY);
+> +	sd = lowest_flag_domain(cpu, SD_ASYM_CPUCAPACITY_FULL);
+>       rcu_assign_pointer(per_cpu(sd_asym_cpucapacity, cpu), sd);
+>  }
+>
+> @@ -1989,66 +1989,96 @@ static bool topology_span_sane(struct sched_domain_topology_level *tl,
+>
+>       return true;
+>  }
+> -
+> +/**
+> + * Asym capacity bits
 
+Nit: Dietmar would have us phrase this "Asymmetric CPU capacity bits".
+
+> + */
+> +struct asym_cap_data {
+> +	struct list_head link;
+> +	unsigned long    capacity;
+> +	struct cpumask   *cpu_mask;
+> +};
+
+> +/*
+> + * Verify whether given CPU at a given topology level belongs to a sched domain
+> + * that does span CPUs with different capacities.
+> + * Provides sd_flags reflecting the asymmetry scope.
+> + */
+> +static inline int
+> +asym_cpu_capacity_classify(struct sched_domain_topology_level *tl, int cpu)
+> +{
+> +	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
+> +	const struct cpumask *tl_mask = tl->mask(cpu);
+> +	struct asym_cap_data *entry;
+> +	int asym_cap_count = 0;
+> +
+> +	if (list_is_singular(&asym_cap_list))
+> +		goto leave;
+> +
+> +	list_for_each_entry(entry, &asym_cap_list, link) {
+> +		if (cpumask_intersects(tl_mask, entry->cpu_mask))
+> +			++asym_cap_count;
+
+Ah, this is using tl->mask() which *isn't* masked by the root_domain's
+cpu_map...
+
+See comment below on the scan; long story short we could issue this *after*
+build_sched_domain() so we can directly use sched_domain_span(sd) which
+*is* masked by the cpu_map. This kind of removes the need for that dflags
+param, but then we're already sidestepping it for SD_OVERLAP.
+
+EDIT: nope, we have a check against SD_ASYM_CPUCAPACITY in sd_init()... I
+guess we could issue asym_cpu_capacity_classify() in sd_init() itself?
+
+> +/*
+> + * Build-up/update list of CPUs grouped by their capacities
+> + */
+> +static void asym_cpu_capacity_scan(const struct cpumask *cpu_map)
+> +{
+> +	struct asym_cap_data *entry, *next;
+> +	int cpu;
+>
+> -		for_each_sd_topology(tl) {
+> -			if (tl_id < asym_level)
+> -				goto next_level;
+> +	if (!list_empty(&asym_cap_list))
+> +		list_for_each_entry(entry, &asym_cap_list, link)
+> +			cpumask_clear(entry->cpu_mask);
+>
+
+The topology isn't going to change between domain rebuilds, so why
+recompute the masks? The sched_domain spans are already masked by cpu_map,
+so no need to do this masking twice. I'm thinking this scan should be done
+once against the cpu_possible_mask - kinda like sched_init_numa() done once
+against the possible nodes.
+
+Ideally I'd see this as an __init function, unfortunately we need that to
+happen after cpufreq drivers have been loaded (in case all CPUs have same
+µarch but some can reach higher frequencies, which would yield asymmetry),
+and some of those can be built as modules :/
+
+> +		entry = kzalloc(sizeof(*entry) + cpumask_size(), GFP_KERNEL);
+> +		if (entry) {
+> +			entry->capacity = capacity;
+> +			entry->cpu_mask = (struct cpumask *)((char *)entry +
+> +					   sizeof(*entry));
+> +			list_add(&entry->link, &asym_cap_list);
+>               }
+> +		WARN_ONCE(!entry,
+> +		    "Failed to allocate memory for capacity asymmetry detection\n");
+> +next:
+> +		__cpumask_set_cpu(cpu, entry->cpu_mask);
+
+That looks like a NULL deref if the above WARN is hit.
