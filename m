@@ -2,187 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F29ACC43460
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A60DC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:30:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF1E9611BF
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:14:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F110611ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:30:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236149AbhEQJQH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 05:16:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53460 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236001AbhEQJOc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 05:14:32 -0400
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF68C061343
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 02:12:56 -0700 (PDT)
-Received: by mail-oi1-x22e.google.com with SMTP id z3so5858570oib.5
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 02:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gfSGgq8Bw634jos2BhPIYD1MCiKr2MgkE0Xb4Qf8U2M=;
-        b=VZAIk70QX6PShxHjY+RskDqCQ+sq+dfLgQxruSlP9A4jtbpZmS6QMo0MCd5599CT+x
-         MA75Mk5rqZMKVmQjye41lzWVs5vf4YiPYQYJlWxmclZKKURgXnJccs+rODdJdwYDffC3
-         l2uDzVge0MacxdZNpKFYQOwD8Sqa6YmtGY1XI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gfSGgq8Bw634jos2BhPIYD1MCiKr2MgkE0Xb4Qf8U2M=;
-        b=CBE3E9Ap79grnomg5UkKxQP5iqYwRUmgip71O7s5tKgu3bMjLrIEXU0zia0afI4EBZ
-         XhI3I8mhSMYj6nUl0AEmsQOfi7rYXeI81/HPFn6MIQIy32BxB7Iyv5bZUzZ4nxQVTiw2
-         KbNkPjywaz2q6FDljizyBnLLz89VX68sdExqwKN5w0oluapngtnKUatOZ0B3djqwhR4R
-         /xgnzv2rIRE/CKy3grKnfUw4NInTd5lLa4TX0XXfSU9L21O4MXTYw5jSX/U9KOcwNu23
-         /n5iAtazdlh/dZo8f7+xE0tMzNfA/RvykFHrHfpUWHge99r5xFBxSA3U7H/aG52oSJVP
-         lgVg==
-X-Gm-Message-State: AOAM5303S+NxgeLYWfFvEfAnwmHpR9hi2QSgTwNO2Q7Cnxd15wvTW5ZS
-        uuKAco5yxtlqwCQhlQf/1idVzyghJWJTSI1X06VTdw==
-X-Google-Smtp-Source: ABdhPJzA/Mbq6QuZJW7ON5tHEzjjR1Uqmvq7FwE+r5JmMAtM5hk52qJgoxuO8UGzC9OZmRdQUUpvXVwpqPi06KEa86o=
-X-Received: by 2002:a54:4809:: with SMTP id j9mr14630807oij.14.1621242775675;
- Mon, 17 May 2021 02:12:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <YJ42MEgwDZrAEQLl@kroah.com> <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
- <YKIeBdwFb9Ng275X@phenom.ffwll.local> <YKIigHrwqp8zd036@kroah.com>
- <CAKMK7uEg2khb7wDzHTGEPwfbYe+T_5Av=_BTnt91CBW5U4yWvg@mail.gmail.com> <YKIvh9wbrOnd1yvj@kroah.com>
-In-Reply-To: <YKIvh9wbrOnd1yvj@kroah.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Mon, 17 May 2021 11:12:44 +0200
-Message-ID: <CAKMK7uFsQTjPfpgEFqyxnD1k-zoQHYbGH72Gmu7MML1qcFj0Kg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>,
-        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S235919AbhEQJbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 05:31:22 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:49086 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S236004AbhEQJbV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 05:31:21 -0400
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv++aN6JgBEUYAA--.3368S2;
+        Mon, 17 May 2021 17:30:02 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] Documentation: checkpatch: add description if no filenames are given
+Date:   Mon, 17 May 2021 17:30:00 +0800
+Message-Id: <1621243800-27702-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf9Dxv++aN6JgBEUYAA--.3368S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4Dtw4xXF1Utw4xuFW7urg_yoWDJFgEyr
+        4UJF98WF97Jry5tFn0yr4rXr12v3y5Zr18Awn8Ar98A34Yk398XFZrKr9rAr1UCrWj9F9x
+        Cw4UZFZ8Ars2yjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb2xYjsxI4VWkCwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I
+        8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJw
+        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r4fMxAIw28I
+        cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI
+        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
+        IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+        87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxT5dDUUUU
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 17, 2021 at 10:55 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Mon, May 17, 2021 at 10:49:09AM +0200, Daniel Vetter wrote:
-> > On Mon, May 17, 2021 at 10:00 AM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Mon, May 17, 2021 at 09:40:53AM +0200, Daniel Vetter wrote:
-> > > > On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
-> > > > > On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
-> > > > > <gregkh@linuxfoundation.org> wrote:
-> > > > > > On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
-> > > > > > > Dear kernel maintainers,
-> > > > > > >
-> > > > > > > This submission is a kernel driver to support Intel(R) Gaussian & Neural
-> > > > > > > Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
-> > > > > > > available on multiple Intel platforms. AI developers and users can offload
-> > > > > > > continuous inference workloads to an Intel(R) GNA device in order to free
-> > > > > > > processor resources and save power. Noise reduction and speech recognition
-> > > > > > > are the examples of the workloads Intel(R) GNA deals with while its usage
-> > > > > > > is not limited to the two.
-> > > > > >
-> > > > > > How does this compare with the "nnpi" driver being proposed here:
-> > > > > >         https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
-> > > > > >
-> > > > > > Please work with those developers to share code and userspace api and
-> > > > > > tools.  Having the community review two totally different apis and
-> > > > > > drivers for the same type of functionality from the same company is
-> > > > > > totally wasteful of our time and energy.
-> > > > >
-> > > > > Agreed, but I think we should go further than this and work towards a
-> > > > > subsystem across companies for machine learning and neural networks
-> > > > > accelerators for both inferencing and training.
-> > > >
-> > > > We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or
-> > > > think G as in General, not Graphisc.
-> > > >
-> > > > > We have support for Intel habanalabs hardware in drivers/misc, and there are
-> > > > > countless hardware solutions out of tree that would hopefully go the same
-> > > > > way with an upstream submission and open source user space, including
-> > > > >
-> > > > > - Intel/Mobileye EyeQ
-> > > > > - Intel/Movidius Keembay
-> > > > > - Nvidia NVDLA
-> > > > > - Gyrfalcon Lightspeeur
-> > > > > - Apple Neural Engine
-> > > > > - Google TPU
-> > > > > - Arm Ethos
-> > > > >
-> > > > > plus many more that are somewhat less likely to gain fully open source
-> > > > > driver stacks.
-> > > >
-> > > > We also had this entire discussion 2 years ago with habanalabs. The
-> > > > hang-up is that drivers/gpu folks require fully open source userspace,
-> > > > including compiler and anything else you need to actually use the chip.
-> > > > Greg doesn't, he's happy if all he has is the runtime library with some
-> > > > tests.
-> >
-> > I guess we're really going to beat this horse into pulp ... oh well.
-> >
-> > > All you need is a library, what you write on top of that is always
-> > > application-specific, so how can I ask for "more"?
-> >
-> > This is like accepting a new cpu port, where all you require is that
-> > the libc port is open source, but the cpu compiler is totally fine as
-> > a blob (doable with llvm now being supported). It makes no sense at
-> > all, at least to people who have worked with accelerators like this
-> > before.
-> >
-> > We are not requiring that applications are open. We're only requiring
-> > that at least one of the compilers you need (no need to open the fully
-> > optimized one with all the magic sauce) to create any kind of
-> > applications is open, because without that you can't use the device,
-> > you can't analyze the stack, and you have no idea at all about what
-> > exactly it is you're merging. With these devices, the uapi visible in
-> > include/uapi is the smallest part of the interface exposed to
-> > userspace.
->
-> Ok, sorry, I was not aware that the habanalabs compiler was not
-> available to all under an open source license.  All I was trying to
-> enforce was that the library to use the kernel api was open so that
-> anyone could use it.  Trying to enforce compiler requirements like this
-> might feel to be a bit of a reach as the CPU on the hardware really
-> doesn't fall under the license of the operating system running on this
-> CPU over here :)
+After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
+if no filenames are given, it will read patch from stdin rather than exit
+directly. This means the script waits for input indefinitely, which
+confuses new checkpatch users at first.
 
-Experience says if you don't, forget about supporting your
-drivers/subsystem long-term. At best you're stuck with a per-device
-fragmented mess that vendors might or might not support. This has
-nothing to do with GPL licensing or not, but about making sure you can
-do proper engineering/support/review of the driver stack. At least in
-the GPU world we're already making it rather clear that running blobby
-userspace is fine with us (as long as it's using the exact same uapi
-as the truly open stack, no exceptions/hacks/abuse are supported).
+Add some basic documentation on this behaviour of checkpatch to lower
+the confusion.
 
-Also yes vendors don't like it. But they also don't like that they
-have to open source their kernel drivers, or runtime library. Lots of
-background chats over years, and a very clear line in the sand helps
-to get there, and also makes sure that the vendors who got here don't
-return to the old closed source ways they love so much.
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
 
-Anyway we've had all this discussions 2 years ago, nothing has changed
-(well on the gpu side we managed to get ARM officially on board with
-fully open stack paid by them meanwhile, other discussions still
-ongoing). I just wanted to re-iterate that if we'd really care about
-having a proper accel subsystem, there's people who've been doing this
-for decades.
+v3: Update the commit message, thank you Lukas.
 
--Daniel
+ Documentation/dev-tools/checkpatch.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index 51fed1b..3eb9ead 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -22,6 +22,8 @@ Usage::
+ 
+   ./scripts/checkpatch.pl [OPTION]... [FILE]...
+ 
++When FILE is -, or absent, checkpatch reads from standard input.
++
+ Available options:
+ 
+  - -q,  --quiet
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.1.0
+
