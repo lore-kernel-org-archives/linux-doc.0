@@ -2,394 +2,458 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F41BC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 13:22:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C0BC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 13:28:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CA1561108
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 13:22:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85E6D61185
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 13:28:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235851AbhEQNXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 09:23:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235821AbhEQNXV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 09:23:21 -0400
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD03C061573
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 06:22:04 -0700 (PDT)
-Received: by mail-oo1-xc2f.google.com with SMTP id v13-20020a4aa40d0000b02902052145a469so1461540ool.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 06:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=wHNqCI0u6xf43BwN7cWogaUMqZuuIsJsTigm/VhfmTc=;
-        b=lvdsLVXq/rWTt2kh6TxsgcbTI/2Wkp8iZQSDSwxK+wQySw2yCopE1xH52o+4mk/rbf
-         hn4ebXR2JwAaPgIYfcZih6uVtz8wBpVPS2Rjree7/eZdu+KefxWT74bAo6Hr+5YP5No1
-         5tlcldtkGtDmoOiY9BiAd3gSwJX4kVsdkphl66KvANLqB9k5CU8mUvbq/NCZkkU6M8pj
-         hTtIFiCRFxDbdhbMXNpxm3z3XIyhvw+m7gh7Y5d825ah2hHMF8F2vwGmd9cimKYaqIvc
-         V3XoolRlxC9yh+uZlA4LGej1mhbBj826Mc+V2A6l5Sw+Ua+cuU6WGYrUt/qhEBykhDQt
-         uhQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wHNqCI0u6xf43BwN7cWogaUMqZuuIsJsTigm/VhfmTc=;
-        b=hb78mgIbnDM7CfXQYeY1KhcqZJARUoSJt98DzUnPSSjXUZQaD0FDbzWLtmiADs87GB
-         hptPyDRog1a215Hj3HXwMBaq4Bnpek2LuBZOAXh2iAiemNPSQ/1f8oF+0jSt+RXwdBhJ
-         ocwW9P40PrNXVs2CWMPxt/4SWqIlweSrp+eZoXSqQqfbLVTtUd3UhrSDV5AMz1VLY4nd
-         l/JxmENvq0CiCdr8ik5tNhc2QzJZnrD67h0qb3LHTWcMyOdMfAi8U7RZ+Pm7sedE17s3
-         KGj9nfH+Xjar6lh1Ot0hnmFL3RKdmwGQndZV7mjP04lvbMgukuQ0Rx5QASV1fbdIoatk
-         gshA==
-X-Gm-Message-State: AOAM533wXqaIm9YDQ8t1XwkssB2Nq/qZ8Kgm7rxs8WfM+pCZEVToD95I
-        Lx44ftnJ/xFPc1jYRkOY/sLfuxU7j/CDlt2IlKk=
-X-Google-Smtp-Source: ABdhPJytTYRKejx9Zl/pqS8fgbAuA8HqPaMII5MTvL0LYV8zn2bWXtGpzkGVGoaD2qEElCY3YW12aji7EQeamYAqUOo=
-X-Received: by 2002:a4a:d543:: with SMTP id q3mr46798570oos.72.1621257723951;
- Mon, 17 May 2021 06:22:03 -0700 (PDT)
+        id S235913AbhEQNaK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 09:30:10 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:43520 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235885AbhEQNaK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 09:30:10 -0400
+Received: from localhost.localdomain (unknown [112.20.109.240])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxicmMb6JgSG0YAA--.37346S2;
+        Mon, 17 May 2021 21:28:45 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, huangjianghui@uniontech.com,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v6] docs/zh_CN: add core-api workqueue.rst translation
+Date:   Mon, 17 May 2021 21:29:27 +0800
+Message-Id: <20210517132927.3461185-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210517130906.3445287-1-siyanteng@loongson.cn>
-In-Reply-To: <20210517130906.3445287-1-siyanteng@loongson.cn>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Mon, 17 May 2021 21:21:54 +0800
-Message-ID: <CAEensMxkvjLHUJh=t4_A8Z5j6NcBmukb+4MFyw1SJG9igeG7oA@mail.gmail.com>
-Subject: Re: [PATCH v5] docs/zh_CN: add core-api workqueue.rst translation
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, huangjianghui@uniontech.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9CxicmMb6JgSG0YAA--.37346S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3KFWfWF18Zr45JF1UAFW3GFg_yoW8CFyUto
+        WYya1Ykr1UG3W5Xa4S9anxJrWUCr1fCrWIvws29r1avF1Uu3s5W3WkCa1aqry3ArWrKF43
+        WF18Xay5A3W7Xasrn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUY67AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
+        x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWx
+        JVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+        Y2ka0xkIwI1lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+        1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+        b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+        vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1l
+        IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+        C2KfnxnUUI43ZEXa7VUjHGQDUUUUU==
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgYWxsDQoNClNvcnJ5LCBUaGlzIHBhdGNoIHNob3VsZCBiZSB2Ni4gUGxlYXNlIGlnbm9yZSBp
-dO+8jEkgd2lsbCByZXNlbmQgaXQgbGF0ZXIuDQoNClRoYW5rcywNCllhbnRlbmcNCg0KWWFudGVu
-ZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPiDkuo4yMDIx5bm0NeaciDE35pel5ZGo5LiAIOS4
-i+WNiDk6MDjlhpnpgZPvvJoNCj4NCj4gVGhpcyBwYXRjaCB0cmFuc2xhdGVzIERvY3VtZW50YXRp
-b24vY29yZS1hcGkvd29ya3F1ZXVlLnJzdCBpbnRvIENoaW5lc2UuDQo+DQo+IFNpZ25lZC1vZmYt
-Ynk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gUmV2aWV3ZWQtYnk6IEFs
-ZXggU2hpIDxhbGV4c0BrZXJuZWwub3JnPg0KPiAtLS0NCj4gdjU6DQo+DQo+ICogV3JpdHRpbmcg
-Q2hhbmdlbG9nIHVuZGVyIHRocmVlIGRhc2hlcygtLS0pDQo+DQo+IHY0Og0KPg0KPiAqIGZpeCBi
-dWlsZCB3YXJuaW5ncy4NCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtZG9jL0NBRWVu
-c016TDMxTHEyTlRWQzc0aGZReVB5KzdtVGQ9NzRwNUtrYW1mNExaX0dBaWVMQUBtYWlsLmdtYWls
-LmNvbS9ULyN0DQo+DQo+ICogbm90ZToNCj4gVGhpcyBwYXRjaCBzaG91bGQgYmUgYW0gYWZ0ZXIg
-dGhlIHNldDoNCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtZG9jL2NvdmVyLjE2MjEw
-NjI1NzcuZ2l0LnNpeWFudGVuZ0Bsb29uZ3Nvbi5jbi9ULyN0DQo+DQo+IHYzOg0KPg0KPiAqIFBp
-Y2sgQWxleCdTIHJldmlldy1ieSB0YWcuDQo+DQo+IHYyOg0KPg0KPiAqU29tZSBiYWQgdHJhbnNs
-YXRpb25zIGhhdmUgYmVlbiBtb2RpZmllZCBhcyBzdWdnZXN0ZWQgYnkgQWxleC5UaGFuayB5b3Ug
-Zm9yIHlvdXIgcmV2aWV3Lg0KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1kb2MvQ0FF
-ZW5zTXdxPWkrbmVrNnNOZXFPSkpNWTY0OFE5WkY4Y1RLcFhkSlZ1cWRRUW5NV1V3QG1haWwuZ21h
-aWwuY29tL1QvI3QNCj4NCj4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgu
-cnN0ICAgICB8ICAgMiArLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS93b3Jr
-cXVldWUucnN0IHwgMzM3ICsrKysrKysrKysrKysrKysrKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAz
-MzggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERv
-Y3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL3dvcmtxdWV1ZS5yc3QNCj4N
-Cj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBp
-L2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2lu
-ZGV4LnJzdA0KPiBpbmRleCBjMmQ0NjE0ZDllNjguLjM0YmU5YjI1Y2ZhMSAxMDA2NDQNCj4gLS0t
-IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0DQo+
-ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2luZGV4LnJz
-dA0KPiBAQCAtMjUsOSArMjUsOSBAQA0KPiAgICAga2VybmVsLWFwaQ0KPiAgICAgcHJpbnRrLWJh
-c2ljcw0KPiAgICAgcHJpbnRrLWZvcm1hdHMNCj4gKyAgIHdvcmtxdWV1ZQ0KPg0KPiAgVG9kb2xp
-c3Q6DQo+IC0gICB3b3JrcXVldWUNCj4gICAgIHN5bWJvbC1uYW1lc3BhY2VzDQo+DQo+ICDmlbDm
-ja7nu5PmnoTlkozkvY7nuqflrp7nlKjnqIvluo8NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
-b24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL3dvcmtxdWV1ZS5yc3QgYi9Eb2N1bWVudGF0
-aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS93b3JrcXVldWUucnN0DQo+IG5ldyBmaWxl
-IG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAwMC4uMGI4ZjczMGRiNmMwDQo+IC0tLSAv
-ZGV2L251bGwNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1h
-cGkvd29ya3F1ZXVlLnJzdA0KPiBAQCAtMCwwICsxLDMzNyBAQA0KPiArLi4gU1BEWC1MaWNlbnNl
-LUlkZW50aWZpZXI6IEdQTC0yLjANCj4gKy4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NO
-LnJzdA0KPiArDQo+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vY29yZS1hcGkvd29ya3F1ZXVl
-LnJzdA0KPiArOlRyYW5zbGF0b3I6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4N
-Cj4gKw0KPiArLi4gX2NuX3dvcmtxdWV1ZS5yc3Q6DQo+ICsNCj4gKw0KPiArPT09PT09PT09PT09
-PT09PT09PT09PT09PQ0KPiAr5bm25Y+R566h55CG55qE5bel5L2c6Zif5YiXIChjbXdxKQ0KPiAr
-PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiArDQo+ICs65pel5pyfOiBTZXB0ZW1iZXIsIDIw
-MTANCj4gKzrkvZzogIU6IFRlanVuIEhlbyA8dGpAa2VybmVsLm9yZz4NCj4gKzrkvZzogIU6IEZs
-b3JpYW4gTWlja2xlciA8ZmxvcmlhbkBtaWNrbGVyLm9yZz4NCj4gKw0KPiArDQo+ICvnroDku4sN
-Cj4gKz09PT0NCj4gKw0KPiAr5Zyo5b6I5aSa5oOF5Ya15LiL77yM6ZyA6KaB5LiA5Liq5byC5q2l
-6L+b56iL55qE5omn6KGM546v5aKD77yM5bel5L2c6Zif5YiX77yId3HvvIlBUEnmmK/ov5nnp43m
-g4XlhrXkuIsNCj4gK+acgOW4uOeUqOeahOacuuWItuOAgg0KPiArDQo+ICvlvZPpnIDopoHov5nm
-oLfkuIDkuKrlvILmraXmiafooYzkuIrkuIvmlofml7bvvIzkuIDkuKrmj4/ov7DlsIbopoHmiafo
-oYznmoTlh73mlbDnmoTlt6XkvZzpobnvvIh3b3Jr77yMDQo+ICvljbPkuIDkuKrlvoXmiafooYzn
-moTku7vliqHvvInooqvmlL7lnKjpmJ/liJfkuK3jgILkuIDkuKrni6znq4vnmoTnur/nqIvkvZzk
-uLrlvILmraXmiafooYznjq/looPjgILor6XpmJ8NCj4gK+WIl+iiq+ensOS4undvcmtxdWV1Ze+8
-jOe6v+eoi+iiq+ensOS4uuW3peS9nOiAhe+8iHdvcmtlcu+8jOWNs+aJp+ihjOi/meS4gOmYn+WI
-l+eahOe6v+eoi++8ieOAgg0KPiArDQo+ICvlvZPlt6XkvZzpmJ/liJfkuIrmnInlt6XkvZzpobnm
-l7bvvIzlt6XkvZzogIXkvJrkuIDkuKrmjqXkuIDkuKrlnLDmiafooYzkuI7lt6XkvZzpobnnm7jl
-hbPnmoTlh73mlbDjgILlvZMNCj4gK+W3peS9nOmYn+WIl+S4reayoeacieS7u+S9leW3peS9nOmh
-ueaXtu+8jOW3peS9nOiAheWwseS8muWPmOW+l+epuumXsuOAguW9k+S4gOS4quaWsOeahOW3peS9
-nOmhueiiq+aOkuWFpQ0KPiAr6Zif5YiX5pe277yM5bel5L2c6ICF5Y+I5byA5aeL5omn6KGM44CC
-DQo+ICsNCj4gKw0KPiAr5Li65LuA5LmI6KaBY213cT8NCj4gKz09PT09PT09PT09PT0NCj4gKw0K
-PiAr5Zyo5pyA5Yid55qEd3Hlrp7njrDkuK3vvIzlpJrnur/nqIvvvIhNVO+8iXdx5Zyo5q+P5Liq
-Q1BV5LiK5pyJ5LiA5Liq5bel5L2c6ICF57q/56iL77yM6ICM5Y2V57q/56iLDQo+ICvvvIhTVO+8
-iXdx5Zyo5YWo57O757uf5pyJ5LiA5Liq5bel5L2c6ICF57q/56iL44CC5LiA5LiqTVQgd3HpnIDo
-poHkv53mjIHkuI5DUFXmlbDph4/nm7jlkIznmoTlt6UNCj4gK+S9nOiAheaVsOmHj+OAgui/meS6
-m+W5tOadpe+8jOWGheaguOWinuWKoOS6huW+iOWkmk1UIHdx55qE55So5oi377yM6ZqP552AQ1BV
-5qC45b+D5pWw6YeP55qE5LiN5patDQo+ICvlop7liqDvvIzkuIDkupvns7vnu5/liJrlkK/liqjl
-sLHovr7liLDkuobpu5jorqTnmoQzMmsgUElE55qE6aWx5ZKM56m66Ze044CCDQo+ICsNCj4gK+Ww
-veeuoU1UIHdx5rWq6LS55LqG5aSn6YeP55qE6LWE5rqQ77yM5L2G5omA5o+Q5L6b55qE5bm25Y+R
-5oCn5rC05bmz5Y205LiN6IO95Luk5Lq65ruh5oSP44CC6L+Z5Liq6ZmQDQo+ICvliLblnKhTVOWS
-jE1UIHdx5Lit6YO95pyJ77yM5Y+q5piv5ZyoTVTkuK3msqHmnInpgqPkuYjkuKXph43jgILmr4/k
-uKp3cemDveS/neaMgeedgOiHquW3seeLrOeri+eahA0KPiAr5bel5L2c6ICF5rGg44CC5LiA5Liq
-TVQgd3Hlj6rog73kuLrmr4/kuKpDUFXmj5DkvpvkuIDkuKrmiafooYznjq/looPvvIzogIzkuIDk
-uKpTVCB3ceWImeS4uuaVtOS4qg0KPiAr57O757uf5o+Q5L6b5LiA5Liq44CC5bel5L2c6aG55b+F
-6aG756ue5LqJ6L+Z5Lqb6Z2e5bi45pyJ6ZmQ55qE5omn6KGM5LiK5LiL5paH77yM5LuO6ICM5a+8
-6Ie05ZCE56eN6Zeu6aKY77yMDQo+ICvljIXmi6zlnKjljZXkuIDmiafooYzkuIrkuIvmloflkajl
-m7TlrrnmmJPlj5HnlJ/mrbvplIHjgIINCj4gKw0KPiArKE1UIHdxKeaJgOaPkOS+m+eahOW5tuWP
-keaAp+awtOW5s+WSjOi1hOa6kOS9v+eUqOS5i+mXtOeahOefm+ebvuS5n+i/q+S9v+WFtueUqOaI
-t+WBmuWHuuS4jeW/heimgeeahOadg+ihoe+8jOavlA0KPiAr5aaCbGliYXRh6YCJ5oup5L2/55So
-U1Qgd3HmnaXova7or6JQSU/vvIzlubbmjqXlj5fkuIDkuKrkuI3lv4XopoHnmoTpmZDliLbvvIzl
-jbPmsqHmnInkuKTkuKrova4NCj4gK+ivolBJT+WPr+S7peWQjOaXtui/m+ihjOOAgueUseS6jk1U
-IHdx5bm25rKh5pyJ5o+Q5L6b5pu05aW955qE5bm25Y+R5oCn77yM6ZyA6KaB5pu06auY5bGC5qyh
-55qE5bm2DQo+ICvlj5HmgKfnmoTnlKjmiLfvvIzlpoJhc3luY+aIlmZzY2FjaGXvvIzkuI3lvpfk
-uI3lrp7njrDku5bku6zoh6rlt7HnmoTnur/nqIvmsaDjgIINCj4gKw0KPiAr5bm25Y+R566h55CG
-5bel5L2c6Zif5YiX77yIY213ce+8ieaYr+WvuXdx55qE6YeN5paw5a6e546w77yM6YeN54K55piv
-5Lul5LiL55uu5qCH44CCDQo+ICsNCj4gKyog5L+d5oyB5LiO5Y6f5aeL5bel5L2c6Zif5YiXQVBJ
-55qE5YW85a655oCn44CCDQo+ICsNCj4gKyog5L2/55So55Sx5omA5pyJd3HlhbHkuqvnmoTmr49D
-UFXnu5/kuIDnmoTlt6XkvZzogIXmsaDvvIzlnKjkuI3mtarotLnlpKfph4/otYTmupDnmoTmg4Xl
-hrXkuIvmjIkNCj4gKyog6ZyA5o+Q5L6b54G15rS755qE5bm25Y+R5rC05bmz44CCDQo+ICsNCj4g
-Kyog6Ieq5Yqo6LCD6IqC5bel5L2c6ICF5rGg5ZKM5bm25Y+R5rC05bmz77yM5L2/QVBJ55So5oi3
-5LiN6ZyA6KaB5ouF5b+D6L+Z5Lqb57uG6IqC44CCDQo+ICsNCj4gKw0KPiAr6K6+6K6hDQo+ICs9
-PT09DQo+ICsNCj4gK+S4uuS6hueugOWMluWHveaVsOeahOW8guatpeaJp+ihjO+8jOW8leWFpeS6
-huS4gOS4quaWsOeahOaKveixoeamguW/te+8jOWNs+W3peS9nOmhueOAgg0KPiArDQo+ICvkuIDk
-uKrlt6XkvZzpobnmmK/kuIDkuKrnroDljZXnmoTnu5PmnoTvvIzlroPmjIHmnInkuIDkuKrmjIfl
-kJHlsIbooqvlvILmraXmiafooYznmoTlh73mlbDnmoTmjIfpkojjgIINCj4gK+avj+W9k+S4gOS4
-qumpseWKqOeoi+W6j+aIluWtkOezu+e7n+W4jOacm+S4gOS4quWHveaVsOiiq+W8guatpeaJp+ih
-jOaXtu+8jOWug+W/hemhu+W7uueri+S4gOS4quaMhw0KPiAr5ZCR6K+l5Ye95pWw55qE5bel5L2c
-6aG577yM5bm25Zyo5bel5L2c6Zif5YiX5Lit5o6S6Zif562J5b6F6K+l5bel5L2c6aG544CC77yI
-5bCx5piv5oyC5Yiwd29ya3F1ZXVlDQo+ICvpmJ/liJfph4zpnaLljrvvvIkNCj4gKw0KPiAr54m5
-5a6a55uu55qE57q/56iL77yM56ew5Li65bel5L2c57q/56iL77yI5bel5L2c6ICF77yJ77yM5LiA
-5Liq5o6l5LiA5Liq5Zyw5omn6KGM6Zif5YiX5Lit55qE5Yqf6IO944CCDQo+ICvlpoLmnpzmsqHm
-nInlt6XkvZzpobnmjpLpmJ/vvIzlt6XkvZzogIXnur/nqIvlsLHkvJrpl7Lnva7jgILov5nkupvl
-t6XkvZzogIXnur/nqIvooqvnrqHnkIblnKjmiYDosJMNCj4gK+eahOW3peS9nOiAheaxoOS4reOA
-gg0KPiArDQo+ICtjbXdx6K6+6K6h5Yy65YiG5LqG6Z2i5ZCR55So5oi355qE5bel5L2c6Zif5YiX
-77yM5a2Q57O757uf5ZKM6amx5Yqo56iL5bqP5Zyo5LiK6Z2i5o6S6Zif5bel5L2c77yMDQo+ICvk
-u6Xlj4rnrqHnkIblt6XkvZzogIXmsaDlkozlpITnkIbmjpLpmJ/lt6XkvZzpobnnmoTlkI7nq6/m
-nLrliLbjgIINCj4gKw0KPiAr5q+P5Liq5Y+v6IO955qEQ1BV6YO95pyJ5Lik5Liq5bel5L2c6ICF
-5rGg77yM5LiA5Liq55So5LqO5q2j5bi455qE5bel5L2c6aG577yM5Y+m5LiA5Liq55So5LqO6auY
-DQo+ICvkvJjlhYjnuqfnmoTlt6XkvZzpobnvvIzov5jmnInkuIDkupvpop3lpJbnmoTlt6XkvZzo
-gIXmsaDvvIznlKjkuo7mnI3liqHmnKrnu5Hlrprlt6XkvZzpmJ/liJfnmoTlt6UNCj4gK+S9nOmh
-ueebruKAlOKAlOi/meS6m+WQjuWkh+axoOeahOaVsOmHj+aYr+WKqOaAgeeahOOAgg0KPiArDQo+
-ICvlvZPku5bku6zorqTkuLrlkIjpgILnmoTml7blgJnvvIzlrZDns7vnu5/lkozpqbHliqjnqIvl
-uo/lj6/ku6XpgJrov4fnibnmrornmoQNCj4gK2Bgd29ya3F1ZXVlIEFQSWBgIOWHveaVsOWIm+W7
-uuWSjOaOkumYn+W3peS9nOmhueOAguS7luS7rOWPr+S7pemAmui/h+WcqOW3peS9nOmYn+WIl+S4
-ig0KPiAr6K6+572u5qCH5b+X5p2l5b2x5ZON5bel5L2c6aG55omn6KGM5pa55byP55qE5p+Q5Lqb
-5pa56Z2i77yM5LuW5Lus5oqK5bel5L2c6aG55pS+5Zyo6YKj6YeM44CC6L+Z5LqbDQo+ICvmoIfl
-v5fljIXmi6zor7jlpoJDUFXlrprkvY3jgIHlubblj5HpmZDliLbjgIHkvJjlhYjnuqfnrYnnrYnj
-gILopoHojrflvpfor6bnu4bnmoTmpoLov7DvvIzor7flj4INCj4gK+iAg+S4i+mdoueahCBgYGFs
-bG9jX3dvcmtxdWV1ZSgpYGAg55qEIEFQSSDmj4/ov7DjgIINCj4gKw0KPiAr5b2T5LiA5Liq5bel
-5L2c6aG56KKr5o6S5YWl5LiA5Liq5bel5L2c6Zif5YiX5pe277yM55uu5qCH5bel5L2c5rGg5bCG
-5qC55o2u6Zif5YiX5Y+C5pWw5ZKM5bel5L2c6ZifDQo+ICvliJflsZ7mgKfnoa7lrprvvIzlubbo
-oqvpmYTliqDliLDlt6XkvZzmsaDnmoTlhbHkuqvlt6XkvZzliJfooajkuIrjgILkvovlpoLvvIzp
-maTpnZ7nibnliKvph43lhpnvvIwNCj4gK+WQpuWImeS4gOS4que7keWumueahOW3peS9nOmYn+WI
-l+eahOW3peS9nOmhueWwhuiiq+aOkuWcqOS4juWPkei1t+e6v+eoi+i/kOihjOeahENQVeebuOWF
-s+eahOaZrg0KPiAr6YCa5oiW6auY57qn5bel5L2c5bel5L2c6ICF5rGg55qE5bel5L2c6aG55YiX
-6KGo5Lit44CCDQo+ICsNCj4gK+WvueS6juS7u+S9leW3peS9nOiAheaxoOeahOWunuaWve+8jOeu
-oeeQhuW5tuWPkeawtOW5s++8iOacieWkmuWwkeaJp+ihjOS4iuS4i+aWh+WkhOS6jua0u+WKqOeK
-tg0KPiAr5oCB77yJ5piv5LiA5Liq6YeN6KaB6Zeu6aKY44CC5pyA5L2O5rC05bmz5piv5Li65LqG
-6IqC55yB6LWE5rqQ77yM6ICM6aWx5ZKM5rC05bmz5piv5oyH57O757uf6KKrDQo+ICvlhYXliIbk
-vb/nlKjjgIINCj4gKw0KPiAr5q+P5Liq5LiO5a6e6ZmFQ1BV57uR5a6a55qEd29ya2VyLXBvb2zp
-gJrov4fpkqnkvY/osIPluqblmajmnaXlrp7njrDlubblj5HnrqHnkIbjgILmr4/lvZMNCj4gK+S4
-gOS4qua0u+WKqOeahOW3peS9nOiAheiiq+WUpOmGkuaIluedoeecoOaXtu+8jOW3peS9nOiAheax
-oOWwseS8muW+l+WIsOmAmuefpe+8jOW5tui3n+i4quW9k+WJjeWPrw0KPiAr6L+Q6KGM55qE5bel
-5L2c6ICF55qE5pWw6YeP44CC5LiA6Iis5p2l6K+077yM5bel5L2c6aG55LiN5Lya5Y2g55SoQ1BV
-5bm25raI6ICX5b6I5aSa5ZGo5pyf44CC6L+ZDQo+ICvmhI/lkbPnnYDkv53mjIHotrPlpJ/nmoTl
-ubblj5HmgKfku6XpmLLmraLlt6XkvZzlpITnkIblgZzmu57lupTor6XmmK/mnIDkvJjnmoTjgILl
-j6ropoFDUFXkuIrmnIkNCj4gK+S4gOS4quaIluWkmuS4quWPr+i/kOihjOeahOW3peS9nOiAhe+8
-jOW3peS9nOiAheaxoOWwseS4jeS8muW8gOWni+aJp+ihjOaWsOeahOW3peS9nO+8jOS9huaYr++8
-jOW9kw0KPiAr5pyA5ZCO5LiA5Liq6L+Q6KGM55qE5bel5L2c6ICF6L+b5YWl552h55yg54q25oCB
-5pe277yM5a6D5Lya56uL5Y2z5a6J5o6S5LiA5Liq5paw55qE5bel5L2c6ICF77yM6L+ZDQo+ICvm
-oLdDUFXlsLHkuI3kvJrlnKjmnInlvoXlpITnkIbnmoTlt6XkvZzpobnnm67ml7bpl7Lnva7jgILo
-v5nlhYHorrjlnKjkuI3mjZ/lpLHmiafooYzluKblrr3nmoTmg4UNCj4gK+WGteS4i+S9v+eUqOac
-gOWwkeeahOW3peS9nOiAheOAgg0KPiArDQo+ICvpmaTkuoZrdGhyZWFkc+eahOWGheWtmOepuumX
-tOWklu+8jOS/neeVmeepuumXsueahOW3peS9nOiAheW5tuayoeacieWFtuS7luaIkOacrO+8jOaJ
-gOS7pWNtd3ENCj4gK+WcqOadgOatu+Wug+S7rOS5i+WJjeS8muS/neeVmeS4gOauteaXtumXtOea
-hOepuumXsuOAgg0KPiArDQo+ICvlr7nkuo7pnZ7nu5HlrprnmoTlt6XkvZzpmJ/liJfvvIzlkI7l
-pIfmsaDnmoTmlbDph4/mmK/liqjmgIHnmoTjgILlj6/ku6Xkvb/nlKgNCj4gK2BgYXBwbHlfd29y
-a3F1ZXVlX2F0dHJzKClgYCDkuLrpnZ7nu5Hlrprlt6XkvZzpmJ/liJfliIbphY3oh6rlrprkuYnl
-sZ7mgKfvvIwNCj4gK3dvcmtxdWV1ZeWwhuiHquWKqOWIm+W7uuS4juWxnuaAp+ebuOWMuemFjeea
-hOWQjuWkh+W3peS9nOiAheaxoOOAguiwg+iKguW5tuWPkeawtOW5s+eahOi0o+S7u+WcqA0KPiAr
-55So5oi36Lqr5LiK44CC5Lmf5pyJ5LiA5Liq5qCH5b+X5Y+v5Lul5bCG57uR5a6a55qEd3HmoIfo
-rrDkuLrlv73nlaXlubblj5HnrqHnkIbjgIINCj4gK+ivpuaDheivt+WPguiAg0FQSemDqOWIhuOA
-gg0KPiArDQo+ICvliY3ov5vov5vluqbnmoTkv53or4Hkvp3otZbkuo7lvZPpnIDopoHmm7TlpJrn
-moTmiafooYzkuIrkuIvmlofml7blj6/ku6XliJvlu7rlt6XkvZzogIXvvIzov5nkuZ/mmK8NCj4g
-K+mAmui/h+S9v+eUqOaVkeaPtOW3peS9nOiAheadpeS/neivgeeahOOAguaJgOacieWPr+iDveWc
-qOWkhOeQhuWGheWtmOWbnuaUtueahOS7o+eggei3r+W+hOS4iuS9v+eUqA0KPiAr55qE5bel5L2c
-6aG56YO96ZyA6KaB5Zyod3HkuIrmjpLpmJ/vvIx3ceS4iuS/neeVmeS6huS4gOS4quaVkeaPtOW3
-peS9nOiAhe+8jOS7peS+v+WcqOWGheWtmOacieWOiw0KPiAr5Yqb55qE5oOF5Ya15LiL5LiL5omn
-6KGM44CC5ZCm5YiZ77yM5bel5L2c6ICF5rGg5bCx5pyJ5Y+v6IO95Ye6546w5q276ZSB77yM562J
-5b6F5omn6KGM5LiK5LiL5paH6YeKDQo+ICvmlL7lh7rmnaXjgIINCj4gKw0KPiArDQo+ICvlupTn
-lKjnqIvluo/nvJbnqIvmjqXlj6MgKEFQSSkNCj4gKz09PT09PT09PT09PT09PT09PT09PT0NCj4g
-Kw0KPiArYGBhbGxvY193b3JrcXVldWUoKWBgIOWIhumFjeS6huS4gOS4qndx44CC5Y6f5p2l55qE
-IGBgY3JlYXRlXyp3b3JrcXVldWUoKWBgDQo+ICvlh73mlbDlt7Looqvlup/lvIPvvIzlubborqHl
-iJLliKDpmaTjgIIgYGBhbGxvY193b3JrcXVldWUoKWBgIOmcgOimgeS4ieS4qg0KPiAr5Y+C5pWw
-IC0gYGBAbmFtZWBgICwgYGBAZmxhZ3NgYCDlkowgYGBAbWF4X2FjdGl2ZWBgIOOAgg0KPiArYGBA
-bmFtZWBgIOaYr3dx55qE5ZCN56ew77yM5aaC5p6c5pyJ55qE6K+d77yM5Lmf55So5L2c5pWR5o+0
-57q/56iL55qE5ZCN56ew44CCDQo+ICsNCj4gK+S4gOS4qndx5LiN5YaN566h55CG5omn6KGM6LWE
-5rqQ77yM6ICM5piv5L2c5Li65YmN6L+b6L+b5bqm5L+d6K+B44CB5Yi35pawKGZsdXNoKeWSjA0K
-PiAr5bel5L2c6aG55bGe5oCn55qE5Z+f44CCIGBgQGZsYWdzYGAg5ZKMIGBgQG1heF9hY3RpdmVg
-YCDmjqfliLbnnYDlt6XkvZwNCj4gK+mhueWmguS9leiiq+WIhumFjeaJp+ihjOi1hOa6kOOAgeWu
-ieaOkuWSjOaJp+ihjOOAgg0KPiArDQo+ICsNCj4gK2BgZmxhZ3NgYA0KPiArLS0tLS0tLS0tDQo+
-ICsNCj4gK2BgV1FfVU5CT1VORGBgDQo+ICsgIOaOkumYn+WIsOmdnue7keWumndx55qE5bel5L2c
-6aG555Sx54m55q6K55qE5bel5L2c6ICF5rGg5o+Q5L6b5pyN5Yqh77yM6L+Z5Lqb5bel5L2c6ICF
-5LiNDQo+ICsgIOe7keWumuWcqOS7u+S9leeJueWumueahENQVeS4iuOAgui/meS9v+W+l3dx6KGo
-546w5b6X5YOP5LiA5Liq566A5Y2V55qE5omn6KGM546v5aKD5o+QDQo+ICsgIOS+m+iAhe+8jOay
-oeacieW5tuWPkeeuoeeQhuOAgumdnue7keWumuW3peS9nOiAheaxoOivleWbvuWwveW/q+W8gOWn
-i+aJp+ihjOW3peS9nOmhueOAgumdng0KPiArICDnu5HlrprnmoR3ceeJuueJsuS6huWxgOmDqOaA
-p++8jOS9huWcqOS7peS4i+aDheWGteS4i+aYr+acieeUqOeahOOAgg0KPiArDQo+ICsgICog6aKE
-6K6h5bm25Y+R5rC05bmz6KaB5rGC5Lya5pyJ5b6I5aSn55qE5rOi5Yqo77yM5L2/55So57uR5a6a
-55qEd3HmnIDnu4jlj6/og73kvJrlnKjkuI0NCj4gKyAgICDlkIznmoRDUFXkuIrkuqfnlJ/lpKfp
-h4/lpKfpg6jliIbmnKrkvb/nlKjnmoTlt6XkvZzogIXvvIzlm6DkuLrlj5Hotbfnur/nqIvlnKjk
-uI3lkIwNCj4gKyAgICDnmoRDUFXkuIrot7PovazjgIINCj4gKw0KPiArICAqIOmVv+acn+i/kOih
-jOeahENQVeWvhumbhuWei+W3peS9nOi0n+i9ve+8jOWPr+S7peeUseezu+e7n+iwg+W6puWZqOab
-tOWlveWcsOeuoeeQhuOAgg0KPiArDQo+ICtgYFdRX0ZSRUVaQUJMRWBgDQo+ICsgIOS4gOS4quWP
-r+WGu+e7k+eahHdx5Y+C5LiO5LqG57O757uf5pqC5YGc5pON5L2c55qE5Ya757uT6Zi25q6144CC
-d3HkuIrnmoTlt6XkvZzpobnooqsNCj4gKyAg5o6S56m677yM5Zyo6Kej5Ya75LmL5YmN5rKh5pyJ
-5paw55qE5bel5L2c6aG55byA5aeL5omn6KGM44CCDQo+ICsNCj4gK2BgV1FfTUVNX1JFQ0xBSU1g
-YA0KPiArICDmiYDmnInlj6/og73lnKjlhoXlrZjlm57mlLbot6/lvoTkuK3kvb/nlKjnmoR3cemD
-veW/hemhu+iuvue9rui/meS4quagh+W/l+OAguaXoOiuuuWGhQ0KPiArICDlrZjljovlipvlpoLk
-vZXvvIx3cemDveiDveS/neivgeiHs+WwkeacieS4gOS4quaJp+ihjOS4iuS4i+aWh+OAgg0KPiAr
-DQo+ICtgYFdRX0hJR0hQUklgYA0KPiArICDpq5jkvJjlhYjnuqd3ceeahOW3peS9nOmhueebruii
-q+aOkuWIsOebruagh2NwdeeahOmrmOS8mOWFiOe6p+W3peS9nOiAheaxoOS4reOAgumrmA0KPiAr
-ICDkvJjlhYjnuqfnmoTlt6XkvZzogIXmsaDnlLHlhbfmnInovoPpq5jnuqfliKvnmoTlt6XkvZzo
-gIXnur/nqIvmj5DkvpvmnI3liqHjgIINCj4gKw0KPiArICDor7fms6jmhI/vvIzmma7pgJrlt6Xk
-vZzogIXmsaDlkozpq5jkvJjlhYjnuqflt6XkvZzogIXmsaDkuYvpl7TlubbkuI3nm7jkupLlvbHl
-k43jgILku5YNCj4gKyAg5Lus5ZCE6Ieq57u05oqk5YW254us56uL55qE5bel5L2c6ICF5rGg77yM
-5bm25Zyo5YW25bel5L2c6ICF5LmL6Ze05a6e546w5bm25Y+R566h55CG44CCDQo+ICsNCj4gK2Bg
-V1FfQ1BVX0lOVEVOU0lWRWBgDQo+ICsgIENQVeWvhumbhuWei3dx55qE5bel5L2c6aG55a+55bm2
-5Y+R5rC05bmz5rKh5pyJ6LSh54yu44CC5o2i5Y+l6K+d6K+077yM5Y+v6L+Q6KGM55qEDQo+ICsg
-IENQVeWvhumbhuWei+W3peS9nOmhueS4jeS8mumYu+atouWQjOS4gOW3peS9nOiAheaxoOS4reea
-hOWFtuS7luW3peS9nOmhueW8gOWni+aJp+ihjOOAgg0KPiArICDov5nlr7nkuo7pgqPkupvpooTo
-rqHkvJrljaDnlKhDUFXlkajmnJ/nmoTnu5Hlrprlt6XkvZzpobnlvojmnInnlKjvvIzov5nmoLfl
-roPku6znmoQNCj4gKyAg5omn6KGM5bCx5Lya5Y+X5Yiw57O757uf6LCD5bqm5Zmo55qE55uR566h
-44CCDQo+ICsNCj4gKyAg5bC9566hQ1BV5a+G6ZuG5Z6L5bel5L2c6aG55LiN5Lya5a+55bm25Y+R
-5rC05bmz5YGa5Ye66LSh54yu77yM5L2G5a6D5Lus55qE5omn6KGM5byADQo+ICsgIOWni+S7jeeE
-tuWPl+WIsOW5tuWPkeeuoeeQhueahOeuoeWItu+8jOWPr+i/kOihjOeahOmdnkNQVeWvhumbhuWe
-i+W3peS9nOmhueS8muW7tui/nw0KPiArICBDUFXlr4bpm4blnovlt6XkvZzpobnnmoTmiafooYzj
-gIINCj4gKw0KPiArICDov5nkuKrmoIflv5flr7nkuo7mnKrnu5HlrprnmoR3ceadpeivtOaYr+ay
-oeacieaEj+S5ieeahOOAgg0KPiArDQo+ICvor7fms6jmhI/vvIzmoIflv5cgYGBXUV9OT05fUkVF
-TlRSQU5UYGAg5LiN5YaN5a2Y5Zyo77yM5Zug5Li6546w5Zyo5omA5pyJ55qE5bel5L2cDQo+ICvp
-mJ/liJfpg73mmK/kuI3lj6/pgIbnmoTigJTigJTku7vkvZXlt6XkvZzpobnpg73kv53or4HlnKjk
-u7vkvZXml7bpl7TlhoXmnIDlpJrooqvmlbTkuKrns7vnu5/nmoTkuIANCj4gK+S4quW3peS9nOiA
-heaJp+ihjOOAgg0KPiArDQo+ICsNCj4gK2BgbWF4X2FjdGl2ZWBgDQo+ICstLS0tLS0tLS0tLS0t
-LQ0KPiArDQo+ICtgYEBtYXhfYWN0aXZlYGAg5Yaz5a6a5LqG5q+P5LiqQ1BV5Y+v5Lul5YiG6YWN
-57uZd3HnmoTlt6XkvZzpobnnmoTmnIDlpKfmiafooYzkuIoNCj4gK+S4i+aWh+aVsOmHj+OAguS+
-i+Wmgu+8jOWmguaenCBgYEBtYXhfYWN0aXZl5Li6MTZgYCDvvIzmr4/kuKpDUFXmnIDlpJrlj6/k
-u6XlkIwNCj4gK+aXtuaJp+ihjDE25Liqd3HnmoTlt6XkvZzpobnjgIINCj4gKw0KPiAr55uu5YmN
-77yM5a+55LqO5LiA5Liq57uR5a6a55qEd3HvvIwgYGBAbWF4X2FjdGl2ZWBgIOeahOacgOWkp+mZ
-kOWItuaYrzUxMu+8jOW9k+aMhw0KPiAr5a6a5Li6MOaXtuS9v+eUqOeahOm7mOiupOWAvOaYrzI1
-NuOAguWvueS6jumdnue7keWumueahHdx77yM5YW26ZmQ5Yi25pivNTEy5ZKMDQo+ICs0ICogYGBu
-dW1fcG9zc2libGVfY3B1cygpYGAg5Lit55qE6L6D6auY5YC844CC6L+Z5Lqb5YC86KKr6YCJ5b6X
-6Laz5aSf6auY77yM5omADQo+ICvku6XlroPku6zkuI3mmK/pmZDliLbmgKflm6DntKDvvIzlkIzm
-l7bkvJrlnKjlpLHmjqfmg4XlhrXkuIvmj5Dkvpvkv53miqTjgIINCj4gKw0KPiAr5LiA5Liqd3Hn
-moTmtLvliqjlt6XkvZzpobnnmoTmlbDph4/pgJrluLjnlLF3ceeahOeUqOaIt+adpeiwg+iKgu+8
-jOabtOWFt+S9k+WcsOivtO+8jOaYr+eUseeUqA0KPiAr5oi35Zyo5ZCM5LiA5pe26Ze05Y+v5Lul
-5o6S5YiX5aSa5bCR5Liq5bel5L2c6aG55p2l6LCD6IqC44CC6Zmk6Z2e5pyJ54m55a6a55qE6ZyA
-5rGC5p2l5o6n5Yi25rS75YqoDQo+ICvlt6XkvZzpobnnmoTmlbDph4/vvIzlkKbliJnlu7rorq7m
-jIflrpog5Li6IjAi44CCDQo+ICsNCj4gK+S4gOS6m+eUqOaIt+S+nei1luS6jlNUIHdx55qE5Lil
-5qC85omn6KGM6aG65bqP44CCIGBgQG1heF9hY3RpdmVgYCDkuLox5ZKMIGBgV1FfVU5CT1VORGBg
-DQo+ICvnmoTnu4TlkIjnlKjmnaXlrp7njrDov5nnp43ooYzkuLrjgILov5nnp413ceS4iueahOW3
-peS9nOmhueebruaAu+aYr+iiq+aOkuWIsOacque7keWumueahOW3peS9nOaxoA0KPiAr5Lit77yM
-5bm25LiU5Zyo5Lu75L2V5pe25YCZ6YO95Y+q5pyJ5LiA5Liq5bel5L2c6aG555uu5aSE5LqO5rS7
-5Yqo54q25oCB77yM5LuO6ICM5a6e546w5LiOU1Qgd3Hnm7gNCj4gK+WQjOeahOaOkuW6j+WxnuaA
-p+OAgg0KPiArDQo+ICvlnKjnm67liY3nmoTlrp7njrDkuK3vvIzkuIrov7DphY3nva7lj6rkv53o
-r4HkuobnibnlrppOVU1B6IqC54K55YaF55qEU1TooYzkuLrjgILnm7jlj43vvIwNCj4gK2BgYWxs
-b2Nfb3JkZXJlZF9xdWV1ZSgpYGAg5bqU6K+l6KKr55So5p2l5a6e546w5YWo57O757uf55qEU1To
-oYzkuLrjgIINCj4gKw0KPiArDQo+ICvmiafooYzlnLrmma/npLrkvosNCj4gKz09PT09PT09PT09
-PQ0KPiArDQo+ICvkuIvpnaLnmoTnpLrkvovmiafooYzlnLrmma/or5Xlm77or7TmmI5jbXdx5Zyo
-5LiN5ZCM6YWN572u5LiL55qE6KGM5Li644CCDQo+ICsNCj4gKyDlt6XkvZzpobl3MOOAgXcx44CB
-dzLooqvmjpLliLDlkIzkuIDkuKpDUFXkuIrnmoTkuIDkuKrnu5HlrprnmoR3cSBxMOS4iuOAgncw
-DQo+ICsg5raI6ICXQ1BVIDVtc++8jOeEtuWQjuedoeecoDEwbXPvvIznhLblkI7lnKjlrozmiJDk
-uYvliY3lho3mrKHmtojogJdDUFUgNW1z44CCDQo+ICsNCj4gK+W/veeVpeaJgOacieWFtuS7luea
-hOS7u+WKoeOAgeW3peS9nOWSjOWkhOeQhuW8gOmUgO+8jOW5tuWBh+iuvueugOWNleeahEZJRk/o
-sIPluqbvvIwNCj4gK+S4i+mdouaYr+S4gOS4qumrmOW6pueugOWMlueahOWOn+Wni3dx55qE5Y+v
-6IO95LqL5Lu25bqP5YiX55qE54mI5pys44CCOjoNCj4gKw0KPiArIFRJTUUgSU4gTVNFQ1MgRVZF
-TlQNCj4gKyAwICAgICAgICAgICAgIHcwIHN0YXJ0cyBhbmQgYnVybnMgQ1BVDQo+ICsgNSAgICAg
-ICAgICAgICB3MCBzbGVlcHMNCj4gKyAxNSAgICAgICAgICAgIHcwIHdha2VzIHVwIGFuZCBidXJu
-cyBDUFUNCj4gKyAyMCAgICAgICAgICAgIHcwIGZpbmlzaGVzDQo+ICsgMjAgICAgICAgICAgICB3
-MSBzdGFydHMgYW5kIGJ1cm5zIENQVQ0KPiArIDI1ICAgICAgICAgICAgdzEgc2xlZXBzDQo+ICsg
-MzUgICAgICAgICAgICB3MSB3YWtlcyB1cCBhbmQgZmluaXNoZXMNCj4gKyAzNSAgICAgICAgICAg
-IHcyIHN0YXJ0cyBhbmQgYnVybnMgQ1BVDQo+ICsgNDAgICAgICAgICAgICB3MiBzbGVlcHMNCj4g
-KyA1MCAgICAgICAgICAgIHcyIHdha2VzIHVwIGFuZCBmaW5pc2hlcw0KPiArDQo+ICtBbmQgd2l0
-aCBjbXdxIHdpdGggYGBAbWF4X2FjdGl2ZWBgID49IDMsIDo6DQo+ICsNCj4gKyBUSU1FIElOIE1T
-RUNTIEVWRU5UDQo+ICsgMCAgICAgICAgICAgICB3MCBzdGFydHMgYW5kIGJ1cm5zIENQVQ0KPiAr
-IDUgICAgICAgICAgICAgdzAgc2xlZXBzDQo+ICsgNSAgICAgICAgICAgICB3MSBzdGFydHMgYW5k
-IGJ1cm5zIENQVQ0KPiArIDEwICAgICAgICAgICAgdzEgc2xlZXBzDQo+ICsgMTAgICAgICAgICAg
-ICB3MiBzdGFydHMgYW5kIGJ1cm5zIENQVQ0KPiArIDE1ICAgICAgICAgICAgdzIgc2xlZXBzDQo+
-ICsgMTUgICAgICAgICAgICB3MCB3YWtlcyB1cCBhbmQgYnVybnMgQ1BVDQo+ICsgMjAgICAgICAg
-ICAgICB3MCBmaW5pc2hlcw0KPiArIDIwICAgICAgICAgICAgdzEgd2FrZXMgdXAgYW5kIGZpbmlz
-aGVzDQo+ICsgMjUgICAgICAgICAgICB3MiB3YWtlcyB1cCBhbmQgZmluaXNoZXMNCj4gKw0KPiAr
-5aaC5p6cIGBgQG1heF9hY3RpdmVgYCA9PSAyLCA6Og0KPiArDQo+ICsgVElNRSBJTiBNU0VDUyBF
-VkVOVA0KPiArIDAgICAgICAgICAgICAgdzAgc3RhcnRzIGFuZCBidXJucyBDUFUNCj4gKyA1ICAg
-ICAgICAgICAgIHcwIHNsZWVwcw0KPiArIDUgICAgICAgICAgICAgdzEgc3RhcnRzIGFuZCBidXJu
-cyBDUFUNCj4gKyAxMCAgICAgICAgICAgIHcxIHNsZWVwcw0KPiArIDE1ICAgICAgICAgICAgdzAg
-d2FrZXMgdXAgYW5kIGJ1cm5zIENQVQ0KPiArIDIwICAgICAgICAgICAgdzAgZmluaXNoZXMNCj4g
-KyAyMCAgICAgICAgICAgIHcxIHdha2VzIHVwIGFuZCBmaW5pc2hlcw0KPiArIDIwICAgICAgICAg
-ICAgdzIgc3RhcnRzIGFuZCBidXJucyBDUFUNCj4gKyAyNSAgICAgICAgICAgIHcyIHNsZWVwcw0K
-PiArIDM1ICAgICAgICAgICAgdzIgd2FrZXMgdXAgYW5kIGZpbmlzaGVzDQo+ICsNCj4gK+eOsOWc
-qO+8jOaIkeS7rOWBh+iuvncx5ZKMdzLooqvmjpLliLDkuobkuI3lkIznmoR3cSBxMeS4iu+8jOi/
-meS4qndxIHExDQo+ICvmnIkgYGBXUV9DUFVfSU5URU5TSVZFYGAg6K6+572uOjoNCj4gKw0KPiAr
-IFRJTUUgSU4gTVNFQ1MgRVZFTlQNCj4gKyAwICAgICAgICAgICAgIHcwIHN0YXJ0cyBhbmQgYnVy
-bnMgQ1BVDQo+ICsgNSAgICAgICAgICAgICB3MCBzbGVlcHMNCj4gKyA1ICAgICAgICAgICAgIHcx
-IGFuZCB3MiBzdGFydCBhbmQgYnVybiBDUFUNCj4gKyAxMCAgICAgICAgICAgIHcxIHNsZWVwcw0K
-PiArIDE1ICAgICAgICAgICAgdzIgc2xlZXBzDQo+ICsgMTUgICAgICAgICAgICB3MCB3YWtlcyB1
-cCBhbmQgYnVybnMgQ1BVDQo+ICsgMjAgICAgICAgICAgICB3MCBmaW5pc2hlcw0KPiArIDIwICAg
-ICAgICAgICAgdzEgd2FrZXMgdXAgYW5kIGZpbmlzaGVzDQo+ICsgMjUgICAgICAgICAgICB3MiB3
-YWtlcyB1cCBhbmQgZmluaXNoZXMNCj4gKw0KPiArDQo+ICvmjIfljZcNCj4gKz09PT0NCj4gKw0K
-PiArKiDlpoLmnpzkuIDkuKp3ceWPr+iDveWkhOeQhuWcqOWGheWtmOWbnuaUtuacn+mXtOS9v+eU
-qOeahOW3peS9nOmhueebru+8jOivt+S4jQ0KPiArICDopoHlv5jorrDkvb/nlKggYGBXUV9NRU1f
-UkVDTEFJTWBgIOOAguavj+S4quiuvue9ruS6hg0KPiArICBgYFdRX01FTV9SRUNMQUlNYGAg55qE
-d3Hpg73mnInkuIDkuKrkuLrlhbbkv53nlZnnmoTmiafooYznjq/looPjgIINCj4gKyAg5aaC5p6c
-5Zyo5YaF5a2Y5Zue5pS26L+H56iL5Lit5L2/55So55qE5aSa5Liq5bel5L2c6aG55LmL6Ze05a2Y
-5Zyo5L6d6LWW5YWz57O777yMDQo+ICsgIOWug+S7rOW6lOivpeiiq+aOkuWcqOS4jeWQjOeahHdx
-5Lit77yM5q+P5Liqd3Hpg73mnIkgYGBXUV9NRU1fUkVDTEFJTWBgIOOAgg0KPiArDQo+ICsqIOmZ
-pOmdnumcgOimgeS4peagvOaOkuW6j++8jOWQpuWImeayoeacieW/heimgeS9v+eUqFNUIHdx44CC
-DQo+ICsNCj4gKyog6Zmk6Z2e5pyJ54m55q6K6ZyA6KaB77yM5bu66K6u5L2/55SoMOS9nOS4ukBt
-YXhfYWN0aXZl44CC5Zyo5aSn5aSa5pWw5L2/55So5oOFDQo+ICsgIOWGteS4i++8jOW5tuWPkeaw
-tOW5s+mAmuW4uOS/neaMgeWcqOm7mOiupOmZkOWItuS5i+S4i+OAgg0KPiArDQo+ICsqIOS4gOS4
-qndx5L2c5Li65YmN6L+b6L+b5bqm5L+d6K+B77yIV1FfTUVNX1JFQ0xBSU3vvIzlhrLmtJfvvIhm
-bHVzaO+8ieWSjOW3pQ0KPiArICDkvZzpobnlsZ7mgKfnmoTln5/jgILkuI3mtonlj4rlhoXlrZjl
-m57mlLbnmoTlt6XkvZzpobnvvIzkuI3pnIDopoHkvZzkuLrlt6XkvZzpobnnu4TnmoTkuIANCj4g
-KyAg6YOo5YiG6KKr5Yi35paw77yM5Lmf5LiN6ZyA6KaB5Lu75L2V54m55q6K5bGe5oCn77yM5Y+v
-5Lul5L2/55So57O757uf5Lit55qE5LiA5Liqd3HjgILkvb8NCj4gKyAg55So5LiT55Sod3Hlkozn
-s7vnu593ceWcqOaJp+ihjOeJueaAp+S4iuayoeacieWMuuWIq+OAgg0KPiArDQo+ICsqIOmZpOmd
-nuW3peS9nOmhuemihOiuoeS8mua2iOiAl+Wkp+mHj+eahENQVeWRqOacn++8jOWQpuWImeS9v+eU
-qOe7keWumueahHdx6YCa5bi45piv5pyJDQo+ICsgIOebiueahO+8jOWboOS4undx5pON5L2c5ZKM
-5bel5L2c6aG55omn6KGM5Lit55qE5a6a5L2N5rC05bmz5o+Q6auY5LqG44CCDQo+ICsNCj4gKw0K
-PiAr6LCD6K+VDQo+ICs9PT09DQo+ICsNCj4gK+WboOS4uuW3peS9nOWHveaVsOaYr+eUsemAmueU
-qOeahOW3peS9nOiAhee6v+eoi+aJp+ihjOeahO+8jOaJgOS7pemcgOimgeS4gOS6m+aJi+autead
-peaPreekuuS4gOS6m+ihjOS4uuS4jeerr+eahOW3peS9nOmYn+WIl+eUqOaIt+OAgg0KPiArDQo+
-ICvlt6XkvZzogIXnur/nqIvlnKjov5vnqIvliJfooajkuK3mmL7npLrkuLo6IDo6DQo+ICsNCj4g
-KyAgcm9vdCAgICAgIDU2NzEgIDAuMCAgMC4wICAgICAgMCAgICAgMCA/ICAgICAgICBTICAgIDEy
-OjA3ICAgMDowMCBba3dvcmtlci8wOjFdDQo+ICsgIHJvb3QgICAgICA1NjcyICAwLjAgIDAuMCAg
-ICAgIDAgICAgIDAgPyAgICAgICAgUyAgICAxMjowNyAgIDA6MDAgW2t3b3JrZXIvMToyXQ0KPiAr
-ICByb290ICAgICAgNTY3MyAgMC4wICAwLjAgICAgICAwICAgICAwID8gICAgICAgIFMgICAgMTI6
-MTIgICAwOjAwIFtrd29ya2VyLzA6MF0NCj4gKyAgcm9vdCAgICAgIDU2NzQgIDAuMCAgMC4wICAg
-ICAgMCAgICAgMCA/ICAgICAgICBTICAgIDEyOjEzICAgMDowMCBba3dvcmtlci8xOjBdDQo+ICsN
-Cj4gK+WmguaenGt3b3JrZXJz5aSx5o6n5LqG77yI5L2/55So5LqG5aSq5aSa55qEY3B177yJ77yM
-5pyJ5Lik57G75Y+v6IO955qE6Zeu6aKYOg0KPiArDQo+ICsgICAgICAgMS4g5q2j5Zyo6L+F6YCf
-6LCD5bqm55qE5LqL5oOFDQo+ICsgICAgICAgMi4g5LiA5Liq5raI6ICX5aSn6YePY3B15ZGo5pyf
-55qE5bel5L2c6aG544CCDQo+ICsNCj4gK+esrOS4gOS4quWPr+S7peeUqOi/vei4queahOaWueW8
-j+i/m+ihjOi3n+i4qjogOjoNCj4gKw0KPiArICAgICAgICQgZWNobyB3b3JrcXVldWU6d29ya3F1
-ZXVlX3F1ZXVlX3dvcmsgPiAvc3lzL2tlcm5lbC9kZWJ1Zy90cmFjaW5nL3NldF9ldmVudA0KPiAr
-ICAgICAgICQgY2F0IC9zeXMva2VybmVsL2RlYnVnL3RyYWNpbmcvdHJhY2VfcGlwZSA+IG91dC50
-eHQNCj4gKyAgICAgICAod2FpdCBhIGZldyBzZWNzKQ0KPiArDQo+ICvlpoLmnpzmnInku4DkuYjk
-uJzopb/lnKjlt6XkvZzpmJ/liJfkuIrlv5nnnYDlgZrlvqrnjq/vvIzlroPlsLHkvJrkuLvlr7zo
-vpPlh7rvvIzlj6/ku6XnlKjlt6XkvZzpobnlh73mlbDnoa7lrprov53op4TogIXjgIINCj4gKw0K
-PiAr5a+55LqO56ys5LqM57G76Zeu6aKY77yM5bqU6K+l5Y+v5Lul5Y+q5qOA5p+l6L+d6KeE5bel
-5L2c6ICF57q/56iL55qE5aCG5qCI6Lef6Liq44CCIDo6DQo+ICsNCj4gKyAgICAgICAkIGNhdCAv
-cHJvYy9USEVfT0ZGRU5ESU5HX0tXT1JLRVIvc3RhY2sNCj4gKw0KPiAr5bel5L2c6aG55Ye95pWw
-5Zyo5aCG5qCI6L+96Liq5Lit5bqU6K+l5piv5b6u5LiN6Laz6YGT55qE44CCDQo+ICsNCj4gKw0K
-PiAr5YaF5qC45YaF6IGU5paH5qGj5Y+C6ICDDQo+ICs9PT09PT09PT09PT09PT09DQo+ICsNCj4g
-K+ivpUFQSeWcqOS7peS4i+WGheaguOS7o+eggeS4rToNCj4gKw0KPiAraW5jbHVkZS9saW51eC93
-b3JrcXVldWUuaA0KPiArDQo+ICtrZXJuZWwvd29ya3F1ZXVlLmMNCj4gLS0NCj4gMi4yNy4wDQo+
-DQo=
+This patch translates Documentation/core-api/workqueue.rst into Chinese.
+
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+---
+v6:
+
+* Writting Changelog under three dashes(---)
+
+v5:
+
+* Translate sentences introduced by fixing build warnings.
+
+https://lore.kernel.org/linux-doc/cover.1621062577.git.siyanteng@loongson.cn/T/#t
+https://lore.kernel.org/linux-doc/58e53600-29ea-9379-2cb0-64f85417ed8b@gmail.com/T/#t
+
+v4:
+
+* fix build warnings.
+https://lore.kernel.org/linux-doc/CAEensMzL31Lq2NTVC74hfQyPy+7mTd=74p5Kkamf4LZ_GAieLA@mail.gmail.com/T/#t
+
+* note:
+This patch should be am after the set:
+https://lore.kernel.org/linux-doc/cover.1621062577.git.siyanteng@loongson.cn/T/#t
+
+v3:
+
+* Pick Alex'S review-by tag.
+
+v2:
+
+Some bad translations have been modified as suggested by Alex.Thank you for your review.
+https://lore.kernel.org/linux-doc/CAEensMwq=i+nek6sNeqOJJMY648Q9ZF8cTKpXdJVuqdQQnMWUw@mail.gmail.com/T/#t
+
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ .../translations/zh_CN/core-api/workqueue.rst | 337 ++++++++++++++++++
+ 2 files changed, 338 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/workqueue.rst
+
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index c2d4614d9e68..34be9b25cfa1 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -25,9 +25,9 @@
+    kernel-api
+    printk-basics
+    printk-formats
++   workqueue
+ 
+ Todolist:
+-   workqueue
+    symbol-namespaces
+ 
+ 数据结构和低级实用程序
+diff --git a/Documentation/translations/zh_CN/core-api/workqueue.rst b/Documentation/translations/zh_CN/core-api/workqueue.rst
+new file mode 100644
+index 000000000000..0b8f730db6c0
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/workqueue.rst
+@@ -0,0 +1,337 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/workqueue.rst
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_workqueue.rst:
++
++
++=========================
++并发管理的工作队列 (cmwq)
++=========================
++
++:日期: September, 2010
++:作者: Tejun Heo <tj@kernel.org>
++:作者: Florian Mickler <florian@mickler.org>
++
++
++简介
++====
++
++在很多情况下，需要一个异步进程的执行环境，工作队列（wq）API是这种情况下
++最常用的机制。
++
++当需要这样一个异步执行上下文时，一个描述将要执行的函数的工作项（work，
++即一个待执行的任务）被放在队列中。一个独立的线程作为异步执行环境。该队
++列被称为workqueue，线程被称为工作者（worker，即执行这一队列的线程）。
++
++当工作队列上有工作项时，工作者会一个接一个地执行与工作项相关的函数。当
++工作队列中没有任何工作项时，工作者就会变得空闲。当一个新的工作项被排入
++队列时，工作者又开始执行。
++
++
++为什么要cmwq?
++=============
++
++在最初的wq实现中，多线程（MT）wq在每个CPU上有一个工作者线程，而单线程
++（ST）wq在全系统有一个工作者线程。一个MT wq需要保持与CPU数量相同的工
++作者数量。这些年来，内核增加了很多MT wq的用户，随着CPU核心数量的不断
++增加，一些系统刚启动就达到了默认的32k PID的饱和空间。
++
++尽管MT wq浪费了大量的资源，但所提供的并发性水平却不能令人满意。这个限
++制在ST和MT wq中都有，只是在MT中没有那么严重。每个wq都保持着自己独立的
++工作者池。一个MT wq只能为每个CPU提供一个执行环境，而一个ST wq则为整个
++系统提供一个。工作项必须竞争这些非常有限的执行上下文，从而导致各种问题，
++包括在单一执行上下文周围容易发生死锁。
++
++(MT wq)所提供的并发性水平和资源使用之间的矛盾也迫使其用户做出不必要的权衡，比
++如libata选择使用ST wq来轮询PIO，并接受一个不必要的限制，即没有两个轮
++询PIO可以同时进行。由于MT wq并没有提供更好的并发性，需要更高层次的并
++发性的用户，如async或fscache，不得不实现他们自己的线程池。
++
++并发管理工作队列（cmwq）是对wq的重新实现，重点是以下目标。
++
++* 保持与原始工作队列API的兼容性。
++
++* 使用由所有wq共享的每CPU统一的工作者池，在不浪费大量资源的情况下按
++* 需提供灵活的并发水平。
++
++* 自动调节工作者池和并发水平，使API用户不需要担心这些细节。
++
++
++设计
++====
++
++为了简化函数的异步执行，引入了一个新的抽象概念，即工作项。
++
++一个工作项是一个简单的结构，它持有一个指向将被异步执行的函数的指针。
++每当一个驱动程序或子系统希望一个函数被异步执行时，它必须建立一个指
++向该函数的工作项，并在工作队列中排队等待该工作项。（就是挂到workqueue
++队列里面去）
++
++特定目的线程，称为工作线程（工作者），一个接一个地执行队列中的功能。
++如果没有工作项排队，工作者线程就会闲置。这些工作者线程被管理在所谓
++的工作者池中。
++
++cmwq设计区分了面向用户的工作队列，子系统和驱动程序在上面排队工作，
++以及管理工作者池和处理排队工作项的后端机制。
++
++每个可能的CPU都有两个工作者池，一个用于正常的工作项，另一个用于高
++优先级的工作项，还有一些额外的工作者池，用于服务未绑定工作队列的工
++作项目——这些后备池的数量是动态的。
++
++当他们认为合适的时候，子系统和驱动程序可以通过特殊的
++``workqueue API`` 函数创建和排队工作项。他们可以通过在工作队列上
++设置标志来影响工作项执行方式的某些方面，他们把工作项放在那里。这些
++标志包括诸如CPU定位、并发限制、优先级等等。要获得详细的概述，请参
++考下面的 ``alloc_workqueue()`` 的 API 描述。
++
++当一个工作项被排入一个工作队列时，目标工作池将根据队列参数和工作队
++列属性确定，并被附加到工作池的共享工作列表上。例如，除非特别重写，
++否则一个绑定的工作队列的工作项将被排在与发起线程运行的CPU相关的普
++通或高级工作工作者池的工作项列表中。
++
++对于任何工作者池的实施，管理并发水平（有多少执行上下文处于活动状
++态）是一个重要问题。最低水平是为了节省资源，而饱和水平是指系统被
++充分使用。
++
++每个与实际CPU绑定的worker-pool通过钩住调度器来实现并发管理。每当
++一个活动的工作者被唤醒或睡眠时，工作者池就会得到通知，并跟踪当前可
++运行的工作者的数量。一般来说，工作项不会占用CPU并消耗很多周期。这
++意味着保持足够的并发性以防止工作处理停滞应该是最优的。只要CPU上有
++一个或多个可运行的工作者，工作者池就不会开始执行新的工作，但是，当
++最后一个运行的工作者进入睡眠状态时，它会立即安排一个新的工作者，这
++样CPU就不会在有待处理的工作项目时闲置。这允许在不损失执行带宽的情
++况下使用最少的工作者。
++
++除了kthreads的内存空间外，保留空闲的工作者并没有其他成本，所以cmwq
++在杀死它们之前会保留一段时间的空闲。
++
++对于非绑定的工作队列，后备池的数量是动态的。可以使用
++``apply_workqueue_attrs()`` 为非绑定工作队列分配自定义属性，
++workqueue将自动创建与属性相匹配的后备工作者池。调节并发水平的责任在
++用户身上。也有一个标志可以将绑定的wq标记为忽略并发管理。
++详情请参考API部分。
++
++前进进度的保证依赖于当需要更多的执行上下文时可以创建工作者，这也是
++通过使用救援工作者来保证的。所有可能在处理内存回收的代码路径上使用
++的工作项都需要在wq上排队，wq上保留了一个救援工作者，以便在内存有压
++力的情况下下执行。否则，工作者池就有可能出现死锁，等待执行上下文释
++放出来。
++
++
++应用程序编程接口 (API)
++======================
++
++``alloc_workqueue()`` 分配了一个wq。原来的 ``create_*workqueue()``
++函数已被废弃，并计划删除。 ``alloc_workqueue()`` 需要三个
++参数 - ``@name`` , ``@flags`` 和 ``@max_active`` 。
++``@name`` 是wq的名称，如果有的话，也用作救援线程的名称。
++
++一个wq不再管理执行资源，而是作为前进进度保证、刷新(flush)和
++工作项属性的域。 ``@flags`` 和 ``@max_active`` 控制着工作
++项如何被分配执行资源、安排和执行。
++
++
++``flags``
++---------
++
++``WQ_UNBOUND``
++  排队到非绑定wq的工作项由特殊的工作者池提供服务，这些工作者不
++  绑定在任何特定的CPU上。这使得wq表现得像一个简单的执行环境提
++  供者，没有并发管理。非绑定工作者池试图尽快开始执行工作项。非
++  绑定的wq牺牲了局部性，但在以下情况下是有用的。
++
++  * 预计并发水平要求会有很大的波动，使用绑定的wq最终可能会在不
++    同的CPU上产生大量大部分未使用的工作者，因为发起线程在不同
++    的CPU上跳转。
++
++  * 长期运行的CPU密集型工作负载，可以由系统调度器更好地管理。
++
++``WQ_FREEZABLE``
++  一个可冻结的wq参与了系统暂停操作的冻结阶段。wq上的工作项被
++  排空，在解冻之前没有新的工作项开始执行。
++
++``WQ_MEM_RECLAIM``
++  所有可能在内存回收路径中使用的wq都必须设置这个标志。无论内
++  存压力如何，wq都能保证至少有一个执行上下文。
++
++``WQ_HIGHPRI``
++  高优先级wq的工作项目被排到目标cpu的高优先级工作者池中。高
++  优先级的工作者池由具有较高级别的工作者线程提供服务。
++
++  请注意，普通工作者池和高优先级工作者池之间并不相互影响。他
++  们各自维护其独立的工作者池，并在其工作者之间实现并发管理。
++
++``WQ_CPU_INTENSIVE``
++  CPU密集型wq的工作项对并发水平没有贡献。换句话说，可运行的
++  CPU密集型工作项不会阻止同一工作者池中的其他工作项开始执行。
++  这对于那些预计会占用CPU周期的绑定工作项很有用，这样它们的
++  执行就会受到系统调度器的监管。
++
++  尽管CPU密集型工作项不会对并发水平做出贡献，但它们的执行开
++  始仍然受到并发管理的管制，可运行的非CPU密集型工作项会延迟
++  CPU密集型工作项的执行。
++
++  这个标志对于未绑定的wq来说是没有意义的。
++
++请注意，标志 ``WQ_NON_REENTRANT`` 不再存在，因为现在所有的工作
++队列都是不可逆的——任何工作项都保证在任何时间内最多被整个系统的一
++个工作者执行。
++
++
++``max_active``
++--------------
++
++``@max_active`` 决定了每个CPU可以分配给wq的工作项的最大执行上
++下文数量。例如，如果 ``@max_active为16`` ，每个CPU最多可以同
++时执行16个wq的工作项。
++
++目前，对于一个绑定的wq， ``@max_active`` 的最大限制是512，当指
++定为0时使用的默认值是256。对于非绑定的wq，其限制是512和
++4 * ``num_possible_cpus()`` 中的较高值。这些值被选得足够高，所
++以它们不是限制性因素，同时会在失控情况下提供保护。
++
++一个wq的活动工作项的数量通常由wq的用户来调节，更具体地说，是由用
++户在同一时间可以排列多少个工作项来调节。除非有特定的需求来控制活动
++工作项的数量，否则建议指定 为"0"。
++
++一些用户依赖于ST wq的严格执行顺序。 ``@max_active`` 为1和 ``WQ_UNBOUND``
++的组合用来实现这种行为。这种wq上的工作项目总是被排到未绑定的工作池
++中，并且在任何时候都只有一个工作项目处于活动状态，从而实现与ST wq相
++同的排序属性。
++
++在目前的实现中，上述配置只保证了特定NUMA节点内的ST行为。相反，
++``alloc_ordered_queue()`` 应该被用来实现全系统的ST行为。
++
++
++执行场景示例
++============
++
++下面的示例执行场景试图说明cmwq在不同配置下的行为。
++
++ 工作项w0、w1、w2被排到同一个CPU上的一个绑定的wq q0上。w0
++ 消耗CPU 5ms，然后睡眠10ms，然后在完成之前再次消耗CPU 5ms。
++
++忽略所有其他的任务、工作和处理开销，并假设简单的FIFO调度，
++下面是一个高度简化的原始wq的可能事件序列的版本。::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 starts and burns CPU
++ 25		w1 sleeps
++ 35		w1 wakes up and finishes
++ 35		w2 starts and burns CPU
++ 40		w2 sleeps
++ 50		w2 wakes up and finishes
++
++And with cmwq with ``@max_active`` >= 3, ::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 starts and burns CPU
++ 10		w1 sleeps
++ 10		w2 starts and burns CPU
++ 15		w2 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 25		w2 wakes up and finishes
++
++如果 ``@max_active`` == 2, ::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 starts and burns CPU
++ 10		w1 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 20		w2 starts and burns CPU
++ 25		w2 sleeps
++ 35		w2 wakes up and finishes
++
++现在，我们假设w1和w2被排到了不同的wq q1上，这个wq q1
++有 ``WQ_CPU_INTENSIVE`` 设置::
++
++ TIME IN MSECS	EVENT
++ 0		w0 starts and burns CPU
++ 5		w0 sleeps
++ 5		w1 and w2 start and burn CPU
++ 10		w1 sleeps
++ 15		w2 sleeps
++ 15		w0 wakes up and burns CPU
++ 20		w0 finishes
++ 20		w1 wakes up and finishes
++ 25		w2 wakes up and finishes
++
++
++指南
++====
++
++* 如果一个wq可能处理在内存回收期间使用的工作项目，请不
++  要忘记使用 ``WQ_MEM_RECLAIM`` 。每个设置了
++  ``WQ_MEM_RECLAIM`` 的wq都有一个为其保留的执行环境。
++  如果在内存回收过程中使用的多个工作项之间存在依赖关系，
++  它们应该被排在不同的wq中，每个wq都有 ``WQ_MEM_RECLAIM`` 。
++
++* 除非需要严格排序，否则没有必要使用ST wq。
++
++* 除非有特殊需要，建议使用0作为@max_active。在大多数使用情
++  况下，并发水平通常保持在默认限制之下。
++
++* 一个wq作为前进进度保证（WQ_MEM_RECLAIM，冲洗（flush）和工
++  作项属性的域。不涉及内存回收的工作项，不需要作为工作项组的一
++  部分被刷新，也不需要任何特殊属性，可以使用系统中的一个wq。使
++  用专用wq和系统wq在执行特性上没有区别。
++
++* 除非工作项预计会消耗大量的CPU周期，否则使用绑定的wq通常是有
++  益的，因为wq操作和工作项执行中的定位水平提高了。
++
++
++调试
++====
++
++因为工作函数是由通用的工作者线程执行的，所以需要一些手段来揭示一些行为不端的工作队列用户。
++
++工作者线程在进程列表中显示为: ::
++
++  root      5671  0.0  0.0      0     0 ?        S    12:07   0:00 [kworker/0:1]
++  root      5672  0.0  0.0      0     0 ?        S    12:07   0:00 [kworker/1:2]
++  root      5673  0.0  0.0      0     0 ?        S    12:12   0:00 [kworker/0:0]
++  root      5674  0.0  0.0      0     0 ?        S    12:13   0:00 [kworker/1:0]
++
++如果kworkers失控了（使用了太多的cpu），有两类可能的问题:
++
++	1. 正在迅速调度的事情
++	2. 一个消耗大量cpu周期的工作项。
++
++第一个可以用追踪的方式进行跟踪: ::
++
++	$ echo workqueue:workqueue_queue_work > /sys/kernel/debug/tracing/set_event
++	$ cat /sys/kernel/debug/tracing/trace_pipe > out.txt
++	(wait a few secs)
++
++如果有什么东西在工作队列上忙着做循环，它就会主导输出，可以用工作项函数确定违规者。
++
++对于第二类问题，应该可以只检查违规工作者线程的堆栈跟踪。 ::
++
++	$ cat /proc/THE_OFFENDING_KWORKER/stack
++
++工作项函数在堆栈追踪中应该是微不足道的。
++
++
++内核内联文档参考
++================
++
++该API在以下内核代码中:
++
++include/linux/workqueue.h
++
++kernel/workqueue.c
+-- 
+2.27.0
+
