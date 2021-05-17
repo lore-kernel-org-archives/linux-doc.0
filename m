@@ -2,28 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DE5C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 19:12:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBFB2C43460
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 19:23:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56FA6611EE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 19:12:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B34F6109E
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 19:23:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231377AbhEQTN0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 15:13:26 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48178 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231161AbhEQTN0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 15:13:26 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 95131B2A0;
-        Mon, 17 May 2021 19:12:07 +0000 (UTC)
-To:     Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>,
+        id S233045AbhEQTY5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 15:24:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50642 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232775AbhEQTY5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 15:24:57 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929AFC061573;
+        Mon, 17 May 2021 12:23:39 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id u19-20020a0568302493b02902d61b0d29adso6528296ots.10;
+        Mon, 17 May 2021 12:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=RgO5PZp5sg1uOBfz6Mo0I/T1+iA05mzESFPtCNaQU/M=;
+        b=dzqv6P4+T6AJsl2STE/YPGX+AwgvEtOpPIi/7MmlW7CKBSYhMK2cjZFM7HP6aZSo5A
+         vXutRcoufTlpPu9v3aI3Uj7u+KXVnsyhSsbMjQeSnlY1cXAbKnUfdwDulJC+CjEFyKSG
+         4p8skbHH/R3nZk7SKOKX6K+iHbSFnhOeZvCwnajObAUGMwgjB40l6RayQY0tQwaNxiLI
+         VqgfsrINYcegnyCm4Dvru2/Yxi+C+jYpXgXnd+yA9O4boacGpteapRqdLHpyHEokSo6V
+         6K19loSQQRjjq788k4ttQEywq58rwd2Yg6RF6y23fIPxpu3/NLq9BLS/A4jpc4eJMvNY
+         bpIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=RgO5PZp5sg1uOBfz6Mo0I/T1+iA05mzESFPtCNaQU/M=;
+        b=RIMWZhuhgJkXUWoSGv8fVlnqfCWk8/CkKQ1YoYjjtKqNJOmvAiyNrLP+SEl8J0CsOs
+         V7HOgMdmO/zfA3FmdpZF+1K9ZhONmvgoZE12Y+pEF3c/MDTAIVrmd3jXRmClHFLyVvKw
+         bce6pAKgRYVVdhgZaf847vzExqSKwhMeVTKwclmvdWqL931JLUqjrNDWZlR0RNmJiIgK
+         b43QpDIymRDcfrXqcfC70e6AHPWYGpvRGTdgimPwRpBRSsiqPmvq2Eicrre1jq9jfP/3
+         nSWt+0QHL/dgyNGT3tN7M8fculyrHHpV25aR1wxicF5YIB506wgTrvDPQYtebD33K5cz
+         CKww==
+X-Gm-Message-State: AOAM530/2mw5G5ue5Y7z9sZXGtfZbB6IwiZyoFDyLoL/YQlRNzZngUxJ
+        qXwMqtwdF/P+35ByUfG/nUbcyLknoP/M2goznRc=
+X-Google-Smtp-Source: ABdhPJyYEMDOZEmGiHRamUQqPfxH8/7OCMHXD6a0sDixsaX5l5mHTqz1OZyvzkb0toQThpy4wMO9b4hP6cEl465AA/g=
+X-Received: by 2002:a9d:74c6:: with SMTP id a6mr971495otl.132.1621279418884;
+ Mon, 17 May 2021 12:23:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+ <YJ42MEgwDZrAEQLl@kroah.com> <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+ <YKIeBdwFb9Ng275X@phenom.ffwll.local> <503d101d-7273-757a-2809-e272db93c45d@suse.de>
+In-Reply-To: <503d101d-7273-757a-2809-e272db93c45d@suse.de>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Mon, 17 May 2021 15:23:27 -0400
+Message-ID: <CADnq5_NR+ysqmx6ftakGTjqjw0p6roiupa3sYTN8NuAMoGa6sQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -33,149 +71,97 @@ To:     Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <YJ42MEgwDZrAEQLl@kroah.com>
- <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
- <YKIeBdwFb9Ng275X@phenom.ffwll.local>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-Message-ID: <503d101d-7273-757a-2809-e272db93c45d@suse.de>
-Date:   Mon, 17 May 2021 21:12:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <YKIeBdwFb9Ng275X@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="W9kAtv8EBXbI79dSBRez5c5Y3UeS7TbN9"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---W9kAtv8EBXbI79dSBRez5c5Y3UeS7TbN9
-Content-Type: multipart/mixed; boundary="0PmeoxnQa7yBXIDt9dyKmLw8B2Gp4ZCR0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Derek Kiernan <derek.kiernan@xilinx.com>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Message-ID: <503d101d-7273-757a-2809-e272db93c45d@suse.de>
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <YJ42MEgwDZrAEQLl@kroah.com>
- <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
- <YKIeBdwFb9Ng275X@phenom.ffwll.local>
-In-Reply-To: <YKIeBdwFb9Ng275X@phenom.ffwll.local>
-
---0PmeoxnQa7yBXIDt9dyKmLw8B2Gp4ZCR0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 17.05.21 um 09:40 schrieb Daniel Vetter:
-> On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
->> On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
->> <gregkh@linuxfoundation.org> wrote:
->>> On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
->>>> Dear kernel maintainers,
->>>>
->>>> This submission is a kernel driver to support Intel(R) Gaussian & Ne=
+On Mon, May 17, 2021 at 3:12 PM Thomas Zimmermann <tzimmermann@suse.de> wro=
+te:
+>
+> Hi
+>
+> Am 17.05.21 um 09:40 schrieb Daniel Vetter:
+> > On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
+> >> On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
+> >> <gregkh@linuxfoundation.org> wrote:
+> >>> On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
+> >>>> Dear kernel maintainers,
+> >>>>
+> >>>> This submission is a kernel driver to support Intel(R) Gaussian & Ne=
 ural
->>>> Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-pr=
+> >>>> Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-pr=
 ocessor
->>>> available on multiple Intel platforms. AI developers and users can o=
+> >>>> available on multiple Intel platforms. AI developers and users can o=
 ffload
->>>> continuous inference workloads to an Intel(R) GNA device in order to=20
-free
->>>> processor resources and save power. Noise reduction and speech recog=
+> >>>> continuous inference workloads to an Intel(R) GNA device in order to
+> free
+> >>>> processor resources and save power. Noise reduction and speech recog=
 nition
->>>> are the examples of the workloads Intel(R) GNA deals with while its =
+> >>>> are the examples of the workloads Intel(R) GNA deals with while its =
 usage
->>>> is not limited to the two.
->>>
->>> How does this compare with the "nnpi" driver being proposed here:
->>>          https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicar=
+> >>>> is not limited to the two.
+> >>>
+> >>> How does this compare with the "nnpi" driver being proposed here:
+> >>>          https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicar=
 io@intel.com
->>>
->>> Please work with those developers to share code and userspace api and=
+> >>>
+> >>> Please work with those developers to share code and userspace api and
+> >>> tools.  Having the community review two totally different apis and
+> >>> drivers for the same type of functionality from the same company is
+> >>> totally wasteful of our time and energy.
+> >>
+> >> Agreed, but I think we should go further than this and work towards a
+> >> subsystem across companies for machine learning and neural networks
+> >> accelerators for both inferencing and training.
+> >
+> > We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or
+> > think G as in General, not Graphisc.
+>
+> I hope this was a joke.
+>
+> Just some thoughts:
+>
+> AFAICT AI first came as an application of GPUs, but has now
+> evolved/specialized into something of its own. I can imagine sharing
+> some code among the various subsystems, say GEM/TTM internals for memory
+> management. Besides that there's probably little that can be shared in
+> the userspace interfaces. A GPU is device that puts an image onto the
+> screen and an AI accelerator isn't. Treating both as the same, even if
+> they share similar chip architectures, seems like a stretch. They might
+> evolve in different directions and fit less and less under the same
+> umbrella.
 
->>> tools.  Having the community review two totally different apis and
->>> drivers for the same type of functionality from the same company is
->>> totally wasteful of our time and energy.
->>
->> Agreed, but I think we should go further than this and work towards a
->> subsystem across companies for machine learning and neural networks
->> accelerators for both inferencing and training.
->=20
-> We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or=
+The putting something on the screen is just a tiny part of what GPUs
+do these days.  Many GPUs don't even have display hardware anymore.
+Even with drawing APIs, it's just some operation that you do with
+memory.  The display may be another device entirely.  GPUs also do
+video encode and decode, jpeg acceleration, etc.  drivers/gpu seems
+like a logical place to me.  Call it drivers/accelerators if you like.
+Other than modesetting most of the shared infrastructure in
+drivers/gpu is around memory management and synchronization which are
+all the hard parts.  Better to try and share that than to reinvent
+that in some other subsystem.
 
-> think G as in General, not Graphisc.
+Alex
 
-I hope this was a joke.
-
-Just some thoughts:
-
-AFAICT AI first came as an application of GPUs, but has now=20
-evolved/specialized into something of its own. I can imagine sharing=20
-some code among the various subsystems, say GEM/TTM internals for memory =
-
-management. Besides that there's probably little that can be shared in=20
-the userspace interfaces. A GPU is device that puts an image onto the=20
-screen and an AI accelerator isn't. Treating both as the same, even if=20
-they share similar chip architectures, seems like a stretch. They might=20
-evolve in different directions and fit less and less under the same=20
-umbrella.
-
-And as Dave mentioned, these devices are hard to obtain. We don't really =
-
-know what we sign up for.
-
-Just my 2 cents.
-
-Best regards
-Thomas
-
-
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---0PmeoxnQa7yBXIDt9dyKmLw8B2Gp4ZCR0--
-
---W9kAtv8EBXbI79dSBRez5c5Y3UeS7TbN9
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCiwAMFAwAAAAAACgkQlh/E3EQov+DJ
-XhAAyCyCre9HcN6z8zECZZaTWBLe0cqcMokVsLXDTngNMFJGBTEoUFqYGtFrcCR+1SqbG6u4kECD
-m+oAp9Ew5nw97eMZIHvYaUuOd6Sv21n4gwMsBy6u6R2iLOJ3xVTdobCea6IgP3si53dM7MJeUhNA
-aunSycxlvyg3p5yNZzcZtkEDmP9FkT4Ynt+x2ddstBVSgq3vfKmKwq10yu97c+4DMP5dU1LT9aOR
-tKT+9NgcnxvAjDiVLwtuNEbbTWa5IilCcPMVijGQYkvlHqLwchi+7IY4N8v7SU3Tns+GR/VAKoqg
-45mSUxUTHpbeO48VPHufqGA0uqaDaBSK1q76KrP2gLiKirO/FnMKj2jBTL6cI/tLblM5OxJtNeV1
-8lXb/oZKQVjTCVxTUKS2/4RhjX/fXbwUNf8mgMJWLReLzv6kTTVvokhcMF1leu75JajowOWv0KgV
-Ht3NYy+CV18PdZ2KS/cAnteBdlf11W9ehk8hTMA9tpkrxlOI9zmuchwVEcwCygLJkziQFBSdkdOK
-HblrUo9iOtZukQTMrs/GeH0YmFlPEbMiGeuB/UTlMx1+hzBcXGk20GarhL2lxAhbfsecbETYmK0r
-0pQA3bC+oKfnzBb7uDZFOAfzOgeDZVnBETUXHNzWOHxAI1hCGixpASbDOL5HzVfXCWud2/zSri68
-aT0=
-=TrzX
------END PGP SIGNATURE-----
-
---W9kAtv8EBXbI79dSBRez5c5Y3UeS7TbN9--
+>
+> And as Dave mentioned, these devices are hard to obtain. We don't really
+> know what we sign up for.
+>
+> Just my 2 cents.
+>
+> Best regards
+> Thomas
+>
+>
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
