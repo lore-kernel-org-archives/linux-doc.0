@@ -2,85 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A60DC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA253C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:43:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F110611ED
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:30:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE42361209
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235919AbhEQJbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 05:31:22 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:49086 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236004AbhEQJbV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 05:31:21 -0400
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv++aN6JgBEUYAA--.3368S2;
-        Mon, 17 May 2021 17:30:02 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] Documentation: checkpatch: add description if no filenames are given
-Date:   Mon, 17 May 2021 17:30:00 +0800
-Message-Id: <1621243800-27702-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9Dxv++aN6JgBEUYAA--.3368S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4Dtw4xXF1Utw4xuFW7urg_yoWDJFgEyr
-        4UJF98WF97Jry5tFn0yr4rXr12v3y5Zr18Awn8Ar98A34Yk398XFZrKr9rAr1UCrWj9F9x
-        Cw4UZFZ8Ars2yjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb2xYjsxI4VWkCwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
-        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0
-        cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I
-        8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJw
-        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r4fMxAIw28I
-        cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
-        IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
-        87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxT5dDUUUU
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        id S236066AbhEQJoy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 05:44:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236048AbhEQJox (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 05:44:53 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0352C061573;
+        Mon, 17 May 2021 02:43:36 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id v188so7724864ybe.1;
+        Mon, 17 May 2021 02:43:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KwvHFB6haj1euq9Su3Ad3P6zDg3T5rwMjoT/7A2qF9Q=;
+        b=j2oIbGcneuAjLHIOBGELY9i6ZL8owraNpkFL11JVjOPxsfeiXm8GELK8rLDoDOXXtl
+         nGfkdTL2Ox/e7Vjzibrzs0zg8cYKD/2xGDzxdClLl3Ix2y4WVEtZ53YO64B5GqsitKn4
+         wpWeA3LKDpPsvlzQscUv6LqPPfVwQR106HfCk3doEMSZz23h7ufI3W+Jr2yxn3PuAwkm
+         UfYcAvxVxBmn/0xxdSDMFrcYdxNE7x5SqLfDDoRUFCy1J06n53uBvfS1SyblKRDcy0ef
+         4BRbpIm0pn5Zt+Kg/cb1CcHIjSYybZhZDj04SIzOmqiv7mpiU0uX/HAQVIYA0tTKxUZj
+         XwqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KwvHFB6haj1euq9Su3Ad3P6zDg3T5rwMjoT/7A2qF9Q=;
+        b=f/sbnnfpLO3dWQgltPz6Ar63BLezfNO9vl2CfVa4khJURLHMgDEQm332OQj3sn7Opk
+         ssuM9oBBedE9WhNXFmFgWDoVMvuJLA6phVItrgL0bFepNScYKB//27JQgLlS1ugVRjr5
+         600XceUX7oPar0rJQWEnaxSBXdhPcHAq/64F2b79jGPckNooPGCuMEI/+FyAsW8GtrK3
+         j5odkIxAI8bYtGEzZk3t35FBroWd6vnQVIWGKVQ8x2lYJDtLzveoNV9w/B0iS1e/XwRQ
+         wllHO0SBG7U0EkaGTLqIEID51ZOTaNuqI1On0tKZrjlUxlxA91xmqxc+tF62u+bseIMV
+         LM/Q==
+X-Gm-Message-State: AOAM533RlheQLXtnmUnwlta2zzd1PS1mwtHgkUnTJs8oL+/3fta+w/GE
+        EyDtjfvrzQVUqT+1PnuZIVrhl5IIo3yCiO00KEc=
+X-Google-Smtp-Source: ABdhPJwdhBfReuRF8yxrUkfUKdOmXN1odV3COj5klkSVa8IFjyhv6BR219EtmiHpZB+NxwAccYRs9SmqWnZypbiRs+A=
+X-Received: by 2002:a25:b112:: with SMTP id g18mr13098442ybj.281.1621244616068;
+ Mon, 17 May 2021 02:43:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <1621243800-27702-1-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1621243800-27702-1-git-send-email-yangtiezhu@loongson.cn>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Mon, 17 May 2021 11:43:39 +0200
+Message-ID: <CAKXUXMyVSf_HsjKhD2FeZzyz6pbA7JN=KkWrvdRswkba60OXww@mail.gmail.com>
+Subject: Re: [PATCH v3] Documentation: checkpatch: add description if no
+ filenames are given
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
-if no filenames are given, it will read patch from stdin rather than exit
-directly. This means the script waits for input indefinitely, which
-confuses new checkpatch users at first.
+On Mon, May 17, 2021 at 11:30 AM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>
+> After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
+> if no filenames are given, it will read patch from stdin rather than exit
+> directly. This means the script waits for input indefinitely, which
+> confuses new checkpatch users at first.
+>
+> Add some basic documentation on this behaviour of checkpatch to lower
+> the confusion.
+>
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> ---
+>
+> v3: Update the commit message, thank you Lukas.
+>
 
-Add some basic documentation on this behaviour of checkpatch to lower
-the confusion.
+Thanks.
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
+Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-v3: Update the commit message, thank you Lukas.
+Dwaipayan, can you acknowledge this as well?
 
- Documentation/dev-tools/checkpatch.rst | 2 ++
- 1 file changed, 2 insertions(+)
+Jonathan, I assume you will pick this up in your doc tree once
+Dwaipayan ack is there, right?
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 51fed1b..3eb9ead 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -22,6 +22,8 @@ Usage::
- 
-   ./scripts/checkpatch.pl [OPTION]... [FILE]...
- 
-+When FILE is -, or absent, checkpatch reads from standard input.
-+
- Available options:
- 
-  - -q,  --quiet
--- 
-2.1.0
+Lukas
 
+>  Documentation/dev-tools/checkpatch.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index 51fed1b..3eb9ead 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -22,6 +22,8 @@ Usage::
+>
+>    ./scripts/checkpatch.pl [OPTION]... [FILE]...
+>
+> +When FILE is -, or absent, checkpatch reads from standard input.
+> +
+>  Available options:
+>
+>   - -q,  --quiet
+> --
+> 2.1.0
+>
