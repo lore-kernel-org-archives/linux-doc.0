@@ -2,161 +2,216 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2933CC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 20:15:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0713CC43460
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 20:55:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02ABB61002
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 20:15:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4C61611EE
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 20:55:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233367AbhEQURI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 16:17:08 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33710 "EHLO mx2.suse.de"
+        id S237333AbhEQU4d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 16:56:33 -0400
+Received: from mga05.intel.com ([192.55.52.43]:11856 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229889AbhEQURH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 16:17:07 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AF6C8AEB3;
-        Mon, 17 May 2021 20:15:49 +0000 (UTC)
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Alex Deucher <alexdeucher@gmail.com>,
+        id S233271AbhEQU4c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 16:56:32 -0400
+IronPort-SDR: JtVE8OpCLu8+RxtHKZDwD5TToUFcPMNT/N7/2zot4uaTP31iMfSRwVA5zrUYTb8/fiNOoX6Gn+
+ wBBxzVZwi9Qg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="286093933"
+X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; 
+   d="scan'208";a="286093933"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2021 13:55:15 -0700
+IronPort-SDR: TZcXoTiIbYniVOmf1LN1Ev8wIo3ZErYhJYjAMAmVqWeQUZ6eIC8Vwm+cxtyTHYjB5Jkzk7NDh5
+ UipVJ/gBm2sA==
+X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; 
+   d="scan'208";a="541464404"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.147.139]) ([10.251.147.139])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2021 13:55:13 -0700
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Derek Kiernan <derek.kiernan@xilinx.com>
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <YJ42MEgwDZrAEQLl@kroah.com>
- <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
- <YKIeBdwFb9Ng275X@phenom.ffwll.local>
- <503d101d-7273-757a-2809-e272db93c45d@suse.de>
- <CADnq5_NR+ysqmx6ftakGTjqjw0p6roiupa3sYTN8NuAMoGa6sQ@mail.gmail.com>
- <3aac3e39-4889-22dc-83dc-72fff63cb3d0@suse.de>
- <CAKMK7uFyTM9NQzhtOv-ABemYThLE2CnA=OYRiJwe7YwgotfLPA@mail.gmail.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <c28703a4-6936-15f2-730f-c3d96e1326a5@suse.de>
-Date:   Mon, 17 May 2021 22:15:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com> <YKIfIEyW+sR+bDCk@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
+Date:   Mon, 17 May 2021 13:55:01 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFyTM9NQzhtOv-ABemYThLE2CnA=OYRiJwe7YwgotfLPA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="6jSQ74WCN6fjyYkRQIxlywyhJlLUuOPzX"
+In-Reply-To: <YKIfIEyW+sR+bDCk@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---6jSQ74WCN6fjyYkRQIxlywyhJlLUuOPzX
-Content-Type: multipart/mixed; boundary="oLgGb4CoOy9gGjPXaoCdhJXJTDo4Hm2Za";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Alex Deucher <alexdeucher@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>
-Message-ID: <c28703a4-6936-15f2-730f-c3d96e1326a5@suse.de>
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <YJ42MEgwDZrAEQLl@kroah.com>
- <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
- <YKIeBdwFb9Ng275X@phenom.ffwll.local>
- <503d101d-7273-757a-2809-e272db93c45d@suse.de>
- <CADnq5_NR+ysqmx6ftakGTjqjw0p6roiupa3sYTN8NuAMoGa6sQ@mail.gmail.com>
- <3aac3e39-4889-22dc-83dc-72fff63cb3d0@suse.de>
- <CAKMK7uFyTM9NQzhtOv-ABemYThLE2CnA=OYRiJwe7YwgotfLPA@mail.gmail.com>
-In-Reply-To: <CAKMK7uFyTM9NQzhtOv-ABemYThLE2CnA=OYRiJwe7YwgotfLPA@mail.gmail.com>
+On 5/17/2021 12:45 AM, Borislav Petkov wrote:
+> On Tue, Apr 27, 2021 at 01:43:09PM -0700, Yu-cheng Yu wrote:
+>> +static inline int write_user_shstk_32(u32 __user *addr, u32 val)
+>> +{
+>> +	WARN_ONCE(1, "%s used but not supported.\n", __func__);
+>> +	return -EFAULT;
+>> +}
+>> +#endif
+> 
+> What is that supposed to catch? Any concrete (mis-)use cases?
+> 
 
---oLgGb4CoOy9gGjPXaoCdhJXJTDo4Hm2Za
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+If 32-bit apps are not supported, there should be no need of 32-bit 
+shadow stack write, otherwise there is a bug.
 
-Hi
+[...]
 
-Am 17.05.21 um 22:00 schrieb Daniel Vetter:
+>> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+>> index d387df84b7f1..48a0c87414ef 100644
+>> --- a/arch/x86/kernel/shstk.c
+>> +++ b/arch/x86/kernel/shstk.c
+>> @@ -20,6 +20,7 @@
+>>   #include <asm/fpu/xstate.h>
+>>   #include <asm/fpu/types.h>
+>>   #include <asm/cet.h>
+>> +#include <asm/special_insns.h>
+>>   
+>>   static void start_update_msrs(void)
+>>   {
+>> @@ -176,3 +177,128 @@ void shstk_disable(void)
+>>   
+>>   	shstk_free(current);
+>>   }
+>> +
+>> +static unsigned long _get_user_shstk_addr(void)
+> 
+> What's the "_" prefix in the name supposed to denote?
+> 
+> Ditto for the other functions with "_" prefix you're adding.
+> 
 
->> Sharing common code among subsystems is not a problem. Many of our
->> more-sophisticated helpers are located in DRM because no other
->> subsystems have the requirements yet. Maybe AI now has and we can move=
+These are static functions.  I thought that would make the static scope 
+clear.  I can remove "_".
 
->> the rsp shareable code to a common location. But AI is still no GPU. T=
-o
->> give a bad analogy: GPUs transmit audio these days. Yet we don't treat=
+>> +{
+>> +	struct fpu *fpu = &current->thread.fpu;
+>> +	unsigned long ssp = 0;
+>> +
+>> +	fpregs_lock();
+>> +
+>> +	if (fpregs_state_valid(fpu, smp_processor_id())) {
+>> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
+>> +	} else {
+>> +		struct cet_user_state *p;
+>> +
+>> +		p = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+>> +		if (p)
+>> +			ssp = p->user_ssp;
+>> +	}
+>> +
+>> +	fpregs_unlock();
+> 
+> <---- newline here.
+> 
+>> +	return ssp;
+>> +}
+>> +
+>> +#define TOKEN_MODE_MASK	3UL
+>> +#define TOKEN_MODE_64	1UL
+>> +#define IS_TOKEN_64(token) (((token) & TOKEN_MODE_MASK) == TOKEN_MODE_64)
+>> +#define IS_TOKEN_32(token) (((token) & TOKEN_MODE_MASK) == 0)
+> 
+> Why do you have to look at the second, busy bit, too in order to
+> determine the mode?
+> 
 
->> them as sound cards.
->=20
-> We actually do, there are full blown sound drivers for them over in
-> sound/ (ok I think they're all in sound/hda for pci gpus or in
-> sound/soc actually). There's some glue to tie it together because it
-> requires coordination between the gpu and sound side of things, but
-> that's it.
+If the busy bit is set, it is only for SAVEPREVSSP, and invalid as a 
+normal restore token.
 
-I know. But we don't merge both subsystems, just because the devices=20
-have some overlap in functionality.
+> Also, you don't need most of those defines - see below.
+> 
+>> +/*
+>> + * Create a restore token on the shadow stack.  A token is always 8-byte
+>> + * and aligned to 8.
+>> + */
+>> +static int _create_rstor_token(bool ia32, unsigned long ssp,
+>> +			       unsigned long *token_addr)
+>> +{
+>> +	unsigned long addr;
+>> +
+>> +	*token_addr = 0;
+> 
+> What for? Callers should check this function's retval and then interpret
+> the validity of token_addr and it should not unconditionally write into
+> it.
+> 
 
-Best regards
-Thomas
+Ok.
 
->=20
-> Also I think it would be extremely silly to remove all the drm_ stuff
-> just because it's originated from GPUs, and therefore absolutely
-> cannot be used by other accelarators. I'm not seeing the point in
-> that, but if someone has convincing technical argument for this we
-> could do it. A tree wide s/drm_/xpu_ might make some sense perhaps if
-> that makes people more comfortable with the idea of reusing code from
-> gpu origins for accelerators in general.
-> -Daniel
->=20
+>> +
+>> +	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
+> 
+> Flip this logic:
+> 
+> 	if ((ia32 && !IS_ALIGNED(ssp, 4)) || !IS_ALIGNED(ssp, 8))
+> 
+>> +		return -EINVAL;
+>> +
+>> +	addr = ALIGN_DOWN(ssp, 8) - 8;
+> 
+> Yah, so this is weird. Why does the restore token need to be at -8
+> instead on the shadow stack address itself?
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+With the lower two bits masked out, the restore token must point 
+directly above itself.
 
+> 
+> Looking at
+> 
+> Figure 18-2. RSTORSSP to Switch to New Shadow Stack
+> Figure 18-3. SAVEPREVSSP to Save a Restore Point
+> 
+> in the SDM, it looks like unnecessarily more complex than it should be.
+> But maybe there's some magic I'm missing.
+> 
+>> +
+>> +	/* Is the token for 64-bit? */
+>> +	if (!ia32)
+>> +		ssp |= TOKEN_MODE_64;
+> 
+> 		    |= BIT(0);
+> 
 
---oLgGb4CoOy9gGjPXaoCdhJXJTDo4Hm2Za--
+Ok, then, we don't use #define's.  I will put in comments about what it 
+is doing, and fix the rest.
 
---6jSQ74WCN6fjyYkRQIxlywyhJlLUuOPzX
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCizvQFAwAAAAAACgkQlh/E3EQov+Ay
-WA/8CsiYmVjdX5mgd24Mcuk72EZyvsLI0bseTUnltOfF9WZPXw+wfSzWJakKqYxGzZ0aFernuz7F
-dkhwFKzWJ+ZpD2+WyDaxiaoSXoh4yg2rqRSGOZa0W3r/bq5homk2bAkXOpmnHtOAytVz6UxiHJew
-x4Qa9RxqEOud72vSONmfeoyD4Ib9iunpTUAFok43yg9OoxgUlhipSCwbfJRU4V6slHIQuB8yqvHS
-uossF7guT0jBrK1YXvwod3ZnEAi+5ilWCEiPejlOD2Z171cu3Ak9/xRevN8Tg8AoL/ki40x6bBgV
-V5mQzShY0zGyIQtunneyClthNf5SsBWyIBR1rNxNFAkQcqqxr0U/ShLjEanUW8ET5Po29cusZ4WD
-eqkh17gqtQubxwxnxFVyAg0yRY8ruuQBMmUqLxLNbsr8SO0NJa138MXY9AMIDUKdPsVGHOxBxsP1
-9xrIpRJCZ/qSFoUaqFdMDjOJ349Ubso6KGIL2YMlkK6j2i56t0IWCE7rqraPNaEiCaJcqp7juprE
-ioWCUB1p/8R5hgiCmCvLc6+r/av2ibMlsN6wZLOvZFjLcGjPn+0ZSLIlKUZ1zk+Z73j+HkElJeIM
-eBNHSFMwPffAQKItkJ2csc9xTCXWAeLvIG6r2dhvSJLlnI/YyQMDV+09ss7MB6umfEMcmb8dzqZf
-Kzk=
-=+mZB
------END PGP SIGNATURE-----
-
---6jSQ74WCN6fjyYkRQIxlywyhJlLUuOPzX--
+Thanks,
+Yu-cheng
