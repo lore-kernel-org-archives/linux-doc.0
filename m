@@ -2,88 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 509E5C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 04:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6815EC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 06:21:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 159AE6120D
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 04:00:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42E576121F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 06:21:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbhEQEB5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 00:01:57 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:35208 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229452AbhEQEB5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 00:01:57 -0400
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Ax7chk6qFgYAoYAA--.31444S2;
-        Mon, 17 May 2021 12:00:37 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>, Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: checkpatch: add description if no filenames are given
-Date:   Mon, 17 May 2021 12:00:36 +0800
-Message-Id: <1621224036-32092-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9Ax7chk6qFgYAoYAA--.31444S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Xw4Dtw4xXryUuFyfJrykuFg_yoW8Jr4xpa
-        n5GrySgrZ8GryrX34jv3WxWFyfAaykXFZ8GF1vgF15tFZ8Xa9aqryfKw1Yy3W7CFWrCa9I
-        vr48Xr9avF1jvFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkIb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
-        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
-        jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-        C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr
-        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8XwCF04k2
-        0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
-        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
-        IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
-        AIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
-        z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUY8-PUUUUUU==
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        id S229519AbhEQGWe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 02:22:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42608 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230273AbhEQGWd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 02:22:33 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B585FC061573;
+        Sun, 16 May 2021 23:21:17 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id i9so7004363lfe.13;
+        Sun, 16 May 2021 23:21:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HPO8MYRMBAA2HkZuMGPwQbW3GjmFXbW4z8o2wmyjkkg=;
+        b=LzZP6tkhps6mIWWBVnZsE5IUWTcV/2XQKL0zDvo6ji1IbH1CDjcdmWTT70847zMB2C
+         qup60cLCGqy1T4xI0Nn4afFWDjBfyUu68OXCgaH1kWVs9aPatU0L6j+37n9JEAdalR6W
+         VjRLBytBDVg/yDjeKQcHyMmt1utZruJgQfLFYw01GaIH9oHahtcVvdFXrCJCWhAdKyzY
+         av4rw9WbTkUAJJjqItco2ZP+FgWTaPcSWpELJzQzwbR7C5300BKndi9AR3eHC99pjM6W
+         LYx2ffI2bbugKaS4My8BJnBHOlOcCtFkwnL2KQjnk1gnD2OChSqHzC72U6OmkBBiC6vJ
+         BBsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HPO8MYRMBAA2HkZuMGPwQbW3GjmFXbW4z8o2wmyjkkg=;
+        b=SHJ9q70HoEUhjM+7XHzd1d9TOK4iULFkUv1iJBqqVHPhwJ/pGrPdY2qheBbOk3kzZf
+         WjSoYHNnTdsKvuJfVFH8Fl5zs050XJ36uOyN1cTeDe4X4iUxBXokZho2RFxYoacOYWA4
+         bZ+rnatAsnBaWMVH9uZEBMAkM6nrbtJbDPGrTjtKkRJ0wYtKRfYRewDkO+IUYivyPGyG
+         Kokmc85WfvKn9vPIARPbzTezUIrYEvK8u4maRwWrX6e3t1CA2gqFtY7cexGSYyylBjDt
+         GelVIdSFgcmys20tR3ztGV2eJxhkhO/1lbHJwc40Ec9MHjbQrQzCvRDvcRpvmoETO5Mt
+         m65g==
+X-Gm-Message-State: AOAM530wrNoY4QDRDLUBk5jsMWRTPiL/wpEuilZ9ZDN/ZgHvvXDfNRzg
+        ekWMgjaminu+WTQOgtDgOUQz31NVoKS998ayoZI=
+X-Google-Smtp-Source: ABdhPJxpIJO8zf08T9tT91wZfPdBpytT/htslxH/athVYyMDm5E6aGmkDIivUzw9T3RtGkYFjAyKdNXFiFtuq2DBDlA=
+X-Received: by 2002:a19:430e:: with SMTP id q14mr2140598lfa.117.1621232476122;
+ Sun, 16 May 2021 23:21:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <1621224036-32092-1-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1621224036-32092-1-git-send-email-yangtiezhu@loongson.cn>
+From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date:   Mon, 17 May 2021 11:51:05 +0530
+Message-ID: <CABJPP5DRw3pNs0da4HdCLXVHSa6sE88xJOO6C3c_oBESLoWq3A@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: checkpatch: add description if no
+ filenames are given
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Joe Perches <joe@perches.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
-if no filenames are given, it will read patch from stdin rather than exit
-directly, it is a bit confusing whether the script hangs, I do not quite
-know what to do next util I understand the code logic.
+Hey,
 
-At the beginning, I want to print some info if no filenames are given [1],
-but as Joe Perches said, this is unnecessary. It's like trying to make cat
-without command line arguments emit something.
+On Mon, May 17, 2021 at 9:30 AM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>
+> After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
+> if no filenames are given, it will read patch from stdin rather than exit
+> directly, it is a bit confusing whether the script hangs, I do not quite
+> know what to do next util I understand the code logic.
 
-So as Lukas Bulwahn suggested, add description for somebody that actually
-reads the available kernel documentation on checkpatch.
+util -> until
+>
+> At the beginning, I want to print some info if no filenames are given [1],
+> but as Joe Perches said, this is unnecessary. It's like trying to make cat
+> without command line arguments emit something.
+>
+> So as Lukas Bulwahn suggested, add description for somebody that actually
+> reads the available kernel documentation on checkpatch.
+>
+> [1] https://lore.kernel.org/patchwork/patch/1429026/
+>
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> ---
+>  Documentation/dev-tools/checkpatch.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index 51fed1b..181b95e 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -210,6 +210,8 @@ Available options:
+>
+>     Display the help text.
+>
+> +When FILE is -, or no filenames are given, read standard input.
+> +
 
-[1] https://lore.kernel.org/patchwork/patch/1429026/
+The addition is reasonable but the position of the text is a bit weird.
+Let's have it after the Usage:: text:
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- Documentation/dev-tools/checkpatch.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 51fed1b..181b95e 100644
+-----------
+diff --git a/Documentation/dev-tools/checkpatch.rst
+b/Documentation/dev-tools/checkpatch.rst
+index d4bb55723a86..7bf1e48207ce 100644
 --- a/Documentation/dev-tools/checkpatch.rst
 +++ b/Documentation/dev-tools/checkpatch.rst
-@@ -210,6 +210,8 @@ Available options:
- 
-    Display the help text.
- 
-+When FILE is -, or no filenames are given, read standard input.
-+
- Message Levels
- ==============
- 
--- 
-2.1.0
+@@ -22,6 +22,8 @@ Usage::
 
+  ./scripts/checkpatch.pl [OPTION]... [FILE]...
+
++When FILE is -, or absent, checkpatch reads from standard input.
++
+Available options:
+
+ - -q,  --quiet
+@@ -210,7 +212,6 @@ Available options:
+
+   Display the help text.
+
+-When FILE is -, or no filenames are given, read standard input.
+
+Message Levels
+==============
+-------------
+
+Thanks,
+Dwaipayan.
