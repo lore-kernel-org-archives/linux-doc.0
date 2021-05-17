@@ -2,124 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B02BC43460
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 19:33:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 681C3C43460
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 19:40:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F08F6134F
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 19:33:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4202061004
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 19:40:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234503AbhEQTeR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 15:34:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52840 "EHLO
+        id S234958AbhEQTlR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 15:41:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234708AbhEQTeN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 15:34:13 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C707C06138A
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 12:32:56 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id v12so7625520wrq.6
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 12:32:56 -0700 (PDT)
+        with ESMTP id S234919AbhEQTlI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 15:41:08 -0400
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E53C061573
+        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 12:39:51 -0700 (PDT)
+Received: by mail-oo1-xc33.google.com with SMTP id t17-20020a4a3e110000b02901fab2f46a48so1718292oot.6
+        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 12:39:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+        d=ffwll.ch; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NI7fG+Iz42tCTRW4FnFZEbmA6acgFeQJ4sXoAsYOays=;
-        b=VPCiE/4FqXs81DF9CoNcuueDHeNNUjkvCfoCRnWBVPQjLW0j0pQz5y5NaRVERJMCpf
-         B1DwT4s6SLMGXniu9FL9gxnGwYyUUM2smZUQvt2Qb1gXnj2J8YcJovyJWWPR0mD+OPsa
-         UdPanHaQSl/KBZuSjumBEvbmgDHeFdUFZ1Zw8HAdGciyhOpy9GsqxNApeCXuh+jyv3yA
-         Uvd69dvTrhNJosq/Y4Z/wTfokI0qDtUWTcFL2CObaB4e6cQq0wMs4pDqCcH+o5doJSFT
-         vFNyRl4SS/PCni3LqTTPlsjiRG6H0yExQJtvROhJjO+ODsPp7FcMZMNTUONnclFrr4qG
-         2Ugw==
+         :cc:content-transfer-encoding;
+        bh=3j1vAcC0e9yX5+KBAlb122jwzeMLbo0gBTA1q4Cqjn4=;
+        b=lW+41HOiV3M3UyHyQ5yIZc7ZN6wM/y16KLWGAet7h/8/2hwuHhHt20qGqdni0umUI3
+         BppDe2WaobU1EPJa+2dJTVp4LJoRnI7lFOgZjnM9tDppo1AlBF6ZuCwVwpB9l5zY2cT4
+         69G5xajWBnEGLm0ouCm0AEMPp380iFlpEcdK8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NI7fG+Iz42tCTRW4FnFZEbmA6acgFeQJ4sXoAsYOays=;
-        b=TwQ0cDzplJFdzhghXDNZc2NEgqqy1UT7AssQF73mNBnu5BrNiMXFweHSFvIo5tYrqn
-         pDkn7DdVDWxL3x9PZanxmLAnt/lpmmCmhw64DQOyo8di/aMa2+w9CYB/17twDH/i4j+E
-         bEPxwJHPwXkMuYMSCylE9YoE3x2b/l/P+4rN7lUN+qrCHRpKNi+UYhQN1fiyeSg0TE90
-         j5c1sYVblCKbwQVcMlJH3n8vrzJuX0+nXys0CxkHukc2hsvKhwUsNlBPppQKQD+0+vOj
-         gVAYtTD+SbT14M91lg02HYUasDV8A+BEEh+gXcD8XIHx47MGs3j6AHczHjA/zbWXmu42
-         IQrA==
-X-Gm-Message-State: AOAM533KWVvWugZXZbqivdCXXTmchREVPgF+fdMCoK8AOFzkL9qT3WrF
-        9UKnxGP5cu1S9p1Y7Pt7Nq/0NyRGWpNPj3Es4nOORg==
-X-Google-Smtp-Source: ABdhPJw13Z70zQiULTMByvvk76vtGj/6H/7RaAlGaSiPA1JN5oUYA3Uxd1gKghjbNVX4S49IhfOKd1J6WUKFBD1aB8o=
-X-Received: by 2002:a5d:570c:: with SMTP id a12mr1526197wrv.354.1621279974949;
- Mon, 17 May 2021 12:32:54 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3j1vAcC0e9yX5+KBAlb122jwzeMLbo0gBTA1q4Cqjn4=;
+        b=YQ8+U5My1U+LqA4cc2JNtFHtfFhgKr/aLL05GcEoGWJ8A9xROG9abHnjoOZE/6aDnP
+         drIwgrBC1FKi/pkWY1ofhjWiKB5Za7wx1Fr+ct04cWT5Hw1Z/YonaO717XiG2SkvQRel
+         IFNbRRpG4a+uhq+nD9m/YWzaI7+lfX+ajSV7wGU7ITdc18RDi1ImI8FIBIWTs7zKMmXG
+         TYTXWC5OdCmlf65jfu5qFtyuMzAw1g5w58SLmHtVVWbvW1KTPLrGS1FsHc1QegzmJ6e+
+         nvOOmph7ddfDUqr02EiHxR6QMMrx5gtgPrTetU3AzHr4NXbxxG2oAnqkV6p20MFJMnCh
+         24Dw==
+X-Gm-Message-State: AOAM532LCYumJNPHWrM4KvLu3huX8YvCbFsUrAyUjHREf1P2R6GAqW63
+        BL9iy3J5KCh2Hqg3jllnEbTfu/8DmRSXzsGJ8+fvcw==
+X-Google-Smtp-Source: ABdhPJxvEfz5A/yPd3bgGTZqfua++DtVwARgRFKZICirmJHitiLm0al+0eQTJixE/QmJWxVpCkWiK9ucSzd0+XnP/GE=
+X-Received: by 2002:a4a:d442:: with SMTP id p2mr1177338oos.89.1621280391096;
+ Mon, 17 May 2021 12:39:51 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
  <YJ42MEgwDZrAEQLl@kroah.com> <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
  <YKIeBdwFb9Ng275X@phenom.ffwll.local> <503d101d-7273-757a-2809-e272db93c45d@suse.de>
-In-Reply-To: <503d101d-7273-757a-2809-e272db93c45d@suse.de>
-From:   Daniel Stone <daniel@fooishbar.org>
-Date:   Mon, 17 May 2021 20:32:43 +0100
-Message-ID: <CAPj87rMqYNdHMT5v9fiMuDzcB8462nJuthB9To70JOsORgxk=w@mail.gmail.com>
+ <CADnq5_NR+ysqmx6ftakGTjqjw0p6roiupa3sYTN8NuAMoGa6sQ@mail.gmail.com>
+In-Reply-To: <CADnq5_NR+ysqmx6ftakGTjqjw0p6roiupa3sYTN8NuAMoGa6sQ@mail.gmail.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Mon, 17 May 2021 21:39:39 +0200
+Message-ID: <CAKMK7uFzcdX-knzZEwLWsPiF2WfePdr0ou1dD169Pwx0GMzgtQ@mail.gmail.com>
 Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+To:     Alex Deucher <alexdeucher@gmail.com>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Derek Kiernan <derek.kiernan@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Mon, 17 May 2021 at 20:12, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Am 17.05.21 um 09:40 schrieb Daniel Vetter:
-> > We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or
-> > think G as in General, not Graphisc.
+On Mon, May 17, 2021 at 9:23 PM Alex Deucher <alexdeucher@gmail.com> wrote:
 >
-> I hope this was a joke.
+> On Mon, May 17, 2021 at 3:12 PM Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+> >
+> > Hi
+> >
+> > Am 17.05.21 um 09:40 schrieb Daniel Vetter:
+> > > On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
+> > >> On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
+> > >> <gregkh@linuxfoundation.org> wrote:
+> > >>> On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
+> > >>>> Dear kernel maintainers,
+> > >>>>
+> > >>>> This submission is a kernel driver to support Intel(R) Gaussian & =
+Neural
+> > >>>> Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-=
+processor
+> > >>>> available on multiple Intel platforms. AI developers and users can=
+ offload
+> > >>>> continuous inference workloads to an Intel(R) GNA device in order =
+to
+> > free
+> > >>>> processor resources and save power. Noise reduction and speech rec=
+ognition
+> > >>>> are the examples of the workloads Intel(R) GNA deals with while it=
+s usage
+> > >>>> is not limited to the two.
+> > >>>
+> > >>> How does this compare with the "nnpi" driver being proposed here:
+> > >>>          https://lore.kernel.org/r/20210513085725.45528-1-guy.zadic=
+ario@intel.com
+> > >>>
+> > >>> Please work with those developers to share code and userspace api a=
+nd
+> > >>> tools.  Having the community review two totally different apis and
+> > >>> drivers for the same type of functionality from the same company is
+> > >>> totally wasteful of our time and energy.
+> > >>
+> > >> Agreed, but I think we should go further than this and work towards =
+a
+> > >> subsystem across companies for machine learning and neural networks
+> > >> accelerators for both inferencing and training.
+> > >
+> > > We have, it's called drivers/gpu. Feel free to rename to drivers/xpu =
+or
+> > > think G as in General, not Graphisc.
+> >
+> > I hope this was a joke.
+> >
+> > Just some thoughts:
+> >
+> > AFAICT AI first came as an application of GPUs, but has now
+> > evolved/specialized into something of its own. I can imagine sharing
+> > some code among the various subsystems, say GEM/TTM internals for memor=
+y
+> > management. Besides that there's probably little that can be shared in
+> > the userspace interfaces. A GPU is device that puts an image onto the
+> > screen and an AI accelerator isn't. Treating both as the same, even if
+> > they share similar chip architectures, seems like a stretch. They might
+> > evolve in different directions and fit less and less under the same
+> > umbrella.
 >
-> Just some thoughts:
+> The putting something on the screen is just a tiny part of what GPUs
+> do these days.  Many GPUs don't even have display hardware anymore.
+> Even with drawing APIs, it's just some operation that you do with
+> memory.  The display may be another device entirely.  GPUs also do
+> video encode and decode, jpeg acceleration, etc.  drivers/gpu seems
+> like a logical place to me.  Call it drivers/accelerators if you like.
+> Other than modesetting most of the shared infrastructure in
+> drivers/gpu is around memory management and synchronization which are
+> all the hard parts.  Better to try and share that than to reinvent
+> that in some other subsystem.
+
+Maybe to add: Most of our driver stack is in userspace (like for NN/AI
+chips too), both where high amounts of code sharing are the norm (like
+with mesa3d) and areas there the landscape is a lot more fragmented
+(like compute and media, where the userspace driver APIs are all
+different for each vendor, or at least highly specialized). That's
+another thing which I don't think any other kernel subsystem has, at
+least as much as we do.
+
+So for both the big design questions on how the overall stack is
+organized down to the details like code sharing, drivers/g^Hxpu should
+be the best place. Aside from the pesky problem that we do actually
+look at the userspace side and have some expectations on that too, not
+just on the kernel code alone.
+-Daniel
+
 >
-> AFAICT AI first came as an application of GPUs, but has now
-> evolved/specialized into something of its own. I can imagine sharing
-> some code among the various subsystems, say GEM/TTM internals for memory
-> management. Besides that there's probably little that can be shared in
-> the userspace interfaces. A GPU is device that puts an image onto the
-> screen and an AI accelerator isn't.
+> Alex
+>
+> >
+> > And as Dave mentioned, these devices are hard to obtain. We don't reall=
+y
+> > know what we sign up for.
+> >
+> > Just my 2 cents.
+> >
+> > Best regards
+> > Thomas
+> >
+> >
+> >
+> > --
+> > Thomas Zimmermann
+> > Graphics Driver Developer
+> > SUSE Software Solutions Germany GmbH
+> > Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> > (HRB 36809, AG N=C3=BCrnberg)
+> > Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> >
 
-But it isn't. A GPU is a device that has a kernel-arbitrated MMU
-hosting kernel-managed buffers, executes user-supplied compiled
-programs with reference to those buffers and other jobs, and informs
-the kernel about progress.
 
-KMS lies under the same third-level directory, but even when GPU and
-display are on the same die, they're totally different IP blocks
-developed on different schedules which are just periodically glued
-together.
 
-> Treating both as the same, even if
-> they share similar chip architectures, seems like a stretch. They might
-> evolve in different directions and fit less and less under the same
-> umbrella.
-
-Why not? All we have in common in GPU land right now is MMU + buffer
-references + job scheduling + synchronisation. None of this has common
-top-level API, or even a common top-level model. It's not just ISA
-differences, but we have very old-school devices where the kernel
-needs to register fill on every job, living next to middle-age devices
-where the kernel and userspace co-operate to fill a ring buffer,
-living next to modern devices where userspace does some stuff and then
-the hardware makes it happen with the bare minimum of kernel
-awareness.
-
-Honestly I think there's more difference between lima and amdgpu then
-there is between amdgpu and current NN/ML devices.
-
-Cheers,
-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
