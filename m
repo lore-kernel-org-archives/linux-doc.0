@@ -2,150 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C2A3C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:18:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA3E4C43461
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:18:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76A2960C3D
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:18:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCBBE6108D
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:18:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235630AbhEQIT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 04:19:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235231AbhEQISp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 04:18:45 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E4ACC061756
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 01:17:12 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id g15-20020a9d128f0000b02902a7d7a7bb6eso4844672otg.9
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 01:17:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=PmvpOx9ImcKd9uOyOmqdYvw3qLQXhEw9JZJsnY9FJCE=;
-        b=bWZZ/m47NenTQSUihlMG/OANaqesU4bGMRZx022+FRmx8mOHV7Ss5plQ3n6qK90QmY
-         Esyp1BLDdazb58EsgxhA4j88DHvs2dFWzDwaFK++bBqXG2WggkGYoT6ifmxP7Yepb4h1
-         cCg+Fm+yH0xcjW96yybhFWlAbZ8beqavqTRqtdoNt0Qo9NmXTy7kFGYgGe++VUYRSOv1
-         X1d1Wt3ZPY94sjSxJjXcK2Y6iByJFGJl+9wIl5mMzwOrsNf1IR7E1enFImSMoA2RHhQ0
-         NjzXjWibIl6foMXd/5Ky/7zBlmzUbQlTP5Y7K0Bi5lhc1ueWTIb0cEh6cw2W4cEmXNv7
-         qU5w==
+        id S232195AbhEQIUE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 04:20:04 -0400
+Received: from mail-wr1-f51.google.com ([209.85.221.51]:45906 "EHLO
+        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235599AbhEQISq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 04:18:46 -0400
+Received: by mail-wr1-f51.google.com with SMTP id h4so5355519wrt.12;
+        Mon, 17 May 2021 01:16:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PmvpOx9ImcKd9uOyOmqdYvw3qLQXhEw9JZJsnY9FJCE=;
-        b=fn5h0nGyLTwbBiuyj2NJFSh4VoL1MFmPJCl9iSKj4p5RxHdWeZbxOxnGvPwb+CvrBy
-         SN4rfuL3zTTXkLH13Uh4f6//zjVg8GicqgA3+hzKmAuUP9WiHC0iAl6mRuUD3rQt66ch
-         sbvuHyMUm6rmCPSydEJ05lvY3ap5KIaXbi0TWJkx6uV1opoi/KhWFdLEKDOzfDp9se3f
-         aNhPktrnIEmPvW++b/5RrfKl95uKKpuPyzJFeZJA42PBfCguY1r6g/locdo5iLpfBph1
-         f0Si8l/5TpBD/KgYqvvNRvmvQbgAv1s8ufPBaxnRfna5v8HhgEyIDOWwx9fnOweIDlbY
-         h3Iw==
-X-Gm-Message-State: AOAM532o8Op8pRAfyj7mgwezQw1aZFw/SRYzjZeOxlRcFWQ45axVYZgD
-        FR1/p3lqJEOpI+PogVW5I6h4WfFWuRI7/JQ/tOk=
-X-Google-Smtp-Source: ABdhPJxy8BfVCI/XuU8R9Cwp6XyxUOFAcjnorDiIZbX7uUG1KVB93H8+2A5zWFZtODF4FudpsulSvQ5lUVHZZhBLsUI=
-X-Received: by 2002:a05:6830:1e3b:: with SMTP id t27mr213898otr.243.1621239431987;
- Mon, 17 May 2021 01:17:11 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/Y2QrCRbgx4kkWGGhnIXaAKNy2eEk4cnk8Q73oTRaog=;
+        b=jvqo4v0KjoGK1OiB4y/nt8VZ24osX5AoENqE9tqr7UKRjFpbKKjoAJuiGlkDi3jNlX
+         QBNLzMDbvJe7RydLP82jyqFd9AULEkAm4UWUveZ7gn9ZahFKcU9vEqYoljewR1F5M9IO
+         nEDFBC5R7TX8j9kHRFVDpP7Td2cpAsrFdAVc4N1e2bpBhMeLBNFRM0T7Psky6Xgxr8J6
+         0Sebb8WlnTA/NT2e033oxVPJl9XCnX21YNkzQqyTu8G6ClldoCaWn8g1eKECbWr2H55j
+         GA76VBy/XuiXyr1tfyJvLJ0OZacXhnMlsDhGZkrQZ2vaxfKTYH+BpJj1ncXZaK21mon6
+         5DTQ==
+X-Gm-Message-State: AOAM532YqkCHTAlzu2gWFIOibTUQiI5CfrtyHXAlPAFK24ML5+ceDqH5
+        GUYHIcoCLEgqPvmIdNr6RET/1tHmCmlRsw==
+X-Google-Smtp-Source: ABdhPJwsaGVaUkWkqBwdPutyb4HRLDGXVw8nVUNEV19this1HDQZShT/AcoiInPmyw3/lx1ajHpG9A==
+X-Received: by 2002:a5d:410e:: with SMTP id l14mr27744330wrp.230.1621239405371;
+        Mon, 17 May 2021 01:16:45 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id f7sm18015993wrg.34.2021.05.17.01.16.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 May 2021 01:16:44 -0700 (PDT)
+Subject: Re: [PATCH] serial/liteuart; Add support for earlycon
+To:     Stafford Horne <shorne@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     Florent Kermarrec <florent@enjoy-digital.fr>,
+        Mateusz Holenko <mholenko@antmicro.com>,
+        Joel Stanley <joel@jms.id.au>,
+        "Gabriel L . Somlo" <gsomlo@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Karol Gugala <kgugala@antmicro.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-doc@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20210515084519.167343-1-shorne@gmail.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Message-ID: <adb78be2-18a6-224d-1fa7-36b7912fa1cf@kernel.org>
+Date:   Mon, 17 May 2021 10:16:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <cover.1621062577.git.siyanteng@loongson.cn> <e8a6975086ad54b5abdde2b816f6fa06dc98fcf7.1621062577.git.siyanteng@loongson.cn>
- <87f7bb59-cb85-de95-4e8d-72784686b9b9@gmail.com> <CAEensMydFLpmUaCHUYwQ7d_WR+HDbPboTdMAOA+H+FUqcaur_g@mail.gmail.com>
- <e371a1e6-d38d-f5fc-1ad6-1aee116da468@gmail.com>
-In-Reply-To: <e371a1e6-d38d-f5fc-1ad6-1aee116da468@gmail.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Mon, 17 May 2021 16:17:01 +0800
-Message-ID: <CAEensMxi4Vj24iSQ6GfrB9uG6OqxS4RCpRNr-Rd2j+5XKVsOGg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] docs/zh_CN: add core-api kernel-api.rst translation
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, huangjianghui@uniontech.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210515084519.167343-1-shorne@gmail.com>
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alex Shi <seakeel@gmail.com> =E4=BA=8E2021=E5=B9=B45=E6=9C=8817=E6=97=A5=E5=
-=91=A8=E4=B8=80 =E4=B8=8A=E5=8D=8811:21=E5=86=99=E9=81=93=EF=BC=9A
->
->
->
-> On 2021/5/17 =E4=B8=8A=E5=8D=889:55, yanteng si wrote:
-> > Alex Shi <seakeel@gmail.com> =E4=BA=8E2021=E5=B9=B45=E6=9C=8816=E6=97=
-=A5=E5=91=A8=E6=97=A5 =E4=B8=8A=E5=8D=8811:30=E5=86=99=E9=81=93=EF=BC=9A
-> >>
-> >>
-> >>
-> >> On 2021/5/15 =E4=B8=8B=E5=8D=884:10, Yanteng Si wrote:
-> >>
-> >>> +=E5=AE=89=E5=85=A8=E6=A1=86=E6=9E=B6
-> >>> +=3D=3D=3D=3D=3D=3D=3D=3D
-> >>> +
-> >>> +check the functions in security/security.c in kernel source code.
-> >>> +   :internal:
-> >>> +
-> >>> +check the functions in security/inode.c in kernel source code.
-> >>> +   :export:
-> >>> +
-> >>> +=E5=AE=A1=E8=AE=A1=E6=8E=A5=E5=8F=A3
-> >>> +=3D=3D=3D=3D=3D=3D=3D=3D
-> >>> +
-> >>> +check the functions in kernel/audit.c in kernel source code.
-> >>> +   :export:
-> >>> +
-> >>> +check the functions in kernel/auditsc.c in kernel source code.
-> >>> +   :internal:
-> >>> +
-> >>> +check the functions in kernel/auditfilter.c in kernel source code.
-> >>> +   :internal:
-> >>> +
-> >>
-> >> Too verbose w/o much useful info, Is the following better?
-> >>
-> >>   APIs in kernel code: kernel/audit.c, kernel/auitsc.c and kernel/audi=
-tfilter.c
-> >>
-> >>   =E8=AF=A5 APIs =E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=
-=A3=E7=A0=81=E4=B8=AD kernel/audit.c, kernel/auitsc.c and kernel/auditfilte=
-r.c
-> > It looks great, but in some cases, sentences that are too long have
-> > some difficulty with a new line, and they are not neat after the new
-> > line.
-> > For example::
-> >
-> > =E8=BF=99=E4=BA=9B=E5=87=BD=E6=95=B0=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=
-=85=E6=A0=B8=E4=BB=A3=E7=A0=81=E4=B8=AD include/asm-generic/bitops/instrume=
-nted-atomic.h=EF=BC=8C
-> > include/asm-generic/bitops/instrumented-non-atomic.h and
-> > include/asm-generic/bitops/instrumented-lock.h
-> > ...
-> >
-> > how about::
-> >
-> > =E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=
-=A0=81=E4=B8=AD:
-> >
-> > kernel/audit.c
-> > kernel/auitsc.c
-> > kernel/auditfilter.c
-> >
-> > =E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=
-=A0=81=E4=B8=AD:
-> >
-> > include/asm-generic/bitops/instrumented-atomic.h
-> > include/asm-generic/bitops/instrumented-non-atomic.h
-> > include/asm-generic/bitops/instrumented-lock.h
->
-> Right split them into multiple lines looks better.
-OK=EF=BC=81
+On 15. 05. 21, 10:45, Stafford Horne wrote:
+> Most litex boards using RISC-V soft cores us the sbi earlycon, however
+> this is not available for non RISC-V litex SoC.  This patch enables
+> earlycon for liteuart which is available on all Litex SoC's making
+> support for earycon debugging more widely available.
+> 
+> Signed-off-by: Stafford Horne <shorne@gmail.com>
+> Cc: Florent Kermarrec <florent@enjoy-digital.fr>
+> Cc: Mateusz Holenko <mholenko@antmicro.com>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Gabriel L. Somlo <gsomlo@gmail.com>
+> ---
+>   .../admin-guide/kernel-parameters.txt         |  5 +++
+>   drivers/tty/serial/Kconfig                    |  1 +
+>   drivers/tty/serial/liteuart.c                 | 31 +++++++++++++++++++
+>   3 files changed, 37 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 04545725f187..2d4a43af8de2 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1084,6 +1084,11 @@
+>   			the driver will use only 32-bit accessors to read/write
+>   			the device registers.
+>   
+> +		liteuart,<addr>
+> +			Start an early console on a litex serial port at the
+> +			specified address. The serial port must already be
+> +			setup and configured. Options are not yet supported.
+> +
+>   		meson,<addr>
+>   			Start an early, polled-mode console on a meson serial
+>   			port at the specified address. The serial port must
+> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+> index 0c4cd4a348f4..9ceffe6ab6fd 100644
+> --- a/drivers/tty/serial/Kconfig
+> +++ b/drivers/tty/serial/Kconfig
+> @@ -1531,6 +1531,7 @@ config SERIAL_LITEUART
+>   	depends on OF || COMPILE_TEST
+>   	depends on LITEX
+>   	select SERIAL_CORE
+> +	select SERIAL_EARLYCON
+>   	help
+>   	  This driver is for the FPGA-based LiteUART serial controller from LiteX
+>   	  SoC builder.
+> diff --git a/drivers/tty/serial/liteuart.c b/drivers/tty/serial/liteuart.c
+> index 64842f3539e1..38c472487e68 100644
+> --- a/drivers/tty/serial/liteuart.c
+> +++ b/drivers/tty/serial/liteuart.c
+> @@ -372,6 +372,37 @@ static int __init liteuart_console_init(void)
+>   console_initcall(liteuart_console_init);
+>   #endif /* CONFIG_SERIAL_LITEUART_CONSOLE */
+>   
+> +#ifdef CONFIG_SERIAL_EARLYCON
+> +static void early_liteuart_putc(struct uart_port *port, int c)
+> +{
+> +	while (litex_read8(port->membase + OFF_TXFULL))
+> +		cpu_relax();
+> +
+> +	litex_write8(port->membase + OFF_RXTX, c);
 
-Thanks,
- Yanteng
+Hi,
+
+am I missing something or this doesn't differ to liteuart_putchar?
+
+> +}
+> +
+> +static void early_liteuart_write(struct console *console, const char *s,
+> +				    unsigned int count)
+> +{
+> +	struct earlycon_device *device = console->data;
+> +	struct uart_port *port = &device->port;
+> +
+> +	uart_console_write(port, s, count, early_liteuart_putc);
+> +}
+> +
+> +static int __init early_liteuart_setup(struct earlycon_device *device,
+> +				       const char *options)
+> +{
+> +	if (!device->port.membase)
+> +		return -ENODEV;
+> +
+> +	device->con->write = early_liteuart_write;
+> +	return 0;
+> +}
+> +
+> +OF_EARLYCON_DECLARE(liteuart, "litex,liteuart", early_liteuart_setup);
+> +#endif /* CONFIG_SERIAL_EARLYCON */
+> +
+>   static int __init liteuart_init(void)
+>   {
+>   	int res;
+> 
+
+
+-- 
+js
+suse labs
