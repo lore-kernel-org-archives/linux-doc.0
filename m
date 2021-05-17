@@ -2,89 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E89C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 10:26:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC9DFC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 10:34:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFA9B611CA
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 10:26:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B414E61241
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 10:34:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236375AbhEQK1b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 06:27:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236283AbhEQK1a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 06:27:30 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AAD1C06174A
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 03:26:14 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id w15so6518975ljo.10
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 03:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TABM48q860KIIr5PxtnzEvdl0N8ZAcbff2DSZQYX9FQ=;
-        b=DFOwNqZzH3LgNcrSdw/Uy8RJXi0IHbACsyD2QcUBdAuGL9d+Rl46Gs27xrsbnYwctP
-         PY5UAYk6szw/UjjC+5Km++3YZdlzR29hatmAM5g1n5uEsVTU4F1THp6bJiNu1NbfsGx2
-         evh3lkswyVPbI0feh8liiShu0AeCLPlxOiZxziy6AQ487e/nXzl/CK1/Hh0Ocf6/Vgag
-         dRejebsGWU2W3Ji8rQ4HYrw44vjdolffNxMOQTgML6z4x+sigvg+TePqtEvstpIGoJ7M
-         njEFushs67lFinE8EuLgKo5JGGoB8KxZYJvuyxtO1gXojCDrGVi1srnyteXk2SC0bMO4
-         B1eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TABM48q860KIIr5PxtnzEvdl0N8ZAcbff2DSZQYX9FQ=;
-        b=PFq+sNTyuCe+9wKjdmIotKR9btd2fASFaSxn7R9FnuZzovB6xBCCk53zhQ9UgHzSrQ
-         t69AhbnNMbzIixWQvfbpuYwPMOFXJbRq8vhn/pFPTbRJnRHMfZadBCYE6/Rl0p2X+Run
-         xuWfBk2Zmt+6eLyfuqLyBOhKn9Pum2rUol3DBgSPfCXNfvebq0mUVn2zLl1rdmWms5Wn
-         4zCVlkFvYwwhheLZL6CniLFfw6v7yn/yhJ2ZCLJd5+mV82Kq8+bJ2Iu09WWoRnTp8Tvq
-         IkBKRviSMSdB/M+SzmIYodLjC7GZyKkfoAgm7/FohYorEK9wu7KsnJ4RiTt1WG+iQfY8
-         vwSA==
-X-Gm-Message-State: AOAM532bPlB/ZWaVnbXnMZZmiPIOMbk2ivK2LaUr+FEa9Yup2ivMBiEt
-        mTkRPBzx/GyRIDbuzDjZOKyy7k2KHzDsLiueDHDRJg==
-X-Google-Smtp-Source: ABdhPJxWoQYefeTGAUQ3FV7Srjws4aPms4JUP73DPTY+Y87Ey6NVw+RkHp2kdVWionVILEOUvztOvQ941rAhRMwLGy0=
-X-Received: by 2002:a05:651c:4c6:: with SMTP id e6mr36942164lji.326.1621247172915;
- Mon, 17 May 2021 03:26:12 -0700 (PDT)
+        id S231754AbhEQKf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 06:35:27 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:5611 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233962AbhEQKf1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 06:35:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=P44t/xemdU0h5mdfKQIBh1IPAHcjUhVuLC2Yb
+        bGgUdU=; b=kfLNom50yTOYzmtfZpdPn7iiwDLbLxeaMbi9ujNrDBzAy9CYIZy3e
+        FjGjSfchb7NlNeltnEv8EcNiUzmOpoQQ3Pt8km3TjtQXWpdzO+QIXUfzZ3V6uy1i
+        ODq55gsAJnutw/fmp2qWuXYb93QH1Tn0fUBEa7pQXTUBCGjUuNCKFw=
+Received: from bobwxc.top (unknown [120.238.248.9])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgBnLkGcRqJgd+EuAA--.48447S2;
+        Mon, 17 May 2021 18:34:06 +0800 (CST)
+Date:   Mon, 17 May 2021 18:34:04 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v4 0/6] docs/zh_CN: Add translation zh_CN/maintainer
+Message-ID: <cover.1621243426.git.bobwxc@email.cn>
 MIME-Version: 1.0
-References: <20210511021656.17719-1-ansuelsmth@gmail.com> <YJnq3Y3/I1kdV1Ov@casper.infradead.org>
- <YJnswvYFUjlNS7Fa@Ansuel-xps.localdomain> <CAMj1kXGLihr4gq3iwHy6mLKG4UHWnh5XAgxZDZmnmNPErfJ-bg@mail.gmail.com>
-In-Reply-To: <CAMj1kXGLihr4gq3iwHy6mLKG4UHWnh5XAgxZDZmnmNPErfJ-bg@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 17 May 2021 12:26:02 +0200
-Message-ID: <CACRpkdYM5Rk9qxhkpsWqaGp-uZDoHJ3_r0605vC9SLQw6=BCAQ@mail.gmail.com>
-Subject: Re: [PATCH] arm: Enlarge IO_SPACE_LIMIT needed for some SoC
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Ansuel Smith <ansuelsmth@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Abbott Liu <liuwenliang@huawei.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgBnLkGcRqJgd+EuAA--.48447S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJrykCF4fXFWDKF17tFy5urg_yoW8KF13pa
+        1Igrn3G3WkAF17Ca1fGF1UXF15Ja4fC3y5GrnxW3Z5trWvyrWYyrWUtF9I9r9xWr48XF43
+        Zw4SkF1ku395AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUqSb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
+        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04
+        k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+        wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc4
+        0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+        xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+        1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RRbyZUUUU
+        U
+X-Originating-IP: [120.238.248.9]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 11, 2021 at 6:26 AM Ard Biesheuvel <ardb@kernel.org> wrote:
+Hi all,
 
-> I used to carry a PCIe serial port
-> card to UEFI plugfests because that was the only thing that would stop
-> working if a system configured its I/O resource window incorrectly
+This set of patches aims to add translations zh_CN/maintainer.
 
-I've been looking for a thing like that for testing, I was actually
-thinking that it would perhaps be a good idea to add a I/O-resource
-requiring device to QEMU just to be able to test this kind of
-thing for completeness.
+v4:
+* Modified translation of word "backport" and a sentence under Alex
+  Shi's suggestion, thanks.
 
-Yours,
-Linus Walleij
+v3:
+<https://lore.kernel.org/linux-doc/cover.1620932189.git.bobwxc@email.cn/T/#t>
+* Rebase to newest jc/docs-next tree
+
+v2:
+<https://lore.kernel.org/linux-doc/87sg2q63sd.fsf@meer.lwn.net/T/>
+* Modified some words in [Patch 3-4/6] under Yanteng Si's advices.
+  Thanks for his review!
+* Pick Yanteng Si's reviewed-by tag for [Patch 1-6/6]
+
+v1:
+<https://lore.kernel.org/linux-doc/cover.1619093668.git.bobwxc@email.cn/T/#t>
+
+Please note that since each patch need to modify their own entry
+in zh_CN/maintainer/index.rst, patches should be applied in order.
+
+Thanks!
+
+Base on jc/docs-next
+
+Wu XiangCheng (6):
+  docs/zh_CN: Add translation zh_CN/maintainer/index.rst
+  docs/zh_CN: Add translation zh_CN/maintainer/configure-git.rst
+  docs/zh_CN: Add translation zh_CN/maintainer/rebasing-and-merging.rst
+  docs/zh_CN: Add translation zh_CN/maintainer/pull-requests.rst
+  docs/zh_CN: Add translation
+    zh_CN/maintainer/maintainer-entry-profile.rst
+  docs/zh_CN: Add translation zh_CN/maintainer/modifying-patches.rst
+
+ Documentation/translations/zh_CN/index.rst    |   2 +-
+ .../zh_CN/maintainer/configure-git.rst        |  62 +++++++
+ .../translations/zh_CN/maintainer/index.rst   |  21 +++
+ .../maintainer/maintainer-entry-profile.rst   |  92 ++++++++++
+ .../zh_CN/maintainer/modifying-patches.rst    |  51 ++++++
+ .../zh_CN/maintainer/pull-requests.rst        | 148 ++++++++++++++++
+ .../zh_CN/maintainer/rebasing-and-merging.rst | 165 ++++++++++++++++++
+ 7 files changed, 540 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/maintainer/configure-git.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/index.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/maintainer-entry-profile.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/modifying-patches.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/pull-requests.rst
+ create mode 100644 Documentation/translations/zh_CN/maintainer/rebasing-and-merging.rst
+
+-- 
+2.20.1
+
