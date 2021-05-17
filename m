@@ -2,46 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC9DFC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 10:34:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2DE3C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 10:34:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B414E61241
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 10:34:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBAC561241
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 10:34:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231754AbhEQKf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 06:35:27 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:5611 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233962AbhEQKf1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 06:35:27 -0400
+        id S236047AbhEQKfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 06:35:42 -0400
+Received: from m32-153.88.com ([43.250.32.153]:50606 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233962AbhEQKfl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 06:35:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=P44t/xemdU0h5mdfKQIBh1IPAHcjUhVuLC2Yb
-        bGgUdU=; b=kfLNom50yTOYzmtfZpdPn7iiwDLbLxeaMbi9ujNrDBzAy9CYIZy3e
-        FjGjSfchb7NlNeltnEv8EcNiUzmOpoQQ3Pt8km3TjtQXWpdzO+QIXUfzZ3V6uy1i
-        ODq55gsAJnutw/fmp2qWuXYb93QH1Tn0fUBEa7pQXTUBCGjUuNCKFw=
+        s=dkim; h=Date:From:To; bh=OzRLsfukgFweckMuszp0szadAnv0Cs3ctSlJo
+        fH3ZIo=; b=nDd6flI+t8II7YfgpGEBLe2y6Z6C8XYqEql+miXsGWA3wrpeGKBc5
+        XG03PuTHdWO4eHVPBIevHRZEizNeu6Yo/taIi0qSe0rM8RyjH/NQwv05zST8cVov
+        8bZY5EifWnRLdm/WVEMkJhAKUQu1jjpdvJgAPtjncNuGU3HkwNICco=
 Received: from bobwxc.top (unknown [120.238.248.9])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgBnLkGcRqJgd+EuAA--.48447S2;
-        Mon, 17 May 2021 18:34:06 +0800 (CST)
-Date:   Mon, 17 May 2021 18:34:04 +0800
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAHVlisRqJg4do2AA--.7180S2;
+        Mon, 17 May 2021 18:34:21 +0800 (CST)
+Date:   Mon, 17 May 2021 18:34:20 +0800
 From:   Wu XiangCheng <bobwxc@email.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v4 0/6] docs/zh_CN: Add translation zh_CN/maintainer
-Message-ID: <cover.1621243426.git.bobwxc@email.cn>
+Subject: [PATCH v4 1/6] docs/zh_CN: Add translation zh_CN/maintainer/index.rst
+Message-ID: <224959c4cdcd4c6554035145d5cedcd244887552.1621243426.git.bobwxc@email.cn>
+References: <cover.1621243426.git.bobwxc@email.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1621243426.git.bobwxc@email.cn>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgBnLkGcRqJgd+EuAA--.48447S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJrykCF4fXFWDKF17tFy5urg_yoW8KF13pa
-        1Igrn3G3WkAF17Ca1fGF1UXF15Ja4fC3y5GrnxW3Z5trWvyrWYyrWUtF9I9r9xWr48XF43
-        Zw4SkF1ku395AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: GiKnCgAHVlisRqJg4do2AA--.7180S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4kGw47urW5Kw1fWF48JFb_yoW8Aw13pF
+        9FgrySkF1fXry7CrWfGF17JF15Ga4fCw4UJa1IgwnYqryqqF4vyF1DtryDKF97WrWrZFW5
+        XF4fKF4j9r4Fy3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
         9KBjDU0xBIdaVrnRJUUUqSb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
         cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
         v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
@@ -60,58 +63,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+Add a new translation
+  Documentation/translations/zh_CN/maintainer/index.rst
+and link it to zh_CN/index.rst
 
-This set of patches aims to add translations zh_CN/maintainer.
-
-v4:
-* Modified translation of word "backport" and a sentence under Alex
-  Shi's suggestion, thanks.
-
-v3:
-<https://lore.kernel.org/linux-doc/cover.1620932189.git.bobwxc@email.cn/T/#t>
-* Rebase to newest jc/docs-next tree
-
-v2:
-<https://lore.kernel.org/linux-doc/87sg2q63sd.fsf@meer.lwn.net/T/>
-* Modified some words in [Patch 3-4/6] under Yanteng Si's advices.
-  Thanks for his review!
-* Pick Yanteng Si's reviewed-by tag for [Patch 1-6/6]
-
-v1:
-<https://lore.kernel.org/linux-doc/cover.1619093668.git.bobwxc@email.cn/T/#t>
-
-Please note that since each patch need to modify their own entry
-in zh_CN/maintainer/index.rst, patches should be applied in order.
-
-Thanks!
-
-Base on jc/docs-next
-
-Wu XiangCheng (6):
-  docs/zh_CN: Add translation zh_CN/maintainer/index.rst
-  docs/zh_CN: Add translation zh_CN/maintainer/configure-git.rst
-  docs/zh_CN: Add translation zh_CN/maintainer/rebasing-and-merging.rst
-  docs/zh_CN: Add translation zh_CN/maintainer/pull-requests.rst
-  docs/zh_CN: Add translation
-    zh_CN/maintainer/maintainer-entry-profile.rst
-  docs/zh_CN: Add translation zh_CN/maintainer/modifying-patches.rst
-
- Documentation/translations/zh_CN/index.rst    |   2 +-
- .../zh_CN/maintainer/configure-git.rst        |  62 +++++++
- .../translations/zh_CN/maintainer/index.rst   |  21 +++
- .../maintainer/maintainer-entry-profile.rst   |  92 ++++++++++
- .../zh_CN/maintainer/modifying-patches.rst    |  51 ++++++
- .../zh_CN/maintainer/pull-requests.rst        | 148 ++++++++++++++++
- .../zh_CN/maintainer/rebasing-and-merging.rst | 165 ++++++++++++++++++
- 7 files changed, 540 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/maintainer/configure-git.rst
+Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ Documentation/translations/zh_CN/index.rst    |  2 +-
+ .../translations/zh_CN/maintainer/index.rst   | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_CN/maintainer/index.rst
- create mode 100644 Documentation/translations/zh_CN/maintainer/maintainer-entry-profile.rst
- create mode 100644 Documentation/translations/zh_CN/maintainer/modifying-patches.rst
- create mode 100644 Documentation/translations/zh_CN/maintainer/pull-requests.rst
- create mode 100644 Documentation/translations/zh_CN/maintainer/rebasing-and-merging.rst
 
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index d56d6b7092e6..95c3f313cea1 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -72,11 +72,11 @@ TODOlist:
+    dev-tools/index
+    doc-guide/index
+    kernel-hacking/index
++   maintainer/index
+ 
+ TODOList:
+ 
+ * trace/index
+-* maintainer/index
+ * fault-injection/index
+ * livepatch/index
+ * rust/index
+diff --git a/Documentation/translations/zh_CN/maintainer/index.rst b/Documentation/translations/zh_CN/maintainer/index.rst
+new file mode 100644
+index 000000000000..4ce27c12f370
+--- /dev/null
++++ b/Documentation/translations/zh_CN/maintainer/index.rst
+@@ -0,0 +1,19 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/maintainer/index.rst
++
++==============
++内核维护者手册
++==============
++
++本文档本是内核维护者手册的首页。
++本手册还需要大量完善！请自由提出（和编写）本手册的补充内容。
++*译注：指英文原版*
++
++TODOList:
++
++-   configure-git
++-   rebasing-and-merging
++-   pull-requests
++-   maintainer-entry-profile
++-   modifying-patches
 -- 
 2.20.1
 
