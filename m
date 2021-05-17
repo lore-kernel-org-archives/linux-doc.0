@@ -2,321 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4142BC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:45:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A6FC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:48:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C8BB61244
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:45:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE7E4611ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233038AbhEQHq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 03:46:59 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:45190 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231787AbhEQHq6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 03:46:58 -0400
-Received: from zn.tnic (p200300ec2f061b008e3a9cb332cecf90.dip0.t-ipconnect.de [IPv6:2003:ec:2f06:1b00:8e3a:9cb3:32ce:cf90])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7E15F1EC0345;
-        Mon, 17 May 2021 09:45:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1621237540;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=nLVgavtPi73oeu6JkSw1lXObVuaZk7TsBy+QjR6ZzJw=;
-        b=fIhv70a8juEjUnMLPFsHbjmxjut56VtF5eRkDZkdil25TAZpcfoNfgtKBExBhJEfpd0c8E
-        /tpmuT2K9V2iGq15P7JoEosMqldTASCHh+tbgslKxdYlGtd+sTfrc+oSx+cQ1PzDSnaWYl
-        r+g1UTYZgP4TJI1fp14oft9y2FvN5Ks=
-Date:   Mon, 17 May 2021 09:45:36 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
- setup/verify routines
-Message-ID: <YKIfIEyW+sR+bDCk@zn.tnic>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-25-yu-cheng.yu@intel.com>
+        id S232195AbhEQHtU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 03:49:20 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:46672 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229954AbhEQHtT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 03:49:19 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 14H7lZNW073954;
+        Mon, 17 May 2021 02:47:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1621237655;
+        bh=j+ZeXQcB8mN0+OKJ9KdzAe0z9u/uPSAJpZLz8NLNtkE=;
+        h=From:To:CC:Subject:Date;
+        b=j2ZpsBcvschS91tTM6rl3nsfQX1nXCtsreE+J3n5qYPlYq8oroxaqdodAMyJCjKhS
+         3n69sDRIDP0mcMPVUmScXSzEQlCD1sy3HtLa3EwfqGTcDWz0RcnkIqqddHWVLLS/Rm
+         laCNtWC/0YUAVCMnk9YYyPOfokcQEXSaLw3qI2NE=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 14H7lZfr007907
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 17 May 2021 02:47:35 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 17
+ May 2021 02:47:35 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Mon, 17 May 2021 02:47:35 -0500
+Received: from a0393678-ssd.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 14H7lOcd007607;
+        Mon, 17 May 2021 02:47:26 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
+Date:   Mon, 17 May 2021 13:17:16 +0530
+Message-ID: <20210517074723.10212-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210427204315.24153-25-yu-cheng.yu@intel.com>
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 01:43:09PM -0700, Yu-cheng Yu wrote:
-> +static inline int write_user_shstk_32(u32 __user *addr, u32 val)
-> +{
-> +	WARN_ONCE(1, "%s used but not supported.\n", __func__);
-> +	return -EFAULT;
-> +}
-> +#endif
+Patch series
+*) Adds support to add virtual functions to enable endpoint controller
+   which supports SR-IOV capability
+*) Add support in Cadence endpoint driver to configure virtual functions
+*) Enable pci_endpoint_test driver to create pci_device for virtual
+   functions
 
-What is that supposed to catch? Any concrete (mis-)use cases?
+v1 of the patch series can be found at [1]
+v2 of the patch series can be found at [2]
+v3 of the patch series can be found at [3]
+v4 of the patch series can be found at [4]
+v5 of the patch series can be found at [5]
 
-> +
-> +static inline int write_user_shstk_64(u64 __user *addr, u64 val)
-> +{
-> +	asm_volatile_goto("1: wrussq %[val], (%[addr])\n"
-> +			  _ASM_EXTABLE(1b, %l[fail])
-> +			  :: [addr] "r" (addr), [val] "r" (val)
-> +			  :: fail);
-> +	return 0;
-> +fail:
-> +	return -EFAULT;
-> +}
-> +#endif /* CONFIG_X86_SHADOW_STACK */
-> +
->  #define nop() asm volatile ("nop")
->  
->  static inline void serialize(void)
-> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-> index d387df84b7f1..48a0c87414ef 100644
-> --- a/arch/x86/kernel/shstk.c
-> +++ b/arch/x86/kernel/shstk.c
-> @@ -20,6 +20,7 @@
->  #include <asm/fpu/xstate.h>
->  #include <asm/fpu/types.h>
->  #include <asm/cet.h>
-> +#include <asm/special_insns.h>
->  
->  static void start_update_msrs(void)
->  {
-> @@ -176,3 +177,128 @@ void shstk_disable(void)
->  
->  	shstk_free(current);
->  }
-> +
-> +static unsigned long _get_user_shstk_addr(void)
+Here both physical functions and virtual functions use the same
+pci_endpoint_test driver and existing pcitest utility can be used
+to test virtual functions as well.
 
-What's the "_" prefix in the name supposed to denote?
+Changes from v5:
+*) Rebased to 5.13-rc1
 
-Ditto for the other functions with "_" prefix you're adding.
+Changes from v4:
+*) Added a fix in Cadence driver which was overwriting BAR configuration
+   of physical function.
+*) Didn't include Tom's Acked-by since Cadence driver is modified in
+   this revision.
 
-> +{
-> +	struct fpu *fpu = &current->thread.fpu;
-> +	unsigned long ssp = 0;
-> +
-> +	fpregs_lock();
-> +
-> +	if (fpregs_state_valid(fpu, smp_processor_id())) {
-> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
-> +	} else {
-> +		struct cet_user_state *p;
-> +
-> +		p = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> +		if (p)
-> +			ssp = p->user_ssp;
-> +	}
-> +
-> +	fpregs_unlock();
+Changes from v3:
+*) Fixed Rob's comment and added his Reviewed-by as suggested by him.
 
-<---- newline here.
+Changes from v2:
+*) Fixed DT binding documentation comment by Rob
+*) Fixed the error check in pci-epc-core.c
 
-> +	return ssp;
-> +}
-> +
-> +#define TOKEN_MODE_MASK	3UL
-> +#define TOKEN_MODE_64	1UL
-> +#define IS_TOKEN_64(token) (((token) & TOKEN_MODE_MASK) == TOKEN_MODE_64)
-> +#define IS_TOKEN_32(token) (((token) & TOKEN_MODE_MASK) == 0)
+Changes from v1:
+*) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
+   binding for EP)
 
-Why do you have to look at the second, busy bit, too in order to
-determine the mode?
+[1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
+[2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
+[3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
+[5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
 
-Also, you don't need most of those defines - see below.
+Kishon Vijay Abraham I (7):
+  dt-bindings: PCI: pci-ep: Add binding to specify virtual function
+  PCI: endpoint: Add support to add virtual function in endpoint core
+  PCI: endpoint: Add support to link a physical function to a virtual
+    function
+  PCI: endpoint: Add virtual function number in pci_epc ops
+  PCI: cadence: Add support to configure virtual functions
+  misc: pci_endpoint_test: Populate sriov_configure ops to configure
+    SR-IOV device
+  Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
 
-> +/*
-> + * Create a restore token on the shadow stack.  A token is always 8-byte
-> + * and aligned to 8.
-> + */
-> +static int _create_rstor_token(bool ia32, unsigned long ssp,
-> +			       unsigned long *token_addr)
-> +{
-> +	unsigned long addr;
-> +
-> +	*token_addr = 0;
-
-What for? Callers should check this function's retval and then interpret
-the validity of token_addr and it should not unconditionally write into
-it.
-
-> +
-> +	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
-
-Flip this logic:
-
-	if ((ia32 && !IS_ALIGNED(ssp, 4)) || !IS_ALIGNED(ssp, 8))
-
-> +		return -EINVAL;
-> +
-> +	addr = ALIGN_DOWN(ssp, 8) - 8;
-
-Yah, so this is weird. Why does the restore token need to be at -8
-instead on the shadow stack address itself?
-
-Looking at
-
-Figure 18-2. RSTORSSP to Switch to New Shadow Stack
-Figure 18-3. SAVEPREVSSP to Save a Restore Point
-
-in the SDM, it looks like unnecessarily more complex than it should be.
-But maybe there's some magic I'm missing.
-
-> +
-> +	/* Is the token for 64-bit? */
-> +	if (!ia32)
-> +		ssp |= TOKEN_MODE_64;
-
-		    |= BIT(0);
-
-> +
-> +	if (write_user_shstk_64((u64 __user *)addr, (u64)ssp))
-> +		return -EFAULT;
-> +
-> +	*token_addr = addr;
-
-<---- newline here.
-
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Create a restore token on shadow stack, and then push the user-mode
-> + * function return address.
-> + */
-> +int shstk_setup_rstor_token(bool ia32, unsigned long ret_addr,
-> +			    unsigned long *token_addr, unsigned long *new_ssp)
-> +{
-> +	struct cet_status *cet = &current->thread.cet;
-> +	unsigned long ssp = 0;
-> +	int err = 0;
-
-What are those cleared to 0 for?
-
-> +
-> +	if (cet->shstk_size) {
-
-Flip logic to save an indentation level:
-
-	if (!cet->shstk_size)
-		return err;
-
-	if (!ret_addr)
-		...
-
-
-> +		if (!ret_addr)
-> +			return -EINVAL;
-> +
-> +		ssp = _get_user_shstk_addr();
-
-Needs to test retval for 0 here and return error if so.
-
-> +		err = _create_rstor_token(ia32, ssp, token_addr);
-> +		if (err)
-> +			return err;
-> +
-> +		if (ia32) {
-> +			*new_ssp = *token_addr - sizeof(u32);
-> +			err = write_user_shstk_32((u32 __user *)*new_ssp, (u32)ret_addr);
-> +		} else {
-> +			*new_ssp = *token_addr - sizeof(u64);
-> +			err = write_user_shstk_64((u64 __user *)*new_ssp, (u64)ret_addr);
-
-In both cases, you should write *new_ssp only when write_user_shstk_*
-functions have succeeded.
-
-> +		}
-> +	}
-> +
-> +	return err;
-> +}
-> +
-> +/*
-> + * Verify token_addr point to a valid token, and then set *new_ssp
-
-			points
-
-> + * according to the token.
-> + */
-> +int shstk_check_rstor_token(bool ia32, unsigned long token_addr, unsigned long *new_ssp)
-> +{
-> +	unsigned long token;
-> +
-> +	*new_ssp = 0;
-
-Same as above.
-
-> +
-> +	if (!IS_ALIGNED(token_addr, 8))
-> +		return -EINVAL;
-> +
-> +	if (get_user(token, (unsigned long __user *)token_addr))
-> +		return -EFAULT;
-> +
-> +	/* Is 64-bit mode flag correct? */
-> +	if (!ia32 && !IS_TOKEN_64(token))
-> +		return -EINVAL;
-> +	else if (ia32 && !IS_TOKEN_32(token))
-> +		return -EINVAL;
-
-That test can be done using the XOR function - i.e., you want to return
-an error value when the two things are different.
-
-In order to make this more readable, you call ia32 "proc32" to be clear
-what that variable denotes - a 32-bit process. Then, you do
-
-	bool shstk32 = !(token & BIT(0));
-
-	if (proc32 ^ shstk32)
-		return -EINVAL;
-
-Voila.
-
-> +	token &= ~TOKEN_MODE_MASK;
-> +
-> +	/*
-> +	 * Restore address properly aligned?
-> +	 */
-> +	if ((!ia32 && !IS_ALIGNED(token, 8)) || !IS_ALIGNED(token, 4))
-
-Flip logic as above.
-
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  12 +-
+ .../devicetree/bindings/pci/pci-ep.yaml       |   7 +
+ drivers/misc/pci_endpoint_test.c              |   1 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  | 285 ++++++++++++++----
+ drivers/pci/controller/cadence/pcie-cadence.h |   7 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  36 +--
+ drivers/pci/controller/pcie-rcar-ep.c         |  19 +-
+ drivers/pci/controller/pcie-rockchip-ep.c     |  18 +-
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  |  79 +++--
+ drivers/pci/endpoint/functions/pci-epf-test.c |  66 ++--
+ drivers/pci/endpoint/pci-ep-cfs.c             |  24 ++
+ drivers/pci/endpoint/pci-epc-core.c           | 130 +++++---
+ drivers/pci/endpoint/pci-epf-core.c           | 144 ++++++++-
+ include/linux/pci-epc.h                       |  57 ++--
+ include/linux/pci-epf.h                       |  16 +-
+ 15 files changed, 684 insertions(+), 217 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.17.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
