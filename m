@@ -8,60 +8,60 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA253C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:43:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D2FC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:53:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE42361209
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:43:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27387610FC
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 09:53:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236066AbhEQJoy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 05:44:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
+        id S231826AbhEQJyT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 05:54:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236048AbhEQJox (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 05:44:53 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0352C061573;
-        Mon, 17 May 2021 02:43:36 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id v188so7724864ybe.1;
-        Mon, 17 May 2021 02:43:36 -0700 (PDT)
+        with ESMTP id S229474AbhEQJyT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 05:54:19 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7BFC061573;
+        Mon, 17 May 2021 02:53:02 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id v5so6396024ljg.12;
+        Mon, 17 May 2021 02:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KwvHFB6haj1euq9Su3Ad3P6zDg3T5rwMjoT/7A2qF9Q=;
-        b=j2oIbGcneuAjLHIOBGELY9i6ZL8owraNpkFL11JVjOPxsfeiXm8GELK8rLDoDOXXtl
-         nGfkdTL2Ox/e7Vjzibrzs0zg8cYKD/2xGDzxdClLl3Ix2y4WVEtZ53YO64B5GqsitKn4
-         wpWeA3LKDpPsvlzQscUv6LqPPfVwQR106HfCk3doEMSZz23h7ufI3W+Jr2yxn3PuAwkm
-         UfYcAvxVxBmn/0xxdSDMFrcYdxNE7x5SqLfDDoRUFCy1J06n53uBvfS1SyblKRDcy0ef
-         4BRbpIm0pn5Zt+Kg/cb1CcHIjSYybZhZDj04SIzOmqiv7mpiU0uX/HAQVIYA0tTKxUZj
-         XwqQ==
+        bh=ngU07/Nz5uBaGKSNQDKxKqJRj7ed23twEteeceYcPE0=;
+        b=kzsE5o55kTlANbGYoIAaMo6gz3+pJ8pWPgcfyFQ5twZZEpcSLTTAdGQ3xXjZ6soUKu
+         W4q89rLrsjkUb8rgpSvYZbIf/PrvJtRcn4mUJGVDkKKBEApvmDh9D4/az1H1Trh8ch5q
+         TGG7ypBl+Vr8MT0NdwRQnpjmchGWB2IrgfoP//7fgogV5dkUTDrdJtFbeUO6FbFkh2oH
+         06sk0X4MNBgILAs2RGblxKrde3R1TJgV6VRufgQ27lrf9DLP5qjKxvZNvjuvdqg0YaqM
+         PRgG2oKxdum9s4b4gGlcpE8jxOTHPAwN9X4PZ+YzxNVfuBhsrcGjS6mCUfO9epuLYmca
+         PG6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KwvHFB6haj1euq9Su3Ad3P6zDg3T5rwMjoT/7A2qF9Q=;
-        b=f/sbnnfpLO3dWQgltPz6Ar63BLezfNO9vl2CfVa4khJURLHMgDEQm332OQj3sn7Opk
-         ssuM9oBBedE9WhNXFmFgWDoVMvuJLA6phVItrgL0bFepNScYKB//27JQgLlS1ugVRjr5
-         600XceUX7oPar0rJQWEnaxSBXdhPcHAq/64F2b79jGPckNooPGCuMEI/+FyAsW8GtrK3
-         j5odkIxAI8bYtGEzZk3t35FBroWd6vnQVIWGKVQ8x2lYJDtLzveoNV9w/B0iS1e/XwRQ
-         wllHO0SBG7U0EkaGTLqIEID51ZOTaNuqI1On0tKZrjlUxlxA91xmqxc+tF62u+bseIMV
-         LM/Q==
-X-Gm-Message-State: AOAM533RlheQLXtnmUnwlta2zzd1PS1mwtHgkUnTJs8oL+/3fta+w/GE
-        EyDtjfvrzQVUqT+1PnuZIVrhl5IIo3yCiO00KEc=
-X-Google-Smtp-Source: ABdhPJwdhBfReuRF8yxrUkfUKdOmXN1odV3COj5klkSVa8IFjyhv6BR219EtmiHpZB+NxwAccYRs9SmqWnZypbiRs+A=
-X-Received: by 2002:a25:b112:: with SMTP id g18mr13098442ybj.281.1621244616068;
- Mon, 17 May 2021 02:43:36 -0700 (PDT)
+        bh=ngU07/Nz5uBaGKSNQDKxKqJRj7ed23twEteeceYcPE0=;
+        b=SWkOimIipT67yiWM41C2tRH+75Uxx6pQOtopLkA9WyMBrM2fcoFF3VhkYlRteLDTHH
+         mcRz83GHcqVS2SYo6X1BG99squKlZimoov7kpFefmxKQSW7DiTIu8F9M0leAJagSYmZA
+         KzrB/PGF0NEYKcnr7seGiX4wd9ROkXV05OdByjHvaY04aSZ5AlCkUy5zxgX/OIURkJWp
+         STxj5D0OK2x+C08MQfGxrp/BOxng6M1qIi3MTSKkWahzdfvRmZPmleFEf5c4D9DdDYE3
+         q1vz7Ds/y8F0JCFj+JFHNBwC8oLe6WlKq1fQLUFwDLNViwDkTPFTJbhHi/+BgRpBtXp1
+         YQcA==
+X-Gm-Message-State: AOAM533PpA6xEQ6n+ulhtLjALIfUuPXzuHM+zfkneASd9TRzx0cbnTpb
+        YXnrfRXvwXlSJkkQPRAwl50xFK8vELxTKcYz92PrB4jJG0J3IyQXSr0=
+X-Google-Smtp-Source: ABdhPJxacRlBrpdQvL2FKypzz7N/PoKwJjW0iAWZZji59hz8CQ78tlF69OrjNztXNreHnvt+7Idh/NpHti6xPDktDdg=
+X-Received: by 2002:a2e:9211:: with SMTP id k17mr49792574ljg.284.1621245181177;
+ Mon, 17 May 2021 02:53:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1621243800-27702-1-git-send-email-yangtiezhu@loongson.cn>
-In-Reply-To: <1621243800-27702-1-git-send-email-yangtiezhu@loongson.cn>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Mon, 17 May 2021 11:43:39 +0200
-Message-ID: <CAKXUXMyVSf_HsjKhD2FeZzyz6pbA7JN=KkWrvdRswkba60OXww@mail.gmail.com>
+References: <1621243800-27702-1-git-send-email-yangtiezhu@loongson.cn> <CAKXUXMyVSf_HsjKhD2FeZzyz6pbA7JN=KkWrvdRswkba60OXww@mail.gmail.com>
+In-Reply-To: <CAKXUXMyVSf_HsjKhD2FeZzyz6pbA7JN=KkWrvdRswkba60OXww@mail.gmail.com>
+From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date:   Mon, 17 May 2021 15:22:50 +0530
+Message-ID: <CABJPP5C9URoCVsGwQxref9Z9V0SvgpNfCY5Aib_HGG6M8LmdRQ@mail.gmail.com>
 Subject: Re: [PATCH v3] Documentation: checkpatch: add description if no
  filenames are given
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Tiezhu Yang <yangtiezhu@loongson.cn>,
         Joe Perches <joe@perches.com>,
         Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
@@ -71,49 +71,56 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 17, 2021 at 11:30 AM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+On Mon, May 17, 2021 at 3:13 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 >
-> After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
-> if no filenames are given, it will read patch from stdin rather than exit
-> directly. This means the script waits for input indefinitely, which
-> confuses new checkpatch users at first.
+> On Mon, May 17, 2021 at 11:30 AM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+> >
+> > After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
+> > if no filenames are given, it will read patch from stdin rather than exit
+> > directly. This means the script waits for input indefinitely, which
+> > confuses new checkpatch users at first.
+> >
+> > Add some basic documentation on this behaviour of checkpatch to lower
+> > the confusion.
+> >
+> > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> > ---
+> >
+> > v3: Update the commit message, thank you Lukas.
+> >
 >
-> Add some basic documentation on this behaviour of checkpatch to lower
-> the confusion.
+> Thanks.
 >
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
+> Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 >
-> v3: Update the commit message, thank you Lukas.
+> Dwaipayan, can you acknowledge this as well?
 >
 
-Thanks.
+Yes it looks good to me too. Thanks for the patch Tiezhu.
 
-Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 
-Dwaipayan, can you acknowledge this as well?
-
-Jonathan, I assume you will pick this up in your doc tree once
-Dwaipayan ack is there, right?
-
-Lukas
-
->  Documentation/dev-tools/checkpatch.rst | 2 ++
->  1 file changed, 2 insertions(+)
+> Jonathan, I assume you will pick this up in your doc tree once
+> Dwaipayan ack is there, right?
 >
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index 51fed1b..3eb9ead 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -22,6 +22,8 @@ Usage::
+> Lukas
 >
->    ./scripts/checkpatch.pl [OPTION]... [FILE]...
->
-> +When FILE is -, or absent, checkpatch reads from standard input.
-> +
->  Available options:
->
->   - -q,  --quiet
-> --
-> 2.1.0
->
+> >  Documentation/dev-tools/checkpatch.rst | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> > index 51fed1b..3eb9ead 100644
+> > --- a/Documentation/dev-tools/checkpatch.rst
+> > +++ b/Documentation/dev-tools/checkpatch.rst
+> > @@ -22,6 +22,8 @@ Usage::
+> >
+> >    ./scripts/checkpatch.pl [OPTION]... [FILE]...
+> >
+> > +When FILE is -, or absent, checkpatch reads from standard input.
+> > +
+> >  Available options:
+> >
+> >   - -q,  --quiet
+> > --
+> > 2.1.0
+> >
