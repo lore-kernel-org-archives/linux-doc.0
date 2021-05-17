@@ -2,158 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D2BC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:12:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D1EC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:41:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 619FD611C2
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:12:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC2D9611ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:41:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235182AbhEQHON (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 03:14:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54138 "EHLO
+        id S235379AbhEQHmo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 03:42:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234737AbhEQHOJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 03:14:09 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DE5C061573;
-        Mon, 17 May 2021 00:12:49 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id r8so7168187ybb.9;
-        Mon, 17 May 2021 00:12:49 -0700 (PDT)
+        with ESMTP id S235382AbhEQHmN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 03:42:13 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53509C061760
+        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 00:40:57 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id k14so4204452eji.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 00:40:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZnfM4fo4oFuAPVsrltUK26/fkolufI98kOjdPlwBBSs=;
-        b=sCHz9T1r7pQoPrnpmLqVHffncPimVZ34tPFdaSdpCyyRmbI4Bw3dFCYBoNaHQfs2aM
-         x4LC/UHilSXaDbQyq/4lODNs6RHLkQwrQ4pnqts1hIX7m8GXq+VZCloO2acNQPvRjZC8
-         nglxT+eRVpvnqJzCIEgcNaLk912N/KZAdP6X9R6yU4US8h+yBsCO6w6A4KieZrh81kyG
-         WFjtQ3AXvTMaHgIfZNNkkdTD6+q/qdhDj1bfvvqnUIGHmtDNoQCMOUgv5vMgK8ZE6tYd
-         5r80kL1d0ezowYexxgyQybHP/RFvWWp4MARDBG2kjL7e8XWIVJnrL592aMS7N+T8grKB
-         CDaw==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=B8FVvdrYV7pRJNP/rUxfxaSr7LQz2pvmtedFAKqPA5s=;
+        b=CSFvg+tjQEVYhc705mOMRwpzk8Gqt8xv+H0Ikr17UUGkrdXsoTWL0M/0aboeQW7SL0
+         WGnU4bdI0p5NbtPBxoIeo/1cgqFGkNieW6G7xHDeOo+2I+gaAhQxABCrVRSNg5NWzPMn
+         3o9RmP2fWWxIhM54sngD7vFBAb3B0wP539qc0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZnfM4fo4oFuAPVsrltUK26/fkolufI98kOjdPlwBBSs=;
-        b=ahlfZ9UIOuvAxKS0euvTxjwDL/+iZLauVYNqkGBcYkDUOW7Jq8dnn+ik0RTwSRQCVp
-         6HuJ+wVMkEmE76ANPZx3LeR70L4RshfvlvcfrZ5qs2TVTn0osN+fsez6R9Hf+YrdGEcm
-         JedkQ6398E/KlDgKFmkWqKEaxm+ts0aIysm5p2TXels8c8r31kd9NI4KD6apHxpEis9B
-         9V5TeH5BWTpKqwJ4tYZs1kYUCZGTSoFUdFSM14al+JbWnGrImSbJye4Yce9qpW+VVCXe
-         HyDH35t5Md792MSmzgVe4FZL9aVKf7v1V/NF5N7ZAg8bfJ09SipRug5d1xg3MDO6XqEE
-         bW9A==
-X-Gm-Message-State: AOAM532VUACrzWTZt+g82e59Y+yLmyNgWOtqj8znLWW/Jjrx4W4M1+Xa
-        kiFp2ktDEPbenE9Ini1yzn9kS13aXmQ/1dYyoI9ZSj4x
-X-Google-Smtp-Source: ABdhPJwhy8QlrIdBrKJb/MrNu8oi1LeLLZbLVd1iqr2w97cP4tUSJtamdpFZ04wpLC1o2Hggcr7AVCw0mnBO/qVK/RA=
-X-Received: by 2002:a25:55d5:: with SMTP id j204mr79927377ybb.157.1621235568717;
- Mon, 17 May 2021 00:12:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <1621224036-32092-1-git-send-email-yangtiezhu@loongson.cn> <CABJPP5DRw3pNs0da4HdCLXVHSa6sE88xJOO6C3c_oBESLoWq3A@mail.gmail.com>
-In-Reply-To: <CABJPP5DRw3pNs0da4HdCLXVHSa6sE88xJOO6C3c_oBESLoWq3A@mail.gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Mon, 17 May 2021 09:12:51 +0200
-Message-ID: <CAKXUXMyE_q9VCXVbZLPP77anaotTjW9rk0RfK=m8Njy44XpvEA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: checkpatch: add description if no
- filenames are given
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc:     Tiezhu Yang <yangtiezhu@loongson.cn>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=B8FVvdrYV7pRJNP/rUxfxaSr7LQz2pvmtedFAKqPA5s=;
+        b=O/bg1khaEaVOnxd3FgG2g8vpxninnS+7th7WGzZGcP94bBsuQ0G4RhiWzYPS3oQUz6
+         ltAWfgxwdjCds7uen+sCc2rO1AOdjZGw6XXj4hHgFv0Um+2zuKVX2c9H7ZrF6oiqxKS6
+         0fjlE+j85XiFp+tNGFBLNO0hyyoXgTiLA9GCxPuGYqmwGZi1z4EuTpGj7UNudFWW/muA
+         4u3hOztYkysy6RpT1cf0KiPd5RAztYtrYytQSwJc9eNeZXcoymxY6xNSYQqLq1liyglP
+         Hdih1e1LbjX+oxMQcSNKJYFm3tP8jCljMq/5K2KHO9cJsTwJX0EX6s5seU3NHPyU7gCB
+         VsHQ==
+X-Gm-Message-State: AOAM532aVxhD5JRVbzymGmh3cjwEGtJKi5zSAxVAfvQZibaEe+hq6B5t
+        ycoIMoNg6CstOh5wW/ZlLBQc32DePerb9A==
+X-Google-Smtp-Source: ABdhPJxsNKvac4CwIYd6QJnPC6F9qO8I0E39FRtgpcmyeUqnVrz/aM5qdvLz6CPniRZqwmrChq++FA==
+X-Received: by 2002:a17:906:cb1:: with SMTP id k17mr60265688ejh.307.1621237256090;
+        Mon, 17 May 2021 00:40:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id p14sm6814861ejz.51.2021.05.17.00.40.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 00:40:55 -0700 (PDT)
+Date:   Mon, 17 May 2021 09:40:53 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Joe Perches <joe@perches.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+Message-ID: <YKIeBdwFb9Ng275X@phenom.ffwll.local>
+Mail-Followup-To: Arnd Bergmann <arnd@arndb.de>,
+        Dave Airlie <airlied@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+ <YJ42MEgwDZrAEQLl@kroah.com>
+ <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 17, 2021 at 8:21 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
->
-> Hey,
->
-> On Mon, May 17, 2021 at 9:30 AM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
+> On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
+> > > Dear kernel maintainers,
+> > >
+> > > This submission is a kernel driver to support Intel(R) Gaussian & Neural
+> > > Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
+> > > available on multiple Intel platforms. AI developers and users can offload
+> > > continuous inference workloads to an Intel(R) GNA device in order to free
+> > > processor resources and save power. Noise reduction and speech recognition
+> > > are the examples of the workloads Intel(R) GNA deals with while its usage
+> > > is not limited to the two.
 > >
-> > After commit 45107ff6d526 ("checkpatch: if no filenames then read stdin"),
-> > if no filenames are given, it will read patch from stdin rather than exit
-> > directly, it is a bit confusing whether the script hangs, I do not quite
-> > know what to do next util I understand the code logic.
->
-> util -> until
+> > How does this compare with the "nnpi" driver being proposed here:
+> >         https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
+> >
+> > Please work with those developers to share code and userspace api and
+> > tools.  Having the community review two totally different apis and
+> > drivers for the same type of functionality from the same company is
+> > totally wasteful of our time and energy.
+> 
+> Agreed, but I think we should go further than this and work towards a
+> subsystem across companies for machine learning and neural networks
+> accelerators for both inferencing and training.
 
-s/I understand/I understood/
+We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or
+think G as in General, not Graphisc.
 
-> >
-> > At the beginning, I want to print some info if no filenames are given [1],
-> > but as Joe Perches said, this is unnecessary. It's like trying to make cat
-> > without command line arguments emit something.
-> >
-> > So as Lukas Bulwahn suggested, add description for somebody that actually
-> > reads the available kernel documentation on checkpatch.
-> >
-> > [1] https://lore.kernel.org/patchwork/patch/1429026/
-> >
+> We have support for Intel habanalabs hardware in drivers/misc, and there are
+> countless hardware solutions out of tree that would hopefully go the same
+> way with an upstream submission and open source user space, including
+> 
+> - Intel/Mobileye EyeQ
+> - Intel/Movidius Keembay
+> - Nvidia NVDLA
+> - Gyrfalcon Lightspeeur
+> - Apple Neural Engine
+> - Google TPU
+> - Arm Ethos
+> 
+> plus many more that are somewhat less likely to gain fully open source
+> driver stacks.
 
-Generally, I think this commit message is a bit "too much the personal
-experience report" rather than focussing on the technical motivation.
-I prefer the same content with less "I" and more focus on the
-technically valid arguments rather than people (your experience,
-Joe's, Lukas' opinion etc.).
+We also had this entire discussion 2 years ago with habanalabs. The
+hang-up is that drivers/gpu folks require fully open source userspace,
+including compiler and anything else you need to actually use the chip.
+Greg doesn't, he's happy if all he has is the runtime library with some
+tests.
 
-> > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> > ---
-> >  Documentation/dev-tools/checkpatch.rst | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> > index 51fed1b..181b95e 100644
-> > --- a/Documentation/dev-tools/checkpatch.rst
-> > +++ b/Documentation/dev-tools/checkpatch.rst
-> > @@ -210,6 +210,8 @@ Available options:
-> >
-> >     Display the help text.
-> >
-> > +When FILE is -, or no filenames are given, read standard input.
-> > +
->
-> The addition is reasonable but the position of the text is a bit weird.
-> Let's have it after the Usage:: text:
->
-> -----------
-> diff --git a/Documentation/dev-tools/checkpatch.rst
-> b/Documentation/dev-tools/checkpatch.rst
-> index d4bb55723a86..7bf1e48207ce 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -22,6 +22,8 @@ Usage::
->
->   ./scripts/checkpatch.pl [OPTION]... [FILE]...
->
-> +When FILE is -, or absent, checkpatch reads from standard input.
-> +
-> Available options:
->
->  - -q,  --quiet
-> @@ -210,7 +212,6 @@ Available options:
->
->    Display the help text.
->
-> -When FILE is -, or no filenames are given, read standard input.
->
-> Message Levels
-> ==============
-> -------------
->
+These two drivers here look a lot more like classic gpus than habanalabs
+did, at least from a quick look they operate with explicit buffer
+allocations/registration model. So even more reasons to just reuse all the
+stuff we have already. But also I don't expect these drivers here to come
+with open compilers, they never do, not initially at least before you
+started talking with the vendor. Hence I expect there'll be more
+drivers/totally-not-drm acceleration subsystem nonsense.
 
-Fully agree with Dwaipayan here. This is the better place this
-sentence should be added. Please send a patch v2.
+Anyway this horse has been throughroughly beaten to death and more, the
+agreement is that accel drivers in drivers/misc must not use any gpu
+stuff, so that drivers/gpu people dont end up in a prickly situation they
+never signed up for. E.g. I removed some code sharing from habanalabs.
+This means interop between gpu and nn/ai drivers will be no-go until this
+is resolved, but *shrug*.
 
-And if you want to contribute more, please add some typical example
-how to invoke checkpatch with a filename and a good example how
-checkpatch could be used reading from stdin (e.g., by piping in some
-suitable git log or git show output).
-
-Lukas
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
