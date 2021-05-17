@@ -2,89 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D4DC43461
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 15:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60FE1C43460
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 16:20:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DCD26108D
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 15:10:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26EE26052B
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 16:20:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242264AbhEQPLK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 11:11:10 -0400
-Received: from foss.arm.com ([217.140.110.172]:54816 "EHLO foss.arm.com"
+        id S1345434AbhEQQVa convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 12:21:30 -0400
+Received: from mga05.intel.com ([192.55.52.43]:52983 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242655AbhEQPH2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 11:07:28 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A7BE1106F;
-        Mon, 17 May 2021 08:06:11 -0700 (PDT)
-Received: from e113632-lin (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54DEE3F73B;
-        Mon, 17 May 2021 08:06:10 -0700 (PDT)
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Beata Michalska <beata.michalska@arm.com>
-Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] sched/topology: Rework CPU capacity asymmetry detection
-In-Reply-To: <20210517131816.GA13965@e120325.cambridge.arm.com>
-References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com> <1621239831-5870-3-git-send-email-beata.michalska@arm.com> <87mtst1s8m.mognet@arm.com> <20210517131816.GA13965@e120325.cambridge.arm.com>
-Date:   Mon, 17 May 2021 16:06:05 +0100
-Message-ID: <87k0nx1jtu.mognet@arm.com>
+        id S1345781AbhEQQUo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 12:20:44 -0400
+IronPort-SDR: kmU6xCnCNKl9vJX0xQFN73tsR3zkzrUV40Uy5IqPIT4OJoSITHW638R3ETA1bVYdU+HekrDunW
+ 6G4rmtCcerPA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="286031446"
+X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; 
+   d="scan'208";a="286031446"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2021 09:11:37 -0700
+IronPort-SDR: 4uRZisQkY0v1wgg3I9c0I+LCJefuPBxXQnE5aPdODni2uP7snwEmunJ27rT0KY3XO3oLyjGPg9
+ 7I1d9/xoyJSw==
+X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; 
+   d="scan'208";a="438977527"
+Received: from jbrandeb-mobl4.amr.corp.intel.com (HELO localhost) ([10.212.212.39])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2021 09:11:37 -0700
+Date:   Mon, 17 May 2021 09:11:36 -0700
+From:   Jesse Brandeburg <jesse.brandeburg@intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH v3 11/16] docs: networking: device_drivers: replace some
+ characters
+Message-ID: <20210517091136.00000e96@intel.com>
+In-Reply-To: <23247f10ab58ae1b54ac368f8a2d2769562adcf4.1621159997.git.mchehab+huawei@kernel.org>
+References: <cover.1621159997.git.mchehab+huawei@kernel.org>
+        <23247f10ab58ae1b54ac368f8a2d2769562adcf4.1621159997.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.12.0 (GTK+ 2.24.28; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17/05/21 14:18, Beata Michalska wrote:
-> On Mon, May 17, 2021 at 01:04:25PM +0100, Valentin Schneider wrote:
->> On 17/05/21 09:23, Beata Michalska wrote:
->> > +static void asym_cpu_capacity_scan(const struct cpumask *cpu_map)
->> > +{
->> > +	struct asym_cap_data *entry, *next;
->> > +	int cpu;
->> >
->> > -		for_each_sd_topology(tl) {
->> > -			if (tl_id < asym_level)
->> > -				goto next_level;
->> > +	if (!list_empty(&asym_cap_list))
->> > +		list_for_each_entry(entry, &asym_cap_list, link)
->> > +			cpumask_clear(entry->cpu_mask);
->> >
->>
->> The topology isn't going to change between domain rebuilds, so why
->> recompute the masks? The sched_domain spans are already masked by cpu_map,
->> so no need to do this masking twice. I'm thinking this scan should be done
->> once against the cpu_possible_mask - kinda like sched_init_numa() done once
->> against the possible nodes.
->>
-> This is currently done, as what you have mentioned earlier, the tl->mask
-> may contain CPUs that are not 'available'. So it makes sure that the masks
-> kept on  the list are representing only those CPUs that are online.
-> And it is also needed case all CPUs of given capacity go offline - not to to
-> lose the full asymmetry that might change because of that ( empty masks are
-> being removed from the list).
->
-> I could change that and use the CPU mask that represents the online CPUs as
-> a checkpoint but then it also means additional tracking which items on the
-> list are actually available at a given point of time.
-> So if the CPUs masks on the list are to be set once (as you are suggesting)
-> than it needs additional logic to count the number of available capacities
-> to decide whether there is a full asymmetry or not.
->
+Mauro Carvalho Chehab wrote:
 
-That should be doable by counting non-empty intersections between each
-entry->cpumask and the cpu_online_mask in _classify().
+> The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
+> conversion and some cut-and-pasted text contain some characters that
+> aren't easily reachable on standard keyboards and/or could cause
+> troubles when parsed by the documentation build system.
+> 
+> Replace the occurences of the following characters:
+> 
+> 	- U+00a0 (' '): NO-BREAK SPACE
+> 	  as it can cause lines being truncated on PDF output
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-That said I'm afraid cpufreq module loading forces us to dynamically update
-those masks, as you've done. The first domain build could see asymmetry
-without cpufreq loaded, and a later one with cpufreq loaded would need an
-update. Conversely, as much of a fringe case as it is, we'd have to cope
-with the cpufreq module being unloaded later on...
+For the Intel Ethernet Docs, LGTM!
 
-:(
+Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
