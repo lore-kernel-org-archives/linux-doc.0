@@ -2,136 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB5CC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:49:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57782C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:00:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48523610FA
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 07:49:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F10560FF0
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:00:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235226AbhEQHue (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 03:50:34 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:40588 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235535AbhEQHuO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 03:50:14 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 14H7mbEP115682;
-        Mon, 17 May 2021 02:48:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1621237717;
-        bh=PswJzuVJEpo2V7rLJvAKEapfrXwbPZ/ywMR3JM+8zp4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=YLRY+8FfTx/HoaXGt+NEz6R9M5rxLuquJUAk/sxt8tkZ9Qz7gwTMOHY3KefYswRcH
-         HB0arP15VCWEmmlbuRFDoqobtz2sKvJ0xf5T3uQ4S7dNFslHyX9DTaUrPnDgx3uGUd
-         WXOSae3bKDo2if4DPWO03jx4yZSuRENrTBN6grCY=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 14H7mbjN008730
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 17 May 2021 02:48:37 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 17
- May 2021 02:48:36 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Mon, 17 May 2021 02:48:36 -0500
-Received: from a0393678-ssd.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 14H7lOck007607;
-        Mon, 17 May 2021 02:48:29 -0500
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>
-CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: [PATCH v6 7/7] Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
-Date:   Mon, 17 May 2021 13:17:23 +0530
-Message-ID: <20210517074723.10212-8-kishon@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210517074723.10212-1-kishon@ti.com>
-References: <20210517074723.10212-1-kishon@ti.com>
+        id S235354AbhEQICI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 04:02:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41552 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235692AbhEQIBS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 04:01:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C0FC66105A;
+        Mon, 17 May 2021 08:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1621238402;
+        bh=P4h/zP4hu3xUeYH1FCb7Jn+H1STMmMvvHTnVqyKxP9Y=;
+        h=Date:From:To:Subject:References:In-Reply-To:From;
+        b=fghbKWNQxTrJdalIvKxa78I7kaT56lZbLJl6dwQA0tfnzaRfdHeJ1x8M8SbTmXM4i
+         H3tmpXCkgbo+IQy54+SxpO3SHvmZzKzWO1LtPc/axqPejNlFGKEcW7Wr5BMz77gmdq
+         WpbEV8bTTVPHxhxDWgQi08LSqu/jCcTDUJj0s3Yw=
+Date:   Mon, 17 May 2021 10:00:00 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+Message-ID: <YKIigHrwqp8zd036@kroah.com>
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+ <YJ42MEgwDZrAEQLl@kroah.com>
+ <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+ <YKIeBdwFb9Ng275X@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKIeBdwFb9Ng275X@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add Documentation to help users use PCI endpoint to create virtual
-functions using configfs. An endpoint function is designated as a
-virtual endpoint function device when it is linked to a physical
-endpoint function device (instead of a endpoint controller).
+On Mon, May 17, 2021 at 09:40:53AM +0200, Daniel Vetter wrote:
+> On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
+> > On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > > On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
+> > > > Dear kernel maintainers,
+> > > >
+> > > > This submission is a kernel driver to support Intel(R) Gaussian & Neural
+> > > > Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
+> > > > available on multiple Intel platforms. AI developers and users can offload
+> > > > continuous inference workloads to an Intel(R) GNA device in order to free
+> > > > processor resources and save power. Noise reduction and speech recognition
+> > > > are the examples of the workloads Intel(R) GNA deals with while its usage
+> > > > is not limited to the two.
+> > >
+> > > How does this compare with the "nnpi" driver being proposed here:
+> > >         https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
+> > >
+> > > Please work with those developers to share code and userspace api and
+> > > tools.  Having the community review two totally different apis and
+> > > drivers for the same type of functionality from the same company is
+> > > totally wasteful of our time and energy.
+> > 
+> > Agreed, but I think we should go further than this and work towards a
+> > subsystem across companies for machine learning and neural networks
+> > accelerators for both inferencing and training.
+> 
+> We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or
+> think G as in General, not Graphisc.
+> 
+> > We have support for Intel habanalabs hardware in drivers/misc, and there are
+> > countless hardware solutions out of tree that would hopefully go the same
+> > way with an upstream submission and open source user space, including
+> > 
+> > - Intel/Mobileye EyeQ
+> > - Intel/Movidius Keembay
+> > - Nvidia NVDLA
+> > - Gyrfalcon Lightspeeur
+> > - Apple Neural Engine
+> > - Google TPU
+> > - Arm Ethos
+> > 
+> > plus many more that are somewhat less likely to gain fully open source
+> > driver stacks.
+> 
+> We also had this entire discussion 2 years ago with habanalabs. The
+> hang-up is that drivers/gpu folks require fully open source userspace,
+> including compiler and anything else you need to actually use the chip.
+> Greg doesn't, he's happy if all he has is the runtime library with some
+> tests.
 
-Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
----
- Documentation/PCI/endpoint/pci-endpoint-cfs.rst | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+All you need is a library, what you write on top of that is always
+application-specific, so how can I ask for "more"?
 
-diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-index 696f8eeb4738..56fb33c5e8fd 100644
---- a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-+++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-@@ -43,6 +43,7 @@ entries corresponding to EPF driver will be created by the EPF core.
- 		.. <EPF Driver1>/
- 			... <EPF Device 11>/
- 			... <EPF Device 21>/
-+			... <EPF Device 31>/
- 		.. <EPF Driver2>/
- 			... <EPF Device 12>/
- 			... <EPF Device 22>/
-@@ -68,6 +69,7 @@ created)
- 				... subsys_vendor_id
- 				... subsys_id
- 				... interrupt_pin
-+			        ... <Symlink EPF Device 31>/
-                                 ... primary/
- 			                ... <Symlink EPC Device1>/
-                                 ... secondary/
-@@ -79,6 +81,13 @@ interface should be added in 'primary' directory and symlink of endpoint
- controller connected to secondary interface should be added in 'secondary'
- directory.
- 
-+The <EPF Device> directory can have a list of symbolic links
-+(<Symlink EPF Device 31>) to other <EPF Device>. These symbolic links should
-+be created by the user to represent the virtual functions that are bound to
-+the physical function. In the above directory structure <EPF Device 11> is a
-+physical function and <EPF Device 31> is a virtual function. An EPF device once
-+it's linked to another EPF device, cannot be linked to a EPC device.
-+
- EPC Device
- ==========
- 
-@@ -98,7 +107,8 @@ entries corresponding to EPC device will be created by the EPC core.
- 
- The <EPC Device> directory will have a list of symbolic links to
- <EPF Device>. These symbolic links should be created by the user to
--represent the functions present in the endpoint device.
-+represent the functions present in the endpoint device. Only <EPF Device>
-+that represents a physical function can be linked to a EPC device.
- 
- The <EPC Device> directory will also have a *start* field. Once
- "1" is written to this field, the endpoint device will be ready to
--- 
-2.17.1
+> These two drivers here look a lot more like classic gpus than habanalabs
+> did, at least from a quick look they operate with explicit buffer
+> allocations/registration model. So even more reasons to just reuse all the
+> stuff we have already. But also I don't expect these drivers here to come
+> with open compilers, they never do, not initially at least before you
+> started talking with the vendor. Hence I expect there'll be more
+> drivers/totally-not-drm acceleration subsystem nonsense.
 
+As these are both from Intel, why aren't they using the same open
+compiler?  Why aren't they using the same userspace api as well?  What's
+preventing them from talking to each other about this and not forcing
+the community (i.e. outsiders) from being the one to force this to
+happen?
+
+> Anyway this horse has been throughroughly beaten to death and more, the
+> agreement is that accel drivers in drivers/misc must not use any gpu
+> stuff, so that drivers/gpu people dont end up in a prickly situation they
+> never signed up for. E.g. I removed some code sharing from habanalabs.
+> This means interop between gpu and nn/ai drivers will be no-go until this
+> is resolved, but *shrug*.
+
+I'm all for making this unified, but these are not really devices doing
+graphics so putting it all into DRM always feels wrong to me.  The fact
+that people abuse GPU devices for not graphic usages would indicate to
+me that that code should be moving _out_ of the drm subsystem :)
+
+thanks,
+
+greg k-h
