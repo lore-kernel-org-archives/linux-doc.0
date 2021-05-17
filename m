@@ -2,93 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF3B0C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 02:47:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D133C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 03:10:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B12C061005
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 02:47:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA7EE610A0
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 03:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233357AbhEQCsr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 May 2021 22:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbhEQCsq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 22:48:46 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 203E6C061573
-        for <linux-doc@vger.kernel.org>; Sun, 16 May 2021 19:47:29 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id d21so5170626oic.11
-        for <linux-doc@vger.kernel.org>; Sun, 16 May 2021 19:47:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=431XNN5JRS8LOxY8NoXFZAq5Dq9EgupPMADykdvJSRM=;
-        b=fN036M9cFoq9IxNIk6LNVpJw8hdhd/6qMERzsmxDONjpaMvt+wD+beUAMyoTj6rime
-         q4e2pRv7oDdNJNIgPwCWXvqIkwh59wqUUaMnAk2eBkCRqWxCGU93zheeactz1zkb5qpV
-         TfyT4cepREE+bkdncRo6gPI6wPVPX400G8Dve1ulmDDo8M5Vye+T4Yih+v2bFk/yJhJL
-         JDQPmZFuc2HBq6WJG9JuFEK1a3lKex/dPRe0uhXc7Qal5dcTEnIQ59OsgPQbIYhcBGsX
-         aXROI24sYZdXF7iER58UwJEDvNceaBhMS/lHjBB2n6oRJNrkNkWigf+y7dF04VsiwwJw
-         CmeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=431XNN5JRS8LOxY8NoXFZAq5Dq9EgupPMADykdvJSRM=;
-        b=gCZGJM/zqncUpQL5VrGIhHYHPPuMsC4hw9v0qDAsn2Bo6oI0FIcKCoM7x6Ijoj8z2X
-         FmfpjZtddx7faSw+1ronCXsumIo89B0zb3Xhnw/U9486YedvkaHYwVu3eQEj6kAMDhUg
-         aRs0OkTtGwTkkXUfloxA9AGbtZi7NioJk7AamuKlJ1vsI/v04PgBhRKzGPFEGKVQrEob
-         OnoUjR9maWwkjwptRpbEq472N2hxF5CQWLKVU0X5VlwmMoDslLpO0LSoJleA43nDP5BK
-         4rIYGX6WoK3Mq4YUBGo7h+Ki8qwNeK2SADzmBrs7jCP92AnoqPn0N7uAVwtRMGeCfllp
-         Cd1w==
-X-Gm-Message-State: AOAM533OP06QF8rvjgBk6le7MxHjgQo2ErUIquofLdArttIPEY2LW/BA
-        ICtqJTDjCWd7lA3xUfXiMJxcWLEL2ADTJ80IOjM=
-X-Google-Smtp-Source: ABdhPJze0pzaWpC84jstlqdl7uVsV/butYBf+gaS7buXVp4vtKk2hA2WijgAcGm+SsAl+apvEMxcEHPkMWYf7R4AG4c=
-X-Received: by 2002:aca:5783:: with SMTP id l125mr41964446oib.130.1621219648611;
- Sun, 16 May 2021 19:47:28 -0700 (PDT)
+        id S234274AbhEQDLu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 May 2021 23:11:50 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:36034 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231658AbhEQDLt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 23:11:49 -0400
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 14H3AGhg020866;
+        Mon, 17 May 2021 12:10:16 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 14H3AGhg020866
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1621221016;
+        bh=4z/4ul1O8vysnvcKyyirJSaHuqdOsRJ/nOyIiviM9vo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KBD4LQOiZNwvh7FTa+W7pn/G17S9nxl982saqL96VjOsNsATUvye/wXOLb7h1uZwS
+         xiy+9XfF0VEiskSMv5xxIM/tLm9lSJsRYNQFdzK9cGpykFaDl2eh9rpmu9cFwFUr3m
+         Ar76Ue36XY9vR0C4k/aDvTX80nu5+peX0MpzVdhdzdmgTNBBPEPhesV2rUSResJf7N
+         a5oKDaZSBNf4rZhWqssy09N11UryUWtZd7UNfuGnxlretHrX2wxqraxH8GI1oamV3V
+         NpPMIXNJW7m85BIJZVSByGsQbh6gD5POrBvUItrMsRq6U2JHoKxNYRDEWMn5xdDQmH
+         5bNzNVdz3DQqg==
+X-Nifty-SrcIP: [209.85.216.54]
+Received: by mail-pj1-f54.google.com with SMTP id lj11-20020a17090b344bb029015bc3073608so2881129pjb.3;
+        Sun, 16 May 2021 20:10:16 -0700 (PDT)
+X-Gm-Message-State: AOAM531HXzqLEtmRqOvuDv6f4rJK/rt+Jni8S18ojcZgtoXXbSWLLqjf
+        xfxQQGk0cp/QtVJ++G3BXmsYIAmqigv99Uh8NaA=
+X-Google-Smtp-Source: ABdhPJwGKiOhNj9TyFb1sPDWUs4XSxuGiDLv+346Sq08ltyZTRCo3yqCVzLUnf8KLvCeY73Wl06LD9un72fW1BczWro=
+X-Received: by 2002:a17:902:541:b029:f0:3187:409b with SMTP id
+ 59-20020a1709020541b02900f03187409bmr15700355plf.47.1621221015740; Sun, 16
+ May 2021 20:10:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1621062577.git.siyanteng@loongson.cn> <88c52f48d18d6a6c16c6dbb63d9b89ccad6824aa.1621062577.git.siyanteng@loongson.cn>
- <2ad36de2-abdd-aaf8-34a1-097437a70f7b@flygoat.com>
-In-Reply-To: <2ad36de2-abdd-aaf8-34a1-097437a70f7b@flygoat.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Mon, 17 May 2021 10:47:17 +0800
-Message-ID: <CAEensMya2dOvZgAUHaCn4MToB=6sYfdXFrTWEyHmhhcQ-=SCqA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/3] docs/zh_CN: add core-api printk-basics.rst translation
-To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Huacai Chen <chenhuacai@kernel.org>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, huangjianghui@uniontech.com
+References: <20210513162403.1726052-1-j.neuschaefer@gmx.net>
+In-Reply-To: <20210513162403.1726052-1-j.neuschaefer@gmx.net>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 17 May 2021 12:09:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS-mU=6TTwBHys04k9932d0n_HNMCMSg4k8NfNxf8AZ-A@mail.gmail.com>
+Message-ID: <CAK7LNAS-mU=6TTwBHys04k9932d0n_HNMCMSg4k8NfNxf8AZ-A@mail.gmail.com>
+Subject: Re: [PATCH RESEND] scripts/jobserver-exec: Fix a typo ("envirnoment")
+To:     =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jiaxun Yang <jiaxun.yang@flygoat.com> =E4=BA=8E2021=E5=B9=B45=E6=9C=8816=E6=
-=97=A5=E5=91=A8=E6=97=A5 =E4=B8=8B=E5=8D=887:38=E5=86=99=E9=81=93=EF=BC=9A
+On Fri, May 14, 2021 at 1:24 AM Jonathan Neusch=C3=A4fer
+<j.neuschaefer@gmx.net> wrote:
 >
->
->
-> =E5=9C=A8 2021/5/15 16:10, Yanteng Si =E5=86=99=E9=81=93:
-> > This patch translates Documentation/core-api/printk-basics.rst into Chi=
-nese.
-> >
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> > Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-> > Reviewed-by: Alex Shi <alexs@kernel.org>
-> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->
-> Good job~
+> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 
-Thank you for your review!
 
-Thanks,
-Yanteng
+Applied to linux-kbuild. Thanks.
+
+> ---
+>  scripts/jobserver-exec | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
+> index 0fdb31a790a81..1c779cd1ccb48 100755
+> --- a/scripts/jobserver-exec
+> +++ b/scripts/jobserver-exec
+> @@ -10,7 +10,7 @@ from __future__ import print_function
+>  import os, sys, errno
+>  import subprocess
+>
+> -# Extract and prepare jobserver file descriptors from envirnoment.
+> +# Extract and prepare jobserver file descriptors from environment.
+>  claim =3D 0
+>  jobs =3D b""
+>  try:
+> --
+> 2.29.2
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
