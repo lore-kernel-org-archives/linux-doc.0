@@ -2,207 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B710C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 12:04:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 308BFC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 12:13:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FB85611CC
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 12:04:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D33D61241
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 12:13:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236921AbhEQMFt convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 08:05:49 -0400
-Received: from foss.arm.com ([217.140.110.172]:49458 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236859AbhEQMFr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 08:05:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D3CE113E;
-        Mon, 17 May 2021 05:04:31 -0700 (PDT)
-Received: from e113632-lin (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3AD163F73B;
-        Mon, 17 May 2021 05:04:30 -0700 (PDT)
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Beata Michalska <beata.michalska@arm.com>,
-        linux-kernel@vger.kernel.org
-Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] sched/topology: Rework CPU capacity asymmetry detection
-In-Reply-To: <1621239831-5870-3-git-send-email-beata.michalska@arm.com>
-References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com> <1621239831-5870-3-git-send-email-beata.michalska@arm.com>
-Date:   Mon, 17 May 2021 13:04:25 +0100
-Message-ID: <87mtst1s8m.mognet@arm.com>
+        id S233524AbhEQMPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 08:15:09 -0400
+Received: from m32-153.88.com ([43.250.32.153]:60780 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231755AbhEQMPJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 08:15:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=5LcZ5NVdkKz4lu3UF6Nor2DBQSs0o7aNaolWs
+        ba970M=; b=jKk8yjBEgB8jkHEmjMAvCp3LhRB34fqlhQzn6g9J2Kj8/+vjOTN84
+        JeZkTe5jugPrBYakdcoW+h4XbJrQqEbKYSQnF0Sliu7gh2HGrhxhDTRwr/MQsZnT
+        gJAUbkNR53O04+hDcLxTN6sqHCSx4UZ4jgTVTnK8uWZmtYejpBHBD0=
+Received: from bobwxc.top (unknown [120.238.248.9])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDXJlnzXaJgpwE3AA--.8130S2;
+        Mon, 17 May 2021 20:13:41 +0800 (CST)
+Date:   Mon, 17 May 2021 20:13:39 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com,
+        huangjianghui@uniontech.com
+Subject: Re: [PATCH v2] docs/zh_CN: add core api kobject translation
+Message-ID: <20210517121339.GA15899@bobwxc.top>
+References: <20210517095605.3234438-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
+In-Reply-To: <20210517095605.3234438-1-siyanteng@loongson.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgDXJlnzXaJgpwE3AA--.8130S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7AF43JF1rJw1fCF4kWry3urg_yoW8ArWkpF
+        s2k34Sg3Z8tF17uws7WF4UWF18ZFWfWan8WanFqwnYqrs8Gr4Fvr4UtrZIgFWxXrZ2yFWr
+        Za1avr9Yk34jy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgSb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wASzI0EjI02j7AqF2xKxwAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+        Yx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04
+        k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
+        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+        AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+        C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
+        nUUI43ZEXa7IUU0tC7UUUUU==
+X-Originating-IP: [120.238.248.9]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17/05/21 09:23, Beata Michalska wrote:
-> Currently the CPU capacity asymmetry detection, performed through
-> asym_cpu_capacity_level, tries to identify the lowest topology level
-> at which the highest CPU capacity is being observed, not necessarily
-> finding the level at which all possible capacity values are visible
-> to all CPUs, which might be bit problematic for some possible/valid
-> asymmetric topologies i.e.:
->
-> DIE      [                                ]
-> MC       [                       ][       ]
->
-> CPU       [0] [1] [2] [3] [4] [5]  [6] [7]
-> Capacity  |.....| |.....| |.....|  |.....|
->            L	     M       B        B
->
-> Where:
->  arch_scale_cpu_capacity(L) = 512
->  arch_scale_cpu_capacity(M) = 871
->  arch_scale_cpu_capacity(B) = 1024
->
-> In this particular case, the asymmetric topology level will point
-> at MC, as all possible CPU masks for that level do cover the CPU
-> with the highest capacity. It will work just fine for the first
-> cluster, not so much for the second one though (consider the
-> find_energy_efficient_cpu which might end up attempting the energy
-> aware wake-up for a domain that does not see any asymmetry at all)
->
-> Rework the way the capacity asymmetry levels are being detected,
-> allowing to point to the lowest topology level (for a given CPU), where
-> full range of available CPU capacities is visible to all CPUs within given
-> domain. As a result, the per-cpu sd_asym_cpucapacity might differ across
-> the domains. This will have an impact on EAS wake-up placement in a way
-> that it might see different rage of CPUs to be considered, depending on
-> the given current and target CPUs.
->
-> Additionally, those levels, where any range of asymmetry (not
-> necessarily full) is being detected will get identified as well.
-> The selected asymmetric topology level will be denoted by
-> SD_ASYM_CPUCAPACITY_FULL sched domain flag whereas the 'sub-levels'
-> would receive the already used SD_ASYM_CPUCAPACITY flag. This allows
-> maintaining the current behaviour for asymmetric topologies, with
-> misfit migration operating correctly on lower levels, if applicable,
-> as any asymmetry is enough to trigger the misfit migration.
-> The logic there relies on the SD_ASYM_CPUCAPACITY flag and does not
-> relate to the full asymmetry level denoted by the sd_asym_cpucapacity
-> pointer.
->
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
 
-That does look quite simpler :-)
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A lesson for me as a reviewer here is to resist biting into the nitty
-gritty code details and spend more time on a first conceptual / high level
-review pass. It's not the first time I'm guilty of it, so I do need to work
-on that.
+On Mon, May 17, 2021 at 05:56:05PM +0800, Yanteng Si wrote:
+> v2:
+>=20
+> Modified some words under Xiangcheng Wu's advices.
+> Thanks for his review!
+> https://lore.kernel.org/linux-doc/CAEensMw+PPjwS4p7k39xouww0hz8D2LZG67Nm1=
+hq9vSrRmFqJw@mail.gmail.com/T/#t
+>=20
+> v1:
+>=20
+
+Please write Changelog under three dashes(---), or the commit message
+will become:
+
+commit 5a7b5d7ebdb1b6859db90da953c976b887740a7c
+Author: Yanteng Si <siyanteng@loongson.cn>
+Date:   Mon May 17 17:56:05 2021 +0800
+
+    docs/zh_CN: add core api kobject translation
+
+    v2:
+
+    Modified some words under Xiangcheng Wu's advices.
+    Thanks for his review!
+    https://lore.kernel.org/linux-doc/CAEensMw+PPjwS4p7k39xouww0hz8D2LZG67N=
+m1hq9vSrRmFqJw@mail.gmail.com/T/#t
+
+    v1:
+
+    * This patch translates Documentation/core-api/kobject.rst into Chinese.
+
+    Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+
+
+
+> * This patch translates Documentation/core-api/kobject.rst into Chinese.
+>=20
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+
+All others,
+
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+
+Thanks
 
 > ---
->  kernel/sched/topology.c | 129 +++++++++++++++++++++++++++++-------------------
->  1 file changed, 79 insertions(+), 50 deletions(-)
->
-> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-> index 55a0a24..81957f7 100644
-> --- a/kernel/sched/topology.c
-> +++ b/kernel/sched/topology.c
-> @@ -675,7 +675,7 @@ static void update_top_cache_domain(int cpu)
->       sd = highest_flag_domain(cpu, SD_ASYM_PACKING);
->       rcu_assign_pointer(per_cpu(sd_asym_packing, cpu), sd);
->
-> -	sd = lowest_flag_domain(cpu, SD_ASYM_CPUCAPACITY);
-> +	sd = lowest_flag_domain(cpu, SD_ASYM_CPUCAPACITY_FULL);
->       rcu_assign_pointer(per_cpu(sd_asym_cpucapacity, cpu), sd);
->  }
->
-> @@ -1989,66 +1989,96 @@ static bool topology_span_sane(struct sched_domain_topology_level *tl,
->
->       return true;
->  }
-> -
-> +/**
-> + * Asym capacity bits
+>  .../translations/zh_CN/core-api/index.rst     |   6 +-
+>  .../translations/zh_CN/core-api/kobject.rst   | 378 ++++++++++++++++++
+>  2 files changed, 383 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/kobject.rst
+>=20
+> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Docume=
+ntation/translations/zh_CN/core-api/index.rst
+> index f1fa71e45c77..b4cfb4adfcc3 100644
+> --- a/Documentation/translations/zh_CN/core-api/index.rst
+> +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> @@ -32,9 +32,13 @@ Todolist:
+> =20
 
-Nit: Dietmar would have us phrase this "Asymmetric CPU capacity bits".
+--zhXaljGHf11kAtnf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> + */
-> +struct asym_cap_data {
-> +	struct list_head link;
-> +	unsigned long    capacity;
-> +	struct cpumask   *cpu_mask;
-> +};
+-----BEGIN PGP SIGNATURE-----
 
-> +/*
-> + * Verify whether given CPU at a given topology level belongs to a sched domain
-> + * that does span CPUs with different capacities.
-> + * Provides sd_flags reflecting the asymmetry scope.
-> + */
-> +static inline int
-> +asym_cpu_capacity_classify(struct sched_domain_topology_level *tl, int cpu)
-> +{
-> +	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
-> +	const struct cpumask *tl_mask = tl->mask(cpu);
-> +	struct asym_cap_data *entry;
-> +	int asym_cap_count = 0;
-> +
-> +	if (list_is_singular(&asym_cap_list))
-> +		goto leave;
-> +
-> +	list_for_each_entry(entry, &asym_cap_list, link) {
-> +		if (cpumask_intersects(tl_mask, entry->cpu_mask))
-> +			++asym_cap_count;
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCiXe8ACgkQtlsoEiKC
+sIVOlQv/SAh/K9PhV3jE4L34tgnioxcYmwovXw2/cnu0MdW5AkeIum8vPtfdRGsd
+rKsJaqMOV26TAV8t8Ki5hzGdNsMw//Pb9aSX6TNKO3CV2PqbZ2elDShYVdMvg1vf
+KzN1xkNmN8WcMEK428jWbKlTVo/FH/WluOh27nu75/GXcEn8GYyRdEXRAn6T8uuO
+lCGynW96pfbbUcZ5QcSYfCTYfagk71PRom4a36bn59KfWu5QwUylHZ4ULgC+GnIB
+8/l8+TcgJ5FR8IhaKBhfSiVcwHVDZ0rEplDEueeGdqUoQKVXslP1Es3A7dzGDvSW
+gJLbfkn59FS4WUGiKnhJG33vzt/o9h08/iTgDjZxopo+outHFeAhh36JBuSaGeR0
+78dPF1wouwn76Dl+v595f3SyMenYK0XdNlxGN1h6fJhKyAAO1lmNUB8mbtkJtV+n
+r6AnCmFpIV7MurLQJKsEYEMOoq7EFgT/E9PiGQMwUywYOVGPCggOuunzCWwORGK1
+xnhM22mY
+=qKkY
+-----END PGP SIGNATURE-----
 
-Ah, this is using tl->mask() which *isn't* masked by the root_domain's
-cpu_map...
+--zhXaljGHf11kAtnf--
 
-See comment below on the scan; long story short we could issue this *after*
-build_sched_domain() so we can directly use sched_domain_span(sd) which
-*is* masked by the cpu_map. This kind of removes the need for that dflags
-param, but then we're already sidestepping it for SD_OVERLAP.
-
-EDIT: nope, we have a check against SD_ASYM_CPUCAPACITY in sd_init()... I
-guess we could issue asym_cpu_capacity_classify() in sd_init() itself?
-
-> +/*
-> + * Build-up/update list of CPUs grouped by their capacities
-> + */
-> +static void asym_cpu_capacity_scan(const struct cpumask *cpu_map)
-> +{
-> +	struct asym_cap_data *entry, *next;
-> +	int cpu;
->
-> -		for_each_sd_topology(tl) {
-> -			if (tl_id < asym_level)
-> -				goto next_level;
-> +	if (!list_empty(&asym_cap_list))
-> +		list_for_each_entry(entry, &asym_cap_list, link)
-> +			cpumask_clear(entry->cpu_mask);
->
-
-The topology isn't going to change between domain rebuilds, so why
-recompute the masks? The sched_domain spans are already masked by cpu_map,
-so no need to do this masking twice. I'm thinking this scan should be done
-once against the cpu_possible_mask - kinda like sched_init_numa() done once
-against the possible nodes.
-
-Ideally I'd see this as an __init function, unfortunately we need that to
-happen after cpufreq drivers have been loaded (in case all CPUs have same
-µarch but some can reach higher frequencies, which would yield asymmetry),
-and some of those can be built as modules :/
-
-> +		entry = kzalloc(sizeof(*entry) + cpumask_size(), GFP_KERNEL);
-> +		if (entry) {
-> +			entry->capacity = capacity;
-> +			entry->cpu_mask = (struct cpumask *)((char *)entry +
-> +					   sizeof(*entry));
-> +			list_add(&entry->link, &asym_cap_list);
->               }
-> +		WARN_ONCE(!entry,
-> +		    "Failed to allocate memory for capacity asymmetry detection\n");
-> +next:
-> +		__cpumask_set_cpu(cpu, entry->cpu_mask);
-
-That looks like a NULL deref if the above WARN is hit.
