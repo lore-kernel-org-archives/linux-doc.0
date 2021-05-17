@@ -2,121 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB71FC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C693FC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:24:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9019B611EE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:24:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A798061184
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233648AbhEQIZk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 04:25:40 -0400
-Received: from foss.arm.com ([217.140.110.172]:45150 "EHLO foss.arm.com"
+        id S235516AbhEQIZt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 04:25:49 -0400
+Received: from foss.arm.com ([217.140.110.172]:45166 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232261AbhEQIZk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 04:25:40 -0400
+        id S230507AbhEQIZs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 May 2021 04:25:48 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7AD5106F;
-        Mon, 17 May 2021 01:24:23 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 40386106F;
+        Mon, 17 May 2021 01:24:32 -0700 (PDT)
 Received: from e113131-lin.cambridge.arm.com (e113131-lin.cambridge.arm.com [10.1.195.76])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 852313F719;
-        Mon, 17 May 2021 01:24:22 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E3CE43F719;
+        Mon, 17 May 2021 01:24:30 -0700 (PDT)
 From:   Beata Michalska <beata.michalska@arm.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
         vincent.guittot@linaro.org, valentin.schneider@arm.com,
         dietmar.eggemann@arm.com, corbet@lwn.net, rdunlap@infradead.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v4 0/3] Rework CPU capacity asymmetry detection
-Date:   Mon, 17 May 2021 09:23:48 +0100
-Message-Id: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
+Subject: [PATCH v4 1/3] sched/core: Introduce SD_ASYM_CPUCAPACITY_FULL sched_domain flag
+Date:   Mon, 17 May 2021 09:23:49 +0100
+Message-Id: <1621239831-5870-2-git-send-email-beata.michalska@arm.com>
+In-Reply-To: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
+References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As of now, the asym_cpu_capacity_level will try to locate the lowest
-topology level where the highest available CPU capacity is being
-visible to all CPUs. This works perfectly fine for most of existing
-asymmetric designs out there, though for some possible and completely
-valid setups, combining different cpu microarchitectures within
-clusters, this might not be the best approach, resulting in pointing
-at a level, at which some of the domains might not see any asymmetry
-at all. This could be problematic for misfit migration and/or energy
-aware placement. And as such, for affected platforms it might result
-in custom changes to wake-up and CPU selection paths.
+Introducing new, complementary to SD_ASYM_CPUCAPACITY, sched_domain
+topology flag, to distinguish between shed_domains where any CPU
+capacity asymmetry is detected (SD_ASYM_CPUCAPACITY) and ones where
+a full range of CPU capacities is visible to all domain members
+(SD_ASYM_CPUCAPACITY_FULL).
 
-As mentioned in the previous version, based on the available sources out there,
-one of the potentially affected (by original approach) platforms might be
-Exynos 9820/990 with it's 'sliced' LLC(SLC) divided between the two custom (big)
-cores and the remaining A75/A55 cores, which seems to be reflected in the
-made available dt entries for those platforms.
+With the distinction between full and partial CPU capacity asymmetry,
+brought in by the newly introduced flag, the scope of the original
+SD_ASYM_CPUCAPACITY flag gets shifted, still maintaining the existing
+behaviour when one is detected on a given sched domain, allowing
+misfit migrations within sched domains that do not observe full range
+of CPU capacities but still do have members with different capacity
+values. It loses though it's meaning when it comes to the lowest CPU
+asymmetry sched_domain level per-cpu pointer, which is to be now
+denoted by SD_ASYM_CPUCAPACITY_FULL flag.
 
-The following patches rework how the asymmetric detection is being
-carried out, allowing pinning the asymmetric topology level to the lowest one,
-where full range of CPU capacities is visible to all CPUs within given
-sched domain. The asym_cpu_capacity_level will also keep track of those
-levels where any scope of asymmetry is being observed, to denote
-corresponding sched domains with the SD_ASYM_CPUCAPACITY flag
-and to enable misfit migration for those.
+Signed-off-by: Beata Michalska <beata.michalska@arm.com>
+Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
+---
+ include/linux/sched/sd_flags.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-In order to distinguish the sched domains with partial vs full range
-of CPU capacity asymmetry, new sched domain flag has been introduced:
-SD_ASYM_CPUCAPACITY_FULL.
-
-The overall idea of changing the asymmetry detection has been suggested
-by Valentin Schneider <valentin.schneider@arm.com>
-
-Verified on (mostly):
-    - QEMU (version 4.2.1) with variants of possible asymmetric topologies
-	- machine: virt
-	- modifying the device-tree 'cpus' node for virt machine:
-
-	qemu-system-aarch64 -kernel $KERNEL_IMG
-	    -drive format=qcow2,file=$IMAGE
-	    -append 'root=/dev/vda earlycon console=ttyAMA0 sched_debug
-	     sched_verbose loglevel=15 kmemleak=on' -m 2G  --nographic
-	    -cpu cortex-a57 -machine virt -smp cores=8
-	    -machine dumpdtb=$CUSTOM_DTB.dtb
-
-	$KERNEL_PATH/scripts/dtc/dtc -I dtb -O dts $CUSTOM_DTB.dts >
-	$CUSTOM_DTB.dtb
-
-	(modify the dts)
-
-	$KERNEL_PATH/scripts/dtc/dtc -I dts -O dtb $CUSTOM_DTB.dts >
-	$CUSTOM_DTB.dtb
-
-	qemu-system-aarch64 -kernel $KERNEL_IMG
-	    -drive format=qcow2,file=$IMAGE
-	    -append 'root=/dev/vda earlycon console=ttyAMA0 sched_debug
-	     sched_verbose loglevel=15 kmemleak=on' -m 2G  --nographic
-	    -cpu cortex-a57 -machine virt -smp cores=8
-	    -machine dtb=$CUSTOM_DTB.dtb
-
-
-v4:
- - Based on Peter's idea, reworking asym detection to use per-cpu
-   capacity list to serve as base for determining the asym scope
-v3:
- - Additional style/doc fixes
-v2:
- - Fixed style issues
- - Reworked accessing the cached topology data as suggested by Valentin
-
-Beata Michalska (3):
-  sched/core: Introduce SD_ASYM_CPUCAPACITY_FULL sched_domain flag
-  sched/topology: Rework CPU capacity asymmetry detection
-  sched/doc: Update the CPU capacity asymmetry bits
-
- Documentation/scheduler/sched-capacity.rst |   6 +-
- Documentation/scheduler/sched-energy.rst   |   2 +-
- include/linux/sched/sd_flags.h             |  10 +++
- kernel/sched/topology.c                    | 131 ++++++++++++++++++-----------
- 4 files changed, 96 insertions(+), 53 deletions(-)
-
---
+diff --git a/include/linux/sched/sd_flags.h b/include/linux/sched/sd_flags.h
+index 34b21e9..57bde66 100644
+--- a/include/linux/sched/sd_flags.h
++++ b/include/linux/sched/sd_flags.h
+@@ -91,6 +91,16 @@ SD_FLAG(SD_WAKE_AFFINE, SDF_SHARED_CHILD)
+ SD_FLAG(SD_ASYM_CPUCAPACITY, SDF_SHARED_PARENT | SDF_NEEDS_GROUPS)
+ 
+ /*
++ * Domain members have different CPU capacities spanning all unique CPU
++ * capacity values.
++ *
++ * SHARED_PARENT: Set from the topmost domain down to the first domain where
++ *		  all available CPU capacities are visible
++ * NEEDS_GROUPS: Per-CPU capacity is asymmetric between groups.
++ */
++SD_FLAG(SD_ASYM_CPUCAPACITY_FULL, SDF_SHARED_PARENT | SDF_NEEDS_GROUPS)
++
++/*
+  * Domain members share CPU capacity (i.e. SMT)
+  *
+  * SHARED_CHILD: Set from the base domain up until spanned CPUs no longer share
+-- 
 2.7.4
 
