@@ -2,85 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0233DC433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:24:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD504C43470
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:25:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9479611EE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:24:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92ABB6121F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 08:25:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235610AbhEQI0A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 04:26:00 -0400
-Received: from foss.arm.com ([217.140.110.172]:45194 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235248AbhEQIZz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 May 2021 04:25:55 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7399106F;
-        Mon, 17 May 2021 01:24:39 -0700 (PDT)
-Received: from e113131-lin.cambridge.arm.com (e113131-lin.cambridge.arm.com [10.1.195.76])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 76DFD3F719;
-        Mon, 17 May 2021 01:24:38 -0700 (PDT)
-From:   Beata Michalska <beata.michalska@arm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, valentin.schneider@arm.com,
-        dietmar.eggemann@arm.com, corbet@lwn.net, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v4 3/3] sched/doc: Update the CPU capacity asymmetry bits
-Date:   Mon, 17 May 2021 09:23:51 +0100
-Message-Id: <1621239831-5870-4-git-send-email-beata.michalska@arm.com>
-In-Reply-To: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
-References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
+        id S235656AbhEQI1G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 04:27:06 -0400
+Received: from mail-ej1-f44.google.com ([209.85.218.44]:37432 "EHLO
+        mail-ej1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235599AbhEQI1F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 04:27:05 -0400
+Received: by mail-ej1-f44.google.com with SMTP id et19so810898ejc.4;
+        Mon, 17 May 2021 01:25:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zlEP3w+94KRiLe6VBAU5FX/rnIZsbArHdn1PJkGhu/w=;
+        b=rqrye2H5JrwHeNZM/NIhM2t3tXRyM8o6FoaHCUj0ocLwGBe1UOjepDuXf37dE9sUX0
+         xF86S5ACLkcJE9HROT9J5wVTXZhEgLL6yuBInnfMj2fPR/IYJ6TPX2+DP0tv4joDH/mR
+         OMLdBG6OeyTygGzbaSW5+NfUuoc5kkrvG50VYzYZ7017WUKXqHBxyXveQjptjJVid+Kn
+         09jPdGmDgvShZpCjn8kOErEG4Ti940wkbFqEyxn4ugoi8eOa35DK6txJAXebbXOy5OPd
+         xxaiP7cNc/uhTTZVN0uG4r7ZTdLqGYrEmy2hJgY2bqgCbNQ9a7AypE/AjHaNeQtP3BAg
+         d4mQ==
+X-Gm-Message-State: AOAM530CXHO1kRRnwtQ3tqSJ79ZsA7UVf/aOkKTD7MMzyhXQqrAnmQmp
+        faHAeSd39m3cOd5pmsLRK9SgBOTQVLT1aA==
+X-Google-Smtp-Source: ABdhPJyqqz3mcU71IqpGIyIUK/HQ/Lm1GTsUPyLxcZAw9oL1LIwER0Hox94JVW4oWm3lJmSdGPtG0A==
+X-Received: by 2002:a17:906:4155:: with SMTP id l21mr10207322ejk.424.1621239947675;
+        Mon, 17 May 2021 01:25:47 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id n12sm756976edr.84.2021.05.17.01.25.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 May 2021 01:25:47 -0700 (PDT)
+Subject: Re: [PATCH] serial/liteuart; Add support for earlycon
+To:     Stafford Horne <shorne@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Florent Kermarrec <florent@enjoy-digital.fr>,
+        Mateusz Holenko <mholenko@antmicro.com>,
+        Joel Stanley <joel@jms.id.au>,
+        "Gabriel L . Somlo" <gsomlo@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Karol Gugala <kgugala@antmicro.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-doc@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20210515084519.167343-1-shorne@gmail.com>
+ <adb78be2-18a6-224d-1fa7-36b7912fa1cf@kernel.org> <YKIn6PHlGGsK+70W@antec>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Message-ID: <d17a43ab-facf-8ffb-5147-7492fb85b0b5@kernel.org>
+Date:   Mon, 17 May 2021 10:25:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <YKIn6PHlGGsK+70W@antec>
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the documentation bits referring to capacity aware scheduling
-with regards to newly introduced SD_ASYM_CPUCAPACITY_FULL sched_domain
-flag.
+On 17. 05. 21, 10:23, Stafford Horne wrote:
+> On Mon, May 17, 2021 at 10:16:43AM +0200, Jiri Slaby wrote:
+>> On 15. 05. 21, 10:45, Stafford Horne wrote:
+>>> Most litex boards using RISC-V soft cores us the sbi earlycon, however
+>>> this is not available for non RISC-V litex SoC.  This patch enables
+>>> earlycon for liteuart which is available on all Litex SoC's making
+>>> support for earycon debugging more widely available.
+>>>
+>>> Signed-off-by: Stafford Horne <shorne@gmail.com>
+>>> Cc: Florent Kermarrec <florent@enjoy-digital.fr>
+>>> Cc: Mateusz Holenko <mholenko@antmicro.com>
+>>> Cc: Joel Stanley <joel@jms.id.au>
+>>> Cc: Gabriel L. Somlo <gsomlo@gmail.com>
+>>> ---
+>>>    .../admin-guide/kernel-parameters.txt         |  5 +++
+>>>    drivers/tty/serial/Kconfig                    |  1 +
+>>>    drivers/tty/serial/liteuart.c                 | 31 +++++++++++++++++++
+>>>    3 files changed, 37 insertions(+)
+>>>
+>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>>> index 04545725f187..2d4a43af8de2 100644
+>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>> @@ -1084,6 +1084,11 @@
+>>>    			the driver will use only 32-bit accessors to read/write
+>>>    			the device registers.
+>>> +		liteuart,<addr>
+>>> +			Start an early console on a litex serial port at the
+>>> +			specified address. The serial port must already be
+>>> +			setup and configured. Options are not yet supported.
+>>> +
+>>>    		meson,<addr>
+>>>    			Start an early, polled-mode console on a meson serial
+>>>    			port at the specified address. The serial port must
+>>> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+>>> index 0c4cd4a348f4..9ceffe6ab6fd 100644
+>>> --- a/drivers/tty/serial/Kconfig
+>>> +++ b/drivers/tty/serial/Kconfig
+>>> @@ -1531,6 +1531,7 @@ config SERIAL_LITEUART
+>>>    	depends on OF || COMPILE_TEST
+>>>    	depends on LITEX
+>>>    	select SERIAL_CORE
+>>> +	select SERIAL_EARLYCON
+>>>    	help
+>>>    	  This driver is for the FPGA-based LiteUART serial controller from LiteX
+>>>    	  SoC builder.
+>>> diff --git a/drivers/tty/serial/liteuart.c b/drivers/tty/serial/liteuart.c
+>>> index 64842f3539e1..38c472487e68 100644
+>>> --- a/drivers/tty/serial/liteuart.c
+>>> +++ b/drivers/tty/serial/liteuart.c
+>>> @@ -372,6 +372,37 @@ static int __init liteuart_console_init(void)
+>>>    console_initcall(liteuart_console_init);
+>>>    #endif /* CONFIG_SERIAL_LITEUART_CONSOLE */
+>>> +#ifdef CONFIG_SERIAL_EARLYCON
+>>> +static void early_liteuart_putc(struct uart_port *port, int c)
+>>> +{
+>>> +	while (litex_read8(port->membase + OFF_TXFULL))
+>>> +		cpu_relax();
+>>> +
+>>> +	litex_write8(port->membase + OFF_RXTX, c);
+>>
+>> Hi,
+>>
+>> am I missing something or this doesn't differ to liteuart_putchar?
+> 
+> Hi, No you are right, I missed that thanks for catching it.
+> 
+> I should be able to remove this function and use putchar below.
 
-Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
----
- Documentation/scheduler/sched-capacity.rst | 6 ++++--
- Documentation/scheduler/sched-energy.rst   | 2 +-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+OK.
 
-diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
-index 9b7cbe4..805f85f 100644
---- a/Documentation/scheduler/sched-capacity.rst
-+++ b/Documentation/scheduler/sched-capacity.rst
-@@ -284,8 +284,10 @@ whether the system exhibits asymmetric CPU capacities. Should that be the
- case:
- 
- - The sched_asym_cpucapacity static key will be enabled.
--- The SD_ASYM_CPUCAPACITY flag will be set at the lowest sched_domain level that
--  spans all unique CPU capacity values.
-+- The SD_ASYM_CPUCAPACITY_FULL flag will be set at the lowest sched_domain
-+  level that spans all unique CPU capacity values.
-+- The SD_ASYM_CPUCAPACITY flag will be set for any sched_domain that spans
-+  CPUs with any range of asymmetry.
- 
- The sched_asym_cpucapacity static key is intended to guard sections of code that
- cater to asymmetric CPU capacity systems. Do note however that said key is
-diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-index afe02d3..8fbce5e 100644
---- a/Documentation/scheduler/sched-energy.rst
-+++ b/Documentation/scheduler/sched-energy.rst
-@@ -328,7 +328,7 @@ section lists these dependencies and provides hints as to how they can be met.
- 
- As mentioned in the introduction, EAS is only supported on platforms with
- asymmetric CPU topologies for now. This requirement is checked at run-time by
--looking for the presence of the SD_ASYM_CPUCAPACITY flag when the scheduling
-+looking for the presence of the SD_ASYM_CPUCAPACITY_FULL flag when the scheduling
- domains are built.
- 
- See Documentation/scheduler/sched-capacity.rst for requirements to be met for this
+I've just noticed you add an ifdef CONFIG_SERIAL_EARLYCON here, but you 
+select SERIAL_EARLYCON in Kconfig above. So the ifdef is sort of 
+pointless? (Or you shouldn't select SERIAL_EARLYCON.)
+
+thanks,
 -- 
-2.7.4
-
+js
+suse labs
