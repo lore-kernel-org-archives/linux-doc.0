@@ -2,260 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 657E7C433B4
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 19:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E998CC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 01:34:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43DA26108D
-	for <linux-doc@archiver.kernel.org>; Sun, 16 May 2021 19:52:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCE57611BF
+	for <linux-doc@archiver.kernel.org>; Mon, 17 May 2021 01:34:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233139AbhEPTyB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 May 2021 15:54:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46120 "EHLO
+        id S233019AbhEQBft (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 May 2021 21:35:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233101AbhEPTyA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 15:54:00 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102FAC061573
-        for <linux-doc@vger.kernel.org>; Sun, 16 May 2021 12:52:45 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id b13so4422045ybk.4
-        for <linux-doc@vger.kernel.org>; Sun, 16 May 2021 12:52:45 -0700 (PDT)
+        with ESMTP id S229479AbhEQBft (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 May 2021 21:35:49 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C3EC061573
+        for <linux-doc@vger.kernel.org>; Sun, 16 May 2021 18:34:32 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id s19so5110532oic.7
+        for <linux-doc@vger.kernel.org>; Sun, 16 May 2021 18:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2Ary7evgK4Fh3+VZ9pLClSDOtxVZVMHZj5tal7jSEQk=;
-        b=f9VUOZsjcrG9gjdHkeYERV0/ckFtVT8c6UIwDfhXIlDktIPZZROcEeDXLSZn+Rzckl
-         GQuEkBLZJ2SNsfBTMA/UP3HSllQWaUswDdeqKWbiVObO2Nr9H3iikelavi383mc8T42z
-         dGnsJc/P+rAZzMoHtAFuhG+pZeBBqiEH73CaSfOFhJhd+DV48OZ96919RGvuGTtfkvMd
-         0eZkjT3P26nh0t7/MNn3TGoMPU6Ig64h2kVlmW3+3egHz+LqfBhxjbjsydygU7PN/cAl
-         4MUcUN340G/9KRVoPwaQ/8a1SmJLC1DEAqpk4EyoU7kmRSLYwIJEgxUyVED14iVjsCTN
-         clZQ==
+         :cc:content-transfer-encoding;
+        bh=/cnsTqYZc/nEK8z0eF8ZnFIEDKg8HKz/d+OjDtuYwuc=;
+        b=RtRV2h/hoUcW4abEXcHZUL/jHGR6TUKFAl/ZiO2cNVxDZZsSkfAlUCHwt5gmtAH9Xi
+         +RILuhSTM4V3PQIAo8NSjucn8yc3Ikd0Q6lRjL3/l0MtAodla+NICO0fAHP7q9asQVk+
+         WeGSj2RSOFXjHINOSTNrStJqlwFXGOVG6U/0tj38LIEkQgoAPbBg5zD7/AMW7KwlbzFA
+         ys2nYpptgC5qwezj0cJEE1R+7g2jd9NbHc6ouKQB7L1/u4pCTGFrDIc6+WQWcGSGPqKH
+         R4QXHXnonx7V5G05eJe3aRe0ySgdxgpqYjqIg8VFYXC5znG9xYIzhBwCmxYwtXYuK50Y
+         hmmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2Ary7evgK4Fh3+VZ9pLClSDOtxVZVMHZj5tal7jSEQk=;
-        b=D+D5n5Hcd9rJLjUU5pxLygRDq3mEGa39Oi2k5d8ExA+RpyQdfTmz16ERatsLO18FZ1
-         fUP+hPGWQRAtXsfwfGOrw8dIr8Zig5UJbqz9ERX6mVMQVBJxLSBEvaLqy0tk2TnByps6
-         GVEq2tDJQCpdyXuUnR+oaYJHjZAk4xxxSfdqrnNuyxe2aSoQ6gNpSjYIYLd8Cwa6m2YV
-         +AS3E6RiBsKuNjH7TjOYWFrmT50ZMoz506GpfWXwlWJvFNO0QfRSm6fmIT7SAycZyjsu
-         g6acHjB7ldVg48JkEt3kVnd1BPCQesJC365w9qmu4vNblTvoNH16nAjTr6ZOpcIAFy+J
-         ZuJw==
-X-Gm-Message-State: AOAM531Ok3BrEEnSwxLyywGXYAuEJADPs+WdFkDnb0hl6ZeI+SAXMGn+
-        mM6LIvFoBpqNHME704EcvPxCI81bb6rUoK59PZv47Q==
-X-Google-Smtp-Source: ABdhPJwfGwZ2UTn/G2RMe7lKFZ6wNjVtknbYnmx3uaedE35QmNaaKDKPFa0bVuEpjOCvc/CFOhUwT0ycqr6d9SGnYng=
-X-Received: by 2002:a25:9c88:: with SMTP id y8mr58063072ybo.294.1621194763585;
- Sun, 16 May 2021 12:52:43 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/cnsTqYZc/nEK8z0eF8ZnFIEDKg8HKz/d+OjDtuYwuc=;
+        b=sLd3kNqAyVtXcuQ4ShhxsqxY4u4nhOR88uALkb6vaNL/fMlhJ6ocBA8LoZEGrmo1SX
+         0VU4grAPu9e+jGTZrLALKf0Gou/2FQmWWPZHvzBlQvLg4vOG1ZAWmADfZSHWdaLLSdkz
+         l2wvX4diyJrZK+7SjHW2m1rj7dg89PnuSiEeAOVDYdfP6YpKzd5AU9eeEib5o9HbMRt8
+         PkAev1JDD9Co9MEfNkUKzRD9LOJ6YJZPv3tYuRm2sGhaY4seOcQ2Qn2WdlP14uQp7Vlm
+         Q70DwMXX9APvzlqapJiAS0QxIjlPlH1nPIn+NkxeJpPkqZWo1omndAYEBlK26MiP4fzJ
+         UNAg==
+X-Gm-Message-State: AOAM533hu54RGANHlHnqjC/sOz9oYAO8m6tWTqTzLzkNqushd2am3nmI
+        TCoPHEO9mkLKvS3ektWmEEU0e94N+PB7kUxLWZsLNFoRfHBFvTEL
+X-Google-Smtp-Source: ABdhPJwc1j2h0ZeZJO79VofXXU98oBmy+I5CxdQjY3iTlMZmW9N90km/49VEc631qZG9FXNontlbwCArGKxOM7FNhE0=
+X-Received: by 2002:aca:5783:: with SMTP id l125mr41801376oib.130.1621215272201;
+ Sun, 16 May 2021 18:34:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210513175349.959661-1-surenb@google.com> <YJ5iAvqAmIhzJRot@hirez.programming.kicks-ass.net>
- <CAJuCfpHy+MknCepfjx9XYUA1j42Auauv7MFQbt+zOU-tA4gasA@mail.gmail.com>
- <YJ64xHoogrowXTok@hirez.programming.kicks-ass.net> <CAJuCfpGkj9HxbkXnYN58JXJp1j6kVkvQhqscnEfjyB5unKg1NQ@mail.gmail.com>
- <CAJuCfpH2X47_3VvfZXs_eWhYDziOh13qdUwcfxPJe=Zg_Nkvqw@mail.gmail.com>
-In-Reply-To: <CAJuCfpH2X47_3VvfZXs_eWhYDziOh13qdUwcfxPJe=Zg_Nkvqw@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Sun, 16 May 2021 12:52:32 -0700
-Message-ID: <CAJuCfpEznCYhjbM+1=dMdEn1J2NVw88M+4AThD99PBKg41RgTw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] cgroup: make per-cgroup pressure stall tracking configurable
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-        lizefan.x@bytedance.com, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Benjamin Segall <bsegall@google.com>, mgorman@suse.de,
-        Minchan Kim <minchan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, bristot@redhat.com,
-        "Paul E . McKenney" <paulmck@kernel.org>, rdunlap@infradead.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>, macro@orcam.me.uk,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        mike.kravetz@oracle.com, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        cgroups mailinglist <cgroups@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
+References: <20210515082406.2473543-1-siyanteng@loongson.cn> <dab014b9-ec11-dc12-30f7-1b43a852b296@gmail.com>
+In-Reply-To: <dab014b9-ec11-dc12-30f7-1b43a852b296@gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Mon, 17 May 2021 09:34:21 +0800
+Message-ID: <CAEensMy0OYJ99j1nfvOPAaL+oKFXkkeksnGaRpuP4eTi5kDnmw@mail.gmail.com>
+Subject: Re: [PATCH v4] docs/zh_CN: add core-api workqueue.rst translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, huangjianghui@uniontech.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 14, 2021 at 11:50 AM Suren Baghdasaryan <surenb@google.com> wrote:
->
-> On Fri, May 14, 2021 at 11:20 AM Suren Baghdasaryan <surenb@google.com> wrote:
-> >
-> > On Fri, May 14, 2021 at 10:52 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > >
-> > > On Fri, May 14, 2021 at 08:54:47AM -0700, Suren Baghdasaryan wrote:
-> > >
-> > > > Correct, for this function CONFIG_CGROUPS=n and
-> > > > cgroup_disable=pressure are treated the same. True, from the code it's
-> > > > not very obvious. Do you have some refactoring in mind that would make
-> > > > it more explicit?
-> > >
-> > > Does this make sense?
-> > >
-> > > --- a/kernel/sched/psi.c
-> > > +++ b/kernel/sched/psi.c
-> > > @@ -744,24 +744,26 @@ static void psi_group_change(struct psi_
-> > >
-> > >  static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
-> > >  {
-> > > +       if (cgroup_psi_enabled()) {
-> > >  #ifdef CONFIG_CGROUPS
-> > > -       struct cgroup *cgroup = NULL;
-> > > +               struct cgroup *cgroup = NULL;
-> > >
-> > > -       if (!*iter)
-> > > -               cgroup = task->cgroups->dfl_cgrp;
-> > > -       else if (*iter == &psi_system)
-> > > -               return NULL;
-> > > -       else
-> > > -               cgroup = cgroup_parent(*iter);
-> > > +               if (!*iter)
-> > > +                       cgroup = task->cgroups->dfl_cgrp;
-> > > +               else if (*iter == &psi_system)
-> > > +                       return NULL;
-> > > +               else
-> > > +                       cgroup = cgroup_parent(*iter);
-> > >
-> > > -       if (cgroup && cgroup_parent(cgroup)) {
-> > > -               *iter = cgroup;
-> > > -               return cgroup_psi(cgroup);
-> > > -       }
-> > > -#else
-> > > -       if (*iter)
-> > > -               return NULL;
-> > > +               if (cgroup && cgroup_parent(cgroup)) {
-> > > +                       *iter = cgroup;
-> > > +                       return cgroup_psi(cgroup);
-> > > +               }
-> > >  #endif
-> > > +       } else {
-> > > +               if (*iter)
-> > > +                       return NULL;
-> > > +       }
-> > >         *iter = &psi_system;
-> > >         return &psi_system;
-> > >  }
-> >
-> > Hmm. Looks like the case when cgroup_psi_enabled()==true and
-> > CONFIG_CGROUPS=n would miss the "if (*iter) return NULL;" condition.
-> > Effectively with CONFIG_CGROUPS=n this becomes:
-> >
-> >        if (cgroup_psi_enabled()) {           <== assume this is true
-> > #ifdef CONFIG_CGROUPS                <== compiled out
-> > #endif
-> >        } else {
-> >                if (*iter)                                  <== this
-> > statement will never execute
-> >                        return NULL;
-> >        }
-> >        *iter = &psi_system;
-> >         return &psi_system;
-> >
->
-> Ah, sorry. I forgot that CONFIG_CGROUPS=n would force
-> cgroup_psi_enabled()==false (the way function is defined in cgroup.h),
-> so (CONFIG_CGROUPS=n && cgroup_psi_enabled()==true) is an invalid
-> configuration. I think adding a comment to your suggestion would make
-> it more clear.
-> So your suggestion seems to work. I'll test it and include it in the
-> next revision. Thanks!
-
-After reworking the code to add a static key I had to expand the
-#ifdef CONFIG_CGROUPS section, so I think a code refactoring below
-would make sense. It localizes config-specific code and it has the
-same exact code for CONFIG_CGROUPS=n and for
-cgroup_psi_enabled()==false. WDYT?:
-
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -181,6 +181,7 @@ struct psi_group psi_system = {
- };
-
- static void psi_avgs_work(struct work_struct *work);
-+static void cgroup_iterator_init(void);
-
- static void group_init(struct psi_group *group)
- {
-@@ -211,6 +212,8 @@ void __init psi_init(void)
-                 return;
-         }
-
-+        cgroup_iterator_init();
-+
-         psi_period = jiffies_to_nsecs(PSI_FREQ);
-         group_init(&psi_system);
- }
-@@ -742,11 +745,31 @@ static void psi_group_change(struct psi_group
-*group, int cpu,
-                 schedule_delayed_work(&group->avgs_work, PSI_FREQ);
- }
-
--static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
-+static inline struct psi_group *sys_group_iterator(struct task_struct *task,
-+                                                   void **iter)
- {
-+        *iter = &psi_system;
-+        return &psi_system;
-+}
-+
- #ifdef CONFIG_CGROUPS
-+
-+DEFINE_STATIC_KEY_FALSE(psi_cgroups_disabled);
-+
-+static void cgroup_iterator_init(void)
-+{
-+        if (!cgroup_psi_enabled())
-+                static_branch_enable(&psi_cgroups_disabled);
-+}
-+
-+static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
-+{
-         struct cgroup *cgroup = NULL;
-
-+        /* Skip to psi_system if per-cgroup accounting is disabled */
-+        if (static_branch_unlikely(&psi_cgroups_disabled))
-+                return *iter ? NULL : sys_group_iterator(task, iter);
-+
-         if (!*iter)
-                 cgroup = task->cgroups->dfl_cgrp;
-         else if (*iter == &psi_system)
-@@ -758,14 +781,20 @@ static struct psi_group *iterate_groups(struct
-task_struct *task, void **iter)
-                 *iter = cgroup;
-                 return cgroup_psi(cgroup);
-         }
--#else
--        if (*iter)
--                return NULL;
--#endif
--        *iter = &psi_system;
--        return &psi_system;
-+
-+        return sys_group_iterator(task, iter);
- }
-
-+#else /* CONFIG_CGROUPS */
-+static inline void cgroup_iterator_init(void) {}
-+
-+static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
-+{
-+        return *iter ? NULL : sys_group_iterator(task, iter);
-+}
-+
-+#endif /* CONFIG_CGROUPS */
-+
-
-
->
->
-> > >
-> > > --
-> > > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
-> > >
+QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIx5bm0NeaciDE25pel5ZGo5pelIOS4
+iuWNiDExOjMy5YaZ6YGT77yaDQo+DQo+DQo+DQo+IE9uIDIwMjEvNS8xNSDkuIvljYg0OjI0LCBZ
+YW50ZW5nIFNpIHdyb3RlOg0KPiA+ICsNCj4gPiAr5YaF5qC45YaF6IGU5paH5qGj5Y+C6ICDDQo+
+ID4gKz09PT09PT09PT09PT09PT0NCj4gPiArDQo+ID4gK2NoZWNrIHRoZSBmdW5jdGlvbnMgaW4g
+aW5jbHVkZS9saW51eC93b3JrcXVldWUuaCBpbiBrZXJuZWwgc291cmNlIGNvZGUuDQo+ID4gKw0K
+PiA+ICtjaGVjayB0aGUgZnVuY3Rpb25zIGluIGtlcm5lbC93b3JrcXVldWUuYyBpbiBrZXJuZWwg
+c291cmNlIGNvZGUuDQo+DQo+IEJldHRlciB0byBjb21iaW5lIGFib3ZlIDIgbGluZXMgYW5kIHVz
+ZSBDaGluZXNlIHRvIGludHJvZHVjZSB0aGVtPw0KDQror7flnKjku6XkuIvmlofku7bkuK3mn6Xn
+nIvnm7jlhbPlh73mlbDvvJoNCg0KaW5jbHVkZS9saW51eC93b3JrcXVldWUuaA0Ka2VybmVsL3dv
+cmtxdWV1ZS5jDQoNClRoYW5rcywNCllhbnRlbmcNCg==
