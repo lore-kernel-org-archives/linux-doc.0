@@ -2,108 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93BD5C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 21:36:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C255C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 23:03:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FCA9611AD
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 21:36:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BC9D61059
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 23:03:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352510AbhERVh6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 17:37:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352514AbhERVhz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 17:37:55 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD575C061761;
-        Tue, 18 May 2021 14:36:33 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id p6so5846664plr.11;
-        Tue, 18 May 2021 14:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=icxAzkT3ZX9rQrnQsCaFNbpiN8Ie5NShLTTVXPLFhIA=;
-        b=S8sjDYZclNoGkNBEz878gDknynOyrBDAfTJDJZDr+pXnCLVcDYedYpDJMaH+Ulfg4N
-         EB3k3dVJRnxfXBnmKKczSSQzyZciDZie6UtLvvpZWSG4IxO/Im/DNuysj++WkqL6wACd
-         0p9QbAUFn0IM5nJWpD9cJXbqBWo2pw2e4dtgaAIVPCHhxWGNvL+7MyGzvHX+2GxxyejM
-         QshvyRiSgFrIWR+tSmrqnCdDlVGhIKQcwRfF3570XCiXip7pHy8tkXgRaYKhkjeP93eh
-         alj0Wqc1AwiFgwLyAX9xQ/JiEHpipUuKolFyU3aHFLegt6FJtwaMfY+LVfYzk9mSNA6b
-         xFbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=icxAzkT3ZX9rQrnQsCaFNbpiN8Ie5NShLTTVXPLFhIA=;
-        b=SRONIjnC9hfJ8BGdq/I7Fswb1/C84mfHBPLPYmDQQldjuAK65B+k1hDwYds8aWttxV
-         x2WTAy51zcMZnOCHEuRahVdT0+vovlH8kxPWzAWX3dM+AvpJIpE30rKKtMA5aoRlqBUF
-         KRaA72yvJOn0pcsPHBjoZ3P0cNI3y5iyB3WCj5lGqEdxXyDs/ob7HbSRcGIRu2w/01k/
-         Caix6Ien3D+o4tijos4cURSnUTmhZkhZJLrzSQE8Y2iy5n/U3DafOgqj4jqE5u1f9So+
-         GZnVhmEaDLo1Wskfqs7VS1mq+7Os4R+jVzcyagbtmeqUHuKcQi5+NwiCeho+IzoJeDBm
-         dCxg==
-X-Gm-Message-State: AOAM530It6Jy6NGM5fTZzRYmjanWprZbbsZYhpK4fyJiy6QHqQ4hbwH/
-        Y1k7b/FjVjbMKDAQ0NZZd2RGNCrq2qYA5w==
-X-Google-Smtp-Source: ABdhPJyMzKepZYOEpCyfslfA2Zow9uK63qbOcG8bxlxWjS/Wsc9Dz3uAyXmugL8crVO0F0XmdidDtw==
-X-Received: by 2002:a17:902:65:b029:ef:abd6:477f with SMTP id 92-20020a1709020065b02900efabd6477fmr6759293pla.77.1621373793360;
-        Tue, 18 May 2021 14:36:33 -0700 (PDT)
-Received: from localhost (g1.222-224-229.ppp.wakwak.ne.jp. [222.224.229.1])
-        by smtp.gmail.com with ESMTPSA id z13sm13589628pgc.60.2021.05.18.14.36.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 May 2021 14:36:32 -0700 (PDT)
-Date:   Wed, 19 May 2021 06:36:30 +0900
-From:   Stafford Horne <shorne@gmail.com>
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Florent Kermarrec <florent@enjoy-digital.fr>,
-        Mateusz Holenko <mholenko@antmicro.com>,
-        "Gabriel L . Somlo" <gsomlo@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Karol Gugala <kgugala@antmicro.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-doc@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v2] serial: liteuart: Add support for earlycon
-Message-ID: <YKQzXrReKqJxRQ6T@antec>
-References: <20210517115453.24365-1-shorne@gmail.com>
- <CACPK8Xei8g4Bq5jGo0gHctFMny8U5dTLe9zHF_xBs_NFpRfejA@mail.gmail.com>
-MIME-Version: 1.0
+        id S235243AbhERXEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 19:04:53 -0400
+Received: from mail-bn1nam07on2040.outbound.protection.outlook.com ([40.107.212.40]:23971
+        "EHLO NAM02-BN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233477AbhERXEw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 May 2021 19:04:52 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LyWcuoSmIrOHazYuE/+rOin7h8QzgD8tb//XDrUNh7tdDECdG4eesWoUcU+BSdaLzVm/qP9clbbRYJRL3yTNyq7JaEM2wZ7PbMCi8BQHoeuVB6ALHGXZZtOoQDQfuDlHy8wbYXARw1XYf0iF17twDjOVrguPGdTcKCT+5w0OmvGgUfkcs6OHyhl9TTo9EipL59xz028q9sBXRjE4vux3KkHiLBz3DhT1dLEwwfFaRRaHq6hXgw8igPt376SYOWyoeVmAWjXHBsa7kVwNGvr9eP6wbOWEBXlPcdDk97cCRvuOG4Sjq3VX+sIhBzFTsz+XqE0+FZe4Dr4mykMSUieZ9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k3IdNSFiUnrRT1x/bsOS120s+m2wuDnGHTEFgMv8S+E=;
+ b=OIuGjkOdd/Iiynfb04LCLXDirFyu9IvMlpqDElOSWe8+GVA7wNNoHlazJs2XWutsqjPpFC3Eq9Ru7FC23qAHbnpbQepJ14xdSWBVeaScKELkf9/Ppfwwg7MemfOzi3ugGG9xoX0OZtDUPxEG51ZJ/DXsOiK0Y88K3isLrkjEIQXqY93qjL/CKUO8o5yv7D5iK5V0gMYA53+rr+2tEeSH6pNumjZWC2N7Bukq7lWWmZ8yM0ppBXTSfOc6+LQj/O3SXz9Kqk8B7kC2oSxD2bz6N0GfS1UVNaMIFoKhnmIfoD2MJ9Vm78a4Yfc0tRhqUJSqKbk6TIBBG0IDFzpBIclLiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k3IdNSFiUnrRT1x/bsOS120s+m2wuDnGHTEFgMv8S+E=;
+ b=o06ber1whiLSdl+NjxFVil2rC6xYYmRgj6+YI/gxLad8zbtEAUgS+lAPDWHiShdU+3uArF3CZqQFDARyil+mGwp+0tz17upDnF2QHvAsouo2TwhSbA3E6FZjY+6qn/Ou2DXx4ym/6q8E83D9bfcUBeqRQoIh/9mpPaRvlD9M3e3u84eL41uBRk5w/DuCxkoleIsr0V5lsFjNaN5Kf0akJALpu1y6cuZ9Oq4xSkK70+4BDX+M9SQrHnlt66OomVK1U0IssQIGIMTuXTco8BqS8owda3GLj1X8iOd4lskeVobS4hFGc4Flkuo+I/uvUX/W4DDI9Ee67IncxiRb37EIRA==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB2858.namprd12.prod.outlook.com (2603:10b6:5:182::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Tue, 18 May
+ 2021 23:03:30 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::ddb4:2cbb:4589:f039]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::ddb4:2cbb:4589:f039%4]) with mapi id 15.20.4129.033; Tue, 18 May 2021
+ 23:03:29 +0000
+Date:   Tue, 18 May 2021 20:03:27 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
+        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
+        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
+        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
+        bsingharora@gmail.com, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
+Message-ID: <20210518230327.GG1002214@nvidia.com>
+References: <20210407084238.20443-1-apopple@nvidia.com>
+ <20210407084238.20443-6-apopple@nvidia.com>
+ <YKMhorngO2DVrxac@t490s>
+ <47694715.suB6H4Uo8R@nvdebian>
+ <YKP5Dj4Q/riGGc43@t490s>
+ <20210518173334.GE1002214@nvidia.com>
+ <YKQBACJCjsxeM3ro@t490s>
+ <20210518194509.GF1002214@nvidia.com>
+ <YKQjmtMo+YQGx/wZ@t490s>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACPK8Xei8g4Bq5jGo0gHctFMny8U5dTLe9zHF_xBs_NFpRfejA@mail.gmail.com>
+In-Reply-To: <YKQjmtMo+YQGx/wZ@t490s>
+X-Originating-IP: [47.55.113.94]
+X-ClientProxiedBy: BL1PR13CA0024.namprd13.prod.outlook.com
+ (2603:10b6:208:256::29) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (47.55.113.94) by BL1PR13CA0024.namprd13.prod.outlook.com (2603:10b6:208:256::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.11 via Frontend Transport; Tue, 18 May 2021 23:03:29 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lj8kJ-00AUDU-VE; Tue, 18 May 2021 20:03:27 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: edce9c3d-2ee7-47d2-1ee6-08d91a5126ab
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2858:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB2858E661E3DB8252ECDAF608C22C9@DM6PR12MB2858.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yVAEG2RA8ZiBycRMAF8K+XAnmDyfsZKqJJMURckFRgzFV+9ihfOL1Il1y0xumgadfy+/ysZbUV3KtPS9xuhR6MVQUtj2iafr3SciywXdjaGf1NetwHd7XRV7DauHxJKmcHwZdUZFTKq5WiyoXx0UVu6CXVGRuY7nCRyNXt6S1DDSc7IszCxmuUHWT45O2QynMV/1wHfwV2Ks/iZt65ivqpb2FM6ajIu1QP7sECYEhVN1XUNlXUMlBtKjScXl7aKxV1etKtVmU6vHVCn5FDBxmESNDBa9XfL4n73KDNCrznIsX5DXrT6XiFuXAmEVBVah2nExUII8/E7C+vqCKGpgO6MLh9dsNaDCtp2xH50Vxmf9UeEfvsFmKdccQyGy/D6QTIo8WknYQPRk1nRVTEuS/u1f8zNhGGoo2myobge2dUNaStICyjigCPlLUe23U0ET7OMXKXYG+0+jEu8df0z/jLZSxR98vyMt1f96A7lnW+WcDR67owfq0X52iyR+mhaRppW5vGOS0AAr7i3k/DvbpxwFYqORcOnCYm9tuFcgR048fvBomJlkeAtgJCihmyLCCIYRkhumH4smVCMWLpDvG70LAWXxqioDkGazbIQYJz0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(366004)(136003)(39860400002)(376002)(66946007)(86362001)(66556008)(66476007)(478600001)(33656002)(2906002)(36756003)(83380400001)(5660300002)(9786002)(38100700002)(426003)(26005)(2616005)(9746002)(186003)(54906003)(6916009)(7416002)(8936002)(1076003)(4326008)(8676002)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?M9+lTZt6fQD1XpvJ/adZSiTHZeNJDq7QswWvPVkYfKveuFMXrd8h4NMwilme?=
+ =?us-ascii?Q?c5ak0Y7KZ87tCVBZqHA4jhVcKwumCfgFjNm5HBBwCkK5JpKmXazvgnxazdUT?=
+ =?us-ascii?Q?4rYVxDaHU654S8q1Eu3P4mtQ9q8ajUwgaRaOoPurAQkZzGFJJQRmbEuxxIbS?=
+ =?us-ascii?Q?bHIjOZpltYMRQtVKm7g8r24hlQS1NJ/qiB4T8KhgHw4Ah3H26e7WBt2xjzig?=
+ =?us-ascii?Q?ADheUOXro5s6xRpI9/J/BzHMnHLc7DcyiP1Ld04BFkVwInVc9B8ujUivXJ+T?=
+ =?us-ascii?Q?wJWblNNVrrd1Sv+36Km8f6gqNuMnQsDTARwmWgMTGj6JB5ysPdYw75UUqflv?=
+ =?us-ascii?Q?apLK56RVaTVkgbAz1xol1MrmT2toCCBabehfHFXP09lU2+kMZhz4t81xAB0W?=
+ =?us-ascii?Q?9sm1RSlABqeuBq7hzadAcZVk5GkB91nB9CfmdPjf458Fu5MabRPaM126DJVm?=
+ =?us-ascii?Q?b+DFWlsdGVQyrqyxseeU1Fro/kU1Y6qGhnICOYeiRGDq7L1v1gpAAaxNirsH?=
+ =?us-ascii?Q?9lWxMr6cPFGa3LzkqjxXIkiUhJQjhK9k6xxa433+l/iGh4lae9L//Ubh4lU4?=
+ =?us-ascii?Q?byHd2vsFYU0YAlKwN0I+McqtkmMOiwEq0fIp9OCcghtM9TGYuLEhKwMTLdvO?=
+ =?us-ascii?Q?kgKB4SDcn//lMbMDBWq28NL8/CV+Qi0IYBflfHDyeecbovl4PWIZ6NSSr1SN?=
+ =?us-ascii?Q?495F/+0k17H5TW4VNsUXcRazrWY4Z2/LnVmdklFG1oVKsB8/Z3PxTVE8qC5u?=
+ =?us-ascii?Q?DWDo89S8SEYOVmBEbn6zq9jeZk8qhwIFxiK8+J5QF39f6kJKWuaXMR09nBDv?=
+ =?us-ascii?Q?BR9EYjUXCY+SBRqfJfDoVtpeEBVagVHqWDaJ/V4rtmnR44OC9TA539KJelBk?=
+ =?us-ascii?Q?PnVsOgw2cOIT6F1dm+IUFQYPssr3R6I/8Fou4brXdyMqMfUx0jtiWN6rKjJL?=
+ =?us-ascii?Q?y/O3QYFEmXMmsksEK4TEyVrIixvsfUU5meNuFyv21xfCYogz7yFySfBnENlK?=
+ =?us-ascii?Q?3DOefKpxXFY/DmARiyD7QWCQIuB44g9/c5iK0BEeHrFrwMI54hr6VmcWoyfP?=
+ =?us-ascii?Q?676jp+KPXGJtElM/fQOmrEjHiKty6YjU7qEmzMhbZpPDYkw5xHP/lXlz0yI5?=
+ =?us-ascii?Q?mBPJ3IyP4ot6t3TwMf0lWe8TuwUm/7NjRHB2UpuMdwX+OwFvi2/i8hyI52sX?=
+ =?us-ascii?Q?+HdNx1ejmBsYnL2quyLVWFpsQNEvwQ3rrT4Bp6q2hzUVUpC5U2EvSKDoL+yt?=
+ =?us-ascii?Q?vqw+/525RcgGakKNHUD9LLuro8SVJ/RxbFrOLnnG7G37iQ0fLBdhls+MOLKs?=
+ =?us-ascii?Q?sfjb3WYMyg1uHsS1UOMgeXHv?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: edce9c3d-2ee7-47d2-1ee6-08d91a5126ab
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 23:03:29.7365
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ieXBGgViPdUfRu3rI073PIUqb4LkLiKgrQJiVSnfnZfXJvyQWKdmwoGId39ldvLD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2858
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 18, 2021 at 12:02:57PM +0000, Joel Stanley wrote:
-> On Mon, 17 May 2021 at 11:55, Stafford Horne <shorne@gmail.com> wrote:
-> >
-> > Most litex boards using RISC-V soft cores us the sbi earlycon, however
-> > this is not available for non RISC-V litex SoC's.  This patch enables
-> > earlycon for liteuart which is available on all Litex SoC's making
-> > support for earycon debugging more widely available.
-> >
-> > Signed-off-by: Stafford Horne <shorne@gmail.com>
-> > Cc: Florent Kermarrec <florent@enjoy-digital.fr>
-> > Cc: Mateusz Holenko <mholenko@antmicro.com>
-> > Cc: Joel Stanley <joel@jms.id.au>
-> > Cc: Gabriel L. Somlo <gsomlo@gmail.com>
-> > Reviewed-and-tested-by: Gabriel Somlo <gsomlo@gmail.com>
+On Tue, May 18, 2021 at 04:29:14PM -0400, Peter Xu wrote:
+> On Tue, May 18, 2021 at 04:45:09PM -0300, Jason Gunthorpe wrote:
+> > On Tue, May 18, 2021 at 02:01:36PM -0400, Peter Xu wrote:
+> > > > > Indeed it'll be odd for a COW page since for COW page then it means after
+> > > > > parent/child writting to the page it'll clone into two, then it's a mistery on
+> > > > > which one will be the one that "exclusived owned" by the device..
+> > > > 
+> > > > For COW pages it is like every other fork case.. We can't reliably
+> > > > write-protect the device_exclusive page during fork so we must copy it
+> > > > at fork time.
+> > > > 
+> > > > Thus three reasonable choices:
+> > > >  - Copy to a new CPU page
+> > > >  - Migrate back to a CPU page and write protect it
+> > > >  - Copy to a new device exclusive page
+> > > 
+> > > IMHO the ownership question would really help us to answer this one..
+> > 
+> > I'm confused about what device ownership you are talking about
 > 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> My question was more about the user scenario rather than anything related to
+> the kernel code, nor does it related to page struct at all.
+> 
+> Let me try to be a little bit more verbose...
+> 
+> Firstly, I think one simple solution to handle fork() of device exclusive ptes
+> is to do just like device private ptes: if COW we convert writable ptes into
+> readable ptes.  Then when CPU access happens (in either parent/child) page
+> restore triggers which will convert those readable ptes into read-only present
+> ptes (with the original page backing it).  Then do_wp_page() will take care of
+> page copy.
 
-Thanks for reviewing.
+I suspect it doesn't work. This is much more like pinning than
+anything, the data in the page is still under active use by a device
+and if we cannot globally write write protect it, both from CPU and
+device access, then we cannot do COW. IIRC the mm can't trigger a full
+global write protect through the pgmap?
+ 
+> Then here comes the ownership question: If we still want to have the parent
+> process behave like before it fork()ed, IMHO we must make sure that original
+> page (that exclusively owned by the device once) still belongs to the parent
+> process not the child.  That's why I think if that's the case we'd do early cow
+> in fork(), because it guarantees that.
 
--Stafford
+Logically during fork all these device exclusive pages should be
+reverted back to their CPU pages, write protected and the CPU page PTE
+copied to the fork.
+
+We should not copy the device exclusive page PTE to the fork. I think
+I pointed to this on an earlier rev..
+
+We can optimize this into the various variants above, but logically
+device exclusive stop existing during fork.
+
+Jason
