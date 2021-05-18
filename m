@@ -2,128 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 283D5C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 19:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2C31C43460
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 19:45:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02654610FA
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 19:45:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA322610A2
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 19:45:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351925AbhERTqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 15:46:31 -0400
-Received: from mail-mw2nam12on2083.outbound.protection.outlook.com ([40.107.244.83]:62977
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231162AbhERTqa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 May 2021 15:46:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fKQTzvvq0Jr42AObikhwhwbSltkrsz8l6q8RZsZZIANOXlFv76dZK+FfFGYFf+vFA1WyRW0DUXHQpklG4GN4hfpEQSjsAHeya/ngxfYNy9DF4WPnHlTCMML/x+X8Qoddybk+hLkSw0zXvJQRwtMZG6gkOrYu/Q8eBvAgjE7cBiMHVcevasBNVPV4+COm2T58Qyk+xeWPOKPiN8LbXwJ3wJ7JTPD4UOJzjSEi//fvF4CNVircUi6NgFULYUGxP5YPXPw7AIPfP0HGvzBXkRLEC1rgFk2IHhS48ibKz7+4S3Zhe9Fk/0gzNcTH/2AMLlv9ovQjcSBT97XW/mZGI+umAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y05Y2Y1aMidJ5Ltn3J+VAAK8hHnG8kOEs8oVJwOVdCc=;
- b=VSd/NnQVf2GGjFiYmoT0J/Z/DOZ8AwDTfk2e+2NNI4MXzAZkDs5uCwTGo+PQB06VY2EadE1LPYAgcC/amG3bH6owXfCps/lAlpU/OkoJX2GrkbPb2LpvZDc95BtlBzKoN59RO7HLZ1Sd9+bpaH4d7clKeez3rz2FGHjMcxH3IJLrwba0ggxqPnTqGTvTzaqrBCIm+4uonhtpgXTLMfpxO6/93RE7aBrdOAATNDYNI/d2ia1USRgLBxAyDXCg45J4seMSzX/8TwMbQcqLjBm0DwANJqHA6FcAQ4BFLh37x5MxZ8k15qC/P0yhHwYSbsgA98+9BLCoGx853AylBjUK9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y05Y2Y1aMidJ5Ltn3J+VAAK8hHnG8kOEs8oVJwOVdCc=;
- b=jhvgOTmcQJlfUPi3rY+h0kodsvjUxx0UsU6gjmo/zVw2xd5uX56ZczITiNJeMzmpWXn3hVuHrCuHyRHTRUCLFUBchE371nDTGX5cXHOB0pEgKRgjLZYi464hhLjHvM01+iAHBrdecluZH6nIrkyuj2DE0xgIeUo27BXD3dpyZNA9LTg7RJ+XumvdvywJUJnkXDZ2VdsZGvydr8D9KykN5A5ENS4p4tOiyI+QxFPrRHP49L+9O348P2b4nVkCLVsYiukIefNT2kJeDFKRhOX6MML4CKUEjEzYlmA3u8PQHAcUD9deFfXx4HGJQ/ME1yydHWTdEyJY+tbyaM01bG7XmA==
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB3212.namprd12.prod.outlook.com (2603:10b6:5:186::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Tue, 18 May
- 2021 19:45:10 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::ddb4:2cbb:4589:f039]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::ddb4:2cbb:4589:f039%4]) with mapi id 15.20.4129.031; Tue, 18 May 2021
- 19:45:10 +0000
-Date:   Tue, 18 May 2021 16:45:09 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Peter Xu <peterx@redhat.com>
-Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
-        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
-        bsingharora@gmail.com, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
-Message-ID: <20210518194509.GF1002214@nvidia.com>
-References: <20210407084238.20443-1-apopple@nvidia.com>
- <20210407084238.20443-6-apopple@nvidia.com>
- <YKMhorngO2DVrxac@t490s>
- <47694715.suB6H4Uo8R@nvdebian>
- <YKP5Dj4Q/riGGc43@t490s>
- <20210518173334.GE1002214@nvidia.com>
- <YKQBACJCjsxeM3ro@t490s>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKQBACJCjsxeM3ro@t490s>
-X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: BL0PR03CA0018.namprd03.prod.outlook.com
- (2603:10b6:208:2d::31) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        id S1351943AbhERTqp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 15:46:45 -0400
+Received: from mga07.intel.com ([134.134.136.100]:27039 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1351956AbhERTqm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 May 2021 15:46:42 -0400
+IronPort-SDR: zQ0X6kd8P7C2v7/dKEdhUyu6nZleqfLe8HoacyZY7sYuZ1fXWE5a2cmr8gd6dxhn85RNBWp2dZ
+ dVA1Hj5RFtvQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="264720044"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
+   d="scan'208";a="264720044"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2021 12:45:18 -0700
+IronPort-SDR: tYQi2B82XedKDm6qGiBjeEUdZVyLSN3ijHw1VG6+3/gOUcVnRwKduMlDNvjLJFTLm5urO60hXJ
+ V5q6mwSq98IA==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
+   d="scan'208";a="439600915"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.166.158]) ([10.209.166.158])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2021 12:45:16 -0700
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+To:     Borislav Petkov <bp@alien8.de>,
+        Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com> <YKIfIEyW+sR+bDCk@zn.tnic>
+ <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
+ <20210518001316.GR15897@asgard.redhat.com> <YKQATkbU4DJ/nC3T@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <10f74571-f8c4-9b08-0157-1570b30a1a6d@intel.com>
+Date:   Tue, 18 May 2021 12:45:13 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (47.55.113.94) by BL0PR03CA0018.namprd03.prod.outlook.com (2603:10b6:208:2d::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25 via Frontend Transport; Tue, 18 May 2021 19:45:10 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lj5eP-00AQvg-Cm; Tue, 18 May 2021 16:45:09 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 405f46c4-5a36-4831-4ba2-08d91a35727c
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3212:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB32126AEF37B53092CB8F8F60C22C9@DM6PR12MB3212.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sP5dH1Bgoe5O6IYwIaxZlsMa6XLjUY6V168FUDZbowbVcxnHv2tLUO6GGsq+nvrX3KL4MHmvzOXc9hPgi722GtXEPCbg3cKEqnkDh6FCrJooC7R5IPRVWnlU7oaK7HXT27meRogibp5C2klhFmRL6cSur6ThT9buPB3SKsAx6jIH2HZ+71e0QQU6A7BSKxhm25ytZdJiJtb8QTNxSjhh+4RfWnOqe56zRj06TNBDz4O7ezuwRBBFRW8LkCTOlbgRtwkfNt36NmhaBjLpeSnuQFyUEJGbEHQPshogamrP9TvK5rBRQw45mDrMMi9NjpkrM2BA+ADaov5ss8zmn3cWx3bfdQ6XEG92NQEI3ssb53cwc6Ohbjwr5cJvjJ54m+RsMzMROyC4kGLstpTLrR/qqddUYbt2wK6bE6xnVUQNY1k3nPEngXZfKCFrHBEDu7CThOUPCFP8hljLwGmReRPPoLOuADd54fAoYkid+7UupnVUXKo0POJs/HZSSKT8jHTenXpTQsgKjhc4xYYz8CrQ0ugTn8wr7Mr2EjHWaB5Iw8Q8XmX7XHMujGDUfS4Y2Ewu+b/qNFNRBt6czQHjaUfPG1xMe0pv5VMv0CeFwEqHeMo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(346002)(396003)(136003)(376002)(5660300002)(86362001)(426003)(2616005)(4326008)(4744005)(33656002)(38100700002)(1076003)(186003)(8676002)(9786002)(8936002)(9746002)(66476007)(66946007)(316002)(54906003)(2906002)(478600001)(7416002)(66556008)(36756003)(6916009)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 6O8c0vK5EqMqyHeHg21A2VYBi4Sw9rTfO4COLh3TTeVWcGAUXgz6JNLFuWhghYQbqF+eX65Fip9fZgAbU6PX/6Ddl0GtB1sz2nOD5dlBMWTzRpO6Nc8yD57wwSQInjASIZFpLb7n6KZkE5vrFD0jQR3p1fnfkm/5+Hrqb2mXq913skFAkJncTCoBV7TcU8E8y+MICXtT3rQOISRV28qSAkeCxlXyZSej1qC658yXPMQbtWS+pjhnY6hRwzJJiSnEZGmBDG7AZInSd3gGW8RkMkuc4lgLXUF/dY4+FceSwsGOf/75ITP+YKCasbNp1WFhCftDeg9uiqht4dr+ZH/ARKwhiN4gLnGf1uhlWNCMIS7+fngxnUJuhSt6dJ+X1lVwOKr4qyVBOmbP59rDUSQnGwhZBMpXbV5BNbg4Aru8AhVknQcBq8nzzZGz2u12JK2UAkD3W7SQ6lQfKzirMZweTKP4EHr8dNJ5O1ZR02tAJd9Kml1A/dGdWhOe0DCHZAu9MVarCTDe+w49U3n+uAMaDhMYPhrgJjukOILBXa8t027CLdVpAVtGcFKyp0u1eJvCVk1Cp4UEUxf/fSBOauXbKFSEaNAihJ7lXthzesdlsqEw7yMCViEcRQJUJ5jhlKbDQidvcsIxIsxyJaup+wlJUe4XOjmq5OszHnATpwCgo8Ya7N6WXpIxoKp5L35sN6pCQiCdGtkYN9dySwbnyP03a0uwbitFAwUTnbNxZAVbbvFEiaMLDLxdyiBKVQ05N2ic
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 405f46c4-5a36-4831-4ba2-08d91a35727c
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 19:45:10.8541
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PlKj/0ol5HPuVdPinr9uw+4RrA+jlPJ/GU4TYo/OSuWrUqTK53QZM9mP5Ceahvqz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3212
+In-Reply-To: <YKQATkbU4DJ/nC3T@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 18, 2021 at 02:01:36PM -0400, Peter Xu wrote:
-> > > Indeed it'll be odd for a COW page since for COW page then it means after
-> > > parent/child writting to the page it'll clone into two, then it's a mistery on
-> > > which one will be the one that "exclusived owned" by the device..
-> > 
-> > For COW pages it is like every other fork case.. We can't reliably
-> > write-protect the device_exclusive page during fork so we must copy it
-> > at fork time.
-> > 
-> > Thus three reasonable choices:
-> >  - Copy to a new CPU page
-> >  - Migrate back to a CPU page and write protect it
-> >  - Copy to a new device exclusive page
+On 5/18/2021 10:58 AM, Borislav Petkov wrote:
+> On Tue, May 18, 2021 at 02:14:14AM +0200, Eugene Syromiatnikov wrote:
+>> Speaking of which, I wonder what would happen if a 64-bit process makes
+>> a 32-bit system call (using int 0x80, for example), and gets a signal.
 > 
-> IMHO the ownership question would really help us to answer this one..
+> I guess that's the next patch. And I see amluto has some concerns...
+> 
+> /me goes read.
+> 
 
-I'm confused about what device ownership you are talking about
+In the next revision, there will be no "signal context extension" 
+struct.  However, the flow for 64, ia32 and x32 will be similar.  I will 
+send that out after some testing.
 
-It is just a page and it is tied to some specific pgmap?
-
-If the thing providing the migration stuff goes away then all
-device_exclusive pages should revert back to CPU pages and destroy the
-pgmap?
-
-Jason
+Thanks,
+Yu-cheng
