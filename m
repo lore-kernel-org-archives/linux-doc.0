@@ -2,126 +2,402 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-28.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB1F6C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 02:17:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1FCC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 03:02:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C82F861073
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 02:17:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 887B061019
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 03:02:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346235AbhERCSz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 May 2021 22:18:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35349 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237378AbhERCSy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 22:18:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621304257;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=SHUED2xywhieoA8Ohgqwa/BFwS5IrraVCcyW37p8oEc=;
-        b=HAxnpIeBAIgJ2cFctu//SWzGseRHbxULUCXTn6S3D1aEZCJnKItOGl0sX/uCMDVNTF8XgH
-        iW+tWZzT46YNUKe49wkGl5iWQwna8b11bN2BINLH39Zd7f3i5a3LKa00hOMCK+WKx3qtGO
-        vTVyNS5T7oglx0nJM7vxEkEhneqonPs=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-2BuNmJSYMtywAyUyOuB_3A-1; Mon, 17 May 2021 22:17:35 -0400
-X-MC-Unique: 2BuNmJSYMtywAyUyOuB_3A-1
-Received: by mail-qv1-f70.google.com with SMTP id n12-20020a0cdc8c0000b02901efdf8d3bc7so3467249qvk.23
-        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 19:17:35 -0700 (PDT)
+        id S240637AbhERDDQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 May 2021 23:03:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238348AbhERDDQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 May 2021 23:03:16 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E4CC061756
+        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 20:01:57 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id c14so6643768wrx.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 May 2021 20:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=prFdT1dQ2HQFGfpQl18+ytQ82tqJA0EOYgcl4wsuIgc=;
+        b=Zm17ZW5gzs+hSxCoCwZvF59a3BNMhJoGP8e+YpLvq0yBzyvWePQRcTtjmTR+ANPjO3
+         IWuEg+F1Pxu9axwyqMktPobr0O7fjBza55QWAOaCEw0owRQXmFC3rJrpab8Oe//DjtU5
+         YI1ddSiwR00502niCiCIAeBR//BTKMvQIkp/bgnVRtVpz0wEeGFYF/fmw1v7AV25Mw+R
+         /o0exomWezLaQzVsHRwTSDJjXauyPkwd9IM3Q1NR1k4KJSFni3N0SEJ6J67rlPEUimZO
+         x+N5Y8rKZ2TNFLkWShDhrqDnCHqfnSaShGxzXh0QQVdgGZUhY8r6tZGJkI9QpF+2Xf0q
+         LdTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SHUED2xywhieoA8Ohgqwa/BFwS5IrraVCcyW37p8oEc=;
-        b=cWao5c0oeQpieJXzr4Bl3M4HEU/AcAwfGnI2e5ecCagjXo2Cd/OyJgyXAKmWFOTLWn
-         D0YKudrzjsb/PqfAaozP2VJeGQasJLms55SCE0Q+6YVCB/hR711MiLSKjPl51JAkuyfr
-         PK3Zw4dM4DjBGcH4JTa7absL3pp0ZfsvWFbTofBRmHdm3p/vhemKoIfy7JfwhnBbxh98
-         WAmvE22j4RTj1SKbwciJUz4DN9yrn6mFl4tza8riNCDh0YrbgRCWBvzk5CwWyEhILXMZ
-         rs1ivRhRZKt+LpBuG5lPRnPorNqfPj/vUOa/jvIJbyKIrZeWu4pXZDf4YZ39LDlt91Lo
-         pFtQ==
-X-Gm-Message-State: AOAM531ZZPtibqooPObIvF69mESlJTEO2ORbKY68HoI629UxpA5x0V6U
-        v3qmnm5pQEdNnz8iTt6mgfj9zG9PTJRM8U+aD07Ynyen1zsjaV94snyatFCIhnqCYJe+w11hzA/
-        moNe/GSl3d+dtu23qykyn
-X-Received: by 2002:a37:acc:: with SMTP id 195mr3056554qkk.237.1621304254982;
-        Mon, 17 May 2021 19:17:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvfhDruyVRENBywFHKAF09zhJc/VYjDjiU6UtKjssWV4m2MY09oz2Ie4CFZZ05uo8IZIWTfA==
-X-Received: by 2002:a37:acc:: with SMTP id 195mr3056543qkk.237.1621304254755;
-        Mon, 17 May 2021 19:17:34 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
-        by smtp.gmail.com with ESMTPSA id q185sm11488655qkd.69.2021.05.17.19.17.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 19:17:34 -0700 (PDT)
-Date:   Mon, 17 May 2021 22:17:32 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-        bskeggs@redhat.com, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, jhubbard@nvidia.com,
-        rcampbell@nvidia.com, jglisse@redhat.com, jgg@nvidia.com,
-        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
-        bsingharora@gmail.com, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v8 1/8] mm: Remove special swap entry functions
-Message-ID: <YKMjvKGIHdwQN2Ml@t490s>
-References: <20210407084238.20443-1-apopple@nvidia.com>
- <20210407084238.20443-2-apopple@nvidia.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=prFdT1dQ2HQFGfpQl18+ytQ82tqJA0EOYgcl4wsuIgc=;
+        b=CXIAV4WjPqToVuDQ5lnS8YgKUjY426NFZ1GzNNUjWu/vueucnaoxsv03OUEuE8Tj9b
+         3hsLFK8r6sQ8H44DdQCn4gB6PRCOlk1k1GqllWndq97aw31WMvGJYVCe2qWfF0EL49dS
+         vco3tJ5iqFCAdMsClMkekEm0QaWCGTqH+3pLa2JL/ZPbckfMpg+UZ23AC0pr4f1T5voi
+         nUpUJah6ODanePzKhqh/Lgo0zkn/7Pe3LIHH9uL8dY8jNI7WCyXieQWcis9Ausu3QB82
+         HAOQEXi1zTkjg0OoqMIgLDT+IyXOL7g47FjZpHUXc6yLgoOtx/BqlPuDVmi/bzPbH9xx
+         RnXA==
+X-Gm-Message-State: AOAM533r902Wi8BXPPhMA7JO/u2lr5WoPpsBI2AvCxW9fP9v/5ZckESM
+        SKImDyI7fuuoNGCsWesaF6XMz029to0EawLNb4V5aw==
+X-Google-Smtp-Source: ABdhPJyAJoy8Mtrq+wx7WKw+xrej8K0HKCsWnYJMnFl/mjhtViT4U+wFGHsHAVJFhMeX3mAjkzc7TFNo0rX6oDiGcWI=
+X-Received: by 2002:adf:e58d:: with SMTP id l13mr3629520wrm.369.1621306915600;
+ Mon, 17 May 2021 20:01:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210407084238.20443-2-apopple@nvidia.com>
+References: <20210507213110.155492-1-brendanhiggins@google.com>
+ <20210507213110.155492-4-brendanhiggins@google.com> <CABVgOSmEe32_kT9TR0-H8biuWGc1Rexne86DgLxths+GUHHgig@mail.gmail.com>
+In-Reply-To: <CABVgOSmEe32_kT9TR0-H8biuWGc1Rexne86DgLxths+GUHHgig@mail.gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 18 May 2021 11:01:44 +0800
+Message-ID: <CABVgOS=W-UhLJ5siu2u=Nus6g2zMEHM6c9ck2DHbHr0e5uCqSQ@mail.gmail.com>
+Subject: Re: [PATCH v1 3/4] kunit: tool: add support for QEMU
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Shuah Khan <shuah@kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Daniel Latypov <dlatypov@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 07, 2021 at 06:42:31PM +1000, Alistair Popple wrote:
-> +static inline struct page *pfn_swap_entry_to_page(swp_entry_t entry)
-> +{
-> +	struct page *p = pfn_to_page(swp_offset(entry));
-> +
-> +	/*
-> +	 * Any use of migration entries may only occur while the
-> +	 * corresponding page is locked
-> +	 */
-> +	BUG_ON(is_migration_entry(entry) && !PageLocked(p));
-> +
-> +	return p;
-> +}
+On Sat, May 15, 2021 at 3:59 PM David Gow <davidgow@google.com> wrote:
+>
+> On Sat, May 8, 2021 at 5:31 AM Brendan Higgins
+> <brendanhiggins@google.com> wrote:
+> >
+> > Add basic support to run QEMU via kunit_tool. Add support for i386,
+> > x86_64, arm, arm64, and a bunch more.
+> >
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > Tested-by: David Gow <davidgow@google.com>
+> > ---
+> >
+> > Changes since last revision:
+> >
+> > - A number of minor obvious issues pointed out by David and Daniel.
+> > - Added facility for merging Kconfigs at Daniel's suggestion.
+> > - Broke out qemu_configs each into their own config file which is loaded
+> >   dynamically - mostly at David's suggestion.
+> >
+> > ---
+>
+> This seems pretty good to me. I only have one real complaint --
+> qemu_configs needing to be in a subdirectory of ./tools/testing/kunit
+> -- but am able to tolerate that (even if I'd prefer not to have it) if
+> it's documented properly.
+>
+> Otherwise, save for a couple of minor nitpicks, this seems good to go.
+>
+> Reviewed-by: David Gow <davidgow@google.com>
+>
+>
 
-Would swap_pfn_entry_to_page() be slightly better?
+One thing I forgot to mention is that I'm not 100% sure about the
+Kconfig fragments being embedded in the qemu_configs. I still kind-of
+prefer the idea of them being in separate config files. While I don't
+think this is necessarily a blocker, I did just realise that, by
+default, kunit.py run --arch=<non-UM-arch> will pull its default
+.kunitconfig from arch/um/configs/kunit_defconfig, which definitely
+feels awkward when UML is not otherwise involved.
 
-The thing is it's very easy to read pfn_*() as a function to take a pfn as
-parameter...
+Some further thoughts below (which range a bit from "practical
+suggestion" to "overcomplicated ponderings", so don't feel the
+pressure to take all of them).
 
-Since I'm also recently working on some swap-related new ptes [1], I'm thinking
-whether we could name these swap entries as "swap XXX entries".  Say, "swap
-hwpoison entry", "swap pfn entry" (which is a superset of "swap migration
-entry", "swap device exclusive entry", ...).  That's where I came with the
-above swap_pfn_entry_to_page(), then below will be naturally is_swap_pfn_entry().
+(...snip...)
 
-No strong opinion as this is already a v8 series (and sorry to chim in this
-late), just to raise this up.
+> > diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+> > index e22ade9d91ad5..2bd196fd69e5c 100644
+> > --- a/tools/testing/kunit/kunit_kernel.py
+> > +++ b/tools/testing/kunit/kunit_kernel.py
+> > @@ -6,23 +6,31 @@
+> >  # Author: Felix Guo <felixguoxiuping@gmail.com>
+> >  # Author: Brendan Higgins <brendanhiggins@google.com>
+> >
+> > +from __future__ import annotations
+> > +import importlib.util
+> >  import logging
+> >  import subprocess
+> >  import os
+> >  import shutil
+> >  import signal
+> >  from typing import Iterator
+> > +from typing import Optional
+> >
+> >  from contextlib import ExitStack
+> >
+> > +from collections import namedtuple
+> > +
+> >  import kunit_config
+> >  import kunit_parser
+> > +import qemu_config
+> >
+> >  KCONFIG_PATH = '.config'
+> >  KUNITCONFIG_PATH = '.kunitconfig'
+> >  DEFAULT_KUNITCONFIG_PATH = 'arch/um/configs/kunit_defconfig'
 
-[1] https://lore.kernel.org/lkml/20210427161317.50682-1-peterx@redhat.com/
+This being in arch/um doesn't seem great if its being used for non-UML
+builds. Is it worth either:
+(a) moving this somewhere else (e.g., tools/testing/kunit/configs as
+with the BROKEN_ALLCONFIG_PATH beflow), or
+(b) giving each architecture its own kunit_defconfig, possibly in
+place of the qemuconfig member of QemuArchParams
 
-Thanks,
+I'm leaning towards (b), which solves two different sources of
+ugliness in one go, though it would appear to have the downside that
+the default .kunitconfig could end up being architecture specific,
+which isn't great.
 
-> +
-> +/*
-> + * A pfn swap entry is a special type of swap entry that always has a pfn stored
-> + * in the swap offset. They are used to represent unaddressable device memory
-> + * and to restrict access to a page undergoing migration.
-> + */
-> +static inline bool is_pfn_swap_entry(swp_entry_t entry)
-> +{
-> +	return is_migration_entry(entry) || is_device_private_entry(entry);
-> +}
+> >  BROKEN_ALLCONFIG_PATH = 'tools/testing/kunit/configs/broken_on_uml.config'
+> >  OUTFILE_PATH = 'test.log'
+> > +ABS_TOOL_PATH = os.path.abspath(os.path.dirname(__file__))
+> > +QEMU_CONFIGS_DIR = os.path.join(ABS_TOOL_PATH, 'qemu_configs')
+> >
 
--- 
-Peter Xu
+(...snip...)
 
+> > diff --git a/tools/testing/kunit/qemu_config.py b/tools/testing/kunit/qemu_config.py
+> > new file mode 100644
+> > index 0000000000000..aff1fe0442dbc
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_config.py
+> > @@ -0,0 +1,17 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +#
+> > +# Collection of configs for building non-UML kernels and running them on QEMU.
+> > +#
+> > +# Copyright (C) 2021, Google LLC.
+> > +# Author: Brendan Higgins <brendanhiggins@google.com>
+> > +
+> > +from collections import namedtuple
+> > +
+> > +
+> > +QemuArchParams = namedtuple('QemuArchParams', ['linux_arch',
+> > +                                              'qemuconfig',
+
+As mentioned, I'm not thrilled about keeping the Kconfig inline here,
+and would kind-of prefer it to be in another file. I could live with
+it if I have to, though. Regardless, 'qemuconfig' is not a
+super-descriptive name, particularly as it's not clear if this is
+configuring QEMU (no, that's extra_qemu_params'), or configuring the
+kernel for QEMU compatibility.
+
+> > +                                              'qemu_arch',
+> > +                                              'kernel_path',
+> > +                                              'kernel_command_line',
+> > +                                              'extra_qemu_params'])
+> > +
+>
+> Nit: newline at end of file.
+>
+>
+>
+> > diff --git a/tools/testing/kunit/qemu_configs/alpha.py b/tools/testing/kunit/qemu_configs/alpha.py
+> > new file mode 100644
+> > index 0000000000000..2cc64f848ca2c
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/alpha.py
+> > @@ -0,0 +1,10 @@
+> > +from ..qemu_config import QemuArchParams
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='alpha',
+> > +                          qemuconfig='''
+> > +CONFIG_SERIAL_8250=y
+> > +CONFIG_SERIAL_8250_CONSOLE=y''',
+
+If these were in a separate file, they could be shared across alpha,
+i386, x86_64, etc. Of course, that wouldn't gel well with putting them
+in arch/.../config. If there were some way of listing multiple files,
+it could form part of the config for several more architectures,
+though that's probably overcomplicating things.
+
+> > +                          qemu_arch='alpha',
+> > +                          kernel_path='arch/alpha/boot/vmlinux',
+> > +                          kernel_command_line='console=ttyS0',
+> > +                          extra_qemu_params=[''])
+> > diff --git a/tools/testing/kunit/qemu_configs/arm.py b/tools/testing/kunit/qemu_configs/arm.py
+> > new file mode 100644
+> > index 0000000000000..29a043b0531a0
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/arm.py
+> > @@ -0,0 +1,13 @@
+> > +from ..qemu_config import QemuArchParams
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='arm',
+> > +                          qemuconfig='''
+> > +CONFIG_ARCH_VIRT=y
+> > +CONFIG_SERIAL_AMBA_PL010=y
+> > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
+> > +CONFIG_SERIAL_AMBA_PL011=y
+> > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=y''',
+
+Similarly, if in a separate file and there were some multiple-file
+mechanism, these could mostly be shared between arm & arm64 (ARCH_VIRT
+being the only problem). Again, probably overcomplicating it at this
+point though.
+
+> > +                          qemu_arch='arm',
+> > +                          kernel_path='arch/arm/boot/zImage',
+> > +                          kernel_command_line='console=ttyAMA0',
+> > +                          extra_qemu_params=['-machine virt'])
+> > diff --git a/tools/testing/kunit/qemu_configs/arm64.py b/tools/testing/kunit/qemu_configs/arm64.py
+> > new file mode 100644
+> > index 0000000000000..1ba200bc99f0f
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/arm64.py
+> > @@ -0,0 +1,12 @@
+> > +from ..qemu_config import QemuArchParams
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='arm64',
+> > +                          qemuconfig='''
+> > +CONFIG_SERIAL_AMBA_PL010=y
+> > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
+> > +CONFIG_SERIAL_AMBA_PL011=y
+> > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=y''',
+> > +                          qemu_arch='aarch64',
+> > +                          kernel_path='arch/arm64/boot/Image.gz',
+> > +                          kernel_command_line='console=ttyAMA0',
+> > +                          extra_qemu_params=['-machine virt', '-cpu cortex-a57'])
+> > diff --git a/tools/testing/kunit/qemu_configs/i386.py b/tools/testing/kunit/qemu_configs/i386.py
+> > new file mode 100644
+> > index 0000000000000..3998af306468e
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/i386.py
+> > @@ -0,0 +1,10 @@
+> > +from ..qemu_config import QemuArchParams
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='i386',
+> > +                          qemuconfig='''
+> > +CONFIG_SERIAL_8250=y
+> > +CONFIG_SERIAL_8250_CONSOLE=y''',
+> > +                          qemu_arch='x86_64',
+> > +                          kernel_path='arch/x86/boot/bzImage',
+> > +                          kernel_command_line='console=ttyS0',
+> > +                          extra_qemu_params=[''])
+> > diff --git a/tools/testing/kunit/qemu_configs/powerpc.py b/tools/testing/kunit/qemu_configs/powerpc.py
+> > new file mode 100644
+> > index 0000000000000..46292ce9e368e
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/powerpc.py
+> > @@ -0,0 +1,12 @@
+> > +from ..qemu_config import QemuArchParams
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='powerpc',
+> > +                          qemuconfig='''
+> > +CONFIG_PPC64=y
+> > +CONFIG_SERIAL_8250=y
+> > +CONFIG_SERIAL_8250_CONSOLE=y
+> > +CONFIG_HVC_CONSOLE=y''',
+> > +                          qemu_arch='ppc64',
+> > +                          kernel_path='vmlinux',
+> > +                          kernel_command_line='console=ttyS0',
+> > +                          extra_qemu_params=['-M pseries', '-cpu power8'])
+> > diff --git a/tools/testing/kunit/qemu_configs/riscv.py b/tools/testing/kunit/qemu_configs/riscv.py
+> > new file mode 100644
+> > index 0000000000000..de8c62d465723
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/riscv.py
+> > @@ -0,0 +1,31 @@
+> > +from ..qemu_config import QemuArchParams
+> > +import os
+> > +import os.path
+> > +import sys
+> > +
+> > +GITHUB_OPENSBI_URL = 'https://github.com/qemu/qemu/raw/master/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin'
+> > +OPENSBI_FILE = os.path.basename(GITHUB_OPENSBI_URL)
+> > +
+> > +if not os.path.isfile(OPENSBI_FILE):
+> > +       print('\n\nOpenSBI file is not in the current working directory.\n'
+> > +             'Would you like me to download it for you from:\n' + GITHUB_OPENSBI_URL + ' ?\n')
+> > +       response = input('yes/[no]: ')
+> > +       if response.strip() == 'yes':
+> > +               os.system('wget ' + GITHUB_OPENSBI_URL)
+> > +       else:
+> > +               sys.exit()
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='riscv',
+> > +                          qemuconfig='''
+> > +CONFIG_SOC_VIRT=y
+> > +CONFIG_SERIAL_8250=y
+> > +CONFIG_SERIAL_8250_CONSOLE=y
+> > +CONFIG_SERIAL_OF_PLATFORM=y
+> > +CONFIG_SERIAL_EARLYCON_RISCV_SBI=y''',
+> > +                          qemu_arch='riscv64',
+> > +                          kernel_path='arch/riscv/boot/Image',
+> > +                          kernel_command_line='console=ttyS0',
+> > +                          extra_qemu_params=[
+> > +                                          '-machine virt',
+> > +                                          '-cpu rv64',
+> > +                                          '-bios opensbi-riscv64-generic-fw_dynamic.bin'])
+> > diff --git a/tools/testing/kunit/qemu_configs/s390.py b/tools/testing/kunit/qemu_configs/s390.py
+> > new file mode 100644
+> > index 0000000000000..04c90332f1098
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/s390.py
+> > @@ -0,0 +1,14 @@
+> > +from ..qemu_config import QemuArchParams
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='s390',
+> > +                          qemuconfig='''
+> > +CONFIG_EXPERT=y
+> > +CONFIG_TUNE_ZEC12=y
+> > +CONFIG_NUMA=y
+> > +CONFIG_MODULES=y''',
+> > +                          qemu_arch='s390x',
+> > +                          kernel_path='arch/s390/boot/bzImage',
+> > +                          kernel_command_line='console=ttyS0',
+> > +                          extra_qemu_params=[
+> > +                                          '-machine s390-ccw-virtio',
+> > +                                          '-cpu qemu',])
+> > diff --git a/tools/testing/kunit/qemu_configs/sparc.py b/tools/testing/kunit/qemu_configs/sparc.py
+> > new file mode 100644
+> > index 0000000000000..f26b5f27cc5a1
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/sparc.py
+> > @@ -0,0 +1,10 @@
+> > +from ..qemu_config import QemuArchParams
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='sparc',
+> > +                          qemuconfig='''
+> > +CONFIG_SERIAL_8250=y
+> > +CONFIG_SERIAL_8250_CONSOLE=y''',
+> > +                          qemu_arch='sparc',
+> > +                          kernel_path='arch/sparc/boot/zImage',
+> > +                          kernel_command_line='console=ttyS0 mem=256M',
+> > +                          extra_qemu_params=['-m 256'])
+> > diff --git a/tools/testing/kunit/qemu_configs/x86_64.py b/tools/testing/kunit/qemu_configs/x86_64.py
+> > new file mode 100644
+> > index 0000000000000..bd5ab733b92ac
+> > --- /dev/null
+> > +++ b/tools/testing/kunit/qemu_configs/x86_64.py
+> > @@ -0,0 +1,10 @@
+> > +from ..qemu_config import QemuArchParams
+> > +
+> > +QEMU_ARCH = QemuArchParams(linux_arch='x86_64',
+> > +                          qemuconfig='''
+> > +CONFIG_SERIAL_8250=y
+> > +CONFIG_SERIAL_8250_CONSOLE=y''',
+> > +                          qemu_arch='x86_64',
+> > +                          kernel_path='arch/x86/boot/bzImage',
+> > +                          kernel_command_line='console=ttyS0',
+> > +                          extra_qemu_params=[''])
+> > --
+> > 2.31.1.607.g51e8a6a459-goog
+> >
