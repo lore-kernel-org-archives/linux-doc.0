@@ -2,157 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3C1C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 18:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 283D5C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 19:45:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD8F06135B
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 18:56:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 02654610FA
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 19:45:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245037AbhERS5a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 14:57:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59612 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236295AbhERS5a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 14:57:30 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2919C061760
-        for <linux-doc@vger.kernel.org>; Tue, 18 May 2021 11:56:11 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id g38so14647726ybi.12
-        for <linux-doc@vger.kernel.org>; Tue, 18 May 2021 11:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=U5LLkV364fFy+W60IIkSO6ynttP+rk35+EuRn6ckGs8=;
-        b=cxprohY/XMTUx1TEQw8jbzPmXFucnMNA2eyWUf19LpmAQx4UNLsmqbHDZHdjS/CaGr
-         t03JLmDOtp4Xg8I94GL554PMO32h1RtbAqafRiUuHeVq0UM4yvTJUOloXYB06ANBfGoL
-         jHHUFpm3nc2I9VvFuOTc16xcLvyF/tSSQeTmyKXCLvcacBJg/QcxMiYoGjz3FPLCq2i4
-         yYN8KkaSHTDa9C4UeiuwVYyH/i+SWrdUN9pY85oTs04kt0M7iKY9mN+soWEbt1EI4dpk
-         edMxfCj+tyiAfv6N8heO33kP/Uy2yt6kyaDwkgF3bgtxtw/079Q1Rsuq/cikCVm577W8
-         /QhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=U5LLkV364fFy+W60IIkSO6ynttP+rk35+EuRn6ckGs8=;
-        b=Xa4mgVss1TCAwvb6NNjCbFtGo2ckwtwDW3oYBRMmVMUmC8A7ULUres67V8Vwmgom/P
-         Zv9eoBbDlVXtvvnSrD0pVhzIFhPF4asJFfecFs4kJSp4u/ZRU1DSDgLTHJn7yb6SEgtL
-         9kOkXfi+lvQDnDGbaLXygNUAW09iP6+CgMKfZjhWSlMwZGUfMoXDjBTmQxmDkSYydQgy
-         qjy26ihZd9e074o10GiaKTH8CcEp0Vig23LcMTqoEGtrCRmt23+wp2MSOTX0jm8ptgZ8
-         Pu/+dR1+DhobC4GrdwHySn4s6kYUKl8WC8WvH/Kl95PrRNfJNfFQb8FLy1/uLuIoplTK
-         e49w==
-X-Gm-Message-State: AOAM532syfQA6Fduxf0kXfVD2aA1w/FN6ebit4CoK8gz/6cD9rSmsY9D
-        WbkHLLSui4lxGOJ4TjFzCuQPwCOz8OTfXmg45tKcjw==
-X-Google-Smtp-Source: ABdhPJw+r9Vs8W/wHNhLBVF/L2/v9zN6CWY6uzHU1K20kYiRC4gsip28a5tC3+Qqg8OJDi8hfcKE77la5Q0Nvw9ThKI=
-X-Received: by 2002:a25:7ec4:: with SMTP id z187mr9138416ybc.136.1621364170924;
- Tue, 18 May 2021 11:56:10 -0700 (PDT)
+        id S1351925AbhERTqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 15:46:31 -0400
+Received: from mail-mw2nam12on2083.outbound.protection.outlook.com ([40.107.244.83]:62977
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231162AbhERTqa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 May 2021 15:46:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fKQTzvvq0Jr42AObikhwhwbSltkrsz8l6q8RZsZZIANOXlFv76dZK+FfFGYFf+vFA1WyRW0DUXHQpklG4GN4hfpEQSjsAHeya/ngxfYNy9DF4WPnHlTCMML/x+X8Qoddybk+hLkSw0zXvJQRwtMZG6gkOrYu/Q8eBvAgjE7cBiMHVcevasBNVPV4+COm2T58Qyk+xeWPOKPiN8LbXwJ3wJ7JTPD4UOJzjSEi//fvF4CNVircUi6NgFULYUGxP5YPXPw7AIPfP0HGvzBXkRLEC1rgFk2IHhS48ibKz7+4S3Zhe9Fk/0gzNcTH/2AMLlv9ovQjcSBT97XW/mZGI+umAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y05Y2Y1aMidJ5Ltn3J+VAAK8hHnG8kOEs8oVJwOVdCc=;
+ b=VSd/NnQVf2GGjFiYmoT0J/Z/DOZ8AwDTfk2e+2NNI4MXzAZkDs5uCwTGo+PQB06VY2EadE1LPYAgcC/amG3bH6owXfCps/lAlpU/OkoJX2GrkbPb2LpvZDc95BtlBzKoN59RO7HLZ1Sd9+bpaH4d7clKeez3rz2FGHjMcxH3IJLrwba0ggxqPnTqGTvTzaqrBCIm+4uonhtpgXTLMfpxO6/93RE7aBrdOAATNDYNI/d2ia1USRgLBxAyDXCg45J4seMSzX/8TwMbQcqLjBm0DwANJqHA6FcAQ4BFLh37x5MxZ8k15qC/P0yhHwYSbsgA98+9BLCoGx853AylBjUK9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y05Y2Y1aMidJ5Ltn3J+VAAK8hHnG8kOEs8oVJwOVdCc=;
+ b=jhvgOTmcQJlfUPi3rY+h0kodsvjUxx0UsU6gjmo/zVw2xd5uX56ZczITiNJeMzmpWXn3hVuHrCuHyRHTRUCLFUBchE371nDTGX5cXHOB0pEgKRgjLZYi464hhLjHvM01+iAHBrdecluZH6nIrkyuj2DE0xgIeUo27BXD3dpyZNA9LTg7RJ+XumvdvywJUJnkXDZ2VdsZGvydr8D9KykN5A5ENS4p4tOiyI+QxFPrRHP49L+9O348P2b4nVkCLVsYiukIefNT2kJeDFKRhOX6MML4CKUEjEzYlmA3u8PQHAcUD9deFfXx4HGJQ/ME1yydHWTdEyJY+tbyaM01bG7XmA==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3212.namprd12.prod.outlook.com (2603:10b6:5:186::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Tue, 18 May
+ 2021 19:45:10 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::ddb4:2cbb:4589:f039]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::ddb4:2cbb:4589:f039%4]) with mapi id 15.20.4129.031; Tue, 18 May 2021
+ 19:45:10 +0000
+Date:   Tue, 18 May 2021 16:45:09 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
+        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
+        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
+        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
+        bsingharora@gmail.com, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
+Message-ID: <20210518194509.GF1002214@nvidia.com>
+References: <20210407084238.20443-1-apopple@nvidia.com>
+ <20210407084238.20443-6-apopple@nvidia.com>
+ <YKMhorngO2DVrxac@t490s>
+ <47694715.suB6H4Uo8R@nvdebian>
+ <YKP5Dj4Q/riGGc43@t490s>
+ <20210518173334.GE1002214@nvidia.com>
+ <YKQBACJCjsxeM3ro@t490s>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKQBACJCjsxeM3ro@t490s>
+X-Originating-IP: [47.55.113.94]
+X-ClientProxiedBy: BL0PR03CA0018.namprd03.prod.outlook.com
+ (2603:10b6:208:2d::31) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-References: <20210518020200.1790058-1-surenb@google.com> <20210518185251.GI5618@worktop.programming.kicks-ass.net>
-In-Reply-To: <20210518185251.GI5618@worktop.programming.kicks-ass.net>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 18 May 2021 11:55:59 -0700
-Message-ID: <CAJuCfpFVEmYdnqDz+-txLtxM3OhLTyQUJPPP-jLq1YPg0fZ_dA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] cgroup: make per-cgroup pressure stall tracking configurable
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Benjamin Segall <bsegall@google.com>,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>, macro@orcam.me.uk,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        cgroups mailinglist <cgroups@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (47.55.113.94) by BL0PR03CA0018.namprd03.prod.outlook.com (2603:10b6:208:2d::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25 via Frontend Transport; Tue, 18 May 2021 19:45:10 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lj5eP-00AQvg-Cm; Tue, 18 May 2021 16:45:09 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 405f46c4-5a36-4831-4ba2-08d91a35727c
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3212:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB32126AEF37B53092CB8F8F60C22C9@DM6PR12MB3212.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sP5dH1Bgoe5O6IYwIaxZlsMa6XLjUY6V168FUDZbowbVcxnHv2tLUO6GGsq+nvrX3KL4MHmvzOXc9hPgi722GtXEPCbg3cKEqnkDh6FCrJooC7R5IPRVWnlU7oaK7HXT27meRogibp5C2klhFmRL6cSur6ThT9buPB3SKsAx6jIH2HZ+71e0QQU6A7BSKxhm25ytZdJiJtb8QTNxSjhh+4RfWnOqe56zRj06TNBDz4O7ezuwRBBFRW8LkCTOlbgRtwkfNt36NmhaBjLpeSnuQFyUEJGbEHQPshogamrP9TvK5rBRQw45mDrMMi9NjpkrM2BA+ADaov5ss8zmn3cWx3bfdQ6XEG92NQEI3ssb53cwc6Ohbjwr5cJvjJ54m+RsMzMROyC4kGLstpTLrR/qqddUYbt2wK6bE6xnVUQNY1k3nPEngXZfKCFrHBEDu7CThOUPCFP8hljLwGmReRPPoLOuADd54fAoYkid+7UupnVUXKo0POJs/HZSSKT8jHTenXpTQsgKjhc4xYYz8CrQ0ugTn8wr7Mr2EjHWaB5Iw8Q8XmX7XHMujGDUfS4Y2Ewu+b/qNFNRBt6czQHjaUfPG1xMe0pv5VMv0CeFwEqHeMo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(346002)(396003)(136003)(376002)(5660300002)(86362001)(426003)(2616005)(4326008)(4744005)(33656002)(38100700002)(1076003)(186003)(8676002)(9786002)(8936002)(9746002)(66476007)(66946007)(316002)(54906003)(2906002)(478600001)(7416002)(66556008)(36756003)(6916009)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 6O8c0vK5EqMqyHeHg21A2VYBi4Sw9rTfO4COLh3TTeVWcGAUXgz6JNLFuWhghYQbqF+eX65Fip9fZgAbU6PX/6Ddl0GtB1sz2nOD5dlBMWTzRpO6Nc8yD57wwSQInjASIZFpLb7n6KZkE5vrFD0jQR3p1fnfkm/5+Hrqb2mXq913skFAkJncTCoBV7TcU8E8y+MICXtT3rQOISRV28qSAkeCxlXyZSej1qC658yXPMQbtWS+pjhnY6hRwzJJiSnEZGmBDG7AZInSd3gGW8RkMkuc4lgLXUF/dY4+FceSwsGOf/75ITP+YKCasbNp1WFhCftDeg9uiqht4dr+ZH/ARKwhiN4gLnGf1uhlWNCMIS7+fngxnUJuhSt6dJ+X1lVwOKr4qyVBOmbP59rDUSQnGwhZBMpXbV5BNbg4Aru8AhVknQcBq8nzzZGz2u12JK2UAkD3W7SQ6lQfKzirMZweTKP4EHr8dNJ5O1ZR02tAJd9Kml1A/dGdWhOe0DCHZAu9MVarCTDe+w49U3n+uAMaDhMYPhrgJjukOILBXa8t027CLdVpAVtGcFKyp0u1eJvCVk1Cp4UEUxf/fSBOauXbKFSEaNAihJ7lXthzesdlsqEw7yMCViEcRQJUJ5jhlKbDQidvcsIxIsxyJaup+wlJUe4XOjmq5OszHnATpwCgo8Ya7N6WXpIxoKp5L35sN6pCQiCdGtkYN9dySwbnyP03a0uwbitFAwUTnbNxZAVbbvFEiaMLDLxdyiBKVQ05N2ic
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 405f46c4-5a36-4831-4ba2-08d91a35727c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 19:45:10.8541
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PlKj/0ol5HPuVdPinr9uw+4RrA+jlPJ/GU4TYo/OSuWrUqTK53QZM9mP5Ceahvqz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3212
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 18, 2021 at 11:52 AM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Mon, May 17, 2021 at 07:02:00PM -0700, Suren Baghdasaryan wrote:
->
-> > diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-> > index cc25a3cff41f..4b8e72640ac9 100644
-> > --- a/kernel/sched/psi.c
-> > +++ b/kernel/sched/psi.c
-> > @@ -148,6 +148,7 @@
-> >  static int psi_bug __read_mostly;
-> >
-> >  DEFINE_STATIC_KEY_FALSE(psi_disabled);
-> > +DEFINE_STATIC_KEY_FALSE(psi_cgroups_disabled);
->
-> I'm thinking the whole thing will be easier/clearer when you make this:
->
-> DEFINE_STATIC_KEY_TRUE(psi_cgroups_enabled);
->
+On Tue, May 18, 2021 at 02:01:36PM -0400, Peter Xu wrote:
+> > > Indeed it'll be odd for a COW page since for COW page then it means after
+> > > parent/child writting to the page it'll clone into two, then it's a mistery on
+> > > which one will be the one that "exclusived owned" by the device..
+> > 
+> > For COW pages it is like every other fork case.. We can't reliably
+> > write-protect the device_exclusive page during fork so we must copy it
+> > at fork time.
+> > 
+> > Thus three reasonable choices:
+> >  - Copy to a new CPU page
+> >  - Migrate back to a CPU page and write protect it
+> >  - Copy to a new device exclusive page
+> 
+> IMHO the ownership question would really help us to answer this one..
 
-Sounds good. Will respin another version. Thanks for reviewing!
+I'm confused about what device ownership you are talking about
 
+It is just a page and it is tied to some specific pgmap?
 
-> >
-> >  #ifdef CONFIG_PSI_DEFAULT_DISABLED
-> >  static bool psi_enable;
-> > @@ -211,6 +212,9 @@ void __init psi_init(void)
-> >               return;
-> >       }
-> >
-> > +     if (!cgroup_psi_enabled())
-> > +             static_branch_enable(&psi_cgroups_disabled);
->
->         if (!cgroup_psi_enabled())
->                 static_branch_disable(&psi_cgroups_enabled);
->
-> > +
-> >       psi_period = jiffies_to_nsecs(PSI_FREQ);
-> >       group_init(&psi_system);
-> >  }
-> > @@ -744,23 +748,23 @@ static void psi_group_change(struct psi_group *group, int cpu,
-> >
-> >  static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
-> >  {
-> > +     if (*iter == &psi_system)
-> > +             return NULL;
-> > +
-> >  #ifdef CONFIG_CGROUPS
-> > +     if (!static_branch_likely(&psi_cgroups_disabled)) {
->
->         if (static_branch_likely(&psi_cgroups_enabled)) {
->
-> > +             struct cgroup *cgroup = NULL;
-> >
-> > +             if (!*iter)
-> > +                     cgroup = task->cgroups->dfl_cgrp;
-> > +             else
-> > +                     cgroup = cgroup_parent(*iter);
-> >
-> > +             if (cgroup && cgroup_parent(cgroup)) {
-> > +                     *iter = cgroup;
-> > +                     return cgroup_psi(cgroup);
-> > +             }
-> >       }
-> >  #endif
-> >       *iter = &psi_system;
-> >       return &psi_system;
->
-> But yes, very nice.
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+If the thing providing the migration stuff goes away then all
+device_exclusive pages should revert back to CPU pages and destroy the
+pgmap?
+
+Jason
