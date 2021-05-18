@@ -2,163 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27A05C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 05:56:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 448A9C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 09:40:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 08C0A61261
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 05:56:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C7D66135D
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 09:40:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240978AbhERF5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 01:57:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50812 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240152AbhERF5e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 01:57:34 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44873C061573;
-        Mon, 17 May 2021 22:56:17 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0ae2005a49629880ac02d2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:e200:5a49:6298:80ac:2d2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A18381EC04BF;
-        Tue, 18 May 2021 07:56:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1621317374;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=CoUZNshFKwxzJxvmNesTEWJlLKO0exgHkOr0ngGYwGI=;
-        b=W6eJZYjN6OnGJsyDztzN/sdVdUAbQx1dIeHKqupFUaPUwJGH0Cv+k6IWqpHcsdMOFLs4Om
-        2yzHcQIIT7BswXG35L+1FYQ2Q3QHSgvXmQrXO2fond/n0k1FEGWEXFfiA7QWi3O/ZYUVj+
-        fZFj44LzauzVdhV4ExYc6fy4mBxiFRs=
-Date:   Tue, 18 May 2021 07:56:09 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S242327AbhERJla (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 05:41:30 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:51855 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S240515AbhERJla (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 05:41:30 -0400
+X-UUID: 30e0b3933f134d05825acd877fbc2e0e-20210518
+X-UUID: 30e0b3933f134d05825acd877fbc2e0e-20210518
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <miles.chen@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 995296549; Tue, 18 May 2021 17:40:10 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 18 May 2021 17:40:09 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 18 May 2021 17:40:09 +0800
+From:   Miles Chen <miles.chen@mediatek.com>
+To:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
- setup/verify routines
-Message-ID: <YKNW+eiosSVDCTsA@zn.tnic>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-25-yu-cheng.yu@intel.com>
- <YKIfIEyW+sR+bDCk@zn.tnic>
- <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>
+CC:     <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-mm@kvack.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Miles Chen <miles.chen@mediatek.com>, Kazu <k-hagio-ab@nec.com>
+Subject: [PATCH v2 2/2] mm: replace contig_page_data with node_data
+Date:   Tue, 18 May 2021 17:24:46 +0800
+Message-ID: <20210518092446.16382-3-miles.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210518092446.16382-1-miles.chen@mediatek.com>
+References: <20210518092446.16382-1-miles.chen@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 17, 2021 at 01:55:01PM -0700, Yu, Yu-cheng wrote:
-> If 32-bit apps are not supported, there should be no need of 32-bit shadow
-> stack write, otherwise there is a bug.
+Replace contig_page_data with node_data. Change the definition
+of NODE_DATA(nid) from (&contig_page_data) to (node_data[0]).
 
-Aha, just a precaution. Then you can reduce the ifdeffery a bit (ontop
-of yours):
+Remove contig_page_data from the tree.
 
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Baoquan He <bhe@redhat.com>
+Cc: Kazu <k-hagio-ab@nec.com>
+Signed-off-by: Miles Chen <miles.chen@mediatek.com>
 ---
-diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
-index f962da1fe9b5..5b48c91fa8d4 100644
---- a/arch/x86/include/asm/special_insns.h
-+++ b/arch/x86/include/asm/special_insns.h
-@@ -235,9 +235,14 @@ static inline void clwb(volatile void *__p)
- }
+ Documentation/admin-guide/kdump/vmcoreinfo.rst | 13 -------------
+ arch/powerpc/kexec/core.c                      |  5 -----
+ include/linux/gfp.h                            |  3 ---
+ include/linux/mmzone.h                         |  3 +--
+ kernel/crash_core.c                            |  1 -
+ mm/memblock.c                                  |  2 --
+ 6 files changed, 1 insertion(+), 26 deletions(-)
+
+diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+index 3861a25faae1..74185245c580 100644
+--- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
++++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+@@ -81,14 +81,6 @@ into that mem_map array.
  
- #ifdef CONFIG_X86_SHADOW_STACK
--#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
- static inline int write_user_shstk_32(u32 __user *addr, u32 val)
+ Used to map an address to the corresponding struct page.
+ 
+-contig_page_data
+-----------------
+-
+-Makedumpfile gets the pglist_data structure from this symbol, which is
+-used to describe the memory layout.
+-
+-User-space tools use this to exclude free pages when dumping memory.
+-
+ mem_section|(mem_section, NR_SECTION_ROOTS)|(mem_section, section_mem_map)
+ --------------------------------------------------------------------------
+ 
+@@ -531,11 +523,6 @@ node_data|(node_data, MAX_NUMNODES)
+ 
+ See above.
+ 
+-contig_page_data
+-----------------
+-
+-See above.
+-
+ vmemmap_list
+ ------------
+ 
+diff --git a/arch/powerpc/kexec/core.c b/arch/powerpc/kexec/core.c
+index 56da5eb2b923..41f31dfb540c 100644
+--- a/arch/powerpc/kexec/core.c
++++ b/arch/powerpc/kexec/core.c
+@@ -68,13 +68,8 @@ void machine_kexec_cleanup(struct kimage *image)
+ void arch_crash_save_vmcoreinfo(void)
  {
-+	if (WARN_ONCE(!IS_ENABLED(CONFIG_IA32_EMULATION) &&
-+		      !IS_ENABLED(CONFIG_X86_X32),
-+		      "%s used but not supported.\n", __func__)) {
-+		return -EFAULT;
-+	}
-+
- 	asm_volatile_goto("1: wrussd %[val], (%[addr])\n"
- 			  _ASM_EXTABLE(1b, %l[fail])
- 			  :: [addr] "r" (addr), [val] "r" (val)
-@@ -246,13 +251,6 @@ static inline int write_user_shstk_32(u32 __user *addr, u32 val)
- fail:
- 	return -EFAULT;
- }
--#else
--static inline int write_user_shstk_32(u32 __user *addr, u32 val)
--{
--	WARN_ONCE(1, "%s used but not supported.\n", __func__);
--	return -EFAULT;
--}
+ 
+-#ifdef CONFIG_NEED_MULTIPLE_NODES
+ 	VMCOREINFO_SYMBOL(node_data);
+ 	VMCOREINFO_LENGTH(node_data, MAX_NUMNODES);
 -#endif
- 
- static inline int write_user_shstk_64(u64 __user *addr, u64 val)
+-#ifndef CONFIG_NEED_MULTIPLE_NODES
+-	VMCOREINFO_SYMBOL(contig_page_data);
+-#endif
+ #if defined(CONFIG_PPC64) && defined(CONFIG_SPARSEMEM_VMEMMAP)
+ 	VMCOREINFO_SYMBOL(vmemmap_list);
+ 	VMCOREINFO_SYMBOL(mmu_vmemmap_psize);
+diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+index 11da8af06704..ba8c511c402f 100644
+--- a/include/linux/gfp.h
++++ b/include/linux/gfp.h
+@@ -493,9 +493,6 @@ static inline int gfp_zonelist(gfp_t flags)
+  * This zone list contains a maximum of MAX_NUMNODES*MAX_NR_ZONES zones.
+  * There are two zonelists per node, one for all zones with memory and
+  * one containing just zones from the node the zonelist belongs to.
+- *
+- * For the normal case of non-DISCONTIGMEM systems the NODE_DATA() gets
+- * optimized to &contig_page_data at compile-time.
+  */
+ static inline struct zonelist *node_zonelist(int nid, gfp_t flags)
  {
-
-> These are static functions.  I thought that would make the static scope
-> clear.  I can remove "_".
-
-No, "_" or "__" prefixed functions are generally supposed to denote
-internal interfaces which should not be used by other kernel facilities.
-In that case you have the external api <function_name> and the lower
-level helpers _<function_name>, __<function_name>, etc. They can be
-static but not necessarily.
-
-This is not the case here so you can simply drop the "_" prefixes.
-
-> If the busy bit is set, it is only for SAVEPREVSSP, and invalid as a
-> normal restore token.
-
-Sure but the busy bit is independent from the mode.
-
-> With the lower two bits masked out, the restore token must point
-> directly above itself.
-
-That I know - I'm just questioning the design. It should be
-
-	addr = ALIGN_DOWN(ssp, 8);
-
-Plain and simple.
-
-Not this silly pushing and popping of stuff. But it is too late now
-anyway and it's not like hw people talk to software people who get to
-implement their shit.
-
-> Ok, then, we don't use #define's. I will put in comments about what it
-> is doing, and fix the rest.
-
-Thx.
-
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 557918dcc755..c0769292187c 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -1043,9 +1043,8 @@ extern char numa_zonelist_order[];
+ 
+ #ifndef CONFIG_NEED_MULTIPLE_NODES
+ 
+-extern struct pglist_data contig_page_data;
+-#define NODE_DATA(nid)		(&contig_page_data)
+ extern struct pglist_data *node_data[];
++#define NODE_DATA(nid)		(node_data[0])
+ #define NODE_MEM_MAP(nid)	mem_map
+ 
+ #else /* CONFIG_NEED_MULTIPLE_NODES */
+diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+index 825284baaf46..d1e324be67f9 100644
+--- a/kernel/crash_core.c
++++ b/kernel/crash_core.c
+@@ -457,7 +457,6 @@ static int __init crash_save_vmcoreinfo_init(void)
+ 
+ #ifndef CONFIG_NEED_MULTIPLE_NODES
+ 	VMCOREINFO_SYMBOL(mem_map);
+-	VMCOREINFO_SYMBOL(contig_page_data);
+ #endif
+ #ifdef CONFIG_SPARSEMEM
+ 	VMCOREINFO_SYMBOL_ARRAY(mem_section);
+diff --git a/mm/memblock.c b/mm/memblock.c
+index ebddb57ea62d..7cfc9a9d6243 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -93,8 +93,6 @@
+  */
+ 
+ #ifndef CONFIG_NEED_MULTIPLE_NODES
+-struct pglist_data __refdata contig_page_data;
+-EXPORT_SYMBOL(contig_page_data);
+ struct pglist_data *node_data[MAX_NUMNODES];
+ #endif
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.18.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
