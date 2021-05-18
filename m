@@ -2,227 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A3BEC433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 15:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06EC7C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 16:09:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A0D26113C
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 15:56:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2353611CE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 16:09:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239415AbhERP5y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 11:57:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47004 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350480AbhERP5y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 11:57:54 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF33DC061573
-        for <linux-doc@vger.kernel.org>; Tue, 18 May 2021 08:56:32 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id c15so12181046ljr.7
-        for <linux-doc@vger.kernel.org>; Tue, 18 May 2021 08:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=B/sfU4DPxZoEgjrK63mYT0tAo31X3y0dA8Z2lZy2kQ4=;
-        b=dZZ4Ff4hhzR4Fs66Qcmlu/iCZouLITWwRn8aYoQTFfgVnoEVhPpj6VDJpCjmpw2860
-         V791++9dcLGNiCIClHBwE1rAGLZe61iEakDEsBAx+qIBgjGvI8EZ6wJJwJeLHPIVsf6h
-         k3CN0FmzgMtiFpJS93t9y3q+x6bz05X9L9YfXtjcabzRM6j+wrISr5d26SGd6r/0+Ob+
-         1Q1iaofesMJUvIJ5l9IzE0DT8um7hxQzJe5JM4JDDEJGPD0IXD9iwT3VBK8ZEFM1m23o
-         yyPI4jG5zesZ98P+/pnFggA10xyMl8OuED9LfOiFjiZVytvfiVr+4mAtVD+5pVkixY95
-         wt1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B/sfU4DPxZoEgjrK63mYT0tAo31X3y0dA8Z2lZy2kQ4=;
-        b=GbuTvG6PqaSPIuHog3jhlipnMDpbtT/AcnRlSf4OQuiooD6zrDIWjYHqbnG0dKmM5X
-         9s/WsfG2lG1z206KeSYAqBH2hBv7Cd0mPP+SHcBHbQU+LoTH0GSbYeR3kEGWQ3fBKmqr
-         zk0aIe0BbU/E7qKsRNERIxrXKmR9s6/JtkLca1GRkUTKL5ufhYjSeW+gkVtORPZXA+Nf
-         mg1Grlao14OWz7fht0Ipd4uIInWY69zpmFJHO8ZmFvEWWcR7rtBS9SifvVK/2W42Lpsw
-         XkA85SzGhIBBu6pe3c6OSUUKPxgudHSjlhnruFS+czAhpxaexLYYZVD1cEGOLdleeB0C
-         xqwQ==
-X-Gm-Message-State: AOAM531zSNG42JKFzur4AfNdtoPGsPyox/tE6QKvkT0RdcTCVqTTWFbg
-        RLgm95fPrwUrGp9d26mwPSmbU/BgcsgXKj3jXHi52Q==
-X-Google-Smtp-Source: ABdhPJw4Vq35O9B1UY991j1pVyZmARrHPhlwsYcZDg6N3RK1fEtOAA1clhDWUH9rUF5AhUtSSsD1TBb0g2+pFZD8HRc=
-X-Received: by 2002:a2e:3a10:: with SMTP id h16mr4263516lja.445.1621353391245;
- Tue, 18 May 2021 08:56:31 -0700 (PDT)
+        id S1350410AbhERQLJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 12:11:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38442 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1344604AbhERQLI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 May 2021 12:11:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7AC69611AC;
+        Tue, 18 May 2021 16:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621354190;
+        bh=qryFGREqLRRZQLKFaOIFkrGz8b/QRKaiyNq9FU8d52c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JWnj8jadWyIY4heJ96ftgfCxeqYRP1dxLHGsj+AKkdngR4J/hfRID4LcsnZnrInsc
+         VBsZHqLtuCUsBfeWBVCKk+ZOzpYHGOs8Bo5PZJtNKD4wS5mtVc2WuaMG1H09wq7jhu
+         ftkGYdCYyfkTR1MBoP23I7wO6cMr5OLGY0HtqDwSr0wtkQ+fD1jPH01Kyrf8C+TPqM
+         at/V25Qc/l4SvBw/IpbDy/Z3kdPfmg0Fchfj/3jEO4BUZEOfOoDjSvodwwhwfsNeBa
+         ju5N9xRKj2F6WqKrwGPQJoGOQ7iLP7LagH5pil0byD8Ah5CyF2y85mvWvCQNMJJ1LC
+         aLrECFmDGe/fA==
+Date:   Tue, 18 May 2021 19:09:40 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Miles Chen <miles.chen@mediatek.com>
+Cc:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 0/2] mm: unify the allocation of pglist_data instances
+Message-ID: <YKPmxEu6YFDXRyTg@kernel.org>
+References: <20210518092446.16382-1-miles.chen@mediatek.com>
 MIME-Version: 1.0
-References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
- <1621239831-5870-2-git-send-email-beata.michalska@arm.com>
- <CAKfTPtAPcayjhedNWaL20rsaUQbxXFdEXAF8aqwd9YX5gLVbOQ@mail.gmail.com>
- <20210518142746.GA3993@e120325.cambridge.arm.com> <CAKfTPtAk8pQfpN7FrBqdOiSz2Ncby4ozXOgQvT_QZMX67-FRKA@mail.gmail.com>
- <20210518150947.GC3993@e120325.cambridge.arm.com> <CAKfTPtAYjzMfj3Uh=xjAeiOZtkb5iyPA72+ow+RXYtQq0mGNDA@mail.gmail.com>
- <20210518154756.GD3993@e120325.cambridge.arm.com>
-In-Reply-To: <20210518154756.GD3993@e120325.cambridge.arm.com>
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-Date:   Tue, 18 May 2021 17:56:20 +0200
-Message-ID: <CAKfTPtBw3bxT=Zaig0qT17AM=yP47KM8TTKVAE+=RtRVPAK_LQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] sched/core: Introduce SD_ASYM_CPUCAPACITY_FULL
- sched_domain flag
-To:     Beata Michalska <beata.michalska@arm.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210518092446.16382-1-miles.chen@mediatek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 May 2021 at 17:48, Beata Michalska <beata.michalska@arm.com> wrote:
->
-> On Tue, May 18, 2021 at 05:28:11PM +0200, Vincent Guittot wrote:
-> > On Tue, 18 May 2021 at 17:09, Beata Michalska <beata.michalska@arm.com> wrote:
-> > >
-> > > On Tue, May 18, 2021 at 04:53:09PM +0200, Vincent Guittot wrote:
-> > > > On Tue, 18 May 2021 at 16:27, Beata Michalska <beata.michalska@arm.com> wrote:
-> > > > >
-> > > > > On Tue, May 18, 2021 at 03:39:27PM +0200, Vincent Guittot wrote:
-> > > > > > On Mon, 17 May 2021 at 10:24, Beata Michalska <beata.michalska@arm.com> wrote:
-> > > > > > >
-> > > > > > > Introducing new, complementary to SD_ASYM_CPUCAPACITY, sched_domain
-> > > > > > > topology flag, to distinguish between shed_domains where any CPU
-> > > > > > > capacity asymmetry is detected (SD_ASYM_CPUCAPACITY) and ones where
-> > > > > > > a full range of CPU capacities is visible to all domain members
-> > > > > > > (SD_ASYM_CPUCAPACITY_FULL).
-> > > > > >
-> > > > > > I'm not sure about what you want to detect:
-> > > > > >
-> > > > > > Is it a sched_domain level with a full range of cpu capacity, i.e.
-> > > > > > with at least 1 min capacity and 1 max capacity ?
-> > > > > > or do you want to get at least 1 cpu of each capacity ?
-> > > > > That would be at least one CPU of each available capacity within given domain,
-> > > > > so full -set- of available capacities within a domain.
-> > > >
-> > > > Would be good to add the precision.
-> > > Will do.
-> > > >
-> > > > Although I'm not sure if that's the best policy compared to only
-> > > > getting the range which would be far simpler to implement.
-> > > > Do you have some topology example ?
-> > >
-> > > An example from second patch from the series:
-> > >
-> > > DIE      [                                ]
-> > > MC       [                       ][       ]
-> > >
-> > > CPU       [0] [1] [2] [3] [4] [5]  [6] [7]
-> > > Capacity  |.....| |.....| |.....|  |.....|
-> > >              L       M       B        B
-> >
-> > The one above , which is described in your patchset, works with the range policy
-> Yeap, but that is just a variation of all the possibilities....
-> >
-> > >
-> > > Where:
-> > >  arch_scale_cpu_capacity(L) = 512
-> > >  arch_scale_cpu_capacity(M) = 871
-> > >  arch_scale_cpu_capacity(B) = 1024
-> > >
-> > > which could also look like:
-> > >
-> > > DIE      [                                        ]
-> > > MC       [                       ][               ]
-> > >
-> > > CPU       [0] [1] [2] [3] [4] [5]  [6] [7] [8] [9]
-> > > Capacity  |.....| |.....| |.....|  |.....| |.....|
-> > >              L       M       B        L       B
-> >
-> > I know that that HW guys can come with crazy idea but they would
-> > probably add M  instead of L with B in the 2nd cluster as a boost of
-> > performance at the cost of powering up another "cluster" in which case
-> > the range policy works as well
-> >
-> > >
-> > > Considering only range would mean loosing the 2 (M) CPUs out of sight
-> > > for feec in some cases.
-> >
-> > Is it realistic ? Considering all the code and complexity added by
-> > patch 2, will we really use it at the end ?
-> >
-> I do completely agree that the first approach was slightly .... blown out of
-> proportions, but with Peter's idea, the complexity has dropped significantly.
-> With the range being considered we are back to per domain tracking of available
-> capacities (min/max), plus additional cycles on comparing capacities.
-> Unless I fail to see the simplicity of that approach ?
+Hello Miles,
 
-With the range, you just have to keep track of one cpumask for min
-capacity and 1 for max capacity (considering that the absolute max
-capacity/1024 might not be in the cpumap) instead of tracking all
-capacity and manipulating/updating a dynamic link list. Then as soon
-as you have 1 cpu of both masks then you are done. As a 1st glance
-this seems to be simpler to do.
+On Tue, May 18, 2021 at 05:24:44PM +0800, Miles Chen wrote:
+> This patches is created to fix the __pa() warning messages when
+> CONFIG_DEBUG_VIRTUAL=y by unifying the allocation of pglist_data
+> instances.
+> 
+> In current implementation of node_data, if CONFIG_NEED_MULTIPLE_NODES=y,
+> pglist_data is allocated by a memblock API. If CONFIG_NEED_MULTIPLE_NODES=n,
+> we use a global variable named "contig_page_data".
+> 
+> If CONFIG_DEBUG_VIRTUAL is not enabled. __pa() can handle both
+> allocation and symbol cases. But if CONFIG_DEBUG_VIRTUAL is set,
+> we will have the "virt_to_phys used for non-linear address" warning
+> when booting.
+> 
+> To fix the warning, always allocate pglist_data by memblock APIs and
+> remove the usage of contig_page_data.
 
->
-> ---
-> BR
-> B.
-> > Regards,
-> > Vincent
-> > >
-> > > ---
-> > > BR.
-> > > B
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > > >
-> > > > > ---
-> > > > > BR
-> > > > > B.
-> > > > > >
-> > > > > >
-> > > > > > >
-> > > > > > > With the distinction between full and partial CPU capacity asymmetry,
-> > > > > > > brought in by the newly introduced flag, the scope of the original
-> > > > > > > SD_ASYM_CPUCAPACITY flag gets shifted, still maintaining the existing
-> > > > > > > behaviour when one is detected on a given sched domain, allowing
-> > > > > > > misfit migrations within sched domains that do not observe full range
-> > > > > > > of CPU capacities but still do have members with different capacity
-> > > > > > > values. It loses though it's meaning when it comes to the lowest CPU
-> > > > > > > asymmetry sched_domain level per-cpu pointer, which is to be now
-> > > > > > > denoted by SD_ASYM_CPUCAPACITY_FULL flag.
-> > > > > > >
-> > > > > > > Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-> > > > > > > Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
-> > > > > > > ---
-> > > > > > >  include/linux/sched/sd_flags.h | 10 ++++++++++
-> > > > > > >  1 file changed, 10 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/include/linux/sched/sd_flags.h b/include/linux/sched/sd_flags.h
-> > > > > > > index 34b21e9..57bde66 100644
-> > > > > > > --- a/include/linux/sched/sd_flags.h
-> > > > > > > +++ b/include/linux/sched/sd_flags.h
-> > > > > > > @@ -91,6 +91,16 @@ SD_FLAG(SD_WAKE_AFFINE, SDF_SHARED_CHILD)
-> > > > > > >  SD_FLAG(SD_ASYM_CPUCAPACITY, SDF_SHARED_PARENT | SDF_NEEDS_GROUPS)
-> > > > > > >
-> > > > > > >  /*
-> > > > > > > + * Domain members have different CPU capacities spanning all unique CPU
-> > > > > > > + * capacity values.
-> > > > > > > + *
-> > > > > > > + * SHARED_PARENT: Set from the topmost domain down to the first domain where
-> > > > > > > + *               all available CPU capacities are visible
-> > > > > > > + * NEEDS_GROUPS: Per-CPU capacity is asymmetric between groups.
-> > > > > > > + */
-> > > > > > > +SD_FLAG(SD_ASYM_CPUCAPACITY_FULL, SDF_SHARED_PARENT | SDF_NEEDS_GROUPS)
-> > > > > > > +
-> > > > > > > +/*
-> > > > > > >   * Domain members share CPU capacity (i.e. SMT)
-> > > > > > >   *
-> > > > > > >   * SHARED_CHILD: Set from the base domain up until spanned CPUs no longer share
-> > > > > > > --
-> > > > > > > 2.7.4
-> > > > > > >
+Somehow I was sure that we can allocate pglist_data before it is accessed
+in sparse_init() somewhere outside mm/sparse.c. It's really not the case
+and having two places that may allocated this structure is surely worth
+than your previous suggestion.
+
+Sorry about that.
+ 
+> Warning message:
+> [    0.000000] ------------[ cut here ]------------
+> [    0.000000] virt_to_phys used for non-linear address: (____ptrval____) (contig_page_data+0x0/0x1c00)
+> [    0.000000] WARNING: CPU: 0 PID: 0 at arch/arm64/mm/physaddr.c:15 __virt_to_phys+0x58/0x68
+> [    0.000000] Modules linked in:
+> [    0.000000] CPU: 0 PID: 0 Comm: swapper Tainted: G        W         5.13.0-rc1-00074-g1140ab592e2e #3
+> [    0.000000] Hardware name: linux,dummy-virt (DT)
+> [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO BTYPE=--)
+> [    0.000000] pc : __virt_to_phys+0x58/0x68
+> [    0.000000] lr : __virt_to_phys+0x54/0x68
+> [    0.000000] sp : ffff800011833e70
+> [    0.000000] x29: ffff800011833e70 x28: 00000000418a0018 x27: 0000000000000000
+> [    0.000000] x26: 000000000000000a x25: ffff800011b70000 x24: ffff800011b70000
+> [    0.000000] x23: fffffc0001c00000 x22: ffff800011b70000 x21: 0000000047ffffb0
+> [    0.000000] x20: 0000000000000008 x19: ffff800011b082c0 x18: ffffffffffffffff
+> [    0.000000] x17: 0000000000000000 x16: ffff800011833bf9 x15: 0000000000000004
+> [    0.000000] x14: 0000000000000fff x13: ffff80001186a548 x12: 0000000000000000
+> [    0.000000] x11: 0000000000000000 x10: 00000000ffffffff x9 : 0000000000000000
+> [    0.000000] x8 : ffff8000115c9000 x7 : 737520737968705f x6 : ffff800011b62ef8
+> [    0.000000] x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+> [    0.000000] x2 : 0000000000000000 x1 : ffff80001159585e x0 : 0000000000000058
+> [    0.000000] Call trace:
+> [    0.000000]  __virt_to_phys+0x58/0x68
+> [    0.000000]  check_usemap_section_nr+0x50/0xfc
+> [    0.000000]  sparse_init_nid+0x1ac/0x28c
+> [    0.000000]  sparse_init+0x1c4/0x1e0
+> [    0.000000]  bootmem_init+0x60/0x90
+> [    0.000000]  setup_arch+0x184/0x1f0
+> [    0.000000]  start_kernel+0x78/0x488
+> [    0.000000] ---[ end trace f68728a0d3053b60 ]---
+> 
+> [1] https://lore.kernel.org/patchwork/patch/1425110/
+> 
+> Change since v1:
+> - use memblock_alloc() to create pglist_data when CONFIG_NUMA=n
+> 
+> Miles Chen (2):
+>   mm: introduce prepare_node_data
+>   mm: replace contig_page_data with node_data
+> 
+>  Documentation/admin-guide/kdump/vmcoreinfo.rst | 13 -------------
+>  arch/powerpc/kexec/core.c                      |  5 -----
+>  include/linux/gfp.h                            |  3 ---
+>  include/linux/mm.h                             |  2 ++
+>  include/linux/mmzone.h                         |  4 ++--
+>  kernel/crash_core.c                            |  1 -
+>  mm/memblock.c                                  |  3 +--
+>  mm/page_alloc.c                                | 16 ++++++++++++++++
+>  mm/sparse.c                                    |  2 ++
+>  9 files changed, 23 insertions(+), 26 deletions(-)
+> 
+> 
+> base-commit: 8ac91e6c6033ebc12c5c1e4aa171b81a662bd70f
+> -- 
+> 2.18.0
+> 
+
+-- 
+Sincerely yours,
+Mike.
