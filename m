@@ -2,106 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C63EC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 14:40:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3163C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 14:53:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F38E2611CC
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 14:40:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77D3C610E9
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 14:53:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234371AbhEROl4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 10:41:56 -0400
-Received: from foss.arm.com ([217.140.110.172]:53698 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234201AbhEROl4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 May 2021 10:41:56 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C6A89ED1;
-        Tue, 18 May 2021 07:40:37 -0700 (PDT)
-Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 502693F73B;
-        Tue, 18 May 2021 07:40:36 -0700 (PDT)
-Date:   Tue, 18 May 2021 15:40:34 +0100
-From:   Beata Michalska <beata.michalska@arm.com>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] sched/topology: Rework CPU capacity asymmetry
- detection
-Message-ID: <20210518144033.GB3993@e120325.cambridge.arm.com>
-References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
- <1621239831-5870-3-git-send-email-beata.michalska@arm.com>
- <87mtst1s8m.mognet@arm.com>
- <20210517131816.GA13965@e120325.cambridge.arm.com>
- <87k0nx1jtu.mognet@arm.com>
+        id S243954AbhEROyl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 10:54:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243830AbhEROyk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 10:54:40 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9F6FC061573
+        for <linux-doc@vger.kernel.org>; Tue, 18 May 2021 07:53:21 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id v5so11903878ljg.12
+        for <linux-doc@vger.kernel.org>; Tue, 18 May 2021 07:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fjg3qZs5k6I/97/2j2zryLOYba1okHDNwQ2ngYD7gmk=;
+        b=LwA0jhocjIDkDCwgZ0OZcCFjqpnw2V0xSzfMAlQdZAOQGIrV9GBnO70USBBEv9zO2k
+         p1YwV1+5v/q5SkZCI7X0f7Qct9ZwFynXefhV7wgMQuGN8uPVmMcaKpj1ogQXCnEZSX2p
+         umL8I2s1e72TiY9IHZhKiTpEqqmQ8sxRi9sp2qe05EiVa83+bYm7iYP26wYlPG3LT30H
+         gPGcyAjAlD1WbZHZCMH7be0HJ1XvnFbh2+Y2INQgyy4h1Ur4FZWqqNhJ5aMBH6Sf4aaw
+         OFyLgxcZNOia6IxyxagPfQ5pETOqRZXv0u16+7bssu4KpYF0GvOX5GQRYAqwICq3TZx7
+         IYfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fjg3qZs5k6I/97/2j2zryLOYba1okHDNwQ2ngYD7gmk=;
+        b=GJIs9tugafbl0A7/olF9qRs3+iq24kra551jAR3fcVeO6wzfSART/Ij5V98r7LoEJm
+         92L9LvJy0UrsPR86wmiTZbm4p8d1k1sCru7ZY6p3Fwboy9MUxrBj7PM6BbcAmHljpeEp
+         6rid0IkWr82x3BQIOFkFU/0m252ev5U8Tvn2SUV4ADyLaUSQMkmMs4EgLfKkcD7Eyrsp
+         PBdLrdhbnm+Hi0MIOFsWjpry8jGIVUbDyoGeTwzMuuNHk7PGEbNtECmbBlPaWujrjXnj
+         YPghJxF30mUD2nfP7hWw2zaEApjka/hcOvkXOkjYR9ayyrzhrPCDE13HgJ6BtrGUYyi+
+         PaOA==
+X-Gm-Message-State: AOAM533hHjOmgvoGYrwCPg/4E/xYqNLWcDrcCikz5khucGmWwNgeTvQ1
+        CzjrnlAozphx6ro4V0+vpERQhSAXD3+LLZ0HOXBltA==
+X-Google-Smtp-Source: ABdhPJzhydDaPkWDHaSpy2SL65NK6UM4/v57GFX517EaIpLAtdVeYSjHYQ1qhXwE039MUtgV59sTM9MdqCr3KqMiCyQ=
+X-Received: by 2002:a2e:8557:: with SMTP id u23mr4357444ljj.221.1621349600234;
+ Tue, 18 May 2021 07:53:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87k0nx1jtu.mognet@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
+ <1621239831-5870-2-git-send-email-beata.michalska@arm.com>
+ <CAKfTPtAPcayjhedNWaL20rsaUQbxXFdEXAF8aqwd9YX5gLVbOQ@mail.gmail.com> <20210518142746.GA3993@e120325.cambridge.arm.com>
+In-Reply-To: <20210518142746.GA3993@e120325.cambridge.arm.com>
+From:   Vincent Guittot <vincent.guittot@linaro.org>
+Date:   Tue, 18 May 2021 16:53:09 +0200
+Message-ID: <CAKfTPtAk8pQfpN7FrBqdOiSz2Ncby4ozXOgQvT_QZMX67-FRKA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] sched/core: Introduce SD_ASYM_CPUCAPACITY_FULL
+ sched_domain flag
+To:     Beata Michalska <beata.michalska@arm.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 17, 2021 at 04:06:05PM +0100, Valentin Schneider wrote:
-> On 17/05/21 14:18, Beata Michalska wrote:
-> > On Mon, May 17, 2021 at 01:04:25PM +0100, Valentin Schneider wrote:
-> >> On 17/05/21 09:23, Beata Michalska wrote:
-> >> > +static void asym_cpu_capacity_scan(const struct cpumask *cpu_map)
-> >> > +{
-> >> > +	struct asym_cap_data *entry, *next;
-> >> > +	int cpu;
-> >> >
-> >> > -		for_each_sd_topology(tl) {
-> >> > -			if (tl_id < asym_level)
-> >> > -				goto next_level;
-> >> > +	if (!list_empty(&asym_cap_list))
-> >> > +		list_for_each_entry(entry, &asym_cap_list, link)
-> >> > +			cpumask_clear(entry->cpu_mask);
-> >> >
-> >>
-> >> The topology isn't going to change between domain rebuilds, so why
-> >> recompute the masks? The sched_domain spans are already masked by cpu_map,
-> >> so no need to do this masking twice. I'm thinking this scan should be done
-> >> once against the cpu_possible_mask - kinda like sched_init_numa() done once
-> >> against the possible nodes.
-> >>
-> > This is currently done, as what you have mentioned earlier, the tl->mask
-> > may contain CPUs that are not 'available'. So it makes sure that the masks
-> > kept on  the list are representing only those CPUs that are online.
-> > And it is also needed case all CPUs of given capacity go offline - not to to
-> > lose the full asymmetry that might change because of that ( empty masks are
-> > being removed from the list).
+On Tue, 18 May 2021 at 16:27, Beata Michalska <beata.michalska@arm.com> wrote:
+>
+> On Tue, May 18, 2021 at 03:39:27PM +0200, Vincent Guittot wrote:
+> > On Mon, 17 May 2021 at 10:24, Beata Michalska <beata.michalska@arm.com> wrote:
+> > >
+> > > Introducing new, complementary to SD_ASYM_CPUCAPACITY, sched_domain
+> > > topology flag, to distinguish between shed_domains where any CPU
+> > > capacity asymmetry is detected (SD_ASYM_CPUCAPACITY) and ones where
+> > > a full range of CPU capacities is visible to all domain members
+> > > (SD_ASYM_CPUCAPACITY_FULL).
 > >
-> > I could change that and use the CPU mask that represents the online CPUs as
-> > a checkpoint but then it also means additional tracking which items on the
-> > list are actually available at a given point of time.
-> > So if the CPUs masks on the list are to be set once (as you are suggesting)
-> > than it needs additional logic to count the number of available capacities
-> > to decide whether there is a full asymmetry or not.
+> > I'm not sure about what you want to detect:
 > >
-> 
-> That should be doable by counting non-empty intersections between each
-> entry->cpumask and the cpu_online_mask in _classify().
-> 
-> That said I'm afraid cpufreq module loading forces us to dynamically update
-> those masks, as you've done. The first domain build could see asymmetry
-> without cpufreq loaded, and a later one with cpufreq loaded would need an
-> update. Conversely, as much of a fringe case as it is, we'd have to cope
-> with the cpufreq module being unloaded later on...
-> 
-> :(
-So it got me thinking that maybe we could actually make it more
-'update-on-demand' and use the cpufreq policy notifier to trigger the update.
-I could try to draft smth generic enough to make it ... relatively easy to adapt
-to different archs case needed.
-Any thoughts ?
+> > Is it a sched_domain level with a full range of cpu capacity, i.e.
+> > with at least 1 min capacity and 1 max capacity ?
+> > or do you want to get at least 1 cpu of each capacity ?
+> That would be at least one CPU of each available capacity within given domain,
+> so full -set- of available capacities within a domain.
 
----
-BR
-B.
+Would be good to add the precision.
+
+Although I'm not sure if that's the best policy compared to only
+getting the range which would be far simpler to implement.
+Do you have some topology example ?
+
+
+
+
+
+
+>
+> ---
+> BR
+> B.
+> >
+> >
+> > >
+> > > With the distinction between full and partial CPU capacity asymmetry,
+> > > brought in by the newly introduced flag, the scope of the original
+> > > SD_ASYM_CPUCAPACITY flag gets shifted, still maintaining the existing
+> > > behaviour when one is detected on a given sched domain, allowing
+> > > misfit migrations within sched domains that do not observe full range
+> > > of CPU capacities but still do have members with different capacity
+> > > values. It loses though it's meaning when it comes to the lowest CPU
+> > > asymmetry sched_domain level per-cpu pointer, which is to be now
+> > > denoted by SD_ASYM_CPUCAPACITY_FULL flag.
+> > >
+> > > Signed-off-by: Beata Michalska <beata.michalska@arm.com>
+> > > Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
+> > > ---
+> > >  include/linux/sched/sd_flags.h | 10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > >
+> > > diff --git a/include/linux/sched/sd_flags.h b/include/linux/sched/sd_flags.h
+> > > index 34b21e9..57bde66 100644
+> > > --- a/include/linux/sched/sd_flags.h
+> > > +++ b/include/linux/sched/sd_flags.h
+> > > @@ -91,6 +91,16 @@ SD_FLAG(SD_WAKE_AFFINE, SDF_SHARED_CHILD)
+> > >  SD_FLAG(SD_ASYM_CPUCAPACITY, SDF_SHARED_PARENT | SDF_NEEDS_GROUPS)
+> > >
+> > >  /*
+> > > + * Domain members have different CPU capacities spanning all unique CPU
+> > > + * capacity values.
+> > > + *
+> > > + * SHARED_PARENT: Set from the topmost domain down to the first domain where
+> > > + *               all available CPU capacities are visible
+> > > + * NEEDS_GROUPS: Per-CPU capacity is asymmetric between groups.
+> > > + */
+> > > +SD_FLAG(SD_ASYM_CPUCAPACITY_FULL, SDF_SHARED_PARENT | SDF_NEEDS_GROUPS)
+> > > +
+> > > +/*
+> > >   * Domain members share CPU capacity (i.e. SMT)
+> > >   *
+> > >   * SHARED_CHILD: Set from the base domain up until spanned CPUs no longer share
+> > > --
+> > > 2.7.4
+> > >
