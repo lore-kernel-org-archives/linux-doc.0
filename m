@@ -2,76 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7ABC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 18:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16FAFC433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 18:53:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DAB816124C
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 18:45:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E68B861244
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 18:53:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344281AbhERSrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 14:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57284 "EHLO
+        id S1351689AbhERSyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 14:54:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234553AbhERSrP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 14:47:15 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E3B6C061573;
-        Tue, 18 May 2021 11:45:57 -0700 (PDT)
+        with ESMTP id S1351686AbhERSyo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 14:54:44 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF165C061573;
+        Tue, 18 May 2021 11:53:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=2VlXeVuiNm+OAkwPJObB4las2/rLa5h+25CK1rauGGY=; b=XVrGAywSSnBWXXuV+iHw2nR4Oo
-        +HsOkxzb4r9OIhLgXATe+P2iPfG4EW885/F7a0WuY6HYYQIGNJeE34IbeEApD1Bpvk38jMyF2vt/P
-        tl82ArXvbZVAeT13hZ8b64pTU3ko2y8giE/027kQy6TM7KCmw2IISosOwRRP60xxdFnNWH1MPB/kw
-        +7yuC4xWaiuGDIfyFoSYiMlsswUpWRlY0wVM28nPm5MivEdU1dDJu4LkBG0YvIoGrZsYUy8l6G/Gw
-        uvvhUGkHwI9294wkK1LsZhnPeQHvg+TUQpNlHSeNWuVyMIA/ByRwVEZa+v7t6YeNHd9dZzAuuRcO1
-        e8omKbtg==;
-Received: from [2601:1c0:6280:3f0::7376]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lj4j5-00EtFe-79; Tue, 18 May 2021 18:45:55 +0000
-Subject: Re: [PATCH] ASoC: omap-twl4030: fix kernel-doc syntax in file header
-To:     Aditya Srivastava <yashsri421@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        grandmaster@al2klimov.de, keescook@chromium.org
-References: <20210518183451.15097-1-yashsri421@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c7756a9b-5e9c-3f1b-932a-c77922d287f0@infradead.org>
-Date:   Tue, 18 May 2021 11:45:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=oSWP8vajmc6Gi5h6aBbsbC+8taP14EjR7xZIHx+2buM=; b=qXZncWhEP2ILcY0hl8axexb1Wq
+        A+7qQtZ89fXZpzBeF8z3a6dQluFMortMkxyupWV793d4136Z2Ic52KxLsCadqQ13NvM+tgVZbg3Ub
+        9IQ9kD4ZHcrwl/LnPibA8AQctV0b9V9npgVvc5LYJsjDOAjjKM32hZDT0Aa/uchVFT5qPWfulYa5C
+        9DGpI/EdJco3CRTDVUI7ARElCTc941jl+d4K9jeRqZVdTKNlQwN2ILFP3InKrGaq8Ab0aOMQ/0EnF
+        fOAaeoPDvExwg5QeACwbNy4O2AWLTREb4PCM6ITckSAdW/Z9zQfRhcqLqPrsegYEms24nrDRL3s3S
+        oSGDyTKg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lj4pp-001exu-1F; Tue, 18 May 2021 18:52:53 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 7B584980E54; Tue, 18 May 2021 20:52:51 +0200 (CEST)
+Date:   Tue, 18 May 2021 20:52:51 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     tj@kernel.org, hannes@cmpxchg.org, lizefan.x@bytedance.com,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        minchan@kernel.org, corbet@lwn.net, bristot@redhat.com,
+        paulmck@kernel.org, rdunlap@infradead.org,
+        akpm@linux-foundation.org, tglx@linutronix.de, macro@orcam.me.uk,
+        viresh.kumar@linaro.org, mike.kravetz@oracle.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v2 1/1] cgroup: make per-cgroup pressure stall tracking
+ configurable
+Message-ID: <20210518185251.GI5618@worktop.programming.kicks-ass.net>
+References: <20210518020200.1790058-1-surenb@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20210518183451.15097-1-yashsri421@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210518020200.1790058-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/18/21 11:34 AM, Aditya Srivastava wrote:
-> 
-> Provide a simple fix by replacing this occurrence with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  include/linux/platform_data/omap-twl4030.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+On Mon, May 17, 2021 at 07:02:00PM -0700, Suren Baghdasaryan wrote:
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+> index cc25a3cff41f..4b8e72640ac9 100644
+> --- a/kernel/sched/psi.c
+> +++ b/kernel/sched/psi.c
+> @@ -148,6 +148,7 @@
+>  static int psi_bug __read_mostly;
+>  
+>  DEFINE_STATIC_KEY_FALSE(psi_disabled);
+> +DEFINE_STATIC_KEY_FALSE(psi_cgroups_disabled);
 
-Thanks.
+I'm thinking the whole thing will be easier/clearer when you make this:
 
--- 
-~Randy
+DEFINE_STATIC_KEY_TRUE(psi_cgroups_enabled);
 
+>  
+>  #ifdef CONFIG_PSI_DEFAULT_DISABLED
+>  static bool psi_enable;
+> @@ -211,6 +212,9 @@ void __init psi_init(void)
+>  		return;
+>  	}
+>  
+> +	if (!cgroup_psi_enabled())
+> +		static_branch_enable(&psi_cgroups_disabled);
+
+	if (!cgroup_psi_enabled())
+		static_branch_disable(&psi_cgroups_enabled);
+
+> +
+>  	psi_period = jiffies_to_nsecs(PSI_FREQ);
+>  	group_init(&psi_system);
+>  }
+> @@ -744,23 +748,23 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  
+>  static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
+>  {
+> +	if (*iter == &psi_system)
+> +		return NULL;
+> +
+>  #ifdef CONFIG_CGROUPS
+> +	if (!static_branch_likely(&psi_cgroups_disabled)) {
+
+	if (static_branch_likely(&psi_cgroups_enabled)) {
+
+> +		struct cgroup *cgroup = NULL;
+>  
+> +		if (!*iter)
+> +			cgroup = task->cgroups->dfl_cgrp;
+> +		else
+> +			cgroup = cgroup_parent(*iter);
+>  
+> +		if (cgroup && cgroup_parent(cgroup)) {
+> +			*iter = cgroup;
+> +			return cgroup_psi(cgroup);
+> +		}
+>  	}
+>  #endif
+>  	*iter = &psi_system;
+>  	return &psi_system;
+
+But yes, very nice.
