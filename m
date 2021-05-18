@@ -2,94 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6D2C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 14:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B1D5C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 15:09:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17A0B6100C
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 14:59:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EAE7561363
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 15:09:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243939AbhERPAj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 11:00:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34046 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234596AbhERPAi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 11:00:38 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3AE2C061573;
-        Tue, 18 May 2021 07:59:20 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id c10so7623735qtx.10;
-        Tue, 18 May 2021 07:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:to:references:from:subject:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ArK/pW6s0JbFtIQZsomVHDIuB32ppNzwcnMzDXtwDbg=;
-        b=ibLVz/WSekjCtSFiyr9Kvz33zseWk7WWA3fcm2fBBH9mKLlnlwdmPjUSUF7vzHTHxE
-         rM4MFOfAvBU0bLveeRqp1q2vv5vl6Og7lX+l0NXxlCC6MmWE6UsDNryRpvIQtdQ54VQH
-         OfbNokofWCwpzMHjjqP18BBA5+YmVaNvByDlByf75ud+X/stNtxTjvh995rbysNvu6TT
-         SvDbdFNG1P1TBjO0p78HqE0zCnnq95ubJm+iZ4t+/GKduH2NVYr2M52SnIvo4Uhc23iZ
-         phc3NimRamxyzrPsdMEZR89sxNM782zVXG6ZyJCS/NhdZFxx+sZV4KD2K8GHiSwtmmjB
-         vixQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:to:references:from:subject:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ArK/pW6s0JbFtIQZsomVHDIuB32ppNzwcnMzDXtwDbg=;
-        b=m1I9/myr0OqC0e7/iwIaXp4haRbjy944kDsM7jImN2251IuNoQyCcuMHzT17QaT5pJ
-         qhoMVXrf9bwiJBgxpekLLb75vO5OnENjdoSIwvb5SN0V9+a24ShR4CPtOnWFFOUOKWnU
-         cSK/9oLtzPKAq6eqvxHn74K0W90aF4eLkuBFeSpb2L39Mnrl5mmURCJHGlHMkz0lq5lr
-         OHOhRzKrWnGqGu2DgZNN8FKtr/fzG5is3FalnRJBycO1BXPZn5LvCeJygV8lQnNdj0hb
-         M3ZH6e43+WpJrbjEA1Xtb+U1UcKypm/Rwa5hL3VoR77dk+WsZ2NqBMHfPiT5MXfiPyb+
-         LkFQ==
-X-Gm-Message-State: AOAM531Cpgi3sxhBhHmSLBdfghcdTbUNMypkaP63pfuoarj0EcJ/xFK8
-        WRJQP3P1Gtf8Mo5943V7Thut710kCms=
-X-Google-Smtp-Source: ABdhPJwhQa66o5ukWn3BIpYj3XMm38KiQeOThE7FD4DpWRNY8iKjGIRXlZjmsJtg54zgq5W2opugYw==
-X-Received: by 2002:a05:622a:11c2:: with SMTP id n2mr5098035qtk.375.1621349959676;
-        Tue, 18 May 2021 07:59:19 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id h23sm10915077qka.22.2021.05.18.07.59.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 May 2021 07:59:19 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-To:     =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210512013052.903297-1-kubernat@cesnet.cz>
- <20210512013052.903297-2-kubernat@cesnet.cz>
- <CABKa3noSQVtAp3Ath9=PNh2cDLgq8n8w2gudwWJerD5YQx5WMA@mail.gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v5 2/5] hwmon: (max31790) Fix and split pwm*_enable
-Message-ID: <5d60960b-bfa0-83d0-0268-d1610e2df9f2@roeck-us.net>
-Date:   Tue, 18 May 2021 07:59:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S1343871AbhERPK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 11:10:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49426 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238675AbhERPK2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 May 2021 11:10:28 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 21E1361350;
+        Tue, 18 May 2021 15:09:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621350550;
+        bh=P8/Nc52S1Mm1vaMyPNp8Z+6fLczbT6upDCNfpoFSPTA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uKf7GbnyZKfClrbmJclmnmLQLaPJHShVvVL104Aa63/i6UnzZgKLsEYfX2sB4moV8
+         jhaPAshW3T2XHw2JHsoJqn/xp9AHuRpbMK5g7y48PMJsB4bjqrP4gkvrOuHifQNuzg
+         IwA4Pknhd6SngURK5Z+xGaPFFoT027KJQ3mu26BjX/bJ3lgAS/PnWpNsJ1t4MrBnDO
+         AXgLL0sO6tFMsHntJCm+99+6BQZrtDZoz+WLUIC1m+zJbUra5+WXerv/cyYJ6BmqC/
+         V66nsljbdCv0EZ5SoBKc+ivYmxuaYW7nRC2OLaUR83edjgXEqqos8FEaP0fE7la2CO
+         /flFipDk/Bg0g==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lj1LH-007HNu-TR; Tue, 18 May 2021 17:09:07 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        gregkh@linuxfoundation.org, Pavel Machek <pavel@ucw.cz>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v2 00/17] Adding support for controlling the leds found on Intel NUC
+Date:   Tue, 18 May 2021 17:08:49 +0200
+Message-Id: <cover.1621349813.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CABKa3noSQVtAp3Ath9=PNh2cDLgq8n8w2gudwWJerD5YQx5WMA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/11/21 6:32 PM, Václav Kubernát wrote:
-> Hello,
-> 
-> I have updated the code and got rid of the "fullspeed" mode as
-> requested. Let me know what you think.
-> 
+This series add support for the LEDs found at Intel NUCs since
+NUC version 6.
 
-My major problem right now is that I can't reliably test the code, and I am
-only going to apply it after some thorough testing (especially after the
-problem with regmap volatiles in v1 I'll want to make sure that volatile
-registers are handled correctly). I am working on improving my module test
-code, but it will take a while.
+On several NUC models, the function of the LEDs are controlled by the NUC firmware
+and are programmable, which allow them to indicate several different hardware events.
 
-Guenter
+They can also be programmed to represent an userspace-driven event.
+
+Some models come with single colored or dual-colored LEDs, but high end models 
+have RGB LEDs.
+
+Programming them can ether be done via BIOS or by the OS, however, BIOS settings
+are limited. So, the vendor offers a Windows application that allows to fully use the
+functionality provided by the firmware/hardware.
+
+It should be noticed that there are 3 different API types, and there are already some
+OOT drivers that were written to support them, using procfs, each one using a 
+different (and IMO confusing) API.
+
+After looking at the existing drivers and not liking the uAPI interfaces there, 
+and needed to ajust the LEDs again after BIOS config reset,  as this is a
+recommended procedure after BIOS upgrades, I opted to write a new driver
+from scratch, unifying support for all different versions and using sysfs via
+the leds class.
+
+It should be noticed that those devices use the ACPI Windows Management
+Interface (WMI). There are actually 3 different implementations for it:
+
+- one for NUC6/NUC7, which has limited support for programming just
+  two LEDs;
+- a complely re-written interface for NUC8, which can program up to
+  seven LEDs, named version 0.64;
+- an extended version of the NUC8 API, added for NUC10, called version 
+  1.0, with has a few differences from version 0.64.
+
+Such WMI APIs are documented at:
+  - https://www.intel.com/content/www/us/en/support/articles/000023426/intel-nuc/intel-nuc-kits.html
+  - https://raw.githubusercontent.com/nomego/intel_nuc_led/master/specs/INTEL_WMI_LED_0.64.pdf
+  - https://www.intel.com/content/dam/support/us/en/documents/intel-nuc/WMI-Spec-Intel-NUC-NUC10ixFNx.pdf
+
+It should be noticed that, I wrote this driver mainly for my NUC8 (NUC8i7HNK),
+but I also used a NUC6 in order to double-check if NUC6 support was not
+crashing.  Yet, while the NUC6 model I have accepts the WMI LED API, it
+doesn't really work, as it seems that the BIOS of my NUC6 doesn't let
+userspace to program the LEDs.
+
+I don't have any devices using NUC10 API, so the few differences between it
+and NUC8 API weren't tested.
+
+Due to the lack of full tests on NUC6 and NUC10, and because I wrote a new 
+uAPI that's different than the procfs-based ones found at the OOT drivers, 
+IMO, the better would be to merge this via staging, but as Greg's feedback
+were to apply it directly under drivers/leds, this version was changed 
+considering such premise.
+
+PS. : after having the series accepted, I'll submit an extra patch for
+Documentation/ABI, summarizing the ABI documentation found on patch 01.
+
+-
+
+- v2:
+  - Added an ABI documentation at patch 01 and dropped the TODO;
+  - Removed the .remove function, as it was just printing a message;
+  - Add a check for a return code, as suggested by Dan Carpenter;
+  - Did some code cleanups as also suggested by Dan Carpenter;
+  - Changed the Kconfig description as suggested by Randy Dunlap.
+
+Mauro Carvalho Chehab (17):
+  docs: describe the API used to set NUC LEDs
+  leds: add support for NUC WMI LEDs
+  leds: leds-nuc: detect WMI API detection
+  leds: leds-nuc: add support for changing S0 brightness
+  leds: leds-nuc: add all types of brightness
+  leds: leds-nuc: allow changing the LED colors
+  leds: leds-nuc: add support for WMI API version 1.0
+  leds: leds-nuc: add basic support for NUC6 WMI
+  leds: leds-nuc: add brightness and color for NUC6 API
+  leds: leds-nuc: Add support to blink behavior for NUC8/10
+  leds: leds-nuc: get rid of an unused variable
+  leds: leds-nuc: implement blink control for NUC6
+  leds: leds-nuc: better detect NUC6/NUC7 devices
+  leds: leds-nuc: add support for HDD activity default
+  leds: leds-nuc: fix software blink behavior logic
+  leds: leds-nuc: add support for changing the ethernet type indicator
+  leds: leds-nuc: add support for changing the power limit scheme
+
+ Documentation/leds/index.rst    |    1 +
+ Documentation/leds/leds-nuc.rst |  447 +++++++
+ MAINTAINERS                     |    7 +
+ drivers/leds/Kconfig            |    8 +
+ drivers/leds/Makefile           |    1 +
+ drivers/leds/leds-nuc.c         | 2097 +++++++++++++++++++++++++++++++
+ 6 files changed, 2561 insertions(+)
+ create mode 100644 Documentation/leds/leds-nuc.rst
+ create mode 100644 drivers/leds/leds-nuc.c
+
+-- 
+2.31.1
+
+
