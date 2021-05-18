@@ -2,168 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A55C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 04:57:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27A05C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 05:56:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E8B73610CD
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 04:57:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 08C0A61261
+	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 05:56:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241242AbhERE64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 00:58:56 -0400
-Received: from mail-wm1-f54.google.com ([209.85.128.54]:37589 "EHLO
-        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237133AbhERE6z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 00:58:55 -0400
-Received: by mail-wm1-f54.google.com with SMTP id f19-20020a05600c1553b02901794fafcfefso57005wmg.2;
-        Mon, 17 May 2021 21:57:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8YPdF903pID1kt0ZCEYpZxpjPh8BR3iWLNlHhdqJx4Y=;
-        b=W3y0CyO0hTJ9kFu7SfmIHSLhu9g3mrYtUacYmiKk9aS86WQwv3U94tEg8TYsvzr3NB
-         3iUMUUy4lGetnU17y/AhlXgjP/htupMx4egtFlqLdzaSyt84SQMlHBy5v43+cOBOpjBt
-         1oEYHWkvZLlBFLU+jY2GdO96Fb/VHLZvMYhJOqs+KeKkSmejFavm2ZuPILxCxlF6Zcgt
-         gaGjdyzKfMuzFVUEgrRSauedwqiaVe6ToNmHflUpG0OUnp+3z4hXHuYPkeBMl4H4rjUY
-         8O3RSM22/eWZxG/yAeS0eXTZevq1Miv0KsxVtzPdZQBQaMYJQ5mu3glojyOLB88u4wNa
-         J1IA==
-X-Gm-Message-State: AOAM530tCFUr3mF9nyDloo/slFflivzirzVl4SD31bnZyJGDnYDEZv2S
-        NLwx6SiWVXKpsJ2TeUZyAaRYudXgwuEPaQ==
-X-Google-Smtp-Source: ABdhPJwLFO9Lpex8Hfqil95zpacCNSO+pQ02g82d0FluUzUrrBVDhvtP8qP0Xk5FStjUQ/gl+/cKrw==
-X-Received: by 2002:a1c:e90d:: with SMTP id q13mr3214017wmc.163.1621313855807;
-        Mon, 17 May 2021 21:57:35 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
-        by smtp.gmail.com with ESMTPSA id c14sm19727784wrt.77.2021.05.17.21.57.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 May 2021 21:57:35 -0700 (PDT)
-Subject: Re: [PATCH v2] serial: liteuart: Add support for earlycon
-To:     Stafford Horne <shorne@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     Florent Kermarrec <florent@enjoy-digital.fr>,
-        Mateusz Holenko <mholenko@antmicro.com>,
-        Joel Stanley <joel@jms.id.au>,
-        "Gabriel L . Somlo" <gsomlo@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Karol Gugala <kgugala@antmicro.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S240978AbhERF5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 01:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240152AbhERF5e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 01:57:34 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44873C061573;
+        Mon, 17 May 2021 22:56:17 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0ae2005a49629880ac02d2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:e200:5a49:6298:80ac:2d2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A18381EC04BF;
+        Tue, 18 May 2021 07:56:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1621317374;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=CoUZNshFKwxzJxvmNesTEWJlLKO0exgHkOr0ngGYwGI=;
+        b=W6eJZYjN6OnGJsyDztzN/sdVdUAbQx1dIeHKqupFUaPUwJGH0Cv+k6IWqpHcsdMOFLs4Om
+        2yzHcQIIT7BswXG35L+1FYQ2Q3QHSgvXmQrXO2fond/n0k1FEGWEXFfiA7QWi3O/ZYUVj+
+        fZFj44LzauzVdhV4ExYc6fy4mBxiFRs=
+Date:   Tue, 18 May 2021 07:56:09 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        linux-doc@vger.kernel.org, linux-serial@vger.kernel.org
-References: <20210517115453.24365-1-shorne@gmail.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <3810b979-e94e-24dc-9a6f-e9989800f7e7@kernel.org>
-Date:   Tue, 18 May 2021 06:57:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+Message-ID: <YKNW+eiosSVDCTsA@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com>
+ <YKIfIEyW+sR+bDCk@zn.tnic>
+ <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210517115453.24365-1-shorne@gmail.com>
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17. 05. 21, 13:54, Stafford Horne wrote:
-> Most litex boards using RISC-V soft cores us the sbi earlycon, however
-> this is not available for non RISC-V litex SoC's.  This patch enables
-> earlycon for liteuart which is available on all Litex SoC's making
-> support for earycon debugging more widely available.
-> 
-> Signed-off-by: Stafford Horne <shorne@gmail.com>
-> Cc: Florent Kermarrec <florent@enjoy-digital.fr>
-> Cc: Mateusz Holenko <mholenko@antmicro.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Gabriel L. Somlo <gsomlo@gmail.com>
-> Reviewed-and-tested-by: Gabriel Somlo <gsomlo@gmail.com>
+On Mon, May 17, 2021 at 01:55:01PM -0700, Yu, Yu-cheng wrote:
+> If 32-bit apps are not supported, there should be no need of 32-bit shadow
+> stack write, otherwise there is a bug.
 
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+Aha, just a precaution. Then you can reduce the ifdeffery a bit (ontop
+of yours):
 
-> ---
-> Changes since v1:
->   - Fixed subject
->   - Fixed ifdef and config issues pointed out by Jiri
->   - Use liteuart_putchar instead of early_liteuart_putc
-> 
->   .../admin-guide/kernel-parameters.txt         |  5 +++++
->   drivers/tty/serial/Kconfig                    |  1 +
->   drivers/tty/serial/liteuart.c                 | 21 +++++++++++++++++++
->   3 files changed, 27 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 04545725f187..2d4a43af8de2 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1084,6 +1084,11 @@
->   			the driver will use only 32-bit accessors to read/write
->   			the device registers.
->   
-> +		liteuart,<addr>
-> +			Start an early console on a litex serial port at the
-> +			specified address. The serial port must already be
-> +			setup and configured. Options are not yet supported.
-> +
->   		meson,<addr>
->   			Start an early, polled-mode console on a meson serial
->   			port at the specified address. The serial port must
-> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-> index 0c4cd4a348f4..af41e534483c 100644
-> --- a/drivers/tty/serial/Kconfig
-> +++ b/drivers/tty/serial/Kconfig
-> @@ -1550,6 +1550,7 @@ config SERIAL_LITEUART_CONSOLE
->   	bool "LiteUART serial port console support"
->   	depends on SERIAL_LITEUART=y
->   	select SERIAL_CORE_CONSOLE
-> +	select SERIAL_EARLYCON
->   	help
->   	  Say 'Y' or 'M' here if you wish to use the FPGA-based LiteUART serial
->   	  controller from LiteX SoC builder as the system console
-> diff --git a/drivers/tty/serial/liteuart.c b/drivers/tty/serial/liteuart.c
-> index 64842f3539e1..1b75a4bf7c56 100644
-> --- a/drivers/tty/serial/liteuart.c
-> +++ b/drivers/tty/serial/liteuart.c
-> @@ -370,6 +370,27 @@ static int __init liteuart_console_init(void)
->   	return 0;
->   }
->   console_initcall(liteuart_console_init);
-> +
-> +static void early_liteuart_write(struct console *console, const char *s,
-> +				    unsigned int count)
-> +{
-> +	struct earlycon_device *device = console->data;
-> +	struct uart_port *port = &device->port;
-> +
-> +	uart_console_write(port, s, count, liteuart_putchar);
-> +}
-> +
-> +static int __init early_liteuart_setup(struct earlycon_device *device,
-> +				       const char *options)
-> +{
-> +	if (!device->port.membase)
-> +		return -ENODEV;
-> +
-> +	device->con->write = early_liteuart_write;
-> +	return 0;
-> +}
-> +
-> +OF_EARLYCON_DECLARE(liteuart, "litex,liteuart", early_liteuart_setup);
->   #endif /* CONFIG_SERIAL_LITEUART_CONSOLE */
->   
->   static int __init liteuart_init(void)
-> 
+---
+diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+index f962da1fe9b5..5b48c91fa8d4 100644
+--- a/arch/x86/include/asm/special_insns.h
++++ b/arch/x86/include/asm/special_insns.h
+@@ -235,9 +235,14 @@ static inline void clwb(volatile void *__p)
+ }
+ 
+ #ifdef CONFIG_X86_SHADOW_STACK
+-#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
+ static inline int write_user_shstk_32(u32 __user *addr, u32 val)
+ {
++	if (WARN_ONCE(!IS_ENABLED(CONFIG_IA32_EMULATION) &&
++		      !IS_ENABLED(CONFIG_X86_X32),
++		      "%s used but not supported.\n", __func__)) {
++		return -EFAULT;
++	}
++
+ 	asm_volatile_goto("1: wrussd %[val], (%[addr])\n"
+ 			  _ASM_EXTABLE(1b, %l[fail])
+ 			  :: [addr] "r" (addr), [val] "r" (val)
+@@ -246,13 +251,6 @@ static inline int write_user_shstk_32(u32 __user *addr, u32 val)
+ fail:
+ 	return -EFAULT;
+ }
+-#else
+-static inline int write_user_shstk_32(u32 __user *addr, u32 val)
+-{
+-	WARN_ONCE(1, "%s used but not supported.\n", __func__);
+-	return -EFAULT;
+-}
+-#endif
+ 
+ static inline int write_user_shstk_64(u64 __user *addr, u64 val)
+ {
 
-thanks,
+> These are static functions.  I thought that would make the static scope
+> clear.  I can remove "_".
+
+No, "_" or "__" prefixed functions are generally supposed to denote
+internal interfaces which should not be used by other kernel facilities.
+In that case you have the external api <function_name> and the lower
+level helpers _<function_name>, __<function_name>, etc. They can be
+static but not necessarily.
+
+This is not the case here so you can simply drop the "_" prefixes.
+
+> If the busy bit is set, it is only for SAVEPREVSSP, and invalid as a
+> normal restore token.
+
+Sure but the busy bit is independent from the mode.
+
+> With the lower two bits masked out, the restore token must point
+> directly above itself.
+
+That I know - I'm just questioning the design. It should be
+
+	addr = ALIGN_DOWN(ssp, 8);
+
+Plain and simple.
+
+Not this silly pushing and popping of stuff. But it is too late now
+anyway and it's not like hw people talk to software people who get to
+implement their shit.
+
+> Ok, then, we don't use #define's. I will put in comments about what it
+> is doing, and fix the rest.
+
+Thx.
+
 -- 
-js
-suse labs
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
