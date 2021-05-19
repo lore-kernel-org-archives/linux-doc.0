@@ -2,101 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 722A8C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:07:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CF7C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DBAD610A2
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:07:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32285613AE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235910AbhESIIc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 04:08:32 -0400
-Received: from mga01.intel.com ([192.55.52.88]:28069 "EHLO mga01.intel.com"
+        id S1343827AbhESIxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 04:53:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60202 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235683AbhESIIb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 04:08:31 -0400
-IronPort-SDR: COl2Nu6Dd9AE5Ne0QP0ESgfVUGHUOc3b2+3RPAqqw7Uk6rNIvfy0+lVz59tG4PeK5xcFkcocqi
- zK915tXQNlTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="221984080"
-X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; 
-   d="scan'208";a="221984080"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 01:07:12 -0700
-IronPort-SDR: +m6QThSTl14NxX0mj/VRdu4CnV61XHCXHOpwQDCABkD55XFK7ns2/d36Ij8WIWZh2o4cI7wOQs
- 2TGdrPwoRnXg==
-X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; 
-   d="scan'208";a="627525656"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 01:07:08 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ljHEO-00DAfC-Ef; Wed, 19 May 2021 11:07:04 +0300
-Date:   Wed, 19 May 2021 11:07:04 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 12/14] d_path: prepend_path(): lift the inner loop into a
- new helper
-Message-ID: <YKTHKNsX/cvYwbWj@smile.fi.intel.com>
-References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
- <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
- <20210519004901.3829541-12-viro@zeniv.linux.org.uk>
+        id S234833AbhESIxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 04:53:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F3D76044F;
+        Wed, 19 May 2021 08:51:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621414311;
+        bh=2NMVrFwqHdsru0mdolyaaR9NXw7N3y0XVJQhv9TxciE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=B0v2aiemNxOehA7JgTGxFSbVFpF4YvNj99+FIvRy4Z76LRLDsNeiDHIqKge2TLRT4
+         ikz45+TRSq7Lzi0JsV3VhuyxqnjARWU8ntE0uCSJMDyiAYvQLxJ7Xf4T+LEiP1e+Mx
+         9m6IPlIEug96K3vfDKGur/dtdKizLbTrACFTkxZyqY8c3TzkVR04x1eZXM3QLLe5Cs
+         iWmVrTryPGbg1361wurkgj1A9W0nrQ5Osc7EL9n+v4DkdpD+jBLoPaFoSEzR0Q9ufc
+         f/K6VWJSfQmLhpwPBCfnjbOeZ9g1srWtZAgqW+kTcmFZrQws4ZuvVg9DbnqtarcPLb
+         49SrwZZOcKnlg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1ljHvh-007gY6-EP; Wed, 19 May 2021 10:51:49 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 03/10] docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
+Date:   Wed, 19 May 2021 10:51:40 +0200
+Message-Id: <40b3d5c983fb06d8a58d1f613c175a98e0631677.1621413933.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1621413933.git.mchehab+huawei@kernel.org>
+References: <cover.1621413933.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519004901.3829541-12-viro@zeniv.linux.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 19, 2021 at 12:48:59AM +0000, Al Viro wrote:
-> ... and leave the rename_lock/mount_lock handling in prepend_path()
-> itself
+transaltions -> translations
 
-...
+Acked-by: Wu XiangCheng <bobwxc@email.cn>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/translations/zh_CN/process/8.Conclusion.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +			if (!IS_ERR_OR_NULL(mnt_ns) && !is_anon_ns(mnt_ns))
-> +				return 1;	// absolute root
-> +			else
-> +				return 2;	// detached or not attached yet
-
-Would it be slightly better to read
-
-			if (IS_ERR_OR_NULL(mnt_ns) || is_anon_ns(mnt_ns))
-				return 2;	// detached or not attached yet
-			else
-				return 1;	// absolute root
-
-?
-
-Oh, I have noticed that it's in the original piece of code (perhaps separate
-change if we ever need it?).
-
-
+diff --git a/Documentation/translations/zh_CN/process/8.Conclusion.rst b/Documentation/translations/zh_CN/process/8.Conclusion.rst
+index 71c3e30efc6f..4707f0101964 100644
+--- a/Documentation/translations/zh_CN/process/8.Conclusion.rst
++++ b/Documentation/translations/zh_CN/process/8.Conclusion.rst
+@@ -19,7 +19,7 @@
+ :ref:`Documentation/translations/zh_CN/process/howto.rst <cn_process_howto>`
+ 文件是一个重要的起点；
+ :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
+-和 :ref:`Documentation/transaltions/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
++和 :ref:`Documentation/translations/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
+ 也是所有内核开发人员都应该阅读的内容。许多内部内核API都是使用kerneldoc机制
+ 记录的；“make htmldocs”或“make pdfdocs”可用于以HTML或PDF格式生成这些文档
+ （尽管某些发行版提供的tex版本会遇到内部限制，无法正确处理文档）。
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.31.1
 
