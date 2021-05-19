@@ -2,46 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD61CC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 11:37:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A80C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 11:37:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88753601FC
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 11:37:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03BEC6135B
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 11:37:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239967AbhESLjM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 07:39:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46935 "EHLO
+        id S1350951AbhESLjP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 07:39:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35988 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1351453AbhESLi7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 07:38:59 -0400
+        by vger.kernel.org with ESMTP id S1351359AbhESLjO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 07:39:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621424260;
+        s=mimecast20190719; t=1621424274;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=o6y+X5ZTlu8HONAGShzkVeiKiAGf4j48jcAkpWyjLEg=;
-        b=I5MVEDyKg0TOgv91v1t+vEnhHulD7DOnqP+PYx+WaiCfTbjr/PKIRA8+RWQQDlmQ0eXZZW
-        UwkmcwsQ3d0TdjpQT/buwIZAt0BcQkXGid7C4nZD5r3U9JZDMOzvERnIvdbrjpqCEA1eCu
-        Ibn15PGDlDggWxHnW8zWTGb9+CgMeJc=
+        bh=mN6lsvqoIJHHmjvlYbEu+2eORcj6RsSudi3TiJSoxKA=;
+        b=JcimuJ3F5cl105CbGBZAS+q+foPCCKbv4+HQNhBbYuicItUMt/KnbjwwIVzDOt423uz9IZ
+        fijzQsantMpt6DqYh9PncsvnD0niTT8ZBsEk0GTuYHP2sjYbO6BagAdwCijbNkUlUEvy/v
+        AlPQE8brHmlJXW6kuXwlXJsQ2dQL5wI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-saBc7kh5OXeRnG5Q306ZPw-1; Wed, 19 May 2021 07:37:36 -0400
-X-MC-Unique: saBc7kh5OXeRnG5Q306ZPw-1
+ us-mta-481-ecJoPHPYNc2ufUkqOXql2A-1; Wed, 19 May 2021 07:37:52 -0400
+X-MC-Unique: ecJoPHPYNc2ufUkqOXql2A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1B531927804;
-        Wed, 19 May 2021 11:37:34 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FAD01927800;
+        Wed, 19 May 2021 11:37:50 +0000 (UTC)
 Received: from x1.com (ovpn-112-250.rdu2.redhat.com [10.10.112.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BDD746090F;
-        Wed, 19 May 2021 11:37:21 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EE0CD77708;
+        Wed, 19 May 2021 11:37:39 +0000 (UTC)
 From:   Daniel Bristot de Oliveira <bristot@redhat.com>
 To:     linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
 Cc:     Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
@@ -60,9 +59,9 @@ Cc:     Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
         Gabriele Paoloni <gabriele.paoloni@intel.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Clark Williams <williams@redhat.com>, linux-doc@vger.kernel.org
-Subject: [RFC PATCH 03/16] rv/include: Add helper functions for deterministic automata
-Date:   Wed, 19 May 2021 13:36:24 +0200
-Message-Id: <e30553f3d1f8840737c7179f228c95549b936300.1621414942.git.bristot@redhat.com>
+Subject: [RFC PATCH 05/16] rv/include: Add tracing helper functions
+Date:   Wed, 19 May 2021 13:36:26 +0200
+Message-Id: <2a0d1fbc53e153d9ee8299740b643207f6fc0dc7.1621414942.git.bristot@redhat.com>
 In-Reply-To: <cover.1621414942.git.bristot@redhat.com>
 References: <cover.1621414942.git.bristot@redhat.com>
 MIME-Version: 1.0
@@ -72,38 +71,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Formally, a deterministic automaton, denoted by G, is defined as a
-quintuple:
-
-  G = { X, E, f, x_0, X_m }
-
-where:
-	- X is the set of states;
-	- E is the finite set of events;
-	- x_0 is the initial state;
-	- X_m (subset of X) is the set of marked states.
-	- f : X x E -> X $ is the transition function. It defines the
-	  state transition in the occurrence of a event from E in
-	  the state X. In the special case of deterministic automata,
-	  the occurence of the event in E in a state in X has a
-	  deterministic next state from X.
-
-An automaton can also be represented using a graphical format of
-vertices (nodes) and edges. The open-source tool Graphviz can produce
-this graphic format using the (textual) DOT language as the source code.
-
-The dot2c tool presented in this paper:
-
-DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
-Silva. Efficient formal verification for the Linux kernel. In:
-International Conference on Software Engineering and Formal Methods.
-Springer, Cham, 2019. p. 315-332.
-
-Translates a deterministic automaton in the DOT format into a C
-source code representation that to be used for monitoring.
-
-This header file implements helper functions to facilitate the usage
-of the C output from dot2c for monitoring.
+Tracing helper functions to facilitate the instrumentation of
+auto-generated RV monitors create by dot2k.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Steven Rostedt <rostedt@goodmis.org>
@@ -123,67 +92,84 @@ Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
 ---
- include/rv/automata.h | 52 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100644 include/rv/automata.h
+ include/rv/trace_helpers.h | 69 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
+ create mode 100644 include/rv/trace_helpers.h
 
-diff --git a/include/rv/automata.h b/include/rv/automata.h
+diff --git a/include/rv/trace_helpers.h b/include/rv/trace_helpers.h
 new file mode 100644
-index 000000000000..b95941bf78ac
+index 000000000000..1a8b6f246d0d
 --- /dev/null
-+++ b/include/rv/automata.h
-@@ -0,0 +1,52 @@
++++ b/include/rv/trace_helpers.h
+@@ -0,0 +1,69 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Deterministic automata helper functions, to be used with the automata
-+ * models in C generated by the dot2k tool.
++ * Helper functions to facilitate the instrumentation of auto-generated
++ * RV monitors create by dot2k.
 + *
-+ * The dot2k tool is available at https://gitlab.com/linux-rv-tools/dot2/.
++ * The dot2k tool is available at tools/tracing/rv/dot2/
 + *
 + * Copyright (C) 2019-2021 Daniel Bristot de Oliveira <bristot@redhat.com>
 + */
 +
-+#define DECLARE_AUTOMATA_HELPERS(name, type)					\
-+										\
-+static inline void *model_get_model_##name(void)				\
-+{										\
-+	return (void *) &automaton_##name;					\
-+}										\
-+										\
-+char *model_get_state_name_##name(enum states_##name state)			\
-+{										\
-+	return automaton_##name.state_names[state];				\
-+}										\
-+										\
-+char *model_get_event_name_##name(enum events_##name event)			\
-+{										\
-+	return automaton_##name.event_names[event];				\
-+}										\
-+										\
-+static inline type model_get_init_state_##name(void)				\
-+{										\
-+	return automaton_##name.initial_state;					\
-+}										\
-+										\
-+static inline type 								\
-+model_get_next_state_##name(enum states_##name curr_state,			\
-+			    enum events_##name event)				\
-+{										\
-+	if ((curr_state < 0) || (curr_state > state_max))			\
-+		return -1;							\
-+										\
-+	if ((event < 0) || (event > event_max))					\
-+		return -1;							\
-+										\
-+	return automaton_##name.function[curr_state][event];			\
-+}										\
-+										\
-+static inline bool model_is_final_state_##name(enum states_##name state)	\
-+{										\
-+	if ((state < 0) || (state > state_max))					\
-+		return 0;							\
-+										\
-+	return !!automaton_##name.final_states[state];				\
++#include <linux/ftrace.h>
++
++struct tracepoint_hook_helper {
++	struct tracepoint *tp;
++	void *probe;
++	int registered;
++	char *name;
++};
++
++static inline void thh_compare_name(struct tracepoint *tp, void *priv)
++{
++	struct tracepoint_hook_helper *thh  = priv;
++
++	if (!strcmp(thh->name, tp->name))
++		thh->tp = tp;
++}
++
++static inline bool thh_fill_struct_tracepoint(struct tracepoint_hook_helper *thh)
++{
++	for_each_kernel_tracepoint(thh_compare_name, thh);
++
++	return !!thh->tp;
++}
++
++static inline void thh_unhook_probes(struct tracepoint_hook_helper *thh, int helpers_count)
++{
++	int i;
++
++	for (i = 0; i < helpers_count; i++) {
++		if (!thh[i].registered)
++			continue;
++
++		tracepoint_probe_unregister(thh[i].tp, thh[i].probe, NULL);
++	}
++}
++
++static inline int thh_hook_probes(struct tracepoint_hook_helper *thh, int helpers_count)
++{
++	int retval;
++	int i;
++
++	for (i = 0; i < helpers_count; i++) {
++		retval = thh_fill_struct_tracepoint(&thh[i]);
++		if (!retval)
++			goto out_err;
++
++		retval = tracepoint_probe_register(thh[i].tp, thh[i].probe, NULL);
++
++		if (retval)
++			goto out_err;
++
++		thh[i].registered = 1;
++	}
++	return 0;
++
++out_err:
++	thh_unhook_probes(thh, helpers_count);
++	return -EINVAL;
 +}
 -- 
 2.26.2
