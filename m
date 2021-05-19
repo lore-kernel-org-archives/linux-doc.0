@@ -4,58 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF3BC43600
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:52:00 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC96F61355
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F205C43618
 	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:59 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id E39136135C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344006AbhESIxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 04:53:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60322 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1343839AbhESIxL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1343856AbhESIxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 19 May 2021 04:53:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 64E686139A;
+Received: from mail.kernel.org ([198.145.29.99]:60236 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239633AbhESIxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 04:53:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5466861028;
         Wed, 19 May 2021 08:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621414311;
-        bh=w2H34Ul+rMw0fI1d8Sc4VX5Vfwor0KfoWMGu1OVxZis=;
+        bh=LAyiT2kPFXdcExzvSYlhQSg1DZBXNovdWpdLyvOeGfE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bVb+kYmy+lqucHGGSZ+qaOMYW2zBZ73zrAkh+ChtHiZjeSJj4mULIaGR5pPNrU2Uw
-         g6/Oog4h7qMRAs/2/zXYEYOWl9S9n2RWJP+7Ve54Gf5gTKj3yX3aTQ6TPOqz+Y5d3N
-         QCgb1DZJdBdQ6KjjsAsIuCJe+9kpdWvExcrSRidi0EqGidMPWZ8JH8hDvWgo24dg1J
-         BVnfjsDMUnaO+CqE3pA2TF8v6NyfMsSglAjInO3sIYVZZKR94DWrWhptdhAq221UZ0
-         K2M/5FaZ7Osdi1mGVTvSx8Ms9skOtXI37q8oIu/lNnP6RRVvNfMgVaHLesBzeKQah9
-         ISzHMrHeLiIBg==
+        b=qvgOJQlsq1IS/yOzrVjz+UIPraPm67J1JCayyM9gvi8TkIt9qnNCGK4izYgGrlUKE
+         AVUBVI9NNCBbhK7b4b8ykgqAis6nqY6dA7/5emQqXcEYxLXSh/387IoXsVyHMN7ySo
+         D967fJdT0ChIxoV75iM79Xn28ZEi7jOb+lKrCxWHvCN6koYyIQ8favsGpDFAxrDJOb
+         pf3AH1GnRwV+/u9qcKt+cDHP36av2PezV4LpmxcfXLyNfD+HxL9LVufaeiciFSo4v0
+         57rvKQGTdBNmEhwyFgPGjOP9WaaoieF+GZ4DqjWDBWWyrlIe+kfobGX6pE084ZEhJ3
+         zm3yUAGLYS3tw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ljHvh-007gYE-I4; Wed, 19 May 2021 10:51:49 +0200
+        id 1ljHvh-007gXy-As; Wed, 19 May 2021 10:51:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Drew Fustini <drew@beagleboard.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Saravana Kannan <saravanak@google.com>,
-        alsa-devel@alsa-project.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: [PATCH 05/10] docs: update pin-control.rst references
-Date:   Wed, 19 May 2021 10:51:42 +0200
-Message-Id: <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
+        Hans de Goede <hdegoede@redhat.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 01/10] docs: update sysfs-platform_profile.rst reference
+Date:   Wed, 19 May 2021 10:51:38 +0200
+Message-Id: <295089effd8353578b9725c61c0453d920978d72.1621413933.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621413933.git.mchehab+huawei@kernel.org>
 References: <cover.1621413933.git.mchehab+huawei@kernel.org>
@@ -66,59 +57,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 5513b411ea5b ("Documentation: rename pinctl to pin-control")
-renamed: Documentation/driver-api/pinctl.rst
-to: Documentation/driver-api/pin-control.rst.
+The file name: Documentation/ABI/testing/sysfs-platform_profile.rst
+should be, instead: Documentation/userspace-api/sysfs-platform_profile.rst.
 
-Update the cross-references accordingly.
+Update its cross-reference accordingly.
 
-Fixes: 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+Fixes: a2ff95e018f1 ("ACPI: platform: Add platform profile support")
+Fixes: 8e0cbf356377 ("Documentation: Add documentation for new platform_profile sysfs attribute")
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Mark Pearson <markpearson@lenovo.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/device.h                  | 2 +-
- include/linux/mfd/madera/pdata.h        | 2 +-
- include/linux/pinctrl/pinconf-generic.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ include/linux/platform_profile.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 38a2071cf776..d1183cfdc8fb 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -399,7 +399,7 @@ struct dev_links_info {
-  * 		along with subsystem-level and driver-level callbacks.
-  * @em_pd:	device's energy model performance domain
-  * @pins:	For device pin management.
-- *		See Documentation/driver-api/pinctl.rst for details.
-+ *		See Documentation/driver-api/pin-control.rst for details.
-  * @msi_list:	Hosts MSI descriptors
-  * @msi_domain: The generic MSI domain this device is using.
-  * @numa_node:	NUMA node this device is close to.
-diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pdata.h
-index 601cbbc10370..32e3470708ed 100644
---- a/include/linux/mfd/madera/pdata.h
-+++ b/include/linux/mfd/madera/pdata.h
-@@ -31,7 +31,7 @@ struct pinctrl_map;
-  * @irq_flags:	    Mode for primary IRQ (defaults to active low)
-  * @gpio_base:	    Base GPIO number
-  * @gpio_configs:   Array of GPIO configurations (See
-- *		    Documentation/driver-api/pinctl.rst)
-+ *		    Documentation/driver-api/pin-control.rst)
-  * @n_gpio_configs: Number of entries in gpio_configs
-  * @gpsw:	    General purpose switch mode setting. Depends on the external
-  *		    hardware connected to the switch. (See the SW1_MODE field
-diff --git a/include/linux/pinctrl/pinconf-generic.h b/include/linux/pinctrl/pinconf-generic.h
-index e18ab3d5908f..5a96602a3316 100644
---- a/include/linux/pinctrl/pinconf-generic.h
-+++ b/include/linux/pinctrl/pinconf-generic.h
-@@ -89,7 +89,7 @@ struct pinctrl_map;
-  * 	it.
-  * @PIN_CONFIG_OUTPUT: this will configure the pin as an output and drive a
-  * 	value on the line. Use argument 1 to indicate high level, argument 0 to
-- *	indicate low level. (Please see Documentation/driver-api/pinctl.rst,
-+ *	indicate low level. (Please see Documentation/driver-api/pin-control.rst,
-  *	section "GPIO mode pitfalls" for a discussion around this parameter.)
-  * @PIN_CONFIG_PERSIST_STATE: retain pin state across sleep or controller reset
-  * @PIN_CONFIG_POWER_SOURCE: if the pin can select between different power
+diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
+index a6329003aee7..e5cbb6841f3a 100644
+--- a/include/linux/platform_profile.h
++++ b/include/linux/platform_profile.h
+@@ -2,7 +2,7 @@
+ /*
+  * Platform profile sysfs interface
+  *
+- * See Documentation/ABI/testing/sysfs-platform_profile.rst for more
++ * See Documentation/userspace-api/sysfs-platform_profile.rst for more
+  * information.
+  */
+ 
 -- 
 2.31.1
 
