@@ -2,219 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D3FC433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 22:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F103FC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 23:07:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2248561353
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 22:29:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1E6E6135C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 23:07:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230030AbhESWbR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 18:31:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38142 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230020AbhESWbP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 18:31:15 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E892C06175F;
-        Wed, 19 May 2021 15:29:54 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id a7so3367123qvf.11;
-        Wed, 19 May 2021 15:29:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GO2bx2JQ9NBxHgPEyfbaqkWN5p0BrrfFolR7teDCTtY=;
-        b=DTPX3UGq+8Lpm2GfNDdPvsLT/kUyb3LHpNhAAL1bSrTtkXT9O7E1khmCMZkGd7dgIy
-         YVEys8VldR/7wDqfUhUFzhmbi31PTClqO3CnrsVZljj410OIRdtFU51ixWvQQIQt+YJW
-         z9pVvybB2MyGHHpF0HtKYDaa0dizpK18kDxq0TXf/mIBL2bDal527cVkJ0Fi03ZQno+b
-         SX22eEvr8EtBCTp7ybDKSombJA5FZRDdfDmgVDc6f8Pkryq+zGflLku4IrGGyrps9fbP
-         1e1r07YAfIQt80M8AXcJZstngiFxeqnlOvdwHdz0G1SINj3WNBtKeLCJPgdtWEMTzjIY
-         eAjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GO2bx2JQ9NBxHgPEyfbaqkWN5p0BrrfFolR7teDCTtY=;
-        b=X5BXJk3xNcI4kIgViXf7ryZi1u61+2h7megIhpZLVcibexLG1nQGgZptS+/9s05ACR
-         2ijwDgGLfCjaiOI52fjS7krhW9ESR+vZV1YQYXRVqokyhBUUanuWkElSl1FsKqLKgpFU
-         XtwDzad2YgFkrDJxdQ0DKx4AQzIioSW87m5LPkcDY2RTqcni38wwbhpSVBXgiiBlin89
-         Ye/JHLNnVB/SzDDFzd7S/efxf/bpVhB3nm/YtxodawIImKf2aEXVyOzk5qMJHH+hogHe
-         7DjVWJkIerN63sR9tbWCcdZEOV0h9+DXfD1gPPbpyWKgwxV1CaTlmrsHNNbtmPNin1DX
-         B5Rg==
-X-Gm-Message-State: AOAM532gMxiei7I4FFOhocvns8tQDlQ7Zi+DzTJyuyMuHVarsflA2nM5
-        /vJd8NSoUWV8V7GH1zHCI5s=
-X-Google-Smtp-Source: ABdhPJzpg9zArdaLOXJZfbxaEJtT1ICH3AZzo7TRuDo35J46VWLlFaSSC1juIWnSooyb48oPYDOWNw==
-X-Received: by 2002:a0c:e34b:: with SMTP id a11mr2146164qvm.24.1621463393373;
-        Wed, 19 May 2021 15:29:53 -0700 (PDT)
-Received: from LuizSampaio-PC.localdomain ([2804:214:8175:da27:c352:bf96:2102:fa64])
-        by smtp.gmail.com with ESMTPSA id d18sm823716qkc.28.2021.05.19.15.29.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 15:29:53 -0700 (PDT)
-From:   Luiz Sampaio <sampaio.ime@gmail.com>
-To:     zbr@ioremap.net
-Cc:     corbet@lwn.net, rikard.falkeborn@gmail.com,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Luiz Sampaio <sampaio.ime@gmail.com>
-Subject: [PATCH v8 6/6] w1: ds2438: support for writing to offset register
-Date:   Wed, 19 May 2021 19:30:46 -0300
-Message-Id: <20210519223046.13798-7-sampaio.ime@gmail.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210519223046.13798-1-sampaio.ime@gmail.com>
-References: <20210409031533.442123-1-sampaio.ime@gmail.com>
- <20210519223046.13798-1-sampaio.ime@gmail.com>
+        id S230027AbhESXIr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 19:08:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40738 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229990AbhESXIr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 19:08:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 993E8611AD;
+        Wed, 19 May 2021 23:07:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621465646;
+        bh=CyXZyA6mosLM8Q5H6YwXkClts+9EWa3zf1UbFdQNMrI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=aXHR+AKxF4EN52kd6x8plyMzy1+4t0lW21FEqE168WQq3sgWJO0xkE6cu5qFdi3vm
+         nijmX+4k4BMnC0DIOUmQ97vZEpIHvAvPbP4dLHlA4ZnNHfABkaDN8GioEfPE3eIqsK
+         CreUT1iRPEVmCPIlNXJtj6+OV1XWfXjRVOGs7Yeypo14sHx5ntqU8WUisxMIOhfBbJ
+         AoVqP50RT+p/BJF8jsm3bpOujtQStBy1dzwwe3rwnyGRmcNxg7r7cjgrw03DZvKNPn
+         Ny9TRVeV0eX8UpLZ9ZIS9OaHCq2ZfB5SDZQte48eXiD07xy8NgR/2UAvHMCf2wDBYP
+         5V/PEQUlK/MSA==
+Date:   Thu, 20 May 2021 01:07:20 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
+ on Intel NUC
+Message-ID: <20210520010720.32265ad4@coco.lan>
+In-Reply-To: <20210519194115.GA31672@duo.ucw.cz>
+References: <cover.1621349813.git.mchehab+huawei@kernel.org>
+        <20210519111107.GC24621@duo.ucw.cz>
+        <20210519141508.6e7a4d56@coco.lan>
+        <20210519194115.GA31672@duo.ucw.cz>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added a sysfs entry to support writing to the offset register on page1.
-This register is used to calibrate the chip canceling offset errors in the
-current ADC. This means that, over time, reading the IAD register will not
-return the correct current measurement, it will have an offset. Writing to
-the offset register if the two's complement of the current register while
-passing zero current to the load will calibrate the measurements. This
-change was tested on real hardware and it was able to calibrate the chip
-correctly.
+Em Wed, 19 May 2021 21:41:15 +0200
+Pavel Machek <pavel@ucw.cz> escreveu:
 
-Signed-off-by: Luiz Sampaio <sampaio.ime@gmail.com>
+> Hi!
+> 
+> > > Marek and I are saying the same thing -- this needs to use close to
+> > > existing APIs.  
+> > 
+> > Ok, but I'm not seeing an existing API that provides what those
+> > LEDs need.  
+> 
+> Well, there "close to" part comes into play.
+> 
+> > > If you want to get something merged quickly, please submit basic
+> > > functionality only (toggling the LED on/off) that completely fits
+> > > existing APIs. We can review that.  
+> > 
+> > If you prefer working this way, I can send an initial patch with
+> > just the very basic. Actually, if you apply just patch 2 of this
+> > series, it will provide support for for just setting the brightness
+> > on NUC8.  
+> 
+> I don't care much. We can discuss minimal interface additions
+> neccessary to support your usecases.
+> 
+> But what you proposed was nowhere near close.
+
+Ok. Let's try to come into an agreement about what's needed.
+
+On my discussions with Marek, it sounds to me that the features
+from the trigger API won't fit, as the attributes there won't
+be supported by the NUC leds (and vice-versa).
+
+Yet, we could try to have something that would look similar.
+
+> 
+> Note that we don't want to support every crazy feature, just because
+> hardware can do it.
+
+Neither do I ;-) 
+
+I don't care much for Software controlled LEDs, nor for a feature
+that would allow the BIOS to "hide" the LED colors as if it were
+a single colored one, for instance.
+
+Yet, the remaining stuff seems pretty much OK.
+
+> 
+> > However, the main reason why someone (including myself) want this
+> > driver is to allow to dynamically change what hardware event will
+> > be triggering the LED and how, and if suspend will blink or not[1].  
+> 
+> > Being able to also change the LED color is a plus.  
+> 
+> This one is hard if the LED does not support full color.
+
+Only a subset of devices support RGB colors, but the API has support
+for dual-color and 8-color LEDs. On those, the color is selected like
+an enum.
+
+The NUC8 device I use her has RGB color LEDs.
+
+> 
+> > [1] Disabling blink at suspend/hibernate is one of the things that
+> > I use here: as the machine is at my bedroom, I don't want it to be
+> > blinking all night long when the machine is sleeping :-)  
+> 
+> Ok, so lets start with the blink at suspend thing?
+
+Yeah, that sounds to be a good start point.
+
+> 
+> Having power LED on when machine is on, and slowly "breathing" when
+> machine is suspended is something I have seen before. Is that what
+> your hardware is doing?
+
+Yes, but see: my device has 6 leds (API supports up to 7 leds).
+
+Any of them can be programmed to act as a power LED at runtime.
+
+So, the first thing that the API needs is a way to tell what LED
+is monitoring the device's power state.
+
+Then, for each power state (S0, S3, S5), define if the LED will
+be ON all the times or not.
+
+The "slowing breathing" is one of the possible blink patterns.
+The driver supports 4 other blink patterns
+
+	- Solid - the LED won't blink;
+	- Breathing - it looks like a sinusoidal wave pattern;
+	- Pulsing - it looks like a square wave pattern;
+	- Strobing - it turns ON suddenly, and then it slowly turns OFF.
+
+The speed of the blink is also adjustable, ranging from 0.1 Hz to 1 Hz,
+on 0.1 Hz steps.
+
 ---
- .../ABI/stable/sysfs-driver-w1_ds2438         |  7 +++
- Documentation/w1/slaves/w1_ds2438.rst         | 11 ++++-
- drivers/w1/slaves/w1_ds2438.c                 | 49 +++++++++++++++++++
- 3 files changed, 66 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/stable/sysfs-driver-w1_ds2438 b/Documentation/ABI/stable/sysfs-driver-w1_ds2438
-index fa47437c11d9..d2e7681cc287 100644
---- a/Documentation/ABI/stable/sysfs-driver-w1_ds2438
-+++ b/Documentation/ABI/stable/sysfs-driver-w1_ds2438
-@@ -4,3 +4,10 @@ Contact:	Luiz Sampaio <sampaio.ime@gmail.com>
- Description:	read the contents of the page1 of the DS2438
- 		see Documentation/w1/slaves/w1_ds2438.rst for detailed information
- Users:		any user space application which wants to communicate with DS2438
-+
-+What:		/sys/bus/w1/devices/.../offset
-+Date:		April 2021
-+Contact:	Luiz Sampaio <sampaio.ime@gmail.com>
-+Description:	write the contents to the offset register of the DS2438
-+		see Documentation/w1/slaves/w1_ds2438.rst for detailed information
-+Users:		any user space application which wants to communicate with DS2438
-diff --git a/Documentation/w1/slaves/w1_ds2438.rst b/Documentation/w1/slaves/w1_ds2438.rst
-index ac8d0d4b0d0e..5c5573991351 100644
---- a/Documentation/w1/slaves/w1_ds2438.rst
-+++ b/Documentation/w1/slaves/w1_ds2438.rst
-@@ -22,7 +22,7 @@ is also often used in weather stations and applications such as: rain gauge,
- wind speed/direction measuring, humidity sensing, etc.
- 
- Current support is provided through the following sysfs files (all files
--except "iad" are readonly):
-+except "iad" and "offset" are readonly):
- 
- "iad"
- -----
-@@ -52,6 +52,15 @@ Internally when this file is read, the additional CRC byte is also obtained
- from the slave device. If it is correct, the 8 bytes page data are passed
- to userspace, otherwise an I/O error is returned.
- 
-+"offset"
-+-------
-+This file controls the 2-byte Offset Register of the chip.
-+Writing a 2-byte value will change the Offset Register, which changes the
-+current measurement done by the chip. Changing this register to the two's complement
-+of the current register while forcing zero current through the load will calibrate
-+the chip, canceling offset errors in the current ADC.
-+
-+
- "temperature"
- -------------
- Opening and reading this file initiates the CONVERT_T (temperature conversion)
-diff --git a/drivers/w1/slaves/w1_ds2438.c b/drivers/w1/slaves/w1_ds2438.c
-index 42080ae779f0..01eaa5a17fba 100644
---- a/drivers/w1/slaves/w1_ds2438.c
-+++ b/drivers/w1/slaves/w1_ds2438.c
-@@ -193,6 +193,34 @@ static int w1_ds2438_change_config_bit(struct w1_slave *sl, u8 mask, u8 value)
- 	return -1;
- }
- 
-+static int w1_ds2438_change_offset_register(struct w1_slave *sl, u8 *value)
-+{
-+	unsigned int retries = W1_DS2438_RETRIES;
-+	u8 w1_buf[9];
-+	u8 w1_page1_buf[DS2438_PAGE_SIZE + 1 /*for CRC*/];
-+
-+	if (w1_ds2438_get_page(sl, 1, w1_page1_buf) == 0) {
-+		memcpy(&w1_buf[2], w1_page1_buf, DS2438_PAGE_SIZE - 1); /* last register reserved */
-+		w1_buf[7] = value[0]; /* change only offset register */
-+		w1_buf[8] = value[1];
-+		while (retries--) {
-+			if (w1_reset_select_slave(sl))
-+				continue;
-+			w1_buf[0] = W1_DS2438_WRITE_SCRATCH;
-+			w1_buf[1] = 0x01; /* write to page 1 */
-+			w1_write_block(sl->master, w1_buf, 9);
-+
-+			if (w1_reset_select_slave(sl))
-+				continue;
-+			w1_buf[0] = W1_DS2438_COPY_SCRATCH;
-+			w1_buf[1] = 0x01;
-+			w1_write_block(sl->master, w1_buf, 2);
-+			return 0;
-+		}
-+	}
-+	return -1;
-+}
-+
- static int w1_ds2438_get_voltage(struct w1_slave *sl,
- 				 int adc_input, uint16_t *voltage)
- {
-@@ -364,6 +392,25 @@ static ssize_t page1_read(struct file *filp, struct kobject *kobj,
- 	return ret;
- }
- 
-+static ssize_t offset_write(struct file *filp, struct kobject *kobj,
-+			    struct bin_attribute *bin_attr, char *buf,
-+			    loff_t off, size_t count)
-+{
-+	struct w1_slave *sl = kobj_to_w1_slave(kobj);
-+	int ret;
-+
-+	mutex_lock(&sl->master->bus_mutex);
-+
-+	if (w1_ds2438_change_offset_register(sl, buf) == 0)
-+		ret = count;
-+	else
-+		ret = -EIO;
-+
-+	mutex_unlock(&sl->master->bus_mutex);
-+
-+	return ret;
-+}
-+
- static ssize_t temperature_read(struct file *filp, struct kobject *kobj,
- 				struct bin_attribute *bin_attr, char *buf,
- 				loff_t off, size_t count)
-@@ -430,6 +477,7 @@ static ssize_t vdd_read(struct file *filp, struct kobject *kobj,
- static BIN_ATTR_RW(iad, 0);
- static BIN_ATTR_RO(page0, DS2438_PAGE_SIZE);
- static BIN_ATTR_RO(page1, DS2438_PAGE_SIZE);
-+static BIN_ATTR_WO(offset, 2);
- static BIN_ATTR_RO(temperature, 0/* real length varies */);
- static BIN_ATTR_RO(vad, 0/* real length varies */);
- static BIN_ATTR_RO(vdd, 0/* real length varies */);
-@@ -438,6 +486,7 @@ static struct bin_attribute *w1_ds2438_bin_attrs[] = {
- 	&bin_attr_iad,
- 	&bin_attr_page0,
- 	&bin_attr_page1,
-+	&bin_attr_offset,
- 	&bin_attr_temperature,
- 	&bin_attr_vad,
- 	&bin_attr_vdd,
--- 
-2.30.1
+Let me explain this specific part of the API from my original proposal.
 
+Those are the led names from the datasheets (NUC 8 and above),
+and my proposal for the sysfs class directory name:
+
+=============	===============================
+LED name	sysfs
+=============	===============================
+Skull		``/sys/class/leds/nuc::skull``
+Skull eyes	``/sys/class/leds/nuc::eyes``
+Power		``/sys/class/leds/nuc::power``
+HDD		``/sys/class/leds/nuc::hdd``
+Front1		``/sys/class/leds/nuc::front1``
+Front2		``/sys/class/leds/nuc::front2``
+Front3		``/sys/class/leds/nuc::front3``
+=============	===============================
+
+For each of the above, there's the need to identify what
+hardware function is monitored (if any).
+
+My proposal were to add an "indicator" node (the name came from
+the Intel datasheets) that shows what led will monitor the power state.
+
+Then, one blink_behavior and one blink_frequency per power state,
+e. g.:
+
+    /sys/class/leds/nuc::front1
+    |-- indicator
+    |-- s0_blink_behavior
+    |-- s0_blink_frequency
+    |-- s3_blink_behavior
+    |-- s3_blink_frequency
+    |-- s5_blink_behavior
+    `-- s5_blink_frequency
+
+PS.: I don't care much about what names we'll use. Feel free to
+rename them, if you think the above is not clear or generic enough.
+
+-
+
+To make part of the API complete, there's also the need of a node
+to control the max brightness that the leds will achieve at the
+ON state, and another one to control the color on each state,
+as one could define, let's say, "white" when powered on, "blue"
+when suspended and "yellow" when hibernating. The colors at the
+NUC I have are RGB (but other models can use an enum for the
+supported colors).
+
+    /sys/class/leds/nuc::front1
+    |-- s0_brightness
+    |-- s0_color		# only shown on colored leds
+    |-- s3_brightness
+    |-- s3_color		# only shown on colored leds
+    |-- s0_brightness
+    `-- s5_color		# only shown on colored leds
+
+Thanks,
+Mauro
