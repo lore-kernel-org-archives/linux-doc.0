@@ -2,130 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF520C43461
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 22:15:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6F03C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 22:29:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3BD061353
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 22:15:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEAE96135C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 22:29:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbhESWQW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 18:16:22 -0400
-Received: from mga04.intel.com ([192.55.52.120]:24024 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229512AbhESWQV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 18:16:21 -0400
-IronPort-SDR: pkuOXVHZbA1qShTff2ljYedicsWZkHXCAq8D8z5RZFbgxbSMuQltZIGwJkWGSsyCHGVmKnNGTp
- aQvIy+qzSAsA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="199134411"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
-   d="scan'208";a="199134411"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 15:15:00 -0700
-IronPort-SDR: 4htN2xJSznuZVhLFhhbfFRkZUb4nixiLBd8DZWgrRmw3SzyxERNbqQvWzA8B9KUhCVR5lyo/+I
- JW12+IiyJbFA==
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
-   d="scan'208";a="467381111"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.169.18]) ([10.209.169.18])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 15:14:58 -0700
-Subject: Re: [PATCH v26 26/30] ELF: Introduce arch_setup_elf_property()
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-27-yu-cheng.yu@intel.com> <YKVUgzJ0MVNBgjDd@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
-Date:   Wed, 19 May 2021 15:14:58 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        id S229465AbhESWa5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 18:30:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229455AbhESWa4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 18:30:56 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88AF6C061574;
+        Wed, 19 May 2021 15:29:35 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id 5so7713368qvk.0;
+        Wed, 19 May 2021 15:29:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=XPe29nBUqioUnaGp7VmbMwpIqyxLsVu+OHx0UyfkHXc=;
+        b=pgAaBxknPORKh+FLBVNtFKbW69u6wTNFWahqYf0YBMvwei6Sodnfp7xKssu6LEVtRh
+         wDCiGtK1BHUSgZB2r5rKi3E5vlyjRpWuA0/TIuRvSYlmz2h2a5L9ta14D3T/mZ/8Jufs
+         zkDSZT+YmFeMuQXWGf9OvXlFSXI1F4NegVNDTpAbVa1dGJW87gs55n2UnWoDqtWSAhfK
+         CWlm7y+bx84yZ60D4eaKUUdnVJtZpyOwVekggV/6iHSXLlx7LZFNZxrFmzJvOrg5FTCW
+         sTsMG3N0O8xq6zw7qHyXaKqv6+SQWAJDSCUCils4IjRp2JvEhmJBrsnidGDJCIVU6sqi
+         XyJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XPe29nBUqioUnaGp7VmbMwpIqyxLsVu+OHx0UyfkHXc=;
+        b=hsj3bVLqKFlfWhA9ptrBNXPrPZHPfG8VFk0GRqsmuxOrFLSya7T0ERtwyrJQ5mBkFf
+         XqK8kqqU68TNYnomYeDBE3PkPi7NxPjsGR4jS01GMs4q935k6Vmqwvei1weut5KQyls3
+         pCoqkv/r+Ilojb30auu6IjniToifFrkbpCrAKr3XwhDZfTCDanuDZFDt7vHzr8oEWo4w
+         plMKTpPabaO4AbWC10mPS2J/B0WH2XCzlLxR3Ppw4D4xoVWnC7hLZ9G32P52PW3qd9bq
+         ftRqypqu39RrG1wsO/fuJBUxosymiWlGWsvOGK3jbMxI4eRfbFaaRdiiuuKKR4Kyx5N9
+         TRkA==
+X-Gm-Message-State: AOAM533sWYbIUKPmQ62EcP8dRXEI+0b2u0UgH6rWuyl1PzehnxbnRckf
+        gjbTCF74BabKcEgYjXZ3pBg=
+X-Google-Smtp-Source: ABdhPJylZ5t/foP9g/9RLhCJCFJe5cDNsQNSHTUOs7cjs73r46V+fred9ZUrfKofkyfdkWPJ40pnkg==
+X-Received: by 2002:a05:6214:7af:: with SMTP id v15mr1957418qvz.17.1621463374756;
+        Wed, 19 May 2021 15:29:34 -0700 (PDT)
+Received: from LuizSampaio-PC.localdomain ([2804:214:8175:da27:c352:bf96:2102:fa64])
+        by smtp.gmail.com with ESMTPSA id d18sm823716qkc.28.2021.05.19.15.29.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 May 2021 15:29:34 -0700 (PDT)
+From:   Luiz Sampaio <sampaio.ime@gmail.com>
+To:     zbr@ioremap.net
+Cc:     corbet@lwn.net, rikard.falkeborn@gmail.com,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Luiz Sampaio <sampaio.ime@gmail.com>
+Subject: [PATCH v8 0/6] w1: ds2438: adding support for calibration of current measurements
+Date:   Wed, 19 May 2021 19:30:40 -0300
+Message-Id: <20210519223046.13798-1-sampaio.ime@gmail.com>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210409031533.442123-1-sampaio.ime@gmail.com>
+References: <20210409031533.442123-1-sampaio.ime@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YKVUgzJ0MVNBgjDd@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/19/2021 11:10 AM, Borislav Petkov wrote:
-> On Tue, Apr 27, 2021 at 01:43:11PM -0700, Yu-cheng Yu wrote:
->> @@ -1951,6 +1951,8 @@ config X86_SHADOW_STACK
->>   	depends on AS_WRUSS
->>   	depends on ARCH_HAS_SHADOW_STACK
->>   	select ARCH_USES_HIGH_VMA_FLAGS
->> +	select ARCH_USE_GNU_PROPERTY
->> +	select ARCH_BINFMT_ELF_STATE
-> 		^^^^^^^^
-> 
-> What's that for? Isn't ARCH_USE_GNU_PROPERTY enough?
-> 
+The following patches aim to make a user able to calibrate the current
+measurement of the DS2438. This chip uses a offset register in page1, which
+is added to the current register to give the user the current measurement.
+If this value is wrong, the user will get an offset current value, even if
+the current is zero, for instance. This patch gives support for reading the
+page1 registers (including the offset register) and for writing to the
+offset register. The DS2438 datasheet shows a calibration routine, and with
+this patch, the user can do this quickly by writing the correct value to
+the offset register. This patch was tested on real hardware using a power
+supply and an electronic load.
+Please help to review this series of patches.
 
-ARCH_USE_GNU_PROPERTY is for defining parsing functions, e.g.
-	arch_parse_elf_property(),
-	arch_setup_property().
+Best regards!
+Sampaio
+---
+Changes in v8:
+- Fixing bot identation warning
 
-ARCH_BINFMT_ELF_STATE is for defining "struct arch_elf_state".
+Changes in v7:
+- Build test again
 
-However, those parsing functions take (struct arch_elf_state *) as an 
-input.  It probably makes sense to have ARCH_USE_GNU_PROPERTY dependent 
-on ARCH_BINFMT_ELF_STATE.  It would be ok as-is too.  ARM people might 
-have other plans in mind.
+Changes in v6:
+- Actually changing from BIN_ATTR to BIN_ATTR_RW
 
-[...]
+---
+Changes in v5:
+- Merged all brackets coding style issue in one patch
+- Changing from BIN_ATTR to BIN_ATTR_RW in w1_ds2438.c
+- Wrapping email lines
+- Addind Documentation/ABI/
 
-> 
->> diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
->> index 30f68b42eeb5..24ba55ba8278 100644
->> --- a/include/uapi/linux/elf.h
->> +++ b/include/uapi/linux/elf.h
->> @@ -455,4 +455,13 @@ typedef struct elf64_note {
->>   /* Bits for GNU_PROPERTY_AARCH64_FEATURE_1_BTI */
->>   #define GNU_PROPERTY_AARCH64_FEATURE_1_BTI	(1U << 0)
->>   
->> +/* .note.gnu.property types for x86: */
->> +#define GNU_PROPERTY_X86_FEATURE_1_AND		0xc0000002
-> 
-> Why not 0xc0000001? ARM64 is 0xc0000000...
-> 
+Changes in v4:
+- Fixing different patches with identical subject lines as requested
 
-I just looked at the ABI document.
+Changes in v3:
+- I accidentally added a wrong line that would not compile. I'm sorry. Fixed it.
 
-ARM has GNU_PROPERTY_AARCH64_FEATURE_1_AND 0xc0000000
+Changes in v2:
+- Using git send-email to send the patches
+- Adding documentation as requested
+- Separating the coding style changes in different patches as requested
 
-X86 has:
-	GNU_PROPERTY_X86_ISA_1_USED	0xc0000000
-	GNU_PROPERTY_X86_ISA_1_NEEDED	0xc0000001
-	GNU_PROPERTY_X86_FEATURE_1_AND	0xc0000002
+Luiz Sampaio (6):
+  w1: ds2438: fixed a coding style issue
+  w1: ds2438: fixed if brackets coding style issue
+  w1: ds2438: changed sysfs macro for rw file
+  w1: ds2438: fixing bug that would always get page0
+  w1: ds2438: adding support for reading page1
+  w1: ds2438: support for writing to offset register
 
-Yu-cheng
+ .../ABI/stable/sysfs-driver-w1_ds2438         |  13 ++
+ Documentation/w1/slaves/w1_ds2438.rst         |  19 ++-
+ drivers/w1/slaves/w1_ds2438.c                 | 122 +++++++++++++++---
+ 3 files changed, 137 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/ABI/stable/sysfs-driver-w1_ds2438
+
+-- 
+2.30.1
+
