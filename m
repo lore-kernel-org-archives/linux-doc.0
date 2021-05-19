@@ -5,45 +5,45 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 882D5C43470
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AA7C43460
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B0C561028
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 698DA610CC
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343995AbhESIxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 04:53:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60274 "EHLO mail.kernel.org"
+        id S1343939AbhESIxN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 04:53:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60288 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1343811AbhESIxL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1343824AbhESIxL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 19 May 2021 04:53:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5F3816135C;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 61AAE610CC;
         Wed, 19 May 2021 08:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621414311;
-        bh=bQ4zdt635g4sFZM4c0ICU0CBur6ckO5NTfp+HGWkbcg=;
+        bh=H2xJFaGOtqmzr2+rgfc0d9kbWgFeN1e+g9wwRpKEzOU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HBHen7eHiJyOGZpM9jXTJaKQSWgznPHv993d0y8Pnz4sPDc5HRlkNj3xv45W4VKTK
-         mi8Xhf1XaEetmhDKk7djKskgO21KG2dR7UczwMiLu9bRq6RQ4avuEuYtTdZDWmFjWF
-         9mevYgE95CmzauANKEEa7oFXz8JGngSmAdIyR7IYuFb+ZccgZsOWKdwj+eC/Oq6bW3
-         eAANTT1ZzZfkI461WnxDxWQrOlWyBciazLFU/xk1JbQplnfAKijZzy9OR56TitxRpB
-         bFfovMTIyG0ZNwmSEWYTdfZ5O6moL1sOXqF7h7n/IXnxT9vvTyqkiHtxLoPx/spCgo
-         BUAnFWpgMD3Yg==
+        b=pt+WA0+fV9R+WI3t2smfUI4i5eFl++NvT/52lMLfuC8CQSRc14L6dfXtrYz1s72Jc
+         FqTusu+ZG9VaAC+0pVznHudjcyS6VIuuHzZRJFXv3O3BHZT7TpYQSJi48PutdiIEct
+         XeSkNTauBx0UvChbXsAjiGQGCj1lNBMu4xCsnW/Imr9Cq+HOe2gxBZu4rda+HK5qDq
+         EsVG/EVpDi8LWFEfx9RtqQUkETpCiJZBsSsW+++Vpl0o1OgZ5zF464DVWuIGdUkLHO
+         if/pFsqmwElkFCrMxVdvyKNNXJJGT7OFTe1236OMcB3ZTw6gSPljsuq/PUgNimAy5G
+         kzOeHLhvi0amw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ljHvh-007gYM-Ky; Wed, 19 May 2021 10:51:49 +0200
+        id 1ljHvh-007gY2-CM; Wed, 19 May 2021 10:51:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/10] docs: ABI: iommu: remove duplicated definition for sysfs-kernel-iommu_groups
-Date:   Wed, 19 May 2021 10:51:44 +0200
-Message-Id: <ec33e8e9b8f120232ffb3b9fcc99c97b87f242e3.1621413933.git.mchehab+huawei@kernel.org>
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 02/10] docs: vcpu-requests.rst: fix reference for atomic ops
+Date:   Wed, 19 May 2021 10:51:39 +0200
+Message-Id: <703af756ac26a06c2185c05dfe6d902253f11161.1621413933.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621413933.git.mchehab+huawei@kernel.org>
 References: <cover.1621413933.git.mchehab+huawei@kernel.org>
@@ -54,42 +54,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-./scripts/get_abi.pl is reporting a duplicated definition for
-/sys/kernel/iommu_groups/reserved_regions, both at the same
-file:
+Changeset f0400a77ebdc ("atomic: Delete obsolete documentation")
+got rid of atomic_ops.rst, pointing that this was superseded by
+Documentation/atomic_*.txt.
 
-	Warning: /sys/kernel/iommu_groups/reserved_regions is defined 2 times:  Documentation/ABI/testing/sysfs-kernel-iommu_groups:15  Documentation/ABI/testing/sysfs-kernel-iommu_groups:27
+Update its reference accordingly.
 
-Fix it by merging those into an unified entry.
-
+Fixes: f0400a77ebdc ("atomic: Delete obsolete documentation")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-kernel-iommu_groups | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ Documentation/virt/kvm/vcpu-requests.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-iommu_groups b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-index 0fedbb0f94e4..eae2f1c1e11e 100644
---- a/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-+++ b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-@@ -25,14 +25,10 @@ Description:    /sys/kernel/iommu_groups/reserved_regions list IOVA
- 		the base IOVA, the second is the end IOVA and the third
- 		field describes the type of the region.
+diff --git a/Documentation/virt/kvm/vcpu-requests.rst b/Documentation/virt/kvm/vcpu-requests.rst
+index 5feb3706a7ae..5f8798e7fdf8 100644
+--- a/Documentation/virt/kvm/vcpu-requests.rst
++++ b/Documentation/virt/kvm/vcpu-requests.rst
+@@ -302,6 +302,6 @@ VCPU returns from the call.
+ References
+ ==========
  
--What:		/sys/kernel/iommu_groups/reserved_regions
--Date: 		June 2019
--KernelVersion:  v5.3
--Contact: 	Eric Auger <eric.auger@redhat.com>
--Description:    In case an RMRR is used only by graphics or USB devices
--		it is now exposed as "direct-relaxable" instead of "direct".
--		In device assignment use case, for instance, those RMRR
--		are considered to be relaxable and safe.
-+		Since kernel 5.3, in case an RMRR is used only by graphics or
-+		USB devices it is now exposed as "direct-relaxable" instead
-+		of "direct". In device assignment use case, for instance,
-+		those RMRR are considered to be relaxable and safe.
- 
- What:		/sys/kernel/iommu_groups/<grp_id>/type
- Date:		November 2020
+-.. [atomic-ops] Documentation/core-api/atomic_ops.rst
++.. [atomic-ops] Documentation/atomic_bitops.txt and Documentation/atomic_t.txt
+ .. [memory-barriers] Documentation/memory-barriers.txt
+ .. [lwn-mb] https://lwn.net/Articles/573436/
 -- 
 2.31.1
 
