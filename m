@@ -2,50 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17640C43462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7001C43600
 	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBBBA613AE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADB08613AA
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343892AbhESIxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1343920AbhESIxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 19 May 2021 04:53:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60218 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:60252 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238621AbhESIxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 04:53:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 57A7E61059;
+        id S245541AbhESIxL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 04:53:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A3B560C3F;
         Wed, 19 May 2021 08:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621414311;
-        bh=y1shfZpMexqe3QXr2DMzM1tm/zaqMgMobTVuM8HdP+o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=e8NjRFW1GxfjGMMuoBoeRbGzuah0VQa7C7CH9Gx6uneyacAc3jHy8tGqnlkpykLkZ
-         q62VycTGgcOmz1KT7I3YNgTTxsFZi5ARaMuSDw4pwk64UZsPOR39LQBqhPpRlnyJSh
-         JAPlQaLjSdVTj7L6bKrCy4HDCsbmzj7eH0CGEmSaGsfE5giKiX80AmrlN/WQSc7qxp
-         tHiN8+6HbmJW/cHOTyZ+U0phRjmb3kL1S4z3yceRABxFG6/hgSejY8zqRu51Fl0wZg
-         GlIRJZo099QYd1jEvZCjIJpAtxQ6VOSmChQ8QLHyHJ+lBDQnJoJrtQTVCZsobWyDnU
-         FHOyqIvHkqIHg==
+        bh=Xxq1uGAbMGFgeGY3ywEv0OBhOMcnDBc4Aw7rV293abg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HDXmH4kOj1Ffc8/2cPIVagMkwv75xN8kuE4Rn2GW4zUfWOy+/uoxuQky8Dxr9RDVR
+         fVbJMLGgIq+XN+7alWCEcvtKmIWWeiFvOiQyJ9+cMJ+eSmjCj1liIls/T2ERP28sI/
+         Mx2fxh/6TMjsCdbJkuDfE+YtP5rjlL4GYJEyhOZQoAdSbeHyiSWV4ePGv7ROh0zXu8
+         AjzAbT5IYTV7AdlhASpd63KP0Dt2giApS3oj5J8fG1nIer7c4N9j0aGbYuzwaHItI1
+         /kiR1YGrJsdKvu92/Jkc0v9EXHz/fFBf6YBUXpnf+fLICsbgPu9SeBtSBORPjhj95H
+         lVUyUg6TpgwrA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ljHvh-007gYI-JA; Wed, 19 May 2021 10:51:49 +0200
+        id 1ljHvh-007gXv-8w; Wed, 19 May 2021 10:51:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 06/10] docs: virt: api.rst: fix a pointer to SGX documentation
-Date:   Wed, 19 May 2021 10:51:43 +0200
-Message-Id: <138c24633c6e4edf862a2b4d77033c603fc10406.1621413933.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+        kvm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-iio@vger.kernel.org, patches@opensource.cirrus.com
+Subject: [PATCH 00/10] Documentation build warning fixes
+Date:   Wed, 19 May 2021 10:51:37 +0200
+Message-Id: <cover.1621413933.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1621413933.git.mchehab+huawei@kernel.org>
-References: <cover.1621413933.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -53,30 +60,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The document which describes the SGX kernel architecture was added at
-commit 3fa97bf00126 ("Documentation/x86: Document SGX kernel architecture")
+Hi Jon,
 
-but the reference at virt/kvm/api.rst is pointing to some
-non-existing document.
+This small series contain a series of fixes for the documentation. it is
+against your docs-next branch.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/virt/kvm/api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Three of the patches fix duplicated symbols at the ABI documents.
+There are still some ABI warnings from IIO, but all but one were
+already fixed at linux-next. So, hopefully, after having everything
+merged, the ABI warnings will be solved.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 22d077562149..e86fe3481574 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6360,7 +6360,7 @@ system fingerprint.  To prevent userspace from circumventing such restrictions
- by running an enclave in a VM, KVM prevents access to privileged attributes by
- default.
- 
--See Documentation/x86/sgx/2.Kernel-internals.rst for more details.
-+See Documentation/x86/sgx.rst for more details.
- 
- 8. Other capabilities.
- ======================
+Mauro Carvalho Chehab (10):
+  docs: update sysfs-platform_profile.rst reference
+  docs: vcpu-requests.rst: fix reference for atomic ops
+  docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
+  docs: sched-bwc.rst: fix a typo on a doc name
+  docs: update pin-control.rst references
+  docs: virt: api.rst: fix a pointer to SGX documentation
+  docs: ABI: iommu: remove duplicated definition for
+    sysfs-kernel-iommu_groups
+  docs: ABI: sysfs-class-backlight: unify ambient light zone nodes
+  docs: ABI: sysfs-class-led-trigger-pattern: remove repeat duplication
+  iio: documentation: fix a typo
+
+ Documentation/ABI/testing/sysfs-bus-iio       |   4 +-
+ .../ABI/testing/sysfs-class-backlight         | 100 ++++++++++++++++++
+ .../ABI/testing/sysfs-class-backlight-adp5520 |  31 ------
+ .../ABI/testing/sysfs-class-backlight-adp8860 |  37 -------
+ .../sysfs-class-backlight-driver-adp8870      |  32 ------
+ .../testing/sysfs-class-led-driver-el15203000 |   9 --
+ .../testing/sysfs-class-led-trigger-pattern   |   3 +
+ .../ABI/testing/sysfs-kernel-iommu_groups     |  12 +--
+ Documentation/scheduler/sched-bwc.rst         |   2 +-
+ .../zh_CN/process/8.Conclusion.rst            |   2 +-
+ Documentation/virt/kvm/api.rst                |   2 +-
+ Documentation/virt/kvm/vcpu-requests.rst      |   2 +-
+ include/linux/device.h                        |   2 +-
+ include/linux/mfd/madera/pdata.h              |   2 +-
+ include/linux/pinctrl/pinconf-generic.h       |   2 +-
+ include/linux/platform_profile.h              |   2 +-
+ 16 files changed, 117 insertions(+), 127 deletions(-)
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-backlight-adp5520
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-backlight-adp8860
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-el15203000
+
 -- 
 2.31.1
+
 
