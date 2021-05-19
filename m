@@ -2,115 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC322C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 23:45:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBD67C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:12:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3D576112F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 May 2021 23:45:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FCE2610CC
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:12:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhERXq3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 19:46:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20487 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230091AbhERXq3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 19:46:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621381510;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=NyB3nRYXEIw9i58PAbApIYiWHD6bmSqOFX83eNLmrgQ=;
-        b=URcPxSERDJCceXsGcSt43fhJ4MlZrgXDibvJcAkQEQ8GqSNMGnfqipfn+27unm63I8TfUo
-        I8ixebn/cmyPtSqfMGvtrCLIC3ZsR9OqCwlt4m+jeTltnRzgHz5JX9h+kz6BhDslrkaBg8
-        ZWj+hngWz3vdqVyrniUwounu8dXDO7w=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-s8V3ErTcNPWdVZ1RuOmcrg-1; Tue, 18 May 2021 19:45:08 -0400
-X-MC-Unique: s8V3ErTcNPWdVZ1RuOmcrg-1
-Received: by mail-qk1-f197.google.com with SMTP id u126-20020a3792840000b02902e769005fe1so8392116qkd.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 May 2021 16:45:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NyB3nRYXEIw9i58PAbApIYiWHD6bmSqOFX83eNLmrgQ=;
-        b=Xn18+1vlr45y8dOel55cYwFYtkzi0RjoJ+eLJJ6AqnB9LcvzJ26J0xpavbN7zd49SN
-         8LBjGECY8BDuviOrNUMTIxc7aJ3OdYE7b0mlL8Qhe5YTYEY/PG91xfh22o8Ue5mCK/UW
-         vgy1NPRdMICuOfYeqRTcadymgHnIEcVQkNhhZrRZjAugTtTI3BeaMU/PRqt4xKjkCnI5
-         1LtcwSmL6YAibXLWaBZFhENXE5hodi49ZpPHlqdFU2OGyraTJmFltbkXQL6fnPNEh8k/
-         BFO8v2O7Y5qlvDqBKVbFKd6NnyOoQ69rVrBVTS24PhcqqBiuH5gVywBa6RBhKiKuVhP7
-         539w==
-X-Gm-Message-State: AOAM532wCUJhS+ttkn5unh3mKzXHtoF8IyDkz6JcUZFGiE20VIf3umco
-        DWdMw7P1qu0wxCyN/ZHQnd1v+Ixm4ii0EqdhcZxaSkb3Ka4elKeeoTbPxiQz4dufEvy+Qkt2aWP
-        j+GTGkicviyP5B0H1emPP
-X-Received: by 2002:a05:622a:350:: with SMTP id r16mr7491988qtw.27.1621381507345;
-        Tue, 18 May 2021 16:45:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7ExMzzZXtIx7iGUTcSpCi16S7VAiLXsFhzha61Te2cv+Okvdh1uyfL/4TjC80GU7c5+ldwA==
-X-Received: by 2002:a05:622a:350:: with SMTP id r16mr7491943qtw.27.1621381506771;
-        Tue, 18 May 2021 16:45:06 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
-        by smtp.gmail.com with ESMTPSA id 7sm15927040qtu.38.2021.05.18.16.45.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 May 2021 16:45:06 -0700 (PDT)
-Date:   Tue, 18 May 2021 19:45:05 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
-        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
-        bsingharora@gmail.com, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
-Message-ID: <YKRRgZmRMdk1vH7A@t490s>
-References: <20210407084238.20443-1-apopple@nvidia.com>
- <20210407084238.20443-6-apopple@nvidia.com>
- <YKMhorngO2DVrxac@t490s>
- <47694715.suB6H4Uo8R@nvdebian>
- <YKP5Dj4Q/riGGc43@t490s>
- <20210518173334.GE1002214@nvidia.com>
- <YKQBACJCjsxeM3ro@t490s>
- <20210518194509.GF1002214@nvidia.com>
- <YKQjmtMo+YQGx/wZ@t490s>
- <20210518230327.GG1002214@nvidia.com>
+        id S233762AbhESANa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 20:13:30 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:47493 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S232773AbhESANa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 20:13:30 -0400
+X-UUID: d60617eb75fc498bb791eb231d98dbca-20210519
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=qPl/sSk5L5BJ00kmhUPZ9WBNL8LNmX162Mp2lwH5YCY=;
+        b=dyIS+GIoMh8q3GHv80ISIR5RvQSId5tGq8FadANxnAZDeA/t7NE6K/RuBjCynCN6O2v+LlDcfCQw+DEBMKJvwPdiJcvQWBs0Zz43cfadowv5PDyjVpstCPuStMq7qIUQMb+z2Co6wH7xifXZmn3BBMrY1YAJkTvlV2HHyUXwuEU=;
+X-UUID: d60617eb75fc498bb791eb231d98dbca-20210519
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <miles.chen@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1253459367; Wed, 19 May 2021 08:12:07 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 19 May 2021 08:12:06 +0800
+Received: from [172.21.77.33] (172.21.77.33) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 19 May 2021 08:12:06 +0800
+Message-ID: <1621383126.12301.4.camel@mtkswgap22>
+Subject: Re: [PATCH v2 0/2] mm: unify the allocation of pglist_data instances
+From:   Miles Chen <miles.chen@mediatek.com>
+To:     Mike Rapoport <rppt@kernel.org>
+CC:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-mm@kvack.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Date:   Wed, 19 May 2021 08:12:06 +0800
+In-Reply-To: <YKPmxEu6YFDXRyTg@kernel.org>
+References: <20210518092446.16382-1-miles.chen@mediatek.com>
+         <YKPmxEu6YFDXRyTg@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210518230327.GG1002214@nvidia.com>
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 18, 2021 at 08:03:27PM -0300, Jason Gunthorpe wrote:
-> Logically during fork all these device exclusive pages should be
-> reverted back to their CPU pages, write protected and the CPU page PTE
-> copied to the fork.
-> 
-> We should not copy the device exclusive page PTE to the fork. I think
-> I pointed to this on an earlier rev..
-
-Agreed.  Though please see the question I posted in the other thread: now I am
-not very sure whether we'll be able to mark a page as device exclusive if that
-page has mapcount>1.
-
-> 
-> We can optimize this into the various variants above, but logically
-> device exclusive stop existing during fork.
-
-Makes sense, I think that's indeed what this patch did at least for the COW
-case, so I think Alistair did address that comment.  It's just that I think we
-need to drop the other !COW case (imho that should correspond to the changes in
-copy_nonpresent_pte()) in this patch to guarantee it.
-
-I also hope we don't make copy_pte_range() even more complicated just to do the
-lock_page() right, so we could fail the fork() if the lock is hard to take.
-
--- 
-Peter Xu
+T24gVHVlLCAyMDIxLTA1LTE4IGF0IDE5OjA5ICswMzAwLCBNaWtlIFJhcG9wb3J0IHdyb3RlOg0K
+PiBIZWxsbyBNaWxlcywNCj4gDQo+IE9uIFR1ZSwgTWF5IDE4LCAyMDIxIGF0IDA1OjI0OjQ0UE0g
+KzA4MDAsIE1pbGVzIENoZW4gd3JvdGU6DQo+ID4gVGhpcyBwYXRjaGVzIGlzIGNyZWF0ZWQgdG8g
+Zml4IHRoZSBfX3BhKCkgd2FybmluZyBtZXNzYWdlcyB3aGVuDQo+ID4gQ09ORklHX0RFQlVHX1ZJ
+UlRVQUw9eSBieSB1bmlmeWluZyB0aGUgYWxsb2NhdGlvbiBvZiBwZ2xpc3RfZGF0YQ0KPiA+IGlu
+c3RhbmNlcy4NCj4gPiANCj4gPiBJbiBjdXJyZW50IGltcGxlbWVudGF0aW9uIG9mIG5vZGVfZGF0
+YSwgaWYgQ09ORklHX05FRURfTVVMVElQTEVfTk9ERVM9eSwNCj4gPiBwZ2xpc3RfZGF0YSBpcyBh
+bGxvY2F0ZWQgYnkgYSBtZW1ibG9jayBBUEkuIElmIENPTkZJR19ORUVEX01VTFRJUExFX05PREVT
+PW4sDQo+ID4gd2UgdXNlIGEgZ2xvYmFsIHZhcmlhYmxlIG5hbWVkICJjb250aWdfcGFnZV9kYXRh
+Ii4NCj4gPiANCj4gPiBJZiBDT05GSUdfREVCVUdfVklSVFVBTCBpcyBub3QgZW5hYmxlZC4gX19w
+YSgpIGNhbiBoYW5kbGUgYm90aA0KPiA+IGFsbG9jYXRpb24gYW5kIHN5bWJvbCBjYXNlcy4gQnV0
+IGlmIENPTkZJR19ERUJVR19WSVJUVUFMIGlzIHNldCwNCj4gPiB3ZSB3aWxsIGhhdmUgdGhlICJ2
+aXJ0X3RvX3BoeXMgdXNlZCBmb3Igbm9uLWxpbmVhciBhZGRyZXNzIiB3YXJuaW5nDQo+ID4gd2hl
+biBib290aW5nLg0KPiA+IA0KPiA+IFRvIGZpeCB0aGUgd2FybmluZywgYWx3YXlzIGFsbG9jYXRl
+IHBnbGlzdF9kYXRhIGJ5IG1lbWJsb2NrIEFQSXMgYW5kDQo+ID4gcmVtb3ZlIHRoZSB1c2FnZSBv
+ZiBjb250aWdfcGFnZV9kYXRhLg0KPiANCj4gU29tZWhvdyBJIHdhcyBzdXJlIHRoYXQgd2UgY2Fu
+IGFsbG9jYXRlIHBnbGlzdF9kYXRhIGJlZm9yZSBpdCBpcyBhY2Nlc3NlZA0KPiBpbiBzcGFyc2Vf
+aW5pdCgpIHNvbWV3aGVyZSBvdXRzaWRlIG1tL3NwYXJzZS5jLiBJdCdzIHJlYWxseSBub3QgdGhl
+IGNhc2UNCj4gYW5kIGhhdmluZyB0d28gcGxhY2VzIHRoYXQgbWF5IGFsbG9jYXRlZCB0aGlzIHN0
+cnVjdHVyZSBpcyBzdXJlbHkgd29ydGgNCj4gdGhhbiB5b3VyIHByZXZpb3VzIHN1Z2dlc3Rpb24u
+DQo+IA0KPiBTb3JyeSBhYm91dCB0aGF0Lg0KDQpEbyB5b3UgbWVhbiB0YWh0IHRvIGNhbGwgYWxs
+b2NhdGlvbiBmdW5jdGlvbiBhcmNoLyosIHNvbWV3aGVyZSBhZnRlcg0KcGFnaW5nX2luaXQoKSAo
+c28gd2UgY2FuIGFjY2VzcyBwZ2xpc3RfZGF0YSkgYW5kIGJlZm9yZSBzcGFyc2VfaW5pdCgpDQph
+bmQgZnJlZV9hcmVhX2luaXQoKT8NCg0KTWlsZXMNCg0KPiAgDQo+ID4gV2FybmluZyBtZXNzYWdl
+Og0KPiA+IFsgICAgMC4wMDAwMDBdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0t
+LQ0KPiA+IFsgICAgMC4wMDAwMDBdIHZpcnRfdG9fcGh5cyB1c2VkIGZvciBub24tbGluZWFyIGFk
+ZHJlc3M6IChfX19fcHRydmFsX19fXykgKGNvbnRpZ19wYWdlX2RhdGErMHgwLzB4MWMwMCkNCj4g
+PiBbICAgIDAuMDAwMDAwXSBXQVJOSU5HOiBDUFU6IDAgUElEOiAwIGF0IGFyY2gvYXJtNjQvbW0v
+cGh5c2FkZHIuYzoxNSBfX3ZpcnRfdG9fcGh5cysweDU4LzB4NjgNCj4gPiBbICAgIDAuMDAwMDAw
+XSBNb2R1bGVzIGxpbmtlZCBpbjoNCj4gPiBbICAgIDAuMDAwMDAwXSBDUFU6IDAgUElEOiAwIENv
+bW06IHN3YXBwZXIgVGFpbnRlZDogRyAgICAgICAgVyAgICAgICAgIDUuMTMuMC1yYzEtMDAwNzQt
+ZzExNDBhYjU5MmUyZSAjMw0KPiA+IFsgICAgMC4wMDAwMDBdIEhhcmR3YXJlIG5hbWU6IGxpbnV4
+LGR1bW15LXZpcnQgKERUKQ0KPiA+IFsgICAgMC4wMDAwMDBdIHBzdGF0ZTogNjAwMDAwYzUgKG5a
+Q3YgZGFJRiAtUEFOIC1VQU8gLVRDTyBCVFlQRT0tLSkNCj4gPiBbICAgIDAuMDAwMDAwXSBwYyA6
+IF9fdmlydF90b19waHlzKzB4NTgvMHg2OA0KPiA+IFsgICAgMC4wMDAwMDBdIGxyIDogX192aXJ0
+X3RvX3BoeXMrMHg1NC8weDY4DQo+ID4gWyAgICAwLjAwMDAwMF0gc3AgOiBmZmZmODAwMDExODMz
+ZTcwDQo+ID4gWyAgICAwLjAwMDAwMF0geDI5OiBmZmZmODAwMDExODMzZTcwIHgyODogMDAwMDAw
+MDA0MThhMDAxOCB4Mjc6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiBbICAgIDAuMDAwMDAwXSB4MjY6
+IDAwMDAwMDAwMDAwMDAwMGEgeDI1OiBmZmZmODAwMDExYjcwMDAwIHgyNDogZmZmZjgwMDAxMWI3
+MDAwMA0KPiA+IFsgICAgMC4wMDAwMDBdIHgyMzogZmZmZmZjMDAwMWMwMDAwMCB4MjI6IGZmZmY4
+MDAwMTFiNzAwMDAgeDIxOiAwMDAwMDAwMDQ3ZmZmZmIwDQo+ID4gWyAgICAwLjAwMDAwMF0geDIw
+OiAwMDAwMDAwMDAwMDAwMDA4IHgxOTogZmZmZjgwMDAxMWIwODJjMCB4MTg6IGZmZmZmZmZmZmZm
+ZmZmZmYNCj4gPiBbICAgIDAuMDAwMDAwXSB4MTc6IDAwMDAwMDAwMDAwMDAwMDAgeDE2OiBmZmZm
+ODAwMDExODMzYmY5IHgxNTogMDAwMDAwMDAwMDAwMDAwNA0KPiA+IFsgICAgMC4wMDAwMDBdIHgx
+NDogMDAwMDAwMDAwMDAwMGZmZiB4MTM6IGZmZmY4MDAwMTE4NmE1NDggeDEyOiAwMDAwMDAwMDAw
+MDAwMDAwDQo+ID4gWyAgICAwLjAwMDAwMF0geDExOiAwMDAwMDAwMDAwMDAwMDAwIHgxMDogMDAw
+MDAwMDBmZmZmZmZmZiB4OSA6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiBbICAgIDAuMDAwMDAwXSB4
+OCA6IGZmZmY4MDAwMTE1YzkwMDAgeDcgOiA3Mzc1MjA3Mzc5Njg3MDVmIHg2IDogZmZmZjgwMDAx
+MWI2MmVmOA0KPiA+IFsgICAgMC4wMDAwMDBdIHg1IDogMDAwMDAwMDAwMDAwMDAwMCB4NCA6IDAw
+MDAwMDAwMDAwMDAwMDEgeDMgOiAwMDAwMDAwMDAwMDAwMDAwDQo+ID4gWyAgICAwLjAwMDAwMF0g
+eDIgOiAwMDAwMDAwMDAwMDAwMDAwIHgxIDogZmZmZjgwMDAxMTU5NTg1ZSB4MCA6IDAwMDAwMDAw
+MDAwMDAwNTgNCj4gPiBbICAgIDAuMDAwMDAwXSBDYWxsIHRyYWNlOg0KPiA+IFsgICAgMC4wMDAw
+MDBdICBfX3ZpcnRfdG9fcGh5cysweDU4LzB4NjgNCj4gPiBbICAgIDAuMDAwMDAwXSAgY2hlY2tf
+dXNlbWFwX3NlY3Rpb25fbnIrMHg1MC8weGZjDQo+ID4gWyAgICAwLjAwMDAwMF0gIHNwYXJzZV9p
+bml0X25pZCsweDFhYy8weDI4Yw0KPiA+IFsgICAgMC4wMDAwMDBdICBzcGFyc2VfaW5pdCsweDFj
+NC8weDFlMA0KPiA+IFsgICAgMC4wMDAwMDBdICBib290bWVtX2luaXQrMHg2MC8weDkwDQo+ID4g
+WyAgICAwLjAwMDAwMF0gIHNldHVwX2FyY2grMHgxODQvMHgxZjANCj4gPiBbICAgIDAuMDAwMDAw
+XSAgc3RhcnRfa2VybmVsKzB4NzgvMHg0ODgNCj4gPiBbICAgIDAuMDAwMDAwXSAtLS1bIGVuZCB0
+cmFjZSBmNjg3MjhhMGQzMDUzYjYwIF0tLS0NCj4gPiANCj4gPiBbMV0gaHR0cHM6Ly91cmxkZWZl
+bnNlLmNvbS92My9fX2h0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3BhdGNod29yay9wYXRjaC8xNDI1
+MTEwL19fOyEhQ1RSTktBOXdNZzBBUmJ3IXgtd0dGRUMxd0x6WGhvMmtJMUNyQzJmalhOYVFtNWYt
+bjBBRFF5SkRja0NPS1pIQVBfcTA1NURDU1dZY1E3WmRjdyQgDQo+ID4gDQo+ID4gQ2hhbmdlIHNp
+bmNlIHYxOg0KPiA+IC0gdXNlIG1lbWJsb2NrX2FsbG9jKCkgdG8gY3JlYXRlIHBnbGlzdF9kYXRh
+IHdoZW4gQ09ORklHX05VTUE9bg0KPiA+IA0KPiA+IE1pbGVzIENoZW4gKDIpOg0KPiA+ICAgbW06
+IGludHJvZHVjZSBwcmVwYXJlX25vZGVfZGF0YQ0KPiA+ICAgbW06IHJlcGxhY2UgY29udGlnX3Bh
+Z2VfZGF0YSB3aXRoIG5vZGVfZGF0YQ0KPiA+IA0KPiA+ICBEb2N1bWVudGF0aW9uL2FkbWluLWd1
+aWRlL2tkdW1wL3ZtY29yZWluZm8ucnN0IHwgMTMgLS0tLS0tLS0tLS0tLQ0KPiA+ICBhcmNoL3Bv
+d2VycGMva2V4ZWMvY29yZS5jICAgICAgICAgICAgICAgICAgICAgIHwgIDUgLS0tLS0NCj4gPiAg
+aW5jbHVkZS9saW51eC9nZnAuaCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAzIC0tLQ0K
+PiA+ICBpbmNsdWRlL2xpbnV4L21tLmggICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIg
+KysNCj4gPiAgaW5jbHVkZS9saW51eC9tbXpvbmUuaCAgICAgICAgICAgICAgICAgICAgICAgICB8
+ICA0ICsrLS0NCj4gPiAga2VybmVsL2NyYXNoX2NvcmUuYyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8ICAxIC0NCj4gPiAgbW0vbWVtYmxvY2suYyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICB8ICAzICstLQ0KPiA+ICBtbS9wYWdlX2FsbG9jLmMgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgMTYgKysrKysrKysrKysrKysrKw0KPiA+ICBtbS9zcGFyc2UuYyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKysNCj4gPiAgOSBmaWxlcyBjaGFu
+Z2VkLCAyMyBpbnNlcnRpb25zKCspLCAyNiBkZWxldGlvbnMoLSkNCj4gPiANCj4gPiANCj4gPiBi
+YXNlLWNvbW1pdDogOGFjOTFlNmM2MDMzZWJjMTJjNWMxZTRhYTE3MWI4MWE2NjJiZDcwZg0KPiA+
+IC0tIA0KPiA+IDIuMTguMA0KPiA+IA0KPiANCg0K
 
