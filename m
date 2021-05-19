@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1134FC4363E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50F1BC4363F
 	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E906A61364
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C14E61396
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230442AbhESAwa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 20:52:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53960 "EHLO
+        id S234763AbhESAwb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 20:52:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233238AbhESAvI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 20:51:08 -0400
+        with ESMTP id S1352876AbhESAvW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 20:51:22 -0400
 Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59FD0C06175F;
-        Tue, 18 May 2021 17:49:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31763C06175F;
+        Tue, 18 May 2021 17:50:03 -0700 (PDT)
 Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1ljAOU-00G4Fs-JV; Wed, 19 May 2021 00:49:02 +0000
+        id 1ljAOT-00G4FW-HH; Wed, 19 May 2021 00:49:01 +0000
 From:   Al Viro <viro@zeniv.linux.org.uk>
 To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
@@ -45,9 +45,9 @@ Cc:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-s390 <linux-s390@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: [PATCH 13/14] d_path: prepend_path() is unlikely to return non-zero
-Date:   Wed, 19 May 2021 00:49:00 +0000
-Message-Id: <20210519004901.3829541-13-viro@zeniv.linux.org.uk>
+Subject: [PATCH 02/14] d_path: saner calling conventions for __dentry_path()
+Date:   Wed, 19 May 2021 00:48:49 +0000
+Message-Id: <20210519004901.3829541-2-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
 References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
@@ -59,42 +59,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+1) lift NUL-termination into the callers
+2) pass pointer to the end of buffer instead of that to beginning.
+
+(1) allows to simplify dentry_path() - we don't need to play silly
+games with restoring the leading / of "//deleted" after __dentry_path()
+would've overwritten it with NUL.
+
+We also do not need to check if (either) prepend() in there fails -
+if the buffer is not large enough, we'll end with negative buflen
+after prepend() and __dentry_path() will return the right value
+(ERR_PTR(-ENAMETOOLONG)) just fine.
+
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/d_path.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ fs/d_path.c | 33 +++++++++++++--------------------
+ 1 file changed, 13 insertions(+), 20 deletions(-)
 
 diff --git a/fs/d_path.c b/fs/d_path.c
-index ba629879a4bf..8a9cd44f6689 100644
+index 01df5dfa1f88..1a1cf05e7780 100644
 --- a/fs/d_path.c
 +++ b/fs/d_path.c
-@@ -187,7 +187,7 @@ char *__d_path(const struct path *path,
- 	DECLARE_BUFFER(b, buf, buflen);
+@@ -326,22 +326,21 @@ char *simple_dname(struct dentry *dentry, char *buffer, int buflen)
+ /*
+  * Write full pathname from the root of the filesystem into the buffer.
+  */
+-static char *__dentry_path(const struct dentry *d, char *buf, int buflen)
++static char *__dentry_path(const struct dentry *d, char *p, int buflen)
+ {
+ 	const struct dentry *dentry;
+ 	char *end, *retval;
+ 	int len, seq = 0;
+ 	int error = 0;
  
- 	prepend(&b, "", 1);
--	if (prepend_path(path, root, &b) > 0)
-+	if (unlikely(prepend_path(path, root, &b) > 0))
- 		return NULL;
- 	return extract_string(&b);
+-	if (buflen < 2)
++	if (buflen < 1)
+ 		goto Elong;
+ 
+ 	rcu_read_lock();
+ restart:
+ 	dentry = d;
+-	end = buf + buflen;
++	end = p;
+ 	len = buflen;
+-	prepend(&end, &len, "", 1);
+ 	/* Get '/' right */
+ 	retval = end-1;
+ 	*retval = '/';
+@@ -373,27 +372,21 @@ static char *__dentry_path(const struct dentry *d, char *buf, int buflen)
+ 
+ char *dentry_path_raw(const struct dentry *dentry, char *buf, int buflen)
+ {
+-	return __dentry_path(dentry, buf, buflen);
++	char *p = buf + buflen;
++	prepend(&p, &buflen, "", 1);
++	return __dentry_path(dentry, p, buflen);
  }
-@@ -199,7 +199,7 @@ char *d_absolute_path(const struct path *path,
- 	DECLARE_BUFFER(b, buf, buflen);
+ EXPORT_SYMBOL(dentry_path_raw);
  
- 	prepend(&b, "", 1);
--	if (prepend_path(path, &root, &b) > 1)
-+	if (unlikely(prepend_path(path, &root, &b) > 1))
- 		return ERR_PTR(-EINVAL);
- 	return extract_string(&b);
+ char *dentry_path(const struct dentry *dentry, char *buf, int buflen)
+ {
+-	char *p = NULL;
+-	char *retval;
+-
+-	if (d_unlinked(dentry)) {
+-		p = buf + buflen;
+-		if (prepend(&p, &buflen, "//deleted", 10) != 0)
+-			goto Elong;
+-		buflen++;
+-	}
+-	retval = __dentry_path(dentry, buf, buflen);
+-	if (!IS_ERR(retval) && p)
+-		*p = '/';	/* restore '/' overriden with '\0' */
+-	return retval;
+-Elong:
+-	return ERR_PTR(-ENAMETOOLONG);
++	char *p = buf + buflen;
++
++	if (unlikely(d_unlinked(dentry)))
++		prepend(&p, &buflen, "//deleted", 10);
++	else
++		prepend(&p, &buflen, "", 1);
++	return __dentry_path(dentry, p, buflen);
  }
-@@ -396,7 +396,7 @@ SYSCALL_DEFINE2(getcwd, char __user *, buf, unsigned long, size)
- 		DECLARE_BUFFER(b, page, PATH_MAX);
  
- 		prepend(&b, "", 1);
--		if (prepend_path(&pwd, &root, &b) > 0)
-+		if (unlikely(prepend_path(&pwd, &root, &b) > 0))
- 			prepend(&b, "(unreachable)", 13);
- 		rcu_read_unlock();
- 
+ static void get_fs_root_and_pwd_rcu(struct fs_struct *fs, struct path *root,
 -- 
 2.11.0
 
