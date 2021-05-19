@@ -5,231 +5,286 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C8DFC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 16:31:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2850BC433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 17:58:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22F7F61007
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 16:31:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0688B6124C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 17:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242488AbhESQc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 12:32:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25511 "EHLO
+        id S230164AbhESR7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 13:59:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32991 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241826AbhESQc0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 12:32:26 -0400
+        by vger.kernel.org with ESMTP id S230238AbhESR73 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 13:59:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621441865;
+        s=mimecast20190719; t=1621447089;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
-        bh=DTIBsxfcmpbiGvB6/oqS+BCqPAr0GPYXwX6i6OwUXu8=;
-        b=AlNwcvDLkBRkZIMcdTVsdfz8meNK34vlQ+lbTjwDp2kya8lTxu/00AJwQANsYsrXkKNXCC
-        XLJHTkN1oB8bINzmlsKPXT5xIPSRH7EvAKYHXBVGUjpESzeoFAKe99yNvZXLECnjLCnoBa
-        aSsw9lM9pvNSIJ3Giwf3nLSHGmj8+ko=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-rxXOfRlRMwqWZ-uHwhiTgw-1; Wed, 19 May 2021 12:31:02 -0400
-X-MC-Unique: rxXOfRlRMwqWZ-uHwhiTgw-1
-Received: by mail-qv1-f69.google.com with SMTP id l19-20020a0ce5130000b02901b6795e3304so10794526qvm.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 09:31:02 -0700 (PDT)
+        bh=AgEGA/K5K+QktGBC6c0MipgQhGlt0bBl5EEaP58uqPM=;
+        b=c5lETZTBGkhIibh5jf+VNjFqHxaDRAh547Q9OcrxcsyBNw46YOZQotd2FYZxeu2f8LG0GD
+        4r5dAZi3bTQfPsCAuZfgAvU0FpJVRb55cwtrmfehzojV3xCTvg7kFu0QiXswfB0Quo+5b3
+        g2sEEaIr7+7O4njM3hgIr8yYdMhMnl8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-505-KHXVpbp0OW6JNPwBZDQ9QA-1; Wed, 19 May 2021 13:58:07 -0400
+X-MC-Unique: KHXVpbp0OW6JNPwBZDQ9QA-1
+Received: by mail-wr1-f71.google.com with SMTP id h104-20020adf90710000b029010de8455a3aso7462032wrh.12
+        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 10:58:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=DTIBsxfcmpbiGvB6/oqS+BCqPAr0GPYXwX6i6OwUXu8=;
-        b=IIK5wIixtdYFI6sitLNiNQPDsHYz2EyEIQcXbIN5qoKPuKqF9EHnhTdTlqGQpYO58Z
-         XYf8r+wBe5tvWftq4PQVNrCDf5MLpIJL/fPydV45q+SSvk4DTJkm4Ef2MH1BeDQEXdWp
-         JWd8vERO3wFQDTZ77S5pR5/88EU2Hui7FIomoupUgzIMHa6ciJ4CtitjuhOAjl2X4pDR
-         g+1hx7nS4XaQwP0dfoDb5agpIM/uPw3BEOh7ex6/jPLc0TC300NIin2Ilqpi52W+sFDR
-         JZ25JQZqELm57zpEsX7vFXDJEqq0MWHEVazrXhXzID3vxSlV9KafoTJqo0Y8O8DDYNAc
-         VFOg==
-X-Gm-Message-State: AOAM531i8/5LpwYCgUt4X+31DNDE/aMYSB5P1A5R7y1ZTy2Aqm2IfnYy
-        7L7KoSHN0vX45wZ28TLmFNCEWurhuWC84HpZr5mN6muuM5am4EAaP4E9BVzx70Zsqt560yMNx5T
-        uuGgaJHl1GLoKblfTKdp0
-X-Received: by 2002:a37:ae86:: with SMTP id x128mr120644qke.427.1621441861588;
-        Wed, 19 May 2021 09:31:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBDO/tdIzDTtrmY8uL8MiiJzfxzrZi8/LESSihIP4aUK6JgfnB0vNj/ZF4iZSBIj0X30ZwmA==
-X-Received: by 2002:a37:ae86:: with SMTP id x128mr120601qke.427.1621441861183;
-        Wed, 19 May 2021 09:31:01 -0700 (PDT)
-Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id a14sm1442263qtp.74.2021.05.19.09.30.59
+        bh=AgEGA/K5K+QktGBC6c0MipgQhGlt0bBl5EEaP58uqPM=;
+        b=nRyJTQHcEmiIbBjVUyfjTwUhdi/nfkNXW+1an2DZhEJc13t2t6KkQ/GeZMC3Vbv0H4
+         pzoTh6pA+dT0hNojKm/3UEwjLQALGMlOwjjQHPw6Q+HEk7pFe11ROXlXYIix73p5mWhA
+         NQskTTLCj9AzdTuIYfkVYFBlSqBLmux9kjUsVHFH/TKcovWt5CsYkHHDmVPV2Moi5Xrf
+         Isr1gXo8bNKNiSfPhPoi5EIIqTn6pxQb4YEYxLVmXjrlF6mSLRK136YBmkrC8HSOATXT
+         8TK40LGATzQ2GMwXiGQd3TxQKZcJ+WR6iJMnPm/94eJE012EVHN9sc/bp8qTmQPxxYrX
+         Ddvg==
+X-Gm-Message-State: AOAM533M+YRCt2thYFWlo51UVMW1SARU8VjzHx5vnA1eJtwCW9SSoEvy
+        Og6GOWQ+lX2kU+/tCuXbEgqNoJleG3NH1QXrEGwVoo5CXIrxlMM5dc9ftiGt8R17lB3TyTqp6BH
+        3sYG6weIUCRNS72cAkTu9
+X-Received: by 2002:a7b:c24a:: with SMTP id b10mr420147wmj.157.1621447085690;
+        Wed, 19 May 2021 10:58:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcZsttxJjsHCGUVTEbdmnDCyG4Bdoa7mlTANG5CpMneKillIBlqKFBErwc/EJ9OaappoLhrQ==
+X-Received: by 2002:a7b:c24a:: with SMTP id b10mr420126wmj.157.1621447085417;
+        Wed, 19 May 2021 10:58:05 -0700 (PDT)
+Received: from vian.redhat.com ([2a0c:5a80:1c02:2700:ca67:ddac:104e:9b35])
+        by smtp.gmail.com with ESMTPSA id r2sm102138wrv.39.2021.05.19.10.58.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 09:31:00 -0700 (PDT)
-From:   trix@redhat.com
-To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
-        michal.simek@xilinx.com
-Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] fpga: fix spelling mistakes
-Date:   Wed, 19 May 2021 09:30:56 -0700
-Message-Id: <20210519163056.1966690-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+        Wed, 19 May 2021 10:58:05 -0700 (PDT)
+From:   Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To:     rostedt@goodmis.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     mingo@redhat.com, corbet@lwn.net, mtosatti@redhat.com,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Subject: [RFC] trace: Add option for polling ring buffers
+Date:   Wed, 19 May 2021 19:57:55 +0200
+Message-Id: <20210519175755.670876-1-nsaenzju@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+To minimize trace's effect on isolated CPUs. That is, CPUs were only a
+handful or a single, process are allowed to run. Introduce a new trace
+option: 'poll-rb'.
 
-Run the fpga subsystem through aspell.
+This option changes the heuristic used to wait for data on trace
+buffers. The default one, based on wait queues, will trigger an IPI[1]
+on the CPU responsible for new data, which will take care of waking up
+the trace gathering process (generally trace-cmd). Whereas with
+'poll-rb' we will poll (as in busy-wait) the ring buffers from the trace
+gathering process, releasing the CPUs writing trace data from doing any
+wakeup work.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
+This wakeup work, although negligible in the vast majority of workloads,
+may cause unwarranted latencies on systems running trace on isolated
+CPUs. This is made worse on PREEMPT_RT kernels, as they defer the IPI
+handling into a kernel thread, forcing unwarranted context switches on
+otherwise extremely busy CPUs.
+
+To illustrate this, tracing with PREEMPT_RT=y on an isolated CPU with a
+single process pinned to it (NO_HZ_FULL=y, and plenty more isolation
+options enabled). I see:
+  - 50-100us latency spikes with the default trace-cmd options
+  - 14-10us latency spikes with 'poll-rb'
+  - 11-8us latency spikes with no tracing at all
+
+The obvious drawback of 'poll-rb' is putting more pressure on the
+housekeeping CPUs. Wasting cycles. Hence the notice in the documentation
+discouraging its use in general.
+
+[1] The IPI, in this case, an irq_work, is needed since trace might run
+in NMI context. Which is not suitable for wake-ups.
+
+Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
 ---
- Documentation/fpga/dfl.rst    | 4 ++--
- drivers/fpga/altera-cvp.c     | 2 +-
- drivers/fpga/dfl-fme-pr.c     | 2 +-
- drivers/fpga/dfl-n3000-nios.c | 2 +-
- drivers/fpga/dfl.h            | 2 +-
- drivers/fpga/fpga-bridge.c    | 4 ++--
- drivers/fpga/zynq-fpga.c      | 6 +++---
- include/linux/fpga/fpga-mgr.h | 2 +-
- 8 files changed, 12 insertions(+), 12 deletions(-)
+ Documentation/trace/ftrace.rst | 10 +++++
+ include/linux/ring_buffer.h    |  2 +-
+ kernel/trace/ring_buffer.c     | 76 +++++++++++++++++++---------------
+ kernel/trace/trace.c           |  2 +-
+ kernel/trace/trace.h           |  1 +
+ 5 files changed, 55 insertions(+), 36 deletions(-)
 
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index f3a1223f2517e..ccc33f199df2a 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -10,7 +10,7 @@ Authors:
- - Xu Yilun <yilun.xu@intel.com>
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index 62c98e9bbdd9..224ed8652101 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -1248,6 +1248,16 @@ Here are the available options:
+ 	with the "nop" tracer is the same as just enabling the
+ 	"branch" tracer.
  
- The Device Feature List (DFL) FPGA framework (and drivers according to
--this framework) hides the very details of low layer hardwares and provides
-+this framework) hides the very details of low layer hardware and provides
- unified interfaces to userspace. Applications could use these interfaces to
- configure, enumerate, open and access FPGA accelerators on platforms which
- implement the DFL in the device memory. Besides this, the DFL framework
-@@ -205,7 +205,7 @@ given Device Feature Lists and create platform devices for feature devices
- also abstracts operations for the private features and exposes common ops to
- feature device drivers.
++  poll-rb
++        Use polling instead of waiting for new data in ringbuffers. The wait
++        heuristic will trigger IPIs on the CPU resposible for new data, which
++        can generate false positives when tracing low latency workloads (or the
++        IPIs themselves). This is made worse on PREEMPT_RT kernels, as they
++        defer the IPI handling into a kernel thread, forcing unwarranted
++        context switches on otherwise extremely busy processes.
++
++        When in doubt don't enable this, it'll just waste cpu cycles.
++
+ .. tip:: Some tracers have their own options. They only appear in this
+        file when the tracer is active. They always appear in the
+        options directory.
+diff --git a/include/linux/ring_buffer.h b/include/linux/ring_buffer.h
+index dac53fd3afea..b492061d369b 100644
+--- a/include/linux/ring_buffer.h
++++ b/include/linux/ring_buffer.h
+@@ -98,7 +98,7 @@ __ring_buffer_alloc(unsigned long size, unsigned flags, struct lock_class_key *k
+ 	__ring_buffer_alloc((size), (flags), &__key);	\
+ })
  
--The FPGA DFL Device could be different hardwares, e.g. PCIe device, platform
-+The FPGA DFL Device could be different hardware, e.g. PCIe device, platform
- device and etc. Its driver module is always loaded first once the device is
- created by the system. This driver plays an infrastructural role in the
- driver architecture. It locates the DFLs in the device memory, handles them
-diff --git a/drivers/fpga/altera-cvp.c b/drivers/fpga/altera-cvp.c
-index 4e0edb60bfba6..ccf4546eff297 100644
---- a/drivers/fpga/altera-cvp.c
-+++ b/drivers/fpga/altera-cvp.c
-@@ -346,7 +346,7 @@ static int altera_cvp_write_init(struct fpga_manager *mgr,
+-int ring_buffer_wait(struct trace_buffer *buffer, int cpu, int full);
++int ring_buffer_wait(struct trace_buffer *buffer, int cpu, int full, bool poll);
+ __poll_t ring_buffer_poll_wait(struct trace_buffer *buffer, int cpu,
+ 			  struct file *filp, poll_table *poll_table);
+ 
+diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+index 2c0ee6484990..7840489623b2 100644
+--- a/kernel/trace/ring_buffer.c
++++ b/kernel/trace/ring_buffer.c
+@@ -892,14 +892,17 @@ static void rb_wake_up_waiters(struct irq_work *work)
+  * @buffer: buffer to wait on
+  * @cpu: the cpu buffer to wait on
+  * @full: wait until the percentage of pages are available, if @cpu != RING_BUFFER_ALL_CPUS
++ * @poll: don't use wait queues, poll the ring buffer
+  *
+  * If @cpu == RING_BUFFER_ALL_CPUS then the task will wake up as soon
+  * as data is added to any of the @buffer's cpu buffers. Otherwise
+  * it will wait for data to be added to a specific cpu buffer.
+  */
+-int ring_buffer_wait(struct trace_buffer *buffer, int cpu, int full)
++int ring_buffer_wait(struct trace_buffer *buffer, int cpu, int full, bool poll)
+ {
+ 	struct ring_buffer_per_cpu *cpu_buffer;
++	struct wait_queue_head *wq_head;
++	bool *waiters_pending;
+ 	DEFINE_WAIT(wait);
+ 	struct rb_irq_work *work;
+ 	int ret = 0;
+@@ -920,37 +923,41 @@ int ring_buffer_wait(struct trace_buffer *buffer, int cpu, int full)
+ 		work = &cpu_buffer->irq_work;
  	}
  
- 	if (val & VSE_CVP_STATUS_CFG_RDY) {
--		dev_warn(&mgr->dev, "CvP already started, teardown first\n");
-+		dev_warn(&mgr->dev, "CvP already started, tear down first\n");
- 		ret = altera_cvp_teardown(mgr, info);
- 		if (ret)
- 			return ret;
-diff --git a/drivers/fpga/dfl-fme-pr.c b/drivers/fpga/dfl-fme-pr.c
-index 1194c0e850e07..d61ce9a188792 100644
---- a/drivers/fpga/dfl-fme-pr.c
-+++ b/drivers/fpga/dfl-fme-pr.c
-@@ -148,7 +148,7 @@ static int fme_pr(struct platform_device *pdev, unsigned long arg)
++	if (full) {
++		wq_head = &work->full_waiters;
++		waiters_pending = &work->full_waiters_pending;
++	} else {
++		wq_head = &work->waiters;
++		waiters_pending = &work->waiters_pending;
++	}
  
- 	/*
- 	 * it allows userspace to reset the PR region's logic by disabling and
--	 * reenabling the bridge to clear things out between accleration runs.
-+	 * reenabling the bridge to clear things out between acceleration runs.
- 	 * so no need to hold the bridges after partial reconfiguration.
- 	 */
- 	if (region->get_bridges)
-diff --git a/drivers/fpga/dfl-n3000-nios.c b/drivers/fpga/dfl-n3000-nios.c
-index 7a95366f6516f..9ddf1d1d392f3 100644
---- a/drivers/fpga/dfl-n3000-nios.c
-+++ b/drivers/fpga/dfl-n3000-nios.c
-@@ -461,7 +461,7 @@ static int n3000_nios_poll_stat_timeout(void __iomem *base, u64 *v)
- 	 * We don't use the time based timeout here for performance.
- 	 *
- 	 * The regbus read/write is on the critical path of Intel PAC N3000
--	 * image programing. The time based timeout checking will add too much
-+	 * image programming. The time based timeout checking will add too much
- 	 * overhead on it. Usually the state changes in 1 or 2 loops on the
- 	 * test server, and we set 10000 times loop here for safety.
- 	 */
-diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-index 2b82c96ba56c7..dac9c3d45e6c3 100644
---- a/drivers/fpga/dfl.h
-+++ b/drivers/fpga/dfl.h
-@@ -232,7 +232,7 @@ struct dfl_feature_irq_ctx {
-  * @id: sub feature id.
-  * @resource_index: each sub feature has one mmio resource for its registers.
-  *		    this index is used to find its mmio resource from the
-- *		    feature dev (platform device)'s reources.
-+ *		    feature dev (platform device)'s resources.
-  * @ioaddr: mapped mmio resource address.
-  * @irq_ctx: interrupt context list.
-  * @nr_irqs: number of interrupt contexts.
-diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
-index 6510c7803a784..d31eec32eb426 100644
---- a/drivers/fpga/fpga-bridge.c
-+++ b/drivers/fpga/fpga-bridge.c
-@@ -230,7 +230,7 @@ EXPORT_SYMBOL_GPL(fpga_bridges_put);
-  *
-  * Get an exclusive reference to the bridge and and it to the list.
-  *
-- * Return 0 for success, error code from of_fpga_bridge_get() othewise.
-+ * Return 0 for success, error code from of_fpga_bridge_get() otherwise.
-  */
- int of_fpga_bridge_get_to_list(struct device_node *np,
- 			       struct fpga_image_info *info,
-@@ -260,7 +260,7 @@ EXPORT_SYMBOL_GPL(of_fpga_bridge_get_to_list);
-  *
-  * Get an exclusive reference to the bridge and and it to the list.
-  *
-- * Return 0 for success, error code from fpga_bridge_get() othewise.
-+ * Return 0 for success, error code from fpga_bridge_get() otherwise.
-  */
- int fpga_bridge_get_to_list(struct device *dev,
- 			    struct fpga_image_info *info,
-diff --git a/drivers/fpga/zynq-fpga.c b/drivers/fpga/zynq-fpga.c
-index 07fa8d9ec6750..9b75bd4f93d8e 100644
---- a/drivers/fpga/zynq-fpga.c
-+++ b/drivers/fpga/zynq-fpga.c
-@@ -192,7 +192,7 @@ static void zynq_step_dma(struct zynq_fpga_priv *priv)
+ 	while (true) {
+-		if (full)
+-			prepare_to_wait(&work->full_waiters, &wait, TASK_INTERRUPTIBLE);
+-		else
+-			prepare_to_wait(&work->waiters, &wait, TASK_INTERRUPTIBLE);
++		if (!poll) {
++			prepare_to_wait(wq_head, &wait, TASK_INTERRUPTIBLE);
  
- 	/* Once the first transfer is queued we can turn on the ISR, future
- 	 * calls to zynq_step_dma will happen from the ISR context. The
--	 * dma_lock spinlock guarentees this handover is done coherently, the
-+	 * dma_lock spinlock guarantees this handover is done coherently, the
- 	 * ISR enable is put at the end to avoid another CPU spinning in the
- 	 * ISR on this lock.
- 	 */
-@@ -267,7 +267,7 @@ static int zynq_fpga_ops_write_init(struct fpga_manager *mgr,
- 		ctrl = zynq_fpga_read(priv, CTRL_OFFSET);
- 		if (!(ctrl & CTRL_SEC_EN_MASK)) {
- 			dev_err(&mgr->dev,
--				"System not secure, can't use crypted bitstreams\n");
-+				"System not secure, can't use encrypted bitstreams\n");
- 			err = -EINVAL;
- 			goto out_err;
+-		/*
+-		 * The events can happen in critical sections where
+-		 * checking a work queue can cause deadlocks.
+-		 * After adding a task to the queue, this flag is set
+-		 * only to notify events to try to wake up the queue
+-		 * using irq_work.
+-		 *
+-		 * We don't clear it even if the buffer is no longer
+-		 * empty. The flag only causes the next event to run
+-		 * irq_work to do the work queue wake up. The worse
+-		 * that can happen if we race with !trace_empty() is that
+-		 * an event will cause an irq_work to try to wake up
+-		 * an empty queue.
+-		 *
+-		 * There's no reason to protect this flag either, as
+-		 * the work queue and irq_work logic will do the necessary
+-		 * synchronization for the wake ups. The only thing
+-		 * that is necessary is that the wake up happens after
+-		 * a task has been queued. It's OK for spurious wake ups.
+-		 */
+-		if (full)
+-			work->full_waiters_pending = true;
+-		else
+-			work->waiters_pending = true;
++			/*
++			 * The events can happen in critical sections where
++			 * checking a work queue can cause deadlocks.  After
++			 * adding a task to the queue, this flag is set only to
++			 * notify events to try to wake up the queue using
++			 * irq_work.
++			 *
++			 * We don't clear it even if the buffer is no longer
++			 * empty. The flag only causes the next event to run
++			 * irq_work to do the work queue wake up. The worse
++			 * that can happen if we race with !trace_empty() is
++			 * that an event will cause an irq_work to try to wake
++			 * up an empty queue.
++			 *
++			 * There's no reason to protect this flag either, as
++			 * the work queue and irq_work logic will do the
++			 * necessary synchronization for the wake ups. The only
++			 * thing that is necessary is that the wake up happens
++			 * after a task has been queued. It's OK for spurious
++			 * wake ups.
++			 */
++			*waiters_pending = true;
++		}
+ 
+ 		if (signal_pending(current)) {
+ 			ret = -EINTR;
+@@ -983,13 +990,14 @@ int ring_buffer_wait(struct trace_buffer *buffer, int cpu, int full)
+ 				break;
  		}
-@@ -344,7 +344,7 @@ static int zynq_fpga_ops_write_init(struct fpga_manager *mgr,
  
- 	/* set configuration register with following options:
- 	 * - enable PCAP interface
--	 * - set throughput for maximum speed (if bistream not crypted)
-+	 * - set throughput for maximum speed (if bistream not encrypted)
- 	 * - set CPU in user mode
- 	 */
- 	ctrl = zynq_fpga_read(priv, CTRL_OFFSET);
-diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
-index 2bc3030a69e54..3a32b8e201857 100644
---- a/include/linux/fpga/fpga-mgr.h
-+++ b/include/linux/fpga/fpga-mgr.h
-@@ -110,7 +110,7 @@ struct fpga_image_info {
-  * @initial_header_size: Maximum number of bytes that should be passed into write_init
-  * @state: returns an enum value of the FPGA's state
-  * @status: returns status of the FPGA, including reconfiguration error code
-- * @write_init: prepare the FPGA to receive confuration data
-+ * @write_init: prepare the FPGA to receive configuration data
-  * @write: write count bytes of configuration data to the FPGA
-  * @write_sg: write the scatter list of configuration data to the FPGA
-  * @write_complete: set FPGA to operating state after writing is done
+-		schedule();
++		if (!poll)
++			schedule();
++		else
++			schedule_timeout_interruptible(1);
+ 	}
+ 
+-	if (full)
+-		finish_wait(&work->full_waiters, &wait);
+-	else
+-		finish_wait(&work->waiters, &wait);
++	if (!poll)
++		finish_wait(wq_head, &wait);
+ 
+ 	return ret;
+ }
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 1c4e702133e8..8408b0f50519 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -1887,7 +1887,7 @@ static int wait_on_pipe(struct trace_iterator *iter, int full)
+ 		return 0;
+ 
+ 	return ring_buffer_wait(iter->array_buffer->buffer, iter->cpu_file,
+-				full);
++				full, iter->tr->trace_flags & TRACE_ITER_POLL_RB);
+ }
+ 
+ #ifdef CONFIG_FTRACE_STARTUP_TEST
+diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
+index cd80d046c7a5..045bef803549 100644
+--- a/kernel/trace/trace.h
++++ b/kernel/trace/trace.h
+@@ -1198,6 +1198,7 @@ extern int trace_get_user(struct trace_parser *parser, const char __user *ubuf,
+ 		C(EVENT_FORK,		"event-fork"),		\
+ 		C(PAUSE_ON_TRACE,	"pause-on-trace"),	\
+ 		C(HASH_PTR,		"hash-ptr"),	/* Print hashed pointer */ \
++		C(POLL_RB,		"poll-rb"),		\
+ 		FUNCTION_FLAGS					\
+ 		FGRAPH_FLAGS					\
+ 		STACK_FLAGS					\
 -- 
-2.26.3
+2.31.1
 
