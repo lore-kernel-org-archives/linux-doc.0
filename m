@@ -5,48 +5,45 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F205C43618
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 328B3C4361A
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:52:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E39136135C
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14BEC61059
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343856AbhESIxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 04:53:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60236 "EHLO mail.kernel.org"
+        id S1343955AbhESIxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 04:53:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60328 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239633AbhESIxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 04:53:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5466861028;
+        id S1343840AbhESIxL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 04:53:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89454613BE;
         Wed, 19 May 2021 08:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621414311;
-        bh=LAyiT2kPFXdcExzvSYlhQSg1DZBXNovdWpdLyvOeGfE=;
+        bh=GIEJxGG9nxCY0eLF6InjggDcNAM0Z1TTWf2XzhFZ2Xw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qvgOJQlsq1IS/yOzrVjz+UIPraPm67J1JCayyM9gvi8TkIt9qnNCGK4izYgGrlUKE
-         AVUBVI9NNCBbhK7b4b8ykgqAis6nqY6dA7/5emQqXcEYxLXSh/387IoXsVyHMN7ySo
-         D967fJdT0ChIxoV75iM79Xn28ZEi7jOb+lKrCxWHvCN6koYyIQ8favsGpDFAxrDJOb
-         pf3AH1GnRwV+/u9qcKt+cDHP36av2PezV4LpmxcfXLyNfD+HxL9LVufaeiciFSo4v0
-         57rvKQGTdBNmEhwyFgPGjOP9WaaoieF+GZ4DqjWDBWWyrlIe+kfobGX6pE084ZEhJ3
-         zm3yUAGLYS3tw==
+        b=pyRxtXxTC0vqDnj1xGKFijeG8czDKJQUHj58fzB8dkyanCON7gwXsjGmzxQUxOMbb
+         sOnRIFSE2+v4OJ6mnmjJL8zPtffnTJ9BJkz7tFwWXNw31NR5uAZbgTk4O6mgZThQYA
+         9GC3rCa59yEAfObob0hDWI4wC6FJ+Jvdc0mPq3vJCllSZnT5hkwYhX3sdmJEyUXRGF
+         H/mmHg8XTessfwB9iKkUp23zjryU3YCOZIW5izz35henCQJTEjpx0INDygY4RzWpDA
+         vISXkP974lHzvnDPn+bgNQ3fan9GOTkAfB6fWPHelY+ivn/Swpxj/TSCsFIfLyd3XB
+         8o0gci3iGdayw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ljHvh-007gXy-As; Wed, 19 May 2021 10:51:49 +0200
+        id 1ljHvh-007gYY-Ph; Wed, 19 May 2021 10:51:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 01/10] docs: update sysfs-platform_profile.rst reference
-Date:   Wed, 19 May 2021 10:51:38 +0200
-Message-Id: <295089effd8353578b9725c61c0453d920978d72.1621413933.git.mchehab+huawei@kernel.org>
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 10/10] iio: documentation: fix a typo
+Date:   Wed, 19 May 2021 10:51:47 +0200
+Message-Id: <ebe6c6597409fb9748e6c05d8e8cb3bd3fa4c6f4.1621413933.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621413933.git.mchehab+huawei@kernel.org>
 References: <cover.1621413933.git.mchehab+huawei@kernel.org>
@@ -57,33 +54,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file name: Documentation/ABI/testing/sysfs-platform_profile.rst
-should be, instead: Documentation/userspace-api/sysfs-platform_profile.rst.
+Descrption -> Description
 
-Update its cross-reference accordingly.
+This causes some errors when parsed via scripts/get_abi.pl.
 
-Fixes: a2ff95e018f1 ("ACPI: platform: Add platform profile support")
-Fixes: 8e0cbf356377 ("Documentation: Add documentation for new platform_profile sysfs attribute")
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Mark Pearson <markpearson@lenovo.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/platform_profile.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/ABI/testing/sysfs-bus-iio | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
-index a6329003aee7..e5cbb6841f3a 100644
---- a/include/linux/platform_profile.h
-+++ b/include/linux/platform_profile.h
-@@ -2,7 +2,7 @@
- /*
-  * Platform profile sysfs interface
-  *
-- * See Documentation/ABI/testing/sysfs-platform_profile.rst for more
-+ * See Documentation/userspace-api/sysfs-platform_profile.rst for more
-  * information.
-  */
- 
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+index 267973541e72..433fe0ab74be 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio
++++ b/Documentation/ABI/testing/sysfs-bus-iio
+@@ -786,7 +786,7 @@ What:		/sys/.../events/in_capacitanceY_adaptive_thresh_rising_en
+ What:		/sys/.../events/in_capacitanceY_adaptive_thresh_falling_en
+ KernelVersion:	5.13
+ Contact:	linux-iio@vger.kernel.org
+-Descrption:
++Description:
+ 		Adaptive thresholds are similar to normal fixed thresholds
+ 		but the value is expressed as an offset from a value which
+ 		provides a low frequency approximation of the channel itself.
+@@ -798,7 +798,7 @@ What:		/sys/.../in_capacitanceY_adaptive_thresh_rising_timeout
+ What:		/sys/.../in_capacitanceY_adaptive_thresh_falling_timeout
+ KernelVersion:	5.11
+ Contact:	linux-iio@vger.kernel.org
+-Descrption:
++Description:
+ 		When adaptive thresholds are used, the tracking signal
+ 		may adjust too slowly to step changes in the raw signal.
+ 		*_timeout (in seconds) specifies a time for which the
 -- 
 2.31.1
 
