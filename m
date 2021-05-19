@@ -2,142 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4516AC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 21:47:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF520C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 22:15:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21A21611BD
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 21:47:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3BD061353
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 22:15:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229543AbhESVsx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 17:48:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54478 "EHLO mail.kernel.org"
+        id S229805AbhESWQW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 18:16:22 -0400
+Received: from mga04.intel.com ([192.55.52.120]:24024 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229455AbhESVsx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 17:48:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EA1EE61073;
-        Wed, 19 May 2021 21:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621460853;
-        bh=tHaOOHHVdmLzBY2uVhjLp6EN57ldSFVEFxz8CkgXaqY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=vMO09XZ8aTNIBxiigG6vfuooX7c91sXQJ9lbTkxe+hRAXzvhWqRc+N4OB0aKam/vE
-         bMJnC/s1D3Cdqtj2yceZ3l/vJUq9U6kx6vADaV64x4Lo7WBswRvG4h2BjAwtPoKkVN
-         UptWn5VVO/bqD0wNj3bGqAgwR0Z00xJBsVsYF5xv+4azgDoSGlYfBByIkvqam4oF1x
-         qM0ZJWa6PrSWw13S1LgPmZkyhaXdWZ+81H7cePVyNP8GW48vOOSoP+xYPl9R1P6EgM
-         ksUwZUjp8D8ntrVuMdbD1tb8kYQiOZvHqQpp1a6qnq49lRK53cmuEe+9bIQOwleDVh
-         Z8wZUiYjdEOcw==
-Date:   Wed, 19 May 2021 16:47:31 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S229512AbhESWQV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 18:16:21 -0400
+IronPort-SDR: pkuOXVHZbA1qShTff2ljYedicsWZkHXCAq8D8z5RZFbgxbSMuQltZIGwJkWGSsyCHGVmKnNGTp
+ aQvIy+qzSAsA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="199134411"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
+   d="scan'208";a="199134411"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 15:15:00 -0700
+IronPort-SDR: 4htN2xJSznuZVhLFhhbfFRkZUb4nixiLBd8DZWgrRmw3SzyxERNbqQvWzA8B9KUhCVR5lyo/+I
+ JW12+IiyJbFA==
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
+   d="scan'208";a="467381111"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.169.18]) ([10.209.169.18])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 15:14:58 -0700
+Subject: Re: [PATCH v26 26/30] ELF: Introduce arch_setup_elf_property()
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v3 12/16] docs: PCI: acpi-info.rst: replace some
- characters
-Message-ID: <20210519214731.GA262176@bjorn-Precision-5520>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-27-yu-cheng.yu@intel.com> <YKVUgzJ0MVNBgjDd@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
+Date:   Wed, 19 May 2021 15:14:58 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <320bafda201827dd63208af55b528ae63bcf8217.1621159997.git.mchehab+huawei@kernel.org>
+In-Reply-To: <YKVUgzJ0MVNBgjDd@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 16, 2021 at 12:18:29PM +0200, Mauro Carvalho Chehab wrote:
-> The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
-> conversion and some cut-and-pasted text contain some characters that
-> aren't easily reachable on standard keyboards and/or could cause
-> troubles when parsed by the documentation build system.
+On 5/19/2021 11:10 AM, Borislav Petkov wrote:
+> On Tue, Apr 27, 2021 at 01:43:11PM -0700, Yu-cheng Yu wrote:
+>> @@ -1951,6 +1951,8 @@ config X86_SHADOW_STACK
+>>   	depends on AS_WRUSS
+>>   	depends on ARCH_HAS_SHADOW_STACK
+>>   	select ARCH_USES_HIGH_VMA_FLAGS
+>> +	select ARCH_USE_GNU_PROPERTY
+>> +	select ARCH_BINFMT_ELF_STATE
+> 		^^^^^^^^
 > 
-> Replace the occurences of the following characters:
+> What's that for? Isn't ARCH_USE_GNU_PROPERTY enough?
 > 
-> 	- U+00a0 (' '): NO-BREAK SPACE
-> 	  as it can cause lines being truncated on PDF output
+
+ARCH_USE_GNU_PROPERTY is for defining parsing functions, e.g.
+	arch_parse_elf_property(),
+	arch_setup_property().
+
+ARCH_BINFMT_ELF_STATE is for defining "struct arch_elf_state".
+
+However, those parsing functions take (struct arch_elf_state *) as an 
+input.  It probably makes sense to have ARCH_USE_GNU_PROPERTY dependent 
+on ARCH_BINFMT_ELF_STATE.  It would be ok as-is too.  ARM people might 
+have other plans in mind.
+
+[...]
+
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Apparently you missed
-https://lore.kernel.org/r/20210512212938.GA2516413@bjorn-Precision-5520
-where I pointed out a couple issues (3 spaces after period in first
-hunk, extra whitespace at end of "know about it." hunk) and added my
-ack.
-
-The subject line would be more useful as:
-
-  docs: PCI: Replace non-breaking spaces to avoid PDF issues
-
-It's fine to defer those issues if you want, but this is still:
-
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-> ---
->  Documentation/PCI/acpi-info.rst | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+>> diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
+>> index 30f68b42eeb5..24ba55ba8278 100644
+>> --- a/include/uapi/linux/elf.h
+>> +++ b/include/uapi/linux/elf.h
+>> @@ -455,4 +455,13 @@ typedef struct elf64_note {
+>>   /* Bits for GNU_PROPERTY_AARCH64_FEATURE_1_BTI */
+>>   #define GNU_PROPERTY_AARCH64_FEATURE_1_BTI	(1U << 0)
+>>   
+>> +/* .note.gnu.property types for x86: */
+>> +#define GNU_PROPERTY_X86_FEATURE_1_AND		0xc0000002
 > 
-> diff --git a/Documentation/PCI/acpi-info.rst b/Documentation/PCI/acpi-info.rst
-> index 060217081c79..34c64a5a66ec 100644
-> --- a/Documentation/PCI/acpi-info.rst
-> +++ b/Documentation/PCI/acpi-info.rst
-> @@ -22,9 +22,9 @@ or if the device has INTx interrupts connected by platform interrupt
->  controllers and a _PRT is needed to describe those connections.
->  
->  ACPI resource description is done via _CRS objects of devices in the ACPI
-> -namespace [2].   The _CRS is like a generalized PCI BAR: the OS can read
-> +namespace [2].   The _CRS is like a generalized PCI BAR: the OS can read
->  _CRS and figure out what resource is being consumed even if it doesn't have
-> -a driver for the device [3].  That's important because it means an old OS
-> +a driver for the device [3].  That's important because it means an old OS
->  can work correctly even on a system with new devices unknown to the OS.
->  The new devices might not do anything, but the OS can at least make sure no
->  resources conflict with them.
-> @@ -41,15 +41,15 @@ ACPI, that device will have a specific _HID/_CID that tells the OS what
->  driver to bind to it, and the _CRS tells the OS and the driver where the
->  device's registers are.
->  
-> -PCI host bridges are PNP0A03 or PNP0A08 devices.  Their _CRS should
-> -describe all the address space they consume.  This includes all the windows
-> +PCI host bridges are PNP0A03 or PNP0A08 devices.  Their _CRS should
-> +describe all the address space they consume.  This includes all the windows
->  they forward down to the PCI bus, as well as registers of the host bridge
-> -itself that are not forwarded to PCI.  The host bridge registers include
-> +itself that are not forwarded to PCI.  The host bridge registers include
->  things like secondary/subordinate bus registers that determine the bus
->  range below the bridge, window registers that describe the apertures, etc.
->  These are all device-specific, non-architected things, so the only way a
->  PNP0A03/PNP0A08 driver can manage them is via _PRS/_CRS/_SRS, which contain
-> -the device-specific details.  The host bridge registers also include ECAM
-> +the device-specific details.  The host bridge registers also include ECAM
->  space, since it is consumed by the host bridge.
->  
->  ACPI defines a Consumer/Producer bit to distinguish the bridge registers
-> @@ -66,7 +66,7 @@ the PNP0A03/PNP0A08 device itself.  The workaround was to describe the
->  bridge registers (including ECAM space) in PNP0C02 catch-all devices [6].
->  With the exception of ECAM, the bridge register space is device-specific
->  anyway, so the generic PNP0A03/PNP0A08 driver (pci_root.c) has no need to
-> -know about it.  
-> +know about it.  
->  
->  New architectures should be able to use "Consumer" Extended Address Space
->  descriptors in the PNP0A03 device for bridge registers, including ECAM,
-> @@ -75,9 +75,9 @@ ia64 kernels assume all address space descriptors, including "Consumer"
->  Extended Address Space ones, are windows, so it would not be safe to
->  describe bridge registers this way on those architectures.
->  
-> -PNP0C02 "motherboard" devices are basically a catch-all.  There's no
-> +PNP0C02 "motherboard" devices are basically a catch-all.  There's no
->  programming model for them other than "don't use these resources for
-> -anything else."  So a PNP0C02 _CRS should claim any address space that is
-> +anything else."  So a PNP0C02 _CRS should claim any address space that is
->  (1) not claimed by _CRS under any other device object in the ACPI namespace
->  and (2) should not be assigned by the OS to something else.
->  
-> -- 
-> 2.31.1
+> Why not 0xc0000001? ARM64 is 0xc0000000...
 > 
+
+I just looked at the ABI document.
+
+ARM has GNU_PROPERTY_AARCH64_FEATURE_1_AND 0xc0000000
+
+X86 has:
+	GNU_PROPERTY_X86_ISA_1_USED	0xc0000000
+	GNU_PROPERTY_X86_ISA_1_NEEDED	0xc0000001
+	GNU_PROPERTY_X86_FEATURE_1_AND	0xc0000002
+
+Yu-cheng
