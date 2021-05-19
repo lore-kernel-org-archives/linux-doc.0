@@ -2,156 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2814AC433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 03:55:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 423A3C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 04:58:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B3876135C
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 03:55:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13DAE61364
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 04:58:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238326AbhESD5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 23:57:05 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:49788 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S235703AbhESD5E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 23:57:04 -0400
-X-UUID: 198d4eae015548bc964e0d68dc629dfb-20210519
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=S/KAedclNU8qmnqec3Ml95ZT6h/23axBf0ZQuILgxHU=;
-        b=UhEODi1CAV1trzS9be4WcS2xYe0b4vG6NkkI3YPaMzfmWOvVK5Weyu7BDJRXczZWVbhyHlBQjawXf5NgRha8xvUrGwLJZQtQFZuWKww4S5TyP7l6nMIkoHJCLQmkkjWttLmEIApc++w5NfMnUEs0vViyT6rJDS4BDnBNGHrC8nE=;
-X-UUID: 198d4eae015548bc964e0d68dc629dfb-20210519
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <miles.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 8210983; Wed, 19 May 2021 11:55:41 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 19 May 2021 11:55:40 +0800
-Received: from [172.21.77.33] (172.21.77.33) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 19 May 2021 11:55:39 +0800
-Message-ID: <1621396540.12301.7.camel@mtkswgap22>
-Subject: Re: [PATCH v2 0/2] mm: unify the allocation of pglist_data instances
-From:   Miles Chen <miles.chen@mediatek.com>
-To:     Mike Rapoport <rppt@kernel.org>
-CC:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
+        id S230286AbhESE7d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 00:59:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50246 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229939AbhESE7d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 00:59:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6560561355;
+        Wed, 19 May 2021 04:58:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1621400294;
+        bh=sBPi7doTjepZo5AoeX6D/DqrfoxCCmiTbbDfO6A7+1A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Tg2fxanYYVeqmsedHZTVahMC53Je13j2qQo6irCgVnD9l6R8hP1VifEKRUxwM2YPf
+         WFdvYQcpyQF7Ff73XO1FgRGZR0+AftflNxfwNilci58q/w6E1SwydNRY6uwOxzMEyF
+         6t74rsmccXGRBh0DVv57nMWSBPWKBOO0ZMymaVQc=
+Date:   Wed, 19 May 2021 06:58:11 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Anup Patel <anup.patel@wdc.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-mm@kvack.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Date:   Wed, 19 May 2021 11:55:40 +0800
-In-Reply-To: <YKSKq68E9Ompn0vE@kernel.org>
-References: <20210518092446.16382-1-miles.chen@mediatek.com>
-         <YKPmxEu6YFDXRyTg@kernel.org> <1621383126.12301.4.camel@mtkswgap22>
-         <YKSKq68E9Ompn0vE@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+        Alexander Graf <graf@amazon.com>,
+        Atish Patra <atish.patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Anup Patel <anup@brainfault.org>, kvm@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
+Message-ID: <YKSa48cejI1Lax+/@kroah.com>
+References: <20210519033553.1110536-1-anup.patel@wdc.com>
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210519033553.1110536-1-anup.patel@wdc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gV2VkLCAyMDIxLTA1LTE5IGF0IDA2OjQ4ICswMzAwLCBNaWtlIFJhcG9wb3J0IHdyb3RlOg0K
-PiBPbiBXZWQsIE1heSAxOSwgMjAyMSBhdCAwODoxMjowNkFNICswODAwLCBNaWxlcyBDaGVuIHdy
-b3RlOg0KPiA+IE9uIFR1ZSwgMjAyMS0wNS0xOCBhdCAxOTowOSArMDMwMCwgTWlrZSBSYXBvcG9y
-dCB3cm90ZToNCj4gPiA+IEhlbGxvIE1pbGVzLA0KPiA+ID4gDQo+ID4gPiBPbiBUdWUsIE1heSAx
-OCwgMjAyMSBhdCAwNToyNDo0NFBNICswODAwLCBNaWxlcyBDaGVuIHdyb3RlOg0KPiA+ID4gPiBU
-aGlzIHBhdGNoZXMgaXMgY3JlYXRlZCB0byBmaXggdGhlIF9fcGEoKSB3YXJuaW5nIG1lc3NhZ2Vz
-IHdoZW4NCj4gPiA+ID4gQ09ORklHX0RFQlVHX1ZJUlRVQUw9eSBieSB1bmlmeWluZyB0aGUgYWxs
-b2NhdGlvbiBvZiBwZ2xpc3RfZGF0YQ0KPiA+ID4gPiBpbnN0YW5jZXMuDQo+ID4gPiA+IA0KPiA+
-ID4gPiBJbiBjdXJyZW50IGltcGxlbWVudGF0aW9uIG9mIG5vZGVfZGF0YSwgaWYgQ09ORklHX05F
-RURfTVVMVElQTEVfTk9ERVM9eSwNCj4gPiA+ID4gcGdsaXN0X2RhdGEgaXMgYWxsb2NhdGVkIGJ5
-IGEgbWVtYmxvY2sgQVBJLiBJZiBDT05GSUdfTkVFRF9NVUxUSVBMRV9OT0RFUz1uLA0KPiA+ID4g
-PiB3ZSB1c2UgYSBnbG9iYWwgdmFyaWFibGUgbmFtZWQgImNvbnRpZ19wYWdlX2RhdGEiLg0KPiA+
-ID4gPiANCj4gPiA+ID4gSWYgQ09ORklHX0RFQlVHX1ZJUlRVQUwgaXMgbm90IGVuYWJsZWQuIF9f
-cGEoKSBjYW4gaGFuZGxlIGJvdGgNCj4gPiA+ID4gYWxsb2NhdGlvbiBhbmQgc3ltYm9sIGNhc2Vz
-LiBCdXQgaWYgQ09ORklHX0RFQlVHX1ZJUlRVQUwgaXMgc2V0LA0KPiA+ID4gPiB3ZSB3aWxsIGhh
-dmUgdGhlICJ2aXJ0X3RvX3BoeXMgdXNlZCBmb3Igbm9uLWxpbmVhciBhZGRyZXNzIiB3YXJuaW5n
-DQo+ID4gPiA+IHdoZW4gYm9vdGluZy4NCj4gPiA+ID4gDQo+ID4gPiA+IFRvIGZpeCB0aGUgd2Fy
-bmluZywgYWx3YXlzIGFsbG9jYXRlIHBnbGlzdF9kYXRhIGJ5IG1lbWJsb2NrIEFQSXMgYW5kDQo+
-ID4gPiA+IHJlbW92ZSB0aGUgdXNhZ2Ugb2YgY29udGlnX3BhZ2VfZGF0YS4NCj4gPiA+IA0KPiA+
-ID4gU29tZWhvdyBJIHdhcyBzdXJlIHRoYXQgd2UgY2FuIGFsbG9jYXRlIHBnbGlzdF9kYXRhIGJl
-Zm9yZSBpdCBpcyBhY2Nlc3NlZA0KPiA+ID4gaW4gc3BhcnNlX2luaXQoKSBzb21ld2hlcmUgb3V0
-c2lkZSBtbS9zcGFyc2UuYy4gSXQncyByZWFsbHkgbm90IHRoZSBjYXNlDQo+ID4gPiBhbmQgaGF2
-aW5nIHR3byBwbGFjZXMgdGhhdCBtYXkgYWxsb2NhdGVkIHRoaXMgc3RydWN0dXJlIGlzIHN1cmVs
-eSB3b3J0aA0KPiA+ID4gdGhhbiB5b3VyIHByZXZpb3VzIHN1Z2dlc3Rpb24uDQo+ID4gPiANCj4g
-PiA+IFNvcnJ5IGFib3V0IHRoYXQuDQo+ID4gDQo+ID4gRG8geW91IG1lYW4gdGFodCB0byBjYWxs
-IGFsbG9jYXRpb24gZnVuY3Rpb24gYXJjaC8qLCBzb21ld2hlcmUgYWZ0ZXINCj4gPiBwYWdpbmdf
-aW5pdCgpIChzbyB3ZSBjYW4gYWNjZXNzIHBnbGlzdF9kYXRhKSBhbmQgYmVmb3JlIHNwYXJzZV9p
-bml0KCkNCj4gPiBhbmQgZnJlZV9hcmVhX2luaXQoKT8NCj4gDQo+IE5vLCBJIG1lYW50IHRoYXQg
-eW91ciBvcmlnaW5hbCBwYXRjaCBpcyBiZXR0ZXIgdGhhbiBhZGRpbmcgYWxsb2NhdGlvbiBvZg0K
-PiBOT0RFX0RBVEEoMCkgaW4gdHdvIHBsYWNlcy4NCg0KR290IGl0LiB3aWxsIHlvdSByZS1yZXZp
-ZXcgdGhlIG9yaWdpbmFsIHBhdGNoPw0KDQoNCj4gIA0KPiA+IE1pbGVzDQo+ID4gDQo+ID4gPiAg
-DQo+ID4gPiA+IFdhcm5pbmcgbWVzc2FnZToNCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0gLS0tLS0t
-LS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tDQo+ID4gPiA+IFsgICAgMC4wMDAwMDBdIHZp
-cnRfdG9fcGh5cyB1c2VkIGZvciBub24tbGluZWFyIGFkZHJlc3M6IChfX19fcHRydmFsX19fXykg
-KGNvbnRpZ19wYWdlX2RhdGErMHgwLzB4MWMwMCkNCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0gV0FS
-TklORzogQ1BVOiAwIFBJRDogMCBhdCBhcmNoL2FybTY0L21tL3BoeXNhZGRyLmM6MTUgX192aXJ0
-X3RvX3BoeXMrMHg1OC8weDY4DQo+ID4gPiA+IFsgICAgMC4wMDAwMDBdIE1vZHVsZXMgbGlua2Vk
-IGluOg0KPiA+ID4gPiBbICAgIDAuMDAwMDAwXSBDUFU6IDAgUElEOiAwIENvbW06IHN3YXBwZXIg
-VGFpbnRlZDogRyAgICAgICAgVyAgICAgICAgIDUuMTMuMC1yYzEtMDAwNzQtZzExNDBhYjU5MmUy
-ZSAjMw0KPiA+ID4gPiBbICAgIDAuMDAwMDAwXSBIYXJkd2FyZSBuYW1lOiBsaW51eCxkdW1teS12
-aXJ0IChEVCkNCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0gcHN0YXRlOiA2MDAwMDBjNSAoblpDdiBk
-YUlGIC1QQU4gLVVBTyAtVENPIEJUWVBFPS0tKQ0KPiA+ID4gPiBbICAgIDAuMDAwMDAwXSBwYyA6
-IF9fdmlydF90b19waHlzKzB4NTgvMHg2OA0KPiA+ID4gPiBbICAgIDAuMDAwMDAwXSBsciA6IF9f
-dmlydF90b19waHlzKzB4NTQvMHg2OA0KPiA+ID4gPiBbICAgIDAuMDAwMDAwXSBzcCA6IGZmZmY4
-MDAwMTE4MzNlNzANCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0geDI5OiBmZmZmODAwMDExODMzZTcw
-IHgyODogMDAwMDAwMDA0MThhMDAxOCB4Mjc6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiA+ID4gWyAg
-ICAwLjAwMDAwMF0geDI2OiAwMDAwMDAwMDAwMDAwMDBhIHgyNTogZmZmZjgwMDAxMWI3MDAwMCB4
-MjQ6IGZmZmY4MDAwMTFiNzAwMDANCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0geDIzOiBmZmZmZmMw
-MDAxYzAwMDAwIHgyMjogZmZmZjgwMDAxMWI3MDAwMCB4MjE6IDAwMDAwMDAwNDdmZmZmYjANCj4g
-PiA+ID4gWyAgICAwLjAwMDAwMF0geDIwOiAwMDAwMDAwMDAwMDAwMDA4IHgxOTogZmZmZjgwMDAx
-MWIwODJjMCB4MTg6IGZmZmZmZmZmZmZmZmZmZmYNCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0geDE3
-OiAwMDAwMDAwMDAwMDAwMDAwIHgxNjogZmZmZjgwMDAxMTgzM2JmOSB4MTU6IDAwMDAwMDAwMDAw
-MDAwMDQNCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0geDE0OiAwMDAwMDAwMDAwMDAwZmZmIHgxMzog
-ZmZmZjgwMDAxMTg2YTU0OCB4MTI6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiA+ID4gWyAgICAwLjAw
-MDAwMF0geDExOiAwMDAwMDAwMDAwMDAwMDAwIHgxMDogMDAwMDAwMDBmZmZmZmZmZiB4OSA6IDAw
-MDAwMDAwMDAwMDAwMDANCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0geDggOiBmZmZmODAwMDExNWM5
-MDAwIHg3IDogNzM3NTIwNzM3OTY4NzA1ZiB4NiA6IGZmZmY4MDAwMTFiNjJlZjgNCj4gPiA+ID4g
-WyAgICAwLjAwMDAwMF0geDUgOiAwMDAwMDAwMDAwMDAwMDAwIHg0IDogMDAwMDAwMDAwMDAwMDAw
-MSB4MyA6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0geDIgOiAwMDAw
-MDAwMDAwMDAwMDAwIHgxIDogZmZmZjgwMDAxMTU5NTg1ZSB4MCA6IDAwMDAwMDAwMDAwMDAwNTgN
-Cj4gPiA+ID4gWyAgICAwLjAwMDAwMF0gQ2FsbCB0cmFjZToNCj4gPiA+ID4gWyAgICAwLjAwMDAw
-MF0gIF9fdmlydF90b19waHlzKzB4NTgvMHg2OA0KPiA+ID4gPiBbICAgIDAuMDAwMDAwXSAgY2hl
-Y2tfdXNlbWFwX3NlY3Rpb25fbnIrMHg1MC8weGZjDQo+ID4gPiA+IFsgICAgMC4wMDAwMDBdICBz
-cGFyc2VfaW5pdF9uaWQrMHgxYWMvMHgyOGMNCj4gPiA+ID4gWyAgICAwLjAwMDAwMF0gIHNwYXJz
-ZV9pbml0KzB4MWM0LzB4MWUwDQo+ID4gPiA+IFsgICAgMC4wMDAwMDBdICBib290bWVtX2luaXQr
-MHg2MC8weDkwDQo+ID4gPiA+IFsgICAgMC4wMDAwMDBdICBzZXR1cF9hcmNoKzB4MTg0LzB4MWYw
-DQo+ID4gPiA+IFsgICAgMC4wMDAwMDBdICBzdGFydF9rZXJuZWwrMHg3OC8weDQ4OA0KPiA+ID4g
-PiBbICAgIDAuMDAwMDAwXSAtLS1bIGVuZCB0cmFjZSBmNjg3MjhhMGQzMDUzYjYwIF0tLS0NCj4g
-PiA+ID4gDQo+ID4gPiA+IFsxXSBodHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9s
-b3JlLmtlcm5lbC5vcmcvcGF0Y2h3b3JrL3BhdGNoLzE0MjUxMTAvX187ISFDVFJOS0E5d01nMEFS
-YncheC13R0ZFQzF3THpYaG8ya0kxQ3JDMmZqWE5hUW01Zi1uMEFEUXlKRGNrQ09LWkhBUF9xMDU1
-RENTV1ljUTdaZGN3JCANCj4gPiA+ID4gDQo+ID4gPiA+IENoYW5nZSBzaW5jZSB2MToNCj4gPiA+
-ID4gLSB1c2UgbWVtYmxvY2tfYWxsb2MoKSB0byBjcmVhdGUgcGdsaXN0X2RhdGEgd2hlbiBDT05G
-SUdfTlVNQT1uDQo+ID4gPiA+IA0KPiA+ID4gPiBNaWxlcyBDaGVuICgyKToNCj4gPiA+ID4gICBt
-bTogaW50cm9kdWNlIHByZXBhcmVfbm9kZV9kYXRhDQo+ID4gPiA+ICAgbW06IHJlcGxhY2UgY29u
-dGlnX3BhZ2VfZGF0YSB3aXRoIG5vZGVfZGF0YQ0KPiA+ID4gPiANCj4gPiA+ID4gIERvY3VtZW50
-YXRpb24vYWRtaW4tZ3VpZGUva2R1bXAvdm1jb3JlaW5mby5yc3QgfCAxMyAtLS0tLS0tLS0tLS0t
-DQo+ID4gPiA+ICBhcmNoL3Bvd2VycGMva2V4ZWMvY29yZS5jICAgICAgICAgICAgICAgICAgICAg
-IHwgIDUgLS0tLS0NCj4gPiA+ID4gIGluY2x1ZGUvbGludXgvZ2ZwLmggICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfCAgMyAtLS0NCj4gPiA+ID4gIGluY2x1ZGUvbGludXgvbW0uaCAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgfCAgMiArKw0KPiA+ID4gPiAgaW5jbHVkZS9saW51eC9tbXpv
-bmUuaCAgICAgICAgICAgICAgICAgICAgICAgICB8ICA0ICsrLS0NCj4gPiA+ID4gIGtlcm5lbC9j
-cmFzaF9jb3JlLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSAtDQo+ID4gPiA+ICBt
-bS9tZW1ibG9jay5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDMgKy0tDQo+
-ID4gPiA+ICBtbS9wYWdlX2FsbG9jLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
-MTYgKysrKysrKysrKysrKysrKw0KPiA+ID4gPiAgbW0vc3BhcnNlLmMgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8ICAyICsrDQo+ID4gPiA+ICA5IGZpbGVzIGNoYW5nZWQsIDIz
-IGluc2VydGlvbnMoKyksIDI2IGRlbGV0aW9ucygtKQ0KPiA+ID4gPiANCj4gPiA+ID4gDQo+ID4g
-PiA+IGJhc2UtY29tbWl0OiA4YWM5MWU2YzYwMzNlYmMxMmM1YzFlNGFhMTcxYjgxYTY2MmJkNzBm
-DQo+ID4gPiA+IC0tIA0KPiA+ID4gPiAyLjE4LjANCj4gPiA+ID4gDQo+ID4gPiANCj4gPiANCj4g
-DQoNCg==
+On Wed, May 19, 2021 at 09:05:35AM +0530, Anup Patel wrote:
+> From: Anup Patel <anup@brainfault.org>
+> 
+> This series adds initial KVM RISC-V support. Currently, we are able to boot
+> Linux on RV64/RV32 Guest with multiple VCPUs.
+> 
+> Key aspects of KVM RISC-V added by this series are:
+> 1. No RISC-V specific KVM IOCTL
+> 2. Minimal possible KVM world-switch which touches only GPRs and few CSRs
+> 3. Both RV64 and RV32 host supported
+> 4. Full Guest/VM switch is done via vcpu_get/vcpu_put infrastructure
+> 5. KVM ONE_REG interface for VCPU register access from user-space
+> 6. PLIC emulation is done in user-space
+> 7. Timer and IPI emuation is done in-kernel
+> 8. Both Sv39x4 and Sv48x4 supported for RV64 host
+> 9. MMU notifiers supported
+> 10. Generic dirtylog supported
+> 11. FP lazy save/restore supported
+> 12. SBI v0.1 emulation for KVM Guest available
+> 13. Forward unhandled SBI calls to KVM userspace
+> 14. Hugepage support for Guest/VM
+> 15. IOEVENTFD support for Vhost
+> 
+> Here's a brief TODO list which we will work upon after this series:
+> 1. SBI v0.2 emulation in-kernel
+> 2. SBI v0.2 hart state management emulation in-kernel
+> 3. In-kernel PLIC emulation
+> 4. ..... and more .....
+> 
+> This series can be found in riscv_kvm_v18 branch at:
+> https//github.com/avpatel/linux.git
+> 
+> Our work-in-progress KVMTOOL RISC-V port can be found in riscv_v7 branch
+> at: https//github.com/avpatel/kvmtool.git
+> 
+> The QEMU RISC-V hypervisor emulation is done by Alistair and is available
+> in master branch at: https://git.qemu.org/git/qemu.git
+> 
+> To play around with KVM RISC-V, refer KVM RISC-V wiki at:
+> https://github.com/kvm-riscv/howto/wiki
+> https://github.com/kvm-riscv/howto/wiki/KVM-RISCV64-on-QEMU
+> https://github.com/kvm-riscv/howto/wiki/KVM-RISCV64-on-Spike
+> 
+> Changes since v17:
+>  - Rebased on Linux-5.13-rc2
+>  - Moved to new KVM MMU notifier APIs
+>  - Removed redundant kvm_arch_vcpu_uninit()
+>  - Moved KVM RISC-V sources to drivers/staging for compliance with
+>    Linux RISC-V patch acceptance policy
 
+What is this new "patch acceptance policy" and what does it have to do
+with drivers/staging?
+
+What does drivers/staging/ have to do with this at all?  Did anyone ask
+the staging maintainer about this?
+
+Not cool, and not something I'm about to take without some very good
+reasons...
+
+greg k-h
