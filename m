@@ -2,196 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB6C8C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 19:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D452FC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 20:10:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80F2B6105A
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 19:48:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA32861355
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 20:10:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232181AbhESTtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 15:49:41 -0400
-Received: from foss.arm.com ([217.140.110.172]:54274 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232171AbhESTtl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 15:49:41 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E062311D4;
-        Wed, 19 May 2021 12:48:20 -0700 (PDT)
-Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 810B73F73D;
-        Wed, 19 May 2021 12:48:18 -0700 (PDT)
-Date:   Wed, 19 May 2021 20:48:09 +0100
-From:   Beata Michalska <beata.michalska@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
-        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] sched/topology: Rework CPU capacity asymmetry
- detection
-Message-ID: <20210519194808.GA15842@e120325.cambridge.arm.com>
-References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
- <1621239831-5870-3-git-send-email-beata.michalska@arm.com>
- <YKT2vbluMgcu94M6@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKT2vbluMgcu94M6@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S233002AbhESULr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 16:11:47 -0400
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:55878 "EHLO
+        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232967AbhESULq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 16:11:46 -0400
+Received: from s807.loopia.se (localhost [127.0.0.1])
+        by s807.loopia.se (Postfix) with ESMTP id 389F12E63382
+        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 22:10:21 +0200 (CEST)
+Received: from s630.loopia.se (unknown [172.22.191.6])
+        by s807.loopia.se (Postfix) with ESMTP id 28CB72E2B065;
+        Wed, 19 May 2021 22:10:21 +0200 (CEST)
+Received: from s476.loopia.se (unknown [172.22.191.6])
+        by s630.loopia.se (Postfix) with ESMTP id 0EBB013B94CB;
+        Wed, 19 May 2021 22:10:21 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at amavis.loopia.se
+Received: from s899.loopia.se ([172.22.191.6])
+        by s476.loopia.se (s476.loopia.se [172.22.190.16]) (amavisd-new, port 10024)
+        with LMTP id RTyEceadJ5La; Wed, 19 May 2021 22:10:20 +0200 (CEST)
+X-Loopia-Auth: user
+X-Loopia-User: carl@hgsystem.se
+X-Loopia-Originating-IP: 155.4.133.180
+Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
+        (Authenticated sender: carl@hgsystem.se)
+        by s899.loopia.se (Postfix) with ESMTPSA id 0DA3D2C8BBB8;
+        Wed, 19 May 2021 22:10:20 +0200 (CEST)
+From:   Erik Rosen <erik.rosen@metormote.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Erik Rosen <erik.rosen@metormote.com>
+Subject: [PATCH 0/5] hwmon: (pmbus/pim4328) Add pim4328 PMBus driver
+Date:   Wed, 19 May 2021 22:10:10 +0200
+Message-Id: <20210519201015.83989-1-erik.rosen@metormote.com>
+X-Mailer: git-send-email 2.11.0 (Apple Git-81)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 19, 2021 at 01:30:05PM +0200, Peter Zijlstra wrote:
-> 
-> Mostly style nits, since I read you're already looking at reworking this
-> due to other feedback, do with it what you like.
->
-Will apply your remarks on whatever ends up in the new version, which should be
-most of it. To be out soon.
+Add hardware monitoring support for the Flex power interface modules
+PIM4006, PIM4328 and PIM4820.
 
-Thank You
+The modules are equipped with dual feed input and has support for
+hotswap, holdup and various circuit protection functionality.
 
----
-BR
-B.
-> On Mon, May 17, 2021 at 09:23:50AM +0100, Beata Michalska wrote:
-> > @@ -1989,66 +1989,96 @@ static bool topology_span_sane(struct sched_domain_topology_level *tl,
-> >  
-> >  	return true;
-> >  }
-> 
-> + whitespace
-> 
-> > +/**
-> > + * Asym capacity bits
-> > + */
-> > +struct asym_cap_data {
-> > +	struct list_head link;
-> > +	unsigned long    capacity;
-> > +	struct cpumask   *cpu_mask;
-> > +};
-> 
-> + whitespace
-> 
-> >  /*
-> > + * Set of available CPUs grouped by their corresponding capacities
-> > + * Each list entry contains a CPU mask reflecting CPUs that share the same
-> > + * capacity.
-> > + * The lifespan of data is unlimited.
-> >   */
-> > +static LIST_HEAD(asym_cap_list);
-> >  
-> > +/*
-> > + * Verify whether given CPU at a given topology level belongs to a sched domain
-> > + * that does span CPUs with different capacities.
-> > + * Provides sd_flags reflecting the asymmetry scope.
-> > + */
-> > +static inline int
-> > +asym_cpu_capacity_classify(struct sched_domain_topology_level *tl, int cpu)
-> > +{
-> > +	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
-> > +	const struct cpumask *tl_mask = tl->mask(cpu);
-> > +	struct asym_cap_data *entry;
-> > +	int asym_cap_count = 0;
-> > +
-> > +	if (list_is_singular(&asym_cap_list))
-> > +		goto leave;
-> > +
-> > +	list_for_each_entry(entry, &asym_cap_list, link) {
-> > +		if (cpumask_intersects(tl_mask, entry->cpu_mask))
-> > +			++asym_cap_count;
-> > +		else
-> > +			sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
-> >  	}
-> > +	WARN_ON_ONCE(!asym_cap_count);
-> > +leave:
-> > +	return asym_cap_count > 1 ? sd_asym_flags : 0;
-> > +}
-> >  
-> >  
-> 
-> - whitespace
-> 
-> > +/*
-> > + * Build-up/update list of CPUs grouped by their capacities
-> > + */
-> > +static void asym_cpu_capacity_scan(const struct cpumask *cpu_map)
-> > +{
-> > +	struct asym_cap_data *entry, *next;
-> > +	int cpu;
-> >  
-> > +	if (!list_empty(&asym_cap_list))
-> > +		list_for_each_entry(entry, &asym_cap_list, link)
-> > +			cpumask_clear(entry->cpu_mask);
-> 
-> two nits:
-> 
->  - the if() needs { } because while what follows is strictly a single
->    statement, it is multi-line, so coding style requires { }.
-> 
->  - the if() is strictly superfluous, if the list is empty the
->    list_for_each_entry() iteration already doesn't do anything.
-> 
-> >  
-> > +	entry = list_first_entry_or_null(&asym_cap_list,
-> > +			struct asym_cap_data, link);
-> 
-> Please align line-breaks at the most nested (, vim can help you do this
-> with: set cino=(0:0, if you're using that other editor, I'm sure you can
-> convince it to align properly too :-)
-> 
-> >  
-> > +	for_each_cpu(cpu, cpu_map) {
-> > +		unsigned long capacity = arch_scale_cpu_capacity(cpu);
-> >  
-> > +		if (entry && capacity == entry->capacity)
-> > +			goto next;
-> >  
-> > +		list_for_each_entry(entry, &asym_cap_list, link)
-> > +			if (capacity == entry->capacity)
-> > +				goto next;
-> 
-> { } again
-> 
-> > +
-> > +		entry = kzalloc(sizeof(*entry) + cpumask_size(), GFP_KERNEL);
-> > +		if (entry) {
-> > +			entry->capacity = capacity;
-> > +			entry->cpu_mask = (struct cpumask *)((char *)entry +
-> > +					   sizeof(*entry));
-> 
-> alignment again
-> 
-> > +			list_add(&entry->link, &asym_cap_list);
-> >  		}
-> > +		WARN_ONCE(!entry,
-> > +		    "Failed to allocate memory for capacity asymmetry detection\n");
-> 
-> alignment again
-> 
-> (also, eeew, if this lives, perhaps a find_asym_data(capacity) helper
-> might make it better:
-> 
-> 		if (!entry || entry->capacity != capacity)
-> 			entry = find_asym_data(capacity);
-> )
-> 
-> > +next:
-> > +		__cpumask_set_cpu(cpu, entry->cpu_mask);
-> >  	}
-> >  
-> > +	list_for_each_entry_safe(entry, next, &asym_cap_list, link) {
-> > +		if (cpumask_empty(entry->cpu_mask)) {
-> > +			list_del(&entry->link);
-> > +			kfree(entry);
-> > +		}
-> > +	}
-> 
-> See, this has { }
-> 
-> >  }
+[PATCH 1/5]
+PIM4328 and PIM4820 use the direct mode data format so a new function
+is added to the pmbus_core driver to be able to read and decode
+the COEFFICIENTS command.
+
+[PATCH 2/5]
+The modules have no CAPABILITY or WRITE_PROTECT commands. If these
+commands are read, the modules return invalid data (0xFF),
+so in addition to the NO_CAPABILITY flag we need a NO_WRITE_PROTECT
+flag to tell the pmbus_core driver to not access this register.
+
+[PATCH 3/5]
+The two inputs are modelled using virtual phases but there
+is a limitation in the pmbus_core that disallows monitoring
+of phase functions if there is no corresponding function on
+the page level.
+
+In this specific case the PIM4006 module allows
+monitoring of current on each input separately,
+but there is no corresponding command on the page level.
+
+Is there a specific reason for this limitation?
+Otherwise we suggest relaxing this criteria.
+
+[PATCH 4/5]
+All modules use manufacturer specific registers (mfr) for
+status data and only supports the CML bit in the PMBus
+STATUS register. The driver overrides reading the STATUS
+register and maps the bits in the mfr registers to the STATUS
+register alarm bits.
+
+
+Addendum
+In view of the comment in the generic pmbus driver on adding
+support for direct mode, we did look into it but decided against
+it because (1) we do not really have a usecase for it and (2) to
+implement truly generic direct mode support we need to handle
+the siuation when there are different coefficients for reading
+or writing a register.
+
+This patch has been tested with PIM4406, PIM4280 and PIM4328
+modules. 
+
+Erik Rosen (5):
+  Add function for reading direct mode coefficients
+  Add new pmbus flag NO_WRITE_PROTECT
+  Allow phase function even if it's not on page
+  Add PMBus driver for PIM4006, PIM4328 and PIM4820
+  Add documentation for the pim4328 PMBus driver
+
+ Documentation/hwmon/index.rst    |   1 +
+ Documentation/hwmon/pim4328.rst  | 105 +++++++++++
+ MAINTAINERS                      |   7 +
+ drivers/hwmon/pmbus/Kconfig      |   9 +
+ drivers/hwmon/pmbus/Makefile     |   1 +
+ drivers/hwmon/pmbus/pim4328.c    | 299 +++++++++++++++++++++++++++++++
+ drivers/hwmon/pmbus/pmbus.h      |   4 +
+ drivers/hwmon/pmbus/pmbus_core.c |  63 +++++--
+ include/linux/pmbus.h            |   9 +
+ 9 files changed, 487 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/hwmon/pim4328.rst
+ create mode 100644 drivers/hwmon/pmbus/pim4328.c
+
+
+base-commit: 6efb943b8616ec53a5e444193dccf1af9ad627b5
+-- 
+2.20.1
+
