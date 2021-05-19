@@ -7,26 +7,26 @@ X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B87F4C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 12:46:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C7DBC433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 13:12:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F20E600D1
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 12:46:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1A686135C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 13:12:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243756AbhESMsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 08:48:11 -0400
-Received: from mail-sn1anam02on2040.outbound.protection.outlook.com ([40.107.96.40]:5583
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        id S1346591AbhESNNW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 09:13:22 -0400
+Received: from mail-dm6nam11on2045.outbound.protection.outlook.com ([40.107.223.45]:29669
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233234AbhESMsL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 08:48:11 -0400
+        id S1346503AbhESNNW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 09:13:22 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IyKwzhcvtW/lhgGP82q140p+GmNdzILOHitzMRBWMwr1l0t6AQMM/PIG5WsPtQJrVE4t0e4XtKMgegXpTAUz1Tcoz/WPtc2bSBSi7uO+RjAyMexopsvJ/rDws2cDNoe9nSqaTHZEyirvmiPV+k10LKe2brXOOOcTTLhoqKSBDDqUtb/mAeQ3sll6oiZfrDtR4zplj9Ag2hb7+vUdK+3PmglwoK3glGYy022j8z2rqBpB3+HuEMDzIO32HfiV0Z/CeKLL0H541zVIDeNHOO8n/ll0ANni54+26J7gk2aI3bEWd4QS5wEvBr9tqApNSVPfBhKnqCBhzXVSsG4on3bVRg==
+ b=GdJE79JpFnYW8ID2u1XX4avM+GtKcg7orgwOazsq4ehxC49P/1wP4u2STBs3diY4NBEz9af72ZK5zP9QEQ8pTkubSWr6eXj68NxfuaMMUuH1lXmSU+B+xetSYmxXUExOvLXQSi6Xd3op+4WQfUW63QXLCcfG1Dfh+fnTl4P2P4YIJQIagw6MAnVlY3NEYZC35/xSm7Nfrh+usfdpCxxCxL7iQ+ZX6fHVlV8Ut1hVUwZX51nYPSQ5UX80km6IoFbtUPXyCral/DuzxoCs1Z9T+cPgBvFWzVEYsDydmquCnaI0iH4TEORFsMhIwLb3ZWaUxlBW7IEVeCoHR5x7N+1jNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oosbLLmOYjnmDW3tRYGgPE5W5l+qu0QAxSKrkPk5Puc=;
- b=erJ9pKjC+1gKQBX+qWrpvWbRiuvS0ppAXTcr+i/l+Q8HGqomTos250hZ394sThNf3c0eLXLyhUyEzVrZ/vwKIR9pDYZApy7AjSDj0j/FQAA0Sq1HqO9cuY/0YTZ+OnH486U7da/67gIAgFSLhTIMKOd2drMFPbz2GR94qM6vGlow0q5nD8ZNJVbo1W5g6gFp32SjVIdTf/XM5maNvp3asRKUT8bTQ0Xp09CuqWl2L4yde2bUnuPr4Y3ixLLuKwdIejCokCg23l5aCuN/VQtF/V8WJoe9pid19pz/5GO+0ktkxtwbbMb6PnVh/0DBZe58DoZnjqZeT9sKlyQLnR83dQ==
+ bh=0uoknZbjGAYWkMqjYvXJe1jcU3yiTsCf/UaNR3x7LbU=;
+ b=c8D7r9iIbPlVvMkse1kUJ+dw2KZBiXS5oWFBa+pX/LELXMfsU98ysa0Xg9ndoSb9p0LkCxQvxsQSmb97cUuYMPy1iyM5TNjaUobrrPmGDVZLHecovLpFqRBoE0opuQGbwBIrYwUyOSd5bXPtQzYOzdDxwVzZgE7uw6IkEYGISVmKijpUSLWbhbdV5n3/jFsq+9VR40zlRlJgnXSwoIgKTx8MgeQ1tJqDJ0n9kLKXpN1hutkCFKBVagptJys5z2ajjoHVU8V7dxQ32CLcc4EFu7R2kwJ0qQbCdN/S9GWbqfFOfxsd8si0LDz2jMMykZQO7rjSlhjvWVFT/4jvfcm8WA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
@@ -34,17 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oosbLLmOYjnmDW3tRYGgPE5W5l+qu0QAxSKrkPk5Puc=;
- b=f5pHp0x3E+bdS6lBz3Cupa8UKuaVa8nZYuuC4c8ltrVBnzzgc3uiVxjZQ3ey8NHE4P02Re3TXKE/KO6tzeqvQpMpOHTsB1DObh5pYrjgArsu6p1ipvTllQhlDRoiMXAgt+N4tmHCyY0Yhk8MLEiPq7HZpsIkxTfkL76Gw86GVigK1Brx8hF9Ts4joSLC7OloEKxN1kCHBPS/igdt/I9JyRmPDAGcJrvWR5A8714XMLHTAlyPJo0K6PIrnHN2F3yFoAKT5d6Ei5sVzDrrmifaXnh9Az8rzsME3djFBPLcqWc1Oyb/p5MBvUGugAvCFn2FXFiY6YrGq2Cj63BoY4OfXg==
-Received: from DM3PR03CA0002.namprd03.prod.outlook.com (2603:10b6:0:50::12) by
- MN2PR12MB3582.namprd12.prod.outlook.com (2603:10b6:208:cd::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4129.25; Wed, 19 May 2021 12:46:49 +0000
+ bh=0uoknZbjGAYWkMqjYvXJe1jcU3yiTsCf/UaNR3x7LbU=;
+ b=io5fHVE5OHMBOBbf0/cq3PYkQE2piUfZVimedZZI75XpfdX16KRZPbknZXB++NPjXBDG4uoiVnbAQoM4u4vx3/eVGkSWl+Rf7oRCkvUknpnSWaBaI4Xt6J0jbvz2AVUG6r+j41YDjByL6ROyOrjj6NSUmEPQzovUiNlfAY2/lOTu31tL3Z20kjPccOzC3xdVVh0W79h7b4/nAkcufiiTI1ZCK1HZkc3QRaIVns0y1CY2XxOIW0RB+IWGt5H4dozGQUiebM7K8lMQq3tNCt1d9XE/A2Wt+alKm1rIO/bRt6iCxqoMzS1hpsDCZxRKAmZHTLAsX25l+F8+LCkeKSKQVQ==
+Received: from DS7PR03CA0157.namprd03.prod.outlook.com (2603:10b6:5:3b2::12)
+ by MN2PR12MB4813.namprd12.prod.outlook.com (2603:10b6:208:1bb::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Wed, 19 May
+ 2021 13:12:01 +0000
 Received: from DM6NAM11FT063.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:50:cafe::d9) by DM3PR03CA0002.outlook.office365.com
- (2603:10b6:0:50::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25 via Frontend
- Transport; Wed, 19 May 2021 12:46:49 +0000
+ (2603:10b6:5:3b2:cafe::eb) by DS7PR03CA0157.outlook.office365.com
+ (2603:10b6:5:3b2::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.31 via Frontend
+ Transport; Wed, 19 May 2021 13:12:01 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
  header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
@@ -54,72 +55,89 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
 Received: from mail.nvidia.com (216.228.112.34) by
  DM6NAM11FT063.mail.protection.outlook.com (10.13.172.219) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4129.25 via Frontend Transport; Wed, 19 May 2021 12:46:49 +0000
+ 15.20.4129.25 via Frontend Transport; Wed, 19 May 2021 13:12:00 +0000
 Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 19 May
- 2021 12:46:45 +0000
+ 2021 13:11:57 +0000
 From:   Alistair Popple <apopple@nvidia.com>
 To:     Peter Xu <peterx@redhat.com>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <jgg@nvidia.com>,
-        <hch@infradead.org>, <daniel@ffwll.ch>, <willy@infradead.org>,
-        <bsingharora@gmail.com>, Christoph Hellwig <hch@lst.de>
+CC:     Jason Gunthorpe <jgg@nvidia.com>, <linux-mm@kvack.org>,
+        <nouveau@lists.freedesktop.org>, <bskeggs@redhat.com>,
+        <akpm@linux-foundation.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
+        <jglisse@redhat.com>, <hch@infradead.org>, <daniel@ffwll.ch>,
+        <willy@infradead.org>, <bsingharora@gmail.com>,
+        Christoph Hellwig <hch@lst.de>
 Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
-Date:   Wed, 19 May 2021 22:46:43 +1000
-Message-ID: <5737557.YXifvZZQQ8@nvdebian>
-In-Reply-To: <YKUCtA4FrfmkNrn7@t490s>
-References: <20210407084238.20443-1-apopple@nvidia.com> <2217153.lfGrokb94b@nvdebian> <YKUCtA4FrfmkNrn7@t490s>
+Date:   Wed, 19 May 2021 23:11:55 +1000
+Message-ID: <2569629.VzlulnA7BY@nvdebian>
+In-Reply-To: <YKUBbVuvm5FUJRMl@t490s>
+References: <20210407084238.20443-1-apopple@nvidia.com> <2235357.HsqDk0zIjc@nvdebian> <YKUBbVuvm5FUJRMl@t490s>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4f4ab20d-e196-4841-2c75-08d91ac42b5c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3582:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB35824C08CCF1B626F65F2E8DDF2B9@MN2PR12MB3582.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Office365-Filtering-Correlation-Id: 2dfe2fa5-c08a-45ec-dc52-08d91ac7b06d
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4813:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB48131A696F2BF70CC10A783EDF2B9@MN2PR12MB4813.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mtz9r1gp+6oIBQ5wmu3a19rzGJ7KQ8u27vWB+S3SYTf/19BPkbkJk0tRPuFACNdGVvOULeJGrPGGGtheCYc+xewJ/0DTM7LvVAj7G9qDR9igSP+1Uzmhp1+H74AZzSIq/v5jOENjrZ1lzEFMTkalyrdi3/1BfYhpUbn0d22aDguM3dCdOVhgbO8aBs+qZWf7IWa54KLVII3vY9LtzR0iMW5FophMd3eFQAA61gB5mnHL179pv53ruov98cbm9Hj+dfh3k/n1WLx//s+/HIA7tXdHqkidhA0ga9iNqH2OPAdoWbZd6beevp47QliuV7L7PhrSGAtBx6aXHWSgX66GNiWvKl56nZU5xVBz5a+BxyCFHpSHitMHBNTs/YqfnIAYrX4ztqQHS2Wl0fo4N0SxNR4pD6tRVW5TlU0jJOjeX8cI/vQEmGC11E5U1g4nY6eX/Cm39ZMaFgy8413+d+LGR0MXTZE26f2kK1EolguQU7qC9cohl42XB9N9vTJp/dVeRDS15d6DVUVrw41Urk8EmJ01Mlph3rjZcQyxtNEuGH3JIvjYUb1WZYQB9xhxU4zSyGRBPxPe+r+KEVa1g3Z+A5fLJALIHTuyUCxEkaODdDrMHuDAu+us6X1Chqtfbuv+UbSxapORYAQpQHCjFEMAPaCbSb5rKFdNvO+fzq4MI4K/KRPoxvRxDp127V7Fcyeu
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(396003)(39860400002)(376002)(346002)(36840700001)(46966006)(9686003)(316002)(426003)(36906005)(8936002)(8676002)(54906003)(33716001)(26005)(356005)(478600001)(4744005)(16526019)(336012)(5660300002)(82740400003)(9576002)(7416002)(70206006)(83380400001)(36860700001)(86362001)(47076005)(82310400003)(6916009)(7636003)(4326008)(2906002)(70586007)(186003)(39026012);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: Z4tdDNENPPeeQgW1+xvJPcp1KfSSs/nC8L2EJiw/ILX7k4XWuqAoiPBFMfjDQdWZR+JZZarZ+NgsVNqohy+r+QutIvva3z6V3BkVoAPFNBVpx3o9ddUfzAZABNeief0e1KXnnAHcEdTiGfmfmcVGK7xPoJ1FWwqFN/Mk1e9bBcwhHgIKSn7RG0ww5hfMVJRbL7xC8m6zz4X7iiqGeJzAGmg6i8rvJxQggn7XA7jl773n4+fFRXuUH+fNbRoSz0xXQyT5wGkOai0lEB3fom6h3HwsP0MRCs2KX9RabYSlVt+Zssk0pwPWCapE+UBXkNx+LOs8/BAjDXoaiyKspwBE/pKNf/1iEKMwxPIgwupbRGLyD6PAmDKzqNAQOKJxGJ912pvqY65Mb+S3dhrfe49dD+ZNhsDDdxCv7S96I/INFJyLxyfIxRf5AuOslCRqIf7heE2Ruwf5OFo7aL1Q6iHZJMwbBslP4Xw3e56Orwbr0Y/Op/1cIbxo4PXkr0BBEJTSKbNbTunsUVMe8o1+A27y/fq5CNagjCaT6LoD2JCOCmXSUqYQ4SA7PzXIp2DIctqTEI9Jtn8dhkVvNIeGnkN9AvYZPVmaMZP+M8QZEC3T5G3vQ7l6bPLkkQelIaDCH6v7fvUQ0UAZThxd50dl8IrGybnfiMPNekXU77j0IlrBycrZkWg1IGwhJQOPmnMawkfT
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(136003)(346002)(396003)(376002)(36840700001)(46966006)(33716001)(7636003)(82740400003)(5660300002)(36860700001)(356005)(316002)(36906005)(83380400001)(9686003)(47076005)(86362001)(478600001)(2906002)(336012)(9576002)(8676002)(26005)(8936002)(186003)(16526019)(7416002)(82310400003)(426003)(70206006)(54906003)(6916009)(70586007)(4326008)(39026012);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2021 12:46:49.1889
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2021 13:12:00.9280
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f4ab20d-e196-4841-2c75-08d91ac42b5c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dfe2fa5-c08a-45ec-dc52-08d91ac7b06d
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT063.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3582
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4813
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wednesday, 19 May 2021 10:21:08 PM AEST Peter Xu wrote:
+On Wednesday, 19 May 2021 10:15:41 PM AEST Peter Xu wrote:
 > External email: Use caution opening links or attachments
 > 
-> On Wed, May 19, 2021 at 09:35:10PM +1000, Alistair Popple wrote:
-> > I think the approach you are describing is similar to what
-> > migrate_vma_collect()/migrate_vma_unamp() does now and I think it could be
-> > made to work. I ended up going with the GUP+unmap approach in part because
-> > Christoph suggested it but primarily because it required less code
-> > especially given we needed to call something to fault the page in/break
-> > COW anyway (or extend what was there to call handle_mm_fault(), etc.).
+> On Wed, May 19, 2021 at 09:04:53PM +1000, Alistair Popple wrote:
+> > Failing fork() because we couldn't take a lock doesn't seem like the right
+> > approach though, especially as there is already existing code that
+> > retries. I get this adds complexity though, so would be happy to take a
+> > look at cleaning copy_pte_range() up in future.
 > 
-> I see, thank. Would you mind add a short paragraph in the commit message
-> talking about these two solutions and why we choose the GUP way?
+> Yes, I proposed that as this one won't affect any existing applications
+> (unlike the existing ones) but only new userspace driver apps that will use
+> this new atomic feature.
+> 
+> IMHO it'll be a pity to add extra complexity and maintainance burden into
+> fork() if only for keeping the "logical correctness of fork()" however the
+> code never triggers. If we start with trylock we'll know whether people
+> will use it, since people will complain with a reason when needed; however
+> I still doubt whether a sane userspace device driver should fork() within
+> busy interaction with the device underneath..
 
-Sure.
+I will refrain from commenting on the sanity or otherwise of doing that :-)
 
- - Alistair
+Agree such a scenario seems unlikely in practice (and possibly unreasonable). 
+Keeping the "logical correctness of fork()" still seems worthwhile to me, but 
+if the added complexity/maintenance burden for an admittedly fairly specific 
+feature is going to stop progress here I am happy to take the fail fork 
+approach. I could then possibly fix it up as a future clean up to 
+copy_pte_range(). Perhaps others have thoughts?
 
+> In all cases, please still consider to keep them in copy_nonpresent_pte()
+> (and if to rework, separating patches would be great).
+>
+> Thanks,
+> 
 > --
 > Peter Xu
 
