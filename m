@@ -2,93 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17EC6C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 18:11:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F18D0C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 18:14:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF25E6112F
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 18:11:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CBCB66124C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 18:14:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231239AbhESSNB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 14:13:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35868 "EHLO
+        id S230217AbhESSPb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 14:15:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231218AbhESSNB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 14:13:01 -0400
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F41C06175F
-        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 11:11:40 -0700 (PDT)
-Received: by mail-qk1-x72d.google.com with SMTP id 82so2253514qki.8
-        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 11:11:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=or1ZgkIQlqYFYsbWx3HhSVHrt7I2XsoIRsMCoyF7atA=;
-        b=I/E/dqxF8ccpwh/ck606guAAMWoUat0ewjyFBZ9qGkhCu+vdKW45Md3waidHfBOcnl
-         Eqf1Yqt6PeBfuumUioxkOduMozTmgdMFtcGyfioxsOPJPRJNLQ4jnjVT2qXlY+aMTE6E
-         n7D/gwnI3FA/CndzpSeeQcEVAbeVLZcdSje0mF9X8XYry5kvfJA08rwWvgD4wPSJXSxT
-         OsS/Aayfy63b6fpecJGRSsY77jP3vVkN8R6CGJWR1dZB/hRSXxQjJgultC8aiJBdp/z3
-         sgzp5mgSXuEbYvHkj9t8yxM9KWR7IESTnh3nA7XZ90l/rulprpDCqqE41qNPvP+D22Cv
-         UXhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=or1ZgkIQlqYFYsbWx3HhSVHrt7I2XsoIRsMCoyF7atA=;
-        b=UtBpGiBi418CZOXupCvMD4NVz/KA2H0JnXz58ViF3/qJVhqhUfqqk3Y6ybvLvX8E/p
-         tKnYkXkb1eP4AQDslUX7ICl3/+mivulME4BxvrVPplK41u2vlhdU/FHmovPdn2E04K/e
-         GJxewCV+NQitbYIUHMcZlaeBUYzB5pmZ6SfmpqmBLaK57uzuDodhKgiPxZtrHIqYFzVp
-         LzNtIQsXPYRTmvXoErCrW19Kwg8Y04QSmNuWJB6o5ro8QkshPkoR3wER9heMtNKnymmN
-         clnMKhqUBXByOxA6KMBwZATjEz4wTZwVcTQWB4cY3g8I6Q1gPDIitHVbHjb+fiq+ZMD4
-         n57A==
-X-Gm-Message-State: AOAM532XZ9+e/twL6YKrC4b7OxryZn7KUalf38lJ4pDZJ8l0tNR4h3Ye
-        ComAisRtyI/+QFh+uzq6mEZPGQ==
-X-Google-Smtp-Source: ABdhPJx6qAlzcCgcAFZQhi8apeXZnalyGtzPK6kX7YL/irC69Yj1Id6m3qzKmV8x697R45dsX2JLtw==
-X-Received: by 2002:a05:620a:2456:: with SMTP id h22mr691145qkn.292.1621447900188;
-        Wed, 19 May 2021 11:11:40 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.113.94])
-        by smtp.gmail.com with ESMTPSA id g1sm136589qtr.32.2021.05.19.11.11.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 11:11:39 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1ljQfS-00AnPK-Mv; Wed, 19 May 2021 15:11:38 -0300
-Date:   Wed, 19 May 2021 15:11:38 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Peter Xu <peterx@redhat.com>
-Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
-        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
-        bsingharora@gmail.com, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
-Message-ID: <20210519181138.GU1096940@ziepe.ca>
-References: <47694715.suB6H4Uo8R@nvdebian>
- <YKP5Dj4Q/riGGc43@t490s>
- <20210518173334.GE1002214@nvidia.com>
- <YKQBACJCjsxeM3ro@t490s>
- <20210518194509.GF1002214@nvidia.com>
- <YKQjmtMo+YQGx/wZ@t490s>
- <20210518230327.GG1002214@nvidia.com>
- <YKRRgZmRMdk1vH7A@t490s>
- <20210519132842.GJ1002214@nvidia.com>
- <YKUcHfhQMbDnjXC7@t490s>
+        with ESMTP id S230049AbhESSPa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 14:15:30 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F03B7C06175F;
+        Wed, 19 May 2021 11:14:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=bEauhK23RkZ9ceUqS0Q5SoC3nKkkUUnGX4i7BzWL1uI=; b=DaOL9sI7s465/b8l1gi6SJsmlP
+        wQqlEpoB4sE9z7rMfrIX93vT1P6ssa5zl5Fy/7T0eEJWm7C2fWi22QjBlPeGBqEt5JfVBJTvDKjsz
+        /JvLA3f/TQ/xeipragFFvW2nj1bQWzRMt44b2BhH986Tk+CqOZ74EVfrPDtcZmzNF+wcSJfK9pl/7
+        jOn1kHEaqYPWvIh3xf74UIjGqLfd/wxeLyH5faWMLe+Llma+xijteG1QqGIzehFZK1JVTdVr6AnwH
+        2oYFaC4aG+JY4OPCi43RIYUrFlizu6h3DgVqztD7A7Xvgh7E9OoczfYa20WZmRYRolCKcUjufvgXW
+        xf9dQiig==;
+Received: from [2601:1c0:6280:3f0::7376]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1ljQhu-00Fgi1-DZ; Wed, 19 May 2021 18:14:10 +0000
+Subject: Re: [RFC PATCH 09/16] rv/monitors: wip instrumentation and
+ Makefile/Kconfig entries
+To:     Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+Cc:     Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Gabriele Paoloni <gabriele.paoloni@intel.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>, linux-doc@vger.kernel.org
+References: <cover.1621414942.git.bristot@redhat.com>
+ <8ffcb3a4c8b55ef63cc02b487aa1c8ad5bf3f800.1621414942.git.bristot@redhat.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ae9c9d42-2bee-3f97-1d53-43b876b1ec4f@infradead.org>
+Date:   Wed, 19 May 2021 11:14:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKUcHfhQMbDnjXC7@t490s>
+In-Reply-To: <8ffcb3a4c8b55ef63cc02b487aa1c8ad5bf3f800.1621414942.git.bristot@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Sorry for the noise.
+On 5/19/21 4:36 AM, Daniel Bristot de Oliveira wrote:
+> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+> index 74eb2f216255..4a1088c5ba68 100644
+> --- a/kernel/trace/rv/Kconfig
+> +++ b/kernel/trace/rv/Kconfig
+> @@ -14,6 +14,13 @@ menuconfig RV
+>  
+>  if RV
+>  
+> +config RV_MON_WIP
+> +	depends on PREEMPTIRQ_TRACEPOINTS
+> +	tristate "WIP monitor"
+> +	help
+> +	  Enable WIP sample monitor, this is a sample monitor that
 
-Not at all, it is good that more people understand things!
+	                    monitor. This
 
-Jason
+> +	  illustrates the usage of per-cpu monitors.
+
+What does WIP mean here? I didn't see that in patch 08 (though
+I could have missed it -- I did look).
+
+
+-- 
+~Randy
+
