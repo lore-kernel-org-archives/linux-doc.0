@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5358C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0DB4C43460
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE8C46112F
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A54E76135D
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352892AbhESAwY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 20:52:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53914 "EHLO
+        id S232338AbhESAw0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 20:52:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352870AbhESAu5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 20:50:57 -0400
+        with ESMTP id S234689AbhESAu6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 20:50:58 -0400
 Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10E6C06138A;
-        Tue, 18 May 2021 17:49:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C05CC06175F;
+        Tue, 18 May 2021 17:49:39 -0700 (PDT)
 Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1ljAOU-00G4Fq-Gy; Wed, 19 May 2021 00:49:02 +0000
+        id 1ljAOU-00G4Fg-3B; Wed, 19 May 2021 00:49:02 +0000
 From:   Al Viro <viro@zeniv.linux.org.uk>
 To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
@@ -45,9 +45,9 @@ Cc:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-s390 <linux-s390@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: [PATCH 12/14] d_path: prepend_path(): lift the inner loop into a new helper
-Date:   Wed, 19 May 2021 00:48:59 +0000
-Message-Id: <20210519004901.3829541-12-viro@zeniv.linux.org.uk>
+Subject: [PATCH 07/14] d_path: lift -ENAMETOOLONG handling into callers of prepend_path()
+Date:   Wed, 19 May 2021 00:48:54 +0000
+Message-Id: <20210519004901.3829541-7-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
 References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
@@ -59,119 +59,120 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-... and leave the rename_lock/mount_lock handling in prepend_path()
-itself
+The only negative value ever returned by prepend_path() is -ENAMETOOLONG
+and callers can recognize that situation (overflow) by looking at the
+sign of buflen.  Lift that into the callers; we already have the
+same logics (buf if buflen is non-negative, ERR_PTR(-ENAMETOOLONG) otherwise)
+in several places and that'll become a new primitive several commits down
+the road.
+
+Make prepend_path() return 0 instead of -ENAMETOOLONG.  That makes for
+saner calling conventions (0/1/2/3/-ENAMETOOLONG is obnoxious) and
+callers actually get simpler, especially once the aforementioned
+primitive gets added.
+
+In prepend_path() itself we switch prepending the / (in case of
+empty path) to use of prepend() - no need to open-code that, compiler
+will do the right thing.  It's exactly the same logics as in
+__dentry_path().
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/d_path.c | 77 ++++++++++++++++++++++++++++++-------------------------------
- 1 file changed, 38 insertions(+), 39 deletions(-)
+ fs/d_path.c | 39 +++++++++++----------------------------
+ 1 file changed, 11 insertions(+), 28 deletions(-)
 
 diff --git a/fs/d_path.c b/fs/d_path.c
-index 9a0356cc98d3..ba629879a4bf 100644
+index 72b8087aaf9c..327cc3744554 100644
 --- a/fs/d_path.c
 +++ b/fs/d_path.c
-@@ -68,6 +68,42 @@ static bool prepend_name(struct prepend_buffer *p, const struct qstr *name)
- 	return true;
+@@ -127,8 +127,7 @@ static int prepend_path(const struct path *path,
+ 		}
+ 		parent = dentry->d_parent;
+ 		prefetch(parent);
+-		error = prepend_name(&bptr, &blen, &dentry->d_name);
+-		if (error)
++		if (unlikely(prepend_name(&bptr, &blen, &dentry->d_name) < 0))
+ 			break;
+ 
+ 		dentry = parent;
+@@ -149,12 +148,9 @@ static int prepend_path(const struct path *path,
+ 	}
+ 	done_seqretry(&mount_lock, m_seq);
+ 
+-	if (error >= 0 && bptr == *buffer) {
+-		if (--blen < 0)
+-			error = -ENAMETOOLONG;
+-		else
+-			*--bptr = '/';
+-	}
++	if (blen == *buflen)
++		prepend(&bptr, &blen, "/", 1);
++
+ 	*buffer = bptr;
+ 	*buflen = blen;
+ 	return error;
+@@ -181,16 +177,11 @@ char *__d_path(const struct path *path,
+ 	       char *buf, int buflen)
+ {
+ 	char *res = buf + buflen;
+-	int error;
+ 
+ 	prepend(&res, &buflen, "", 1);
+-	error = prepend_path(path, root, &res, &buflen);
+-
+-	if (error < 0)
+-		return ERR_PTR(error);
+-	if (error > 0)
++	if (prepend_path(path, root, &res, &buflen) > 0)
+ 		return NULL;
+-	return res;
++	return buflen >= 0 ? res : ERR_PTR(-ENAMETOOLONG);
  }
  
-+static int __prepend_path(const struct dentry *dentry, const struct mount *mnt,
-+			  const struct path *root, struct prepend_buffer *p)
-+{
-+	while (dentry != root->dentry || &mnt->mnt != root->mnt) {
-+		const struct dentry *parent = READ_ONCE(dentry->d_parent);
-+
-+		if (dentry == mnt->mnt.mnt_root) {
-+			struct mount *m = READ_ONCE(mnt->mnt_parent);
-+			struct mnt_namespace *mnt_ns;
-+
-+			if (likely(mnt != m)) {
-+				dentry = READ_ONCE(mnt->mnt_mountpoint);
-+				mnt = m;
-+				continue;
-+			}
-+			/* Global root */
-+			mnt_ns = READ_ONCE(mnt->mnt_ns);
-+			/* open-coded is_mounted() to use local mnt_ns */
-+			if (!IS_ERR_OR_NULL(mnt_ns) && !is_anon_ns(mnt_ns))
-+				return 1;	// absolute root
-+			else
-+				return 2;	// detached or not attached yet
-+		}
-+
-+		if (unlikely(dentry == parent))
-+			/* Escaped? */
-+			return 3;
-+
-+		prefetch(parent);
-+		if (!prepend_name(p, &dentry->d_name))
-+			break;
-+		dentry = parent;
-+	}
-+	return 0;
-+}
-+
- /**
-  * prepend_path - Prepend path string to a buffer
-  * @path: the dentry/vfsmount to report
-@@ -89,11 +125,9 @@ static int prepend_path(const struct path *path,
- 			const struct path *root,
- 			struct prepend_buffer *p)
+ char *d_absolute_path(const struct path *path,
+@@ -198,16 +189,11 @@ char *d_absolute_path(const struct path *path,
  {
--	struct dentry *dentry;
--	struct mount *mnt;
--	int error = 0;
- 	unsigned seq, m_seq = 0;
- 	struct prepend_buffer b;
-+	int error;
+ 	struct path root = {};
+ 	char *res = buf + buflen;
+-	int error;
  
- 	rcu_read_lock();
- restart_mnt:
-@@ -102,43 +136,8 @@ static int prepend_path(const struct path *path,
- 	rcu_read_lock();
- restart:
- 	b = *p;
--	error = 0;
--	dentry = path->dentry;
--	mnt = real_mount(path->mnt);
- 	read_seqbegin_or_lock(&rename_lock, &seq);
--	while (dentry != root->dentry || &mnt->mnt != root->mnt) {
--		struct dentry * parent;
+ 	prepend(&res, &buflen, "", 1);
+-	error = prepend_path(path, &root, &res, &buflen);
 -
--		if (dentry == mnt->mnt.mnt_root || IS_ROOT(dentry)) {
--			struct mount *parent = READ_ONCE(mnt->mnt_parent);
--			struct mnt_namespace *mnt_ns;
--
--			/* Escaped? */
--			if (dentry != mnt->mnt.mnt_root) {
--				error = 3;
--				break;
--			}
--			/* Global root? */
--			if (mnt != parent) {
--				dentry = READ_ONCE(mnt->mnt_mountpoint);
--				mnt = parent;
--				continue;
--			}
--			mnt_ns = READ_ONCE(mnt->mnt_ns);
--			/* open-coded is_mounted() to use local mnt_ns */
--			if (!IS_ERR_OR_NULL(mnt_ns) && !is_anon_ns(mnt_ns))
--				error = 1;	// absolute root
--			else
--				error = 2;	// detached or not attached yet
--			break;
--		}
--		parent = dentry->d_parent;
--		prefetch(parent);
--		if (!prepend_name(&b, &dentry->d_name))
--			break;
--
--		dentry = parent;
--	}
-+	error = __prepend_path(path->dentry, real_mount(path->mnt), root, &b);
- 	if (!(seq & 1))
- 		rcu_read_unlock();
- 	if (need_seqretry(&rename_lock, seq)) {
+-	if (error > 1)
+-		error = -EINVAL;
+-	if (error < 0)
+-		return ERR_PTR(error);
+-	return res;
++	if (prepend_path(path, &root, &res, &buflen) > 1)
++		return ERR_PTR(-EINVAL);
++	return buflen >= 0 ? res : ERR_PTR(-ENAMETOOLONG);
+ }
+ 
+ static void get_fs_root_rcu(struct fs_struct *fs, struct path *root)
+@@ -240,7 +226,6 @@ char *d_path(const struct path *path, char *buf, int buflen)
+ {
+ 	char *res = buf + buflen;
+ 	struct path root;
+-	int error;
+ 
+ 	/*
+ 	 * We have various synthetic filesystems that never get mounted.  On
+@@ -263,12 +248,10 @@ char *d_path(const struct path *path, char *buf, int buflen)
+ 		prepend(&res, &buflen, " (deleted)", 11);
+ 	else
+ 		prepend(&res, &buflen, "", 1);
+-	error = prepend_path(path, &root, &res, &buflen);
++	prepend_path(path, &root, &res, &buflen);
+ 	rcu_read_unlock();
+ 
+-	if (error < 0)
+-		res = ERR_PTR(error);
+-	return res;
++	return buflen >= 0 ? res : ERR_PTR(-ENAMETOOLONG);
+ }
+ EXPORT_SYMBOL(d_path);
+ 
 -- 
 2.11.0
 
