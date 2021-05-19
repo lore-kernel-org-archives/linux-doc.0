@@ -4,78 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CF7C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17640C43462
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32285613AE
+	by mail.kernel.org (Postfix) with ESMTP id EBBBA613AE
 	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 08:51:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343827AbhESIxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 04:53:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60202 "EHLO mail.kernel.org"
+        id S1343892AbhESIxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 04:53:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60218 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234833AbhESIxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S238621AbhESIxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 19 May 2021 04:53:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F3D76044F;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 57A7E61059;
         Wed, 19 May 2021 08:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621414311;
-        bh=2NMVrFwqHdsru0mdolyaaR9NXw7N3y0XVJQhv9TxciE=;
+        bh=y1shfZpMexqe3QXr2DMzM1tm/zaqMgMobTVuM8HdP+o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B0v2aiemNxOehA7JgTGxFSbVFpF4YvNj99+FIvRy4Z76LRLDsNeiDHIqKge2TLRT4
-         ikz45+TRSq7Lzi0JsV3VhuyxqnjARWU8ntE0uCSJMDyiAYvQLxJ7Xf4T+LEiP1e+Mx
-         9m6IPlIEug96K3vfDKGur/dtdKizLbTrACFTkxZyqY8c3TzkVR04x1eZXM3QLLe5Cs
-         iWmVrTryPGbg1361wurkgj1A9W0nrQ5Osc7EL9n+v4DkdpD+jBLoPaFoSEzR0Q9ufc
-         f/K6VWJSfQmLhpwPBCfnjbOeZ9g1srWtZAgqW+kTcmFZrQws4ZuvVg9DbnqtarcPLb
-         49SrwZZOcKnlg==
+        b=e8NjRFW1GxfjGMMuoBoeRbGzuah0VQa7C7CH9Gx6uneyacAc3jHy8tGqnlkpykLkZ
+         q62VycTGgcOmz1KT7I3YNgTTxsFZi5ARaMuSDw4pwk64UZsPOR39LQBqhPpRlnyJSh
+         JAPlQaLjSdVTj7L6bKrCy4HDCsbmzj7eH0CGEmSaGsfE5giKiX80AmrlN/WQSc7qxp
+         tHiN8+6HbmJW/cHOTyZ+U0phRjmb3kL1S4z3yceRABxFG6/hgSejY8zqRu51Fl0wZg
+         GlIRJZo099QYd1jEvZCjIJpAtxQ6VOSmChQ8QLHyHJ+lBDQnJoJrtQTVCZsobWyDnU
+         FHOyqIvHkqIHg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ljHvh-007gY6-EP; Wed, 19 May 2021 10:51:49 +0200
+        id 1ljHvh-007gYI-JA; Wed, 19 May 2021 10:51:49 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>,
+        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 03/10] docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
-Date:   Wed, 19 May 2021 10:51:40 +0200
-Message-Id: <40b3d5c983fb06d8a58d1f613c175a98e0631677.1621413933.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 06/10] docs: virt: api.rst: fix a pointer to SGX documentation
+Date:   Wed, 19 May 2021 10:51:43 +0200
+Message-Id: <138c24633c6e4edf862a2b4d77033c603fc10406.1621413933.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621413933.git.mchehab+huawei@kernel.org>
 References: <cover.1621413933.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-transaltions -> translations
+The document which describes the SGX kernel architecture was added at
+commit 3fa97bf00126 ("Documentation/x86: Document SGX kernel architecture")
 
-Acked-by: Wu XiangCheng <bobwxc@email.cn>
+but the reference at virt/kvm/api.rst is pointing to some
+non-existing document.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/translations/zh_CN/process/8.Conclusion.rst | 2 +-
+ Documentation/virt/kvm/api.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/process/8.Conclusion.rst b/Documentation/translations/zh_CN/process/8.Conclusion.rst
-index 71c3e30efc6f..4707f0101964 100644
---- a/Documentation/translations/zh_CN/process/8.Conclusion.rst
-+++ b/Documentation/translations/zh_CN/process/8.Conclusion.rst
-@@ -19,7 +19,7 @@
- :ref:`Documentation/translations/zh_CN/process/howto.rst <cn_process_howto>`
- 文件是一个重要的起点；
- :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
--和 :ref:`Documentation/transaltions/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
-+和 :ref:`Documentation/translations/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
- 也是所有内核开发人员都应该阅读的内容。许多内部内核API都是使用kerneldoc机制
- 记录的；“make htmldocs”或“make pdfdocs”可用于以HTML或PDF格式生成这些文档
- （尽管某些发行版提供的tex版本会遇到内部限制，无法正确处理文档）。
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 22d077562149..e86fe3481574 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -6360,7 +6360,7 @@ system fingerprint.  To prevent userspace from circumventing such restrictions
+ by running an enclave in a VM, KVM prevents access to privileged attributes by
+ default.
+ 
+-See Documentation/x86/sgx/2.Kernel-internals.rst for more details.
++See Documentation/x86/sgx.rst for more details.
+ 
+ 8. Other capabilities.
+ ======================
 -- 
 2.31.1
 
