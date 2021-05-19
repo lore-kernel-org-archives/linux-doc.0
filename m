@@ -2,122 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C34BC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 10:17:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C458C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 10:20:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9D636108C
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 10:17:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 384306124C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 10:20:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347634AbhESKS6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 06:18:58 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:33420 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345378AbhESKS5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 06:18:57 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14JA5ATk111744;
-        Wed, 19 May 2021 10:17:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+        id S1346335AbhESKWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 06:22:15 -0400
+Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:65356 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1346200AbhESKWP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 06:22:15 -0400
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14JAGCk9022302;
+        Wed, 19 May 2021 05:20:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=hGk2Jt4LTPzO1S2qngYtkz7Cl2+5Qs1xMzLMoopxFvM=;
- b=ttyC7XAEgInr/OmPK6WCkIceXQvVsWucEMfbcxdKhW/9z791xwEt+tjTFhTaqXeBLZY9
- uNzvEUgitVBoYKI0x7sOkl9HH33B1MiWnotnr5QbsimtBXOQh62eVIexGWROYjejBULY
- lIlNLCpc8v7C+oymJs+erxTRYJaXkIX5wkxibCSrW/+IKbODJhmHlrjt6zd0jK3+J5Yb
- 8/WogueggqkrAFq3/Fk516fjwerQoBxH6vdFZ4RX3Rw8ELEq0j4pCcJqjTTPikNv1LTj
- nvUJKS+tR/BXssO/pOrWqkZT47wLQ6EO7wcVFZLAoK1fD4PXbcWBBlM/fFE1TCyD5u/O iA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 38j5qr93g5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 May 2021 10:17:19 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14JA5w25046922;
-        Wed, 19 May 2021 10:17:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by aserp3020.oracle.com with ESMTP id 38mechqq6n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 May 2021 10:17:18 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14JAHH4o129654;
-        Wed, 19 May 2021 10:17:17 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 38mechqq5r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 May 2021 10:17:17 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14JAHFgb015636;
-        Wed, 19 May 2021 10:17:15 GMT
-Received: from kadam (/41.212.42.34)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 19 May 2021 03:17:14 -0700
-Date:   Wed, 19 May 2021 13:17:04 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Anup Patel <anup.patel@wdc.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+ in-reply-to; s=PODMain02222019;
+ bh=372dr6SwmwYwOUb7PJzGd6F0k/qxZb2QrHZ6Tt9d8Pw=;
+ b=JKEEZqp/2QnfOrdyWkoJuCJkz1dZSQbn39px/nohG2OiEhtxpfqpO/LssvU54LoNwwcu
+ Sh8ASGHCfov1Ni6Z/JfyL7YHjtMe9BScgJKkJRp76jbTyUr2i6xOOrs/fxfdFlsJFRA0
+ ouhL2ZDAPH71QMsGu9tLTEoEpXqYCX6Pwwr5M3OHTumWEKV2cokSVu3p4jLNlc3cvRe4
+ 3SrsUXYegMl1pXBKVdCdQuwFpIjOkHxP6I311jBrVIsb7e/4O/31uWFLX0IagxbU3f4a
+ l6CHnGOH6VHrqHwuyT/VhctOxz3+KcdygELttWHOhB6PdxcPpEoN/N2GEbcpk5Z21rIH eA== 
+Received: from ediex02.ad.cirrus.com ([87.246.76.36])
+        by mx0a-001ae601.pphosted.com with ESMTP id 38kqtwjp1r-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Wed, 19 May 2021 05:20:38 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 19 May
+ 2021 11:20:36 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2242.4 via Frontend
+ Transport; Wed, 19 May 2021 11:20:36 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 718C911CD;
+        Wed, 19 May 2021 10:20:35 +0000 (UTC)
+Date:   Wed, 19 May 2021 10:20:35 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Drew Fustini <drew@beagleboard.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexander Graf <graf@amazon.com>,
-        Atish Patra <atish.patra@wdc.com>,
-        Alistair Francis <Alistair.Francis@wdc.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Anup Patel <anup@brainfault.org>, kvm@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH v18 02/18] RISC-V: Add initial skeletal KVM support
-Message-ID: <20210519101704.GT1955@kadam>
-References: <20210519033553.1110536-1-anup.patel@wdc.com>
- <20210519033553.1110536-3-anup.patel@wdc.com>
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Saravana Kannan <saravanak@google.com>,
+        <alsa-devel@alsa-project.org>, <linux-gpio@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+Subject: Re: [PATCH 05/10] docs: update pin-control.rst references
+Message-ID: <20210519102035.GH64205@ediswmail.ad.cirrus.com>
+References: <cover.1621413933.git.mchehab+huawei@kernel.org>
+ <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20210519033553.1110536-3-anup.patel@wdc.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 6jRe5b4YCQkMwwXaSxJBXaR3mYMvI9hZ
-X-Proofpoint-ORIG-GUID: 6jRe5b4YCQkMwwXaSxJBXaR3mYMvI9hZ
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9988 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 impostorscore=0
- mlxscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105190071
+In-Reply-To: <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: kjVnaIbt4ji1tbhMzTpF3hssfkrUUfoU
+X-Proofpoint-ORIG-GUID: kjVnaIbt4ji1tbhMzTpF3hssfkrUUfoU
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011 mlxlogscore=999
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ adultscore=0 impostorscore=0 mlxscore=0 spamscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105190071
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 19, 2021 at 09:05:37AM +0530, Anup Patel wrote:
-> +void kvm_riscv_stage2_free_pgd(struct kvm *kvm)
-> +{
-> +	/* TODO: */
-> +}
-> +
+On Wed, May 19, 2021 at 10:51:42AM +0200, Mauro Carvalho Chehab wrote:
+> Changeset 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+> renamed: Documentation/driver-api/pinctl.rst
+> to: Documentation/driver-api/pin-control.rst.
+> 
+> Update the cross-references accordingly.
+> 
+> Fixes: 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
 
-I was disappointed how many stub functions remained at the end of the
-patchset...  It's better to not publish those.  How useful is this
-patchset with the functionality that is implemented currently?
+For the Madera change:
 
-> +int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
-> +{
-> +	int r;
-> +
-> +	r = kvm_riscv_stage2_alloc_pgd(kvm);
-> +	if (r)
-> +		return r;
-> +
-> +	return 0;
-> +}
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Half the code uses "int ret;" and half uses "int r;".  Make everything
-int ret.
-
-regards,
-dan carpenter
+Thanks,
+Charles
