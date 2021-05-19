@@ -7,121 +7,149 @@ X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FBFFC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 12:23:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B94CAC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 12:24:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1196961363
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 12:23:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94BE660FE8
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 12:24:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350649AbhESMZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 08:25:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48570 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1347770AbhESMZR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 08:25:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0886860FE8;
-        Wed, 19 May 2021 12:23:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621427036;
-        bh=qf5m2Nia+4DoUNrww0bmk5cQtJEm5cWAINMR8yRdz/A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YfCZvauDRbYUmSAlgtaMrkiKYI1UYEyinYzXVIPR7xRh1CtNh0+9OVD9OrNltg37F
-         ahwtG1OzCfm+TPgAP2KCQ/seEJB4ce2EP9qVSocsEdEVaEDy5NMlr35rgUFUsut7E7
-         UvuvRtU/TJAcTlN9lW3pCF7Im0grQPZmNY7SFmII=
-Date:   Wed, 19 May 2021 14:23:54 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Anup Patel <anup@brainfault.org>, Anup Patel <anup.patel@wdc.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Graf <graf@amazon.com>,
-        Atish Patra <atish.patra@wdc.com>,
-        Alistair Francis <Alistair.Francis@wdc.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        KVM General <kvm@vger.kernel.org>,
-        kvm-riscv@lists.infradead.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-doc@vger.kernel.org,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
-Message-ID: <YKUDWgZVj82/KiKw@kroah.com>
-References: <20210519033553.1110536-1-anup.patel@wdc.com>
- <YKSa48cejI1Lax+/@kroah.com>
- <CAAhSdy18qySXbUdrEsUe-KtbtuEoYrys0TcmsV2UkEA2=7UQzw@mail.gmail.com>
- <YKSgcn5gxE/4u2bT@kroah.com>
- <YKTsyyVYsHVMQC+G@kroah.com>
- <d7d5ad76-aec3-3297-0fac-a9da9b0c3663@redhat.com>
+        id S1351934AbhESMZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 08:25:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30252 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1351833AbhESMZu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 08:25:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621427070;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=B6+GMlwrRYCIhKlucQm0d4pBq6rNn427lZR0x1Dlm1U=;
+        b=EbYoSluzMNhbEpOumzUwtHyuMIzBpVC//0qSDZmlKC8tYpvcrH6roPskLn/KRzJGCBaWY3
+        K/Dv6yOpLAOFtwJI3xqxGOxK/4y8UCIUr1uqg+zZpPAmjdK8ZaJdr2QPqEFxtzIFVYnfBY
+        IfTWUQIxVulS/Vqinxa6HFQ1CaFMg4A=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-1l1v1B9EMKu9oRPbtLP31A-1; Wed, 19 May 2021 08:24:29 -0400
+X-MC-Unique: 1l1v1B9EMKu9oRPbtLP31A-1
+Received: by mail-qv1-f70.google.com with SMTP id c5-20020a0ca9c50000b02901aede9b5061so10178249qvb.14
+        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 05:24:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=B6+GMlwrRYCIhKlucQm0d4pBq6rNn427lZR0x1Dlm1U=;
+        b=tRrElJU6Ly7BPKKsOhqATnzyq+OQxlNOOJggkSor8GS9X9V+m2hjuBqSviVTFz9dcY
+         YDgtGWFTyGU7K8rLqJ0hUOPYv0joasO8XLRv3t1jq8f+uuM4TGfGiiA+k0qYnKGhsyAi
+         ngRxcPy4GPaFjfH58qgWIZmqioY2jqDfvvhZ39DHgxObSvxsI79N4E5RLgFTtrvWd/cJ
+         pLDoz1uzjHWOawUKUvqg89VE6g2iD0gonMpy5qKv+yLsmBfUWA8+LWdq0qGubJ7yuVMi
+         WDzgcqVnJExaMKxPazY6d0hXuAGuyfvKh7LHZX52ZO5y2al0GWCLODb0U5iPaJzy5lnr
+         qfNA==
+X-Gm-Message-State: AOAM531XJ9D02ff030N+06hd9zvn1BLEtk1xHkTrgD33YQQlnFKdyhL+
+        B8kivyoCVWxSeEyewm07g04qCevtIvtJOS09gKgJK11EBCVsM++1YrRqj0mk0BD7s14JjbnHFXf
+        l9fPYgw9xsqkY8mcig53v
+X-Received: by 2002:ac8:4b74:: with SMTP id g20mr11134577qts.196.1621427068812;
+        Wed, 19 May 2021 05:24:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfYWS/dsuPCr9XZO07LTE6R21Hbq/UdkcASCcx2KQMguWwavSEob3mks8rwF1tmkFnKYSzdA==
+X-Received: by 2002:ac8:4b74:: with SMTP id g20mr11134560qts.196.1621427068562;
+        Wed, 19 May 2021 05:24:28 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
+        by smtp.gmail.com with ESMTPSA id m4sm15981169qtg.21.2021.05.19.05.24.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 May 2021 05:24:28 -0700 (PDT)
+Date:   Wed, 19 May 2021 08:24:27 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+        bskeggs@redhat.com, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, jhubbard@nvidia.com,
+        rcampbell@nvidia.com, jglisse@redhat.com, jgg@nvidia.com,
+        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
+        bsingharora@gmail.com, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
+Message-ID: <YKUDe8Oe4Y+q5Kxx@t490s>
+References: <20210407084238.20443-1-apopple@nvidia.com>
+ <20210407084238.20443-6-apopple@nvidia.com>
+ <YKQutvAa3NlgGaMm@t490s>
+ <3859486.fHISG1RMxY@nvdebian>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d7d5ad76-aec3-3297-0fac-a9da9b0c3663@redhat.com>
+In-Reply-To: <3859486.fHISG1RMxY@nvdebian>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 19, 2021 at 01:18:44PM +0200, Paolo Bonzini wrote:
-> On 19/05/21 12:47, Greg Kroah-Hartman wrote:
-> > > It is not a dumping ground for stuff that arch maintainers can not seem
-> > > to agree on, and it is not a place where you can just randomly play
-> > > around with user/kernel apis with no consequences.
-> > > 
-> > > So no, sorry, not going to take this code at all.
+On Wed, May 19, 2021 at 08:49:01PM +1000, Alistair Popple wrote:
+> On Wednesday, 19 May 2021 7:16:38 AM AEST Peter Xu wrote:
+> > External email: Use caution opening links or attachments
 > > 
-> > And to be a bit more clear about this, having other subsystem
-> > maintainers drop their unwanted code on this subsystem,_without_  even
-> > asking me first is just not very nice. All of a sudden I am now > responsible for this stuff, without me even being asked about it.
-> > Should I start throwing random drivers into the kvm subsystem for them
-> > to maintain because I don't want to?:)
+> > 
+> > On Wed, Apr 07, 2021 at 06:42:35PM +1000, Alistair Popple wrote:
+> > 
+> > [...]
+> > 
+> > > +static bool try_to_protect(struct page *page, struct mm_struct *mm,
+> > > +                        unsigned long address, void *arg)
+> > > +{
+> > > +     struct ttp_args ttp = {
+> > > +             .mm = mm,
+> > > +             .address = address,
+> > > +             .arg = arg,
+> > > +             .valid = false,
+> > > +     };
+> > > +     struct rmap_walk_control rwc = {
+> > > +             .rmap_one = try_to_protect_one,
+> > > +             .done = page_not_mapped,
+> > > +             .anon_lock = page_lock_anon_vma_read,
+> > > +             .arg = &ttp,
+> > > +     };
+> > > +
+> > > +     /*
+> > > +      * Restrict to anonymous pages for now to avoid potential writeback
+> > > +      * issues.
+> > > +      */
+> > > +     if (!PageAnon(page))
+> > > +             return false;
+> > > +
+> > > +     /*
+> > > +      * During exec, a temporary VMA is setup and later moved.
+> > > +      * The VMA is moved under the anon_vma lock but not the
+> > > +      * page tables leading to a race where migration cannot
+> > > +      * find the migration ptes. Rather than increasing the
+> > > +      * locking requirements of exec(), migration skips
+> > > +      * temporary VMAs until after exec() completes.
+> > > +      */
+> > > +     if (!PageKsm(page) && PageAnon(page))
+> > > +             rwc.invalid_vma = invalid_migration_vma;
+> > > +
+> > > +     rmap_walk(page, &rwc);
+> > > +
+> > > +     return ttp.valid && !page_mapcount(page);
+> > > +}
+> > 
+> > I raised a question in the other thread regarding fork():
+> > 
+> > https://lore.kernel.org/lkml/YKQjmtMo+YQGx%2FwZ@t490s/
+> > 
+> > While I suddenly noticed that we may have similar issues even if we fork()
+> > before creating the ptes.
+> > 
+> > In that case, we may see multiple read-only ptes pointing to the same page. 
+> > We will convert all of them into device exclusive read ptes in rmap_walk()
+> > above, however how do we guarantee after all COW done in the parent and all
+> > the childs processes, the device owned page will be returned to the parent?
 > 
-> (I did see the smiley), I'm on board with throwing random drivers in
-> arch/riscv. :)
-> 
-> The situation here didn't seem very far from what process/2.Process.rst says
-> about staging:
-> 
-> - "a way to keep track of drivers that aren't up to standards", though in
-> this case the issue is not coding standards or quality---the code is very
-> good---and which people "may want to use"
+> I assume you are talking about a fork() followed by a call to 
+> make_device_exclusive()? I think this should be ok because 
+> make_device_exclusive() always calls GUP with FOLL_WRITE both to break COW and 
+> because a device performing atomic operations needs to write to the page. I 
+> suppose a comment here highlighting the need to break COW to avoid this 
+> scenario would be useful though.
 
-Exactly, this is different.  And it's not self-contained, which is
-another requirement for staging code that we have learned to enforce
-over the years (makes it easier to rip out if no one is willing to
-maintain it.)
+Indeed, sorry for the false alarm!  Yes it would be great to mention that too.
 
-> - the code could be removed if there's no progress on either changing the
-> RISC-V acceptance policy or ratifying the spec
+-- 
+Peter Xu
 
-I really do not understand the issue here, why can this just not be
-merged normally?
-
-Is the code somehow not ok?  Is it relying on hardware in ways that
-breaks other users?  Does it cause problems for different users?  Is it
-a user api that you don't like or think is the "proper" one?
-
-All staging drivers need a TODO list that shows what needs to be done in
-order to get it out of staging.  All I can tell so far is that the riscv
-maintainers do not want to take this for "unknown reasons" so let's dump
-it over here for now where we don't have to see it.
-
-And that's not good for developers or users, so perhaps the riscv rules
-are not very good?
-
-> Of course there should have been a TODO file explaining the situation. But
-> if you think this is not the right place, I totally understand; if my
-> opinion had any weight in this, I would just place it in arch/riscv/kvm.
-> 
-> The RISC-V acceptance policy as is just doesn't work, and the fact that
-> people are trying to work around it is proving it.  There are many ways to
-> improve it:
-
-What is this magical acceptance policy that is preventing working code
-from being merged?  And why is it suddenly the rest of the kernel
-developer's problems because of this?
-
-thanks,
-
-greg k-h
