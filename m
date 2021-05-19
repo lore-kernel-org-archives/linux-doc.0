@@ -2,141 +2,234 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A29C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 15:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C8DFC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 16:31:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FDD9611BF
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 15:56:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22F7F61007
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 16:31:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348438AbhESP5k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 11:57:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33422 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239586AbhESP5k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 11:57:40 -0400
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30C59C06175F;
-        Wed, 19 May 2021 08:56:20 -0700 (PDT)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1ljOXW-00GH8f-H0; Wed, 19 May 2021 15:55:18 +0000
-Date:   Wed, 19 May 2021 15:55:18 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 12/14] d_path: prepend_path(): lift the inner loop into a
- new helper
-Message-ID: <YKU05k0P7YjH/g6E@zeniv-ca.linux.org.uk>
-References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
- <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
- <20210519004901.3829541-12-viro@zeniv.linux.org.uk>
- <YKTHKNsX/cvYwbWj@smile.fi.intel.com>
+        id S242488AbhESQc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 12:32:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25511 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241826AbhESQc0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 12:32:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621441865;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=DTIBsxfcmpbiGvB6/oqS+BCqPAr0GPYXwX6i6OwUXu8=;
+        b=AlNwcvDLkBRkZIMcdTVsdfz8meNK34vlQ+lbTjwDp2kya8lTxu/00AJwQANsYsrXkKNXCC
+        XLJHTkN1oB8bINzmlsKPXT5xIPSRH7EvAKYHXBVGUjpESzeoFAKe99yNvZXLECnjLCnoBa
+        aSsw9lM9pvNSIJ3Giwf3nLSHGmj8+ko=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-198-rxXOfRlRMwqWZ-uHwhiTgw-1; Wed, 19 May 2021 12:31:02 -0400
+X-MC-Unique: rxXOfRlRMwqWZ-uHwhiTgw-1
+Received: by mail-qv1-f69.google.com with SMTP id l19-20020a0ce5130000b02901b6795e3304so10794526qvm.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 09:31:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DTIBsxfcmpbiGvB6/oqS+BCqPAr0GPYXwX6i6OwUXu8=;
+        b=IIK5wIixtdYFI6sitLNiNQPDsHYz2EyEIQcXbIN5qoKPuKqF9EHnhTdTlqGQpYO58Z
+         XYf8r+wBe5tvWftq4PQVNrCDf5MLpIJL/fPydV45q+SSvk4DTJkm4Ef2MH1BeDQEXdWp
+         JWd8vERO3wFQDTZ77S5pR5/88EU2Hui7FIomoupUgzIMHa6ciJ4CtitjuhOAjl2X4pDR
+         g+1hx7nS4XaQwP0dfoDb5agpIM/uPw3BEOh7ex6/jPLc0TC300NIin2Ilqpi52W+sFDR
+         JZ25JQZqELm57zpEsX7vFXDJEqq0MWHEVazrXhXzID3vxSlV9KafoTJqo0Y8O8DDYNAc
+         VFOg==
+X-Gm-Message-State: AOAM531i8/5LpwYCgUt4X+31DNDE/aMYSB5P1A5R7y1ZTy2Aqm2IfnYy
+        7L7KoSHN0vX45wZ28TLmFNCEWurhuWC84HpZr5mN6muuM5am4EAaP4E9BVzx70Zsqt560yMNx5T
+        uuGgaJHl1GLoKblfTKdp0
+X-Received: by 2002:a37:ae86:: with SMTP id x128mr120644qke.427.1621441861588;
+        Wed, 19 May 2021 09:31:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBDO/tdIzDTtrmY8uL8MiiJzfxzrZi8/LESSihIP4aUK6JgfnB0vNj/ZF4iZSBIj0X30ZwmA==
+X-Received: by 2002:a37:ae86:: with SMTP id x128mr120601qke.427.1621441861183;
+        Wed, 19 May 2021 09:31:01 -0700 (PDT)
+Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id a14sm1442263qtp.74.2021.05.19.09.30.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 May 2021 09:31:00 -0700 (PDT)
+From:   trix@redhat.com
+To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
+        michal.simek@xilinx.com
+Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] fpga: fix spelling mistakes
+Date:   Wed, 19 May 2021 09:30:56 -0700
+Message-Id: <20210519163056.1966690-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKTHKNsX/cvYwbWj@smile.fi.intel.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 19, 2021 at 11:07:04AM +0300, Andy Shevchenko wrote:
-> On Wed, May 19, 2021 at 12:48:59AM +0000, Al Viro wrote:
-> > ... and leave the rename_lock/mount_lock handling in prepend_path()
-> > itself
-> 
-> ...
-> 
-> > +			if (!IS_ERR_OR_NULL(mnt_ns) && !is_anon_ns(mnt_ns))
-> > +				return 1;	// absolute root
-> > +			else
-> > +				return 2;	// detached or not attached yet
-> 
-> Would it be slightly better to read
-> 
-> 			if (IS_ERR_OR_NULL(mnt_ns) || is_anon_ns(mnt_ns))
-> 				return 2;	// detached or not attached yet
-> 			else
-> 				return 1;	// absolute root
-> 
-> ?
-> 
-> Oh, I have noticed that it's in the original piece of code (perhaps separate
-> change if we ever need it?).
+From: Tom Rix <trix@redhat.com>
 
-The real readability problem here is not the negations.  There are 4 possible
-states for vfsmount encoded via ->mnt_ns:
-	1) not attached to any tree, kept alive by refcount alone.
-->mnt_ns == NULL.
-	2) long-term unattached.  Not a part of any mount tree, but we have
-a known holder for it and until that's gone (making ->mnt_ns NULL), refcount
-is guaranteed to remain positive.  pipe_mnt is an example of such.
-->mnt_ns == MNT_NS_INTERNAL, which is encoded as ERR_PTR(-1), thus the use of
-IS_ERR_OR_NULL here (something I'd normally taken out and shot - use of that
-primitive is a sign of lousy API or of a cargo-culted "defensive programming").
-	3) part of a temporary mount tree; not in anyone's namespace.
-->mnt_ns points the tree in question, ->mnt_ns->seq == 0.
-	4) belongs to someone's namespace.  ->mnt_ns points to that,
-->mnt_ns->seq != 0.  That's what we are looking for here.
+Run the fpga subsystem through aspell.
 
-	It's kludges all the way down ;-/  Note that temporary tree can't become
-a normal one or vice versa - mounts can get transferred to normal namespace,
-but they will see ->mnt_ns reassigned to that.  IOW, ->mnt_ns->seq can't
-get changed without a change to ->mnt_ns.  I suspect that the right way
-to handle that would be to have that state stored as explicit flags.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ Documentation/fpga/dfl.rst    | 4 ++--
+ drivers/fpga/altera-cvp.c     | 2 +-
+ drivers/fpga/dfl-fme-pr.c     | 2 +-
+ drivers/fpga/dfl-n3000-nios.c | 2 +-
+ drivers/fpga/dfl.h            | 2 +-
+ drivers/fpga/fpga-bridge.c    | 4 ++--
+ drivers/fpga/zynq-fpga.c      | 6 +++---
+ include/linux/fpga/fpga-mgr.h | 2 +-
+ 8 files changed, 12 insertions(+), 12 deletions(-)
 
-	All mounts are created (and destroyed) in state (1); state changes:
-commit_tree() - (1) or (3) to (3) or (4)
-umount_tree() - (3) or (4) to (1)
-clone_private_mount() - (1) to (2)
-open_detached_copy() - (1) to (3)
-copy_mnt_ns() - (1) to (4)
-mount_subtree() - (1) to (3)
-fsmount() - (1) to (3)
-init_mount_tree() - (1) to (4)
-kern_mount() - (1) to (2)
-kern_unmount{,_array}() - (2) to (1)
+diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+index f3a1223f2517e..ccc33f199df2a 100644
+--- a/Documentation/fpga/dfl.rst
++++ b/Documentation/fpga/dfl.rst
+@@ -10,7 +10,7 @@ Authors:
+ - Xu Yilun <yilun.xu@intel.com>
+ 
+ The Device Feature List (DFL) FPGA framework (and drivers according to
+-this framework) hides the very details of low layer hardwares and provides
++this framework) hides the very details of low layer hardware and provides
+ unified interfaces to userspace. Applications could use these interfaces to
+ configure, enumerate, open and access FPGA accelerators on platforms which
+ implement the DFL in the device memory. Besides this, the DFL framework
+@@ -205,7 +205,7 @@ given Device Feature Lists and create platform devices for feature devices
+ also abstracts operations for the private features and exposes common ops to
+ feature device drivers.
+ 
+-The FPGA DFL Device could be different hardwares, e.g. PCIe device, platform
++The FPGA DFL Device could be different hardware, e.g. PCIe device, platform
+ device and etc. Its driver module is always loaded first once the device is
+ created by the system. This driver plays an infrastructural role in the
+ driver architecture. It locates the DFLs in the device memory, handles them
+diff --git a/drivers/fpga/altera-cvp.c b/drivers/fpga/altera-cvp.c
+index 4e0edb60bfba6..ccf4546eff297 100644
+--- a/drivers/fpga/altera-cvp.c
++++ b/drivers/fpga/altera-cvp.c
+@@ -346,7 +346,7 @@ static int altera_cvp_write_init(struct fpga_manager *mgr,
+ 	}
+ 
+ 	if (val & VSE_CVP_STATUS_CFG_RDY) {
+-		dev_warn(&mgr->dev, "CvP already started, teardown first\n");
++		dev_warn(&mgr->dev, "CvP already started, tear down first\n");
+ 		ret = altera_cvp_teardown(mgr, info);
+ 		if (ret)
+ 			return ret;
+diff --git a/drivers/fpga/dfl-fme-pr.c b/drivers/fpga/dfl-fme-pr.c
+index 1194c0e850e07..d61ce9a188792 100644
+--- a/drivers/fpga/dfl-fme-pr.c
++++ b/drivers/fpga/dfl-fme-pr.c
+@@ -148,7 +148,7 @@ static int fme_pr(struct platform_device *pdev, unsigned long arg)
+ 
+ 	/*
+ 	 * it allows userspace to reset the PR region's logic by disabling and
+-	 * reenabling the bridge to clear things out between accleration runs.
++	 * reenabling the bridge to clear things out between acceleration runs.
+ 	 * so no need to hold the bridges after partial reconfiguration.
+ 	 */
+ 	if (region->get_bridges)
+diff --git a/drivers/fpga/dfl-n3000-nios.c b/drivers/fpga/dfl-n3000-nios.c
+index 7a95366f6516f..9ddf1d1d392f3 100644
+--- a/drivers/fpga/dfl-n3000-nios.c
++++ b/drivers/fpga/dfl-n3000-nios.c
+@@ -461,7 +461,7 @@ static int n3000_nios_poll_stat_timeout(void __iomem *base, u64 *v)
+ 	 * We don't use the time based timeout here for performance.
+ 	 *
+ 	 * The regbus read/write is on the critical path of Intel PAC N3000
+-	 * image programing. The time based timeout checking will add too much
++	 * image programming. The time based timeout checking will add too much
+ 	 * overhead on it. Usually the state changes in 1 or 2 loops on the
+ 	 * test server, and we set 10000 times loop here for safety.
+ 	 */
+diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
+index 2b82c96ba56c7..dac9c3d45e6c3 100644
+--- a/drivers/fpga/dfl.h
++++ b/drivers/fpga/dfl.h
+@@ -232,7 +232,7 @@ struct dfl_feature_irq_ctx {
+  * @id: sub feature id.
+  * @resource_index: each sub feature has one mmio resource for its registers.
+  *		    this index is used to find its mmio resource from the
+- *		    feature dev (platform device)'s reources.
++ *		    feature dev (platform device)'s resources.
+  * @ioaddr: mapped mmio resource address.
+  * @irq_ctx: interrupt context list.
+  * @nr_irqs: number of interrupt contexts.
+diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
+index 6510c7803a784..d31eec32eb426 100644
+--- a/drivers/fpga/fpga-bridge.c
++++ b/drivers/fpga/fpga-bridge.c
+@@ -230,7 +230,7 @@ EXPORT_SYMBOL_GPL(fpga_bridges_put);
+  *
+  * Get an exclusive reference to the bridge and and it to the list.
+  *
+- * Return 0 for success, error code from of_fpga_bridge_get() othewise.
++ * Return 0 for success, error code from of_fpga_bridge_get() otherwise.
+  */
+ int of_fpga_bridge_get_to_list(struct device_node *np,
+ 			       struct fpga_image_info *info,
+@@ -260,7 +260,7 @@ EXPORT_SYMBOL_GPL(of_fpga_bridge_get_to_list);
+  *
+  * Get an exclusive reference to the bridge and and it to the list.
+  *
+- * Return 0 for success, error code from fpga_bridge_get() othewise.
++ * Return 0 for success, error code from fpga_bridge_get() otherwise.
+  */
+ int fpga_bridge_get_to_list(struct device *dev,
+ 			    struct fpga_image_info *info,
+diff --git a/drivers/fpga/zynq-fpga.c b/drivers/fpga/zynq-fpga.c
+index 07fa8d9ec6750..9b75bd4f93d8e 100644
+--- a/drivers/fpga/zynq-fpga.c
++++ b/drivers/fpga/zynq-fpga.c
+@@ -192,7 +192,7 @@ static void zynq_step_dma(struct zynq_fpga_priv *priv)
+ 
+ 	/* Once the first transfer is queued we can turn on the ISR, future
+ 	 * calls to zynq_step_dma will happen from the ISR context. The
+-	 * dma_lock spinlock guarentees this handover is done coherently, the
++	 * dma_lock spinlock guarantees this handover is done coherently, the
+ 	 * ISR enable is put at the end to avoid another CPU spinning in the
+ 	 * ISR on this lock.
+ 	 */
+@@ -267,7 +267,7 @@ static int zynq_fpga_ops_write_init(struct fpga_manager *mgr,
+ 		ctrl = zynq_fpga_read(priv, CTRL_OFFSET);
+ 		if (!(ctrl & CTRL_SEC_EN_MASK)) {
+ 			dev_err(&mgr->dev,
+-				"System not secure, can't use crypted bitstreams\n");
++				"System not secure, can't use encrypted bitstreams\n");
+ 			err = -EINVAL;
+ 			goto out_err;
+ 		}
+@@ -344,7 +344,7 @@ static int zynq_fpga_ops_write_init(struct fpga_manager *mgr,
+ 
+ 	/* set configuration register with following options:
+ 	 * - enable PCAP interface
+-	 * - set throughput for maximum speed (if bistream not crypted)
++	 * - set throughput for maximum speed (if bistream not encrypted)
+ 	 * - set CPU in user mode
+ 	 */
+ 	ctrl = zynq_fpga_read(priv, CTRL_OFFSET);
+diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
+index 2bc3030a69e54..3a32b8e201857 100644
+--- a/include/linux/fpga/fpga-mgr.h
++++ b/include/linux/fpga/fpga-mgr.h
+@@ -110,7 +110,7 @@ struct fpga_image_info {
+  * @initial_header_size: Maximum number of bytes that should be passed into write_init
+  * @state: returns an enum value of the FPGA's state
+  * @status: returns status of the FPGA, including reconfiguration error code
+- * @write_init: prepare the FPGA to receive confuration data
++ * @write_init: prepare the FPGA to receive configuration data
+  * @write: write count bytes of configuration data to the FPGA
+  * @write_sg: write the scatter list of configuration data to the FPGA
+  * @write_complete: set FPGA to operating state after writing is done
+-- 
+2.26.3
 
-	commit_tree() has a pathological call chain that has it
-attach stuff to temporary tree; that's basically automount by lookup in
-temporary namespace.  It can distinguish it from the usual (adding to
-normal namespace) by looking at the state of mountpoint we are attaching
-to - or simply describe all cases as "(1) or (3) to whatever state the
-mountpoint is".
-
-	One really hot path where we check (1) vs. (2,3,4) is
-mntput_no_expire(), which is the initial reason behind the current
-representation.  However, read from ->mnt_flags is just as cheap as
-that from ->mnt_ns and the same reasons that make READ_ONCE()
-legitimate there would apply to ->mnt_flags as well.
-
-	We can't reuse MNT_INTERNAL for that, more's the pity -
-it's used to mark the mounts (kern_mount()-created, mostly) that
-need to destroyed synchronously on the final mntput(), with no
-task_work_add() allowed (think of module_init() failing halfway through,
-with kern_unmount() done to destroy the internal mounts already created;
-we *really* don't want to delay that filesystem shutdown until insmod(2)
-heads out to userland).  Another headache is in LSM shite, as usual...
-
-	Anyway, sorting that out is definitely a separate story.
