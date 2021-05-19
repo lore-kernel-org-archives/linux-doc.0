@@ -2,114 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D94EAC43460
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 14:44:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F772C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 15:08:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5F166105A
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 14:44:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EEC4561042
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 15:08:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354509AbhESOpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 10:45:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44698 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354513AbhESOo4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 10:44:56 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB93C06175F
-        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 07:43:32 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id d11so14285150wrw.8
-        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 07:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=p9EzsKAwUEoWbxJga9Lc6V9Q/wXt9Eycw+vzbvGAMdo=;
-        b=EkdGxM5Pu3lbgQzfC56Fxhi2JbPsOcmQcuF8T92AcJ4NzUvMURNp9i1AferWBTSeA/
-         W7nLFIFkLTAtXydfa6o1/UskE+iY3YFthjjdV9MTd16WlCBGsog4nmJDLCrk234WNB1i
-         Tj8BfMRwSutc6p25S/vgIdk49Tlv69StEU2eSKFtAAwJl4L5IhJw7FqffWUNHmDxeIJT
-         NrRPGa2OO7rfvqUEWc7Yg04FsaQmrr4dtCg4yE7Y1LfyFB8mapLrLyWpf7tjKuBLxuES
-         QdKv4Ak2PUj2CuaC5IMMkNlojjGQsjd6eWKK1Pgkn98WJFjIOfwtxCJ+KPRKfYwdABbE
-         d0wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=p9EzsKAwUEoWbxJga9Lc6V9Q/wXt9Eycw+vzbvGAMdo=;
-        b=Ehvd9cRWtBcEiIwc7kYfdHMdh1edECSA/bwr34Wq4quxCcXO6BqADVN0kJQ/Z5UbsM
-         et6F1AOSNb00O/gwYfBHSzd2/71XBIE2tZ8vGhuvAyJtfSr5I+iBTJQ3hJ5DN4P0GwF0
-         AULaBgDtJv8GVyY/dL6mV7xA8LOGFIAQZhbYsVcowozqHsSHmvYvmBWcxPvV+d2c2GLr
-         PY+QQorJ+rWcfN3e8c09LC27Ifn2SmSdOO7ezHMqgiinsxeCif9EEeV9qM873ehl3bLD
-         sGpQCLJ4P7JmH1KCiUkmOuY6poG1etBZmnKDpY+YGJQ5DgYcjd9F+ewH/Au5oaoMS8oZ
-         7OFw==
-X-Gm-Message-State: AOAM5325qAwDicnKZBQ2A/fa+8dO8AiQ6ew/58Pxc39R78duo9d2OF7n
-        SREQvz0910APJNGzuUF+rFSyIQ==
-X-Google-Smtp-Source: ABdhPJwl7zf40CNgtL10qhlSTYIJ8i5odorihCGBLzABsn6bKmjH9uVFMLJbhvO58dxj0gKoIK/PIw==
-X-Received: by 2002:adf:df8d:: with SMTP id z13mr14922689wrl.267.1621435410817;
-        Wed, 19 May 2021 07:43:30 -0700 (PDT)
-Received: from dell ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id w25sm21015609wmk.25.2021.05.19.07.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 07:43:30 -0700 (PDT)
-Date:   Wed, 19 May 2021 15:43:28 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S231998AbhESPKI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 11:10:08 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:45358 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348804AbhESPKG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 11:10:06 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14JF5rt9115755;
+        Wed, 19 May 2021 15:08:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=O4M1xcTAuM/DDdc0c5CDLl/yAMutYPdkSv4nE2h3AeI=;
+ b=oiJTPjfiELJ31h/2dywpDTju0Qrln1slSZD7cshRMtRC1k/KtXgpy+pe9GMtWVazE3OI
+ T43P/YIzlig6H66ly2aKF7u3kVapM/k15DD0B3UxeQsIhQv1NV4PSFyb1WryaUD1CZBQ
+ FFqwljp8bpOKSyJyNYB4Wyq6SDS4HwAvqlsz2komMzLQEXQsZLN1fCER+K8D+To2ry0B
+ 517gY7iFWGrcvZqNfJ/TIrh0AA140vIF1hgaDBZIlVAvxVIcAQtm5DiurBep9g+eiZUT
+ UjhhSKTy+SXYwuNJTzyt18K3FAEz/7vz4bre9m2YARBqXaWviYUKa//gMujh8daNUqZY gQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 38j5qr9wfu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 May 2021 15:08:32 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14JF03JH086247;
+        Wed, 19 May 2021 15:08:32 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3020.oracle.com with ESMTP id 38mecjfk91-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 May 2021 15:08:32 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14JF52Qc141441;
+        Wed, 19 May 2021 15:08:31 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 38mecjfk6v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 May 2021 15:08:31 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14JF8S9g005989;
+        Wed, 19 May 2021 15:08:28 GMT
+Received: from kadam (/41.212.42.34)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 19 May 2021 08:08:27 -0700
+Date:   Wed, 19 May 2021 18:08:14 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Anup Patel <anup@brainfault.org>,
+        Anup Patel <anup.patel@wdc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Drew Fustini <drew@beagleboard.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Saravana Kannan <saravanak@google.com>,
-        alsa-devel@alsa-project.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH 05/10] docs: update pin-control.rst references
-Message-ID: <20210519144328.GA2549456@dell>
-References: <cover.1621413933.git.mchehab+huawei@kernel.org>
- <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
+        Alexander Graf <graf@amazon.com>,
+        Atish Patra <atish.patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        KVM General <kvm@vger.kernel.org>,
+        kvm-riscv@lists.infradead.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
+Message-ID: <20210519150814.GY1955@kadam>
+References: <20210519033553.1110536-1-anup.patel@wdc.com>
+ <YKSa48cejI1Lax+/@kroah.com>
+ <CAAhSdy18qySXbUdrEsUe-KtbtuEoYrys0TcmsV2UkEA2=7UQzw@mail.gmail.com>
+ <YKSgcn5gxE/4u2bT@kroah.com>
+ <YKTsyyVYsHVMQC+G@kroah.com>
+ <d7d5ad76-aec3-3297-0fac-a9da9b0c3663@redhat.com>
+ <YKUDWgZVj82/KiKw@kroah.com>
+ <daa30135-8757-8d33-a92e-8db4207168ff@redhat.com>
+ <YKUZbb6OK+UYAq+t@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
+In-Reply-To: <YKUZbb6OK+UYAq+t@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: DSYkubxMfO3UDZdxS1ycNWkOZn5DmMy3
+X-Proofpoint-ORIG-GUID: DSYkubxMfO3UDZdxS1ycNWkOZn5DmMy3
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9989 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 impostorscore=0
+ mlxscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105190095
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 19 May 2021, Mauro Carvalho Chehab wrote:
+It's sort of frustrating that none of this information was in the commit
+message.
 
-> Changeset 5513b411ea5b ("Documentation: rename pinctl to pin-control")
-> renamed: Documentation/driver-api/pinctl.rst
-> to: Documentation/driver-api/pin-control.rst.
-> 
-> Update the cross-references accordingly.
-> 
-> Fixes: 5513b411ea5b ("Documentation: rename pinctl to pin-control")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  include/linux/device.h                  | 2 +-
+"This code is not ready to be merged into the arch/risc/ directory
+because the RISC-V Foundation has not certified the hardware spec yet.
+However, the following chips have implemented it ABC12345, ABC6789 and
+they've already shipping to thousands of customers since blah blah blah
+so we should support it."
 
->  include/linux/mfd/madera/pdata.h        | 2 +-
+I honestly thought it was an issue with the code or the userspace API.
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+regards,
+dan carpenter
 
->  include/linux/pinctrl/pinconf-generic.h | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
