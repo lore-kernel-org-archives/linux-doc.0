@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC29EC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07219C4360C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1F76613AE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD61D6135C
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 00:51:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233252AbhESAwX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 May 2021 20:52:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53904 "EHLO
+        id S230338AbhESAwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 May 2021 20:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234642AbhESAu5 (ORCPT
+        with ESMTP id S1352869AbhESAu5 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 18 May 2021 20:50:57 -0400
 Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDFB6C06175F;
-        Tue, 18 May 2021 17:49:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C9CC0613ED;
+        Tue, 18 May 2021 17:49:38 -0700 (PDT)
 Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1ljAOT-00G4FY-K4; Wed, 19 May 2021 00:49:01 +0000
+        id 1ljAOU-00G4Fk-8v; Wed, 19 May 2021 00:49:02 +0000
 From:   Al Viro <viro@zeniv.linux.org.uk>
 To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
@@ -45,9 +45,9 @@ Cc:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-s390 <linux-s390@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: [PATCH 03/14] d_path: regularize handling of root dentry in __dentry_path()
-Date:   Wed, 19 May 2021 00:48:50 +0000
-Message-Id: <20210519004901.3829541-3-viro@zeniv.linux.org.uk>
+Subject: [PATCH 09/14] d_path: introduce struct prepend_buffer
+Date:   Wed, 19 May 2021 00:48:56 +0000
+Message-Id: <20210519004901.3829541-9-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
 References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
@@ -59,84 +59,331 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All path-forming primitives boil down to sequence of prepend_name()
-on dentries encountered along the way toward root.  Each time we prepend
-/ + dentry name to the buffer.  Normally that does exactly what we want,
-but there's a corner case when we don't call prepend_name() at all (in case
-of __dentry_path() that happens if we are given root dentry).  We obviously
-want to end up with "/", rather than "", so this corner case needs to be
-handled.
+        We've a lot of places where we have pairs of form (pointer to end
+of buffer, amount of space left in front of that).  These sit in pairs of
+variables located next to each other and usually passed by reference.
+Turn those into instances of new type (struct prepend_buffer) and pass
+reference to the pair instead of pairs of references to its fields.
 
-__dentry_path() used to manually put '/' in the end of buffer before
-doing anything else, to be overwritten by the first call of prepend_name()
-if one happens and to be left in place if we don't call prepend_name() at
-all.  That required manually checking that we had space in the buffer
-(prepend_name() and prepend() take care of such checks themselves) and lead
-to clumsy keeping track of return value.
+Declared and initialized by DECLARE_BUFFER(name, buf, buflen).
 
-A better approach is to check if the main loop has added anything
-into the buffer and prepend "/" if it hasn't.  A side benefit of using prepend()
-is that it does the right thing if we'd already run out of buffer, making
-the overflow-handling logics simpler.
+extract_string(prepend_buffer) returns the buffer contents if
+no overflow has happened, ERR_PTR(ENAMETOOLONG) otherwise.
+All places where we used to have that boilerplate converted to use
+of that helper.
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/d_path.c | 21 +++++----------------
- 1 file changed, 5 insertions(+), 16 deletions(-)
+ fs/d_path.c | 142 ++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 75 insertions(+), 67 deletions(-)
 
 diff --git a/fs/d_path.c b/fs/d_path.c
-index 1a1cf05e7780..b3324ae7cfe2 100644
+index 83db83446afd..06e93dd031bf 100644
 --- a/fs/d_path.c
 +++ b/fs/d_path.c
-@@ -329,31 +329,22 @@ char *simple_dname(struct dentry *dentry, char *buffer, int buflen)
- static char *__dentry_path(const struct dentry *d, char *p, int buflen)
+@@ -8,12 +8,26 @@
+ #include <linux/prefetch.h>
+ #include "mount.h"
+ 
+-static void prepend(char **buffer, int *buflen, const char *str, int namelen)
++struct prepend_buffer {
++	char *buf;
++	int len;
++};
++#define DECLARE_BUFFER(__name, __buf, __len) \
++	struct prepend_buffer __name = {.buf = __buf + __len, .len = __len}
++
++static char *extract_string(struct prepend_buffer *p)
+ {
+-	*buflen -= namelen;
+-	if (likely(*buflen >= 0)) {
+-		*buffer -= namelen;
+-		memcpy(*buffer, str, namelen);
++	if (likely(p->len >= 0))
++		return p->buf;
++	return ERR_PTR(-ENAMETOOLONG);
++}
++
++static void prepend(struct prepend_buffer *p, const char *str, int namelen)
++{
++	p->len -= namelen;
++	if (likely(p->len >= 0)) {
++		p->buf -= namelen;
++		memcpy(p->buf, str, namelen);
+ 	}
+ }
+ 
+@@ -34,22 +48,22 @@ static void prepend(char **buffer, int *buflen, const char *str, int namelen)
+  *
+  * Load acquire is needed to make sure that we see that terminating NUL.
+  */
+-static bool prepend_name(char **buffer, int *buflen, const struct qstr *name)
++static bool prepend_name(struct prepend_buffer *p, const struct qstr *name)
+ {
+ 	const char *dname = smp_load_acquire(&name->name); /* ^^^ */
+ 	u32 dlen = READ_ONCE(name->len);
+-	char *p;
++	char *s;
+ 
+-	*buflen -= dlen + 1;
+-	if (unlikely(*buflen < 0))
++	p->len -= dlen + 1;
++	if (unlikely(p->len < 0))
+ 		return false;
+-	p = *buffer -= dlen + 1;
+-	*p++ = '/';
++	s = p->buf -= dlen + 1;
++	*s++ = '/';
+ 	while (dlen--) {
+ 		char c = *dname++;
+ 		if (!c)
+ 			break;
+-		*p++ = c;
++		*s++ = c;
+ 	}
+ 	return true;
+ }
+@@ -73,15 +87,14 @@ static bool prepend_name(char **buffer, int *buflen, const struct qstr *name)
+  */
+ static int prepend_path(const struct path *path,
+ 			const struct path *root,
+-			char **buffer, int *buflen)
++			struct prepend_buffer *p)
+ {
+ 	struct dentry *dentry;
+ 	struct vfsmount *vfsmnt;
+ 	struct mount *mnt;
+ 	int error = 0;
+ 	unsigned seq, m_seq = 0;
+-	char *bptr;
+-	int blen;
++	struct prepend_buffer b;
+ 
+ 	rcu_read_lock();
+ restart_mnt:
+@@ -89,8 +102,7 @@ static int prepend_path(const struct path *path,
+ 	seq = 0;
+ 	rcu_read_lock();
+ restart:
+-	bptr = *buffer;
+-	blen = *buflen;
++	b = *p;
+ 	error = 0;
+ 	dentry = path->dentry;
+ 	vfsmnt = path->mnt;
+@@ -105,8 +117,7 @@ static int prepend_path(const struct path *path,
+ 
+ 			/* Escaped? */
+ 			if (dentry != vfsmnt->mnt_root) {
+-				bptr = *buffer;
+-				blen = *buflen;
++				b = *p;
+ 				error = 3;
+ 				break;
+ 			}
+@@ -127,7 +138,7 @@ static int prepend_path(const struct path *path,
+ 		}
+ 		parent = dentry->d_parent;
+ 		prefetch(parent);
+-		if (!prepend_name(&bptr, &blen, &dentry->d_name))
++		if (!prepend_name(&b, &dentry->d_name))
+ 			break;
+ 
+ 		dentry = parent;
+@@ -148,11 +159,10 @@ static int prepend_path(const struct path *path,
+ 	}
+ 	done_seqretry(&mount_lock, m_seq);
+ 
+-	if (blen == *buflen)
+-		prepend(&bptr, &blen, "/", 1);
++	if (b.len == p->len)
++		prepend(&b, "/", 1);
+ 
+-	*buffer = bptr;
+-	*buflen = blen;
++	*p = b;
+ 	return error;
+ }
+ 
+@@ -176,24 +186,24 @@ char *__d_path(const struct path *path,
+ 	       const struct path *root,
+ 	       char *buf, int buflen)
+ {
+-	char *res = buf + buflen;
++	DECLARE_BUFFER(b, buf, buflen);
+ 
+-	prepend(&res, &buflen, "", 1);
+-	if (prepend_path(path, root, &res, &buflen) > 0)
++	prepend(&b, "", 1);
++	if (prepend_path(path, root, &b) > 0)
+ 		return NULL;
+-	return buflen >= 0 ? res : ERR_PTR(-ENAMETOOLONG);
++	return extract_string(&b);
+ }
+ 
+ char *d_absolute_path(const struct path *path,
+ 	       char *buf, int buflen)
+ {
+ 	struct path root = {};
+-	char *res = buf + buflen;
++	DECLARE_BUFFER(b, buf, buflen);
+ 
+-	prepend(&res, &buflen, "", 1);
+-	if (prepend_path(path, &root, &res, &buflen) > 1)
++	prepend(&b, "", 1);
++	if (prepend_path(path, &root, &b) > 1)
+ 		return ERR_PTR(-EINVAL);
+-	return buflen >= 0 ? res : ERR_PTR(-ENAMETOOLONG);
++	return extract_string(&b);
+ }
+ 
+ static void get_fs_root_rcu(struct fs_struct *fs, struct path *root)
+@@ -224,7 +234,7 @@ static void get_fs_root_rcu(struct fs_struct *fs, struct path *root)
+  */
+ char *d_path(const struct path *path, char *buf, int buflen)
+ {
+-	char *res = buf + buflen;
++	DECLARE_BUFFER(b, buf, buflen);
+ 	struct path root;
+ 
+ 	/*
+@@ -245,13 +255,13 @@ char *d_path(const struct path *path, char *buf, int buflen)
+ 	rcu_read_lock();
+ 	get_fs_root_rcu(current->fs, &root);
+ 	if (unlikely(d_unlinked(path->dentry)))
+-		prepend(&res, &buflen, " (deleted)", 11);
++		prepend(&b, " (deleted)", 11);
+ 	else
+-		prepend(&res, &buflen, "", 1);
+-	prepend_path(path, &root, &res, &buflen);
++		prepend(&b, "", 1);
++	prepend_path(path, &root, &b);
+ 	rcu_read_unlock();
+ 
+-	return buflen >= 0 ? res : ERR_PTR(-ENAMETOOLONG);
++	return extract_string(&b);
+ }
+ EXPORT_SYMBOL(d_path);
+ 
+@@ -278,36 +288,34 @@ char *dynamic_dname(struct dentry *dentry, char *buffer, int buflen,
+ 
+ char *simple_dname(struct dentry *dentry, char *buffer, int buflen)
+ {
+-	char *end = buffer + buflen;
++	DECLARE_BUFFER(b, buffer, buflen);
+ 	/* these dentries are never renamed, so d_lock is not needed */
+-	prepend(&end, &buflen, " (deleted)", 11);
+-	prepend(&end, &buflen, dentry->d_name.name, dentry->d_name.len);
+-	prepend(&end, &buflen, "/", 1);
+-	return buflen >= 0 ? end : ERR_PTR(-ENAMETOOLONG);
++	prepend(&b, " (deleted)", 11);
++	prepend(&b, dentry->d_name.name, dentry->d_name.len);
++	prepend(&b, "/", 1);
++	return extract_string(&b);
+ }
+ 
+ /*
+  * Write full pathname from the root of the filesystem into the buffer.
+  */
+-static char *__dentry_path(const struct dentry *d, char *p, int buflen)
++static char *__dentry_path(const struct dentry *d, struct prepend_buffer *p)
  {
  	const struct dentry *dentry;
--	char *end, *retval;
-+	char *end;
- 	int len, seq = 0;
--	int error = 0;
--
--	if (buflen < 1)
--		goto Elong;
+-	char *end;
+-	int len, seq = 0;
++	struct prepend_buffer b;
++	int seq = 0;
  
  	rcu_read_lock();
  restart:
  	dentry = d;
- 	end = p;
- 	len = buflen;
--	/* Get '/' right */
--	retval = end-1;
--	*retval = '/';
+-	end = p;
+-	len = buflen;
++	b = *p;
  	read_seqbegin_or_lock(&rename_lock, &seq);
  	while (!IS_ROOT(dentry)) {
  		const struct dentry *parent = dentry->d_parent;
  
  		prefetch(parent);
--		error = prepend_name(&end, &len, &dentry->d_name);
--		if (error)
-+		if (unlikely(prepend_name(&end, &len, &dentry->d_name) < 0))
+-		if (!prepend_name(&end, &len, &dentry->d_name))
++		if (!prepend_name(&b, &dentry->d_name))
  			break;
- 
--		retval = end;
+-
  		dentry = parent;
  	}
  	if (!(seq & 1))
-@@ -363,11 +354,9 @@ static char *__dentry_path(const struct dentry *d, char *p, int buflen)
+@@ -317,28 +325,29 @@ static char *__dentry_path(const struct dentry *d, char *p, int buflen)
  		goto restart;
  	}
  	done_seqretry(&rename_lock, seq);
--	if (error)
--		goto Elong;
--	return retval;
--Elong:
--	return ERR_PTR(-ENAMETOOLONG);
-+	if (len == buflen)
-+		prepend(&end, &len, "/", 1);
-+	return len >= 0 ? end : ERR_PTR(-ENAMETOOLONG);
+-	if (len == buflen)
+-		prepend(&end, &len, "/", 1);
+-	return len >= 0 ? end : ERR_PTR(-ENAMETOOLONG);
++	if (b.len == p->len)
++		prepend(&b, "/", 1);
++	return extract_string(&b);
  }
  
  char *dentry_path_raw(const struct dentry *dentry, char *buf, int buflen)
+ {
+-	char *p = buf + buflen;
+-	prepend(&p, &buflen, "", 1);
+-	return __dentry_path(dentry, p, buflen);
++	DECLARE_BUFFER(b, buf, buflen);
++
++	prepend(&b, "", 1);
++	return __dentry_path(dentry, &b);
+ }
+ EXPORT_SYMBOL(dentry_path_raw);
+ 
+ char *dentry_path(const struct dentry *dentry, char *buf, int buflen)
+ {
+-	char *p = buf + buflen;
++	DECLARE_BUFFER(b, buf, buflen);
+ 
+ 	if (unlikely(d_unlinked(dentry)))
+-		prepend(&p, &buflen, "//deleted", 10);
++		prepend(&b, "//deleted", 10);
+ 	else
+-		prepend(&p, &buflen, "", 1);
+-	return __dentry_path(dentry, p, buflen);
++		prepend(&b, "", 1);
++	return __dentry_path(dentry, &b);
+ }
+ 
+ static void get_fs_root_and_pwd_rcu(struct fs_struct *fs, struct path *root,
+@@ -386,24 +395,23 @@ SYSCALL_DEFINE2(getcwd, char __user *, buf, unsigned long, size)
+ 	error = -ENOENT;
+ 	if (!d_unlinked(pwd.dentry)) {
+ 		unsigned long len;
+-		char *cwd = page + PATH_MAX;
+-		int buflen = PATH_MAX;
++		DECLARE_BUFFER(b, page, PATH_MAX);
+ 
+-		prepend(&cwd, &buflen, "", 1);
+-		if (prepend_path(&pwd, &root, &cwd, &buflen) > 0)
+-			prepend(&cwd, &buflen, "(unreachable)", 13);
++		prepend(&b, "", 1);
++		if (prepend_path(&pwd, &root, &b) > 0)
++			prepend(&b, "(unreachable)", 13);
+ 		rcu_read_unlock();
+ 
+-		if (buflen < 0) {
++		if (b.len < 0) {
+ 			error = -ENAMETOOLONG;
+ 			goto out;
+ 		}
+ 
+ 		error = -ERANGE;
+-		len = PATH_MAX + page - cwd;
++		len = PATH_MAX - b.len;
+ 		if (len <= size) {
+ 			error = len;
+-			if (copy_to_user(buf, cwd, len))
++			if (copy_to_user(buf, b.buf, len))
+ 				error = -EFAULT;
+ 		}
+ 	} else {
 -- 
 2.11.0
 
