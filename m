@@ -2,102 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C458C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 10:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00FF1C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 10:47:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 384306124C
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 10:20:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5A8261355
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 10:47:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346335AbhESKWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 06:22:15 -0400
-Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:65356 "EHLO
-        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1346200AbhESKWP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 06:22:15 -0400
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14JAGCk9022302;
-        Wed, 19 May 2021 05:20:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=372dr6SwmwYwOUb7PJzGd6F0k/qxZb2QrHZ6Tt9d8Pw=;
- b=JKEEZqp/2QnfOrdyWkoJuCJkz1dZSQbn39px/nohG2OiEhtxpfqpO/LssvU54LoNwwcu
- Sh8ASGHCfov1Ni6Z/JfyL7YHjtMe9BScgJKkJRp76jbTyUr2i6xOOrs/fxfdFlsJFRA0
- ouhL2ZDAPH71QMsGu9tLTEoEpXqYCX6Pwwr5M3OHTumWEKV2cokSVu3p4jLNlc3cvRe4
- 3SrsUXYegMl1pXBKVdCdQuwFpIjOkHxP6I311jBrVIsb7e/4O/31uWFLX0IagxbU3f4a
- l6CHnGOH6VHrqHwuyT/VhctOxz3+KcdygELttWHOhB6PdxcPpEoN/N2GEbcpk5Z21rIH eA== 
-Received: from ediex02.ad.cirrus.com ([87.246.76.36])
-        by mx0a-001ae601.pphosted.com with ESMTP id 38kqtwjp1r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Wed, 19 May 2021 05:20:38 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 19 May
- 2021 11:20:36 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2242.4 via Frontend
- Transport; Wed, 19 May 2021 11:20:36 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 718C911CD;
-        Wed, 19 May 2021 10:20:35 +0000 (UTC)
-Date:   Wed, 19 May 2021 10:20:35 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S240195AbhESKtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 06:49:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43308 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240007AbhESKtB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 06:49:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DBFBA611BD;
+        Wed, 19 May 2021 10:47:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1621421261;
+        bh=SXc+hAJjey2h+VFj3gyn7xrlOb7KS62mh1je1KAkZYM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Oq/FOCI0KLWwj9CX+OKZZ/sWYz+u7RO3yGdlQj3XT1e6GUXE69wUpill4kA645JoL
+         e0B8JwnAhu79JyCXMqoYqgEiJtcSELZPTVNpuKiBuUkTMWA/I+O8axtWPCdPtHqPvt
+         yLwxuwlJydNNFthpuuSzEe7ShL1K4SVQ4Dl20qQc=
+Date:   Wed, 19 May 2021 12:47:39 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Anup Patel <anup@brainfault.org>
+Cc:     Anup Patel <anup.patel@wdc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Drew Fustini <drew@beagleboard.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Saravana Kannan <saravanak@google.com>,
-        <alsa-devel@alsa-project.org>, <linux-gpio@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
-Subject: Re: [PATCH 05/10] docs: update pin-control.rst references
-Message-ID: <20210519102035.GH64205@ediswmail.ad.cirrus.com>
-References: <cover.1621413933.git.mchehab+huawei@kernel.org>
- <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
+        Alexander Graf <graf@amazon.com>,
+        Atish Patra <atish.patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        KVM General <kvm@vger.kernel.org>,
+        kvm-riscv@lists.infradead.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
+Message-ID: <YKTsyyVYsHVMQC+G@kroah.com>
+References: <20210519033553.1110536-1-anup.patel@wdc.com>
+ <YKSa48cejI1Lax+/@kroah.com>
+ <CAAhSdy18qySXbUdrEsUe-KtbtuEoYrys0TcmsV2UkEA2=7UQzw@mail.gmail.com>
+ <YKSgcn5gxE/4u2bT@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: kjVnaIbt4ji1tbhMzTpF3hssfkrUUfoU
-X-Proofpoint-ORIG-GUID: kjVnaIbt4ji1tbhMzTpF3hssfkrUUfoU
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011 mlxlogscore=999
- bulkscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0
- adultscore=0 impostorscore=0 mlxscore=0 spamscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105190071
+In-Reply-To: <YKSgcn5gxE/4u2bT@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 19, 2021 at 10:51:42AM +0200, Mauro Carvalho Chehab wrote:
-> Changeset 5513b411ea5b ("Documentation: rename pinctl to pin-control")
-> renamed: Documentation/driver-api/pinctl.rst
-> to: Documentation/driver-api/pin-control.rst.
+On Wed, May 19, 2021 at 07:21:54AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, May 19, 2021 at 10:40:13AM +0530, Anup Patel wrote:
+> > On Wed, May 19, 2021 at 10:28 AM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Wed, May 19, 2021 at 09:05:35AM +0530, Anup Patel wrote:
+> > > > From: Anup Patel <anup@brainfault.org>
+> > > >
+> > > > This series adds initial KVM RISC-V support. Currently, we are able to boot
+> > > > Linux on RV64/RV32 Guest with multiple VCPUs.
+> > > >
+> > > > Key aspects of KVM RISC-V added by this series are:
+> > > > 1. No RISC-V specific KVM IOCTL
+> > > > 2. Minimal possible KVM world-switch which touches only GPRs and few CSRs
+> > > > 3. Both RV64 and RV32 host supported
+> > > > 4. Full Guest/VM switch is done via vcpu_get/vcpu_put infrastructure
+> > > > 5. KVM ONE_REG interface for VCPU register access from user-space
+> > > > 6. PLIC emulation is done in user-space
+> > > > 7. Timer and IPI emuation is done in-kernel
+> > > > 8. Both Sv39x4 and Sv48x4 supported for RV64 host
+> > > > 9. MMU notifiers supported
+> > > > 10. Generic dirtylog supported
+> > > > 11. FP lazy save/restore supported
+> > > > 12. SBI v0.1 emulation for KVM Guest available
+> > > > 13. Forward unhandled SBI calls to KVM userspace
+> > > > 14. Hugepage support for Guest/VM
+> > > > 15. IOEVENTFD support for Vhost
+> > > >
+> > > > Here's a brief TODO list which we will work upon after this series:
+> > > > 1. SBI v0.2 emulation in-kernel
+> > > > 2. SBI v0.2 hart state management emulation in-kernel
+> > > > 3. In-kernel PLIC emulation
+> > > > 4. ..... and more .....
+> > > >
+> > > > This series can be found in riscv_kvm_v18 branch at:
+> > > > https//github.com/avpatel/linux.git
+> > > >
+> > > > Our work-in-progress KVMTOOL RISC-V port can be found in riscv_v7 branch
+> > > > at: https//github.com/avpatel/kvmtool.git
+> > > >
+> > > > The QEMU RISC-V hypervisor emulation is done by Alistair and is available
+> > > > in master branch at: https://git.qemu.org/git/qemu.git
+> > > >
+> > > > To play around with KVM RISC-V, refer KVM RISC-V wiki at:
+> > > > https://github.com/kvm-riscv/howto/wiki
+> > > > https://github.com/kvm-riscv/howto/wiki/KVM-RISCV64-on-QEMU
+> > > > https://github.com/kvm-riscv/howto/wiki/KVM-RISCV64-on-Spike
+> > > >
+> > > > Changes since v17:
+> > > >  - Rebased on Linux-5.13-rc2
+> > > >  - Moved to new KVM MMU notifier APIs
+> > > >  - Removed redundant kvm_arch_vcpu_uninit()
+> > > >  - Moved KVM RISC-V sources to drivers/staging for compliance with
+> > > >    Linux RISC-V patch acceptance policy
+> > >
+> > > What is this new "patch acceptance policy" and what does it have to do
+> > > with drivers/staging?
+> > 
+> > The Linux RISC-V patch acceptance policy is here:
+> > Documentation/riscv/patch-acceptance.rst
+> > 
+> > As-per this policy, the Linux RISC-V maintainers will only accept
+> > patches for frozen/ratified RISC-V extensions. Basically, it links the
+> > Linux RISC-V development process with the RISC-V foundation
+> > process which is painfully slow.
+> > 
+> > The KVM RISC-V patches have been sitting on the lists for almost
+> > 2 years now. The requirements for freezing RISC-V H-extension
+> > (hypervisor extension) keeps changing and we are not clear when
+> > it will be frozen. In fact, quite a few people have already implemented
+> > RISC-V H-extension in hardware as well and KVM RISC-V works
+> > on real HW as well.
+> > 
+> > Rationale of moving KVM RISC-V to drivers/staging is to continue
+> > KVM RISC-V development without breaking the Linux RISC-V patch
+> > acceptance policy until RISC-V H-extension is frozen. Once, RISC-V
+> > H-extension is frozen we will move KVM RISC-V back to arch/riscv
+> > (like other architectures).
 > 
-> Update the cross-references accordingly.
+> Wait, no, this has nothing to do with what drivers/staging/ is for and
+> how it is used.  Again, not ok.
 > 
-> Fixes: 5513b411ea5b ("Documentation: rename pinctl to pin-control")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
+> > > What does drivers/staging/ have to do with this at all?  Did anyone ask
+> > > the staging maintainer about this?
+> > 
+> > Yes, Paolo (KVM maintainer) suggested having KVM RISC-V under
+> > drivers/staging until RISC-V H-extension is frozen and continue the
+> > KVM RISC-V development from there.
+> 
+> staging is not for stuff like this at all.  It is for code that is
+> self-contained (not this) and needs work to get merged into the main
+> part of the kernel (listed in a TODO file, and is not this).
+> 
+> It is not a dumping ground for stuff that arch maintainers can not seem
+> to agree on, and it is not a place where you can just randomly play
+> around with user/kernel apis with no consequences.
+> 
+> So no, sorry, not going to take this code at all.
 
-For the Madera change:
+And to be a bit more clear about this, having other subsystem
+maintainers drop their unwanted code on this subsystem, _without_ even
+asking me first is just not very nice.  All of a sudden I am now
+responsible for this stuff, without me even being asked about it.
+Should I start throwing random drivers into the kvm subsystem for them
+to maintain because I don't want to?  :)
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+If there's really no other way to do this, than to put it in staging,
+let's talk about it.  But saying "this must go here" is not a
+conversation...
 
-Thanks,
-Charles
+thanks,
+
+greg k-h
