@@ -2,146 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27ADCC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 13:28:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 033E1C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 13:29:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 097BD61355
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 13:28:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB6D76105A
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 13:29:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353685AbhESNaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 09:30:05 -0400
-Received: from mail-co1nam11on2081.outbound.protection.outlook.com ([40.107.220.81]:35936
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S239739AbhESNaF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 May 2021 09:30:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XQHQ39hWwBktipV7TcC2G2roVTSgoSTr4J+3iBSCCORKOoMlSNhYqKcnCH7rj6E3fdUmQLNbDMKtvOapSxSqm87npjh0j6is/dQSPVAJdXYnI/g7ofJwOMzCrquCHFQbpBFDIrZo305Fl8OfdjZr54hVptaFxOEQ8R/RIO1UdAL+qVTUVRS4y2ets+WvO/bD2GZ8m2Lr25wjQCq4ZVBbEdYbdLsTwcsdMqDijravjppf11DF/nh+eJe0E5tjAAoR6v2cUUcJYxmKm9h3zn/hLWuaKE4YcwMCT27BvvoGOz4tqIzDT4SWH4kzZHtUjDWfktOxz0QOOiMqSFbFZfqB8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gIXrrVoT7xnB18TlBrA+vGXv0bpN7Vl+C68QPq3kaAQ=;
- b=eul/VpfoyqXSKtGQR2KyVXNEsJQ+ypaO0B2HN9bwPY4JMAN2PmHbwhcxkuqbbyNqdVRvEZGX+Y5J2gb5fMRnJ6hI1czHcS0lxkW/rmg1phTP+ERcNptBzfipkdB6mKIiUe7BnK0tssQgkuj+gv73LR5qH48oktoowXZPC5nL1wak8GKdJq5vQfXUZU5K2N86mYJeIHuYYPaJ0fmmXnCfn7saf91cdRNJNb5/zYv2uM0Iujq5K7EqOMJ1d/T5UwGeXAVKG2jzvcG5kPFejzzNe0MV9e6I3NQO/xGHyZwSIVQIn4RohIVLplULjNxP1OJi7zC5Xhce5bQGYms+W02fgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gIXrrVoT7xnB18TlBrA+vGXv0bpN7Vl+C68QPq3kaAQ=;
- b=leA8ktJqAzXf2X5uHXjVKr0Tm0dpzDoAYJ42LOE0fBpbiq5rPx6VUi3XC1acScygP6QVrzTwu1SU15evxRIiNuKUNcqEw4x3QeV3RRBh2pD9Lr0YrlK3JAC4JC/kZ3AEuyEwXJJdV3RSJIL6TIfSXsWVN1q9I2piWDVe53s6y85nQJ2mdjeF4ex7VFAl8fV//F+dSGkw8WIM6Uun1LOcwJZaXhLKkP2CRWlOOq23IES84EmA++Qx/gGWjPxjt7SDFoEZsbA3dYycqMC06WNeGHmQ4fY7YGvf2DijMo1DHcvmptR1rh+FfaCMu+1aXV/ZFVtdS7yJQ7usXFok0yXqBg==
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4009.namprd12.prod.outlook.com (2603:10b6:5:1cd::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Wed, 19 May
- 2021 13:28:44 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::ddb4:2cbb:4589:f039]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::ddb4:2cbb:4589:f039%4]) with mapi id 15.20.4129.033; Wed, 19 May 2021
- 13:28:44 +0000
-Date:   Wed, 19 May 2021 10:28:42 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Peter Xu <peterx@redhat.com>
-Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
-        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
-        bsingharora@gmail.com, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
-Message-ID: <20210519132842.GJ1002214@nvidia.com>
-References: <20210407084238.20443-6-apopple@nvidia.com>
- <YKMhorngO2DVrxac@t490s>
- <47694715.suB6H4Uo8R@nvdebian>
- <YKP5Dj4Q/riGGc43@t490s>
- <20210518173334.GE1002214@nvidia.com>
- <YKQBACJCjsxeM3ro@t490s>
- <20210518194509.GF1002214@nvidia.com>
- <YKQjmtMo+YQGx/wZ@t490s>
- <20210518230327.GG1002214@nvidia.com>
- <YKRRgZmRMdk1vH7A@t490s>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKRRgZmRMdk1vH7A@t490s>
-X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: MN2PR01CA0050.prod.exchangelabs.com (2603:10b6:208:23f::19)
- To DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+        id S239739AbhESNau (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 09:30:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60005 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1353701AbhESNau (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 09:30:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621430970;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Utix8t6spaKb207Zj7UyYQmhE/BXGv3+F72MAkz+g6c=;
+        b=Qbb/mwizV9bWxruzNoPEugP3A1X7PLyy2B8LS36wSX2H0Tf/deSNFjCYg325zGj8guNsD+
+        fvZrryMkM6LmF5BPcH+kikiLCvXxKqTPhKip+I2e5DCtTXZBG3OfjPvH0ggizG9QDRiOZd
+        LLfy4A/kDuqFyERmQYUlD66CVB0GDHg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-xGqsOg8vOO6zJsAP_8G_Kg-1; Wed, 19 May 2021 09:29:28 -0400
+X-MC-Unique: xGqsOg8vOO6zJsAP_8G_Kg-1
+Received: by mail-wr1-f70.google.com with SMTP id p11-20020adfc38b0000b0290111f48b8adfso3681194wrf.7
+        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 06:29:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Utix8t6spaKb207Zj7UyYQmhE/BXGv3+F72MAkz+g6c=;
+        b=jR5AanClWpTzIwMhuN1Cgd6p9iu5fmnZxrOXZ30bhuKJGJJMY4Nh7kDaQquRt7JjpL
+         h+WzkWkTYiKexiM2OxtJe3BbGJja8X8jDnAbaGdFaKbyYb3ULR8uLqGxC1GyZgOjwYBV
+         FfYkt+XN9nhSBBNw4wMCqi9ag+KdnljPYiIZOmPmIH1mJlE8VF926YawCiqNH+6qiy1Z
+         TtsY8GvAAjRy0taMiQzWXqPawZ6konrY7tBTV+Lj4Qme1aYGRUZjoN0M4jmTYJPm+X9G
+         E80jSkQ0mp23kiuK1v3Wmv9k1WL9mjZ2l6QiyvaFmkpk+R5+vwx7riPxm/+pmRnZx4ro
+         zGCg==
+X-Gm-Message-State: AOAM530t8HLfhcOw1f1mklXivIqx+8nPEykq6QMPo8YdftKxtSkIK6WA
+        Vm/7pPouVr/tzI+cwxVIvRgphjV90CLSa+cQFaJtntSGU61xTAGlYkbdaqou16gPAldib1eceFR
+        VVpCZ7C2kHQ0P3Ycnve4w
+X-Received: by 2002:a5d:4946:: with SMTP id r6mr7406495wrs.123.1621430967434;
+        Wed, 19 May 2021 06:29:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw5mZQHnE/EnIv4pnudlM+/lE7mYzi7oQJa6EidXFKUYAuQiAiWM9tIETxbilaUxzeh7C/zPA==
+X-Received: by 2002:a5d:4946:: with SMTP id r6mr7406476wrs.123.1621430967215;
+        Wed, 19 May 2021 06:29:27 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id l18sm25469067wrt.97.2021.05.19.06.29.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 May 2021 06:29:26 -0700 (PDT)
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Anup Patel <anup@brainfault.org>, Anup Patel <anup.patel@wdc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Graf <graf@amazon.com>,
+        Atish Patra <atish.patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        KVM General <kvm@vger.kernel.org>,
+        kvm-riscv@lists.infradead.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        linux-staging@lists.linux.dev
+References: <20210519033553.1110536-1-anup.patel@wdc.com>
+ <YKSa48cejI1Lax+/@kroah.com>
+ <CAAhSdy18qySXbUdrEsUe-KtbtuEoYrys0TcmsV2UkEA2=7UQzw@mail.gmail.com>
+ <YKSgcn5gxE/4u2bT@kroah.com> <YKTsyyVYsHVMQC+G@kroah.com>
+ <d7d5ad76-aec3-3297-0fac-a9da9b0c3663@redhat.com>
+ <YKUDWgZVj82/KiKw@kroah.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
+Message-ID: <daa30135-8757-8d33-a92e-8db4207168ff@redhat.com>
+Date:   Wed, 19 May 2021 15:29:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (47.55.113.94) by MN2PR01CA0050.prod.exchangelabs.com (2603:10b6:208:23f::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.32 via Frontend Transport; Wed, 19 May 2021 13:28:43 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1ljMFe-00AiBe-GF; Wed, 19 May 2021 10:28:42 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 51402c4a-818c-42d9-7ebc-08d91aca0614
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4009:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4009985A1F1C7C655D046DB3C22B9@DM6PR12MB4009.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uK7b7/gne5+gH8pDassTi/nGiPGU8vv5qjsEnFpCglKnSRmgdPF3Img6mQldQaI3kzkUgligeAV9gDW4ekG/IHYSpD8Oo1o+Dvw43EOa8Wlo8VyN6nCPw7Hkg0+nZZmBEZBqy08kwBpdvb/zl0MCW9OAhGRD/2NquQBoD7MpX1cxQWy7FoHdO3qxyCeaNzWO4Od3j82B7O7AaFkCxkvB/P8erGUoTGVKRHNiM9YGpOm0/p3Zd9r4GvquHs3LIfskI0WJ5/q/HW3tKPXxLwKL2Q5s2iSyWzxRMN5dHPe2oHNLJVrAZIaXYr2xKAQENFW/0dybaYFP0SkDT0xSFbyCL1B2doLVBkNMSDYl5D2jG3bOPt7Zzc/W2Be/bwlkpJLToMpG6NE7ODHdinHHhRa64F5F3M7/iVl//3ss88XqUnGARHsyzxgpNWQJUlNJogebK6jLGwWcOHLvQsQkquEsYOYeudkdqrhsQHDWI06SFJEYJgeUN5BAqvu1ak48My8XWEx77/Dnz4KRPpsnVULWDVkVaDgISqCtEsdFqqRJRyYN2pMEy3ZcMI3KJowg4y253OhmEWGb1OJp1Xdx99uloe2uR/xFAhV4MDgIEYkD3Fg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(376002)(346002)(39860400002)(396003)(7416002)(38100700002)(8676002)(9746002)(9786002)(478600001)(8936002)(2906002)(186003)(86362001)(26005)(54906003)(66946007)(66476007)(6916009)(316002)(1076003)(5660300002)(36756003)(33656002)(4744005)(426003)(2616005)(66556008)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ShX1+RtbSmyhnUT/Thz17PmmI5w2jnNyQ5gokaWj/tfM5uehd+vuKS5yDsSG?=
- =?us-ascii?Q?OiIj0j/oj0ojbSylpCyNWUcqDI5fAr9F3XxcVPD3pa9fXDlierKy5AwnDeUA?=
- =?us-ascii?Q?oRXtzqy+xRnAQplEBsm08yMmm9zAW7n3l6nDUsqeb4ongYaKN+O/6yPcrKvs?=
- =?us-ascii?Q?iDsTQjW9BnvpmiRBX5NPZLfrc/VWMOyXRQEMb8T/Mpw/+gdb1ECYOfl3dYw3?=
- =?us-ascii?Q?r7oSQzEmWSo/Zw4WszUaC0PaHFFhII/MZ9/FIeBwnanUfcec4pYDr60DpGHY?=
- =?us-ascii?Q?byVj5cbWKJpaXi1U5/rqP54Q7yQB9jyTC/1BTUOHFP1I2l4zoLP/dTuQk/pb?=
- =?us-ascii?Q?RBOEUiyEbin8Q6TsYR12lmclD2s6bhanj8UCXMsI9Ov+ZkYJDV+iNg30kQ9a?=
- =?us-ascii?Q?2MEl86RtH9jgWtcdhhuHA0TRUl7382Cn/XpYnMuvNRBW+vwBoriJRkmCjuQK?=
- =?us-ascii?Q?bNn2kgkG2WWTq94o/9bN8i2PiRjnbVKlGo+J5yEKEMXK8tYC8girSvCGWt3k?=
- =?us-ascii?Q?sf9qKSkigbj3ENnKJBKOK92tAOVB+8T/qeXSt2h1wycHLR3HvSj1KuHsKsN9?=
- =?us-ascii?Q?d+WC/hcs3udO85yaBOAHWYx5TfV7EDGXgFzoS9OVg2v98XpBks0s1C5uXMzC?=
- =?us-ascii?Q?amt0zVEgYpIBzczbo7Y5SCMhTQJsuJuaTIHqvV4eo4CTVOFCRidtKM4OvCJl?=
- =?us-ascii?Q?jweTSibwdypfdCHndNfYOcxt6oKQhaN/t96i3viFKgoUdx1YpyQITvWXfHhu?=
- =?us-ascii?Q?cR8NKpTxOHUhUUooZ1i0Q6Ck6QoG/AlWHW7HniJbrGBcn7aLB7updiTZi5UY?=
- =?us-ascii?Q?W+TKXwSSYJfw6ZGr6CfNs841K9Q90NHfXbuWVRGMc8em2AJhOUoM8e9txvQy?=
- =?us-ascii?Q?9kaaFf8RMgRO54XDt495wfPFxxfBFmuRzB8m1vRC4aVEoBJ3PLFp7nGWbMTQ?=
- =?us-ascii?Q?nn9VrW1p5TyIhepNPEvm8XCM2YR6vC4KaQIyEHVZpALufAGCJxROb8ddx+QO?=
- =?us-ascii?Q?yRe5g7oH2unlzWSxf0IlzsV/EveXs9/PbMkssfNhkLPuUie+qfiwMswKaFCy?=
- =?us-ascii?Q?CBXiQJqKIVuRYp6l5Mj3OImdldGAfpZ5X6/umTyj2EanB6S0fJLCxY1Mb17y?=
- =?us-ascii?Q?fVbyyCD0CGA8UBL4tbbY6bgf9DLW2PvF4veB7i8jPCU7Vs2NoQZKLNMWroYd?=
- =?us-ascii?Q?gogrgGz0wX4NlrLR2nGfpgoAeflfY9sMk5imzVK7Po4nsIcal26Z2tDD+VC2?=
- =?us-ascii?Q?GHV60/mAiei38bt24d8WH/Ml4umTm3v0CYW3MyXMnKfsUK4JHyRasPDd621N?=
- =?us-ascii?Q?Cl20lHabUfv/w05A06HZd//H?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51402c4a-818c-42d9-7ebc-08d91aca0614
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2021 13:28:43.9397
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BWUJnu65MOFz8vJg7aBCytyzxzKCp7KP1onUZ+J9OPS9POvPEpZ0CsErjHlafNVQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4009
+In-Reply-To: <YKUDWgZVj82/KiKw@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 18, 2021 at 07:45:05PM -0400, Peter Xu wrote:
-> On Tue, May 18, 2021 at 08:03:27PM -0300, Jason Gunthorpe wrote:
-> > Logically during fork all these device exclusive pages should be
-> > reverted back to their CPU pages, write protected and the CPU page PTE
-> > copied to the fork.
-> > 
-> > We should not copy the device exclusive page PTE to the fork. I think
-> > I pointed to this on an earlier rev..
+On 19/05/21 14:23, Greg Kroah-Hartman wrote:
+>> - the code could be removed if there's no progress on either changing the
+>> RISC-V acceptance policy or ratifying the spec
 > 
-> Agreed.  Though please see the question I posted in the other thread: now I am
-> not very sure whether we'll be able to mark a page as device exclusive if that
-> page has mapcount>1.
+> I really do not understand the issue here, why can this just not be
+> merged normally?
 
-IMHO it is similar to write protect done by filesystems on shared
-mappings - all VMAs with a copy of the CPU page have to get switched
-to the device exclusive PTE. This is why the rmap stuff is involved in
-the migration helpers
+Because the RISC-V people only want to merge code for "frozen" or 
+"ratified" processor extensions, and the RISC-V foundation is dragging 
+their feet in ratifying the hypervisor extension.
 
-Jason
+It's totally a self-inflicted pain on part of the RISC-V maintainers; 
+see Documentation/riscv/patch-acceptance.rst:
+
+   We'll only accept patches for new modules or extensions if the
+   specifications for those modules or extensions are listed as being
+   "Frozen" or "Ratified" by the RISC-V Foundation.  (Developers may, of
+   course, maintain their own Linux kernel trees that contain code for
+   any draft extensions that they wish.)
+
+(Link: 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/riscv/patch-acceptance.rst)
+
+> All staging drivers need a TODO list that shows what needs to be done in
+> order to get it out of staging.  All I can tell so far is that the riscv
+> maintainers do not want to take this for "unknown reasons" so let's dump
+> it over here for now where we don't have to see it.
+> 
+> And that's not good for developers or users, so perhaps the riscv rules
+> are not very good?
+
+I agree wholeheartedly.
+
+I have heard contrasting opinions on conflict of interest where the 
+employers of the maintainers benefit from slowing down the integration 
+of code in Linus's tree.  I find these allegations believable, but even 
+if that weren't the case, the policy is (to put it kindly) showing its 
+limits.
+
+>> Of course there should have been a TODO file explaining the situation. But
+>> if you think this is not the right place, I totally understand; if my
+>> opinion had any weight in this, I would just place it in arch/riscv/kvm.
+>>
+>> The RISC-V acceptance policy as is just doesn't work, and the fact that
+>> people are trying to work around it is proving it.  There are many ways to
+>> improve it:
+> 
+> What is this magical acceptance policy that is preventing working code
+> from being merged?  And why is it suddenly the rest of the kernel
+> developer's problems because of this?
+
+It is my problem because I am trying to help Anup merging some perfectly 
+good KVM code; when a new KVM port comes up, I coordinate merging the 
+first arch/*/kvm bits with the arch/ maintainers and from that point on 
+that directory becomes "mine" (or my submaintainers').
+
+Paolo
+
