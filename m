@@ -2,110 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AEC5C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 19:41:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB6C8C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 19:48:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0AEC6135F
-	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 19:41:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80F2B6105A
+	for <linux-doc@archiver.kernel.org>; Wed, 19 May 2021 19:48:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232039AbhESTmj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 15:42:39 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:53592 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbhESTmi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 15:42:38 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 45FD91C0B7F; Wed, 19 May 2021 21:41:16 +0200 (CEST)
-Date:   Wed, 19 May 2021 21:41:15 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
- on Intel NUC
-Message-ID: <20210519194115.GA31672@duo.ucw.cz>
-References: <cover.1621349813.git.mchehab+huawei@kernel.org>
- <20210519111107.GC24621@duo.ucw.cz>
- <20210519141508.6e7a4d56@coco.lan>
+        id S232181AbhESTtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 15:49:41 -0400
+Received: from foss.arm.com ([217.140.110.172]:54274 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232171AbhESTtl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 15:49:41 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E062311D4;
+        Wed, 19 May 2021 12:48:20 -0700 (PDT)
+Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 810B73F73D;
+        Wed, 19 May 2021 12:48:18 -0700 (PDT)
+Date:   Wed, 19 May 2021 20:48:09 +0100
+From:   Beata Michalska <beata.michalska@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        valentin.schneider@arm.com, dietmar.eggemann@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+Message-ID: <20210519194808.GA15842@e120325.cambridge.arm.com>
+References: <1621239831-5870-1-git-send-email-beata.michalska@arm.com>
+ <1621239831-5870-3-git-send-email-beata.michalska@arm.com>
+ <YKT2vbluMgcu94M6@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210519141508.6e7a4d56@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YKT2vbluMgcu94M6@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, May 19, 2021 at 01:30:05PM +0200, Peter Zijlstra wrote:
+> 
+> Mostly style nits, since I read you're already looking at reworking this
+> due to other feedback, do with it what you like.
+>
+Will apply your remarks on whatever ends up in the new version, which should be
+most of it. To be out soon.
 
---6c2NcOVqGQ03X4Wi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank You
 
-Hi!
-
-> > Marek and I are saying the same thing -- this needs to use close to
-> > existing APIs.
->=20
-> Ok, but I'm not seeing an existing API that provides what those
-> LEDs need.
-
-Well, there "close to" part comes into play.
-
-> > If you want to get something merged quickly, please submit basic
-> > functionality only (toggling the LED on/off) that completely fits
-> > existing APIs. We can review that.
->=20
-> If you prefer working this way, I can send an initial patch with
-> just the very basic. Actually, if you apply just patch 2 of this
-> series, it will provide support for for just setting the brightness
-> on NUC8.
-
-I don't care much. We can discuss minimal interface additions
-neccessary to support your usecases.
-
-But what you proposed was nowhere near close.
-
-Note that we don't want to support every crazy feature, just because
-hardware can do it.
-
-> However, the main reason why someone (including myself) want this
-> driver is to allow to dynamically change what hardware event will
-> be triggering the LED and how, and if suspend will blink or not[1].
-
-> Being able to also change the LED color is a plus.
-
-This one is hard if the LED does not support full color.
-
-> [1] Disabling blink at suspend/hibernate is one of the things that
-> I use here: as the machine is at my bedroom, I don't want it to be
-> blinking all night long when the machine is sleeping :-)
-
-Ok, so lets start with the blink at suspend thing?
-
-Having power LED on when machine is on, and slowly "breathing" when
-machine is suspended is something I have seen before. Is that what
-your hardware is doing?
-
-Best regards,
-							Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---6c2NcOVqGQ03X4Wi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYKVp2wAKCRAw5/Bqldv6
-8lPiAJwOYgBn8ilKQYGqIfZ7v6ac0HT9dwCeJ24DUqksGzkO6d25IA75DI6Hn+Q=
-=U1fL
------END PGP SIGNATURE-----
-
---6c2NcOVqGQ03X4Wi--
+---
+BR
+B.
+> On Mon, May 17, 2021 at 09:23:50AM +0100, Beata Michalska wrote:
+> > @@ -1989,66 +1989,96 @@ static bool topology_span_sane(struct sched_domain_topology_level *tl,
+> >  
+> >  	return true;
+> >  }
+> 
+> + whitespace
+> 
+> > +/**
+> > + * Asym capacity bits
+> > + */
+> > +struct asym_cap_data {
+> > +	struct list_head link;
+> > +	unsigned long    capacity;
+> > +	struct cpumask   *cpu_mask;
+> > +};
+> 
+> + whitespace
+> 
+> >  /*
+> > + * Set of available CPUs grouped by their corresponding capacities
+> > + * Each list entry contains a CPU mask reflecting CPUs that share the same
+> > + * capacity.
+> > + * The lifespan of data is unlimited.
+> >   */
+> > +static LIST_HEAD(asym_cap_list);
+> >  
+> > +/*
+> > + * Verify whether given CPU at a given topology level belongs to a sched domain
+> > + * that does span CPUs with different capacities.
+> > + * Provides sd_flags reflecting the asymmetry scope.
+> > + */
+> > +static inline int
+> > +asym_cpu_capacity_classify(struct sched_domain_topology_level *tl, int cpu)
+> > +{
+> > +	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
+> > +	const struct cpumask *tl_mask = tl->mask(cpu);
+> > +	struct asym_cap_data *entry;
+> > +	int asym_cap_count = 0;
+> > +
+> > +	if (list_is_singular(&asym_cap_list))
+> > +		goto leave;
+> > +
+> > +	list_for_each_entry(entry, &asym_cap_list, link) {
+> > +		if (cpumask_intersects(tl_mask, entry->cpu_mask))
+> > +			++asym_cap_count;
+> > +		else
+> > +			sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
+> >  	}
+> > +	WARN_ON_ONCE(!asym_cap_count);
+> > +leave:
+> > +	return asym_cap_count > 1 ? sd_asym_flags : 0;
+> > +}
+> >  
+> >  
+> 
+> - whitespace
+> 
+> > +/*
+> > + * Build-up/update list of CPUs grouped by their capacities
+> > + */
+> > +static void asym_cpu_capacity_scan(const struct cpumask *cpu_map)
+> > +{
+> > +	struct asym_cap_data *entry, *next;
+> > +	int cpu;
+> >  
+> > +	if (!list_empty(&asym_cap_list))
+> > +		list_for_each_entry(entry, &asym_cap_list, link)
+> > +			cpumask_clear(entry->cpu_mask);
+> 
+> two nits:
+> 
+>  - the if() needs { } because while what follows is strictly a single
+>    statement, it is multi-line, so coding style requires { }.
+> 
+>  - the if() is strictly superfluous, if the list is empty the
+>    list_for_each_entry() iteration already doesn't do anything.
+> 
+> >  
+> > +	entry = list_first_entry_or_null(&asym_cap_list,
+> > +			struct asym_cap_data, link);
+> 
+> Please align line-breaks at the most nested (, vim can help you do this
+> with: set cino=(0:0, if you're using that other editor, I'm sure you can
+> convince it to align properly too :-)
+> 
+> >  
+> > +	for_each_cpu(cpu, cpu_map) {
+> > +		unsigned long capacity = arch_scale_cpu_capacity(cpu);
+> >  
+> > +		if (entry && capacity == entry->capacity)
+> > +			goto next;
+> >  
+> > +		list_for_each_entry(entry, &asym_cap_list, link)
+> > +			if (capacity == entry->capacity)
+> > +				goto next;
+> 
+> { } again
+> 
+> > +
+> > +		entry = kzalloc(sizeof(*entry) + cpumask_size(), GFP_KERNEL);
+> > +		if (entry) {
+> > +			entry->capacity = capacity;
+> > +			entry->cpu_mask = (struct cpumask *)((char *)entry +
+> > +					   sizeof(*entry));
+> 
+> alignment again
+> 
+> > +			list_add(&entry->link, &asym_cap_list);
+> >  		}
+> > +		WARN_ONCE(!entry,
+> > +		    "Failed to allocate memory for capacity asymmetry detection\n");
+> 
+> alignment again
+> 
+> (also, eeew, if this lives, perhaps a find_asym_data(capacity) helper
+> might make it better:
+> 
+> 		if (!entry || entry->capacity != capacity)
+> 			entry = find_asym_data(capacity);
+> )
+> 
+> > +next:
+> > +		__cpumask_set_cpu(cpu, entry->cpu_mask);
+> >  	}
+> >  
+> > +	list_for_each_entry_safe(entry, next, &asym_cap_list, link) {
+> > +		if (cpumask_empty(entry->cpu_mask)) {
+> > +			list_del(&entry->link);
+> > +			kfree(entry);
+> > +		}
+> > +	}
+> 
+> See, this has { }
+> 
+> >  }
