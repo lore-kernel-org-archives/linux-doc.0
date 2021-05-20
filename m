@@ -7,129 +7,78 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2052BC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 03:05:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E339C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 03:17:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 003A5610CD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 03:05:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15C5E61186
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 03:17:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbhETDHL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 May 2021 23:07:11 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4759 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbhETDHL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 May 2021 23:07:11 -0400
-Received: from dggems704-chm.china.huawei.com (unknown [172.30.72.58])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Flvff052jzqV3M;
-        Thu, 20 May 2021 11:02:18 +0800 (CST)
-Received: from dggpemm000003.china.huawei.com (7.185.36.128) by
- dggems704-chm.china.huawei.com (10.3.19.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 20 May 2021 11:05:33 +0800
-Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.224) by
- dggpemm000003.china.huawei.com (7.185.36.128) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 20 May 2021 11:05:32 +0800
-From:   Keqian Zhu <zhukeqian1@huawei.com>
-To:     <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <kvmarm@lists.cs.columbia.edu>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>
-CC:     <wanghaibin.wang@huawei.com>, <zhang.zhanghailiang@huawei.com>,
-        <gaojinhao@huawei.com>
-Subject: [PATCH] KVM: halt polling: Make the adjustment of polling time clearer
-Date:   Thu, 20 May 2021 11:05:29 +0800
-Message-ID: <20210520030529.22048-1-zhukeqian1@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
+        id S230014AbhETDS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 May 2021 23:18:57 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:35686 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229993AbhETDS4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 May 2021 23:18:56 -0400
+Received: from localhost.localdomain (unknown [112.20.109.240])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxYOLB1KVgcjoBAA--.5364S2;
+        Thu, 20 May 2021 11:17:22 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, rostedt@goodmis.org, swboyd@chromium.org
+Cc:     linux-doc@vger.kernel.org, senozhatsky@chromium.org,
+        andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH] docs: core-api: Documentation build warning fix
+Date:   Thu, 20 May 2021 11:18:01 +0800
+Message-Id: <20210520031801.2455665-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.224]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm000003.china.huawei.com (7.185.36.128)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9BxYOLB1KVgcjoBAA--.5364S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7XFW7tFykCrW8trWxCr1kuFg_yoWkuFXEyF
+        WxGasYkw1xtw1IyF4UX3ZIyryI93WF9FnYkws8GrsxAa4Sq39rCF4kJry3Zw18Aw129rWD
+        uF9rXw17trnrXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbckFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+        0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r48
+        MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+        0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
+        wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+        W8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+        42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JU-miiUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When we have "block_ns > halt_poll_ns" and "block_ns < max_halt_poll_ns",
-then "halt_poll_ns < max_halt_poll_ns" is true, so we can drop this extra
-condition.
+commit 821c734b5b073cc2a87fff29f434a8ccffa7db56 add printk formats to add module build ID to stacktraces.
 
-We want to make sure halt_poll_ns is not zero before shrinking it. Put
-the condition in shrinking primitive can make code clearer.
+Causes the following warning:
+Documentation/core-api/printk-formats.rst:137: WARNING: Unexpected indentation.
+Documentation/core-api/printk-formats.rst:138: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-None functional change.
+So, add a blank line to the end of "::".
 
-Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/virt/kvm/halt-polling.rst | 21 ++++++++++-----------
- virt/kvm/kvm_main.c                     | 11 ++++++-----
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ Documentation/core-api/printk-formats.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/virt/kvm/halt-polling.rst b/Documentation/virt/kvm/halt-polling.rst
-index 4922e4a15f18..d9f699395a7f 100644
---- a/Documentation/virt/kvm/halt-polling.rst
-+++ b/Documentation/virt/kvm/halt-polling.rst
-@@ -47,17 +47,16 @@ Thus this is a per vcpu (or vcore) value.
- During polling if a wakeup source is received within the halt polling interval,
- the interval is left unchanged. In the event that a wakeup source isn't
- received during the polling interval (and thus schedule is invoked) there are
--two options, either the polling interval and total block time[0] were less than
--the global max polling interval (see module params below), or the total block
--time was greater than the global max polling interval.
--
--In the event that both the polling interval and total block time were less than
--the global max polling interval then the polling interval can be increased in
--the hope that next time during the longer polling interval the wake up source
--will be received while the host is polling and the latency benefits will be
--received. The polling interval is grown in the function grow_halt_poll_ns() and
--is multiplied by the module parameters halt_poll_ns_grow and
--halt_poll_ns_grow_start.
-+two options, either the total block time[0] were less than the global max
-+polling interval (see module params below), or the total block time was greater
-+than the global max polling interval.
-+
-+In the event that the total block time were less than the global max polling
-+interval then the polling interval can be increased in the hope that next time
-+during the longer polling interval the wake up source will be received while the
-+host is polling and the latency benefits will be received. The polling interval
-+is grown in the function grow_halt_poll_ns() and is multiplied by the module
-+parameters halt_poll_ns_grow and halt_poll_ns_grow_start.
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index a68730e7cfac..38ec2b05e54f 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -131,6 +131,7 @@ printed after the symbol name with an extra ``b`` appended to the end of the
+ specifier.
  
- In the event that the total block time was greater than the global max polling
- interval then the host will never poll for long enough (limited by the global
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 6b4feb92dc79..13a9996c4ccb 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -2906,6 +2906,9 @@ static void shrink_halt_poll_ns(struct kvm_vcpu *vcpu)
- 	unsigned int old, val, shrink;
- 
- 	old = val = vcpu->halt_poll_ns;
-+	if (!old)
-+		return;
+ ::
 +
- 	shrink = READ_ONCE(halt_poll_ns_shrink);
- 	if (shrink == 0)
- 		val = 0;
-@@ -3003,12 +3006,10 @@ void kvm_vcpu_block(struct kvm_vcpu *vcpu)
- 			if (block_ns <= vcpu->halt_poll_ns)
- 				;
- 			/* we had a long block, shrink polling */
--			else if (vcpu->halt_poll_ns &&
--					block_ns > vcpu->kvm->max_halt_poll_ns)
-+			else if (block_ns > vcpu->kvm->max_halt_poll_ns)
- 				shrink_halt_poll_ns(vcpu);
--			/* we had a short halt and our poll time is too small */
--			else if (vcpu->halt_poll_ns < vcpu->kvm->max_halt_poll_ns &&
--					block_ns < vcpu->kvm->max_halt_poll_ns)
-+			/* we had a short block, grow polling */
-+			else if (block_ns < vcpu->kvm->max_halt_poll_ns)
- 				grow_halt_poll_ns(vcpu);
- 		} else {
- 			vcpu->halt_poll_ns = 0;
+ 	%pS	versatile_init+0x0/0x110 [module_name]
+ 	%pSb	versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+ 	%pSRb	versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
 -- 
-2.19.1
+2.27.0
 
