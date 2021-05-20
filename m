@@ -2,90 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B53C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:45:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F5EC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 21:06:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 943CF613BE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:45:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5168261353
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 21:06:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbhETUrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 16:47:09 -0400
-Received: from ms.lwn.net ([45.79.88.28]:34278 "EHLO ms.lwn.net"
+        id S229898AbhETVIA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 17:08:00 -0400
+Received: from mga06.intel.com ([134.134.136.31]:40169 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229455AbhETUrJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 16:47:09 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0572E307;
-        Thu, 20 May 2021 20:45:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0572E307
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1621543547; bh=JuC7by8pKyIGHMXYDCfFRTmxtsigqmtpm8lM5fb+p8M=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=CbP2HhZCz+Et9uvPSgZxl3/PNPK23WYQipYI5hFaWF3P/pNPPj/Z9Eta6nh9DZdzx
-         BBTWSYD74GkSaJJ2RQiKDutLNbUDwXRsmlodFo6E4x0TTKXjBVc1UJ3pjebgOv/sIf
-         EQc3SiRfpOlgb6Bu4r7o95U3p5Htzfsb/FIVIJ5SnBOeBuKxVWj1p7SjH7uU68pECu
-         2hvL7taUMAfJLW4JtKFGifxK2XfRM7Ti0Nl5hJFIKa0sJfHACWlc9M8WP4upYlSxz8
-         T8MpTg9e8sOtqsrJqNVyTkOvaM6jMt++WewwLJaUdEol7ad3RL/i5O5Wh0R3XdWNIs
-         P1mdBY6lvPCvQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Joe Perches <joe@perches.com>
-Subject: Re: [PATCH] docs: Add more message type documentations for checkpatch
-In-Reply-To: <CABJPP5D=Z6Uwr5hihB1yHjxcww=QO8Ju46m1eruRTuJkKWDXpw@mail.gmail.com>
-References: <20210515132348.19082-1-dwaipayanray1@gmail.com>
- <87k0ntnoyq.fsf@meer.lwn.net>
- <CABJPP5D=Z6Uwr5hihB1yHjxcww=QO8Ju46m1eruRTuJkKWDXpw@mail.gmail.com>
-Date:   Thu, 20 May 2021 14:45:46 -0600
-Message-ID: <87y2c9m8w5.fsf@meer.lwn.net>
+        id S229708AbhETVIA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 May 2021 17:08:00 -0400
+IronPort-SDR: 0Xk6l6xI8sJdlbl0Zki2xb30mFugzrV6bzBMElrpGkJzG04nArOeqMyBn746trLzQ3LYDkos0l
+ DAUV8LtdEHIQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9990"; a="262560467"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
+   d="scan'208";a="262560467"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2021 14:06:37 -0700
+IronPort-SDR: 1LaHlQbEIAaulARfd6pepuB9A1uuFmz3hYPtGsneBv9e13fT63+Y8VTImuWAG69kBQg6/JNBWa
+ M/5pNrvRTOCw==
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
+   d="scan'208";a="440623013"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.167.234]) ([10.209.167.234])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2021 14:06:34 -0700
+Subject: Re: [PATCH v26 26/30] ELF: Introduce arch_setup_elf_property()
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-27-yu-cheng.yu@intel.com> <YKVUgzJ0MVNBgjDd@zn.tnic>
+ <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
+ <YKaesoXCSBmCwD+4@casper.infradead.org>
+ <89be0683-e1b3-d843-c4b4-ba351ede7427@intel.com>
+Message-ID: <3edd6ac7-4aa2-5f09-245a-3e5cf4bb06aa@intel.com>
+Date:   Thu, 20 May 2021 14:06:30 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <89be0683-e1b3-d843-c4b4-ba351ede7427@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dwaipayan Ray <dwaipayanray1@gmail.com> writes:
-
-> (Adding Joe for comments)
->
->> We really shouldn't be linking to outside sites - even kernel.org - when
->> referring to the kernel docs themselves.  Just say
->> "Documentation/timers/timers-howto" and let the build system handle the
->> links.
+On 5/20/2021 10:52 AM, Yu, Yu-cheng wrote:
+> On 5/20/2021 10:38 AM, Matthew Wilcox wrote:
+>> On Wed, May 19, 2021 at 03:14:58PM -0700, Yu, Yu-cheng wrote:
+>>>>> +++ b/include/uapi/linux/elf.h
+>>>>> @@ -455,4 +455,13 @@ typedef struct elf64_note {
+>>>>>    /* Bits for GNU_PROPERTY_AARCH64_FEATURE_1_BTI */
+>>>>>    #define GNU_PROPERTY_AARCH64_FEATURE_1_BTI    (1U << 0)
+>>>>> +/* .note.gnu.property types for x86: */
+>>>>> +#define GNU_PROPERTY_X86_FEATURE_1_AND        0xc0000002
+>>>>
+>>>> Why not 0xc0000001? ARM64 is 0xc0000000...
+>>>>
+>>>
+>>> I just looked at the ABI document.
+>>>
+>>> ARM has GNU_PROPERTY_AARCH64_FEATURE_1_AND 0xc0000000
+>>>
+>>> X86 has:
+>>>     GNU_PROPERTY_X86_ISA_1_USED    0xc0000000
+>>>     GNU_PROPERTY_X86_ISA_1_NEEDED    0xc0000001
+>>>     GNU_PROPERTY_X86_FEATURE_1_AND    0xc0000002
 >>
->> There's a lot of these in this file, alas...
+>> Please add all three, not just the last one.
 >>
->> I've applied this patch since it makes things better overall, but I
->> would really like to see all those URLs go away if possible.
->>
->
-> Thanks Jonathan.
->
-> Yes it might make things better for the documentation, but again
-> since we are using these descriptions in checkpatch's --verbose mode,
-> we shall lose the ability to show the links there which I think is currently
-> a good addition for the end user.
->
-> And I don't think there will be a way to generate these links in checkpatch
-> without sphinx's build system....
+> 
+> Ok!
 
-Ah, OK, I wasn't thinking about that aspect of things; that does change
-the situation a bit.
+Just found out, I have been reading an older version.  Now 0xc0000000 
+and 0xc0000001 have become reserved/not-used.  Maybe I will just put a 
+note about that along with the link to the ABI document.
 
-It wouldn't be that hard to do an equivalent of the automarkup magic in
-checkpatch to create the relevant links, but I'm not so set on this as
-to try to require that.  The links can be as they are, sorry for the
-noise.
-
-Thanks,
-
-jon
+Yu-cheng
