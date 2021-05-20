@@ -2,154 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D795C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 19:44:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09740C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:00:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56DBD6135B
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 19:44:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEC1A6135A
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238997AbhETTpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 15:45:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52152 "EHLO mail.kernel.org"
+        id S235253AbhETUBa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 16:01:30 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58512 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237966AbhETTpX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 15:45:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BED32611AD;
-        Thu, 20 May 2021 19:43:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621539841;
-        bh=mfUpKnWBH9YHSgWn5CR/E/VckYQfcAH6ErNJaVdjD1o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=dBTWBL+ltW695t4h+3iYAv80cSOUZpKHpZadu/47o6iNZv4fWVYFF2n+c71kbOJu+
-         MQ+zpX9VB9lgCwR8BPE9CDk3tovYX/CYJepxDVcILBUuPnh/GP7k70oa+J1rkx0B2D
-         q4FU/7vRKYY0XxqjH4LETRw5Q1CNKAel1uYYLnRP2JmI9ew33iybXSC7w+90w3Bcwf
-         LJUs+oBBDluFlOKk68JGxdy5Gc1tmzQQH2oImvBZlHKzKRib8PY+dSDHPImhGHRSSo
-         TLQhtkwIYQR3/BYiVxoDWwCQqO7kIb6UzlbX2rynugT9qaz8ZawYRHjpP9GRnDW5AK
-         zAa5lcyO6Rw4Q==
-Date:   Thu, 20 May 2021 21:43:56 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
-        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
- on Intel NUC
-Message-ID: <20210520214356.0392f374@thinkpad>
-In-Reply-To: <20210520211615.437e22ee@coco.lan>
-References: <cover.1621349813.git.mchehab+huawei@kernel.org>
-        <20210519111107.GC24621@duo.ucw.cz>
-        <20210519141508.6e7a4d56@coco.lan>
-        <20210519194115.GA31672@duo.ucw.cz>
-        <20210520010720.32265ad4@coco.lan>
-        <20210520181919.608568b2@thinkpad>
-        <20210520211615.437e22ee@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S231917AbhETUBa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 May 2021 16:01:30 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D3783301;
+        Thu, 20 May 2021 20:00:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D3783301
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1621540808; bh=2WNLJX/xlZc5xTtT/m0BAIjR0dGVeWDMrn8wfYaNCUM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=JWiESVFNzhYgP3LIrHH+2tY7pTjoh+gKnctlpgARBvgwBWg4BACU+o/zkUA8eRdPF
+         jS85XmMhRO5jK77x2BlQkPxDSbCrzhxlhaMXvDctoM1+BMQOa0yL/SZHdunNPbhAgt
+         4USigcfd0H+vMC4CmQMvwXkhr8hvfRf3UC0K6z2vi4HY7A5m+ShwS2LJ/UDdBlnsDP
+         SPBGKoeOrTvsAjV7A36ox1hL3nOjKNp5cU8ATBlHyBRqSKzr5ElccrOeoSfEDcgg8h
+         LH4udeqBoy+VzdXLKBnnbzSb6qpvpqwupJQPHnbWB4IHmqCdgQ0/NFGZsiTs5E64Wr
+         JxMzmR3UeuhAA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+        kvm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-iio@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 00/10] Documentation build warning fixes
+In-Reply-To: <cover.1621413933.git.mchehab+huawei@kernel.org>
+References: <cover.1621413933.git.mchehab+huawei@kernel.org>
+Date:   Thu, 20 May 2021 14:00:07 -0600
+Message-ID: <87wnrtnpko.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 May 2021 21:16:15 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> So, assuming that we will have one trigger per each hardware
-> state, it could have something like (names subject to change):
-> 
-> 	- hw:powerstate
-> 	- hw:disk_activity
-> 	- hw:ethernet_activity
-> 	- hw:wifi_active
-> 	- hw:power_limit
-> 
-> Right?
-
-Yes, but we should really try to map ethernet_activity to netdev and
-disk_activity to a potential blkdev trigger :-) That's my opinion.
-
-> It still needs to indicate two other possible states:
-> 
-> 	- software controlled led;
-> 	- led is disabled.
-> 
-> Setting led's brightness to zero is different than disabling
-> it. 
+> Hi Jon,
 >
-> Disabling can be done via BIOS, but BIOS config doesn't allow
-> setting the brightness. There are other difference on BIOS settings:
-> it allow disabling each/all LED controls and/or to disable software 
-> control of each LED.
-> 
-> So, we need a way at the API to uniquely identify when the LED
-> is software-controlled and when it is disabled.
-> Would it be something like:
-> 
-> 	- hw:disable
-> 
-> trigger? or better to implement it on a different way?
+> This small series contain a series of fixes for the documentation. it is
+> against your docs-next branch.
+>
+> Three of the patches fix duplicated symbols at the ABI documents.
+> There are still some ABI warnings from IIO, but all but one were
+> already fixed at linux-next. So, hopefully, after having everything
+> merged, the ABI warnings will be solved.
+>
+> Mauro Carvalho Chehab (10):
+>   docs: update sysfs-platform_profile.rst reference
+>   docs: vcpu-requests.rst: fix reference for atomic ops
+>   docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
+>   docs: sched-bwc.rst: fix a typo on a doc name
+>   docs: update pin-control.rst references
+>   docs: virt: api.rst: fix a pointer to SGX documentation
+>   docs: ABI: iommu: remove duplicated definition for
+>     sysfs-kernel-iommu_groups
+>   docs: ABI: sysfs-class-backlight: unify ambient light zone nodes
+>   docs: ABI: sysfs-class-led-trigger-pattern: remove repeat duplication
+>   iio: documentation: fix a typo
 
-What is the functional difference (visible to the user) between zero
-brightness and disabled LED? IMO if user says
-  echo 0 >brightness
-you can just disable the LED. Or is this impossible?
- 
-> > Is the speed of breathing/strobing also adjustable? Or only when
-> > pulsing?  
-> 
-> Yes, speed is also adjustable, from 0.1 to 1.0 HZ, in 0.1 Hz
-> (NUC 8 and above).
-> 
-> The NUC6 API is more limited than NUC8+: it has just two
-> blink patterns (blink, fade), and only 3 frequencies are allowed
-> (0.25 Hz, 0.50 Hz and 1.0 Hz).
-> 
-> > When this "hw:powerstate" trigger is enabled for this LED,
-> > only then another sysfs files should appear in this LED's sysfs
-> > directory.  
-> 
-> OK, makes sense. 
-> 
-> Out of curiosity: is it reliable to make sysfs nodes appear and
-> disappear dynamically? Does inotify (or something similar) can
-> be used to identify when such nodes appear/disappear?
-> 
-> I remember a long time ago I wanted to use something like that 
-> at the media (or edac?) subsystem, but someone (Greg, I think)
-> recommended otherwise due to some potential racing issues.
+Seems like good stuff.  The last patch in the series, though, adds a
+warning:
 
-No idea, but I would guess yes.
+  Documentation/ABI/testing/sysfs-bus-iio:799: WARNING: Inline emphasis start-string without end-string.
 
-> > I'd rather use one file for frequencies and one for intervals, and map
-> > in to an array, but that is just my preference...  
-> 
-> By intervals are you meaning 1/frequency? So, basically exposing
-> the frequency as two fields? If so, it sounds overkill to me to have both. 
+So I left that one out and applied the rest.
 
-Sorry, I meant one file for frequencies and one for patterns.
-> 
-> Btw, maybe instead of "blink_behavior" it could use "blink_pattern".
-> 
-> This would diverge from the datahseet name, but it probably describes
-> better what will be controlled when blink is enabled:
-> 
-> 	- frequency (or inverval)
-> 	- pattern
-> 
-> > Regarding the enum with 8 colors: are these
-> > colors red, yellow, green, cyan, blue, magenta? Because if so, then
-> > this is RGB with each channel being binary :) So you can again use
-> > multicolor framework.  
-> 
-> The dual-colored ones aren't RGB. Two types are supported:
-> 	- Blue/Amber
-> 	- Blue/White
+Thanks,
 
-These would need a new API, ignore these for now.
-
-Marek
+jon
