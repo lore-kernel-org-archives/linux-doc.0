@@ -2,104 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EEB8C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 05:24:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C3BC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 06:10:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A17E611BD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 05:24:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28E4E611BE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 06:10:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbhETFZi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 01:25:38 -0400
-Received: from mail-wm1-f48.google.com ([209.85.128.48]:37396 "EHLO
-        mail-wm1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbhETFZi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 01:25:38 -0400
-Received: by mail-wm1-f48.google.com with SMTP id f19-20020a05600c1553b02901794fafcfefso3950770wmg.2;
-        Wed, 19 May 2021 22:24:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lFsvoCkU9zQjo7Svj5G5k4DUPYp2NU7fos0X3OEtvpQ=;
-        b=NWTNLA8psn359D+d8i94TFdHpY2QtJlfmw4Yvt20OVIlGgJzQVV02XM00nFj1T8Pvr
-         3ThjwfFWFGULYE7rAK+Vr3Ap/z8u+2yUElxrWvg+qcbgHWqR4gNkDlb4o6G6uOy7WK1f
-         ncn9QoguChn35rAxYB4/sIeDsY+ndS90i8q5/+O1s3sBc7ZGxO2TFLwjCWIVnTMkDwlF
-         LRFNTmU0qdx4cvZEz1oxVdwmRgUFwiEHSaE1uVbym5Zq6Q0GD0uxvNJQzXCja1D4mC7V
-         TH+nhVFcJrrUb6mX8R3ZyAAiJi2S/q6UvdeI1D1d4S6oSxJAKY1VyK9gOzA/lYFZXFCU
-         d+UQ==
-X-Gm-Message-State: AOAM533UCJXbLyPSmsyD6GtvgHDIHkMeVr+QqYvTCTllfmT6q6uwANjU
-        kAm3zfCIBBcvKiqNUI5a/7I=
-X-Google-Smtp-Source: ABdhPJwN1AJlH1oTPvwkZwtZxul6M9lJoO1Ot1z9kwebbxqx175nN7692CsdnxvBrcF0kKH719VSBA==
-X-Received: by 2002:a05:600c:19c8:: with SMTP id u8mr2149681wmq.25.1621488256924;
-        Wed, 19 May 2021 22:24:16 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id g206sm7863810wme.16.2021.05.19.22.24.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 May 2021 22:24:16 -0700 (PDT)
-Subject: Re: [PATCH] Documentation: checkpatch: Tweak BIT() macro include
-To:     Andrew Jeffery <andrew@aj.id.au>, linux-doc@vger.kernel.org
-Cc:     dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        openbmc@lists.ozlabs.org
-References: <20210520015704.489737-1-andrew@aj.id.au>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <7a14c4ea-46ef-a615-a109-1b9777c507cd@kernel.org>
-Date:   Thu, 20 May 2021 07:24:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S230453AbhETGLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 02:11:30 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:39620 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230457AbhETGLT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 02:11:19 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14K64xCv172268;
+        Thu, 20 May 2021 06:09:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=C3pB+KzMdD3b0417cIrmppeRfZmYwgPZJocfpwURt2A=;
+ b=Uj5iEah6/9+7vmZDuhlUmzNkfBsXjRjnLJBx5h+fasApSO+IKTXWC7f383eXNnc6tBgC
+ vwlLx9lE6M4iJYhWSkG9s7IQoTNXHL0V43tIbsiSalHqK1KNMbJVD82xsGVp/Vn79tfF
+ uyMSQY5AbB7IxgqepPhV33H2wDblobzbXmEERKUcuLNQL7tFIZE+qKz2/eu7v/vgz3XE
+ 6eR7z0c95gZ2sriBvv5sprhGiYeB2ov5iU1AeBK/DDjxdJBSLVanzS8RG7v/PBiL0O/5
+ ZYfrcN+qTrpQzpkyu6zCOR6ErGYKvHluznh8RosMlTr/jjfXvZhpxplwx4XNejsrWCEo HA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 38j68mkhub-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 20 May 2021 06:09:43 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14K65HuG081994;
+        Thu, 20 May 2021 06:09:42 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3030.oracle.com with ESMTP id 38meegpt7w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 20 May 2021 06:09:42 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14K699cJ089457;
+        Thu, 20 May 2021 06:09:41 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 38meegpt7g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 20 May 2021 06:09:41 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14K69b6S010834;
+        Thu, 20 May 2021 06:09:38 GMT
+Received: from kadam (/41.212.42.34)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 19 May 2021 23:09:37 -0700
+Date:   Thu, 20 May 2021 09:09:24 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Anup Patel <anup.patel@wdc.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexander Graf <graf@amazon.com>,
+        Atish Patra <atish.patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Anup Patel <anup@brainfault.org>, kvm@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH v18 14/18] RISC-V: KVM: Implement ONE REG interface for
+ FP registers
+Message-ID: <20210520060924.GD1955@kadam>
+References: <20210519033553.1110536-1-anup.patel@wdc.com>
+ <20210519033553.1110536-15-anup.patel@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20210520015704.489737-1-andrew@aj.id.au>
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210519033553.1110536-15-anup.patel@wdc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: 9oEaeiTajIB3mCxzFbzpy6mDX4kz6VAg
+X-Proofpoint-GUID: 9oEaeiTajIB3mCxzFbzpy6mDX4kz6VAg
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9989 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 suspectscore=0 clxscore=1015
+ adultscore=0 bulkscore=0 phishscore=0 spamscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105200050
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20. 05. 21, 3:57, Andrew Jeffery wrote:
-> While include/linux/bitops.h brings in the BIT() macro, it was moved to
-> include/linux/bits.h in [1]. Since [1] BIT() has moved again into
-> include/vdso/bits.h via [2].
-> 
-> I think the move to the vDSO header can be considered a implementation
-> detail, so for now update the checkpatch documentation to recommend use
-> of include/linux/bits.h.
-> 
-> [1] commit 8bd9cb51daac ("locking/atomics, asm-generic: Move some macros from <linux/bitops.h> to a new <linux/bits.h> file")
-> [2] commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO")
-> 
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+On Wed, May 19, 2021 at 09:05:49AM +0530, Anup Patel wrote:
+> +static int kvm_riscv_vcpu_set_reg_fp(struct kvm_vcpu *vcpu,
+> +				     const struct kvm_one_reg *reg,
+> +				     unsigned long rtype)
+> +{
+> +	struct kvm_cpu_context *cntx = &vcpu->arch.guest_context;
+> +	unsigned long isa = vcpu->arch.isa;
+> +	unsigned long __user *uaddr =
+> +			(unsigned long __user *)(unsigned long)reg->addr;
+> +	unsigned long reg_num = reg->id & ~(KVM_REG_ARCH_MASK |
+> +					    KVM_REG_SIZE_MASK |
+> +					    rtype);
+> +	void *reg_val;
+> +
+> +	if ((rtype == KVM_REG_RISCV_FP_F) &&
+> +	    riscv_isa_extension_available(&isa, f)) {
+> +		if (KVM_REG_SIZE(reg->id) != sizeof(u32))
+> +			return -EINVAL;
+> +		if (reg_num == KVM_REG_RISCV_FP_F_REG(fcsr))
+> +			reg_val = &cntx->fp.f.fcsr;
+> +		else if ((KVM_REG_RISCV_FP_F_REG(f[0]) <= reg_num) &&
+> +			  reg_num <= KVM_REG_RISCV_FP_F_REG(f[31]))
+> +			reg_val = &cntx->fp.f.f[reg_num];
+> +		else
+> +			return -EINVAL;
+> +	} else if ((rtype == KVM_REG_RISCV_FP_D) &&
+> +		   riscv_isa_extension_available(&isa, d)) {
+> +		if (reg_num == KVM_REG_RISCV_FP_D_REG(fcsr)) {
+> +			if (KVM_REG_SIZE(reg->id) != sizeof(u32))
+> +				return -EINVAL;
+> +			reg_val = &cntx->fp.d.fcsr;
+> +		} else if ((KVM_REG_RISCV_FP_D_REG(f[0]) <= reg_num) &&
+> +			   reg_num <= KVM_REG_RISCV_FP_D_REG(f[31])) {
+> +			if (KVM_REG_SIZE(reg->id) != sizeof(u64))
+> +				return -EINVAL;
+> +			reg_val = &cntx->fp.d.f[reg_num];
+> +		} else
+> +			return -EINVAL;
+> +	} else
+> +		return -EINVAL;
+> +
+> +	if (copy_from_user(reg_val, uaddr, KVM_REG_SIZE(reg->id)))
+                           ^^^^^^^
+It sort of bothers me that if this copy fails then we have no idea
+what garbage is in reg_val.  It would be nicer to copy it to a temporary
+buffer and then memcpy it when we know it's going succeed.
 
-Acked-by: Jiri Slaby <jirislaby@kernel.org>
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +}
 
-Thanks.
-
-> ---
->   Documentation/dev-tools/checkpatch.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index 51fed1bd72ec..59fcc9f627ea 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -472,7 +472,7 @@ Macros, Attributes and Symbols
->   
->     **BIT_MACRO**
->       Defines like: 1 << <digit> could be BIT(digit).
-> -    The BIT() macro is defined in include/linux/bitops.h::
-> +    The BIT() macro is defined via include/linux/bits.h::
->   
->         #define BIT(nr)         (1UL << (nr))
->   
-> 
-
-
--- 
-js
-suse labs
+regards,
+dan carpenter
