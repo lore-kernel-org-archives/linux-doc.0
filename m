@@ -7,83 +7,79 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A56EC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B0C0C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:27:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1BDE6128A
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:27:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4204260FE3
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:27:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236579AbhETU22 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 16:28:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52746 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235261AbhETU22 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 16:28:28 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D66DAC061574;
-        Thu, 20 May 2021 13:27:06 -0700 (PDT)
+        id S237537AbhETU3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 16:29:08 -0400
+Received: from ms.lwn.net ([45.79.88.28]:60702 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236963AbhETU3H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 May 2021 16:29:07 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8B4B62F3;
-        Thu, 20 May 2021 20:27:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8B4B62F3
+        by ms.lwn.net (Postfix) with ESMTPSA id 814E72F3;
+        Thu, 20 May 2021 20:27:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 814E72F3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1621542426; bh=NpuRS2178vxy4S9OffI41QVP9Bg2Y78UthUZZGVg8UA=;
+        t=1621542465; bh=4Sb890MJb2ftT0eWtK0c6D8gcH4gbMVh+6xP0bEVTBU=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=OOiQ05hvuLhjcC3/P9dziZv94vkKr6NkttIIPz3GfQLOP2Nz16XYv1p1y0PWYsf4B
-         nFWmIhluyIP9VoY1K9FkxiTEpG9wrzvz1K4WZBJ+K3rZ/1207ZmKOHFqPOejc6YgKU
-         KdO0CK5jHpuOq9/KTAJV0UMiRQkohS+u4A3cgtFZcw7DhXlhJ70l+IiM/qci33ATvN
-         vPAdR9yD4bkTjMSCGe2AJydJ6kKd2Cxb6kEZfNkRvYQRUqLnyhqZE3iQK2PQXk6kKi
-         YowxnpDH8Xu0vtTy4svG3JmyBvalmoT4bpujh4k99jpXMRvKPLT1vfJgmB2DrK+plZ
-         cMzoNbAzo67Ww==
+        b=iqmdk/F0zXlaOzi2qIfonlCtVp7Uo3ZYdslx8Oxhc8VWiicgjKQm4xQE1ZRDUuUzI
+         tFtqZDz18WQRoqB6pV+j9C4tJkmEaK9kVwDm+SLWLA3PjJ3IPRTqwUpd8qZ/qIQZ8G
+         VEUVtJGqoT7zTxMCd/gvZDTBKOzQZY3aJEWFuo6TxL8hlTCNH65N3o9EQVFDrY+byu
+         YEjZRkEHxe+0534Qx9S083tTbZK/RctTIcoTTVN641pLiN+a44A7oEwE/a//+TFtQE
+         EN8Dvcj8CqDReMukj2VRfwjQV2RZRQS45gjjYvicT7reR3XaMRlWnrIYe1xHLl3cf2
+         nSGYaovzR4T8w==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yue Hu <zbestahu@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        huyue2@yulong.com, zbestahu@163.com
-Subject: Re: [PATCH] docs: block: blk-mq.rst: correct drive -> driver
-In-Reply-To: <20210520074225.1989-1-zbestahu@gmail.com>
-References: <20210520074225.1989-1-zbestahu@gmail.com>
-Date:   Thu, 20 May 2021 14:27:06 -0600
-Message-ID: <877djtnobp.fsf@meer.lwn.net>
+To:     Andrew Jeffery <andrew@aj.id.au>, linux-doc@vger.kernel.org
+Cc:     dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH v2] Documentation: checkpatch: Tweak BIT() macro include
+In-Reply-To: <20210520093949.511471-1-andrew@aj.id.au>
+References: <20210520093949.511471-1-andrew@aj.id.au>
+Date:   Thu, 20 May 2021 14:27:45 -0600
+Message-ID: <8735uhnoam.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yue Hu <zbestahu@gmail.com> writes:
+Andrew Jeffery <andrew@aj.id.au> writes:
 
-> From: Yue Hu <huyue2@yulong.com>
+> While include/linux/bitops.h brings in the BIT() macro, it was moved to
+> include/linux/bits.h in commit 8bd9cb51daac ("locking/atomics, asm-generic:
+> Move some macros from <linux/bitops.h> to a new <linux/bits.h> file").
 >
-> It is 'driver' to complete the request. Also remove a redundant space.
+> Since that commit BIT() has moved again into include/vdso/bits.h via
+> commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO").
 >
-> Signed-off-by: Yue Hu <huyue2@yulong.com>
+> I think the move to the vDSO header can be considered an implementation
+> detail, so for now update the checkpatch documentation to recommend use
+> of include/linux/bits.h.
+>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Acked-by: Jiri Slaby <jirislaby@kernel.org>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 > ---
->  Documentation/block/blk-mq.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/dev-tools/checkpatch.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
-> index a980d23..d96118c 100644
-> --- a/Documentation/block/blk-mq.rst
-> +++ b/Documentation/block/blk-mq.rst
-> @@ -62,7 +62,7 @@ queue, to be sent in the future, when the hardware is able.
->  Software staging queues
->  ~~~~~~~~~~~~~~~~~~~~~~~
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index 51fed1bd72ec..59fcc9f627ea 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -472,7 +472,7 @@ Macros, Attributes and Symbols
 >  
-> -The block IO subsystem adds requests  in the software staging queues
-> +The block IO subsystem adds requests in the software staging queues
->  (represented by struct blk_mq_ctx) in case that they weren't sent
->  directly to the driver. A request is one or more BIOs. They arrived at the
->  block layer through the data structure struct bio. The block layer
-> @@ -132,7 +132,7 @@ In order to indicate which request has been completed, every request is
->  identified by an integer, ranging from 0 to the dispatch queue size. This tag
->  is generated by the block layer and later reused by the device driver, removing
->  the need to create a redundant identifier. When a request is completed in the
-> -drive, the tag is sent back to the block layer to notify it of the finalization.
-> +driver, the tag is sent back to the block layer to notify it of the finalization.
->  This removes the need to do a linear search to find out which IO has been
->  completed.
+>    **BIT_MACRO**
+>      Defines like: 1 << <digit> could be BIT(digit).
+> -    The BIT() macro is defined in include/linux/bitops.h::
+> +    The BIT() macro is defined via include/linux/bits.h::
 
 Applied, thanks.
 
