@@ -2,115 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F5EC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 21:06:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DAA4C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 21:34:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5168261353
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 21:06:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03AB26135C
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 21:34:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbhETVIA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 17:08:00 -0400
-Received: from mga06.intel.com ([134.134.136.31]:40169 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229708AbhETVIA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 17:08:00 -0400
-IronPort-SDR: 0Xk6l6xI8sJdlbl0Zki2xb30mFugzrV6bzBMElrpGkJzG04nArOeqMyBn746trLzQ3LYDkos0l
- DAUV8LtdEHIQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9990"; a="262560467"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
-   d="scan'208";a="262560467"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2021 14:06:37 -0700
-IronPort-SDR: 1LaHlQbEIAaulARfd6pepuB9A1uuFmz3hYPtGsneBv9e13fT63+Y8VTImuWAG69kBQg6/JNBWa
- M/5pNrvRTOCw==
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
-   d="scan'208";a="440623013"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.167.234]) ([10.209.167.234])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2021 14:06:34 -0700
-Subject: Re: [PATCH v26 26/30] ELF: Introduce arch_setup_elf_property()
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-27-yu-cheng.yu@intel.com> <YKVUgzJ0MVNBgjDd@zn.tnic>
- <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
- <YKaesoXCSBmCwD+4@casper.infradead.org>
- <89be0683-e1b3-d843-c4b4-ba351ede7427@intel.com>
-Message-ID: <3edd6ac7-4aa2-5f09-245a-3e5cf4bb06aa@intel.com>
-Date:   Thu, 20 May 2021 14:06:30 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        id S230216AbhETVfh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 17:35:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39484 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230167AbhETVfg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 17:35:36 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39973C061574;
+        Thu, 20 May 2021 14:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=G4UyUQ5PEzDYd7A8AKUFGfZluQiPU3b0/QLKsAyorwY=; b=B9ty5K/ZeyX2pHm5DUjb9yKjMf
+        T3uVb1RNT4xQBLdu65tv5ouSyq/+rWgbxzlzbyHhKoUVYe1QXaawiDk9//xUypscicoZAd45fVsvH
+        hpre64GbdgcPKfKJ9srgXiCQFPPgNdnhwxZJJJGg6gS3p056Vch1z05oIY/tZyZd3atoHww8iCRap
+        7xwUeDVDWcvZ2egX7ifIhE6LS5YSviXBXDccOdkfz/Cfbxqs53lFB0904P0BnSxoRzU7JAEhMbmDS
+        6LJPih9MtBSCi7HDFVQoD20/Hp2EIZD7Gs4MaIvIGPYKdE+2xvX3qchbrNoJdi5F9b97IuFgLt32P
+        Hmfnsi8Q==;
+Received: from [2601:1c0:6280:3f0::7376]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1ljqJ3-00Gfso-Nc; Thu, 20 May 2021 21:34:13 +0000
+Subject: Re: [PATCH] net: encx24j600: fix kernel-doc syntax in file headers
+To:     Aditya Srivastava <yashsri421@gmail.com>, davem@davemloft.net
+Cc:     lukas.bulwahn@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210520184915.588-1-yashsri421@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <31c0fb7a-4913-c6bb-0de4-0e41b4bc4d31@infradead.org>
+Date:   Thu, 20 May 2021 14:34:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <89be0683-e1b3-d843-c4b4-ba351ede7427@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210520184915.588-1-yashsri421@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/20/2021 10:52 AM, Yu, Yu-cheng wrote:
-> On 5/20/2021 10:38 AM, Matthew Wilcox wrote:
->> On Wed, May 19, 2021 at 03:14:58PM -0700, Yu, Yu-cheng wrote:
->>>>> +++ b/include/uapi/linux/elf.h
->>>>> @@ -455,4 +455,13 @@ typedef struct elf64_note {
->>>>>    /* Bits for GNU_PROPERTY_AARCH64_FEATURE_1_BTI */
->>>>>    #define GNU_PROPERTY_AARCH64_FEATURE_1_BTI    (1U << 0)
->>>>> +/* .note.gnu.property types for x86: */
->>>>> +#define GNU_PROPERTY_X86_FEATURE_1_AND        0xc0000002
->>>>
->>>> Why not 0xc0000001? ARM64 is 0xc0000000...
->>>>
->>>
->>> I just looked at the ABI document.
->>>
->>> ARM has GNU_PROPERTY_AARCH64_FEATURE_1_AND 0xc0000000
->>>
->>> X86 has:
->>>     GNU_PROPERTY_X86_ISA_1_USED    0xc0000000
->>>     GNU_PROPERTY_X86_ISA_1_NEEDED    0xc0000001
->>>     GNU_PROPERTY_X86_FEATURE_1_AND    0xc0000002
->>
->> Please add all three, not just the last one.
->>
+On 5/20/21 11:49 AM, Aditya Srivastava wrote:
+> The opening comment mark '/**' is used for highlighting the beginning of
+> kernel-doc comments.
+> The header for drivers/net/ethernet/microchip/encx24j600 files follows
+> this syntax, but the content inside does not comply with kernel-doc.
 > 
-> Ok!
+> This line was probably not meant for kernel-doc parsing, but is parsed
+> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+> causes unexpected warning from kernel-doc.
+> For e.g., running scripts/kernel-doc -none
+> drivers/net/ethernet/microchip/encx24j600_hw.h emits:
+> warning: expecting prototype for h(). Prototype was for _ENCX24J600_HW_H() instead
+> 
+> Provide a simple fix by replacing such occurrences with general comment
+> format, i.e. '/*', to prevent kernel-doc from parsing it.
+> 
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 
-Just found out, I have been reading an older version.  Now 0xc0000000 
-and 0xc0000001 have become reserved/not-used.  Maybe I will just put a 
-note about that along with the link to the ABI document.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Yu-cheng
+Thanks.
+
+> ---
+>  drivers/net/ethernet/microchip/encx24j600.c    | 2 +-
+>  drivers/net/ethernet/microchip/encx24j600_hw.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/microchip/encx24j600.c b/drivers/net/ethernet/microchip/encx24j600.c
+> index 3658c4ae3c37..ee921a99e439 100644
+> --- a/drivers/net/ethernet/microchip/encx24j600.c
+> +++ b/drivers/net/ethernet/microchip/encx24j600.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * Microchip ENCX24J600 ethernet driver
+>   *
+>   * Copyright (C) 2015 Gridpoint
+> diff --git a/drivers/net/ethernet/microchip/encx24j600_hw.h b/drivers/net/ethernet/microchip/encx24j600_hw.h
+> index f604a260ede7..fac61a8fbd02 100644
+> --- a/drivers/net/ethernet/microchip/encx24j600_hw.h
+> +++ b/drivers/net/ethernet/microchip/encx24j600_hw.h
+> @@ -1,5 +1,5 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+> -/**
+> +/*
+>   * encx24j600_hw.h: Register definitions
+>   *
+>   */
+> 
+
+
+-- 
+~Randy
+
