@@ -2,113 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E75C43470
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 11:50:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D120C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 11:56:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C744611AD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 11:50:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8EB660FEE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 11:56:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241479AbhETLvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 07:51:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46158 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242938AbhETLsn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 07:48:43 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C004CC06138C;
-        Thu, 20 May 2021 03:15:34 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id z13so23688287lft.1;
-        Thu, 20 May 2021 03:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7aih/d9855v20nIT+U7ZGnplm0nKULD9g48GJ8t3Fc4=;
-        b=XpCvTFvkUZMZKmbL0+fpxbM24MMpjQGwQ07dN2rzc30AXj0c5XvZ1pBV9QSbA8JqcI
-         gwkWFlIv1LIZPKaMNrRqARFzk1OmiqW5eepN9euCwKdEE7qxc+pI7Vigf6EHLp4zmQEq
-         WX4rYZZrZF3hM0Oze7xDsFHR0eXL/E1XJmzgJh0JCLS5I+cVheSdk7xTuXs4gQt5/jc3
-         JH7W895ElWhxzggpWUs7DavKkRoY0s2X7F1kQzwCoYgTQnW9n2231qsmOH+2H9Zj4ntR
-         865bwangq/WyEnQmb3UM4S2bgAIZmZymg9vfin94XCNryEASAnWtMGrWvFOuw/nsjHLr
-         Ihmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7aih/d9855v20nIT+U7ZGnplm0nKULD9g48GJ8t3Fc4=;
-        b=V+hi0qKBy1kvR2rfnLAGjOOiKZa4SIP8CjzNDatDwnPaHRk3jowUAKI4T1wxvm96CG
-         lSU909MHnK1Rurfu6iqNpEZt7RajcZlp7VRWo0qiR+DOFpVesH4fbhNrSjIAemEM2lGR
-         tV2ojfhCtAk3tE+ugTkT3N19VYVZr8ZMy0Ni33Q7WA6E/+ckFnDTK91QYkp7HDexC620
-         CCIrqxjniDHOfQBkJslLArN79Stvi+iqi23Z8j/GzeyFpsTmOqs2TQEC4gS1wgGDfZ9K
-         MR5evEt9qxTsPUGhcQ+zUkOjP/djnxoKsTUgRGc3R83198dQCF1heBvbIUHX5B75xs03
-         yT4w==
-X-Gm-Message-State: AOAM53068GF4wCbum/7Ghd/MQvVA0bVIFEYCOnl5GjOZnsEAGHbXEbQY
-        ZM6IB2r+/Iz05pWJ2YJuEsIGKoXtyyVgOu8Eg3I=
-X-Google-Smtp-Source: ABdhPJw1AXKmS8ULiIJu5WsnA6PZ5Cp6w5T/JRJQQHu8DK50jRaoxHpKcGlftGbj8SyvryF8zRNtnr7NI6fXZEuYJpQ=
-X-Received: by 2002:ac2:4ed9:: with SMTP id p25mr2856096lfr.576.1621505733022;
- Thu, 20 May 2021 03:15:33 -0700 (PDT)
+        id S237468AbhETL5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 07:57:35 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3091 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236669AbhETLzf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 07:55:35 -0400
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Fm7Bn1QpXz6J68Q;
+        Thu, 20 May 2021 19:42:25 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 20 May 2021 13:54:09 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
+ Thu, 20 May 2021 13:54:09 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+CC:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "mjg59@srcf.ucam.org" <mjg59@srcf.ucam.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 3/7] ima: Introduce template fields mntuidmap and
+ mntgidmap
+Thread-Topic: [PATCH 3/7] ima: Introduce template fields mntuidmap and
+ mntgidmap
+Thread-Index: AQHXTVYl5/ijYWmHy0e6NDJab3clu6rr+yiAgAABJoCAAEZSAA==
+Date:   Thu, 20 May 2021 11:54:08 +0000
+Message-ID: <f3dfccf2aa5f4c5b96ff6c55a222b7dd@huawei.com>
+References: <20210520085701.465369-1-roberto.sassu@huawei.com>
+ <20210520085701.465369-4-roberto.sassu@huawei.com>
+ <20210520093659.oeeytegx2tvzp33e@wittgenstein>
+ <20210520094105.x2k3bc53xejfl5b2@wittgenstein>
+In-Reply-To: <20210520094105.x2k3bc53xejfl5b2@wittgenstein>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.98.153]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210520093949.511471-1-andrew@aj.id.au>
-In-Reply-To: <20210520093949.511471-1-andrew@aj.id.au>
-From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date:   Thu, 20 May 2021 15:45:20 +0530
-Message-ID: <CABJPP5DHgq2gA7K-PiWK6UTx7t8zLaFuz1LCt9eNZPBs3u+hKQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: checkpatch: Tweak BIT() macro include
-To:     Andrew Jeffery <andrew@aj.id.au>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        openbmc@lists.ozlabs.org, Jiri Slaby <jirislaby@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 20, 2021 at 3:10 PM Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> While include/linux/bitops.h brings in the BIT() macro, it was moved to
-> include/linux/bits.h in commit 8bd9cb51daac ("locking/atomics, asm-generic:
-> Move some macros from <linux/bitops.h> to a new <linux/bits.h> file").
->
-> Since that commit BIT() has moved again into include/vdso/bits.h via
-> commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO").
->
-> I think the move to the vDSO header can be considered an implementation
-> detail, so for now update the checkpatch documentation to recommend use
-> of include/linux/bits.h.
->
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Acked-by: Jiri Slaby <jirislaby@kernel.org>
-
-Looks good to me. Thanks.
-
-Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
->  Documentation/dev-tools/checkpatch.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index 51fed1bd72ec..59fcc9f627ea 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -472,7 +472,7 @@ Macros, Attributes and Symbols
->
->    **BIT_MACRO**
->      Defines like: 1 << <digit> could be BIT(digit).
-> -    The BIT() macro is defined in include/linux/bitops.h::
-> +    The BIT() macro is defined via include/linux/bits.h::
->
->        #define BIT(nr)         (1UL << (nr))
->
-> --
-> 2.30.2
->
+PiBGcm9tOiBDaHJpc3RpYW4gQnJhdW5lciBbbWFpbHRvOmNocmlzdGlhbi5icmF1bmVyQHVidW50
+dS5jb21dDQo+IFNlbnQ6IFRodXJzZGF5LCBNYXkgMjAsIDIwMjEgMTE6NDEgQU0NCj4gT24gVGh1
+LCBNYXkgMjAsIDIwMjEgYXQgMTE6Mzc6MDdBTSArMDIwMCwgQ2hyaXN0aWFuIEJyYXVuZXIgd3Jv
+dGU6DQo+ID4gT24gVGh1LCBNYXkgMjAsIDIwMjEgYXQgMTA6NTY6NTdBTSArMDIwMCwgUm9iZXJ0
+byBTYXNzdSB3cm90ZToNCj4gPiA+IFRoaXMgcGF0Y2ggaW50cm9kdWNlcyB0aGUgbmV3IHRlbXBs
+YXRlIGZpZWxkcyBtbnR1aWRtYXAgYW5kIG1udGdpZG1hcCwNCj4gPiA+IHdoaWNoIGluY2x1ZGUg
+cmVzcGVjdGl2ZWx5IHRoZSBVSUQgYW5kIEdJRCBtYXBwaW5ncyBvZiB0aGUgaWRtYXBwZWQNCj4g
+bW91bnQsDQo+ID4gPiBpZiB0aGUgdXNlciBuYW1lc3BhY2UgaXMgbm90IHRoZSBpbml0aWFsIG9u
+ZS4NCj4gPiA+DQo+ID4gPiBUaGVzZSB0ZW1wbGF0ZSBmaWVsZHMsIHdoaWNoIHNob3VsZCBiZSBp
+bmNsdWRlZCB3aGVuZXZlciB0aGUgaXVpZCBhbmQgdGhlDQo+ID4gPiBpZ2lkIGZpZWxkcyBhcmUg
+aW5jbHVkZWQsIGFsbG93IHJlbW90ZSB2ZXJpZmllcnMgdG8gZmluZCB0aGUgb3JpZ2luYWwgVUlE
+DQo+ID4gPiBhbmQgR0lEIG9mIHRoZSBpbm9kZSBkdXJpbmcgc2lnbmF0dXJlIHZlcmlmaWNhdGlv
+bi4gVGhlIGl1aWQgYW5kIGlnaWQNCj4gPiA+IGZpZWxkcyBpbmNsdWRlIHRoZSBtYXBwZWQgVUlE
+IGFuZCBHSUQgd2hlbiB0aGUgaW5vZGUgaXMgaW4gYW4gaWRtYXBwZWQNCj4gPiA+IG1vdW50Lg0K
+PiA+ID4NCj4gPiA+IFRoaXMgc29sdXRpb24gaGFzIGJlZW4gcHJlZmVycmVkIHRvIHByb3ZpZGlu
+ZyBhbHdheXMgdGhlIG9yaWdpbmFsIFVJRCBhbmQNCj4gPiA+IEdJRCwgcmVnYXJkbGVzcyBvZiB3
+aGV0aGVyIHRoZSBpbm9kZSBpcyBpbiBhbiBpZG1hcHBlZCBtb3VudCBvciBub3QsIGFzDQo+ID4g
+PiB0aGUgbWFwcGVkIFVJRCBhbmQgR0lEIGFyZSB0aG9zZSBzZWVuIGJ5IHByb2Nlc3NlcyBhbmQg
+bWF0Y2hlZCB3aXRoDQo+IHRoZSBJTUENCj4gPiA+IHBvbGljeS4NCj4gPg0KPiA+IEhtLCBsb29r
+aW5nIGF0IHRoZSBjb2RlIHRoaXMgZG9lc24ndCBzZWVtIGxpa2UgYSBnb29kIGlkZWEgdG8gbWUu
+IEkNCj4gPiB0aGluayB3ZSBzaG91bGQgYXZvaWQgdGhhdCBhbmQganVzdCByZWx5IG9uIHRoZSBv
+cmlnaW5hbCB1aWQgYW5kIGdpZC4NCj4gDQo+IEl0J2QgYmUgb2sgdG8gaW5jbHVkZSB0aGUgbWFw
+cGVkIHVpZC9naWQgYnV0IGRvbid0IGNvcHkgdGhlIG1hcHBpbmcNCj4gaXRzZWxmLg0KDQpVaG0s
+IHdlIHdvdWxkIG5lZWQgYSB3YXkgdG8gb2J0YWluIHRoZSBvcmlnaW5hbCBVSUQgYW5kIEdJRCB0
+bw0KdmVyaWZ5IHRoZSBwb3J0YWJsZSBzaWduYXR1cmUuDQoNClJvYmVydG8NCg0KSFVBV0VJIFRF
+Q0hOT0xPR0lFUyBEdWVzc2VsZG9yZiBHbWJILCBIUkIgNTYwNjMNCk1hbmFnaW5nIERpcmVjdG9y
+OiBMaSBQZW5nLCBMaSBKaWFuLCBTaGkgWWFubGkNCg==
