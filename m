@@ -2,115 +2,261 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53343C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 18:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A42BC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 19:16:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 345AF611BD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 18:49:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55D58613B5
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 19:16:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234202AbhETSuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 14:50:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58422 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234105AbhETSut (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 14:50:49 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC3DC061574;
-        Thu, 20 May 2021 11:49:26 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id j12so12491096pgh.7;
-        Thu, 20 May 2021 11:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=3bJ6aCi358D6gLPHam70m7qIlIxiB35FHIyn3aer04k=;
-        b=KxTNQW9/gvB1b9rfZC4RriR6oyJ22kiVpjF/C99eettZzJ9DMuNgPCFBEwg7hy14bu
-         oOAPzAbGWao69tzW255IDM5PB3HE2nVj5yVUqJLA4cSgeDLry53UIjhSCLVrQMnK6c/i
-         a8+BHXE7SzYR443eVXCrmIrabGFhjYPGERcq8YVKxS8625Fb3U8N/tpiqQs0WAaANXhC
-         WZ4QDc+5wNdS1wWcd4G0YH8iuIHOTxKqy5+xzw2BUzrmZiBod2L40P45p5WTfXNDiond
-         WsLgRV51k41qGOSB0GIPar1wtq+21CqVUytXitppHOSZqAH2Vav3rXsjSpukPTd8Fx6t
-         BnYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=3bJ6aCi358D6gLPHam70m7qIlIxiB35FHIyn3aer04k=;
-        b=B4trR7vflWiQsoxnk+Q3pSJB3eJrRGz35YinRVhfLYLxmKl66AypgSwuHcFl00/tze
-         cWsZRfwf9VvdyFKVKHOwuGsK9QX9ZeO3pL+FGxTFFQB1aLYMebHfWm11F21TqJqGcCj8
-         y2jcy1SK4TclTkS7E4pxEL+Bl70kAld09JZZRpvbvoKnikN0XZxSZ330LrZtrUPOSfkn
-         K5CGBkg+fFL7QEHVTo1EssCnUdwtXC+NkyWgVC1abmIxBlC8ihpGKzZIEj2QwNTKuRSu
-         /EybjLUxg6vB1NbNkqiMDCNFGTNYa+2wdr3OytheATjQotXlZznL+yswD2wh5FSBCAit
-         6/7w==
-X-Gm-Message-State: AOAM530Khroh7nCN2ODs7zPbFs0kQPSqAdWIIKxmD+e4JySNcaKSf0ZT
-        96+sc7wfbpql392E2d7LT2A=
-X-Google-Smtp-Source: ABdhPJxxGJ2l0KhcECjJ8y0p4tXKuyfnCVIopqfN8F2ZIwSg2T93Y2vTlT/+TBnoradgW6ZEMixlYA==
-X-Received: by 2002:a62:2e04:0:b029:2db:4c99:614f with SMTP id u4-20020a622e040000b02902db4c99614fmr6078229pfu.47.1621536566193;
-        Thu, 20 May 2021 11:49:26 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a93f:4822:12f2:8c52:6d8b])
-        by smtp.googlemail.com with ESMTPSA id n30sm2741230pgd.8.2021.05.20.11.49.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 11:49:25 -0700 (PDT)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     davem@davemloft.net
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        rdunlap@infradead.org, kuba@kernel.org, netdev@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] net: encx24j600: fix kernel-doc syntax in file headers
-Date:   Fri, 21 May 2021 00:19:15 +0530
-Message-Id: <20210520184915.588-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S237960AbhETTRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 15:17:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46716 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236921AbhETTRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 May 2021 15:17:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B9E696135A;
+        Thu, 20 May 2021 19:16:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621538181;
+        bh=qY3hpBeVAuCX3rQmLLBqhaAD+XIAqD/Wva7r1sTpmjI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Ki2RQ4f3Izr1A7WBNsI0VLlib/aFJk9UldR0MensCn/hkE9QUESVFebdERfweBDCW
+         rWUhODGM3tARvtEEH4yvTvnuN9aCH5EIK+y/nWOmq22eEQSp+SzIT2VbCkfPUDQjgD
+         zE7b1d+8Yg4k0sohAl1X+P5ov5UZxZ0fEu8plUEZSBlBH77Du6Ks7nZXJOlPyG5vRh
+         28xZGdzclB617Y0tsRF+avAnSKDk/YaOtqS0+6Iuz0ofETtaZZVdurOf0U/cmH3oJm
+         B2LdjMLznrcyJcVZJh1U6wf3NegkE6PkFnQ1CdaKyRAwNSs2RakiahwYHsdZoa+1C/
+         kj8weSC2ni/QQ==
+Date:   Thu, 20 May 2021 21:16:15 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
+        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
+ on Intel NUC
+Message-ID: <20210520211615.437e22ee@coco.lan>
+In-Reply-To: <20210520181919.608568b2@thinkpad>
+References: <cover.1621349813.git.mchehab+huawei@kernel.org>
+        <20210519111107.GC24621@duo.ucw.cz>
+        <20210519141508.6e7a4d56@coco.lan>
+        <20210519194115.GA31672@duo.ucw.cz>
+        <20210520010720.32265ad4@coco.lan>
+        <20210520181919.608568b2@thinkpad>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The opening comment mark '/**' is used for highlighting the beginning of
-kernel-doc comments.
-The header for drivers/net/ethernet/microchip/encx24j600 files follows
-this syntax, but the content inside does not comply with kernel-doc.
+Em Thu, 20 May 2021 18:19:19 +0200
+Marek Beh=C3=BAn <kabel@kernel.org> escreveu:
 
-This line was probably not meant for kernel-doc parsing, but is parsed
-due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes unexpected warning from kernel-doc.
-For e.g., running scripts/kernel-doc -none
-drivers/net/ethernet/microchip/encx24j600_hw.h emits:
-warning: expecting prototype for h(). Prototype was for _ENCX24J600_HW_H() instead
+> On Thu, 20 May 2021 01:07:20 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+>=20
+> > So, the first thing that the API needs is a way to tell what LED
+> > is monitoring the device's power state. =20
+>=20
+> If a LED can monitor the device's power state in HW, register a LED
+> private trigger for this LED. If the LED is configured into this state
+> by default, you can set this trigger to be the default_trigger prior
+> registering the LED. The name of this private trigger can be
+> "hw:powerstate" or something like that (I wonder what others will
+> think about this name).
 
-Provide a simple fix by replacing such occurrences with general comment
-format, i.e. '/*', to prevent kernel-doc from parsing it.
+Ok.
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- drivers/net/ethernet/microchip/encx24j600.c    | 2 +-
- drivers/net/ethernet/microchip/encx24j600_hw.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+So, assuming that we will have one trigger per each hardware
+state, it could have something like (names subject to change):
 
-diff --git a/drivers/net/ethernet/microchip/encx24j600.c b/drivers/net/ethernet/microchip/encx24j600.c
-index 3658c4ae3c37..ee921a99e439 100644
---- a/drivers/net/ethernet/microchip/encx24j600.c
-+++ b/drivers/net/ethernet/microchip/encx24j600.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
--/**
-+/*
-  * Microchip ENCX24J600 ethernet driver
-  *
-  * Copyright (C) 2015 Gridpoint
-diff --git a/drivers/net/ethernet/microchip/encx24j600_hw.h b/drivers/net/ethernet/microchip/encx24j600_hw.h
-index f604a260ede7..fac61a8fbd02 100644
---- a/drivers/net/ethernet/microchip/encx24j600_hw.h
-+++ b/drivers/net/ethernet/microchip/encx24j600_hw.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--/**
-+/*
-  * encx24j600_hw.h: Register definitions
-  *
-  */
--- 
-2.17.1
+	- hw:powerstate
+	- hw:disk_activity
+	- hw:ethernet_activity
+	- hw:wifi_active
+	- hw:power_limit
 
+Right?
+
+It still needs to indicate two other possible states:
+
+	- software controlled led;
+	- led is disabled.
+
+Setting led's brightness to zero is different than disabling
+it.=20
+
+Disabling can be done via BIOS, but BIOS config doesn't allow
+setting the brightness. There are other difference on BIOS settings:
+it allow disabling each/all LED controls and/or to disable software=20
+control of each LED.
+
+So, we need a way at the API to uniquely identify when the LED
+is software-controlled and when it is disabled.
+Would it be something like:
+
+	- hw:disable
+
+trigger? or better to implement it on a different way?
+
+> > Then, for each power state (S0, S3, S5), define if the LED will
+> > be ON all the times or not.
+> >=20
+> > The "slowing breathing" is one of the possible blink patterns.
+> > The driver supports 4 other blink patterns
+> >=20
+> > 	- Solid - the LED won't blink;
+> > 	- Breathing - it looks like a sinusoidal wave pattern;
+> > 	- Pulsing - it looks like a square wave pattern;
+> > 	- Strobing - it turns ON suddenly, and then it slowly turns OFF.
+> >=20
+> > The speed of the blink is also adjustable, ranging from 0.1 Hz to 1 Hz,
+> > on 0.1 Hz steps. =20
+>=20
+> Is the speed of breathing/strobing also adjustable? Or only when
+> pulsing?
+
+Yes, speed is also adjustable, from 0.1 to 1.0 HZ, in 0.1 Hz
+(NUC 8 and above).
+
+The NUC6 API is more limited than NUC8+: it has just two
+blink patterns (blink, fade), and only 3 frequencies are allowed
+(0.25 Hz, 0.50 Hz and 1.0 Hz).
+
+> When this "hw:powerstate" trigger is enabled for this LED,
+> only then another sysfs files should appear in this LED's sysfs
+> directory.
+
+OK, makes sense.=20
+
+Out of curiosity: is it reliable to make sysfs nodes appear and
+disappear dynamically? Does inotify (or something similar) can
+be used to identify when such nodes appear/disappear?
+
+I remember a long time ago I wanted to use something like that=20
+at the media (or edac?) subsystem, but someone (Greg, I think)
+recommended otherwise due to some potential racing issues.
+
+>=20
+> > ---
+> >=20
+> > Let me explain this specific part of the API from my original proposal.
+> >=20
+> > Those are the led names from the datasheets (NUC 8 and above),
+> > and my proposal for the sysfs class directory name:
+> >=20
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > LED name	sysfs
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Skull		``/sys/class/leds/nuc::skull``
+> > Skull eyes	``/sys/class/leds/nuc::eyes``
+> > Power		``/sys/class/leds/nuc::power``
+> > HDD		``/sys/class/leds/nuc::hdd``
+> > Front1		``/sys/class/leds/nuc::front1``
+> > Front2		``/sys/class/leds/nuc::front2``
+> > Front3		``/sys/class/leds/nuc::front3``
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > For each of the above, there's the need to identify what
+> > hardware function is monitored (if any).
+> >=20
+> > My proposal were to add an "indicator" node (the name came from
+> > the Intel datasheets) that shows what led will monitor the power state.
+> >=20
+> > Then, one blink_behavior and one blink_frequency per power state,
+> > e. g.:
+> >=20
+> >     /sys/class/leds/nuc::front1
+> >     |-- indicator
+> >     |-- s0_blink_behavior
+> >     |-- s0_blink_frequency
+> >     |-- s3_blink_behavior
+> >     |-- s3_blink_frequency
+> >     |-- s5_blink_behavior
+> >     `-- s5_blink_frequency =20
+>=20
+> I'd rather use one file for frequencies and one for intervals, and map
+> in to an array, but that is just my preference...
+
+By intervals are you meaning 1/frequency? So, basically exposing
+the frequency as two fields? If so, it sounds overkill to me to have both.=
+=20
+
+Btw, maybe instead of "blink_behavior" it could use "blink_pattern".
+
+This would diverge from the datahseet name, but it probably describes
+better what will be controlled when blink is enabled:
+
+	- frequency (or inverval)
+	- pattern
+
+>=20
+> >=20
+> > PS.: I don't care much about what names we'll use. Feel free to
+> > rename them, if you think the above is not clear or generic enough.
+> >=20
+> > -
+> >=20
+> > To make part of the API complete, there's also the need of a node
+> > to control the max brightness that the leds will achieve at the
+> > ON state, and another one to control the color on each state,
+> > as one could define, let's say, "white" when powered on, "blue"
+> > when suspended and "yellow" when hibernating. The colors at the
+> > NUC I have are RGB (but other models can use an enum for the
+> > supported colors).
+> >=20
+> >     /sys/class/leds/nuc::front1
+> >     |-- s0_brightness
+> >     |-- s0_color		# only shown on colored leds
+> >     |-- s3_brightness
+> >     |-- s3_color		# only shown on colored leds
+> >     |-- s0_brightness
+> >     `-- s5_color		# only shown on colored leds =20
+>=20
+> If the BIOS reports a LED being full RGB LED, you should register it
+> via multicolor framework.
+
+OK.
+
+> Regarding the enum with 8 colors: are these
+> colors red, yellow, green, cyan, blue, magenta? Because if so, then
+> this is RGB with each channel being binary :) So you can again use
+> multicolor framework.
+
+The dual-colored ones aren't RGB. Two types are supported:
+	- Blue/Amber
+	- Blue/White
+
+the only one with 8 colors is at NUC6 API: the ring led. This one can be ma=
+pped
+as RGB with 1 bit per color, as those are the colors:
+
+    +---------+
+    | disable |
+    +---------+
+    | cyan    |
+    +---------+
+    | pink    |
+    +---------+
+    | yellow  |
+    +---------+
+    | blue    |
+    +---------+
+    | red     |
+    +---------+
+    | green   |
+    +---------+
+    | white   |
+    +---------+
+
+Thanks,
+Mauro
