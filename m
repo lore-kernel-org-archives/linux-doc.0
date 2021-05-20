@@ -2,251 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4079C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 07:57:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C04FC43460
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 08:57:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 996B16101E
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 07:57:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81491610CB
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 08:57:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231145AbhETH6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 03:58:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231280AbhETH6k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 03:58:40 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B34CAC06138A;
-        Thu, 20 May 2021 00:57:11 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id o27so15272342qkj.9;
-        Thu, 20 May 2021 00:57:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=92l+8w7L4L+POeiMQ+785lRXaO47cAlZxhuw/8KNqwY=;
-        b=e5tGORXElV2niilXU9p6zwQSibYPE78JjEZl9D/rV346TloCkYEEm3paLyUTETHHGZ
-         NBuvR8yzd48vIIT7T0UCptccYLCuI0sbLIxBg0iXf+26MMptukzuV4Uc0zLEM1nQkv2s
-         PCvP5Zz+V35veN9Io2JBcB4/ynH2eq2hFcPEqRe5kGheVzrfhAMW+EKfUYR+bFwWyN8D
-         ACIyZLhnL5Tof3BzY89ZcjVdztYn1sXFnHFT5jm0nywW6NsKgi1klXLbHyMgli+Q9p+y
-         5G31NRIJ5ZbV13axo5spfqBYsEql3yDuQfweIa8CIHkSAPf5EJmexvCBQGkWrPPOAaMn
-         G5dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=92l+8w7L4L+POeiMQ+785lRXaO47cAlZxhuw/8KNqwY=;
-        b=OdAkARh5hZz8OMI+JSPH+Hu0O8IouDNFH4a7kPipAAHI4vSVRYt4jgZZySTMLL6Av0
-         dCxz8Ty79I0AC8T4jdocwlJhuNydua33kUlnUExUn0lP0aUQjoiYMTwvAAap4cB1Tjwn
-         foAbqrfNpaACJjRd4fy3s5ApIFXjFCb5A/BbmMhiKPtq1H/ur27SvTB+PPUMOtNjrXxg
-         qjMG8nExDeLxwpog7cwTY2W5b07OqfEjZpfvgJ2vTvA09UbCT0AvYbkapEbL6RQx6M5V
-         mlb4U1Lx+bNbgaFojsu0D+GvPtEUpIeDFl5k63WiJ6/jPc6UNtcV5NtcAnXHbFmFr/z3
-         HrjA==
-X-Gm-Message-State: AOAM531ujvEtja1PDnhjHsXaFFfhfSM7tGiMlzaMMNJcnnj51KoELTb8
-        AmsI978Md72o11oqKcQVR7o=
-X-Google-Smtp-Source: ABdhPJzJQmpvqWhcLThGmjrhjCDrqO0TcVgaG9taRSNQTWYSWxNLpcVK91J2BrAzg9vK99pYG6nYqw==
-X-Received: by 2002:ae9:d60f:: with SMTP id r15mr3746384qkk.20.1621497430348;
-        Thu, 20 May 2021 00:57:10 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id g9sm1478254qka.38.2021.05.20.00.57.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 00:57:09 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
-        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
-        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
-        guoju.fgj@alibaba-inc.com, mgorman@suse.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
-        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
-        sj38.park@gmail.com, snu@amazon.de, vbabka@suse.cz,
-        vdavydov.dev@gmail.com, zgf574564920@gmail.com,
-        linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v29 12/13] mm/damon: Add user space selftests
-Date:   Thu, 20 May 2021 07:56:28 +0000
-Message-Id: <20210520075629.4332-13-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210520075629.4332-1-sj38.park@gmail.com>
-References: <20210520075629.4332-1-sj38.park@gmail.com>
+        id S231208AbhETI6o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 04:58:44 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3083 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229536AbhETI6o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 04:58:44 -0400
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Fm3Gn5cyRz6Vyjj;
+        Thu, 20 May 2021 16:45:37 +0800 (CST)
+Received: from roberto-ThinkStation-P620.huawei.com (10.204.62.217) by
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 20 May 2021 10:57:20 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     <zohar@linux.ibm.com>, <mjg59@srcf.ucam.org>
+CC:     <linux-integrity@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH 1/7] ima: Add ima_show_template_uint() template library function
+Date:   Thu, 20 May 2021 10:56:55 +0200
+Message-ID: <20210520085701.465369-2-roberto.sassu@huawei.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210520085701.465369-1-roberto.sassu@huawei.com>
+References: <20210520085701.465369-1-roberto.sassu@huawei.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.204.62.217]
+X-ClientProxiedBy: lhreml752-chm.china.huawei.com (10.201.108.202) To
+ fraeml714-chm.china.huawei.com (10.206.15.33)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+This patch introduces the new function ima_show_template_uint(). This can
+be used for showing integers of different sizes in ASCII format. The
+function ima_show_template_data_ascii() automatically determines how to
+print a stored integer by checking the integer size.
 
-This commit adds a simple user space tests for DAMON.  The tests are
-using kselftest framework.
+If integers have been written in canonical format,
+ima_show_template_data_ascii() calls the appropriate leXX_to_cpu() function
+to correctly display the value.
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
 ---
- tools/testing/selftests/damon/Makefile        |  7 ++
- .../selftests/damon/_chk_dependency.sh        | 28 ++++++
- .../testing/selftests/damon/debugfs_attrs.sh  | 98 +++++++++++++++++++
- 3 files changed, 133 insertions(+)
- create mode 100644 tools/testing/selftests/damon/Makefile
- create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
- create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+ security/integrity/ima/ima_template_lib.c | 38 ++++++++++++++++++++++-
+ security/integrity/ima/ima_template_lib.h |  2 ++
+ 2 files changed, 39 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/damon/Makefile b/tools/testing/selftests/damon/Makefile
-new file mode 100644
-index 000000000000..8a3f2cd9fec0
---- /dev/null
-+++ b/tools/testing/selftests/damon/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Makefile for damon selftests
+diff --git a/security/integrity/ima/ima_template_lib.c b/security/integrity/ima/ima_template_lib.c
+index 4314d9a3514c..f23296c33da1 100644
+--- a/security/integrity/ima/ima_template_lib.c
++++ b/security/integrity/ima/ima_template_lib.c
+@@ -24,7 +24,8 @@ enum data_formats {
+ 	DATA_FMT_DIGEST = 0,
+ 	DATA_FMT_DIGEST_WITH_ALGO,
+ 	DATA_FMT_STRING,
+-	DATA_FMT_HEX
++	DATA_FMT_HEX,
++	DATA_FMT_UINT
+ };
+ 
+ static int ima_write_template_field_data(const void *data, const u32 datalen,
+@@ -88,6 +89,35 @@ static void ima_show_template_data_ascii(struct seq_file *m,
+ 	case DATA_FMT_STRING:
+ 		seq_printf(m, "%s", buf_ptr);
+ 		break;
++	case DATA_FMT_UINT:
++		switch (field_data->len) {
++		case sizeof(u8):
++			seq_printf(m, "%u", *(u8 *)buf_ptr);
++			break;
++		case sizeof(u16):
++			if (ima_canonical_fmt)
++				seq_printf(m, "%u",
++					   le16_to_cpu(*(u16 *)buf_ptr));
++			else
++				seq_printf(m, "%u", *(u16 *)buf_ptr);
++			break;
++		case sizeof(u32):
++			if (ima_canonical_fmt)
++				seq_printf(m, "%u",
++					   le32_to_cpu(*(u32 *)buf_ptr));
++			else
++				seq_printf(m, "%u", *(u32 *)buf_ptr);
++			break;
++		case sizeof(u64):
++			if (ima_canonical_fmt)
++				seq_printf(m, "%llu",
++					   le64_to_cpu(*(u64 *)buf_ptr));
++			else
++				seq_printf(m, "%llu", *(u64 *)buf_ptr);
++			break;
++		default:
++			break;
++		}
+ 	default:
+ 		break;
+ 	}
+@@ -163,6 +193,12 @@ void ima_show_template_buf(struct seq_file *m, enum ima_show_type show,
+ 	ima_show_template_field_data(m, show, DATA_FMT_HEX, field_data);
+ }
+ 
++void ima_show_template_uint(struct seq_file *m, enum ima_show_type show,
++			    struct ima_field_data *field_data)
++{
++	ima_show_template_field_data(m, show, DATA_FMT_UINT, field_data);
++}
 +
-+TEST_FILES = _chk_dependency.sh
-+TEST_PROGS = debugfs_attrs.sh
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/damon/_chk_dependency.sh b/tools/testing/selftests/damon/_chk_dependency.sh
-new file mode 100644
-index 000000000000..e090836c2bf7
---- /dev/null
-+++ b/tools/testing/selftests/damon/_chk_dependency.sh
-@@ -0,0 +1,28 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# Kselftest framework requirement - SKIP code is 4.
-+ksft_skip=4
-+
-+DBGFS=/sys/kernel/debug/damon
-+
-+if [ $EUID -ne 0 ];
-+then
-+	echo "Run as root"
-+	exit $ksft_skip
-+fi
-+
-+if [ ! -d $DBGFS ]
-+then
-+	echo "$DBGFS not found"
-+	exit $ksft_skip
-+fi
-+
-+for f in attrs target_ids monitor_on
-+do
-+	if [ ! -f "$DBGFS/$f" ]
-+	then
-+		echo "$f not found"
-+		exit 1
-+	fi
-+done
-diff --git a/tools/testing/selftests/damon/debugfs_attrs.sh b/tools/testing/selftests/damon/debugfs_attrs.sh
-new file mode 100755
-index 000000000000..4a8ab4910ee4
---- /dev/null
-+++ b/tools/testing/selftests/damon/debugfs_attrs.sh
-@@ -0,0 +1,98 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+
-+source ./_chk_dependency.sh
-+
-+# Test attrs file
-+file="$DBGFS/attrs"
-+
-+ORIG_CONTENT=$(cat $file)
-+
-+echo 1 2 3 4 5 > $file
-+if [ $? -ne 0 ]
-+then
-+	echo "$file write failed"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+echo 1 2 3 4 > $file
-+if [ $? -eq 0 ]
-+then
-+	echo "$file write success (should failed)"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+CONTENT=$(cat $file)
-+if [ "$CONTENT" != "1 2 3 4 5" ]
-+then
-+	echo "$file not written"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+echo $ORIG_CONTENT > $file
-+
-+# Test target_ids file
-+file="$DBGFS/target_ids"
-+
-+ORIG_CONTENT=$(cat $file)
-+
-+echo "1 2 3 4" > $file
-+if [ $? -ne 0 ]
-+then
-+	echo "$file write fail"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+echo "1 2 abc 4" > $file
-+if [ $? -ne 0 ]
-+then
-+	echo "$file write fail"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+CONTENT=$(cat $file)
-+if [ "$CONTENT" != "1 2" ]
-+then
-+	echo "$file not written"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+echo abc 2 3 > $file
-+if [ $? -ne 0 ]
-+then
-+	echo "$file wrong value write fail"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+if [ ! -z "$(cat $file)" ]
-+then
-+	echo "$file not cleared"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+echo > $file
-+if [ $? -ne 0 ]
-+then
-+	echo "$file init fail"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+if [ ! -z "$(cat $file)" ]
-+then
-+	echo "$file not initialized"
-+	echo $ORIG_CONTENT > $file
-+	exit 1
-+fi
-+
-+echo $ORIG_CONTENT > $file
-+
-+echo "PASS"
+ /**
+  * ima_parse_buf() - Parses lengths and data from an input buffer
+  * @bufstartp:       Buffer start address.
+diff --git a/security/integrity/ima/ima_template_lib.h b/security/integrity/ima/ima_template_lib.h
+index f4b2a2056d1d..54b67c80b315 100644
+--- a/security/integrity/ima/ima_template_lib.h
++++ b/security/integrity/ima/ima_template_lib.h
+@@ -27,6 +27,8 @@ void ima_show_template_sig(struct seq_file *m, enum ima_show_type show,
+ 			   struct ima_field_data *field_data);
+ void ima_show_template_buf(struct seq_file *m, enum ima_show_type show,
+ 			   struct ima_field_data *field_data);
++void ima_show_template_uint(struct seq_file *m, enum ima_show_type show,
++			    struct ima_field_data *field_data);
+ int ima_parse_buf(void *bufstartp, void *bufendp, void **bufcurp,
+ 		  int maxfields, struct ima_field_data *fields, int *curfields,
+ 		  unsigned long *len_mask, int enforce_mask, char *bufname);
 -- 
-2.17.1
+2.25.1
 
