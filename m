@@ -2,261 +2,336 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55215C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 04:59:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1449C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 05:12:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29F50611AE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 04:59:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C226960FE4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 05:12:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbhETFAo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 01:00:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41668 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229458AbhETFAn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 01:00:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E86EF611AD;
-        Thu, 20 May 2021 04:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621486762;
-        bh=nNld4/zcnsNbKbTKDNxuSb5eJcwmIHR0+9gyBM27LQA=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=H4fS40ATvnuPdJRdfUo9o7v5rDxKNjP0EyqCd9PO7y0kKQQLfrDmcEENxUT8pees3
-         1pKUF7ERkOdwxWlTD3b7A3N87BA/hYot5T3HEk+dWveg1ZPENk0yOqvBf9SY3uMbkn
-         Bl8pekKwdcP9G1gA1USpYQSAFlaoCIeWEU+qe/pnOQG837jSXah7w/0yDOkSslR3IM
-         ozBhJCbZhctLGosASLoIUistcig4QAAhHbptIVWbgwbDU5rAtjBpOVXvMP0dXOpcAD
-         rwYva95PbedrH8vGdI6O3foTzWzJqoSikQuVEpyDRJP5Jn+CBTGfMYl80pv+6GNQpz
-         pzE+V226VymSQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id A75EF5C0138; Wed, 19 May 2021 21:59:22 -0700 (PDT)
-Date:   Wed, 19 May 2021 21:59:22 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
+        id S229978AbhETFN3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 01:13:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42946 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229526AbhETFN2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 01:13:28 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C323AC061574;
+        Wed, 19 May 2021 22:12:06 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id c20so15060245qkm.3;
+        Wed, 19 May 2021 22:12:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iGt6GNjsfcEFc3c4nOlUAk3fFQaMQQwdP1dl8p3iAGA=;
+        b=XsbtYwLM8yDhrIKnU1IPeW+OBWK+iRII6f3dhXjBfqmI/dkveyf/Lh6LrsoNFbqXJE
+         iPl+z2Utn/HJQ9tSnambS4e4WLzwuk+nhT5GNp0KcEFYX/UczmDtmeBX0zKu3XmDuMaT
+         RqE24wTrcjJ/uO9UjdeD+t06Nl9qAqZ4KJ0kXilDdjSGL2y4Ez9CfhxivE8hp3B5lxV0
+         oj04bJF7d/EfJd3vIWpp6fTCY/EizQdHR8uFUL6hWqqOt/3S/Q3Rca8xuDHkkXZjGwvn
+         IYU20X9+cLIW49Wn/XZj1jsVdhHeS4OUd6sX4yxZIuDIVrMGqRZ4VI6reY4Y0kfPKAtQ
+         mItw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iGt6GNjsfcEFc3c4nOlUAk3fFQaMQQwdP1dl8p3iAGA=;
+        b=jRoU+mZQnvG6EHBN672RVFQXmROhFj1zeO5hW5SZLf496IUNEApPBB3klzHHJ4HE9F
+         pVrqH60uID7YP6j+MMsqzn7HU3erRXu5u8EBp9ypno9PxX/a7Pn20+LEULbu2TWpWNqR
+         y3bqhr+d8nuo+pfU3jDF6A8CvxOGN7nVuSedUF+uif9jfdhtolmChIEM4UURL7nDDkHm
+         ZMMGJNBHoZRSnxeReRoTLu1kSX9zvQkPgCsb9zJyXkqYo4fizO6j+aBziau85mCckpvp
+         uFIfj6xjgiC1ZEaya5uKQxbSl62QbdM/v937J2Z2Cn4XCMZlhJUBRvdU29Mgy4niiQR5
+         wwew==
+X-Gm-Message-State: AOAM533/PY810cMkdE7UcWRCMpWjUKfRYswEvSt7k4KEC42z+oO8lI5i
+        obt+rMeBu+DHQ1iagm4JXaoVvemVCso=
+X-Google-Smtp-Source: ABdhPJwLeGsPMKAx/rwckCUPjNK7U9lKL0vV5aAiUFFz5sL8F2Il7TrcEncxfg+Z9fG/nkuFDjFh7g==
+X-Received: by 2002:a05:620a:24cf:: with SMTP id m15mr3002581qkn.435.1621487525665;
+        Wed, 19 May 2021 22:12:05 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id p19sm1328845qki.119.2021.05.19.22.12.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 May 2021 22:12:05 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v5 1/5] hwmon: (max31790) Rework to use regmap
+To:     =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -rcu] Documentation/RCU: Fix emphasis markers
-Message-ID: <20210520045922.GI4441@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <c680825b-380d-dca0-edcd-fb74603b5641@gmail.com>
+References: <20210512013052.903297-1-kubernat@cesnet.cz>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <f8ed6593-f120-959c-cc5c-481df11e38b6@roeck-us.net>
+Date:   Wed, 19 May 2021 22:12:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c680825b-380d-dca0-edcd-fb74603b5641@gmail.com>
+In-Reply-To: <20210512013052.903297-1-kubernat@cesnet.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 20, 2021 at 01:32:36PM +0900, Akira Yokosawa wrote:
-> "-foo-" does not work as emphasis in ReST markdown.
-> Use "*foo*" instead.
+On 5/11/21 6:30 PM, Václav Kubernát wrote:
+> Converting the driver to use regmap makes it more generic. It also makes
+> it a lot easier to debug through debugfs.
 > 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-
-Queued, thank you!  Or if this should instead go via the Documentation
-tree:
-
-Acked-by: Paul E. McKenney <paulmck@kernel.org>
-
+> Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
 > ---
-> Hi Paul,
+>   drivers/hwmon/Kconfig    |   1 +
+>   drivers/hwmon/max31790.c | 254 ++++++++++++++++++++-------------------
+>   2 files changed, 133 insertions(+), 122 deletions(-)
 > 
-> This is relative to -rcu's dev branch.
-> I've started learning how to do ReST markdown. ;-)
-> 
-> For emphasis, both "*foo*" and "_bar_" work.
-> I see several "*foo*" patterns in other .rst files under RCU/.
-> 
-> Yes, I have now sphinx installed in a container for "make htmldocs" to work.
-> "make pdfdocs" does not work as expected at the moment, though.
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 54f04e61fb83..c2ec57672c4e 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1092,6 +1092,7 @@ config SENSORS_MAX6697
+>   config SENSORS_MAX31790
+>   	tristate "Maxim MAX31790 sensor chip"
+>   	depends on I2C
+> +	select REGMAP_I2C
+>   	help
+>   	  If you say yes here you get support for 6-Channel PWM-Output
+>   	  Fan RPM Controller.
+> diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+> index 2c6b333a28e9..e3765ce4444a 100644
+> --- a/drivers/hwmon/max31790.c
+> +++ b/drivers/hwmon/max31790.c
+> @@ -12,6 +12,7 @@
+>   #include <linux/init.h>
+>   #include <linux/jiffies.h>
+>   #include <linux/module.h>
+> +#include <linux/regmap.h>
+>   #include <linux/slab.h>
+>   
+>   /* MAX31790 registers */
+> @@ -46,92 +47,53 @@
+>   
+>   #define NR_CHANNEL			6
+>   
+> +#define MAX31790_REG_USER_BYTE_67	0x67
+> +
+> +#define BULK_TO_U16(msb, lsb)		(((msb) << 8) + (lsb))
+> +#define U16_MSB(num)			(((num) & 0xFF00) >> 8)
+> +#define U16_LSB(num)			((num) & 0x00FF)
+> +
+> +static const struct regmap_range max31790_ro_range = {
+> +	.range_min = MAX31790_REG_TACH_COUNT(0),
+> +	.range_max = MAX31790_REG_PWMOUT(0) - 1,
+> +};
+> +
+> +static const struct regmap_access_table max31790_wr_table = {
+> +	.no_ranges = &max31790_ro_range,
+> +	.n_no_ranges = 1,
+> +};
+> +
+> +static const struct regmap_range max31790_volatile_ranges[] = {
+> +	regmap_reg_range(MAX31790_REG_TACH_COUNT(0), MAX31790_REG_TACH_COUNT(12)),
+> +	regmap_reg_range(MAX31790_REG_FAN_FAULT_STATUS2, MAX31790_REG_FAN_FAULT_STATUS1),
+> +};
+> +
+> +static const struct regmap_access_table max31790_volatile_table = {
+> +	.no_ranges = max31790_volatile_ranges,
+> +	.n_no_ranges = 2,
+> +	.n_yes_ranges = 0
+> +};
+> +
+> +static const struct regmap_config max31790_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.reg_stride = 1,
+> +	.max_register = MAX31790_REG_USER_BYTE_67,
+> +	.wr_table = &max31790_wr_table,
+> +	.volatile_table = &max31790_volatile_table
+> +};
+> +
+>   /*
+>    * Client data (each client gets its own)
+>    */
+>   struct max31790_data {
+> -	struct i2c_client *client;
+> +	struct regmap *regmap;
+> +
+>   	struct mutex update_lock;
+> -	bool valid; /* zero until following fields are valid */
+> -	unsigned long last_updated; /* in jiffies */
+> -
+> -	/* register values */
+>   	u8 fan_config[NR_CHANNEL];
+>   	u8 fan_dynamics[NR_CHANNEL];
+> -	u16 fault_status;
+> -	u16 tach[NR_CHANNEL * 2];
+> -	u16 pwm[NR_CHANNEL];
+> -	u16 target_count[NR_CHANNEL];
+>   };
+>   
+> -static struct max31790_data *max31790_update_device(struct device *dev)
+> -{
+> -	struct max31790_data *data = dev_get_drvdata(dev);
+> -	struct i2c_client *client = data->client;
+> -	struct max31790_data *ret = data;
+> -	int i;
+> -	int rv;
+> -
+> -	mutex_lock(&data->update_lock);
+> -
+> -	if (time_after(jiffies, data->last_updated + HZ) || !data->valid) {
+> -		rv = i2c_smbus_read_byte_data(client,
+> -				MAX31790_REG_FAN_FAULT_STATUS1);
+> -		if (rv < 0)
+> -			goto abort;
+> -		data->fault_status = rv & 0x3F;
+> -
+> -		rv = i2c_smbus_read_byte_data(client,
+> -				MAX31790_REG_FAN_FAULT_STATUS2);
+> -		if (rv < 0)
+> -			goto abort;
+> -		data->fault_status |= (rv & 0x3F) << 6;
+> -
+> -		for (i = 0; i < NR_CHANNEL; i++) {
+> -			rv = i2c_smbus_read_word_swapped(client,
+> -					MAX31790_REG_TACH_COUNT(i));
+> -			if (rv < 0)
+> -				goto abort;
+> -			data->tach[i] = rv;
+> -
+> -			if (data->fan_config[i]
+> -			    & MAX31790_FAN_CFG_TACH_INPUT) {
+> -				rv = i2c_smbus_read_word_swapped(client,
+> -					MAX31790_REG_TACH_COUNT(NR_CHANNEL
+> -								+ i));
+> -				if (rv < 0)
+> -					goto abort;
+> -				data->tach[NR_CHANNEL + i] = rv;
+> -			} else {
+> -				rv = i2c_smbus_read_word_swapped(client,
+> -						MAX31790_REG_PWMOUT(i));
+> -				if (rv < 0)
+> -					goto abort;
+> -				data->pwm[i] = rv;
+> -
+> -				rv = i2c_smbus_read_word_swapped(client,
+> -						MAX31790_REG_TARGET_COUNT(i));
+> -				if (rv < 0)
+> -					goto abort;
+> -				data->target_count[i] = rv;
+> -			}
+> -		}
+> -
+> -		data->last_updated = jiffies;
+> -		data->valid = true;
+> -	}
+> -	goto done;
+> -
+> -abort:
+> -	data->valid = false;
+> -	ret = ERR_PTR(rv);
+> -
+> -done:
+> -	mutex_unlock(&data->update_lock);
+> -
+> -	return ret;
+> -}
+> -
+>   static const u8 tach_period[8] = { 1, 2, 4, 8, 16, 32, 32, 32 };
+>   
+>   static u8 get_tach_period(u8 fan_dynamics)
+> @@ -159,28 +121,75 @@ static u8 bits_for_tach_period(int rpm)
+>   	return bits;
+>   }
+>   
+> +static int read_reg_byte(struct regmap *regmap, u8 reg)
+> +{
+> +	int rv;
+> +	int val;
+> +
+> +	rv = regmap_read(regmap, reg, &val);
+> +	if (rv < 0)
+> +		return rv;
+> +
+> +	return val;
+> +}
+> +
+> +static int read_reg_word(struct regmap *regmap, u8 reg)
+> +{
+> +	int rv;
+> +	u8 val_bulk[2];
+> +
+> +	rv = regmap_bulk_read(regmap, reg, val_bulk, 2);
+> +	if (rv < 0)
+> +		return rv;
+> +
+> +	return BULK_TO_U16(val_bulk[0], val_bulk[1]);
+> +}
+> +
+> +static int write_reg_word(struct regmap *regmap, u8 reg, u16 val)
+> +{
+> +	u8 bulk_val[2];
+> +
+> +	bulk_val[0] = U16_MSB(val);
+> +	bulk_val[1] = U16_LSB(val);
+> +
+> +	return regmap_bulk_write(regmap, reg, bulk_val, 2);
+> +}
+> +
+>   static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+>   			     long *val)
+>   {
+> -	struct max31790_data *data = max31790_update_device(dev);
+> -	int sr, rpm;
+> -
+> -	if (IS_ERR(data))
+> -		return PTR_ERR(data);
+> +	struct max31790_data *data = dev_get_drvdata(dev);
+> +	struct regmap *regmap = data->regmap;
+> +	int tach, fault;
+>   
+>   	switch (attr) {
+>   	case hwmon_fan_input:
+> -		sr = get_tach_period(data->fan_dynamics[channel]);
+> -		rpm = RPM_FROM_REG(data->tach[channel], sr);
+> -		*val = rpm;
+> +		tach = read_reg_word(regmap, MAX31790_REG_TACH_COUNT(channel));
+> +		if (tach < 0)
+> +			return tach;
+> +
+> +		*val = RPM_FROM_REG(tach, get_tach_period(data->fan_dynamics[channel]));
+>   		return 0;
+>   	case hwmon_fan_target:
+> -		sr = get_tach_period(data->fan_dynamics[channel]);
+> -		rpm = RPM_FROM_REG(data->target_count[channel], sr);
+> -		*val = rpm;
+> +		tach = read_reg_word(regmap, MAX31790_REG_TARGET_COUNT(channel));
+> +		if (tach < 0)
+> +			return tach;
+> +
+> +		*val = RPM_FROM_REG(tach, get_tach_period(data->fan_dynamics[channel]));
+>   		return 0;
+>   	case hwmon_fan_fault:
+> -		*val = !!(data->fault_status & (1 << channel));
+> +		if (channel > 6)
 
-Installing it in a container does sound very good!  My experience is
-that I hack one version into working, but then it all falls apart
-the the next time a sphinx upgrade is needed.  :-/
+Please use the NR_CHANNEL constant.
 
-							Thanx, Paul
+> +			fault = read_reg_byte(regmap, MAX31790_REG_FAN_FAULT_STATUS2);
+> +		else
+> +			fault = read_reg_byte(regmap, MAX31790_REG_FAN_FAULT_STATUS1);
+> +
+> +		if (fault < 0)
+> +			return fault;
+> +
+> +		if (channel > 6)
+> +			*val = !!(fault & (1 << (channel - 6)));
+> +		else
+> +			*val = !!(fault & (1 << channel));
 
->         Thanks, Akira
-> --
->  Documentation/RCU/checklist.rst       | 24 ++++++++++++------------
->  Documentation/RCU/rcu_dereference.rst |  6 +++---
->  Documentation/RCU/stallwarn.rst       |  8 ++++----
->  3 files changed, 19 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/RCU/checklist.rst b/Documentation/RCU/checklist.rst
-> index 1030119294d0..a71d3f134323 100644
-> --- a/Documentation/RCU/checklist.rst
-> +++ b/Documentation/RCU/checklist.rst
-> @@ -37,7 +37,7 @@ over a rather long period of time, but improvements are always welcome!
->  
->  1.	Does the update code have proper mutual exclusion?
->  
-> -	RCU does allow -readers- to run (almost) naked, but -writers- must
-> +	RCU does allow *readers* to run (almost) naked, but *writers* must
->  	still use some sort of mutual exclusion, such as:
->  
->  	a.	locking,
-> @@ -73,7 +73,7 @@ over a rather long period of time, but improvements are always welcome!
->  	critical section is every bit as bad as letting them leak out
->  	from under a lock.  Unless, of course, you have arranged some
->  	other means of protection, such as a lock or a reference count
-> -	-before- letting them out of the RCU read-side critical section.
-> +	*before* letting them out of the RCU read-side critical section.
->  
->  3.	Does the update code tolerate concurrent accesses?
->  
-> @@ -101,7 +101,7 @@ over a rather long period of time, but improvements are always welcome!
->  	c.	Make updates appear atomic to readers.	For example,
->  		pointer updates to properly aligned fields will
->  		appear atomic, as will individual atomic primitives.
-> -		Sequences of operations performed under a lock will -not-
-> +		Sequences of operations performed under a lock will *not*
->  		appear to be atomic to RCU readers, nor will sequences
->  		of multiple atomic primitives.
->  
-> @@ -320,7 +320,7 @@ over a rather long period of time, but improvements are always welcome!
->  	for example) may be omitted.
->  
->  10.	Conversely, if you are in an RCU read-side critical section,
-> -	and you don't hold the appropriate update-side lock, you -must-
-> +	and you don't hold the appropriate update-side lock, you *must*
->  	use the "_rcu()" variants of the list macros.  Failing to do so
->  	will break Alpha, cause aggressive compilers to generate bad code,
->  	and confuse people trying to read your code.
-> @@ -346,12 +346,12 @@ over a rather long period of time, but improvements are always welcome!
->  	callback pending, then that RCU callback will execute on some
->  	surviving CPU.	(If this was not the case, a self-spawning RCU
->  	callback would prevent the victim CPU from ever going offline.)
-> -	Furthermore, CPUs designated by rcu_nocbs= might well -always-
-> +	Furthermore, CPUs designated by rcu_nocbs= might well *always*
->  	have their RCU callbacks executed on some other CPUs, in fact,
->  	for some  real-time workloads, this is the whole point of using
->  	the rcu_nocbs= kernel boot parameter.
->  
-> -13.	Unlike other forms of RCU, it -is- permissible to block in an
-> +13.	Unlike other forms of RCU, it *is* permissible to block in an
->  	SRCU read-side critical section (demarked by srcu_read_lock()
->  	and srcu_read_unlock()), hence the "SRCU": "sleepable RCU".
->  	Please note that if you don't need to sleep in read-side critical
-> @@ -398,16 +398,16 @@ over a rather long period of time, but improvements are always welcome!
->  14.	The whole point of call_rcu(), synchronize_rcu(), and friends
->  	is to wait until all pre-existing readers have finished before
->  	carrying out some otherwise-destructive operation.  It is
-> -	therefore critically important to -first- remove any path
-> +	therefore critically important to *first* remove any path
->  	that readers can follow that could be affected by the
-> -	destructive operation, and -only- -then- invoke call_rcu(),
-> +	destructive operation, and *only then* invoke call_rcu(),
->  	synchronize_rcu(), or friends.
->  
->  	Because these primitives only wait for pre-existing readers, it
->  	is the caller's responsibility to guarantee that any subsequent
->  	readers will execute safely.
->  
-> -15.	The various RCU read-side primitives do -not- necessarily contain
-> +15.	The various RCU read-side primitives do *not* necessarily contain
->  	memory barriers.  You should therefore plan for the CPU
->  	and the compiler to freely reorder code into and out of RCU
->  	read-side critical sections.  It is the responsibility of the
-> @@ -446,8 +446,8 @@ over a rather long period of time, but improvements are always welcome!
->  	pass in a function defined within a loadable module, then it in
->  	necessary to wait for all pending callbacks to be invoked after
->  	the last invocation and before unloading that module.  Note that
-> -	it is absolutely -not- sufficient to wait for a grace period!
-> -	The current (say) synchronize_rcu() implementation is -not-
-> +	it is absolutely *not* sufficient to wait for a grace period!
-> +	The current (say) synchronize_rcu() implementation is *not*
->  	guaranteed to wait for callbacks registered on other CPUs.
->  	Or even on the current CPU if that CPU recently went offline
->  	and came back online.
-> @@ -457,7 +457,7 @@ over a rather long period of time, but improvements are always welcome!
->  	-	call_rcu() -> rcu_barrier()
->  	-	call_srcu() -> srcu_barrier()
->  
-> -	However, these barrier functions are absolutely -not- guaranteed
-> +	However, these barrier functions are absolutely *not* guaranteed
->  	to wait for a grace period.  In fact, if there are no call_rcu()
->  	callbacks waiting anywhere in the system, rcu_barrier() is within
->  	its rights to return immediately.
-> diff --git a/Documentation/RCU/rcu_dereference.rst b/Documentation/RCU/rcu_dereference.rst
-> index f3e587acb4de..0b418a5b243c 100644
-> --- a/Documentation/RCU/rcu_dereference.rst
-> +++ b/Documentation/RCU/rcu_dereference.rst
-> @@ -43,7 +43,7 @@ Follow these rules to keep your RCU code working properly:
->  	-	Set bits and clear bits down in the must-be-zero low-order
->  		bits of that pointer.  This clearly means that the pointer
->  		must have alignment constraints, for example, this does
-> -		-not- work in general for char* pointers.
-> +		*not* work in general for char* pointers.
->  
->  	-	XOR bits to translate pointers, as is done in some
->  		classic buddy-allocator algorithms.
-> @@ -174,7 +174,7 @@ Follow these rules to keep your RCU code working properly:
->  		Please see the "CONTROL DEPENDENCIES" section of
->  		Documentation/memory-barriers.txt for more details.
->  
-> -	-	The pointers are not equal -and- the compiler does
-> +	-	The pointers are not equal *and* the compiler does
->  		not have enough information to deduce the value of the
->  		pointer.  Note that the volatile cast in rcu_dereference()
->  		will normally prevent the compiler from knowing too much.
-> @@ -360,7 +360,7 @@ in turn destroying the ordering between this load and the loads of the
->  return values.  This can result in "p->b" returning pre-initialization
->  garbage values.
->  
-> -In short, rcu_dereference() is -not- optional when you are going to
-> +In short, rcu_dereference() is *not* optional when you are going to
->  dereference the resulting pointer.
->  
->  
-> diff --git a/Documentation/RCU/stallwarn.rst b/Documentation/RCU/stallwarn.rst
-> index 7148e9be08c3..1cc944aec46f 100644
-> --- a/Documentation/RCU/stallwarn.rst
-> +++ b/Documentation/RCU/stallwarn.rst
-> @@ -32,7 +32,7 @@ warnings:
->  
->  -	Booting Linux using a console connection that is too slow to
->  	keep up with the boot-time console-message rate.  For example,
-> -	a 115Kbaud serial console can be -way- too slow to keep up
-> +	a 115Kbaud serial console can be *way* too slow to keep up
->  	with boot-time message rates, and will frequently result in
->  	RCU CPU stall warning messages.  Especially if you have added
->  	debug printk()s.
-> @@ -105,7 +105,7 @@ warnings:
->  	leading the realization that the CPU had failed.
->  
->  The RCU, RCU-sched, and RCU-tasks implementations have CPU stall warning.
-> -Note that SRCU does -not- have CPU stall warnings.  Please note that
-> +Note that SRCU does *not* have CPU stall warnings.  Please note that
->  RCU only detects CPU stalls when there is a grace period in progress.
->  No grace period, no CPU stall warnings.
->  
-> @@ -145,7 +145,7 @@ CONFIG_RCU_CPU_STALL_TIMEOUT
->  	this parameter is checked only at the beginning of a cycle.
->  	So if you are 10 seconds into a 40-second stall, setting this
->  	sysfs parameter to (say) five will shorten the timeout for the
-> -	-next- stall, or the following warning for the current stall
-> +	*next* stall, or the following warning for the current stall
->  	(assuming the stall lasts long enough).  It will not affect the
->  	timing of the next warning for the current stall.
->  
-> @@ -202,7 +202,7 @@ causing stalls, and that the stall was affecting RCU-sched.  This message
->  will normally be followed by stack dumps for each CPU.  Please note that
->  PREEMPT_RCU builds can be stalled by tasks as well as by CPUs, and that
->  the tasks will be indicated by PID, for example, "P3421".  It is even
-> -possible for an rcu_state stall to be caused by both CPUs -and- tasks,
-> +possible for an rcu_state stall to be caused by both CPUs *and* tasks,
->  in which case the offending CPUs and tasks will all be called out in the list.
->  
->  CPU 2's "(3 GPs behind)" indicates that this CPU has not interacted with
-> -- 
-> 2.17.1
-> 
+Better written without conditional as
+		*val = !!(fault & (1 << (channel % NR_CHANNEL)));
+
+Guenter
