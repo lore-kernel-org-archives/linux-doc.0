@@ -2,158 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_RED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EAECC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 14:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E19CFC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 16:19:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0FE6611ED
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 14:53:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9C7F611AE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 16:19:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231539AbhETOzC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 10:55:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36254 "EHLO mx2.suse.de"
+        id S233867AbhETQUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 12:20:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59618 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231418AbhETOzC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 10:55:02 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1621522419; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=M8hqVgNQf+om50EjQbuWLvBSRMEEuDC2cfNombgOqIA=;
-        b=tu3s2Wt5SshdfJXLmnHlL4WqWSI4s+yOHxwVBO4l8aV+a3YzJBruqkUV3bF4j5FE9IDyuy
-        2JUPeVuDHwqzd4A9WTnznq7MDD5VcKOZ/ITIsQ4H8/7u7mybX2h1kGP7EyoAx1VT+/0YXH
-        N/slWUMzz91Dblog3HCzXN6c5mhMO7g=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 9B812ABE8;
-        Thu, 20 May 2021 14:53:39 +0000 (UTC)
-Date:   Thu, 20 May 2021 16:53:38 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Justin He <Justin.He@arm.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 08/14] d_path: make prepend_name() boolean
-Message-ID: <YKZ38jOCZUlpiqTS@alley>
-References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
- <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
- <20210519004901.3829541-8-viro@zeniv.linux.org.uk>
- <AM6PR08MB4376607691168C132AB2F558F72A9@AM6PR08MB4376.eurprd08.prod.outlook.com>
+        id S233647AbhETQUp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 May 2021 12:20:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 49F2E60FE8;
+        Thu, 20 May 2021 16:19:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621527563;
+        bh=0GmCmFU5wfCMbmtOzP0mBUf5uBtCwTwQbf8LadEdPK4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=RfkVHOKkHVmFSDIelI+0Le6gh6OCdtiFzuysKzyJ5wZ5H7a/6lv2TmO95MYoGjUFa
+         1Oz0hMX2sKUjqtQSHL2wcpdFYLRxR5UJzl2jZaZwTzlmp9Jdzku9wC+CcgdxRN0LgS
+         dSgWM+lw0OSidS7vDJlvF/hgy4sNFclikr9JqBowUf3aajYriYuHJoJFXlzSEMwfXQ
+         6tUyUmKkrtfnAV1qwJnC3ZDJr9fEW5Nu5fOH7EHlsOJmRHcP8TQDi3ZB59FQiSIIcR
+         wKja+ONQLflpTy3DW2c/OEGCcT9HQF65OYXfidIucA0h/A2+ODWh7LtI7tkxAWT63x
+         3zA8XJS8WlqTA==
+Date:   Thu, 20 May 2021 18:19:19 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
+        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
+ on Intel NUC
+Message-ID: <20210520181919.608568b2@thinkpad>
+In-Reply-To: <20210520010720.32265ad4@coco.lan>
+References: <cover.1621349813.git.mchehab+huawei@kernel.org>
+        <20210519111107.GC24621@duo.ucw.cz>
+        <20210519141508.6e7a4d56@coco.lan>
+        <20210519194115.GA31672@duo.ucw.cz>
+        <20210520010720.32265ad4@coco.lan>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM6PR08MB4376607691168C132AB2F558F72A9@AM6PR08MB4376.eurprd08.prod.outlook.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2021-05-20 09:12:34, Justin He wrote:
-> Hi Al
+On Thu, 20 May 2021 01:07:20 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+
+> So, the first thing that the API needs is a way to tell what LED
+> is monitoring the device's power state.
+
+If a LED can monitor the device's power state in HW, register a LED
+private trigger for this LED. If the LED is configured into this state
+by default, you can set this trigger to be the default_trigger prior
+registering the LED. The name of this private trigger can be
+"hw:powerstate" or something like that (I wonder what others will
+think about this name).
+
+> Then, for each power state (S0, S3, S5), define if the LED will
+> be ON all the times or not.
 > 
-> > -----Original Message-----
-> > From: Al Viro <viro@ftp.linux.org.uk> On Behalf Of Al Viro
-> > Sent: Wednesday, May 19, 2021 8:49 AM
-> > To: Linus Torvalds <torvalds@linux-foundation.org>
-> > Cc: Justin He <Justin.He@arm.com>; Petr Mladek <pmladek@suse.com>; Steven
-> > Rostedt <rostedt@goodmis.org>; Sergey Senozhatsky
-> > <senozhatsky@chromium.org>; Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com>; Rasmus Villemoes
-> > <linux@rasmusvillemoes.dk>; Jonathan Corbet <corbet@lwn.net>; Heiko
-> > Carstens <hca@linux.ibm.com>; Vasily Gorbik <gor@linux.ibm.com>; Christian
-> > Borntraeger <borntraeger@de.ibm.com>; Eric W . Biederman
-> > <ebiederm@xmission.com>; Darrick J. Wong <darrick.wong@oracle.com>; Peter
-> > Zijlstra (Intel) <peterz@infradead.org>; Ira Weiny <ira.weiny@intel.com>;
-> > Eric Biggers <ebiggers@google.com>; Ahmed S. Darwish
-> > <a.darwish@linutronix.de>; open list:DOCUMENTATION <linux-
-> > doc@vger.kernel.org>; Linux Kernel Mailing List <linux-
-> > kernel@vger.kernel.org>; linux-s390 <linux-s390@vger.kernel.org>; linux-
-> > fsdevel <linux-fsdevel@vger.kernel.org>
-> > Subject: [PATCH 08/14] d_path: make prepend_name() boolean
-> >
-> > It returns only 0 or -ENAMETOOLONG and both callers only check if
-> > the result is negative.  Might as well return true on success and
-> > false on failure...
-> >
-> > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-> > ---
-> >  fs/d_path.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/fs/d_path.c b/fs/d_path.c
-> > index 327cc3744554..83db83446afd 100644
-> > --- a/fs/d_path.c
-> > +++ b/fs/d_path.c
-> > @@ -34,15 +34,15 @@ static void prepend(char **buffer, int *buflen, const
-> > char *str, int namelen)
-> >   *
-> >   * Load acquire is needed to make sure that we see that terminating NUL.
-> >   */
-> > -static int prepend_name(char **buffer, int *buflen, const struct qstr
-> > *name)
-> > +static bool prepend_name(char **buffer, int *buflen, const struct qstr
-> > *name)
-> >  {
-> >       const char *dname = smp_load_acquire(&name->name); /* ^^^ */
-> >       u32 dlen = READ_ONCE(name->len);
-> >       char *p;
-> >
-> >       *buflen -= dlen + 1;
-> > -     if (*buflen < 0)
-> > -             return -ENAMETOOLONG;
-> > +     if (unlikely(*buflen < 0))
-> > +             return false;
+> The "slowing breathing" is one of the possible blink patterns.
+> The driver supports 4 other blink patterns
 > 
-> I don't object to this patch itself.
-> Just wonder whether we need to relax the check condition of "*buflen < 0" ?
+> 	- Solid - the LED won't blink;
+> 	- Breathing - it looks like a sinusoidal wave pattern;
+> 	- Pulsing - it looks like a square wave pattern;
+> 	- Strobing - it turns ON suddenly, and then it slowly turns OFF.
 > 
-> Given that in vsnprintf code path, sometimes the *buflen is < 0.
+> The speed of the blink is also adjustable, ranging from 0.1 Hz to 1 Hz,
+> on 0.1 Hz steps.
+
+Is the speed of breathing/strobing also adjustable? Or only when
+pulsing?
+
+When this "hw:powerstate" trigger is enabled for this LED,
+only then another sysfs files should appear in this LED's sysfs
+directory.
+
+> ---
 > 
-> Please see https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/vsprintf.c#n2698
+> Let me explain this specific part of the API from my original proposal.
+> 
+> Those are the led names from the datasheets (NUC 8 and above),
+> and my proposal for the sysfs class directory name:
+> 
+> =============	===============================
+> LED name	sysfs
+> =============	===============================
+> Skull		``/sys/class/leds/nuc::skull``
+> Skull eyes	``/sys/class/leds/nuc::eyes``
+> Power		``/sys/class/leds/nuc::power``
+> HDD		``/sys/class/leds/nuc::hdd``
+> Front1		``/sys/class/leds/nuc::front1``
+> Front2		``/sys/class/leds/nuc::front2``
+> Front3		``/sys/class/leds/nuc::front3``
+> =============	===============================
+> 
+> For each of the above, there's the need to identify what
+> hardware function is monitored (if any).
+> 
+> My proposal were to add an "indicator" node (the name came from
+> the Intel datasheets) that shows what led will monitor the power state.
+> 
+> Then, one blink_behavior and one blink_frequency per power state,
+> e. g.:
+> 
+>     /sys/class/leds/nuc::front1
+>     |-- indicator
+>     |-- s0_blink_behavior
+>     |-- s0_blink_frequency
+>     |-- s3_blink_behavior
+>     |-- s3_blink_frequency
+>     |-- s5_blink_behavior
+>     `-- s5_blink_frequency
 
-IMHO, the patch is fine. It is likely some misunderstanding.
-The above link points to:
+I'd rather use one file for frequencies and one for intervals, and map
+in to an array, but that is just my preference...
 
-2693	str = buf;
-2694	end = buf + size;
-2695
-2696	/* Make sure end is always >= buf */
-2697	if (end < buf) {
-2698		end = ((void *)-1);
-2699		size = end - buf;
-2700	}
+> 
+> PS.: I don't care much about what names we'll use. Feel free to
+> rename them, if you think the above is not clear or generic enough.
+> 
+> -
+> 
+> To make part of the API complete, there's also the need of a node
+> to control the max brightness that the leds will achieve at the
+> ON state, and another one to control the color on each state,
+> as one could define, let's say, "white" when powered on, "blue"
+> when suspended and "yellow" when hibernating. The colors at the
+> NUC I have are RGB (but other models can use an enum for the
+> supported colors).
+> 
+>     /sys/class/leds/nuc::front1
+>     |-- s0_brightness
+>     |-- s0_color		# only shown on colored leds
+>     |-- s3_brightness
+>     |-- s3_color		# only shown on colored leds
+>     |-- s0_brightness
+>     `-- s5_color		# only shown on colored leds
 
-"end" points right behind the end of the buffer. It is later
-used instead of the buffer size. The above code handles a potential
-overflow of "buf + size". I causes that "end" will be 0xffffffff
-in case of the overflow.
-
-That said. vsnprintf() returns the number of characters which would
-be generated for the given input. But only the "size" is written.
-This require copying the characters one by one.
-
-It is useful to see how many characters were lost. But I am not sure
-if this ever worked for the dentry functions.
-
-Best Regards,
-Petr
+If the BIOS reports a LED being full RGB LED, you should register it
+via multicolor framework. Regarding the enum with 8 colors: are these
+colors red, yellow, green, cyan, blue, magenta? Because if so, then
+this is RGB with each channel being binary :) So you can again use
+multicolor framework.
