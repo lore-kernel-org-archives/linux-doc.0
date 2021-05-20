@@ -2,104 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91C37C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 18:29:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACFF9C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 18:30:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72BD4611AE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 18:29:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88658611AB
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 18:30:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232201AbhETSbG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 14:31:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53960 "EHLO
+        id S235209AbhETSb5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 14:31:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234165AbhETSbG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 14:31:06 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E12C061574;
-        Thu, 20 May 2021 11:29:43 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id h20-20020a17090aa894b029015db8f3969eso5128386pjq.3;
-        Thu, 20 May 2021 11:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=A5d5aXdYt4hUl4+OV6UCI0Ehr+lwjM7hULNb+KOTJBk=;
-        b=mHfOQeUu443DNLDYLp+xnnQrdjLJ9NJVfNCnG8FbZQmy/mHxwfnSZrF6h3w2bB/FGG
-         4/LGzuyWtTWnFozYltQlLTcWw45iYC/cMWdv2yw2wwOAU7AK8Qiad11ZkSYEc2mQSLDk
-         RIquag+KH3ks4SDPhJZYEYhjEtxJ/4A0AEoDAG0kLVPHPFlS93ce8HmwDhPEyuezmHYi
-         a5V6gsuwKD7TSWzTB2iauRm9pgKf3dbjQHracgbofMh4Ybnm8hmb9sJA3g9vecOe0PgC
-         aExfunlVz8ZmyC8qwRMRQr0cX1lrogoITi2Tb+FoATqys39dHsZuXM3fyDKAwBAIougB
-         qLDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=A5d5aXdYt4hUl4+OV6UCI0Ehr+lwjM7hULNb+KOTJBk=;
-        b=f6iEqrSfuUkdqoNCJuD1O9OSUMw67eum6oApg8mtygTI6fSsZ7FZUxmievwl90RY7f
-         XHJMUB557w6jlOaXxW0yTIHdKfkoP8G4Ae4pjOT1ezS25JN3Gv2oIo5QOLCd1demaMsT
-         fJXfHuau6HCsW90k8Gj7cR4LE/7zFZJjcqgu9QF2TzqJd4TPbZfsKEpfBF3pyXBpjZkl
-         J00ygLuZ0Fbt0keaJwJdAxFho2HhR+c/Cpnn2c15G48GNxtBHs0I3A4u6OIt/jx9fbHt
-         5HlV0Sr/c2oG21nkdbkeBqzXLJNfZfLtaNoni5rUqnbVXZtS+rcMQkL06pSPHxd7m29x
-         IOfg==
-X-Gm-Message-State: AOAM533kd3qSL+Hft0uPORwKFpSa7GjRvSKuxTk279FjujelRk6HzSVA
-        J/h2+1g/1e8vAtT+p2OrInNCCXaHNbM9JA==
-X-Google-Smtp-Source: ABdhPJxOsKiisPY6gD0XTtm54BHxN5/X6kqG62g5FH1fZk9hUMPUlWOM4/wQPAZ7w0t0LCRDV5Vt8Q==
-X-Received: by 2002:a17:902:8d83:b029:ef:9dd8:4d9 with SMTP id v3-20020a1709028d83b02900ef9dd804d9mr7421444plo.40.1621535383183;
-        Thu, 20 May 2021 11:29:43 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a93f:4822:12f2:8c52:6d8b])
-        by smtp.googlemail.com with ESMTPSA id 66sm2764268pgj.9.2021.05.20.11.29.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 11:29:42 -0700 (PDT)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     jaegeuk@kernel.org
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        rdunlap@infradead.org, chao@kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org,
+        with ESMTP id S233462AbhETSbz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 14:31:55 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54534C061574;
+        Thu, 20 May 2021 11:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=agiakZtvhMa1O9T2XzsnpNjO6uMLLfnHhIvJ8sxlh1Y=; b=Ew5DIjR56nVHadIx3pywARpTvd
+        Kgq0VyI+O62d0VLyFLIu4w7CjQvihMOMTaRgdL8VG7HB0i6DOjHbQxlwccFvsRL6HlnU87Kle5NKO
+        T/EvFNAW3TnfAReeo8nt1ucuvPbyUmN5KKzlmEI/Nbie6KLnfjxukn2+fTEL7ic/44bk/PK5pnYW6
+        6eF40guPIS7n/zLzzE+mrKkKw7N0FSq9BObMkmzj1B6W7Mdn9CDYem5oEFLFi0RNu1vQSLlwkNaVK
+        lm7gK8J0uTRyq/zLQa0fmnnqamK5wzCi3XycoZ+rz1lsaWlkTcgZ3o8T8BxPLEl5gbVjTih08AIF/
+        OMutOsyA==;
+Received: from [2601:1c0:6280:3f0::7376]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1ljnRJ-00GZgm-Jd; Thu, 20 May 2021 18:30:33 +0000
+Subject: Re: [PATCH] Phonet: fix kernel-doc syntax in file headers
+To:     Aditya Srivastava <yashsri421@gmail.com>, courmisch@gmail.com
+Cc:     lukas.bulwahn@gmail.com,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] f2fs: fix kernel-doc syntax in file header
-Date:   Thu, 20 May 2021 23:59:33 +0530
-Message-Id: <20210520182933.31965-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210520182159.31462-1-yashsri421@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <7cb9bfad-55b1-b5f3-5051-a2e837dda736@infradead.org>
+Date:   Thu, 20 May 2021 11:30:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210520182159.31462-1-yashsri421@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The opening comment mark '/**' is used for highlighting the beginning of
-kernel-doc comments.
-The header for include/linux/f2fs_fs.h follows this syntax, but the
-content inside does not comply with kernel-doc.
+On 5/20/21 11:21 AM, Aditya Srivastava wrote:
+> The opening comment mark '/**' is used for highlighting the beginning of
+> kernel-doc comments.
+> The header for include/*/linux/phonet.h files follows this syntax, but
+> the content inside does not comply with kernel-doc.
+> 
+> This line was probably not meant for kernel-doc parsing, but is parsed
+> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+> causes unexpected warning from kernel-doc.
+> For e.g., running scripts/kernel-doc -none include/linux/phonet.h emits:
+> warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>  * file phonet.h
+> 
+> Provide a simple fix by replacing this occurrence with general comment
+> format, i.e. '/*', to prevent kernel-doc from parsing it.
+> 
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 
-This line was probably not meant for kernel-doc parsing, but is parsed
-due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes unexpected warning from kernel-doc:
-warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * include/linux/f2fs_fs.h
+Hi,
+This all looks good, but it would be even better to remove
+the file names. We tend to prefer not to have filenames in their files
+because they get moved or renamed -- and because it's redundant info.
 
-Provide a simple fix by replacing this occurrence with general comment
-format, i.e. '/*', to prevent kernel-doc from parsing it.
+Anyway,
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- include/linux/f2fs_fs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks.
 
-diff --git a/include/linux/f2fs_fs.h b/include/linux/f2fs_fs.h
-index 5487a80617a3..028d1b18f0e7 100644
---- a/include/linux/f2fs_fs.h
-+++ b/include/linux/f2fs_fs.h
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
--/**
-+/*
-  * include/linux/f2fs_fs.h
-  *
-  * Copyright (c) 2012 Samsung Electronics Co., Ltd.
+> ---
+>  include/linux/phonet.h      | 2 +-
+>  include/uapi/linux/phonet.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/phonet.h b/include/linux/phonet.h
+> index bc7d1e529efc..09ecb1f94c5e 100644
+> --- a/include/linux/phonet.h
+> +++ b/include/linux/phonet.h
+> @@ -1,5 +1,5 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+> -/**
+> +/*
+>   * file phonet.h
+>   *
+>   * Phonet sockets kernel interface
+> diff --git a/include/uapi/linux/phonet.h b/include/uapi/linux/phonet.h
+> index a2f6b37a5937..6b873c460994 100644
+> --- a/include/uapi/linux/phonet.h
+> +++ b/include/uapi/linux/phonet.h
+> @@ -1,5 +1,5 @@
+>  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> -/**
+> +/*
+>   * file phonet.h
+>   *
+>   * Phonet sockets kernel interface
+> 
+
+
 -- 
-2.17.1
+~Randy
 
