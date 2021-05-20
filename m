@@ -2,123 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADA9C43460
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 09:27:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31862C43462
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 09:42:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47C3561355
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 09:27:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FFAE61951
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 09:42:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231640AbhETJ27 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 05:28:59 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:34194 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231811AbhETJ1t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 05:27:49 -0400
-Received: from zn.tnic (p200300ec2f0eb6008eba81a1ad09a99c.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:b600:8eba:81a1:ad09:a99c])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4721A1EC051F;
-        Thu, 20 May 2021 11:26:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1621502786;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=sBPCBfFxpVVzA8qvfueuilIPqhAowYTHXr3cnG4eLoI=;
-        b=Ps5CMwItn7MpMTJ7xjmt5Te7zi7KyKAeJu1+YnmeLarTJdGGkhGNyRrYiLuMWqemQBxvJk
-        anKV0jiMn14lqWauALXkE4RwiiUPsYosxjjwmgqbyTltUkyT44O2vOA8LqAg/+ijlDlpav
-        xmBC5chCNww4ZWjVHkkaXZJu2/rHo+4=
-Date:   Thu, 20 May 2021 11:26:25 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v26 26/30] ELF: Introduce arch_setup_elf_property()
-Message-ID: <YKYrQQ6tKfifjNjW@zn.tnic>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-27-yu-cheng.yu@intel.com>
- <YKVUgzJ0MVNBgjDd@zn.tnic>
- <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
+        id S233419AbhETJn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 05:43:26 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:54705 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233418AbhETJlZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 05:41:25 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 62A861AA7;
+        Thu, 20 May 2021 05:40:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 20 May 2021 05:40:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+        :to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm2; bh=x2k0UiONZCObGpvODgZnHAg9eN
+        EhLhqxabKrZsSDvjI=; b=slOL6qNSXs7we0zun5eCgQqDc4sDuaCxRsZDYeo4zh
+        nvEfSxtYRo8mE/7Mgvb3uO4GLFSNk7rvmUuqsKj5XHpUg5LQ9B3Zy/Q1ZwVh5NZX
+        NYNagULLZMVlQALqNZlxfHXcJex7KnQpkf921f9SlfQdXsxp+UUKHflC34C2MUJy
+        ytnwBjdOoMVlCMaSXkTCTfZ8S5WkG+ViuDVCa9rIwwq36TRcnkLZ7GylXmZVDiEh
+        8Qw40I3vtyLd2usEU5n8Ctfw576Uc1SfaeylFrcsdJtC5ycPrmFghhS1ejPVLVSG
+        0qa9aL5ZTxOJLzRGovh55IHZH4odDYrSBMxLfaEEk2GQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=x2k0UiONZCObGpvOD
+        gZnHAg9eNEhLhqxabKrZsSDvjI=; b=IyGn/yUXBB4Bpz5cZSmPcI0f41zN6l8Nv
+        URV5aWiFPa62Qk+CbttH+aVLnE0BJAtPXcbSppwFOfoPQ9ancllnaQsj5GO5gow3
+        gFo0wEjnAx4oYv4YxRILCteMksdHyFG2Irf+IGwhr0lMD3sMa0Evt1u2mJkrJCWT
+        oiHTH1NTDgM6EIbPeejn9M0DfeEqbYhnVASN66cYcbfbd0cpwc1q7DHtLlziLhQ1
+        5C3AoRHQ8RZ98sT3EP0essqX1/2uxlCa/1+4cWqvkS7YMt7nacFYS842vDpcAyKY
+        nJDr2gjDnXU4WWQ/v4Bqg1+K7/0LCvCat5ldj1KNZdlyqoox+0CkQ==
+X-ME-Sender: <xms:cS6mYJ-olAe6v6nJ4uwn54DypilDqwyK4EsBKn_N5QHCrnKiimlCDA>
+    <xme:cS6mYNvBVGZSri_6I2cEsad90RWtLHP3OvFtFs2JKXsZ-EHwm1xJQcG4ACsBf9diW
+    hY4MLLYFhR9TKb5kQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejuddgudekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeetnhgurhgvficu
+    lfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrghtthgvrh
+    hnpeekhfeiffejveefveehtdeiiefhfedvjeelvddvtdehffetudejtefhueeuleeftden
+    ucfkphepvddtfedrheejrddvudehrdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:cS6mYHCkhU8hukniFB3POLltZobtA5dPgKJ37BZiVWsyYViGcncrMQ>
+    <xmx:cS6mYNcPx-nyCX9Fj2gdy4oFkhmCTAT_tD4zWZapYScaXhtvlkRbmw>
+    <xmx:cS6mYOOsdKq-TgDmKbz9socMfMElcSZNPMt4oZyTm3Z8cCis6b26Iw>
+    <xmx:ci6mYF0pmPR4exQRE7ng3ZtaMVj1MksP-UtC9jFYBYDouVFmli1krQ>
+Received: from mistburn.lan (203-57-215-8.dyn.iinet.net.au [203.57.215.8])
+        by mail.messagingengine.com (Postfix) with ESMTPA;
+        Thu, 20 May 2021 05:39:58 -0400 (EDT)
+From:   Andrew Jeffery <andrew@aj.id.au>
+To:     linux-doc@vger.kernel.org
+Cc:     dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
+        corbet@lwn.net, linux-kernel@vger.kernel.org,
+        openbmc@lists.ozlabs.org, Jiri Slaby <jirislaby@kernel.org>
+Subject: [PATCH v2] Documentation: checkpatch: Tweak BIT() macro include
+Date:   Thu, 20 May 2021 19:09:49 +0930
+Message-Id: <20210520093949.511471-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 19, 2021 at 03:14:58PM -0700, Yu, Yu-cheng wrote:
-> However, those parsing functions take (struct arch_elf_state *) as an input.
+While include/linux/bitops.h brings in the BIT() macro, it was moved to
+include/linux/bits.h in commit 8bd9cb51daac ("locking/atomics, asm-generic:
+Move some macros from <linux/bitops.h> to a new <linux/bits.h> file").
 
-Exactly.
+Since that commit BIT() has moved again into include/vdso/bits.h via
+commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO").
 
-> It probably makes sense to have ARCH_USE_GNU_PROPERTY dependent on
-> ARCH_BINFMT_ELF_STATE.  It would be ok as-is too.  ARM people might have
-> other plans in mind.
+I think the move to the vDSO header can be considered an implementation
+detail, so for now update the checkpatch documentation to recommend use
+of include/linux/bits.h.
 
-Well, let's look at ARM, ARM64 in particular. They have defined struct
-arch_elf_state without the ifdeffery in
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Acked-by: Jiri Slaby <jirislaby@kernel.org>
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+---
+ Documentation/dev-tools/checkpatch.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-arch/arm64/include/asm/elf.h
-
-and are using that struct in arch_parse_elf_property().
-
-And they have selected ARCH_BINFMT_ELF_STATE just so that they disable
-those dummy accessors in fs/binfmt_elf.c
-
-And you're practically glueing together ARCH_BINFMT_ELF_STATE and
-ARCH_USE_GNU_PROPERTY. However, all the functionality is for adding
-the gnu property note so I think you should select both but only use
-ARCH_USE_GNU_PROPERTY in all the ifdeffery in your patch to at least
-have this as simple as possible.
-
-> I just looked at the ABI document.
-
-Which document is that? Link?
-
-> ARM has GNU_PROPERTY_AARCH64_FEATURE_1_AND 0xc0000000
-> 
-> X86 has:
-> 	GNU_PROPERTY_X86_ISA_1_USED	0xc0000000
-> 	GNU_PROPERTY_X86_ISA_1_NEEDED	0xc0000001
-> 	GNU_PROPERTY_X86_FEATURE_1_AND	0xc0000002
-
-Our defines should at least have a comment pointing to that document.
-
-Thx.
-
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index 51fed1bd72ec..59fcc9f627ea 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -472,7 +472,7 @@ Macros, Attributes and Symbols
+ 
+   **BIT_MACRO**
+     Defines like: 1 << <digit> could be BIT(digit).
+-    The BIT() macro is defined in include/linux/bitops.h::
++    The BIT() macro is defined via include/linux/bits.h::
+ 
+       #define BIT(nr)         (1UL << (nr))
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.30.2
 
-https://people.kernel.org/tglx/notes-about-netiquette
