@@ -2,139 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF20C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 07:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF53C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 07:42:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76EA661163
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 07:25:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E44C66101E
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 07:42:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbhETH0W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 03:26:22 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:42279 "EHLO
-        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229536AbhETH0W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 03:26:22 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 2D74C1C81;
-        Thu, 20 May 2021 03:25:00 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-  by compute3.internal (MEProxy); Thu, 20 May 2021 03:25:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
-        mime-version:message-id:in-reply-to:references:date:from:to:cc
-        :subject:content-type; s=fm2; bh=YGzMf60Q5zwVXsxdpGeNbxkVIZVOJSx
-        edpBbmYYWTL8=; b=dwfiAaGl+wHsZJTkcORZR/XCLH4P19DMvOzG30nHjwdY+Ri
-        7a41hUSDmIy9fjIVWWq/ycHP6T4epn6snZKNv0phhEUpGeHinncTLiKVW7S7RPW6
-        r+GZAVpplRK3rmopQL/la1LrPx0Al1wb4xcYwkb9Z2ADHbM/3HYxFmeO67Bn3iKT
-        YclkyWzhDua5/p6UiKVWoQuC04rUwOT4SHOH19qGENLmTwmkZpyYmoDWHTORjnHL
-        RQtnTFhfGZfeePXsnlaoAF+K3BhxnYQfeVYnUvJt+u6RrNjuUt/ibRZ0ZCnds1he
-        10ie0hxlfelIuRH/xktv9aDEThJRxR8MYJbGmiw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=YGzMf6
-        0Q5zwVXsxdpGeNbxkVIZVOJSxedpBbmYYWTL8=; b=u8WSnZPFROdo/iv7EPEgkb
-        HkFHTKk+Wf8sJX90efqGY1F6OW4UFYuaJ35NrZwzSGzWk0C4KgvHlmL8VuGskU5z
-        kXOk+DPpNhwBXNclzJHnusinvzVchcy3cP0dNNesupCF6fCQ5CvsrXRauszrpdvM
-        RhAoG6kOTVMsYSPUoYkSfFmINbMDgGxRoHAevv/STnxt65Ys/UWxZkuq88nMbmiG
-        ELMfCbvwhz/lkPnz7YJbTLy589iWQgsnZ9CIucykYwTqq69t9u42I4Rd3QsBlYd8
-        a+iO2QbMoonm9P2FkGGj0WKxZNNE2krKxN5gFVFzCTDg17ZPvxlXBBOOnGmzcrOA
-        ==
-X-ME-Sender: <xms:yg6mYCw171VaWmfjy3nJgrZmKL7YGNMsrJEs37YdhfpiftiULttigQ>
-    <xme:yg6mYORHJfUD_tE1Lnw2w27CadOj-IqRslF8AQrEKyc9BLGZUHD-dSiK96pDR4OCm
-    sKyWRJEjVjrHDjynw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejtddguddvudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
-    frrghtthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedv
-    hefhveeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:yg6mYEXMBtWiVEW-LCcoui41pUcp1neui0KIbSYqLEB6SkvsRLmBNQ>
-    <xmx:yg6mYIhj6jnbTAyDY3czKZZZYB6S9yfPYIm1TcznQxb1J-O_tDPU8Q>
-    <xmx:yg6mYEBV3CuJ9cYACverf7xHa5l2MrROb2FDFFGB8cxInlpBRKwZ7w>
-    <xmx:yw6mYD7-EgYKW3gpOUSgZnpguVX8xr5CB6kGVbWHg76MSh2Ws6HfTw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id D2325A004B5; Thu, 20 May 2021 03:24:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
-Mime-Version: 1.0
-Message-Id: <a0d1f44a-c8ff-4108-af34-6455b5683262@www.fastmail.com>
-In-Reply-To: <CAKXUXMxTnz6edBLpBgqOo6uUiSGm8rULH9P8G24xx2OhP_Yb6A@mail.gmail.com>
-References: <20210520015704.489737-1-andrew@aj.id.au>
- <CAKXUXMxTnz6edBLpBgqOo6uUiSGm8rULH9P8G24xx2OhP_Yb6A@mail.gmail.com>
-Date:   Thu, 20 May 2021 16:54:37 +0930
-From:   "Andrew Jeffery" <andrew@aj.id.au>
-To:     "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
-Cc:     "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        "Dwaipayan Ray" <dwaipayanray1@gmail.com>,
-        "Joe Perches" <joe@perches.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        openbmc@lists.ozlabs.org, "Jiri Slaby" <jirislaby@kernel.org>
-Subject: Re: [PATCH] Documentation: checkpatch: Tweak BIT() macro include
-Content-Type: text/plain
+        id S229536AbhETHoO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 03:44:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48932 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229534AbhETHoO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 03:44:14 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0A3EC061574;
+        Thu, 20 May 2021 00:42:52 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id i5so11287254pgm.0;
+        Thu, 20 May 2021 00:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oRNmu4fMUCv8GN4dVQHhZfDAn0xmZo5zh42IKcZfNQU=;
+        b=exEQZIaM6kI1l10smNkICNFSlZU6GljTx/YP1jL4G1ffoLY2dmWeHr77ErdQm6Umna
+         revmSql19HwIBkrHRwCrBVzYfiF8u4bjwdtOjJ0JPkhBJ7h+eLRSFEz/Muz6noQ3PmNa
+         fa39jzhr0KXz8VnhKNVHJAL3+Yg5pq5MalF60iZ5I4KlYUpKjUX11MLSWIQVLS2dGlKZ
+         +iiGY7casEt8EQYue/cHuh1FDteJMhODHxw1YYrza7jhMQ3tGrtfkTWxBqKAzHE7ubvU
+         oIvK6ECKslXNbs9MifyehIIiRosamr/7D0WkyQ/9C+iPmqsMWf6JZPl/3+3EGy02pzRO
+         e8bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oRNmu4fMUCv8GN4dVQHhZfDAn0xmZo5zh42IKcZfNQU=;
+        b=qUFPL69jDWncdiej0i2tGqmVeSHXi8DNi9UisYeBZmY0Oh2cBGwIW3HXMSbslCkdSc
+         P5ofT0LgvY0nkEr7JVn1T5TlWRhC5oZ7bJp4UYpkBjsPxkifrNTXXr+tEM9FQDziraft
+         3GM9ZKXfGxcevZv9XRphFg7Cq/kSYD8Vb4a5Z1i7RLcgtepynHP3+xsZyOdE/9+5vyQH
+         yf6FTSFaQaF0bsDBWjmJ/cD78dXV5USephFNkUU7ApZrVSWElHvhABBN8D6CHGiWWYnt
+         A+WKk3/ifwBQODWA9v9MAtnLO/y97wRcp5npOfRS8ZOdWehhHhIk48vi/uB20rYMUDy6
+         XzDA==
+X-Gm-Message-State: AOAM5325X6jHJPW9sYLQi31czBDYFwjxH74j+h7n0gIQ938GnrbQjCMl
+        8Ws8TSurn1gfiNNI7ngfGoLXgbShHJ+98w==
+X-Google-Smtp-Source: ABdhPJxjDfuA5Hyk3X3ksb5Ed0mviEchcCoB2Wt8F10O16clWtZ8WPi4Ps0qKlJyUmGpiuqdEbq09g==
+X-Received: by 2002:a65:5a81:: with SMTP id c1mr3186182pgt.111.1621496572247;
+        Thu, 20 May 2021 00:42:52 -0700 (PDT)
+Received: from tj.ccdomain.com ([103.220.76.197])
+        by smtp.gmail.com with ESMTPSA id cc2sm1317042pjb.39.2021.05.20.00.42.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 00:42:51 -0700 (PDT)
+From:   Yue Hu <zbestahu@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        huyue2@yulong.com, zbestahu@163.com
+Subject: [PATCH] docs: block: blk-mq.rst: correct drive -> driver
+Date:   Thu, 20 May 2021 15:42:25 +0800
+Message-Id: <20210520074225.1989-1-zbestahu@gmail.com>
+X-Mailer: git-send-email 2.29.2.windows.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Yue Hu <huyue2@yulong.com>
 
+It is 'driver' to complete the request. Also remove a redundant space.
 
-On Thu, 20 May 2021, at 16:28, Lukas Bulwahn wrote:
-> On Thu, May 20, 2021 at 3:57 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > While include/linux/bitops.h brings in the BIT() macro, it was moved to
-> > include/linux/bits.h in [1]. Since [1] BIT() has moved again into
-> > include/vdso/bits.h via [2].
-> >
-> > I think the move to the vDSO header can be considered a implementation
-> > detail, so for now update the checkpatch documentation to recommend use
-> > of include/linux/bits.h.
-> >
-> > [1] commit 8bd9cb51daac ("locking/atomics, asm-generic: Move some macros from <linux/bitops.h> to a new <linux/bits.h> file")
-> > [2] commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO")
-> >
-> > Cc: Jiri Slaby <jirislaby@kernel.org>
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> 
-> Looks sound to me.
-> 
-> I would prefer a bit of word-smithing the commit message by just
-> removing the references:
-> 
-> So:
-> 
-> > While include/linux/bitops.h brings in the BIT() macro, it was moved to
-> > include/linux/bits.h in commit 8bd9cb51daac ("locking/atomics, asm-generic: Move some macros from <linux/bitops.h> to a new <linux/bits.h> file"). Since that commit, BIT() has moved again into
-> > include/vdso/bits.h via commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO").
-> >
-> > I think the move to the vDSO header can be considered a implementation
-> > detail, so for now update the checkpatch documentation to recommend use
-> > of include/linux/bits.h.
-> >
-> 
-> And then drop references [1] and [2].
-> 
-> Andrew, what do you think?
+Signed-off-by: Yue Hu <huyue2@yulong.com>
+---
+ Documentation/block/blk-mq.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I mostly did this because initially I wrapped the commit message and 
-checkpatch spat out errors when it failed to properly identify the 
-commit description for [1]. But, leaving the description unwrapped 
-inline in the text feels untidy as it's just a work-around to dodge a 
-shortcoming of checkpatch.
+diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
+index a980d23..d96118c 100644
+--- a/Documentation/block/blk-mq.rst
++++ b/Documentation/block/blk-mq.rst
+@@ -62,7 +62,7 @@ queue, to be sent in the future, when the hardware is able.
+ Software staging queues
+ ~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-The block IO subsystem adds requests  in the software staging queues
++The block IO subsystem adds requests in the software staging queues
+ (represented by struct blk_mq_ctx) in case that they weren't sent
+ directly to the driver. A request is one or more BIOs. They arrived at the
+ block layer through the data structure struct bio. The block layer
+@@ -132,7 +132,7 @@ In order to indicate which request has been completed, every request is
+ identified by an integer, ranging from 0 to the dispatch queue size. This tag
+ is generated by the block layer and later reused by the device driver, removing
+ the need to create a redundant identifier. When a request is completed in the
+-drive, the tag is sent back to the block layer to notify it of the finalization.
++driver, the tag is sent back to the block layer to notify it of the finalization.
+ This removes the need to do a linear search to find out which IO has been
+ completed.
+ 
+-- 
+1.9.1
 
-With the reference style the long line moves out of the way and 
-checkpatch can identify the commit descriptions, at the expense of 
-complaints about line length instead. But the line length issue was 
-only a warning and so didn't seem quite so critical.
-
-While the referencing style is terse I felt it was a reasonable 
-compromise that didn't involve fixing checkpatch to fix the checkpatch 
-documentation :/
-
-Andrew
