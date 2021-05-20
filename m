@@ -2,115 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MIME_QP_LONG_LINE,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B2A5C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 11:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E75C43470
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 11:50:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71AEE611BD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 11:31:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C744611AD
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 11:50:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241155AbhETLdH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 07:33:07 -0400
-Received: from office2.cesnet.cz ([195.113.144.244]:40924 "EHLO
-        office2.cesnet.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241101AbhETLbF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 07:31:05 -0400
-X-Greylist: delayed 94763 seconds by postgrey-1.27 at vger.kernel.org; Thu, 20 May 2021 07:31:00 EDT
-Received: from localhost (ip-78-45-210-72.net.upcbroadband.cz [78.45.210.72])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by office2.cesnet.cz (Postfix) with ESMTPSA id 6BE9D40006B;
-        Thu, 20 May 2021 13:29:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
-        s=office2-2020; t=1621510164;
-        bh=hlH5MiV+pHvEjTzZVRlEtFB7ucGjCHd76P6F/bq75QQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=Y499jaLrNQDvGYFs6T1IcIQh63oVg1U0GvxX99UTXLVXpA11kxXA0hp6+oqn4+zi1
-         jl4blfDxEiANWLJwJr7nuzIpmsestbwKmXCSPgfwEIyDt7cvb2gDniOQkhTuBI2av3
-         6evzJb1+GJTmSneRbst0CNovvWl0LT+w0nFm6OQul6381rNvJuRWODCiM2RmNJlaUA
-         IQlCtDSPsCNxywRrrjbBpWWnKg+bXdVSsP9LBeEvJTNaafkZGvNSXKNS1I2atSUs+x
-         fkPyOw0wWSizodMaTJ/y4bmGNZV8fTNOR7nA7EXaDDyJQ+VadzelaBzue6GlDhHmxn
-         vYIxWZBZdpepw==
-From:   =?iso-8859-1?Q?Jan_Kundr=E1t?= <jan.kundrat@cesnet.cz>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        =?iso-8859-1?Q?V=E1clav_Kubern=E1t?= <kubernat@cesnet.cz>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 2/5] hwmon: (max31790) Fix and split =?iso-8859-1?Q?pwm*=5Fenable?=
-Date:   Thu, 20 May 2021 13:29:24 +0200
+        id S241479AbhETLvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 07:51:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46158 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242938AbhETLsn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 07:48:43 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C004CC06138C;
+        Thu, 20 May 2021 03:15:34 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id z13so23688287lft.1;
+        Thu, 20 May 2021 03:15:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7aih/d9855v20nIT+U7ZGnplm0nKULD9g48GJ8t3Fc4=;
+        b=XpCvTFvkUZMZKmbL0+fpxbM24MMpjQGwQ07dN2rzc30AXj0c5XvZ1pBV9QSbA8JqcI
+         gwkWFlIv1LIZPKaMNrRqARFzk1OmiqW5eepN9euCwKdEE7qxc+pI7Vigf6EHLp4zmQEq
+         WX4rYZZrZF3hM0Oze7xDsFHR0eXL/E1XJmzgJh0JCLS5I+cVheSdk7xTuXs4gQt5/jc3
+         JH7W895ElWhxzggpWUs7DavKkRoY0s2X7F1kQzwCoYgTQnW9n2231qsmOH+2H9Zj4ntR
+         865bwangq/WyEnQmb3UM4S2bgAIZmZymg9vfin94XCNryEASAnWtMGrWvFOuw/nsjHLr
+         Ihmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7aih/d9855v20nIT+U7ZGnplm0nKULD9g48GJ8t3Fc4=;
+        b=V+hi0qKBy1kvR2rfnLAGjOOiKZa4SIP8CjzNDatDwnPaHRk3jowUAKI4T1wxvm96CG
+         lSU909MHnK1Rurfu6iqNpEZt7RajcZlp7VRWo0qiR+DOFpVesH4fbhNrSjIAemEM2lGR
+         tV2ojfhCtAk3tE+ugTkT3N19VYVZr8ZMy0Ni33Q7WA6E/+ckFnDTK91QYkp7HDexC620
+         CCIrqxjniDHOfQBkJslLArN79Stvi+iqi23Z8j/GzeyFpsTmOqs2TQEC4gS1wgGDfZ9K
+         MR5evEt9qxTsPUGhcQ+zUkOjP/djnxoKsTUgRGc3R83198dQCF1heBvbIUHX5B75xs03
+         yT4w==
+X-Gm-Message-State: AOAM53068GF4wCbum/7Ghd/MQvVA0bVIFEYCOnl5GjOZnsEAGHbXEbQY
+        ZM6IB2r+/Iz05pWJ2YJuEsIGKoXtyyVgOu8Eg3I=
+X-Google-Smtp-Source: ABdhPJw1AXKmS8ULiIJu5WsnA6PZ5Cp6w5T/JRJQQHu8DK50jRaoxHpKcGlftGbj8SyvryF8zRNtnr7NI6fXZEuYJpQ=
+X-Received: by 2002:ac2:4ed9:: with SMTP id p25mr2856096lfr.576.1621505733022;
+ Thu, 20 May 2021 03:15:33 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <9bbdc7a7-f34d-4e3a-8e64-c20810456d11@cesnet.cz>
-In-Reply-To: <76619e11-3999-1e89-de93-fb5942970844@roeck-us.net>
-References: <20210518211609.GA3532746@roeck-us.net>
- <6f256c72-df4d-4f9a-ba5f-eabfd9f2365f@cesnet.cz>
- <76619e11-3999-1e89-de93-fb5942970844@roeck-us.net>
-Organization: CESNET
-User-Agent: Trojita/unstable-2020-07-06; Qt/5.15.2; xcb; Linux; 
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20210520093949.511471-1-andrew@aj.id.au>
+In-Reply-To: <20210520093949.511471-1-andrew@aj.id.au>
+From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date:   Thu, 20 May 2021 15:45:20 +0530
+Message-ID: <CABJPP5DHgq2gA7K-PiWK6UTx7t8zLaFuz1LCt9eNZPBs3u+hKQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: checkpatch: Tweak BIT() macro include
+To:     Andrew Jeffery <andrew@aj.id.au>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        openbmc@lists.ozlabs.org, Jiri Slaby <jirislaby@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> As for fan[7-12]_enable, I don't even know if those can be enabled
-> separately. I see two options: Drop those attributes entirely (
-> assuming that those fan inputs are always enabled if the associated
-> pins are configured as inputs), or align them with fan[1-6]_enable.
+On Thu, May 20, 2021 at 3:10 PM Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> While include/linux/bitops.h brings in the BIT() macro, it was moved to
+> include/linux/bits.h in commit 8bd9cb51daac ("locking/atomics, asm-generic:
+> Move some macros from <linux/bitops.h> to a new <linux/bits.h> file").
+>
+> Since that commit BIT() has moved again into include/vdso/bits.h via
+> commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO").
+>
+> I think the move to the vDSO header can be considered an implementation
+> detail, so for now update the checkpatch documentation to recommend use
+> of include/linux/bits.h.
+>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Acked-by: Jiri Slaby <jirislaby@kernel.org>
 
-I think we need to decide first who provides the initial configuration for=20=
+Looks good to me. Thanks.
 
-this chip. There's always at least six TACH inputs, and then there's six=20
-more pins where each can be either a PWM output or a TACH input. Who=20
-decides that? Is the kernel supposed to export six knobs to the userspace?=20=
+Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 
-So far, I've assumed that this should be driven via sysfs. But perhaps you=20=
-
-would you like to rely on the FW (?) to set this up properly? (On our=20
-board, that would be a few random calls to `i2cset` from a U-Boot boot=20
-script. Not pretty, but doable. Just one more place to keep track of.)
-
-It's proabably "tricky" to do this at runtime -- and I don't expect to see=20=
-
-many boards where you have such a big freedom of reconnecting the actual=20
-fans once manufactured, anyway. So, either some DT parameters, or an=20
-autodetection based on whatever is in the registers at power up, which=20
-would make an explicit assumption that "something" has set up the nPWM/TACH=20=
-
-bits properly in the Fan Configuration Register. OK, that might work, but=20
-the kernel must not ever reset that chip afterwards.
-
-There's also the Fan Fault Mask register, which controls which fans=20
-propagate their failures to the nFAN_FAIL output pin. This one requires a=20
-semi-independent control than the nPWM/TACH bit above. It's feasible that=20
-not all TACH inputs have an actual fan connected, and this can well vary=20
-between products. For example, ours has just four fan connectors, so we=20
-don't want "failures" of fans 5 and 6 to assert the nFAN_FAIL pin. Also,=20
-there should be a check which prevents unmasking these failures for those=20
-TACH channels which are configured as PWM outputs. Or we can once again=20
-ignore this one and rely on the FW.
-
-The current kernel code in max31790_read_fan() reads beyond the end of=20
-data->fan_dynamics, hitting the content of `fault_status` or `tach` fields=20=
-
-instead, and therefore returning garbage. Not a big deal, just a missing %=20=
-
-operator I guess, but to me, that's a pretty strong suggestion that nobody=20=
-
-has used or even tested monitoring more than six fans on this chip, ever.=20
-(And yeah, the datasheet is not clear on how it's supposed to work anyway.=20=
-
-Using a modulo is just a guess.)
-
-Neither Vaclav nor me have any way of testing this feature -- hence my=20
-proposal to only improve what we need, and ignore TACH channels 7-12. But I=20=
-
-guess it's not OK from your point of view?
-
-With kind regards,
-Jan
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  Documentation/dev-tools/checkpatch.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index 51fed1bd72ec..59fcc9f627ea 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -472,7 +472,7 @@ Macros, Attributes and Symbols
+>
+>    **BIT_MACRO**
+>      Defines like: 1 << <digit> could be BIT(digit).
+> -    The BIT() macro is defined in include/linux/bitops.h::
+> +    The BIT() macro is defined via include/linux/bits.h::
+>
+>        #define BIT(nr)         (1UL << (nr))
+>
+> --
+> 2.30.2
+>
