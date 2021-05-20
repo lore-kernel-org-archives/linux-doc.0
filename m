@@ -2,156 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E19CFC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 16:19:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 550E9C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 17:18:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B9C7F611AE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 16:19:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33BD461279
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 17:18:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233867AbhETQUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 12:20:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59618 "EHLO mail.kernel.org"
+        id S233507AbhETRTf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 13:19:35 -0400
+Received: from mga06.intel.com ([134.134.136.31]:21876 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233647AbhETQUp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 12:20:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 49F2E60FE8;
-        Thu, 20 May 2021 16:19:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621527563;
-        bh=0GmCmFU5wfCMbmtOzP0mBUf5uBtCwTwQbf8LadEdPK4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=RfkVHOKkHVmFSDIelI+0Le6gh6OCdtiFzuysKzyJ5wZ5H7a/6lv2TmO95MYoGjUFa
-         1Oz0hMX2sKUjqtQSHL2wcpdFYLRxR5UJzl2jZaZwTzlmp9Jdzku9wC+CcgdxRN0LgS
-         dSgWM+lw0OSidS7vDJlvF/hgy4sNFclikr9JqBowUf3aajYriYuHJoJFXlzSEMwfXQ
-         6tUyUmKkrtfnAV1qwJnC3ZDJr9fEW5Nu5fOH7EHlsOJmRHcP8TQDi3ZB59FQiSIIcR
-         wKja+ONQLflpTy3DW2c/OEGCcT9HQF65OYXfidIucA0h/A2+ODWh7LtI7tkxAWT63x
-         3zA8XJS8WlqTA==
-Date:   Thu, 20 May 2021 18:19:19 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
-        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
- on Intel NUC
-Message-ID: <20210520181919.608568b2@thinkpad>
-In-Reply-To: <20210520010720.32265ad4@coco.lan>
-References: <cover.1621349813.git.mchehab+huawei@kernel.org>
-        <20210519111107.GC24621@duo.ucw.cz>
-        <20210519141508.6e7a4d56@coco.lan>
-        <20210519194115.GA31672@duo.ucw.cz>
-        <20210520010720.32265ad4@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S231730AbhETRTe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 May 2021 13:19:34 -0400
+IronPort-SDR: qrlswRfHOWb/ahG1ob9aj0ZqJAasiwKywXqw564NefupT5MYaVKxXYqhxT6+9YbAW6tfUJcio9
+ E3oN2Q2J4WpQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9990"; a="262508282"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
+   d="scan'208";a="262508282"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2021 10:18:11 -0700
+IronPort-SDR: +Ag2SsApIJEIlKZfue7i6g7Kg5zY9nUKyaziq+N5gU5DS0FMi1OlubULGDUNx+eIrh36+w89Ij
+ 4osxWTb2YRng==
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
+   d="scan'208";a="475283324"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.167.234]) ([10.209.167.234])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2021 10:18:10 -0700
+Subject: Re: [PATCH v26 26/30] ELF: Introduce arch_setup_elf_property()
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-27-yu-cheng.yu@intel.com> <YKVUgzJ0MVNBgjDd@zn.tnic>
+ <c29348d8-caae-5226-d095-ae3992d88338@intel.com> <YKYrQQ6tKfifjNjW@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <d04259f1-a869-ec1c-aa74-93cd6c2c2d7b@intel.com>
+Date:   Thu, 20 May 2021 10:18:10 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <YKYrQQ6tKfifjNjW@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 May 2021 01:07:20 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On 5/20/2021 2:26 AM, Borislav Petkov wrote:
+> On Wed, May 19, 2021 at 03:14:58PM -0700, Yu, Yu-cheng wrote:
+>> However, those parsing functions take (struct arch_elf_state *) as an input.
+> 
+> Exactly.
+> 
+>> It probably makes sense to have ARCH_USE_GNU_PROPERTY dependent on
+>> ARCH_BINFMT_ELF_STATE.  It would be ok as-is too.  ARM people might have
+>> other plans in mind.
+> 
+> Well, let's look at ARM, ARM64 in particular. They have defined struct
+> arch_elf_state without the ifdeffery in
+> 
+> arch/arm64/include/asm/elf.h
+> 
+> and are using that struct in arch_parse_elf_property().
+> 
+> And they have selected ARCH_BINFMT_ELF_STATE just so that they disable
+> those dummy accessors in fs/binfmt_elf.c
+> 
+> And you're practically glueing together ARCH_BINFMT_ELF_STATE and
+> ARCH_USE_GNU_PROPERTY. However, all the functionality is for adding
+> the gnu property note so I think you should select both but only use
+> ARCH_USE_GNU_PROPERTY in all the ifdeffery in your patch to at least
+> have this as simple as possible.
+> 
 
-> So, the first thing that the API needs is a way to tell what LED
-> is monitoring the device's power state.
+ARM64 has ARCH_USE_GNU_PROPERTY and ARCH_BINFMT_ELF_STATE selected 
+unconditionally.  We will do the same for X86_64 and remove the ifdeffery.
 
-If a LED can monitor the device's power state in HW, register a LED
-private trigger for this LED. If the LED is configured into this state
-by default, you can set this trigger to be the default_trigger prior
-registering the LED. The name of this private trigger can be
-"hw:powerstate" or something like that (I wonder what others will
-think about this name).
+>> I just looked at the ABI document.
+> 
+> Which document is that? Link?
+> 
+>> ARM has GNU_PROPERTY_AARCH64_FEATURE_1_AND 0xc0000000
+>>
+>> X86 has:
+>> 	GNU_PROPERTY_X86_ISA_1_USED	0xc0000000
+>> 	GNU_PROPERTY_X86_ISA_1_NEEDED	0xc0000001
+>> 	GNU_PROPERTY_X86_FEATURE_1_AND	0xc0000002
+> 
+> Our defines should at least have a comment pointing to that document.
+> 
+> Thx.
+> 
 
-> Then, for each power state (S0, S3, S5), define if the LED will
-> be ON all the times or not.
-> 
-> The "slowing breathing" is one of the possible blink patterns.
-> The driver supports 4 other blink patterns
-> 
-> 	- Solid - the LED won't blink;
-> 	- Breathing - it looks like a sinusoidal wave pattern;
-> 	- Pulsing - it looks like a square wave pattern;
-> 	- Strobing - it turns ON suddenly, and then it slowly turns OFF.
-> 
-> The speed of the blink is also adjustable, ranging from 0.1 Hz to 1 Hz,
-> on 0.1 Hz steps.
+The latest pdf's are posted here.
 
-Is the speed of breathing/strobing also adjustable? Or only when
-pulsing?
+https://gitlab.com/x86-psABIs/x86-64-ABI/-/wikis/x86-64-psABI
 
-When this "hw:powerstate" trigger is enabled for this LED,
-only then another sysfs files should appear in this LED's sysfs
-directory.
-
-> ---
-> 
-> Let me explain this specific part of the API from my original proposal.
-> 
-> Those are the led names from the datasheets (NUC 8 and above),
-> and my proposal for the sysfs class directory name:
-> 
-> =============	===============================
-> LED name	sysfs
-> =============	===============================
-> Skull		``/sys/class/leds/nuc::skull``
-> Skull eyes	``/sys/class/leds/nuc::eyes``
-> Power		``/sys/class/leds/nuc::power``
-> HDD		``/sys/class/leds/nuc::hdd``
-> Front1		``/sys/class/leds/nuc::front1``
-> Front2		``/sys/class/leds/nuc::front2``
-> Front3		``/sys/class/leds/nuc::front3``
-> =============	===============================
-> 
-> For each of the above, there's the need to identify what
-> hardware function is monitored (if any).
-> 
-> My proposal were to add an "indicator" node (the name came from
-> the Intel datasheets) that shows what led will monitor the power state.
-> 
-> Then, one blink_behavior and one blink_frequency per power state,
-> e. g.:
-> 
->     /sys/class/leds/nuc::front1
->     |-- indicator
->     |-- s0_blink_behavior
->     |-- s0_blink_frequency
->     |-- s3_blink_behavior
->     |-- s3_blink_frequency
->     |-- s5_blink_behavior
->     `-- s5_blink_frequency
-
-I'd rather use one file for frequencies and one for intervals, and map
-in to an array, but that is just my preference...
-
-> 
-> PS.: I don't care much about what names we'll use. Feel free to
-> rename them, if you think the above is not clear or generic enough.
-> 
-> -
-> 
-> To make part of the API complete, there's also the need of a node
-> to control the max brightness that the leds will achieve at the
-> ON state, and another one to control the color on each state,
-> as one could define, let's say, "white" when powered on, "blue"
-> when suspended and "yellow" when hibernating. The colors at the
-> NUC I have are RGB (but other models can use an enum for the
-> supported colors).
-> 
->     /sys/class/leds/nuc::front1
->     |-- s0_brightness
->     |-- s0_color		# only shown on colored leds
->     |-- s3_brightness
->     |-- s3_color		# only shown on colored leds
->     |-- s0_brightness
->     `-- s5_color		# only shown on colored leds
-
-If the BIOS reports a LED being full RGB LED, you should register it
-via multicolor framework. Regarding the enum with 8 colors: are these
-colors red, yellow, green, cyan, blue, magenta? Because if so, then
-this is RGB with each channel being binary :) So you can again use
-multicolor framework.
+Thanks,
+Yu-cheng
