@@ -2,126 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE0EC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 12:36:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0945C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 12:39:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7160F61355
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 12:36:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AF9F60200
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 12:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238869AbhETMiK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 08:38:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56828 "EHLO
+        id S235927AbhETMlA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 08:41:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240803AbhETMiC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 08:38:02 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98A8AC03CCC3;
-        Thu, 20 May 2021 04:50:46 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id h24so1080565qtm.12;
-        Thu, 20 May 2021 04:50:46 -0700 (PDT)
+        with ESMTP id S235280AbhETMks (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 08:40:48 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54DDDC04C3F4;
+        Thu, 20 May 2021 04:56:36 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id g38so22373388ybi.12;
+        Thu, 20 May 2021 04:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:to:cc:references:from:subject:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pIpAeHQj1489Aib8qHXvSwda7NmAe2Giti3bFOAd6iA=;
-        b=nQWEwNuMMp0jbs8ldsiaASBDCAoiuHTVC2ChzIjwn4shXs2FM2WHU8EpGDx95OqNkK
-         rYEXOfnLLjfjXuKrMUZjwCccJM2JQENjDrCeRVBMq4BoH6uOQjtMI/yZcwRb1YNNzo2c
-         FBYbZOxymiaNyncJbeO/gr+5hQvi61bvfD9d5Egn7eKXsTmxGo9RKDTHoyV/3h3fn8F8
-         S5/ygqfS4YwMI8M7NXZKHbDQY0/sbzQGihBwBCG6IdOKaos2SN+g0LH4h/Ekk8CWVDet
-         5vdHdVz5pwWZH3qCUwoWFnWJdu2VpT0aSKTg7G0+iO8c2yYwKvCjlUaiC1RAmHFGPN4T
-         n5/A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XtLuHF6z7UgNsxkYSCkrtjLaJueixWRiunK7AUVux9A=;
+        b=qN+O3tvfeSsZLPGFWfKsDD0t5wX8hic7UDaqW1PTbFTiqWkCLKVuSEV20edtQIPjAN
+         8ahdsffMecVwLQb3sOhht8+/1v+oz1Zu8ehQQzsaMEztz3EMLx4kWewmjns3nhkmuS7O
+         NQTWiNgdD0u6FEpGf/rStUS76awzCsjKTGlh+T3YZa9xYU2dWZePF54jPlXiTMxtl4HX
+         JVP+M78fgBC6X9Nr7Si86QsYWe3V8FZrsQC7c0KVsu5KxByI/VFo6klM+Jkgs6IZVgJL
+         a20AQFnnlNo/LbVdAS2LvnQ59cfbF8WNhHgcHetXpQWZ19EH4hUqT78Ilaq3ruc3WVFG
+         TTjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pIpAeHQj1489Aib8qHXvSwda7NmAe2Giti3bFOAd6iA=;
-        b=IjjVyHo2pfEXFIYl0OdczjbeB2qbl8sIFeD12nUdg0F0u6CRTO6eJAH6J7ukpOuO7S
-         6RDY8EqfKjEqASV/NV20ZJsXyFeQ8PVSgsPuJ7AFD2rFTQN+ObzlM1wASx6zN342VBtg
-         mqAPtL2b5NR8zrzabgh6P+eUS6BBjGWxbvUxDU8rVm/gmP1YbBlCQXkEJ5KZCM/3f4QH
-         i0uJAVMV4OEe0ZkQS0IjvXgGxtN4vPyWHBmIIJ/RH+YzQQk8rWhWRXAKaY0xDYPAPoZB
-         02I0JVxiJV95Tw97LXMsJlb1pZszt7uh7n+EGa1bn++Y0ODgTWidI48vw5/SjO5vkcjg
-         OksQ==
-X-Gm-Message-State: AOAM533uodDfEMC3SeL1sOH49l6q00gki2hH7pUPBjCQY82dOw5bVR6M
-        IiO/wFyRZ1GL+Ina8rBTrG452U7XrVI=
-X-Google-Smtp-Source: ABdhPJyT9gkogVw4a49O7WKLOm56N0u+cp7go/2KFXTehjZlUUa+WB9mrpZwbtZC1xQev9IbvkeVMQ==
-X-Received: by 2002:a05:622a:40f:: with SMTP id n15mr4725837qtx.10.1621511445490;
-        Thu, 20 May 2021 04:50:45 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u11sm1590036qtq.93.2021.05.20.04.50.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 May 2021 04:50:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-To:     =?UTF-8?Q?Jan_Kundr=c3=a1t?= <jan.kundrat@cesnet.cz>,
-        =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210518211609.GA3532746@roeck-us.net>
- <6f256c72-df4d-4f9a-ba5f-eabfd9f2365f@cesnet.cz>
- <76619e11-3999-1e89-de93-fb5942970844@roeck-us.net>
- <9bbdc7a7-f34d-4e3a-8e64-c20810456d11@cesnet.cz>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v5 2/5] hwmon: (max31790) Fix and split pwm*_enable
-Message-ID: <f91af3c7-5173-ca65-7846-bbeaf69eac71@roeck-us.net>
-Date:   Thu, 20 May 2021 04:50:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XtLuHF6z7UgNsxkYSCkrtjLaJueixWRiunK7AUVux9A=;
+        b=eQYZQAdKtAZ3BgI/HMWeqM9nJn8VdPmyL1qXo2Cfz82t/sRwOOL0HVsajZkxloRrRS
+         TXYEIfSxPBD5449Np00O9jeAF/PZeubCSTD9M+87U7L7RyRevcx8sw55mWSSkgaT+dO9
+         287wV0kAt72mdzaKLHFrKQ1QHWMbi72anaVE4p8Is2tjmxJvm8CsIN+1YmtyeHtf+p1W
+         G4L/VYd56axSVkcInNSVSe4IFoaSxIFeUKmK6h91d5/OehmhPnFPNxhMZB7zEfOAypac
+         TDlCxvKzhIZdBtKJbP6WZLbfSrEzLgmxDt7ac7qww0PS0LybfxT+PsqWTWBtsgbBx11q
+         vcKA==
+X-Gm-Message-State: AOAM530rCWbTByfo5ko36hbLSoaf8e2ezyEIM9tS2jfB6BtT3Akv3RrJ
+        0ZBv4edbKxWca/ACZx9+xORXwcpcFm2fRE0LOYM=
+X-Google-Smtp-Source: ABdhPJyBD0p/eM/csawKlA4Hsro6iMvr3JZ8tWIUdHs2En0vB/vTvHKG4rvyyV4uxcS/JoDMWwqONzeiIMIRTk4DXg4=
+X-Received: by 2002:a25:b112:: with SMTP id g18mr6696595ybj.281.1621511795095;
+ Thu, 20 May 2021 04:56:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9bbdc7a7-f34d-4e3a-8e64-c20810456d11@cesnet.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210520093949.511471-1-andrew@aj.id.au>
+In-Reply-To: <20210520093949.511471-1-andrew@aj.id.au>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Thu, 20 May 2021 13:56:24 +0200
+Message-ID: <CAKXUXMy0CziXXHJBzz8bJBj-wE0f6L1JSK2KuHwBzkbk_F+4iA@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: checkpatch: Tweak BIT() macro include
+To:     Andrew Jeffery <andrew@aj.id.au>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        openbmc@lists.ozlabs.org, Jiri Slaby <jirislaby@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/20/21 4:29 AM, Jan Kundrát wrote:
->> As for fan[7-12]_enable, I don't even know if those can be enabled
->> separately. I see two options: Drop those attributes entirely (
->> assuming that those fan inputs are always enabled if the associated
->> pins are configured as inputs), or align them with fan[1-6]_enable.
-> 
-> I think we need to decide first who provides the initial configuration for this chip. There's always at least six TACH inputs, and then there's six more pins where each can be either a PWM output or a TACH input. Who decides that? Is the kernel supposed to export six knobs to the userspace? So far, I've assumed that this should be driven via sysfs. But perhaps you would you like to rely on the FW (?) to set this up properly? (On our board, that would be a few random calls to `i2cset` from a U-Boot boot script. Not pretty, but doable. Just one more place to keep track of.)
-> 
+On Thu, May 20, 2021 at 11:40 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> While include/linux/bitops.h brings in the BIT() macro, it was moved to
+> include/linux/bits.h in commit 8bd9cb51daac ("locking/atomics, asm-generic:
+> Move some macros from <linux/bitops.h> to a new <linux/bits.h> file").
+>
+> Since that commit BIT() has moved again into include/vdso/bits.h via
+> commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO").
+>
+> I think the move to the vDSO header can be considered an implementation
+> detail, so for now update the checkpatch documentation to recommend use
+> of include/linux/bits.h.
+>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Acked-by: Jiri Slaby <jirislaby@kernel.org>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-It has to be done by firmware or with devicetree properties.
-It can not be done with sysfs attributes.
 
-> It's proabably "tricky" to do this at runtime -- and I don't expect to see many boards where you have such a big freedom of reconnecting the actual fans once manufactured, anyway. So, either some DT parameters, or an autodetection based on whatever is in the registers at power up, which would make an explicit assumption that "something" has set up the nPWM/TACH bits properly in the Fan Configuration Register. OK, that might work, but the kernel must not ever reset that chip afterwards.
-> 
-> There's also the Fan Fault Mask register, which controls which fans propagate their failures to the nFAN_FAIL output pin. This one requires a semi-independent control than the nPWM/TACH bit above. It's feasible that not all TACH inputs have an actual fan connected, and this can well vary between products. For example, ours has just four fan connectors, so we don't want "failures" of fans 5 and 6 to assert the nFAN_FAIL pin. Also, there should be a check which prevents unmasking these failures for those TACH channels which are configured as PWM outputs. Or we can once again ignore this one and rely on the FW.
-> 
+Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Power-up default is that all faults are masked. If that is not the case,
-some entity must have unmasked some bits. Assuming that is the case, we
-can as well assume that the same entity is able to configure bit 0
-of the configuration register as needed.
+Jonathan, can you please pick this patch into your doc-next tree? Thanks.
 
-> The current kernel code in max31790_read_fan() reads beyond the end of data->fan_dynamics, hitting the content of `fault_status` or `tach` fields instead, and therefore returning garbage. Not a big deal, just a missing % operator I guess, but to me, that's a pretty strong suggestion that nobody has used or even tested monitoring more than six fans on this chip, ever. (And yeah, the datasheet is not clear on how it's supposed to work anyway. Using a modulo is just a guess.)
-> 
+Lukas
 
-Probably it has not been tested, but that is not an argument for removal.
-
-> Neither Vaclav nor me have any way of testing this feature -- hence my proposal to only improve what we need, and ignore TACH channels 7-12. But I guess it's not OK from your point of view?
-> 
-
-No, that is not acceptable.
-
-FWIW, the evaluation board, including shipping, cost about $130 at Mouser.
-I should get it no late than early next week. Arguing about it was more
-expensive (in terms of time spent) than just buying it. Once I have the
-board and had a chance to test the code I'll submit a set of changes
-to fix all the problems I have found so far using module test code and
-code inspection.
-
-- Fix fan speed reporting for fan7..12
-- Report correct current pwm duty cycles
-- Fix pwmX_enable attributes
-
-Guenter
+> ---
+>  Documentation/dev-tools/checkpatch.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index 51fed1bd72ec..59fcc9f627ea 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -472,7 +472,7 @@ Macros, Attributes and Symbols
+>
+>    **BIT_MACRO**
+>      Defines like: 1 << <digit> could be BIT(digit).
+> -    The BIT() macro is defined in include/linux/bitops.h::
+> +    The BIT() macro is defined via include/linux/bits.h::
+>
+>        #define BIT(nr)         (1UL << (nr))
+>
+> --
+> 2.30.2
+>
