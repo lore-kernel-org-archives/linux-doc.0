@@ -2,179 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90002C43470
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 08:57:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 762DAC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 08:57:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71446613BA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 08:57:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57AE1610CB
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 08:57:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231390AbhETI6p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 04:58:45 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3084 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231162AbhETI6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 04:58:45 -0400
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Fm3LQ6Yq5z6wjYk;
-        Thu, 20 May 2021 16:48:46 +0800 (CST)
-Received: from roberto-ThinkStation-P620.huawei.com (10.204.62.217) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 20 May 2021 10:57:21 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     <zohar@linux.ibm.com>, <mjg59@srcf.ucam.org>
-CC:     <linux-integrity@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH 2/7] ima: Introduce template fields iuid and igid
-Date:   Thu, 20 May 2021 10:56:56 +0200
-Message-ID: <20210520085701.465369-3-roberto.sassu@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210520085701.465369-1-roberto.sassu@huawei.com>
-References: <20210520085701.465369-1-roberto.sassu@huawei.com>
+        id S231475AbhETI6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 04:58:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43683 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231431AbhETI6r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 04:58:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621501046;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QWnNUjDPqTQnCEdVQgn9AK9G/tH/6V7Bqn/kJuiQYN0=;
+        b=h/rjzvQyLwR+4NnsFaWLxMdzReWa7gT+aBYPiEbB7IsQXFvNWFzWejMkVXqNm4edZGcBiJ
+        2wnDqzaqgjytcALphHW7ziOzGKsCFMfNHFrj1bo49YV2aHvHSPDUci1erFexydNb/ej3mJ
+        LSc4YT++zbkrynH9ktZXt+E+3RNCJrY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-o20Vd30VMD6yttnQRBbhpw-1; Thu, 20 May 2021 04:57:23 -0400
+X-MC-Unique: o20Vd30VMD6yttnQRBbhpw-1
+Received: by mail-wr1-f69.google.com with SMTP id h104-20020adf90710000b029010de8455a3aso8404211wrh.12
+        for <linux-doc@vger.kernel.org>; Thu, 20 May 2021 01:57:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=QWnNUjDPqTQnCEdVQgn9AK9G/tH/6V7Bqn/kJuiQYN0=;
+        b=HwRQ1IoISKIUpb8O6gap/DeTxO1GscB+SLfd5OndAVbXOfVm6tltHVfwnuXekNknKM
+         AJ7eCSoLgIsWx+HLml3gAORyrDRvD1GevSFmYjX+JoBjgf3+lpfLlMA6BKvqsyGSRH0P
+         4IbnBOHXgCfxzVzz40t3eah3cuv6226y94c1gFlpMIEDx+GBCacSJrpORsHd4EDiILtO
+         T7MvtN/X0kdLAsO9H9QJsdK57yZLAmWzJxJ0kjJMH7mruVTfv8AKbOwOB87v2sFf9J+7
+         dq0DRJC3+zC/gxZ5rww5g/fs2oDR8rUSYGwKQbR9J7fmBCskq9QtOmlxoeCFXmlPdXkB
+         lj6w==
+X-Gm-Message-State: AOAM530jQOVFLBI+VFIxpvpzLAVj+dQY6wlVW3ZJf1X8bbjYg4ZGyeB/
+        Rxoh7hNFiOpEblbyfKM14DvovyOWNBqaOgS4VysWslLjOkaQM1sKu441acEURkifh/jp+FQnI0e
+        79qWiaddZ8aXKryS2rpzO
+X-Received: by 2002:a5d:4408:: with SMTP id z8mr3215110wrq.2.1621501042373;
+        Thu, 20 May 2021 01:57:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7C586/nRMw6N6pfpuwHqH+Jr2J4jLlf2ul5cHMgRk7/v6t932rZ4dOBYUsQc/VFZ/uvp2cg==
+X-Received: by 2002:a5d:4408:: with SMTP id z8mr3215095wrq.2.1621501042243;
+        Thu, 20 May 2021 01:57:22 -0700 (PDT)
+Received: from ?IPv6:2a0c:5a80:1c02:2700:ca67:ddac:104e:9b35? ([2a0c:5a80:1c02:2700:ca67:ddac:104e:9b35])
+        by smtp.gmail.com with ESMTPSA id i1sm2375070wrp.51.2021.05.20.01.57.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 01:57:21 -0700 (PDT)
+Message-ID: <e2e9c8e80b64bb3612f780e2351621070ace25f8.camel@redhat.com>
+Subject: Re: [RFC] trace: Add option for polling ring buffers
+From:   Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     rostedt@goodmis.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mingo@redhat.com, corbet@lwn.net,
+        mtosatti@redhat.com
+Date:   Thu, 20 May 2021 10:57:21 +0200
+In-Reply-To: <YKVT+sQTgNpCR/Gt@casper.infradead.org>
+References: <20210519175755.670876-1-nsaenzju@redhat.com>
+         <YKVT+sQTgNpCR/Gt@casper.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.204.62.217]
-X-ClientProxiedBy: lhreml752-chm.china.huawei.com (10.201.108.202) To
- fraeml714-chm.china.huawei.com (10.206.15.33)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch introduces the new template fields iuid and igid, which include
-respectively the inode UID and GID. If the inode is part of an idmapped
-mount, the UID and GID are the mapped ones and need to be translated with
-the new fields mntuidmap and mntgidmap included in a subsequent patch, in
-order to get the original UID and GID.
+Hi Matthew, thanks for your comments.
 
-These fields can be used to verify the EVM portable signature, if it was
-included with the template fields sig or evmsig.
+On Wed, 2021-05-19 at 19:07 +0100, Matthew Wilcox wrote:
+> On Wed, May 19, 2021 at 07:57:55PM +0200, Nicolas Saenz Julienne wrote:
+> > To minimize trace's effect on isolated CPUs. That is, CPUs were only a
+> > handful or a single, process are allowed to run. Introduce a new trace
+> > option: 'poll-rb'.
+> 
+> maybe this should take a parameter in ms (us?) saying how frequently
+> to poll?  it seems like a reasonable assumption that somebody running in
+> this kind of RT environment would be able to judge how often their
+> monitoring task needs to collect data.
 
-Cc: Christian Brauner <christian.brauner@ubuntu.com>
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- Documentation/security/IMA-templates.rst  |  2 +
- security/integrity/ima/ima_template.c     |  4 ++
- security/integrity/ima/ima_template_lib.c | 58 +++++++++++++++++++++++
- security/integrity/ima/ima_template_lib.h |  4 ++
- 4 files changed, 68 insertions(+)
+I'll look into it.
 
-diff --git a/Documentation/security/IMA-templates.rst b/Documentation/security/IMA-templates.rst
-index 9f3e86ab028a..bf8ce4cf5878 100644
---- a/Documentation/security/IMA-templates.rst
-+++ b/Documentation/security/IMA-templates.rst
-@@ -75,6 +75,8 @@ descriptors by adding their identifier to the format string
-  - 'modsig' the appended file signature;
-  - 'buf': the buffer data that was used to generate the hash without size limitations;
-  - 'evmsig': the EVM portable signature;
-+ - 'iuid': the inode UID;
-+ - 'igid': the inode GID;
- 
- 
- Below, there is the list of defined template descriptors:
-diff --git a/security/integrity/ima/ima_template.c b/security/integrity/ima/ima_template.c
-index 7a60848c04a5..a5ecd9e2581b 100644
---- a/security/integrity/ima/ima_template.c
-+++ b/security/integrity/ima/ima_template.c
-@@ -47,6 +47,10 @@ static const struct ima_template_field supported_fields[] = {
- 	 .field_show = ima_show_template_sig},
- 	{.field_id = "evmsig", .field_init = ima_eventevmsig_init,
- 	 .field_show = ima_show_template_sig},
-+	{.field_id = "iuid", .field_init = ima_eventinodeuid_init,
-+	 .field_show = ima_show_template_uint},
-+	{.field_id = "igid", .field_init = ima_eventinodegid_init,
-+	 .field_show = ima_show_template_uint},
- };
- 
- /*
-diff --git a/security/integrity/ima/ima_template_lib.c b/security/integrity/ima/ima_template_lib.c
-index f23296c33da1..a191b861548b 100644
---- a/security/integrity/ima/ima_template_lib.c
-+++ b/security/integrity/ima/ima_template_lib.c
-@@ -551,3 +551,61 @@ int ima_eventevmsig_init(struct ima_event_data *event_data,
- 	kfree(xattr_data);
- 	return rc;
- }
-+
-+static int ima_eventinodedac_init_common(struct ima_event_data *event_data,
-+					 struct ima_field_data *field_data,
-+					 bool get_uid)
-+{
-+	struct user_namespace *mnt_userns;
-+	uid_t uid;
-+	gid_t gid;
-+	char *data_ptr = (char *)&uid;
-+
-+	if (!event_data->file)
-+		return 0;
-+
-+	mnt_userns = file_mnt_user_ns(event_data->file);
-+	if (get_uid) {
-+		uid = from_kuid(&init_user_ns,
-+				i_uid_into_mnt(mnt_userns,
-+					       file_inode(event_data->file)));
-+	} else {
-+		gid = from_kgid(&init_user_ns,
-+				i_gid_into_mnt(mnt_userns,
-+					       file_inode(event_data->file)));
-+		data_ptr = (char *)&gid;
-+	}
-+
-+	if (ima_canonical_fmt) {
-+		if (sizeof(uid) == sizeof(u16)) {
-+			uid = cpu_to_le16(uid);
-+			gid = cpu_to_le16(gid);
-+		} else {
-+			uid = cpu_to_le32(uid);
-+			gid = cpu_to_le32(gid);
-+		}
-+	}
-+
-+	return ima_write_template_field_data(data_ptr, sizeof(uid),
-+					     DATA_FMT_UINT, field_data);
-+}
-+
-+/*
-+ *  ima_eventinodeuid_init - include the inode UID as part of the template
-+ *  data
-+ */
-+int ima_eventinodeuid_init(struct ima_event_data *event_data,
-+			   struct ima_field_data *field_data)
-+{
-+	return ima_eventinodedac_init_common(event_data, field_data, true);
-+}
-+
-+/*
-+ *  ima_eventinodegid_init - include the inode GID as part of the template
-+ *  data
-+ */
-+int ima_eventinodegid_init(struct ima_event_data *event_data,
-+			   struct ima_field_data *field_data)
-+{
-+	return ima_eventinodedac_init_common(event_data, field_data, false);
-+}
-diff --git a/security/integrity/ima/ima_template_lib.h b/security/integrity/ima/ima_template_lib.h
-index 54b67c80b315..b0aaf109f386 100644
---- a/security/integrity/ima/ima_template_lib.h
-+++ b/security/integrity/ima/ima_template_lib.h
-@@ -50,4 +50,8 @@ int ima_eventmodsig_init(struct ima_event_data *event_data,
- 			 struct ima_field_data *field_data);
- int ima_eventevmsig_init(struct ima_event_data *event_data,
- 			 struct ima_field_data *field_data);
-+int ima_eventinodeuid_init(struct ima_event_data *event_data,
-+			   struct ima_field_data *field_data);
-+int ima_eventinodegid_init(struct ima_event_data *event_data,
-+			   struct ima_field_data *field_data);
- #endif /* __LINUX_IMA_TEMPLATE_LIB_H */
+> > [1] The IPI, in this case, an irq_work, is needed since trace might run
+> > in NMI context. Which is not suitable for wake-ups.
+> 
+> could we also consider a try-wakeup which would not succeed if in NMI
+> context?
+
+Yes, in a similar vein, my original idea was to defer the wakeup process into a
+non-isolated CPU using irq_work_on(). But that irq_work flavor is not NMI safe
+(nor any other IPI mechanisms targeting other CPUs).
+
+> or are there situations where we only gather data in NMI
+> context, and so would never succeed in waking up?
+
+Yes, that's a use-case. For ex. 'trace-cmd record -e nmi'.
+
+> if so, maybe schedule the irq_work every 1000 failures to wake up.
+
+You'd be generating latency spikes nonetheless. Which might eventually break
+the isolated application latency requirements.
+
+As Marcelo said, the least code we run on the isolated CPU the better.
+
 -- 
-2.25.1
+Nicolás Sáenz
 
