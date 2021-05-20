@@ -2,73 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58128C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 19:36:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D795C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 19:44:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 279BF61246
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 19:36:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56DBD6135B
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 19:44:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233966AbhETTiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 15:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41426 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233380AbhETTiT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 15:38:19 -0400
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC3C7C061574;
-        Thu, 20 May 2021 12:36:57 -0700 (PDT)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ljoRy-00Gve2-KS; Thu, 20 May 2021 19:35:18 +0000
-Date:   Thu, 20 May 2021 19:35:18 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Justin He <Justin.He@arm.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 08/14] d_path: make prepend_name() boolean
-Message-ID: <YKa59ovKmBmqzP5F@zeniv-ca.linux.org.uk>
-References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
- <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
- <20210519004901.3829541-8-viro@zeniv.linux.org.uk>
- <AM6PR08MB4376607691168C132AB2F558F72A9@AM6PR08MB4376.eurprd08.prod.outlook.com>
- <YKZ38jOCZUlpiqTS@alley>
+        id S238997AbhETTpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 15:45:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52152 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237966AbhETTpX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 May 2021 15:45:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BED32611AD;
+        Thu, 20 May 2021 19:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621539841;
+        bh=mfUpKnWBH9YHSgWn5CR/E/VckYQfcAH6ErNJaVdjD1o=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dBTWBL+ltW695t4h+3iYAv80cSOUZpKHpZadu/47o6iNZv4fWVYFF2n+c71kbOJu+
+         MQ+zpX9VB9lgCwR8BPE9CDk3tovYX/CYJepxDVcILBUuPnh/GP7k70oa+J1rkx0B2D
+         q4FU/7vRKYY0XxqjH4LETRw5Q1CNKAel1uYYLnRP2JmI9ew33iybXSC7w+90w3Bcwf
+         LJUs+oBBDluFlOKk68JGxdy5Gc1tmzQQH2oImvBZlHKzKRib8PY+dSDHPImhGHRSSo
+         TLQhtkwIYQR3/BYiVxoDWwCQqO7kIb6UzlbX2rynugT9qaz8ZawYRHjpP9GRnDW5AK
+         zAa5lcyO6Rw4Q==
+Date:   Thu, 20 May 2021 21:43:56 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
+        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
+ on Intel NUC
+Message-ID: <20210520214356.0392f374@thinkpad>
+In-Reply-To: <20210520211615.437e22ee@coco.lan>
+References: <cover.1621349813.git.mchehab+huawei@kernel.org>
+        <20210519111107.GC24621@duo.ucw.cz>
+        <20210519141508.6e7a4d56@coco.lan>
+        <20210519194115.GA31672@duo.ucw.cz>
+        <20210520010720.32265ad4@coco.lan>
+        <20210520181919.608568b2@thinkpad>
+        <20210520211615.437e22ee@coco.lan>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKZ38jOCZUlpiqTS@alley>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 20, 2021 at 04:53:38PM +0200, Petr Mladek wrote:
+On Thu, 20 May 2021 21:16:15 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> That said. vsnprintf() returns the number of characters which would
-> be generated for the given input. But only the "size" is written.
-> This require copying the characters one by one.
+> So, assuming that we will have one trigger per each hardware
+> state, it could have something like (names subject to change):
+> 
+> 	- hw:powerstate
+> 	- hw:disk_activity
+> 	- hw:ethernet_activity
+> 	- hw:wifi_active
+> 	- hw:power_limit
+> 
+> Right?
 
-Not really - that's more of avoiding trouble if the sucker gets renamed
-right under prepend_name().  Note that we have no way to guarantee that
-length and string pointer come from the same moment.  This looking for
-NUL is about protection againts stepping off the end of allocated object.
+Yes, but we should really try to map ethernet_activity to netdev and
+disk_activity to a potential blkdev trigger :-) That's my opinion.
+
+> It still needs to indicate two other possible states:
+> 
+> 	- software controlled led;
+> 	- led is disabled.
+> 
+> Setting led's brightness to zero is different than disabling
+> it. 
+>
+> Disabling can be done via BIOS, but BIOS config doesn't allow
+> setting the brightness. There are other difference on BIOS settings:
+> it allow disabling each/all LED controls and/or to disable software 
+> control of each LED.
+> 
+> So, we need a way at the API to uniquely identify when the LED
+> is software-controlled and when it is disabled.
+> Would it be something like:
+> 
+> 	- hw:disable
+> 
+> trigger? or better to implement it on a different way?
+
+What is the functional difference (visible to the user) between zero
+brightness and disabled LED? IMO if user says
+  echo 0 >brightness
+you can just disable the LED. Or is this impossible?
+ 
+> > Is the speed of breathing/strobing also adjustable? Or only when
+> > pulsing?  
+> 
+> Yes, speed is also adjustable, from 0.1 to 1.0 HZ, in 0.1 Hz
+> (NUC 8 and above).
+> 
+> The NUC6 API is more limited than NUC8+: it has just two
+> blink patterns (blink, fade), and only 3 frequencies are allowed
+> (0.25 Hz, 0.50 Hz and 1.0 Hz).
+> 
+> > When this "hw:powerstate" trigger is enabled for this LED,
+> > only then another sysfs files should appear in this LED's sysfs
+> > directory.  
+> 
+> OK, makes sense. 
+> 
+> Out of curiosity: is it reliable to make sysfs nodes appear and
+> disappear dynamically? Does inotify (or something similar) can
+> be used to identify when such nodes appear/disappear?
+> 
+> I remember a long time ago I wanted to use something like that 
+> at the media (or edac?) subsystem, but someone (Greg, I think)
+> recommended otherwise due to some potential racing issues.
+
+No idea, but I would guess yes.
+
+> > I'd rather use one file for frequencies and one for intervals, and map
+> > in to an array, but that is just my preference...  
+> 
+> By intervals are you meaning 1/frequency? So, basically exposing
+> the frequency as two fields? If so, it sounds overkill to me to have both. 
+
+Sorry, I meant one file for frequencies and one for patterns.
+> 
+> Btw, maybe instead of "blink_behavior" it could use "blink_pattern".
+> 
+> This would diverge from the datahseet name, but it probably describes
+> better what will be controlled when blink is enabled:
+> 
+> 	- frequency (or inverval)
+> 	- pattern
+> 
+> > Regarding the enum with 8 colors: are these
+> > colors red, yellow, green, cyan, blue, magenta? Because if so, then
+> > this is RGB with each channel being binary :) So you can again use
+> > multicolor framework.  
+> 
+> The dual-colored ones aren't RGB. Two types are supported:
+> 	- Blue/Amber
+> 	- Blue/White
+
+These would need a new API, ignore these for now.
+
+Marek
