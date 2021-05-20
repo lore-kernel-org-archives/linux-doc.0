@@ -2,81 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62212C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 06:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED88C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 06:54:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3447F6108C
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 06:53:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6455961186
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 06:54:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbhETGyw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 02:54:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37748 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbhETGyv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 02:54:51 -0400
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A44C061574
-        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 23:53:30 -0700 (PDT)
-Received: by mail-ot1-x335.google.com with SMTP id i23-20020a9d68d70000b02902dc19ed4c15so14023198oto.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 23:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=Ns+VpxGz17p6h6biqwMh9xnfnWGEv9mtiqQ0o4rGuKQ=;
-        b=E2kgmY/ehIrqLeBhct1fawqLdacuRHwqRv9VzOHSjhoRuCs+gFl0DslCnKxjdi0Fvo
-         ihOFnR+5zbM6AsF+n7PuspR46GyIhTfupvvUKpOfHXiJTrOeS25pBfA/CPOvgnmu7Fpf
-         +DUu9dGXPm8JHwY1FUt8SY+Sxhqgp5wbIZhcg=
+        id S231126AbhETG4R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 02:56:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55303 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231236AbhETG4F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 02:56:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621493684;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9tEv83ZtFMHbXTaEtn+9i7YCHaEzdnQPBIaLpxqVr78=;
+        b=H0dweLnGTy1G1OxNMxlFXvTjLb0IIbRYo5A6OIsElZHo+mrJJ/gMk3rka4QAdiGSdcaZ9Y
+        SVBTIG1SYmsIkqkoYqaEPwHZtyS2EH1u2cwI74geChfx5GzNS3aHT0w/OTX5g/tl+kXDjj
+        BbwVu7pYy1nbwBROOM+bP5oq20CuO8A=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-pCgJtQknOiy3zFgDJ0-Sog-1; Thu, 20 May 2021 02:54:42 -0400
+X-MC-Unique: pCgJtQknOiy3zFgDJ0-Sog-1
+Received: by mail-ed1-f72.google.com with SMTP id cn20-20020a0564020cb4b029038d0b0e183fso9044677edb.22
+        for <linux-doc@vger.kernel.org>; Wed, 19 May 2021 23:54:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=Ns+VpxGz17p6h6biqwMh9xnfnWGEv9mtiqQ0o4rGuKQ=;
-        b=bSR3QCFp29M5bDGdi/uH9h6ZDruIKXF7vAGiKTp/u1Db4MIUQizj9HhPhDZXIPF3Ey
-         leQ/1RXpadh5xQrbV6lk49GEz+9nhKVXdftPAMA5Lw7FulWSUffq9bCIogObmQUP+hH6
-         imBz4mtHVjrtBlmBKu2/44iYiHFmm+bAyOYyic1LBNVSvN3U2T6IC8tGmJc5a77qU54y
-         /uLd3qWCWE/F944fm0WJ8j+Mae0uokjeZyAXDa/5L6YVVqX71jBYuTuh32O0kKH2DWug
-         dlezrdfabZRmcnZZH4NPLmygp08Bp8xCQ6ALvGZE1MDcCC1HbY0VAOe6FvaXC5MFuv17
-         9GUQ==
-X-Gm-Message-State: AOAM533R2M9/Gskzjkd9vIPaBqYgWQANKkqh2bssRh+89FfCFqKQaxKS
-        DxFedzB0s0bclQ7CAtCIBoOVg65k0Cm9wm1wh2HroBu/1zA=
-X-Google-Smtp-Source: ABdhPJyB2Q398wqP3pj8Thgq5RMtE0ndaZ/BOtobMApD7cGjWqxqgUev3Hy7kwVH8X5YoO/OaWu/wxagi7URzNewoAc=
-X-Received: by 2002:a9d:1ea9:: with SMTP id n38mr2737986otn.233.1621493610041;
- Wed, 19 May 2021 23:53:30 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 20 May 2021 02:53:29 -0400
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9tEv83ZtFMHbXTaEtn+9i7YCHaEzdnQPBIaLpxqVr78=;
+        b=oWLuQ/r0Tdihcg7enthGz+iIQg3yRCwLksqCh55eVt+PBqGCL0chUndxTrbVHIYbwT
+         lodpc6/oJ8C5GHRCkz5rUCEXQuEK82qoCDMZWIASqixfCwXeEpsbfo2URiBP+esOS3S1
+         ATa3xkdPd4nB8C0JwyW0XCWZcmPoQAyrHzvj73OGU/ocbOnnw8OAudpJV0RRwIBHAk9L
+         53M0ahy6KRWaaCemCTEmvUBN7a3qS1ZIIBtnxMhzym2+VRLEjqEPmdiLKn9/rDhctBBX
+         3/+Lq9c6c13y1+EH/a9eIKZ4OcgpZCOtc6KQeF/bfzmdzjZY5j6qghQ9UKE09czvFfVY
+         bUNA==
+X-Gm-Message-State: AOAM530Xnh5ecYnSC9G7ikXrL02XM31AhJBrpJLn7y14ibZCT2rG595k
+        4bUYgciD6wOuyCAHNNhHxIp9fvmUon8HXeI47HXvzqsOt5RVGkKfmk3bDC/dUggSxXbGn1gksTn
+        xNw18Y7elKfZ/NFR9yU3Xms+sppBF39I32Bv1zmgUQ7PHYjF0qb/hOg/QBovIwfW2LPval78=
+X-Received: by 2002:a17:906:fa93:: with SMTP id lt19mr3200260ejb.14.1621493681192;
+        Wed, 19 May 2021 23:54:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxf06tuHryELST2SZKhY8gB1gHwWH7k04TmUp1Y+F+oS5yedzBZh3TNtH22ORIqKZW/RO+wHQ==
+X-Received: by 2002:a17:906:fa93:: with SMTP id lt19mr3200227ejb.14.1621493680938;
+        Wed, 19 May 2021 23:54:40 -0700 (PDT)
+Received: from x1.bristot.me (host-87-19-51-73.retail.telecomitalia.it. [87.19.51.73])
+        by smtp.gmail.com with ESMTPSA id hz10sm909238ejc.40.2021.05.19.23.54.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 May 2021 23:54:40 -0700 (PDT)
+Subject: Re: [RFC PATCH 01/16] rv: Add Runtime Verification (RV) interface
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Gabriele Paoloni <gabriele.paoloni@intel.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>, linux-doc@vger.kernel.org
+References: <cover.1621414942.git.bristot@redhat.com>
+ <ad69b06e9e3a5ec9ad2a49d290b719a96dcc471e.1621414942.git.bristot@redhat.com>
+ <90c917eb-f0a8-3ef5-b63d-d88c1f6919a1@infradead.org>
+From:   Daniel Bristot de Oliveira <bristot@redhat.com>
+Message-ID: <f834d8e7-1027-9573-63ff-eedc49884b78@redhat.com>
+Date:   Thu, 20 May 2021 08:54:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210520031801.2455665-1-siyanteng@loongson.cn>
-References: <20210520031801.2455665-1-siyanteng@loongson.cn>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Thu, 20 May 2021 02:53:29 -0400
-Message-ID: <CAE-0n50Uve4gEwDfJ4wt-tFBjJkStJ1Eb6jHntjcRML-HCkGUw@mail.gmail.com>
-Subject: Re: [PATCH] docs: core-api: Documentation build warning fix
-To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        rostedt@goodmis.org
-Cc:     linux-doc@vger.kernel.org, senozhatsky@chromium.org,
-        andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <90c917eb-f0a8-3ef5-b63d-d88c1f6919a1@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Yanteng Si (2021-05-19 20:18:01)
-> commit 821c734b5b073cc2a87fff29f434a8ccffa7db56 add printk formats to add module build ID to stacktraces.
->
-> Causes the following warning:
-> Documentation/core-api/printk-formats.rst:137: WARNING: Unexpected indentation.
-> Documentation/core-api/printk-formats.rst:138: WARNING: Block quote ends without a blank line; unexpected unindent.
->
-> So, add a blank line to the end of "::".
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
+On 5/19/21 8:10 PM, Randy Dunlap wrote:
+> On 5/19/21 4:36 AM, Daniel Bristot de Oliveira wrote:
+>> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+>> new file mode 100644
+>> index 000000000000..e8e65cfc7959
+>> --- /dev/null
+>> +++ b/kernel/trace/rv/Kconfig
+>> @@ -0,0 +1,13 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +#
+>> +menuconfig RV
+>> +	bool "Runtime Verification"
+>> +	depends on TRACING
+>> +	default y if DEBUG_KERNEL
+> 
+> No need for default y. There are other reasons to use DEBUG_KERNEL
+> without wanting RV turned on.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+yes, you are right, I will remove it.
+
+>> +	help
+>> +	  Enable the kernel runtime verification infrastructure. RV is a
+>> +	  lightweight (yet rigorous) method that complements classical
+>> +	  exhaustive verification techniques (such as model checking and
+>> +	  theorem proving). RV works by analyzing the trace of the system's
+>> +	  actual execution, comparing it against a formal specification of
+>> +	  the system behavior.
+> 
+> And in the cover/patch 00:
+> tlrd:
+> should be
+> tl;dr:
+> or at least
+> tldr:
+> :)
+
+Ack!
+
+Thanks!
+-- Daniel
+
