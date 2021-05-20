@@ -2,92 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89866C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:36:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B53C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:45:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F5AB61363
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:36:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 943CF613BE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 20:45:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235604AbhETUhZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 16:37:25 -0400
-Received: from smtp-34.italiaonline.it ([213.209.10.34]:47636 "EHLO libero.it"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234997AbhETUhY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 16:37:24 -0400
-X-Greylist: delayed 489 seconds by postgrey-1.27 at vger.kernel.org; Thu, 20 May 2021 16:37:24 EDT
-Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
- ([82.60.150.250])
-        by smtp-34.iol.local with ESMTPA
-        id jpGWlKVEa5WrZjpGqlTUNb; Thu, 20 May 2021 22:27:52 +0200
-x-libjamoibt: 1601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
-        t=1621542472; bh=o/VOXlmBh1ZPZnnDv+64KXqpTUEGPerJE1a/PoV9LoU=;
-        h=From;
-        b=h+mYj61r2xOt1YhNmBxJpHL+MEu5uTWM9JEshHiHXHgKd2RJCbGXEVHZTgBjZKLJx
-         MrRhmRkF0LQNxRNxY0mLgv1YJWqE1hniHZYFqeNY8pPx7SKJXtAwM+966MCwLj1xPx
-         DObtLPpYi/ct5fcL4DtBdvKi3DznMOLJNTKnlsvH1VRP3dfp6ck8ugE13ZXaunllTh
-         +6tyk6UPIzNeLBSUmFAnizce9J94YRznIbC3vjm/Dt9HgoA3fvZS/LvFvYTXP9jEdH
-         83xoHKJhoK1Ndmfar3IBiDWffx4yKLXrNBYijq7Ue2CoVxHZHtjcpyUafO6P2O3Gtt
-         RJle74aI88PRQ==
-X-CNFS-Analysis: v=2.4 cv=W4/96Tak c=1 sm=1 tr=0 ts=60a6c648 cx=a_exe
- a=QSJ1svMVA5tvcuOEAX2Bgw==:117 a=QSJ1svMVA5tvcuOEAX2Bgw==:17
- a=SMixqbvZskzAqJ1qg7QA:9
-From:   Dario Binacchi <dariobin@libero.it>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dario Binacchi <dariobin@libero.it>,
-        Tony Lindgren <tony@atomide.com>,
-        Drew Fustini <drew@beagleboard.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Subject: [PATCH v3 1/3] docs/pinctrl: update `pins' description under debugfs
-Date:   Thu, 20 May 2021 22:27:28 +0200
-Message-Id: <20210520202730.4444-2-dariobin@libero.it>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210520202730.4444-1-dariobin@libero.it>
-References: <20210520202730.4444-1-dariobin@libero.it>
-X-CMAE-Envelope: MS4xfC4IQyqC8yCTSZda7J5PnkJEZPbrYTBhBMpEICGiISDhj3SIApr58H3eUSX81XdpOeXFDgL4V8j6laxA6ZXoeDcOKIUSg9cKw9BjupDw/smTuSgUSlBr
- souIJhr6BvMOTnSpF4hwcJZS2Wqo/yklxTVGnC3TB8HlcSbXC3rsDCkzKfsgd1p6638feX3hC6nWXWDZcvgmMmXO3wW/tFtS6uaEKFqgATGlgZOQ+hSrwAFe
- Et0byIGpu8McQQG78e6hnTxI1qp0Hg5AJyXexs7/jTHJityWfH/4UoeKEZstSCnwPQViTVNeGaHRmyeyanWUEgGxPVIsL+OXs7edxmOzRXv6HYa85nOVaQeK
- bGX30ln9MURWLXnNh4dLXP7lZkgCY/DjJkMTBi5F6HuPhDWw7XKwz5i57vxVJ7KS0zSz3ZdI34sAT0LyKluvUvBb1Q0ldjgiY7+QdDLqmhghcrhdhytYHtq4
- /Hf8Cn07xvWV+J06QPnjBubUpIFRw2ZizMnkwg==
+        id S229532AbhETUrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 16:47:09 -0400
+Received: from ms.lwn.net ([45.79.88.28]:34278 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229455AbhETUrJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 May 2021 16:47:09 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0572E307;
+        Thu, 20 May 2021 20:45:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0572E307
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1621543547; bh=JuC7by8pKyIGHMXYDCfFRTmxtsigqmtpm8lM5fb+p8M=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=CbP2HhZCz+Et9uvPSgZxl3/PNPK23WYQipYI5hFaWF3P/pNPPj/Z9Eta6nh9DZdzx
+         BBTWSYD74GkSaJJ2RQiKDutLNbUDwXRsmlodFo6E4x0TTKXjBVc1UJ3pjebgOv/sIf
+         EQc3SiRfpOlgb6Bu4r7o95U3p5Htzfsb/FIVIJ5SnBOeBuKxVWj1p7SjH7uU68pECu
+         2hvL7taUMAfJLW4JtKFGifxK2XfRM7Ti0Nl5hJFIKa0sJfHACWlc9M8WP4upYlSxz8
+         T8MpTg9e8sOtqsrJqNVyTkOvaM6jMt++WewwLJaUdEol7ad3RL/i5O5Wh0R3XdWNIs
+         P1mdBY6lvPCvQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Joe Perches <joe@perches.com>
+Subject: Re: [PATCH] docs: Add more message type documentations for checkpatch
+In-Reply-To: <CABJPP5D=Z6Uwr5hihB1yHjxcww=QO8Ju46m1eruRTuJkKWDXpw@mail.gmail.com>
+References: <20210515132348.19082-1-dwaipayanray1@gmail.com>
+ <87k0ntnoyq.fsf@meer.lwn.net>
+ <CABJPP5D=Z6Uwr5hihB1yHjxcww=QO8Ju46m1eruRTuJkKWDXpw@mail.gmail.com>
+Date:   Thu, 20 May 2021 14:45:46 -0600
+Message-ID: <87y2c9m8w5.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Optionally the `pins' file created inside the `/sys/kernel/debug/pinctrl'
-subdirectory of each pin controller device now allows you to set the
-mux register of a pin.
+Dwaipayan Ray <dwaipayanray1@gmail.com> writes:
 
-Signed-off-by: Dario Binacchi <dariobin@libero.it>
----
+> (Adding Joe for comments)
+>
+>> We really shouldn't be linking to outside sites - even kernel.org - when
+>> referring to the kernel docs themselves.  Just say
+>> "Documentation/timers/timers-howto" and let the build system handle the
+>> links.
+>>
+>> There's a lot of these in this file, alas...
+>>
+>> I've applied this patch since it makes things better overall, but I
+>> would really like to see all those URLs go away if possible.
+>>
+>
+> Thanks Jonathan.
+>
+> Yes it might make things better for the documentation, but again
+> since we are using these descriptions in checkpatch's --verbose mode,
+> we shall lose the ability to show the links there which I think is currently
+> a good addition for the end user.
+>
+> And I don't think there will be a way to generate these links in checkpatch
+> without sphinx's build system....
 
-(no changes since v1)
+Ah, OK, I wasn't thinking about that aspect of things; that does change
+the situation a bit.
 
- Documentation/driver-api/pin-control.rst | 3 +++
- 1 file changed, 3 insertions(+)
+It wouldn't be that hard to do an equivalent of the automarkup magic in
+checkpatch to create the relevant links, but I'm not so set on this as
+to try to require that.  The links can be as they are, sorry for the
+noise.
 
-diff --git a/Documentation/driver-api/pin-control.rst b/Documentation/driver-api/pin-control.rst
-index e2474425fb0c..3d8192fa45a3 100644
---- a/Documentation/driver-api/pin-control.rst
-+++ b/Documentation/driver-api/pin-control.rst
-@@ -1447,6 +1447,9 @@ controller device containing these files:
- 
- - ``pins``: prints a line for each pin registered on the pin controller. The
-   pinctrl driver may add additional information such as register contents.
-+  Optionally writes the mux register for the selected pin.
-+  e.g. to write the value 0x73 in the mux register of pin 19:
-+  echo 19 0x73 >/sys/kernel/debug/pinctrl/pins
- 
- - ``gpio-ranges``: print ranges that map gpio lines to pins on the controller
- 
--- 
-2.17.1
+Thanks,
 
+jon
