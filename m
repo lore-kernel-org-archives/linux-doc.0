@@ -2,178 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F0CDC433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 09:59:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADABBC433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 11:07:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60AE36135A
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 09:59:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8990B613D8
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 11:07:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233632AbhEUKAh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 06:00:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53096 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236450AbhEUJ7U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 05:59:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BACE96135A;
-        Fri, 21 May 2021 09:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621591078;
-        bh=i4/KWLucX/hjgHaCwrMiynh+kfxBdskVyva3d5c9t7Q=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jt58pA8gUebfDrvf8VaIs9jNOmZdcHZVXBZu+j0balTLXBwqIxkuU8+pSogE0NjN5
-         0APDefdnLHE9x+YIw/3IRpwbLQc0I9PkO6SMg8ZB8IhX50fbmRCIImhrprQeE2wMg0
-         nZ0KXj2LG4SbiQ4BdHImK+2mKQqROjAF7DR2naJ1lxkkmat7lhlQVcJHJ0mb2BbkOb
-         XLRD4gmAWCUOE0LW42MDwAVG5VbZ+2KYkIu2CMhWdJY49nxKgeUhCvWAquDcgZlcN9
-         LeJrgkS5v5VtPURZHdGTFkpn760QlZzLFm/KQ9SXdk5Np8TAvyrvab6TVndKRxsLEx
-         MzwdvcrAV59Ow==
-Date:   Fri, 21 May 2021 11:57:52 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
-        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
- on Intel NUC
-Message-ID: <20210521115752.419f3ebf@coco.lan>
-In-Reply-To: <20210520214356.0392f374@thinkpad>
-References: <cover.1621349813.git.mchehab+huawei@kernel.org>
-        <20210519111107.GC24621@duo.ucw.cz>
-        <20210519141508.6e7a4d56@coco.lan>
-        <20210519194115.GA31672@duo.ucw.cz>
-        <20210520010720.32265ad4@coco.lan>
-        <20210520181919.608568b2@thinkpad>
-        <20210520211615.437e22ee@coco.lan>
-        <20210520214356.0392f374@thinkpad>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S233790AbhEULJD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 07:09:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52366 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232440AbhEULJB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 07:09:01 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F3E0C061574;
+        Fri, 21 May 2021 04:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ObNNvk5ry4Rr/23+NfAGXtBimeOIxIPRf038SU5RHOk=; b=FiEhqrcV/GkVBKgagTj9LwzKlS
+        ehpgH945UknxJ9sgb3O2EYL9bYQ4OjZ/DkJyE6SykCStVyvy/EoaJU8YLkE+7OasGKSGMGxAUjWJw
+        uoORuNWcMuFLn48ExE0zp7IjteKa32YGNQKnfZVo8ebharrJ9nKhtUYHS3f6+gSet88UikupQprbG
+        2CSZ43d6mrqB/luL93c05Rz2YwOLgLK1AGwBtXrtkWHzg4eec/6rlFnDV3VxkY3TX8U5Ql7ZU5HvC
+        L0lHejuFjOIkpRW8GL2wDwTprbvYyyH5IihR7Zs0L6luVk32QK5zmgzF7kUuEb2ev4Y3GYSlR20S6
+        n/7bZFtQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lk2yT-00Gtyb-9M; Fri, 21 May 2021 11:06:20 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E6053300103;
+        Fri, 21 May 2021 13:05:47 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id D4EB73119BA4E; Fri, 21 May 2021 13:05:47 +0200 (CEST)
+Date:   Fri, 21 May 2021 13:05:47 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     Xiongwei Song <sxwjean@me.com>, mingo@redhat.com, will@kernel.org,
+        longman@redhat.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Xiongwei Song <sxwjean@gmail.com>
+Subject: Re: [PATCH] docs: lockdep-design: correct the notation for writer
+Message-ID: <YKeUC5tSxTMJt9E0@hirez.programming.kicks-ass.net>
+References: <1621578594-13237-1-git-send-email-sxwjean@me.com>
+ <YKd1aVkojNsx4wrl@boqun-archlinux>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKd1aVkojNsx4wrl@boqun-archlinux>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 20 May 2021 21:43:56 +0200
-Marek Beh=C3=BAn <kabel@kernel.org> escreveu:
+On Fri, May 21, 2021 at 04:55:05PM +0800, Boqun Feng wrote:
+> On Fri, May 21, 2021 at 02:29:54PM +0800, Xiongwei Song wrote:
+> > From: Xiongwei Song <sxwjean@gmail.com>
+> > 
+> > The block condition matrix is using 'E' as the writer noation here, so it
+> > would be better to use 'E' as the reminder rather than 'W'.
+> > 
+> 
+> Good catch!
+> 
+> > Signed-off-by: Xiongwei Song <sxwjean@gmail.com>
+> 
+> Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
 
-> On Thu, 20 May 2021 21:16:15 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->=20
-> > So, assuming that we will have one trigger per each hardware
-> > state, it could have something like (names subject to change):
-> >=20
-> > 	- hw:powerstate
-> > 	- hw:disk_activity
-> > 	- hw:ethernet_activity
-> > 	- hw:wifi_active
-> > 	- hw:power_limit
-> >=20
-> > Right? =20
->=20
-> Yes, but we should really try to map ethernet_activity to netdev and
-> disk_activity to a potential blkdev trigger :-) That's my opinion.
->=20
-> > It still needs to indicate two other possible states:
-> >=20
-> > 	- software controlled led;
-> > 	- led is disabled.
-> >=20
-> > Setting led's brightness to zero is different than disabling
-> > it.=20
-> >
-> > Disabling can be done via BIOS, but BIOS config doesn't allow
-> > setting the brightness. There are other difference on BIOS settings:
-> > it allow disabling each/all LED controls and/or to disable software=20
-> > control of each LED.
-> >=20
-> > So, we need a way at the API to uniquely identify when the LED
-> > is software-controlled and when it is disabled.
-> > Would it be something like:
-> >=20
-> > 	- hw:disable
-> >=20
-> > trigger? or better to implement it on a different way? =20
->=20
-> What is the functional difference (visible to the user) between zero
-> brightness and disabled LED? IMO if user says
->   echo 0 >brightness
-> you can just disable the LED. Or is this impossible?
-
-echo 0 >brightness will turn off the LED, but it won't
-disable it. A trigger can still be enabled on it.
-
-With a disabled LED, depending on how it was disabled,=20
-it can't be enabled in runtime. One may need to boot the=20
-machine and use BIOS setup to enable it. Trying to change
-such LED in runtime will return an error.
-
-> =20
-> > > Is the speed of breathing/strobing also adjustable? Or only when
-> > > pulsing?   =20
-> >=20
-> > Yes, speed is also adjustable, from 0.1 to 1.0 HZ, in 0.1 Hz
-> > (NUC 8 and above).
-> >=20
-> > The NUC6 API is more limited than NUC8+: it has just two
-> > blink patterns (blink, fade), and only 3 frequencies are allowed
-> > (0.25 Hz, 0.50 Hz and 1.0 Hz).
-> >  =20
-> > > When this "hw:powerstate" trigger is enabled for this LED,
-> > > only then another sysfs files should appear in this LED's sysfs
-> > > directory.   =20
-> >=20
-> > OK, makes sense.=20
-> >=20
-> > Out of curiosity: is it reliable to make sysfs nodes appear and
-> > disappear dynamically? Does inotify (or something similar) can
-> > be used to identify when such nodes appear/disappear?
-> >=20
-> > I remember a long time ago I wanted to use something like that=20
-> > at the media (or edac?) subsystem, but someone (Greg, I think)
-> > recommended otherwise due to some potential racing issues. =20
->=20
-> No idea, but I would guess yes.
->=20
-> > > I'd rather use one file for frequencies and one for intervals, and map
-> > > in to an array, but that is just my preference...   =20
-> >=20
-> > By intervals are you meaning 1/frequency? So, basically exposing
-> > the frequency as two fields? If so, it sounds overkill to me to have bo=
-th.  =20
->=20
-> Sorry, I meant one file for frequencies and one for patterns.
-
-Ah, makes sense. Yeah, that's how I mapped it.
-
-> > Btw, maybe instead of "blink_behavior" it could use "blink_pattern".
-> >=20
-> > This would diverge from the datahseet name, but it probably describes
-> > better what will be controlled when blink is enabled:
-> >=20
-> > 	- frequency (or inverval)
-> > 	- pattern
-> >  =20
-> > > Regarding the enum with 8 colors: are these
-> > > colors red, yellow, green, cyan, blue, magenta? Because if so, then
-> > > this is RGB with each channel being binary :) So you can again use
-> > > multicolor framework.   =20
-> >=20
-> > The dual-colored ones aren't RGB. Two types are supported:
-> > 	- Blue/Amber
-> > 	- Blue/White =20
->=20
-> These would need a new API, ignore these for now.
-
-This affects mainly NUC6 part of the API. I'll postpone it.
-
-Yet, IMHO, the best here is to do exactly how I did: use the
-"normal" leds class and add a "color" attribute that can=20
-either be "blue" or "amber" written on it (for a  blue/amber=20
-kind of LED).
-
-Thanks,
-Mauro
+Thanks!
