@@ -2,184 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD7C6C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 06:53:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF4BC433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 07:10:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2B09613BD
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 06:53:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3987613D8
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 07:10:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234202AbhEUGzG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 02:55:06 -0400
-Received: from mail-bn8nam12on2051.outbound.protection.outlook.com ([40.107.237.51]:13280
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        id S235322AbhEUHLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 03:11:30 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:46184 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234422AbhEUGzA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 02:55:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SwWpNtOHEawZVPA25H/MqSJ0BKWXj+DpCsIpQXlSQp+l77yPaZNxv6oFKx7eoqdK+E9oviyom0htAfee1cLT15RFgMpm5cI8H+yV3DpJU/EmfFmYBGhqmOSkDQcAN0Y7GNaMVZm8pxhYwVJWzhwpNJpg8uVBBRRedaLQgu/x0Wqq4ZYNvZjE3Yjta2e2xy/Ez/2JayuVimCauVdWrAhfaBwmljfSxt8fH237vA5WRzQ0gpeVpwDvmGePOKNCLj6ii7OrXsYsR9Tv5+QElwqfZEvyEe+7jC/3oZ52hgf/wRyfl9uEOXBHbsKpweigLRSzQEzy6/VI34bmHQkVcVzlwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vxW8dl0Z1Y3G+EtPy5LMABASUkP42yEBIuHZP1ChjMU=;
- b=Tmjb7utFvV0P668YFy87YBzIKhd952BVEU5+vWTBGP2CJKXDE/+bqN/TeTPX2GL0mofswKfTr0LH9dVLPKMg6DCg3eDceGew7DC/dlXgJhnaDV3MKOtymSj1bWlSHBbu5e7im3jgJ7e3C4WRo4ZSFCx7byFKETEkQrMP7uggFbYorQuUGiAecAg81VtMInpo5h1oRUZDq0b+2OCvRnlpY7AC2tR63McHYTy4E1mchJb3xoxKVMM/IAhkNW6z1VOtGhw/GB++FrTuSZO5EW7NrlFO4A8vLX2m80M6bU9D8IXTG0CnpmpfH8Zmc3nL445PECCRNc1VUsmKzIQ1zpXoHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vxW8dl0Z1Y3G+EtPy5LMABASUkP42yEBIuHZP1ChjMU=;
- b=takfdyALiMWj5FfVlYHThYL83LX50kGKMdaaLrTVxubUsE/KVjPF44oXD+nLHo85Gwv50OQ8jyRT4NEXsYNEG3D8PvngLvCMb0rbhxs8JLd63G/22aAY9KbrUeLx6gLyId1HehaIGBg7g5vzIcUjDuXZiM1k28V0HEWrTi/168hvjdqu4px17IPxwr/l+aLgedCZZo3eq4pXGTsUIdejcdujj4bZQk3vrNrswQjnbJnxphKsAsdeO5xyfbjqbBOvK/9Z6EmyJOXqzKt2zsf/CPG4RCPhbljti7FOK+M3Yp3xby1LXjcbHSNCKBB3RNgEyWfh7qro16a80WrTa4xVEA==
-Received: from MWHPR12CA0059.namprd12.prod.outlook.com (2603:10b6:300:103::21)
- by DM6PR12MB4634.namprd12.prod.outlook.com (2603:10b6:5:165::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Fri, 21 May
- 2021 06:53:36 +0000
-Received: from CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:103:cafe::51) by MWHPR12CA0059.outlook.office365.com
- (2603:10b6:300:103::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23 via Frontend
- Transport; Fri, 21 May 2021 06:53:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT015.mail.protection.outlook.com (10.13.175.130) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4129.25 via Frontend Transport; Fri, 21 May 2021 06:53:35 +0000
-Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 21 May
- 2021 06:53:31 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Peter Xu <peterx@redhat.com>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <jgg@nvidia.com>,
-        <hch@infradead.org>, <daniel@ffwll.ch>, <willy@infradead.org>,
-        <bsingharora@gmail.com>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
-Date:   Fri, 21 May 2021 16:53:29 +1000
-Message-ID: <1959488.yZHLR0KveG@nvdebian>
-In-Reply-To: <47694715.suB6H4Uo8R@nvdebian>
-References: <20210407084238.20443-1-apopple@nvidia.com> <YKMhorngO2DVrxac@t490s> <47694715.suB6H4Uo8R@nvdebian>
+        id S233192AbhEUHL1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 03:11:27 -0400
+Received: from localhost.localdomain (unknown [112.20.113.102])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj0LEXKdgAB4CAA--.883S3;
+        Fri, 21 May 2021 15:09:57 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, bobwxc@email.cn, siyanteng01@gmail.com
+Subject: [PATCH v2 1/2] docs/zh_CN:add core-api refcount-vs-atomic.rst translation.
+Date:   Fri, 21 May 2021 15:10:36 +0800
+Message-Id: <9162060ee59edb51586a950cf00ad9f6e2bbecdb.1621579507.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1621579507.git.siyanteng@loongson.cn>
+References: <cover.1621579507.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 797b2161-51d0-440e-cddb-08d91c25278a
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4634:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB463410D90098CAA3CFBD528BDF299@DM6PR12MB4634.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SxCG/fXmOdExXw2TVx0E9xIMmIAPW+0xUghaPcU14apTmkB5GveWfGS6kQhoVrI+wA6Z6EBbDFAX0Q6aEJMZvffnp9Xv9caK9mEotS/ERtonyHVYGS+8iCFP80wQuR8J2rtrLN7sM0Q4k8iZpS9C2dtgUP7w/eaV+ithek2HJrDL+PRLilPhtNVN2cAkCX37wL7RxsJ7hXRhX1RQEX4dxkFXpQjfg26+ZTH1iwHEr2/SauNNmGJYB32GQY7noyJHEzOZiwftxWBGFRwR0dmVklSyzip3Xf6wy+mJbFLvXNX6Dfq0YNfMzcbvj0F12DdakvAqmJ0im9/Xwbxd2ye5dQ7W4QrWax1Ro/x2neqlE7X94sQzaOAYWEBDm/HRv+QVaBH8GXyY1BpGtBFhEYdaMSL8v6sMfxLZgXtg1QlABMtb75T+0/Ps9fHeSvss4SY2tRLjuKpVTmzFGgbLHafO+aWjOGn2Cx2fFJJfC6BU2cDklgfdA8u7zIZhp3K2L8/ystKQCqBHaxdJCwsgO+NfpTGjXmeGw45Et3yDIwz9OH24aNmkjrfLhYQp/oD0cQDjy8A8MUuUEOHcMCfsebN72peIwzKlvns13zGDtpDgO4W8ZQ8L4kGosTGiJqAgpjy7Es4O7LB+ja/fhpCzv5qu/uN7tVdqMLavWJi4vibq+ujWM0PBfMZ13g56yr7HRfX7
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(39860400002)(396003)(36840700001)(46966006)(47076005)(86362001)(7416002)(8676002)(2906002)(356005)(186003)(82310400003)(6916009)(83380400001)(26005)(82740400003)(316002)(36906005)(33716001)(36860700001)(336012)(4326008)(7636003)(9576002)(8936002)(70586007)(478600001)(70206006)(54906003)(16526019)(426003)(9686003)(5660300002)(39026012);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 06:53:35.1791
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 797b2161-51d0-440e-cddb-08d91c25278a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4634
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxj0LEXKdgAB4CAA--.883S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxKrW3Ary8JFW5Ww4fXFyDAwb_yoW3XFy5pr
+        ZIqr93Ga13Wa45ZryDW340qw1xJa48Ca98Kw4xJF1rJrn7u345Jw48KFyfXryUGr97AFWU
+        XF47u3yjkr4UZ3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBa14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+        x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+        8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+        xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+        vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+        r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8CwCF04k20x
+        vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+        3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+        AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
+        cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+        IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUfKsbUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, 18 May 2021 11:19:05 PM AEST Alistair Popple wrote:
+Translate Documentation/core-api/refcount-vs-atomic.rst into Chinese.
 
-[...]
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/core-api/index.rst     |   3 +-
+ .../zh_CN/core-api/refcount-vs-atomic.rst     | 154 ++++++++++++++++++
+ 2 files changed, 156 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/refcount-vs-atomic.rst
 
-> > > +/*
-> > > + * Restore a potential device exclusive pte to a working pte entry
-> > > + */
-> > > +static vm_fault_t remove_device_exclusive_entry(struct vm_fault *vmf)
-> > > +{
-> > > +     struct page *page = vmf->page;
-> > > +     struct vm_area_struct *vma = vmf->vma;
-> > > +     struct page_vma_mapped_walk pvmw = {
-> > > +             .page = page,
-> > > +             .vma = vma,
-> > > +             .address = vmf->address,
-> > > +             .flags = PVMW_SYNC,
-> > > +     };
-> > > +     vm_fault_t ret = 0;
-> > > +     struct mmu_notifier_range range;
-> > > +
-> > > +     if (!lock_page_or_retry(page, vma->vm_mm, vmf->flags))
-> > > +             return VM_FAULT_RETRY;
-> > > +     mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma,
-> > > vma->vm_mm,
-> > > +                             vmf->address & PAGE_MASK,
-> > > +                             (vmf->address & PAGE_MASK) + PAGE_SIZE);
-> > > +     mmu_notifier_invalidate_range_start(&range);
-> > 
-> > I looked at MMU_NOTIFIER_CLEAR document and it tells me:
-> > 
-> > * @MMU_NOTIFY_CLEAR: clear page table entry (many reasons for this like
-> > * madvise() or replacing a page by another one, ...).
-> > 
-> > Does MMU_NOTIFIER_CLEAR suite for this case?  Normally I think for such a
-> > case (existing pte is invalid) we don't need to notify at all.  However
-> > from what I read from the whole series, this seems to be a critical point
-> > where we'd like to kick the owner/driver to synchronously stop doing
-> > atomic
-> > operations from the device.  Not sure whether we'd like a new notifier
-> > type, or maybe at least comment on why to use CLEAR?
-> 
-> Right, notifying the owner/driver when it no longer has exclusive access to
-> the page and allowing it to stop atomic operations is the critical point and
-> why it notifies when we ordinarily wouldn't (ie. invalid -> valid).
-> 
-> I did consider adding a new type, but in the driver implementation it ends
-> up
-> being treated the same as a CLEAR notification anyway so didn't think it was
-> necessary. But I suppose adding a different type would allow other listening
-> notifiers to filter these which might be worthwhile.
->
-> > > +
-> > > +     while (page_vma_mapped_walk(&pvmw)) {
-> > 
-> > IIUC a while loop of page_vma_mapped_walk() handles thps, however here
-> > it's
-> > already in do_swap_page() so it's small pte only?  Meanwhile...
-> > 
-> > > +             if (unlikely(!pte_same(*pvmw.pte, vmf->orig_pte))) {
-> > > +                     page_vma_mapped_walk_done(&pvmw);
-> > > +                     break;
-> > > +             }
-> > > +
-> > > +             restore_exclusive_pte(vma, page, pvmw.address, pvmw.pte);
-> > 
-> > ... I'm not sure whether passing in page would work for thp after all, as
-> > iiuc we may need to pass in the subpage rather than the head page if so.
-> 
-> Hmm, I need to check this and follow up.
-
-Thanks Peter for pointing that out. I needed to follow this up because I had 
-slightly misunderstood page_vma_mapped_walk(). As you say this is actually a 
-small pte and restore_exclusive_pte() needs the actual page from the fault. So 
-I should be able to drop the page_vma_mapped_walk() and use 
-pte_offset_map_lock() to call restore_exclusive_pte directly.
-
- - Alistair
-
-
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index a1dd792e46f7..90c9a72a4b0e 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -65,10 +65,11 @@ Linux如何让一切同时发生。 详情请参阅
+    :maxdepth: 1
+ 
+    irq/index
++   refcount-vs-atomic
++
+ 
+ Todolist:
+ 
+-   refcount-vs-atomic
+    local_ops
+    padata
+    ../RCU/index
+diff --git a/Documentation/translations/zh_CN/core-api/refcount-vs-atomic.rst b/Documentation/translations/zh_CN/core-api/refcount-vs-atomic.rst
+new file mode 100644
+index 000000000000..ea834e38d2f6
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/refcount-vs-atomic.rst
+@@ -0,0 +1,154 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/refcount-vs-atomic.rst
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_refcount-vs-atomic:
++
++
++=======================================
++与atomic_t相比，refcount_t的API是这样的
++=======================================
++
++.. contents:: :local:
++
++简介
++====
++
++refcount_t API的目标是为实现对象的引用计数器提供一个最小的API。虽然来自
++lib/refcount.c的独立于架构的通用实现在下面使用了原子操作，但一些 ``refcount_*()``
++和 ``atomic_*()`` 函数在内存顺序保证方面有很多不同。本文档概述了这些差异，并
++提供了相应的例子，以帮助开发者根据这些内存顺序保证的变化来验证他们的代码。
++
++本文档中使用的术语尽量遵循tools/memory-model/Documentation/explanation.txt
++中定义的正式LKMM。
++
++memory-barriers.txt和atomic_t.txt提供了更多关于内存顺序的背景，包括通用的
++和针对原子操作的。
++
++内存顺序的相关类型
++==================
++
++.. note:: 下面的部分只涵盖了本文使用的与原子操作和引用计数器有关的一些内存顺
++   序类型。如果想了解更广泛的情况，请查阅memory-barriers.txt文件。
++
++在没有任何内存顺序保证的情况下（即完全无序），atomics和refcounters只提供原
++子性和程序顺序（program order, po）关系（在同一个CPU上）。它保证每个
++``atomic_* ()`` 和 ``refcount_*()`` 操作都是原子性的，指令在单个CPU上按程序
++顺序执行。这是用READ_ONCE()/WRITE_ONCE()和比较并交换原语实现的。
++
++强（完全）内存顺序保证在同一CPU上的所有较早加载和存储的指令（所有程序顺序较早
++[po-earlier]指令）在执行任何程序顺序较后指令（po-later）之前完成。它还保证
++同一CPU上储存的程序优先较早的指令和来自其他CPU传播的指令必须在该CPU执行任何
++程序顺序较后指令之前传播到其他CPU（A-累积属性）。这是用smp_mb()实现的。
++
++RELEASE内存顺序保证了在同一CPU上所有较早加载和存储的指令（所有程序顺序较早
++指令）在此操作前完成。它还保证同一CPU上储存的程序优先较早的指令和来自其他CPU
++传播的指令必须在释放（release）操作之前传播到所有其他CPU（A-累积属性）。这是用
++smp_store_release()实现的。
++
++ACQUIRE内存顺序保证了同一CPU上的所有后加载和存储的指令（所有程序顺序较后
++指令）在获取（acquire）操作之后完成。它还保证在获取操作执行后，同一CPU上
++储存的所有程序顺序较后指令必须传播到所有其他CPU。这是用
++smp_acquire__after_ctrl_dep()实现的。
++
++对Refcounters的控制依赖（取决于成功）保证了如果一个对象的引用被成功获得（引用计数
++器的增量或增加行为发生了，函数返回true），那么进一步的存储是针对这个操作的命令。对存
++储的控制依赖没有使用任何明确的屏障来实现，而是依赖于CPU不对存储进行猜测。这只是
++一个单一的CPU关系，对其他CPU不提供任何保证。
++
++
++函数的比较
++==========
++
++情况1） - 非 “读/修改/写”（RMW）操作
++------------------------------------
++
++函数变化:
++
++ * atomic_set() --> refcount_set()
++ * atomic_read() --> refcount_read()
++
++内存顺序保证变化:
++
++ * none (两者都是完全无序的)
++
++
++情况2） - 基于增量的操作，不返回任何值
++--------------------------------------
++
++函数变化:
++
++ * atomic_inc() --> refcount_inc()
++ * atomic_add() --> refcount_add()
++
++内存顺序保证变化:
++
++ * none (两者都是完全无序的)
++
++情况3） - 基于递减的RMW操作，没有返回值
++---------------------------------------
++
++函数变化:
++
++ * atomic_dec() --> refcount_dec()
++
++内存顺序保证变化:
++
++ * 完全无序的 --> RELEASE顺序
++
++
++情况4） - 基于增量的RMW操作，返回一个值
++---------------------------------------
++
++函数变化:
++
++ * atomic_inc_not_zero() --> refcount_inc_not_zero()
++ * 无原子性对应函数 --> refcount_add_not_zero()
++
++内存顺序保证变化:
++
++ * 完全有序的 --> 控制依赖于存储的成功
++
++.. note:: 此处 **假设** 了，必要的顺序是作为获得对象指针的结果而提供的。
++
++
++情况 5） - 基于Dec/Sub递减的通用RMW操作，返回一个值
++---------------------------------------------------
++
++函数变化:
++
++ * atomic_dec_and_test() --> refcount_dec_and_test()
++ * atomic_sub_and_test() --> refcount_sub_and_test()
++
++内存顺序保证变化:
++
++ * 完全有序的 --> RELEASE顺序 + 成功后ACQUIRE顺序
++
++
++情况6）其他基于递减的RMW操作，返回一个值
++----------------------------------------
++
++函数变化:
++
++ * 无原子性对应函数 --> refcount_dec_if_one()
++ * ``atomic_add_unless(&var, -1, 1)`` --> ``refcount_dec_not_one(&var)``
++
++内存顺序保证变化:
++
++ * 完全有序的 --> RELEASE顺序 + 控制依赖
++
++.. note:: atomic_add_unless()只在执行成功时提供完整的顺序。
++
++
++情况7）--基于锁的RMW
++--------------------
++
++函数变化:
++
++ * atomic_dec_and_lock() --> refcount_dec_and_lock()
++ * atomic_dec_and_mutex_lock() --> refcount_dec_and_mutex_lock()
++
++内存顺序保证变化:
++
++ * 完全有序 --> RELEASE顺序 + 控制依赖 + 持有
+-- 
+2.27.0
 
