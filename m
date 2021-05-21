@@ -2,186 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3549CC433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 13:04:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF99C47078
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 14:30:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15542613D9
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 13:04:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5C576135A
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 14:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbhEUNFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 09:05:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230137AbhEUNFk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 09:05:40 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8D7C061574;
-        Fri, 21 May 2021 06:04:16 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id ot16so8998455pjb.3;
-        Fri, 21 May 2021 06:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KazFp94vGYmH79BEM/aZY06cbYtJj9Pb42I1kTX5ais=;
-        b=A1vN4FGQLVWObKaTYn4XZNkCnS0cW7/YlaWSyX7nhnMjI8f+poG6AzkoHKcytcHMm2
-         efBoGGct11QNH6W0lWdNqGUkrEo27SFpR10Ou5o050AzxqPjUh1J58d7Gh+q3OJfaoIk
-         b9TmXmMf9ca7kgAYauSPZGdmpGypj9DQ1vnzozi/Q7T9I6W5qagZGGRwpIofpR6X4cnI
-         yUXzLF0FK6WFUGK4DMWN2RaKXUUlg6sVYIIX9UUpDsEWNrlLvIxalP3Qvd8GgRrIE64G
-         u6pQ2Mv28VsV/SbYshLS/dCo6ne5frT40pIbpbp/MiXijwFR05VwgXMaWg2/a7V5X8/i
-         DlRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KazFp94vGYmH79BEM/aZY06cbYtJj9Pb42I1kTX5ais=;
-        b=BLnxtatWezAUQjT8pVpBO3kD7OqXMRVzeA2J0QOVoF2vxpGYffUTAnRz6Metr9fbyB
-         qZ/XUezGDqXBqMRhC7swFM1Czr3td8ChlDTMCRycTJbyzuFiDY4bZMTNXO+YYsHVgyoY
-         en78naDu7k/pUwPHX8yHRg6Tj49zgLNKUwsLwhO4BAyw/nTDin0HL3eG6er9Xsw9ujB5
-         rnIWGyxoU97Rn4iSpDsVXYBva6GVvJn0qSYpd6TqZ1qesEb+JDPsyQnWmT1G+c52kiUF
-         ZcNEdg10dfzyyz0vr0qOi6rJLRFyNQR/afmpOPQo/uv09Zl1lNURgYAeXhBLgbqEsGOJ
-         8ziQ==
-X-Gm-Message-State: AOAM530lCqT/7PeA+y8IedBk1XoZhciNgBYHSAmBSPg3vlOGFNdz4dwb
-        hgF54Xu+XNY2Nfl4KoMoBi7iOLBkhhs=
-X-Google-Smtp-Source: ABdhPJz/m8bP3ZeWer2qhsavubfZnJpDs1oXVTSQNN2C3kjXoTxbrt6W01I+O9baCBGJyu+Lk/35CQ==
-X-Received: by 2002:a17:902:9b83:b029:ef:4dd5:beab with SMTP id y3-20020a1709029b83b02900ef4dd5beabmr11851112plp.76.1621602255851;
-        Fri, 21 May 2021 06:04:15 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id y64sm4246179pfy.204.2021.05.21.06.04.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 May 2021 06:04:15 -0700 (PDT)
-Subject: Re: [PATCH] docs: sphinx-pre-install: Reword warning on installing
- cjk font
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <c5652bb4-0bb0-9efa-2b80-a79793a8efa8@gmail.com>
- <20210521095442.33957ff3@coco.lan>
- <0c33f48f-150d-caa9-d18b-f1267f679f26@gmail.com>
- <20210521141952.2c575cbe@coco.lan>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <12a4169e-5c50-b6c3-64df-37a9d05199b3@gmail.com>
-Date:   Fri, 21 May 2021 22:04:12 +0900
+        id S236779AbhEUObn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 10:31:43 -0400
+Received: from m12-12.163.com ([220.181.12.12]:50094 "EHLO m12-12.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231279AbhEUObm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 10:31:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=9E886
+        vx/OO/P//cwyNBUwq6A5knojODRU6jbrRSsoSk=; b=pnEgiCjLyv2zZWqwrV3Jp
+        AqNcQmSIkD+oqE3Fyh/z3D5QK1pQ4Bn2Z3YKflNXo41YWUEI07lLlOfUhq/txgxT
+        QBmia6A6NGrIxeULDlzuZNsGxvFbv4iQ2eodXRa2CzAgzrIkO4ww9CrWRiHz2a37
+        Vrd0PNhLCNS9hvPrJVF+rQ=
+Received: from [192.168.31.187] (unknown [36.170.35.140])
+        by smtp8 (Coremail) with SMTP id DMCowAB3p1vrw6dgrcOfFQ--.47192S2;
+        Fri, 21 May 2021 22:30:05 +0800 (CST)
+Subject: Re: [PATCH] docs/zh_CN: Add zh_CN/admin-guide/lockup-watchdogs.rst
+To:     teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hailong Liu <liu.hailong6@zte.com.cn>,
+        Yanteng Si <siyanteng@loongson.cn>
+References: <20210513154425.93603-1-liuhailongg6@163.com>
+ <CAMU9jJrXQfg_7jVe4MhDSRO3-q1EhDCFRKASfV5REO6PQJxVaw@mail.gmail.com>
+From:   Hailong Liu <liuhailongg6@163.com>
+Message-ID: <46dd6bb8-84bc-e28e-e463-95b5b6b68e2c@163.com>
+Date:   Fri, 21 May 2021 22:30:03 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210521141952.2c575cbe@coco.lan>
+In-Reply-To: <CAMU9jJrXQfg_7jVe4MhDSRO3-q1EhDCFRKASfV5REO6PQJxVaw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DMCowAB3p1vrw6dgrcOfFQ--.47192S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGry3Aw4xtw1UGFW7AFW3trb_yoW5ZFW8pF
+        ZxAa4fKw48J34kXa47J348WF1Yk34kJrW5Ga4ktryUJw1Ykrn5Aw4Utr45Waya9F4Syr4j
+        qF1Ut34kJFyDJrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jLXocUUUUU=
+X-Originating-IP: [36.170.35.140]
+X-CM-SenderInfo: xolxxtxlor0wjjw6il2tof0z/1tbi8A2ZYFuob4d6TQAAso
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 21 May 2021 14:19:52 +0200, Mauro Carvalho Chehab wrote:
-> Em Fri, 21 May 2021 18:00:00 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
+On 5/21/21 5:38 PM, teng sterling wrote:
+> CC siyanteng@loongson.cn
 > 
->> Hi Mauro,
->>
->> On Fri, 21 May 2021 09:54:42 +0200, Mauro Carvalho Chehab wrote:
->>> HI Akira,
->>>
->>> Em Fri, 21 May 2021 16:14:19 +0900
->>> Akira Yokosawa <akiyks@gmail.com> escreveu:
->>>   
->>>> Installing a ckj font as recommended by the warning message causes
->>>> generated latex code to have:
->>>>
->>>> 	% This is needed for translations
->>>> 	\usepackage{xeCJK}
->>>> 	\setCJKmainfont{Noto Sans CJK SC}
->>>>
->>>> in its preamble even for an English document.  
->>>
->>> Yes. The same LaTeX configuration is applied to all documents.
->>>
->>> While the standard Sphinx logic allows just one conf.py, there's
->>> a logic on Linux that allows a per-directory configuration.
->>> Perhaps it would be possible to set the font just for translations.
->>>
->>> Yet, this can't be easily done per-translation - Italian
->>> translation for instance doesn't need CJK fonts.  
->>
->> Yes, the Italian part looks ugly with xeCJK.
->>
->>>   
->>>> The package "xeCJK" changes wide characters' appearance including
->>>> apostrophe (single quote) and double quotes, and it changes line-break
->>>> behavior with regard to the boundary of narrow and wide characters.
->>>>
->>>> This greatly degrades readability of English PDFs typeset by xelatex.  
->>>
->>> Hmm... could you give an example where it looks ugly?
->>>
->>> At least on the documents I use to check the PDF output, I was unable
->>> to see any big issue.  
->>
->> Appended are screenshots from RCU.pdf built with and without xeCJK.
->>
->> They are built on Ubuntu Bionic based container with sphinx 2.4.4.
->>
->> I think you can see the difference of how apostrophes are rendered.
->> Line-break points are also affected by the widths of apostrophes.
->>
->> Can you spot the difference?
+> BTW：
 > 
-> Ok, now I understand what you're meaning. We need to double check
-> what's wrong there, as it doesn't make much sense to have a
-> "`  " character instead of "`" on those places, nor to change
-> the word's hyphenation logic.
-
-No, I'm afraid you don't get the point yet.
-
-The point is, just commenting out the lines:
-
- 	% This is needed for translations
-% 	\usepackage{xeCJK}
-% 	\setCJKmainfont{Noto Sans CJK SC}
-
-, xelatex renders both UTF8 and ASCII apostrophe characters in the
-same way.
-
-On the contrary, with xeCJK, UTF and ASCII code are handled
-differently.
-The reason is that in CJK typesetting, line breaks are permitted almost
-anywhere in the text, with a few exceptions specific to each language.
-
-So, sphinx is doing nothing wrong when it converts ASCII apostrophe in
-.rst into the UTF8 in latex code.
-
-Enabling xeCJK in English document is the very wrong thing to do in the
-first place.
-
-I hope I have made my point clear enough.
-
-        Thanks, Akira
-
+> I don't know why, but your email was treated as spam by gmail. I use
+> gmail email to subscribe to doc-list, so I didn't find it before,
+> maybe many people are like me. :-)
 > 
->>
->> BTW, on current docs-next, wich the CJK font installed, "make pdfdocs"
->> stops while building s390.pdf.
+Oh, that's too bad. Unforunately I don't know this at all. I promise, I
+have never done anything to annoy gmail. :-)
+
+
+>> @@ -0,0 +1,65 @@
+> refer to other Chinese translations, add maintainer information and
+> tags and original documentation links.
 > 
-> That's weird.
+Alright, got it. 
+
+>> +===============================================================
+>> +Softlockup与hardlockup检测机制(又名:nmi_watchdog)
+>> +===============================================================
+> the line is too long，align it with the text
 > 
->> I needed to manually run "make latexdocs", then run
->> "latexmk -xelatex RCU.tex" under Documentation/output/latex/ to get
->> RCU.pdf.
+Ok, I will try to fix it in 2nd version.
+
+>> +Softlockup是一种在内核持续循使用CPU超过20秒（详见下面“实现”小节）
+> origindoc: A ‘softlockup’ is defined as a bug that causes the kernel
+> to loop in kernel mode for more than 20 seconds
 > 
-> Well, you can pass some options to latexmk when building a
-> pdf via an environment var (LATEXMKOPTS), like (untested):
+> It's not right for you to translate it that way. Although there are
+> not many cases where the kernel uses the cpu continuously for more
+> than 20s, it doesn't mean it doesn't exist, let alone conclude that it
+> will definitely panic.
 > 
-> 	LATEXMKOPTS="-interaction=nonstopmode" make pdfdocs.
+> btw：
 > 
-> or change it to interactive mode, in order to show what part
-> of the s390.tex is causing the issue.
+> bug：计算机领域专业术语，bug原意是“臭虫”，现在用来指代计算机上存在的漏洞，原因是系统安全策略上存在的缺陷，有攻击者能够在未授权的情况下访问的危害。
+I have to admit that this paragraph is indeed not precise enough.
+
+>> +导致其他任务无法得到运行的内核问题。一旦检测到'softlockup'发生，默认
+>> +情况下系统会打印当前堆栈跟踪信息并进入锁定状态。也可配置使其在检测到
+>> +'softlockup'后进入panic状态；通过sysctl命令设置
+>> +“kernel.softlockup_panic”、使用内核启动参数“softlockup_panic”（详见
+>> +Documentation/admin-guide/kernel-parameters.rst）以及使能内核编译选项
+>> +“BOOTPARAM_SOFTLOCKUP_PANIC”都可实现这种配置。
+>> +
+>> +而'hardlockup'是内核中持续循环超过10秒钟（详见"实现"小节）导致其他中
+> maybe 内核态？
+You are right. "内核态" is more appropriate.
+
+>> +断无法运行的问题。与'softlockup'情况类似，除了使用sysctl命令设置
+> 不给其他中断运行的机会 != 其他中断无法运行 
+Thanks for correcting!
+
+>> +Hrtimer用于周期性产生中断并唤醒watchdog任务；而NMI perf事件则以
+>> +”watchdog_thresh“(编译时默认初始化为10秒，也可通过”watchdog_thresh“这
+>> +个sysctl接口来进行配置修改)为间隔周期产生以检测 hardlockups。如果一个
+>> +CPU在这个时间段内没有检测到hrtimer中断发生，'hardlockup 检测器'(即
+>> +NMI perf事件处理函数)将会视系统配置而选择产生内核告警或者直接panic。
+> 内核警告
+Ok, got it.
+
+>> +如上所述,内核相当于为系统管理员提供了一个可调节hrtimer定时器和perf事件
+>> +的周期长短的旋钮。对于特定的场景通过这个旋钮配置一个合理的周期值需要权
+>> +衡lockups检测的响应速度和检测的开销。
+>> +
+>> +默认情况下所有在线cpu上都会运行一个watchdog任务。不过在内核配置了
+> maybe watchdog线程/进程？
 > 
-> Thanks,
-> Mauro
-> 
+I prefer to choose "线程".
+
+I'm grateful to you for verifying my patch word by word, I will
+try to fix and optimize them in patch v2 later.
+
+Thanks,
+
+Hailong
+
+
