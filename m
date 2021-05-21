@@ -2,183 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 070B9C4707D
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 17:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08EC6C47076
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 17:36:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7F20613B6
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 17:35:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE125611AB
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 17:36:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234177AbhEURg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 13:36:57 -0400
-Received: from mout.gmx.net ([212.227.15.15]:48553 "EHLO mout.gmx.net"
+        id S233332AbhEURh3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 13:37:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233220AbhEURg4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 13:36:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1621618477;
-        bh=jYd+DBUq5/+hoWltaHEIKEySfVzGVUxKtuTlWhtWnNU=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=Kx8aLe9AKZkFlHBFzKJQ/0wO5CcwPquXKmR8TTit7BChbVKbSqFooAblS8Rf2ryz/
-         rem1qyVFe5OlpYpwOF7Op7yahmHVvWV0DF4yriyBrQICZBlEvZluGaW1rxMkC4ACeF
-         ZbpwL+OavEkNMn3DVwawfQnaDwrNffx+jtc3qgfg=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MPGW7-1m6u3c2AHd-00PaoO; Fri, 21 May 2021 19:34:37 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>
-Cc:     John Wood <john.wood@gmx.com>, Andi Kleen <ak@linux.intel.com>,
-        valdis.kletnieks@vt.edu,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: [PATCH v7 1/7] security: Add LSM hook at the point where a task gets a fatal signal
-Date:   Fri, 21 May 2021 19:24:08 +0200
-Message-Id: <20210521172414.69456-2-john.wood@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210521172414.69456-1-john.wood@gmx.com>
-References: <20210521172414.69456-1-john.wood@gmx.com>
+        id S233220AbhEURh3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 13:37:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BEB0261168;
+        Fri, 21 May 2021 17:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621618565;
+        bh=4aOxbiHGvShE6QjDYszuUr7TvUl6/VFWQI8sBfUysUU=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=hi/W261FoFNP/QGvNDUiE95mXNskFLc5lTf+X6+xBckoXCXTUbFgBWOs+mNSEimqc
+         BECCpY4bBmHV9tLiHbfx+KXp4E63V22HCPy0T6uV/K2UYGY2ePy9x1kylXpk2K7muk
+         yStUy+YvZw89WdmyeBt5bXCI1yJkcaypO2RAc9T9MUCIQDJni65alU1znT8iCKiMmU
+         JzrsPKJO+ZpUWot7kc3/bMwwNuGag2n3kAsl71E/apkcFjZXbK2Tf3zylLniNoISFz
+         kEt6RDV6MEVncFpP0DTRAtzEz8msJ1TNDFsQPC6LgjAhnSj57wx9rk6roxQkD3+d6i
+         Jl97pgwyVSl7w==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 89EBE5C0164; Fri, 21 May 2021 10:36:05 -0700 (PDT)
+Date:   Fri, 21 May 2021 10:36:05 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -rcu] Documentation/RCU: Fix nested inline markup
+Message-ID: <20210521173605.GA4441@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <e23acc77-8b10-493e-63fa-76150be325f9@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Bd6lib84LVlkJT8jNqZAPUjNinmei+Xet/u0DD1+cHkiKEm3feF
- HT9bCqV7iIbCFUzz/JKgZCFWJOJMWDiXaJlKsCIUC2k7end9vd+XP1uID+wLCkVzUwFhr3+
- y+v3JS+c2GJC76pLYtnMrj7kZuxHwGgbttcFMRFUIpuNjaUpqH29kG7NGc4ZZ7OlrjLEP2R
- vHsgogfOcVJBKVmcoBkTQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6IzlPLp9f6s=:mRCsH7AFbIQl1g7NxLFy2S
- RL3o1/lFuK9b4P0IYPqitza5mnxG0OhhsvQaeBsmwlhRDQo8uuYJ9Ag2sTZilVX4aMwiqkZKV
- 7UMoe4qaCcWKByzEk5LMdt/K2wS1P82N1MEJOKeONkrwQpXX1EUsLASFlmF0D39p9DpidEkna
- xEKYNdtU8pDVUWfidjveb5cFVlQk4qZq7MjnXfUkSCsNAC570amFjHEn3Nt6OLIUZgu/nOcoN
- kHcU3m10GpTHZhMz1tV7YVmb+yUS07ItIUJJkb01F+AFI3b+T1+WCbBOsXwklBZ882GuKccCD
- jOp66XHdJp7r/A3D6eoVqscOtQ3g/3bjtmSFtC4vUwfwtnKSprS7IeJ3kBS+5DrGL8EYRdGPy
- FMpUNTomkI+frPzJpZGhFzA+EghsWzinnk/7yg8y0O0xRQq7GtRNyeSiSfuchH+2bhl73rW5o
- ddlbm+jTdO06FpRiz44lOl8AxVI+CzisvNSgP9JSc5bfN4gkldOt3EisIjVElbl2Wg3Emmwiy
- OH3uqW55FfrIN2xawGSyF8feR/0ZRDG653I3R1+gkgI24NO7imkyMoHX7KUeXzbtzGjGFaSYL
- T1txig1UyxtAoAA4PZDr02bv+yRMOCWyPU2eGn0o8552XIggIDelLtp3OwWPr9Xdb7XX9Qtd/
- +59rwgB8cHWLeqiWC1/JjrE8HuLHeroUswRaSgbdA9TN0gMjT28fs2LJyixM/zVjJr3hSD8cA
- 92MxppbEOkiBA7m9gd1roANZ9z4UU2s4bMFcaUMucc2cSrXgKb9woSGT3PJfMH+VL+1nMHNWw
- bUbkZB8mNO1y1B5oe4k5X9DT7YB0C/gYeadDtY3kMUKCbfV/JrUbwD6N3pFkapfrxWiGspnWn
- me+rNqShm2CHXkzEpS+sKguOFLpQ2hZVXMVoMN46zZfZgfABx7E2QCUY1hnjt4MjUsdifT+9y
- 4HIyw/uyCZLCXun7J6Al3257WGQcMCkXhJg02qkrc1efWfd7SKOYzsZN8tZv8O5QFdxddV/Ag
- sM/b744VAcGw3oNEsDGLatxlxMfibejfCFQwGmEtA5ivPc3/iUogkT+HKa6l/sXLfDDcPQats
- zFvgx2bD9eQqxjlz5+xAJ7g1gdauvaF9EECxUmckN5umXE5j+Q+G03dIBswKFxR9EiS5mOYdN
- iGJW7jRzXHgB+wjp0BT89AxY6aDhp+eLQWsGteid+QEzBgLFF6aWsvY06kSq879vhyY/w=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e23acc77-8b10-493e-63fa-76150be325f9@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a security hook that allows a LSM to be notified when a task gets a
-fatal signal. This patch is a previous step on the way to compute the
-task crash period by the "brute" LSM (linux security module to detect
-and mitigate fork brute force attack against vulnerable userspace
-processes).
+On Fri, May 21, 2021 at 11:16:04AM +0900, Akira Yokosawa wrote:
+> To avoid the ``foo`` markup inside the `bar`__ hyperlink marker,
+> use the "replace" directive [1].
+> 
+> This should restore the intended appearance of the link.
+> 
+> Tested with sphinx versions 1.7.9 and 2.4.4.
+> 
+> [1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#replace
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Signed-off-by: John Wood <john.wood@gmx.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-=2D--
- include/linux/lsm_hook_defs.h | 1 +
- include/linux/lsm_hooks.h     | 4 ++++
- include/linux/security.h      | 4 ++++
- kernel/signal.c               | 1 +
- security/security.c           | 5 +++++
- 5 files changed, 15 insertions(+)
+Queued, thank you!  Or if this should instead go via the Documentation
+tree:
 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 04c01794de83..e28468e84300 100644
-=2D-- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -225,6 +225,7 @@ LSM_HOOK(int, -ENOSYS, task_prctl, int option, unsigne=
-d long arg2,
- 	 unsigned long arg3, unsigned long arg4, unsigned long arg5)
- LSM_HOOK(void, LSM_RET_VOID, task_to_inode, struct task_struct *p,
- 	 struct inode *inode)
-+LSM_HOOK(void, LSM_RET_VOID, task_fatal_signal, const kernel_siginfo_t *s=
-iginfo)
- LSM_HOOK(int, 0, ipc_permission, struct kern_ipc_perm *ipcp, short flag)
- LSM_HOOK(void, LSM_RET_VOID, ipc_getsecid, struct kern_ipc_perm *ipcp,
- 	 u32 *secid)
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 5c4c5c0602cb..fc8bef0f15d9 100644
-=2D-- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -799,6 +799,10 @@
-  *	security attributes, e.g. for /proc/pid inodes.
-  *	@p contains the task_struct for the task.
-  *	@inode contains the inode structure for the inode.
-+ * @task_fatal_signal:
-+ *	This hook allows security modules to be notified when a task gets a
-+ *	fatal signal.
-+ *	@siginfo contains the signal information.
-  *
-  * Security hooks for Netlink messaging.
-  *
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 06f7c50ce77f..609c76c6c764 100644
-=2D-- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -433,6 +433,7 @@ int security_task_kill(struct task_struct *p, struct k=
-ernel_siginfo *info,
- int security_task_prctl(int option, unsigned long arg2, unsigned long arg=
-3,
- 			unsigned long arg4, unsigned long arg5);
- void security_task_to_inode(struct task_struct *p, struct inode *inode);
-+void security_task_fatal_signal(const kernel_siginfo_t *siginfo);
- int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag);
- void security_ipc_getsecid(struct kern_ipc_perm *ipcp, u32 *secid);
- int security_msg_msg_alloc(struct msg_msg *msg);
-@@ -1183,6 +1184,9 @@ static inline int security_task_prctl(int option, un=
-signed long arg2,
- static inline void security_task_to_inode(struct task_struct *p, struct i=
-node *inode)
- { }
+Acked-by: Paul E. McKenney <paulmck@kernel.org>
 
-+static inline void security_task_fatal_signal(const kernel_siginfo_t *sig=
-info)
-+{ }
-+
- static inline int security_ipc_permission(struct kern_ipc_perm *ipcp,
- 					  short flag)
- {
-diff --git a/kernel/signal.c b/kernel/signal.c
-index 66e88649cf74..62625ad98b14 100644
-=2D-- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -2787,6 +2787,7 @@ bool get_signal(struct ksignal *ksig)
- 		/*
- 		 * Anything else is fatal, maybe with a core dump.
- 		 */
-+		security_task_fatal_signal(&ksig->info);
- 		current->flags |=3D PF_SIGNALED;
+> ---
+> Hi Paul,
+> 
+> This fixes broken-looking cross reference in section
+> "Publish/Subscribe Guarantee" at:
+> 
+> https://www.kernel.org/doc/html/latest/RCU/Design/Requirements/Requirements.html#publish-subscribe-guarantee
+> 
+> To-be-replaced macro string can be much shorter.
+> I preserved the whole string considering the readability of .rst.
 
- 		if (sig_kernel_coredump(signr)) {
-diff --git a/security/security.c b/security/security.c
-index b38155b2de83..208e3e7d4284 100644
-=2D-- a/security/security.c
-+++ b/security/security.c
-@@ -1891,6 +1891,11 @@ void security_task_to_inode(struct task_struct *p, =
-struct inode *inode)
- 	call_void_hook(task_to_inode, p, inode);
- }
+And completely agreed on keeping the .rst readable.
 
-+void security_task_fatal_signal(const kernel_siginfo_t *siginfo)
-+{
-+	call_void_hook(task_fatal_signal, siginfo);
-+}
-+
- int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag)
- {
- 	return call_int_hook(ipc_permission, 0, ipcp, flag);
-=2D-
-2.25.1
+							Thanx, Paul
 
+>         Thanks, Akira
+> --
+>  Documentation/RCU/Design/Requirements/Requirements.rst | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+> index 38a39476fc24..45278e2974c0 100644
+> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
+> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+> @@ -362,9 +362,8 @@ do_something_gp() uses rcu_dereference() to fetch from ``gp``:
+>        12 }
+>  
+>  The rcu_dereference() uses volatile casts and (for DEC Alpha) memory
+> -barriers in the Linux kernel. Should a `high-quality implementation of
+> -C11 ``memory_order_consume``
+> -[PDF] <http://www.rdrop.com/users/paulmck/RCU/consume.2015.07.13a.pdf>`__
+> +barriers in the Linux kernel. Should a |high-quality implementation of
+> +C11 memory_order_consume [PDF]|_
+>  ever appear, then rcu_dereference() could be implemented as a
+>  ``memory_order_consume`` load. Regardless of the exact implementation, a
+>  pointer fetched by rcu_dereference() may not be used outside of the
+> @@ -374,6 +373,9 @@ element has been passed from RCU to some other synchronization
+>  mechanism, most commonly locking or `reference
+>  counting <https://www.kernel.org/doc/Documentation/RCU/rcuref.txt>`__.
+>  
+> +.. |high-quality implementation of C11 memory_order_consume [PDF]| replace:: high-quality implementation of C11 ``memory_order_consume`` [PDF]
+> +.. _high-quality implementation of C11 memory_order_consume [PDF]: http://www.rdrop.com/users/paulmck/RCU/consume.2015.07.13a.pdf
+> +
+>  In short, updaters use rcu_assign_pointer() and readers use
+>  rcu_dereference(), and these two RCU API elements work together to
+>  ensure that readers have a consistent view of newly added data elements.
+> -- 
+> 2.17.1
+> 
