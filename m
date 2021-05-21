@@ -2,99 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7939FC47076
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:25:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32785C4707A
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:40:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F90A610A8
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:25:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01857613E9
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:40:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233101AbhEUS0v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 14:26:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37834 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229762AbhEUS0u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 14:26:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D3049613E2;
-        Fri, 21 May 2021 18:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621621526;
-        bh=9AcZJfeo0xf1euRFblZG0MfqbBmLwbiLEIEackPiTqA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0LBTP5aGzuiN5qYxA5cNt6W4SscUFYtUHumwamPn5Ztt1ht4YhL0u1ltJnjB1YUcx
-         Omlw2tyXOaYoH+f7UwfsC2EQ2dUPcDcVkYUFJ3KfXUxzFp9WptKLX3fXamJ5dkGMuK
-         +5FhSMdxVEDIsBv/267cHa1UzuZg2WeNhKH75vKI=
-Date:   Fri, 21 May 2021 20:25:23 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Palmer Dabbelt <palmerdabbelt@google.com>
-Cc:     pbonzini@redhat.com, anup@brainfault.org,
-        Anup Patel <Anup.Patel@wdc.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, corbet@lwn.net, graf@amazon.com,
-        Atish Patra <Atish.Patra@wdc.com>,
-        Alistair Francis <Alistair.Francis@wdc.com>,
-        Damien Le Moal <Damien.LeMoal@wdc.com>, kvm@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
-Message-ID: <YKf7E4YfLrcfgCoi@kroah.com>
-References: <YKfyR5jUu3HMvYg5@kroah.com>
- <mhng-122345f7-47d9-4509-8ae6-ce1da912fc00@palmerdabbelt-glaptop>
+        id S232788AbhEUSmM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 14:42:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229554AbhEUSmL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 14:42:11 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85FE1C061574;
+        Fri, 21 May 2021 11:40:48 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0ea400fbcd5718c7a034c2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:a400:fbcd:5718:c7a0:34c2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AFE9D1EC06F6;
+        Fri, 21 May 2021 20:40:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1621622445;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=xkROTNt6AI31m2jdBOyiECteV9VsPpyw0WnUQpk+Wzc=;
+        b=VaADoicO3S+yFEcIUtcM3sOjNaJE0WZ+C0kd7zHM3NhGF6PJSn5GjYz2Si/yXNYyn+xuPE
+        Yjpcj0qOk95X1N65SeP8DvLIA2jvzUiMMIOlr4cobPuJN3EvD0c0YoQVE4zqjWaqGVRoXK
+        yz9AePJ4Z/wC7pgXgLxPK4UBY8FQDeE=
+Date:   Fri, 21 May 2021 20:40:39 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+Message-ID: <YKf+pyW+WXtnPFfp@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com>
+ <YKIfIEyW+sR+bDCk@zn.tnic>
+ <c9121ca1-83cb-1c37-1a8e-edaafaa6fda2@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <mhng-122345f7-47d9-4509-8ae6-ce1da912fc00@palmerdabbelt-glaptop>
+In-Reply-To: <c9121ca1-83cb-1c37-1a8e-edaafaa6fda2@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 21, 2021 at 11:08:15AM -0700, Palmer Dabbelt wrote:
-> On Fri, 21 May 2021 10:47:51 PDT (-0700), Greg KH wrote:
-> > On Fri, May 21, 2021 at 07:21:12PM +0200, Paolo Bonzini wrote:
-> > > On 21/05/21 19:13, Palmer Dabbelt wrote:
-> > > > >
-> > > >
-> > > > I don't view this code as being in a state where it can be
-> > > > maintained, at least to the standards we generally set within the
-> > > > kernel.  The ISA extension in question is still subject to change, it
-> > > > says so right at the top of the H extension <https://github.com/riscv/riscv-isa-manual/blob/master/src/hypervisor.tex#L4>
-> > > >
-> > > >   {\bf Warning! This draft specification may change before being
-> > > > accepted as standard by the RISC-V Foundation.}
-> > > 
-> > > To give a complete picture, the last three relevant changes have been in
-> > > August 2019, November 2019 and May 2020.  It seems pretty frozen to me.
-> > > 
-> > > In any case, I think it's clear from the experience with Android that
-> > > the acceptance policy cannot succeed.  The only thing that such a policy
-> > > guarantees, is that vendors will use more out-of-tree code.  Keeping a
-> > > fully-developed feature out-of-tree for years is not how Linux is run.
-> > > 
-> > > > I'm not sure where exactly the line for real hardware is, but for
-> > > > something like this it would at least involve some chip that is
-> > > > widely availiable and needs the H extension to be useful
-> > > 
-> > > Anup said that "quite a few people have already implemented RISC-V
-> > > H-extension in hardware as well and KVM RISC-V works on real HW as well".
-> > > Those people would benefit from having KVM in the Linus tree.
-> > 
-> > Great, but is this really true?  If so, what hardware has this?  I have
-> > a new RISC-V device right here next to me, what would I need to do to
-> > see if this is supported in it or not?
-> 
-> You can probe the misa register, it should have the H bit set if it supports
-> the H extension.
+On Fri, May 21, 2021 at 09:17:24AM -0700, Yu, Yu-cheng wrote:
+> If !IS_ALIGNED(ssp, 4), then certainly !IS_ALIGNED(ssp, 8).
 
-To let everyone know, based on our private chat we had off-list, no, the
-device I have does not support this extension, so unless someone can
-point me at real hardware, I don't think this code needs to be
-considered for merging anywhere just yet.
+... but the reverse is true: when it is aligned by 8, it is already
+aligned by 4. Whoops, that's tricky. Pls put a comment over it so that
+we don't forget.
 
-thanks,
+Thx.
 
-greg k-h
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
