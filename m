@@ -2,477 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-28.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B100C4707A
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 20:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F778C4707E
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 22:13:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1358613E6
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 20:57:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40171613EE
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 22:13:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbhEUU7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 16:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229685AbhEUU7C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 16:59:02 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A0BC06138A
-        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 13:57:39 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id x188so15781370pfd.7
-        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 13:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kkPdjm35hDZxcrkK9GJ+jftqINU4WgEPUSzkOsfGeVE=;
-        b=PvLCEIT5kZnZ1X1+moFDE18ipumIZcvdEqbTlzqtAUn+JdBjaJhxbOCV21+MDieqwo
-         czmP3YUa5ZNnBk/+VysRzu34vFK/JXHaqcS+zRZTAkk/ZGQsDCezIBH0tlAjoPQmIIPD
-         N1NRoe0mjK63AQqA1HNs4MckMmDbBMKVNiZR3ro3BVN8h5dRA0pu4MFHzSujTYwQPhx5
-         rirn9j2qwKC8oREOwVu0MkxvTsD93mZv2zckGXbxMp7EItJwhc1ao2xISyepyC5P4xw0
-         WAQ5ZHQtOlokD53E6UTkcb8nCGGXwjDCU6GBe6J0lvIXenWeqQeEch3YhjNOsanpXbiN
-         CNqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kkPdjm35hDZxcrkK9GJ+jftqINU4WgEPUSzkOsfGeVE=;
-        b=CRc9GIdUpMVK+c4oTbvOLHusjUsrxQ4t+55k7kMI/tkyJaWEaOt9wTypcAUXxGMaSZ
-         iNC0OKDYIKhbNzSPd351UIqx76pNny+UCWYH6MqKn3b0VIG6sBNPqrLvCI9Mulcqhc75
-         GHe1oZl7hXncLM9rm7llUXaWiRrmSQjQFrtLzwx03E5r/bgt1bwirEbnjBwMJOVr1zS0
-         1ngEgIoYygtlZw8xJC3xFKVsf68AcljRFbnNWdG1tjYXIhRP9rhSYkUvJVcU8QAFVrBu
-         nal4WZjTmg+6aPXMUdC0hCUeCch/3n1b05o/OgLFkSYq32W0RRLOK8/FWLaKIjRSxOMM
-         jjog==
-X-Gm-Message-State: AOAM532QekA5q3VB5qfczVCT1NxusS0YP8LvRVe5Gvk3RN2L93lt7P3h
-        AO7vAvkwE1gx+ldcV1Er9qajNgkzKBSLmfBiVq1v5Q==
-X-Google-Smtp-Source: ABdhPJwRfx5r/R/iPGbnRRaSZSdn3+n2js532Xgebo45zkuDDoYmHiBMk+2wKNRwIbb3GJ/wTSZI/eOMGRkcLDaIxk4=
-X-Received: by 2002:a05:6a00:224c:b029:28e:6004:d0a5 with SMTP id
- i12-20020a056a00224cb029028e6004d0a5mr12133806pfu.1.1621630658450; Fri, 21
- May 2021 13:57:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210507213110.155492-1-brendanhiggins@google.com>
- <20210507213110.155492-4-brendanhiggins@google.com> <CABVgOSmEe32_kT9TR0-H8biuWGc1Rexne86DgLxths+GUHHgig@mail.gmail.com>
- <CABVgOS=W-UhLJ5siu2u=Nus6g2zMEHM6c9ck2DHbHr0e5uCqSQ@mail.gmail.com>
- <CAFd5g46kOy=JtNSX6nhMO6TdHK7sAZfvD=UqLpFDXPVFw4M4fA@mail.gmail.com> <CABVgOSkXYHs=xfg_sKsm8RzKB2JdnCatE2AViCh8DJ4po+C=3Q@mail.gmail.com>
-In-Reply-To: <CABVgOSkXYHs=xfg_sKsm8RzKB2JdnCatE2AViCh8DJ4po+C=3Q@mail.gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 21 May 2021 13:57:25 -0700
-Message-ID: <CAFd5g45Vj59kMihhCVdY0AHcxWXsMVpSuy8po7staSOWzyX2xw@mail.gmail.com>
-Subject: Re: [PATCH v1 3/4] kunit: tool: add support for QEMU
-To:     David Gow <davidgow@google.com>
-Cc:     Shuah Khan <shuah@kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S229638AbhEUWOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 18:14:30 -0400
+Received: from mga01.intel.com ([192.55.52.88]:15957 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229472AbhEUWO3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 18:14:29 -0400
+IronPort-SDR: cpEeMRx4j8umQjUrQnJerzSj5Yh7AONSedrbdDaHlPk5MNL7KHnDWnQlX1/1VGfjwkkT53xams
+ kumNVUSVoMCw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9991"; a="222696900"
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="222696900"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 15:13:04 -0700
+IronPort-SDR: Jn+tJ78+vFOHpBaU4xwkrPaAI0n+NqhaplIRRKHWFvWjTdztg5zE5GsGRBmN3pZvo9Le9+t/rw
+ hXr+PRCWkYUw==
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="441116090"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 15:13:03 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Daniel Latypov <dlatypov@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v27 00/31] Control-flow Enforcement: Shadow Stack
+Date:   Fri, 21 May 2021 15:11:40 -0700
+Message-Id: <20210521221211.29077-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 20, 2021 at 8:53 PM David Gow <davidgow@google.com> wrote:
->
-> On Wed, May 19, 2021 at 4:43 AM Brendan Higgins
-> <brendanhiggins@google.com> wrote:
-> >
-> > On Mon, May 17, 2021 at 8:01 PM David Gow <davidgow@google.com> wrote:
-> > >
-> > > On Sat, May 15, 2021 at 3:59 PM David Gow <davidgow@google.com> wrote:
-> > > >
-> > > > On Sat, May 8, 2021 at 5:31 AM Brendan Higgins
-> > > > <brendanhiggins@google.com> wrote:
-> > > > >
-> > > > > Add basic support to run QEMU via kunit_tool. Add support for i386,
-> > > > > x86_64, arm, arm64, and a bunch more.
-> > > > >
-> > > > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > > > > Tested-by: David Gow <davidgow@google.com>
-> > > > > ---
-> > > > >
-> > > > > Changes since last revision:
-> > > > >
-> > > > > - A number of minor obvious issues pointed out by David and Daniel.
-> > > > > - Added facility for merging Kconfigs at Daniel's suggestion.
-> > > > > - Broke out qemu_configs each into their own config file which is loaded
-> > > > >   dynamically - mostly at David's suggestion.
-> > > > >
-> > > > > ---
-> > > >
-> > > > This seems pretty good to me. I only have one real complaint --
-> > > > qemu_configs needing to be in a subdirectory of ./tools/testing/kunit
-> > > > -- but am able to tolerate that (even if I'd prefer not to have it) if
-> > > > it's documented properly.
-> > > >
-> > > > Otherwise, save for a couple of minor nitpicks, this seems good to go.
-> > > >
-> > > > Reviewed-by: David Gow <davidgow@google.com>
-> > > >
-> > > >
-> > >
-> > > One thing I forgot to mention is that I'm not 100% sure about the
-> > > Kconfig fragments being embedded in the qemu_configs. I still kind-of
-> > > prefer the idea of them being in separate config files. While I don't
-> >
-> > I don't feel strongly either way, but I don't have a good idea on how
-> > to implement your idea well. How about we leave it for now, and if you
-> > decide you really want to do something about it, you can do it?
-> >
-> > > think this is necessarily a blocker, I did just realise that, by
-> > > default, kunit.py run --arch=<non-UM-arch> will pull its default
-> > > .kunitconfig from arch/um/configs/kunit_defconfig, which definitely
-> > > feels awkward when UML is not otherwise involved.
-> >
-> > Hmmm...this file is identical to
-> > tools/testing/kunit/configs/all_tests.config. Maybe we should just use
-> > that instead?
-> >
->
-> That sounds like a better plan. It looks like all_tests.config isn't
-> used anywhere, anyway. I might rename it and replace the
-> arch/um/.../kunit_defconfig version in another patch, then.
->
-> > > Some further thoughts below (which range a bit from "practical
-> > > suggestion" to "overcomplicated ponderings", so don't feel the
-> > > pressure to take all of them).
-> > >
-> > > (...snip...)
-> > >
-> > > > > diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-> > > > > index e22ade9d91ad5..2bd196fd69e5c 100644
-> > > > > --- a/tools/testing/kunit/kunit_kernel.py
-> > > > > +++ b/tools/testing/kunit/kunit_kernel.py
-> > > > > @@ -6,23 +6,31 @@
-> > > > >  # Author: Felix Guo <felixguoxiuping@gmail.com>
-> > > > >  # Author: Brendan Higgins <brendanhiggins@google.com>
-> > > > >
-> > > > > +from __future__ import annotations
-> > > > > +import importlib.util
-> > > > >  import logging
-> > > > >  import subprocess
-> > > > >  import os
-> > > > >  import shutil
-> > > > >  import signal
-> > > > >  from typing import Iterator
-> > > > > +from typing import Optional
-> > > > >
-> > > > >  from contextlib import ExitStack
-> > > > >
-> > > > > +from collections import namedtuple
-> > > > > +
-> > > > >  import kunit_config
-> > > > >  import kunit_parser
-> > > > > +import qemu_config
-> > > > >
-> > > > >  KCONFIG_PATH = '.config'
-> > > > >  KUNITCONFIG_PATH = '.kunitconfig'
-> > > > >  DEFAULT_KUNITCONFIG_PATH = 'arch/um/configs/kunit_defconfig'
-> > >
-> > > This being in arch/um doesn't seem great if its being used for non-UML
-> > > builds. Is it worth either:
-> > > (a) moving this somewhere else (e.g., tools/testing/kunit/configs as
-> > > with the BROKEN_ALLCONFIG_PATH beflow), or
-> >
-> > How about we use: tools/testing/kunit/configs/all_tests.config ? The
-> > file is identical.
->
-> Yeah: I'm not thrilled with the name all_tests.config, but since it
-> doesn't appear to be being used anywhere, I might just rename it in
-> another patch.
->
-> > > (b) giving each architecture its own kunit_defconfig, possibly in
-> > > place of the qemuconfig member of QemuArchParams
-> > >
-> > > I'm leaning towards (b), which solves two different sources of
-> > > ugliness in one go, though it would appear to have the downside that
-> > > the default .kunitconfig could end up being architecture specific,
-> > > which isn't great.
-> >
-> > Yeah, I am not a fan of trying to solve that problem in this patchset.
-> > This is sounding more and more like what should be follow-on work to
-> > me.
->
-> Yeah, I'm not sure exactly what that should look like yet, anyway.
->
-> Let's keep things as they are in this patch. I'll put a follow-up
-> patch to use all_tests.config rather than the arch/um one (possibly as
-> part of my "default to ALL_TESTS" patchset), and if we think of
-> something better that is more architecture specific, we'll do that.
->
-> > > > >  BROKEN_ALLCONFIG_PATH = 'tools/testing/kunit/configs/broken_on_uml.config'
-> > > > >  OUTFILE_PATH = 'test.log'
-> > > > > +ABS_TOOL_PATH = os.path.abspath(os.path.dirname(__file__))
-> > > > > +QEMU_CONFIGS_DIR = os.path.join(ABS_TOOL_PATH, 'qemu_configs')
-> > > > >
-> > >
-> > > (...snip...)
-> > >
-> > > > > diff --git a/tools/testing/kunit/qemu_config.py b/tools/testing/kunit/qemu_config.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..aff1fe0442dbc
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_config.py
-> > > > > @@ -0,0 +1,17 @@
-> > > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > > +#
-> > > > > +# Collection of configs for building non-UML kernels and running them on QEMU.
-> > > > > +#
-> > > > > +# Copyright (C) 2021, Google LLC.
-> > > > > +# Author: Brendan Higgins <brendanhiggins@google.com>
-> > > > > +
-> > > > > +from collections import namedtuple
-> > > > > +
-> > > > > +
-> > > > > +QemuArchParams = namedtuple('QemuArchParams', ['linux_arch',
-> > > > > +                                              'qemuconfig',
-> > >
-> > > As mentioned, I'm not thrilled about keeping the Kconfig inline here,
-> > > and would kind-of prefer it to be in another file. I could live with
-> > > it if I have to, though. Regardless, 'qemuconfig' is not a
-> >
-> > It will be fixed in the next revision.
-> >
-> > > super-descriptive name, particularly as it's not clear if this is
-> > > configuring QEMU (no, that's extra_qemu_params'), or configuring the
-> > > kernel for QEMU compatibility.
-> >
-> > Any suggestions on a better name? qemu_build_config_path? These
-> > configs contain configs for configuring, building, and running kernels
-> > on QEMU.
->
-> I don't think we need "qemu" in the name, as this is already part of
-> the QemuArchParams struct, and isn't a qemu config, but a kernel one.
->
-> Something along the lines of "kernel_config" (or just "kconfig") maybe?
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-Doh, I got lost at some point and in my last email I thought you were
-talking about the name QemuArchParams, not the qemuconfig field within
-that struct. Looking back it is entirely clear to me that that is what
-you were talking about, but for some reason I had a brainfart in my
-last response. So yes, your suggestion sounds very reasonable. Will
-fix.
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and has three parts:
 
-> > > > > +                                              'qemu_arch',
-> > > > > +                                              'kernel_path',
-> > > > > +                                              'kernel_command_line',
-> > > > > +                                              'extra_qemu_params'])
-> > > > > +
-> > > >
-> > > > Nit: newline at end of file.
-> > > >
-> > > >
-> > > >
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/alpha.py b/tools/testing/kunit/qemu_configs/alpha.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..2cc64f848ca2c
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/alpha.py
-> > > > > @@ -0,0 +1,10 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='alpha',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_SERIAL_8250=y
-> > > > > +CONFIG_SERIAL_8250_CONSOLE=y''',
-> > >
-> > > If these were in a separate file, they could be shared across alpha,
-> > > i386, x86_64, etc. Of course, that wouldn't gel well with putting them
-> > > in arch/.../config. If there were some way of listing multiple files,
-> > > it could form part of the config for several more architectures,
-> > > though that's probably overcomplicating things.
-> >
-> > Yeah, like I said, I have sympathy for what you are saying here, but
-> > it really feels like something that can and should be addressed in
-> > follow on patches. We could totally address this issue later by
-> > expanding this field to take either a string containing a Kconfig, or
-> > a path to an external Kconfig; if we do so, it won't cause any
-> > migration issues in the future.
-> >
->
-> Yeah: I think we can solve this if it actually becomes a problem. No
-> need to change anything here.
->
-> > > > > +                          qemu_arch='alpha',
-> > > > > +                          kernel_path='arch/alpha/boot/vmlinux',
-> > > > > +                          kernel_command_line='console=ttyS0',
-> > > > > +                          extra_qemu_params=[''])
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/arm.py b/tools/testing/kunit/qemu_configs/arm.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..29a043b0531a0
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/arm.py
-> > > > > @@ -0,0 +1,13 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='arm',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_ARCH_VIRT=y
-> > > > > +CONFIG_SERIAL_AMBA_PL010=y
-> > > > > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
-> > > > > +CONFIG_SERIAL_AMBA_PL011=y
-> > > > > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=y''',
-> > >
-> > > Similarly, if in a separate file and there were some multiple-file
-> > > mechanism, these could mostly be shared between arm & arm64 (ARCH_VIRT
-> > > being the only problem). Again, probably overcomplicating it at this
-> > > point though.
-> >
-> > Right.
-> >
-> > > > > +                          qemu_arch='arm',
-> > > > > +                          kernel_path='arch/arm/boot/zImage',
-> > > > > +                          kernel_command_line='console=ttyAMA0',
-> > > > > +                          extra_qemu_params=['-machine virt'])
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/arm64.py b/tools/testing/kunit/qemu_configs/arm64.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..1ba200bc99f0f
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/arm64.py
-> > > > > @@ -0,0 +1,12 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='arm64',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_SERIAL_AMBA_PL010=y
-> > > > > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
-> > > > > +CONFIG_SERIAL_AMBA_PL011=y
-> > > > > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=y''',
-> > > > > +                          qemu_arch='aarch64',
-> > > > > +                          kernel_path='arch/arm64/boot/Image.gz',
-> > > > > +                          kernel_command_line='console=ttyAMA0',
-> > > > > +                          extra_qemu_params=['-machine virt', '-cpu cortex-a57'])
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/i386.py b/tools/testing/kunit/qemu_configs/i386.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..3998af306468e
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/i386.py
-> > > > > @@ -0,0 +1,10 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='i386',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_SERIAL_8250=y
-> > > > > +CONFIG_SERIAL_8250_CONSOLE=y''',
-> > > > > +                          qemu_arch='x86_64',
-> > > > > +                          kernel_path='arch/x86/boot/bzImage',
-> > > > > +                          kernel_command_line='console=ttyS0',
-> > > > > +                          extra_qemu_params=[''])
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/powerpc.py b/tools/testing/kunit/qemu_configs/powerpc.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..46292ce9e368e
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/powerpc.py
-> > > > > @@ -0,0 +1,12 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='powerpc',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_PPC64=y
-> > > > > +CONFIG_SERIAL_8250=y
-> > > > > +CONFIG_SERIAL_8250_CONSOLE=y
-> > > > > +CONFIG_HVC_CONSOLE=y''',
-> > > > > +                          qemu_arch='ppc64',
-> > > > > +                          kernel_path='vmlinux',
-> > > > > +                          kernel_command_line='console=ttyS0',
-> > > > > +                          extra_qemu_params=['-M pseries', '-cpu power8'])
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/riscv.py b/tools/testing/kunit/qemu_configs/riscv.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..de8c62d465723
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/riscv.py
-> > > > > @@ -0,0 +1,31 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +import os
-> > > > > +import os.path
-> > > > > +import sys
-> > > > > +
-> > > > > +GITHUB_OPENSBI_URL = 'https://github.com/qemu/qemu/raw/master/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin'
-> > > > > +OPENSBI_FILE = os.path.basename(GITHUB_OPENSBI_URL)
-> > > > > +
-> > > > > +if not os.path.isfile(OPENSBI_FILE):
-> > > > > +       print('\n\nOpenSBI file is not in the current working directory.\n'
-> > > > > +             'Would you like me to download it for you from:\n' + GITHUB_OPENSBI_URL + ' ?\n')
-> > > > > +       response = input('yes/[no]: ')
-> > > > > +       if response.strip() == 'yes':
-> > > > > +               os.system('wget ' + GITHUB_OPENSBI_URL)
-> > > > > +       else:
-> > > > > +               sys.exit()
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='riscv',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_SOC_VIRT=y
-> > > > > +CONFIG_SERIAL_8250=y
-> > > > > +CONFIG_SERIAL_8250_CONSOLE=y
-> > > > > +CONFIG_SERIAL_OF_PLATFORM=y
-> > > > > +CONFIG_SERIAL_EARLYCON_RISCV_SBI=y''',
-> > > > > +                          qemu_arch='riscv64',
-> > > > > +                          kernel_path='arch/riscv/boot/Image',
-> > > > > +                          kernel_command_line='console=ttyS0',
-> > > > > +                          extra_qemu_params=[
-> > > > > +                                          '-machine virt',
-> > > > > +                                          '-cpu rv64',
-> > > > > +                                          '-bios opensbi-riscv64-generic-fw_dynamic.bin'])
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/s390.py b/tools/testing/kunit/qemu_configs/s390.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..04c90332f1098
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/s390.py
-> > > > > @@ -0,0 +1,14 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='s390',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_EXPERT=y
-> > > > > +CONFIG_TUNE_ZEC12=y
-> > > > > +CONFIG_NUMA=y
-> > > > > +CONFIG_MODULES=y''',
-> > > > > +                          qemu_arch='s390x',
-> > > > > +                          kernel_path='arch/s390/boot/bzImage',
-> > > > > +                          kernel_command_line='console=ttyS0',
-> > > > > +                          extra_qemu_params=[
-> > > > > +                                          '-machine s390-ccw-virtio',
-> > > > > +                                          '-cpu qemu',])
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/sparc.py b/tools/testing/kunit/qemu_configs/sparc.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..f26b5f27cc5a1
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/sparc.py
-> > > > > @@ -0,0 +1,10 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='sparc',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_SERIAL_8250=y
-> > > > > +CONFIG_SERIAL_8250_CONSOLE=y''',
-> > > > > +                          qemu_arch='sparc',
-> > > > > +                          kernel_path='arch/sparc/boot/zImage',
-> > > > > +                          kernel_command_line='console=ttyS0 mem=256M',
-> > > > > +                          extra_qemu_params=['-m 256'])
-> > > > > diff --git a/tools/testing/kunit/qemu_configs/x86_64.py b/tools/testing/kunit/qemu_configs/x86_64.py
-> > > > > new file mode 100644
-> > > > > index 0000000000000..bd5ab733b92ac
-> > > > > --- /dev/null
-> > > > > +++ b/tools/testing/kunit/qemu_configs/x86_64.py
-> > > > > @@ -0,0 +1,10 @@
-> > > > > +from ..qemu_config import QemuArchParams
-> > > > > +
-> > > > > +QEMU_ARCH = QemuArchParams(linux_arch='x86_64',
-> > > > > +                          qemuconfig='''
-> > > > > +CONFIG_SERIAL_8250=y
-> > > > > +CONFIG_SERIAL_8250_CONSOLE=y''',
-> > > > > +                          qemu_arch='x86_64',
-> > > > > +                          kernel_path='arch/x86/boot/bzImage',
-> > > > > +                          kernel_command_line='console=ttyS0',
-> > > > > +                          extra_qemu_params=[''])
-> > > > > --
-> > > > > 2.31.1.607.g51e8a6a459-goog
-> > > > >
+  - Shadow stack [2],
+  - Indirect branch tracking [3], and
+  - Selftests [4].
+
+I have run tests on these patches for quite some time, and they have been
+very stable.  Linux distributions with CET are available now, and Intel
+processors with CET are already on the market.  It would be nice if CET
+support can be accepted into the kernel.  I will be working to address any
+issues should they come up.
+
+Changes in v27:
+- Eliminate signal context extension structure.  Simplify signal handling.
+- Add a new patch to move VM_UFFD_MINOR_BIT to 38.
+- Smaller changes are in each patch's log.
+- Rebase to Linus tree v5.13-rc2.
+
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
+
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
+
+[2] Shadow Stack patches v26:
+
+    https://lore.kernel.org/r/20210427204315.24153-1-yu-cheng.yu@intel.com/
+
+[3] Indirect Branch Tracking patches v26
+
+    https://lore.kernel.org/r/20210427204720.25007-1-yu-cheng.yu@intel.com/
+
+[4] I am holding off the selftests changes and working to get Reviewed-by's.
+    The earlier version of the selftests patches:
+
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
+
+[5] The kernel ptrace patch is tested with an Intel-internal updated GDB.
+    I am holding off the kernel ptrace patch to re-test it with my earlier
+    patch for fixing regset holes.
+
+Yu-cheng Yu (31):
+  Documentation/x86: Add CET description
+  x86/cet/shstk: Add Kconfig option for Shadow Stack
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/cpufeatures: Introduce CPU setup and option parsing for CET
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY to _PAGE_COW
+  mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Shadow Stack page fault error checking
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm/mprotect: Exclude shadow stack from preserve_write
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/cet/shstk: Add user-mode shadow stack support
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Introduce shadow stack token setup/verify routines
+  x86/cet/shstk: Handle signals for shadow stack
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+  mm: Move arch_calc_vm_prot_bits() to arch/x86/include/asm/mman.h
+  mm: Update arch_validate_flags() to test vma anonymous
+  mm: Introduce PROT_SHADOW_STACK for shadow stack
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 136 +++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/arm64/include/asm/mman.h                 |   4 +-
+ arch/sparc/include/asm/mman.h                 |   4 +-
+ arch/x86/Kconfig                              |  24 ++
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/ia32/ia32_signal.c                   |  25 +-
+ arch/x86/include/asm/cet.h                    |  53 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  11 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mman.h                   |  88 +++++
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  19 +
+ arch/x86/include/asm/page_types.h             |   7 +
+ arch/x86/include/asm/pgtable.h                | 299 +++++++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  48 ++-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  30 ++
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/uapi/asm/mman.h              |  28 +-
+ arch/x86/include/uapi/asm/prctl.h             |   4 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet_prctl.c                   |  60 +++
+ arch/x86/kernel/cpu/common.c                  |  14 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/xstate.c                  |  10 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  21 +-
+ arch/x86/kernel/process_64.c                  |  29 ++
+ arch/x86/kernel/shstk.c                       | 358 ++++++++++++++++++
+ arch/x86/kernel/signal.c                      |  13 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  63 +++
+ arch/x86/mm/fault.c                           |  19 +
+ arch/x86/mm/mmap.c                            |  48 +++
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  25 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/mm.h                            |  20 +-
+ include/linux/mman.h                          |   2 +-
+ include/linux/pgtable.h                       |   7 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |  14 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |  16 +-
+ mm/huge_memory.c                              |  27 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  17 +-
+ mm/mprotect.c                                 |  11 +-
+ mm/nommu.c                                    |   4 +-
+ mm/util.c                                     |   2 +-
+ 64 files changed, 1560 insertions(+), 115 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/asm/mman.h
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/shstk.c
+
+-- 
+2.21.0
+
