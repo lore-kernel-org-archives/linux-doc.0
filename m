@@ -2,466 +2,372 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-28.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF45C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 03:53:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBC2C43462
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 04:04:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BD176105A
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 03:53:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1D3E61261
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 04:04:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238349AbhEUDyu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 23:54:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39168 "EHLO
+        id S229457AbhEUEFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 00:05:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238092AbhEUDyu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 23:54:50 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE7D3C061763
-        for <linux-doc@vger.kernel.org>; Thu, 20 May 2021 20:53:27 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id n17-20020a7bc5d10000b0290169edfadac9so6578098wmk.1
-        for <linux-doc@vger.kernel.org>; Thu, 20 May 2021 20:53:27 -0700 (PDT)
+        with ESMTP id S229451AbhEUEFo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 00:05:44 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26AABC061574;
+        Thu, 20 May 2021 21:04:21 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id w1so14411636ybt.1;
+        Thu, 20 May 2021 21:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=vu3cAoOOXkdy/nifDkPl5yqEA6hsBGm2eBrR68ih+uo=;
-        b=mMfJlFj89Oywa4zpcP7Y9aD2SFCfTwPYNn/q2uzB/NcvmJIQXcOch4UdDiQB9sc72z
-         lcFqOXi2nqyqdvyrvhLqvnoOytQqckce8dXvJiD7VDSY2+MADO3iMAO5ORsBQAHiRzDb
-         CiGkLrOf7Ec6apW5yPtjlW2axJVKZ5P8KA/W4fm2GNTSatWIubIqEVRnViwSgjqTS5+9
-         Dd3p2TN92p0Ka4lOFsOP3PG5mmjo3LJIDjQTHvoENaiq61AtVClZG6wXIs9pIb+8b/0N
-         rS7pTiPlocaB3cirWB9EgRo1wN9nUDW1c4xHfTqwmNZYgWufZxMY/bejtS1gRELpEEBs
-         vNAQ==
+        bh=MGq5qqdhsu4fbZTN1KN4R8bXwjcBxCAudfPNgsYOJaY=;
+        b=eXL5hnouP4KynYCOj5rsf4WIxiufxzSBHFNa68yiakU63CZdHb4/LcbkkAvwXEpVWM
+         jKxOjdFrL2rlS2X4lcpLVHmLJTjWKHJNEBTK/ujlF182LLmDua84p9Chl+AJEdiN527V
+         LpbF5j/M0xTV+T7MiL5Tqvw2GOcsUP+Uy2YV1LyiLSeJBgDBhc6zV4ij+bi3au+LEgVj
+         jEOg5JoBMnTax9KxzujSU5JxRPKL7hBgAnJkZjGmnIyscwP1YnLgvgAL/3ejYoBYYmFd
+         s7N2VCq34luVqn23CEqLg1piUmAjD8I9BfsFgYd2bJWkm4FbkXRoPo0ZgWrw5YNeliZv
+         qQ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vu3cAoOOXkdy/nifDkPl5yqEA6hsBGm2eBrR68ih+uo=;
-        b=MdYwMCPqFzthQVr5BZO9Ho/n8Y/s6y99qdcS9xFQpgE7FU8P+Hme1UZHlinS7p5ooB
-         B1NwYOgiaXHTiS1ZDlENvdE0zlFUxS9GNfQ+rIIzDGuVl1LAZvcnabzQWCp1zSDyC4n7
-         vN2sgLfq9fXBAPPsLnn6kqlxuKdYZjnwf/E4gzws30xrPYBLIelL5zYSRUDj59vuhIfo
-         gAcVEK4JJN57jir8E3XWjJEHaLk3xXZbXLriSN8WVZJRUieYa1vYrlDLf0bPKN9ZiSUR
-         WKTLlJVosMc+ZvAADjv2s2pjaYbH0leDKEQue7BYeCIPXH7xgadURNMhtll23/BPuSkI
-         EyVA==
-X-Gm-Message-State: AOAM532bBvFbl25kZhS9xOhvqK7oYGS+dUCKgKKNdJe5cv7TnaubUuRK
-        jvM4gkwvU7xmANpR3PRl9Y5l/1KN+BFTkmDGcjDybg==
-X-Google-Smtp-Source: ABdhPJwra0ETxpCsCm9V1aykhVhb0bOEx6fhn2vUKLoGsDgejo+vqnu+TdTA+7VgBMVerpf3xotDVD1JlaeOMoMuALM=
-X-Received: by 2002:a1c:b4c6:: with SMTP id d189mr6393483wmf.39.1621569206298;
- Thu, 20 May 2021 20:53:26 -0700 (PDT)
+        bh=MGq5qqdhsu4fbZTN1KN4R8bXwjcBxCAudfPNgsYOJaY=;
+        b=Y0QOFpyQvjq9MtDkeYLCBg77H5PdUIbtU+kkS6S2DO6lrHrom0DKFW9jduyopSk+yj
+         D1jjaJgid2ww7zfn4FBcVH1UEBnD+x0WfbCcFeGXdjMdQ3BtRVoLryFubRSy7L8Lnyxq
+         Q4Tf3CgveBF7ON9zeVN7UUGmLyMwbR8RLyVGadnO/wvulFgAGJUfadx9xHgZzABuyvj+
+         5K7rsV+fSXLQs6yilQJvNJZi6kGqkZwxTLEfXa93HoD/teIAXSIZTAd8v7papaIQDzMd
+         UwdWf4Z0w9Q7BM8HdwncLj8+BXuyAuJfnCmqpz15Vv99M5LhBD0uDL7QT8jiKC9bLIPt
+         4drw==
+X-Gm-Message-State: AOAM530jEGP3iKAHopJaXC6T1SyWBb9Jc3jfFaGanDuQamwuDz5kYWlh
+        DsLBzp91cm6IMaQX11EiSIqQVgIw89lVM8Geges=
+X-Google-Smtp-Source: ABdhPJx4rOa+ntWlSp+7Ns1AjCepaDgfPgRkjoRXrA5XXRO+qdETutkJQSSxvPyStaNY007guCvxHukuLv7uv9RmHfA=
+X-Received: by 2002:a5b:591:: with SMTP id l17mr11653279ybp.60.1621569860321;
+ Thu, 20 May 2021 21:04:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210507213110.155492-1-brendanhiggins@google.com>
- <20210507213110.155492-4-brendanhiggins@google.com> <CABVgOSmEe32_kT9TR0-H8biuWGc1Rexne86DgLxths+GUHHgig@mail.gmail.com>
- <CABVgOS=W-UhLJ5siu2u=Nus6g2zMEHM6c9ck2DHbHr0e5uCqSQ@mail.gmail.com> <CAFd5g46kOy=JtNSX6nhMO6TdHK7sAZfvD=UqLpFDXPVFw4M4fA@mail.gmail.com>
-In-Reply-To: <CAFd5g46kOy=JtNSX6nhMO6TdHK7sAZfvD=UqLpFDXPVFw4M4fA@mail.gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Fri, 21 May 2021 11:53:14 +0800
-Message-ID: <CABVgOSkXYHs=xfg_sKsm8RzKB2JdnCatE2AViCh8DJ4po+C=3Q@mail.gmail.com>
-Subject: Re: [PATCH v1 3/4] kunit: tool: add support for QEMU
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Shuah Khan <shuah@kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Daniel Latypov <dlatypov@google.com>
+References: <20210407084238.20443-1-apopple@nvidia.com> <20210407084238.20443-9-apopple@nvidia.com>
+In-Reply-To: <20210407084238.20443-9-apopple@nvidia.com>
+From:   Ben Skeggs <skeggsb@gmail.com>
+Date:   Fri, 21 May 2021 14:04:08 +1000
+Message-ID: <CACAvsv6hKbmHMHmJSxMyij_4Y1v51Zo5NAfLtDyaQyiamtGOLQ@mail.gmail.com>
+Subject: Re: [PATCH v8 8/8] nouveau/svm: Implement atomic SVM access
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     linux-mm@kvack.org, ML nouveau <nouveau@lists.freedesktop.org>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        linux-doc@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+        bsingharora@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        Christoph Hellwig <hch@infradead.org>, jglisse@redhat.com,
+        willy@infradead.org, Jason Gunthorpe <jgg@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 19, 2021 at 4:43 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
+On Wed, 7 Apr 2021 at 18:43, Alistair Popple <apopple@nvidia.com> wrote:
 >
-> On Mon, May 17, 2021 at 8:01 PM David Gow <davidgow@google.com> wrote:
-> >
-> > On Sat, May 15, 2021 at 3:59 PM David Gow <davidgow@google.com> wrote:
-> > >
-> > > On Sat, May 8, 2021 at 5:31 AM Brendan Higgins
-> > > <brendanhiggins@google.com> wrote:
-> > > >
-> > > > Add basic support to run QEMU via kunit_tool. Add support for i386,
-> > > > x86_64, arm, arm64, and a bunch more.
-> > > >
-> > > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > > > Tested-by: David Gow <davidgow@google.com>
-> > > > ---
-> > > >
-> > > > Changes since last revision:
-> > > >
-> > > > - A number of minor obvious issues pointed out by David and Daniel.
-> > > > - Added facility for merging Kconfigs at Daniel's suggestion.
-> > > > - Broke out qemu_configs each into their own config file which is loaded
-> > > >   dynamically - mostly at David's suggestion.
-> > > >
-> > > > ---
-> > >
-> > > This seems pretty good to me. I only have one real complaint --
-> > > qemu_configs needing to be in a subdirectory of ./tools/testing/kunit
-> > > -- but am able to tolerate that (even if I'd prefer not to have it) if
-> > > it's documented properly.
-> > >
-> > > Otherwise, save for a couple of minor nitpicks, this seems good to go.
-> > >
-> > > Reviewed-by: David Gow <davidgow@google.com>
-> > >
-> > >
-> >
-> > One thing I forgot to mention is that I'm not 100% sure about the
-> > Kconfig fragments being embedded in the qemu_configs. I still kind-of
-> > prefer the idea of them being in separate config files. While I don't
+> Some NVIDIA GPUs do not support direct atomic access to system memory
+> via PCIe. Instead this must be emulated by granting the GPU exclusive
+> access to the memory. This is achieved by replacing CPU page table
+> entries with special swap entries that fault on userspace access.
 >
-> I don't feel strongly either way, but I don't have a good idea on how
-> to implement your idea well. How about we leave it for now, and if you
-> decide you really want to do something about it, you can do it?
+> The driver then grants the GPU permission to update the page undergoing
+> atomic access via the GPU page tables. When CPU access to the page is
+> required a CPU fault is raised which calls into the device driver via
+> MMU notifiers to revoke the atomic access. The original page table
+> entries are then restored allowing CPU access to proceed.
 >
-> > think this is necessarily a blocker, I did just realise that, by
-> > default, kunit.py run --arch=<non-UM-arch> will pull its default
-> > .kunitconfig from arch/um/configs/kunit_defconfig, which definitely
-> > feels awkward when UML is not otherwise involved.
->
-> Hmmm...this file is identical to
-> tools/testing/kunit/configs/all_tests.config. Maybe we should just use
-> that instead?
->
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+The Nouveau bits at least look good to me.
 
-That sounds like a better plan. It looks like all_tests.config isn't
-used anywhere, anyway. I might rename it and replace the
-arch/um/.../kunit_defconfig version in another patch, then.
+For patches 7/8:
+Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 
-> > Some further thoughts below (which range a bit from "practical
-> > suggestion" to "overcomplicated ponderings", so don't feel the
-> > pressure to take all of them).
-> >
-> > (...snip...)
-> >
-> > > > diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-> > > > index e22ade9d91ad5..2bd196fd69e5c 100644
-> > > > --- a/tools/testing/kunit/kunit_kernel.py
-> > > > +++ b/tools/testing/kunit/kunit_kernel.py
-> > > > @@ -6,23 +6,31 @@
-> > > >  # Author: Felix Guo <felixguoxiuping@gmail.com>
-> > > >  # Author: Brendan Higgins <brendanhiggins@google.com>
-> > > >
-> > > > +from __future__ import annotations
-> > > > +import importlib.util
-> > > >  import logging
-> > > >  import subprocess
-> > > >  import os
-> > > >  import shutil
-> > > >  import signal
-> > > >  from typing import Iterator
-> > > > +from typing import Optional
-> > > >
-> > > >  from contextlib import ExitStack
-> > > >
-> > > > +from collections import namedtuple
-> > > > +
-> > > >  import kunit_config
-> > > >  import kunit_parser
-> > > > +import qemu_config
-> > > >
-> > > >  KCONFIG_PATH = '.config'
-> > > >  KUNITCONFIG_PATH = '.kunitconfig'
-> > > >  DEFAULT_KUNITCONFIG_PATH = 'arch/um/configs/kunit_defconfig'
-> >
-> > This being in arch/um doesn't seem great if its being used for non-UML
-> > builds. Is it worth either:
-> > (a) moving this somewhere else (e.g., tools/testing/kunit/configs as
-> > with the BROKEN_ALLCONFIG_PATH beflow), or
 >
-> How about we use: tools/testing/kunit/configs/all_tests.config ? The
-> file is identical.
-
-Yeah: I'm not thrilled with the name all_tests.config, but since it
-doesn't appear to be being used anywhere, I might just rename it in
-another patch.
-
-> > (b) giving each architecture its own kunit_defconfig, possibly in
-> > place of the qemuconfig member of QemuArchParams
-> >
-> > I'm leaning towards (b), which solves two different sources of
-> > ugliness in one go, though it would appear to have the downside that
-> > the default .kunitconfig could end up being architecture specific,
-> > which isn't great.
+> ---
 >
-> Yeah, I am not a fan of trying to solve that problem in this patchset.
-> This is sounding more and more like what should be follow-on work to
-> me.
-
-Yeah, I'm not sure exactly what that should look like yet, anyway.
-
-Let's keep things as they are in this patch. I'll put a follow-up
-patch to use all_tests.config rather than the arch/um one (possibly as
-part of my "default to ALL_TESTS" patchset), and if we think of
-something better that is more architecture specific, we'll do that.
-
-> > > >  BROKEN_ALLCONFIG_PATH = 'tools/testing/kunit/configs/broken_on_uml.config'
-> > > >  OUTFILE_PATH = 'test.log'
-> > > > +ABS_TOOL_PATH = os.path.abspath(os.path.dirname(__file__))
-> > > > +QEMU_CONFIGS_DIR = os.path.join(ABS_TOOL_PATH, 'qemu_configs')
-> > > >
-> >
-> > (...snip...)
-> >
-> > > > diff --git a/tools/testing/kunit/qemu_config.py b/tools/testing/kunit/qemu_config.py
-> > > > new file mode 100644
-> > > > index 0000000000000..aff1fe0442dbc
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_config.py
-> > > > @@ -0,0 +1,17 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +#
-> > > > +# Collection of configs for building non-UML kernels and running them on QEMU.
-> > > > +#
-> > > > +# Copyright (C) 2021, Google LLC.
-> > > > +# Author: Brendan Higgins <brendanhiggins@google.com>
-> > > > +
-> > > > +from collections import namedtuple
-> > > > +
-> > > > +
-> > > > +QemuArchParams = namedtuple('QemuArchParams', ['linux_arch',
-> > > > +                                              'qemuconfig',
-> >
-> > As mentioned, I'm not thrilled about keeping the Kconfig inline here,
-> > and would kind-of prefer it to be in another file. I could live with
-> > it if I have to, though. Regardless, 'qemuconfig' is not a
+> v7:
+> * Removed magic values for fault access levels
+> * Improved readability of fault comparison code
 >
-> It will be fixed in the next revision.
+> v4:
+> * Check that page table entries haven't changed before mapping on the
+>   device
+> ---
+>  drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
+>  drivers/gpu/drm/nouveau/nouveau_svm.c         | 126 ++++++++++++++++--
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
+>  .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 +
+>  4 files changed, 123 insertions(+), 11 deletions(-)
 >
-> > super-descriptive name, particularly as it's not clear if this is
-> > configuring QEMU (no, that's extra_qemu_params'), or configuring the
-> > kernel for QEMU compatibility.
+> diff --git a/drivers/gpu/drm/nouveau/include/nvif/if000c.h b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
+> index d6dd40f21eed..9c7ff56831c5 100644
+> --- a/drivers/gpu/drm/nouveau/include/nvif/if000c.h
+> +++ b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
+> @@ -77,6 +77,7 @@ struct nvif_vmm_pfnmap_v0 {
+>  #define NVIF_VMM_PFNMAP_V0_APER                           0x00000000000000f0ULL
+>  #define NVIF_VMM_PFNMAP_V0_HOST                           0x0000000000000000ULL
+>  #define NVIF_VMM_PFNMAP_V0_VRAM                           0x0000000000000010ULL
+> +#define NVIF_VMM_PFNMAP_V0_A                             0x0000000000000004ULL
+>  #define NVIF_VMM_PFNMAP_V0_W                              0x0000000000000002ULL
+>  #define NVIF_VMM_PFNMAP_V0_V                              0x0000000000000001ULL
+>  #define NVIF_VMM_PFNMAP_V0_NONE                           0x0000000000000000ULL
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> index a195e48c9aee..81526d65b4e2 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> @@ -35,6 +35,7 @@
+>  #include <linux/sched/mm.h>
+>  #include <linux/sort.h>
+>  #include <linux/hmm.h>
+> +#include <linux/rmap.h>
 >
-> Any suggestions on a better name? qemu_build_config_path? These
-> configs contain configs for configuring, building, and running kernels
-> on QEMU.
-
-I don't think we need "qemu" in the name, as this is already part of
-the QemuArchParams struct, and isn't a qemu config, but a kernel one.
-
-Something along the lines of "kernel_config" (or just "kconfig") maybe?
-
-> > > > +                                              'qemu_arch',
-> > > > +                                              'kernel_path',
-> > > > +                                              'kernel_command_line',
-> > > > +                                              'extra_qemu_params'])
-> > > > +
-> > >
-> > > Nit: newline at end of file.
-> > >
-> > >
-> > >
-> > > > diff --git a/tools/testing/kunit/qemu_configs/alpha.py b/tools/testing/kunit/qemu_configs/alpha.py
-> > > > new file mode 100644
-> > > > index 0000000000000..2cc64f848ca2c
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/alpha.py
-> > > > @@ -0,0 +1,10 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='alpha',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_SERIAL_8250=y
-> > > > +CONFIG_SERIAL_8250_CONSOLE=y''',
-> >
-> > If these were in a separate file, they could be shared across alpha,
-> > i386, x86_64, etc. Of course, that wouldn't gel well with putting them
-> > in arch/.../config. If there were some way of listing multiple files,
-> > it could form part of the config for several more architectures,
-> > though that's probably overcomplicating things.
+>  struct nouveau_svm {
+>         struct nouveau_drm *drm;
+> @@ -67,6 +68,11 @@ struct nouveau_svm {
+>         } buffer[1];
+>  };
 >
-> Yeah, like I said, I have sympathy for what you are saying here, but
-> it really feels like something that can and should be addressed in
-> follow on patches. We could totally address this issue later by
-> expanding this field to take either a string containing a Kconfig, or
-> a path to an external Kconfig; if we do so, it won't cause any
-> migration issues in the future.
+> +#define FAULT_ACCESS_READ 0
+> +#define FAULT_ACCESS_WRITE 1
+> +#define FAULT_ACCESS_ATOMIC 2
+> +#define FAULT_ACCESS_PREFETCH 3
+> +
+>  #define SVM_DBG(s,f,a...) NV_DEBUG((s)->drm, "svm: "f"\n", ##a)
+>  #define SVM_ERR(s,f,a...) NV_WARN((s)->drm, "svm: "f"\n", ##a)
 >
-
-Yeah: I think we can solve this if it actually becomes a problem. No
-need to change anything here.
-
-> > > > +                          qemu_arch='alpha',
-> > > > +                          kernel_path='arch/alpha/boot/vmlinux',
-> > > > +                          kernel_command_line='console=ttyS0',
-> > > > +                          extra_qemu_params=[''])
-> > > > diff --git a/tools/testing/kunit/qemu_configs/arm.py b/tools/testing/kunit/qemu_configs/arm.py
-> > > > new file mode 100644
-> > > > index 0000000000000..29a043b0531a0
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/arm.py
-> > > > @@ -0,0 +1,13 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='arm',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_ARCH_VIRT=y
-> > > > +CONFIG_SERIAL_AMBA_PL010=y
-> > > > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
-> > > > +CONFIG_SERIAL_AMBA_PL011=y
-> > > > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=y''',
-> >
-> > Similarly, if in a separate file and there were some multiple-file
-> > mechanism, these could mostly be shared between arm & arm64 (ARCH_VIRT
-> > being the only problem). Again, probably overcomplicating it at this
-> > point though.
+> @@ -411,6 +417,24 @@ nouveau_svm_fault_cancel_fault(struct nouveau_svm *svm,
+>                                       fault->client);
+>  }
 >
-> Right.
+> +static int
+> +nouveau_svm_fault_priority(u8 fault)
+> +{
+> +       switch (fault) {
+> +       case FAULT_ACCESS_PREFETCH:
+> +               return 0;
+> +       case FAULT_ACCESS_READ:
+> +               return 1;
+> +       case FAULT_ACCESS_WRITE:
+> +               return 2;
+> +       case FAULT_ACCESS_ATOMIC:
+> +               return 3;
+> +       default:
+> +               WARN_ON_ONCE(1);
+> +               return -1;
+> +       }
+> +}
+> +
+>  static int
+>  nouveau_svm_fault_cmp(const void *a, const void *b)
+>  {
+> @@ -421,9 +445,8 @@ nouveau_svm_fault_cmp(const void *a, const void *b)
+>                 return ret;
+>         if ((ret = (s64)fa->addr - fb->addr))
+>                 return ret;
+> -       /*XXX: atomic? */
+> -       return (fa->access == 0 || fa->access == 3) -
+> -              (fb->access == 0 || fb->access == 3);
+> +       return nouveau_svm_fault_priority(fa->access) -
+> +               nouveau_svm_fault_priority(fb->access);
+>  }
 >
-> > > > +                          qemu_arch='arm',
-> > > > +                          kernel_path='arch/arm/boot/zImage',
-> > > > +                          kernel_command_line='console=ttyAMA0',
-> > > > +                          extra_qemu_params=['-machine virt'])
-> > > > diff --git a/tools/testing/kunit/qemu_configs/arm64.py b/tools/testing/kunit/qemu_configs/arm64.py
-> > > > new file mode 100644
-> > > > index 0000000000000..1ba200bc99f0f
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/arm64.py
-> > > > @@ -0,0 +1,12 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='arm64',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_SERIAL_AMBA_PL010=y
-> > > > +CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
-> > > > +CONFIG_SERIAL_AMBA_PL011=y
-> > > > +CONFIG_SERIAL_AMBA_PL011_CONSOLE=y''',
-> > > > +                          qemu_arch='aarch64',
-> > > > +                          kernel_path='arch/arm64/boot/Image.gz',
-> > > > +                          kernel_command_line='console=ttyAMA0',
-> > > > +                          extra_qemu_params=['-machine virt', '-cpu cortex-a57'])
-> > > > diff --git a/tools/testing/kunit/qemu_configs/i386.py b/tools/testing/kunit/qemu_configs/i386.py
-> > > > new file mode 100644
-> > > > index 0000000000000..3998af306468e
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/i386.py
-> > > > @@ -0,0 +1,10 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='i386',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_SERIAL_8250=y
-> > > > +CONFIG_SERIAL_8250_CONSOLE=y''',
-> > > > +                          qemu_arch='x86_64',
-> > > > +                          kernel_path='arch/x86/boot/bzImage',
-> > > > +                          kernel_command_line='console=ttyS0',
-> > > > +                          extra_qemu_params=[''])
-> > > > diff --git a/tools/testing/kunit/qemu_configs/powerpc.py b/tools/testing/kunit/qemu_configs/powerpc.py
-> > > > new file mode 100644
-> > > > index 0000000000000..46292ce9e368e
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/powerpc.py
-> > > > @@ -0,0 +1,12 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='powerpc',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_PPC64=y
-> > > > +CONFIG_SERIAL_8250=y
-> > > > +CONFIG_SERIAL_8250_CONSOLE=y
-> > > > +CONFIG_HVC_CONSOLE=y''',
-> > > > +                          qemu_arch='ppc64',
-> > > > +                          kernel_path='vmlinux',
-> > > > +                          kernel_command_line='console=ttyS0',
-> > > > +                          extra_qemu_params=['-M pseries', '-cpu power8'])
-> > > > diff --git a/tools/testing/kunit/qemu_configs/riscv.py b/tools/testing/kunit/qemu_configs/riscv.py
-> > > > new file mode 100644
-> > > > index 0000000000000..de8c62d465723
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/riscv.py
-> > > > @@ -0,0 +1,31 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +import os
-> > > > +import os.path
-> > > > +import sys
-> > > > +
-> > > > +GITHUB_OPENSBI_URL = 'https://github.com/qemu/qemu/raw/master/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin'
-> > > > +OPENSBI_FILE = os.path.basename(GITHUB_OPENSBI_URL)
-> > > > +
-> > > > +if not os.path.isfile(OPENSBI_FILE):
-> > > > +       print('\n\nOpenSBI file is not in the current working directory.\n'
-> > > > +             'Would you like me to download it for you from:\n' + GITHUB_OPENSBI_URL + ' ?\n')
-> > > > +       response = input('yes/[no]: ')
-> > > > +       if response.strip() == 'yes':
-> > > > +               os.system('wget ' + GITHUB_OPENSBI_URL)
-> > > > +       else:
-> > > > +               sys.exit()
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='riscv',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_SOC_VIRT=y
-> > > > +CONFIG_SERIAL_8250=y
-> > > > +CONFIG_SERIAL_8250_CONSOLE=y
-> > > > +CONFIG_SERIAL_OF_PLATFORM=y
-> > > > +CONFIG_SERIAL_EARLYCON_RISCV_SBI=y''',
-> > > > +                          qemu_arch='riscv64',
-> > > > +                          kernel_path='arch/riscv/boot/Image',
-> > > > +                          kernel_command_line='console=ttyS0',
-> > > > +                          extra_qemu_params=[
-> > > > +                                          '-machine virt',
-> > > > +                                          '-cpu rv64',
-> > > > +                                          '-bios opensbi-riscv64-generic-fw_dynamic.bin'])
-> > > > diff --git a/tools/testing/kunit/qemu_configs/s390.py b/tools/testing/kunit/qemu_configs/s390.py
-> > > > new file mode 100644
-> > > > index 0000000000000..04c90332f1098
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/s390.py
-> > > > @@ -0,0 +1,14 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='s390',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_EXPERT=y
-> > > > +CONFIG_TUNE_ZEC12=y
-> > > > +CONFIG_NUMA=y
-> > > > +CONFIG_MODULES=y''',
-> > > > +                          qemu_arch='s390x',
-> > > > +                          kernel_path='arch/s390/boot/bzImage',
-> > > > +                          kernel_command_line='console=ttyS0',
-> > > > +                          extra_qemu_params=[
-> > > > +                                          '-machine s390-ccw-virtio',
-> > > > +                                          '-cpu qemu',])
-> > > > diff --git a/tools/testing/kunit/qemu_configs/sparc.py b/tools/testing/kunit/qemu_configs/sparc.py
-> > > > new file mode 100644
-> > > > index 0000000000000..f26b5f27cc5a1
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/sparc.py
-> > > > @@ -0,0 +1,10 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='sparc',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_SERIAL_8250=y
-> > > > +CONFIG_SERIAL_8250_CONSOLE=y''',
-> > > > +                          qemu_arch='sparc',
-> > > > +                          kernel_path='arch/sparc/boot/zImage',
-> > > > +                          kernel_command_line='console=ttyS0 mem=256M',
-> > > > +                          extra_qemu_params=['-m 256'])
-> > > > diff --git a/tools/testing/kunit/qemu_configs/x86_64.py b/tools/testing/kunit/qemu_configs/x86_64.py
-> > > > new file mode 100644
-> > > > index 0000000000000..bd5ab733b92ac
-> > > > --- /dev/null
-> > > > +++ b/tools/testing/kunit/qemu_configs/x86_64.py
-> > > > @@ -0,0 +1,10 @@
-> > > > +from ..qemu_config import QemuArchParams
-> > > > +
-> > > > +QEMU_ARCH = QemuArchParams(linux_arch='x86_64',
-> > > > +                          qemuconfig='''
-> > > > +CONFIG_SERIAL_8250=y
-> > > > +CONFIG_SERIAL_8250_CONSOLE=y''',
-> > > > +                          qemu_arch='x86_64',
-> > > > +                          kernel_path='arch/x86/boot/bzImage',
-> > > > +                          kernel_command_line='console=ttyS0',
-> > > > +                          extra_qemu_params=[''])
-> > > > --
-> > > > 2.31.1.607.g51e8a6a459-goog
-> > > >
+>  static void
+> @@ -487,6 +510,10 @@ static bool nouveau_svm_range_invalidate(struct mmu_interval_notifier *mni,
+>         struct svm_notifier *sn =
+>                 container_of(mni, struct svm_notifier, notifier);
+>
+> +       if (range->event == MMU_NOTIFY_EXCLUSIVE &&
+> +           range->owner == sn->svmm->vmm->cli->drm->dev)
+> +               return true;
+> +
+>         /*
+>          * serializes the update to mni->invalidate_seq done by caller and
+>          * prevents invalidation of the PTE from progressing while HW is being
+> @@ -555,6 +582,71 @@ static void nouveau_hmm_convert_pfn(struct nouveau_drm *drm,
+>                 args->p.phys[0] |= NVIF_VMM_PFNMAP_V0_W;
+>  }
+>
+> +static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
+> +                              struct nouveau_drm *drm,
+> +                              struct nouveau_pfnmap_args *args, u32 size,
+> +                              struct svm_notifier *notifier)
+> +{
+> +       unsigned long timeout =
+> +               jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+> +       struct mm_struct *mm = svmm->notifier.mm;
+> +       struct page *page;
+> +       unsigned long start = args->p.addr;
+> +       unsigned long notifier_seq;
+> +       int ret = 0;
+> +
+> +       ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
+> +                                       args->p.addr, args->p.size,
+> +                                       &nouveau_svm_mni_ops);
+> +       if (ret)
+> +               return ret;
+> +
+> +       while (true) {
+> +               if (time_after(jiffies, timeout)) {
+> +                       ret = -EBUSY;
+> +                       goto out;
+> +               }
+> +
+> +               notifier_seq = mmu_interval_read_begin(&notifier->notifier);
+> +               mmap_read_lock(mm);
+> +               make_device_exclusive_range(mm, start, start + PAGE_SIZE,
+> +                                           &page, drm->dev);
+> +               mmap_read_unlock(mm);
+> +               if (!page) {
+> +                       ret = -EINVAL;
+> +                       goto out;
+> +               }
+> +
+> +               mutex_lock(&svmm->mutex);
+> +               if (!mmu_interval_read_retry(&notifier->notifier,
+> +                                            notifier_seq))
+> +                       break;
+> +               mutex_unlock(&svmm->mutex);
+> +       }
+> +
+> +       /* Map the page on the GPU. */
+> +       args->p.page = 12;
+> +       args->p.size = PAGE_SIZE;
+> +       args->p.addr = start;
+> +       args->p.phys[0] = page_to_phys(page) |
+> +               NVIF_VMM_PFNMAP_V0_V |
+> +               NVIF_VMM_PFNMAP_V0_W |
+> +               NVIF_VMM_PFNMAP_V0_A |
+> +               NVIF_VMM_PFNMAP_V0_HOST;
+> +
+> +       svmm->vmm->vmm.object.client->super = true;
+> +       ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
+> +       svmm->vmm->vmm.object.client->super = false;
+> +       mutex_unlock(&svmm->mutex);
+> +
+> +       unlock_page(page);
+> +       put_page(page);
+> +
+> +out:
+> +       mmu_interval_notifier_remove(&notifier->notifier);
+> +       return ret;
+> +}
+> +
+>  static int nouveau_range_fault(struct nouveau_svmm *svmm,
+>                                struct nouveau_drm *drm,
+>                                struct nouveau_pfnmap_args *args, u32 size,
+> @@ -637,7 +729,7 @@ nouveau_svm_fault(struct nvif_notify *notify)
+>         unsigned long hmm_flags;
+>         u64 inst, start, limit;
+>         int fi, fn;
+> -       int replay = 0, ret;
+> +       int replay = 0, atomic = 0, ret;
+>
+>         /* Parse available fault buffer entries into a cache, and update
+>          * the GET pointer so HW can reuse the entries.
+> @@ -718,12 +810,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
+>                 /*
+>                  * Determine required permissions based on GPU fault
+>                  * access flags.
+> -                * XXX: atomic?
+>                  */
+>                 switch (buffer->fault[fi]->access) {
+>                 case 0: /* READ. */
+>                         hmm_flags = HMM_PFN_REQ_FAULT;
+>                         break;
+> +               case 2: /* ATOMIC. */
+> +                       atomic = true;
+> +                       break;
+>                 case 3: /* PREFETCH. */
+>                         hmm_flags = 0;
+>                         break;
+> @@ -739,8 +833,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
+>                 }
+>
+>                 notifier.svmm = svmm;
+> -               ret = nouveau_range_fault(svmm, svm->drm, &args.i,
+> -                                       sizeof(args), hmm_flags, &notifier);
+> +               if (atomic)
+> +                       ret = nouveau_atomic_range_fault(svmm, svm->drm,
+> +                                                        &args.i, sizeof(args),
+> +                                                        &notifier);
+> +               else
+> +                       ret = nouveau_range_fault(svmm, svm->drm, &args.i,
+> +                                                 sizeof(args), hmm_flags,
+> +                                                 &notifier);
+>                 mmput(mm);
+>
+>                 limit = args.i.p.addr + args.i.p.size;
+> @@ -756,11 +856,15 @@ nouveau_svm_fault(struct nvif_notify *notify)
+>                          */
+>                         if (buffer->fault[fn]->svmm != svmm ||
+>                             buffer->fault[fn]->addr >= limit ||
+> -                           (buffer->fault[fi]->access == 0 /* READ. */ &&
+> +                           (buffer->fault[fi]->access == FAULT_ACCESS_READ &&
+>                              !(args.phys[0] & NVIF_VMM_PFNMAP_V0_V)) ||
+> -                           (buffer->fault[fi]->access != 0 /* READ. */ &&
+> -                            buffer->fault[fi]->access != 3 /* PREFETCH. */ &&
+> -                            !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)))
+> +                           (buffer->fault[fi]->access != FAULT_ACCESS_READ &&
+> +                            buffer->fault[fi]->access != FAULT_ACCESS_PREFETCH &&
+> +                            !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)) ||
+> +                           (buffer->fault[fi]->access != FAULT_ACCESS_READ &&
+> +                            buffer->fault[fi]->access != FAULT_ACCESS_WRITE &&
+> +                            buffer->fault[fi]->access != FAULT_ACCESS_PREFETCH &&
+> +                            !(args.phys[0] & NVIF_VMM_PFNMAP_V0_A)))
+>                                 break;
+>                 }
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
+> index a2b179568970..f6188aa9171c 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
+> @@ -178,6 +178,7 @@ void nvkm_vmm_unmap_region(struct nvkm_vmm *, struct nvkm_vma *);
+>  #define NVKM_VMM_PFN_APER                                 0x00000000000000f0ULL
+>  #define NVKM_VMM_PFN_HOST                                 0x0000000000000000ULL
+>  #define NVKM_VMM_PFN_VRAM                                 0x0000000000000010ULL
+> +#define NVKM_VMM_PFN_A                                   0x0000000000000004ULL
+>  #define NVKM_VMM_PFN_W                                    0x0000000000000002ULL
+>  #define NVKM_VMM_PFN_V                                    0x0000000000000001ULL
+>  #define NVKM_VMM_PFN_NONE                                 0x0000000000000000ULL
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+> index 236db5570771..f02abd9cb4dd 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+> @@ -88,6 +88,9 @@ gp100_vmm_pgt_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
+>                 if (!(*map->pfn & NVKM_VMM_PFN_W))
+>                         data |= BIT_ULL(6); /* RO. */
+>
+> +               if (!(*map->pfn & NVKM_VMM_PFN_A))
+> +                       data |= BIT_ULL(7); /* Atomic disable. */
+> +
+>                 if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
+>                         addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
+>                         addr = dma_map_page(dev, pfn_to_page(addr), 0,
+> @@ -322,6 +325,9 @@ gp100_vmm_pd0_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
+>                 if (!(*map->pfn & NVKM_VMM_PFN_W))
+>                         data |= BIT_ULL(6); /* RO. */
+>
+> +               if (!(*map->pfn & NVKM_VMM_PFN_A))
+> +                       data |= BIT_ULL(7); /* Atomic disable. */
+> +
+>                 if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
+>                         addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
+>                         addr = dma_map_page(dev, pfn_to_page(addr), 0,
+> --
+> 2.20.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
