@@ -2,116 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F87C47078
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 15:17:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0155CC47076
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:02:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 98EE8613E4
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 15:17:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D317C613E3
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:02:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233542AbhEUPTF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 11:19:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55880 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233019AbhEUPTE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 11:19:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621610261;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RoYhqqzDmicG8nqQq3Z4gKK4A7xeq01hKkih7BDgRQQ=;
-        b=ft9ZK1OdfWrKyq9meeUi4dHcrWBmWZLdb6pzmKtfmoGz0/LqUhqXKF2HrVTpnHi+iB4g8x
-        cV2lLEEGboDew9L9Ip1fMRL7AkhCearjZXb7XkFS9lsJoVRYuuzx05MiKgbWC3nOh/tb8z
-        uej/osjKvH3jTf51Sup28hXdtSC3XCU=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-nX2GgarJOCCk_xEvN4zZUw-1; Fri, 21 May 2021 11:17:39 -0400
-X-MC-Unique: nX2GgarJOCCk_xEvN4zZUw-1
-Received: by mail-qt1-f197.google.com with SMTP id 1-20020aed31010000b029019d1c685840so15719120qtg.3
-        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 08:17:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=RoYhqqzDmicG8nqQq3Z4gKK4A7xeq01hKkih7BDgRQQ=;
-        b=QRmHbRcMV/W0jwkxJ1nhmNG83LgPEpy7mKpXn7/+vDocgiLgbtTE3IepOkm4RtQcwn
-         p8Rzn3aHEicGYhaLFbclF4VMVTXoZeyTW1JCdf+CtZM36bA9nqO5wSlI9sSRH4bBBHVc
-         ur8pmad20XEDUjpQgvM9ZU1jHbezJ6jx6kN2ldtGM840e2f+FRZd7oFDTKpbo8k2wbRo
-         DUY7lRlZ0PqnUOUBS3Vold35FSsW82UfLEPIxJ26mbq83Q2aTbPN6LPNWVULunvybQoO
-         N4PWRTqCX2RmcJi2V6Stv/I9wwutnaVf944r2TU/cw0UW0lu+CCaexNofbmmsJdxp0t+
-         Z1GA==
-X-Gm-Message-State: AOAM530SJIS96Sd8PXlRGijk1VaqrBQ6BdiHH35hRcwfG8VIBfC5TQj3
-        O4K5LB4zZdbdotFLLE9UNB8cf09uB06LzRVNFYSvMacpMTtvsu6aE4ZFsNVo3Po2Auzrt7VKrI9
-        fCAF++I9BqoFE9OOKr9Sw
-X-Received: by 2002:ac8:5ad5:: with SMTP id d21mr11877211qtd.167.1621610257592;
-        Fri, 21 May 2021 08:17:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEIsyCtsBuBfdyij3/7qNA1kAHeoRXkFlZHhVZ8IT4lYajSTtySLt1mT2P9dgK6jTZwptx/g==
-X-Received: by 2002:ac8:5ad5:: with SMTP id d21mr11876953qtd.167.1621610254177;
-        Fri, 21 May 2021 08:17:34 -0700 (PDT)
-Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
-        by smtp.gmail.com with ESMTPSA id k125sm5038764qkf.53.2021.05.21.08.17.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 May 2021 08:17:33 -0700 (PDT)
-From:   Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH] docs: lockdep-design: correct the notation for writer
-To:     Xiongwei Song <sxwjean@me.com>, peterz@infradead.org,
-        mingo@redhat.com, will@kernel.org, boqun.feng@gmail.com,
-        corbet@lwn.net
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Xiongwei Song <sxwjean@gmail.com>
-References: <1621578594-13237-1-git-send-email-sxwjean@me.com>
-Message-ID: <e0c0302f-e63f-7eba-872b-85e21b0b1622@redhat.com>
-Date:   Fri, 21 May 2021 11:17:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        id S229956AbhEUQEN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 12:04:13 -0400
+Received: from m34-101.88.com ([104.250.34.101]:63382 "EHLO 88.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229807AbhEUQEM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 12:04:12 -0400
+X-Greylist: delayed 360 seconds by postgrey-1.27 at vger.kernel.org; Fri, 21 May 2021 12:04:11 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=From:To:Date; bh=vJkq7wa9Z6jij7BO6V7KBAE4fXZ75ffcsEThU
+        MYmmcI=; b=DX/ygDq5lp689y+WWSOlxylrr0nAdAkrXkHhTMa1vtLbBSJqZ5neG
+        6DtxfTJ42NBeIxJ2LOmzlIFFV3XOM+n3uUYIU06L4+LSzoAX9KVx+ocQvJacBqw6
+        s7M/HdM26DKgqepeuCU5jtZoKzePK7v3tUX0tEC4HX/GkfAIXdrTiE=
+Received: from localhost.localdomain (unknown [113.251.14.223])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgC3fkEN2Kdg5Ok2AA--.14375S2;
+        Fri, 21 May 2021 23:55:58 +0800 (CST)
+From:   Hu Haowen <src.res@email.cn>
+To:     alexs@kernel.org, corbet@lwn.net, bobwxc@email.cn, bernard@vivo.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hu Haowen <src.res@email.cn>
+Subject: [PATCH] docs/zh_CN: update a translation in zh_CN/dev-tools/gcov
+Date:   Fri, 21 May 2021 23:55:51 +0800
+Message-Id: <20210521155551.29176-1-src.res@email.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <1621578594-13237-1-git-send-email-sxwjean@me.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: LCKnCgC3fkEN2Kdg5Ok2AA--.14375S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruw4Dtr13Xw1ruFyfXF4fZrb_yoWftrc_Gw
+        1kWF4vyFy3Jry2gr4rAF1kJr1fZF4rKw18Arn0ya98Jw15G39rGa4DX3s5ZFW3WF43urW3
+        CrZ7ZrZ3trn2yjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbeAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWUJVWUGwA2ocxC64kI
+        II0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7
+        xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84AC
+        jcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4
+        xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWU
+        JVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64
+        vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
+        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF
+        0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+        c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
+        v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7V
+        U0mhF7UUUUU==
+X-Originating-IP: [113.251.14.223]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/21/21 2:29 AM, Xiongwei Song wrote:
-> From: Xiongwei Song <sxwjean@gmail.com>
->
-> The block condition matrix is using 'E' as the writer noation here, so it
-> would be better to use 'E' as the reminder rather than 'W'.
->
-> Signed-off-by: Xiongwei Song <sxwjean@gmail.com>
-> ---
->   Documentation/locking/lockdep-design.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
-> index 9f3cfca..c3b923a 100644
-> --- a/Documentation/locking/lockdep-design.rst
-> +++ b/Documentation/locking/lockdep-design.rst
-> @@ -462,7 +462,7 @@ Block condition matrix, Y means the row blocks the column, and N means otherwise
->   	| R | Y | Y | N |
->   	+---+---+---+---+
->   
-> -	(W: writers, r: non-recursive readers, R: recursive readers)
-> +	(E: writers, r: non-recursive readers, R: recursive readers)
->   
->   
->   acquired recursively. Unlike non-recursive read locks, recursive read locks
+The original file has added some words in commit c797997a244cd2c58908
+("Documentation: dev-tools: Add Testing Overview"), hence update the
+Chinese translation of them.
 
-I would say it should be the other way around. Both W and E refer to the 
-same type of lockers. W emphasizes writer aspect of it and E for 
-exclusive. I think we should change the block condition matrix to use W 
-instead of E.
+Signed-off-by: Hu Haowen <src.res@email.cn>
+---
+ Documentation/translations/zh_CN/dev-tools/index.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Cheers,
-Longman
+diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+index fd73c479917b..7ba02fc392a6 100644
+--- a/Documentation/translations/zh_CN/dev-tools/index.rst
++++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+@@ -11,6 +11,9 @@
+ 目前这些文档已经整理在一起，不需要再花费额外的精力。
+ 欢迎任何补丁。
+ 
++有关测试专用工具的简要概述，参见
++Documentation/dev-tools/testing-overview.rst
++
+ .. class:: toc-title
+ 
+ 	   目录
+-- 
+2.25.1
 
