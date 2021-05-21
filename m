@@ -2,94 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32785C4707A
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:40:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52264C47082
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 20:19:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 01857613E9
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:40:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 337F7613EE
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 20:19:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232788AbhEUSmM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 14:42:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42456 "EHLO
+        id S230413AbhEUUUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 16:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbhEUSmL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 14:42:11 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85FE1C061574;
-        Fri, 21 May 2021 11:40:48 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0ea400fbcd5718c7a034c2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:a400:fbcd:5718:c7a0:34c2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AFE9D1EC06F6;
-        Fri, 21 May 2021 20:40:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1621622445;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=xkROTNt6AI31m2jdBOyiECteV9VsPpyw0WnUQpk+Wzc=;
-        b=VaADoicO3S+yFEcIUtcM3sOjNaJE0WZ+C0kd7zHM3NhGF6PJSn5GjYz2Si/yXNYyn+xuPE
-        Yjpcj0qOk95X1N65SeP8DvLIA2jvzUiMMIOlr4cobPuJN3EvD0c0YoQVE4zqjWaqGVRoXK
-        yz9AePJ4Z/wC7pgXgLxPK4UBY8FQDeE=
-Date:   Fri, 21 May 2021 20:40:39 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
- setup/verify routines
-Message-ID: <YKf+pyW+WXtnPFfp@zn.tnic>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-25-yu-cheng.yu@intel.com>
- <YKIfIEyW+sR+bDCk@zn.tnic>
- <c9121ca1-83cb-1c37-1a8e-edaafaa6fda2@intel.com>
+        with ESMTP id S230387AbhEUUUo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 16:20:44 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412F7C06138C
+        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 13:19:21 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id z12so30778998ejw.0
+        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 13:19:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aVEzTQ8I4J/3yp3MgA3FQPj62TME7oEjwi3UB54+9j4=;
+        b=y5acabY0hHaFulLVyRw96Upc3Tfg5b6Vkr2way0sktzbQKqkTD9yR07FT7pm2dbtK2
+         OmIX/Fgm2xBpq1gKrI2N3x9jMvF7NuA98vf/xJIjcCcJndHdWK2E02xm9dExvkQ5GvlT
+         h0DXHodT+NB8JKTBfAsvxDtMdKm5KcxkiQcmBzjtyoKUWgK2oHjZtxvU8b6+lwdlDQjc
+         D5hZyeGTTzmQ2/4wUyAApkMxFk9M65r/4JDnrXFYNPAeRoAD80OVIQWfeFAH/8N1BNVg
+         qn061UVWCxSDmBHw6mCcH4UI/nRyNhP8vsZk5WokXPfE22Hielso21jzz8/mj0UnuA1U
+         Ha5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aVEzTQ8I4J/3yp3MgA3FQPj62TME7oEjwi3UB54+9j4=;
+        b=MCZMNZ+u9uErSTBHwEvYyD0jjrcRDKQSVhmHilpHXhVlwDPiuwzJNrxJVRYq6RFuXE
+         3SawGvpAePQzbyeSyCtST/RkYvZZF5QmObCwu42u3PDF1rYaX9uIjIUqjZOE4ek/jpct
+         h8JZkZzGidGEMGjwrwF2S2+iGdReIqMiZTJ48yoUsNiNdRdxReAMvqjZZJPJ9M01hsZR
+         tFXPJxXZXta+Oi3b2OG7hEOW+S0ABTpqnuCWyyryb8coYR3VGGRwOLQrXiKdwpa0HzMs
+         EcZsDRfqHmzqjGoYOdcVdN8up8r9kKoNzWdQg8q/QUnHHkIGDbh6sibN9n8EF0PfbBpd
+         xsjQ==
+X-Gm-Message-State: AOAM530Hs2ULP0MuXeHw9x77EmPq4XxIqhJXGV+PJ6mPxOkmfadCJNwv
+        au0D25ctx+LIs4ak1nxaVJ4m7j0JAOVeA1Sqqdpp
+X-Google-Smtp-Source: ABdhPJziKJYfK7MvqTrwnHeo+NPoz2FUDF+4sST5fBaH9Y8+nll4YIEPRA92LUzjYQjCfkAjrte8Kmy6TkEhHB1xuyQ=
+X-Received: by 2002:a17:906:7e0f:: with SMTP id e15mr11771196ejr.398.1621628359745;
+ Fri, 21 May 2021 13:19:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c9121ca1-83cb-1c37-1a8e-edaafaa6fda2@intel.com>
+References: <20210513200807.15910-1-casey@schaufler-ca.com>
+ <20210513200807.15910-15-casey@schaufler-ca.com> <202105141218.21BDA22F@keescook>
+ <c1ab101a-7ee3-6d20-c8b1-cff5bcdfe98c@schaufler-ca.com>
+In-Reply-To: <c1ab101a-7ee3-6d20-c8b1-cff5bcdfe98c@schaufler-ca.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 21 May 2021 16:19:08 -0400
+Message-ID: <CAHC9VhScDhmr2k5RpNhj1=6FpO_xPN1C6_qFqbXb6SWUbBiENA@mail.gmail.com>
+Subject: Re: [PATCH v26 14/25] LSM: Specify which LSM to display
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Kees Cook <keescook@chromium.org>, casey.schaufler@intel.com,
+        James Morris <jmorris@namei.org>,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        linux-audit@redhat.com, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        linux-kernel@vger.kernel.org,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 21, 2021 at 09:17:24AM -0700, Yu, Yu-cheng wrote:
-> If !IS_ALIGNED(ssp, 4), then certainly !IS_ALIGNED(ssp, 8).
+On Mon, May 17, 2021 at 3:53 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> On 5/14/2021 12:23 PM, Kees Cook wrote:
+> > On Thu, May 13, 2021 at 01:07:56PM -0700, Casey Schaufler wrote:
+> >> Create a new entry "interface_lsm" in the procfs attr directory for
+> >> controlling which LSM security information is displayed for a
+> >> process. A process can only read or write its own display value.
+> >>
+> >> The name of an active LSM that supplies hooks for
+> >> human readable data may be written to "interface_lsm" to set the
+> >> value. The name of the LSM currently in use can be read from
+> >> "interface_lsm". At this point there can only be one LSM capable
+> >> of display active. A helper function lsm_task_ilsm() is
+> >> provided to get the interface lsm slot for a task_struct.
+> >>
+> >> Setting the "interface_lsm" requires that all security modules using
+> >> setprocattr hooks allow the action. Each security module is
+> >> responsible for defining its policy.
+> >>
+> >> AppArmor hook provided by John Johansen <john.johansen@canonical.com>
+> >> SELinux hook provided by Stephen Smalley <stephen.smalley.work@gmail.com>
+> >>
+> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >> Cc: Kees Cook <keescook@chromium.org>
+> >> Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
+> >> Cc: Paul Moore <paul@paul-moore.com>
+> >> Cc: John Johansen <john.johansen@canonical.com>
+> >> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >> Cc: linux-api@vger.kernel.org
+> >> Cc: linux-doc@vger.kernel.org
+> >> ---
+> >>  .../ABI/testing/procfs-attr-lsm_display       |  22 +++
+> >>  Documentation/security/lsm.rst                |  14 ++
+> >>  fs/proc/base.c                                |   1 +
+> >>  include/linux/lsm_hooks.h                     |  17 ++
+> >>  security/apparmor/include/apparmor.h          |   3 +-
+> >>  security/apparmor/lsm.c                       |  32 ++++
+> >>  security/security.c                           | 166 ++++++++++++++++--
+> >>  security/selinux/hooks.c                      |  11 ++
+> >>  security/selinux/include/classmap.h           |   2 +-
+> >>  security/smack/smack_lsm.c                    |   7 +
+> >>  10 files changed, 256 insertions(+), 19 deletions(-)
+> >>  create mode 100644 Documentation/ABI/testing/procfs-attr-lsm_display
 
-... but the reverse is true: when it is aligned by 8, it is already
-aligned by 4. Whoops, that's tricky. Pls put a comment over it so that
-we don't forget.
+...
 
-Thx.
+> >> @@ -2171,23 +2203,110 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
+> >>                              char **value)
+> >>  {
+> >>      struct security_hook_list *hp;
+> >> +    int ilsm = lsm_task_ilsm(current);
+> >> +    int slot = 0;
+> >> +
+> >> +    if (!strcmp(name, "interface_lsm")) {
+> >> +            /*
+> >> +             * lsm_slot will be 0 if there are no displaying modules.
+> >> +             */
+> >> +            if (lsm_slot == 0)
+> >> +                    return -EINVAL;
+> >> +
+> >> +            /*
+> >> +             * Only allow getting the current process' interface_lsm.
+> >> +             * There are too few reasons to get another process'
+> >> +             * interface_lsm and too many LSM policy issues.
+> >> +             */
+> >> +            if (current != p)
+> >> +                    return -EINVAL;
+> > ... but context isn't established by just checking "current", as this
+> > file handle may have been given to another process.
+> >
+> > I suspect the security_get/setprocattr needs to gain a pointer to "file"
+> > so that the f_cred struct can be examined[1] (i.e. compare opener
+> > against reader/writer).
+> >
+> > [1] https://www.kernel.org/doc/html/latest/security/credentials.html#open-file-credentials
+>
+> It's not credentials being checked here. The check is whether the task that
+> would be affected is "current". Process A can't open /proc/B/attr/interface_lsm
+> with write access. The only process that can open it for write access is B.
+> If process B opens /proc/B/attr/interface_lsm for write access it could send
+> the file handle to process A, but process A can't write to the file because
+> (current != p) that is, (A != B).
 
--- 
-Regards/Gruss,
-    Boris.
+Agreed.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Acked-by: Paul Moore <paul@paul-moore.com>
+
+
+--
+paul moore
+www.paul-moore.com
