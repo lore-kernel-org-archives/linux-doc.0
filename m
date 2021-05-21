@@ -2,289 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF42FC4707C
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00848C4707A
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:08:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC9D6613E3
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:05:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB55F613D8
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 18:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235075AbhEUSGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 14:06:40 -0400
-Received: from mout.gmx.net ([212.227.15.15]:36933 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232931AbhEUSGj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 14:06:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1621620287;
-        bh=FkAJBNlJfXLTD1aQ6QDAIzJgHaThVI5Z24R4aGMuUUA=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=iAgVa/3bF5UaWLOS11qXVGUcBijLwHVI3/+lSKQlkeLKapq5Dx7E0Fv6Agx7eplAk
-         QqcMhEYoxsBVzVruTuvit1W6SlN0fgyMs1o10Y9vG2U8p9Y1Aj2+DKF9isTc+jUvqz
-         347CPGpNZVeywpzBFvg6f/8y3m10hHX+Rz1zh3no=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MUXtS-1lsqh52Nw8-00QT09; Fri, 21 May 2021 20:04:47 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>
-Cc:     John Wood <john.wood@gmx.com>, Andi Kleen <ak@linux.intel.com>,
-        valdis.kletnieks@vt.edu,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        id S234804AbhEUSJk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 14:09:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230248AbhEUSJj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 14:09:39 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C68C061574
+        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 11:08:16 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id p6so11393230plr.11
+        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 11:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5U6SWI6tKwJQxiyyyLqjT1i8tYx3isO7hjR5W5+1Jeo=;
+        b=vtTnyRah2kvhTAvKkgyp5rIri/BGQNchS7lXj3oCYhV5McFBbxGTr4EjYc6mvyOinn
+         3AfMgA6VhS3u8947Z/3CuaEcMpm7wash5s4UhzpQ/gq2UOH/pXd1P8HP6LXs2AX2ghZ7
+         WTvvt1/yfLL8GYTjA6616yKQHybiIg2wPemKZer7/tMyrMrTs7n6j06sv5XO10p5HCbh
+         yLcC8WefzjiIY7amtnohfd+oXEAboa4fIZAxuILISPaizFwPRbUSghFsEjTIIQvrWCKL
+         mLont745Oggstxjw6092u9UjqC0L3W/ZSGD2MiRRew69QhYXK6txzd/ZBpU4jI6Eu+y6
+         cfSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=5U6SWI6tKwJQxiyyyLqjT1i8tYx3isO7hjR5W5+1Jeo=;
+        b=a7gn12BbpKHymdlx2jnAbFc0KqHHl4gAzck4YVXO+8sdBiFnv0TL1FGiz9j5uUkBsa
+         CaHusnungG3r4PCJs7NtZkSaCJ/cTPMbacWzqdOdd8uTwfuCGzSB3JpNTpeCpTH/DZ0v
+         U+CNCcWQtAPq54NxjYavJoPgVw4yn5RB0w1V9Jn39YeArPQQD3kINxlvzLj40s266QG4
+         heHY8pch2zga119dojFt0xJKhoKkxWeF9LBdeIgUP/OAGCwvA0bCkF/lNOhLl0t5IK6M
+         DYRlw86+6noohYGPHfxesQqhA98F1frpBVlldtk+Za2LLbnOq9SigKbcX+cKfPIURuvU
+         HF2g==
+X-Gm-Message-State: AOAM532zhMUrQi+SgdTS+SjAJORC2MMqJjs8J54bE4uoqmd/HR26sudj
+        Uf4b8ybozr3UE3VWyF9QpfXMjg==
+X-Google-Smtp-Source: ABdhPJwLEJQWqh67UT0dt8OTf7ZYOzZievMqQ6z7E3S6USV227nLPVyaUv+fvSjbWzdxhAnKUIgAHA==
+X-Received: by 2002:a17:902:f543:b029:f3:bfca:21b4 with SMTP id h3-20020a170902f543b02900f3bfca21b4mr13333335plf.6.1621620495939;
+        Fri, 21 May 2021 11:08:15 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id r11sm4812600pgl.34.2021.05.21.11.08.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 May 2021 11:08:15 -0700 (PDT)
+Date:   Fri, 21 May 2021 11:08:15 -0700 (PDT)
+X-Google-Original-Date: Fri, 21 May 2021 11:08:12 PDT (-0700)
+Subject:     Re: [PATCH v18 00/18] KVM RISC-V Support
+In-Reply-To: <YKfyR5jUu3HMvYg5@kroah.com>
+CC:     pbonzini@redhat.com, anup@brainfault.org,
+        Anup Patel <Anup.Patel@wdc.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, corbet@lwn.net, graf@amazon.com,
+        Atish Patra <Atish.Patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <Damien.LeMoal@wdc.com>, kvm@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: [PATCH v7 4/7] security/brute: Mitigate a brute force attack
-Date:   Fri, 21 May 2021 19:24:11 +0200
-Message-Id: <20210521172414.69456-5-john.wood@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210521172414.69456-1-john.wood@gmx.com>
-References: <20210521172414.69456-1-john.wood@gmx.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zRoeZqE/E+sUnl6e4VWaC6n7LeLrOHxonXqERKe/uJW00GZSVOs
- /qTH7j1end+WvQAikPGKqA7eYPxBZAacnNY4Z7LSY8JgL0DUdxdGwvww2bfxeeJMiJKsa5g
- I0FyJHJblOkC78fn2a1iaqE6Q/N4uYoV+8/RwauYWwfX7+pr55UXVHCY5fzF+vSz3KI4VS7
- 4MmMA6hglQ6HiDGXiFCbg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+WT2bkSS6RQ=:iSRmDYv2F2PmKlCpx+OmO9
- 0EPhng9GnF779vkXZqS7J4ioH8QxVNOqjjhLq9ELRLP6vrCibK/oOkVkDoEEaUnPeWTlawszh
- w5OMjp6wAlyx2CbCRQluGuxOnaGdWJzKooV+1GOrK9KVov/46JL8G/XXnjZHLoyEyIXc+ehQ/
- Y4CAmEWzBYT2yVWABNO2x+jvjtZpWgIEGgL30gXZqlAggtoqIlqfnOCIfK238NH3h1A3RCM0W
- O649kXkDjp3qJTIbHRIErEKGWMtvRW+uTx/lXqXRVAqw+HdTjAk0C6Z5er/YpxG41Zkq9JnyI
- gP4yxbE/cIXo8dZMGYKu+mjIh/crnWf26eEnI3CVEdFHlZfJy8TBVD53LL4FdpER9EMzPX9NS
- sfd1eLLBjw6hQGDYqSniavVe+P6GlwtrSRcAS4lyJi2Coh16rbHyX4dmRPi0sIbFzV+hMdGjW
- vpW1FdPdUWyOIeomaEcLdYSMppRqgpwujqy/kERWvtUiQJafQPcR7L0SuHHzuW5+DQs8vlTIM
- 8zFEXPoA+rjMs/2Np56J4qHF7qe3bDSJP2p3REJ1vCV29X8UO920FNomiUvj5FLwy3LQCeJwK
- RUI5O3P+O/0ZhyEomm48oN/aeXzE6mcK9So6CXO020CuH1rVv9gI17YXX7i4x9wfUVoVny1EL
- /Yayib2zjBzNQd0ttfxdnOg+vyFrqEUJivc5qQnIf5FulJ9icWESdmtFHz1qmhaAsbfQQIWHd
- bCmKhwkY9Qp3f6W+nv5Hn3VmJXwlhneOwVfbGsPH2UHimdg3QcP5vfx9ZIM0txSNDtLv7Laou
- k4T7xnWKA3XyBjUPalrOpjtoh5vkPERoCwvw/cC6TCsPJ5Tq93UFTstHGf5+cv8JSnKNWkmH/
- dHluKoSWPLpBJLPTq62sQGMxMEi5hjsa6XPAlEahw/QJVEfM+Q91LT3vUdX5zfceFdOSKVscg
- IKrU53PlZAZSyJ5Fv5u6+ARO/4ZLKKsyrA8uZ0Qu8hiFetV519WfDyBTLgAtK9XLFJo+vQSNh
- MPzjgzoiprBMQs27z8z89Bujgly4zWYGiq/Ri55rkAwUgm4Bwc2kzPDgmdYHLM1UzXBkLu1I0
- MnZTFy14YoFofmyfWXTVrQD58pgNERMVqK35sVGrrQo1hEkxvIgE1mhP32BCrkdd/3nkzzM9r
- y9DjiniX+cHw0/faaHJn2JeyDcBxGbUAbGhyd//H9xS9Abc1QYiqzdBlydvWWsZwsTPDY=
+        linux-staging@lists.linux.dev
+From:   Palmer Dabbelt <palmerdabbelt@google.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Message-ID: <mhng-122345f7-47d9-4509-8ae6-ce1da912fc00@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When a brute force attack is detected all the offending tasks involved
-in the attack must be killed. In other words, it is necessary to kill
-all the tasks that are executing the same file that is running during
-the brute force attack.
+On Fri, 21 May 2021 10:47:51 PDT (-0700), Greg KH wrote:
+> On Fri, May 21, 2021 at 07:21:12PM +0200, Paolo Bonzini wrote:
+>> On 21/05/21 19:13, Palmer Dabbelt wrote:
+>> > >
+>> >
+>> > I don't view this code as being in a state where it can be
+>> > maintained, at least to the standards we generally set within the
+>> > kernel.  The ISA extension in question is still subject to change, it
+>> > says so right at the top of the H extension <https://github.com/riscv/riscv-isa-manual/blob/master/src/hypervisor.tex#L4>
+>> >
+>> >   {\bf Warning! This draft specification may change before being
+>> > accepted as standard by the RISC-V Foundation.}
+>>
+>> To give a complete picture, the last three relevant changes have been in
+>> August 2019, November 2019 and May 2020.  It seems pretty frozen to me.
+>>
+>> In any case, I think it's clear from the experience with Android that
+>> the acceptance policy cannot succeed.  The only thing that such a policy
+>> guarantees, is that vendors will use more out-of-tree code.  Keeping a
+>> fully-developed feature out-of-tree for years is not how Linux is run.
+>>
+>> > I'm not sure where exactly the line for real hardware is, but for
+>> > something like this it would at least involve some chip that is
+>> > widely availiable and needs the H extension to be useful
+>>
+>> Anup said that "quite a few people have already implemented RISC-V
+>> H-extension in hardware as well and KVM RISC-V works on real HW as well".
+>> Those people would benefit from having KVM in the Linus tree.
+>
+> Great, but is this really true?  If so, what hardware has this?  I have
+> a new RISC-V device right here next to me, what would I need to do to
+> see if this is supported in it or not?
 
-Also, to prevent the executable involved in the attack from being
-respawned by a supervisor, and thus prevent a brute force attack from
-being started again, test the "not_allowed" flag and avoid the file
-execution based on this.
+You can probe the misa register, it should have the H bit set if it 
+supports the H extension.
 
-Signed-off-by: John Wood <john.wood@gmx.com>
-=2D--
- security/brute/brute.c | 113 +++++++++++++++++++++++++++++++++++++----
- 1 file changed, 102 insertions(+), 11 deletions(-)
-
-diff --git a/security/brute/brute.c b/security/brute/brute.c
-index 66db0dd0664d..7712dac888db 100644
-=2D-- a/security/brute/brute.c
-+++ b/security/brute/brute.c
-@@ -233,6 +233,88 @@ static inline void brute_print_attack_running(void)
- 		current->comm);
- }
-
-+/**
-+ * brute_print_file_not_allowed() - Warn about a file not allowed.
-+ * @dentry: The dentry of the file not allowed.
-+ */
-+static void brute_print_file_not_allowed(struct dentry *dentry)
-+{
-+	char *buf, *path;
-+
-+	buf =3D __getname();
-+	if (WARN_ON_ONCE(!buf))
-+		return;
-+
-+	path =3D dentry_path_raw(dentry, buf, PATH_MAX);
-+	if (WARN_ON_ONCE(IS_ERR(path)))
-+		goto free;
-+
-+	pr_warn_ratelimited("%s not allowed\n", path);
-+free:
-+	__putname(buf);
-+}
-+
-+/**
-+ * brute_is_same_file() - Test if two files are the same.
-+ * @file1: First file to compare. Cannot be NULL.
-+ * @file2: Second file to compare. Cannot be NULL.
-+ *
-+ * Two files are the same if they have the same inode number and the same=
- block
-+ * device.
-+ *
-+ * Return: True if the two files are the same. False otherwise.
-+ */
-+static inline bool brute_is_same_file(const struct file *file1,
-+				      const struct file *file2)
-+{
-+	struct inode *inode1 =3D file_inode(file1);
-+	struct inode *inode2 =3D file_inode(file2);
-+
-+	return inode1->i_ino =3D=3D inode2->i_ino &&
-+		inode1->i_sb->s_dev =3D=3D inode2->i_sb->s_dev;
-+}
-+
-+/**
-+ * brute_kill_offending_tasks() - Kill the offending tasks.
-+ * @file: The file executed during a brute force attack. Cannot be NULL.
-+ *
-+ * When a brute force attack is detected all the offending tasks involved=
- in the
-+ * attack must be killed. In other words, it is necessary to kill all the=
- tasks
-+ * that are executing the same file that is running during the brute forc=
-e
-+ * attack. Moreover, the processes that have the same group_leader that t=
-he
-+ * current task must be avoided since they are in the path to be killed.
-+ *
-+ * The for_each_process loop is protected by the tasklist_lock acquired i=
-n read
-+ * mode instead of rcu_read_lock to avoid that the newly created processe=
-s
-+ * escape this RCU read lock.
-+ */
-+static void brute_kill_offending_tasks(const struct file *file)
-+{
-+	struct task_struct *task;
-+	struct file *exe_file;
-+	bool is_same_file;
-+
-+	read_lock(&tasklist_lock);
-+	for_each_process(task) {
-+		if (task->group_leader =3D=3D current->group_leader)
-+			continue;
-+
-+		exe_file =3D get_task_exe_file(task);
-+		if (!exe_file)
-+			continue;
-+
-+		is_same_file =3D brute_is_same_file(exe_file, file);
-+		fput(exe_file);
-+		if (!is_same_file)
-+			continue;
-+
-+		do_send_sig_info(SIGKILL, SEND_SIG_PRIV, task, PIDTYPE_PID);
-+		pr_warn_ratelimited("Offending process %d [%s] killed\n",
-+				    task->pid, task->comm);
-+	}
-+	read_unlock(&tasklist_lock);
-+}
-+
- /**
-  * brute_get_xattr_stats() - Get the stats from an extended attribute.
-  * @dentry: The dentry of the file to get the extended attribute.
-@@ -295,6 +377,10 @@ static int brute_set_xattr_stats(struct dentry *dentr=
-y, struct inode *inode,
-  * created. This way, the scenario where an application has not crossed a=
-ny
-  * privilege boundary is avoided since the existence of the extended attr=
-ibute
-  * denotes the crossing of bounds.
-+ *
-+ * Also, do not update the statistics if the execution of the file is not
-+ * allowed and kill all the offending tasks when a brute force attack is
-+ * detected.
-  */
- static void brute_update_xattr_stats(const struct file *file)
- {
-@@ -306,7 +392,7 @@ static void brute_update_xattr_stats(const struct file=
- *file)
- 	inode_lock(inode);
- 	rc =3D brute_get_xattr_stats(dentry, inode, &stats);
- 	WARN_ON_ONCE(rc && rc !=3D -ENODATA);
--	if (rc) {
-+	if (rc || (!rc && stats.not_allowed)) {
- 		inode_unlock(inode);
- 		return;
- 	}
-@@ -320,6 +406,9 @@ static void brute_update_xattr_stats(const struct file=
- *file)
- 	rc =3D brute_set_xattr_stats(dentry, inode, &stats);
- 	WARN_ON_ONCE(rc);
- 	inode_unlock(inode);
-+
-+	if (stats.not_allowed)
-+		brute_kill_offending_tasks(file);
- }
-
- /**
-@@ -433,21 +522,17 @@ static void brute_task_fatal_signal(const kernel_sig=
-info_t *siginfo)
-  * @bprm: Contains the linux_binprm structure.
-  * @file: Binary that will be executed without an interpreter.
-  *
-- * This hook is useful to mark that a privilege boundary (setuid/setgid p=
-rocess)
-- * has been crossed. This is done based on the "secureexec" flag.
-+ * If there are statistics, test the "not_allowed" flag and avoid the fil=
-e
-+ * execution based on this. Also, this hook is useful to mark that a priv=
-ilege
-+ * boundary (setuid/setgid process) has been crossed. This is done based =
-on the
-+ * "secureexec" flag.
-  *
-  * To be defensive return an error code if it is not possible to get or s=
-et the
-  * stats using an extended attribute since this blocks the execution of t=
-he
-  * file. This scenario is treated as an attack.
-  *
-- * It is important to note that here the brute_new_xattr_stats function c=
-ould be
-- * used with a previous test of the secureexec flag. However it is better=
- to use
-- * the basic xattr functions since in a future commit a test if the execu=
-tion is
-- * allowed (via the brute_stats::not_allowed flag) will be necessary. Thi=
-s way,
-- * the stats of the file will be get only once.
-- *
-- * Return: An error code if it is not possible to get or set the statisti=
-cal
-- *         data. Zero otherwise.
-+ * Return: -EPERM if the execution of the file is not allowed. An error c=
-ode if
-+ *         it is not possible to get or set the statistical data. Zero ot=
-herwise.
-  */
- static int brute_task_execve(struct linux_binprm *bprm, struct file *file=
-)
- {
-@@ -461,6 +546,12 @@ static int brute_task_execve(struct linux_binprm *bpr=
-m, struct file *file)
- 	if (WARN_ON_ONCE(rc && rc !=3D -ENODATA))
- 		goto unlock;
-
-+	if (!rc && stats.not_allowed) {
-+		brute_print_file_not_allowed(dentry);
-+		rc =3D -EPERM;
-+		goto unlock;
-+	}
-+
- 	if (rc =3D=3D -ENODATA && bprm->secureexec) {
- 		brute_reset_stats(&stats);
- 		rc =3D brute_set_xattr_stats(dentry, inode, &stats);
-=2D-
-2.25.1
-
+> If this isn't in any hardware that anyone outside of
+> internal-to-company-prototypes, then let's wait until it really is in a
+> device that people can test this code on.
+>
+> What's the rush to get this merged now if no one can use it?
+>
+> thanks,
+>
+> greg k-h
