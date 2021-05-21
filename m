@@ -2,94 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E57C47078
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:18:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02284C4707A
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:53:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A28D3613EE
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:18:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8E14613DF
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:53:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232501AbhEUQTZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 12:19:25 -0400
-Received: from mga04.intel.com ([192.55.52.120]:15226 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231318AbhEUQTZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 12:19:25 -0400
-IronPort-SDR: o+9RwqpsqLpqJR+lZh/NwfeQcDXpXKspzArxamWJez+xKsrlFC9a7FSSpfGQJf+ztj4Q/mQdgD
- b3rvgdGraxDg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9991"; a="199576048"
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
-   d="scan'208";a="199576048"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 09:17:35 -0700
-IronPort-SDR: mZryhIX47sLJixgt8Qc9gLmzKgJ+SBzaiz6RVQKGwMt7tm3L2OaO0MqVZ1E/fkxF8q0Q1gVB29
- ebFTGGc09p/A==
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
-   d="scan'208";a="434344646"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.254.177.76]) ([10.254.177.76])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 09:17:27 -0700
-Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
- setup/verify routines
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-25-yu-cheng.yu@intel.com> <YKIfIEyW+sR+bDCk@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c9121ca1-83cb-1c37-1a8e-edaafaa6fda2@intel.com>
-Date:   Fri, 21 May 2021 09:17:24 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        id S235430AbhEUQyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 12:54:51 -0400
+Received: from m32-153.88.com ([43.250.32.153]:14500 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S237780AbhEUQyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 12:54:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=CfzEGnSaMANS+q038pdfLfw6YqCcAOmc/lwy0
+        RmS2CQ=; b=C51hqHV3uDpgnyNbU3E6rNDeSze0yCRSJYP8jmY48Bk0/JPDcsII+
+        sEfmCbPaKZDqxF3W+4MNWa570lPgAhsmnruRP5SZgaVK1itL24i5Sa/CQqfcJIz0
+        RdFnIWclVdRiEKywJZwHa7yUAumouQUS6wCButJOP0yyCykBM9E9hA=
+Received: from bobwxc.top (unknown [120.238.248.9])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAHV1l_5adggQ9AAA--.29093S2;
+        Sat, 22 May 2021 00:53:21 +0800 (CST)
+Date:   Sat, 22 May 2021 00:53:19 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Hu Haowen <src.res@email.cn>
+Cc:     alexs@kernel.org, corbet@lwn.net, bernard@vivo.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: update a translation in zh_CN/dev-tools/gcov
+Message-ID: <20210521165319.GA18245@bobwxc.top>
+References: <20210521155551.29176-1-src.res@email.cn>
 MIME-Version: 1.0
-In-Reply-To: <YKIfIEyW+sR+bDCk@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="qDbXVdCdHGoSgWSk"
+Content-Disposition: inline
+In-Reply-To: <20210521155551.29176-1-src.res@email.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgAHV1l_5adggQ9AAA--.29093S2
+X-Coremail-Antispam: 1UD129KBjvJXoWrZr1xGFWDuF1DCFW7WFWkCrg_yoW8JryDpr
+        WkKryxG3WIvry5C3y8GF17tr18uFyxWw4UK3W0q3ZYqrnxXrsYkr47tr90gFyfXrWrZFWr
+        AF4F9Fyruw1jk3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgm1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK
+        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4
+        x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28E
+        F7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wASzI
+        0EjI02j7AqF2xKxwAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1U
+        McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I
+        1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkE
+        bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+        AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
+        42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
+        IF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2
+        KfnxnUUI43ZEXa7VU0mhF7UUUUU==
+X-Originating-IP: [120.238.248.9]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/17/2021 12:45 AM, Borislav Petkov wrote:
-> On Tue, Apr 27, 2021 at 01:43:09PM -0700, Yu-cheng Yu wrote:
 
-[...]
+--qDbXVdCdHGoSgWSk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> +
->> +	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
-> 
-> Flip this logic:
-> 
-> 	if ((ia32 && !IS_ALIGNED(ssp, 4)) || !IS_ALIGNED(ssp, 8))
+On Fri, May 21, 2021 at 11:55:51PM +0800, Hu Haowen wrote:
+> The original file has added some words in commit c797997a244cd2c58908
+> ("Documentation: dev-tools: Add Testing Overview"), hence update the
+> Chinese translation of them.
+>=20
+> Signed-off-by: Hu Haowen <src.res@email.cn>
+> ---
+>  Documentation/translations/zh_CN/dev-tools/index.rst | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Docum=
+entation/translations/zh_CN/dev-tools/index.rst
+> index fd73c479917b..7ba02fc392a6 100644
+> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
+> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+> @@ -11,6 +11,9 @@
+>  =E7=9B=AE=E5=89=8D=E8=BF=99=E4=BA=9B=E6=96=87=E6=A1=A3=E5=B7=B2=E7=BB=8F=
+=E6=95=B4=E7=90=86=E5=9C=A8=E4=B8=80=E8=B5=B7=EF=BC=8C=E4=B8=8D=E9=9C=80=E8=
+=A6=81=E5=86=8D=E8=8A=B1=E8=B4=B9=E9=A2=9D=E5=A4=96=E7=9A=84=E7=B2=BE=E5=8A=
+=9B=E3=80=82
+>  =E6=AC=A2=E8=BF=8E=E4=BB=BB=E4=BD=95=E8=A1=A5=E4=B8=81=E3=80=82
+> =20
+> +=E6=9C=89=E5=85=B3=E6=B5=8B=E8=AF=95=E4=B8=93=E7=94=A8=E5=B7=A5=E5=85=B7=
+=E7=9A=84=E7=AE=80=E8=A6=81=E6=A6=82=E8=BF=B0=EF=BC=8C=E5=8F=82=E8=A7=81
+> +Documentation/dev-tools/testing-overview.rst
+> +
+>  .. class:: toc-title
+> =20
+>  	   =E7=9B=AE=E5=BD=95
+> --=20
+> 2.25.1
 
-If !IS_ALIGNED(ssp, 4), then certainly !IS_ALIGNED(ssp, 8).
-This has to be as-is, I think.
+Looks not bad.
+Are you already working on translating testing-overview.rst?
+If not, please also add todo entry of testing-overview.rst with v2.
+
+Acked-by: Wu XiangCheng <bobwxc@email.cn>
 
 Thanks,
-Yu-cheng
+Wu X.C.
+
+
+--qDbXVdCdHGoSgWSk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCn5XMACgkQtlsoEiKC
+sIUU7QwAlUwBZNaB2V5Fy7LRjfAK44OeexjGKjsZAEOBfTtDFMiZ558R/ZvQohWk
+37oOQSReyoe4d/Rb3itaFSMfIUAZQWDCaclxUojZGq03EO6yKNMlaCWF/tYHbFZG
+ZXpXDiy20E1TJLcJas4YjIovjnOJ6ztca6rZkcn10YTKItWjjCEPDwHvKnDmsosx
+OjmFoAxpXI+0HDrbkPWuGR4bZVh9hGh/P8TR+lhPdxicBLSjAJ1lv2zcppyys9h/
+Uw9YCqiacvmrSKcD6KdPfQoknHt/vGB8FHQjLEvqkZT1KbLLMbWQRJhJCz1uXIgx
+f7WnG6cjXCws26lY3uWOfXqKQrvBrYeMEZRHE3+bM0BczOE5Ywc1qGeZNDfNOYHS
+kUP1eRzHIDA61PGt4lKU5ffjCd8OxdexrXz0Zwgj38QB3NRfvqjUrawzcKaRgiXR
+wdfjfU99OQOnkbnAaiHJ7u3QoXVbK10tMzogLyafrfwxJ+fCL58x0+PX2bXrQGNX
+OUcQJnVg
+=ftgU
+-----END PGP SIGNATURE-----
+
+--qDbXVdCdHGoSgWSk--
+
