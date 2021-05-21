@@ -2,76 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99CBAC4707A
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 17:34:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 070B9C4707D
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 17:35:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72E88611AD
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 17:34:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7F20613B6
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 17:35:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233534AbhEURf5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 13:35:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234177AbhEURfz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 13:35:55 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BCE4C061574
-        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 10:34:30 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id p6so11346421plr.11
-        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 10:34:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9X9c0fkCccIua6Hwft+M9DYb/rx4VT7EOGO5pCKU8j0=;
-        b=AZ1gML0WzHsR6m5px+VEzQ6Vb03sGBj8WEW8/udaZfLk1fYgwypI0xC1QDu6dd0e64
-         fE9/dzW5Ni3FYzrMlHtnHLadmGcz8O/0Y2dskxs3PK4JWq3muxdKPaVOho6Mmr3zbNfE
-         1ZnnT7zYhkqX7UXV4X/0DQFE3NfGuu5/Ag114G1KAbpf/UsK2wUns+TnA3ILkHXFeKtX
-         q2GDKHh/4Ulordv+OtdDzfrEYy1GqBnfOoyYk2rjkwuoT4QIO6aUUdBjDQGNpJvnX/Yy
-         NQAz/+UeuyfB72PdeGhbuLNsmiOr5B0ZcegFX/6mfht3LQ+Z33BVEQijxFDk02Rm93nC
-         /3Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9X9c0fkCccIua6Hwft+M9DYb/rx4VT7EOGO5pCKU8j0=;
-        b=CqIgY3LyV94PAvwHOuVbl0C8Q+itinEulD9GvCV8c3Wb/azxtOgMD7Abg/2T+LlMGL
-         4ZHZOJb6CRhBjHwW7yxWcnP1/1X2wlf3CaaOyfyeoF+nk5t6+y1VcEHby32E7HQxPweH
-         FEMguWMUQqa18JOuDiMbPeWQzEzd5cjlkMA5XQJvvaQqXMp7RFa64tBTZlbr4aHpn4Qw
-         f/wCJ2Tz/FmYGKH+4SRoA2Uzrw1O5TJeeStCQuKA3Jl2gLpRRSL6Hvr6dSnKyvFq/KY4
-         JEKdyF6XlhOK9aAesbeHp4dTAoilHn+Nta4iim+AJzMSb/P1lyg85E76aXtqPKJTNsNQ
-         XFQg==
-X-Gm-Message-State: AOAM532yA81qU2D3TrA9A8gbI7UXy0cHZgkhLtI/bto9olGtKp4duF82
-        RfO07zDtn9ejXAW/P8HlBJ3nREslhl8WSbfPDEX65g==
-X-Google-Smtp-Source: ABdhPJyBSkQWGIPw2UY29oz0DyJ7pbcctbQdLfnI8FCaM5oCcut4dYq2v2w6z6HS6hNkud1BQpaqjw0nNdj+Z5pFRNc=
-X-Received: by 2002:a17:90b:3709:: with SMTP id mg9mr11791387pjb.149.1621618469644;
- Fri, 21 May 2021 10:34:29 -0700 (PDT)
+        id S234177AbhEURg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 13:36:57 -0400
+Received: from mout.gmx.net ([212.227.15.15]:48553 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233220AbhEURg4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 13:36:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1621618477;
+        bh=jYd+DBUq5/+hoWltaHEIKEySfVzGVUxKtuTlWhtWnNU=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=Kx8aLe9AKZkFlHBFzKJQ/0wO5CcwPquXKmR8TTit7BChbVKbSqFooAblS8Rf2ryz/
+         rem1qyVFe5OlpYpwOF7Op7yahmHVvWV0DF4yriyBrQICZBlEvZluGaW1rxMkC4ACeF
+         ZbpwL+OavEkNMn3DVwawfQnaDwrNffx+jtc3qgfg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MPGW7-1m6u3c2AHd-00PaoO; Fri, 21 May 2021 19:34:37 +0200
+From:   John Wood <john.wood@gmx.com>
+To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>
+Cc:     John Wood <john.wood@gmx.com>, Andi Kleen <ak@linux.intel.com>,
+        valdis.kletnieks@vt.edu,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: [PATCH v7 1/7] security: Add LSM hook at the point where a task gets a fatal signal
+Date:   Fri, 21 May 2021 19:24:08 +0200
+Message-Id: <20210521172414.69456-2-john.wood@gmx.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210521172414.69456-1-john.wood@gmx.com>
+References: <20210521172414.69456-1-john.wood@gmx.com>
 MIME-Version: 1.0
-References: <20210521173028.37989-1-festevam@gmail.com>
-In-Reply-To: <20210521173028.37989-1-festevam@gmail.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Fri, 21 May 2021 10:34:20 -0700
-Message-ID: <CAPcyv4hOZnRewRMzOETCewE8HhjNrmfA0ejkfyB2MPGijhkdAA@mail.gmail.com>
-Subject: Re: [PATCH] docs: cxl/core: Fix the title underline
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Bd6lib84LVlkJT8jNqZAPUjNinmei+Xet/u0DD1+cHkiKEm3feF
+ HT9bCqV7iIbCFUzz/JKgZCFWJOJMWDiXaJlKsCIUC2k7end9vd+XP1uID+wLCkVzUwFhr3+
+ y+v3JS+c2GJC76pLYtnMrj7kZuxHwGgbttcFMRFUIpuNjaUpqH29kG7NGc4ZZ7OlrjLEP2R
+ vHsgogfOcVJBKVmcoBkTQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6IzlPLp9f6s=:mRCsH7AFbIQl1g7NxLFy2S
+ RL3o1/lFuK9b4P0IYPqitza5mnxG0OhhsvQaeBsmwlhRDQo8uuYJ9Ag2sTZilVX4aMwiqkZKV
+ 7UMoe4qaCcWKByzEk5LMdt/K2wS1P82N1MEJOKeONkrwQpXX1EUsLASFlmF0D39p9DpidEkna
+ xEKYNdtU8pDVUWfidjveb5cFVlQk4qZq7MjnXfUkSCsNAC570amFjHEn3Nt6OLIUZgu/nOcoN
+ kHcU3m10GpTHZhMz1tV7YVmb+yUS07ItIUJJkb01F+AFI3b+T1+WCbBOsXwklBZ882GuKccCD
+ jOp66XHdJp7r/A3D6eoVqscOtQ3g/3bjtmSFtC4vUwfwtnKSprS7IeJ3kBS+5DrGL8EYRdGPy
+ FMpUNTomkI+frPzJpZGhFzA+EghsWzinnk/7yg8y0O0xRQq7GtRNyeSiSfuchH+2bhl73rW5o
+ ddlbm+jTdO06FpRiz44lOl8AxVI+CzisvNSgP9JSc5bfN4gkldOt3EisIjVElbl2Wg3Emmwiy
+ OH3uqW55FfrIN2xawGSyF8feR/0ZRDG653I3R1+gkgI24NO7imkyMoHX7KUeXzbtzGjGFaSYL
+ T1txig1UyxtAoAA4PZDr02bv+yRMOCWyPU2eGn0o8552XIggIDelLtp3OwWPr9Xdb7XX9Qtd/
+ +59rwgB8cHWLeqiWC1/JjrE8HuLHeroUswRaSgbdA9TN0gMjT28fs2LJyixM/zVjJr3hSD8cA
+ 92MxppbEOkiBA7m9gd1roANZ9z4UU2s4bMFcaUMucc2cSrXgKb9woSGT3PJfMH+VL+1nMHNWw
+ bUbkZB8mNO1y1B5oe4k5X9DT7YB0C/gYeadDtY3kMUKCbfV/JrUbwD6N3pFkapfrxWiGspnWn
+ me+rNqShm2CHXkzEpS+sKguOFLpQ2hZVXMVoMN46zZfZgfABx7E2QCUY1hnjt4MjUsdifT+9y
+ 4HIyw/uyCZLCXun7J6Al3257WGQcMCkXhJg02qkrc1efWfd7SKOYzsZN8tZv8O5QFdxddV/Ag
+ sM/b744VAcGw3oNEsDGLatxlxMfibejfCFQwGmEtA5ivPc3/iUogkT+HKa6l/sXLfDDcPQats
+ zFvgx2bD9eQqxjlz5+xAJ7g1gdauvaF9EECxUmckN5umXE5j+Q+G03dIBswKFxR9EiS5mOYdN
+ iGJW7jRzXHgB+wjp0BT89AxY6aDhp+eLQWsGteid+QEzBgLFF6aWsvY06kSq879vhyY/w=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 21, 2021 at 10:31 AM Fabio Estevam <festevam@gmail.com> wrote:
->
-> Commit 5f653f7590ab ("cxl/core: Rename bus.c to core.c") has changed
-> the title, but missed to update the underline length, which causes
-> the following 'make htmldocs' build warning:
->
-> Documentation/driver-api/cxl/memory-devices.rst:32: WARNING: Title underline too short.
->
+Add a security hook that allows a LSM to be notified when a task gets a
+fatal signal. This patch is a previous step on the way to compute the
+task crash period by the "brute" LSM (linux security module to detect
+and mitigate fork brute force attack against vulnerable userspace
+processes).
 
-Thanks, already reported and fixed. Will appear in -next shortly.
+Signed-off-by: John Wood <john.wood@gmx.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+=2D--
+ include/linux/lsm_hook_defs.h | 1 +
+ include/linux/lsm_hooks.h     | 4 ++++
+ include/linux/security.h      | 4 ++++
+ kernel/signal.c               | 1 +
+ security/security.c           | 5 +++++
+ 5 files changed, 15 insertions(+)
+
+diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+index 04c01794de83..e28468e84300 100644
+=2D-- a/include/linux/lsm_hook_defs.h
++++ b/include/linux/lsm_hook_defs.h
+@@ -225,6 +225,7 @@ LSM_HOOK(int, -ENOSYS, task_prctl, int option, unsigne=
+d long arg2,
+ 	 unsigned long arg3, unsigned long arg4, unsigned long arg5)
+ LSM_HOOK(void, LSM_RET_VOID, task_to_inode, struct task_struct *p,
+ 	 struct inode *inode)
++LSM_HOOK(void, LSM_RET_VOID, task_fatal_signal, const kernel_siginfo_t *s=
+iginfo)
+ LSM_HOOK(int, 0, ipc_permission, struct kern_ipc_perm *ipcp, short flag)
+ LSM_HOOK(void, LSM_RET_VOID, ipc_getsecid, struct kern_ipc_perm *ipcp,
+ 	 u32 *secid)
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index 5c4c5c0602cb..fc8bef0f15d9 100644
+=2D-- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -799,6 +799,10 @@
+  *	security attributes, e.g. for /proc/pid inodes.
+  *	@p contains the task_struct for the task.
+  *	@inode contains the inode structure for the inode.
++ * @task_fatal_signal:
++ *	This hook allows security modules to be notified when a task gets a
++ *	fatal signal.
++ *	@siginfo contains the signal information.
+  *
+  * Security hooks for Netlink messaging.
+  *
+diff --git a/include/linux/security.h b/include/linux/security.h
+index 06f7c50ce77f..609c76c6c764 100644
+=2D-- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -433,6 +433,7 @@ int security_task_kill(struct task_struct *p, struct k=
+ernel_siginfo *info,
+ int security_task_prctl(int option, unsigned long arg2, unsigned long arg=
+3,
+ 			unsigned long arg4, unsigned long arg5);
+ void security_task_to_inode(struct task_struct *p, struct inode *inode);
++void security_task_fatal_signal(const kernel_siginfo_t *siginfo);
+ int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag);
+ void security_ipc_getsecid(struct kern_ipc_perm *ipcp, u32 *secid);
+ int security_msg_msg_alloc(struct msg_msg *msg);
+@@ -1183,6 +1184,9 @@ static inline int security_task_prctl(int option, un=
+signed long arg2,
+ static inline void security_task_to_inode(struct task_struct *p, struct i=
+node *inode)
+ { }
+
++static inline void security_task_fatal_signal(const kernel_siginfo_t *sig=
+info)
++{ }
++
+ static inline int security_ipc_permission(struct kern_ipc_perm *ipcp,
+ 					  short flag)
+ {
+diff --git a/kernel/signal.c b/kernel/signal.c
+index 66e88649cf74..62625ad98b14 100644
+=2D-- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -2787,6 +2787,7 @@ bool get_signal(struct ksignal *ksig)
+ 		/*
+ 		 * Anything else is fatal, maybe with a core dump.
+ 		 */
++		security_task_fatal_signal(&ksig->info);
+ 		current->flags |=3D PF_SIGNALED;
+
+ 		if (sig_kernel_coredump(signr)) {
+diff --git a/security/security.c b/security/security.c
+index b38155b2de83..208e3e7d4284 100644
+=2D-- a/security/security.c
++++ b/security/security.c
+@@ -1891,6 +1891,11 @@ void security_task_to_inode(struct task_struct *p, =
+struct inode *inode)
+ 	call_void_hook(task_to_inode, p, inode);
+ }
+
++void security_task_fatal_signal(const kernel_siginfo_t *siginfo)
++{
++	call_void_hook(task_fatal_signal, siginfo);
++}
++
+ int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag)
+ {
+ 	return call_int_hook(ipc_permission, 0, ipcp, flag);
+=2D-
+2.25.1
+
