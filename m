@@ -2,139 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF99C47078
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 14:30:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F87C47078
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 15:17:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5C576135A
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 14:30:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98EE8613E4
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 15:17:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236779AbhEUObn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 10:31:43 -0400
-Received: from m12-12.163.com ([220.181.12.12]:50094 "EHLO m12-12.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231279AbhEUObm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 10:31:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=9E886
-        vx/OO/P//cwyNBUwq6A5knojODRU6jbrRSsoSk=; b=pnEgiCjLyv2zZWqwrV3Jp
-        AqNcQmSIkD+oqE3Fyh/z3D5QK1pQ4Bn2Z3YKflNXo41YWUEI07lLlOfUhq/txgxT
-        QBmia6A6NGrIxeULDlzuZNsGxvFbv4iQ2eodXRa2CzAgzrIkO4ww9CrWRiHz2a37
-        Vrd0PNhLCNS9hvPrJVF+rQ=
-Received: from [192.168.31.187] (unknown [36.170.35.140])
-        by smtp8 (Coremail) with SMTP id DMCowAB3p1vrw6dgrcOfFQ--.47192S2;
-        Fri, 21 May 2021 22:30:05 +0800 (CST)
-Subject: Re: [PATCH] docs/zh_CN: Add zh_CN/admin-guide/lockup-watchdogs.rst
-To:     teng sterling <sterlingteng@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hailong Liu <liu.hailong6@zte.com.cn>,
-        Yanteng Si <siyanteng@loongson.cn>
-References: <20210513154425.93603-1-liuhailongg6@163.com>
- <CAMU9jJrXQfg_7jVe4MhDSRO3-q1EhDCFRKASfV5REO6PQJxVaw@mail.gmail.com>
-From:   Hailong Liu <liuhailongg6@163.com>
-Message-ID: <46dd6bb8-84bc-e28e-e463-95b5b6b68e2c@163.com>
-Date:   Fri, 21 May 2021 22:30:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S233542AbhEUPTF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 11:19:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55880 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233019AbhEUPTE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 11:19:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621610261;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RoYhqqzDmicG8nqQq3Z4gKK4A7xeq01hKkih7BDgRQQ=;
+        b=ft9ZK1OdfWrKyq9meeUi4dHcrWBmWZLdb6pzmKtfmoGz0/LqUhqXKF2HrVTpnHi+iB4g8x
+        cV2lLEEGboDew9L9Ip1fMRL7AkhCearjZXb7XkFS9lsJoVRYuuzx05MiKgbWC3nOh/tb8z
+        uej/osjKvH3jTf51Sup28hXdtSC3XCU=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-nX2GgarJOCCk_xEvN4zZUw-1; Fri, 21 May 2021 11:17:39 -0400
+X-MC-Unique: nX2GgarJOCCk_xEvN4zZUw-1
+Received: by mail-qt1-f197.google.com with SMTP id 1-20020aed31010000b029019d1c685840so15719120qtg.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 May 2021 08:17:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=RoYhqqzDmicG8nqQq3Z4gKK4A7xeq01hKkih7BDgRQQ=;
+        b=QRmHbRcMV/W0jwkxJ1nhmNG83LgPEpy7mKpXn7/+vDocgiLgbtTE3IepOkm4RtQcwn
+         p8Rzn3aHEicGYhaLFbclF4VMVTXoZeyTW1JCdf+CtZM36bA9nqO5wSlI9sSRH4bBBHVc
+         ur8pmad20XEDUjpQgvM9ZU1jHbezJ6jx6kN2ldtGM840e2f+FRZd7oFDTKpbo8k2wbRo
+         DUY7lRlZ0PqnUOUBS3Vold35FSsW82UfLEPIxJ26mbq83Q2aTbPN6LPNWVULunvybQoO
+         N4PWRTqCX2RmcJi2V6Stv/I9wwutnaVf944r2TU/cw0UW0lu+CCaexNofbmmsJdxp0t+
+         Z1GA==
+X-Gm-Message-State: AOAM530SJIS96Sd8PXlRGijk1VaqrBQ6BdiHH35hRcwfG8VIBfC5TQj3
+        O4K5LB4zZdbdotFLLE9UNB8cf09uB06LzRVNFYSvMacpMTtvsu6aE4ZFsNVo3Po2Auzrt7VKrI9
+        fCAF++I9BqoFE9OOKr9Sw
+X-Received: by 2002:ac8:5ad5:: with SMTP id d21mr11877211qtd.167.1621610257592;
+        Fri, 21 May 2021 08:17:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEIsyCtsBuBfdyij3/7qNA1kAHeoRXkFlZHhVZ8IT4lYajSTtySLt1mT2P9dgK6jTZwptx/g==
+X-Received: by 2002:ac8:5ad5:: with SMTP id d21mr11876953qtd.167.1621610254177;
+        Fri, 21 May 2021 08:17:34 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+        by smtp.gmail.com with ESMTPSA id k125sm5038764qkf.53.2021.05.21.08.17.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 May 2021 08:17:33 -0700 (PDT)
+From:   Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH] docs: lockdep-design: correct the notation for writer
+To:     Xiongwei Song <sxwjean@me.com>, peterz@infradead.org,
+        mingo@redhat.com, will@kernel.org, boqun.feng@gmail.com,
+        corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Xiongwei Song <sxwjean@gmail.com>
+References: <1621578594-13237-1-git-send-email-sxwjean@me.com>
+Message-ID: <e0c0302f-e63f-7eba-872b-85e21b0b1622@redhat.com>
+Date:   Fri, 21 May 2021 11:17:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAMU9jJrXQfg_7jVe4MhDSRO3-q1EhDCFRKASfV5REO6PQJxVaw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1621578594-13237-1-git-send-email-sxwjean@me.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DMCowAB3p1vrw6dgrcOfFQ--.47192S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGry3Aw4xtw1UGFW7AFW3trb_yoW5ZFW8pF
-        ZxAa4fKw48J34kXa47J348WF1Yk34kJrW5Ga4ktryUJw1Ykrn5Aw4Utr45Waya9F4Syr4j
-        qF1Ut34kJFyDJrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jLXocUUUUU=
-X-Originating-IP: [36.170.35.140]
-X-CM-SenderInfo: xolxxtxlor0wjjw6il2tof0z/1tbi8A2ZYFuob4d6TQAAso
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/21/21 5:38 PM, teng sterling wrote:
-> CC siyanteng@loongson.cn
-> 
-> BTW：
-> 
-> I don't know why, but your email was treated as spam by gmail. I use
-> gmail email to subscribe to doc-list, so I didn't find it before,
-> maybe many people are like me. :-)
-> 
-Oh, that's too bad. Unforunately I don't know this at all. I promise, I
-have never done anything to annoy gmail. :-)
+On 5/21/21 2:29 AM, Xiongwei Song wrote:
+> From: Xiongwei Song <sxwjean@gmail.com>
+>
+> The block condition matrix is using 'E' as the writer noation here, so it
+> would be better to use 'E' as the reminder rather than 'W'.
+>
+> Signed-off-by: Xiongwei Song <sxwjean@gmail.com>
+> ---
+>   Documentation/locking/lockdep-design.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
+> index 9f3cfca..c3b923a 100644
+> --- a/Documentation/locking/lockdep-design.rst
+> +++ b/Documentation/locking/lockdep-design.rst
+> @@ -462,7 +462,7 @@ Block condition matrix, Y means the row blocks the column, and N means otherwise
+>   	| R | Y | Y | N |
+>   	+---+---+---+---+
+>   
+> -	(W: writers, r: non-recursive readers, R: recursive readers)
+> +	(E: writers, r: non-recursive readers, R: recursive readers)
+>   
+>   
+>   acquired recursively. Unlike non-recursive read locks, recursive read locks
 
+I would say it should be the other way around. Both W and E refer to the 
+same type of lockers. W emphasizes writer aspect of it and E for 
+exclusive. I think we should change the block condition matrix to use W 
+instead of E.
 
->> @@ -0,0 +1,65 @@
-> refer to other Chinese translations, add maintainer information and
-> tags and original documentation links.
-> 
-Alright, got it. 
-
->> +===============================================================
->> +Softlockup与hardlockup检测机制(又名:nmi_watchdog)
->> +===============================================================
-> the line is too long，align it with the text
-> 
-Ok, I will try to fix it in 2nd version.
-
->> +Softlockup是一种在内核持续循使用CPU超过20秒（详见下面“实现”小节）
-> origindoc: A ‘softlockup’ is defined as a bug that causes the kernel
-> to loop in kernel mode for more than 20 seconds
-> 
-> It's not right for you to translate it that way. Although there are
-> not many cases where the kernel uses the cpu continuously for more
-> than 20s, it doesn't mean it doesn't exist, let alone conclude that it
-> will definitely panic.
-> 
-> btw：
-> 
-> bug：计算机领域专业术语，bug原意是“臭虫”，现在用来指代计算机上存在的漏洞，原因是系统安全策略上存在的缺陷，有攻击者能够在未授权的情况下访问的危害。
-I have to admit that this paragraph is indeed not precise enough.
-
->> +导致其他任务无法得到运行的内核问题。一旦检测到'softlockup'发生，默认
->> +情况下系统会打印当前堆栈跟踪信息并进入锁定状态。也可配置使其在检测到
->> +'softlockup'后进入panic状态；通过sysctl命令设置
->> +“kernel.softlockup_panic”、使用内核启动参数“softlockup_panic”（详见
->> +Documentation/admin-guide/kernel-parameters.rst）以及使能内核编译选项
->> +“BOOTPARAM_SOFTLOCKUP_PANIC”都可实现这种配置。
->> +
->> +而'hardlockup'是内核中持续循环超过10秒钟（详见"实现"小节）导致其他中
-> maybe 内核态？
-You are right. "内核态" is more appropriate.
-
->> +断无法运行的问题。与'softlockup'情况类似，除了使用sysctl命令设置
-> 不给其他中断运行的机会 != 其他中断无法运行 
-Thanks for correcting!
-
->> +Hrtimer用于周期性产生中断并唤醒watchdog任务；而NMI perf事件则以
->> +”watchdog_thresh“(编译时默认初始化为10秒，也可通过”watchdog_thresh“这
->> +个sysctl接口来进行配置修改)为间隔周期产生以检测 hardlockups。如果一个
->> +CPU在这个时间段内没有检测到hrtimer中断发生，'hardlockup 检测器'(即
->> +NMI perf事件处理函数)将会视系统配置而选择产生内核告警或者直接panic。
-> 内核警告
-Ok, got it.
-
->> +如上所述,内核相当于为系统管理员提供了一个可调节hrtimer定时器和perf事件
->> +的周期长短的旋钮。对于特定的场景通过这个旋钮配置一个合理的周期值需要权
->> +衡lockups检测的响应速度和检测的开销。
->> +
->> +默认情况下所有在线cpu上都会运行一个watchdog任务。不过在内核配置了
-> maybe watchdog线程/进程？
-> 
-I prefer to choose "线程".
-
-I'm grateful to you for verifying my patch word by word, I will
-try to fix and optimize them in patch v2 later.
-
-Thanks,
-
-Hailong
-
+Cheers,
+Longman
 
