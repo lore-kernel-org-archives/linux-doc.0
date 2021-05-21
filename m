@@ -2,66 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F5FC43460
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 22:34:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7BBC433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 00:59:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97CF7613BD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 May 2021 22:34:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E39F861090
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 00:59:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231560AbhETWfw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 18:35:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38790 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231524AbhETWfu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 May 2021 18:35:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F3496023E;
-        Thu, 20 May 2021 22:34:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1621550068;
-        bh=bi67eiUs2fRyrrcl+E/qaSEXxD87m6VWYQHCV09Rfb4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=aeEJdvugsnTlOrk2ecc7BAKi4yTCN12scA2qQHetYcX6hpNYOCDbrQHkEw6C5fy1G
-         vYS1qJ0+CIfFjzC/zW0cOQKBhS3MHv48FXOcF8OOjWFWv+JG15xy3SUlCGJ88xAron
-         D3bQB3UfBj3A0EVT2hnBW5f2pPaANaewvbjGaFVQ=
-Date:   Thu, 20 May 2021 15:34:26 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
-        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
-        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
-        guoju.fgj@alibaba-inc.com, mgorman@suse.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
-        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
-        snu@amazon.de, vbabka@suse.cz, vdavydov.dev@gmail.com,
-        zgf574564920@gmail.com, linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v29 00/13] Introduce Data Access MONitor (DAMON)
-Message-Id: <20210520153426.34bfe5ab64ca1f06cca6f231@linux-foundation.org>
-In-Reply-To: <20210520075629.4332-1-sj38.park@gmail.com>
-References: <20210520075629.4332-1-sj38.park@gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S235644AbhEUBA7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 21:00:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235596AbhEUBA7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 21:00:59 -0400
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBA8C061574;
+        Thu, 20 May 2021 17:59:34 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id c20so18237618qkm.3;
+        Thu, 20 May 2021 17:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w/0aFTfAprVVOTOCs/KR4CC/94aej7JpddKXuVpnZ6g=;
+        b=gEX1PhKjxUNcZhruCsw9euBMfZTaMTfSw09jtMO0vu65Hc39DgRYS0mBz+THLpaHuq
+         m2O3HM0FkvpWu3fxirPKwP8W7nlDVG4cby1czMlBnx223XJ2jPnX6uRCcJt+X/Pqyy0o
+         QWVmm7/6JmyUE5O1hu6A9N6/tWL2ym3WiFaHI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w/0aFTfAprVVOTOCs/KR4CC/94aej7JpddKXuVpnZ6g=;
+        b=YxfVZ4dcWwJQmHj0tL6OoOjFsxNGWH9jls8I3Dw2ujIwnFgSGguZ0uR038lQBMY0HX
+         0GNhBt8lhMu9kJPWX9jgs+FIhrpSWkYSfLumoEwl908nF0nTw/mzHbFPF/8MgvWfXvO1
+         WpG8fRolgWUvqu6eNrh3P6VSBRx1Lc7Lij1gnFX6i3mZU9NeujTJj8HDS6LxvkptGnAC
+         lOqJZ3dtMyYmF5X09sGyleJvKyoRl77Xujxz2gco/n+jE2U3zj1wxgQVOAE9zf82X/gM
+         FTUzRU4hGGNQYxCmhPjPkBn+SHPrpqp/+398+GNcKJXmyOJk8Q9LiXxu1XgbqSDN1rRu
+         Duvw==
+X-Gm-Message-State: AOAM532w8NO4NhGPud8GYH+/S/pCoXdOXG6stWuCiW4enuqpPc4apo9i
+        lZlYua0wh/+T2+Yc/XBvXlIzMo2FI+0jBxxiUQ0=
+X-Google-Smtp-Source: ABdhPJyOg85pbVP5qfGdda8bH9eLGYzaTgxUlVuD+D9zPYeernDU9rP22PyLTRyI8fLkxDMPzeS683iOIZwwY1pD25s=
+X-Received: by 2002:a05:620a:704:: with SMTP id 4mr7822674qkc.66.1621558773301;
+ Thu, 20 May 2021 17:59:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210520093949.511471-1-andrew@aj.id.au>
+In-Reply-To: <20210520093949.511471-1-andrew@aj.id.au>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Fri, 21 May 2021 00:59:20 +0000
+Message-ID: <CACPK8XeBeQjYe8LeivFt69bf8-ipccwHnigpq9jZ8B5wTKJ7Vw@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: checkpatch: Tweak BIT() macro include
+To:     Andrew Jeffery <andrew@aj.id.au>
+Cc:     linux-doc@vger.kernel.org, dwaipayanray1@gmail.com,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Jiri Slaby <jirislaby@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 May 2021 07:56:16 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
+On Thu, 20 May 2021 at 17:14, Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> While include/linux/bitops.h brings in the BIT() macro, it was moved to
+> include/linux/bits.h in commit 8bd9cb51daac ("locking/atomics, asm-generic:
+> Move some macros from <linux/bitops.h> to a new <linux/bits.h> file").
+>
+> Since that commit BIT() has moved again into include/vdso/bits.h via
+> commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO").
+>
+> I think the move to the vDSO header can be considered an implementation
+> detail, so for now update the checkpatch documentation to recommend use
+> of include/linux/bits.h.
+>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Acked-by: Jiri Slaby <jirislaby@kernel.org>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-> Changes from Previous Version (v28)
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-Thanks for persisting with this.
-
-I'd be interested in people's overall take on this work, please. 
-Mainly a high-level "should we merge this" view.  Detailed review of
-implementation and interface details can follow on in the usual fashion.
+...just a little bit
