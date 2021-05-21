@@ -2,85 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 260BFC433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 07:38:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CA9C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 07:54:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 01B0E6135B
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 07:38:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47F68600CC
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 07:54:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232342AbhEUHjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 03:39:52 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:52760 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230050AbhEUHjw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 03:39:52 -0400
-Received: from localhost.localdomain (unknown [112.20.113.102])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX0NwY6dgAiICAA--.1028S2;
-        Fri, 21 May 2021 15:38:24 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net
-Cc:     dan.j.williams@intel.com, ben.widawsky@intel.com,
-        Jonathan.Cameron@huawei.com, linux-doc@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH] docs: driver-api: documentation build warning fix
-Date:   Fri, 21 May 2021 15:39:05 +0800
-Message-Id: <20210521073905.3728255-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
+        id S231636AbhEUH4I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 03:56:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41884 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231301AbhEUH4I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 03:56:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CA5636135B;
+        Fri, 21 May 2021 07:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621583685;
+        bh=q/Uy9Bki/OPO7BqB5Ad/aj1S8JOWQCXav+mJLUNTH3Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bt/+atbMIe3qCOQt6SaZvqsnHyJB20KtXdG/eJH8hzxaIC2F+nZmGBFmr2uBQUGF5
+         Gr6PlXp5UdgEWirc06ibXZNfoDCTYnnJQWQxr2ZhLfM3KirlMwqY0F1Dy8GW+HIOb7
+         WqSDJsrPFUlYwLgV4gTIUzjzQrNOQErxoDokPUEFLhPRc201Hhn97CoukeiYz3p/qT
+         BNdiVZAvDyEUUiUCMu0QGAs1sDuQpuhgcStW0cRejJ+xywIMjrsRRBWWo7Y32fA8fl
+         AYCX3c8fTqSzlmPrN1bjoKJEYwp1Zt+eQ5fFs96x3evGUgaGWNcA1pxRvUYrgAFWkB
+         llvTxQOzl4q5A==
+Date:   Fri, 21 May 2021 09:54:42 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: sphinx-pre-install: Reword warning on installing
+ cjk font
+Message-ID: <20210521095442.33957ff3@coco.lan>
+In-Reply-To: <c5652bb4-0bb0-9efa-2b80-a79793a8efa8@gmail.com>
+References: <c5652bb4-0bb0-9efa-2b80-a79793a8efa8@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxX0NwY6dgAiICAA--.1028S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xr15trW5Zw43XFW8urWDtwb_yoWfWFg_CF
-        yDuFsxAryjqa4rtw45uFn8ZF1jv3WfKr4v93Wft393A343t3y3W34qy3y2vFykXrWDuFn8
-        A3yDZrsakFnxKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbckFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-        Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8CwCF
-        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
-        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-        1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-        0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUh4SOUUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 5f653f7590ab7db7379f668b2975744585206b0d rename bus.c to core.c, but introduced a new documentation warnings:
+HI Akira,
 
-Documentation/driver-api/cxl/memory-devices.rst:32: WARNING: Title underline too short.
+Em Fri, 21 May 2021 16:14:19 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-CXL Core
--------
+> Installing a ckj font as recommended by the warning message causes
+> generated latex code to have:
+> 
+> 	% This is needed for translations
+> 	\usepackage{xeCJK}
+> 	\setCJKmainfont{Noto Sans CJK SC}
+> 
+> in its preamble even for an English document.
 
-Core is longer than bus, so just add a "-"
+Yes. The same LaTeX configuration is applied to all documents.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- Documentation/driver-api/cxl/memory-devices.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+While the standard Sphinx logic allows just one conf.py, there's
+a logic on Linux that allows a per-directory configuration.
+Perhaps it would be possible to set the font just for translations.
 
-diff --git a/Documentation/driver-api/cxl/memory-devices.rst b/Documentation/driver-api/cxl/memory-devices.rst
-index 71495ed77069..73f6b246c583 100644
---- a/Documentation/driver-api/cxl/memory-devices.rst
-+++ b/Documentation/driver-api/cxl/memory-devices.rst
-@@ -29,7 +29,7 @@ CXL Memory Device
-    :internal:
- 
- CXL Core
---------
-+--------
- .. kernel-doc:: drivers/cxl/core.c
-    :doc: cxl core
- 
--- 
-2.27.0
+Yet, this can't be easily done per-translation - Italian
+translation for instance doesn't need CJK fonts.
 
+> The package "xeCJK" changes wide characters' appearance including
+> apostrophe (single quote) and double quotes, and it changes line-break
+> behavior with regard to the boundary of narrow and wide characters.
+> 
+> This greatly degrades readability of English PDFs typeset by xelatex.
+
+Hmm... could you give an example where it looks ugly?
+
+At least on the documents I use to check the PDF output, I was unable
+to see any big issue.
+
+Regards,
+Mauro
+
+> 
+> As a band-aid help, reword the message and let the user at least be
+> aware of the degradation.
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+> Hello,
+> 
+> I'm a newcomer to kernel-doc who started trying sphinx this week.
+> I have both sphinx 2.4.4 and 1.7.9 installed.
+> For pdfdocs, I use 2.4.4.
+> 
+> "make htmldocs" was fairly easy, but I struggled a while to get
+> PDFs as I expected.
+> 
+> The culprit turned out to be the "xeCJK" package mentioned above
+> in the change log.  It appears in all the generated latex files
+> due to the "Noto Sans CJK" font I have installed seeing the warning
+> message from sphinx-pre-install.
+> 
+> By uninstalling the font, I can now build the PDF as I expect.
+> 
+> The reworded message is just a band-aid help.
+> 
+> In the long term, I see that rst2pdf tool is your hope to avoid
+> LaTeX altogether.  But it would be nice if you can enable xeCJK only
+> for the translations document.  Can sphinx permit such language
+> choice per subdirectory (or hopefully per .rst file)?
+> 
+>         Thanks, Akira
+> --
+>  scripts/sphinx-pre-install | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+> index fe92020d67e3..b3c7da2b8ad2 100755
+> --- a/scripts/sphinx-pre-install
+> +++ b/scripts/sphinx-pre-install
+> @@ -101,7 +101,12 @@ sub check_missing(%)
+>  		}
+>  
+>  		if ($is_optional) {
+> -			print "Warning: better to also install \"$prog\".\n";
+> +			if ($prog =~ /cjk/ ) {
+> +				print "Warning: For translations PDF, better to install \"$prog\".\n";
+> +				print "However, doing so will *degrade* English PDF typesetting.\n";
+> +			} else {
+> +				print "Warning: better to also install \"$prog\".\n";
+> +			}
+>  		} else {
+>  			print "ERROR: please install \"$prog\", otherwise, build won't work.\n";
+>  		}
+
+
+
+Thanks,
+Mauro
