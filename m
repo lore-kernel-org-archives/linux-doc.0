@@ -2,89 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7BBC433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 00:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD83C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 01:36:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E39F861090
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 00:59:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C50F6135C
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 01:36:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235644AbhEUBA7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 May 2021 21:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56992 "EHLO
+        id S237002AbhEUBhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 May 2021 21:37:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235596AbhEUBA7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 21:00:59 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBA8C061574;
-        Thu, 20 May 2021 17:59:34 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id c20so18237618qkm.3;
-        Thu, 20 May 2021 17:59:34 -0700 (PDT)
+        with ESMTP id S237001AbhEUBhp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 May 2021 21:37:45 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3A98C0613ED;
+        Thu, 20 May 2021 18:36:22 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id i5so11054362qkf.12;
+        Thu, 20 May 2021 18:36:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w/0aFTfAprVVOTOCs/KR4CC/94aej7JpddKXuVpnZ6g=;
-        b=gEX1PhKjxUNcZhruCsw9euBMfZTaMTfSw09jtMO0vu65Hc39DgRYS0mBz+THLpaHuq
-         m2O3HM0FkvpWu3fxirPKwP8W7nlDVG4cby1czMlBnx223XJ2jPnX6uRCcJt+X/Pqyy0o
-         QWVmm7/6JmyUE5O1hu6A9N6/tWL2ym3WiFaHI=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=plkiWevmWcgL15Zlx+6OXKOK7VZtZ4qvyrWLBIIHSW8=;
+        b=t/OTB+J7uvaj3nqyvThvm5YO2hd0vKCdMJwyej8eTk+e6W3EnL5/gRbDRSNIsvAvy0
+         NSGOTX+Xw0w9RPyJxnSriP7WiTRQddleUcagQciLRyMrkoD80Iy/Z59qS+sUbx/mi/YR
+         ygY+G2mdXrdoMxsWJn8ALr4roVwL4U6sjvn4GHRNRxpq22CbNNnW+PatAUtNlbYxq+PG
+         qQcTrOb1OpVd+WSwbihVHHKkh53TJMl9yElhcvWPKKQKrJUyCEOtRH7ehv31oWr45SfI
+         ycBfuyUHN8zRCAtMi0GdPdIdT4bxiG+V0wMGkVfUtdAZis4uvN/GQIzPwK7Ap55cxoyg
+         efaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w/0aFTfAprVVOTOCs/KR4CC/94aej7JpddKXuVpnZ6g=;
-        b=YxfVZ4dcWwJQmHj0tL6OoOjFsxNGWH9jls8I3Dw2ujIwnFgSGguZ0uR038lQBMY0HX
-         0GNhBt8lhMu9kJPWX9jgs+FIhrpSWkYSfLumoEwl908nF0nTw/mzHbFPF/8MgvWfXvO1
-         WpG8fRolgWUvqu6eNrh3P6VSBRx1Lc7Lij1gnFX6i3mZU9NeujTJj8HDS6LxvkptGnAC
-         lOqJZ3dtMyYmF5X09sGyleJvKyoRl77Xujxz2gco/n+jE2U3zj1wxgQVOAE9zf82X/gM
-         FTUzRU4hGGNQYxCmhPjPkBn+SHPrpqp/+398+GNcKJXmyOJk8Q9LiXxu1XgbqSDN1rRu
-         Duvw==
-X-Gm-Message-State: AOAM532w8NO4NhGPud8GYH+/S/pCoXdOXG6stWuCiW4enuqpPc4apo9i
-        lZlYua0wh/+T2+Yc/XBvXlIzMo2FI+0jBxxiUQ0=
-X-Google-Smtp-Source: ABdhPJyOg85pbVP5qfGdda8bH9eLGYzaTgxUlVuD+D9zPYeernDU9rP22PyLTRyI8fLkxDMPzeS683iOIZwwY1pD25s=
-X-Received: by 2002:a05:620a:704:: with SMTP id 4mr7822674qkc.66.1621558773301;
- Thu, 20 May 2021 17:59:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=plkiWevmWcgL15Zlx+6OXKOK7VZtZ4qvyrWLBIIHSW8=;
+        b=O1uGa1CypKLahc5nKs6uxsvoUFhq1ZDaJtwT0D7BmPaMsXfdyFe1ohgQ5mwLwBLbIB
+         7Qx00dkoUSUgzZBU2gAf7+XrXheG1JyQur+gjlXqbnDoSsqvIYNXgwVwJIj0/VTOLEnh
+         lNdTJDPKqv+AVFm3QhpC+clvVUjRFLe0nakL1Y82352nl0O/uZhd+A60aU4agj+v044r
+         SeRPVF78sWnkzSSPvrSg6vP1uvgxPvAWvvlw4R8SS7vBEw0faL8e/G8ErgH7U8rd0shK
+         wWZstkKnx2dA5373FlkTZnps/hDlw+L0kuzcHHtDrDNxwrPkW7b5BX5Ge0p5pYG5uyJZ
+         vKJA==
+X-Gm-Message-State: AOAM531TYCZKzEI3EDi05CSaMrJhl+KpuQTkx09YdWKeMQU+f2PLmJi/
+        sPQKb+K5ajgmAQtIK21QK3E=
+X-Google-Smtp-Source: ABdhPJw/vBgtK5gioZHKFcavd/rXjNCmgkS3Qq+jmhnD2Nf4IZJsU/bpoZdrXcMNkngDQZjbZq3Y8A==
+X-Received: by 2002:a37:e105:: with SMTP id c5mr8630580qkm.455.1621560981986;
+        Thu, 20 May 2021 18:36:21 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:485:504a:74ed:8ad2:143d:dd84])
+        by smtp.gmail.com with ESMTPSA id l197sm3496565qke.121.2021.05.20.18.36.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 18:36:21 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     gregkh@linuxfoundation.org
+Cc:     stern@rowland.harvard.edu, linux-doc@vger.kernel.org,
+        sfr@canb.auug.org.au, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] usb: Restore the usb_header label
+Date:   Thu, 20 May 2021 22:36:08 -0300
+Message-Id: <20210521013608.17957-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210520093949.511471-1-andrew@aj.id.au>
-In-Reply-To: <20210520093949.511471-1-andrew@aj.id.au>
-From:   Joel Stanley <joel@jms.id.au>
-Date:   Fri, 21 May 2021 00:59:20 +0000
-Message-ID: <CACPK8XeBeQjYe8LeivFt69bf8-ipccwHnigpq9jZ8B5wTKJ7Vw@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: checkpatch: Tweak BIT() macro include
-To:     Andrew Jeffery <andrew@aj.id.au>
-Cc:     linux-doc@vger.kernel.org, dwaipayanray1@gmail.com,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Jiri Slaby <jirislaby@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 May 2021 at 17:14, Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> While include/linux/bitops.h brings in the BIT() macro, it was moved to
-> include/linux/bits.h in commit 8bd9cb51daac ("locking/atomics, asm-generic:
-> Move some macros from <linux/bitops.h> to a new <linux/bits.h> file").
->
-> Since that commit BIT() has moved again into include/vdso/bits.h via
-> commit 3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO").
->
-> I think the move to the vDSO header can be considered an implementation
-> detail, so for now update the checkpatch documentation to recommend use
-> of include/linux/bits.h.
->
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Acked-by: Jiri Slaby <jirislaby@kernel.org>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+Commit caa93d9bd2d7 ("usb: Fix up movement of USB core kerneldoc location")
+removed the reference to the _usb_header label by mistake, which causes the
+following htmldocs build warning:
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Documentation/driver-api/usb/writing_usb_driver.rst:129: WARNING: undefined label: usb_header
 
-...just a little bit
+Restore the label.
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: caa93d9bd2d7 ("usb: Fix up movement of USB core kerneldoc location") 
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ Documentation/driver-api/usb/usb.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/driver-api/usb/usb.rst b/Documentation/driver-api/usb/usb.rst
+index 820e867af45a..2c94ff2f4385 100644
+--- a/Documentation/driver-api/usb/usb.rst
++++ b/Documentation/driver-api/usb/usb.rst
+@@ -123,6 +123,8 @@ are in ``drivers/usb/common/common.c``.
+ In addition, some functions useful for creating debugging output are
+ defined in ``drivers/usb/common/debug.c``.
+ 
++.. _usb_header:
++
+ Host-Side Data Types and Macros
+ ===============================
+ 
+-- 
+2.25.1
+
