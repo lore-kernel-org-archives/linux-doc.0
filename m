@@ -2,88 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0155CC47076
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E57C47078
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:18:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D317C613E3
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:02:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A28D3613EE
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 16:18:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbhEUQEN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 12:04:13 -0400
-Received: from m34-101.88.com ([104.250.34.101]:63382 "EHLO 88.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229807AbhEUQEM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 12:04:12 -0400
-X-Greylist: delayed 360 seconds by postgrey-1.27 at vger.kernel.org; Fri, 21 May 2021 12:04:11 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=From:To:Date; bh=vJkq7wa9Z6jij7BO6V7KBAE4fXZ75ffcsEThU
-        MYmmcI=; b=DX/ygDq5lp689y+WWSOlxylrr0nAdAkrXkHhTMa1vtLbBSJqZ5neG
-        6DtxfTJ42NBeIxJ2LOmzlIFFV3XOM+n3uUYIU06L4+LSzoAX9KVx+ocQvJacBqw6
-        s7M/HdM26DKgqepeuCU5jtZoKzePK7v3tUX0tEC4HX/GkfAIXdrTiE=
-Received: from localhost.localdomain (unknown [113.251.14.223])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgC3fkEN2Kdg5Ok2AA--.14375S2;
-        Fri, 21 May 2021 23:55:58 +0800 (CST)
-From:   Hu Haowen <src.res@email.cn>
-To:     alexs@kernel.org, corbet@lwn.net, bobwxc@email.cn, bernard@vivo.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hu Haowen <src.res@email.cn>
-Subject: [PATCH] docs/zh_CN: update a translation in zh_CN/dev-tools/gcov
-Date:   Fri, 21 May 2021 23:55:51 +0800
-Message-Id: <20210521155551.29176-1-src.res@email.cn>
-X-Mailer: git-send-email 2.25.1
+        id S232501AbhEUQTZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 12:19:25 -0400
+Received: from mga04.intel.com ([192.55.52.120]:15226 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231318AbhEUQTZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 12:19:25 -0400
+IronPort-SDR: o+9RwqpsqLpqJR+lZh/NwfeQcDXpXKspzArxamWJez+xKsrlFC9a7FSSpfGQJf+ztj4Q/mQdgD
+ b3rvgdGraxDg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9991"; a="199576048"
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="199576048"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 09:17:35 -0700
+IronPort-SDR: mZryhIX47sLJixgt8Qc9gLmzKgJ+SBzaiz6RVQKGwMt7tm3L2OaO0MqVZ1E/fkxF8q0Q1gVB29
+ ebFTGGc09p/A==
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="434344646"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.254.177.76]) ([10.254.177.76])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 09:17:27 -0700
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com> <YKIfIEyW+sR+bDCk@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <c9121ca1-83cb-1c37-1a8e-edaafaa6fda2@intel.com>
+Date:   Fri, 21 May 2021 09:17:24 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: LCKnCgC3fkEN2Kdg5Ok2AA--.14375S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruw4Dtr13Xw1ruFyfXF4fZrb_yoWftrc_Gw
-        1kWF4vyFy3Jry2gr4rAF1kJr1fZF4rKw18Arn0ya98Jw15G39rGa4DX3s5ZFW3WF43urW3
-        CrZ7ZrZ3trn2yjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbeAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWUJVWUGwA2ocxC64kI
-        II0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7
-        xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84AC
-        jcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4
-        xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWU
-        JVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64
-        vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
-        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF
-        0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
-        c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
-        v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7V
-        U0mhF7UUUUU==
-X-Originating-IP: [113.251.14.223]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+In-Reply-To: <YKIfIEyW+sR+bDCk@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The original file has added some words in commit c797997a244cd2c58908
-("Documentation: dev-tools: Add Testing Overview"), hence update the
-Chinese translation of them.
+On 5/17/2021 12:45 AM, Borislav Petkov wrote:
+> On Tue, Apr 27, 2021 at 01:43:09PM -0700, Yu-cheng Yu wrote:
 
-Signed-off-by: Hu Haowen <src.res@email.cn>
----
- Documentation/translations/zh_CN/dev-tools/index.rst | 3 +++
- 1 file changed, 3 insertions(+)
+[...]
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
-index fd73c479917b..7ba02fc392a6 100644
---- a/Documentation/translations/zh_CN/dev-tools/index.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/index.rst
-@@ -11,6 +11,9 @@
- 目前这些文档已经整理在一起，不需要再花费额外的精力。
- 欢迎任何补丁。
- 
-+有关测试专用工具的简要概述，参见
-+Documentation/dev-tools/testing-overview.rst
-+
- .. class:: toc-title
- 
- 	   目录
--- 
-2.25.1
+>> +
+>> +	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
+> 
+> Flip this logic:
+> 
+> 	if ((ia32 && !IS_ALIGNED(ssp, 4)) || !IS_ALIGNED(ssp, 8))
 
+If !IS_ALIGNED(ssp, 4), then certainly !IS_ALIGNED(ssp, 8).
+This has to be as-is, I think.
+
+Thanks,
+Yu-cheng
