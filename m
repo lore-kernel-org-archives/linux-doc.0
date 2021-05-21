@@ -2,372 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBC2C43462
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 04:04:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D208C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 06:16:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1D3E61261
-	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 04:04:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30B2661004
+	for <linux-doc@archiver.kernel.org>; Fri, 21 May 2021 06:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229457AbhEUEFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 00:05:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41526 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbhEUEFo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 00:05:44 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26AABC061574;
-        Thu, 20 May 2021 21:04:21 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id w1so14411636ybt.1;
-        Thu, 20 May 2021 21:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MGq5qqdhsu4fbZTN1KN4R8bXwjcBxCAudfPNgsYOJaY=;
-        b=eXL5hnouP4KynYCOj5rsf4WIxiufxzSBHFNa68yiakU63CZdHb4/LcbkkAvwXEpVWM
-         jKxOjdFrL2rlS2X4lcpLVHmLJTjWKHJNEBTK/ujlF182LLmDua84p9Chl+AJEdiN527V
-         LpbF5j/M0xTV+T7MiL5Tqvw2GOcsUP+Uy2YV1LyiLSeJBgDBhc6zV4ij+bi3au+LEgVj
-         jEOg5JoBMnTax9KxzujSU5JxRPKL7hBgAnJkZjGmnIyscwP1YnLgvgAL/3ejYoBYYmFd
-         s7N2VCq34luVqn23CEqLg1piUmAjD8I9BfsFgYd2bJWkm4FbkXRoPo0ZgWrw5YNeliZv
-         qQ4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MGq5qqdhsu4fbZTN1KN4R8bXwjcBxCAudfPNgsYOJaY=;
-        b=Y0QOFpyQvjq9MtDkeYLCBg77H5PdUIbtU+kkS6S2DO6lrHrom0DKFW9jduyopSk+yj
-         D1jjaJgid2ww7zfn4FBcVH1UEBnD+x0WfbCcFeGXdjMdQ3BtRVoLryFubRSy7L8Lnyxq
-         Q4Tf3CgveBF7ON9zeVN7UUGmLyMwbR8RLyVGadnO/wvulFgAGJUfadx9xHgZzABuyvj+
-         5K7rsV+fSXLQs6yilQJvNJZi6kGqkZwxTLEfXa93HoD/teIAXSIZTAd8v7papaIQDzMd
-         UwdWf4Z0w9Q7BM8HdwncLj8+BXuyAuJfnCmqpz15Vv99M5LhBD0uDL7QT8jiKC9bLIPt
-         4drw==
-X-Gm-Message-State: AOAM530jEGP3iKAHopJaXC6T1SyWBb9Jc3jfFaGanDuQamwuDz5kYWlh
-        DsLBzp91cm6IMaQX11EiSIqQVgIw89lVM8Geges=
-X-Google-Smtp-Source: ABdhPJx4rOa+ntWlSp+7Ns1AjCepaDgfPgRkjoRXrA5XXRO+qdETutkJQSSxvPyStaNY007guCvxHukuLv7uv9RmHfA=
-X-Received: by 2002:a5b:591:: with SMTP id l17mr11653279ybp.60.1621569860321;
- Thu, 20 May 2021 21:04:20 -0700 (PDT)
+        id S230381AbhEUGRq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 02:17:46 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:60098 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231816AbhEUGRp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 May 2021 02:17:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=BUAG99hsMEHzOAPxz127i5WDo1GE0kz4CSiAM
+        WDnXB4=; b=C9UEQDAwkrd1WILpuLkWX5QrxJMYYDciwY6yuHMkPuBIbHitby4Cg
+        bZ4KAX4ObVZBNXlorzBFE5Pi1aI8HdKD76FsxSVsrMccfiJCoKNrCnx6hOkNHzxn
+        k/SsVGZPTwe9ObqEQIR9c/kMWm7tSgvLotcNRhVBdqp1l76dOH9/wQ=
+Received: from bobwxc.top (unknown [110.64.86.229])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgCXXkEpUKdgVRs2AA--.63205S2;
+        Fri, 21 May 2021 14:16:11 +0800 (CST)
+Date:   Fri, 21 May 2021 14:16:09 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     yanteng si <siyanteng01@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        huangjianghui@uniontech.com
+Subject: Re: [PATCH 2/2] docs/zh_CN: add core api local_ops.rst translation
+Message-ID: <20210521061609.GA14285@bobwxc.top>
+References: <cover.1621255695.git.siyanteng@loongson.cn>
+ <d3b3209a81bd225f6c6983c49b16a6ac8d93f054.1621255695.git.siyanteng@loongson.cn>
+ <20210519181125.GA24183@bobwxc.top>
+ <CAEensMyA8tfYs-yRWb9rVPgqPsY5_Df+hkiKxo78moy05-WBKA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210407084238.20443-1-apopple@nvidia.com> <20210407084238.20443-9-apopple@nvidia.com>
-In-Reply-To: <20210407084238.20443-9-apopple@nvidia.com>
-From:   Ben Skeggs <skeggsb@gmail.com>
-Date:   Fri, 21 May 2021 14:04:08 +1000
-Message-ID: <CACAvsv6hKbmHMHmJSxMyij_4Y1v51Zo5NAfLtDyaQyiamtGOLQ@mail.gmail.com>
-Subject: Re: [PATCH v8 8/8] nouveau/svm: Implement atomic SVM access
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, ML nouveau <nouveau@lists.freedesktop.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        linux-doc@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
-        bsingharora@gmail.com, LKML <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        Christoph Hellwig <hch@infradead.org>, jglisse@redhat.com,
-        willy@infradead.org, Jason Gunthorpe <jgg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="lrZ03NoBR/3+SXJZ"
+Content-Disposition: inline
+In-Reply-To: <CAEensMyA8tfYs-yRWb9rVPgqPsY5_Df+hkiKxo78moy05-WBKA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgCXXkEpUKdgVRs2AA--.63205S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tr4fCFWrAFy7KF43AFW5Wrg_yoW8ZrWkpr
+        97KF1fGa1IqF13Cr1Igr17Jr1jyay8Can8WayIqw1YqFnIqF4Dtr4Utr9Igr95Xr97tFW8
+        Zr4fKFW7uryjy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgab7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wASzI0EjI02j7AqF2xKxwAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+        Yx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04
+        k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
+        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+        AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+        C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73
+        UjIFyTuYvj4RRbyZUUUUU
+X-Originating-IP: [110.64.86.229]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 7 Apr 2021 at 18:43, Alistair Popple <apopple@nvidia.com> wrote:
->
-> Some NVIDIA GPUs do not support direct atomic access to system memory
-> via PCIe. Instead this must be emulated by granting the GPU exclusive
-> access to the memory. This is achieved by replacing CPU page table
-> entries with special swap entries that fault on userspace access.
->
-> The driver then grants the GPU permission to update the page undergoing
-> atomic access via the GPU page tables. When CPU access to the page is
-> required a CPU fault is raised which calls into the device driver via
-> MMU notifiers to revoke the atomic access. The original page table
-> entries are then restored allowing CPU access to proceed.
->
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-The Nouveau bits at least look good to me.
 
-For patches 7/8:
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
+--lrZ03NoBR/3+SXJZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> ---
->
-> v7:
-> * Removed magic values for fault access levels
-> * Improved readability of fault comparison code
->
-> v4:
-> * Check that page table entries haven't changed before mapping on the
->   device
-> ---
->  drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
->  drivers/gpu/drm/nouveau/nouveau_svm.c         | 126 ++++++++++++++++--
->  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
->  .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 +
->  4 files changed, 123 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/include/nvif/if000c.h b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-> index d6dd40f21eed..9c7ff56831c5 100644
-> --- a/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-> +++ b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-> @@ -77,6 +77,7 @@ struct nvif_vmm_pfnmap_v0 {
->  #define NVIF_VMM_PFNMAP_V0_APER                           0x00000000000000f0ULL
->  #define NVIF_VMM_PFNMAP_V0_HOST                           0x0000000000000000ULL
->  #define NVIF_VMM_PFNMAP_V0_VRAM                           0x0000000000000010ULL
-> +#define NVIF_VMM_PFNMAP_V0_A                             0x0000000000000004ULL
->  #define NVIF_VMM_PFNMAP_V0_W                              0x0000000000000002ULL
->  #define NVIF_VMM_PFNMAP_V0_V                              0x0000000000000001ULL
->  #define NVIF_VMM_PFNMAP_V0_NONE                           0x0000000000000000ULL
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> index a195e48c9aee..81526d65b4e2 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> @@ -35,6 +35,7 @@
->  #include <linux/sched/mm.h>
->  #include <linux/sort.h>
->  #include <linux/hmm.h>
-> +#include <linux/rmap.h>
->
->  struct nouveau_svm {
->         struct nouveau_drm *drm;
-> @@ -67,6 +68,11 @@ struct nouveau_svm {
->         } buffer[1];
->  };
->
-> +#define FAULT_ACCESS_READ 0
-> +#define FAULT_ACCESS_WRITE 1
-> +#define FAULT_ACCESS_ATOMIC 2
-> +#define FAULT_ACCESS_PREFETCH 3
-> +
->  #define SVM_DBG(s,f,a...) NV_DEBUG((s)->drm, "svm: "f"\n", ##a)
->  #define SVM_ERR(s,f,a...) NV_WARN((s)->drm, "svm: "f"\n", ##a)
->
-> @@ -411,6 +417,24 @@ nouveau_svm_fault_cancel_fault(struct nouveau_svm *svm,
->                                       fault->client);
->  }
->
-> +static int
-> +nouveau_svm_fault_priority(u8 fault)
-> +{
-> +       switch (fault) {
-> +       case FAULT_ACCESS_PREFETCH:
-> +               return 0;
-> +       case FAULT_ACCESS_READ:
-> +               return 1;
-> +       case FAULT_ACCESS_WRITE:
-> +               return 2;
-> +       case FAULT_ACCESS_ATOMIC:
-> +               return 3;
-> +       default:
-> +               WARN_ON_ONCE(1);
-> +               return -1;
-> +       }
-> +}
-> +
->  static int
->  nouveau_svm_fault_cmp(const void *a, const void *b)
->  {
-> @@ -421,9 +445,8 @@ nouveau_svm_fault_cmp(const void *a, const void *b)
->                 return ret;
->         if ((ret = (s64)fa->addr - fb->addr))
->                 return ret;
-> -       /*XXX: atomic? */
-> -       return (fa->access == 0 || fa->access == 3) -
-> -              (fb->access == 0 || fb->access == 3);
-> +       return nouveau_svm_fault_priority(fa->access) -
-> +               nouveau_svm_fault_priority(fb->access);
->  }
->
->  static void
-> @@ -487,6 +510,10 @@ static bool nouveau_svm_range_invalidate(struct mmu_interval_notifier *mni,
->         struct svm_notifier *sn =
->                 container_of(mni, struct svm_notifier, notifier);
->
-> +       if (range->event == MMU_NOTIFY_EXCLUSIVE &&
-> +           range->owner == sn->svmm->vmm->cli->drm->dev)
-> +               return true;
-> +
->         /*
->          * serializes the update to mni->invalidate_seq done by caller and
->          * prevents invalidation of the PTE from progressing while HW is being
-> @@ -555,6 +582,71 @@ static void nouveau_hmm_convert_pfn(struct nouveau_drm *drm,
->                 args->p.phys[0] |= NVIF_VMM_PFNMAP_V0_W;
->  }
->
-> +static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
-> +                              struct nouveau_drm *drm,
-> +                              struct nouveau_pfnmap_args *args, u32 size,
-> +                              struct svm_notifier *notifier)
-> +{
-> +       unsigned long timeout =
-> +               jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-> +       struct mm_struct *mm = svmm->notifier.mm;
-> +       struct page *page;
-> +       unsigned long start = args->p.addr;
-> +       unsigned long notifier_seq;
-> +       int ret = 0;
-> +
-> +       ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
-> +                                       args->p.addr, args->p.size,
-> +                                       &nouveau_svm_mni_ops);
-> +       if (ret)
-> +               return ret;
-> +
-> +       while (true) {
-> +               if (time_after(jiffies, timeout)) {
-> +                       ret = -EBUSY;
-> +                       goto out;
-> +               }
-> +
-> +               notifier_seq = mmu_interval_read_begin(&notifier->notifier);
-> +               mmap_read_lock(mm);
-> +               make_device_exclusive_range(mm, start, start + PAGE_SIZE,
-> +                                           &page, drm->dev);
-> +               mmap_read_unlock(mm);
-> +               if (!page) {
-> +                       ret = -EINVAL;
-> +                       goto out;
-> +               }
-> +
-> +               mutex_lock(&svmm->mutex);
-> +               if (!mmu_interval_read_retry(&notifier->notifier,
-> +                                            notifier_seq))
-> +                       break;
-> +               mutex_unlock(&svmm->mutex);
-> +       }
-> +
-> +       /* Map the page on the GPU. */
-> +       args->p.page = 12;
-> +       args->p.size = PAGE_SIZE;
-> +       args->p.addr = start;
-> +       args->p.phys[0] = page_to_phys(page) |
-> +               NVIF_VMM_PFNMAP_V0_V |
-> +               NVIF_VMM_PFNMAP_V0_W |
-> +               NVIF_VMM_PFNMAP_V0_A |
-> +               NVIF_VMM_PFNMAP_V0_HOST;
-> +
-> +       svmm->vmm->vmm.object.client->super = true;
-> +       ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
-> +       svmm->vmm->vmm.object.client->super = false;
-> +       mutex_unlock(&svmm->mutex);
-> +
-> +       unlock_page(page);
-> +       put_page(page);
-> +
-> +out:
-> +       mmu_interval_notifier_remove(&notifier->notifier);
-> +       return ret;
-> +}
-> +
->  static int nouveau_range_fault(struct nouveau_svmm *svmm,
->                                struct nouveau_drm *drm,
->                                struct nouveau_pfnmap_args *args, u32 size,
-> @@ -637,7 +729,7 @@ nouveau_svm_fault(struct nvif_notify *notify)
->         unsigned long hmm_flags;
->         u64 inst, start, limit;
->         int fi, fn;
-> -       int replay = 0, ret;
-> +       int replay = 0, atomic = 0, ret;
->
->         /* Parse available fault buffer entries into a cache, and update
->          * the GET pointer so HW can reuse the entries.
-> @@ -718,12 +810,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
->                 /*
->                  * Determine required permissions based on GPU fault
->                  * access flags.
-> -                * XXX: atomic?
->                  */
->                 switch (buffer->fault[fi]->access) {
->                 case 0: /* READ. */
->                         hmm_flags = HMM_PFN_REQ_FAULT;
->                         break;
-> +               case 2: /* ATOMIC. */
-> +                       atomic = true;
-> +                       break;
->                 case 3: /* PREFETCH. */
->                         hmm_flags = 0;
->                         break;
-> @@ -739,8 +833,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
->                 }
->
->                 notifier.svmm = svmm;
-> -               ret = nouveau_range_fault(svmm, svm->drm, &args.i,
-> -                                       sizeof(args), hmm_flags, &notifier);
-> +               if (atomic)
-> +                       ret = nouveau_atomic_range_fault(svmm, svm->drm,
-> +                                                        &args.i, sizeof(args),
-> +                                                        &notifier);
-> +               else
-> +                       ret = nouveau_range_fault(svmm, svm->drm, &args.i,
-> +                                                 sizeof(args), hmm_flags,
-> +                                                 &notifier);
->                 mmput(mm);
->
->                 limit = args.i.p.addr + args.i.p.size;
-> @@ -756,11 +856,15 @@ nouveau_svm_fault(struct nvif_notify *notify)
->                          */
->                         if (buffer->fault[fn]->svmm != svmm ||
->                             buffer->fault[fn]->addr >= limit ||
-> -                           (buffer->fault[fi]->access == 0 /* READ. */ &&
-> +                           (buffer->fault[fi]->access == FAULT_ACCESS_READ &&
->                              !(args.phys[0] & NVIF_VMM_PFNMAP_V0_V)) ||
-> -                           (buffer->fault[fi]->access != 0 /* READ. */ &&
-> -                            buffer->fault[fi]->access != 3 /* PREFETCH. */ &&
-> -                            !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)))
-> +                           (buffer->fault[fi]->access != FAULT_ACCESS_READ &&
-> +                            buffer->fault[fi]->access != FAULT_ACCESS_PREFETCH &&
-> +                            !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)) ||
-> +                           (buffer->fault[fi]->access != FAULT_ACCESS_READ &&
-> +                            buffer->fault[fi]->access != FAULT_ACCESS_WRITE &&
-> +                            buffer->fault[fi]->access != FAULT_ACCESS_PREFETCH &&
-> +                            !(args.phys[0] & NVIF_VMM_PFNMAP_V0_A)))
->                                 break;
->                 }
->
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-> index a2b179568970..f6188aa9171c 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-> @@ -178,6 +178,7 @@ void nvkm_vmm_unmap_region(struct nvkm_vmm *, struct nvkm_vma *);
->  #define NVKM_VMM_PFN_APER                                 0x00000000000000f0ULL
->  #define NVKM_VMM_PFN_HOST                                 0x0000000000000000ULL
->  #define NVKM_VMM_PFN_VRAM                                 0x0000000000000010ULL
-> +#define NVKM_VMM_PFN_A                                   0x0000000000000004ULL
->  #define NVKM_VMM_PFN_W                                    0x0000000000000002ULL
->  #define NVKM_VMM_PFN_V                                    0x0000000000000001ULL
->  #define NVKM_VMM_PFN_NONE                                 0x0000000000000000ULL
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-> index 236db5570771..f02abd9cb4dd 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-> @@ -88,6 +88,9 @@ gp100_vmm_pgt_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
->                 if (!(*map->pfn & NVKM_VMM_PFN_W))
->                         data |= BIT_ULL(6); /* RO. */
->
-> +               if (!(*map->pfn & NVKM_VMM_PFN_A))
-> +                       data |= BIT_ULL(7); /* Atomic disable. */
-> +
->                 if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
->                         addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
->                         addr = dma_map_page(dev, pfn_to_page(addr), 0,
-> @@ -322,6 +325,9 @@ gp100_vmm_pd0_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
->                 if (!(*map->pfn & NVKM_VMM_PFN_W))
->                         data |= BIT_ULL(6); /* RO. */
->
-> +               if (!(*map->pfn & NVKM_VMM_PFN_A))
-> +                       data |= BIT_ULL(7); /* Atomic disable. */
-> +
->                 if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
->                         addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
->                         addr = dma_map_page(dev, pfn_to_page(addr), 0,
-> --
-> 2.20.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+On Fri, May 21, 2021 at 09:53:08AM +0800, yanteng si wrote:
+> Wu X.C. <bobwxc@email.cn> =E4=BA=8E2021=E5=B9=B45=E6=9C=8820=E6=97=A5=E5=
+=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:11=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Tue, May 18, 2021 at 11:08:52AM +0800, Yanteng Si wrote:
+> > > Translate Documentation/core-api/local_ops.rst into Chinese.
+> > >
+> > > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> > > ---
+> > >  .../translations/zh_CN/core-api/index.rst     |   3 +-
+> > >  .../translations/zh_CN/core-api/local_ops.rst | 194 ++++++++++++++++=
+++
+> > >  2 files changed, 195 insertions(+), 2 deletions(-)
+> > >  create mode 100644 Documentation/translations/zh_CN/core-api/local_o=
+ps.rst
+> > >
+> > > diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Do=
+cumentation/translations/zh_CN/core-api/index.rst
+> > > index 8f0b3fe8723d..c7a004bf2bd6 100644
+> > > --- a/Documentation/translations/zh_CN/core-api/index.rst
+> > > +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> > > @@ -59,11 +59,10 @@ Linux=E5=A6=82=E4=BD=95=E8=AE=A9=E4=B8=80=E5=88=
+=87=E5=90=8C=E6=97=B6=E5=8F=91=E7=94=9F=E3=80=82 =E8=AF=A6=E6=83=85=E8=AF=
+=B7=E5=8F=82=E9=98=85
+> > >
+> > >     irq/index
+> > >     refcount-vs-atomic
+> > > -
+> > > +   local_ops
+> > >
+> > >  Todolist:
+> > >
+> > > -   local_ops
+> > >     padata
+> > >     ../RCU/index
+> > >
+> > > diff --git a/Documentation/translations/zh_CN/core-api/local_ops.rst =
+b/Documentation/translations/zh_CN/core-api/local_ops.rst
+> > > new file mode 100644
+> > > index 000000000000..1294cc1864ff
+> > > --- /dev/null
+> > > +++ b/Documentation/translations/zh_CN/core-api/local_ops.rst
+> > > @@ -0,0 +1,194 @@
+> > > +.. include:: ../disclaimer-zh_CN.rst
+> > > +
+> > > +:Original: Documentation/core-api/local_ops.rst
+> > > +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> > > +
+> > > +.. _cn_local_ops:
+> > > +
+> > > +
+> >
+> > Which is better for "local" in this article, =E5=B1=80=E9=83=A8 or =E6=
+=9C=AC=E5=9C=B0=EF=BC=9F
+> > Seems not much different
+> =E2=80=9C=E6=9C=AC=E5=9C=B0=E2=80=9D is better.
+> If you want to use =E2=80=9C=E5=B1=80=E9=83=A8", The word "local" should =
+accompany the word
+> "global" in the context.
+
+Agree.
+
+Thanks,
+	Wu X.C.
+
+--lrZ03NoBR/3+SXJZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCnUCUACgkQtlsoEiKC
+sIV21gv+P1WlV/hQG1fpx5G0qwEc+lMUeVPW2hGPEbEHBFK700MbHEap82dWmaQX
+pmWJQKQ03lX9aE5jlnlkyoTfx96cSbBanMRuJeYO21IietLlQ8qHQ/xILmhQy9Az
+5Z7Dg6IOL8qvC3xwf0/AqFfH8ywksAC0m2oWPtM3TdtyaaOhjZXVAk7TFZSrbL5D
+Xd/EnfuEHD+LLspPgwoNW7wDyN1wqn7eLKDfEPpozzO/AcRl8SWysJ8vwKKV6y4M
+xvdUAG9uIVcZPzcbMXIDUvrjtQIhmkMgiSy7v6y40cxLmCsmXsYQvwipks8wTuH0
+K4ObxWF0vSBWcYpEO+/TnJmTKlUsf9x6Szas9LD/ogm1Qv+TGcw9fvzOSCPfrXxG
+5PEwUtY/GvJ76PB4xRIYt7/ApAjXRJOhWMIjlJyorEd43Sv+h3xce58f6GFtykni
+RRWr38QlQbceiTU2qUI9RXgzCmosiJ8BpTDEuBD8A4ML9p72EocFfH9NPtP0jaXB
+lMm37D6/
+=VCd8
+-----END PGP SIGNATURE-----
+
+--lrZ03NoBR/3+SXJZ--
+
