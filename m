@@ -2,132 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D13C2B9F2
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 16:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8FFC2B9F2
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 18:14:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1559A61163
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 16:56:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F03546115C
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 18:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231299AbhEVQ5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 12:57:36 -0400
-Received: from m32-153.88.com ([43.250.32.153]:52936 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231274AbhEVQ5g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 22 May 2021 12:57:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=tNJiZ6hCcVUW/Tbb+hubaKAFFdy6kfjlvBb5j
-        oKGuB4=; b=dL9l1E/ECCHilCsBqq8SEHXrf86b2GTaGqbkajFT1c8WoGP7W1v+g
-        lqSbM5M4LVHkTzEJvY9+c2xcjWTtnVRWzBKXQWRrDVjp5hpI+8RKcZBOWYbcUdLC
-        eOGQ/1+sfnu+FQSXOBOXCUB7etcwJX16KMMiRPaHG/RufFX0mRqfFs=
-Received: from bobwxc.top (unknown [120.238.248.9])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCn9limN6lgXERCAA--.33551S2;
-        Sun, 23 May 2021 00:56:08 +0800 (CST)
-Date:   Sun, 23 May 2021 00:56:06 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
+        id S231334AbhEVSQK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 14:16:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51836 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231156AbhEVSQJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 May 2021 14:16:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 17DD761139;
+        Sat, 22 May 2021 18:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621707284;
+        bh=IHJaW7ZlVSvMC1KLuAGqIxUGLtak5vbK3m+puLvh9yk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=um8dFcrfe44rnIZGthyLzh6KkWo4SncCPGa7YOFMLc3sItv0k5g70uX7GDMsABRFC
+         ddMUnV/jwq14wwFs18vD6BQ2EUQ0ZWOcbV0SuYgzedgO6Yzoj953ck8PZQ3ymlhHlC
+         zVNKYQ7nSZkkMSRRnECG4LGQdNYB7IOebJcXeVUK8Y+QxIPyzUQ5WbwAN3lM/kASKp
+         gDxPZtZmlOrYv3V7MFhsoO5TR21tCPuLlv1D+h87i4fCTrUJRNV0NP6bsuw4/8/f4o
+         uaEiSbHuQWfbuCZD5khhMura8+HiKuQOk/gtX94e6a0JB0gk9P2Qv9AdRDTTE8fRXj
+         1NX1zbOLwU2fw==
+Date:   Sat, 22 May 2021 20:14:39 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] docs: Activate xeCJK only in CJK chapters
-Message-ID: <20210522165606.GA25494@bobwxc.top>
-References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
-Content-Disposition: inline
+Message-ID: <20210522201439.156bded8@coco.lan>
 In-Reply-To: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgCn9limN6lgXERCAA--.33551S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7GF4kWw4kCw45Jr1xWF15urg_yoW8Jr47pF
-        WxG3ZrAFWDt34UJrs7Cw4xur1Sya1fJw4Fkry2y3sYvF909a4xtr1Iya90ga4Du3WrG3ZI
-        vw4jvw4UWFZ8Cr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUg2b7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
-        z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r1j6r4UM2AIxVAIcxkEcV
-        Aq07x20xvEncxIr21le4C267I2x7xF54xIwI1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6x8ErcxFaVAv8VWxJr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82
-        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
-        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
-        AFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
-        jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
-        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI
-        43ZEXa7IUU3rc3UUUUU==
-X-Originating-IP: [120.238.248.9]
-X-CM-SenderInfo: pere453f6hztlloou0/
+References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Em Sat, 22 May 2021 16:28:55 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
---Kj7319i9nmIyA2yE
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, May 22, 2021 at 04:28:55PM +0900, Akira Yokosawa wrote:
 > Activating xeCJK in English or Italian-translation documents
 > results in sub-optimal typesetting with wide-looking apostrophes
 > and quotation marks.
->=20
+> 
 > The xeCJK package provides macros for enabling and disabling its
 > effect in the middle of a document, namely \makexeCJKactive and
 > \makexeCJKinactive.
->=20
+> 
 > So the goal of this change is to activate xeCJK in the relevant
 > chapters in translations.
->=20
+> 
 > To do this:
->=20
+> 
 >     o Define custom macros in the preamble depending on the
 >       availability of the "Noto Sans CJK" font so that those
 >       macros can be embedded in translations.tex after the fact.
 >       By default, xeCJK is inactive.
->=20
+> 
 >     o Add a script retouch-translations.sh to embed the on/off
 >       macros in translations.tex where necessary.
 >       The patterns in the script are ad-hoc by nature, and will
 >       need updates when the chapter organization changes.
->=20
+> 
 >     o Invoke the script at the final step of target "latexdocs".
->=20
->=20
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
 
-Hi Akira,
+Interesting solution, but there are probably an easy/better
+way of doing something similar to it.
 
-Test this patch with Noto Sans SC font, worked well.
-=E2=80=9C=E2=80=9D use right font in western language docs now.
+There is an extension called:
 
-Tested-by: Wu XiangCheng <bobwxc@email.cn>
+	Documentation/sphinx/load_config.py
 
-Thanks,
-Wu X.C.
+Which allows using a per-document conf.py file. While it can also be
+used to have a "nitpick" version where extra warnings are enabled,
+the main usage were to have separated PDF documents. 
 
+We ended finding a better solution, so most conf.py got removed
+on this patch: 9fc3a18a942f ("docs: remove extra conf.py files").
 
---Kj7319i9nmIyA2yE
-Content-Type: application/pgp-signature; name="signature.asc"
+Anyway, perhaps we could simply add a Documentation/translations/conf.py
+that would add the CJK font only there.
 
------BEGIN PGP SIGNATURE-----
+Even better, we could even improve it in a way that each translation
+would generate a separated book, and then use CJK only for the
+non-Latin translations.
 
-iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCpN6IACgkQtlsoEiKC
-sIX51wv+LhidirgRV7Z1DY6PhPpg119USK/wghNNiU7FSW1qctrr9VQAJpwEsKbX
-RxWlTwRLVXUb5lpfi1t+CshRncAC54HBVrGj9OUTsMfpKlUvnrsvWUyAqHdUh+8x
-XhEJ9PRHr6IIg7E5yYjZBdhjrTYR/XbQctIfxfysxrBtj75bfmzJblodPySFeF3Z
-BqTFkxLccy9WjBPOM03eQpNOckxa3WMAmMQVNnPJBrPhG+CirPCID2rYs/EqppKU
-BokEmCl+D36Q1KqPK+uN8cXYflgouwkxpbC1GBdoubml4QzNoTt6rPI4qKnJYy2Q
-K+oNBV9Po5y4u3ak+tOEP1HyDTvcQCqqghF/gufcUZvrTKz575IcMJPVV0eGIWKc
-TSTOZ+D17/6PsOI+Yq2M0IMFq2qiXAovyuP1IbCYwMxiYlF5RWogBDs3No11dL8A
-k5ehCn8jhDP5cw14bRkBeDzqQt+ibNWMTO4K32aeGe/NkhuFAxQ8UtgJtA9b2Vuy
-rsU9uyb3
-=AlNl
------END PGP SIGNATURE-----
-
---Kj7319i9nmIyA2yE--
-
+Regards,
+Mauro
