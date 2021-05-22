@@ -2,73 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A1CC2B9F2
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 09:35:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FC1C2B9F2
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 10:55:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1B1E6128A
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 09:35:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EAE736135A
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 10:55:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbhEVJgi convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 05:36:38 -0400
-Received: from vps-a2bccee9.vps.ovh.net ([51.75.19.47]:51166 "EHLO
-        ursule.remlab.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbhEVJgi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 05:36:38 -0400
-X-Greylist: delayed 460 seconds by postgrey-1.27 at vger.kernel.org; Sat, 22 May 2021 05:36:37 EDT
-Received: from ursule.remlab.net (localhost [IPv6:::1])
-        by ursule.remlab.net (Postfix) with ESMTP id A2531C2C62;
-        Sat, 22 May 2021 12:27:28 +0300 (EEST)
-Received: from philogene.remlab.net ([2a01:e34:ec42:5c70:23f3:1053:78e5:7f3c])
-        by ursule.remlab.net with ESMTPSA
-        id wOWrJoDOqGBiAQAAwZXkwQ
-        (envelope-from <remi@remlab.net>); Sat, 22 May 2021 12:27:28 +0300
-From:   =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi@remlab.net>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     courmisch@gmail.com, lukas.bulwahn@gmail.com,
-        rdunlap@infradead.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
+        id S230466AbhEVK5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 06:57:00 -0400
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:28478 "EHLO
+        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230417AbhEVK5A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 06:57:00 -0400
+Received: from s807.loopia.se (localhost [127.0.0.1])
+        by s807.loopia.se (Postfix) with ESMTP id E29EA708CE1
+        for <linux-doc@vger.kernel.org>; Sat, 22 May 2021 12:55:31 +0200 (CEST)
+Received: from s899.loopia.se (unknown [172.22.191.5])
+        by s807.loopia.se (Postfix) with ESMTP id D2E902E2B891;
+        Sat, 22 May 2021 12:55:31 +0200 (CEST)
+Received: from s475.loopia.se (unknown [172.22.191.5])
+        by s899.loopia.se (Postfix) with ESMTP id CE95E2C8B9AE;
+        Sat, 22 May 2021 12:55:31 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at amavis.loopia.se
+Received: from s934.loopia.se ([172.22.191.6])
+        by s475.loopia.se (s475.loopia.se [172.22.190.15]) (amavisd-new, port 10024)
+        with LMTP id ahVQiW02ofp2; Sat, 22 May 2021 12:55:31 +0200 (CEST)
+X-Loopia-Auth: user
+X-Loopia-User: carl@hgsystem.se
+X-Loopia-Originating-IP: 155.4.133.180
+Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
+        (Authenticated sender: carl@hgsystem.se)
+        by s934.loopia.se (Postfix) with ESMTPSA id EA42D7CE964;
+        Sat, 22 May 2021 12:55:30 +0200 (CEST)
+From:   Erik Rosen <erik.rosen@metormote.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Phonet: fix kernel-doc syntax in file headers
-Date:   Sat, 22 May 2021 12:27:28 +0300
-Message-ID: <52313028.m8L9TnScQ9@philogene>
-Organization: Remlab Tmi
-In-Reply-To: <20210520182159.31462-1-yashsri421@gmail.com>
-References: <20210520182159.31462-1-yashsri421@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
+Cc:     Erik Rosen <erik.rosen@metormote.com>
+Subject: [PATCH v2 0/6] hwmon: (pmbus/pim4328) Add pim4328 PMBus driver
+Date:   Sat, 22 May 2021 12:55:22 +0200
+Message-Id: <20210522105528.87629-1-erik.rosen@metormote.com>
+X-Mailer: git-send-email 2.11.0 (Apple Git-81)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le jeudi 20 mai 2021, 21:21:59 EEST Aditya Srivastava a écrit :
-> The opening comment mark '/**' is used for highlighting the beginning of
-> kernel-doc comments.
-> The header for include/*/linux/phonet.h files follows this syntax, but
-> the content inside does not comply with kernel-doc.
-> 
-> This line was probably not meant for kernel-doc parsing, but is parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-> causes unexpected warning from kernel-doc.
-> For e.g., running scripts/kernel-doc -none include/linux/phonet.h emits:
-> warning: This comment starts with '/**', but isn't a kernel-doc comment.
-> Refer Documentation/doc-guide/kernel-doc.rst * file phonet.h
-> 
-> Provide a simple fix by replacing this occurrence with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+Add hardware monitoring support for the Flex power interface modules
+PIM4006, PIM4328 and PIM4820.
 
-You could just as well remove the stray "file XX" lines but OK.
+The modules are equipped with dual feed input and has support for
+hotswap, holdup and various circuit protection functionality.
 
-Acked-by: Rémi Denis-Courmont <courmisch@gmail.com.>
+[PATCH 1/6]
+The modules have no CAPABILITY or WRITE_PROTECT commands. If these
+commands are read, the modules return invalid data (0xFF),
+so in addition to the NO_CAPABILITY flag we need a NO_WRITE_PROTECT
+flag to tell the pmbus_core driver to not access this register.
 
+[PATCH 2/6]
+PIM4328 and PIM4820 use the direct mode data format so a new function
+is added to the pmbus_core driver to be able to read and decode
+the COEFFICIENTS command.
+
+[PATCH 3/6]
+This is a tentative implementation of core driver support for reading
+and decoding direct format coefficients. If the new flag
+PMBUS_USE_COEFFICIENTS_CMD is set, the driver will use the 
+attribute information in the pmbus_sensor_attr structs together
+with the COEFFICIENTS command to read and set the relevant
+direct mode coefficients.
+
+Please have a look and comment.
+
+[PATCH 4/6]
+The two inputs are modelled using virtual phases but there
+is a limitation in the pmbus_core that disallows monitoring
+of phase functions if there is no corresponding function on
+the page level.
+
+In this specific case the PIM4006 module allows
+monitoring of current on each input separately,
+but there is no corresponding command on the page level.
+
+Is there a specific reason for this limitation?
+Otherwise we suggest relaxing this criteria.
+
+[PATCH 5/6]
+All modules use manufacturer specific registers (mfr) for
+status data and only supports the CML bit in the PMBus
+STATUS register. The driver overrides reading the STATUS
+register and maps the bits in the mfr registers to the STATUS
+register alarm bits.
+
+PATCH 6/6]
+Add driver documentation
+
+This patch has been tested with PIM4406, PIM4280 and PIM4328
+modules.
+
+v2
+-Remove the for_reading parameter from the pmbus_read_coefficients
+function.
+-Use the correct namespace macro for the pmbus_read_coefficients
+function.
+-Fix alphabetic ordering of includes
+-Remove override of STATUS_WORD since it will never get called by
+the core driver.
+-Add new patch with tentative implementation of core driver support
+for reading direct mode coefficients using the COEFFICIENTS command.
+
+Erik Rosen (6):
+  Add new pmbus flag NO_WRITE_PROTECT
+  Add function for reading direct mode coefficients
+  Add support for reading and decoding direct format coefficients
+  Allow phase function even if it does not exist not on the associated
+    page
+  Add PMBus driver for PIM4006, PIM4328 and PIM4820
+  Add documentation for the pim4328 PMBus driver
+
+ Documentation/hwmon/index.rst    |   1 +
+ Documentation/hwmon/pim4328.rst  | 105 ++++++++++++++
+ MAINTAINERS                      |   7 +
+ drivers/hwmon/pmbus/Kconfig      |   9 ++
+ drivers/hwmon/pmbus/Makefile     |   1 +
+ drivers/hwmon/pmbus/pim4328.c    | 240 +++++++++++++++++++++++++++++++
+ drivers/hwmon/pmbus/pmbus.h      |   4 +
+ drivers/hwmon/pmbus/pmbus_core.c | 156 ++++++++++++++++++--
+ include/linux/pmbus.h            |  17 +++
+ 9 files changed, 529 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/hwmon/pim4328.rst
+ create mode 100644 drivers/hwmon/pmbus/pim4328.c
+
+
+base-commit: 6efb943b8616ec53a5e444193dccf1af9ad627b5
 -- 
-Rémi Denis-Courmont
-
+2.20.1
 
