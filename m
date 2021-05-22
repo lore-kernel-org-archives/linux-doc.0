@@ -2,84 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C20DC2B9F2
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 23:21:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96875C2B9F2
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 23:35:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62AD361163
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 23:21:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5836C61003
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 23:35:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231452AbhEVXXL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 19:23:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52922 "EHLO
+        id S231440AbhEVXgk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 19:36:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231451AbhEVXXK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 19:23:10 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28862C061574;
-        Sat, 22 May 2021 16:21:44 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id j12so17246134pgh.7;
-        Sat, 22 May 2021 16:21:44 -0700 (PDT)
+        with ESMTP id S231433AbhEVXgk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 19:36:40 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA5CBC061574;
+        Sat, 22 May 2021 16:35:13 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id t9so4345250ply.6;
+        Sat, 22 May 2021 16:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UZUgAfQG09nzgaNT4bquHKxvVYQl+/q8c6+ebXr3LM0=;
-        b=DPRmeXsijRUjcD/4rGNFdCr2+NmFXQJdgToQjAauX0OAqs0tgF1fLY6YkKUMDJXxUO
-         iNnZVFoCrZuveD1mQRm/OendTSfMkWwOraKY8DIcgbx4J2fityuNnI53ljCyBprd5l3V
-         MBvfj3/qNujiSeSiLQbYJYWrg8Bf+HlE9QPDstQHM+91LvDo4rLMbR9Ab2fv7kpJf/PI
-         +xax/4Wdx7kPRURnawYwrouEdPY7+hqH/2JsP4c9rCdU7HQt60FHWKAu5CNIYZ0fywII
-         oREvnHE5LxSZQeegy+INvMx/R1yh4LeDD8Aog8FyUix9uRlk0g4CTODByd1L/7yMAuQo
-         dvnQ==
+        bh=5d/AMdghvz+nBd6axuELDzHSk9xkveObVkaQMKlgVrc=;
+        b=bo1ZRpK9sbdnAMH6jwdUoVwbU03+zQtIhjAfjXLWfP8bfjBL7hoprXCJUxjPgcz4kH
+         3FT+cu/SYCtlAu4KMwF4C4/QpOaqeTNyD4/YyZ8Dj4MfE033VvRBdovudxhs0su8dXBw
+         SL4lSDAZ3szhZNwltg71jO/23uSLEV1CvzAOHdgAw7hbqcPU+T5pd+iPw7/gUrEEmZHF
+         AYdMjcLZs8g2pTlHUVvkTqJhFUs8Xp5ir5tZy+j4+G6Krn2MtNhdciLYeH0S6UCJBXLP
+         T79l2j3+mlPqEJC8wYZtAzDvh2UQKeh/Nhjgae3bOmZToaSXtTrizUrLUelXrMnxY+Ze
+         ncVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=UZUgAfQG09nzgaNT4bquHKxvVYQl+/q8c6+ebXr3LM0=;
-        b=mDDFAYiutgEKhnUNUZdhZzrmjrS91qX3bxUT/lcXJzb5Gh7kjQwQkgeuUm7IzPxCA1
-         3pvx0HPmfyAp3Cw4yAYUiQGFHDErSEv2wY9sScHo7nEUvFYwqS5za9hwTpBVya4z/6ZO
-         NGffU63AWIQyTK4SN0j7gAnlcvTz0vcBUnLd8ZSXbS2xtivhrV0YSzRw1tLxriH+9eza
-         f4z+RgNzk0kz+EXwy8W9PaK62WU4PLoOnZYNhi7VxFAskahnk2Mzy92hvx1zYAhwq8bf
-         /YqC3+SnkArNf0s5ISvtC7Q+TnXeV3YuzYi2iFJGLc54XstkR9sOJnLqgHijwRihnBb3
-         21bg==
-X-Gm-Message-State: AOAM531uf89D+swcjpCMi30/5z6/8yWkjq7dz1y9TpChrurWgbEM90cO
-        wjjgQfZcRBt/CYQ5oULpdqc=
-X-Google-Smtp-Source: ABdhPJwbAdTebXVKdtddNMbfCZSPaHtMZ+8pU/Hq6Ouxnk0cnJQxxKzNXLyfwO6UQ3ViVQvSzTec2g==
-X-Received: by 2002:a05:6a00:2394:b029:2e0:a27:ba26 with SMTP id f20-20020a056a002394b02902e00a27ba26mr17190265pfc.63.1621725704227;
-        Sat, 22 May 2021 16:21:44 -0700 (PDT)
+        bh=5d/AMdghvz+nBd6axuELDzHSk9xkveObVkaQMKlgVrc=;
+        b=WAl45ENBZR3OeT6CnZDQ5019F6wqM8GIGyx24r49+c9YHscO6Z2+lozy1KHjLFuyyD
+         VOLTIiI8VEBKQg2r6rNc+7ppWlLKMeS2tOBbaAhFF68RSzXPT/svE82rarBQ0Susr7+b
+         uA0yajCqQiiOgRNu1jJJn8vTc0stIxNbcNEv7X4wClRBlA+ivPXp0AFzg8/SERAziY3f
+         UD347SNM4VRpwuKLAcXvd/DY74+wCcsR/64QQTgFddxArNjIhyl1b4QCEtjOf1Dkblh8
+         AR/IDh6zUmnZxFwiKg+49YWP/AOsYAhHRgeI1QMkq8QfEva+yfrUQg8NPCzkCH9fQKNV
+         +vZw==
+X-Gm-Message-State: AOAM530KjC0S0t0tSFFHDj0ykoyQMjfsZ8GdIQeHbZqwD22KRux0tV8m
+        3eN6RkyjJ6Gp0q1S6Yu6ssY=
+X-Google-Smtp-Source: ABdhPJxC/oj/TUiU6EdYXXBmMIMc6NRgk9DjWuu+aKXkCpqODVwX8D34UW85u+lX76rdbq9+ps6VNg==
+X-Received: by 2002:a17:902:7684:b029:f4:b82b:b893 with SMTP id m4-20020a1709027684b02900f4b82bb893mr18385131pll.67.1621726513569;
+        Sat, 22 May 2021 16:35:13 -0700 (PDT)
 Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id o24sm7804591pgl.55.2021.05.22.16.21.42
+        by smtp.gmail.com with ESMTPSA id 24sm7648750pgz.77.2021.05.22.16.35.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 May 2021 16:21:43 -0700 (PDT)
+        Sat, 22 May 2021 16:35:13 -0700 (PDT)
 Subject: Re: [PATCH] docs: Activate xeCJK only in CJK chapters
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+To:     "Wu X.C." <bobwxc@email.cn>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
- <20210522201439.156bded8@coco.lan>
+ <20210522165606.GA25494@bobwxc.top>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <1bb6a68a-70cb-3f3a-462b-5ad124d0253e@gmail.com>
-Date:   Sun, 23 May 2021 08:21:40 +0900
+Message-ID: <8d74d71d-4a1d-7850-006c-eacf1abf84e5@gmail.com>
+Date:   Sun, 23 May 2021 08:35:10 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210522201439.156bded8@coco.lan>
+In-Reply-To: <20210522165606.GA25494@bobwxc.top>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 22 May 2021 20:14:39 +0200, Mauro Carvalho Chehab wrote:
-> Em Sat, 22 May 2021 16:28:55 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
+On Sun, 23 May 2021 00:56:06 +0800, Wu X.C. wrote:
+> On Sat, May 22, 2021 at 04:28:55PM +0900, Akira Yokosawa wrote:
 >> Activating xeCJK in English or Italian-translation documents
 >> results in sub-optimal typesetting with wide-looking apostrophes
 >> and quotation marks.
@@ -104,57 +104,25 @@ On Sat, 22 May 2021 20:14:39 +0200, Mauro Carvalho Chehab wrote:
 >>       need updates when the chapter organization changes.
 >>
 >>     o Invoke the script at the final step of target "latexdocs".
-> 
-> Interesting solution, but there are probably an easy/better
-> way of doing something similar to it.
-> 
-> There is an extension called:
-> 
-> 	Documentation/sphinx/load_config.py
-> 
-> Which allows using a per-document conf.py file. While it can also be
-> used to have a "nitpick" version where extra warnings are enabled,
-> the main usage were to have separated PDF documents. 
-> 
-> We ended finding a better solution, so most conf.py got removed
-> on this patch: 9fc3a18a942f ("docs: remove extra conf.py files").
-> 
-> Anyway, perhaps we could simply add a Documentation/translations/conf.py
-> that would add the CJK font only there.
+>>
+>>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> ---
+>=20
+> Hi Akira,
+>=20
+> Test this patch with Noto Sans SC font, worked well.
+> =E2=80=9C=E2=80=9D use right font in western language docs now.>=20
+> Tested-by: Wu XiangCheng <bobwxc@email.cn>
 
-Ah, that sounds like the way to go!
+Thank you for testing!
+As Mauro has a simpler and better idea to do this, I need to do
+a respin.  I'll add you in the CC list.
 
-But I have no idea how I can load that extra conf.py for translations.
+        Thanks, Akira
 
-Simply putting the following as Documentation/translations/conf.py
-doesn't work.
+>=20
+> Thanks,
+> Wu X.C.
+>=20
 
-----
-# -*- coding: utf-8; mode: python -*-
-
-# translations have Asian characters
-# which are only displayed if xeCJK is used
-
-cjk_cmd = check_output(['fc-list', '--format="%{family[0]}\n"']).decode('utf-8', 'ignore')
-if cjk_cmd.find("Noto Sans CJK SC") >= 0:
-    print ("translations: enabling CJK for LaTeX builder")
-    latex_elements['preamble']  += '''
-	% This is needed for translations
-        \\usepackage{xeCJK}
-        \\setCJKmainfont{Noto Sans CJK SC}
-     '''
-----
-
-What am I missing?
-
-Note: I'm not good at python.
-
-       Thanks, Akira
-> 
-> Even better, we could even improve it in a way that each translation
-> would generate a separated book, and then use CJK only for the
-> non-Latin translations.
-> 
-> Regards,
-> Mauro
-> 
