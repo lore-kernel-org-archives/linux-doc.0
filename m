@@ -2,108 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 509BFC47080
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 06:45:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB75C2B9F2
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 07:04:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30888613D8
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 06:45:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7695611AB
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 07:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbhEVGrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 02:47:01 -0400
-Received: from mout.gmx.net ([212.227.17.20]:50251 "EHLO mout.gmx.net"
+        id S229874AbhEVHFc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 03:05:32 -0400
+Received: from m12-16.163.com ([220.181.12.16]:48563 "EHLO m12-16.163.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230023AbhEVGrB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 22 May 2021 02:47:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1621665887;
-        bh=VAC/sk0xnp5/8Dxu21k60Pq40+L7HSTTvV7xE1S71qk=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=kxLjaGcf/HX23OftpEm+6sritLglo0AJ45GakM1jc1YboXyCPIE1zu2pBrBBoE5NT
-         1fqsiJO7EyU12F51Xv/D9sskzu26JWVAA9tWdgotTu26ImpzXgRKwLCop5d8MfRtCJ
-         Y811fxZ7pPkEgrwMdW+Mbz/14xgqSjDdJpbqxS8g=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.228.41]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MKKYx-1m1jdI0WBb-00Llfl; Sat, 22
- May 2021 08:44:47 +0200
-Date:   Sat, 22 May 2021 08:44:42 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>
-Cc:     John Wood <john.wood@gmx.com>, Andi Kleen <ak@linux.intel.com>,
-        valdis.kletnieks@vt.edu,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: [PATCH v7 7/7] MAINTAINERS: Add a new entry for the Brute LSM
-Message-ID: <20210522064442.GC3094@ubuntu>
-References: <20210521172414.69456-1-john.wood@gmx.com>
+        id S229865AbhEVHFc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 May 2021 03:05:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=7TBd/
+        TLOmDZEIbXi8YCj4bDz7mwKDtKfsIP98K1VuFU=; b=V3yNnOz3jUO1C2U9rkbKf
+        kDBe5+hSDcELLlu/pFOR2EN+fCzBAZKh/PHKpgjsu/2gGKYFfjZsn34QhvvQaEeQ
+        V6NvFbqpXjJVUk0Jl0gwvg4xT03G3C0TDu/0IAvJQdwwk5KwnHWnQvX85/K8Yzzd
+        XZ00rSLXiOB1/WBKFZo7XU=
+Received: from [192.168.31.187] (unknown [36.170.35.140])
+        by smtp12 (Coremail) with SMTP id EMCowADH1FjUrKhgzCd7sg--.25948S2;
+        Sat, 22 May 2021 15:03:49 +0800 (CST)
+Subject: Re: [PATCH v2] docs/zh_CN: Add zh_CN/admin-guide/lockup-watchdogs.rst
+To:     teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Yanteng Si <siyanteng@loongson.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hailong Liu <liu.hailong6@zte.com.cn>
+References: <20210522012150.117072-1-liuhailongg6@163.com>
+ <CAMU9jJoqKkx3OFr+Da_8m9JGjPAPe1ppji3VonzL3F=zoKCBjQ@mail.gmail.com>
+From:   Hailong Liu <liuhailongg6@163.com>
+Message-ID: <79a5a52d-0252-980f-743e-3aebcf685e79@163.com>
+Date:   Sat, 22 May 2021 15:03:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210521172414.69456-1-john.wood@gmx.com>
-X-Provags-ID: V03:K1:EaW59w+taFdVkQq3IT0Sp5BLroZB2cj3eMLYXxy5NmqL+Du6Lr5
- 6xRDEefEotMQ+jKUXkh9C8PDTCFycM9VbtpMNWx+Y8QLFTqh/ZJxJHoLi7fmxSynxmsUFUz
- U2r5cjPhEsbNU3BBT1GbxkVQrplQ507I/eJS0e/VEmxEI3Ebz0+q9+XhdYefGrTy0g8cRqb
- /lxZtdJNXzBAYnDEaMuAQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:K2xzrztLlUg=:SBYCa464E05P8CoolV05rm
- 8Z2ezmGEBvuhJMCbP3aBr6cxqcW24SVY3SrHLHeNd1Q5fC8aIXobpIPyObN1KU/ktvwPdktXq
- iQYkH7TuTBiCC7A0whAvncUWF3v0LqV05ZY+5NG/Osi2n8LAz+TeVoFwHq9dmbFOfST0O7s7e
- CuSIq/e3NfpJ4gF7Gu8cqLH0khzq0gJrqgAcd+bWkTWpI2sWTTQs47Y7NmMLbNdME7GHyyR9G
- Le1edo0tflCFSsED9K46WOLZVWRsI74/rofb6gkylK+EYeYRsUkprRnWyP2FEVwWlD07ngO6L
- rqUQYoCx9J5JY6taF/9kN8Lvh5IrdmtAD+yyZqeHFKHWRC+7zttQ67mYyImVYV2vZGdxRV8sj
- bDnHZNVjlhqkF3m16kz5KsMiHTUpmCBDVMOhdo0Bt+dB5xz0/aqwgnrXCQBQJ/AZGm5j3Zwl6
- 9kLs1E/g217N8gNquDP4r9olHDXnMpE4inalw1r6skqQQFQ+NLPMWI0gfigZ7nOAd8aZl0253
- n2Vp4czU+Vy5ivpKegDqXu41WqWLzksURF7wmewbVY0mwJlOZytlS6nXSGwDp97yOYW9YPYJ3
- 8uumpuAwf8sifNRrVvh6urC5dejg40Vl9Hdmg238yJ6VByT/j4eO1rvQq/pU4T+B/47OhXZ8n
- TT+G8QXVz/o6/UR7ugbTs4KAy1stOEyKBKf7oQmslajuA4lNgUzjVoSREb0FBmXtQGK4JvX84
- xYUrR0Fm2zEMRftgYnAToF0EjO4qOEUSeiNFMeamiCPuJoXRXw6vf79M1iW288zmn+lR2ACTy
- ZvuCWTCMU/ztR2OqQ+xY0S39ZDUp03FoDmr3JbUXywwb/TBVgqPreIHh/z6OG13ALuc6HiUd7
- Q1yrT/d6G4fYZ3O0/3Wog/bTEXLPXLubviY3+LMVDpGtBaY6TxyEE4bf4YJkHbNdn2Pb9Q2s3
- 8DsCwU7hNZ8P0NBDWWNDXGz3NbEvF8JQNXM/oD2WpQaRakLNc6fZQfSXvIpP3YrzZ9eolifbL
- ddvSRUJhUXN0RnMcYU/FtnYRSE7NIglWujtGi3Usbv0DH9MRpecxwAR+5FRvC8nnwtMr1Qhut
- e6Djays4Mgl/qDBsPX/CXwQfWpiwyr6WhNO
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMU9jJoqKkx3OFr+Da_8m9JGjPAPe1ppji3VonzL3F=zoKCBjQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EMCowADH1FjUrKhgzCd7sg--.25948S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3WFW3CrWDKr17Jw1xtFWUJwb_yoWxGrWxpF
+        yqkFyxKa1xJryDW3WSqF9rJF1Ik3W8XrsrJr18tw18G3ZYkFn5tF10yrZ8K393urs3AF4U
+        ZrZ0gFy8GrW0yrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jpCJPUUUUU=
+X-Originating-IP: [36.170.35.140]
+X-CM-SenderInfo: xolxxtxlor0wjjw6il2tof0z/1tbiPRWaYFSIkh1iBgAAsl
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to maintain the code for the Brute LSM add a new entry to the
-maintainers list.
+On 5/22/21 10:30 AM, teng sterling wrote:
+> Hailong Liu <liuhailongg6@163.com> 于2021年5月22日周六 上午9:22写道：
+>>
+>> From: Hailong Liu <liu.hailong6@zte.com.cn>
+>>
+>> Add translation zh_CN/admin-guide/lockup-watchdogs.rst and link it to
+>> zh_CN/admin-guide/index.rst while clean its todo entry.
+>>
+>> Signed-off-by: Hailong Liu <liu.hailong6@zte.com.cn>
+>> ---
+>>  .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+>>  .../zh_CN/admin-guide/lockup-watchdogs.rst    | 66 +++++++++++++++++++
+>>  2 files changed, 67 insertions(+), 1 deletion(-)
+>>  create mode 100644 Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+>> index be835ec8e632..460034cbc2ab 100644
+>> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
+>> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+>> @@ -65,6 +65,7 @@ Todolist:
+>>
+>>     clearing-warn-once
+>>     cpu-load
+>> +   lockup-watchdogs
+>>     unicode
+>>
+>>  Todolist:
+>> @@ -100,7 +101,6 @@ Todolist:
+>>     laptops/index
+>>     lcd-panel-cgram
+>>     ldm
+>> -   lockup-watchdogs
+>>     LSM/index
+>>     md
+>>     media/index
+>> diff --git a/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst b/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
+>> new file mode 100644
+>> index 000000000000..8474d325c534
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
+>> @@ -0,0 +1,66 @@
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: :doc:`../../../admin-guide/lockup-watchdogs`
+> Now we don't write like that。In its place::
+> 
+> :Original: Documentation/admin-guide/lockup-watchdogs.rst
+> 
+Maybe I was referring to some outdated translation documents. 
+ 
+>> +
+>> +:译者:
+>> +
+>> + 刘海龙 Hailong Liu <liu.hailong6@zte.com.cn>
+> blank line
+> .. _cn_lockup-watchdogs:
+Ok, thanks.
 
-Signed-off-by: John Wood <john.wood@gmx.com>
-=2D--
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+>> +
+>> +=================================================
+>> +Softlockup与hardlockup检测机制(又名:nmi_watchdog)
+>> +=================================================
+>> +
+>> +Linux中内核实现了一种用以检测系统发生softlockup和hardlockup的看门狗机制。
+>> +
+>> +Softlockup是一种会引发系统在内核态中一直循环超过20秒（详见下面“实现”小节）导致
+>> +其他任务没有机会得到运行的BUG。一旦检测到'softlockup'发生，默认情况下系统会打
+>> +印当前堆栈跟踪信息并进入锁定状态。也可配置使其在检测到'softlockup'后进入panic
+>> +状态；通过sysctl命令设置“kernel.softlockup_panic”、使用内核启动参数
+>> +“softlockup_panic”（详见Documentation/admin-guide/kernel-parameters.rst）以及使
+>> +能内核编译选项“BOOTPARAM_SOFTLOCKUP_PANIC”都可实现这种配置。
+>> +
+>> +而'hardlockup'是一种会引发系统在内核态一直循环超过10秒钟（详见"实现"小节）导致其
+>> +他中断没有机会运行的缺陷。与'softlockup'情况类似，除了使用sysctl命令设置
+>> +'hardlockup_panic'、使能内核选项“BOOTPARAM_HARDLOCKUP_PANIC”以及使用内核参数
+>> +"nmi_watchdog"(详见:”Documentation/admin-guide/kernel-parameters.rst“)外，一旦检
+>> +测到'hardlockup'默认情况下系统打印当前堆栈跟踪信息，然后进入锁定状态。
+>> +
+>> +这个panic选项也可以与panic_timeout结合使用（这个panic_timeout是通过稍具迷惑性的
+>> +sysctl命令"kernel.panic"来设置），使系统在panic指定时间后自动重启。
+>> +
+>> +实现
+>> +====
+>> +
+>> +Softlockup和hardlockup分别建立在hrtimer(高精度定时器)和perf两个子系统上而实现。
+>> +这也就意味着理论上任何架构只要实现了这两个子系统就支持这两种检测机制。
+>> +
+>> +Hrtimer用于周期性产生中断并唤醒watchdog线程；NMI perf事件则以”watchdog_thresh“
+>> +(编译时默认初始化为10秒，也可通过”watchdog_thresh“这个sysctl接口来进行配置修改)
+>> +为间隔周期产生以检测 hardlockups。如果一个CPU在这个时间段内没有检测到hrtimer中
+>> +断发生，'hardlockup 检测器'(即NMI perf事件处理函数)将会视系统配置而选择产生内核
+>> +警告或者直接panic。
+>> +
+>> +而watchdog线程本质上是一个高优先级内核线程，每调度一次就对时间戳进行一次更新。
+>> +如果时间戳在2*watchdog_thresh(这个是softlockup的触发门限)这段时间都未更新,那么
+>> +"softlocup 检测器"(内部hrtimer定时器回调函数)会将相关的调试信息打印到系统日志中，
+>> +然后如果系统配置了进入panic流程则进入panic，否则内核继续执行。
+>> +
+>> +Hrtimer定时器的周期是2*watchdog_thresh/5，也就是说在hardlockup被触发前hrtimer有
+>> +2~3次机会产生时钟中断。
+>> +
+>> +如上所述,内核相当于为系统管理员提供了一个可调节hrtimer定时器和perf事件周期长度
+>> +的调节旋钮。如何通过这个旋钮为特定使用场景配置一个合理的周期值要对lockups检测的
+>> +响应速度和lockups检测开销这二者之间进行权衡。
+>> +
+>> +默认情况下所有在线cpu上都会运行一个watchdog线程。不过在内核配置了”NO_HZ_FULL“的
+>> +情况下watchdog线程默认只会运行在管家(housekeeping)cpu上，而”nohz_full“启动参数指
+>> +定的cpu上则不会有watchdog线程运行。试想，如果我们允许watchdog线程在”nohz_full“指
+>> +定的cpu上运行，这些cpu上必须得运行时钟定时器来激发watchdog线程调度；这样一来就会
+>> +使”nohz_full“保护用户程序免受内核干扰的功能失效。当然，副作用就是”nohz_full“指定
+>> +的cpu即使在内核产生了lockup问题我们也无法检测到。不过，至少我们可以允许watchdog
+>> +线程在管家(non-tickless)核上继续运行以便我们能继续正常的监测这些cpus上的lockups
+>> +事件。
+>> +
+>> +不论哪种情况都可以通过sysctl命令kernel.watchdog_cpumask来对没有运行watchdog线程
+>> +的cpu集合进行调节。对于nohz_full而言,如果nohz_full cpu上有异常挂住的情况，通过
+>> +这种方式打开这些cpu上的watchdog进行调试可能会有所作用。
+>> --
+>> 2.17.1
+>>
+>>
+> I have tested it.
+> 
+> Together with the above two places
+> 
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> 
+Thank you very much!
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 008fcad7ac00..102eb3d7dcd6 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3847,6 +3847,13 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/net/ethernet/brocade/bna/
+And I'm going to send a patch of v3 to fix these issues.
 
-+BRUTE SECURITY MODULE
-+M:	John Wood <john.wood@gmx.com>
-+S:	Maintained
-+F:	Documentation/admin-guide/LSM/Brute.rst
-+F:	security/brute/
-+F:	tools/testing/selftests/brute/
-+
- BSG (block layer generic sg v4 driver)
- M:	FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>
- L:	linux-scsi@vger.kernel.org
-=2D-
-2.25.1
+Hailong Liu
 
