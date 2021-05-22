@@ -2,95 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,CHARSET_FARAWAY,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D78C2B9F2
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 08:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23AE7C2B9F2
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 08:16:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BCC36120D
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 08:02:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E872B61139
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 08:16:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbhEVIDu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 04:03:50 -0400
-Received: from m32-153.88.com ([43.250.32.153]:33783 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230000AbhEVIDu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 22 May 2021 04:03:50 -0400
-X-Greylist: delayed 18355 seconds by postgrey-1.27 at vger.kernel.org; Sat, 22 May 2021 04:03:49 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=From:To:Date; bh=hmNgrgPBhr7LhurXuqhMudBbTKWzo/FsN2E5v
-        l3sG/U=; b=MTVhAQI0tophUwrlDGiLkM6EMntqPCiAykvvHTFtlRR2uvoL2L/H3
-        GA6fILesPpbwz78g2KHR0J8ZGKae8T8jth7GOGjDRB+7lndxqounwRwDa2V6EJ7d
-        zLyHtrStooSQoRxAExNZU0uTAzgzjmqp2MWHpV+fFV49pdI0O1xDx8=
-Received: from localhost.localdomain (unknown [113.251.13.109])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDXJViIuqhg13hBAA--.9385S2;
-        Sat, 22 May 2021 16:02:17 +0800 (CST)
-From:   Hu Haowen <src.res@email.cn>
-To:     alexs@kernel.org, corbet@lwn.net, siyanteng@loongson.cn,
-        bobwxc@email.cn, jaixun.yang@flygoat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hu Haowen <src.res@email.cn>
-Subject: [PATCH] docs/zh_CN: Add Chinese translations for new contents
-Date:   Sat, 22 May 2021 16:02:14 +0800
-Message-Id: <20210522080214.88050-1-src.res@email.cn>
-X-Mailer: git-send-email 2.25.1
+        id S230027AbhEVISE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 04:18:04 -0400
+Received: from m12-11.163.com ([220.181.12.11]:36631 "EHLO m12-11.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230023AbhEVISE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 May 2021 04:18:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=yd77f
+        JH2fazqyJ9eYIv2XjR4NuHR4oI4o20vbbTg550=; b=hssqV5m6/WZbT/eSIqbgM
+        jP3j4mxPIwREYV4f0UU0BrDhYUIqWi0AaUAUOJAZG3xVcVVyqRubj/4nGF08Pna7
+        Hrdw0KMUhtwudC/9sk/sVGUzm0OPrQP1pBH/5erOeOOq+wVoTPrU2ifhevNMljt8
+        LhTnTe0Kl5Pzpn9d/33P7A=
+Received: from localhost.localdomain (unknown [36.170.35.140])
+        by smtp7 (Coremail) with SMTP id C8CowADHwJjZvahgjuVNdw--.26228S2;
+        Sat, 22 May 2021 16:16:26 +0800 (CST)
+From:   Hailong Liu <liuhailongg6@163.com>
+To:     sterlingteng@gmail.com, Alex Shi <alexs@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, siyanteng@loongson.cn,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hailong Liu <liu.hailong6@zte.com.cn>
+Subject: [PATCH v3] docs/zh_CN: Add zh_CN/admin-guide/lockup-watchdogs.rst
+Date:   Sat, 22 May 2021 16:15:39 +0800
+Message-Id: <20210522081539.119205-1-liuhailongg6@163.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GiKnCgDXJViIuqhg13hBAA--.9385S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1rZr4kKw1fKr15Xw1kKrg_yoW8AF4fp3
-        Wa9r9rKanrCrnFvrn7KryUZF15CFWxua4UJ3s7ZF95ZF1rAryvyFsrKryrWr95Wry8ta4r
-        tFsxtryDXrWjywUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgE1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Jr0_Jr4l8cAvFVAK
-        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4
-        x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l
-        84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8w
-        Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkE
-        bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67
-        AK6r43MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC
-        6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
-        C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
-        JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
-        WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
-        CTnIWIevJa73UjIFyTuYvjfUxZjjDUUUU
-X-Originating-IP: [113.251.13.109]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+X-CM-TRANSID: C8CowADHwJjZvahgjuVNdw--.26228S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+        VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUgg_TUUUUU
+X-Originating-IP: [36.170.35.140]
+X-CM-SenderInfo: xolxxtxlor0wjjw6il2tof0z/1tbi8B+aYFuob5GBxgABse
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A document updated in commit 1c31f0b67cfa6d4cd41d ("module: add printk
-formats to add module build ID to stacktraces"), hence add Chinese
-translations for it.
+From: Hailong Liu <liu.hailong6@zte.com.cn>
 
-Signed-off-by: Hu Haowen <src.res@email.cn>
+Add translation zh_CN/admin-guide/lockup-watchdogs.rst and link it to
+zh_CN/admin-guide/index.rst while clean its todo entry.
+
+Signed-off-by: Hailong Liu <liu.hailong6@zte.com.cn>
 ---
- .../translations/zh_CN/core-api/printk-formats.rst       | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+ .../zh_CN/admin-guide/lockup-watchdogs.rst    | 66 +++++++++++++++++++
+ 2 files changed, 67 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
 
-diff --git a/Documentation/translations/zh_CN/core-api/printk-formats.rst b/Documentation/translations/zh_CN/core-api/printk-formats.rst
-index 624a090e6ee5..116abc046bfe 100644
---- a/Documentation/translations/zh_CN/core-api/printk-formats.rst
-+++ b/Documentation/translations/zh_CN/core-api/printk-formats.rst
-@@ -122,6 +122,15 @@ seq_printf()，而不是printk()）由用户空间进程读取，使用下面描
- ``B`` 占位符的结果是带有偏移量的符号名，在打印堆栈回溯时应该使用。占位符将考虑编译器优化
- 的影响，当使用尾部调用并使用noreturn GCC属性标记时，可能会发生这种优化。
+diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+index be835ec8e632..460034cbc2ab 100644
+--- a/Documentation/translations/zh_CN/admin-guide/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+@@ -65,6 +65,7 @@ Todolist:
  
-+如果占位符是在一个模块之中，可在占位符末尾添加 ``b`` 以在符号名后打印模块名称和可选构建ID。
-+
-+::
-+        %pS     versatile_init+0x0/0x110 [module_name]
-+        %pSb    versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+        %pSRb   versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+                (with __builtin_extract_return_addr() translation)
-+        %pBb    prev_fn_of_versatile_init+0x88/0x88 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+
- 来自BPF / tracing追踪的探查指针
- ----------------------------------
+    clearing-warn-once
+    cpu-load
++   lockup-watchdogs
+    unicode
  
+ Todolist:
+@@ -100,7 +101,6 @@ Todolist:
+    laptops/index
+    lcd-panel-cgram
+    ldm
+-   lockup-watchdogs
+    LSM/index
+    md
+    media/index
+diff --git a/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst b/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
+new file mode 100644
+index 000000000000..55ed3f4af442
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
+@@ -0,0 +1,66 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/lockup-watchdogs.rst
++:Translator: Hailong Liu <liu.hailong6@zte.com.cn>
++
++.. _cn_lockup-watchdogs:
++
++
++=================================================
++Softlockup与hardlockup检测机制(又名:nmi_watchdog)
++=================================================
++
++Linux中内核实现了一种用以检测系统发生softlockup和hardlockup的看门狗机制。
++
++Softlockup是一种会引发系统在内核态中一直循环超过20秒（详见下面“实现”小节）导致
++其他任务没有机会得到运行的BUG。一旦检测到'softlockup'发生，默认情况下系统会打
++印当前堆栈跟踪信息并进入锁定状态。也可配置使其在检测到'softlockup'后进入panic
++状态；通过sysctl命令设置“kernel.softlockup_panic”、使用内核启动参数
++“softlockup_panic”（详见Documentation/admin-guide/kernel-parameters.rst）以及使
++能内核编译选项“BOOTPARAM_SOFTLOCKUP_PANIC”都可实现这种配置。
++
++而'hardlockup'是一种会引发系统在内核态一直循环超过10秒钟（详见"实现"小节）导致其
++他中断没有机会运行的缺陷。与'softlockup'情况类似，除了使用sysctl命令设置
++'hardlockup_panic'、使能内核选项“BOOTPARAM_HARDLOCKUP_PANIC”以及使用内核参数
++"nmi_watchdog"(详见:”Documentation/admin-guide/kernel-parameters.rst“)外，一旦检
++测到'hardlockup'默认情况下系统打印当前堆栈跟踪信息，然后进入锁定状态。
++
++这个panic选项也可以与panic_timeout结合使用（这个panic_timeout是通过稍具迷惑性的
++sysctl命令"kernel.panic"来设置），使系统在panic指定时间后自动重启。
++
++实现
++====
++
++Softlockup和hardlockup分别建立在hrtimer(高精度定时器)和perf两个子系统上而实现。
++这也就意味着理论上任何架构只要实现了这两个子系统就支持这两种检测机制。
++
++Hrtimer用于周期性产生中断并唤醒watchdog线程；NMI perf事件则以”watchdog_thresh“
++(编译时默认初始化为10秒，也可通过”watchdog_thresh“这个sysctl接口来进行配置修改)
++为间隔周期产生以检测 hardlockups。如果一个CPU在这个时间段内没有检测到hrtimer中
++断发生，'hardlockup 检测器'(即NMI perf事件处理函数)将会视系统配置而选择产生内核
++警告或者直接panic。
++
++而watchdog线程本质上是一个高优先级内核线程，每调度一次就对时间戳进行一次更新。
++如果时间戳在2*watchdog_thresh(这个是softlockup的触发门限)这段时间都未更新,那么
++"softlocup 检测器"(内部hrtimer定时器回调函数)会将相关的调试信息打印到系统日志中，
++然后如果系统配置了进入panic流程则进入panic，否则内核继续执行。
++
++Hrtimer定时器的周期是2*watchdog_thresh/5，也就是说在hardlockup被触发前hrtimer有
++2~3次机会产生时钟中断。
++
++如上所述,内核相当于为系统管理员提供了一个可调节hrtimer定时器和perf事件周期长度
++的调节旋钮。如何通过这个旋钮为特定使用场景配置一个合理的周期值要对lockups检测的
++响应速度和lockups检测开销这二者之间进行权衡。
++
++默认情况下所有在线cpu上都会运行一个watchdog线程。不过在内核配置了”NO_HZ_FULL“的
++情况下watchdog线程默认只会运行在管家(housekeeping)cpu上，而”nohz_full“启动参数指
++定的cpu上则不会有watchdog线程运行。试想，如果我们允许watchdog线程在”nohz_full“指
++定的cpu上运行，这些cpu上必须得运行时钟定时器来激发watchdog线程调度；这样一来就会
++使”nohz_full“保护用户程序免受内核干扰的功能失效。当然，副作用就是”nohz_full“指定
++的cpu即使在内核产生了lockup问题我们也无法检测到。不过，至少我们可以允许watchdog
++线程在管家(non-tickless)核上继续运行以便我们能继续正常的监测这些cpus上的lockups
++事件。
++
++不论哪种情况都可以通过sysctl命令kernel.watchdog_cpumask来对没有运行watchdog线程
++的cpu集合进行调节。对于nohz_full而言,如果nohz_full cpu上有异常挂住的情况，通过
++这种方式打开这些cpu上的watchdog进行调试可能会有所作用。
 -- 
-2.25.1
+2.17.1
 
