@@ -2,210 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B81C4707E
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 10:56:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16D54C2B9F2
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 11:26:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DF406120D
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 10:56:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E841961261
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 11:26:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbhEVK5n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 06:57:43 -0400
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:29039 "EHLO
-        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbhEVK5n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 06:57:43 -0400
-Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id 344E01A92C9C
-        for <linux-doc@vger.kernel.org>; Sat, 22 May 2021 12:56:15 +0200 (CEST)
-Received: from s934.loopia.se (unknown [172.22.191.5])
-        by s807.loopia.se (Postfix) with ESMTP id 247C92E2B89B;
-        Sat, 22 May 2021 12:56:15 +0200 (CEST)
-Received: from s475.loopia.se (unknown [172.22.191.6])
-        by s934.loopia.se (Postfix) with ESMTP id 1FD6F7CE95D;
-        Sat, 22 May 2021 12:56:15 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-Received: from s934.loopia.se ([172.22.191.5])
-        by s475.loopia.se (s475.loopia.se [172.22.190.15]) (amavisd-new, port 10024)
-        with LMTP id 3AgfGrMpy7aI; Sat, 22 May 2021 12:56:14 +0200 (CEST)
-X-Loopia-Auth: user
-X-Loopia-User: carl@hgsystem.se
-X-Loopia-Originating-IP: 155.4.133.180
-Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
-        (Authenticated sender: carl@hgsystem.se)
-        by s934.loopia.se (Postfix) with ESMTPSA id 597A67CE962;
-        Sat, 22 May 2021 12:56:14 +0200 (CEST)
-From:   Erik Rosen <erik.rosen@metormote.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        id S230318AbhEVL1y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 07:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38240 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230238AbhEVL1x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 07:27:53 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 103CDC061574;
+        Sat, 22 May 2021 04:26:26 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id q6so12296269pjj.2;
+        Sat, 22 May 2021 04:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8kh6iJCxppwsBbpPOa+gb5iEakg7K3WV07g7y012eVI=;
+        b=QN9RdDCl/yL9Bhr+K7e6V5VOzBbLcjJULkIhY+7UtQFxPiDcqcGUIDLN3zx9iEAS8j
+         JAfWRIDGp6vDUilN+6B2XpYXroWBGwi13Xj9ahIw0WkqchVkzzfaO9XXAQ0etoGax7nf
+         VWEJk87pR72jNJTQ6TSXkDfyly0KEv0QBq6isS2loi3JUPrtgGhIQA2XDhm/MNGMHjvG
+         fGn+BSHAyGRCovQDtV1tB0IiXeB0mSCtU1zkiiABe660Gxxk2U8EFDPIP/PFXWNz1dj8
+         rQxOk7sFjuDSzXyf3v5tcCY24+NUqSzmMT6bN6RxcxaHN7j5nyRcmVPwueMRabQsNQ3V
+         CHbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8kh6iJCxppwsBbpPOa+gb5iEakg7K3WV07g7y012eVI=;
+        b=p1uXYaZEuc8mSNL35cmCkJunwByIavqBnptiF+kOXXhgj3CuzY1YTvhX+K22EmeBQb
+         3VumRAZB8p+Koi4/Gdtpt9i/IYNf7gvOui3eS4UzoFwN4u/ineZaC0XOUddlFHbujIgu
+         L5sDglAoB4yz8bBYCqpg6yQdYpgvjTwhTPc3hGS3ENKo9MImxlkRQMWvlFCBCL4VYiqc
+         Ap8hFdWOHXcQtD1iwGL9TFMNGz4aTdy39mS2Tdf1LKL5dDMPAD2xfj/EoHgeGlD69Vz3
+         7i1Ya7NznS/ITM5kSlSsC54NhdislgnrBk73AKOMd2Bm5gMBhQLK9opDQ6+F8Dh3a2pn
+         qDmg==
+X-Gm-Message-State: AOAM5301JeXqRFrxEvSjxkDI9aTuM0z7QiXVgoTGtM93KQIAAGptXfRv
+        y1wGDpT0p4AnqtStiuC0ARJ2hQMjz2eKcg==
+X-Google-Smtp-Source: ABdhPJym71RIY1/mswIr0hXTkGC0Mmfmk+uWlyOjsnF+G20vsMcWooVOUlvDZUj5N1SgF7irx5V8/Q==
+X-Received: by 2002:a17:903:1c3:b029:f1:ecf4:f971 with SMTP id e3-20020a17090301c3b02900f1ecf4f971mr16849834plh.6.1621682785266;
+        Sat, 22 May 2021 04:26:25 -0700 (PDT)
+Received: from ?IPv6:2405:201:600d:a93f:d9c2:4477:9177:8c76? ([2405:201:600d:a93f:d9c2:4477:9177:8c76])
+        by smtp.gmail.com with ESMTPSA id t14sm6046050pfg.168.2021.05.22.04.26.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 May 2021 04:26:24 -0700 (PDT)
+Subject: Re: [PATCH] Phonet: fix kernel-doc syntax in file headers
+To:     =?UTF-8?Q?R=c3=a9mi_Denis-Courmont?= <remi@remlab.net>
+Cc:     courmisch@gmail.com, lukas.bulwahn@gmail.com,
+        rdunlap@infradead.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH v2 6/6] hwmon: (pmbus/pim4328) Add documentation for the pim4328 PMBus driver
-Date:   Sat, 22 May 2021 12:55:28 +0200
-Message-Id: <20210522105528.87629-7-erik.rosen@metormote.com>
-X-Mailer: git-send-email 2.11.0 (Apple Git-81)
-In-Reply-To: <20210522105528.87629-1-erik.rosen@metormote.com>
-References: <20210522105528.87629-1-erik.rosen@metormote.com>
+References: <20210520182159.31462-1-yashsri421@gmail.com>
+ <52313028.m8L9TnScQ9@philogene>
+From:   Aditya Srivastava <yashsri421@gmail.com>
+Message-ID: <2970b6b6-1450-8eec-a9e9-45629af9417f@gmail.com>
+Date:   Sat, 22 May 2021 16:56:19 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <52313028.m8L9TnScQ9@philogene>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation and index link for pim4328 PMBus driver.
+On 22/5/21 2:57 pm, Rémi Denis-Courmont wrote:
+> Le jeudi 20 mai 2021, 21:21:59 EEST Aditya Srivastava a écrit :
+>> The opening comment mark '/**' is used for highlighting the beginning of
+>> kernel-doc comments.
+>> The header for include/*/linux/phonet.h files follows this syntax, but
+>> the content inside does not comply with kernel-doc.
+>>
+>> This line was probably not meant for kernel-doc parsing, but is parsed
+>> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+>> causes unexpected warning from kernel-doc.
+>> For e.g., running scripts/kernel-doc -none include/linux/phonet.h emits:
+>> warning: This comment starts with '/**', but isn't a kernel-doc comment.
+>> Refer Documentation/doc-guide/kernel-doc.rst * file phonet.h
+>>
+>> Provide a simple fix by replacing this occurrence with general comment
+>> format, i.e. '/*', to prevent kernel-doc from parsing it.
+>>
+>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> 
+> You could just as well remove the stray "file XX" lines but OK.
+> 
+> Acked-by: Rémi Denis-Courmont <courmisch@gmail.com.>
+> 
 
-Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/pim4328.rst | 105 ++++++++++++++++++++++++++++++++
- MAINTAINERS                     |   7 +++
- 3 files changed, 113 insertions(+)
- create mode 100644 Documentation/hwmon/pim4328.rst
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 9ed60fa84cbe..719625f8f755 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -150,6 +150,7 @@ Hardware Monitoring Kernel Drivers
-    pc87360
-    pc87427
-    pcf8591
-+   pim4328
-    pm6764tr
-    pmbus
-    powr1220
-diff --git a/Documentation/hwmon/pim4328.rst b/Documentation/hwmon/pim4328.rst
-new file mode 100644
-index 000000000000..70c9e7a6882c
---- /dev/null
-+++ b/Documentation/hwmon/pim4328.rst
-@@ -0,0 +1,105 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver pim4328
-+=====================
-+
-+Supported chips:
-+
-+  * Flex PIM4328
-+
-+    Prefix: 'pim4328', 'bmr455'
-+
-+    Addresses scanned: -
-+
-+    Datasheet:
-+
-+https://flexpowermodules.com/resources/fpm-techspec-pim4328
-+
-+  * Flex PIM4820
-+
-+    Prefixes: 'pim4820'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-pim4820
-+
-+  * Flex PIM4006, PIM4106, PIM4206, PIM4306, PIM4406
-+
-+    Prefixes: 'pim4006', 'pim4106', 'pim4206', 'pim4306', 'pim4406'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-pim4006
-+
-+Author: Erik Rosen <erik.rosen@metormote.com>
-+
-+
-+Description
-+-----------
-+
-+This driver supports hardware monitoring for Flex PIM4328 and
-+compatible digital power interface modules.
-+
-+The driver is a client driver to the core PMBus driver. Please see
-+Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
-+on PMBus client drivers.
-+
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate the
-+devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-+details.
-+
-+
-+Platform data support
-+---------------------
-+
-+The driver supports standard PMBus driver platform data.
-+
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported. All attributes are read-only.
-+
-+======================= ========================================================
-+in1_label		"vin"
-+in1_input		Measured input voltage.
-+in1_alarm		Input voltage alarm.
-+
-+in2_label		"vin.0"
-+in2_input		Measured input voltage on input A.
-+
-+			PIM4328 and PIM4X06
-+
-+in3_label		"vin.1"
-+in3_input		Measured input voltage on input B.
-+
-+			PIM4328 and PIM4X06
-+
-+in4_label		"vcap"
-+in4_input		Measured voltage on holdup capacitor.
-+
-+			PIM4328
-+
-+curr1_label		"iin.0"
-+curr1_input		Measured input current on input A.
-+
-+			PIM4X06
-+
-+curr2_label		"iin.1"
-+curr2_input		Measured input current on input B.
-+
-+			PIM4X06
-+
-+currX_label		"iout1"
-+currX_input		Measured output current.
-+currX_alarm		Output current alarm.
-+
-+			X is 1 for PIM4820, 3 otherwise.
-+
-+temp1_input		Measured temperature.
-+temp1_alarm		High temperature alarm.
-+======================= ========================================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bd7aff0c120f..378a121d80f6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14416,6 +14416,13 @@ K:	(?i)pidfd
- K:	(?i)clone3
- K:	\b(clone_args|kernel_clone_args)\b
- 
-+PIM4328 DRIVER
-+M:	Daniel Nilsson <daniel.nilsson@flex.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/pim4328.rst
-+F:	drivers/hwmon/pmbus/pim4328.c
-+
- PIN CONTROL SUBSYSTEM
- M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-gpio@vger.kernel.org
--- 
-2.20.1
+Hi Remi and Randy
+Thanks for reviewing :)
+I'll be sending a v2 with removed filenames
 
+Thanks
+Aditya
