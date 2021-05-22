@@ -2,125 +2,263 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D5F2C2B9F2
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 12:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA5D2C4707E
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 13:41:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E32B761164
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 12:41:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F5D060C41
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 13:41:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbhEVMmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 08:42:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54458 "EHLO
+        id S230477AbhEVNnB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 09:43:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230466AbhEVMm3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 08:42:29 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A433C061574;
-        Sat, 22 May 2021 05:41:04 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id m190so16418778pga.2;
-        Sat, 22 May 2021 05:41:04 -0700 (PDT)
+        with ESMTP id S230472AbhEVNnA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 09:43:00 -0400
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41A55C061574;
+        Sat, 22 May 2021 06:41:35 -0700 (PDT)
+Received: by mail-oo1-xc34.google.com with SMTP id i8-20020a4aa1080000b0290201edd785e7so5237706ool.1;
+        Sat, 22 May 2021 06:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=/oLh8QQEu9IbViO8GBt8jcTMTvvy9pU87rouSOET/to=;
-        b=MjyfcplkUAvE2v0WCTF3dR+0HwunqK32tpesvAJdPbn149deALZ8TwGD7MSXugto8i
-         eLeznkHFaYETGYRxb5VHIJTFJa9S9eBZV47KkrunJo5sGtac6jqenASIJsewToItWVfI
-         fGPH4rXjdTuVdV4VD4onyg8ESrRSDJuuLLzRIg+HHK878G2xVJU3CMm9NnjlshfkiUjj
-         5FI8Cd+KGCgoUCBHFsSacroxDINZ/yA5wAbRo/5lR0ObA+bFjpXDR9zqijEsk6bu+kLV
-         KZdc9NAE0s5e9ZG+APPtBarqkWqPjT267gH3Y+fhJ5FIMtJKPAVj1aanorusd3At8hB/
-         yQ1g==
+        h=sender:to:references:from:subject:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=6q8b1N4MxU8JhrPvdZs1GsjYLUNjhqrng5So4JodxJc=;
+        b=s4J31AQDxIfkUDrXCTiZJClwfIXFmxjXh5NWzVM2vm+vsZBywqa30tWoKTY7I9swID
+         qGT21w/c/JbuW/OikBh+vOh/Db5csjuLSg1upgu5cZ57Q6/5xb1EHuFhZu8NyM3BqAcg
+         poZCHmtoOgDxdPWrVhF7LNn0NoOZTZJPnYVlgACWKtivuKAVuZTabYTjwp8VGDiaV2YQ
+         OoTRh++SZK8PQ0awpNcMEv6ix2vSTvmieDuHIHB3qX9vDnsURIDuApoenVe34U36jVdg
+         ViYGZHJ3qQHJDrnVuuouQHNbTw2xmZSwzO30X7LmlSQaByXmdPk1tGiEyQ1zZUpjolOL
+         C4wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=/oLh8QQEu9IbViO8GBt8jcTMTvvy9pU87rouSOET/to=;
-        b=jy/s3DLfB3LGnfWf3mGi4Fmu31w1wOSiS+dd9Co/szulNwrO66DoCW6gVsbWtRzlnq
-         GGHoeonJd27LsiCOqD8KA3FnQ5Hxyz/qPqv6VXvGOO+RBfhDWKZhiUEGATDRWlvqYCjO
-         Zk9Hnc8R2KrK6phL5H6Bxv4HPtRLi1ve9jzi5uIhPGWqQTsb5PnvrWazC6+k64GmFeug
-         g0aelczqqGl3q779Okyj9m3Suag11h229iBFRK8yEBTKt8CyfpRILEzUbdqRB9NntvWj
-         ckkM/AvlaU/osT7kUWY/MP7IM81HHVxQJkj3hL6K+pYqOO5VesDVbovw8m6YVm6fh54l
-         KZbQ==
-X-Gm-Message-State: AOAM532ne5G+J6cO/bERTdtJSqAPOef0I2G7EtWcXMzjS/7n1/G54AXH
-        cKbhQ/86Nq914QmqErL0UPU=
-X-Google-Smtp-Source: ABdhPJzZSFVrXPc2rEQh3CUG0Hq0TM+eGnAJZ8HxM1di5dh3cwuMGRWLxFtZK9IZCYZp5nxfcUY4Gg==
-X-Received: by 2002:aa7:88c3:0:b029:2e3:d6dc:7c6f with SMTP id k3-20020aa788c30000b02902e3d6dc7c6fmr11234412pff.35.1621687263445;
-        Sat, 22 May 2021 05:41:03 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a93f:d9c2:4477:9177:8c76])
-        by smtp.googlemail.com with ESMTPSA id f7sm6706109pfq.8.2021.05.22.05.40.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 May 2021 05:41:03 -0700 (PDT)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     siglesias@igalia.com
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        rdunlap@infradead.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jens.taprogge@taprogge.org, gregkh@linuxfoundation.org,
-        industrypack-devel@lists.sourceforge.net
-Subject: [PATCH] ipac: tpci200: fix kernel-doc syntax and remove filename from file header
-Date:   Sat, 22 May 2021 18:10:51 +0530
-Message-Id: <20210522124051.12540-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:sender:to:references:from:subject:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6q8b1N4MxU8JhrPvdZs1GsjYLUNjhqrng5So4JodxJc=;
+        b=pw7zO24WlmUBe1Qrm+6GhGvIBdGPcmwCYawIFyXBxDsaYROccJ8lD2xOeAIOXBOnKL
+         7slpWFsaMf/EhtairYP8idrzze/w/miBEy+kvB6Qf8sQgf79l9woXDEae9mK34xQsw0O
+         fL5x8oS/1Yw0i0tJMKpaADChSG9hx26zgKt7AAcMhMUOhJ4QpWjovlJ3IBqttx21zx3e
+         HlCRPGVvr5DYsjjaFCAerCC+Av8vucs+bdAYDAnhkDSKiS4GQVVObBReCz6YtKh7S4M5
+         oxEuRheqhCaRDhyaecYquYPYWFiX2CbXd1n8m8rNLH+QQ7QA6rielnFFMRMyBpfq+U0V
+         MNNg==
+X-Gm-Message-State: AOAM533fEl4LzUndncyzLHLHg74qKIqI8S4vCUckqKxQ/O+iJDraSGTp
+        W07TuDGxBATe73Y3hcQjrW+PuMhz+tE=
+X-Google-Smtp-Source: ABdhPJyjpHx6voET46fAH6m5fZRnU7WXKwfKKro8RpIUVCcIKyM3F7kGLQIbUWhv/XrdF1jBJC+HZA==
+X-Received: by 2002:a4a:dd99:: with SMTP id h25mr3364272oov.63.1621690893825;
+        Sat, 22 May 2021 06:41:33 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id h59sm1860042otb.29.2021.05.22.06.41.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 May 2021 06:41:33 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+To:     Erik Rosen <erik.rosen@metormote.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210522105528.87629-1-erik.rosen@metormote.com>
+ <20210522105528.87629-4-erik.rosen@metormote.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 3/6] hwmon: (pmbus/pim4328) Add support for reading
+ direct format coefficients
+Message-ID: <24ff79b6-29f5-6921-7418-9ba93bcf7193@roeck-us.net>
+Date:   Sat, 22 May 2021 06:41:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <20210522105528.87629-4-erik.rosen@metormote.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The opening comment mark '/**' is used for highlighting the beginning of
-kernel-doc comments.
-The header for drivers/ipack/carriers/tpci200 follows this syntax, but the
-content inside does not comply with kernel-doc.
+On 5/22/21 3:55 AM, Erik Rosen wrote:
+> Add support for reading and decoding direct format coefficients to
+> the PMBus core driver. If the new flag PMBUS_USE_COEFFICIENTS_CMD
+> is set, the driver will use the COEFFICIENTS register together with
+> the information in the pmbus_sensor_attr structs to initialize
+> relevant coefficients for the direct mode format.
+> 
+> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+> ---
+>   drivers/hwmon/pmbus/pmbus_core.c | 93 ++++++++++++++++++++++++++++++++
+>   include/linux/pmbus.h            |  8 +++
+>   2 files changed, 101 insertions(+)
+> 
+> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+> index 460cbfd716e4..03c169bf5633 100644
+> --- a/drivers/hwmon/pmbus/pmbus_core.c
+> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+> @@ -2177,6 +2177,38 @@ static int pmbus_find_attributes(struct i2c_client *client,
+>   	return ret;
+>   }
+>   
+> +static int pmbus_init_coefficients(struct i2c_client *client,
+> +				   struct pmbus_data *data, int page,
 
-This line was probably not meant for kernel-doc parsing, but is parsed
-due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes unexpected warning from kernel-doc.
+This seems wrong. Coefficients are not maintained per page but per class,
+and (re-)reading them for each supported page doesn't really add value or
+even make sense.
 
-For e.g., running scripts/kernel-doc -none on
-drivers/ipack/carriers/tpci200.c emits:
-warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * tpci200.c
+> +				   enum pmbus_sensor_classes sensor_class,
+> +				   const struct pmbus_sensor_attr *attrs,
+> +				   int nattrs)
+> +{
+> +	int i, status;
+> +
+> +	for (i = 0; i < nattrs; i++) {
+> +		if (attrs->class == sensor_class &&
+> +		    (attrs->func & data->info->func[page])) {
+> +			status = pmbus_read_coefficients(client,
+> +							 (struct pmbus_driver_info *)data->info,
+> +							 sensor_class,
+> +							 attrs->reg);
+> +			if (status < 0) {
+> +				dev_err(&client->dev,
+> +					"Failed to read coefficients for register: %x\n",
+> +					attrs->reg);
+> +				return status;
+> +			}
+> +			return 0;
+> +		}
+> +		attrs++;
+> +	}
+> +
+> +	dev_err(&client->dev, "No coefficients found for register: %x\n",
+> +		attrs->reg);
+> +
 
-Provide a simple fix by replacing this occurrence with general comment
-format, i.e. '/*', to prevent kernel-doc from parsing it.
+attrs points beyond the array size here, so attrs->reg does not point
+to a valid array element. The problem would also not be the register
+this happens to point to, but the class (ie the chip does not support
+a sensor of the requested class).
 
-Also remove the redundant file name from the comment headers.
+Not sure if this should trigger a message or error in the first place.
+It won't matter since the chip will never need those coefficients.
+If anything, this would be a misconfiguration (the driver should
+not set direct format for this sensor class), and the return value
+should be -EINVAL.
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- drivers/ipack/carriers/tpci200.c | 4 +---
- drivers/ipack/carriers/tpci200.h | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+Either case, I wonder if this can be handled with less complex code,
+ie without having to check data->info->func[] for all pages. How
+about just walking through attrs and try all class matches until
+one is found that works (ie not return on error but keep trying) ?
 
-diff --git a/drivers/ipack/carriers/tpci200.c b/drivers/ipack/carriers/tpci200.c
-index ec71063fff76..a867906777bd 100644
---- a/drivers/ipack/carriers/tpci200.c
-+++ b/drivers/ipack/carriers/tpci200.c
-@@ -1,7 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
--/**
-- * tpci200.c
-- *
-+/*
-  * driver for the TEWS TPCI-200 device
-  *
-  * Copyright (C) 2009-2012 CERN (www.cern.ch)
-diff --git a/drivers/ipack/carriers/tpci200.h b/drivers/ipack/carriers/tpci200.h
-index 2619f827e33f..e79ac64abcff 100644
---- a/drivers/ipack/carriers/tpci200.h
-+++ b/drivers/ipack/carriers/tpci200.h
-@@ -1,7 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
--/**
-- * tpci200.h
-- *
-+/*
-  * driver for the carrier TEWS TPCI-200
-  *
-  * Copyright (C) 2009-2012 CERN (www.cern.ch)
--- 
-2.17.1
+> +	return -ENODEV;
+> +}
+> +
+>   /*
+>    * Identify chip parameters.
+>    * This function is called for all chips.
+> @@ -2185,6 +2217,7 @@ static int pmbus_identify_common(struct i2c_client *client,
+>   				 struct pmbus_data *data, int page)
+>   {
+>   	int vout_mode = -1;
+> +	int ret;
+>   
+>   	if (pmbus_check_byte_register(client, page, PMBUS_VOUT_MODE))
+>   		vout_mode = _pmbus_read_byte_data(client, page,
+> @@ -2214,6 +2247,66 @@ static int pmbus_identify_common(struct i2c_client *client,
+>   		}
+>   	}
+>   
+> +	if (data->flags & PMBUS_USE_COEFFICIENTS_CMD) {
+
+I think there should be a separate function to handle that,
+to be called only once, not once per page.
+
+> +		if (!i2c_check_functionality(client->adapter,
+> +					     I2C_FUNC_SMBUS_BLOCK_PROC_CALL))
+> +			return -ENODEV;
+> +
+> +		if (data->info->format[PSC_VOLTAGE_IN] == direct) {
+> +			ret = pmbus_init_coefficients(client, data, page,
+> +						      PSC_VOLTAGE_IN,
+> +						      voltage_attributes,
+> +						      ARRAY_SIZE(voltage_attributes));
+> +			if (ret)
+> +				return ret;
+> +		}
+
+It might be useful to have a little structure with {class, attribute list pointer,
+attribute list size} and walk through that in a loop instead of repeating essentially
+the same code multiple times.
+
+> +
+> +		if (data->info->format[PSC_VOLTAGE_OUT] == direct) {
+> +			ret = pmbus_init_coefficients(client, data, page,
+> +						      PSC_VOLTAGE_OUT,
+> +						      voltage_attributes,
+> +						      ARRAY_SIZE(voltage_attributes));
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		if (data->info->format[PSC_CURRENT_IN] == direct) {
+> +			ret = pmbus_init_coefficients(client, data, page,
+> +						      PSC_CURRENT_IN,
+> +						      current_attributes,
+> +						      ARRAY_SIZE(current_attributes));
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		if (data->info->format[PSC_CURRENT_OUT] == direct) {
+> +			ret = pmbus_init_coefficients(client, data, page,
+> +						      PSC_CURRENT_OUT,
+> +						      current_attributes,
+> +						      ARRAY_SIZE(current_attributes));
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		if (data->info->format[PSC_POWER] == direct) {
+> +			ret = pmbus_init_coefficients(client, data, page,
+> +						      PSC_POWER,
+> +						      power_attributes,
+> +						      ARRAY_SIZE(power_attributes));
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		if (data->info->format[PSC_TEMPERATURE] == direct) {
+> +			ret = pmbus_init_coefficients(client, data, page,
+> +						      PSC_TEMPERATURE,
+> +						      temp_attributes,
+> +						      ARRAY_SIZE(temp_attributes));
+> +			if (ret)
+> +				return ret;
+> +		}
+> +	}
+> +
+>   	pmbus_clear_fault_page(client, page);
+>   	return 0;
+>   }
+> diff --git a/include/linux/pmbus.h b/include/linux/pmbus.h
+> index f720470b1bab..7fdc282dab5a 100644
+> --- a/include/linux/pmbus.h
+> +++ b/include/linux/pmbus.h
+> @@ -52,6 +52,14 @@
+>    */
+>   #define PMBUS_NO_WRITE_PROTECT			BIT(4)
+>   
+> +/*
+> + * PMBUS_USE_COEFFICIENTS_CMD
+> + *
+> + * When this flag is set the PMBus core driver will use the COEFFICIENTS
+> + * register to initialize the coefficients for the direct mode format.
+> + */
+> +#define PMBUS_USE_COEFFICIENTS_CMD		BIT(5)
+> +
+>   struct pmbus_platform_data {
+>   	u32 flags;		/* Device specific flags */
+>   
+> 
 
