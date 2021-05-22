@@ -2,121 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8603C2B9F2
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 15:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D13C2B9F2
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 16:56:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 929AF61131
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 15:16:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1559A61163
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 16:56:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231193AbhEVPRj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 11:17:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231152AbhEVPRj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 11:17:39 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87827C061574;
-        Sat, 22 May 2021 08:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=gpBbXPxbY6dJggNUT09a9pIjkh7x3hHZUTOVHYAoqBU=; b=fcybyXKDz3Z9NjGnSLDl/0uaUQ
-        837brYpw1dvWwdWAEtlCoL2nSsHFnqRAsUm3OxqZ+utavJEWr/v8zDKzx4yVcWzROP1BtWCKrhXyW
-        mgRSq/EBp/QRlEHgzG5DxSX3DcyCrM7962Nd24nRnPLDKueY24oEpMyXu9qtIqlK9H3Ra+z70G18N
-        MzX9a9IOZuAukmKsbMUJf6TJyMjhKK813XzUszn0JZrZnSDefetsoXZm+BAJ2clMW5xyo/40Rlogf
-        xQm+MvVTkOEG+AwmKc4S/UVg2o2mRdH5Yi66+P+T9uvyOZek6uh5Gkj+Q+VONDg/jZosOgHTEXZHr
-        QOXevfvw==;
-Received: from [2601:1c0:6280:3f0::7376]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lkTMM-0008e7-5M; Sat, 22 May 2021 15:16:14 +0000
-Subject: Re: [PATCH v2] Phonet: fix kernel-doc syntax in file headers and
- remove file names
-To:     Aditya Srivastava <yashsri421@gmail.com>, courmisch@gmail.com
-Cc:     lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <52313028.m8L9TnScQ9@philogene>
- <20210522113408.8766-1-yashsri421@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <afc92a2f-c0c7-c7f5-b6ee-7bce55a99043@infradead.org>
-Date:   Sat, 22 May 2021 08:16:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S231299AbhEVQ5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 12:57:36 -0400
+Received: from m32-153.88.com ([43.250.32.153]:52936 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231274AbhEVQ5g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 May 2021 12:57:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=tNJiZ6hCcVUW/Tbb+hubaKAFFdy6kfjlvBb5j
+        oKGuB4=; b=dL9l1E/ECCHilCsBqq8SEHXrf86b2GTaGqbkajFT1c8WoGP7W1v+g
+        lqSbM5M4LVHkTzEJvY9+c2xcjWTtnVRWzBKXQWRrDVjp5hpI+8RKcZBOWYbcUdLC
+        eOGQ/1+sfnu+FQSXOBOXCUB7etcwJX16KMMiRPaHG/RufFX0mRqfFs=
+Received: from bobwxc.top (unknown [120.238.248.9])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCn9limN6lgXERCAA--.33551S2;
+        Sun, 23 May 2021 00:56:08 +0800 (CST)
+Date:   Sun, 23 May 2021 00:56:06 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: Activate xeCJK only in CJK chapters
+Message-ID: <20210522165606.GA25494@bobwxc.top>
+References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210522113408.8766-1-yashsri421@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
+Content-Disposition: inline
+In-Reply-To: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgCn9limN6lgXERCAA--.33551S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7GF4kWw4kCw45Jr1xWF15urg_yoW8Jr47pF
+        WxG3ZrAFWDt34UJrs7Cw4xur1Sya1fJw4Fkry2y3sYvF909a4xtr1Iya90ga4Du3WrG3ZI
+        vw4jvw4UWFZ8Cr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUg2b7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r1j6r4UM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21le4C267I2x7xF54xIwI1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+        6x8ErcxFaVAv8VWxJr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82
+        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
+        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+        AFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+        jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI
+        43ZEXa7IUU3rc3UUUUU==
+X-Originating-IP: [120.238.248.9]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/22/21 4:34 AM, Aditya Srivastava wrote:
-> The opening comment mark '/**' is used for highlighting the beginning of
-> kernel-doc comments.
-> For e.g., the header for include/linux/phonet.h follows this syntax, but
-> the content inside does not comply with kernel-doc.
-> 
-> This line was probably not meant for kernel-doc parsing, but is parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-> causes unexpected warning from kernel-doc:
-> warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->  * file phonet.h
-> 
-> Provide a simple fix by replacing this occurrence with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
-> 
-> Also remove the redundant file name from the comment headers.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+--Kj7319i9nmIyA2yE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks.
-
+On Sat, May 22, 2021 at 04:28:55PM +0900, Akira Yokosawa wrote:
+> Activating xeCJK in English or Italian-translation documents
+> results in sub-optimal typesetting with wide-looking apostrophes
+> and quotation marks.
+>=20
+> The xeCJK package provides macros for enabling and disabling its
+> effect in the middle of a document, namely \makexeCJKactive and
+> \makexeCJKinactive.
+>=20
+> So the goal of this change is to activate xeCJK in the relevant
+> chapters in translations.
+>=20
+> To do this:
+>=20
+>     o Define custom macros in the preamble depending on the
+>       availability of the "Noto Sans CJK" font so that those
+>       macros can be embedded in translations.tex after the fact.
+>       By default, xeCJK is inactive.
+>=20
+>     o Add a script retouch-translations.sh to embed the on/off
+>       macros in translations.tex where necessary.
+>       The patterns in the script are ad-hoc by nature, and will
+>       need updates when the chapter organization changes.
+>=20
+>     o Invoke the script at the final step of target "latexdocs".
+>=20
+>=20
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
-> Changes in v2:
-> - Remove file name information from comment headers as well, as suggested by Randy and Remi
-> 
->  include/linux/phonet.h      | 4 +---
->  include/uapi/linux/phonet.h | 4 +---
->  2 files changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/linux/phonet.h b/include/linux/phonet.h
-> index bc7d1e529efc..6117a0e462d3 100644
-> --- a/include/linux/phonet.h
-> +++ b/include/linux/phonet.h
-> @@ -1,7 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0-only */
-> -/**
-> - * file phonet.h
-> - *
-> +/*
->   * Phonet sockets kernel interface
->   *
->   * Copyright (C) 2008 Nokia Corporation. All rights reserved.
-> diff --git a/include/uapi/linux/phonet.h b/include/uapi/linux/phonet.h
-> index a2f6b37a5937..e7e14b5e59c6 100644
-> --- a/include/uapi/linux/phonet.h
-> +++ b/include/uapi/linux/phonet.h
-> @@ -1,7 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> -/**
-> - * file phonet.h
-> - *
-> +/*
->   * Phonet sockets kernel interface
->   *
->   * Copyright (C) 2008 Nokia Corporation. All rights reserved.
-> 
+
+Hi Akira,
+
+Test this patch with Noto Sans SC font, worked well.
+=E2=80=9C=E2=80=9D use right font in western language docs now.
+
+Tested-by: Wu XiangCheng <bobwxc@email.cn>
+
+Thanks,
+Wu X.C.
 
 
--- 
-~Randy
+--Kj7319i9nmIyA2yE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCpN6IACgkQtlsoEiKC
+sIX51wv+LhidirgRV7Z1DY6PhPpg119USK/wghNNiU7FSW1qctrr9VQAJpwEsKbX
+RxWlTwRLVXUb5lpfi1t+CshRncAC54HBVrGj9OUTsMfpKlUvnrsvWUyAqHdUh+8x
+XhEJ9PRHr6IIg7E5yYjZBdhjrTYR/XbQctIfxfysxrBtj75bfmzJblodPySFeF3Z
+BqTFkxLccy9WjBPOM03eQpNOckxa3WMAmMQVNnPJBrPhG+CirPCID2rYs/EqppKU
+BokEmCl+D36Q1KqPK+uN8cXYflgouwkxpbC1GBdoubml4QzNoTt6rPI4qKnJYy2Q
+K+oNBV9Po5y4u3ak+tOEP1HyDTvcQCqqghF/gufcUZvrTKz575IcMJPVV0eGIWKc
+TSTOZ+D17/6PsOI+Yq2M0IMFq2qiXAovyuP1IbCYwMxiYlF5RWogBDs3No11dL8A
+k5ehCn8jhDP5cw14bRkBeDzqQt+ibNWMTO4K32aeGe/NkhuFAxQ8UtgJtA9b2Vuy
+rsU9uyb3
+=AlNl
+-----END PGP SIGNATURE-----
+
+--Kj7319i9nmIyA2yE--
 
