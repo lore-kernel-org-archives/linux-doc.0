@@ -2,206 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21205C2B9F2
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 07:29:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D78C2B9F2
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 08:02:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F189161244
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 07:29:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BCC36120D
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 08:02:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229979AbhEVHaZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 03:30:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbhEVHaY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 03:30:24 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB54EC061574;
-        Sat, 22 May 2021 00:28:59 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so8369230pjv.1;
-        Sat, 22 May 2021 00:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=4p1xhNLzT+c2h4FRUwnsS5yL3/JXZxyrFVhYNGszoIo=;
-        b=HVLbLeSW7Co6Dap2TWOwcYmASnP6yfS25NTFf+dkIJJSVQAwMBSGmscScejEcQD2TF
-         wjRpam/iUoX9f3sz2SIh5ThsBDR2MT/loTX60ACQ/Gf+HGS9kitnJtePAj4+oGLTQJT7
-         b5hbT2ybtIPyFOxqlBQ496TZ18lNceA745GcwG3drqvb3bT3sbL0JMyyp1j9S4PeHGaZ
-         /PUO2vgu6nJRQM0MIeGhNOzMwjeupOeT7swT1VZG2F9hIiiXfS9o4bova25J9xxbV5Tz
-         mpw0CO6UX2Aoa+UJeLmH1D7aAwOftgo6sNFCwm2gpmeKiYSHA273JSrVtqm0xBJqGhpW
-         8tCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=4p1xhNLzT+c2h4FRUwnsS5yL3/JXZxyrFVhYNGszoIo=;
-        b=C7RBIKAuN3hB6cBis0ZV7nz54fqCofFbXHjFw0+jCDr0sKtDQCY9GjAzXCrIFymQ8k
-         ip7MR5i3cXaeWQqJWSoSHHoBEVQng7J27IYzy6JImMxN0cOIMMcs7XIDEcNo+odqX+Rw
-         ONByBEZnxYKP3XoNEwQqw7bMNBJBSHU+cucwY/4Mq3eUAUzuEsIDVudGpjzWa5yTeffB
-         Ey81GUqfYUtbQhEfRRc1l1TVi4CiKhSPNrqJIaYjJQ9GnNEbh5UfZW3PwfQ0nOW95z+O
-         YDvL4603mKpzA3Jo4QG9kjeg1pJHMfeeqqcZ36N/mbXOqPI2ga2NT42cXgKBoe5tyEqs
-         /c7Q==
-X-Gm-Message-State: AOAM531SRnSLjXWQHsbQ9gFkkWcr9MXmcXIHIuUGAcBBxjz2YkEFoD69
-        nMpvhi53Qywgjq5mUaQ4AfI=
-X-Google-Smtp-Source: ABdhPJy8zzL5p93nxZDe/Bj3iqfRQ5HX7n+WZAcGfApwRYErd8PI9BxjR9+4tXmz3taM0tJ3tywPSQ==
-X-Received: by 2002:a17:902:f541:b029:f0:7088:95e2 with SMTP id h1-20020a170902f541b02900f0708895e2mr16206949plf.84.1621668539112;
-        Sat, 22 May 2021 00:28:59 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id g4sm6362932pgu.46.2021.05.22.00.28.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 May 2021 00:28:58 -0700 (PDT)
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs: Activate xeCJK only in CJK chapters
-Message-ID: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-Date:   Sat, 22 May 2021 16:28:55 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S230001AbhEVIDu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 04:03:50 -0400
+Received: from m32-153.88.com ([43.250.32.153]:33783 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230000AbhEVIDu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 May 2021 04:03:50 -0400
+X-Greylist: delayed 18355 seconds by postgrey-1.27 at vger.kernel.org; Sat, 22 May 2021 04:03:49 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=From:To:Date; bh=hmNgrgPBhr7LhurXuqhMudBbTKWzo/FsN2E5v
+        l3sG/U=; b=MTVhAQI0tophUwrlDGiLkM6EMntqPCiAykvvHTFtlRR2uvoL2L/H3
+        GA6fILesPpbwz78g2KHR0J8ZGKae8T8jth7GOGjDRB+7lndxqounwRwDa2V6EJ7d
+        zLyHtrStooSQoRxAExNZU0uTAzgzjmqp2MWHpV+fFV49pdI0O1xDx8=
+Received: from localhost.localdomain (unknown [113.251.13.109])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDXJViIuqhg13hBAA--.9385S2;
+        Sat, 22 May 2021 16:02:17 +0800 (CST)
+From:   Hu Haowen <src.res@email.cn>
+To:     alexs@kernel.org, corbet@lwn.net, siyanteng@loongson.cn,
+        bobwxc@email.cn, jaixun.yang@flygoat.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hu Haowen <src.res@email.cn>
+Subject: [PATCH] docs/zh_CN: Add Chinese translations for new contents
+Date:   Sat, 22 May 2021 16:02:14 +0800
+Message-Id: <20210522080214.88050-1-src.res@email.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GiKnCgDXJViIuqhg13hBAA--.9385S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1rZr4kKw1fKr15Xw1kKrg_yoW8AF4fp3
+        Wa9r9rKanrCrnFvrn7KryUZF15CFWxua4UJ3s7ZF95ZF1rAryvyFsrKryrWr95Wry8ta4r
+        tFsxtryDXrWjywUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgE1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Jr0_Jr4l8cAvFVAK
+        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4
+        x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l
+        84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8w
+        Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkE
+        bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67
+        AK6r43MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC
+        6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+        C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+        JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+        WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
+        CTnIWIevJa73UjIFyTuYvjfUxZjjDUUUU
+X-Originating-IP: [113.251.13.109]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Activating xeCJK in English or Italian-translation documents
-results in sub-optimal typesetting with wide-looking apostrophes
-and quotation marks.
+A document updated in commit 1c31f0b67cfa6d4cd41d ("module: add printk
+formats to add module build ID to stacktraces"), hence add Chinese
+translations for it.
 
-The xeCJK package provides macros for enabling and disabling its
-effect in the middle of a document, namely \makexeCJKactive and
-\makexeCJKinactive.
-
-So the goal of this change is to activate xeCJK in the relevant
-chapters in translations.
-
-To do this:
-
-    o Define custom macros in the preamble depending on the
-      availability of the "Noto Sans CJK" font so that those
-      macros can be embedded in translations.tex after the fact.
-      By default, xeCJK is inactive.
-
-    o Add a script retouch-translations.sh to embed the on/off
-      macros in translations.tex where necessary.
-      The patterns in the script are ad-hoc by nature, and will
-      need updates when the chapter organization changes.
-
-    o Invoke the script at the final step of target "latexdocs".
-
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Hu Haowen <src.res@email.cn>
 ---
-Hi Mauro,
+ .../translations/zh_CN/core-api/printk-formats.rst       | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Good news.
-xeCJK can be activated/deactivated inside a document.
-Which means we can activate xeCJK only in the CJK chapters
-of the translations document.
-
-This patch is an attempt to do so.
-
-I think there still is ad-hoc aspect in this approach, but it
-also fixed the build error of s390.pdf I encountered yesterday
-(with the CJK font installed).
-
-"make pdfdocs" now completes successfully both with and without
-the CJK font installed.
-
-Can you try this?
-Any feedback is welcome!
-
-        Thanks, Akira
---
- Documentation/Makefile                       |  2 ++
- Documentation/conf.py                        | 11 ++++++++
- Documentation/sphinx/retouch-translations.sh | 29 ++++++++++++++++++++
- 3 files changed, 42 insertions(+)
- create mode 100755 Documentation/sphinx/retouch-translations.sh
-
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 9c42dde97671..31ca4d268fa0 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -96,6 +96,8 @@ linkcheckdocs:
- latexdocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex=
-,$(var)))
-+	@find $(BUILDDIR) -name translations.tex -exec \
-+	sh $(srctree)/Documentation/sphinx/retouch-translations.sh \{\} \;
-=20
- ifeq ($(HAVE_PDFLATEX),0)
-=20
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 879e86dbea66..b3ab8b6017af 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -371,6 +371,17 @@ if cjk_cmd.find("Noto Sans CJK SC") >=3D 0:
- 	% This is needed for translations
-         \\usepackage{xeCJK}
-         \\setCJKmainfont{Noto Sans CJK SC}
-+	% Define custom macro to on/off CJK
-+	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
-+	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
-+	% CJK off by default
-+	\\kerneldocCJKoff
-+     '''
-+else:
-+    latex_elements['preamble']  +=3D '''
-+	% Dummy custom macro to on/off CJK
-+	\\newcommand{\\kerneldocCJKon}{}
-+	\\newcommand{\\kerneldocCJKoff}{}
-      '''
-=20
- # Fix reference escape troubles with Sphinx 1.4.x
-diff --git a/Documentation/sphinx/retouch-translations.sh b/Documentation=
-/sphinx/retouch-translations.sh
-new file mode 100755
-index 000000000000..edbfde42b1a5
---- /dev/null
-+++ b/Documentation/sphinx/retouch-translations.sh
-@@ -0,0 +1,29 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright 2021 Akira Yokosawa <akiyks@gmail.com>
-+#
-+# Retouch translations.tex to add CJK on/off macros.
-+# The substitution rules need updates when there is some change in
-+# the ordering of chapters.
-+#
-+# Path of the file to be retouched is passed in command argument $1
-+# from docs Makefile.
-+# If there is no need of retouch, do nothing.
+diff --git a/Documentation/translations/zh_CN/core-api/printk-formats.rst b/Documentation/translations/zh_CN/core-api/printk-formats.rst
+index 624a090e6ee5..116abc046bfe 100644
+--- a/Documentation/translations/zh_CN/core-api/printk-formats.rst
++++ b/Documentation/translations/zh_CN/core-api/printk-formats.rst
+@@ -122,6 +122,15 @@ seq_printf()，而不是printk()）由用户空间进程读取，使用下面描
+ ``B`` 占位符的结果是带有偏移量的符号名，在打印堆栈回溯时应该使用。占位符将考虑编译器优化
+ 的影响，当使用尾部调用并使用noreturn GCC属性标记时，可能会发生这种优化。
+ 
++如果占位符是在一个模块之中，可在占位符末尾添加 ``b`` 以在符号名后打印模块名称和可选构建ID。
 +
-+retouch=3D$1
++::
++        %pS     versatile_init+0x0/0x110 [module_name]
++        %pSb    versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
++        %pSRb   versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
++                (with __builtin_extract_return_addr() translation)
++        %pBb    prev_fn_of_versatile_init+0x88/0x88 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
 +
-+if [ -e $retouch ]; then
-+	if grep -q 'kerneldocCJKon\\chapter' $retouch ; then
-+		exit 0
-+	fi
-+	sed -i -e 's/\(\\sphinxtableofcontents\)/\\kerneldocCJKon\1/' \
-+	    -e 's/\(\\chapter{=E4=B8=AD=E6=96=87\)/\\kerneldocCJKon\1/' \
-+	    -e 's/\(\\chapter{Traduzione[^}]*}\)/\1\\kerneldocCJKoff/' \
-+	    -e 's/\(\\chapter{=ED=95=9C=EA=B5=AD=EC=96=B4\)/\\kerneldocCJKon\1/=
-' \
-+	    -e 's/\(\\chapter{Disclaimer[^}]*}\)/\1\\kerneldocCJKoff/' \
-+	    $retouch
-+	echo "$retouch retouched."
-+	exit 0
-+else
-+	exit 0
-+fi
---=20
-2.17.1
-
+ 来自BPF / tracing追踪的探查指针
+ ----------------------------------
+ 
+-- 
+2.25.1
 
