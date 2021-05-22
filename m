@@ -2,122 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88B40C4707A
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 01:58:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A11C4707A
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 02:00:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68238613EA
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 01:58:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38DB9613DB
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 02:00:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbhEVB7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 May 2021 21:59:41 -0400
-Received: from mga03.intel.com ([134.134.136.65]:6339 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230371AbhEVB7l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 May 2021 21:59:41 -0400
-IronPort-SDR: tHeQdk5oT7sL4UaAgu8mD6ZspjcLNbF8qkxf1f1A7erTV42XuBd3g7fxtKwZOh9msq3p3vo3W5
- usx89uXfcvww==
-X-IronPort-AV: E=McAfee;i="6200,9189,9991"; a="201660914"
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
-   d="scan'208";a="201660914"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 18:58:16 -0700
-IronPort-SDR: IS1a1WjJpDP/oMTDY7yRQl6/vLIwFp04ZRQAZ3ziPozZVC+dJYHKaJK5SF3eo2OzyVejVGMg9A
- Ua3eWG277zeg==
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
-   d="scan'208";a="395558527"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.254.177.76]) ([10.254.177.76])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 18:58:14 -0700
-Subject: Re: [PATCH v27 13/31] mm: Move VM_UFFD_MINOR_BIT from 37 to 38
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Peter Xu <peterx@redhat.com>
-References: <20210521221211.29077-1-yu-cheng.yu@intel.com>
- <20210521221211.29077-14-yu-cheng.yu@intel.com>
- <CAJHvVcjsecq-nOVE1ew1ctG2UpK0F0d0MjNncUgK0L=R4eyDqA@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <74057265-c148-98bf-9ada-21328b160227@intel.com>
-Date:   Fri, 21 May 2021 18:58:14 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        id S230371AbhEVCBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 May 2021 22:01:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230364AbhEVCBn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 May 2021 22:01:43 -0400
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F741C061574;
+        Fri, 21 May 2021 19:00:19 -0700 (PDT)
+Received: by mail-oi1-x22d.google.com with SMTP id s19so21453390oic.7;
+        Fri, 21 May 2021 19:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=v4mUO7yfT09cCss4W7+d0bMOwHylAb5+pLHbvcApjuM=;
+        b=BJP4bZhjsZDUkvuKoRI4HWVkNqexgVZ+vTuovsCCS0W0TgAB8j+LGdncBYQqQwfhFK
+         Zieop0K3wUu+C+bMXlJgukftwdMK/ER32gsR+1KxO0S3ern0KfvHR36cNOk8S8rY8YUc
+         ewWz73QMEezMdjCMwF2Y8JbrE/GD+sss73XcuSKfQJ9DwgkgX2YIyQnmQVt26Ekge6Ey
+         BhVR4hg7uM/UPaEqMor8B1HszyquVekI8Hi3mLGAM2vhAUZuCSMzmz6B5aKaF22Zi0ZP
+         jLPdVgpHVgvUmAFQoEjfEf63H/ur635sCWq9FT3SoTlsyZ9bLsG8AQzlAZp2rQav9CDg
+         8urQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=v4mUO7yfT09cCss4W7+d0bMOwHylAb5+pLHbvcApjuM=;
+        b=ozqr2opwQpyjjGy6EcfjSkDbJDIm7NwSxYAQx5eEfJ2Aamsg8jTOmIo4L2xDvgqfcR
+         LEDNda1Zx0TU2PojA7XvmYLLbVFsE1xkl7pwxxPsF6sRBSfyeVN6GdVHggWDCHsjNodt
+         LTF/QkALpx10QYH93VtZEMhG+p7ZpANJli16+DmFoik+s9ek+GpoFScpzB7xkzK5m933
+         +jWxE2SdKkOdVIWHMmBgX8/2xBucAYj0qKL9cDgGV2oByNbt70oqiiJTmhdkVl1hk3uP
+         7ffbZxQya0MMSX+KHDf5wh9ykPJylECc5pMDWCqZ1DZNHpyA3F8QjX7dG/Utrv/sezlO
+         TBOQ==
+X-Gm-Message-State: AOAM532mBHfkb0RCl4Nn44ZODyhzisfBxMSN4eV/oOMHKlaC1Cafsbtg
+        mSgDewaKhFUdedO1o/t2IK7DLgE5RSk=
+X-Google-Smtp-Source: ABdhPJxvlvOW2xLc21hYN6ryBwQDObaG1vHZfoBIG0bY6Q6QkToAWsKGQZO2Vh1X13fUO3zcOOqwdg==
+X-Received: by 2002:a05:6808:9:: with SMTP id u9mr4018510oic.50.1621648818612;
+        Fri, 21 May 2021 19:00:18 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 65sm1665966otj.17.2021.05.21.19.00.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 May 2021 19:00:18 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Fri, 21 May 2021 19:00:16 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH] docs: hwmon: Add an entry for mp2888
+Message-ID: <20210522020016.GA2140551@roeck-us.net>
+References: <20210521172218.37592-1-festevam@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJHvVcjsecq-nOVE1ew1ctG2UpK0F0d0MjNncUgK0L=R4eyDqA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210521172218.37592-1-festevam@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/21/2021 3:25 PM, Axel Rasmussen wrote:
-> This seems reasonable to me. The particular bit used isn't so
-> important from my perspective. I can't think of a way this would break
-> backward compatibility or such. So:
+On Fri, May 21, 2021 at 02:22:18PM -0300, Fabio Estevam wrote:
+> The entry for mp2888 is missing and it causes the following
+> 'make htmldocs' build warning:
 > 
-> Reviewed-by: Axel Rasmussen <axelrasmussen@google.com>
-
-Thanks!
-
-Yu-cheng
-
+> Documentation/hwmon/mp2888.rst: WARNING: document isn't included in any toctree
 > 
-> On Fri, May 21, 2021 at 3:13 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> To introduce VM_SHADOW_STACK as VM_HIGH_ARCH_BIT (37), and make all
->> VM_HIGH_ARCH_BITs stay together, move VM_UFFD_MINOR_BIT from 37 to 38.
->>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Cc: Axel Rasmussen <axelrasmussen@google.com>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Mike Kravetz <mike.kravetz@oracle.com>
->> ---
->>   include/linux/mm.h | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index c274f75efcf9..923f89b9f1b5 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -373,7 +373,7 @@ extern unsigned int kobjsize(const void *objp);
->>   #endif
->>
->>   #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
->> -# define VM_UFFD_MINOR_BIT     37
->> +# define VM_UFFD_MINOR_BIT     38
->>   # define VM_UFFD_MINOR         BIT(VM_UFFD_MINOR_BIT)  /* UFFD minor faults */
->>   #else /* !CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
->>   # define VM_UFFD_MINOR         VM_NONE
->> --
->> 2.21.0
->>
+> Add the mp2888 entry.
+> 
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
 
+Applied.
+
+Thanks,
+Guenter
+
+> ---
+>  Documentation/hwmon/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 9ed60fa84cbe..6925a8a70511 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -137,6 +137,7 @@ Hardware Monitoring Kernel Drivers
+>     mcp3021
+>     menf21bmc
+>     mlxreg-fan
+> +   mp2888
+>     mp2975
+>     nct6683
+>     nct6775
