@@ -2,536 +2,984 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3A5BC4707F
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 06:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 535FBC2B9FB
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 06:36:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A79AE61244
-	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 06:09:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2405560BBB
+	for <linux-doc@archiver.kernel.org>; Sat, 22 May 2021 06:36:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbhEVGLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 May 2021 02:11:06 -0400
-Received: from gproxy8-pub.mail.unifiedlayer.com ([67.222.33.93]:36723 "EHLO
-        gproxy8-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229689AbhEVGLG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 May 2021 02:11:06 -0400
-Received: from cmgw13.mail.unifiedlayer.com (unknown [10.0.90.128])
-        by gproxy8.mail.unifiedlayer.com (Postfix) with ESMTP id D6B7D8032F62
-        for <linux-doc@vger.kernel.org>; Sat, 22 May 2021 06:09:39 +0000 (UTC)
-Received: from md-in-79.webhostbox.net ([43.225.55.182])
-        by cmsmtp with ESMTP
-        id kKpNlkx55yyhqkKpOlWv8V; Sat, 22 May 2021 06:09:39 +0000
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.4 cv=atd3tQVV c=1 sm=1 tr=0 ts=60a8a023
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=LfuyaZh/8e9VOkaVZk0aRw==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=5FLXtPjwQuUA:10:nop_rcvd_month_year
- a=oz0wMknONp8A:10:endurance_base64_authed_username_1 a=vU9dKmh3AAAA:8
- a=NcCfH-bgAAAA:8 a=lhsWNlwdHoQvLuVuHl0A:9 a=rsP06fVo5MYu2ilr0aT5:22
- a=nZLUJm6UEJn402BoZzOq:22 a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
-        ; s=default; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
-        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=90AR0797E0/Clk7baYNcbp4x6YlwIUz57wOfzVEO53k=; b=QlY2f3vVq6JDV3BXXpgyKoemtf
-        oBRye94heP+jEYvKwW8vepxA1szSjT4WR6xJj4oHkNLWivPmWpJz03fCuc/vleyo/RxUqEicNARMg
-        T0xXcj3Fi7MdgytT2hmI+T/fuJivicAcnUrHk/5HyFSaaZWLdYkzI0+k6ZaLphkS1eKLH3sFOfXKs
-        ZcU0vQ4nhgwmPCQCN7Nun7NQntzrdAJfL30Jpv38R8aZLMleWXcKg5ZaLWILnOW3N8PGyZBOIjdsO
-        Glo//X9A/SapyNrADTR49HQ6LS7IexKVOFIzpm2IzmC4s8mm+78JDIKB2xs+1qBSJoScwKxiEEwgC
-        xx7zGS8A==;
-Received: from [117.202.188.17] (port=44202 helo=localhost.localdomain)
-        by md-in-79.webhostbox.net with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <navin@linumiz.com>)
-        id 1lkKpM-003BKv-FR; Sat, 22 May 2021 06:09:36 +0000
-From:   Navin Sankar Velliangiri <navin@linumiz.com>
-Cc:     Navin Sankar Velliangiri <navin@linumiz.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6] hwmon: Add sht4x Temperature and Humidity Sensor Driver
-Date:   Sat, 22 May 2021 11:39:13 +0530
-Message-Id: <20210522060917.41256-1-navin@linumiz.com>
-X-Mailer: git-send-email 2.31.1
+        id S229951AbhEVGiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 May 2021 02:38:00 -0400
+Received: from mout.gmx.net ([212.227.17.22]:36867 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229689AbhEVGiA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 May 2021 02:38:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1621665354;
+        bh=hmQBDVRwQZGdfUeCmGY0i6E6TJ8Eh2j60vUrtQTIASY=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=KIFMqP+whBZ8KmQ8l+tpjRervYyri9smUEvbMomF2mla2lenPn3Mt/ys1k3vyer3n
+         kfruTWsQH6xvAdyD90oegzCGKFf2t+zAyztZC1+HcwLtZs+nqHMSTUu1pAr+ONyZse
+         v0xPl7vRcVtwS/g8dWjWQ+azALQO6EACLidejIoU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.228.41]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1M59C8-1llRAT2dMa-001CeS; Sat, 22
+ May 2021 08:35:53 +0200
+Date:   Sat, 22 May 2021 08:35:13 +0200
+From:   John Wood <john.wood@gmx.com>
+To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>
+Cc:     John Wood <john.wood@gmx.com>, Andi Kleen <ak@linux.intel.com>,
+        valdis.kletnieks@vt.edu,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: [PATCH v7 5/7] selftests/brute: Add tests for the Brute LSM
+Message-ID: <20210522063513.GA3094@ubuntu>
+References: <20210521172414.69456-1-john.wood@gmx.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 117.202.188.17
-X-Source-L: No
-X-Exim-ID: 1lkKpM-003BKv-FR
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (localhost.localdomain) [117.202.188.17]:44202
-X-Source-Auth: linumcmc
-X-Email-Count: 2
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210521172414.69456-1-john.wood@gmx.com>
+X-Provags-ID: V03:K1:pCZdcB7GyPfC/MfGFJ8rtDrcfAmecBYR3LlmpouuSQO6BCQARbC
+ gywvwTNeAVVMMxPkTDz1YVmFpyiDFQjnDQrhH7Y+VBl7JtJxF97wx9M+wl8xdrNv0WAEig/
+ sYwUNJxAOTdlTfIKyrC+C9GO8ecJSUuEls8wJr5UOW6NFK+MvgM1vRMa/ubM4lkGTfpma3z
+ HYo8ZJyzkRsN44/dT/JyQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ye3mU39bEnU=:VyOB+AmPJTXmezFlzhoCwY
+ gPZ+xenlW/7NSxy2How1epUIouG3a+UjWdemUf7P0CYt97qSr7v4owYX5Y2k4Qm0DhxAllgGo
+ ubJYnpKDk3sdAmxGIbHbNY5LGPJ+CRHJABrvRISbVjbn2+tU31WKKDE6uIBkw0/X960uCTn+G
+ p0Tr8X3RkMDr4FWNFakhJecewbT2D+9bwU4ncLhOJsDhm0LMgSZAsUfiZNAqNKeZN8KLWEP15
+ GjQ5eBZf8PJggBpYV68M+ZfrtSeOEPUApy5ZMGyEEZTqQ8O/Mqi3+RNHbP/asDuFVrInBM4Yd
+ ktyrU7NpZeFKLf72o5L3cPHpQKd5rc6Ka8rWzaPkPUI0I6Ueh7tqErGMXCAWDQr9oCkqRtEGd
+ OPE+/ESA9uy5lUT07taZXO+MKu+CEuDuvbiwDi+Z0xzba1tzc52L4pPrWnnE8sMX1EOAmH8de
+ GFjrdT/Zrw7Y/lUBFcKvxZlEQXKZYg8EpswVT+xB+07ofzpbUEi9AGwZEtapdcs3Ztv2mEWqr
+ wXge6g0M2NY6WT8s1wer9CnAJmXY2P4Rnk8pPZraW2SWIjXomc27KDK9IxL2eG3AZSznBEzKC
+ r9ie4Z8mI8f4hbUcygT29tfKYhIwbmeOMcwEe8NY44orCR7Ap8QLCq4ZAhN6Y72nGbYQqU9V4
+ IVDndbdwFIguwPHoBmXBDaFjf9oHoPG60L8kXXth3Ns3asL+0DlaTHZt8dG1wcSas5Elh6Acu
+ dEVD6FgaQGfpP3+8xS5VSbvBGHslvpW+344Dm/b1lYC838zHhJvYVVAnJ5gvuUrvN6uEB94Km
+ zNdgwv4X5JZ6TlIcyVmY+7WgruvFqxCSlofJDWk5kNEHFSDDK7NyKSB5uGrsu358MUOUCUi0Z
+ CAk+CG+5xoB0Gq+yn0olhLupADIwoLPRXt2I0KT/xrjzjDYdDKBEoM6nM4MPOjeN4Orw5epea
+ luo2yYBqIY/3vzSC1zTaOe3HVjPVLRudoMH9tICGBxP99YmqX10boXasNPDas4rgYuSY/oZhY
+ RzRG+whz6NHUIOaSm0RR0PF6GTeL5yUahKVvXFClVCbwNgKsI71wivd9wHA57YSiVrVfasYEj
+ k80KZF3n4SyFOnqLNhP9/NL1mMHd+za5tMl5syGiIGnNxanJ+V7IRYUAeboOYDodnWkjgWkBu
+ kUvoegWy0xBAX5fjm7hPGMKW8CrnADIQaCMBcfz6UjGXla0vtofJqcw5p+BZ+AQ06OiPU=
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds a hwmon driver for the SHT4x Temperature and
-Humidity sensor.
+Add tests to check the brute LSM functionality and cover fork/exec brute
+force attacks crossing the following privilege boundaries:
 
-Signed-off-by: Navin Sankar Velliangiri <navin@linumiz.com>
+1.- setuid process
+2.- privilege changes
+3.- network to local
 
-Changes in v2:
+Also, as a first step check that fork/exec brute force attacks without
+crossing any privilege boundary already commented doesn't trigger the
+detection and mitigation stage.
 
-* Removed unused macro SHT4X_MIN_POLL_INTERVAL
-* Replaced time_after instead of ktime_after
-* Used goto statements for error handling
-* Hardcoded the interval_time instead of clamp_val().
+Once a brute force attack is detected, the "test" executable is marked
+as "not allowed". To start again a new test, use the "rmxattr" app to
+revert this state. This way, all the tests can be run using the same
+binary.
 
-Changes in v3:
+Signed-off-by: John Wood <john.wood@gmx.com>
+=2D--
+ tools/testing/selftests/Makefile         |   1 +
+ tools/testing/selftests/brute/.gitignore |   2 +
+ tools/testing/selftests/brute/Makefile   |   5 +
+ tools/testing/selftests/brute/config     |   1 +
+ tools/testing/selftests/brute/rmxattr.c  |  34 ++
+ tools/testing/selftests/brute/test.c     | 507 +++++++++++++++++++++++
+ tools/testing/selftests/brute/test.sh    | 256 ++++++++++++
+ 7 files changed, 806 insertions(+)
+ create mode 100644 tools/testing/selftests/brute/.gitignore
+ create mode 100644 tools/testing/selftests/brute/Makefile
+ create mode 100644 tools/testing/selftests/brute/config
+ create mode 100644 tools/testing/selftests/brute/rmxattr.c
+ create mode 100644 tools/testing/selftests/brute/test.c
+ create mode 100755 tools/testing/selftests/brute/test.sh
 
-* Accept the poll interval if it is greater than SHT4X_MIN_POLL_INTERVAL and
-  return -EINVAL for negative values & less than SHT4X_MIN_POLL_INTERVAL
-* Changed the data type of update_interval and last_updated to long.
-
-Changes in v4:
-
-* "update_interval" is long but msecs_to_jiffies() accepts only unsigned int.
-  clamp_val() api is used to assign the update_interval stays within UINT_MAX.
-
-Changes in v5:
-
-* Added error handling when master unable to send the data.
-
-Changes in v6:
-
-* clamp_val() alone is used to set the update interval. since the update
-  interval is a continuous setting.
----
- Documentation/hwmon/index.rst |   1 +
- Documentation/hwmon/sht4x.rst |  45 +++++
- drivers/hwmon/Kconfig         |  11 ++
- drivers/hwmon/Makefile        |   1 +
- drivers/hwmon/sht4x.c         | 305 ++++++++++++++++++++++++++++++++++
- 5 files changed, 363 insertions(+)
- create mode 100644 Documentation/hwmon/sht4x.rst
- create mode 100644 drivers/hwmon/sht4x.c
-
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 9ed60fa84cbe..b6fcae40258c 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -164,6 +164,7 @@ Hardware Monitoring Kernel Drivers
-    sht15
-    sht21
-    sht3x
-+   sht4x
-    shtc1
-    sis5595
-    sl28cpld
-diff --git a/Documentation/hwmon/sht4x.rst b/Documentation/hwmon/sht4x.rst
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Ma=
+kefile
+index bc3299a20338..5c413a010849 100644
+=2D-- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -2,6 +2,7 @@
+ TARGETS =3D arm64
+ TARGETS +=3D bpf
+ TARGETS +=3D breakpoints
++TARGETS +=3D brute
+ TARGETS +=3D capabilities
+ TARGETS +=3D cgroup
+ TARGETS +=3D clone3
+diff --git a/tools/testing/selftests/brute/.gitignore b/tools/testing/self=
+tests/brute/.gitignore
 new file mode 100644
-index 000000000000..3b37abcd4a46
---- /dev/null
-+++ b/Documentation/hwmon/sht4x.rst
-@@ -0,0 +1,45 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver sht4x
-+===================
-+
-+Supported Chips:
-+
-+  * Sensirion SHT4X
-+
-+    Prefix: 'sht4x'
-+
-+    Addresses scanned: None
-+
-+    Datasheet:
-+
-+      English: https://www.sensirion.com/fileadmin/user_upload/customers/sensirion/Dokumente/2_Humidity_Sensors/Datasheets/Sensirion_Humidity_Sensors_SHT4x_Datasheet.pdf
-+
-+Author: Navin Sankar Velliangiri <navin@linumiz.com>
-+
-+
-+Description
-+-----------
-+
-+This driver implements support for the Sensirion SHT4x chip, a humidity
-+and temperature sensor. Temperature is measured in degree celsius, relative
-+humidity is expressed as a percentage. In sysfs interface, all values are
-+scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
-+
-+Usage Notes
-+-----------
-+
-+The device communicates with the I2C protocol. Sensors can have the I2C
-+address 0x44. See Documentation/i2c/instantiating-devices.rst for methods
-+to instantiate the device.
-+
-+Sysfs entries
-+-------------
-+
-+=============== ============================================
-+temp1_input     Measured temperature in millidegrees Celcius
-+humidity1_input Measured humidity in %H
-+update_interval The minimum interval for polling the sensor,
-+                in milliseconds. Writable. Must be at least
-+                2000.
-+============== =============================================
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 87624902ea80..e3675377bc5d 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1583,6 +1583,17 @@ config SENSORS_SHT3x
- 	  This driver can also be built as a module. If so, the module
- 	  will be called sht3x.
- 
-+config SENSORS_SHT4x
-+	tristate "Sensiron humidity and temperature sensors. SHT4x and compat."
-+	depends on I2C
-+	select CRC8
-+	help
-+	  If you say yes here you get support for the Sensiron SHT40, SHT41 and
-+	  SHT45 humidity and temperature sensors.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called sht4x.
-+
- config SENSORS_SHTC1
- 	tristate "Sensiron humidity and temperature sensors. SHTC1 and compat."
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 59e78bc212cf..d712c61c1f5e 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -171,6 +171,7 @@ obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
- obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
- obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
- obj-$(CONFIG_SENSORS_SHT3x)	+= sht3x.o
-+obj-$(CONFIG_SENSORS_SHT4x)	+= sht4x.o
- obj-$(CONFIG_SENSORS_SHTC1)	+= shtc1.o
- obj-$(CONFIG_SENSORS_SIS5595)	+= sis5595.o
- obj-$(CONFIG_SENSORS_SMM665)	+= smm665.o
-diff --git a/drivers/hwmon/sht4x.c b/drivers/hwmon/sht4x.c
+index 000000000000..989894615766
+=2D-- /dev/null
++++ b/tools/testing/selftests/brute/.gitignore
+@@ -0,0 +1,2 @@
++rmxattr
++test
+diff --git a/tools/testing/selftests/brute/Makefile b/tools/testing/selfte=
+sts/brute/Makefile
 new file mode 100644
-index 000000000000..39e1b4a123fa
---- /dev/null
-+++ b/drivers/hwmon/sht4x.c
-@@ -0,0 +1,305 @@
-+// SPDX-License-Identifier: GPL-2.0-only
+index 000000000000..c675d1df62ca
+=2D-- /dev/null
++++ b/tools/testing/selftests/brute/Makefile
+@@ -0,0 +1,5 @@
++# SPDX-License-Identifier: GPL-2.0
++CFLAGS +=3D -Wall -O2
++TEST_PROGS :=3D test.sh
++TEST_GEN_FILES :=3D rmxattr test
++include ../lib.mk
+diff --git a/tools/testing/selftests/brute/config b/tools/testing/selftest=
+s/brute/config
+new file mode 100644
+index 000000000000..3587b7bf6c23
+=2D-- /dev/null
++++ b/tools/testing/selftests/brute/config
+@@ -0,0 +1 @@
++CONFIG_SECURITY_FORK_BRUTE=3Dy
+diff --git a/tools/testing/selftests/brute/rmxattr.c b/tools/testing/selft=
+ests/brute/rmxattr.c
+new file mode 100644
+index 000000000000..9ed90409d337
+=2D-- /dev/null
++++ b/tools/testing/selftests/brute/rmxattr.c
+@@ -0,0 +1,34 @@
++// SPDX-License-Identifier: GPL-2.0
 +
-+/*
-+ * Copyright (c) Linumiz 2021
-+ *
-+ * sht4x.c - Linux hwmon driver for SHT4x Temperature and Humidity sensor
-+ *
-+ * Author: Navin Sankar Velliangiri <navin@linumiz.com>
-+ */
++#include <libgen.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/xattr.h>
 +
-+#include <linux/crc8.h>
-+#include <linux/delay.h>
-+#include <linux/hwmon.h>
-+#include <linux/i2c.h>
-+#include <linux/jiffies.h>
-+#include <linux/module.h>
++static __attribute__((noreturn)) void error_failure(const char *message)
++{
++	perror(message);
++	exit(EXIT_FAILURE);
++}
 +
-+/*
-+ * Poll intervals (in milliseconds)
-+ */
-+#define SHT4X_MIN_POLL_INTERVAL	2000
++#define PROG_NAME basename(argv[0])
 +
-+/*
-+ * I2C command delays (in microseconds)
-+ */
-+#define SHT4X_MEAS_DELAY	1000
-+#define SHT4X_DELAY_EXTRA	10000
++#define XATTR_SECURITY_PREFIX "security."
++#define XATTR_BRUTE_SUFFIX "brute"
++#define XATTR_NAME_BRUTE XATTR_SECURITY_PREFIX XATTR_BRUTE_SUFFIX
 +
-+/*
-+ * Command Bytes
-+ */
-+#define SHT4X_CMD_MEASURE_HPM	0b11111101
-+#define SHT4X_CMD_RESET		0b10010100
++int main(int argc, char **argv)
++{
++	int rc;
 +
-+#define SHT4X_CMD_LEN		1
-+#define SHT4X_CRC8_LEN		1
-+#define SHT4X_WORD_LEN		2
-+#define SHT4X_RESPONSE_LENGTH	6
-+#define SHT4X_CRC8_POLYNOMIAL	0x31
-+#define SHT4X_CRC8_INIT		0xff
-+#define SHT4X_MIN_TEMPERATURE	-45000
-+#define SHT4X_MAX_TEMPERATURE	125000
-+#define SHT4X_MIN_HUMIDITY	0
-+#define SHT4X_MAX_HUMIDITY	100000
++	if (argc < 2) {
++		printf("Usage: %s <FILE>\n", PROG_NAME);
++		exit(EXIT_FAILURE);
++	}
 +
-+DECLARE_CRC8_TABLE(sht4x_crc8_table);
++	rc =3D removexattr(argv[1], XATTR_NAME_BRUTE);
++	if (rc)
++		error_failure("removexattr");
 +
-+/**
-+ * struct sht4x_data - All the data required to operate an SHT4X chip
-+ * @client: the i2c client associated with the SHT4X
-+ * @lock: a mutex that is used to prevent parallel access to the i2c client
-+ * @update_interval: the minimum poll interval
-+ * @last_updated: the previous time that the SHT4X was polled
-+ * @temperature: the latest temperature value received from the SHT4X
-+ * @humidity: the latest humidity value received from the SHT4X
-+ */
-+struct sht4x_data {
-+	struct i2c_client	*client;
-+	struct mutex		lock;	/* atomic read data updates */
-+	bool			valid;	/* validity of fields below */
-+	long			update_interval;	/* in milli-seconds */
-+	long			last_updated;	/* in jiffies */
-+	s32			temperature;
-+	s32			humidity;
++	return EXIT_SUCCESS;
++}
+diff --git a/tools/testing/selftests/brute/test.c b/tools/testing/selftest=
+s/brute/test.c
+new file mode 100644
+index 000000000000..44c32f446dca
+=2D-- /dev/null
++++ b/tools/testing/selftests/brute/test.c
+@@ -0,0 +1,507 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <arpa/inet.h>
++#include <errno.h>
++#include <libgen.h>
++#include <pwd.h>
++#include <signal.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/socket.h>
++#include <sys/time.h>
++#include <sys/types.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++static const char *message =3D "message";
++
++enum mode {
++	MODE_NONE,
++	MODE_CRASH,
++	MODE_SERVER_CRASH,
++	MODE_CLIENT,
 +};
 +
-+/**
-+ * sht4x_read_values() - read and parse the raw data from the SHT4X
-+ * @sht4x_data: the struct sht4x_data to use for the lock
-+ * Return: 0 if succesfull, 1 if not
-+ */
-+static int sht4x_read_values(struct sht4x_data *data)
++enum crash_after {
++	CRASH_AFTER_NONE,
++	CRASH_AFTER_FORK,
++	CRASH_AFTER_EXEC,
++};
++
++enum signal_from {
++	SIGNAL_FROM_NONE,
++	SIGNAL_FROM_USER,
++	SIGNAL_FROM_KERNEL,
++};
++
++struct args {
++	uint32_t ip;
++	uint16_t port;
++	int counter;
++	long timeout;
++	enum mode mode;
++	enum crash_after crash_after;
++	enum signal_from signal_from;
++	unsigned char has_counter : 1;
++	unsigned char has_change_priv : 1;
++	unsigned char has_ip : 1;
++	unsigned char has_port : 1;
++	unsigned char has_timeout : 1;
++};
++
++#define OPT_STRING "hm:c:s:n:Ca:p:t:"
++
++static void usage(const char *prog)
++{
++	printf("Usage: %s <OPTIONS>\n", prog);
++	printf("OPTIONS:\n");
++	printf("  -h: Show this help and exit. Optional.\n");
++	printf("  -m (crash | server_crash | client): Mode. Required.\n");
++	printf("Options for crash mode:\n");
++	printf("  -c (fork | exec): Crash after. Optional.\n");
++	printf("  -s (user | kernel): Signal from. Required.\n");
++	printf("  -n counter: Number of crashes.\n");
++	printf("              Required if the option -c is used.\n");
++	printf("              Not used without the option -c.\n");
++	printf("              Range from 1 to INT_MAX.\n");
++	printf("  -C: Change privileges before crash. Optional.\n");
++	printf("Options for server_crash mode:\n");
++	printf("  -a ip: Ip v4 address to accept. Required.\n");
++	printf("  -p port: Port number. Required.\n");
++	printf("           Range from 1 to UINT16_MAX.\n");
++	printf("  -t secs: Accept timeout. Required.\n");
++	printf("           Range from 1 to LONG_MAX.\n");
++	printf("  -c (fork | exec): Crash after. Required.\n");
++	printf("  -s (user | kernel): Signal from. Required.\n");
++	printf("  -n counter: Number of crashes. Required.\n");
++	printf("              Range from 1 to INT_MAX.\n");
++	printf("Options for client mode:\n");
++	printf("  -a ip: Ip v4 address to connect. Required.\n");
++	printf("  -p port: Port number. Required.\n");
++	printf("           Range from 1 to UINT16_MAX.\n");
++	printf("  -t secs: Connect timeout. Required.\n");
++	printf("           Range from 1 to LONG_MAX.\n");
++}
++
++static __attribute__((noreturn)) void info_failure(const char *message,
++						   const char *prog)
++{
++	printf("%s\n", message);
++	usage(prog);
++	exit(EXIT_FAILURE);
++}
++
++static enum mode get_mode(const char *text, const char *prog)
++{
++	if (!strcmp(text, "crash"))
++		return MODE_CRASH;
++
++	if (!strcmp(text, "server_crash"))
++		return MODE_SERVER_CRASH;
++
++	if (!strcmp(text, "client"))
++		return MODE_CLIENT;
++
++	info_failure("Invalid mode option [-m].", prog);
++}
++
++static enum crash_after get_crash_after(const char *text, const char *pro=
+g)
++{
++	if (!strcmp(text, "fork"))
++		return CRASH_AFTER_FORK;
++
++	if (!strcmp(text, "exec"))
++		return CRASH_AFTER_EXEC;
++
++	info_failure("Invalid crash after option [-c].", prog);
++}
++
++static enum signal_from get_signal_from(const char *text, const char *pro=
+g)
++{
++	if (!strcmp(text, "user"))
++		return SIGNAL_FROM_USER;
++
++	if (!strcmp(text, "kernel"))
++		return SIGNAL_FROM_KERNEL;
++
++	info_failure("Invalid signal from option [-s]", prog);
++}
++
++static int get_counter(const char *text, const char *prog)
++{
++	int counter;
++
++	counter =3D atoi(text);
++	if (counter > 0)
++		return counter;
++
++	info_failure("Invalid counter option [-n].", prog);
++}
++
++static __attribute__((noreturn)) void error_failure(const char *message)
++{
++	perror(message);
++	exit(EXIT_FAILURE);
++}
++
++static uint32_t get_ip(const char *text, const char *prog)
 +{
 +	int ret;
-+	u16 t_ticks, rh_ticks;
-+	unsigned long next_update;
-+	struct i2c_client *client = data->client;
-+	u8 crc, raw_data[SHT4X_RESPONSE_LENGTH],
-+	cmd[] = {SHT4X_CMD_MEASURE_HPM};
++	uint32_t ip;
 +
-+	mutex_lock(&data->lock);
-+	next_update = data->last_updated +
-+		      msecs_to_jiffies(data->update_interval);
-+	if (!data->valid || time_after(jiffies, next_update)) {
-+		ret = i2c_master_send(client, cmd, SHT4X_CMD_LEN);
-+		if (ret < 0)
-+			goto unlock;
++	ret =3D inet_pton(AF_INET, text, &ip);
++	if (!ret)
++		info_failure("Invalid ip option [-a].", prog);
++	else if (ret < 0)
++		error_failure("inet_pton");
 +
-+		usleep_range(SHT4X_MEAS_DELAY,
-+			     SHT4X_MEAS_DELAY + SHT4X_DELAY_EXTRA);
++	return ip;
++}
 +
-+		ret = i2c_master_recv(client, raw_data, SHT4X_RESPONSE_LENGTH);
-+		if (ret != SHT4X_RESPONSE_LENGTH) {
-+			if (ret >= 0)
-+				ret = -ENODATA;
++static uint16_t get_port(const char *text, const char *prog)
++{
++	long port;
 +
-+			goto unlock;
++	port =3D atol(text);
++	if ((port > 0) && (port <=3D UINT16_MAX))
++		return htons(port);
++
++	info_failure("Invalid port option [-p].", prog);
++}
++
++static long get_timeout(const char *text, const char *prog)
++{
++	long timeout;
++
++	timeout =3D atol(text);
++	if (timeout > 0)
++		return timeout;
++
++	info_failure("Invalid timeout option [-t].", prog);
++}
++
++static void check_args(const struct args *args, const char *prog)
++{
++	if (args->mode =3D=3D MODE_CRASH && args->crash_after !=3D CRASH_AFTER_N=
+ONE &&
++	    args->signal_from !=3D SIGNAL_FROM_NONE && args->has_counter &&
++	    !args->has_ip && !args->has_port && !args->has_timeout)
++		return;
++
++	if (args->mode =3D=3D MODE_CRASH && args->signal_from !=3D SIGNAL_FROM_N=
+ONE &&
++	    args->crash_after =3D=3D CRASH_AFTER_NONE && !args->has_counter &&
++	    !args->has_ip && !args->has_port && !args->has_timeout)
++		return;
++
++	if (args->mode =3D=3D MODE_SERVER_CRASH && args->has_ip && args->has_por=
+t &&
++	    args->has_timeout && args->crash_after !=3D CRASH_AFTER_NONE &&
++	    args->signal_from !=3D SIGNAL_FROM_NONE && args->has_counter &&
++	    !args->has_change_priv)
++		return;
++
++	if (args->mode =3D=3D MODE_CLIENT && args->has_ip && args->has_port &&
++	    args->has_timeout && args->crash_after =3D=3D CRASH_AFTER_NONE &&
++	    args->signal_from =3D=3D SIGNAL_FROM_NONE && !args->has_counter &&
++	    !args->has_change_priv)
++		return;
++
++	info_failure("Invalid use of options.", prog);
++}
++
++static uid_t get_non_root_uid(void)
++{
++	struct passwd *pwent;
++	uid_t uid;
++
++	while (true) {
++		errno =3D 0;
++		pwent =3D getpwent();
++		if (!pwent) {
++			if (errno) {
++				perror("getpwent");
++				endpwent();
++				exit(EXIT_FAILURE);
++			}
++			break;
 +		}
 +
-+		t_ticks = raw_data[0] << 8 | raw_data[1];
-+		rh_ticks = raw_data[3] << 8 | raw_data[4];
++		if (pwent->pw_uid) {
++			uid =3D pwent->pw_uid;
++			endpwent();
++			return uid;
++		}
++	}
 +
-+		crc = crc8(sht4x_crc8_table, &raw_data[0], SHT4X_WORD_LEN, CRC8_INIT_VALUE);
-+		if (crc != raw_data[2]) {
-+			dev_err(&client->dev, "data integrity check failed\n");
-+			ret = -EIO;
-+			goto unlock;
++	endpwent();
++	printf("A user different of root is needed.\n");
++	exit(EXIT_FAILURE);
++}
++
++static inline void do_sigsegv(void)
++{
++	int *p =3D NULL;
++	*p =3D 0;
++}
++
++static void do_sigkill(void)
++{
++	int ret;
++
++	ret =3D kill(getpid(), SIGKILL);
++	if (ret)
++		error_failure("kill");
++}
++
++static void crash(enum signal_from signal_from, bool change_priv)
++{
++	int ret;
++
++	if (change_priv) {
++		ret =3D setuid(get_non_root_uid());
++		if (ret)
++			error_failure("setuid");
++	}
++
++	if (signal_from =3D=3D SIGNAL_FROM_KERNEL)
++		do_sigsegv();
++
++	do_sigkill();
++}
++
++static void execve_crash(char *const argv[])
++{
++	execve(argv[0], argv, NULL);
++	error_failure("execve");
++}
++
++static void exec_crash_user(void)
++{
++	char *const argv[] =3D {
++		"./test", "-m", "crash", "-s", "user", NULL,
++	};
++
++	execve_crash(argv);
++}
++
++static void exec_crash_user_change_priv(void)
++{
++	char *const argv[] =3D {
++		"./test", "-m", "crash", "-s", "user", "-C", NULL,
++	};
++
++	execve_crash(argv);
++}
++
++static void exec_crash_kernel(void)
++{
++	char *const argv[] =3D {
++		"./test", "-m", "crash", "-s", "kernel", NULL,
++	};
++
++	execve_crash(argv);
++}
++
++static void exec_crash_kernel_change_priv(void)
++{
++	char *const argv[] =3D {
++		"./test", "-m", "crash", "-s", "kernel", "-C", NULL,
++	};
++
++	execve_crash(argv);
++}
++
++static void exec_crash(enum signal_from signal_from, bool change_priv)
++{
++	if (signal_from =3D=3D SIGNAL_FROM_USER && !change_priv)
++		exec_crash_user();
++	if (signal_from =3D=3D SIGNAL_FROM_USER && change_priv)
++		exec_crash_user_change_priv();
++	if (signal_from =3D=3D SIGNAL_FROM_KERNEL && !change_priv)
++		exec_crash_kernel();
++	if (signal_from =3D=3D SIGNAL_FROM_KERNEL && change_priv)
++		exec_crash_kernel_change_priv();
++}
++
++static void do_crash(enum crash_after crash_after, enum signal_from signa=
+l_from,
++		     int counter, bool change_priv)
++{
++	pid_t pid;
++	int status;
++
++	if (crash_after =3D=3D CRASH_AFTER_NONE)
++		crash(signal_from, change_priv);
++
++	while (counter > 0) {
++		pid =3D fork();
++		if (pid < 0)
++			error_failure("fork");
++
++		/* Child process */
++		if (!pid) {
++			if (crash_after =3D=3D CRASH_AFTER_FORK)
++				crash(signal_from, change_priv);
++
++			exec_crash(signal_from, change_priv);
 +		}
 +
-+		crc = crc8(sht4x_crc8_table, &raw_data[3], SHT4X_WORD_LEN, CRC8_INIT_VALUE);
-+		if (crc != raw_data[5]) {
-+			dev_err(&client->dev, "data integrity check failed\n");
-+			ret = -EIO;
-+			goto unlock;
++		/* Parent process */
++		counter -=3D 1;
++		pid =3D waitpid(pid, &status, 0);
++		if (pid < 0)
++			error_failure("waitpid");
++	}
++}
++
++static __attribute__((noreturn)) void error_close_failure(const char *mes=
+sage,
++							  int fd)
++{
++	perror(message);
++	close(fd);
++	exit(EXIT_FAILURE);
++}
++
++static void do_server(uint32_t ip, uint16_t port, long accept_timeout)
++{
++	int sockfd;
++	int ret;
++	struct sockaddr_in address;
++	struct timeval timeout;
++	int newsockfd;
++
++	sockfd =3D socket(AF_INET, SOCK_STREAM, 0);
++	if (sockfd < 0)
++		error_failure("socket");
++
++	address.sin_family =3D AF_INET;
++	address.sin_addr.s_addr =3D ip;
++	address.sin_port =3D port;
++
++	ret =3D bind(sockfd, (const struct sockaddr *)&address, sizeof(address))=
+;
++	if (ret)
++		error_close_failure("bind", sockfd);
++
++	ret =3D listen(sockfd, 1);
++	if (ret)
++		error_close_failure("listen", sockfd);
++
++	timeout.tv_sec =3D accept_timeout;
++	timeout.tv_usec =3D 0;
++	ret =3D setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,
++			 (const struct timeval *)&timeout, sizeof(timeout));
++	if (ret)
++		error_close_failure("setsockopt", sockfd);
++
++	newsockfd =3D accept(sockfd, NULL, NULL);
++	if (newsockfd < 0)
++		error_close_failure("accept", sockfd);
++
++	close(sockfd);
++	close(newsockfd);
++}
++
++static void do_client(uint32_t ip, uint16_t port, long connect_timeout)
++{
++	int sockfd;
++	int ret;
++	struct timeval timeout;
++	struct sockaddr_in address;
++
++	sockfd =3D socket(AF_INET, SOCK_STREAM, 0);
++	if (sockfd < 0)
++		error_failure("socket");
++
++	timeout.tv_sec =3D connect_timeout;
++	timeout.tv_usec =3D 0;
++	ret =3D setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO,
++			 (const struct timeval *)&timeout, sizeof(timeout));
++	if (ret)
++		error_close_failure("setsockopt", sockfd);
++
++	address.sin_family =3D AF_INET;
++	address.sin_addr.s_addr =3D ip;
++	address.sin_port =3D port;
++
++	ret =3D connect(sockfd, (const struct sockaddr *)&address,
++		      sizeof(address));
++	if (ret)
++		error_close_failure("connect", sockfd);
++
++	ret =3D write(sockfd, message, strlen(message));
++	if (ret < 0)
++		error_close_failure("write", sockfd);
++
++	close(sockfd);
++}
++
++#define PROG_NAME basename(argv[0])
++
++int main(int argc, char **argv)
++{
++	int opt;
++	struct args args =3D {
++		.mode =3D MODE_NONE,
++		.crash_after =3D CRASH_AFTER_NONE,
++		.signal_from =3D SIGNAL_FROM_NONE,
++		.has_counter =3D false,
++		.has_change_priv =3D false,
++		.has_ip =3D false,
++		.has_port =3D false,
++		.has_timeout =3D false,
++	};
++
++	while ((opt =3D getopt(argc, argv, OPT_STRING)) !=3D -1) {
++		switch (opt) {
++		case 'h':
++			usage(PROG_NAME);
++			return EXIT_SUCCESS;
++		case 'm':
++			args.mode =3D get_mode(optarg, PROG_NAME);
++			break;
++		case 'c':
++			args.crash_after =3D get_crash_after(optarg, PROG_NAME);
++			break;
++		case 's':
++			args.signal_from =3D get_signal_from(optarg, PROG_NAME);
++			break;
++		case 'n':
++			args.counter =3D get_counter(optarg, PROG_NAME);
++			args.has_counter =3D true;
++			break;
++		case 'C':
++			args.has_change_priv =3D true;
++			break;
++		case 'a':
++			args.ip =3D get_ip(optarg, PROG_NAME);
++			args.has_ip =3D true;
++			break;
++		case 'p':
++			args.port =3D get_port(optarg, PROG_NAME);
++			args.has_port =3D true;
++			break;
++		case 't':
++			args.timeout =3D get_timeout(optarg, PROG_NAME);
++			args.has_timeout =3D true;
++			break;
++		default:
++			usage(PROG_NAME);
++			return EXIT_FAILURE;
 +		}
-+
-+		data->temperature = ((21875 * (int32_t)t_ticks) >> 13) - 45000;
-+		data->humidity = ((15625 * (int32_t)rh_ticks) >> 13) - 6000;
-+		data->last_updated = jiffies;
-+		data->valid = true;
 +	}
 +
-+unlock:
-+	mutex_unlock(&data->lock);
-+	return ret;
-+}
++	check_args(&args, PROG_NAME);
 +
-+static ssize_t sht4x_interval_write(struct sht4x_data *data,
-+				    long val)
-+{
-+
-+	data->update_interval = clamp_val(val, SHT4X_MIN_POLL_INTERVAL,
-+					  UINT_MAX);
-+
-+	return 0;
-+}
-+
-+/**
-+ * sht4x_interval_read() - read the minimum poll interval
-+ *			   in milliseconds
-+ */
-+static size_t sht4x_interval_read(struct sht4x_data *data,
-+				  long *val)
-+{
-+	*val = data->update_interval;
-+	return 0;
-+}
-+
-+/**
-+ * sht4x_temperature1_read() - read the temperature in millidegrees
-+ */
-+static int sht4x_temperature1_read(struct sht4x_data *data, long *val)
-+{
-+	int ret;
-+
-+	ret = sht4x_read_values(data);
-+	if (ret < 0)
-+		return ret;
-+
-+	*val = data->temperature;
-+
-+	return 0;
-+}
-+
-+/**
-+ * sht4x_humidity1_read() - read a relative humidity in millipercent
-+ */
-+static int sht4x_humidity1_read(struct sht4x_data *data, long *val)
-+{
-+	int ret;
-+
-+	ret = sht4x_read_values(data);
-+	if (ret < 0)
-+		return ret;
-+
-+	*val = data->humidity;
-+
-+	return 0;
-+}
-+
-+static umode_t sht4x_hwmon_visible(const void *data,
-+				   enum hwmon_sensor_types type,
-+				   u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_temp:
-+	case hwmon_humidity:
-+		return 0444;
-+	case hwmon_chip:
-+		return 0644;
-+	default:
-+		return 0;
++	if (args.mode =3D=3D MODE_CRASH) {
++		do_crash(args.crash_after, args.signal_from, args.counter,
++			 args.has_change_priv);
++	} else if (args.mode =3D=3D MODE_SERVER_CRASH) {
++		do_server(args.ip, args.port, args.timeout);
++		do_crash(args.crash_after, args.signal_from, args.counter,
++			 false);
++	} else if (args.mode =3D=3D MODE_CLIENT) {
++		do_client(args.ip, args.port, args.timeout);
 +	}
-+}
 +
-+static int sht4x_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-+			    u32 attr, int channel, long *val)
++	return EXIT_SUCCESS;
++}
+diff --git a/tools/testing/selftests/brute/test.sh b/tools/testing/selftes=
+ts/brute/test.sh
+new file mode 100755
+index 000000000000..47173f38a7c6
+=2D-- /dev/null
++++ b/tools/testing/selftests/brute/test.sh
+@@ -0,0 +1,256 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++TCID=3D"test.sh"
++
++KSFT_PASS=3D0
++KSFT_FAIL=3D1
++KSFT_SKIP=3D4
++
++errno=3D$KSFT_PASS
++
++check_root()
 +{
-+	struct sht4x_data *data = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		return sht4x_temperature1_read(data, val);
-+	case hwmon_humidity:
-+		return sht4x_humidity1_read(data, val);
-+	case hwmon_chip:
-+		return sht4x_interval_read(data, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
++	local uid=3D$(id -u)
++	if [ $uid -ne 0 ]; then
++		echo $TCID: must be run as root >&2
++		exit $KSFT_SKIP
++	fi
 +}
 +
-+static int sht4x_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
-+			     u32 attr, int channel, long val)
++tmp_files_setup()
 +{
-+	struct sht4x_data *data = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_chip:
-+		return sht4x_interval_write(data, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
++	DMESG=3D$(mktemp --tmpdir -t brute-dmesg-XXXXXX)
 +}
 +
-+static const struct hwmon_channel_info *sht4x_info[] = {
-+	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-+	HWMON_CHANNEL_INFO(humidity, HWMON_H_INPUT),
-+	NULL,
-+};
-+
-+static const struct hwmon_ops sht4x_hwmon_ops = {
-+	.is_visible = sht4x_hwmon_visible,
-+	.read = sht4x_hwmon_read,
-+	.write = sht4x_hwmon_write,
-+};
-+
-+static const struct hwmon_chip_info sht4x_chip_info = {
-+	.ops = &sht4x_hwmon_ops,
-+	.info = sht4x_info,
-+};
-+
-+static int sht4x_probe(struct i2c_client *client,
-+		       const struct i2c_device_id *sht4x_id)
++tmp_files_cleanup()
 +{
-+	struct device *device = &client->dev;
-+	struct device *hwmon_dev;
-+	struct sht4x_data *data;
-+	u8 cmd[] = {SHT4X_CMD_RESET};
-+	int ret;
-+
-+	/*
-+	 * we require full i2c support since the sht4x uses multi-byte read and
-+	 * writes as well as multi-byte commands which are not supported by
-+	 * the smbus protocol
-+	 */
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-+		return -EOPNOTSUPP;
-+
-+	data = devm_kzalloc(device, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->update_interval = SHT4X_MIN_POLL_INTERVAL;
-+	data->client = client;
-+
-+	mutex_init(&data->lock);
-+
-+	crc8_populate_msb(sht4x_crc8_table, SHT4X_CRC8_POLYNOMIAL);
-+
-+	ret = i2c_master_send(client, cmd, SHT4X_CMD_LEN);
-+	if (ret < 0)
-+		return ret;
-+	if (ret != SHT4X_CMD_LEN)
-+		return -EIO;
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(device,
-+							 client->name,
-+							 data,
-+							 &sht4x_chip_info,
-+							 NULL);
-+
-+	return PTR_ERR_OR_ZERO(hwmon_dev);
++	rm -f "$DMESG"
 +}
 +
-+static const struct i2c_device_id sht4x_id[] = {
-+	{ "sht4x", 0 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(i2c, sht4x_id);
++save_dmesg()
++{
++	dmesg > "$DMESG"
++}
 +
-+static struct i2c_driver sht4x_driver = {
-+	.driver = {
-+		.name = "sht4x",
-+	},
-+	.probe		= sht4x_probe,
-+	.id_table	= sht4x_id,
-+};
++count_attack_matches()
++{
++	dmesg | comm --nocheck-order -13 "$DMESG" - | \
++		grep "brute: fork brute force attack detected" | wc -l
++}
 +
-+module_i2c_driver(sht4x_driver);
++assert_equal()
++{
++	local val1=3D$1
++	local val2=3D$2
 +
-+MODULE_AUTHOR("Navin Sankar Velliangiri <navin@linumiz.com>");
-+MODULE_DESCRIPTION("Sensirion SHT4x humidity and temperature sensor driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.31.1
++	if [ $val1 -eq $val2 ]; then
++		echo "$TCID: $message [PASS]"
++	else
++		echo "$TCID: $message [FAIL]"
++		errno=3D$KSFT_FAIL
++	fi
++}
++
++test_fork_user()
++{
++	COUNTER=3D20
++
++	save_dmesg
++	./test -m crash -c fork -s user -n $COUNTER
++	count=3D$(count_attack_matches)
++
++	message=3D"Fork attack (user signals, no bounds crossed)"
++	assert_equal $count 0
++}
++
++test_fork_kernel()
++{
++	save_dmesg
++	./test -m crash -c fork -s kernel -n $COUNTER
++	count=3D$(count_attack_matches)
++
++	message=3D"Fork attack (kernel signals, no bounds crossed)"
++	assert_equal $count 0
++}
++
++test_exec_user()
++{
++	save_dmesg
++	./test -m crash -c exec -s user -n $COUNTER
++	count=3D$(count_attack_matches)
++
++	message=3D"Exec attack (user signals, no bounds crossed)"
++	assert_equal $count 0
++}
++
++test_exec_kernel()
++{
++	save_dmesg
++	./test -m crash -c exec -s kernel -n $COUNTER
++	count=3D$(count_attack_matches)
++
++	message=3D"Exec attack (kernel signals, no bounds crossed)"
++	assert_equal $count 0
++}
++
++assert_not_equal()
++{
++	local val1=3D$1
++	local val2=3D$2
++
++	if [ $val1 -ne $val2 ]; then
++		echo $TCID: $message [PASS]
++	else
++		echo $TCID: $message [FAIL]
++		errno=3D$KSFT_FAIL
++	fi
++}
++
++remove_xattr()
++{
++	./rmxattr test >/dev/null 2>&1
++}
++
++test_fork_kernel_setuid()
++{
++	save_dmesg
++	chmod u+s test
++	./test -m crash -c fork -s kernel -n $COUNTER
++	chmod u-s test
++	count=3D$(count_attack_matches)
++
++	message=3D"Fork attack (kernel signals, setuid binary)"
++	assert_not_equal $count 0
++	remove_xattr
++}
++
++test_exec_kernel_setuid()
++{
++	save_dmesg
++	chmod u+s test
++	./test -m crash -c exec -s kernel -n $COUNTER
++	chmod u-s test
++	count=3D$(count_attack_matches)
++
++	message=3D"Exec attack (kernel signals, setuid binary)"
++	assert_not_equal $count 0
++	remove_xattr
++}
++
++test_fork_kernel_change_priv()
++{
++	save_dmesg
++	./test -m crash -c fork -s kernel -n $COUNTER -C
++	count=3D$(count_attack_matches)
++
++	message=3D"Fork attack (kernel signals, change privileges)"
++	assert_not_equal $count 0
++	remove_xattr
++}
++
++test_exec_kernel_change_priv()
++{
++	save_dmesg
++	./test -m crash -c exec -s kernel -n $COUNTER -C
++	count=3D$(count_attack_matches)
++
++	message=3D"Exec attack (kernel signals, change privileges)"
++	assert_not_equal $count 0
++	remove_xattr
++}
++
++network_ns_setup()
++{
++	local vnet_name=3D$1
++	local veth_name=3D$2
++	local ip_src=3D$3
++	local ip_dst=3D$4
++
++	ip netns add $vnet_name
++	ip link set $veth_name netns $vnet_name
++	ip -n $vnet_name addr add $ip_src/24 dev $veth_name
++	ip -n $vnet_name link set $veth_name up
++	ip -n $vnet_name route add $ip_dst/24 dev $veth_name
++}
++
++network_setup()
++{
++	VETH0_NAME=3Dveth0
++	VNET0_NAME=3Dvnet0
++	VNET0_IP=3D10.0.1.0
++	VETH1_NAME=3Dveth1
++	VNET1_NAME=3Dvnet1
++	VNET1_IP=3D10.0.2.0
++
++	ip link add $VETH0_NAME type veth peer name $VETH1_NAME
++	network_ns_setup $VNET0_NAME $VETH0_NAME $VNET0_IP $VNET1_IP
++	network_ns_setup $VNET1_NAME $VETH1_NAME $VNET1_IP $VNET0_IP
++}
++
++test_fork_kernel_network_to_local()
++{
++	INADDR_ANY=3D0.0.0.0
++	PORT=3D65535
++	TIMEOUT=3D5
++
++	save_dmesg
++	ip netns exec $VNET0_NAME ./test -m server_crash -a $INADDR_ANY \
++		-p $PORT -t $TIMEOUT -c fork -s kernel -n $COUNTER &
++	sleep 1
++	ip netns exec $VNET1_NAME ./test -m client -a $VNET0_IP -p $PORT \
++		-t $TIMEOUT
++	sleep 1
++	count=3D$(count_attack_matches)
++
++	message=3D"Fork attack (kernel signals, network to local)"
++	assert_not_equal $count 0
++	remove_xattr
++}
++
++test_exec_kernel_network_to_local()
++{
++	save_dmesg
++	ip netns exec $VNET0_NAME ./test -m server_crash -a $INADDR_ANY \
++		-p $PORT -t $TIMEOUT -c exec -s kernel -n $COUNTER &
++	sleep 1
++	ip netns exec $VNET1_NAME ./test -m client -a $VNET0_IP -p $PORT \
++		-t $TIMEOUT
++	sleep 1
++	count=3D$(count_attack_matches)
++
++	message=3D"Exec attack (kernel signals, network to local)"
++	assert_not_equal $count 0
++	remove_xattr
++}
++
++network_cleanup()
++{
++	ip netns del $VNET0_NAME >/dev/null 2>&1
++	ip netns del $VNET1_NAME >/dev/null 2>&1
++	ip link delete $VETH0_NAME >/dev/null 2>&1
++	ip link delete $VETH1_NAME >/dev/null 2>&1
++}
++
++cleanup()
++{
++        network_cleanup
++	tmp_files_cleanup
++	remove_xattr
++}
++trap cleanup EXIT
++
++check_root
++tmp_files_setup
++test_fork_user
++test_fork_kernel
++test_exec_user
++test_exec_kernel
++test_fork_kernel_setuid
++test_exec_kernel_setuid
++test_fork_kernel_change_priv
++test_exec_kernel_change_priv
++network_setup
++test_fork_kernel_network_to_local
++test_exec_kernel_network_to_local
++exit $errno
+=2D-
+2.25.1
 
