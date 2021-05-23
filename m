@@ -2,103 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BD02C4707A
-	for <linux-doc@archiver.kernel.org>; Sun, 23 May 2021 14:32:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 219CDC4707A
+	for <linux-doc@archiver.kernel.org>; Sun, 23 May 2021 14:43:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BACF601FA
-	for <linux-doc@archiver.kernel.org>; Sun, 23 May 2021 14:32:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 000116109E
+	for <linux-doc@archiver.kernel.org>; Sun, 23 May 2021 14:43:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231771AbhEWOeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 May 2021 10:34:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231769AbhEWOeY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 May 2021 10:34:24 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4F6EC061574;
-        Sun, 23 May 2021 07:32:56 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id q67so1658687pfb.4;
-        Sun, 23 May 2021 07:32:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=80oEOEMtjRDbSB+qf+VpWW8ktshD+Ev6RXgmcb2Yryg=;
-        b=LJgraF0zltHesYML2Hh6g8kAJJKk1IY9s6V3w9sPul6auOktjjaN1eIVLaIj0gRRIA
-         +GpEEfArRBpYmYt8FHuQbol/acDgcWlsyM/9pZBma4IKGnqFZPQ+a3aZbaduSBB5vXT1
-         9/ZJ6KbDhc3mBPSmAC6US+zebuwf+Muk/JcWqUwVL+RDBxojmTqf76EIK5iLQQq3WDRb
-         aaf6lgPM55SpuLlRf23nvNBfyzOiBFC7zQeIKXdLYAtagbS/IkiF3rvGmJEEYFaFu/Lw
-         OXt4zdOxetI8SUnAC2fk3lTVdHkakdaHTPdYEzrIDN2lzyR68+Ed2vjv0VIytVDEd3Jf
-         /5lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=80oEOEMtjRDbSB+qf+VpWW8ktshD+Ev6RXgmcb2Yryg=;
-        b=orZEscEVMiA2hNqWq3obD796YpvlYM8SuYXNJcjxqAu8CtFkWxBoJpGvGwjxCkYsnZ
-         RNCNM1glW+EXv3A0uz+mNrOpkgaDA/MT1KGrhyGGAn202/jTUrifqLKd+ROyf/hBXOz5
-         b5K9Uls4lT+GjDQeA11KDuN6n0adT4hcD706ePJcjlSpDLfhBeQYZkroQuokroQvS/cY
-         ++ph7P0P0xfLLlR4jArHxLvehvQD3RVgQkezz2OLSxIWWNUGr05+Tor4XLrICV+20iAM
-         IKcMdhtHtD7uKAbxyn8AHleEoTe5TVItqef5VHEHpEjjzU6+Mhth71XN0YY48akoqJyW
-         +OhA==
-X-Gm-Message-State: AOAM5322soCil5bhpPrXlnN6jUtPh5QauTc15ZX2hd3Lby1oTZT9lJ43
-        l9O3zxYUPwCbj53Cdz8k7Ic=
-X-Google-Smtp-Source: ABdhPJzsmevD/ZAiSNoaU4f+57udZ8vqYKNCuzS0Q5au4B6tdKmWAhLlEXYFD1QUxEedPEKXycOnsw==
-X-Received: by 2002:a62:ab14:0:b029:2db:b3d9:1709 with SMTP id p20-20020a62ab140000b02902dbb3d91709mr19579788pff.80.1621780376223;
-        Sun, 23 May 2021 07:32:56 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a93f:c492:941f:bc2a:cc89])
-        by smtp.googlemail.com with ESMTPSA id t1sm9365231pgl.40.2021.05.23.07.32.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 May 2021 07:32:55 -0700 (PDT)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     will@kernel.org
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        rdunlap@infradead.org, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, joro@8bytes.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] iommu/vt-d: fix kernel-doc syntax in file header
-Date:   Sun, 23 May 2021 20:02:45 +0530
-Message-Id: <20210523143245.19040-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S231776AbhEWOop (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 May 2021 10:44:45 -0400
+Received: from mga07.intel.com ([134.134.136.100]:13160 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231769AbhEWOoo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 23 May 2021 10:44:44 -0400
+IronPort-SDR: jdm/FwnGmhZLDcP85XdDkYMrNeuO5BGf7FwDxU63MQVUANEdgn1b+ai82sT0zRCPJDw7fOUc1j
+ L8BphR2hkIHw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="265682215"
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="265682215"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2021 07:43:17 -0700
+IronPort-SDR: bfbTjY++YiuW1i/hCo9WvS45EoK6nkaGMtHPqopj5Sn8M4xVAdmJRzzA8WZN2lrgwLabxiTnlf
+ q4zxKzbNOtFg==
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="613834401"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.252.135.25]) ([10.252.135.25])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2021 07:43:17 -0700
+Subject: Re: [PATCH v7 0/7] Fork brute force attack mitigation
+To:     John Wood <john.wood@gmx.com>
+Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>, valdis.kletnieks@vt.edu,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+References: <20210521172414.69456-1-john.wood@gmx.com>
+ <19903478-52e0-3829-0515-3e17669108f7@linux.intel.com>
+ <20210523073124.GA3762@ubuntu>
+From:   Andi Kleen <ak@linux.intel.com>
+Message-ID: <3d4ddd55-4f42-3ef7-dd68-a9f2bc33ba4b@linux.intel.com>
+Date:   Sun, 23 May 2021 07:43:16 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+MIME-Version: 1.0
+In-Reply-To: <20210523073124.GA3762@ubuntu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The opening comment mark '/**' is used for highlighting the beginning of
-kernel-doc comments.
-The header for drivers/iommu/intel/pasid.c follows this syntax, but
-the content inside does not comply with kernel-doc.
 
-This line was probably not meant for kernel-doc parsing, but is parsed
-due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes unexpected warnings from kernel-doc:
-warning: Function parameter or member 'fmt' not described in 'pr_fmt'
+On 5/23/2021 12:31 AM, John Wood wrote:
+> Hi,
+>
+> On Fri, May 21, 2021 at 11:02:14AM -0700, Andi Kleen wrote:
+>>> Moreover, I think this solves another problem pointed out by Andi Kleen
+>>> during the v5 review [2] related to the possibility that a supervisor
+>>> respawns processes killed by the Brute LSM. He suggested adding some way so
+>>> a supervisor can know that a process has been killed by Brute and then
+>>> decide to respawn or not. So, now, the supervisor can read the brute xattr
+>>> of one executable and know if it is blocked by Brute and why (using the
+>>> statistical data).
+>> It looks better now, Thank.
+>>
+>> One potential problem is that the supervisor might see the executable
+>> directly, but run it through some wrapper. In fact I suspect that will be
+>> fairly common with complex daemons. So it couldn't directly look at the
+>> xattr. Might be useful to also pass this information through the wait*
+>> chain, so that the supervisor can directly collect it. That would need some
+>> extension to these system calls.
+>>
+> Could something like this help? (not tested)
 
-Provide a simple fix by replacing this occurrence with general comment
-format, i.e. '/*', to prevent kernel-doc from parsing it.
+This works even when someone further down the chain died? Assuming it 
+does, for SIGCHLD it seems reasonable.
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- drivers/iommu/intel/pasid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm not fully sure how it will interact with cgroup release tracking 
+though, that might need more research (my understanding is that modern 
+supervisors often use cgroups)
 
-diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
-index 72646bafc52f..aaffb226a6a9 100644
---- a/drivers/iommu/intel/pasid.c
-+++ b/drivers/iommu/intel/pasid.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
--/**
-+/*
-  * intel-pasid.c - PASID idr, table and entry manipulation
-  *
-  * Copyright (C) 2018 Intel Corporation
--- 
-2.17.1
+-Andi
+
 
