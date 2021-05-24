@@ -2,85 +2,210 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CCD0C47088
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 15:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6188C4708C
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 15:10:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FD9D610FC
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 15:10:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C16DD610FC
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 15:10:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234496AbhEXPMG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 May 2021 11:12:06 -0400
-Received: from pv50p00im-hyfv10011601.me.com ([17.58.6.43]:54633 "EHLO
-        pv50p00im-hyfv10011601.me.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234488AbhEXPIG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 11:08:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-        t=1621868783; bh=wvA5ikLwZnEI3QS9n87SZab2KPDLJgG1LFxrfbcnH6Y=;
-        h=From:To:Subject:Date:Message-Id;
-        b=UycgsU+owGV4UizBJ0XMDKcFlf7nZ7LUJuMLTFdAF0liRX6EfyWw80Oh9NSSc8j9M
-         SFce8ssG+fR/4n6WD7dtaCzsjkjtraYMmCjBPwPK8hUILqLyZ6BIqwChwQBRjsbn6A
-         H5LwVCV/JG8iejiq4RsHIa/svVVMwWrny3NZ3mrhNOEwSO7FuAWIvcI9WIzCySKBXt
-         aKuVNWTbPTwcnI1utzL7mRM1K6aitAzVyu3dslTZ9aRDU480tPUrioNmlbuDt8iFiq
-         3YSvpf/X5g4DrJpb2NNvqeSh5LVNoAvxBxRRd4/1i4xsTsvPQRMrUGZjPm2C319gHC
-         eiy1OmRtDtdRA==
-Received: from pek-xsong2-d1.wrs.com (unknown [60.247.85.82])
-        by pv50p00im-hyfv10011601.me.com (Postfix) with ESMTPSA id 826BA3804F0;
-        Mon, 24 May 2021 15:06:20 +0000 (UTC)
-From:   Xiongwei Song <sxwjean@me.com>
-To:     peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        longman@redhat.com, boqun.feng@gmail.com, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiongwei Song <sxwjean@gmail.com>
-Subject: [PATCH] docs: lockdep-design: improve readability of the block matrix
-Date:   Mon, 24 May 2021 23:05:45 +0800
-Message-Id: <1621868745-23311-1-git-send-email-sxwjean@me.com>
-X-Mailer: git-send-email 2.7.4
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-05-24_08:2021-05-24,2021-05-24 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=680 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-2009150000 definitions=main-2105240094
+        id S234604AbhEXPMJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 May 2021 11:12:09 -0400
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:35914 "EHLO
+        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234642AbhEXPIc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 11:08:32 -0400
+Received: from s807.loopia.se (localhost [127.0.0.1])
+        by s807.loopia.se (Postfix) with ESMTP id 3AD1A2E6CBCD
+        for <linux-doc@vger.kernel.org>; Mon, 24 May 2021 17:02:58 +0200 (CEST)
+Received: from s934.loopia.se (unknown [172.22.191.6])
+        by s807.loopia.se (Postfix) with ESMTP id 2ADD72E2B91C;
+        Mon, 24 May 2021 17:02:58 +0200 (CEST)
+Received: from s472.loopia.se (unknown [172.22.191.6])
+        by s934.loopia.se (Postfix) with ESMTP id 26AFD7CE98E;
+        Mon, 24 May 2021 17:02:58 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at amavis.loopia.se
+Received: from s934.loopia.se ([172.22.191.5])
+        by s472.loopia.se (s472.loopia.se [172.22.190.12]) (amavisd-new, port 10024)
+        with LMTP id 3HD0lamuAO5j; Mon, 24 May 2021 17:02:57 +0200 (CEST)
+X-Loopia-Auth: user
+X-Loopia-User: carl@hgsystem.se
+X-Loopia-Originating-IP: 155.4.133.180
+Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
+        (Authenticated sender: carl@hgsystem.se)
+        by s934.loopia.se (Postfix) with ESMTPSA id 685327CE996;
+        Mon, 24 May 2021 17:02:57 +0200 (CEST)
+From:   Erik Rosen <erik.rosen@metormote.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Erik Rosen <erik.rosen@metormote.com>
+Subject: [PATCH v3 6/6] hwmon: (pmbus/pim4328) Add documentation for the pim4328 PMBus driver
+Date:   Mon, 24 May 2021 17:02:46 +0200
+Message-Id: <20210524150246.90546-7-erik.rosen@metormote.com>
+X-Mailer: git-send-email 2.11.0 (Apple Git-81)
+In-Reply-To: <20210524150246.90546-1-erik.rosen@metormote.com>
+References: <20210524150246.90546-1-erik.rosen@metormote.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Xiongwei Song <sxwjean@gmail.com>
+Add documentation and index link for pim4328 PMBus driver.
 
-The block condition matrix is using 'E' as the writer notation, however,
-the writer reminder below the matrix is using 'W', to make them consistent
-and make the matrix more readable, we'd better to use 'W' to represent
-writer.
-
-Suggested-by: Waiman Long <llong@redhat.com>
-Suggested-by: Boqun Feng <boqun.feng@gmail.com>
-Signed-off-by: Xiongwei Song <sxwjean@gmail.com>
+Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
 ---
- Documentation/locking/lockdep-design.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/hwmon/index.rst   |   1 +
+ Documentation/hwmon/pim4328.rst | 105 ++++++++++++++++++++++++++++++++
+ MAINTAINERS                     |   7 +++
+ 3 files changed, 113 insertions(+)
+ create mode 100644 Documentation/hwmon/pim4328.rst
 
-diff --git a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
-index 9f3cfca..82f36ca 100644
---- a/Documentation/locking/lockdep-design.rst
-+++ b/Documentation/locking/lockdep-design.rst
-@@ -453,9 +453,9 @@ There are simply four block conditions:
- Block condition matrix, Y means the row blocks the column, and N means otherwise.
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 9ed60fa84cbe..719625f8f755 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -150,6 +150,7 @@ Hardware Monitoring Kernel Drivers
+    pc87360
+    pc87427
+    pcf8591
++   pim4328
+    pm6764tr
+    pmbus
+    powr1220
+diff --git a/Documentation/hwmon/pim4328.rst b/Documentation/hwmon/pim4328.rst
+new file mode 100644
+index 000000000000..70c9e7a6882c
+--- /dev/null
++++ b/Documentation/hwmon/pim4328.rst
+@@ -0,0 +1,105 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Kernel driver pim4328
++=====================
++
++Supported chips:
++
++  * Flex PIM4328
++
++    Prefix: 'pim4328', 'bmr455'
++
++    Addresses scanned: -
++
++    Datasheet:
++
++https://flexpowermodules.com/resources/fpm-techspec-pim4328
++
++  * Flex PIM4820
++
++    Prefixes: 'pim4820'
++
++    Addresses scanned: -
++
++    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-pim4820
++
++  * Flex PIM4006, PIM4106, PIM4206, PIM4306, PIM4406
++
++    Prefixes: 'pim4006', 'pim4106', 'pim4206', 'pim4306', 'pim4406'
++
++    Addresses scanned: -
++
++    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-pim4006
++
++Author: Erik Rosen <erik.rosen@metormote.com>
++
++
++Description
++-----------
++
++This driver supports hardware monitoring for Flex PIM4328 and
++compatible digital power interface modules.
++
++The driver is a client driver to the core PMBus driver. Please see
++Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
++on PMBus client drivers.
++
++
++Usage Notes
++-----------
++
++This driver does not auto-detect devices. You will have to instantiate the
++devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
++details.
++
++
++Platform data support
++---------------------
++
++The driver supports standard PMBus driver platform data.
++
++
++Sysfs entries
++-------------
++
++The following attributes are supported. All attributes are read-only.
++
++======================= ========================================================
++in1_label		"vin"
++in1_input		Measured input voltage.
++in1_alarm		Input voltage alarm.
++
++in2_label		"vin.0"
++in2_input		Measured input voltage on input A.
++
++			PIM4328 and PIM4X06
++
++in3_label		"vin.1"
++in3_input		Measured input voltage on input B.
++
++			PIM4328 and PIM4X06
++
++in4_label		"vcap"
++in4_input		Measured voltage on holdup capacitor.
++
++			PIM4328
++
++curr1_label		"iin.0"
++curr1_input		Measured input current on input A.
++
++			PIM4X06
++
++curr2_label		"iin.1"
++curr2_input		Measured input current on input B.
++
++			PIM4X06
++
++currX_label		"iout1"
++currX_input		Measured output current.
++currX_alarm		Output current alarm.
++
++			X is 1 for PIM4820, 3 otherwise.
++
++temp1_input		Measured temperature.
++temp1_alarm		High temperature alarm.
++======================= ========================================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bd7aff0c120f..378a121d80f6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14416,6 +14416,13 @@ K:	(?i)pidfd
+ K:	(?i)clone3
+ K:	\b(clone_args|kernel_clone_args)\b
  
- 	+---+---+---+---+
--	|   | E | r | R |
-+	|   | W | r | R |
- 	+---+---+---+---+
--	| E | Y | Y | Y |
-+	| W | Y | Y | Y |
- 	+---+---+---+---+
- 	| r | Y | Y | N |
- 	+---+---+---+---+
++PIM4328 DRIVER
++M:	Daniel Nilsson <daniel.nilsson@flex.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	Documentation/hwmon/pim4328.rst
++F:	drivers/hwmon/pmbus/pim4328.c
++
+ PIN CONTROL SUBSYSTEM
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ L:	linux-gpio@vger.kernel.org
 -- 
-2.7.4
+2.20.1
 
