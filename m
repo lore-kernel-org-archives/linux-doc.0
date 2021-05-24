@@ -2,211 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBD3C2B9F8
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 15:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D22D6C47085
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 15:59:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F02861414
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 15:21:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE0AA6109F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 15:59:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233976AbhEXPWc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 May 2021 11:22:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42632 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234556AbhEXPQC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 11:16:02 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29C1DC061344;
-        Mon, 24 May 2021 07:52:56 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id b5so5212502ilc.12;
-        Mon, 24 May 2021 07:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=yW6xxqoFqjdbNxGybwNPD8otEN5g9CMdaIvijDpl8O0=;
-        b=YG998/Adp6FNLqctJvDtccznSREYmD1mmYlwzYnDEAb3j2lEoIHiRuwAaZ7jRu532r
-         x5zGs1YGgjCF0mNuWeJtPGQN7gjo86NwKcarGrjw3NTlK2oiPvP69c8ujzo7gnY/6Gpq
-         64n3RWSkERQEwI2Yol1Hvx6lDX8Qf2Q37J50cFLC8z67y+f6N9mH7NgE0OZiisSiTF+K
-         TfUQw4AprvwBkE4jtL98xZhGeC72lG76tKl03DUi0PK/wl7qQ2gD5uYAV8MxUZucUygt
-         1oqh0ZfqMDQCMLNEq3ONkvy+8goSVdXLqGs43UPzJJWWxhdd6wPt99yEhQmg87wIkcNr
-         3rOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yW6xxqoFqjdbNxGybwNPD8otEN5g9CMdaIvijDpl8O0=;
-        b=GfPJjPFJrAZt/2zD5QqFVdhLxjQ7R1JdgyrsTfD0+hzTuOnO0DP8ZbIQoEgX8npce9
-         H7HZcNzqrphid+JDRSmMpbp+c7AaIuEyMvew7ntsNgiFSlxyP2yh2irBcSXdwPV0PKt4
-         1ukR58Sa+fPlUEYaK6f0IivBhlFbdajwwIHAgiYTHT2bVrc9nWF5hEzMC1hLY/VA/A6i
-         Mg+hYviUTcG8lIHkPaZ90wGU3XBG+HVi9YkXhI6t1COKuxyVDXnBcF01R4c+8U4MGIvb
-         VguWXZcqMYYfaXNp6O0R5YfHfkA+RleCG0udoU7efTMtZlnoNVi2akociN0uqCyfD0ni
-         kAnQ==
-X-Gm-Message-State: AOAM532qn8yO0EDcnutVDeB5hnlc9vBvRCAkHLeRzx1QrLiTVEeuArrS
-        XU9BvY98/QCD66sohhGBVIU=
-X-Google-Smtp-Source: ABdhPJyf4JdMyvNDf4B94zYpXpKtQnc4BcErdNlGmC9cdsi061geJGkk3D0utp+nBI3kiroqRr/pRw==
-X-Received: by 2002:a92:c5ca:: with SMTP id s10mr5953834ilt.32.1621867975418;
-        Mon, 24 May 2021 07:52:55 -0700 (PDT)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id b10sm11047903ioz.35.2021.05.24.07.52.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 07:52:54 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 8A4B027C0054;
-        Mon, 24 May 2021 10:52:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 24 May 2021 10:52:53 -0400
-X-ME-Sender: <xms:xL2rYN9s7JZK7Ki7BdlpqNe9XYHFRMDrInKNlhi7TE01XI1SphEW-g>
-    <xme:xL2rYBvRBLRnpHtSfTSkHOX2yMujLoPDQGsU2Aicc8MczkK00l-a9CjgUdUNWhtz6
-    8JmwQCtFNHCh4rJjA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledgkeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
-    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
-    htvghrnhepvdelieegudfggeevjefhjeevueevieetjeeikedvgfejfeduheefhffggedv
-    geejnecukfhppedufedurddutdejrddugeejrdduvdeinecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhh
-    phgvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunh
-    drfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:xL2rYLCiLyBUkk6aekMIKrgnjrtIPPCw4mfUoTiAXKKiqOT1luf5aA>
-    <xmx:xL2rYBfRlV8Ec925v5Tm2ob-gn3WlpvjrUtcOrcxu-fWqD8NYBfy0A>
-    <xmx:xL2rYCN1HDwRQ3Kt9mH50e2X_D65IeTxCpKcAp_C2IJm_YMUU9UuNA>
-    <xmx:xb2rYBfYgJEY1C7h1T-nLU5WcdguG-t-ZdBlAECUFixiBUp_Qd7I_ccxtIY>
-Received: from localhost (unknown [131.107.147.126])
-        by mail.messagingengine.com (Postfix) with ESMTPA;
-        Mon, 24 May 2021 10:52:52 -0400 (EDT)
-Date:   Mon, 24 May 2021 22:52:16 +0800
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     Waiman Long <llong@redhat.com>
-Cc:     Xiongwei Song <sxwjean@gmail.com>, Xiongwei Song <sxwjean@me.com>,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        corbet@lwn.net,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: lockdep-design: correct the notation for writer
-Message-ID: <YKu9oDtJ7l00k+Yh@boqun-archlinux>
-References: <1621578594-13237-1-git-send-email-sxwjean@me.com>
- <e0c0302f-e63f-7eba-872b-85e21b0b1622@redhat.com>
- <CAEVVKH9nwPmQo8L-eRsWST+gPaJ73MSHZfJ-mM8qWvPaiejdrA@mail.gmail.com>
- <YKuAvt3WXBVASuhY@boqun-archlinux>
- <ab3c5c38-1447-99e1-ee22-9e5af906d8b4@redhat.com>
+        id S235546AbhEXQBA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 May 2021 12:01:00 -0400
+Received: from m32-153.88.com ([43.250.32.153]:60956 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235702AbhEXQAJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 May 2021 12:00:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=eTi1+Ts+2Eo57YYXEQfPHusA2s3E5JfUy53ss
+        sDiL7A=; b=lawxqCx5Oz/PZTRgGYJSV3O5fWUGiJDnVY8z6z2ePoJZ/c/1GRBl6
+        FZuqpKvg0/EM8t7vi6apjH+u5g+X3Xa8kcrUa+ZIm14KMtoMge9Gs+ptPv4hzka4
+        o3k3UwIQdQnyZkZX1Qbed/mkUFxAw2S7UjJ8U+8F64b2pDZJhgecrE=
+Received: from bobwxc.top (unknown [120.238.248.9])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDXJlkgzatgBVFGAA--.41751S2;
+        Mon, 24 May 2021 23:58:26 +0800 (CST)
+Date:   Mon, 24 May 2021 23:58:24 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Hu Haowen <src.res@email.cn>
+Cc:     alexs@kernel.org, corbet@lwn.net, maskray@google.com,
+        bernard@vivo.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] docs/zh_CN: create new translations for
+ zh_CN/dev-tools/testing-overview
+Message-ID: <20210524155823.GA28790@bobwxc.top>
+References: <20210523140332.GA1097@bobwxc.top>
+ <c5f5ee6a-46f8-ff72-059d-baeba42d234f@email.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gBBFr7Ir9EOA20Yy"
 Content-Disposition: inline
-In-Reply-To: <ab3c5c38-1447-99e1-ee22-9e5af906d8b4@redhat.com>
+In-Reply-To: <c5f5ee6a-46f8-ff72-059d-baeba42d234f@email.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgDXJlkgzatgBVFGAA--.41751S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5d7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcV
+        AFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv
+        67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wASzI0EjI02j7AqF2xKxwAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5V
+        A0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
+        JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+        vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
+        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+        wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VU0mhF7UUUUU==
+X-Originating-IP: [120.238.248.9]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 24, 2021 at 09:42:20AM -0400, Waiman Long wrote:
-> On 5/24/21 6:32 AM, Boqun Feng wrote:
-> > On Mon, May 24, 2021 at 12:24:00PM +0800, Xiongwei Song wrote:
-> > > On Fri, May 21, 2021 at 11:17 PM Waiman Long <llong@redhat.com> wrote:
-> > > > On 5/21/21 2:29 AM, Xiongwei Song wrote:
-> > > > > From: Xiongwei Song <sxwjean@gmail.com>
-> > > > > 
-> > > > > The block condition matrix is using 'E' as the writer noation here, so it
-> > > > > would be better to use 'E' as the reminder rather than 'W'.
-> > > > > 
-> > > > > Signed-off-by: Xiongwei Song <sxwjean@gmail.com>
-> > > > > ---
-> > > > >    Documentation/locking/lockdep-design.rst | 2 +-
-> > > > >    1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
-> > > > > index 9f3cfca..c3b923a 100644
-> > > > > --- a/Documentation/locking/lockdep-design.rst
-> > > > > +++ b/Documentation/locking/lockdep-design.rst
-> > > > > @@ -462,7 +462,7 @@ Block condition matrix, Y means the row blocks the column, and N means otherwise
-> > > > >        | R | Y | Y | N |
-> > > > >        +---+---+---+---+
-> > > > > 
-> > > > > -     (W: writers, r: non-recursive readers, R: recursive readers)
-> > > > > +     (E: writers, r: non-recursive readers, R: recursive readers)
-> > > > > 
-> > > > > 
-> > > > >    acquired recursively. Unlike non-recursive read locks, recursive read locks
-> > > > I would say it should be the other way around. Both W and E refer to the
-> > > > same type of lockers. W emphasizes writer aspect of it and E for
-> > > > exclusive. I think we should change the block condition matrix to use W
-> > > > instead of E.
-> > > The doc uses 'E'  to describe dependency egdes too. Should we change them
-> > > to 'W'? Personally,  both 'W' and 'E' are fine.
-> > > 
-> > I also think Waiman's suggestion is solid, there are two ways to
-> > classify locks:
-> > 
-> > 1.	W (Writers), R (Recursive Readers), r (Non-recursive Readers)
-> > 
-> > 2.	E (Exclusive locks), S (Shared locks), R (Recursive Readers),
-> > 	N (Non-recursive locks)
-> > 
-> > And the relations between them are as follow:
-> > 
-> > 	E = W
-> > 	R = R
-> > 	N = W \/ r
-> > 	S = R \/ r
-> > 
-> > , where "\/" is the set union.
-> > 
-> > The story is that I used the way #1 at first, and later on realized way
-> > #2 is better for BFS implementation, also for reasoning, so here came
-> > this leftover..
-> > 
-> My suggestion was based on the fact that it is harder to associate E with
-> writer. So from a readability perspective, it is better to change the block
-> condition matrix to use 'W' to make it more readable.
-> 
 
-Yes, I agree. It's probably due to the curse of knowledge, I cannot see
-the difficultly of associating E with writer ;-) So thanks for pointing
-out!
+--gBBFr7Ir9EOA20Yy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Actually there are two block condition matrices in my mind:
+On Mon, May 24, 2021 at 08:13:50PM +0800, Hu Haowen wrote:
+>=20
+> OK, I'll correct them.
+>=20
+>=20
+> Because this is my first time to kernel translation work, there might
+> be something wrong, after all thanks for pointing them out.
+>=20
 
-The block condition matrix describes the natural of block conditions of
-write/read locks, this one provides better readability for lock users,
-it can be used to answer questions like: which lock blocks another lock.
+Welcome to join us! <http://fars.ee/3TKR.gif>
 
-	|   | W | r | R |
-	+---+---+---+---+
-	| W | Y | Y | Y |
-	+---|---+---+---+
-	| r | Y | Y | N |
-	+---+---+---+---+
-	| R | Y | Y | N |
+The points which I given are just suggestions. If you have any ideas or
+questions, just ask/say.
 
-(answer whether row blocks column)
+Thanks,
+         Wu X.C.
 
-Based on this, we have a more abstract block condition matrix in
-lockdep, it's used to reason about deadlock possibility and implement
-the deadlock detection, it might not be the good one for normal lock
-users to read.
 
-	|   |  N  |  R  |
-	+---+-----+-----+
-	| E | Yes | Yes |
-	+---+-----+-----+
-	| S | Yes | No  |
+--gBBFr7Ir9EOA20Yy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-(answer whether row blocks column)
+-----BEGIN PGP SIGNATURE-----
 
-FWIW, if we are going to put the second block condition matrix in the
-doc, we'd better place it somewhere in the section "Dependency types and
-strong dependency paths".
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCrzRsACgkQtlsoEiKC
+sIWA3gv9FX1AiiM5eHPPqkPAK9HTqqjE/U89WpSgnfdx5hyxO3AQxdmLWj+MudOc
+rWE3bBj1Sy4K1AKmeUliKl94Z/8l2cAGREASbpHGIVR7WevS8sdTiry7Wm18yOjT
+GZoLYDomq1JBfsT1Emnfvpu58RrOHEw+9+1hShaA6yWCsR08BPiYmaMwm4o7NgxW
+ClXgbo2rT+MqEyybfDkKf+WodZq9CPcoG5gr6JVuVBPhhvAs7JeiLwrb6EhOi70c
+yr/gJrQZc0tmoazTC+HcSdrgDqto5EfRbPwftUDfdj69FPdutviPg2qRaipfiZT1
+TOwFzWy87+aS+p0Vdu2OUrmusLSjWdvoDu/FtiHUZ2ojnw+fHLctu+d9LYcXtc0D
+WO0w0qkSS40TJ3U0moWFrxuT1HQZXK6+yiZzllUzKoeuMY2FNsVgudcX3MM8vLpf
+F/pqzvUXJdweAk9wv/XHQep4XXqcUv8nQaE7rcKoBLhvZ07JhrL6U1Z1Z7QHss3v
+L5yc3F7T
+=wHUy
+-----END PGP SIGNATURE-----
 
-Just clarify a little while we are at it.
+--gBBFr7Ir9EOA20Yy--
 
-Regards,
-Boqun
-
-> Cheers,
-> Longman
-> 
