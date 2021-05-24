@@ -2,191 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 496AAC04FF3
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 18:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76174C04FF3
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 18:22:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A85C61400
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 18:01:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FEA461404
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 18:22:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233559AbhEXSCk convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 May 2021 14:02:40 -0400
-Received: from foss.arm.com ([217.140.110.172]:46100 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233244AbhEXSCk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 May 2021 14:02:40 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1107E6D;
-        Mon, 24 May 2021 11:01:11 -0700 (PDT)
-Received: from e113632-lin (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B1A603F73B;
-        Mon, 24 May 2021 11:01:09 -0700 (PDT)
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Beata Michalska <beata.michalska@arm.com>,
+        id S233787AbhEXSXy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 May 2021 14:23:54 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35630 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232516AbhEXSXx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 14:23:53 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14OI3CR6116304;
+        Mon, 24 May 2021 14:21:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=fnHpK9+VpzUR3Ss627T2ieVAfKo8WEgjF+M+DZqxg8k=;
+ b=ToWveYqdn2gyvcVG+p15LzAuTYDvrBwrAAKakr5UvSIM5sr4n2mmSVNfAo+PkYOvz+fU
+ y9dMlzLW2aGtYTRwRzv/yghGUkPWciJbLRUrShgwl60dkW/qFBSX2oSa2reb6WheRgaV
+ fqpimVo3QDcnuTLrYL3bVLZdrb9hhSHfFMeZ3140TuoVWvIfQqf9pxaUrAXaAGN66Ley
+ 0O5/R20ZiHtsQWlDDuJu6pun6jzQ8TRO5XypC9fD+OF/W4rMB6spDhWkQbf7CqNOvm8e
+ zZZT9YvpIYbfpSKQJ5vVKhozTZqtE4Ar/sInQjhDUg3+ClVyuIWIkzQs2EQFv2fXioB3 BQ== 
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 38rh0bgp4c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 May 2021 14:21:49 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+        by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14OHqUDj007909;
+        Mon, 24 May 2021 18:21:47 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma02fra.de.ibm.com with ESMTP id 38psk88gh1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 May 2021 18:21:47 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 14OILjEF30540070
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 24 May 2021 18:21:45 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6D9F3A4053;
+        Mon, 24 May 2021 18:21:45 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DE74EA4040;
+        Mon, 24 May 2021 18:21:43 +0000 (GMT)
+Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.80.46])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 24 May 2021 18:21:43 +0000 (GMT)
+Message-ID: <17d48530e2ec9a6f7e2cb868d8ddf8dcd3be14da.camel@linux.ibm.com>
+Subject: Re: [PATCH 5/7] evm: Verify portable signatures against all
+ protected xattrs
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>, mjg59@srcf.ucam.org
+Cc:     linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry detection
-In-Reply-To: <20210524101617.8965-3-beata.michalska@arm.com>
-References: <20210524101617.8965-1-beata.michalska@arm.com> <20210524101617.8965-3-beata.michalska@arm.com>
-Date:   Mon, 24 May 2021 19:01:04 +0100
-Message-ID: <87fsyc6mfz.mognet@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Date:   Mon, 24 May 2021 14:21:43 -0400
+In-Reply-To: <20210520085701.465369-6-roberto.sassu@huawei.com>
+References: <20210520085701.465369-1-roberto.sassu@huawei.com>
+         <20210520085701.465369-6-roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JkAx4NJtmjcUiSTIMUKbB1FOKQFQpv6O
+X-Proofpoint-ORIG-GUID: JkAx4NJtmjcUiSTIMUKbB1FOKQFQpv6O
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-05-24_08:2021-05-24,2021-05-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 spamscore=0
+ mlxscore=0 clxscore=1011 adultscore=0 mlxlogscore=999 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105240103
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Beata,
+On Thu, 2021-05-20 at 10:56 +0200, Roberto Sassu wrote:
+> Currently, the evm_config_default_xattrnames array contains xattr names
+> only related to LSMs which are enabled in the kernel configuration.
+> However, EVM portable signatures do not depend on local information and a
+> vendor might include in the signature calculation xattrs that are not
+> enabled in the target platform.
+> 
+> Just including all xattrs names in evm_config_default_xattrnames is not a
+> safe approach, because a target system might have already calculated
+> signatures or HMACs based only on the enabled xattrs. After applying this
+> patch, EVM would verify those signatures and HMACs with all xattrs instead.
+> The non-enabled ones, which could possibly exist, would cause a
+> verification error.
+> 
+> Thus, this patch adds a new field named enabled to the xattr_list
+> structure, which is set to true if the LSM associated to a given xattr name
+> is enabled in the kernel configuration. The non-enabled xattrs are taken
+> into account in only evm_calc_hmac_or_hash(), if the passed security.evm
+> type is EVM_XATTR_PORTABLE_DIGSIG.
+> 
+> The new function evm_protected_xattr_if_enabled() has been defined so that
+> IMA can include all protected xattrs and not only the enabled ones in the
+> measurement list, if the new template field evmxattrs has been included in
+> the template format.
+> 
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
 
-On 24/05/21 11:16, Beata Michalska wrote:
-> Currently the CPU capacity asymmetry detection, performed through
-> asym_cpu_capacity_level, tries to identify the lowest topology level
-> at which the highest CPU capacity is being observed, not necessarily
-> finding the level at which all possible capacity values are visible
-> to all CPUs, which might be bit problematic for some possible/valid
-> asymmetric topologies i.e.:
->
-> DIE      [                                ]
-> MC       [                       ][       ]
->
-> CPU       [0] [1] [2] [3] [4] [5]  [6] [7]
-> Capacity  |.....| |.....| |.....|  |.....|
->            L	     M       B        B
->
-> Where:
->  arch_scale_cpu_capacity(L) = 512
->  arch_scale_cpu_capacity(M) = 871
->  arch_scale_cpu_capacity(B) = 1024
->
-> In this particular case, the asymmetric topology level will point
-> at MC, as all possible CPU masks for that level do cover the CPU
-> with the highest capacity. It will work just fine for the first
-> cluster, not so much for the second one though (consider the
-> find_energy_efficient_cpu which might end up attempting the energy
-> aware wake-up for a domain that does not see any asymmetry at all)
->
-> Rework the way the capacity asymmetry levels are being detected,
-> allowing to point to the lowest topology level (for a given CPU), where
-> full set of available CPU capacities is visible to all CPUs within given
-> domain. As a result, the per-cpu sd_asym_cpucapacity might differ across
-> the domains. This will have an impact on EAS wake-up placement in a way
-> that it might see different rage of CPUs to be considered, depending on
-> the given current and target CPUs.
->
-> Additionally, those levels, where any range of asymmetry (not
-> necessarily full) is being detected will get identified as well.
-> The selected asymmetric topology level will be denoted by
-> SD_ASYM_CPUCAPACITY_FULL sched domain flag whereas the 'sub-levels'
-> would receive the already used SD_ASYM_CPUCAPACITY flag. This allows
-> maintaining the current behaviour for asymmetric topologies, with
-> misfit migration operating correctly on lower levels, if applicable,
-> as any asymmetry is enough to trigger the misfit migration.
-> The logic there relies on the SD_ASYM_CPUCAPACITY flag and does not
-> relate to the full asymmetry level denoted by the sd_asym_cpucapacity
-> pointer.
->
-> Detecting the CPU capacity asymmetry is being based on a set of
-> available CPU capacities for all possible CPUs. This data is being
-> generated upon init and updated once CPU topology changes are being
-> detected (through arch_update_cpu_topology). As such, any changes
-> to identified CPU capacities (like initializing cpufreq) need to be
-> explicitly advertised by corresponding archs to trigger rebuilding
-> the data.
->
-> This patch also removes the additional -dflags- parameter used when
-  ^^^^^^^^^^^^^^^^^^^^^^^
-s/^/Also remove/
+Nice, I really like this idea.
 
-> building sched domains as the asymmetry flags are now being set
-> directly in sd_init.
->
+Mimi
 
-Few nits below, but beyond that:
-
-Tested-by: Valentin Schneider <valentin.schneider@arm.com>
-Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
-
-> +static inline int
-> +asym_cpu_capacity_classify(struct sched_domain *sd,
-> +			   const struct cpumask *cpu_map)
-> +{
-> +	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
-> +	struct asym_cap_data *entry;
-> +	int asym_cap_count = 0;
-> +
-> +	if (list_is_singular(&asym_cap_list))
-> +		goto leave;
-> +
-> +	list_for_each_entry(entry, &asym_cap_list, link) {
-> +		if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask)) {
-> +			++asym_cap_count;
-> +		} else {
-> +			/*
-> +			 * CPUs with given capacity might be offline
-> +			 * so make sure this is not the case
-> +			 */
-> +			if (cpumask_intersects(entry->cpu_mask, cpu_map)) {
-> +				sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
-> +				if (asym_cap_count > 1)
-> +					break;
-> +			}
-
-Readability nit: That could be made into an else if ().
-
-
-> +		}
-> +	}
-> +	WARN_ON_ONCE(!asym_cap_count);
-> +leave:
-> +	return asym_cap_count > 1 ? sd_asym_flags : 0;
-> +}
-> +
-
-> +static void asym_cpu_capacity_scan(void)
-> +{
-> +	struct asym_cap_data *entry, *next;
-> +	int cpu;
-> +
-> +	list_for_each_entry(entry, &asym_cap_list, link)
-> +		cpumask_clear(entry->cpu_mask);
-> +
-> +	entry = list_first_entry_or_null(&asym_cap_list,
-> +					 struct asym_cap_data, link);
-> +
-> +	for_each_cpu_and(cpu, cpu_possible_mask,
-> +			 housekeeping_cpumask(HK_FLAG_DOMAIN)) {
-> +		unsigned long capacity = arch_scale_cpu_capacity(cpu);
-> +
-> +		if (!entry || capacity != entry->capacity)
-> +			entry = asym_cpu_capacity_get_data(capacity);
-> +		if (entry)
-> +			__cpumask_set_cpu(cpu, entry->cpu_mask);
-
-That 'if' is only there in case the alloc within the helper failed, which
-is a bit of a shame.
-
-You could pass the CPU to that helper function and have it set the right
-bit, or you could even forgo the capacity != entry->capacity check here and
-let the helper function do it all.
-
-Yes, that means more asym_cap_list iterations, but that's
-O(nr_cpus * nr_caps); a topology rebuild is along the lines of
-O(nr_cpus² * nr_topology_levels), so not such a big deal comparatively.
-
-> +	}
-> +
-> +	list_for_each_entry_safe(entry, next, &asym_cap_list, link) {
-> +		if (cpumask_empty(entry->cpu_mask)) {
-> +			list_del(&entry->link);
-> +			kfree(entry);
-> +		}
-> +	}
-> +}
-> +
