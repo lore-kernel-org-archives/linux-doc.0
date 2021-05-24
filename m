@@ -2,109 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12EBFC47080
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 01:58:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E19EFC47080
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 02:22:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D89FE6109E
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 01:58:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD62A61132
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 02:22:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231761AbhEXB7d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 May 2021 21:59:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231744AbhEXB7c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 May 2021 21:59:32 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB21C061574;
-        Sun, 23 May 2021 18:58:05 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id q6so13931850pjj.2;
-        Sun, 23 May 2021 18:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jCtgzjCClBSQtUU7LwrqukXj+kZVkiIw6coIo/OGtnU=;
-        b=Ofwdln73QEDuF45bdqyN1Fk+P3+jtMNZ02BpWhl7sly8T7z9eGHTdQeOCC4hTbOwY9
-         rMNySOVLNji2Eu7KJoY0p7xd9cmd1PNuzExwZ78dzs4yKsJ5jMzNdw0Dt2f3A3t7X+7F
-         +O1AN+w/r65jw/ADEWv/MoXWflgLz4+xCs5LbV70CEd17hJku9e2RdSDPxMnJAsYl+kY
-         sGuA9GObHVTajH9lcgOzGOHlt0cfgmCvBnwO+OBpiMLS33xfXArF2zAxx/j006X02OIL
-         B7rIjRqrWerrA7jXdiOYkVKuriECUVANc1L0EIUy6CHvpqRxvTT6k7E+Sc1TKxyYsU8g
-         00Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jCtgzjCClBSQtUU7LwrqukXj+kZVkiIw6coIo/OGtnU=;
-        b=FVy1XesRn+Ym2dU7ZxcW4jlEy17MjcUfFSghf7inkc9imHAvzi4UY8079KszYCuXNe
-         RCQfwEjn1c2ZY8GpRqYJ0h14hjEQt27cva2I1qs1OZug5lYQQfPEzYjo3DtgWS4k7YN8
-         APAyf64zQFvxFIQrshZ1RAtnTg2HIHbwr5sLz1fH3twi2W+N31El4vuL6FwMwcLGa5ab
-         DMnp5GWTofMCfO0NkR+wzHl42S5oreskbtJowqYF1WwAUs1DCDSSGvTQ89oFA2O5kGqn
-         mpToD/avTdiIJxnBJ6/or95lfvL9qih+eQxd+la3jKRUlltyfDn5TbYs/zu+4omzc22M
-         oK9Q==
-X-Gm-Message-State: AOAM532Y7I2c1X1tyGCC/RmECThkDIZ77IW5x/c4ntZY9XHxyJqKnz2l
-        xcO2LZfneVrqdK6gfOxPMizbwct0YZSU+td+1Q8=
-X-Google-Smtp-Source: ABdhPJy4MRqed6QyTy9fd1+WYGe0qFlie4CNYug1y1uiYMMcObYFXIP4KQaIYLBBSINpcDTN9lHlxuLAudEuzoAgKGg=
-X-Received: by 2002:a17:90b:1885:: with SMTP id mn5mr21871211pjb.24.1621821484572;
- Sun, 23 May 2021 18:58:04 -0700 (PDT)
+        id S231867AbhEXCYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 May 2021 22:24:06 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:60320 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231782AbhEXCYF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 23 May 2021 22:24:05 -0400
+Received: from localhost.localdomain (unknown [112.20.113.102])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj0PlDatgwDIDAA--.1294S2;
+        Mon, 24 May 2021 10:22:30 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
+        siyanteng01@gmail.com, Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v2] docs: zh_CN: update Chinese translations
+Date:   Mon, 24 May 2021 10:23:08 +0800
+Message-Id: <20210524022308.1216098-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210522080214.88050-1-src.res@email.cn>
-In-Reply-To: <20210522080214.88050-1-src.res@email.cn>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Mon, 24 May 2021 09:57:55 +0800
-Message-ID: <CAMU9jJqdaKXWtUz_s=muFcJq81SouUJNOHSa-ZGCWXOFLK6wQw@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Add Chinese translations for new contents
-To:     Hu Haowen <src.res@email.cn>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        "Wu X.C." <bobwxc@email.cn>, jaixun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxj0PlDatgwDIDAA--.1294S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAw48CFy8KFWrAFyxuF4Durg_yoW5GF1DpF
+        4akrnxKanrZrnrZFn7Kryjqry5CFZ5Wa4UG3srXrn5ZF1kZr9YyF4xKr95Wr92gFyUXa4f
+        tFs7tryDX3yjyrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+        W8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
+        McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7
+        v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAF
+        wVW8JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+        v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
+        c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+        0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_
+        Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUO_MaUU
+        UUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgaGFvd2VuOg0KDQpUaGFuayB5b3UgZm9yIHlvdXIgdXBkYXRlLCBidXQgdGhpcyB1cGRhdGUg
-aXMgYWxyZWFkeSBpbmNsdWRlZCBpbjoNCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWRv
-Yy8yMDIxMDUyMTExMzc1Mi5HQTI0NTgxQGJvYnd4Yy50b3AvVC8jdA0KDQpIdSBIYW93ZW4gPHNy
-Yy5yZXNAZW1haWwuY24+IOS6jjIwMjHlubQ15pyIMjLml6Xlkajlha0g5LiL5Y2INDowMuWGmemB
-k++8mg0KPg0KPiBBIGRvY3VtZW50IHVwZGF0ZWQgaW4gY29tbWl0IDFjMzFmMGI2N2NmYTZkNGNk
-NDFkICgibW9kdWxlOiBhZGQgcHJpbnRrDQo+IGZvcm1hdHMgdG8gYWRkIG1vZHVsZSBidWlsZCBJ
-RCB0byBzdGFja3RyYWNlcyIpLCBoZW5jZSBhZGQgQ2hpbmVzZQ0KPiB0cmFuc2xhdGlvbnMgZm9y
-IGl0Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIdSBIYW93ZW4gPHNyYy5yZXNAZW1haWwuY24+DQo+
-IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9wcmludGstZm9ybWF0cy5y
-c3QgICAgICAgfCA5ICsrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygr
-KQ0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29y
-ZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vY29yZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0DQo+IGluZGV4IDYyNGEwOTBlNmVlNS4uMTE2
-YWJjMDQ2YmZlIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
-Ti9jb3JlLWFwaS9wcmludGstZm9ybWF0cy5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vY29yZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0DQo+IEBAIC0xMjIsNiAr
-MTIyLDE1IEBAIHNlcV9wcmludGYoKe+8jOiAjOS4jeaYr3ByaW50aygp77yJ55Sx55So5oi356m6
-6Ze06L+b56iL6K+75Y+W77yM5L2/55So5LiL6Z2i5o+PDQo+ICBgYEJgYCDljaDkvY3nrKbnmoTn
-u5PmnpzmmK/luKbmnInlgY/np7vph4/nmoTnrKblj7flkI3vvIzlnKjmiZPljbDloIbmoIjlm57m
-uq/ml7blupTor6Xkvb/nlKjjgILljaDkvY3nrKblsIbogIPomZHnvJbor5HlmajkvJjljJYNCj4g
-IOeahOW9seWTje+8jOW9k+S9v+eUqOWwvumDqOiwg+eUqOW5tuS9v+eUqG5vcmV0dXJuIEdDQ+Wx
-nuaAp+agh+iusOaXtu+8jOWPr+iDveS8muWPkeeUn+i/meenjeS8mOWMluOAgg0KPg0KPiAr5aaC
-5p6c5Y2g5L2N56ym5piv5Zyo5LiA5Liq5qih5Z2X5LmL5Lit77yM5Y+v5Zyo5Y2g5L2N56ym5pyr
-5bC+5re75YqgIGBgYmBgIOS7peWcqOespuWPt+WQjeWQjuaJk+WNsOaooeWdl+WQjeensOWSjOWP
-r+mAieaehOW7uklE44CCDQo+ICsNCj4gKzo6DQpidWlsZCB3YXJuaW5nISBhZGQgb25lIGJsYWNr
-IGxpbmUgaGVyZS4NCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWRvYy9DQUUtMG41MFV2
-ZTRnRXdEZko0d3QtdEZCakprU3RKMUViNmpIbnRqY1JNTC1IQ2tHVXdAbWFpbC5nbWFpbC5jb20v
-VC8jdA0KDQpUaGFua3MsDQpZYW50ZW5nDQo+ICsgICAgICAgICVwUyAgICAgdmVyc2F0aWxlX2lu
-aXQrMHgwLzB4MTEwIFttb2R1bGVfbmFtZV0NCj4gKyAgICAgICAgJXBTYiAgICB2ZXJzYXRpbGVf
-aW5pdCsweDAvMHgxMTAgW21vZHVsZV9uYW1lIGVkNTAxOWZkZjVlNTNiZTM3Y2IxYmE3ODk5Mjky
-ZDdlMTQzYjI1OWVdDQo+ICsgICAgICAgICVwU1JiICAgdmVyc2F0aWxlX2luaXQrMHg5LzB4MTEw
-IFttb2R1bGVfbmFtZSBlZDUwMTlmZGY1ZTUzYmUzN2NiMWJhNzg5OTI5MmQ3ZTE0M2IyNTllXQ0K
-PiArICAgICAgICAgICAgICAgICh3aXRoIF9fYnVpbHRpbl9leHRyYWN0X3JldHVybl9hZGRyKCkg
-dHJhbnNsYXRpb24pDQo+ICsgICAgICAgICVwQmIgICAgcHJldl9mbl9vZl92ZXJzYXRpbGVfaW5p
-dCsweDg4LzB4ODggW21vZHVsZV9uYW1lIGVkNTAxOWZkZjVlNTNiZTM3Y2IxYmE3ODk5MjkyZDdl
-MTQzYjI1OWVdDQo+ICsNCj4gIOadpeiHqkJQRiAvIHRyYWNpbmfov73ouKrnmoTmjqLmn6XmjIfp
-kogNCj4gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4NCj4gLS0NCj4gMi4y
-NS4xDQo+DQo=
+Two new commits were added to the original document:
+
+commit ddba35031db2ea89facc91c745e5ad55ba2e0e7f
+commit 20bc8c1e972f29afcac85e524e430c11a6df5f58
+
+translate them into Chinese.
+
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+---
+
+v2: pick Xiangcheng Wu's review-by tag.
+
+ .../zh_CN/core-api/printk-formats.rst           | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/translations/zh_CN/core-api/printk-formats.rst b/Documentation/translations/zh_CN/core-api/printk-formats.rst
+index 624a090e6ee5..a680c8f164c3 100644
+--- a/Documentation/translations/zh_CN/core-api/printk-formats.rst
++++ b/Documentation/translations/zh_CN/core-api/printk-formats.rst
+@@ -122,6 +122,17 @@ seq_printf()，而不是printk()）由用户空间进程读取，使用下面描
+ ``B`` 占位符的结果是带有偏移量的符号名，在打印堆栈回溯时应该使用。占位符将考虑编译器优化
+ 的影响，当使用尾部调用并使用noreturn GCC属性标记时，可能会发生这种优化。
+ 
++如果指针在一个模块内，模块名称和可选的构建ID将被打印在符号名称之后，并在说明符的末尾添加
++一个额外的 ``b`` 。
++
++::
++
++	%pS	versatile_init+0x0/0x110 [module_name]
++	%pSb	versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
++	%pSRb	versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
++		(with __builtin_extract_return_addr() translation)
++	%pBb	prev_fn_of_versatile_init+0x88/0x88 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
++
+ 来自BPF / tracing追踪的探查指针
+ ----------------------------------
+ 
+@@ -483,9 +494,10 @@ Fwnode handles
+ ::
+ 
+ 	%pt[RT]			YYYY-mm-ddTHH:MM:SS
++	%pt[RT]s		YYYY-mm-dd HH:MM:SS
+ 	%pt[RT]d		YYYY-mm-dd
+ 	%pt[RT]t		HH:MM:SS
+-	%pt[RT][dt][r]
++	%pt[RT][dt][r][s]
+ 
+ 用于打印日期和时间::
+ 
+@@ -497,6 +509,9 @@ Fwnode handles
+ 默认情况下，年将以1900为单位递增，月将以1为单位递增。 使用%pt[RT]r (raw)
+ 来抑制这种行为。
+ 
++%pt[RT]s（空格）将覆盖ISO 8601的分隔符，在日期和时间之间使用''（空格）而
++不是'T'（大写T）。当日期或时间被省略时，它不会有任何影响。
++
+ 通过引用传递。
+ 
+ clk结构体
+-- 
+2.27.0
+
