@@ -2,112 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8929C04FF3
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 04:24:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CAECC04FF3
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 05:24:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C8E36105A
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 04:24:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB43061104
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 05:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbhEXEZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 May 2021 00:25:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37628 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbhEXEZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 00:25:58 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECBCFC061574;
-        Sun, 23 May 2021 21:24:29 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id i9so38730779lfe.13;
-        Sun, 23 May 2021 21:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=L3ZOtOGlXp80QN3l22ADXZS6P4An6muJeQct/gjNKF0=;
-        b=bp0aOnXp1/GvnK33syXjEwoyYYHXGCQXU7YAsIH0ylHWxMO4tUBMwmrz7oL2pt9spI
-         xgIuQmGzbWa1IXgC1e5qXhnybLQu3aj5TQtHe6AIdT+ZdiCcvA0AoHwHspi5GY8j48ZX
-         qi000XDogmMjkMC9pta6TykOnEE4YObS26k4/9TaUqQHxm2tW+ZEcCoSg2wdwIkfVnB0
-         MIFuxQD4Q9/nazkm0FlEJWzZkpD6RWE4fuQPW74gCmf45XPuMMQ/pTaB4GjvFJSlHrY+
-         rlxJjC/FT643BWvoiMA39LRHL/PICtIxnPiaBIFNSX7p+qcIowX1FE23ZftdTNvGKxeK
-         iCsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=L3ZOtOGlXp80QN3l22ADXZS6P4An6muJeQct/gjNKF0=;
-        b=IPaLuJu1gYSy8nQtu0ZPJVxcXzXJw3pJ2lQRSL/tDUcJSNz8yR9osHsgVgOHAjynEU
-         HQ2aZUVs0qgPOEYXJgy2LM4DUnK2tUGD0GTnQtD+UPXBMYcW+McVyvHmwWSyo6WXxNB3
-         V/DWxftmaWvv/y35WpVfJS+Oxd4GUZkk/2wtAYc1RoEkITH/w8gCItcKdHJXzg6sVWjx
-         aa8UW1B1QLGhdBh4djr86kNQFWSnTPMO1Kziqv4BlIJlR6mqUxyOrhzSseYV4AXUFVK9
-         RTQOc0BrSh7VEs5O/SUlFJ3pF8binjj28+rWavakH/ZnKq+FoHh8MnJs3Oln9c0PSe0C
-         5hlA==
-X-Gm-Message-State: AOAM532J3aEjrElcR2VI7rK07bW8LhIMk1nP/UQ4+wOk7cmKF5Ggoa/d
-        F0KhoULbmJkxJK7w5+UhzM1DweK3CTtYW+aeULY=
-X-Google-Smtp-Source: ABdhPJyrfnOvTqQAsP/HhkDZdfAoLS0S4HrhTf3GosM4lguP/DyOUx5y29vcgR/sh0XnSYk68nIOx2Gzu/dMjSB6PBw=
-X-Received: by 2002:a19:ccc:: with SMTP id 195mr9548751lfm.24.1621830267121;
- Sun, 23 May 2021 21:24:27 -0700 (PDT)
+        id S229633AbhEXF0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 May 2021 01:26:18 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5671 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229564AbhEXF0S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 01:26:18 -0400
+Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FpQYy1hfSz1BQ79;
+        Mon, 24 May 2021 13:21:58 +0800 (CST)
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 24 May 2021 13:24:48 +0800
+Received: from SWX921481.china.huawei.com (10.126.200.111) by
+ dggemi761-chm.china.huawei.com (10.1.198.147) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Mon, 24 May 2021 13:24:44 +0800
+From:   Barry Song <song.bao.hua@hisilicon.com>
+To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <aou@eecs.berkeley.edu>, <will@kernel.org>,
+        <catalin.marinas@arm.com>, <linux-arm-kernel@lists.infradead.org>,
+        <mpe@ellerman.id.au>, <benh@kernel.crashing.org>,
+        <paulus@samba.org>, <linuxppc-dev@lists.ozlabs.org>,
+        Barry Song <song.bao.hua@hisilicon.com>
+Subject: [PATCH] docs: kernel-parameters: mark numa=off is supported by a bundle of architectures
+Date:   Mon, 24 May 2021 17:17:15 +1200
+Message-ID: <20210524051715.13604-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-References: <1621578594-13237-1-git-send-email-sxwjean@me.com> <e0c0302f-e63f-7eba-872b-85e21b0b1622@redhat.com>
-In-Reply-To: <e0c0302f-e63f-7eba-872b-85e21b0b1622@redhat.com>
-From:   Xiongwei Song <sxwjean@gmail.com>
-Date:   Mon, 24 May 2021 12:24:00 +0800
-Message-ID: <CAEVVKH9nwPmQo8L-eRsWST+gPaJ73MSHZfJ-mM8qWvPaiejdrA@mail.gmail.com>
-Subject: Re: [PATCH] docs: lockdep-design: correct the notation for writer
-To:     Waiman Long <llong@redhat.com>
-Cc:     Xiongwei Song <sxwjean@me.com>, peterz@infradead.org,
-        mingo@redhat.com, will@kernel.org, boqun.feng@gmail.com,
-        corbet@lwn.net,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.126.200.111]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggemi761-chm.china.huawei.com (10.1.198.147)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 21, 2021 at 11:17 PM Waiman Long <llong@redhat.com> wrote:
->
-> On 5/21/21 2:29 AM, Xiongwei Song wrote:
-> > From: Xiongwei Song <sxwjean@gmail.com>
-> >
-> > The block condition matrix is using 'E' as the writer noation here, so it
-> > would be better to use 'E' as the reminder rather than 'W'.
-> >
-> > Signed-off-by: Xiongwei Song <sxwjean@gmail.com>
-> > ---
-> >   Documentation/locking/lockdep-design.rst | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
-> > index 9f3cfca..c3b923a 100644
-> > --- a/Documentation/locking/lockdep-design.rst
-> > +++ b/Documentation/locking/lockdep-design.rst
-> > @@ -462,7 +462,7 @@ Block condition matrix, Y means the row blocks the column, and N means otherwise
-> >       | R | Y | Y | N |
-> >       +---+---+---+---+
-> >
-> > -     (W: writers, r: non-recursive readers, R: recursive readers)
-> > +     (E: writers, r: non-recursive readers, R: recursive readers)
-> >
-> >
-> >   acquired recursively. Unlike non-recursive read locks, recursive read locks
->
-> I would say it should be the other way around. Both W and E refer to the
-> same type of lockers. W emphasizes writer aspect of it and E for
-> exclusive. I think we should change the block condition matrix to use W
-> instead of E.
+risc-v and arm64 support numa=off by common arch_numa_init()
+in drivers/base/arch_numa.c. x86, ppc, mips, sparc support it
+by arch-level early_param.
+numa=off is widely used in linux distributions. it is better
+to document it.
 
-The doc uses 'E'  to describe dependency egdes too. Should we change them
-to 'W'? Personally,  both 'W' and 'E' are fine.
+Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks,
-Xiongwei
->
-> Cheers,
-> Longman
->
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index cb89dbdedc46..a388fbdaa2ec 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3513,6 +3513,9 @@
+ 
+ 	nr_uarts=	[SERIAL] maximum number of UARTs to be registered.
+ 
++	numa=off 	[KNL, ARM64, PPC, RISCV, SPARC, X86] Disable NUMA, Only
++			set up a single NUMA node spanning all memory.
++
+ 	numa_balancing=	[KNL,ARM64,PPC,RISCV,S390,X86] Enable or disable automatic
+ 			NUMA balancing.
+ 			Allowed values are enable and disable
+-- 
+2.25.1
+
