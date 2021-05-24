@@ -2,106 +2,216 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C408C04FF3
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 22:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E0F2C2B9F7
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 22:55:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FEDC61429
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 22:12:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C46461414
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 22:55:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234017AbhEXWNe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 May 2021 18:13:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58176 "EHLO mail.kernel.org"
+        id S229652AbhEXW4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 May 2021 18:56:49 -0400
+Received: from foss.arm.com ([217.140.110.172]:48784 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234024AbhEXWN2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 May 2021 18:13:28 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 57B986109F;
-        Mon, 24 May 2021 22:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1621894318;
-        bh=9PyMNewsGq6ERDLxr4di8vSjGgfZV7Y7rZTjz/iLdIw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PBIRE9lNbG85SmL9IJ3O9MVl8G5MDhwYM3GLmzbY1P926o7iNhKuihUVyN2KyNYHM
-         K1OjEYugDHTXljqnHNK970F1XJyzKax8xTENy1gnYj2uMypI18IEJlW0M8V+cTyNd6
-         2JMaQS5YyV2rUuewMxhxtpeT8m45NqOWvmPrPIvg=
-Date:   Mon, 24 May 2021 15:11:57 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <rcampbell@nvidia.com>,
-        <linux-doc@vger.kernel.org>, <jhubbard@nvidia.com>,
-        <bsingharora@gmail.com>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <hch@infradead.org>,
-        <jglisse@redhat.com>, <willy@infradead.org>, <jgg@nvidia.com>,
-        <peterx@redhat.com>, <hughd@google.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
-Message-Id: <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
-In-Reply-To: <20210524132725.12697-8-apopple@nvidia.com>
-References: <20210524132725.12697-1-apopple@nvidia.com>
-        <20210524132725.12697-8-apopple@nvidia.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S229568AbhEXW4t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 May 2021 18:56:49 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5AF266D;
+        Mon, 24 May 2021 15:55:20 -0700 (PDT)
+Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2FC2F3F73D;
+        Mon, 24 May 2021 15:55:18 -0700 (PDT)
+Date:   Mon, 24 May 2021 23:55:09 +0100
+From:   Beata Michalska <beata.michalska@arm.com>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+Message-ID: <20210524225508.GA14880@e120325.cambridge.arm.com>
+References: <20210524101617.8965-1-beata.michalska@arm.com>
+ <20210524101617.8965-3-beata.michalska@arm.com>
+ <87fsyc6mfz.mognet@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87fsyc6mfz.mognet@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 24 May 2021 23:27:22 +1000 Alistair Popple <apopple@nvidia.com> wrote:
-
-> Some devices require exclusive write access to shared virtual
-> memory (SVM) ranges to perform atomic operations on that memory. This
-> requires CPU page tables to be updated to deny access whilst atomic
-> operations are occurring.
+On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
+> Hi Beata,
 > 
-> In order to do this introduce a new swap entry
-> type (SWP_DEVICE_EXCLUSIVE). When a SVM range needs to be marked for
-> exclusive access by a device all page table mappings for the particular
-> range are replaced with device exclusive swap entries. This causes any
-> CPU access to the page to result in a fault.
+> On 24/05/21 11:16, Beata Michalska wrote:
+> > Currently the CPU capacity asymmetry detection, performed through
+> > asym_cpu_capacity_level, tries to identify the lowest topology level
+> > at which the highest CPU capacity is being observed, not necessarily
+> > finding the level at which all possible capacity values are visible
+> > to all CPUs, which might be bit problematic for some possible/valid
+> > asymmetric topologies i.e.:
+> >
+> > DIE      [                                ]
+> > MC       [                       ][       ]
+> >
+> > CPU       [0] [1] [2] [3] [4] [5]  [6] [7]
+> > Capacity  |.....| |.....| |.....|  |.....|
+> >            L	     M       B        B
+> >
+> > Where:
+> >  arch_scale_cpu_capacity(L) = 512
+> >  arch_scale_cpu_capacity(M) = 871
+> >  arch_scale_cpu_capacity(B) = 1024
+> >
+> > In this particular case, the asymmetric topology level will point
+> > at MC, as all possible CPU masks for that level do cover the CPU
+> > with the highest capacity. It will work just fine for the first
+> > cluster, not so much for the second one though (consider the
+> > find_energy_efficient_cpu which might end up attempting the energy
+> > aware wake-up for a domain that does not see any asymmetry at all)
+> >
+> > Rework the way the capacity asymmetry levels are being detected,
+> > allowing to point to the lowest topology level (for a given CPU), where
+> > full set of available CPU capacities is visible to all CPUs within given
+> > domain. As a result, the per-cpu sd_asym_cpucapacity might differ across
+> > the domains. This will have an impact on EAS wake-up placement in a way
+> > that it might see different rage of CPUs to be considered, depending on
+> > the given current and target CPUs.
+> >
+> > Additionally, those levels, where any range of asymmetry (not
+> > necessarily full) is being detected will get identified as well.
+> > The selected asymmetric topology level will be denoted by
+> > SD_ASYM_CPUCAPACITY_FULL sched domain flag whereas the 'sub-levels'
+> > would receive the already used SD_ASYM_CPUCAPACITY flag. This allows
+> > maintaining the current behaviour for asymmetric topologies, with
+> > misfit migration operating correctly on lower levels, if applicable,
+> > as any asymmetry is enough to trigger the misfit migration.
+> > The logic there relies on the SD_ASYM_CPUCAPACITY flag and does not
+> > relate to the full asymmetry level denoted by the sd_asym_cpucapacity
+> > pointer.
+> >
+> > Detecting the CPU capacity asymmetry is being based on a set of
+> > available CPU capacities for all possible CPUs. This data is being
+> > generated upon init and updated once CPU topology changes are being
+> > detected (through arch_update_cpu_topology). As such, any changes
+> > to identified CPU capacities (like initializing cpufreq) need to be
+> > explicitly advertised by corresponding archs to trigger rebuilding
+> > the data.
+> >
+> > This patch also removes the additional -dflags- parameter used when
+>   ^^^^^^^^^^^^^^^^^^^^^^^
+> s/^/Also remove/
+I would kind of ... disagree.
+All the commit msg is constructed using passive structure, the suggestion
+would actually break that. And it does 'sound' bit imperative but I guess
+that is subjective. I'd rather stay with impersonal structure (which is
+applied through out the whole patchset).
 > 
-> Faults are resovled by replacing the faulting entry with the original
-> mapping. This results in MMU notifiers being called which a driver uses
-> to update access permissions such as revoking atomic access. After
-> notifiers have been called the device will no longer have exclusive
-> access to the region.
+> > building sched domains as the asymmetry flags are now being set
+> > directly in sd_init.
+> >
 > 
-> Walking of the page tables to find the target pages is handled by
-> get_user_pages() rather than a direct page table walk. A direct page
-> table walk similar to what migrate_vma_collect()/unmap() does could also
-> have been utilised. However this resulted in more code similar in
-> functionality to what get_user_pages() provides as page faulting is
-> required to make the PTEs present and to break COW.
+> Few nits below, but beyond that:
 > 
-> ...
->
->  Documentation/vm/hmm.rst     |  17 ++++
->  include/linux/mmu_notifier.h |   6 ++
->  include/linux/rmap.h         |   4 +
->  include/linux/swap.h         |   7 +-
->  include/linux/swapops.h      |  44 ++++++++-
->  mm/hmm.c                     |   5 +
->  mm/memory.c                  | 128 +++++++++++++++++++++++-
->  mm/mprotect.c                |   8 ++
->  mm/page_vma_mapped.c         |   9 +-
->  mm/rmap.c                    | 186 +++++++++++++++++++++++++++++++++++
->  10 files changed, 405 insertions(+), 9 deletions(-)
+> Tested-by: Valentin Schneider <valentin.schneider@arm.com>
+> Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
 > 
+Thanks a lot for the review and testing!
 
-This is quite a lot of code added to core MM for a single driver.
+> > +static inline int
+> > +asym_cpu_capacity_classify(struct sched_domain *sd,
+> > +			   const struct cpumask *cpu_map)
+> > +{
+> > +	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
+> > +	struct asym_cap_data *entry;
+> > +	int asym_cap_count = 0;
+> > +
+> > +	if (list_is_singular(&asym_cap_list))
+> > +		goto leave;
+> > +
+> > +	list_for_each_entry(entry, &asym_cap_list, link) {
+> > +		if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask)) {
+> > +			++asym_cap_count;
+> > +		} else {
+> > +			/*
+> > +			 * CPUs with given capacity might be offline
+> > +			 * so make sure this is not the case
+> > +			 */
+> > +			if (cpumask_intersects(entry->cpu_mask, cpu_map)) {
+> > +				sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
+> > +				if (asym_cap_count > 1)
+> > +					break;
+> > +			}
+> 
+> Readability nit: That could be made into an else if ().
+It could but then this way the -comment- gets more exposed.
+But that might be my personal perception so I can change that.
+> 
+> 
+> > +		}
+> > +	}
+> > +	WARN_ON_ONCE(!asym_cap_count);
+> > +leave:
+> > +	return asym_cap_count > 1 ? sd_asym_flags : 0;
+> > +}
+> > +
+> 
+> > +static void asym_cpu_capacity_scan(void)
+> > +{
+> > +	struct asym_cap_data *entry, *next;
+> > +	int cpu;
+> > +
+> > +	list_for_each_entry(entry, &asym_cap_list, link)
+> > +		cpumask_clear(entry->cpu_mask);
+> > +
+> > +	entry = list_first_entry_or_null(&asym_cap_list,
+> > +					 struct asym_cap_data, link);
+> > +
+> > +	for_each_cpu_and(cpu, cpu_possible_mask,
+> > +			 housekeeping_cpumask(HK_FLAG_DOMAIN)) {
+> > +		unsigned long capacity = arch_scale_cpu_capacity(cpu);
+> > +
+> > +		if (!entry || capacity != entry->capacity)
+> > +			entry = asym_cpu_capacity_get_data(capacity);
+> > +		if (entry)
+> > +			__cpumask_set_cpu(cpu, entry->cpu_mask);
+> 
+> That 'if' is only there in case the alloc within the helper failed, which
+> is a bit of a shame.
+> 
+> You could pass the CPU to that helper function and have it set the right
+> bit, or you could even forgo the capacity != entry->capacity check here and
+> let the helper function do it all.
+> 
+> Yes, that means more asym_cap_list iterations, but that's
+> O(nr_cpus * nr_caps); a topology rebuild is along the lines of
+> O(nr_cpus² * nr_topology_levels), so not such a big deal comparatively.
+> 
+I could drop that check and make the helper function update the CPUs mask
+(along with dropping the initial grabbing of the first entry)
++
+switching to list_for_each_entry_reverse which would result in less
+iterations for most (if not all) of the use cases.
 
-Is there any expectation that other drivers will use this code?
 
-Is there a way of reducing the impact (code size, at least) for systems
-which don't need this code?
-
-How beneficial is this code to nouveau users?  I see that it permits a
-part of OpenCL to be implemented, but how useful/important is this in
-the real world?
-
-Thanks.
+---
+BR
+B
+> > +	}
+> > +
+> > +	list_for_each_entry_safe(entry, next, &asym_cap_list, link) {
+> > +		if (cpumask_empty(entry->cpu_mask)) {
+> > +			list_del(&entry->link);
+> > +			kfree(entry);
+> > +		}
+> > +	}
+> > +}
+> > +
