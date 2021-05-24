@@ -2,89 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F14ECC04FF3
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 10:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8758C04FF3
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 11:27:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D76A061151
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 10:49:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FFCD60BBB
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 11:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232584AbhEXKvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 May 2021 06:51:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54674 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232548AbhEXKvD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 May 2021 06:51:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 00EE0610A5;
-        Mon, 24 May 2021 10:49:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621853375;
-        bh=SxZEDFTIX0YIUWSQcBkOqEjxgEc5DTzysHtPAA5UPfg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fc3TFv8IAhCLbPp7+oY6ls6cnQn7UwE+Sb5wcuzampxAcD6Y0PHMaQe1yQ1Q9Q/L9
-         7YJc6HLm7NZk4X5smPTNLd5VdNrsh2zFSAT7s0qjBNdBQ/mAWL7D7wlPLBALvQ/H5p
-         J6LsEJtbdHrUXTJj/gByr+7zMUg9PEW9Y9NBj/Zs=
-Date:   Mon, 24 May 2021 12:49:20 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v3 11/14] intel_gna: add ioctl handler
-Message-ID: <YKuEsD9UMlSz3+HA@kroah.com>
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <20210513110040.2268-12-maciej.kwapulinski@linux.intel.com>
- <YJ0MXK2XSISC1fIl@kroah.com>
- <85o8ddiv51.fsf@linux.intel.com>
- <YJ41h6lt8lSqaH7r@kroah.com>
- <85h7isif8y.fsf@linux.intel.com>
+        id S232110AbhEXL2o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 May 2021 07:28:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47256 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232050AbhEXL2n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 07:28:43 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05CCFC061574;
+        Mon, 24 May 2021 04:27:16 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id w206so5923345ybg.7;
+        Mon, 24 May 2021 04:27:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=n4lZKQ7D/b+Y1RnAe1IHv907xEM4UrKrYxjGnKdhmJs=;
+        b=kCzxdZSgQ+Qvkuemg1RliV7PQ15KS5a1Qe+OwDcyfwKRqZeAeqlfwqbMGUopNBnIGO
+         xV7tKYPuyGNDSKbtaR5y5JTrluPYIrSv+x8WL4KkqbqDpwfn8gmHIv8y1mjjlb32uubI
+         mpZujOUm6T+yU1K4psAp0SByHHHZxtsFW91ACMCFLavQWd+vdcrJzhfeJABoSlyFw8mq
+         5VImmopVl4M+pEntrlWzGFmO4UESaMhuUe1vhotgHvf1w0503oYPNlau5+SvFNteTdZD
+         SPgs1sG5x09+Z1s4CBdp50r+5+w3KJxgzfxR5YRlYN3J8gUZk/+1Fp7P038BtOhnedpi
+         H0NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=n4lZKQ7D/b+Y1RnAe1IHv907xEM4UrKrYxjGnKdhmJs=;
+        b=ZoeBGi/pzX0HzljNBaPniT7DYWTyAlMXqpIOYwMDrBZRukRxgFjdK3H4q5l59SIKiq
+         ZPjap28EAosKsICc/bXQGOg2cNYdOuGjmaB9hT4Nm+zL7mcBWrkIY0WvPosxUhzQhKnx
+         ox86/3pza4XEehs8xkBG4RlEm0iuaEVANqWRmkdoxjqquZ0Nvo6JkhWX85YGYuiDKwgU
+         og7WNaOIZSX8eDkRdTbUbAsWYR2efjMsAkGzTLGGgLz+MQYTC1ytanAkEG2Sx3EzT5+b
+         R66hdgmegnRUgvNvgDhP/1R8AuZWrCXf5IcKtRXEX1muh1ToFNPaHGp9Wr63vXOmsSzN
+         kALg==
+X-Gm-Message-State: AOAM5318jFPClJkN2sV/F2n7vQZvsrZycUR4T1xCytdBcjhLHCHaQX/5
+        b8aX9YNttlb54EHffKF+AMNLR3XT91NARkPSmg8=
+X-Google-Smtp-Source: ABdhPJy2CiQGQD9PVjlvfc77AiGZksg4u2goErRpB2fkP/7pbqKE9HS5KbzuJSWj6Tjl5TG5N7AmZEE5geyLUdWuD1U=
+X-Received: by 2002:a25:b78e:: with SMTP id n14mr35491542ybh.474.1621855635345;
+ Mon, 24 May 2021 04:27:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85h7isif8y.fsf@linux.intel.com>
+References: <20201203191135.21576-1-info@metux.net> <20201203191135.21576-2-info@metux.net>
+In-Reply-To: <20201203191135.21576-2-info@metux.net>
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+Date:   Mon, 24 May 2021 16:57:03 +0530
+Message-ID: <CAOh2x=kcM351ObubnQSzUa=FVBQUmAUhz4u8ExORUthQQ0WbGQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        bgolaszewski@baylibre.com, "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        linux-gpio@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 24, 2021 at 12:43:25PM +0200, Maciej Kwapulinski wrote:
-> 
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-> 
-> > On Fri, May 14, 2021 at 10:20:42AM +0200, Maciej Kwapulinski wrote:
-> >> 
-> >> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-> >> 
-> >> > On Thu, May 13, 2021 at 01:00:37PM +0200, Maciej Kwapulinski wrote:
-> >> >> From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
-> >> >> 
-> >> >> Add ioctl handler into GNA driver.
-> >> >> The ioctl interface provides the ability to do the following:
-> >> >>  - Map and unmap memory buffers for GNA computation requests.
-> >> >>  - Retrieve capabilities of the underlying GNA IP.
-> >> >>  - Submit GNA computation requests.
-> >> >>  - Request notification of scoring completion.
-> >> >
-> >> > Do you have a pointer to the userspace code that uses this ioctl?
-> >> > That's kind of required here, otherwise we have no idea how this all
-> >> > works.
-> >> >
-> >> 
-> >> yes, it's present under following link:
-> >> 
-> >> https://github.com/intel/gna
-> >
-> > Then that needs to go here in this changelog text, right?
-> 
-> link to library is already present in 00/14, I didn't want to have it in
-> two places, that's why not present here.
+On Fri, Dec 4, 2020 at 12:51 AM Enrico Weigelt, metux IT consult
+<info@metux.net> wrote:
+>
+> Introducing new gpio driver for virtual GPIO devices via virtio.
+>
+> The driver allows routing gpio control into VM guests, eg. brigding
+> virtual gpios to specific host gpios, or attaching simulators for
+> automatic application testing.
+>
+> Changes v2:
+>     * fixed uapi header license
+>     * sorted include's
+>     * fixed formatting
+>     * fixed unneeded devm allocation - plain kzalloc/kfree is enough
+>     * fixed missing devm_kzalloc fail check
+>     * use devm_kcalloc() for array allocation
+>     * added virtio-gpio protocol specification
 
-Commit 00/XX never shows up in the changelog :(
+Hi Enrico,
+
+We (Linaro's Project Stratos
+https://linaro.atlassian.net/wiki/spaces/STR/overview)
+ are interested in this stuff. I was trying to look at the last status
+of all this. Few
+questions for you:
+
+- Was the spec ever posted to virtio-dev list ? I thought that's the
+very first step before
+we merge the code.
+
+- Any follow up on this patchset ?
+
+Thanks. I will be happy to help otherwise and have cycles to work on
+this if you need my help.
+
+--
+viresh
