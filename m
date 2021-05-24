@@ -2,79 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E43F6C47080
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 01:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12EBFC47080
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 01:58:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B53FD611CB
-	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 01:00:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D89FE6109E
+	for <linux-doc@archiver.kernel.org>; Mon, 24 May 2021 01:58:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232060AbhEXBBi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 May 2021 21:01:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42388 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232050AbhEXBBg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 23 May 2021 21:01:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 9792F611CC;
-        Mon, 24 May 2021 01:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621818009;
-        bh=IJCBZy0bLfcVnY1Igy7njpQmormYRMAMJFq6XLkGtdI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=a7wB2czDoCf5Obt5PsguKxQ04dRSQciM8em+pDQ0xXV7eiTUitgw2ER45oXHd8wqE
-         HsLT0q5VsCUxi44UdHz+qbHfHgIM9x7noc78NqlFwGDGJliMA2bAFXcuR2oWyuhj/t
-         TpQZp20ObSfXUdrk6qTRE6XfzNXCNCVLOFxsMT15SL1pzEdCepW/8vCdJ8HOflTzdk
-         A0NuuWTjHQaGG6z5s/Vz6qdPcraqraUjTGmg8GqsMrSPAplVBlhYJfPem+hLelKUCY
-         uPBDTdwtFEs3xjQ8ifEnp34ExfHzfekp+UX6k2lhhMoEQa5Zkp7Yplg/cpSrOY/lLN
-         qvvwbxRzVEIUg==
-Content-Type: text/plain; charset="utf-8"
+        id S231761AbhEXB7d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 May 2021 21:59:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33772 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231744AbhEXB7c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 May 2021 21:59:32 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB21C061574;
+        Sun, 23 May 2021 18:58:05 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id q6so13931850pjj.2;
+        Sun, 23 May 2021 18:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=jCtgzjCClBSQtUU7LwrqukXj+kZVkiIw6coIo/OGtnU=;
+        b=Ofwdln73QEDuF45bdqyN1Fk+P3+jtMNZ02BpWhl7sly8T7z9eGHTdQeOCC4hTbOwY9
+         rMNySOVLNji2Eu7KJoY0p7xd9cmd1PNuzExwZ78dzs4yKsJ5jMzNdw0Dt2f3A3t7X+7F
+         +O1AN+w/r65jw/ADEWv/MoXWflgLz4+xCs5LbV70CEd17hJku9e2RdSDPxMnJAsYl+kY
+         sGuA9GObHVTajH9lcgOzGOHlt0cfgmCvBnwO+OBpiMLS33xfXArF2zAxx/j006X02OIL
+         B7rIjRqrWerrA7jXdiOYkVKuriECUVANc1L0EIUy6CHvpqRxvTT6k7E+Sc1TKxyYsU8g
+         00Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=jCtgzjCClBSQtUU7LwrqukXj+kZVkiIw6coIo/OGtnU=;
+        b=FVy1XesRn+Ym2dU7ZxcW4jlEy17MjcUfFSghf7inkc9imHAvzi4UY8079KszYCuXNe
+         RCQfwEjn1c2ZY8GpRqYJ0h14hjEQt27cva2I1qs1OZug5lYQQfPEzYjo3DtgWS4k7YN8
+         APAyf64zQFvxFIQrshZ1RAtnTg2HIHbwr5sLz1fH3twi2W+N31El4vuL6FwMwcLGa5ab
+         DMnp5GWTofMCfO0NkR+wzHl42S5oreskbtJowqYF1WwAUs1DCDSSGvTQ89oFA2O5kGqn
+         mpToD/avTdiIJxnBJ6/or95lfvL9qih+eQxd+la3jKRUlltyfDn5TbYs/zu+4omzc22M
+         oK9Q==
+X-Gm-Message-State: AOAM532Y7I2c1X1tyGCC/RmECThkDIZ77IW5x/c4ntZY9XHxyJqKnz2l
+        xcO2LZfneVrqdK6gfOxPMizbwct0YZSU+td+1Q8=
+X-Google-Smtp-Source: ABdhPJy4MRqed6QyTy9fd1+WYGe0qFlie4CNYug1y1uiYMMcObYFXIP4KQaIYLBBSINpcDTN9lHlxuLAudEuzoAgKGg=
+X-Received: by 2002:a17:90b:1885:: with SMTP id mn5mr21871211pjb.24.1621821484572;
+ Sun, 23 May 2021 18:58:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] NFC: nfcmrvl: fix kernel-doc syntax in file headers
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162181800956.10357.9521863900425218837.git-patchwork-notify@kernel.org>
-Date:   Mon, 24 May 2021 01:00:09 +0000
-References: <20210523210909.5359-1-yashsri421@gmail.com>
-In-Reply-To: <20210523210909.5359-1-yashsri421@gmail.com>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     krzysztof.kozlowski@canonical.com, lukas.bulwahn@gmail.com,
-        rdunlap@infradead.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-nfc@lists.01.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210522080214.88050-1-src.res@email.cn>
+In-Reply-To: <20210522080214.88050-1-src.res@email.cn>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Mon, 24 May 2021 09:57:55 +0800
+Message-ID: <CAMU9jJqdaKXWtUz_s=muFcJq81SouUJNOHSa-ZGCWXOFLK6wQw@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: Add Chinese translations for new contents
+To:     Hu Haowen <src.res@email.cn>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        "Wu X.C." <bobwxc@email.cn>, jaixun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net.git (refs/heads/master):
-
-On Mon, 24 May 2021 02:39:09 +0530 you wrote:
-> The opening comment mark '/**' is used for highlighting the beginning of
-> kernel-doc comments.
-> The header for drivers/nfc/nfcmrvl follows this syntax, but the content
-> inside does not comply with kernel-doc.
-> 
-> This line was probably not meant for kernel-doc parsing, but is parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-> causes unexpected warnings from kernel-doc.
-> For e.g., running scripts/kernel-doc -none on drivers/nfc/nfcmrvl/spi.c
-> causes warning:
-> warning: expecting prototype for Marvell NFC(). Prototype was for SPI_WAIT_HANDSHAKE() instead
-> 
-> [...]
-
-Here is the summary with links:
-  - NFC: nfcmrvl: fix kernel-doc syntax in file headers
-    https://git.kernel.org/netdev/net/c/4dd649d130c6
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+SGkgaGFvd2VuOg0KDQpUaGFuayB5b3UgZm9yIHlvdXIgdXBkYXRlLCBidXQgdGhpcyB1cGRhdGUg
+aXMgYWxyZWFkeSBpbmNsdWRlZCBpbjoNCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWRv
+Yy8yMDIxMDUyMTExMzc1Mi5HQTI0NTgxQGJvYnd4Yy50b3AvVC8jdA0KDQpIdSBIYW93ZW4gPHNy
+Yy5yZXNAZW1haWwuY24+IOS6jjIwMjHlubQ15pyIMjLml6Xlkajlha0g5LiL5Y2INDowMuWGmemB
+k++8mg0KPg0KPiBBIGRvY3VtZW50IHVwZGF0ZWQgaW4gY29tbWl0IDFjMzFmMGI2N2NmYTZkNGNk
+NDFkICgibW9kdWxlOiBhZGQgcHJpbnRrDQo+IGZvcm1hdHMgdG8gYWRkIG1vZHVsZSBidWlsZCBJ
+RCB0byBzdGFja3RyYWNlcyIpLCBoZW5jZSBhZGQgQ2hpbmVzZQ0KPiB0cmFuc2xhdGlvbnMgZm9y
+IGl0Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIdSBIYW93ZW4gPHNyYy5yZXNAZW1haWwuY24+DQo+
+IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9wcmludGstZm9ybWF0cy5y
+c3QgICAgICAgfCA5ICsrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygr
+KQ0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29y
+ZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
+Q04vY29yZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0DQo+IGluZGV4IDYyNGEwOTBlNmVlNS4uMTE2
+YWJjMDQ2YmZlIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
+Ti9jb3JlLWFwaS9wcmludGstZm9ybWF0cy5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFu
+c2xhdGlvbnMvemhfQ04vY29yZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0DQo+IEBAIC0xMjIsNiAr
+MTIyLDE1IEBAIHNlcV9wcmludGYoKe+8jOiAjOS4jeaYr3ByaW50aygp77yJ55Sx55So5oi356m6
+6Ze06L+b56iL6K+75Y+W77yM5L2/55So5LiL6Z2i5o+PDQo+ICBgYEJgYCDljaDkvY3nrKbnmoTn
+u5PmnpzmmK/luKbmnInlgY/np7vph4/nmoTnrKblj7flkI3vvIzlnKjmiZPljbDloIbmoIjlm57m
+uq/ml7blupTor6Xkvb/nlKjjgILljaDkvY3nrKblsIbogIPomZHnvJbor5HlmajkvJjljJYNCj4g
+IOeahOW9seWTje+8jOW9k+S9v+eUqOWwvumDqOiwg+eUqOW5tuS9v+eUqG5vcmV0dXJuIEdDQ+Wx
+nuaAp+agh+iusOaXtu+8jOWPr+iDveS8muWPkeeUn+i/meenjeS8mOWMluOAgg0KPg0KPiAr5aaC
+5p6c5Y2g5L2N56ym5piv5Zyo5LiA5Liq5qih5Z2X5LmL5Lit77yM5Y+v5Zyo5Y2g5L2N56ym5pyr
+5bC+5re75YqgIGBgYmBgIOS7peWcqOespuWPt+WQjeWQjuaJk+WNsOaooeWdl+WQjeensOWSjOWP
+r+mAieaehOW7uklE44CCDQo+ICsNCj4gKzo6DQpidWlsZCB3YXJuaW5nISBhZGQgb25lIGJsYWNr
+IGxpbmUgaGVyZS4NCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWRvYy9DQUUtMG41MFV2
+ZTRnRXdEZko0d3QtdEZCakprU3RKMUViNmpIbnRqY1JNTC1IQ2tHVXdAbWFpbC5nbWFpbC5jb20v
+VC8jdA0KDQpUaGFua3MsDQpZYW50ZW5nDQo+ICsgICAgICAgICVwUyAgICAgdmVyc2F0aWxlX2lu
+aXQrMHgwLzB4MTEwIFttb2R1bGVfbmFtZV0NCj4gKyAgICAgICAgJXBTYiAgICB2ZXJzYXRpbGVf
+aW5pdCsweDAvMHgxMTAgW21vZHVsZV9uYW1lIGVkNTAxOWZkZjVlNTNiZTM3Y2IxYmE3ODk5Mjky
+ZDdlMTQzYjI1OWVdDQo+ICsgICAgICAgICVwU1JiICAgdmVyc2F0aWxlX2luaXQrMHg5LzB4MTEw
+IFttb2R1bGVfbmFtZSBlZDUwMTlmZGY1ZTUzYmUzN2NiMWJhNzg5OTI5MmQ3ZTE0M2IyNTllXQ0K
+PiArICAgICAgICAgICAgICAgICh3aXRoIF9fYnVpbHRpbl9leHRyYWN0X3JldHVybl9hZGRyKCkg
+dHJhbnNsYXRpb24pDQo+ICsgICAgICAgICVwQmIgICAgcHJldl9mbl9vZl92ZXJzYXRpbGVfaW5p
+dCsweDg4LzB4ODggW21vZHVsZV9uYW1lIGVkNTAxOWZkZjVlNTNiZTM3Y2IxYmE3ODk5MjkyZDdl
+MTQzYjI1OWVdDQo+ICsNCj4gIOadpeiHqkJQRiAvIHRyYWNpbmfov73ouKrnmoTmjqLmn6XmjIfp
+kogNCj4gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4NCj4gLS0NCj4gMi4y
+NS4xDQo+DQo=
