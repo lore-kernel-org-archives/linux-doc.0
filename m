@@ -2,244 +2,429 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19628C2B9F8
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 11:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88625C2B9F8
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 11:41:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D83596141C
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 11:17:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53A2F61417
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 11:41:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230104AbhEYLTB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 07:19:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59976 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229968AbhEYLTA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 07:19:00 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3F6C061574;
-        Tue, 25 May 2021 04:17:30 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id 69so16188523plc.5;
-        Tue, 25 May 2021 04:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Uqov9+FQrcMyLpDp6pVOHvJod0/ZjMr0E8znSBCKxs8=;
-        b=PKbtWZ3MIiHUUY0isZVYSiV/fnp4dTzSageOlP8NiqnS5CpqLHctkXNTMWXekByDtx
-         GgUpEU3C4y6FuR2wn90fwLTDea3oUh75WTh6FCNSqsEUtCG/Sk6Jv2wAbYv976JLhlKG
-         Eb2VkUBC9O0y4hrtvM0Y0t452lbNZN4Uc9FmBW3o3zcdeFpyyX8qsWlxgXrzvO6DOMf5
-         ITPyrXPnog+kb4ziD77rBoNGJdrBqH1F7Gd3OvZWDhwZLd0fLE2pq6JGXOB/G5nR1yQf
-         +T4oU5DG16rD5OtmT4isOHNXvaKlt3GngF6yf3yAyXXJ0sQqbMhhf1m2on6D6hT1gWk+
-         h9xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Uqov9+FQrcMyLpDp6pVOHvJod0/ZjMr0E8znSBCKxs8=;
-        b=B36jQWVj82+InVjv0X3EBvScDmqzBDelrmZogPsqBWBRshvXyGA8Z+aj8bKXmOQ9Hg
-         Oo3deYxKdNvS725e/bm/kEhOPCTl63xn6XBdneXNsFK1RdtXpHDr67uYT5xAdoZ8HfSN
-         t4e4KmDPsmJ8vOD3m7TyWw9NH1L21QB/OMUbgNIUO3oPKVEtkBXWHexFJvM9i2QnA7Gk
-         tGK0kkbQIn1t39hANSHC1Z82MQH40NGPERf3V4Ta0aEx4d6+QdUixU3vhwLz3oeHbYq3
-         PCRHuOPKWZgGSIeN8W7BO39A7y9MxNZlKTTJTm7Cz2yChCBXLsHfYV9Y/AH2sWiwyNYs
-         4OMA==
-X-Gm-Message-State: AOAM531TT6PMxBnUuCTnY0vflpFmj4+GVO1Y7MY1UTDKnnLa7LBcKMGl
-        Y8c7f+cNXKvNabi3DS0Kf94Kt2gaDgI=
-X-Google-Smtp-Source: ABdhPJymjQNyH6izyea4yqL+s7ZbKHHr9+zudahSmh9gcywGhR4AwXcO9depzv1NIwQenu/1FLCx9Q==
-X-Received: by 2002:a17:90b:30d0:: with SMTP id hi16mr29584020pjb.30.1621941449935;
-        Tue, 25 May 2021 04:17:29 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 136sm13320163pfu.195.2021.05.25.04.17.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 04:17:29 -0700 (PDT)
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH v2] docs: Activate exCJK only in CJK chapters
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, "Wu X.C." <bobwxc@email.cn>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-Message-ID: <0229bc4d-b391-41b9-e900-b88089c493df@gmail.com>
-Date:   Tue, 25 May 2021 20:17:26 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S231590AbhEYLn1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 07:43:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54832 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230350AbhEYLn1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 07:43:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621942917;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=uuL2a6PdicX+fV/nrfzJHHsNx5ho1UgXpUsnnGpRNCc=;
+        b=GIFu2oRqMZM7Qk88gXgOZznAncKmW3c4BL5EpBpQkkKP9NrhJM0GE8VK2WVUcubjRKfSO1
+        K4OW6sU/+NU06s0sF3YXkP1lkclC3vMTSkaybi341X2vXEhnWbA0ctJtebQ6SOOwatfRVf
+        AodE4xRj+Z8RwGYA6vWZiy/nDH6jHsU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-F7YdO8MZNg2YULyFVBoAjw-1; Tue, 25 May 2021 07:41:55 -0400
+X-MC-Unique: F7YdO8MZNg2YULyFVBoAjw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EB5E180FD66;
+        Tue, 25 May 2021 11:41:53 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-13-57.pek2.redhat.com [10.72.13.57])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 14CC35D767;
+        Tue, 25 May 2021 11:41:45 +0000 (UTC)
+Date:   Tue, 25 May 2021 19:41:42 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Baoquan He <bhe@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+        akpm@linux-foundation.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, vgoyal@redhat.com,
+        x86@kernel.org, Eric Biederman <ebiederm@xmission.com>
+Subject: Re: [PATCH] Documentation: kdump: update kdump guide
+Message-ID: <YKzidlzM6UCdzpA9@dhcp-128-65.nay.redhat.com>
+References: <20210520103729.13696-1-bhe@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210520103729.13696-1-bhe@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Activating xeCJK in English and Italian-translation documents
-results in sub-optimal typesetting with wide-looking apostrophes
-and quotation marks.
+Hi Baoquan,
 
-The xeCJK package provides macros for enabling and disabling its
-effect in the middle of a document, namely \makexeCJKactive and
-\makexeCJKinactive.
+Thanks for the update!  Since we are updating it I added arch
+maintainers to see if they have any comments about the archtectures
+part.
 
-So the goal of this change is to activate xeCJK in the relevant
-chapters in translations.
+I added a few comments inline, but still want more inputs from other
+people :)
+On 05/20/21 at 06:37pm, Baoquan He wrote:
+> Some parts of the guide are aged, hence need be updated.
+> 
+> 1) The backup area of the 1st 640K on X86_64 has been removed
+>    by below commits, update the description accordingly.
+> 
+>    commit 7c321eb2b843 ("x86/kdump: Remove the backup region handling")
+>    commit 6f599d84231f ("x86/kdump: Always reserve the low 1M when the crashkernel option is specified")
+> 
+> 2) Sort out the descripiton of "crashkernel syntax" part.
+> 
+> 3) And some other minor cleanups.
+> 
+> Signed-off-by: Baoquan He <bhe@redhat.com>
+> ---
+>  Documentation/admin-guide/kdump/kdump.rst | 150 ++++++++++++++--------
+>  1 file changed, 97 insertions(+), 53 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> index 75a9dd98e76e..6d0dcf5b5e1f 100644
+> --- a/Documentation/admin-guide/kdump/kdump.rst
+> +++ b/Documentation/admin-guide/kdump/kdump.rst
+> @@ -2,7 +2,7 @@
+>  Documentation for Kdump - The kexec-based Crash Dumping Solution
+>  ================================================================
+>  
+> -This document includes overview, setup and installation, and analysis
+> +This document includes overview, setup, installation, and analysis
+>  information.
+>  
+>  Overview
+> @@ -13,12 +13,12 @@ dump of the system kernel's memory needs to be taken (for example, when
+>  the system panics). The system kernel's memory image is preserved across
+>  the reboot and is accessible to the dump-capture kernel.
+>  
+> -You can use common commands, such as cp and scp, to copy the
+> -memory image to a dump file on the local disk, or across the network to
+> -a remote system.
+> +You can use common commands, such as cp, scp or makedumpfile to copy
+> +the memory image to a dump file on the local disk, or across the network
+> +to a remote system.
+>  
+> -Kdump and kexec are currently supported on the x86, x86_64, ppc64, ia64,
+> -s390x, arm and arm64 architectures.
+> +Kdump and kexec are currently supported on the x86/64, ppc64, ia64,
+> +s390x, arm/64 architectures.
+>  
+>  When the system kernel boots, it reserves a small section of memory for
+>  the dump-capture kernel. This ensures that ongoing Direct Memory Access
+> @@ -27,12 +27,14 @@ The kexec -p command loads the dump-capture kernel into this reserved
+>  memory.
+>  
+>  On x86 machines, the first 640 KB of physical memory is needed to boot,
+> -regardless of where the kernel loads. Therefore, kexec backs up this
+> -region just before rebooting into the dump-capture kernel.
+> +regardless of where the kernel loads. For simpler handling, the whole
+> +low 1M is reserved to avoid any later kernel or device driver writing
+> +data into this area. Like this, the low 1M can be reused as system RAM
+> +by kdump kernel without extra handling.
+>  
+> -Similarly on PPC64 machines first 32KB of physical memory is needed for
+> -booting regardless of where the kernel is loaded and to support 64K page
+> -size kexec backs up the first 64KB memory.
+> +On PPC64 machines first 32KB of physical memory is needed for booting
+> +regardless of where the kernel is loaded and to support 64K page size
+> +kexec backs up the first 64KB memory.
+>  
+>  For s390x, when kdump is triggered, the crashkernel region is exchanged
+>  with the region [0, crashkernel region size] and then the kdump kernel
+> @@ -46,14 +48,14 @@ passed to the dump-capture kernel through the elfcorehdr= boot
+>  parameter. Optionally the size of the ELF header can also be passed
+>  when using the elfcorehdr=[size[KMG]@]offset[KMG] syntax.
+>  
+> -
+>  With the dump-capture kernel, you can access the memory image through
+>  /proc/vmcore. This exports the dump as an ELF-format file that you can
+> -write out using file copy commands such as cp or scp. Further, you can
+> -use analysis tools such as the GNU Debugger (GDB) and the Crash tool to
+> -debug the dump file. This method ensures that the dump pages are correctly
+> -ordered.
+> -
+> +write out using file copy commands such as cp or scp. You can also use
+> +makedumpfile utility to analyze and write out filtered contents with
+> +options, e.g with '-d 31' it will only write out kernel data. Further,
+> +you can use analysis tools such as the GNU Debugger (GDB) and the Crash
+> +tool to debug the dump file. This method ensures that the dump pages are
+> +correctly ordered.
+>  
+>  Setup and Installation
+>  ======================
+> @@ -111,7 +113,7 @@ There are two possible methods of using Kdump.
+>  2) Or use the system kernel binary itself as dump-capture kernel and there is
+>     no need to build a separate dump-capture kernel. This is possible
+>     only with the architectures which support a relocatable kernel. As
+> -   of today, i386, x86_64, ppc64, ia64, arm and arm64 architectures support
+> +   of today, x86/64, ppc64, ia64, arm/64 architectures support
+>     relocatable kernel.
+>  
+>  Building a relocatable kernel is advantageous from the point of view that
+> @@ -125,9 +127,18 @@ dump-capture kernels for enabling kdump support.
+>  System kernel config options
+>  ----------------------------
+>  
+> -1) Enable "kexec system call" in "Processor type and features."::
+> +1) Enable "kexec system call" or "kexec file based system call" in
+> +   "Processor type and features."::
+> +
+> +	CONFIG_KEXEC=y or CONFIG_KEXEC_FILE=y
+> +
+> +   And both of them will select KEXEC_CORE::
+>  
+> -	CONFIG_KEXEC=y
+> +	CONFIG_KEXEC_CORE=y
+> +
+> +   Subsequently, CRASH_CORE is selected by KEXEC_CORE::
+> +
+> +	CONFIG_CRASH_CORE=y
+>  
+>  2) Enable "sysfs file system support" in "Filesystem" -> "Pseudo
+>     filesystems." This is usually enabled by default::
+> @@ -180,7 +191,7 @@ Dump-capture kernel config options (Arch Dependent, i386 and x86_64)
+>  
+>  	CONFIG_SMP=n
+>  
+> -   (If CONFIG_SMP=y, then specify maxcpus=1 on the kernel command line
+> +   (If CONFIG_SMP=y, then specify nr_cpus=1 on the kernel command line
+>     when loading the dump-capture kernel, see section "Load the Dump-capture
+>     Kernel".)
 
-To do this:
+This part should be obsolete?  Since for X86_64 we can enable smp boot
+with disable_cpu_apicid=X set (see the Notes on loading the dump-capture
+kernel part)  So I think no need to disable CONFIG_SMP at all.  The
+current RHEL use of nr_cpus=1 is just to save 2nd kernel memory use.
 
-    o Define custom macros in the preamble depending on the
-      availability of the "Noto Sans CJK" font so that those
-      macros can be used regardless of the use of xeCJK package.
+Ditto for the text for other arches, not sure if they need update
+though, see if other maintainers can provide inputs..
 
-    o Patch \sphinxtableofcontents so that xeCJK is inactivated
-      after table of contents.
 
-    o Embed those custom macros in each language's index.rst file
-      as a ".. raw:: latex" construct.
+Otherwise for the CONFIG_RELOCATABLE related part,  it may be better to
+update as well? 
+''' quote:
+3) If one wants to build and use a relocatable kernel,
+   Enable "Build a relocatable kernel" support under "Processor type and
+   features"::
 
-Note: A CJK chapter needs \kerneldocCJKon in front of its chapter
-heading, while a non-CJK chapter should have \kerneldocCJKoff
-below its chapter heading.
+        CONFIG_RELOCATABLE=y
 
-This is to make sure the CJK font is available to CJK chapter's
-heading and ending page's footer.
+4) Use a suitable value for "Physical address where the kernel is
+   loaded" (under "Processor type and features"). This only appears when
+   "kernel crash dumps" is enabled. A suitable value depends upon
+   whether kernel is relocatable or not.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-Hi all,
+   If you are using a relocatable kernel use CONFIG_PHYSICAL_START=0x100000
+   This will compile the kernel for physical address 1MB, but given the fact
+   kernel is relocatable, it can be run from any physical address hence
+   kexec boot loader will load it in memory region reserved for dump-capture
+   kernel.
 
-I'm still unable to manage the per-directory conf.py idea to work,
-but as far as activation/inactivation of xeCJK is concerned,
-the custom LaTeX macros can be embedded in each language's
-index.rst.
+   Otherwise it should be the start of memory region reserved for
+   second kernel using boot parameter "crashkernel=Y@X". Here X is
+   start of memory region reserved for dump-capture kernel.
+   Generally X is 16MB (0x1000000). So you can set
+   CONFIG_PHYSICAL_START=0x1000000
+''' end quote
 
-Also note that the on/off macros added here are still useful
-when the xeCJK related settings are moved into per-directory
-conf.py, because of the Disclaimer in English.
+Since relocatable kernel is used by default now so we may just not describe it as "If one
+want to build with it =y", I feel it should be a corner case instead of
+the default use case.   Maybe HPA, Vivek, Eric can provide more opinions since
+they may know more about the background.  
 
-I think per-directory conf.py can be tried as a follow-up
-change after this patch is applied.
+>  
+> @@ -241,10 +252,6 @@ Dump-capture kernel config options (Arch Dependent, ia64)
+>  
+>  	crashkernel=256M
+>  
+> -  If the start address is specified, note that the start address of the
+> -  kernel will be aligned to 64Mb, so if the start address is not then
+> -  any space below the alignment point will be wasted.
+> -
+>  Dump-capture kernel config options (Arch Dependent, arm)
+>  ----------------------------------------------------------
+>  
+> @@ -260,44 +267,77 @@ Dump-capture kernel config options (Arch Dependent, arm64)
+>    on non-VHE systems even if it is configured. This is because the CPU
+>    will not be reset to EL2 on panic.
+>  
+> -Extended crashkernel syntax
+> +crashkernel syntax
+>  ===========================
+> +1) crashkernel=size@offset
+>  
+> -While the "crashkernel=size[@offset]" syntax is sufficient for most
+> -configurations, sometimes it's handy to have the reserved memory dependent
+> -on the value of System RAM -- that's mostly for distributors that pre-setup
+> -the kernel command line to avoid a unbootable system after some memory has
+> -been removed from the machine.
+> +   Here 'size' specifies how much memory to reserve for the dump-capture kernel
+> +   and 'offset' specifies the beginning of this reserved memory. For example,
+> +   "crashkernel=64M@16M" tells the system kernel to reserve 64 MB of memory
+> +   starting at physical address 0x01000000 (16MB) for the dump-capture kernel.
+> +
+> +   The crashkernel region can be automatically placed by the system
+> +   kernel at run time. This is done by specifying the base address as 0,
+> +   or omitting it all together::
+>  
+> -The syntax is::
+> +         crashkernel=256M@0
+> +   or::
+>  
+> -    crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> -    range=start-[end]
+> +         crashkernel=256M
+>  
+> -For example::
+> +   If the start address is specified, note that the start address of the
+> +   kernel will be aligned to a value (which is Arch dependent), so if the
+> +   start address is not then any space below the alignment point will be
+> +   wasted.
+>  
+> -    crashkernel=512M-2G:64M,2G-:128M
+> +2) range1:size1[,range2:size2,...][@offset]
+>  
+> -This would mean:
+> +   While the "crashkernel=size[@offset]" syntax is sufficient for most
+> +   configurations, sometimes it's handy to have the reserved memory dependent
+> +   on the value of System RAM -- that's mostly for distributors that pre-setup
+> +   the kernel command line to avoid a unbootable system after some memory has
+> +   been removed from the machine.
+>  
+> -    1) if the RAM is smaller than 512M, then don't reserve anything
+> -       (this is the "rescue" case)
+> -    2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> -    3) if the RAM size is larger than 2G, then reserve 128M
+> +   The syntax is::
+>  
+> +       crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> +       range=start-[end]
+>  
+> +   For example::
+>  
+> -Boot into System Kernel
+> -=======================
+> +       crashkernel=512M-2G:64M,2G-:128M
+>  
+> +   This would mean:
+> +
+> +       1) if the RAM is smaller than 512M, then don't reserve anything
+> +          (this is the "rescue" case)
+> +       2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> +       3) if the RAM size is larger than 2G, then reserve 128M
+> +
+> +3) crashkernel=size,high and crashkernel=size,low
+> +
+> +   If memory above 4G is preferred, crashkernel=size,high can be used to
+> +   fulfill that. With it, physical memory is allowed to allocate from top,
+> +   so could be above 4G if system has more than 4G RAM installed. Otherwise,
+> +   memory region will be allocated below 4G if available.
+> +
+> +   When crashkernel=X,high is passed, kernel could allocate physical memory
+> +   region above 4G, low memory under 4G is needed in this case. There are
+> +   three ways to get low memory:
+> +
+> +      1) Kernel will allocate at least 256M memory below 4G automatically
+> +         if crashkernel=Y,low is not specified.
+> +      2) Let user specify low memory size instread.
+> +      3) Specified value 0 will disable low memory allocation::
+> +
+> +            crashkernel=0,low
+> +
+> +Boot into System Kernel
+> +-----------------------
+>  1) Update the boot loader (such as grub, yaboot, or lilo) configuration
+>     files as necessary.
+>  
+> -2) Boot the system kernel with the boot parameter "crashkernel=Y@X",
+> -   where Y specifies how much memory to reserve for the dump-capture kernel
+> -   and X specifies the beginning of this reserved memory. For example,
+> -   "crashkernel=64M@16M" tells the system kernel to reserve 64 MB of memory
+> -   starting at physical address 0x01000000 (16MB) for the dump-capture kernel.
+> +2) Boot the system kernel with the boot parameter "crashkernel=Y@X".
+>  
+>     On x86 and x86_64, use "crashkernel=64M@16M".
 
-Thoughts?
+For the recommendation of crashkernel it would be better to drop the
+@16M since most people do not need it?
 
-        Thanks, Akira
---
- Documentation/conf.py                      | 13 +++++++++++++
- Documentation/translations/index.rst       |  4 ++++
- Documentation/translations/it_IT/index.rst |  4 ++++
- Documentation/translations/ja_JP/index.rst |  5 +++--
- Documentation/translations/ko_KR/index.rst |  5 +++--
- Documentation/translations/zh_CN/index.rst |  1 +
- 6 files changed, 28 insertions(+), 4 deletions(-)
+>  
+> @@ -392,7 +432,7 @@ loading dump-capture kernel.
+>  
+>  For i386, x86_64 and ia64:
+>  
+> -	"1 irqpoll maxcpus=1 reset_devices"
+> +	"1 irqpoll nr_cpus=1 reset_devices"
+>  
+>  For ppc64:
+>  
+> @@ -400,7 +440,7 @@ For ppc64:
+>  
+>  For s390x:
+>  
+> -	"1 maxcpus=1 cgroup_disable=memory"
+> +	"1 nr_cpus=1 cgroup_disable=memory"
+>  
+>  For arm:
+>  
+> @@ -408,7 +448,7 @@ For arm:
+>  
+>  For arm64:
+>  
+> -	"1 maxcpus=1 reset_devices"
+> +	"1 nr_cpus=1 reset_devices"
+>  
+>  Notes on loading the dump-capture kernel:
+>  
+> @@ -487,7 +527,12 @@ After the dump-capture kernel is booted, write out the dump file with
+>  the following command::
+>  
+>     cp /proc/vmcore <dump-file>
+> +   scp /proc/vmcore to <user@server>:<path>/%HOST-%DATE/
+> +
+> +You can also use makedumpfile utility to write out the dump file
+> +with specified options to filter out unwanted contents, e.g::
+>  
+> +   core_collector makedumpfile -l --message-level 1 -d 31
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 879e86dbea66..25aa00c707b0 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -371,6 +371,19 @@ if cjk_cmd.find("Noto Sans CJK SC") >=3D 0:
- 	% This is needed for translations
-         \\usepackage{xeCJK}
-         \\setCJKmainfont{Noto Sans CJK SC}
-+	% Define custom macros to on/off CJK
-+	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
-+	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
-+	% To customize \sphinxtableofcontents
-+	\\usepackage{etoolbox}
-+	% Inactivate CJK after tableofcontents
-+	\\apptocmd{\\sphinxtableofcontents}{\\kerneldocCJKoff}{}{}
-+     '''
-+else:
-+    latex_elements['preamble']  +=3D '''
-+	% Custom macros to on/off CJK (Dummy)
-+	\\newcommand{\\kerneldocCJKon}{}
-+	\\newcommand{\\kerneldocCJKoff}{}
-      '''
-=20
- # Fix reference escape troubles with Sphinx 1.4.x
-diff --git a/Documentation/translations/index.rst b/Documentation/transla=
-tions/index.rst
-index e446e5ed00a6..f07eb317cfba 100644
---- a/Documentation/translations/index.rst
-+++ b/Documentation/translations/index.rst
-@@ -18,6 +18,10 @@ Translations
- Disclaimer
- ----------
-=20
-+.. raw:: latex
-+
-+	\kerneldocCJKoff=09
-+
- Translation's purpose is to ease reading and understanding in languages =
-other
- than English. Its aim is to help people who do not understand English or=
- have
- doubts about its interpretation. Additionally, some people prefer to rea=
-d
-diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/t=
-ranslations/it_IT/index.rst
-index bb8fa7346939..e80a3097aa57 100644
---- a/Documentation/translations/it_IT/index.rst
-+++ b/Documentation/translations/it_IT/index.rst
-@@ -4,6 +4,10 @@
- Traduzione italiana
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-+.. raw:: latex
-+
-+	\kerneldocCJKoff
-+
- :manutentore: Federico Vaga <federico.vaga@vaga.pv.it>
-=20
- .. _it_disclaimer:
-diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/t=
-ranslations/ja_JP/index.rst
-index 2f91b895e3c2..f94ba62d41c3 100644
---- a/Documentation/translations/ja_JP/index.rst
-+++ b/Documentation/translations/ja_JP/index.rst
-@@ -1,7 +1,8 @@
- .. raw:: latex
-=20
--        \renewcommand\thesection*
--        \renewcommand\thesubsection*
-+	\renewcommand\thesection*
-+	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- Japanese translations
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/t=
-ranslations/ko_KR/index.rst
-index b9e27d20b039..6ae258118bdf 100644
---- a/Documentation/translations/ko_KR/index.rst
-+++ b/Documentation/translations/ko_KR/index.rst
-@@ -1,7 +1,8 @@
- .. raw:: latex
-=20
--        \renewcommand\thesection*
--        \renewcommand\thesubsection*
-+	\renewcommand\thesection*
-+	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- =ED=95=9C=EA=B5=AD=EC=96=B4 =EB=B2=88=EC=97=AD
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
-ranslations/zh_CN/index.rst
-index a736057da41f..1f953d3439a5 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -4,6 +4,7 @@
-=20
- 	\renewcommand\thesection*
- 	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- .. _linux_doc_zh:
-=20
---=20
-2.17.1
+Looks like scp and core_collector usage are based on Fedora/RHEL, but
+since this doc is for generic upstream, it might be better to describe
+it in generic way, eg.  (maybe just drop scp)
+  makedumpfile -l --message-level 1 -d 31 /proc/vmcore <dump-file>
+  scp /proc/vmcore <user@server>:<path>/<dump-file>
 
+>  
+>  Analysis
+>  ========
+> @@ -535,8 +580,7 @@ This will cause a kdump to occur at the add_taint()->panic() call.
+>  Contact
+>  =======
+>  
+> -- Vivek Goyal (vgoyal@redhat.com)
+> -- Maneesh Soni (maneesh@in.ibm.com)
+> +- kexec@lists.infradead.org
+>  
+>  GDB macros
+>  ==========
+> -- 
+> 2.17.2
+> 
+
+Thanks
+Dave
 
