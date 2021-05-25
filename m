@@ -2,122 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BBBC47084
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 08:24:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B21C2B9F8
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 08:25:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B37A061400
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 08:24:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3558961400
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 08:25:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232326AbhEYIZl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 04:25:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31760 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230226AbhEYIZi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 04:25:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621931048;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nMNrS2AH+pWQGLicYKYrV08FbwOU09YffgbHD3gux2Q=;
-        b=P5A9KrRtsLXVNPfo0wac7J6zkBsiE3zNljU6u/nSwBLWx10PyV8FJQt2aQ43h2l/4UhwDD
-        8Z9AfNhpf0kWa+K0kHPPlY3Jbhdnab5yaHxyEpdsaANCRS8faNOSZ6YBJg96j+ryz2GkGd
-        LdW8So2jMFAxzQ8ZsD4jSh9NVFVHg4Q=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-BIsdtcEaN4-zwu3EsFQ2Bg-1; Tue, 25 May 2021 04:24:06 -0400
-X-MC-Unique: BIsdtcEaN4-zwu3EsFQ2Bg-1
-Received: by mail-ej1-f70.google.com with SMTP id sd18-20020a170906ce32b02903cedf584542so8494393ejb.9
-        for <linux-doc@vger.kernel.org>; Tue, 25 May 2021 01:24:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nMNrS2AH+pWQGLicYKYrV08FbwOU09YffgbHD3gux2Q=;
-        b=OqoWOKaTHhprV8XefvU0jx4nLi1jx01yYVkvwAS14Faq4WVeGW30Q5ViOLuyReb2Uv
-         myLuO6TvlghSuYiZO/furAJTdK7fo8IsMc0HN8DO1/JRMBxTuEH59Z2ECgsG274EpSoE
-         TZJNEWBwYhOLmiMXTkvygoxQJhZctG7HQd7zfoXEDqn/JKi24HRTyQVfpVPngKvmLtVY
-         dev8ZngbnCxMkNfse9kpDtpX9n9+FsAWBGhL9XrxqQWz2pu+qW0W0QTY6Sgxl8lE4i/V
-         jbVhnJgp5iE4hnB3OPKJ69zWNVd1EZYxFTukq0beSZRlTwt2R1JEng3dWkB/jE/ySqx+
-         FqkQ==
-X-Gm-Message-State: AOAM532aIezICyWzdEJBjsHFGJlnyJnxpTpZep+f46nSx4TfNjw8ETfR
-        p5aWIPn65mzd66Jo6qnbZz726lMA5BiKfgY2PiE0y5pZPCSCc35V1HQnCFiLbcjlu7PGPTm2LPb
-        Pr7wmpfCZM390P46DNGfl
-X-Received: by 2002:a17:906:2749:: with SMTP id a9mr7301263ejd.498.1621931045769;
-        Tue, 25 May 2021 01:24:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3ejiTVjnk0KxP0784vBVyBVdsw1rtPY3FP7JEZB/fGwja1e9e9HqFVf3ExrM8SXokAJlR3w==
-X-Received: by 2002:a17:906:2749:: with SMTP id a9mr7301238ejd.498.1621931045543;
-        Tue, 25 May 2021 01:24:05 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id gl20sm8752886ejb.5.2021.05.25.01.24.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 01:24:05 -0700 (PDT)
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Damien Le Moal <Damien.LeMoal@wdc.com>
-Cc:     Palmer Dabbelt <palmerdabbelt@google.com>,
-        "guoren@kernel.org" <guoren@kernel.org>,
-        Anup Patel <Anup.Patel@wdc.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "graf@amazon.com" <graf@amazon.com>,
-        Atish Patra <Atish.Patra@wdc.com>,
-        Alistair Francis <Alistair.Francis@wdc.com>,
-        "anup@brainfault.org" <anup@brainfault.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "kvm-riscv@lists.infradead.org" <kvm-riscv@lists.infradead.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-References: <mhng-b093a5aa-ff9d-437f-a10b-47558f182639@palmerdabbelt-glaptop>
- <DM6PR04MB708173B754E145BC843C4123E7269@DM6PR04MB7081.namprd04.prod.outlook.com>
- <YKypJ5SJg2sDtn7/@kroah.com>
- <DM6PR04MB7081843419AFCECABA75AD74E7259@DM6PR04MB7081.namprd04.prod.outlook.com>
- <YKyxMy+djlscUhr1@kroah.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
-Message-ID: <fb03a89a-873d-ab85-8b05-f5f283f54489@redhat.com>
-Date:   Tue, 25 May 2021 10:24:03 +0200
+        id S231618AbhEYI1W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 04:27:22 -0400
+Received: from foss.arm.com ([217.140.110.172]:53096 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232378AbhEYI1Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 May 2021 04:27:16 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5EF626D;
+        Tue, 25 May 2021 01:25:46 -0700 (PDT)
+Received: from [192.168.178.6] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 864CE3F73D;
+        Tue, 25 May 2021 01:25:44 -0700 (PDT)
+Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+To:     Beata Michalska <beata.michalska@arm.com>,
+        linux-kernel@vger.kernel.org
+Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, valentin.schneider@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+References: <20210524101617.8965-1-beata.michalska@arm.com>
+ <20210524101617.8965-3-beata.michalska@arm.com>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <cdb4e3a4-569f-1dc2-be22-c0128250996a@arm.com>
+Date:   Tue, 25 May 2021 10:25:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YKyxMy+djlscUhr1@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210524101617.8965-3-beata.michalska@arm.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25/05/21 10:11, Greg KH wrote:
->> 1) facilitate the development work overall, both for Paolo and Anup on the KVM
->> part, but also others to check that their changes do not break KVM support.
-> 
-> Who are the "others" here?  You can't force your code into the tree just
-> to keep it up to date with internal apis that others are changing, if
-> you have no real users for it yet.  That's asking others to do your work
-> for you:(
+On 24/05/2021 12:16, Beata Michalska wrote:
 
-I don't know about changes that would break KVM support.  However, 
-"other KVM developers" would be able to check that their changes do not 
-break the RISC-V implementation, and I would certainly either enforce 
-that or do the work myself.
+[...]
 
-Also, excluding simulators and emulators from the set of "real users" 
-ignores the needs of userspace developers, as well as other uses such as 
-education/academia.  Linux for x86 (both KVM and bare metal) supports 
-features that are only available in emulators and simulators which are 
-not even free software.  I am pretty sure that there would be more users 
-of KVM/RISC-V than with KVM/MIPS, despite the latter having support in 
-real hardware.
+> Rework the way the capacity asymmetry levels are being detected,
+> allowing to point to the lowest topology level (for a given CPU), where
+> full set of available CPU capacities is visible to all CPUs within given
+> domain. As a result, the per-cpu sd_asym_cpucapacity might differ across
+> the domains. This will have an impact on EAS wake-up placement in a way
+> that it might see different rage of CPUs to be considered, depending on
 
-Paolo
+s/rage/range ;-)
 
+[...]
+
+> @@ -1266,6 +1266,112 @@ static void init_sched_groups_capacity(int cpu, struct sched_domain *sd)
+>  	update_group_capacity(sd, cpu);
+>  }
+>  
+> +/**
+> + * Asymmetric CPU capacity bits
+> + */
+> +struct asym_cap_data {
+> +	struct list_head link;
+> +	unsigned long    capacity;
+> +	struct cpumask   *cpu_mask;
+
+Not sure if this has been discussed already but shouldn't the flexible
+array members` approach known from struct sched_group, struct
+sched_domain or struct em_perf_domain be used here?
+IIRC the last time this has been discussed in this thread:
+https://lkml.kernel.org/r/20200910054203.525420-2-aubrey.li@intel.com
+
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 0de6eef91bc8..03e492e91bd7 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -1271,8 +1271,8 @@ static void init_sched_groups_capacity(int cpu,
+struct sched_domain *sd)
+  */
+ struct asym_cap_data {
+        struct list_head link;
+-       unsigned long    capacity;
+-       struct cpumask   *cpu_mask;
++       unsigned long capacity;
++       unsigned long cpumask[];
+ };
+
+ /*
+@@ -1299,14 +1299,14 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
+                goto leave;
+
+        list_for_each_entry(entry, &asym_cap_list, link) {
+-               if (cpumask_intersects(sched_domain_span(sd),
+entry->cpu_mask)) {
++               if (cpumask_intersects(sched_domain_span(sd),
+to_cpumask(entry->cpumask))) {
+                        ++asym_cap_count;
+                } else {
+                        /*
+                         * CPUs with given capacity might be offline
+                         * so make sure this is not the case
+                         */
+-                       if (cpumask_intersects(entry->cpu_mask, cpu_map)) {
++                       if
+(cpumask_intersects(to_cpumask(entry->cpumask), cpu_map)) {
+                                sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
+                                if (asym_cap_count > 1)
+                                        break;
+@@ -1332,7 +1332,6 @@ asym_cpu_capacity_get_data(unsigned long capacity)
+        if (WARN_ONCE(!entry, "Failed to allocate memory for asymmetry
+data\n"))
+                goto done;
+        entry->capacity = capacity;
+-       entry->cpu_mask = (struct cpumask *)((char *)entry +
+sizeof(*entry));
+        list_add(&entry->link, &asym_cap_list);
+ done:
+        return entry;
+@@ -1349,7 +1348,7 @@ static void asym_cpu_capacity_scan(void)
+        int cpu;
+
+        list_for_each_entry(entry, &asym_cap_list, link)
+-               cpumask_clear(entry->cpu_mask);
++               cpumask_clear(to_cpumask(entry->cpumask));
+
+        entry = list_first_entry_or_null(&asym_cap_list,
+                                         struct asym_cap_data, link);
+@@ -1361,11 +1360,11 @@ static void asym_cpu_capacity_scan(void)
+                if (!entry || capacity != entry->capacity)
+                        entry = asym_cpu_capacity_get_data(capacity);
+                if (entry)
+-                       __cpumask_set_cpu(cpu, entry->cpu_mask);
++                       __cpumask_set_cpu(cpu, to_cpumask(entry->cpumask));
+        }
+
+        list_for_each_entry_safe(entry, next, &asym_cap_list, link) {
+-               if (cpumask_empty(entry->cpu_mask)) {
++               if (cpumask_empty(to_cpumask(entry->cpumask))) {
+                        list_del(&entry->link);
+                        kfree(entry);
+                }
+
+[...]
