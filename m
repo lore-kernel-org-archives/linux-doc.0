@@ -2,189 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A271C2B9F8
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 12:55:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE7FC4707F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:00:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EDFD6141C
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 12:55:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 901C96141C
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:00:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232866AbhEYM51 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 08:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54120 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231847AbhEYM51 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 08:57:27 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81DFCC061574;
-        Tue, 25 May 2021 05:55:57 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so13109450pjv.1;
-        Tue, 25 May 2021 05:55:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AetoYR95C/EM7RtotuJaX9n3+/OqeWSyJo94V9oStUQ=;
-        b=omPwWY1AQITTrDd1TD1YEkJM8lG02ddk0ZyPvhYGJMxxljO4aUwPzSHlnUvJWhqb1i
-         dGTXZjQMGNgH9mTHVMnbMGiFSTYWxojCIvfYCuDjpEGChcgQQVbPSntorBuoPpx+3OUz
-         jxHgDo1hTCYJDYLPlXMeolZclaIdCR+sochJzAAHDgKhnJtNAVweJUsoOOH1VYFyEnfm
-         kf45LMT3nxO8ybxUd9wOrDY/KXDNdGVLSXtWkie42yohQyPp2r/45SGHcAbx3CHP+1sh
-         GWci7ldm7JGqJU0ypiazIkXOPXBfeUNHNW3n5tIzY/HPIaqxnVLAhiycjDwmiWS3Lb3g
-         yjMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=AetoYR95C/EM7RtotuJaX9n3+/OqeWSyJo94V9oStUQ=;
-        b=HmqvxQoOdGgopkx+MSgQhZ+mAodN4o92+60UK8ifIGuTyfibUKcIEHrzXMnAN7zhnY
-         Er1eyQN50kxKMyTm2VAxaoYZPHGNtLGEQn8WGy3ss+qaxqMId3h72udNkigdlLu8Ur+o
-         akFCuFPN498tmE8KdRVphvLSWe0USnXeFC6b+H5BUqxgriqPECSCLJh/gMY01tnksRxe
-         z6NZzqbvRz3TMqx2hUQgoe3kA3whSUWKTNiYrsKYsQs1+rw4d+NK6Oj02NEXKPatFYCk
-         jMR9SUyybz/UKvwOMuhMImU/68JN96iyPmXv/Nt7IiqRr72SnzVs8tQ8DA6+MaXIjo2I
-         36xQ==
-X-Gm-Message-State: AOAM530C4BsCz7WUrZkPDqjaPia1UphUkGj0yMjFfTPvP3UhzFra4BBo
-        +seCsmWSKsquXz7Pi2552oFd993IvdI=
-X-Google-Smtp-Source: ABdhPJz8T6QnDhgauGuIVOuQAPk1wwuuuL9v8i1sXNYRAOVS+oIHc5sM/R9uSbJowZns4F9o6Aj5ow==
-X-Received: by 2002:a17:90a:6f06:: with SMTP id d6mr30463372pjk.216.1621947356957;
-        Tue, 25 May 2021 05:55:56 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id s14sm14755937pfs.108.2021.05.25.05.55.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 05:55:56 -0700 (PDT)
-Subject: Re: [PATCH v2] docs: Activate exCJK only in CJK chapters
-To:     "Wu X.C." <bobwxc@email.cn>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
- <0229bc4d-b391-41b9-e900-b88089c493df@gmail.com>
- <20210525123012.GA16810@bobwxc.top>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <97234fd1-66b8-5591-1259-6e995f91835f@gmail.com>
-Date:   Tue, 25 May 2021 21:55:53 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S232966AbhEYNBm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 09:01:42 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:54131 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232720AbhEYNBk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 09:01:40 -0400
+Received: from [192.168.1.155] ([77.2.164.130]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Md6V3-1lD1Bp2l7b-00aGKe; Tue, 25 May 2021 14:59:54 +0200
+Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
+To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        bgolaszewski@baylibre.com, "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        linux-gpio@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org
+References: <20201203191135.21576-1-info@metux.net>
+ <20201203191135.21576-2-info@metux.net>
+ <CAOh2x=kcM351ObubnQSzUa=FVBQUmAUhz4u8ExORUthQQ0WbGQ@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <253f218d-07ac-1963-75e1-9ac2d035437a@metux.net>
+Date:   Tue, 25 May 2021 14:59:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210525123012.GA16810@bobwxc.top>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAOh2x=kcM351ObubnQSzUa=FVBQUmAUhz4u8ExORUthQQ0WbGQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:P+C+8jE7h8AIU2+P4QAc0bNMwt+Y7MdaM1X7ydHqfxe9je0tPYy
+ be3w5uTCFWkLcxmoBlru5+W4Tk2mr/voJuWycO84rHSYafupt3Uq1xWjFMNW3F03qmqIeo3
+ cTkcoPXdGz06y+TYfDTAeOgojJpIJezE0d1fhIopLlIyWOsuvtrqhqZJNb5hcmgo5hMAS2V
+ S2cQMbRYoxbMBNMEpWoFw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RbO7NUknbTY=:HjhTGnKuau+6zb9Ta6G1Yh
+ VzrJdmQ911+bCR6R5e9wvAcOFl/7wBWYHrYhRqtFvRVTd83T+WlNL0DWFZAEPaSEU2ttLc2FK
+ 9/cmPPiOBLP6XfSEBMusNIoq+ZDrmgZTI7hxa0TZmkq4k1Xngkr6fCsy7WF25OeETPCaR1mBQ
+ K6VZKRIfQfvIBwF/v1jTPvIjPvYEMu+rIk1AhegdZibK/mnIiDyrVQWQ4yiMFEGK13bHBEoxf
+ SKmxkahtwNrpOP+R9KtOmG+DY6saa01i9Bfy6/8VTX4cV6mZCtuito1iNurgHq76etXrvUnTe
+ CTxBDc6tGp61htLU6taesJY6WUUZMC+R3jOvsPgY/VnzYxLxShmRAMH7jg3arQ0w00/GQQ8aE
+ haTTOXh3rQC7a5R7OjC/Y83HbrVdJqRQiRXllD3Jgr1EYKyc/o1DkpT+4eYUMMRfB+BfB7XJ7
+ 2MWr61dYb2hBdvERcNIBllN4rrEzRtrxHZIzouhQ0NJ5sEvmhkmh892Iz81zBjgnawxLsrjjn
+ E1gqPSNvOPVPkxwZXrp8HU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 25 May 2021 20:30:12 +0800, Wu X.C. wrote:
-> On Tue, May 25, 2021 at 08:17:26PM +0900, Akira Yokosawa wrote:
->> Activating xeCJK in English and Italian-translation documents
->> results in sub-optimal typesetting with wide-looking apostrophes
->> and quotation marks.
->>
->> The xeCJK package provides macros for enabling and disabling its
->> effect in the middle of a document, namely \makexeCJKactive and
->> \makexeCJKinactive.
->>
->> So the goal of this change is to activate xeCJK in the relevant
->> chapters in translations.
->>
->> To do this:
->>
->>     o Define custom macros in the preamble depending on the
->>       availability of the "Noto Sans CJK" font so that those
->>       macros can be used regardless of the use of xeCJK package.
->>
->>     o Patch \sphinxtableofcontents so that xeCJK is inactivated
->>       after table of contents.
->>
->>     o Embed those custom macros in each language's index.rst file
->>       as a ".. raw:: latex" construct.
->>
->> Note: A CJK chapter needs \kerneldocCJKon in front of its chapter
->> heading, while a non-CJK chapter should have \kerneldocCJKoff
->> below its chapter heading.
->>
->> This is to make sure the CJK font is available to CJK chapter's
->> heading and ending page's footer.
->>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> 
-> Test it, worked well.
-> 
-> Tested-by: Wu XiangCheng <bobwxc@email.cn>
+On 24.05.21 13:27, Viresh Kumar wrote:
 
-Thanks!
+Hi,
 
-> 
-> And one warning when am patch:
-> 
->     .git/rebase-apply/patch:62: trailing whitespace.
-> 	    \kerneldocCJKoff
 
-Oops, will fix and post v3 soon, with your Tested-by: appended
-
+> We (Linaro's Project Stratos
+> https://linaro.atlassian.net/wiki/spaces/STR/overview)
+>   are interested in this stuff. I was trying to look at the last status
+> of all this. Few
+> questions for you:
 > 
-> 
->> I think per-directory conf.py can be tried as a follow-up
->> change after this patch is applied.
-> 
-> Agree, I think it's enough for this problem.
-> If we need more complex customization, per-directory conf.py then worth. 
-> 
->> --- a/Documentation/translations/index.rst
->> +++ b/Documentation/translations/index.rst
->> @@ -18,6 +18,10 @@ Translations
->>  Disclaimer
->>  ----------
->>  
->> +.. raw:: latex
->> +
->> +	\kerneldocCJKoff	
->> +
->>  Translation's purpose is to ease reading and understanding in languages other
->>  than English. Its aim is to help people who do not understand English or have
->>  doubts about its interpretation. Additionally, some people prefer to read
->> diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
->> index bb8fa7346939..e80a3097aa57 100644
->> --- a/Documentation/translations/it_IT/index.rst
->> +++ b/Documentation/translations/it_IT/index.rst
->> @@ -4,6 +4,10 @@
->>  Traduzione italiana
->>  ===================
->>  
->> +.. raw:: latex
->> +
->> +	\kerneldocCJKoff
->> +
->>  :manutentore: Federico Vaga <federico.vaga@vaga.pv.it>
->>  
->>  .. _it_disclaimer:
-> 
-> And for above two, maybe better to put "raw:: latex" block above the
-> title, more beautiful, and CJKoff will be done before enter "Italiana"
-> chapter.
+> - Was the spec ever posted to virtio-dev list ? I thought that's the
+> very first step before
+> we merge the code.
 
-These two are placed there intentionally.
+I had posted some spec quite some time ago, but it wasn't in the form
+of patches against the .tex documentation files yet. It's been laying
+aside for quite a while, since I've been busy w/ other things.
 
-As mentioned in the change log:
 
->> Note: A CJK chapter needs \kerneldocCJKon in front of its chapter
->> heading, while a non-CJK chapter should have \kerneldocCJKoff
->> below its chapter heading.
->>
->> This is to make sure the CJK font is available to CJK chapter's
->> heading and ending page's footer.
+--mtx
 
-If they are put above chapter titles in the .rst files,
-Chinese translation's final page's footer won't be rendered properly.
-
-        Thanks, Akira
-
-> 
-> Thanks,
-> 	Wu X.C.
-> 
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
