@@ -2,139 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7ACBC47087
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:25:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3156C4707F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:28:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E2FB61420
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:25:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE62960200
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:28:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233423AbhEYN0s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 09:26:48 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:33211 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233240AbhEYN0D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 09:26:03 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id A0F0B580729;
-        Tue, 25 May 2021 09:24:30 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 25 May 2021 09:24:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=hGHCrNM0M2y01
-        6SG38SN0lpQyVWkJTBkFC7xFnRt9z8=; b=MFuEG1Z+Zp0+p7jr0t4fLH5hVzAIk
-        aLYaBtymMtqZuzP/TXqshbTg3LpTGpdBvhpS9diIY/dYNJzR9nfDYy6rP1KjrhkA
-        sCT4dCPzSa/Gn5XZn6zAw6sbhJHYMefgY2ppc5LtZoimVqKUsfuZzGKHIpWO+rhp
-        W4X6YUL3/3bC8OtHjo8kjjRCMbcq87glKwGWRW+TBSQepCFAEylyK6r0kE/J7mEk
-        aQubZfrEarAgCi1u3h/9iYM+rrI9WKNp+hhxjTMdXGPOlf4BsQBqSWwbEWrW3M78
-        HucjQc3mmtIXYuGJ88Vt0WVFkqV72uOEWdHnosVn1HtqzCS2v1xFd3r2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=hGHCrNM0M2y016SG38SN0lpQyVWkJTBkFC7xFnRt9z8=; b=RjuipA83
-        vxl71CUaAicSglE6oP505P+gT6EUQKtyErrnVaboQJdKOGtkJAy7TfG8TfI+HL7w
-        VSaIaxh6yPVTBw0lgoHmY6R0wovJtUpsqJs8MPSq2UWgh0yqiz+ipeO9xsihNpGP
-        Ny1TNEq8JEs/7dwBrieryX5bmt7MrRXlHw3Y/T4+QfD6joVSl+1XmURJWHrpg7f1
-        jiOzdrW9daRrCAqG67DfqQMBvlz//n4UWUg6zm+rO08fEUyXhK68vYtyxU2wuKOw
-        sWSqYKpCTOGxPzdn4ytTvUDK7EtsuNTesiRi0ayzUqdgb1xCithxiWaK4oGwQSYM
-        uRYeRqRw1xQjGg==
-X-ME-Sender: <xms:jfqsYC2TzYciIcNKlOhuwg2yG2NMvYCJnZSQGKzi0QMr8tIheWPIIw>
-    <xme:jfqsYFE0NIBO5ZJrHr_XZVSn31fW6N-h3Dw5-6vzmFwB6C5jKozR4hI74DtVYHI3p
-    IP0P_eetc_9UzeOpKE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgieeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
-    hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jfqsYK5kR-0KEPm81XR_K_IGdYeIutKQ8zu0SxO_g9X3Lj-wrd7sJQ>
-    <xmx:jfqsYD2eJSVsDSzbI2bK_QSVrPvBVbCTptDOtvyQXd6rRJ87XuHSJw>
-    <xmx:jfqsYFHyrp8M4Z5fPRIR48n0oTS5us70osuIXHqeEeM8KOqeh_zAcg>
-    <xmx:jvqsYIbSgvJbcQjV7pEbeW48B0w2ZW5Vdvp7jJhNEquYKGAQfU0epQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA;
-        Tue, 25 May 2021 09:24:29 -0400 (EDT)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>
-Cc:     devicetree@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Tim Gover <tim.gover@raspberrypi.com>,
-        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
-        Eric Anholt <eric@anholt.net>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        linux-rpi-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dom Cobley <popcornmix@gmail.com>
-Subject: [PATCH v2 12/12] ARM: dts: bcm2711: Tune DMA parameters for HDMI audio
-Date:   Tue, 25 May 2021 15:23:54 +0200
-Message-Id: <20210525132354.297468-13-maxime@cerno.tech>
+        id S233469AbhEYN3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 09:29:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233472AbhEYN3D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 May 2021 09:29:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6D46F6142E;
+        Tue, 25 May 2021 13:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621949253;
+        bh=G5T3FBq3c73v2BlrVGNRz2ClgCthrJuqOvTanh2Lelw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UC8hD31L22/MsAdLn9dCgs7knTkd0MUzxxa8aPjAfNS/wVFzBzMX8r67q55h5l91p
+         yPTdXhlhXaKy9DwniY8Bma5mOl79deB56oPaCkDjcrvuuxIx3aKMEaiGbNFU2f4h7M
+         L6wTvuMDFgHa4jvNA+f7zJ6W64SGL5DsQevDrBbtUGyiK5iHSRt5PEtZcP6VcWfFS6
+         cEk4npbjo/iw4HyDPEnifsuvQqKLXfZ/vFqPZW3dHO5icGnb3N1IMh/DjQHuhAfCE1
+         VjUF5QNaEtQUX10EJl6x7zqzwR5mg52/F1BkQhBp8pXFE/H26LjJKBDHKRUpz71NUE
+         w0J3WkuxhGsmw==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1llX5m-000uZi-Dd; Tue, 25 May 2021 15:27:30 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 0/2] Fix some issues at scripts/sphinx-pre-install
+Date:   Tue, 25 May 2021 15:27:26 +0200
+Message-Id: <cover.1621949137.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210525132354.297468-1-maxime@cerno.tech>
-References: <20210525132354.297468-1-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dom Cobley <popcornmix@gmail.com>
+Currently, when using with --no-virtualenv, the script doesn't behave well,
+as it prints both instructions to install Sphinx via distribution's package
+manager and via pip.
 
-Enable NO_WAIT_RESP, DMA_WIDE_SOURCE, DMA_WIDE_DEST, and bump the DMA
-panic and AXI priorities to avoid any DMA transfer error with HBR audio
-(8 channel, 192Hz).
+Address it.
 
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- arch/arm/boot/dts/bcm2711.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+While here, rework the logic which recommends Sphinx install, by
+splitting it into three parts and making easier to maintain it, as
+there are too much complexity there. Splitting the Sphinx part
+of the logic on 3 separate functions allow to detect if the venv/virtualenv
+python packages are needed or not, and helps to have a cleaner
+logic.
 
-diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-index 720beec54d61..9d1dde973680 100644
---- a/arch/arm/boot/dts/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/bcm2711.dtsi
-@@ -344,7 +344,7 @@ hdmi0: hdmi@7ef00700 {
- 			interrupt-names = "cec-tx", "cec-rx", "cec-low",
- 					  "wakeup", "hpd-connected", "hpd-removed";
- 			ddc = <&ddc0>;
--			dmas = <&dma 10>;
-+			dmas = <&dma (10 | (1 << 27) | (1 << 24)| (15 << 20) | (10 << 16))>;
- 			dma-names = "audio-rx";
- 			status = "disabled";
- 		};
-@@ -385,7 +385,7 @@ hdmi1: hdmi@7ef05700 {
- 				     <9>, <10>, <11>;
- 			interrupt-names = "cec-tx", "cec-rx", "cec-low",
- 					  "wakeup", "hpd-connected", "hpd-removed";
--			dmas = <&dma 17>;
-+			dmas = <&dma (17 | (1 << 27) | (1 << 24)| (15 << 20) | (10 << 16))>;
- 			dma-names = "audio-rx";
- 			status = "disabled";
- 		};
+Mauro Carvalho Chehab (2):
+  scripts: sphinx-pre-install: rework the sphinx install logic
+  scripts: sphinx-pre-install: fix the need of virtenv packages
+
+ scripts/sphinx-pre-install | 262 +++++++++++++++++++++++++------------
+ 1 file changed, 180 insertions(+), 82 deletions(-)
+
 -- 
 2.31.1
+
 
