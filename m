@@ -2,93 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A1F2C2B9F8
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D864AC2B9F8
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:25:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B24E6141D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:19:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDE5F61159
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:25:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230384AbhEYPVK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 11:21:10 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:13992 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230517AbhEYPU6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 11:20:58 -0400
+        id S231717AbhEYP1T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 11:27:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231371AbhEYP1L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 11:27:11 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82C8C061574;
+        Tue, 25 May 2021 08:25:40 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id ep16-20020a17090ae650b029015d00f578a8so13376591pjb.2;
+        Tue, 25 May 2021 08:25:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1621955968; x=1653491968;
-  h=to:cc:references:subject:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=CSuS1/6afomgRdSmx4v4U5egysYnZihhAd5HpYugzR4=;
-  b=Jb4pgDYPfDT/AHs/rFeM0O8U4KhSebAbrlcVhkGfoe149qiS2ub04KJr
-   JcgooiES6xkakjTYTRDn+99UuSzXT5kYUU7WvShPKHlSgxl1N5tTSkC46
-   al8J3t0KehJID8vpxDEwAx1SqgTGzJAMZ/qJ930tuxklOMX82GTTspoBZ
-   A=;
-X-IronPort-AV: E=Sophos;i="5.82,328,1613433600"; 
-   d="scan'208";a="127569130"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-33001.sea14.amazon.com with ESMTP; 25 May 2021 15:19:21 +0000
-Received: from EX13D31EUB004.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id D372CA190A;
-        Tue, 25 May 2021 15:19:19 +0000 (UTC)
-Received: from EX13MTAUEA001.ant.amazon.com (10.43.61.82) by
- EX13D31EUB004.ant.amazon.com (10.43.166.164) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Tue, 25 May 2021 15:19:17 +0000
-Received: from u8803c614af8f5a.ant.amazon.com (172.31.190.190) by
- mail-relay.amazon.com (10.43.61.243) with Microsoft SMTP Server (TLS) id
- 15.0.1497.18 via Frontend Transport; Tue, 25 May 2021 15:19:07 +0000
-To:     <sj38.park@gmail.com>
-CC:     <Jonathan.Cameron@Huawei.com>, <acme@kernel.org>,
-        <akpm@linux-foundation.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendanhiggins@google.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <greg@kroah.com>, <gthelen@google.com>,
-        <guoju.fgj@alibaba-inc.com>, <linux-damon@amazon.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <rppt@kernel.org>, <shakeelb@google.com>, <shuah@kernel.org>,
-        <sjpark@amazon.de>, <snu@amazon.de>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <zgf574564920@gmail.com>
-References: <20210520075629.4332-6-sj38.park@gmail.com>
-Subject: Re: [PATCH v29 05/13] mm/damon: Implement primitives for the virtual
- memory address spaces
-From:   <sieberf@amazon.com>
-Message-ID: <3da2bb79-4448-4857-a9d1-698a360c51a2@amazon.com>
-Date:   Tue, 25 May 2021 17:19:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=jL+DBxWN5edIJOrVtHSuYvmFZqk3JNDdtDmQJkkStO8=;
+        b=ADsWXFPQuNNtwHEJoJyXj5LyZS40qB6RUp/8KdRTz+SQQiOqa8lPfdkQHPDPKrCTkC
+         57WkUmg43+E1w/Tv4GssLcUeeQ3ruJGpOVJIzWiVkVd+vOJFeCdy+S76xch1GFZGW1Vk
+         HZnJvLO+oME00P5s5Ljv09YiSEXvjrcjGTTQv+80Cpn2zh9zZCIpTLdVPdWfy14un5zK
+         6qrdGICT2DDsaTi+9xvggt6WpE8VwTWY9y389K6wcE2VjFJQ2nAw+om9OChuhy1NIkQ1
+         4ETtFDx7gN8gP4PNo49FXBG5sEs6QVNWagv1L8oI/nJhoDVDkGuNOwg6nO039jt/ne0S
+         mANA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=jL+DBxWN5edIJOrVtHSuYvmFZqk3JNDdtDmQJkkStO8=;
+        b=RU45qL25OovZxqNVSNfsDa8A3ejA6148TAHSTyWfnj5LqChKqXzySvBeIk05s9KBor
+         SQKf3P+dzei8K2Uzq9zn/mw/Prt1+8MSu3Nqp1ewY3fdORPM4wghwTFn2ikjLhwxNBXH
+         09Ju5aDXsGkHk2EMLTD4yLJzQsFoyRAeB/mlTPJFtWQ7/XDnP2UxRkgZtXd9KAAVreao
+         7CKAz5+8z/8qLk2Iplo2BRzUI9P++8jl7XEB24yqy4oJcwE4ePvZR1/LleWt4gd5hTcL
+         /trYRZHOqPTEeoyS7po4sypILVEgZoGn/s10MqDTiniiTvzijQW56PtiCVhvrTmiWjkl
+         VEDw==
+X-Gm-Message-State: AOAM533JPEDQ+/xwjqrLPa4B+PuTS3774T/XybHdUnnsGZxLfPycYvgc
+        zZdzusp4TXy10OcbF2Jvqsw=
+X-Google-Smtp-Source: ABdhPJys9nI4J83yBrIv1q0rF+gkI0iY2Ixso6WRntsxUf21NpnE4gjcHDdIeLCDFoCqGYe/yhkc0Q==
+X-Received: by 2002:a17:90a:9486:: with SMTP id s6mr5455853pjo.192.1621956340125;
+        Tue, 25 May 2021 08:25:40 -0700 (PDT)
+Received: from [192.168.1.67] (99-44-17-11.lightspeed.irvnca.sbcglobal.net. [99.44.17.11])
+        by smtp.gmail.com with ESMTPSA id w15sm2311678pjy.1.2021.05.25.08.25.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 May 2021 08:25:39 -0700 (PDT)
+Subject: Re: [PATCH v2 12/12] ARM: dts: bcm2711: Tune DMA parameters for HDMI
+ audio
+To:     Maxime Ripard <maxime@cerno.tech>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Mark Brown <broonie@kernel.org>,
+        dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>
+Cc:     devicetree@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Tim Gover <tim.gover@raspberrypi.com>,
+        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
+        Eric Anholt <eric@anholt.net>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-rpi-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dom Cobley <popcornmix@gmail.com>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+ <20210525132354.297468-13-maxime@cerno.tech>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <fa063d1b-c23c-c29c-f9b4-c77be4626fd5@gmail.com>
+Date:   Tue, 25 May 2021 08:25:36 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210520075629.4332-6-sj38.park@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210525132354.297468-13-maxime@cerno.tech>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi SeongJae,
 
-Some questions for this patch:
 
-Why do we split the regions in 3 areas (heap, stack, mmaped)? I 
-understand we don't want to model the whole virtual address space, but 
-why don't we just use whatever is modeled by the VMAs to define the 
-regions boundaries?
+On 5/25/2021 6:23 AM, Maxime Ripard wrote:
+> From: Dom Cobley <popcornmix@gmail.com>
+> 
+> Enable NO_WAIT_RESP, DMA_WIDE_SOURCE, DMA_WIDE_DEST, and bump the DMA
+> panic and AXI priorities to avoid any DMA transfer error with HBR audio
+> (8 channel, 192Hz).
+> 
+> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  arch/arm/boot/dts/bcm2711.dtsi | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
+> index 720beec54d61..9d1dde973680 100644
+> --- a/arch/arm/boot/dts/bcm2711.dtsi
+> +++ b/arch/arm/boot/dts/bcm2711.dtsi
+> @@ -344,7 +344,7 @@ hdmi0: hdmi@7ef00700 {
+>  			interrupt-names = "cec-tx", "cec-rx", "cec-low",
+>  					  "wakeup", "hpd-connected", "hpd-removed";
+>  			ddc = <&ddc0>;
+> -			dmas = <&dma 10>;
+> +			dmas = <&dma (10 | (1 << 27) | (1 << 24)| (15 << 20) | (10 << 16))>;
 
-I am not quite understanding why we both set the page idle and young (in 
-damon_ptep_mkold). For WSS computation on our end we have used 
-pte_clear_young_notify. Why do we touch the page idle flag at all? What 
-flags do the reclaim logic use to track access?
+This uses DT as a configuration language rather than a description here,
+but this is most certainly an established practice that the bcm283-dma.c
+supports, with no validation of the various arguments.. great.
 
-Kind regards,
-
-Fernand
-
+Is there at least an option to move the meaning of this bitfields into
+include/dt-bindings/dma/bcm2835-dma.h or something like that?
+-- 
+Florian
