@@ -2,150 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EAD7C2B9F8
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 11:51:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35A9DC2B9F8
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 11:59:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6536A61260
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 11:51:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 122416141B
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 11:59:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231136AbhEYLxV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 07:53:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229896AbhEYLxU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 07:53:20 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55A0AC061574;
-        Tue, 25 May 2021 04:51:50 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id q16so434200pls.6;
-        Tue, 25 May 2021 04:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=b+pvn2nXkSIJnrU7EGg7e76c9ZIrOlzh6tmn2/UaWAc=;
-        b=ux/BjJOENvYmKF+ItVg8NVlJLXaqpULPGGtnzWVllw854nwWBHJtg7js6S0+4puWIT
-         HNFk7FvLe6A5F4iSNA18uI+QwuYBI6cstX2kp6/jFPpHIWZdNLOyKm0v0zdbWVp0nKI6
-         HqR4ofzG4AqYFMUnPPUM8HXxA7uzIl1hif+FJ/NNcv0XZMXnIM8V5AqQHqWwGZzomiRw
-         3nryiUCt0I7ipoDmFjFB+XowZ+AeazKQGBOvY+51jezOPJxSVT++LWMbjlc9kwKkoOnB
-         UN6CQFWOghl8Cb/qWvrTgU76fuRlCqvt25hSfMfxZm3nmOBOHI66kRc6nyQLiYuKA9g8
-         Svkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=b+pvn2nXkSIJnrU7EGg7e76c9ZIrOlzh6tmn2/UaWAc=;
-        b=hpvXOlHb0haVdGjXzOJhI9iX34e+VHzahW+NvYJQlM1KzrqtjsmomRxlcoY09jBCVT
-         BJ+NCCyJMJzRVl8HclvCB4IJTMdVmruSy8KyLDRn7QKt8jVh5PjF/j0rmLfqZc/OggHT
-         7wrowr3dwhyMaiMvdXemiZ4bOk9tZJm3M3Qh3hkRGrQ5aowWU6H0nj4jPQkkB4wq2DeS
-         9l9gFAMoaZwyQ6Krrxh9H/Hjjxu9TZI2xIQ7+RaaSadnhuEy3wFvEk6015BiuE2rs8c/
-         h4jrA4+JsM3YIdSmHGMcaK5qu565vjF+KvX+y/WOOqrmKC05Lentlx8ErbXW4NHHLi/q
-         DTag==
-X-Gm-Message-State: AOAM531DoF+RY6V6cCDB2NXtGIRrU06MX7Gk0hZ4bXkHGiTjOKYRPSAd
-        Jcbw2owQbyFXl4KhiLnE0CQ=
-X-Google-Smtp-Source: ABdhPJz6/UGyoOENAI29h279nKb1UeFwzFTVYdRAISes6uazmeV+8/t7UzyopHxY49DpGs0pQGb9UQ==
-X-Received: by 2002:a17:902:6b84:b029:ee:f966:1911 with SMTP id p4-20020a1709026b84b02900eef9661911mr29965113plk.69.1621943509655;
-        Tue, 25 May 2021 04:51:49 -0700 (PDT)
-Received: from localhost (14-200-114-182.static.tpgi.com.au. [14.200.114.182])
-        by smtp.gmail.com with ESMTPSA id lj13sm1908099pjb.3.2021.05.25.04.51.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 04:51:47 -0700 (PDT)
-Date:   Tue, 25 May 2021 21:51:44 +1000
-From:   Balbir Singh <bsingharora@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        rcampbell@nvidia.com, linux-doc@vger.kernel.org,
-        jhubbard@nvidia.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, hch@infradead.org,
-        jglisse@redhat.com, willy@infradead.org, jgg@nvidia.com,
-        peterx@redhat.com, hughd@google.com, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
-Message-ID: <YKzk0ILRsyazMs2W@balbir-desktop>
-References: <20210524132725.12697-1-apopple@nvidia.com>
- <20210524132725.12697-8-apopple@nvidia.com>
- <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
+        id S232093AbhEYMBG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 08:01:06 -0400
+Received: from foss.arm.com ([217.140.110.172]:55156 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232064AbhEYMBD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 May 2021 08:01:03 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2DF20D6E;
+        Tue, 25 May 2021 04:59:34 -0700 (PDT)
+Received: from [192.168.178.6] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 33BD83F719;
+        Tue, 25 May 2021 04:59:32 -0700 (PDT)
+Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+To:     Beata Michalska <beata.michalska@arm.com>
+Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, valentin.schneider@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+References: <20210524101617.8965-1-beata.michalska@arm.com>
+ <20210524101617.8965-3-beata.michalska@arm.com>
+ <cdb4e3a4-569f-1dc2-be22-c0128250996a@arm.com>
+ <20210525093039.GA31871@e120325.cambridge.arm.com>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <8f00a2d4-2443-9656-2d51-6c5798fda552@arm.com>
+Date:   Tue, 25 May 2021 13:59:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
+In-Reply-To: <20210525093039.GA31871@e120325.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 24, 2021 at 03:11:57PM -0700, Andrew Morton wrote:
-> On Mon, 24 May 2021 23:27:22 +1000 Alistair Popple <apopple@nvidia.com> wrote:
-> 
-> > Some devices require exclusive write access to shared virtual
-> > memory (SVM) ranges to perform atomic operations on that memory. This
-> > requires CPU page tables to be updated to deny access whilst atomic
-> > operations are occurring.
-> > 
-> > In order to do this introduce a new swap entry
-> > type (SWP_DEVICE_EXCLUSIVE). When a SVM range needs to be marked for
-> > exclusive access by a device all page table mappings for the particular
-> > range are replaced with device exclusive swap entries. This causes any
-> > CPU access to the page to result in a fault.
-> > 
-> > Faults are resovled by replacing the faulting entry with the original
-> > mapping. This results in MMU notifiers being called which a driver uses
-> > to update access permissions such as revoking atomic access. After
-> > notifiers have been called the device will no longer have exclusive
-> > access to the region.
-> > 
-> > Walking of the page tables to find the target pages is handled by
-> > get_user_pages() rather than a direct page table walk. A direct page
-> > table walk similar to what migrate_vma_collect()/unmap() does could also
-> > have been utilised. However this resulted in more code similar in
-> > functionality to what get_user_pages() provides as page faulting is
-> > required to make the PTEs present and to break COW.
-> > 
-> > ...
-> >
-> >  Documentation/vm/hmm.rst     |  17 ++++
-> >  include/linux/mmu_notifier.h |   6 ++
-> >  include/linux/rmap.h         |   4 +
-> >  include/linux/swap.h         |   7 +-
-> >  include/linux/swapops.h      |  44 ++++++++-
-> >  mm/hmm.c                     |   5 +
-> >  mm/memory.c                  | 128 +++++++++++++++++++++++-
-> >  mm/mprotect.c                |   8 ++
-> >  mm/page_vma_mapped.c         |   9 +-
-> >  mm/rmap.c                    | 186 +++++++++++++++++++++++++++++++++++
-> >  10 files changed, 405 insertions(+), 9 deletions(-)
-> > 
-> 
-> This is quite a lot of code added to core MM for a single driver.
-> 
-> Is there any expectation that other drivers will use this code?
-> 
-> Is there a way of reducing the impact (code size, at least) for systems
-> which don't need this code?
->
-> How beneficial is this code to nouveau users?  I see that it permits a
-> part of OpenCL to be implemented, but how useful/important is this in
-> the real world?
+On 25/05/2021 11:30, Beata Michalska wrote:
+> On Tue, May 25, 2021 at 10:25:36AM +0200, Dietmar Eggemann wrote:
+>> On 24/05/2021 12:16, Beata Michalska wrote:
 
-That is a very good question! I've not reviewed the code, but a sample
-program with the described use case would make things easy to parse.
-I suspect that is not easy to build at the moment?
+[...]
 
-I wonder how we co-ordinate all the work the mm is doing, page migration,
-reclaim with device exclusive access? Do we have any numbers for the worst
-case page fault latency when something is marked away for exclusive access?
-I presume for now this is anonymous memory only? SWP_DEVICE_EXCLUSIVE would
-only impact the address space of programs using the GPU. Should the exclusively
-marked range live in the unreclaimable list and recycled back to active/in-active
-to account for the fact that
+>>> @@ -1266,6 +1266,112 @@ static void init_sched_groups_capacity(int cpu, struct sched_domain *sd)
+>>>  	update_group_capacity(sd, cpu);
+>>>  }
+>>>  
+>>> +/**
+>>> + * Asymmetric CPU capacity bits
+>>> + */
+>>> +struct asym_cap_data {
+>>> +	struct list_head link;
+>>> +	unsigned long    capacity;
+>>> +	struct cpumask   *cpu_mask;
+>>
+>> Not sure if this has been discussed already but shouldn't the flexible
+>> array members` approach known from struct sched_group, struct
+>> sched_domain or struct em_perf_domain be used here?
+>> IIRC the last time this has been discussed in this thread:
+>> https://lkml.kernel.org/r/20200910054203.525420-2-aubrey.li@intel.com
+>>
+> If I got right the discussion you have pointed to, it was about using
+> cpumask_var_t which is not the case here. I do not mind moving the code
+> to use the array but I am not sure if this changes much. Looking at the
+> code changes to support that (to_cpumask namely) it was introduced for
+> cases where cpumask_var_t was not appropriate, which again isn't the case
+> here.
 
-1. It is not reclaimable and reclaim will only hurt via page faults?
-2. It ages the page correctly or at-least allows for that possibility when the
-   page is used by the GPU.
+Yeah, it was more about using `flexible array members` or allocating the
+cpumask separately.
 
-Balbir Singh.
- 
+Looks like you're using some kind of a mixed approach:
+
+(1) struct asym_cap_data {
+        ...
+        struct cpumask *cpu_mask;
+
+(2) entry = kzalloc(sizeof(*entry) + cpumask_size(), GFP_KERNEL);
+
+(3) entry->cpu_mask = (struct cpumask *)((char *)entry +
+                      sizeof(*entry));
+
+(4) cpumask_intersects(foo, entry->cpu_mask)
+
+
+E.g. struct em_perf_domain has
+
+(1)  struct em_perf_domain {
+         ...
+         unsigned long cpus[];
+
+(2) like yours
+
+(3) is not needed.
+
+(4) cpumask_copy(em_span_cpus(pd), foo)
+
+    with #define em_span_cpus(em) (to_cpumask((em)->cpus))
+
+IMHO, it's better to keep this approach aligned between the different
+data structures.
