@@ -2,243 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B72C47085
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:25:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D63AC4707F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:39:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 614036142D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:25:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79DE2613E1
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:39:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231667AbhEYP1U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 11:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59742 "EHLO
+        id S234267AbhEYPlS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 11:41:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231260AbhEYP1O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 11:27:14 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63D3C061756;
-        Tue, 25 May 2021 08:25:43 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id 29so11913922pgu.11;
-        Tue, 25 May 2021 08:25:43 -0700 (PDT)
+        with ESMTP id S230379AbhEYPlR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 11:41:17 -0400
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E81C061574;
+        Tue, 25 May 2021 08:39:47 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id u33so16204590qvf.9;
+        Tue, 25 May 2021 08:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7s/DRCuiVE2NCE6TZGnaI6FsGmYiMHrl3j/NuLD4A3w=;
-        b=BD7fbb13Q1YIw/FxPOiIQmMqfP4qbH2j2DC9zZR2GH3qpK9iRoZOORhmd5cK3Z1JBl
-         3soLUus5h4S9Ic2w2+a+e+YYy3vN+aS4ebWMt9duja209vs6ewxH+6J5N7k9tZq+EzdL
-         /KxZz3FvMuLudJZMbsc+L9WOA27A8xMo/MSeHOKjh/ZVbH+oH92ki+rLNMg2MsSbA+u3
-         Ze1HRuPGvzYEExOTMoU8xkv7Z9JIMC9Xjb5LgXanMN7A0EfDq2wX8AOkav6WAu6oakxB
-         o8RTzqTj1LHCygSLUhuQ+WsP1Uw/GkjEf3DdRQxQYJJKa9YV7X8P3eCpl2eFDD/HBnq2
-         RruA==
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=TzOaj3jf5o6VRkLVFOjGwpVoOgZtE1cGZ4avVGubsYI=;
+        b=pzW19cJFACaldbmmP2lvQrHzn6LaiUZQgPuXb7eYvCNCWoDee6FNp+huV8NFay1YgT
+         viNzRRY7fKoOkqYh0NWE2K5W9IC1c14w0JJZ4vZ8XVEFmd8p9xgn+Q3RDZl55kgslirk
+         PVJ47+ijjc7JT0wenCE7pQuc/o93P3rbVz2x8n10q+miSCYELBlD/H2uyOyghjgNLp2r
+         eUQ4fHELszX5iUSjzetT4ZMtWaCmwtxk8+R2/4Rr7BNfSRAR/iqEM6nXzeJWj/SRnoyY
+         69UAXLz1n/W0g+pZCwYZrbI6NMkz/PSolrSekOUvEm8j8jI7QoANrGXN9DL9kLrnfzng
+         VL0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7s/DRCuiVE2NCE6TZGnaI6FsGmYiMHrl3j/NuLD4A3w=;
-        b=iYFPwOyJQxmMdU5Yo5UOJZK+oJGNkYNu8g33yxdndlSt0uCcCNMNZnVLOcqU2Gnssc
-         zSYTtz3hszBCUfK9Fni6XC+3F96JaxC3NPf28m15vfUBf44sgWA2GDhd4h53KC+4NZ+B
-         is241wvDj9hUTLkmGrPL6qmOyUN0UswjKKubSNCFLbpvyM3XH9ZVPeJzrkaGoLxYvKfg
-         T9oTUy+4IePkA4l+7qEt1CGYqRjr1+I21xIF1J+zOLeYJNB9R+G5fFQksBzjuS4fpkEp
-         1aL1VCE/QoSQC7x2SqZOQviOjhIjrjolREYPJcvD0sKtTpTEJgr09eQR8evgMmFbNmoz
-         ZbXA==
-X-Gm-Message-State: AOAM5338cEcrTX2h0qbM6qzhcZ1KF3pBfcNF3/jtOWpmuw5cCixRo95W
-        LJy/zmXWOXAR3cyOps8O1/0=
-X-Google-Smtp-Source: ABdhPJy9//JkIzsLKxyP85ttFbYKeDK9ncWcBGA7fNuw+JDoqQA4o4vOONzqmcSmcS5N349hVkCjng==
-X-Received: by 2002:aa7:8703:0:b029:2da:b87f:7d38 with SMTP id b3-20020aa787030000b02902dab87f7d38mr31336530pfo.20.1621956343379;
-        Tue, 25 May 2021 08:25:43 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id ie5sm2333077pjb.14.2021.05.25.08.25.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 08:25:42 -0700 (PDT)
-Subject: [PATCH v4] docs: Activate exCJK only in CJK chapters
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Wu X.C." <bobwxc@email.cn>, Akira Yokosawa <akiyks@gmail.com>
-References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <83208ddc-5de9-b283-3fd6-92c635348ca0@gmail.com>
-Date:   Wed, 26 May 2021 00:25:39 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=TzOaj3jf5o6VRkLVFOjGwpVoOgZtE1cGZ4avVGubsYI=;
+        b=UsWPXModB+vztR3wp+ga9ACWhUG/qhuR0qDcbN/f171O8+0P63mwhAFhiz9/4BCk2f
+         CnaFULfzqPD74W1/cvoA/lnnGI5czdxK5Kb7WqbDW//ppR4jhsFydamUrHOfrq/mqOKI
+         +/lXKClmRDaAG3iSk+8AUvBvvCEqXTlCaWefoi/acWIHQDFKKaxreZU5IJCdO7OVf5Ht
+         JWQc/qzqdcC8ig05YfHwAjokh2fkU+Qb7bjvFjUd4mN1JyS8H13Up8SOvrNda6A9v4Gd
+         cNDqeJxljPfmcaOB1n+s5DrldSZvoMuDHFe4iCpdknHG3zXHC7HYlCb5O3w7Yn4dEN3P
+         4zsw==
+X-Gm-Message-State: AOAM5305FAOQFIBtzdTUnRsTp/yvEkrkziqHt093/4IZS60W8CQkQtsk
+        baUH5rUaQYSyyC/1SC8IP60=
+X-Google-Smtp-Source: ABdhPJyqdHQx1PS/dk0pMYZcJ0uUYGqbxzoUhBgOJBEy7C+bCDcwyDR2MDw3BbHoTLH20AEkP9pndg==
+X-Received: by 2002:ad4:4184:: with SMTP id e4mr37584072qvp.13.1621957186689;
+        Tue, 25 May 2021 08:39:46 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id l65sm13262422qke.7.2021.05.25.08.39.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 May 2021 08:39:46 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     sieberf@amazon.com
+Cc:     sj38.park@gmail.com, Jonathan.Cameron@Huawei.com, acme@kernel.org,
+        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
+        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
+        guoju.fgj@alibaba-inc.com, linux-damon@amazon.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, mgorman@suse.de, minchan@kernel.org,
+        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
+        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
+        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
+        sjpark@amazon.de, snu@amazon.de, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, zgf574564920@gmail.com
+Subject: Re: [PATCH v29 03/13] mm/damon: Adaptively adjust regions
+Date:   Tue, 25 May 2021 15:39:32 +0000
+Message-Id: <20210525153932.30853-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <1b30265d-7440-1c94-f625-0087215433ee@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Activating xeCJK in English and Italian-translation documents
-results in sub-optimal typesetting with wide-looking apostrophes
-and quotation marks.
+From: SeongJae Park <sjpark@amazon.de>
 
-The xeCJK package provides macros for enabling and disabling its
-effect in the middle of a document, namely \makexeCJKactive and
-\makexeCJKinactive.
-
-So the goal of this change is to activate xeCJK in the relevant
-chapters in translations.
-
-To do this:
-
-    o Define custom macros in the preamble depending on the
-      availability of the "Noto Sans CJK" font so that those
-      macros can be used regardless of the use of xeCJK package.
-
-    o Patch \sphinxtableofcontents so that xeCJK is inactivated
-      after table of contents.
-
-    o Embed those custom macros in each language's index.rst file
-      as a ".. raw:: latex" construct.
-
-Note: A CJK chapter needs \kerneldocCJKon in front of its chapter
-heading, while a non-CJK chapter should have \kerneldocCJKoff
-below its chapter heading.
-
-This is to make sure the CJK font is available to CJK chapter's
-heading and ending page's footer.
-
-Tested against Sphinx versions 2.4.4 and 4.0.2.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Tested-by: Wu XiangCheng <bobwxc@email.cn>
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/lkml/2061da0a-6ab1-35f3-99c1-dbc415444f37@g=
-mail.com
----
-v3 -> v4: (Change log update)
-
-    o Added Reviewed-by from Mauro
-    o Added note on Sphinx versions (2.4.4 and 4.0.2) tested against
-
-v2 -> v3:
-
-    o Fixed trailing white space
-    o Added Tested-By from Wu XiangCheng
---
- Documentation/conf.py                      | 13 +++++++++++++
- Documentation/translations/index.rst       |  4 ++++
- Documentation/translations/it_IT/index.rst |  4 ++++
- Documentation/translations/ja_JP/index.rst |  5 +++--
- Documentation/translations/ko_KR/index.rst |  5 +++--
- Documentation/translations/zh_CN/index.rst |  1 +
- 6 files changed, 28 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 879e86dbea66..25aa00c707b0 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -371,6 +371,19 @@ if cjk_cmd.find("Noto Sans CJK SC") >=3D 0:
- 	% This is needed for translations
-         \\usepackage{xeCJK}
-         \\setCJKmainfont{Noto Sans CJK SC}
-+	% Define custom macros to on/off CJK
-+	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
-+	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
-+	% To customize \sphinxtableofcontents
-+	\\usepackage{etoolbox}
-+	% Inactivate CJK after tableofcontents
-+	\\apptocmd{\\sphinxtableofcontents}{\\kerneldocCJKoff}{}{}
-+     '''
-+else:
-+    latex_elements['preamble']  +=3D '''
-+	% Custom macros to on/off CJK (Dummy)
-+	\\newcommand{\\kerneldocCJKon}{}
-+	\\newcommand{\\kerneldocCJKoff}{}
-      '''
-=20
- # Fix reference escape troubles with Sphinx 1.4.x
-diff --git a/Documentation/translations/index.rst b/Documentation/transla=
-tions/index.rst
-index e446e5ed00a6..556b050884fc 100644
---- a/Documentation/translations/index.rst
-+++ b/Documentation/translations/index.rst
-@@ -18,6 +18,10 @@ Translations
- Disclaimer
- ----------
-=20
-+.. raw:: latex
-+
-+	\kerneldocCJKoff
-+
- Translation's purpose is to ease reading and understanding in languages =
-other
- than English. Its aim is to help people who do not understand English or=
- have
- doubts about its interpretation. Additionally, some people prefer to rea=
-d
-diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/t=
-ranslations/it_IT/index.rst
-index bb8fa7346939..e80a3097aa57 100644
---- a/Documentation/translations/it_IT/index.rst
-+++ b/Documentation/translations/it_IT/index.rst
-@@ -4,6 +4,10 @@
- Traduzione italiana
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-+.. raw:: latex
-+
-+	\kerneldocCJKoff
-+
- :manutentore: Federico Vaga <federico.vaga@vaga.pv.it>
-=20
- .. _it_disclaimer:
-diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/t=
-ranslations/ja_JP/index.rst
-index 2f91b895e3c2..f94ba62d41c3 100644
---- a/Documentation/translations/ja_JP/index.rst
-+++ b/Documentation/translations/ja_JP/index.rst
-@@ -1,7 +1,8 @@
- .. raw:: latex
-=20
--        \renewcommand\thesection*
--        \renewcommand\thesubsection*
-+	\renewcommand\thesection*
-+	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- Japanese translations
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/t=
-ranslations/ko_KR/index.rst
-index b9e27d20b039..6ae258118bdf 100644
---- a/Documentation/translations/ko_KR/index.rst
-+++ b/Documentation/translations/ko_KR/index.rst
-@@ -1,7 +1,8 @@
- .. raw:: latex
-=20
--        \renewcommand\thesection*
--        \renewcommand\thesubsection*
-+	\renewcommand\thesection*
-+	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- =ED=95=9C=EA=B5=AD=EC=96=B4 =EB=B2=88=EC=97=AD
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
-ranslations/zh_CN/index.rst
-index a736057da41f..1f953d3439a5 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -4,6 +4,7 @@
-=20
- 	\renewcommand\thesection*
- 	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- .. _linux_doc_zh:
-=20
---=20
-2.17.1
+Hello Fernand,
 
 
+Thank you for the questions!
 
+On Tue, 25 May 2021 17:17:05 +0200 <sieberf@amazon.com> wrote:
+
+> Hi SeongJae,
+> 
+> The code looks good. Some questions for this patch:
+> 
+> The region merge threshold is computed on the access diff. Should the 
+> diff threshold be exponential as diffs in low number of access are 
+> likely to be more important? I.e if the threshold is 5, a region A with 
+> 0 accesses will be merged with a region B with 4 accesses (diff=4), but 
+> a region C with 50 access won't be merged with a region D with 60 
+> accesses (diff=10), however it seems to me that keeping a good 
+> granularity between A and B is more important than between C and D for 
+> FPR. What do you think?
+
+That totally makes sense if we have interest in only cold pages.  However,
+DAMON is for more general use cases.  In some cases, people would have interest
+in hot pages.  Using exponential diff might make the regions merging more
+aggressive, and result in smaller overhead.  But, I think the amount of the
+problem and benefit is unclear for now.  I was unable to find the overhead
+becomes problematically high in my tests with production systems.  I think we
+could add another option for this later, after we find it becomes a real
+problem.
+
+> 
+> When the number of regions is less than half max region, region split 
+> kicks in and doubles the number of region. This means that the number of 
+> region will grow close to max region, then slowly decay as region 
+> merges, until it reaches half max regions, then double again. This seems 
+> to create a non-uniform region number distribution over time, with large 
+> cycles. Also we do a lot of work when we double and no work otherwise. 
+> Not sure what's the impact on measurement quality but intuitively seems 
+> like keeping the number of regions constant over time would yield more 
+> consistent metrics? How about we rather always split regions at each 
+> iteration, and for each region we give a split probability?
+
+Agreed, I think this makes sense.  I also planning to make the probability
+adaptively changes based on current monitoring result, in future.
+Nevertheless, I want to keep the logic as simple as possible for now, unless we
+see clear problem and benefit there.
+
+
+Thanks,
+SeongJae Park
+
+> 
+> Kind regards,
+> 
+> --Fernand
