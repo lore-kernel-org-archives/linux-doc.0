@@ -2,236 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7FAC2B9F8
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:39:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3AF1C2B9F8
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:39:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E02906141B
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:39:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C84D66140F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:39:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233170AbhEYNkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 09:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35764 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233155AbhEYNkb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 09:40:31 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7E8C061574;
-        Tue, 25 May 2021 06:39:02 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso1815147pjx.1;
-        Tue, 25 May 2021 06:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EzbYyP5UwyIoTXWlozrjLuefjB8+xmFA5gSv1CO0XqA=;
-        b=ht9PyNjwM0xJQqbm93JGLTTQLLWLYf1k8n2d3gr3phUdAROvLwaJSXJ94nUmShMfWm
-         L/AF3cm6aFGEqJXNXb5qM+HhUWrV2KqOoX3FC347kToiIHs3UqHa7XE4GvGy4OLdDn7V
-         TSFi8AqQ5NmXx6TuNbX492BiRTysf5RcN6gMRovxUnaywqBOTQZhFSqDZMXqvxBPAsgd
-         69NX+TkHtcXRxNwKiaASo867tjUovU6XCtfXFIbBLi5PngvPeTdvgtlkKPxR/YX4xXFG
-         YJ1sn9vVJDXDupiSKrUS9BZ8ZH1t/bmUP5JbZ65+JUt5NPbCgqujSRnuwNC5Z04Iznnt
-         kTkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EzbYyP5UwyIoTXWlozrjLuefjB8+xmFA5gSv1CO0XqA=;
-        b=mhYWIZJVUGuSXD5e36YZ7sD+eZhXuUAdwgFkw/ZdL88s/8QLY9hI1qjyOVH8OLkaWP
-         qacQKggk8wp+firI3ZoPM9/y5s3ojEnz6JUW6O689SrxhRtbG4zypBIrYBVHzKMTaCt6
-         chw6ZXTQW/GGsHH4/BHYb/dGwq+tKPTBh2Yb9D8oZnPbyb/Ftp5/+3myEn05HlNqKjj3
-         mh70EKCeobEoNFpiGsYp1cc+T8V7hWTMSgAeKH91QaT1AtV1amQB3mgmadeADMMiXvJ3
-         NkaWCDd07raEYHps1NHc4RWKBgsOs5J/iQbtzadd9yTv4DcyRs3JdcYFuaUSapUWCY4Q
-         M7ZA==
-X-Gm-Message-State: AOAM532AO0Uq9IQ7yoC+/cm/aS9+iPJzqMMEgs9BymvtleBTPrGWk6zK
-        n3ZrsAy0p6RO/dmcG423UF0=
-X-Google-Smtp-Source: ABdhPJxIUXDq1ROLXbIWYVSxaqp8kSg7EwK1KE9h0zUfkcaYnaW8gynZqfMkIvgty6NY17kQY327CA==
-X-Received: by 2002:a17:902:9302:b029:f6:32d3:e10a with SMTP id bc2-20020a1709029302b02900f632d3e10amr27234897plb.29.1621949941518;
-        Tue, 25 May 2021 06:39:01 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id jz7sm2114759pjb.32.2021.05.25.06.38.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 06:39:01 -0700 (PDT)
-Subject: [PATCH v3] docs: Activate exCJK only in CJK chapters
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Wu X.C." <bobwxc@email.cn>, Akira Yokosawa <akiyks@gmail.com>
+        id S233249AbhEYNlK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 09:41:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53734 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233170AbhEYNlK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 May 2021 09:41:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D2D361413;
+        Tue, 25 May 2021 13:39:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621949980;
+        bh=bpJhqhzyJIOpwvCBoK22zd+vKa7WuZzfK//AHfWxpno=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mucVuTK3eLjiks/flDd2+/QxoDER4LrVL8aBuTPNcBE9D8zLF8LnItnvdvf8Nrmaj
+         NwJiZBF/y2aZCbxn6mVE+PPsjheaTweqUVqKDIe73ws4x8Pc/Fp96HBqhn7QNN6+9p
+         fScSqrhdQN9oig0TLnD9psM7FSPxDFJOdj3gB+VfCA6mPjJ7rrF+9NZX+UbkGRuAKn
+         1rn1mqRyswpKzi47MtRe/Sj3tXBaMRlUPaXz7EmDn/RuGQWOJPjKhcfUOI8BSQUK0m
+         duFZ9bS868bYx2lDVJB31Vwdby3kkslzZXa1lKVhhVYVM1e1N6XdyFEoQgfdbfHIMr
+         EJsAUtMb3kF2g==
+Date:   Tue, 25 May 2021 15:39:35 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     "Wu X.C." <bobwxc@email.cn>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: Activate exCJK only in CJK chapters
+Message-ID: <20210525153935.7fd9f445@coco.lan>
+In-Reply-To: <97234fd1-66b8-5591-1259-6e995f91835f@gmail.com>
 References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <f8ce1d37-8f8c-c1de-2afe-7e0a1038838c@gmail.com>
-Date:   Tue, 25 May 2021 22:38:58 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        <0229bc4d-b391-41b9-e900-b88089c493df@gmail.com>
+        <20210525123012.GA16810@bobwxc.top>
+        <97234fd1-66b8-5591-1259-6e995f91835f@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Activating xeCJK in English and Italian-translation documents
-results in sub-optimal typesetting with wide-looking apostrophes
-and quotation marks.
+Em Tue, 25 May 2021 21:55:53 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-The xeCJK package provides macros for enabling and disabling its
-effect in the middle of a document, namely \makexeCJKactive and
-\makexeCJKinactive.
+> On Tue, 25 May 2021 20:30:12 +0800, Wu X.C. wrote:
+> > On Tue, May 25, 2021 at 08:17:26PM +0900, Akira Yokosawa wrote:  
+> >> Activating xeCJK in English and Italian-translation documents
+> >> results in sub-optimal typesetting with wide-looking apostrophes
+> >> and quotation marks.
+> >>
+> >> The xeCJK package provides macros for enabling and disabling its
+> >> effect in the middle of a document, namely \makexeCJKactive and
+> >> \makexeCJKinactive.
+> >>
+> >> So the goal of this change is to activate xeCJK in the relevant
+> >> chapters in translations.
+> >>
+> >> To do this:
+> >>
+> >>     o Define custom macros in the preamble depending on the
+> >>       availability of the "Noto Sans CJK" font so that those
+> >>       macros can be used regardless of the use of xeCJK package.
+> >>
+> >>     o Patch \sphinxtableofcontents so that xeCJK is inactivated
+> >>       after table of contents.
+> >>
+> >>     o Embed those custom macros in each language's index.rst file
+> >>       as a ".. raw:: latex" construct.
+> >>
+> >> Note: A CJK chapter needs \kerneldocCJKon in front of its chapter
+> >> heading, while a non-CJK chapter should have \kerneldocCJKoff
+> >> below its chapter heading.
+> >>
+> >> This is to make sure the CJK font is available to CJK chapter's
+> >> heading and ending page's footer.
+> >>
+> >> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>  
+> > 
+> > Test it, worked well.
+> > 
+> > Tested-by: Wu XiangCheng <bobwxc@email.cn>  
+> 
+> Thanks!
+> 
+> > 
+> > And one warning when am patch:
+> > 
+> >     .git/rebase-apply/patch:62: trailing whitespace.
+> > 	    \kerneldocCJKoff  
+> 
+> Oops, will fix and post v3 soon, with your Tested-by: appended
 
-So the goal of this change is to activate xeCJK in the relevant
-chapters in translations.
+You can also add:
 
-To do this:
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-    o Define custom macros in the preamble depending on the
-      availability of the "Noto Sans CJK" font so that those
-      macros can be used regardless of the use of xeCJK package.
+(but see below)
 
-    o Patch \sphinxtableofcontents so that xeCJK is inactivated
-      after table of contents.
 
-    o Embed those custom macros in each language's index.rst file
-      as a ".. raw:: latex" construct.
+> 
+> > 
+> >   
+> >> I think per-directory conf.py can be tried as a follow-up
+> >> change after this patch is applied.  
+> > 
+> > Agree, I think it's enough for this problem.
+> > If we need more complex customization, per-directory conf.py then worth. 
 
-Note: A CJK chapter needs \kerneldocCJKon in front of its chapter
-heading, while a non-CJK chapter should have \kerneldocCJKoff
-below its chapter heading.
+Well, this change seems good enough to me and it avoids the
+need of adding a separate conf.py.
 
-This is to make sure the CJK font is available to CJK chapter's
-heading and ending page's footer.
+The only thing that concerns me is if this logic works with
+all Sphinx versions. I guess it should, but there were some
+changes in the past with the LaTeX output module which
+broke on newer versions, as different versions of Sphinx use
+different .
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Tested-by: Wu XiangCheng <bobwxc@email.cn>
-Link: https://lore.kernel.org/lkml/2061da0a-6ab1-35f3-99c1-dbc415444f37@g=
-mail.com
----
-v2 -> v3:
+So, this patch needs to be tested against the minimal version recommended
+for PDF output (2.4.4) and against the latest one, to be 100% sure that
+it won't cause any breakages.
 
-    o Fixed trailing white space
-    o Added Tested-By from Wu XiangCheng
+You can test it with something like:
 
---
- Documentation/conf.py                      | 13 +++++++++++++
- Documentation/translations/index.rst       |  4 ++++
- Documentation/translations/it_IT/index.rst |  4 ++++
- Documentation/translations/ja_JP/index.rst |  5 +++--
- Documentation/translations/ko_KR/index.rst |  5 +++--
- Documentation/translations/zh_CN/index.rst |  1 +
- 6 files changed, 28 insertions(+), 4 deletions(-)
+	$ /usr/bin/python3 -m venv sphinx_foo
+	$ . sphinx_foo/bin/activate
+	$ pip install docutils Sphinx==2.4.4 sphinx_rtd_theme
+	$ make pdfdocs
+...
+	# Should install Latest version, e. g. currently, Sphinx 4.0.2
+	$ pip uninstall Sphinx
+	$ pip install docutils Sphinx sphinx_rtd_theme
+	$ make pdfdocs
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 879e86dbea66..25aa00c707b0 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -371,6 +371,19 @@ if cjk_cmd.find("Noto Sans CJK SC") >=3D 0:
- 	% This is needed for translations
-         \\usepackage{xeCJK}
-         \\setCJKmainfont{Noto Sans CJK SC}
-+	% Define custom macros to on/off CJK
-+	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
-+	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
-+	% To customize \sphinxtableofcontents
-+	\\usepackage{etoolbox}
-+	% Inactivate CJK after tableofcontents
-+	\\apptocmd{\\sphinxtableofcontents}{\\kerneldocCJKoff}{}{}
-+     '''
-+else:
-+    latex_elements['preamble']  +=3D '''
-+	% Custom macros to on/off CJK (Dummy)
-+	\\newcommand{\\kerneldocCJKon}{}
-+	\\newcommand{\\kerneldocCJKoff}{}
-      '''
-=20
- # Fix reference escape troubles with Sphinx 1.4.x
-diff --git a/Documentation/translations/index.rst b/Documentation/transla=
-tions/index.rst
-index e446e5ed00a6..556b050884fc 100644
---- a/Documentation/translations/index.rst
-+++ b/Documentation/translations/index.rst
-@@ -18,6 +18,10 @@ Translations
- Disclaimer
- ----------
-=20
-+.. raw:: latex
-+
-+	\kerneldocCJKoff
-+
- Translation's purpose is to ease reading and understanding in languages =
-other
- than English. Its aim is to help people who do not understand English or=
- have
- doubts about its interpretation. Additionally, some people prefer to rea=
-d
-diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/t=
-ranslations/it_IT/index.rst
-index bb8fa7346939..e80a3097aa57 100644
---- a/Documentation/translations/it_IT/index.rst
-+++ b/Documentation/translations/it_IT/index.rst
-@@ -4,6 +4,10 @@
- Traduzione italiana
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-+.. raw:: latex
-+
-+	\kerneldocCJKoff
-+
- :manutentore: Federico Vaga <federico.vaga@vaga.pv.it>
-=20
- .. _it_disclaimer:
-diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/t=
-ranslations/ja_JP/index.rst
-index 2f91b895e3c2..f94ba62d41c3 100644
---- a/Documentation/translations/ja_JP/index.rst
-+++ b/Documentation/translations/ja_JP/index.rst
-@@ -1,7 +1,8 @@
- .. raw:: latex
-=20
--        \renewcommand\thesection*
--        \renewcommand\thesubsection*
-+	\renewcommand\thesection*
-+	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- Japanese translations
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/t=
-ranslations/ko_KR/index.rst
-index b9e27d20b039..6ae258118bdf 100644
---- a/Documentation/translations/ko_KR/index.rst
-+++ b/Documentation/translations/ko_KR/index.rst
-@@ -1,7 +1,8 @@
- .. raw:: latex
-=20
--        \renewcommand\thesection*
--        \renewcommand\thesubsection*
-+	\renewcommand\thesection*
-+	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- =ED=95=9C=EA=B5=AD=EC=96=B4 =EB=B2=88=EC=97=AD
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
-ranslations/zh_CN/index.rst
-index a736057da41f..1f953d3439a5 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -4,6 +4,7 @@
-=20
- 	\renewcommand\thesection*
- 	\renewcommand\thesubsection*
-+	\kerneldocCJKon
-=20
- .. _linux_doc_zh:
-=20
---=20
-2.17.1
+(That's said, I didn't test version 4.0 yet... not sure if
+everything would work fine, even without this change)
+
+Regards,
+Mauro
+
+> >   
+> >> --- a/Documentation/translations/index.rst
+> >> +++ b/Documentation/translations/index.rst
+> >> @@ -18,6 +18,10 @@ Translations
+> >>  Disclaimer
+> >>  ----------
+> >>  
+> >> +.. raw:: latex
+> >> +
+> >> +	\kerneldocCJKoff	
+> >> +
+> >>  Translation's purpose is to ease reading and understanding in languages other
+> >>  than English. Its aim is to help people who do not understand English or have
+> >>  doubts about its interpretation. Additionally, some people prefer to read
+> >> diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
+> >> index bb8fa7346939..e80a3097aa57 100644
+> >> --- a/Documentation/translations/it_IT/index.rst
+> >> +++ b/Documentation/translations/it_IT/index.rst
+> >> @@ -4,6 +4,10 @@
+> >>  Traduzione italiana
+> >>  ===================
+> >>  
+> >> +.. raw:: latex
+> >> +
+> >> +	\kerneldocCJKoff
+> >> +
+> >>  :manutentore: Federico Vaga <federico.vaga@vaga.pv.it>
+> >>  
+> >>  .. _it_disclaimer:  
+> > 
+> > And for above two, maybe better to put "raw:: latex" block above the
+> > title, more beautiful, and CJKoff will be done before enter "Italiana"
+> > chapter.  
+> 
+> These two are placed there intentionally.
+> 
+> As mentioned in the change log:
+> 
+> >> Note: A CJK chapter needs \kerneldocCJKon in front of its chapter
+> >> heading, while a non-CJK chapter should have \kerneldocCJKoff
+> >> below its chapter heading.
+> >>
+> >> This is to make sure the CJK font is available to CJK chapter's
+> >> heading and ending page's footer.  
+> 
+> If they are put above chapter titles in the .rst files,
+> Chinese translation's final page's footer won't be rendered properly.
+> 
+>         Thanks, Akira
+> 
+> > 
+> > Thanks,
+> > 	Wu X.C.
+> >   
 
 
 
+Thanks,
+Mauro
