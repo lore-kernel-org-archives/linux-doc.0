@@ -2,98 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE7FC4707F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:00:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48742C2B9F8
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:00:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 901C96141C
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:00:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C7D56141C
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:00:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232966AbhEYNBm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 09:01:42 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:54131 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232720AbhEYNBk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 09:01:40 -0400
-Received: from [192.168.1.155] ([77.2.164.130]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1Md6V3-1lD1Bp2l7b-00aGKe; Tue, 25 May 2021 14:59:54 +0200
-Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
-To:     Viresh Kumar <viresh.kumar@linaro.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        bgolaszewski@baylibre.com, "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org
-References: <20201203191135.21576-1-info@metux.net>
- <20201203191135.21576-2-info@metux.net>
- <CAOh2x=kcM351ObubnQSzUa=FVBQUmAUhz4u8ExORUthQQ0WbGQ@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <253f218d-07ac-1963-75e1-9ac2d035437a@metux.net>
-Date:   Tue, 25 May 2021 14:59:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S232917AbhEYNCF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 09:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55228 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232979AbhEYNCE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 09:02:04 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00953C06138A
+        for <linux-doc@vger.kernel.org>; Tue, 25 May 2021 06:00:33 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id v8so30286360qkv.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 May 2021 06:00:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Y28saWW4RbQx7WFyioP30Xg1gnMSgGnjvex8TrgoAmQ=;
+        b=SmfdiXxkr36Ea/32dUzc9goah/P/GDAmfDbfC23QxapWU+TYijU+tfipqVELo7UnNb
+         kCjW74Q30JDB5fgFGsHqgJCEmxBDKG9IApVbKABuX/KOwPBR0S9vlJjymq+MrMGk51h3
+         6ydpK/iuWp9N2XdHcbwhGAfcdpizobjsabPIpm0tzrNvmu9Bxekatij9qaP2uru6JWkm
+         9Q/bdYcBQsR1yN1XYUK+IHclcbpDWwfEhDxrstMqMj+GfnNWOoDjxxvTrZpSn3pYUBV+
+         tBirFOf/cNxOyaXXED4cDuzfXDrAdEmlM6leYVvOPcAJrsNxmqDTUvm5putYq5K3bzNj
+         AP8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Y28saWW4RbQx7WFyioP30Xg1gnMSgGnjvex8TrgoAmQ=;
+        b=tFR2rppOeZ1hvZKeH/CQznV19yjEM21fBKBPNLiwhRfHTwRmrk5qdpmAHMLSxbf+ro
+         SixTKH7gyeJmCRHzvAZ21j2Brwkoa+0PvmTub6bGjJOc5qBbnqS/43lgBIn2elM2IhT8
+         xDjUHrhSpDCV4QSgORWdJD3+tHOADl0PfV7KkiESxwkqKbUzXuAoorUCthmw8peY4IOQ
+         0FrxtyItS7HV/ciIgTywzu778kS4pVBBdN2rzeclg7LLTP7ZIA9pxAk34c/FGMc1AzLK
+         Q2E/gr5MVkeJwGnuHUfMSErkUPLsB21yfX4EdEPgjPl27qNI4ce3deRoYXJdWS1Kjr4d
+         uo2g==
+X-Gm-Message-State: AOAM532hydQsiU9AhKaErcbMb4opEMA6xjKK2f5JBZNeAy0B+4cIqyUw
+        ZuzG1k91+ySpDqcrDvW9FGHP1Q==
+X-Google-Smtp-Source: ABdhPJweYIK4QVt1oGBJstiLAQCOmbfbqmVA42aSLZNXQ/Hhy/JZ23PoCnqA1TrO1jkKqaIdstwAUA==
+X-Received: by 2002:a37:9a44:: with SMTP id c65mr23489338qke.152.1621947632397;
+        Tue, 25 May 2021 06:00:32 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::1:4f4e])
+        by smtp.gmail.com with ESMTPSA id o5sm4565264qkl.25.2021.05.25.06.00.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 May 2021 06:00:31 -0700 (PDT)
+Date:   Tue, 25 May 2021 09:00:30 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     tj@kernel.org, lizefan.x@bytedance.com, mingo@redhat.com,
+        peterz@infradead.org, shakeelb@google.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        minchan@kernel.org, corbet@lwn.net, bristot@redhat.com,
+        paulmck@kernel.org, rdunlap@infradead.org,
+        akpm@linux-foundation.org, tglx@linutronix.de, macro@orcam.me.uk,
+        viresh.kumar@linaro.org, mike.kravetz@oracle.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v3 1/1] cgroup: make per-cgroup pressure stall tracking
+ configurable
+Message-ID: <YKz07nx3E8UEo1xa@cmpxchg.org>
+References: <20210524195339.1233449-1-surenb@google.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOh2x=kcM351ObubnQSzUa=FVBQUmAUhz4u8ExORUthQQ0WbGQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:P+C+8jE7h8AIU2+P4QAc0bNMwt+Y7MdaM1X7ydHqfxe9je0tPYy
- be3w5uTCFWkLcxmoBlru5+W4Tk2mr/voJuWycO84rHSYafupt3Uq1xWjFMNW3F03qmqIeo3
- cTkcoPXdGz06y+TYfDTAeOgojJpIJezE0d1fhIopLlIyWOsuvtrqhqZJNb5hcmgo5hMAS2V
- S2cQMbRYoxbMBNMEpWoFw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RbO7NUknbTY=:HjhTGnKuau+6zb9Ta6G1Yh
- VzrJdmQ911+bCR6R5e9wvAcOFl/7wBWYHrYhRqtFvRVTd83T+WlNL0DWFZAEPaSEU2ttLc2FK
- 9/cmPPiOBLP6XfSEBMusNIoq+ZDrmgZTI7hxa0TZmkq4k1Xngkr6fCsy7WF25OeETPCaR1mBQ
- K6VZKRIfQfvIBwF/v1jTPvIjPvYEMu+rIk1AhegdZibK/mnIiDyrVQWQ4yiMFEGK13bHBEoxf
- SKmxkahtwNrpOP+R9KtOmG+DY6saa01i9Bfy6/8VTX4cV6mZCtuito1iNurgHq76etXrvUnTe
- CTxBDc6tGp61htLU6taesJY6WUUZMC+R3jOvsPgY/VnzYxLxShmRAMH7jg3arQ0w00/GQQ8aE
- haTTOXh3rQC7a5R7OjC/Y83HbrVdJqRQiRXllD3Jgr1EYKyc/o1DkpT+4eYUMMRfB+BfB7XJ7
- 2MWr61dYb2hBdvERcNIBllN4rrEzRtrxHZIzouhQ0NJ5sEvmhkmh892Iz81zBjgnawxLsrjjn
- E1gqPSNvOPVPkxwZXrp8HU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210524195339.1233449-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24.05.21 13:27, Viresh Kumar wrote:
-
-Hi,
-
-
-> We (Linaro's Project Stratos
-> https://linaro.atlassian.net/wiki/spaces/STR/overview)
->   are interested in this stuff. I was trying to look at the last status
-> of all this. Few
-> questions for you:
+On Mon, May 24, 2021 at 12:53:39PM -0700, Suren Baghdasaryan wrote:
+> PSI accounts stalls for each cgroup separately and aggregates it at each
+> level of the hierarchy. This causes additional overhead with psi_avgs_work
+> being called for each cgroup in the hierarchy. psi_avgs_work has been
+> highly optimized, however on systems with large number of cgroups the
+> overhead becomes noticeable.
+> Systems which use PSI only at the system level could avoid this overhead
+> if PSI can be configured to skip per-cgroup stall accounting.
+> Add "cgroup_disable=pressure" kernel command-line option to allow
+> requesting system-wide only pressure stall accounting. When set, it
+> keeps system-wide accounting under /proc/pressure/ but skips accounting
+> for individual cgroups and does not expose PSI nodes in cgroup hierarchy.
 > 
-> - Was the spec ever posted to virtio-dev list ? I thought that's the
-> very first step before
-> we merge the code.
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-I had posted some spec quite some time ago, but it wasn't in the form
-of patches against the .tex documentation files yet. It's been laying
-aside for quite a while, since I've been busy w/ other things.
-
-
---mtx
-
--- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
