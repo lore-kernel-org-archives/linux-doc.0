@@ -2,88 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97550C47084
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 00:18:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6983BC47084
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 00:30:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 733B66141F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 00:18:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46F746141C
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 00:30:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229891AbhEYAUJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 May 2021 20:20:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53134 "EHLO
+        id S229926AbhEYAcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 May 2021 20:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229724AbhEYAUI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 20:20:08 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA4B7C06138B
-        for <linux-doc@vger.kernel.org>; Mon, 24 May 2021 17:18:38 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id a2so43133623lfc.9
-        for <linux-doc@vger.kernel.org>; Mon, 24 May 2021 17:18:38 -0700 (PDT)
+        with ESMTP id S229785AbhEYAcE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 May 2021 20:32:04 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35378C061574
+        for <linux-doc@vger.kernel.org>; Mon, 24 May 2021 17:30:34 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id i9so43200256lfe.13
+        for <linux-doc@vger.kernel.org>; Mon, 24 May 2021 17:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lU98oqYZy9LMpWRIVC/iOJVtPr25gCqXEbSC0KE2HyA=;
-        b=Z0A4YTuI+et7WamhQwbpeL7DsoQsF7Ua1YcYV4PuWf/unLg0FK4OyfCPtn8ju23OMV
-         f4ZRHtH3PZ51h0Rx8RGos1KrY0HJbMYeZR3l72jlxAc7gE6eHwgUXJUww9D0pIJu1yCb
-         TN6MSnljzXK2rflr6vC2q845XUCsEuKxHC8iy6LcTiK3RBNB9jXmD4t/qP/N/0pZCD2q
-         NYk7e/nIFxW5bBymJIy+MUr/AaoQgj8xdCucfU/rPEXIk4bBLBP3hvtd0648zeKrNVwB
-         vQEPXtRFtpikG60dHa1v4DPAtX6OlVy77tS5ty44hxWu9Rv1szhLYqkecfdcg1o0Z3ci
-         OfLg==
+        bh=oLP4oglLNCR+9nXwmE8IhmlcVIVSmG3eaWpMOp4bmk8=;
+        b=rP/2hrI1pD+HuYaQkfSjt5L/O90JURl9WFveM0Bp/G+tbVrsVgygnir3hDkS9zFJqX
+         XwL1LfEOIOxuB2aKqJEngEBuhsCz6MqBjebju6J+qBFyEqlvdRwR5atOCQXXH3Kkx2N1
+         3fY2XXDpsZlfzLr4UMLuyNrxt/cNHjLd0CZdrgN1EMztuULY0zPEj5BwznG9AS3nIfd/
+         Jpyu3RspjH4vFW3p5DQ/fhfYDFtsnm5XHL1ibkcu/Rny8E7jbDKOStD/nbSOvBdYKnco
+         4wpIIkaIXl924s6i38dplGClI6DKYZSrxnniQcXThYcEDAsgkwfVcoYyxGdrcze3TwKm
+         CB+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lU98oqYZy9LMpWRIVC/iOJVtPr25gCqXEbSC0KE2HyA=;
-        b=E+YIJo3hq9GNpQ1Fqt34/3HefiFoti6xflGc7Uu0/nfvp5q35RXOUMowojzotB0KuH
-         U38tPZDKZ3J30u6nnyQChxBHFEu57eQQMqDGlB53ZIjwJV95s2vmcbvw1/fVEp4uARWL
-         mruzm74KsLsmw4pKaWybc1ZxmiSQXuLqlsGlxG40RtBYC0uU7vk04QzJpM8kyZKBddSl
-         2P9KW/nIjZfYFSbA9rm7/Grp6Er8OcWAkf2jMIrp5FHV1Rhj8wpajPL6WqAiG14fbOvY
-         +ZJgZ8yVqLtfyz/fFgy+MdQUNU0DoZ4+pzv5u2pBPYbCMqCp4mJTrTv4rcvAVnqcM0uy
-         FlCA==
-X-Gm-Message-State: AOAM532hibVJ5/Ate/suKBD4nB/1eeRkQ7botAFSQTWe6/jAbPcvvwul
-        srKB6MPzrdBv42bhlUPEA4Kl7c9UcxUXSk+ANHnOVw==
-X-Google-Smtp-Source: ABdhPJygddabh5kIV+leOfkKFonaw9VscHm4yErigpg0emiVpFC9RYx8ml0O2HMh08c2oJ8ecYk5w/JjuH7dSDMDRTE=
-X-Received: by 2002:a19:ef10:: with SMTP id n16mr11888963lfh.649.1621901916420;
- Mon, 24 May 2021 17:18:36 -0700 (PDT)
+        bh=oLP4oglLNCR+9nXwmE8IhmlcVIVSmG3eaWpMOp4bmk8=;
+        b=aoUzK2BCdi+DPKEasPa0hpuZNBF+tAiHzSufN0FbE5K0+0MV0PPnNcSYfvrLeReUgL
+         G3ZPBMwqiZmRcILPlyXrWO+ArlXAYiWD8VPAMUZM+SxCOm2nsnD4c1CFMaX5MEeQ30Hm
+         PxulAF6+nUsSmYlFg/WHSFwPNjZJ6S+W0OaPn5IC0LZaD1bVIRr9MQ3reSqCzZYg7EXb
+         S2kjiYq1gfIDtGicDeIa7UOzmO3v0etM8mcU9YHLmuy6RxiEc5G9H6yqYdROmguEDhcV
+         y3Q9Bs7JMB4pGJeZnW34x007ES9BaUroLJjsw8zw85+igSkRjPubSbXh6Kjs2VjMs/Bd
+         WgOA==
+X-Gm-Message-State: AOAM533MRjm0NCshtKx1k1N4QiHAnCA0e9fXHG5XZTEgHQ50VQxdtlx1
+        Lk4NggxacA1B7fCVp8lvSRMlTveLd+gcq3ZSsvScFg==
+X-Google-Smtp-Source: ABdhPJw1HN3EJMYQmc9N6v18t6ySbunlT/243xY0jxo6mquZnjHFnii7atHe6NxbmrbfQ6HLxJ1mbqJN+Y9YvZPTUTs=
+X-Received: by 2002:a05:6512:11ea:: with SMTP id p10mr11731891lfs.157.1621902632596;
+ Mon, 24 May 2021 17:30:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210520202730.4444-1-dariobin@libero.it>
-In-Reply-To: <20210520202730.4444-1-dariobin@libero.it>
+References: <cover.1621413933.git.mchehab+huawei@kernel.org> <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
+In-Reply-To: <46ac2e918c7c4a4b701d54870f167b78466ec578.1621413933.git.mchehab+huawei@kernel.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 25 May 2021 02:18:25 +0200
-Message-ID: <CACRpkdanh32PREaYhN1dW1p0GDamSZ04WgRr-afm+6L-c1fJCg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] am335x: set pinmux registers from pins debug file
-To:     Dario Binacchi <dariobin@libero.it>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Drew Fustini <drew@beagleboard.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
+Date:   Tue, 25 May 2021 02:30:21 +0200
+Message-ID: <CACRpkdYU4LQM54rht9quJvfxJ7N4KjJf27+ckNGTdLOW1LF1UQ@mail.gmail.com>
+Subject: Re: [PATCH 05/10] docs: update pin-control.rst references
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Drew Fustini <drew@beagleboard.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Saravana Kannan <saravanak@google.com>,
+        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
+        <alsa-devel@alsa-project.org>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        patches@opensource.cirrus.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 20, 2021 at 10:27 PM Dario Binacchi <dariobin@libero.it> wrote:
+On Wed, May 19, 2021 at 10:51 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 
-> The patch was born from the need to change the slew rate of the LCD pins
-> of a custom AM335x board during EMC tests. The AM335x, as described in a
-> note in section 9.1 of its reference manual [1], is unable to write
-> pinmux registers from user space. The series now makes it possible to
-> write these registers from the pins debug file.
+> Changeset 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+> renamed: Documentation/driver-api/pinctl.rst
+> to: Documentation/driver-api/pin-control.rst.
+>
+> Update the cross-references accordingly.
+>
+> Fixes: 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-I am going to hold this series back pending more discussion on the ABI
-and whether it is useful.
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+I suppose you take it through the doc tree? I can apply it if you prefer.
 
 Yours,
 Linus Walleij
