@@ -2,155 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6376C2B9F8
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 07:37:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87DF7C2B9F8
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 07:58:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0584613AD
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 07:37:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5988A613F9
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 07:58:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231777AbhEYHio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 03:38:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34268 "EHLO mail.kernel.org"
+        id S231922AbhEYH72 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 03:59:28 -0400
+Received: from mga04.intel.com ([192.55.52.120]:39251 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231477AbhEYHin (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 May 2021 03:38:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 511F161417;
-        Tue, 25 May 2021 07:37:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621928233;
-        bh=8smSQFHHk77+VQ3Wa9iNI4/luQ0j33dqUigN4+FCyA0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nnvhn2zwdz8/ljqYIFSsXNkn8JbOP+hM4SLU8Y7IPP8G6iufLkG/MhQGUS4+/STU+
-         kK8D3TJ5NZN7ePf7Ew91EPvVyIrqTWc8srHDmGLM9ysBnq3thLheXQCh1Ik+TC+Ld4
-         KS0WPD5LBDeKyCYg5QKqIrpwyaXMHejofwOT6mgY=
-Date:   Tue, 25 May 2021 09:37:11 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Damien Le Moal <Damien.LeMoal@wdc.com>
-Cc:     Palmer Dabbelt <palmerdabbelt@google.com>,
-        "guoren@kernel.org" <guoren@kernel.org>,
-        Anup Patel <Anup.Patel@wdc.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "graf@amazon.com" <graf@amazon.com>,
-        Atish Patra <Atish.Patra@wdc.com>,
-        Alistair Francis <Alistair.Francis@wdc.com>,
-        "anup@brainfault.org" <anup@brainfault.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "kvm-riscv@lists.infradead.org" <kvm-riscv@lists.infradead.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
-Message-ID: <YKypJ5SJg2sDtn7/@kroah.com>
-References: <mhng-b093a5aa-ff9d-437f-a10b-47558f182639@palmerdabbelt-glaptop>
- <DM6PR04MB708173B754E145BC843C4123E7269@DM6PR04MB7081.namprd04.prod.outlook.com>
+        id S231477AbhEYH72 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 May 2021 03:59:28 -0400
+IronPort-SDR: 0WVyNm3USEH7qYjViZaDn+GC+rOhymMUCu1P2qd4wgqFuZCD3VrlTD9E4c/jc+Z0/pI6w9qgE7
+ 9tKWpTiFEpAw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9994"; a="200231377"
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; 
+   d="scan'208";a="200231377"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 00:50:38 -0700
+IronPort-SDR: /3bdNeeimRPEbziclmisq8qcBIllCPKbDomBj5N4NNSaf9+EHktBiVIm7Id6/gvtL4P00r8E3k
+ YJQxU/9Hdwmw==
+X-IronPort-AV: E=Sophos;i="5.82,327,1613462400"; 
+   d="scan'208";a="442432356"
+Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 00:50:35 -0700
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com> <20210513110040.2268-12-maciej.kwapulinski@linux.intel.com> <YJ0MXK2XSISC1fIl@kroah.com> <85o8ddiv51.fsf@linux.intel.com> <YJ41h6lt8lSqaH7r@kroah.com> <85h7isif8y.fsf@linux.intel.com> <YKuEsD9UMlSz3+HA@kroah.com>
+User-agent: mu4e 1.4.13; emacs 26.3
+From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Savo Novakovic <savox.novakovic@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: Re: [PATCH v3 11/14] intel_gna: add ioctl handler
+In-reply-to: <YKuEsD9UMlSz3+HA@kroah.com>
+Date:   Tue, 25 May 2021 09:50:32 +0200
+Message-ID: <85cztfi75j.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR04MB708173B754E145BC843C4123E7269@DM6PR04MB7081.namprd04.prod.outlook.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 24, 2021 at 11:08:30PM +0000, Damien Le Moal wrote:
-> On 2021/05/25 7:57, Palmer Dabbelt wrote:
-> > On Mon, 24 May 2021 00:09:45 PDT (-0700), guoren@kernel.org wrote:
-> >> Thx Anup,
-> >>
-> >> Tested-by: Guo Ren <guoren@kernel.org> (Just on qemu-rv64)
-> >>
-> >> I'm following your KVM patchset and it's a great job for riscv
-> >> H-extension. I think hardware companies hope Linux KVM ready first
-> >> before the real chip. That means we can ensure the hardware could run
-> >> mainline linux.
-> > 
-> > I understand that it would be wonderful for hardware vendors to have a 
-> > guarantee that their hardware will be supported by the software 
-> > ecosystem, but that's not what we're talking about here.  Specifically, 
-> > the proposal for this code is to track the latest draft extension which 
-> > would specifically leave vendors who implement the current draft out in 
-> > the cold was something to change.  In practice that is the only way to 
-> > move forward with any draft extension that doesn't have hardware 
-> > available, as the software RISC-V implementations rapidly deprecate 
-> > draft extensions and without a way to test our code it is destined to 
-> > bit rot.
-> 
-> To facilitate the process of implementing, and updating, against draft
-> specifications, I proposed to have arch/riscv/staging added. This would be the
-> place to put code based on drafts. Some simple rules can be put in place:
-> 1) The code and eventual ABI may change any time, no guarantees of backward
-> compatibility
-> 2) Once the specifications are frozen, the code is moved out of staging
-> somewhere else.
-> 3) The code may be removed any time if the specification proposal is dropped, or
-> any other valid reason (can't think of any other right now)
-> 4) ...
-> 
-> This way, the implementation process would be greatly facilitated and
-> interactions between different extensions can be explored much more easily.
-> 
-> Thoughts ?
 
-It will not work, unless you are mean and ruthless and people will get
-mad at you.  I do not recommend it at all.
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
 
-Once code shows up in the kernel tree, and people rely on it, you now
-_have_ to support it.  Users don't know the difference between "staging
-or not staging" at all.  We have reported problems of staging media
-drivers breaking userspace apps and people having problems with that,
-despite the media developers trying to tell the world, "DO NOT RELY ON
-THESE!".
+> On Mon, May 24, 2021 at 12:43:25PM +0200, Maciej Kwapulinski wrote:
+>> 
+>> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+>> 
+>> > On Fri, May 14, 2021 at 10:20:42AM +0200, Maciej Kwapulinski wrote:
+>> >> 
+>> >> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+>> >> 
+>> >> > On Thu, May 13, 2021 at 01:00:37PM +0200, Maciej Kwapulinski wrote:
+>> >> >> From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
+>> >> >> 
+>> >> >> Add ioctl handler into GNA driver.
+>> >> >> The ioctl interface provides the ability to do the following:
+>> >> >>  - Map and unmap memory buffers for GNA computation requests.
+>> >> >>  - Retrieve capabilities of the underlying GNA IP.
+>> >> >>  - Submit GNA computation requests.
+>> >> >>  - Request notification of scoring completion.
+>> >> >
+>> >> > Do you have a pointer to the userspace code that uses this ioctl?
+>> >> > That's kind of required here, otherwise we have no idea how this all
+>> >> > works.
+>> >> >
+>> >> 
+>> >> yes, it's present under following link:
+>> >> 
+>> >> https://github.com/intel/gna
+>> >
+>> > Then that needs to go here in this changelog text, right?
+>> 
+>> link to library is already present in 00/14, I didn't want to have it in
+>> two places, that's why not present here.
+>
+> Commit 00/XX never shows up in the changelog :(
 
-And if this can't be done with tiny simple single drivers, you are going
-to have a world-of-hurt if you put arch/platform support into
-arch/riscv/.  Once it's there, you will never be able to delete it,
-trust me.
-
-If you REALLY wanted to do this, you could create drivers/staging/riscv/
-and try to make the following rules:
-
-	- stand-alone code only, can not depend on ANYTHING outside of
-	  the directory that is not also used by other in-kernel code
-	- does not expose any userspace apis
-	- interacts only with existing in-kernel code.
-	- can be deleted at any time, UNLESS someone is using it for
-	  functionality on a system
-
-But what use would that be?  What could you put into there that anyone
-would be able to actually use?
-
-Remember the rule we made to our user community over 15 years ago:
-
-	We will not break userspace functionality*
-
-With the caveat of "* - in a way that you notice".
-
-That means we can remove and change things that no one relies on
-anymore, as long as if someone pops up that does rely on it, we put it
-back.
-
-We do this because we never want anyone to be afraid to drop in a new
-kernel, because they know we did not break their existing hardware and
-userspace workloads.  And if we did, we will work quickly to fix it.
-
-So back to the original issue here, what is the problem that you are
-trying to solve?  Why do you want to have in-kernel code for hardware
-that no one else can have access to, and that isn't part of a "finalized
-spec" that ends up touching other subsystems and is not self-contained?
-
-Why not take the energy here and go get that spec ratified so we aren't
-having this argument anymore?  What needs to be done to make that happen
-and why hasn't anyone done that?  There's nothing keeping kernel
-developers from working on spec groups, right?
-
-thanks,
-
-greg k-h
+right
