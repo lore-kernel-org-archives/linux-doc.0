@@ -3,119 +3,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA988C2B9F8
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 14:04:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E48C4707F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:05:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C9630611BE
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 14:04:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EAE606141C
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 15:05:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233501AbhEYOFo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 10:05:44 -0400
-Received: from foss.arm.com ([217.140.110.172]:56716 "EHLO foss.arm.com"
+        id S230175AbhEYPGd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 11:06:33 -0400
+Received: from mga18.intel.com ([134.134.136.126]:43946 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233528AbhEYOFn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 May 2021 10:05:43 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D123713D5;
-        Tue, 25 May 2021 07:04:12 -0700 (PDT)
-Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52A5A3F73D;
-        Tue, 25 May 2021 07:04:11 -0700 (PDT)
-Date:   Tue, 25 May 2021 15:04:01 +0100
-From:   Beata Michalska <beata.michalska@arm.com>
-To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, valentin.schneider@arm.com,
-        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
- detection
-Message-ID: <20210525140400.GA9291@e120325.cambridge.arm.com>
-References: <20210524101617.8965-1-beata.michalska@arm.com>
- <20210524101617.8965-3-beata.michalska@arm.com>
- <cdb4e3a4-569f-1dc2-be22-c0128250996a@arm.com>
- <20210525093039.GA31871@e120325.cambridge.arm.com>
- <8f00a2d4-2443-9656-2d51-6c5798fda552@arm.com>
+        id S229750AbhEYPGa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 May 2021 11:06:30 -0400
+IronPort-SDR: d2iXweram81x4jc/Oi1fEYxf8uKY0LUKKes+AtDFp4Q9CYnSKtmy/pzjHmykLzYdMS1ZRTaPy2
+ cmVxXhmBTK7g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="189591924"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; 
+   d="scan'208";a="189591924"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 08:03:24 -0700
+IronPort-SDR: nrw6C2L0FRFrHa4m4gp1TR5TsTcNGmIi7bIhjT1Elk2IgJhHWKWAfx53xW84jcfLUrhsHWxgSk
+ ZICHsDfzQsXQ==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; 
+   d="scan'208";a="414061051"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.133.101]) ([10.209.133.101])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 08:03:21 -0700
+Subject: Re: [PATCH v27 30/31] mm: Update arch_validate_flags() to test vma
+ anonymous
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will@kernel.org>
+References: <20210521221211.29077-1-yu-cheng.yu@intel.com>
+ <20210521221211.29077-31-yu-cheng.yu@intel.com>
+ <20210525110011.GD15564@arm.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <908938ec-912b-9190-40e0-11ca88e8f0d7@intel.com>
+Date:   Tue, 25 May 2021 08:03:20 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8f00a2d4-2443-9656-2d51-6c5798fda552@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210525110011.GD15564@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 25, 2021 at 01:59:30PM +0200, Dietmar Eggemann wrote:
-> On 25/05/2021 11:30, Beata Michalska wrote:
-> > On Tue, May 25, 2021 at 10:25:36AM +0200, Dietmar Eggemann wrote:
-> >> On 24/05/2021 12:16, Beata Michalska wrote:
+On 5/25/2021 4:00 AM, Catalin Marinas wrote:
+> On Fri, May 21, 2021 at 03:12:10PM -0700, Yu-cheng Yu wrote:
+>> When newer VM flags are being created, such as VM_MTE, it becomes necessary
+>> for mmap/mprotect to verify if certain flags are being applied to an
+>> anonymous VMA.
+>>
+>> To solve this, one approach is adding a VM flag to track that MAP_ANONYMOUS
+>> is specified [1], and then using the flag in arch_validate_flags().
+>>
+>> Another approach is passing the VMA to arch_validate_flags(), and check
+>> vma_is_anonymous().
+>>
+>> To prepare the introduction of PROT_SHADOW_STACK, which creates a shadow
+>> stack mapping and can be applied only to an anonymous VMA, update
+>> arch_validate_flags() to pass in the VMA.
+>>
+>> [1] commit 9f3419315f3c ("arm64: mte: Add PROT_MTE support to mmap() and mprotect()"),
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> Cc: Will Deacon <will@kernel.org>
 > 
-> [...]
+> For arm64:
 > 
-> >>> @@ -1266,6 +1266,112 @@ static void init_sched_groups_capacity(int cpu, struct sched_domain *sd)
-> >>>  	update_group_capacity(sd, cpu);
-> >>>  }
-> >>>  
-> >>> +/**
-> >>> + * Asymmetric CPU capacity bits
-> >>> + */
-> >>> +struct asym_cap_data {
-> >>> +	struct list_head link;
-> >>> +	unsigned long    capacity;
-> >>> +	struct cpumask   *cpu_mask;
-> >>
-> >> Not sure if this has been discussed already but shouldn't the flexible
-> >> array members` approach known from struct sched_group, struct
-> >> sched_domain or struct em_perf_domain be used here?
-> >> IIRC the last time this has been discussed in this thread:
-> >> https://lkml.kernel.org/r/20200910054203.525420-2-aubrey.li@intel.com
-> >>
-> > If I got right the discussion you have pointed to, it was about using
-> > cpumask_var_t which is not the case here. I do not mind moving the code
-> > to use the array but I am not sure if this changes much. Looking at the
-> > code changes to support that (to_cpumask namely) it was introduced for
-> > cases where cpumask_var_t was not appropriate, which again isn't the case
-> > here.
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 > 
-> Yeah, it was more about using `flexible array members` or allocating the
-> cpumask separately.
-> 
-> Looks like you're using some kind of a mixed approach:
-> 
-> (1) struct asym_cap_data {
->         ...
->         struct cpumask *cpu_mask;
-> 
-> (2) entry = kzalloc(sizeof(*entry) + cpumask_size(), GFP_KERNEL);
-> 
-> (3) entry->cpu_mask = (struct cpumask *)((char *)entry +
->                       sizeof(*entry));
-> 
-> (4) cpumask_intersects(foo, entry->cpu_mask)
-> 
-> 
-> E.g. struct em_perf_domain has
-> 
-> (1)  struct em_perf_domain {
->          ...
->          unsigned long cpus[];
-> 
-> (2) like yours
-> 
-> (3) is not needed.
-> 
-> (4) cpumask_copy(em_span_cpus(pd), foo)
-> 
->     with #define em_span_cpus(em) (to_cpumask((em)->cpus))
-> 
-> IMHO, it's better to keep this approach aligned between the different
-> data structures.
-I would actually go the other way round as it seems more 'clean'
-that way and it does not need the conversion but I don't mind playing along.
 
----
-BR
-B.
+Thanks!
