@@ -7,46 +7,46 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09C87C2B9F8
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:24:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5536C4707F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:25:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0C7661423
-	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:24:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8B76610CB
+	for <linux-doc@archiver.kernel.org>; Tue, 25 May 2021 13:25:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233331AbhEYN0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 May 2021 09:26:11 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:47069 "EHLO
+        id S233222AbhEYN0i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 May 2021 09:26:38 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:56609 "EHLO
         new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233298AbhEYNZj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 09:25:39 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.nyi.internal (Postfix) with ESMTP id DCA1758070C;
-        Tue, 25 May 2021 09:24:08 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 25 May 2021 09:24:08 -0400
+        by vger.kernel.org with ESMTP id S233254AbhEYNZ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 May 2021 09:25:56 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id E7696580712;
+        Tue, 25 May 2021 09:24:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Tue, 25 May 2021 09:24:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=m3jqrHUcLvTHp
-        x0b4SsKGIVJ+DdDaje1iSf3ZfK37qk=; b=FDPwjmp0f2USjfe98TFZn/YeVgsFc
-        ofGk6rqMTPcnr3AuTv6O6T6LDLwXdeDbr6jc6TMkF8SbHy1qELqLanKNRPQTLRHx
-        8cJLDHM8hdBQAMGua9envdWRmFSOtiXh9ubcX1mRaGKvywVt1HaHqb1mq4HA2n7m
-        a9ly/2uETZ33/0z7yD0HylD3bdQEEzBk95zkOi6I0G8cNzpCrOmIg1y3rTtDyLBC
-        o+kDb5ho027OofRcHD/XOrf2F6Q9TcktkNH1J/t0qBkjSRoSMC+YRxvU67qKz9K3
-        q7xv9h6WvM6Fdf+RmtuSYSXxaNDB8q2pEtExGbFm8ZRhDPtjfO8D+dctg==
+        :mime-version:content-transfer-encoding; s=fm2; bh=Hm66TN2+4rFj2
+        +hvHW2sdkOXUymQe5MbU4IMHCfHuAI=; b=fghqbZjjxyJ77b9oDV6xmd/Cu5Xzx
+        zOuj5ZDE7A3L++IKqsBFXrp+RbRagqC5zO3SPA0iwIsy+qAMuFzUhsKCrX5bOw2H
+        6B8bV/iV3yq/rc7VxUmarj8CuxCQnQ95wpjVKRFZcAwkavkYhrQCwPnYbAgFnvmg
+        MMRqqsP5uXtajgPRcrwnK7UkNdwxtzNg1aZCoQcRUXCX0Al+xAM1a/uqf86WCvW3
+        HJuf4bwmR2xkwJrqBxjv7Dy4Z6tRE64PoNT5f98YcVz1eT4HYMEF/8HzCDg/OTzS
+        OfeXrg3DdphUqr8ijvDJZuEe8PpAxT4TAUm7OznEWAAF6lWzCTO1kDmng==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=m3jqrHUcLvTHpx0b4SsKGIVJ+DdDaje1iSf3ZfK37qk=; b=opvUfrsh
-        bg3bZ2mRB8yulvFszzrLnSug0JN4xdLWnREQo+PU6plQmFtJGAUM1YaE1dsRNa7t
-        lxhSzNPgGfme0EvvaGj4+B53DL9Nvyd4B1aihYcZmFFJKUMXFASNoQ2OSZN0Fkbc
-        8XiAdkSm/Nsh9qk0erjrcYIoQfW9Mkghulzds1Z2BMHtoksldA/KWrznj3TlGsZ9
-        U7uH7AuYFhaoeAuc9xKuODlpNRlPCU3etJNTKlFhl/0RQKprYYe5J4oAsLGaRyB4
-        NMaYqJZDmddMjXVQFWpzcWxaegOsODW8zrUR5vyWwUnfugh2/KNlQz6DQQCbJAi6
-        YS3/JGIm/I6hlA==
-X-ME-Sender: <xms:ePqsYKbo2bsNvCn5g4rOLs08WOcroIlhY1OcvwWvnSzGGj-Rid0pKQ>
-    <xme:ePqsYNZOy3eGIofrJGLTzjZBJwfmkpVN_ik1TemFdJXM2W_ugJ6rBFhJz24SbbWj_
-    Jn_p0mYj6Ot2ucFAdM>
+        fm2; bh=Hm66TN2+4rFj2+hvHW2sdkOXUymQe5MbU4IMHCfHuAI=; b=OMSHDlqU
+        eHcSPgjMwHct8SnnWXxBm8hqPpoFOc01qe9wsU1CLPtn9br8m5h8+d5kQ70TZ8/6
+        0Q+Ut4nuCp7Ovt8AQ/ERm/V/Gc+ioD1tsMEyL/WZ/mY4294JusGyYD/34kE5v5Yk
+        TGeEB0bpl+CWdNDiy6/8+ZY9qYdrAvatmAyP1LvxoACZynTNaLdjgKZeIhGvAHIF
+        Et+CB92zqZUf1V5Ht+We2i5aiJxCJYgfA/iCKVWRWTwaIVPJ54nYo20BcvnAQFW+
+        pvmAiWd+RdEoxBMxwsRmpQpX1H9WL1Kv5/c3hJgswvg3nMDTukLfU+NI/2SOYyD1
+        wc5Bd8m4eKExgA==
+X-ME-Sender: <xms:fPqsYIAIBi1AHfMpeMP_a9lw7hog8Y_d8s5jxHcQopwsU4MqY5jsQA>
+    <xme:fPqsYKi6KrWELa47jglk9d6YfoMCMjeWoeq_hYXjn0-RXjb5t6jNH0rzTvuVFu-DQ
+    belJs_u42F78LO36lw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgieehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -55,13 +55,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgieehucetufdoteggod
     htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
     hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
     frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ePqsYE8tDePLz03Oojiu_vYtm7msMtvvsHfsTn_MaUnfVODFbCleiQ>
-    <xmx:ePqsYMqwCA-4iwMHwtVyRb7LqgvfymQ-WrE4Dy9ZiNo7XRneEfQowA>
-    <xmx:ePqsYFqGBJihHv8Lgt0UPAMUuW0i_XuzSCZVHX-MsVu_FlNJ6E4f_A>
-    <xmx:ePqsYLhjkn6p9tGrEcM9PWoJ8_EoX8Rh-q4I18IPMtcfG81nKs_sQQ>
+X-ME-Proxy: <xmx:fPqsYLnBJEGUZccy9pBuTLrE4Dhs6lYaYhIJ2HvQWmNk8tMWYiWObQ>
+    <xmx:fPqsYOwdIgywVGf9YNw7d6SMeV2uBgruCRVHj5T9CAPwV62boSkmFQ>
+    <xmx:fPqsYNSJPEvcDB7U_Io1pHvuzy1ywPMTMFjfWQh8K0tO_AzqcbdPYw>
+    <xmx:fPqsYIln-RYW99UGONrnHxbcERhOWrUJxnBKjyaSXkLQjmxePKoRHQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
         by mail.messagingengine.com (Postfix) with ESMTPA;
-        Tue, 25 May 2021 09:24:08 -0400 (EDT)
+        Tue, 25 May 2021 09:24:12 -0400 (EDT)
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
         dri-devel@lists.freedesktop.org,
@@ -87,10 +87,11 @@ Cc:     devicetree@vger.kernel.org,
         Daniel Vetter <daniel@ffwll.ch>,
         linux-rpi-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 04/12] ASoC: hdmi-codec: Add iec958 controls
-Date:   Tue, 25 May 2021 15:23:46 +0200
-Message-Id: <20210525132354.297468-5-maxime@cerno.tech>
+        Rob Herring <robh+dt@kernel.org>,
+        Dom Cobley <popcornmix@gmail.com>
+Subject: [PATCH v2 06/12] drm/vc4: hdmi: Set HD_CTL_WHOLSMP and HD_CTL_CHALIGN_SET
+Date:   Tue, 25 May 2021 15:23:48 +0200
+Message-Id: <20210525132354.297468-7-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210525132354.297468-1-maxime@cerno.tech>
 References: <20210525132354.297468-1-maxime@cerno.tech>
@@ -100,127 +101,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The IEC958 status bits can be exposed and modified by the userspace
-through dedicated ALSA controls.
+From: Dom Cobley <popcornmix@gmail.com>
 
-This patch implements those controls for the hdmi-codec driver. It
-relies on a default value being setup at probe time that can later be
-overridden by the control put.
+Symptom is random switching of speakers when using multichannel.
 
-The hw_params callback is then called with a buffer filled with the
-proper bits for the current parameters being passed on so the underlying
-driver can just reuse those bits as is.
+Repeatedly running speakertest -c8 occasionally starts with
+channels jumbled. This is fixed with HD_CTL_WHOLSMP.
 
+The other bit looks beneficial and apears harmless in testing so
+I'd suggest adding it too.
+
+Documentation says: HD_CTL_WHILSMP_SET
+Wait for whole sample. When this bit is set MAI transmit will start
+only when there is at least one whole sample available in the fifo.
+
+Documentation says: HD_CTL_CHALIGN_SET
+Channel Align When Overflow. This bit is used to realign the audio
+channels in case of an overflow.
+If this bit is set, after the detection of an overflow, equal
+amount of dummy words to the missing words will be written to fifo,
+filling up the broken sample and maintaining alignment.
+
+Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- sound/soc/codecs/hdmi-codec.c | 66 +++++++++++++++++++++++++++++++++--
- 1 file changed, 64 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index 65bde6f0ea1c..5d6324585a31 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -277,6 +277,7 @@ struct hdmi_codec_priv {
- 	bool busy;
- 	struct snd_soc_jack *jack;
- 	unsigned int jack_status;
-+	u8 iec_status[5];
- };
- 
- static const struct snd_soc_dapm_widget hdmi_widgets[] = {
-@@ -385,6 +386,47 @@ static int hdmi_codec_chmap_ctl_get(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
- 
-+static int hdmi_codec_iec958_info(struct snd_kcontrol *kcontrol,
-+				  struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_IEC958;
-+	uinfo->count = 1;
-+	return 0;
-+}
-+
-+static int hdmi_codec_iec958_default_get(struct snd_kcontrol *kcontrol,
-+					 struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct hdmi_codec_priv *hcp = snd_soc_component_get_drvdata(component);
-+
-+	memcpy(ucontrol->value.iec958.status, hcp->iec_status,
-+	       sizeof(hcp->iec_status));
-+
-+	return 0;
-+}
-+
-+static int hdmi_codec_iec958_default_put(struct snd_kcontrol *kcontrol,
-+					 struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct hdmi_codec_priv *hcp = snd_soc_component_get_drvdata(component);
-+
-+	memcpy(hcp->iec_status, ucontrol->value.iec958.status,
-+	       sizeof(hcp->iec_status));
-+
-+	return 0;
-+}
-+
-+static int hdmi_codec_iec958_mask_get(struct snd_kcontrol *kcontrol,
-+				      struct snd_ctl_elem_value *ucontrol)
-+{
-+	memset(ucontrol->value.iec958.status, 0xff,
-+	       sizeof_field(struct hdmi_codec_priv, iec_status));
-+
-+	return 0;
-+}
-+
- static int hdmi_codec_startup(struct snd_pcm_substream *substream,
- 			      struct snd_soc_dai *dai)
- {
-@@ -459,8 +501,9 @@ static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
- 		params_width(params), params_rate(params),
- 		params_channels(params));
- 
--	ret = snd_pcm_create_iec958_consumer_hw_params(params, hp.iec.status,
--						       sizeof(hp.iec.status));
-+	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp->iec_status));
-+	ret = snd_pcm_fill_iec958_consumer_hw_params(params, hp.iec.status,
-+						     sizeof(hp.iec.status));
- 	if (ret < 0) {
- 		dev_err(dai->dev, "Creating IEC958 channel status failed %d\n",
- 			ret);
-@@ -621,6 +664,20 @@ static const struct snd_soc_dai_ops hdmi_codec_spdif_dai_ops = {
- 			 SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE)
- 
- struct snd_kcontrol_new hdmi_codec_controls[] = {
-+	{
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ,
-+		.iface = SNDRV_CTL_ELEM_IFACE_PCM,
-+		.name = SNDRV_CTL_NAME_IEC958("", PLAYBACK, MASK),
-+		.info = hdmi_codec_iec958_info,
-+		.get = hdmi_codec_iec958_mask_get,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_PCM,
-+		.name = SNDRV_CTL_NAME_IEC958("", PLAYBACK, DEFAULT),
-+		.info = hdmi_codec_iec958_info,
-+		.get = hdmi_codec_iec958_default_get,
-+		.put = hdmi_codec_iec958_default_put,
-+	},
- 	{
- 		.access	= (SNDRV_CTL_ELEM_ACCESS_READ |
- 			   SNDRV_CTL_ELEM_ACCESS_VOLATILE),
-@@ -873,6 +930,11 @@ static int hdmi_codec_probe(struct platform_device *pdev)
- 	hcp->hcd = *hcd;
- 	mutex_init(&hcp->lock);
- 
-+	ret = snd_pcm_create_iec958_consumer_default(hcp->iec_status,
-+						     sizeof(hcp->iec_status));
-+	if (ret < 0)
-+		return ret;
-+
- 	daidrv = devm_kcalloc(dev, dai_count, sizeof(*daidrv), GFP_KERNEL);
- 	if (!daidrv)
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index c27b287d2053..212b5df11d73 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1267,7 +1267,9 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
+ 		HDMI_WRITE(HDMI_MAI_CTL,
+ 			   VC4_SET_FIELD(vc4_hdmi->audio.channels,
+ 					 VC4_HD_MAI_CTL_CHNUM) |
+-			   VC4_HD_MAI_CTL_ENABLE);
++					 VC4_HD_MAI_CTL_WHOLSMP |
++					 VC4_HD_MAI_CTL_CHALIGN |
++					 VC4_HD_MAI_CTL_ENABLE);
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 		HDMI_WRITE(HDMI_MAI_CTL,
 -- 
 2.31.1
 
