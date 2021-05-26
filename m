@@ -2,146 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67F57C2B9F7
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 10:36:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 677A8C47082
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C14561001
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 10:36:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4094B61417
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234057AbhEZKiD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 06:38:03 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:34391 "EHLO
-        fanzine.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233969AbhEZKhs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 06:37:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; s=20170329;
-        h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID; bh=+/YJ/WEHoAhNR9jjGARfV2K3rbovariynAgNjvTSGvY=;
-        b=MXApUS5JNozr7uyNBgT4c38W0dA+0POQTzR2QX/terafuWCP+DR+KG8Fak6jbuxwqDPBli8xF2rBhBh2+WxypDJ5odPUfuA9EAB01+dzHEUDavp40mFURj4hIQyQ+Wh44lJKrYtGktaOWp59qy1AE3HkhkvAgBDYwvLEIXuU5gbAqjIsdJwQELIE4ABcphiicvJAMaJGDmcQwWX3c4qDtcCr8Xb2dZ8LrgIU628qzsVDWVFICTo6g7cBZ2AfrKJeEhk5REzSDKMtm09cs863Srm3gvHJw6xvpQm3ZBfiLvAF6l5ted2kK+Bin2u9RzW6JdS9dnxznJUoEcSuKxTIiw==;
-Received: from 1.pool85-50-22.dynamic.orange.es ([85.50.22.1] helo=[192.168.1.120])
-        by fanzine.igalia.com with esmtpsa 
-        (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-        id 1llqRF-0003DR-JQ; Wed, 26 May 2021 12:06:58 +0200
-Message-ID: <6d9175eb7ac9c4c1278b65f7f6c272910498eca4.camel@igalia.com>
-Subject: Re: [PATCH] ipac: tpci200: fix kernel-doc syntax and remove
- filename from file header
-From:   Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= 
-        <siglesias@igalia.com>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     lukas.bulwahn@gmail.com, rdunlap@infradead.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jens.taprogge@taprogge.org, gregkh@linuxfoundation.org,
-        industrypack-devel@lists.sourceforge.net
-Date:   Wed, 26 May 2021 12:05:44 +0200
-In-Reply-To: <20210522124051.12540-1-yashsri421@gmail.com>
-References: <20210522124051.12540-1-yashsri421@gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-gi5bHNGvoa4ucqi1PAyk"
-User-Agent: Evolution 3.38.3-1 
+        id S231223AbhEZL0A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 07:26:00 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:34188 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230366AbhEZL0A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 07:26:00 -0400
+X-Greylist: delayed 2739 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 May 2021 07:25:59 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=TMe0IyJS6cQ+Lq2HcNsTfT78sP/9ZGYPAk05niLZNeM=; b=ueVfX9lZTHGcN+dDDycF9mQOdz
+        iTPADjKo7qvHBeqyQkPRQjiKTc6yInxBCdzMcVMZ5IPGCSL7M/Bu5GCY0y7NBhPOcReo4cuyktI+a
+        Lr+1b3l5uwbjLFKWwUZjAVSdl+pRuKIKUO7DDHwl1NDxUoBwdo4cda5SMSnbQtSf11mw=;
+Received: from 94.196.90.140.threembb.co.uk ([94.196.90.140] helo=fitzroy.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1llqw2-005xmf-VR; Wed, 26 May 2021 10:38:47 +0000
+Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
+        id 49705D05864; Wed, 26 May 2021 11:39:21 +0100 (BST)
+Date:   Wed, 26 May 2021 11:39:21 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Tim Gover <tim.gover@raspberrypi.com>,
+        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
+        Eric Anholt <eric@anholt.net>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-rpi-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2 05/12] ASoC: hdmi-codec: Add a prepare hook
+Message-ID: <YK4lWaB6Lx+SPjpF@sirena.org.uk>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+ <20210525132354.297468-6-maxime@cerno.tech>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wI7EtUudqJM9+3Oj"
+Content-Disposition: inline
+In-Reply-To: <20210525132354.297468-6-maxime@cerno.tech>
+X-Cookie: Ahead warp factor one, Mr. Sulu.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---=-gi5bHNGvoa4ucqi1PAyk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--wI7EtUudqJM9+3Oj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: Samuel Iglesias Gonsalvez <siglesias@igalia.com>
+On Tue, May 25, 2021 at 03:23:47PM +0200, Maxime Ripard wrote:
+> The IEC958 status bit is usually set by the userspace after hw_params
+> has been called, so in order to use whatever is set by the userspace, we
+> need to implement the prepare hook. Let's add it to the hdmi_codec_ops,
+> and mandate that either prepare or hw_params is implemented.
 
-Thanks,
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Sam
-
-On Sat, 2021-05-22 at 18:10 +0530, Aditya Srivastava wrote:
-> The opening comment mark '/**' is used for highlighting the beginning
-> of
-> kernel-doc comments.
-> The header for drivers/ipack/carriers/tpci200 follows this syntax,
-> but the
-> content inside does not comply with kernel-doc.
->=20
-> This line was probably not meant for kernel-doc parsing, but is
-> parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'),
-> which
-> causes unexpected warning from kernel-doc.
->=20
-> For e.g., running scripts/kernel-doc -none on
-> drivers/ipack/carriers/tpci200.c emits:
-> warning: This comment starts with '/**', but isn't a kernel-doc
-> comment. Refer Documentation/doc-guide/kernel-doc.rst
-> =C2=A0* tpci200.c
->=20
-> Provide a simple fix by replacing this occurrence with general
-> comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
->=20
-> Also remove the redundant file name from the comment headers.
->=20
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> =C2=A0drivers/ipack/carriers/tpci200.c | 4 +---
-> =C2=A0drivers/ipack/carriers/tpci200.h | 4 +---
-> =C2=A02 files changed, 2 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/ipack/carriers/tpci200.c
-> b/drivers/ipack/carriers/tpci200.c
-> index ec71063fff76..a867906777bd 100644
-> --- a/drivers/ipack/carriers/tpci200.c
-> +++ b/drivers/ipack/carriers/tpci200.c
-> @@ -1,7 +1,5 @@
-> =C2=A0// SPDX-License-Identifier: GPL-2.0-only
-> -/**
-> - * tpci200.c
-> - *
-> +/*
-> =C2=A0 * driver for the TEWS TPCI-200 device
-> =C2=A0 *
-> =C2=A0 * Copyright (C) 2009-2012 CERN (www.cern.ch)
-> diff --git a/drivers/ipack/carriers/tpci200.h
-> b/drivers/ipack/carriers/tpci200.h
-> index 2619f827e33f..e79ac64abcff 100644
-> --- a/drivers/ipack/carriers/tpci200.h
-> +++ b/drivers/ipack/carriers/tpci200.h
-> @@ -1,7 +1,5 @@
-> =C2=A0/* SPDX-License-Identifier: GPL-2.0-only */
-> -/**
-> - * tpci200.h
-> - *
-> +/*
-> =C2=A0 * driver for the carrier TEWS TPCI-200
-> =C2=A0 *
-> =C2=A0 * Copyright (C) 2009-2012 CERN (www.cern.ch)
-
-
---=-gi5bHNGvoa4ucqi1PAyk
+--wI7EtUudqJM9+3Oj
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmCuHXgACgkQf/S6MvF9
-w0N3fA/+LD+Bn2pyb2u7ibeLxX9w1PGMgdsccbhgvmLycYhT2uaxvXQDzCOqT2rd
-NX5T4IIaXnbX4rnbqLzK8HWP3kBxXdg4M3hjyi+9j4Iihqj0tlyRWFFbSOKnizE1
-klQo+khxIPxDVszHMPXM2BAjVvi1oXpgIQjhxs+7MLUgItKtJAgNf1dJj7/mgSOz
-NUnFW3lAKD/Ox/MCwxCFE6Rv/o5dCWTtLLQnzHrW8pxfDxS94lsd3wjrIWNrYqYh
-M7Yj817wpTueKhLmn/ZndTO6Tfd6QgDVVH7go8Ljh4Uwy4k0425UlAXrgaNqjmny
-X/+Gu0FijEL9RHy7GnosnjuF6hIPakz4cbktXF+xOvT1W/0DG/Pei4zcuo6zPo64
-HNfjvjGdM1zzzlp9WaZkreIj9Z5eICvJjEgDjIaJhWcX2v/dCq6mskzIFtid+pu4
-3RKtdZyB3Mhsb2H5mh7Vbr+svbvSZXDenmHJ7RYd3C4ZMcjYwdnLlCvxF43xqQfw
-69fxFnWesg94H1X/S/3mLNpWPMDMIFgWpnVW0Y9bvVyosCY6yszK9W3qVSV+1+ak
-8QUXlAIOFHut3UoXW0PvOIn+OjiauxVPnqoKa+6ZBv8Os0VZ82M7QZI9AhXpun0V
-CYxm4GAlCfFRUVE8CicLHKh2gIuakakEOJ4eLg+LGupaSruC8dc=
-=qDYf
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCuJVgACgkQJNaLcl1U
+h9CRRggAhsstIqtcqC4EquItefHkzTS9v8kbwvJytct/Q8VBhXpc7T0EkxWdaCxn
+s+7PulshfFDvB24KxgJcIs+bHVkn+e0dvfDLkjSd7RO+nGcIwnccOUzCJ2CX7/qS
+++Q7uUsY8Ne55NUPIfMpubv32SIHaYeCHglZjHKaHNpsM58ANdTAN2Sl2PMJs3u6
+phAyak9G80MvU5cjMto9WmV9zyGZ6uobiGH4qjx8wzO+71RuSMwCKVF6EZ/mdg26
+8XLOMvwo44jmHGWCduFH3mdVtsPi89Tblv3wNBrLlwMjZhJ2AiEqssq67lKCbKF5
+tvl87wk9yeLVRB/BD43Vpa3DajNrrg==
+=7TgH
 -----END PGP SIGNATURE-----
 
---=-gi5bHNGvoa4ucqi1PAyk--
-
+--wI7EtUudqJM9+3Oj--
