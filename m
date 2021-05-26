@@ -6,36 +6,35 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 677A8C47082
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58885C47082
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4094B61417
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3669C61413
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231223AbhEZL0A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 07:26:00 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:34188 "EHLO
+        id S234279AbhEZL0E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 07:26:04 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:34194 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230366AbhEZL0A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 07:26:00 -0400
-X-Greylist: delayed 2739 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 May 2021 07:25:59 EDT
+        with ESMTP id S231779AbhEZL0D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 07:26:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
         MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=TMe0IyJS6cQ+Lq2HcNsTfT78sP/9ZGYPAk05niLZNeM=; b=ueVfX9lZTHGcN+dDDycF9mQOdz
-        iTPADjKo7qvHBeqyQkPRQjiKTc6yInxBCdzMcVMZ5IPGCSL7M/Bu5GCY0y7NBhPOcReo4cuyktI+a
-        Lr+1b3l5uwbjLFKWwUZjAVSdl+pRuKIKUO7DDHwl1NDxUoBwdo4cda5SMSnbQtSf11mw=;
+        bh=ApStfRDU0a2Bcxs0DU/lRdHOKyM7PDXIMldhjFKUC1g=; b=JzBt+Vx/khdrcQKa/bcrJCd6Zx
+        fy2Ur+KbJUCQu1V1LvcbfXGMIpq0u2XGgTsHwqL30rHarLjr6Xz6zVL1S9wsQnQ6PHVGSK2FIujAL
+        TKSE7rn7w5l1aH2jN1YNF5v2xXXSAyKpOYiIC3Jx24xd/ETeQhNWS7t3T/uOUNTrTawc=;
 Received: from 94.196.90.140.threembb.co.uk ([94.196.90.140] helo=fitzroy.sirena.org.uk)
         by heliosphere.sirena.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <broonie@sirena.org.uk>)
-        id 1llqw2-005xmf-VR; Wed, 26 May 2021 10:38:47 +0000
+        id 1llqvN-005xlj-Gk; Wed, 26 May 2021 10:38:05 +0000
 Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
-        id 49705D05864; Wed, 26 May 2021 11:39:21 +0100 (BST)
-Date:   Wed, 26 May 2021 11:39:21 +0100
+        id 93E77D05836; Wed, 26 May 2021 11:38:40 +0100 (BST)
+Date:   Wed, 26 May 2021 11:38:40 +0100
 From:   Mark Brown <broonie@kernel.org>
 To:     Maxime Ripard <maxime@cerno.tech>
 Cc:     Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
@@ -60,46 +59,45 @@ Cc:     Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
         linux-rpi-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 05/12] ASoC: hdmi-codec: Add a prepare hook
-Message-ID: <YK4lWaB6Lx+SPjpF@sirena.org.uk>
+Subject: Re: [PATCH v2 03/12] ASoC: hdmi-codec: Rework to support more
+ controls
+Message-ID: <YK4lMLG6PlxzDJhs@sirena.org.uk>
 References: <20210525132354.297468-1-maxime@cerno.tech>
- <20210525132354.297468-6-maxime@cerno.tech>
+ <20210525132354.297468-4-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wI7EtUudqJM9+3Oj"
+        protocol="application/pgp-signature"; boundary="eIFZBnIxpSROlH5X"
 Content-Disposition: inline
-In-Reply-To: <20210525132354.297468-6-maxime@cerno.tech>
+In-Reply-To: <20210525132354.297468-4-maxime@cerno.tech>
 X-Cookie: Ahead warp factor one, Mr. Sulu.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---wI7EtUudqJM9+3Oj
+--eIFZBnIxpSROlH5X
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, May 25, 2021 at 03:23:47PM +0200, Maxime Ripard wrote:
-> The IEC958 status bit is usually set by the userspace after hw_params
-> has been called, so in order to use whatever is set by the userspace, we
-> need to implement the prepare hook. Let's add it to the hdmi_codec_ops,
-> and mandate that either prepare or hw_params is implemented.
+On Tue, May 25, 2021 at 03:23:45PM +0200, Maxime Ripard wrote:
+> We're going to add more controls to support the IEC958 output, so let's
+> rework the control registration a bit to support more of them.
 
 Acked-by: Mark Brown <broonie@kernel.org>
 
---wI7EtUudqJM9+3Oj
+--eIFZBnIxpSROlH5X
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCuJVgACgkQJNaLcl1U
-h9CRRggAhsstIqtcqC4EquItefHkzTS9v8kbwvJytct/Q8VBhXpc7T0EkxWdaCxn
-s+7PulshfFDvB24KxgJcIs+bHVkn+e0dvfDLkjSd7RO+nGcIwnccOUzCJ2CX7/qS
-++Q7uUsY8Ne55NUPIfMpubv32SIHaYeCHglZjHKaHNpsM58ANdTAN2Sl2PMJs3u6
-phAyak9G80MvU5cjMto9WmV9zyGZ6uobiGH4qjx8wzO+71RuSMwCKVF6EZ/mdg26
-8XLOMvwo44jmHGWCduFH3mdVtsPi89Tblv3wNBrLlwMjZhJ2AiEqssq67lKCbKF5
-tvl87wk9yeLVRB/BD43Vpa3DajNrrg==
-=7TgH
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCuJS8ACgkQJNaLcl1U
+h9ABYQf/acYuDAkB3WhiZ1hCCQpVdonll1Aj3jSnr5WtK5yitGmh8cYms3T5uWUE
+XmT9B52fCJh6IAHjAm9XZbBWm49ShM/pgA00Q6otZDb8zVSS6v39HIFvnRDDsRNx
+ASGbUOdr4Z/1kPc4n8UDKlq45Dz8985Rtfoh5QknQEeD5P0zvNViwWcfjmVZ2UQ+
+qJk9oC/WJIxhR6PyY8x0XbI4plfCO4WvEG9dEdKE4navagTtBVa5e9RxF1wyXK9r
+dDaL9bRcRigdba+/DRBjrDrJEDQM5GUe9yT+znvJzcqmkPYt9q2qe6Wen6UxjKrf
+seBlUHvVi2p9QEVe3haqTNcmB5vqzQ==
+=RH7S
 -----END PGP SIGNATURE-----
 
---wI7EtUudqJM9+3Oj--
+--eIFZBnIxpSROlH5X--
