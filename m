@@ -2,146 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 958C2C2B9F7
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 09:52:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0E0C47088
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 10:36:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70E4F61442
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 09:52:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AE7A61451
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 10:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233371AbhEZJyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 05:54:00 -0400
-Received: from foss.arm.com ([217.140.110.172]:42336 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233288AbhEZJyA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 May 2021 05:54:00 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 983A01516;
-        Wed, 26 May 2021 02:52:28 -0700 (PDT)
-Received: from [192.168.178.6] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B430D3F73B;
-        Wed, 26 May 2021 02:52:26 -0700 (PDT)
-Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
- detection
-To:     Beata Michalska <beata.michalska@arm.com>,
-        Valentin Schneider <valentin.schneider@arm.com>
-Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, corbet@lwn.net, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org
-References: <20210524101617.8965-1-beata.michalska@arm.com>
- <20210524101617.8965-3-beata.michalska@arm.com> <87fsyc6mfz.mognet@arm.com>
- <20210524225508.GA14880@e120325.cambridge.arm.com>
- <87a6oj6sxo.mognet@arm.com>
- <20210525102945.GA24210@e120325.cambridge.arm.com>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-Message-ID: <98ad8837-b9b8-ff50-5a91-8d5951ee757c@arm.com>
-Date:   Wed, 26 May 2021 11:52:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S233988AbhEZKhc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 06:37:32 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:34377 "EHLO
+        fanzine.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233969AbhEZKhc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 06:37:32 -0400
+X-Greylist: delayed 1758 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 May 2021 06:37:31 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; s=20170329;
+        h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID; bh=RTL0YUJC5bTgHB3rr9d5JzhmkX+MPRCkX3Z5f/ZfoIw=;
+        b=H/ZH+V7fPt0bFbpnORL3NeeKS1NIF7F8GL9L5BF0Up1yA1EKow1Cgxk+rPe765clKv6DWQ56QB4fFYkhrH0kIk0voXlqMHd0LOVx5UiLeh0ZbZuZHwnZn8f3nkqvp8SxNsOBDGWLN3pRZvl1pM2oMggNf4AcWDQuNWZ1hCVFNBO0FHpt5tpSI1a3rKxGGBQNcQnl8BkuYETvqYMLgHN4pZ3kkDvsFhnR68vFPZPChvMSpB+A49rjIr6aVT3EpQQ0Eu9tiu7up+J3Jd+KRRu5eouw5sZLzwoyVIHyO/5BCfk/BdVDF3sfBRS4jd9BzFCE2WK24qUd/TXv9IvzFxLByQ==;
+Received: from 1.pool85-50-22.dynamic.orange.es ([85.50.22.1] helo=[192.168.1.120])
+        by fanzine.igalia.com with esmtpsa 
+        (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+        id 1llqQq-00035i-SG; Wed, 26 May 2021 12:06:34 +0200
+Message-ID: <bbe198f1432488d4fcbfb84c249b4e55a50b5bd3.camel@igalia.com>
+Subject: Re: [PATCH] ipac: ipoctal: fix kernel-doc syntax and remove
+ filename from file headers
+From:   Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= 
+        <siglesias@igalia.com>
+To:     Aditya Srivastava <yashsri421@gmail.com>
+Cc:     lukas.bulwahn@gmail.com, rdunlap@infradead.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jens.taprogge@taprogge.org, gregkh@linuxfoundation.org,
+        industrypack-devel@lists.sourceforge.net
+Date:   Wed, 26 May 2021 12:05:30 +0200
+In-Reply-To: <20210522121944.11182-1-yashsri421@gmail.com>
+References: <20210522121944.11182-1-yashsri421@gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+        protocol="application/pgp-signature"; boundary="=-f9pVxU9gW8q5Fs96aXmZ"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-In-Reply-To: <20210525102945.GA24210@e120325.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25/05/2021 12:29, Beata Michalska wrote:
-> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
->> On 24/05/21 23:55, Beata Michalska wrote:
->>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
->>>> On 24/05/21 11:16, Beata Michalska wrote:
 
-[...]
+--=-f9pVxU9gW8q5Fs96aXmZ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->>>>> +static inline int
->>>>> +asym_cpu_capacity_classify(struct sched_domain *sd,
->>>>> +			   const struct cpumask *cpu_map)
->>>>> +{
->>>>> +	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
->>>>> +	struct asym_cap_data *entry;
->>>>> +	int asym_cap_count = 0;
->>>>> +
->>>>> +	if (list_is_singular(&asym_cap_list))
->>>>> +		goto leave;
->>>>> +
->>>>> +	list_for_each_entry(entry, &asym_cap_list, link) {
->>>>> +		if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask)) {
->>>>> +			++asym_cap_count;
->>>>> +		} else {
->>>>> +			/*
->>>>> +			 * CPUs with given capacity might be offline
->>>>> +			 * so make sure this is not the case
->>>>> +			 */
->>>>> +			if (cpumask_intersects(entry->cpu_mask, cpu_map)) {
->>>>> +				sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
->>>>> +				if (asym_cap_count > 1)
->>>>> +					break;
->>>>> +			}
->>>>
->>>> Readability nit: That could be made into an else if ().
->>> It could but then this way the -comment- gets more exposed.
->>> But that might be my personal perception so I can change that.
->>
->> As always those are quite subjective! Methink something like this would
->> still draw attention to the offline case:
->>
->>                /*
->>                 * Count how many unique capacities this domain covers. If a
->>                 * capacity isn't covered, we need to check if any CPU with
->>                 * that capacity is actually online, otherwise it can be
->>                 * ignored.
->>                 */
->>                 if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask)) {
->>                         ++asym_cap_count;
->>                 } else if (cpumask_intersects(entry->cpu_mask, cpu_map)) {
->>                         sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
->>                         if (asym_cap_count > 1)
->>                                 break;
->>                 }
-> Noted.
-> Will wait for some more comments before sending out 'polished' version.
+Acked-by: Samuel Iglesias Gonsalvez <siglesias@igalia.com>
 
-For me asym_cpu_capacity_classify() is pretty hard to digest ;-) But I
-wasn't able to break it. It also performs correctly on (non-existing SMT)
-layer (with sd span eq. single CPU).
+Thanks,
 
-Something like this (separating asym_cap_list iteration and flags
-construction would be easier for me. But like already said here,
-it's subjective.
-I left the two optimizations (list_is_singular(), break on asym_cap_count
-> 1) out for now. asym_cap_list shouldn't have > 4 entries (;-)).
+Sam
 
-static inline int
-asym_cpu_capacity_classify(struct sched_domain *sd, 
-                           const struct cpumask *cpu_map)
-{
-        int sd_span_match = 0, cpu_map_match = 0, flags = 0; 
-        struct asym_cap_data *entry;
+On Sat, 2021-05-22 at 17:49 +0530, Aditya Srivastava wrote:
+> The opening comment mark '/**' is used for highlighting the beginning
+> of
+> kernel-doc comments.
+> The header for drivers/ipack/devices/ipoctal follows this syntax, but
+> the
+> content inside does not comply with kernel-doc.
+>=20
+> This line was probably not meant for kernel-doc parsing, but is
+> parsed
+> due to the presence of kernel-doc like comment syntax(i.e, '/**'),
+> which
+> causes unexpected warning from kernel-doc.
+>=20
+> For e.g., running scripts/kernel-doc -none on
+> drivers/ipack/devices/ipoctal.h emits:
+> warning: This comment starts with '/**', but isn't a kernel-doc
+> comment. Refer Documentation/doc-guide/kernel-doc.rst
+> =C2=A0* ipoctal.h
+>=20
+> Provide a simple fix by replacing this occurrence with general
+> comment
+> format, i.e. '/*', to prevent kernel-doc from parsing it.
+>=20
+> Also remove the redundant file name from the comment headers.
+>=20
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+> =C2=A0drivers/ipack/devices/ipoctal.c | 4 +---
+> =C2=A0drivers/ipack/devices/ipoctal.h | 6 ++----
+> =C2=A02 files changed, 3 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/ipack/devices/ipoctal.c
+> b/drivers/ipack/devices/ipoctal.c
+> index 3940714e4397..2a3a94f72dfb 100644
+> --- a/drivers/ipack/devices/ipoctal.c
+> +++ b/drivers/ipack/devices/ipoctal.c
+> @@ -1,7 +1,5 @@
+> =C2=A0// SPDX-License-Identifier: GPL-2.0-only
+> -/**
+> - * ipoctal.c
+> - *
+> +/*
+> =C2=A0 * driver for the GE IP-OCTAL boards
+> =C2=A0 *
+> =C2=A0 * Copyright (C) 2009-2012 CERN (www.cern.ch)
+> diff --git a/drivers/ipack/devices/ipoctal.h
+> b/drivers/ipack/devices/ipoctal.h
+> index 75f83ba774a4..773dc41bd667 100644
+> --- a/drivers/ipack/devices/ipoctal.h
+> +++ b/drivers/ipack/devices/ipoctal.h
+> @@ -1,9 +1,7 @@
+> =C2=A0/* SPDX-License-Identifier: GPL-2.0-only */
+> -/**
+> - * ipoctal.h
+> - *
+> +/*
+> =C2=A0 * driver for the IPOCTAL boards
+> -
+> + *
+> =C2=A0 * Copyright (C) 2009-2012 CERN (www.cern.ch)
+> =C2=A0 * Author: Nicolas Serafini, EIC2 SA
+> =C2=A0 * Author: Samuel Iglesias Gonsalvez <siglesias@igalia.com>
 
-        list_for_each_entry(entry, &asym_cap_list, link) {
-                if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask))
-                        ++sd_span_match;
-                else if (cpumask_intersects(cpu_map, entry->cpu_mask))
-                        ++cpu_map_match;
-        }
 
-        WARN_ON_ONCE(!sd_span_match);
+--=-f9pVxU9gW8q5Fs96aXmZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-        if (sd_span_match > 1) { 
-                flags |= SD_ASYM_CPUCAPACITY;
-                if (!cpu_map_match)
-                        flags |= SD_ASYM_CPUCAPACITY_FULL;
-        }
+-----BEGIN PGP SIGNATURE-----
 
-        return flags;
-}
+iQIzBAABCgAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmCuHWoACgkQf/S6MvF9
+w0OLgg/+LV3KqR1htIZVhhQPi2+KnjqBI6fjsF6pm0aYa6P0zRf8kqSCM/Z9Gk2V
+ntTgqBWOgKdlN5hyRRZnkzJsPZnqRAeglyZbJ2wfbfYE8G9hrBL75ZUmUJf/Bw2T
+9HxvMHNOZM2aTG1avIHmW6J++GOiCN1ptucjHS4OEGA3cadyO8zYCO66fWH1nLtO
+ls0Wzdg60OjiMtBBISFXOCgUkJNLIs1L9ug8IZIXbenrKbOhnTwnjzyy80zX44Lc
+MuLAjABIixSFw6KDR+uGlJVqcNge6nHJmEze3A3b5QDrYE/1mQnuzwLjKfJTj5OU
+lEFLvtDr9YmnpkRICwwn2X6n0mgSIAdNnVUP2JaVE201AsUoXWdqN2AsDLqCjE+W
+6lbIt51EfRQdSI7YKm+YW2smSTe/4nKvbUDFsQmLWGjgijt6X9QSxiCdKJxlKp5L
+HsHVtH60mflOlRTyHWI3kiNUIMhP51HOt3B+DhmVaszuWhE24FAS9cj+nPPCWPDk
+JorrS6sxpzIRiuMV4maIfnZDiFpBS2UHzJeDmJAleBq+eU1qo9CU9huwtbzp2aY8
+p0+XRTPrr8bG2h2XfOWxpghwgbz8SuVB03PRdWKZN5q99u/XUyeRgqayDH9KWBrv
+ygPsw2ZvbCj9Jaa4MAjAaNz8CqfPkTz+ri+/tKpleotJMhznMGo=
+=OK0d
+-----END PGP SIGNATURE-----
 
-BTW, how would this mechanism behave on a system with SMT and asymmetric CPU
-capacity? Something EAS wouldn't allow but I guess asym_cap_list will be
-constructed and the SD_ASYM_CPUCAPACITY_XXX flags will be set?
+--=-f9pVxU9gW8q5Fs96aXmZ--
+
