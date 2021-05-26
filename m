@@ -6,35 +6,35 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58885C47082
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F96C2B9F7
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3669C61413
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 987F261461
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234279AbhEZL0E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 07:26:04 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:34194 "EHLO
+        id S234393AbhEZL0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 07:26:14 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:34208 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231779AbhEZL0D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 07:26:03 -0400
+        with ESMTP id S231622AbhEZL0G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 07:26:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
         MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ApStfRDU0a2Bcxs0DU/lRdHOKyM7PDXIMldhjFKUC1g=; b=JzBt+Vx/khdrcQKa/bcrJCd6Zx
-        fy2Ur+KbJUCQu1V1LvcbfXGMIpq0u2XGgTsHwqL30rHarLjr6Xz6zVL1S9wsQnQ6PHVGSK2FIujAL
-        TKSE7rn7w5l1aH2jN1YNF5v2xXXSAyKpOYiIC3Jx24xd/ETeQhNWS7t3T/uOUNTrTawc=;
+        bh=ZZ29t9rWQM4OHKScJo66H518G9wk4b5EkUEydCzI4Y8=; b=P1lTnzGRnD6xJwViIxs2la/hmZ
+        aLW8qo6s0YSEySGWYLrL9g/N7VCscyCT9z2V8VztvKYpidgHTEP9P7AA1hG2wBJZkbalafJod5ino
+        R5WUr/PCJdJHYLWghQcE7V6KxGS5EUjbOc1/X1oVS9wSR4TvP1JwrxcbwLEAEDqcMDOM=;
 Received: from 94.196.90.140.threembb.co.uk ([94.196.90.140] helo=fitzroy.sirena.org.uk)
         by heliosphere.sirena.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <broonie@sirena.org.uk>)
-        id 1llqvN-005xlj-Gk; Wed, 26 May 2021 10:38:05 +0000
+        id 1llqvh-005xmI-5B; Wed, 26 May 2021 10:38:25 +0000
 Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
-        id 93E77D05836; Wed, 26 May 2021 11:38:40 +0100 (BST)
-Date:   Wed, 26 May 2021 11:38:40 +0100
+        id F01C7D05865; Wed, 26 May 2021 11:38:59 +0100 (BST)
+Date:   Wed, 26 May 2021 11:38:59 +0100
 From:   Mark Brown <broonie@kernel.org>
 To:     Maxime Ripard <maxime@cerno.tech>
 Cc:     Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
@@ -59,45 +59,44 @@ Cc:     Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
         linux-rpi-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 03/12] ASoC: hdmi-codec: Rework to support more
- controls
-Message-ID: <YK4lMLG6PlxzDJhs@sirena.org.uk>
+Subject: Re: [PATCH v2 04/12] ASoC: hdmi-codec: Add iec958 controls
+Message-ID: <YK4lQ1WJ+bBAwnDz@sirena.org.uk>
 References: <20210525132354.297468-1-maxime@cerno.tech>
- <20210525132354.297468-4-maxime@cerno.tech>
+ <20210525132354.297468-5-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="eIFZBnIxpSROlH5X"
+        protocol="application/pgp-signature"; boundary="VHjauBDPfRurBChP"
 Content-Disposition: inline
-In-Reply-To: <20210525132354.297468-4-maxime@cerno.tech>
+In-Reply-To: <20210525132354.297468-5-maxime@cerno.tech>
 X-Cookie: Ahead warp factor one, Mr. Sulu.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---eIFZBnIxpSROlH5X
+--VHjauBDPfRurBChP
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, May 25, 2021 at 03:23:45PM +0200, Maxime Ripard wrote:
-> We're going to add more controls to support the IEC958 output, so let's
-> rework the control registration a bit to support more of them.
+On Tue, May 25, 2021 at 03:23:46PM +0200, Maxime Ripard wrote:
+> The IEC958 status bits can be exposed and modified by the userspace
+> through dedicated ALSA controls.
 
 Acked-by: Mark Brown <broonie@kernel.org>
 
---eIFZBnIxpSROlH5X
+--VHjauBDPfRurBChP
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCuJS8ACgkQJNaLcl1U
-h9ABYQf/acYuDAkB3WhiZ1hCCQpVdonll1Aj3jSnr5WtK5yitGmh8cYms3T5uWUE
-XmT9B52fCJh6IAHjAm9XZbBWm49ShM/pgA00Q6otZDb8zVSS6v39HIFvnRDDsRNx
-ASGbUOdr4Z/1kPc4n8UDKlq45Dz8985Rtfoh5QknQEeD5P0zvNViwWcfjmVZ2UQ+
-qJk9oC/WJIxhR6PyY8x0XbI4plfCO4WvEG9dEdKE4navagTtBVa5e9RxF1wyXK9r
-dDaL9bRcRigdba+/DRBjrDrJEDQM5GUe9yT+znvJzcqmkPYt9q2qe6Wen6UxjKrf
-seBlUHvVi2p9QEVe3haqTNcmB5vqzQ==
-=RH7S
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCuJUMACgkQJNaLcl1U
+h9BbiAf9FlorXmTGbHpwvZBlli/cOILFyMcqSLtmFjeQQEQ/Hw/zi+ovr1CDHxx7
+GGjEpFOC3ThNwPXOMCPBcJ9KI7dkJL5rk+Hb4nChrNno8iZLrEy9O73H5iATxn5o
+HTnqWXd2c9DDAFeNnYPkXrqH4jntmdlprTBBwHaCfX216S7uK1+3y+wGGN2ssCoq
+Icvel1+KQ/o9MdMhs9cuDRw6e3GYNVqEK82wOLfKL6AstDOmVt6IJ+PvOG/h4NSD
+mRSQ/XDsW/iXataTHhEjyihRhDEjSQ9MXd7gCtKitVBetbKUhO6EDY/hY7aV3J1i
+OpnoP0ODzC13oVmNXUGkksNvsjhFgw==
+=vtry
 -----END PGP SIGNATURE-----
 
---eIFZBnIxpSROlH5X--
+--VHjauBDPfRurBChP--
