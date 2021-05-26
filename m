@@ -2,116 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 108D7C47082
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 18:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB58C47088
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 18:17:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6881613D3
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 18:01:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B99D6135F
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 18:17:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235207AbhEZSCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 14:02:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53632 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234573AbhEZSCn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 14:02:43 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D2D1C061574
-        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 11:01:10 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id l70so1621214pga.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 11:01:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ejN0eoIYKBN/84Zrv0CgeJaaHDuSEgwb8qud7/icrbk=;
-        b=HyowxsLM2scFnyqIhMxSOj+1Epc7shE+KUEVjC4cht5KRlJUfKCVnuq213R6Wg61SX
-         CCJFRRt2xZk7znIufJ2aqncJrmoRNBnL5K+7Fi7bDlEONEX7uYsMbnk41SLypLMNNtfS
-         cqAZ1XY/b5GO8ETbQXNwSgpbl1LHBJsRcXEEdBLWf8QX1jAD88eyB3liiO5bYb5I0q30
-         iFgY6BBsNSyvmtpkspmM6sB8+7gn/YcKXZKNHHpq4RH8GlYdSND7iebeM3sjrzAibsOF
-         Oy/bcAK9E+Kzg2Fkh4uPqBSW+MqDXWxKmZeFtpfskZsRVPT0vXPF0jiLA9RdgzB4VEGi
-         Yeww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ejN0eoIYKBN/84Zrv0CgeJaaHDuSEgwb8qud7/icrbk=;
-        b=Z+rciM+4eWdqjlfxBt3xzuFCBPKuulAQZ5ab685EvpmuDKIs6LDSlkbJ84Cs4c+Jjk
-         H/MCPwu6cIffocU8mvBdhhPjGz/WoMJnEkLdqUbPrxorTEdVcJ5XGWDMKWiu/XBMZNYL
-         hvVHw8womqXRVdrmja2Axa9krB3jonZZ3Sz1vZvZ4FfhbrXkLZRHKrC1848d4PDezB8n
-         EQjmKxo2YhzZ1JIQ7IzqNPwO9myVJbLts3piKNGr1kL+i31N0fRG6v5qMvSnDuJGdb4u
-         CZ0Yim1Q6tZ0kKTU3yqDQrbJvGa/7bYRdvcAJhYdT8fStO7BOl0WROLLPnLtRXhC1dhk
-         Enxg==
-X-Gm-Message-State: AOAM531ovTCviIrSYUCsrkbkopj5P9NJPv7tZ3+9QOxJyJexlA8xnIlc
-        z+us4dvuVYITAC3RpeUewei9Sg==
-X-Google-Smtp-Source: ABdhPJzRGUd/HpFi11rQ4qFWoSjV9N7NM09tX6ZU72aaD7uBwGewropyY1i1khwE0k+aUsa2kx83kg==
-X-Received: by 2002:aa7:9f8f:0:b029:2dc:76bc:edce with SMTP id z15-20020aa79f8f0000b02902dc76bcedcemr36559993pfr.29.1622052069984;
-        Wed, 26 May 2021 11:01:09 -0700 (PDT)
-Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
-        by smtp.gmail.com with ESMTPSA id s48sm15923209pfw.205.2021.05.26.11.01.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 11:01:09 -0700 (PDT)
-Date:   Wed, 26 May 2021 18:01:05 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Maxim Levitsky <mlevitsk@redhat.com>
-Cc:     kvm@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
-        <linux-kernel@vger.kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH v2 0/6] Introduce KVM_{GET|SET}_SREGS2 and fix PDPTR
- migration
-Message-ID: <YK6M4UwNGn1Gc5Sa@google.com>
-References: <20210426111333.967729-1-mlevitsk@redhat.com>
+        id S234494AbhEZSTQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 14:19:16 -0400
+Received: from foss.arm.com ([217.140.110.172]:48332 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229870AbhEZSTP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 May 2021 14:19:15 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 303AB13A1;
+        Wed, 26 May 2021 11:17:43 -0700 (PDT)
+Received: from [192.168.178.6] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EE0F3F73B;
+        Wed, 26 May 2021 11:17:41 -0700 (PDT)
+Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+To:     Beata Michalska <beata.michalska@arm.com>
+Cc:     Valentin Schneider <valentin.schneider@arm.com>,
+        linux-kernel@vger.kernel.org, peterz@infradead.org,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, corbet@lwn.net, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org
+References: <20210524101617.8965-1-beata.michalska@arm.com>
+ <20210524101617.8965-3-beata.michalska@arm.com> <87fsyc6mfz.mognet@arm.com>
+ <20210524225508.GA14880@e120325.cambridge.arm.com>
+ <87a6oj6sxo.mognet@arm.com>
+ <20210525102945.GA24210@e120325.cambridge.arm.com>
+ <98ad8837-b9b8-ff50-5a91-8d5951ee757c@arm.com>
+ <20210526121546.GA13262@e120325.cambridge.arm.com>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <1cae4fcc-d276-f66d-c094-35571233d923@arm.com>
+Date:   Wed, 26 May 2021 20:17:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210426111333.967729-1-mlevitsk@redhat.com>
+In-Reply-To: <20210526121546.GA13262@e120325.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 26, 2021, Maxim Levitsky wrote:
-> This patch set aims to fix few flaws that were discovered
-> in KVM_{GET|SET}_SREGS on x86:
-> 
-> * There is no support for reading/writing PDPTRs although
->   these are considered to be part of the guest state.
-> 
-> * There is useless interrupt bitmap which isn't needed
-> 
-> * No support for future extensions (via flags and such)
-> 
-> Also if the user doesn't use the new SREG2 api, the PDPTR
-> load after migration is now done on KVM_REQ_GET_NESTED_STATE_PAGES
-> to at least read them correctly in cases when guest memory
-> map is not up to date when nested state is loaded.
-> 
-> This patch series was tested by doing nested migration test
-> of 32 bit PAE L1 + 32 bit PAE L2 on AMD and Intel and by
-> nested migration test of 64 bit L1 + 32 bit PAE L2 on AMD.
-> The later test currently fails on Intel (regardless of my patches).
-> 
-> Changes from V1:
->   - move only PDPTRS load to KVM_REQ_GET_NESTED_STATE_PAGES on VMX
->   - rebase on top of kvm/queue
->   - improve the KVM_GET_SREGS2 to have flag for PDPTRS
->     and remove padding
-> 
-> Patches to qemu will be send soon as well.
+On 26/05/2021 14:15, Beata Michalska wrote:
+> On Wed, May 26, 2021 at 11:52:25AM +0200, Dietmar Eggemann wrote:
+>> On 25/05/2021 12:29, Beata Michalska wrote:
+>>> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
+>>>> On 24/05/21 23:55, Beata Michalska wrote:
+>>>>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
+>>>>>> On 24/05/21 11:16, Beata Michalska wrote:
 
-How did you want to handle integration with the removal of pdptrs_changed()?
+[...]
 
-https://lkml.kernel.org/r/68ff1249-2902-43d5-3dfd-35b1f14c4f90@redhat.com
+>> static inline int
+>> asym_cpu_capacity_classify(struct sched_domain *sd, 
+>>                            const struct cpumask *cpu_map)
+>> {
+>>         int sd_span_match = 0, cpu_map_match = 0, flags = 0; 
+>>         struct asym_cap_data *entry;
+>>
+>>         list_for_each_entry(entry, &asym_cap_list, link) {
+>>                 if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask))
+>>                         ++sd_span_match;
+>>                 else if (cpumask_intersects(cpu_map, entry->cpu_mask))
+>>                         ++cpu_map_match;
+>>         }
+>>
+>>         WARN_ON_ONCE(!sd_span_match);
+>>
+>>         if (sd_span_match > 1) { 
+>>                 flags |= SD_ASYM_CPUCAPACITY;
+>>                 if (!cpu_map_match)
+>>                         flags |= SD_ASYM_CPUCAPACITY_FULL;
+>>         }
+>>
+>>         return flags;
+>> }
+> So I planned to drop the list_is_singular check as it is needless really.
+> Otherwise, I am not really convinced by the suggestion. I could add comments
+> around current version to make it more ..... 'digestible' but I'd rather
+> stay with it as it seems more compact to me (subjective).
+
+You could pass in `const struct cpumask *sd_span` instead of `struct
+sched_domain *sd` though. To make it clear that both masks are used to
+compare against the cpumasks of the asym_cap_list entries.
+
+ static inline int
+-asym_cpu_capacity_classify(struct sched_domain *sd,
++asym_cpu_capacity_classify(const struct cpumask *sd_span,
+ 			   const struct cpumask *cpu_map)
+ {
+ 	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
+@@ -1377,14 +1378,14 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
+ 		goto leave;
+ 
+ 	list_for_each_entry(entry, &asym_cap_list, link) {
+-		if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask)) {
++		if (cpumask_intersects(sd_span, entry->cpu_mask)) {
+ 			++asym_cap_count;
+ 		} else {
+ 			/*
+ 			 * CPUs with given capacity might be offline
+ 			 * so make sure this is not the case
+ 			 */
+-			if (cpumask_intersects(entry->cpu_mask, cpu_map)) {
++			if (cpumask_intersects(cpu_map, entry->cpu_mask)) {
+ 				sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
+ 				if (asym_cap_count > 1)
+ 					break;
+@@ -1395,7 +1396,6 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
+ leave:
+ 	return asym_cap_count > 1 ? sd_asym_flags : 0;
+ }
+-#endif
+ 
+ static inline struct asym_cap_data *
+ asym_cpu_capacity_get_data(unsigned long capacity)
+@@ -1589,6 +1589,7 @@ sd_init(struct sched_domain_topology_level *tl,
+ 	struct sd_data *sdd = &tl->data;
+ 	struct sched_domain *sd = *per_cpu_ptr(sdd->sd, cpu);
+ 	int sd_id, sd_weight, sd_flags = 0;
++	struct cpumask *sd_span;
+ 
+ #ifdef CONFIG_NUMA
+ 	/*
+@@ -1636,10 +1637,11 @@ sd_init(struct sched_domain_topology_level *tl,
+ #endif
+ 	};
+ 
+-	cpumask_and(sched_domain_span(sd), cpu_map, tl->mask(cpu));
+-	sd_id = cpumask_first(sched_domain_span(sd));
++	sd_span = sched_domain_span(sd);
++	cpumask_and(sd_span, cpu_map, tl->mask(cpu));
++	sd_id = cpumask_first(sd_span);
+ 
+-	sd->flags |= asym_cpu_capacity_classify(sd, cpu_map);
++	sd->flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
+ 	/*
+ 	 * Convert topological properties into behaviour.
+ 	 */
