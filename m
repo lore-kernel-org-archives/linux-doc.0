@@ -2,548 +2,283 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F194C47088
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 05:06:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CC7EC2B9F7
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 06:08:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB8E76135F
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 05:06:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33BCD613D6
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 06:08:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbhEZFIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 01:08:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbhEZFIR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 01:08:17 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B78A8C061574;
-        Tue, 25 May 2021 22:06:45 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id u25-20020a0568302319b02902ac3d54c25eso30909170ote.1;
-        Tue, 25 May 2021 22:06:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0eNbeVWa9JQnXn5RDrJMOOu58VM8m2fHFEFUUdD5ti4=;
-        b=VEgUs4Lb08OtKhYKuLr5LDB1eBnXsprqHqqzB280VwsNAzUEdTBFTJMpgUqmzvF18N
-         ziNl6j+EDalSknl+GSu3+WF4KF8aGJ0HTwiFGKjMiWtUVxp3AIr1DUrOu7I6hyYA3qsI
-         ichgjSSAzKY9Era0N4h3bZ1i8dM1g/7v/iIkB5Vv2Ly8vLcf5074KrUjC4pKr/qoWV3N
-         0xNafxTs3vAGG5I/uwG0ovwzEPM8dA/6oXqR6Dy7EsNQFrrlqd5+KXy3JQtZ76J6JTV+
-         1bzpCBR+NDGdbkWVtRXCvAHcUuDMe6x9j34aYulgHrXVE3nLVC2eMuo75tMj693bbLqx
-         uDOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0eNbeVWa9JQnXn5RDrJMOOu58VM8m2fHFEFUUdD5ti4=;
-        b=NBxkxlJeMa1mAdHSmii7y4jsV2oxj+IoV0Lt7EtW4tWEfaOThJv9UPvFz1LR7LQSKb
-         KiaSRSfCkkqoJcAGRCUPmYXgqH1CN3o0S68sIrIy0Ko3aBi8GzTSIfbAA0qLHPe5cWOc
-         1N9uukyEvflg/42bafS1OBiHJXs+gUiBdBVxdpyuvGiyEe9wnoD9Sf9gFMx5zYKW0ffr
-         ZioTJ2uAfmTEXePaLoNuzjI9clfaEefdifmdUOy3pnwwHf1ylhF/HGpBGk4nilUOGkxG
-         ZZLjp2DayThFsus1LRp/FmgSg0KzbD1xds8ISKtP6D/hgDW9v0siAuO+JYQDzZL6dPmc
-         ZpBg==
-X-Gm-Message-State: AOAM530TxPg+SCziCJXz12AEywlJ9fIv4sIwvuuky8gsGVu79AQzulzv
-        WLM1MNuuVnZWS1xigw1PH3rRPJazKfk=
-X-Google-Smtp-Source: ABdhPJz8zSs+BHSkAYmL9ZugarkSWkuIatenOoEHyb0tgDHx44hRhcZ75yrGZFV1OUFQl6+2B4mYLQ==
-X-Received: by 2002:a9d:6d04:: with SMTP id o4mr877114otp.57.1622005604907;
-        Tue, 25 May 2021 22:06:44 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 65sm4243473otj.17.2021.05.25.22.06.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 22:06:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH v9] hwmon: Add sht4x Temperature and Humidity Sensor
- Driver
-To:     Navin Sankar Velliangiri <navin@linumiz.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S230419AbhEZGJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 02:09:43 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:36157 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229520AbhEZGJm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 May 2021 02:09:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=To:From:Date; bh=sUClwE3DLBodRJhcY5V9D/45cQw+W29lnq/61
+        NprIlI=; b=H3DHQ5HGQZ9OW4A8C0QQLPCz2qO6D+0V9FtGNxfnTWwW+xA9KQf8n
+        Tr92DBs1tLPc89ing/qTpMK9dowiB7eLaisR09GI4w4qr78PGZjOYIgqkc7H5JIt
+        kjSduxHT7ZS9m4GMP0sRr+czpFL9emw6hIqTI4ztrfosNc9iMNl3AM=
+Received: from [0.0.0.0] (unknown [113.204.183.194])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgCXXkHB5a1g_iA_AA--.16783S2;
+        Wed, 26 May 2021 14:08:01 +0800 (CST)
+Subject: Re: [PATCH v2 2/3] docs/zh_CN: create new translations for
+ zh_CN/dev-tools/testing-overview
+To:     "Wu X.C." <bobwxc@email.cn>
+Cc:     alexs@kernel.org, corbet@lwn.net, maskray@google.com,
+        bernard@vivo.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     jdelvare@suse.com, corbet@lwn.net
-References: <20210526043234.31572-1-navin@linumiz.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <0531b71e-216f-a793-5723-627bd17e67a9@roeck-us.net>
-Date:   Tue, 25 May 2021 22:06:42 -0700
+References: <20210523140332.GA1097@bobwxc.top>
+From:   Hu Haowen <src.res@email.cn>
+Message-ID: <e043c803-9547-1c47-a63f-08f33e560043@email.cn>
+Date:   Wed, 26 May 2021 14:08:01 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210526043234.31572-1-navin@linumiz.com>
+In-Reply-To: <20210523140332.GA1097@bobwxc.top>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: LCKnCgCXXkHB5a1g_iA_AA--.16783S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Gr17KFWUJw17CF47uw1xXwb_yoWftrW5pF
+        WvgF97KF4UZryUA348K3WUXF1akF97uF43tF18ta4Sqrn5AFZakrZFgFyqg34fWry8ZF98
+        Za1FgFyUuw1jyFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUyj1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JrC_JFWl8cAvFVAK
+        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4
+        x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28E
+        F7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I
+        8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWxJr1UJwAm72CE4IkC6x0Yz7v_
+        Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4
+        CEbIxvr21l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCF
+        s4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
+        1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
+        JVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r
+        1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUv
+        cSsGvfC2KfnxnUUI43ZEXa7VU0mhF7UUUUU==
+X-Originating-IP: [113.204.183.194]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/25/21 9:32 PM, Navin Sankar Velliangiri wrote:
-> This patch adds a hwmon driver for the SHT4x Temperature and
-> Humidity sensor.
-> 
-> Signed-off-by: Navin Sankar Velliangiri <navin@linumiz.com>
-> 
-> Changes in v2:
-> 
-> * Removed unused macro SHT4X_MIN_POLL_INTERVAL
-> * Replaced time_after instead of ktime_after
-> * Used goto statements for error handling
-> * Hardcoded the interval_time instead of clamp_val().
-> 
-> Changes in v3:
-> 
-> * Accept the poll interval if it is greater than SHT4X_MIN_POLL_INTERVAL and
->    return -EINVAL for negative values & less than SHT4X_MIN_POLL_INTERVAL
-> * Changed the data type of update_interval and last_updated to long.
-> 
-> Changes in v4:
-> 
-> * "update_interval" is long but msecs_to_jiffies() accepts only unsigned int.
->    clamp_val() api is used to assign the update_interval stays within UINT_MAX.
-> 
-> Changes in v5:
-> 
-> * Added error handling when master unable to send the data.
-> 
-> Changes in v6:
-> 
-> * clamp_val() alone is used to set the update interval. since the update
->    interval is a continuous setting.
-> 
-> Changes in v7:
-> 
-> * initialized the ret variable to -EINVAL in sht4x_read_values() function,
->    whenever if condition fail's it return's -EINVAL.
-> 
-> Changes in v8:
-> 
-> * initialized the ret variable to zero in sht4x_read_values() function.
-> 
-> Changes in v9:
-> 
-> * removed unnecessary blank line in sht4x_interval_write() function.
 
-I applied and pushed v8 already.
+在 2021/5/23 下午10:03, Wu X.C. 写道:
+>> Create new translations for dev-tools/testing-overview.rst and link it
+>> to dev-tools/index.rst with TODOList modifications.
+>>
+>> Signed-off-by: Hu Haowen <src.res@email.cn>
+>> ---
+>>   .../translations/zh_CN/dev-tools/index.rst    |  2 +
+>>   .../zh_CN/dev-tools/testing-overview.rst      | 99 +++++++++++++++++++
+>>   2 files changed, 101 insertions(+)
+>>   create mode 100644 Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+>> index 7ba02fc392a6..b6b6d3b09acc 100644
+>> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
+>> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+>> @@ -22,6 +22,7 @@ Documentation/dev-tools/testing-overview.rst
+>>      :maxdepth: 2
+>>   
+>>      gcov
+>> +   testing-overview
+>>   
+>>   Todolist:
+>>   
+>> @@ -32,6 +33,7 @@ Todolist:
+>>    - ubsan
+>>    - kmemleak
+>>    - kcsan
+>> + - kfence
+>>    - gdb-kernel-debugging
+>>    - kgdb
+>>    - kselftest
+>> diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>> new file mode 100644
+>> index 000000000000..6e2046ac53ff
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>> @@ -0,0 +1,12 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/dev-tools/testing-overview.rst
+>> +:Translator: 胡皓文 Hu Haowen <src.res@email.cn>
+>> +
+>> +============
+>> +内核测试指南
+>> +============
+>> +
+>> +有许多不同的工具可以用于测试Linux内核，因此知道什么时候使用它们可能
+> s/知道/了解/
+>
+>> +很困难。该文档提供了它们之间区别的一个粗略概览，并阐释了它们怎样糅
+> maybe
+> 本文档粗略概述了它们之间的区别
+>
+> 是怎样
+>
+>> +合在一起的。
+>> +
+>> +编写和运行测试
+>> +==============
+>> +
+>> +大多数内核测试都是用kselftest或KUnit框架之一编写的。它们都让运行测试
+>>
+>> 都提供了让运行测试更简单的的基础设施，
+>>
+>> +更加简化，并为编写新测试提供帮助。
+>> +
+>> +如果你想验证内核的行为——尤其是内核的特定部分——那你就要使用kUnit或
+>> +kselftest。
+>> +
+>> +KUnit和kselftest的区别
+>> +----------------------
+>> +
+>> +KUnit（Documentation/zh_CN/dev-tools/kunit/index.rst）是用于“白箱”测
+> Seems we don't have this translation yet, so plese use the link point to En version.
+> So as followed paths.
 
-Guenter
 
-> ---
->   Documentation/hwmon/index.rst |   1 +
->   Documentation/hwmon/sht4x.rst |  45 +++++
->   drivers/hwmon/Kconfig         |  11 ++
->   drivers/hwmon/Makefile        |   1 +
->   drivers/hwmon/sht4x.c         | 304 ++++++++++++++++++++++++++++++++++
->   5 files changed, 362 insertions(+)
->   create mode 100644 Documentation/hwmon/sht4x.rst
->   create mode 100644 drivers/hwmon/sht4x.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 9ed60fa84cbe..b6fcae40258c 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -164,6 +164,7 @@ Hardware Monitoring Kernel Drivers
->      sht15
->      sht21
->      sht3x
-> +   sht4x
->      shtc1
->      sis5595
->      sl28cpld
-> diff --git a/Documentation/hwmon/sht4x.rst b/Documentation/hwmon/sht4x.rst
-> new file mode 100644
-> index 000000000000..3b37abcd4a46
-> --- /dev/null
-> +++ b/Documentation/hwmon/sht4x.rst
-> @@ -0,0 +1,45 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver sht4x
-> +===================
-> +
-> +Supported Chips:
-> +
-> +  * Sensirion SHT4X
-> +
-> +    Prefix: 'sht4x'
-> +
-> +    Addresses scanned: None
-> +
-> +    Datasheet:
-> +
-> +      English: https://www.sensirion.com/fileadmin/user_upload/customers/sensirion/Dokumente/2_Humidity_Sensors/Datasheets/Sensirion_Humidity_Sensors_SHT4x_Datasheet.pdf
-> +
-> +Author: Navin Sankar Velliangiri <navin@linumiz.com>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +This driver implements support for the Sensirion SHT4x chip, a humidity
-> +and temperature sensor. Temperature is measured in degree celsius, relative
-> +humidity is expressed as a percentage. In sysfs interface, all values are
-> +scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +The device communicates with the I2C protocol. Sensors can have the I2C
-> +address 0x44. See Documentation/i2c/instantiating-devices.rst for methods
-> +to instantiate the device.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +=============== ============================================
-> +temp1_input     Measured temperature in millidegrees Celcius
-> +humidity1_input Measured humidity in %H
-> +update_interval The minimum interval for polling the sensor,
-> +                in milliseconds. Writable. Must be at least
-> +                2000.
-> +============== =============================================
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 87624902ea80..e3675377bc5d 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -1583,6 +1583,17 @@ config SENSORS_SHT3x
->   	  This driver can also be built as a module. If so, the module
->   	  will be called sht3x.
->   
-> +config SENSORS_SHT4x
-> +	tristate "Sensiron humidity and temperature sensors. SHT4x and compat."
-> +	depends on I2C
-> +	select CRC8
-> +	help
-> +	  If you say yes here you get support for the Sensiron SHT40, SHT41 and
-> +	  SHT45 humidity and temperature sensors.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called sht4x.
-> +
->   config SENSORS_SHTC1
->   	tristate "Sensiron humidity and temperature sensors. SHTC1 and compat."
->   	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 59e78bc212cf..d712c61c1f5e 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -171,6 +171,7 @@ obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
->   obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
->   obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
->   obj-$(CONFIG_SENSORS_SHT3x)	+= sht3x.o
-> +obj-$(CONFIG_SENSORS_SHT4x)	+= sht4x.o
->   obj-$(CONFIG_SENSORS_SHTC1)	+= shtc1.o
->   obj-$(CONFIG_SENSORS_SIS5595)	+= sis5595.o
->   obj-$(CONFIG_SENSORS_SMM665)	+= smm665.o
-> diff --git a/drivers/hwmon/sht4x.c b/drivers/hwmon/sht4x.c
-> new file mode 100644
-> index 000000000000..fee1c753ab00
-> --- /dev/null
-> +++ b/drivers/hwmon/sht4x.c
-> @@ -0,0 +1,304 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/*
-> + * Copyright (c) Linumiz 2021
-> + *
-> + * sht4x.c - Linux hwmon driver for SHT4x Temperature and Humidity sensor
-> + *
-> + * Author: Navin Sankar Velliangiri <navin@linumiz.com>
-> + */
-> +
-> +#include <linux/crc8.h>
-> +#include <linux/delay.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/i2c.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/module.h>
-> +
-> +/*
-> + * Poll intervals (in milliseconds)
-> + */
-> +#define SHT4X_MIN_POLL_INTERVAL	2000
-> +
-> +/*
-> + * I2C command delays (in microseconds)
-> + */
-> +#define SHT4X_MEAS_DELAY	1000
-> +#define SHT4X_DELAY_EXTRA	10000
-> +
-> +/*
-> + * Command Bytes
-> + */
-> +#define SHT4X_CMD_MEASURE_HPM	0b11111101
-> +#define SHT4X_CMD_RESET		0b10010100
-> +
-> +#define SHT4X_CMD_LEN		1
-> +#define SHT4X_CRC8_LEN		1
-> +#define SHT4X_WORD_LEN		2
-> +#define SHT4X_RESPONSE_LENGTH	6
-> +#define SHT4X_CRC8_POLYNOMIAL	0x31
-> +#define SHT4X_CRC8_INIT		0xff
-> +#define SHT4X_MIN_TEMPERATURE	-45000
-> +#define SHT4X_MAX_TEMPERATURE	125000
-> +#define SHT4X_MIN_HUMIDITY	0
-> +#define SHT4X_MAX_HUMIDITY	100000
-> +
-> +DECLARE_CRC8_TABLE(sht4x_crc8_table);
-> +
-> +/**
-> + * struct sht4x_data - All the data required to operate an SHT4X chip
-> + * @client: the i2c client associated with the SHT4X
-> + * @lock: a mutex that is used to prevent parallel access to the i2c client
-> + * @update_interval: the minimum poll interval
-> + * @last_updated: the previous time that the SHT4X was polled
-> + * @temperature: the latest temperature value received from the SHT4X
-> + * @humidity: the latest humidity value received from the SHT4X
-> + */
-> +struct sht4x_data {
-> +	struct i2c_client	*client;
-> +	struct mutex		lock;	/* atomic read data updates */
-> +	bool			valid;	/* validity of fields below */
-> +	long			update_interval;	/* in milli-seconds */
-> +	long			last_updated;	/* in jiffies */
-> +	s32			temperature;
-> +	s32			humidity;
-> +};
-> +
-> +/**
-> + * sht4x_read_values() - read and parse the raw data from the SHT4X
-> + * @sht4x_data: the struct sht4x_data to use for the lock
-> + * Return: 0 if succesfull, 1 if not
-> + */
-> +static int sht4x_read_values(struct sht4x_data *data)
-> +{
-> +	int ret = 0;
-> +	u16 t_ticks, rh_ticks;
-> +	unsigned long next_update;
-> +	struct i2c_client *client = data->client;
-> +	u8 crc, raw_data[SHT4X_RESPONSE_LENGTH],
-> +	cmd[] = {SHT4X_CMD_MEASURE_HPM};
-> +
-> +	mutex_lock(&data->lock);
-> +	next_update = data->last_updated +
-> +		      msecs_to_jiffies(data->update_interval);
-> +	if (!data->valid || time_after(jiffies, next_update)) {
-> +		ret = i2c_master_send(client, cmd, SHT4X_CMD_LEN);
-> +		if (ret < 0)
-> +			goto unlock;
-> +
-> +		usleep_range(SHT4X_MEAS_DELAY,
-> +			     SHT4X_MEAS_DELAY + SHT4X_DELAY_EXTRA);
-> +
-> +		ret = i2c_master_recv(client, raw_data, SHT4X_RESPONSE_LENGTH);
-> +		if (ret != SHT4X_RESPONSE_LENGTH) {
-> +			if (ret >= 0)
-> +				ret = -ENODATA;
-> +
-> +			goto unlock;
-> +		}
-> +
-> +		t_ticks = raw_data[0] << 8 | raw_data[1];
-> +		rh_ticks = raw_data[3] << 8 | raw_data[4];
-> +
-> +		crc = crc8(sht4x_crc8_table, &raw_data[0], SHT4X_WORD_LEN, CRC8_INIT_VALUE);
-> +		if (crc != raw_data[2]) {
-> +			dev_err(&client->dev, "data integrity check failed\n");
-> +			ret = -EIO;
-> +			goto unlock;
-> +		}
-> +
-> +		crc = crc8(sht4x_crc8_table, &raw_data[3], SHT4X_WORD_LEN, CRC8_INIT_VALUE);
-> +		if (crc != raw_data[5]) {
-> +			dev_err(&client->dev, "data integrity check failed\n");
-> +			ret = -EIO;
-> +			goto unlock;
-> +		}
-> +
-> +		data->temperature = ((21875 * (int32_t)t_ticks) >> 13) - 45000;
-> +		data->humidity = ((15625 * (int32_t)rh_ticks) >> 13) - 6000;
-> +		data->last_updated = jiffies;
-> +		data->valid = true;
-> +	}
-> +
-> +unlock:
-> +	mutex_unlock(&data->lock);
-> +	return ret;
-> +}
-> +
-> +static ssize_t sht4x_interval_write(struct sht4x_data *data,
-> +				    long val)
-> +{
-> +	data->update_interval = clamp_val(val, SHT4X_MIN_POLL_INTERVAL,
-> +					  UINT_MAX);
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * sht4x_interval_read() - read the minimum poll interval
-> + *			   in milliseconds
-> + */
-> +static size_t sht4x_interval_read(struct sht4x_data *data,
-> +				  long *val)
-> +{
-> +	*val = data->update_interval;
-> +	return 0;
-> +}
-> +
-> +/**
-> + * sht4x_temperature1_read() - read the temperature in millidegrees
-> + */
-> +static int sht4x_temperature1_read(struct sht4x_data *data, long *val)
-> +{
-> +	int ret;
-> +
-> +	ret = sht4x_read_values(data);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*val = data->temperature;
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * sht4x_humidity1_read() - read a relative humidity in millipercent
-> + */
-> +static int sht4x_humidity1_read(struct sht4x_data *data, long *val)
-> +{
-> +	int ret;
-> +
-> +	ret = sht4x_read_values(data);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*val = data->humidity;
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t sht4x_hwmon_visible(const void *data,
-> +				   enum hwmon_sensor_types type,
-> +				   u32 attr, int channel)
-> +{
-> +	switch (type) {
-> +	case hwmon_temp:
-> +	case hwmon_humidity:
-> +		return 0444;
-> +	case hwmon_chip:
-> +		return 0644;
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static int sht4x_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> +			    u32 attr, int channel, long *val)
-> +{
-> +	struct sht4x_data *data = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		return sht4x_temperature1_read(data, val);
-> +	case hwmon_humidity:
-> +		return sht4x_humidity1_read(data, val);
-> +	case hwmon_chip:
-> +		return sht4x_interval_read(data, val);
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static int sht4x_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
-> +			     u32 attr, int channel, long val)
-> +{
-> +	struct sht4x_data *data = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_chip:
-> +		return sht4x_interval_write(data, val);
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static const struct hwmon_channel_info *sht4x_info[] = {
-> +	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-> +	HWMON_CHANNEL_INFO(humidity, HWMON_H_INPUT),
-> +	NULL,
-> +};
-> +
-> +static const struct hwmon_ops sht4x_hwmon_ops = {
-> +	.is_visible = sht4x_hwmon_visible,
-> +	.read = sht4x_hwmon_read,
-> +	.write = sht4x_hwmon_write,
-> +};
-> +
-> +static const struct hwmon_chip_info sht4x_chip_info = {
-> +	.ops = &sht4x_hwmon_ops,
-> +	.info = sht4x_info,
-> +};
-> +
-> +static int sht4x_probe(struct i2c_client *client,
-> +		       const struct i2c_device_id *sht4x_id)
-> +{
-> +	struct device *device = &client->dev;
-> +	struct device *hwmon_dev;
-> +	struct sht4x_data *data;
-> +	u8 cmd[] = {SHT4X_CMD_RESET};
-> +	int ret;
-> +
-> +	/*
-> +	 * we require full i2c support since the sht4x uses multi-byte read and
-> +	 * writes as well as multi-byte commands which are not supported by
-> +	 * the smbus protocol
-> +	 */
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-> +		return -EOPNOTSUPP;
-> +
-> +	data = devm_kzalloc(device, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->update_interval = SHT4X_MIN_POLL_INTERVAL;
-> +	data->client = client;
-> +
-> +	mutex_init(&data->lock);
-> +
-> +	crc8_populate_msb(sht4x_crc8_table, SHT4X_CRC8_POLYNOMIAL);
-> +
-> +	ret = i2c_master_send(client, cmd, SHT4X_CMD_LEN);
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret != SHT4X_CMD_LEN)
-> +		return -EIO;
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(device,
-> +							 client->name,
-> +							 data,
-> +							 &sht4x_chip_info,
-> +							 NULL);
-> +
-> +	return PTR_ERR_OR_ZERO(hwmon_dev);
-> +}
-> +
-> +static const struct i2c_device_id sht4x_id[] = {
-> +	{ "sht4x", 0 },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(i2c, sht4x_id);
-> +
-> +static struct i2c_driver sht4x_driver = {
-> +	.driver = {
-> +		.name = "sht4x",
-> +	},
-> +	.probe		= sht4x_probe,
-> +	.id_table	= sht4x_id,
-> +};
-> +
-> +module_i2c_driver(sht4x_driver);
-> +
-> +MODULE_AUTHOR("Navin Sankar Velliangiri <navin@linumiz.com>");
-> +MODULE_DESCRIPTION("Sensirion SHT4x humidity and temperature sensor driver");
-> +MODULE_LICENSE("GPL v2");
-> 
+How do I add a link to the English version? Should I mark this section
+in a comment here or directly explain in the document?
+
+
+>> +试的一个完整的内核内部系统：因为测试代码是内核的一部分，所以它能够访
+>> +问用户空间不能访问到的内部结构和功能。
+>> +
+>> +因此，KUnit测试最好不要写得太小，也不要有内核中本身包含的部分，以便
+> seems a translation mistake?
+>
+> against small, self-contained parts of the Kernel
+> 最好针对内核中较小的、自包含的部分，
+>
+>> +能够独立地测试。‘单元’测试的概念亦是如此。
+> ‘’ -> “” would be better
+>
+>> +
+>> +比如，一个KUnit测试可能测试一个单独的内核功能（甚至通过一个函数测试
+>> +一个单一的代码路径），而不是整个地测试一个特性。
+> missed a sentence
+>         , such as an error handling case
+>
+>> +
+>> +这也使得KUnit测试构建和运行非常地快，从而能够作为开发流程的一部分被
+> 的测试构建和运行非常快
+>
+>> +频繁地运行。
+>> +
+>> +有关更详细的介绍，请参阅KUnit测试代码风格指南
+>> +Documentation/translations/zh_CN/dev-tools/kunit/style.rst
+> ^path
+>
+>> +
+>> +kselftest（Documentation/translations/zh_CN/dev-tools/kselftest.rst），
+> ^path
+>
+>> +另一方面，大量地在用户空间被实现，并且测试通常是用户空间的脚本或程序。
+> 相对来说，大量用于用户空间，并且通常测试用户空间的脚本或程序。
+>
+>> +
+>> +这使得编写复杂的测试，或者需要操作更多全局系统状态的测试更加容易（诸
+>> +如生成进程之类）。然而，从kselftest直接调用内核函数是不行的。这也就
+>> +意味着只有通过某种方式（如系统调用、驱动设备、文件系统等）导出到了用
+>> +户空间的内核功能才能使用kselftest来测试。为此，有些测试包含了一个伴
+>> +生的内核模块用于导出更多的信息和功能。不过，对于基本上或者完全在内核
+>> +中运行的测试，KUnit可能是更佳工具。
+>> +
+> missed a paragraph
+>
+>         kselftest is therefore suited well to tests of whole features, as these will
+>         expose an interface to userspace, which can be tested, but not implementation
+>         details. This aligns well with 'system' or 'end-to-end' testing.
+>
+>
+>> +比如，一个新的系统调用应该伴随有新的kselftest测试。
+>> +
+>> +代码覆盖率工具
+>> +==============
+>> +
+>> +Linux内核支持不同代码之间的覆盖率测量工具。这能被用来验证一个测试是
+> 支持两种不同的代码覆盖率测试工具。
+>
+> 它们可以用来验证一项测试执行的确切函数或代码行。
+>
+>> +执行的特定的函数或者特定行的代码。这有助于决定内核被测试了多少，或
+>> +用来查找合适的测试中没有覆盖到的极端情况。
+>> +
+>> +:doc:`gcov` 是GCC的覆盖率测试工具，能用于获取内核的全局或每个模块的
+>> +覆盖率。与KCOV不同的是，这个工具不记录每个任务的覆盖率。覆盖率数据可
+>> +以通过debugfs读取，并通过常规的gcov工具进行解释。
+>> +
+>> +:doc:`kcov` 是能够构建在内核之中，用于在每个任务的层面捕捉覆盖率的一
+>> +个功能。因此，对于代码执行位置信息的其它情况，它是非常有用的，比如在
+> 因此，它对于模糊测试和关于代码执行期间信息的其它情况非常有用。
+>
+>> +一个单一系统调用里使用它就很有用。
+>> +
+>> +动态分析工具
+>> +============
+>> +
+>> +内核也支持许多动态分析工具，用以检测正在运行的内核中出现的多种类型的
+>> +问题。这些工具尤其用于不同类型的漏洞，比如非法内存访问，诸如数据竞争
+> 这些工具通常每个去寻找一类不同的缺陷，比如非法内存访问，数据竞争等并发问题，
+> 或整型溢出等其他未定义行为。
+>
+>> +的并发问题，或者整型溢出的其它未定义的行为。
+>> +
+>> +一些工具如下：
+> 如下所示
+>
+>> +
+>> +* kmemleak检测可能的内存泄漏。参阅
+>> +  Documentation/dev-tools/kmemleak.rst
+>> +* KASAN检测非法内存访问，如数组越界和释放内存后再使用的错误。参阅
+> 释放后重用（UAF）
+>
+>> +  Documentation/dev-tools/kasan.rst
+>> +* UBSAN检测C标准中未定义的行为，如整型溢出。参阅
+>> +  Documentation/dev-tools/ubsan.rst
+>> +* KCSAN检测数据竞争。参阅 Documentation/dev-tools/kcsan.rst
+>> +* KFENCE是一个低开销的内存问题检测器，比KASAN更快而能被用于批量构建。
+> 而 -> 且
+>
+>> +  参阅 Documentation/dev-tools/kfence.rst
+>> +* lockdep是一个锁定正确性检测器。参阅
+>> +  Documentation/locking/lockdep-design.rst
+>> +* 除此以外，在内核中还有一些其它的调试工具，大多数能在
+>> +  lib/Kconfig.debug 中找到。
+>> +
+>> +这些工具倾向于对内核进行整体测试，并且不像kselftest和KUnit一样“传递”。
+>> +它们能与kselftest和KUnit结合起来，通过激活这些工具在一个内核上运行测
+>> +试：之后你就能确保这些错误在测试过程中都不会发生了。
+> 它们可以通过在启用这些工具时运行内核测试以与kselftest或KUnit结合起来：
+>
+>> +
+>> +一些工具与KUnit和kselftest集成，并且当问题被检测时测试会自动失败。
+> 并且在检测到问题时会自动打断测试。
+>
+>> +
+>> -- 
+>> 2.25.1
+> And please re-arrange your patches in appropriate thread and remember to change
+> version each time when you send them, or may let Corbet confused.
+
+
+Other places have already fixed, waiting for a solution for the problem
+above. Btw, I'm a bit busy these days, sorry for my late reply.
+
+Thx,
+Hu Haowen
+
+
+> Thanks,
+>          Wu X.C.
+>
 
