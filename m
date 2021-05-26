@@ -2,101 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F96C2B9F7
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 785ADC47088
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:57:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 987F261461
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:24:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B88061005
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 11:57:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234393AbhEZL0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 07:26:14 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:34208 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231622AbhEZL0G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 07:26:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ZZ29t9rWQM4OHKScJo66H518G9wk4b5EkUEydCzI4Y8=; b=P1lTnzGRnD6xJwViIxs2la/hmZ
-        aLW8qo6s0YSEySGWYLrL9g/N7VCscyCT9z2V8VztvKYpidgHTEP9P7AA1hG2wBJZkbalafJod5ino
-        R5WUr/PCJdJHYLWghQcE7V6KxGS5EUjbOc1/X1oVS9wSR4TvP1JwrxcbwLEAEDqcMDOM=;
-Received: from 94.196.90.140.threembb.co.uk ([94.196.90.140] helo=fitzroy.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1llqvh-005xmI-5B; Wed, 26 May 2021 10:38:25 +0000
-Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
-        id F01C7D05865; Wed, 26 May 2021 11:38:59 +0100 (BST)
-Date:   Wed, 26 May 2021 11:38:59 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Tim Gover <tim.gover@raspberrypi.com>,
-        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
-        Eric Anholt <eric@anholt.net>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        id S231470AbhEZL6b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 07:58:31 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:45759 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229800AbhEZL6a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 07:58:30 -0400
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id A297F1BF213;
+        Wed, 26 May 2021 11:56:52 +0000 (UTC)
+Date:   Wed, 26 May 2021 13:56:52 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Maxime Ripard <mripard@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        linux-rpi-kernel@lists.infradead.org,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 04/12] ASoC: hdmi-codec: Add iec958 controls
-Message-ID: <YK4lQ1WJ+bBAwnDz@sirena.org.uk>
-References: <20210525132354.297468-1-maxime@cerno.tech>
- <20210525132354.297468-5-maxime@cerno.tech>
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Subject: Re: [PATCH v5 02/16] phy: Distinguish between Rx and Tx for MIPI
+ D-PHY with submodes
+Message-ID: <YK43hBmFkyCChvKw@aptenodytes>
+References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
+ <20210115200141.1397785-3-paul.kocialkowski@bootlin.com>
+ <58d6651d-09c3-2b93-bd5b-1807744b2354@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="VHjauBDPfRurBChP"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="UpT672IaWUX8kc9y"
 Content-Disposition: inline
-In-Reply-To: <20210525132354.297468-5-maxime@cerno.tech>
-X-Cookie: Ahead warp factor one, Mr. Sulu.
+In-Reply-To: <58d6651d-09c3-2b93-bd5b-1807744b2354@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---VHjauBDPfRurBChP
-Content-Type: text/plain; charset=us-ascii
+--UpT672IaWUX8kc9y
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 25, 2021 at 03:23:46PM +0200, Maxime Ripard wrote:
-> The IEC958 status bits can be exposed and modified by the userspace
-> through dedicated ALSA controls.
+Hi,
 
-Acked-by: Mark Brown <broonie@kernel.org>
+On Wed 26 May 21, 13:50, Hans Verkuil wrote:
+> On 15/01/2021 21:01, Paul Kocialkowski wrote:
+> > As some D-PHY controllers support both Rx and Tx mode, we need a way for
+> > users to explicitly request one or the other. For instance, Rx mode can
+> > be used along with MIPI CSI-2 while Tx mode can be used with MIPI DSI.
+> >=20
+> > Introduce new MIPI D-PHY PHY submodes to use with PHY_MODE_MIPI_DPHY.
+> > The default (zero value) is kept to Tx so only the rkisp1 driver, which
+> > uses D-PHY in Rx mode, needs to be adapted.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Acked-by: Helen Koike <helen.koike@collabora.com>
+> > ---
+> >  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c |  3 ++-
+> >  include/linux/phy/phy-mipi-dphy.h                   | 13 +++++++++++++
+> >  2 files changed, 15 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/driv=
+ers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > index 2e5b57e3aedc..cab261644102 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > @@ -948,7 +948,8 @@ static int rkisp1_mipi_csi2_start(struct rkisp1_isp=
+ *isp,
+> > =20
+> >  	phy_mipi_dphy_get_default_config(pixel_clock, isp->sink_fmt->bus_widt=
+h,
+> >  					 sensor->lanes, cfg);
+> > -	phy_set_mode(sensor->dphy, PHY_MODE_MIPI_DPHY);
+> > +	phy_set_mode_ext(cdev->dphy, PHY_MODE_MIPI_DPHY,
+> > +			 PHY_MIPI_DPHY_SUBMODE_RX);
+>=20
+> drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c: In function =E2=80=
+=98rkisp1_mipi_csi2_start=E2=80=99:
+> drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:951:19: error: =E2=80=
+=98cdev=E2=80=99 undeclared (first use in this function)
+>   951 |  phy_set_mode_ext(cdev->dphy, PHY_MODE_MIPI_DPHY,
+>       |                   ^~~~
+>=20
+> Huh?
 
---VHjauBDPfRurBChP
+Oh wow that's quite shameful. Apologies here.
+
+Note that I'll rebase/respin this series. I also remember that it wasn't ve=
+ry
+consensual (on IRC) to use a submode to indicate rx vs tx mode and that
+specifying that in the deivce-tree would be a better fit.
+
+Cheers,
+
+Paul
+
+> Regards,
+>=20
+> 	Hans
+>=20
+> >  	phy_configure(sensor->dphy, &opts);
+> >  	phy_power_on(sensor->dphy);
+> > =20
+> > diff --git a/include/linux/phy/phy-mipi-dphy.h b/include/linux/phy/phy-=
+mipi-dphy.h
+> > index a877ffee845d..0f57ef46a8b5 100644
+> > --- a/include/linux/phy/phy-mipi-dphy.h
+> > +++ b/include/linux/phy/phy-mipi-dphy.h
+> > @@ -6,6 +6,19 @@
+> >  #ifndef __PHY_MIPI_DPHY_H_
+> >  #define __PHY_MIPI_DPHY_H_
+> > =20
+> > +/**
+> > + * enum phy_mipi_dphy_submode - MIPI D-PHY sub-mode
+> > + *
+> > + * A MIPI D-PHY can be used to transmit or receive data.
+> > + * Since some controllers can support both, the direction to enable is=
+ specified
+> > + * with the PHY sub-mode. Transmit is assumed by default with phy_set_=
+mode.
+> > + */
+> > +
+> > +enum phy_mipi_dphy_submode {
+> > +	PHY_MIPI_DPHY_SUBMODE_TX =3D 0,
+> > +	PHY_MIPI_DPHY_SUBMODE_RX,
+> > +};
+> > +
+> >  /**
+> >   * struct phy_configure_opts_mipi_dphy - MIPI D-PHY configuration set
+> >   *
+> >=20
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--UpT672IaWUX8kc9y
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCuJUMACgkQJNaLcl1U
-h9BbiAf9FlorXmTGbHpwvZBlli/cOILFyMcqSLtmFjeQQEQ/Hw/zi+ovr1CDHxx7
-GGjEpFOC3ThNwPXOMCPBcJ9KI7dkJL5rk+Hb4nChrNno8iZLrEy9O73H5iATxn5o
-HTnqWXd2c9DDAFeNnYPkXrqH4jntmdlprTBBwHaCfX216S7uK1+3y+wGGN2ssCoq
-Icvel1+KQ/o9MdMhs9cuDRw6e3GYNVqEK82wOLfKL6AstDOmVt6IJ+PvOG/h4NSD
-mRSQ/XDsW/iXataTHhEjyihRhDEjSQ9MXd7gCtKitVBetbKUhO6EDY/hY7aV3J1i
-OpnoP0ODzC13oVmNXUGkksNvsjhFgw==
-=vtry
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmCuN4QACgkQ3cLmz3+f
+v9G56Qf/VeVonmPZ3GPceNXtCiCz4D3aCK6rystut/m1RJlgBSNwDeUtp1Pb0PK5
+tNuJ63rQ+pUuI0iFSlITn6EEQoUe6ohyMwWHSwajXbNd0hPRo0Td6pxNUpjM0/+Y
+S3g9L9rsAQ191UhXje7YOZnS7baMLQ4Kk6fv86zvzoSZkTFdOcbhgc4O4OhDoOee
+K7vqfkdk1fZdnb2RKoiET9Z2AoIomE6PmrC13LZFImyVQY10zMjmNO55pu9mscU1
+YxtJpIol8m7xmRR77/8W0TMQRx7IhEsNnTEdsI+fCGov8sINrkteVLFLSwl/Y8Kc
+Ql608acppD8E4uziTLEqWfpEyzt5fg==
+=juJ8
 -----END PGP SIGNATURE-----
 
---VHjauBDPfRurBChP--
+--UpT672IaWUX8kc9y--
