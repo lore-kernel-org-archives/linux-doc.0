@@ -2,231 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF90C2B9F7
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 07:11:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B82C2B9F7
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 07:17:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE62F613F4
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 07:11:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A25261402
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 07:17:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbhEZHMw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 03:12:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31769 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232336AbhEZHMv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 03:12:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622013079;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Fi0FXe5X3P7ATt9Pn7qPfNgLtexRLcMiYee/h8XnZLo=;
-        b=HzS8bgdzpOuukFeF8Ddk22rYWeu5aQo0JqUXtgtrO235fyMPglAAbaVQu83WPocOVC3SX1
-        X1V16aIreGp7Fdzeagr+fKzMM4aT4yFoJSmLH/k/m4f4kZdYpKLWDjCDOPVQhMdrNBOTZ2
-        TfTDucv8QdkRmkIoCzPMipcmPFsONBk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-7MzyJvcxPam5_V69YB-Jwg-1; Wed, 26 May 2021 03:11:17 -0400
-X-MC-Unique: 7MzyJvcxPam5_V69YB-Jwg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0BF31009446;
-        Wed, 26 May 2021 07:11:15 +0000 (UTC)
-Received: from localhost (ovpn-13-205.pek2.redhat.com [10.72.13.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 962D619718;
-        Wed, 26 May 2021 07:11:11 +0000 (UTC)
-Date:   Wed, 26 May 2021 15:11:08 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Dave Young <dyoung@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
-        akpm@linux-foundation.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, vgoyal@redhat.com,
-        x86@kernel.org, Eric Biederman <ebiederm@xmission.com>
-Subject: Re: [PATCH] Documentation: kdump: update kdump guide
-Message-ID: <20210526071108.GB2872@MiWiFi-R3L-srv>
-References: <20210520103729.13696-1-bhe@redhat.com>
- <YKzidlzM6UCdzpA9@dhcp-128-65.nay.redhat.com>
+        id S232648AbhEZHSw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 03:18:52 -0400
+Received: from mail-bn1nam07on2087.outbound.protection.outlook.com ([40.107.212.87]:32308
+        "EHLO NAM02-BN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232617AbhEZHSw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 May 2021 03:18:52 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jToHS8iJJDZCJFjUUPDRYvnNTZOAAPajj0zXvheeyWwvRrxNW3yXrlKL0Ah03yZwnO+u9noJJwQ4rDuq3G09TRBugJzsWzNt/K8e+XNKzwzELjAJN6n+1s9n4G5JUGXLGfU/JK6axTEXJxlDBNcodNDxc7+GGXxQs523He9PIFFOdISqWpW/kAISGNwrSvu0+khxyifAMEyfa04R/3p8xC4W0IyGz0zaYDdfmpwqFZMwrRNX1FYxvHwyhAj9ECasmisqXX7QnGh6RyhVLKOKdg6J6/Hrk8n002SQk1TPg759ZsHBnjYPMxZ43xU4/oNyOe/zKIP1CS9qIE3Y7popDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qh8rmQEzaA+mHnWGWWAn9Tu+1Nzmr2FR4YAnqwaF59s=;
+ b=eBpKAnxDSAInNYt1IUkuFD5AUifxaDtbtOQr0aNOCn8N0TciuULjYDD3U0KSBfoQqQAxr6PY/TaPepjQDbcoGN9LGbVufbuhM7eTdNYGu2rY8YH9cpieTAphqdnIOXhOA4ROh1ZxQ/SMqoTvEqeOsRgH3AeqwVRmJEY7hZRBIeUZTH6Fn8dUWkjdWsDh52KkVsfAaW4wuv0kb6vlOpMiVIe33WPLANkIxMdMPxGs+MZ/qzkI9+AtkgUFkVoyMPj/+kWpAfxU02AHM1Y3eNDIBXBe5kDushlR6ji+CU0vjKxyExz9xDhBnzea+WwVsuJoGPT9P4NRwndsmevYXco53w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qh8rmQEzaA+mHnWGWWAn9Tu+1Nzmr2FR4YAnqwaF59s=;
+ b=SQdzpc7GYiDjUOx4nPHeOFBE7swjunXHRT5SeYH/5hyxKX8i7ahJy+o++7gtZprX1jV+9Qctuqh3djlctoeDgLCV52uzQHOar9wTFy8uMq8HWEdNby3dlkkB1fApbdYZeHjPmoxIu9mP+C/xrtKRLGC1x1raFBrY34Kxqi7cS9Li6uqROXhiUvOm8dERONOiHTW5x0f4dSjSMuJ4L5vTDsQ+KWb6i4m37Pq0HEPww0/u14PTQP/4wH/vur9P8gI/SrIchLhqSk84eC0WsW3+Y7Iq3u2Hocfxjv42gq7Hb0tlqyETvHXERLZS8I9yMtPkGkE7RJj5S1Iy/RiC+tvS9g==
+Received: from MW2PR2101CA0016.namprd21.prod.outlook.com (2603:10b6:302:1::29)
+ by DM6PR12MB5006.namprd12.prod.outlook.com (2603:10b6:5:1b8::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Wed, 26 May
+ 2021 07:17:19 +0000
+Received: from CO1NAM11FT035.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:302:1:cafe::a3) by MW2PR2101CA0016.outlook.office365.com
+ (2603:10b6:302:1::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.2 via Frontend
+ Transport; Wed, 26 May 2021 07:17:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ CO1NAM11FT035.mail.protection.outlook.com (10.13.175.36) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4129.25 via Frontend Transport; Wed, 26 May 2021 07:17:19 +0000
+Received: from [10.2.60.51] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 26 May
+ 2021 07:17:18 +0000
+Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
+To:     Balbir Singh <bsingharora@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+CC:     Alistair Popple <apopple@nvidia.com>, <linux-mm@kvack.org>,
+        <nouveau@lists.freedesktop.org>, <bskeggs@redhat.com>,
+        <rcampbell@nvidia.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <hch@infradead.org>, <jglisse@redhat.com>, <willy@infradead.org>,
+        <jgg@nvidia.com>, <peterx@redhat.com>, <hughd@google.com>,
+        Christoph Hellwig <hch@lst.de>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <20210524132725.12697-8-apopple@nvidia.com>
+ <20210524151157.2dc5d2bb510ff86dc449bf0c@linux-foundation.org>
+ <YKzk0ILRsyazMs2W@balbir-desktop>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <8844f8c1-d78c-e0f9-c046-592bd75d4c07@nvidia.com>
+Date:   Wed, 26 May 2021 00:17:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKzidlzM6UCdzpA9@dhcp-128-65.nay.redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <YKzk0ILRsyazMs2W@balbir-desktop>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4d5531b0-d882-4dc7-4f54-08d920164c72
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5006:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB50067B8CF1D6FC9ACAE0E043A8249@DM6PR12MB5006.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Mhq3zHxQlei2c8oC2ecPMzHFoEYn5qvjm6Nw5+iMoDD/yBY2OoZtubSD5mVcQE4l3XYdfkxfgaOeGwHkEsUXv3+Xl4lxRZXRL04D+yzXHsll9eBJ2Ixv5dHy/OxQwby/c2Z/PPFCKBjbauNpzc9h91843e4SlQpRjY1abIDBVF+zwVi99swwAasXakDrkPOAvfk93EZn35LvUhv1YU1FB6139NzjDRV0ET5rC8p+Gr1syMX2kCDtN+B5C/Ukw+s0fDaTpdecHt8p2bpc1RUAWs6h1jtx5WPcLql1hjp+5SnbX3dqvMPKwPsuHwIZ0e9+rrxuTQG0YPSzO6YOeJMmHId1iDB/yF3ZH/+7jLcdamKeNUciq8XE5v7xpdJ3Dcbf5j3Xx8KADaiKoRTDbxmsgCKN3bI0oX4cTDuO85Icf+nmyF5p/kOHnF7eci+VZPOgOe621M2w6t80A3KfORdhWd+n5ju1tCWZuqWw1++4WDE7aHa7kYF4aeTjQ5noy357BIoO0Px2iPsvKDSiaWPItnBFTmu4BeS82kkF3RTjUeeM/GikfVeQF8boVTqd63lbqMSF9aXatF9P8mnSU08IrHGWTNo888SU2IbSsIKZPVI3wgspyHfnDzMgnrWDl+dQk0ZPyNFrZg+lMERp5T3W6CS3UH/WR+AqE4dwwXCzBYElMfBTqRCpV69sAew++2Jd2N72B0MUXZe22JV299NAdNmVLkngNtulpAQ+D4fK5O0ClSU6LPOWtJwbfqYPzxATXqqeTTp5HeDdqpXbCAuCi8agcVxYNwwhvb92tTsYeaUzrqP6Dl2/zKLYPR+5z5u0
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(376002)(136003)(346002)(36840700001)(46966006)(316002)(26005)(336012)(31686004)(8936002)(8676002)(16526019)(426003)(82740400003)(478600001)(70586007)(36756003)(70206006)(2616005)(110136005)(53546011)(16576012)(186003)(5660300002)(7636003)(966005)(31696002)(356005)(4326008)(47076005)(86362001)(36860700001)(82310400003)(83380400001)(36906005)(7416002)(2906002)(54906003)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 07:17:19.2575
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d5531b0-d882-4dc7-4f54-08d920164c72
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT035.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5006
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/25/21 at 07:41pm, Dave Young wrote:
-> Hi Baoquan,
-> > @@ -180,7 +191,7 @@ Dump-capture kernel config options (Arch Dependent, i386 and x86_64)
-> >  
-> >  	CONFIG_SMP=n
-> >  
-> > -   (If CONFIG_SMP=y, then specify maxcpus=1 on the kernel command line
-> > +   (If CONFIG_SMP=y, then specify nr_cpus=1 on the kernel command line
-> >     when loading the dump-capture kernel, see section "Load the Dump-capture
-> >     Kernel".)
+On 5/25/21 4:51 AM, Balbir Singh wrote:
+...
+>> How beneficial is this code to nouveau users?  I see that it permits a
+>> part of OpenCL to be implemented, but how useful/important is this in
+>> the real world?
 > 
-> This part should be obsolete?  Since for X86_64 we can enable smp boot
-> with disable_cpu_apicid=X set (see the Notes on loading the dump-capture
-> kernel part)  So I think no need to disable CONFIG_SMP at all.  The
-> current RHEL use of nr_cpus=1 is just to save 2nd kernel memory use.
+> That is a very good question! I've not reviewed the code, but a sample
+> program with the described use case would make things easy to parse.
+> I suspect that is not easy to build at the moment?
+> 
 
-Keeping them because they are not wrong. Talking about default config,
-currently we only care about x86_64 mostly, not sure if we should remove
-i386 part too. Anyway, I am fine to remove them and the below
-relocatable thing.
+The cover letter says this:
 
-> 
-> Ditto for the text for other arches, not sure if they need update
-> though, see if other maintainers can provide inputs..
-> 
-> 
-> Otherwise for the CONFIG_RELOCATABLE related part,  it may be better to
-> update as well? 
-> ''' quote:
-> 3) If one wants to build and use a relocatable kernel,
->    Enable "Build a relocatable kernel" support under "Processor type and
->    features"::
-> 
->         CONFIG_RELOCATABLE=y
-> 
-> 4) Use a suitable value for "Physical address where the kernel is
->    loaded" (under "Processor type and features"). This only appears when
->    "kernel crash dumps" is enabled. A suitable value depends upon
->    whether kernel is relocatable or not.
-> 
->    If you are using a relocatable kernel use CONFIG_PHYSICAL_START=0x100000
->    This will compile the kernel for physical address 1MB, but given the fact
->    kernel is relocatable, it can be run from any physical address hence
->    kexec boot loader will load it in memory region reserved for dump-capture
->    kernel.
-> 
->    Otherwise it should be the start of memory region reserved for
->    second kernel using boot parameter "crashkernel=Y@X". Here X is
->    start of memory region reserved for dump-capture kernel.
->    Generally X is 16MB (0x1000000). So you can set
->    CONFIG_PHYSICAL_START=0x1000000
-> ''' end quote
-> 
-> Since relocatable kernel is used by default now so we may just not describe it as "If one
-> want to build with it =y", I feel it should be a corner case instead of
-> the default use case.   Maybe HPA, Vivek, Eric can provide more opinions since
-> they may know more about the background.  
-> 
-> >  
-...  
-> > -Boot into System Kernel
-> > -=======================
-> > +       crashkernel=512M-2G:64M,2G-:128M
-> >  
-> > +   This would mean:
-> > +
-> > +       1) if the RAM is smaller than 512M, then don't reserve anything
-> > +          (this is the "rescue" case)
-> > +       2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-> > +       3) if the RAM size is larger than 2G, then reserve 128M
-> > +
-> > +3) crashkernel=size,high and crashkernel=size,low
-> > +
-> > +   If memory above 4G is preferred, crashkernel=size,high can be used to
-> > +   fulfill that. With it, physical memory is allowed to allocate from top,
-> > +   so could be above 4G if system has more than 4G RAM installed. Otherwise,
-> > +   memory region will be allocated below 4G if available.
-> > +
-> > +   When crashkernel=X,high is passed, kernel could allocate physical memory
-> > +   region above 4G, low memory under 4G is needed in this case. There are
-> > +   three ways to get low memory:
-> > +
-> > +      1) Kernel will allocate at least 256M memory below 4G automatically
-> > +         if crashkernel=Y,low is not specified.
-> > +      2) Let user specify low memory size instread.
-> > +      3) Specified value 0 will disable low memory allocation::
-> > +
-> > +            crashkernel=0,low
-> > +
-> > +Boot into System Kernel
-> > +-----------------------
-> >  1) Update the boot loader (such as grub, yaboot, or lilo) configuration
-> >     files as necessary.
-> >  
-> > -2) Boot the system kernel with the boot parameter "crashkernel=Y@X",
-> > -   where Y specifies how much memory to reserve for the dump-capture kernel
-> > -   and X specifies the beginning of this reserved memory. For example,
-> > -   "crashkernel=64M@16M" tells the system kernel to reserve 64 MB of memory
-> > -   starting at physical address 0x01000000 (16MB) for the dump-capture kernel.
-> > +2) Boot the system kernel with the boot parameter "crashkernel=Y@X".
-> >  
-> >     On x86 and x86_64, use "crashkernel=64M@16M".
-> 
-> For the recommendation of crashkernel it would be better to drop the
-> @16M since most people do not need it?
+This has been tested with upstream Mesa 21.1.0 and a simple OpenCL program
+which checks that GPU atomic accesses to system memory are atomic. Without
+this series the test fails as there is no way of write-protecting the page
+mapping which results in the device clobbering CPU writes. For reference
+the test is available at https://ozlabs.org/~apopple/opencl_svm_atomics/
 
-It's only an example? Change it as "crashkernel=128M" instead to make it
-more helpful?
+Further testing has been performed by adding support for testing exclusive
+access to the hmm-tests kselftests.
 
+...so that seems to cover the "sample program" request, at least.
+
+> I wonder how we co-ordinate all the work the mm is doing, page migration,
+> reclaim with device exclusive access? Do we have any numbers for the worst
+> case page fault latency when something is marked away for exclusive access?
+
+CPU page fault latency is approximately "terrible", if a page is resident on
+the GPU. We have to spin up a DMA engine on the GPU and have it copy the page
+over the PCIe bus, after all.
+
+> I presume for now this is anonymous memory only? SWP_DEVICE_EXCLUSIVE would
+
+Yes, for now.
+
+> only impact the address space of programs using the GPU. Should the exclusively
+> marked range live in the unreclaimable list and recycled back to active/in-active
+> to account for the fact that
 > 
-> >  
-> > @@ -392,7 +432,7 @@ loading dump-capture kernel.
-> >  
-> >  For i386, x86_64 and ia64:
-> >  
-> > -	"1 irqpoll maxcpus=1 reset_devices"
-> > +	"1 irqpoll nr_cpus=1 reset_devices"
-> >  
-> >  For ppc64:
-> >  
-> > @@ -400,7 +440,7 @@ For ppc64:
-> >  
-> >  For s390x:
-> >  
-> > -	"1 maxcpus=1 cgroup_disable=memory"
-> > +	"1 nr_cpus=1 cgroup_disable=memory"
-> >  
-> >  For arm:
-> >  
-> > @@ -408,7 +448,7 @@ For arm:
-> >  
-> >  For arm64:
-> >  
-> > -	"1 maxcpus=1 reset_devices"
-> > +	"1 nr_cpus=1 reset_devices"
-> >  
-> >  Notes on loading the dump-capture kernel:
-> >  
-> > @@ -487,7 +527,12 @@ After the dump-capture kernel is booted, write out the dump file with
-> >  the following command::
-> >  
-> >     cp /proc/vmcore <dump-file>
-> > +   scp /proc/vmcore to <user@server>:<path>/%HOST-%DATE/
-> > +
-> > +You can also use makedumpfile utility to write out the dump file
-> > +with specified options to filter out unwanted contents, e.g::
-> >  
-> > +   core_collector makedumpfile -l --message-level 1 -d 31
-> 
-> Looks like scp and core_collector usage are based on Fedora/RHEL, but
-> since this doc is for generic upstream, it might be better to describe
-> it in generic way, eg.  (maybe just drop scp)
->   makedumpfile -l --message-level 1 -d 31 /proc/vmcore <dump-file>
->   scp /proc/vmcore <user@server>:<path>/<dump-file>
+> 1. It is not reclaimable and reclaim will only hurt via page faults?
+> 2. It ages the page correctly or at-least allows for that possibility when the
+>     page is used by the GPU.
 
-Right, forgot removing core_collector. While scp is also a generic tool?
+I'm not sure that that is *necessarily* something we can conclude. It depends upon
+access patterns of each program. For example, a "reduction" parallel program sends
+over lots of data to the GPU, and only a tiny bit of (reduced!) data comes back
+to the CPU. In that case, freeing the physical page on the CPU is actually the
+best decision for the OS to make (if the OS is sufficiently prescient).
 
-Thanks for reviewing.
-
+thanks,
+-- 
+John Hubbard
+NVIDIA
