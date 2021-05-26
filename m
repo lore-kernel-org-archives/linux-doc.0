@@ -2,161 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D890CC47088
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 19:50:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7E0DC47089
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:24:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5414613DC
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 19:50:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEBAF6128B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:24:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234462AbhEZTvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 15:51:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33608 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234455AbhEZTvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 15:51:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622058609;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=s1/6uItuxoYyE47GHbWu3zlHXfIxxg+Z3u434C7Z3XM=;
-        b=an7oAYoyjJ8QtC6JdXQuL3f8TWz2oeZubWMnF3vqsQqqp0cvXVaj8J+jvNoIPdhdmibArq
-        Ry9tfnq7tyArefIUepaIX8HA0lAyU7oWEq6GcJ8pJcLTvgXpgSktqD+h6MrGcPSeMqqwk9
-        xPsK3mDNg3hKbMxHKMLTc7b7C37YARI=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-8Y_FqY0iPOWYY2YL1t3-_g-1; Wed, 26 May 2021 15:50:08 -0400
-X-MC-Unique: 8Y_FqY0iPOWYY2YL1t3-_g-1
-Received: by mail-qv1-f70.google.com with SMTP id h11-20020a0ceecb0000b0290211ed54e716so2129716qvs.9
-        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 12:50:08 -0700 (PDT)
+        id S233357AbhEZVZr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 17:25:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232250AbhEZVZr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 17:25:47 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90144C061574
+        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 14:24:14 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 129-20020a2501870000b0290526b90a2992so3224806ybb.10
+        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 14:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=9okIvi+X1htjg1cyj98qs5wA20hMIDWTyPU/QT/n3TM=;
+        b=LIUyIiE+oujE06wyd02Isz6HB+vA1TeSXALb+n9kj9Z5lFfGwDmy8aljPIa9udFg1k
+         tb16WVsm69K1zZFqkQEQ46c6KEVzDi/jml1shZK/SPps8p0eEUva41TQZVYlX8dVz+3X
+         P6DindVI+/tOaSG3yXm2PxZlOlMcV3jc3L6rrNjkjPnsCzEQ0xMveg6BIs1RFBNYOAok
+         uZgrL/YmJIDDWiYzlwcgEnS+XCFl04w5Hi+2PYhWOaaqdBYZ5E2upogB3DIhdv4EENQM
+         eq7DDvtSmFOxxJIykQvTxucV5XAmxxBMEEQFsvqS6w3ay3BiQULMFx6uwdQo8Z1sOfqn
+         hqWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=s1/6uItuxoYyE47GHbWu3zlHXfIxxg+Z3u434C7Z3XM=;
-        b=G5k5g+4kvEw4oAb8Tn9h0uGvpQt/Xh/kM6PxN8LxtoeFcsLrjtUHzfAQtBhM039fYX
-         V5Tx/yfjcX6KMGgcJ15J71ZVLWO9M6v+Vb4MAP3zVwwyhwUreaKW5VRi3rWWmx6oVg/u
-         pSiz4zyoR1M3Cuy+VaAGtJNGGGaz587rFJNtWLuPkwUUoXr4EHYHBnoAOELv9hOiosms
-         dRuEyjKOnwS+lQu5vykfDfZ18N+RLJsN1OI8mrT8jqkE+fPsQMk9XMvZT7uqxzoZgYul
-         Su+L2uDmxmWAhhJmdRjjedqPMaZGRjVbPq/3LyKQw8YyJYP5CHEMlud0z2IvC5KVm4E4
-         DT1w==
-X-Gm-Message-State: AOAM533SKrdAkhxfhC8LTvE2DjppacE0tTNiaprLlvZ38TdYv7ULmI8G
-        6NSIZao4bXGwCKZABxz/JTm06AlPhueHsGrX8ibPGfV/lYeu5TVFgJRmVACVC83ECWRX0PTlsKX
-        KGMFAvOazQgzuV6klBBMS
-X-Received: by 2002:a37:7046:: with SMTP id l67mr43118525qkc.69.1622058607641;
-        Wed, 26 May 2021 12:50:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDF9KrF9YeP9fDUebqEr4gYyhgflPp+V4B+WrCnnvB/WRyfJdS1hsUee111LHB9PSeDuPW8w==
-X-Received: by 2002:a37:7046:: with SMTP id l67mr43118500qkc.69.1622058607342;
-        Wed, 26 May 2021 12:50:07 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
-        by smtp.gmail.com with ESMTPSA id g18sm2200678qke.37.2021.05.26.12.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 12:50:06 -0700 (PDT)
-Date:   Wed, 26 May 2021 15:50:05 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        rcampbell@nvidia.com, linux-doc@vger.kernel.org,
-        jhubbard@nvidia.com, bsingharora@gmail.com,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        hch@infradead.org, jglisse@redhat.com, willy@infradead.org,
-        jgg@nvidia.com, hughd@google.com
-Subject: Re: [PATCH v9 06/10] mm/memory.c: Allow different return codes for
- copy_nonpresent_pte()
-Message-ID: <YK6mbf967dV0ljHn@t490s>
-References: <20210524132725.12697-1-apopple@nvidia.com>
- <20210524132725.12697-7-apopple@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210524132725.12697-7-apopple@nvidia.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=9okIvi+X1htjg1cyj98qs5wA20hMIDWTyPU/QT/n3TM=;
+        b=LHgRBrG52SYr38v4OS0DU/qPzLh5o+Ke/+FOwcUjFGPuYKup4lO2OD0NLAN2nEB04/
+         PdzHXjVgE7pFIp6ig9LncHUo26p2nHC04Pkysqa9h2Dy8JjqjloL+oHD2VI2jYMVkhkz
+         0SzjUlpnFJdO6B3jhOmrRmRX6VvlVG5tvhU2X626b6+MlYFbRmkU2hhXGwP+POR7Pjxl
+         mCZywCk05okCpo0fAMMvbSOI+2ejiBMY9XtC7GvGr9fY4tPSMDT9w9gk41yksUGqD7Hq
+         XpvaHkcU1RzEJlJ+CYKXyg95K14Sqawu3UNK8D+6fWpgYF0I9h534bzacuqgnT7Ev5VY
+         7paw==
+X-Gm-Message-State: AOAM530prvdQv/CtdU60Z8pslLwyjebvlJkIPUhY8IdidmONqEIT4PWI
+        yPoNoWHfauCi016CXggHCErkpJNtd63lsbctGEIkbw==
+X-Google-Smtp-Source: ABdhPJwdjc6UP/ZZUJeUs4cgA8LHIo+lhX/G1LJ35xLm9QMLOKPm1yyGekkqDdxZWORJA1vA3wl0tV7F5ZqOPgINtbaDFQ==
+X-Received: from mactruck.svl.corp.google.com ([2620:15c:2cb:201:2a22:5aa3:3643:4ddb])
+ (user=brendanhiggins job=sendgmr) by 2002:a25:6d82:: with SMTP id
+ i124mr95766ybc.78.1622064253777; Wed, 26 May 2021 14:24:13 -0700 (PDT)
+Date:   Wed, 26 May 2021 14:24:03 -0700
+Message-Id: <20210526212407.2753879-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
+Subject: [PATCH v2 0/4] kunit: tool: add support for QEMU
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     shuah@kernel.org, davidgow@google.com
+Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, sboyd@kernel.org, keescook@chromium.org,
+        frowand.list@gmail.com, dlatypov@google.com,
+        Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 24, 2021 at 11:27:21PM +1000, Alistair Popple wrote:
-> Currently if copy_nonpresent_pte() returns a non-zero value it is
-> assumed to be a swap entry which requires further processing outside the
-> loop in copy_pte_range() after dropping locks. This prevents other
-> values being returned to signal conditions such as failure which a
-> subsequent change requires.
-> 
-> Instead make copy_nonpresent_pte() return an error code if further
-> processing is required and read the value for the swap entry in the main
-> loop under the ptl.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> 
-> ---
-> 
-> v9:
-> 
-> New for v9 to allow device exclusive handling to occur in
-> copy_nonpresent_pte().
-> ---
->  mm/memory.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 2fb455c365c2..e061cfa18c11 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -718,7 +718,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
->  
->  	if (likely(!non_swap_entry(entry))) {
->  		if (swap_duplicate(entry) < 0)
-> -			return entry.val;
-> +			return -EAGAIN;
->  
->  		/* make sure dst_mm is on swapoff's mmlist. */
->  		if (unlikely(list_empty(&dst_mm->mmlist))) {
-> @@ -974,11 +974,13 @@ copy_pte_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
->  			continue;
->  		}
->  		if (unlikely(!pte_present(*src_pte))) {
-> -			entry.val = copy_nonpresent_pte(dst_mm, src_mm,
-> -							dst_pte, src_pte,
-> -							src_vma, addr, rss);
-> -			if (entry.val)
-> +			ret = copy_nonpresent_pte(dst_mm, src_mm,
-> +						dst_pte, src_pte,
-> +						src_vma, addr, rss);
-> +			if (ret == -EAGAIN) {
-> +				entry = pte_to_swp_entry(*src_pte);
->  				break;
-> +			}
->  			progress += 8;
->  			continue;
->  		}
+TL;DR: Add support to kunit_tool to dispatch tests via QEMU. Also add
+support to immediately shutdown a kernel after running KUnit tests.
 
-Note that -EAGAIN was previously used by copy_present_page() for early cow
-use.  Here later although we check entry.val first:
+Background
+----------
 
-	if (entry.val) {
-		if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
-			ret = -ENOMEM;
-			goto out;
-		}
-		entry.val = 0;
-	} else if (ret) {
-		WARN_ON_ONCE(ret != -EAGAIN);
-		prealloc = page_copy_prealloc(src_mm, src_vma, addr);
-		if (!prealloc)
-			return -ENOMEM;
-		/* We've captured and resolved the error. Reset, try again. */
-		ret = 0;
-	}
+KUnit has supported running on all architectures for quite some time;
+however, kunit_tool - the script commonly used to invoke KUnit tests -
+has only fully supported KUnit run on UML. Its functionality has been
+broken up for some time to separate the configure, build, run, and parse
+phases making it possible to be used in part on other architectures to a
+small extent. Nevertheless, kunit_tool has not supported running tests
+on other architectures.
 
-We didn't reset "ret" in entry.val case (maybe we should?). Then in the next
-round of "goto again" if "ret" is unluckily untouched, it could reach the 2nd
-if check, and I think it could cause an unexpected page_copy_prealloc().
+What this patchset does
+-----------------------
 
+This patchset introduces first class support to kunit_tool for KUnit to
+be run on many popular architectures via QEMU. It does this by adding
+two new flags: `--arch` and `--cross_compile`.
+
+`--arch` allows an architecture to be specified by the name the
+architecture is given in `arch/`. It uses the specified architecture to
+select a minimal amount of Kconfigs and QEMU configs needed for the
+architecture to run in QEMU and provide a console from which KTAP
+results can be scraped.
+
+`--cross_compile` allows a toolchain prefix to be specified to make
+similar to how `CROSS_COMPILE` is used.
+
+Additionally, this patchset revives the previously considered "kunit:
+tool: add support for QEMU"[1] patchs. The motivation for this new
+kernel command line flags, `kunit_shutdown`, is to better support
+running KUnit tests inside of QEMU. For most popular architectures, QEMU
+can be made to terminate when the Linux kernel that is being run is
+reboted, halted, or powered off. As Kees pointed out in a previous
+discussion[2], it is possible to make a kernel initrd that can reboot
+the kernel immediately, doing this for every architecture would likely
+be infeasible. Instead, just having an option for the kernel to shutdown
+when it is done with testing seems a lot simpler, especially since it is
+an option which would only available in testing configurations of the
+kernel anyway.
+
+Changes since last revision
+---------------------------
+
+I pulled out the QemuConfigs into their own files; the way in which I
+did this also allows new QemuConfigs to be added without making any
+changes to kunit_tool.
+
+I changed how Kconfigs are loaded; they are now merged inside of
+kunit_tool instead of letting Kbuild do it.
+
+I also made numerous nit fixes.
+
+Finally, I added a new section to the kunit_tool documentation to
+document the new command line flags I added.
+
+[1] http://patches.linaro.org/patch/208336/
+[2] https://lkml.org/lkml/2020/6/26/988
+
+Brendan Higgins (3):
+  Documentation: Add kunit_shutdown to kernel-parameters.txt
+  kunit: tool: add support for QEMU
+  Documentation: kunit: document support for QEMU in kunit_tool
+
+David Gow (1):
+  kunit: Add 'kunit_shutdown' option
+
+ .../admin-guide/kernel-parameters.txt         |   8 +
+ Documentation/dev-tools/kunit/kunit-tool.rst  |  48 +++++
+ Documentation/dev-tools/kunit/usage.rst       |  50 +++--
+ lib/kunit/executor.c                          |  20 ++
+ tools/testing/kunit/kunit.py                  |  57 +++++-
+ tools/testing/kunit/kunit_config.py           |   7 +-
+ tools/testing/kunit/kunit_kernel.py           | 177 +++++++++++++++---
+ tools/testing/kunit/kunit_parser.py           |   2 +-
+ tools/testing/kunit/kunit_tool_test.py        |  18 +-
+ tools/testing/kunit/qemu_config.py            |  16 ++
+ tools/testing/kunit/qemu_configs/alpha.py     |  10 +
+ tools/testing/kunit/qemu_configs/arm.py       |  13 ++
+ tools/testing/kunit/qemu_configs/arm64.py     |  12 ++
+ tools/testing/kunit/qemu_configs/i386.py      |  10 +
+ tools/testing/kunit/qemu_configs/powerpc.py   |  12 ++
+ tools/testing/kunit/qemu_configs/riscv.py     |  31 +++
+ tools/testing/kunit/qemu_configs/s390.py      |  14 ++
+ tools/testing/kunit/qemu_configs/sparc.py     |  10 +
+ tools/testing/kunit/qemu_configs/x86_64.py    |  10 +
+ 19 files changed, 471 insertions(+), 54 deletions(-)
+ create mode 100644 tools/testing/kunit/qemu_config.py
+ create mode 100644 tools/testing/kunit/qemu_configs/alpha.py
+ create mode 100644 tools/testing/kunit/qemu_configs/arm.py
+ create mode 100644 tools/testing/kunit/qemu_configs/arm64.py
+ create mode 100644 tools/testing/kunit/qemu_configs/i386.py
+ create mode 100644 tools/testing/kunit/qemu_configs/powerpc.py
+ create mode 100644 tools/testing/kunit/qemu_configs/riscv.py
+ create mode 100644 tools/testing/kunit/qemu_configs/s390.py
+ create mode 100644 tools/testing/kunit/qemu_configs/sparc.py
+ create mode 100644 tools/testing/kunit/qemu_configs/x86_64.py
+
+
+base-commit: d7eab3df8f39b116d934bc17f8070861e18cfb62
 -- 
-Peter Xu
+2.31.1.818.g46aad6cb9e-goog
 
