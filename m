@@ -2,210 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 048D8C47088
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:24:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CC8C47082
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:40:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D91A66128B
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:24:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B0D0613F0
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:40:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234283AbhEZV0D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 17:26:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43110 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234181AbhEZVZz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 17:25:55 -0400
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B09C061763
-        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 14:24:22 -0700 (PDT)
-Received: by mail-qt1-x849.google.com with SMTP id b8-20020ac812c80000b029023872d176eeso1475797qtj.3
-        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 14:24:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=NCrgWD9y8dgxTwWaAeztMIx9ZvUPVidLmF2TLjSwzOg=;
-        b=QslW7nZ2jdLCUQI6gauB+dNQdZU7thGetMHlphcJ4qWFxSlzyFs0cyd2icaLOL+cIE
-         NTMAlx4YcSYUoYv0Ab0IJlaKT9+3YNxyXvCHAeL/XEKUqO3qNAVG7qGqsz+Pa+P6ZG23
-         CBZeDO7hllQZx7dwUBkb4v1HdHi+7wsh7DaBF1in4YYdEx7kCN7YGtl40GWnKj3NeVtI
-         IARdQo13n2lDu9qN5g2LeMJtSbNZGuBB9IuhVVPkSWSokmE5q8KOkcMgGY0wIE942I+U
-         vdw3J7Ep4MwOv3qSV2b1cGaPnU03B3RetgNcnyB52UiA+GytXhhLajuR6aDcgUf9wbHx
-         HB4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=NCrgWD9y8dgxTwWaAeztMIx9ZvUPVidLmF2TLjSwzOg=;
-        b=Tkps7+EwOn43pMeetz13kHQXKCvBcfSZvLWrLVkayWfS0jFQc0CRtKwoFyodzeSn/Y
-         ScDl1AJxFKatIBCL0Iz6gWuUBp0mw8b87s4RicMtYdCGij71wC3hIz8T9qAbEY/KFR1i
-         myWHerSnCD+mBCQq6/8a47FTUkx91Qrr3g2oa3+cRBJAXqd9TWCXwsDuNR0BwqAKcmy/
-         FkRCZaZ78b2aEbwaXurNHT270ZR2086vhsJ42tf1DszyCiU4LnBZwlqs1b4ZuVgua68a
-         QUfNrug3aRbBQL4qMb3gYjNS+1mh0hR3d8uQ7nOlb8Qp+mNTtDjQ05aeTy5zFWN4PnO/
-         rVbw==
-X-Gm-Message-State: AOAM530vo2+WHdqZcmvHUVWLI7T1/Q9iSqS95qpGYTxLZIPSG3QHW0lF
-        hCSKJJtWcQzoKAU4BbPIwPSDqQ9dO/KeWEGD2O9wLg==
-X-Google-Smtp-Source: ABdhPJxv6M7g009JuA7jLC1HoD7yTESGd26LatW6n6shfJQerCtPbU+23cwdBxZQDYcHzg7K2EUC+ZfD4K52krxhKpAUPw==
-X-Received: from mactruck.svl.corp.google.com ([2620:15c:2cb:201:2a22:5aa3:3643:4ddb])
- (user=brendanhiggins job=sendgmr) by 2002:a05:6214:212f:: with SMTP id
- r15mr390267qvc.11.1622064261597; Wed, 26 May 2021 14:24:21 -0700 (PDT)
-Date:   Wed, 26 May 2021 14:24:07 -0700
-In-Reply-To: <20210526212407.2753879-1-brendanhiggins@google.com>
-Message-Id: <20210526212407.2753879-5-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20210526212407.2753879-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
-Subject: [PATCH v2 4/4] Documentation: kunit: document support for QEMU in kunit_tool
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     shuah@kernel.org, davidgow@google.com
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, sboyd@kernel.org, keescook@chromium.org,
-        frowand.list@gmail.com, dlatypov@google.com,
-        Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S233357AbhEZVlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 17:41:53 -0400
+Received: from foss.arm.com ([217.140.110.172]:50156 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234070AbhEZVlv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 May 2021 17:41:51 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69A3C11D4;
+        Wed, 26 May 2021 14:40:19 -0700 (PDT)
+Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFA4D3F73B;
+        Wed, 26 May 2021 14:40:12 -0700 (PDT)
+Date:   Wed, 26 May 2021 22:40:05 +0100
+From:   Beata Michalska <beata.michalska@arm.com>
+To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc:     Valentin Schneider <valentin.schneider@arm.com>,
+        linux-kernel@vger.kernel.org, peterz@infradead.org,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, corbet@lwn.net, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+Message-ID: <20210526214004.GA1712@e120325.cambridge.arm.com>
+References: <20210524101617.8965-1-beata.michalska@arm.com>
+ <20210524101617.8965-3-beata.michalska@arm.com>
+ <87fsyc6mfz.mognet@arm.com>
+ <20210524225508.GA14880@e120325.cambridge.arm.com>
+ <87a6oj6sxo.mognet@arm.com>
+ <20210525102945.GA24210@e120325.cambridge.arm.com>
+ <98ad8837-b9b8-ff50-5a91-8d5951ee757c@arm.com>
+ <20210526121546.GA13262@e120325.cambridge.arm.com>
+ <20210526125133.GB13262@e120325.cambridge.arm.com>
+ <d4dc6630-041f-bf61-898a-6f402b993fbc@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4dc6630-041f-bf61-898a-6f402b993fbc@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document QEMU support, what it does, and how to use it in kunit_tool.
+On Wed, May 26, 2021 at 08:17:41PM +0200, Dietmar Eggemann wrote:
+> On 26/05/2021 14:51, Beata Michalska wrote:
+> > On Wed, May 26, 2021 at 01:15:46PM +0100, Beata Michalska wrote:
+> >> On Wed, May 26, 2021 at 11:52:25AM +0200, Dietmar Eggemann wrote:
+> >>> On 25/05/2021 12:29, Beata Michalska wrote:
+> >>>> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
+> >>>>> On 24/05/21 23:55, Beata Michalska wrote:
+> >>>>>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
+> >>>>>>> On 24/05/21 11:16, Beata Michalska wrote:
+> 
+> [...]
+> 
+> >>> BTW, how would this mechanism behave on a system with SMT and asymmetric CPU
+> >>> capacity? Something EAS wouldn't allow but I guess asym_cap_list will be
+> >>> constructed and the SD_ASYM_CPUCAPACITY_XXX flags will be set?
+> >> Yes, the list would get created and flags set. I do not think there is
+> >> a difference with current approach (?). So EAS would be disabled (it only cares
+> >> about SD_ASYM_CPUCAPACITY_FULL flag) but the misift might still kick in.
+> >>
+> > That depends on the arch_scale_cpu_capacity. I would imagine it would
+> > return SCHED_CAPACITY_SCALE for those, which means no asymmetry will
+> > be detected ?
+> 
+> I was thinking about an erroneous dts file like:
+> 
+>                 cpu-map {
+>                         cluster0 {
+>                                 core0 {
+> 					thread0 {
+>                                         	cpu = <&A53_0>;
+> 					};
+> 					thread1 {
+>                                         	cpu = <&A53_1>;
+> 					};
+>                                 };
+>                                 core1 {
+> 					thread0 {
+>                                         	cpu = <&A53_2>;
+> 					};
+> 					thread1 {
+>                                         	cpu = <&A53_3>;
+> 					};
+>                                 };
+>                                 core2 {
+> 					thread0 {
+>                                         	cpu = <&A53_4>;
+> 					};
+> 					thread1 {
+>                                         	cpu = <&A53_5>;
+> 					};
+>                                 };
+>                         };
+> 
+>                         cluster1 {
+>                                 core0 {
+> 					thread0 {
+>                                         	cpu = <&A53_6>;
+> 					};
+> 					thread1 {
+>                                         	cpu = <&A53_7>;
+> 					};
+>                                 };
+>                         };
+>                 };
+> 
+> 		A53_0: cpu@0 {
+> 			capacity-dmips-mhz = <446>;
+> 	 	A53_1: cpu@1 {
+> 			capacity-dmips-mhz = <1024>;
+> 		A53_2: cpu@2 {
+> 			capacity-dmips-mhz = <871>;
+> 		A53_3: cpu@3 {
+> 			capacity-dmips-mhz = <1024>;
+> 		A53_4: cpu@4 {
+> 			capacity-dmips-mhz = <446>;
+> 		A53_5: cpu@5 {
+> 			capacity-dmips-mhz = <871>;
+> 		A53_6: cpu@6 {
+> 			capacity-dmips-mhz = <1024>;
+> 		A53_7: cpu@7 {
+> 			capacity-dmips-mhz = <1024>;
+> 
+> Here I guess SD_ASYM_CPUCAPACITY will be attached to SMT[0-5]. So this
+> 'capacity-dmips-mhz' config error won't be detected.
+> 
+> In case all CPUs (i.e. hw threads would have the correct
+> capacity-dmips-mhz = <1024> or not being set (default 1024))
+> asym_cap_list would corrcetly only have 1 entry.
+We could possibly add a warning (like in EAS) if the asymmetry is detected
+for SMT which would give some indication that there is smth ... wrong ?
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 ---
-Changes since last revision:
-
-- Finally, I added a new section to the kunit_tool documentation to
-  document the new command line flags I added.
-
----
- Documentation/dev-tools/kunit/kunit-tool.rst | 48 +++++++++++++++++++
- Documentation/dev-tools/kunit/usage.rst      | 50 +++++++++++++++-----
- 2 files changed, 87 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
-index 4247b7420e3ba..c7ff9afe407a5 100644
---- a/Documentation/dev-tools/kunit/kunit-tool.rst
-+++ b/Documentation/dev-tools/kunit/kunit-tool.rst
-@@ -145,6 +145,54 @@ to run KUnit resource tests, you could use:
- 
- This uses the standard glob format for wildcards.
- 
-+Running Tests on QEMU
-+=====================
-+
-+kunit_tool supports running tests on QEMU as well as via UML (as mentioned
-+elsewhere). The default way of running tests on QEMU requires two flags:
-+
-+``--arch``
-+	Selects a collection of configs (Kconfig as well as QEMU configs
-+	options, etc) that allow KUnit tests to be run on the specified
-+	architecture in a minimal way; this is usually not much slower than
-+	using UML. The architecture argument is the same as the name of the
-+	option passed to the ``ARCH`` variable used by Kbuild. Not all
-+	architectures are currently supported by this flag, but can be handled
-+	by the ``--qemu_config`` discussed later. If ``um`` is passed (or this
-+	this flag is ignored) the tests will run via UML. Non-UML architectures,
-+	e.g. i386, x86_64, arm, um, etc. Non-UML run on QEMU.
-+
-+``--cross_compile``
-+	Specifies the use of a toolchain by Kbuild. The argument passed here is
-+	the same passed to the ``CROSS_COMPILE`` variable used by Kbuild. As a
-+	reminder this will be the prefix for the toolchain binaries such as gcc
-+	for example ``sparc64-linux-gnu-`` if you have the sparc toolchain
-+	installed on your system, or
-+	``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux-``
-+	if you have downloaded the microblaze toolchain from the 0-day website
-+	to a directory in your home directory called ``toolchains``.
-+
-+In many cases it is likely that you may want to run an architecture which is
-+not supported by the ``--arch`` flag, or you may want to just run KUnit tests
-+on QEMU using a non-default configuration. For this use case, you can write
-+your own QemuConfig. These QemuConfigs are written in Python. They must have an
-+import line ``from ..qemu_config import QemuArchParams`` at the top of the file
-+and the file must contain a variable called ``QEMU_ARCH`` that has an instance
-+of ``QemuArchParams`` assigned to it. An example can be seen in
-+``tools/testing/kunit/qemu_configs/x86_64.py``.
-+
-+Once you have a QemuConfig you can pass it into kunit_tool using the
-+``--qemu_config`` flag; when used this flag replaces the ``--arch`` flag. If we
-+were to do this with the ``x86_64.py`` example from above, the invocation would
-+look something like this:
-+
-+.. code-block:: bash
-+
-+	./tools/testing/kunit/kunit.py run \
-+		--timeout=60 \
-+		--jobs=12 \
-+		--qemu_config=./tools/testing/kunit/qemu_configs/x86_64.py
-+
- Other Useful Options
- ====================
- 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 650f99590df57..888c341701da4 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -609,17 +609,45 @@ non-UML architectures:
- None of these are reasons not to run your KUnit tests on real hardware; they are
- only things to be aware of when doing so.
- 
--The biggest impediment will likely be that certain KUnit features and
--infrastructure may not support your target environment. For example, at this
--time the KUnit Wrapper (``tools/testing/kunit/kunit.py``) does not work outside
--of UML. Unfortunately, there is no way around this. Using UML (or even just a
--particular architecture) allows us to make a lot of assumptions that make it
--possible to do things which might otherwise be impossible.
--
--Nevertheless, all core KUnit framework features are fully supported on all
--architectures, and using them is straightforward: all you need to do is to take
--your kunitconfig, your Kconfig options for the tests you would like to run, and
--merge them into whatever config your are using for your platform. That's it!
-+Currently, the KUnit Wrapper (``tools/testing/kunit/kunit.py``) (aka
-+kunit_tool) only fully supports running tests inside of UML and QEMU; however,
-+this is only due to our own time limitations as humans working on KUnit. It is
-+entirely possible to support other emulators and even actual hardware, but for
-+now QEMU and UML is what is fully supported within the KUnit Wrapper. Again, to
-+be clear, this is just the Wrapper. The actualy KUnit tests and the KUnit
-+library they are written in is fully architecture agnostic and can be used in
-+virtually any setup, you just won't have the benefit of typing a single command
-+out of the box and having everything magically work perfectly.
-+
-+Again, all core KUnit framework features are fully supported on all
-+architectures, and using them is straightforward: Most popular architectures
-+are supported directly in the KUnit Wrapper via QEMU. Currently, supported
-+architectures on QEMU include:
-+
-+*   i386
-+*   x86_64
-+*   arm
-+*   arm64
-+*   alpha
-+*   powerpc
-+*   riscv
-+*   s390
-+*   sparc
-+
-+In order to run KUnit tests on one of these architectures via QEMU with the
-+KUnit wrapper, all you need to do is specify the flags ``--arch`` and
-+``--cross_compile`` when invoking the KUnit Wrapper. For example, we could run
-+the default KUnit tests on ARM in the following manner (assuming we have an ARM
-+toolchain installed):
-+
-+.. code-block:: bash
-+
-+	tools/testing/kunit/kunit.py run --timeout=60 --jobs=12 --arch=arm --cross_compile=arm-linux-gnueabihf-
-+
-+Alternatively, if you want to run your tests on real hardware or in some other
-+emulation environment, all you need to do is to take your kunitconfig, your
-+Kconfig options for the tests you would like to run, and merge them into
-+whatever config your are using for your platform. That's it!
- 
- For example, let's say you have the following kunitconfig:
- 
--- 
-2.31.1.818.g46aad6cb9e-goog
-
+BR
+B.
