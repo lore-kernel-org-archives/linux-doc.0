@@ -2,538 +2,315 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5594AC47082
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 17:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D43CC47082
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 17:56:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FC06613BE
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 17:18:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A2BE611C2
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 17:56:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234363AbhEZRUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 13:20:02 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:38762 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234273AbhEZRT4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 May 2021 13:19:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=hluMyUblEZLiDVAnIP3YBg31138mFukHu7ltd
-        gSxydA=; b=aqr9dcfmtx7zce9uZlvEg7fW8GsZy1lWgSsRcvmDa0rYgQC9/IPW7
-        lstckXzMtxl+2bKHrq3kj1kBzbVEeweUbltp1ydITVpcF0W/0YA6KR9CLNBDzEqP
-        UL6iADMV2eOppA3bp2irgzrDlZXYTsn95JdFl7UrAEsKpmm1wGrMiI=
-Received: from bobwxc.top (unknown [112.96.132.211])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgCXXkHTgq5gc_k_AA--.18720S2;
-        Thu, 27 May 2021 01:18:13 +0800 (CST)
-Date:   Thu, 27 May 2021 01:18:11 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH] docs/zh_CN:add core-api padata translation
-Message-ID: <20210526171811.GA3700@bobwxc.top>
-References: <20210525120501.2149992-1-siyanteng@loongson.cn>
+        id S233539AbhEZR6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 13:58:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52610 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232965AbhEZR6S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 13:58:18 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2151C061574
+        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 10:56:46 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id c13so1193638qvx.5
+        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 10:56:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=51XxazQuxAIgrHpRrXMYjp2/bG824nUd4B2dopC7pdQ=;
+        b=FeIDpLXDOtYy1RCAanxem+CNhNcr+CSconqzsvzNO4qNH3DgSDILMgheVS/E8RBVe2
+         859f+ixli7L/feAKkzk5ECzES0FCG5UAb2aDKLkCn9fcelPf+lwdG+AXUTxn/7zkGDAE
+         gqk1IKUBkH1efZIsAK7qr++Fgs0WlaOUWxQs0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=51XxazQuxAIgrHpRrXMYjp2/bG824nUd4B2dopC7pdQ=;
+        b=hPJsGZp1JiRCXlrynIPUdSka97DOF3r73SllJBSm3zsdFFT3nrxC97z5tztiUM/aDM
+         eaJgw/LWtQ34Lq6z0jzTGgcfyfGDHnc4/BZhtXBzylQYyHHIfGh6HO8CQxgVd+tD7nxa
+         RPIKew0XgPh1cjt4QDEQC0Dh/0Ow1O0i2QcGafLJTHpv+TcPEz0Y/6vsxhVlT0T8dJAm
+         /k1uydBFQ1/n5CduVKRDhvtePHhESsUaTtYnnzE/eMuJhG9pfql3ahZi8VIjUOGbizm6
+         8WzuE1bZcbhttunXYYtPSsNYbOo+0O08x4iJJzOOOZoJjaBpvwWtLEC+hdc01EfLtwUN
+         620Q==
+X-Gm-Message-State: AOAM530oYX4wd3I00BE/mAUnG2Z1WsDj0RcD/gPtEq9kK31uZok1AnTg
+        xNObWouMX0lQTOM5sCndMY49eA==
+X-Google-Smtp-Source: ABdhPJyrQnHZfNXECEAZ3sA65n8DbR+I8eBEJo/fSzO96p6enI89+ARz3ktQuPBX5ke8ki/x1Q57yA==
+X-Received: by 2002:a05:6214:d06:: with SMTP id 6mr23748441qvh.56.1622051805669;
+        Wed, 26 May 2021 10:56:45 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:411:a2a3:1da5:606d:247a])
+        by smtp.gmail.com with ESMTPSA id l14sm1944064qtj.26.2021.05.26.10.56.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 May 2021 10:56:45 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Josh Don <joshdon@google.com>, mingo@kernel.org,
+        peterz@infradead.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: Add usecases, design and interface for core scheduling
+Date:   Wed, 26 May 2021 13:56:23 -0400
+Message-Id: <20210526175623.34781-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="AhhlLboLdkugWU4S"
-Content-Disposition: inline
-In-Reply-To: <20210525120501.2149992-1-siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgCXXkHTgq5gc_k_AA--.18720S2
-X-Coremail-Antispam: 1UD129KBjvJXoWfJr1kGF4rWFWDWw43AF4kCrg_yoWkJFWxpr
-        9xGryfGa18trykurn8Gr17Gr1xG3yxWwsrKa18JF1fJr1ayrW7Jr4jqFyfAFW7Wryvk34k
-        Ar4YgF4j93srCFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUy0b7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
-        z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487M2AExVA0xI801c8C04v7Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-        7VCjz48v1sIEY20_Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIec
-        xEwVAFwVW8MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E
-        4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
-        WUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
-        Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rV
-        WUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4U
-        YxBIdaVFxhVjvjDU0xZFpf9x07Uf-B_UUUUU=
-X-Originating-IP: [112.96.132.211]
-X-CM-SenderInfo: pere453f6hztlloou0/
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Now that core scheduling is merged, update the documentation.
 
---AhhlLboLdkugWU4S
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Co-developed-by: Chris Hyser <chris.hyser@oracle.com>
+Signed-off-by: Chris Hyser <chris.hyser@oracle.com>
+Co-developed-by: Josh Don <joshdon@google.com>
+Signed-off-by: Josh Don <joshdon@google.com>
+Cc: mingo@kernel.org
+Cc: peterz@infradead.org
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Hi Yanteng,
+---
+ .../admin-guide/hw-vuln/core-scheduling.rst   | 211 ++++++++++++++++++
+ Documentation/admin-guide/hw-vuln/index.rst   |   1 +
+ 2 files changed, 212 insertions(+)
+ create mode 100644 Documentation/admin-guide/hw-vuln/core-scheduling.rst
 
-On Tue, May 25, 2021 at 08:05:01PM +0800, Yanteng Si wrote:
-> Translate Documentation/core-api/padata.rst into Chinese.
->=20
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/core-api/index.rst     |   2 +-
->  .../translations/zh_CN/core-api/padata.rst    | 158 ++++++++++++++++++
->  2 files changed, 159 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/core-api/padata.rst
->=20
-> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Docume=
-ntation/translations/zh_CN/core-api/index.rst
-> index a1dd792e46f7..fc2f326d6d23 100644
-> --- a/Documentation/translations/zh_CN/core-api/index.rst
-> +++ b/Documentation/translations/zh_CN/core-api/index.rst
-> @@ -65,12 +65,12 @@ Linux=E5=A6=82=E4=BD=95=E8=AE=A9=E4=B8=80=E5=88=87=E5=
-=90=8C=E6=97=B6=E5=8F=91=E7=94=9F=E3=80=82 =E8=AF=A6=E6=83=85=E8=AF=B7=E5=
-=8F=82=E9=98=85
->     :maxdepth: 1
-> =20
->     irq/index
-> +   padata
-> =20
->  Todolist:
-> =20
->     refcount-vs-atomic
->     local_ops
-> -   padata
->     ../RCU/index
-> =20
->  =E4=BD=8E=E7=BA=A7=E7=A1=AC=E4=BB=B6=E7=AE=A1=E7=90=86
-> diff --git a/Documentation/translations/zh_CN/core-api/padata.rst b/Docum=
-entation/translations/zh_CN/core-api/padata.rst
-> new file mode 100644
-> index 000000000000..607cbad3075a
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/padata.rst
-> @@ -0,0 +1,158 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/core-api/padata.rst
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_core_api_padata.rst:
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +padata=E5=B9=B6=E8=A1=8C=E6=89=A7=E8=A1=8C=E6=9C=BA=E5=88=B6
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +:Date: 2020=E5=B9=B45=E6=9C=88
-
-=E6=97=A5=E6=9C=9F=EF=BC=9F
-
-> +
-> +Padata=E6=98=AF=E4=B8=80=E7=A7=8D=E6=9C=BA=E5=88=B6=EF=BC=8C=E9=80=9A=E8=
-=BF=87=E8=BF=99=E7=A7=8D=E6=9C=BA=E5=88=B6=EF=BC=8C=E5=86=85=E6=A0=B8=E5=8F=
-=AF=E4=BB=A5=E5=B0=86=E5=B7=A5=E4=BD=9C=E5=88=86=E6=95=A3=E5=88=B0=E5=A4=9A=
-=E4=B8=AACPU=E4=B8=8A=E5=B9=B6=E8=A1=8C=E5=AE=8C=E6=88=90=EF=BC=8C=E5=90=8C=
-=E6=97=B6
-
-maybe more compact
-=E9=80=9A=E8=BF=87=E6=AD=A4=E6=9C=BA=E5=88=B6=E5=86=85=E6=A0=B8=E5=8F=AF=E4=
-=BB=A5
-
-> +=E5=8F=AF=E4=BB=A5=E9=80=89=E6=8B=A9=E4=BF=9D=E6=8C=81=E5=AE=83=E4=BB=AC=
-=E7=9A=84=E9=A1=BA=E5=BA=8F=E3=80=82
-> +
-> +=E5=AE=83=E6=9C=80=E5=88=9D=E6=98=AF=E4=B8=BAIPsec=E5=BC=80=E5=8F=91=E7=
-=9A=84=EF=BC=8C=E5=AE=83=E9=9C=80=E8=A6=81=E5=9C=A8=E4=B8=8D=E5=AF=B9=E8=BF=
-=99=E4=BA=9B=E6=95=B0=E6=8D=AE=E5=8C=85=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=
-=E7=9A=84=E5=85=B6=E5=89=8D=E6=8F=90=E4=B8=8B=EF=BC=8C=E4=B8=BA=E5=A4=A7=E9=
-=87=8F=E7=9A=84=E6=95=B0
-> +=E6=8D=AE=E5=8C=85=E8=BF=9B=E8=A1=8C=E5=8A=A0=E5=AF=86=E5=92=8C=E8=A7=A3=
-=E5=AF=86=E3=80=82=E8=BF=99=E6=98=AF=E7=9B=AE=E5=89=8Dpadata=E7=9A=84=E5=BA=
-=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E6=94=AF=E6=8C=81=E7=9A=84=E5=94=AF=
-=E4=B8=80=E7=94=A8=E9=80=94=E3=80=82
-> +
-> +Padata=E8=BF=98=E6=94=AF=E6=8C=81=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=BD=9C=E4=
-=B8=9A=EF=BC=8C=E5=B0=86=E4=BD=9C=E4=B8=9A=E5=B9=B3=E5=9D=87=E5=88=86=E5=89=
-=B2=EF=BC=8C=E5=90=8C=E6=97=B6=E5=9C=A8=E7=BA=BF=E7=A8=8B=E4=B9=8B=E9=97=B4=
-=E8=BF=9B=E8=A1=8C=E8=B4=9F=E8=BD=BD=E5=9D=87=E8=A1=A1=E5=92=8C=E5=8D=8F=E8=
-=B0=83=E3=80=82
-> +
-> +=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E8=BF=90=E8=A1=8C
-
-=E8=BF=90=E8=A1=8C=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A
-
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=E5=88=9D=E5=A7=8B=E5=8C=96
-> +------
-> +
-> +=E4=BD=BF=E7=94=A8padata=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E8=
-=BF=90=E8=A1=8C=E7=9A=84=E7=AC=AC=E4=B8=80=E6=AD=A5=E6=98=AF=E5=BB=BA=E7=AB=
-=8B=E4=B8=80=E4=B8=AApadata_instance=E7=BB=93=E6=9E=84=E4=BD=93=EF=BC=8C=E4=
-=BB=A5=E5=85=A8=E9=9D=A2
-
-s/=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E8=BF=90=E8=A1=8C/=E6=89=A7=
-=E8=A1=8C=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A/
-
-> +=E6=8E=A7=E5=88=B6=E4=BD=9C=E4=B8=9A=E7=9A=84=E8=BF=90=E8=A1=8C=E6=96=B9=
-=E5=BC=8F::
-> +
-> +    #include <linux/padata.h>
-> +
-> +    struct padata_instance *padata_alloc(const char *name);
-> +
-> +'name'=E7=AE=80=E5=8D=95=E5=9C=B0=E6=A0=87=E8=AF=86=E4=BA=86=E8=BF=99=E4=
-=B8=AA=E5=AE=9E=E4=BE=8B=E3=80=82
-
-=E7=AE=80=E5=8D=95=E5=9C=B0 -> =E5=8D=B3 =EF=BC=9F
-"simply" is hard to catch :>
-
-> +
-> +=E7=84=B6=E5=90=8E=EF=BC=8C=E9=80=9A=E8=BF=87=E5=88=86=E9=85=8D=E4=B8=80=
-=E4=B8=AApadata_shell=E6=9D=A5=E5=AE=8C=E6=88=90padata=E7=9A=84=E5=88=9D=E5=
-=A7=8B=E5=8C=96::
-> +
-> +   struct padata_shell *padata_alloc_shell(struct padata_instance *pinst=
-);
-> +
-> +=E4=B8=80=E4=B8=AApadata_shell=E7=94=A8=E4=BA=8E=E5=90=91padata=E6=8F=90=
-=E4=BA=A4=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A=EF=BC=8C=E5=B9=B6=E5=85=81=E8=
-=AE=B8=E4=B8=80=E7=B3=BB=E5=88=97=E8=BF=99=E6=A0=B7=E7=9A=84=E4=BD=9C=E4=B8=
-=9A=E8=A2=AB=E7=8B=AC=E7=AB=8B=E5=9C=B0
-> +=E5=BA=8F=E5=88=97=E5=8C=96=E3=80=82=E4=B8=80=E4=B8=AApadata_instance=E5=
-=8F=AF=E4=BB=A5=E6=9C=89=E4=B8=80=E4=B8=AA=E6=88=96=E5=A4=9A=E4=B8=AApadata=
-_shell=E4=B8=8E=E4=B9=8B=E7=9B=B8=E5=85=B3=E8=81=94=EF=BC=8C=E6=AF=8F=E4=B8=
-=AA
-> +=E9=83=BD=E5=85=81=E8=AE=B8=E4=B8=80=E7=B3=BB=E5=88=97=E7=8B=AC=E7=AB=8B=
-=E7=9A=84=E4=BD=9C=E4=B8=9A=E3=80=82
-> +
-> +=E4=BF=AE=E6=94=B9cpumasks
-> +------------
-> +
-> +=E7=94=A8=E4=BA=8E=E8=BF=90=E8=A1=8C=E4=BD=9C=E4=B8=9A=E7=9A=84CPU=E5=8F=
-=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E4=B8=A4=E7=A7=8D=E6=96=B9=E5=BC=8F=E6=94=B9=
-=E5=8F=98=EF=BC=8C=E9=80=9A=E8=BF=87padata_set_cpumask()=E7=BC=96=E7=A8=8B=
-=E6=88=96=E9=80=9A
-> +=E8=BF=87sysfs=E3=80=82=E5=89=8D=E8=80=85=E7=9A=84=E5=AE=9A=E4=B9=89=E6=
-=98=AF::
-> +
-> +    int padata_set_cpumask(struct padata_instance *pinst, int cpumask_ty=
-pe,
-> +			   cpumask_var_t cpumask);
-> +
-> +=E8=BF=99=E9=87=8Ccpumask_type=E6=98=AFPADATA_CPU_PARALLEL=E6=88=96PADAT=
-A_CPU_SERIAL=E4=B9=8B=E4=B8=80=EF=BC=8C=E5=85=B6=E4=B8=AD=E5=B9=B6
-
-How about
-PADATA_CPU_PARALLEL=EF=BC=88=E5=B9=B6=E8=A1=8C=EF=BC=89=E6=88=96PADATA_CPU_=
-SERIAL=EF=BC=88=E4=B8=B2=E8=A1=8C=EF=BC=89
-?
-Give references for following text.
-
-> +=E8=A1=8Ccpumask=E6=8F=8F=E8=BF=B0=E4=BA=86=E5=93=AA=E4=BA=9B=E5=A4=84=
-=E7=90=86=E5=99=A8=E5=B0=86=E8=A2=AB=E7=94=A8=E6=9D=A5=E5=B9=B6=E8=A1=8C=E6=
-=89=A7=E8=A1=8C=E6=8F=90=E4=BA=A4=E7=BB=99=E8=BF=99=E4=B8=AA=E5=AE=9E=E4=BE=
-=8B=E7=9A=84=E4=BD=9C=E4=B8=9A=EF=BC=8C=E4=B8=B2=E8=A1=8Ccpumask
-> +=E5=AE=9A=E4=B9=89=E4=BA=86=E5=93=AA=E4=BA=9B=E5=A4=84=E7=90=86=E5=99=A8=
-=E8=A2=AB=E5=85=81=E8=AE=B8=E7=94=A8=E4=BD=9C=E4=B8=B2=E8=A1=8C=E5=8C=96=E5=
-=9B=9E=E8=B0=83=E5=A4=84=E7=90=86=E5=99=A8=E3=80=82 cpumask=E6=8C=87=E5=AE=
-=9A=E4=BA=86=E8=A6=81=E4=BD=BF=E7=94=A8=E7=9A=84=E6=96=B0cpumask=E3=80=82
------------------------------------------------^ a space
-> +
-> +=E4=B8=80=E4=B8=AA=E5=AE=9E=E4=BE=8B=E7=9A=84 cpumasks =E5=8F=AF=E8=83=
-=BD=E6=9C=89 sysfs =E6=96=87=E4=BB=B6=E3=80=82=E4=BE=8B=E5=A6=82=EF=BC=8Cpc=
-rypt=E7=9A=84=E6=96=87=E4=BB=B6=E5=9C=A8
--------------^--------^------^-----^ spaces
-
-> +/sys/kernel/pcrypt/<instance-name>=E3=80=82=E5=9C=A8=E4=B8=80=E4=B8=AA=
-=E5=AE=9E=E4=BE=8B=E7=9A=84=E7=9B=AE=E5=BD=95=E4=B8=AD=EF=BC=8C=E6=9C=89=E4=
-=B8=A4=E4=B8=AA=E6=96=87=E4=BB=B6=EF=BC=8Cparallel_cpumask
-> +=E5=92=8Cserial_cpumask=EF=BC=8C=E4=BB=BB=E4=BD=95=E4=B8=80=E4=B8=AAcpum=
-ask=E9=83=BD=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E5=9C=A8=E6=96=87=E4=BB=B6=
-=E4=B8=AD=E5=9B=9E=E6=98=BE=EF=BC=88echo=EF=BC=89=E4=B8=80=E4=B8=AAbitmask
-> +=E6=9D=A5=E6=94=B9=E5=8F=98=EF=BC=8C=E6=AF=94=E5=A6=82=E8=AF=B4::
-> +
-> +    echo f > /sys/kernel/pcrypt/pencrypt/parallel_cpumask
-> +
-> +=E8=AF=BB=E5=8F=96=E5=85=B6=E4=B8=AD=E4=B8=80=E4=B8=AA=E6=96=87=E4=BB=B6=
-=E4=BC=9A=E6=98=BE=E7=A4=BA=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cpu=
-mask=EF=BC=8C=E5=AE=83=E5=8F=AF=E8=83=BD=E4=B8=8E=E2=80=9C=E5=8F=AF=E7=94=
-=A8=E2=80=9D=E7=9A=84cpumask=E4=B8=8D=E5=90=8C=E3=80=82
-> +
-> +Padata=E5=86=85=E9=83=A8=E7=BB=B4=E6=8A=A4=E7=9D=80=E4=B8=A4=E5=AF=B9cpu=
-mask=EF=BC=8C=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cpumask=E5=92=8C=
-=E2=80=9C=E5=8F=AF=E7=94=A8=E7=9A=84=E2=80=9Dcpumask(=E6=AF=8F=E4=B8=80=E5=
-=AF=B9=E7=94=B1=E4=B8=80=E4=B8=AA
-> +=E5=B9=B6=E8=A1=8C=E5=92=8C=E4=B8=80=E4=B8=AA=E4=B8=B2=E8=A1=8Ccpumask=
-=E7=BB=84=E6=88=90)=E3=80=82=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cp=
-umasks=E5=9C=A8=E5=AE=9E=E4=BE=8B=E5=88=86=E9=85=8D=E6=97=B6=E9=BB=98=E8=AE=
-=A4=E4=B8=BA=E6=89=80=E6=9C=89=E5=8F=AF=E8=83=BD=E7=9A=84CPU=EF=BC=8C
-> +=E5=B9=B6=E4=B8=94=E5=8F=AF=E4=BB=A5=E5=A6=82=E4=B8=8A=E6=89=80=E8=BF=B0=
-=E8=BF=9B=E8=A1=8C=E6=9B=B4=E6=94=B9=E3=80=82=E5=8F=AF=E7=94=A8=E7=9A=84cpu=
-masks=E6=80=BB=E6=98=AF=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cpumask=
-s=E7=9A=84=E4=B8=80=E4=B8=AA=E5=AD=90=E9=9B=86=EF=BC=8C=E5=8F=AA=E5=8C=85
-> +=E5=90=AB=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84=E6=8E=A9=E7=A0=81=
-=E4=B8=AD=E7=9A=84=E5=9C=A8=E7=BA=BFCPU=EF=BC=9B=E8=BF=99=E4=BA=9B=E6=98=AF=
-padata=E5=AE=9E=E9=99=85=E4=BD=BF=E7=94=A8=E7=9A=84cpumasks=E3=80=82=E5=9B=
-=A0=E6=AD=A4=EF=BC=8C=E5=90=91padata=E6=8F=90
-> +=E4=BE=9B=E4=B8=80=E4=B8=AA=E5=8C=85=E5=90=AB=E7=A6=BB=E7=BA=BFCPU=E7=9A=
-=84cpumask=E6=98=AF=E5=90=88=E6=B3=95=E7=9A=84=E3=80=82=E4=B8=80=E6=97=A6=
-=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cpumask=E4=B8=AD=E7=9A=84=E4=
-=B8=80=E4=B8=AA=E7=A6=BB=E7=BA=BFCPU=E4=B8=8A=E7=BA=BF=EF=BC=8C
-> +padata=E5=B0=B1=E4=BC=9A=E4=BD=BF=E7=94=A8=E5=AE=83=E3=80=82
-> +
-> +=E6=94=B9=E5=8F=98CPU=E6=8E=A9=E7=A0=81=E6=98=AF=E5=BE=88=E6=98=82=E8=B4=
-=B5=E7=9A=84=E6=93=8D=E4=BD=9C=EF=BC=8C=E6=89=80=E4=BB=A5=E5=AE=83=E4=B8=8D=
-=E5=BA=94=E8=AF=A5=E8=A2=AB=E9=A2=91=E7=B9=81=E5=9C=B0=E6=9B=B4=E6=94=B9=E3=
-=80=82
-
-=E6=94=B9=E5=8F=98CPU=E6=8E=A9=E7=A0=81=E7=9A=84=E6=93=8D=E4=BD=9C=E4=BB=A3=
-=E4=BB=B7=E5=BE=88=E9=AB=98=EF=BC=8C=E6=89=80=E4=BB=A5=E4=B8=8D=E5=BA=94=E9=
-=A2=91=E7=B9=81=E6=9B=B4=E6=94=B9=E3=80=82
-
-> +
-> +=E8=BF=90=E8=A1=8C=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A
-> +-------------
-> +
-> +=E5=AE=9E=E9=99=85=E4=B8=8A=E5=90=91padata=E5=AE=9E=E4=BE=8B=E6=8F=90=E4=
-=BA=A4=E5=B7=A5=E4=BD=9C=E9=9C=80=E8=A6=81=E5=88=9B=E5=BB=BA=E4=B8=80=E4=B8=
-=AApadata_priv=E7=BB=93=E6=9E=84=E4=BD=93=EF=BC=8C=E5=AE=83=E4=BB=A3=E8=A1=
-=A8=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A::
-> +
-> +    struct padata_priv {
-> +        /* Other stuff here... */
-> +	void                    (*parallel)(struct padata_priv *padata);
-> +	void                    (*serial)(struct padata_priv *padata);
-> +    };
-> +
-> +=E8=BF=99=E4=B8=AA=E7=BB=93=E6=9E=84=E4=BD=93=E5=87=A0=E4=B9=8E=E8=82=AF=
-=E5=AE=9A=E4=BC=9A=E8=A2=AB=E5=B5=8C=E5=85=A5=E5=88=B0=E4=B8=80=E4=BA=9B=E9=
-=92=88=E5=AF=B9=E8=A6=81=E5=81=9A=E7=9A=84=E5=B7=A5=E4=BD=9C=E7=9A=84=E5=A4=
-=A7=E7=BB=93=E6=9E=84=E4=BD=93=E4=B8=AD=E3=80=82=E5=AE=83=E7=9A=84=E5=A4=A7=
-=E9=83=A8=E5=88=86=E5=AD=97=E6=AE=B5=E5=AF=B9
-> +padata=E6=9D=A5=E8=AF=B4=E6=98=AF=E7=A7=81=E6=9C=89=E7=9A=84=EF=BC=8C=E4=
-=BD=86=E6=98=AF=E8=BF=99=E4=B8=AA=E7=BB=93=E6=9E=84=E4=BD=93=E5=9C=A8=E5=88=
-=9D=E5=A7=8B=E5=8C=96=E6=97=B6=E5=BA=94=E8=AF=A5=E8=A2=AB=E6=B8=85=E9=9B=B6=
-=EF=BC=8C=E5=B9=B6=E4=B8=94=E5=BA=94=E8=AF=A5=E6=8F=90=E4=BE=9Bparallel()=
-=E5=92=8C
-> +serial()=E5=87=BD=E6=95=B0=E3=80=82=E5=9C=A8=E5=AE=8C=E6=88=90=E5=B7=A5=
-=E4=BD=9C=E7=9A=84=E8=BF=87=E7=A8=8B=E4=B8=AD=EF=BC=8C=E8=BF=99=E4=BA=9B=E5=
-=87=BD=E6=95=B0=E5=B0=86=E8=A2=AB=E8=B0=83=E7=94=A8=EF=BC=8C=E6=88=91=E4=BB=
-=AC=E9=A9=AC=E4=B8=8A=E5=B0=B1=E4=BC=9A=E9=81=87=E5=88=B0=E3=80=82
-> +
-> +=E5=B7=A5=E4=BD=9C=E7=9A=84=E6=8F=90=E4=BA=A4=E6=98=AF=E9=80=9A=E8=BF=87=
-::
-> +
-> +    int padata_do_parallel(struct padata_shell *ps,
-> +		           struct padata_priv *padata, int *cb_cpu);
-> +
-> +ps=E5=92=8Cpadata=E7=BB=93=E6=9E=84=E4=BD=93=E5=BF=85=E9=A1=BB=E5=A6=82=
-=E4=B8=8A=E6=89=80=E8=BF=B0=E8=BF=9B=E8=A1=8C=E8=AE=BE=E7=BD=AE=EF=BC=9Bcb_=
-cpu=E6=8C=87=E5=90=91=E4=BD=9C=E4=B8=9A=E5=AE=8C=E6=88=90=E5=90=8E=E7=94=A8=
-=E4=BA=8E=E6=9C=80=E7=BB=88=E5=9B=9E=E8=B0=83=E7=9A=84=E9=A6=96=E9=80=89CPU=
-=EF=BC=9B
-> +=E5=AE=83=E5=BF=85=E9=A1=BB=E5=9C=A8=E5=BD=93=E5=89=8D=E5=AE=9E=E4=BE=8B=
-=E7=9A=84CPU=E6=8E=A9=E7=A0=81=E4=B8=AD=EF=BC=88=E5=A6=82=E6=9E=9C=E4=B8=8D=
-=E6=98=AF=EF=BC=8Ccb_cpu=E6=8C=87=E9=92=88=E5=B0=86=E8=A2=AB=E6=9B=B4=E6=96=
-=B0=E4=B8=BA=E6=8C=87=E5=90=91=E5=AE=9E=E9=99=85=E9=80=89=E6=8B=A9=E7=9A=84=
-CPU=EF=BC=89=E3=80=82
-> +padata_do_parallel()=E7=9A=84=E8=BF=94=E5=9B=9E=E5=80=BC=E5=9C=A8=E6=88=
-=90=E5=8A=9F=E6=97=B6=E4=B8=BA0=EF=BC=8C=E8=A1=A8=E7=A4=BA=E5=B7=A5=E4=BD=
-=9C=E6=AD=A3=E5=9C=A8=E8=BF=9B=E8=A1=8C=E4=B8=AD=E3=80=82-EBUSY =E6=84=8F=
-=E5=91=B3=E7=9D=80=E6=9C=89=E4=BA=BA
-----------------------------------------------------------------------^ a s=
-pace
-
-> +=E5=9C=A8=E5=85=B6=E4=BB=96=E5=9C=B0=E6=96=B9=E6=AD=A3=E5=9C=A8=E6=90=9E=
-=E4=B9=B1=E5=AE=9E=E4=BE=8B=E7=9A=84 CPU =E6=8E=A9=E7=A0=81=EF=BC=8C=E8=80=
-=8C-EINVAL=E6=98=AF=E5=85=B3=E4=BA=8Ecb_cpu=E4=B8=8D=E5=9C=A8=E4=B8=B2=E8=
-=A1=8Ccpumask=E4=B8=AD=E7=9A=84=E5=90=90=E6=A7=BD=EF=BC=8C
----------------------------^---^ spaces
-
-> +=E5=9C=A8=E5=B9=B6=E8=A1=8C=E6=88=96=E4=B8=B2=E8=A1=8C cpumasks =E4=B8=
-=AD=E6=B2=A1=E6=9C=89=E5=9C=A8=E7=BA=BF=E7=9A=84 CPU=EF=BC=8C=E6=88=96=E8=
-=80=85=E4=B8=80=E4=B8=AA=E5=81=9C=E6=AD=A2=E7=9A=84=E5=AE=9E=E4=BE=8B=E3=80=
-=82
-
-=E8=80=8C=E5=BD=93cb_cpu=E4=B8=8D=E5=9C=A8=E4=B8=B2=E8=A1=8Ccpumask=E4=B8=
-=AD=E3=80=81=E5=B9=B6=E8=A1=8C=E6=88=96=E4=B8=B2=E8=A1=8Ccpumasks=E4=B8=AD=
-=E6=97=A0=E5=9C=A8=E7=BA=BFCPU=EF=BC=8C=E6=88=96=E5=AE=9E=E4=BE=8B=E5=81=9C=
-=E6=AD=A2=E6=97=B6=EF=BC=8C
-=E5=88=99=E4=BC=9A=E5=87=BA=E7=8E=B0-EINVAL=E5=8F=8D=E9=A6=88=E3=80=82
-
-> +
-> +=E6=AF=8F=E4=B8=AA=E6=8F=90=E4=BA=A4=E7=BB=99padata_do_parallel()=E7=9A=
-=84=E4=BD=9C=E4=B8=9A=E5=B0=86=E4=BE=9D=E6=AC=A1=E4=BC=A0=E9=80=92=E7=BB=99=
-=E4=B8=80=E4=B8=AACPU=E4=B8=8A=E7=9A=84=E4=B8=8A=E8=BF=B0parallel()=E5=87=
-=BD=E6=95=B0
-> +=E7=9A=84=E4=B8=80=E4=B8=AA=E8=B0=83=E7=94=A8=EF=BC=8C=E6=89=80=E4=BB=A5=
-=E7=9C=9F=E6=AD=A3=E7=9A=84=E5=B9=B6=E8=A1=8C=E6=98=AF=E9=80=9A=E8=BF=87=E6=
-=8F=90=E4=BA=A4=E5=A4=9A=E4=B8=AA=E4=BD=9C=E4=B8=9A=E6=9D=A5=E5=AE=9E=E7=8E=
-=B0=E7=9A=84=E3=80=82 parallel()=E5=9C=A8=E8=BF=90=E8=A1=8C=E6=97=B6=E7=A6=
-=81=E7=94=A8=E8=BD=AF
----------------------------------------------------------^ a space
-
-> +=E4=BB=B6=E4=B8=AD=E6=96=AD=EF=BC=8C=E5=9B=A0=E6=AD=A4=E4=B8=8D=E8=83=BD=
-=E7=9D=A1=E7=9C=A0=E3=80=82parallel()=E5=87=BD=E6=95=B0=E6=8A=8A=E8=8E=B7=
-=E5=BE=97=E7=9A=84padata_priv=E7=BB=93=E6=9E=84=E4=BD=93=E6=8C=87=E9=92=88=
-=E4=BD=9C=E4=B8=BA=E5=85=B6=E5=94=AF=E4=B8=80=E7=9A=84=E5=8F=82
-> +=E6=95=B0=EF=BC=9B=E5=85=B3=E4=BA=8E=E5=AE=9E=E9=99=85=E8=A6=81=E5=81=9A=
-=E7=9A=84=E5=B7=A5=E4=BD=9C=E7=9A=84=E4=BF=A1=E6=81=AF=E5=8F=AF=E8=83=BD=E6=
-=98=AF=E9=80=9A=E8=BF=87=E4=BD=BF=E7=94=A8container_of()=E6=89=BE=E5=88=B0=
-=E5=B0=81=E8=A3=85=E7=BB=93=E6=9E=84=E4=BD=93=E6=9D=A5=E8=8E=B7=E5=BE=97=E7=
-=9A=84=E3=80=82
-> +
-> +=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8Cparallel()=E6=B2=A1=E6=9C=89=E8=BF=
-=94=E5=9B=9E=E5=80=BC=EF=BC=9Bpadata=E5=AD=90=E7=B3=BB=E7=BB=9F=E5=81=87=E5=
-=AE=9Aparallel()=E5=B0=86=E4=BB=8E=E6=AD=A4=E6=97=B6=E5=BC=80=E5=A7=8B=E8=
-=B4=9F=E8=B4=A3=E8=BF=99=E9=A1=B9=E5=B7=A5
-> +=E4=BD=9C=E3=80=82=E4=BD=9C=E4=B8=9A=E4=B8=8D=E9=9C=80=E8=A6=81=E5=9C=A8=
-=E8=BF=99=E6=AC=A1=E8=B0=83=E7=94=A8=E4=B8=AD=E5=AE=8C=E6=88=90=EF=BC=8C=E4=
-=BD=86=E6=98=AF=EF=BC=8C=E5=A6=82=E6=9E=9Cparallel()=E7=95=99=E4=B8=8B=E4=
-=BA=86=E6=9C=AA=E5=AE=8C=E6=88=90=E7=9A=84=E5=B7=A5=E4=BD=9C=EF=BC=8C=E5=AE=
-=83=E5=BA=94=E8=AF=A5=E5=87=86
-> +=E5=A4=87=E5=9C=A8=E5=89=8D=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A=E5=AE=8C=
-=E6=88=90=E4=B9=8B=E5=89=8D=EF=BC=8C=E7=94=A8=E6=96=B0=E7=9A=84=E4=BD=9C=E4=
-=B8=9A=E5=86=8D=E6=AC=A1=E8=A2=AB=E8=B0=83=E7=94=A8=E3=80=82
-
-=E8=A2=AB=E4=BB=A5=E6=96=B0=E7=9A=84=E4=BD=9C=E4=B8=9A=E5=86=8D=E6=AC=A1=E8=
-=B0=83=E7=94=A8=E3=80=82
-
-> +
-> +=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A
-> +----------
-> +
-> +=E5=BD=93=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A=E5=AE=8C=E6=88=90=E6=97=B6=
-=EF=BC=8Cparallel()(=E6=88=96=E4=BB=BB=E4=BD=95=E5=AE=9E=E9=99=85=E5=AE=8C=
-=E6=88=90=E8=AF=A5=E5=B7=A5=E4=BD=9C=E7=9A=84=E5=87=BD=E6=95=B0)=E5=BA=94=
-=E8=AF=A5=E9=80=9A=E8=BF=87=E8=B0=83=E7=94=A8=E9=80=9A=E7=9F=A5padata=E8=BF=
-=99
-------------------------------=EF=BC=88--------------------------=EF=BC=89
-
-> +=E4=B8=AA=E4=BA=8B=E5=AE=9E::
-
-=E8=BF=99=E4=B8=AA=E4=BA=8B=E5=AE=9E -> =E6=AD=A4=E4=BA=8B
-
-> +
-> +    void padata_do_serial(struct padata_priv *padata);
-> +
-> +=E5=9C=A8=E6=9C=AA=E6=9D=A5=E7=9A=84=E6=9F=90=E4=B8=AA=E6=97=B6=E5=88=BB=
-=EF=BC=8Cpadata_do_serial()=E5=B0=86=E8=A7=A6=E5=8F=91=E5=AF=B9padata_priv=
-=E7=BB=93=E6=9E=84=E4=BD=93=E4=B8=ADserial()=E5=87=BD=E6=95=B0=E7=9A=84=E8=
-=B0=83
-> +=E7=94=A8=E3=80=82=E8=BF=99=E4=B8=AA=E8=B0=83=E7=94=A8=E5=B0=86=E5=8F=91=
-=E7=94=9F=E5=9C=A8=E8=A6=81=E6=B1=82=E6=9C=80=E5=88=9D=E8=B0=83=E7=94=A8pad=
-ata_do_parallel()=E7=9A=84CPU=E4=B8=8A=EF=BC=9B=E5=AE=83=E4=B9=9F=E6=98=AF=
-=E5=9C=A8=E6=9C=AC=E5=9C=B0=E8=BD=AF=E4=BB=B6=E4=B8=AD=E6=96=AD
-
-=E6=9C=80=E5=88=9D=E8=A6=81=E6=B1=82=E8=B0=83=E7=94=A8
-
-> +=E8=A2=AB=E7=A6=81=E7=94=A8=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=8B=E8=BF=90=
-=E8=A1=8C=E7=9A=84=E3=80=82
-> +=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8C=E8=BF=99=E4=B8=AA=E8=B0=83=E7=94=A8=
-=E5=8F=AF=E8=83=BD=E4=BC=9A=E8=A2=AB=E6=8E=A8=E8=BF=9F=E4=B8=80=E6=AE=B5=E6=
-=97=B6=E9=97=B4=EF=BC=8C=E5=9B=A0=E4=B8=BApadata=E4=BB=A3=E7=A0=81=E4=BC=9A=
-=E5=8A=AA=E5=8A=9B=E7=A1=AE=E4=BF=9D=E4=BD=9C=E4=B8=9A=E6=8C=89=E7=85=A7=E6=
-=8F=90=E4=BA=A4=E7=9A=84=E9=A1=BA=E5=BA=8F=E5=AE=8C
-> +=E6=88=90=E3=80=82
-> +
-> +=E9=94=80=E6=AF=81
-> +----
-> +
-> +=E6=B8=85=E7=90=86=E4=B8=80=E4=B8=AApadata=E5=AE=9E=E4=BE=8B=E6=97=B6=EF=
-=BC=8C=E5=8F=AF=E4=BB=A5=E9=A2=84=E8=A7=81=E7=9A=84=E6=98=AF=E8=B0=83=E7=94=
-=A8=E4=B8=A4=E4=B8=AAfree=E5=87=BD=E6=95=B0=EF=BC=8C=E8=BF=99=E4=B8=A4=E4=
-=B8=AA=E5=87=BD=E6=95=B0=E5=AF=B9=E5=BA=94=E4=BA=8E=E5=88=86=E9=85=8D=E7=9A=
-=84=E9=80=86=E8=BF=87=E7=A8=8B=E3=80=82::
-
-remove =E3=80=82
-
-> +
-> +    void padata_free_shell(struct padata_shell *ps);
-> +    void padata_free(struct padata_instance *pinst);
-> +
-> +=E7=94=A8=E6=88=B7=E6=9C=89=E8=B4=A3=E4=BB=BB=E7=A1=AE=E4=BF=9D=E5=9C=A8=
-=E8=B0=83=E7=94=A8=E4=B8=8A=E8=BF=B0=E4=BB=BB=E4=BD=95=E4=B8=80=E9=A1=B9=E4=
-=B9=8B=E5=89=8D=EF=BC=8C=E6=89=80=E6=9C=89=E6=9C=AA=E5=AE=8C=E6=88=90=E7=9A=
-=84=E5=B7=A5=E4=BD=9C=E9=83=BD=E5=B7=B2=E5=AE=8C=E6=88=90=E3=80=82
-> +
-> +=E8=BF=90=E8=A1=8C=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=BD=9C=E4=B8=9A
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=E4=B8=80=E4=B8=AA=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=BD=9C=E4=B8=9A=E6=9C=89=
-=E4=B8=80=E4=B8=AA=E4=B8=BB=E7=BA=BF=E7=A8=8B=E5=92=8C=E9=9B=B6=E4=B8=AA=E6=
-=88=96=E5=A4=9A=E4=B8=AA=E8=BE=85=E5=8A=A9=E7=BA=BF=E7=A8=8B=EF=BC=8C=E4=B8=
-=BB=E7=BA=BF=E7=A8=8B=E5=8F=82=E4=B8=8E=E4=BD=9C=E4=B8=9A=EF=BC=8C=E7=84=B6=
-=E5=90=8E=E7=AD=89=E5=BE=85=E6=89=80=E6=9C=89=E8=BE=85=E5=8A=A9=E7=BA=BF
-> +=E7=A8=8B=E5=AE=8C=E6=88=90=E3=80=82padata=E5=B0=86=E4=BD=9C=E4=B8=9A=E5=
-=88=86=E5=89=B2=E6=88=90=E7=A7=B0=E4=B8=BAchunk=E7=9A=84=E5=8D=95=E5=85=83=
-=EF=BC=8C=E5=85=B6=E4=B8=ADchunk=E6=98=AF=E4=B8=80=E4=B8=AA=E7=BA=BF=E7=A8=
-=8B=E5=9C=A8=E4=B8=80=E6=AC=A1=E8=B0=83=E7=94=A8=E7=BA=BF=E7=A8=8B=E5=87=BD=
-=E6=95=B0
-> +=E4=B8=AD=E5=AE=8C=E6=88=90=E7=9A=84=E4=BD=9C=E4=B8=9A=E7=89=87=E6=AE=B5=
-=E3=80=82
-> +
-> +=E7=94=A8=E6=88=B7=E5=BF=85=E9=A1=BB=E5=81=9A=E4=B8=89=E4=BB=B6=E4=BA=8B=
-=E6=9D=A5=E8=BF=90=E8=A1=8C=E4=B8=80=E4=B8=AA=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=
-=BD=9C=E4=B8=9A=E3=80=82=E9=A6=96=E5=85=88=EF=BC=8C=E9=80=9A=E8=BF=87=E5=AE=
-=9A=E4=B9=89=E4=B8=80=E4=B8=AApadata_mt_job=E7=BB=93=E6=9E=84=E4=BD=93=E6=
-=9D=A5=E6=8F=8F=E8=BF=B0
-> +=E4=BD=9C=E4=B8=9A=EF=BC=8C=E8=BF=99=E5=9C=A8=E6=8E=A5=E5=8F=A3=E9=83=A8=
-=E5=88=86=E6=9C=89=E8=A7=A3=E9=87=8A=E3=80=82=E8=BF=99=E5=8C=85=E6=8B=AC=E4=
-=B8=80=E4=B8=AA=E6=8C=87=E5=90=91=E7=BA=BF=E7=A8=8B=E5=87=BD=E6=95=B0=E7=9A=
-=84=E6=8C=87=E9=92=88=EF=BC=8Cpadata=E6=AF=8F=E6=AC=A1=E5=B0=86=E4=BD=9C=E4=
-=B8=9A=E5=9D=97=E5=88=86=E9=85=8D=E7=BB=99=E7=BA=BF
-> +=E7=A8=8B=E6=97=B6=E9=83=BD=E4=BC=9A=E8=B0=83=E7=94=A8=E8=BF=99=E4=B8=AA=
-=E5=87=BD=E6=95=B0=E3=80=82=E7=84=B6=E5=90=8E=EF=BC=8C=E5=AE=9A=E4=B9=89=E7=
-=BA=BF=E7=A8=8B=E5=87=BD=E6=95=B0=EF=BC=8C=E5=AE=83=E6=8E=A5=E5=8F=97=E4=B8=
-=89=E4=B8=AA=E5=8F=82=E6=95=B0=EF=BC=9A `start` =E3=80=81 `end` =E5=92=8C `=
-arg` =EF=BC=8C
-
-``<code>``
-
-> +=E5=85=B6=E4=B8=AD=E5=89=8D=E4=B8=A4=E4=B8=AA=E5=8F=82=E6=95=B0=E9=99=90=
-=E5=AE=9A=E4=BA=86=E7=BA=BF=E7=A8=8B=E6=93=8D=E4=BD=9C=E7=9A=84=E8=8C=83=E5=
-=9B=B4=EF=BC=8C=E6=9C=80=E5=90=8E=E4=B8=80=E4=B8=AA=E6=98=AF=E6=8C=87=E5=90=
-=91=E4=BD=9C=E4=B8=9A=E5=85=B1=E4=BA=AB=E7=8A=B6=E6=80=81=E7=9A=84=E6=8C=87=
-=E9=92=88=EF=BC=8C=E5=A6=82=E6=9E=9C=E6=9C=89=E7=9A=84=E8=AF=9D=E3=80=82
-> +=E5=87=86=E5=A4=87=E5=A5=BD=E5=85=B1=E4=BA=AB=E7=8A=B6=E6=80=81=EF=BC=8C=
-=E5=AE=83=E9=80=9A=E5=B8=B8=E8=A2=AB=E5=88=86=E9=85=8D=E5=9C=A8=E4=B8=BB=E7=
-=BA=BF=E7=A8=8B=E7=9A=84=E5=A0=86=E6=A0=88=E4=B8=AD=E3=80=82=E6=9C=80=E5=90=
-=8E=EF=BC=8C=E8=B0=83=E7=94=A8padata_do_multithreaded()=EF=BC=8C
-> +=E5=AE=83=E5=B0=86=E5=9C=A8=E4=BD=9C=E4=B8=9A=E5=AE=8C=E6=88=90=E5=90=8E=
-=E8=BF=94=E5=9B=9E=E3=80=82
-> +
-> +=E6=8E=A5=E5=8F=A3
-> +=3D=3D=3D=3D
-> +
-> +=E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
-=81=E4=B8=AD:
-> +
-> +include/linux/padata.h
-> +
-> +kernel/padata.c
-> --=20
-> 2.27.0
-
-Thanks,
-        Wu X.C.
-
---AhhlLboLdkugWU4S
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCugs8ACgkQtlsoEiKC
-sIU+wgv+MwmPWU1rUb7VfCtrf0RKrOJRVgTJDSbsz4ehC04l7naDQWKBSCelUvzE
-0B+okj9AjWw3uPPuHZBNOxgc9kMu40V5x+qWN+TvLFA7G19N/LOLQWEIaDSPq5zR
-mQ5v33iuwnZyK+UQ73Cf4Y4bxccvPITpIVeLk1hqr6zfmCF5XaflxjL32kGS3Wze
-g8Ee7rJPU1qUmQn7IEVuixqLLweCHwYim22edF6AnZ6uFE1f1ZJ5lxXdRUAssom3
-7ffk/6hWXmTzsKsIZOFDluVdGjOjDTwN7p5ZnKqRF7shhZGVqoi+V43Qy68daRKU
-uWt6Vc8qOhmPwHBOwsuok3TMuArahTgKU4tlDcKtggyO0WEoxbshHbu6rpameFe8
-IxYqkmybmrgHsbywFMTjd94IgBOwWnQWkoyOKhutyeEr44rSvWilUoD2C25HNQJw
-BLWKJIj9FfFJfUq/oJRNQys8jIze/BBzT9Xq4OzNsoF9kAI98YHvZQTz0ZMVpuO9
-w2smwYbd
-=NqCY
------END PGP SIGNATURE-----
-
---AhhlLboLdkugWU4S--
+diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+new file mode 100644
+index 000000000000..585edf16183b
+--- /dev/null
++++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+@@ -0,0 +1,211 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Core Scheduling
++***************
++Core scheduling support allows userspace to define groups of tasks that can
++share a core. These groups can be specified either for security usecases (one
++group of tasks don't trust another), or for performance usecases (some
++workloads may benefit from running on the same core as they don't need the same
++hardware resources of the shared core, or may prefer different cores if they
++do share hardware resource needs). This document only describes the security
++usecase.
++
++Security usecase
++----------------
++A cross-HT attack involves the attacker and victim running on different Hyper
++Threads of the same core. MDS and L1TF are examples of such attacks.  The only
++full mitigation of cross-HT attacks is to disable Hyper Threading (HT). Core
++scheduling is a scheduler feature that can mitigate some (not all) cross-HT
++attacks. It allows HT to be turned on safely by ensuring that tasks in a
++user-designated trusted group can share a core. This increase in core sharing
++can also improve performance, however it is not guaranteed that performance
++will always improve, though that is seen to be the case with a number of real
++world workloads. In theory, core scheduling aims to perform at least as good as
++when Hyper Threading is disabled. In practice, this is mostly the case though
++not always: as synchronizing scheduling decisions across 2 or more CPUs in a
++core involves additional overhead - especially when the system is lightly
++loaded. When ``total_threads <= N_CPUS/2``, the extra overhead may cause core
++scheduling to perform more poorly compared to SMT-disabled, where N_CPUS is the
++total number of CPUs. Please measure the performance of your workloads always.
++
++Usage
++-----
++Core scheduling support is enabled via the ``CONFIG_SCHED_CORE`` config option.
++Using this feature, userspace defines groups of tasks that can be co-scheduled
++on the same core. The core scheduler uses this information to make sure that
++tasks that are not in the same group never run simultaneously on a core, while
++doing its best to satisfy the system's scheduling requirements.
++
++Core scheduling can be enabled via the ``PR_SCHED_CORE`` prctl interface.
++This interface provides support for the creation of core scheduling groups, as
++well as admission and removal of tasks from created groups.
++
++::
++
++    #include <sys/prctl.h>
++
++    int prctl(int option, unsigned long arg2, unsigned long arg3,
++            unsigned long arg4, unsigned long arg5);
++
++option:
++    ``PR_SCHED_CORE``
++
++arg2:
++    Command for operation, must be one off:
++    - ``PR_SCHED_CORE_GET              0  -- get core_sched cookie of ``pid``.
++    - ``PR_SCHED_CORE_CREATE           1  -- create a new unique cookie for ``pid``.
++    - ``PR_SCHED_CORE_SHARE_TO         2  -- push core_sched cookie to ``pid``.
++    - ``PR_SCHED_CORE_SHARE_FROM       3  -- pull core_sched cookie from ``pid``.
++
++arg3:
++    ``pid`` of the task for which the operation applies.
++
++arg4:
++    ``pid_type`` for which the operation applies. It is of type ``enum pid_type``.
++    For example, if arg4 is ``PIDTYPE_TGID``, then the operation of this command
++    will be performed for all tasks in the task group of ``pid``.
++
++arg5:
++    userspace pointer to an unsigned long for storing the cookie returned by
++    ``PR_SCHED_CORE_GET`` command. Should be 0 for all other commands.
++
++Cookie Transferral
++~~~~~~~~~~~~~~~~~~
++Transferring a cookie between the current and other tasks is possible using
++PR_SCHED_CORE_SHARE_FROM and PR_SCHED_CORE_SHARE_TO to inherit a cookie from a
++specified task or a share a cookie with a task. In combination this allows a
++simple helper program to pull a cookie from a task in an existing core
++scheduling group and share it with already running tasks.
++
++Design/Implementation
++---------------------
++Each task that is tagged is assigned a cookie internally in the kernel. As
++mentioned in `Usage`_, tasks with the same cookie value are assumed to trust
++each other and share a core.
++
++The basic idea is that, every schedule event tries to select tasks for all the
++siblings of a core such that all the selected tasks running on a core are
++trusted (same cookie) at any point in time. Kernel threads are assumed trusted.
++The idle task is considered special, as it trusts everything and everything
++trusts it.
++
++During a schedule() event on any sibling of a core, the highest priority task on
++the sibling's core is picked and assigned to the sibling calling schedule(), if
++the sibling has the task enqueued. For rest of the siblings in the core,
++highest priority task with the same cookie is selected if there is one runnable
++in their individual run queues. If a task with same cookie is not available,
++the idle task is selected.  Idle task is globally trusted.
++
++Once a task has been selected for all the siblings in the core, an IPI is sent to
++siblings for whom a new task was selected. Siblings on receiving the IPI will
++switch to the new task immediately. If an idle task is selected for a sibling,
++then the sibling is considered to be in a `forced idle` state. I.e., it may
++have tasks on its on runqueue to run, however it will still have to run idle.
++More on this in the next section.
++
++Forced-idling of tasks
++----------------------
++The scheduler tries its best to find tasks that trust each other such that all
++tasks selected to be scheduled are of the highest priority in a core.  However,
++it is possible that some runqueues had tasks that were incompatible with the
++highest priority ones in the core. Favoring security over fairness, one or more
++siblings could be forced to select a lower priority task if the highest
++priority task is not trusted with respect to the core wide highest priority
++task.  If a sibling does not have a trusted task to run, it will be forced idle
++by the scheduler (idle thread is scheduled to run).
++
++When the highest priority task is selected to run, a reschedule-IPI is sent to
++the sibling to force it into idle. This results in 4 cases which need to be
++considered depending on whether a VM or a regular usermode process was running
++on either HT::
++
++          HT1 (attack)            HT2 (victim)
++   A      idle -> user space      user space -> idle
++   B      idle -> user space      guest -> idle
++   C      idle -> guest           user space -> idle
++   D      idle -> guest           guest -> idle
++
++Note that for better performance, we do not wait for the destination CPU
++(victim) to enter idle mode. This is because the sending of the IPI would bring
++the destination CPU immediately into kernel mode from user space, or VMEXIT
++in the case of guests. At best, this would only leak some scheduler metadata
++which may not be worth protecting. It is also possible that the IPI is received
++too late on some architectures, but this has not been observed in the case of
++x86.
++
++Trust model
++-----------
++Core scheduling maintains trust relationships amongst groups of tasks by
++assigning them a tag that is the same cookie value.
++When a system with core scheduling boots, all tasks are considered to trust
++each other. This is because the core scheduler does not have information about
++trust relationships until userspace uses the above mentioned interfaces, to
++communicate them. In other words, all tasks have a default cookie value of 0.
++and are considered system-wide trusted. The stunning of siblings running
++cookie-0 tasks is also avoided.
++
++Once userspace uses the above mentioned interfaces to group sets of tasks, tasks
++within such groups are considered to trust each other, but do not trust those
++outside. Tasks outside the group also don't trust tasks within.
++
++Limitations of core-scheduling
++------------------------------
++Core scheduling tries to guarantee that only trusted tasks run concurrently on a
++core. But there could be small window of time during which untrusted tasks run
++concurrently or kernel could be running concurrently with a task not trusted by
++kernel.
++
++1. IPI processing delays
++########################
++Core scheduling selects only trusted tasks to run together. IPI is used to notify
++the siblings to switch to the new task. But there could be hardware delays in
++receiving of the IPI on some arch (on x86, this has not been observed). This may
++cause an attacker task to start running on a CPU before its siblings receive the
++IPI. Even though cache is flushed on entry to user mode, victim tasks on siblings
++may populate data in the cache and micro architectural buffers after the attacker
++starts to run and this is a possibility for data leak.
++
++Open cross-HT issues that core scheduling does not solve
++--------------------------------------------------------
++1. For MDS
++##########
++Core scheduling cannot protect against MDS attacks between an HT running in
++user mode and another running in kernel mode. Even though both HTs run tasks
++which trust each other, kernel memory is still considered untrusted. Such
++attacks are possible for any combination of sibling CPU modes (host or guest mode).
++
++2. For L1TF
++###########
++Core scheduling cannot protect against an L1TF guest attacker exploiting a
++guest or host victim. This is because the guest attacker can craft invalid
++PTEs which are not inverted due to a vulnerable guest kernel. The only
++solution is to disable EPT (Extended Page Tables).
++
++For both MDS and L1TF, if the guest vCPU is configured to not trust each
++other (by tagging separately), then the guest to guest attacks would go away.
++Or it could be a system admin policy which considers guest to guest attacks as
++a guest problem.
++
++Another approach to resolve these would be to make every untrusted task on the
++system to not trust every other untrusted task. While this could reduce
++parallelism of the untrusted tasks, it would still solve the above issues while
++allowing system processes (trusted tasks) to share a core.
++
++3. Protecting the kernel (IRQ, syscall, VMEXIT)
++###############################################
++Unfortunately, core scheduling does not protect kernel contexts running on
++sibling hyperthreads from one another. Prototypes of mitigations have been posted
++to LKML to solve this, but it is debatable whether such windows are practically
++exploitable, and whether the performance overhead of the prototypes are worth
++it (not to mention, the added code complexity).
++
++Other Use cases
++---------------
++The main use case for Core scheduling is mitigating the cross-HT vulnerabilities
++with SMT enabled. There are other use cases where this feature could be used:
++
++- Isolating tasks that needs a whole core: Examples include realtime tasks, tasks
++  that uses SIMD instructions etc.
++- Gang scheduling: Requirements for a group of tasks that needs to be scheduled
++  together could also be realized using core scheduling. One example is vCPUs of
++  a VM.
+diff --git a/Documentation/admin-guide/hw-vuln/index.rst b/Documentation/admin-guide/hw-vuln/index.rst
+index ca4dbdd9016d..f12cda55538b 100644
+--- a/Documentation/admin-guide/hw-vuln/index.rst
++++ b/Documentation/admin-guide/hw-vuln/index.rst
+@@ -15,3 +15,4 @@ are configurable at compile, boot or run time.
+    tsx_async_abort
+    multihit.rst
+    special-register-buffer-data-sampling.rst
++   core-scheduling.rst
+-- 
+2.31.1.818.g46aad6cb9e-goog
 
