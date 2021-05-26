@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CC8C47082
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:40:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B73C47088
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:43:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B0D0613F0
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:40:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A414C61057
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 21:43:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233357AbhEZVlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 17:41:53 -0400
-Received: from foss.arm.com ([217.140.110.172]:50156 "EHLO foss.arm.com"
+        id S233040AbhEZVoo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 17:44:44 -0400
+Received: from foss.arm.com ([217.140.110.172]:50186 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234070AbhEZVlv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 May 2021 17:41:51 -0400
+        id S232976AbhEZVoo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 May 2021 17:44:44 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69A3C11D4;
-        Wed, 26 May 2021 14:40:19 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69F2F6D;
+        Wed, 26 May 2021 14:43:12 -0700 (PDT)
 Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFA4D3F73B;
-        Wed, 26 May 2021 14:40:12 -0700 (PDT)
-Date:   Wed, 26 May 2021 22:40:05 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCA213F73B;
+        Wed, 26 May 2021 14:43:10 -0700 (PDT)
+Date:   Wed, 26 May 2021 22:43:08 +0100
 From:   Beata Michalska <beata.michalska@arm.com>
 To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
 Cc:     Valentin Schneider <valentin.schneider@arm.com>,
@@ -34,7 +34,7 @@ Cc:     Valentin Schneider <valentin.schneider@arm.com>,
         linux-doc@vger.kernel.org
 Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
  detection
-Message-ID: <20210526214004.GA1712@e120325.cambridge.arm.com>
+Message-ID: <20210526214308.GB1712@e120325.cambridge.arm.com>
 References: <20210524101617.8965-1-beata.michalska@arm.com>
  <20210524101617.8965-3-beata.michalska@arm.com>
  <87fsyc6mfz.mognet@arm.com>
@@ -43,108 +43,120 @@ References: <20210524101617.8965-1-beata.michalska@arm.com>
  <20210525102945.GA24210@e120325.cambridge.arm.com>
  <98ad8837-b9b8-ff50-5a91-8d5951ee757c@arm.com>
  <20210526121546.GA13262@e120325.cambridge.arm.com>
- <20210526125133.GB13262@e120325.cambridge.arm.com>
- <d4dc6630-041f-bf61-898a-6f402b993fbc@arm.com>
+ <1cae4fcc-d276-f66d-c094-35571233d923@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d4dc6630-041f-bf61-898a-6f402b993fbc@arm.com>
+In-Reply-To: <1cae4fcc-d276-f66d-c094-35571233d923@arm.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 26, 2021 at 08:17:41PM +0200, Dietmar Eggemann wrote:
-> On 26/05/2021 14:51, Beata Michalska wrote:
-> > On Wed, May 26, 2021 at 01:15:46PM +0100, Beata Michalska wrote:
-> >> On Wed, May 26, 2021 at 11:52:25AM +0200, Dietmar Eggemann wrote:
-> >>> On 25/05/2021 12:29, Beata Michalska wrote:
-> >>>> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
-> >>>>> On 24/05/21 23:55, Beata Michalska wrote:
-> >>>>>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
-> >>>>>>> On 24/05/21 11:16, Beata Michalska wrote:
+On Wed, May 26, 2021 at 08:17:25PM +0200, Dietmar Eggemann wrote:
+> On 26/05/2021 14:15, Beata Michalska wrote:
+> > On Wed, May 26, 2021 at 11:52:25AM +0200, Dietmar Eggemann wrote:
+> >> On 25/05/2021 12:29, Beata Michalska wrote:
+> >>> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
+> >>>> On 24/05/21 23:55, Beata Michalska wrote:
+> >>>>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
+> >>>>>> On 24/05/21 11:16, Beata Michalska wrote:
 > 
 > [...]
 > 
-> >>> BTW, how would this mechanism behave on a system with SMT and asymmetric CPU
-> >>> capacity? Something EAS wouldn't allow but I guess asym_cap_list will be
-> >>> constructed and the SD_ASYM_CPUCAPACITY_XXX flags will be set?
-> >> Yes, the list would get created and flags set. I do not think there is
-> >> a difference with current approach (?). So EAS would be disabled (it only cares
-> >> about SD_ASYM_CPUCAPACITY_FULL flag) but the misift might still kick in.
+> >> static inline int
+> >> asym_cpu_capacity_classify(struct sched_domain *sd, 
+> >>                            const struct cpumask *cpu_map)
+> >> {
+> >>         int sd_span_match = 0, cpu_map_match = 0, flags = 0; 
+> >>         struct asym_cap_data *entry;
 > >>
-> > That depends on the arch_scale_cpu_capacity. I would imagine it would
-> > return SCHED_CAPACITY_SCALE for those, which means no asymmetry will
-> > be detected ?
+> >>         list_for_each_entry(entry, &asym_cap_list, link) {
+> >>                 if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask))
+> >>                         ++sd_span_match;
+> >>                 else if (cpumask_intersects(cpu_map, entry->cpu_mask))
+> >>                         ++cpu_map_match;
+> >>         }
+> >>
+> >>         WARN_ON_ONCE(!sd_span_match);
+> >>
+> >>         if (sd_span_match > 1) { 
+> >>                 flags |= SD_ASYM_CPUCAPACITY;
+> >>                 if (!cpu_map_match)
+> >>                         flags |= SD_ASYM_CPUCAPACITY_FULL;
+> >>         }
+> >>
+> >>         return flags;
+> >> }
+> > So I planned to drop the list_is_singular check as it is needless really.
+> > Otherwise, I am not really convinced by the suggestion. I could add comments
+> > around current version to make it more ..... 'digestible' but I'd rather
+> > stay with it as it seems more compact to me (subjective).
 > 
-> I was thinking about an erroneous dts file like:
-> 
->                 cpu-map {
->                         cluster0 {
->                                 core0 {
-> 					thread0 {
->                                         	cpu = <&A53_0>;
-> 					};
-> 					thread1 {
->                                         	cpu = <&A53_1>;
-> 					};
->                                 };
->                                 core1 {
-> 					thread0 {
->                                         	cpu = <&A53_2>;
-> 					};
-> 					thread1 {
->                                         	cpu = <&A53_3>;
-> 					};
->                                 };
->                                 core2 {
-> 					thread0 {
->                                         	cpu = <&A53_4>;
-> 					};
-> 					thread1 {
->                                         	cpu = <&A53_5>;
-> 					};
->                                 };
->                         };
-> 
->                         cluster1 {
->                                 core0 {
-> 					thread0 {
->                                         	cpu = <&A53_6>;
-> 					};
-> 					thread1 {
->                                         	cpu = <&A53_7>;
-> 					};
->                                 };
->                         };
->                 };
-> 
-> 		A53_0: cpu@0 {
-> 			capacity-dmips-mhz = <446>;
-> 	 	A53_1: cpu@1 {
-> 			capacity-dmips-mhz = <1024>;
-> 		A53_2: cpu@2 {
-> 			capacity-dmips-mhz = <871>;
-> 		A53_3: cpu@3 {
-> 			capacity-dmips-mhz = <1024>;
-> 		A53_4: cpu@4 {
-> 			capacity-dmips-mhz = <446>;
-> 		A53_5: cpu@5 {
-> 			capacity-dmips-mhz = <871>;
-> 		A53_6: cpu@6 {
-> 			capacity-dmips-mhz = <1024>;
-> 		A53_7: cpu@7 {
-> 			capacity-dmips-mhz = <1024>;
-> 
-> Here I guess SD_ASYM_CPUCAPACITY will be attached to SMT[0-5]. So this
-> 'capacity-dmips-mhz' config error won't be detected.
-> 
-> In case all CPUs (i.e. hw threads would have the correct
-> capacity-dmips-mhz = <1024> or not being set (default 1024))
-> asym_cap_list would corrcetly only have 1 entry.
-We could possibly add a warning (like in EAS) if the asymmetry is detected
-for SMT which would give some indication that there is smth ... wrong ?
+> You could pass in `const struct cpumask *sd_span` instead of `struct
+> sched_domain *sd` though. To make it clear that both masks are used to
+> compare against the cpumasks of the asym_cap_list entries.
+>
+I could definitely do that, though if I switch to arrays for CPUs masks,
+it might get a bit confusing again.
+No strong preferences here though. Can do either or both.
+
+Thanks.
 
 ---
 BR
 B.
+>  static inline int
+> -asym_cpu_capacity_classify(struct sched_domain *sd,
+> +asym_cpu_capacity_classify(const struct cpumask *sd_span,
+>  			   const struct cpumask *cpu_map)
+>  {
+>  	int sd_asym_flags = SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
+> @@ -1377,14 +1378,14 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
+>  		goto leave;
+>  
+>  	list_for_each_entry(entry, &asym_cap_list, link) {
+> -		if (cpumask_intersects(sched_domain_span(sd), entry->cpu_mask)) {
+> +		if (cpumask_intersects(sd_span, entry->cpu_mask)) {
+>  			++asym_cap_count;
+>  		} else {
+>  			/*
+>  			 * CPUs with given capacity might be offline
+>  			 * so make sure this is not the case
+>  			 */
+> -			if (cpumask_intersects(entry->cpu_mask, cpu_map)) {
+> +			if (cpumask_intersects(cpu_map, entry->cpu_mask)) {
+>  				sd_asym_flags &= ~SD_ASYM_CPUCAPACITY_FULL;
+>  				if (asym_cap_count > 1)
+>  					break;
+> @@ -1395,7 +1396,6 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
+>  leave:
+>  	return asym_cap_count > 1 ? sd_asym_flags : 0;
+>  }
+> -#endif
+>  
+>  static inline struct asym_cap_data *
+>  asym_cpu_capacity_get_data(unsigned long capacity)
+> @@ -1589,6 +1589,7 @@ sd_init(struct sched_domain_topology_level *tl,
+>  	struct sd_data *sdd = &tl->data;
+>  	struct sched_domain *sd = *per_cpu_ptr(sdd->sd, cpu);
+>  	int sd_id, sd_weight, sd_flags = 0;
+> +	struct cpumask *sd_span;
+>  
+>  #ifdef CONFIG_NUMA
+>  	/*
+> @@ -1636,10 +1637,11 @@ sd_init(struct sched_domain_topology_level *tl,
+>  #endif
+>  	};
+>  
+> -	cpumask_and(sched_domain_span(sd), cpu_map, tl->mask(cpu));
+> -	sd_id = cpumask_first(sched_domain_span(sd));
+> +	sd_span = sched_domain_span(sd);
+> +	cpumask_and(sd_span, cpu_map, tl->mask(cpu));
+> +	sd_id = cpumask_first(sd_span);
+>  
+> -	sd->flags |= asym_cpu_capacity_classify(sd, cpu_map);
+> +	sd->flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
+>  	/*
+>  	 * Convert topological properties into behaviour.
+>  	 */
