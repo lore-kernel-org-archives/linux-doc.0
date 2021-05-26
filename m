@@ -2,157 +2,538 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 007B9C47088
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 17:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5594AC47082
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 17:18:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFBE6613F1
-	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 17:15:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FC06613BE
+	for <linux-doc@archiver.kernel.org>; Wed, 26 May 2021 17:18:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234197AbhEZRQb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 13:16:31 -0400
-Received: from mga14.intel.com ([192.55.52.115]:5589 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234188AbhEZRQa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 May 2021 13:16:30 -0400
-IronPort-SDR: ewagfwxBD2wBh9ww41t60xXRMdAHyP5KcHxnGOLd/+JeLhSYUo7G4pNK/Q/EFn9vbcQP2lgQ8C
- wuvGU87+c0JA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="202277177"
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; 
-   d="scan'208";a="202277177"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2021 10:14:57 -0700
-IronPort-SDR: rMn/9UR7w7MAQJDLp/3RxcLw2YnxpI1aQOCKUiXdtLLnZLpVLFCL3enkIKFrPeYR42YtUP0S89
- axXYofxh/3yQ==
-X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; 
-   d="scan'208";a="615036247"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2021 10:14:49 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id DB3CD2011E;
-        Wed, 26 May 2021 20:14:47 +0300 (EEST)
-Date:   Wed, 26 May 2021 20:14:47 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: Re: [PATCH v5 00/16] Allwinner MIPI CSI-2 support for A31/V3s/A83T
-Message-ID: <20210526171447.GF3@paasikivi.fi.intel.com>
-References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
- <f92c0812-7e1c-74e4-602b-7a885ef31454@xs4all.nl>
- <YK5M9PyUB4IfuaNU@aptenodytes>
+        id S234363AbhEZRUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 13:20:02 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:38762 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234273AbhEZRT4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 May 2021 13:19:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=hluMyUblEZLiDVAnIP3YBg31138mFukHu7ltd
+        gSxydA=; b=aqr9dcfmtx7zce9uZlvEg7fW8GsZy1lWgSsRcvmDa0rYgQC9/IPW7
+        lstckXzMtxl+2bKHrq3kj1kBzbVEeweUbltp1ydITVpcF0W/0YA6KR9CLNBDzEqP
+        UL6iADMV2eOppA3bp2irgzrDlZXYTsn95JdFl7UrAEsKpmm1wGrMiI=
+Received: from bobwxc.top (unknown [112.96.132.211])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgCXXkHTgq5gc_k_AA--.18720S2;
+        Thu, 27 May 2021 01:18:13 +0800 (CST)
+Date:   Thu, 27 May 2021 01:18:11 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: Re: [PATCH] docs/zh_CN:add core-api padata translation
+Message-ID: <20210526171811.GA3700@bobwxc.top>
+References: <20210525120501.2149992-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="AhhlLboLdkugWU4S"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YK5M9PyUB4IfuaNU@aptenodytes>
+In-Reply-To: <20210525120501.2149992-1-siyanteng@loongson.cn>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgCXXkHTgq5gc_k_AA--.18720S2
+X-Coremail-Antispam: 1UD129KBjvJXoWfJr1kGF4rWFWDWw43AF4kCrg_yoWkJFWxpr
+        9xGryfGa18trykurn8Gr17Gr1xG3yxWwsrKa18JF1fJr1ayrW7Jr4jqFyfAFW7Wryvk34k
+        Ar4YgF4j93srCFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUy0b7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
+        vE52x082IY62kv0487M2AExVA0xI801c8C04v7Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+        7VCjz48v1sIEY20_Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIec
+        xEwVAFwVW8MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E
+        4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
+        WUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
+        Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rV
+        WUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4U
+        YxBIdaVFxhVjvjDU0xZFpf9x07Uf-B_UUUUU=
+X-Originating-IP: [112.96.132.211]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Paul,
 
-On Wed, May 26, 2021 at 03:28:20PM +0200, Paul Kocialkowski wrote:
-> Hi,
-> 
-> On Wed 26 May 21, 14:00, Hans Verkuil wrote:
-> > Hi Paul,
-> > 
-> > On 15/01/2021 21:01, Paul Kocialkowski wrote:
-> > > This series introduces support for MIPI CSI-2, with the A31 controller that is
-> > > found on most SoCs (A31, V3s and probably V5) as well as the A83T-specific
-> > > controller. While the former uses the same MIPI D-PHY that is already supported
-> > > for DSI, the latter embeds its own D-PHY.
-> > > 
-> > > In order to distinguish the use of the D-PHY between Rx mode (for MIPI CSI-2)
-> > > and Tx mode (for MIPI DSI), a submode is introduced for D-PHY in the PHY API.
-> > > This allows adding Rx support in the A31 D-PHY driver.
-> > > 
-> > > A few changes and fixes are applied to the A31 CSI controller driver, in order
-> > > to support the MIPI CSI-2 use-case.
-> > 
-> > Besides the compile error for patch 2/16, I also get several other compile errors:
-> > 
-> > drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c: In function ‘sun6i_csi_v4l2_fwnode_init’:
-> > ./include/media/v4l2-async.h:207:10: error: expected expression before ‘)’ token
-> >   207 |  ((type *)       \
-> >       |          ^
-> > drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c:790:8: note: in expansion of macro ‘v4l2_async_notifier_add_fwnode_remote_subdev’
-> >   790 |  ret = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
-> >       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/media/v4l2-async.h:207:10: error: expected expression before ‘)’ token
-> >   207 |  ((type *)       \
-> >       |          ^
-> > drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c:811:8: note: in expansion of macro ‘v4l2_async_notifier_add_fwnode_remote_subdev’
-> >   811 |  ret = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
-> >       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > make[5]: *** [scripts/Makefile.build:272: drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.o] Error 1
-> > make[5]: *** Waiting for unfinished jobs....
-> > make[4]: *** [scripts/Makefile.build:272: drivers/media/platform/rockchip/rkisp1/rkisp1-isp.o] Error 1
-> > make[3]: *** [scripts/Makefile.build:515: drivers/media/platform/rockchip/rkisp1] Error 2
-> > make[3]: *** Waiting for unfinished jobs....
-> > In file included from ./include/media/v4l2-subdev.h:14,
-> >                  from ./include/media/v4l2-device.h:13,
-> >                  from drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:19:
-> > drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c: In function ‘sun8i_a83t_mipi_csi2_v4l2_setup’:
-> > ./include/media/v4l2-async.h:207:10: error: expected expression before ‘)’ token
-> >   207 |  ((type *)       \
-> >       |          ^
-> > drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:495:8: note: in expansion of macro
-> > ‘v4l2_async_notifier_add_fwnode_remote_subdev’
-> >   495 |  ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
-> >       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > In file included from ./include/media/v4l2-subdev.h:14,
-> >                  from ./include/media/v4l2-device.h:13,
-> >                  from drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:18:
-> > drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c: In function ‘sun6i_mipi_csi2_v4l2_setup’:
-> > ./include/media/v4l2-async.h:207:10: error: expected expression before ‘)’ token
-> >   207 |  ((type *)       \
-> >       |          ^
-> > drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:437:8: note: in expansion of macro ‘v4l2_async_notifier_add_fwnode_remote_subdev’
-> >   437 |  ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
-> >       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > Can you rebase this series?
-> 
-> Thanks for letting me know, I'll look into this for the next iteration.
-> 
-> > I also need Acked-by's for patches 1-3 from one of the PHY maintainers, but as
-> > you mentioned this might need to change as well.
-> > 
-> > Was there a reason why I haven't looked at this before? It's quite an old series,
-> > usually I don't wait for so long. If it was because I was really slow, then I
-> > apologize and please kick me sooner if you see a review like this take so long.
-> 
-> I'm not sure, but Sakari definitely went over previous interations and made
-> various comments,so the series definitely hasn't gone unreviewed!
+--AhhlLboLdkugWU4S
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-My acks seem to be missing. Let me go through it. As for Hans: please ping
-if you don't get reviews.
+Hi Yanteng,
 
--- 
-Kind regards,
+On Tue, May 25, 2021 at 08:05:01PM +0800, Yanteng Si wrote:
+> Translate Documentation/core-api/padata.rst into Chinese.
+>=20
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/core-api/index.rst     |   2 +-
+>  .../translations/zh_CN/core-api/padata.rst    | 158 ++++++++++++++++++
+>  2 files changed, 159 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/padata.rst
+>=20
+> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Docume=
+ntation/translations/zh_CN/core-api/index.rst
+> index a1dd792e46f7..fc2f326d6d23 100644
+> --- a/Documentation/translations/zh_CN/core-api/index.rst
+> +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> @@ -65,12 +65,12 @@ Linux=E5=A6=82=E4=BD=95=E8=AE=A9=E4=B8=80=E5=88=87=E5=
+=90=8C=E6=97=B6=E5=8F=91=E7=94=9F=E3=80=82 =E8=AF=A6=E6=83=85=E8=AF=B7=E5=
+=8F=82=E9=98=85
+>     :maxdepth: 1
+> =20
+>     irq/index
+> +   padata
+> =20
+>  Todolist:
+> =20
+>     refcount-vs-atomic
+>     local_ops
+> -   padata
+>     ../RCU/index
+> =20
+>  =E4=BD=8E=E7=BA=A7=E7=A1=AC=E4=BB=B6=E7=AE=A1=E7=90=86
+> diff --git a/Documentation/translations/zh_CN/core-api/padata.rst b/Docum=
+entation/translations/zh_CN/core-api/padata.rst
+> new file mode 100644
+> index 000000000000..607cbad3075a
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/padata.rst
+> @@ -0,0 +1,158 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/core-api/padata.rst
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_core_api_padata.rst:
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +padata=E5=B9=B6=E8=A1=8C=E6=89=A7=E8=A1=8C=E6=9C=BA=E5=88=B6
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +:Date: 2020=E5=B9=B45=E6=9C=88
 
-Sakari Ailus
+=E6=97=A5=E6=9C=9F=EF=BC=9F
+
+> +
+> +Padata=E6=98=AF=E4=B8=80=E7=A7=8D=E6=9C=BA=E5=88=B6=EF=BC=8C=E9=80=9A=E8=
+=BF=87=E8=BF=99=E7=A7=8D=E6=9C=BA=E5=88=B6=EF=BC=8C=E5=86=85=E6=A0=B8=E5=8F=
+=AF=E4=BB=A5=E5=B0=86=E5=B7=A5=E4=BD=9C=E5=88=86=E6=95=A3=E5=88=B0=E5=A4=9A=
+=E4=B8=AACPU=E4=B8=8A=E5=B9=B6=E8=A1=8C=E5=AE=8C=E6=88=90=EF=BC=8C=E5=90=8C=
+=E6=97=B6
+
+maybe more compact
+=E9=80=9A=E8=BF=87=E6=AD=A4=E6=9C=BA=E5=88=B6=E5=86=85=E6=A0=B8=E5=8F=AF=E4=
+=BB=A5
+
+> +=E5=8F=AF=E4=BB=A5=E9=80=89=E6=8B=A9=E4=BF=9D=E6=8C=81=E5=AE=83=E4=BB=AC=
+=E7=9A=84=E9=A1=BA=E5=BA=8F=E3=80=82
+> +
+> +=E5=AE=83=E6=9C=80=E5=88=9D=E6=98=AF=E4=B8=BAIPsec=E5=BC=80=E5=8F=91=E7=
+=9A=84=EF=BC=8C=E5=AE=83=E9=9C=80=E8=A6=81=E5=9C=A8=E4=B8=8D=E5=AF=B9=E8=BF=
+=99=E4=BA=9B=E6=95=B0=E6=8D=AE=E5=8C=85=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=
+=E7=9A=84=E5=85=B6=E5=89=8D=E6=8F=90=E4=B8=8B=EF=BC=8C=E4=B8=BA=E5=A4=A7=E9=
+=87=8F=E7=9A=84=E6=95=B0
+> +=E6=8D=AE=E5=8C=85=E8=BF=9B=E8=A1=8C=E5=8A=A0=E5=AF=86=E5=92=8C=E8=A7=A3=
+=E5=AF=86=E3=80=82=E8=BF=99=E6=98=AF=E7=9B=AE=E5=89=8Dpadata=E7=9A=84=E5=BA=
+=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E6=94=AF=E6=8C=81=E7=9A=84=E5=94=AF=
+=E4=B8=80=E7=94=A8=E9=80=94=E3=80=82
+> +
+> +Padata=E8=BF=98=E6=94=AF=E6=8C=81=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=BD=9C=E4=
+=B8=9A=EF=BC=8C=E5=B0=86=E4=BD=9C=E4=B8=9A=E5=B9=B3=E5=9D=87=E5=88=86=E5=89=
+=B2=EF=BC=8C=E5=90=8C=E6=97=B6=E5=9C=A8=E7=BA=BF=E7=A8=8B=E4=B9=8B=E9=97=B4=
+=E8=BF=9B=E8=A1=8C=E8=B4=9F=E8=BD=BD=E5=9D=87=E8=A1=A1=E5=92=8C=E5=8D=8F=E8=
+=B0=83=E3=80=82
+> +
+> +=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E8=BF=90=E8=A1=8C
+
+=E8=BF=90=E8=A1=8C=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A
+
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E5=88=9D=E5=A7=8B=E5=8C=96
+> +------
+> +
+> +=E4=BD=BF=E7=94=A8padata=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E8=
+=BF=90=E8=A1=8C=E7=9A=84=E7=AC=AC=E4=B8=80=E6=AD=A5=E6=98=AF=E5=BB=BA=E7=AB=
+=8B=E4=B8=80=E4=B8=AApadata_instance=E7=BB=93=E6=9E=84=E4=BD=93=EF=BC=8C=E4=
+=BB=A5=E5=85=A8=E9=9D=A2
+
+s/=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E8=BF=90=E8=A1=8C/=E6=89=A7=
+=E8=A1=8C=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A/
+
+> +=E6=8E=A7=E5=88=B6=E4=BD=9C=E4=B8=9A=E7=9A=84=E8=BF=90=E8=A1=8C=E6=96=B9=
+=E5=BC=8F::
+> +
+> +    #include <linux/padata.h>
+> +
+> +    struct padata_instance *padata_alloc(const char *name);
+> +
+> +'name'=E7=AE=80=E5=8D=95=E5=9C=B0=E6=A0=87=E8=AF=86=E4=BA=86=E8=BF=99=E4=
+=B8=AA=E5=AE=9E=E4=BE=8B=E3=80=82
+
+=E7=AE=80=E5=8D=95=E5=9C=B0 -> =E5=8D=B3 =EF=BC=9F
+"simply" is hard to catch :>
+
+> +
+> +=E7=84=B6=E5=90=8E=EF=BC=8C=E9=80=9A=E8=BF=87=E5=88=86=E9=85=8D=E4=B8=80=
+=E4=B8=AApadata_shell=E6=9D=A5=E5=AE=8C=E6=88=90padata=E7=9A=84=E5=88=9D=E5=
+=A7=8B=E5=8C=96::
+> +
+> +   struct padata_shell *padata_alloc_shell(struct padata_instance *pinst=
+);
+> +
+> +=E4=B8=80=E4=B8=AApadata_shell=E7=94=A8=E4=BA=8E=E5=90=91padata=E6=8F=90=
+=E4=BA=A4=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A=EF=BC=8C=E5=B9=B6=E5=85=81=E8=
+=AE=B8=E4=B8=80=E7=B3=BB=E5=88=97=E8=BF=99=E6=A0=B7=E7=9A=84=E4=BD=9C=E4=B8=
+=9A=E8=A2=AB=E7=8B=AC=E7=AB=8B=E5=9C=B0
+> +=E5=BA=8F=E5=88=97=E5=8C=96=E3=80=82=E4=B8=80=E4=B8=AApadata_instance=E5=
+=8F=AF=E4=BB=A5=E6=9C=89=E4=B8=80=E4=B8=AA=E6=88=96=E5=A4=9A=E4=B8=AApadata=
+_shell=E4=B8=8E=E4=B9=8B=E7=9B=B8=E5=85=B3=E8=81=94=EF=BC=8C=E6=AF=8F=E4=B8=
+=AA
+> +=E9=83=BD=E5=85=81=E8=AE=B8=E4=B8=80=E7=B3=BB=E5=88=97=E7=8B=AC=E7=AB=8B=
+=E7=9A=84=E4=BD=9C=E4=B8=9A=E3=80=82
+> +
+> +=E4=BF=AE=E6=94=B9cpumasks
+> +------------
+> +
+> +=E7=94=A8=E4=BA=8E=E8=BF=90=E8=A1=8C=E4=BD=9C=E4=B8=9A=E7=9A=84CPU=E5=8F=
+=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E4=B8=A4=E7=A7=8D=E6=96=B9=E5=BC=8F=E6=94=B9=
+=E5=8F=98=EF=BC=8C=E9=80=9A=E8=BF=87padata_set_cpumask()=E7=BC=96=E7=A8=8B=
+=E6=88=96=E9=80=9A
+> +=E8=BF=87sysfs=E3=80=82=E5=89=8D=E8=80=85=E7=9A=84=E5=AE=9A=E4=B9=89=E6=
+=98=AF::
+> +
+> +    int padata_set_cpumask(struct padata_instance *pinst, int cpumask_ty=
+pe,
+> +			   cpumask_var_t cpumask);
+> +
+> +=E8=BF=99=E9=87=8Ccpumask_type=E6=98=AFPADATA_CPU_PARALLEL=E6=88=96PADAT=
+A_CPU_SERIAL=E4=B9=8B=E4=B8=80=EF=BC=8C=E5=85=B6=E4=B8=AD=E5=B9=B6
+
+How about
+PADATA_CPU_PARALLEL=EF=BC=88=E5=B9=B6=E8=A1=8C=EF=BC=89=E6=88=96PADATA_CPU_=
+SERIAL=EF=BC=88=E4=B8=B2=E8=A1=8C=EF=BC=89
+?
+Give references for following text.
+
+> +=E8=A1=8Ccpumask=E6=8F=8F=E8=BF=B0=E4=BA=86=E5=93=AA=E4=BA=9B=E5=A4=84=
+=E7=90=86=E5=99=A8=E5=B0=86=E8=A2=AB=E7=94=A8=E6=9D=A5=E5=B9=B6=E8=A1=8C=E6=
+=89=A7=E8=A1=8C=E6=8F=90=E4=BA=A4=E7=BB=99=E8=BF=99=E4=B8=AA=E5=AE=9E=E4=BE=
+=8B=E7=9A=84=E4=BD=9C=E4=B8=9A=EF=BC=8C=E4=B8=B2=E8=A1=8Ccpumask
+> +=E5=AE=9A=E4=B9=89=E4=BA=86=E5=93=AA=E4=BA=9B=E5=A4=84=E7=90=86=E5=99=A8=
+=E8=A2=AB=E5=85=81=E8=AE=B8=E7=94=A8=E4=BD=9C=E4=B8=B2=E8=A1=8C=E5=8C=96=E5=
+=9B=9E=E8=B0=83=E5=A4=84=E7=90=86=E5=99=A8=E3=80=82 cpumask=E6=8C=87=E5=AE=
+=9A=E4=BA=86=E8=A6=81=E4=BD=BF=E7=94=A8=E7=9A=84=E6=96=B0cpumask=E3=80=82
+-----------------------------------------------^ a space
+> +
+> +=E4=B8=80=E4=B8=AA=E5=AE=9E=E4=BE=8B=E7=9A=84 cpumasks =E5=8F=AF=E8=83=
+=BD=E6=9C=89 sysfs =E6=96=87=E4=BB=B6=E3=80=82=E4=BE=8B=E5=A6=82=EF=BC=8Cpc=
+rypt=E7=9A=84=E6=96=87=E4=BB=B6=E5=9C=A8
+-------------^--------^------^-----^ spaces
+
+> +/sys/kernel/pcrypt/<instance-name>=E3=80=82=E5=9C=A8=E4=B8=80=E4=B8=AA=
+=E5=AE=9E=E4=BE=8B=E7=9A=84=E7=9B=AE=E5=BD=95=E4=B8=AD=EF=BC=8C=E6=9C=89=E4=
+=B8=A4=E4=B8=AA=E6=96=87=E4=BB=B6=EF=BC=8Cparallel_cpumask
+> +=E5=92=8Cserial_cpumask=EF=BC=8C=E4=BB=BB=E4=BD=95=E4=B8=80=E4=B8=AAcpum=
+ask=E9=83=BD=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E5=9C=A8=E6=96=87=E4=BB=B6=
+=E4=B8=AD=E5=9B=9E=E6=98=BE=EF=BC=88echo=EF=BC=89=E4=B8=80=E4=B8=AAbitmask
+> +=E6=9D=A5=E6=94=B9=E5=8F=98=EF=BC=8C=E6=AF=94=E5=A6=82=E8=AF=B4::
+> +
+> +    echo f > /sys/kernel/pcrypt/pencrypt/parallel_cpumask
+> +
+> +=E8=AF=BB=E5=8F=96=E5=85=B6=E4=B8=AD=E4=B8=80=E4=B8=AA=E6=96=87=E4=BB=B6=
+=E4=BC=9A=E6=98=BE=E7=A4=BA=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cpu=
+mask=EF=BC=8C=E5=AE=83=E5=8F=AF=E8=83=BD=E4=B8=8E=E2=80=9C=E5=8F=AF=E7=94=
+=A8=E2=80=9D=E7=9A=84cpumask=E4=B8=8D=E5=90=8C=E3=80=82
+> +
+> +Padata=E5=86=85=E9=83=A8=E7=BB=B4=E6=8A=A4=E7=9D=80=E4=B8=A4=E5=AF=B9cpu=
+mask=EF=BC=8C=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cpumask=E5=92=8C=
+=E2=80=9C=E5=8F=AF=E7=94=A8=E7=9A=84=E2=80=9Dcpumask(=E6=AF=8F=E4=B8=80=E5=
+=AF=B9=E7=94=B1=E4=B8=80=E4=B8=AA
+> +=E5=B9=B6=E8=A1=8C=E5=92=8C=E4=B8=80=E4=B8=AA=E4=B8=B2=E8=A1=8Ccpumask=
+=E7=BB=84=E6=88=90)=E3=80=82=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cp=
+umasks=E5=9C=A8=E5=AE=9E=E4=BE=8B=E5=88=86=E9=85=8D=E6=97=B6=E9=BB=98=E8=AE=
+=A4=E4=B8=BA=E6=89=80=E6=9C=89=E5=8F=AF=E8=83=BD=E7=9A=84CPU=EF=BC=8C
+> +=E5=B9=B6=E4=B8=94=E5=8F=AF=E4=BB=A5=E5=A6=82=E4=B8=8A=E6=89=80=E8=BF=B0=
+=E8=BF=9B=E8=A1=8C=E6=9B=B4=E6=94=B9=E3=80=82=E5=8F=AF=E7=94=A8=E7=9A=84cpu=
+masks=E6=80=BB=E6=98=AF=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cpumask=
+s=E7=9A=84=E4=B8=80=E4=B8=AA=E5=AD=90=E9=9B=86=EF=BC=8C=E5=8F=AA=E5=8C=85
+> +=E5=90=AB=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84=E6=8E=A9=E7=A0=81=
+=E4=B8=AD=E7=9A=84=E5=9C=A8=E7=BA=BFCPU=EF=BC=9B=E8=BF=99=E4=BA=9B=E6=98=AF=
+padata=E5=AE=9E=E9=99=85=E4=BD=BF=E7=94=A8=E7=9A=84cpumasks=E3=80=82=E5=9B=
+=A0=E6=AD=A4=EF=BC=8C=E5=90=91padata=E6=8F=90
+> +=E4=BE=9B=E4=B8=80=E4=B8=AA=E5=8C=85=E5=90=AB=E7=A6=BB=E7=BA=BFCPU=E7=9A=
+=84cpumask=E6=98=AF=E5=90=88=E6=B3=95=E7=9A=84=E3=80=82=E4=B8=80=E6=97=A6=
+=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E7=9A=84cpumask=E4=B8=AD=E7=9A=84=E4=
+=B8=80=E4=B8=AA=E7=A6=BB=E7=BA=BFCPU=E4=B8=8A=E7=BA=BF=EF=BC=8C
+> +padata=E5=B0=B1=E4=BC=9A=E4=BD=BF=E7=94=A8=E5=AE=83=E3=80=82
+> +
+> +=E6=94=B9=E5=8F=98CPU=E6=8E=A9=E7=A0=81=E6=98=AF=E5=BE=88=E6=98=82=E8=B4=
+=B5=E7=9A=84=E6=93=8D=E4=BD=9C=EF=BC=8C=E6=89=80=E4=BB=A5=E5=AE=83=E4=B8=8D=
+=E5=BA=94=E8=AF=A5=E8=A2=AB=E9=A2=91=E7=B9=81=E5=9C=B0=E6=9B=B4=E6=94=B9=E3=
+=80=82
+
+=E6=94=B9=E5=8F=98CPU=E6=8E=A9=E7=A0=81=E7=9A=84=E6=93=8D=E4=BD=9C=E4=BB=A3=
+=E4=BB=B7=E5=BE=88=E9=AB=98=EF=BC=8C=E6=89=80=E4=BB=A5=E4=B8=8D=E5=BA=94=E9=
+=A2=91=E7=B9=81=E6=9B=B4=E6=94=B9=E3=80=82
+
+> +
+> +=E8=BF=90=E8=A1=8C=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A
+> +-------------
+> +
+> +=E5=AE=9E=E9=99=85=E4=B8=8A=E5=90=91padata=E5=AE=9E=E4=BE=8B=E6=8F=90=E4=
+=BA=A4=E5=B7=A5=E4=BD=9C=E9=9C=80=E8=A6=81=E5=88=9B=E5=BB=BA=E4=B8=80=E4=B8=
+=AApadata_priv=E7=BB=93=E6=9E=84=E4=BD=93=EF=BC=8C=E5=AE=83=E4=BB=A3=E8=A1=
+=A8=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A::
+> +
+> +    struct padata_priv {
+> +        /* Other stuff here... */
+> +	void                    (*parallel)(struct padata_priv *padata);
+> +	void                    (*serial)(struct padata_priv *padata);
+> +    };
+> +
+> +=E8=BF=99=E4=B8=AA=E7=BB=93=E6=9E=84=E4=BD=93=E5=87=A0=E4=B9=8E=E8=82=AF=
+=E5=AE=9A=E4=BC=9A=E8=A2=AB=E5=B5=8C=E5=85=A5=E5=88=B0=E4=B8=80=E4=BA=9B=E9=
+=92=88=E5=AF=B9=E8=A6=81=E5=81=9A=E7=9A=84=E5=B7=A5=E4=BD=9C=E7=9A=84=E5=A4=
+=A7=E7=BB=93=E6=9E=84=E4=BD=93=E4=B8=AD=E3=80=82=E5=AE=83=E7=9A=84=E5=A4=A7=
+=E9=83=A8=E5=88=86=E5=AD=97=E6=AE=B5=E5=AF=B9
+> +padata=E6=9D=A5=E8=AF=B4=E6=98=AF=E7=A7=81=E6=9C=89=E7=9A=84=EF=BC=8C=E4=
+=BD=86=E6=98=AF=E8=BF=99=E4=B8=AA=E7=BB=93=E6=9E=84=E4=BD=93=E5=9C=A8=E5=88=
+=9D=E5=A7=8B=E5=8C=96=E6=97=B6=E5=BA=94=E8=AF=A5=E8=A2=AB=E6=B8=85=E9=9B=B6=
+=EF=BC=8C=E5=B9=B6=E4=B8=94=E5=BA=94=E8=AF=A5=E6=8F=90=E4=BE=9Bparallel()=
+=E5=92=8C
+> +serial()=E5=87=BD=E6=95=B0=E3=80=82=E5=9C=A8=E5=AE=8C=E6=88=90=E5=B7=A5=
+=E4=BD=9C=E7=9A=84=E8=BF=87=E7=A8=8B=E4=B8=AD=EF=BC=8C=E8=BF=99=E4=BA=9B=E5=
+=87=BD=E6=95=B0=E5=B0=86=E8=A2=AB=E8=B0=83=E7=94=A8=EF=BC=8C=E6=88=91=E4=BB=
+=AC=E9=A9=AC=E4=B8=8A=E5=B0=B1=E4=BC=9A=E9=81=87=E5=88=B0=E3=80=82
+> +
+> +=E5=B7=A5=E4=BD=9C=E7=9A=84=E6=8F=90=E4=BA=A4=E6=98=AF=E9=80=9A=E8=BF=87=
+::
+> +
+> +    int padata_do_parallel(struct padata_shell *ps,
+> +		           struct padata_priv *padata, int *cb_cpu);
+> +
+> +ps=E5=92=8Cpadata=E7=BB=93=E6=9E=84=E4=BD=93=E5=BF=85=E9=A1=BB=E5=A6=82=
+=E4=B8=8A=E6=89=80=E8=BF=B0=E8=BF=9B=E8=A1=8C=E8=AE=BE=E7=BD=AE=EF=BC=9Bcb_=
+cpu=E6=8C=87=E5=90=91=E4=BD=9C=E4=B8=9A=E5=AE=8C=E6=88=90=E5=90=8E=E7=94=A8=
+=E4=BA=8E=E6=9C=80=E7=BB=88=E5=9B=9E=E8=B0=83=E7=9A=84=E9=A6=96=E9=80=89CPU=
+=EF=BC=9B
+> +=E5=AE=83=E5=BF=85=E9=A1=BB=E5=9C=A8=E5=BD=93=E5=89=8D=E5=AE=9E=E4=BE=8B=
+=E7=9A=84CPU=E6=8E=A9=E7=A0=81=E4=B8=AD=EF=BC=88=E5=A6=82=E6=9E=9C=E4=B8=8D=
+=E6=98=AF=EF=BC=8Ccb_cpu=E6=8C=87=E9=92=88=E5=B0=86=E8=A2=AB=E6=9B=B4=E6=96=
+=B0=E4=B8=BA=E6=8C=87=E5=90=91=E5=AE=9E=E9=99=85=E9=80=89=E6=8B=A9=E7=9A=84=
+CPU=EF=BC=89=E3=80=82
+> +padata_do_parallel()=E7=9A=84=E8=BF=94=E5=9B=9E=E5=80=BC=E5=9C=A8=E6=88=
+=90=E5=8A=9F=E6=97=B6=E4=B8=BA0=EF=BC=8C=E8=A1=A8=E7=A4=BA=E5=B7=A5=E4=BD=
+=9C=E6=AD=A3=E5=9C=A8=E8=BF=9B=E8=A1=8C=E4=B8=AD=E3=80=82-EBUSY =E6=84=8F=
+=E5=91=B3=E7=9D=80=E6=9C=89=E4=BA=BA
+----------------------------------------------------------------------^ a s=
+pace
+
+> +=E5=9C=A8=E5=85=B6=E4=BB=96=E5=9C=B0=E6=96=B9=E6=AD=A3=E5=9C=A8=E6=90=9E=
+=E4=B9=B1=E5=AE=9E=E4=BE=8B=E7=9A=84 CPU =E6=8E=A9=E7=A0=81=EF=BC=8C=E8=80=
+=8C-EINVAL=E6=98=AF=E5=85=B3=E4=BA=8Ecb_cpu=E4=B8=8D=E5=9C=A8=E4=B8=B2=E8=
+=A1=8Ccpumask=E4=B8=AD=E7=9A=84=E5=90=90=E6=A7=BD=EF=BC=8C
+---------------------------^---^ spaces
+
+> +=E5=9C=A8=E5=B9=B6=E8=A1=8C=E6=88=96=E4=B8=B2=E8=A1=8C cpumasks =E4=B8=
+=AD=E6=B2=A1=E6=9C=89=E5=9C=A8=E7=BA=BF=E7=9A=84 CPU=EF=BC=8C=E6=88=96=E8=
+=80=85=E4=B8=80=E4=B8=AA=E5=81=9C=E6=AD=A2=E7=9A=84=E5=AE=9E=E4=BE=8B=E3=80=
+=82
+
+=E8=80=8C=E5=BD=93cb_cpu=E4=B8=8D=E5=9C=A8=E4=B8=B2=E8=A1=8Ccpumask=E4=B8=
+=AD=E3=80=81=E5=B9=B6=E8=A1=8C=E6=88=96=E4=B8=B2=E8=A1=8Ccpumasks=E4=B8=AD=
+=E6=97=A0=E5=9C=A8=E7=BA=BFCPU=EF=BC=8C=E6=88=96=E5=AE=9E=E4=BE=8B=E5=81=9C=
+=E6=AD=A2=E6=97=B6=EF=BC=8C
+=E5=88=99=E4=BC=9A=E5=87=BA=E7=8E=B0-EINVAL=E5=8F=8D=E9=A6=88=E3=80=82
+
+> +
+> +=E6=AF=8F=E4=B8=AA=E6=8F=90=E4=BA=A4=E7=BB=99padata_do_parallel()=E7=9A=
+=84=E4=BD=9C=E4=B8=9A=E5=B0=86=E4=BE=9D=E6=AC=A1=E4=BC=A0=E9=80=92=E7=BB=99=
+=E4=B8=80=E4=B8=AACPU=E4=B8=8A=E7=9A=84=E4=B8=8A=E8=BF=B0parallel()=E5=87=
+=BD=E6=95=B0
+> +=E7=9A=84=E4=B8=80=E4=B8=AA=E8=B0=83=E7=94=A8=EF=BC=8C=E6=89=80=E4=BB=A5=
+=E7=9C=9F=E6=AD=A3=E7=9A=84=E5=B9=B6=E8=A1=8C=E6=98=AF=E9=80=9A=E8=BF=87=E6=
+=8F=90=E4=BA=A4=E5=A4=9A=E4=B8=AA=E4=BD=9C=E4=B8=9A=E6=9D=A5=E5=AE=9E=E7=8E=
+=B0=E7=9A=84=E3=80=82 parallel()=E5=9C=A8=E8=BF=90=E8=A1=8C=E6=97=B6=E7=A6=
+=81=E7=94=A8=E8=BD=AF
+---------------------------------------------------------^ a space
+
+> +=E4=BB=B6=E4=B8=AD=E6=96=AD=EF=BC=8C=E5=9B=A0=E6=AD=A4=E4=B8=8D=E8=83=BD=
+=E7=9D=A1=E7=9C=A0=E3=80=82parallel()=E5=87=BD=E6=95=B0=E6=8A=8A=E8=8E=B7=
+=E5=BE=97=E7=9A=84padata_priv=E7=BB=93=E6=9E=84=E4=BD=93=E6=8C=87=E9=92=88=
+=E4=BD=9C=E4=B8=BA=E5=85=B6=E5=94=AF=E4=B8=80=E7=9A=84=E5=8F=82
+> +=E6=95=B0=EF=BC=9B=E5=85=B3=E4=BA=8E=E5=AE=9E=E9=99=85=E8=A6=81=E5=81=9A=
+=E7=9A=84=E5=B7=A5=E4=BD=9C=E7=9A=84=E4=BF=A1=E6=81=AF=E5=8F=AF=E8=83=BD=E6=
+=98=AF=E9=80=9A=E8=BF=87=E4=BD=BF=E7=94=A8container_of()=E6=89=BE=E5=88=B0=
+=E5=B0=81=E8=A3=85=E7=BB=93=E6=9E=84=E4=BD=93=E6=9D=A5=E8=8E=B7=E5=BE=97=E7=
+=9A=84=E3=80=82
+> +
+> +=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8Cparallel()=E6=B2=A1=E6=9C=89=E8=BF=
+=94=E5=9B=9E=E5=80=BC=EF=BC=9Bpadata=E5=AD=90=E7=B3=BB=E7=BB=9F=E5=81=87=E5=
+=AE=9Aparallel()=E5=B0=86=E4=BB=8E=E6=AD=A4=E6=97=B6=E5=BC=80=E5=A7=8B=E8=
+=B4=9F=E8=B4=A3=E8=BF=99=E9=A1=B9=E5=B7=A5
+> +=E4=BD=9C=E3=80=82=E4=BD=9C=E4=B8=9A=E4=B8=8D=E9=9C=80=E8=A6=81=E5=9C=A8=
+=E8=BF=99=E6=AC=A1=E8=B0=83=E7=94=A8=E4=B8=AD=E5=AE=8C=E6=88=90=EF=BC=8C=E4=
+=BD=86=E6=98=AF=EF=BC=8C=E5=A6=82=E6=9E=9Cparallel()=E7=95=99=E4=B8=8B=E4=
+=BA=86=E6=9C=AA=E5=AE=8C=E6=88=90=E7=9A=84=E5=B7=A5=E4=BD=9C=EF=BC=8C=E5=AE=
+=83=E5=BA=94=E8=AF=A5=E5=87=86
+> +=E5=A4=87=E5=9C=A8=E5=89=8D=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A=E5=AE=8C=
+=E6=88=90=E4=B9=8B=E5=89=8D=EF=BC=8C=E7=94=A8=E6=96=B0=E7=9A=84=E4=BD=9C=E4=
+=B8=9A=E5=86=8D=E6=AC=A1=E8=A2=AB=E8=B0=83=E7=94=A8=E3=80=82
+
+=E8=A2=AB=E4=BB=A5=E6=96=B0=E7=9A=84=E4=BD=9C=E4=B8=9A=E5=86=8D=E6=AC=A1=E8=
+=B0=83=E7=94=A8=E3=80=82
+
+> +
+> +=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A
+> +----------
+> +
+> +=E5=BD=93=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=9A=E5=AE=8C=E6=88=90=E6=97=B6=
+=EF=BC=8Cparallel()(=E6=88=96=E4=BB=BB=E4=BD=95=E5=AE=9E=E9=99=85=E5=AE=8C=
+=E6=88=90=E8=AF=A5=E5=B7=A5=E4=BD=9C=E7=9A=84=E5=87=BD=E6=95=B0)=E5=BA=94=
+=E8=AF=A5=E9=80=9A=E8=BF=87=E8=B0=83=E7=94=A8=E9=80=9A=E7=9F=A5padata=E8=BF=
+=99
+------------------------------=EF=BC=88--------------------------=EF=BC=89
+
+> +=E4=B8=AA=E4=BA=8B=E5=AE=9E::
+
+=E8=BF=99=E4=B8=AA=E4=BA=8B=E5=AE=9E -> =E6=AD=A4=E4=BA=8B
+
+> +
+> +    void padata_do_serial(struct padata_priv *padata);
+> +
+> +=E5=9C=A8=E6=9C=AA=E6=9D=A5=E7=9A=84=E6=9F=90=E4=B8=AA=E6=97=B6=E5=88=BB=
+=EF=BC=8Cpadata_do_serial()=E5=B0=86=E8=A7=A6=E5=8F=91=E5=AF=B9padata_priv=
+=E7=BB=93=E6=9E=84=E4=BD=93=E4=B8=ADserial()=E5=87=BD=E6=95=B0=E7=9A=84=E8=
+=B0=83
+> +=E7=94=A8=E3=80=82=E8=BF=99=E4=B8=AA=E8=B0=83=E7=94=A8=E5=B0=86=E5=8F=91=
+=E7=94=9F=E5=9C=A8=E8=A6=81=E6=B1=82=E6=9C=80=E5=88=9D=E8=B0=83=E7=94=A8pad=
+ata_do_parallel()=E7=9A=84CPU=E4=B8=8A=EF=BC=9B=E5=AE=83=E4=B9=9F=E6=98=AF=
+=E5=9C=A8=E6=9C=AC=E5=9C=B0=E8=BD=AF=E4=BB=B6=E4=B8=AD=E6=96=AD
+
+=E6=9C=80=E5=88=9D=E8=A6=81=E6=B1=82=E8=B0=83=E7=94=A8
+
+> +=E8=A2=AB=E7=A6=81=E7=94=A8=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=8B=E8=BF=90=
+=E8=A1=8C=E7=9A=84=E3=80=82
+> +=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8C=E8=BF=99=E4=B8=AA=E8=B0=83=E7=94=A8=
+=E5=8F=AF=E8=83=BD=E4=BC=9A=E8=A2=AB=E6=8E=A8=E8=BF=9F=E4=B8=80=E6=AE=B5=E6=
+=97=B6=E9=97=B4=EF=BC=8C=E5=9B=A0=E4=B8=BApadata=E4=BB=A3=E7=A0=81=E4=BC=9A=
+=E5=8A=AA=E5=8A=9B=E7=A1=AE=E4=BF=9D=E4=BD=9C=E4=B8=9A=E6=8C=89=E7=85=A7=E6=
+=8F=90=E4=BA=A4=E7=9A=84=E9=A1=BA=E5=BA=8F=E5=AE=8C
+> +=E6=88=90=E3=80=82
+> +
+> +=E9=94=80=E6=AF=81
+> +----
+> +
+> +=E6=B8=85=E7=90=86=E4=B8=80=E4=B8=AApadata=E5=AE=9E=E4=BE=8B=E6=97=B6=EF=
+=BC=8C=E5=8F=AF=E4=BB=A5=E9=A2=84=E8=A7=81=E7=9A=84=E6=98=AF=E8=B0=83=E7=94=
+=A8=E4=B8=A4=E4=B8=AAfree=E5=87=BD=E6=95=B0=EF=BC=8C=E8=BF=99=E4=B8=A4=E4=
+=B8=AA=E5=87=BD=E6=95=B0=E5=AF=B9=E5=BA=94=E4=BA=8E=E5=88=86=E9=85=8D=E7=9A=
+=84=E9=80=86=E8=BF=87=E7=A8=8B=E3=80=82::
+
+remove =E3=80=82
+
+> +
+> +    void padata_free_shell(struct padata_shell *ps);
+> +    void padata_free(struct padata_instance *pinst);
+> +
+> +=E7=94=A8=E6=88=B7=E6=9C=89=E8=B4=A3=E4=BB=BB=E7=A1=AE=E4=BF=9D=E5=9C=A8=
+=E8=B0=83=E7=94=A8=E4=B8=8A=E8=BF=B0=E4=BB=BB=E4=BD=95=E4=B8=80=E9=A1=B9=E4=
+=B9=8B=E5=89=8D=EF=BC=8C=E6=89=80=E6=9C=89=E6=9C=AA=E5=AE=8C=E6=88=90=E7=9A=
+=84=E5=B7=A5=E4=BD=9C=E9=83=BD=E5=B7=B2=E5=AE=8C=E6=88=90=E3=80=82
+> +
+> +=E8=BF=90=E8=A1=8C=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=BD=9C=E4=B8=9A
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E4=B8=80=E4=B8=AA=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=BD=9C=E4=B8=9A=E6=9C=89=
+=E4=B8=80=E4=B8=AA=E4=B8=BB=E7=BA=BF=E7=A8=8B=E5=92=8C=E9=9B=B6=E4=B8=AA=E6=
+=88=96=E5=A4=9A=E4=B8=AA=E8=BE=85=E5=8A=A9=E7=BA=BF=E7=A8=8B=EF=BC=8C=E4=B8=
+=BB=E7=BA=BF=E7=A8=8B=E5=8F=82=E4=B8=8E=E4=BD=9C=E4=B8=9A=EF=BC=8C=E7=84=B6=
+=E5=90=8E=E7=AD=89=E5=BE=85=E6=89=80=E6=9C=89=E8=BE=85=E5=8A=A9=E7=BA=BF
+> +=E7=A8=8B=E5=AE=8C=E6=88=90=E3=80=82padata=E5=B0=86=E4=BD=9C=E4=B8=9A=E5=
+=88=86=E5=89=B2=E6=88=90=E7=A7=B0=E4=B8=BAchunk=E7=9A=84=E5=8D=95=E5=85=83=
+=EF=BC=8C=E5=85=B6=E4=B8=ADchunk=E6=98=AF=E4=B8=80=E4=B8=AA=E7=BA=BF=E7=A8=
+=8B=E5=9C=A8=E4=B8=80=E6=AC=A1=E8=B0=83=E7=94=A8=E7=BA=BF=E7=A8=8B=E5=87=BD=
+=E6=95=B0
+> +=E4=B8=AD=E5=AE=8C=E6=88=90=E7=9A=84=E4=BD=9C=E4=B8=9A=E7=89=87=E6=AE=B5=
+=E3=80=82
+> +
+> +=E7=94=A8=E6=88=B7=E5=BF=85=E9=A1=BB=E5=81=9A=E4=B8=89=E4=BB=B6=E4=BA=8B=
+=E6=9D=A5=E8=BF=90=E8=A1=8C=E4=B8=80=E4=B8=AA=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=
+=BD=9C=E4=B8=9A=E3=80=82=E9=A6=96=E5=85=88=EF=BC=8C=E9=80=9A=E8=BF=87=E5=AE=
+=9A=E4=B9=89=E4=B8=80=E4=B8=AApadata_mt_job=E7=BB=93=E6=9E=84=E4=BD=93=E6=
+=9D=A5=E6=8F=8F=E8=BF=B0
+> +=E4=BD=9C=E4=B8=9A=EF=BC=8C=E8=BF=99=E5=9C=A8=E6=8E=A5=E5=8F=A3=E9=83=A8=
+=E5=88=86=E6=9C=89=E8=A7=A3=E9=87=8A=E3=80=82=E8=BF=99=E5=8C=85=E6=8B=AC=E4=
+=B8=80=E4=B8=AA=E6=8C=87=E5=90=91=E7=BA=BF=E7=A8=8B=E5=87=BD=E6=95=B0=E7=9A=
+=84=E6=8C=87=E9=92=88=EF=BC=8Cpadata=E6=AF=8F=E6=AC=A1=E5=B0=86=E4=BD=9C=E4=
+=B8=9A=E5=9D=97=E5=88=86=E9=85=8D=E7=BB=99=E7=BA=BF
+> +=E7=A8=8B=E6=97=B6=E9=83=BD=E4=BC=9A=E8=B0=83=E7=94=A8=E8=BF=99=E4=B8=AA=
+=E5=87=BD=E6=95=B0=E3=80=82=E7=84=B6=E5=90=8E=EF=BC=8C=E5=AE=9A=E4=B9=89=E7=
+=BA=BF=E7=A8=8B=E5=87=BD=E6=95=B0=EF=BC=8C=E5=AE=83=E6=8E=A5=E5=8F=97=E4=B8=
+=89=E4=B8=AA=E5=8F=82=E6=95=B0=EF=BC=9A `start` =E3=80=81 `end` =E5=92=8C `=
+arg` =EF=BC=8C
+
+``<code>``
+
+> +=E5=85=B6=E4=B8=AD=E5=89=8D=E4=B8=A4=E4=B8=AA=E5=8F=82=E6=95=B0=E9=99=90=
+=E5=AE=9A=E4=BA=86=E7=BA=BF=E7=A8=8B=E6=93=8D=E4=BD=9C=E7=9A=84=E8=8C=83=E5=
+=9B=B4=EF=BC=8C=E6=9C=80=E5=90=8E=E4=B8=80=E4=B8=AA=E6=98=AF=E6=8C=87=E5=90=
+=91=E4=BD=9C=E4=B8=9A=E5=85=B1=E4=BA=AB=E7=8A=B6=E6=80=81=E7=9A=84=E6=8C=87=
+=E9=92=88=EF=BC=8C=E5=A6=82=E6=9E=9C=E6=9C=89=E7=9A=84=E8=AF=9D=E3=80=82
+> +=E5=87=86=E5=A4=87=E5=A5=BD=E5=85=B1=E4=BA=AB=E7=8A=B6=E6=80=81=EF=BC=8C=
+=E5=AE=83=E9=80=9A=E5=B8=B8=E8=A2=AB=E5=88=86=E9=85=8D=E5=9C=A8=E4=B8=BB=E7=
+=BA=BF=E7=A8=8B=E7=9A=84=E5=A0=86=E6=A0=88=E4=B8=AD=E3=80=82=E6=9C=80=E5=90=
+=8E=EF=BC=8C=E8=B0=83=E7=94=A8padata_do_multithreaded()=EF=BC=8C
+> +=E5=AE=83=E5=B0=86=E5=9C=A8=E4=BD=9C=E4=B8=9A=E5=AE=8C=E6=88=90=E5=90=8E=
+=E8=BF=94=E5=9B=9E=E3=80=82
+> +
+> +=E6=8E=A5=E5=8F=A3
+> +=3D=3D=3D=3D
+> +
+> +=E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
+=81=E4=B8=AD:
+> +
+> +include/linux/padata.h
+> +
+> +kernel/padata.c
+> --=20
+> 2.27.0
+
+Thanks,
+        Wu X.C.
+
+--AhhlLboLdkugWU4S
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCugs8ACgkQtlsoEiKC
+sIU+wgv+MwmPWU1rUb7VfCtrf0RKrOJRVgTJDSbsz4ehC04l7naDQWKBSCelUvzE
+0B+okj9AjWw3uPPuHZBNOxgc9kMu40V5x+qWN+TvLFA7G19N/LOLQWEIaDSPq5zR
+mQ5v33iuwnZyK+UQ73Cf4Y4bxccvPITpIVeLk1hqr6zfmCF5XaflxjL32kGS3Wze
+g8Ee7rJPU1qUmQn7IEVuixqLLweCHwYim22edF6AnZ6uFE1f1ZJ5lxXdRUAssom3
+7ffk/6hWXmTzsKsIZOFDluVdGjOjDTwN7p5ZnKqRF7shhZGVqoi+V43Qy68daRKU
+uWt6Vc8qOhmPwHBOwsuok3TMuArahTgKU4tlDcKtggyO0WEoxbshHbu6rpameFe8
+IxYqkmybmrgHsbywFMTjd94IgBOwWnQWkoyOKhutyeEr44rSvWilUoD2C25HNQJw
+BLWKJIj9FfFJfUq/oJRNQys8jIze/BBzT9Xq4OzNsoF9kAI98YHvZQTz0ZMVpuO9
+w2smwYbd
+=NqCY
+-----END PGP SIGNATURE-----
+
+--AhhlLboLdkugWU4S--
+
