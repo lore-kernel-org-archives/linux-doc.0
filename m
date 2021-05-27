@@ -7,221 +7,199 @@ X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7450C47082
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 01:20:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FA23C47089
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 01:44:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A773E613C5
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 01:20:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E995613C5
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 01:44:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234368AbhE0BWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 21:22:16 -0400
-Received: from mail-mw2nam12on2078.outbound.protection.outlook.com ([40.107.244.78]:2496
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232187AbhE0BWQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 May 2021 21:22:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YkpgaT+qDl4FMbbJ9Z3gj4isxTlskndXbEU9SzeUe4eEbMGIANNi3EHdXnNio5oZ4gPSLwjH4LqxWz/vbTAJyL1dsdO4evDwgzoaqa5HxUIK/GgucNSam2LHs56nWLzg2mevfCO3TNVlbO6MAeA76kBs8Ksq8OqOfkVh/JUU1IMdgxQaGRq8FLfpbc51SUWEkDFQxhxsX+LnH2P4cUlhq12pWsUUwgkXwHcGrhBiaUNnO3Oc/8WFaBFAZPGd8CatdWMtWO5G3tPJ3Ji6//Nu/9OkOiBl5LIh/4IXnhrfU0EeH8ErwB47hh6ekwQ46njLeU44Lo49vZVDP+cHQJE5VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BBYmHosF1/PQ3SLR0/61RIGhUaU7vfnmIJaAYXGD1oI=;
- b=jbZDWfU3a9Rn8W93SH3JMF67/ny/1tSP93LBfpF/FDlbrP6woZvt3Olfvuu9NpFQr//rhp3gZ6Lspwfgz38KKL2lE+q5atW7QBD/NUiSJhnyYTisKdyRQZEeDZmswd7m8kXHYq9B3YagMoZjP6SMFsKni9b5aW0NtdNlcG4eoIM0/UEeWUWDfPGO9SjApU9iz4WkTbLNk56F7nVrvgvY7iDkecsOJql6gynX/J7rUYgqzvOJ2ZrNyPuyoWWJ4B+30c7IJbt8lMkSmPwNEuMqNnhEG9FO/McTwmQcOw7DmPzdLBHmG0EqcS5CRsBvoXd5ufcxtk4m28A7SGxIwgWgYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BBYmHosF1/PQ3SLR0/61RIGhUaU7vfnmIJaAYXGD1oI=;
- b=Ddktud8CI2v/aXZD/Nj17EnB7Ea79dxal+s7aSPhm4H7S+q+tOWbnlCPXZ1pVllVdc0MgFIYsCqOc0znJKzhOWexrxcVcm+CFmdYhe7/04ppd2eBFWk2uWwgVPrw9HeD6F5cY502e+232q4HEo2Xs8gQOniItK0ylv+p+425X8TNXLR6G7bWdzEVWMJp1IpQ0ra7j1Soo6kbi+WYYykV68GIEZukSazSIKj9OzeHWZ+gvR+98kAuDD1GsgYrdyEBnzRtiUaTrZ50btgmYKT/ZbkYc1prqgybrWNwS1Xoxs0JnwdSV+y5gRN6waWC0rozA8fg3HxTpuMVjS1AC2SGJg==
-Received: from CO2PR07CA0064.namprd07.prod.outlook.com (2603:10b6:100::32) by
- BN6PR12MB1266.namprd12.prod.outlook.com (2603:10b6:404:14::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4150.23; Thu, 27 May 2021 01:20:42 +0000
-Received: from CO1NAM11FT060.eop-nam11.prod.protection.outlook.com
- (2603:10b6:100:0:cafe::fd) by CO2PR07CA0064.outlook.office365.com
- (2603:10b6:100::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
- Transport; Thu, 27 May 2021 01:20:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT060.mail.protection.outlook.com (10.13.175.132) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4129.25 via Frontend Transport; Thu, 27 May 2021 01:20:42 +0000
-Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 27 May
- 2021 01:20:38 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Peter Xu <peterx@redhat.com>
-CC:     <linux-mm@kvack.org>, <akpm@linux-foundation.org>,
-        <nouveau@lists.freedesktop.org>, <bskeggs@redhat.com>,
-        <rcampbell@nvidia.com>, <linux-doc@vger.kernel.org>,
-        <jhubbard@nvidia.com>, <bsingharora@gmail.com>,
-        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <hch@infradead.org>, <jglisse@redhat.com>, <willy@infradead.org>,
-        <jgg@nvidia.com>, <hughd@google.com>
-Subject: Re: [PATCH v9 06/10] mm/memory.c: Allow different return codes for copy_nonpresent_pte()
-Date:   Thu, 27 May 2021 11:20:36 +1000
-Message-ID: <2005328.bFqPmhE5MS@nvdebian>
-In-Reply-To: <YK6mbf967dV0ljHn@t490s>
-References: <20210524132725.12697-1-apopple@nvidia.com> <20210524132725.12697-7-apopple@nvidia.com> <YK6mbf967dV0ljHn@t490s>
+        id S233081AbhE0BqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 21:46:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20462 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231968AbhE0Bp7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 21:45:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1622079867;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VpnQjRLTYtvem4bmBp1ngvgaZaWU0A6eMfZva3aBJoc=;
+        b=B5RO3BafCwdd5e/C/Vpai1TiK9oVxl7N85p58LNFZmyiYpB3wOBKScfaOlXzQY38yzO6zk
+        QQUNjNueMVvgheq0bK6uocsAotVbB7ykN0boX5dJWSLyyExGZv2pn8EAdOriNdfKkgF01f
+        rqXzYKmr0rie/Q4mjZTUWTWYd5bgl4s=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-zq8Z97YQMDuPqRmD_eIVbg-1; Wed, 26 May 2021 21:44:25 -0400
+X-MC-Unique: zq8Z97YQMDuPqRmD_eIVbg-1
+Received: by mail-qk1-f198.google.com with SMTP id a24-20020a05620a1038b02902fa6ba180ffso2310096qkk.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 18:44:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VpnQjRLTYtvem4bmBp1ngvgaZaWU0A6eMfZva3aBJoc=;
+        b=Ad6GzHiVYip6dTB7lMB/ImW1GMEAlMeWL+FRfgrJk6NUWySQ2UFeTof4ACNxC6WPpu
+         CbEJyWjwMUSPxu/M3F/KXocRMfA3Bc8z6kx4ee1hrixxwWemcOA64DNoErFuCQbHcZpi
+         0YbICED0SURhxn+qv4la2T0Rdl8afxggzLbrdFx4ktLcOvkdTP6oJK7vwhXI/JstUeOY
+         3FcW+3+ILz4p+87kGCSHPXZoDZ7tR+AnYf7Z2A/oYv7O9OnbUVvQaHbmd1v5UB1Nnw0e
+         AcKvw0OHELJK/GPIXj5bW9AuUIV88l/nGhEyk0kbEpEqWNV0SiMWivl/tG9c7/Gx8ein
+         Jxwg==
+X-Gm-Message-State: AOAM530HyjyVJ1wJ8XaYVHBQvNn7c+mJnHak/bluhS3jUMFWhqJEJ35w
+        ioGXUIhd2/EeMUIUiaj4LYozDjdjVp9mR14M3j2YGy6vi6gXcImb3pVklZ17u925OBFkXMIoa9r
+        kOzKn0ZRWMHYKzesX5Ojq
+X-Received: by 2002:ac8:58c9:: with SMTP id u9mr1105869qta.58.1622079865059;
+        Wed, 26 May 2021 18:44:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfR+dYiNTc8bzg8Cbe+4NPqyuhJDn00JrMrexnADTDq6kNzSW0QT/5/OWP1wZQyy97uuc2Sg==
+X-Received: by 2002:ac8:58c9:: with SMTP id u9mr1105834qta.58.1622079864805;
+        Wed, 26 May 2021 18:44:24 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
+        by smtp.gmail.com with ESMTPSA id y1sm498232qkp.21.2021.05.26.18.44.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 May 2021 18:44:23 -0700 (PDT)
+Date:   Wed, 26 May 2021 21:44:22 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
+        rcampbell@nvidia.com, linux-doc@vger.kernel.org,
+        jhubbard@nvidia.com, bsingharora@gmail.com,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        hch@infradead.org, jglisse@redhat.com, willy@infradead.org,
+        jgg@nvidia.com, hughd@google.com
+Subject: Re: [PATCH v9 06/10] mm/memory.c: Allow different return codes for
+ copy_nonpresent_pte()
+Message-ID: <YK75dpdwU9AIKJ6i@t490s>
+References: <20210524132725.12697-1-apopple@nvidia.com>
+ <20210524132725.12697-7-apopple@nvidia.com>
+ <YK6mbf967dV0ljHn@t490s>
+ <2005328.bFqPmhE5MS@nvdebian>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d78414e7-cfaf-4f12-cb71-08d920ada570
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1266:
-X-Microsoft-Antispam-PRVS: <BN6PR12MB1266E85D8FACB077FEEA288EDF239@BN6PR12MB1266.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0d7+K+vE6+9VKNGuW0TFntKbb5dmvBDIlTZp0JsTp0bmESASk4qXF9e/rJ12Qr/zO+4ky8hWe8tezexAvPdj9bhNVJJni7f09YlpmUciwFbn1h+V+BGo5jNFatjXdwBiWOvEMaTRTcZoRMg51zE50fEgQN0pbdnhuR+NuWIF3N9aSJ+l+YC19/xOQ4nAQmkYfsZMLhGQGwk5QkkzHYGj8TLIy/0ULNQpSWY9mCbHnnojySbZfhIlrGtQEHH9gTX7dYbOqNlj2Vq8tgHC9/AeUbWLwz4RdLHuLZ+oWSDO6YQtS7sd7i+x8mbYPwQ3uTiu4DcYObCNXCzrkKa/d9sSOhvcquGhvD6ohgfCNKbFHHn5DcuFoNRElcfkstxdHmvVnOj6RSruBxq3R+O/+pY3HPBDzJP58z3fHjq3fBjQuy8qL+xJZ/UmQx+EkKbfJIHM1m++4lUSr9TJBkP4bPr1ZFGyUAxMd/MhksZ8Q2ZEjmolGEKhEMwBfHb8PvbPKBepPe4soBg3NgKcTGFKkkwZueEnBpmSHqQtS+LLzLGj6XQrUbE5MMpJ2c8V5fAkfZIVTv+Ujnq6hIUpnxVKKW0a8f830TeVlj1gLEDQ83FJnQNre50uFqXvoPjdfkglzBlnmLDpkTfnIlK7UZC86tSXBfrW030ZltfV2Hba+3pYCIrYcYY/iDjPQa6qVlJ96Gr6
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(396003)(136003)(36840700001)(46966006)(5660300002)(83380400001)(186003)(316002)(82310400003)(2906002)(36906005)(426003)(86362001)(478600001)(7416002)(26005)(4326008)(6916009)(16526019)(70586007)(54906003)(70206006)(336012)(7636003)(9576002)(33716001)(8676002)(8936002)(356005)(36860700001)(9686003)(82740400003)(47076005)(39026012);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 01:20:42.5560
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d78414e7-cfaf-4f12-cb71-08d920ada570
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT060.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1266
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2005328.bFqPmhE5MS@nvdebian>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, 27 May 2021 5:50:05 AM AEST Peter Xu wrote:
-> On Mon, May 24, 2021 at 11:27:21PM +1000, Alistair Popple wrote:
-> > Currently if copy_nonpresent_pte() returns a non-zero value it is
-> > assumed to be a swap entry which requires further processing outside the
-> > loop in copy_pte_range() after dropping locks. This prevents other
-> > values being returned to signal conditions such as failure which a
-> > subsequent change requires.
+On Thu, May 27, 2021 at 11:20:36AM +1000, Alistair Popple wrote:
+> On Thursday, 27 May 2021 5:50:05 AM AEST Peter Xu wrote:
+> > On Mon, May 24, 2021 at 11:27:21PM +1000, Alistair Popple wrote:
+> > > Currently if copy_nonpresent_pte() returns a non-zero value it is
+> > > assumed to be a swap entry which requires further processing outside the
+> > > loop in copy_pte_range() after dropping locks. This prevents other
+> > > values being returned to signal conditions such as failure which a
+> > > subsequent change requires.
+> > > 
+> > > Instead make copy_nonpresent_pte() return an error code if further
+> > > processing is required and read the value for the swap entry in the main
+> > > loop under the ptl.
+> > > 
+> > > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > > 
+> > > ---
+> > > 
+> > > v9:
+> > > 
+> > > New for v9 to allow device exclusive handling to occur in
+> > > copy_nonpresent_pte().
+> > > ---
+> > > 
+> > >  mm/memory.c | 12 +++++++-----
+> > >  1 file changed, 7 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/mm/memory.c b/mm/memory.c
+> > > index 2fb455c365c2..e061cfa18c11 100644
+> > > --- a/mm/memory.c
+> > > +++ b/mm/memory.c
+> > > @@ -718,7 +718,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct
+> > > mm_struct *src_mm,> 
+> > >       if (likely(!non_swap_entry(entry))) {
+> > >       
+> > >               if (swap_duplicate(entry) < 0)
+> > > 
+> > > -                     return entry.val;
+> > > +                     return -EAGAIN;
+> > > 
+> > >               /* make sure dst_mm is on swapoff's mmlist. */
+> > >               if (unlikely(list_empty(&dst_mm->mmlist))) {
+> > > 
+> > > @@ -974,11 +974,13 @@ copy_pte_range(struct vm_area_struct *dst_vma,
+> > > struct vm_area_struct *src_vma,> 
+> > >                       continue;
+> > >               
+> > >               }
+> > >               if (unlikely(!pte_present(*src_pte))) {
+> > > 
+> > > -                     entry.val = copy_nonpresent_pte(dst_mm, src_mm,
+> > > -                                                     dst_pte, src_pte,
+> > > -                                                     src_vma, addr, rss);
+> > > -                     if (entry.val)
+> > > +                     ret = copy_nonpresent_pte(dst_mm, src_mm,
+> > > +                                             dst_pte, src_pte,
+> > > +                                             src_vma, addr, rss);
+> > > +                     if (ret == -EAGAIN) {
+> > > +                             entry = pte_to_swp_entry(*src_pte);
+> > > 
+> > >                               break;
+> > > 
+> > > +                     }
+> > > 
+> > >                       progress += 8;
+> > >                       continue;
+> > >               
+> > >               }
 > > 
-> > Instead make copy_nonpresent_pte() return an error code if further
-> > processing is required and read the value for the swap entry in the main
-> > loop under the ptl.
+> > Note that -EAGAIN was previously used by copy_present_page() for early cow
+> > use.  Here later although we check entry.val first:
 > > 
-> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> >         if (entry.val) {
+> >                 if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
+> >                         ret = -ENOMEM;
+> >                         goto out;
+> >                 }
+> >                 entry.val = 0;
+> >         } else if (ret) {
+> >                 WARN_ON_ONCE(ret != -EAGAIN);
+> >                 prealloc = page_copy_prealloc(src_mm, src_vma, addr);
+> >                 if (!prealloc)
+> >                         return -ENOMEM;
+> >                 /* We've captured and resolved the error. Reset, try again.
+> > */ ret = 0;
+> >         }
 > > 
-> > ---
-> > 
-> > v9:
-> > 
-> > New for v9 to allow device exclusive handling to occur in
-> > copy_nonpresent_pte().
-> > ---
-> > 
-> >  mm/memory.c | 12 +++++++-----
-> >  1 file changed, 7 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/mm/memory.c b/mm/memory.c
-> > index 2fb455c365c2..e061cfa18c11 100644
-> > --- a/mm/memory.c
-> > +++ b/mm/memory.c
-> > @@ -718,7 +718,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct
-> > mm_struct *src_mm,> 
-> >       if (likely(!non_swap_entry(entry))) {
-> >       
-> >               if (swap_duplicate(entry) < 0)
-> > 
-> > -                     return entry.val;
-> > +                     return -EAGAIN;
-> > 
-> >               /* make sure dst_mm is on swapoff's mmlist. */
-> >               if (unlikely(list_empty(&dst_mm->mmlist))) {
-> > 
-> > @@ -974,11 +974,13 @@ copy_pte_range(struct vm_area_struct *dst_vma,
-> > struct vm_area_struct *src_vma,> 
-> >                       continue;
-> >               
-> >               }
-> >               if (unlikely(!pte_present(*src_pte))) {
-> > 
-> > -                     entry.val = copy_nonpresent_pte(dst_mm, src_mm,
-> > -                                                     dst_pte, src_pte,
-> > -                                                     src_vma, addr, rss);
-> > -                     if (entry.val)
-> > +                     ret = copy_nonpresent_pte(dst_mm, src_mm,
-> > +                                             dst_pte, src_pte,
-> > +                                             src_vma, addr, rss);
-> > +                     if (ret == -EAGAIN) {
-> > +                             entry = pte_to_swp_entry(*src_pte);
-> > 
-> >                               break;
-> > 
-> > +                     }
-> > 
-> >                       progress += 8;
-> >                       continue;
-> >               
-> >               }
+> > We didn't reset "ret" in entry.val case (maybe we should?). Then in the next
+> > round of "goto again" if "ret" is unluckily untouched, it could reach the
+> > 2nd if check, and I think it could cause an unexpected
+> > page_copy_prealloc().
 > 
-> Note that -EAGAIN was previously used by copy_present_page() for early cow
-> use.  Here later although we check entry.val first:
+> Thanks, I had considered that but saw "ret" was always set either by 
+> copy_nonpresent_pte() or copy_present_pte(). However missed the "unlucky" case 
+> at the start of the loop:
 > 
->         if (entry.val) {
->                 if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
->                         ret = -ENOMEM;
->                         goto out;
->                 }
->                 entry.val = 0;
->         } else if (ret) {
->                 WARN_ON_ONCE(ret != -EAGAIN);
->                 prealloc = page_copy_prealloc(src_mm, src_vma, addr);
->                 if (!prealloc)
->                         return -ENOMEM;
->                 /* We've captured and resolved the error. Reset, try again.
-> */ ret = 0;
->         }
+> 	if (progress >= 32) {
+> 		progress = 0;
+> 		if (need_resched() ||
+> 				spin_needbreak(src_ptl) || pin_needbreak(dst_ptl))
+> 			break;
 > 
-> We didn't reset "ret" in entry.val case (maybe we should?). Then in the next
-> round of "goto again" if "ret" is unluckily untouched, it could reach the
-> 2nd if check, and I think it could cause an unexpected
-> page_copy_prealloc().
+> Looking at this again though checking different variables to figure out what 
+> to do outside the locks and reusing error codes seems error prone. I reused -
+> EAGAIN for copy_nonpresent_pte() simply because that seemed the most sensible 
+> error code, but I don't think that aids readability and it might be better to 
+> use a unique error code for each case needing extra handling.
+> 
+> So it might be better if I update this patch to:
+> 1) Use unique error codes for each case requiring special handling outside the 
+> lock.
+> 2) Only check "ret" to determine what to do outside locks (ie. not entry.val)
+> 3) Document these.
+> 4) Always reset ret after handling.
+> 
+> Thoughts?
 
-Thanks, I had considered that but saw "ret" was always set either by 
-copy_nonpresent_pte() or copy_present_pte(). However missed the "unlucky" case 
-at the start of the loop:
+Looks good to me.  Thanks,
 
-	if (progress >= 32) {
-		progress = 0;
-		if (need_resched() ||
-				spin_needbreak(src_ptl) || pin_needbreak(dst_ptl))
-			break;
-
-Looking at this again though checking different variables to figure out what 
-to do outside the locks and reusing error codes seems error prone. I reused -
-EAGAIN for copy_nonpresent_pte() simply because that seemed the most sensible 
-error code, but I don't think that aids readability and it might be better to 
-use a unique error code for each case needing extra handling.
-
-So it might be better if I update this patch to:
-1) Use unique error codes for each case requiring special handling outside the 
-lock.
-2) Only check "ret" to determine what to do outside locks (ie. not entry.val)
-3) Document these.
-4) Always reset ret after handling.
-
-Thoughts?
-
- - Alistair
-
-> --
-> Peter Xu
-
-
-
+-- 
+Peter Xu
 
