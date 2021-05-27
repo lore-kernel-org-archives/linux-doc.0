@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E530C47089
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 11:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D34C4707F
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 12:07:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DBC34610FC
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 11:58:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2E5661378
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 12:07:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234467AbhE0MAb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 May 2021 08:00:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50795 "EHLO
+        id S234870AbhE0MJT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 May 2021 08:09:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25599 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234257AbhE0MAa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 May 2021 08:00:30 -0400
+        by vger.kernel.org with ESMTP id S234960AbhE0MJQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 May 2021 08:09:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622116737;
+        s=mimecast20190719; t=1622117263;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=wjPIN2JnhuUc4ncCd4AUurBqU2Abl/WhHOre8Sqosdk=;
-        b=dVr33mHxAo5UQXE1gIwvwiNgTEqgCokvy2SDWpPyGbgCZlawzdowRsxe4PEvzQ47yjapbn
-        7xDr9rPO73ND2AjO3qQOrPmm+o8ECeWvSjmGQXhdDD6hkBV4KyjQcQL/97fSukxIbLpvO7
-        o6Hox7t26B31jPqHGIV3upnAjJ/95W0=
+        bh=glX8WQ37pPY27Hd4W81doplaosjS1gaDjtsB4N8hjlA=;
+        b=N1dih72XUXqaJE21Ib2lgHXiKApFicYWy7opS78YDodUUpcbhNoIuhOOW/k7JlV861QxWH
+        7NsEgDIsi9IjM3TDpzbO2Iwe8jIVzfF4y1odZtBmdkJ3Q+MYvfqT86Z8s0jcYGJIf1xhVf
+        B5TgChbRV0RFIyz2S/OqCH+GOYKzSJA=
 Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
  [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-symhKhuNOkqbyN7_1bQWcA-1; Thu, 27 May 2021 07:58:56 -0400
-X-MC-Unique: symhKhuNOkqbyN7_1bQWcA-1
-Received: by mail-ej1-f69.google.com with SMTP id j16-20020a1709062a10b02903ba544485d0so1574957eje.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 04:58:55 -0700 (PDT)
+ us-mta-5-haJJqqn7P2aBXiFXmew_wA-1; Thu, 27 May 2021 08:07:41 -0400
+X-MC-Unique: haJJqqn7P2aBXiFXmew_wA-1
+Received: by mail-ej1-f69.google.com with SMTP id h18-20020a1709063992b02903d59b32b039so1593988eje.12
+        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 05:07:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wjPIN2JnhuUc4ncCd4AUurBqU2Abl/WhHOre8Sqosdk=;
-        b=XhQpm7Lcb/TAFeo9R5pEit5CaH3EOGbiTKpnhVI96TM6EOSFme/fxkZ+Pf00UwI66K
-         LiCIDlblBuGpjgo3Hn1BxnjzbEr0FbDrCJtkMP265Yudz0RCig85iV92fhdbSzNcpFeG
-         M5L4dHB2ghHFlHfCsDfpGu1vqdCsb+d1X8lDCMOrZfA2tzsM20b8P7AGaZT/TVJVA2C6
-         /wUBDf+ZGR/xFKRsrrFy3dGm0ezjWeJHE9c1jOnGhsP/hCFPg7OwZ3ZOR6++9DoCR1XK
-         a6Kdng3/TpZuTVSnMiNqxTWV9X82ufovYrPNDgulefpYhSVxYMOSO2do0YFjWnwgfub0
-         ut+Q==
-X-Gm-Message-State: AOAM530YbZsBs/GJn2xHNB7Bz6a2zs/4/pXvHhhbgH4klBfiAOfiUEVO
-        DJHjw5QteVz0vdLzGNBWw/wXW/8sfbXrsTIl9JYBvRKX/aIVduqJQiU3KIT2s6VgX4ewDWLl+qt
-        06b2MlCixcEY0PfqiOHrK
-X-Received: by 2002:a17:906:40cf:: with SMTP id a15mr3413626ejk.181.1622116734867;
-        Thu, 27 May 2021 04:58:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyI4hefZVEXGQJKCWltH1Y1Bc9bZRIv+jfizbEcnuKXGxBcsLjympjaoZ9j+8ttg8WO7W2pJg==
-X-Received: by 2002:a17:906:40cf:: with SMTP id a15mr3413610ejk.181.1622116734710;
-        Thu, 27 May 2021 04:58:54 -0700 (PDT)
+        bh=glX8WQ37pPY27Hd4W81doplaosjS1gaDjtsB4N8hjlA=;
+        b=hWXa3TMny1Uv/k8H/iikru5FTIYwKvKHdxXast8xo5TjG7fz6VQnW+BeHKiiUkZuIG
+         cse+BHMKQ3Q72bFp9sMiHIzIkSzEjKWMpLfMox6c4hoqy/RPKCodE63eeBay+qcm0HAE
+         1iGQJSRaKXARIbimgP8Lw+4TEw0kByzw88SFBl1NFAa/+MB0yckxQMU+Nh6QR9RgsMH2
+         T6hj15i2AD4dBgXkx/whakDGf7CKrCtpVSOV2/FVywJRu4OnrXZNAmvVOhD0LJj12c5E
+         RTDqfx/sjSgu7Brf9t/NiUtwovoakakjy4uTJvhGM/u5QyIgtL7Lpyt9/wzpHeRoJOdA
+         mCCA==
+X-Gm-Message-State: AOAM533shaJb8pxtJbRQ2XTsb994h2otzgXxRq9eqG0FDAyzNFGaHk9a
+        xwW+1h8szRjQi6KybRi7YJN/qOSt877LA8ACdHl0nDlXQfzObEUSp2pV//h+o6F2/6Xs+sZ5noo
+        wPFPaJQWIi3g/guy1F/+C
+X-Received: by 2002:a05:6402:944:: with SMTP id h4mr3724870edz.319.1622117260690;
+        Thu, 27 May 2021 05:07:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxv10JLbulmg0QMgMPpe90hcd0MvW50aSfs6BIzQ1tQse3og6v1oLXz64YgVJLSeticJHDFVQ==
+X-Received: by 2002:a05:6402:944:: with SMTP id h4mr3724852edz.319.1622117260436;
+        Thu, 27 May 2021 05:07:40 -0700 (PDT)
 Received: from localhost.localdomain ([151.29.18.58])
-        by smtp.gmail.com with ESMTPSA id v16sm890216ejr.65.2021.05.27.04.58.53
+        by smtp.gmail.com with ESMTPSA id bx21sm1012677edb.64.2021.05.27.05.07.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 04:58:54 -0700 (PDT)
-Date:   Thu, 27 May 2021 13:58:52 +0200
+        Thu, 27 May 2021 05:07:39 -0700 (PDT)
+Date:   Thu, 27 May 2021 14:07:37 +0200
 From:   Juri Lelli <juri.lelli@redhat.com>
 To:     Daniel Bristot de Oliveira <bristot@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
@@ -71,14 +71,13 @@ Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
         Alexandre Chartre <alexandre.chartre@oracle.com>,
         Clark Willaims <williams@redhat.com>,
         John Kacur <jkacur@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 4/9] tracing/hwlat: Implement the per-cpu mode
-Message-ID: <YK+JfHHNbvV7odqX@localhost.localdomain>
+Subject: Re: [PATCH V3 0/9] hwlat improvements and osnoise/timerlat tracers
+Message-ID: <YK+LiSdWQngXjior@localhost.localdomain>
 References: <cover.1621024265.git.bristot@redhat.com>
- <187db3f9eed1603c858a1f7669d0140dfb753bfd.1621024265.git.bristot@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <187db3f9eed1603c858a1f7669d0140dfb753bfd.1621024265.git.bristot@redhat.com>
+In-Reply-To: <cover.1621024265.git.bristot@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -86,29 +85,62 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Hi,
 
 On 14/05/21 22:51, Daniel Bristot de Oliveira wrote:
+> This series proposes a set of improvements and new features for the
+> tracing subsystem to facilitate the debugging of low latency
+> deployments.
+> 
+> Currently, hwlat runs on a single CPU at a time, migrating across a
+> set of CPUs in a round-robin fashion. This series improves hwlat 
+> to allow hwlat to run on multiple CPUs in parallel, increasing the
+> chances of detecting a hardware latency, at the cost of using more
+> CPU time.
+> 
+> It also proposes a new tracer named osnoise, that aims to help users
+> of isolcpus= (or a similar method) to measure how much noise the OS
+> and the hardware add to the isolated application. The osnoise tracer
+> bases on the hwlat detector code. The difference is that, instead of
+> sampling with interrupts disabled, the osnoise tracer samples the CPU with
+> interrupts and preemption enabled. In this way, the sampling thread will
+> suffer any source of noise from the OS. The detection and classification
+> of the type of noise are then made by observing the entry points of NMIs,
+> IRQs, SoftIRQs, and threads. If none of these sources of noise is detected,
+> the tool associates the noise with the hardware. The tool periodically
+> prints a status, printing the total noise of the period, the max single
+> noise observed, the percentage of CPU available for the task, along with
+> the counters of each source of the noise. To debug the sources of noise,
+> the tracer also adds a set of tracepoints that print any NMI, IRQ, SofIRQ,
+> and thread occurrence. These tracepoints print the starting time and the
+> noise's net duration at the end of the noise. In this way, it reduces the
+> number of tracepoints (one instead of two) and the need to manually
+> accounting the contribution of each noise independently.
+> 
+> Finaly, the timerlat tracer aims to help the preemptive kernel developers
+> to find sources of wakeup latencies of real-time threads. The tracer
+> creates a per-cpu kernel thread with real-time priority. The tracer thread
+> sets a periodic timer to wakeup itself, and goes to sleep waiting for the
+> timer to fire. At the wakeup, the thread then computes a wakeup latency
+> value as the difference between the current time and the absolute time
+> that the timer was set to expire. The tracer prints two lines at every
+> activation. The first is the timer latency observed at the hardirq context
+> before the activation of the thread. The second is the timer latency
+> observed by the thread, which is the same level that cyclictest reports.
+> The ACTIVATION ID field serves to relate the irq execution to its
+> respective thread execution. The tracer is build on top of osnoise tracer,
+> and the osnoise: events can be used to trace the source of interference
+> from NMI, IRQs and other threads. It also enables the capture of the
+> stacktrace at the IRQ context, which helps to identify the code path
+> that can cause thread delay.
 
-[...]
+FWIW, I've been using the new tracers extensively downstream for a while
+now and I find them very useful and quite more precise to detect
+problems than what we currently have available.
 
-> +/**
-> + * start_per_cpu_kthread - Kick off the hardware latency sampling/detector kthreads
-> + *
-> + * This starts the kernel threads that will sit on potentially all cpus and
-> + * sample the CPU timestamp counter (TSC or similar) and look for potential
-> + * hardware latencies.
-> + */
-> +static int start_per_cpu_kthreads(struct trace_array *tr)
-> +{
-> +	struct cpumask *current_mask = &save_cpumask;
-> +	struct cpumask *this_cpumask;
-> +	struct task_struct *kthread;
-> +	char comm[24];
-> +	int cpu;
-> +
-> +	if (!alloc_cpumask_var(&this_cpumask, GFP_KERNEL))
-> +		return -ENOMEM;
+The fact that one can do almost everything needed to spot latency issues
+from entirely inside the kernel with a simple interface is a big plus to me
+as well.
 
-Is this_cpumask actually used anywhere?
+I wouldn't mind if this gets accepted very soon! :)
 
-Thanks,
+Best,
 Juri
 
