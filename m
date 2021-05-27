@@ -2,176 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32EF0C4707F
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 13:05:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B6CC47089
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 13:38:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D033610A2
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 13:05:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0AF23613BC
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 13:38:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235903AbhE0NGg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 May 2021 09:06:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36544 "EHLO
+        id S236360AbhE0Njl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 May 2021 09:39:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51925 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235793AbhE0NGf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 May 2021 09:06:35 -0400
+        by vger.kernel.org with ESMTP id S236470AbhE0Nji (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 May 2021 09:39:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622120702;
+        s=mimecast20190719; t=1622122685;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4rzzOa6q+9jkHUrjBMT6aDA8TmT+khUNIgkx743Uidw=;
-        b=XBRT1l8UkjViDViZF7DaJKbAZGRmiVLPiLVkSlpEYfefyPR/5ZTaR+tJ5fE+3qnFRqG2W9
-        pju/9VxBri6P7ws2r0LXe9ol7Foah3xnneRyJtqoqSFQfYMGgBrQiD/3lgntWoyYMmRWgY
-        Zj5KD0dPuR/QVTeRBQFdOssNYJoQZ0o=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-xv_QOpyPOX-zAja9LSybng-1; Thu, 27 May 2021 09:05:00 -0400
-X-MC-Unique: xv_QOpyPOX-zAja9LSybng-1
-Received: by mail-qk1-f198.google.com with SMTP id s123-20020a3777810000b02902e9adec2313so405892qkc.4
-        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 06:05:00 -0700 (PDT)
+        bh=tVBXSCO27kLxA3llmYVew8byKCUgpzvuP+dEf6X37dg=;
+        b=KDlMB+PyHUwiUqHhOF1+r7vuEaB0EOsVj46OXrkMwW4slEO0bgE3sP7uU/M1gi49K8ZrKY
+        zVExdBu1WEObo6cq4EiBYHmFZudemh9ThB9GbJnSxRPhp7CQOXgcJdLzzlVlyJUKnfIqxM
+        1UUFlfE99hpvshqf23MK3Kg0PLujjiU=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-jSIIKHbvO2WdRp173S0fMw-1; Thu, 27 May 2021 09:38:03 -0400
+X-MC-Unique: jSIIKHbvO2WdRp173S0fMw-1
+Received: by mail-qt1-f197.google.com with SMTP id f3-20020ac849830000b02901e0f0a55411so144376qtq.9
+        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 06:38:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4rzzOa6q+9jkHUrjBMT6aDA8TmT+khUNIgkx743Uidw=;
-        b=K+rJDs2UH0Elu6fTWMEYbMj9NjfkaUtB1gbg0jwSvVM4aFLIKhDI0CNFzS4abiyTsy
-         /8yfTeFLP8+SSgxSDg1/dapeqD/FO+W45UgLx1aZksITWT01irKpN8NSw58NiQD413vS
-         hKvyuWOluszmTzBMpeTKQgWdfGv0g2b31SiBADMK+kx68erXdojWHpfmcFl+RJymKZWF
-         ppIO9kkhnew7Kkrfb8DobFblY8hkrD6ognph/SmBUa/IJao+8rgL59E9ZxIZP5mzwEF1
-         Ct5olCDM1p8ANHPCdXbauuRZljOuWz7yzEcbK5ZB5G9OJBNlifB4FsofifYYWBPyzPGc
-         RuiA==
-X-Gm-Message-State: AOAM531FYoUXtVqLvgG6BbI033geNzcthCoeioyLhfW8DedC/gHdxG09
-        LEPSXrkeR+RlpxVGljLSO8EtRSs1aZXEX+WVYnTQ2fTnB37s8TeEUaqazHta8cahwbnhvBAW82d
-        exOX3tNLHNuMDjg/P34rf
-X-Received: by 2002:ac8:5f84:: with SMTP id j4mr2991623qta.240.1622120700036;
-        Thu, 27 May 2021 06:05:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzF9/f/oCcd+BBWrvSHgnJ7MXTSn158rInAQdiALMQLZF3k9Vcpr9xEm1OHlKUAk1TCJw9rGQ==
-X-Received: by 2002:ac8:5f84:: with SMTP id j4mr2991568qta.240.1622120699489;
-        Thu, 27 May 2021 06:04:59 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
-        by smtp.gmail.com with ESMTPSA id p63sm1325517qkf.31.2021.05.27.06.04.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 06:04:58 -0700 (PDT)
-Date:   Thu, 27 May 2021 09:04:57 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        rcampbell@nvidia.com, linux-doc@vger.kernel.org,
-        jhubbard@nvidia.com, bsingharora@gmail.com,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        hch@infradead.org, jglisse@redhat.com, willy@infradead.org,
-        jgg@nvidia.com, hughd@google.com, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
-Message-ID: <YK+Y+aAZHDv8+w+Q@t490s>
-References: <20210524132725.12697-1-apopple@nvidia.com>
- <20210524132725.12697-8-apopple@nvidia.com>
- <YK6hYGEx+XzeZELV@t490s>
- <37725705.JvxlXkkoz5@nvdebian>
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=tVBXSCO27kLxA3llmYVew8byKCUgpzvuP+dEf6X37dg=;
+        b=R7THW/kg5hXa4Rhyyw4RFTgrjM2CGyABTxge+vW/ds8h+IzDgfAmfzpStB2IhzYf6s
+         XwSiicwVtuaBXkObko9mERFryIXC6qEqVaYjcEJP/f2q0YKLG81AusYJfhnLKp4olZ73
+         X1cesGEYZ0khDOxeCJQOk656Z2vFOTaVNEp6NuKgEDs+ZhpJ7EgikBMUTRLTmYtilZCS
+         aHkitmoOcz+G2wSX2rIEI56vERBQ7AI52in4jkqlbDEQ/lMkvhphM+/s+7AYaDfLU0Wl
+         dY4mwjc6WCkyV6gz/eMoA5ewRwCugE4vz35IxI34pD+OBmN382nA/nvtEeMyDJ174c0i
+         5Jbg==
+X-Gm-Message-State: AOAM533onHeie2urvJAU7fQkXYvgsr/kD8m8x9alPfY6zZxVU8BqjZmB
+        lOPWK5cYCpsTysGgNUTFHvuKZPFYFZ7sTkyx8PmOsar8gzfxG4+vO216/uUHk0ou3S/UdVkH4FD
+        4KNNa5/T/z9qs8ykyvoq2
+X-Received: by 2002:a37:9fce:: with SMTP id i197mr3506574qke.227.1622122683278;
+        Thu, 27 May 2021 06:38:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTEZQ/wu8kPy0HDlDUPe9PBB+lF70tkpeywGi82+RHai09/oiu4Y+5Ri0mD41XjBiUsoSWGA==
+X-Received: by 2002:a37:9fce:: with SMTP id i197mr3506551qke.227.1622122683041;
+        Thu, 27 May 2021 06:38:03 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+        by smtp.gmail.com with ESMTPSA id 11sm1386020qtt.0.2021.05.27.06.37.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 May 2021 06:38:02 -0700 (PDT)
+From:   Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH] docs: lockdep-design: improve readability of the block
+ matrix
+To:     Xiongwei Song <sxwjean@me.com>, peterz@infradead.org,
+        mingo@redhat.com, will@kernel.org, boqun.feng@gmail.com,
+        corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiongwei Song <sxwjean@gmail.com>
+References: <1621868745-23311-1-git-send-email-sxwjean@me.com>
+Message-ID: <6677ed15-4ae3-650d-bbfd-5b5436f3741b@redhat.com>
+Date:   Thu, 27 May 2021 09:37:59 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <37725705.JvxlXkkoz5@nvdebian>
+In-Reply-To: <1621868745-23311-1-git-send-email-sxwjean@me.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 27, 2021 at 01:35:39PM +1000, Alistair Popple wrote:
-> > > + *
-> > > + * @MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will
-> > > no + * longer have exclusive access to the page. May ignore the
-> > > invalidation that's + * part of make_device_exclusive_range() if the
-> > > owner field
-> > > + * matches the value passed to make_device_exclusive_range().
-> > 
-> > Perhaps s/matches/does not match/?
-> 
-> No, "matches" is correct. The MMU_NOTIFY_EXCLUSIVE notifier is to notify a 
-> listener that a range is being invalidated for the purpose of making the range 
-> available for some device to have exclusive access to. Which does also mean a 
-> device getting the notification no longer has exclusive access if it already 
-> did.
-> 
-> A unique type is needed because when creating the range a driver needs to form 
-> a mmu critical section (with mmu_interval_read_begin()/
-> mmu_interval_read_end()) to ensure the entry remains valid long enough to 
-> program the device pte and hasn't been invalidated.
-> 
-> However without a way of filtering any invalidations will result in a retry, 
-> but make_device_exclusive_range() needs to do an invalidation during 
-> installation of the entry. To avoid this causing infinite retries the driver 
-> ignores specific invalidation events that it knows don't apply, ie. the 
-> invalidations that are a result of that driver asking for device exclusive 
-> entries.
+On 5/24/21 11:05 AM, Xiongwei Song wrote:
+> From: Xiongwei Song <sxwjean@gmail.com>
+>
+> The block condition matrix is using 'E' as the writer notation, however,
+> the writer reminder below the matrix is using 'W', to make them consistent
+> and make the matrix more readable, we'd better to use 'W' to represent
+> writer.
+>
+> Suggested-by: Waiman Long <llong@redhat.com>
+> Suggested-by: Boqun Feng <boqun.feng@gmail.com>
+> Signed-off-by: Xiongwei Song <sxwjean@gmail.com>
+> ---
+>   Documentation/locking/lockdep-design.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
+> index 9f3cfca..82f36ca 100644
+> --- a/Documentation/locking/lockdep-design.rst
+> +++ b/Documentation/locking/lockdep-design.rst
+> @@ -453,9 +453,9 @@ There are simply four block conditions:
+>   Block condition matrix, Y means the row blocks the column, and N means otherwise.
+>   
+>   	+---+---+---+---+
+> -	|   | E | r | R |
+> +	|   | W | r | R |
+>   	+---+---+---+---+
+> -	| E | Y | Y | Y |
+> +	| W | Y | Y | Y |
+>   	+---+---+---+---+
+>   	| r | Y | Y | N |
+>   	+---+---+---+---+
 
-OK I think I get it now.. so the driver checks both EXCLUSIVE and owner, if all
-match it skips the notify, otherwise it's treated like all the rest.  Thanks.
-
-However then it's still confusing (as I raised it too in previous comment) that
-we use CLEAR when re-installing the valid pte.  It's merely against what CLEAR
-means.
-
-How about sending EXCLUSIVE for both mark/restore?  Just that when restore we
-notify with owner==NULL telling that no one is owning it anymore so driver
-needs to drop the ownership.  I assume your driver patch does not need change
-too.  Would that be much cleaner than CLEAR?  I bet it also makes commenting
-the new notify easier.
-
-What do you think?
-
-[...]
-
-> > > +                                   vma->vm_mm, address, min(vma->vm_end,
-> > > +                                   address + page_size(page)),
-> > > args->owner); +     mmu_notifier_invalidate_range_start(&range);
-> > > +
-> > > +     while (page_vma_mapped_walk(&pvmw)) {
-> > > +             /* Unexpected PMD-mapped THP? */
-> > > +             VM_BUG_ON_PAGE(!pvmw.pte, page);
-> > > +
-> > > +             if (!pte_present(*pvmw.pte)) {
-> > > +                     ret = false;
-> > > +                     page_vma_mapped_walk_done(&pvmw);
-> > > +                     break;
-> > > +             }
-> > > +
-> > > +             subpage = page - page_to_pfn(page) + pte_pfn(*pvmw.pte);
-> > 
-> > I see that all pages passed in should be done after FOLL_SPLIT_PMD, so is
-> > this needed?  Or say, should subpage==page always be true?
-> 
-> Not always, in the case of a thp there are small ptes which will get device 
-> exclusive entries.
-
-FOLL_SPLIT_PMD will first split the huge thp into smaller pages, then do
-follow_page_pte() on them (in follow_pmd_mask):
-
-	if (flags & FOLL_SPLIT_PMD) {
-		int ret;
-		page = pmd_page(*pmd);
-		if (is_huge_zero_page(page)) {
-			spin_unlock(ptl);
-			ret = 0;
-			split_huge_pmd(vma, pmd, address);
-			if (pmd_trans_unstable(pmd))
-				ret = -EBUSY;
-		} else {
-			spin_unlock(ptl);
-			split_huge_pmd(vma, pmd, address);
-			ret = pte_alloc(mm, pmd) ? -ENOMEM : 0;
-		}
-
-		return ret ? ERR_PTR(ret) :
-			follow_page_pte(vma, address, pmd, flags, &ctx->pgmap);
-	}
-
-So I thought all pages are small pages?
-
--- 
-Peter Xu
+Acked-by: Waiman Long <longman@redhat.com>
 
