@@ -2,152 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73DFEC47089
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 17:07:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C85CEC4708B
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 20:09:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53EB76124C
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 17:07:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5150613CC
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 20:09:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236774AbhE0RJO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 May 2021 13:09:14 -0400
-Received: from foss.arm.com ([217.140.110.172]:60702 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235279AbhE0RJN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 May 2021 13:09:13 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C01B11D4;
-        Thu, 27 May 2021 10:07:40 -0700 (PDT)
-Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 852233F719;
-        Thu, 27 May 2021 10:07:38 -0700 (PDT)
-Date:   Thu, 27 May 2021 18:07:30 +0100
-From:   Beata Michalska <beata.michalska@arm.com>
-To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc:     Valentin Schneider <valentin.schneider@arm.com>,
-        linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, corbet@lwn.net, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
- detection
-Message-ID: <20210527170729.GA20994@e120325.cambridge.arm.com>
-References: <87fsyc6mfz.mognet@arm.com>
- <20210524225508.GA14880@e120325.cambridge.arm.com>
- <87a6oj6sxo.mognet@arm.com>
- <20210525102945.GA24210@e120325.cambridge.arm.com>
- <98ad8837-b9b8-ff50-5a91-8d5951ee757c@arm.com>
- <20210526121546.GA13262@e120325.cambridge.arm.com>
- <20210526125133.GB13262@e120325.cambridge.arm.com>
- <d4dc6630-041f-bf61-898a-6f402b993fbc@arm.com>
- <20210526214004.GA1712@e120325.cambridge.arm.com>
- <14593ba7-eed9-f035-724c-5cadbb859adc@arm.com>
+        id S235582AbhE0UKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 May 2021 16:10:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47606 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235524AbhE0UKj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 May 2021 16:10:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1622146145;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=DhMCEoC71DeYcLFzap4I0+HN6X7eTgKuNl1UamyyAJQ=;
+        b=HTjGfuV3kF9csqOe0km2/YDte2askZRrbs8yQ2jH96jHt3gw3F2liZDHFWrs3BpmRZzexZ
+        ZAtu7oLxdqroEmm+4Ixl0S//slpHcjDDbtZvuFGSq5QdsCdhSPF2BtekQ/klUQxS3kjiOj
+        QDqWKAlP7i3Q1sxA/x97QJy6jPc5oS4=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-224-jfZ-sfwXMSqBxSk3NqZVnA-1; Thu, 27 May 2021 16:09:04 -0400
+X-MC-Unique: jfZ-sfwXMSqBxSk3NqZVnA-1
+Received: by mail-oi1-f199.google.com with SMTP id y137-20020aca4b8f0000b02901f110a6ffedso758616oia.16
+        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 13:09:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DhMCEoC71DeYcLFzap4I0+HN6X7eTgKuNl1UamyyAJQ=;
+        b=QlM/aygdcmY11qVAdoIoCVWOzrfLNVcQGupAs+LEQuls2xVmKPPbXsIlVp2246+IE5
+         RlW+s7S36qqmZ1uPLWveKJcbUlOnf0L49jCAFgV3a012QzLlSMEveAksESYzJQBfUi8A
+         /YYQU6OP+jBTW0nI20M4TnGmc5PIw5Dbap0aFEC5YRNHaOaxTv5meO+w1caS0+x1dCTL
+         MGKLvthmYm/obMtbtg0tlihdGULPeFBVzsGLEB8R+3CTIP1/5rMgnQ70C+NZHe/s8tj6
+         1Bapj99z6FdjOIrxRZ3o7gUhPkZ2U7VNd8Y50KtKFkeLooIZa7eoP6OBhc451jW+RLoe
+         iEaw==
+X-Gm-Message-State: AOAM531o1sUm0UWBYwKhH1bQKoy5qF7hN5esxwpAUpYFAR6QZmrVbebt
+        UE0uXC5hAoRGu/Q7RVo3KwmWQIAF0DJjvWM2P93E+sFWr+7vsx4ODs2HOzbS/Pk91hit7/UyVid
+        UR09sZM8e2iqLE142ox8s
+X-Received: by 2002:a05:6830:1155:: with SMTP id x21mr4090553otq.303.1622146143239;
+        Thu, 27 May 2021 13:09:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCkp4fHhNtfLrCKbdxUvriNHcn1UCGVTm1I6709kKfxlzFS68SW5CuZArK4ihyde9rOSg4vg==
+X-Received: by 2002:a05:6830:1155:: with SMTP id x21mr4090517otq.303.1622146142935;
+        Thu, 27 May 2021 13:09:02 -0700 (PDT)
+Received: from localhost (cpe-70-95-20-182.san.res.rr.com. [70.95.20.182])
+        by smtp.gmail.com with ESMTPSA id s85sm635380oos.4.2021.05.27.13.09.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 May 2021 13:09:02 -0700 (PDT)
+Date:   Thu, 27 May 2021 13:09:00 -0700
+From:   Fernando Pacheco <fpacheco@redhat.com>
+To:     trix@redhat.com
+Cc:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
+        michal.simek@xilinx.com, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] fpga: fix spelling mistakes
+Message-ID: <20210527200900.GA875457@mail.gmail.com>
+References: <20210519163056.1966690-1-trix@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <14593ba7-eed9-f035-724c-5cadbb859adc@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210519163056.1966690-1-trix@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 27, 2021 at 05:08:42PM +0200, Dietmar Eggemann wrote:
-> On 26/05/2021 23:40, Beata Michalska wrote:
-> > On Wed, May 26, 2021 at 08:17:41PM +0200, Dietmar Eggemann wrote:
-> >> On 26/05/2021 14:51, Beata Michalska wrote:
-> >>> On Wed, May 26, 2021 at 01:15:46PM +0100, Beata Michalska wrote:
-> >>>> On Wed, May 26, 2021 at 11:52:25AM +0200, Dietmar Eggemann wrote:
-> >>>>> On 25/05/2021 12:29, Beata Michalska wrote:
-> >>>>>> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
-> >>>>>>> On 24/05/21 23:55, Beata Michalska wrote:
-> >>>>>>>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
-> >>>>>>>>> On 24/05/21 11:16, Beata Michalska wrote:
+On Wed, May 19, 2021 at 09:30:56AM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
 > 
-> [...]
-> 
-> >>                 cpu-map {
-> >>                         cluster0 {
-> >>                                 core0 {
-> >> 					thread0 {
-> >>                                         	cpu = <&A53_0>;
-> >> 					};
-> >> 					thread1 {
-> >>                                         	cpu = <&A53_1>;
-> >> 					};
-> >>                                 };
-> >>                                 core1 {
-> >> 					thread0 {
-> >>                                         	cpu = <&A53_2>;
-> >> 					};
-> >> 					thread1 {
-> >>                                         	cpu = <&A53_3>;
-> >> 					};
-> >>                                 };
-> >>                                 core2 {
-> >> 					thread0 {
-> >>                                         	cpu = <&A53_4>;
-> >> 					};
-> >> 					thread1 {
-> >>                                         	cpu = <&A53_5>;
-> >> 					};
-> >>                                 };
-> >>                         };
-> >>
-> >>                         cluster1 {
-> >>                                 core0 {
-> >> 					thread0 {
-> >>                                         	cpu = <&A53_6>;
-> >> 					};
-> >> 					thread1 {
-> >>                                         	cpu = <&A53_7>;
-> >> 					};
-> >>                                 };
-> >>                         };
-> >>                 };
-> >>
-> >> 		A53_0: cpu@0 {
-> >> 			capacity-dmips-mhz = <446>;
-> >> 	 	A53_1: cpu@1 {
-> >> 			capacity-dmips-mhz = <1024>;
-> >> 		A53_2: cpu@2 {
-> >> 			capacity-dmips-mhz = <871>;
-> >> 		A53_3: cpu@3 {
-> >> 			capacity-dmips-mhz = <1024>;
-> >> 		A53_4: cpu@4 {
-> >> 			capacity-dmips-mhz = <446>;
-> >> 		A53_5: cpu@5 {
-> >> 			capacity-dmips-mhz = <871>;
-> >> 		A53_6: cpu@6 {
-> >> 			capacity-dmips-mhz = <1024>;
-> >> 		A53_7: cpu@7 {
-> >> 			capacity-dmips-mhz = <1024>;
-> >>
-> >> Here I guess SD_ASYM_CPUCAPACITY will be attached to SMT[0-5]. So this
-> >> 'capacity-dmips-mhz' config error won't be detected.
-> >>
-> >> In case all CPUs (i.e. hw threads would have the correct
-> >> capacity-dmips-mhz = <1024> or not being set (default 1024))
-> >> asym_cap_list would corrcetly only have 1 entry.
-> > We could possibly add a warning (like in EAS) if the asymmetry is detected
-> > for SMT which would give some indication that there is smth ... wrong ?
-> 
-> Maybe, in case you find an easy way to detect this.
-> 
-> But the issue already exists today. Not with the topology mentioned
-> above but in case we slightly change it to:
-> 
->   cpus = { ([446 1024] [871 1024] [446 1024] ) ([1024 1024]) }
->                                        ^^^^
-> so that we have a 1024 CPU in the lowest sd for each CPU, we would get
-> SD_ASYM_CPUCAPACITY on SMT.
-The asymmetry capacity flags are being set on a sched domain level, so
-we could use the SD_SHARE_CPUCAPACITY|SD_SHARE_PKG_RESOURCES (cpu_smt_flags)
-flags to determine if having asymmetry is valid or not ? If this is enough 
-this could be handled by the classify function?
+> Run the fpga subsystem through aspell.
 
----
-BR
-B.
+Reviewed-by: Fernando Pacheco <fpacheco@redhat.com>
+
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  Documentation/fpga/dfl.rst    | 4 ++--
+>  drivers/fpga/altera-cvp.c     | 2 +-
+>  drivers/fpga/dfl-fme-pr.c     | 2 +-
+>  drivers/fpga/dfl-n3000-nios.c | 2 +-
+>  drivers/fpga/dfl.h            | 2 +-
+>  drivers/fpga/fpga-bridge.c    | 4 ++--
+>  drivers/fpga/zynq-fpga.c      | 6 +++---
+>  include/linux/fpga/fpga-mgr.h | 2 +-
+>  8 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index f3a1223f2517e..ccc33f199df2a 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -10,7 +10,7 @@ Authors:
+>  - Xu Yilun <yilun.xu@intel.com>
+>  
+>  The Device Feature List (DFL) FPGA framework (and drivers according to
+> -this framework) hides the very details of low layer hardwares and provides
+> +this framework) hides the very details of low layer hardware and provides
+>  unified interfaces to userspace. Applications could use these interfaces to
+>  configure, enumerate, open and access FPGA accelerators on platforms which
+>  implement the DFL in the device memory. Besides this, the DFL framework
+> @@ -205,7 +205,7 @@ given Device Feature Lists and create platform devices for feature devices
+>  also abstracts operations for the private features and exposes common ops to
+>  feature device drivers.
+>  
+> -The FPGA DFL Device could be different hardwares, e.g. PCIe device, platform
+> +The FPGA DFL Device could be different hardware, e.g. PCIe device, platform
+>  device and etc. Its driver module is always loaded first once the device is
+>  created by the system. This driver plays an infrastructural role in the
+>  driver architecture. It locates the DFLs in the device memory, handles them
+> diff --git a/drivers/fpga/altera-cvp.c b/drivers/fpga/altera-cvp.c
+> index 4e0edb60bfba6..ccf4546eff297 100644
+> --- a/drivers/fpga/altera-cvp.c
+> +++ b/drivers/fpga/altera-cvp.c
+> @@ -346,7 +346,7 @@ static int altera_cvp_write_init(struct fpga_manager *mgr,
+>  	}
+>  
+>  	if (val & VSE_CVP_STATUS_CFG_RDY) {
+> -		dev_warn(&mgr->dev, "CvP already started, teardown first\n");
+> +		dev_warn(&mgr->dev, "CvP already started, tear down first\n");
+>  		ret = altera_cvp_teardown(mgr, info);
+>  		if (ret)
+>  			return ret;
+> diff --git a/drivers/fpga/dfl-fme-pr.c b/drivers/fpga/dfl-fme-pr.c
+> index 1194c0e850e07..d61ce9a188792 100644
+> --- a/drivers/fpga/dfl-fme-pr.c
+> +++ b/drivers/fpga/dfl-fme-pr.c
+> @@ -148,7 +148,7 @@ static int fme_pr(struct platform_device *pdev, unsigned long arg)
+>  
+>  	/*
+>  	 * it allows userspace to reset the PR region's logic by disabling and
+> -	 * reenabling the bridge to clear things out between accleration runs.
+> +	 * reenabling the bridge to clear things out between acceleration runs.
+>  	 * so no need to hold the bridges after partial reconfiguration.
+>  	 */
+>  	if (region->get_bridges)
+> diff --git a/drivers/fpga/dfl-n3000-nios.c b/drivers/fpga/dfl-n3000-nios.c
+> index 7a95366f6516f..9ddf1d1d392f3 100644
+> --- a/drivers/fpga/dfl-n3000-nios.c
+> +++ b/drivers/fpga/dfl-n3000-nios.c
+> @@ -461,7 +461,7 @@ static int n3000_nios_poll_stat_timeout(void __iomem *base, u64 *v)
+>  	 * We don't use the time based timeout here for performance.
+>  	 *
+>  	 * The regbus read/write is on the critical path of Intel PAC N3000
+> -	 * image programing. The time based timeout checking will add too much
+> +	 * image programming. The time based timeout checking will add too much
+>  	 * overhead on it. Usually the state changes in 1 or 2 loops on the
+>  	 * test server, and we set 10000 times loop here for safety.
+>  	 */
+> diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
+> index 2b82c96ba56c7..dac9c3d45e6c3 100644
+> --- a/drivers/fpga/dfl.h
+> +++ b/drivers/fpga/dfl.h
+> @@ -232,7 +232,7 @@ struct dfl_feature_irq_ctx {
+>   * @id: sub feature id.
+>   * @resource_index: each sub feature has one mmio resource for its registers.
+>   *		    this index is used to find its mmio resource from the
+> - *		    feature dev (platform device)'s reources.
+> + *		    feature dev (platform device)'s resources.
+>   * @ioaddr: mapped mmio resource address.
+>   * @irq_ctx: interrupt context list.
+>   * @nr_irqs: number of interrupt contexts.
+> diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
+> index 6510c7803a784..d31eec32eb426 100644
+> --- a/drivers/fpga/fpga-bridge.c
+> +++ b/drivers/fpga/fpga-bridge.c
+> @@ -230,7 +230,7 @@ EXPORT_SYMBOL_GPL(fpga_bridges_put);
+>   *
+>   * Get an exclusive reference to the bridge and and it to the list.
+>   *
+> - * Return 0 for success, error code from of_fpga_bridge_get() othewise.
+> + * Return 0 for success, error code from of_fpga_bridge_get() otherwise.
+>   */
+>  int of_fpga_bridge_get_to_list(struct device_node *np,
+>  			       struct fpga_image_info *info,
+> @@ -260,7 +260,7 @@ EXPORT_SYMBOL_GPL(of_fpga_bridge_get_to_list);
+>   *
+>   * Get an exclusive reference to the bridge and and it to the list.
+>   *
+> - * Return 0 for success, error code from fpga_bridge_get() othewise.
+> + * Return 0 for success, error code from fpga_bridge_get() otherwise.
+>   */
+>  int fpga_bridge_get_to_list(struct device *dev,
+>  			    struct fpga_image_info *info,
+> diff --git a/drivers/fpga/zynq-fpga.c b/drivers/fpga/zynq-fpga.c
+> index 07fa8d9ec6750..9b75bd4f93d8e 100644
+> --- a/drivers/fpga/zynq-fpga.c
+> +++ b/drivers/fpga/zynq-fpga.c
+> @@ -192,7 +192,7 @@ static void zynq_step_dma(struct zynq_fpga_priv *priv)
+>  
+>  	/* Once the first transfer is queued we can turn on the ISR, future
+>  	 * calls to zynq_step_dma will happen from the ISR context. The
+> -	 * dma_lock spinlock guarentees this handover is done coherently, the
+> +	 * dma_lock spinlock guarantees this handover is done coherently, the
+>  	 * ISR enable is put at the end to avoid another CPU spinning in the
+>  	 * ISR on this lock.
+>  	 */
+> @@ -267,7 +267,7 @@ static int zynq_fpga_ops_write_init(struct fpga_manager *mgr,
+>  		ctrl = zynq_fpga_read(priv, CTRL_OFFSET);
+>  		if (!(ctrl & CTRL_SEC_EN_MASK)) {
+>  			dev_err(&mgr->dev,
+> -				"System not secure, can't use crypted bitstreams\n");
+> +				"System not secure, can't use encrypted bitstreams\n");
+>  			err = -EINVAL;
+>  			goto out_err;
+>  		}
+> @@ -344,7 +344,7 @@ static int zynq_fpga_ops_write_init(struct fpga_manager *mgr,
+>  
+>  	/* set configuration register with following options:
+>  	 * - enable PCAP interface
+> -	 * - set throughput for maximum speed (if bistream not crypted)
+> +	 * - set throughput for maximum speed (if bistream not encrypted)
+>  	 * - set CPU in user mode
+>  	 */
+>  	ctrl = zynq_fpga_read(priv, CTRL_OFFSET);
+> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
+> index 2bc3030a69e54..3a32b8e201857 100644
+> --- a/include/linux/fpga/fpga-mgr.h
+> +++ b/include/linux/fpga/fpga-mgr.h
+> @@ -110,7 +110,7 @@ struct fpga_image_info {
+>   * @initial_header_size: Maximum number of bytes that should be passed into write_init
+>   * @state: returns an enum value of the FPGA's state
+>   * @status: returns status of the FPGA, including reconfiguration error code
+> - * @write_init: prepare the FPGA to receive confuration data
+> + * @write_init: prepare the FPGA to receive configuration data
+>   * @write: write count bytes of configuration data to the FPGA
+>   * @write_sg: write the scatter list of configuration data to the FPGA
+>   * @write_complete: set FPGA to operating state after writing is done
+> -- 
+> 2.26.3
+> 
+
