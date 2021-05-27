@@ -2,202 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-28.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE83BC47082
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 00:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7450C47082
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 01:20:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB48E613C9
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 00:53:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A773E613C5
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 01:20:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233038AbhE0AzV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 May 2021 20:55:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33262 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232975AbhE0AzU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 May 2021 20:55:20 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24DC3C061760
-        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 17:53:47 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id h15so2628106ilr.2
-        for <linux-doc@vger.kernel.org>; Wed, 26 May 2021 17:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ob5N3fCbbDLB0UERbmW+vRDN/1QFz9ChAAVkpFKx6WE=;
-        b=PVRxPnxOEA+/JYbCOrw8gof/L0tDYA6KH+myRNCeNYJgvRZnXm7YSDr1t89NTga/hc
-         ijECgrQkelx4cpC544ttqJR0QAVvxmRs+dcOJPy4A3W4WMcyX4l+ncMQx6L7QR5uqMzf
-         RbQJkAG97zN9XoffEzawuX9uYdxNjc4G2ZQ/pKTdnbhlBMath7DaX7LzRHGFGlfqPEfP
-         S3gS1OXtU2IkFHM+Y5AOHGuMkS+L5b6VmksQO5Lw/52GzjtcQOOEXSTUobgsEBn1xZAo
-         61bif5xinqeibBnCUHQTjTW1VcBiM6zpvtUTIe+BS1od64d0+I+TSJeeNJ9TeW1+pwDi
-         hKiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ob5N3fCbbDLB0UERbmW+vRDN/1QFz9ChAAVkpFKx6WE=;
-        b=uhumvIVlHH9YbPATF38atQnv2Y7qJ4eGB0p7//LLX7p+6KdJy756yTTkisFH8K2hiF
-         WTBXhfiQvcQ6tSIvqvr7mkltAX7v/GQjvXaUuVaRJLVMdbBCmdCO3wo1/LpvkQrrgX1G
-         v9ISf1uW95xfq9xd34eDjCfQEMEhKMH4B1zQQUHPS/vY2abP3w8MRT/vqlYDTKAVCjRZ
-         nORc6/YRSXw2dQMXn3+3QhH6EdItoJIqQzqvjhI+8A6jzjNn4U7rvLuZ7znbIhbBQ6as
-         FmNNvB+JEhc6iNmBfr+vI+zwc/63fJDreX9cpn7zb6fy87OK+Jkk3BbUD41z8apwNk81
-         2VfQ==
-X-Gm-Message-State: AOAM5335lKbaPHiHGmos5JXhprWDMtLUxo4/qEV/+93EKE+LOhP5Xkf7
-        c2W/9uWlWAYAaXv40/SAfmica9XPRmXsVn985ICbsQ==
-X-Google-Smtp-Source: ABdhPJxS7nyUKrCQsDFuq4gpM9vG/4EXxxA61T+RkbgzfkVzdV5dCEzm0jA8Ai9X5nEB9uLsd5RLiJZXX8rsLCkVBp4=
-X-Received: by 2002:a05:6e02:2188:: with SMTP id j8mr871603ila.194.1622076826115;
- Wed, 26 May 2021 17:53:46 -0700 (PDT)
+        id S234368AbhE0BWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 May 2021 21:22:16 -0400
+Received: from mail-mw2nam12on2078.outbound.protection.outlook.com ([40.107.244.78]:2496
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232187AbhE0BWQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 May 2021 21:22:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YkpgaT+qDl4FMbbJ9Z3gj4isxTlskndXbEU9SzeUe4eEbMGIANNi3EHdXnNio5oZ4gPSLwjH4LqxWz/vbTAJyL1dsdO4evDwgzoaqa5HxUIK/GgucNSam2LHs56nWLzg2mevfCO3TNVlbO6MAeA76kBs8Ksq8OqOfkVh/JUU1IMdgxQaGRq8FLfpbc51SUWEkDFQxhxsX+LnH2P4cUlhq12pWsUUwgkXwHcGrhBiaUNnO3Oc/8WFaBFAZPGd8CatdWMtWO5G3tPJ3Ji6//Nu/9OkOiBl5LIh/4IXnhrfU0EeH8ErwB47hh6ekwQ46njLeU44Lo49vZVDP+cHQJE5VQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BBYmHosF1/PQ3SLR0/61RIGhUaU7vfnmIJaAYXGD1oI=;
+ b=jbZDWfU3a9Rn8W93SH3JMF67/ny/1tSP93LBfpF/FDlbrP6woZvt3Olfvuu9NpFQr//rhp3gZ6Lspwfgz38KKL2lE+q5atW7QBD/NUiSJhnyYTisKdyRQZEeDZmswd7m8kXHYq9B3YagMoZjP6SMFsKni9b5aW0NtdNlcG4eoIM0/UEeWUWDfPGO9SjApU9iz4WkTbLNk56F7nVrvgvY7iDkecsOJql6gynX/J7rUYgqzvOJ2ZrNyPuyoWWJ4B+30c7IJbt8lMkSmPwNEuMqNnhEG9FO/McTwmQcOw7DmPzdLBHmG0EqcS5CRsBvoXd5ufcxtk4m28A7SGxIwgWgYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BBYmHosF1/PQ3SLR0/61RIGhUaU7vfnmIJaAYXGD1oI=;
+ b=Ddktud8CI2v/aXZD/Nj17EnB7Ea79dxal+s7aSPhm4H7S+q+tOWbnlCPXZ1pVllVdc0MgFIYsCqOc0znJKzhOWexrxcVcm+CFmdYhe7/04ppd2eBFWk2uWwgVPrw9HeD6F5cY502e+232q4HEo2Xs8gQOniItK0ylv+p+425X8TNXLR6G7bWdzEVWMJp1IpQ0ra7j1Soo6kbi+WYYykV68GIEZukSazSIKj9OzeHWZ+gvR+98kAuDD1GsgYrdyEBnzRtiUaTrZ50btgmYKT/ZbkYc1prqgybrWNwS1Xoxs0JnwdSV+y5gRN6waWC0rozA8fg3HxTpuMVjS1AC2SGJg==
+Received: from CO2PR07CA0064.namprd07.prod.outlook.com (2603:10b6:100::32) by
+ BN6PR12MB1266.namprd12.prod.outlook.com (2603:10b6:404:14::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4150.23; Thu, 27 May 2021 01:20:42 +0000
+Received: from CO1NAM11FT060.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:100:0:cafe::fd) by CO2PR07CA0064.outlook.office365.com
+ (2603:10b6:100::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Thu, 27 May 2021 01:20:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ CO1NAM11FT060.mail.protection.outlook.com (10.13.175.132) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4129.25 via Frontend Transport; Thu, 27 May 2021 01:20:42 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 27 May
+ 2021 01:20:38 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Peter Xu <peterx@redhat.com>
+CC:     <linux-mm@kvack.org>, <akpm@linux-foundation.org>,
+        <nouveau@lists.freedesktop.org>, <bskeggs@redhat.com>,
+        <rcampbell@nvidia.com>, <linux-doc@vger.kernel.org>,
+        <jhubbard@nvidia.com>, <bsingharora@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <hch@infradead.org>, <jglisse@redhat.com>, <willy@infradead.org>,
+        <jgg@nvidia.com>, <hughd@google.com>
+Subject: Re: [PATCH v9 06/10] mm/memory.c: Allow different return codes for copy_nonpresent_pte()
+Date:   Thu, 27 May 2021 11:20:36 +1000
+Message-ID: <2005328.bFqPmhE5MS@nvdebian>
+In-Reply-To: <YK6mbf967dV0ljHn@t490s>
+References: <20210524132725.12697-1-apopple@nvidia.com> <20210524132725.12697-7-apopple@nvidia.com> <YK6mbf967dV0ljHn@t490s>
 MIME-Version: 1.0
-References: <20210526212407.2753879-1-brendanhiggins@google.com> <20210526212407.2753879-2-brendanhiggins@google.com>
-In-Reply-To: <20210526212407.2753879-2-brendanhiggins@google.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Wed, 26 May 2021 17:53:34 -0700
-Message-ID: <CAGS_qxqZsG8oqQx0hY5VjMNkX643Hb_uPKp_oxUcC34F230dgA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] kunit: Add 'kunit_shutdown' option
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     shuah <shuah@kernel.org>, David Gow <davidgow@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d78414e7-cfaf-4f12-cb71-08d920ada570
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1266:
+X-Microsoft-Antispam-PRVS: <BN6PR12MB1266E85D8FACB077FEEA288EDF239@BN6PR12MB1266.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0d7+K+vE6+9VKNGuW0TFntKbb5dmvBDIlTZp0JsTp0bmESASk4qXF9e/rJ12Qr/zO+4ky8hWe8tezexAvPdj9bhNVJJni7f09YlpmUciwFbn1h+V+BGo5jNFatjXdwBiWOvEMaTRTcZoRMg51zE50fEgQN0pbdnhuR+NuWIF3N9aSJ+l+YC19/xOQ4nAQmkYfsZMLhGQGwk5QkkzHYGj8TLIy/0ULNQpSWY9mCbHnnojySbZfhIlrGtQEHH9gTX7dYbOqNlj2Vq8tgHC9/AeUbWLwz4RdLHuLZ+oWSDO6YQtS7sd7i+x8mbYPwQ3uTiu4DcYObCNXCzrkKa/d9sSOhvcquGhvD6ohgfCNKbFHHn5DcuFoNRElcfkstxdHmvVnOj6RSruBxq3R+O/+pY3HPBDzJP58z3fHjq3fBjQuy8qL+xJZ/UmQx+EkKbfJIHM1m++4lUSr9TJBkP4bPr1ZFGyUAxMd/MhksZ8Q2ZEjmolGEKhEMwBfHb8PvbPKBepPe4soBg3NgKcTGFKkkwZueEnBpmSHqQtS+LLzLGj6XQrUbE5MMpJ2c8V5fAkfZIVTv+Ujnq6hIUpnxVKKW0a8f830TeVlj1gLEDQ83FJnQNre50uFqXvoPjdfkglzBlnmLDpkTfnIlK7UZC86tSXBfrW030ZltfV2Hba+3pYCIrYcYY/iDjPQa6qVlJ96Gr6
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(396003)(136003)(36840700001)(46966006)(5660300002)(83380400001)(186003)(316002)(82310400003)(2906002)(36906005)(426003)(86362001)(478600001)(7416002)(26005)(4326008)(6916009)(16526019)(70586007)(54906003)(70206006)(336012)(7636003)(9576002)(33716001)(8676002)(8936002)(356005)(36860700001)(9686003)(82740400003)(47076005)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 01:20:42.5560
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d78414e7-cfaf-4f12-cb71-08d920ada570
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT060.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1266
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 26, 2021 at 2:24 PM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> From: David Gow <davidgow@google.com>
->
-> Add a new kernel command-line option, 'kunit_shutdown', which allows the
-> user to specify that the kernel poweroff, halt, or reboot after
-> completing all KUnit tests; this is very handy for running KUnit tests
-> on UML or a VM so that the UML/VM process exits cleanly immediately
-> after running all tests without needing a special initramfs.
->
-> Signed-off-by: David Gow <davidgow@google.com>
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-> Tested-By: Daniel Latypov <dlatypov@google.com>
-
-Reviewed-by: Daniel Latypov <dlatypov@google.com>
-
-Looks good, one optional nit below.
-
-Also, I tested this again on top of 5.13-r4 (7ac3a1c1ae51 ("Merge tag
-'mtd/fixes-for-5.13-rc4' of
-git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux"))
-
-$ echo -e "\nCONFIG_DEBUG_KERNEL=y\nCONFIG_DEBUG_INFO=y\nCONFIG_GCOV=y"
->> .kunit/.kunitconfig
-$ run_kunit --make_options=CC=/usr/bin/gcc-6
-$ <run coverage generation steps>
-Overall coverage rate:
-  lines......: 13.8% (17286 of 125320 lines)
-  functions..: 15.8% (1790 of 11336 functions)
-
-So coverage still seems to be fixed, no need to comment out the
-uml_abort() anymore and this sidesteps whatever weird issue I started
-running into these past few weeks.
-So that's very exciting.
-
-> ---
->  lib/kunit/executor.c                | 20 ++++++++++++++++++++
->  tools/testing/kunit/kunit_kernel.py |  2 +-
->  tools/testing/kunit/kunit_parser.py |  2 +-
->  3 files changed, 22 insertions(+), 2 deletions(-)
->
-> diff --git a/lib/kunit/executor.c b/lib/kunit/executor.c
-> index 15832ed446685..7db619624437c 100644
-> --- a/lib/kunit/executor.c
-> +++ b/lib/kunit/executor.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->
-> +#include <linux/reboot.h>
->  #include <kunit/test.h>
->  #include <linux/glob.h>
->  #include <linux/moduleparam.h>
-> @@ -18,6 +19,9 @@ module_param(filter_glob, charp, 0);
->  MODULE_PARM_DESC(filter_glob,
->                 "Filter which KUnit test suites run at boot-time, e.g. list*");
->
-> +static char *kunit_shutdown;
-> +core_param(kunit_shutdown, kunit_shutdown, charp, 0644);
-> +
->  static struct kunit_suite * const *
->  kunit_filter_subsuite(struct kunit_suite * const * const subsuite)
->  {
-> @@ -82,6 +86,20 @@ static struct suite_set kunit_filter_suites(void)
->         return filtered;
->  }
->
-> +static void kunit_handle_shutdown(void)
-> +{
-> +       if (!kunit_shutdown)
-> +               return;
-> +
-> +       if (!strcmp(kunit_shutdown, "poweroff"))
-> +               kernel_power_off();
-> +       else if (!strcmp(kunit_shutdown, "halt"))
-> +               kernel_halt();
-> +       else if (!strcmp(kunit_shutdown, "reboot"))
-> +               kernel_restart(NULL);
-
-nit: should we complain about an unknown option here?
-
-> +
-> +}
-> +
->  static void kunit_print_tap_header(struct suite_set *suite_set)
->  {
->         struct kunit_suite * const * const *suites, * const *subsuite;
-> @@ -112,6 +130,8 @@ int kunit_run_all_tests(void)
->                 kfree(suite_set.start);
+On Thursday, 27 May 2021 5:50:05 AM AEST Peter Xu wrote:
+> On Mon, May 24, 2021 at 11:27:21PM +1000, Alistair Popple wrote:
+> > Currently if copy_nonpresent_pte() returns a non-zero value it is
+> > assumed to be a swap entry which requires further processing outside the
+> > loop in copy_pte_range() after dropping locks. This prevents other
+> > values being returned to signal conditions such as failure which a
+> > subsequent change requires.
+> > 
+> > Instead make copy_nonpresent_pte() return an error code if further
+> > processing is required and read the value for the swap entry in the main
+> > loop under the ptl.
+> > 
+> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > 
+> > ---
+> > 
+> > v9:
+> > 
+> > New for v9 to allow device exclusive handling to occur in
+> > copy_nonpresent_pte().
+> > ---
+> > 
+> >  mm/memory.c | 12 +++++++-----
+> >  1 file changed, 7 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index 2fb455c365c2..e061cfa18c11 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -718,7 +718,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct
+> > mm_struct *src_mm,> 
+> >       if (likely(!non_swap_entry(entry))) {
+> >       
+> >               if (swap_duplicate(entry) < 0)
+> > 
+> > -                     return entry.val;
+> > +                     return -EAGAIN;
+> > 
+> >               /* make sure dst_mm is on swapoff's mmlist. */
+> >               if (unlikely(list_empty(&dst_mm->mmlist))) {
+> > 
+> > @@ -974,11 +974,13 @@ copy_pte_range(struct vm_area_struct *dst_vma,
+> > struct vm_area_struct *src_vma,> 
+> >                       continue;
+> >               
+> >               }
+> >               if (unlikely(!pte_present(*src_pte))) {
+> > 
+> > -                     entry.val = copy_nonpresent_pte(dst_mm, src_mm,
+> > -                                                     dst_pte, src_pte,
+> > -                                                     src_vma, addr, rss);
+> > -                     if (entry.val)
+> > +                     ret = copy_nonpresent_pte(dst_mm, src_mm,
+> > +                                             dst_pte, src_pte,
+> > +                                             src_vma, addr, rss);
+> > +                     if (ret == -EAGAIN) {
+> > +                             entry = pte_to_swp_entry(*src_pte);
+> > 
+> >                               break;
+> > 
+> > +                     }
+> > 
+> >                       progress += 8;
+> >                       continue;
+> >               
+> >               }
+> 
+> Note that -EAGAIN was previously used by copy_present_page() for early cow
+> use.  Here later although we check entry.val first:
+> 
+>         if (entry.val) {
+>                 if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
+>                         ret = -ENOMEM;
+>                         goto out;
+>                 }
+>                 entry.val = 0;
+>         } else if (ret) {
+>                 WARN_ON_ONCE(ret != -EAGAIN);
+>                 prealloc = page_copy_prealloc(src_mm, src_vma, addr);
+>                 if (!prealloc)
+>                         return -ENOMEM;
+>                 /* We've captured and resolved the error. Reset, try again.
+> */ ret = 0;
 >         }
->
-> +       kunit_handle_shutdown();
-> +
->         return 0;
->  }
->
-> diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-> index 89a7d4024e878..dbbceaee12305 100644
-> --- a/tools/testing/kunit/kunit_kernel.py
-> +++ b/tools/testing/kunit/kunit_kernel.py
-> @@ -208,7 +208,7 @@ class LinuxSourceTree(object):
->         def run_kernel(self, args=None, build_dir='', filter_glob='', timeout=None) -> Iterator[str]:
->                 if not args:
->                         args = []
-> -               args.extend(['mem=1G', 'console=tty'])
-> +               args.extend(['mem=1G', 'console=tty', 'kunit_shutdown=halt'])
->                 if filter_glob:
->                         args.append('kunit.filter_glob='+filter_glob)
->                 self._ops.linux_bin(args, timeout, build_dir)
-> diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/kunit_parser.py
-> index e8bcc139702e2..8d8d4d70b39dd 100644
-> --- a/tools/testing/kunit/kunit_parser.py
-> +++ b/tools/testing/kunit/kunit_parser.py
-> @@ -49,7 +49,7 @@ class TestStatus(Enum):
->
->  kunit_start_re = re.compile(r'TAP version [0-9]+$')
->  kunit_end_re = re.compile('(List of all partitions:|'
-> -                         'Kernel panic - not syncing: VFS:)')
-> +                         'Kernel panic - not syncing: VFS:|reboot: System halted)')
->
->  def isolate_kunit_output(kernel_output) -> Iterator[str]:
->         started = False
+> 
+> We didn't reset "ret" in entry.val case (maybe we should?). Then in the next
+> round of "goto again" if "ret" is unluckily untouched, it could reach the
+> 2nd if check, and I think it could cause an unexpected
+> page_copy_prealloc().
+
+Thanks, I had considered that but saw "ret" was always set either by 
+copy_nonpresent_pte() or copy_present_pte(). However missed the "unlucky" case 
+at the start of the loop:
+
+	if (progress >= 32) {
+		progress = 0;
+		if (need_resched() ||
+				spin_needbreak(src_ptl) || pin_needbreak(dst_ptl))
+			break;
+
+Looking at this again though checking different variables to figure out what 
+to do outside the locks and reusing error codes seems error prone. I reused -
+EAGAIN for copy_nonpresent_pte() simply because that seemed the most sensible 
+error code, but I don't think that aids readability and it might be better to 
+use a unique error code for each case needing extra handling.
+
+So it might be better if I update this patch to:
+1) Use unique error codes for each case requiring special handling outside the 
+lock.
+2) Only check "ret" to determine what to do outside locks (ie. not entry.val)
+3) Document these.
+4) Always reset ret after handling.
+
+Thoughts?
+
+ - Alistair
+
 > --
-> 2.31.1.818.g46aad6cb9e-goog
->
+> Peter Xu
+
+
+
+
