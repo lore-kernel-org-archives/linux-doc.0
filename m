@@ -2,80 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E63C47089
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 16:09:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF22C47089
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 16:11:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 254C2613C3
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 16:09:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9DCB61284
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 16:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235287AbhE0QKs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 May 2021 12:10:48 -0400
-Received: from ms.lwn.net ([45.79.88.28]:48144 "EHLO ms.lwn.net"
+        id S235731AbhE0QNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 May 2021 12:13:25 -0400
+Received: from ms.lwn.net ([45.79.88.28]:48194 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233839AbhE0QKs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 May 2021 12:10:48 -0400
+        id S235631AbhE0QNY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 May 2021 12:13:24 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C28A02B7;
-        Thu, 27 May 2021 16:09:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C28A02B7
+        by ms.lwn.net (Postfix) with ESMTPSA id 0760C2DC;
+        Thu, 27 May 2021 16:11:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0760C2DC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1622131754; bh=SHD3f2phNx3RQy0BeoJkPi5F8ovNBRDQqpw2shszU+c=;
+        t=1622131910; bh=/V6X7dFIwH+ijI90SpG+HfotiquNJzXcSWfeZUVQZJU=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=nW/vDELVdwjFjxZ7Ho+auafF7LPov1jpZI4DERbqsJkSwLGUxF3paV8KaJQhxr2Ef
-         I2Zev7p1O7YnJgc6NtZ41RFYCKRpjjUr+jSK8Ot5geMd0xptK+owkq0OKzWqSNIrjn
-         4Mdt6pSQEi6rXqxE33rD/+xjuoj255pp+XMVJAJtHBbfMeSbWMLoaYQO5AxRyOQumk
-         UesCVTzq4DQBdEo+x8SN30IY9TqIh8BNW4VnTPu2Od9rDlI20jYn4dV5p+eRlscVfP
-         HL9/1yXbGifkclso2Ssbzutg+uVnjEhrgtZffTRpn3XsJgKaAwLsZrzo9cj6SToyLd
-         LJO/EzoBVbciw==
+        b=d4sZZsiXsjR2ff82rfNhnB14MI3OXov3P55fHna4KA21wAeFbZui72REPTg5lySqP
+         OSq3SCgJMMe+2aIQp6Dr5ihJVsgUwJcdGzLj8iS7wofTjHx0tTqVRGmpqmHnmlswsq
+         TggGdvTgB6gMubKiDQWBeX0d/EzpH+YFcZbeyRAqHjfckcwaWE0w0ufBU+oO1ZhRn/
+         5pM6nZlmwCkvbdzZ5APkxdie6RyxAO37WQtDPdbnVae3FJ6GNTQHZM6tSfoGgZfBHQ
+         waZWnn7euw3aCgqUhmU1zOdQ8KLu0zbRK4LgD11Qs2WZis5CY3VWHsc3Ddkavgm0Bl
+         d2VZX73kNcmiA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jonathan Cameron <jic23@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org
-Subject: Re: [PATCH 0/2] doc: add a couple fixups for IIO ABI files
-In-Reply-To: <20210526175908.42db03a0@jic23-huawei>
-References: <cover.1621944866.git.mchehab+huawei@kernel.org>
- <20210526175908.42db03a0@jic23-huawei>
-Date:   Thu, 27 May 2021 10:09:14 -0600
-Message-ID: <87zgwg2m6t.fsf@meer.lwn.net>
+To:     Barry Song <song.bao.hua@hisilicon.com>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, will@kernel.org, catalin.marinas@arm.com,
+        linux-arm-kernel@lists.infradead.org, mpe@ellerman.id.au,
+        benh@kernel.crashing.org, paulus@samba.org,
+        linuxppc-dev@lists.ozlabs.org,
+        Barry Song <song.bao.hua@hisilicon.com>
+Subject: Re: [PATCH] docs: kernel-parameters: mark numa=off is supported by
+ a bundle of architectures
+In-Reply-To: <20210524051715.13604-1-song.bao.hua@hisilicon.com>
+References: <20210524051715.13604-1-song.bao.hua@hisilicon.com>
+Date:   Thu, 27 May 2021 10:11:49 -0600
+Message-ID: <87v9742m2i.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Cameron <jic23@kernel.org> writes:
+Barry Song <song.bao.hua@hisilicon.com> writes:
 
-> On Tue, 25 May 2021 14:23:51 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> risc-v and arm64 support numa=off by common arch_numa_init()
+> in drivers/base/arch_numa.c. x86, ppc, mips, sparc support it
+> by arch-level early_param.
+> numa=off is widely used in linux distributions. it is better
+> to document it.
 >
->> Patch 1 was already submitted as patch 10/10 on this series:
->> 	https://lore.kernel.org/linux-doc/87wnrtnpko.fsf@meer.lwn.net/
->> 
->> However, it generated a new warning, due to a separate issue.
->> 
->> So, resend it together with a warning fix patch.
->> 
->> As these patches are independent from the other ones, I guess it
->> can either be applied via IIO or via docs tree, whatever works
->> best for the doc and IIO maintainers.
->> So, I should leave such decision to Jonathan & Jonathan ;-)
->
-> Either works for me, but on basis I got here first.
->
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->
-> Jon, if you'd prefer I picked these up, then let me know.
+> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 +++
+>  1 file changed, 3 insertions(+)
 
-I've applied them, thanks; I took the liberty of fixing the spelling of
-"specify" in the second one :)
+Applied, thanks.
 
 jon
