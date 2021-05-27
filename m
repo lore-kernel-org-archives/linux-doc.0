@@ -7,89 +7,75 @@ X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D669C4708A
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 16:00:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E63C47089
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 16:09:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 722F3610CC
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 16:00:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 254C2613C3
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 16:09:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236202AbhE0QBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 May 2021 12:01:46 -0400
-Received: from ms.lwn.net ([45.79.88.28]:48016 "EHLO ms.lwn.net"
+        id S235287AbhE0QKs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 May 2021 12:10:48 -0400
+Received: from ms.lwn.net ([45.79.88.28]:48144 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236736AbhE0QBo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 May 2021 12:01:44 -0400
+        id S233839AbhE0QKs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 May 2021 12:10:48 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 86F542D6;
-        Thu, 27 May 2021 16:00:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 86F542D6
+        by ms.lwn.net (Postfix) with ESMTPSA id C28A02B7;
+        Thu, 27 May 2021 16:09:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C28A02B7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1622131210; bh=8T/nB5f/r77tdlhAKOPk62iWe1qb9lmrEftk1GQJ4O4=;
+        t=1622131754; bh=SHD3f2phNx3RQy0BeoJkPi5F8ovNBRDQqpw2shszU+c=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=h6SVsC9zr1T/73w4m2I5md/n/b6t+3wq3YoNLTbQ7+BSHUFsnKHRNHJi1RwhP0JvS
-         7EJiapPdANHc5yNA5iUesYeYOesUEPUCT66AtIu/x+9ZSWSFHqCKW7XTqNUFwUdvvn
-         oSUMPS1WAzlbtREMKhFFkk8FyDO1gQsy+R0y87LaKirz52ejCtCp6o2YxqIPs5ynha
-         J/qH/pS86RzjTzfUZDWbw43u+SRGNeq9eGsZZeW60Z7oalJN7vRVqNtOLjeLd2DMd5
-         J2maFWISJpZr7efLCsFyknxEv45qqiqf2GTwWSm4KZWsPFHnANOpT7yT43Mg1MiPNd
-         isRViuKqfVZCA==
+        b=nW/vDELVdwjFjxZ7Ho+auafF7LPov1jpZI4DERbqsJkSwLGUxF3paV8KaJQhxr2Ef
+         I2Zev7p1O7YnJgc6NtZ41RFYCKRpjjUr+jSK8Ot5geMd0xptK+owkq0OKzWqSNIrjn
+         4Mdt6pSQEi6rXqxE33rD/+xjuoj255pp+XMVJAJtHBbfMeSbWMLoaYQO5AxRyOQumk
+         UesCVTzq4DQBdEo+x8SN30IY9TqIh8BNW4VnTPu2Od9rDlI20jYn4dV5p+eRlscVfP
+         HL9/1yXbGifkclso2Ssbzutg+uVnjEhrgtZffTRpn3XsJgKaAwLsZrzo9cj6SToyLd
+         LJO/EzoBVbciw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Wu X.C." <bobwxc@email.cn>, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v4] docs: Activate exCJK only in CJK chapters
-In-Reply-To: <83208ddc-5de9-b283-3fd6-92c635348ca0@gmail.com>
-References: <2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com>
- <83208ddc-5de9-b283-3fd6-92c635348ca0@gmail.com>
-Date:   Thu, 27 May 2021 10:00:09 -0600
-Message-ID: <878s40416e.fsf@meer.lwn.net>
+To:     Jonathan Cameron <jic23@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH 0/2] doc: add a couple fixups for IIO ABI files
+In-Reply-To: <20210526175908.42db03a0@jic23-huawei>
+References: <cover.1621944866.git.mchehab+huawei@kernel.org>
+ <20210526175908.42db03a0@jic23-huawei>
+Date:   Thu, 27 May 2021 10:09:14 -0600
+Message-ID: <87zgwg2m6t.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Jonathan Cameron <jic23@kernel.org> writes:
 
-> Activating xeCJK in English and Italian-translation documents
-> results in sub-optimal typesetting with wide-looking apostrophes
-> and quotation marks.
+> On Tue, 25 May 2021 14:23:51 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 >
-> The xeCJK package provides macros for enabling and disabling its
-> effect in the middle of a document, namely \makexeCJKactive and
-> \makexeCJKinactive.
+>> Patch 1 was already submitted as patch 10/10 on this series:
+>> 	https://lore.kernel.org/linux-doc/87wnrtnpko.fsf@meer.lwn.net/
+>> 
+>> However, it generated a new warning, due to a separate issue.
+>> 
+>> So, resend it together with a warning fix patch.
+>> 
+>> As these patches are independent from the other ones, I guess it
+>> can either be applied via IIO or via docs tree, whatever works
+>> best for the doc and IIO maintainers.
+>> So, I should leave such decision to Jonathan & Jonathan ;-)
 >
-> So the goal of this change is to activate xeCJK in the relevant
-> chapters in translations.
+> Either works for me, but on basis I got here first.
 >
-> To do this:
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 >
->     o Define custom macros in the preamble depending on the
->       availability of the "Noto Sans CJK" font so that those
->       macros can be used regardless of the use of xeCJK package.
->
->     o Patch \sphinxtableofcontents so that xeCJK is inactivated
->       after table of contents.
->
->     o Embed those custom macros in each language's index.rst file
->       as a ".. raw:: latex" construct.
->
-> Note: A CJK chapter needs \kerneldocCJKon in front of its chapter
-> heading, while a non-CJK chapter should have \kerneldocCJKoff
-> below its chapter heading.
->
-> This is to make sure the CJK font is available to CJK chapter's
-> heading and ending page's footer.
->
-> Tested against Sphinx versions 2.4.4 and 4.0.2.
->
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Tested-by: Wu XiangCheng <bobwxc@email.cn>
-> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Link: https://lore.kernel.org/lkml/2061da0a-6ab1-35f3-99c1-dbc415444f37@gmail.com
+> Jon, if you'd prefer I picked these up, then let me know.
 
-I've applied this, thanks.
+I've applied them, thanks; I took the liberty of fixing the spelling of
+"specify" in the second one :)
 
 jon
