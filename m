@@ -2,234 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EADE0C4708B
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 13:58:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF509C47089
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 14:55:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0551613CA
-	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 13:58:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B75B46128D
+	for <linux-doc@archiver.kernel.org>; Thu, 27 May 2021 14:55:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235710AbhE0OA3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 May 2021 10:00:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235206AbhE0OA1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 May 2021 10:00:27 -0400
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5488DC061761
-        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 06:58:54 -0700 (PDT)
-Received: by mail-il1-x12e.google.com with SMTP id b5so289854ilc.12
-        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 06:58:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=metormote-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mBwGgIAtq0k7T16dBifpnEDrgqw47u2uJ/1GL3X87l0=;
-        b=h0peyp+YFFTdosSc74g3OhYTbaHr90CcVNytuV9wzripuWeY4BwGgajhvl8HchtZUR
-         1mRc+bpBwD/j4UkBzkUMOZq1bCTQvybjhgAunAzA0qXYpuAYLb3JpGLA7sxY1wGs1QNy
-         bKOj+nukId/c+USkNcBmwzldJjN3NRn3OI/LivKmnwCrxavSeyo0wM0amHsXbLTknAQk
-         fl6xcGD5Q3hAafuZ7D+gwz/orZDXJyXcQuIkRTO3yIfDQKuRS2VGJvAgXZgl6M74yOzs
-         zvhwwPb1HEIe0tKj1Q47OJdEd9vkbXC6vV708STm1d43QCceyI3yU0iSbwaQVIqGfRxO
-         6QbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mBwGgIAtq0k7T16dBifpnEDrgqw47u2uJ/1GL3X87l0=;
-        b=iuoyZwa+xQfZVmWC62ukgYMM6gv8zbVr7pbA+S3kMg+QLA0IaXbeEdp+1bK9HDutej
-         i9R1MtMc/xhbD15XfX/Ma59YfyQgG8mZOP6+6qcGlOsCHX9j077sma5hBG+OryXIrQFV
-         soAv36rl915Nn+Pm2F+KdcZSqgst3bL/fZeHCrqEbns8oYGrerqcgOEHnuKAHMbd5Zkz
-         zWpIuFd7huS8w2KoWiETopc9V+URaiqy0/7CG8PTey+fhDVreIJeWMxvbTpI4T83CwMH
-         nqkNql0ZAmow6Z0qJBg0ngGqTIxaBQ5AmX9qRIxv7vSCGq8cWq6s7szfAru4+S5sM107
-         2V2A==
-X-Gm-Message-State: AOAM530C5pSk0ykZkkDx0x/bCTKhxap/f3Rxfv5avDCu0LGoEQGEagy+
-        Mvt/0j5ms3WtUHVuJodQ6IPrN7Hb8dGaI7pV7tnEpA==
-X-Google-Smtp-Source: ABdhPJxGwYGJc3mS7bPueDKyIBU/WCO5SaJOB+Dyw93qgCViv6F0Imrsk7FlcO9q+kbJjnCQVG/91rd3tqwH1dPcRwY=
-X-Received: by 2002:a05:6e02:216b:: with SMTP id s11mr3109882ilv.267.1622123933569;
- Thu, 27 May 2021 06:58:53 -0700 (PDT)
+        id S236672AbhE0O5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 May 2021 10:57:03 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:32990 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234847AbhE0O5B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 May 2021 10:57:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=56CYFu7ltMxKzkiBa1tODJbIqoS3tHuQ9tbXl
+        Zodd6o=; b=IyvqWtbNkUXQ9x7WiniyYMbLm/+XpJmJDvjRvOFd62nfn21IlceHT
+        v/hTEf+O3eaC5FoaaXB+FV3ZjqL6PRc5lKzOP5ocy45WrIBIKfLro3/aG89r6HyX
+        +465/ebb6i2unn/o4ML6K9tiX2EhogWjMI+nNG1DlVPpIVbGuOoym4=
+Received: from bobwxc.top (unknown [110.64.86.229])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDnrkHSsq9gEZRBAA--.22454S2;
+        Thu, 27 May 2021 22:55:16 +0800 (CST)
+Date:   Thu, 27 May 2021 22:55:13 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     yanteng si <siyanteng01@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>
+Subject: Re: [PATCH] docs/zh_CN:add core-api padata translation
+Message-ID: <20210527145513.GA23113@bobwxc.top>
+References: <20210525120501.2149992-1-siyanteng@loongson.cn>
+ <20210526171811.GA3700@bobwxc.top>
+ <CAEensMxugEQVKmjByUPCfDbDtDDkfVkUYY-oy323xTQShDskkg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210524150246.90546-1-erik.rosen@metormote.com>
- <20210524150246.90546-7-erik.rosen@metormote.com> <949e42c8-01f7-d5e5-deaa-7ba3e3a6934a@roeck-us.net>
-In-Reply-To: <949e42c8-01f7-d5e5-deaa-7ba3e3a6934a@roeck-us.net>
-From:   Erik Rosen <erik.rosen@metormote.com>
-Date:   Thu, 27 May 2021 15:58:42 +0200
-Message-ID: <CA+ui0HkatLcr0UnavOk1RkMycT4P6up5dC6rTDg9QoGGBCydMw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] hwmon: (pmbus/pim4328) Add documentation for the
- pim4328 PMBus driver
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
+Content-Disposition: inline
+In-Reply-To: <CAEensMxugEQVKmjByUPCfDbDtDDkfVkUYY-oy323xTQShDskkg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgDnrkHSsq9gEZRBAA--.22454S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JF1xur4UKryxCF4fZw4DCFg_yoWfArb_X3
+        WDAFWqkr4qq397Ww4xJrnrA39FqFZ5CF1rJa1UZFy7GFsI9FyUZrWUAa1IvF15ZF48Xw47
+        Cr15XF4jgFy7XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbYAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+        8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
+        vE52x082IY62kv0487M2AExVA0xI801c8C04v7Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+        7VCjz48v1sIEY20_Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw2
+        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
+        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+        CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
+        I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
+        8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73
+        UjIFyTuYvj4RRbyZUUUUU
+X-Originating-IP: [110.64.86.229]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ok, he's aware of his nomination. The rationale being that it's advantageous
-to have a maintainer that has long term access to the actual hardware and
-testing infrastructure. I'll ask him to send an Ack for the next version.
 
-On Wed, May 26, 2021 at 6:33 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 5/24/21 8:02 AM, Erik Rosen wrote:
-> > Add documentation and index link for pim4328 PMBus driver.
+--PEIAKu/WMn1b1Hv9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, May 27, 2021 at 03:07:29PM +0800, yanteng si wrote:
+> > > +
+> > > +Padata=E6=98=AF=E4=B8=80=E7=A7=8D=E6=9C=BA=E5=88=B6=EF=BC=8C=E9=80=
+=9A=E8=BF=87=E8=BF=99=E7=A7=8D=E6=9C=BA=E5=88=B6=EF=BC=8C=E5=86=85=E6=A0=B8=
+=E5=8F=AF=E4=BB=A5=E5=B0=86=E5=B7=A5=E4=BD=9C=E5=88=86=E6=95=A3=E5=88=B0=E5=
+=A4=9A=E4=B8=AACPU=E4=B8=8A=E5=B9=B6=E8=A1=8C=E5=AE=8C=E6=88=90=EF=BC=8C=E5=
+=90=8C=E6=97=B6
 > >
-> > Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
-> > ---
-> >   Documentation/hwmon/index.rst   |   1 +
-> >   Documentation/hwmon/pim4328.rst | 105 ++++++++++++++++++++++++++++++++
-> >   MAINTAINERS                     |   7 +++
-> >   3 files changed, 113 insertions(+)
-> >   create mode 100644 Documentation/hwmon/pim4328.rst
+> > maybe more compact
+> > =E9=80=9A=E8=BF=87=E6=AD=A4=E6=9C=BA=E5=88=B6=E5=86=85=E6=A0=B8=E5=8F=
+=AF=E4=BB=A5
+> how about:
+> =E5=86=85=E6=A0=B8=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E6=AD=A4=E6=9C=BA=
+=E5=88=B6
+
+ok
+
 > >
-> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> > index 9ed60fa84cbe..719625f8f755 100644
-> > --- a/Documentation/hwmon/index.rst
-> > +++ b/Documentation/hwmon/index.rst
-> > @@ -150,6 +150,7 @@ Hardware Monitoring Kernel Drivers
-> >      pc87360
-> >      pc87427
-> >      pcf8591
-> > +   pim4328
-> >      pm6764tr
-> >      pmbus
-> >      powr1220
-> > diff --git a/Documentation/hwmon/pim4328.rst b/Documentation/hwmon/pim4328.rst
-> > new file mode 100644
-> > index 000000000000..70c9e7a6882c
-> > --- /dev/null
-> > +++ b/Documentation/hwmon/pim4328.rst
-> > @@ -0,0 +1,105 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Kernel driver pim4328
-> > +=====================
-> > +
-> > +Supported chips:
-> > +
-> > +  * Flex PIM4328
-> > +
-> > +    Prefix: 'pim4328', 'bmr455'
-> > +
-> > +    Addresses scanned: -
-> > +
-> > +    Datasheet:
-> > +
-> > +https://flexpowermodules.com/resources/fpm-techspec-pim4328
-> > +
-> > +  * Flex PIM4820
-> > +
-> > +    Prefixes: 'pim4820'
-> > +
-> > +    Addresses scanned: -
-> > +
-> > +    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-pim4820
-> > +
-> > +  * Flex PIM4006, PIM4106, PIM4206, PIM4306, PIM4406
-> > +
-> > +    Prefixes: 'pim4006', 'pim4106', 'pim4206', 'pim4306', 'pim4406'
-> > +
-> > +    Addresses scanned: -
-> > +
-> > +    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-pim4006
-> > +
-> > +Author: Erik Rosen <erik.rosen@metormote.com>
-> > +
-> > +
-> > +Description
-> > +-----------
-> > +
-> > +This driver supports hardware monitoring for Flex PIM4328 and
-> > +compatible digital power interface modules.
-> > +
-> > +The driver is a client driver to the core PMBus driver. Please see
-> > +Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
-> > +on PMBus client drivers.
-> > +
-> > +
-> > +Usage Notes
-> > +-----------
-> > +
-> > +This driver does not auto-detect devices. You will have to instantiate the
-> > +devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-> > +details.
-> > +
-> > +
-> > +Platform data support
-> > +---------------------
-> > +
-> > +The driver supports standard PMBus driver platform data.
-> > +
-> > +
-> > +Sysfs entries
-> > +-------------
-> > +
-> > +The following attributes are supported. All attributes are read-only.
-> > +
-> > +======================= ========================================================
-> > +in1_label            "vin"
-> > +in1_input            Measured input voltage.
-> > +in1_alarm            Input voltage alarm.
-> > +
-> > +in2_label            "vin.0"
-> > +in2_input            Measured input voltage on input A.
-> > +
-> > +                     PIM4328 and PIM4X06
-> > +
-> > +in3_label            "vin.1"
-> > +in3_input            Measured input voltage on input B.
-> > +
-> > +                     PIM4328 and PIM4X06
-> > +
-> > +in4_label            "vcap"
-> > +in4_input            Measured voltage on holdup capacitor.
-> > +
-> > +                     PIM4328
-> > +
-> > +curr1_label          "iin.0"
-> > +curr1_input          Measured input current on input A.
-> > +
-> > +                     PIM4X06
-> > +
-> > +curr2_label          "iin.1"
-> > +curr2_input          Measured input current on input B.
-> > +
-> > +                     PIM4X06
-> > +
-> > +currX_label          "iout1"
-> > +currX_input          Measured output current.
-> > +currX_alarm          Output current alarm.
-> > +
-> > +                     X is 1 for PIM4820, 3 otherwise.
-> > +
-> > +temp1_input          Measured temperature.
-> > +temp1_alarm          High temperature alarm.
-> > +======================= ========================================================
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index bd7aff0c120f..378a121d80f6 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -14416,6 +14416,13 @@ K:   (?i)pidfd
-> >   K:  (?i)clone3
-> >   K:  \b(clone_args|kernel_clone_args)\b
+> > > +=E5=8F=AF=E4=BB=A5=E9=80=89=E6=8B=A9=E4=BF=9D=E6=8C=81=E5=AE=83=E4=
+=BB=AC=E7=9A=84=E9=A1=BA=E5=BA=8F=E3=80=82
+> > > +
+> > > +=E5=AE=83=E6=9C=80=E5=88=9D=E6=98=AF=E4=B8=BAIPsec=E5=BC=80=E5=8F=91=
+=E7=9A=84=EF=BC=8C=E5=AE=83=E9=9C=80=E8=A6=81=E5=9C=A8=E4=B8=8D=E5=AF=B9=E8=
+=BF=99=E4=BA=9B=E6=95=B0=E6=8D=AE=E5=8C=85=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=
+=8F=E7=9A=84=E5=85=B6=E5=89=8D=E6=8F=90=E4=B8=8B=EF=BC=8C=E4=B8=BA=E5=A4=A7=
+=E9=87=8F=E7=9A=84=E6=95=B0
+> > > +=E6=8D=AE=E5=8C=85=E8=BF=9B=E8=A1=8C=E5=8A=A0=E5=AF=86=E5=92=8C=E8=
+=A7=A3=E5=AF=86=E3=80=82=E8=BF=99=E6=98=AF=E7=9B=AE=E5=89=8Dpadata=E7=9A=84=
+=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E6=94=AF=E6=8C=81=E7=9A=84=E5=
+=94=AF=E4=B8=80=E7=94=A8=E9=80=94=E3=80=82
+> > > +
+> > > +Padata=E8=BF=98=E6=94=AF=E6=8C=81=E5=A4=9A=E7=BA=BF=E7=A8=8B=E4=BD=
+=9C=E4=B8=9A=EF=BC=8C=E5=B0=86=E4=BD=9C=E4=B8=9A=E5=B9=B3=E5=9D=87=E5=88=86=
+=E5=89=B2=EF=BC=8C=E5=90=8C=E6=97=B6=E5=9C=A8=E7=BA=BF=E7=A8=8B=E4=B9=8B=E9=
+=97=B4=E8=BF=9B=E8=A1=8C=E8=B4=9F=E8=BD=BD=E5=9D=87=E8=A1=A1=E5=92=8C=E5=8D=
+=8F=E8=B0=83=E3=80=82
+> > > +
+> > > +=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E8=BF=90=E8=A1=8C
 > >
-> > +PIM4328 DRIVER
-> > +M:   Daniel Nilsson <daniel.nilsson@flex.com>
->
-> This will require an Ack from Daniel; you can not just nominate someone
-> else as maintainer.
->
-> > +L:   linux-hwmon@vger.kernel.org
-> > +S:   Maintained
-> > +F:   Documentation/hwmon/pim4328.rst
-> > +F:   drivers/hwmon/pmbus/pim4328.c
-> > +
-> >   PIN CONTROL SUBSYSTEM
-> >   M:  Linus Walleij <linus.walleij@linaro.org>
-> >   L:  linux-gpio@vger.kernel.org
-> >
->
+> > =E8=BF=90=E8=A1=8C=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A
+> s/=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A=E8=BF=90=E8=A1=8C/=E6=89=
+=A7=E8=A1=8C=E5=BA=8F=E5=88=97=E5=8C=96=E4=BD=9C=E4=B8=9A/
+
+ok
+
+Thanks,
+	Wu X.C.
+
+--PEIAKu/WMn1b1Hv9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmCvssgACgkQtlsoEiKC
+sIUwIAwAnebqnCXlaF9QFj/miQPjhz5GYdLHEGDYMhO3MU+5dQV1yzfFqz4nJZB2
+VXJf/u+KqC4W1A9s+dVt87TjqetTyiB60n3LoX6CE6y3yimOr9Q0YdvVCFHJPCTa
+aQvGEVwBn3jMEz1CzvfFXPCUzAfYOu9FAkXYI7piWro5kKHHgdxc89sagivV2AE8
+QOjjP2/i108TskrAsE2dTDUD/2vMFMDoAtXinjoxZ5DV+CycSTfm2NASRSLy5JCF
+/OdEbj+EgL6u+JpsZsH4IzRdrVQ6kn1wT48amLbON15ObxvEtnKYrx5TQaE+OtQU
+A4dk1bbDnHsNWfYaFbvpA/J0lGDbbZiOPtCqQe2RqGc9m7EBQJJcg6pZzG+pckrk
+HTPQfCXMzcKCje5dHeLC72ojput66MuS7plonN4bNJxMhr0D4B23TevgJGdeI7M4
+99KnLAYwODp6QBIX7pgyqUapI1vxSgz/e0o8aqEzA9AZ3OpUjAk8fzQPlzCyrfQu
+I3XMTvw6
+=iunP
+-----END PGP SIGNATURE-----
+
+--PEIAKu/WMn1b1Hv9--
+
