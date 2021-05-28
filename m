@@ -2,155 +2,490 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A4BC2B9F7
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 13:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E93C4708C
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 13:28:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B127613E3
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 13:11:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33F4C613F0
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 13:28:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234961AbhE1NNF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 May 2021 09:13:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23094 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234233AbhE1NNE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 May 2021 09:13:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622207489;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FW9/4jT9qjw9qNpmMNMU5+vfx14NmLdS+jsCbfo2ekM=;
-        b=UaxTON0IKes19RZDGxdRHa1irPDK3LNnRgTJgkaCSXOqIkGmx/NQMPY7RqYns0I7plO7Vl
-        qXekT7kRF//xUl8SJa5b05jBU9bRKyGq1D7zHRwrfpZMcYzME4x94aF0rqVuDqgrYRuNmN
-        jkaWM2WQKYcX3F6ZetsxrJLa0HAYr2c=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-jN_QToyOPc2IKwVEl2Gc_w-1; Fri, 28 May 2021 09:11:28 -0400
-X-MC-Unique: jN_QToyOPc2IKwVEl2Gc_w-1
-Received: by mail-qk1-f197.google.com with SMTP id x12-20020ae9f80c0000b02903a6a80ade45so2955365qkh.22
-        for <linux-doc@vger.kernel.org>; Fri, 28 May 2021 06:11:28 -0700 (PDT)
+        id S235412AbhE1N3r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 May 2021 09:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47724 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229653AbhE1N3q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 May 2021 09:29:46 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC7CC061574;
+        Fri, 28 May 2021 06:28:06 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id n3-20020a9d74030000b029035e65d0a0b8so3429735otk.9;
+        Fri, 28 May 2021 06:28:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:to:cc:references:from:subject:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=VEJJAqLc8tdz6U0snpDUF0TlDmD4azqtjq9FRx+8Gvc=;
+        b=K5BMGyF0Aar7xJpLxBsIqrG2jL9dH4mYj5nT+IaI4oqS+rlf2Rtehwf2GBZCXuVfRl
+         GCUeLMyHxJA6v6+oWrHw19IldgaYmr3H+CFkaUnw45NhPKCqiyS/e2Xdf6VHPNcqFW3k
+         LVcVmpwfTKmOgQQ+Tw/yf1CaJMJj6wlCwLsLMQvpeRKKafsiyGeki+0CGyCfwHXSo9Tt
+         HFQcGsBIhcj/L7NX5i91U91sz2iZqrupQroKORCraeZ60hTu+tkI1olk3Qloc6ECH207
+         X+wQ/qV1GaPLBssHaqC+PMT8igQ3q2vuKguxpXTAPhvlWErgY101XtqRnC8BpE3HxQW8
+         BFjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FW9/4jT9qjw9qNpmMNMU5+vfx14NmLdS+jsCbfo2ekM=;
-        b=CQO7oWmpnXuf99MDrFFLUZadwlIXA5/ZvkhnlLZCXM0QdT41yuASw9taNn0ZoyqzF8
-         EvyLNuICoxvQIPTUX8phpFc5hUPQvochSUXfRLzlPyqliTFs69L5TQJtpE0XIlRArn2E
-         dFPNVL8bO82q+KABkSQvlZ7mZCdjeaj+7Jf35xLmmHLrLMO5Th6BuikV8gBlkWoemtTx
-         AnIslx1fcHzqgss4ccpaRHAzzGl7IAk3z7Mqm7c1sB4BfBwjHwVdr/Za13tCCFd4T6Dk
-         VLigWk32oJ0Mq/dz9YxnO10E8719Wo2WepJZsA8ca4/DCBi5nviP+WfFX9DSFuv0DKMJ
-         Rq3A==
-X-Gm-Message-State: AOAM5325aZHXolFjWSL0+nrALp/ucKUec0dobGRZNtvFSxstmFIzpy5O
-        izSmmAKT0UKjRL3P5XXtwwgbCXtZi0IPKe3b3klQh6+zPrzgTolfWZ/cq8bZzUU1Dt9JsRE0hKd
-        7rHJlMujpuhvw8KbR8cR1
-X-Received: by 2002:a05:6214:8f2:: with SMTP id dr18mr3830627qvb.25.1622207487811;
-        Fri, 28 May 2021 06:11:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxeO8jD8WA5p6Lyazpu9mOUIrqsQpzhE1ohGBKpqpJPFBu0QqiibLIgKj2MM0bzxmuiSjk/GA==
-X-Received: by 2002:a05:6214:8f2:: with SMTP id dr18mr3830596qvb.25.1622207487542;
-        Fri, 28 May 2021 06:11:27 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
-        by smtp.gmail.com with ESMTPSA id t137sm3473526qke.50.2021.05.28.06.11.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 May 2021 06:11:26 -0700 (PDT)
-Date:   Fri, 28 May 2021 09:11:25 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        rcampbell@nvidia.com, linux-doc@vger.kernel.org,
-        jhubbard@nvidia.com, bsingharora@gmail.com,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        hch@infradead.org, jglisse@redhat.com, willy@infradead.org,
-        jgg@nvidia.com, hughd@google.com, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
-Message-ID: <YLDr/RyAdUR4q0kk@t490s>
-References: <20210524132725.12697-1-apopple@nvidia.com>
- <37725705.JvxlXkkoz5@nvdebian>
- <YK+Y+aAZHDv8+w+Q@t490s>
- <2243324.CkbYuGXDfH@nvdebian>
+        h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VEJJAqLc8tdz6U0snpDUF0TlDmD4azqtjq9FRx+8Gvc=;
+        b=gtl3QGneEYkLwmhQK5GpK6ikcglMVXlfCH1uMMoJqad7B1iQ0HyEIVlktn3g40RijN
+         RPyAZugZE6pNLEnq5PQfCjN3czhnO1vuhWB3TUvrK5md0kIU8+gP4zAflipqmI8yBBM1
+         PUv1frOEl9opXK1zNx3ZwYyDBsr/A/h42fpg2IenEzZY2yhlx6zV7O74xiXf0EkGfLuH
+         WuYUuiVEm5SO6QlgvULADNzXsLxw5/HToJPL69hq4q3LpuVeIcHnoyepcZ0Xry1GOxOl
+         dJ2vtD2EGfPDLwKcCQH566oc/H5utJxNrwZtTr0ndZbwgbyjV1+e7UIpAhfMGD6bf4S1
+         4E6w==
+X-Gm-Message-State: AOAM531NphPxiRxXg+FzbwEUPWguf99utGXRBGy0MAPfzoudy89OCEkN
+        CDza6rPY9tyVKl7H4ulYynk=
+X-Google-Smtp-Source: ABdhPJwCjOcvlDsIc9eoGvSE3gRxAgs8FkDgLAC83KWbZ6SZcl7VhOS7KF6uKl96sl+HNZOPILy4Qw==
+X-Received: by 2002:a05:6830:1e70:: with SMTP id m16mr6975269otr.340.1622208485627;
+        Fri, 28 May 2021 06:28:05 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x31sm1134319ota.24.2021.05.28.06.28.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 May 2021 06:28:05 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+To:     Robert Marko <robert.marko@sartura.hr>, robh+dt@kernel.org,
+        jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org, Jonathan.Cameron@huawei.com,
+        alexandre.belloni@bootlin.com, sst@poczta.fm, krzk@kernel.org,
+        alexandru.ardelean@analog.com, devicetree@vger.kernel.org
+Cc:     luka.perkov@sartura.hr, jmp@epiphyte.org, pmenzel@molgen.mpg.de,
+        buczek@molgen.mpg.de
+References: <20210528103828.53320-1-robert.marko@sartura.hr>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 1/3] hwmon: (pmbus) Add driver for Delta DPS-920AB PSU
+Message-ID: <479725a2-7d85-1489-4228-ddff16b52287@roeck-us.net>
+Date:   Fri, 28 May 2021 06:28:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2243324.CkbYuGXDfH@nvdebian>
+In-Reply-To: <20210528103828.53320-1-robert.marko@sartura.hr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 28, 2021 at 11:48:40AM +1000, Alistair Popple wrote:
-
-[...]
-
-> > > > > +     while (page_vma_mapped_walk(&pvmw)) {
-> > > > > +             /* Unexpected PMD-mapped THP? */
-> > > > > +             VM_BUG_ON_PAGE(!pvmw.pte, page);
-> > > > > +
-> > > > > +             if (!pte_present(*pvmw.pte)) {
-> > > > > +                     ret = false;
-> > > > > +                     page_vma_mapped_walk_done(&pvmw);
-> > > > > +                     break;
-> > > > > +             }
-> > > > > +
-> > > > > +             subpage = page - page_to_pfn(page) + pte_pfn(*pvmw.pte);
-> > > > 
-> > > > I see that all pages passed in should be done after FOLL_SPLIT_PMD, so
-> > > > is
-> > > > this needed?  Or say, should subpage==page always be true?
-> > > 
-> > > Not always, in the case of a thp there are small ptes which will get
-> > > device
-> > > exclusive entries.
-> > 
-> > FOLL_SPLIT_PMD will first split the huge thp into smaller pages, then do
-> > follow_page_pte() on them (in follow_pmd_mask):
-> > 
-> >         if (flags & FOLL_SPLIT_PMD) {
-> >                 int ret;
-> >                 page = pmd_page(*pmd);
-> >                 if (is_huge_zero_page(page)) {
-> >                         spin_unlock(ptl);
-> >                         ret = 0;
-> >                         split_huge_pmd(vma, pmd, address);
-> >                         if (pmd_trans_unstable(pmd))
-> >                                 ret = -EBUSY;
-> >                 } else {
-> >                         spin_unlock(ptl);
-> >                         split_huge_pmd(vma, pmd, address);
-> >                         ret = pte_alloc(mm, pmd) ? -ENOMEM : 0;
-> >                 }
-> > 
-> >                 return ret ? ERR_PTR(ret) :
-> >                         follow_page_pte(vma, address, pmd, flags,
-> > &ctx->pgmap); }
-> > 
-> > So I thought all pages are small pages?
+On 5/28/21 3:38 AM, Robert Marko wrote:
+> This adds support for the Delta DPS-920AB PSU.
 > 
-> The page will remain as a transparent huge page though (at least as I 
-> understand things). FOLL_SPLIT_PMD turns it into a pte mapped thp by splitting 
-> the pmd and creating pte's mapping the subpages but doesn't split the page 
-> itself. For comparison FOLL_SPLIT (which has been removed in v5.13 due to lack 
-> of use) is what would be used to split the page in the above GUP code by 
-> calling split_huge_page() rather than split_huge_pmd().
+> Only missing feature is fan control which the PSU supports.
+> 
+> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+> ---
+> Changes in v2:
+> * Check for Manufacturer and Model
+> * Restrict word read/write to supported only
+> * Update documentation to reflect driver changes
+> * Add basic debugfs entries
+> 
+>   Documentation/hwmon/dps920ab.rst |  73 ++++++++++
+>   Documentation/hwmon/index.rst    |   1 +
+>   drivers/hwmon/pmbus/Kconfig      |   9 ++
+>   drivers/hwmon/pmbus/Makefile     |   1 +
+>   drivers/hwmon/pmbus/dps920ab.c   | 229 +++++++++++++++++++++++++++++++
+>   5 files changed, 313 insertions(+)
+>   create mode 100644 Documentation/hwmon/dps920ab.rst
+>   create mode 100644 drivers/hwmon/pmbus/dps920ab.c
+> 
+> diff --git a/Documentation/hwmon/dps920ab.rst b/Documentation/hwmon/dps920ab.rst
+> new file mode 100644
+> index 000000000000..c33b4cdc0a60
+> --- /dev/null
+> +++ b/Documentation/hwmon/dps920ab.rst
+> @@ -0,0 +1,73 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver dps920ab
+> +========================
+> +
+> +Supported chips:
+> +
+> +  * Delta DPS920AB
+> +
+> +    Prefix: 'dps920ab'
+> +
+> +    Addresses scanned: -
+> +
+> +Authors:
+> +    Robert Marko <robert.marko@sartura.hr>
+> +
+> +
+> +Description
+> +-----------
+> +
+> +This driver implements support for Delta DPS920AB 920W 54V DC single output
+> +power supply with PMBus support.
+> +
+> +The driver is a client driver to the core PMBus driver.
+> +Please see Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+> +
+> +
+> +Usage Notes
+> +-----------
+> +
+> +This driver does not auto-detect devices. You will have to instantiate the
+> +devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
+> +details.
+> +
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +======================= ======================================================
+> +curr1_label		"iin"
+> +curr1_input		Measured input current
+> +curr1_alarm		Input current high alarm
+> +
+> +curr2_label		"iout1"
+> +curr2_input		Measured output current
+> +curr2_max		Maximum output current
+> +curr2_rated_max		Maximum rated output current
+> +
+> +in1_label		"vin"
+> +in1_input		Measured input voltage
+> +in1_alarm		Input voltage alarm
+> +
+> +in2_label		"vout1"
+> +in2_input		Measured output voltage
+> +in2_rated_min		Minimum rated output voltage
+> +in2_rated_max		Maximum rated output voltage
+> +in2_alarm		Output voltage alarm
+> +
+> +power1_label		"pin"
+> +power1_input		Measured input power
+> +power1_alarm		Input power high alarm
+> +
+> +power2_label		"pout1"
+> +power2_input		Measured output power
+> +power2_rated_max	Maximum rated output power
+> +
+> +temp[1-3]_input		Measured temperature
+> +temp[1-3]_alarm		Temperature alarm
+> +
+> +fan1_alarm		Fan 1 warning.
+> +fan1_fault		Fan 1 fault.
+> +fan1_input		Fan 1 speed in RPM.
+> +======================= ======================================================
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 8d5a2df1ecb6..b24436f22052 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -54,6 +54,7 @@ Hardware Monitoring Kernel Drivers
+>      dell-smm-hwmon
+>      dme1737
+>      drivetemp
+> +   dps920ab
+>      ds1621
+>      ds620
+>      emc1403
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 32d2fc850621..865ade0aa205 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -66,6 +66,15 @@ config SENSORS_IBM_CFFPS
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called ibm-cffps.
+>   
+> +config SENSORS_DPS920AB
+> +	tristate "Delta DPS920AB Power Supply"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Delta
+> +	  DPS920AB Power Supplies.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called dps920ab.
+> +
+>   config SENSORS_INSPUR_IPSPS
+>   	tristate "INSPUR Power System Power Supply"
+>   	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 6a4ba0fdc1db..f59ba0123d68 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -9,6 +9,7 @@ obj-$(CONFIG_SENSORS_ADM1266)	+= adm1266.o
+>   obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+>   obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
+>   obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+> +obj-$(CONFIG_SENSORS_DPS920AB)	+= dps920ab.o
+>   obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+>   obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+>   obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
+> diff --git a/drivers/hwmon/pmbus/dps920ab.c b/drivers/hwmon/pmbus/dps920ab.c
+> new file mode 100644
+> index 000000000000..de084a42dec3
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/dps920ab.c
+> @@ -0,0 +1,229 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Driver for Delta DPS920AB PSU
+> + *
+> + * Copyright (C) 2021 Delta Networks, Inc.
+> + * Copyright (C) 2021 Sartura Ltd.
+> + */
+> +
+> +#include <linux/debugfs.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include "pmbus.h"
+> +
+> +struct dps920ab_data {
+> +	struct i2c_client *client;
+> +	struct dentry *debugfs_dir;
+> +};
+> +
+> +static int dps920ab_read_word_data(struct i2c_client *client, int page, int phase, int reg)
+> +{
+> +	int ret;
+> +
+> +	/*
+> +	 * This masks commands which are not supported.
+> +	 * PSU advertises that all features are supported,
+> +	 * in reality that unfortunately is not true.
+> +	 * So enable only those that the datasheet confirms.
+> +	 */
+> +	switch (reg) {
+> +	case PMBUS_FAN_COMMAND_1:
+> +	case PMBUS_IOUT_OC_WARN_LIMIT:
+> +	case PMBUS_STATUS_WORD:
+> +	case PMBUS_READ_VIN:
+> +	case PMBUS_READ_IIN:
+> +	case PMBUS_READ_VOUT:
+> +	case PMBUS_READ_IOUT:
+> +	case PMBUS_READ_TEMPERATURE_1:
+> +	case PMBUS_READ_TEMPERATURE_2:
+> +	case PMBUS_READ_TEMPERATURE_3:
+> +	case PMBUS_READ_FAN_SPEED_1:
+> +	case PMBUS_READ_POUT:
+> +	case PMBUS_READ_PIN:
+> +	case PMBUS_MFR_VOUT_MIN:
+> +	case PMBUS_MFR_VOUT_MAX:
+> +	case PMBUS_MFR_IOUT_MAX:
+> +	case PMBUS_MFR_POUT_MAX:
+> +		break;
+> +	default:
+> +		return -ENXIO;
+> +	}
+> +
+> +	ret = pmbus_set_page(client, page, phase);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return i2c_smbus_read_word_data(client, reg);
 
-But shouldn't FOLL_SPLIT_PMD filled in small pfns for each pte?  See
-__split_huge_pmd_locked():
+I find the code a bit confusing. I think it would be better to move the action code
+into the case statement.
 
-	for (i = 0, addr = haddr; i < HPAGE_PMD_NR; i++, addr += PAGE_SIZE) {
-                ...
-		} else {
-			entry = mk_pte(page + i, READ_ONCE(vma->vm_page_prot));
-                        ...
-		}
-                ...
-		set_pte_at(mm, addr, pte, entry);
-        }
+> +}
+> +
+> +static int dps920ab_write_word_data(struct i2c_client *client, int page, int reg,
+> +				    u16 word)
+> +{
+> +	int ret;
+> +
+> +	/*
+> +	 * This masks commands which are not supported.
+> +	 * PSU only has one R/W register and that is
+> +	 * for the fan.
+> +	 */
+> +	switch (reg) {
+> +	case PMBUS_FAN_COMMAND_1:
+> +		break;
+> +	default:
+> +		ret = -ENODATA;
+> +	}
+> +
 
-Then iiuc the coming follow_page_pte() will directly fetch the small pages?
+Does this work ? It is the wrong error message for a failed write;
+it should probably return -EACCES.
 
--- 
-Peter Xu
+> +	ret = pmbus_set_page(client, page, 0xff);
+> +	if (ret < 0)
+> +		return ret;
+> +
+There is only one page, so what would this be for ?
+
+> +	return i2c_smbus_write_word_data(client, reg, word);
+
+Same as avove; I think it would be better to handle the
+access code in the case statement.
+
+> +}
+> +
+> +static struct pmbus_driver_info dps920ab_info = {
+> +	.pages = 1,
+> +
+> +	.format[PSC_VOLTAGE_IN] = linear,
+> +	.format[PSC_VOLTAGE_OUT] = linear,
+> +	.format[PSC_CURRENT_IN] = linear,
+> +	.format[PSC_CURRENT_OUT] = linear,
+> +	.format[PSC_POWER] = linear,
+> +	.format[PSC_FAN] = linear,
+> +	.format[PSC_TEMPERATURE] = linear,
+> +
+> +	.func[0] =
+> +		PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
+> +		PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT | PMBUS_HAVE_POUT |
+> +		PMBUS_HAVE_TEMP  | PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3 |
+> +		PMBUS_HAVE_FAN12 | PMBUS_HAVE_STATUS_FAN12 |
+> +		PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT |
+> +		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
+> +	.read_word_data = dps920ab_read_word_data,
+> +	.write_word_data = dps920ab_write_word_data,
+> +};
+> +
+> +static int dps920ab_mfr_id_show(struct seq_file *s, void *data)
+> +{
+> +	struct dps920ab_data *priv = s->private;
+> +	u8 buf[I2C_SMBUS_BLOCK_MAX + 1];
+> +	int ret;
+> +
+> +	ret = i2c_smbus_read_block_data(priv->client, PMBUS_MFR_ID, buf);
+> +	if (ret < 0)
+> +		return ret;
+> +
+	buf[ret] = '\0';
+
+missing here. With that, the two functions are effectively the same
+and can be merged into one with the register as additional parameter.
+Also, you might consider storing this information in struct dps920ab_data.
+After all, it is unlikely to change, so reading it over and over again
+has no real value.
+
+> +	seq_printf(s, "%s\n", buf);
+> +
+> +	return 0;
+> +}
+> +
+> +DEFINE_SHOW_ATTRIBUTE(dps920ab_mfr_id);
+> +
+> +static int dps920ab_mfr_model_show(struct seq_file *s, void *data)
+> +{
+> +	struct dps920ab_data *priv = s->private;
+> +	u8 buf[I2C_SMBUS_BLOCK_MAX + 1];
+> +	int ret;
+> +
+> +	ret = i2c_smbus_read_block_data(priv->client, PMBUS_MFR_MODEL, buf);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	buf[ret] = '\0';
+> +
+> +	seq_printf(s, "%s\n", buf);
+> +
+> +	return 0;
+> +}
+> +
+> +DEFINE_SHOW_ATTRIBUTE(dps920ab_mfr_model);
+> +
+> +static void dps920ab_init_debugfs(struct dps920ab_data *data)
+> +{
+> +	struct dentry *root;
+> +
+> +	root = pmbus_get_debugfs_dir(data->client);
+> +	if (!root)
+> +		return;
+> +
+> +	data->debugfs_dir = debugfs_create_dir(data->client->name, root);
+> +	if (!data->debugfs_dir)
+> +		return;
+> +
+> +	debugfs_create_file("mfr_id",
+> +			    0400,
+> +			    data->debugfs_dir,
+> +			    data,
+> +			    &dps920ab_mfr_id_fops);
+> +
+> +	debugfs_create_file("mfr_model",
+> +			    0400,
+> +			    data->debugfs_dir,
+> +			    data,
+> +			    &dps920ab_mfr_model_fops);
+> +}
+> +
+> +static int dps920ab_probe(struct i2c_client *client)
+> +{
+> +	u8 buf[I2C_SMBUS_BLOCK_MAX + 1];
+> +	struct dps920ab_data *data;
+> +	int ret;
+> +
+> +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "Failed to read Manufacturer ID\n");
+> +		return ret;
+> +	}
+> +	if (ret != 5 || strncmp(buf, "DELTA", 5)) {
+
+Does this return 5 or 6 ? Just asking, because other supplies from Delta
+return 6.
+
+> +		buf[ret] = '\0';
+> +		dev_err(&client->dev, "Unsupported Manufacturer ID '%s'\n", buf);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "Failed to read Manufacturer Model\n");
+> +		return ret;
+> +	}
+> +	if (ret != 11 || strncmp(buf, "DPS-920AB", 9)) {
+> +		buf[ret] = '\0';
+> +		dev_err(&client->dev, "Unsupported Manufacturer Model '%s'\n", buf);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = pmbus_do_probe(client, &dps920ab_info);
+> +	if (ret)
+> +		return ret;
+> +
+> +	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->client = client;
+> +
+> +	dps920ab_init_debugfs(data);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id __maybe_unused dps920ab_of_match[] = {
+> +	{ .compatible = "delta,dps920ab", },
+> +	{}
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, dps920ab_of_match);
+> +
+> +static struct i2c_driver dps920ab_driver = {
+> +	.driver = {
+> +		   .name = "dps920ab",
+> +		   .of_match_table = of_match_ptr(dps920ab_of_match),
+> +	},
+> +	.probe_new = dps920ab_probe,
+> +};
+> +
+> +module_i2c_driver(dps920ab_driver);
+> +
+> +MODULE_AUTHOR("Robert Marko <robert.marko@sartura.hr>");
+> +MODULE_DESCRIPTION("PMBus driver for Delta DPS920AB PSU");
+> +MODULE_LICENSE("GPL");
+> 
 
