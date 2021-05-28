@@ -2,99 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BCA7C47089
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 02:42:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99C17C47087
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 06:17:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DA0B613B8
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 02:42:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7342A613D4
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 06:17:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235369AbhE1CoS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 May 2021 22:44:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44524 "EHLO
+        id S229574AbhE1GSu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 May 2021 02:18:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbhE1CoR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 May 2021 22:44:17 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CAA4C061574
-        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 19:42:43 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id j75so2848643oih.10
-        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 19:42:43 -0700 (PDT)
+        with ESMTP id S229483AbhE1GSu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 May 2021 02:18:50 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCF6CC061574
+        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 23:17:14 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id r10so2044249wrj.11
+        for <linux-doc@vger.kernel.org>; Thu, 27 May 2021 23:17:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=EvsO9e32vLZJeRDc8t4S3SOF31LwJxfs9wzrjCzCnPE=;
-        b=TgBuOMu6XVQQpRW08GlKr7tD87PgrQ2Kghdpwb96rts98+l3/f9kLDggpGgQLc1//r
-         S643zZM6YuydIIqqe3TeflEB+79M9VAX3g94CERlHV8BKAt6NGQ8qoCSoeuohIIca2Y9
-         0QY8EjdfQij1ij7J4C2NjK8ElfzW9x2LocFFy2r1MnBdtn6p9fsicmIMfUONI3ZkY75u
-         QdgoAH5iim4hC7w+bA9p29CFsiWRy3pKSzGQYhTzy7BeNO8dHKnDV+EZA+nOQUo9xMxz
-         bpPMJqh59fn3n6c1VY/s3Q19Pa9kaOQ0Hg19WgMm77RRDmIh2TFVSWNtZJCGqa1CIJJg
-         ndIA==
+         :cc;
+        bh=jTg7vSvSMg7/6ghE5wo0iVQ4AZ5FSEftwnKC/vRqzxM=;
+        b=j0g+bdW/lBxdHQTCjNOqOH83aCtJu3dihgaaTtOsczJNfbEV7w4DruPkGZ6rAaMGAV
+         kePWluUaQS2orgPxYvjf/E+bqD2gLG8eLx0MErdsWpVgBV8QpVoX+azGzheaGETycN8D
+         KeKROIjWE6NyLDV4umTcwiv+Eba2HHjb/FWOr/P8gFwN2/6qPNL0LNH2eVZrYAPMcHwP
+         AAXFnvHMpkvlxcDRK+TwdjrGhs5gJRgnFOGRjtPtgzmHfh4EiOrUqGIVHR3Ep8BA0i26
+         gVHT68rQkfL8215DxCrJWvfTrg7Re7dzPP70D+xuholWS1ktW4xVUeovG9A+/xVVM9yB
+         gXsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=EvsO9e32vLZJeRDc8t4S3SOF31LwJxfs9wzrjCzCnPE=;
-        b=ftXNhqbtJDQURaoVKylbaEqGDlVWTHa4v3hUjjCaoXeCJqWBhxvEqyDTaJlPDaQLS2
-         Gv46KHGVqHxlYszKoMGdRwx1I/MsWIm1ITUXJbcGJ5Hhr+7ZIdmCNshWD+3cW3UG53qD
-         E0Y1RvGDrm0IhauGUMKS/xjM8/HOuvbtYZUWyJrZBpKKvRL890O79ndUl+UlIOwd4gqS
-         vTcUegtawX61oinfaSG+dVt6K5TeZqql4hncwYMS62yjIrpECQ/M3kmCjar4jLmjp8E7
-         7XisibZIXy9OJr5UR3GcUvTp4FqFR/yvDmHO8vIwCo4a/ktVUk/8qpoGaDp4w9PpVK2E
-         dE1w==
-X-Gm-Message-State: AOAM533g1r0yf9r8Q4969R+stp+ufn/G6osjkevVztJg4oqdpwSv6UIo
-        rC+lnSz2ZOB+Zvt9Bq61CU+NWJQuHGB0CToW8CY=
-X-Google-Smtp-Source: ABdhPJxSwFXCop6y8sKmrGbLSFngHU/YQjZf4IDWnTLwSgpWywVnVLg61F37vi91GygV8Ucyo2I5DFtAjyhgJsbfSXQ=
-X-Received: by 2002:a05:6808:d:: with SMTP id u13mr4402675oic.103.1622169762368;
- Thu, 27 May 2021 19:42:42 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=jTg7vSvSMg7/6ghE5wo0iVQ4AZ5FSEftwnKC/vRqzxM=;
+        b=PeJ1T9Y6BmZjEXmFajIiK2Xf42u5na+d0Goy2Qne+4YKHfG4d93SVJakvnV2MzWMIx
+         stCSM1WBt40LCA8ILX3K8kndcEiesXST39lKcPyX96z/HwgU7tx9dve219bLaPmjV8qg
+         1rDQc8EQNOTbw82fyGTW8PdesOCRm/8s0K77iZJlRjiQ7yTMvuJSqvTtgquimAxeLjdV
+         UwXWxRDyjC6FcRmMZQvqczmIsbVnZDtbEpbqR3t8pYJlxr90GcK4C+M7w3YYnBPMogH+
+         4hIrup+yRZNuLIltyJnm7ZlsPy4nF8G0AJRsZreFKvNB/e8TQil+/cyozxN7xtBTN3+I
+         kSdw==
+X-Gm-Message-State: AOAM532AMDLVvFM0JdJJkk/tR58rirAsNz+CT8XJ8mhq/ntJ7O8ooXOb
+        y/2yDg6d92ndnUDvC87Uqn54mYUGB08a0kPyLdrgIw==
+X-Google-Smtp-Source: ABdhPJz+VvvL1c9WVcBRcVmeW9gMz+SBb2P7gqH67arJOcyyBIN4ShwE0VJ1R0dUxCpKlR8EsnGirZ2cqZWdTxAtsbo=
+X-Received: by 2002:adf:d08f:: with SMTP id y15mr6740140wrh.39.1622182633283;
+ Thu, 27 May 2021 23:17:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210521083908.3783492-1-siyanteng@loongson.cn> <87mtsg2lrk.fsf@meer.lwn.net>
-In-Reply-To: <87mtsg2lrk.fsf@meer.lwn.net>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Fri, 28 May 2021 10:42:31 +0800
-Message-ID: <CAEensMw+fHpFeq76gv2bSKTq-MD36kG0QUdYacUhQkUZ_3Q8sw@mail.gmail.com>
-Subject: Re: [PATCH] docs: zh_CN: update Chinese translations
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>
+References: <20210526212407.2753879-1-brendanhiggins@google.com> <20210526212407.2753879-5-brendanhiggins@google.com>
+In-Reply-To: <20210526212407.2753879-5-brendanhiggins@google.com>
+From:   David Gow <davidgow@google.com>
+Date:   Fri, 28 May 2021 14:17:02 +0800
+Message-ID: <CABVgOSnwMBg840Tf+hx5zrC-a56zyG8SYm3TDGq-5v48anNU7A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] Documentation: kunit: document support for QEMU in kunit_tool
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Shuah Khan <shuah@kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Daniel Latypov <dlatypov@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B45=E6=9C=8828=E6=97=
-=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=8812:18=E5=86=99=E9=81=93=EF=BC=9A
+On Thu, May 27, 2021 at 5:24 AM Brendan Higgins
+<brendanhiggins@google.com> wrote:
 >
-> Yanteng Si <siyanteng@loongson.cn> writes:
+> Document QEMU support, what it does, and how to use it in kunit_tool.
 >
-> > Two new commits were added to the original document:
-> >
-> > commit ddba35031db2ea89facc91c745e5ad55ba2e0e7f
-> > commit 20bc8c1e972f29afcac85e524e430c11a6df5f58
-> >
-> > translate them into Chinese.
-> >
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> > ---
-> >  .../zh_CN/core-api/printk-formats.rst           | 17 ++++++++++++++++-
-> >  1 file changed, 16 insertions(+), 1 deletion(-)
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> ---
+> Changes since last revision:
 >
-> I've applied these, but ... in the future, please use the canonical
-> format for referring to other commits:
+> - Finally, I added a new section to the kunit_tool documentation to
+>   document the new command line flags I added.
 >
->   commit ddba35031db2 ("module: add printk formats to add module build ID=
- to stacktraces")
-Okay, will do.
 
-Thanks,
+Thanks! This looks good to me, modulo a couple of nitpicky
+spelling/grammar notes below.
 
-Yanteng
+Reviewed-by: David Gow <davidgow@google.com>
+
+Cheers
+-- David
+
+> ---
+>  Documentation/dev-tools/kunit/kunit-tool.rst | 48 +++++++++++++++++++
+>  Documentation/dev-tools/kunit/usage.rst      | 50 +++++++++++++++-----
+>  2 files changed, 87 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
+> index 4247b7420e3ba..c7ff9afe407a5 100644
+> --- a/Documentation/dev-tools/kunit/kunit-tool.rst
+> +++ b/Documentation/dev-tools/kunit/kunit-tool.rst
+> @@ -145,6 +145,54 @@ to run KUnit resource tests, you could use:
+>
+>  This uses the standard glob format for wildcards.
+>
+> +Running Tests on QEMU
+> +=====================
+> +
+> +kunit_tool supports running tests on QEMU as well as via UML (as mentioned
+> +elsewhere). The default way of running tests on QEMU requires two flags:
+> +
+> +``--arch``
+> +       Selects a collection of configs (Kconfig as well as QEMU configs
+> +       options, etc) that allow KUnit tests to be run on the specified
+
+Nit: should "configs options" be "config options"?
+
+> +       architecture in a minimal way; this is usually not much slower than
+> +       using UML. The architecture argument is the same as the name of the
+> +       option passed to the ``ARCH`` variable used by Kbuild. Not all
+> +       architectures are currently supported by this flag, but can be handled
+> +       by the ``--qemu_config`` discussed later. If ``um`` is passed (or this
+
+Nit: "by the ``--qemu_config`` _option_", or just "by ``--qemu_config``".
+
+> +       this flag is ignored) the tests will run via UML. Non-UML architectures,
+> +       e.g. i386, x86_64, arm, um, etc. Non-UML run on QEMU.
+> +
+> +``--cross_compile``
+> +       Specifies the use of a toolchain by Kbuild. The argument passed here is
+> +       the same passed to the ``CROSS_COMPILE`` variable used by Kbuild. As a
+> +       reminder this will be the prefix for the toolchain binaries such as gcc
+> +       for example ``sparc64-linux-gnu-`` if you have the sparc toolchain
+> +       installed on your system, or
+> +       ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux-``
+> +       if you have downloaded the microblaze toolchain from the 0-day website
+> +       to a directory in your home directory called ``toolchains``.
+> +
+> +In many cases it is likely that you may want to run an architecture which is
+> +not supported by the ``--arch`` flag, or you may want to just run KUnit tests
+> +on QEMU using a non-default configuration. For this use case, you can write
+> +your own QemuConfig. These QemuConfigs are written in Python. They must have an
+> +import line ``from ..qemu_config import QemuArchParams`` at the top of the file
+> +and the file must contain a variable called ``QEMU_ARCH`` that has an instance
+> +of ``QemuArchParams`` assigned to it. An example can be seen in
+> +``tools/testing/kunit/qemu_configs/x86_64.py``.
+> +
+> +Once you have a QemuConfig you can pass it into kunit_tool using the
+> +``--qemu_config`` flag; when used this flag replaces the ``--arch`` flag. If we
+> +were to do this with the ``x86_64.py`` example from above, the invocation would
+> +look something like this:
+> +
+> +.. code-block:: bash
+> +
+> +       ./tools/testing/kunit/kunit.py run \
+> +               --timeout=60 \
+> +               --jobs=12 \
+> +               --qemu_config=./tools/testing/kunit/qemu_configs/x86_64.py
+> +
+>  Other Useful Options
+>  ====================
+>
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> index 650f99590df57..888c341701da4 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -609,17 +609,45 @@ non-UML architectures:
+>  None of these are reasons not to run your KUnit tests on real hardware; they are
+>  only things to be aware of when doing so.
+>
+> -The biggest impediment will likely be that certain KUnit features and
+> -infrastructure may not support your target environment. For example, at this
+> -time the KUnit Wrapper (``tools/testing/kunit/kunit.py``) does not work outside
+> -of UML. Unfortunately, there is no way around this. Using UML (or even just a
+> -particular architecture) allows us to make a lot of assumptions that make it
+> -possible to do things which might otherwise be impossible.
+> -
+> -Nevertheless, all core KUnit framework features are fully supported on all
+> -architectures, and using them is straightforward: all you need to do is to take
+> -your kunitconfig, your Kconfig options for the tests you would like to run, and
+> -merge them into whatever config your are using for your platform. That's it!
+> +Currently, the KUnit Wrapper (``tools/testing/kunit/kunit.py``) (aka
+> +kunit_tool) only fully supports running tests inside of UML and QEMU; however,
+
+I was going to whinge a bit about the fact that we have three names
+for the "KUnit Wrapper" here, and "KUnit Wrapper" didn't seem to be
+used much. Then I looked at the rest of the documentation, and "KUnit
+Wrapper" is used all over the place.
+
+I think it'd be nice to consolidate on one (or, if we have to, two)
+names for this, but this doc is probably not the place to do so.
+
+> +this is only due to our own time limitations as humans working on KUnit. It is
+> +entirely possible to support other emulators and even actual hardware, but for
+> +now QEMU and UML is what is fully supported within the KUnit Wrapper. Again, to
+> +be clear, this is just the Wrapper. The actualy KUnit tests and the KUnit
+
+This maybe could be a little more succinct.
+"for now only QEMU and UML are supported by  the KUnit Wrapper. The
+KUnit library and most KUnit tests are fully architecture agnostic..."
+
+Also, "actualy" -> "actually".
+
+> +library they are written in is fully architecture agnostic and can be used in
+> +virtually any setup, you just won't have the benefit of typing a single command
+> +out of the box and having everything magically work perfectly.
+> +
+> +Again, all core KUnit framework features are fully supported on all
+> +architectures, and using them is straightforward: Most popular architectures
+> +are supported directly in the KUnit Wrapper via QEMU. Currently, supported
+> +architectures on QEMU include:
+> +
+> +*   i386
+> +*   x86_64
+> +*   arm
+> +*   arm64
+> +*   alpha
+> +*   powerpc
+> +*   riscv
+> +*   s390
+> +*   sparc
+> +
+> +In order to run KUnit tests on one of these architectures via QEMU with the
+> +KUnit wrapper, all you need to do is specify the flags ``--arch`` and
+> +``--cross_compile`` when invoking the KUnit Wrapper. For example, we could run
+> +the default KUnit tests on ARM in the following manner (assuming we have an ARM
+> +toolchain installed):
+> +
+> +.. code-block:: bash
+> +
+> +       tools/testing/kunit/kunit.py run --timeout=60 --jobs=12 --arch=arm --cross_compile=arm-linux-gnueabihf-
+> +
+> +Alternatively, if you want to run your tests on real hardware or in some other
+> +emulation environment, all you need to do is to take your kunitconfig, your
+> +Kconfig options for the tests you would like to run, and merge them into
+> +whatever config your are using for your platform. That's it!
+
+Nit "your are" -> "you are" / "you're"
+
+>
+>  For example, let's say you have the following kunitconfig:
+>
+> --
+> 2.31.1.818.g46aad6cb9e-goog
+>
