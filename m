@@ -2,116 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D5FC2B9F7
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 15:23:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E83C2B9F7
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 17:32:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEAC6613D4
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 15:23:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74955613D1
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 17:32:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236108AbhE1PYt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 May 2021 11:24:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229684AbhE1PYk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 May 2021 11:24:40 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52AEAC061574;
-        Fri, 28 May 2021 08:23:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=UM5DN4/cqvUU0xmTLWTsMkmBxsLpKI9DFsTdLupUfM8=; b=rixJj00vbxOG8VpsVpP8RbwTCr
-        7BdeaCq+hpyarwuXl+O3dOf5/mfbsr/do79SCZlf3on6u8YY3NZmQbi6VKZ8WEVqtJtGGU/Q0QI7E
-        7/13hGYvF6K3ei013bzRtVwFVdSGdx+hMe5efukKz3ZVKnOnRqw5ipIDrdLxIBXF6zNNSS2CYn64r
-        jkpPmGKmoUPksIDohqJaF0jo59P0Pfx82bIhjUY9UQECizoXUfdRMsXEPSo3rHMhIEkG02qytSW0/
-        l9fmshRAtie23VjM/0TiggGalzRIWEC+vtQb/ObqtL/vKtzI+k3STDAathHQRnqwoIrkw7vZ+dFfN
-        VUIRZJ2Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lmeJU-006kN3-P6; Fri, 28 May 2021 15:22:20 +0000
-Date:   Fri, 28 May 2021 16:22:16 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Justin He <Justin.He@arm.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>
-Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
- file
-Message-ID: <YLEKqGkm8bX6LZfP@casper.infradead.org>
-References: <20210528113951.6225-1-justin.he@arm.com>
- <20210528113951.6225-3-justin.he@arm.com>
- <YLDpSnV9XBUJq5RU@casper.infradead.org>
- <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
- <YLEDwFCPcFx+qeul@casper.infradead.org>
- <AM6PR08MB437615DB6A6DEC33223A3138F7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+        id S229450AbhE1Reb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 May 2021 13:34:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43658 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229500AbhE1Rea (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 May 2021 13:34:30 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6579A613B5;
+        Fri, 28 May 2021 17:32:55 +0000 (UTC)
+Date:   Fri, 28 May 2021 13:32:53 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mingo@redhat.com, corbet@lwn.net, mtosatti@redhat.com
+Subject: Re: [RFC] trace: Add option for polling ring buffers
+Message-ID: <20210528133253.27c749ab@gandalf.local.home>
+In-Reply-To: <20210519175755.670876-1-nsaenzju@redhat.com>
+References: <20210519175755.670876-1-nsaenzju@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM6PR08MB437615DB6A6DEC33223A3138F7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 28, 2021 at 03:09:28PM +0000, Justin He wrote:
-> > I'm not sure why it's so complicated.  p->len records how many bytes
-> > are needed for the entire path; can't you just return -p->len ?
+On Wed, 19 May 2021 19:57:55 +0200
+Nicolas Saenz Julienne <nsaenzju@redhat.com> wrote:
+
+> To minimize trace's effect on isolated CPUs. That is, CPUs were only a
+> handful or a single, process are allowed to run. Introduce a new trace
+> option: 'poll-rb'.
 > 
-> prepend_name() will return at the beginning if p->len is <0 in this case,
-> we can't even get the correct full path size if keep __prepend_path unchanged.
-> We need another new helper __prepend_path_size() to get the full path size
-> regardless of the negative value p->len.
+> This option changes the heuristic used to wait for data on trace
+> buffers. The default one, based on wait queues, will trigger an IPI[1]
+> on the CPU responsible for new data, which will take care of waking up
+> the trace gathering process (generally trace-cmd). Whereas with
+> 'poll-rb' we will poll (as in busy-wait) the ring buffers from the trace
+> gathering process, releasing the CPUs writing trace data from doing any
+> wakeup work.
+> 
+> This wakeup work, although negligible in the vast majority of workloads,
+> may cause unwarranted latencies on systems running trace on isolated
+> CPUs. This is made worse on PREEMPT_RT kernels, as they defer the IPI
+> handling into a kernel thread, forcing unwarranted context switches on
+> otherwise extremely busy CPUs.
+> 
+> To illustrate this, tracing with PREEMPT_RT=y on an isolated CPU with a
+> single process pinned to it (NO_HZ_FULL=y, and plenty more isolation
+> options enabled). I see:
+>   - 50-100us latency spikes with the default trace-cmd options
+>   - 14-10us latency spikes with 'poll-rb'
+>   - 11-8us latency spikes with no tracing at all
+> 
+> The obvious drawback of 'poll-rb' is putting more pressure on the
+> housekeeping CPUs. Wasting cycles. Hence the notice in the documentation
+> discouraging its use in general.
+> 
+> [1] The IPI, in this case, an irq_work, is needed since trace might run
+> in NMI context. Which is not suitable for wake-ups.
 
-It's a little hard to follow, based on just the patches.  Is there a
-git tree somewhere of Al's patches that you're based on?
+Can't this simply be done in user-space?
 
-Seems to me that prepend_name() is just fine because it updates p->len
-before returning false:
+Set the reading of the trace buffers to O_NONBLOCK and it wont wait for
+buffering to happen, and should prevent it from causing the IPI wake ups.
 
- static bool prepend_name(struct prepend_buffer *p, const struct qstr *name)
- {
- 	const char *dname = smp_load_acquire(&name->name); /* ^^^ */
- 	u32 dlen = READ_ONCE(name->len);
- 	char *s;
+If you need this for trace-cmd, we can add a --poll option that would do
+this.
 
- 	p->len -= dlen + 1;
- 	if (unlikely(p->len < 0))
- 		return false;
-
-I think the only change you'd need to make for vsnprintf() is in
-prepend_path():
-
--		if (!prepend_name(&b, &dentry->d_name))
--			break;
-+		prepend_name(&b, &dentry->d_name);
-
-Would that hurt anything else?
-
-> More than that, even the 1st vsnprintf could have _end_ > _buf_ in some case:
-> What if printk("%pD", filp) ? The 1st vsnprintf has positive (end-buf).
-
-I don't understand the problem ... if p->len is positive, then you
-succeeded.  if p->len is negative then -p->len is the expected return
-value from vsnprintf().  No?
-
+-- Steve
