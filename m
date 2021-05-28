@@ -2,108 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7CBCC4708E
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 10:38:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FF9C4708C
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 10:41:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC729613B6
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 10:38:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C76F16108E
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 10:41:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236463AbhE1KkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 May 2021 06:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236521AbhE1KkQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 May 2021 06:40:16 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7830DC06138B
-        for <linux-doc@vger.kernel.org>; Fri, 28 May 2021 03:38:40 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id h24so674891ejy.2
-        for <linux-doc@vger.kernel.org>; Fri, 28 May 2021 03:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=p/SoT+1SWGTsxMqTiV2xoAlXSkh7qhcMepCQ/DP40UY=;
-        b=HC3PSx0gMRIJ1vyroJY8aSH8wkXeIkCxUBwG40bfIoKA5TporB1fTMXQ6Jo2/QwCs5
-         tQ0d6pm5XH9t7U8Mk/TnL4bcuZFRhXLHdOjYwjJfWCwhYCKUw8alsT9xRwEGZZ3X6J0O
-         XzcxTlc2C8dZk1Lf+18M3mmQZtjsRYrtv7Y6V0IQblGh5hScp8VLoaYAcyg8mzo5Q4Z6
-         Q+w/bjama9XLPXP5+dg8uNvUiM0xayJuGZki48AqzgD7I7q7mJDosbdHdfubyp9qtlKS
-         I+nxgwK/8DTnYsYO+D3WHejEz51aPNbIvC4tRPoTu8m11zx4bEXvGwbWIyM0QLJu8eZp
-         05ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=p/SoT+1SWGTsxMqTiV2xoAlXSkh7qhcMepCQ/DP40UY=;
-        b=N8q9ypiA/HBlYu6gpX+eaCZN5bO7m737tuXNnqR/8YmLS6RDB85FsEKwfra9q3CnYI
-         UsurtUxed2Qw1IbMrGxtCGZfz5QwuCPtXGzlqUxOXnCnam8Rujuj6KMacdIhyGKNGqZd
-         ztN7Gpb+MJqkqveUnrCi4BYNPLadO0b1wBe10ne8m9XQbm4RFbEww91sBtwb9XnWfNKd
-         9CMM1AjFjURN0z2nNomO5zbD2cAB2Nf3ia0qetrPgOck4O25ife3GaL3OeRIKK7D+xgD
-         QZ5ywOri52+10N3iJMUgn3246JR1NWJAdgqNpeVQFbHA24VeyQmvp7zJYCYaWmVYyyMc
-         a30A==
-X-Gm-Message-State: AOAM530CzDPxObot9IQEOuR0iPIl6bBrVjmaik6JUBFM2AjKbrh2fBgU
-        OZgZZ2RYnw3tRmEArlcI0jMHdA==
-X-Google-Smtp-Source: ABdhPJzzlw1vrY/6KZz4b5DnJHsFLDoqZ1+bjpyJiKN6yb0U3K7Ib8TAkhF/J3bs5VLGkDV+s3VoSQ==
-X-Received: by 2002:a17:906:a451:: with SMTP id cb17mr8507930ejb.510.1622198319086;
-        Fri, 28 May 2021 03:38:39 -0700 (PDT)
-Received: from localhost.localdomain (dh207-97-158.xnet.hr. [88.207.97.158])
-        by smtp.googlemail.com with ESMTPSA id jw9sm2192446ejb.77.2021.05.28.03.38.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 May 2021 03:38:38 -0700 (PDT)
-From:   Robert Marko <robert.marko@sartura.hr>
-To:     robh+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
-        corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, Jonathan.Cameron@huawei.com,
-        alexandre.belloni@bootlin.com, sst@poczta.fm, krzk@kernel.org,
-        alexandru.ardelean@analog.com, devicetree@vger.kernel.org
-Cc:     luka.perkov@sartura.hr, jmp@epiphyte.org, pmenzel@molgen.mpg.de,
-        buczek@molgen.mpg.de, Robert Marko <robert.marko@sartura.hr>
-Subject: [PATCH v2 3/3] MAINTAINERS: Add Delta DPS920AB PSU driver
-Date:   Fri, 28 May 2021 12:38:28 +0200
-Message-Id: <20210528103828.53320-3-robert.marko@sartura.hr>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210528103828.53320-1-robert.marko@sartura.hr>
-References: <20210528103828.53320-1-robert.marko@sartura.hr>
+        id S236452AbhE1KnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 May 2021 06:43:10 -0400
+Received: from mga14.intel.com ([192.55.52.115]:49704 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236344AbhE1KnK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 May 2021 06:43:10 -0400
+IronPort-SDR: LLjabeyCzmW2GGyCQyz0V9wKqtlCbVV8HriSMkKKEyh0KPnTIRO+/ehuGwXXCZZCBwI+hF9Ux8
+ Yg0Wv7tLp7+g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9997"; a="202705297"
+X-IronPort-AV: E=Sophos;i="5.83,229,1616482800"; 
+   d="scan'208";a="202705297"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2021 03:41:34 -0700
+IronPort-SDR: tMSP/Wo7mClH93pOJnBWJEYk0AbI47yJX0wg8ZjGbEgTX5PZk/TOVKvCc4DCFL1Yy2/eMrewqX
+ u+KNOhAa/VEQ==
+X-IronPort-AV: E=Sophos;i="5.83,229,1616482800"; 
+   d="scan'208";a="473045186"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2021 03:41:32 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lmZvl-00FIAH-D2; Fri, 28 May 2021 13:41:29 +0300
+Date:   Fri, 28 May 2021 13:41:29 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, swboyd@chromium.org, rostedt@goodmis.org,
+        linux-doc@vger.kernel.org, senozhatsky@chromium.org,
+        linux@rasmusvillemoes.dk, siyanteng01@gmail.com
+Subject: Re: [PATCH v2] docs: core-api: Documentation build warning fix
+Message-ID: <YLDI2YcyxaiDYrcd@smile.fi.intel.com>
+References: <20210528100016.3017663-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210528100016.3017663-1-siyanteng@loongson.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add maintainers entry for the Delta DPS920AB PSU driver.
+On Fri, May 28, 2021 at 06:00:16PM +0800, Yanteng Si wrote:
+> commit 821c734b5b07 ("module: add printk formats to add module build ID to stacktraces")
+> Causes the following warning:
 
-Signed-off-by: Robert Marko <robert.marko@sartura.hr>
----
-Changes in v2:
-* Drop YAML bindings
+> Documentation/core-api/printk-formats.rst:137: WARNING: Unexpected indentation.
+> Documentation/core-api/printk-formats.rst:138: WARNING: Block quote ends without a blank line; unexpected unindent.
 
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+The Documentation/core-api/ part can be dropped in both lines.
+Anyway, makes sense to me, thanks for fixing it.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3c3e2177349d..d12cac63689e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5103,6 +5103,13 @@ F:	Documentation/devicetree/bindings/gpio/delta,tn48m-gpio.yaml
- F:	Documentation/devicetree/bindings/mfd/delta,tn48m-cpld.yaml
- F:	drivers/gpio/gpio-tn48m.c
- 
-+DELTA DPS920AB PSU DRIVER
-+M:	Robert Marko <robert.marko@sartura.hr>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/dps920ab.rst
-+F:	drivers/hwmon/pmbus/dps920ab.c
-+
- DENALI NAND DRIVER
- L:	linux-mtd@lists.infradead.org
- S:	Orphan
+> So, add a blank line to the end of "::".
+
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+> v2:
+> * use the canonical format for referring to other commits
+> * pick Stephen's Reviewed-by tag
+> 
+>  Documentation/core-api/printk-formats.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index a68730e7cfac..38ec2b05e54f 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -131,6 +131,7 @@ printed after the symbol name with an extra ``b`` appended to the end of the
+>  specifier.
+>  
+>  ::
+> +
+>  	%pS	versatile_init+0x0/0x110 [module_name]
+>  	%pSb	versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+>  	%pSRb	versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+> -- 
+> 2.27.0
+> 
+
 -- 
-2.31.1
+With Best Regards,
+Andy Shevchenko
+
 
