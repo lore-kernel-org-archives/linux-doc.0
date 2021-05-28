@@ -2,117 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD00C4708E
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 20:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01BE0C47087
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 22:15:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D895613D1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 20:06:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CCC93613ED
+	for <linux-doc@archiver.kernel.org>; Fri, 28 May 2021 22:15:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbhE1UIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 May 2021 16:08:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbhE1UIS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 May 2021 16:08:18 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 489FCC061574
-        for <linux-doc@vger.kernel.org>; Fri, 28 May 2021 13:06:41 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id i9so6939603lfe.13
-        for <linux-doc@vger.kernel.org>; Fri, 28 May 2021 13:06:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SOmtzfnBo6NCPJmKRQ2bxbkBgbCrNqNnPAbwGffPcTs=;
-        b=L006ZDgfzIz2uNo0e1HI0KncA6d5iUevfwGopHwj6KZ0AzwLFmI7P+KSXJTBenAtKt
-         YvhygMCnEymm4R7ZuS6YSodjYjIrJh7LSsEhj+yn2mu+dh45d5tZjF54ls96OiZjrKl0
-         /pLSn9bC8pY1aZrCrWbmH+zopo0dZdc4fx0t0=
+        id S229644AbhE1WQf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 May 2021 18:16:35 -0400
+Received: from mail-pj1-f46.google.com ([209.85.216.46]:34707 "EHLO
+        mail-pj1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229494AbhE1WQe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 May 2021 18:16:34 -0400
+Received: by mail-pj1-f46.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso7921027pjx.1;
+        Fri, 28 May 2021 15:14:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SOmtzfnBo6NCPJmKRQ2bxbkBgbCrNqNnPAbwGffPcTs=;
-        b=nMfNZ+SBV/bOCQvU1oNdbkKzgIzjHu2vAj1h1WL6Tt9FkksEoTwYE4aBlZjeQ5KlAE
-         AKG5Y3zekBTgWsIuay64os6hTG+NMuwpCXKpVS3s0asgVZvqycIftUjmZjrVCTJnHeDq
-         WNJxKrUsgS/PZ7XAtQR3y/rM0N1Xz2F0mcwfKlvPSbmptbO+Vw+6LUUI5z+JuUpcuvcR
-         746fafRDZq0B2qvDSxbjW+CvJv08qV1zVvttUBWrD3vySbw407UebKthiLwDg9DSpPh2
-         FHPf+yG6LizmWdwJHY03qd7JnXfyUv+xpg6yDb0LY+TB9G3nekeunJwdCAUP5tJIrJJf
-         dc8g==
-X-Gm-Message-State: AOAM533fNR6P4CD8Rnf01NDb6bJcZZBAvM0nu9PW7v/S97tHAEPt8Xi0
-        bKbynz93ryAZxXE30qC9iKiWAA==
-X-Google-Smtp-Source: ABdhPJzKa/84djfH8kXaEz32MIwheVqy9u5D3igsMvIDbXW8m90h4yHajGL+aZ2UQYuvum5S2hn3pA==
-X-Received: by 2002:a05:6512:28e:: with SMTP id j14mr6669923lfp.360.1622232399648;
-        Fri, 28 May 2021 13:06:39 -0700 (PDT)
-Received: from [172.17.20.105] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id k8sm600385lfg.190.2021.05.28.13.06.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 May 2021 13:06:39 -0700 (PDT)
-Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
- file
-To:     Justin He <Justin.He@arm.com>, Matthew Wilcox <willy@infradead.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>
-References: <20210528113951.6225-1-justin.he@arm.com>
- <20210528113951.6225-3-justin.he@arm.com>
- <YLDpSnV9XBUJq5RU@casper.infradead.org>
- <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <89fc3919-ca2c-50fd-35e1-33bf3a59b993@rasmusvillemoes.dk>
-Date:   Fri, 28 May 2021 22:06:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lN/9YS4XrWsb7/Yja26anKu9iyUlLlsoGJNs/MgSvfo=;
+        b=Rysd7Fy8PTU5yGH4ANIzFcAHg3GdedSI7aOC+m0pHMbCAQ28WJboff0Wcfmh7DazV0
+         wapyt2eHaGaPW5fzAE7m96JYs3clKVh/U8Tn4P/DMeLb//yIoLXw2yJYfV+AJLwmA8tT
+         MlkG3UvYU+6A7h52bpMU8BS0f2YhieZt/K7CftOxMZgCs/+XTmlKizVIKjcWcAUeWKS/
+         qwZM7lhKaKe7s2f+bxlg8V1LDyBlz/cYLrWgZhr3vDhm0L0MawntuYyGCTAEd0q5toCd
+         TagU9t/qp2vvSezrkNoAzWOtI7dz+aNhGWMpRKMDdGZkYuy0v7D6jZpPIOmPPs8rlTJQ
+         YV0A==
+X-Gm-Message-State: AOAM531QoDanpU+M54H/oxhhsVJWCfYrR5uaHTCLiixWbSKL8nRLGB1Z
+        k+FETUJ/MwogDkmZnb569+Y=
+X-Google-Smtp-Source: ABdhPJwW1o9TggoqfgoKT3cVH5LlPlXNbR1dGE58xAktu5CTQ4UiNCgbg4paDqbV9QSAcePgtlmJpw==
+X-Received: by 2002:a17:90a:390a:: with SMTP id y10mr6611249pjb.9.1622240098246;
+        Fri, 28 May 2021 15:14:58 -0700 (PDT)
+Received: from localhost ([2601:647:5b00:1161:a4cc:eef9:fbc0:2781])
+        by smtp.gmail.com with ESMTPSA id mv15sm4955389pjb.25.2021.05.28.15.14.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 May 2021 15:14:57 -0700 (PDT)
+Date:   Fri, 28 May 2021 15:14:56 -0700
+From:   Moritz Fischer <mdf@kernel.org>
+To:     trix@redhat.com
+Cc:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
+        michal.simek@xilinx.com, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] fpga: fix spelling mistakes
+Message-ID: <YLFrYCKqF0394iBw@epycbox.lan>
+References: <20210519163056.1966690-1-trix@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210519163056.1966690-1-trix@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/05/2021 16.22, Justin He wrote:
+On Wed, May 19, 2021 at 09:30:56AM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
 > 
->> From: Matthew Wilcox <willy@infradead.org>
-
->> How is it "safer"?  You already have a buffer passed from the caller.
->> Are you saying that d_path_fast() might overrun a really small buffer
->> but won't overrun a 256 byte buffer?
-> No, it won't overrun a 256 byte buf. When the full path size is larger than 256, the p->len is < 0 in prepend_name, and this overrun will be
-> dectected in extract_string() with "-ENAMETOOLONG".
+> Run the fpga subsystem through aspell.
 > 
-> Each printk contains 2 vsnprintf. vsnprintf() returns the required size after formatting the string.>
-> 1. vprintk_store() will invoke 1st vsnprintf() will 8 bytes space to get the reserve_size. In this case, the _buf_ could be less than _end_ by design.
-> 2. Then it invokes 2nd printk_sprint()->vscnprintf()->vsnprintf() to really fill the space.
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  Documentation/fpga/dfl.rst    | 4 ++--
+>  drivers/fpga/altera-cvp.c     | 2 +-
+>  drivers/fpga/dfl-fme-pr.c     | 2 +-
+>  drivers/fpga/dfl-n3000-nios.c | 2 +-
+>  drivers/fpga/dfl.h            | 2 +-
+>  drivers/fpga/fpga-bridge.c    | 4 ++--
+>  drivers/fpga/zynq-fpga.c      | 6 +++---
+>  include/linux/fpga/fpga-mgr.h | 2 +-
+>  8 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index f3a1223f2517e..ccc33f199df2a 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -10,7 +10,7 @@ Authors:
+>  - Xu Yilun <yilun.xu@intel.com>
+>  
+>  The Device Feature List (DFL) FPGA framework (and drivers according to
+> -this framework) hides the very details of low layer hardwares and provides
+> +this framework) hides the very details of low layer hardware and provides
+>  unified interfaces to userspace. Applications could use these interfaces to
+>  configure, enumerate, open and access FPGA accelerators on platforms which
+>  implement the DFL in the device memory. Besides this, the DFL framework
+> @@ -205,7 +205,7 @@ given Device Feature Lists and create platform devices for feature devices
+>  also abstracts operations for the private features and exposes common ops to
+>  feature device drivers.
+>  
+> -The FPGA DFL Device could be different hardwares, e.g. PCIe device, platform
+> +The FPGA DFL Device could be different hardware, e.g. PCIe device, platform
+>  device and etc. Its driver module is always loaded first once the device is
+>  created by the system. This driver plays an infrastructural role in the
+>  driver architecture. It locates the DFLs in the device memory, handles them
+> diff --git a/drivers/fpga/altera-cvp.c b/drivers/fpga/altera-cvp.c
+> index 4e0edb60bfba6..ccf4546eff297 100644
+> --- a/drivers/fpga/altera-cvp.c
+> +++ b/drivers/fpga/altera-cvp.c
+> @@ -346,7 +346,7 @@ static int altera_cvp_write_init(struct fpga_manager *mgr,
+>  	}
+>  
+>  	if (val & VSE_CVP_STATUS_CFG_RDY) {
+> -		dev_warn(&mgr->dev, "CvP already started, teardown first\n");
+> +		dev_warn(&mgr->dev, "CvP already started, tear down first\n");
+>  		ret = altera_cvp_teardown(mgr, info);
+>  		if (ret)
+>  			return ret;
+> diff --git a/drivers/fpga/dfl-fme-pr.c b/drivers/fpga/dfl-fme-pr.c
+> index 1194c0e850e07..d61ce9a188792 100644
+> --- a/drivers/fpga/dfl-fme-pr.c
+> +++ b/drivers/fpga/dfl-fme-pr.c
+> @@ -148,7 +148,7 @@ static int fme_pr(struct platform_device *pdev, unsigned long arg)
+>  
+>  	/*
+>  	 * it allows userspace to reset the PR region's logic by disabling and
+> -	 * reenabling the bridge to clear things out between accleration runs.
+> +	 * reenabling the bridge to clear things out between acceleration runs.
+>  	 * so no need to hold the bridges after partial reconfiguration.
+>  	 */
+>  	if (region->get_bridges)
+> diff --git a/drivers/fpga/dfl-n3000-nios.c b/drivers/fpga/dfl-n3000-nios.c
+> index 7a95366f6516f..9ddf1d1d392f3 100644
+> --- a/drivers/fpga/dfl-n3000-nios.c
+> +++ b/drivers/fpga/dfl-n3000-nios.c
+> @@ -461,7 +461,7 @@ static int n3000_nios_poll_stat_timeout(void __iomem *base, u64 *v)
+>  	 * We don't use the time based timeout here for performance.
+>  	 *
+>  	 * The regbus read/write is on the critical path of Intel PAC N3000
+> -	 * image programing. The time based timeout checking will add too much
+> +	 * image programming. The time based timeout checking will add too much
+>  	 * overhead on it. Usually the state changes in 1 or 2 loops on the
+>  	 * test server, and we set 10000 times loop here for safety.
+>  	 */
+> diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
+> index 2b82c96ba56c7..dac9c3d45e6c3 100644
+> --- a/drivers/fpga/dfl.h
+> +++ b/drivers/fpga/dfl.h
+> @@ -232,7 +232,7 @@ struct dfl_feature_irq_ctx {
+>   * @id: sub feature id.
+>   * @resource_index: each sub feature has one mmio resource for its registers.
+>   *		    this index is used to find its mmio resource from the
+> - *		    feature dev (platform device)'s reources.
+> + *		    feature dev (platform device)'s resources.
+>   * @ioaddr: mapped mmio resource address.
+>   * @irq_ctx: interrupt context list.
+>   * @nr_irqs: number of interrupt contexts.
+> diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
+> index 6510c7803a784..d31eec32eb426 100644
+> --- a/drivers/fpga/fpga-bridge.c
+> +++ b/drivers/fpga/fpga-bridge.c
+> @@ -230,7 +230,7 @@ EXPORT_SYMBOL_GPL(fpga_bridges_put);
+>   *
+>   * Get an exclusive reference to the bridge and and it to the list.
+>   *
+> - * Return 0 for success, error code from of_fpga_bridge_get() othewise.
+> + * Return 0 for success, error code from of_fpga_bridge_get() otherwise.
+>   */
+>  int of_fpga_bridge_get_to_list(struct device_node *np,
+>  			       struct fpga_image_info *info,
+> @@ -260,7 +260,7 @@ EXPORT_SYMBOL_GPL(of_fpga_bridge_get_to_list);
+>   *
+>   * Get an exclusive reference to the bridge and and it to the list.
+>   *
+> - * Return 0 for success, error code from fpga_bridge_get() othewise.
+> + * Return 0 for success, error code from fpga_bridge_get() otherwise.
+>   */
+>  int fpga_bridge_get_to_list(struct device *dev,
+>  			    struct fpga_image_info *info,
+> diff --git a/drivers/fpga/zynq-fpga.c b/drivers/fpga/zynq-fpga.c
+> index 07fa8d9ec6750..9b75bd4f93d8e 100644
+> --- a/drivers/fpga/zynq-fpga.c
+> +++ b/drivers/fpga/zynq-fpga.c
+> @@ -192,7 +192,7 @@ static void zynq_step_dma(struct zynq_fpga_priv *priv)
+>  
+>  	/* Once the first transfer is queued we can turn on the ISR, future
+>  	 * calls to zynq_step_dma will happen from the ISR context. The
+> -	 * dma_lock spinlock guarentees this handover is done coherently, the
+> +	 * dma_lock spinlock guarantees this handover is done coherently, the
+>  	 * ISR enable is put at the end to avoid another CPU spinning in the
+>  	 * ISR on this lock.
+>  	 */
+> @@ -267,7 +267,7 @@ static int zynq_fpga_ops_write_init(struct fpga_manager *mgr,
+>  		ctrl = zynq_fpga_read(priv, CTRL_OFFSET);
+>  		if (!(ctrl & CTRL_SEC_EN_MASK)) {
+>  			dev_err(&mgr->dev,
+> -				"System not secure, can't use crypted bitstreams\n");
+> +				"System not secure, can't use encrypted bitstreams\n");
+>  			err = -EINVAL;
+>  			goto out_err;
+>  		}
+> @@ -344,7 +344,7 @@ static int zynq_fpga_ops_write_init(struct fpga_manager *mgr,
+>  
+>  	/* set configuration register with following options:
+>  	 * - enable PCAP interface
+> -	 * - set throughput for maximum speed (if bistream not crypted)
+> +	 * - set throughput for maximum speed (if bistream not encrypted)
+>  	 * - set CPU in user mode
+>  	 */
+>  	ctrl = zynq_fpga_read(priv, CTRL_OFFSET);
+> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
+> index 2bc3030a69e54..3a32b8e201857 100644
+> --- a/include/linux/fpga/fpga-mgr.h
+> +++ b/include/linux/fpga/fpga-mgr.h
+> @@ -110,7 +110,7 @@ struct fpga_image_info {
+>   * @initial_header_size: Maximum number of bytes that should be passed into write_init
+>   * @state: returns an enum value of the FPGA's state
+>   * @status: returns status of the FPGA, including reconfiguration error code
+> - * @write_init: prepare the FPGA to receive confuration data
+> + * @write_init: prepare the FPGA to receive configuration data
+>   * @write: write count bytes of configuration data to the FPGA
+>   * @write_sg: write the scatter list of configuration data to the FPGA
+>   * @write_complete: set FPGA to operating state after writing is done
+> -- 
+> 2.26.3
+> 
+Applied to for-next,
 
-Please do not assume that printk is the only user of vsnprintf() or the
-only one that would use a given %p<foo> extension.
-
-Also, is it clear that nothing can change underneath you in between two
-calls to vsnprintf()? IOW, is it certain that the path will fit upon a
-second call using the size returned from the first?
-
-Rasmus
+Thanks
