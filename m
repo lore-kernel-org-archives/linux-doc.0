@@ -2,71 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC601C4708C
-	for <linux-doc@archiver.kernel.org>; Sat, 29 May 2021 02:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A13CC4708F
+	for <linux-doc@archiver.kernel.org>; Sat, 29 May 2021 15:19:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5418613F5
-	for <linux-doc@archiver.kernel.org>; Sat, 29 May 2021 02:17:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07DF061222
+	for <linux-doc@archiver.kernel.org>; Sat, 29 May 2021 15:19:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbhE2CSM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 May 2021 22:18:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53468 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229543AbhE2CSM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 May 2021 22:18:12 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1440F61175;
-        Sat, 29 May 2021 02:16:35 +0000 (UTC)
-Date:   Fri, 28 May 2021 22:16:33 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Juri Lelli <juri.lelli@redhat.com>
-Cc:     Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 0/9] hwlat improvements and osnoise/timerlat tracers
-Message-ID: <20210528221633.4d87dde5@oasis.local.home>
-In-Reply-To: <YK+LiSdWQngXjior@localhost.localdomain>
-References: <cover.1621024265.git.bristot@redhat.com>
-        <YK+LiSdWQngXjior@localhost.localdomain>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S229762AbhE2PU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 May 2021 11:20:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46846 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229754AbhE2PU4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 May 2021 11:20:56 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7FB5C061574;
+        Sat, 29 May 2021 08:19:18 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id g18so5550509pfr.2;
+        Sat, 29 May 2021 08:19:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=Vnafq7RVp7VAT1/+Lx872/XLk4/H3v8bYUHr0j7OeBM=;
+        b=I2X5qQq6ZF0GMTTHJ9NIicNH9snA7WkUEKAe+Gmc7b9b8jZ2TSSRTWqtBceuAX4TRz
+         yb8QcT3+opS2X7XiTT5Qdd+fe8Bzp+I55KhSN9tWIN7N+s5SkPYVzi72G87tip+jmlSs
+         qsh5dsANxKVzvqOfdNKv5Fxsb4YQzgx920pO+/aJjg7OkEYOr3cyoKdSA+k2Y/SqSBpi
+         QHwqoI4fgbkJiHXfOOqWJw2EcbzBIjf+MJWP/DaRDkQCfTGazsUa9P9is/Y26dTvbfFW
+         SZxLhdhanKFfpBHw2DbKbtfYChx1kdoYklfT0O9HGFAhP/LeTbIW2NToXMwj653B2DsS
+         mcag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=Vnafq7RVp7VAT1/+Lx872/XLk4/H3v8bYUHr0j7OeBM=;
+        b=QVSzdin55pcJaaAAaguVLbAo0+kbuEvsEhVCh/fqETCi/rS1LHtdCmDBOkyNSmxIt5
+         AOdOOotEHDZVB2qCekVDjY50XGtiNub6SM50CbcOoGdqC68I0K+pOS9x3Hv/i12yZzzq
+         vpK+xGgovEZ+2fn1xAdDCgx3K8olha4FDaOuWfXn6rVwefkmRnR42h5naUast8JTfLRN
+         RDEnLXezhf+pT8qtpE4Uh3hZnbFvvvcoJZvd0Mhy5C0ctVNT3Yhn4RO2QemAac2cRAvJ
+         p12gUkeHPBp83jyJkxZGIcwkINppWdzjwThjq8WZqgmlJEN9uYVYJ/hjks+SunCDXUY8
+         qyXg==
+X-Gm-Message-State: AOAM531kdreyds0hk88tRBWCSHazG59LjPVxamIBqNmkkv/YDqU3DVF5
+        BgxJCFlItPdPGCn5TCVY+lk=
+X-Google-Smtp-Source: ABdhPJwf4cRahCCSx4nCN0kvbiC/RKLwNf/orvToNafmKvot7msn84yMsZVyKwIruesf5bHGUG27DQ==
+X-Received: by 2002:aa7:8809:0:b029:2de:3b94:487e with SMTP id c9-20020aa788090000b02902de3b94487emr9031300pfo.33.1622301558399;
+        Sat, 29 May 2021 08:19:18 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id h26sm7096180pfk.19.2021.05.29.08.19.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 29 May 2021 08:19:18 -0700 (PDT)
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     "Wu X.C." <bobwxc@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs: pdfdocs: Prevent column squeezing by tabulary
+Message-ID: <277d68fa-c96a-0ccb-6ce0-4d314851d9fe@gmail.com>
+Date:   Sun, 30 May 2021 00:19:14 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 May 2021 14:07:37 +0200
-Juri Lelli <juri.lelli@redhat.com> wrote:
+Setting a reasonable width to \tymin prevents column squeezing
+by tabulary.
+Width of 20em works well in almost all the tables still in the
+ascii-art format.
 
-> FWIW, I've been using the new tracers extensively downstream for a while
-> now and I find them very useful and quite more precise to detect
-> problems than what we currently have available.
-> 
-> The fact that one can do almost everything needed to spot latency issues
-> from entirely inside the kernel with a simple interface is a big plus to me
-> as well.
-> 
-> I wouldn't mind if this gets accepted very soon! :)
+Excerpt from tabulary package documentation at [1]:
 
-Neither would I ;-)  But because of my extended vacation and other
-immediate responsibilities I need to take care of, it may be a couple
-of weeks before I can thoroughly look at this ;-)
+    To stop very narrow columns being too 'squeezed' by this process
+    any columns that are narrower than \tymin are set to their natural
+    width.
 
-Anyway, thanks for the vote of confidence.
+[1]: https://mirrors.ctan.org/macros/latex/contrib/tabulary/tabulary.pdf
 
--- Steve
+Note: Sphinx has its own default value of \tymin set in
+sphinxlatextables.sty (Sphinx 4.0.2) and sphinxmulticell.sty
+(Sphinx 2.4.4) as follows:
+
+    \setlength{\tymin}{3\fontcharwd\font`0 }
+
+, which is not sufficient for kernel-doc.
+
+Tested against Sphinx versions 2.4.4 and 4.0.2.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi all,
+
+This is another attempt to improve pdfdocs output.
+As far as I see, I don't see any obvious regression by
+this change.
+
+The effect of this change can be seen in (not limited to)
+the MODULE_LICENSE section in process.pdf (pages 10 and 11).
+
+I'd like to know this change looks reasonable to you.
+
+Any feedback is welcome!
+
+        Thanks, Akira
+
+--
+ Documentation/conf.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 25aa00c707b0..a05225056e08 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -353,6 +353,8 @@ latex_elements = {
+ 
+     # Additional stuff for the LaTeX preamble.
+     'preamble': '''
++	% Prevent column squeezing of tabulary.
++	\\setlength{\\tymin}{20em}
+         % Use some font with UTF-8 support with XeLaTeX
+         \\usepackage{fontspec}
+         \\setsansfont{DejaVu Sans}
+-- 
+2.17.1
+
