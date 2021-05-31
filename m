@@ -2,111 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D06F0C47082
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 09:40:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83176C4708F
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 09:42:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB421611CA
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 09:40:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6089761278
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 09:42:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbhEaJmR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 05:42:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55936 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230500AbhEaJmQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 May 2021 05:42:16 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1622454035; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bPMteFR0fnmyo8FXBzBxRPRmVb4fglfAJIgPFxZ76ck=;
-        b=fUx3YXqwD0FYvZRCenXctrEefGQaPnqoTrhsrCqr6gtMMdzrHn7ieUqpDhSpsgIMLE6vmZ
-        yIU4fc6DL/cUolu5k960Gxlh8oizRRK4+SmC0UbANavCdZccin0KFMEMVg1If0YV691wVi
-        WEnSrZAT6SGY/njmbiqICl2miIcbHZ0=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 7D2B2B4BA;
-        Mon, 31 May 2021 09:40:35 +0000 (UTC)
-Date:   Mon, 31 May 2021 11:40:34 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Justin He <Justin.He@arm.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        id S231248AbhEaJoF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 05:44:05 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:34181 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230500AbhEaJn6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 05:43:58 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 7AFD3580487;
+        Mon, 31 May 2021 05:42:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 31 May 2021 05:42:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=WnQrnLtWZNnyNpO3acQJhJ/bTb/
+        zVNlgSLckx9ud/3k=; b=IiNPuoSFaFJ+FLfnMfuu0aEao+0+SQJzPnBdOtZHIwx
+        OI5D+UwzLtd7hRao0VOX+54M25thB09hjMV3+TBAFXsF6VqvVBnfc8JbwLsA88uX
+        wptoS5MESiCC0w0oyKK43dHB2JMlOgHiCHLqarkclDNVfkGv6Q70Yxuft6uYFDh+
+        Xu6WsFskOaVtqg3tYsUAABsHnt0YqgcH10pu/NZvyrPFS0vchctcJ0Ljv9UPJfVL
+        Xn/t1MFPoKG3M2qcBJtnjFf0yuOS8HJAa2y2Vf8cv7xPGdXS+6VOhtbCdLtE2Dyz
+        Ve1q0L1SMNkMKWpbuFF9FY9yM0Ppq5a8OS8XAoAeR6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=WnQrnL
+        tWZNnyNpO3acQJhJ/bTb/zVNlgSLckx9ud/3k=; b=EP97E+O8VhXdqGz4Fz+hhl
+        kSawOnEOwyehJuxeeevB9mTvHubWVIbysLBVCUsn+Z//mZWJccffGjitbW2fAu1w
+        zyJDGQsGivdz0IJ5c51wzy/6HXReypofgir1cYHIDE2vwm9kBSM+QQZg6ZUJ4wgt
+        cUWt8Zd7p8TUXgVJn8RbMPWtS4Us9vAuSdpg5VzgP2RyHoVV0iaG4KFMW1kwJkAZ
+        dR3N+qurzBW3MLGKVhS9KjbBlifyX0Pyw22aLvfSlWLdsalKyf4gRc8Oru/+ncL0
+        e+oGa8P8gnM33JpZHSzWU0wE0mayEBnwdzEoBDdufwn8wU3a4cdwCQoR7amFJNMQ
+        ==
+X-ME-Sender: <xms:eK-0YENy5kYVKheJHzJSf9GxHJTXE5_iJwRRVu8JQYMU8nJSegoGhQ>
+    <xme:eK-0YK_0gPKAdMHAyo2IF2xWG7LSYjPKBmEkbJFNj4VXdSmHgtOL3N3QOyqPYP7eD
+    DZVXEB52P2xN21uCtw>
+X-ME-Received: <xmr:eK-0YLTAcWdlQVlkfRq_UXtw6KguUqAJj5-prtf6314yvxhpcYnnWEzEa89_h32ikJjWloqg8-xv3DrOLTYgWT_JuO3JpNykUl7e>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelfedgudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:eK-0YMswZEFbzrn78ajFD2lv6xQMq_J9bLnQk8FCdRIU8cC9oqBKyQ>
+    <xmx:eK-0YMfs5hyrB_cMPTjQY60dtY89rf2NN3SVtCL0WL3yHjOoj6GXfA>
+    <xmx:eK-0YA03aCFobWxbDcheaY-7ptLK8O9UVrDASHW6Yz_Cju3YwXBIlA>
+    <xmx:eq-0YNsM67k5Toi9bS0UE-ngDjUqfh6lXn_l9q-x15hBffqEAGEMLA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 31 May 2021 05:42:15 -0400 (EDT)
+Date:   Mon, 31 May 2021 11:42:13 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
+Cc:     Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        devicetree@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Tim Gover <tim.gover@raspberrypi.com>,
+        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
+        Eric Anholt <eric@anholt.net>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-rpi-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>
-Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
- file
-Message-ID: <YLSvEqQQj5RLjAJ/@alley>
-References: <20210528113951.6225-1-justin.he@arm.com>
- <20210528113951.6225-3-justin.he@arm.com>
- <YLDpSnV9XBUJq5RU@casper.infradead.org>
- <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
- <89fc3919-ca2c-50fd-35e1-33bf3a59b993@rasmusvillemoes.dk>
- <YLOsvz8ZbpjfcuGO@casper.infradead.org>
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2 05/12] ASoC: hdmi-codec: Add a prepare hook
+Message-ID: <20210531094213.kuuunk7ytu3q6sq6@gilmour>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+ <20210525132354.297468-6-maxime@cerno.tech>
+ <YK4lWaB6Lx+SPjpF@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="epjegrbj6kpv446q"
 Content-Disposition: inline
-In-Reply-To: <YLOsvz8ZbpjfcuGO@casper.infradead.org>
+In-Reply-To: <YK4lWaB6Lx+SPjpF@sirena.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun 2021-05-30 16:18:23, Matthew Wilcox wrote:
-> On Fri, May 28, 2021 at 10:06:37PM +0200, Rasmus Villemoes wrote:
-> > On 28/05/2021 16.22, Justin He wrote:
-> > > 
-> > >> From: Matthew Wilcox <willy@infradead.org>
-> > 
-> > >> How is it "safer"?  You already have a buffer passed from the caller.
-> > >> Are you saying that d_path_fast() might overrun a really small buffer
-> > >> but won't overrun a 256 byte buffer?
-> > > No, it won't overrun a 256 byte buf. When the full path size is larger than 256, the p->len is < 0 in prepend_name, and this overrun will be
-> > > dectected in extract_string() with "-ENAMETOOLONG".
-> > > 
-> > > Each printk contains 2 vsnprintf. vsnprintf() returns the required size after formatting the string.>
-> > > 1. vprintk_store() will invoke 1st vsnprintf() will 8 bytes space to get the reserve_size. In this case, the _buf_ could be less than _end_ by design.
-> > > 2. Then it invokes 2nd printk_sprint()->vscnprintf()->vsnprintf() to really fill the space.
-> > 
-> > Please do not assume that printk is the only user of vsnprintf() or the
-> > only one that would use a given %p<foo> extension.
-> > 
-> > Also, is it clear that nothing can change underneath you in between two
-> > calls to vsnprintf()? IOW, is it certain that the path will fit upon a
-> > second call using the size returned from the first?
-> 
-> No, but that's also true of %s.  I think vprintk_store() is foolish to
-> do it this way.
 
-Just for record. vprintk_store() is foolish here by intention.
-It avoids the need of static per-CPU X per-context buffers
-and it is simple.
+--epjegrbj6kpv446q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I believe that it should be good enough in practice. Any race here
-would make the result racy anyway.
+Hi Mark, Takashi,
 
-Of course, we might need to reconsider it if there are real life
-problems with this approach.
+On Wed, May 26, 2021 at 11:39:21AM +0100, Mark Brown wrote:
+> On Tue, May 25, 2021 at 03:23:47PM +0200, Maxime Ripard wrote:
+> > The IEC958 status bit is usually set by the userspace after hw_params
+> > has been called, so in order to use whatever is set by the userspace, we
+> > need to implement the prepare hook. Let's add it to the hdmi_codec_ops,
+> > and mandate that either prepare or hw_params is implemented.
+>=20
+> Acked-by: Mark Brown <broonie@kernel.org>
 
-Best Regards,
-Petr
+It looks like you're both happy with the ALSA/ASoC side, how do you want
+to get this merged?
+
+There's a build dependency between the DRM bits and the new hook
+introduced in hdmi-codec, would you be ok with merging it through the
+drm tree?
+
+Maxime
+
+--epjegrbj6kpv446q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYLSvdQAKCRDj7w1vZxhR
+xWXFAQDysUxOnMmdBoxWo7OqzkjGIwVcF9ekclQWjJWOn1GNgwD/ZCJRk/ix3+v+
+3HrGEoP5DWXcawng2o1uOjuTho/i5wE=
+=7cDo
+-----END PGP SIGNATURE-----
+
+--epjegrbj6kpv446q--
