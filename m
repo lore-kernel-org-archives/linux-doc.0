@@ -2,312 +2,991 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3314C47094
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 04:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B772C4708F
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 05:26:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6B0C61009
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 04:40:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A38960FE9
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 05:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbhEaEmE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 00:42:04 -0400
-Received: from mail-bn1nam07on2131.outbound.protection.outlook.com ([40.107.212.131]:31046
-        "EHLO NAM02-BN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229475AbhEaEmD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 May 2021 00:42:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LMtNGV4xNBVt8pNmuRuBy2w4h9Q5THzuLVIOVxO/6iYyXEBn/qq/Hak0RzR384qim7bBN01n9Q3wa5CpPDsecVjhwD14Ba1beKoPjQuhqlCapnro4AEY9UDD7xAeY2AsZLQpMXYjEJ6OGgy4aFTCQZrHH+rtGJ3eriodgjarkZcEJAR/K1qmvWGMOXuygFHGKm4f9iv5119JJFf9I0P0+Jxh3Pfo60giaCrOQCQeXTWHebrArjNnGO+PVFu3e8CiID4vYphIDVog4B97DSKhnRltZzAiR6gfgFkXlq9MVzMck1qiRlOqei5MReDEF+mx6fz/bZz8CcXfrXfLoht+hQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ICqXDKhCJ1R/lWVouUO+7Pww7EbhoqngrFqn9ZECIRg=;
- b=BmnxJdQZilyo6jNbbYMZGenE0HGZmhQ55hmFGJHkH/EU24yEBnUywwzU65uUntdExCdzBTwWLctWoMygiCLG0usczAZLk4JqoqVQafVPO7b6QeeMybjAEzMxcjpGdXvwszr5p81CBS0/6MZqWWQgKVcwd6n7enzv4FHIYsf3LE1OiDETwjdmU7miwdAbg5KiqBraOkJudgniKk+16fAKMlBceuSaYHuq7SXP7bYvJGgL5n63OFJz2uUp1ZT/X4fm5sSNuonRr6L6bULVE2v59AoV4VPJ6Asr5LKKSyiCF0czFrhTV3nY816iYrG1gtPaYAW8rHX0Jni0pl4tL3xG3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ICqXDKhCJ1R/lWVouUO+7Pww7EbhoqngrFqn9ZECIRg=;
- b=syPd1vmJhdQgdKte9QpET1OWxBlUwFRTqL69Eu6xxsIZ+z1q6YsHhzs2uF11SZ1RROzkTFb4amu9aQAz7huOE0KlxlljmWTHzMkunUaCE6fouigAA3Qv40HXpZAcvIlEiRYmTDs9CEu4660v6pF9eqXgkJ8meELVq5+qjjexTk4=
-Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
- header.d=none;os.amperecomputing.com; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- CO1PR01MB6614.prod.exchangelabs.com (2603:10b6:303:d9::6) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.20; Mon, 31 May 2021 04:40:19 +0000
-Received: from MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::7d5f:eca4:a33a:342e]) by MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::7d5f:eca4:a33a:342e%5]) with mapi id 15.20.4173.030; Mon, 31 May 2021
- 04:40:19 +0000
-Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add bindings for Ampere Altra
- SMPro drivers
-From:   Quan Nguyen <quan@os.amperecomputing.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20210422090843.4614-1-quan@os.amperecomputing.com>
- <20210422090843.4614-2-quan@os.amperecomputing.com>
- <20210430201918.GA3806853@robh.at.kernel.org>
- <52550615-ae38-d88e-a597-29dc9c71755a@os.amperecomputing.com>
- <ee17c000-6f70-84d9-f7a1-0d30b03dafab@os.amperecomputing.com>
-Message-ID: <aa5997f6-e629-e82b-ea0a-484888c0271f@os.amperecomputing.com>
-Date:   Mon, 31 May 2021 11:40:07 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.2
-In-Reply-To: <ee17c000-6f70-84d9-f7a1-0d30b03dafab@os.amperecomputing.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [2402:800:623c:5f9b:4ce:f00e:7db8:5363]
-X-ClientProxiedBy: HK2PR02CA0128.apcprd02.prod.outlook.com
- (2603:1096:202:16::12) To MW2PR0102MB3482.prod.exchangelabs.com
- (2603:10b6:302:c::32)
+        id S230070AbhEaF2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 01:28:36 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:47059 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229730AbhEaF2e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 May 2021 01:28:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=/IYtc6MBluROQPRZ40VepLIP1QXXiAwjOGPtu
+        gFXR8I=; b=ZaT4Iz/mMroWT8BpZeM5rZ6QP7kaL/tbPGAVnar/SJYirjJaqPiG/
+        2at9QhjdTae0u5RVnu7fw7CZC01uEYXEhd79O7gaTxdqtn3UOkO88SR79ZxhDoOz
+        Zm1+SZkqnkJqm491ACF83z1mLeC7YM4bInslbsr3iIHR5175naxPik=
+Received: from bobwxc.top (unknown [120.238.248.220])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDXnUCUc7Rgww5MAA--.45131S2;
+        Mon, 31 May 2021 13:26:46 +0800 (CST)
+Date:   Mon, 31 May 2021 13:26:44 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: Re: [PATCH] docs/zh_CN: add core api cachetlb translation
+Message-ID: <20210531052644.GA4751@bobwxc.top>
+References: <20210527043118.3835070-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2402:800:623c:5f9b:4ce:f00e:7db8:5363] (2402:800:623c:5f9b:4ce:f00e:7db8:5363) by HK2PR02CA0128.apcprd02.prod.outlook.com (2603:1096:202:16::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Mon, 31 May 2021 04:40:15 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 95e30351-d8ee-4d5e-1676-08d923ee3164
-X-MS-TrafficTypeDiagnostic: CO1PR01MB6614:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO1PR01MB6614C976ED4B71941794951CF23F9@CO1PR01MB6614.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: F+MMYn1rAPV7ME8yj50v/gvCs1wAe1YpSXZrVlSP0u8v4oWsMXg1Hgd8nrzp4h06n01uYDAHhlooEyzzD0FXYIfBipY/aRsdhdjHFekFNSV0yJmeO4/eqQtz3erIFwb2L3izJu2VQQIt6VpHcAWPw1g4CUmSFhh2e8A0Tpi3Rtr9yZ1eJUsqoWVAJZBPI90isNeYQYkkUOMakp133YLQm41f2V39AuPEImJ7fxSfcsCrIWuNmswbUcoHadCSGHWiVYoO6KOPDXRep+F57sAOjrZhjdw1J2PzkHIFgJYgSTmSNp9Psjr8b+3x7hO38jNTuwVZy1ywhC7n2mJk4SfsAa5bKdk1W/jknckDXem2NAS6MUh33NtEQiQJRwywz82ub5ERYDn+hnP8pzOh/5acg9w95X00Z3hB1jvKW+OM0GZFAt+cVDcveiFjA+N3hWTYVl4YQJvcQxFVEhDHRd/K1C5+3cCIJBO5SMhXnGTrqfiV6KHrslzBx1vvU2ihD05s9cshsRO1W5EMHsohJWdEq0FsA/d+0wdRZIXoFwi/sapP4Ovacq889C9f2/bDSmY12MvEx5hrZoLjE+rbO81Hx9DpO8918Pv7Z2Xs9KRh+KvUDBdhzLC1IXU0L9Ihuy4JsBOBSV+Vc5p6e3xrIs4Ex6+Xke/131/V8TtGK21FnQ2EOC6cuGEyAsXfY2oOj1rZiwJdEvtxYNcLgb5WxkPrRzzSPOA/AeaOWlb1DhlwzAPBc4t9S6kVBSxXjGoN+igcdZNsxtiQQ2V0P8l4ldA/OA4+XjRHwy6vBkfUx7uERrY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR0102MB3482.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(396003)(366004)(39840400004)(346002)(66946007)(83380400001)(38100700002)(86362001)(8676002)(66476007)(54906003)(53546011)(16526019)(8936002)(66556008)(5660300002)(2616005)(966005)(7416002)(6486002)(2906002)(6666004)(478600001)(4326008)(31686004)(316002)(6916009)(52116002)(31696002)(186003)(107886003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OGNOR2NXbWZzRFB6RUp4MS9zWUdOS24xYzhVNlhBNmVTNG8rOG9BUWc0SUJW?=
- =?utf-8?B?cUVhdFpyRnlDVkp1ci9MTFNCUXlNbStEK0xqeDQwdjc0enhmTnNYQTk0S2Jq?=
- =?utf-8?B?NEpvM1NFU3liZXdRWVFqak9WV2FlSUIyUjhtODljdTNlUW45b3VnMzdqNjQ4?=
- =?utf-8?B?c3Zmc2w4THBWbzRoU3BxZ1FQcTdsWU1xc3FXWW05dDhQVlVrRkdyTkUwT2xW?=
- =?utf-8?B?ZWRzMk5RRE9md3I1Nm1IeGhZdWNkNG50dTU5WXFUR2x6Z2ZQdkJvQXpnTFMw?=
- =?utf-8?B?TVNzcGJHSVNxVm5sb3ZSUVc2NVNNR2VMc1lNdXBLOVFIaWhLYjhYcFZjelIy?=
- =?utf-8?B?ampMdUdxMGg4QjhnMXc2b0dKLzRoYmI5NzYxV2pJL0F5NzR6OFFnblV2OTdJ?=
- =?utf-8?B?cVdRV1dmOFhGcDBTSDdPWUNoaGpnM1hsLzUwUnNCVDBxM28yZmlQeElyS0I5?=
- =?utf-8?B?WmFibFpJOU9vOWFmd2dEMkMwZlRMczRmakFQQkt0eHptL0ErQm91dCswQTFm?=
- =?utf-8?B?MDNTdjlJWkNsdmh1dWZPUE1CdCtKVzJhQUhOL2loSnAxbjFVRzFEY2N3RDFL?=
- =?utf-8?B?K2FacmwyTVNmVUt2S0tCOUppNlFVdTAreVBnUSthWVAybjdBcENFUkN3cFZz?=
- =?utf-8?B?KysydUtTSWQ0SEZqVk16SjdzNU40RHVyMDNuS3pwdzBWbFFzQkFieDRmZTJ0?=
- =?utf-8?B?NEkyK2svaUZxelhVaGdnd1ppUHBIUlZXa0NQZUlGWTErQVBHaFpBVzUvNjhy?=
- =?utf-8?B?VytITEVXV2RFcmpRMENJQUF6SEhrVDdNZGdjWVVBbzJQQS9XUFJSZDNycDkz?=
- =?utf-8?B?ZU5PTnAyNGIrdCt3TFJyY3VPQUZJV2tuT0wyOGZYRzJsWmlNWloxQVBqamFw?=
- =?utf-8?B?Rm5uME1mR1EwbmRqYXlaYXBNYkl1N05JT2tlWDk1a1VkejBRbmJTYlYxMlBY?=
- =?utf-8?B?N0tpR1Z3M1FKUFlLQWY5MDhFWlNLbm9WNUxJdFU5MlZtN2ViS0NYWG1OeGZ3?=
- =?utf-8?B?cVRpR2pWLzF2aGxoQUVxRDFkdkc5bG5GMzFFZDRNUEZ2V2I2eWhuaXV3NDBp?=
- =?utf-8?B?SDJKWUhLbGNMc0h3WnNBTDlia2Z2L2hDbHlNTXNRUVpKWFdNY3lTMFRMU3FH?=
- =?utf-8?B?Z3ZvTnBsUUhOaC95WC9KQkQwNVovd0ZEc2E2TVhEY1BuUEJrdDBoM2tiMmhx?=
- =?utf-8?B?U1dRalcwK01hOS95VWI0WkovWEdIVTF5Rzh6UytzQ0c5b0d5bVRmc3RLYksy?=
- =?utf-8?B?L2JmUURaUzFtbkgvOWVjQ2RYdExJVjMwTlVjbHFBRXdQejM5UmxCVkE2Qi9Q?=
- =?utf-8?B?bDlZbytab0JSclo4VTVPVEJZenNBTmZOV3VUK29WdXpSUFkwRnF0TFpYQnd4?=
- =?utf-8?B?Y3VzaWxiNVBsZ1BxaDYzN2FYTDQwWGNRZlJ6bXF3RDlKOVVoSHVVZjRnSEUv?=
- =?utf-8?B?QkJtTEhCb1l3cmppdFgvMzJsTmJZQTQ5MlA1NmM2d3MveWJyOTdmdndLcEZn?=
- =?utf-8?B?NEhLa2NOanFzUnJnRXRIcXYzWThtbDBvT21xeEpaR1pVSzhybWRhM2E1NjBT?=
- =?utf-8?B?TEdCRDF0MXI0ckVRSFFDWSs2dzB2UlFicFYyZEZNdzZ1TU80dk00UGJUaUtY?=
- =?utf-8?B?UTU1NmF1ZVB6MUVsWFIzcGdoVHhyVHdmNGtrRk9wNVAybERFNGNBTzNnTllT?=
- =?utf-8?B?dDk4NjFsM21IUG5xTzBaWlBDM1hva1prNG1GZTdYTS83TVhpZGxodzVWc01U?=
- =?utf-8?B?OVNXa09UbzE0UURnRVFOV1hrT1RaMEdDMlgxak16UXhMdGxNQjFISk5YR01i?=
- =?utf-8?B?VHZhamFZZXozZWt6RFM2VEs3MDBKNUJMMStpNGF2SS9vbDhNN0p4YTJ5dVZ1?=
- =?utf-8?Q?NtZjDbEF6U6TG?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95e30351-d8ee-4d5e-1676-08d923ee3164
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 04:40:19.1075
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wKCTPCKf7A6V3kxPNtYjhJO195sLWSyzuK7ncbN7SnKRfq4Y6LoZ0YZtB4li8nTp4sIRP9IT3KT9MOr/bmkyI2R4A8V2aBBHMM3TkL959ns=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR01MB6614
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ikeVEW9yuYc//A+q"
+Content-Disposition: inline
+In-Reply-To: <20210527043118.3835070-1-siyanteng@loongson.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgDXnUCUc7Rgww5MAA--.45131S2
+X-Coremail-Antispam: 1UD129KBjvAXoWfXry8Zw4rWw45Xr4xKw17ZFb_yoW8trWrZo
+        Wavws09w4kuF45Ga4j9a98Jw18ur1UArnrAws3Kr1qv3WUKw1Sy3Z5JrW3GFyakry5K3WS
+        kF1kJa1Yk3WFyFnxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUU5P7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+        IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
+        x4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262
+        IYc4CY6c8Ij28IcVAaY2xG8wASzI0EjI02j7AqF2xKxwAqx4xG64xvF2IEw4CE5I8CrVC2
+        j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+        CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY
+        6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+        CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
+        0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+        AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
+        Ja73UjIFyTuYvjxU-KZXDUUUU
+X-Originating-IP: [120.238.248.220]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/05/2021 06:36, Quan Nguyen wrote:
-> On 05/05/2021 15:44, Quan Nguyen wrote:
->> On 01/05/2021 03:19, Rob Herring wrote:
->>> On Thu, Apr 22, 2021 at 04:08:40PM +0700, Quan Nguyen wrote:
->>>> Adds device tree bindings for SMPro driver found on the Mt.Jade 
->>>> hardware
->>>> reference platform with Ampere's Altra Processor family.
->>>>
->>>> The SMpro co-processor on Ampere Altra processor family is to monitor
->>>> and report various data included hwmon-related info, RAS errors, and
->>>> other miscellaneous information. This parent SMPro MFD driver creates
->>>> a single simple register map to be shared by all sub-devices and leave
->>>> all the specific to be handled by the child drivers.
->>>
->>> Again, just because you have multiple functions aka MFD, that doesn't
->>> mean you need child nodes for each function. The only thing you have
->>> in DT is a register address. Does this vary? If so, how often? How many
->>> different versions of a DT do you currently or expect to have?
->>>
->> Hi Rob,
->>
->> Thank you for your review.
->> I will try to explain what I think below and expect to receive more 
->> comments to improve these patches. And if any misundertood, please 
->> help correct me.
->>
->> The idea is to keep the SMPro MFD as a simple generic register map and 
->> expect not to change or to handle any specific in this parent device 
->> driver. This is why we see the simple_mfd_i2c fit in this case.
->>
->> And so, all the specific details will be handled in child devices 
->> driver and we expect to have child nodes for these child devices. If 
->> the child node exist we can then add any specific if necessary later.
->>
->> One case is that, each socket (ie: the Ampere Altra processor) has it 
->> own SMPro co-processor instance in form of register map and each 
->> socket could be either slave or master. Some function may not 
->> available in slave socket but exist in master socket and we simply 
->> choose not to define the child node if that function not existed.
->>
->> The other case is that if there are multi instances of the same 
->> function in one SMPro MFD register map, then each instance might need 
->> to be differentiated by using is own register address or maybe a DT 
->> property. Then we can simply add them to the node of these instance.
->>
->> For your specific questions:
->>
->> + Does this vary ?
->> yes, I think so. The register address in each child nodes may vary if 
->> the SMPro co-processor firmware change its register map layout or 
->> maybe other instances of a function added. Child device drivers are 
->> expected to handle these changes if necessary.
->>
->> + About how often ?
->> I actually can't say how often but the purpose of this SMPro register 
->> map is to provide the info to the BMC. The BMC will need more info 
->> from the host so I think changes will be unavoidable.
->>
->> Please help with your comments
->> Thank you,
->> - Quan
->>
-> Dear Rob,
-> 
-> do you have any suggestion to improve this patch?
-> 
-> - Quan
 
-Dear Rob,
+--ikeVEW9yuYc//A+q
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm sorry it's me again, I'm just hope you could share your thoughts on 
-the DT node for sub-devices using simple-mfd-i2c drivers.
+On Thu, May 27, 2021 at 12:31:18PM +0800, Yanteng Si wrote:
+> Translate Documentation/core-api/cachetlb.rst into Chinese.
+>=20
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/core-api/cachetlb.rst  | 319 ++++++++++++++++++
+>  .../translations/zh_CN/core-api/index.rst     |   7 +-
+>  2 files changed, 325 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/cachetlb.rst
+>=20
+> diff --git a/Documentation/translations/zh_CN/core-api/cachetlb.rst b/Doc=
+umentation/translations/zh_CN/core-api/cachetlb.rst
+> new file mode 100644
+> index 000000000000..9568c15f4139
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/cachetlb.rst
+> @@ -0,0 +1,319 @@
 
-In commit 3abee4579484 ("mfd: Add simple regmap based I2C driver"), 
-there is note that "Once the register map has been successfully 
-initialised, any sub-devices represented by child nodes in Device Tree 
-will be subsequently registered".
+Here
 
-So it seems unavoidable to have DT nodes for sub-devices which uses 
-simple-mfd-i2c. I'm a bit confused if DT nodes in this case should be 
-avoided.
+    disclaimer-zh_CN.rst
+    :Original:
+    :Translator:
 
-Please see 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/patch?id=3abee4579484c554961bb0af92a77adc0ebd791d
 
-Thank you,
-- Quan
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Linux=E4=B8=8B=E7=9A=84=E7=BC=93=E5=AD=98=E5=92=8CTLB=E5=86=B2=E6=B4=97
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +:=E4=BD=9C=E8=80=85: David S. Miller <davem@redhat.com>
+> +
+> +=E6=9C=AC=E6=96=87=E6=8F=8F=E8=BF=B0=E4=BA=86=E7=94=B1Linux=E8=99=9A=E6=
+=8B=9F=E5=86=85=E5=AD=98=E5=AD=90=E7=B3=BB=E7=BB=9F=E8=B0=83=E7=94=A8=E7=9A=
+=84=E7=BC=93=E5=AD=98/TLB=E5=86=B2=E6=B4=97=E6=8E=A5=E5=8F=A3=E3=80=82=E5=
+=AE=83=E5=88=97=E4=B8=BE=E4=BA=86=E6=AF=8F=E4=B8=AA=E6=8E=A5
+> +=E5=8F=A3=EF=BC=8C=E6=8F=8F=E8=BF=B0=E4=BA=86=E5=AE=83=E7=9A=84=E9=A2=84=
+=E6=9C=9F=E7=9B=AE=E7=9A=84=EF=BC=8C=E4=BB=A5=E5=8F=8A=E6=8E=A5=E5=8F=A3=E8=
+=A2=AB=E8=B0=83=E7=94=A8=E5=90=8E=E7=9A=84=E9=A2=84=E6=9C=9F=E5=89=AF=E4=BD=
+=9C=E7=94=A8=E3=80=82
 
-PS:
-Below is for quick reference:
+maybe
+*=E8=AF=91=E6=B3=A8=EF=BC=9ATLB=EF=BC=8CTranslation Lookaside Buffer=EF=BC=
+=8C=E9=A1=B5=E8=A1=A8=E7=BC=93=E5=AD=98/=E5=8F=98=E6=8D=A2=E6=97=81=E6=9F=
+=A5=E7=BC=93=E5=86=B2=E5=99=A8*
 
- From 3abee4579484c554961bb0af92a77adc0ebd791d Mon Sep 17 00:00:00 2001
-From: Michael Walle <michael@walle.cc>
-Date: Mon, 14 Sep 2020 23:43:29 +0200
-Subject: mfd: Add simple regmap based I2C driver
+> +
+> +=E4=B8=8B=E9=9D=A2=E6=8F=8F=E8=BF=B0=E7=9A=84=E5=89=AF=E4=BD=9C=E7=94=A8=
+=E6=98=AF=E9=92=88=E5=AF=B9=E5=8D=95=E5=A4=84=E7=90=86=E5=99=A8=E7=9A=84=E5=
+=AE=9E=E7=8E=B0=EF=BC=8C=E4=BB=A5=E5=8F=8A=E5=9C=A8=E5=8D=95=E4=B8=AA=E5=A4=
+=84=E7=90=86=E5=99=A8=E4=B8=8A=E5=8F=91=E7=94=9F=E7=9A=84=E6=83=85=E5=86=B5=
+=E3=80=82SMP
+> +=E7=9A=84=E6=83=85=E5=86=B5=E6=98=AF=E4=B8=80=E4=B8=AA=E7=AE=80=E5=8D=95=
+=E7=9A=84=E6=89=A9=E5=B1=95=EF=BC=8C=E4=BD=A0=E5=8F=AA=E9=9C=80=E8=A6=81=E6=
+=89=A9=E5=B1=95=E5=AE=9A=E4=B9=89=EF=BC=8C=E4=BD=BF=E6=9F=90=E4=B8=AA=E7=89=
+=B9=E5=AE=9A=E6=8E=A5=E5=8F=A3=E7=9A=84=E5=89=AF=E4=BD=9C=E7=94=A8=E5=8F=91=
+=E7=94=9F=E5=9C=A8
+> +=E7=B3=BB=E7=BB=9F=E7=9A=84=E6=89=80=E6=9C=89=E5=A4=84=E7=90=86=E5=99=A8=
+=E4=B8=8A=E3=80=82=E4=B8=8D=E8=A6=81=E8=A2=AB=E8=BF=99=E5=8F=A5=E8=AF=9D=E5=
+=90=93=E5=88=B0=EF=BC=8C=E4=BB=A5=E4=B8=BASMP=E7=9A=84=E7=BC=93=E5=AD=98/tl=
+b=E5=86=B2=E6=B4=97=E4=B8=80=E5=AE=9A=E6=98=AF=E5=BE=88=E4=BD=8E
 
-There are I2C devices which contain several different functions but
-doesn't require any special access functions. For these kind of drivers
-an I2C regmap should be enough.
+How about bellow? :)
+=E8=8B=A5=E4=B8=BASMP=EF=BC=8C=E5=88=99=E5=8F=AA=E9=9C=80=E5=B0=86=E5=AE=9A=
+=E4=B9=89=E7=AE=80=E5=8D=95=E5=9C=B0=E6=89=A9=E5=B1=95=E4=B8=80=E4=B8=8B=EF=
+=BC=8C=E5=8D=B3=E5=8F=91=E7=94=9F=E5=9C=A8=E6=9F=90=E4=B8=AA=E7=89=B9=E5=AE=
+=9A=E6=8E=A5=E5=8F=A3=E7=9A=84=E5=89=AF=E4=BD=9C=E7=94=A8=E6=89=A9=E5=B1=95=
+=E5=88=B0
+=E7=B3=BB=E7=BB=9F=E7=9A=84=E6=89=80=E6=9C=89=E5=A4=84=E7=90=86=E5=99=A8=E4=
+=B8=8A=E3=80=82
 
-Create an I2C driver which creates an I2C regmap and enumerates its
-children. If a device wants to use this as its MFD core driver, it has
-to add an individual compatible string. It may provide its own regmap
-configuration.
+> +=E6=95=88=E7=9A=84=EF=BC=8C=E4=BA=8B=E5=AE=9E=E4=B8=8A=EF=BC=8C=E8=BF=99=
+=E6=98=AF=E4=B8=80=E4=B8=AA=E5=8F=AF=E4=BB=A5=E8=BF=9B=E8=A1=8C=E5=BE=88=E5=
+=A4=9A=E4=BC=98=E5=8C=96=E7=9A=84=E9=A2=86=E5=9F=9F=E3=80=82=E4=BE=8B=E5=A6=
+=82=EF=BC=8C=E5=A6=82=E6=9E=9C=E5=8F=AF=E4=BB=A5=E8=AF=81=E6=98=8E=E4=B8=80=
+=E4=B8=AA=E7=94=A8
+> +=E6=88=B7=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E4=BB=8E=E6=9C=AA=E5=9C=A8=
+=E6=9F=90=E4=B8=AAcpu=E4=B8=8A=E6=89=A7=E8=A1=8C=E8=BF=87=EF=BC=88=E8=A7=81=
+mm_cpumask()=EF=BC=89=EF=BC=8C=E9=82=A3=E4=B9=88=E5=B0=B1=E4=B8=8D=E9=9C=80=
+=E8=A6=81=E5=9C=A8=E8=AF=A5
+> +cpu=E4=B8=8A=E5=AF=B9=E8=BF=99=E4=B8=AA=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=
+=B4=E8=BF=9B=E8=A1=8C=E5=86=B2=E6=B4=97=E3=80=82
+> +
+> +=E9=A6=96=E5=85=88=E6=98=AF=E2=80=9CTLB=E2=80=9D=E5=86=B2=E6=B4=97=E6=8E=
+=A5=E5=8F=A3=EF=BC=8C=E5=9B=A0=E4=B8=BA=E5=AE=83=E4=BB=AC=E6=98=AF=E6=9C=80=
+=E7=AE=80=E5=8D=95=E7=9A=84=E3=80=82=E5=9C=A8Linux=E4=B8=8B=EF=BC=8C=E2=80=
+=9CTLB=E2=80=9D=E8=A2=AB=E6=8A=BD=E8=B1=A1=E4=B8=BAcpu
 
-Subdevices can use dev_get_regmap() on the parent to get their regmap
-instance.
+No =E2=80=9C=E2=80=9D for the first TLB
 
-Signed-off-by: Michael Walle <michael@walle.cc>
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
-  drivers/mfd/Kconfig          | 12 ++++++++++
-  drivers/mfd/Makefile         |  1 +
-  drivers/mfd/simple-mfd-i2c.c | 56 
-++++++++++++++++++++++++++++++++++++++++++++
-  3 files changed, 69 insertions(+)
-  create mode 100644 drivers/mfd/simple-mfd-i2c.c
+> +=E7=94=A8=E6=9D=A5=E7=BC=93=E5=AD=98=E4=BB=8E=E8=BD=AF=E4=BB=B6=E9=A1=B5=
+=E8=A1=A8=E8=8E=B7=E5=BE=97=E7=9A=84=E8=99=9A=E6=8B=9F->=E7=89=A9=E7=90=86=
+=E5=9C=B0=E5=9D=80=E8=BD=AC=E6=8D=A2=E7=9A=84=E4=B8=9C=E8=A5=BF=E3=80=82=E8=
+=BF=99=E6=84=8F=E5=91=B3=E7=9D=80=EF=BC=8C=E5=A6=82=E6=9E=9C=E8=BD=AF=E4=BB=
+=B6=E9=A1=B5
+> +=E8=A1=A8=E5=8F=91=E7=94=9F=E5=8F=98=E5=8C=96=EF=BC=8C=E8=BF=99=E4=B8=AA=
+=E2=80=9CTLB=E2=80=9D=E7=BC=93=E5=AD=98=E4=B8=AD=E5=B0=B1=E6=9C=89=E5=8F=AF=
+=E8=83=BD=E5=87=BA=E7=8E=B0=E8=BF=87=E6=97=B6=EF=BC=88=E8=84=8F=EF=BC=89=E7=
+=9A=84=E7=BF=BB=E8=AF=91=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E5=BD=93=E8=BD=
+=AF=E4=BB=B6=E9=A1=B5=E8=A1=A8
+> +=E5=8F=91=E7=94=9F=E5=8F=98=E5=8C=96=E6=97=B6=EF=BC=8C=E5=86=85=E6=A0=B8=
+=E4=BC=9A=E5=9C=A8=E9=A1=B5=E8=A1=A8=E5=8F=91=E7=94=9F *=E5=8F=98=E5=8C=96=
+=E5=90=8E* =E8=B0=83=E7=94=A8=E4=BB=A5=E4=B8=8B=E4=B8=80=E7=A7=8D=E5=86=B2=
+=E6=B4=97=E6=96=B9=E6=B3=95=EF=BC=9A
+> +
+> +1) ``void flush_tlb_all(void)``
+> +
+> +	=E6=9C=80=E4=B8=A5=E9=87=8D=E7=9A=84=E5=86=B2=E6=B4=97=E3=80=82=E5=9C=
+=A8=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E8=BF=90=E8=A1=8C=E5=90=8E=EF=BC=8C=
+=E4=BB=BB=E4=BD=95=E4=BB=A5=E5=89=8D=E7=9A=84=E9=A1=B5=E8=A1=A8=E4=BF=AE=E6=
+=94=B9=E9=83=BD=E4=BC=9A=E5=AF=B9cpu=E5=8F=AF=E8=A7=81=E3=80=82
 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 33df0837ab415..6e1a38944d282 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -1162,6 +1162,18 @@ config MFD_SI476X_CORE
-  	  To compile this driver as a module, choose M here: the
-  	  module will be called si476x-core.
+use =E4=B8=A5=E8=8B=9B or =E4=B8=A5=E6=A0=BC =EF=BC=9F
 
-+config MFD_SIMPLE_MFD_I2C
-+	tristate
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  This driver creates a single register map with the intention for it
-+	  to be shared by all sub-devices.
-+
-+	  Once the register map has been successfully initialised, any
-+	  sub-devices represented by child nodes in Device Tree will be
-+	  subsequently registered.
-+
-  config MFD_SM501
-  	tristate "Silicon Motion SM501"
-  	depends on HAS_DMA
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index a60e5f835283e..78d24a3e7c9e5 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -264,3 +264,4 @@ obj-$(CONFIG_MFD_STMFX) 	+= stmfx.o
-  obj-$(CONFIG_MFD_KHADAS_MCU) 	+= khadas-mcu.o
+> +
+> +	=E8=BF=99=E9=80=9A=E5=B8=B8=E6=98=AF=E5=9C=A8=E5=86=85=E6=A0=B8=E9=A1=
+=B5=E8=A1=A8=E8=A2=AB=E6=94=B9=E5=8F=98=E6=97=B6=E8=B0=83=E7=94=A8=E7=9A=84=
+=EF=BC=8C=E5=9B=A0=E4=B8=BA=E8=BF=99=E7=A7=8D=E8=BD=AC=E6=8D=A2=E5=9C=A8=E6=
+=9C=AC=E8=B4=A8=E4=B8=8A=E6=98=AF=E2=80=9C=E5=85=A8=E5=B1=80=E2=80=9D=E7=9A=
+=84=E3=80=82
+> +
+> +2) ``void flush_tlb_mm(struct mm_struct *mm)``
+> +
+> +	=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E4=BB=8ETLB=E4=B8=AD=E5=86=B2=E6=
+=B4=97=E6=95=B4=E4=B8=AA=E7=94=A8=E6=88=B7=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=
+=B4=E3=80=82=E5=9C=A8=E8=BF=90=E8=A1=8C=E5=90=8E=EF=BC=8C=E8=BF=99=E4=B8=AA=
+=E6=8E=A5=E5=8F=A3=E5=BF=85=E9=A1=BB=E7=A1=AE=E4=BF=9D
+> +	=E4=BB=A5=E5=89=8D=E5=AF=B9=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E2=80=
+=98mm=E2=80=99=E7=9A=84=E4=BB=BB=E4=BD=95=E9=A1=B5=E8=A1=A8=E4=BF=AE=E6=94=
+=B9=E5=AF=B9cpu=E6=9D=A5=E8=AF=B4=E6=98=AF=E5=8F=AF=E8=A7=81=E7=9A=84=E3=80=
+=82=E4=B9=9F=E5=B0=B1=E6=98=AF=E8=AF=B4=EF=BC=8C=E5=9C=A8
+> +	=E8=BF=90=E8=A1=8C=E5=90=8E=EF=BC=8CTLB=E4=B8=AD=E4=B8=8D=E4=BC=9A=E6=
+=9C=89=E2=80=98mm=E2=80=99=E7=9A=84=E9=A1=B5=E8=A1=A8=E9=A1=B9=E3=80=82
+> +
+> +	=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E8=A2=AB=E7=94=A8=E6=9D=A5=E5=A4=
+=84=E7=90=86=E6=95=B4=E4=B8=AA=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E7=9A=84=
+=E9=A1=B5=E8=A1=A8=E6=93=8D=E4=BD=9C=EF=BC=8C=E6=AF=94=E5=A6=82=E5=9C=A8for=
+k=E5=92=8Cexec=E8=BF=87=E7=A8=8B
+> +	=E4=B8=AD=E5=8F=91=E7=94=9F=E7=9A=84=E4=BA=8B=E6=83=85=E3=80=82
+> +
+> +3) ``void flush_tlb_range(struct vm_area_struct *vma,
+> +   unsigned long start, unsigned long end)``
+> +
+> +	=E8=BF=99=E9=87=8C=E6=88=91=E4=BB=AC=E8=A6=81=E4=BB=8ETLB=E4=B8=AD=E5=
+=86=B2=E6=B4=97=E4=B8=80=E4=B8=AA=E7=89=B9=E5=AE=9A=E8=8C=83=E5=9B=B4=E7=9A=
+=84=EF=BC=88=E7=94=A8=E6=88=B7=EF=BC=89=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=
+=E8=BD=AC=E6=8D=A2=E3=80=82=E5=9C=A8=E8=BF=90=E8=A1=8C=E5=90=8E=EF=BC=8C
+> +	=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E5=BF=85=E9=A1=BB=E7=A1=AE=E4=BF=
+=9D=E4=BB=A5=E5=89=8D=E5=AF=B9=E2=80=98start=E2=80=99=E5=88=B0=E2=80=98end-=
+1=E2=80=99=E8=8C=83=E5=9B=B4=E5=86=85=E7=9A=84=E5=9C=B0=E5=9D=80=E7=A9=BA=
+=E9=97=B4=E2=80=98vma->vm_mm=E2=80=99
+> +	=E7=9A=84=E4=BB=BB=E4=BD=95=E9=A1=B5=E8=A1=A8=E4=BF=AE=E6=94=B9=E5=AF=
+=B9cpu=E6=9D=A5=E8=AF=B4=E6=98=AF=E5=8F=AF=E8=A7=81=E7=9A=84=E3=80=82=E4=B9=
+=9F=E5=B0=B1=E6=98=AF=E8=AF=B4=EF=BC=8C=E5=9C=A8=E8=BF=90=E8=A1=8C=E5=90=8E=
+=EF=BC=8CTLB=E4=B8=AD=E4=B8=8D=E4=BC=9A=E6=9C=89
+> +	=E2=80=98mm=E2=80=99=E7=9A=84=E9=A1=B5=E8=A1=A8=E9=A1=B9=E7=94=A8=E4=BA=
+=8E=E2=80=98start=E2=80=99=E5=88=B0=E2=80=98end-1=E2=80=99=E8=8C=83=E5=9B=
+=B4=E5=86=85=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E3=80=82
+> +
+> +	=E2=80=9Cvma=E2=80=9D=E6=98=AF=E7=94=A8=E4=BA=8E=E8=AF=A5=E5=8C=BA=E5=
+=9F=9F=E7=9A=84=E5=A4=87=E4=BB=BD=E5=AD=98=E5=82=A8=E3=80=82=E4=B8=BB=E8=A6=
+=81=E6=98=AF=E7=94=A8=E4=BA=8Emunmap()=E7=B1=BB=E5=9E=8B=E7=9A=84=E6=93=8D=
+=E4=BD=9C=E3=80=82
+> +
+> +	=E6=8F=90=E4=BE=9B=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E6=98=AF=E5=B8=
+=8C=E6=9C=9B=E7=AB=AF=E5=8F=A3=E8=83=BD=E5=A4=9F=E6=89=BE=E5=88=B0=E4=B8=80=
+=E4=B8=AA=E5=90=88=E9=80=82=E7=9A=84=E6=9C=89=E6=95=88=E6=96=B9=E6=B3=95=E6=
+=9D=A5=E4=BB=8E TLB =E4=B8=AD=E5=88=A0=E9=99=A4=E5=A4=9A
+------------------------------------------------------------^---^
 
-  obj-$(CONFIG_SGI_MFD_IOC3)	+= ioc3.o
-+obj-$(CONFIG_MFD_SIMPLE_MFD_I2C)	+= simple-mfd-i2c.o
-diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
-new file mode 100644
-index 0000000000000..28e96a246be11
---- /dev/null
-+++ b/drivers/mfd/simple-mfd-i2c.c
-@@ -0,0 +1,56 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Simple MFD - I2C
-+ *
-+ * This driver creates a single register map with the intention for it 
-to be
-+ * shared by all sub-devices.  Children can use their parent's device 
-structure
-+ * (dev.parent) in order to reference it.
-+ *
-+ * Once the register map has been successfully initialised, any sub-devices
-+ * represented by child nodes in Device Tree will be subsequently 
-registered.
-+ */
-+
+> +	=E4=B8=AA=E9=A1=B5=E9=9D=A2=E5=A4=A7=E5=B0=8F=E7=9A=84=E8=BD=AC=E6=8D=
+=A2=EF=BC=8C =E8=80=8C=E4=B8=8D=E6=98=AF=E8=AE=A9=E5=86=85=E6=A0=B8=E4=B8=
+=BA=E6=AF=8F=E4=B8=AA=E5=8F=AF=E8=83=BD=E8=A2=AB=E4=BF=AE=E6=94=B9=E7=9A=84=
+=E9=A1=B5=E8=A1=A8=E9=A1=B9=E8=B0=83=E7=94=A8
+--------------------------^
+
+> +	flush_tlb_page (=E8=A7=81=E4=B8=8B=E6=96=87)=E3=80=82
+----------------------^=EF=BC=88-----=EF=BC=89
+
+> +
+> +4) ``void flush_tlb_page(struct vm_area_struct *vma, unsigned long addr)=
+``
+> +
+> +	=E8=BF=99=E4=B8=80=E6=AC=A1=E6=88=91=E4=BB=AC=E9=9C=80=E8=A6=81=E4=BB=
+=8ETLB=E4=B8=AD=E5=88=A0=E9=99=A4PAGE_SIZE=E5=A4=A7=E5=B0=8F=E7=9A=84=E8=BD=
+=AC=E6=8D=A2=E3=80=82=E2=80=98vma=E2=80=99=E6=98=AFLinux=E7=94=A8=E6=9D=A5=
+=E8=B7=9F
+> +	=E8=B8=AA=E8=BF=9B=E7=A8=8B=E7=9A=84mmap=E5=8C=BA=E5=9F=9F=E7=9A=84=E6=
+=94=AF=E6=8C=81=E7=BB=93=E6=9E=84=E4=BD=93=EF=BC=8C=E5=9C=B0=E5=9D=80=E7=A9=
+=BA=E9=97=B4=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87vma->vm_mm=E8=8E=B7=E5=BE=
+=97=E3=80=82=E5=8F=A6
+> +	=E5=A4=96=EF=BC=8C=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E6=B5=8B=E8=AF=
+=95=EF=BC=88vma->vm_flags & VM_EXEC=EF=BC=89=E6=9D=A5=E6=9F=A5=E7=9C=8B=E8=
+=BF=99=E4=B8=AA=E5=8C=BA=E5=9F=9F=E6=98=AF=E5=90=A6=E6=98=AF
+> +	=E5=8F=AF=E6=89=A7=E8=A1=8C=E7=9A=84=EF=BC=88=E5=9B=A0=E6=AD=A4=E5=9C=
+=A8split-tlb=E7=B1=BB=E5=9E=8B=E7=9A=84=E8=AE=BE=E7=BD=AE=E4=B8=AD=E5=8F=AF=
+=E8=83=BD=E5=9C=A8=E2=80=9C=E6=8C=87=E4=BB=A4TLB=E2=80=9D=E4=B8=AD=EF=BC=89=
+=E3=80=82
+> +
+> +	=E5=9C=A8=E8=BF=90=E8=A1=8C=E5=90=8E=EF=BC=8C=E8=BF=99=E4=B8=AA=E6=8E=
+=A5=E5=8F=A3=E5=BF=85=E9=A1=BB=E7=A1=AE=E4=BF=9D=E4=B9=8B=E5=89=8D=E5=AF=B9=
+=E7=94=A8=E6=88=B7=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E2=80=9Caddr=E2=80=
+=9D=E7=9A=84=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4
+> +	=E2=80=9Cvma->vm_mm=E2=80=9D=E7=9A=84=E9=A1=B5=E8=A1=A8=E4=BF=AE=E6=94=
+=B9=E5=AF=B9cpu=E6=9D=A5=E8=AF=B4=E6=98=AF=E5=8F=AF=E8=A7=81=E7=9A=84=E3=80=
+=82=E4=B9=9F=E5=B0=B1=E6=98=AF=E8=AF=B4=EF=BC=8C=E5=9C=A8=E8=BF=90=E8=A1=8C=
+=E5=90=8E=EF=BC=8CTLB
+> +	=E4=B8=AD=E4=B8=8D=E4=BC=9A=E6=9C=89=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=
+=80=E2=80=98addr=E2=80=99=E7=9A=84=E2=80=98vma->vm_mm=E2=80=99=E7=9A=84=E9=
+=A1=B5=E8=A1=A8=E9=A1=B9=E3=80=82
+> +
+> +	=E8=BF=99=E4=B8=BB=E8=A6=81=E6=98=AF=E5=9C=A8=E6=95=85=E9=9A=9C=E5=A4=
+=84=E7=90=86=E6=97=B6=E4=BD=BF=E7=94=A8=E3=80=82
+> +
+> +5) ``void update_mmu_cache(struct vm_area_struct *vma,
+> +   unsigned long address, pte_t *ptep)``
+> +
+> +   =E5=9C=A8=E6=AF=8F=E4=B8=AA=E9=A1=B5=E9=9D=A2=E6=95=85=E9=9A=9C=E7=BB=
+=93=E6=9D=9F=E6=97=B6=EF=BC=8C=E8=BF=99=E4=B8=AA=E4=BE=8B=E7=A8=8B=E8=A2=AB=
+=E8=B0=83=E7=94=A8=EF=BC=8C=E4=BB=A5=E5=91=8A=E8=AF=89=E4=BD=93=E7=B3=BB=E7=
+=BB=93=E6=9E=84=E7=89=B9=E5=AE=9A=E7=9A=84=E4=BB=A3=E7=A0=81=EF=BC=8C=E5=9C=
+=A8
+
+=E4=BE=8B=E7=A8=8B -> =E7=A8=8B=E5=BA=8F
+
+> +   =E8=BD=AF=E4=BB=B6=E9=A1=B5=E9=9D=A2=E8=A1=A8=E4=B8=AD=EF=BC=8C=E5=9C=
+=A8=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E2=80=9Cvma->vm_mm=E2=80=9D=E7=9A=
+=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E2=80=9C=E5=9C=B0=E5=9D=80=E2=80=9D=
+=E5=A4=84=EF=BC=8C=E7=8E=B0=E5=9C=A8=E5=AD=98=E5=9C=A8
+                                                     ^^^^
+=E9=A1=B5=E9=9D=A2=E8=A1=A8 -> =E9=A1=B5=E8=A1=A8
+
+> +   =E4=B8=80=E4=B8=AA=E7=BF=BB=E8=AF=91=E3=80=82
+> +
+> +   =E7=AB=AF=E5=8F=A3=E5=8F=AF=E4=BB=A5=E7=94=A8=E5=AE=83=E9=80=89=E6=8B=
+=A9=E7=9A=84=E4=BB=BB=E4=BD=95=E6=96=B9=E5=BC=8F=E4=BD=BF=E7=94=A8=E8=BF=99=
+=E4=B8=AA=E4=BF=A1=E6=81=AF=E3=80=82=E4=BE=8B=E5=A6=82=EF=BC=8C=E5=AE=83=E5=
+=8F=AF=E4=BB=A5=E4=BD=BF=E7=94=A8=E8=BF=99=E4=B8=AA=E4=BA=8B=E4=BB=B6=E6=9D=
+=A5
+      ^^^^
+> +   =E4=B8=BA=E8=BD=AF=E4=BB=B6=E7=AE=A1=E7=90=86=E7=9A=84TLB=E9=85=8D=E7=
+=BD=AE=E9=A2=84=E8=A3=85TLB=E8=BD=AC=E6=8D=A2=E3=80=82=E7=9B=AE=E5=89=8Dspa=
+rc64=E7=AB=AF=E5=8F=A3=E5=B0=B1=E6=98=AF=E8=BF=99=E6=A0=B7=E5=81=9A=E7=9A=
+=84=E3=80=82
+                                                 ^^^^
+Here 'port' means =E7=A7=BB=E6=A4=8D
+
+> +  =20
+---^^^ spaces
+
+> +=E6=8E=A5=E4=B8=8B=E6=9D=A5=EF=BC=8C=E6=88=91=E4=BB=AC=E6=9C=89=E7=BC=93=
+=E5=AD=98=E5=86=B2=E6=B4=97=E6=8E=A5=E5=8F=A3=E3=80=82=E4=B8=80=E8=88=AC=E6=
+=9D=A5=E8=AF=B4=EF=BC=8C=E5=BD=93Linux=E5=B0=86=E7=8E=B0=E6=9C=89=E7=9A=84=
+=E8=99=9A=E6=8B=9F->=E7=89=A9=E7=90=86=E6=98=A0=E5=B0=84
+> +=E6=94=B9=E5=8F=98=E4=B8=BA=E6=96=B0=E7=9A=84=E5=80=BC=E6=97=B6=EF=BC=8C=
+=E5=85=B6=E9=A1=BA=E5=BA=8F=E5=B0=86=E6=98=AF=E4=BB=A5=E4=B8=8B=E5=BD=A2=E5=
+=BC=8F=E4=B9=8B=E4=B8=80::
+> +
+> +	1) flush_cache_mm(mm);
+> +	   change_all_page_tables_of(mm);
+> +	   flush_tlb_mm(mm);
+> +
+> +	2) flush_cache_range(vma, start, end);
+> +	   change_range_of_page_tables(mm, start, end);
+> +	   flush_tlb_range(vma, start, end);
+> +
+> +	3) flush_cache_page(vma, addr, pfn);
+> +	   set_pte(pte_pointer, new_pte_val);
+> +	   flush_tlb_page(vma, addr);
+> +
+> +=E7=BC=93=E5=AD=98=E7=BA=A7=E5=88=AB=E7=9A=84=E5=86=B2=E6=B4=97=E5=B0=86=
+=E6=B0=B8=E8=BF=9C=E6=98=AF=E7=AC=AC=E4=B8=80=E4=BD=8D=E7=9A=84=EF=BC=8C=E5=
+=9B=A0=E4=B8=BA=E8=BF=99=E5=85=81=E8=AE=B8=E6=88=91=E4=BB=AC=E6=AD=A3=E7=A1=
+=AE=E5=A4=84=E7=90=86=E9=82=A3=E4=BA=9B=E7=BC=93=E5=AD=98=E4=B8=A5=E6=A0=BC=
+=E7=9A=84
+> +=E7=B3=BB=E7=BB=9F=EF=BC=8C=E5=BD=93=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=
+=E4=BB=8E=E7=BC=93=E5=AD=98=E4=B8=AD=E5=86=B2=E6=B4=97=E6=97=B6=EF=BC=8C=E9=
+=9C=80=E8=A6=81=E5=AF=B9=E8=AF=A5=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E8=BF=
+=9B=E8=A1=8C=E8=99=9A=E6=8B=9F->=E7=89=A9=E7=90=86=E8=BD=AC=E6=8D=A2=E3=80=
+=82
+
+=E5=A4=84=E7=90=86=E9=82=A3=E4=BA=9B=E7=BC=93=E5=AD=98=E4=B8=A5=E6=A0=BC=EF=
+=BC=8C=E4=B8=94=E5=9C=A8=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E8=A2=AB=E4=BB=
+=8E=E7=BC=93=E5=AD=98=E4=B8=AD=E5=86=B2=E6=B4=97=E6=97=B6=E8=A6=81=E6=B1=82=
+=E4=B8=80=E4=B8=AA=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E7=9A=84=E8=99=9A=E6=
+=8B=9F->=E7=89=A9=E7=90=86=E8=BD=AC=E6=8D=A2
+=E5=AD=98=E5=9C=A8=E7=9A=84=E7=B3=BB=E7=BB=9F=E3=80=82
+
+> +HyperSparc cpu=E5=B0=B1=E6=98=AF=E8=BF=99=E6=A0=B7=E4=B8=80=E4=B8=AA=E5=
+=85=B7=E6=9C=89=E8=BF=99=E7=A7=8D=E5=B1=9E=E6=80=A7=E7=9A=84cpu=E3=80=82
+> +
+> +=E4=B8=8B=E9=9D=A2=E7=9A=84=E7=BC=93=E5=AD=98=E5=86=B2=E6=B4=97=E4=BE=8B=
+=E7=A8=8B=E5=8F=AA=E9=9C=80=E8=A6=81=E5=9C=A8=E7=89=B9=E5=AE=9A=E7=9A=84cpu=
+=E9=9C=80=E8=A6=81=E7=9A=84=E8=8C=83=E5=9B=B4=E5=86=85=E5=A4=84=E7=90=86=E7=
+=BC=93=E5=AD=98=E5=86=B2=E6=B4=97=E3=80=82=E5=A4=A7=E5=A4=9A=E6=95=B0
+
+
+
+> +=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E8=BF=99=E4=BA=9B=E4=BE=8B=E7=A8=8B=
+=E5=BF=85=E9=A1=BB=E4=B8=BAcpu=E5=AE=9E=E7=8E=B0=EF=BC=8C=E8=BF=99=E4=BA=9B=
+cpu=E6=9C=89=E8=99=9A=E6=8B=9F=E7=B4=A2=E5=BC=95=E7=9A=84=E7=BC=93=E5=AD=98=
+=EF=BC=8C=E5=BD=93=E8=99=9A=E6=8B=9F->=E7=89=A9
+> +=E7=90=86=E8=BD=AC=E6=8D=A2=E8=A2=AB=E6=94=B9=E5=8F=98=E6=88=96=E7=A7=BB=
+=E9=99=A4=E6=97=B6=EF=BC=8C=E5=BF=85=E9=A1=BB=E8=A2=AB=E5=86=B2=E6=B4=97=E3=
+=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E4=BE=8B=E5=A6=82=EF=BC=8CIA32=E5=A4=84=
+=E7=90=86=E5=99=A8=E7=9A=84=E7=89=A9=E7=90=86=E7=B4=A2=E5=BC=95
+> +=E7=9A=84=E7=89=A9=E7=90=86=E6=A0=87=E8=AE=B0=E7=9A=84=E7=BC=93=E5=AD=98=
+=E6=B2=A1=E6=9C=89=E5=BF=85=E8=A6=81=E5=AE=9E=E7=8E=B0=E8=BF=99=E4=BA=9B=E6=
+=8E=A5=E5=8F=A3=EF=BC=8C=E5=9B=A0=E4=B8=BA=E8=BF=99=E4=BA=9B=E7=BC=93=E5=AD=
+=98=E6=98=AF=E5=AE=8C=E5=85=A8=E5=90=8C=E6=AD=A5=E7=9A=84=EF=BC=8C=E5=B9=B6
+> +=E4=B8=94=E4=B8=8D=E4=BE=9D=E8=B5=96=E4=BA=8E=E7=BF=BB=E8=AF=91=E4=BF=A1=
+=E6=81=AF=E3=80=82
+> +
+> +=E4=B8=8B=E9=9D=A2=E6=98=AF=E8=BF=99=E4=BA=9B=E4=BE=8B=E7=A8=8B=EF=BC=8C=
+=E4=B8=80=E4=B8=AA=E6=8E=A5=E4=B8=80=E4=B8=AA=E7=BD=97=E5=88=97:
+
+=E4=B8=8B=E9=9D=A2=E9=80=90=E4=B8=AA=E5=88=97=E5=87=BA=E2=80=A6=E2=80=A6
+
+> +
+> +1) ``void flush_cache_mm(struct mm_struct *mm)``
+> +
+> +	=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E5=B0=86=E6=95=B4=E4=B8=AA=E7=94=
+=A8=E6=88=B7=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E4=BB=8E=E9=AB=98=E9=80=9F=
+=E7=BC=93=E5=AD=98=E4=B8=AD=E5=88=B7=E6=8E=89=E3=80=82=E4=B9=9F=E5=B0=B1=E6=
+=98=AF=E8=AF=B4=EF=BC=8C=E5=9C=A8=E8=BF=90=E8=A1=8C=E5=90=8E=EF=BC=8C
+> +	=E5=B0=86=E6=B2=A1=E6=9C=89=E4=B8=8E=E2=80=98mm=E2=80=99=E7=9B=B8=E5=85=
+=B3=E7=9A=84=E7=BC=93=E5=AD=98=E8=A1=8C=E3=80=82
+> +
+> +	=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E8=A2=AB=E7=94=A8=E6=9D=A5=E5=A4=
+=84=E7=90=86=E6=95=B4=E4=B8=AA=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E7=9A=84=
+=E9=A1=B5=E8=A1=A8=E6=93=8D=E4=BD=9C=EF=BC=8C=E6=AF=94=E5=A6=82=E5=9C=A8=E9=
+=80=80=E5=87=BA=E5=92=8C=E6=89=A7=E8=A1=8C=E8=BF=87=E7=A8=8B
+> +	=E4=B8=AD=E5=8F=91=E7=94=9F=E7=9A=84=E4=BA=8B=E6=83=85=E3=80=82
+> +
+> +2) ``void flush_cache_dup_mm(struct mm_struct *mm)``
+> +
+> +	=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E5=B0=86=E6=95=B4=E4=B8=AA=E7=94=
+=A8=E6=88=B7=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E4=BB=8E=E9=AB=98=E9=80=9F=
+=E7=BC=93=E5=AD=98=E4=B8=AD=E5=86=B2=E6=B4=97=E6=8E=89=E3=80=82=E4=B9=9F=E5=
+=B0=B1=E6=98=AF=E8=AF=B4=EF=BC=8C=E5=9C=A8=E8=BF=90=E8=A1=8C
+> +	=E5=90=8E=EF=BC=8C=E5=B0=86=E6=B2=A1=E6=9C=89=E4=B8=8E=E2=80=98mm=E2=80=
+=99=E7=9B=B8=E5=85=B3=E7=9A=84=E7=BC=93=E5=AD=98=E8=A1=8C=E3=80=82
+> +
+> +	=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E8=A2=AB=E7=94=A8=E6=9D=A5=E5=A4=
+=84=E7=90=86=E6=95=B4=E4=B8=AA=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E7=9A=84=
+=E9=A1=B5=E8=A1=A8=E6=93=8D=E4=BD=9C=EF=BC=8C=E6=AF=94=E5=A6=82=E5=9C=A8for=
+k=E8=BF=87=E7=A8=8B=E4=B8=AD=E5=8F=91=E7=94=9F
+> +	=E7=9A=84=E4=BA=8B=E6=83=85=E3=80=82
+> +
+> +	=E8=BF=99=E4=B8=AA=E9=80=89=E9=A1=B9=E4=B8=8Eflush_cache_mm=E5=88=86=E5=
+=BC=80=EF=BC=8C=E4=BB=A5=E5=85=81=E8=AE=B8=E5=AF=B9VIPT=E7=BC=93=E5=AD=98=
+=E8=BF=9B=E8=A1=8C=E4=B8=80=E4=BA=9B=E4=BC=98=E5=8C=96=E3=80=82
+> +
+> +3) ``void flush_cache_range(struct vm_area_struct *vma,
+> +   unsigned long start, unsigned long end)``
+> +
+> +   =E5=9C=A8=E8=BF=99=E9=87=8C=EF=BC=8C=E6=88=91=E4=BB=AC=E8=A6=81=E4=BB=
+=8E=E7=BC=93=E5=AD=98=E4=B8=AD=E5=86=B2=E6=B4=97=E4=B8=80=E4=B8=AA=E7=89=B9=
+=E5=AE=9A=E8=8C=83=E5=9B=B4=E7=9A=84=EF=BC=88=E7=94=A8=E6=88=B7=EF=BC=89=E8=
+=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E3=80=82=E8=BF=90=E8=A1=8C
+> +   =E5=90=8E=EF=BC=8C=E5=9C=A8=E2=80=9Cstart=E2=80=9D=E5=88=B0=E2=80=9Ce=
+nd-1=E2=80=9D=E8=8C=83=E5=9B=B4=E5=86=85=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=
+=B0=E5=9D=80=E7=9A=84=E2=80=9Cvma->vm_mm=E2=80=9D=E7=9A=84=E7=BC=93=E5=AD=
+=98=E4=B8=AD
+> +   =E5=B0=86=E6=B2=A1=E6=9C=89=E9=A1=B5=E8=A1=A8=E9=A1=B9=E3=80=82
+> +
+> +   =E2=80=9Cvma=E2=80=9D=E6=98=AF=E8=A2=AB=E7=94=A8=E4=BA=8E=E8=AF=A5=E5=
+=8C=BA=E5=9F=9F=E7=9A=84=E5=A4=87=E4=BB=BD=E5=AD=98=E5=82=A8=E3=80=82=E4=B8=
+=BB=E8=A6=81=E6=98=AF=E7=94=A8=E4=BA=8Emunmap()=E7=B1=BB=E5=9E=8B=E7=9A=84=
+=E6=93=8D=E4=BD=9C=E3=80=82
+> +  =20
+> +   =E6=8F=90=E4=BE=9B=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E6=98=AF=E5=B8=
+=8C=E6=9C=9B=E7=AB=AF=E5=8F=A3=E8=83=BD=E5=A4=9F=E6=89=BE=E5=88=B0=E4=B8=80=
+=E4=B8=AA=E5=90=88=E9=80=82=E7=9A=84=E6=9C=89=E6=95=88=E6=96=B9=E6=B3=95=E6=
+=9D=A5=E4=BB=8E=E7=BC=93=E5=AD=98=E4=B8=AD=E5=88=A0
+> +   =E9=99=A4=E5=A4=9A=E4=B8=AA=E9=A1=B5=E9=9D=A2=E5=A4=A7=E5=B0=8F=E7=9A=
+=84=E5=8C=BA=E5=9F=9F=EF=BC=8C =E8=80=8C=E4=B8=8D=E6=98=AF=E8=AE=A9=E5=86=
+=85=E6=A0=B8=E4=B8=BA=E6=AF=8F=E4=B8=AA=E5=8F=AF=E8=83=BD=E8=A2=AB=E4=BF=AE=
+=E6=94=B9=E7=9A=84=E9=A1=B5=E8=A1=A8=E9=A1=B9=E8=B0=83
+> +   =E7=94=A8 flush_cache_page (=E8=A7=81=E4=B8=8B=E6=96=87)=E3=80=82
+> +
+> +4) ``void flush_cache_page(struct vm_area_struct *vma, unsigned long add=
+r, unsigned long pfn)``
+> +
+> +	=E8=BF=99=E4=B8=80=E6=AC=A1=E6=88=91=E4=BB=AC=E9=9C=80=E8=A6=81=E4=BB=
+=8E=E7=BC=93=E5=AD=98=E4=B8=AD=E5=88=A0=E9=99=A4=E4=B8=80=E4=B8=AAPAGE_SIZE=
+=E5=A4=A7=E5=B0=8F=E7=9A=84=E5=8C=BA=E5=9F=9F=E3=80=82=E2=80=9Cvma=E2=80=9D=
+=E6=98=AF
+> +	Linux=E7=94=A8=E6=9D=A5=E8=B7=9F=E8=B8=AA=E8=BF=9B=E7=A8=8B=E7=9A=84mma=
+p=E5=8C=BA=E5=9F=9F=E7=9A=84=E6=94=AF=E6=8C=81=E7=BB=93=E6=9E=84=E4=BD=93=
+=EF=BC=8C=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=
+=BF=87
+> +	vma->vm_mm=E8=8E=B7=E5=BE=97=E3=80=82=E5=8F=A6=E5=A4=96=EF=BC=8C=E6=88=
+=91=E4=BB=AC=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E6=B5=8B=E8=AF=95=EF=BC=88=
+vma->vm_flags &
+> +	VM_EXEC=EF=BC=89=E6=9D=A5=E6=9F=A5=E7=9C=8B=E8=BF=99=E4=B8=AA=E5=8C=BA=
+=E5=9F=9F=E6=98=AF=E5=90=A6=E6=98=AF=E5=8F=AF=E6=89=A7=E8=A1=8C=E7=9A=84=EF=
+=BC=88=E5=9B=A0=E6=AD=A4=E5=9C=A8=E2=80=9CHarvard=E2=80=9D=E7=B1=BB
+> +	=E5=9E=8B=E7=9A=84=E7=BC=93=E5=AD=98=E5=B8=83=E5=B1=80=E4=B8=AD=E5=8F=
+=AF=E8=83=BD=E6=98=AF=E5=9C=A8=E2=80=9C=E6=8C=87=E4=BB=A4=E7=BC=93=E5=AD=98=
+=E2=80=9D=E4=B8=AD=EF=BC=89=E3=80=82
+> +
+> +	=E2=80=9Cpfn=E2=80=9D=E8=A1=A8=E7=A4=BA=E2=80=9Caddr=E2=80=9D=E6=89=80=
+=E5=AF=B9=E5=BA=94=E7=9A=84=E7=89=A9=E7=90=86=E9=A1=B5=E6=A1=86=EF=BC=88=E9=
+=80=9A=E8=BF=87PAGE_SHIFT=E5=B7=A6=E7=A7=BB=E8=BF=99=E4=B8=AA
+
+frame =E5=B8=A7=EF=BC=9F
+
+> +	=E5=80=BC=E6=9D=A5=E8=8E=B7=E5=BE=97=E7=89=A9=E7=90=86=E5=9C=B0=E5=9D=
+=80=EF=BC=89=E3=80=82=E6=AD=A3=E6=98=AF=E8=BF=99=E4=B8=AA=E6=98=A0=E5=B0=84=
+=E5=BA=94=E8=AF=A5=E4=BB=8E=E7=BC=93=E5=AD=98=E4=B8=AD=E5=88=A0=E9=99=A4=E3=
+=80=82
+> +
+> +	=E5=9C=A8=E8=BF=90=E8=A1=8C=E4=B9=8B=E5=90=8E=EF=BC=8C=E5=AF=B9=E4=BA=
+=8E=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E2=80=98addr=E2=80=99=E7=9A=84=E2=
+=80=98vma->vm_mm=E2=80=99=EF=BC=8C=E5=9C=A8=E7=BC=93=E5=AD=98=E4=B8=AD=E4=
+=B8=8D=E4=BC=9A
+> +	=E6=9C=89=E4=BB=BB=E4=BD=95=E9=A1=B5=E8=A1=A8=E9=A1=B9=EF=BC=8C=E5=AE=
+=83=E8=A2=AB=E7=BF=BB=E8=AF=91=E6=88=90=E2=80=98pfn=E2=80=99=E3=80=82
+> +
+> +	=E8=BF=99=E4=B8=BB=E8=A6=81=E6=98=AF=E5=9C=A8=E6=95=85=E9=9A=9C=E5=A4=
+=84=E7=90=86=E8=BF=87=E7=A8=8B=E4=B8=AD=E4=BD=BF=E7=94=A8=E3=80=82
+> +
+> +5) ``void flush_cache_kmaps(void)``
+> +
+> +	=E5=8F=AA=E6=9C=89=E5=9C=A8=E5=B9=B3=E5=8F=B0=E4=BD=BF=E7=94=A8=E9=AB=
+=98=E5=86=85=E5=AD=98=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=8B=E6=89=8D=E9=9C=80=
+=E8=A6=81=E5=AE=9E=E7=8E=B0=E8=BF=99=E4=B8=AA=E4=BE=8B=E7=A8=8B=E3=80=82=E5=
+=AE=83=E5=B0=86=E5=9C=A8=E6=89=80=E6=9C=89=E7=9A=84
+
+=E9=AB=98=E7=AB=AF=E5=86=85=E5=AD=98=EF=BC=88highmem=EF=BC=89
+
+> +	kmaps=E5=A4=B1=E6=95=88=E4=B9=8B=E5=89=8D=E8=A2=AB=E8=B0=83=E7=94=A8=E3=
+=80=82
+> +
+> +	=E8=BF=90=E8=A1=8C=E5=90=8E=EF=BC=8C=E5=86=85=E6=A0=B8=E8=99=9A=E6=8B=
+=9F=E5=9C=B0=E5=9D=80=E8=8C=83=E5=9B=B4PKMAP_ADDR(0)=E5=88=B0PKMAP_ADDR(LAS=
+T_PKMAP)
+> +	=E7=9A=84=E7=BC=93=E5=AD=98=E4=B8=AD=E5=B0=86=E6=B2=A1=E6=9C=89=E9=A1=
+=B5=E8=A1=A8=E9=A1=B9=E3=80=82
+> +
+> +	=E8=BF=99=E4=B8=AA=E4=BE=8B=E7=A8=8B=E5=BA=94=E8=AF=A5=E5=9C=A8asm/high=
+mem.h=E4=B8=AD=E5=AE=9E=E7=8E=B0=E3=80=82
+> +
+> +6) ``void flush_cache_vmap(unsigned long start, unsigned long end)``
+> +   ``void flush_cache_vunmap(unsigned long start, unsigned long end)``
+> +
+> +   =E5=9C=A8=E8=BF=99=E9=87=8C=EF=BC=8C=E5=9C=A8=E8=BF=99=E4=B8=A4=E4=B8=
+=AA=E6=8E=A5=E5=8F=A3=E4=B8=AD=EF=BC=8C=E6=88=91=E4=BB=AC=E4=BB=8E=E7=BC=93=
+=E5=AD=98=E4=B8=AD=E5=86=B2=E6=B4=97=E4=B8=80=E4=B8=AA=E7=89=B9=E5=AE=9A=E8=
+=8C=83=E5=9B=B4=E7=9A=84=EF=BC=88=E5=86=85=E6=A0=B8=EF=BC=89
+> +   =E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E3=80=82=E8=BF=90=E8=A1=8C=E5=90=
+=8E=EF=BC=8C=E5=9C=A8=E2=80=9Cstart=E2=80=9D=E5=88=B0=E2=80=9Cend-1=E2=80=
+=9D=E8=8C=83=E5=9B=B4=E5=86=85=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=
+=E7=9A=84=E5=86=85=E6=A0=B8=E5=9C=B0
+> +   =E5=9D=80=E7=A9=BA=E9=97=B4=E7=9A=84=E7=BC=93=E5=AD=98=E4=B8=AD=E4=B8=
+=8D=E4=BC=9A=E6=9C=89=E9=A1=B5=E8=A1=A8=E9=A1=B9=E3=80=82
+> +
+> +   =E8=BF=99=E4=B8=A4=E4=B8=AA=E4=BE=8B=E7=A8=8B=E4=B8=AD=E7=9A=84=E7=AC=
+=AC=E4=B8=80=E4=B8=AA=E6=98=AF=E5=9C=A8vmap_range()=E5=AE=89=E8=A3=85=E4=BA=
+=86=E9=A1=B5=E8=A1=A8=E9=A1=B9=E4=B9=8B=E5=90=8E=E8=B0=83=E7=94=A8=E7=9A=84=
+=E3=80=82
+> +   =E7=AC=AC=E4=BA=8C=E4=B8=AA=E6=98=AF=E5=9C=A8vunmap_range()=E5=88=A0=
+=E9=99=A4=E9=A1=B5=E8=A1=A8=E9=A1=B9=E4=B9=8B=E5=89=8D=E8=B0=83=E7=94=A8=E7=
+=9A=84=E3=80=82
+> +
+> +=E8=BF=98=E6=9C=89=E4=B8=80=E7=B1=BBcpu=E7=BC=93=E5=AD=98=E9=97=AE=E9=A2=
+=98=EF=BC=8C=E7=9B=AE=E5=89=8D=E9=9C=80=E8=A6=81=E4=B8=80=E5=A5=97=E5=AE=8C=
+=E5=85=A8=E4=B8=8D=E5=90=8C=E7=9A=84=E6=8E=A5=E5=8F=A3=E6=9D=A5=E6=AD=A3=E7=
+=A1=AE=E5=A4=84=E7=90=86=E3=80=82=E6=9C=80=E5=A4=A7
+> +=E7=9A=84=E9=97=AE=E9=A2=98=E6=98=AF=E5=A4=84=E7=90=86=E5=99=A8=E7=9A=84=
+=E6=95=B0=E6=8D=AE=E7=BC=93=E5=AD=98=E4=B8=AD=E7=9A=84=E8=99=9A=E6=8B=9F=E5=
+=88=AB=E5=90=8D=E3=80=82
+> +
+> +.. =E8=AF=91=E8=80=85=E6=9C=89=E8=AF=9D=E8=AF=B4=EF=BC=9A
+> +
+> +	=E8=BF=99=E6=AE=B5=E5=86=85=E5=AE=B9=E6=9C=89=E4=BA=9B=E6=99=A6=E6=B6=
+=A9=EF=BC=8C=E4=B8=BA=E4=BA=86=E5=87=8F=E8=BD=BB=E4=B8=AD=E6=96=87=E9=98=85=
+=E8=AF=BB=E5=8E=8B=E5=8A=9B=EF=BC=8C=E7=89=B9=E4=BD=9C=E6=AD=A4=E8=AF=91=E6=
+=B3=A8=E3=80=82
+> +
+> +	=E5=88=AB=E5=90=8D=EF=BC=88alias=EF=BC=89=E5=B1=9E=E4=BA=8E=E7=BC=93=E5=
+=AD=98=E4=B8=80=E8=87=B4=E6=80=A7=E9=97=AE=E9=A2=98=EF=BC=8C=E5=BD=93=E4=B8=
+=8D=E5=90=8C=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E6=98=A0=E5=B0=84=
+=E7=9B=B8=E5=90=8C=E7=9A=84
+> +	=E7=89=A9=E7=90=86=E5=9C=B0=E5=9D=80=EF=BC=8C=E8=80=8C=E8=BF=99=E4=BA=
+=9B=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E7=9A=84index=E4=B8=8D=E5=90=8C=EF=
+=BC=8C=E6=AD=A4=E6=97=B6=E5=B0=B1=E5=8F=91=E7=94=9F=E4=BA=86=E5=88=AB=E5=90=
+=8D=E7=8E=B0=E8=B1=A1(=E5=A4=9A
+> +	=E4=B8=AA=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E8=A2=AB=E7=A7=B0=E4=B8=
+=BA=E5=88=AB=E5=90=8D)=E3=80=82=E9=80=9A=E4=BF=97=E7=82=B9=E6=9D=A5=E8=AF=
+=B4=E5=B0=B1=E6=98=AF=E6=8C=87=E5=90=8C=E4=B8=80=E4=B8=AA=E7=89=A9=E7=90=86=
+=E5=9C=B0=E5=9D=80=E7=9A=84=E6=95=B0=E6=8D=AE=E8=A2=AB
+> +	=E5=8A=A0=E8=BD=BD=E5=88=B0=E4=B8=8D=E5=90=8C=E7=9A=84cacheline=E4=B8=
+=AD=E5=B0=B1=E4=BC=9A=E5=87=BA=E7=8E=B0=E5=88=AB=E5=90=8D=E7=8E=B0=E8=B1=A1=
+=E3=80=82
+> +
+> +	=E5=B8=B8=E8=A7=81=E7=9A=84=E8=A7=A3=E5=86=B3=E6=96=B9=E6=B3=95=E6=9C=
+=89=E4=B8=A4=E7=A7=8D=EF=BC=9A=E7=AC=AC=E4=B8=80=E7=A7=8D=E6=98=AF=E7=A1=AC=
+=E4=BB=B6=E7=BB=B4=E6=8A=A4=E4=B8=80=E8=87=B4=E6=80=A7=EF=BC=8C=E8=AE=BE=E8=
+=AE=A1=E7=89=B9=E5=AE=9A=E7=9A=84cpu=E7=94=B5
+> +	=E8=B7=AF=E6=9D=A5=E8=A7=A3=E5=86=B3=E9=97=AE=E9=A2=98=EF=BC=88=E4=BE=
+=8B=E5=A6=82=E8=AE=BE=E8=AE=A1=E4=B8=BAPIPT=E7=9A=84cache=EF=BC=89=EF=BC=9B=
+=E7=AC=AC=E4=BA=8C=E7=A7=8D=E6=98=AF=E8=BD=AF=E4=BB=B6=E7=BB=B4=E6=8A=A4=E4=
+=B8=80=E8=87=B4=E6=80=A7=EF=BC=8C
+> +	=E5=B0=B1=E6=98=AF=E4=B8=8B=E9=9D=A2=E4=BB=8B=E7=BB=8D=E7=9A=84sparc=E7=
+=9A=84=E8=A7=A3=E5=86=B3=E6=96=B9=E6=A1=88=E2=80=94=E2=80=94=E9=A1=B5=E9=9D=
+=A2=E6=9F=93=E8=89=B2=EF=BC=8C=E6=B6=89=E5=8F=8A=E7=9A=84=E6=8A=80=E6=9C=AF=
+=E7=BB=86=E8=8A=82=E5=A4=AA=E5=A4=9A=EF=BC=8C
+> +	=E8=AF=91=E8=80=85=E4=B8=8D=E4=BE=BF=E5=B1=95=E5=BC=80=EF=BC=8C=E8=AF=
+=B7=E8=AF=BB=E8=80=85=E8=87=AA=E8=A1=8C=E6=9F=A5=E9=98=85=E7=9B=B8=E5=85=B3=
+=E8=B5=84=E6=96=99=E3=80=82
+> +
+> +=E6=82=A8=E7=9A=84=E7=AB=AF=E5=8F=A3=E6=98=AF=E5=90=A6=E5=AE=B9=E6=98=93=
+=E5=9C=A8=E5=85=B6D-cache=E4=B8=AD=E5=87=BA=E7=8E=B0=E8=99=9A=E6=8B=9F=E5=
+=88=AB=E5=90=8D=EF=BC=9F=E5=97=AF=EF=BC=8C=E5=A6=82=E6=9E=9C=E6=82=A8=E7=9A=
+=84D-cache
+
+port
+
+> +=E6=98=AF=E8=99=9A=E6=8B=9F=E7=B4=A2=E5=BC=95=E7=9A=84=EF=BC=8C=E4=B8=94=
+cache=E5=A4=A7=E4=BA=8EPAGE_SIZE=EF=BC=88=E9=A1=B5=E5=A4=A7=E5=B0=8F=EF=BC=
+=89=EF=BC=8C=E5=B9=B6=E4=B8=94=E4=B8=8D=E8=83=BD=E9=98=B2=E6=AD=A2=E5=90=8C=
+=E4=B8=80
+> +=E7=89=A9=E7=90=86=E5=9C=B0=E5=9D=80=E7=9A=84=E5=A4=9A=E4=B8=AAcache=E8=
+=A1=8C=E5=90=8C=E6=97=B6=E5=AD=98=E5=9C=A8=EF=BC=8C=E6=82=A8=E5=B0=B1=E4=BC=
+=9A=E9=81=87=E5=88=B0=E8=BF=99=E4=B8=AA=E9=97=AE=E9=A2=98=E3=80=82
+> +
+> +=E5=A6=82=E6=9E=9C=E4=BD=A0=E7=9A=84D-cache=E6=9C=89=E8=BF=99=E4=B8=AA=
+=E9=97=AE=E9=A2=98=EF=BC=8C=E9=A6=96=E5=85=88=E6=AD=A3=E7=A1=AE=E5=AE=9A=E4=
+=B9=89asm/shmparam.h SHMLBA=EF=BC=8C
+> +=E5=AE=83=E5=9F=BA=E6=9C=AC=E4=B8=8A=E5=BA=94=E8=AF=A5=E6=98=AF=E4=BD=A0=
+=E7=9A=84=E8=99=9A=E6=8B=9F=E5=AF=BB=E5=9D=80D-cache=E7=9A=84=E5=A4=A7=E5=
+=B0=8F=EF=BC=88=E6=88=96=E8=80=85=E5=A6=82=E6=9E=9C=E5=A4=A7=E5=B0=8F=E6=98=
+=AF=E5=8F=AF=E5=8F=98=E7=9A=84=EF=BC=8C
+> +=E5=88=99=E6=98=AF=E6=9C=80=E5=A4=A7=E7=9A=84=E5=8F=AF=E8=83=BD=E5=A4=A7=
+=E5=B0=8F=EF=BC=89=E3=80=82=E8=BF=99=E4=B8=AA=E8=AE=BE=E7=BD=AE=E5=B0=86=E8=
+=BF=AB=E4=BD=BFSYSv IPC=E5=B1=82=E5=8F=AA=E5=85=81=E8=AE=B8=E7=94=A8=E6=88=
+=B7=E8=BF=9B=E7=A8=8B=E5=9C=A8
+> +=E8=BF=99=E4=B8=AA=E5=80=BC=E7=9A=84=E5=80=8D=E6=95=B0=E7=9A=84=E5=9C=B0=
+=E5=9D=80=E4=B8=8A=E5=AF=B9=E5=85=B1=E4=BA=AB=E5=86=85=E5=AD=98=E8=BF=9B=E8=
+=A1=8C=E6=98=A0=E5=B0=84=E3=80=82
+> +
+> +.. note::
+> +
+> +	=E8=BF=99=E5=B9=B6=E4=B8=8D=E8=83=BD=E8=A7=A3=E5=86=B3=E5=85=B1=E4=BA=
+=ABmmaps=E7=9A=84=E9=97=AE=E9=A2=98=EF=BC=8C=E8=AF=B7=E6=9F=A5=E7=9C=8Bspar=
+c64 port=E8=A7=A3=E5=86=B3
+
+port
+
+> +	=E8=BF=99=E4=B8=AA=E9=97=AE=E9=A2=98=E7=9A=84=E4=B8=80=E4=B8=AA=E6=96=
+=B9=E6=B3=95=EF=BC=88=E7=89=B9=E5=88=AB=E6=98=AF SPARC_FLAG_MMAPSHARED=EF=
+=BC=89=E3=80=82
+      =E8=A7=A3=E5=86=B3=E6=AD=A4=E9=97=AE=E9=A2=98=E7=9A=84=E6=96=B9=E6=B3=
+=95
+
+> +
+> +=E6=8E=A5=E4=B8=8B=E6=9D=A5=EF=BC=8C=E4=BD=A0=E5=BF=85=E9=A1=BB=E8=A7=A3=
+=E5=86=B3=E6=89=80=E6=9C=89=E5=85=B6=E4=BB=96=E6=83=85=E5=86=B5=E4=B8=8B=E7=
+=9A=84D-=E7=BC=93=E5=AD=98=E5=88=AB=E5=90=8D=E9=97=AE=E9=A2=98=E3=80=82=E8=
+=AF=B7=E8=AE=B0=E4=BD=8F=E8=BF=99=E4=B8=AA=E4=BA=8B
+                                       ^^^^
+
+> +=E5=AE=9E=EF=BC=8C=E5=AF=B9=E4=BA=8E=E4=B8=80=E4=B8=AA=E7=BB=99=E5=AE=9A=
+=E7=9A=84=E9=A1=B5=E9=9D=A2=E6=98=A0=E5=B0=84=E5=88=B0=E6=9F=90=E4=B8=AA=E7=
+=94=A8=E6=88=B7=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=EF=BC=8C=E6=80=BB=E6=98=
+=AF=E8=87=B3=E5=B0=91=E6=9C=89=E4=B8=80=E4=B8=AA=E6=9B=B4
+
+at lease one more
+
+> +=E5=A4=9A=E7=9A=84=E6=98=A0=E5=B0=84=EF=BC=8C=E9=82=A3=E5=B0=B1=E6=98=AF=
+=E5=86=85=E6=A0=B8=E5=9C=A8=E5=85=B6=E7=BA=BF=E6=80=A7=E6=98=A0=E5=B0=84=E4=
+=B8=AD=E4=BB=8EPAGE_OFFSET=E5=BC=80=E5=A7=8B=E3=80=82=E5=9B=A0=E6=AD=A4=EF=
+=BC=8C=E4=B8=80
+> +=E6=97=A6=E7=AC=AC=E4=B8=80=E4=B8=AA=E7=94=A8=E6=88=B7=E5=B0=86=E4=B8=80=
+=E4=B8=AA=E7=BB=99=E5=AE=9A=E7=9A=84=E7=89=A9=E7=90=86=E9=A1=B5=E6=98=A0=E5=
+=B0=84=E5=88=B0=E5=AE=83=E7=9A=84=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=EF=BC=
+=8C=E5=B0=B1=E6=84=8F=E5=91=B3=E7=9D=80D-cache
+> +=E7=9A=84=E5=88=AB=E5=90=8D=E9=97=AE=E9=A2=98=E6=9C=89=E5=8F=AF=E8=83=BD=
+=E5=AD=98=E5=9C=A8=EF=BC=8C=E5=9B=A0=E4=B8=BA=E5=86=85=E6=A0=B8=E5=B7=B2=E7=
+=BB=8F=E5=B0=86=E8=BF=99=E4=B8=AA=E9=A1=B5=E6=98=A0=E5=B0=84=E5=88=B0=E5=AE=
+=83=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E3=80=82
+> +
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<
+> +  ``void copy_user_page(void *to, void *from, unsigned long addr, struct=
+ page *page)``
+> +  ``void clear_user_page(void *to, unsigned long addr, struct page *page=
+)``
+> +
+> +  	=E8=BF=99=E4=B8=A4=E4=B8=AA=E4=BE=8B=E7=A8=8B=E5=9C=A8=E7=94=A8=E6=88=
+=B7=E5=8C=BF=E5=90=8D=E6=88=96COW=E9=A1=B5=E4=B8=AD=E5=AD=98=E5=82=A8=E6=95=
+=B0=E6=8D=AE=E3=80=82=E5=AE=83=E5=85=81=E8=AE=B8=E4=B8=80=E4=B8=AA=E7=AB=AF=
+=E5=8F=A3=E6=9C=89=E6=95=88=E5=9C=B0
+> +  	=E9=81=BF=E5=85=8D=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E5=92=8C=E5=86=
+=85=E6=A0=B8=E4=B9=8B=E9=97=B4=E7=9A=84D-cache=E5=88=AB=E5=90=8D=E9=97=AE=
+=E9=A2=98=E3=80=82
+> +
+> +  	=E4=BE=8B=E5=A6=82=EF=BC=8C=E4=B8=80=E4=B8=AA=E7=AB=AF=E5=8F=A3=E5=8F=
+=AF=E4=BB=A5=E5=9C=A8=E5=A4=8D=E5=88=B6=E8=BF=87=E7=A8=8B=E4=B8=AD=E6=8A=8A=
+=E2=80=9Cfrom=E2=80=9D=E5=92=8C=E2=80=9Cto=E2=80=9D=E6=9A=82=E6=97=B6=E6=98=
+=A0=E5=B0=84=E5=88=B0=E5=86=85=E6=A0=B8
+> +  	=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E4=B8=8A=E3=80=82=E8=BF=
+=99=E4=B8=A4=E4=B8=AA=E9=A1=B5=E9=9D=A2=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=
+=E5=9D=80=E7=9A=84=E9=80=89=E6=8B=A9=E6=96=B9=E5=BC=8F=E6=98=AF=EF=BC=8C=E5=
+=86=85=E6=A0=B8=E7=9A=84=E5=8A=A0=E8=BD=BD/=E5=AD=98
+> +  	=E5=82=A8=E6=8C=87=E4=BB=A4=E5=8F=91=E7=94=9F=E5=9C=A8=E8=99=9A=E6=8B=
+=9F=E5=9C=B0=E5=9D=80=E4=B8=8A=EF=BC=8C=E8=80=8C=E8=BF=99=E4=BA=9B=E8=99=9A=
+=E6=8B=9F=E5=9C=B0=E5=9D=80=E4=B8=8E=E7=94=A8=E6=88=B7=E7=9A=84=E9=A1=B5=E9=
+=9D=A2=E6=98=A0=E5=B0=84=E6=98=AF=E7=9B=B8=E5=90=8C
+> +  	=E7=9A=84=E2=80=9C=E9=A2=9C=E8=89=B2=E2=80=9D=E3=80=82=E4=BE=8B=E5=A6=
+=82=EF=BC=8CSparc64=E5=B0=B1=E4=BD=BF=E7=94=A8=E8=BF=99=E7=A7=8D=E6=8A=80=
+=E6=9C=AF=E3=80=82
+> + =20
+> +  	=E2=80=9Caddr=E2=80=9D=E5=8F=82=E6=95=B0=E5=91=8A=E8=AF=89=E4=BA=86=
+=E7=94=A8=E6=88=B7=E6=9C=80=E7=BB=88=E8=A6=81=E6=98=A0=E5=B0=84=E8=BF=99=E4=
+=B8=AA=E9=A1=B5=E9=9D=A2=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=EF=BC=
+=8C=E2=80=9Cpage=E2=80=9D=E5=8F=82
+> +  	=E6=95=B0=E7=BB=99=E5=87=BA=E4=BA=86=E4=B8=80=E4=B8=AA=E6=8C=87=E5=90=
+=91=E7=9B=AE=E6=A0=87=E9=A1=B5=E7=BB=93=E6=9E=84=E4=BD=93=E7=9A=84=E6=8C=87=
+=E9=92=88=E3=80=82
+> + =20
+> +  	=E5=A6=82=E6=9E=9CD-cache=E5=88=AB=E5=90=8D=E4=B8=8D=E6=98=AF=E9=97=
+=AE=E9=A2=98=EF=BC=8C=E8=BF=99=E4=B8=A4=E4=B8=AA=E4=BE=8B=E7=A8=8B=E5=8F=AF=
+=E4=BB=A5=E7=AE=80=E5=8D=95=E5=9C=B0=E7=9B=B4=E6=8E=A5=E8=B0=83=E7=94=A8
+> +  	memcpy/memset=E8=80=8C=E4=B8=8D=E5=81=9A=E5=85=B6=E4=BB=96=E4=BA=8B=
+=E6=83=85=E3=80=82
+> +
+> +  ``void flush_dcache_page(struct page *page)``
+> +
+> +  	=E4=BB=BB=E4=BD=95=E6=97=B6=E5=80=99=EF=BC=8C=E5=BD=93=E5=86=85=E6=A0=
+=B8=E5=86=99=E5=88=B0=E4=B8=80=E4=B8=AA=E9=A1=B5=E9=9D=A2=E7=BC=93=E5=AD=98=
+=E9=A1=B5=EF=BC=8C=E6=88=96=E8=80=85=E5=86=85=E6=A0=B8=E8=A6=81=E4=BB=8E=E4=
+=B8=80=E4=B8=AA=E9=A1=B5=E9=9D=A2=E7=BC=93=E5=AD=98
+<<<<<<<<<<<<<<<<<<<<<<<<<<
+indentation mixed space and tab
+
+> +	=E9=A1=B5=E4=B8=AD=E8=AF=BB=E5=87=BA=EF=BC=8C=E5=B9=B6=E4=B8=94=E8=BF=
+=99=E4=B8=AA=E9=A1=B5=E9=9D=A2=E7=9A=84=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=
+=E5=85=B1=E4=BA=AB/=E5=8F=AF=E5=86=99=E6=98=A0=E5=B0=84=E5=8F=AF=E8=83=BD=
+=E5=AD=98=E5=9C=A8=E6=97=B6=EF=BC=8C
+> +	=E8=BF=99=E4=B8=AA=E4=BE=8B=E7=A8=8B=E5=B0=B1=E4=BC=9A=E8=A2=AB=E8=B0=
+=83=E7=94=A8=E3=80=82
+> +
+> +	.. note::
+> +
+> +			=E8=BF=99=E4=B8=AA=E4=BE=8B=E7=A8=8B=E5=8F=AA=E9=9C=80=E8=A6=81=E4=B8=
+=BA=E6=9C=89=E5=8F=AF=E8=83=BD=E8=A2=AB=E6=98=A0=E5=B0=84=E5=88=B0=E7=94=A8=
+=E6=88=B7=E8=BF=9B=E7=A8=8B=E7=9A=84=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E7=
+=9A=84
+> +			=E9=A1=B5=E9=9D=A2=E7=BC=93=E5=AD=98=E8=B0=83=E7=94=A8=E3=80=82=E5=9B=
+=A0=E6=AD=A4=EF=BC=8C=E4=BE=8B=E5=A6=82=EF=BC=8C=E5=A4=84=E7=90=86=E9=A1=B5=
+=E9=9D=A2=E7=BC=93=E5=AD=98=E4=B8=ADvfs=E7=AC=A6=E5=8F=B7=E9=93=BE
+> +			=E6=8E=A5=E7=9A=84VFS=E5=B1=82=E4=BB=A3=E7=A0=81=E6=A0=B9=E6=9C=AC=E4=
+=B8=8D=E9=9C=80=E8=A6=81=E8=B0=83=E7=94=A8=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=
+=A3=E3=80=82
+> +
+> +	=E2=80=9C=E5=86=85=E6=A0=B8=E5=86=99=E5=85=A5=E9=A1=B5=E9=9D=A2=E7=BC=
+=93=E5=AD=98=E7=9A=84=E9=A1=B5=E9=9D=A2=E2=80=9D=E8=BF=99=E5=8F=A5=E8=AF=9D=
+=E7=9A=84=E6=84=8F=E6=80=9D=E6=98=AF=EF=BC=8C=E5=85=B7=E4=BD=93=E6=9D=A5=E8=
+=AF=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E6=89=A7=E8=A1=8C=E5=AD=98
+> +	=E5=82=A8=E6=8C=87=E4=BB=A4=EF=BC=8C=E5=9C=A8=E8=AF=A5=E9=A1=B5=E9=9D=
+=A2=E7=9A=84=E9=A1=B5=E9=9D=A2->=E8=99=9A=E6=8B=9F=E6=98=A0=E5=B0=84=E5=A4=
+=84=E5=BC=84=E8=84=8F=E8=AF=A5=E9=A1=B5=E9=9D=A2=E7=9A=84=E6=95=B0=E6=8D=AE=
+=E3=80=82=E5=9C=A8=E8=BF=99=E9=87=8C=EF=BC=8C=E9=80=9A
+> +	=E8=BF=87=E5=86=B2=E6=B4=97=E7=9A=84=E6=89=8B=E6=AE=B5=E5=A4=84=E7=90=
+=86D-cache=E7=9A=84=E5=88=AB=E5=90=8D=E6=98=AF=E5=BE=88=E9=87=8D=E8=A6=81=
+=E7=9A=84=EF=BC=8C=E4=BB=A5=E7=A1=AE=E4=BF=9D=E8=BF=99=E4=BA=9B=E5=86=85=E6=
+=A0=B8=E5=AD=98=E5=82=A8=E5=AF=B9
+> +	=E8=AF=A5=E9=A1=B5=E7=9A=84=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E6=98=
+=A0=E5=B0=84=E6=98=AF=E5=8F=AF=E8=A7=81=E7=9A=84=E3=80=82
+> +
+> +	=E6=8E=A8=E8=AE=BA=E7=9A=84=E6=83=85=E5=86=B5=E4=B9=9F=E5=90=8C=E6=A0=
+=B7=E9=87=8D=E8=A6=81=EF=BC=8C=E5=A6=82=E6=9E=9C=E6=9C=89=E7=94=A8=E6=88=B7=
+=E5=AF=B9=E8=BF=99=E4=B8=AA=E6=96=87=E4=BB=B6=E6=9C=89=E5=85=B1=E4=BA=AB+=
+=E5=8F=AF=E5=86=99=E7=9A=84=E6=98=A0=E5=B0=84=EF=BC=8C
+> +	=E6=88=91=E4=BB=AC=E5=BF=85=E9=A1=BB=E7=A1=AE=E4=BF=9D=E5=86=85=E6=A0=
+=B8=E5=AF=B9=E8=BF=99=E4=BA=9B=E9=A1=B5=E9=9D=A2=E7=9A=84=E8=AF=BB=E5=8F=96=
+=E4=BC=9A=E7=9C=8B=E5=88=B0=E7=94=A8=E6=88=B7=E6=89=80=E5=81=9A=E7=9A=84=E6=
+=9C=80=E6=96=B0=E7=9A=84=E5=AD=98=E5=82=A8=E3=80=82
+> +
+> +	=E5=A6=82=E6=9E=9CD-cache=E5=88=AB=E5=90=8D=E4=B8=8D=E6=98=AF=E4=B8=80=
+=E4=B8=AA=E9=97=AE=E9=A2=98=EF=BC=8C=E8=BF=99=E4=B8=AA=E4=BE=8B=E7=A8=8B=E5=
+=8F=AF=E4=BB=A5=E7=AE=80=E5=8D=95=E5=9C=B0=E5=AE=9A=E4=B9=89=E4=B8=BA=E8=AF=
+=A5=E6=9E=B6=E6=9E=84=E4=B8=8A
+> +	=E7=9A=84nop=E3=80=82
+> +
+> +	=E5=9C=A8page->flags (PG_arch_1)=E4=B8=AD=E6=9C=89=E4=B8=80=E4=B8=AA=E4=
+=BD=8D=E6=98=AF=E2=80=9C=E6=9E=B6=E6=9E=84=E7=A7=81=E6=9C=89=E2=80=9D=E3=80=
+=82=E5=86=85=E6=A0=B8=E4=BF=9D=E8=AF=81=EF=BC=8C
+> +	=E5=AF=B9=E4=BA=8E=E5=88=86=E9=A1=B5=E7=BC=93=E5=AD=98=E7=9A=84=E9=A1=
+=B5=E9=9D=A2=EF=BC=8C=E5=BD=93=E8=BF=99=E6=A0=B7=E7=9A=84=E9=A1=B5=E9=9D=A2=
+=E7=AC=AC=E4=B8=80=E6=AC=A1=E8=BF=9B=E5=85=A5=E5=88=86=E9=A1=B5=E7=BC=93=E5=
+=AD=98=E6=97=B6=EF=BC=8C=E5=AE=83=E5=B0=86=E6=B8=85=E9=99=A4
+> +	=E8=BF=99=E4=B8=AA=E4=BD=8D=E3=80=82
+> +
+> +	=E8=BF=99=E4=BD=BF=E5=BE=97=E8=BF=99=E4=BA=9B=E6=8E=A5=E5=8F=A3=E5=8F=
+=AF=E4=BB=A5=E6=9B=B4=E6=9C=89=E6=95=88=E5=9C=B0=E8=A2=AB=E5=AE=9E=E7=8E=B0=
+=E3=80=82=E5=A6=82=E6=9E=9C=E7=9B=AE=E5=89=8D=E6=B2=A1=E6=9C=89=E7=94=A8=E6=
+=88=B7=E8=BF=9B=E7=A8=8B=E6=98=A0=E5=B0=84=E8=BF=99=E4=B8=AA
+> +	=E9=A1=B5=E9=9D=A2=EF=BC=8C=E5=AE=83=E5=85=81=E8=AE=B8=E6=88=91=E4=BB=
+=AC=E2=80=9C=E6=8E=A8=E8=BF=9F=E2=80=9D=EF=BC=88=E4=B9=9F=E8=AE=B8=E6=98=AF=
+=E6=97=A0=E9=99=90=E6=9C=9F=EF=BC=89=E5=AE=9E=E9=99=85=E7=9A=84=E5=86=B2=E6=
+=B4=97=E8=BF=87=E7=A8=8B=E3=80=82=E8=AF=B7=E7=9C=8B
+> +	sparc64=E7=9A=84flush_dcache_page=E5=92=8Cupdate_mmu_cache=E5=AE=9E=E7=
+=8E=B0=EF=BC=8C=E4=BB=A5=E4=BA=86=E8=A7=A3=E5=A6=82
+> +	=E4=BD=95=E5=81=9A=E5=88=B0=E8=BF=99=E4=B8=80=E7=82=B9=E3=80=82
+> +
+> +	=E8=BF=99=E4=B8=AA=E6=83=B3=E6=B3=95=E6=98=AF=EF=BC=8C=E9=A6=96=E5=85=
+=88=E5=9C=A8flush_dcache_page()=E6=97=B6=EF=BC=8C=E5=A6=82=E6=9E=9Cpage->ma=
+pping->i_mmap
+> +	=E6=98=AF=E4=B8=80=E4=B8=AA=E7=A9=BA=E6=A0=91=EF=BC=8C=E5=8F=AA=E9=9C=
+=80=E6=A0=87=E8=AE=B0=E6=9E=B6=E6=9E=84=E7=A7=81=E6=9C=89=E9=A1=B5=E6=A0=87=
+=E5=BF=97=E4=BD=8D=E3=80=82=E4=B9=8B=E5=90=8E=EF=BC=8C=E5=9C=A8update_mmu_c=
+ache()
+> +	=E4=B8=AD=EF=BC=8C=E4=BC=9A=E5=AF=B9=E8=BF=99=E4=B8=AA=E6=A0=87=E5=BF=
+=97=E4=BD=8D=E8=BF=9B=E8=A1=8C=E6=A3=80=E6=9F=A5=EF=BC=8C=E5=A6=82=E6=9E=9C=
+=E8=AE=BE=E7=BD=AE=E4=BA=86=EF=BC=8C=E5=B0=B1=E8=BF=9B=E8=A1=8C=E5=86=B2=E6=
+=B4=97=EF=BC=8C=E5=B9=B6=E6=B8=85=E9=99=A4=E6=A0=87=E5=BF=97=E4=BD=8D=E3=80=
+=82
+> +
+> +	.. important::
+> +
+> +				=E9=80=9A=E5=B8=B8=E5=BE=88=E9=87=8D=E8=A6=81=E7=9A=84=E6=98=AF=EF=
+=BC=8C=E5=A6=82=E6=9E=9C=E4=BD=A0=E6=8E=A8=E8=BF=9F=E5=86=B2=E6=B4=97=EF=BC=
+=8C=E5=AE=9E=E9=99=85=E7=9A=84=E5=86=B2=E6=B4=97=E5=8F=91=E7=94=9F=E5=9C=A8=
+=E5=90=8C=E4=B8=80=E4=B8=AA
+> +				CPU=E4=B8=8A=EF=BC=8C=E5=9B=A0=E4=B8=BA=E5=AE=83=E5=B0=86cpu=E5=AD=
+=98=E5=82=A8=E5=88=B0=E9=A1=B5=E9=9D=A2=E4=B8=8A=EF=BC=8C=E4=BD=BF=E5=85=B6=
+=E5=8F=98=E8=84=8F=E3=80=82=E5=90=8C=E6=A0=B7=EF=BC=8C=E8=AF=B7=E7=9C=8B
+> +				sparc64=E5=85=B3=E4=BA=8E=E5=A6=82=E4=BD=95=E5=A4=84=E7=90=86=E8=BF=
+=99=E4=B8=AA=E9=97=AE=E9=A2=98=E7=9A=84=E4=BE=8B=E5=AD=90=E3=80=82
+> +
+> +  ``void copy_to_user_page(struct vm_area_struct *vma, struct page *page,
+> +  unsigned long user_vaddr, void *dst, void *src, int len)``
+> +  ``void copy_from_user_page(struct vm_area_struct *vma, struct page *pa=
+ge,
+> +  unsigned long user_vaddr, void *dst, void *src, int len)``
+> +
+> +	=E5=BD=93=E5=86=85=E6=A0=B8=E9=9C=80=E8=A6=81=E5=A4=8D=E5=88=B6=E4=BB=
+=BB=E6=84=8F=E7=9A=84=E6=95=B0=E6=8D=AE=E8=BF=9B=E5=87=BA=E4=BB=BB=E6=84=8F=
+=E7=9A=84=E7=94=A8=E6=88=B7=E9=A1=B5=E6=97=B6=EF=BC=88=E6=AF=94=E5=A6=82ptr=
+ace()=EF=BC=89=EF=BC=8C=E5=AE=83=E5=B0=86=E4=BD=BF
+> +	=E7=94=A8=E8=BF=99=E4=B8=A4=E4=B8=AA=E4=BE=8B=E7=A8=8B=E3=80=82
+> +
+> +	=E4=BB=BB=E4=BD=95=E5=BF=85=E8=A6=81=E7=9A=84=E7=BC=93=E5=AD=98=E5=86=
+=B2=E6=B4=97=E6=88=96=E5=85=B6=E4=BB=96=E9=9C=80=E8=A6=81=E5=8F=91=E7=94=9F=
+=E7=9A=84=E4=B8=80=E8=87=B4=E6=80=A7=E6=93=8D=E4=BD=9C=E9=83=BD=E5=BA=94=E8=
+=AF=A5=E5=9C=A8=E8=BF=99=E9=87=8C=E5=8F=91=E7=94=9F=E3=80=82=E5=A6=82=E6=9E=
+=9C
+> +	=E5=A4=84=E7=90=86=E5=99=A8=E7=9A=84=E6=8C=87=E4=BB=A4=E7=BC=93=E5=AD=
+=98=E6=B2=A1=E6=9C=89=E5=AF=B9cpu=E5=AD=98=E5=82=A8=E8=BF=9B=E8=A1=8C=E7=AA=
+=A5=E6=8E=A2=EF=BC=8C=E9=82=A3=E4=B9=88=E4=BD=A0=E5=BE=88=E5=8F=AF=E8=83=BD=
+=E9=9C=80=E8=A6=81=E4=B8=BA
+> +	copy_to_user_page()=E5=86=B2=E6=B4=97=E6=8C=87=E4=BB=A4=E7=BC=93=E5=AD=
+=98=E3=80=82
+> +
+> +  ``void flush_anon_page(struct vm_area_struct *vma, struct page *page,
+> +  unsigned long vmaddr)``
+> +
+> +	=E5=BD=93=E5=86=85=E6=A0=B8=E9=9C=80=E8=A6=81=E8=AE=BF=E9=97=AE=E4=B8=
+=80=E4=B8=AA=E5=8C=BF=E5=90=8D=E9=A1=B5=E7=9A=84=E5=86=85=E5=AE=B9=E6=97=B6=
+=EF=BC=8C=E5=AE=83=E4=BC=9A=E8=B0=83=E7=94=A8=E8=BF=99=E4=B8=AA=E5=87=BD=E6=
+=95=B0=EF=BC=88=E7=9B=AE=E5=89=8D=E5=8F=AA=E6=9C=89
+> +	get_user_pages()=EF=BC=89=E3=80=82=E6=B3=A8=E6=84=8F=EF=BC=9Aflush_dcac=
+he_page()=E6=95=85=E6=84=8F=E5=AF=B9=E5=8C=BF=E5=90=8D=E9=A1=B5=E4=B8=8D=E8=
+=B5=B7=E4=BD=9C
+> +	=E7=94=A8=E3=80=82=E9=BB=98=E8=AE=A4=E7=9A=84=E5=AE=9E=E7=8E=B0=E6=98=
+=AFnop=EF=BC=88=E5=AF=B9=E4=BA=8E=E6=89=80=E6=9C=89=E7=9B=B8=E5=B9=B2=E7=9A=
+=84=E6=9E=B6=E6=9E=84=E5=BA=94=E8=AF=A5=E4=BF=9D=E6=8C=81=E8=BF=99=E6=A0=B7=
+=EF=BC=89=E3=80=82=E5=AF=B9=E4=BA=8E=E4=B8=8D=E4=B8=80=E8=87=B4=E6=80=A7
+> +	=E7=9A=84=E6=9E=B6=E6=9E=84=EF=BC=8C=E5=AE=83=E5=BA=94=E8=AF=A5=E5=86=
+=B2=E6=B4=97vmaddr=E5=A4=84=E7=9A=84=E9=A1=B5=E9=9D=A2=E7=BC=93=E5=AD=98=E3=
+=80=82
+> +
+> +  ``void flush_kernel_dcache_page(struct page *page)``
+> +
+> +	=E5=BD=93=E5=86=85=E6=A0=B8=E9=9C=80=E8=A6=81=E4=BF=AE=E6=94=B9=E4=B8=
+=80=E4=B8=AA=E7=94=A8kmap=E8=8E=B7=E5=BE=97=E7=9A=84=E7=94=A8=E6=88=B7=E9=
+=A1=B5=E6=97=B6=EF=BC=8C=E5=AE=83=E4=BC=9A=E5=9C=A8=E6=89=80=E6=9C=89=E4=BF=
+=AE=E6=94=B9=E5=AE=8C=E6=88=90=E5=90=8E=EF=BC=88=E4=BD=86=E5=9C=A8
+> +	kunmapping=E4=B9=8B=E5=89=8D=EF=BC=89=E8=B0=83=E7=94=A8=E8=BF=99=E4=B8=
+=AA=E5=87=BD=E6=95=B0=EF=BC=8C=E4=BB=A5=E4=BD=BF=E5=BA=95=E5=B1=82=E9=A1=B5=
+=E9=9D=A2=E8=BE=BE=E5=88=B0=E6=9C=80=E6=96=B0=E7=8A=B6=E6=80=81=E3=80=82=E8=
+=BF=99=E9=87=8C=E5=81=87=E5=AE=9A=E7=94=A8
+> +	=E6=88=B7=E6=B2=A1=E6=9C=89=E4=B8=8D=E4=B8=80=E8=87=B4=E6=80=A7=E7=9A=
+=84=E7=BC=93=E5=AD=98=E5=89=AF=E6=9C=AC=EF=BC=88=E5=8D=B3=E5=8E=9F=E5=A7=8B=
+=E9=A1=B5=E9=9D=A2=E6=98=AF=E4=BB=8E=E7=B1=BB=E4=BC=BCget_user_pages()=E7=
+=9A=84=E6=9C=BA=E5=88=B6
+> +	=E4=B8=AD=E8=8E=B7=E5=BE=97=E7=9A=84=EF=BC=89=E3=80=82=E9=BB=98=E8=AE=
+=A4=E7=9A=84=E5=AE=9E=E7=8E=B0=E6=98=AF=E4=B8=80=E4=B8=AAnop=EF=BC=8C=E5=9C=
+=A8=E6=89=80=E6=9C=89=E7=9B=B8=E5=B9=B2=E7=9A=84=E6=9E=B6=E6=9E=84=E4=B8=8A=
+=E9=83=BD=E5=BA=94=E8=AF=A5=E5=A6=82=E6=AD=A4=E3=80=82=E5=9C=A8=E4=B8=8D
+> +	=E4=B8=80=E8=87=B4=E6=80=A7=E7=9A=84=E6=9E=B6=E6=9E=84=E4=B8=8A=EF=BC=
+=8C=E8=BF=99=E5=BA=94=E8=AF=A5=E5=86=B2=E6=B4=97=E5=86=85=E6=A0=B8=E7=BC=93=
+=E5=AD=98=E4=B8=AD=E7=9A=84=E9=A1=B5=E9=9D=A2=EF=BC=88=E4=BD=BF=E7=94=A8pag=
+e_address(page)=EF=BC=89=E3=80=82
+> +
+> +
+> +  ``void flush_icache_range(unsigned long start, unsigned long end)``
+> +
+> +	=E5=BD=93=E5=86=85=E6=A0=B8=E5=AD=98=E5=82=A8=E5=88=B0=E5=AE=83=E5=B0=
+=86=E6=89=A7=E8=A1=8C=E7=9A=84=E5=9C=B0=E5=9D=80=E4=B8=AD=E6=97=B6=EF=BC=88=
+=E4=BE=8B=E5=A6=82=E5=9C=A8=E5=8A=A0=E8=BD=BD=E6=A8=A1=E5=9D=97=E6=97=B6=EF=
+=BC=89=EF=BC=8C=E8=BF=99=E4=B8=AA=E5=87=BD=E6=95=B0=E8=A2=AB=E8=B0=83=E7=94=
+=A8=E3=80=82
+> +
+> +	=E5=A6=82=E6=9E=9Cicache=E4=B8=8D=E5=AF=B9=E5=AD=98=E5=82=A8=E8=BF=9B=
+=E8=A1=8C=E7=AA=A5=E6=8E=A2=EF=BC=8C=E9=82=A3=E4=B9=88=E8=BF=99=E4=B8=AA=E4=
+=BE=8B=E7=A8=8B=E5=B0=86=E9=9C=80=E8=A6=81=E5=AF=B9=E5=85=B6=E8=BF=9B=E8=A1=
+=8C=E5=86=B2=E6=B4=97=E3=80=82
+> +
+> +  ``void flush_icache_page(struct vm_area_struct *vma, struct page *page=
+)``
+> +
+> +	flush_icache_page=E7=9A=84=E6=89=80=E6=9C=89=E5=8A=9F=E8=83=BD=E9=83=BD=
+=E5=8F=AF=E4=BB=A5=E5=9C=A8flush_dcache_page=E5=92=8Cupdate_mmu_cache
+> +	=E4=B8=AD=E5=AE=9E=E7=8E=B0=E3=80=82=E5=9C=A8=E6=9C=AA=E6=9D=A5=EF=BC=
+=8C=E6=88=91=E4=BB=AC=E5=B8=8C=E6=9C=9B=E8=83=BD=E5=A4=9F=E5=AE=8C=E5=85=A8=
+=E5=88=A0=E9=99=A4=E8=BF=99=E4=B8=AA=E6=8E=A5=E5=8F=A3=E3=80=82
+> +
+> +=E6=9C=80=E5=90=8E=E4=B8=80=E7=B1=BBAPI=E6=98=AF=E7=94=A8=E4=BA=8EI/O=E5=
+=88=B0=E5=86=85=E6=A0=B8=E5=86=85=E7=89=B9=E6=84=8F=E8=AE=BE=E7=BD=AE=E7=9A=
+=84=E5=88=AB=E5=90=8D=E5=9C=B0=E5=9D=80=E8=8C=83=E5=9B=B4=E3=80=82=E8=BF=99=
+=E7=A7=8D=E5=88=AB=E5=90=8D=E6=98=AF=E9=80=9A=E8=BF=87=E4=BD=BF=E7=94=A8
+> +vmap/vmalloc API=E8=AE=BE=E7=BD=AE=E7=9A=84=E3=80=82=E7=94=B1=E4=BA=8E=
+=E5=86=85=E6=A0=B8I/O=E6=98=AF=E9=80=9A=E8=BF=87=E7=89=A9=E7=90=86=E9=A1=B5=
+=E8=BF=9B=E8=A1=8C=E7=9A=84=EF=BC=8CI/O=E5=AD=90=E7=B3=BB=E7=BB=9F=E5=81=87=
+=E5=AE=9A=E7=94=A8=E6=88=B7
+> +=E6=98=A0=E5=B0=84=E5=92=8C=E5=86=85=E6=A0=B8=E5=81=8F=E7=A7=BB=E6=98=A0=
+=E5=B0=84=E6=98=AF=E5=94=AF=E4=B8=80=E7=9A=84=E5=88=AB=E5=90=8D=E3=80=82=E8=
+=BF=99=E5=AF=B9vmap=E5=88=AB=E5=90=8D=E6=9D=A5=E8=AF=B4=E6=98=AF=E4=B8=8D=
+=E6=AD=A3=E7=A1=AE=E7=9A=84=EF=BC=8C=E6=89=80=E4=BB=A5=E5=86=85=E6=A0=B8=E4=
+=B8=AD=E4=BB=BB=E4=BD=95
+> +=E8=AF=95=E5=9B=BE=E5=AF=B9vmap=E5=8C=BA=E5=9F=9F=E8=BF=9B=E8=A1=8CI/O=
+=E7=9A=84=E4=B8=9C=E8=A5=BF=E9=83=BD=E5=BF=85=E9=A1=BB=E6=89=8B=E5=8A=A8=E7=
+=AE=A1=E7=90=86=E4=B8=80=E8=87=B4=E6=80=A7=E3=80=82=E5=AE=83=E5=BF=85=E9=A1=
+=BB=E5=9C=A8=E5=81=9AI/O=E4=B9=8B=E5=89=8D=E5=86=B2=E6=B4=97vmap
+> +=E8=8C=83=E5=9B=B4=EF=BC=8C=E5=B9=B6=E5=9C=A8I/O=E8=BF=94=E5=9B=9E=E5=90=
+=8E=E4=BD=BF=E5=85=B6=E5=A4=B1=E6=95=88=E3=80=82
+> +
+> +  ``void flush_kernel_vmap_range(void *vaddr, int size)``
+> +
+> +	=E5=86=B2=E6=B4=97vmap=E5=8C=BA=E5=9F=9F=E4=B8=AD=E6=8C=87=E5=AE=9A=E7=
+=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E8=8C=83=E5=9B=B4=E7=9A=84=E5=86=
+=85=E6=A0=B8=E7=BC=93=E5=AD=98=E3=80=82=E8=BF=99=E6=98=AF=E4=B8=BA=E4=BA=86=
+=E7=A1=AE=E4=BF=9D=E5=86=85=E6=A0=B8=E5=9C=A8vmap=E8=8C=83=E5=9B=B4
+> +	=E5=86=85=E4=BF=AE=E6=94=B9=E7=9A=84=E4=BB=BB=E4=BD=95=E6=95=B0=E6=8D=
+=AE=E5=AF=B9=E7=89=A9=E7=90=86=E9=A1=B5=E6=98=AF=E5=8F=AF=E8=A7=81=E7=9A=84=
+=E3=80=82=E8=BF=99=E4=B8=AA=E8=AE=BE=E8=AE=A1=E6=98=AF=E4=B8=BA=E4=BA=86=E4=
+=BD=BF=E8=BF=99=E4=B8=AA=E5=8C=BA=E5=9F=9F=E5=8F=AF=E4=BB=A5=E5=AE=89=E5=85=
+=A8=E5=9C=B0=E6=89=A7
+> +	=E8=A1=8CI/O=E3=80=82=E6=B3=A8=E6=84=8F=EF=BC=8C=E8=BF=99=E4=B8=AAAPI=
+=E5=B9=B6=E6=B2=A1=E6=9C=89=E5=86=B2=E6=B4=97=E8=AF=A5=E5=8C=BA=E5=9F=9F=E7=
+=9A=84=E5=81=8F=E7=A7=BB=E6=98=A0=E5=B0=84=E5=88=AB=E5=90=8D=E3=80=82
+
+*=E6=B2=A1=E6=9C=89*
+
+> +
+> +  ``void invalidate_kernel_vmap_range(void *vaddr, int size) invalidates=
+``
+> +
+> +	=E5=9C=A8vmap=E5=8C=BA=E5=9F=9F=E7=9A=84=E4=B8=80=E4=B8=AA=E7=BB=99=E5=
+=AE=9A=E7=9A=84=E8=99=9A=E6=8B=9F=E5=9C=B0=E5=9D=80=E8=8C=83=E5=9B=B4=E7=9A=
+=84=E7=BC=93=E5=AD=98=EF=BC=8C=E8=BF=99=E5=8F=AF=E4=BB=A5=E9=98=B2=E6=AD=A2=
+=E5=A4=84=E7=90=86=E5=99=A8=E5=9C=A8=E7=89=A9=E7=90=86=E9=A1=B5=E7=9A=84I/O
+> +	=E5=8F=91=E7=94=9F=E6=97=B6=E9=80=9A=E8=BF=87=E6=8A=95=E6=9C=BA=E6=80=
+=A7=E5=9C=B0=E8=AF=BB=E5=8F=96=E6=95=B0=E6=8D=AE=E8=80=8C=E4=BD=BF=E7=BC=93=
+=E5=AD=98=E5=8F=98=E8=84=8F=E3=80=82=E8=BF=99=E5=8F=AA=E5=AF=B9=E8=AF=BB=E5=
+=85=A5vmap=E5=8C=BA=E5=9F=9F=E7=9A=84=E6=95=B0=E6=8D=AE=E6=98=AF=E5=BF=85=
+=E8=A6=81=E7=9A=84=E3=80=82
+> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Docume=
+ntation/translations/zh_CN/core-api/index.rst
+> index a1dd792e46f7..b7774fb5fad1 100644
+> --- a/Documentation/translations/zh_CN/core-api/index.rst
+> +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> @@ -78,9 +78,14 @@ Todolist:
+> =20
+>  =E7=BC=93=E5=AD=98=E7=AE=A1=E7=90=86=EF=BC=8CCPU=E7=83=AD=E6=8F=92=E6=8B=
+=94=E7=AE=A1=E7=90=86=E7=AD=89=E3=80=82
+> =20
+> -Todolist:
+> +.. toctree::
+> +   :maxdepth: 1
+> =20
+>     cachetlb
+> +
+> +Todolist:
+> +
+> +
+>     cpu_hotplug
+>     memory-hotplug
+>     genericirq
+> --=20
+> 2.27.0
+
+Thanks,
+        Wu X.C.
+
+--ikeVEW9yuYc//A+q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmC0c44ACgkQtlsoEiKC
+sIVvSAwAhOuei9e1p+UVzYcZ8SQjQ1aVKHgLd0Vi08BXJXRK0oNNswIXVHKp3xrP
+PzxS86hCt5+8zDJN6QdhkJHdFovvi1YQTVWe1u2RlkndGfYspCzfJNkiyVSBtBuI
+sdeUeCAkFfR1fh/oCrgT+aS/aBUFLNHqLFuOYdr8WRP09KckttGyYKI+cp6LUXwz
+K3NnHXvEM8dYHE5X/6zg2yuEVn0Jl9THFLPmc32YHDF9QWBwD022GEmKQWhwPXy7
+Jemu9UT1b7SZQtrP/y3n5J91ENoP4+zWJ8jKJZPTxSTaoot6oqcKK/ryPdHUauzF
+13TXKE8C6VTl2bknZVmsgG0UOOuMWM0ZGPirc9jt5eHypyPGyzozW+HziAW3tfxS
+SbiI0tsIjv1dl+5kLO8U/B3Nh+0Mh56SfU0wXdRe8gp2zPaqwUvhWSYKTVz5jbvd
+DL59jGkBgK8JF1/okRQEARwoDpYslMHt7aqTMFkfzvnsCVTTHGzBKFE/Mvh/4JGF
+ZUe2VUTn
+=XN8f
+-----END PGP SIGNATURE-----
+
+--ikeVEW9yuYc//A+q--
+
