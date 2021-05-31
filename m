@@ -2,660 +2,299 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0F8C47080
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 13:05:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD58C4708F
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 14:02:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5ABD461287
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 13:05:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E36861942
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 14:02:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231327AbhEaNHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 09:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53570 "EHLO
+        id S232375AbhEaOEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 10:04:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231409AbhEaNHK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 09:07:10 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA413C061574;
-        Mon, 31 May 2021 06:05:27 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id k19so7867026qta.2;
-        Mon, 31 May 2021 06:05:27 -0700 (PDT)
+        with ESMTP id S232884AbhEaOB7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 10:01:59 -0400
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7B1EC0612EE;
+        Mon, 31 May 2021 06:38:26 -0700 (PDT)
+Received: by mail-qt1-x830.google.com with SMTP id k19so7934574qta.2;
+        Mon, 31 May 2021 06:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kLDoGgiKBnh3s28kzBs894Jkp2BR4ldzvnFw/nD5V+U=;
-        b=PDUZIuBpfoTuRbQDuEIVnjfV6G2Xp44Le94oyKd2BShrdmccS5XVHRyHW+9QeezXBy
-         x3bQa3WiWLFLmiwhhKEuvSVHLaxcaPv4Nwu4Q4vo2esJ9t7qSnz1kJdsSpH2AvMRcCo/
-         qrRTr2OaQnLDpXK7eIJ5qUWdcbgDqzgcdXH8k5XckJbtjIhr8YT81CllJ88WBVH2+V37
-         Y7UbfHaAIoy/vGEj5WXFfW8T6Lp3AaCmtFKm0Z/Z/cEHjNPxiHm0q1bBborGC2sEoB0b
-         nm9wzKdpQ3zKxvdEq7tx3kcB5WvKJXyO4Ec5kMacYuLnJDaQcFtmH783gcEl2XUwQ2GY
-         qTmA==
+        h=from:to:cc:subject:date:message-id;
+        bh=Rde6momaXq0my+9glMeoFBNU/apA8VsaoRh6XVe4ER8=;
+        b=OMsVaMFEDn4FucLl6wiwaAZavTx5YMTu9CpRQGrp6z/u1zcgE7/78NTGhbFvVWPorx
+         bIQztbWt6UKqOHBYrR6Ht0kF5Sjytq4t5b/Lc1VU/hqi5QDuwWPvaB3FXRt3Q2q+mszx
+         QrYbZac3PNWEmuOQn/L4oMI0Hob2v7QiFIhfsQaR9a9Bb3SyInZL1+3q81huOkiZazn4
+         0LY7hz5lelnYNCdMgl5NHGjpjacblTmZH0o+xriQ/dlChhxCxU4J+K+LfNI2yMgum49S
+         cKlogmiHGYdDmp/PFjNmBFc1JJ4O9iRBt0YTnaWLzxSzl/wjjVfyAlPBmOwmcUqxQ6Co
+         a9fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kLDoGgiKBnh3s28kzBs894Jkp2BR4ldzvnFw/nD5V+U=;
-        b=a1rzEM6tQAzNkuYonIUUd8lVs41kNRH64N//d/85EprEWXbM2+lmXcCs1vNgykVzd0
-         FLRnSoYAbGDrzDUHBXS/6cT7uZi7GizXBHoEuqFZOSBMUSjmAq1MLCzA6BAQDQvcWRME
-         xyDjPZRbC6DLBGXgyLMacAE6xk/YKDTuUXrX7TTa/PtAg+zzHkrWFWEJkVn4c3r+LWz3
-         iLc3I7vTarxdwn/Iv0jwKGl17hIBinvp4GftXFxnDCTlMKbjmUPhI7c2AHgzb/wwk+xG
-         b3bYkAP866NgXcQOASSUVZQkFfYGyAkTmXQixq532wqBpc7UHAuflhsG44LWc9I9jhC3
-         LVUQ==
-X-Gm-Message-State: AOAM533cp6LvZPt+965TGlSRUdBvsma31KmySDREDYj27amttg97QTAk
-        13KpFanpcjf4Ghq0Y5PykmE=
-X-Google-Smtp-Source: ABdhPJxGTCROPezxoNKX26e14a81d+K/0K5i16QeacovOnpEsvqAmlCqlyrY70DjFztUdc0kdG3Sbg==
-X-Received: by 2002:ac8:5894:: with SMTP id t20mr14589017qta.134.1622466324739;
-        Mon, 31 May 2021 06:05:24 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:125:811b:fbbc:3360:40c4:fb64])
-        by smtp.googlemail.com with ESMTPSA id c20sm8518812qtm.52.2021.05.31.06.05.22
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Rde6momaXq0my+9glMeoFBNU/apA8VsaoRh6XVe4ER8=;
+        b=a+XfWGFxrgP+RnKxV/se21fXTUqQsUCX5+Jk4p+GyMZngSP5KCt1e5kG4MPcVWNvuN
+         eXLSUlkJtVsJ9sXcpvp+kXtbuD+bKxj5Rzfk3ISayGGtglEn5K2hyrNBXsdL8CPCfo+Y
+         RUjrfXbHAm3xgkE3eHASNR26T3HhIxT21wQoGOVTrFYUfN3YRnC2CW3wfG8tUcltDGny
+         ALsrjiMMT7cMg2Zr2IGGTg9S3Zy23gwf9CvN8tqOaXKrScS28xTUPGEwZPSdrBDx/Sc+
+         plg+m39n3plpV8YK/HKea4rHGpYvXSQXxEQvw436Fc8r3xFpYrPgxhRoQRRL5ihAHmY3
+         KfbQ==
+X-Gm-Message-State: AOAM532P9/S+Dwwua1yTkTw1cSMeRGwqLK5XB4nWdm1AtcNBMJmWbUqa
+        8tIupVUNltTGyyfWNy001Ew=
+X-Google-Smtp-Source: ABdhPJxsgHDzRxXxzkTKAByrYZs8Nu0cUUs4Q92ssXnCqs/prcpa4YEDPevo2WpZL456ZLBcTVGubw==
+X-Received: by 2002:ac8:13ca:: with SMTP id i10mr14962108qtj.255.1622468305923;
+        Mon, 31 May 2021 06:38:25 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id h8sm8293085qtp.46.2021.05.31.06.38.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 06:05:24 -0700 (PDT)
-From:   Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-To:     corbet@lwn.net, rdunlap@infradead.org, ira.weiny@intel.com,
-        jack@suse.cz, lihao2018.fnst@cn.fujitsu.com, tytso@mit.edu
-Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        Mon, 31 May 2021 06:38:25 -0700 (PDT)
+From:   sj38.park@gmail.com
+To:     akpm@linux-foundation.org
+Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
+        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
+        guoju.fgj@alibaba-inc.com, mgorman@suse.de, minchan@kernel.org,
+        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
+        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
+        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
+        sj38.park@gmail.com, snu@zelle79.org, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, zgf574564920@gmail.com,
+        linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: convert dax.txt to rst
-Date:   Mon, 31 May 2021 10:05:15 -0300
-Message-Id: <20210531130515.10309-1-igormtorrente@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [RFC PATCH 00/13] Introduce DAMON-based Proactive Reclamation
+Date:   Mon, 31 May 2021 13:38:03 +0000
+Message-Id: <20210531133816.12689-1-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change the file extension and add the rst constructs to integrate this
-doc to the documentation infrastructure and take advantage of rst
-features.
+From: SeongJae Park <sjpark@amazon.de>
 
-Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
----
- Documentation/filesystems/dax.rst   | 291 ++++++++++++++++++++++++++++
- Documentation/filesystems/dax.txt   | 257 ------------------------
- Documentation/filesystems/index.rst |   1 +
- 3 files changed, 292 insertions(+), 257 deletions(-)
- create mode 100644 Documentation/filesystems/dax.rst
- delete mode 100644 Documentation/filesystems/dax.txt
+NOTE: This is only an RFC for future features of DAMON patchset[1], which is
+not merged in the mainline yet.  The aim of this RFC is to show how DAMON would
+be evolved once it is merged in.  So, if you have some interest here, please
+consider reviewing the DAMON patchset, either.
 
-diff --git a/Documentation/filesystems/dax.rst b/Documentation/filesystems/dax.rst
-new file mode 100644
-index 000000000000..9a1b8fd9e82b
---- /dev/null
-+++ b/Documentation/filesystems/dax.rst
-@@ -0,0 +1,291 @@
-+=======================
-+Direct Access for files
-+=======================
-+
-+Motivation
-+----------
-+
-+The page cache is usually used to buffer reads and writes to files.
-+It is also used to provide the pages which are mapped into userspace
-+by a call to mmap.
-+
-+For block devices that are memory-like, the page cache pages would be
-+unnecessary copies of the original storage.  The `DAX` code removes the
-+extra copy by performing reads and writes directly to the storage device.
-+For file mappings, the storage device is mapped directly into userspace.
-+
-+
-+Usage
-+-----
-+
-+If you have a block device which supports `DAX`, you can make a filesystem
-+on it as usual.  The `DAX` code currently only supports files with a block
-+size equal to your kernel's `PAGE_SIZE`, so you may need to specify a block
-+size when creating the filesystem.
-+
-+Currently 3 filesystems support `DAX`: ext2, ext4 and xfs.  Enabling `DAX` on them
-+is different.
-+
-+Enabling DAX on ext2
-+--------------------
-+
-+When mounting the filesystem, use the ``-o dax`` option on the command line or
-+add 'dax' to the options in ``/etc/fstab``.  This works to enable `DAX` on all files
-+within the filesystem.  It is equivalent to the ``-o dax=always`` behavior below.
-+
-+
-+Enabling DAX on xfs and ext4
-+----------------------------
-+
-+Summary
-+-------
-+
-+ 1. There exists an in-kernel file access mode flag `S_DAX` that corresponds to
-+    the statx flag `STATX_ATTR_DAX`.  See the manpage for statx(2) for details
-+    about this access mode.
-+
-+ 2. There exists a persistent flag `FS_XFLAG_DAX` that can be applied to regular
-+    files and directories. This advisory flag can be set or cleared at any
-+    time, but doing so does not immediately affect the `S_DAX` state.
-+
-+ 3. If the persistent `FS_XFLAG_DAX` flag is set on a directory, this flag will
-+    be inherited by all regular files and subdirectories that are subsequently
-+    created in this directory. Files and subdirectories that exist at the time
-+    this flag is set or cleared on the parent directory are not modified by
-+    this modification of the parent directory.
-+
-+ 4. There exist dax mount options which can override `FS_XFLAG_DAX` in the
-+    setting of the `S_DAX` flag.  Given underlying storage which supports `DAX` the
-+    following hold:
-+
-+    ``-o dax=inode``  means "follow `FS_XFLAG_DAX`" and is the default.
-+
-+    ``-o dax=never``  means "never set `S_DAX`, ignore `FS_XFLAG_DAX`."
-+
-+    ``-o dax=always`` means "always set `S_DAX` ignore `FS_XFLAG_DAX`."
-+
-+    ``-o dax``      is a legacy option which is an alias for ``dax=always``.
-+
-+    .. warning::
-+
-+      The option ``-o dax`` may be removed in the future so ``-o dax=always`` is
-+      the preferred method for specifying this behavior.
-+
-+    .. note::
-+
-+      Modifications to and the inheritance behavior of `FS_XFLAG_DAX` remain
-+      the same even when the filesystem is mounted with a dax option.  However,
-+      in-core inode state (`S_DAX`) will be overridden until the filesystem is
-+      remounted with dax=inode and the inode is evicted from kernel memory.
-+
-+ 5. The `S_DAX` policy can be changed via:
-+
-+    a) Setting the parent directory `FS_XFLAG_DAX` as needed before files are
-+       created
-+
-+    b) Setting the appropriate dax="foo" mount option
-+
-+    c) Changing the `FS_XFLAG_DAX` flag on existing regular files and
-+       directories.  This has runtime constraints and limitations that are
-+       described in 6) below.
-+
-+ 6. When changing the `S_DAX` policy via toggling the persistent `FS_XFLAG_DAX`
-+    flag, the change to existing regular files won't take effect until the
-+    files are closed by all processes.
-+
-+
-+Details
-+-------
-+
-+There are 2 per-file dax flags.  One is a persistent inode setting (`FS_XFLAG_DAX`)
-+and the other is a volatile flag indicating the active state of the feature
-+(`S_DAX`).
-+
-+`FS_XFLAG_DAX` is preserved within the filesystem.  This persistent config
-+setting can be set, cleared and/or queried using the `FS_IOC_FS`[`GS`]`ETXATTR` ioctl
-+(see ioctl_xfs_fsgetxattr(2)) or an utility such as 'xfs_io'.
-+
-+New files and directories automatically inherit `FS_XFLAG_DAX` from
-+their parent directory **when created**.  Therefore, setting `FS_XFLAG_DAX` at
-+directory creation time can be used to set a default behavior for an entire
-+sub-tree.
-+
-+To clarify inheritance, here are 3 examples:
-+
-+Example A:
-+
-+.. code-block:: shell
-+
-+  mkdir -p a/b/c
-+  xfs_io -c 'chattr +x' a
-+  mkdir a/b/c/d
-+  mkdir a/e
-+
-+  ------[outcome]------
-+
-+  dax: a,e
-+  no dax: b,c,d
-+
-+Example B:
-+
-+.. code-block:: shell
-+
-+  mkdir a
-+  xfs_io -c 'chattr +x' a
-+  mkdir -p a/b/c/d
-+
-+  ------[outcome]------
-+
-+  dax: a,b,c,d
-+  no dax:
-+
-+Example C:
-+
-+.. code-block:: shell
-+
-+  mkdir -p a/b/c
-+  xfs_io -c 'chattr +x' c
-+  mkdir a/b/c/d
-+
-+  ------[outcome]------
-+
-+  dax: c,d
-+  no dax: a,b
-+
-+The current enabled state (`S_DAX`) is set when a file inode is instantiated in
-+memory by the kernel.  It is set based on the underlying media support, the
-+value of `FS_XFLAG_DAX` and the filesystem's dax mount option.
-+
-+statx can be used to query `S_DAX`.
-+
-+.. note::
-+
-+  That only regular files will ever have `S_DAX` set and therefore statx
-+  will never indicate that `S_DAX` is set on directories.
-+
-+Setting the `FS_XFLAG_DAX` flag (specifically or through inheritance) occurs even
-+if the underlying media does not support dax and/or the filesystem is
-+overridden with a mount option.
-+
-+
-+Implementation Tips for Block Driver Writers
-+--------------------------------------------
-+
-+To support `DAX` in your block driver, implement the 'direct_access'
-+block device operation.  It is used to translate the sector number
-+(expressed in units of 512-byte sectors) to a page frame number (pfn)
-+that identifies the physical page for the memory.  It also returns a
-+kernel virtual address that can be used to access the memory.
-+
-+The direct_access method takes a 'size' parameter that indicates the
-+number of bytes being requested.  The function should return the number
-+of bytes that can be contiguously accessed at that offset.  It may also
-+return a negative errno if an error occurs.
-+
-+In order to support this method, the storage must be byte-accessible by
-+the CPU at all times.  If your device uses paging techniques to expose
-+a large amount of memory through a smaller window, then you cannot
-+implement direct_access.  Equally, if your device can occasionally
-+stall the CPU for an extended period, you should also not attempt to
-+implement direct_access.
-+
-+These block devices may be used for inspiration:
-+- brd: RAM backed block device driver
-+- dcssblk: s390 dcss block device driver
-+- pmem: NVDIMM persistent memory driver
-+
-+
-+Implementation Tips for Filesystem Writers
-+------------------------------------------
-+
-+Filesystem support consists of:
-+
-+* Adding support to mark inodes as being `DAX` by setting the `S_DAX` flag in
-+  i_flags
-+* Implementing ->read_iter and ->write_iter operations which use
-+  :c:func:`dax_iomap_rw()` when inode has `S_DAX` flag set
-+* Implementing an mmap file operation for `DAX` files which sets the
-+  `VM_MIXEDMAP` and `VM_HUGEPAGE` flags on the `VMA`, and setting the vm_ops to
-+  include handlers for fault, pmd_fault, page_mkwrite, pfn_mkwrite. These
-+  handlers should probably call :c:func:`dax_iomap_fault()` passing the
-+  appropriate fault size and iomap operations.
-+* Calling :c:func:`iomap_zero_range()` passing appropriate iomap operations
-+  instead of :c:func:`block_truncate_page()` for `DAX` files
-+* Ensuring that there is sufficient locking between reads, writes,
-+  truncates and page faults
-+
-+The iomap handlers for allocating blocks must make sure that allocated blocks
-+are zeroed out and converted to written extents before being returned to avoid
-+exposure of uninitialized data through mmap.
-+
-+These filesystems may be used for inspiration:
-+
-+.. seealso::
-+
-+  ext2: see Documentation/filesystems/ext2.rst
-+
-+.. seealso::
-+
-+  xfs:  see Documentation/admin-guide/xfs.rst
-+
-+.. seealso::
-+
-+  ext4: see Documentation/filesystems/ext4/
-+
-+
-+Handling Media Errors
-+---------------------
-+
-+The libnvdimm subsystem stores a record of known media error locations for
-+each pmem block device (in gendisk->badblocks). If we fault at such location,
-+or one with a latent error not yet discovered, the application can expect
-+to receive a `SIGBUS`. Libnvdimm also allows clearing of these errors by simply
-+writing the affected sectors (through the pmem driver, and if the underlying
-+NVDIMM supports the clear_poison DSM defined by ACPI).
-+
-+Since `DAX` IO normally doesn't go through the ``driver/bio`` path, applications or
-+sysadmins have an option to restore the lost data from a prior ``backup/inbuilt``
-+redundancy in the following ways:
-+
-+1. Delete the affected file, and restore from a backup (sysadmin route):
-+   This will free the filesystem blocks that were being used by the file,
-+   and the next time they're allocated, they will be zeroed first, which
-+   happens through the driver, and will clear bad sectors.
-+
-+2. Truncate or hole-punch the part of the file that has a bad-block (at least
-+   an entire aligned sector has to be hole-punched, but not necessarily an
-+   entire filesystem block).
-+
-+These are the two basic paths that allow `DAX` filesystems to continue operating
-+in the presence of media errors. More robust error recovery mechanisms can be
-+built on top of this in the future, for example, involving redundancy/mirroring
-+provided at the block layer through DM, or additionally, at the filesystem
-+level. These would have to rely on the above two tenets, that error clearing
-+can happen either by sending an IO through the driver, or zeroing (also through
-+the driver).
-+
-+
-+Shortcomings
-+------------
-+
-+Even if the kernel or its modules are stored on a filesystem that supports
-+`DAX` on a block device that supports `DAX`, they will still be copied into RAM.
-+
-+The DAX code does not work correctly on architectures which have virtually
-+mapped caches such as ARM, MIPS and SPARC.
-+
-+Calling :c:func:`get_user_pages()` on a range of user memory that has been
-+mmaped from a `DAX` file will fail when there are no 'struct page' to describe
-+those pages.  This problem has been addressed in some device drivers
-+by adding optional struct page support for pages under the control of
-+the driver (see `CONFIG_NVDIMM_PFN` in ``drivers/nvdimm`` for an example of
-+how to do this). In the non struct page cases `O_DIRECT` reads/writes to
-+those memory ranges from a non-`DAX` file will fail 
-+
-+
-+.. note::
-+
-+  `O_DIRECT` reads/writes _of a `DAX` file do work, it is the memory that
-+  is being accessed that is key here).  Other things that will not work in
-+  the non struct page case include RDMA, :c:func:`sendfile()` and
-+  :c:func:`splice()`.
-diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
-deleted file mode 100644
-index e03c20564f3a..000000000000
---- a/Documentation/filesystems/dax.txt
-+++ /dev/null
-@@ -1,257 +0,0 @@
--Direct Access for files
-------------------------
--
--Motivation
------------
--
--The page cache is usually used to buffer reads and writes to files.
--It is also used to provide the pages which are mapped into userspace
--by a call to mmap.
--
--For block devices that are memory-like, the page cache pages would be
--unnecessary copies of the original storage.  The DAX code removes the
--extra copy by performing reads and writes directly to the storage device.
--For file mappings, the storage device is mapped directly into userspace.
--
--
--Usage
-------
--
--If you have a block device which supports DAX, you can make a filesystem
--on it as usual.  The DAX code currently only supports files with a block
--size equal to your kernel's PAGE_SIZE, so you may need to specify a block
--size when creating the filesystem.
--
--Currently 3 filesystems support DAX: ext2, ext4 and xfs.  Enabling DAX on them
--is different.
--
--Enabling DAX on ext2
-------------------------------
--
--When mounting the filesystem, use the "-o dax" option on the command line or
--add 'dax' to the options in /etc/fstab.  This works to enable DAX on all files
--within the filesystem.  It is equivalent to the '-o dax=always' behavior below.
--
--
--Enabling DAX on xfs and ext4
------------------------------
--
--Summary
---------
--
-- 1. There exists an in-kernel file access mode flag S_DAX that corresponds to
--    the statx flag STATX_ATTR_DAX.  See the manpage for statx(2) for details
--    about this access mode.
--
-- 2. There exists a persistent flag FS_XFLAG_DAX that can be applied to regular
--    files and directories. This advisory flag can be set or cleared at any
--    time, but doing so does not immediately affect the S_DAX state.
--
-- 3. If the persistent FS_XFLAG_DAX flag is set on a directory, this flag will
--    be inherited by all regular files and subdirectories that are subsequently
--    created in this directory. Files and subdirectories that exist at the time
--    this flag is set or cleared on the parent directory are not modified by
--    this modification of the parent directory.
--
-- 4. There exist dax mount options which can override FS_XFLAG_DAX in the
--    setting of the S_DAX flag.  Given underlying storage which supports DAX the
--    following hold:
--
--    "-o dax=inode"  means "follow FS_XFLAG_DAX" and is the default.
--
--    "-o dax=never"  means "never set S_DAX, ignore FS_XFLAG_DAX."
--
--    "-o dax=always" means "always set S_DAX ignore FS_XFLAG_DAX."
--
--    "-o dax"        is a legacy option which is an alias for "dax=always".
--		    This may be removed in the future so "-o dax=always" is
--		    the preferred method for specifying this behavior.
--
--    NOTE: Modifications to and the inheritance behavior of FS_XFLAG_DAX remain
--    the same even when the filesystem is mounted with a dax option.  However,
--    in-core inode state (S_DAX) will be overridden until the filesystem is
--    remounted with dax=inode and the inode is evicted from kernel memory.
--
-- 5. The S_DAX policy can be changed via:
--
--    a) Setting the parent directory FS_XFLAG_DAX as needed before files are
--       created
--
--    b) Setting the appropriate dax="foo" mount option
--
--    c) Changing the FS_XFLAG_DAX flag on existing regular files and
--       directories.  This has runtime constraints and limitations that are
--       described in 6) below.
--
-- 6. When changing the S_DAX policy via toggling the persistent FS_XFLAG_DAX
--    flag, the change to existing regular files won't take effect until the
--    files are closed by all processes.
--
--
--Details
---------
--
--There are 2 per-file dax flags.  One is a persistent inode setting (FS_XFLAG_DAX)
--and the other is a volatile flag indicating the active state of the feature
--(S_DAX).
--
--FS_XFLAG_DAX is preserved within the filesystem.  This persistent config
--setting can be set, cleared and/or queried using the FS_IOC_FS[GS]ETXATTR ioctl
--(see ioctl_xfs_fsgetxattr(2)) or an utility such as 'xfs_io'.
--
--New files and directories automatically inherit FS_XFLAG_DAX from
--their parent directory _when_ _created_.  Therefore, setting FS_XFLAG_DAX at
--directory creation time can be used to set a default behavior for an entire
--sub-tree.
--
--To clarify inheritance, here are 3 examples:
--
--Example A:
--
--mkdir -p a/b/c
--xfs_io -c 'chattr +x' a
--mkdir a/b/c/d
--mkdir a/e
--
--	dax: a,e
--	no dax: b,c,d
--
--Example B:
--
--mkdir a
--xfs_io -c 'chattr +x' a
--mkdir -p a/b/c/d
--
--	dax: a,b,c,d
--	no dax:
--
--Example C:
--
--mkdir -p a/b/c
--xfs_io -c 'chattr +x' c
--mkdir a/b/c/d
--
--	dax: c,d
--	no dax: a,b
--
--
--The current enabled state (S_DAX) is set when a file inode is instantiated in
--memory by the kernel.  It is set based on the underlying media support, the
--value of FS_XFLAG_DAX and the filesystem's dax mount option.
--
--statx can be used to query S_DAX.  NOTE that only regular files will ever have
--S_DAX set and therefore statx will never indicate that S_DAX is set on
--directories.
--
--Setting the FS_XFLAG_DAX flag (specifically or through inheritance) occurs even
--if the underlying media does not support dax and/or the filesystem is
--overridden with a mount option.
--
--
--
--Implementation Tips for Block Driver Writers
----------------------------------------------
--
--To support DAX in your block driver, implement the 'direct_access'
--block device operation.  It is used to translate the sector number
--(expressed in units of 512-byte sectors) to a page frame number (pfn)
--that identifies the physical page for the memory.  It also returns a
--kernel virtual address that can be used to access the memory.
--
--The direct_access method takes a 'size' parameter that indicates the
--number of bytes being requested.  The function should return the number
--of bytes that can be contiguously accessed at that offset.  It may also
--return a negative errno if an error occurs.
--
--In order to support this method, the storage must be byte-accessible by
--the CPU at all times.  If your device uses paging techniques to expose
--a large amount of memory through a smaller window, then you cannot
--implement direct_access.  Equally, if your device can occasionally
--stall the CPU for an extended period, you should also not attempt to
--implement direct_access.
--
--These block devices may be used for inspiration:
--- brd: RAM backed block device driver
--- dcssblk: s390 dcss block device driver
--- pmem: NVDIMM persistent memory driver
--
--
--Implementation Tips for Filesystem Writers
--------------------------------------------
--
--Filesystem support consists of
--- adding support to mark inodes as being DAX by setting the S_DAX flag in
--  i_flags
--- implementing ->read_iter and ->write_iter operations which use dax_iomap_rw()
--  when inode has S_DAX flag set
--- implementing an mmap file operation for DAX files which sets the
--  VM_MIXEDMAP and VM_HUGEPAGE flags on the VMA, and setting the vm_ops to
--  include handlers for fault, pmd_fault, page_mkwrite, pfn_mkwrite. These
--  handlers should probably call dax_iomap_fault() passing the appropriate
--  fault size and iomap operations.
--- calling iomap_zero_range() passing appropriate iomap operations instead of
--  block_truncate_page() for DAX files
--- ensuring that there is sufficient locking between reads, writes,
--  truncates and page faults
--
--The iomap handlers for allocating blocks must make sure that allocated blocks
--are zeroed out and converted to written extents before being returned to avoid
--exposure of uninitialized data through mmap.
--
--These filesystems may be used for inspiration:
--- ext2: see Documentation/filesystems/ext2.rst
--- ext4: see Documentation/filesystems/ext4/
--- xfs:  see Documentation/admin-guide/xfs.rst
--
--
--Handling Media Errors
-----------------------
--
--The libnvdimm subsystem stores a record of known media error locations for
--each pmem block device (in gendisk->badblocks). If we fault at such location,
--or one with a latent error not yet discovered, the application can expect
--to receive a SIGBUS. Libnvdimm also allows clearing of these errors by simply
--writing the affected sectors (through the pmem driver, and if the underlying
--NVDIMM supports the clear_poison DSM defined by ACPI).
--
--Since DAX IO normally doesn't go through the driver/bio path, applications or
--sysadmins have an option to restore the lost data from a prior backup/inbuilt
--redundancy in the following ways:
--
--1. Delete the affected file, and restore from a backup (sysadmin route):
--   This will free the filesystem blocks that were being used by the file,
--   and the next time they're allocated, they will be zeroed first, which
--   happens through the driver, and will clear bad sectors.
--
--2. Truncate or hole-punch the part of the file that has a bad-block (at least
--   an entire aligned sector has to be hole-punched, but not necessarily an
--   entire filesystem block).
--
--These are the two basic paths that allow DAX filesystems to continue operating
--in the presence of media errors. More robust error recovery mechanisms can be
--built on top of this in the future, for example, involving redundancy/mirroring
--provided at the block layer through DM, or additionally, at the filesystem
--level. These would have to rely on the above two tenets, that error clearing
--can happen either by sending an IO through the driver, or zeroing (also through
--the driver).
--
--
--Shortcomings
--------------
--
--Even if the kernel or its modules are stored on a filesystem that supports
--DAX on a block device that supports DAX, they will still be copied into RAM.
--
--The DAX code does not work correctly on architectures which have virtually
--mapped caches such as ARM, MIPS and SPARC.
--
--Calling get_user_pages() on a range of user memory that has been mmaped
--from a DAX file will fail when there are no 'struct page' to describe
--those pages.  This problem has been addressed in some device drivers
--by adding optional struct page support for pages under the control of
--the driver (see CONFIG_NVDIMM_PFN in drivers/nvdimm for an example of
--how to do this). In the non struct page cases O_DIRECT reads/writes to
--those memory ranges from a non-DAX file will fail (note that O_DIRECT
--reads/writes _of a DAX file_ do work, it is the memory that is being
--accessed that is key here).  Other things that will not work in the
--non struct page case include RDMA, sendfile() and splice().
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 1f76b1cb3348..6235326f6421 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -76,6 +76,7 @@ Documentation for filesystem implementations.
-    coda
-    configfs
-    cramfs
-+   dax
-    debugfs
-    dlmfs
-    ecryptfs
+[1] https://lore.kernel.org/linux-mm/20210520075629.4332-1-sj38.park@gmail.com/
+
+Introduction
+============
+
+In short, this patchset improves the engine for general data access
+pattern-oriented memory management for production quality and implements the
+monitoring issue solved version of proactive reclamation on top of it.
+
+Proactive Reclamation
+---------------------
+
+Proactively reclaiming cold pages helps saving memory and reducing latency
+spikes that incurred by the direct reclaim of the process or CPU consumption of
+kswapd, while incurring only minimal performance degradation for memory
+over-committed systems[2].
+
+Free Pages Reporting[9] based memory over-commit virtualization systems is
+another use case of it.  In the configuration, the guest VMs are supposed to
+report free memory to host, so that host can reallocate the memory to other
+guests.  However, because Linux is designed to cache things in memory
+aggressively, no guest would voluntarily free much memory without host's
+intervention.  Proactive reclamation could make the situation much better.
+
+Google has implemented the idea and using it in their data center.  They
+further proposed upstreaming it in LSFMM'19, and "the general consensus was
+that, while this sort of proactive reclaim would be useful for a number of
+users, the cost of this particular solution was too high to consider merging it
+upstream"[3].  The cost mostly comes from the coldness tracking.  Roughly
+speaking, the implementation periodically scans the 'Accessed' bit of each
+page.  For the reason, the overhead linearly increases as the size of the
+memory and the scanning frequency grows.  As a result, Google is known to
+dedicating a CPU for the work.  That's reasonable for Google, but it wouldn't
+for someone.
+
+DAMON and DAMOS: An engine for data access pattern-oriented memory management
+-----------------------------------------------------------------------------
+
+DAMON[4] is a framework for general data access monitoring.  When it's adaptive
+monitoring overhead control feature is used, it incurs minimized monitoring
+overhead.  It's not only small, but also upper-bounded, regardless of the
+monitoring target memory size.  Clients can set the upper-limit as they want.
+While monitoring 70 GB memory of a production system every 5 milliseconds, it
+consumes less than 1% single CPU time.  For this, it sacrifies some of the
+quality of the monitoring results.  Nevertheless, the lower-bound of the
+quality is configurable, and it has a best-effort algorithm for the quality.
+Our test results[5] show the quality is practical enough.  From the production
+system monitoring, we were able to find a 4 KB memory region that shows highest
+access frequency in the 70 GB memory.  For someone still couldn't be convinced,
+DAMON also supports the page-granularity monitoring[6], though it makes the
+overhead much higher and proportional to the memory size again.
+
+We normally don't monitor the data access pattern just for fun but to use if
+for something like memory management.  Proactive reclamation is one such usage.
+For such general cases, DAMON provides a feature called DAMon-based Operation
+Schemes (DAMOS)[7], which makes DAMON as an engine for general data access
+pattern oriented memory management.  Using this, clients can ask DAMON to find
+memory regions of specific data access pattern and apply some memory management
+action (e.g., paging out, move to head of the LRU list, use huge page, ...).
+The request is called 'scheme' below.
+
+DAMON-based Reclaim
+-------------------
+
+Therefore, by using DAMON in the cold pages detection, the proactive
+reclamation's monitoring overhead issue could be solved.  If someone like
+Google is ok to dedicate CPUs for the monitoring and wants page-granularity
+quality, they could configure DAMON so.
+
+Actually, we already implemented a version of proactive reclamation on it and
+shared its evaluation results before[5], which show noticeable achievements.
+Nevertheless, it is only in a proof-of-concept level.  Recently we further
+introduced a user space tool[8] that automatically tunes schemes for specific
+workloads and systems.  Google's proactive reclamation also uses another
+ML-based similar approach[2].  But, making it just works in the kernel would be
+more convenient for more general users.
+
+To this end, this patchset improves DAMOS to be proper for such production use,
+and implements another version of the proactive reclamation, namely
+DAMON_RECLAIM, on top of it.
+
+DAMOS Improvements: Speed Limit, Prioritization, and Watermarks
+---------------------------------------------------------------
+
+One major problem of current version of DAMOS is the absence of the
+aggressiveness control.  For example, if huge memory regions of the specified
+data access pattern is found, applying the action to the huge memory regions
+could incur overhead.  It could controlled by modifying the target data access
+pattern and some auto-tuning approaches are available.  But, for someone who
+unable to use such tools or people who want it just works with only intuitive
+tuning or default values, at least some safeguards are required.
+
+For this, we provide speed limit.  Using this, the client can specify up to how
+much amount of memory the action is allowed to be applied within specific time
+duration.  Followup question is, to which memory regions should the action
+applied within the limit?  We implement a simple regions prioritization
+mechanism for each action and make DAMOS to apply the action to high priority
+regions first.  It also allows users tune the prioritization by giving
+different weights to region's size, access frequency, and age.
+
+Another problem of current version of DAMOS is that it should manually turned
+on and off, by clients.  Though DAMON is very lightweight, someone would not
+convinced.  For such cases, we implement watermarks-based automatic schemes
+activation.  It allows the clients configuring the metric of their interest and
+three watermarks.  If the metric is higher than the high watermark or lower
+than the low watermark, the scheme is deactivated.  If the metric is lower than
+the mid watermark but higher than the low watermark, the scheme is activated.
+
+For example, in case of the proactive reclamation, the metric could be amount
+of free memory.  Using the watermarks, the sysadmin would be able to set it do
+nothing at all when free memory is enough, but starts proactive reclamation
+under light memory pressure.  Then, if it doesn't works well enough and the
+free memory becomes lower than the low watermark, we fall back to the LRU-based
+page-granularity reclamation.
+
+Evaluation
+==========
+
+We measured system memory usage and runtime of 24 realistic workloads in
+PARSEC3 and SPLASH-2X benchmark suites on my QEMU/KVM based virtual machine.
+The virtual machine runs on an i3.metal AWS instance and has 130GiB memory.  It
+utilizes 4 GiB zram as its swap device.  We do the measurement 5 times and use
+averages.  We also measured the CPU consumption of DAMON_RECLAIM.
+
+Compared to v5.12, DAMON_RECLAIM achieves 33% memory saving with only 2%
+performance degradation.  For this, DAMON_RECLAIM consumed only 5.72% of single
+CPU time.  Among the CPU consumption, only about 1.448% of single CPU time is
+expected to be used for the monitoring.
+
+Baseline and Complete Git Tree
+==============================
+
+The patches are based on the v5.12 plus DAMON patchset[1] plus DAMOS
+patchset[7] plus physical address space support patchset[6].  You can also
+clone the complete git tree from:
+
+    $ git clone git://github.com/sjp38/linux -b damon_reclaim/rfc/v1
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damon_reclaim/rfc/v1
+
+Development Trees
+-----------------
+
+There are a couple of trees for entire DAMON patchset series and
+features for future release.
+
+- For latest release: https://github.com/sjp38/linux/tree/damon/master
+- For next release: https://github.com/sjp38/linux/tree/damon/next
+
+Long-term Support Trees
+-----------------------
+
+For people who want to test DAMON patchset series but using LTS kernels, there
+are another couple of trees based on two latest LTS kernels respectively and
+containing the 'damon/master' backports.
+
+- For v5.4.y: https://github.com/sjp38/linux/tree/damon/for-v5.4.y
+- For v5.10.y: https://github.com/sjp38/linux/tree/damon/for-v5.10.y
+
+Sequence Of Patches
+===================
+
+The first patch makes DAMOS users able to described pages to be paged out cold
+via physical address.  Following four patches (patches 2-5) implement the speed
+limit.  Next four patches (patches 6-9) implement the memory regions
+prioritization within the limit.  Then, three patches (patches 10-12)
+implementing the watermarks-based schemes activation follow.  Finally, the 13th
+patch implements the DAMON-based reclamation on top of DAMOS.
+
+
+[1] https://lore.kernel.org/linux-mm/20210520075629.4332-1-sj38.park@gmail.com/
+[2] https://research.google/pubs/pub48551/
+[3] https://lwn.net/Articles/787611/
+[4] https://damonitor.github.io
+[5] https://damonitor.github.io/doc/html/latest/vm/damon/eval.html
+[6] https://lore.kernel.org/linux-mm/20201216094221.11898-1-sjpark@amazon.com/
+[7] https://lore.kernel.org/linux-mm/20201216084404.23183-1-sjpark@amazon.com/
+[8] https://github.com/awslabs/damoos
+[9] https://www.kernel.org/doc/html/latest/vm/free_page_reporting.html
+
+SeongJae Park (13):
+  mm/damon/paddr: Support the pageout scheme
+  mm/damon/damos: Make schemes aggressiveness controllable
+  damon/core/schemes: Skip already charged targets and regions
+  mm/damon/dbgfs: Support schemes speed limit
+  mm/damon/selftests: Support schemes speed limit
+  mm/damon/schemes: Prioritize regions within speed limit
+  mm/damon/vaddr,paddr: Support pageout prioritization
+  mm/damon/dbgfs: Support prioritization weights
+  tools/selftests/damon: Update for regions prioritization of schemes
+  mm/damon/schemes: Activate schemes based on a watermarks mechanism
+  mm/damon/dbgfs: Support watermarks
+  selftests/damon: Support watermarks
+  mm/damon: Introduce DAMON-based reclamation
+
+ include/linux/damon.h                         | 118 ++++++++-
+ mm/damon/Kconfig                              | 128 ++++++++++
+ mm/damon/Makefile                             |   1 +
+ mm/damon/core.c                               | 215 +++++++++++++++-
+ mm/damon/dbgfs.c                              |  45 +++-
+ mm/damon/paddr.c                              |  52 +++-
+ mm/damon/prmtv-common.c                       |  48 +++-
+ mm/damon/prmtv-common.h                       |   5 +
+ mm/damon/reclaim.c                            | 230 ++++++++++++++++++
+ mm/damon/vaddr.c                              |  15 ++
+ .../testing/selftests/damon/debugfs_attrs.sh  |   4 +-
+ 11 files changed, 834 insertions(+), 27 deletions(-)
+ create mode 100644 mm/damon/reclaim.c
+
 -- 
-2.30.0
+2.17.1
 
