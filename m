@@ -2,110 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D4AC47080
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 10:56:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2EF6C47082
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 11:12:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BC426128A
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 10:56:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8758461374
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 11:12:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbhEaK6I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 06:58:08 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:42099 "EHLO m43-7.mailgun.net"
+        id S231330AbhEaLN7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 07:13:59 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53794 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231315AbhEaK6A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 May 2021 06:58:00 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1622458581; h=References: In-Reply-To: References:
- In-Reply-To: Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=QlYc3u3TuNAPivVce1iIXZSsOE1D8aMMOWtQav1jEe4=; b=Ng3BztxGg/LDEzHzGrfxhSE1GU4GRxrtAc/H4gMS/eQGAWBjoX5u7lvkR4AnADCJZVa5DRY2
- U5BLVhjYXz+s3yxa+7jB2AxYGzmjHSLjGEEwmVnOBPesbmD6Zo3fWnUXhViY3o61AuQYv2ZB
- LpQZSb0xtMdnoesovcc9BvC03L8=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 60b4c0d2f726fa41881b499c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 31 May 2021 10:56:18
- GMT
-Sender: charante=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id EFC0AC43147; Mon, 31 May 2021 10:56:17 +0000 (UTC)
-Received: from hu-charante-hyd.qualcomm.com (unknown [202.46.22.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 75601C4338A;
-        Mon, 31 May 2021 10:56:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 75601C4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
-From:   Charan Teja Reddy <charante@codeaurora.org>
-To:     akpm@linux-foundation.org, vbabka@suse.cz, nigupta@nvidia.com,
-        hannes@cmpxchg.org, corbet@lwn.net, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, aarcange@redhat.com,
-        cl@linux.com, xi.fengfei@h3c.com, mchehab+huawei@kernel.org,
-        andrew.a.klychkov@gmail.com, dave.hansen@linux.intel.com,
-        bhe@redhat.com, iamjoonsoo.kim@lge.com, mateusznosek0@gmail.com,
-        sh_def@163.com, vinmenon@codeaurora.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        Charan Teja Reddy <charante@codeaurora.org>
-Subject: [PATCH v3 2/2] mm: compaction: fix wakeup logic of proactive compaction
-Date:   Mon, 31 May 2021 16:24:52 +0530
-Message-Id: <ad2600f3d8d7c0d44b35d9fad0031d82c5a3c285.1622454385.git.charante@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1622454385.git.charante@codeaurora.org>
-References: <cover.1622454385.git.charante@codeaurora.org>
-In-Reply-To: <cover.1622454385.git.charante@codeaurora.org>
-References: <cover.1622454385.git.charante@codeaurora.org>
+        id S231377AbhEaLN6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 May 2021 07:13:58 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1622459537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=wQUgSY4rz3LNiUb//EzzPEIDd2bYGy4SsdKMO2yKhCk=;
+        b=Jg8TkqpJmPxnzwU9nLy5k2ZkyDxpxUcbnHV3oQ3GYLXGL6DACgAA6bILLxAVOpQGDI2e0Z
+        /wd1RSFT0hMbwO1lxOiYCd1XV3p0Jyj+K5LTeHtzBQ/nlHEw6qEi3gUDGwlIGld2F6hcts
+        jB6gp9Z5xMDDTv6EomWEsU3zLd22LUo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1622459537;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=wQUgSY4rz3LNiUb//EzzPEIDd2bYGy4SsdKMO2yKhCk=;
+        b=ehBUeAVypuyQEwZ6y+FElGFCj0XnqTwHWEcfY+UrDlPQYSHfNXMAvWpHPih5M8GaQKQc4k
+        VGqKY71C72V3u3DQ==
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 99925AFC4;
+        Mon, 31 May 2021 11:12:17 +0000 (UTC)
+Date:   Mon, 31 May 2021 13:12:17 +0200
+Message-ID: <s5hzgwb17ji.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        devicetree@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Tim Gover <tim.gover@raspberrypi.com>,
+        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
+        Eric Anholt <eric@anholt.net>,
+        Nicolas Saenz Julienne <nsaenzjulienne@kernel.org>,
+        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-rpi-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2 05/12] ASoC: hdmi-codec: Add a prepare hook
+In-Reply-To: <20210531094213.kuuunk7ytu3q6sq6@gilmour>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+        <20210525132354.297468-6-maxime@cerno.tech>
+        <YK4lWaB6Lx+SPjpF@sirena.org.uk>
+        <20210531094213.kuuunk7ytu3q6sq6@gilmour>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, proactive compaction tries to get triggered for every
-HPAGE_FRAG_CHECK_INTERVAL_MSEC(=500msec) even when proactive compaction
-is disabled with sysctl.compaction_proactiveness = 0. This results in
-kcompactd thread wakes up and goes to sleep for every 500msec with out
-the need of doing proactive compaction. Though this doesn't have any
-overhead, few cpu cycles can be saved by avoid of waking up kcompactd
-thread for proactive compaction when it is disabled.
+On Mon, 31 May 2021 11:42:13 +0200,
+Maxime Ripard wrote:
+> 
+> Hi Mark, Takashi,
+> 
+> On Wed, May 26, 2021 at 11:39:21AM +0100, Mark Brown wrote:
+> > On Tue, May 25, 2021 at 03:23:47PM +0200, Maxime Ripard wrote:
+> > > The IEC958 status bit is usually set by the userspace after hw_params
+> > > has been called, so in order to use whatever is set by the userspace, we
+> > > need to implement the prepare hook. Let's add it to the hdmi_codec_ops,
+> > > and mandate that either prepare or hw_params is implemented.
+> > 
+> > Acked-by: Mark Brown <broonie@kernel.org>
+> 
+> It looks like you're both happy with the ALSA/ASoC side, how do you want
+> to get this merged?
+> 
+> There's a build dependency between the DRM bits and the new hook
+> introduced in hdmi-codec, would you be ok with merging it through the
+> drm tree?
 
-Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
----
+Speaking of ALSA core changes, I'm fine with that.
 
- - This patch is newly raised in V3, thus no changes exist in V1 and V2 
 
- mm/compaction.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+thanks,
 
-diff --git a/mm/compaction.c b/mm/compaction.c
-index 197e203..0edcd0f 100644
---- a/mm/compaction.c
-+++ b/mm/compaction.c
-@@ -2926,11 +2926,14 @@ static int kcompactd(void *p)
- 
- 	while (!kthread_should_stop()) {
- 		unsigned long pflags;
-+		long timeout;
- 
-+		timeout = sysctl_compaction_proactiveness ?
-+			msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC) :
-+			MAX_SCHEDULE_TIMEOUT;
- 		trace_mm_compaction_kcompactd_sleep(pgdat->node_id);
- 		if (wait_event_freezable_timeout(pgdat->kcompactd_wait,
--			kcompactd_work_requested(pgdat),
--			msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC)) &&
-+			kcompactd_work_requested(pgdat), timeout) &&
- 			!pgdat->proactive_compact_trigger) {
- 
- 			psi_memstall_enter(&pflags);
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
-member of the Code Aurora Forum, hosted by The Linux Foundation
-
+Takashi
