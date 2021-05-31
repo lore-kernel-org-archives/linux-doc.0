@@ -2,139 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD9DC47080
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 19:49:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3EC1C47082
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 19:56:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 054476135A
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 19:49:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84D6E6128A
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 19:56:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232136AbhEaTv0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 15:51:26 -0400
-Received: from mga14.intel.com ([192.55.52.115]:39313 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231585AbhEaTvS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 May 2021 15:51:18 -0400
-IronPort-SDR: VOShKQLNHol3t4gDFaruJ7gS9r80cWotzH1HlxhovfDRmdepMNKbcsL+Kb9Hk8pwZVVmNtfcta
- WPb/mQszrBDQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="203215213"
-X-IronPort-AV: E=Sophos;i="5.83,238,1616482800"; 
-   d="scan'208";a="203215213"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2021 12:49:33 -0700
-IronPort-SDR: 3qBobZTieYv8pdHEF/aQdOShafjQI7bjgp4XNDDS6ccMI4a+25+Zu0HfMvLt7p9kjGdgPDGt2s
- Ob1ZX4hPGWgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,238,1616482800"; 
-   d="scan'208";a="399392001"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 31 May 2021 12:49:28 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 26B1D12A; Mon, 31 May 2021 22:49:51 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Flavio Suligoi <f.suligoi@asem.it>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Lee Jones <lee.jones@linaro.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>
-Subject: [PATCH v2 4/7] pwm: core: Reuse fwnode_to_pwmchip() in ACPI case
-Date:   Mon, 31 May 2021 22:49:44 +0300
-Message-Id: <20210531194947.10770-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210531194947.10770-1-andriy.shevchenko@linux.intel.com>
-References: <20210531194947.10770-1-andriy.shevchenko@linux.intel.com>
+        id S231418AbhEaT5x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 15:57:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230385AbhEaT5w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 15:57:52 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE10C061574;
+        Mon, 31 May 2021 12:56:11 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id m13so8605916qtk.13;
+        Mon, 31 May 2021 12:56:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CgVBqkQLZmOYqPkge4g0jcqhV/Khxx+58SBmawGWouA=;
+        b=AaVt4mkEetpGQ/YDrne8rVrkdxgcLFaCcuqa2pUcjTewMqFwyyZeI3SY0T0RrYtmQP
+         1y2kNQ8bzSEPhTp1qjdbtjIgpETUH7hV4h6TM03iVwy+obHyh+SrAcD7YVGTOnfuvk62
+         FBdXLObEgGd5zZr9fT9/S3m6iLu/6ddkiknGcsvq0VMhfchzkEwhbBXdnu2akeMFf9V2
+         xezfBqo4E9/O6GWrK5Ys3xDY7v5O7BLR2uW7GdhQEhLGL1QjAfvgpdjr47FPD6FKEf35
+         o6In377vVYEC5nEysyzrFo9w7TYxa8r8Yk5Ka0fW9ZIrEB1pxu9O6GMnUFSovgSCEkZs
+         X8Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CgVBqkQLZmOYqPkge4g0jcqhV/Khxx+58SBmawGWouA=;
+        b=X83zDBRQPnx/5bT7ABZoE9gIlXfDQ5oES0ll0bXalakHRh4lyClBUZgviVoACI5esz
+         M6oMl6PYCPjgImQQrx2VTMeK8+I9uvVdlFkj6HZBGV3bpmAsEQTw97tbJmleVcMLzKn9
+         EVcIskLraiyGeRM+UndjD8TBIZpKHkDuWZZ1fwKocaTb5BzGgKxV4QoF9YFN+UHE1CX2
+         94Qj41IKuRQ5oBlX8LVELgE3dVXhReNFaSghufeinf9Ppf7u89XwlCyZ/fZ9UrPq9AqO
+         ZzNoIrklhClebJPBpJ5nJWwoJinLZPoIP9WU/13nmNlDCf59HmXwWCqKwTajGhxWAtpW
+         fOPQ==
+X-Gm-Message-State: AOAM532iIMAKQkTUXJRJLBayf174y3ZfQ3rDXCZgmfRsH5HXGzRgRBKP
+        FhSsJgd8PF6a/us6b6R+zwUmqDofsdUaiQxz
+X-Google-Smtp-Source: ABdhPJxnnTX9v6s/AghcsXuakbSWvaFzCo2NeHxn03hMexmFROnoVK+PRmrMFVhsN0Ct03xtXU3MEQ==
+X-Received: by 2002:ac8:4ccb:: with SMTP id l11mr11402701qtv.127.1622490970809;
+        Mon, 31 May 2021 12:56:10 -0700 (PDT)
+Received: from localhost.localdomain (pool-108-54-205-133.nycmny.fios.verizon.net. [108.54.205.133])
+        by smtp.gmail.com with ESMTPSA id d18sm9939549qkc.28.2021.05.31.12.56.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 May 2021 12:56:10 -0700 (PDT)
+From:   grantseltzer <grantseltzer@gmail.com>
+To:     andrii@kernel.org, daniel@iogearbox.net, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, grantseltzer@gmail.com,
+        bpf@vger.kernel.org
+Subject: [PATCH bpf-next 0/2] Autogenerating libbpf API documentation
+Date:   Mon, 31 May 2021 19:55:51 +0000
+Message-Id: <20210531195553.168298-1-grantseltzer@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In ACPI case we may use matching by fwnode as provided via
-fwnode_to_pwmchip(). This makes device_to_pwmchip() not needed
-anymore.
+This patch series is meant to start the initiative to document libbpf.
+It includes .rst files which are text documentation describing building, 
+API naming convention, as well as an index to generated API documentation.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: no change
- drivers/pwm/core.c | 31 +------------------------------
- 1 file changed, 1 insertion(+), 30 deletions(-)
+In this approach the generated API documentation is enabled by the kernels
+existing kernel documentation system which uses sphinx. The resulting docs
+would then be synced to kernel.org/doc
 
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 338d8ee369db..2223a9b6644b 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -819,28 +819,6 @@ struct pwm_device *of_pwm_get(struct device *dev, struct device_node *np,
- }
- EXPORT_SYMBOL_GPL(of_pwm_get);
- 
--#if IS_ENABLED(CONFIG_ACPI)
--static struct pwm_chip *device_to_pwmchip(struct device *dev)
--{
--	struct pwm_chip *chip;
--
--	mutex_lock(&pwm_lock);
--
--	list_for_each_entry(chip, &pwm_chips, list) {
--		struct acpi_device *adev = ACPI_COMPANION(chip->dev);
--
--		if ((chip->dev == dev) || (adev && &adev->dev == dev)) {
--			mutex_unlock(&pwm_lock);
--			return chip;
--		}
--	}
--
--	mutex_unlock(&pwm_lock);
--
--	return ERR_PTR(-EPROBE_DEFER);
--}
--#endif
--
- /**
-  * acpi_pwm_get() - request a PWM via parsing "pwms" property in ACPI
-  * @fwnode: firmware node to get the "pwm" property from
-@@ -863,9 +841,7 @@ static struct pwm_chip *device_to_pwmchip(struct device *dev)
- static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
- {
- 	struct pwm_device *pwm = ERR_PTR(-ENODEV);
--#if IS_ENABLED(CONFIG_ACPI)
- 	struct fwnode_reference_args args;
--	struct acpi_device *acpi;
- 	struct pwm_chip *chip;
- 	int ret;
- 
-@@ -875,14 +851,10 @@ static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
- 	if (ret < 0)
- 		return ERR_PTR(ret);
- 
--	acpi = to_acpi_device_node(args.fwnode);
--	if (!acpi)
--		return ERR_PTR(-EINVAL);
--
- 	if (args.nargs < 3)
- 		return ERR_PTR(-EPROTO);
- 
--	chip = device_to_pwmchip(&acpi->dev);
-+	chip = fwnode_to_pwmchip(args.fwnode);
- 	if (IS_ERR(chip))
- 		return ERR_CAST(chip);
- 
-@@ -895,7 +867,6 @@ static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
- 
- 	if (args.args[2] & PWM_POLARITY_INVERTED)
- 		pwm->args.polarity = PWM_POLARITY_INVERSED;
--#endif
- 
- 	return pwm;
- }
+You can test this by running `make htmldocs` and serving the html in 
+Documentation/output. Since libbpf does not yet have comments in kernel
+doc format, see kernel.org/doc/html/latest/doc-guide/kernel-doc.html for
+an example so you can test this.
+
+The advantage of this approach is to use the existing sphinx
+infrastructure that the kernel has, and have libbpf docs in
+the same place as everything else.
+
+The perhaps large disadvantage of this approach is that libbpf versions
+independently from the kernel. If it's possible to version libbpf
+separately without having duplicates that would be the ideal scenario.
+
+grantseltzer (2):
+  Add documentation for libbpf including API autogen
+  Remove duplicate README doc from libbpf
+
+ Documentation/bpf/index.rst                   | 13 +++++++
+ Documentation/bpf/libbpf.rst                  | 14 +++++++
+ Documentation/bpf/libbpf_api.rst              | 18 +++++++++
+ Documentation/bpf/libbpf_build.rst            | 37 +++++++++++++++++++
+ .../bpf/libbpf_naming_convention.rst          | 20 +++++-----
+ 5 files changed, 93 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/bpf/libbpf.rst
+ create mode 100644 Documentation/bpf/libbpf_api.rst
+ create mode 100644 Documentation/bpf/libbpf_build.rst
+ rename tools/lib/bpf/README.rst => Documentation/bpf/libbpf_naming_convention.rst (96%)
+
 -- 
-2.30.2
+2.29.2
 
