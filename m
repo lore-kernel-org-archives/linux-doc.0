@@ -2,38 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34C77C47080
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 23:04:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09EE5C47082
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 23:19:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AC416127C
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 23:04:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE18C6124B
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 23:19:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232042AbhEaXFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 19:05:48 -0400
-Received: from darkstar.slint.fr ([172.105.89.79]:51942 "EHLO
-        darkstar.slint.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231624AbhEaXFp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 19:05:45 -0400
-Received: from ici.slint.fr (men75-h08-176-172-247-100.dsl.sta.abo.bbox.fr [176.172.247.100])
-        by darkstar.slint.fr (Postfix) with ESMTPSA id F3A72A374D;
-        Tue,  1 Jun 2021 00:03:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=slint.fr; s=default;
-        t=1622498623; bh=3bAlbuxlGD9uu4MDT8BvwrlQdGBjsxw8rObZYHpVlZQ=;
-        h=Subject:From:To:References:Date:In-Reply-To:From;
-        b=GfPZbHPtcyZa/8EkC1NbdA2exnzeYV6CZrGm2UE2iRy0ukzksrEOXiKHkr76JsRWA
-         wo1XW26zk4fUhMAzgq4BSIRAIxh+ZoKpk5djtQ0aXGncIun1MZ3Fsp9cpeuvhCvwTz
-         dwUCdkgpUr3oS+mcBXniAkqgBmKxaeo0b/TWvygPunrFM7gP6TrjFqiQW2O8m2eErD
-         md5w5uhSPJah9R8MvEWOADM4yMN0MxN92eKpBbMZccFpmSzATT6aOBltzDoO4XGbag
-         cdhug1rCkLYstGE7yYJD+jPLNMr8RFl0QY6XRTyp9hc56rz2oH3Hcf2pCAjtfKAE9e
-         /lv50+44WM99g==
+        id S231240AbhEaXV2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 19:21:28 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:56334 "EHLO
+        hera.aquilenet.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231144AbhEaXV2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 19:21:28 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by hera.aquilenet.fr (Postfix) with ESMTP id 94875CB8;
+        Tue,  1 Jun 2021 01:19:45 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+        by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id PUQ0vzAgTzBm; Tue,  1 Jun 2021 01:19:44 +0200 (CEST)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+        by hera.aquilenet.fr (Postfix) with ESMTPSA id A55BE281;
+        Tue,  1 Jun 2021 01:19:44 +0200 (CEST)
+Received: from samy by begin with local (Exim 4.94.2)
+        (envelope-from <samuel.thibault@ens-lyon.org>)
+        id 1lnrCB-004Da5-Fp; Tue, 01 Jun 2021 01:19:43 +0200
+Date:   Tue, 1 Jun 2021 01:19:43 +0200
+From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
+To:     Gregory Nowak <greg@gregn.net>
+Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        speakup@linux-speakup.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: docs: Convert the Speakup guide to rst
-From:   Didier Spaier <didier@slint.fr>
-To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
+Message-ID: <20210531231943.gfimbfqd2hrleuxg@begin>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Gregory Nowak <greg@gregn.net>,
         Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
         speakup@linux-speakup.org, corbet@lwn.net,
         gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
@@ -41,29 +50,51 @@ To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
         linux-kernel@vger.kernel.org
 References: <20210531215737.8431-1-igormtorrente@gmail.com>
  <20210531220754.h4ep2dj65wl6hejf@begin>
- <393c2df8-9cb1-f428-5629-6e98c078c24f@slint.fr>
- <648b7668-1aa8-dc1d-c92e-7dfc8d3270a7@slint.fr>
-Message-ID: <8a56bc62-9684-5e31-dfdb-205e81810281@slint.fr>
-Date:   Tue, 1 Jun 2021 01:03:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ <20210531231515.GB8130@gregn.net>
 MIME-Version: 1.0
-In-Reply-To: <648b7668-1aa8-dc1d-c92e-7dfc8d3270a7@slint.fr>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210531231515.GB8130@gregn.net>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: 94875CB8
+X-Spamd-Result: default: False [-2.50 / 15.00];
+         ARC_NA(0.00)[];
+         RCVD_VIA_SMTP_AUTH(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         FREEMAIL_ENVRCPT(0.00)[gmail.com];
+         MIME_GOOD(-0.10)[text/plain];
+         HAS_ORG_HEADER(0.00)[];
+         RCVD_COUNT_THREE(0.00)[3];
+         RCPT_COUNT_SEVEN(0.00)[9];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MID_RHS_NOT_FQDN(0.50)[];
+         FREEMAIL_CC(0.00)[gmail.com];
+         BAYES_HAM(-3.00)[100.00%]
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/06/2021 00:47, Didier Spaier wrote:
-> So blind users can check its accessibility I attach the web page built 
-> with rst2html5.py
-my postfix MTA told me that:
-linux-kernel@vger.kernel.org>
-and:
-linux-doc@vger.kernel.org
-rejected this message because it contains an HTML part (indeed).
-If someone ask I can upload it somewhere and provide a link.
+Gregory Nowak wrote:
+> Could a txtdocs option be implemented as a documentation
+> target for kernel builds, which would produce plain text files?
 
-Didier
+Building html files from this is usual, for instance on Debian the html
+files are available in the linux-doc package.
+
+Gregory Nowak wrote:
+> Another concern is that if the speakup guide is maintained in RST,
+> that could dissuade others from keeping it updated who don't already
+> know RST.
+
+The RST syntax is very trivial in the end. Personally I don't really
+know RST myself, I just mimic what I see in the file and that works
+alright.
+
+Samuel
