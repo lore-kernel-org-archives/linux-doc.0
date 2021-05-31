@@ -2,76 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F29FEC47080
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 20:06:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ABD7C47083
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 20:21:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA9CD60E0C
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 20:06:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 259896127C
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 20:21:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231680AbhEaUHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 16:07:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33436 "EHLO
+        id S231899AbhEaUWw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 16:22:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230505AbhEaUHl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 16:07:41 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FEFBC061574;
-        Mon, 31 May 2021 13:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=D1L/+mdxfgOX82bLOF7iyFND6vOFiosl462sjl1BK4o=; b=SRMmBC3xPXkBUEG0m5YGRTdxCk
-        bCr4DuJiA1ox9ZUmaow53og/iVkkgGK5/vDOd34oY7nhUaRLVY9rEgAj+l5xSmx9nOenIxhtIHnad
-        txrv3EcRLTShOdED/XeuNDdCs4AeNnvgemV4V1VsXzE5XujhXBkOkYFIDT3laJAFpxab1dMrQGSxt
-        YhX9tA2Rb+bDwM/dvTvSIaLKi2+cjL6vLija0lxMC8AjwE4j1ma+ZSk4EM4vRS8W6jgMpiYIeXNoz
-        PgUVCbXLeX8MwshL7BxnmSzhzDZrcVpbZB26YYEiUVzXgzBo+Sud9zRFf/7F3gM7P6HH/LiZzjQgm
-        hd/lPeiA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lnoA8-009MeU-BK; Mon, 31 May 2021 20:05:33 +0000
-Date:   Mon, 31 May 2021 21:05:24 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     grantseltzer <grantseltzer@gmail.com>
-Cc:     andrii@kernel.org, daniel@iogearbox.net, corbet@lwn.net,
-        linux-doc@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/2] Add documentation for libbpf including API
- autogen
-Message-ID: <YLVBhF+vUBSq538c@casper.infradead.org>
-References: <20210531195553.168298-1-grantseltzer@gmail.com>
- <20210531195553.168298-2-grantseltzer@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210531195553.168298-2-grantseltzer@gmail.com>
+        with ESMTP id S231837AbhEaUWv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 16:22:51 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9208DC06174A
+        for <linux-doc@vger.kernel.org>; Mon, 31 May 2021 13:21:10 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id p2-20020a2599820000b02905394c6727easo1394743ybo.13
+        for <linux-doc@vger.kernel.org>; Mon, 31 May 2021 13:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=7Hb0cJIlllmxjKuiJHCfYDAwnx4kWKSPYkNG4qIRVAg=;
+        b=ttaJS7nd/eWU7+0zxCrgUJaaSHkKNkp268X/ofLgXXtwRCdnfWGkPx2qeKNZzXoeeP
+         NsE47Ec+ti250I3UKXInm9uOONdvA8S70anKOrVenfJMskOUGKBDtAET2wAxehEZXDCL
+         uZ1XuxQI8vRY7FNzlZ/PCRlQdfswNYy8W1XmFRWOUk7DCrn3c8O3YYWBBhaiFYwPEw3T
+         vkGb1zHQAQfoG+pXumnqBhfYsOpPVJwtjvJAFSJi7pi5lsuv0Bf3+GiqyNt1zAPL6u0o
+         9VBoMnC+bSL/Q3x/U4n0uiCS49ViOrI4OdBaEjMOaTH3+gE11GHd5oi6vXEK1mfgITMR
+         sqKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=7Hb0cJIlllmxjKuiJHCfYDAwnx4kWKSPYkNG4qIRVAg=;
+        b=X1dPLjnJ9h+2ERDhnOF4WaMLICoKo7JaIneadwohTIW2bY75anwlw0lr7TExtXyIhn
+         9IDgno467eq9FVRvBhaGmuYTW+JFv6og2F2IL7EPclbY75rubhtKsygvjPn1kywlcKfL
+         7Zm8Ny2S4C/AegjcY9bnshCPr+wjM/ofP/gzXDh7jjTOegvUZThhDUABHGIJPd0Mh8LU
+         HJRdDawkx8ZQDpfpvzpuKkKLaQ3xDcA1d/jTtYOvN1y6vc0U/xYBeF00Omgn3QcUif1b
+         bmyqQ6zNmwmZM2YoRLxE7z0eG+pwZsm/E5JvY81yAltP8ykboXCwRsSpu6R2L/ExfJ7g
+         OGDQ==
+X-Gm-Message-State: AOAM530GrI7a5yeukuVT39PtX1DQTeg4sl/SrsjGr3ZXIzCWwRPZndxZ
+        L5jKuj+jWo+uFMe/LDTG1a47Eg8M
+X-Google-Smtp-Source: ABdhPJydkas8f/uJpXTFSGvNQV+E3IEDP4pu1Ayjb+fgGQIRpaEmQqIjQto7yHZudVfIp8IwyIneelIXjA==
+X-Received: from fawn.svl.corp.google.com ([2620:15c:2cd:202:2d19:3d8d:1b72:3e5a])
+ (user=morbo job=sendgmr) by 2002:a25:d606:: with SMTP id n6mr12532718ybg.210.1622492469764;
+ Mon, 31 May 2021 13:21:09 -0700 (PDT)
+Date:   Mon, 31 May 2021 13:20:44 -0700
+Message-Id: <20210531202044.426578-1-morbo@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.rc0.204.g9fa02ecfa5-goog
+Subject: [PATCH] pgo: rename the raw profile file to vmlinux.profraw
+From:   Bill Wendling <morbo@google.com>
+To:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 31, 2021 at 07:55:52PM +0000, grantseltzer wrote:
-> +++ b/Documentation/bpf/libbpf.rst
-> @@ -0,0 +1,14 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +libbpf
-> +======
-> +
-> +This is documentation for libbpf, a userspace library for loading and
-> +interacting with bpf programs.
-> +
-> +All general BPF questions, including kernel functionality, libbpf APIs and
-> +their application, should be sent to bpf@vger.kernel.org mailing list.
-> +You can subscribe to it `here <http://vger.kernel.org/vger-lists.html#bpf>`_
-> +and search its archive `here <https://lore.kernel.org/bpf/>`_.
+Future PGO features may create other files in /sys/kernel/debug/pgo. So
+rename the kernel's raw profile data file to "vmlinux.profraw" to make
+which part of the kernel the file is for more explicit.
 
-https://www.w3.org/QA/Tips/noClickHere
+Note that future files in /sys/kernel/debug/pgo should follow a similar
+naming convention.
 
-I suggest:
+Signed-off-by: Bill Wendling <morbo@google.com>
+---
+ Documentation/dev-tools/pgo.rst | 6 +++---
+ kernel/pgo/Kconfig              | 7 ++++---
+ kernel/pgo/fs.c                 | 2 +-
+ 3 files changed, 8 insertions(+), 7 deletions(-)
 
-You can `subscribe <http://vger.kernel.org/vger-lists.html#bpf>`_ to the
-mailing list or search its `archives <https://lore.kernel.org/bpf/>`_.
+diff --git a/Documentation/dev-tools/pgo.rst b/Documentation/dev-tools/pgo.rst
+index b7f11d8405b7..0200449c4843 100644
+--- a/Documentation/dev-tools/pgo.rst
++++ b/Documentation/dev-tools/pgo.rst
+@@ -76,7 +76,7 @@ The PGO kernel support creates the following files in debugfs:
+ ``/sys/kernel/debug/pgo/reset``
+ 	Global reset file: resets all coverage data to zero when written to.
+ 
+-``/sys/kernel/debug/profraw``
++``/sys/kernel/debug/pgo/vmlinux.profraw``
+ 	The raw PGO data that must be processed with ``llvm_profdata``.
+ 
+ 
+@@ -108,7 +108,7 @@ using the result to optimize the kernel:
+ 
+    .. code-block:: sh
+ 
+-      $ cp -a /sys/kernel/debug/pgo/profraw /tmp/vmlinux.profraw
++      $ cp -a /sys/kernel/debug/pgo/vmlinux.profraw /tmp/vmlinux.profraw
+ 
+ 5) (Optional) Download the raw profile data to the HOST machine.
+ 
+@@ -120,7 +120,7 @@ using the result to optimize the kernel:
+ 
+    Note that multiple raw profile data files can be merged during this step.
+ 
+-7) Rebuild the kernel using the profile data (PGO disabled)
++7) Rebuild the kernel using the processed profile data (PGO disabled)
+ 
+    .. code-block:: sh
+ 
+diff --git a/kernel/pgo/Kconfig b/kernel/pgo/Kconfig
+index 76a640b6cf6e..d2053df1111c 100644
+--- a/kernel/pgo/Kconfig
++++ b/kernel/pgo/Kconfig
+@@ -17,10 +17,11 @@ config PGO_CLANG
+ 
+ 	  Run a representative workload for your application on a kernel
+ 	  compiled with this option and download the raw profile file from
+-	  /sys/kernel/debug/pgo/profraw. This file needs to be processed with
+-	  llvm-profdata. It may be merged with other collected raw profiles.
++	  /sys/kernel/debug/pgo/vmlinux.profraw. This file needs to be
++	  processed with llvm-profdata. It may be merged with other collected
++	  raw profiles.
+ 
+-	  Copy the resulting profile file into vmlinux.profdata, and enable
++	  Copy the processed profile file into vmlinux.profdata, and enable
+ 	  KCFLAGS=-fprofile-use=vmlinux.profdata to produce an optimized
+ 	  kernel.
+ 
+diff --git a/kernel/pgo/fs.c b/kernel/pgo/fs.c
+index 449f16beb2cf..ef985159dad3 100644
+--- a/kernel/pgo/fs.c
++++ b/kernel/pgo/fs.c
+@@ -365,7 +365,7 @@ static int __init pgo_init(void)
+ 	if (!directory)
+ 		goto err_remove;
+ 
+-	if (!debugfs_create_file("profraw", 0600, directory, NULL,
++	if (!debugfs_create_file("vmlinux.profraw", 0600, directory, NULL,
+ 				 &prf_fops))
+ 		goto err_remove;
+ 
+-- 
+2.32.0.rc0.204.g9fa02ecfa5-goog
 
