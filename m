@@ -2,259 +2,660 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28908C47080
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 12:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0F8C47080
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 13:05:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 008A960FE5
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 12:40:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5ABD461287
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 13:05:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231548AbhEaMmV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 08:42:21 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:44008 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231327AbhEaMmU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 May 2021 08:42:20 -0400
-Received: from localhost.localdomain (unknown [112.20.113.102])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_0E52bRgE4EHAA--.7740S2;
-        Mon, 31 May 2021 20:40:26 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com, bobwxc@email.cn,
-        siyanteng01@gmail.com, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v3] docs/zh_CN:add core-api padata translation
-Date:   Mon, 31 May 2021 20:41:05 +0800
-Message-Id: <20210531124105.946859-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
+        id S231327AbhEaNHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 09:07:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53570 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231409AbhEaNHK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 09:07:10 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA413C061574;
+        Mon, 31 May 2021 06:05:27 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id k19so7867026qta.2;
+        Mon, 31 May 2021 06:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kLDoGgiKBnh3s28kzBs894Jkp2BR4ldzvnFw/nD5V+U=;
+        b=PDUZIuBpfoTuRbQDuEIVnjfV6G2Xp44Le94oyKd2BShrdmccS5XVHRyHW+9QeezXBy
+         x3bQa3WiWLFLmiwhhKEuvSVHLaxcaPv4Nwu4Q4vo2esJ9t7qSnz1kJdsSpH2AvMRcCo/
+         qrRTr2OaQnLDpXK7eIJ5qUWdcbgDqzgcdXH8k5XckJbtjIhr8YT81CllJ88WBVH2+V37
+         Y7UbfHaAIoy/vGEj5WXFfW8T6Lp3AaCmtFKm0Z/Z/cEHjNPxiHm0q1bBborGC2sEoB0b
+         nm9wzKdpQ3zKxvdEq7tx3kcB5WvKJXyO4Ec5kMacYuLnJDaQcFtmH783gcEl2XUwQ2GY
+         qTmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kLDoGgiKBnh3s28kzBs894Jkp2BR4ldzvnFw/nD5V+U=;
+        b=a1rzEM6tQAzNkuYonIUUd8lVs41kNRH64N//d/85EprEWXbM2+lmXcCs1vNgykVzd0
+         FLRnSoYAbGDrzDUHBXS/6cT7uZi7GizXBHoEuqFZOSBMUSjmAq1MLCzA6BAQDQvcWRME
+         xyDjPZRbC6DLBGXgyLMacAE6xk/YKDTuUXrX7TTa/PtAg+zzHkrWFWEJkVn4c3r+LWz3
+         iLc3I7vTarxdwn/Iv0jwKGl17hIBinvp4GftXFxnDCTlMKbjmUPhI7c2AHgzb/wwk+xG
+         b3bYkAP866NgXcQOASSUVZQkFfYGyAkTmXQixq532wqBpc7UHAuflhsG44LWc9I9jhC3
+         LVUQ==
+X-Gm-Message-State: AOAM533cp6LvZPt+965TGlSRUdBvsma31KmySDREDYj27amttg97QTAk
+        13KpFanpcjf4Ghq0Y5PykmE=
+X-Google-Smtp-Source: ABdhPJxGTCROPezxoNKX26e14a81d+K/0K5i16QeacovOnpEsvqAmlCqlyrY70DjFztUdc0kdG3Sbg==
+X-Received: by 2002:ac8:5894:: with SMTP id t20mr14589017qta.134.1622466324739;
+        Mon, 31 May 2021 06:05:24 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:125:811b:fbbc:3360:40c4:fb64])
+        by smtp.googlemail.com with ESMTPSA id c20sm8518812qtm.52.2021.05.31.06.05.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 May 2021 06:05:24 -0700 (PDT)
+From:   Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+To:     corbet@lwn.net, rdunlap@infradead.org, ira.weiny@intel.com,
+        jack@suse.cz, lihao2018.fnst@cn.fujitsu.com, tytso@mit.edu
+Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: convert dax.txt to rst
+Date:   Mon, 31 May 2021 10:05:15 -0300
+Message-Id: <20210531130515.10309-1-igormtorrente@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_0E52bRgE4EHAA--.7740S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3JryxZw43Xry7AFy5Wr4DJwb_yoWDJw1fpr
-        9rGryxKayjkry8urn5Gr17Gr1xG3yxWwsrta1xGF1fXr13trWrtr4jqFyrAFy7Wryvk34k
-        AFWFgFWI9347CFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-        n2kIc2xKxwCY02Avz4vE14v_Xr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
-        0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
-        17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
-        C0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF
-        0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kf
-        nxnUUI43ZEXa7VUb1rW5UUUUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/padata.rst into Chinese.
+Change the file extension and add the rst constructs to integrate this
+doc to the documentation infrastructure and take advantage of rst
+features.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 ---
-v3:
+ Documentation/filesystems/dax.rst   | 291 ++++++++++++++++++++++++++++
+ Documentation/filesystems/dax.txt   | 257 ------------------------
+ Documentation/filesystems/index.rst |   1 +
+ 3 files changed, 292 insertions(+), 257 deletions(-)
+ create mode 100644 Documentation/filesystems/dax.rst
+ delete mode 100644 Documentation/filesystems/dax.txt
 
-* pick Xiangcheng's reviewed-by tag.
-
-v2:
-
-* Modified some words under Xiangcheng's advices.
-* update Documentation/translations/zh_CN/core-api/index.rst diff.
-
- .../translations/zh_CN/core-api/index.rst     |   2 +-
- .../translations/zh_CN/core-api/padata.rst    | 158 ++++++++++++++++++
- 2 files changed, 159 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/padata.rst
-
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 4b7efb7edb18..b12c1566c29b 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -67,10 +67,10 @@ Linux如何让一切同时发生。 详情请参阅
-    irq/index
-    refcount-vs-atomic
-    local_ops
-+   padata
- 
- Todolist:
- 
--   padata
-    ../RCU/index
- 
- 低级硬件管理
-diff --git a/Documentation/translations/zh_CN/core-api/padata.rst b/Documentation/translations/zh_CN/core-api/padata.rst
+diff --git a/Documentation/filesystems/dax.rst b/Documentation/filesystems/dax.rst
 new file mode 100644
-index 000000000000..c627f8f131f9
+index 000000000000..9a1b8fd9e82b
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/padata.rst
-@@ -0,0 +1,158 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/filesystems/dax.rst
+@@ -0,0 +1,291 @@
++=======================
++Direct Access for files
++=======================
 +
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/padata.rst
-+:Translator: Yanteng Si <siyanteng@loongson.cn>
-+
-+.. _cn_core_api_padata.rst:
-+
-+==================
-+padata并行执行机制
-+==================
-+
-+:日期: 2020年5月
-+
-+Padata是一种机制，内核可以通过此机制将工作分散到多个CPU上并行完成，同时
-+可以选择保持它们的顺序。
-+
-+它最初是为IPsec开发的，它需要在不对这些数据包重新排序的其前提下，为大量的数
-+据包进行加密和解密。这是目前padata的序列化作业支持的唯一用途。
-+
-+Padata还支持多线程作业，将作业平均分割，同时在线程之间进行负载均衡和协调。
-+
-+执行序列化作业
-+==============
-+
-+初始化
-+------
-+
-+使用padata执行序列化作业的第一步是建立一个padata_instance结构体，以全面
-+控制作业的运行方式::
-+
-+    #include <linux/padata.h>
-+
-+    struct padata_instance *padata_alloc(const char *name);
-+
-+'name'即标识了这个实例。
-+
-+然后，通过分配一个padata_shell来完成padata的初始化::
-+
-+   struct padata_shell *padata_alloc_shell(struct padata_instance *pinst);
-+
-+一个padata_shell用于向padata提交一个作业，并允许一系列这样的作业被独立地
-+序列化。一个padata_instance可以有一个或多个padata_shell与之相关联，每个
-+都允许一系列独立的作业。
-+
-+修改cpumasks
-+------------
-+
-+用于运行作业的CPU可以通过两种方式改变，通过padata_set_cpumask()编程或通
-+过sysfs。前者的定义是::
-+
-+    int padata_set_cpumask(struct padata_instance *pinst, int cpumask_type,
-+			   cpumask_var_t cpumask);
-+
-+这里cpumask_type是PADATA_CPU_PARALLEL（并行）或PADATA_CPU_SERIAL（串行）之一，其中并
-+行cpumask描述了哪些处理器将被用来并行执行提交给这个实例的作业，串行cpumask
-+定义了哪些处理器被允许用作串行化回调处理器。 cpumask指定了要使用的新cpumask。
-+
-+一个实例的cpumasks可能有sysfs文件。例如，pcrypt的文件在
-+/sys/kernel/pcrypt/<instance-name>。在一个实例的目录中，有两个文件，parallel_cpumask
-+和serial_cpumask，任何一个cpumask都可以通过在文件中回显（echo）一个bitmask
-+来改变，比如说::
-+
-+    echo f > /sys/kernel/pcrypt/pencrypt/parallel_cpumask
-+
-+读取其中一个文件会显示用户提供的cpumask，它可能与“可用”的cpumask不同。
-+
-+Padata内部维护着两对cpumask，用户提供的cpumask和“可用的”cpumask(每一对由一个
-+并行和一个串行cpumask组成)。用户提供的cpumasks在实例分配时默认为所有可能的CPU，
-+并且可以如上所述进行更改。可用的cpumasks总是用户提供的cpumasks的一个子集，只包
-+含用户提供的掩码中的在线CPU；这些是padata实际使用的cpumasks。因此，向padata提
-+供一个包含离线CPU的cpumask是合法的。一旦用户提供的cpumask中的一个离线CPU上线，
-+padata就会使用它。
-+
-+改变CPU掩码的操作代价很高，所以不应频繁更改。
-+
-+运行一个作业
-+-------------
-+
-+实际上向padata实例提交工作需要创建一个padata_priv结构体，它代表一个作业::
-+
-+    struct padata_priv {
-+        /* Other stuff here... */
-+	void                    (*parallel)(struct padata_priv *padata);
-+	void                    (*serial)(struct padata_priv *padata);
-+    };
-+
-+这个结构体几乎肯定会被嵌入到一些针对要做的工作的大结构体中。它的大部分字段对
-+padata来说是私有的，但是这个结构在初始化时应该被清零，并且应该提供parallel()和
-+serial()函数。在完成工作的过程中，这些函数将被调用，我们马上就会遇到。
-+
-+工作的提交是通过::
-+
-+    int padata_do_parallel(struct padata_shell *ps,
-+		           struct padata_priv *padata, int *cb_cpu);
-+
-+ps和padata结构体必须如上所述进行设置；cb_cpu指向作业完成后用于最终回调的首选CPU；
-+它必须在当前实例的CPU掩码中（如果不是，cb_cpu指针将被更新为指向实际选择的CPU）。
-+padata_do_parallel()的返回值在成功时为0，表示工作正在进行中。-EBUSY意味着有人
-+在其他地方正在搞乱实例的CPU掩码，而当cb_cpu不在串行cpumask中、并行或串行cpumasks
-+中无在线CPU，或实例停止时，则会出现-EINVAL反馈。
-+
-+每个提交给padata_do_parallel()的作业将依次传递给一个CPU上的上述parallel()函数
-+的一个调用，所以真正的并行是通过提交多个作业来实现的。parallel()在运行时禁用软
-+件中断，因此不能睡眠。parallel()函数把获得的padata_priv结构体指针作为其唯一的参
-+数；关于实际要做的工作的信息可能是通过使用container_of()找到封装结构体来获得的。
-+
-+请注意，parallel()没有返回值；padata子系统假定parallel()将从此时开始负责这项工
-+作。作业不需要在这次调用中完成，但是，如果parallel()留下了未完成的工作，它应该准
-+备在前一个作业完成之前，被以新的作业再次调用
-+
-+序列化作业
++Motivation
 +----------
 +
-+当一个作业完成时，parallel()（或任何实际完成该工作的函数）应该通过调用通知padata此
-+事::
++The page cache is usually used to buffer reads and writes to files.
++It is also used to provide the pages which are mapped into userspace
++by a call to mmap.
 +
-+    void padata_do_serial(struct padata_priv *padata);
++For block devices that are memory-like, the page cache pages would be
++unnecessary copies of the original storage.  The `DAX` code removes the
++extra copy by performing reads and writes directly to the storage device.
++For file mappings, the storage device is mapped directly into userspace.
 +
-+在未来的某个时刻，padata_do_serial()将触发对padata_priv结构体中serial()函数的调
-+用。这个调用将发生在最初要求调用padata_do_parallel()的CPU上；它也是在本地软件中断
-+被禁用的情况下运行的。
-+请注意，这个调用可能会被推迟一段时间，因为padata代码会努力确保作业按照提交的顺序完
-+成。
 +
-+销毁
-+----
++Usage
++-----
 +
-+清理一个padata实例时，可以预见的是调用两个free函数，这两个函数对应于分配的逆过程::
++If you have a block device which supports `DAX`, you can make a filesystem
++on it as usual.  The `DAX` code currently only supports files with a block
++size equal to your kernel's `PAGE_SIZE`, so you may need to specify a block
++size when creating the filesystem.
 +
-+    void padata_free_shell(struct padata_shell *ps);
-+    void padata_free(struct padata_instance *pinst);
++Currently 3 filesystems support `DAX`: ext2, ext4 and xfs.  Enabling `DAX` on them
++is different.
 +
-+用户有责任确保在调用上述任何一项之前，所有未完成的工作都已完成。
++Enabling DAX on ext2
++--------------------
 +
-+运行多线程作业
-+==============
++When mounting the filesystem, use the ``-o dax`` option on the command line or
++add 'dax' to the options in ``/etc/fstab``.  This works to enable `DAX` on all files
++within the filesystem.  It is equivalent to the ``-o dax=always`` behavior below.
 +
-+一个多线程作业有一个主线程和零个或多个辅助线程，主线程参与作业，然后等待所有辅助线
-+程完成。padata将作业分割成称为chunk的单元，其中chunk是一个线程在一次调用线程函数
-+中完成的作业片段。
 +
-+用户必须做三件事来运行一个多线程作业。首先，通过定义一个padata_mt_job结构体来描述
-+作业，这在接口部分有解释。这包括一个指向线程函数的指针，padata每次将作业块分配给线
-+程时都会调用这个函数。然后，定义线程函数，它接受三个参数： ``start`` 、 ``end`` 和 ``arg`` ，
-+其中前两个参数限定了线程操作的范围，最后一个是指向作业共享状态的指针，如果有的话。
-+准备好共享状态，它通常被分配在主线程的堆栈中。最后，调用padata_do_multithreaded()，
-+它将在作业完成后返回。
++Enabling DAX on xfs and ext4
++----------------------------
 +
-+接口
-+====
++Summary
++-------
 +
-+该API在以下内核代码中:
++ 1. There exists an in-kernel file access mode flag `S_DAX` that corresponds to
++    the statx flag `STATX_ATTR_DAX`.  See the manpage for statx(2) for details
++    about this access mode.
 +
-+include/linux/padata.h
++ 2. There exists a persistent flag `FS_XFLAG_DAX` that can be applied to regular
++    files and directories. This advisory flag can be set or cleared at any
++    time, but doing so does not immediately affect the `S_DAX` state.
 +
-+kernel/padata.c
++ 3. If the persistent `FS_XFLAG_DAX` flag is set on a directory, this flag will
++    be inherited by all regular files and subdirectories that are subsequently
++    created in this directory. Files and subdirectories that exist at the time
++    this flag is set or cleared on the parent directory are not modified by
++    this modification of the parent directory.
++
++ 4. There exist dax mount options which can override `FS_XFLAG_DAX` in the
++    setting of the `S_DAX` flag.  Given underlying storage which supports `DAX` the
++    following hold:
++
++    ``-o dax=inode``  means "follow `FS_XFLAG_DAX`" and is the default.
++
++    ``-o dax=never``  means "never set `S_DAX`, ignore `FS_XFLAG_DAX`."
++
++    ``-o dax=always`` means "always set `S_DAX` ignore `FS_XFLAG_DAX`."
++
++    ``-o dax``      is a legacy option which is an alias for ``dax=always``.
++
++    .. warning::
++
++      The option ``-o dax`` may be removed in the future so ``-o dax=always`` is
++      the preferred method for specifying this behavior.
++
++    .. note::
++
++      Modifications to and the inheritance behavior of `FS_XFLAG_DAX` remain
++      the same even when the filesystem is mounted with a dax option.  However,
++      in-core inode state (`S_DAX`) will be overridden until the filesystem is
++      remounted with dax=inode and the inode is evicted from kernel memory.
++
++ 5. The `S_DAX` policy can be changed via:
++
++    a) Setting the parent directory `FS_XFLAG_DAX` as needed before files are
++       created
++
++    b) Setting the appropriate dax="foo" mount option
++
++    c) Changing the `FS_XFLAG_DAX` flag on existing regular files and
++       directories.  This has runtime constraints and limitations that are
++       described in 6) below.
++
++ 6. When changing the `S_DAX` policy via toggling the persistent `FS_XFLAG_DAX`
++    flag, the change to existing regular files won't take effect until the
++    files are closed by all processes.
++
++
++Details
++-------
++
++There are 2 per-file dax flags.  One is a persistent inode setting (`FS_XFLAG_DAX`)
++and the other is a volatile flag indicating the active state of the feature
++(`S_DAX`).
++
++`FS_XFLAG_DAX` is preserved within the filesystem.  This persistent config
++setting can be set, cleared and/or queried using the `FS_IOC_FS`[`GS`]`ETXATTR` ioctl
++(see ioctl_xfs_fsgetxattr(2)) or an utility such as 'xfs_io'.
++
++New files and directories automatically inherit `FS_XFLAG_DAX` from
++their parent directory **when created**.  Therefore, setting `FS_XFLAG_DAX` at
++directory creation time can be used to set a default behavior for an entire
++sub-tree.
++
++To clarify inheritance, here are 3 examples:
++
++Example A:
++
++.. code-block:: shell
++
++  mkdir -p a/b/c
++  xfs_io -c 'chattr +x' a
++  mkdir a/b/c/d
++  mkdir a/e
++
++  ------[outcome]------
++
++  dax: a,e
++  no dax: b,c,d
++
++Example B:
++
++.. code-block:: shell
++
++  mkdir a
++  xfs_io -c 'chattr +x' a
++  mkdir -p a/b/c/d
++
++  ------[outcome]------
++
++  dax: a,b,c,d
++  no dax:
++
++Example C:
++
++.. code-block:: shell
++
++  mkdir -p a/b/c
++  xfs_io -c 'chattr +x' c
++  mkdir a/b/c/d
++
++  ------[outcome]------
++
++  dax: c,d
++  no dax: a,b
++
++The current enabled state (`S_DAX`) is set when a file inode is instantiated in
++memory by the kernel.  It is set based on the underlying media support, the
++value of `FS_XFLAG_DAX` and the filesystem's dax mount option.
++
++statx can be used to query `S_DAX`.
++
++.. note::
++
++  That only regular files will ever have `S_DAX` set and therefore statx
++  will never indicate that `S_DAX` is set on directories.
++
++Setting the `FS_XFLAG_DAX` flag (specifically or through inheritance) occurs even
++if the underlying media does not support dax and/or the filesystem is
++overridden with a mount option.
++
++
++Implementation Tips for Block Driver Writers
++--------------------------------------------
++
++To support `DAX` in your block driver, implement the 'direct_access'
++block device operation.  It is used to translate the sector number
++(expressed in units of 512-byte sectors) to a page frame number (pfn)
++that identifies the physical page for the memory.  It also returns a
++kernel virtual address that can be used to access the memory.
++
++The direct_access method takes a 'size' parameter that indicates the
++number of bytes being requested.  The function should return the number
++of bytes that can be contiguously accessed at that offset.  It may also
++return a negative errno if an error occurs.
++
++In order to support this method, the storage must be byte-accessible by
++the CPU at all times.  If your device uses paging techniques to expose
++a large amount of memory through a smaller window, then you cannot
++implement direct_access.  Equally, if your device can occasionally
++stall the CPU for an extended period, you should also not attempt to
++implement direct_access.
++
++These block devices may be used for inspiration:
++- brd: RAM backed block device driver
++- dcssblk: s390 dcss block device driver
++- pmem: NVDIMM persistent memory driver
++
++
++Implementation Tips for Filesystem Writers
++------------------------------------------
++
++Filesystem support consists of:
++
++* Adding support to mark inodes as being `DAX` by setting the `S_DAX` flag in
++  i_flags
++* Implementing ->read_iter and ->write_iter operations which use
++  :c:func:`dax_iomap_rw()` when inode has `S_DAX` flag set
++* Implementing an mmap file operation for `DAX` files which sets the
++  `VM_MIXEDMAP` and `VM_HUGEPAGE` flags on the `VMA`, and setting the vm_ops to
++  include handlers for fault, pmd_fault, page_mkwrite, pfn_mkwrite. These
++  handlers should probably call :c:func:`dax_iomap_fault()` passing the
++  appropriate fault size and iomap operations.
++* Calling :c:func:`iomap_zero_range()` passing appropriate iomap operations
++  instead of :c:func:`block_truncate_page()` for `DAX` files
++* Ensuring that there is sufficient locking between reads, writes,
++  truncates and page faults
++
++The iomap handlers for allocating blocks must make sure that allocated blocks
++are zeroed out and converted to written extents before being returned to avoid
++exposure of uninitialized data through mmap.
++
++These filesystems may be used for inspiration:
++
++.. seealso::
++
++  ext2: see Documentation/filesystems/ext2.rst
++
++.. seealso::
++
++  xfs:  see Documentation/admin-guide/xfs.rst
++
++.. seealso::
++
++  ext4: see Documentation/filesystems/ext4/
++
++
++Handling Media Errors
++---------------------
++
++The libnvdimm subsystem stores a record of known media error locations for
++each pmem block device (in gendisk->badblocks). If we fault at such location,
++or one with a latent error not yet discovered, the application can expect
++to receive a `SIGBUS`. Libnvdimm also allows clearing of these errors by simply
++writing the affected sectors (through the pmem driver, and if the underlying
++NVDIMM supports the clear_poison DSM defined by ACPI).
++
++Since `DAX` IO normally doesn't go through the ``driver/bio`` path, applications or
++sysadmins have an option to restore the lost data from a prior ``backup/inbuilt``
++redundancy in the following ways:
++
++1. Delete the affected file, and restore from a backup (sysadmin route):
++   This will free the filesystem blocks that were being used by the file,
++   and the next time they're allocated, they will be zeroed first, which
++   happens through the driver, and will clear bad sectors.
++
++2. Truncate or hole-punch the part of the file that has a bad-block (at least
++   an entire aligned sector has to be hole-punched, but not necessarily an
++   entire filesystem block).
++
++These are the two basic paths that allow `DAX` filesystems to continue operating
++in the presence of media errors. More robust error recovery mechanisms can be
++built on top of this in the future, for example, involving redundancy/mirroring
++provided at the block layer through DM, or additionally, at the filesystem
++level. These would have to rely on the above two tenets, that error clearing
++can happen either by sending an IO through the driver, or zeroing (also through
++the driver).
++
++
++Shortcomings
++------------
++
++Even if the kernel or its modules are stored on a filesystem that supports
++`DAX` on a block device that supports `DAX`, they will still be copied into RAM.
++
++The DAX code does not work correctly on architectures which have virtually
++mapped caches such as ARM, MIPS and SPARC.
++
++Calling :c:func:`get_user_pages()` on a range of user memory that has been
++mmaped from a `DAX` file will fail when there are no 'struct page' to describe
++those pages.  This problem has been addressed in some device drivers
++by adding optional struct page support for pages under the control of
++the driver (see `CONFIG_NVDIMM_PFN` in ``drivers/nvdimm`` for an example of
++how to do this). In the non struct page cases `O_DIRECT` reads/writes to
++those memory ranges from a non-`DAX` file will fail 
++
++
++.. note::
++
++  `O_DIRECT` reads/writes _of a `DAX` file do work, it is the memory that
++  is being accessed that is key here).  Other things that will not work in
++  the non struct page case include RDMA, :c:func:`sendfile()` and
++  :c:func:`splice()`.
+diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
+deleted file mode 100644
+index e03c20564f3a..000000000000
+--- a/Documentation/filesystems/dax.txt
++++ /dev/null
+@@ -1,257 +0,0 @@
+-Direct Access for files
+------------------------
+-
+-Motivation
+-----------
+-
+-The page cache is usually used to buffer reads and writes to files.
+-It is also used to provide the pages which are mapped into userspace
+-by a call to mmap.
+-
+-For block devices that are memory-like, the page cache pages would be
+-unnecessary copies of the original storage.  The DAX code removes the
+-extra copy by performing reads and writes directly to the storage device.
+-For file mappings, the storage device is mapped directly into userspace.
+-
+-
+-Usage
+------
+-
+-If you have a block device which supports DAX, you can make a filesystem
+-on it as usual.  The DAX code currently only supports files with a block
+-size equal to your kernel's PAGE_SIZE, so you may need to specify a block
+-size when creating the filesystem.
+-
+-Currently 3 filesystems support DAX: ext2, ext4 and xfs.  Enabling DAX on them
+-is different.
+-
+-Enabling DAX on ext2
+------------------------------
+-
+-When mounting the filesystem, use the "-o dax" option on the command line or
+-add 'dax' to the options in /etc/fstab.  This works to enable DAX on all files
+-within the filesystem.  It is equivalent to the '-o dax=always' behavior below.
+-
+-
+-Enabling DAX on xfs and ext4
+-----------------------------
+-
+-Summary
+--------
+-
+- 1. There exists an in-kernel file access mode flag S_DAX that corresponds to
+-    the statx flag STATX_ATTR_DAX.  See the manpage for statx(2) for details
+-    about this access mode.
+-
+- 2. There exists a persistent flag FS_XFLAG_DAX that can be applied to regular
+-    files and directories. This advisory flag can be set or cleared at any
+-    time, but doing so does not immediately affect the S_DAX state.
+-
+- 3. If the persistent FS_XFLAG_DAX flag is set on a directory, this flag will
+-    be inherited by all regular files and subdirectories that are subsequently
+-    created in this directory. Files and subdirectories that exist at the time
+-    this flag is set or cleared on the parent directory are not modified by
+-    this modification of the parent directory.
+-
+- 4. There exist dax mount options which can override FS_XFLAG_DAX in the
+-    setting of the S_DAX flag.  Given underlying storage which supports DAX the
+-    following hold:
+-
+-    "-o dax=inode"  means "follow FS_XFLAG_DAX" and is the default.
+-
+-    "-o dax=never"  means "never set S_DAX, ignore FS_XFLAG_DAX."
+-
+-    "-o dax=always" means "always set S_DAX ignore FS_XFLAG_DAX."
+-
+-    "-o dax"        is a legacy option which is an alias for "dax=always".
+-		    This may be removed in the future so "-o dax=always" is
+-		    the preferred method for specifying this behavior.
+-
+-    NOTE: Modifications to and the inheritance behavior of FS_XFLAG_DAX remain
+-    the same even when the filesystem is mounted with a dax option.  However,
+-    in-core inode state (S_DAX) will be overridden until the filesystem is
+-    remounted with dax=inode and the inode is evicted from kernel memory.
+-
+- 5. The S_DAX policy can be changed via:
+-
+-    a) Setting the parent directory FS_XFLAG_DAX as needed before files are
+-       created
+-
+-    b) Setting the appropriate dax="foo" mount option
+-
+-    c) Changing the FS_XFLAG_DAX flag on existing regular files and
+-       directories.  This has runtime constraints and limitations that are
+-       described in 6) below.
+-
+- 6. When changing the S_DAX policy via toggling the persistent FS_XFLAG_DAX
+-    flag, the change to existing regular files won't take effect until the
+-    files are closed by all processes.
+-
+-
+-Details
+--------
+-
+-There are 2 per-file dax flags.  One is a persistent inode setting (FS_XFLAG_DAX)
+-and the other is a volatile flag indicating the active state of the feature
+-(S_DAX).
+-
+-FS_XFLAG_DAX is preserved within the filesystem.  This persistent config
+-setting can be set, cleared and/or queried using the FS_IOC_FS[GS]ETXATTR ioctl
+-(see ioctl_xfs_fsgetxattr(2)) or an utility such as 'xfs_io'.
+-
+-New files and directories automatically inherit FS_XFLAG_DAX from
+-their parent directory _when_ _created_.  Therefore, setting FS_XFLAG_DAX at
+-directory creation time can be used to set a default behavior for an entire
+-sub-tree.
+-
+-To clarify inheritance, here are 3 examples:
+-
+-Example A:
+-
+-mkdir -p a/b/c
+-xfs_io -c 'chattr +x' a
+-mkdir a/b/c/d
+-mkdir a/e
+-
+-	dax: a,e
+-	no dax: b,c,d
+-
+-Example B:
+-
+-mkdir a
+-xfs_io -c 'chattr +x' a
+-mkdir -p a/b/c/d
+-
+-	dax: a,b,c,d
+-	no dax:
+-
+-Example C:
+-
+-mkdir -p a/b/c
+-xfs_io -c 'chattr +x' c
+-mkdir a/b/c/d
+-
+-	dax: c,d
+-	no dax: a,b
+-
+-
+-The current enabled state (S_DAX) is set when a file inode is instantiated in
+-memory by the kernel.  It is set based on the underlying media support, the
+-value of FS_XFLAG_DAX and the filesystem's dax mount option.
+-
+-statx can be used to query S_DAX.  NOTE that only regular files will ever have
+-S_DAX set and therefore statx will never indicate that S_DAX is set on
+-directories.
+-
+-Setting the FS_XFLAG_DAX flag (specifically or through inheritance) occurs even
+-if the underlying media does not support dax and/or the filesystem is
+-overridden with a mount option.
+-
+-
+-
+-Implementation Tips for Block Driver Writers
+---------------------------------------------
+-
+-To support DAX in your block driver, implement the 'direct_access'
+-block device operation.  It is used to translate the sector number
+-(expressed in units of 512-byte sectors) to a page frame number (pfn)
+-that identifies the physical page for the memory.  It also returns a
+-kernel virtual address that can be used to access the memory.
+-
+-The direct_access method takes a 'size' parameter that indicates the
+-number of bytes being requested.  The function should return the number
+-of bytes that can be contiguously accessed at that offset.  It may also
+-return a negative errno if an error occurs.
+-
+-In order to support this method, the storage must be byte-accessible by
+-the CPU at all times.  If your device uses paging techniques to expose
+-a large amount of memory through a smaller window, then you cannot
+-implement direct_access.  Equally, if your device can occasionally
+-stall the CPU for an extended period, you should also not attempt to
+-implement direct_access.
+-
+-These block devices may be used for inspiration:
+-- brd: RAM backed block device driver
+-- dcssblk: s390 dcss block device driver
+-- pmem: NVDIMM persistent memory driver
+-
+-
+-Implementation Tips for Filesystem Writers
+-------------------------------------------
+-
+-Filesystem support consists of
+-- adding support to mark inodes as being DAX by setting the S_DAX flag in
+-  i_flags
+-- implementing ->read_iter and ->write_iter operations which use dax_iomap_rw()
+-  when inode has S_DAX flag set
+-- implementing an mmap file operation for DAX files which sets the
+-  VM_MIXEDMAP and VM_HUGEPAGE flags on the VMA, and setting the vm_ops to
+-  include handlers for fault, pmd_fault, page_mkwrite, pfn_mkwrite. These
+-  handlers should probably call dax_iomap_fault() passing the appropriate
+-  fault size and iomap operations.
+-- calling iomap_zero_range() passing appropriate iomap operations instead of
+-  block_truncate_page() for DAX files
+-- ensuring that there is sufficient locking between reads, writes,
+-  truncates and page faults
+-
+-The iomap handlers for allocating blocks must make sure that allocated blocks
+-are zeroed out and converted to written extents before being returned to avoid
+-exposure of uninitialized data through mmap.
+-
+-These filesystems may be used for inspiration:
+-- ext2: see Documentation/filesystems/ext2.rst
+-- ext4: see Documentation/filesystems/ext4/
+-- xfs:  see Documentation/admin-guide/xfs.rst
+-
+-
+-Handling Media Errors
+----------------------
+-
+-The libnvdimm subsystem stores a record of known media error locations for
+-each pmem block device (in gendisk->badblocks). If we fault at such location,
+-or one with a latent error not yet discovered, the application can expect
+-to receive a SIGBUS. Libnvdimm also allows clearing of these errors by simply
+-writing the affected sectors (through the pmem driver, and if the underlying
+-NVDIMM supports the clear_poison DSM defined by ACPI).
+-
+-Since DAX IO normally doesn't go through the driver/bio path, applications or
+-sysadmins have an option to restore the lost data from a prior backup/inbuilt
+-redundancy in the following ways:
+-
+-1. Delete the affected file, and restore from a backup (sysadmin route):
+-   This will free the filesystem blocks that were being used by the file,
+-   and the next time they're allocated, they will be zeroed first, which
+-   happens through the driver, and will clear bad sectors.
+-
+-2. Truncate or hole-punch the part of the file that has a bad-block (at least
+-   an entire aligned sector has to be hole-punched, but not necessarily an
+-   entire filesystem block).
+-
+-These are the two basic paths that allow DAX filesystems to continue operating
+-in the presence of media errors. More robust error recovery mechanisms can be
+-built on top of this in the future, for example, involving redundancy/mirroring
+-provided at the block layer through DM, or additionally, at the filesystem
+-level. These would have to rely on the above two tenets, that error clearing
+-can happen either by sending an IO through the driver, or zeroing (also through
+-the driver).
+-
+-
+-Shortcomings
+-------------
+-
+-Even if the kernel or its modules are stored on a filesystem that supports
+-DAX on a block device that supports DAX, they will still be copied into RAM.
+-
+-The DAX code does not work correctly on architectures which have virtually
+-mapped caches such as ARM, MIPS and SPARC.
+-
+-Calling get_user_pages() on a range of user memory that has been mmaped
+-from a DAX file will fail when there are no 'struct page' to describe
+-those pages.  This problem has been addressed in some device drivers
+-by adding optional struct page support for pages under the control of
+-the driver (see CONFIG_NVDIMM_PFN in drivers/nvdimm for an example of
+-how to do this). In the non struct page cases O_DIRECT reads/writes to
+-those memory ranges from a non-DAX file will fail (note that O_DIRECT
+-reads/writes _of a DAX file_ do work, it is the memory that is being
+-accessed that is key here).  Other things that will not work in the
+-non struct page case include RDMA, sendfile() and splice().
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 1f76b1cb3348..6235326f6421 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -76,6 +76,7 @@ Documentation for filesystem implementations.
+    coda
+    configfs
+    cramfs
++   dax
+    debugfs
+    dlmfs
+    ecryptfs
 -- 
-2.27.0
+2.30.0
 
