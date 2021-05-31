@@ -2,38 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAD43C47080
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 22:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC34C47082
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 22:54:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D6F060C40
-	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 22:48:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C115861186
+	for <linux-doc@archiver.kernel.org>; Mon, 31 May 2021 22:54:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232351AbhEaWu0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 May 2021 18:50:26 -0400
-Received: from darkstar.slint.fr ([172.105.89.79]:51924 "EHLO
-        darkstar.slint.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232042AbhEaWuZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 18:50:25 -0400
-X-Greylist: delayed 375 seconds by postgrey-1.27 at vger.kernel.org; Mon, 31 May 2021 18:50:25 EDT
-Received: from ici.slint.fr (men75-h08-176-172-247-100.dsl.sta.abo.bbox.fr [176.172.247.100])
-        by darkstar.slint.fr (Postfix) with ESMTPSA id BF9A9A3744;
-        Mon, 31 May 2021 23:42:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=slint.fr; s=default;
-        t=1622497329; bh=TcYnZ6DHOSMey6JxZZJmyzwQJVc0F0o0a72UGBPvwZ0=;
-        h=Subject:To:References:From:Date:In-Reply-To:From;
-        b=QlDEPWTz8nwXojKnX/mDgcRG/bHmbeDHrruLlVpmHqQvL3rRfDm8t7k8A+O4k+DtE
-         kkkTYjOc5XmoDVR4LMOm19DBJj85OG+pNTIM6WUCxFZ3aQfWhHpcNcgMRRvkGioPUq
-         rR6BXp8vEqabv/VUe6qaK1qUaigYDuBztf7YHODCUZH43SF+tSbBd+5LV4N44f0apc
-         p/4XnL/tUFh3QMG3/a04XA6PmTPw/0jHhkPC/D2pFrQpGUTtXjiOS31ZPQ+jifVPA6
-         EM9PxyTgFIPiq+pkAtCgIwClDe1C62lBkBnRQcnyurzhLvV8LK8H+F/8DNrlvJVrlu
-         Q4RjvLAgyAbfg==
+        id S232320AbhEaW4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 May 2021 18:56:24 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:55986 "EHLO
+        hera.aquilenet.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232463AbhEaW4W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 May 2021 18:56:22 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by hera.aquilenet.fr (Postfix) with ESMTP id 06D38CB8;
+        Tue,  1 Jun 2021 00:54:40 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+        by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 22ef2t8sQ_v0; Tue,  1 Jun 2021 00:54:39 +0200 (CEST)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+        by hera.aquilenet.fr (Postfix) with ESMTPSA id 52289281;
+        Tue,  1 Jun 2021 00:54:39 +0200 (CEST)
+Received: from samy by begin with local (Exim 4.94.2)
+        (envelope-from <samuel.thibault@ens-lyon.org>)
+        id 1lnqnu-004DB9-80; Tue, 01 Jun 2021 00:54:38 +0200
+Date:   Tue, 1 Jun 2021 00:54:38 +0200
+From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
+To:     Didier Spaier <didier@slint.fr>,
+        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        speakup@linux-speakup.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: docs: Convert the Speakup guide to rst
-To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
+Message-ID: <20210531225438.rrxr4ceo7pv34mvo@begin>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Didier Spaier <didier@slint.fr>,
         Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
         speakup@linux-speakup.org, corbet@lwn.net,
         gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
@@ -41,49 +50,45 @@ To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
         linux-kernel@vger.kernel.org
 References: <20210531215737.8431-1-igormtorrente@gmail.com>
  <20210531220754.h4ep2dj65wl6hejf@begin>
-From:   Didier Spaier <didier@slint.fr>
-Message-ID: <393c2df8-9cb1-f428-5629-6e98c078c24f@slint.fr>
-Date:   Tue, 1 Jun 2021 00:42:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ <393c2df8-9cb1-f428-5629-6e98c078c24f@slint.fr>
+ <20210531224431.q4hya673p4ckbxft@begin>
 MIME-Version: 1.0
-In-Reply-To: <20210531220754.h4ep2dj65wl6hejf@begin>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210531224431.q4hya673p4ckbxft@begin>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: 06D38CB8
+X-Spamd-Result: default: False [-2.50 / 15.00];
+         ARC_NA(0.00)[];
+         RCVD_VIA_SMTP_AUTH(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         FREEMAIL_ENVRCPT(0.00)[gmail.com];
+         MIME_GOOD(-0.10)[text/plain];
+         HAS_ORG_HEADER(0.00)[];
+         RCVD_COUNT_THREE(0.00)[3];
+         RCPT_COUNT_SEVEN(0.00)[9];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MID_RHS_NOT_FQDN(0.50)[];
+         BAYES_HAM(-3.00)[100.00%]
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
-
-On 01/06/2021 00:07, Samuel Thibault wrote:
-> Mmm, I'm unsure how the result is readable with the speakup screen
-> reader itself. I have attached the result, could people on the speakup
-> mailing list check how well it goes? If it significantly degrades
-> readability, we'll have to reject the move to rst formatting, since in
-> the end it's people who use the speakup screen reader who need to be
-> able to read this document.
+Samuel Thibault, le mar. 01 juin 2021 00:44:31 +0200, a ecrit:
+> Didier Spaier, le mar. 01 juin 2021 00:42:22 +0200, a ecrit:
+> > And anyway can we just provide a link to the web page that will be built
+> > from the rst file?
 > 
-> Samuel
+> We probably can yes.
 
-Can we not have two versions? I don't have Sphinx installed (used to format
-https://www.kernel.org/doc/html/latest/index.html) but converted 
-speakup.rst to
-html5 using rst2html5.py and indeed the output is way better looking and 
-easier
-to navigate than the txt version.
+AIUI it would end up on
+https://www.kernel.org/doc/html/latest/
 
-And anyway can we just provide a link to the web page that will be built
-from the rst file? I think it should be accessible in graphical web 
-browsers as
-in console ones (I tried using links, lynx and w3m).
-
-As an aside the document still states:
-Speakup does NOT support usb connections!
-
-Is it still true? PS I widely prefer the asciidoc/asciidoctor format 
-than rst,
-but the choice has been done for the Linux Kernel documentation, I know...
-
-Didier
+Samuel
