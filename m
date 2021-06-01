@@ -2,107 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-28.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C46C47092
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 17:31:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C110EC4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 18:11:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C3B2610E7
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 17:31:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 983D361375
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 18:11:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234635AbhFARdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 13:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40014 "EHLO
+        id S231331AbhFASMr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 14:12:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234581AbhFARdQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 13:33:16 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776E2C06174A
-        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 10:31:33 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id i9so23008897lfe.13
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jun 2021 10:31:33 -0700 (PDT)
+        with ESMTP id S233971AbhFASMq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 14:12:46 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1053BC061756
+        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 11:11:05 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id j184so15235572qkd.6
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jun 2021 11:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4zgCVIyculkg6vmD5i7vJioJPtV1qABy2b5RHzq/zCI=;
-        b=dG+qpI2+UVX+VMugxWfFZSjxR9/GlPHwfvtXi089sqeZUZ/c4PmYDvE3VUrC3dTgOF
-         qc9dscgpLYFRM/Eigba4uN60Ah8fz4eM5qAl7vKGIYbE/nYGmw5kTFUB3oJQK4MtL7qi
-         HnZS94DKyfydH9731IFcKVFQ5bF7jyaVvx0oD9U4gSSn58L2N1asTPczJEy10yhZ99OH
-         m/4QznKbwZqpSxYEcAy3hce8uRf4zMF//wP53oix/JTW6n0mJ9WpezqmrOuFr62EFSWb
-         sxXwwnholjiD4ZHr8OjyKWHnYZVjp5yBSwD1nlsJHy1fFs8RJl4ll5IYqfiqA8pgiFXv
-         1ZFg==
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=wRwteCaGKZ10e8+sBtL3qGET4PztXqRbJxpQswQ1wZ4=;
+        b=Xf7CSrcx0gZc/sw/u32fm4fDbUmIKsXJ/VYY3b6I2TINji/gEViOo0+/3eu+yW9Qgd
+         fIGeNKOgrvvoXSlKowbNVeKQqeYrgIx8R+UG5xh83h5SLOwv/5uFjJDNSoddC30OLOAP
+         eeb77BNO0SGqOxoLj3XL020OBNHpc15BDfmueLRDjJQfWJptI6v5o1b1rHvOJRAOVKlt
+         VNpNaJpcQ4vHbnLaPIFMaxp4PkgtqZM58T+bwUwvwAp24ndzjiN27Y317PjL5UaZhW2A
+         4MHWVeTTB4dK7LEaSj2Ky8gxJUKpLuudM6imShkOBqj5RMusHaTKIjTFUXCuCa94uHDl
+         W5Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4zgCVIyculkg6vmD5i7vJioJPtV1qABy2b5RHzq/zCI=;
-        b=SiD95EzYve6P63PpF5gyFq7BI352jknQ5xGpFzaPPijcYzvk2Sm3V7PkUOQowoGbqc
-         OgaM6Fdfq1iUnj19jSN+fCa7VwYzJjf8bWoBvpz+ImK1DqhnkPmeh8JZ84x+EiexZ0MD
-         M9bf/toZiGoguJAUyVRxyYduvpxKiUDb1/i2NeirAQ402+icicishCzN7k0R8zWpyIYP
-         p95L/+OHH+g7L3KbPE8WaZKB5MibLuYR3hvuO22L/Ei0AOKAZx8ni6JHzmcJqHhaB/bM
-         Y8RlHdatcChexBWP8Hy8I3HZbHh8CAjeGDPemB+OkP30rginAUohFTld8YtGgIb2u9K9
-         JaBg==
-X-Gm-Message-State: AOAM5310Nu2u0KdB9vjCzdpiL2dwXBEC7NgKZmMjKrhHrYjh7WK2DEBT
-        GdpjijeKkFFX89Y9bjOZWqyXqs6axFfF8CpQPyFK8g==
-X-Google-Smtp-Source: ABdhPJyF2YA6EH9y6xWofqIGiZg4NIoD3l/KcdTsiGWhtFQIRDdf8HPduC/i9+0EqbFdErTBaNfr55StqCL3Lkqencc=
-X-Received: by 2002:a19:f706:: with SMTP id z6mr5376947lfe.122.1622568691591;
- Tue, 01 Jun 2021 10:31:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
- <202105191422.2E6748C4E0@keescook> <YLVRTilQ5k5n+Vmz@archlinux-ax161>
-In-Reply-To: <YLVRTilQ5k5n+Vmz@archlinux-ax161>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 1 Jun 2021 10:31:20 -0700
-Message-ID: <CAKwvOdkbCmfraMwf684J2m4Q929UO+7ZOW9xP41pwjUR_Y5G2w@mail.gmail.com>
-Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Bill Wendling <morbo@google.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=wRwteCaGKZ10e8+sBtL3qGET4PztXqRbJxpQswQ1wZ4=;
+        b=fPI6rNeTHgwpFN8UuHxRWCDQI1SQEcuwL1K5eYx65V5W4z/sWsVqiARuDt0CIaA7HQ
+         OJFlxKYR7YIJ3nki8XGk6QGIF5T3ZeRcMTybpYsL6MtFMfdMaho+NWMFS/bjzQdcEL7u
+         UuM7oj1wyKKauidQ+3lAtyVfRQ4IhlFVa0bd0+SWd5v6Kul/Es2ZlYWjmoj50hUX9abi
+         Z+/NrRunP8LwidbeZyKL7axRUvDbXcfO2UyiWjeTQ7Eck2QTc8j596XgwaqvCWPdz0fK
+         HRMUPeZaVcGkyQhPVRl1NJuQnC7yvdEZFtkkDJKDySJF3W57cKfGEVPJaDXItn60knh0
+         R1wg==
+X-Gm-Message-State: AOAM533fhFbmBOW1XcKpAuv/cs7Sx0b/jir/C3WbzIADId8N49UMTqiq
+        r1wkptQ0SGWQ3feFWxscbeYu+A==
+X-Google-Smtp-Source: ABdhPJyH06WMNFVFIh2tqA2mZ/X7OLcXSDF3vAAIrUB8u/TcRWHA6zy5sI+bX9Bd1/r6Bup6LtlwYg==
+X-Received: by 2002:a37:91c2:: with SMTP id t185mr23666624qkd.430.1622571063443;
+        Tue, 01 Jun 2021 11:11:03 -0700 (PDT)
+Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id g5sm10470430qtv.56.2021.06.01.11.11.01
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Tue, 01 Jun 2021 11:11:03 -0700 (PDT)
+Date:   Tue, 1 Jun 2021 11:10:49 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@eggly.anvils
+To:     Mike Rapoport <rppt@kernel.org>
+cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andy Shevchenko <andy@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Darren Hart <dvhart@infradead.org>,
+        Dave Young <dyoung@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Lianbo Jiang <lijiang@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 0/3] x86/setup: always resrve the first 1M of RAM
+In-Reply-To: <20210601075354.5149-1-rppt@kernel.org>
+Message-ID: <alpine.LSU.2.11.2106011109020.1045@eggly.anvils>
+References: <20210601075354.5149-1-rppt@kernel.org>
+User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 31, 2021 at 2:12 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> Would this be appropriate to send?
->
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c45613c30803..0d03f6ccdb70 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14378,9 +14378,13 @@ F:     include/uapi/linux/personality.h
->  PGO BASED KERNEL PROFILING
->  M:     Sami Tolvanen <samitolvanen@google.com>
->  M:     Bill Wendling <wcw@google.com>
-> +M:     Kees Cook <keescook@chromium.org>
->  R:     Nathan Chancellor <nathan@kernel.org>
->  R:     Nick Desaulniers <ndesaulniers@google.com>
-> +L:     clang-built-linux@googlegroups.com
->  S:     Supported
-> +B:     https://github.com/ClangBuiltLinux/linux/issues
-> +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/clang/pgo
->  F:     Documentation/dev-tools/pgo.rst
->  F:     kernel/pgo/
->
+On Tue, 1 Jun 2021, Mike Rapoport wrote:
+> 
+> Randy, Hugh, I'd appreciate if you give this a whirl on your old Sandy
+> Bridge laptops as it changes again the way trim_snb_memory() works.
 
-I think so.
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
--- 
-Thanks,
-~Nick Desaulniers
+Boots and runs fine here, i386 or x86_64: thanks for remembering us!
+
+Hugh
