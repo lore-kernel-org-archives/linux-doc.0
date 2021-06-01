@@ -2,84 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9990C47080
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:52:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB449C4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:53:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1939613AB
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:52:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CE4E610A0
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:53:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233336AbhFAIyV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 04:54:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51552 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231139AbhFAIyU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Jun 2021 04:54:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F1E6F610A0;
-        Tue,  1 Jun 2021 08:52:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622537559;
-        bh=8a14SexF0VfpNwXP+zIc3awUdTFy5l9yf6WZSfXTd4I=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=SeAPSMEr+/bCDKDRlUBdS2SixGDGFDoxzjMGL257ErWVAa6CU94zH6YlMgBwVP6fD
-         SpbeV3ZC0hIEOxiUjQFDRqnrVF/VcgVSlZU6hHeTH9PVJRgo53rY6JoDbo42y+AP2D
-         sUKDU2UUXeeJFvA5FQpGAjHdKxI8daTDoXP4uFFMVhK+AzBwmruEcgr+gd89tJ4nQu
-         qpAVfGrH4z/qYfZ/Sn+kmTREboFJLQiJzCJw9/aAQrTyXBmbQ6afiEbsGm2y/0v79A
-         38UkEHYcvRADeqz7r6fyPJQhC6jtzLKJQNIIuGlarAT6pw+iVTHSYnVpo+zC6mzJag
-         myVcGfquSdlIw==
-Message-ID: <813942f4864d87ef0b9c5dff98c23c919bdd88a9.camel@kernel.org>
-Subject: Re: [PATCH v2 09/12] drm/vc4: hdmi: Remove firmware logic for MAI
- threshold setting
-From:   nicolas saenz julienne <nsaenz@kernel.org>
-To:     Maxime Ripard <maxime@cerno.tech>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Mark Brown <broonie@kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>
-Cc:     devicetree@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Tim Gover <tim.gover@raspberrypi.com>,
-        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
-        Eric Anholt <eric@anholt.net>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        Maxime Ripard <mripard@kernel.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        linux-rpi-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dom Cobley <popcornmix@gmail.com>
-Date:   Tue, 01 Jun 2021 10:52:31 +0200
-In-Reply-To: <20210525132354.297468-10-maxime@cerno.tech>
-References: <20210525132354.297468-1-maxime@cerno.tech>
-         <20210525132354.297468-10-maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
+        id S233182AbhFAIzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 04:55:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233208AbhFAIzR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 04:55:17 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB0FC061574;
+        Tue,  1 Jun 2021 01:53:35 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 29so10167426pgu.11;
+        Tue, 01 Jun 2021 01:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RCbm1eO6NljASmXQV6rZLOGqrFmq6s5+C7dsgtFpv+g=;
+        b=KDohyLRpFufwz/3nAD2UD2ukR7EqlrJULj20zX4Ek2VrDStJA8EC2boeHBH0fAk4qA
+         ORrvDPWoCs/jHbrwfHt9krMavts9f6N0Rb0wKy0e7yztEa7c3MizdOi7ak8PNXzyCwnL
+         Wcd2IbC7Ulj59/bUOi3PlHuikiM4ExV7dQjujZm218EA293NQtRyUB8gUoRtF0wgLZ9t
+         Df3/VrDc8kx6PkO+RJINgMRcBm652jZFGkTRpQrbqs5IQQLmghdZbtlazYPgoGeqOsHn
+         2GZjwNbwWzghICEAYilR2rufVxh1lwH7AtL+mIZ24qhHa9FHC8vQjvixCUAhjXQ65oKB
+         nShA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RCbm1eO6NljASmXQV6rZLOGqrFmq6s5+C7dsgtFpv+g=;
+        b=SLGB3QMRjctzEpZUFMCNkWNvUFnHSWJQCg/kz2/LcSRHeIxwZvqqOMIEXyT744N+yZ
+         ze/qkrY0d17JRHWtpC+q2oSDhkKakfP2OaIPCWW7kyyAwXCVke8rHpt444Xobou/HKId
+         ognb2JlI+IUyx1LVZDd1S/CAlsOpLq9grxVDP3UtNTDT4TgmmUi9yWPZKuCWzEdbT0wR
+         TFDL5OAQlQsSrn6mo77PZZBS/9bnbdRGK/eykVlGaZF1Wfi6GABXt4RwpNuGiWq9ihZO
+         N7O9TSW9clngB0+CMO+6/h9ZIOjNq291xXumj1gW/iMn/3+JMPM0niOZRnGJSWVwy7Wv
+         Ly7w==
+X-Gm-Message-State: AOAM533lvKxcs5M+uyuaTWKNH1JG5iu+M3lCHttWttFzw9ues/R8uzRe
+        DnR+Go4qG1TDQtve4npA0WQ=
+X-Google-Smtp-Source: ABdhPJxw96WKM3bN7DHnJcNBori4Vq1y4Pz4SQVPRrghtuqjgFC7wHM2H1E48tSbV5sb9OWAGTxEUA==
+X-Received: by 2002:a63:2cd4:: with SMTP id s203mr14383682pgs.417.1622537614813;
+        Tue, 01 Jun 2021 01:53:34 -0700 (PDT)
+Received: from Ubuntu.localdomain ([103.127.241.252])
+        by smtp.gmail.com with ESMTPSA id v3sm12639919pfb.203.2021.06.01.01.53.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jun 2021 01:53:34 -0700 (PDT)
+From:   Gao Mingfei <g199209@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org, Gao Mingfei <g199209@gmail.com>
+Subject: [PATCH] docs: block: fix stat.rst document error
+Date:   Tue,  1 Jun 2021 08:51:45 +0000
+Message-Id: <20210601085145.3273-1-g199209@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-05-25 at 15:23 +0200, Maxime Ripard wrote:
-> From: Dom Cobley <popcornmix@gmail.com>
-> 
-> This was a workaround for bugs in hardware on earlier Pi models
-> and wasn't totally successful.
+There are 17 decimal vaules, not 11.
 
-What's to expect sound wise on older RPis?
+Previous committers forgot to change this number when adding
+new fields.
 
-Regards,
-Nicolas
+Signed-off-by: Gao Mingfei <g199209@gmail.com>
+---
+ Documentation/block/stat.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/block/stat.rst b/Documentation/block/stat.rst
+index 77311335c08b..a1cd9db2058f 100644
+--- a/Documentation/block/stat.rst
++++ b/Documentation/block/stat.rst
+@@ -18,7 +18,7 @@ A.
+    each, it would be impossible to guarantee that a set of readings
+    represent a single point in time.
+ 
+-The stat file consists of a single line of text containing 11 decimal
++The stat file consists of a single line of text containing 17 decimal
+ values separated by whitespace.  The fields are summarized in the
+ following table, and described in more detail below.
+ 
+-- 
+2.25.1
 
