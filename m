@@ -2,96 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02D61C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 04:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 835BDC47080
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 07:54:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5C776023E
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 04:17:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5ED9E61378
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 07:54:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232126AbhFAETJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 00:19:09 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:36439 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231607AbhFAETJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 00:19:09 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 239155C014F;
-        Tue,  1 Jun 2021 00:17:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Tue, 01 Jun 2021 00:17:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.fm; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=DiuozS+P4zLUAT9fUWzPHY8BCza
-        XXcRmW1+OkkpOTwA=; b=ELwFulW4XOrPglHlHd5S8/ZUw4GkWwNvfQZpStAHnv/
-        GTgZ783Dx0NW4Py4IIEsfO001lxvxJgI+muyh6pDRzvbAOTpzqcfEcznFzIel5qh
-        /cPPRvjG8/GNsfzn8Q46Mn6bOag6OiyaEFSjlbT1taum9Jnb72ly0a/0rLmORkp+
-        3Zx/dI7XX4m1iZHsyDCd3laNnNYxyrnmwA8IfuGYmfaeVEf1yggdUCazXeMiu2Tl
-        yPxoUUC3ibhuROvr3VDIYnhQrE/pgRgPJpMZM/rDcDXim0xNPU6ebbqlaweI+3xc
-        taRDXWw830g3ZqqbO6MnZ/vTHZNgSw1KWIPbl6fnxSg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=DiuozS
-        +P4zLUAT9fUWzPHY8BCzaXXcRmW1+OkkpOTwA=; b=CsVyFY4vDdTPIQXfn3YTqs
-        1BaNnw7oHar120J/iaKhh6MZmhpmSK7f+XYqIQTd+lRduIRzo7bpm8RNWi4uQfED
-        5fuDihOu3Sz/or4JdhCcQnVXgRbHbLuFmzrV+jJf2yZU+WIugNQhv5HJHrEWCrrH
-        7y3uwzbnl5Rk2LnlBOXkzl0WYILLyPCts1wYFM6sagFs+Th4GZYCOPD5K9ONzioM
-        IOV7+0bwJk0KAoU7FvxDNUHCLMyRuMp1cMy0AGymjC4H3f7PI9eIGiiJu1qmVsXN
-        IhtwjBHHQiL2J9ZYwGV7h1gHESXJ5dSZznw0Au5Il8BRwRGFm+WuQUN/9XTJMSRA
-        ==
-X-ME-Sender: <xms:17S1YB9W1nJl3PNEteH6IwX6Q1edfJP6jbCjuGSLSQycu6rXGernXw>
-    <xme:17S1YFuhLAXzIxldZ3lXim4-gwZgzXXcFRUwqEyWBbBg9Ea-yBumHbS92YQ790_IR
-    rXAKBDfU45y6UIi>
-X-ME-Received: <xmr:17S1YPDNPO67t1Mi1skSOwnpBUDmhHefFZRRyzL_xDIKs5C6YkMUX2AVPTzO1AnRH0PSaP8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelgedgkeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjfgesthdtredttdervdenucfhrhhomhepvfhomhcu
-    hfhofihlvgcuoeifrgeiihhvghhtfhesfhgrshhtmhgrihhlrdhfmheqnecuggftrfgrth
-    htvghrnhepffetueehvdehteffffdvfffgudduteekjeekudefiedtffffteekuefggedu
-    iedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfi
-    griehivhhgthhfsehfrghsthhmrghilhdrfhhm
-X-ME-Proxy: <xmx:17S1YFe7DE_zEZGpjxj0jTIXOR9SvTJ3P129mnZeBKNrDFx8SiN9_A>
-    <xmx:17S1YGOyM3v6H3jOxNVK8OCYe1zgpeXKKwGMvTTZlP-BG5JWId2Urw>
-    <xmx:17S1YHmCcrUKYyJuOk2jZp6VKFEjY0Yx6cHHUN04xwha6FBCkDzfjA>
-    <xmx:2LS1YFc4PdnYL_0iXUCBWY0xtiMNuWAR0umOfW-lXSqwtkIi7USOfQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Jun 2021 00:17:26 -0400 (EDT)
-Date:   Mon, 31 May 2021 21:17:16 -0700
-From:   Tom Fowle <wa6ivgtf@fastmail.fm>
-To:     speakup@linux-speakup.org
-Cc:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        grandmaster@al2klimov.de, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: docs: Convert the Speakup guide to rst
-Message-ID: <20210601041716.GA2812@qlf.suddenlink.net>
-Mail-Followup-To: speakup@linux-speakup.org,
-        Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        grandmaster@al2klimov.de, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210531215737.8431-1-igormtorrente@gmail.com>
- <20210531220754.h4ep2dj65wl6hejf@begin>
+        id S233069AbhFAHzr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 03:55:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34476 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233160AbhFAHzq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Jun 2021 03:55:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E64BA6136E;
+        Tue,  1 Jun 2021 07:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622534045;
+        bh=+XAvuzMHMQcxwCnCNesqCmyb6X8V5ARJjsdHoon7pEE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vJX11QflGfehoVWetTIWOPft3Zql/d8Esr52RiXgnDt0LX43QF/OsR5I82cUSTyFr
+         hHd8Ku5eS7qpq+nBWjBNkbpRHmqWK8B4a6pfW0cxdNWNRQtdKvnXT1M+Yfk1Ly4uXC
+         4X+1t/UdvkbuXhBkBNjaWMctWMW1QZ6SxAgM0I8k40p6yGftCxnD6UD2dCYGj71uHJ
+         /apes1WW4DGlpisAA4jHON6e/zx4+RiUFImA+3CzS3zy4If+EdAEkRdjpueLJrcNP0
+         WhjYFC7TkmcF9WMeAljymC4rUZIvueGhD/CwHd6aMJ9gZD04v67b91yeVKOST+sWMA
+         CGcb7cxAoOv+A==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     x86@kernel.org
+Cc:     "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andy Shevchenko <andy@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Darren Hart <dvhart@infradead.org>,
+        Dave Young <dyoung@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lianbo Jiang <lijiang@redhat.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH 0/3] x86/setup: always resrve the first 1M of RAM
+Date:   Tue,  1 Jun 2021 10:53:51 +0300
+Message-Id: <20210601075354.5149-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210531220754.h4ep2dj65wl6hejf@begin>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I read through much of the speakup users guide in rst and it seems
-completely accessible reading the file in email with the mutt email client,
-speakup and a doubletalk PC synth. No guarantees I may well have missed
-things.
-Thanks for the usefull work.
-tom Fowle WA6IVG
+From: Mike Rapoport <rppt@linux.ibm.com>
+
+Hi,
+
+Commit a799c2bd29d1 ("x86/setup: Consolidate early memory reservations")
+changed the way early memory reservations are made and caused a regression
+for users that set CONFIG_X86_RESERVE_LOW to 640K in their kernel
+configuration [1] because there was no room for the real mode trampoline.
+
+My initial suggestion was to reduce the limit of CONFIG_X86_RESERVE_LOW
+from 640K to 512K [2], but in the end it seems simpler to always reserve
+the first 1M of RAM after the real mode trampoline is allocated.
+
+The first patch in the series contains the rework of early memory
+reservations so that first 64K will be reserved very early before memblock
+allocations  are possible and the remaining memory under 1M would be
+reserved after the real mode trampoline is allocated. This patch also
+update freeing of EFI boot services so that memory under 1M will remain
+reserved which is also required for crash kernel [3].
+
+The second and the third patches are cleanups that remove pieces that are
+not longer required after the first patch is applied.
+
+Randy, Hugh, I'd appreciate if you give this a whirl on your old Sandy
+Bridge laptops as it changes again the way trim_snb_memory() works.
+
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=213177
+[2] https://lore.kernel.org/lkml/20210526081100.12239-1-rppt@kernel.org
+[3] https://lore.kernel.org/lkml/20210531090023.16471-1-lijiang@redhat.com/#r
+
+Mike Rapoport (3):
+  x86/setup: always reserve the first 1M of RAM
+  x86/setup: remove CONFIG_X86_RESERVE_LOW and reservelow options
+  x86/crash: remove crash_reserve_low_1M()
+
+ .../admin-guide/kernel-parameters.txt         |  5 --
+ arch/x86/Kconfig                              | 29 ---------
+ arch/x86/include/asm/crash.h                  |  6 --
+ arch/x86/kernel/crash.c                       | 13 ----
+ arch/x86/kernel/setup.c                       | 59 +++++++------------
+ arch/x86/platform/efi/quirks.c                | 12 ++++
+ arch/x86/realmode/init.c                      | 14 +++--
+ 7 files changed, 41 insertions(+), 97 deletions(-)
+
+
+base-commit: c4681547bcce777daf576925a966ffa824edd09d
+-- 
+2.28.0
+
