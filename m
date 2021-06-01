@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FA63C47092
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:50:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9990C47080
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:52:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 702DD613A9
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:50:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1939613AB
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:52:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233525AbhFAIvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 04:51:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48686 "EHLO mail.kernel.org"
+        id S233336AbhFAIyV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 04:54:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51552 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233556AbhFAIvd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Jun 2021 04:51:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E53F61375;
-        Tue,  1 Jun 2021 08:49:46 +0000 (UTC)
+        id S231139AbhFAIyU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Jun 2021 04:54:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F1E6F610A0;
+        Tue,  1 Jun 2021 08:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622537392;
-        bh=BWq5NprmRBFQsgZo2g232l4nfkJzik5TZeKrg2RP7A4=;
+        s=k20201202; t=1622537559;
+        bh=8a14SexF0VfpNwXP+zIc3awUdTFy5l9yf6WZSfXTd4I=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=iGXAAQHTjaMW5jK32eeGWC/RMFFgzjIrcMr7psbh+zR6Q2/OwOLt/jUrgAkIts5eI
-         YE9mqsBPPxfXMllInKg/lzlcvQL9pBDGUUKDpK3bANr+hzYeKuYwQsRZ1azVlrjV60
-         L9ZRjWo97oGa5w+Gja4vghuhWY7d/iByP3bkn3Ok4Cx/gH+j+MtNRmuAoN/QBTXTcj
-         joE5KshjA13w2AZoHznmYqMMMcOIdld5uK/Xt6IbKrb/I130zBtSJw0uDaqj54TMVk
-         mvFA3LqaeVz+EXflPqjPNu5e6bQuYjhGykfyPXILyn5ZZKnlaqDmODJtrzmviALaKp
-         9mYgKvZ8Yr/vg==
-Message-ID: <90338d5fbc55f80a8cd28ead24791f3edc247ba4.camel@kernel.org>
-Subject: Re: [PATCH v2 08/12] drm/vc4: hdmi: Set
- VC4_HDMI_MAI_CONFIG_FORMAT_REVERSE
+        b=SeAPSMEr+/bCDKDRlUBdS2SixGDGFDoxzjMGL257ErWVAa6CU94zH6YlMgBwVP6fD
+         SpbeV3ZC0hIEOxiUjQFDRqnrVF/VcgVSlZU6hHeTH9PVJRgo53rY6JoDbo42y+AP2D
+         sUKDU2UUXeeJFvA5FQpGAjHdKxI8daTDoXP4uFFMVhK+AzBwmruEcgr+gd89tJ4nQu
+         qpAVfGrH4z/qYfZ/Sn+kmTREboFJLQiJzCJw9/aAQrTyXBmbQ6afiEbsGm2y/0v79A
+         38UkEHYcvRADeqz7r6fyPJQhC6jtzLKJQNIIuGlarAT6pw+iVTHSYnVpo+zC6mzJag
+         myVcGfquSdlIw==
+Message-ID: <813942f4864d87ef0b9c5dff98c23c919bdd88a9.camel@kernel.org>
+Subject: Re: [PATCH v2 09/12] drm/vc4: hdmi: Remove firmware logic for MAI
+ threshold setting
 From:   nicolas saenz julienne <nsaenz@kernel.org>
 To:     Maxime Ripard <maxime@cerno.tech>,
         Jaroslav Kysela <perex@perex.cz>,
@@ -60,10 +60,10 @@ Cc:     devicetree@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
         Dom Cobley <popcornmix@gmail.com>
-Date:   Tue, 01 Jun 2021 10:49:44 +0200
-In-Reply-To: <20210525132354.297468-9-maxime@cerno.tech>
+Date:   Tue, 01 Jun 2021 10:52:31 +0200
+In-Reply-To: <20210525132354.297468-10-maxime@cerno.tech>
 References: <20210525132354.297468-1-maxime@cerno.tech>
-         <20210525132354.297468-9-maxime@cerno.tech>
+         <20210525132354.297468-10-maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 MIME-Version: 1.0
@@ -75,15 +75,10 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Tue, 2021-05-25 at 15:23 +0200, Maxime Ripard wrote:
 > From: Dom Cobley <popcornmix@gmail.com>
 > 
-> Without this bit set, HDMI_MAI_FORMAT doesn't pick up
-> the format and samplerate from DVP_CFG_MAI0_FMT and you
-> can't get HDMI_HDMI_13_AUDIO_STATUS_1 to indicate HBR mode
-> 
-> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
+> This was a workaround for bugs in hardware on earlier Pi models
+> and wasn't totally successful.
 
-Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+What's to expect sound wise on older RPis?
 
 Regards,
 Nicolas
