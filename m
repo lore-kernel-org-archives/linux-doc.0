@@ -2,134 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE846C47080
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D01CBC47080
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:41:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3B6E613BD
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:37:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A436D613C1
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:41:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234953AbhFAWja (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 18:39:30 -0400
-Received: from hera.aquilenet.fr ([185.233.100.1]:50244 "EHLO
-        hera.aquilenet.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234714AbhFAWja (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:39:30 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by hera.aquilenet.fr (Postfix) with ESMTP id F0E49899;
-        Wed,  2 Jun 2021 00:37:45 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
-        by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id xtQRWJTpljHk; Wed,  2 Jun 2021 00:37:45 +0200 (CEST)
-Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
-        by hera.aquilenet.fr (Postfix) with ESMTPSA id EE20E170;
-        Wed,  2 Jun 2021 00:37:44 +0200 (CEST)
-Received: from samy by begin with local (Exim 4.94.2)
-        (envelope-from <samuel.thibault@ens-lyon.org>)
-        id 1loD15-005WbP-QT; Wed, 02 Jun 2021 00:37:43 +0200
-Date:   Wed, 2 Jun 2021 00:37:43 +0200
-From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <cmbrannon@cox.net>,
-        William Hubbs <w.d.hubbs@gmail.com>,
-        collins@gene3.ait.iastate.edu,
-        Steve Holmes <steve.holmes88@gmail.com>
-Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-Message-ID: <20210601223743.carif4gkzcz5jo7j@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <cmbrannon@cox.net>,
-        William Hubbs <w.d.hubbs@gmail.com>, collins@gene3.ait.iastate.edu,
-        Steve Holmes <steve.holmes88@gmail.com>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210531215737.8431-1-igormtorrente@gmail.com>
- <875yyxbenm.fsf@meer.lwn.net>
- <20210601220643.uzep2ju2zlcmpa57@begin>
- <874keh9qk9.fsf@meer.lwn.net>
+        id S234908AbhFAWna (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 18:43:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234714AbhFAWna (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:43:30 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E131DC061574
+        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 15:41:48 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 7D5472CD;
+        Tue,  1 Jun 2021 22:41:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7D5472CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1622587308; bh=XC50YHo5lnCFWij3ytl3EbMXb5rt7T+5r4MOrlpGGGE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=mwcAxQhMnpDtVHh2W++1kVdjbsSFptANwOCpRQ2HLOsWSUjVbYgJc6IRmeZocX4RI
+         3au9G+11FidEefETVNxarTnnn6EatuW3FXxJjq8CVlnRQJXBhSVp056A5zEp+9KjVy
+         6xU6Ps92Nqc59RaqqjjW2ef0Co96a8e7YZ8JmOQ88ekxg+vOkpPUNMP+WThjcUNhkH
+         1D97EcvhjeS6uqMXH3EBDY2UAGevu5eY423AKofafG3K1Nc5N+PUanIocIaam4BKla
+         nEK1KfAWWm3ZLXk4myiazjf2FnKAOpwSoE2rjiQMqcL/l3MO5dO79b9br59xwQfEMU
+         WVGiR13fqSqNQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, bobwxc@email.cn, siyanteng01@gmail.com,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH v3] docs/zh_CN: add core-api symbol-namespaces.rst
+ translation
+In-Reply-To: <20210527064347.3936694-1-siyanteng@loongson.cn>
+References: <20210527064347.3936694-1-siyanteng@loongson.cn>
+Date:   Tue, 01 Jun 2021 16:41:47 -0600
+Message-ID: <87r1hl8axg.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874keh9qk9.fsf@meer.lwn.net>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Spamd-Bar: --
-Authentication-Results: hera.aquilenet.fr
-X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: F0E49899
-X-Spamd-Result: default: False [-2.50 / 15.00];
-         ARC_NA(0.00)[];
-         RCVD_VIA_SMTP_AUTH(0.00)[];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[cox.net,gmail.com];
-         TAGGED_RCPT(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         HAS_ORG_HEADER(0.00)[];
-         RCVD_COUNT_THREE(0.00)[3];
-         RCPT_COUNT_SEVEN(0.00)[11];
-         RCVD_NO_TLS_LAST(0.10)[];
-         FROM_EQ_ENVFROM(0.00)[];
-         MID_RHS_NOT_FQDN(0.50)[];
-         FREEMAIL_CC(0.00)[gmail.com];
-         BAYES_HAM(-3.00)[100.00%]
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet, le mar. 01 juin 2021 16:18:46 -0600, a ecrit:
-> The problem is that the kernel docs, when built, include a great deal of
-> code and text taken directly from the kernel source.  The built docs are
-> thus a derived product of the kernel and the result needs to carry a
-> GPL-compatible license.
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-Ah...
+> Translates Documentation/core-api/symbol-namespaces.rst into Chinese.
+>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+> ---
+> v3:
+>
+> * update Documentation/translations/zh_CN/core-api/index.rst diff.
+>
+> v2:
+>
+> * Some bad translations have been modified as suggested by Xiangcheng.Thank you for your review.
+> https://lore.kernel.org/linux-doc/20210429052252.GA9451@bobwxc.top/T/#t
+>
+> * Pick Xiangcheng Wu's review-by tag.
+>
+>  .../translations/zh_CN/core-api/index.rst     |   2 -
+>  .../zh_CN/core-api/symbol-namespaces.rst      | 142 ++++++++++++++++++
+>  2 files changed, 142 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/symbol-namespaces.rst
 
-> I've spent some time talking with lawyers about
-> this, and they have confirmed that view of things.
+Applied, thanks.
 
-Yes, sure.
-
-> As a standalone .txt file there is probably no legal problem, but that
-> changes as soon as you bring it into RST TOC tree.
-
-Yes.
-
-> >> What are the chances that we can get the authors to agree on a change to
-> >> a GPL-compatible license for this file?
-> >
-> > I don't know about Collins' opinion on this, Cc-ing him with the latest
-> > mail my archives know for him (which dates 2008...)
-> >
-> > The copyright "the Speakup Team" is a more complex thing to look for.
-> 
-> Do you have a history of contributors to the file in its previous home?
-
-Checking more closely, it seems we have it. The detail is in
-git@github.com:linux-speakup/speakup.git in ./doc/spkguide.txt, but that
-seems relatively simple:
-
-- The initial import of the file (bddef0d280cd) wears only the Gene
-  Collins copyright notice.
-- I made some changes and added my copyright notice.
-- Christopher Brannon (now in Cc) made various changes and added the
-  "the Speakup Team" copyright notice.
-- William Hubbs (now in Cc) made some changes.
-- Steve Holmes (now in Cc) added one sentence.
-
-So we'd need Gene's, Christopher's, William's, and Steve's ack on adding
-the GPL alternative to the GFDL-1.2 licence.
-
-Samuel
+jon
