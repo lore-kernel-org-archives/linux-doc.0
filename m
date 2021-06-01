@@ -2,176 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2631C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 09:07:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9711C47093
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 09:26:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86FF061364
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 09:07:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C59D8613AE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 09:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233330AbhFAJIq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 05:08:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22770 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233218AbhFAJIp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 05:08:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622538424;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Wwyq+d8kaa3gE2iFZ3mOrS7Gyye0u9Y9IgFDFZTKJ9s=;
-        b=PjC+qSHS6V1NGrAXD5AscFZzz+FCrIKqy69DJ/XnCmiRBDvYVINI1hhUhBah+tNm+k7jfx
-        +kIzT5SSzULJoFP6gynBq0OCGuK5MxLyPCudF5r8OXbXpEtuv1cGH+yXWTT4tOCgIasIZ2
-        rG33uo9BqJ2ew1clunfrjinvjKu77RE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-ZIwBcJjnPNS5dwTQpNN6pw-1; Tue, 01 Jun 2021 05:07:03 -0400
-X-MC-Unique: ZIwBcJjnPNS5dwTQpNN6pw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DEB4803624;
-        Tue,  1 Jun 2021 09:07:00 +0000 (UTC)
-Received: from localhost (ovpn-13-211.pek2.redhat.com [10.72.13.211])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 49D6469108;
-        Tue,  1 Jun 2021 09:06:56 +0000 (UTC)
-Date:   Tue, 1 Jun 2021 17:06:53 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andy Shevchenko <andy@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Dave Young <dyoung@redhat.com>,
-        Hugh Dickins <hughd@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S233225AbhFAJ2N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 05:28:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46112 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233641AbhFAJ2M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Jun 2021 05:28:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 54B5361396;
+        Tue,  1 Jun 2021 09:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622539591;
+        bh=kKX1yVjitfZZxbdBgzCtdoPBBfSIvUVJzJ5sKjo78qc=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=l2A4q7WzOFkiELQ2A3xBy1Foc+wwXt1VLZQ0QkOSa0833GZHZ8vygacZdReblL7ht
+         Ocbj4K3OfK8Yu0fIAqvoNyL7l5WSCgOLuBuGjWqEGuJuQE5mXKC++b4CutSSwPxxCG
+         2wKzxMkn6OyrNpXyWDrt4ccGiQDQadCLy7JkLFzxhVe1ylYZJB7cbdSwXCxg3fRtoe
+         3PhMttL9Lb4EV1TN5w/uHdqz3x5tdHQmP+OQr6bAGmSCw3a08C3uPIgniTeT2swQOl
+         GkV6bwR0m+BRdxBOox3bKPuL2ajaomZIqgZcebdZLsjvve14r5ur8ld4FxXnupWFIH
+         F5QH/3XlvmZLw==
+Message-ID: <c1ee306fbc81da2df7d0041c719fc8cd3302cf0f.camel@kernel.org>
+Subject: Re: [PATCH v2 10/12] drm/vc4: hdmi: Register HDMI codec
+From:   nicolas saenz julienne <nsaenz@kernel.org>
+To:     Maxime Ripard <maxime@cerno.tech>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Mark Brown <broonie@kernel.org>,
+        dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>
+Cc:     devicetree@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Tim Gover <tim.gover@raspberrypi.com>,
+        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
+        Eric Anholt <eric@anholt.net>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        Maxime Ripard <mripard@kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-rpi-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Lianbo Jiang <lijiang@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/3] x86/setup: always reserve the first 1M of RAM
-Message-ID: <20210601090653.GB361405@MiWiFi-R3L-srv>
-References: <20210601075354.5149-1-rppt@kernel.org>
- <20210601075354.5149-2-rppt@kernel.org>
+        Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 01 Jun 2021 11:26:24 +0200
+In-Reply-To: <20210525132354.297468-11-maxime@cerno.tech>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+         <20210525132354.297468-11-maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210601075354.5149-2-rppt@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/01/21 at 10:53am, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-......  
-
-> diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
-> index 7850111008a8..b15ebfe40a73 100644
-> --- a/arch/x86/platform/efi/quirks.c
-> +++ b/arch/x86/platform/efi/quirks.c
-> @@ -450,6 +450,18 @@ void __init efi_free_boot_services(void)
->  			size -= rm_size;
->  		}
-
-Thanks for taking care of the low-1M excluding in
-efi_free_boot_services(), Mike. You might want to remove the old real
-mode excluding code either since it's been covered by your new code.
-
-diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
-index b15ebfe40a73..be814f2089ff 100644
---- a/arch/x86/platform/efi/quirks.c
-+++ b/arch/x86/platform/efi/quirks.c
-@@ -409,7 +409,6 @@ void __init efi_free_boot_services(void)
- 	for_each_efi_memory_desc(md) {
- 		unsigned long long start = md->phys_addr;
- 		unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
--		size_t rm_size;
- 
- 		if (md->type != EFI_BOOT_SERVICES_CODE &&
- 		    md->type != EFI_BOOT_SERVICES_DATA) {
-@@ -430,26 +429,6 @@ void __init efi_free_boot_services(void)
- 		 */
- 		efi_unmap_pages(md);
- 
--		/*
--		 * Nasty quirk: if all sub-1MB memory is used for boot
--		 * services, we can get here without having allocated the
--		 * real mode trampoline.  It's too late to hand boot services
--		 * memory back to the memblock allocator, so instead
--		 * try to manually allocate the trampoline if needed.
--		 *
--		 * I've seen this on a Dell XPS 13 9350 with firmware
--		 * 1.4.4 with SGX enabled booting Linux via Fedora 24's
--		 * grub2-efi on a hard disk.  (And no, I don't know why
--		 * this happened, but Linux should still try to boot rather
--		 * panicking early.)
--		 */
--		rm_size = real_mode_size_needed();
--		if (rm_size && (start + rm_size) < (1<<20) && size >= rm_size) {
--			set_real_mode_mem(start);
--			start += rm_size;
--			size -= rm_size;
--		}
--
- 		/*
- 		 * Don't free memory under 1M for two reasons:
- 		 * - BIOS might clobber it
-
->  
-> +		/*
-> +		 * Don't free memory under 1M for two reasons:
-> +		 * - BIOS might clobber it
-> +		 * - Crash kernel needs it to be reserved
-> +		 */
-> +		if (start + size < SZ_1M)
-> +			continue;
-> +		if (start < SZ_1M) {
-> +			size -= (SZ_1M - start);
-> +			start = SZ_1M;
-> +		}
-> +
->  		memblock_free_late(start, size);
->  	}
->  
-> diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
-> index 2e1c1bec0f9e..8ea285aca827 100644
-> --- a/arch/x86/realmode/init.c
-> +++ b/arch/x86/realmode/init.c
-> @@ -29,14 +29,16 @@ void __init reserve_real_mode(void)
->  
->  	/* Has to be under 1M so we can execute real-mode AP code. */
->  	mem = memblock_find_in_range(0, 1<<20, size, PAGE_SIZE);
-> -	if (!mem) {
-> +	if (!mem)
->  		pr_info("No sub-1M memory is available for the trampoline\n");
-> -		return;
-> -	}
-> +	else
-> +		set_real_mode_mem(mem);
->  
-> -	memblock_reserve(mem, size);
-> -	set_real_mode_mem(mem);
-> -	crash_reserve_low_1M();
-> +	/*
-> +	 * Unconditionally reserve the entire fisrt 1M, see comment in
-> +	 * setup_arch()
-> +	 */
-> +	memblock_reserve(0, SZ_1M);
->  }
->  
->  static void sme_sev_setup_real_mode(struct trampoline_header *th)
-> -- 
-> 2.28.0
+On Tue, 2021-05-25 at 15:23 +0200, Maxime Ripard wrote:
+> The hdmi-codec brings a lot of advanced features, including the HDMI
+> channel mapping. Let's use it in our driver instead of our own codec.
 > 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+
+Regards,
+Nicolas
+
 
