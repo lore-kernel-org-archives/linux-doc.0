@@ -2,102 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00239C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09038C4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:47:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDCE461159
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:45:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1461613AD
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:47:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234948AbhFAWrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 18:47:39 -0400
-Received: from hera.aquilenet.fr ([185.233.100.1]:50476 "EHLO
-        hera.aquilenet.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234799AbhFAWrj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:47:39 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by hera.aquilenet.fr (Postfix) with ESMTP id 39647CE3;
-        Wed,  2 Jun 2021 00:45:56 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
-        by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 03QabYN6ulWn; Wed,  2 Jun 2021 00:45:55 +0200 (CEST)
-Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
-        by hera.aquilenet.fr (Postfix) with ESMTPSA id A57B3CE2;
-        Wed,  2 Jun 2021 00:45:55 +0200 (CEST)
-Received: from samy by begin with local (Exim 4.94.2)
-        (envelope-from <samuel.thibault@ens-lyon.org>)
-        id 1loD90-005WsA-S5; Wed, 02 Jun 2021 00:45:54 +0200
-Date:   Wed, 2 Jun 2021 00:45:54 +0200
-From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <chris@the-brannons.com>,
-        William Hubbs <w.d.hubbs@gmail.com>, acollins@icsmail.net,
-        Steve Holmes <steve.holmes88@gmail.com>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        id S235026AbhFAWss (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 18:48:48 -0400
+Received: from ms.lwn.net ([45.79.88.28]:45660 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234799AbhFAWsr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Jun 2021 18:48:47 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 9525D2CD;
+        Tue,  1 Jun 2021 22:47:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9525D2CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1622587625; bh=xIMGEeNC0jwgcpsFBDrTov+x2OwU5vVVEkoYch3fMRg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=TnEMRgbBLQmN4AaGvRUrde9xPesPE+TG9OoYGNH4Cg1bqyrWIioF4DETRFtIAz5N9
+         ewOInBMW+qQbRQlqSWj37t26VZskR7Q19ulmKC4mH8llqj7jXGl6See4hKkM8aJ9nh
+         fXegrrkoguM6+GhPZnwXwzCn8q0akWwdqaWhfUelYavAWtYsnrR0Qpy7nZqJQlwmjW
+         J4EQKwN2foaQN8emUNgAoXl2TvI7YaSkNUUo4Jh8ZX10cRvUwABOMRyYITvBB+pbzF
+         XuwJ+8mDxR6IsTvezrUSBhZxIUAhEE/2KptoRCQmFQ0z0wLs6ODDHcrO30gmMbxQ5g
+         yc9U7ENZheEOw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Christopher Brannon <cmbrannon@cox.net>,
+        William Hubbs <w.d.hubbs@gmail.com>,
+        collins@gene3.ait.iastate.edu,
+        Steve Holmes <steve.holmes88@gmail.com>
+Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
         gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
         rdunlap@infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-Message-ID: <20210601224554.6kc5syoy2tscisiv@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <chris@the-brannons.com>,
-        William Hubbs <w.d.hubbs@gmail.com>, acollins@icsmail.net,
-        Steve Holmes <steve.holmes88@gmail.com>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+In-Reply-To: <20210601223743.carif4gkzcz5jo7j@begin>
 References: <20210531215737.8431-1-igormtorrente@gmail.com>
- <875yyxbenm.fsf@meer.lwn.net>
- <20210601220643.uzep2ju2zlcmpa57@begin>
- <874keh9qk9.fsf@meer.lwn.net>
- <20210601223743.carif4gkzcz5jo7j@begin>
- <20210601224452.sqblwctwiu47xgqg@begin>
+ <875yyxbenm.fsf@meer.lwn.net> <20210601220643.uzep2ju2zlcmpa57@begin>
+ <874keh9qk9.fsf@meer.lwn.net> <20210601223743.carif4gkzcz5jo7j@begin>
+Date:   Tue, 01 Jun 2021 16:47:05 -0600
+Message-ID: <87mts98aom.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210601224452.sqblwctwiu47xgqg@begin>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Spamd-Bar: --
-Authentication-Results: hera.aquilenet.fr
-X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: 39647CE3
-X-Spamd-Result: default: False [-2.50 / 15.00];
-         ARC_NA(0.00)[];
-         RCVD_VIA_SMTP_AUTH(0.00)[];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[gmail.com];
-         TAGGED_RCPT(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         HAS_ORG_HEADER(0.00)[];
-         RCVD_COUNT_THREE(0.00)[3];
-         RCPT_COUNT_SEVEN(0.00)[11];
-         RCVD_NO_TLS_LAST(0.10)[];
-         FROM_EQ_ENVFROM(0.00)[];
-         MID_RHS_NOT_FQDN(0.50)[];
-         BAYES_HAM(-3.00)[100.00%]
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Samuel Thibault, le mer. 02 juin 2021 00:44:52 +0200, a ecrit:
-> Samuel Thibault, le mer. 02 juin 2021 00:37:43 +0200, a ecrit:
-> > - The initial import of the file (bddef0d280cd) wears only the Gene
-> >   Collins copyright notice.
-> > - Christopher Brannon (now in Cc) made various changes and added the
-> >   "the Speakup Team" copyright notice.
-> 
-> I'm here fixing the mail for Chris and Gene with an up-to-date email
-> address, I also bounced them my previous mail.
+Samuel Thibault <samuel.thibault@ens-lyon.org> writes:
 
-Err, sorry, Chris' wasn't actually fixed, now fixed.
+> So we'd need Gene's, Christopher's, William's, and Steve's ack on adding
+> the GPL alternative to the GFDL-1.2 licence.
 
-Samuel
+That would be great.
+
+One other thing that crosses my mind...we'll need to remove the GFDL
+license text as well.  That's already technically a violation to have
+within a GFDL-licensed document, since it cannot be distributed under
+the terms of that license.  We have the GFDL text already in
+LICENSES/deprecated/GFDL-1.2 if you want to refer to it (but the SPDX
+tag is sufficient for that as well).
+
+Thanks,
+
+jon
