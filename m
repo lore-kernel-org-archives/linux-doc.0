@@ -2,95 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
-	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C110EC4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 18:11:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 065CCC4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 18:53:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 983D361375
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 18:11:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8C276136E
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 18:53:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231331AbhFASMr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 14:12:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48992 "EHLO
+        id S233853AbhFASyp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 14:54:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233971AbhFASMq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 14:12:46 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1053BC061756
-        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 11:11:05 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id j184so15235572qkd.6
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jun 2021 11:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=wRwteCaGKZ10e8+sBtL3qGET4PztXqRbJxpQswQ1wZ4=;
-        b=Xf7CSrcx0gZc/sw/u32fm4fDbUmIKsXJ/VYY3b6I2TINji/gEViOo0+/3eu+yW9Qgd
-         fIGeNKOgrvvoXSlKowbNVeKQqeYrgIx8R+UG5xh83h5SLOwv/5uFjJDNSoddC30OLOAP
-         eeb77BNO0SGqOxoLj3XL020OBNHpc15BDfmueLRDjJQfWJptI6v5o1b1rHvOJRAOVKlt
-         VNpNaJpcQ4vHbnLaPIFMaxp4PkgtqZM58T+bwUwvwAp24ndzjiN27Y317PjL5UaZhW2A
-         4MHWVeTTB4dK7LEaSj2Ky8gxJUKpLuudM6imShkOBqj5RMusHaTKIjTFUXCuCa94uHDl
-         W5Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=wRwteCaGKZ10e8+sBtL3qGET4PztXqRbJxpQswQ1wZ4=;
-        b=fPI6rNeTHgwpFN8UuHxRWCDQI1SQEcuwL1K5eYx65V5W4z/sWsVqiARuDt0CIaA7HQ
-         OJFlxKYR7YIJ3nki8XGk6QGIF5T3ZeRcMTybpYsL6MtFMfdMaho+NWMFS/bjzQdcEL7u
-         UuM7oj1wyKKauidQ+3lAtyVfRQ4IhlFVa0bd0+SWd5v6Kul/Es2ZlYWjmoj50hUX9abi
-         Z+/NrRunP8LwidbeZyKL7axRUvDbXcfO2UyiWjeTQ7Eck2QTc8j596XgwaqvCWPdz0fK
-         HRMUPeZaVcGkyQhPVRl1NJuQnC7yvdEZFtkkDJKDySJF3W57cKfGEVPJaDXItn60knh0
-         R1wg==
-X-Gm-Message-State: AOAM533fhFbmBOW1XcKpAuv/cs7Sx0b/jir/C3WbzIADId8N49UMTqiq
-        r1wkptQ0SGWQ3feFWxscbeYu+A==
-X-Google-Smtp-Source: ABdhPJyH06WMNFVFIh2tqA2mZ/X7OLcXSDF3vAAIrUB8u/TcRWHA6zy5sI+bX9Bd1/r6Bup6LtlwYg==
-X-Received: by 2002:a37:91c2:: with SMTP id t185mr23666624qkd.430.1622571063443;
-        Tue, 01 Jun 2021 11:11:03 -0700 (PDT)
-Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id g5sm10470430qtv.56.2021.06.01.11.11.01
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 01 Jun 2021 11:11:03 -0700 (PDT)
-Date:   Tue, 1 Jun 2021 11:10:49 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@eggly.anvils
-To:     Mike Rapoport <rppt@kernel.org>
-cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andy Shevchenko <andy@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Dave Young <dyoung@redhat.com>,
-        Hugh Dickins <hughd@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lianbo Jiang <lijiang@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 0/3] x86/setup: always resrve the first 1M of RAM
-In-Reply-To: <20210601075354.5149-1-rppt@kernel.org>
-Message-ID: <alpine.LSU.2.11.2106011109020.1045@eggly.anvils>
-References: <20210601075354.5149-1-rppt@kernel.org>
-User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
+        with ESMTP id S233397AbhFASyp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 14:54:45 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C52EC061574;
+        Tue,  1 Jun 2021 11:53:03 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id EEB432CD;
+        Tue,  1 Jun 2021 18:53:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EEB432CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1622573582; bh=eQU1zLIMICap5wSz2gX4aQO5nbrAvf5AdBldQ7YTuJY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=iNlgRfdsGUvcl0jhHQD6xbxG3zkz+SiJ8lIbL2GxWPvNAwjNomSlxhWMYZKFz/Cuh
+         EeKV9AgzMVwmolWXrecK37dAgw4TkN/MNmzwy+Njmax6rYGInzWbldzIN8LkePfxU7
+         7JJSJXynWFJe8t409B1inyuwwl/vpUiN5KtixEGEsm83QSmaM7uZHt7apeXOzLIPRD
+         IItSopuKR2Vi7xWRqAda9pKCb4GiqDSytsfbL/ZAeQTec9dB6K3ezACfLVkVhXBArU
+         LSZ2Cr0CMWT8JAYU5KlI67ziKkHJT60e06W+v3hqmCc7OcjNuP/wKrbP8tGjnx5ZML
+         /K+CN0v6hRE1A==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        gregkh@linuxfoundation.org, samuel.thibault@ens-lyon.org,
+        grandmaster@al2klimov.de, rdunlap@infradead.org
+Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
+In-Reply-To: <20210531215737.8431-1-igormtorrente@gmail.com>
+References: <20210531215737.8431-1-igormtorrente@gmail.com>
+Date:   Tue, 01 Jun 2021 12:53:01 -0600
+Message-ID: <875yyxbenm.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 1 Jun 2021, Mike Rapoport wrote:
-> 
-> Randy, Hugh, I'd appreciate if you give this a whirl on your old Sandy
-> Bridge laptops as it changes again the way trim_snb_memory() works.
+Igor Matheus Andrade Torrente <igormtorrente@gmail.com> writes:
 
-Boots and runs fine here, i386 or x86_64: thanks for remembering us!
+> Modify some parts of the text and add the necessary formatting to leverage
+> the rst features. Including links, code-blocks, bullet lists, etc.
+>
+> Also, adds a table of contents at the beginning and a section to the
+> license.
+>
+> This change helps integrate this documentation to the rest of the rst
+> documentation.
+>
+> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 
-Hugh
+Thanks for doing this work - I'm definitely in favor of it, and if the
+RST format works for the intended readers, we want it.
+
+Do please follow through on Jani's comments.
+
+I am concerned about one thing, though: the licensing of this document
+is not GPL-compatible, which means we can't build it into the rest of
+the docs.  It looks like it entered Documentation/ from staging, through
+Greg's [added to CC] tree.  Greg, were you aware of this licensing when
+you added this document?
+
+What are the chances that we can get the authors to agree on a change to
+a GPL-compatible license for this file?
+
+Thanks,
+
+jon
