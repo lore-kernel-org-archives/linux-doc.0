@@ -2,78 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 081A4C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 23:32:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A6DFC47080
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 23:43:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0069613AD
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 23:32:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63C346139A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 23:43:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235175AbhFAXeJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 19:34:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35362 "EHLO
+        id S235034AbhFAXpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 19:45:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234766AbhFAXeI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 19:34:08 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1947BC061574;
-        Tue,  1 Jun 2021 16:32:25 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id c20so638364qkm.3;
-        Tue, 01 Jun 2021 16:32:25 -0700 (PDT)
+        with ESMTP id S234766AbhFAXpG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 19:45:06 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00860C061574;
+        Tue,  1 Jun 2021 16:43:22 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id k4so716754qkd.0;
+        Tue, 01 Jun 2021 16:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:from:message-id:date:user-agent:mime-version
          :in-reply-to:content-language:content-transfer-encoding;
-        bh=n5qUxNhebxhh1o4S5RsRDnpxOezOtNelOWi74JiDkls=;
-        b=cHpjBW28CEKIdPIP96wHCabTM6ov5/xmVJdjvgmDpseY7daumngEmz1fwlBpplgxnY
-         FRwdeP94Y8Jg4q3RNDNCV2jkN4elQWGcipiidgSZtRGnG/F7FUtuyU0Ws6W+yf6+RasW
-         C/c5sfTswWi8ITgypSmV6IufK5q37mRkjZs6ZZEYo9dUhhs3QpUgIYwsSZ7ZsuN+rbYx
-         Sca47SADPVOjfK/aXZgbIFh9iLLX01EkxW95RohaUDLLazl7iDUSjnUF5kkMwbZqHBJ2
-         HUoEfJKpcnl9RDRgcBkO+XcPkMCBvfAJ7SlKKQoga4D2ralI7P1B0kjTR1jVs9E34wlm
-         Jlpw==
+        bh=LOfyTvzBlduQM6r6bBzDtQHy05UJJgLn5jYaGzsmD/U=;
+        b=nUjIdHZFKCGWbp8oi5u8CAD4grNNKv9hdLxU6gDSERpvmU4Dyw6r1jzJRRZkoyoY/k
+         B2D5yuJdAPdUCWN5ZsLIuZ4gW8StzTzC6j0hHZ51DieQmxI/RmbQfuNO0LHvsKcU22kl
+         Or9r5MkVq2IJR1qEd3dvXTFNqUjdBTqOMEOK6IZSx7LXvKSJ998b1LQToeO1yM9v+T85
+         VXvnEWDvau/HwLHlOJ0N5Zf6MlrovbU8knTyYzSuOUEa/voTHGQo6xH3RGK6+uqkVtdn
+         pjNTb+rJbWOC51xPrvIagPMcxnFyUROLvyyi9YfB9UXEP6EwXyUOJ7LS4TeKv+P4vkU1
+         LOJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=n5qUxNhebxhh1o4S5RsRDnpxOezOtNelOWi74JiDkls=;
-        b=nNpM49kCUOaq19pekM8jFGb/NQjANARmsAh7DycV7AgDvbSLOksoqqr/A+zQVSPuJ2
-         /9TRaMZ1iCvxutFKc2tQCk3KDkiK/VQKy0+o1TBf1hTUzb7rXEZllR9P8UlyM44B9xdP
-         eEmcXpuQHietKUPOuiqY6tdaQ0yadzNRysH18STmm0PKcdps4HGKnNFP4l8hdJTaI4PW
-         vw6orR17qOAvGkIWcnxKWoUT5t8bJp2ZD6CLx4/lzggdRhx9uw7nx8obExcu8HpiGxwO
-         Qxq5T15O3KQpOvtuz2IqIQGom6rnn0PpFPXkP+SgIkFolMw4mS971vAX0hSr4YAB+uTx
-         2amA==
-X-Gm-Message-State: AOAM5319h16x20G7EZIgDoUrETlTs46sMOm1QlYwXj2UdhpzAZIzkkHv
-        /Cm7j0xliohgO0gjTnNgDQVam0MrywA=
-X-Google-Smtp-Source: ABdhPJxBdDt7Cc0D9SHrdNBpxahBph5JPuVp2VNMKdcHmGJ5OgCruLRtn00LXh0CFyQXb4aQ5JHtwA==
-X-Received: by 2002:ae9:e716:: with SMTP id m22mr25307355qka.217.1622590344161;
-        Tue, 01 Jun 2021 16:32:24 -0700 (PDT)
+        bh=LOfyTvzBlduQM6r6bBzDtQHy05UJJgLn5jYaGzsmD/U=;
+        b=gXpwuFbBWhGzcQSqKrnOBZ7K75796IADV2GCDi5TjzeHiMGDS5cqI0ZYxA8CFliM6Y
+         cKo444jMJ9/glArOU4B4OFh9PEqA5frOxOConK/KYBux+67GQqVUSNyAEFz5b3hWVj5z
+         1G1p6J8vmZ3RIWbqYtnIImEzIs1M2iDV5d99jtCaaPbwUtZ7BL6IZq7H7vIBlFZOI+hY
+         vGELkuvwP0si5W8R99a+yZ80BzzGjQfBd675Q8fiCNiiK7if5umzJ4SMZreMz1pUV2Dq
+         NXClzRUJR2FuMVcmyNFJix7/paaj198O7IIu78MPyU0tUUMUwWyTbJ5+zSIEGRy9E9D3
+         uQRQ==
+X-Gm-Message-State: AOAM531sN413hW6fSkMyO3Gws2lfr7m6/N/nTX2h2ngD/L2Y95mPkXFX
+        vXWwiqV1AtXzZ4B4xm+qawwqX5KWrHA=
+X-Google-Smtp-Source: ABdhPJw8669buwbP4TtbDzmypkGjLKydn7Mi0vzlV4kQNcIO+PdJaYpy13sXtRHL6ysu+8UPyhwabQ==
+X-Received: by 2002:a37:5d46:: with SMTP id r67mr23827219qkb.72.1622591001976;
+        Tue, 01 Jun 2021 16:43:21 -0700 (PDT)
 Received: from ?IPv6:2804:14c:125:811b:fbbc:3360:40c4:fb64? ([2804:14c:125:811b:fbbc:3360:40c4:fb64])
-        by smtp.gmail.com with ESMTPSA id t196sm1573728qke.50.2021.06.01.16.32.21
+        by smtp.gmail.com with ESMTPSA id d11sm12410089qkk.110.2021.06.01.16.43.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jun 2021 16:32:23 -0700 (PDT)
-Subject: Re: docs: Convert the Speakup guide to rst
+        Tue, 01 Jun 2021 16:43:21 -0700 (PDT)
+Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
 To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        speakup@linux-speakup.org, corbet@lwn.net,
+        Jani Nikula <jani.nikula@linux.intel.com>, corbet@lwn.net,
         gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
         rdunlap@infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20210531215737.8431-1-igormtorrente@gmail.com>
- <20210531220754.h4ep2dj65wl6hejf@begin>
- <b8769ad4-9188-a735-3ac4-4a79b9b06487@gmail.com>
- <20210601215536.5rhnbwwt66uyqhze@begin>
+ <87r1hlrfhk.fsf@intel.com> <1b1e0e07-d438-0902-a28a-e346cba53518@gmail.com>
+ <20210601215723.7kwakixrrizba3bu@begin>
 From:   Igor Torrente <igormtorrente@gmail.com>
-Message-ID: <85969150-6e00-12b8-b56d-5f161436777d@gmail.com>
-Date:   Tue, 1 Jun 2021 20:32:20 -0300
+Message-ID: <9932ed69-685a-e5ce-0180-bf030ca4b608@gmail.com>
+Date:   Tue, 1 Jun 2021 20:43:18 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210601215536.5rhnbwwt66uyqhze@begin>
+In-Reply-To: <20210601215723.7kwakixrrizba3bu@begin>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -83,24 +81,59 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Samuel,
 
-On 6/1/21 6:55 PM, Samuel Thibault wrote:
-> Hello,
+On 6/1/21 6:57 PM, Samuel Thibault wrote:
+> Igor Torrente, le mar. 01 juin 2021 12:11:26 -0300, a ecrit:
+>>>> +| acntsa -- Accent SA
+>>>> +| acntpc -- Accent PC
+>>>> +| apollo -- Apollo
+>>>> +| audptr -- Audapter
+>>>> +| bns -- Braille 'n Speak
+>>>> +| dectlk -- DecTalk Express (old and new, db9 serial only)
+>>>> +| decext -- DecTalk (old) External
+>>>> +| dtlk -- DoubleTalk PC
+>>>> +| keypc -- Keynote Gold PC
+>>>> +| ltlk -- DoubleTalk LT, LiteTalk, or external Tripletalk (db9 serial only)
+>>>> +| spkout -- Speak Out
+>>>> +| txprt -- Transport
+>>>> +| dummy -- Plain text terminal
+>>>
+>>> Looks like a definition list?
+>>>
+>>> https://docutils.sourceforge.io/docs/user/rst/quickref.html#definition-lists
+>>
+>> If the '|' is replaced by definition-list, I'll have to skip a line to each
+>> item so the sphinx doesn't concatenate them into a single line. Like this:
+>>
+>> keywords
+>>    acntsa -- Accent SA
+>>
+>>    acntpc -- Accent PC
+>>
+>>    apollo -- Apollo
+>>    [...]
+>>
+>>
+>> There's a way to do that without these blank lines?
 > 
-> Igor Torrente, le mar. 01 juin 2021 12:39:01 -0300, a ecrit:
->> I was reading all the emails sent in this thread, but I'm not sure how I
->> should proceed. Do think should I continue to improve the patch with the
->> Jani Nikula suggestions? Or abandon it? Or keep both versions?
+> The blank line isn't really a problem.
 > 
-> It seems that people are fine with the switch to the .rst format, and
-> it'll indeed allow much better distribution of its content, so please
-> continue improving the patch with the suggestions from Jani, you have an
+>>>> +Document License
+>>>> +================
+>>>> +
+>>>
+>>> Using SPDX might be nice.
+>>
+>> I was just trying to respect the original text as much as possible, but I
+>> don't mind change it if everybody agrees with it.
 > 
-> Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-> 
-> and the review will probably come from Jani, who seems to actually know
-> a bit about the rst syntax :)
+> SPDX should be fine.
 
-OK, I will keep improving it.
+I have two questions about it.
+
+1 - Should I only make this change when we have the 'acks' from all the 
+previous contributors? Or can I change it to the v3?
+
+2 - Is '.. SPDX-License-Identifier: GPL-2.0' at the beginning is enough?
 
 > 
 > Samuel
