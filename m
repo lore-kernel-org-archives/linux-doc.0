@@ -2,439 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23094C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 15:11:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCDA3C47092
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 15:31:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E246F610CB
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 15:11:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97CD761396
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 15:31:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234142AbhFAPNN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 11:13:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35904 "EHLO
+        id S234346AbhFAPdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 11:33:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234130AbhFAPNN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 11:13:13 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC052C061574;
-        Tue,  1 Jun 2021 08:11:30 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id z1so7356388qvo.4;
-        Tue, 01 Jun 2021 08:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Y767OaMfFFbemWWFP3gHwczlHzwVeNK+OGy5uLWq4H0=;
-        b=RNhiuP4RVLhB6AGDuB//l6b0ZpRPSulWzXZSeOim/YwePtFUqC+uYCRHYKDDnJwc28
-         xKh9omh3k9Plu3mlNoBMDAXt0nbtP2bcoVeu5KVtBgqdqM0IuxsrhDve0A6oInz5+Be0
-         1Fl9YN21raiSFYF5omR4MgMbWunFtuxD8U/LugSdlAx9rrn7YWPDJoIx3o3gZRx6MPpV
-         24sizaFrSOQ3CeWoQbdcGvOWc8p2hm30R+boit+s1ZchDUDNE21JMk/by+kamCx0GKsf
-         ZeMmCd2MFXiOAY/Zv2kQaMQmBjzgrHhGQ6lUbFYyz7rjqopq0AKfAKAF1u1YmteuU+g4
-         XQhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Y767OaMfFFbemWWFP3gHwczlHzwVeNK+OGy5uLWq4H0=;
-        b=WwIzkOsbkFX/SZE1KqU8hohTi4w3Ez0dbkM6SImLbKLOCTT/ZXoam0gEvjl5E2BwuP
-         9t+9CWpv1xxfioFIUFsK4zmx7CCKU4gZN7AEGIIlGDoVWmyQYDbRytX5FHzRZ6WV76uK
-         z4TlxWUUWvj+UGGDLqZ/fX9Ta49YNT3aRBdt6VWkL1rPNLum7pfphBhEbRV0aredm2ug
-         V8dnAXjmaqr2fvg1V11F5g1gyw5iX/paCDFS56OqVvy7pphDfjQEitECqFlLvGKgT9Kt
-         vBAG0z4wSnbZSNyENFKyGervNTlENnCo6eig1Od7ORqZpSXUrbMQZOEs8ndOyVLLI5Mw
-         DiFg==
-X-Gm-Message-State: AOAM530FD3m3X4gVkl8TW/AqgrIX9CgiFaKzIjWjyA3IUU+mLdA9lefU
-        jEQO+ZF65L3q71kA4KM9I5sjk6VesWE=
-X-Google-Smtp-Source: ABdhPJwqJjLVndEtvnkhXd41odpz78kjPPrnR2hDin9ds32pMgac87gvG1+TiHzknc/9/SKmvFNchg==
-X-Received: by 2002:ad4:4a68:: with SMTP id cn8mr2933833qvb.38.1622560289627;
-        Tue, 01 Jun 2021 08:11:29 -0700 (PDT)
-Received: from ?IPv6:2804:14c:125:811b:fbbc:3360:40c4:fb64? ([2804:14c:125:811b:fbbc:3360:40c4:fb64])
-        by smtp.gmail.com with ESMTPSA id c68sm10639823qkd.112.2021.06.01.08.11.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jun 2021 08:11:29 -0700 (PDT)
-Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-To:     Jani Nikula <jani.nikula@linux.intel.com>, corbet@lwn.net,
-        gregkh@linuxfoundation.org, samuel.thibault@ens-lyon.org,
-        grandmaster@al2klimov.de, rdunlap@infradead.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210531215737.8431-1-igormtorrente@gmail.com>
- <87r1hlrfhk.fsf@intel.com>
-From:   Igor Torrente <igormtorrente@gmail.com>
-Message-ID: <1b1e0e07-d438-0902-a28a-e346cba53518@gmail.com>
-Date:   Tue, 1 Jun 2021 12:11:26 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        with ESMTP id S234305AbhFAPdO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 11:33:14 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A931C061574;
+        Tue,  1 Jun 2021 08:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=spulMJU5vcfm6fCDiXKafJqkb0QFdQy2mPq+FRg3HrI=; b=MutdgsODQUN/W4vU1lKs+wXA2y
+        z9fs2I5gVYi629eoU7OElZjgZFcyo/GhXq4Zp14HO7usWO1hYc45clLTQF4nLnVk1iMLyMX+mo6J4
+        n99BeytS6B7UaSG/IBtoVBbH0lasTiVpvs5VXWnRwgTUlMCEKD5C3xJscexDf0op9JU/Rik9RYBj0
+        jOtkW8/sivy6F+MeQA3q2xG8oy8nGdtJpsSKR6F+lrBngwSjHTYbK2SEeK8Q73GdMMOpamtPKICBZ
+        YYCYK961/27+L3Kh4Id08WqDV2W0Gw7ZHT0gtgyZar+YsJzJjdk2GEQ3mXh4b8WuwxHEcEZiNW5Kl
+        161ausGQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lo6LJ-00AA26-Vr; Tue, 01 Jun 2021 15:30:15 +0000
+Date:   Tue, 1 Jun 2021 16:30:09 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Justin He <Justin.He@arm.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
+ file
+Message-ID: <YLZSgZIcWyYTmqOT@casper.infradead.org>
+References: <20210528113951.6225-1-justin.he@arm.com>
+ <20210528113951.6225-3-justin.he@arm.com>
+ <YLDpSnV9XBUJq5RU@casper.infradead.org>
+ <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEDwFCPcFx+qeul@casper.infradead.org>
+ <AM6PR08MB437615DB6A6DEC33223A3138F7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEKqGkm8bX6LZfP@casper.infradead.org>
+ <AM6PR08MB43764764B52AAC7F05B71056F73E9@AM6PR08MB4376.eurprd08.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <87r1hlrfhk.fsf@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM6PR08MB43764764B52AAC7F05B71056F73E9@AM6PR08MB4376.eurprd08.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jani Nikula,
+somehow the linux-fsdevel mailing list got dropped from this revision
+of the patch set.  anyone who's following along may wish to refer to
+the archives:
+https://lore.kernel.org/linux-doc/20210528113951.6225-1-justin.he@arm.com/
 
-On 6/1/21 8:28 AM, Jani Nikula wrote:
-> On Mon, 31 May 2021, Igor Matheus Andrade Torrente <igormtorrente@gmail.com> wrote:
->> Modify some parts of the text and add the necessary formatting to leverage
->> the rst features. Including links, code-blocks, bullet lists, etc.
->>
->> Also, adds a table of contents at the beginning and a section to the
->> license.
->>
->> This change helps integrate this documentation to the rest of the rst
->> documentation.
->>
->> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
->> ---
->>
->> V2: Rebase the patch to cover the commit cae2181b498fe
->>
->> ---
->>   Documentation/admin-guide/index.rst           |    1 +
->>   .../{spkguide.txt => spkguide.rst}            | 1026 +++++++++--------
->>   2 files changed, 574 insertions(+), 453 deletions(-)
->>   rename Documentation/admin-guide/{spkguide.txt => spkguide.rst} (75%)
->>
->> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
->> index 423116c4e787..c45121777ecf 100644
->> --- a/Documentation/admin-guide/index.rst
->> +++ b/Documentation/admin-guide/index.rst
->> @@ -112,6 +112,7 @@ configure specific aspects of kernel behavior to your liking.
->>      ras
->>      rtc
->>      serial-console
->> +   spkguide
->>      svga
->>      syscall-user-dispatch
->>      sysrq
->> diff --git a/Documentation/admin-guide/spkguide.txt b/Documentation/admin-guide/spkguide.rst
->> similarity index 75%
->> rename from Documentation/admin-guide/spkguide.txt
->> rename to Documentation/admin-guide/spkguide.rst
->> index 977ab3f5a0a8..e254af41a8e9 100644
->> --- a/Documentation/admin-guide/spkguide.txt
->> +++ b/Documentation/admin-guide/spkguide.rst
->> @@ -1,14 +1,20 @@
->> -
->> +========================
->>   The Speakup User's Guide
->> -For Speakup 3.1.2 and Later
->> -By Gene Collins
->> -Updated by others
->> -Last modified on Mon Sep 27 14:26:31 2010
->> -Document version 1.3
->> +========================
->> +
->> +| For Speakup 3.1.2 and Later
->> +| By Gene Collins
->> +| Updated by others
->> +| Last modified on Mon Jan 21 17:08:21 2021
->> +| Document version 1.3
->> +
->>   
->> -Copyright (c) 2005  Gene Collins
->> -Copyright (c) 2008  Samuel Thibault
->> -Copyright (c) 2009, 2010  the Speakup Team
->> +Copyright and License
->> +=====================
->> +
->> +| Copyright (c) 2005  Gene Collins
->> +| Copyright (c) 2008  Samuel Thibault
->> +| Copyright (c) 2009, 2010  the Speakup Team
+On Tue, Jun 01, 2021 at 02:42:15PM +0000, Justin He wrote:
+> > On Fri, May 28, 2021 at 03:09:28PM +0000, Justin He wrote:
+> > > > I'm not sure why it's so complicated.  p->len records how many bytes
+> > > > are needed for the entire path; can't you just return -p->len ?
+> > >
+> > > prepend_name() will return at the beginning if p->len is <0 in this case,
+> > > we can't even get the correct full path size if keep __prepend_path
+> > unchanged.
+> > > We need another new helper __prepend_path_size() to get the full path
+> > size
+> > > regardless of the negative value p->len.
+> >
+> > It's a little hard to follow, based on just the patches.  Is there a
+> > git tree somewhere of Al's patches that you're based on?
+> >
+> > Seems to me that prepend_name() is just fine because it updates p->len
+> > before returning false:
+> >
+> >  static bool prepend_name(struct prepend_buffer *p, const struct qstr
+> > *name)
+> >  {
+> >       const char *dname = smp_load_acquire(&name->name); /* ^^^ */
+> >       u32 dlen = READ_ONCE(name->len);
+> >       char *s;
+> >
+> >       p->len -= dlen + 1;
+> >       if (unlikely(p->len < 0))
+> >               return false;
+> >
+> > I think the only change you'd need to make for vsnprintf() is in
+> > prepend_path():
+> >
+> > -             if (!prepend_name(&b, &dentry->d_name))
+> > -                     break;
+> > +             prepend_name(&b, &dentry->d_name);
+> >
+> > Would that hurt anything else?
+> >
 > 
-> Use a field list?
-> 
-> https://docutils.sourceforge.io/docs/user/rst/quickref.html#field-lists
+> It almost works except the snprintf case,
+> Consider,assuming filp path is 256 bytes, 2 dentries "/root/$long_string":
+> snprintf(buffer, 128, "%pD", filp);
+> p->len is positive at first, but negative after prepend_name loop.
+> So, it will not fill any bytes in _buffer_.
+> But in theory, it should fill the beginning 127 bytes and '\0'.
 
-That what I was looking for when converting this text, thanks!
+I have a few thoughts ...
 
-> 
->>   
->>   Permission is granted to copy, distribute and/or modify this document
->>   under the terms of the GNU Free Documentation License, Version 1.2 or
->> @@ -17,7 +23,40 @@ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
->>   copy of the license is included in the section entitled "GNU Free
->>   Documentation License".
->>   
->> +
->> +Contents
->> +========
->> +
->> +* `Preface`_.
->> +
->> +* `1.  Starting Speakup`_
->> +* `2.  Basic operation`_
->> +* `3.  Using the Speakup Help System`_
->> +* `4.  Keys and Their Assigned Commands`_
->> +* `5.  The Speakup Sys System`_
->> +* `6.  Changing Synthesizers`_
->> +* `7.  Loading modules`_
->> +* `8.  Using Software Synthesizers`_
->> +     - `8.1. Espeakup`_
->> +     - `8.2. Speech Dispatcher`_
->> +* `9.  Using The DecTalk PC Card`_
->> +* `10.  Using Cursor Tracking`_
->> +* `11.  Cut and Paste`_
->> +* `12.  Changing the Pronunciation of Characters`_
->> +* `13.  Mapping Keys`_
->> +* `14.  Internationalizing Speakup`_
->> +     - `14.1.  Files Under the i18n Subdirectory`_.
->> +     - `14.2.1.  Loading Your Own Messages`_.
->> +     - `14.2.2. Choose a language`_.
->> +     - `14.3.  No Support for Non-Western-European Languages`_.
->> +* `15.  Using Speakup's Windowing Capability`_
->> +* `16.  Tools for Controlling Speakup`_
->> +     - `16.1.  Speakupconf`_.
->> +     - `16.2.  Talkwith`_
-> 
-> There's a directive for this:
-> 
-> .. contents::
-> 
-> The document didn't use to have a manually updated contents, why add one
-> now that you can have it automated?
-> 
-> https://docutils.sourceforge.io/docs/ref/rst/directives.html#table-of-contents
+1. Do we actually depend on that anywhere?
+2. Is that something we should support?
+3. We could print the start of the filename, if we do.  So something like
+this ...
 
-Thanks, I will change it!
+static void prepend(struct prepend_buffer *p, const char *str, int namelen)
+{
+	p->len -= namelen;
+	if (likely(p->len >= 0)) {
+		p->buf -= namelen;
+		memcpy(p->buf, str, namelen);
+	} else {
+		char *s = p->buf;
+		int buflen = strlen(p->buf);
 
-> 
->> +
->> +
->>   Preface
->> +=======
->>   
->>   The purpose of this document is to familiarize users with the user
->>   interface to Speakup, a Linux Screen Reader.  If you need instructions
->> @@ -37,7 +76,9 @@ with speech access unaided by a sighted person.  Again, these details
->>   are beyond the scope of this manual, but the user should be aware of
->>   them.  See the web site mentioned above for further details.
->>   
->> +
-> 
-> Unnecessary extra blank line, but okay.
+		/* The first time we overflow the buffer */
+		if (p->len + namelen > 0) {
+			p->buf -= p->len + namelen;
+			buflen += p->len + namelen;
+		}
 
-For me these blank lines makes the rst more readable in the text editor 
-like vim.
+		if (buflen > namelen) {
+			memmove(p->buf + namelen, s, buflen - namelen);
+			memcpy(p->buf, str, namelen);
+		} else {
+			memcpy(p->buf, str, buflen);
+		}
+	}
+}
 
-> 
->>   1.  Starting Speakup
-> 
-> I'd drop the numbers and let Sphinx take care of this.
-> 
->> +====================
->>   
->>   If your system administrator has installed Speakup to work with your
->>   specific synthesizer by default, then all you need to do to use Speakup
->> @@ -58,41 +99,43 @@ build and install your own kernel.
->>   If your kernel has been compiled with Speakup, and has no default
->>   synthesizer set, or you would like to use a different synthesizer than
->>   the default one, then you may issue the following command at the boot
->> -prompt of your boot loader.
->> +prompt of your boot loader.::
->>   
->> -linux speakup.synth=ltlk
->> +  linux speakup.synth=ltlk
->>   
->>   This command would tell Speakup to look for and use a LiteTalk or
->>   DoubleTalk LT at boot up.  You may replace the ltlk synthesizer keyword
->>   with the keyword for whatever synthesizer you wish to use.  The
->> -speakup.synth parameter will accept the following keywords, provided
->> +``speakup.synth`` parameter will accept the following keywords, provided
->>   that support for the related synthesizers has been built into the
->>   kernel.
->>   
->> -acntsa -- Accent SA
->> -acntpc -- Accent PC
->> -apollo -- Apollo
->> -audptr -- Audapter
->> -bns -- Braille 'n Speak
->> -dectlk -- DecTalk Express (old and new, db9 serial only)
->> -decext -- DecTalk (old) External
->> -dtlk -- DoubleTalk PC
->> -keypc -- Keynote Gold PC
->> -ltlk -- DoubleTalk LT, LiteTalk, or external Tripletalk (db9 serial only)
->> -spkout -- Speak Out
->> -txprt -- Transport
->> -dummy -- Plain text terminal
->> -
->> -Note: Speakup does * NOT * support usb connections!  Speakup also does *
->> -NOT * support the internal Tripletalk!
->> +| acntsa -- Accent SA
->> +| acntpc -- Accent PC
->> +| apollo -- Apollo
->> +| audptr -- Audapter
->> +| bns -- Braille 'n Speak
->> +| dectlk -- DecTalk Express (old and new, db9 serial only)
->> +| decext -- DecTalk (old) External
->> +| dtlk -- DoubleTalk PC
->> +| keypc -- Keynote Gold PC
->> +| ltlk -- DoubleTalk LT, LiteTalk, or external Tripletalk (db9 serial only)
->> +| spkout -- Speak Out
->> +| txprt -- Transport
->> +| dummy -- Plain text terminal
-> 
-> Looks like a definition list?
-> 
-> https://docutils.sourceforge.io/docs/user/rst/quickref.html#definition-lists
+I haven't tested this; it's probably full of confusion and off-by-one
+errors.  But I hope you get the point -- we continue to accumulate
+p->len to indicate how many characters we shifted off the right of the
+buffer while adding the (start of) the filename on the left.
 
-If the '|' is replaced by definition-list, I'll have to skip a line to 
-each item so the sphinx doesn't concatenate them into a single line. 
-Like this:
+4. If we want the end of the filename instead, that looks easier:
 
-keywords
-   acntsa -- Accent SA
+static void prepend(struct prepend_buffer *p, const char *str, int namelen)
+{
+	p->len -= namelen;
+	if (likely(p->len >= 0)) {
+		p->buf -= namelen;
+		memcpy(p->buf, str, namelen);
+	} else if (p->len + namelen > 0) {
+		p->buf -= p->len + namelen;
+		memcpy(p->buf, str - p->len, p->len + namelen)
+	}
+}
 
-   acntpc -- Accent PC
-
-   apollo -- Apollo
-   [...]
-
-
-There's a way to do that without these blank lines?
-
-For me, it doesn't look very good, but I think the tradeoff worth it 
-improves readability to speakup users. If it is the case.
-
-> 
->> +
->> +.. note::
->> +
->> +   | Speakup does **NOT** support usb connections!
->> +   | Speakup also does **NOT** support the internal Tripletalk!
-> 
-> Why the pipes "|"?
-
-This is the way I found to separate these sentences into two different 
-lines. I'm gladly accepting a better solution for this :)
-
-> 
->>   
->>   Speakup does support two other synthesizers, but because they work in
->>   conjunction with other software, they must be loaded as modules after
->>   their related software is loaded, and so are not available at boot up.
->>   These are as follows:
->>   
->> -decpc -- DecTalk PC (not available at boot up)
->> -soft -- One of several software synthesizers (not available at boot up)
->> +| decpc -- DecTalk PC (not available at boot up)
->> +| soft -- One of several software synthesizers (not available at boot up)
->>   
->>   See the sections on loading modules and software synthesizers later in
->>   this manual for further details.  It should be noted here that the
->> @@ -102,7 +145,9 @@ the boot process, such action must be configured by your system
->>   administrator.  This will mean that you will hear some, but not all,  of
->>   the bootup messages.
->>   
->> +
->>   2.  Basic operation
->> +===================
->>   
->>   Once you have booted the system, and if necessary, have supplied the
->>   proper bootup parameter for your synthesizer, Speakup will begin
->> @@ -115,10 +160,12 @@ screen using the kernel, and must get their keyboard input through the
->>   kernel, they are automatically handled properly by Speakup.  There are a
->>   few exceptions, but we'll come to those later.
->>   
->> -Note:  In this guide I will refer to the numeric keypad as the keypad.
->> -This is done because the speakupmap.map file referred to later in this
->> -manual uses the term keypad instead of numeric keypad.  Also I'm lazy
->> -and would rather only type one word.  So keypad it is.  Got it?  Good.
->> +.. note::
->> +
->> +  In this guide I will refer to the numeric keypad as the keypad.
->> +  This is done because the speakupmap.map file referred to later in this
->> +  manual uses the term keypad instead of numeric keypad.  Also I'm lazy
->> +  and would rather only type one word.  So keypad it is.  Got it?  Good.
->>   
->>   Most of the Speakup review keys are located on the keypad at the far
->>   right of the keyboard.  The numlock key should be off, in order for these
->> @@ -131,9 +178,9 @@ You probably won't want to listen to all the bootup messages every time
->>   you start your system, though it's a good idea to listen to them at
->>   least once, just so you'll know what kind of information is available to
->>   you during the boot process.  You can always review these messages after
->> -bootup with the command:
->> +bootup with the command::
->>   
->> -dmesg | more
->> +  dmesg | more
->>   
->>   In order to speed the boot process, and to silence the speaking of the
->>   bootup messages, just press the keypad enter key.  This key is located
->> @@ -164,19 +211,19 @@ the speech with keypad enter, or use any of the Speakup review keys.
->>   Here are some basic Speakup review keys, and a short description of what
->>   they do.
->>   
->> -keypad 1 -- read previous character
->> -keypad 2 -- read current character (pressing keypad 2 twice rapidly will speak
->> -	the current character phonetically)
->> -keypad 3 -- read next character
->> -keypad 4 -- read previous word
->> -keypad 5 -- read current word (press twice rapidly to spell the current word)
->> -keypad 6 -- read next word
->> -keypad 7 -- read previous line
->> -keypad 8 -- read current line (press twice rapidly to hear how much the
->> -	text on the current line is indented)
->> -keypad 9 -- read next line
->> -keypad period -- speak current cursor position and announce current
->> -	virtual console
->> +| keypad 1 -- read previous character
->> +| keypad 2 -- read current character (pressing keypad 2 twice rapidly will speak
->> +	      the current character phonetically)
->> +| keypad 3 -- read next character
->> +| keypad 4 -- read previous word
->> +| keypad 5 -- read current word (press twice rapidly to spell the current word)
->> +| keypad 6 -- read next word
->> +| keypad 7 -- read previous line
->> +| keypad 8 -- read current line (press twice rapidly to hear how much the
->> +	      text on the current line is indented)
->> +| keypad 9 -- read next line
->> +| keypad period -- speak current cursor position and announce current
->> +		   virtual console
-> 
-> Definition list?
-> 
-> Ditto for all the similar cases.
-> 
->>   
->>   It's also worth noting that the insert key on the keypad is mapped
->>   as the speakup key.  Instead of pressing and releasing this key, as you
->> @@ -190,16 +237,18 @@ Speakup will say, "You turned me off.", or "Hey, that's better."  When
->>   Speakup is turned off, no new text on the screen will be spoken.  You
->>   can still use the reading controls to review the screen however.
->>   
-> 
-> [snip]
-> 
->> +
->> +Document License
->> +================
->> +
-> 
-> Using SPDX might be nice.
-
-I was just trying to respect the original text as much as possible, but 
-I don't mind change it if everybody agrees with it.
-
-> 
->>                   GNU Free Documentation License
->>                     Version 1.2, November 2002
->>   
->>   
->> - Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
->> - Everyone is permitted to copy and distribute verbatim copies
->> - of this license document, but changing it is not allowed.
->> +Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
->> +Everyone is permitted to copy and distribute verbatim copies
->> +of this license document, but changing it is not allowed.
->>   
->>   
->>   0. PREAMBLE
-> 
+But I don't think we want any of this at all.  Just don't put anything
+in the buffer if the user didn't supply enough space.  As long as you
+get the return value right, they know the string is bad (or they don't
+care if the string is bad)
