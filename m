@@ -2,159 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_NONE
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE7BC47080
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 15:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8FEDC4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 15:53:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64FEB61396
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 15:51:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C94196108D
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 15:53:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234294AbhFAPxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 11:53:40 -0400
-Received: from mga09.intel.com ([134.134.136.24]:62220 "EHLO mga09.intel.com"
+        id S234552AbhFAPzS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 11:55:18 -0400
+Received: from mga11.intel.com ([192.55.52.93]:39065 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232490AbhFAPxj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Jun 2021 11:53:39 -0400
-IronPort-SDR: sg9zWDTQQM6lxd1YcI3nU6iS355pP8idBu/fuq+c+il6cstv3+gq2bllzYXz6IB9Qgsfm3jRhl
- Mh8L/dKLZD2Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="203568474"
+        id S234509AbhFAPzR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Jun 2021 11:55:17 -0400
+IronPort-SDR: ysOsEbmTKQno7RQjY9aRNvzGWkpaV8ezyzN856CJXh0vskRQfbQfq+dEhDI9LLuqcGplAt8b2b
+ Msi3bQAbBRVw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="200560722"
 X-IronPort-AV: E=Sophos;i="5.83,240,1616482800"; 
-   d="scan'208";a="203568474"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2021 08:51:56 -0700
-IronPort-SDR: 3fb8u4c4VNdUJCjasEHky0cH4/Bc6HkW3q7rpVygkD2egcxAzdYz6dVCJ2Y5coMCDvZ1qNi7Rl
- e/us0Tf4dvUg==
+   d="scan'208";a="200560722"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2021 08:53:35 -0700
+IronPort-SDR: Dqsx7f1uf8eEqfpJipAwkdbFi00n1UDbgCGrF6mC7VyCqTu5jSg18Yw+zDV5veibAWiF0qkKwz
+ D+OqBAJHwwwg==
 X-IronPort-AV: E=Sophos;i="5.83,240,1616482800"; 
-   d="scan'208";a="445378406"
-Received: from ycohenha-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.54.130])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2021 08:51:52 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Igor Torrente <igormtorrente@gmail.com>, corbet@lwn.net,
-        gregkh@linuxfoundation.org, samuel.thibault@ens-lyon.org,
-        grandmaster@al2klimov.de, rdunlap@infradead.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-In-Reply-To: <1b1e0e07-d438-0902-a28a-e346cba53518@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210531215737.8431-1-igormtorrente@gmail.com> <87r1hlrfhk.fsf@intel.com> <1b1e0e07-d438-0902-a28a-e346cba53518@gmail.com>
-Date:   Tue, 01 Jun 2021 18:51:49 +0300
-Message-ID: <878s3tr3ai.fsf@intel.com>
+   d="scan'208";a="411282177"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2021 08:53:30 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1lo6hq-00GTZB-Rc; Tue, 01 Jun 2021 18:53:26 +0300
+Date:   Tue, 1 Jun 2021 18:53:26 +0300
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Justin He <Justin.He@arm.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
+ file
+Message-ID: <YLZX9oicn8u4ZVCl@smile.fi.intel.com>
+References: <20210528113951.6225-3-justin.he@arm.com>
+ <YLDpSnV9XBUJq5RU@casper.infradead.org>
+ <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEDwFCPcFx+qeul@casper.infradead.org>
+ <AM6PR08MB437615DB6A6DEC33223A3138F7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEKqGkm8bX6LZfP@casper.infradead.org>
+ <AM6PR08MB43764764B52AAC7F05B71056F73E9@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLZSgZIcWyYTmqOT@casper.infradead.org>
+ <CAHp75VfYgEtJeiVp8b10Va54QShyg4DmWeufuB_WGC8C2SE2mQ@mail.gmail.com>
+ <YLZVwFh9MZJR3amM@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YLZVwFh9MZJR3amM@casper.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 01 Jun 2021, Igor Torrente <igormtorrente@gmail.com> wrote:
-> Hi Jani Nikula,
->
-> On 6/1/21 8:28 AM, Jani Nikula wrote:
->> On Mon, 31 May 2021, Igor Matheus Andrade Torrente <igormtorrente@gmail.com> wrote:
->>> -acntsa -- Accent SA
->>> -acntpc -- Accent PC
->>> -apollo -- Apollo
->>> -audptr -- Audapter
->>> -bns -- Braille 'n Speak
->>> -dectlk -- DecTalk Express (old and new, db9 serial only)
->>> -decext -- DecTalk (old) External
->>> -dtlk -- DoubleTalk PC
->>> -keypc -- Keynote Gold PC
->>> -ltlk -- DoubleTalk LT, LiteTalk, or external Tripletalk (db9 serial only)
->>> -spkout -- Speak Out
->>> -txprt -- Transport
->>> -dummy -- Plain text terminal
->>> -
->>> -Note: Speakup does * NOT * support usb connections!  Speakup also does *
->>> -NOT * support the internal Tripletalk!
->>> +| acntsa -- Accent SA
->>> +| acntpc -- Accent PC
->>> +| apollo -- Apollo
->>> +| audptr -- Audapter
->>> +| bns -- Braille 'n Speak
->>> +| dectlk -- DecTalk Express (old and new, db9 serial only)
->>> +| decext -- DecTalk (old) External
->>> +| dtlk -- DoubleTalk PC
->>> +| keypc -- Keynote Gold PC
->>> +| ltlk -- DoubleTalk LT, LiteTalk, or external Tripletalk (db9 serial only)
->>> +| spkout -- Speak Out
->>> +| txprt -- Transport
->>> +| dummy -- Plain text terminal
->> 
->> Looks like a definition list?
->> 
->> https://docutils.sourceforge.io/docs/user/rst/quickref.html#definition-lists
->
-> If the '|' is replaced by definition-list, I'll have to skip a line to 
-> each item so the sphinx doesn't concatenate them into a single line. 
-> Like this:
->
-> keywords
->    acntsa -- Accent SA
->
->    acntpc -- Accent PC
->
->    apollo -- Apollo
->    [...]
->
->
-> There's a way to do that without these blank lines?
->
-> For me, it doesn't look very good, but I think the tradeoff worth it 
-> improves readability to speakup users. If it is the case.
+On Tue, Jun 01, 2021 at 04:44:00PM +0100, Matthew Wilcox wrote:
+> On Tue, Jun 01, 2021 at 06:36:41PM +0300, Andy Shevchenko wrote:
+> > On Tue, Jun 1, 2021 at 6:32 PM Matthew Wilcox <willy@infradead.org> wrote:
+> > > On Tue, Jun 01, 2021 at 02:42:15PM +0000, Justin He wrote:
+> > 
+> > ...
+> > 
+> > > Just don't put anything
+> > > in the buffer if the user didn't supply enough space.  As long as you
+> > > get the return value right, they know the string is bad (or they don't
+> > > care if the string is bad)
+> > 
+> > It might be that I'm out of context here, but printf() functionality
+> > in the kernel (vsprintf() if being precise)  and its users consider
+> > that it should fill buffer up to the end of whatever space is
+> > available.
+> 
+> Do they though?  What use is it to specify a small buffer, print a
+> large filename into it and then use that buffer, knowing that it wasn't
+> big enough?  That would help decide whether we should print the
+> start or the end of the filename.
+> 
+> Remember, we're going for usefulness here, not abiding by the letter of
+> the standard under all circumstances, no matter the cost.  At least
+> partially because we're far outside the standard here; POSIX does
+> not specify what %pD does.
+> 
+> "The argument shall be a pointer to void. The value of the
+> pointer is converted to a sequence of printable characters, in an
+> implementation-defined manner."
 
-I was thinking:
+All nice words, but don't forget kasprintf() or other usages like this.
+For the same input we have to have the same result independently on the room in
+the buffer.
 
-acntsa
-  Accent SA
+So, if I print "Hello, World" I should always get it, not "Monkey's Paw".
+I.o.w.
 
-acntpc
-  Accent PC
+ snprintf(10) ==> "Hello, Wor"
+ snprintf(5)  ==> "Hello"
+ snprintf(2)  !=> "Mo"
+ snprintf(1)  !=> "M"
+ snprintf(1)  ==> "H"
 
-apollo
-  Apollo
+Inconsistency here is really not what we want.
 
-[...]
-
-Simply by looking at what the data appears to be, and trying to match
-that with the semantically appropriate rst construct. Maybe you think
-that's too verbose or takes too much vertical space or isn't grep
-friendly - and it's fine. I'm just making suggestions.
-
-Another, more condensed alternative is to use tables, but that can
-become annoying to maintain if you don't get the column widths right
-from the start.
-
-https://docutils.sourceforge.io/docs/user/rst/quickref.html#tables
-
->>> +
->>> +.. note::
->>> +
->>> +   | Speakup does **NOT** support usb connections!
->>> +   | Speakup also does **NOT** support the internal Tripletalk!
->> 
->> Why the pipes "|"?
->
-> This is the way I found to separate these sentences into two different 
-> lines. I'm gladly accepting a better solution for this :)
-
-Maybe just like this?
-
-.. note::
-
-   Speakup does **NOT** support usb connections!
-
-   Speakup also does **NOT** support the internal Tripletalk!
-
-
-Again, I'm not insisting on any of these changes, I'm just suggesting
-things you might find helpful!
-
-
-BR,
-Jani.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+With Best Regards,
+Andy Shevchenko
+
+
