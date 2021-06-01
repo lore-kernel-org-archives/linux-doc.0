@@ -2,82 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLACK
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA17C47080
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 20:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3B0C47080
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 20:46:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E497613C0
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 20:24:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 91C5261360
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 20:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234671AbhFAU0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 16:26:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50452 "EHLO
+        id S234823AbhFAUsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 16:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234638AbhFAU0e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 16:26:34 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DCFFC06174A
-        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 13:24:52 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id c20so143732qkm.3
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jun 2021 13:24:52 -0700 (PDT)
+        with ESMTP id S234813AbhFAUsT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 16:48:19 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 601C1C06174A
+        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 13:46:36 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id i67so212294qkc.4
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jun 2021 13:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=3bd06kCbSKH+YO3Nu7Nh6Yw0bI1NiQjiXlC29AZjnao=;
-        b=jX42O7b7M8GVDLyJYoIc/vh3K9vdZnnIWQtH35ZOiKF1d6iwKKog/xN6Es6TKixh+q
-         C/pCnQBqaWPOYGVlsQWR+0Mr4oEslCJUKgP/YUWCp5UxOOFLEGqYU341mg04SBSFWQUa
-         n+WUDnQj5LmnNzdkjqKLquyfn45aXfDrvoxl4=
+        bh=bVfjYE/IhtPoACf3sIUQRpJ74FVGj5RoIkiYbY+pmBU=;
+        b=Ulwy23rIbq6n+LD1DsTXaNBIEJyKOAzX/Ip1ssDWfkGqWqekFIkmBT6qQgdZDtkiv+
+         K3u8fEAdfrGVZq4xZGFAXmmmdsX7TJjISFrR+1qVcflPelw59MPb0Ub0AlsH6JnSwXOU
+         8+bOgCMQNssD9mwQ4s682E0FNZCiQK1SWEw6s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=3bd06kCbSKH+YO3Nu7Nh6Yw0bI1NiQjiXlC29AZjnao=;
-        b=QUYWRow3hV1Z7BA8c25ttHfXuri/MiQWikfLiYErSSBr3Mlhry59UIvoufX48MmNTK
-         2KyNh9q1UYfs/t6VmF+UPGLYW66cAaGBMCmdrZCFsXONyVz2foe7FeGdC+LlSY05x3Lx
-         FJYGBFkNKbprBltKsqfDwFyihG96eNznMv5sX3CTLBeCEP49wybl0OOKTlJRrdVF8uB9
-         R1jOAGRowB4QYda1HLmLo7Ee3wH/fdMBbEXocQU7cefTjXwybjFMhivIdtZKvFuo2M7o
-         gZKW/C/fEQIDp2dVlqnWSlZQWR9tUC5PoG498afo/GQi0BdZZzfzawH7roIV6eUeMvCX
-         h2Ow==
-X-Gm-Message-State: AOAM531vm5eZev0LMZTNSUKcNahRtYNWz9io2/TKUBpMbR1uLupPmizI
-        +gmR1pAXMxpYJ39EXSt8lW3lxw==
-X-Google-Smtp-Source: ABdhPJz/KssSBdYdqZeG7DtcGA/QWfxxrWkwCwnA3nspd111rQ8ecaXRxxCQRfuco/UAcsU59aW7Fg==
-X-Received: by 2002:a37:6581:: with SMTP id z123mr23567260qkb.47.1622579091181;
-        Tue, 01 Jun 2021 13:24:51 -0700 (PDT)
+        bh=bVfjYE/IhtPoACf3sIUQRpJ74FVGj5RoIkiYbY+pmBU=;
+        b=ZEKjSfoWIq5oguopfMCFnLXdzp2gz4ZG+Ox1GBVN6IMXcai3t4ufa/6BacVJyWZgSt
+         f7FuaXNiqukbXJNAHxq7RYQPmF/Wh85AHcIsnbTkGEfssFAvqa0Y0K24nJa3pcH5RPUK
+         sPMN2b4z61T6weMnA0+cEAfLaJfso1ZjWaqc04u8wPfWsmU48EYBfibVhdrCgORDtWPZ
+         YklRwIHXZaaymXw5mofdUjKEXBNYcPF6pqZWrzjLte7MoERKc52+q8zzcCKpCqyNSPnz
+         bptg/4HSItyz2w3dHItHOU/A5+ekRYaV67YfvG/NHZnedPEOecjfgd91UnaCqmSYMATz
+         u3pw==
+X-Gm-Message-State: AOAM530NrOiGxyk8uiYH5rFo5ml2S0364xKWqIKR03jzVjrxfWmzeXXg
+        80v3qiIj6u05qNc7+/rM654jg10Vc6wbLQ==
+X-Google-Smtp-Source: ABdhPJwxduFtSZZFOKiuXWZibpD1AFJTVrZ+DL8mGkRv95sHWFmJU0aL8adsFWxxFOyLmZqueu8exA==
+X-Received: by 2002:a37:4392:: with SMTP id q140mr5408874qka.49.1622580395041;
+        Tue, 01 Jun 2021 13:46:35 -0700 (PDT)
 Received: from localhost ([2620:15c:6:411:959f:df0e:4ded:f970])
-        by smtp.gmail.com with ESMTPSA id k125sm11872084qkf.53.2021.06.01.13.24.50
+        by smtp.gmail.com with ESMTPSA id z15sm7989580qkj.49.2021.06.01.13.46.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 13:24:50 -0700 (PDT)
-Date:   Tue, 1 Jun 2021 16:24:50 -0400
+        Tue, 01 Jun 2021 13:46:34 -0700 (PDT)
+Date:   Tue, 1 Jun 2021 16:46:34 -0400
 From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Chris Hyser <chris.hyser@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, Josh Don <joshdon@google.com>,
-        mingo@kernel.org, peterz@infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, Chris Hyser <chris.hyser@oracle.com>,
+        Josh Don <joshdon@google.com>, mingo@kernel.org,
+        peterz@infradead.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] Documentation: Add usecases, design and interface for
  core scheduling
-Message-ID: <YLaXko3JYl4JRVv8@google.com>
+Message-ID: <YLacqqEsnEbKowVh@google.com>
 References: <20210526175623.34781-1-joel@joelfernandes.org>
- <cc52ec64-62df-34ed-3aee-c149b165b1df@oracle.com>
+ <87y2c13y79.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cc52ec64-62df-34ed-3aee-c149b165b1df@oracle.com>
+In-Reply-To: <87y2c13y79.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Apologies for the late reply, holidays and all.
+Hi Jon,
 
-On Wed, May 26, 2021 at 05:43:01PM -0400, Chris Hyser wrote:
-[..]
+Apologies for late reply, memorial day holidays and all...
+
+On Wed, May 26, 2021 at 04:52:10PM -0600, Jonathan Corbet wrote:
+> "Joel Fernandes (Google)" <joel@joelfernandes.org> writes:
+> 
+> > Now that core scheduling is merged, update the documentation.
+> 
+> Yay documentation!
+
+What can I say, it is important and necessary as much as it is boring ;-)
+
+> A couple of nits...
+> 
+> > Co-developed-by: Chris Hyser <chris.hyser@oracle.com>
+> > Signed-off-by: Chris Hyser <chris.hyser@oracle.com>
+> > Co-developed-by: Josh Don <joshdon@google.com>
+> > Signed-off-by: Josh Don <joshdon@google.com>
+> > Cc: mingo@kernel.org
+> > Cc: peterz@infradead.org
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> >
+> > ---
+> >  .../admin-guide/hw-vuln/core-scheduling.rst   | 211 ++++++++++++++++++
+> >  Documentation/admin-guide/hw-vuln/index.rst   |   1 +
+> 
+> As I understand it, there are use cases for core scheduling that go well
+> beyond dancing around hardware vulnerabilities.  So do we really want to
+> bury the documentation for this feature there?  To me it seems like the
+> user-space API manual might be a better place, but perhaps I'm missing
+> something.
+
+True. But I would say the "main usecase" is security. So perhaps it is better
+to house it here, with a slight reference to other usecases - if that's ok
+with you.
+
+> >  2 files changed, 212 insertions(+)
+> >  create mode 100644 Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> >
+> > diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> > new file mode 100644
+> > index 000000000000..585edf16183b
+> > --- /dev/null
+> > +++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> > @@ -0,0 +1,211 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +Core Scheduling
+> > +***************
+> 
+> We have a nicely laid-out set of conventions for subsection headings,
+> described in Documentation/doc-guide/sphinx.rst; it would be nice if
+> this document would conform to that.
+
+Ok, I will go through that. Sorry and thanks.
+
+> > +Core scheduling support allows userspace to define groups of tasks that can
+> > +share a core. These groups can be specified either for security usecases (one
+> > +group of tasks don't trust another), or for performance usecases (some
+> > +workloads may benefit from running on the same core as they don't need the same
+> > +hardware resources of the shared core, or may prefer different cores if they
+> > +do share hardware resource needs). This document only describes the security
+> > +usecase.
+> > +
+> > +Security usecase
+> > +----------------
+> > +A cross-HT attack involves the attacker and victim running on different Hyper
+> > +Threads of the same core. MDS and L1TF are examples of such attacks.  The only
+> > +full mitigation of cross-HT attacks is to disable Hyper Threading (HT). Core
+> > +scheduling is a scheduler feature that can mitigate some (not all) cross-HT
+> > +attacks. It allows HT to be turned on safely by ensuring that tasks in a
+> 
+> by ensuring that *only* tasks in a trusted group ... right?
+
+Yes, ok.
+
+> > +user-designated trusted group can share a core. This increase in core sharing
+> > +can also improve performance, however it is not guaranteed that performance
+> > +will always improve, though that is seen to be the case with a number of real
+> > +world workloads. In theory, core scheduling aims to perform at least as good as
+> 
+> s/good/well/
+
+Ok.
+
+> > +when Hyper Threading is disabled. In practice, this is mostly the case though
+> > +not always: as synchronizing scheduling decisions across 2 or more CPUs in a
+> > +core involves additional overhead - especially when the system is lightly
+> > +loaded. When ``total_threads <= N_CPUS/2``, the extra overhead may cause core
+> > +scheduling to perform more poorly compared to SMT-disabled, where N_CPUS is the
+> > +total number of CPUs. Please measure the performance of your workloads always.
+> > +
 > > +Usage
 > > +-----
 > > +Core scheduling support is enabled via the ``CONFIG_SCHED_CORE`` config option.
+> 
+> The use of ``literal text`` markup isn't necessary here, and is known to
+> irritate some people.
+
+Ok.
+
 > > +Using this feature, userspace defines groups of tasks that can be co-scheduled
 > > +on the same core. The core scheduler uses this information to make sure that
 > > +tasks that are not in the same group never run simultaneously on a core, while
@@ -88,6 +183,11 @@ On Wed, May 26, 2021 at 05:43:01PM -0400, Chris Hyser wrote:
 > > +well as admission and removal of tasks from created groups.
 > > +
 > > +::
+> 
+> I'd just say "from created groups::" and leave off the separate "::" line.
+
+Ok sure.
+
 > > +
 > > +    #include <sys/prctl.h>
 > > +
@@ -96,6 +196,13 @@ On Wed, May 26, 2021 at 05:43:01PM -0400, Chris Hyser wrote:
 > > +
 > > +option:
 > > +    ``PR_SCHED_CORE``
+> 
+> Did you want that to be in the literal block?  If you don't indent it
+> that won't work.  If you *do* want it, you really don't need the literal
+> markup. 
+
+makes sense, I did want it literal. Will drop quotes.
+
 > > +
 > > +arg2:
 > > +    Command for operation, must be one off:
@@ -115,46 +222,6 @@ On Wed, May 26, 2021 at 05:43:01PM -0400, Chris Hyser wrote:
 > > +arg5:
 > > +    userspace pointer to an unsigned long for storing the cookie returned by
 > > +    ``PR_SCHED_CORE_GET`` command. Should be 0 for all other commands.
-> 
-> Thanks Joel.
-
-Np, thanks.
-
-> In terms of using the prctl() interface to achieve what was once done with
-> cgroups, we might want to add some text somewhere in here along the lines of
-> say:
-
-Sure.
-
-> 
-> -----------
-> 
-> The simplest way to build hierarchies of threads/processes which share a
-> cookie and thus a core is to rely on the fact that the core-sched cookie is
-> inherited across forks/clones and execs, thus setting a cookie for the
-> 'initial' script/executable/daemon will place every spawned child in the
-> same core-sched group. The prctl() API is useful for verification or making
-> more specific or elaborate changes.
-
-Just a question:  What kind of verification and why?
-
-> Clearing a cookie can be done with
-> PR_SCHED_CORE_SHARE_* involving a task w/o a cookie presumably owned by root
-> or other secure user.
-
-I would drop this part from the description tbh, since it seems a rather
-corner case. It seems odd to have to clear a cookie once it is set, but if
-you can provide me a usecase for clearing, then I can add that in. We don't
-clear the cookie in our ChromeOS usecases.
-
-thanks,
-
- - Joel
-
-
-> 
-> 
-> 
 > > +
 > > +Cookie Transferral
 > > +~~~~~~~~~~~~~~~~~~
@@ -163,7 +230,23 @@ thanks,
 > > +specified task or a share a cookie with a task. In combination this allows a
 > > +simple helper program to pull a cookie from a task in an existing core
 > > +scheduling group and share it with already running tasks.
-> > +
+> 
+> There must be some sort of security model here, right?  You can't just
+> steal somebody else's cookies, even if they are the yummy chocolate-chip
+> variety.  It would be good to say what the policy is.
+
+Yeah. It is enforced by these ptrace checks in the code. I will add some info
+about it:
+
+        /*
+         * Check if this process has the right to modify the specified
+         * process. Use the regular "ptrace_may_access()" checks.
+         */
+        if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS)) {
+                err = -EPERM;
+                goto out;
+        }
+
 > > +Design/Implementation
 > > +---------------------
 > > +Each task that is tagged is assigned a cookie internally in the kernel. As
@@ -173,6 +256,11 @@ thanks,
 > > +The basic idea is that, every schedule event tries to select tasks for all the
 > > +siblings of a core such that all the selected tasks running on a core are
 > > +trusted (same cookie) at any point in time. Kernel threads are assumed trusted.
+> 
+> ...and kernel threads trust random user tasks too?  Interesting.
+
+Not if those untrusted random kernel tasks are assigned a cookie.
+
 > > +The idle task is considered special, as it trusts everything and everything
 > > +trusts it.
 > > +
@@ -192,6 +280,11 @@ thanks,
 > > +
 > > +Forced-idling of tasks
 > > +----------------------
+> 
+> You're idling *CPUs*, not tasks, right?
+
+You are quite right, I'll correct the wording, thanks.
+
 > > +The scheduler tries its best to find tasks that trust each other such that all
 > > +tasks selected to be scheduled are of the highest priority in a core.  However,
 > > +it is possible that some runqueues had tasks that were incompatible with the
@@ -229,80 +322,22 @@ thanks,
 > > +trust relationships until userspace uses the above mentioned interfaces, to
 > > +communicate them. In other words, all tasks have a default cookie value of 0.
 > > +and are considered system-wide trusted. The stunning of siblings running
+> 
+> "stunning"?  Is this idling or are you doing something more violent here?
+
+Yes, idling would be easier to understand. "Stunning" is a term used in the
+security circles to mean forced idling on incompatible CPUs. I will just
+change it to "forced idling".
+
+Will spin this patch soon with the corrections, thanks Jon!
+
+-Joel
+
+> 
 > > +cookie-0 tasks is also avoided.
-> > +
-> > +Once userspace uses the above mentioned interfaces to group sets of tasks, tasks
-> > +within such groups are considered to trust each other, but do not trust those
-> > +outside. Tasks outside the group also don't trust tasks within.
-> > +
-> > +Limitations of core-scheduling
-> > +------------------------------
-> > +Core scheduling tries to guarantee that only trusted tasks run concurrently on a
-> > +core. But there could be small window of time during which untrusted tasks run
-> > +concurrently or kernel could be running concurrently with a task not trusted by
-> > +kernel.
-> > +
-> > +1. IPI processing delays
-> > +########################
-> > +Core scheduling selects only trusted tasks to run together. IPI is used to notify
-> > +the siblings to switch to the new task. But there could be hardware delays in
-> > +receiving of the IPI on some arch (on x86, this has not been observed). This may
-> > +cause an attacker task to start running on a CPU before its siblings receive the
-> > +IPI. Even though cache is flushed on entry to user mode, victim tasks on siblings
-> > +may populate data in the cache and micro architectural buffers after the attacker
-> > +starts to run and this is a possibility for data leak.
-> > +
-> > +Open cross-HT issues that core scheduling does not solve
-> > +--------------------------------------------------------
-> > +1. For MDS
-> > +##########
-> > +Core scheduling cannot protect against MDS attacks between an HT running in
-> > +user mode and another running in kernel mode. Even though both HTs run tasks
-> > +which trust each other, kernel memory is still considered untrusted. Such
-> > +attacks are possible for any combination of sibling CPU modes (host or guest mode).
-> > +
-> > +2. For L1TF
-> > +###########
-> > +Core scheduling cannot protect against an L1TF guest attacker exploiting a
-> > +guest or host victim. This is because the guest attacker can craft invalid
-> > +PTEs which are not inverted due to a vulnerable guest kernel. The only
-> > +solution is to disable EPT (Extended Page Tables).
-> > +
-> > +For both MDS and L1TF, if the guest vCPU is configured to not trust each
-> > +other (by tagging separately), then the guest to guest attacks would go away.
-> > +Or it could be a system admin policy which considers guest to guest attacks as
-> > +a guest problem.
-> > +
-> > +Another approach to resolve these would be to make every untrusted task on the
-> > +system to not trust every other untrusted task. While this could reduce
-> > +parallelism of the untrusted tasks, it would still solve the above issues while
-> > +allowing system processes (trusted tasks) to share a core.
-> > +
-> > +3. Protecting the kernel (IRQ, syscall, VMEXIT)
-> > +###############################################
-> > +Unfortunately, core scheduling does not protect kernel contexts running on
-> > +sibling hyperthreads from one another. Prototypes of mitigations have been posted
-> > +to LKML to solve this, but it is debatable whether such windows are practically
-> > +exploitable, and whether the performance overhead of the prototypes are worth
-> > +it (not to mention, the added code complexity).
-> > +
-> > +Other Use cases
-> > +---------------
-> > +The main use case for Core scheduling is mitigating the cross-HT vulnerabilities
-> > +with SMT enabled. There are other use cases where this feature could be used:
-> > +
-> > +- Isolating tasks that needs a whole core: Examples include realtime tasks, tasks
-> > +  that uses SIMD instructions etc.
-> > +- Gang scheduling: Requirements for a group of tasks that needs to be scheduled
-> > +  together could also be realized using core scheduling. One example is vCPUs of
-> > +  a VM.
-> > diff --git a/Documentation/admin-guide/hw-vuln/index.rst b/Documentation/admin-guide/hw-vuln/index.rst
-> > index ca4dbdd9016d..f12cda55538b 100644
-> > --- a/Documentation/admin-guide/hw-vuln/index.rst
-> > +++ b/Documentation/admin-guide/hw-vuln/index.rst
-> > @@ -15,3 +15,4 @@ are configurable at compile, boot or run time.
-> >      tsx_async_abort
-> >      multihit.rst
-> >      special-register-buffer-data-sampling.rst
-> > +   core-scheduling.rst
-> > 
+> 
+> [...]
+> 
+> Thanks,
+> 
+> jon
