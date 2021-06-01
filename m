@@ -2,96 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5703C47080
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:18:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F1DC47080
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:29:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E7A5613BC
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:18:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6AC6F613BC
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234890AbhFAWU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 18:20:29 -0400
-Received: from ms.lwn.net ([45.79.88.28]:45034 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234740AbhFAWU3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Jun 2021 18:20:29 -0400
+        id S234942AbhFAWbi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 18:31:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49872 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234799AbhFAWbi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:31:38 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A17BC061574;
+        Tue,  1 Jun 2021 15:29:56 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 685322CD;
-        Tue,  1 Jun 2021 22:18:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 685322CD
+        by ms.lwn.net (Postfix) with ESMTPSA id 3ADDB6E2;
+        Tue,  1 Jun 2021 22:29:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3ADDB6E2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1622585927; bh=2yabEFKh//VFd2YJCgm8kIdYA7dygVPkzhE0gMUph+g=;
+        t=1622586596; bh=y9sxAzj+dWrVwmKL8DGxCyxl0p5fDGQaBGnGuwpqGfo=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Jlbp89h1wWR/z2IcJXdvHLvZqr1K4CvjZ0x2CHnKNdYz1j+bk+wiOr70E/iV0aisP
-         HiFoIYsY1gnQVc1L6/IUBPJjBSoagHVJBgG9ZeDSbLqVVBBdX04uP3vSvU88fq964R
-         /PHmI2zV+xDXLvRc49AFNm8DRmw6d/ZBnFQSqHhNNvy5OtHKmmoyCT5l5ivyIyK6ou
-         GXdIvcJJMitrWW93Lu0JEO5cIdRm206bD77WeDFIsWFmBr06+AYXy4hvq/cMxH6qwv
-         dTG06h3QGVAFonL+xLsf6ALDiYM09qlUVMRI1EQHXkDFmj90ytT19MmIJOAYP+2JBR
-         rLJ0iK5ph50XQ==
+        b=sJOtHjJwOq85gKYJk9beusRgOTjtW/UBduW9ZDIaQxVMj2pt0/IpQhNyOsmnuiJhM
+         iiRq8qHrdqr2P8h8W5RFu4zfPg3NYhKiIjR4TT/r/jmlQkbH92UWdVMwJ4m8l2hun1
+         6mrNUmtR7ClYUpps4pRaWoesNg2sLeY3ywkTJwxasK2JpCV5ungGJsvnM21nHPLnMb
+         JSn8qrzXkEeX/2DpLWuOpNqTYLvWyTc0a7DDLVr2N8cMgvh7qnsksW9iDr6nbLSkAj
+         5wqqNwRlJaAgXE4O1S5jxJxu16AQz/A7zkmPHxOLksaKMu8M7Q+gXwiijATQYBVDIC
+         fGg2Qjekvkvdw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        collins@gene3.ait.iastate.edu
-Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-In-Reply-To: <20210601220643.uzep2ju2zlcmpa57@begin>
-References: <20210531215737.8431-1-igormtorrente@gmail.com>
- <875yyxbenm.fsf@meer.lwn.net> <20210601220643.uzep2ju2zlcmpa57@begin>
-Date:   Tue, 01 Jun 2021 16:18:46 -0600
-Message-ID: <874keh9qk9.fsf@meer.lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 0/2] Fix some issues at scripts/sphinx-pre-install
+In-Reply-To: <cover.1621949137.git.mchehab+huawei@kernel.org>
+References: <cover.1621949137.git.mchehab+huawei@kernel.org>
+Date:   Tue, 01 Jun 2021 16:29:55 -0600
+Message-ID: <87v96x8bh8.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Samuel Thibault <samuel.thibault@ens-lyon.org> writes:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Jonathan Corbet, le mar. 01 juin 2021 12:53:01 -0600, a ecrit:
->> I am concerned about one thing, though: the licensing of this document
->> is not GPL-compatible, which means we can't build it into the rest of
->> the docs.
+> Currently, when using with --no-virtualenv, the script doesn't behave well,
+> as it prints both instructions to install Sphinx via distribution's package
+> manager and via pip.
 >
-> ? I see various GFDL-1.1-no-invariants-or-later documentation in
-> userspace-api/media notably, do they have such build restriction? What
-> is actually posing problem in the GFDL licence?
-
-Those media docs are separate from the rest of the kernel
-documentation.  Other than that, all FDL in Documentation/ was
-dual-licensed, last time I checked.
-
-The problem is that the kernel docs, when built, include a great deal of
-code and text taken directly from the kernel source.  The built docs are
-thus a derived product of the kernel and the result needs to carry a
-GPL-compatible license.  I've spent some time talking with lawyers about
-this, and they have confirmed that view of things.
-
-This document should not have entered Documentation/ with that license;
-had I known this was happening at the time, I would have raised a fuss.
-As a standalone .txt file there is probably no legal problem, but that
-changes as soon as you bring it into RST TOC tree.
-
->> What are the chances that we can get the authors to agree on a change to
->> a GPL-compatible license for this file?
+> Address it.
 >
-> I don't know about Collins' opinion on this, Cc-ing him with the latest
-> mail my archives know for him (which dates 2008...)
+> While here, rework the logic which recommends Sphinx install, by
+> splitting it into three parts and making easier to maintain it, as
+> there are too much complexity there. Splitting the Sphinx part
+> of the logic on 3 separate functions allow to detect if the venv/virtualenv
+> python packages are needed or not, and helps to have a cleaner
+> logic.
 >
-> The copyright "the Speakup Team" is a more complex thing to look for.
+> Mauro Carvalho Chehab (2):
+>   scripts: sphinx-pre-install: rework the sphinx install logic
+>   scripts: sphinx-pre-install: fix the need of virtenv packages
+>
+>  scripts/sphinx-pre-install | 262 +++++++++++++++++++++++++------------
+>  1 file changed, 180 insertions(+), 82 deletions(-)
 
-Do you have a history of contributors to the file in its previous home?
-
-I'm sorry to be obnoxious; I *really* want to see this document converted
-and in with the rest.  But the licensing is something that we need to
-get right.
-
-Thanks,
+I've applied this set, thanks.
 
 jon
