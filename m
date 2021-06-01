@@ -2,83 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D55C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 081A4C4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 23:32:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3891F613C3
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:53:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0069613AD
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 23:32:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234766AbhFAWzV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 18:55:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55190 "EHLO
+        id S235175AbhFAXeJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 19:34:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234656AbhFAWzU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:55:20 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF61DC061574;
-        Tue,  1 Jun 2021 15:53:38 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6A6086E2;
-        Tue,  1 Jun 2021 22:53:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6A6086E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1622588018; bh=PTa73ReiH99pYqrE1NUMVlZagcYAcqSVKLM15m3VVHo=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=hbUmMXM6OdMXBpPnxLFx6bfsCLW0Y+OTwFzkhFHLgUIHW/m6QgjMaCAbGpenq5Bkr
-         T1KM0VQy/Hmh8b06JGlfs3dqFVWJR/2/oOwPvARNPSsUmZGEblzTulh7VtgyjYLvnw
-         K3j1n7lF74dHsYM/Y04MLb8etNLFDUaWdn8mZTv/5uGRBVzt4jGs9k1pg/nqzSEGTv
-         nHmTDVFnpbhaAf81TiOs1yw8HpsB3OqGEXTh3i0zG8i1YAxJTYIfYVV6AqkhwV+KFJ
-         L2O76w6R8klTxQnzfSozZxRBSkhKz2gqZT3Iswmu1r8ctcW2c8MQ4/xQ0wyB5u2xw4
-         Fy9nVWRAWDP5A==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Haocheng Xie <xiehaocheng.cn@gmail.com>, rostedt@goodmis.org,
-        mingo@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Haocheng Xie <xiehaocheng.cn@gmail.com>
-Subject: Re: [PATCH] docs: Fix typos in Documentation/trace/ftrace.rst
-In-Reply-To: <20210531083905.25763-1-xiehaocheng.cn@gmail.com>
-References: <20210531083905.25763-1-xiehaocheng.cn@gmail.com>
-Date:   Tue, 01 Jun 2021 16:53:37 -0600
-Message-ID: <87a6o98adq.fsf@meer.lwn.net>
+        with ESMTP id S234766AbhFAXeI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 19:34:08 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1947BC061574;
+        Tue,  1 Jun 2021 16:32:25 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id c20so638364qkm.3;
+        Tue, 01 Jun 2021 16:32:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=n5qUxNhebxhh1o4S5RsRDnpxOezOtNelOWi74JiDkls=;
+        b=cHpjBW28CEKIdPIP96wHCabTM6ov5/xmVJdjvgmDpseY7daumngEmz1fwlBpplgxnY
+         FRwdeP94Y8Jg4q3RNDNCV2jkN4elQWGcipiidgSZtRGnG/F7FUtuyU0Ws6W+yf6+RasW
+         C/c5sfTswWi8ITgypSmV6IufK5q37mRkjZs6ZZEYo9dUhhs3QpUgIYwsSZ7ZsuN+rbYx
+         Sca47SADPVOjfK/aXZgbIFh9iLLX01EkxW95RohaUDLLazl7iDUSjnUF5kkMwbZqHBJ2
+         HUoEfJKpcnl9RDRgcBkO+XcPkMCBvfAJ7SlKKQoga4D2ralI7P1B0kjTR1jVs9E34wlm
+         Jlpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=n5qUxNhebxhh1o4S5RsRDnpxOezOtNelOWi74JiDkls=;
+        b=nNpM49kCUOaq19pekM8jFGb/NQjANARmsAh7DycV7AgDvbSLOksoqqr/A+zQVSPuJ2
+         /9TRaMZ1iCvxutFKc2tQCk3KDkiK/VQKy0+o1TBf1hTUzb7rXEZllR9P8UlyM44B9xdP
+         eEmcXpuQHietKUPOuiqY6tdaQ0yadzNRysH18STmm0PKcdps4HGKnNFP4l8hdJTaI4PW
+         vw6orR17qOAvGkIWcnxKWoUT5t8bJp2ZD6CLx4/lzggdRhx9uw7nx8obExcu8HpiGxwO
+         Qxq5T15O3KQpOvtuz2IqIQGom6rnn0PpFPXkP+SgIkFolMw4mS971vAX0hSr4YAB+uTx
+         2amA==
+X-Gm-Message-State: AOAM5319h16x20G7EZIgDoUrETlTs46sMOm1QlYwXj2UdhpzAZIzkkHv
+        /Cm7j0xliohgO0gjTnNgDQVam0MrywA=
+X-Google-Smtp-Source: ABdhPJxBdDt7Cc0D9SHrdNBpxahBph5JPuVp2VNMKdcHmGJ5OgCruLRtn00LXh0CFyQXb4aQ5JHtwA==
+X-Received: by 2002:ae9:e716:: with SMTP id m22mr25307355qka.217.1622590344161;
+        Tue, 01 Jun 2021 16:32:24 -0700 (PDT)
+Received: from ?IPv6:2804:14c:125:811b:fbbc:3360:40c4:fb64? ([2804:14c:125:811b:fbbc:3360:40c4:fb64])
+        by smtp.gmail.com with ESMTPSA id t196sm1573728qke.50.2021.06.01.16.32.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jun 2021 16:32:23 -0700 (PDT)
+Subject: Re: docs: Convert the Speakup guide to rst
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        speakup@linux-speakup.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210531215737.8431-1-igormtorrente@gmail.com>
+ <20210531220754.h4ep2dj65wl6hejf@begin>
+ <b8769ad4-9188-a735-3ac4-4a79b9b06487@gmail.com>
+ <20210601215536.5rhnbwwt66uyqhze@begin>
+From:   Igor Torrente <igormtorrente@gmail.com>
+Message-ID: <85969150-6e00-12b8-b56d-5f161436777d@gmail.com>
+Date:   Tue, 1 Jun 2021 20:32:20 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210601215536.5rhnbwwt66uyqhze@begin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Haocheng Xie <xiehaocheng.cn@gmail.com> writes:
+Hi Samuel,
 
-> Fix the usage of "a/the" and improve the readability.
->
-> Signed-off-by: Haocheng Xie <xiehaocheng.cn@gmail.com>
-> ---
->  Documentation/trace/ftrace.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index 62c98e9..11cc1c2 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -354,8 +354,8 @@ of ftrace. Here is a list of some of the key files:
->  	is being directly called by the function. If the count is greater
->  	than 1 it most likely will be ftrace_ops_list_func().
->  
-> -	If the callback of the function jumps to a trampoline that is
-> -	specific to a the callback and not the standard trampoline,
-> +	If the callback of a function jumps to a trampoline which is
-> +	specific to the callback and which is not the standard trampoline,
+On 6/1/21 6:55 PM, Samuel Thibault wrote:
+> Hello,
+> 
+> Igor Torrente, le mar. 01 juin 2021 12:39:01 -0300, a ecrit:
+>> I was reading all the emails sent in this thread, but I'm not sure how I
+>> should proceed. Do think should I continue to improve the patch with the
+>> Jani Nikula suggestions? Or abandon it? Or keep both versions?
+> 
+> It seems that people are fine with the switch to the .rst format, and
+> it'll indeed allow much better distribution of its content, so please
+> continue improving the patch with the suggestions from Jani, you have an
+> 
+> Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+> 
+> and the review will probably come from Jani, who seems to actually know
+> a bit about the rst syntax :)
 
-The "that" in the first line was actually correct and best left
-unchanged.  I've applied the patch, but took the liberty of putting
-"that" back.
+OK, I will keep improving it.
+
+> 
+> Samuel
+> 
 
 Thanks,
-
-jon
+---
+Igor M. A. Torrente
