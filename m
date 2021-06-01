@@ -2,142 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB027C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 19:01:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46FFAC47092
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 19:13:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D021F6128A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 19:01:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D08060FEE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 19:13:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233397AbhFATDf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 15:03:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60272 "EHLO
+        id S234671AbhFATPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 15:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234720AbhFATDd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 15:03:33 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5DAEC061756
-        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 12:01:49 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id o8so20762752ljp.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jun 2021 12:01:49 -0700 (PDT)
+        with ESMTP id S233853AbhFATPG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 15:15:06 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7A28C061574
+        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 12:13:23 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id g18so275751pfr.2
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jun 2021 12:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RAu0njSTC+kf8drexs7MaZKoE+RFr/l6rpBisM//YE8=;
-        b=Ubm1IKre509GEWJnIt1bo0fRJNfmHccoI20TkXQ9yfHdF/oebFoF8keJiNoiUOrs7X
-         VfT4DycS9NU6tC6PB5TL9w1v0tqnoJiSrlqYUM0sNWE2MwixNys6XjGaG7v6mpXb57b7
-         LWKaKfyXXz9TMrKN2/lbmduSACCMKLBdvT3SM=
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=F2nIYNp74XkoIbaKwSbgXhOoOC//P+XAXbK1h22Ceac=;
+        b=lkbfMl1Gmq+Nf/7ubjo1OqC7uT9K9Mr6mhUY2FEZSmrJPHAB0auG9k9uCBtbvFW7E+
+         f0Q4vvjVo8XzLVCG/jM1Z4nwD1CiBbxVqshZ7h96EbGppBXf8gK9pANmLngrz86A9IVM
+         wK3esYJdGgKwBvpr7YAwjV41Fe0DLQWWzprys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RAu0njSTC+kf8drexs7MaZKoE+RFr/l6rpBisM//YE8=;
-        b=R2iDhDGjfwLbe3X0bB/7nwgBeqRRF8EKMAnu+zOx9nsUC2hE7DoMFykIYF3baAAZvK
-         EObDLpYozRFceOaLxdssgYnrczua+3upTrL7G1qs6a2wn+ZNEQFSoOJjM3Csjp/dgLsS
-         0cWLimQ6bxhqzsB79XSOU0Ar0MLvkQBII4n+/1Ncu5a8+vanTh70FiFN2gzK4UqNcxcj
-         DP7KlXfCqcpaMDtjC8jLXeGEhtK5l7ZULfvhnRB6qMVKhHaX/Bm2tpS715NLE9kW++ao
-         llzntxB6nuS+5PnSnq+AbPuM2V6zbiXcNv4mYUwH9SnjqMstyShGK6J7ABkpo8WtMmW5
-         ep4w==
-X-Gm-Message-State: AOAM5316W2qkGAE9MB1gfjVyfpNKfIo0+iDsNpNhNo3NOIdMP3r7BJUz
-        sqvecY3YiFKgDVo4DN8jXxfsJQ==
-X-Google-Smtp-Source: ABdhPJw9s8bBsmzDHRpKgKg/J93DXW07RWbA/3WaPNRwJsVn9SJW571H6MDEnq3hSiz8E+K7r3/Pmg==
-X-Received: by 2002:a05:651c:2c7:: with SMTP id f7mr22407178ljo.255.1622574107996;
-        Tue, 01 Jun 2021 12:01:47 -0700 (PDT)
-Received: from [172.17.20.140] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id g2sm2103831ljn.35.2021.06.01.12.01.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jun 2021 12:01:47 -0700 (PDT)
-Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
- file
-To:     Matthew Wilcox <willy@infradead.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Justin He <Justin.He@arm.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=F2nIYNp74XkoIbaKwSbgXhOoOC//P+XAXbK1h22Ceac=;
+        b=X/lMS6Y+xlpX+AeGID3B1di+IcZU+gLtMz5+Kz6nZknaogYK3sdabjAhAWrSyoU5OM
+         n+hBDK0Wfb981oOdYl0rfapGcJGOjTESZhfJJiD5wy+l50tKV3GpL4jpbn689bX2bsQ3
+         6NYH0Ozl9YCT+imIOUsHoJEfAEMLxl2fYCQ0N3SyAz6Cq8hQB1YmaukzihWYwewaUvbE
+         56yrOsJLFgcVwvoFyebGvTtoLV6NCFI/jQ0MKaljEayWeQS7Uu1+ifTW1ZoJ6OH1oCP5
+         ariwVmgHNd6+u5Le1vU899qDad6wPeMddmK17NQIuxbPxcbssrghfJ1/VE643l291AP9
+         Ditg==
+X-Gm-Message-State: AOAM532RFgWv0mO5fCm+H1JkyZQDZHAQVUKwNFWvC7ImNj6u7a+covKw
+        N6tV5iklZjUpSNUrUUTdxkFtEA==
+X-Google-Smtp-Source: ABdhPJz37ayunvn9ok1+ENdFPwZxrGi7OsloH6vD2nAp9cdyVRqX1z2+Tmk0IHTTo9v7cTVgjj829w==
+X-Received: by 2002:a05:6a00:14cb:b029:2be:1466:5a28 with SMTP id w11-20020a056a0014cbb02902be14665a28mr23125434pfu.55.1622574803092;
+        Tue, 01 Jun 2021 12:13:23 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id u18sm5029856pfl.9.2021.06.01.12.13.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jun 2021 12:13:22 -0700 (PDT)
+Date:   Tue, 1 Jun 2021 12:13:21 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Bill Wendling <morbo@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>
-References: <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
- <YLEDwFCPcFx+qeul@casper.infradead.org>
- <AM6PR08MB437615DB6A6DEC33223A3138F7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
- <YLEKqGkm8bX6LZfP@casper.infradead.org>
- <AM6PR08MB43764764B52AAC7F05B71056F73E9@AM6PR08MB4376.eurprd08.prod.outlook.com>
- <YLZSgZIcWyYTmqOT@casper.infradead.org>
- <CAHp75VfYgEtJeiVp8b10Va54QShyg4DmWeufuB_WGC8C2SE2mQ@mail.gmail.com>
- <YLZVwFh9MZJR3amM@casper.infradead.org> <YLZX9oicn8u4ZVCl@smile.fi.intel.com>
- <YLZcAesVG1SYL5fp@smile.fi.intel.com> <YLZoyjSJyzU5w1qO@casper.infradead.org>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <39f599a7-9175-f220-3803-b1920ddb8d40@rasmusvillemoes.dk>
-Date:   Tue, 1 Jun 2021 21:01:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jarmo Tiitto <jarmo.tiitto@gmail.com>
+Subject: Re: [PATCH] pgo: rename the raw profile file to vmlinux.profraw
+Message-ID: <202106011210.B5A8881214@keescook>
+References: <20210531202044.426578-1-morbo@google.com>
+ <e22afde4-e312-4589-cf2e-3c35219d7249@kernel.org>
+ <CAGG=3QVdXxLf0T9+n9FidrRcfdWY36m-i=4kPRJjOojWhjiywg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YLZoyjSJyzU5w1qO@casper.infradead.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGG=3QVdXxLf0T9+n9FidrRcfdWY36m-i=4kPRJjOojWhjiywg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/06/2021 19.05, Matthew Wilcox wrote:
+On Tue, Jun 01, 2021 at 01:24:39AM -0700, 'Bill Wendling' via Clang Built Linux wrote:
+> On Mon, May 31, 2021 at 1:29 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > On 5/31/2021 1:20 PM, Bill Wendling wrote:
+> > > Future PGO features may create other files in /sys/kernel/debug/pgo. So
+> > > rename the kernel's raw profile data file to "vmlinux.profraw" to make
+> > > which part of the kernel the file is for more explicit.
+> > >
+> > > Note that future files in /sys/kernel/debug/pgo should follow a similar
+> > > naming convention.
+> > >
+> > > Signed-off-by: Bill Wendling <morbo@google.com>
+> >
+> > Guess this clears up my confusion around the module patches :)
+> >
+> To clarify, Jarmo did those patches on his own. I just wanted to
+> clarify the naming convention. :-)
 
-> Here's some examples, what do you think makes sense?
+Is the expectation that there would be 1 file per module in
+/sys/kernel/debug/pgo/ after the modules patch?
+
 > 
-> snprintf(buf, 16, "bad file '%pD'\n", q);
+> -bw
 > 
-> what content do you want buf to have when q is variously:
-> 
-> 1. /abcd/efgh
-> 2. /a/bcdefgh.iso
-> 3. /abcdef/gh
-> 
-> I would argue that
-> "bad file ''\n"
-> is actually a better string to have than any of (case 2)
-> "bad file '/a/bc"
-> "bad file 'bcdef"
-> "bad file 'h.iso"
-> 
+> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> >
+> > > ---
+> > >   Documentation/dev-tools/pgo.rst | 6 +++---
+> > >   kernel/pgo/Kconfig              | 7 ++++---
+> > >   kernel/pgo/fs.c                 | 2 +-
+> > >   3 files changed, 8 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/Documentation/dev-tools/pgo.rst b/Documentation/dev-tools/pgo.rst
+> > > index b7f11d8405b7..0200449c4843 100644
+> > > --- a/Documentation/dev-tools/pgo.rst
+> > > +++ b/Documentation/dev-tools/pgo.rst
+> > > @@ -76,7 +76,7 @@ The PGO kernel support creates the following files in debugfs:
+> > >   ``/sys/kernel/debug/pgo/reset``
+> > >       Global reset file: resets all coverage data to zero when written to.
+> > >
+> > > -``/sys/kernel/debug/profraw``
+> > > +``/sys/kernel/debug/pgo/vmlinux.profraw``
+> > >       The raw PGO data that must be processed with ``llvm_profdata``.
+> > >
+> > >
+> > > @@ -108,7 +108,7 @@ using the result to optimize the kernel:
+> > >
+> > >      .. code-block:: sh
+> > >
+> > > -      $ cp -a /sys/kernel/debug/pgo/profraw /tmp/vmlinux.profraw
+> > > +      $ cp -a /sys/kernel/debug/pgo/vmlinux.profraw /tmp/vmlinux.profraw
 
-Whatever ends up being decided, _please_ document that in
-machine-readable and -verifiable form. I.e., update lib/test_printf.c
-accordingly.
+And if so, these instructions would change (in the future) to something
+like:
 
-Currently (and originally) it only tests %pd because %pD is/was
-essentially just %pd with an indirection to get the struct dentry* from
-a struct file*.
+     $ cp -a /sys/kernel/debug/pgo/*.profraw /tmp/prof/
 
-The existing framework is strongly centered around expecting '/a/bc (see
-all the logic where we do multiple checks with size 0, size random, size
-plenty, and for the random case check that the buffer contents match the
-complete output up till the randomly chosen size), so adding tests for
-some other semantics would require a bit more juggling.
+?
 
-Not that that should be an argument in favor of that behaviour. But FWIW
-that would be my preference.
+-Kees
 
-Rasmus
-
-
+-- 
+Kees Cook
