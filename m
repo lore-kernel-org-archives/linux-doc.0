@@ -2,97 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB449C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:53:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2631C4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 09:07:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CE4E610A0
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 08:53:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86FF061364
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 09:07:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233182AbhFAIzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 04:55:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233208AbhFAIzR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 04:55:17 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB0FC061574;
-        Tue,  1 Jun 2021 01:53:35 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id 29so10167426pgu.11;
-        Tue, 01 Jun 2021 01:53:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RCbm1eO6NljASmXQV6rZLOGqrFmq6s5+C7dsgtFpv+g=;
-        b=KDohyLRpFufwz/3nAD2UD2ukR7EqlrJULj20zX4Ek2VrDStJA8EC2boeHBH0fAk4qA
-         ORrvDPWoCs/jHbrwfHt9krMavts9f6N0Rb0wKy0e7yztEa7c3MizdOi7ak8PNXzyCwnL
-         Wcd2IbC7Ulj59/bUOi3PlHuikiM4ExV7dQjujZm218EA293NQtRyUB8gUoRtF0wgLZ9t
-         Df3/VrDc8kx6PkO+RJINgMRcBm652jZFGkTRpQrbqs5IQQLmghdZbtlazYPgoGeqOsHn
-         2GZjwNbwWzghICEAYilR2rufVxh1lwH7AtL+mIZ24qhHa9FHC8vQjvixCUAhjXQ65oKB
-         nShA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RCbm1eO6NljASmXQV6rZLOGqrFmq6s5+C7dsgtFpv+g=;
-        b=SLGB3QMRjctzEpZUFMCNkWNvUFnHSWJQCg/kz2/LcSRHeIxwZvqqOMIEXyT744N+yZ
-         ze/qkrY0d17JRHWtpC+q2oSDhkKakfP2OaIPCWW7kyyAwXCVke8rHpt444Xobou/HKId
-         ognb2JlI+IUyx1LVZDd1S/CAlsOpLq9grxVDP3UtNTDT4TgmmUi9yWPZKuCWzEdbT0wR
-         TFDL5OAQlQsSrn6mo77PZZBS/9bnbdRGK/eykVlGaZF1Wfi6GABXt4RwpNuGiWq9ihZO
-         N7O9TSW9clngB0+CMO+6/h9ZIOjNq291xXumj1gW/iMn/3+JMPM0niOZRnGJSWVwy7Wv
-         Ly7w==
-X-Gm-Message-State: AOAM533lvKxcs5M+uyuaTWKNH1JG5iu+M3lCHttWttFzw9ues/R8uzRe
-        DnR+Go4qG1TDQtve4npA0WQ=
-X-Google-Smtp-Source: ABdhPJxw96WKM3bN7DHnJcNBori4Vq1y4Pz4SQVPRrghtuqjgFC7wHM2H1E48tSbV5sb9OWAGTxEUA==
-X-Received: by 2002:a63:2cd4:: with SMTP id s203mr14383682pgs.417.1622537614813;
-        Tue, 01 Jun 2021 01:53:34 -0700 (PDT)
-Received: from Ubuntu.localdomain ([103.127.241.252])
-        by smtp.gmail.com with ESMTPSA id v3sm12639919pfb.203.2021.06.01.01.53.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 01:53:34 -0700 (PDT)
-From:   Gao Mingfei <g199209@gmail.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, Gao Mingfei <g199209@gmail.com>
-Subject: [PATCH] docs: block: fix stat.rst document error
-Date:   Tue,  1 Jun 2021 08:51:45 +0000
-Message-Id: <20210601085145.3273-1-g199209@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S233330AbhFAJIq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 05:08:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22770 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233218AbhFAJIp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 05:08:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1622538424;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Wwyq+d8kaa3gE2iFZ3mOrS7Gyye0u9Y9IgFDFZTKJ9s=;
+        b=PjC+qSHS6V1NGrAXD5AscFZzz+FCrIKqy69DJ/XnCmiRBDvYVINI1hhUhBah+tNm+k7jfx
+        +kIzT5SSzULJoFP6gynBq0OCGuK5MxLyPCudF5r8OXbXpEtuv1cGH+yXWTT4tOCgIasIZ2
+        rG33uo9BqJ2ew1clunfrjinvjKu77RE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-ZIwBcJjnPNS5dwTQpNN6pw-1; Tue, 01 Jun 2021 05:07:03 -0400
+X-MC-Unique: ZIwBcJjnPNS5dwTQpNN6pw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DEB4803624;
+        Tue,  1 Jun 2021 09:07:00 +0000 (UTC)
+Received: from localhost (ovpn-13-211.pek2.redhat.com [10.72.13.211])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 49D6469108;
+        Tue,  1 Jun 2021 09:06:56 +0000 (UTC)
+Date:   Tue, 1 Jun 2021 17:06:53 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andy Shevchenko <andy@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Darren Hart <dvhart@infradead.org>,
+        Dave Young <dyoung@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lianbo Jiang <lijiang@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/3] x86/setup: always reserve the first 1M of RAM
+Message-ID: <20210601090653.GB361405@MiWiFi-R3L-srv>
+References: <20210601075354.5149-1-rppt@kernel.org>
+ <20210601075354.5149-2-rppt@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210601075354.5149-2-rppt@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are 17 decimal vaules, not 11.
+On 06/01/21 at 10:53am, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+......  
 
-Previous committers forgot to change this number when adding
-new fields.
+> diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+> index 7850111008a8..b15ebfe40a73 100644
+> --- a/arch/x86/platform/efi/quirks.c
+> +++ b/arch/x86/platform/efi/quirks.c
+> @@ -450,6 +450,18 @@ void __init efi_free_boot_services(void)
+>  			size -= rm_size;
+>  		}
 
-Signed-off-by: Gao Mingfei <g199209@gmail.com>
----
- Documentation/block/stat.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for taking care of the low-1M excluding in
+efi_free_boot_services(), Mike. You might want to remove the old real
+mode excluding code either since it's been covered by your new code.
 
-diff --git a/Documentation/block/stat.rst b/Documentation/block/stat.rst
-index 77311335c08b..a1cd9db2058f 100644
---- a/Documentation/block/stat.rst
-+++ b/Documentation/block/stat.rst
-@@ -18,7 +18,7 @@ A.
-    each, it would be impossible to guarantee that a set of readings
-    represent a single point in time.
+diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+index b15ebfe40a73..be814f2089ff 100644
+--- a/arch/x86/platform/efi/quirks.c
++++ b/arch/x86/platform/efi/quirks.c
+@@ -409,7 +409,6 @@ void __init efi_free_boot_services(void)
+ 	for_each_efi_memory_desc(md) {
+ 		unsigned long long start = md->phys_addr;
+ 		unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
+-		size_t rm_size;
  
--The stat file consists of a single line of text containing 11 decimal
-+The stat file consists of a single line of text containing 17 decimal
- values separated by whitespace.  The fields are summarized in the
- following table, and described in more detail below.
+ 		if (md->type != EFI_BOOT_SERVICES_CODE &&
+ 		    md->type != EFI_BOOT_SERVICES_DATA) {
+@@ -430,26 +429,6 @@ void __init efi_free_boot_services(void)
+ 		 */
+ 		efi_unmap_pages(md);
  
--- 
-2.25.1
+-		/*
+-		 * Nasty quirk: if all sub-1MB memory is used for boot
+-		 * services, we can get here without having allocated the
+-		 * real mode trampoline.  It's too late to hand boot services
+-		 * memory back to the memblock allocator, so instead
+-		 * try to manually allocate the trampoline if needed.
+-		 *
+-		 * I've seen this on a Dell XPS 13 9350 with firmware
+-		 * 1.4.4 with SGX enabled booting Linux via Fedora 24's
+-		 * grub2-efi on a hard disk.  (And no, I don't know why
+-		 * this happened, but Linux should still try to boot rather
+-		 * panicking early.)
+-		 */
+-		rm_size = real_mode_size_needed();
+-		if (rm_size && (start + rm_size) < (1<<20) && size >= rm_size) {
+-			set_real_mode_mem(start);
+-			start += rm_size;
+-			size -= rm_size;
+-		}
+-
+ 		/*
+ 		 * Don't free memory under 1M for two reasons:
+ 		 * - BIOS might clobber it
+
+>  
+> +		/*
+> +		 * Don't free memory under 1M for two reasons:
+> +		 * - BIOS might clobber it
+> +		 * - Crash kernel needs it to be reserved
+> +		 */
+> +		if (start + size < SZ_1M)
+> +			continue;
+> +		if (start < SZ_1M) {
+> +			size -= (SZ_1M - start);
+> +			start = SZ_1M;
+> +		}
+> +
+>  		memblock_free_late(start, size);
+>  	}
+>  
+> diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
+> index 2e1c1bec0f9e..8ea285aca827 100644
+> --- a/arch/x86/realmode/init.c
+> +++ b/arch/x86/realmode/init.c
+> @@ -29,14 +29,16 @@ void __init reserve_real_mode(void)
+>  
+>  	/* Has to be under 1M so we can execute real-mode AP code. */
+>  	mem = memblock_find_in_range(0, 1<<20, size, PAGE_SIZE);
+> -	if (!mem) {
+> +	if (!mem)
+>  		pr_info("No sub-1M memory is available for the trampoline\n");
+> -		return;
+> -	}
+> +	else
+> +		set_real_mode_mem(mem);
+>  
+> -	memblock_reserve(mem, size);
+> -	set_real_mode_mem(mem);
+> -	crash_reserve_low_1M();
+> +	/*
+> +	 * Unconditionally reserve the entire fisrt 1M, see comment in
+> +	 * setup_arch()
+> +	 */
+> +	memblock_reserve(0, SZ_1M);
+>  }
+>  
+>  static void sme_sev_setup_real_mode(struct trampoline_header *th)
+> -- 
+> 2.28.0
+> 
 
