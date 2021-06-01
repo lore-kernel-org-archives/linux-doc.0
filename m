@@ -2,90 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8710C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 18:58:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB027C4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 19:01:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AFBBD6135D
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 18:58:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D021F6128A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 19:01:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233970AbhFAS7y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 14:59:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59430 "EHLO
+        id S233397AbhFATDf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 15:03:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233397AbhFAS7y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 14:59:54 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81687C061574;
-        Tue,  1 Jun 2021 11:58:12 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 27606750;
-        Tue,  1 Jun 2021 18:58:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 27606750
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1622573892; bh=56iJKguwV+t7o6fuVd3IIFIuWhnqqtZ2cfjSVsXB9Jc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=dlQbgGh/s1fFSjqU0oGSwrGBEeDHXGGfUY9j43mIOiL9fWC/fv4K1dqnJ24e8pHpC
-         KetO1lGW9EfgurETwetpyEayA8Tm244A8drAMT44nPx87ta+Xbxv3T/a8lwLuuaHTe
-         3IC9YWi8mRZV3ecAUxTEsUf6MuVRZslqUX/2FQywapk0hc/pvyB4iIQ1VQtFvxClIA
-         jZ4OYuU3pDHi5ADmpKARjG3JsDI4OXDuS87+r3M0K3K/ugSLHhQDnaOVzJ3OX/g/iK
-         ++BFRSa0Kqu88IuxzrNNcctp+0a7oVkSNHOA08VtbHS9dhiDxYPsuErhJ4vIVWxLQf
-         vpVeuAAXL9Kzw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     grantseltzer <grantseltzer@gmail.com>, andrii@kernel.org,
-        daniel@iogearbox.net
-Cc:     linux-doc@vger.kernel.org, grantseltzer@gmail.com,
-        bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next 0/2] Autogenerating libbpf API documentation
-In-Reply-To: <20210531195553.168298-1-grantseltzer@gmail.com>
-References: <20210531195553.168298-1-grantseltzer@gmail.com>
-Date:   Tue, 01 Jun 2021 12:58:11 -0600
-Message-ID: <871r9lbef0.fsf@meer.lwn.net>
+        with ESMTP id S234720AbhFATDd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 15:03:33 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5DAEC061756
+        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 12:01:49 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id o8so20762752ljp.0
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jun 2021 12:01:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RAu0njSTC+kf8drexs7MaZKoE+RFr/l6rpBisM//YE8=;
+        b=Ubm1IKre509GEWJnIt1bo0fRJNfmHccoI20TkXQ9yfHdF/oebFoF8keJiNoiUOrs7X
+         VfT4DycS9NU6tC6PB5TL9w1v0tqnoJiSrlqYUM0sNWE2MwixNys6XjGaG7v6mpXb57b7
+         LWKaKfyXXz9TMrKN2/lbmduSACCMKLBdvT3SM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RAu0njSTC+kf8drexs7MaZKoE+RFr/l6rpBisM//YE8=;
+        b=R2iDhDGjfwLbe3X0bB/7nwgBeqRRF8EKMAnu+zOx9nsUC2hE7DoMFykIYF3baAAZvK
+         EObDLpYozRFceOaLxdssgYnrczua+3upTrL7G1qs6a2wn+ZNEQFSoOJjM3Csjp/dgLsS
+         0cWLimQ6bxhqzsB79XSOU0Ar0MLvkQBII4n+/1Ncu5a8+vanTh70FiFN2gzK4UqNcxcj
+         DP7KlXfCqcpaMDtjC8jLXeGEhtK5l7ZULfvhnRB6qMVKhHaX/Bm2tpS715NLE9kW++ao
+         llzntxB6nuS+5PnSnq+AbPuM2V6zbiXcNv4mYUwH9SnjqMstyShGK6J7ABkpo8WtMmW5
+         ep4w==
+X-Gm-Message-State: AOAM5316W2qkGAE9MB1gfjVyfpNKfIo0+iDsNpNhNo3NOIdMP3r7BJUz
+        sqvecY3YiFKgDVo4DN8jXxfsJQ==
+X-Google-Smtp-Source: ABdhPJw9s8bBsmzDHRpKgKg/J93DXW07RWbA/3WaPNRwJsVn9SJW571H6MDEnq3hSiz8E+K7r3/Pmg==
+X-Received: by 2002:a05:651c:2c7:: with SMTP id f7mr22407178ljo.255.1622574107996;
+        Tue, 01 Jun 2021 12:01:47 -0700 (PDT)
+Received: from [172.17.20.140] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id g2sm2103831ljn.35.2021.06.01.12.01.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jun 2021 12:01:47 -0700 (PDT)
+Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
+ file
+To:     Matthew Wilcox <willy@infradead.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Justin He <Justin.He@arm.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
+References: <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEDwFCPcFx+qeul@casper.infradead.org>
+ <AM6PR08MB437615DB6A6DEC33223A3138F7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEKqGkm8bX6LZfP@casper.infradead.org>
+ <AM6PR08MB43764764B52AAC7F05B71056F73E9@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLZSgZIcWyYTmqOT@casper.infradead.org>
+ <CAHp75VfYgEtJeiVp8b10Va54QShyg4DmWeufuB_WGC8C2SE2mQ@mail.gmail.com>
+ <YLZVwFh9MZJR3amM@casper.infradead.org> <YLZX9oicn8u4ZVCl@smile.fi.intel.com>
+ <YLZcAesVG1SYL5fp@smile.fi.intel.com> <YLZoyjSJyzU5w1qO@casper.infradead.org>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <39f599a7-9175-f220-3803-b1920ddb8d40@rasmusvillemoes.dk>
+Date:   Tue, 1 Jun 2021 21:01:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <YLZoyjSJyzU5w1qO@casper.infradead.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-grantseltzer <grantseltzer@gmail.com> writes:
+On 01/06/2021 19.05, Matthew Wilcox wrote:
 
-> This patch series is meant to start the initiative to document libbpf.
-> It includes .rst files which are text documentation describing building, 
-> API naming convention, as well as an index to generated API documentation.
->
-> In this approach the generated API documentation is enabled by the kernels
-> existing kernel documentation system which uses sphinx. The resulting docs
-> would then be synced to kernel.org/doc
->
-> You can test this by running `make htmldocs` and serving the html in 
-> Documentation/output. Since libbpf does not yet have comments in kernel
-> doc format, see kernel.org/doc/html/latest/doc-guide/kernel-doc.html for
-> an example so you can test this.
->
-> The advantage of this approach is to use the existing sphinx
-> infrastructure that the kernel has, and have libbpf docs in
-> the same place as everything else.
->
-> The perhaps large disadvantage of this approach is that libbpf versions
-> independently from the kernel. If it's possible to version libbpf
-> separately without having duplicates that would be the ideal scenario.
+> Here's some examples, what do you think makes sense?
+> 
+> snprintf(buf, 16, "bad file '%pD'\n", q);
+> 
+> what content do you want buf to have when q is variously:
+> 
+> 1. /abcd/efgh
+> 2. /a/bcdefgh.iso
+> 3. /abcdef/gh
+> 
+> I would argue that
+> "bad file ''\n"
+> is actually a better string to have than any of (case 2)
+> "bad file '/a/bc"
+> "bad file 'bcdef"
+> "bad file 'h.iso"
+> 
 
-I'm happy to see things going this direction; it looks like a good start
-to me.
+Whatever ends up being decided, _please_ document that in
+machine-readable and -verifiable form. I.e., update lib/test_printf.c
+accordingly.
 
-Let me know if you'd like this to go through the docs tree, or feel free
-to add:
+Currently (and originally) it only tests %pd because %pD is/was
+essentially just %pd with an indirection to get the struct dentry* from
+a struct file*.
 
-  Acked-by: Jonathan Corbet <corbet@lwn.net>
+The existing framework is strongly centered around expecting '/a/bc (see
+all the logic where we do multiple checks with size 0, size random, size
+plenty, and for the random case check that the buffer contents match the
+complete output up till the randomly chosen size), so adding tests for
+some other semantics would require a bit more juggling.
 
-if you want to route it via some other path.
+Not that that should be an argument in favor of that behaviour. But FWIW
+that would be my preference.
 
-Thanks,
+Rasmus
 
-jon
+
