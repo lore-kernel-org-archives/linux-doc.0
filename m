@@ -2,80 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F1DC47080
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:29:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE846C47080
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:37:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AC6F613BC
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:29:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3B6E613BD
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:37:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234942AbhFAWbi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 18:31:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234799AbhFAWbi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:31:38 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A17BC061574;
-        Tue,  1 Jun 2021 15:29:56 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3ADDB6E2;
-        Tue,  1 Jun 2021 22:29:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3ADDB6E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1622586596; bh=y9sxAzj+dWrVwmKL8DGxCyxl0p5fDGQaBGnGuwpqGfo=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sJOtHjJwOq85gKYJk9beusRgOTjtW/UBduW9ZDIaQxVMj2pt0/IpQhNyOsmnuiJhM
-         iiRq8qHrdqr2P8h8W5RFu4zfPg3NYhKiIjR4TT/r/jmlQkbH92UWdVMwJ4m8l2hun1
-         6mrNUmtR7ClYUpps4pRaWoesNg2sLeY3ywkTJwxasK2JpCV5ungGJsvnM21nHPLnMb
-         JSn8qrzXkEeX/2DpLWuOpNqTYLvWyTc0a7DDLVr2N8cMgvh7qnsksW9iDr6nbLSkAj
-         5wqqNwRlJaAgXE4O1S5jxJxu16AQz/A7zkmPHxOLksaKMu8M7Q+gXwiijATQYBVDIC
-         fGg2Qjekvkvdw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 0/2] Fix some issues at scripts/sphinx-pre-install
-In-Reply-To: <cover.1621949137.git.mchehab+huawei@kernel.org>
-References: <cover.1621949137.git.mchehab+huawei@kernel.org>
-Date:   Tue, 01 Jun 2021 16:29:55 -0600
-Message-ID: <87v96x8bh8.fsf@meer.lwn.net>
+        id S234953AbhFAWja (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 18:39:30 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:50244 "EHLO
+        hera.aquilenet.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234714AbhFAWja (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:39:30 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by hera.aquilenet.fr (Postfix) with ESMTP id F0E49899;
+        Wed,  2 Jun 2021 00:37:45 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+        by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id xtQRWJTpljHk; Wed,  2 Jun 2021 00:37:45 +0200 (CEST)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+        by hera.aquilenet.fr (Postfix) with ESMTPSA id EE20E170;
+        Wed,  2 Jun 2021 00:37:44 +0200 (CEST)
+Received: from samy by begin with local (Exim 4.94.2)
+        (envelope-from <samuel.thibault@ens-lyon.org>)
+        id 1loD15-005WbP-QT; Wed, 02 Jun 2021 00:37:43 +0200
+Date:   Wed, 2 Jun 2021 00:37:43 +0200
+From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Christopher Brannon <cmbrannon@cox.net>,
+        William Hubbs <w.d.hubbs@gmail.com>,
+        collins@gene3.ait.iastate.edu,
+        Steve Holmes <steve.holmes88@gmail.com>
+Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
+Message-ID: <20210601223743.carif4gkzcz5jo7j@begin>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christopher Brannon <cmbrannon@cox.net>,
+        William Hubbs <w.d.hubbs@gmail.com>, collins@gene3.ait.iastate.edu,
+        Steve Holmes <steve.holmes88@gmail.com>,
+        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210531215737.8431-1-igormtorrente@gmail.com>
+ <875yyxbenm.fsf@meer.lwn.net>
+ <20210601220643.uzep2ju2zlcmpa57@begin>
+ <874keh9qk9.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874keh9qk9.fsf@meer.lwn.net>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: F0E49899
+X-Spamd-Result: default: False [-2.50 / 15.00];
+         ARC_NA(0.00)[];
+         RCVD_VIA_SMTP_AUTH(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         FREEMAIL_ENVRCPT(0.00)[cox.net,gmail.com];
+         TAGGED_RCPT(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         HAS_ORG_HEADER(0.00)[];
+         RCVD_COUNT_THREE(0.00)[3];
+         RCPT_COUNT_SEVEN(0.00)[11];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MID_RHS_NOT_FQDN(0.50)[];
+         FREEMAIL_CC(0.00)[gmail.com];
+         BAYES_HAM(-3.00)[100.00%]
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Jonathan Corbet, le mar. 01 juin 2021 16:18:46 -0600, a ecrit:
+> The problem is that the kernel docs, when built, include a great deal of
+> code and text taken directly from the kernel source.  The built docs are
+> thus a derived product of the kernel and the result needs to carry a
+> GPL-compatible license.
 
-> Currently, when using with --no-virtualenv, the script doesn't behave well,
-> as it prints both instructions to install Sphinx via distribution's package
-> manager and via pip.
->
-> Address it.
->
-> While here, rework the logic which recommends Sphinx install, by
-> splitting it into three parts and making easier to maintain it, as
-> there are too much complexity there. Splitting the Sphinx part
-> of the logic on 3 separate functions allow to detect if the venv/virtualenv
-> python packages are needed or not, and helps to have a cleaner
-> logic.
->
-> Mauro Carvalho Chehab (2):
->   scripts: sphinx-pre-install: rework the sphinx install logic
->   scripts: sphinx-pre-install: fix the need of virtenv packages
->
->  scripts/sphinx-pre-install | 262 +++++++++++++++++++++++++------------
->  1 file changed, 180 insertions(+), 82 deletions(-)
+Ah...
 
-I've applied this set, thanks.
+> I've spent some time talking with lawyers about
+> this, and they have confirmed that view of things.
 
-jon
+Yes, sure.
+
+> As a standalone .txt file there is probably no legal problem, but that
+> changes as soon as you bring it into RST TOC tree.
+
+Yes.
+
+> >> What are the chances that we can get the authors to agree on a change to
+> >> a GPL-compatible license for this file?
+> >
+> > I don't know about Collins' opinion on this, Cc-ing him with the latest
+> > mail my archives know for him (which dates 2008...)
+> >
+> > The copyright "the Speakup Team" is a more complex thing to look for.
+> 
+> Do you have a history of contributors to the file in its previous home?
+
+Checking more closely, it seems we have it. The detail is in
+git@github.com:linux-speakup/speakup.git in ./doc/spkguide.txt, but that
+seems relatively simple:
+
+- The initial import of the file (bddef0d280cd) wears only the Gene
+  Collins copyright notice.
+- I made some changes and added my copyright notice.
+- Christopher Brannon (now in Cc) made various changes and added the
+  "the Speakup Team" copyright notice.
+- William Hubbs (now in Cc) made some changes.
+- Steve Holmes (now in Cc) added one sentence.
+
+So we'd need Gene's, Christopher's, William's, and Steve's ack on adding
+the GPL alternative to the GFDL-1.2 licence.
+
+Samuel
