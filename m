@@ -2,105 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F3C9C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:48:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C4E4C4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:50:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E797613C0
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:48:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4392613BD
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:50:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234799AbhFAWuk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 18:50:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234908AbhFAWuk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:50:40 -0400
-Received: from hera.aquilenet.fr (hera.aquilenet.fr [IPv6:2a0c:e300::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DBEBC06174A;
-        Tue,  1 Jun 2021 15:48:58 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by hera.aquilenet.fr (Postfix) with ESMTP id 2B6A6CD2;
-        Wed,  2 Jun 2021 00:48:56 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
-        by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id xhGtF0-e1zUt; Wed,  2 Jun 2021 00:48:55 +0200 (CEST)
-Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
-        by hera.aquilenet.fr (Postfix) with ESMTPSA id 357C8CB8;
-        Wed,  2 Jun 2021 00:48:55 +0200 (CEST)
-Received: from samy by begin with local (Exim 4.94.2)
-        (envelope-from <samuel.thibault@ens-lyon.org>)
-        id 1loDBu-005Wz6-2x; Wed, 02 Jun 2021 00:48:54 +0200
-Date:   Wed, 2 Jun 2021 00:48:54 +0200
-From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
-To:     speakup@linux-speakup.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <chris@the-brannons.com>,
-        William Hubbs <w.d.hubbs@gmail.com>,
-        Steve Holmes <steve.holmes88@gmail.com>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-Message-ID: <20210601224854.iug2arwes64k7fxr@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        speakup@linux-speakup.org, Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <chris@the-brannons.com>,
-        William Hubbs <w.d.hubbs@gmail.com>,
-        Steve Holmes <steve.holmes88@gmail.com>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210531215737.8431-1-igormtorrente@gmail.com>
- <875yyxbenm.fsf@meer.lwn.net>
- <20210601220643.uzep2ju2zlcmpa57@begin>
- <874keh9qk9.fsf@meer.lwn.net>
- <20210601223743.carif4gkzcz5jo7j@begin>
- <20210601224452.sqblwctwiu47xgqg@begin>
- <20210601224554.6kc5syoy2tscisiv@begin>
+        id S235071AbhFAWvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 18:51:46 -0400
+Received: from ms.lwn.net ([45.79.88.28]:45718 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234766AbhFAWvp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Jun 2021 18:51:45 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6ABE46E2;
+        Tue,  1 Jun 2021 22:50:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6ABE46E2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1622587803; bh=ATNrq6rcLnlA0PjNk5Gm9LEzS+SsfUIsSB2YkEN3AtY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=lTqUt73fxImotw5y40/z5/uMMMpKILxJjB7FDL+NSnklCwrZ8UH5Nnl0STNixdwoO
+         BMJ9iQfhIvUkE4X+igDjUhymF7S9St5pghwXQ0Ujafb/MlNZq3G5Sbx7BzWNRy+bu2
+         PHCbbgLHEW4hDN1ZdIwegSVoXI9+uf7+JBesda1ciZ3fA8/nxq62Slibm7c9em+wNm
+         QN+lH+It3ogvMMOaxWA6b0hUL7slNY0bbg1Ta/kwIKE6mLBLlec5wO4/Z9klaQ2bfB
+         OnIcO9uTpPlIkKvve4J2btWUkafVV7DC+51BbmfA3p+UG3SYTSZWa04kPNb4xki2ne
+         eD5SZf6g+paKQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     "Wu X.C." <bobwxc@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: pdfdocs: Prevent column squeezing by tabulary
+In-Reply-To: <277d68fa-c96a-0ccb-6ce0-4d314851d9fe@gmail.com>
+References: <277d68fa-c96a-0ccb-6ce0-4d314851d9fe@gmail.com>
+Date:   Tue, 01 Jun 2021 16:50:02 -0600
+Message-ID: <87eedl8ajp.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210601224554.6kc5syoy2tscisiv@begin>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Spamd-Bar: --
-Authentication-Results: hera.aquilenet.fr
-X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: 2B6A6CD2
-X-Spamd-Result: default: False [-2.50 / 15.00];
-         ARC_NA(0.00)[];
-         RCVD_VIA_SMTP_AUTH(0.00)[];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[gmail.com];
-         TAGGED_RCPT(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         HAS_ORG_HEADER(0.00)[];
-         RCVD_COUNT_THREE(0.00)[3];
-         RCPT_COUNT_SEVEN(0.00)[11];
-         RCVD_NO_TLS_LAST(0.10)[];
-         FROM_EQ_ENVFROM(0.00)[];
-         MID_RHS_NOT_FQDN(0.50)[];
-         BAYES_HAM(-3.00)[100.00%]
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Samuel Thibault wrote:
-> > - The initial import of the file (bddef0d280cd) wears only the Gene
-> >   Collins copyright notice.
-> 
-> I'm here fixing the mail for Chris and Gene with an up-to-date email
-> address, I also bounced them my previous mail.
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-Mmm, no, acollins@icsmail.net is not working either. Does anybody on the
-speakup mailing list know an up-to-date mail address for Gene?
+> Setting a reasonable width to \tymin prevents column squeezing
+> by tabulary.
+> Width of 20em works well in almost all the tables still in the
+> ascii-art format.
+>
+> Excerpt from tabulary package documentation at [1]:
+>
+>     To stop very narrow columns being too 'squeezed' by this process
+>     any columns that are narrower than \tymin are set to their natural
+>     width.
+>
+> [1]: https://mirrors.ctan.org/macros/latex/contrib/tabulary/tabulary.pdf
+>
+> Note: Sphinx has its own default value of \tymin set in
+> sphinxlatextables.sty (Sphinx 4.0.2) and sphinxmulticell.sty
+> (Sphinx 2.4.4) as follows:
+>
+>     \setlength{\tymin}{3\fontcharwd\font`0 }
+>
+> , which is not sufficient for kernel-doc.
+>
+> Tested against Sphinx versions 2.4.4 and 4.0.2.
+>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+> Hi all,
+>
+> This is another attempt to improve pdfdocs output.
+> As far as I see, I don't see any obvious regression by
+> this change.
+>
+> The effect of this change can be seen in (not limited to)
+> the MODULE_LICENSE section in process.pdf (pages 10 and 11).
+>
+> I'd like to know this change looks reasonable to you.
+>
+> Any feedback is welcome!
+>
+>         Thanks, Akira
+>
+> --
+>  Documentation/conf.py | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Samuel
+Applied, thanks.
+
+jon
