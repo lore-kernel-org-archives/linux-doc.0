@@ -2,214 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25BD0C47092
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 16:44:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 104B7C47080
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 17:06:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10D29613B6
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 16:44:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBE0E613BD
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 17:06:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234594AbhFAQpy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 12:45:54 -0400
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:14814 "EHLO
-        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234600AbhFAQpt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 12:45:49 -0400
-Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id 49D352E6BC90
-        for <linux-doc@vger.kernel.org>; Tue,  1 Jun 2021 18:44:07 +0200 (CEST)
-Received: from s645.loopia.se (unknown [172.22.191.6])
-        by s807.loopia.se (Postfix) with ESMTP id 39E1E2E2C691;
-        Tue,  1 Jun 2021 18:44:07 +0200 (CEST)
-Received: from s474.loopia.se (unknown [172.22.191.5])
-        by s645.loopia.se (Postfix) with ESMTP id 1F7261579F94;
-        Tue,  1 Jun 2021 18:44:07 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-Received: from s645.loopia.se ([172.22.191.5])
-        by s474.loopia.se (s474.loopia.se [172.22.190.14]) (amavisd-new, port 10024)
-        with UTF8LMTP id J33FdIMDVxBb; Tue,  1 Jun 2021 18:44:06 +0200 (CEST)
-X-Loopia-Auth: user
-X-Loopia-User: carl@hgsystem.se
-X-Loopia-Originating-IP: 178.28.230.104
-Received: from localhost.localdomain (c-b21ce668-74736162.cust.telenor.se [178.28.230.104])
-        (Authenticated sender: carl@hgsystem.se)
-        by s645.loopia.se (Postfix) with ESMTPSA id 0E7E71579FD5;
-        Tue,  1 Jun 2021 18:44:05 +0200 (CEST)
-From:   Erik Rosen <erik.rosen@metormote.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+        id S234292AbhFARIE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 13:08:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34256 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231918AbhFARIE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 13:08:04 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C0B5C061574;
+        Tue,  1 Jun 2021 10:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=hA62la00vFMppd9s1AomcqtrMlyNDRJAkQFp1nXnFAg=; b=bhrq8HGvk2ZC9QEwuF3N+FtO15
+        D91cwCGObxRWpjhgo3KsDyZ/ccqpaKL1PKiqNJ6DyXoAd3sH8j3/v38LCVcvBBaQBBbuic3LwsDAJ
+        +8tAvC6xnAzAmA2HBRfvUbPq/pfObzWigW5VlFNHN6lhA+Gd/VRL+a5EXewYUpnCrHRxvkb1TzGlH
+        N401VSuO7kjeKd04aOalX52/LMQFAWweJvJvB+wz/rFUfpsnLI/iY+MRzMxnPT/d5GwzdRe7k/JbE
+        vf5bEBx1jR7MUlL5Kj0nk0aza5v71zysqRMPjrRoDA00lec1DdVTRanpocwFGdS/z1Iad8J2I7IBt
+        rFdK0zyg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lo7pK-00AEY3-91; Tue, 01 Jun 2021 17:05:15 +0000
+Date:   Tue, 1 Jun 2021 18:05:14 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Justin He <Justin.He@arm.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Daniel Nilsson <daniel.nilsson@flex.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH v4 5/5] hwmon: (pmbus/pim4328) Add documentation for the pim4328 PMBus driver
-Date:   Tue,  1 Jun 2021 18:43:20 +0200
-Message-Id: <20210601164320.2907-6-erik.rosen@metormote.com>
-X-Mailer: git-send-email 2.11.0 (Apple Git-81)
-In-Reply-To: <20210601164320.2907-1-erik.rosen@metormote.com>
-References: <20210601164320.2907-1-erik.rosen@metormote.com>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
+ file
+Message-ID: <YLZoyjSJyzU5w1qO@casper.infradead.org>
+References: <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEDwFCPcFx+qeul@casper.infradead.org>
+ <AM6PR08MB437615DB6A6DEC33223A3138F7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEKqGkm8bX6LZfP@casper.infradead.org>
+ <AM6PR08MB43764764B52AAC7F05B71056F73E9@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLZSgZIcWyYTmqOT@casper.infradead.org>
+ <CAHp75VfYgEtJeiVp8b10Va54QShyg4DmWeufuB_WGC8C2SE2mQ@mail.gmail.com>
+ <YLZVwFh9MZJR3amM@casper.infradead.org>
+ <YLZX9oicn8u4ZVCl@smile.fi.intel.com>
+ <YLZcAesVG1SYL5fp@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YLZcAesVG1SYL5fp@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation and index link for pim4328 PMBus driver.
-Update MAINTAINER file for the driver.
+On Tue, Jun 01, 2021 at 07:10:41PM +0300, Andy Shevchenko wrote:
+> On Tue, Jun 01, 2021 at 06:53:26PM +0300, Andy Shevchenko wrote:
+> > On Tue, Jun 01, 2021 at 04:44:00PM +0100, Matthew Wilcox wrote:
+> > > On Tue, Jun 01, 2021 at 06:36:41PM +0300, Andy Shevchenko wrote:
+> > > > On Tue, Jun 1, 2021 at 6:32 PM Matthew Wilcox <willy@infradead.org> wrote:
+> > > > > On Tue, Jun 01, 2021 at 02:42:15PM +0000, Justin He wrote:
+> > > > 
+> > > > ...
+> > > > 
+> > > > > Just don't put anything
+> > > > > in the buffer if the user didn't supply enough space.  As long as you
+> > > > > get the return value right, they know the string is bad (or they don't
+> > > > > care if the string is bad)
+> > > > 
+> > > > It might be that I'm out of context here, but printf() functionality
+> > > > in the kernel (vsprintf() if being precise)  and its users consider
+> > > > that it should fill buffer up to the end of whatever space is
+> > > > available.
+> > > 
+> > > Do they though?  What use is it to specify a small buffer, print a
+> > > large filename into it and then use that buffer, knowing that it wasn't
+> > > big enough?  That would help decide whether we should print the
+> > > start or the end of the filename.
+> > > 
+> > > Remember, we're going for usefulness here, not abiding by the letter of
+> > > the standard under all circumstances, no matter the cost.  At least
+> > > partially because we're far outside the standard here; POSIX does
+> > > not specify what %pD does.
+> > > 
+> > > "The argument shall be a pointer to void. The value of the
+> > > pointer is converted to a sequence of printable characters, in an
+> > > implementation-defined manner."
+> > 
+> > All nice words, but don't forget kasprintf() or other usages like this.
+> > For the same input we have to have the same result independently on the room in
+> > the buffer.
+> > 
+> > So, if I print "Hello, World" I should always get it, not "Monkey's Paw".
+> > I.o.w.
+> > 
+> >  snprintf(10) ==> "Hello, Wor"
+> >  snprintf(5)  ==> "Hello"
+> >  snprintf(2)  !=> "Mo"
+> >  snprintf(1)  !=> "M"
+> >  snprintf(1)  ==> "H"
+> > 
+> > Inconsistency here is really not what we want.
+> 
+> I have to add that in light of the topic those characters should be counted
+> from the end of the filename. So, we will give user as much as possible of useful
+> information. I.o.w. always print the last part of filename up to the buffer
+> size or if the filename is shorter than buffer we will have it in full.
 
-Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
-Acked-by: Daniel Nilsson <daniel.nilsson@flex.com>
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/pim4328.rst | 105 ++++++++++++++++++++++++++++++++
- MAINTAINERS                     |   7 +++
- 3 files changed, 113 insertions(+)
- create mode 100644 Documentation/hwmon/pim4328.rst
+Ah, not monkey's paw, but donkey hoof then ...
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 9ed60fa84cbe..719625f8f755 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -150,6 +150,7 @@ Hardware Monitoring Kernel Drivers
-    pc87360
-    pc87427
-    pcf8591
-+   pim4328
-    pm6764tr
-    pmbus
-    powr1220
-diff --git a/Documentation/hwmon/pim4328.rst b/Documentation/hwmon/pim4328.rst
-new file mode 100644
-index 000000000000..70c9e7a6882c
---- /dev/null
-+++ b/Documentation/hwmon/pim4328.rst
-@@ -0,0 +1,105 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver pim4328
-+=====================
-+
-+Supported chips:
-+
-+  * Flex PIM4328
-+
-+    Prefix: 'pim4328', 'bmr455'
-+
-+    Addresses scanned: -
-+
-+    Datasheet:
-+
-+https://flexpowermodules.com/resources/fpm-techspec-pim4328
-+
-+  * Flex PIM4820
-+
-+    Prefixes: 'pim4820'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-pim4820
-+
-+  * Flex PIM4006, PIM4106, PIM4206, PIM4306, PIM4406
-+
-+    Prefixes: 'pim4006', 'pim4106', 'pim4206', 'pim4306', 'pim4406'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://flexpowermodules.com/resources/fpm-techspec-pim4006
-+
-+Author: Erik Rosen <erik.rosen@metormote.com>
-+
-+
-+Description
-+-----------
-+
-+This driver supports hardware monitoring for Flex PIM4328 and
-+compatible digital power interface modules.
-+
-+The driver is a client driver to the core PMBus driver. Please see
-+Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
-+on PMBus client drivers.
-+
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate the
-+devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-+details.
-+
-+
-+Platform data support
-+---------------------
-+
-+The driver supports standard PMBus driver platform data.
-+
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported. All attributes are read-only.
-+
-+======================= ========================================================
-+in1_label		"vin"
-+in1_input		Measured input voltage.
-+in1_alarm		Input voltage alarm.
-+
-+in2_label		"vin.0"
-+in2_input		Measured input voltage on input A.
-+
-+			PIM4328 and PIM4X06
-+
-+in3_label		"vin.1"
-+in3_input		Measured input voltage on input B.
-+
-+			PIM4328 and PIM4X06
-+
-+in4_label		"vcap"
-+in4_input		Measured voltage on holdup capacitor.
-+
-+			PIM4328
-+
-+curr1_label		"iin.0"
-+curr1_input		Measured input current on input A.
-+
-+			PIM4X06
-+
-+curr2_label		"iin.1"
-+curr2_input		Measured input current on input B.
-+
-+			PIM4X06
-+
-+currX_label		"iout1"
-+currX_input		Measured output current.
-+currX_alarm		Output current alarm.
-+
-+			X is 1 for PIM4820, 3 otherwise.
-+
-+temp1_input		Measured temperature.
-+temp1_alarm		High temperature alarm.
-+======================= ========================================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bd7aff0c120f..378a121d80f6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14416,6 +14416,13 @@ K:	(?i)pidfd
- K:	(?i)clone3
- K:	\b(clone_args|kernel_clone_args)\b
- 
-+PIM4328 DRIVER
-+M:	Daniel Nilsson <daniel.nilsson@flex.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/pim4328.rst
-+F:	drivers/hwmon/pmbus/pim4328.c
-+
- PIN CONTROL SUBSYSTEM
- M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-gpio@vger.kernel.org
--- 
-2.20.1
+Here's some examples, what do you think makes sense?
 
+snprintf(buf, 16, "bad file '%pD'\n", q);
+
+what content do you want buf to have when q is variously:
+
+1. /abcd/efgh
+2. /a/bcdefgh.iso
+3. /abcdef/gh
+
+I would argue that
+"bad file ''\n"
+is actually a better string to have than any of (case 2)
+"bad file '/a/bc"
+"bad file 'bcdef"
+"bad file 'h.iso"
