@@ -2,78 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A712C4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 16:11:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE36C47092
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 16:12:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2050361090
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 16:11:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 58F1861090
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 16:12:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232490AbhFAQNO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 12:13:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43884 "EHLO mail.kernel.org"
+        id S234072AbhFAQNq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 12:13:46 -0400
+Received: from mga11.intel.com ([192.55.52.93]:40749 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230523AbhFAQNO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Jun 2021 12:13:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EB7860232;
-        Tue,  1 Jun 2021 16:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622563449;
-        bh=/ypgGqL0v+wsCgxDS8k0oLpREu5q7GxXgSi43vcKhcw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=DH17KwsxplYIBl3YflGFUaRCGNMjISN1k6KMivXnfOqr5k0Q3eQWdrkFOp/lzW/1g
-         fPv+4slyk5DCica+zDVOHa/+hMq5PcqCuVFyCYeLdg/VKfzNPrV+1mFrLQ9vJ/TxrD
-         ljfdK7MP0vekepdZtNmFDoltBRGXzTwArD0hjVb/+MVn2/mHY4HMhexmShffv5w7m5
-         8I6qHHL6zC4YginEDR6Ho/UWPedEtB4pyAV5Lx7yzhr1Kmo1+1nIWNIFUIsyRyi+N6
-         Q87kXii61tZKgkMYYZLQthvPOo2jhRJw4I25FNLHH6o3nmrqe0ihANcJ5A1siIwf4J
-         6OcH6tucNV2Kw==
-Date:   Tue, 1 Jun 2021 11:04:02 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Wesley Sheng <wesley.sheng@amd.com>
-Cc:     linasvepstas@gmail.com, ruscur@russell.cc, oohall@gmail.com,
-        bhelgaas@google.com, corbet@lwn.net, linux-pci@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, wesleyshenggit@sina.com
-Subject: Re: [PATCH] Documentation PCI: Fix typo in pci-error-recovery.rst
-Message-ID: <20210601160402.GA1944037@bjorn-Precision-5520>
+        id S230523AbhFAQNp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Jun 2021 12:13:45 -0400
+IronPort-SDR: 6Dkv8BuOKeY+L7xXcEHmzPTLyKWGWDZixwFkq9yD2vweJlIYLn6oQPK8dNSfT9EL/8mStwBcrJ
+ oD1Tl+0XTZhQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="200564663"
+X-IronPort-AV: E=Sophos;i="5.83,240,1616482800"; 
+   d="scan'208";a="200564663"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2021 09:10:50 -0700
+IronPort-SDR: p6iGhjR6RZGIaThSJIMsrDMkBC2yTJlyRQMHAQQu9Ss7eIs9YVt2ec8zXDcXUzwZchHJzXPSuv
+ K1tCePzPVo4Q==
+X-IronPort-AV: E=Sophos;i="5.83,240,1616482800"; 
+   d="scan'208";a="549777277"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2021 09:10:45 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1lo6yX-00GTkz-TQ; Tue, 01 Jun 2021 19:10:41 +0300
+Date:   Tue, 1 Jun 2021 19:10:41 +0300
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Justin He <Justin.He@arm.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH RFCv2 2/3] lib/vsprintf.c: make %pD print full path for
+ file
+Message-ID: <YLZcAesVG1SYL5fp@smile.fi.intel.com>
+References: <YLDpSnV9XBUJq5RU@casper.infradead.org>
+ <AM6PR08MB437691E7314C6B774EFED4BDF7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEDwFCPcFx+qeul@casper.infradead.org>
+ <AM6PR08MB437615DB6A6DEC33223A3138F7229@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLEKqGkm8bX6LZfP@casper.infradead.org>
+ <AM6PR08MB43764764B52AAC7F05B71056F73E9@AM6PR08MB4376.eurprd08.prod.outlook.com>
+ <YLZSgZIcWyYTmqOT@casper.infradead.org>
+ <CAHp75VfYgEtJeiVp8b10Va54QShyg4DmWeufuB_WGC8C2SE2mQ@mail.gmail.com>
+ <YLZVwFh9MZJR3amM@casper.infradead.org>
+ <YLZX9oicn8u4ZVCl@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210531081215.43507-1-wesley.sheng@amd.com>
+In-Reply-To: <YLZX9oicn8u4ZVCl@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 31, 2021 at 04:12:15PM +0800, Wesley Sheng wrote:
-> Replace "It" with "If", since it is a conditional statement.
+On Tue, Jun 01, 2021 at 06:53:26PM +0300, Andy Shevchenko wrote:
+> On Tue, Jun 01, 2021 at 04:44:00PM +0100, Matthew Wilcox wrote:
+> > On Tue, Jun 01, 2021 at 06:36:41PM +0300, Andy Shevchenko wrote:
+> > > On Tue, Jun 1, 2021 at 6:32 PM Matthew Wilcox <willy@infradead.org> wrote:
+> > > > On Tue, Jun 01, 2021 at 02:42:15PM +0000, Justin He wrote:
+> > > 
+> > > ...
+> > > 
+> > > > Just don't put anything
+> > > > in the buffer if the user didn't supply enough space.  As long as you
+> > > > get the return value right, they know the string is bad (or they don't
+> > > > care if the string is bad)
+> > > 
+> > > It might be that I'm out of context here, but printf() functionality
+> > > in the kernel (vsprintf() if being precise)  and its users consider
+> > > that it should fill buffer up to the end of whatever space is
+> > > available.
+> > 
+> > Do they though?  What use is it to specify a small buffer, print a
+> > large filename into it and then use that buffer, knowing that it wasn't
+> > big enough?  That would help decide whether we should print the
+> > start or the end of the filename.
+> > 
+> > Remember, we're going for usefulness here, not abiding by the letter of
+> > the standard under all circumstances, no matter the cost.  At least
+> > partially because we're far outside the standard here; POSIX does
+> > not specify what %pD does.
+> > 
+> > "The argument shall be a pointer to void. The value of the
+> > pointer is converted to a sequence of printable characters, in an
+> > implementation-defined manner."
 > 
-> Signed-off-by: Wesley Sheng <wesley.sheng@amd.com>
+> All nice words, but don't forget kasprintf() or other usages like this.
+> For the same input we have to have the same result independently on the room in
+> the buffer.
+> 
+> So, if I print "Hello, World" I should always get it, not "Monkey's Paw".
+> I.o.w.
+> 
+>  snprintf(10) ==> "Hello, Wor"
+>  snprintf(5)  ==> "Hello"
+>  snprintf(2)  !=> "Mo"
+>  snprintf(1)  !=> "M"
+>  snprintf(1)  ==> "H"
+> 
+> Inconsistency here is really not what we want.
 
-Applied to pci/error for v5.14 with Krzysztof's reviewed-by and
-subject "Documentation: PCI: Fix typo in pci-error-recovery.rst" to
-match previous convention, thanks!
+I have to add that in light of the topic those characters should be counted
+from the end of the filename. So, we will give user as much as possible of useful
+information. I.o.w. always print the last part of filename up to the buffer
+size or if the filename is shorter than buffer we will have it in full.
 
-> ---
->  Documentation/PCI/pci-error-recovery.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
-> index 84ceebb08cac..187f43a03200 100644
-> --- a/Documentation/PCI/pci-error-recovery.rst
-> +++ b/Documentation/PCI/pci-error-recovery.rst
-> @@ -295,7 +295,7 @@ and let the driver restart normal I/O processing.
->  A driver can still return a critical failure for this function if
->  it can't get the device operational after reset.  If the platform
->  previously tried a soft reset, it might now try a hard reset (power
-> -cycle) and then call slot_reset() again.  It the device still can't
-> +cycle) and then call slot_reset() again.  If the device still can't
->  be recovered, there is nothing more that can be done;  the platform
->  will typically report a "permanent failure" in such a case.  The
->  device will be considered "dead" in this case.
-> -- 
-> 2.25.1
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
