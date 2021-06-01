@@ -6,38 +6,35 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B5EC4708F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00239C4708F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:45:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC3ED613C0
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:44:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDCE461159
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 22:45:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235121AbhFAWqh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 18:46:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235080AbhFAWqh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:46:37 -0400
-Received: from hera.aquilenet.fr (hera.aquilenet.fr [IPv6:2a0c:e300::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CFD8C061574;
-        Tue,  1 Jun 2021 15:44:55 -0700 (PDT)
+        id S234948AbhFAWrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 18:47:39 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:50476 "EHLO
+        hera.aquilenet.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234799AbhFAWrj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 18:47:39 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by hera.aquilenet.fr (Postfix) with ESMTP id 857A0CD2;
-        Wed,  2 Jun 2021 00:44:53 +0200 (CEST)
+        by hera.aquilenet.fr (Postfix) with ESMTP id 39647CE3;
+        Wed,  2 Jun 2021 00:45:56 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
 Received: from hera.aquilenet.fr ([127.0.0.1])
         by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id QFAfEc56vENP; Wed,  2 Jun 2021 00:44:53 +0200 (CEST)
+        with ESMTP id 03QabYN6ulWn; Wed,  2 Jun 2021 00:45:55 +0200 (CEST)
 Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
-        by hera.aquilenet.fr (Postfix) with ESMTPSA id DFDA1CB8;
-        Wed,  2 Jun 2021 00:44:52 +0200 (CEST)
+        by hera.aquilenet.fr (Postfix) with ESMTPSA id A57B3CE2;
+        Wed,  2 Jun 2021 00:45:55 +0200 (CEST)
 Received: from samy by begin with local (Exim 4.94.2)
         (envelope-from <samuel.thibault@ens-lyon.org>)
-        id 1loD80-005WpQ-4H; Wed, 02 Jun 2021 00:44:52 +0200
-Date:   Wed, 2 Jun 2021 00:44:52 +0200
+        id 1loD90-005WsA-S5; Wed, 02 Jun 2021 00:45:54 +0200
+Date:   Wed, 2 Jun 2021 00:45:54 +0200
 From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <cmbrannon@cox.net>,
+        Christopher Brannon <chris@the-brannons.com>,
         William Hubbs <w.d.hubbs@gmail.com>, acollins@icsmail.net,
         Steve Holmes <steve.holmes88@gmail.com>,
         Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
@@ -45,10 +42,10 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         rdunlap@infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-Message-ID: <20210601224452.sqblwctwiu47xgqg@begin>
+Message-ID: <20210601224554.6kc5syoy2tscisiv@begin>
 Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <cmbrannon@cox.net>,
+        Christopher Brannon <chris@the-brannons.com>,
         William Hubbs <w.d.hubbs@gmail.com>, acollins@icsmail.net,
         Steve Holmes <steve.holmes88@gmail.com>,
         Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
@@ -60,23 +57,24 @@ References: <20210531215737.8431-1-igormtorrente@gmail.com>
  <20210601220643.uzep2ju2zlcmpa57@begin>
  <874keh9qk9.fsf@meer.lwn.net>
  <20210601223743.carif4gkzcz5jo7j@begin>
+ <20210601224452.sqblwctwiu47xgqg@begin>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210601223743.carif4gkzcz5jo7j@begin>
+In-Reply-To: <20210601224452.sqblwctwiu47xgqg@begin>
 Organization: I am not organized
 User-Agent: NeoMutt/20170609 (1.8.3)
 X-Spamd-Bar: --
 Authentication-Results: hera.aquilenet.fr
 X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: 857A0CD2
+X-Rspamd-Queue-Id: 39647CE3
 X-Spamd-Result: default: False [-2.50 / 15.00];
          ARC_NA(0.00)[];
          RCVD_VIA_SMTP_AUTH(0.00)[];
          FROM_HAS_DN(0.00)[];
          TO_DN_SOME(0.00)[];
          TO_MATCH_ENVRCPT_ALL(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[cox.net,gmail.com];
+         FREEMAIL_ENVRCPT(0.00)[gmail.com];
          TAGGED_RCPT(0.00)[];
          MIME_GOOD(-0.10)[text/plain];
          HAS_ORG_HEADER(0.00)[];
@@ -85,18 +83,21 @@ X-Spamd-Result: default: False [-2.50 / 15.00];
          RCVD_NO_TLS_LAST(0.10)[];
          FROM_EQ_ENVFROM(0.00)[];
          MID_RHS_NOT_FQDN(0.50)[];
-         BAYES_HAM(-3.00)[99.99%]
+         BAYES_HAM(-3.00)[100.00%]
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Samuel Thibault, le mer. 02 juin 2021 00:37:43 +0200, a ecrit:
-> - The initial import of the file (bddef0d280cd) wears only the Gene
->   Collins copyright notice.
-> - Christopher Brannon (now in Cc) made various changes and added the
->   "the Speakup Team" copyright notice.
+Samuel Thibault, le mer. 02 juin 2021 00:44:52 +0200, a ecrit:
+> Samuel Thibault, le mer. 02 juin 2021 00:37:43 +0200, a ecrit:
+> > - The initial import of the file (bddef0d280cd) wears only the Gene
+> >   Collins copyright notice.
+> > - Christopher Brannon (now in Cc) made various changes and added the
+> >   "the Speakup Team" copyright notice.
+> 
+> I'm here fixing the mail for Chris and Gene with an up-to-date email
+> address, I also bounced them my previous mail.
 
-I'm here fixing the mail for Chris and Gene with an up-to-date email
-address, I also bounced them my previous mail.
+Err, sorry, Chris' wasn't actually fixed, now fixed.
 
 Samuel
