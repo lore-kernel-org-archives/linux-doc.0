@@ -2,68 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C664C4708F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:10:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E2B7C47083
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:48:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E590B613EE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:10:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32336613EE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:48:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbhFBTLw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 15:11:52 -0400
-Received: from foss.arm.com ([217.140.110.172]:52458 "EHLO foss.arm.com"
+        id S229467AbhFBTuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 15:50:01 -0400
+Received: from foss.arm.com ([217.140.110.172]:53076 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229620AbhFBTLw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jun 2021 15:11:52 -0400
+        id S229822AbhFBTuA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jun 2021 15:50:00 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5CCC11063;
-        Wed,  2 Jun 2021 12:10:08 -0700 (PDT)
-Received: from [192.168.178.6] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A9D973F774;
-        Wed,  2 Jun 2021 12:10:06 -0700 (PDT)
-Subject: Re: [PATCH v6 0/3] Rework CPU capacity asymmetry detection
-To:     Beata Michalska <beata.michalska@arm.com>,
-        linux-kernel@vger.kernel.org
-Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, valentin.schneider@arm.com,
-        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
-References: <20210527153842.17567-1-beata.michalska@arm.com>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-Message-ID: <0e0f8202-4acc-5092-33c1-82d268b3fd5b@arm.com>
-Date:   Wed, 2 Jun 2021 21:10:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B4C01063;
+        Wed,  2 Jun 2021 12:48:17 -0700 (PDT)
+Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B707E3F774;
+        Wed,  2 Jun 2021 12:48:15 -0700 (PDT)
+Date:   Wed, 2 Jun 2021 20:48:06 +0100
+From:   Beata Michalska <beata.michalska@arm.com>
+To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc:     Valentin Schneider <valentin.schneider@arm.com>,
+        linux-kernel@vger.kernel.org, peterz@infradead.org,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, corbet@lwn.net, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+Message-ID: <20210602194805.GA18136@e120325.cambridge.arm.com>
+References: <87a6oj6sxo.mognet@arm.com>
+ <20210525102945.GA24210@e120325.cambridge.arm.com>
+ <98ad8837-b9b8-ff50-5a91-8d5951ee757c@arm.com>
+ <20210526121546.GA13262@e120325.cambridge.arm.com>
+ <20210526125133.GB13262@e120325.cambridge.arm.com>
+ <d4dc6630-041f-bf61-898a-6f402b993fbc@arm.com>
+ <20210526214004.GA1712@e120325.cambridge.arm.com>
+ <14593ba7-eed9-f035-724c-5cadbb859adc@arm.com>
+ <20210527170729.GA20994@e120325.cambridge.arm.com>
+ <4f43a9a8-b64e-bb47-b3c1-f51165f40249@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210527153842.17567-1-beata.michalska@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4f43a9a8-b64e-bb47-b3c1-f51165f40249@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 27/05/2021 17:38, Beata Michalska wrote:
-
-[...]
-
-> Beata Michalska (3):
->   sched/core: Introduce SD_ASYM_CPUCAPACITY_FULL sched_domain flag
->   sched/topology: Rework CPU capacity asymmetry detection
->   sched/doc: Update the CPU capacity asymmetry bits
+On Wed, Jun 02, 2021 at 07:17:12PM +0200, Dietmar Eggemann wrote:
+> On 27/05/2021 19:07, Beata Michalska wrote:
+> > On Thu, May 27, 2021 at 05:08:42PM +0200, Dietmar Eggemann wrote:
+> >> On 26/05/2021 23:40, Beata Michalska wrote:
+> >>> On Wed, May 26, 2021 at 08:17:41PM +0200, Dietmar Eggemann wrote:
+> >>>> On 26/05/2021 14:51, Beata Michalska wrote:
+> >>>>> On Wed, May 26, 2021 at 01:15:46PM +0100, Beata Michalska wrote:
+> >>>>>> On Wed, May 26, 2021 at 11:52:25AM +0200, Dietmar Eggemann wrote:
+> >>>>>>> On 25/05/2021 12:29, Beata Michalska wrote:
+> >>>>>>>> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
+> >>>>>>>>> On 24/05/21 23:55, Beata Michalska wrote:
+> >>>>>>>>>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
+> >>>>>>>>>>> On 24/05/21 11:16, Beata Michalska wrote:
 > 
->  Documentation/scheduler/sched-capacity.rst |   6 +-
->  Documentation/scheduler/sched-energy.rst   |   2 +-
->  include/linux/sched/sd_flags.h             |  10 ++
->  kernel/sched/topology.c                    | 194 +++++++++++++--------
->  4 files changed, 133 insertions(+), 79 deletions(-)
+> [...]
+> 
+> >>> We could possibly add a warning (like in EAS) if the asymmetry is detected
+> >>> for SMT which would give some indication that there is smth ... wrong ?
+> >>
+> >> Maybe, in case you find an easy way to detect this.
+> >>
+> >> But the issue already exists today. Not with the topology mentioned
+> >> above but in case we slightly change it to:
+> >>
+> >>   cpus = { ([446 1024] [871 1024] [446 1024] ) ([1024 1024]) }
+> >>                                        ^^^^
+> >> so that we have a 1024 CPU in the lowest sd for each CPU, we would get
+> >> SD_ASYM_CPUCAPACITY on SMT.
+> > The asymmetry capacity flags are being set on a sched domain level, so
+> > we could use the SD_SHARE_CPUCAPACITY|SD_SHARE_PKG_RESOURCES (cpu_smt_flags)
+> > flags to determine if having asymmetry is valid or not ? If this is enough 
+> > this could be handled by the classify function?
+> 
+> Or maybe something directly in sd_init(), like the WARN_ONCE() which triggers
+> if somebody wants to sneak in a ~topology flag via a
+> sched_domain_topology_level table? 
+> 
+> IMHO checking `SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY` will be sufficient
+> here.
+> 
+> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+> index 62d412013df8..77b73abbb9a4 100644
+> --- a/kernel/sched/topology.c
+> +++ b/kernel/sched/topology.c
+> @@ -1561,6 +1561,11 @@ sd_init(struct sched_domain_topology_level *tl,
+>         sd_id = cpumask_first(sched_domain_span(sd));
+>  
+>         sd->flags |= asym_cpu_capacity_classify(sd, cpu_map);
+> +
+> +       WARN_ONCE((sd->flags & (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY)) ==
+> +                 (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY),
+> +                     "CPU capacity asymmetry not supported on SMT\n");
+> +
+>         /*
+>          * Convert topological properties into behaviour.
+>          */
+> 
+> In case we can agree on something simple here I guess you can incorporate it into v7.
+So what I have done is :
 
-Looks good to me, even though I would like to see a more compact version
-of asym_cpu_capacity_classify(). Details in my response to [PATCH v6 2/3].
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 77e6f79235ad..ec4ae225687e 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -1324,6 +1324,7 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
+        if (!asym_cap_miss)
+                sd_asym_flags |= SD_ASYM_CPUCAPACITY_FULL;
+ 
++       WARN_ONCE(cpu_smt_flags() & sd->flags, "Detected CPU capacity asymmetry on SMT level");
+ leave:
+        return sd_asym_flags;
+ }
 
-Did some level of testing myself and wasn't able to break it.
+Comment can be adjusted.
+This would sit in the classify function to nicely wrap asymmetry bits in one
+place. What do you think ?
 
-Reviewed-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
+---
+BR
+B.
