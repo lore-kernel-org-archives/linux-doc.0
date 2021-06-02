@@ -2,116 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31843C47083
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 17:17:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8830C47083
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 18:01:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1ACE261C81
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 17:17:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B837E60FF2
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 18:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbhFBRTE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 13:19:04 -0400
-Received: from foss.arm.com ([217.140.110.172]:50422 "EHLO foss.arm.com"
+        id S231382AbhFBSDN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 14:03:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49332 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229667AbhFBRTD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jun 2021 13:19:03 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E75F11FB;
-        Wed,  2 Jun 2021 10:17:19 -0700 (PDT)
-Received: from [192.168.178.6] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 066933F719;
-        Wed,  2 Jun 2021 10:17:17 -0700 (PDT)
-Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
- detection
-To:     Beata Michalska <beata.michalska@arm.com>
-Cc:     Valentin Schneider <valentin.schneider@arm.com>,
-        linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, corbet@lwn.net, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org
-References: <87fsyc6mfz.mognet@arm.com>
- <20210524225508.GA14880@e120325.cambridge.arm.com>
- <87a6oj6sxo.mognet@arm.com>
- <20210525102945.GA24210@e120325.cambridge.arm.com>
- <98ad8837-b9b8-ff50-5a91-8d5951ee757c@arm.com>
- <20210526121546.GA13262@e120325.cambridge.arm.com>
- <20210526125133.GB13262@e120325.cambridge.arm.com>
- <d4dc6630-041f-bf61-898a-6f402b993fbc@arm.com>
- <20210526214004.GA1712@e120325.cambridge.arm.com>
- <14593ba7-eed9-f035-724c-5cadbb859adc@arm.com>
- <20210527170729.GA20994@e120325.cambridge.arm.com>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-Message-ID: <4f43a9a8-b64e-bb47-b3c1-f51165f40249@arm.com>
-Date:   Wed, 2 Jun 2021 19:17:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S231380AbhFBSDM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jun 2021 14:03:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AA90661DAB;
+        Wed,  2 Jun 2021 18:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622656889;
+        bh=fQXm9BykRQ8de1JVkzMk/o4tmQnGcumbAyoAQWoZBKM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HwuAZH9Kp+fW1hYa5V+RoK5DFGxmNn2AKmm6YCnOVLTm4lAV7N7R7qBYrUPnhoOUy
+         R2ZFPihfo7LvQm3BpisTQH2KltgzU5J4RLuxq188Lf4UnPi0yTHJTrV8pXWKFVTzGX
+         IEPddKr+LRz+PmPIQBQdNWzmt55APK900yd3IEDMN4fmHrKlGDMrh8eSr0+W8s0WWT
+         1HQuULJ6dQJWCloF230gKEQfqQAJF5HSI4r6mzRA0TnhwibFInkXlcTIm8ckxl424w
+         7kRkfhz7E80hvVqLm4V3mtrDrLawOa3a/MCHPVuvtcE6AVmT3u5sK4HeblhXXDRngq
+         C8LsFeoDHb1tQ==
+Date:   Wed, 2 Jun 2021 20:01:21 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 07/12] docs: accounting: update delay-accounting.rst
+ reference
+Message-ID: <20210602200121.64a828a1@coco.lan>
+In-Reply-To: <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
+References: <cover.1622648507.git.mchehab+huawei@kernel.org>
+        <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
+        <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210527170729.GA20994@e120325.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 27/05/2021 19:07, Beata Michalska wrote:
-> On Thu, May 27, 2021 at 05:08:42PM +0200, Dietmar Eggemann wrote:
->> On 26/05/2021 23:40, Beata Michalska wrote:
->>> On Wed, May 26, 2021 at 08:17:41PM +0200, Dietmar Eggemann wrote:
->>>> On 26/05/2021 14:51, Beata Michalska wrote:
->>>>> On Wed, May 26, 2021 at 01:15:46PM +0100, Beata Michalska wrote:
->>>>>> On Wed, May 26, 2021 at 11:52:25AM +0200, Dietmar Eggemann wrote:
->>>>>>> On 25/05/2021 12:29, Beata Michalska wrote:
->>>>>>>> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
->>>>>>>>> On 24/05/21 23:55, Beata Michalska wrote:
->>>>>>>>>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
->>>>>>>>>>> On 24/05/21 11:16, Beata Michalska wrote:
+Em Wed, 2 Jun 2021 18:38:29 +0200
+Peter Zijlstra <peterz@infradead.org> escreveu:
 
-[...]
+> On Wed, Jun 02, 2021 at 05:43:13PM +0200, Mauro Carvalho Chehab wrote:
+> > When :doc: is used, the .rst should be removed. Also, the patches
+> > are relative to the current directory.
+> > 
+> > So, the right reference should be:
+> > 
+> > 	:doc:`/accounting/delay-accounting`
+> > 
+> > Fixes: fcb501704554 ("delayacct: Document task_delayacct sysctl")
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/admin-guide/sysctl/kernel.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> > index b2057173fe07..7f36cba3204b 100644
+> > --- a/Documentation/admin-guide/sysctl/kernel.rst
+> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> > @@ -1097,7 +1097,7 @@ task_delayacct
+> >  ===============
+> >  
+> >  Enables/disables task delay accounting (see
+> > -:doc:`accounting/delay-accounting.rst`). Enabling this feature incurs
+> > +:doc:`/accounting/delay-accounting`). Enabling this feature incurs  
+> 
+> This breaks any chance of using 'goto file' like features in text
+> editors :/ 
 
->>> We could possibly add a warning (like in EAS) if the asymmetry is detected
->>> for SMT which would give some indication that there is smth ... wrong ?
->>
->> Maybe, in case you find an easy way to detect this.
->>
->> But the issue already exists today. Not with the topology mentioned
->> above but in case we slightly change it to:
->>
->>   cpus = { ([446 1024] [871 1024] [446 1024] ) ([1024 1024]) }
->>                                        ^^^^
->> so that we have a 1024 CPU in the lowest sd for each CPU, we would get
->> SD_ASYM_CPUCAPACITY on SMT.
-> The asymmetry capacity flags are being set on a sched domain level, so
-> we could use the SD_SHARE_CPUCAPACITY|SD_SHARE_PKG_RESOURCES (cpu_smt_flags)
-> flags to determine if having asymmetry is valid or not ? If this is enough 
-> this could be handled by the classify function?
+This is a feature of your favorite text editor. Not all have it.
 
-Or maybe something directly in sd_init(), like the WARN_ONCE() which triggers
-if somebody wants to sneak in a ~topology flag via a
-sched_domain_topology_level table? 
+> Can we please not do crap like this.
 
-IMHO checking `SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY` will be sufficient
-here.
+See, this is not the only place on this document using :doc:``. It is just
+the one using it wrong:
 
-diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-index 62d412013df8..77b73abbb9a4 100644
---- a/kernel/sched/topology.c
-+++ b/kernel/sched/topology.c
-@@ -1561,6 +1561,11 @@ sd_init(struct sched_domain_topology_level *tl,
-        sd_id = cpumask_first(sched_domain_span(sd));
- 
-        sd->flags |= asym_cpu_capacity_classify(sd, cpu_map);
-+
-+       WARN_ONCE((sd->flags & (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY)) ==
-+                 (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY),
-+                     "CPU capacity asymmetry not supported on SMT\n");
-+
-        /*
-         * Convert topological properties into behaviour.
-         */
+	$ git grep :doc: Documentation/admin-guide/sysctl/kernel.rst
+	Documentation/admin-guide/sysctl/kernel.rst:For general info and legal blurb, please look in :doc:`index`.
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/power/video`. This allows the video resume mode to be set,
+	Documentation/admin-guide/sysctl/kernel.rst::doc:`/x86/boot` for additional information.
+	Documentation/admin-guide/sysctl/kernel.rst::doc:`/x86/boot` for additional information.
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/driver-api/firmware/fallback-mechanisms`.
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/trace/ftrace`.
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/admin-guide/lockup-watchdogs` for more information.
+	Documentation/admin-guide/sysctl/kernel.rst:to the guest kernel command line (see :doc:`/admin-guide/kernel-parameters`).
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/admin-guide/initrd`.
+	Documentation/admin-guide/sysctl/kernel.rst::doc:`accounting/delay-accounting.rst`). Enabling this feature incurs
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/userspace-api/seccomp_filter`.
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/admin-guide/sysrq`.
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/admin-guide/tainted-kernels` for more information.
+	Documentation/admin-guide/sysctl/kernel.rst:  See :doc:`/admin-guide/kernel-parameters` for more details on that particular
+	Documentation/admin-guide/sysctl/kernel.rst:When set, disables tracing (see :doc:`/trace/ftrace`) when a
+	Documentation/admin-guide/sysctl/kernel.rst:See :doc:`/admin-guide/kernel-parameters` and
+	Documentation/admin-guide/sysctl/kernel.rst::doc:`/trace/boottime-trace`.
 
-In case we can agree on something simple here I guess you can incorporate it into v7.
+-
+
+That's said, automarkup.py has a rule to convert Documentation/<foo>.rst
+into :doc:`<foo>`. So, an alternative approach would be to convert
+treewide all :doc:`<foo>` into Documentation/<foo>.rst and add something 
+at checkpatch.pl to recommend to avoid :doc: notation.
+
+Tests are needed, though, to be sure that automarkup.py won't miss
+something, as the regex there might require tweaks to cover some
+border cases.
+
+Thanks,
+Mauro
