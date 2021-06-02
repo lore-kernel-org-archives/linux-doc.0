@@ -2,88 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C326C4708F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 12:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B42E7C4708F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 12:28:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86590613B8
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 12:16:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9689261396
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 12:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbhFBMSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 08:18:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbhFBMSk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jun 2021 08:18:40 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27132C061574;
-        Wed,  2 Jun 2021 05:16:56 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id l7so1621412qtk.5;
-        Wed, 02 Jun 2021 05:16:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2O+tLYxesFn9U9bsFgi2no8QVjDlOUPa6ENZe5MNQmw=;
-        b=EeDF0BbEfidTuVl9WySidPBvEzrWzs2Q+cL/+DRnZ17L36CgBJG5rHAmiVNYYADsEf
-         Om6jDA3bUEhDm2zG0mypmGiVmlV0L76EORgomvcZJIAZeOG02Cv7o2D8YHjpAm/PtRl5
-         88adfvVMp7vGoLLLnU09CYf4YBHliIfd2oXarH2187QViNNxUqPJG+LfPqKCZR7ugQxd
-         DrfWi5k8vZDLO8AK7PJqCu4pB/PGvRJYyNq0qcwSiq3UyPahFCCAnAd5nJRlw0l2WJ91
-         eYYGJ81+BpiTJVtB6HGUwHHEPypPHFZ4jBvS953Pm2n3EOioNyXsWL7oOn3R55M9FYKO
-         Ms3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=2O+tLYxesFn9U9bsFgi2no8QVjDlOUPa6ENZe5MNQmw=;
-        b=Uo2VdGYKMjeGzeXT8scWYqFRhDbuMbmOAj9qJzpFJy7lWFv44+iMDyxDunU4en5h6f
-         0TFQTPL8NowgV7kQ5/MB3hQXkQXbQ6gQz0pW/QwvuwXqnR248t/WTO7I7hT9QSxKAbCA
-         gX3aHNK1jgrgQerlHcctKCVbJ8kYMDE98Kv7+/EGVWQTIKjDF13T/pU1WAX+LUpoPCGN
-         sZ5178/ZUump3BLBZh+qtYRtUCfeqN8sbw2ZNJgxZNKaosuWhoXvg+AUnbuWienJRTnJ
-         o+dwC3TUFz5aeQA5HfAT+/1NjYV3q5Op5wZ35jg/JP2SLY///4I51WcBgGJJG3Jmx0oR
-         Ixcw==
-X-Gm-Message-State: AOAM532xWtWGyavVKHWI86ntWnlHxhQ//Z/VgbhS9ORXxmU/JmdKCJqI
-        QEeyFb780QLdW44JD6Pekghri9QrOnc=
-X-Google-Smtp-Source: ABdhPJwYLQ/xk/Wo0OcRNo2Y0CbzFrLgMq3CvWfe2xevEe5M9yqxEnQuuI8yVMfH/NsFyL1Yt6JSKA==
-X-Received: by 2002:ac8:7f42:: with SMTP id g2mr24436856qtk.73.1622636215380;
-        Wed, 02 Jun 2021 05:16:55 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s18sm2337300qtk.85.2021.06.02.05.16.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 05:16:54 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 2 Jun 2021 05:16:53 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Erik Rosen <erik.rosen@metormote.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Daniel Nilsson <daniel.nilsson@flex.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S229626AbhFBM3u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 08:29:50 -0400
+Received: from mga04.intel.com ([192.55.52.120]:45518 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229590AbhFBM3s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jun 2021 08:29:48 -0400
+IronPort-SDR: OTsf0rpoxINiDqxWBgZM6Ik1MrmXA2diHsd29kQMhPjj7kOE16vkg7NBXDItWU+eeeWgiWN2bJ
+ ZZP7pQdDb6Yw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="201914697"
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; 
+   d="scan'208";a="201914697"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2021 05:28:05 -0700
+IronPort-SDR: 1024NlcVx5NXR8OoFgdDKvggfwz3zY45Q0jD0FVna4KOh5zG14JQXK41vuPwFAxtuzxbzkJbOD
+ VTA6ibVAzKpA==
+X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; 
+   d="scan'208";a="479690419"
+Received: from okartau-mobl.ger.corp.intel.com (HELO localhost) ([10.249.43.75])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2021 05:28:01 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Igor Torrente <igormtorrente@gmail.com>,
+        Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        speakup@linux-speakup.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] hwmon: (pmbus/pim4328) Add PMBus driver for
- PIM4006, PIM4328 and PIM4820
-Message-ID: <20210602121653.GD2901466@roeck-us.net>
-References: <20210601164320.2907-1-erik.rosen@metormote.com>
- <20210601164320.2907-5-erik.rosen@metormote.com>
+Subject: Re: docs: Convert the Speakup guide to rst
+In-Reply-To: <85969150-6e00-12b8-b56d-5f161436777d@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210531215737.8431-1-igormtorrente@gmail.com> <20210531220754.h4ep2dj65wl6hejf@begin> <b8769ad4-9188-a735-3ac4-4a79b9b06487@gmail.com> <20210601215536.5rhnbwwt66uyqhze@begin> <85969150-6e00-12b8-b56d-5f161436777d@gmail.com>
+Date:   Wed, 02 Jun 2021 15:27:58 +0300
+Message-ID: <87pmx4pi29.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210601164320.2907-5-erik.rosen@metormote.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 01, 2021 at 06:43:19PM +0200, Erik Rosen wrote:
-> Add hardware monitoring support for Flex power interface modules PIM4006,
-> PIM4328 and PIM4820.
-> 
-> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+On Tue, 01 Jun 2021, Igor Torrente <igormtorrente@gmail.com> wrote:
+> Hi Samuel,
+>
+> On 6/1/21 6:55 PM, Samuel Thibault wrote:
+>> Hello,
+>> 
+>> Igor Torrente, le mar. 01 juin 2021 12:39:01 -0300, a ecrit:
+>>> I was reading all the emails sent in this thread, but I'm not sure how I
+>>> should proceed. Do think should I continue to improve the patch with the
+>>> Jani Nikula suggestions? Or abandon it? Or keep both versions?
+>> 
+>> It seems that people are fine with the switch to the .rst format, and
+>> it'll indeed allow much better distribution of its content, so please
+>> continue improving the patch with the suggestions from Jani, you have an
+>> 
+>> Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+>> 
+>> and the review will probably come from Jani, who seems to actually know
+>> a bit about the rst syntax :)
+>
+> OK, I will keep improving it.
 
-For my reference:
+Heh, I just made suggestions on things that I thought could be done
+better, but please see for yourself how it renders and how it actually
+works with Braille displays. That should have priority over anything I
+suggest.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+BR,
+Jani.
 
-Guenter
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
