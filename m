@@ -2,90 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_40,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C7EDC47083
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 10:58:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E45C47083
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 11:26:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33D2A613D0
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 10:58:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B056D613D2
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 11:26:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231520AbhFBK7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 06:59:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231538AbhFBK6X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jun 2021 06:58:23 -0400
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB40BC06138E;
-        Wed,  2 Jun 2021 03:56:21 -0700 (PDT)
-Received: by mail-oi1-x231.google.com with SMTP id c3so2211859oic.8;
-        Wed, 02 Jun 2021 03:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/47W/OKjxWYCnqnbbKYahszrZqkBdL2uMz2vtDHF81o=;
-        b=Wk7R+3c4RyoAUhByFTAB/zOFTmIL1dQrYvrEZ9MlkrNAV7Y5pAOGrndLj6Artks05z
-         q1Nnf9ELewx/s+AbcsbGJ/X9eeL7G/trJhnuZw94yHptOygbip7GkWQWnq9OsbMXyWhD
-         LUE5ESAL9Li0We2oBhauk1/Kbe1PsWqY/GB1x7CwlTITMdXqiXZJWNjfXtEQGPrSUoO0
-         I38AKk9n3NgBzHy77/fsVDTOcXBfEMpblejneafFSK6/bEdBX9ZGfoUe1U66gOOrpPWj
-         nO33//Cqz7h8xO3vPUtC0s+KuMwVCQzPvgqKyGohK69i/HIvYiQ+1sCe4aInkVg2+wZ7
-         HWUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=/47W/OKjxWYCnqnbbKYahszrZqkBdL2uMz2vtDHF81o=;
-        b=Dw+BBVzkS0tsh2OtmOF00cQG0pHfFl7M9aFcvFzXmvITw9ZnWY4MmPBNFzTBkoSYA6
-         w7JUBS/u0wybjEf4qWj5pcy/9MSoJ1kYjs4UHW3tjO6bgfKN0EXoZzuyagVsBGdbMRjQ
-         o9uTVKgLUBZoGHXGB2tNHlEn0FEraJ5H+ha2WRShd4AY7mftZ9ssJCuliMHyLx9gHu86
-         UzUP4KQHhsyluvjUnkKE3E6jCOv363ENJtk2Av+HN/3BeVusj+5R8n5UX3wtp7ZLWRJX
-         KwK+v9xHx5FIiOYSDzAVi8zDxAtt4HvAPCouk8TVK/rRy2tC5xHt5psUt/VzUGiux8NF
-         gVtQ==
-X-Gm-Message-State: AOAM5306OzT3V5bkLz30XOX63p+v0I5CVXDP+LKXcPkTH1+jJDNwcDhh
-        7WZZBr029Vcj7yvwK1sWf6o=
-X-Google-Smtp-Source: ABdhPJwgWit1A4hGoCoGOMzD+KLbNV4Gk7s62w1bG82dN5Xj0QKrgIRDLCfxQ2D7XUmvtx+KAoLbuQ==
-X-Received: by 2002:a05:6808:5cf:: with SMTP id d15mr399174oij.15.1622631381360;
-        Wed, 02 Jun 2021 03:56:21 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id o20sm4310047otl.2.2021.06.02.03.56.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 03:56:20 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 2 Jun 2021 03:56:19 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Erik Rosen <erik.rosen@metormote.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Daniel Nilsson <daniel.nilsson@flex.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/5] hwmon: (pmbus/pim4328) Add documentation for the
- pim4328 PMBus driver
-Message-ID: <20210602105619.GF1865238@roeck-us.net>
-References: <20210601164320.2907-1-erik.rosen@metormote.com>
- <20210601164320.2907-6-erik.rosen@metormote.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210601164320.2907-6-erik.rosen@metormote.com>
+        id S232609AbhFBL1n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 07:27:43 -0400
+Received: from [104.128.228.69] ([104.128.228.69]:60114 "EHLO
+        localhost.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232603AbhFBL0w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jun 2021 07:26:52 -0400
+X-Greylist: delayed 2291 seconds by postgrey-1.27 at vger.kernel.org; Wed, 02 Jun 2021 07:26:52 EDT
+Received: from 127.0.0.1 (localhost.localdomain [127.0.0.1])
+        by localhost.localdomain (Postfix) with SMTP id 92DFF289CF;
+        Wed,  2 Jun 2021 06:24:53 -0400 (EDT)
+From:   twcuh@mailforspam.com
+Reply-To: twcuh@mailforspam.com
+To:     oukey@inbox.lv
+Cc:     depcode34@DiAdresatDepCode.dictionaries,
+        eric.stoegbauer@dot.wi.gov, linux-doc@vger.kernel.org,
+        belstalimport@mail.ru, soccer_ball_template_icon@2x.png,
+        info@betliga.ru, ekb-Ran@bsc.global, info.epro@emerson.com,
+        english-359x201@2x.jpg, 2392858@bk.ru, sales@shapedo.com,
+        motorin@ici-steam.ru, todor.huklev@gmail.com
+Subject: Zdravstvujte Vas interesujut klientskie bazy dannyh?
+Message-Id: <20210602102453.92DFF289CF@localhost.localdomain>
+Date:   Wed,  2 Jun 2021 06:24:53 -0400 (EDT)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 01, 2021 at 06:43:20PM +0200, Erik Rosen wrote:
-> Add documentation and index link for pim4328 PMBus driver.
-> Update MAINTAINER file for the driver.
-> 
-> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
-> Acked-by: Daniel Nilsson <daniel.nilsson@flex.com>
-
-I got a message from Daniel, marked as privileged, which I can not
-use. Please drop the MAINTAINER file update; that will have to be
-handled in a separate patch.
-
-Thanks,
-Guenter
+Zdravstvujte Vas interesujut klientskie bazy dannyh?
