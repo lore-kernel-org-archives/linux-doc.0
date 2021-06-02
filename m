@@ -4,48 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E96C47097
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D06EAC47098
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A06B261413
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B881C61406
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232418AbhFBPpM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 11:45:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46776 "EHLO mail.kernel.org"
+        id S232430AbhFBPpN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 11:45:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46814 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232340AbhFBPpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232372AbhFBPpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 2 Jun 2021 11:45:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 695AE61406;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7741F6140B;
         Wed,  2 Jun 2021 15:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622648602;
-        bh=6qXUkFnfiQfecs6mzHsdnwU/nAODiuGruDmsYLHNq7I=;
+        bh=/2cYtSG3djNsCF31B1KP1LGyKIeygzLAJvXtYbi8Djc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UZ6iTswno7Z5eDssTs9LpH56tcpYZGtYCWMOnrkhw7TttWKtUMj7JDX9LN5KubBxE
-         FYQnsbxGGGOzlQtx9ktFH6knIcs/1cjl9U0+0B13m3gYty05uQWHtUZ1sGdlrLa9qi
-         NC5GiH8q5K3YGyOd1MaBOPqZ5SryUThO/c3XlyNeBKj0ZV7ee40QOyPcltzYkjsbbm
-         IhsHY0jip++71qxUB5Aqv7rW7qVtNLkPVMTs/f3JYh9YCdJkehGCrt4RR8BA31nF8H
-         ElKvf4SX0ScIIarT1Ew1sM+YTUn0YNwLkTR4Uotx3tidMlZrFVRxV9tyHqT1+b4QgX
-         TKMAx78Y2Q+yQ==
+        b=bt8gCF8ovJHzq4l5JTHjhYrIw/KhB+cpW3OXcNYyuYzpkmHgUcKfKFKDWP/n2xDDn
+         TyAsAUIReAKsKY3R0qgxSKLvegegML4y8cuBpv6WJBZGRsmtQ6LsBLBZtWQRCdtHdB
+         FoupKXiWQzcHVfpnJPzPxpv9RIn+XjAd6H6AWsULF3HCZmsActvLD5egDG9qvlwVsZ
+         0tOBFvqSNqz1BUesKXM+E09bTeqT5mZPgiT92Do0F7SremUmu1EKiYchhXZenToivN
+         976If8V0/gKXCGPrPJiUU/yl4nm7G9BxBvffCfaG2zFx8hIMg9cbfnv7J2kXgGwt/o
+         bIaWxYqDJMJyw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1loT1b-006Xbb-8t; Wed, 02 Jun 2021 17:43:19 +0200
+        id 1loT1b-006XcB-Lc; Wed, 02 Jun 2021 17:43:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Tony Lindgren <tony@atomide.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 01/12] dt-bindings: power: supply: cpcap-battery: update cpcap-battery.yaml reference
-Date:   Wed,  2 Jun 2021 17:43:07 +0200
-Message-Id: <1d0c8d50db22d9e5540a42be874fcd39fb7fc2a7.1622648507.git.mchehab+huawei@kernel.org>
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 10/12] MAINTAINERS: update ti,omap-gpio.yaml reference
+Date:   Wed,  2 Jun 2021 17:43:16 +0200
+Message-Id: <832058f088a30e44cf25a81f1d4b9b4e0ed0904f.1622648507.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622648507.git.mchehab+huawei@kernel.org>
 References: <cover.1622648507.git.mchehab+huawei@kernel.org>
@@ -56,31 +54,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 3c5be0454972 ("dt-bindings: power: supply: cpcap-battery: Convert to DT schema format")
-renamed: Documentation/devicetree/bindings/power/supply/cpcap-battery.txt
-to: Documentation/devicetree/bindings/power/supply/cpcap-battery.yaml.
+Changeset bc3aca5393c4 ("dt-bindings: gpio: omap: Convert to json-schema")
+renamed: Documentation/devicetree/bindings/gpio/gpio-omap.txt
+to: Documentation/devicetree/bindings/gpio/ti,omap-gpio.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 3c5be0454972 ("dt-bindings: power: supply: cpcap-battery: Convert to DT schema format")
+Fixes: bc3aca5393c4 ("dt-bindings: gpio: omap: Convert to json-schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/devicetree/bindings/mfd/motorola-cpcap.txt | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
-index b52e7a33f0f9..e656e6f08fed 100644
---- a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
-+++ b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
-@@ -16,7 +16,7 @@ Optional subnodes:
- The sub-functions of CPCAP get their own node with their own compatible values,
- which are described in the following files:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 644572ab4b2d..7d65784df8c8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13412,7 +13412,7 @@ M:	Santosh Shilimkar <ssantosh@kernel.org>
+ M:	Kevin Hilman <khilman@kernel.org>
+ L:	linux-omap@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/gpio/gpio-omap.txt
++F:	Documentation/devicetree/bindings/gpio/ti,omap-gpio.yaml
+ F:	drivers/gpio/gpio-omap.c
  
--- Documentation/devicetree/bindings/power/supply/cpcap-battery.txt
-+- Documentation/devicetree/bindings/power/supply/cpcap-battery.yaml
- - Documentation/devicetree/bindings/power/supply/cpcap-charger.txt
- - Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
- - Documentation/devicetree/bindings/phy/phy-cpcap-usb.txt
+ OMAP HARDWARE SPINLOCK SUPPORT
 -- 
 2.31.1
 
