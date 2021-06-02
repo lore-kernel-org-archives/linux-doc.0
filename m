@@ -2,62 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D01C47080
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 01:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 509C4C4708F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 02:25:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20A79613C5
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 01:00:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 311476139A
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 02:25:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbhFBBCg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 21:02:36 -0400
-Received: from befuddled.reisers.ca ([206.248.184.127]:57820 "EHLO
-        befuddled.reisers.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbhFBBCf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 21:02:35 -0400
-Received: by befuddled.reisers.ca (Postfix, from userid 65534)
-        id A4141382581; Tue,  1 Jun 2021 20:55:45 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=reisers.ca;
-        s=befuddled; t=1622595345;
-        bh=7l945M6cdmhQCZ4oD40xLF7t8MXTqtcGK04d5qAA3VI=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=BfGdG7PWyI603MqfnEF/vwq9cwna2VFNeb9wfUeKZJp+H6B31was4LWvd0DmwpkNL
-         4WvFI3Bg0/FXLk9e8YTu/G0dZzYORIaN3rxks8evTDHZZKbmjssiEUew5cceCYlRai
-         KLLSkhdOy0yidaORNdkdOtGoVGskISwLan86DBiM=
-Received: from localhost (localhost [IPv6:::1])
-        by befuddled.reisers.ca (Postfix) with ESMTPS id C07D6380EFE;
-        Tue,  1 Jun 2021 20:55:44 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=reisers.ca;
-        s=befuddled; t=1622595344;
-        bh=7l945M6cdmhQCZ4oD40xLF7t8MXTqtcGK04d5qAA3VI=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=ix+ILaTzR4T2/mvNLeMYzNCaaP67OF5MWSwIsV/d/j4JuJV1IjVoLgNEPktaXWm+7
-         EHEpBmY7Mfw1RlLQ4f7ck1id6bCSTpPIj0QBjh3HB9i7iw3zdM5lkX9ENL5xtApLV/
-         7+JGQb4WrPeAoOz5WodGKO6M+FCmtkQIUdAmqYrc=
-Date:   Tue, 1 Jun 2021 20:55:44 -0400 (EDT)
-From:   Kirk Reiser <kirk@reisers.ca>
-To:     Samuel Thibault <samuel.thibault@ens-lyon.org>
-cc:     speakup@linux-speakup.org, Jonathan Corbet <corbet@lwn.net>,
-        Christopher Brannon <chris@the-brannons.com>,
-        William Hubbs <w.d.hubbs@gmail.com>,
-        Steve Holmes <steve.holmes88@gmail.com>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-In-Reply-To: <afc570ec-dfe1-2a37-6fd3-aeaefece4aa6@reisers.ca>
-Message-ID: <fe1265e9-7914-aee9-08e-ca2ac539fd73@reisers.ca>
-References: <20210531215737.8431-1-igormtorrente@gmail.com> <875yyxbenm.fsf@meer.lwn.net> <20210601220643.uzep2ju2zlcmpa57@begin> <874keh9qk9.fsf@meer.lwn.net> <20210601223743.carif4gkzcz5jo7j@begin> <20210601224452.sqblwctwiu47xgqg@begin>
- <20210601224554.6kc5syoy2tscisiv@begin> <20210601224854.iug2arwes64k7fxr@begin> <afc570ec-dfe1-2a37-6fd3-aeaefece4aa6@reisers.ca>
+        id S230136AbhFBC1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 22:27:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48948 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229792AbhFBC1K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Jun 2021 22:27:10 -0400
+Received: from rorschach.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6116C61008;
+        Wed,  2 Jun 2021 02:25:27 +0000 (UTC)
+Date:   Tue, 1 Jun 2021 22:25:27 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Haocheng Xie <xiehaocheng.cn@gmail.com>, mingo@redhat.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: Fix typos in Documentation/trace/ftrace.rst
+Message-ID: <20210601222527.7cea98c6@rorschach.local.home>
+In-Reply-To: <87a6o98adq.fsf@meer.lwn.net>
+References: <20210531083905.25763-1-xiehaocheng.cn@gmail.com>
+        <87a6o98adq.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Bogosity: Ham, tests=bogofilter, spamicity=0.000000, version=1.2.5
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Um, make that gene@collinsnet.net. I need new fingers obviously.
+On Tue, 01 Jun 2021 16:53:37 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
+
+> Haocheng Xie <xiehaocheng.cn@gmail.com> writes:
+> 
+> > Fix the usage of "a/the" and improve the readability.
+> >
+> > Signed-off-by: Haocheng Xie <xiehaocheng.cn@gmail.com>
+> > ---
+> >  Documentation/trace/ftrace.rst | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+> > index 62c98e9..11cc1c2 100644
+> > --- a/Documentation/trace/ftrace.rst
+> > +++ b/Documentation/trace/ftrace.rst
+> > @@ -354,8 +354,8 @@ of ftrace. Here is a list of some of the key files:
+> >  	is being directly called by the function. If the count is greater
+> >  	than 1 it most likely will be ftrace_ops_list_func().
+> >  
+> > -	If the callback of the function jumps to a trampoline that is
+> > -	specific to a the callback and not the standard trampoline,
+> > +	If the callback of a function jumps to a trampoline which is
+> > +	specific to the callback and which is not the standard trampoline,  
+> 
+> The "that" in the first line was actually correct and best left
+> unchanged.  I've applied the patch, but took the liberty of putting
+> "that" back.
+
+Right. And if it is modifying the "the" here, it should be modifying
+the "the function" in the previous paragraph as well.
+
+-- Steve
