@@ -6,131 +6,198 @@ X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E2B7C47083
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:48:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24DC4C47083
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:54:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32336613EE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:48:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F4B9613EE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:54:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229467AbhFBTuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 15:50:01 -0400
-Received: from foss.arm.com ([217.140.110.172]:53076 "EHLO foss.arm.com"
+        id S229814AbhFBT4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 15:56:24 -0400
+Received: from foss.arm.com ([217.140.110.172]:53224 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229822AbhFBTuA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jun 2021 15:50:00 -0400
+        id S229803AbhFBT4X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jun 2021 15:56:23 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B4C01063;
-        Wed,  2 Jun 2021 12:48:17 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A924A1063;
+        Wed,  2 Jun 2021 12:54:39 -0700 (PDT)
 Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B707E3F774;
-        Wed,  2 Jun 2021 12:48:15 -0700 (PDT)
-Date:   Wed, 2 Jun 2021 20:48:06 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F1333F774;
+        Wed,  2 Jun 2021 12:54:38 -0700 (PDT)
+Date:   Wed, 2 Jun 2021 20:54:35 +0100
 From:   Beata Michalska <beata.michalska@arm.com>
 To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc:     Valentin Schneider <valentin.schneider@arm.com>,
-        linux-kernel@vger.kernel.org, peterz@infradead.org,
+Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
         mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, corbet@lwn.net, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] sched/topology: Rework CPU capacity asymmetry
+        vincent.guittot@linaro.org, valentin.schneider@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 2/3] sched/topology: Rework CPU capacity asymmetry
  detection
-Message-ID: <20210602194805.GA18136@e120325.cambridge.arm.com>
-References: <87a6oj6sxo.mognet@arm.com>
- <20210525102945.GA24210@e120325.cambridge.arm.com>
- <98ad8837-b9b8-ff50-5a91-8d5951ee757c@arm.com>
- <20210526121546.GA13262@e120325.cambridge.arm.com>
- <20210526125133.GB13262@e120325.cambridge.arm.com>
- <d4dc6630-041f-bf61-898a-6f402b993fbc@arm.com>
- <20210526214004.GA1712@e120325.cambridge.arm.com>
- <14593ba7-eed9-f035-724c-5cadbb859adc@arm.com>
- <20210527170729.GA20994@e120325.cambridge.arm.com>
- <4f43a9a8-b64e-bb47-b3c1-f51165f40249@arm.com>
+Message-ID: <20210602195435.GB18136@e120325.cambridge.arm.com>
+References: <20210527153842.17567-1-beata.michalska@arm.com>
+ <20210527153842.17567-3-beata.michalska@arm.com>
+ <8ea4cfc2-514b-6b5c-7269-7720a54dbb39@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4f43a9a8-b64e-bb47-b3c1-f51165f40249@arm.com>
+In-Reply-To: <8ea4cfc2-514b-6b5c-7269-7720a54dbb39@arm.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 07:17:12PM +0200, Dietmar Eggemann wrote:
-> On 27/05/2021 19:07, Beata Michalska wrote:
-> > On Thu, May 27, 2021 at 05:08:42PM +0200, Dietmar Eggemann wrote:
-> >> On 26/05/2021 23:40, Beata Michalska wrote:
-> >>> On Wed, May 26, 2021 at 08:17:41PM +0200, Dietmar Eggemann wrote:
-> >>>> On 26/05/2021 14:51, Beata Michalska wrote:
-> >>>>> On Wed, May 26, 2021 at 01:15:46PM +0100, Beata Michalska wrote:
-> >>>>>> On Wed, May 26, 2021 at 11:52:25AM +0200, Dietmar Eggemann wrote:
-> >>>>>>> On 25/05/2021 12:29, Beata Michalska wrote:
-> >>>>>>>> On Tue, May 25, 2021 at 10:53:07AM +0100, Valentin Schneider wrote:
-> >>>>>>>>> On 24/05/21 23:55, Beata Michalska wrote:
-> >>>>>>>>>> On Mon, May 24, 2021 at 07:01:04PM +0100, Valentin Schneider wrote:
-> >>>>>>>>>>> On 24/05/21 11:16, Beata Michalska wrote:
+On Wed, Jun 02, 2021 at 09:09:54PM +0200, Dietmar Eggemann wrote:
+> On 27/05/2021 17:38, Beata Michalska wrote:
 > 
 > [...]
 > 
-> >>> We could possibly add a warning (like in EAS) if the asymmetry is detected
-> >>> for SMT which would give some indication that there is smth ... wrong ?
-> >>
-> >> Maybe, in case you find an easy way to detect this.
-> >>
-> >> But the issue already exists today. Not with the topology mentioned
-> >> above but in case we slightly change it to:
-> >>
-> >>   cpus = { ([446 1024] [871 1024] [446 1024] ) ([1024 1024]) }
-> >>                                        ^^^^
-> >> so that we have a 1024 CPU in the lowest sd for each CPU, we would get
-> >> SD_ASYM_CPUCAPACITY on SMT.
-> > The asymmetry capacity flags are being set on a sched domain level, so
-> > we could use the SD_SHARE_CPUCAPACITY|SD_SHARE_PKG_RESOURCES (cpu_smt_flags)
-> > flags to determine if having asymmetry is valid or not ? If this is enough 
-> > this could be handled by the classify function?
+> > +/*
+> > + * Verify whether there is any CPU capacity asymmetry in a given sched domain.
+> > + * Provides sd_flags reflecting the asymmetry scope.
+> > + */
+> > +static inline int
+> > +asym_cpu_capacity_classify(struct sched_domain *sd,
+> > +			   const struct cpumask *cpu_map)
+> > +{
+> > +	struct asym_cap_data *entry;
+> > +	int sd_asym_flags = 0;
+> > +	int asym_cap_count = 0;
+> > +	int asym_cap_miss = 0;
+> > +
+> > +	/*
+> > +	 * Count how many unique CPU capacities this domain spans across
+> > +	 * (compare sched_domain CPUs mask with ones representing  available
+> > +	 * CPUs capacities). Take into account CPUs that might be offline:
+> > +	 * skip those.
+> > +	 */
+> > +	list_for_each_entry(entry, &asym_cap_list, link) {
+> > +		if (cpumask_intersects(sched_domain_span(sd),
+> > +				       cpu_capacity_span(entry)))
+> > +			++asym_cap_count;
+> > +		else if (cpumask_intersects(cpu_capacity_span(entry), cpu_map))
 > 
-> Or maybe something directly in sd_init(), like the WARN_ONCE() which triggers
-> if somebody wants to sneak in a ~topology flag via a
-> sched_domain_topology_level table? 
-> 
-> IMHO checking `SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY` will be sufficient
-> here.
-> 
-> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-> index 62d412013df8..77b73abbb9a4 100644
-> --- a/kernel/sched/topology.c
-> +++ b/kernel/sched/topology.c
-> @@ -1561,6 +1561,11 @@ sd_init(struct sched_domain_topology_level *tl,
->         sd_id = cpumask_first(sched_domain_span(sd));
->  
->         sd->flags |= asym_cpu_capacity_classify(sd, cpu_map);
-> +
-> +       WARN_ONCE((sd->flags & (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY)) ==
-> +                 (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY),
-> +                     "CPU capacity asymmetry not supported on SMT\n");
-> +
->         /*
->          * Convert topological properties into behaviour.
->          */
-> 
-> In case we can agree on something simple here I guess you can incorporate it into v7.
-So what I have done is :
+> nit: `sd span, entry span` but `entry span, cpu_map`. Why not `cpu_map, entry span`?
+>
+Cannot recall any reason for that.
 
-diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-index 77e6f79235ad..ec4ae225687e 100644
---- a/kernel/sched/topology.c
-+++ b/kernel/sched/topology.c
-@@ -1324,6 +1324,7 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
-        if (!asym_cap_miss)
-                sd_asym_flags |= SD_ASYM_CPUCAPACITY_FULL;
- 
-+       WARN_ONCE(cpu_smt_flags() & sd->flags, "Detected CPU capacity asymmetry on SMT level");
- leave:
-        return sd_asym_flags;
- }
+> > +			++asym_cap_miss;
+> > +	}
+> > +	/* No asymmetry detected */
+> > +	if (WARN_ON_ONCE(!asym_cap_count) || asym_cap_count == 1)
+> > +		goto leave;
+> > +
+> > +	sd_asym_flags |= SD_ASYM_CPUCAPACITY;
+> > +
+> > +	/*
+> > +	 * All the available capacities have been found within given sched
+> > +	 * domain: no misses reported.
+> > +	 */
+> > +	if (!asym_cap_miss)
+> > +		sd_asym_flags |= SD_ASYM_CPUCAPACITY_FULL;
+> > +
+> > +leave:
+> > +	return sd_asym_flags;
+> > +}
+> 
+> Everything looks good except that I like this more compact version better, proposed in:  
+> 
+> https://lkml.kernel.org/r/YK9ESqNEo+uacyMD@hirez.programming.kicks-ass.net
+> 
+> And passing `const struct cpumask *sd_span` instead of `struct
+> sched_domain *sd` into the function.
+>
+I do understand the parameter argument, but honestly don't see much difference
+in naming and switching single return for asymmetric topologies vs two return
+statement, but if that is more preferred/readable version I do not mind changing
+that as well.
 
-Comment can be adjusted.
-This would sit in the classify function to nicely wrap asymmetry bits in one
-place. What do you think ?
+Thanks for the review.
 
 ---
 BR
 B.
+
+> 
+> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+> index 77b73abbb9a4..0de8eebded9f 100644
+> --- a/kernel/sched/topology.c
+> +++ b/kernel/sched/topology.c
+> @@ -1290,13 +1290,11 @@ static LIST_HEAD(asym_cap_list);
+>   * Provides sd_flags reflecting the asymmetry scope.
+>   */  
+>  static inline int 
+> -asym_cpu_capacity_classify(struct sched_domain *sd,
+> +asym_cpu_capacity_classify(const struct cpumask *sd_span,
+>                            const struct cpumask *cpu_map)
+>  {
+>         struct asym_cap_data *entry;
+> -       int sd_asym_flags = 0;
+> -       int asym_cap_count = 0;
+> -       int asym_cap_miss = 0;
+> +       int count = 0, miss = 0;
+>  
+>         /*
+>          * Count how many unique CPU capacities this domain spans across
+> @@ -1305,27 +1303,20 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
+>          * skip those.
+>          */
+>         list_for_each_entry(entry, &asym_cap_list, link) {
+> -               if (cpumask_intersects(sched_domain_span(sd),
+> -                                      cpu_capacity_span(entry)))
+> -                       ++asym_cap_count;
+> -               else if (cpumask_intersects(cpu_capacity_span(entry), cpu_map))
+> -                       ++asym_cap_miss;
+> +               if (cpumask_intersects(sd_span, cpu_capacity_span(entry)))
+> +                       ++count;
+> +               else if (cpumask_intersects(cpu_map, cpu_capacity_span(entry)))
+> +                       ++miss;
+>         }
+> -       /* No asymmetry detected */
+> -       if (WARN_ON_ONCE(!asym_cap_count) || asym_cap_count == 1)
+> -               goto leave;
+>  
+> -       sd_asym_flags |= SD_ASYM_CPUCAPACITY;
+> +       if (WARN_ON_ONCE(!count) || count == 1) /* No asymmetry */
+> +               return 0;
+>  
+> -       /*
+> -        * All the available capacities have been found within given sched
+> -        * domain: no misses reported.
+> -        */
+> -       if (!asym_cap_miss)
+> -               sd_asym_flags |= SD_ASYM_CPUCAPACITY_FULL;
+> +       if (miss) /* Partial asymmetry */
+> +               return SD_ASYM_CPUCAPACITY;
+>  
+> -leave:
+> -       return sd_asym_flags;
+> +       /* Full asymmetry */
+> +       return SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
+>  }
+>  
+>  static inline void asym_cpu_capacity_update_data(int cpu)
+> @@ -1510,6 +1501,7 @@ sd_init(struct sched_domain_topology_level *tl,
+>         struct sd_data *sdd = &tl->data;
+>         struct sched_domain *sd = *per_cpu_ptr(sdd->sd, cpu);
+>         int sd_id, sd_weight, sd_flags = 0;
+> +       struct cpumask *sd_span;
+>  
+>  #ifdef CONFIG_NUMA
+>         /*
+> @@ -1557,10 +1549,11 @@ sd_init(struct sched_domain_topology_level *tl,
+>  #endif
+>         };
+>  
+> -       cpumask_and(sched_domain_span(sd), cpu_map, tl->mask(cpu));
+> -       sd_id = cpumask_first(sched_domain_span(sd));
+> +       sd_span = sched_domain_span(sd);
+> +       cpumask_and(sd_span, cpu_map, tl->mask(cpu));
+> +       sd_id = cpumask_first(sd_span);
+>  
+> -       sd->flags |= asym_cpu_capacity_classify(sd, cpu_map);
+> +       sd->flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
+>  
+>         WARN_ONCE((sd->flags & (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY)) ==
+>                   (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY),
+> -- 
+> 2.25.1
