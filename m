@@ -2,76 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 509C4C4708F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 02:25:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A58BC4708F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 03:01:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 311476139A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 02:25:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23CB4613B4
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 03:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbhFBC1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 22:27:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48948 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229792AbhFBC1K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Jun 2021 22:27:10 -0400
-Received: from rorschach.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6116C61008;
-        Wed,  2 Jun 2021 02:25:27 +0000 (UTC)
-Date:   Tue, 1 Jun 2021 22:25:27 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Haocheng Xie <xiehaocheng.cn@gmail.com>, mingo@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Fix typos in Documentation/trace/ftrace.rst
-Message-ID: <20210601222527.7cea98c6@rorschach.local.home>
-In-Reply-To: <87a6o98adq.fsf@meer.lwn.net>
-References: <20210531083905.25763-1-xiehaocheng.cn@gmail.com>
-        <87a6o98adq.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S230409AbhFBDC5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 23:02:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53168 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230398AbhFBDCz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 23:02:55 -0400
+Received: from hurricane.the-brannons.com (hurricane.the-brannons.com [IPv6:2602:ff06:725:1:20::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4D4C061574;
+        Tue,  1 Jun 2021 20:01:12 -0700 (PDT)
+Received: from localhost (<unknown> [2602:3f:e0f9:dc00::2])
+        by hurricane.the-brannons.com (OpenSMTPD) with ESMTPSA id 9c702b39 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Tue, 1 Jun 2021 19:54:31 -0700 (PDT)
+From:   Chris Brannon <chris@the-brannons.com>
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Christopher Brannon <chris@the-brannons.com>,
+        William Hubbs <w.d.hubbs@gmail.com>,
+        collins@gene3.ait.iastate.edu,
+        Steve Holmes <steve.holmes88@gmail.com>,
+        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+        gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
+References: <20210531215737.8431-1-igormtorrente@gmail.com>
+        <875yyxbenm.fsf@meer.lwn.net> <20210601220643.uzep2ju2zlcmpa57@begin>
+        <874keh9qk9.fsf@meer.lwn.net> <20210601223743.carif4gkzcz5jo7j@begin>
+Date:   Tue, 01 Jun 2021 19:54:30 -0700
+In-Reply-To: <20210601223743.carif4gkzcz5jo7j@begin> (Samuel Thibault's
+        message of "Wed, 2 Jun 2021 00:37:43 +0200")
+Message-ID: <87r1hldli1.fsf@the-brannons.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 01 Jun 2021 16:53:37 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+Samuel Thibault <samuel.thibault@ens-lyon.org> writes:
 
-> Haocheng Xie <xiehaocheng.cn@gmail.com> writes:
-> 
-> > Fix the usage of "a/the" and improve the readability.
-> >
-> > Signed-off-by: Haocheng Xie <xiehaocheng.cn@gmail.com>
-> > ---
-> >  Documentation/trace/ftrace.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> > index 62c98e9..11cc1c2 100644
-> > --- a/Documentation/trace/ftrace.rst
-> > +++ b/Documentation/trace/ftrace.rst
-> > @@ -354,8 +354,8 @@ of ftrace. Here is a list of some of the key files:
-> >  	is being directly called by the function. If the count is greater
-> >  	than 1 it most likely will be ftrace_ops_list_func().
-> >  
-> > -	If the callback of the function jumps to a trampoline that is
-> > -	specific to a the callback and not the standard trampoline,
-> > +	If the callback of a function jumps to a trampoline which is
-> > +	specific to the callback and which is not the standard trampoline,  
-> 
-> The "that" in the first line was actually correct and best left
-> unchanged.  I've applied the patch, but took the liberty of putting
-> "that" back.
+> So we'd need Gene's, Christopher's, William's, and Steve's ack on adding
+> the GPL alternative to the GFDL-1.2 licence.
 
-Right. And if it is modifying the "the" here, it should be modifying
-the "the function" in the previous paragraph as well.
+You have my ack.  Do whatever is needful.  I wish I didn't have to care about
+this stuff.
 
--- Steve
+-- 
+Chris Brannon
+Founder: Blind and Low Vision Unix Users Group (https://blvuug.org/).
+Personal website: (https://the-brannons.com/)
+Chat: IRC: teiresias on libera.chat and OFTC, XMPP: chris@chat.number89.net
