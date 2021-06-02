@@ -2,159 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B50C47083
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 14:03:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D7BC47083
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 14:33:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D56A4613BF
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 14:03:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7ACCE610A1
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 14:33:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbhFBOE6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 10:04:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46842 "EHLO mail.kernel.org"
+        id S230074AbhFBOer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 10:34:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57070 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229654AbhFBOE6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jun 2021 10:04:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8CE12613B8;
-        Wed,  2 Jun 2021 14:03:06 +0000 (UTC)
+        id S230072AbhFBOeq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jun 2021 10:34:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94575610E5;
+        Wed,  2 Jun 2021 14:33:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622642595;
-        bh=rVTIekozkKZiHFO8KV73KQ3u8bmmogfis0wnY/V9zMk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j8vmJNJ02mTS2qujW9AuK34CyGewsKEQa3NJI4x54mI/kZ6TFkXgNShYSldLi9wwR
-         iVZIZpo10XmlpdD1gKCLSxI2hAconHrCrMCgpriX/VTH8VoFXTo8owedKrPE/jIZ0c
-         D0z4cOoqJMINruzqON7gaCTnozO9ZlPYtavKjKyFVVT2dZ+EtfNVi3gYHbuLNepcSX
-         +gq/yzfSnUELMMLNTwhQ6DbA0qs/Rfv2LkuAbudO4aFFo53imu8k7hO2V3DMiMK48/
-         BPzuDC2hRRaPw3diNLbn7YRlcBUV1pB+YMb1s77Dpt31JAkWDkRc6hv1mITOzdI2oz
-         pUQhhp2WADSpA==
-Date:   Wed, 2 Jun 2021 17:03:01 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        arcml <linux-snps-arc@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        sparclinux <sparclinux@vger.kernel.org>
-Subject: Re: [PATCH 4/9] m68k: remove support for DISCONTIGMEM
-Message-ID: <YLePlSaXR0XvtZki@kernel.org>
-References: <20210602105348.13387-1-rppt@kernel.org>
- <20210602105348.13387-5-rppt@kernel.org>
- <CAMuHMdUUzMNcWNXCjwZmH-VBC+jH1ShBpeg6EBCdRXv3mwHxsQ@mail.gmail.com>
+        s=k20201202; t=1622644383;
+        bh=hF0gUK5h5fG4VQJcQAexS0ZkmAECiuolBUP7hlmAfaU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ob5V39sTbdgXZrFmF6ULpnSyc6aqrJAVHvTPohn3s/DQ7+RzFooOfYXz0N25wkxz7
+         mjvB4LcMPiQ3krZQZuTpH05XZwvAyUT6GecK2G7Y6B5supsetFaKfzJy1IhDVdyBjD
+         62kYXWK53LAJZepaw2tY5dk7VwjifR4sTIhAs63oik0w0TCPAR5n67dq2gI206c2BL
+         0sSNlPRMB1N6OmRO89234twtbiy5wlT5Ux6A8Xl+yPg+xC7lNbL6iDECjCnYiON2HE
+         gxC0gz6cgEvdJx9z6BOdOmP7RwC0qgF1FgsTW7a4+dthmzY4Op/4U1SK2kTywN/jnj
+         h6yp2P0CZsWjA==
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] tracing/boot: Add per-group/all events enablement
+Date:   Wed,  2 Jun 2021 23:33:00 +0900
+Message-Id: <162264438005.302580.12019174481201855444.stgit@devnote2>
+X-Mailer: git-send-email 2.25.1
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUUzMNcWNXCjwZmH-VBC+jH1ShBpeg6EBCdRXv3mwHxsQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 01:25:24PM +0200, Geert Uytterhoeven wrote:
-> Hi Mike,
-> 
-> On Wed, Jun 2, 2021 at 12:54 PM Mike Rapoport <rppt@kernel.org> wrote:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> >
-> > DISCONTIGMEM was replaced by FLATMEM with freeing of the unused memory map
-> > in v5.11.
-> >
-> > Remove the support for DISCONTIGMEM entirely.
-> >
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> Thanks for your patch!
-> 
-> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> 
-> > --- a/arch/m68k/include/asm/page_mm.h
-> > +++ b/arch/m68k/include/asm/page_mm.h
-> > @@ -126,25 +126,7 @@ static inline void *__va(unsigned long x)
-> >
-> >  extern int m68k_virt_to_node_shift;
-> >
-> > -#ifndef CONFIG_DISCONTIGMEM
-> >  #define __virt_to_node(addr)   (&pg_data_map[0])
-> 
-> With pg_data_map[] removed, this definition can go as well.
-> Seems to be a leftover from 1008a11590b966b4 ("m68k: switch to MEMBLOCK
->  + NO_BOOTMEM")
-> 
-> There are a few more:
-> arch/m68k/include/asm/mmzone.h:extern pg_data_t pg_data_map[];
-> arch/m68k/include/asm/mmzone.h:#define NODE_DATA(nid)
-> (&pg_data_map[nid])
+Add ftrace.event.<GROUP>.enable and ftrace.event.enable
+boot-time tracing, which enables all events under
+given GROUP and all events respectivly.
 
-It seems that arch/m68k/include/asm/mmzone.h can be simply removed.
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+---
+ kernel/trace/trace_boot.c |   27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/trace/trace_boot.c b/kernel/trace/trace_boot.c
+index a82f03f385f8..94ef2d099e32 100644
+--- a/kernel/trace/trace_boot.c
++++ b/kernel/trace/trace_boot.c
+@@ -225,14 +225,37 @@ static void __init
+ trace_boot_init_events(struct trace_array *tr, struct xbc_node *node)
+ {
+ 	struct xbc_node *gnode, *enode;
++	bool enable, enable_all = false;
++	const char *data;
  
-> > -#else
-> > -extern struct pglist_data *pg_data_table[];
-> > -
-> > -static inline __attribute_const__ int __virt_to_node_shift(void)
-> > -{
-> > -       int shift;
-> > -
-> > -       asm (
-> > -               "1:     moveq   #0,%0\n"
-> > -               m68k_fixup(%c1, 1b)
-> > -               : "=d" (shift)
-> > -               : "i" (m68k_fixup_vnode_shift));
-> > -       return shift;
-> > -}
-> > -
-> > -#define __virt_to_node(addr)   (pg_data_table[(unsigned long)(addr) >> __virt_to_node_shift()])
-> > -#endif
-> 
-> > --- a/arch/m68k/mm/init.c
-> > +++ b/arch/m68k/mm/init.c
-> > @@ -44,28 +44,8 @@ EXPORT_SYMBOL(empty_zero_page);
-> >
-> >  int m68k_virt_to_node_shift;
-> >
-> > -#ifdef CONFIG_DISCONTIGMEM
-> > -pg_data_t pg_data_map[MAX_NUMNODES];
-> > -EXPORT_SYMBOL(pg_data_map);
-> > -
-> > -pg_data_t *pg_data_table[65];
-> > -EXPORT_SYMBOL(pg_data_table);
-> > -#endif
-> > -
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+ 	node = xbc_node_find_child(node, "event");
+ 	if (!node)
+ 		return;
+ 	/* per-event key starts with "event.GROUP.EVENT" */
+-	xbc_node_for_each_child(node, gnode)
+-		xbc_node_for_each_child(gnode, enode)
++	xbc_node_for_each_child(node, gnode) {
++		data = xbc_node_get_data(gnode);
++		if (!strcmp(data, "enable")) {
++			enable_all = true;
++			continue;
++		}
++		enable = false;
++		xbc_node_for_each_child(gnode, enode) {
++			data = xbc_node_get_data(enode);
++			if (!strcmp(data, "enable")) {
++				enable = true;
++				continue;
++			}
+ 			trace_boot_init_one_event(tr, gnode, enode);
++		}
++		/* Event enablement must be done after event settings */
++		if (enable) {
++			data = xbc_node_get_data(gnode);
++			trace_array_set_clr_event(tr, data, NULL, true);
++		}
++	}
++	/* Ditto */
++	if (enable_all)
++		trace_array_set_clr_event(tr, NULL, NULL, true);
+ }
+ #else
+ #define trace_boot_enable_events(tr, node) do {} while (0)
 
--- 
-Sincerely yours,
-Mike.
