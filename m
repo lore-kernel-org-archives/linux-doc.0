@@ -2,202 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24DC4C47083
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:54:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5497FC4708F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 20:19:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F4B9613EE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:54:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A2B0613DA
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 20:19:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbhFBT4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 15:56:24 -0400
-Received: from foss.arm.com ([217.140.110.172]:53224 "EHLO foss.arm.com"
+        id S229640AbhFBUVc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 16:21:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229803AbhFBT4X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jun 2021 15:56:23 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A924A1063;
-        Wed,  2 Jun 2021 12:54:39 -0700 (PDT)
-Received: from e120325.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F1333F774;
-        Wed,  2 Jun 2021 12:54:38 -0700 (PDT)
-Date:   Wed, 2 Jun 2021 20:54:35 +0100
-From:   Beata Michalska <beata.michalska@arm.com>
-To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, valentin.schneider@arm.com,
-        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 2/3] sched/topology: Rework CPU capacity asymmetry
- detection
-Message-ID: <20210602195435.GB18136@e120325.cambridge.arm.com>
-References: <20210527153842.17567-1-beata.michalska@arm.com>
- <20210527153842.17567-3-beata.michalska@arm.com>
- <8ea4cfc2-514b-6b5c-7269-7720a54dbb39@arm.com>
+        id S229576AbhFBUVb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jun 2021 16:21:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 84ABB600D4;
+        Wed,  2 Jun 2021 20:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622665187;
+        bh=KB2GKW9SrbmTXxENdtwpzdj5V5Jp/dfe70z3tJI18og=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=d5z912FEDHYB5+BJiGs0e82WgopzuuRFLZcJeDpO7M5myYuS9w8Cse2FpQ1DoVgsx
+         wpPHyRt4LdPJwly4UMn4BgPxQKtdRPUgyhqKPdPybnaZOcy3CPgeblmPkt7EBJ1iob
+         qe4FlVegDQAiMOON+qiSJlWeRbylc0L8QdLVRzGYeJ+1JhVWpUosZLX65PbXmYwvvX
+         P21jca3JNvVpCmvQMQDTBIfNxYIoBSmho8BayML1FkGZnbSUsAB2H7gNLlgJiKU8mJ
+         Lg/fjPvNsm/7k7Ns+xa5iVz8wljfRowsCHAyU5whNOiYwx9VyP3KiUHl1hihE9noDn
+         2QfczPJJY7R9w==
+Date:   Wed, 2 Jun 2021 22:19:40 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 07/12] docs: accounting: update delay-accounting.rst
+ reference
+Message-ID: <20210602221940.7e0a6135@coco.lan>
+In-Reply-To: <871r9k6rmy.fsf@meer.lwn.net>
+References: <cover.1622648507.git.mchehab+huawei@kernel.org>
+        <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
+        <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
+        <20210602200121.64a828a1@coco.lan>
+        <871r9k6rmy.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8ea4cfc2-514b-6b5c-7269-7720a54dbb39@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 09:09:54PM +0200, Dietmar Eggemann wrote:
-> On 27/05/2021 17:38, Beata Michalska wrote:
-> 
-> [...]
-> 
-> > +/*
-> > + * Verify whether there is any CPU capacity asymmetry in a given sched domain.
-> > + * Provides sd_flags reflecting the asymmetry scope.
-> > + */
-> > +static inline int
-> > +asym_cpu_capacity_classify(struct sched_domain *sd,
-> > +			   const struct cpumask *cpu_map)
-> > +{
-> > +	struct asym_cap_data *entry;
-> > +	int sd_asym_flags = 0;
-> > +	int asym_cap_count = 0;
-> > +	int asym_cap_miss = 0;
-> > +
-> > +	/*
-> > +	 * Count how many unique CPU capacities this domain spans across
-> > +	 * (compare sched_domain CPUs mask with ones representing  available
-> > +	 * CPUs capacities). Take into account CPUs that might be offline:
-> > +	 * skip those.
-> > +	 */
-> > +	list_for_each_entry(entry, &asym_cap_list, link) {
-> > +		if (cpumask_intersects(sched_domain_span(sd),
-> > +				       cpu_capacity_span(entry)))
-> > +			++asym_cap_count;
-> > +		else if (cpumask_intersects(cpu_capacity_span(entry), cpu_map))
-> 
-> nit: `sd span, entry span` but `entry span, cpu_map`. Why not `cpu_map, entry span`?
->
-Cannot recall any reason for that.
+Em Wed, 2 Jun 2021 20:29:23 +0200
+Peter Zijlstra <peterz@infradead.org> escreveu:
 
-> > +			++asym_cap_miss;
-> > +	}
-> > +	/* No asymmetry detected */
-> > +	if (WARN_ON_ONCE(!asym_cap_count) || asym_cap_count == 1)
-> > +		goto leave;
-> > +
-> > +	sd_asym_flags |= SD_ASYM_CPUCAPACITY;
-> > +
-> > +	/*
-> > +	 * All the available capacities have been found within given sched
-> > +	 * domain: no misses reported.
-> > +	 */
-> > +	if (!asym_cap_miss)
-> > +		sd_asym_flags |= SD_ASYM_CPUCAPACITY_FULL;
-> > +
-> > +leave:
-> > +	return sd_asym_flags;
-> > +}
+> > Peter Zijlstra <peterz@infradead.org> escreveu:
+> >   
+> > > On Wed, Jun 02, 2021 at 05:43:13PM +0200, Mauro Carvalho Chehab wrote:  
 > 
-> Everything looks good except that I like this more compact version better, proposed in:  
+> > > >  Enables/disables task delay accounting (see
+> > > > -:doc:`accounting/delay-accounting.rst`). Enabling this feature incurs
+> > > > +:doc:`/accounting/delay-accounting`). Enabling this feature incurs    
+> > > 
+> > > This breaks any chance of using 'goto file' like features in text
+> > > editors :/   
+> > 
+> > This is a feature of your favorite text editor. Not all have it.  
 > 
-> https://lkml.kernel.org/r/YK9ESqNEo+uacyMD@hirez.programming.kicks-ass.net
-> 
-> And passing `const struct cpumask *sd_span` instead of `struct
-> sched_domain *sd` into the function.
->
-I do understand the parameter argument, but honestly don't see much difference
-in naming and switching single return for asymmetric topologies vs two return
-statement, but if that is more preferred/readable version I do not mind changing
-that as well.
+> Afaict both vim (gf) and emacs (M-x ffap) can do this. That covers about
+> 99% of all sane editors no? :-)
 
-Thanks for the review.
+Heh, not quite ;-) Here, I use nano(/pico), from the old times where 
+(al)pine was my emailer. I can live with vim, but I prefer an editor
+that starts in editing mode.
 
----
-BR
-B.
+I tried to use emacs a few times, but my fingers are too much into
+pico/nano control keys, so it was ending by making me typing a lot
+slower. Besides that, nano works well on 99% of my daily needs. 
 
+When I need more fancy, like regex substitutions, changing/moving
+big code blocks, editing multiple files at the same time, etc, 
+then I just use a GUI editor (currently kate, but seeking for
+a good replacement, as some changes during F33 times - still 
+present on F34 - caused some regressions).
+
+Em Wed, 02 Jun 2021 12:36:05 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
+
+> > That's said, automarkup.py has a rule to convert Documentation/<foo>.rst
+> > into :doc:`<foo>`. So, an alternative approach would be to convert
+> > treewide all :doc:`<foo>` into Documentation/<foo>.rst and add something 
+> > at checkpatch.pl to recommend to avoid :doc: notation.  
 > 
-> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-> index 77b73abbb9a4..0de8eebded9f 100644
-> --- a/kernel/sched/topology.c
-> +++ b/kernel/sched/topology.c
-> @@ -1290,13 +1290,11 @@ static LIST_HEAD(asym_cap_list);
->   * Provides sd_flags reflecting the asymmetry scope.
->   */  
->  static inline int 
-> -asym_cpu_capacity_classify(struct sched_domain *sd,
-> +asym_cpu_capacity_classify(const struct cpumask *sd_span,
->                            const struct cpumask *cpu_map)
->  {
->         struct asym_cap_data *entry;
-> -       int sd_asym_flags = 0;
-> -       int asym_cap_count = 0;
-> -       int asym_cap_miss = 0;
-> +       int count = 0, miss = 0;
->  
->         /*
->          * Count how many unique CPU capacities this domain spans across
-> @@ -1305,27 +1303,20 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
->          * skip those.
->          */
->         list_for_each_entry(entry, &asym_cap_list, link) {
-> -               if (cpumask_intersects(sched_domain_span(sd),
-> -                                      cpu_capacity_span(entry)))
-> -                       ++asym_cap_count;
-> -               else if (cpumask_intersects(cpu_capacity_span(entry), cpu_map))
-> -                       ++asym_cap_miss;
-> +               if (cpumask_intersects(sd_span, cpu_capacity_span(entry)))
-> +                       ++count;
-> +               else if (cpumask_intersects(cpu_map, cpu_capacity_span(entry)))
-> +                       ++miss;
->         }
-> -       /* No asymmetry detected */
-> -       if (WARN_ON_ONCE(!asym_cap_count) || asym_cap_count == 1)
-> -               goto leave;
->  
-> -       sd_asym_flags |= SD_ASYM_CPUCAPACITY;
-> +       if (WARN_ON_ONCE(!count) || count == 1) /* No asymmetry */
-> +               return 0;
->  
-> -       /*
-> -        * All the available capacities have been found within given sched
-> -        * domain: no misses reported.
-> -        */
-> -       if (!asym_cap_miss)
-> -               sd_asym_flags |= SD_ASYM_CPUCAPACITY_FULL;
-> +       if (miss) /* Partial asymmetry */
-> +               return SD_ASYM_CPUCAPACITY;
->  
-> -leave:
-> -       return sd_asym_flags;
-> +       /* Full asymmetry */
-> +       return SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
->  }
->  
->  static inline void asym_cpu_capacity_update_data(int cpu)
-> @@ -1510,6 +1501,7 @@ sd_init(struct sched_domain_topology_level *tl,
->         struct sd_data *sdd = &tl->data;
->         struct sched_domain *sd = *per_cpu_ptr(sdd->sd, cpu);
->         int sd_id, sd_weight, sd_flags = 0;
-> +       struct cpumask *sd_span;
->  
->  #ifdef CONFIG_NUMA
->         /*
-> @@ -1557,10 +1549,11 @@ sd_init(struct sched_domain_topology_level *tl,
->  #endif
->         };
->  
-> -       cpumask_and(sched_domain_span(sd), cpu_map, tl->mask(cpu));
-> -       sd_id = cpumask_first(sched_domain_span(sd));
-> +       sd_span = sched_domain_span(sd);
-> +       cpumask_and(sd_span, cpu_map, tl->mask(cpu));
-> +       sd_id = cpumask_first(sd_span);
->  
-> -       sd->flags |= asym_cpu_capacity_classify(sd, cpu_map);
-> +       sd->flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
->  
->         WARN_ONCE((sd->flags & (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY)) ==
->                   (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY),
-> -- 
-> 2.25.1
+> That seems like the right approach to me.  We have the automarkup
+> capability, we might as well make use of it...
+
+Ok, I'll prepare a separate patch series addressing it. 
+
+-
+
+Jon,
+
+With regards to the :doc: -> Documentation/ conversion, I guess I'll
+do it on an independent patch series against your docs-next tree.
+
+Then, I'll send a separate patch series after 5.14-rc1 in order to
+address the stuff under linux-next.
+
+Thanks,
+Mauro
