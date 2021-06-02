@@ -2,99 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2AB1C4708F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 08:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A3CC4708F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 09:38:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C8B3613AC
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 08:51:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5024F613D3
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 09:38:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232841AbhFBIxC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 04:53:02 -0400
-Received: from mga04.intel.com ([192.55.52.120]:29864 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232840AbhFBIxC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jun 2021 04:53:02 -0400
-IronPort-SDR: Gq9nV6jLliQbKpXHOxdKqgqhTV9v4+mdayAw9/LBf7OjSWOFVpEN7xKSvFcHPjDT/DTKRE7UxM
- 9J3QIYLp/1xQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="201881011"
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; 
-   d="scan'208";a="201881011"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2021 01:51:18 -0700
-IronPort-SDR: 7O3HAkimY4ZMDtM0oGELnrPG3JJ6fXO1KDNJb2CPEYDECtirmOnx2RVej2XYigb/qgbPgmuRq5
- fuuHuCOm5+JA==
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; 
-   d="scan'208";a="438328450"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2021 01:51:13 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1loMak-00GfA7-SC; Wed, 02 Jun 2021 11:51:10 +0300
-Date:   Wed, 2 Jun 2021 11:51:10 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dejin Zheng <zhengdejin5@gmail.com>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>, corbet@lwn.net,
-        jarkko.nikula@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexander Gordeev <agordeev@redhat.com>,
-        Jonathan Derrick <jonathan.derrick@intel.com>,
-        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
-        Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH v5 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <YLdGfmrk6+FbTbNN@smile.fi.intel.com>
-References: <20210226155056.1068534-2-zhengdejin5@gmail.com>
- <20210323224710.GA610170@bjorn-Precision-5520>
- <20210505162716.GB1851@nuc8i5>
+        id S232018AbhFBJju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 05:39:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38240 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229818AbhFBJjt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jun 2021 05:39:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1622626686;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vuUnyNjde/pjQgQQG07CjN8TUSeAQTiGMiv0EXqDgAo=;
+        b=CKc/Zrn7wBunUnwrMXRT5hTUaWQRdllbzpL/xljgDgk5hLqxHKb4A3Yb6TBWhwLSNKjOnV
+        SXTyCnxZPnRkEalFzsxlXm/vjXTD+Xx8N5quYXBRNqQt/BV0uwDlG3v4ZfY4H4NLbAUOqm
+        MX99cgTaGb1TQLCS1NqbtwMOxF8L3OQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-600-EnO1VzdgO4SHcKZZp27bUg-1; Wed, 02 Jun 2021 05:38:05 -0400
+X-MC-Unique: EnO1VzdgO4SHcKZZp27bUg-1
+Received: by mail-wm1-f69.google.com with SMTP id 128-20020a1c04860000b0290196f3c0a927so1953644wme.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jun 2021 02:38:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=vuUnyNjde/pjQgQQG07CjN8TUSeAQTiGMiv0EXqDgAo=;
+        b=uccVB+DfbB33r92haZZXXCEp4whuyg844mVc9YMt7PncC6id0PTHMZyxDeLtr/Xj7l
+         jm+DhzqN60iOqFf3IQeSdfKfW/5Mvovgldgbxef2YzfoasHTwG5dtZRlB3X0ahhcw175
+         Dmb78XPupNDCdKoMZPcW/gXM0SHI4r6foJBJV6GorVR9tsIZsN0YDCG34/5qaHBSEjMi
+         +Y3d56HdvgBM/gu4zSVujmfiup/Ll71qZz8E7rQrBROyFiAaSFvpRliX7WbDQOFPNmqZ
+         XlgNf0e1Nz8Yc8f5m1wLv2ADUCvqXC/umeCGZCXps+7PHfv8TXd916sKnSIlodhiRXqc
+         YFyg==
+X-Gm-Message-State: AOAM530ml4kHqgVrewb1NqJdoxwKqNPVeMPF7QN+oJvckK8XDV2VZPR4
+        i7EpS/QOKsFPk13XDtHM0ODPbBsT1NEZdR2DQRW9cOKK1b//D7bEpaMm/4XvkZrBVbutcHArSHK
+        tOOLFdw+3yOVAdmeRWuMV
+X-Received: by 2002:adf:f50f:: with SMTP id q15mr31274643wro.279.1622626684542;
+        Wed, 02 Jun 2021 02:38:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRD3SSRXzmAyCuxy2PzOo6snLJFzX3XM09IptabpoPYg6EyZ9pHuOwVIGL+KfJh3auppifTg==
+X-Received: by 2002:adf:f50f:: with SMTP id q15mr31274632wro.279.1622626684381;
+        Wed, 02 Jun 2021 02:38:04 -0700 (PDT)
+Received: from ?IPv6:2a0c:5a80:3d14:2800:933d:abfc:d8e4:637f? ([2a0c:5a80:3d14:2800:933d:abfc:d8e4:637f])
+        by smtp.gmail.com with ESMTPSA id p187sm2156402wmp.28.2021.06.02.02.38.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jun 2021 02:38:04 -0700 (PDT)
+Message-ID: <924be4021c3b9f65d15aa12765facb9eb58911b0.camel@redhat.com>
+Subject: Re: [RFC] trace: Add option for polling ring buffers
+From:   Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mingo@redhat.com, corbet@lwn.net, mtosatti@redhat.com
+Date:   Wed, 02 Jun 2021 11:38:03 +0200
+In-Reply-To: <20210528133253.27c749ab@gandalf.local.home>
+References: <20210519175755.670876-1-nsaenzju@redhat.com>
+         <20210528133253.27c749ab@gandalf.local.home>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210505162716.GB1851@nuc8i5>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 06, 2021 at 12:27:16AM +0800, Dejin Zheng wrote:
-> On Tue, Mar 23, 2021 at 05:47:10PM -0500, Bjorn Helgaas wrote:
-> > [+cc Christoph, Thomas, Alexander, in case you're interested]
-> > [+cc Jonathan, Kurt, Logan: vmd.c and switchtec.c use managed resources
-> > and pci_alloc_irq_vectors()]
+Hi Steven, thanks for having a look at this.
 
-> > On Fri, Feb 26, 2021 at 11:50:53PM +0800, Dejin Zheng wrote:
-> > > Introduce pcim_alloc_irq_vectors(), a device-managed version of
-> > > pci_alloc_irq_vectors(). Introducing this function can simplify
-> > > the error handling path in many drivers.
-> > > 
-> > > And use pci_free_irq_vectors() to replace some code in pcim_release(),
-> > > they are equivalent, and no functional change. It is more explicit
-> > > that pcim_alloc_irq_vectors() is a device-managed function.
-> > > 
-> > > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-> > 
-> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> > 
-> > Let me know if you'd like me to take the series.
-> >
-> Hi Bjorn,
+On Fri, 2021-05-28 at 13:32 -0400, Steven Rostedt wrote:
+> On Wed, 19 May 2021 19:57:55 +0200
+> Nicolas Saenz Julienne <nsaenzju@redhat.com> wrote:
 > 
-> These patches are still invisible on the mainline, could you help me to
-> take it? Thanks very much!
+> > To minimize trace's effect on isolated CPUs. That is, CPUs were only a
+> > handful or a single, process are allowed to run. Introduce a new trace
+> > option: 'poll-rb'.
+> > 
+> > This option changes the heuristic used to wait for data on trace
+> > buffers. The default one, based on wait queues, will trigger an IPI[1]
+> > on the CPU responsible for new data, which will take care of waking up
+> > the trace gathering process (generally trace-cmd). Whereas with
+> > 'poll-rb' we will poll (as in busy-wait) the ring buffers from the trace
+> > gathering process, releasing the CPUs writing trace data from doing any
+> > wakeup work.
+> > 
+> > This wakeup work, although negligible in the vast majority of workloads,
+> > may cause unwarranted latencies on systems running trace on isolated
+> > CPUs. This is made worse on PREEMPT_RT kernels, as they defer the IPI
+> > handling into a kernel thread, forcing unwarranted context switches on
+> > otherwise extremely busy CPUs.
+> > 
+> > To illustrate this, tracing with PREEMPT_RT=y on an isolated CPU with a
+> > single process pinned to it (NO_HZ_FULL=y, and plenty more isolation
+> > options enabled). I see:
+> >   - 50-100us latency spikes with the default trace-cmd options
+> >   - 14-10us latency spikes with 'poll-rb'
+> >   - 11-8us latency spikes with no tracing at all
+> > 
+> > The obvious drawback of 'poll-rb' is putting more pressure on the
+> > housekeeping CPUs. Wasting cycles. Hence the notice in the documentation
+> > discouraging its use in general.
+> > 
+> > [1] The IPI, in this case, an irq_work, is needed since trace might run
+> > in NMI context. Which is not suitable for wake-ups.
+> 
+> Can't this simply be done in user-space?
+>
+> Set the reading of the trace buffers to O_NONBLOCK and it wont wait for
+> buffering to happen, and should prevent it from causing the IPI wake ups.
 
-I guess you have to rebase them on top of the latest rc (or PCI for-next) and
-send with a cover letter.
+Yes, I hadn't thought of O_NONBLOCK...
+
+> If you need this for trace-cmd, we can add a --poll option that would do
+> this.
+
+I just sent a patch with my attempt at implementing --poll.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Nicolás Sáenz
 
