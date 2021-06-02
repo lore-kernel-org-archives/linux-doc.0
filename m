@@ -4,45 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B360C4708F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD32C47092
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC2386140B
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FD1761404
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232385AbhFBPpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 11:45:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46722 "EHLO mail.kernel.org"
+        id S232411AbhFBPpK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 11:45:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46726 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232324AbhFBPpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232336AbhFBPpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 2 Jun 2021 11:45:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 662DE61405;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6EB65613D6;
         Wed,  2 Jun 2021 15:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622648602;
-        bh=LfGj8APGxDPw5Zztjfnc8Z3UqwOehL4ZqQms6eu0ZvQ=;
+        bh=hpXbDM2W0XIRVHBJt/AqiqfdKM51B7DZ/aXLWW+eEKs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mU0x/I9vd0OegaAOrOvrxlwKtRAt+SbgbkYdw8qoq65gOhZ2eDoFjLc1FxSC/VoYG
-         uhyyl5zAAMf0jAw1Lo6UXv/4coeP5VgTVBxyahJUQZRxCv6loWCZdOV4U4dV82yl1m
-         89N9zbr/edLrvaRHl8Jdvraj8iHlNbCHvqTux/1HFEWFDBcAopdWesbXfgLkbl6OxB
-         ZhFKkAzDSPLU5LuTVz6Wb4AYfz2+7Tr9qvTMSacCz3v3ErAXHAdqXoVlN0qBPny1B4
-         NG+JyOBP9+MicRzmileysfLcWKCYHyUUrunTB2/qLruUhgIXq1/+Y3Cf/oFvAVmZuH
-         3T5gYM9CiSefg==
+        b=XUz8k06v2MR2+bSsf0jpiwoZjN/L8zABLedlhpBC0t7/GD6zYbk6oxBy/iZ3QvbW3
+         wsJsCvgPTgX9uc1JaBz53qhYhmZ6ibJp5wfS0MrXqKCpOlzylmF8jjazMl5iyoBd27
+         O27Tiql2mhtEI5/4ckor0lCsYJenUgqw3Calv1h+apT00SJ7f/Y2YFYVCYnzdWv+Cp
+         D7+F3Usb84b756yGVfu1TY22Am1bBzI3dW0CFUFIe1XlHXjsjuzRqs1At5npvfG4h5
+         uX7ZaFtqNR6Cn7dI/4R6G9Ma6yLGxC8hIThbw4yIOTuCdC25nDPooqjQpBPTD+/VH8
+         Z4NOcT0ddNF6A==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1loT1b-006XcF-Mf; Wed, 02 Jun 2021 17:43:19 +0200
+        id 1loT1b-006Xbe-A0; Wed, 02 Jun 2021 17:43:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Nishanth Menon <nm@ti.com>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/12] MAINTAINERS: update ti,sci.yaml reference
-Date:   Wed,  2 Jun 2021 17:43:17 +0200
-Message-Id: <114241c42cbaa7c757fec0f04d8bffe29dc724b6.1622648507.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Tony Lindgren <tony@atomide.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 02/12] dt-bindings: power: supply: cpcap-charger: update cpcap-charger.yaml reference
+Date:   Wed,  2 Jun 2021 17:43:08 +0200
+Message-Id: <e9ce216362b7b9dcf84d707a3854247123440bf7.1622648507.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622648507.git.mchehab+huawei@kernel.org>
 References: <cover.1622648507.git.mchehab+huawei@kernel.org>
@@ -53,31 +56,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
-renamed: Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-to: Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml.
+Changeset ce49e4282200 ("dt-bindings: power: supply: cpcap-charger: Convert to DT schema format")
+renamed: Documentation/devicetree/bindings/power/supply/cpcap-charger.txt
+to: Documentation/devicetree/bindings/power/supply/cpcap-charger.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
+Fixes: ce49e4282200 ("dt-bindings: power: supply: cpcap-charger: Convert to DT schema format")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
+ Documentation/devicetree/bindings/mfd/motorola-cpcap.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7d65784df8c8..a737ba26bdcd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18192,7 +18192,7 @@ M:	Santosh Shilimkar <ssantosh@kernel.org>
- L:	linux-arm-kernel@lists.infradead.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/arm/keystone/ti,k3-sci-common.yaml
--F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-+F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
- F:	Documentation/devicetree/bindings/clock/ti,sci-clk.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-inta.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-intr.yaml
+diff --git a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
+index e656e6f08fed..190230216de8 100644
+--- a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
++++ b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
+@@ -17,7 +17,7 @@ The sub-functions of CPCAP get their own node with their own compatible values,
+ which are described in the following files:
+ 
+ - Documentation/devicetree/bindings/power/supply/cpcap-battery.yaml
+-- Documentation/devicetree/bindings/power/supply/cpcap-charger.txt
++- Documentation/devicetree/bindings/power/supply/cpcap-charger.yaml
+ - Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+ - Documentation/devicetree/bindings/phy/phy-cpcap-usb.txt
+ - Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
 -- 
 2.31.1
 
