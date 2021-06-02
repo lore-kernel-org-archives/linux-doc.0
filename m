@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-21.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EAA7C47093
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C589AC47096
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BC0C6141B
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD0C961406
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232378AbhFBPpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 11:45:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46714 "EHLO mail.kernel.org"
+        id S232394AbhFBPpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 11:45:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232091AbhFBPpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232322AbhFBPpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 2 Jun 2021 11:45:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5FA5461401;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 62D8761404;
         Wed,  2 Jun 2021 15:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622648602;
-        bh=jQfc6V+5fIkfWn3ixgZGKTZVxT9URXQOJEGGW29C1m4=;
+        bh=ocwVEIpoeXcTa2LTaCyPcINdIg3LJ/xtNe9HnPgfd0U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cW8iZculuT9ve8BWFUusvOE7xAIyan7hKimqg1HaHDpxQ6FPqQDqyttnKnfP92XYT
-         tLNuzV1zDBZ9pzLonEiy8WzjqZsKzNdc8X8c51wup5aodAGsZLSEJPwVlVtLgrxlWM
-         Tl8qobESCWsbGC/+AsUSHgXB69bA3PdlYyWIKbz6FIy+Dd2/XBga581WJx8jzsVrKW
-         m/Ui/joAfznbjaiN0wP2AdKV4K8h1tVrajw5xoCs3WS2+qHLKnfPgGlhFiZi1H0IJ+
-         ncqxLGBCpUhHD+pBfCalRu5gO7F3bkDyAXt0RK/z2cNUJob6dTfX6iRUCM4V4gblIb
-         kgo0uTLd1UlcQ==
+        b=lRebjkaBkJwiCPY26I4Ogsx2dkSmbvK4gB/4vedJQq4WTD0wrZvZj6PddQNLD7ESe
+         w9lDkxyooSvAXXIdkI2ndPs6OPBZ4p347kJgXsAq/lgmeMUmT/wthywnKaRnl2A2Zn
+         hczsyBPLoyCnY5sCATcUd8xDPUU3V7D1+TgttTIBpEaSXbRh+dhFdLQ96MNZI8oEoo
+         0usUfu6zAy+p8LGTXiVwSnTspcHk6LXGoveGI7o0LjkKpKBdshS4TcmibCSbEwx6+b
+         sDKPWK0RyHXQFo+rx6yid5Qn2boxPLI0maPL5bwvUvowAN4ahNt1YKujAkj2/zfNgw
+         kOQna8qNyIPrA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1loT1b-006Xbv-Fw; Wed, 02 Jun 2021 17:43:19 +0200
+        id 1loT1b-006Xc3-Iy; Wed, 02 Jun 2021 17:43:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Rosin <peda@axentia.se>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/12] dt-bindings: iio: io-channel-mux.yaml: fix a typo
-Date:   Wed,  2 Jun 2021 17:43:12 +0200
-Message-Id: <ab0d1f89cf64ff4904155c92e1895763fb0bf173.1622648507.git.mchehab+huawei@kernel.org>
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 08/12] MAINTAINERS: update faraday,ftrtc010.yaml reference
+Date:   Wed,  2 Jun 2021 17:43:14 +0200
+Message-Id: <0d437806f3f8d2c930656872be482820ef1c2301.1622648507.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622648507.git.mchehab+huawei@kernel.org>
 References: <cover.1622648507.git.mchehab+huawei@kernel.org>
@@ -56,30 +56,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file name: Documentation/device-tree/bindings/mux/mux-controller.yaml
-should be, instead: Documentation/devicetree/bindings/mux/mux-controller.yaml.
+Changeset 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
+renamed: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
+to: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: a66cec598f49 ("dt-bindings: iio: multiplexer: Convert io-channel-mux bindings to DT schema")
+Fixes: 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../devicetree/bindings/iio/multiplexer/io-channel-mux.yaml     | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.yaml b/Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.yaml
-index 37382b85f2b8..f37586702489 100644
---- a/Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.yaml
-+++ b/Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.yaml
-@@ -17,7 +17,7 @@ description: |
-   created. The number of this io-channel is the same as the index into the list
-   of strings in the channels property, and also matches the mux controller
-   state. The mux controller state is described in
--  Documentation/device-tree/bindings/mux/mux-controller.yaml
-+  Documentation/devicetree/bindings/mux/mux-controller.yaml
- 
- properties:
- 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2800307082a9..8b423b7246a3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1818,7 +1818,7 @@ T:	git git://github.com/ulli-kroll/linux.git
+ F:	Documentation/devicetree/bindings/arm/gemini.txt
+ F:	Documentation/devicetree/bindings/net/cortina,gemini-ethernet.txt
+ F:	Documentation/devicetree/bindings/pinctrl/cortina,gemini-pinctrl.txt
+-F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
++F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
+ F:	arch/arm/mach-gemini/
+ F:	drivers/net/ethernet/cortina/
+ F:	drivers/pinctrl/pinctrl-gemini.c
 -- 
 2.31.1
 
