@@ -2,50 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C589AC47096
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B360C4708F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD0C961406
+	by mail.kernel.org (Postfix) with ESMTP id EC2386140B
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232394AbhFBPpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 11:45:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46720 "EHLO mail.kernel.org"
+        id S232385AbhFBPpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 11:45:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46722 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232322AbhFBPpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232324AbhFBPpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 2 Jun 2021 11:45:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 62D8761404;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 662DE61405;
         Wed,  2 Jun 2021 15:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622648602;
-        bh=ocwVEIpoeXcTa2LTaCyPcINdIg3LJ/xtNe9HnPgfd0U=;
+        bh=LfGj8APGxDPw5Zztjfnc8Z3UqwOehL4ZqQms6eu0ZvQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lRebjkaBkJwiCPY26I4Ogsx2dkSmbvK4gB/4vedJQq4WTD0wrZvZj6PddQNLD7ESe
-         w9lDkxyooSvAXXIdkI2ndPs6OPBZ4p347kJgXsAq/lgmeMUmT/wthywnKaRnl2A2Zn
-         hczsyBPLoyCnY5sCATcUd8xDPUU3V7D1+TgttTIBpEaSXbRh+dhFdLQ96MNZI8oEoo
-         0usUfu6zAy+p8LGTXiVwSnTspcHk6LXGoveGI7o0LjkKpKBdshS4TcmibCSbEwx6+b
-         sDKPWK0RyHXQFo+rx6yid5Qn2boxPLI0maPL5bwvUvowAN4ahNt1YKujAkj2/zfNgw
-         kOQna8qNyIPrA==
+        b=mU0x/I9vd0OegaAOrOvrxlwKtRAt+SbgbkYdw8qoq65gOhZ2eDoFjLc1FxSC/VoYG
+         uhyyl5zAAMf0jAw1Lo6UXv/4coeP5VgTVBxyahJUQZRxCv6loWCZdOV4U4dV82yl1m
+         89N9zbr/edLrvaRHl8Jdvraj8iHlNbCHvqTux/1HFEWFDBcAopdWesbXfgLkbl6OxB
+         ZhFKkAzDSPLU5LuTVz6Wb4AYfz2+7Tr9qvTMSacCz3v3ErAXHAdqXoVlN0qBPny1B4
+         NG+JyOBP9+MicRzmileysfLcWKCYHyUUrunTB2/qLruUhgIXq1/+Y3Cf/oFvAVmZuH
+         3T5gYM9CiSefg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1loT1b-006Xc3-Iy; Wed, 02 Jun 2021 17:43:19 +0200
+        id 1loT1b-006XcF-Mf; Wed, 02 Jun 2021 17:43:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/12] MAINTAINERS: update faraday,ftrtc010.yaml reference
-Date:   Wed,  2 Jun 2021 17:43:14 +0200
-Message-Id: <0d437806f3f8d2c930656872be482820ef1c2301.1622648507.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Nishanth Menon <nm@ti.com>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 11/12] MAINTAINERS: update ti,sci.yaml reference
+Date:   Wed,  2 Jun 2021 17:43:17 +0200
+Message-Id: <114241c42cbaa7c757fec0f04d8bffe29dc724b6.1622648507.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622648507.git.mchehab+huawei@kernel.org>
 References: <cover.1622648507.git.mchehab+huawei@kernel.org>
@@ -56,31 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
-renamed: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
-to: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml.
+Changeset 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
+renamed: Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
+to: Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
+Fixes: 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 2800307082a9..8b423b7246a3 100644
+index 7d65784df8c8..a737ba26bdcd 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1818,7 +1818,7 @@ T:	git git://github.com/ulli-kroll/linux.git
- F:	Documentation/devicetree/bindings/arm/gemini.txt
- F:	Documentation/devicetree/bindings/net/cortina,gemini-ethernet.txt
- F:	Documentation/devicetree/bindings/pinctrl/cortina,gemini-pinctrl.txt
--F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
-+F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
- F:	arch/arm/mach-gemini/
- F:	drivers/net/ethernet/cortina/
- F:	drivers/pinctrl/pinctrl-gemini.c
+@@ -18192,7 +18192,7 @@ M:	Santosh Shilimkar <ssantosh@kernel.org>
+ L:	linux-arm-kernel@lists.infradead.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/arm/keystone/ti,k3-sci-common.yaml
+-F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
++F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
+ F:	Documentation/devicetree/bindings/clock/ti,sci-clk.yaml
+ F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-inta.yaml
+ F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-intr.yaml
 -- 
 2.31.1
 
