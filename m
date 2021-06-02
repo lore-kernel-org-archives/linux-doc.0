@@ -2,80 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DEBCC4708F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 18:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E73C47083
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:10:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4D2B60FF1
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 18:36:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2888F613EB
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 19:10:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbhFBShu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 14:37:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbhFBShu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jun 2021 14:37:50 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B037AC061574;
-        Wed,  2 Jun 2021 11:36:06 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2E2B32E0;
-        Wed,  2 Jun 2021 18:36:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2E2B32E0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1622658966; bh=W/vpT+iI0rchh3VZVeVOnpqOaOwv9O6V0VgVswk0/g0=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=LSXthPXOmpX/n+ndSxtzyxlCGepQIfoPYYqCN1C+RnIZt9Be1Qb2OL9krezxYXjsW
-         6dW0I7ch/FgEoTtrc5jUk6D50PDU8TTYUujLQfTL5p5K24yFUIsC0IrO4FO1IWfOtg
-         lZI2L5uk8LkeJilGm73QhKex16dLbZ4dc9EgdjS5bSuvNcizOTuZP6nw5CHgrEiGcO
-         QbKTO9zCTsOyeW5MgqFzVqwCEhLlUvlxGvr4p8PHKIfFOYOG3vtpkfrlsaFCas4pnM
-         J8EsT0qJ8qsbOEcbvDlNFwTDq3uBjxcyTu9hM8CGqdir2iBAkdRjrbwzw47Eklsge4
-         s736sGtw3nVRg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
+        id S229467AbhFBTLp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 15:11:45 -0400
+Received: from foss.arm.com ([217.140.110.172]:52440 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229468AbhFBTLp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jun 2021 15:11:45 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA1021063;
+        Wed,  2 Jun 2021 12:10:01 -0700 (PDT)
+Received: from [192.168.178.6] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37F793F774;
+        Wed,  2 Jun 2021 12:10:00 -0700 (PDT)
+Subject: Re: [PATCH v6 2/3] sched/topology: Rework CPU capacity asymmetry
+ detection
+To:     Beata Michalska <beata.michalska@arm.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/12] docs: accounting: update delay-accounting.rst
- reference
-In-Reply-To: <20210602200121.64a828a1@coco.lan>
-References: <cover.1622648507.git.mchehab+huawei@kernel.org>
- <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
- <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
- <20210602200121.64a828a1@coco.lan>
-Date:   Wed, 02 Jun 2021 12:36:05 -0600
-Message-ID: <871r9k6rmy.fsf@meer.lwn.net>
+Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, valentin.schneider@arm.com,
+        corbet@lwn.net, rdunlap@infradead.org, linux-doc@vger.kernel.org
+References: <20210527153842.17567-1-beata.michalska@arm.com>
+ <20210527153842.17567-3-beata.michalska@arm.com>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <8ea4cfc2-514b-6b5c-7269-7720a54dbb39@arm.com>
+Date:   Wed, 2 Jun 2021 21:09:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210527153842.17567-3-beata.michalska@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On 27/05/2021 17:38, Beata Michalska wrote:
 
-> That's said, automarkup.py has a rule to convert Documentation/<foo>.rst
-> into :doc:`<foo>`. So, an alternative approach would be to convert
-> treewide all :doc:`<foo>` into Documentation/<foo>.rst and add something 
-> at checkpatch.pl to recommend to avoid :doc: notation.
+[...]
 
-That seems like the right approach to me.  We have the automarkup
-capability, we might as well make use of it...
+> +/*
+> + * Verify whether there is any CPU capacity asymmetry in a given sched domain.
+> + * Provides sd_flags reflecting the asymmetry scope.
+> + */
+> +static inline int
+> +asym_cpu_capacity_classify(struct sched_domain *sd,
+> +			   const struct cpumask *cpu_map)
+> +{
+> +	struct asym_cap_data *entry;
+> +	int sd_asym_flags = 0;
+> +	int asym_cap_count = 0;
+> +	int asym_cap_miss = 0;
+> +
+> +	/*
+> +	 * Count how many unique CPU capacities this domain spans across
+> +	 * (compare sched_domain CPUs mask with ones representing  available
+> +	 * CPUs capacities). Take into account CPUs that might be offline:
+> +	 * skip those.
+> +	 */
+> +	list_for_each_entry(entry, &asym_cap_list, link) {
+> +		if (cpumask_intersects(sched_domain_span(sd),
+> +				       cpu_capacity_span(entry)))
+> +			++asym_cap_count;
+> +		else if (cpumask_intersects(cpu_capacity_span(entry), cpu_map))
 
-Thanks,
+nit: `sd span, entry span` but `entry span, cpu_map`. Why not `cpu_map, entry span`?
 
-jon
+> +			++asym_cap_miss;
+> +	}
+> +	/* No asymmetry detected */
+> +	if (WARN_ON_ONCE(!asym_cap_count) || asym_cap_count == 1)
+> +		goto leave;
+> +
+> +	sd_asym_flags |= SD_ASYM_CPUCAPACITY;
+> +
+> +	/*
+> +	 * All the available capacities have been found within given sched
+> +	 * domain: no misses reported.
+> +	 */
+> +	if (!asym_cap_miss)
+> +		sd_asym_flags |= SD_ASYM_CPUCAPACITY_FULL;
+> +
+> +leave:
+> +	return sd_asym_flags;
+> +}
+
+Everything looks good except that I like this more compact version better, proposed in:  
+
+https://lkml.kernel.org/r/YK9ESqNEo+uacyMD@hirez.programming.kicks-ass.net
+
+And passing `const struct cpumask *sd_span` instead of `struct
+sched_domain *sd` into the function.
+
+
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 77b73abbb9a4..0de8eebded9f 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -1290,13 +1290,11 @@ static LIST_HEAD(asym_cap_list);
+  * Provides sd_flags reflecting the asymmetry scope.
+  */  
+ static inline int 
+-asym_cpu_capacity_classify(struct sched_domain *sd,
++asym_cpu_capacity_classify(const struct cpumask *sd_span,
+                           const struct cpumask *cpu_map)
+ {
+        struct asym_cap_data *entry;
+-       int sd_asym_flags = 0;
+-       int asym_cap_count = 0;
+-       int asym_cap_miss = 0;
++       int count = 0, miss = 0;
+ 
+        /*
+         * Count how many unique CPU capacities this domain spans across
+@@ -1305,27 +1303,20 @@ asym_cpu_capacity_classify(struct sched_domain *sd,
+         * skip those.
+         */
+        list_for_each_entry(entry, &asym_cap_list, link) {
+-               if (cpumask_intersects(sched_domain_span(sd),
+-                                      cpu_capacity_span(entry)))
+-                       ++asym_cap_count;
+-               else if (cpumask_intersects(cpu_capacity_span(entry), cpu_map))
+-                       ++asym_cap_miss;
++               if (cpumask_intersects(sd_span, cpu_capacity_span(entry)))
++                       ++count;
++               else if (cpumask_intersects(cpu_map, cpu_capacity_span(entry)))
++                       ++miss;
+        }
+-       /* No asymmetry detected */
+-       if (WARN_ON_ONCE(!asym_cap_count) || asym_cap_count == 1)
+-               goto leave;
+ 
+-       sd_asym_flags |= SD_ASYM_CPUCAPACITY;
++       if (WARN_ON_ONCE(!count) || count == 1) /* No asymmetry */
++               return 0;
+ 
+-       /*
+-        * All the available capacities have been found within given sched
+-        * domain: no misses reported.
+-        */
+-       if (!asym_cap_miss)
+-               sd_asym_flags |= SD_ASYM_CPUCAPACITY_FULL;
++       if (miss) /* Partial asymmetry */
++               return SD_ASYM_CPUCAPACITY;
+ 
+-leave:
+-       return sd_asym_flags;
++       /* Full asymmetry */
++       return SD_ASYM_CPUCAPACITY | SD_ASYM_CPUCAPACITY_FULL;
+ }
+ 
+ static inline void asym_cpu_capacity_update_data(int cpu)
+@@ -1510,6 +1501,7 @@ sd_init(struct sched_domain_topology_level *tl,
+        struct sd_data *sdd = &tl->data;
+        struct sched_domain *sd = *per_cpu_ptr(sdd->sd, cpu);
+        int sd_id, sd_weight, sd_flags = 0;
++       struct cpumask *sd_span;
+ 
+ #ifdef CONFIG_NUMA
+        /*
+@@ -1557,10 +1549,11 @@ sd_init(struct sched_domain_topology_level *tl,
+ #endif
+        };
+ 
+-       cpumask_and(sched_domain_span(sd), cpu_map, tl->mask(cpu));
+-       sd_id = cpumask_first(sched_domain_span(sd));
++       sd_span = sched_domain_span(sd);
++       cpumask_and(sd_span, cpu_map, tl->mask(cpu));
++       sd_id = cpumask_first(sd_span);
+ 
+-       sd->flags |= asym_cpu_capacity_classify(sd, cpu_map);
++       sd->flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
+ 
+        WARN_ONCE((sd->flags & (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY)) ==
+                  (SD_SHARE_CPUCAPACITY | SD_ASYM_CPUCAPACITY),
+-- 
+2.25.1
