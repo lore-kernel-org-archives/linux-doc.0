@@ -7,43 +7,51 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D06EAC47098
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08585C47097
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B881C61406
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA1E961407
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232430AbhFBPpN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 11:45:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46814 "EHLO mail.kernel.org"
+        id S232358AbhFBPpO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 11:45:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46822 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232372AbhFBPpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232374AbhFBPpG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 2 Jun 2021 11:45:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7741F6140B;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C7D361412;
         Wed,  2 Jun 2021 15:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622648602;
-        bh=/2cYtSG3djNsCF31B1KP1LGyKIeygzLAJvXtYbi8Djc=;
+        bh=cSLcm2mPxKPQ28RL9Wts8oJokCrE7RrCLtsCxNxWcvs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bt8gCF8ovJHzq4l5JTHjhYrIw/KhB+cpW3OXcNYyuYzpkmHgUcKfKFKDWP/n2xDDn
-         TyAsAUIReAKsKY3R0qgxSKLvegegML4y8cuBpv6WJBZGRsmtQ6LsBLBZtWQRCdtHdB
-         FoupKXiWQzcHVfpnJPzPxpv9RIn+XjAd6H6AWsULF3HCZmsActvLD5egDG9qvlwVsZ
-         0tOBFvqSNqz1BUesKXM+E09bTeqT5mZPgiT92Do0F7SremUmu1EKiYchhXZenToivN
-         976If8V0/gKXCGPrPJiUU/yl4nm7G9BxBvffCfaG2zFx8hIMg9cbfnv7J2kXgGwt/o
-         bIaWxYqDJMJyw==
+        b=XrXfghpbxNdoL6WY/Ne9BysSunWtBs2LzbXm3Im2c+jjEvUiN3MPeQAjvj8b5ei3W
+         uhTSks+/MK6Sj3odPAmr5iH4xHjjmlHGopQH0KzFkmvazKXNWnO0o4jrZqdk2sQFuO
+         iUz2c4fA7J0mM5mTyJtdgij8440C41NzRTH3HrUucQYbWne7o1wXV9z6yCTbhFWqRE
+         r/bryVAiQ93F4rAAScDE+MwbS9J9BLvvcXxV7j3t6HWF3wy53XAEuoUZWE3QWCizXI
+         TuMU7yFcFf5Ap2KjuySw/QOFoNItdJbTSHgaPA86FDWzkRvxOL0mUmXqja0fQRVAhp
+         n94+xptekdenA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1loT1b-006XcB-Lc; Wed, 02 Jun 2021 17:43:19 +0200
+        id 1loT1b-006Xbz-HS; Wed, 02 Jun 2021 17:43:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/12] MAINTAINERS: update ti,omap-gpio.yaml reference
-Date:   Wed,  2 Jun 2021 17:43:16 +0200
-Message-Id: <832058f088a30e44cf25a81f1d4b9b4e0ed0904f.1622648507.git.mchehab+huawei@kernel.org>
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 07/12] docs: accounting: update delay-accounting.rst reference
+Date:   Wed,  2 Jun 2021 17:43:13 +0200
+Message-Id: <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622648507.git.mchehab+huawei@kernel.org>
 References: <cover.1622648507.git.mchehab+huawei@kernel.org>
@@ -54,31 +62,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset bc3aca5393c4 ("dt-bindings: gpio: omap: Convert to json-schema")
-renamed: Documentation/devicetree/bindings/gpio/gpio-omap.txt
-to: Documentation/devicetree/bindings/gpio/ti,omap-gpio.yaml.
+When :doc: is used, the .rst should be removed. Also, the patches
+are relative to the current directory.
 
-Update its cross-reference accordingly.
+So, the right reference should be:
 
-Fixes: bc3aca5393c4 ("dt-bindings: gpio: omap: Convert to json-schema")
+	:doc:`/accounting/delay-accounting`
+
+Fixes: fcb501704554 ("delayacct: Document task_delayacct sysctl")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
+ Documentation/admin-guide/sysctl/kernel.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 644572ab4b2d..7d65784df8c8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13412,7 +13412,7 @@ M:	Santosh Shilimkar <ssantosh@kernel.org>
- M:	Kevin Hilman <khilman@kernel.org>
- L:	linux-omap@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/gpio/gpio-omap.txt
-+F:	Documentation/devicetree/bindings/gpio/ti,omap-gpio.yaml
- F:	drivers/gpio/gpio-omap.c
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index b2057173fe07..7f36cba3204b 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1097,7 +1097,7 @@ task_delayacct
+ ===============
  
- OMAP HARDWARE SPINLOCK SUPPORT
+ Enables/disables task delay accounting (see
+-:doc:`accounting/delay-accounting.rst`). Enabling this feature incurs
++:doc:`/accounting/delay-accounting`). Enabling this feature incurs
+ a small amount of overhead in the scheduler but is useful for debugging
+ and performance tuning. It is required by some tools such as iotop.
+ 
 -- 
 2.31.1
 
