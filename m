@@ -4,46 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 308E4C4708F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EAA7C47093
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B4A161404
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BC0C6141B
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 15:43:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232369AbhFBPpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S232378AbhFBPpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 2 Jun 2021 11:45:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46708 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:46714 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232229AbhFBPpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232091AbhFBPpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 2 Jun 2021 11:45:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D327613D2;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5FA5461401;
         Wed,  2 Jun 2021 15:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622648602;
-        bh=dfyq1ej1GuFOxiozvo87VpGxQt5FWXfaH6ex5RqWXkI=;
+        bh=jQfc6V+5fIkfWn3ixgZGKTZVxT9URXQOJEGGW29C1m4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l9/vBKNARuxY5c1d+I9KFGWW9QFxo2xQ+8ItWSqP8nj4UkWk6TnZN7fT4U0+OB35N
-         OGez8D1CMidIQ7hjzq9E3Frg7blMdzqYBQ5HCQr0DanwcCx9it50HKmJWbci7Ywl64
-         Y5ky4LiEj0umY+7F9QiOo2PO9gQxfKDC77F4+JjmsxsjYlkq6DFESmkRXtqFYU4erA
-         pclscoFpHj/1iK5I4U3JQxYBgEadrx+zDFuVPw5Uaza1+A+O9ZRinuBEYYZlnTWyHf
-         icerDaoWJYcg45+laJBOFlRvW3EHTm/+m8aoMN8bhk1lj81JI76a84R6uUyC84O6C8
-         QGr9JskQRxTJQ==
+        b=cW8iZculuT9ve8BWFUusvOE7xAIyan7hKimqg1HaHDpxQ6FPqQDqyttnKnfP92XYT
+         tLNuzV1zDBZ9pzLonEiy8WzjqZsKzNdc8X8c51wup5aodAGsZLSEJPwVlVtLgrxlWM
+         Tl8qobESCWsbGC/+AsUSHgXB69bA3PdlYyWIKbz6FIy+Dd2/XBga581WJx8jzsVrKW
+         m/Ui/joAfznbjaiN0wP2AdKV4K8h1tVrajw5xoCs3WS2+qHLKnfPgGlhFiZi1H0IJ+
+         ncqxLGBCpUhHD+pBfCalRu5gO7F3bkDyAXt0RK/z2cNUJob6dTfX6iRUCM4V4gblIb
+         kgo0uTLd1UlcQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1loT1b-006XcJ-Ni; Wed, 02 Jun 2021 17:43:19 +0200
+        id 1loT1b-006Xbv-Fw; Wed, 02 Jun 2021 17:43:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 12/12] MAINTAINERS: update nxp,imx8-jpeg.yaml reference
-Date:   Wed,  2 Jun 2021 17:43:18 +0200
-Message-Id: <7b6df64c2c5af0990b9644acad18d4a4b700cce3.1622648507.git.mchehab+huawei@kernel.org>
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Rosin <peda@axentia.se>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 06/12] dt-bindings: iio: io-channel-mux.yaml: fix a typo
+Date:   Wed,  2 Jun 2021 17:43:12 +0200
+Message-Id: <ab0d1f89cf64ff4904155c92e1895763fb0bf173.1622648507.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622648507.git.mchehab+huawei@kernel.org>
 References: <cover.1622648507.git.mchehab+huawei@kernel.org>
@@ -54,31 +56,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file name: Documentation/devicetree/bindings/media/imx8-jpeg.yaml
-should be, instead: Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml.
+The file name: Documentation/device-tree/bindings/mux/mux-controller.yaml
+should be, instead: Documentation/devicetree/bindings/mux/mux-controller.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: be157db0a3d8 ("media: Add maintainer for IMX jpeg v4l2 driver")
-Fixes: b16ed1e66008 ("media: dt-bindings: Add bindings for i.MX8QXP/QM JPEG driver")
+Fixes: a66cec598f49 ("dt-bindings: iio: multiplexer: Convert io-channel-mux bindings to DT schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
+ .../devicetree/bindings/iio/multiplexer/io-channel-mux.yaml     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a737ba26bdcd..37baabb1e7a5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13303,7 +13303,7 @@ M:	Mirela Rabulea <mirela.rabulea@nxp.com>
- R:	NXP Linux Team <linux-imx@nxp.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/media/imx8-jpeg.yaml
-+F:	Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
- F:	drivers/media/platform/imx-jpeg
+diff --git a/Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.yaml b/Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.yaml
+index 37382b85f2b8..f37586702489 100644
+--- a/Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.yaml
++++ b/Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.yaml
+@@ -17,7 +17,7 @@ description: |
+   created. The number of this io-channel is the same as the index into the list
+   of strings in the channels property, and also matches the mux controller
+   state. The mux controller state is described in
+-  Documentation/device-tree/bindings/mux/mux-controller.yaml
++  Documentation/devicetree/bindings/mux/mux-controller.yaml
  
- NZXT-KRAKEN2 HARDWARE MONITORING DRIVER
+ properties:
+ 
 -- 
 2.31.1
 
