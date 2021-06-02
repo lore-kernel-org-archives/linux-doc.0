@@ -2,143 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A6DFC47080
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 23:43:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B75A7C4708F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 01:00:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63C346139A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Jun 2021 23:43:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 930CC613CD
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 01:00:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235034AbhFAXpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Jun 2021 19:45:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37724 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234766AbhFAXpG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 19:45:06 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00860C061574;
-        Tue,  1 Jun 2021 16:43:22 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id k4so716754qkd.0;
-        Tue, 01 Jun 2021 16:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=LOfyTvzBlduQM6r6bBzDtQHy05UJJgLn5jYaGzsmD/U=;
-        b=nUjIdHZFKCGWbp8oi5u8CAD4grNNKv9hdLxU6gDSERpvmU4Dyw6r1jzJRRZkoyoY/k
-         B2D5yuJdAPdUCWN5ZsLIuZ4gW8StzTzC6j0hHZ51DieQmxI/RmbQfuNO0LHvsKcU22kl
-         Or9r5MkVq2IJR1qEd3dvXTFNqUjdBTqOMEOK6IZSx7LXvKSJ998b1LQToeO1yM9v+T85
-         VXvnEWDvau/HwLHlOJ0N5Zf6MlrovbU8knTyYzSuOUEa/voTHGQo6xH3RGK6+uqkVtdn
-         pjNTb+rJbWOC51xPrvIagPMcxnFyUROLvyyi9YfB9UXEP6EwXyUOJ7LS4TeKv+P4vkU1
-         LOJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LOfyTvzBlduQM6r6bBzDtQHy05UJJgLn5jYaGzsmD/U=;
-        b=gXpwuFbBWhGzcQSqKrnOBZ7K75796IADV2GCDi5TjzeHiMGDS5cqI0ZYxA8CFliM6Y
-         cKo444jMJ9/glArOU4B4OFh9PEqA5frOxOConK/KYBux+67GQqVUSNyAEFz5b3hWVj5z
-         1G1p6J8vmZ3RIWbqYtnIImEzIs1M2iDV5d99jtCaaPbwUtZ7BL6IZq7H7vIBlFZOI+hY
-         vGELkuvwP0si5W8R99a+yZ80BzzGjQfBd675Q8fiCNiiK7if5umzJ4SMZreMz1pUV2Dq
-         NXClzRUJR2FuMVcmyNFJix7/paaj198O7IIu78MPyU0tUUMUwWyTbJ5+zSIEGRy9E9D3
-         uQRQ==
-X-Gm-Message-State: AOAM531sN413hW6fSkMyO3Gws2lfr7m6/N/nTX2h2ngD/L2Y95mPkXFX
-        vXWwiqV1AtXzZ4B4xm+qawwqX5KWrHA=
-X-Google-Smtp-Source: ABdhPJw8669buwbP4TtbDzmypkGjLKydn7Mi0vzlV4kQNcIO+PdJaYpy13sXtRHL6ysu+8UPyhwabQ==
-X-Received: by 2002:a37:5d46:: with SMTP id r67mr23827219qkb.72.1622591001976;
-        Tue, 01 Jun 2021 16:43:21 -0700 (PDT)
-Received: from ?IPv6:2804:14c:125:811b:fbbc:3360:40c4:fb64? ([2804:14c:125:811b:fbbc:3360:40c4:fb64])
-        by smtp.gmail.com with ESMTPSA id d11sm12410089qkk.110.2021.06.01.16.43.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jun 2021 16:43:21 -0700 (PDT)
-Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
-To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>, corbet@lwn.net,
+        id S229758AbhFBBCg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Jun 2021 21:02:36 -0400
+Received: from befuddled.reisers.ca ([206.248.184.127]:57816 "EHLO
+        befuddled.reisers.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229718AbhFBBCf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jun 2021 21:02:35 -0400
+X-Greylist: delayed 398 seconds by postgrey-1.27 at vger.kernel.org; Tue, 01 Jun 2021 21:02:35 EDT
+Received: by befuddled.reisers.ca (Postfix, from userid 65534)
+        id 7990938258F; Tue,  1 Jun 2021 20:54:12 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=reisers.ca;
+        s=befuddled; t=1622595252;
+        bh=2Yogg4RAw/HBYScQC/cly8YEOhVm8TXpDT/L5tO8V4I=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=isR6T2AOk/BRhuuGe6hD7SYQnoMsF5rsZfJKaYGKFkH9Nh/NXDi6j0i86ZyVM+TRu
+         ct2p63DssBRZtVdjXm+w0epVV93RGkJ1lls9TPm+OEEDItLrKrQRpSIKovliK6TA2l
+         cqN7OKzj053lOkTv91OoVXMHXUAh32/K9C4UfMSo=
+Received: from localhost (localhost [IPv6:::1])
+        by befuddled.reisers.ca (Postfix) with ESMTPS id DB92F380A89;
+        Tue,  1 Jun 2021 20:54:10 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=reisers.ca;
+        s=befuddled; t=1622595250;
+        bh=2Yogg4RAw/HBYScQC/cly8YEOhVm8TXpDT/L5tO8V4I=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=WhFUiIjzCGPyp287A+eCmx9ytTZjPr46LrOY2fAxbDeYA2RtFLEo+R5JVFnuhRkWN
+         j0JLsxyyDMM83Uq2dq4adCATKHnyw4lrz5TFg4EIf40XIIVkg+DYABlbz2jwIbmrww
+         CX5BU8U9IMkTYUaJUEkNlNYYNuz9hZg9bFcr0DEY=
+Date:   Tue, 1 Jun 2021 20:54:10 -0400 (EDT)
+From:   Kirk Reiser <kirk@reisers.ca>
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>
+cc:     speakup@linux-speakup.org, Jonathan Corbet <corbet@lwn.net>,
+        Christopher Brannon <chris@the-brannons.com>,
+        William Hubbs <w.d.hubbs@gmail.com>,
+        Steve Holmes <steve.holmes88@gmail.com>,
+        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
         gregkh@linuxfoundation.org, grandmaster@al2klimov.de,
         rdunlap@infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20210531215737.8431-1-igormtorrente@gmail.com>
- <87r1hlrfhk.fsf@intel.com> <1b1e0e07-d438-0902-a28a-e346cba53518@gmail.com>
- <20210601215723.7kwakixrrizba3bu@begin>
-From:   Igor Torrente <igormtorrente@gmail.com>
-Message-ID: <9932ed69-685a-e5ce-0180-bf030ca4b608@gmail.com>
-Date:   Tue, 1 Jun 2021 20:43:18 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Subject: Re: [PATCH v2] docs: Convert the Speakup guide to rst
+In-Reply-To: <20210601224854.iug2arwes64k7fxr@begin>
+Message-ID: <afc570ec-dfe1-2a37-6fd3-aeaefece4aa6@reisers.ca>
+References: <20210531215737.8431-1-igormtorrente@gmail.com> <875yyxbenm.fsf@meer.lwn.net> <20210601220643.uzep2ju2zlcmpa57@begin> <874keh9qk9.fsf@meer.lwn.net> <20210601223743.carif4gkzcz5jo7j@begin> <20210601224452.sqblwctwiu47xgqg@begin>
+ <20210601224554.6kc5syoy2tscisiv@begin> <20210601224854.iug2arwes64k7fxr@begin>
 MIME-Version: 1.0
-In-Reply-To: <20210601215723.7kwakixrrizba3bu@begin>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Bogosity: Ham, tests=bogofilter, spamicity=0.000000, version=1.2.5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Samuel,
+Gene's current address is gene@cllinsnet.net
 
-On 6/1/21 6:57 PM, Samuel Thibault wrote:
-> Igor Torrente, le mar. 01 juin 2021 12:11:26 -0300, a ecrit:
->>>> +| acntsa -- Accent SA
->>>> +| acntpc -- Accent PC
->>>> +| apollo -- Apollo
->>>> +| audptr -- Audapter
->>>> +| bns -- Braille 'n Speak
->>>> +| dectlk -- DecTalk Express (old and new, db9 serial only)
->>>> +| decext -- DecTalk (old) External
->>>> +| dtlk -- DoubleTalk PC
->>>> +| keypc -- Keynote Gold PC
->>>> +| ltlk -- DoubleTalk LT, LiteTalk, or external Tripletalk (db9 serial only)
->>>> +| spkout -- Speak Out
->>>> +| txprt -- Transport
->>>> +| dummy -- Plain text terminal
->>>
->>> Looks like a definition list?
->>>
->>> https://docutils.sourceforge.io/docs/user/rst/quickref.html#definition-lists
->>
->> If the '|' is replaced by definition-list, I'll have to skip a line to each
->> item so the sphinx doesn't concatenate them into a single line. Like this:
->>
->> keywords
->>    acntsa -- Accent SA
->>
->>    acntpc -- Accent PC
->>
->>    apollo -- Apollo
->>    [...]
->>
->>
->> There's a way to do that without these blank lines?
-> 
-> The blank line isn't really a problem.
-> 
->>>> +Document License
->>>> +================
->>>> +
->>>
->>> Using SPDX might be nice.
->>
->> I was just trying to respect the original text as much as possible, but I
->> don't mind change it if everybody agrees with it.
-> 
-> SPDX should be fine.
+   Kirk
 
-I have two questions about it.
+On Wed, 2 Jun 2021, Samuel Thibault wrote:
 
-1 - Should I only make this change when we have the 'acks' from all the 
-previous contributors? Or can I change it to the v3?
-
-2 - Is '.. SPDX-License-Identifier: GPL-2.0' at the beginning is enough?
-
-> 
+> Samuel Thibault wrote:
+>>> - The initial import of the file (bddef0d280cd) wears only the Gene
+>>>   Collins copyright notice.
+>>
+>> I'm here fixing the mail for Chris and Gene with an up-to-date email
+>> address, I also bounced them my previous mail.
+>
+> Mmm, no, acollins@icsmail.net is not working either. Does anybody on the
+> speakup mailing list know an up-to-date mail address for Gene?
+>
 > Samuel
-> 
-
-Thanks,
----
-Igor M. A. Torrente
+>
