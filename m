@@ -2,122 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5497FC4708F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 20:19:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD1AC4708F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 20:30:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A2B0613DA
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 20:19:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C5E1613DE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Jun 2021 20:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbhFBUVc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 16:21:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49832 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229576AbhFBUVb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jun 2021 16:21:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 84ABB600D4;
-        Wed,  2 Jun 2021 20:19:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622665187;
-        bh=KB2GKW9SrbmTXxENdtwpzdj5V5Jp/dfe70z3tJI18og=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=d5z912FEDHYB5+BJiGs0e82WgopzuuRFLZcJeDpO7M5myYuS9w8Cse2FpQ1DoVgsx
-         wpPHyRt4LdPJwly4UMn4BgPxQKtdRPUgyhqKPdPybnaZOcy3CPgeblmPkt7EBJ1iob
-         qe4FlVegDQAiMOON+qiSJlWeRbylc0L8QdLVRzGYeJ+1JhVWpUosZLX65PbXmYwvvX
-         P21jca3JNvVpCmvQMQDTBIfNxYIoBSmho8BayML1FkGZnbSUsAB2H7gNLlgJiKU8mJ
-         Lg/fjPvNsm/7k7Ns+xa5iVz8wljfRowsCHAyU5whNOiYwx9VyP3KiUHl1hihE9noDn
-         2QfczPJJY7R9w==
-Date:   Wed, 2 Jun 2021 22:19:40 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
-        Qais Yousef <qais.yousef@arm.com>,
+        id S229611AbhFBUcR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 16:32:17 -0400
+Received: from mail-pg1-f174.google.com ([209.85.215.174]:42598 "EHLO
+        mail-pg1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229568AbhFBUcQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jun 2021 16:32:16 -0400
+Received: by mail-pg1-f174.google.com with SMTP id t8so3221882pgb.9
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jun 2021 13:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MD+isL8cNVT/yF1S1l/22CEEX+JBBjfdFhs5HrJbFZ0=;
+        b=MFN/v6HAtmbiBcr/rW9sBIkkjZbiudr1DhMvzrLq1O3AAnYMn02NQr+HwsvapcGEZX
+         CPjt9kjtmYpyWkdPiKYURP5yTbv+wmC1WETW/uTaTgKT5cQEkRthljpjgQeylXoCA2qZ
+         n963YCHB30oxbOj9um4IKM24KUgQ+iStfwknk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MD+isL8cNVT/yF1S1l/22CEEX+JBBjfdFhs5HrJbFZ0=;
+        b=kRm+u8zD4EX0rYsAoQxdkRVXCLwVHQnC9BYYu8Bmw2T59/Irirj2HkVM6cT/GZOGf1
+         deO12W2nyETMKXtGL8lFQ7ZKh8cXp9NLGt8HgcKvN/YS2BmxQ5/j5AUjd5ze7vdkNGlF
+         SjNzFR+A4TCyFqx0Vjiu09ki9zqlenZfefH5QWQi16X+Y1C1vdvQtG0v26MgqrvDCdgG
+         4/Cz4mnMYxFOhVX9bxIN79so0LlzQNTYdhQJ0On6Z8CO9hXE+pN/yIiSLz6h3ux3i0tU
+         IG2+ju888JIuSKpYTbLxiFMhpBPCJ8wnleaGTBHqgUaIfM4I41CMdhFY9N39xqSZnbsg
+         N2hQ==
+X-Gm-Message-State: AOAM530/ARZkd/r9+RhLPYVczMiVlxOfaZNCvN5ryvjS/wP8S8rh5I63
+        hVkUdOscZL7MNqcebAPlFwYPEw==
+X-Google-Smtp-Source: ABdhPJyg1lwfSzxzEISHF+uwm+A+ZRndlFWtVzrGgCDaE4ivIe5hOhAxzRoZmPk9Fxyx/dV5kW2jsg==
+X-Received: by 2002:a65:41c8:: with SMTP id b8mr35391636pgq.196.1622665758956;
+        Wed, 02 Jun 2021 13:29:18 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id c17sm596607pgm.3.2021.06.02.13.29.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jun 2021 13:29:18 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Maxim Krasnyansky <maxk@qti.qualcomm.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/12] docs: accounting: update delay-accounting.rst
- reference
-Message-ID: <20210602221940.7e0a6135@coco.lan>
-In-Reply-To: <871r9k6rmy.fsf@meer.lwn.net>
-References: <cover.1622648507.git.mchehab+huawei@kernel.org>
-        <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
-        <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
-        <20210602200121.64a828a1@coco.lan>
-        <871r9k6rmy.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] docs: networking: Replace strncpy() with strscpy()
+Date:   Wed,  2 Jun 2021 13:29:14 -0700
+Message-Id: <20210602202914.4079123-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Patch-Hashes: v=1; h=sha256; g=08a021de6652594e6002a3fa2779560fbfe4687c; i=OtS/j+af/fe4GVQBQBUoq9mDVJJ7GbT1sWYBCoEQ36k=; m=gAU3qSQ85FC8trlGFWM3KtcCVKh49fUAyHP3MClMFZg=; p=x25iameOGPjYX/6T3Mx1eg/f0np3ZbIi5+Bk5dRwABo=
+X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026; b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmC36hkACgkQiXL039xtwCaRMw/7BAD suzqyeGDnSLe/rc/lhfELAz/dIUzadYBlY6Po3Mjhl2SFXMB3ehLUAL/+Pu48v3H0P5TMM1/TuAXs jEg8JUmwkKSKslqWXRGuSDlhd0f/s0d2Zx8eprgIRQArAtCrMwGBgxpcQtCBSGBZUSqSFhtf/AUid FOgAN+2tyXObxmwoFmpp1osEZYqyQUGQY9mhUiTPiaj5F0Ba1Fsm2ajqPaUC0iPeiP7b7YiBbdPbB sgJy53vMebfmFevoJwAulBV+FHI8z5XhGHflTiGB4MDHQkMplQuyXVoCdt2V+NFYPPr3TasjCalLU 3WelN3uzN140SAKe393Xh/uVF/Ktv1nqLKfT83+t2hC4k8bz8jbY1HcqVDh4CuOaXpfrIoLfR2e0G D1C4QKu7gNcfWxA6RFignhiNcjqRRgKK/0eWYFywFvVJEhY0gKUY1NeWWzAFVMlB3WCDnNI3au7Y+ +78VLNn+Ay0hd0UUK6r7io1kIgXvMBZIV0bZfQ833RLsQNYFAc8KznhD/5mkqb3tqEkFY0Da99JVC QEKz9kbcUB6mt5Rn8roJsUoZSqEmilJcZEKk1CkGYuSeZoQXnFni/zVqWBuXE81BgrEo8yjLxW6TQ ppwwDAxmY4lHuBJ90zGnafPLdRWg78AtSfPZwzDW8+TYO1Cmf24NCXnd2fGNDF+A=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 2 Jun 2021 20:29:23 +0200
-Peter Zijlstra <peterz@infradead.org> escreveu:
+Replace example code's use of strncpy() with strscpy() functions. Using
+strncpy() is considered deprecated:
+https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings
 
-> > Peter Zijlstra <peterz@infradead.org> escreveu:
-> >   
-> > > On Wed, Jun 02, 2021 at 05:43:13PM +0200, Mauro Carvalho Chehab wrote:  
-> 
-> > > >  Enables/disables task delay accounting (see
-> > > > -:doc:`accounting/delay-accounting.rst`). Enabling this feature incurs
-> > > > +:doc:`/accounting/delay-accounting`). Enabling this feature incurs    
-> > > 
-> > > This breaks any chance of using 'goto file' like features in text
-> > > editors :/   
-> > 
-> > This is a feature of your favorite text editor. Not all have it.  
-> 
-> Afaict both vim (gf) and emacs (M-x ffap) can do this. That covers about
-> 99% of all sane editors no? :-)
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/input/joydev/joystick-api.rst | 2 +-
+ Documentation/networking/packet_mmap.rst    | 2 +-
+ Documentation/networking/tuntap.rst         | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Heh, not quite ;-) Here, I use nano(/pico), from the old times where 
-(al)pine was my emailer. I can live with vim, but I prefer an editor
-that starts in editing mode.
+diff --git a/Documentation/input/joydev/joystick-api.rst b/Documentation/input/joydev/joystick-api.rst
+index af5934c10c1c..5db6dc6fe1c5 100644
+--- a/Documentation/input/joydev/joystick-api.rst
++++ b/Documentation/input/joydev/joystick-api.rst
+@@ -263,7 +263,7 @@ possible overrun should the name be too long::
+ 
+ 	char name[128];
+ 	if (ioctl(fd, JSIOCGNAME(sizeof(name)), name) < 0)
+-		strncpy(name, "Unknown", sizeof(name));
++		strscpy(name, "Unknown", sizeof(name));
+ 	printf("Name: %s\n", name);
+ 
+ 
+diff --git a/Documentation/networking/packet_mmap.rst b/Documentation/networking/packet_mmap.rst
+index 500ef60b1b82..c5da1a5d93de 100644
+--- a/Documentation/networking/packet_mmap.rst
++++ b/Documentation/networking/packet_mmap.rst
+@@ -153,7 +153,7 @@ As capture, each frame contains two parts::
+     struct ifreq s_ifr;
+     ...
+ 
+-    strncpy (s_ifr.ifr_name, "eth0", sizeof(s_ifr.ifr_name));
++    strscpy_pad (s_ifr.ifr_name, "eth0", sizeof(s_ifr.ifr_name));
+ 
+     /* get interface index of eth0 */
+     ioctl(this->socket, SIOCGIFINDEX, &s_ifr);
+diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
+index a59d1dd6fdcc..4d7087f727be 100644
+--- a/Documentation/networking/tuntap.rst
++++ b/Documentation/networking/tuntap.rst
+@@ -107,7 +107,7 @@ Note that the character pointer becomes overwritten with the real device name
+        */
+       ifr.ifr_flags = IFF_TUN;
+       if( *dev )
+-	 strncpy(ifr.ifr_name, dev, IFNAMSIZ);
++	 strscpy_pad(ifr.ifr_name, dev, IFNAMSIZ);
+ 
+       if( (err = ioctl(fd, TUNSETIFF, (void *) &ifr)) < 0 ){
+ 	 close(fd);
+-- 
+2.25.1
 
-I tried to use emacs a few times, but my fingers are too much into
-pico/nano control keys, so it was ending by making me typing a lot
-slower. Besides that, nano works well on 99% of my daily needs. 
-
-When I need more fancy, like regex substitutions, changing/moving
-big code blocks, editing multiple files at the same time, etc, 
-then I just use a GUI editor (currently kate, but seeking for
-a good replacement, as some changes during F33 times - still 
-present on F34 - caused some regressions).
-
-Em Wed, 02 Jun 2021 12:36:05 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> > That's said, automarkup.py has a rule to convert Documentation/<foo>.rst
-> > into :doc:`<foo>`. So, an alternative approach would be to convert
-> > treewide all :doc:`<foo>` into Documentation/<foo>.rst and add something 
-> > at checkpatch.pl to recommend to avoid :doc: notation.  
-> 
-> That seems like the right approach to me.  We have the automarkup
-> capability, we might as well make use of it...
-
-Ok, I'll prepare a separate patch series addressing it. 
-
--
-
-Jon,
-
-With regards to the :doc: -> Documentation/ conversion, I guess I'll
-do it on an independent patch series against your docs-next tree.
-
-Then, I'll send a separate patch series after 5.14-rc1 in order to
-address the stuff under linux-next.
-
-Thanks,
-Mauro
