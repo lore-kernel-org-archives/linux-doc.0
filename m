@@ -4,112 +4,198 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E3EC47096
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BABC8C47096
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:14:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C517613E9
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:02:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9529F613BF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbhFCNDv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 09:03:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52798 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbhFCNDu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 09:03:50 -0400
-Received: from theia.8bytes.org (8bytes.org [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 488C0C06174A;
-        Thu,  3 Jun 2021 06:02:06 -0700 (PDT)
-Received: from cap.home.8bytes.org (p4ff2ba7c.dip0.t-ipconnect.de [79.242.186.124])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by theia.8bytes.org (Postfix) with ESMTPSA id C711F15C;
-        Thu,  3 Jun 2021 15:02:04 +0200 (CEST)
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
-Cc:     iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Joerg Roedel <jroedel@suse.de>,
-        Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] iommu/amd: Add amd_iommu=force_enable option
-Date:   Thu,  3 Jun 2021 15:02:03 +0200
-Message-Id: <20210603130203.29016-1-joro@8bytes.org>
+        id S230351AbhFCNQZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 09:16:25 -0400
+Received: from mail-ed1-f52.google.com ([209.85.208.52]:41785 "EHLO
+        mail-ed1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230252AbhFCNQZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 09:16:25 -0400
+Received: by mail-ed1-f52.google.com with SMTP id g18so5061336edq.8;
+        Thu, 03 Jun 2021 06:14:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=scT1hIUpHPncOBtJqn4yX/G5/X9IBl2kc3/uzv7YyLg=;
+        b=KRxF0u1stU7XueshckPqrbGBuuYuw2sqaROMtfeNjBw/3mZhmfOxAMh3ilW1TjbWaC
+         H+VYrqrS/fMazOd+TTQw8gAwuWTeF71vMvLTo5KhG/0NF/cxDEyGBrWyWLjHyVRDOM6v
+         oQ5ZEO6tomLbk7ObSdq8GZRtECj9HvpY8cjt/6OHPsPdbadEEdR4ZWkRsCLkkPlLnPbD
+         5nm+k3fyeuDCxVgHoqrvfXX7KhwX1ZsTc57z87cvLP+ftQXR1dh0OnCjJd6coTfOe9cN
+         E8mumFnm72T84k8gNj6FSoicWIY+2PYmB9YYACogDDYExypTWAn6g80W5kfClOiX7gdr
+         q/8A==
+X-Gm-Message-State: AOAM533epdUcjZ+S5eNLvvUv4j2DS9aMfxPeUy3bgBT/CU5mnjg9VA/c
+        s2/966fsDREnz92TDwAw+cm9AJm+C22AA6tS
+X-Google-Smtp-Source: ABdhPJyhGRPBYdqGdDLrF/kC2HF0ciolZyCvKTwWlxWQjtebBsJXoEuowAlSjxnvXw9QEjTmIgvusg==
+X-Received: by 2002:a05:6402:3c1:: with SMTP id t1mr28652498edw.270.1622726079523;
+        Thu, 03 Jun 2021 06:14:39 -0700 (PDT)
+Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
+        by smtp.gmail.com with ESMTPSA id z20sm1498821ejd.18.2021.06.03.06.14.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jun 2021 06:14:39 -0700 (PDT)
+From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
+Subject: [PATCH] hwmon: (max31790) Add support for fanX_div
+Date:   Thu,  3 Jun 2021 15:14:21 +0200
+Message-Id: <20210603131421.67235-1-kubernat@cesnet.cz>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Joerg Roedel <jroedel@suse.de>
+Right now, the divisor (which determines the speed range) can be only
+set by setting fanX_min or fanX_target. This is fine for RPM mode, but
+in other cases, it might not be enough. This patch makes it possible to
+set the divisor independently.
 
-Add this option to enable the IOMMU on platforms like AMD Stoney,
-where the kernel usually disables it because it may cause problems in
-some scenarios.
-
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- drivers/iommu/amd/init.c                        | 9 ++++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ Documentation/hwmon/max31790.rst |  4 ++
+ drivers/hwmon/max31790.c         | 68 ++++++++++++++++++++++++++------
+ 2 files changed, 60 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cb89dbdedc46..f6bf4e87df80 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -301,6 +301,9 @@
- 					  allowed anymore to lift isolation
- 					  requirements as needed. This option
- 					  does not override iommu=pt
-+			force_enable - Force enable the IOMMU on platforms known
-+				       to be buggy with IOMMU enabled. Use this
-+				       option with care.
+diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
+index 9225c2a78b68..818e4fe8c797 100644
+--- a/Documentation/hwmon/max31790.rst
++++ b/Documentation/hwmon/max31790.rst
+@@ -50,6 +50,10 @@ fan[1-12]_min      RW  minimum fan speed in RPM. Equivalent to target fan speed
+                        and the chip will report a fault condition if the fan
+                        speed is below the target fan speed.
+ fan[1-6]_target    RW  desired fan speed in RPM
++fan[1-12]_div      RW  fan speed range
++		       The value is RO for companion channels (7-12). For those
++		       channels, the value matches the value of the primary channel.
++		       Setting fanX_target or fanX_min also sets this value.
+ pwm[1-6]_enable    RW  regulator mode, 0=disabled (duty cycle=0%), 1=manual mode, 2=rpm mode
+ pwm[1-6]           RW  read: current pwm duty cycle,
+                        write: target pwm duty cycle (0-255)
+diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+index 39a4ece4276a..f6c38094c19c 100644
+--- a/drivers/hwmon/max31790.c
++++ b/drivers/hwmon/max31790.c
+@@ -160,6 +160,26 @@ static u8 bits_for_tach_period(int rpm)
+ 	return bits;
+ }
  
- 	amd_iommu_dump=	[HW,X86-64]
- 			Enable AMD IOMMU driver option to dump the ACPI table
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index d006724f4dc2..23614337abef 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -153,7 +153,8 @@ int amd_iommu_guest_ir = AMD_IOMMU_GUEST_IR_VAPIC;
- static int amd_iommu_xt_mode = IRQ_REMAP_XAPIC_MODE;
- 
- static bool amd_iommu_detected;
--static bool __initdata amd_iommu_disabled;
-+static bool amd_iommu_disabled __initdata;
-+static bool amd_iommu_force_enable __initdata;
- static int amd_iommu_target_ivhd_type;
- 
- u16 amd_iommu_last_bdf;			/* largest PCI device id we have
-@@ -2834,6 +2835,9 @@ static bool detect_ivrs(void)
- 
- 	acpi_put_table(ivrs_base);
- 
-+	if (amd_iommu_force_enable)
-+		goto out;
++static int bits_for_speed_range(long speed_range)
++{
++	switch (speed_range) {
++	case 1:
++		return 0x0;
++	case 2:
++		return 0x1;
++	case 4:
++		return 0x2;
++	case 8:
++		return 0x3;
++	case 16:
++		return 0x4;
++	case 32:
++		return 0x5;
++	default:
++		return -1;
++	}
++}
 +
- 	/* Don't use IOMMU if there is Stoney Ridge graphics */
- 	for (i = 0; i < 32; i++) {
- 		u32 pci_id;
-@@ -2845,6 +2849,7 @@ static bool detect_ivrs(void)
- 		}
- 	}
- 
-+out:
- 	/* Make sure ACS will be enabled during PCI probe */
- 	pci_request_acs();
- 
-@@ -3100,6 +3105,8 @@ static int __init parse_amd_iommu_options(char *str)
- 	for (; *str; ++str) {
- 		if (strncmp(str, "fullflush", 9) == 0)
- 			amd_iommu_unmap_flush = true;
-+		if (strncmp(str, "force_enable", 12) == 0)
-+			amd_iommu_force_enable = true;
- 		if (strncmp(str, "off", 3) == 0)
- 			amd_iommu_disabled = true;
- 		if (strncmp(str, "force_isolation", 15) == 0)
+ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+ 			     long *val)
+ {
+@@ -173,6 +193,9 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+ 	case hwmon_fan_enable:
+ 		*val = !!(data->fan_config[channel % NR_CHANNEL] & MAX31790_FAN_CFG_TACH_INPUT_EN);
+ 		return 0;
++	case hwmon_fan_div:
++		*val = get_tach_period(data->fan_dynamics[channel % NR_CHANNEL]);
++		return 0;
+ 	case hwmon_fan_input:
+ 		sr = get_tach_period(data->fan_dynamics[channel % NR_CHANNEL]);
+ 		if (data->tach[channel] == FAN_COUNT_REG_MAX)
+@@ -293,6 +316,20 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+ 					MAX31790_REG_TARGET_COUNT(channel),
+ 					data->target_count[channel]);
+ 		break;
++	case hwmon_fan_div:
++		sr = bits_for_speed_range(val);
++		if (sr < 0) {
++			err = -EINVAL;
++			break;
++		}
++
++		data->fan_dynamics[channel] = ((data->fan_dynamics[channel] &
++						~MAX31790_FAN_DYN_SR_MASK) |
++					       (sr << MAX31790_FAN_DYN_SR_SHIFT));
++		err = i2c_smbus_write_byte_data(client,
++						MAX31790_REG_FAN_DYNAMICS(channel),
++						data->fan_dynamics[channel]);
++		break;
+ 	default:
+ 		err = -EOPNOTSUPP;
+ 		break;
+@@ -311,6 +348,7 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
+ 	switch (attr) {
+ 	case hwmon_fan_min:
+ 	case hwmon_fan_enable:
++	case hwmon_fan_div:
+ 		if (channel < NR_CHANNEL)
+ 			return 0644;
+ 		if (fan_config & MAX31790_FAN_CFG_TACH_INPUT)
+@@ -481,23 +519,29 @@ static umode_t max31790_is_visible(const void *data,
+ static const struct hwmon_channel_info *max31790_info[] = {
+ 	HWMON_CHANNEL_INFO(fan,
+ 			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_TARGET |
+-				HWMON_F_FAULT,
++				HWMON_F_FAULT | HWMON_F_DIV,
+ 			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_TARGET |
+-				HWMON_F_FAULT,
++				HWMON_F_FAULT | HWMON_F_DIV,
+ 			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_TARGET |
+-				HWMON_F_FAULT,
++				HWMON_F_FAULT | HWMON_F_DIV,
+ 			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_TARGET |
+-				HWMON_F_FAULT,
++				HWMON_F_FAULT | HWMON_F_DIV,
+ 			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_TARGET |
+-				HWMON_F_FAULT,
++				HWMON_F_FAULT | HWMON_F_DIV,
+ 			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_TARGET |
+-				HWMON_F_FAULT,
+-			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT,
+-			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT,
+-			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT,
+-			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT,
+-			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT,
+-			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT),
++				HWMON_F_FAULT | HWMON_F_DIV,
++			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT |
++				HWMON_F_DIV,
++			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT |
++				HWMON_F_DIV,
++			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT |
++				 HWMON_F_DIV,
++			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT |
++				 HWMON_F_DIV,
++			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT |
++				   HWMON_F_DIV,
++			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_FAULT |
++				   HWMON_F_DIV),
+ 	HWMON_CHANNEL_INFO(pwm,
+ 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+ 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
 -- 
 2.31.1
 
