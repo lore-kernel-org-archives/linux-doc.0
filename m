@@ -2,440 +2,574 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2301C47083
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 01:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 966EEC47082
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 03:47:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94E16613DA
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 01:57:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 75611613E7
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 03:47:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbhFCB7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Jun 2021 21:59:15 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:44096 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229567AbhFCB7P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jun 2021 21:59:15 -0400
-Received: from localhost.localdomain (unknown [223.106.58.132])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL+MDN7hgJT8JAA--.10343S2;
-        Thu, 03 Jun 2021 09:57:24 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        siyanteng01@gmail.com, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v2] docs/zh_CN: add core api cachetlb translation
-Date:   Thu,  3 Jun 2021 09:58:02 +0800
-Message-Id: <20210603015802.2609230-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
+        id S229744AbhFCDsq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Jun 2021 23:48:46 -0400
+Received: from mail-pg1-f176.google.com ([209.85.215.176]:35527 "EHLO
+        mail-pg1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229812AbhFCDsq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jun 2021 23:48:46 -0400
+Received: by mail-pg1-f176.google.com with SMTP id o9so1254896pgd.2
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jun 2021 20:46:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=yedFmQn0Zkbjxy4mO7XqdjrZypdfe0X9HbdCFI6/LlA=;
+        b=a09qPfio5AnYq6e+92mOdHkTDCDGkNwaS4WcGWKWuoXMDbbaxOZdD+nUvPDgjO2RcD
+         LRhug7UgQTsxB1QMGy83IsoCUbKKsIt+xuZMfFndEy8dOKPvm6HlYf7NHlym3biG5FNG
+         6vBvCwHJfdb4hKrHTu95E/UKibrvM9xKo/IqoKKCq1J65j/ZE/dZkU3XWB6S2K/amC6a
+         hWfX5mLym/kr18ZpwgLIuDz4NxxxAdcii3piZi7MT+Etgsmy9IGiWbHQ0jGNLycW6PcA
+         r5jXGbJOS2VpqhIPwBhN6bURL+wmm68WH3ykuFFgkjkrhLbCY4g1eykXViCNHJC6UIiP
+         2XJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=yedFmQn0Zkbjxy4mO7XqdjrZypdfe0X9HbdCFI6/LlA=;
+        b=HMu6WPUSt2hRYMLskawkDf9vqDVV0TFEzQ2KS+f14BmB7PqTpTE3jjyBNNMQbCwp4S
+         ZuHkteVsaNZ021k1byGaj1Zf0w6+SxtSC/Sg0VVUIT1Oju+CFhy0Gn05PwwmiTXuEpN+
+         5UKdDE1eRcUyx4nusXR43p1xSWKbz0uGzK+pIo0yfa7dx3/YkHkMkvelarBqNEauT2Uq
+         Zi8S37KQlkJhLRDR9StYwqFFvgYFXxoUSs5xPuyAcCM/KQzSqUVR/yoitAin9/4TaCnS
+         mQrkovZQNfQSVCISA+y8Yb9dP6hz8WWORdeWUQy12AWFJvkFjYaXAwBGC89cXJJ5FCk5
+         ZUvA==
+X-Gm-Message-State: AOAM5331BoLiyk30yNMdQoQriFeaw/c8YuGI7oCzxTD+s3YKg9I7Ky7x
+        32Alp/jS/xl8Lh2rYMjB2dXlfg==
+X-Google-Smtp-Source: ABdhPJxKZP6N6JalunllvVftOhsCNR1kcXHzBSzhPiUjmPNxvl5h8Y5TTbTjqAl3j+B38RoZvvUfNA==
+X-Received: by 2002:a05:6a00:856:b029:2dc:bd34:9f7e with SMTP id q22-20020a056a000856b02902dcbd349f7emr31006608pfk.0.1622691949964;
+        Wed, 02 Jun 2021 20:45:49 -0700 (PDT)
+Received: from google.com ([2620:15c:2ce:200:bd0a:b249:2e20:50bb])
+        by smtp.gmail.com with ESMTPSA id 65sm834700pfu.159.2021.06.02.20.45.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jun 2021 20:45:49 -0700 (PDT)
+Date:   Wed, 2 Jun 2021 20:45:45 -0700
+From:   Fangrui Song <maskray@google.com>
+To:     Wan Jiabing <wanjiabing@vivo.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Bernard Zhao <bernard@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        clang-built-linux@googlegroups.com
+Subject: Re: [PATCH] [v2] docs/zh_CN: add translations in
+ zh_CN/dev-tools/kasan
+Message-ID: <20210603034545.oe675lrtvtsvbedb@google.com>
+References: <1622638607-12314-1-git-send-email-wanjiabing@vivo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxL+MDN7hgJT8JAA--.10343S2
-X-Coremail-Antispam: 1UD129KBjvAXoWfXryUJr1xWFWxtr13JFy5Jwb_yoW8uF4UWo
-        WYyws09w4v9r43Ka4jgayUJa48urn0yrnrZws3Kr4qva4DKr1fA3Z5J3y3JFW29ry5KFsa
-        y3W8JayYka1fGF9xn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUYx7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
-        x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
-        Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
-        0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
-        McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7
-        v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF
-        7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
-        0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
-        tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
-        CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv
-        67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf
-        9x0JUdHUDUUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+In-Reply-To: <1622638607-12314-1-git-send-email-wanjiabing@vivo.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/cachetlb.rst into Chinese.
+Thanks! With a few suggestions,
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
-v2:
+Reviewed-by: Fangrui Song <maskray@google.com>
 
-* add 校译者(proofreading) sign.
-    If you don't want me to do this, please let me know.
+On 2021-06-02, Wan Jiabing wrote:
+>Add new zh translations
+>* zh_CN/dev-tools/kasan.rst
+>and link it to zh_CN/dev-tools/index.rst
+>
+>Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+>---
+>Changelog:
+>v2:
+>- Delete spaces surround with English words.
+>---
+> .../translations/zh_CN/dev-tools/index.rst         |   2 +-
+> .../translations/zh_CN/dev-tools/kasan.rst         | 431 +++++++++++++++++++++
+> 2 files changed, 432 insertions(+), 1 deletion(-)
+> create mode 100644 Documentation/translations/zh_CN/dev-tools/kasan.rst
+>
+>diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+>index fd73c47..e6c99f2 100644
+>--- a/Documentation/translations/zh_CN/dev-tools/index.rst
+>+++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+>@@ -19,13 +19,13 @@
+>    :maxdepth: 2
+>
+>    gcov
+>+   kasan
+>
+> Todolist:
+>
+>  - coccinelle
+>  - sparse
+>  - kcov
+>- - kasan
+>  - ubsan
+>  - kmemleak
+>  - kcsan
+>diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+>new file mode 100644
+>index 0000000..00add1d
+>--- /dev/null
+>+++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+>@@ -0,0 +1,431 @@
+>+.. SPDX-License-Identifier: GPL-2.0
+>+
+>+.. include:: ../disclaimer-zh_CN.rst
+>+
+>+:Original: Documentation/dev-tools/kasan.rst
+>+:Translator: 万家兵 Wan Jiabing <wanjiabing@vivo.com>
+>+
+>+内核地址消毒剂(KASAN)
+>+======================
+>+
+>+概述
+>+----
+>+
+>+KernelAddressSANitizer(KASAN)是一种动态内存安全错误检测工具，
+>+主要功能是检查内存越界访问和使用已释放内存的问题。KASAN有三种模式:
+>+
+>+1. 通用KASAN（与用户空间的ASan类似）
+>+2. 基于软件标签的KASAN（与用户空间的HWASan类似）
+>+3. 基于硬件标签的KASAN（基于硬件内存标签）
+>+
+>+由于通用KASAN的内存开销较大，通用KASAN主要用于调试。
+>+基于软件标签的KASAN可用于dogfood测试，因为它具有较低的内存开销，
+>+并允许将其用于实际工作量。
+>+基于硬件标签的KASAN具有较低的内存和性能开销，因此可用于生产。
+>+同时可用于检测现场内存问题或作为安全缓解措施。
+>+
+>+软件KASAN模式（#1和#2）使用编译时工具在每次内存访问之前插入有效性检查，
+>+因此需要一个支持它的编译器版本。
+>+
+>+通用KASAN在GCC和Clang受支持。GCC需要8.3.0或更高版本。任何受支持的
+>+Clang版本都是兼容的，但从Clang 11才开始支持检测全局变量的越界访问。
+>+
+>+基于软件标签的KASAN模式仅在Clang中受支持。
+>+
+>+硬件KASAN模式（#3）依赖硬件来执行检查，但仍需要支持内存标签指令的
+>+编译器版本。GCC 10+和Clang 11+支持此模式。
+>+
+>+两种软件KASAN模式都适用于SLUB和SLAB内存分配器，
+>+而基于硬件标签的KASAN目前仅支持SLUB。
+>+
+>+目前x86_64、arm、arm64、xtensa、s390、riscv架构支持通用KASAN模式，
+>+仅arm64架构支持基于标签的KASAN模式。
+>+
+>+用法
+>+----
+>+
+>+要启用KASAN，请使用以下命令配置内核::
+>+
+>+	  CONFIG_KASAN=y
+>+
+>+同时在 ``CONFIG_KASAN_GENERIC`` (启用通用KASAN模式)，
+>+``CONFIG_KASAN_SW_TAGS`` (启用基于硬件标签的KASAN模式)，
+>+和 ``CONFIG_KASAN_HW_TAGS`` (启用基于硬件标签的KASAN模式)之间进行选择。
+>+
+>+对于软件模式，还可以在 ``CONFIG_KASAN_OUTLINE`` 和
+>+``CONFIG_KASAN_INLINE`` 之间进行选择。outline和inline是编译器检测类型。
+>+前者产生较小的二进制文件，而后者快1.1-2倍。
 
-* Modified some words under Xiangcheng's and Alex's advices.
+检测 -> 插桩
 
- .../translations/zh_CN/core-api/cachetlb.rst  | 337 ++++++++++++++++++
- .../translations/zh_CN/core-api/index.rst     |   7 +-
- 2 files changed, 343 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/cachetlb.rst
+>+要将受影响的slab对象的alloc和free堆栈跟踪包含到报告中，
+>+请启用``CONFIG_STACKTRACE`` 。要包括受影响物理页面的分配和释放堆栈跟踪的话，
+>+请启用 ``CONFIG_PAGE_OWNER`` 并使用 ``page_owner=on`` 进行引导。
+>+
+>+错误报告
+>+~~~~~~~~
+>+
+>+典型的KASAN报告如下所示::
+>+
+>+    ==================================================================
+>+    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_kasan]
+>+    Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
+>+
+>+    CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
+>+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
+>+    Call Trace:
+>+     dump_stack+0x94/0xd8
+>+     print_address_description+0x73/0x280
+>+     kasan_report+0x144/0x187
+>+     __asan_report_store1_noabort+0x17/0x20
+>+     kmalloc_oob_right+0xa8/0xbc [test_kasan]
+>+     kmalloc_tests_init+0x16/0x700 [test_kasan]
+>+     do_one_initcall+0xa5/0x3ae
+>+     do_init_module+0x1b6/0x547
+>+     load_module+0x75df/0x8070
+>+     __do_sys_init_module+0x1c6/0x200
+>+     __x64_sys_init_module+0x6e/0xb0
+>+     do_syscall_64+0x9f/0x2c0
+>+     entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>+    RIP: 0033:0x7f96443109da
+>+    RSP: 002b:00007ffcf0b51b08 EFLAGS: 00000202 ORIG_RAX: 00000000000000af
+>+    RAX: ffffffffffffffda RBX: 000055dc3ee521a0 RCX: 00007f96443109da
+>+    RDX: 00007f96445cff88 RSI: 0000000000057a50 RDI: 00007f9644992000
+>+    RBP: 000055dc3ee510b0 R08: 0000000000000003 R09: 0000000000000000
+>+    R10: 00007f964430cd0a R11: 0000000000000202 R12: 00007f96445cff88
+>+    R13: 000055dc3ee51090 R14: 0000000000000000 R15: 0000000000000000
+>+
+>+    Allocated by task 2760:
+>+     save_stack+0x43/0xd0
+>+     kasan_kmalloc+0xa7/0xd0
+>+     kmem_cache_alloc_trace+0xe1/0x1b0
+>+     kmalloc_oob_right+0x56/0xbc [test_kasan]
+>+     kmalloc_tests_init+0x16/0x700 [test_kasan]
+>+     do_one_initcall+0xa5/0x3ae
+>+     do_init_module+0x1b6/0x547
+>+     load_module+0x75df/0x8070
+>+     __do_sys_init_module+0x1c6/0x200
+>+     __x64_sys_init_module+0x6e/0xb0
+>+     do_syscall_64+0x9f/0x2c0
+>+     entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>+
+>+    Freed by task 815:
+>+     save_stack+0x43/0xd0
+>+     __kasan_slab_free+0x135/0x190
+>+     kasan_slab_free+0xe/0x10
+>+     kfree+0x93/0x1a0
+>+     umh_complete+0x6a/0xa0
+>+     call_usermodehelper_exec_async+0x4c3/0x640
+>+     ret_from_fork+0x35/0x40
+>+
+>+    The buggy address belongs to the object at ffff8801f44ec300
+>+     which belongs to the cache kmalloc-128 of size 128
+>+    The buggy address is located 123 bytes inside of
+>+     128-byte region [ffff8801f44ec300, ffff8801f44ec380)
+>+    The buggy address belongs to the page:
+>+    page:ffffea0007d13b00 count:1 mapcount:0 mapping:ffff8801f7001640 index:0x0
+>+    flags: 0x200000000000100(slab)
+>+    raw: 0200000000000100 ffffea0007d11dc0 0000001a0000001a ffff8801f7001640
+>+    raw: 0000000000000000 0000000080150015 00000001ffffffff 0000000000000000
+>+    page dumped because: kasan: bad access detected
+>+
+>+    Memory state around the buggy address:
+>+     ffff8801f44ec200: fc fc fc fc fc fc fc fc fb fb fb fb fb fb fb fb
+>+     ffff8801f44ec280: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>+    >ffff8801f44ec300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03
+>+                                                                    ^
+>+     ffff8801f44ec380: fc fc fc fc fc fc fc fc fb fb fb fb fb fb fb fb
+>+     ffff8801f44ec400: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>+    ==================================================================
+>+
+>+报告标题总结了发生的错误类型以及导致该错误的访问类型。
+>+紧随其后的是错误访问的堆栈跟踪、所访问内存分配位置的堆栈跟踪
+>+（对于访问了slab对象的情况）以及对象被释放的位置的堆栈跟踪
+>+（对于访问已释放内存的问题报告）。接下来是对访问的slab对象
+>+的描述以及关于访问的内存页的信息。
+>+
+>+最后，报告展示了访问地址周围的内存状态。在内部，
+>+KASAN单独跟踪每个内存颗粒的内存状态，根据KASAN模式分为8或16个对齐字节。
+>+报告的内存状态部分中的每个数字都显示了围绕访问地址的其中一个内存颗粒的状态。
+>+
+>+对于通用KASAN，每个内存颗粒的大小为8个字节。每个颗粒的状态被编码在一个影子字节中。
+>+这8个字节可以是可访问的，部分访问的，已释放的或成为Redzone的一部分。
+>+KASAN对每个影子字节使用以下编码:00表示对应内存区域的所有8个字节都可以访问；
+>+数字N (1 <= N <= 7)表示前N个字节可访问，其他(8 - N)个字节不可访问；
+>+任何负值都表示无法访问整个8字节。KASAN使用不同的负值来区分不同类型的不可访问内存，
+>+如redzones或已释放的内存（参见 mm/kasan/kasan.h）。
+>+
+>+在上面的报告中，箭头指向影子字节 ``03``，表示访问的地址是部分可访问的。
+>+
+>+对于基于标签的KASAN模式，报告最后的部分显示了访问地址周围的内存标签
+>+(参考 `实施细则`_ 章节)。
+>+
+>+请注意，KASAN错误标题（如 ``slab-out-of-bounds`` 或 ``use-after-free`` ）
+>+是尽量接近的:KASAN根据其拥有的有限信息打印出最可能的错误类型。
+>+错误的实际类型可能会有所不同。
+>+
+>+通用KASAN还报告两个辅助调用堆栈跟踪。这些堆栈跟踪指向代码
+>+中与对象交互但不直接出现在错误访问堆栈跟踪中的位置。
+>+目前，这包括 call_rcu() 和排队的工作队列。
+>+
+>+启动参数
+>+~~~~~~~~
+>+
+>+KASAN受通用 ``panic_on_warn`` 命令行参数的影响。
+>+启用该功能后，KASAN在打印错误报告后会引起内核恐慌。
+>+
+>+默认情况下，KASAN只为第一次无效内存访问打印错误报告。使用 ``kasan_multi_shot`` ，
+>+KASAN会针对每个无效访问打印报告。这有效地禁用了KASAN报告的 ``panic_on_warn`` 。
+>+
+>+基于硬件标签的KASAN模式（请参阅下面有关各种模式的部分）旨在在生产中用作安全缓解措施。
+>+因此，它支持允许禁用KASAN或控制其功能的引导参数。
+>+
+>+- ``kasan=off`` 或 ``=on`` 控制KASAN是否启用 (默认: ``on`` )。
+>+
+>+- ``kasan.mode=sync`` 或 ``=async`` 控制KASAN是否配置为同步
+>+  或异步执行模式(默认: ``sync`` )。
+>+  同步模式：当标签检查错误发生时，立即检测到错误访问。
+>+  异步模式：延迟错误访问检测。当标签检查错误发生时，信息存储在硬件中
+>+  （在arm64的TFSR_EL1寄存器中）。内核会定期检查硬件，并且仅在这些检查期间报告标签错误。
+>+
+>+- ``kasan.stacktrace=off`` 或 ``=on`` 禁用或启用alloc和free堆栈跟踪收集(默认: ``on`` )。
+>+
+>+- ``kasan.fault=report`` 或 ``=panic`` 控制是只打印KASAN报告还是同时使内核恐慌
+>+  (默认: ``report`` )。即使启用了 ``kasan_multi_shot``，也会发生内核恐慌。
+>+
+>+实施细则
+>+---------
+>+
+>+通用KASAN
+>+~~~~~~~~~~
+>+
+>+软件KASAN模式使用影子内存来记录每个内存字节是否可以安全访问，
+>+并使用编译时工具在每次内存访问之前插入影子内存检查。
+>+
+>+通用KASAN将1/8的内核内存专用于其影子内存（16TB以覆盖x86_64上的 128TB），
+>+并使用具有比例和偏移量的直接映射将内存地址转换为其相应的影子地址。
+>+
+>+这是将地址转换为其相应影子地址的函数::
+>+
+>+    static inline void *kasan_mem_to_shadow(const void *addr)
+>+    {
+>+	return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
+>+		+ KASAN_SHADOW_OFFSET;
+>+    }
+>+
+>+在这里 ``KASAN_SHADOW_SCALE_SHIFT = 3``。
+>+
+>+编译时工具用于插入内存访问检查。编译器在每次访问大小为
+>+1、2、4、8或16的内存之前插入函数调用
+>+(``__asan_load*(addr)``, ``__asan_store*(addr)``)。
+>+这些函数通过检查相应的影子内存来检查内存访问是否有效。
+>+
+>+使用inline检测，编译器不进行函数调用，而是直接插入代码
+>+来检查影子内存。此选项显著地增大了内核体积，
+>+但与outline检测内核相比，它提供了x1.1-x2的性能提升。
 
-diff --git a/Documentation/translations/zh_CN/core-api/cachetlb.rst b/Documentation/translations/zh_CN/core-api/cachetlb.rst
-new file mode 100644
-index 000000000000..d37653e029d8
---- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/cachetlb.rst
-@@ -0,0 +1,337 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/cachetlb.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+ 时奎亮 Alex Shi <alexs@kernel.org>
-+ 吴想成 Wu XiangCheng <bobwxc@email.cn>
-+
-+.. _cn_core-api_cachetlb:
-+
-+======================
-+Linux下的缓存和TLB刷新
-+======================
-+
-+:作者: David S. Miller <davem@redhat.com>
-+
-+*译注：TLB，Translation Lookaside Buffer，页表缓存/变换旁查缓冲器*
-+
-+本文描述了由Linux虚拟内存子系统调用的缓存/TLB刷新接口。它列举了每个接
-+口，描述了它的预期目的，以及接口被调用后的预期副作用。
-+
-+下面描述的副作用是针对单处理器的实现，以及在单个处理器上发生的情况。若
-+为SMP，则只需将定义简单地扩展一下，使发生在某个特定接口的副作用扩展到系
-+统的所有处理器上。不要被这句话吓到，以为SMP的缓存/tlb刷新一定是很低
-+效的，事实上，这是一个可以进行很多优化的领域。例如，如果可以证明一个用
-+户地址空间从未在某个cpu上执行过（见mm_cpumask()），那么就不需要在该
-+cpu上对这个地址空间进行刷新。
-+
-+首先是TLB刷新接口，因为它们是最简单的。在Linux下，TLB被抽象为cpu
-+用来缓存从软件页表获得的虚拟->物理地址转换的东西。这意味着，如果软件页
-+表发生变化，这个“TLB”缓存中就有可能出现过时（脏）的翻译。因此，当软件页表
-+发生变化时，内核会在页表发生 *变化后* 调用以下一种刷新方法：
-+
-+1) ``void flush_tlb_all(void)``
-+
-+	最严格的刷新。在这个接口运行后，任何以前的页表修改都会对cpu可见。
-+
-+	这通常是在内核页表被改变时调用的，因为这种转换在本质上是“全局”的。
-+
-+2) ``void flush_tlb_mm(struct mm_struct *mm)``
-+
-+	这个接口从TLB中刷新整个用户地址空间。在运行后，这个接口必须确保
-+	以前对地址空间‘mm’的任何页表修改对cpu来说是可见的。也就是说，在
-+	运行后，TLB中不会有‘mm’的页表项。
-+
-+	这个接口被用来处理整个地址空间的页表操作，比如在fork和exec过程
-+	中发生的事情。
-+
-+3) ``void flush_tlb_range(struct vm_area_struct *vma,
-+   unsigned long start, unsigned long end)``
-+
-+	这里我们要从TLB中刷新一个特定范围的（用户）虚拟地址转换。在运行后，
-+	这个接口必须确保以前对‘start’到‘end-1’范围内的地址空间‘vma->vm_mm’
-+	的任何页表修改对cpu来说是可见的。也就是说，在运行后，TLB中不会有
-+	‘mm’的页表项用于‘start’到‘end-1’范围内的虚拟地址。
-+
-+	“vma”是用于该区域的备份存储。主要是用于munmap()类型的操作。
-+
-+	提供这个接口是希望端口能够找到一个合适的有效方法来从TLB中删除多
-+	个页面大小的转换，而不是让内核为每个可能被修改的页表项调用
-+	flush_tlb_page(见下文)。
-+
-+4) ``void flush_tlb_page(struct vm_area_struct *vma, unsigned long addr)``
-+
-+	这一次我们需要从TLB中删除PAGE_SIZE大小的转换。‘vma’是Linux用来跟
-+	踪进程的mmap区域的支持结构体，地址空间可以通过vma->vm_mm获得。另
-+	外，可以通过测试（vma->vm_flags & VM_EXEC）来查看这个区域是否是
-+	可执行的（因此在split-tlb类型的设置中可能在“指令TLB”中）。
-+
-+	在运行后，这个接口必须确保之前对用户虚拟地址“addr”的地址空间
-+	“vma->vm_mm”的页表修改对cpu来说是可见的。也就是说，在运行后，TLB
-+	中不会有虚拟地址‘addr’的‘vma->vm_mm’的页表项。
-+
-+	这主要是在故障处理时使用。
-+
-+5) ``void update_mmu_cache(struct vm_area_struct *vma,
-+   unsigned long address, pte_t *ptep)``
-+
-+   在每个页面故障结束时，这个程序被调用，以告诉体系结构特定的代码，在
-+   软件页表中，在地址空间“vma->vm_mm”的虚拟地址“地址”处，现在存在
-+   一个翻译。
-+
-+   可以用它所选择的任何方式使用这个信息来进行移植。例如，它可以使用这
-+   个事件来为软件管理的TLB配置预装TLB转换。目前sparc64移植就是这么干
-+   的。
-+
-+接下来，我们有缓存刷新接口。一般来说，当Linux将现有的虚拟->物理映射
-+改变为新的值时，其顺序将是以下形式之一::
-+
-+	1) flush_cache_mm(mm);
-+	   change_all_page_tables_of(mm);
-+	   flush_tlb_mm(mm);
-+
-+	2) flush_cache_range(vma, start, end);
-+	   change_range_of_page_tables(mm, start, end);
-+	   flush_tlb_range(vma, start, end);
-+
-+	3) flush_cache_page(vma, addr, pfn);
-+	   set_pte(pte_pointer, new_pte_val);
-+	   flush_tlb_page(vma, addr);
-+
-+缓存级别的刷新将永远是第一位的，因为这允许我们正确处理那些缓存严格，
-+且在虚拟地址被从缓存中刷新时要求一个虚拟地址的虚拟->物理转换存在的系统。
-+HyperSparc cpu就是这样一个具有这种属性的cpu。
-+
-+下面的缓存刷新程序只需要在特定的cpu需要的范围内处理缓存刷新。大多数
-+情况下，这些程序必须为cpu实现，这些cpu有虚拟索引的缓存，当虚拟->物
-+理转换被改变或移除时，必须被刷新。因此，例如，IA32处理器的物理索引
-+的物理标记的缓存没有必要实现这些接口，因为这些缓存是完全同步的，并
-+且不依赖于翻译信息。
-+
-+下面逐个列出这些程序:
-+
-+1) ``void flush_cache_mm(struct mm_struct *mm)``
-+
-+	这个接口将整个用户地址空间从高速缓存中刷掉。也就是说，在运行后，
-+	将没有与‘mm’相关的缓存行。
-+
-+	这个接口被用来处理整个地址空间的页表操作，比如在退出和执行过程
-+	中发生的事情。
-+
-+2) ``void flush_cache_dup_mm(struct mm_struct *mm)``
-+
-+	这个接口将整个用户地址空间从高速缓存中刷新掉。也就是说，在运行
-+	后，将没有与‘mm’相关的缓存行。
-+
-+	这个接口被用来处理整个地址空间的页表操作，比如在fork过程中发生
-+	的事情。
-+
-+	这个选项与flush_cache_mm分开，以允许对VIPT缓存进行一些优化。
-+
-+3) ``void flush_cache_range(struct vm_area_struct *vma,
-+   unsigned long start, unsigned long end)``
-+
-+   在这里，我们要从缓存中刷新一个特定范围的（用户）虚拟地址。运行
-+   后，在“start”到“end-1”范围内的虚拟地址的“vma->vm_mm”的缓存中
-+   将没有页表项。
-+
-+   “vma”是被用于该区域的备份存储。主要是用于munmap()类型的操作。
-+
-+   提供这个接口是希望端口能够找到一个合适的有效方法来从缓存中删
-+   除多个页面大小的区域， 而不是让内核为每个可能被修改的页表项调
-+   用 flush_cache_page (见下文)。
-+
-+4) ``void flush_cache_page(struct vm_area_struct *vma, unsigned long addr, unsigned long pfn)``
-+
-+	这一次我们需要从缓存中删除一个PAGE_SIZE大小的区域。“vma”是
-+	Linux用来跟踪进程的mmap区域的支持结构体，地址空间可以通过
-+	vma->vm_mm获得。另外，我们可以通过测试（vma->vm_flags &
-+	VM_EXEC）来查看这个区域是否是可执行的（因此在“Harvard”类
-+	型的缓存布局中可能是在“指令缓存”中）。
-+
-+	“pfn”表示“addr”所对应的物理页框（通过PAGE_SHIFT左移这个
-+	值来获得物理地址）。正是这个映射应该从缓存中删除。
-+
-+	在运行之后，对于虚拟地址‘addr’的‘vma->vm_mm’，在缓存中不会
-+	有任何页表项，它被翻译成‘pfn’。
-+
-+	这主要是在故障处理过程中使用。
-+
-+5) ``void flush_cache_kmaps(void)``
-+
-+	只有在平台使用高位内存的情况下才需要实现这个程序。它将在所有的
-+	kmaps失效之前被调用。
-+
-+	运行后，内核虚拟地址范围PKMAP_ADDR(0)到PKMAP_ADDR(LAST_PKMAP)
-+	的缓存中将没有页表项。
-+
-+	这个程序应该在asm/highmem.h中实现。
-+
-+6) ``void flush_cache_vmap(unsigned long start, unsigned long end)``
-+   ``void flush_cache_vunmap(unsigned long start, unsigned long end)``
-+
-+   在这里，在这两个接口中，我们从缓存中刷新一个特定范围的（内核）
-+   虚拟地址。运行后，在“start”到“end-1”范围内的虚拟地址的内核地
-+   址空间的缓存中不会有页表项。
-+
-+   这两个程序中的第一个是在vmap_range()安装了页表项之后调用的。
-+   第二个是在vunmap_range()删除页表项之前调用的。
-+
-+还有一类cpu缓存问题，目前需要一套完全不同的接口来正确处理。最大
-+的问题是处理器的数据缓存中的虚拟别名。
-+
-+.. 译者有话说：
-+
-+	这段内容有些晦涩，为了减轻中文阅读压力，特作此译注。
-+
-+	别名（alias）属于缓存一致性问题，当不同的虚拟地址映射相同的
-+	物理地址，而这些虚拟地址的index不同，此时就发生了别名现象(多
-+	个虚拟地址被称为别名)。通俗点来说就是指同一个物理地址的数据被
-+	加载到不同的cacheline中就会出现别名现象。
-+
-+	常见的解决方法有两种：第一种是硬件维护一致性，设计特定的cpu电
-+	路来解决问题（例如设计为PIPT的cache）；第二种是软件维护一致性，
-+	就是下面介绍的sparc的解决方案——页面染色，涉及的技术细节太多，
-+	译者不便展开，请读者自行查阅相关资料。
-+
-+您的移植是否容易在其D-cache中出现虚拟别名？嗯，如果您的D-cache
-+是虚拟索引的，且cache大于PAGE_SIZE（页大小），并且不能防止同一
-+物理地址的多个cache行同时存在，您就会遇到这个问题。
-+
-+如果你的D-cache有这个问题，首先正确定义asm/shmparam.h SHMLBA，
-+它基本上应该是你的虚拟寻址D-cache的大小（或者如果大小是可变的，
-+则是最大的可能大小）。这个设置将迫使SYSv IPC层只允许用户进程在
-+这个值的倍数的地址上对共享内存进行映射。
-+
-+.. note::
-+
-+	这并不能解决共享mmaps的问题，请查看sparc64移植解决
-+	这个问题的一个方法（特别是 SPARC_FLAG_MMAPSHARED）。
-+
-+接下来，你必须解决所有其他情况下的D-cache别名问题。请记住这个事
-+实，对于一个给定的页面映射到某个用户地址空间，总是至少还有一个映
-+射，那就是内核在其线性映射中从PAGE_OFFSET开始。因此，一旦第一个
-+用户将一个给定的物理页映射到它的地址空间，就意味着D-cache的别名
-+问题有可能存在，因为内核已经将这个页映射到它的虚拟地址。
-+
-+  ``void copy_user_page(void *to, void *from, unsigned long addr, struct page *page)``
-+  ``void clear_user_page(void *to, unsigned long addr, struct page *page)``
-+
-+	这两个程序在用户匿名或COW页中存储数据。它允许一个端口有效地
-+	避免用户空间和内核之间的D-cache别名问题。
-+
-+	例如，一个端口可以在复制过程中把“from”和“to”暂时映射到内核
-+	的虚拟地址上。这两个页面的虚拟地址的选择方式是，内核的加载/存
-+	储指令发生在虚拟地址上，而这些虚拟地址与用户的页面映射是相同
-+	的“颜色”。例如，Sparc64就使用这种技术。
-+
-+	“addr”参数告诉了用户最终要映射这个页面的虚拟地址，“page”参
-+	数给出了一个指向目标页结构体的指针。
-+
-+	如果D-cache别名不是问题，这两个程序可以简单地直接调用
-+	memcpy/memset而不做其他事情。
-+
-+  ``void flush_dcache_page(struct page *page)``
-+
-+	任何时候，当内核写到一个页面缓存页，或者内核要从一个页面缓存
-+	页中读出，并且这个页面的用户空间共享/可写映射可能存在时，
-+	这个程序就会被调用。
-+
-+	.. note::
-+
-+			这个程序只需要为有可能被映射到用户进程的地址空间的
-+			页面缓存调用。因此，例如，处理页面缓存中vfs符号链
-+			接的VFS层代码根本不需要调用这个接口。
-+
-+	“内核写入页面缓存的页面”这句话的意思是，具体来说，内核执行存
-+	储指令，在该页面的页面->虚拟映射处弄脏该页面的数据。在这里，通
-+	过刷新的手段处理D-cache的别名是很重要的，以确保这些内核存储对
-+	该页的用户空间映射是可见的。
-+
-+	推论的情况也同样重要，如果有用户对这个文件有共享+可写的映射，
-+	我们必须确保内核对这些页面的读取会看到用户所做的最新的存储。
-+
-+	如果D-cache别名不是一个问题，这个程序可以简单地定义为该架构上
-+	的nop。
-+
-+	在page->flags (PG_arch_1)中有一个位是“架构私有”。内核保证，
-+	对于分页缓存的页面，当这样的页面第一次进入分页缓存时，它将清除
-+	这个位。
-+
-+	这使得这些接口可以更有效地被实现。如果目前没有用户进程映射这个
-+	页面，它允许我们“推迟”（也许是无限期）实际的刷新过程。请看
-+	sparc64的flush_dcache_page和update_mmu_cache实现，以了解如
-+	何做到这一点。
-+
-+	这个想法是，首先在flush_dcache_page()时，如果page->mapping->i_mmap
-+	是一个空树，只需标记架构私有页标志位。之后，在update_mmu_cache()
-+	中，会对这个标志位进行检查，如果设置了，就进行刷新，并清除标志位。
-+
-+	.. important::
-+
-+				通常很重要的是，如果你推迟刷新，实际的刷新发生在同一个
-+				CPU上，因为它将cpu存储到页面上，使其变脏。同样，请看
-+				sparc64关于如何处理这个问题的例子。
-+
-+  ``void copy_to_user_page(struct vm_area_struct *vma, struct page *page,
-+  unsigned long user_vaddr, void *dst, void *src, int len)``
-+  ``void copy_from_user_page(struct vm_area_struct *vma, struct page *page,
-+  unsigned long user_vaddr, void *dst, void *src, int len)``
-+
-+	当内核需要复制任意的数据进出任意的用户页时（比如ptrace()），它将使
-+	用这两个程序。
-+
-+	任何必要的缓存刷新或其他需要发生的一致性操作都应该在这里发生。如果
-+	处理器的指令缓存没有对cpu存储进行窥探，那么你很可能需要为
-+	copy_to_user_page()刷新指令缓存。
-+
-+  ``void flush_anon_page(struct vm_area_struct *vma, struct page *page,
-+  unsigned long vmaddr)``
-+
-+	当内核需要访问一个匿名页的内容时，它会调用这个函数（目前只有
-+	get_user_pages()）。注意：flush_dcache_page()故意对匿名页不起作
-+	用。默认的实现是nop（对于所有相干的架构应该保持这样）。对于不一致性
-+	的架构，它应该刷新vmaddr处的页面缓存。
-+
-+  ``void flush_kernel_dcache_page(struct page *page)``
-+
-+	当内核需要修改一个用kmap获得的用户页时，它会在所有修改完成后（但在
-+	kunmapping之前）调用这个函数，以使底层页面达到最新状态。这里假定用
-+	户没有不一致性的缓存副本（即原始页面是从类似get_user_pages()的机制
-+	中获得的）。默认的实现是一个nop，在所有相干的架构上都应该如此。在不
-+	一致性的架构上，这应该刷新内核缓存中的页面（使用page_address(page)）。
-+
-+
-+  ``void flush_icache_range(unsigned long start, unsigned long end)``
-+
-+	当内核存储到它将执行的地址中时（例如在加载模块时），这个函数被调用。
-+
-+	如果icache不对存储进行窥探，那么这个程序将需要对其进行刷新。
-+
-+  ``void flush_icache_page(struct vm_area_struct *vma, struct page *page)``
-+
-+	flush_icache_page的所有功能都可以在flush_dcache_page和update_mmu_cache
-+	中实现。在未来，我们希望能够完全删除这个接口。
-+
-+最后一类API是用于I/O到内核内特意设置的别名地址范围。这种别名是通过使用
-+vmap/vmalloc API设置的。由于内核I/O是通过物理页进行的，I/O子系统假定用户
-+映射和内核偏移映射是唯一的别名。这对vmap别名来说是不正确的，所以内核中任何
-+试图对vmap区域进行I/O的东西都必须手动管理一致性。它必须在做I/O之前刷新vmap
-+范围，并在I/O返回后使其失效。
-+
-+  ``void flush_kernel_vmap_range(void *vaddr, int size)``
-+
-+	刷新vmap区域中指定的虚拟地址范围的内核缓存。这是为了确保内核在vmap范围
-+	内修改的任何数据对物理页是可见的。这个设计是为了使这个区域可以安全地执
-+	行I/O。注意，这个API并 *没有* 刷新该区域的偏移映射别名。
-+
-+  ``void invalidate_kernel_vmap_range(void *vaddr, int size) invalidates``
-+
-+	在vmap区域的一个给定的虚拟地址范围的缓存，这可以防止处理器在物理页的I/O
-+	发生时通过投机性地读取数据而使缓存变脏。这只对读入vmap区域的数据是必要的。
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index a1dd792e46f7..b7774fb5fad1 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -78,9 +78,14 @@ Todolist:
- 
- 缓存管理，CPU热插拔管理等。
- 
--Todolist:
-+.. toctree::
-+   :maxdepth: 1
- 
-    cachetlb
-+
-+Todolist:
-+
-+
-    cpu_hotplug
-    memory-hotplug
-    genericirq
--- 
-2.27.0
+检测->插桩
 
+>+通用KASAN是唯一一种通过隔离延迟重新使用已释放对象的模式
+>+（参见 mm/kasan/quarantine.c 以了解实现）。
+>+
+>+基于软件标签的KASAN模式
+>+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+基于软件标签的KASAN使用软件内存标签方法来检查访问有效性。
+>+目前仅针对arm64架构实现。
+>+
+>+基于软件标签的KASAN使用arm64 CPU的顶部字节忽略(TBI)
+>+特性在内核指针的顶部字节中存储一个指针标签。
+>+它使用影子内存来存储与每个16字节内存单元相关的内存标签
+>+(因此，它将内核内存的1/16专用于影子内存)。
+>+
+>+在每次内存分配时，基于软件标签的KASAN都会生成一个随机标签，
+>+用这个标签标记分配的内存，并将相同的标签嵌入到返回的指针中。
+>+
+>+基于软件标签的KASAN使用编译时工具在每次内存访问之前插入检查。
+>+这些检查确保正在访问的内存的标签等于用于访问该内存的指针的标签。
+>+如果标签不匹配，基于软件标签的KASAN会打印错误报告。
+>+
+>+基于软件标签的KASAN也有两种检测模式（outline，
+>+发出回调来检查内存访问；inline，执行内联的影子内存检查）。
+>+使用outline检测模式，会从执行访问检查的函数打印错误报告。
+>+使用inline检测，编译器会发出 ``brk`` 指令，并使用专用的
+>+``brk`` 处理程序来打印错误报告。
+
+检测->插桩
+
+>+基于软件标签的KASAN使用0xFF作为匹配所有指针标签
+>+（不检查通过带有0xFF指针标签的指针进行的访问）。
+>+值0xFE当前保留用于标记已释放的内存区域。
+>+
+>+基于软件标签的KASAN目前仅支持对Slab和page_alloc内存进行标记。
+>+
+>+基于硬件标签的KASAN模式
+>+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+基于硬件标签的KASAN在概念上类似于软件模式，
+>+但它是使用硬件内存标签作为支持而不是编译器检测和影子内存。
+>+
+>+基于硬件标签的KASAN目前仅针对arm64架构实现，并且基于ARMv8.5
+>+指令集架构中引入的arm64内存标记扩展(MTE)和最高字节忽略(TBI)。
+>+
+>+特殊的arm64指令用于为每次内存分配指定内存标签。
+>+相同的标签被指定给指向这些分配的指针。在每次内存访问时，
+>+硬件确保正在访问的内存的标签等于用于访问该内存的指针的标签。
+>+如果标签不匹配，则会生成故障并打印报告。
+>+
+>+基于硬件标签的KASAN使用0xFF作为匹配所有指针标签
+>+（不检查通过带有0xFF指针标签的指针进行的访问）。
+>+值0xFE当前保留用于标记已释放的内存区域。
+>+
+>+基于硬件标签的KASAN目前仅支持对Slab和page_alloc内存进行标记。
+>+
+>+如果硬件不支持MTE（ARMv8.5之前），则不会启用基于硬件标签的KASAN。
+>+在这种情况下，所有KASAN引导参数都将被忽略。
+>+
+>+请注意，启用CONFIG_KASAN_HW_TAGS始终会导致启用内核中的TBI。
+>+即使提供了 ``kasan.mode=off`` 或硬件不支持MTE（但支持TBI）。
+>+
+>+基于硬件标签的KASAN只报告第一个发现的错误。之后，MTE标签检查将被禁用。
+>+
+>+影子内存
+>+--------
+>+
+>+内核将内存映射到地址空间的几个不同部分。内核虚拟地址的范围很大：
+>+没有足够的真实内存来支持内核可以访问的每个地址的真实影子区域。
+>+因此，KASAN只为地址空间的某些部分映射真实的影子。
+>+
+>+默认行为
+>+~~~~~~~~
+>+
+>+默认情况下，体系结构仅将实际内存映射到用于线性映射的阴影区域
+>+（以及可能的其他小区域）。对于所有其他区域 —— 例如vmalloc和vmemmap空间 ——
+>+一个只读页面被映射到阴影区域上。这个只读的影子页面声明所有内存访问都是允许的。
+>+
+>+这给模块带来了一个问题：它们不存在于线性映射中，而是存在于专用的模块空间中。
+>+通过连接模块分配器，KASAN临时映射真实的影子内存以覆盖它们。
+>+例如，这允许检测对模块全局变量的无效访问。
+>+
+>+这也造成了与 ``VMAP_STACK`` 的不兼容：如果堆栈位于vmalloc空间中，
+>+它将被分配只读页面的影子内存，并且内核在尝试为堆栈变量设置影子数据时会出错。
+>+
+>+CONFIG_KASAN_VMALLOC
+>+~~~~~~~~~~~~~~~~~~~~
+>+
+>+使用 ``CONFIG_KASAN_VMALLOC`` ，KASAN可以以更大的内存使用
+>+为代价覆盖vmalloc空间。目前，这在x86、riscv、s390和powerpc上受支持。
+>+
+>+这通过连接到vmalloc和vmap并动态分配真实的影子内存来支持映射。
+>+
+>+vmalloc空间中的大多数映射都很小，需要不到一整页的阴影空间。
+>+因此，为每个映射分配一个完整的影子页面将是一种浪费。
+>+此外，为了确保不同的映射使用不同的影子页面，映射必须与
+>+``KASAN_GRANULE_SIZE * PAGE_SIZE`` 对齐。
+>+
+>+相反，KASAN跨多个映射共享后备空间。当vmalloc空间中的映射使用
+>+影子区域的特定页面时，它会分配一个后备页面。
+>+此页面稍后可以由其他vmalloc映射共享。
+>+
+>+KASAN连接到vmap基础架构以懒清理未使用的影子内存。
+>+
+>+为了避免交换映射的困难，KASAN预测覆盖vmalloc空间的阴影区域部分将不会被
+>+早期的阴影页面覆盖，但是将不会被映射。这将需要更改特定于arch的代码。
+>+
+>+这允许在x86上支持 ``VMAP_STACK`` ，并且可以简化对没有固定模块区域的架构的支持。
+>+
+>+对于开发者
+>+----------
+>+
+>+忽略访问
+>+~~~~~~~~
+>+
+>+软件KASAN模式使用编译器检测来插入有效性检查。
+>+此类检测可能与内核的某些部分不兼容，因此需要禁用。
+
+插桩
+
+>+内核的其他部分可能会访问已分配对象的元数据。通常，KASAN会检测并报告此类访问，
+>+但在某些情况下（例如，在内存分配器中），这些访问是有效的。
+>+
+>+对于软件KASAN模式，要禁用特定文件或目录的检测，
+>+请将​​ ``KASAN_SANITIZE`` 添加到相应的内核Makefile中:
+
+Delete Zero Width Space characters on this line.
+
+>+- 对于单个文件(例如，main.o)::
+>+
+>+    KASAN_SANITIZE_main.o := n
+>+
+>+- 对于一个目录下的所有文件::
+>+
+>+    KASAN_SANITIZE := n
+>+
+>+对于软件KASAN模式，要在每个函数的基础上禁用检测，请使用KASAN
+>+特定的 ``__no_sanitize_address`` 函数属性或某个通用的 ``noinstr`` 。
+
+或某个 -> 或
+?
+
+>+请注意，禁用编译器检测（基于每个文件或每个函数）会使KASAN忽略在
+>+软件KASAN模式的代码中直接发生的访问。当访问是间接发生的（通过调用检测函数）
+>+或使用没有编译器检测的基于硬件标签的模式时，它没有帮助。
+
+检测 -> 插桩
+
+>+对于软件KASAN模式，要在当前任务的一部分内核代码中禁用KASAN报告，
+>+请使用 ``kasan_disable_current()``/``kasan_enable_current()``
+>+部分注释这部分代码。这也会禁用通过函数调用发生的间接访问的报告。
+>+
+>+对于基于标签的KASAN模式（包括硬件模式），要禁用访问检查，
+>+请使用 ``kasan_reset_tag()`` 或 ``page_kasan_tag_reset()`` 。
+>+请注意，通过 ``page_kasan_tag_reset()`` 临时禁用访问检查需要通过
+>+``page_kasan_tag``/``page_kasan_tag_set`` 保存和恢复每页KASAN标签。
+>+
+>+测试
+>+~~~~
+>+
+>+有一些KASAN测试可以验证KASAN是否正常工作并可以检测某些类型的内存损坏。
+>+测试由两部分组成:
+>+
+>+1. 与KUnit测试框架集成的测试。使用 ``CONFIG_KASAN_KUNIT_TEST`` 启用。
+>+这些测试可以通过几种不同的方式自动运行和部分验证；请参阅下面的说明。
+>+
+>+2. 与KUnit不兼容的测试。使用 ``CONFIG_KASAN_MODULE_TEST``
+>+启用并且只能作为模块运行。这些测试只能通过加载内核模块并检查内核
+>+日志以获取KASAN报告来手动验证。
+>+
+>+如果检测到错误，每个KUnit兼容的KASAN测试都会打印多个KASAN报告之一，
+>+然后测试打印其编号和状态。
+>+
+>+当测试通过::
+>+
+>+        ok 28 - kmalloc_double_kzfree
+>+
+>+当由于 ``kmalloc`` 失败而导致测试失败时::
+>+
+>+        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
+>+        Expected ptr is not null, but is
+>+        not ok 4 - kmalloc_large_oob_right
+>+
+>+当由于缺少KASAN报告而导致测试失败时::
+>+
+>+        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
+>+        Expected kasan_data->report_expected == kasan_data->report_found, but
+>+        kasan_data->report_expected == 1
+>+        kasan_data->report_found == 0
+>+        not ok 28 - kmalloc_double_kzfree
+>+
+>+最后打印所有KASAN测试的累积状态。成功::
+>+
+>+        ok 1 - kasan
+>+
+>+或者，如果其中一项测试失败::
+>+
+>+        not ok 1 - kasan
+>+
+>+有几种方法可以运行与KUnit兼容的KASAN测试。
+>+
+>+1. 可加载模块
+>+
+>+   启用 ``CONFIG_KUNIT`` 后，KASAN-KUnit测试可以构建为可加载模块，
+>+   并通过使用 ``insmod`` 或 ``modprobe`` 加载 ``test_kasan.ko`` 来运行。
+>+
+>+2. 内置
+>+
+>+   通过内置 ``CONFIG_KUNIT`` ，也可以内置KASAN-KUnit测试。
+>+   在这种情况下，测试将在启动时作为后期初始化调用运行。
+>+
+>+3. 使用kunit_tool
+>+
+>+   通过内置 ``CONFIG_KUNIT`` 和 ``CONFIG_KASAN_KUNIT_TEST`` ，
+>+   还可以使用 ``kunit_tool`` 以更易读的方式查看KUnit测试的结果。
+>+   这不会打印通过测试的KASAN报告。有关 ``kunit_tool`` 的更多最新信息，
+>+   请参阅 `KUnit文档 <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_ 。
+>+
+>+.. _KUnit: https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html
+>-- 
+>2.7.4
+>
