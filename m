@@ -2,173 +2,229 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71856C47082
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 14:53:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBFCCC47097
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:10:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BEBE613F4
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 14:53:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4E7C613F4
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:10:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231823AbhFCOyq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 10:54:46 -0400
-Received: from m12-18.163.com ([220.181.12.18]:50757 "EHLO m12-18.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229744AbhFCOyp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Jun 2021 10:54:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=/iM4I
-        6XeQjaFam/o+udE95o3quf85ELDCgVNDvYZaQ8=; b=f2WIxeFuZG7/t9559gUfZ
-        0S42fNxWAW5ZpXPlmRqVgtLGcuARjnVkyt1h7wMTjypS8ISaZVCHSsXtLFzNP+/8
-        CjC5u4tis/rVh9vImIN2DkMietVNkhnIoH6OuDyiqF48wWBBcClc3dkBnjc6fBFG
-        XUAVpXWmT28YtjjD5GDqdU=
-Received: from localhost.localdomain (unknown [117.139.248.43])
-        by smtp14 (Coremail) with SMTP id EsCowADX2Pa+7Lhgk5wQnQ--.48004S2;
-        Thu, 03 Jun 2021 22:52:47 +0800 (CST)
-From:   Hailong Liu <liuhailongg6@163.com>
-To:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        sterlingteng@gmail.com
-Cc:     siyanteng@loongson.cn, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hailong Liu <liu.hailong6@zte.com.cn>
-Subject: [PATCH v4] docs/zh_CN: Add zh_CN/admin-guide/lockup-watchdogs.rst
-Date:   Thu,  3 Jun 2021 22:52:27 +0800
-Message-Id: <20210603145227.30956-1-liuhailongg6@163.com>
-X-Mailer: git-send-email 2.17.1
+        id S231213AbhFCPMh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 11:12:37 -0400
+Received: from mail-pl1-f171.google.com ([209.85.214.171]:43903 "EHLO
+        mail-pl1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230396AbhFCPMh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 11:12:37 -0400
+Received: by mail-pl1-f171.google.com with SMTP id v12so3023172plo.10;
+        Thu, 03 Jun 2021 08:10:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0ytX/7qNN3WwyQK0LAIrxn42NeJriMqbyp9OIcjvkW4=;
+        b=Ie42/OY9JQj6C5gqGcEO3N8IUZ47sNLu7b/37YWU9nTBfZhNYKiNX0sdbz/pA5Au/c
+         tMWGf7LWBDNe8Y6ur2rbxKiUTricsCq6ysD+SmBE7iPjvqD7RpXs0C1GT5hjQ6MmqAPf
+         gHx7a9buVV6mbwqO8tvuwZ4W6VT4C2h1+R/Z1xEwHfTCKxzIKmhsPCyAatIvxyYbL3ib
+         qV+dWMYQ5OtXkUjaEhMAnnLKIaQ5cyvN8FOR+P20vUsNgL7tnjTH9Ymx/nGDpAf0GXTy
+         6IISXn6xpiIpUJKPUDtmNh2wb8cOEJae/DyUO7iAisa51SbnUxomokFL3J+62FvCo2lK
+         J7xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0ytX/7qNN3WwyQK0LAIrxn42NeJriMqbyp9OIcjvkW4=;
+        b=E49bv5ml9ekMlvD2gXLA8usK2rWVxI0l+QpNKSTj2kmG7/ic1+WKXBWd17AJ+3oxbu
+         GMgmlarjKknEgDTQ4029PUDPGOEW3MpwD2x5o79yJ0vTXGVc5CDWtBxN35ncnpngJ0gN
+         IjDgyJlq8D27dJKdzJg1TPoDiXWThapGlFmQhrG5RnWk3XVOAwhRP9hVuI57SNnv7Nf0
+         kjbXmruPFYT/4rf4eW+Y8Zc1KEb6k6OBbOhXqlYnaWt1M9vvlhzCUZLUjaIsg0wGUrgu
+         8ao7COCP9LMaWb9DIyXAYTM8RwlCzrvCg9ATXIqVPh8M5qWLOsror7p1AKm5c4KJdaq/
+         CSmA==
+X-Gm-Message-State: AOAM531+ekqQ4BxOoc/+R3p59tU3fDn3FpqLGK9aYxjh4hGkDgrZrRt1
+        isjtw0BjREFuKiW4lLPvEOKIoPmAFSA=
+X-Google-Smtp-Source: ABdhPJyDjceDUJjIgTwEDxoIaUx371wwpPCNRO3iIruRpb5xntwB7viN3eDmhb5Hp4L5NdOmds5JJg==
+X-Received: by 2002:a17:902:27:b029:10b:dd63:2d3a with SMTP id 36-20020a1709020027b029010bdd632d3amr130819pla.77.1622732992058;
+        Thu, 03 Jun 2021 08:09:52 -0700 (PDT)
+Received: from localhost ([47.251.4.198])
+        by smtp.gmail.com with ESMTPSA id x3sm3177706pgx.8.2021.06.03.08.09.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 03 Jun 2021 08:09:51 -0700 (PDT)
+From:   Lai Jiangshan <jiangshanlai@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Lai Jiangshan <laijs@linux.alibaba.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH V2] KVM: X86: MMU: Use the correct inherited permissions to get shadow page
+Date:   Thu,  3 Jun 2021 13:24:55 +0800
+Message-Id: <20210603052455.21023-1-jiangshanlai@gmail.com>
+X-Mailer: git-send-email 2.19.1.6.gb485710b
+In-Reply-To: <20201120095517.19211-1-jiangshanlai@gmail.com>
+References: <20201120095517.19211-1-jiangshanlai@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EsCowADX2Pa+7Lhgk5wQnQ--.48004S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUqDGOUUUUU
-X-Originating-IP: [117.139.248.43]
-X-CM-SenderInfo: xolxxtxlor0wjjw6il2tof0z/1tbiDRSmYFQHWZdOUgACsc
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Hailong Liu <liu.hailong6@zte.com.cn>
+From: Lai Jiangshan <laijs@linux.alibaba.com>
 
-Add translation zh_CN/admin-guide/lockup-watchdogs.rst and link it to
-zh_CN/admin-guide/index.rst while clean its todo entry.
+Commit 41074d07c78b ("KVM: MMU: Fix inherited permissions for emulated
+guest pte updates") said role.access is common access permissions for
+all ptes in this shadow page, which is the inherited permissions from
+the parent ptes, and should not from any children pte.
 
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-Signed-off-by: Hailong Liu <liu.hailong6@zte.com.cn>
+But the commit did not enforce this definition when kvm_mmu_get_page()
+is called in FNAME(fetch). Rather, it uses a whole combined access of
+the first accessing vitual address except the ternimating pte. And the
+permissions won't be checked again in next FNAME(fetch) since the spte
+is present. It might fail to meet guest's expectation when guest uses
+shared pagetables.
+
+For example, here is a shared pagetable:
+   pgd[]   pud[]        pmd[]            virtual address pointers
+                     /->pmd1(u--)->pte1(uw-)->page1 <- ptr1 (u--)
+        /->pud1(uw-)--->pmd2(uw-)->pte2(uw-)->page2 <- ptr2 (uw-)
+   pgd-|           (shared pmd[] as above)
+        \->pud2(u--)--->pmd1(u--)->pte1(uw-)->page1 <- ptr3 (u--)
+                     \->pmd2(uw-)->pte2(uw-)->page2 <- ptr4 (u--)
+  pud1 and pud2 point to the same pmd table, so:
+  ptr1 and ptr3 points to the same page.
+  ptr2 and ptr4 points to the same page.
+
+(pud1 and pud2 here are pud entries, not pud pagtable pointer
+ pmd1 and pmd2 here are pmd entries, not pmd pagtable pointer)
+
+  The guess read-accesses to ptr1 first. So the hypervisor gets the
+shadow page table with role.access=u-- for ptr1's pud1 and ptr1's pmd1.
+(Note: current pt->access is the combined access of pgd, pud1 and
+pmd1, so it is "u--".  But the current code uses this pt->access to
+get pagetable for pud1 which violate the definition in the comment
+which should be the combined access of pgd, pud1, a.k.a "uw-".)
+
+  And then the guest write-accesses to ptr2, and the hypervisor
+set up shadow page for ptr2.
+(Note: current pt->access=uw-, but pud1 points to a shadow pmd
+table with role.access=u--.  Since pud1 is present, the hypervisor
+silencely accepts it without recheck the access in FNAME(fetch))
+
+  After that, the guess read-accesses to ptr3, the hypervisor
+reused the same shadow pmd page table for pud2 as ptr1.
+(Note: because current pt->access=u--, which is the access of pgd, pud2
+and pmd1)
+
+  At last, the guest writes to ptr4 without vmexit nor pagefault.
+Which should cause pagefault as the guest expects.
+
+Any kind of shared pagetable might have the similar problem when in
+virtual machine without TDP enabled if the permissions are different
+from different ancestors.
+
+In order to fix the problem, we change pt->access to be an array, and
+any access in it will not combind accesses from child ptes.
+
+The test code is: https://lore.kernel.org/kvm/20210603050537.19605-1-jiangshanlai@gmail.com/ 
+Remember to test it with TDP disabled.
+
+The problem had existed long before the commit 41074d07c78b ("KVM: MMU:
+Fix inherited permissions for emulated guest pte updates"), and it
+is hard to find which is the culprit.  So there is no fixes tag here.
+
+Signed-off-by: Lai Jiangshan <laijs@linux.alibaba.com>
 ---
+Changed from V1:
+	Update changelog only
 
-changes since v3:
- - add "Reviewed-by" tag and change log
+ Documentation/virt/kvm/mmu.rst |  4 ++--
+ arch/x86/kvm/mmu/paging_tmpl.h | 14 +++++++++-----
+ 2 files changed, 11 insertions(+), 7 deletions(-)
 
-changes since v2:
- - fix the "Original:" item and the title of this tranlation
-   which suggested by Yanteng.
-
-changes since v1:
- - fix the quite a lot of style issues and poor translation issues.
-
-Big thanks to Yanteng for review and suggestions.
----
- .../translations/zh_CN/admin-guide/index.rst  |  2 +-
- .../zh_CN/admin-guide/lockup-watchdogs.rst    | 66 +++++++++++++++++++
- 2 files changed, 67 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
-
-diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-index be835ec8e632..460034cbc2ab 100644
---- a/Documentation/translations/zh_CN/admin-guide/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-@@ -65,6 +65,7 @@ Todolist:
+diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
+index 5bfe28b0728e..20d85daed395 100644
+--- a/Documentation/virt/kvm/mmu.rst
++++ b/Documentation/virt/kvm/mmu.rst
+@@ -171,8 +171,8 @@ Shadow pages contain the following information:
+     shadow pages) so role.quadrant takes values in the range 0..3.  Each
+     quadrant maps 1GB virtual address space.
+   role.access:
+-    Inherited guest access permissions in the form uwx.  Note execute
+-    permission is positive, not negative.
++    Inherited guest access permissions from the parent ptes in the form uwx.
++    Note execute permission is positive, not negative.
+   role.invalid:
+     The page is invalid and should not be used.  It is a root page that is
+     currently pinned (by a cpu hardware register pointing to it); once it is
+diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+index 70b7e44e3035..823a5919f9fa 100644
+--- a/arch/x86/kvm/mmu/paging_tmpl.h
++++ b/arch/x86/kvm/mmu/paging_tmpl.h
+@@ -90,8 +90,8 @@ struct guest_walker {
+ 	gpa_t pte_gpa[PT_MAX_FULL_LEVELS];
+ 	pt_element_t __user *ptep_user[PT_MAX_FULL_LEVELS];
+ 	bool pte_writable[PT_MAX_FULL_LEVELS];
+-	unsigned pt_access;
+-	unsigned pte_access;
++	unsigned int pt_access[PT_MAX_FULL_LEVELS];
++	unsigned int pte_access;
+ 	gfn_t gfn;
+ 	struct x86_exception fault;
+ };
+@@ -418,13 +418,15 @@ static int FNAME(walk_addr_generic)(struct guest_walker *walker,
+ 		}
  
-    clearing-warn-once
-    cpu-load
-+   lockup-watchdogs
-    unicode
+ 		walker->ptes[walker->level - 1] = pte;
++
++		/* Convert to ACC_*_MASK flags for struct guest_walker.  */
++		walker->pt_access[walker->level - 1] = FNAME(gpte_access)(pt_access ^ walk_nx_mask);
+ 	} while (!is_last_gpte(mmu, walker->level, pte));
  
- Todolist:
-@@ -100,7 +101,6 @@ Todolist:
-    laptops/index
-    lcd-panel-cgram
-    ldm
--   lockup-watchdogs
-    LSM/index
-    md
-    media/index
-diff --git a/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst b/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
-new file mode 100644
-index 000000000000..55ed3f4af442
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/lockup-watchdogs.rst
-@@ -0,0 +1,66 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/admin-guide/lockup-watchdogs.rst
-+:Translator: Hailong Liu <liu.hailong6@zte.com.cn>
-+
-+.. _cn_lockup-watchdogs:
-+
-+
-+=================================================
-+Softlockup与hardlockup检测机制(又名:nmi_watchdog)
-+=================================================
-+
-+Linux中内核实现了一种用以检测系统发生softlockup和hardlockup的看门狗机制。
-+
-+Softlockup是一种会引发系统在内核态中一直循环超过20秒（详见下面“实现”小节）导致
-+其他任务没有机会得到运行的BUG。一旦检测到'softlockup'发生，默认情况下系统会打
-+印当前堆栈跟踪信息并进入锁定状态。也可配置使其在检测到'softlockup'后进入panic
-+状态；通过sysctl命令设置“kernel.softlockup_panic”、使用内核启动参数
-+“softlockup_panic”（详见Documentation/admin-guide/kernel-parameters.rst）以及使
-+能内核编译选项“BOOTPARAM_SOFTLOCKUP_PANIC”都可实现这种配置。
-+
-+而'hardlockup'是一种会引发系统在内核态一直循环超过10秒钟（详见"实现"小节）导致其
-+他中断没有机会运行的缺陷。与'softlockup'情况类似，除了使用sysctl命令设置
-+'hardlockup_panic'、使能内核选项“BOOTPARAM_HARDLOCKUP_PANIC”以及使用内核参数
-+"nmi_watchdog"(详见:”Documentation/admin-guide/kernel-parameters.rst“)外，一旦检
-+测到'hardlockup'默认情况下系统打印当前堆栈跟踪信息，然后进入锁定状态。
-+
-+这个panic选项也可以与panic_timeout结合使用（这个panic_timeout是通过稍具迷惑性的
-+sysctl命令"kernel.panic"来设置），使系统在panic指定时间后自动重启。
-+
-+实现
-+====
-+
-+Softlockup和hardlockup分别建立在hrtimer(高精度定时器)和perf两个子系统上而实现。
-+这也就意味着理论上任何架构只要实现了这两个子系统就支持这两种检测机制。
-+
-+Hrtimer用于周期性产生中断并唤醒watchdog线程；NMI perf事件则以”watchdog_thresh“
-+(编译时默认初始化为10秒，也可通过”watchdog_thresh“这个sysctl接口来进行配置修改)
-+为间隔周期产生以检测 hardlockups。如果一个CPU在这个时间段内没有检测到hrtimer中
-+断发生，'hardlockup 检测器'(即NMI perf事件处理函数)将会视系统配置而选择产生内核
-+警告或者直接panic。
-+
-+而watchdog线程本质上是一个高优先级内核线程，每调度一次就对时间戳进行一次更新。
-+如果时间戳在2*watchdog_thresh(这个是softlockup的触发门限)这段时间都未更新,那么
-+"softlocup 检测器"(内部hrtimer定时器回调函数)会将相关的调试信息打印到系统日志中，
-+然后如果系统配置了进入panic流程则进入panic，否则内核继续执行。
-+
-+Hrtimer定时器的周期是2*watchdog_thresh/5，也就是说在hardlockup被触发前hrtimer有
-+2~3次机会产生时钟中断。
-+
-+如上所述,内核相当于为系统管理员提供了一个可调节hrtimer定时器和perf事件周期长度
-+的调节旋钮。如何通过这个旋钮为特定使用场景配置一个合理的周期值要对lockups检测的
-+响应速度和lockups检测开销这二者之间进行权衡。
-+
-+默认情况下所有在线cpu上都会运行一个watchdog线程。不过在内核配置了”NO_HZ_FULL“的
-+情况下watchdog线程默认只会运行在管家(housekeeping)cpu上，而”nohz_full“启动参数指
-+定的cpu上则不会有watchdog线程运行。试想，如果我们允许watchdog线程在”nohz_full“指
-+定的cpu上运行，这些cpu上必须得运行时钟定时器来激发watchdog线程调度；这样一来就会
-+使”nohz_full“保护用户程序免受内核干扰的功能失效。当然，副作用就是”nohz_full“指定
-+的cpu即使在内核产生了lockup问题我们也无法检测到。不过，至少我们可以允许watchdog
-+线程在管家(non-tickless)核上继续运行以便我们能继续正常的监测这些cpus上的lockups
-+事件。
-+
-+不论哪种情况都可以通过sysctl命令kernel.watchdog_cpumask来对没有运行watchdog线程
-+的cpu集合进行调节。对于nohz_full而言,如果nohz_full cpu上有异常挂住的情况，通过
-+这种方式打开这些cpu上的watchdog进行调试可能会有所作用。
+ 	pte_pkey = FNAME(gpte_pkeys)(vcpu, pte);
+ 	accessed_dirty = have_ad ? pte_access & PT_GUEST_ACCESSED_MASK : 0;
+ 
+ 	/* Convert to ACC_*_MASK flags for struct guest_walker.  */
+-	walker->pt_access = FNAME(gpte_access)(pt_access ^ walk_nx_mask);
+ 	walker->pte_access = FNAME(gpte_access)(pte_access ^ walk_nx_mask);
+ 	errcode = permission_fault(vcpu, mmu, walker->pte_access, pte_pkey, access);
+ 	if (unlikely(errcode))
+@@ -463,7 +465,8 @@ static int FNAME(walk_addr_generic)(struct guest_walker *walker,
+ 	}
+ 
+ 	pgprintk("%s: pte %llx pte_access %x pt_access %x\n",
+-		 __func__, (u64)pte, walker->pte_access, walker->pt_access);
++		 __func__, (u64)pte, walker->pte_access,
++		 walker->pt_access[walker->level - 1]);
+ 	return 1;
+ 
+ error:
+@@ -643,7 +646,7 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gpa_t addr,
+ 	bool huge_page_disallowed = exec && nx_huge_page_workaround_enabled;
+ 	struct kvm_mmu_page *sp = NULL;
+ 	struct kvm_shadow_walk_iterator it;
+-	unsigned direct_access, access = gw->pt_access;
++	unsigned int direct_access, access;
+ 	int top_level, level, req_level, ret;
+ 	gfn_t base_gfn = gw->gfn;
+ 
+@@ -675,6 +678,7 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gpa_t addr,
+ 		sp = NULL;
+ 		if (!is_shadow_present_pte(*it.sptep)) {
+ 			table_gfn = gw->table_gfn[it.level - 2];
++			access = gw->pt_access[it.level - 2];
+ 			sp = kvm_mmu_get_page(vcpu, table_gfn, addr, it.level-1,
+ 					      false, access);
+ 		}
 -- 
-2.17.1
-
+2.19.1.6.gb485710b
 
