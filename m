@@ -2,88 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 121CFC47098
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 06:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6351AC47096
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 07:21:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE525613E6
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 06:34:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4440C61008
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 07:21:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbhFCGgR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 02:36:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56490 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229635AbhFCGgR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Jun 2021 02:36:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B359161263;
-        Thu,  3 Jun 2021 06:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622702073;
-        bh=xOFWuH0MVFFLTaHz3Tuu8WFq+g8rE9NbEZzHqo0poEw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=a6etlp4/GacmX1t7VgfbO+hR9XPvSdWPtJe6mt/uLvN54oHu5wEgHb6y1Mg990ezR
-         KKhNynChCzNefJtgdgCJc8k+7ha1uI+HssvdpRjLLt16x3LXmz0lxqc4K97myy1kGO
-         x1DIZckE0YJGSDeNbZdWI/W/nFqc66cEGU816crwqMkzKhjTnoZh4rRXqpTTWUEeFy
-         KAwk0/9Tu1GzdtsL4c0mgj3SCffpwZBSL8Rrane7mk+Las41ouKPaa0opt94YbCxdX
-         ynX+35j0u0BY/24mtG5bkDvuThet3IXPSAkonCtCtVy0+Q0H6IdZVLBHB4VyQltdQP
-         4hRTOI5WrfaBQ==
-Date:   Thu, 3 Jun 2021 08:34:28 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] documentation-file-ref-check: Make git check work for
- multiple working directories
-Message-ID: <20210603083428.1b205131@coco.lan>
-In-Reply-To: <20210603012806.331132-1-robh@kernel.org>
-References: <20210603012806.331132-1-robh@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229665AbhFCHXE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 03:23:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229567AbhFCHXE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 03:23:04 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62718C06174A;
+        Thu,  3 Jun 2021 00:21:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=66I4NRnZhUJDgS+W1gca0B6bCJmiMwU7hRNChS+Sijg=; b=RRv8S3jXWvFroS7pAyNa/XbDx8
+        DbwTu67YKnKJLbqq7KTFUcyDUOQH7S5s2x2ZoEtjPwXKjGnhw5Gv9icIEPDYJtUXIrTSVV0Z++tcq
+        UF0i9UhCY3FwUgwuUgrzj+MhVKMbr84BYA8E8q/eI73uMXiOgWpJR0CJWK1duOFUHAi+Z6q133cC4
+        rQRd+QCWYtuWOBf/6QR1CgC3i00PkbP8LJsuV1rnAj7rm76sioxKQafhARCkCv3GL5Z/XVSlXiIz0
+        o7F3xTPh1NEvT7kYkcuxDaE5tgToLa77yY4IdU5ovvmnsZTd6nE8pYR6ZfjOM0/PyuvcVyj6vz0Dv
+        HJCj6F+A==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1loheq-0035OQ-FJ; Thu, 03 Jun 2021 07:20:55 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A4AAC300223;
+        Thu,  3 Jun 2021 09:20:53 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 83BAE20223DB5; Thu,  3 Jun 2021 09:20:53 +0200 (CEST)
+Date:   Thu, 3 Jun 2021 09:20:53 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 07/12] docs: accounting: update delay-accounting.rst
+ reference
+Message-ID: <YLiC1bFKAf9RtwuB@hirez.programming.kicks-ass.net>
+References: <cover.1622648507.git.mchehab+huawei@kernel.org>
+ <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
+ <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
+ <20210602200121.64a828a1@coco.lan>
+ <871r9k6rmy.fsf@meer.lwn.net>
+ <20210602221940.7e0a6135@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210602221940.7e0a6135@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed,  2 Jun 2021 20:28:06 -0500
-Rob Herring <robh@kernel.org> escreveu:
+On Wed, Jun 02, 2021 at 10:19:40PM +0200, Mauro Carvalho Chehab wrote:
+> Em Wed, 2 Jun 2021 20:29:23 +0200
+> Peter Zijlstra <peterz@infradead.org> escreveu:
 
-> With multiple git working directories, '.git' may also be a text file
-> linking to the actual git tree instead of a directory.
-
-Good catch! Never tested inside a git worktree, as I use a separate git
-for docs patches due to a different [format] settings (due to a
-different c/c list).
-
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-> ---
->  scripts/documentation-file-ref-check | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > Afaict both vim (gf) and emacs (M-x ffap) can do this. That covers about
+> > 99% of all sane editors no? :-)
 > 
-> diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-> index c71832b2312b..7187ea5e5149 100755
-> --- a/scripts/documentation-file-ref-check
-> +++ b/scripts/documentation-file-ref-check
-> @@ -24,7 +24,7 @@ my $help = 0;
->  my $fix = 0;
->  my $warn = 0;
->  
-> -if (! -d ".git") {
-> +if (! -e ".git") {
->  	printf "Warning: can't check if file exists, as this is not a git tree\n";
->  	exit 0;
->  }
+> Heh, not quite ;-) Here, I use nano(/pico), from the old times where 
+> (al)pine was my emailer. I can live with vim, but I prefer an editor
+> that starts in editing mode.
 
+echo "startinsert" >> ~/.vimrc
 
+> I tried to use emacs a few times, but my fingers are too much into
+> pico/nano control keys, so it was ending by making me typing a lot
+> slower. Besides that, nano works well on 99% of my daily needs. 
+> 
+> When I need more fancy, like regex substitutions, changing/moving
+> big code blocks, editing multiple files at the same time, etc, 
 
-Thanks,
-Mauro
+nano can in fact do the multi-file thing, see nano -F, or add "set
+multibuffer" to nanorc.
+
+> then I just use a GUI editor (currently kate, but seeking for
+> a good replacement, as some changes during F33 times - still 
+> present on F34 - caused some regressions).
+
+The fact that you need a second editor; and are looking for a
+replacement disqualifies nano (and Kate for that matter) as a sane
+editor IMO.
+
+You can ofcourse start extending nano :-)
