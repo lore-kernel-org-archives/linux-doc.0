@@ -2,136 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EEBFC47080
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 04:41:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C9E3C47096
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 04:50:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 392C260724
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 04:41:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D44B613EE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 04:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbhFCEnV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 00:43:21 -0400
-Received: from mail-pl1-f169.google.com ([209.85.214.169]:39684 "EHLO
-        mail-pl1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbhFCEnQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 00:43:16 -0400
-Received: by mail-pl1-f169.google.com with SMTP id q16so2243476pls.6;
-        Wed, 02 Jun 2021 21:41:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Xnrr2w6iocDmMx7+v3CvqnKF/FYjeeIOjuctS7i/Pvk=;
-        b=Z/klsuCIkcvnFhXm67qeLH9LYlnM9y4AQLXm1ctuXb5oiY5NhU2B3VCuXQsqQqgJ4M
-         SCn+k4nvGyiFG1So/YaJ1Pvij2uSI+wnrjjFZWb6ix15qCR5pgRHibV4rjjjuaARpUSf
-         blsf+XX2flelnQeaDLYNzZwL3wsZ9ynpREI62v6t6ACaa82g//Un15Itxo+2IVXm9XM2
-         VNRWegu+kxezO1AGpciDw09eFphOhIoxwz0q7vn0uTGd3ZDA64tF5xGm5xYnUuPAO3fh
-         AU0/z7our6T1Ugoy6gEW3R2wq2659gkaNGvsTXKHHBUGsVICDU1/p+S8YW0iJ6osSIPm
-         mhSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Xnrr2w6iocDmMx7+v3CvqnKF/FYjeeIOjuctS7i/Pvk=;
-        b=HMbyDwflonXZvZeP80gNF7i+A50JqOOFQlqL4i6C5yRxBpmp/TGrDulhczzsBHrFgF
-         FD/5xNCMo/sTFn2ytHK6z0Fo7bHUllKorKEPgkJDqGUYPw2wa1IAfHteVgw5CvYc2Uup
-         n3dh8BBpSDsrEWAI4iRBbHsEYCeOPH/mdxc6PYys+DWTN1TPFvRVVZHywqup1v2cbvau
-         kcWTHFmn6tbE/4xHWb83w6h7B1fJyZwZFIh934YVCdRzejAk9wUGsIX+PdxLyu0LcFVJ
-         Jek5H6fklw87w5BS33MBtn7L7l3cR4gxeHIygjawJWBO23Zl1chE0jRkrdy6t9VO+HTo
-         bjbg==
-X-Gm-Message-State: AOAM530v+VN4ctAhNaWKuFUa3kKeiSlQ+S0G3SVQZjTehIhuE6YalYAe
-        fEtuIheb8AwPhFPvmUkf4cI=
-X-Google-Smtp-Source: ABdhPJz/aCAZKYQNPD03WCFx0yF91euUFLrJihtUmKLW7W/8aNPO77fCoGNf30KEguCE8Sl+BQu7gA==
-X-Received: by 2002:a17:90b:1283:: with SMTP id fw3mr30116462pjb.133.1622695232178;
-        Wed, 02 Jun 2021 21:40:32 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:fc6a:97ca:f00c:8377])
-        by smtp.gmail.com with ESMTPSA id bv3sm894880pjb.1.2021.06.02.21.40.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 21:40:31 -0700 (PDT)
-Date:   Wed, 2 Jun 2021 21:40:28 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Maxim Krasnyansky <maxk@qti.qualcomm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: networking: Replace strncpy() with strscpy()
-Message-ID: <YLhdPEFO2zdzWef+@google.com>
-References: <20210602202914.4079123-1-keescook@chromium.org>
+        id S229746AbhFCEwB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 00:52:01 -0400
+Received: from mail-m17641.qiye.163.com ([59.111.176.41]:43220 "EHLO
+        mail-m17641.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229758AbhFCEwA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 00:52:00 -0400
+Received: from vivo.com (localhost [127.0.0.1])
+        by mail-m17641.qiye.163.com (Hmail) with ESMTP id C5B696012C;
+        Thu,  3 Jun 2021 12:50:12 +0800 (CST)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+Message-ID: <ACYAbADLDo5nvv4af7zOLqqA.3.1622695812793.Hmail.wanjiabing@vivo.com>
+To:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Fangrui Song <maskray@google.com>,
+        Bernard Zhao <bernard@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        clang-built-linux@googlegroups.com
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gW3YyXSBkb2NzL3poX0NOOiBhZGQgdHJhbnNsYXRpb25zIGluIHpoX0NOL2Rldi10b29scy9rYXNhbg==?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 58.213.83.158
+In-Reply-To: <69008e54-003a-eeb5-75f8-96e03f37d2df@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210602202914.4079123-1-keescook@chromium.org>
+Received: from wanjiabing@vivo.com( [58.213.83.158) ] by ajax-webmail ( [127.0.0.1] ) ; Thu, 3 Jun 2021 12:50:12 +0800 (GMT+08:00)
+From:   Jiabing Wan <wanjiabing@vivo.com>
+Date:   Thu, 3 Jun 2021 12:50:12 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZQh1IHlYYSE9PHRlKTRlPTRhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+        hKQ1VLWQY+
+X-HM-Sender-Digest: e1kJHlYWEh9ZQU1PS0lLTkJJT01MN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+        WUc6OCI6GTo*Nz8UThUNDU8aHUwBNDcKCjpVSFVKTUlJTUJOQ0pISUlDVTMWGhIXVQwaFRESGhkS
+        FRw7DRINFFUYFBZFWVdZEgtZQVlOQ1VJSkhVQ0hVSk5DWVdZCAFZQU9DTkw3Bg++
+X-HM-Tid: 0a79d0351ed6d997kuwsc5b696012c
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 01:29:14PM -0700, Kees Cook wrote:
-> Replace example code's use of strncpy() with strscpy() functions. Using
-> strncpy() is considered deprecated:
-> https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings
-> 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  Documentation/input/joydev/joystick-api.rst | 2 +-
-
-FWIW:
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
->  Documentation/networking/packet_mmap.rst    | 2 +-
->  Documentation/networking/tuntap.rst         | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/input/joydev/joystick-api.rst b/Documentation/input/joydev/joystick-api.rst
-> index af5934c10c1c..5db6dc6fe1c5 100644
-> --- a/Documentation/input/joydev/joystick-api.rst
-> +++ b/Documentation/input/joydev/joystick-api.rst
-> @@ -263,7 +263,7 @@ possible overrun should the name be too long::
->  
->  	char name[128];
->  	if (ioctl(fd, JSIOCGNAME(sizeof(name)), name) < 0)
-> -		strncpy(name, "Unknown", sizeof(name));
-> +		strscpy(name, "Unknown", sizeof(name));
->  	printf("Name: %s\n", name);
->  
->  
-> diff --git a/Documentation/networking/packet_mmap.rst b/Documentation/networking/packet_mmap.rst
-> index 500ef60b1b82..c5da1a5d93de 100644
-> --- a/Documentation/networking/packet_mmap.rst
-> +++ b/Documentation/networking/packet_mmap.rst
-> @@ -153,7 +153,7 @@ As capture, each frame contains two parts::
->      struct ifreq s_ifr;
->      ...
->  
-> -    strncpy (s_ifr.ifr_name, "eth0", sizeof(s_ifr.ifr_name));
-> +    strscpy_pad (s_ifr.ifr_name, "eth0", sizeof(s_ifr.ifr_name));
->  
->      /* get interface index of eth0 */
->      ioctl(this->socket, SIOCGIFINDEX, &s_ifr);
-> diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
-> index a59d1dd6fdcc..4d7087f727be 100644
-> --- a/Documentation/networking/tuntap.rst
-> +++ b/Documentation/networking/tuntap.rst
-> @@ -107,7 +107,7 @@ Note that the character pointer becomes overwritten with the real device name
->         */
->        ifr.ifr_flags = IFF_TUN;
->        if( *dev )
-> -	 strncpy(ifr.ifr_name, dev, IFNAMSIZ);
-> +	 strscpy_pad(ifr.ifr_name, dev, IFNAMSIZ);
->  
->        if( (err = ioctl(fd, TUNSETIFF, (void *) &ifr)) < 0 ){
->  	 close(fd);
-> -- 
-> 2.25.1
-> 
-
-Thanks.
-
--- 
-Dmitry
+IAo+IFJlOiBbUEFUQ0hdIFt2Ml0gZG9jcy96aF9DTjogYWRkIHRyYW5zbGF0aW9ucyBpbiB6aF9D
+Ti9kZXYtdG9vbHMva2FzYW4+PkhpIEppYWJpbmcsCj4KPlRoYW5rcyBmb3IgdHJhbnNsYXRpb24h
+IFRoZSBjb250ZW50cyBhcmUgZ2VuZXJhbGx5IGZpbmUuIAo+SSB0cmllZCB0aGUgcGF0Y2ggd2l0
+aCBzY3JpcHRzL2NoZWNrcGF0Y2gucGwgZm91bmQgdGhlcmUgYXJlIGxvdHMgZXJyb3JzCgpIaSxB
+bGV4LAoKT2gsIHRoYXQgaXMgc3RyYW5nZS4KCkluIG15IHVidW50dSBzZXJ2ZXIsIEkgcmFuIHNj
+cmlwdHMvY2hlY2twYXRjaC5wbCBhbmQgZ290OgoKV2hlbiBEb2N1bWVudGF0aW9uL3RyYW5zbGF0
+aW9ucy96aF9DTi9kZXYtdG9vbHMva2FzYW4ucnN0CiJ0b3RhbDogMCBlcnJvcnMsIDAgd2Fybmlu
+Z3MsIDQzMSBsaW5lcyBjaGVja2VkIgoKV2hlbiAwMDAxLXYyLWRvY3MtemhfQ04tYWRkLXRyYW5z
+bGF0aW9ucy1pbi16aF9DTi1kZXYtdG9vbHMta2EucGF0Y2guCiJXQVJOSU5HOiBhZGRlZCwgbW92
+ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM0
+MTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDQ1
+IGxpbmVzIGNoZWNrZWQiCgpObyBlcnJvcnMgYW5kIGp1c3Qgb25lIHdhcm5pbmcuClNvIEkgdGhp
+bmsgdGhlcmUgd2FzIGEgcHJvYmxlbSB3aXRoIHlvdXIgcGxhdGZvcm0gb3IgZG93bmxvYWRpbmc/
+CgpJZiB0aGVyZSB3ZXJlIG5vIHByb2JsZW0sIEkgd291bGQgY2hlY2sgbXkgZW1haWwgY2xpZW50
+IGFnYWluIDspCgo+LS0tCj4uLi4KPkVSUk9SOiBET1MgbGluZSBlbmRpbmdzCj4jNTUyOiBGSUxF
+OiBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXYtdG9vbHMva2FzYW4ucnN0OjQz
+MDoKPiteTSQKPgo+RVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKPiM1NTM6IEZJTEU6IERvY3Vt
+ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rldi10b29scy9rYXNhbi5yc3Q6NDMxOgo+Ky4u
+IF9LVW5pdDogaHR0cHM6Ly93d3cua2VybmVsLm9yZy9kb2MvaHRtbC9sYXRlc3QvZGV2LXRvb2xz
+L2t1bml0L2luZGV4Lmh0bWxeTSQKPgo+dG90YWw6IDQzMiBlcnJvcnMsIDEgd2FybmluZ3MsIDQ0
+NSBsaW5lcyBjaGVja2VkCj4tLS0KPgo+YW5kIHRoZSBsaW5lcyBpbiB0aGUgcGF0Y2ggYXJlIG5v
+dCBhbGlnbmVkIG9uIDgwIGNoYXJzLCAoNDAgY2hhcnMgZm9yIENoaW5lc2UsCj5zaW5jZSBvbmUg
+Q2hpbmVzZSBjaGFyIGNvdWxkIHRha2UgMiBwb3NpdGlvbnMuICkKPlRoYW5rcwo+QWxleAoKT0ss
+IGdyZWF0IHRpcHMgZm9yIG1lLgpJJ2xsIGZpeCB0aGVtIGluIHYzLgoKVGhhbmtzLApKaWFiaW5n
+Cgo+Cj5PbiAyMDIxLzYvMiDkuIvljYg4OjU2LCBXYW4gSmlhYmluZyB3cm90ZToKPj4gQWRkIG5l
+dyB6aCB0cmFuc2xhdGlvbnMKPj4gKiB6aF9DTi9kZXYtdG9vbHMva2FzYW4ucnN0Cj4+IGFuZCBs
+aW5rIGl0IHRvIHpoX0NOL2Rldi10b29scy9pbmRleC5yc3QKPj4gCj4+IFNpZ25lZC1vZmYtYnk6
+IFdhbiBKaWFiaW5nIDx3YW5qaWFiaW5nQHZpdm8uY29tPgo+PiAtLS0KPj4gQ2hhbmdlbG9nOgo+
+PiB2MjoKPj4gLSBEZWxldGUgc3BhY2VzIHN1cnJvdW5kIHdpdGggRW5nbGlzaCB3b3Jkcy4KPj4g
+LS0tDQoNCg==
