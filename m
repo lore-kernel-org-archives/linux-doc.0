@@ -2,95 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C861C47097
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:35:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74987C47097
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:56:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFB96613F3
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:35:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57780613F2
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:56:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbhFCPhe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 11:37:34 -0400
-Received: from www.zeus03.de ([194.117.254.33]:50154 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229726AbhFCPhe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Jun 2021 11:37:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=HoO02iAoah4iyPfuEGbKOdaYaZDS
-        OmC8gNjkeB5S6cg=; b=yYCCSCNNPUKUIKp0gDtJz11Ls95Avww9BNztv/VjezFT
-        h40knpbw5bhPJkrosSzzZX7KdYJ4sXeoJBsQ/dTahCMc6u4L9o7KG68rjBjoHM9H
-        1h+SZSfqnYI8y56wInR4iY6sBBIBctFdvYD4pb2O5iu2rdQwp09snUCgeWtJ0tE=
-Received: (qmail 1065094 invoked from network); 3 Jun 2021 17:35:47 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jun 2021 17:35:47 +0200
-X-UD-Smtp-Session: l3s3148p1@+undU97DIOogAwDPXwscAYTGTECNYrAp
-Date:   Thu, 3 Jun 2021 17:35:39 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] docs: fault-injection: fix non-working usage of negative
- values
-Message-ID: <YLj2jJi/iuskaemH@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20210603125841.27436-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdVLzzK-hsaEO4mEkOeCnzKuXgORanB+GGnHZjonwQAD9w@mail.gmail.com>
+        id S230053AbhFCP6E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 11:58:04 -0400
+Received: from mail-qv1-f46.google.com ([209.85.219.46]:41564 "EHLO
+        mail-qv1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229753AbhFCP6E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 11:58:04 -0400
+Received: by mail-qv1-f46.google.com with SMTP id x2so2769310qvo.8;
+        Thu, 03 Jun 2021 08:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=4WFK+dAl3lP8zGBQG5Zuw/AtQ6TfxtGSujMpkMrnDbk=;
+        b=bZZ0efbfToszLj45mbduNslRNzNQ3wrkp3cQX6z4EO1xt5mSQ+/Ti+Rgdz+tIHE1Ta
+         pEPt5lr+zHNspt/Nsd0I9YYypkXeCE+MQQ1bWoT/019cF8jqjXaRtnr6iLF9InVyg5GT
+         7tZ6CntLshbLjHa3GIFgMraMcmddIubypMp7UhO7uO+1O5BSR3Ukijwj4v3DE/jMXSXH
+         2ftTu5KnN438ImF50wNIfVs8UHtVjWBNsGLR8qCZG7TCi4LtBC68s+oG9h1LH5K/s9pY
+         NhQZAq6E62jyWuXxluoHCfsHQTWi9E3OXUmkLwHIDd3EjgPDMWMtxoflhnUiJCxQVnYU
+         n3Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=4WFK+dAl3lP8zGBQG5Zuw/AtQ6TfxtGSujMpkMrnDbk=;
+        b=dx5qLwq80EItbMkzwCJgAIcvlPba9ZvAhL80fzRHwT3F71Obt/CuYOy40aHNh2avwk
+         OeBjiT1PpKB3fbhz15Y97oy/WDjcwvJu8BcKkdC/zhZnIndHcQYWp/okPrz0pmEInYbs
+         OoIX+YiCqiZ49peqyqH5zKSisuhBkgp9dbwz4zvmCpzjo9Xlcb06625kIhS1TCfuMpBX
+         W6RlQmWKCFouew4ftYjSsDGw0jOCsO9xhcvyROVy34hGnUOoNXNCZZeOU5YkI1LoY8fH
+         dQp1aZP1aT0oYxijZvuO5yTbRJd1MBN8jp/rAcGLgYbwgJxpDz24xiUZ4yVcsBLVZU5u
+         n1fA==
+X-Gm-Message-State: AOAM531jYfKI1KiCWciKbEAiuirBHW/i3suHYZq9c+xaY23KqZlJIKA0
+        tQXeC50RiS0i7As1mg6qIQs=
+X-Google-Smtp-Source: ABdhPJwerfV65PHdjX76NBh729oibc3vZsU6r9rNIZ8zUS2VzYYmWq1wpd8PLQ/40DwnCG8UCUC4XQ==
+X-Received: by 2002:a0c:a323:: with SMTP id u32mr226377qvu.14.1622735719289;
+        Thu, 03 Jun 2021 08:55:19 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 64sm2135981qkj.123.2021.06.03.08.55.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 08:55:18 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Thu, 3 Jun 2021 08:55:16 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     =?iso-8859-1?Q?V=E1clav_Kubern=E1t?= <kubernat@cesnet.cz>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (max31790) Add support for fanX_div
+Message-ID: <20210603155516.GB3017129@roeck-us.net>
+References: <20210603131421.67235-1-kubernat@cesnet.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xsayXCEajoqZ5ApB"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVLzzK-hsaEO4mEkOeCnzKuXgORanB+GGnHZjonwQAD9w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210603131421.67235-1-kubernat@cesnet.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jun 03, 2021 at 03:14:21PM +0200, Václav Kubernát wrote:
+> Right now, the divisor (which determines the speed range) can be only
+> set by setting fanX_min or fanX_target. This is fine for RPM mode, but
+> in other cases, it might not be enough. This patch makes it possible to
+> set the divisor independently.
+> 
 
---xsayXCEajoqZ5ApB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Jan objected to patch 4/7 of the previous series, so anything from that
+onward is a no-go at this time. I'll drop patches 4/7 to 7/7 from the
+series for now. I will only be able to look into this further in about
+a month.
 
-
-Yeah, I also assume that it used to work at some time. Didn't bother to
-investigate, though.
-
-> The code uses debugfs_create_atomic_t(), and atomic_t is signed, so
-> I'd expect negative numbers to work.
-
-In debugfs, it is all cast from unsigned long long to something. Check
-simple_attr_write() where the value is obtained with kstrtoull. The code
-fix would be to not use simple_attr, I think. I opted for the doc fix.
-
-
---xsayXCEajoqZ5ApB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmC49ssACgkQFA3kzBSg
-Kbao8Q/+LF9SZhQeDCn7kYs60anHQ8OFvWFcxW1TpZNY6+NfDLcB1GwBa43FS3Gr
-Xr6qgUHLtaHlCP+z4uKa7coDWf4Z1BoWFCsK8xDbOL8qk/NPGc8yBevHQNhz0YQ7
-ST68n1cgClfLD0BCFDjE1Kq0j3T5jSI3CbykR546PzLOoEZO9LGKYXjU2FT1+RdU
-IyqtKrT8yMeOBKtqNLJoafD59IL173uH2QN7k5QLJkYvliB15TnG/HTSxvJ6KlZx
-D1H647iSR3SzaN2wfq+8Sl0fgEC+drGuDg8FJrrBISZ/Kygfyvm95LxGGGJrYC1p
-/BrIrO7o4ZCAHtxGdpmO+gdKxwxEWW0LJJofr/9CYZM/Ox5oMrPqZxZWIGkSBpUh
-ZtaCEVucILAf8T7ESjxt7hiP9ktcj3WZeVvmnzYEiTFrEnwEfc9EYmD4+RiLp9sf
-E9zU6HWizDZar7tZZCSvS1n5g+3cZTC0Nz5ctgcWx6F1ihiay5J8BsrAqkenqnS8
-tJAzx63aKMZOQLNh+lCYYGqxkBxT/KJqDBd5aZuOkegv4OMitP8Co772YPMSMEZW
-ANnufOcZEa2aCCN7aWj5OCCZTKqlSy52+LdbUNAkLFosQGGNIfcOJXmHlN45xCLC
-dirsOkmPOgniSszfGoopiOH7j2u6H5tWuPp3AP0zSuCXTiYxooQ=
-=XZA9
------END PGP SIGNATURE-----
-
---xsayXCEajoqZ5ApB--
+Guenter
