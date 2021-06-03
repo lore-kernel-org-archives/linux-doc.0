@@ -6,24 +6,24 @@ X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7AA9C47082
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 21:27:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2B7FC47082
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 21:29:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E2CA613FA
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 21:27:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFA196120F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 21:29:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbhFCV26 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 17:28:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50490 "EHLO mail.kernel.org"
+        id S230155AbhFCVav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 17:30:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50886 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229620AbhFCV25 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Jun 2021 17:28:57 -0400
+        id S229719AbhFCVau (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Jun 2021 17:30:50 -0400
 Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 157A46120F;
-        Thu,  3 Jun 2021 21:27:10 +0000 (UTC)
-Date:   Thu, 3 Jun 2021 17:27:09 -0400
+        by mail.kernel.org (Postfix) with ESMTPSA id 33EFB613F9;
+        Thu,  3 Jun 2021 21:29:04 +0000 (UTC)
+Date:   Thu, 3 Jun 2021 17:29:02 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Daniel Bristot de Oliveira <bristot@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
@@ -37,12 +37,12 @@ Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
         Clark Willaims <williams@redhat.com>,
         John Kacur <jkacur@redhat.com>,
         Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 6/9] trace/hwlat: Use the generic function to
- read/write width and window
-Message-ID: <20210603172709.25c322a1@gandalf.local.home>
-In-Reply-To: <bf0c568ddaf9e75e3d2e77b0ffd5ad1508c47afc.1621024265.git.bristot@redhat.com>
+Subject: Re: [PATCH V3 7/9] tracing: Add __print_ns_to_secs() and
+ __print_ns_without_secs() helpers
+Message-ID: <20210603172902.41648183@gandalf.local.home>
+In-Reply-To: <2c59beee3b36b15592bfbb9f26dee7f8b55fd814.1621024265.git.bristot@redhat.com>
 References: <cover.1621024265.git.bristot@redhat.com>
-        <bf0c568ddaf9e75e3d2e77b0ffd5ad1508c47afc.1621024265.git.bristot@redhat.com>
+        <2c59beee3b36b15592bfbb9f26dee7f8b55fd814.1621024265.git.bristot@redhat.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -51,62 +51,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 May 2021 22:51:15 +0200
+On Fri, 14 May 2021 22:51:16 +0200
 Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 
-> @@ -733,16 +624,18 @@ static ssize_t hwlat_mode_write(struct file *filp, const char __user *ubuf,
->  	return ret;
->  }
+> +++ b/include/trace/trace_events.h
+> @@ -358,6 +358,21 @@ TRACE_MAKE_SYSTEM_STR();
+>  	trace_print_hex_dump_seq(p, prefix_str, prefix_type,		\
+>  				 rowsize, groupsize, buf, len, ascii)
 >  
-> -static const struct file_operations width_fops = {
-> -	.open		= tracing_open_generic,
-> -	.read		= hwlat_read,
-> -	.write		= hwlat_width_write,
-> +static struct trace_ull_config hwlat_width = {
-> +	.lock		= &hwlat_data.lock,
-> +	.val		= &hwlat_data.sample_width,
-> +	.max		= &hwlat_data.sample_window,
-> +	.min		= NULL,
->  };
->  
-> -static const struct file_operations window_fops = {
-> -	.open		= tracing_open_generic,
-> -	.read		= hwlat_read,
-> -	.write		= hwlat_window_write,
-> +static struct trace_ull_config hwlat_window = {
+> +#undef __print_ns_to_secs
+> +#define __print_ns_to_secs(value)			\
+> +	({						\
+> +		u64 ____val = (u64)value;		\
+> +		do_div(____val, NSEC_PER_SEC);		\
+> +		____val;				\
+> +	})
 
-Yeah, the naming convention needs to be changed, because ull_config is
-meaningless, and this code makes no sense. I know what it is doing, but if
-I didn't, I'd have no clue what it was doing by reading it. :-p
+I know my name is on this, but we need parenthesis around "value".
+
+> +
+> +#undef __print_ns_without_secs
+> +#define __print_ns_without_secs(value)			\
+> +	({						\
+> +		u64 ____val = (u64)value;		\
+
+Here too.
+
+> +		(u32) do_div(____val, NSEC_PER_SEC);	\
+> +	})
+> +
+>  #undef DECLARE_EVENT_CLASS
+>  #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)	\
+>  static notrace enum print_line_t					\
+> @@ -736,6 +751,16 @@ static inline void ftrace_test_probe_##call(void)			\
+>  #undef __print_array
+>  #undef __print_hex_dump
+>  
+> +/*
+> + * The below is not executed in the kernel. It is only what is
+> + * displayed in the print format for userspace to parse.
+> + */
+> +#undef __print_ns_to_secs
+> +#define __print_ns_to_secs(val) val / 1000000000UL
+> +
+> +#undef __print_ns_without_secs
+> +#define __print_ns_without_secs(val) val % 1000000000UL
+
+And around "val" in the above two macros.
 
 -- Steve
 
-
-> +	.lock		= &hwlat_data.lock,
-> +	.val		= &hwlat_data.sample_window,
-> +	.max		= NULL,
-> +	.min		= &hwlat_data.sample_width,
->  };
->  
->  static const struct file_operations thread_mode_fops = {
-> @@ -775,15 +668,15 @@ static int init_tracefs(void)
->  
->  	hwlat_sample_window = tracefs_create_file("window", 0640,
->  						  top_dir,
-> -						  &hwlat_data.sample_window,
-> -						  &window_fops);
-> +						  &hwlat_window,
-> +						  &trace_ull_config_fops);
->  	if (!hwlat_sample_window)
->  		goto err;
->  
->  	hwlat_sample_width = tracefs_create_file("width", 0644,
->  						 top_dir,
-> -						 &hwlat_data.sample_width,
-> -						 &width_fops);
-> +						 &hwlat_width,
-> +						 &trace_ull_config_fops);
->  	if (!hwlat_sample_width)
->  		goto err;
+> +
+>  #undef TP_printk
+>  #define TP_printk(fmt, args...) "\"" fmt "\", "  __stringify(args)
 >  
 
