@@ -2,136 +2,200 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B587C47096
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 11:35:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C68BAC47096
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 11:39:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2F06613EE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 11:35:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF0C4613AC
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 11:39:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbhFCLhF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 07:37:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37784 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229840AbhFCLhF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Jun 2021 07:37:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 26B5C613E9;
-        Thu,  3 Jun 2021 11:35:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622720120;
-        bh=Y8bFIkLifsKJfKnmVZNGcWbsdgZzBCGpasopTV0wxY0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=MAyr80K+yANWljCa8bkRcqqEyEi2ii+Vf+HrV+uw6luMwGp55ZOckMfMpjAgU61cQ
-         LNYOjG9yxGYpWmO7G4+Zk3qH1ZsdewyaeveRSh/++Vht9drfCB4FJKOCyRlOP/C+IN
-         kxtXddcwt2aYOYfHm/DcpRPtnRTEUo420tn3Xi/IJz3Cx7ihc4npLunVJfznOS/GIR
-         DsRL8I41euKtXdprF4f6ahxz4IA036sMcMXEek7JhpGEu/gbgNfVP4CGxaY0bRZQTD
-         4ewzfbYytVtgrnoJkjAa6bYwpcFn6YhU8OtA5qh+7gyPUH9ATnmuo7TigfSlksSaJO
-         MRFVbZvXjmuTg==
-Date:   Thu, 3 Jun 2021 13:35:14 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        id S229790AbhFCLl1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 07:41:27 -0400
+Received: from mail-mw2nam10on2070.outbound.protection.outlook.com ([40.107.94.70]:29153
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229736AbhFCLl0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Jun 2021 07:41:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X5QYTg87ElbWpzxPOOzEeKeG/Hje/m3Plj9en1TVQ5gava1v/t1XeMVN0KmA1MIPv4/GbaLotEvOsJDQSMdUB1bo4R0qMgdIAAMsf9vEJvmEY374J7/Xr21lDUXkQY0hlBaIDP1NAastqHGTpLAjPS6H3+OqQUB6I8hOpgLUDS4FlEKdEdXZTSCheNGE2CAOmNCLBtjbQnPcNV2txVHFajp4UYdxV4Ops3ZZvg75Hl9wAnJkCzHkYP/03SfgQy52bLFC2uRTxGtVtj4YNXoye2HeL3kOQHVR2BqcxmIp2DNup4F4kk8dtSGjPKFukOWGgGSQdkwvINE3HWDV2hQ3Lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9+nRT/IplMZnWnH1VX2m3EkwFBAgRY6eDoR5xRm/YeA=;
+ b=iFSu4pUL762OyOiSEqvY9MSsgc+jxr1bqh9pBb/kxFyzALh6UwbJE3kxBT8eeU8wCwT/y8FYnEMWdtPm5NfCvz6zahhs38wltbwfPG7xX2O2SJxevZgCm6XVYniRkksjhRKV+/y3BC19wjGKhp9bGwQVPM/Dz6pe/vM6ZYhcoQcIhWaopzPMPGgse2/3wbShTUzcKdOt4pqGo1xZfOPg/VZBFL5FE4Wa3Ds1SWN3HqEKbQ2LJgwEueEmnC2pEX1zV7yFYbopM0o9MmyPAr4mGmEY9SPKzaeHjE3NLK1G4DAaqHPoG2dJ0n8BqYMJatTSWNPCBi/jEhQhKJVe6+nmHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9+nRT/IplMZnWnH1VX2m3EkwFBAgRY6eDoR5xRm/YeA=;
+ b=eCvIPhUhJV5Ulv7Znv5x6twv4LvMgvvxL3dC9svdMZKkVQomqg7eNjsf+UKHNWvzc3zpWjfQW6tDBOHE0bB0tp/qaPydgwwAIDl5sIzIiqYG6NV71xLbo8jZJ3cYgbD91ouOhx5fWRESe6haYdH7GtMOxpfUXxlqVi7NWZhn+T+V6vXwC/sAW/ggkMx2aemYbr6rvd81rlyufy3tnCu82Zj83pP7jj7E4RW5h+3eUmGcnzZiatCeIcxCIs5bJKS1yDXnzqCHyeMYXlIRNlnONDO0ROdqc6AV+xzFw3eKTL8wWCe7Ad5Os7TVFDzUaexkaAzh1QhsbHrK7YYLkb2aag==
+Received: from DM5PR06CA0051.namprd06.prod.outlook.com (2603:10b6:3:37::13) by
+ DM5PR1201MB0154.namprd12.prod.outlook.com (2603:10b6:4:58::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.22; Thu, 3 Jun 2021 11:39:40 +0000
+Received: from DM6NAM11FT051.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:37:cafe::21) by DM5PR06CA0051.outlook.office365.com
+ (2603:10b6:3:37::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20 via Frontend
+ Transport; Thu, 3 Jun 2021 11:39:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT051.mail.protection.outlook.com (10.13.172.243) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4195.22 via Frontend Transport; Thu, 3 Jun 2021 11:39:38 +0000
+Received: from nvdebian.localnet (172.20.187.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 3 Jun
+ 2021 11:39:35 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Peter Xu <peterx@redhat.com>
+CC:     Balbir Singh <bsingharora@gmail.com>,
+        John Hubbard <jhubbard@nvidia.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/12] docs: accounting: update delay-accounting.rst
- reference
-Message-ID: <20210603133514.3688071f@coco.lan>
-In-Reply-To: <871r9k6rmy.fsf@meer.lwn.net>
-References: <cover.1622648507.git.mchehab+huawei@kernel.org>
-        <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
-        <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
-        <20210602200121.64a828a1@coco.lan>
-        <871r9k6rmy.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <rcampbell@nvidia.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <hch@infradead.org>,
+        <jglisse@redhat.com>, <willy@infradead.org>, <jgg@nvidia.com>,
+        <hughd@google.com>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v9 07/10] mm: Device exclusive memory access
+Date:   Thu, 3 Jun 2021 21:39:32 +1000
+Message-ID: <3853054.AI2YdRgKcH@nvdebian>
+In-Reply-To: <YLeXqp/U0DgylI/u@t490s>
+References: <20210524132725.12697-1-apopple@nvidia.com> <YLdGXSw0zdiovn4i@balbir-desktop> <YLeXqp/U0DgylI/u@t490s>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.187.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: da1a8c05-f034-472a-f7fa-08d926844524
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0154:
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB015468AB4EEFD3462C125280DF3C9@DM5PR1201MB0154.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cu5nmTyoC00d68XOsqh1ADdwyt77dxqxpI42/gA5/B3/ASBG/rsAud0QVEkLap10LDrGld3JrJEoOUuXSA9goMPnws2u+HNyp1xvLuJ8PFxZbQc3qrD0MFyZtZKxTpeRAu1+vkjz2Am+VOGMSUNDiq6rJHvS0lst+wMhdWqPCSvM94KxePPcmqOpfh+TClvZosvcDd2aZDHC9hJYlalG9DnQQG3uat+IhmmsEfcz6Qa+YcjFS17404C+jAB+f2gtx9VdQTcXev+2O5jSBbkOqCjzJe9AeAVZo9OZpPdvyPePpjI8u466D1NhJs7L1qrx2BIAMs+d9RBfj7h8xe8X/05vVYD+sAMjT6W2cQ4xXWtMHFH+ECmF/oFeP+L+jrMpCFuwlnBHQfp/p/hFpKG7E+ux0fvykgPqmSTz97kB3oOsq4Kj+2so/+f491DxXHNfljP3UYedhKSc0Gk1vwv8J5/AcHu/uW3uZO3kFfczjEWfdSq9a0ILxv7Xgi6GaLERz6wG1942E5djhfqBou/VssvXeOQAh3WYTFkL7XLRWGg8/+nSVQhveNuV8Ju80iaq5ToxBOUXsopILunu5fHim87oHOSykbl+Ox3rThbmZ+IaVzC8ufwOfMhmB4TFtqRUJCEgUCBySc8SvU7LLAm6Qaj1J4tcJXEFapuNNmDOSIcXUpS6vcJwGjSm38KFWhcnJ9PEKZ6gWF9qqUuyYaiNdyJKu0qyiT4LSvcAopRSibZZm7tsgJniCWyjxm18FLfahliV/nyM2xtHlxioLlsHbOydu9//3hvAc4mJZ6p+mVY=
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(346002)(39860400002)(136003)(396003)(376002)(46966006)(36840700001)(36860700001)(5660300002)(6666004)(83380400001)(36906005)(53546011)(9686003)(8676002)(426003)(336012)(8936002)(7416002)(9576002)(2906002)(82740400003)(4326008)(316002)(356005)(478600001)(86362001)(54906003)(6916009)(82310400003)(16526019)(26005)(33716001)(70206006)(966005)(7636003)(47076005)(186003)(70586007)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 11:39:38.6137
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: da1a8c05-f034-472a-f7fa-08d926844524
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT051.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0154
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 02 Jun 2021 12:36:05 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Thursday, 3 June 2021 12:37:30 AM AEST Peter Xu wrote:
+> External email: Use caution opening links or attachments
 > 
-> > That's said, automarkup.py has a rule to convert Documentation/<foo>.rst
-> > into :doc:`<foo>`. So, an alternative approach would be to convert
-> > treewide all :doc:`<foo>` into Documentation/<foo>.rst and add something 
-> > at checkpatch.pl to recommend to avoid :doc: notation.  
+> On Wed, Jun 02, 2021 at 06:50:37PM +1000, Balbir Singh wrote:
+> > On Wed, May 26, 2021 at 12:17:18AM -0700, John Hubbard wrote:
+> > > On 5/25/21 4:51 AM, Balbir Singh wrote:
+> > > ...
+> > > 
+> > > > > How beneficial is this code to nouveau users?  I see that it permits
+> > > > > a
+> > > > > part of OpenCL to be implemented, but how useful/important is this
+> > > > > in
+> > > > > the real world?
+> > > > 
+> > > > That is a very good question! I've not reviewed the code, but a sample
+> > > > program with the described use case would make things easy to parse.
+> > > > I suspect that is not easy to build at the moment?
+> > > 
+> > > The cover letter says this:
+> > > 
+> > > This has been tested with upstream Mesa 21.1.0 and a simple OpenCL
+> > > program
+> > > which checks that GPU atomic accesses to system memory are atomic.
+> > > Without
+> > > this series the test fails as there is no way of write-protecting the
+> > > page
+> > > mapping which results in the device clobbering CPU writes. For reference
+> > > the test is available at https://ozlabs.org/~apopple/opencl_svm_atomics/
+> > > 
+> > > Further testing has been performed by adding support for testing
+> > > exclusive
+> > > access to the hmm-tests kselftests.
+> > > 
+> > > ...so that seems to cover the "sample program" request, at least.
+> > 
+> > Thanks, I'll take a look
+> > 
+> > > > I wonder how we co-ordinate all the work the mm is doing, page
+> > > > migration,
+> > > > reclaim with device exclusive access? Do we have any numbers for the
+> > > > worst
+> > > > case page fault latency when something is marked away for exclusive
+> > > > access?
+> > > 
+> > > CPU page fault latency is approximately "terrible", if a page is
+> > > resident on the GPU. We have to spin up a DMA engine on the GPU and
+> > > have it copy the page over the PCIe bus, after all.
+> > > 
+> > > > I presume for now this is anonymous memory only? SWP_DEVICE_EXCLUSIVE
+> > > > would
+> > > 
+> > > Yes, for now.
+> > > 
+> > > > only impact the address space of programs using the GPU. Should the
+> > > > exclusively marked range live in the unreclaimable list and recycled
+> > > > back to active/in-active to account for the fact that
+> > > > 
+> > > > 1. It is not reclaimable and reclaim will only hurt via page faults?
+> > > > 2. It ages the page correctly or at-least allows for that possibility
+> > > > when the> > > 
+> > > >     page is used by the GPU.
+> > > 
+> > > I'm not sure that that is *necessarily* something we can conclude. It
+> > > depends upon access patterns of each program. For example, a
+> > > "reduction" parallel program sends over lots of data to the GPU, and
+> > > only a tiny bit of (reduced!) data comes back to the CPU. In that case,
+> > > freeing the physical page on the CPU is actually the best decision for
+> > > the OS to make (if the OS is sufficiently prescient).> 
+> > With a shared device or a device exclusive range, it would be good to get
+> > the device usage pattern and update the mm with that knowledge, so that
+> > the LRU can be better maintained. With your comment you seem to suggest
+> > that a page used by the GPU might be a good candidate for reclaim based
+> > on the CPU's understanding of the age of the page should not account for
+> > use by the device
+> > (are GPU workloads - access once and discard?)
 > 
-> That seems like the right approach to me.  We have the automarkup
-> capability, we might as well make use of it...
+> Hmm, besides the aging info, this reminded me: do we need to isolate the
+> page from lru too when marking device exclusive access?
+> 
+> Afaict the current patch didn't do that so I think it's reclaimable.  If we
+> still have the rmap then we'll get a mmu notify CLEAR when unmapping that
+> special pte, so device driver should be able to drop the ownership.  However
+> we dropped the rmap when marking exclusive.  Now I don't know whether and
+> how it'll work if page reclaim runs with the page being exclusively owned
+> if without isolating the page..
 
-Hmm...
+Reclaim won't run on the page due to the extra references from the special 
+swap entries.
 
-This patch caused a regression:
+> --
+> Peter Xu
 
-<patch>
-PATCH] media: admin-guide: avoid using ReSt :doc:`foo` markup
 
-The :doc:`foo` tag is auto-generated via automarkup.py.
-So, use the filename at the sources, instead of :doc:`foo`.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-diff --git a/Documentation/admin-guide/media/index.rst b/Documentation/admin-guide/media/index.rst
-index 6e0d2bae7154..5dbf6d02096a 100644
---- a/Documentation/admin-guide/media/index.rst
-+++ b/Documentation/admin-guide/media/index.rst
-@@ -11,10 +11,10 @@ its supported drivers.
- 
- Please see:
- 
--- :doc:`/userspace-api/media/index`
-+- Documentation/userspace-api/media/index.rst
-      for the userspace APIs used on media devices.
- 
--- :doc:`/driver-api/media/index`
-+- Documentation/driver-api/media/index.rst
-      for driver development information and Kernel APIs used by
-      media devices;
-</patch>
-
-This is the diff for the HTML output:
-
-<diff>
-diff --git a/admin-guide/media/index.html b/admin-guide/media/index.html
-index 94c0cdf51579..28c083b75896 100644
---- a/admin-guide/media/index.html
-+++ b/admin-guide/media/index.html
-@@ -339,12 +339,12 @@ its supported drivers.</p>
- <p>Please see:</p>
- <ul class="simple">
- <li><dl class="simple">
--<dt><a class="reference internal" href="../../userspace-api/media/index.html"><span class="doc">Linux Media Infrastructure userspace API</span></a></dt><dd><p>for the userspace APIs used on media devices.</p>
-+<dt>Documentation/userspace-api/media/index.rst</dt><dd><p>for the userspace APIs used on media devices.</p>
- </dd>
- </dl>
- </li>
- <li><dl class="simple">
--<dt><a class="reference internal" href="../../driver-api/media/index.html"><span class="doc">Media subsystem kernel internal API</span></a></dt><dd><p>for driver development information and Kernel APIs used by
-+<dt>Documentation/driver-api/media/index.rst</dt><dd><p>for driver development information and Kernel APIs used by
- media devices;</p>
- </dd>
- </dl>
-</diff>
-
-It sounds that automarkup.py ignored it. Maybe because it is inside
-a list?
-
-Thanks,
-Mauro
