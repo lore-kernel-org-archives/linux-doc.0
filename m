@@ -2,86 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BCD1C47096
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:27:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75EFBC47096
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:33:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23B94613E9
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:27:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DFE5610E5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:33:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230343AbhFCN3P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 09:29:15 -0400
-Received: from mail-ua1-f44.google.com ([209.85.222.44]:33705 "EHLO
-        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbhFCN3P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 09:29:15 -0400
-Received: by mail-ua1-f44.google.com with SMTP id l12so3323080uai.0;
-        Thu, 03 Jun 2021 06:27:16 -0700 (PDT)
+        id S230084AbhFCNez (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 09:34:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59608 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230056AbhFCNey (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 09:34:54 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B26CEC06174A;
+        Thu,  3 Jun 2021 06:32:56 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id t8so5121930pgb.9;
+        Thu, 03 Jun 2021 06:32:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=iEQOESr2EHarE2eFXszkBy1aNJ++bvs1j++M9Lxe844=;
+        b=vPDyYLOTwpL6TFrgNOmQUIXMBjHx9nEOI8sbJHIr182Frpim7246rIsL+wo+ttU3FF
+         vOXs0iPPZlq3CNOu4syAMsUUOY70Hn+uiBXsZfqZO6QZg1dABRXb0stQ9uXoOqpzVevZ
+         tmRCXt5K4J+1CJPI/5WYIJ2S0Evy0lKtYxVpykRhhl+7ujRulu1xW6PlBF5uusQ6FSV/
+         SdPOJZt9ixNBjQ94gyWoQTyNUn+fsFwXVDw6Sb+siiqR31tIekVxQJdhZNQY9TCaAuvp
+         Nkv/mf7Z0rByk8mbpq8mDjWwmuWE448YVv8RNlOLXFWLtNQR1PvCFXMwmSSP/6qctaQd
+         IL4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nrfOmrylxXowFyXcIKu7oqcvEz+vDkg+DdiDg40cfGc=;
-        b=AS4ICXWXZE3ty7hLGWqZz/W943S2ri93o7/VDp5IWCHjl7E6Q0XOSf14tJClOGnFJk
-         m+uk1sFrROeODzsimhCXXCTK7etk61Thk9O4YA7lUvFw67mk2rdyBiAtG0FAoHxIap3l
-         0hicYNvRu9p3kbTJLygT1GT7Ix8Zj/WHR4GKrLxKjLJeDD4f9hco5JPZFRtoIreT9W58
-         ziKhPAtTYtjjR4hRqrF6SPWrsSqqGYj4q9w9OC+8+xO2tOW8jST+Hwc32bhAaM+zfmzZ
-         fPRAEEdZoinpEOrnbu4PejEvgn1EVqwD07H9VexXyK7M2+0N/n3USjqbrTimzRnrwYZa
-         xwSQ==
-X-Gm-Message-State: AOAM533AIOLZaZpt2qqGukGHrA2dnhr9dQiO7zAIwR/C5LhoT/SRok9I
-        SD4KtKXuQaNCY83ZeqqanxP814P9MkIurNm/GCw=
-X-Google-Smtp-Source: ABdhPJzf1KgvXV1hDDtLEC4jgKk1VyATYHPm9VWeUjdDzdNaT4jlc3PuCBnlYC2EIiX9YGZ/TB4JEyYjY/YD+N5YJnE=
-X-Received: by 2002:ab0:100f:: with SMTP id f15mr25846649uab.100.1622726835599;
- Thu, 03 Jun 2021 06:27:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210603125841.27436-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210603125841.27436-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 3 Jun 2021 15:27:04 +0200
-Message-ID: <CAMuHMdVLzzK-hsaEO4mEkOeCnzKuXgORanB+GGnHZjonwQAD9w@mail.gmail.com>
-Subject: Re: [PATCH] docs: fault-injection: fix non-working usage of negative values
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iEQOESr2EHarE2eFXszkBy1aNJ++bvs1j++M9Lxe844=;
+        b=hP1h2Pqqy413ti3MGxE+d0i6Wwk3Kok7o8z14YWZLu1Jixt8UJqpe9IpX5nYVvUWGk
+         EzIQfUDSFRSrTYYAbffziOD1Q+IctXHrl0Y4jtQgsoWUKqdrcUrIS6nGNR6DG9yiZsTr
+         bcgretGQcfBCbccoNta9lZzlPmYJlkbTi1Eiis1C/o+O4W6qUR12cEWmzkuquGF3QFwj
+         b3K3/l6zBqUNBddxDwoZj9e7wpyS82yPJwJsCiBjtHpnpj5sSt9tcfeAUS4iUvj9nVsF
+         NVYrNUzpRwGtGLbcHHolvg9iB9IYq/E9zCt7HaXZCmmTQAl/F3a9blNN5Hkr9Hx7MtWA
+         Axpg==
+X-Gm-Message-State: AOAM530QSG2HDj72xlS+EZDudNfGHMKHjCnIqd35/sj9o0ZYAvthAnhO
+        BbQ5TfPPGcskZ3FevByk1uQ=
+X-Google-Smtp-Source: ABdhPJy9oqwFXTx23rJ0NmxS6M9NAUoe4sGmMetpjMzUmi+ujURRvVRG9QQaM+6Tn/Ia2SR85oJ5Tg==
+X-Received: by 2002:a63:d312:: with SMTP id b18mr39940154pgg.89.1622727176019;
+        Thu, 03 Jun 2021 06:32:56 -0700 (PDT)
+Received: from [172.28.99.179] ([139.226.50.128])
+        by smtp.gmail.com with ESMTPSA id nn6sm2307533pjb.57.2021.06.03.06.32.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jun 2021 06:32:55 -0700 (PDT)
+Subject: Re: [PATCH] [v4] docs/zh_CN: add translations in
+ zh_CN/dev-tools/kasan
+To:     Wan Jiabing <wanjiabing@vivo.com>, Alex Shi <alexs@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Fangrui Song <maskray@google.com>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Bernard Zhao <bernard@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        clang-built-linux@googlegroups.com
+References: <1622723294-26434-1-git-send-email-wanjiabing@vivo.com>
+From:   Alex Shi <seakeel@gmail.com>
+Message-ID: <e04e491b-69f7-f4e0-882c-6ce86baa39bf@gmail.com>
+Date:   Thu, 3 Jun 2021 21:32:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <1622723294-26434-1-git-send-email-wanjiabing@vivo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Wolfram,
 
-On Thu, Jun 3, 2021 at 2:59 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Fault injection uses debugfs in a way that the provided values via sysfs
-> are interpreted as u64. Providing negative numbers results in an error:
->
-> /sys/kernel/debug/fail_function# echo -1 > times
-> sh: write error: Invalid argument
 
-Interesting...
+On 6/3/21 8:28 PM, Wan Jiabing wrote:
+> +
+> +实施细则
+> +---------
 
-> Update the docs and examples to use "printf %#x <val>" in these cases.
-> For "retval", reword the paragraph a little and fix a typo.
+the '-' and the '~' should be aligned with titles, like above '-' should be 8 numbers
+since Chinese chars take 2 position. Please double check all titles and its underline chars.
 
-Presumably this is something that used to work, but was broken (not
-so) recently.  Perhaps the code should be fixed instead?
-
-The code uses debugfs_create_atomic_t(), and atomic_t is signed, so
-I'd expect negative numbers to work.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks
+Alex 
+> +
+> +通用KASAN
+> +~~~~~~~~~~
