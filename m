@@ -2,130 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B23CC47097
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 12:58:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E3EC47096
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:02:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 405A8613F4
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 12:58:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C517613E9
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:02:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbhFCNAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 09:00:33 -0400
-Received: from www.zeus03.de ([194.117.254.33]:49502 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229950AbhFCNAc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Jun 2021 09:00:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=izaio6OYOi5/cS210qcp/hZqBx9
-        Kcznl+daTmtcK+PA=; b=VCnTWd5/N0C8pbs1JZvHP6THBoO8cO3EN8xAOjEIT50
-        66OE1Hq05vBy4rB3N0TF5XBajrVaVSJbHS0bS5nC0u7Aqcgdainm5Z93ICxAs/OT
-        qLzd6EVYgF7w+LQm6SFLwTtoMUyMMvuD7ghBdn76BmggAV278emou0lK/gNc+z+I
-        =
-Received: (qmail 1026719 invoked from network); 3 Jun 2021 14:58:46 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jun 2021 14:58:46 +0200
-X-UD-Smtp-Session: l3s3148p1@QuyxItzDPqEgARa4RTZoAT2JZZqL3FPj
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] docs: fault-injection: fix non-working usage of negative values
-Date:   Thu,  3 Jun 2021 14:58:41 +0200
-Message-Id: <20210603125841.27436-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        id S229976AbhFCNDv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 09:03:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229801AbhFCNDu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 09:03:50 -0400
+Received: from theia.8bytes.org (8bytes.org [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 488C0C06174A;
+        Thu,  3 Jun 2021 06:02:06 -0700 (PDT)
+Received: from cap.home.8bytes.org (p4ff2ba7c.dip0.t-ipconnect.de [79.242.186.124])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by theia.8bytes.org (Postfix) with ESMTPSA id C711F15C;
+        Thu,  3 Jun 2021 15:02:04 +0200 (CEST)
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
+Cc:     iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Joerg Roedel <jroedel@suse.de>,
+        Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] iommu/amd: Add amd_iommu=force_enable option
+Date:   Thu,  3 Jun 2021 15:02:03 +0200
+Message-Id: <20210603130203.29016-1-joro@8bytes.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fault injection uses debugfs in a way that the provided values via sysfs
-are interpreted as u64. Providing negative numbers results in an error:
+From: Joerg Roedel <jroedel@suse.de>
 
-/sys/kernel/debug/fail_function# echo -1 > times
-sh: write error: Invalid argument
+Add this option to enable the IOMMU on platforms like AMD Stoney,
+where the kernel usually disables it because it may cause problems in
+some scenarios.
 
-Update the docs and examples to use "printf %#x <val>" in these cases.
-For "retval", reword the paragraph a little and fix a typo.
-
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../fault-injection/fault-injection.rst       | 24 +++++++++++--------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 3 +++
+ drivers/iommu/amd/init.c                        | 9 ++++++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
-index 31ecfe44e5b4..f47d05ed0d94 100644
---- a/Documentation/fault-injection/fault-injection.rst
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -78,8 +78,10 @@ configuration of fault-injection capabilities.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index cb89dbdedc46..f6bf4e87df80 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -301,6 +301,9 @@
+ 					  allowed anymore to lift isolation
+ 					  requirements as needed. This option
+ 					  does not override iommu=pt
++			force_enable - Force enable the IOMMU on platforms known
++				       to be buggy with IOMMU enabled. Use this
++				       option with care.
  
- - /sys/kernel/debug/fail*/times:
+ 	amd_iommu_dump=	[HW,X86-64]
+ 			Enable AMD IOMMU driver option to dump the ACPI table
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index d006724f4dc2..23614337abef 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -153,7 +153,8 @@ int amd_iommu_guest_ir = AMD_IOMMU_GUEST_IR_VAPIC;
+ static int amd_iommu_xt_mode = IRQ_REMAP_XAPIC_MODE;
  
--	specifies how many times failures may happen at most.
--	A value of -1 means "no limit".
-+	specifies how many times failures may happen at most. A value of -1
-+	means "no limit". Note, though, that this file only accepts unsigned
-+	values. So, if you want to specify -1, you better use 'printf' instead
-+	of 'echo', e.g.: $ printf %#x -1 > times
+ static bool amd_iommu_detected;
+-static bool __initdata amd_iommu_disabled;
++static bool amd_iommu_disabled __initdata;
++static bool amd_iommu_force_enable __initdata;
+ static int amd_iommu_target_ivhd_type;
  
- - /sys/kernel/debug/fail*/space:
+ u16 amd_iommu_last_bdf;			/* largest PCI device id we have
+@@ -2834,6 +2835,9 @@ static bool detect_ivrs(void)
  
-@@ -167,11 +169,13 @@ configuration of fault-injection capabilities.
- 	- ERRNO: retval must be -1 to -MAX_ERRNO (-4096).
- 	- ERR_NULL: retval must be 0 or -1 to -MAX_ERRNO (-4096).
+ 	acpi_put_table(ivrs_base);
  
--- /sys/kernel/debug/fail_function/<functiuon-name>/retval:
-+- /sys/kernel/debug/fail_function/<function-name>/retval:
++	if (amd_iommu_force_enable)
++		goto out;
++
+ 	/* Don't use IOMMU if there is Stoney Ridge graphics */
+ 	for (i = 0; i < 32; i++) {
+ 		u32 pci_id;
+@@ -2845,6 +2849,7 @@ static bool detect_ivrs(void)
+ 		}
+ 	}
  
--	specifies the "error" return value to inject to the given
--	function for given function. This will be created when
--	user specifies new injection entry.
-+	specifies the "error" return value to inject to the given function.
-+	This will be created when the user specifies a new injection entry.
-+	Note that this file only accepts unsigned values. So, if you want to
-+	use a negative errno, you better use 'printf' instead of 'echo', e.g.:
-+	$ printf %#x -12 > retval
++out:
+ 	/* Make sure ACS will be enabled during PCI probe */
+ 	pci_request_acs();
  
- Boot option
- ^^^^^^^^^^^
-@@ -255,7 +259,7 @@ Application Examples
-     echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
-     echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-     echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    printf %#x -1 > /sys/kernel/debug/$FAILTYPE/times
-     echo 0 > /sys/kernel/debug/$FAILTYPE/space
-     echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-     echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-@@ -309,7 +313,7 @@ Application Examples
-     echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-     echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-     echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    printf %#x -1 > /sys/kernel/debug/$FAILTYPE/times
-     echo 0 > /sys/kernel/debug/$FAILTYPE/space
-     echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-     echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-@@ -336,11 +340,11 @@ Application Examples
-     FAILTYPE=fail_function
-     FAILFUNC=open_ctree
-     echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
--    echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
-+    printf %#x -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
-     echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-     echo 100 > /sys/kernel/debug/$FAILTYPE/probability
-     echo 0 > /sys/kernel/debug/$FAILTYPE/interval
--    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    printf %#x -1 > /sys/kernel/debug/$FAILTYPE/times
-     echo 0 > /sys/kernel/debug/$FAILTYPE/space
-     echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
- 
+@@ -3100,6 +3105,8 @@ static int __init parse_amd_iommu_options(char *str)
+ 	for (; *str; ++str) {
+ 		if (strncmp(str, "fullflush", 9) == 0)
+ 			amd_iommu_unmap_flush = true;
++		if (strncmp(str, "force_enable", 12) == 0)
++			amd_iommu_force_enable = true;
+ 		if (strncmp(str, "off", 3) == 0)
+ 			amd_iommu_disabled = true;
+ 		if (strncmp(str, "force_isolation", 15) == 0)
 -- 
-2.30.2
+2.31.1
 
