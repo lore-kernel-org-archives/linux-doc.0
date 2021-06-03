@@ -2,101 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75EFBC47096
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:33:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7F8C47082
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 14:06:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DFE5610E5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 13:33:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76A2F613EE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 14:06:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230084AbhFCNez (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 09:34:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbhFCNey (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 09:34:54 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B26CEC06174A;
-        Thu,  3 Jun 2021 06:32:56 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id t8so5121930pgb.9;
-        Thu, 03 Jun 2021 06:32:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=iEQOESr2EHarE2eFXszkBy1aNJ++bvs1j++M9Lxe844=;
-        b=vPDyYLOTwpL6TFrgNOmQUIXMBjHx9nEOI8sbJHIr182Frpim7246rIsL+wo+ttU3FF
-         vOXs0iPPZlq3CNOu4syAMsUUOY70Hn+uiBXsZfqZO6QZg1dABRXb0stQ9uXoOqpzVevZ
-         tmRCXt5K4J+1CJPI/5WYIJ2S0Evy0lKtYxVpykRhhl+7ujRulu1xW6PlBF5uusQ6FSV/
-         SdPOJZt9ixNBjQ94gyWoQTyNUn+fsFwXVDw6Sb+siiqR31tIekVxQJdhZNQY9TCaAuvp
-         Nkv/mf7Z0rByk8mbpq8mDjWwmuWE448YVv8RNlOLXFWLtNQR1PvCFXMwmSSP/6qctaQd
-         IL4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iEQOESr2EHarE2eFXszkBy1aNJ++bvs1j++M9Lxe844=;
-        b=hP1h2Pqqy413ti3MGxE+d0i6Wwk3Kok7o8z14YWZLu1Jixt8UJqpe9IpX5nYVvUWGk
-         EzIQfUDSFRSrTYYAbffziOD1Q+IctXHrl0Y4jtQgsoWUKqdrcUrIS6nGNR6DG9yiZsTr
-         bcgretGQcfBCbccoNta9lZzlPmYJlkbTi1Eiis1C/o+O4W6qUR12cEWmzkuquGF3QFwj
-         b3K3/l6zBqUNBddxDwoZj9e7wpyS82yPJwJsCiBjtHpnpj5sSt9tcfeAUS4iUvj9nVsF
-         NVYrNUzpRwGtGLbcHHolvg9iB9IYq/E9zCt7HaXZCmmTQAl/F3a9blNN5Hkr9Hx7MtWA
-         Axpg==
-X-Gm-Message-State: AOAM530QSG2HDj72xlS+EZDudNfGHMKHjCnIqd35/sj9o0ZYAvthAnhO
-        BbQ5TfPPGcskZ3FevByk1uQ=
-X-Google-Smtp-Source: ABdhPJy9oqwFXTx23rJ0NmxS6M9NAUoe4sGmMetpjMzUmi+ujURRvVRG9QQaM+6Tn/Ia2SR85oJ5Tg==
-X-Received: by 2002:a63:d312:: with SMTP id b18mr39940154pgg.89.1622727176019;
-        Thu, 03 Jun 2021 06:32:56 -0700 (PDT)
-Received: from [172.28.99.179] ([139.226.50.128])
-        by smtp.gmail.com with ESMTPSA id nn6sm2307533pjb.57.2021.06.03.06.32.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Jun 2021 06:32:55 -0700 (PDT)
-Subject: Re: [PATCH] [v4] docs/zh_CN: add translations in
- zh_CN/dev-tools/kasan
-To:     Wan Jiabing <wanjiabing@vivo.com>, Alex Shi <alexs@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Fangrui Song <maskray@google.com>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Bernard Zhao <bernard@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        clang-built-linux@googlegroups.com
-References: <1622723294-26434-1-git-send-email-wanjiabing@vivo.com>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <e04e491b-69f7-f4e0-882c-6ce86baa39bf@gmail.com>
-Date:   Thu, 3 Jun 2021 21:32:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <1622723294-26434-1-git-send-email-wanjiabing@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S230044AbhFCOIa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 10:08:30 -0400
+Received: from foss.arm.com ([217.140.110.172]:42244 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229744AbhFCOIa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Jun 2021 10:08:30 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B24911FB;
+        Thu,  3 Jun 2021 07:06:45 -0700 (PDT)
+Received: from e120325.arm.com (unknown [10.57.85.170])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2036B3F73D;
+        Thu,  3 Jun 2021 07:06:42 -0700 (PDT)
+From:   Beata Michalska <beata.michalska@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, valentin.schneider@arm.com,
+        dietmar.eggemann@arm.com, corbet@lwn.net, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v7 0/3] Rework CPU capacity asymmetry detection
+Date:   Thu,  3 Jun 2021 15:06:24 +0100
+Message-Id: <20210603140627.8409-1-beata.michalska@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+As of now, the asym_cpu_capacity_level will try to locate the lowest
+topology level where the highest available CPU capacity is being
+visible to all CPUs. This works perfectly fine for most of existing
+asymmetric designs out there, though for some possible and completely
+valid setups, combining different cpu microarchitectures within
+clusters, this might not be the best approach, resulting in pointing
+at a level, at which some of the domains might not see any asymmetry
+at all. This could be problematic for misfit migration and/or energy
+aware placement. And as such, for affected platforms it might result
+in custom changes to wake-up and CPU selection paths.
+
+As mentioned in the previous version, based on the available sources out there,
+one of the potentially affected (by original approach) platforms might be
+Exynos 9820/990 with it's 'sliced' LLC(SLC) divided between the two custom (big)
+cores and the remaining A75/A55 cores, which seems to be reflected in the
+made available dt entries for those platforms.
+
+The following patches rework how the asymmetric detection is being
+carried out, allowing pinning the asymmetric topology level to the lowest one,
+where full range of CPU capacities is visible to all CPUs within given
+sched domain. The asym_cpu_capacity_level will also keep track of those
+levels where any scope of asymmetry is being observed, to denote
+corresponding sched domains with the SD_ASYM_CPUCAPACITY flag
+and to enable misfit migration for those.
+
+In order to distinguish the sched domains with partial vs full range
+of CPU capacity asymmetry, new sched domain flag has been introduced:
+SD_ASYM_CPUCAPACITY_FULL.
+
+The overall idea of changing the asymmetry detection has been suggested
+by Valentin Schneider <valentin.schneider@arm.com>
+
+Verified on (mostly):
+    - QEMU (version 4.2.1) with variants of possible asymmetric topologies
+	- machine: virt
+	- modifying the device-tree 'cpus' node for virt machine:
+
+	qemu-system-aarch64 -kernel $KERNEL_IMG
+	    -drive format=qcow2,file=$IMAGE
+	    -append 'root=/dev/vda earlycon console=ttyAMA0 sched_debug
+	     sched_verbose loglevel=15 kmemleak=on' -m 2G  --nographic
+	    -cpu cortex-a57 -machine virt -smp cores=8
+	    -machine dumpdtb=$CUSTOM_DTB.dtb
+
+	$KERNEL_PATH/scripts/dtc/dtc -I dtb -O dts $CUSTOM_DTB.dts >
+	$CUSTOM_DTB.dtb
+
+	(modify the dts)
+
+	$KERNEL_PATH/scripts/dtc/dtc -I dts -O dtb $CUSTOM_DTB.dts >
+	$CUSTOM_DTB.dtb
+
+	qemu-system-aarch64 -kernel $KERNEL_IMG
+	    -drive format=qcow2,file=$IMAGE
+	    -append 'root=/dev/vda earlycon console=ttyAMA0 sched_debug
+	     sched_verbose loglevel=15 kmemleak=on' -m 2G  --nographic
+	    -cpu cortex-a57 -machine virt -smp cores=8
+	    -machine dtb=$CUSTOM_DTB.dtb
+v7:
+ - Dropping memory in case there is no asymmetry
+ - Changing classify function to get cpumask (sd span) and re-arranging
+   the function
+ - Adding warning for detecting asymmetry on SMT level
+v6:
+ - improving code readability
+v5:
+ - building CPUs list based on their capacity now triggered upon init
+   and explicit request from arch specific code to rebuild sched domains
+ - detecting asymmetry scope now done directly in sd_init
+v4:
+ - Based on Peter's idea, reworking asym detection to use per-cpu
+   capacity list to serve as base for determining the asym scope
+v3:
+ - Additional style/doc fixes
+v2:
+ - Fixed style issues
+ - Reworked accessing the cached topology data as suggested by Valentin
 
 
-On 6/3/21 8:28 PM, Wan Jiabing wrote:
-> +
-> +实施细则
-> +---------
+Beata Michalska (3):
+  sched/core: Introduce SD_ASYM_CPUCAPACITY_FULL sched_domain flag
+  sched/topology: Rework CPU capacity asymmetry detection
+  sched/doc: Update the CPU capacity asymmetry bits
 
-the '-' and the '~' should be aligned with titles, like above '-' should be 8 numbers
-since Chinese chars take 2 position. Please double check all titles and its underline chars.
+ Documentation/scheduler/sched-capacity.rst |   6 +-
+ Documentation/scheduler/sched-energy.rst   |   2 +-
+ include/linux/sched/sd_flags.h             |  10 +
+ kernel/sched/topology.c                    | 206 +++++++++++++--------
+ 4 files changed, 143 insertions(+), 81 deletions(-)
 
-Thanks
-Alex 
-> +
-> +通用KASAN
-> +~~~~~~~~~~
+-- 
+2.17.1
+
