@@ -2,229 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBFCCC47097
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C861C47097
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:35:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4E7C613F4
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:10:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFB96613F3
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Jun 2021 15:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231213AbhFCPMh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Jun 2021 11:12:37 -0400
-Received: from mail-pl1-f171.google.com ([209.85.214.171]:43903 "EHLO
-        mail-pl1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230396AbhFCPMh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jun 2021 11:12:37 -0400
-Received: by mail-pl1-f171.google.com with SMTP id v12so3023172plo.10;
-        Thu, 03 Jun 2021 08:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0ytX/7qNN3WwyQK0LAIrxn42NeJriMqbyp9OIcjvkW4=;
-        b=Ie42/OY9JQj6C5gqGcEO3N8IUZ47sNLu7b/37YWU9nTBfZhNYKiNX0sdbz/pA5Au/c
-         tMWGf7LWBDNe8Y6ur2rbxKiUTricsCq6ysD+SmBE7iPjvqD7RpXs0C1GT5hjQ6MmqAPf
-         gHx7a9buVV6mbwqO8tvuwZ4W6VT4C2h1+R/Z1xEwHfTCKxzIKmhsPCyAatIvxyYbL3ib
-         qV+dWMYQ5OtXkUjaEhMAnnLKIaQ5cyvN8FOR+P20vUsNgL7tnjTH9Ymx/nGDpAf0GXTy
-         6IISXn6xpiIpUJKPUDtmNh2wb8cOEJae/DyUO7iAisa51SbnUxomokFL3J+62FvCo2lK
-         J7xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0ytX/7qNN3WwyQK0LAIrxn42NeJriMqbyp9OIcjvkW4=;
-        b=E49bv5ml9ekMlvD2gXLA8usK2rWVxI0l+QpNKSTj2kmG7/ic1+WKXBWd17AJ+3oxbu
-         GMgmlarjKknEgDTQ4029PUDPGOEW3MpwD2x5o79yJ0vTXGVc5CDWtBxN35ncnpngJ0gN
-         IjDgyJlq8D27dJKdzJg1TPoDiXWThapGlFmQhrG5RnWk3XVOAwhRP9hVuI57SNnv7Nf0
-         kjbXmruPFYT/4rf4eW+Y8Zc1KEb6k6OBbOhXqlYnaWt1M9vvlhzCUZLUjaIsg0wGUrgu
-         8ao7COCP9LMaWb9DIyXAYTM8RwlCzrvCg9ATXIqVPh8M5qWLOsror7p1AKm5c4KJdaq/
-         CSmA==
-X-Gm-Message-State: AOAM531+ekqQ4BxOoc/+R3p59tU3fDn3FpqLGK9aYxjh4hGkDgrZrRt1
-        isjtw0BjREFuKiW4lLPvEOKIoPmAFSA=
-X-Google-Smtp-Source: ABdhPJyDjceDUJjIgTwEDxoIaUx371wwpPCNRO3iIruRpb5xntwB7viN3eDmhb5Hp4L5NdOmds5JJg==
-X-Received: by 2002:a17:902:27:b029:10b:dd63:2d3a with SMTP id 36-20020a1709020027b029010bdd632d3amr130819pla.77.1622732992058;
-        Thu, 03 Jun 2021 08:09:52 -0700 (PDT)
-Received: from localhost ([47.251.4.198])
-        by smtp.gmail.com with ESMTPSA id x3sm3177706pgx.8.2021.06.03.08.09.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 Jun 2021 08:09:51 -0700 (PDT)
-From:   Lai Jiangshan <jiangshanlai@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Lai Jiangshan <laijs@linux.alibaba.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        id S229692AbhFCPhe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Jun 2021 11:37:34 -0400
+Received: from www.zeus03.de ([194.117.254.33]:50154 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229726AbhFCPhe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Jun 2021 11:37:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=HoO02iAoah4iyPfuEGbKOdaYaZDS
+        OmC8gNjkeB5S6cg=; b=yYCCSCNNPUKUIKp0gDtJz11Ls95Avww9BNztv/VjezFT
+        h40knpbw5bhPJkrosSzzZX7KdYJ4sXeoJBsQ/dTahCMc6u4L9o7KG68rjBjoHM9H
+        1h+SZSfqnYI8y56wInR4iY6sBBIBctFdvYD4pb2O5iu2rdQwp09snUCgeWtJ0tE=
+Received: (qmail 1065094 invoked from network); 3 Jun 2021 17:35:47 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jun 2021 17:35:47 +0200
+X-UD-Smtp-Session: l3s3148p1@+undU97DIOogAwDPXwscAYTGTECNYrAp
+Date:   Thu, 3 Jun 2021 17:35:39 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH V2] KVM: X86: MMU: Use the correct inherited permissions to get shadow page
-Date:   Thu,  3 Jun 2021 13:24:55 +0800
-Message-Id: <20210603052455.21023-1-jiangshanlai@gmail.com>
-X-Mailer: git-send-email 2.19.1.6.gb485710b
-In-Reply-To: <20201120095517.19211-1-jiangshanlai@gmail.com>
-References: <20201120095517.19211-1-jiangshanlai@gmail.com>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] docs: fault-injection: fix non-working usage of negative
+ values
+Message-ID: <YLj2jJi/iuskaemH@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20210603125841.27436-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdVLzzK-hsaEO4mEkOeCnzKuXgORanB+GGnHZjonwQAD9w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="xsayXCEajoqZ5ApB"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVLzzK-hsaEO4mEkOeCnzKuXgORanB+GGnHZjonwQAD9w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Lai Jiangshan <laijs@linux.alibaba.com>
 
-Commit 41074d07c78b ("KVM: MMU: Fix inherited permissions for emulated
-guest pte updates") said role.access is common access permissions for
-all ptes in this shadow page, which is the inherited permissions from
-the parent ptes, and should not from any children pte.
+--xsayXCEajoqZ5ApB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-But the commit did not enforce this definition when kvm_mmu_get_page()
-is called in FNAME(fetch). Rather, it uses a whole combined access of
-the first accessing vitual address except the ternimating pte. And the
-permissions won't be checked again in next FNAME(fetch) since the spte
-is present. It might fail to meet guest's expectation when guest uses
-shared pagetables.
 
-For example, here is a shared pagetable:
-   pgd[]   pud[]        pmd[]            virtual address pointers
-                     /->pmd1(u--)->pte1(uw-)->page1 <- ptr1 (u--)
-        /->pud1(uw-)--->pmd2(uw-)->pte2(uw-)->page2 <- ptr2 (uw-)
-   pgd-|           (shared pmd[] as above)
-        \->pud2(u--)--->pmd1(u--)->pte1(uw-)->page1 <- ptr3 (u--)
-                     \->pmd2(uw-)->pte2(uw-)->page2 <- ptr4 (u--)
-  pud1 and pud2 point to the same pmd table, so:
-  ptr1 and ptr3 points to the same page.
-  ptr2 and ptr4 points to the same page.
+Yeah, I also assume that it used to work at some time. Didn't bother to
+investigate, though.
 
-(pud1 and pud2 here are pud entries, not pud pagtable pointer
- pmd1 and pmd2 here are pmd entries, not pmd pagtable pointer)
+> The code uses debugfs_create_atomic_t(), and atomic_t is signed, so
+> I'd expect negative numbers to work.
 
-  The guess read-accesses to ptr1 first. So the hypervisor gets the
-shadow page table with role.access=u-- for ptr1's pud1 and ptr1's pmd1.
-(Note: current pt->access is the combined access of pgd, pud1 and
-pmd1, so it is "u--".  But the current code uses this pt->access to
-get pagetable for pud1 which violate the definition in the comment
-which should be the combined access of pgd, pud1, a.k.a "uw-".)
+In debugfs, it is all cast from unsigned long long to something. Check
+simple_attr_write() where the value is obtained with kstrtoull. The code
+fix would be to not use simple_attr, I think. I opted for the doc fix.
 
-  And then the guest write-accesses to ptr2, and the hypervisor
-set up shadow page for ptr2.
-(Note: current pt->access=uw-, but pud1 points to a shadow pmd
-table with role.access=u--.  Since pud1 is present, the hypervisor
-silencely accepts it without recheck the access in FNAME(fetch))
 
-  After that, the guess read-accesses to ptr3, the hypervisor
-reused the same shadow pmd page table for pud2 as ptr1.
-(Note: because current pt->access=u--, which is the access of pgd, pud2
-and pmd1)
+--xsayXCEajoqZ5ApB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  At last, the guest writes to ptr4 without vmexit nor pagefault.
-Which should cause pagefault as the guest expects.
+-----BEGIN PGP SIGNATURE-----
 
-Any kind of shared pagetable might have the similar problem when in
-virtual machine without TDP enabled if the permissions are different
-from different ancestors.
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmC49ssACgkQFA3kzBSg
+Kbao8Q/+LF9SZhQeDCn7kYs60anHQ8OFvWFcxW1TpZNY6+NfDLcB1GwBa43FS3Gr
+Xr6qgUHLtaHlCP+z4uKa7coDWf4Z1BoWFCsK8xDbOL8qk/NPGc8yBevHQNhz0YQ7
+ST68n1cgClfLD0BCFDjE1Kq0j3T5jSI3CbykR546PzLOoEZO9LGKYXjU2FT1+RdU
+IyqtKrT8yMeOBKtqNLJoafD59IL173uH2QN7k5QLJkYvliB15TnG/HTSxvJ6KlZx
+D1H647iSR3SzaN2wfq+8Sl0fgEC+drGuDg8FJrrBISZ/Kygfyvm95LxGGGJrYC1p
+/BrIrO7o4ZCAHtxGdpmO+gdKxwxEWW0LJJofr/9CYZM/Ox5oMrPqZxZWIGkSBpUh
+ZtaCEVucILAf8T7ESjxt7hiP9ktcj3WZeVvmnzYEiTFrEnwEfc9EYmD4+RiLp9sf
+E9zU6HWizDZar7tZZCSvS1n5g+3cZTC0Nz5ctgcWx6F1ihiay5J8BsrAqkenqnS8
+tJAzx63aKMZOQLNh+lCYYGqxkBxT/KJqDBd5aZuOkegv4OMitP8Co772YPMSMEZW
+ANnufOcZEa2aCCN7aWj5OCCZTKqlSy52+LdbUNAkLFosQGGNIfcOJXmHlN45xCLC
+dirsOkmPOgniSszfGoopiOH7j2u6H5tWuPp3AP0zSuCXTiYxooQ=
+=XZA9
+-----END PGP SIGNATURE-----
 
-In order to fix the problem, we change pt->access to be an array, and
-any access in it will not combind accesses from child ptes.
-
-The test code is: https://lore.kernel.org/kvm/20210603050537.19605-1-jiangshanlai@gmail.com/ 
-Remember to test it with TDP disabled.
-
-The problem had existed long before the commit 41074d07c78b ("KVM: MMU:
-Fix inherited permissions for emulated guest pte updates"), and it
-is hard to find which is the culprit.  So there is no fixes tag here.
-
-Signed-off-by: Lai Jiangshan <laijs@linux.alibaba.com>
----
-Changed from V1:
-	Update changelog only
-
- Documentation/virt/kvm/mmu.rst |  4 ++--
- arch/x86/kvm/mmu/paging_tmpl.h | 14 +++++++++-----
- 2 files changed, 11 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
-index 5bfe28b0728e..20d85daed395 100644
---- a/Documentation/virt/kvm/mmu.rst
-+++ b/Documentation/virt/kvm/mmu.rst
-@@ -171,8 +171,8 @@ Shadow pages contain the following information:
-     shadow pages) so role.quadrant takes values in the range 0..3.  Each
-     quadrant maps 1GB virtual address space.
-   role.access:
--    Inherited guest access permissions in the form uwx.  Note execute
--    permission is positive, not negative.
-+    Inherited guest access permissions from the parent ptes in the form uwx.
-+    Note execute permission is positive, not negative.
-   role.invalid:
-     The page is invalid and should not be used.  It is a root page that is
-     currently pinned (by a cpu hardware register pointing to it); once it is
-diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
-index 70b7e44e3035..823a5919f9fa 100644
---- a/arch/x86/kvm/mmu/paging_tmpl.h
-+++ b/arch/x86/kvm/mmu/paging_tmpl.h
-@@ -90,8 +90,8 @@ struct guest_walker {
- 	gpa_t pte_gpa[PT_MAX_FULL_LEVELS];
- 	pt_element_t __user *ptep_user[PT_MAX_FULL_LEVELS];
- 	bool pte_writable[PT_MAX_FULL_LEVELS];
--	unsigned pt_access;
--	unsigned pte_access;
-+	unsigned int pt_access[PT_MAX_FULL_LEVELS];
-+	unsigned int pte_access;
- 	gfn_t gfn;
- 	struct x86_exception fault;
- };
-@@ -418,13 +418,15 @@ static int FNAME(walk_addr_generic)(struct guest_walker *walker,
- 		}
- 
- 		walker->ptes[walker->level - 1] = pte;
-+
-+		/* Convert to ACC_*_MASK flags for struct guest_walker.  */
-+		walker->pt_access[walker->level - 1] = FNAME(gpte_access)(pt_access ^ walk_nx_mask);
- 	} while (!is_last_gpte(mmu, walker->level, pte));
- 
- 	pte_pkey = FNAME(gpte_pkeys)(vcpu, pte);
- 	accessed_dirty = have_ad ? pte_access & PT_GUEST_ACCESSED_MASK : 0;
- 
- 	/* Convert to ACC_*_MASK flags for struct guest_walker.  */
--	walker->pt_access = FNAME(gpte_access)(pt_access ^ walk_nx_mask);
- 	walker->pte_access = FNAME(gpte_access)(pte_access ^ walk_nx_mask);
- 	errcode = permission_fault(vcpu, mmu, walker->pte_access, pte_pkey, access);
- 	if (unlikely(errcode))
-@@ -463,7 +465,8 @@ static int FNAME(walk_addr_generic)(struct guest_walker *walker,
- 	}
- 
- 	pgprintk("%s: pte %llx pte_access %x pt_access %x\n",
--		 __func__, (u64)pte, walker->pte_access, walker->pt_access);
-+		 __func__, (u64)pte, walker->pte_access,
-+		 walker->pt_access[walker->level - 1]);
- 	return 1;
- 
- error:
-@@ -643,7 +646,7 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gpa_t addr,
- 	bool huge_page_disallowed = exec && nx_huge_page_workaround_enabled;
- 	struct kvm_mmu_page *sp = NULL;
- 	struct kvm_shadow_walk_iterator it;
--	unsigned direct_access, access = gw->pt_access;
-+	unsigned int direct_access, access;
- 	int top_level, level, req_level, ret;
- 	gfn_t base_gfn = gw->gfn;
- 
-@@ -675,6 +678,7 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gpa_t addr,
- 		sp = NULL;
- 		if (!is_shadow_present_pte(*it.sptep)) {
- 			table_gfn = gw->table_gfn[it.level - 2];
-+			access = gw->pt_access[it.level - 2];
- 			sp = kvm_mmu_get_page(vcpu, table_gfn, addr, it.level-1,
- 					      false, access);
- 		}
--- 
-2.19.1.6.gb485710b
-
+--xsayXCEajoqZ5ApB--
