@@ -2,176 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5236BC4709D
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 06:50:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F15DC4708F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 07:37:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35A4261407
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 06:50:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28B2E613AD
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 07:37:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbhFDGwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Jun 2021 02:52:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36970 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229927AbhFDGwQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Jun 2021 02:52:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3515A61415;
-        Fri,  4 Jun 2021 06:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622789430;
-        bh=lDEh/GlZ6IHzCVgoifZXFj4eSjBGzRR223ZmBbEbu7M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FFzVOjIJiCWzdDVdPOERBe+6WCuPkRQX7QoI7Waosxm/3cjzgDaj7FR4VcbvtndpF
-         I7LnDiGmeXg+T//F9l1eT/bfu4LdtRglAhKPnEwGrSICHYLC4d4iqYRIWVGsjPrQsY
-         SQlmy4lnuYwfWGbNxIBov1kbm+UssQAoftJ4Ihv9dOUOh1TNLPmsA6Wada1KVNha4R
-         YBsOMw5ijOD+d9Ylug1CBP0Znxweh4IQwpiLtVrygr6/BGOPGwyD6kk/2+T/pQHvGJ
-         3yA2ewQe15ITdLRhwcIMW7tJYcTEAOpVVnMo+uilV6cGq6XyCS25HnxLbvk3H/+VDA
-         5UTnsjhL588eg==
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
-        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
-Subject: [PATCH v2 9/9] mm: replace CONFIG_FLAT_NODE_MEM_MAP with CONFIG_FLATMEM
-Date:   Fri,  4 Jun 2021 09:49:16 +0300
-Message-Id: <20210604064916.26580-10-rppt@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210604064916.26580-1-rppt@kernel.org>
-References: <20210604064916.26580-1-rppt@kernel.org>
+        id S229973AbhFDHiq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Jun 2021 03:38:46 -0400
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:34415 "EHLO
+        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230122AbhFDHiq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jun 2021 03:38:46 -0400
+Received: by mail-ot1-f46.google.com with SMTP id v27-20020a056830091bb02903cd67d40070so5183320ott.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Jun 2021 00:36:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Ez5lETXpQCXR92R+DbI/uHPWxCjpDwac8Hof7t71BVY=;
+        b=GVnQsp1+cdVxj+Nl3Nt8MtEqsI2wsFySwp/qmFG9ZENLZaXsYp3XA4sYsIH/VQ1JZ8
+         JXecb99zlGZSP1M0wdlSRv50HF+DYA9vxMLXLe/lsV6q+coZLCDgRoUvLhjSL+mm9Wc1
+         zQFGjFq0qAd6CMD9aXvo1Er/VsMyXM//86riPGrrEM0W1P1Smv67C6UIKc/AXhveyQU9
+         9ww0C7sZ88GbrByZZNr6WgAizL3HXsxJnPzN/q2GeQ7K0w2dqfTbe/aKCXzBZG0ZTNh2
+         etq2Kc2O77aFL1jGSlFjJMQFil4DWn1xVmMkodPnkA7v2JvJEEaFfXAdsnz4JZbCP9pa
+         4htg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Ez5lETXpQCXR92R+DbI/uHPWxCjpDwac8Hof7t71BVY=;
+        b=EpfFdZqZ9ynBI9ouemgRTHiumEH0aUHMCxcgb9DswUcYkY+kTFe23VYrWHTpv8/Kah
+         gc8V+gM9h6jjAS3/NW98LHFVXg/IjB7CV/4FW4Wavoh1HSo4etArD0L+kbUDOfmUQ/+K
+         hOX+E0bsve6f17h5r2m1wdYeaoTJVGVZ/YQH6qnhXt8Uc9QIIcSmGdlBSrbhceZ449dj
+         oWBOH4iC9aJRZP12pOgdw5dh6amCfSKjtW4PT1l6zUPvi8AYe+rnpqzkWBO9bMNkByiw
+         +Pi+m1fwUSKTGt7G3KY+ttRAZdJD45ZPqzgZ/lPOeJ8nnYTeAwkTQXyLoNiQvZ0HRyRn
+         yagQ==
+X-Gm-Message-State: AOAM5315MQzkKHregJCahLa8Floe+cNi2fkTduTrKdGEcCXxT/hLbFVo
+        wskQDUViu0bMPSlrUzMXDJRHm6mnr2+GDePg3p63z770hSYZrZo2
+X-Google-Smtp-Source: ABdhPJwH727yCMumDgwt7kcHi+XMn5jOdEcr8nnHyf88PA3QQcNLDYEYbzxsTW4uiqfgwoFCuf6eALDOxBFtMQNBSyk=
+X-Received: by 2002:a9d:b86:: with SMTP id 6mr789632oth.340.1622792146616;
+ Fri, 04 Jun 2021 00:35:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210603015802.2609230-1-siyanteng@loongson.cn> <20210603115040.GA5502@bobwxc.top>
+In-Reply-To: <20210603115040.GA5502@bobwxc.top>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Fri, 4 Jun 2021 15:35:35 +0800
+Message-ID: <CAEensMzJK313Fx5p9n1KipiBQgmFbsy6iYAjPt=_rgKysenh+w@mail.gmail.com>
+Subject: Re: [PATCH v2] docs/zh_CN: add core api cachetlb translation
+To:     "Wu X.C." <bobwxc@email.cn>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
-
-After removal of the DISCONTIGMEM memory model the FLAT_NODE_MEM_MAP
-configuration option is equivalent to FLATMEM.
-
-Drop CONFIG_FLAT_NODE_MEM_MAP and use CONFIG_FLATMEM instead.
-
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- include/linux/mmzone.h | 4 ++--
- kernel/crash_core.c    | 2 +-
- mm/Kconfig             | 4 ----
- mm/page_alloc.c        | 6 +++---
- mm/page_ext.c          | 2 +-
- 5 files changed, 7 insertions(+), 11 deletions(-)
-
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index acdc51c7b259..1d5cafe5ccc3 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -777,7 +777,7 @@ typedef struct pglist_data {
- 	struct zonelist node_zonelists[MAX_ZONELISTS];
- 
- 	int nr_zones; /* number of populated zones in this node */
--#ifdef CONFIG_FLAT_NODE_MEM_MAP	/* means !SPARSEMEM */
-+#ifdef CONFIG_FLATMEM	/* means !SPARSEMEM */
- 	struct page *node_mem_map;
- #ifdef CONFIG_PAGE_EXTENSION
- 	struct page_ext *node_page_ext;
-@@ -867,7 +867,7 @@ typedef struct pglist_data {
- 
- #define node_present_pages(nid)	(NODE_DATA(nid)->node_present_pages)
- #define node_spanned_pages(nid)	(NODE_DATA(nid)->node_spanned_pages)
--#ifdef CONFIG_FLAT_NODE_MEM_MAP
-+#ifdef CONFIG_FLATMEM
- #define pgdat_page_nr(pgdat, pagenr)	((pgdat)->node_mem_map + (pagenr))
- #else
- #define pgdat_page_nr(pgdat, pagenr)	pfn_to_page((pgdat)->node_start_pfn + (pagenr))
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 53eb8bc6026d..2b8446ea7105 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -483,7 +483,7 @@ static int __init crash_save_vmcoreinfo_init(void)
- 	VMCOREINFO_OFFSET(page, compound_head);
- 	VMCOREINFO_OFFSET(pglist_data, node_zones);
- 	VMCOREINFO_OFFSET(pglist_data, nr_zones);
--#ifdef CONFIG_FLAT_NODE_MEM_MAP
-+#ifdef CONFIG_FLATMEM
- 	VMCOREINFO_OFFSET(pglist_data, node_mem_map);
- #endif
- 	VMCOREINFO_OFFSET(pglist_data, node_start_pfn);
-diff --git a/mm/Kconfig b/mm/Kconfig
-index bffe4bd859f3..ded98fb859ab 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -55,10 +55,6 @@ config FLATMEM
- 	def_bool y
- 	depends on !SPARSEMEM || FLATMEM_MANUAL
- 
--config FLAT_NODE_MEM_MAP
--	def_bool y
--	depends on !SPARSEMEM
--
- #
- # SPARSEMEM_EXTREME (which is the default) does some bootmem
- # allocations when sparse_init() is called.  If this cannot
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 8f08135d3eb4..f039736541eb 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -6444,7 +6444,7 @@ static void __meminit zone_init_free_lists(struct zone *zone)
- 	}
- }
- 
--#if !defined(CONFIG_FLAT_NODE_MEM_MAP)
-+#if !defined(CONFIG_FLATMEM)
- /*
-  * Only struct pages that correspond to ranges defined by memblock.memory
-  * are zeroed and initialized by going through __init_single_page() during
-@@ -7241,7 +7241,7 @@ static void __init free_area_init_core(struct pglist_data *pgdat)
- 	}
- }
- 
--#ifdef CONFIG_FLAT_NODE_MEM_MAP
-+#ifdef CONFIG_FLATMEM
- static void __ref alloc_node_mem_map(struct pglist_data *pgdat)
- {
- 	unsigned long __maybe_unused start = 0;
-@@ -7289,7 +7289,7 @@ static void __ref alloc_node_mem_map(struct pglist_data *pgdat)
- }
- #else
- static void __ref alloc_node_mem_map(struct pglist_data *pgdat) { }
--#endif /* CONFIG_FLAT_NODE_MEM_MAP */
-+#endif /* CONFIG_FLATMEM */
- 
- #ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
- static inline void pgdat_set_deferred_range(pg_data_t *pgdat)
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index df6f74aac8e1..293b2685fc48 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -191,7 +191,7 @@ void __init page_ext_init_flatmem(void)
- 	panic("Out of memory");
- }
- 
--#else /* CONFIG_FLAT_NODE_MEM_MAP */
-+#else /* CONFIG_FLATMEM */
- 
- struct page_ext *lookup_page_ext(const struct page *page)
- {
--- 
-2.28.0
-
+V3UgWC5DLiA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NuaciDPml6Xlkajlm5sg5LiL5Y2I
+Nzo1MOWGmemBk++8mg0KPg0KPiBIaSBZYW5UZW5nLA0KPg0KPiBJIGJ1aWxkIGl0LCBhbmQgZmlu
+ZCBzb21lIHNtYWxsIHByb2JsZW1zLg0KPg0KPiBPbiBUaHUsIEp1biAwMywgMjAyMSBhdCAwOTo1
+ODowMkFNICswODAwLCBZYW50ZW5nIFNpIHdyb3RlOg0KPiA+IFRyYW5zbGF0ZSBEb2N1bWVudGF0
+aW9uL2NvcmUtYXBpL2NhY2hldGxiLnJzdCBpbnRvIENoaW5lc2UuDQo+ID4NCj4gPiBTaWduZWQt
+b2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4gLS0tDQo+ID4g
+djI6DQo+ID4NCj4gPiAqIGFkZCDmoKHor5HogIUocHJvb2ZyZWFkaW5nKSBzaWduLg0KPiA+ICAg
+ICBJZiB5b3UgZG9uJ3Qgd2FudCBtZSB0byBkbyB0aGlzLCBwbGVhc2UgbGV0IG1lIGtub3cuDQo+
+ID4NCj4gPiAqIE1vZGlmaWVkIHNvbWUgd29yZHMgdW5kZXIgWGlhbmdjaGVuZydzIGFuZCBBbGV4
+J3MgYWR2aWNlcy4NCj4gPg0KPiA+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2Nh
+Y2hldGxiLnJzdCAgfCAzMzcgKysrKysrKysrKysrKysrKysrDQo+ID4gIC4uLi90cmFuc2xhdGlv
+bnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0ICAgICB8ICAgNyArLQ0KPiA+ICAyIGZpbGVzIGNo
+YW5nZWQsIDM0MyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9jYWNoZXRs
+Yi5yc3QNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
+aF9DTi9jb3JlLWFwaS9jYWNoZXRsYi5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
+aF9DTi9jb3JlLWFwaS9jYWNoZXRsYi5yc3QNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+
+IGluZGV4IDAwMDAwMDAwMDAwMC4uZDM3NjUzZTAyOWQ4DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+
+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2NhY2hldGxi
+LnJzdA0KPiBbLi4uXQ0KPiA+ICs1KSBgYHZvaWQgdXBkYXRlX21tdV9jYWNoZShzdHJ1Y3Qgdm1f
+YXJlYV9zdHJ1Y3QgKnZtYSwNCj4gPiArICAgdW5zaWduZWQgbG9uZyBhZGRyZXNzLCBwdGVfdCAq
+cHRlcClgYA0KPiA+ICsNCj4gPiArICAg5Zyo5q+P5Liq6aG16Z2i5pWF6Zqc57uT5p2f5pe277yM
+6L+Z5Liq56iL5bqP6KKr6LCD55So77yM5Lul5ZGK6K+J5L2T57O757uT5p6E54m55a6a55qE5Luj
+56CB77yM5ZyoDQo+ID4gKyAgIOi9r+S7tumhteihqOS4re+8jOWcqOWcsOWdgOepuumXtOKAnHZt
+YS0+dm1fbW3igJ3nmoTomZrmi5/lnLDlnYDigJzlnLDlnYDigJ3lpITvvIznjrDlnKjlrZjlnKgN
+Cj4gPiArICAg5LiA5Liq57+76K+R44CCDQo+ID4gKw0KPiA+ICsgICDlj6/ku6XnlKjlroPmiYDp
+gInmi6nnmoTku7vkvZXmlrnlvI/kvb/nlKjov5nkuKrkv6Hmga/mnaXov5vooYznp7vmpI3jgILk
+vovlpoLvvIzlroPlj6/ku6Xkvb/nlKjov5kNCj4gPiArICAg5Liq5LqL5Lu25p2l5Li66L2v5Lu2
+566h55CG55qEVExC6YWN572u6aKE6KOFVExC6L2s5o2i44CC55uu5YmNc3BhcmM2NOenu+akjeWw
+seaYr+i/meS5iOW5sg0KPiA+ICsgICDnmoTjgIINCj4gPiArDQo+ID4gKw0KPiBbLi4uXQ0KPiA+
+ICszKSBgYHZvaWQgZmx1c2hfY2FjaGVfcmFuZ2Uoc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEs
+DQo+ID4gKyAgIHVuc2lnbmVkIGxvbmcgc3RhcnQsIHVuc2lnbmVkIGxvbmcgZW5kKWBgDQo+ID4g
+Kw0KPiA+ICsgICDlnKjov5nph4zvvIzmiJHku6zopoHku47nvJPlrZjkuK3liLfmlrDkuIDkuKrn
+ibnlrprojIPlm7TnmoTvvIjnlKjmiLfvvInomZrmi5/lnLDlnYDjgILov5DooYwNCj4gPiArICAg
+5ZCO77yM5Zyo4oCcc3RhcnTigJ3liLDigJxlbmQtMeKAneiMg+WbtOWGheeahOiZmuaLn+WcsOWd
+gOeahOKAnHZtYS0+dm1fbW3igJ3nmoTnvJPlrZjkuK0NCj4gPiArICAg5bCG5rKh5pyJ6aG16KGo
+6aG544CCDQo+ID4gKw0KPiA+ICsgICDigJx2bWHigJ3mmK/ooqvnlKjkuo7or6XljLrln5/nmoTl
+pIfku73lrZjlgqjjgILkuLvopoHmmK/nlKjkuo5tdW5tYXAoKeexu+Wei+eahOaTjeS9nOOAgg0K
+PiA+ICsNCj4gPiArICAg5o+Q5L6b6L+Z5Liq5o6l5Y+j5piv5biM5pyb56uv5Y+j6IO95aSf5om+
+5Yiw5LiA5Liq5ZCI6YCC55qE5pyJ5pWI5pa55rOV5p2l5LuO57yT5a2Y5Lit5YigDQo+ID4gKyAg
+IOmZpOWkmuS4qumhtemdouWkp+Wwj+eahOWMuuWfn++8jCDogIzkuI3mmK/orqnlhoXmoLjkuLrm
+r4/kuKrlj6/og73ooqvkv67mlLnnmoTpobXooajpobnosIMNCj4gPiArICAg55SoIGZsdXNoX2Nh
+Y2hlX3BhZ2UgKOingeS4i+aWhynjgIINCj4gPiArDQo+ID4gKw0KPiBbLi4uXQ0KPiA+ICs2KSBg
+YHZvaWQgZmx1c2hfY2FjaGVfdm1hcCh1bnNpZ25lZCBsb25nIHN0YXJ0LCB1bnNpZ25lZCBsb25n
+IGVuZClgYA0KPiA+ICsgICBgYHZvaWQgZmx1c2hfY2FjaGVfdnVubWFwKHVuc2lnbmVkIGxvbmcg
+c3RhcnQsIHVuc2lnbmVkIGxvbmcgZW5kKWBgDQo+ID4gKw0KPiA+ICsgICDlnKjov5nph4zvvIzl
+nKjov5nkuKTkuKrmjqXlj6PkuK3vvIzmiJHku6zku47nvJPlrZjkuK3liLfmlrDkuIDkuKrnibnl
+rprojIPlm7TnmoTvvIjlhoXmoLjvvIkNCj4gPiArICAg6Jma5ouf5Zyw5Z2A44CC6L+Q6KGM5ZCO
+77yM5Zyo4oCcc3RhcnTigJ3liLDigJxlbmQtMeKAneiMg+WbtOWGheeahOiZmuaLn+WcsOWdgOea
+hOWGheaguOWcsA0KPiA+ICsgICDlnYDnqbrpl7TnmoTnvJPlrZjkuK3kuI3kvJrmnInpobXooajp
+obnjgIINCj4gPiArDQo+ID4gKyAgIOi/meS4pOS4queoi+W6j+S4reeahOesrOS4gOS4quaYr+Wc
+qHZtYXBfcmFuZ2UoKeWuieijheS6humhteihqOmhueS5i+WQjuiwg+eUqOeahOOAgg0KPiA+ICsg
+ICDnrKzkuozkuKrmmK/lnKh2dW5tYXBfcmFuZ2UoKeWIoOmZpOmhteihqOmhueS5i+WJjeiwg+eU
+qOeahOOAgg0KPiA+ICsNCj4NCj4gRm9yIGFib3ZlIHRocmVlIHBvaW50LCBhbm5vdGF0aW9uIHRl
+eHQgaXMgbm90IGluZGVudGVkIGNvcnJlY3RseS4NCj4gVGhleSBhcmUgZGlmZmVyZW50IGZyb20g
+b3RoZXJzLg0KSSBoYXZlIHJlcGxhY2VkIGl0IHdpdGggdGFiLCBwcm9iYWJseSBkdWUgdG8gbXkg
+ZWRpdGluZyBpbiB2c2NvZGUuDQo+DQo+ID4gK+i/mOacieS4gOexu2Nwdee8k+WtmOmXrumimO+8
+jOebruWJjemcgOimgeS4gOWll+WujOWFqOS4jeWQjOeahOaOpeWPo+adpeato+ehruWkhOeQhuOA
+guacgOWkpw0KPiA+ICvnmoTpl67popjmmK/lpITnkIblmajnmoTmlbDmja7nvJPlrZjkuK3nmoTo
+mZrmi5/liKvlkI3jgIINCj4gPiArDQo+ID4gKy4uIOivkeiAheacieivneivtO+8mg0KPg0KPiBB
+bmQgdGhpcyBkaWQgbm90IGJlIHJlbmRlcmVkLCBzbyB1c2UgYmVsb3c/DQo+DQo+IC4uIG5vdGU6
+Og0KT0vvvIENCj4NCj4gICAgICAgICDor5HogIXmnInor53or7TvvJoNCj4gPiArDQo+ID4gKyAg
+ICAg6L+Z5q615YaF5a655pyJ5Lqb5pmm5rap77yM5Li65LqG5YeP6L275Lit5paH6ZiF6K+75Y6L
+5Yqb77yM54m55L2c5q2k6K+R5rOo44CCDQo+ID4gKw0KPiA+ICsgICAgIOWIq+WQje+8iGFsaWFz
+77yJ5bGe5LqO57yT5a2Y5LiA6Ie05oCn6Zeu6aKY77yM5b2T5LiN5ZCM55qE6Jma5ouf5Zyw5Z2A
+5pig5bCE55u45ZCM55qEDQo+ID4gKyAgICAg54mp55CG5Zyw5Z2A77yM6ICM6L+Z5Lqb6Jma5ouf
+5Zyw5Z2A55qEaW5kZXjkuI3lkIzvvIzmraTml7blsLHlj5HnlJ/kuobliKvlkI3njrDosaEo5aSa
+DQo+ID4gKyAgICAg5Liq6Jma5ouf5Zyw5Z2A6KKr56ew5Li65Yir5ZCNKeOAgumAmuS/l+eCuead
+peivtOWwseaYr+aMh+WQjOS4gOS4queJqeeQhuWcsOWdgOeahOaVsOaNruiiqw0KPiA+ICsgICAg
+IOWKoOi9veWIsOS4jeWQjOeahGNhY2hlbGluZeS4reWwseS8muWHuueOsOWIq+WQjeeOsOixoeOA
+gg0KPiA+ICsNCj4gPiArICAgICDluLjop4HnmoTop6PlhrPmlrnms5XmnInkuKTnp43vvJrnrKzk
+uIDnp43mmK/noazku7bnu7TmiqTkuIDoh7TmgKfvvIzorr7orqHnibnlrprnmoRjcHXnlLUNCj4g
+PiArICAgICDot6/mnaXop6PlhrPpl67popjvvIjkvovlpoLorr7orqHkuLpQSVBU55qEY2FjaGXv
+vInvvJvnrKzkuoznp43mmK/ova/ku7bnu7TmiqTkuIDoh7TmgKfvvIwNCj4gPiArICAgICDlsLHm
+mK/kuIvpnaLku4vnu43nmoRzcGFyY+eahOino+WGs+aWueahiOKAlOKAlOmhtemdouafk+iJsu+8
+jOa2ieWPiueahOaKgOacr+e7huiKguWkquWkmu+8jA0KPiA+ICsgICAgIOivkeiAheS4jeS+v+Wx
+leW8gO+8jOivt+ivu+iAheiHquihjOafpemYheebuOWFs+i1hOaWmeOAgg0KPiA+ICsNCj4NCj4g
+QWxsIG90aGVycyBhcmUgZ29vZC4NCj4gUmV2aWV3ZWQtYnk6IFd1IFhpYW5nQ2hlbmcgPGJvYnd4
+Y0BlbWFpbC5jbj4NClRoYW5rIHlvdSBmb3IgeW91ciByZXZpZXchDQoNClRoYW5rcywNCg0KWWFu
+dGVuZw0K
