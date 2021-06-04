@@ -2,111 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18DE1C07E94
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 12:39:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A107C07E94
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 12:48:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED41661412
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 12:39:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6881E61418
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 12:48:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229975AbhFDMlf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Jun 2021 08:41:35 -0400
-Received: from mail-qt1-f173.google.com ([209.85.160.173]:45885 "EHLO
-        mail-qt1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230004AbhFDMle (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jun 2021 08:41:34 -0400
-Received: by mail-qt1-f173.google.com with SMTP id l17so2689077qtq.12;
-        Fri, 04 Jun 2021 05:39:33 -0700 (PDT)
+        id S230025AbhFDMuF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Jun 2021 08:50:05 -0400
+Received: from mail-wr1-f45.google.com ([209.85.221.45]:43611 "EHLO
+        mail-wr1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230019AbhFDMuE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jun 2021 08:50:04 -0400
+Received: by mail-wr1-f45.google.com with SMTP id u7so3752008wrs.10;
+        Fri, 04 Jun 2021 05:48:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8tFXQQshqxSB1HMy8vDC7vDQu3YTSPaP6sR63Gdou1c=;
-        b=rAX+pnpB7Dvclp28To6NqrG6G4zEE6aJ2nCrSNJM6cssUc3AgNkffeQtKWekimrVtV
-         L0eYjB5ZjA+K3IJk1WWXf9vHqbS1/VHdOIE26Zs4CaCgfm3+AtzgCi2kEzT/IrXsOS5s
-         CYs3RKtn7Cygw7UxH7+C0FbOn8ujhsEL0UNKMZg3FL8ERgTAHva9tF2CqGHhdKUjOXq2
-         BiXiipzsM/lSubN2iLC3R9dcoSaXAeseYoXBY45EpKXNCEYfe1IiAWFK9CCvpgix+5HR
-         ubzIodtw/ASDfpr0I6MZSObuIXGEf/+6h0PNwKzkJgpRWR1Y8iml3LwhrcTOHks9QkC3
-         HJjA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=IgT2hjzT67a/grp8lXWefvUFoh31D6xYPYfahelUbqo=;
+        b=LIvxKU+CoNp+JZ7yeBIZHP5kVzdviY4nbimd1MIkyfowovIXFhCQUs8q+Y8mtb2OTS
+         bYTHMKdDOZ65hx2Oab6Hy/CU8on4h2DfzfvaWzIgX5aFhKPr42e1ZzbovncXg3byG/ld
+         YwUINMPQP25dDcovmXH6WLlxZWhQy3Ww0Pqv0chosoi0RRuJJpmRTmbK4m+N2MFM83Jm
+         M7+Lxp7x9qevQNzREqHhwXQiDZ9NhYCOS+PVQtvdfyL1BhpaaQCK8vFGxML+GSfPjocj
+         UMoFhQapnY2dUoeh5yr/xkJzLKTb+bL3IEQV6KYJYK00Ic13OUv1BuIJBdPYLTjcegGM
+         sL1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=8tFXQQshqxSB1HMy8vDC7vDQu3YTSPaP6sR63Gdou1c=;
-        b=um+LuWgjQdb860ct1h86kmlnd82FCV3LlCyfX55qooBjdL6PDvpkvzNtZGSAPkCI5u
-         AoAMEEWoplx2znEKjEXFhMnOUiHNgLQyz/XdkUb602LT8H9d/wzBhpDiGgLYJk5SKP2u
-         3NBtCmxFaAgkrGDQRWEkMxvIFg/k7EfiHSOBnVGY79w8sCp0Li4FfoG1Gx7C/yGjZJTI
-         n3Rn0IuWKt74Z0CQBgZFqfcrXBlFnpY1vvv4iXllWVylxWKXJJLgZdn8PiCXlF/fXd5C
-         arAC2Y/CFJ5UwFuRyxdI+nSxzixgI0mEHded9dX7tH/vF6HosVXiFu9x3cZryxo5MjaG
-         MY6Q==
-X-Gm-Message-State: AOAM532lj6bFLZ/KhoGAIULb1EDU07RoLGD0R7OT301Md7gJxM8GzR2b
-        pVCi9nPXvcEa4ZqdFoLI2pA=
-X-Google-Smtp-Source: ABdhPJxlotMgspuEyAtTyWXww/4NIkeRSjCQ1vlG6K+hRbbVDXks6kAI7g42AK7Htj8jNFiXE0jLjA==
-X-Received: by 2002:ac8:578d:: with SMTP id v13mr4394401qta.9.1622810312918;
-        Fri, 04 Jun 2021 05:38:32 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p12sm1652589qtw.61.2021.06.04.05.38.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 05:38:31 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 4 Jun 2021 05:38:29 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Robert Marko <robert.marko@sartura.hr>
-Cc:     robh+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, trivial@kernel.org,
-        Jonathan.Cameron@huawei.com, alexandre.belloni@bootlin.com,
-        sst@poczta.fm, krzk@kernel.org, alexandru.ardelean@analog.com,
-        devicetree@vger.kernel.org, Luka Perkov <luka.perkov@sartura.hr>,
-        jmp@epiphyte.org, Paul Menzel <pmenzel@molgen.mpg.de>,
-        Donald Buczek <buczek@molgen.mpg.de>
-Subject: Re: [PATCH v2 1/3] hwmon: (pmbus) Add driver for Delta DPS-920AB PSU
-Message-ID: <20210604123829.GA3939356@roeck-us.net>
-References: <20210528103828.53320-1-robert.marko@sartura.hr>
- <479725a2-7d85-1489-4228-ddff16b52287@roeck-us.net>
- <CA+HBbNGu6kkp23wHrnVeM7vry6nT0-P66U0V8KXCQ=kCcs+n8g@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=IgT2hjzT67a/grp8lXWefvUFoh31D6xYPYfahelUbqo=;
+        b=J8BGGsLll2tbkvTPQnkbP66fF9q9wPRv+e9+09mwmUKatwH943LVJx1TS8QvcLZg7J
+         gAwRt/Wj7fKLRsjRRlceSjggXGheI50w8tIWGnzd2OtkBkHsH4+TTOYWFdN6gA2JsDNG
+         ZmdWJ4ahtBX427wYQ7cPir2ZWAr3J0wFIAP8iMHo0v8rwKyqcSc8/jqSx16TE5DQj+01
+         5SnBN+VRXtgk55gZ45ym5VgRB9Lfia+v6eoBsL7FdEv+/OAD8fbzgttaaAxfhzvEa26E
+         K1SBUTmwEgw+zBligY1sQtYnQ/04w85XZQ4wSWQdQryZMvZxPoemolyABr2k1M16UrjD
+         aTgA==
+X-Gm-Message-State: AOAM533yVPpuFxLOBzRYlr8hVD16/VAKMTWV3BOoKZ1XHw58/rHS9gJC
+        9VkQ1gRccqjMaboRQCwKRjLX/mcRfN0=
+X-Google-Smtp-Source: ABdhPJxInLCezAYo1Cc/DhkGMecshl7EOMWiKOoUom722C7Bp06UyUNkqlDkGsorjTeJ2X9qE4zn8w==
+X-Received: by 2002:a05:6000:110b:: with SMTP id z11mr3686921wrw.278.1622810837109;
+        Fri, 04 Jun 2021 05:47:17 -0700 (PDT)
+Received: from [192.168.2.202] (pd9e5aba0.dip0.t-ipconnect.de. [217.229.171.160])
+        by smtp.gmail.com with ESMTPSA id p12sm6516578wrt.20.2021.06.04.05.47.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jun 2021 05:47:16 -0700 (PDT)
+Subject: Re: [PATCH 4/7] platform/surface: aggregator_cdev: Add support for
+ forwarding events to user-space
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <mgross@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210603234526.2503590-1-luzmaximilian@gmail.com>
+ <20210603234526.2503590-5-luzmaximilian@gmail.com>
+ <a1a43f55-378f-d5e7-c439-d5397abdf838@redhat.com>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <778047e2-2b1d-ef8b-4fe3-aafba8fa2dba@gmail.com>
+Date:   Fri, 4 Jun 2021 14:47:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+HBbNGu6kkp23wHrnVeM7vry6nT0-P66U0V8KXCQ=kCcs+n8g@mail.gmail.com>
+In-Reply-To: <a1a43f55-378f-d5e7-c439-d5397abdf838@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 04, 2021 at 02:16:02PM +0200, Robert Marko wrote:
-[ ... ]
-> >
-> > > +}
-> > > +
-> > > +static int dps920ab_write_word_data(struct i2c_client *client, int page, int reg,
-> > > +                                 u16 word)
-> > > +{
-> > > +     int ret;
-> > > +
-> > > +     /*
-> > > +      * This masks commands which are not supported.
-> > > +      * PSU only has one R/W register and that is
-> > > +      * for the fan.
-> > > +      */
-> > > +     switch (reg) {
-> > > +     case PMBUS_FAN_COMMAND_1:
-> > > +             break;
-> > > +     default:
-> > > +             ret = -ENODATA;
-> > > +     }
-> > > +
-> >
-> > Does this work ? It is the wrong error message for a failed write;
-> > it should probably return -EACCES.
+On 6/4/21 1:32 PM, Hans de Goede wrote:
+> Hi,
 > 
-> It appears to work fine, I was looking at other drivers, and all of them
-> use -ENODATA for unsupported word registers.
+> I've one review remark inline below.
+> 
+> On 6/4/21 1:45 AM, Maximilian Luz wrote:
 
-No. They return -ENODATA to tell the PMBus core to use standard PMBus
-access functions, ie to handle the access in the core. Please see
-_pmbus_write_word_data().
+[...]
 
-Guenter
+>> +static int ssam_cdev_device_open(struct inode *inode, struct file *filp)
+>> +{
+>> +	struct miscdevice *mdev = filp->private_data;
+>> +	struct ssam_cdev_client *client;
+>> +	struct ssam_cdev *cdev = container_of(mdev, struct ssam_cdev, mdev);
+>> +
+>> +	/* Initialize client */
+>> +	client = vzalloc(sizeof(*client));
+>> +	if (!client)
+>> +		return -ENOMEM;
+>> +
+>> +	client->cdev = ssam_cdev_get(cdev);
+>> +
+>> +	INIT_LIST_HEAD(&client->node);
+>> +
+>> +	mutex_init(&client->notifier_lock);
+>> +
+>> +	mutex_init(&client->read_lock);
+>> +	mutex_init(&client->write_lock);
+>> +	INIT_KFIFO(client->buffer);
+>> +	init_waitqueue_head(&client->waitq);
+>> +
+>> +	filp->private_data = client;
+>> +
+>> +	/* Attach client. */
+>> +	down_write(&cdev->client_lock);
+>> +
+>> +	if (test_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT, &cdev->flags)) {
+>> +		up_write(&cdev->client_lock);
+>> +		ssam_cdev_put(client->cdev);
+> 
+> You are missing the mutex_destroy() calls here which you are
+> doing in ssam_cdev_device_release().
+
+Thank you for noticing this! This code is based on Surface DTX code
+which has the same problem, I'll send in a fix for that shortly.
+
+> Or maybe move the mutex_init calls below this check
+> (before the up_write()) since I don't think the client can
+> be accessed by any code until the up_write is done?
+
+Yes, that would also be possible, but I'd prefer adding the
+mutex_destroy() calls in the failure path. To me that seems a bit easier
+to reason about.
+
+Thanks,
+Max
