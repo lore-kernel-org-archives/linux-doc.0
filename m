@@ -2,469 +2,787 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C38DC47083
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 09:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41274C07E94
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 11:32:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C22361287
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 09:36:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 224B46141C
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 11:32:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbhFDJiH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Jun 2021 05:38:07 -0400
-Received: from mail-pg1-f177.google.com ([209.85.215.177]:39484 "EHLO
-        mail-pg1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229962AbhFDJiH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jun 2021 05:38:07 -0400
-Received: by mail-pg1-f177.google.com with SMTP id v14so7403674pgi.6
-        for <linux-doc@vger.kernel.org>; Fri, 04 Jun 2021 02:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yPhd7rrWhW7ZZw5rD8fMGfGVsuvOsbwGEpxC2eVTCbE=;
-        b=tYWVdY5oNU41XQsboy2cH9vArg3REyAU5M89cmR4wyvn1LyXwx6jzT7kQrKixtmWEO
-         5VocI9b/jHIUYz/TzvXC3zS0AGWJBBh1E65s+Lm2BXXtQsGQl9pWJN8iqY9GYiGRv6nJ
-         +d6ZvyoY7i8vcR9+btCTkKSqwjv2qKJIDuzqqa2IVh7TN399cnIWUm/wygs5ojlug/TD
-         dztxnm/caq0sdUEbl660KNmYy5mqGMZHbpNwK6LkMIq3GnKghpJJ6UG8YXARs7RNoaXv
-         2dcuyk9UFT1nR/9cyOo3V5CK8BJEmWh7UIgtvvklnbA/I7BuSuZ8z37HjjNy/nW0KT0/
-         +Dpw==
+        id S230247AbhFDLej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Jun 2021 07:34:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39978 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230039AbhFDLej (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jun 2021 07:34:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1622806372;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/pH7mFlZI8gQzi2WHhpITmkIZed6blsjCz+L8Mff8zw=;
+        b=Jbcf/IHDv7maXtmf29p39VlRRAEmIJKRLC0Iiu+QWQxVN0a2Z70Cr9pjhZGoW82Xqslyy2
+        H/qozhah/WoKWiQOlp+0G6DiugiKpJhjAGvYjg1Hgf4tYSUpWrjkc4p2OJf59MK/jnlZcX
+        HVhwjM5qFFiNDS0SGKw/SdQB/JZsZrQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-UCGYWVoTN6CkFSVaTOClhQ-1; Fri, 04 Jun 2021 07:32:51 -0400
+X-MC-Unique: UCGYWVoTN6CkFSVaTOClhQ-1
+Received: by mail-ed1-f69.google.com with SMTP id c12-20020aa7d60c0000b029038fccdf4390so4831933edr.9
+        for <linux-doc@vger.kernel.org>; Fri, 04 Jun 2021 04:32:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=yPhd7rrWhW7ZZw5rD8fMGfGVsuvOsbwGEpxC2eVTCbE=;
-        b=sxuIS2luqPjk78q3u4fRMeiosVykiR/ZPM/O/s3N+LmT7kcbReU+6quYrgCQUqOZSV
-         mQEGC+NPUT+uNsGZHKpwrc8eGrcsjFx7sik5s3Wn1O4X9DWaBnP46zniSNiOBnQzIt7q
-         cyIBcqZ0ual3p9IQVn/fQPwm2MQvHN23oxSXxL7yXdfbpQ0gmsqDrcuClN1+h/LxCMXg
-         +QCin7bPhwf4VEOe5L4Ja77bXgRNE88A/UD3wADScsruAGYmiOEcpKLluJ2fqY1/rA5H
-         Jz+g2nArVuo9rCdo3LUdgtvveSDiWEn6/C9lAmQVrZzHLHEYQjiSzH2+52dMV2/LTVME
-         PlsA==
-X-Gm-Message-State: AOAM533jJsykdmMz+ZCZ7skk1LC+jOspGhBYH0lDdzmS2G/j5kMxF66B
-        TDlRwTzh5TjMQ+wZBBvhK9U=
-X-Google-Smtp-Source: ABdhPJyMWwU2pMENyfC6zhB4mqxYwjJVmDrilag9fhJLyRBfdVX8QOsUqpdVak5L8c3SUMS34uybyw==
-X-Received: by 2002:aa7:8588:0:b029:28e:dfa1:e31a with SMTP id w8-20020aa785880000b029028edfa1e31amr3748072pfn.77.1622799320929;
-        Fri, 04 Jun 2021 02:35:20 -0700 (PDT)
-Received: from [172.28.99.179] ([119.28.155.243])
-        by smtp.gmail.com with ESMTPSA id x36sm1377457pfu.39.2021.06.04.02.35.08
+        bh=/pH7mFlZI8gQzi2WHhpITmkIZed6blsjCz+L8Mff8zw=;
+        b=XUnhSjk4ehENWsPLAFqI3QoUTrmSzjcyQMkmU9YpezIp0owao30WhiGKt9Pdf1uYhG
+         R1s5/h/ai04ZoUNG9J/FHP3z8O7PDX6oqEO9tmbgFB0ghPx/6YjdqsDtnPiQR+3nUzQQ
+         QsEzo0x97hpT0t+cwuOfq5vppNM5sBCcoVOdpn/PxJt+iZWwrjQS3lYMddKVqK6BXUSM
+         NQGlXk7nxMaZEC9q5d3klwTQNVN8quKoBx/6H+3t0iKX+oQn5iR82R+EbaUR1yKFfBCA
+         +R5rtS2FgDwa/RFhLzpGLC6icMCR8T9MkJsM8birOHkAx+hTR2iftKxIz5VgLqmalCM6
+         iIWQ==
+X-Gm-Message-State: AOAM533iSI8R7tdSLAbo6yMGhCea+Ay0o9yQdB43953H6oPpfwXGN+7D
+        8iawDu3VwKaieSSu8ft8uGKP+on7eSMIoF2aH4HYLQH4lbnz/7lGxRa0dtvwRJp4ZNh8omty53x
+        iOHGhmAYTQvVR6wklYTtm
+X-Received: by 2002:aa7:cfd4:: with SMTP id r20mr4224356edy.237.1622806369970;
+        Fri, 04 Jun 2021 04:32:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZCGowlSMqimNLxeBUgvbfCwyRqfx/JH/dKacO6cJVCNGJ+loD59dA0oEPczcy2Qbf4fk+0g==
+X-Received: by 2002:aa7:cfd4:: with SMTP id r20mr4224329edy.237.1622806369606;
+        Fri, 04 Jun 2021 04:32:49 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id x4sm3067949edq.23.2021.06.04.04.32.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Jun 2021 02:35:20 -0700 (PDT)
-Subject: Re: [PATCH v3] docs/zh_CN: add core api cachetlb translation
-To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        alexs@kernel.org, bobwxc@email.cn
-Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        siyanteng01@gmail.com
-References: <20210604090655.1971227-1-siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <707daac2-5079-a76d-fc94-2fa838f2b841@gmail.com>
-Date:   Fri, 4 Jun 2021 17:35:06 +0800
+        Fri, 04 Jun 2021 04:32:49 -0700 (PDT)
+Subject: Re: [PATCH 4/7] platform/surface: aggregator_cdev: Add support for
+ forwarding events to user-space
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Mark Gross <mgross@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210603234526.2503590-1-luzmaximilian@gmail.com>
+ <20210603234526.2503590-5-luzmaximilian@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a1a43f55-378f-d5e7-c439-d5397abdf838@redhat.com>
+Date:   Fri, 4 Jun 2021 13:32:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210604090655.1971227-1-siyanteng@loongson.cn>
+In-Reply-To: <20210603234526.2503590-5-luzmaximilian@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+Hi,
 
+I've one review remark inline below.
 
-On 6/4/21 5:06 PM, Yanteng Si wrote:
-> Translate Documentation/core-api/cachetlb.rst into Chinese.
+On 6/4/21 1:45 AM, Maximilian Luz wrote:
+> Currently, debugging unknown events requires writing a custom driver.
+> This is somewhat difficult, slow to adapt, and not entirely
+> user-friendly for quickly trying to figure out things on devices of some
+> third-party user. We can do better. We already have a user-space
+> interface intended for debugging SAM EC requests, so let's add support
+> for receiving events to that.
 > 
-> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> This commit provides support for receiving events by reading from the
+> controller file. It additionally introduces two new IOCTLs to control
+> which event categories will be forwarded. Specifically, a user-space
+> client can specify which target categories it wants to receive events
+> from by registering the corresponding notifier(s) via the IOCTLs and
+> after that, read the received events by reading from the controller
+> device.
+> 
+> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
 > ---
-> v3:
+>  .../userspace-api/ioctl/ioctl-number.rst      |   2 +-
+>  .../surface/surface_aggregator_cdev.c         | 457 +++++++++++++++++-
+>  include/uapi/linux/surface_aggregator/cdev.h  |  41 +-
+>  3 files changed, 474 insertions(+), 26 deletions(-)
 > 
-> * Pick Xiangcheng's reviewed-by tag.
-> 
-> * fix some indent.
-> 
-> * remove Alex's proofread sign.
-> 
-> https://lore.kernel.org/linux-doc/CAEensMzJK313Fx5p9n1KipiBQgmFbsy6iYAjPt=_rgKysenh+w@mail.gmail.com/T/#t
-> 
-> v2:
-> 
-> * add 校译者(proofread) sign.
->     If you don't want me to do this, please let me know.
-> 
-> * Modified some words under Xiangcheng's and Alex's advices.
->  .../translations/zh_CN/core-api/cachetlb.rst  | 336 ++++++++++++++++++
->  .../translations/zh_CN/core-api/index.rst     |   7 +-
->  2 files changed, 342 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/core-api/cachetlb.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/core-api/cachetlb.rst b/Documentation/translations/zh_CN/core-api/cachetlb.rst
-> new file mode 100644
-> index 000000000000..8376485a534d
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/cachetlb.rst
-> @@ -0,0 +1,336 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/core-api/cachetlb.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> + 吴想成 Wu XiangCheng <bobwxc@email.cn>
-> +
-> +.. _cn_core-api_cachetlb:
-> +
-> +======================
-> +Linux下的缓存和TLB刷新
-> +======================
-> +
-> +:作者: David S. Miller <davem@redhat.com>
-> +
-> +*译注：TLB，Translation Lookaside Buffer，页表缓存/变换旁查缓冲器*
-> +
-> +本文描述了由Linux虚拟内存子系统调用的缓存/TLB刷新接口。它列举了每个接
-> +口，描述了它的预期目的，以及接口被调用后的预期副作用。
-> +
-> +下面描述的副作用是针对单处理器的实现，以及在单个处理器上发生的情况。若
-> +为SMP，则只需将定义简单地扩展一下，使发生在某个特定接口的副作用扩展到系
-> +统的所有处理器上。不要被这句话吓到，以为SMP的缓存/tlb刷新一定是很低
-> +效的，事实上，这是一个可以进行很多优化的领域。例如，如果可以证明一个用
-> +户地址空间从未在某个cpu上执行过（见mm_cpumask()），那么就不需要在该
-> +cpu上对这个地址空间进行刷新。
-> +
-> +首先是TLB刷新接口，因为它们是最简单的。在Linux下，TLB被抽象为cpu
-> +用来缓存从软件页表获得的虚拟->物理地址转换的东西。这意味着，如果软件页
-> +表发生变化，这个“TLB”缓存中就有可能出现过时（脏）的翻译。因此，当软件页表
-> +发生变化时，内核会在页表发生 *变化后* 调用以下一种刷新方法：
-> +
-> +1) ``void flush_tlb_all(void)``
-> +
-> +	最严格的刷新。在这个接口运行后，任何以前的页表修改都会对cpu可见。
-> +
-> +	这通常是在内核页表被改变时调用的，因为这种转换在本质上是“全局”的。
-> +
-> +2) ``void flush_tlb_mm(struct mm_struct *mm)``
-> +
-> +	这个接口从TLB中刷新整个用户地址空间。在运行后，这个接口必须确保
-> +	以前对地址空间‘mm’的任何页表修改对cpu来说是可见的。也就是说，在
-> +	运行后，TLB中不会有‘mm’的页表项。
-> +
-> +	这个接口被用来处理整个地址空间的页表操作，比如在fork和exec过程
-> +	中发生的事情。
-> +
-> +3) ``void flush_tlb_range(struct vm_area_struct *vma,
-> +   unsigned long start, unsigned long end)``
-> +
-> +	这里我们要从TLB中刷新一个特定范围的（用户）虚拟地址转换。在运行后，
-> +	这个接口必须确保以前对‘start’到‘end-1’范围内的地址空间‘vma->vm_mm’
-> +	的任何页表修改对cpu来说是可见的。也就是说，在运行后，TLB中不会有
-> +	‘mm’的页表项用于‘start’到‘end-1’范围内的虚拟地址。
-> +
-> +	“vma”是用于该区域的备份存储。主要是用于munmap()类型的操作。
-> +
-> +	提供这个接口是希望端口能够找到一个合适的有效方法来从TLB中删除多
-> +	个页面大小的转换，而不是让内核为每个可能被修改的页表项调用
-> +	flush_tlb_page(见下文)。
-> +
-> +4) ``void flush_tlb_page(struct vm_area_struct *vma, unsigned long addr)``
-> +
-> +	这一次我们需要从TLB中删除PAGE_SIZE大小的转换。‘vma’是Linux用来跟
-> +	踪进程的mmap区域的支持结构体，地址空间可以通过vma->vm_mm获得。另
-> +	外，可以通过测试（vma->vm_flags & VM_EXEC）来查看这个区域是否是
-> +	可执行的（因此在split-tlb类型的设置中可能在“指令TLB”中）。
-> +
-> +	在运行后，这个接口必须确保之前对用户虚拟地址“addr”的地址空间
-> +	“vma->vm_mm”的页表修改对cpu来说是可见的。也就是说，在运行后，TLB
-> +	中不会有虚拟地址‘addr’的‘vma->vm_mm’的页表项。
-> +
-> +	这主要是在故障处理时使用。
-> +
-> +5) ``void update_mmu_cache(struct vm_area_struct *vma,
-> +   unsigned long address, pte_t *ptep)``
-> +
-> +	在每个页面故障结束时，这个程序被调用，以告诉体系结构特定的代码，在
-> +	软件页表中，在地址空间“vma->vm_mm”的虚拟地址“地址”处，现在存在
-> +	一个翻译。
-> +
-> +	可以用它所选择的任何方式使用这个信息来进行移植。例如，它可以使用这
-> +	个事件来为软件管理的TLB配置预装TLB转换。目前sparc64移植就是这么干
-> +	的。
-> +
-> +接下来，我们有缓存刷新接口。一般来说，当Linux将现有的虚拟->物理映射
-> +改变为新的值时，其顺序将是以下形式之一::
-> +
-> +	1) flush_cache_mm(mm);
-> +		change_all_page_tables_of(mm);
-> +		flush_tlb_mm(mm);
-> +
-> +	2) flush_cache_range(vma, start, end);
-> +		change_range_of_page_tables(mm, start, end);
-> +		flush_tlb_range(vma, start, end);
-> +
-> +	3) flush_cache_page(vma, addr, pfn);
-> +		set_pte(pte_pointer, new_pte_val);
-> +		flush_tlb_page(vma, addr);
-> +
-> +缓存级别的刷新将永远是第一位的，因为这允许我们正确处理那些缓存严格，
-> +且在虚拟地址被从缓存中刷新时要求一个虚拟地址的虚拟->物理转换存在的系统。
-> +HyperSparc cpu就是这样一个具有这种属性的cpu。
-> +
-> +下面的缓存刷新程序只需要在特定的cpu需要的范围内处理缓存刷新。大多数
-> +情况下，这些程序必须为cpu实现，这些cpu有虚拟索引的缓存，当虚拟->物
-> +理转换被改变或移除时，必须被刷新。因此，例如，IA32处理器的物理索引
-> +的物理标记的缓存没有必要实现这些接口，因为这些缓存是完全同步的，并
-> +且不依赖于翻译信息。
-> +
-> +下面逐个列出这些程序:
-> +
-> +1) ``void flush_cache_mm(struct mm_struct *mm)``
-> +
-> +	这个接口将整个用户地址空间从高速缓存中刷掉。也就是说，在运行后，
-> +	将没有与‘mm’相关的缓存行。
-> +
-> +	这个接口被用来处理整个地址空间的页表操作，比如在退出和执行过程
-> +	中发生的事情。
-> +
-> +2) ``void flush_cache_dup_mm(struct mm_struct *mm)``
-> +
-> +	这个接口将整个用户地址空间从高速缓存中刷新掉。也就是说，在运行
-> +	后，将没有与‘mm’相关的缓存行。
-> +
-> +	这个接口被用来处理整个地址空间的页表操作，比如在fork过程中发生
-> +	的事情。
-> +
-> +	这个选项与flush_cache_mm分开，以允许对VIPT缓存进行一些优化。
-> +
-> +3) ``void flush_cache_range(struct vm_area_struct *vma,
-> +   unsigned long start, unsigned long end)``
-> +
-> +	在这里，我们要从缓存中刷新一个特定范围的（用户）虚拟地址。运行
-> +	后，在“start”到“end-1”范围内的虚拟地址的“vma->vm_mm”的缓存中
-> +	将没有页表项。
-> +
-> +	“vma”是被用于该区域的备份存储。主要是用于munmap()类型的操作。
-> +
-> +	提供这个接口是希望端口能够找到一个合适的有效方法来从缓存中删
-> +	除多个页面大小的区域， 而不是让内核为每个可能被修改的页表项调
-> +	用 flush_cache_page (见下文)。
-> +
-> +4) ``void flush_cache_page(struct vm_area_struct *vma, unsigned long addr, unsigned long pfn)``
-> +
-> +	这一次我们需要从缓存中删除一个PAGE_SIZE大小的区域。“vma”是
-> +	Linux用来跟踪进程的mmap区域的支持结构体，地址空间可以通过
-> +	vma->vm_mm获得。另外，我们可以通过测试（vma->vm_flags &
-> +	VM_EXEC）来查看这个区域是否是可执行的（因此在“Harvard”类
-> +	型的缓存布局中可能是在“指令缓存”中）。
-> +
-> +	“pfn”表示“addr”所对应的物理页框（通过PAGE_SHIFT左移这个
-> +	值来获得物理地址）。正是这个映射应该从缓存中删除。
-> +
-> +	在运行之后，对于虚拟地址‘addr’的‘vma->vm_mm’，在缓存中不会
-> +	有任何页表项，它被翻译成‘pfn’。
-> +
-> +	这主要是在故障处理过程中使用。
-> +
-> +5) ``void flush_cache_kmaps(void)``
-> +
-> +	只有在平台使用高位内存的情况下才需要实现这个程序。它将在所有的
-> +	kmaps失效之前被调用。
-> +
-> +	运行后，内核虚拟地址范围PKMAP_ADDR(0)到PKMAP_ADDR(LAST_PKMAP)
-> +	的缓存中将没有页表项。
-> +
-> +	这个程序应该在asm/highmem.h中实现。
-> +
-> +6) ``void flush_cache_vmap(unsigned long start, unsigned long end)``
-> +   ``void flush_cache_vunmap(unsigned long start, unsigned long end)``
-> +
-> +	在这里，在这两个接口中，我们从缓存中刷新一个特定范围的（内核）
-> +	虚拟地址。运行后，在“start”到“end-1”范围内的虚拟地址的内核地
-> +	址空间的缓存中不会有页表项。
-> +
-> +	这两个程序中的第一个是在vmap_range()安装了页表项之后调用的。
-> +	第二个是在vunmap_range()删除页表项之前调用的。
-> +
-> +还有一类cpu缓存问题，目前需要一套完全不同的接口来正确处理。最大
-> +的问题是处理器的数据缓存中的虚拟别名。
-> +
-> +.. note::
-> +
-> +	这段内容有些晦涩，为了减轻中文阅读压力，特作此译注。
-> +
-> +	别名（alias）属于缓存一致性问题，当不同的虚拟地址映射相同的
-> +	物理地址，而这些虚拟地址的index不同，此时就发生了别名现象(多
-> +	个虚拟地址被称为别名)。通俗点来说就是指同一个物理地址的数据被
-> +	加载到不同的cacheline中就会出现别名现象。
-> +
-> +	常见的解决方法有两种：第一种是硬件维护一致性，设计特定的cpu电
-> +	路来解决问题（例如设计为PIPT的cache）；第二种是软件维护一致性，
-> +	就是下面介绍的sparc的解决方案——页面染色，涉及的技术细节太多，
-> +	译者不便展开，请读者自行查阅相关资料。
-> +
-> +您的移植是否容易在其D-cache中出现虚拟别名？嗯，如果您的D-cache
-> +是虚拟索引的，且cache大于PAGE_SIZE（页大小），并且不能防止同一
-> +物理地址的多个cache行同时存在，您就会遇到这个问题。
-> +
-> +如果你的D-cache有这个问题，首先正确定义asm/shmparam.h SHMLBA，
-> +它基本上应该是你的虚拟寻址D-cache的大小（或者如果大小是可变的，
-> +则是最大的可能大小）。这个设置将迫使SYSv IPC层只允许用户进程在
-> +这个值的倍数的地址上对共享内存进行映射。
-> +
-> +.. note::
-> +
-> +	这并不能解决共享mmaps的问题，请查看sparc64移植解决
-> +	这个问题的一个方法（特别是 SPARC_FLAG_MMAPSHARED）。
-> +
-> +接下来，你必须解决所有其他情况下的D-cache别名问题。请记住这个事
-> +实，对于一个给定的页面映射到某个用户地址空间，总是至少还有一个映
-> +射，那就是内核在其线性映射中从PAGE_OFFSET开始。因此，一旦第一个
-> +用户将一个给定的物理页映射到它的地址空间，就意味着D-cache的别名
-> +问题有可能存在，因为内核已经将这个页映射到它的虚拟地址。
-> +
-> +  ``void copy_user_page(void *to, void *from, unsigned long addr, struct page *page)``
-> +  ``void clear_user_page(void *to, unsigned long addr, struct page *page)``
-> +
-> +	这两个程序在用户匿名或COW页中存储数据。它允许一个端口有效地
-> +	避免用户空间和内核之间的D-cache别名问题。
-> +
-> +	例如，一个端口可以在复制过程中把“from”和“to”暂时映射到内核
-> +	的虚拟地址上。这两个页面的虚拟地址的选择方式是，内核的加载/存
-> +	储指令发生在虚拟地址上，而这些虚拟地址与用户的页面映射是相同
-> +	的“颜色”。例如，Sparc64就使用这种技术。
-> +
-> +	“addr”参数告诉了用户最终要映射这个页面的虚拟地址，“page”参
-> +	数给出了一个指向目标页结构体的指针。
-> +
-> +	如果D-cache别名不是问题，这两个程序可以简单地直接调用
-> +	memcpy/memset而不做其他事情。
-> +
-> +  ``void flush_dcache_page(struct page *page)``
-> +
-> +	任何时候，当内核写到一个页面缓存页，或者内核要从一个页面缓存
-> +	页中读出，并且这个页面的用户空间共享/可写映射可能存在时，
-> +	这个程序就会被调用。
-> +
-> +	.. note::
-> +
-> +			这个程序只需要为有可能被映射到用户进程的地址空间的
-> +			页面缓存调用。因此，例如，处理页面缓存中vfs符号链
-> +			接的VFS层代码根本不需要调用这个接口。
-> +
-> +	“内核写入页面缓存的页面”这句话的意思是，具体来说，内核执行存
-> +	储指令，在该页面的页面->虚拟映射处弄脏该页面的数据。在这里，通
-> +	过刷新的手段处理D-cache的别名是很重要的，以确保这些内核存储对
-> +	该页的用户空间映射是可见的。
-> +
-> +	推论的情况也同样重要，如果有用户对这个文件有共享+可写的映射，
-> +	我们必须确保内核对这些页面的读取会看到用户所做的最新的存储。
-> +
-> +	如果D-cache别名不是一个问题，这个程序可以简单地定义为该架构上
-> +	的nop。
-> +
-> +	在page->flags (PG_arch_1)中有一个位是“架构私有”。内核保证，
-> +	对于分页缓存的页面，当这样的页面第一次进入分页缓存时，它将清除
-> +	这个位。
-> +
-> +	这使得这些接口可以更有效地被实现。如果目前没有用户进程映射这个
-> +	页面，它允许我们“推迟”（也许是无限期）实际的刷新过程。请看
-> +	sparc64的flush_dcache_page和update_mmu_cache实现，以了解如
-> +	何做到这一点。
-> +
-> +	这个想法是，首先在flush_dcache_page()时，如果page->mapping->i_mmap
-> +	是一个空树，只需标记架构私有页标志位。之后，在update_mmu_cache()
-> +	中，会对这个标志位进行检查，如果设置了，就进行刷新，并清除标志位。
-> +
-> +	.. important::
-> +
-> +				通常很重要的是，如果你推迟刷新，实际的刷新发生在同一个
-> +				CPU上，因为它将cpu存储到页面上，使其变脏。同样，请看
-> +				sparc64关于如何处理这个问题的例子。
-> +
-> +  ``void copy_to_user_page(struct vm_area_struct *vma, struct page *page,
-> +  unsigned long user_vaddr, void *dst, void *src, int len)``
-> +  ``void copy_from_user_page(struct vm_area_struct *vma, struct page *page,
-> +  unsigned long user_vaddr, void *dst, void *src, int len)``
-> +
-> +	当内核需要复制任意的数据进出任意的用户页时（比如ptrace()），它将使
-> +	用这两个程序。
-> +
-> +	任何必要的缓存刷新或其他需要发生的一致性操作都应该在这里发生。如果
-> +	处理器的指令缓存没有对cpu存储进行窥探，那么你很可能需要为
-> +	copy_to_user_page()刷新指令缓存。
-> +
-> +  ``void flush_anon_page(struct vm_area_struct *vma, struct page *page,
-> +  unsigned long vmaddr)``
-> +
-> +	当内核需要访问一个匿名页的内容时，它会调用这个函数（目前只有
-> +	get_user_pages()）。注意：flush_dcache_page()故意对匿名页不起作
-> +	用。默认的实现是nop（对于所有相干的架构应该保持这样）。对于不一致性
-> +	的架构，它应该刷新vmaddr处的页面缓存。
-> +
-> +  ``void flush_kernel_dcache_page(struct page *page)``
-> +
-> +	当内核需要修改一个用kmap获得的用户页时，它会在所有修改完成后（但在
-> +	kunmapping之前）调用这个函数，以使底层页面达到最新状态。这里假定用
-> +	户没有不一致性的缓存副本（即原始页面是从类似get_user_pages()的机制
-> +	中获得的）。默认的实现是一个nop，在所有相干的架构上都应该如此。在不
-> +	一致性的架构上，这应该刷新内核缓存中的页面（使用page_address(page)）。
-> +
-> +
-> +  ``void flush_icache_range(unsigned long start, unsigned long end)``
-> +
-> +	当内核存储到它将执行的地址中时（例如在加载模块时），这个函数被调用。
-> +
-> +	如果icache不对存储进行窥探，那么这个程序将需要对其进行刷新。
-> +
-> +  ``void flush_icache_page(struct vm_area_struct *vma, struct page *page)``
-> +
-> +	flush_icache_page的所有功能都可以在flush_dcache_page和update_mmu_cache
-> +	中实现。在未来，我们希望能够完全删除这个接口。
-> +
-> +最后一类API是用于I/O到内核内特意设置的别名地址范围。这种别名是通过使用
-> +vmap/vmalloc API设置的。由于内核I/O是通过物理页进行的，I/O子系统假定用户
-> +映射和内核偏移映射是唯一的别名。这对vmap别名来说是不正确的，所以内核中任何
-> +试图对vmap区域进行I/O的东西都必须手动管理一致性。它必须在做I/O之前刷新vmap
-> +范围，并在I/O返回后使其失效。
-> +
-> +  ``void flush_kernel_vmap_range(void *vaddr, int size)``
-> +
-> +	刷新vmap区域中指定的虚拟地址范围的内核缓存。这是为了确保内核在vmap范围
-> +	内修改的任何数据对物理页是可见的。这个设计是为了使这个区域可以安全地执
-> +	行I/O。注意，这个API并 *没有* 刷新该区域的偏移映射别名。
-> +
-> +  ``void invalidate_kernel_vmap_range(void *vaddr, int size) invalidates``
-> +
-> +	在vmap区域的一个给定的虚拟地址范围的缓存，这可以防止处理器在物理页的I/O
-> +	发生时通过投机性地读取数据而使缓存变脏。这只对读入vmap区域的数据是必要的。
-> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-> index a8b2afcbf5bc..b4bde9396339 100644
-> --- a/Documentation/translations/zh_CN/core-api/index.rst
-> +++ b/Documentation/translations/zh_CN/core-api/index.rst
-> @@ -76,9 +76,14 @@ Todolist:
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 9bfc2b510c64..1409e40e6345 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -325,7 +325,7 @@ Code  Seq#    Include File                                           Comments
+>  0xA3  90-9F  linux/dtlk.h
+>  0xA4  00-1F  uapi/linux/tee.h                                        Generic TEE subsystem
+>  0xA4  00-1F  uapi/asm/sgx.h                                          <mailto:linux-sgx@vger.kernel.org>
+> -0xA5  01     linux/surface_aggregator/cdev.h                         Microsoft Surface Platform System Aggregator
+> +0xA5  01-05  linux/surface_aggregator/cdev.h                         Microsoft Surface Platform System Aggregator
+>                                                                       <mailto:luzmaximilian@gmail.com>
+>  0xA5  20-2F  linux/surface_aggregator/dtx.h                          Microsoft Surface DTX driver
+>                                                                       <mailto:luzmaximilian@gmail.com>
+> diff --git a/drivers/platform/surface/surface_aggregator_cdev.c b/drivers/platform/surface/surface_aggregator_cdev.c
+> index 79e28fab7e40..807930144039 100644
+> --- a/drivers/platform/surface/surface_aggregator_cdev.c
+> +++ b/drivers/platform/surface/surface_aggregator_cdev.c
+> @@ -3,29 +3,69 @@
+>   * Provides user-space access to the SSAM EC via the /dev/surface/aggregator
+>   * misc device. Intended for debugging and development.
+>   *
+> - * Copyright (C) 2020 Maximilian Luz <luzmaximilian@gmail.com>
+> + * Copyright (C) 2020-2021 Maximilian Luz <luzmaximilian@gmail.com>
+>   */
 >  
->  缓存管理，CPU热插拔管理等。
+>  #include <linux/fs.h>
+> +#include <linux/ioctl.h>
+>  #include <linux/kernel.h>
+> +#include <linux/kfifo.h>
+>  #include <linux/kref.h>
+>  #include <linux/miscdevice.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/poll.h>
+>  #include <linux/rwsem.h>
+>  #include <linux/slab.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/vmalloc.h>
 >  
-> -Todolist:
-> +.. toctree::
-> +   :maxdepth: 1
+>  #include <linux/surface_aggregator/cdev.h>
+>  #include <linux/surface_aggregator/controller.h>
+> +#include <linux/surface_aggregator/serial_hub.h>
 >  
->     cachetlb
+>  #define SSAM_CDEV_DEVICE_NAME	"surface_aggregator_cdev"
+>  
 > +
-> +Todolist:
+> +/* -- Main structures. ------------------------------------------------------ */
+> +
+> +enum ssam_cdev_device_state {
+> +	SSAM_CDEV_DEVICE_SHUTDOWN_BIT = BIT(0),
+> +};
+> +
+>  struct ssam_cdev {
+>  	struct kref kref;
+>  	struct rw_semaphore lock;
+> +
+> +	struct device *dev;
+>  	struct ssam_controller *ctrl;
+>  	struct miscdevice mdev;
+> +	unsigned long flags;
+> +
+> +	struct rw_semaphore client_lock;  /* Guards client list. */
+> +	struct list_head client_list;
+> +};
+> +
+> +struct ssam_cdev_client;
+> +
+> +struct ssam_cdev_notifier {
+> +	struct ssam_cdev_client *client;
+> +	struct ssam_event_notifier nf;
+> +};
+> +
+> +struct ssam_cdev_client {
+> +	struct ssam_cdev *cdev;
+> +	struct list_head node;
+> +
+> +	struct mutex notifier_lock;	/* Guards notifier access for registration */
+> +	struct ssam_cdev_notifier *notifier[SSH_NUM_EVENTS];
+> +
+> +	struct mutex read_lock;		/* Guards FIFO buffer read access */
+> +	struct mutex write_lock;	/* Guards FIFO buffer write access */
+> +	DECLARE_KFIFO(buffer, u8, 4096);
+> +
+> +	wait_queue_head_t waitq;
+> +	struct fasync_struct *fasync;
+>  };
+>  
+>  static void __ssam_cdev_release(struct kref *kref)
+> @@ -47,24 +87,169 @@ static void ssam_cdev_put(struct ssam_cdev *cdev)
+>  		kref_put(&cdev->kref, __ssam_cdev_release);
+>  }
+>  
+> -static int ssam_cdev_device_open(struct inode *inode, struct file *filp)
+> +
+> +/* -- Notifier handling. ---------------------------------------------------- */
+> +
+> +static u32 ssam_cdev_notifier(struct ssam_event_notifier *nf, const struct ssam_event *in)
+>  {
+> -	struct miscdevice *mdev = filp->private_data;
+> -	struct ssam_cdev *cdev = container_of(mdev, struct ssam_cdev, mdev);
+> +	struct ssam_cdev_notifier *cdev_nf = container_of(nf, struct ssam_cdev_notifier, nf);
+> +	struct ssam_cdev_client *client = cdev_nf->client;
+> +	struct ssam_cdev_event event;
+> +	size_t n = struct_size(&event, data, in->length);
+> +
+> +	/* Translate event. */
+> +	event.target_category = in->target_category;
+> +	event.target_id = in->target_id;
+> +	event.command_id = in->command_id;
+> +	event.instance_id = in->instance_id;
+> +	event.length = in->length;
+> +
+> +	mutex_lock(&client->write_lock);
+> +
+> +	/* Make sure we have enough space. */
+> +	if (kfifo_avail(&client->buffer) < n) {
+> +		dev_warn(client->cdev->dev,
+> +			 "buffer full, dropping event (tc: %#04x, tid: %#04x, cid: %#04x, iid: %#04x)\n",
+> +			 in->target_category, in->target_id, in->command_id, in->instance_id);
+> +		mutex_unlock(&client->write_lock);
+> +		return 0;
+> +	}
+>  
+> -	filp->private_data = ssam_cdev_get(cdev);
+> -	return stream_open(inode, filp);
+> +	/* Copy event header and payload. */
+> +	kfifo_in(&client->buffer, (const u8 *)&event, struct_size(&event, data, 0));
+> +	kfifo_in(&client->buffer, &in->data[0], in->length);
+> +
+> +	mutex_unlock(&client->write_lock);
+> +
+> +	/* Notify waiting readers. */
+> +	kill_fasync(&client->fasync, SIGIO, POLL_IN);
+> +	wake_up_interruptible(&client->waitq);
+> +
+> +	/*
+> +	 * Don't mark events as handled, this is the job of a proper driver and
+> +	 * not the debugging interface.
+> +	 */
+> +	return 0;
+>  }
+>  
+> -static int ssam_cdev_device_release(struct inode *inode, struct file *filp)
+> +static int ssam_cdev_notifier_register(struct ssam_cdev_client *client, u8 tc, int priority)
+>  {
+> -	ssam_cdev_put(filp->private_data);
+> -	return 0;
+> +	const u16 rqid = ssh_tc_to_rqid(tc);
+> +	const u16 event = ssh_rqid_to_event(rqid);
+> +	struct ssam_cdev_notifier *nf;
+> +	int status;
+> +
+> +	/* Validate notifier target category. */
+> +	if (!ssh_rqid_is_event(rqid))
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&client->notifier_lock);
+> +
+> +	/* Check if the notifier has already been registered. */
+> +	if (client->notifier[event]) {
+> +		mutex_unlock(&client->notifier_lock);
+> +		return -EEXIST;
+> +	}
+> +
+> +	/* Allocate new notifier. */
+> +	nf = kzalloc(sizeof(*nf), GFP_KERNEL);
+> +	if (!nf) {
+> +		mutex_unlock(&client->notifier_lock);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	/*
+> +	 * Create a dummy notifier with the minimal required fields for
+> +	 * observer registration. Note that we can skip fully specifying event
+> +	 * and registry here as we do not need any matching and use silent
+> +	 * registration, which does not enable the corresponding event.
+> +	 */
+> +	nf->client = client;
+> +	nf->nf.base.fn = ssam_cdev_notifier;
+> +	nf->nf.base.priority = priority;
+> +	nf->nf.event.id.target_category = tc;
+> +	nf->nf.event.mask = 0;	/* Do not do any matching. */
+> +	nf->nf.flags = SSAM_EVENT_NOTIFIER_OBSERVER;
+> +
+> +	/* Register notifier. */
+> +	status = ssam_notifier_register(client->cdev->ctrl, &nf->nf);
+> +	if (status)
+> +		kfree(nf);
+> +	else
+> +		client->notifier[event] = nf;
+> +
+> +	mutex_unlock(&client->notifier_lock);
+> +	return status;
+>  }
+>  
+> -static long ssam_cdev_request(struct ssam_cdev *cdev, unsigned long arg)
+> +static int ssam_cdev_notifier_unregister(struct ssam_cdev_client *client, u8 tc)
+> +{
+> +	const u16 rqid = ssh_tc_to_rqid(tc);
+> +	const u16 event = ssh_rqid_to_event(rqid);
+> +	int status;
+> +
+> +	/* Validate notifier target category. */
+> +	if (!ssh_rqid_is_event(rqid))
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&client->notifier_lock);
+> +
+> +	/* Check if the notifier is currently registered. */
+> +	if (!client->notifier[event]) {
+> +		mutex_unlock(&client->notifier_lock);
+> +		return -ENOENT;
+> +	}
+> +
+> +	/* Unregister and free notifier. */
+> +	status = ssam_notifier_unregister(client->cdev->ctrl, &client->notifier[event]->nf);
+> +	kfree(client->notifier[event]);
+> +	client->notifier[event] = NULL;
+> +
+> +	mutex_unlock(&client->notifier_lock);
+> +	return status;
+> +}
+> +
+> +static void ssam_cdev_notifier_unregister_all(struct ssam_cdev_client *client)
+> +{
+> +	int i;
+> +
+> +	down_read(&client->cdev->lock);
+> +
+> +	/*
+> +	 * This function may be used during shutdown, thus we need to test for
+> +	 * cdev->ctrl instead of the SSAM_CDEV_DEVICE_SHUTDOWN_BIT bit.
+> +	 */
+> +	if (client->cdev->ctrl) {
+> +		for (i = 0; i < SSH_NUM_EVENTS; i++)
+> +			ssam_cdev_notifier_unregister(client, i + 1);
+> +
+> +	} else {
+> +		int count = 0;
+> +
+> +		/*
+> +		 * Device has been shut down. Any notifier remaining is a bug,
+> +		 * so warn about that as this would otherwise hardly be
+> +		 * noticeable. Nevertheless, free them as well.
+> +		 */
+> +		mutex_lock(&client->notifier_lock);
+> +		for (i = 0; i < SSH_NUM_EVENTS; i++) {
+> +			count += !!(client->notifier[i]);
+> +			kfree(client->notifier[i]);
+> +			client->notifier[i] = NULL;
+> +		}
+> +		mutex_unlock(&client->notifier_lock);
+> +
+> +		WARN_ON(count > 0);
+> +	}
+> +
+> +	up_read(&client->cdev->lock);
+> +}
 > +
 > +
->     cpu_hotplug
->     memory-hotplug
->     genericirq
+> +/* -- IOCTL functions. ------------------------------------------------------ */
+> +
+> +static long ssam_cdev_request(struct ssam_cdev_client *client, struct ssam_cdev_request __user *r)
+>  {
+> -	struct ssam_cdev_request __user *r;
+>  	struct ssam_cdev_request rqst;
+>  	struct ssam_request spec = {};
+>  	struct ssam_response rsp = {};
+> @@ -72,7 +257,6 @@ static long ssam_cdev_request(struct ssam_cdev *cdev, unsigned long arg)
+>  	void __user *rspdata;
+>  	int status = 0, ret = 0, tmp;
+>  
+> -	r = (struct ssam_cdev_request __user *)arg;
+>  	ret = copy_struct_from_user(&rqst, sizeof(rqst), r, sizeof(*r));
+>  	if (ret)
+>  		goto out;
+> @@ -152,7 +336,7 @@ static long ssam_cdev_request(struct ssam_cdev *cdev, unsigned long arg)
+>  	}
+>  
+>  	/* Perform request. */
+> -	status = ssam_request_sync(cdev->ctrl, &spec, &rsp);
+> +	status = ssam_request_sync(client->cdev->ctrl, &spec, &rsp);
+>  	if (status)
+>  		goto out;
+>  
+> @@ -177,48 +361,244 @@ static long ssam_cdev_request(struct ssam_cdev *cdev, unsigned long arg)
+>  	return ret;
+>  }
+>  
+> -static long __ssam_cdev_device_ioctl(struct ssam_cdev *cdev, unsigned int cmd,
+> +static long ssam_cdev_notif_register(struct ssam_cdev_client *client,
+> +				     const struct ssam_cdev_notifier_desc __user *d)
+> +{
+> +	struct ssam_cdev_notifier_desc desc;
+> +	long ret;
+> +
+> +	ret = copy_struct_from_user(&desc, sizeof(desc), d, sizeof(*d));
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ssam_cdev_notifier_register(client, desc.target_category, desc.priority);
+> +}
+> +
+> +static long ssam_cdev_notif_unregister(struct ssam_cdev_client *client,
+> +				       const struct ssam_cdev_notifier_desc __user *d)
+> +{
+> +	struct ssam_cdev_notifier_desc desc;
+> +	long ret;
+> +
+> +	ret = copy_struct_from_user(&desc, sizeof(desc), d, sizeof(*d));
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ssam_cdev_notifier_unregister(client, desc.target_category);
+> +}
+> +
+> +
+> +/* -- File operations. ------------------------------------------------------ */
+> +
+> +static int ssam_cdev_device_open(struct inode *inode, struct file *filp)
+> +{
+> +	struct miscdevice *mdev = filp->private_data;
+> +	struct ssam_cdev_client *client;
+> +	struct ssam_cdev *cdev = container_of(mdev, struct ssam_cdev, mdev);
+> +
+> +	/* Initialize client */
+> +	client = vzalloc(sizeof(*client));
+> +	if (!client)
+> +		return -ENOMEM;
+> +
+> +	client->cdev = ssam_cdev_get(cdev);
+> +
+> +	INIT_LIST_HEAD(&client->node);
+> +
+> +	mutex_init(&client->notifier_lock);
+> +
+> +	mutex_init(&client->read_lock);
+> +	mutex_init(&client->write_lock);
+> +	INIT_KFIFO(client->buffer);
+> +	init_waitqueue_head(&client->waitq);
+> +
+> +	filp->private_data = client;
+> +
+> +	/* Attach client. */
+> +	down_write(&cdev->client_lock);
+> +
+> +	if (test_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT, &cdev->flags)) {
+> +		up_write(&cdev->client_lock);
+> +		ssam_cdev_put(client->cdev);
+
+You are missing the mutex_destroy() calls here which you are
+doing in ssam_cdev_device_release().
+
+Or maybe move the mutex_init calls below this check
+(before the up_write()) since I don't think the client can
+be accessed by any code until the up_write is done?
+
+Regards,
+
+Hans
+
+
+> +		vfree(client);
+> +		return -ENODEV;
+> +	}
+> +	list_add_tail(&client->node, &cdev->client_list);
+> +
+> +	up_write(&cdev->client_lock);
+> +
+> +	stream_open(inode, filp);
+> +	return 0;
+> +}
+> +
+> +static int ssam_cdev_device_release(struct inode *inode, struct file *filp)
+> +{
+> +	struct ssam_cdev_client *client = filp->private_data;
+> +
+> +	/* Force-unregister all remaining notifiers of this client. */
+> +	ssam_cdev_notifier_unregister_all(client);
+> +
+> +	/* Detach client. */
+> +	down_write(&client->cdev->client_lock);
+> +	list_del(&client->node);
+> +	up_write(&client->cdev->client_lock);
+> +
+> +	/* Free client. */
+> +	mutex_destroy(&client->write_lock);
+> +	mutex_destroy(&client->read_lock);
+> +
+> +	mutex_destroy(&client->notifier_lock);
+> +
+> +	ssam_cdev_put(client->cdev);
+> +	vfree(client);
+> +
+> +	return 0;
+> +}
+> +
+> +static long __ssam_cdev_device_ioctl(struct ssam_cdev_client *client, unsigned int cmd,
+>  				     unsigned long arg)
+>  {
+>  	switch (cmd) {
+>  	case SSAM_CDEV_REQUEST:
+> -		return ssam_cdev_request(cdev, arg);
+> +		return ssam_cdev_request(client, (struct ssam_cdev_request __user *)arg);
+> +
+> +	case SSAM_CDEV_NOTIF_REGISTER:
+> +		return ssam_cdev_notif_register(client,
+> +						(struct ssam_cdev_notifier_desc __user *)arg);
+> +
+> +	case SSAM_CDEV_NOTIF_UNREGISTER:
+> +		return ssam_cdev_notif_unregister(client,
+> +						  (struct ssam_cdev_notifier_desc __user *)arg);
+>  
+>  	default:
+>  		return -ENOTTY;
+>  	}
+>  }
+>  
+> -static long ssam_cdev_device_ioctl(struct file *file, unsigned int cmd,
+> -				   unsigned long arg)
+> +static long ssam_cdev_device_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+>  {
+> -	struct ssam_cdev *cdev = file->private_data;
+> +	struct ssam_cdev_client *client = file->private_data;
+>  	long status;
+>  
+>  	/* Ensure that controller is valid for as long as we need it. */
+> +	if (down_read_killable(&client->cdev->lock))
+> +		return -ERESTARTSYS;
+> +
+> +	if (test_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT, &client->cdev->flags)) {
+> +		up_read(&client->cdev->lock);
+> +		return -ENODEV;
+> +	}
+> +
+> +	status = __ssam_cdev_device_ioctl(client, cmd, arg);
+> +
+> +	up_read(&client->cdev->lock);
+> +	return status;
+> +}
+> +
+> +static ssize_t ssam_cdev_read(struct file *file, char __user *buf, size_t count, loff_t *offs)
+> +{
+> +	struct ssam_cdev_client *client = file->private_data;
+> +	struct ssam_cdev *cdev = client->cdev;
+> +	unsigned int copied;
+> +	int status = 0;
+> +
+>  	if (down_read_killable(&cdev->lock))
+>  		return -ERESTARTSYS;
+>  
+> -	if (!cdev->ctrl) {
+> +	/* Make sure we're not shut down. */
+> +	if (test_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT, &cdev->flags)) {
+>  		up_read(&cdev->lock);
+>  		return -ENODEV;
+>  	}
+>  
+> -	status = __ssam_cdev_device_ioctl(cdev, cmd, arg);
+> +	do {
+> +		/* Check availability, wait if necessary. */
+> +		if (kfifo_is_empty(&client->buffer)) {
+> +			up_read(&cdev->lock);
+> +
+> +			if (file->f_flags & O_NONBLOCK)
+> +				return -EAGAIN;
+> +
+> +			status = wait_event_interruptible(client->waitq,
+> +							  !kfifo_is_empty(&client->buffer) ||
+> +							  test_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT,
+> +								   &cdev->flags));
+> +			if (status < 0)
+> +				return status;
+> +
+> +			if (down_read_killable(&cdev->lock))
+> +				return -ERESTARTSYS;
+> +
+> +			/* Need to check that we're not shut down again. */
+> +			if (test_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT, &cdev->flags)) {
+> +				up_read(&cdev->lock);
+> +				return -ENODEV;
+> +			}
+> +		}
+> +
+> +		/* Try to read from FIFO. */
+> +		if (mutex_lock_interruptible(&client->read_lock)) {
+> +			up_read(&cdev->lock);
+> +			return -ERESTARTSYS;
+> +		}
+> +
+> +		status = kfifo_to_user(&client->buffer, buf, count, &copied);
+> +		mutex_unlock(&client->read_lock);
+> +
+> +		if (status < 0) {
+> +			up_read(&cdev->lock);
+> +			return status;
+> +		}
+> +
+> +		/* We might not have gotten anything, check this here. */
+> +		if (copied == 0 && (file->f_flags & O_NONBLOCK)) {
+> +			up_read(&cdev->lock);
+> +			return -EAGAIN;
+> +		}
+> +	} while (copied == 0);
+>  
+>  	up_read(&cdev->lock);
+> -	return status;
+> +	return copied;
+> +}
+> +
+> +static __poll_t ssam_cdev_poll(struct file *file, struct poll_table_struct *pt)
+> +{
+> +	struct ssam_cdev_client *client = file->private_data;
+> +	__poll_t events = 0;
+> +
+> +	if (test_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT, &client->cdev->flags))
+> +		return EPOLLHUP | EPOLLERR;
+> +
+> +	poll_wait(file, &client->waitq, pt);
+> +
+> +	if (!kfifo_is_empty(&client->buffer))
+> +		events |= EPOLLIN | EPOLLRDNORM;
+> +
+> +	return events;
+> +}
+> +
+> +static int ssam_cdev_fasync(int fd, struct file *file, int on)
+> +{
+> +	struct ssam_cdev_client *client = file->private_data;
+> +
+> +	return fasync_helper(fd, file, on, &client->fasync);
+>  }
+>  
+>  static const struct file_operations ssam_controller_fops = {
+>  	.owner          = THIS_MODULE,
+>  	.open           = ssam_cdev_device_open,
+>  	.release        = ssam_cdev_device_release,
+> +	.read           = ssam_cdev_read,
+> +	.poll           = ssam_cdev_poll,
+> +	.fasync         = ssam_cdev_fasync,
+>  	.unlocked_ioctl = ssam_cdev_device_ioctl,
+>  	.compat_ioctl   = ssam_cdev_device_ioctl,
+> -	.llseek         = noop_llseek,
+> +	.llseek         = no_llseek,
+>  };
+>  
+> +
+> +/* -- Device and driver setup ----------------------------------------------- */
+> +
+>  static int ssam_dbg_device_probe(struct platform_device *pdev)
+>  {
+>  	struct ssam_controller *ctrl;
+> @@ -236,6 +616,7 @@ static int ssam_dbg_device_probe(struct platform_device *pdev)
+>  	kref_init(&cdev->kref);
+>  	init_rwsem(&cdev->lock);
+>  	cdev->ctrl = ctrl;
+> +	cdev->dev = &pdev->dev;
+>  
+>  	cdev->mdev.parent   = &pdev->dev;
+>  	cdev->mdev.minor    = MISC_DYNAMIC_MINOR;
+> @@ -243,6 +624,9 @@ static int ssam_dbg_device_probe(struct platform_device *pdev)
+>  	cdev->mdev.nodename = "surface/aggregator";
+>  	cdev->mdev.fops     = &ssam_controller_fops;
+>  
+> +	init_rwsem(&cdev->client_lock);
+> +	INIT_LIST_HEAD(&cdev->client_list);
+> +
+>  	status = misc_register(&cdev->mdev);
+>  	if (status) {
+>  		kfree(cdev);
+> @@ -256,8 +640,32 @@ static int ssam_dbg_device_probe(struct platform_device *pdev)
+>  static int ssam_dbg_device_remove(struct platform_device *pdev)
+>  {
+>  	struct ssam_cdev *cdev = platform_get_drvdata(pdev);
+> +	struct ssam_cdev_client *client;
+>  
+> -	misc_deregister(&cdev->mdev);
+> +	/*
+> +	 * Mark device as shut-down. Prevent new clients from being added and
+> +	 * new operations from being executed.
+> +	 */
+> +	set_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT, &cdev->flags);
+> +
+> +	down_write(&cdev->client_lock);
+> +
+> +	/* Remove all notifiers registered by us. */
+> +	list_for_each_entry(client, &cdev->client_list, node) {
+> +		ssam_cdev_notifier_unregister_all(client);
+> +	}
+> +
+> +	/* Wake up async clients. */
+> +	list_for_each_entry(client, &cdev->client_list, node) {
+> +		kill_fasync(&client->fasync, SIGIO, POLL_HUP);
+> +	}
+> +
+> +	/* Wake up blocking clients. */
+> +	list_for_each_entry(client, &cdev->client_list, node) {
+> +		wake_up_interruptible(&client->waitq);
+> +	}
+> +
+> +	up_write(&cdev->client_lock);
+>  
+>  	/*
+>  	 * The controller is only guaranteed to be valid for as long as the
+> @@ -266,8 +674,11 @@ static int ssam_dbg_device_remove(struct platform_device *pdev)
+>  	 */
+>  	down_write(&cdev->lock);
+>  	cdev->ctrl = NULL;
+> +	cdev->dev = NULL;
+>  	up_write(&cdev->lock);
+>  
+> +	misc_deregister(&cdev->mdev);
+> +
+>  	ssam_cdev_put(cdev);
+>  	return 0;
+>  }
+> diff --git a/include/uapi/linux/surface_aggregator/cdev.h b/include/uapi/linux/surface_aggregator/cdev.h
+> index fbcce04abfe9..4f393fafc235 100644
+> --- a/include/uapi/linux/surface_aggregator/cdev.h
+> +++ b/include/uapi/linux/surface_aggregator/cdev.h
+> @@ -6,7 +6,7 @@
+>   * device. This device provides direct user-space access to the SSAM EC.
+>   * Intended for debugging and development.
+>   *
+> - * Copyright (C) 2020 Maximilian Luz <luzmaximilian@gmail.com>
+> + * Copyright (C) 2020-2021 Maximilian Luz <luzmaximilian@gmail.com>
+>   */
+>  
+>  #ifndef _UAPI_LINUX_SURFACE_AGGREGATOR_CDEV_H
+> @@ -73,6 +73,43 @@ struct ssam_cdev_request {
+>  	} response;
+>  } __attribute__((__packed__));
+>  
+> -#define SSAM_CDEV_REQUEST	_IOWR(0xA5, 1, struct ssam_cdev_request)
+> +/**
+> + * struct ssam_cdev_notifier_desc - Notifier descriptor.
+> + * @priority:        Priority value determining the order in which notifier
+> + *                   callbacks will be called. A higher value means higher
+> + *                   priority, i.e. the associated callback will be executed
+> + *                   earlier than other (lower priority) callbacks.
+> + * @target_category: The event target category for which this notifier should
+> + *                   receive events.
+> + *
+> + * Specifies the notifier that should be registered or unregistered,
+> + * specifically with which priority and for which target category of events.
+> + */
+> +struct ssam_cdev_notifier_desc {
+> +	__s32 priority;
+> +	__u8 target_category;
+> +} __attribute__((__packed__));
+> +
+> +/**
+> + * struct ssam_cdev_event - SSAM event sent by the EC.
+> + * @target_category: Target category of the event source. See &enum ssam_ssh_tc.
+> + * @target_id:       Target ID of the event source.
+> + * @command_id:      Command ID of the event.
+> + * @instance_id:     Instance ID of the event source.
+> + * @length:          Length of the event payload in bytes.
+> + * @data:            Event payload data.
+> + */
+> +struct ssam_cdev_event {
+> +	__u8 target_category;
+> +	__u8 target_id;
+> +	__u8 command_id;
+> +	__u8 instance_id;
+> +	__u16 length;
+> +	__u8 data[];
+> +} __attribute__((__packed__));
+> +
+> +#define SSAM_CDEV_REQUEST		_IOWR(0xA5, 1, struct ssam_cdev_request)
+> +#define SSAM_CDEV_NOTIF_REGISTER	_IOW(0xA5, 2, struct ssam_cdev_notifier_desc)
+> +#define SSAM_CDEV_NOTIF_UNREGISTER	_IOW(0xA5, 3, struct ssam_cdev_notifier_desc)
+>  
+>  #endif /* _UAPI_LINUX_SURFACE_AGGREGATOR_CDEV_H */
 > 
+
