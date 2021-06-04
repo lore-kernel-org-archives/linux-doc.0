@@ -6,27 +6,28 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F642C07E94
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 16:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 964EDC47424
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 16:21:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1074C61405
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 16:18:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76A676140C
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 16:21:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230410AbhFDQTw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Jun 2021 12:19:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38296 "EHLO mail.kernel.org"
+        id S229822AbhFDQXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Jun 2021 12:23:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41442 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230201AbhFDQTw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Jun 2021 12:19:52 -0400
+        id S229746AbhFDQXS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Jun 2021 12:23:18 -0400
 Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 83190613FF;
-        Fri,  4 Jun 2021 16:18:04 +0000 (UTC)
-Date:   Fri, 4 Jun 2021 12:18:02 -0400
+        by mail.kernel.org (Postfix) with ESMTPSA id 52FBC61405;
+        Fri,  4 Jun 2021 16:21:30 +0000 (UTC)
+Date:   Fri, 4 Jun 2021 12:21:28 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
+To:     Joe Perches <joe@perches.com>
+Cc:     Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         Kate Carcia <kcarcia@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -37,14 +38,14 @@ Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
         Clark Willaims <williams@redhat.com>,
         John Kacur <jkacur@redhat.com>,
         Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 5/9] tracing/trace: Add a generic function to
- read/write u64 values from tracefs
-Message-ID: <20210604121802.192caa07@oasis.local.home>
-In-Reply-To: <a5e96ac9-f188-a9df-3eac-624002031e21@redhat.com>
+Subject: Re: [PATCH V3 7/9] tracing: Add __print_ns_to_secs() and
+ __print_ns_without_secs() helpers
+Message-ID: <20210604122128.0d348960@oasis.local.home>
+In-Reply-To: <1e068d21106bb6db05b735b4916bb420e6c9842a.camel@perches.com>
 References: <cover.1621024265.git.bristot@redhat.com>
-        <c585e3316f49c9e33acc79452588fc26ce11dfa4.1621024265.git.bristot@redhat.com>
-        <20210603172244.6d2a6059@gandalf.local.home>
-        <a5e96ac9-f188-a9df-3eac-624002031e21@redhat.com>
+        <2c59beee3b36b15592bfbb9f26dee7f8b55fd814.1621024265.git.bristot@redhat.com>
+        <20210603172902.41648183@gandalf.local.home>
+        <1e068d21106bb6db05b735b4916bb420e6c9842a.camel@perches.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,39 +54,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 4 Jun 2021 18:05:06 +0200
-Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
+On Thu, 03 Jun 2021 21:19:50 -0700
+Joe Perches <joe@perches.com> wrote:
+
+> If tracing cleanups for trace_events.h are being done, perhaps
+> another bit of untidiness is the macro definition and uses of
+> __assign_str.
+
+This isn't a tracing cleanup, but adding new functionality.
+
+That said,
 
 > 
-> The reason for this patch is that hwlat, osnoise, and timerlat have "u64 config"
-> options that are read/write via tracefs "files." In the previous version, I had
-> multiple functions doing basically the same thing:
+> $ git grep -w -1 __assign_str include/trace/trace_events.h
+> include/trace/trace_events.h-
+> include/trace/trace_events.h:#undef __assign_str
+> include/trace/trace_events.h:#define __assign_str(dst, src)                                             \
+> include/trace/trace_events.h-   strcpy(__get_str(dst), (src) ? (const char *)(src) : "(null)");
 > 
-> A write function that:
-> 	read a u64 from user-space
-> 	get a lock,
-> 	check for min/max acceptable values
-> 		save the value
-> 	release the lock.
-> 
-> and a read function that:
-> 	write the config value to the "read" buffer.
-> 
-> And so, I tried to come up with a way to avoid code duplication.
-> 
-> question: are only the names that are bad? (I agree that they are bad) or do you
-> think that the overall idea is bad? :-)
-> 
-> Suggestions?
+> Its definition has a semicolon as do most uses but a dozen handfuls of
+> other uses do not have a semicolon.  It'd be more consistent to add a
+> semicolon to the uses without them and when done treewide, then remove
+> the semicolon from the macro declaration.
 
-I don't think the overall idea is bad, if it is what I think you are
-doing. I just don't believe you articulated what you are doing.
-
-It has nothing to do with 64 bit reads and writes, but instead has to
-do with reading and writing values that depend on each other for what
-is acceptable.
-
-Perhaps have it called trace_min_max_write() and trace_min_max_read(),
-and document what it is used for.
+I have no problem taking a clean up patch that adds semicolons to all
+use cases of "__assign_str()" and ever remove the one from where it is
+defined. As long as it doesn't break any builds, I'm fine with that.
 
 -- Steve
