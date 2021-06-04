@@ -2,131 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B72D1C47424
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 16:37:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 532A8C4743E
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 17:05:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D3DE613B3
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 16:37:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 401AF6140F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Jun 2021 17:05:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231424AbhFDQiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Jun 2021 12:38:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45572 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230446AbhFDQiu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jun 2021 12:38:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622824623;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2R95iU+K6VJS0ggs/ypSJ0kttHe2HN6yW0DLVhKPBKU=;
-        b=Dfx1AeIx5GWkdrALDIBlWT0aIM5ds3Jf4VjIPUq8cVUpEutJiFp1OOYp+UP7hzzHtxWCm8
-        zLhXYk3QxF/hkCabveLQWr2BW271cmauq68OHFE+Jroa1RwO/lLTqvCjpDchuy1OI6yMsj
-        sXk5TifcKLyLpT+loCXmKY3DFgGAD4E=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-gGJvK4MgOQ2qb6c4uAQPOg-1; Fri, 04 Jun 2021 12:37:02 -0400
-X-MC-Unique: gGJvK4MgOQ2qb6c4uAQPOg-1
-Received: by mail-ed1-f72.google.com with SMTP id z16-20020aa7d4100000b029038feb83da57so5250901edq.4
-        for <linux-doc@vger.kernel.org>; Fri, 04 Jun 2021 09:37:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2R95iU+K6VJS0ggs/ypSJ0kttHe2HN6yW0DLVhKPBKU=;
-        b=HbZHJUZa968++zTu+dESQhLaBLeuPqdHUKJ36FS3C+CeiCOZ7j83svFaRp6aqiy/QW
-         m+KmBZ4oQoogiW9kavxqBemt0kzu6+5mRCV5jDSM58J626L0cbJdDQXN8Ga8hObzbi/g
-         kbek+oVEq2Mt4hR9tjfvIftRHfsS6jinvjIzGf8XdpNfpE7S4zzu/lxXsZGnT50wW5I2
-         rLBUgHuJtGhecw8qxW60SfuKaQibkSNucd/bxY3n84fk7cihfgKa5xOYJjONBqM+Tq9d
-         KTIQFZsif3b0l3N0IYZ+gNdmuJToKyPPSv55DSiZz4v3mQtZGlxGYI8Hq0BzgoDKTFRt
-         CIVQ==
-X-Gm-Message-State: AOAM533Zcfv+oiRdx8jZnjpqMF/LlmI92gKL92hT7aPxfZVEZ6R8Q2nD
-        EHs73E5gbI6H7jCdE5iIVc+WpIKTApVwrayGLyknqEwev5i85L/cyU68fNSwFrOrM56xStkA03W
-        iQnf5Bxze562bVLptXv0o8QI99I0HuOcR2EShmSeCiTSIOaCnX5KiQ6mFWW2h+gnDPkM2Uo4=
-X-Received: by 2002:a17:906:6ad0:: with SMTP id q16mr5186971ejs.286.1622824620723;
-        Fri, 04 Jun 2021 09:37:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJ2lBK6941HhBBh1FNI1m4A4fIxSF+XsHILdiZPZ0kTehu2311HmaloLU/AMMJ4NuWvimtsg==
-X-Received: by 2002:a17:906:6ad0:: with SMTP id q16mr5186937ejs.286.1622824620487;
-        Fri, 04 Jun 2021 09:37:00 -0700 (PDT)
-Received: from x1.bristot.me (host-79-24-6-4.retail.telecomitalia.it. [79.24.6.4])
-        by smtp.gmail.com with ESMTPSA id v23sm3559032eds.25.2021.06.04.09.36.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Jun 2021 09:37:00 -0700 (PDT)
-Subject: Re: [PATCH V3 6/9] trace/hwlat: Use the generic function to
- read/write width and window
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-References: <cover.1621024265.git.bristot@redhat.com>
- <bf0c568ddaf9e75e3d2e77b0ffd5ad1508c47afc.1621024265.git.bristot@redhat.com>
- <20210603172709.25c322a1@gandalf.local.home>
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-Message-ID: <4ff9f435-9932-f555-9f19-65f92041950e@redhat.com>
-Date:   Fri, 4 Jun 2021 18:36:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S230504AbhFDRGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Jun 2021 13:06:54 -0400
+Received: from ms.lwn.net ([45.79.88.28]:32944 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230435AbhFDRGx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Jun 2021 13:06:53 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1D1C84A6;
+        Fri,  4 Jun 2021 17:05:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1D1C84A6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1622826307; bh=Cr1hHsX0Y/ZT+MqFsEEt+xfMtINC+gnyFNuOLyWJlWU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=HdW4Ht99Q7DRzv6pGIA7QFN2lQVdNX4lodqc5oVm8XE6t7gus4CYmRVaJeGEIBySS
+         D0vBztSvnlcf+ngKxs61BaAas2YC3QcAC1alF++NTgQFCSsyZ4tmRJ7UlE9a6ecKnJ
+         Ii8qekOPzrf5FJXgONEwUlm8lfwsy3et2a+NOwebDhK2Dl3Ag4wdKgYd/JHRMzTQ0E
+         j5Hk2mtZDDEs9lwOjySyuJ+TNhtzKMFT4OFTUp82u5frkh1mpOccPk48mvbm617wSR
+         jNey8xZ9uQ6ePPKLRczpEeBwxj4dYfEaLpyxK6AP5t5bw3NQTui5F3UczCtwOJPelj
+         PDGLAYAddLB4g==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        bobwxc@email.cn, seakeel@gmail.com
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
+        siyanteng01@gmail.com, Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH v3] docs/zh_CN: add core api cachetlb translation
+In-Reply-To: <20210604090655.1971227-1-siyanteng@loongson.cn>
+References: <20210604090655.1971227-1-siyanteng@loongson.cn>
+Date:   Fri, 04 Jun 2021 11:05:06 -0600
+Message-ID: <874ked1ry5.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20210603172709.25c322a1@gandalf.local.home>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/3/21 11:27 PM, Steven Rostedt wrote:
-> On Fri, 14 May 2021 22:51:15 +0200
-> Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
-> 
->> @@ -733,16 +624,18 @@ static ssize_t hwlat_mode_write(struct file *filp, const char __user *ubuf,
->>  	return ret;
->>  }
->>  
->> -static const struct file_operations width_fops = {
->> -	.open		= tracing_open_generic,
->> -	.read		= hwlat_read,
->> -	.write		= hwlat_width_write,
->> +static struct trace_ull_config hwlat_width = {
->> +	.lock		= &hwlat_data.lock,
->> +	.val		= &hwlat_data.sample_width,
->> +	.max		= &hwlat_data.sample_window,
->> +	.min		= NULL,
->>  };
->>  
->> -static const struct file_operations window_fops = {
->> -	.open		= tracing_open_generic,
->> -	.read		= hwlat_read,
->> -	.write		= hwlat_window_write,
->> +static struct trace_ull_config hwlat_window = {
-> Yeah, the naming convention needs to be changed, because ull_config is
-> meaningless, and this code makes no sense. I know what it is doing, but if
-> I didn't, I'd have no clue what it was doing by reading it. :-p
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-I will rework the patch 5/9 to add a better explanation for the read/write
-functions, and I will add comments to this patch, explaining the reason for the
-min/max values.
+> Translate Documentation/core-api/cachetlb.rst into Chinese.
+>
+> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+> v3:
+>
+> * Pick Xiangcheng's reviewed-by tag.
+>
+> * fix some indent.
+>
+> * remove Alex's proofread sign.
+>
+> https://lore.kernel.org/linux-doc/CAEensMzJK313Fx5p9n1KipiBQgmFbsy6iYAjPt=
+=3D_rgKysenh+w@mail.gmail.com/T/#t
+>
+> v2:
+>
+> * add =E6=A0=A1=E8=AF=91=E8=80=85(proofread) sign.
+>     If you don't want me to do this, please let me know.
+>
+> * Modified some words under Xiangcheng's and Alex's advices.
+>  .../translations/zh_CN/core-api/cachetlb.rst  | 336 ++++++++++++++++++
+>  .../translations/zh_CN/core-api/index.rst     |   7 +-
+>  2 files changed, 342 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/cachetlb.rst
 
-Sound good?
+Applied, thanks.
 
--- Daniel
-
-> -- Steve
-> 
-> 
-
+jon
