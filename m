@@ -4,46 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9C0C4BA00
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88019C49ED7
 	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A947A61406
+	by mail.kernel.org (Postfix) with ESMTP id 745D66140F
 	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbhFENUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S230060AbhFENUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 5 Jun 2021 09:20:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34976 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:35108 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230049AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230059AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 5 Jun 2021 09:20:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A5E4C6141B;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A4DB061422;
         Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622899117;
-        bh=4iDY7ITSxco/5aVtxfEvQxWOspvnAzSv9vo4fOxlCv4=;
+        bh=RluDluVvgOJfMawxkXAd8MJmBCh51i/nH0Xg7JEnU2k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HPQtd/0Bm798vqjdivAGvu0fWShViE0+b/aSVzwdqCKSjKMSRFEbnxpS8G/40/NBh
-         WeIDd8lbutDs3YdhzzB+tWK3yFLVgE7AtZnr5taqeDOCmS4dRWNfy3u74tvOuozyPe
-         ZRr/BpjUwed/CX0YS6jcZQ8vrhCc3N0vP0rlnKJ9fkKNoLcmtqUQHN5YrSTdcIkVKU
-         EjtOrpvfyhjQ2Ji5ZxXzxgPpH3sIZY8mH/l+aofupDRMqZt7i4z2T5iNINFQ+SOvFw
-         uStf+WFxvo+1grglejZlR6cVddoH9NDy5oeLWi2M0zdFto5FT8+aTraRZkiEuQ094F
-         EGBPKZBxaG7ow==
+        b=Rn23v6UOS3jVgJGKdEfJhkyjYQRs8OvLNlHdRpl2ordTXAs6+I2kXEVu+5r9ez8Bx
+         MDwBPoD+XYywM2CNTOhLFQbV8/rnHyJURNjZKo44FYnlxb1OCIE4w2gomG9qD0W/JX
+         ll7GI0dXPwKcAZ6b+gorSvC9ATt3crAe8RMYMBJQkH1fWLIICdAYf5CQ/VxZMfcW2Z
+         G+v14acNvd/krFluGCENq0lV8slKNfmhV4wC4a3dzPcUG37C+rOCQjBEbW+K/YnqdR
+         n/Jks3nBTjXb/Y1rHmnNktAeTNUwecGp0PSH+Od7GJJp7Y7Ahln7VTlY4D3KnXiKrD
+         VZ5opdzX6XR5g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCB-008GEa-AA; Sat, 05 Jun 2021 15:18:35 +0200
+        id 1lpWCB-008GFF-PJ; Sat, 05 Jun 2021 15:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH 02/34] docs: dev-tools: kunit: don't use a table for docs name
-Date:   Sat,  5 Jun 2021 15:18:01 +0200
-Message-Id: <08ac283ac5bdc2664255a7ad34514e50d3ed85d8.1622898327.git.mchehab+huawei@kernel.org>
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 12/34] docs: core-api: avoid using ReSt :doc:`foo` markup
+Date:   Sat,  5 Jun 2021 15:18:11 +0200
+Message-Id: <cfe572d7ab3818d52b6edde33b0775ce55de29be.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
@@ -54,34 +55,88 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We'll be replacing :doc:`foo` references to
-Documentation/foo.rst. Yet, here it happens inside a table.
-Doing a search-and-replace would break it.
-
-Yet, as there's no good reason to use a table there,
-let's just convert it into a list.
+The :doc:`foo` tag is auto-generated via automarkup.py.
+So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/dev-tools/kunit/api/index.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/core-api/bus-virt-phys-mapping.rst | 2 +-
+ Documentation/core-api/dma-api.rst               | 5 +++--
+ Documentation/core-api/dma-isa-lpc.rst           | 2 +-
+ Documentation/core-api/index.rst                 | 4 ++--
+ 4 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/dev-tools/kunit/api/index.rst b/Documentation/dev-tools/kunit/api/index.rst
-index 9b9bffe5d41a..b33ad72bcf0b 100644
---- a/Documentation/dev-tools/kunit/api/index.rst
-+++ b/Documentation/dev-tools/kunit/api/index.rst
-@@ -10,7 +10,7 @@ API Reference
- This section documents the KUnit kernel testing API. It is divided into the
- following sections:
+diff --git a/Documentation/core-api/bus-virt-phys-mapping.rst b/Documentation/core-api/bus-virt-phys-mapping.rst
+index c7bc99cd2e21..c72b24a7d52c 100644
+--- a/Documentation/core-api/bus-virt-phys-mapping.rst
++++ b/Documentation/core-api/bus-virt-phys-mapping.rst
+@@ -8,7 +8,7 @@ How to access I/O mapped memory from within device drivers
  
--================================= ==============================================
--:doc:`test`                       documents all of the standard testing API
--                                  excluding mocking or mocking related features.
--================================= ==============================================
-+Documentation/dev-tools/kunit/api/test.rst
-+
-+ - documents all of the standard testing API excluding mocking
-+   or mocking related features.
+ 	The virt_to_bus() and bus_to_virt() functions have been
+ 	superseded by the functionality provided by the PCI DMA interface
+-	(see :doc:`/core-api/dma-api-howto`).  They continue
++	(see Documentation/core-api/dma-api-howto.rst).  They continue
+ 	to be documented below for historical purposes, but new code
+ 	must not use them. --davidm 00/12/12
+ 
+diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+index 00a1d4fa3f9e..6d6d0edd2d27 100644
+--- a/Documentation/core-api/dma-api.rst
++++ b/Documentation/core-api/dma-api.rst
+@@ -5,7 +5,7 @@ Dynamic DMA mapping using the generic device
+ :Author: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
+ 
+ This document describes the DMA API.  For a more gentle introduction
+-of the API (and actual examples), see :doc:`/core-api/dma-api-howto`.
++of the API (and actual examples), see Documentation/core-api/dma-api-howto.rst.
+ 
+ This API is split into two pieces.  Part I describes the basic API.
+ Part II describes extensions for supporting non-consistent memory
+@@ -479,7 +479,8 @@ without the _attrs suffixes, except that they pass an optional
+ dma_attrs.
+ 
+ The interpretation of DMA attributes is architecture-specific, and
+-each attribute should be documented in :doc:`/core-api/dma-attributes`.
++each attribute should be documented in
++Documentation/core-api/dma-attributes.rst.
+ 
+ If dma_attrs are 0, the semantics of each of these functions
+ is identical to those of the corresponding function
+diff --git a/Documentation/core-api/dma-isa-lpc.rst b/Documentation/core-api/dma-isa-lpc.rst
+index e59a3d35a93d..17b193603f0a 100644
+--- a/Documentation/core-api/dma-isa-lpc.rst
++++ b/Documentation/core-api/dma-isa-lpc.rst
+@@ -17,7 +17,7 @@ To do ISA style DMA you need to include two headers::
+ 	#include <asm/dma.h>
+ 
+ The first is the generic DMA API used to convert virtual addresses to
+-bus addresses (see :doc:`/core-api/dma-api` for details).
++bus addresses (see Documentation/core-api/dma-api.rst for details).
+ 
+ The second contains the routines specific to ISA DMA transfers. Since
+ this is not present on all platforms make sure you construct your
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index f1c9d20bd42d..5de2c7a4b1b3 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -48,7 +48,7 @@ Concurrency primitives
+ ======================
+ 
+ How Linux keeps everything from happening at the same time.  See
+-:doc:`/locking/index` for more related documentation.
++Documentation/locking/index.rst for more related documentation.
+ 
+ .. toctree::
+    :maxdepth: 1
+@@ -77,7 +77,7 @@ Memory management
+ =================
+ 
+ How to allocate and use memory in the kernel.  Note that there is a lot
+-more memory-management documentation in :doc:`/vm/index`.
++more memory-management documentation in Documentation/vm/index.rst.
+ 
+ .. toctree::
+    :maxdepth: 1
 -- 
 2.31.1
 
