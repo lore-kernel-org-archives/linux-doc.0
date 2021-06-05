@@ -2,51 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E53C48BE0
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2045C4743D
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C80161415
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2F3461417
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbhFENUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 09:20:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35114 "EHLO mail.kernel.org"
+        id S230266AbhFENUc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 09:20:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35038 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230060AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230050AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 5 Jun 2021 09:20:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AB0D661428;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B7676140C;
         Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622899117;
-        bh=ZpDN1jUp26cBVjHDeaaWZT1WhCWUTgEqEOlOYOFr4J8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Q6q/isLairrzvTRkyp7StDM7+MIFHLBGMDTm50wUQXI8cTrKJ8HcFDE3b1PTMoQ+L
-         lutLM8SN4J1XRRmrQI7MGtow+r7jYVXASfCWZ/cL1wS0xcgufLeR80IctsrBSZ+Y96
-         AKuPf7b80TMvUYNYH4RF4BUarTRB11wEj9EIZGOXd+6Ps9p8yrj1/4jhK1olNadQrV
-         HybabO+iuBuooQc1De8lXGRCGpS1At6sXLsI8iJ3fGIK7ebutcG02nGVj7uPAHFKvl
-         LGVcryIo5ok9jDkHDf8xGaUjgvUycKx4iZMz3rsdD8eZvxOBEYpQtwH8OD5x1y92Fb
-         6U7mnBp8hSFyQ==
+        bh=oJLjhT+Bdkuogp9lcH0/DqQMHssScmlrFluWHGdXmSs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KfRX9ZYH+GSgzlTzpxjctPEmvJkfTKXl+Y+RucBzSz4WBnbvAWthrJ/curB8ax41d
+         0RamzCUbuHW+hNvsvxFRNLKpwhOj6yb5j+G4AvESC4L/Ra8OFvHySvf0In/pjnoYho
+         eY0513uUzhTlAd81LYiZhM6d2eqjTpr7yOp0/3DCmJ+GuyAF6WqO8Qm1KuhLNbxF9b
+         yJTI8f1KZmiDb5cy+VNqUfelbe5X2IHFBMjmYFqyjzC6dFH+JcvuqE43jlUMhFuRed
+         3tc3s4M5VtPfikIOxkkQLqaG0CgwsjLGBqPIdOsXSEfmrN3+1RgsbpsRRxwHBsB0s5
+         0vEzE1EocfgEA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCB-008GFJ-R5; Sat, 05 Jun 2021 15:18:35 +0200
+        id 1lpWCB-008GEU-71; Sat, 05 Jun 2021 15:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Daniel Latypov <dlatypov@google.com>,
-        David Gow <davidgow@google.com>,
-        Marco Elver <elver@google.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 13/34] docs: dev-tools: testing-overview.rst: avoid using ReSt :doc:`foo` markup
-Date:   Sat,  5 Jun 2021 15:18:12 +0200
-Message-Id: <63fe86c8de5cced00a1bb5d18d6c7f087268565a.1622898327.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        coresight@lists.linaro.org, devicetree@vger.kernel.org,
+        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
+Date:   Sat,  5 Jun 2021 15:17:59 +0200
+Message-Id: <cover.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
-References: <cover.1622898327.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -54,42 +58,153 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The :doc:`foo` tag is auto-generated via automarkup.py.
-So, use the filename at the sources, instead of :doc:`foo`.
+As discussed at:
+	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/dev-tools/testing-overview.rst | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+It is better to avoid using :doc:`foo` to refer to Documentation/foo.rst, as the
+automarkup.py extension should handle it automatically, on most cases.
 
-diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
-index b5b46709969c..65feb81edb14 100644
---- a/Documentation/dev-tools/testing-overview.rst
-+++ b/Documentation/dev-tools/testing-overview.rst
-@@ -71,15 +71,15 @@ can be used to verify that a test is executing particular functions or lines
- of code. This is useful for determining how much of the kernel is being tested,
- and for finding corner-cases which are not covered by the appropriate test.
- 
--:doc:`gcov` is GCC's coverage testing tool, which can be used with the kernel
--to get global or per-module coverage. Unlike KCOV, it does not record per-task
--coverage. Coverage data can be read from debugfs, and interpreted using the
--usual gcov tooling.
-+Documentation/dev-tools/gcov.rst is GCC's coverage testing tool, which can be
-+used with the kernel to get global or per-module coverage. Unlike KCOV, it
-+does not record per-task coverage. Coverage data can be read from debugfs,
-+and interpreted using the usual gcov tooling.
- 
--:doc:`kcov` is a feature which can be built in to the kernel to allow
--capturing coverage on a per-task level. It's therefore useful for fuzzing and
--other situations where information about code executed during, for example, a
--single syscall is useful.
-+Documentation/dev-tools/kcov.rst is a feature which can be built in to the
-+kernel to allow capturing coverage on a per-task level. It's therefore useful
-+for fuzzing and other situations where information about code executed during,
-+for example, a single syscall is useful.
- 
- 
- Dynamic Analysis Tools
+There are a couple of exceptions to this rule:
+
+1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
+2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
+
+It should also be noticed that automarkup.py has currently an issue:
+if one use a markup like:
+
+	Documentation/dev-tools/kunit/api/test.rst
+	  - documents all of the standard testing API excluding mocking
+	    or mocking related features.
+
+or, even:
+
+	Documentation/dev-tools/kunit/api/test.rst
+	    documents all of the standard testing API excluding mocking
+	    or mocking related features.
+	
+The automarkup.py will simply ignore it. Not sure why. This patch series
+avoid the above patterns (which is present only on 4 files), but it would be
+nice to have a followup patch fixing the issue at automarkup.py.
+
+On this series:
+
+Patch 1 manually adjust the references inside driver-api/pm/devices.rst,
+as there it uses :file:`foo` to refer to some Documentation/ files;
+
+Patch 2 converts a table at Documentation/dev-tools/kunit/api/index.rst
+into a list, carefully avoiding the 
+
+Patch 3 converts the cross-references at the media documentation, also
+avoiding the automarkup.py bug;
+
+Patches 4-34 convert the other occurrences via a replace script. They were
+manually edited, in order to honour 80-columns where possible.
+
+I did a diff between the Sphinx 2.4.4 output before and after this patch
+series in order to double-check that all converted Documentation/ 
+references will produce <a href=<foo>.rst>foo title</a> tags.
+
+Mauro Carvalho Chehab (34):
+  docs: devices.rst: better reference documentation docs
+  docs: dev-tools: kunit: don't use a table for docs name
+  media: docs: */media/index.rst: don't use ReST doc:`foo`
+  media: userspace-api: avoid using ReST :doc:`foo` markup
+  media: driver-api: drivers: avoid using ReST :doc:`foo` markup
+  media: admin-guide: avoid using ReST :doc:`foo` markup
+  docs: admin-guide: pm: avoid using ReSt :doc:`foo` markup
+  docs: admin-guide: hw-vuln: avoid using ReST :doc:`foo` markup
+  docs: admin-guide: sysctl: avoid using ReST :doc:`foo` markup
+  docs: block: biodoc.rst: avoid using ReSt :doc:`foo` markup
+  docs: bpf: bpf_lsm.rst: avoid using ReSt :doc:`foo` markup
+  docs: core-api: avoid using ReSt :doc:`foo` markup
+  docs: dev-tools: testing-overview.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: dev-tools: kunit: avoid using ReST :doc:`foo` markup
+  docs: devicetree: bindings: submitting-patches.rst: avoid using ReSt
+    :doc:`foo` markup
+  docs: doc-guide: avoid using ReSt :doc:`foo` markup
+  docs: driver-api: avoid using ReSt :doc:`foo` markup
+  docs: driver-api: gpio: using-gpio.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: driver-api: surface_aggregator: avoid using ReSt :doc:`foo`
+    markup
+  docs: driver-api: usb: avoid using ReSt :doc:`foo` markup
+  docs: firmware-guide: acpi: avoid using ReSt :doc:`foo` markup
+  docs: hwmon: adm1177.rst: avoid using ReSt :doc:`foo` markup
+  docs: i2c: avoid using ReSt :doc:`foo` markup
+  docs: kernel-hacking: hacking.rst: avoid using ReSt :doc:`foo` markup
+  docs: networking: devlink: avoid using ReSt :doc:`foo` markup
+  docs: PCI: endpoint: pci-endpoint-cfs.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: PCI: pci.rst: avoid using ReSt :doc:`foo` markup
+  docs: process: submitting-patches.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: security: landlock.rst: avoid using ReSt :doc:`foo` markup
+  docs: trace: coresight: coresight.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: trace: ftrace.rst: avoid using ReSt :doc:`foo` markup
+  docs: userspace-api: landlock.rst: avoid using ReSt :doc:`foo` markup
+  docs: virt: kvm: s390-pv-boot.rst: avoid using ReSt :doc:`foo` markup
+  docs: x86: avoid using ReSt :doc:`foo` markup
+
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  2 +-
+ Documentation/PCI/pci.rst                     |  6 +--
+ .../special-register-buffer-data-sampling.rst |  3 +-
+ Documentation/admin-guide/media/bt8xx.rst     | 15 ++++----
+ Documentation/admin-guide/media/bttv.rst      | 21 ++++++-----
+ Documentation/admin-guide/media/index.rst     | 12 +++---
+ Documentation/admin-guide/media/saa7134.rst   |  3 +-
+ Documentation/admin-guide/pm/intel_idle.rst   | 16 +++++---
+ Documentation/admin-guide/pm/intel_pstate.rst |  9 +++--
+ Documentation/admin-guide/sysctl/abi.rst      |  2 +-
+ Documentation/admin-guide/sysctl/kernel.rst   | 37 ++++++++++---------
+ Documentation/block/biodoc.rst                |  2 +-
+ Documentation/bpf/bpf_lsm.rst                 | 13 ++++---
+ .../core-api/bus-virt-phys-mapping.rst        |  2 +-
+ Documentation/core-api/dma-api.rst            |  5 ++-
+ Documentation/core-api/dma-isa-lpc.rst        |  2 +-
+ Documentation/core-api/index.rst              |  4 +-
+ Documentation/dev-tools/kunit/api/index.rst   |  8 ++--
+ Documentation/dev-tools/kunit/faq.rst         |  2 +-
+ Documentation/dev-tools/kunit/index.rst       | 14 +++----
+ Documentation/dev-tools/kunit/start.rst       |  6 +--
+ Documentation/dev-tools/kunit/tips.rst        |  5 ++-
+ Documentation/dev-tools/kunit/usage.rst       |  8 ++--
+ Documentation/dev-tools/testing-overview.rst  | 16 ++++----
+ .../bindings/submitting-patches.rst           | 11 +++---
+ Documentation/doc-guide/contributing.rst      |  8 ++--
+ Documentation/driver-api/gpio/using-gpio.rst  |  4 +-
+ Documentation/driver-api/ioctl.rst            |  2 +-
+ .../driver-api/media/drivers/bttv-devel.rst   |  2 +-
+ Documentation/driver-api/media/index.rst      | 10 +++--
+ Documentation/driver-api/pm/devices.rst       |  8 ++--
+ .../surface_aggregator/clients/index.rst      |  3 +-
+ .../surface_aggregator/internal.rst           | 15 ++++----
+ .../surface_aggregator/overview.rst           |  6 ++-
+ Documentation/driver-api/usb/dma.rst          |  6 +--
+ .../acpi/dsd/data-node-references.rst         |  3 +-
+ .../firmware-guide/acpi/dsd/graph.rst         |  2 +-
+ .../firmware-guide/acpi/enumeration.rst       |  7 ++--
+ Documentation/hwmon/adm1177.rst               |  3 +-
+ Documentation/i2c/instantiating-devices.rst   |  2 +-
+ Documentation/i2c/old-module-parameters.rst   |  3 +-
+ Documentation/i2c/smbus-protocol.rst          |  4 +-
+ Documentation/kernel-hacking/hacking.rst      |  4 +-
+ .../networking/devlink/devlink-region.rst     |  2 +-
+ .../networking/devlink/devlink-trap.rst       |  4 +-
+ Documentation/process/submitting-patches.rst  | 32 ++++++++--------
+ Documentation/security/landlock.rst           |  3 +-
+ Documentation/trace/coresight/coresight.rst   |  8 ++--
+ Documentation/trace/ftrace.rst                |  2 +-
+ Documentation/userspace-api/landlock.rst      | 11 +++---
+ .../userspace-api/media/glossary.rst          |  2 +-
+ Documentation/userspace-api/media/index.rst   | 12 +++---
+ Documentation/virt/kvm/s390-pv-boot.rst       |  2 +-
+ Documentation/x86/boot.rst                    |  4 +-
+ Documentation/x86/mtrr.rst                    |  2 +-
+ 55 files changed, 217 insertions(+), 183 deletions(-)
+
 -- 
 2.31.1
+
 
