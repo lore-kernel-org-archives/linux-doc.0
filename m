@@ -2,115 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31364C4743E
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 17:59:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A31C47082
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 18:21:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1716D61207
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 17:59:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6637F60720
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 18:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbhFESBP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 14:01:15 -0400
-Received: from mout.gmx.net ([212.227.15.15]:41791 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229964AbhFESBO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 5 Jun 2021 14:01:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1622915918;
-        bh=LJZMH4mKKG4Y4RH/IKRmcuoSuYAs3YZ6GSXZNks3Imw=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=EXvn/Qe1G20n0eCfzE5oqH9nCio58KhDVyrKq87mvUn5a8gNLLkdFSi6kOi+BoMnY
-         1hDvjbSm7pE5rTXadLV9eQ8lFHUU+l7oMzrA0fvIEEgGuFDDUwD7mQLglDQSkSDCKk
-         7YpGopCJ5tA0g8uLT9Zl3u6SXCYduGi1BElJOQoY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1M9FnZ-1llRpx0p9T-006QJB; Sat, 05 Jun 2021 19:58:38 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     John Wood <john.wood@gmx.com>, Andi Kleen <ak@linux.intel.com>,
-        valdis.kletnieks@vt.edu,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: [PATCH v8 8/8] MAINTAINERS: Add a new entry for the Brute LSM
-Date:   Sat,  5 Jun 2021 17:04:05 +0200
-Message-Id: <20210605150405.6936-9-john.wood@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210605150405.6936-1-john.wood@gmx.com>
-References: <20210605150405.6936-1-john.wood@gmx.com>
+        id S229996AbhFESXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 14:23:37 -0400
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:46977 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229994AbhFESXh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jun 2021 14:23:37 -0400
+Received: by mail-ua1-f46.google.com with SMTP id p1so7161729uam.13;
+        Sat, 05 Jun 2021 11:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vzZZh4edDOB7247AHfLiMcDvyzZxdoaMtET9kddA+Fs=;
+        b=h06dzvUxtdNq5eESxWGBS+9Bvnft/dV0vkVd1OxxrJZ3ogzuJxNAA/qT9enUDN1XBU
+         m0Ya0wmSSlCiYWFTTWftNZ//68MzN4a67aody+0bu/UgNlWRfF69VOHzjiSzRiUhqlAK
+         6cNm0CC4IY5lN5q2Y6sgGroR0MzTzB0Sxh1LhtvwZ16POZ8YStq6tL71dJYC/wBtB0zn
+         PmhsdmZuPZD4EXcTLK19DPUIoLZbE9Fvn1IrPHRysRd1hg8dSSRaJFL9m3EJGzA0UsJ1
+         K2SbyBc7PKZRSIaev1Qjj8U/MnmBUWWqxLfkQk3Ny0acYnOYA5ODELV6R7x3XD2sx2NA
+         2Q1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vzZZh4edDOB7247AHfLiMcDvyzZxdoaMtET9kddA+Fs=;
+        b=MSh61iaHxf/u1iEZ6NWbWwIZfc+WvvHCif4U9dqLOy6/5HkZbm0FVknVhdOtPpB0mZ
+         YBeGNeLBFWZ1SnMiFuT12wZHeFW76Ox8Nvwmbod+XVXORcy9natLzZHnv7Sm9PuFNSdJ
+         T25TGIja3ioxESonvRBYPa4OReIc+SCY75Z51rOlUrXqORaAdCpdDnV52j+s1gFQ4c66
+         PISy4Knoeo3Pw9R6lJWxopQcTX9k8/TTOyuU3tqp1j++TaD55Ctxq2Rmv1zdksjZ4OtJ
+         QHAPxXCAcGO+LGdLMXqBZGnMUxMbcWU52i6MGyy7UgyJT6NXC5R1Jlw5ZzW4hGFtVLzj
+         OiVQ==
+X-Gm-Message-State: AOAM530RLSv+kFL6i7OFs/6BSknS3nY53eLv7w5Fdag9yY7TvplrWm7d
+        oJ8W0K6KOwnx/39pBjW7EdwKOTbhFV1avWAwr5I7eG3rljDdZZxF
+X-Google-Smtp-Source: ABdhPJwRAw21aJTuE62LM5U/Q7saDl0iOYDg/iRJZEKr3OAv7O00x2VsE8S9T023e4ZreD1ScR84eJNExPNynzIB+3I=
+X-Received: by 2002:a1f:a08e:: with SMTP id j136mr5457410vke.25.1622917234023;
+ Sat, 05 Jun 2021 11:20:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zkSY+Nk10Hb9RRhiRldy4BtP2AIFThepaw+IBLiQxGRKAu76Tfz
- u/xwkD/5Xjj+4nPrpcNbps49Prlmno1jLjtPMU0HsCFJ8K+bm+sJ7XuKlC6BGL7piwviohY
- sTlX6Cko1RB0w10cj7CJ1tXWloewJz9zjikX65FCu8KyF9jqJGcXtdHzxZDjQX0PCOxFvnd
- 7U8jbQRCot2JkQcmxsVhA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Zll4jERGK4o=:b0ECLFhKc1ov8XftBxIOl9
- Bm00CA3vk6hTwdngrb1VLwvu2bvhDT96UWxpd5QHIfH1c2O5zW+gq6YD8aknBSKHms6Dub/s5
- f7jMvDzfr5Mutwll/uQ5YbB8JC7nFGHTzf6hbcttzV66aa+9jlbs3/ABbaQDmtH+Ly+qYDQE6
- FJpIA61UHheW6K0IyVh8t2m1+jHn7my8B3BQhdc+PrMe0gQHPjEU+ZJis00K5/gvkyrxTuGHo
- 3iKblKo1mjMcUN1oGVKrRjirMb/TSVxwz7XTUB/P51Velw8SgxuMTg53j1FnpuIvvv+ZG7xcM
- rmG1oAg0tdheQ+pPQogFWskdNK4Ag8VyzweuZ0fUVY+dWaKKtmpBQ874+29gkw6Y3+70hvc1t
- jKfB8ckTMcibE9oDb6mKVl78uE1GRAIS8nhyb/kne1ua2bEqJ7tysrbjFc8360U1qjgPFE4a8
- kWRb0oTX6CQSAAeJ3YGCjz+WCiRyJYAMcfo4Gn83R2JOjPBXdJoPX6iGxF/2A24DJQBruU8hr
- Mt5TAwuaw/q+PHowLaTJbqCFVrXJ0aCas4utyh4tULM1nV2SfxU9vYtxtz598ePmrFz2Xgi0N
- dlWbtJrwwBzPMAiQBUv0awrFs6FmK0tviDCY30HkQcsnHvCZbJHH3BVCrJqzP/oRtfGvpjpF7
- R6w3tXo5XyxV95pQb8np03wgVP40n7oGErvs5Elsw1r2nS4zDRzQKQ/0CQgjA4tAH2DIAd8fn
- NzoaFJZg0jIvsi7Mx8a575YtGSGwFGOSaMS2YstcN/TkldgpaI0M9AGAxklmmiTQ9w0ZRsBAD
- zAAsVtzFlfXsBbPEYB16GqQVR1GfJw+QirLv+4i1jFPM6vcesajUz1HKeqxtFjkNlHVVEZzTY
- thwIgWTL1P9kdR7uy66I1xegj0nPCui+X1+xHTtLWMLfBk6Ci9RK2kI28meJyPq0ITYlS6OGv
- N3iR4UwFaRr2RLHQPZFXPZW46bgHRTI7sKQOtVwRVVSEGZCyTVyf/dR8zdcZig0VOlLAIWyvz
- OGAAlfnYKEtf+eT3FDxtEzVc1viYBZUKzCl716RqEIlhUc1D9FYU7g/5bQrWTIyT/wv1i6IbI
- PubMFX8o76gckRAj7fkDwA2yyiLtOqwYun5
+References: <20210531195553.168298-1-grantseltzer@gmail.com>
+ <20210531195553.168298-2-grantseltzer@gmail.com> <CAEf4BzaKBHy16R4WQEgi0Cyy_6a3EVtBBo=0yRm7K4nF2X53qQ@mail.gmail.com>
+In-Reply-To: <CAEf4BzaKBHy16R4WQEgi0Cyy_6a3EVtBBo=0yRm7K4nF2X53qQ@mail.gmail.com>
+From:   Grant Seltzer Richman <grantseltzer@gmail.com>
+Date:   Sat, 5 Jun 2021 14:20:23 -0400
+Message-ID: <CAO658oVB-2LDUsbbe0Y2E5hMP5tRb16GmJhBWjuvJ4gice6mEQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] Add documentation for libbpf including API autogen
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to maintain the code for the Brute LSM add a new entry to the
-maintainers list.
+On Wed, Jun 2, 2021 at 4:36 PM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
+>
+> On Mon, May 31, 2021 at 12:56 PM grantseltzer <grantseltzer@gmail.com> wrote:
+> >
+> > This adds rst files containing documentation for libbpf. This includes
+> > the addition of libbpf_api.rst which pulls comment documentation from
+> > header files in libbpf under tools/lib/bpf/. The comment docs would be
+> > of the standard kernel doc format.
+> >
+> > Signed-off-by: grantseltzer <grantseltzer@gmail.com>
+> > ---
+>
+> Looks good, thanks! See few comments below. Let's figure out what to
+> do with libbpf docs versioning and land it through bpf-next tree.
+>
+> >  Documentation/bpf/index.rst                   |  13 ++
+> >  Documentation/bpf/libbpf.rst                  |  14 ++
+> >  Documentation/bpf/libbpf_api.rst              |  18 ++
+> >  Documentation/bpf/libbpf_build.rst            |  37 ++++
+> >  .../bpf/libbpf_naming_convention.rst          | 170 ++++++++++++++++++
+> >  5 files changed, 252 insertions(+)
+> >  create mode 100644 Documentation/bpf/libbpf.rst
+> >  create mode 100644 Documentation/bpf/libbpf_api.rst
+> >  create mode 100644 Documentation/bpf/libbpf_build.rst
+> >  create mode 100644 Documentation/bpf/libbpf_naming_convention.rst
+> >
+>
+> [...]
+>
+> > +API
+> > +===
+> > +
+> > +This documentation is autogenerated from header files in libbpf, tools/lib/bpf
+> > +
+> > +.. kernel-doc:: tools/lib/bpf/libbpf.h
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: tools/lib/bpf/bpf.h
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: tools/lib/bpf/btf.h
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: tools/lib/bpf/xsk.h
+> > +   :internal:
+>
+> Libbpf API has a BPF side as well (bpf_helpers.h which pulls in
+> auto-generated bpf_helper_defs.h with all BPF helper definitions,
+> bpf_tracing.h, bpf_core_read.h, bpf_endian.h), we should probably
+> expose them as well?
+>
+> > diff --git a/Documentation/bpf/libbpf_build.rst b/Documentation/bpf/libbpf_build.rst
+> > new file mode 100644
+> > index 000000000..b8240eaaa
+> > --- /dev/null
+> > +++ b/Documentation/bpf/libbpf_build.rst
+> > @@ -0,0 +1,37 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +Building libbpf
+> > +===============
+> > +
+> > +libelf is an internal dependency of libbpf and thus it is required to link
+>
+> zlib is another dependency, can you please mention it as well?
+>
+> > +against and must be installed on the system for applications to work.
+> > +pkg-config is used by default to find libelf, and the program called
+> > +can be overridden with PKG_CONFIG.
+> > +
+>
+> [...]
+>
+> > +API naming convention
+> > +=====================
+> > +
+> > +libbpf API provides access to a few logically separated groups of
+> > +functions and types. Every group has its own naming convention
+> > +described here. It's recommended to follow these conventions whenever a
+> > +new function or type is added to keep libbpf API clean and consistent.
+> > +
+> > +All types and functions provided by libbpf API should have one of the
+> > +following prefixes: ``bpf_``, ``btf_``, ``libbpf_``, ``xsk_``,
+> > +``perf_buffer_``.
+>
+> ring_buffer_ and btf_dump_ are two others that we use. But I don't
+> know how important it is to have an exhaustive list here.
+>
+> > +
+> > +System call wrappers
+> > +--------------------
+> > +
+> > +System call wrappers are simple wrappers for commands supported by
+> > +sys_bpf system call. These wrappers should go to ``bpf.h`` header file
+> > +and map one-on-one to corresponding commands.
+>
+> typo: one-to-one?
+>
+> > +
+> > +For example ``bpf_map_lookup_elem`` wraps ``BPF_MAP_LOOKUP_ELEM``
+> > +command of sys_bpf, ``bpf_prog_attach`` wraps ``BPF_PROG_ATTACH``, etc.
+> > +
+> > +Objects
+> > +-------
+> > +
+> > +Another class of types and functions provided by libbpf API is "objects"
+> > +and functions to work with them. Objects are high-level abstractions
+> > +such as BPF program or BPF map. They're represented by corresponding
+> > +structures such as ``struct bpf_object``, ``struct bpf_program``,
+> > +``struct bpf_map``, etc.
+> > +
+> > +Structures are forward declared and access to their fields should be
+> > +provided via corresponding getters and setters rather than directly.
+> > +
+> > +These objects are associated with corresponding parts of ELF object that
+> > +contains compiled BPF programs.
+> > +
+> > +For example ``struct bpf_object`` represents ELF object itself created
+> > +from an ELF file or from a buffer, ``struct bpf_program`` represents a
+> > +program in ELF object and ``struct bpf_map`` is a map.
+> > +
+> > +Functions that work with an object have names built from object name,
+> > +double underscore and part that describes function purpose.
+> > +
+> > +For example ``bpf_object__open`` consists of the name of corresponding
+> > +object, ``bpf_object``, double underscore and ``open`` that defines the
+> > +purpose of the function to open ELF file and create ``bpf_object`` from
+> > +it.
+> > +
+> > +Another example: ``bpf_program__load`` is named for corresponding
+> > +object, ``bpf_program``, that is separated from other part of the name
+> > +by double underscore.
+>
+> let's drop this example, bpf_program__load is a bad example and is
+> going to be deprecated.  We can use btf__parse() as an example here.
+>
+> > +
+> > +All objects and corresponding functions other than BTF related should go
+> > +to ``libbpf.h``. BTF types and functions should go to ``btf.h``.
+> > +
+> > +Auxiliary functions
+> > +-------------------
+> > +
+> > +Auxiliary functions and types that don't fit well in any of categories
+> > +described above should have ``libbpf_`` prefix, e.g.
+> > +``libbpf_get_error`` or ``libbpf_prog_type_by_name``.
+> > +
+> > +AF_XDP functions
+> > +-------------------
+> > +
+> > +AF_XDP functions should have an ``xsk_`` prefix, e.g.
+> > +``xsk_umem__get_data`` or ``xsk_umem__create``. The interface consists
+> > +of both low-level ring access functions and high-level configuration
+> > +functions. These can be mixed and matched. Note that these functions
+> > +are not reentrant for performance reasons.
+> > +
+> > +Please take a look at Documentation/networking/af_xdp.rst in the Linux
+> > +kernel source tree on how to use XDP sockets and for some common
+> > +mistakes in case you do not get any traffic up to user space.
+>
+> I'd probably drop this section, given we move xsk.{c,h} into libxdp.
+>
+> > +
+> > +ABI
+> > +==========
+> > +
+> > +libbpf can be both linked statically or used as DSO. To avoid possible
+> > +conflicts with other libraries an application is linked with, all
+> > +non-static libbpf symbols should have one of the prefixes mentioned in
+> > +API documentation above. See API naming convention to choose the right
+> > +name for a new symbol.
+> > +
+>
+> [...]
 
-Signed-off-by: John Wood <john.wood@gmx.com>
-=2D--
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 503fd21901f1..665cd6aaadac 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3847,6 +3847,14 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/net/ethernet/brocade/bna/
-
-+BRUTE SECURITY MODULE
-+M:	John Wood <john.wood@gmx.com>
-+S:	Maintained
-+F:	Documentation/admin-guide/LSM/Brute.rst
-+F:	include/brute/
-+F:	security/brute/
-+F:	tools/testing/selftests/brute/
-+
- BSG (block layer generic sg v4 driver)
- M:	FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>
- L:	linux-scsi@vger.kernel.org
-=2D-
-2.25.1
-
+Thanks for the feedback on this, I've fixed them on a local copy and
+will incorporate them into my final patch/PR depending on what we go
+with. See my most recent response on '[PATCH bpf-next 0/3]
+Autogenerating API documentation'
