@@ -2,133 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB74C47082
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 16:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F78AC47082
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 16:26:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AD326140F
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 16:13:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F6A6613F7
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 16:26:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbhFEQPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 12:15:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56546 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229930AbhFEQPG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 5 Jun 2021 12:15:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 415F261107;
-        Sat,  5 Jun 2021 16:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622909598;
-        bh=SA5TEU+2VLG56VJsWiXFfbq1+IATGpk0WcRtynKouYQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=h8je3nNfdPMWLaSstwksH2HUFfv92PhNait5QX6wGaW6wJu2PYnONmGWNPvewgMMx
-         m2coc7Ajx5QYNAsd5PcE29AshjLvujwf98ajO97ibsGlQQgt/IPk27C7jmA6y1YDjo
-         v43xIsTn2ZMs7T/EvAj/7enc6bO/84cIzevLaAN8fCaUxru1ZIV5LLK3VvKHLvb7P/
-         nKgHGI9mndrTluywCQaCpxcoY9SgrLknMuxrB8GJe+dmm+UXEAkcvus0sObF79ELu1
-         SMI1GCWHejulJjZttGbpzs0xfiuw5cPmllOOhs88CWLQPpG+GeerS6zMVTsnxbZFGx
-         PylZk6V8d1e6w==
-Date:   Sat, 5 Jun 2021 18:13:14 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     David Gow <davidgow@google.com>
+        id S230010AbhFEQ1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 12:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229998AbhFEQ1s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jun 2021 12:27:48 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8AECC061766
+        for <linux-doc@vger.kernel.org>; Sat,  5 Jun 2021 09:25:50 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id m21so3035519lfg.13
+        for <linux-doc@vger.kernel.org>; Sat, 05 Jun 2021 09:25:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PrCDT9/BrFc5JTZQvS/vmJq/oRXt2DZtyVSWmdgwMSk=;
+        b=NO+aHNUK9eeNAXYlgZh+KdSaJPd0/ddCUtczvY28depLkTGy6F3fT05tmVi3sw7ycH
+         mmYh2Bm0ignR2mXzhBksbvf7IWCw2xPhxUDKmkjXKTn82/F7eM53hqh2AMHwnd5Gy46E
+         gEB06bXm8YCNWp79uD48Qml1bYDafyzKoRGlWfvddfZF7QO7hyFf3ysWGfRSF3knwOa7
+         udtK0E82puJ3rfpuNk/cdlQT3m1z17G6YOeGaI5TVniO182hHOKEhOlhfNgbjt6eLtvr
+         SYO+A+5/hgcIh0sb4YSr1VHJKVPm3Y9FD+pV3Tld07I+yHuKa9ma52CuKb4FviJkbn7X
+         QzmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PrCDT9/BrFc5JTZQvS/vmJq/oRXt2DZtyVSWmdgwMSk=;
+        b=d1AIxtvf/ePrm0Wdh/aokTsBinC+SJDokZ0X6gW58m+j5iP+NFhVBy0Em5PIGn0glF
+         PFJMEDqU7++2S+xrDxvfZFCYdRDZKKHzfO7wjQHnV3WeBGs7JO5FEj3HDi2SXAazMn15
+         FEsKj6ZtHMUkYvQiZUI5AHtWuso5XMW1WUDpTOF5lq57H0kZK09/J/eNc5ak3gVt59Fc
+         rEJVlwruZCtFLhdOOHCXk2TdhtaWKPYzU0RyhyZqatUjqJUp99p2k6eW0vDOYs+rTEdS
+         wEIBb4wCYJ7Hbvh5PsT+3rJU8oYF6eST5x31gE1v1Rnp1+E71fVJlS8JC++CjxS+Bwku
+         Nf7g==
+X-Gm-Message-State: AOAM531EHRWMg1ZcjRB8Qe4HHvwRGDWctR1pVBTn5HX7CK5i1MEqqC0P
+        El6Uv2frLUF8zB5+R1XSHYsgDfJxeYFXebMK+GvZeg==
+X-Google-Smtp-Source: ABdhPJwWXh8YFjT5OUKlc/yT0+RpQOtLPrqc9AOXSBB/yaIWf+9GL/lva+Gj/FpKd1g/afqGfRV8xMUi4XrTt8covsg=
+X-Received: by 2002:a19:c753:: with SMTP id x80mr6370090lff.586.1622910349250;
+ Sat, 05 Jun 2021 09:25:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1622898327.git.mchehab+huawei@kernel.org> <ed02be4feb78dc86dbd17ddfa2e896d8dda7fa8d.1622898327.git.mchehab+huawei@kernel.org>
+In-Reply-To: <ed02be4feb78dc86dbd17ddfa2e896d8dda7fa8d.1622898327.git.mchehab+huawei@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 5 Jun 2021 18:25:38 +0200
+Message-ID: <CACRpkdYYioDfJFEGREhjxmT7YU5_3nrJR8wP3BAC4b=ihqVY5Q@mail.gmail.com>
+Subject: Re: [PATCH 18/34] docs: driver-api: gpio: using-gpio.rst: avoid using
+ ReSt :doc:`foo` markup
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Daniel Latypov <dlatypov@google.com>,
-        Marco Elver <elver@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 13/34] docs: dev-tools: testing-overview.rst: avoid
- using ReSt :doc:`foo` markup
-Message-ID: <20210605181314.1e76f10d@coco.lan>
-In-Reply-To: <CABVgOS=vcZX5w4tyQg9nsDyJ0sKdS-McgVNzVd9mqeLy1NTCFA@mail.gmail.com>
-References: <cover.1622898327.git.mchehab+huawei@kernel.org>
-        <63fe86c8de5cced00a1bb5d18d6c7f087268565a.1622898327.git.mchehab+huawei@kernel.org>
-        <CABVgOS=vcZX5w4tyQg9nsDyJ0sKdS-McgVNzVd9mqeLy1NTCFA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 5 Jun 2021 23:43:55 +0800
-David Gow <davidgow@google.com> escreveu:
+On Sat, Jun 5, 2021 at 3:18 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 
-> On Sat, Jun 5, 2021 at 9:18 PM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > The :doc:`foo` tag is auto-generated via automarkup.py.
-> > So, use the filename at the sources, instead of :doc:`foo`.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---  
-> 
-> Hmm... I'd originally wanted this to read more like the name of the
-> tool than the path to the doc file, but given the :doc: prefix and
-> backticks are equally ugly, and no less confusing to the plain-text
-> reader than the filename, I'm happy to have this changed. Particularly
-> if we're standardising on this across the kernel documentation.
+> The :doc:`foo` tag is auto-generated via automarkup.py.
+> So, use the filename at the sources, instead of :doc:`foo`.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Yeah, the idea is to avoid :doc: treewide, at least for simple cases.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-I'm proposing that we should still keep using:
-
-	:doc:`some description <foo>`
-
-for named references, which is still ugly in plain-text, but can be
-used to provide a better hyperlink when the docs are converted
-into html/LaTeX/pdf, as it would be converted (in html) as:
-
-	<a href="foo.html">some description</a>
-
-> Reviewed-by: David Gow <davidgow@google.com>
-
-Thanks!
-Mauro
-
-> 
-> 
-> -- David
-> 
-> >  Documentation/dev-tools/testing-overview.rst | 16 ++++++++--------
-> >  1 file changed, 8 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
-> > index b5b46709969c..65feb81edb14 100644
-> > --- a/Documentation/dev-tools/testing-overview.rst
-> > +++ b/Documentation/dev-tools/testing-overview.rst
-> > @@ -71,15 +71,15 @@ can be used to verify that a test is executing particular functions or lines
-> >  of code. This is useful for determining how much of the kernel is being tested,
-> >  and for finding corner-cases which are not covered by the appropriate test.
-> >
-> > -:doc:`gcov` is GCC's coverage testing tool, which can be used with the kernel
-> > -to get global or per-module coverage. Unlike KCOV, it does not record per-task
-> > -coverage. Coverage data can be read from debugfs, and interpreted using the
-> > -usual gcov tooling.
-> > +Documentation/dev-tools/gcov.rst is GCC's coverage testing tool, which can be
-> > +used with the kernel to get global or per-module coverage. Unlike KCOV, it
-> > +does not record per-task coverage. Coverage data can be read from debugfs,
-> > +and interpreted using the usual gcov tooling.
-> >
-> > -:doc:`kcov` is a feature which can be built in to the kernel to allow
-> > -capturing coverage on a per-task level. It's therefore useful for fuzzing and
-> > -other situations where information about code executed during, for example, a
-> > -single syscall is useful.
-> > +Documentation/dev-tools/kcov.rst is a feature which can be built in to the
-> > +kernel to allow capturing coverage on a per-task level. It's therefore useful
-> > +for fuzzing and other situations where information about code executed during,
-> > +for example, a single syscall is useful.
-> >
-> >
-> >  Dynamic Analysis Tools
-> > --
-> > 2.31.1
-> >  
-
-
-
-Thanks,
-Mauro
+Yours,
+Linus Walleij
