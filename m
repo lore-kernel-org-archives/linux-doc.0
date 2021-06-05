@@ -2,126 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 405A4C47082
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:40:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2315C47082
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 14:15:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D4E961407
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:40:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0213613AA
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 14:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbhFENl4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 09:41:56 -0400
-Received: from mail-qk1-f174.google.com ([209.85.222.174]:37613 "EHLO
-        mail-qk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbhFENlz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jun 2021 09:41:55 -0400
-Received: by mail-qk1-f174.google.com with SMTP id i67so12194346qkc.4
-        for <linux-doc@vger.kernel.org>; Sat, 05 Jun 2021 06:40:08 -0700 (PDT)
+        id S230029AbhFEOQs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 10:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47538 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229930AbhFEOQs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jun 2021 10:16:48 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F8CC061766;
+        Sat,  5 Jun 2021 07:14:44 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id a11so10255923wrt.13;
+        Sat, 05 Jun 2021 07:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
+        d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4Atvk23VAJRECo9gPmro4DFImXIG4NDqEfap1exKlKA=;
-        b=GoIlQAOVCIkuM0rDmfLKmend+emu/3tfZr00HzMcgeR2Rzv4LvpAS92aJxNYw+M5UJ
-         FpYZiGfjBHmpQ13B6Yx59IKS0oMeH+YImmGxhPlkOW7uMSNjNZ/Ln1IsBYEe0kVtoDlo
-         czoe4hs6Itaasb6Xbg+2JJyvtyAnway8sPQVnNylYr4bKkjK14udQP4UMfnCaLncxdeM
-         R3ZznE37tkAJH1hykxV6tzyY1j21glrRTKGjkSZgHAUfo1sgdvqo+mdXH50QAUCkfXRa
-         uXo2eEZ7zHv52PUj8ibdL6WdToRHdaC+o8oIoeBVk00adqKCYBluQ8tTS0emEF0v6pmG
-         IZWQ==
+        bh=AHObE04CnQ7sBWhLfOwE1pLlZHif1LMZSlIi89SV3Eo=;
+        b=hPOvBLzV67HfYBd2PZZeO+GV+gClZ1ufh2tCDaFmFBT0w0PahMP6EiBnU/WSvj+txY
+         mT8jLV84fW2FkWUBirTii5u0QZLAunNwXJbTWKxCB65/nhMcMcFG16YmJmlPVIRvq7gq
+         c4DYXTKwdhyxcdQvQgM79AwIQ/uvsaERbwZvpAOsod7564bRyrtH0TWtA2OF8jj+A5Nj
+         NURzz6dkKqDkevQZzE5dN77HT11Sed/vhNMcr5O36c1QgIxZhE39xvGFD+3mu76vp4xo
+         TB/Q0ey8LbOVM3E5yyPABLg/hTLhzbvEQ/+Ypyxgb4LvOBF5UupD37o+OtUyhISVmiAs
+         qrgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=4Atvk23VAJRECo9gPmro4DFImXIG4NDqEfap1exKlKA=;
-        b=GEs+GNuGEHmRvL8w1d0Tcws6KFZSbMG4GoqU8GCPaTIccruiTXUwDKNJRSj/Do/uyg
-         OohJCjDEdUVbYOXnblRdNlCQ2+Lj523PSfaD/jJoPDqShXFg2oSaxQz2/NMSmigXI1Vr
-         SNGWQvmpMhVa98PygVgw64KsdjtlUyFVEb4MQ0gyKEdk8a2Z026rZ803UQNQMCaLrzk2
-         wUx8k8boSmWEZ9aeNg6GQswDt5sZxKu5TStKQA552kJTtsuS8t9cXBL1Rz6IeF6aVcOn
-         NiV5c/39bo9QKxdxe0Fkec+oSiAp6NsHk2FCFN1m9nMDl1HfH2YRa3Gnl6uJIhcLClxT
-         IXAg==
-X-Gm-Message-State: AOAM532lYHiX3PiqWNv7mW5bjhnO0SXx0YjngcHwZz/BgYcdz462ojuu
-        CtmpoiivHXIOdDVhaJ2vIJ1vtg==
-X-Google-Smtp-Source: ABdhPJxxQmtZ5zcZUhMN8lSaketJPR9mnwCxRc9RBRcUQivKmWRw06oGdARzPmIk964gpjL9qs0S5g==
-X-Received: by 2002:a05:620a:29c9:: with SMTP id s9mr8738237qkp.171.1622900347586;
-        Sat, 05 Jun 2021 06:39:07 -0700 (PDT)
-Received: from [192.168.1.10] (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id a14sm5355058qtj.57.2021.06.05.06.39.05
+        bh=AHObE04CnQ7sBWhLfOwE1pLlZHif1LMZSlIi89SV3Eo=;
+        b=RiHcWFSOrM8pOAlQuoXoUa87kbwpC82cQl5/kI+iRIaiiLzlpyYofruG7Kn5+fcPN2
+         PayCP1D7CsAsDsTAk8Nb8g3U1VRqR/Hd48kzVYzXqZRTJSOD6eaoob4d1khRS4WmbZpY
+         qdBWMccVbH3zLpyvxYjQOySocH59F6xdO9YoW58kDd87rK/MlX5KcmX17JLgmEz/ZCDn
+         Mq2aQzz6M1B1jtH8Zzu+rhCh6CpvXj6MzNhNCTmU4ST3nArnWNwfDejAExEDNoyyzUvy
+         ahhZga8IN8F+VABqTWVT0oV8Lmq53Smjhwxl+pGAL4ug4+5fDgYJF48Tt3pRoQe2qq1w
+         YCzg==
+X-Gm-Message-State: AOAM531omZ1Yp2EOZlz1KzGKlr0mpHSr9V4K8kqBn/gDIc/1Z1I21jmY
+        zVUxY0FKx9m8XkELFHnGqJvPDqy+E40=
+X-Google-Smtp-Source: ABdhPJyQEVg8yFGhdE4mTQ1vOX08qQKIZ33qSADqUkHSDNJrXmsKDxLAXVY2ldIg7ON772RFIzK1/Q==
+X-Received: by 2002:a5d:438a:: with SMTP id i10mr8751419wrq.82.1622902481624;
+        Sat, 05 Jun 2021 07:14:41 -0700 (PDT)
+Received: from [192.168.2.202] (pd9e5aeec.dip0.t-ipconnect.de. [217.229.174.236])
+        by smtp.gmail.com with ESMTPSA id r7sm7470496wmq.23.2021.06.05.07.14.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Jun 2021 06:39:06 -0700 (PDT)
-Subject: Re: [RFC v2 00/43] PKRAM: Preserved-over-Kexec RAM
-To:     Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        rppt@kernel.org, akpm@linux-foundation.org, hughd@google.com,
-        ebiederm@xmission.com, keescook@chromium.org, ardb@kernel.org,
-        nivedita@alum.mit.edu, jroedel@suse.de, masahiroy@kernel.org,
-        nathan@kernel.org, terrelln@fb.com, vincenzo.frascino@arm.com,
-        martin.b.radev@gmail.com, andreyknvl@google.com,
-        daniel.kiper@oracle.com, rafael.j.wysocki@intel.com,
-        dan.j.williams@intel.com, Jonathan.Cameron@huawei.com,
-        bhe@redhat.com, rminnich@gmail.com, ashish.kalra@amd.com,
-        guro@fb.com, hannes@cmpxchg.org, mhocko@kernel.org,
-        iamjoonsoo.kim@lge.com, vbabka@suse.cz, alex.shi@linux.alibaba.com,
-        david@redhat.com, richard.weiyang@gmail.com,
-        vdavydov.dev@gmail.com, graf@amazon.com, jason.zeng@intel.com,
-        lei.l.li@intel.com, daniel.m.jordan@oracle.com,
-        steven.sistare@oracle.com, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kexec@lists.infradead.org
-References: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Message-ID: <6e74451b-6a29-d0fc-cf26-b3700a099a09@soleen.com>
-Date:   Sat, 5 Jun 2021 09:39:04 -0400
+        Sat, 05 Jun 2021 07:14:41 -0700 (PDT)
+Subject: Re: [PATCH 19/34] docs: driver-api: surface_aggregator: avoid using
+ ReSt :doc:`foo` markup
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org
+References: <cover.1622898327.git.mchehab+huawei@kernel.org>
+ <c42fe427e6538ce7914645468ef63f83254c26d7.1622898327.git.mchehab+huawei@kernel.org>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <91d72412-3bba-8a50-4527-7c8fb9fa54c4@gmail.com>
+Date:   Sat, 5 Jun 2021 16:14:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <c42fe427e6538ce7914645468ef63f83254c26d7.1622898327.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 3/30/21 5:35 PM, Anthony Yznaga wrote:
-> This patchset implements preserved-over-kexec memory storage or PKRAM as a
-> method for saving memory pages of the currently executing kernel so that
-> they may be restored after kexec into a new kernel. The patches are adapted
-> from an RFC patchset sent out in 2013 by Vladimir Davydov [1]. They
-> introduce the PKRAM kernel API and implement its use within tmpfs, allowing
-> tmpfs files to be preserved across kexec.
+On 6/5/21 3:18 PM, Mauro Carvalho Chehab wrote:
+> The :doc:`foo` tag is auto-generated via automarkup.py.
+> So, use the filename at the sources, instead of :doc:`foo`.
 > 
-> One use case for PKRAM is preserving guest memory and/or auxillary supporting
-> data (e.g. iommu data) across kexec in support of VMM Fast Restart[2].
-> VMM Fast Restart is currently using PKRAM to support preserving "Keep Alive
-> State" across reboot[3].  PKRAM provides a flexible way for doing this
-> without requiring that the amount of memory used by a fixed size created
-> a priori.  Another use case is for databases to preserve their block caches
-> in shared memory across reboot.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Anthony,
+Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
 
-I have several concerns about preserving arbitrary not prereserved segments across reboot.
-
-1. PKRAM does not work across firmware reboots
-With emulated persistent memory it is possible to do reboot through firmware and not loose the preserved-memory. The firmware can be modified to mark the required ranges pages as PRAM, and Linux will treat them as such. The benefit of this is that it works for both cases kexec and reboot through firmware. The disadvantage is that you have to know in advance how much memory needs to be preserved. However, with the ability to hot-plug/hot-remove the PMEM, the second point becomes moot as it is possible to mark a large chunk of memory as PMEM if needed. I have designed something like this for one of our projects, and it is already been used in the fleet. Reboot through firmware, allows us to service firmware in addition to kernel.
-
-2. Boot failures due to memory fragmentation
-We also considered using PRAM instead of PMEM. PRAM was one of the previous attempts to do the persistent memory thing via tmpfs flag: mount -t tmpfs -o pram=mytmpfs none /mnt/crdump"; that project was never upstreamed. However, we gave up with that idea because in addition to loosing possibility to reboot through the firmware, it also adds memory fragmentation. For example, if the new kernel require larger contiguous memory chunks to be allocated during boot than the previous kernel (i.e. the next kernel has new drivers, or some debug feature enabled), the boot might simply fail because of the extra memory ranges being reserved.
-
-3. New intra-kernel dependencies
-Kexec reboot is when one Linux kernel works as a bootloader for the next one. Currently, there is very little information that is passed from the old kernel to the next kernel. Adding more information that two independent kernels must know about each other is not a very good thing from architectural point of view. It limits the flexibility of kexec.
-
-However, we do need PKRAM and ability to preserve kernel memory across reboot for fast hypervisor updates or such. User pages can already be preserved across reboot on emulated or real persistent memory. The easiest way is via DAXFS placed on that memory.
-Kernel cannot preserve its memory on  PMEM across the reboot. However, functionality can be extended so kernel memory can be preserved on both emulated persistent memory or on real persistent memory. PKRAM could provide an interface to save kernel data to a file, and that file could be placed on any filesystem including DAXFS. When placed on DAXFS, that file can be used as iommu data, as it is actually located in physical memory and not moving anywhere. It is preserved across firmware/kexec reboot with having the devices survive the reboot state intact. During boot, have the device drivers that use PKRAM preserve functionality map saved files from DAXFS in order to have IOMMU functionality working again.
-
-Thank you,
-Pasha
+> ---
+>   .../surface_aggregator/clients/index.rst          |  3 ++-
+>   .../driver-api/surface_aggregator/internal.rst    | 15 ++++++++-------
+>   .../driver-api/surface_aggregator/overview.rst    |  6 ++++--
+>   3 files changed, 14 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/surface_aggregator/clients/index.rst b/Documentation/driver-api/surface_aggregator/clients/index.rst
+> index 98ea9946b8a2..30160513afa5 100644
+> --- a/Documentation/driver-api/surface_aggregator/clients/index.rst
+> +++ b/Documentation/driver-api/surface_aggregator/clients/index.rst
+> @@ -5,7 +5,8 @@ Client Driver Documentation
+>   ===========================
+>   
+>   This is the documentation for client drivers themselves. Refer to
+> -:doc:`../client` for documentation on how to write client drivers.
+> +Documentation/driver-api/surface_aggregator/client.rst for documentation
+> +on how to write client drivers.
+>   
+>   .. toctree::
+>      :maxdepth: 1
+> diff --git a/Documentation/driver-api/surface_aggregator/internal.rst b/Documentation/driver-api/surface_aggregator/internal.rst
+> index 72704734982a..8c7c80c9f418 100644
+> --- a/Documentation/driver-api/surface_aggregator/internal.rst
+> +++ b/Documentation/driver-api/surface_aggregator/internal.rst
+> @@ -87,10 +87,11 @@ native SSAM devices, i.e. devices that are not defined in ACPI and not
+>   implemented as platform devices, via |ssam_device| and |ssam_device_driver|
+>   simplify management of client devices and client drivers.
+>   
+> -Refer to :doc:`client` for documentation regarding the client device/driver
+> -API and interface options for other kernel drivers. It is recommended to
+> -familiarize oneself with that chapter and the :doc:`ssh` before continuing
+> -with the architectural overview below.
+> +Refer to Documentation/driver-api/surface_aggregator/client.rst for
+> +documentation regarding the client device/driver API and interface options
+> +for other kernel drivers. It is recommended to familiarize oneself with
+> +that chapter and the Documentation/driver-api/surface_aggregator/ssh.rst
+> +before continuing with the architectural overview below.
+>   
+>   
+>   Packet Transport Layer
+> @@ -190,9 +191,9 @@ with success on the transmitter thread.
+>   
+>   Transmission of sequenced packets is limited by the number of concurrently
+>   pending packets, i.e. a limit on how many packets may be waiting for an ACK
+> -from the EC in parallel. This limit is currently set to one (see :doc:`ssh`
+> -for the reasoning behind this). Control packets (i.e. ACK and NAK) can
+> -always be transmitted.
+> +from the EC in parallel. This limit is currently set to one (see
+> +Documentation/driver-api/surface_aggregator/ssh.rst for the reasoning behind
+> +this). Control packets (i.e. ACK and NAK) can always be transmitted.
+>   
+>   Receiver Thread
+>   ---------------
+> diff --git a/Documentation/driver-api/surface_aggregator/overview.rst b/Documentation/driver-api/surface_aggregator/overview.rst
+> index 1e9d57e50063..26415e1ab7da 100644
+> --- a/Documentation/driver-api/surface_aggregator/overview.rst
+> +++ b/Documentation/driver-api/surface_aggregator/overview.rst
+> @@ -73,5 +73,7 @@ being a direct response to a previous request. We may also refer to requests
+>   without response as commands. In general, events need to be enabled via one
+>   of multiple dedicated requests before they are sent by the EC.
+>   
+> -See :doc:`ssh` for a more technical protocol documentation and
+> -:doc:`internal` for an overview of the internal driver architecture.
+> +See Documentation/driver-api/surface_aggregator/ssh.rst for a
+> +more technical protocol documentation and
+> +Documentation/driver-api/surface_aggregator/internal.rst for an
+> +overview of the internal driver architecture.
+> 
