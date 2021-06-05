@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5860C49EBE
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9C0C4BA00
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E8446140C
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A947A61406
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230400AbhFENUr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 09:20:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35080 "EHLO mail.kernel.org"
+        id S229957AbhFENUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 09:20:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34976 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230104AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230049AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 5 Jun 2021 09:20:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EC7FB613D8;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A5E4C6141B;
         Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622899118;
-        bh=v0tsfMQudOzaQ7dfwVoNu4Jf95yigoijEw0Kv4pa4vY=;
+        s=k20201202; t=1622899117;
+        bh=4iDY7ITSxco/5aVtxfEvQxWOspvnAzSv9vo4fOxlCv4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cGlOHDBLEKV9WFcBErXFpNxum6xOcyXBRddRhcbo++/PuUkiLeuBMlvvUVSOJev3x
-         1OEy6RC2SLMiltQ1L3x1XVpbmZROr6qaavuW/zQOlWCL7b9dRvsqq+B2+UZnWXklNX
-         p88rJqYvfPCfmpoCsu0o/HhBRHy6Cefwt2ZDYs3D8UvY+bQYNKom6r5AJzTkpk9zHR
-         TDWGHdP8iRV//2NycELWPUNmuGCAN2WBxhaegiD1RWHx5ZlTd9yoR4BMvkCKcFZyG5
-         Clkg69h70a9almXAsY8sl7TMAmaAYg1YZ/J6qdFZIlaqPVCyl22c2vkCwxy09FlAf2
-         x5aDxQ6ym8lMQ==
+        b=HPQtd/0Bm798vqjdivAGvu0fWShViE0+b/aSVzwdqCKSjKMSRFEbnxpS8G/40/NBh
+         WeIDd8lbutDs3YdhzzB+tWK3yFLVgE7AtZnr5taqeDOCmS4dRWNfy3u74tvOuozyPe
+         ZRr/BpjUwed/CX0YS6jcZQ8vrhCc3N0vP0rlnKJ9fkKNoLcmtqUQHN5YrSTdcIkVKU
+         EjtOrpvfyhjQ2Ji5ZxXzxgPpH3sIZY8mH/l+aofupDRMqZt7i4z2T5iNINFQ+SOvFw
+         uStf+WFxvo+1grglejZlR6cVddoH9NDy5oeLWi2M0zdFto5FT8+aTraRZkiEuQ094F
+         EGBPKZBxaG7ow==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCC-008GFh-4e; Sat, 05 Jun 2021 15:18:36 +0200
+        id 1lpWCB-008GEa-AA; Sat, 05 Jun 2021 15:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 19/34] docs: driver-api: surface_aggregator: avoid using ReSt :doc:`foo` markup
-Date:   Sat,  5 Jun 2021 15:18:18 +0200
-Message-Id: <c42fe427e6538ce7914645468ef63f83254c26d7.1622898327.git.mchehab+huawei@kernel.org>
+        Brendan Higgins <brendanhiggins@google.com>,
+        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH 02/34] docs: dev-tools: kunit: don't use a table for docs name
+Date:   Sat,  5 Jun 2021 15:18:01 +0200
+Message-Id: <08ac283ac5bdc2664255a7ad34514e50d3ed85d8.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
@@ -54,77 +54,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The :doc:`foo` tag is auto-generated via automarkup.py.
-So, use the filename at the sources, instead of :doc:`foo`.
+We'll be replacing :doc:`foo` references to
+Documentation/foo.rst. Yet, here it happens inside a table.
+Doing a search-and-replace would break it.
+
+Yet, as there's no good reason to use a table there,
+let's just convert it into a list.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../surface_aggregator/clients/index.rst          |  3 ++-
- .../driver-api/surface_aggregator/internal.rst    | 15 ++++++++-------
- .../driver-api/surface_aggregator/overview.rst    |  6 ++++--
- 3 files changed, 14 insertions(+), 10 deletions(-)
+ Documentation/dev-tools/kunit/api/index.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/driver-api/surface_aggregator/clients/index.rst b/Documentation/driver-api/surface_aggregator/clients/index.rst
-index 98ea9946b8a2..30160513afa5 100644
---- a/Documentation/driver-api/surface_aggregator/clients/index.rst
-+++ b/Documentation/driver-api/surface_aggregator/clients/index.rst
-@@ -5,7 +5,8 @@ Client Driver Documentation
- ===========================
+diff --git a/Documentation/dev-tools/kunit/api/index.rst b/Documentation/dev-tools/kunit/api/index.rst
+index 9b9bffe5d41a..b33ad72bcf0b 100644
+--- a/Documentation/dev-tools/kunit/api/index.rst
++++ b/Documentation/dev-tools/kunit/api/index.rst
+@@ -10,7 +10,7 @@ API Reference
+ This section documents the KUnit kernel testing API. It is divided into the
+ following sections:
  
- This is the documentation for client drivers themselves. Refer to
--:doc:`../client` for documentation on how to write client drivers.
-+Documentation/driver-api/surface_aggregator/client.rst for documentation
-+on how to write client drivers.
- 
- .. toctree::
-    :maxdepth: 1
-diff --git a/Documentation/driver-api/surface_aggregator/internal.rst b/Documentation/driver-api/surface_aggregator/internal.rst
-index 72704734982a..8c7c80c9f418 100644
---- a/Documentation/driver-api/surface_aggregator/internal.rst
-+++ b/Documentation/driver-api/surface_aggregator/internal.rst
-@@ -87,10 +87,11 @@ native SSAM devices, i.e. devices that are not defined in ACPI and not
- implemented as platform devices, via |ssam_device| and |ssam_device_driver|
- simplify management of client devices and client drivers.
- 
--Refer to :doc:`client` for documentation regarding the client device/driver
--API and interface options for other kernel drivers. It is recommended to
--familiarize oneself with that chapter and the :doc:`ssh` before continuing
--with the architectural overview below.
-+Refer to Documentation/driver-api/surface_aggregator/client.rst for
-+documentation regarding the client device/driver API and interface options
-+for other kernel drivers. It is recommended to familiarize oneself with
-+that chapter and the Documentation/driver-api/surface_aggregator/ssh.rst
-+before continuing with the architectural overview below.
- 
- 
- Packet Transport Layer
-@@ -190,9 +191,9 @@ with success on the transmitter thread.
- 
- Transmission of sequenced packets is limited by the number of concurrently
- pending packets, i.e. a limit on how many packets may be waiting for an ACK
--from the EC in parallel. This limit is currently set to one (see :doc:`ssh`
--for the reasoning behind this). Control packets (i.e. ACK and NAK) can
--always be transmitted.
-+from the EC in parallel. This limit is currently set to one (see
-+Documentation/driver-api/surface_aggregator/ssh.rst for the reasoning behind
-+this). Control packets (i.e. ACK and NAK) can always be transmitted.
- 
- Receiver Thread
- ---------------
-diff --git a/Documentation/driver-api/surface_aggregator/overview.rst b/Documentation/driver-api/surface_aggregator/overview.rst
-index 1e9d57e50063..26415e1ab7da 100644
---- a/Documentation/driver-api/surface_aggregator/overview.rst
-+++ b/Documentation/driver-api/surface_aggregator/overview.rst
-@@ -73,5 +73,7 @@ being a direct response to a previous request. We may also refer to requests
- without response as commands. In general, events need to be enabled via one
- of multiple dedicated requests before they are sent by the EC.
- 
--See :doc:`ssh` for a more technical protocol documentation and
--:doc:`internal` for an overview of the internal driver architecture.
-+See Documentation/driver-api/surface_aggregator/ssh.rst for a
-+more technical protocol documentation and
-+Documentation/driver-api/surface_aggregator/internal.rst for an
-+overview of the internal driver architecture.
+-================================= ==============================================
+-:doc:`test`                       documents all of the standard testing API
+-                                  excluding mocking or mocking related features.
+-================================= ==============================================
++Documentation/dev-tools/kunit/api/test.rst
++
++ - documents all of the standard testing API excluding mocking
++   or mocking related features.
 -- 
 2.31.1
 
