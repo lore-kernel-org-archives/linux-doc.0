@@ -7,42 +7,41 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D922C4743E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E74C47082
 	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21D6561430
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E06D61455
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbhFENUZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S230019AbhFENUZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 5 Jun 2021 09:20:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34948 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:34836 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229933AbhFENUZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S229930AbhFENUZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 5 Jun 2021 09:20:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 68150613FE;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5447B613D8;
         Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622899117;
-        bh=MZn/b+egYgV5T6zhO3wdcAfr9Ty9nBtYJvlFIpjsCtk=;
+        bh=asTkRaIynv0EXyPf2YOE4npgGc5H+lLigxxTS3UFkZ8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZtTd0YOfBUHABR/O/32+9rYjnBDSW92uYfVfgrr2hYM2onLNcbYxnvx5WfU2iOe4x
-         L8XCRSRTVQiRrhgXH1rrq8bfIkU0y/3DX2qsb08nLcpWkabcKr0nCAYmKdafSOarrF
-         qGzfhKUTbyzD8NYLJ9pmB41uXoMf9w1xZw6UVzOXIr5ZjyVC1iuYzWCRFIX/IPDg9r
-         K5Yq0m672UCJYBgVH87ZY+ybDz4lnxq3MmRjkX6FHFdFAqmWlJqttsesoTmLDawo/K
-         8Kj5ceITiSortfZuiCfHETvulqXiqdIDf0VsSMK1q56C0HNhBOyKv5/d33vEHZ3RX+
-         Txg3frZMECNjA==
+        b=kWjNieVyd9OpRyqw850ZLuEqUL6ind5aa7j0879u/Jb5eDn/PJnP0uH/ZuWkuBbcN
+         o8mwd4xJS0BNWwM5XomJPU4LNkqmDdP8ENQdCsgsjeyP2itBOtACYNk2yp0HfVlSTh
+         1mNHJ5MycYr7UVJ1OvSwZeSpStg4n+5fVRoDdm73aet2Wwz1osGXxB6AqqkUD86X8a
+         lvuYLIeq4SioFxBzHkiuE7NYUr7b6P1rhkmu0C/dH6TPSNWbud0LrM1y7ECbKt28H3
+         qhWGaLwvZChMpRq9Rrwrg+ZmImvGuJGvALEl3IgE6mOzK/l3a+0VKxOCqkrpeGq2E6
+         dRWnB8RyiZgag==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCB-008GEe-Bz; Sat, 05 Jun 2021 15:18:35 +0200
+        id 1lpWCB-008GEX-8w; Sat, 05 Jun 2021 15:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 03/34] media: docs: */media/index.rst: don't use ReST doc:`foo`
-Date:   Sat,  5 Jun 2021 15:18:02 +0200
-Message-Id: <4c55f89ee17c762581610036acf2e8a4408b00a6.1622898327.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 01/34] docs: devices.rst: better reference documentation docs
+Date:   Sat,  5 Jun 2021 15:18:00 +0200
+Message-Id: <0c0302e9294a3c3694a3c362d4b54b336e7ef9c8.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
@@ -53,86 +52,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The :doc:`foo` tag is auto-generated via automarkup.py.
-    So, use the filename at the sources, instead of :doc:`foo`.
+There's no need to use either :file: or :doc: tags for documentation,
+as automarkup.py automatically converts Documentation/*.rst into
+a cross-reference.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/index.rst   | 12 +++++++-----
- Documentation/driver-api/media/index.rst    | 10 ++++++----
- Documentation/userspace-api/media/index.rst | 12 +++++++-----
- 3 files changed, 20 insertions(+), 14 deletions(-)
+ Documentation/driver-api/pm/devices.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/index.rst b/Documentation/admin-guide/media/index.rst
-index 6e0d2bae7154..c676af665111 100644
---- a/Documentation/admin-guide/media/index.rst
-+++ b/Documentation/admin-guide/media/index.rst
-@@ -11,12 +11,14 @@ its supported drivers.
+diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
+index 6b3bfd29fd84..d448cb57df86 100644
+--- a/Documentation/driver-api/pm/devices.rst
++++ b/Documentation/driver-api/pm/devices.rst
+@@ -217,7 +217,7 @@ system-wide transition to a sleep state even though its :c:member:`runtime_auto`
+ flag is clear.
  
- Please see:
- 
--- :doc:`/userspace-api/media/index`
--     for the userspace APIs used on media devices.
-+Documentation/userspace-api/media/index.rst
- 
--- :doc:`/driver-api/media/index`
--     for driver development information and Kernel APIs used by
--     media devices;
-+  - for the userspace APIs used on media devices.
-+
-+Documentation/driver-api/media/index.rst
-+
-+  - for driver development information and Kernel APIs used by
-+    media devices;
- 
- The media subsystem
- ===================
-diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-index 2ad71dfa8828..813d7db59da7 100644
---- a/Documentation/driver-api/media/index.rst
-+++ b/Documentation/driver-api/media/index.rst
-@@ -11,11 +11,13 @@ its supported drivers.
- 
- Please see:
- 
--- :doc:`/admin-guide/media/index`
--    for usage information about media subsystem and supported drivers;
-+Documentation/admin-guide/media/index.rst
- 
--- :doc:`/userspace-api/media/index`
--     for the userspace APIs used on media devices.
-+  - for usage information about media subsystem and supported drivers;
-+
-+Documentation/userspace-api/media/index.rst
-+
-+  - for the userspace APIs used on media devices.
+ For more information about the runtime power management framework, refer to
+-:file:`Documentation/power/runtime_pm.rst`.
++Documentation/power/runtime_pm.rst.
  
  
- .. only:: html
-diff --git a/Documentation/userspace-api/media/index.rst b/Documentation/userspace-api/media/index.rst
-index 7f42f83b9f59..d839904be085 100644
---- a/Documentation/userspace-api/media/index.rst
-+++ b/Documentation/userspace-api/media/index.rst
-@@ -11,12 +11,14 @@ used by media devices.
+ Calling Drivers to Enter and Leave System Sleep States
+@@ -655,7 +655,7 @@ been thawed.  Generally speaking, the PM notifiers are suitable for performing
+ actions that either require user space to be available, or at least won't
+ interfere with user space.
  
- Please see:
- 
--- :doc:`/admin-guide/media/index`
--    for usage information about media subsystem and supported drivers;
-+Documentation/admin-guide/media/index.rst
- 
--- :doc:`/driver-api/media/index`
--     for driver development information and Kernel APIs used by
--     media devices;
-+  - for usage information about media subsystem and supported drivers;
-+
-+Documentation/driver-api/media/index.rst
-+
-+  - for driver development information and Kernel APIs used by
-+    media devices;
+-For details refer to :doc:`notifiers`.
++For details refer to Documentation/driver-api/pm/notifiers.rst.
  
  
- .. only:: html
+ Device Low-Power (suspend) States
+@@ -726,7 +726,7 @@ it into account in any way.
+ 
+ Devices may be defined as IRQ-safe which indicates to the PM core that their
+ runtime PM callbacks may be invoked with disabled interrupts (see
+-:file:`Documentation/power/runtime_pm.rst` for more information).  If an
++Documentation/power/runtime_pm.rst for more information).  If an
+ IRQ-safe device belongs to a PM domain, the runtime PM of the domain will be
+ disallowed, unless the domain itself is defined as IRQ-safe. However, it
+ makes sense to define a PM domain as IRQ-safe only if all the devices in it
+@@ -805,7 +805,7 @@ The ``DPM_FLAG_MAY_SKIP_RESUME`` Driver Flag
+ --------------------------------------------
+ 
+ During system-wide resume from a sleep state it's easiest to put devices into
+-the full-power state, as explained in :file:`Documentation/power/runtime_pm.rst`.
++the full-power state, as explained in Documentation/power/runtime_pm.rst.
+ [Refer to that document for more information regarding this particular issue as
+ well as for information on the device runtime power management framework in
+ general.]  However, it often is desirable to leave devices in suspend after
 -- 
 2.31.1
 
