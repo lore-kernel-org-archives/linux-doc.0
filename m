@@ -4,46 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E235C49ED6
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB713C49ECB
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C04C61415
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C325B6143B
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230421AbhFENUt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 09:20:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35194 "EHLO mail.kernel.org"
+        id S230353AbhFENUs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 09:20:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35066 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230090AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230106AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 5 Jun 2021 09:20:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E0C4C6143F;
-        Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 01A5E61441;
+        Sat,  5 Jun 2021 13:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622899118;
-        bh=EeMjO89d7aFZ6t6gjtXe5Yq7iNjoeJqszcxkBk9Ryjs=;
+        bh=CrYrSCQ5roiQoHpCpOwAt0vkDKLp+wMs38LNVCryUAc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UMPkEjm+F7ZTSJCY+IPSv6vgA4uYyvViEyG6GHRNYyrT2g+63+PV1EYMvdjIf5Bpp
-         X9XPq14/uDB3BaryhI6Fq39w2MyD5c9OdOhHvON5lB8PV1L/XMEW0cxBNyz2PFg1M4
-         RwNCl9c2KadndxP3rer0THE/TmHI79rYXDQZVkcseiLbMsmuXiM1BUxYwNqdTxF9QC
-         FRSBUd8+sI9mRI6UFJqtK1JDt+Y9iLjeFjSnbvT6v+GgKwaB7+BY1ZVMQiu04PgC9O
-         wjnVFe5mPXhhrJbAkO9bSpFlL4Ep10VCTufHHig4YFPgmAsye82XUwid30BOJApVHi
-         eRG23e3cnFKEQ==
+        b=teNbcMpTfKbHLv4mLNa+DsIQE5OouYDF+UxNMhMNtXpEp3InRCJLtJyhyU2xIR/DT
+         jkzP8k0rXVV6qpcMIXbcycXUpiL5RvkDFdfLSP+WvkE8nUk/Z7SwJjB30ObOaXqA+g
+         hK+bHEezXYmeOo0N51bkuM7flG5AXm8hQ7+hh4aLcUWNzdXGTLrkz/OB3ALKXP1Ev+
+         qvO1cgG67qB5gq6qU/nNnOMSX5JfHGK40sckDhfb4JJHddZOuk8aIfxo+hnnj5r2Cf
+         5ZrgL4rOASwaFccAusx9CCGtPQOQgaR5gd+or9QY1vcph+yahPAh9HhNWhKwkBuBQk
+         hPgggQx8mcaDQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCC-008GFd-3T; Sat, 05 Jun 2021 15:18:36 +0200
+        id 1lpWCC-008GFl-6V; Sat, 05 Jun 2021 15:18:36 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 18/34] docs: driver-api: gpio: using-gpio.rst: avoid using ReSt :doc:`foo` markup
-Date:   Sat,  5 Jun 2021 15:18:17 +0200
-Message-Id: <ed02be4feb78dc86dbd17ddfa2e896d8dda7fa8d.1622898327.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 20/34] docs: driver-api: usb: avoid using ReSt :doc:`foo` markup
+Date:   Sat,  5 Jun 2021 15:18:19 +0200
+Message-Id: <e671e97fa6b6d206dc383976f25d88f68a6aa247.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
@@ -59,29 +57,40 @@ So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/gpio/using-gpio.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/driver-api/usb/dma.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
-index dda069444032..64c8d3f76c3a 100644
---- a/Documentation/driver-api/gpio/using-gpio.rst
-+++ b/Documentation/driver-api/gpio/using-gpio.rst
-@@ -9,13 +9,13 @@ with them.
+diff --git a/Documentation/driver-api/usb/dma.rst b/Documentation/driver-api/usb/dma.rst
+index 2b3dbd3265b4..d32c27e11b90 100644
+--- a/Documentation/driver-api/usb/dma.rst
++++ b/Documentation/driver-api/usb/dma.rst
+@@ -10,7 +10,7 @@ API overview
  
- For examples of already existing generic drivers that will also be good
- examples for any other kernel drivers you want to author, refer to
--:doc:`drivers-on-gpio`
-+Documentation/driver-api/gpio/drivers-on-gpio.rst
+ The big picture is that USB drivers can continue to ignore most DMA issues,
+ though they still must provide DMA-ready buffers (see
+-:doc:`/core-api/dma-api-howto`).  That's how they've worked through
++Documentation/core-api/dma-api-howto.rst).  That's how they've worked through
+ the 2.4 (and earlier) kernels, or they can now be DMA-aware.
  
- For any kind of mass produced system you want to support, such as servers,
- laptops, phones, tablets, routers, and any consumer or office or business goods
- using appropriate kernel drivers is paramount. Submit your code for inclusion
- in the upstream Linux kernel when you feel it is mature enough and you will get
--help to refine it, see :doc:`../../process/submitting-patches`.
-+help to refine it, see Documentation/process/submitting-patches.rst.
+ DMA-aware usb drivers:
+@@ -60,7 +60,7 @@ and effects like cache-trashing can impose subtle penalties.
+   force a consistent memory access ordering by using memory barriers.  It's
+   not using a streaming DMA mapping, so it's good for small transfers on
+   systems where the I/O would otherwise thrash an IOMMU mapping.  (See
+-  :doc:`/core-api/dma-api-howto` for definitions of "coherent" and
++  Documentation/core-api/dma-api-howto.rst for definitions of "coherent" and
+   "streaming" DMA mappings.)
  
- In Linux GPIO lines also have a userspace ABI.
+   Asking for 1/Nth of a page (as well as asking for N pages) is reasonably
+@@ -91,7 +91,7 @@ Working with existing buffers
+ Existing buffers aren't usable for DMA without first being mapped into the
+ DMA address space of the device.  However, most buffers passed to your
+ driver can safely be used with such DMA mapping.  (See the first section
+-of :doc:`/core-api/dma-api-howto`, titled "What memory is DMA-able?")
++of Documentation/core-api/dma-api-howto.rst, titled "What memory is DMA-able?")
  
+ - When you're using scatterlists, you can map everything at once.  On some
+   systems, this kicks in an IOMMU and turns the scatterlists into single
 -- 
 2.31.1
 
