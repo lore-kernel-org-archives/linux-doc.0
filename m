@@ -4,49 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DB6C49EB7
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E235C49ED6
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 759FE6142C
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C04C61415
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:19:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230392AbhFENUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 09:20:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35000 "EHLO mail.kernel.org"
+        id S230421AbhFENUt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 09:20:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35194 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230130AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230090AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 5 Jun 2021 09:20:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 86F166145C;
-        Sat,  5 Jun 2021 13:18:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E0C4C6143F;
+        Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622899118;
-        bh=GdHij+4MhRdAQ3UxmWv39I/XErTMzkdqM/g/Ig89fRg=;
+        bh=EeMjO89d7aFZ6t6gjtXe5Yq7iNjoeJqszcxkBk9Ryjs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AkzpTNW+qrMx4nvFp3Hj9EBMi1Gjd8hy1MuhoWAQvDzST7GRhUXIlf6ZVUP4YPSkC
-         maYIuXHTnQdHmB45WrCxsZQN4EXWebJx6mRlhTHjplWcNmyCJApjaz8YngszKt9s84
-         9YbLaM570d/PhFGK9rQOYQuAj72Uhu3NqSMYhh2LsHbd1DxyMBceL8uCpOjrBfqoZT
-         wnqcnDzKU7T+sJmaF+40bS1AvGXY8gWmb+5W9OoJczXhuCdnVkHp7ks/zva25xUHiH
-         eSR7NWiu5WntaxLHgRAH+RoImX2oYOjIIbQ1exZFnHARbm07OHKUtUs99RPt9hD69a
-         kbFGABOA0uW/Q==
+        b=UMPkEjm+F7ZTSJCY+IPSv6vgA4uYyvViEyG6GHRNYyrT2g+63+PV1EYMvdjIf5Bpp
+         X9XPq14/uDB3BaryhI6Fq39w2MyD5c9OdOhHvON5lB8PV1L/XMEW0cxBNyz2PFg1M4
+         RwNCl9c2KadndxP3rer0THE/TmHI79rYXDQZVkcseiLbMsmuXiM1BUxYwNqdTxF9QC
+         FRSBUd8+sI9mRI6UFJqtK1JDt+Y9iLjeFjSnbvT6v+GgKwaB7+BY1ZVMQiu04PgC9O
+         wjnVFe5mPXhhrJbAkO9bSpFlL4Ep10VCTufHHig4YFPgmAsye82XUwid30BOJApVHi
+         eRG23e3cnFKEQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCC-008GGP-N2; Sat, 05 Jun 2021 15:18:36 +0200
+        id 1lpWCC-008GFd-3T; Sat, 05 Jun 2021 15:18:36 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mike Leach <mike.leach@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 30/34] docs: trace: coresight: coresight.rst: avoid using ReSt :doc:`foo` markup
-Date:   Sat,  5 Jun 2021 15:18:29 +0200
-Message-Id: <a7a4fe3295b543d361541fd5f1c6fadc9e255dec.1622898327.git.mchehab+huawei@kernel.org>
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 18/34] docs: driver-api: gpio: using-gpio.rst: avoid using ReSt :doc:`foo` markup
+Date:   Sat,  5 Jun 2021 15:18:17 +0200
+Message-Id: <ed02be4feb78dc86dbd17ddfa2e896d8dda7fa8d.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
@@ -62,42 +59,29 @@ So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/trace/coresight/coresight.rst | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ Documentation/driver-api/gpio/using-gpio.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 169749efd8d1..1ec8dc35b1d8 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -315,7 +315,8 @@ intermediate links as required.
+diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
+index dda069444032..64c8d3f76c3a 100644
+--- a/Documentation/driver-api/gpio/using-gpio.rst
++++ b/Documentation/driver-api/gpio/using-gpio.rst
+@@ -9,13 +9,13 @@ with them.
  
- Note: ``cti_sys0`` appears in two of the connections lists above.
- CTIs can connect to multiple devices and are arranged in a star topology
--via the CTM. See (:doc:`coresight-ect`) [#fourth]_ for further details.
-+via the CTM. See (Documentation/trace/coresight/coresight-ect.rst)
-+[#fourth]_ for further details.
- Looking at this device we see 4 connections::
+ For examples of already existing generic drivers that will also be good
+ examples for any other kernel drivers you want to author, refer to
+-:doc:`drivers-on-gpio`
++Documentation/driver-api/gpio/drivers-on-gpio.rst
  
-   linaro-developer:~# ls -l /sys/bus/coresight/devices/cti_sys0/connections
-@@ -606,7 +607,8 @@ interface provided for that purpose by the generic STM API::
-     crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/stm0
-     root@genericarmv8:~#
+ For any kind of mass produced system you want to support, such as servers,
+ laptops, phones, tablets, routers, and any consumer or office or business goods
+ using appropriate kernel drivers is paramount. Submit your code for inclusion
+ in the upstream Linux kernel when you feel it is mature enough and you will get
+-help to refine it, see :doc:`../../process/submitting-patches`.
++help to refine it, see Documentation/process/submitting-patches.rst.
  
--Details on how to use the generic STM API can be found here:- :doc:`../stm` [#second]_.
-+Details on how to use the generic STM API can be found here:
-+- Documentation/trace/stm.rst [#second]_.
+ In Linux GPIO lines also have a userspace ABI.
  
- The CTI & CTM Modules
- ---------------------
-@@ -616,7 +618,7 @@ individual CTIs and components, and can propagate these between all CTIs via
- channels on the CTM (Cross Trigger Matrix).
- 
- A separate documentation file is provided to explain the use of these devices.
--(:doc:`coresight-ect`) [#fourth]_.
-+(Documentation/trace/coresight/coresight-ect.rst) [#fourth]_.
- 
- 
- .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
 -- 
 2.31.1
 
