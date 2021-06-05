@@ -7,42 +7,41 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F1DFC49EAB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F1EAC49EB9
 	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 379D261415
+	by mail.kernel.org (Postfix) with ESMTP id 738E961420
 	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230372AbhFENUo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 09:20:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35300 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230126AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230133AbhFENU0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 5 Jun 2021 09:20:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B0E261450;
-        Sat,  5 Jun 2021 13:18:38 +0000 (UTC)
+Received: from mail.kernel.org ([198.145.29.99]:34970 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229998AbhFENUZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 5 Jun 2021 09:20:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 86ED56140B;
+        Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622899118;
-        bh=MzVBXfG1BKEroabGxLV1n0BhCSj3Ci7z9YuRqrErxvo=;
+        s=k20201202; t=1622899117;
+        bh=pxoSN73zJJuQ6vHiSkCfEyamr8hKl0m3ki99xeowtwM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O0v622Bd//I3cnk+iSD5BWPKfs83K4LRsvkBH7J3PPv7RPuoYvH+xejNEs8xbSCSy
-         rcyrp+WY1/RuXniNWp5cYwxOuhQpjJ2IOU4asSxremW2wXc98Ywu9uGtg1tz9nNk9T
-         SBsUm2boSMeu7xpluNEQfgSwRv/v34Cs/ZK8zZsVmRwvrxnOMfWRmKMRdBHbL6Bb4q
-         ELyqxXUdlBPF0zOq2zX+1XAuwiBWE4c3IkFQ4H2njggMQaoIcK3QCz4T1uwzBup+vw
-         AwGLZaxrUoS7F//WVcxXeJplJd8z8LACfcOBlHX4p+I8Sm0H6Xn93nHs/QwTjkhkrK
-         FXhGkp4rjPGtQ==
+        b=d0nNnR3argi0EGqAAVeydBHy0o5VOz7vOtj7IQIBBcZjk1EXt0suDfEWACrLeBxwt
+         HzsfFEDrFLaQfOetTlvAxPzZJevq7j0ifot1up5FJjhc5urBrTBMXWdwLvkitQ/gxs
+         CFOLbDHCnbYqvlTc2A8SuSUqoo4rsJqDR3A0KgaEGHXgl3yhDY/JoEMrSdT0nC9ilX
+         lQ0/mq2l1JDP70L05boqOoVMTUACWtUpZlVSv4v3QCqpVOu0LA6Z5Esm1tE/8E8MfK
+         /Qp46NmglEeQxW4YMNfGU3JN1qfXWCDsNS05mp+x+octCjdMg68zVzuVBIcmEc8AHr
+         1Bd07wddnBc8w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCC-008GGD-H0; Sat, 05 Jun 2021 15:18:36 +0200
+        id 1lpWCB-008GF7-Lw; Sat, 05 Jun 2021 15:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: [PATCH 27/34] docs: PCI: pci.rst: avoid using ReSt :doc:`foo` markup
-Date:   Sat,  5 Jun 2021 15:18:26 +0200
-Message-Id: <d5f465357173f834709e467214f4842269815c05.1622898327.git.mchehab+huawei@kernel.org>
+        Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org
+Subject: [PATCH 10/34] docs: block: biodoc.rst: avoid using ReSt :doc:`foo` markup
+Date:   Sat,  5 Jun 2021 15:18:09 +0200
+Message-Id: <7370bcabcefd9c119770c376571c8f4934668bb4.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
@@ -58,40 +57,22 @@ So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/PCI/pci.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/block/biodoc.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-index 814b40f8360b..fa651e25d98c 100644
---- a/Documentation/PCI/pci.rst
-+++ b/Documentation/PCI/pci.rst
-@@ -265,7 +265,7 @@ Set the DMA mask size
- ---------------------
- .. note::
-    If anything below doesn't make sense, please refer to
--   :doc:`/core-api/dma-api`. This section is just a reminder that
-+   Documentation/core-api/dma-api.rst. This section is just a reminder that
-    drivers need to indicate DMA capabilities of the device and is not
-    an authoritative source for DMA interfaces.
+diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
+index 1d4d71e391af..2098477851a4 100644
+--- a/Documentation/block/biodoc.rst
++++ b/Documentation/block/biodoc.rst
+@@ -196,7 +196,7 @@ a virtual address mapping (unlike the earlier scheme of virtual address
+ do not have a corresponding kernel virtual address space mapping) and
+ low-memory pages.
  
-@@ -291,7 +291,7 @@ Many 64-bit "PCI" devices (before PCI-X) and some PCI-X devices are
- Setup shared control data
- -------------------------
- Once the DMA masks are set, the driver can allocate "consistent" (a.k.a. shared)
--memory.  See :doc:`/core-api/dma-api` for a full description of
-+memory.  See Documentation/core-api/dma-api.rst for a full description of
- the DMA APIs. This section is just a reminder that it needs to be done
- before enabling DMA on the device.
+-Note: Please refer to :doc:`/core-api/dma-api-howto` for a discussion
++Note: Please refer to Documentation/core-api/dma-api-howto.rst for a discussion
+ on PCI high mem DMA aspects and mapping of scatter gather lists, and support
+ for 64 bit PCI.
  
-@@ -421,7 +421,7 @@ owners if there is one.
- 
- Then clean up "consistent" buffers which contain the control data.
- 
--See :doc:`/core-api/dma-api` for details on unmapping interfaces.
-+See Documentation/core-api/dma-api.rst for details on unmapping interfaces.
- 
- 
- Unregister from other subsystems
 -- 
 2.31.1
 
