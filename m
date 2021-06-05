@@ -7,41 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E74C47082
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B78A4C48BCD
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E06D61455
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A341E61406
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbhFENUZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 09:20:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34836 "EHLO mail.kernel.org"
+        id S230175AbhFENU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 09:20:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35000 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229930AbhFENUZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230025AbhFENUZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 5 Jun 2021 09:20:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5447B613D8;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F9DE6140F;
         Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622899117;
-        bh=asTkRaIynv0EXyPf2YOE4npgGc5H+lLigxxTS3UFkZ8=;
+        bh=cpiHjfyPEv/eHZzUJgDyYv5zqPtLLTjjoYauXF2rsVc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kWjNieVyd9OpRyqw850ZLuEqUL6ind5aa7j0879u/Jb5eDn/PJnP0uH/ZuWkuBbcN
-         o8mwd4xJS0BNWwM5XomJPU4LNkqmDdP8ENQdCsgsjeyP2itBOtACYNk2yp0HfVlSTh
-         1mNHJ5MycYr7UVJ1OvSwZeSpStg4n+5fVRoDdm73aet2Wwz1osGXxB6AqqkUD86X8a
-         lvuYLIeq4SioFxBzHkiuE7NYUr7b6P1rhkmu0C/dH6TPSNWbud0LrM1y7ECbKt28H3
-         qhWGaLwvZChMpRq9Rrwrg+ZmImvGuJGvALEl3IgE6mOzK/l3a+0VKxOCqkrpeGq2E6
-         dRWnB8RyiZgag==
+        b=IwkKWGTpNZmW8lJRvOT0Hoa7stmZz0s64aQNb2o7yUdr8Y5RHpZUlDfjtaBUSgCr+
+         8LaTEElCpGdxfmkWlW/43C07tZzmx4rqj84DMb2sRzd2R28yHkS75PPTPRKWflLQsq
+         Yj2bBFCqNH7vVRglCNy9H2WfIhlyrieTYnXiwZgC82IMTDe5A0T/KymfXpe1JGo/XS
+         dOzFGR+SknlkdWV4afyaIawbhF+JwGmQ7awDaJCSucSNOxBVtXK1cCKZYhH4xIo983
+         CUe9cEaBWhHyhq+0Hc/ye+Im0hYv1v1LemfFndkUQ5AbPjIo4oC2mywybt2Dn9P/Jy
+         9RUl7yj7QgO7g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCB-008GEX-8w; Sat, 05 Jun 2021 15:18:35 +0200
+        id 1lpWCB-008GEn-Ew; Sat, 05 Jun 2021 15:18:35 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 01/34] docs: devices.rst: better reference documentation docs
-Date:   Sat,  5 Jun 2021 15:18:00 +0200
-Message-Id: <0c0302e9294a3c3694a3c362d4b54b336e7ef9c8.1622898327.git.mchehab+huawei@kernel.org>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 05/34] media: driver-api: drivers: avoid using ReST :doc:`foo` markup
+Date:   Sat,  5 Jun 2021 15:18:04 +0200
+Message-Id: <c776cab33419e27d1e5c359b4a5ed3ad1348b9d5.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
@@ -52,55 +53,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's no need to use either :file: or :doc: tags for documentation,
-as automarkup.py automatically converts Documentation/*.rst into
-a cross-reference.
+The :doc:`foo` tag is auto-generated via automarkup.py.
+So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/pm/devices.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/driver-api/media/drivers/bttv-devel.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
-index 6b3bfd29fd84..d448cb57df86 100644
---- a/Documentation/driver-api/pm/devices.rst
-+++ b/Documentation/driver-api/pm/devices.rst
-@@ -217,7 +217,7 @@ system-wide transition to a sleep state even though its :c:member:`runtime_auto`
- flag is clear.
+diff --git a/Documentation/driver-api/media/drivers/bttv-devel.rst b/Documentation/driver-api/media/drivers/bttv-devel.rst
+index c9aa8b95a5e5..0885a04563a9 100644
+--- a/Documentation/driver-api/media/drivers/bttv-devel.rst
++++ b/Documentation/driver-api/media/drivers/bttv-devel.rst
+@@ -21,7 +21,7 @@ log, telling which card type is used.  Like this one::
  
- For more information about the runtime power management framework, refer to
--:file:`Documentation/power/runtime_pm.rst`.
-+Documentation/power/runtime_pm.rst.
+ You should verify this is correct.  If it isn't, you have to pass the
+ correct board type as insmod argument, ``insmod bttv card=2`` for
+-example.  The file :doc:`/admin-guide/media/bttv-cardlist` has a list
++example.  The file Documentation/admin-guide/media/bttv-cardlist.rst has a list
+ of valid arguments for card.
  
- 
- Calling Drivers to Enter and Leave System Sleep States
-@@ -655,7 +655,7 @@ been thawed.  Generally speaking, the PM notifiers are suitable for performing
- actions that either require user space to be available, or at least won't
- interfere with user space.
- 
--For details refer to :doc:`notifiers`.
-+For details refer to Documentation/driver-api/pm/notifiers.rst.
- 
- 
- Device Low-Power (suspend) States
-@@ -726,7 +726,7 @@ it into account in any way.
- 
- Devices may be defined as IRQ-safe which indicates to the PM core that their
- runtime PM callbacks may be invoked with disabled interrupts (see
--:file:`Documentation/power/runtime_pm.rst` for more information).  If an
-+Documentation/power/runtime_pm.rst for more information).  If an
- IRQ-safe device belongs to a PM domain, the runtime PM of the domain will be
- disallowed, unless the domain itself is defined as IRQ-safe. However, it
- makes sense to define a PM domain as IRQ-safe only if all the devices in it
-@@ -805,7 +805,7 @@ The ``DPM_FLAG_MAY_SKIP_RESUME`` Driver Flag
- --------------------------------------------
- 
- During system-wide resume from a sleep state it's easiest to put devices into
--the full-power state, as explained in :file:`Documentation/power/runtime_pm.rst`.
-+the full-power state, as explained in Documentation/power/runtime_pm.rst.
- [Refer to that document for more information regarding this particular issue as
- well as for information on the device runtime power management framework in
- general.]  However, it often is desirable to leave devices in suspend after
+ If your card isn't listed there, you might check the source code for
 -- 
 2.31.1
 
