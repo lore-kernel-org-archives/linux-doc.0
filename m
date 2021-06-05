@@ -4,47 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8432EC49EAF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B57FC49EA6
 	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 719CF6142A
+	by mail.kernel.org (Postfix) with ESMTP id 4D40A61415
 	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 13:18:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230292AbhFENUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 09:20:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35326 "EHLO mail.kernel.org"
+        id S230198AbhFENUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 09:20:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35294 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230142AbhFENU1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 5 Jun 2021 09:20:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C5F7761431;
+        id S230110AbhFENU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 5 Jun 2021 09:20:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2131461449;
         Sat,  5 Jun 2021 13:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622899118;
-        bh=0eg/qQj43/pYb/pkZfHCH47Ta5ORGHZpDLIZwyYMQ5o=;
+        bh=em+TQNX35+RqgCICT3ciJebeGvjixyUOJoALmFOB8Cs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KLfidv/mDuJa6jC3Um/xmU4ixYPBOc3mmvjaWwLQrq5Xf4n9eW9FdQ0LOYdRB6qle
-         pVybXQ+VVZKROyOe+APiCR96jbEDVaR1k5huWxz1Vw+xrRLR1jBYAur24yvKB6hFnj
-         JJoeOaL/r4VGONkjXbeMiwTPuRmHLbmSdrRaImixPoiX/7TX5vyhVDlS9G5TO/WDUM
-         R6rxkMP0p/Cnrk2ZrXmRZFBwOkoO2uLaRsIDavAyKPH8FP7SmlPgQOFx6fevhjV2r6
-         RF6jADq6+os6XP6t50pvMskmHsLpD5UtZkO571rdhLT1i30+X/KngT293ka1n1y0aU
-         utkxR3Ykh/wSw==
+        b=P13YuJveAqmo5nmOve9dn4n4KMER/bkpRTDqeWPj16vvLWPGM5/q6oBeIuRwUOOrb
+         Pu1IuLduxu3wmdD/tbYgsRfFIr9OZkuK8PGYEjKnPfxM1u/QDLginYEqi9I8EyL3cQ
+         5Yu+WEhg09WUg2g+j8ASOFtqRmboZsXHtYoL52oyI6xH7Kz+1qpQhQaQyI5yDafv40
+         q8tjmAZ1/6MpLgXNBq6li5ThylES0BD5KuCtGOqMK642ZglQgZRxsk29u3w19uz//A
+         VylPAeiuMt1ZGejKviBmbFTujqiUeaC3Ae2QriGniOtcA6j6r23+y2tm/i8903iRmL
+         7/5EmrIKLnyxw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lpWCC-008GGf-Ub; Sat, 05 Jun 2021 15:18:36 +0200
+        id 1lpWCC-008GFx-BJ; Sat, 05 Jun 2021 15:18:36 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: [PATCH 34/34] docs: x86: avoid using ReSt :doc:`foo` markup
-Date:   Sat,  5 Jun 2021 15:18:33 +0200
-Message-Id: <65a78bd39b0d317de9623976449e273e92a1e1c0.1622898327.git.mchehab+huawei@kernel.org>
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 23/34] docs: i2c: avoid using ReSt :doc:`foo` markup
+Date:   Sat,  5 Jun 2021 15:18:22 +0200
+Message-Id: <88f7b2e2299cdfba4c3d00d623c852f18650d1bc.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
@@ -60,45 +58,53 @@ So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/x86/boot.rst | 4 ++--
- Documentation/x86/mtrr.rst | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/i2c/instantiating-devices.rst | 2 +-
+ Documentation/i2c/old-module-parameters.rst | 3 ++-
+ Documentation/i2c/smbus-protocol.rst        | 4 ++--
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
-index fc844913dece..894a19897005 100644
---- a/Documentation/x86/boot.rst
-+++ b/Documentation/x86/boot.rst
-@@ -1343,7 +1343,7 @@ follow::
- In addition to read/modify/write the setup header of the struct
- boot_params as that of 16-bit boot protocol, the boot loader should
- also fill the additional fields of the struct boot_params as
--described in chapter :doc:`zero-page`.
-+described in chapter Documentation/x86/zero-page.rst.
+diff --git a/Documentation/i2c/instantiating-devices.rst b/Documentation/i2c/instantiating-devices.rst
+index e558e0a77e0c..890c9360ce19 100644
+--- a/Documentation/i2c/instantiating-devices.rst
++++ b/Documentation/i2c/instantiating-devices.rst
+@@ -59,7 +59,7 @@ Declare the I2C devices via ACPI
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
- After setting up the struct boot_params, the boot loader can load the
- 32/64-bit kernel in the same way as that of 16-bit boot protocol.
-@@ -1379,7 +1379,7 @@ can be calculated as follows::
- In addition to read/modify/write the setup header of the struct
- boot_params as that of 16-bit boot protocol, the boot loader should
- also fill the additional fields of the struct boot_params as described
--in chapter :doc:`zero-page`.
-+in chapter Documentation/x86/zero-page.rst.
+ ACPI can also describe I2C devices. There is special documentation for this
+-which is currently located at :doc:`../firmware-guide/acpi/enumeration`.
++which is currently located at Documentation/firmware-guide/acpi/enumeration.rst.
  
- After setting up the struct boot_params, the boot loader can load
- 64-bit kernel in the same way as that of 16-bit boot protocol, but
-diff --git a/Documentation/x86/mtrr.rst b/Documentation/x86/mtrr.rst
-index c5b695d75349..9f0b1851771a 100644
---- a/Documentation/x86/mtrr.rst
-+++ b/Documentation/x86/mtrr.rst
-@@ -28,7 +28,7 @@ are aligned with platform MTRR setup. If MTRRs are only set up by the platform
- firmware code though and the OS does not make any specific MTRR mapping
- requests mtrr_type_lookup() should always return MTRR_TYPE_INVALID.
  
--For details refer to :doc:`pat`.
-+For details refer to Documentation/x86/pat.rst.
+ Declare the I2C devices in board files
+diff --git a/Documentation/i2c/old-module-parameters.rst b/Documentation/i2c/old-module-parameters.rst
+index 38e55829dee8..b08b6daabce9 100644
+--- a/Documentation/i2c/old-module-parameters.rst
++++ b/Documentation/i2c/old-module-parameters.rst
+@@ -17,7 +17,8 @@ address), ``force`` (to forcibly attach the driver to a given device) and
+ With the conversion of the I2C subsystem to the standard device driver
+ binding model, it became clear that these per-module parameters were no
+ longer needed, and that a centralized implementation was possible. The new,
+-sysfs-based interface is described in :doc:`instantiating-devices`, section
++sysfs-based interface is described in
++Documentation/i2c/instantiating-devices.rst, section
+ "Method 4: Instantiate from user-space".
  
- .. tip::
-   On Intel P6 family processors (Pentium Pro, Pentium II and later)
+ Below is a mapping from the old module parameters to the new interface.
+diff --git a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
+index 64689d19dd51..9e07e6bbe6a3 100644
+--- a/Documentation/i2c/smbus-protocol.rst
++++ b/Documentation/i2c/smbus-protocol.rst
+@@ -27,8 +27,8 @@ a different protocol operation entirely.
+ Each transaction type corresponds to a functionality flag. Before calling a
+ transaction function, a device driver should always check (just once) for
+ the corresponding functionality flag to ensure that the underlying I2C
+-adapter supports the transaction in question. See :doc:`functionality` for
+-the details.
++adapter supports the transaction in question. See
++Documentation/i2c/functionality.rst for the details.
+ 
+ 
+ Key to symbols
 -- 
 2.31.1
 
