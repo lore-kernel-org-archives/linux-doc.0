@@ -2,111 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B00C47096
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 07:06:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5657AC48BCD
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 09:57:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5AD8610FB
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 07:06:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C46761438
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 09:57:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230111AbhFFHIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Jun 2021 03:08:39 -0400
-Received: from mail-pf1-f170.google.com ([209.85.210.170]:34539 "EHLO
-        mail-pf1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbhFFHIi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jun 2021 03:08:38 -0400
-Received: by mail-pf1-f170.google.com with SMTP id g6so10732378pfq.1;
-        Sun, 06 Jun 2021 00:06:33 -0700 (PDT)
+        id S229508AbhFFJ7H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Jun 2021 05:59:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48042 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229465AbhFFJ7H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jun 2021 05:59:07 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C37EC061766;
+        Sun,  6 Jun 2021 02:57:06 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id k25so16074585eja.9;
+        Sun, 06 Jun 2021 02:57:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=J66R96VtW8mDJcT/ONY8la0SES4Mp5OfgngGRV1e+uk=;
-        b=ltrbs7IsuU4rxW0IuBq8ZcSDmgXcvj6QkaagoafdrzFvzuunQ546pBuc4JU1gJGyOZ
-         /bbDkmXHzMlZhE8neVmq0/T5o27L9UkrvZCagQEtrJyGtpJ3tPZOqTYQ90pFxgrQ42iU
-         4ibBiG3yumJmfZbBSTUooG0seI1RIVLo5Ci7Klpm0IxlIbengCS7ZrTvlcNQqd+gKNNO
-         inOWm6zANk+GJ8zwgFziPS/eh7HTHFBBS4iIctNnbQMqviPgFnUNKluD4r9oxGPZqjuc
-         aVDTYjoGtgB3+6IIuyllodJtjRrQp+4UaznGaqmQSgbT2wgKFWhsNg2GJ5h/ZB9TCE4C
-         sQSQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GC1rujwsbQmamgvNRPbIbF24joJdDinHk/7XHINbO0c=;
+        b=gyHuPdhrqs1nAEgo+2CUlprqYA6IqLUsOzM9pbCzxHuCGVEOeGLmEg2CLmVGFaxQv8
+         HmQZEMruYVJ2c/4aCgVBt0KwGGyLzuaNBqFQ7ZUZtwNXs19PadfrC8WXiLEVpK6RZV9B
+         4fOON9I2Ke0/ivAOva3Z/whL7pmhULW37oqI2l2+7qGdPCk58RZgymqR3Xjonys0LAZI
+         wg9cdBShDdiTNQGxl6v8GPJLsbLZDEAnLXUrZYAj0MGA9L0Oom0jgP47p//zQuQHS0b6
+         GUAys5kfBOQuKxPmRVdYhu6ZW99NeqCaG9aObEwnl1CEoZ/Ps2SpEbkkPy3Z9JCBAzdP
+         aQLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=J66R96VtW8mDJcT/ONY8la0SES4Mp5OfgngGRV1e+uk=;
-        b=QTkNLVQ/de+VvsVMloUevdxnivMxVKpLp+DINOpEwffP0hSECsWvUV/BcAHqzTQYP1
-         Oxksxm+UTq/AjN6bnXtQvXoPZxG1T96FUEtPMCs/p0dxNXYnUbJCfmAzyXuY+/dxyqzr
-         GKtBdl+4F17V0AShP7mDR6xr7U1nIgozBbfrcMd+JBBO5Ni/Lazgt8PRPTJtdY3/8nX9
-         PM+Cy0+Xg7sSQKOTpkdW+xtDTkK2APhKsLIw230zAsMHjxS/j2fbvuasXC0BgGSeYfHj
-         B9i4xdu4KcQAADZY1zezHrPgf5HAEvpDo+kxfuHGOciXVZA57IzGUaW6y9fvOVwm0S3G
-         kZpw==
-X-Gm-Message-State: AOAM530GWK/4k5/XQkwb6U/S7/4FJnJeixxcArR+8VwHXFzwfESn8vBA
-        gmDMuXZ+4SnzeWzgBk1KcPA=
-X-Google-Smtp-Source: ABdhPJx7OClakPR3VGNnt9/EOTYx/4ErJNqw79iJSYkGFxZ20rHXgLaRwkw1G7FKE/PNubW2gD18pQ==
-X-Received: by 2002:a62:1743:0:b029:2ef:6014:62d5 with SMTP id 64-20020a6217430000b02902ef601462d5mr1375817pfx.63.1622963133427;
-        Sun, 06 Jun 2021 00:05:33 -0700 (PDT)
-Received: from localhost (185.212.56.112.16clouds.com. [185.212.56.112])
-        by smtp.gmail.com with ESMTPSA id k9sm5735976pgq.27.2021.06.06.00.05.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 00:05:33 -0700 (PDT)
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     helgaas@kernel.org, corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, bhelgaas@google.com, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
-Subject: [PATCH v6 4/4] i2c: thunderx: Use pcim_alloc_irq_vectors() to allocate IRQ vectors
-Date:   Sun,  6 Jun 2021 15:05:11 +0800
-Message-Id: <20210606070511.778487-5-zhengdejin5@gmail.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210606070511.778487-1-zhengdejin5@gmail.com>
-References: <20210606070511.778487-1-zhengdejin5@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GC1rujwsbQmamgvNRPbIbF24joJdDinHk/7XHINbO0c=;
+        b=OgHfZyOrixb/QS02+We7g2lhxt/TL4cm6wDC+e8Q8OvNIaald+B5HFIWP5+4x8eZHo
+         xQZPLJBnkTOGI/8dQliST6Zd9+yBIuG8fBL3VJa/iiQMZHBpSBRliNCVm1P1Ms4oK5Lh
+         ml4/gvc5d+Nr7/A5AE0by0zBNo/vsq+5NuQMlcRyOVD6m1SI4/lk0jVcKxgYxqO2VSQa
+         3v+Rh3Lf3xshbq0AwB6bktIfE/xk6GdEbXQdrpvV+nYR/h3xfYtGOQJUvTWPEfKn1R/8
+         vfh5fU9PtoCcQylHqQIjpzvOf79MCWSKBJp1xaZeKbW2dWL+/ZXuvborIH1EsFvZJtAL
+         76ug==
+X-Gm-Message-State: AOAM530pmg8E+niQX87objfeJCIKn22tsRN0Kj9L6ATdDpcsmsjhrOC4
+        zuivPyRPVVYB7Fuk/yIweAxDADHlDnrxHW9HSAc=
+X-Google-Smtp-Source: ABdhPJz/B97tCo3o8tyDcj8HCJtfE7Xn7BasTjOrPAd3ULHuk1y1okmOxGHc1xRASfOhgbRy+VtZAgG6tJTB8nPG8dI=
+X-Received: by 2002:a17:906:a945:: with SMTP id hh5mr12949705ejb.227.1622973424580;
+ Sun, 06 Jun 2021 02:57:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210606005531.165954-1-davidgow@google.com>
+In-Reply-To: <20210606005531.165954-1-davidgow@google.com>
+From:   Andrey Konovalov <andreyknvl@gmail.com>
+Date:   Sun, 6 Jun 2021 12:56:53 +0300
+Message-ID: <CA+fCnZdzki-0vMgbsjrXBz7Uqwh+vo9L6tXCAfiyMpVjV3tV=g@mail.gmail.com>
+Subject: Re: [PATCH v3] kasan: test: Improve failure message in KUNIT_EXPECT_KASAN_FAIL()
+To:     David Gow <davidgow@google.com>
+Cc:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Daniel Axtens <dja@axtens.net>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        kunit-dev@googlegroups.com, LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pcim_alloc_irq_vectors() function, an explicit device-managed version
-of pci_alloc_irq_vectors(). If pcim_enable_device() has been called
-before, then pci_alloc_irq_vectors() is actually a device-managed
-function. It is used here as a device-managed function, So replace it
-with pcim_alloc_irq_vectors().
+On Sun, Jun 6, 2021 at 3:55 AM 'David Gow' via kasan-dev
+<kasan-dev@googlegroups.com> wrote:
+>
+> The KUNIT_EXPECT_KASAN_FAIL() macro currently uses KUNIT_EXPECT_EQ() to
+> compare fail_data.report_expected and fail_data.report_found. This
+> always gave a somewhat useless error message on failure, but the
+> addition of extra compile-time checking with READ_ONCE() has caused it
+> to get much longer, and be truncated before anything useful is displayed.
+>
+> Instead, just check fail_data.report_found by hand (we've just set
+> report_expected to 'true'), and print a better failure message with
+> KUNIT_FAIL(). Because of this, report_expected is no longer used
+> anywhere, and can be removed.
+>
+> Beforehand, a failure in:
+> KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)area)[3100]);
+> would have looked like:
+> [22:00:34] [FAILED] vmalloc_oob
+> [22:00:34]     # vmalloc_oob: EXPECTATION FAILED at lib/test_kasan.c:991
+> [22:00:34]     Expected ({ do { extern void __compiletime_assert_705(void) __attribute__((__error__("Unsupported access size for {READ,WRITE}_ONCE()."))); if (!((sizeof(fail_data.report_expected) == sizeof(char) || sizeof(fail_data.repp
+> [22:00:34]     not ok 45 - vmalloc_oob
+>
+> With this change, it instead looks like:
+> [22:04:04] [FAILED] vmalloc_oob
+> [22:04:04]     # vmalloc_oob: EXPECTATION FAILED at lib/test_kasan.c:993
+> [22:04:04]     KASAN failure expected in "((volatile char *)area)[3100]", but none occurred
+> [22:04:04]     not ok 45 - vmalloc_oob
+>
+> Also update the example failure in the documentation to reflect this.
+>
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+>
+> Changes since v2:
+> https://lkml.org/lkml/2021/6/4/1264
+> - Update the example error in the documentation
+>
+> Changes since v1:
+> https://groups.google.com/g/kasan-dev/c/CbabdwoXGlE
+> - Remove fail_data.report_expected now that it's unused.
+> - Use '!' instead of '== false' in the comparison.
+> - Minor typo fixes in the commit message.
+>
+> The test failure being used as an example is tracked in:
+> https://bugzilla.kernel.org/show_bug.cgi?id=213335
+>
+>
+>
+>  Documentation/dev-tools/kasan.rst |  9 ++++-----
+>  include/linux/kasan.h             |  1 -
+>  lib/test_kasan.c                  | 11 +++++------
+>  3 files changed, 9 insertions(+), 12 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index d3f335ffc751..83ec4a556c19 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -447,11 +447,10 @@ When a test fails due to a failed ``kmalloc``::
+>
+>  When a test fails due to a missing KASAN report::
+>
+> -        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
+> -        Expected kasan_data->report_expected == kasan_data->report_found, but
+> -        kasan_data->report_expected == 1
+> -        kasan_data->report_found == 0
+> -        not ok 28 - kmalloc_double_kzfree
+> +        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:974
+> +        KASAN failure expected in "kfree_sensitive(ptr)", but none occurred
+> +        not ok 44 - kmalloc_double_kzfree
+> +
+>
+>  At the end the cumulative status of all KASAN tests is printed. On success::
+>
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index b1678a61e6a7..18cd5ec2f469 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -17,7 +17,6 @@ struct task_struct;
+>
+>  /* kasan_data struct is used in KUnit tests for KASAN expected failures */
+>  struct kunit_kasan_expectation {
+> -       bool report_expected;
+>         bool report_found;
+>  };
+>
+> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+> index cacbbbdef768..44e08f4d9c52 100644
+> --- a/lib/test_kasan.c
+> +++ b/lib/test_kasan.c
+> @@ -55,7 +55,6 @@ static int kasan_test_init(struct kunit *test)
+>         multishot = kasan_save_enable_multi_shot();
+>         kasan_set_tagging_report_once(false);
+>         fail_data.report_found = false;
+> -       fail_data.report_expected = false;
+>         kunit_add_named_resource(test, NULL, NULL, &resource,
+>                                         "kasan_data", &fail_data);
+>         return 0;
+> @@ -94,20 +93,20 @@ static void kasan_test_exit(struct kunit *test)
+>             !kasan_async_mode_enabled())                                \
+>                 migrate_disable();                                      \
+>         KUNIT_EXPECT_FALSE(test, READ_ONCE(fail_data.report_found));    \
+> -       WRITE_ONCE(fail_data.report_expected, true);                    \
+>         barrier();                                                      \
+>         expression;                                                     \
+>         barrier();                                                      \
+> -       KUNIT_EXPECT_EQ(test,                                           \
+> -                       READ_ONCE(fail_data.report_expected),           \
+> -                       READ_ONCE(fail_data.report_found));             \
+> +       if (!READ_ONCE(fail_data.report_found)) {                       \
+> +               KUNIT_FAIL(test, KUNIT_SUBTEST_INDENT "KASAN failure "  \
+> +                               "expected in \"" #expression            \
+> +                                "\", but none occurred");              \
+> +       }                                                               \
+>         if (IS_ENABLED(CONFIG_KASAN_HW_TAGS)) {                         \
+>                 if (READ_ONCE(fail_data.report_found))                  \
+>                         kasan_enable_tagging_sync();                    \
+>                 migrate_enable();                                       \
+>         }                                                               \
+>         WRITE_ONCE(fail_data.report_found, false);                      \
+> -       WRITE_ONCE(fail_data.report_expected, false);                   \
+>  } while (0)
+>
+>  #define KASAN_TEST_NEEDS_CONFIG_ON(test, config) do {                  \
+> --
+> 2.32.0.rc1.229.g3e70b5a671-goog
 
-Acked-by: Robert Richter <rric@kernel.org>
-Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
----
-v5 -> v6:
-	- rebase to 5.13-rc4
-v4 -> v5:
-	- Modify the subject name.
-v3 -> v4:
-	- No change.
-v2 -> v3:
-	- No change.
-v1 -> v2:
-	- Modify some commit messages.
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
 
- drivers/i2c/busses/i2c-thunderx-pcidrv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/i2c/busses/i2c-thunderx-pcidrv.c b/drivers/i2c/busses/i2c-thunderx-pcidrv.c
-index 12c90aa0900e..63354e9fb726 100644
---- a/drivers/i2c/busses/i2c-thunderx-pcidrv.c
-+++ b/drivers/i2c/busses/i2c-thunderx-pcidrv.c
-@@ -192,7 +192,7 @@ static int thunder_i2c_probe_pci(struct pci_dev *pdev,
- 	i2c->hlc_int_enable = thunder_i2c_hlc_int_enable;
- 	i2c->hlc_int_disable = thunder_i2c_hlc_int_disable;
- 
--	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSIX);
-+	ret = pcim_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSIX);
- 	if (ret < 0)
- 		goto error;
- 
--- 
-2.30.1
-
+Thanks!
