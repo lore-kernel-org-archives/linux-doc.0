@@ -2,139 +2,193 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 563CFC47082
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 19:08:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 176B0C4743E
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 00:55:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CDC46138C
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Jun 2021 19:08:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C38A46141E
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 00:55:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230022AbhFETKe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Jun 2021 15:10:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50012 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229994AbhFETKd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 5 Jun 2021 15:10:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C76CD61073;
-        Sat,  5 Jun 2021 19:08:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622920125;
-        bh=tTJEbMfaqLm+MQIdZ6b17P+wEJbY3/9z+X1SQ27izYw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=JkQm3FNW5iQVYmgT/Gt9sN9r1LoTem2cqXUl0EjU+fiv82NY1pLAYU3Bw6unpEki9
-         JXsjuSgQIFHSyh38wM93iu29TbJXvLcRhJNrLaI3uPlTWuv27IKsdkFioKL4INshFP
-         X6wWHZCeoF+O8iMlmhkcXx84GYrwHdtLzik9jQie2+N1FEL3MtfoR0dRqJZtRSpa3B
-         75ZFgP9ntAFhWGSiwsFlzS8kJV4vdjx4gNxci+2IKGEj7omJo8VOW1W/h4rNmExnEf
-         Cyd+38BTHzfhwZ6TVmr+dpfprstE/6hddhXmgX9dnEe4dYMoT8QPViKF/MrmqKI8pR
-         fNqEWypa3GLOg==
-Date:   Sat, 5 Jun 2021 21:08:36 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        coresight@lists.linaro.org, devicetree@vger.kernel.org,
-        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
-Message-ID: <20210605210836.540577d4@coco.lan>
-In-Reply-To: <20210605151109.axm3wzbcstsyxczp@notapiano>
-References: <cover.1622898327.git.mchehab+huawei@kernel.org>
-        <20210605151109.axm3wzbcstsyxczp@notapiano>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        id S230022AbhFFA5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Jun 2021 20:57:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44332 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230178AbhFFA5h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jun 2021 20:57:37 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B616C061767
+        for <linux-doc@vger.kernel.org>; Sat,  5 Jun 2021 17:55:35 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 22-20020a250d160000b0290532b914c9f4so17378470ybn.9
+        for <linux-doc@vger.kernel.org>; Sat, 05 Jun 2021 17:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=GHvR3Cn1ebKCJGAQ/YKMJtoF4rLgzfIVburfhTYFub0=;
+        b=mB5L3xqaFi+nH1S2esE/5DEuLDnRmH39U8XLeJWuNSjHDNmU9jg49y8aJqxNMZoe/9
+         v9G/dvo4pVfBCGocy5SY+KPDnpcUS88V7iz3SevYqqtpfdBtyY8j2cRpIqAb4m4S8aPf
+         jPlKvLsCeJZd3F2oI4aR2INyxUBNijiIYLBFm5DIJvmrdDxb5ruifxoEKsl38YeGnQ5D
+         29BoMm5Y0F69IdIF7SRpCuo4GsT7zEEOvBq4PzWCmB+aw/D2fGClAmR5w3KyeiAcJL7X
+         JU+MmwGUVSZ7JazVU6I/VE98iR0OBN2rvZmKgXR/Wml9BdbR07pITffUy7L7Tln0wKe6
+         mfQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=GHvR3Cn1ebKCJGAQ/YKMJtoF4rLgzfIVburfhTYFub0=;
+        b=e7KhBa40BT/YKwQt3z61okkdgcdsUle8Yg3CUpV5IhsL4L9A6HsrjZ8iEoWfs6CyYg
+         Rq90oxcXvqyXm1h/DQaFsE2EyTh+Wl+lUAM4SF84nTPt4Y7Bsm/c229korG0LDX8gDfg
+         s4j0pkjsW8GgM6hlLAVWAB9NuLzM5FCMLiJnVpoagN6QLE8lNAer9LIDnlwyPT9gAsl7
+         LPXOTZ/e4NavIfdkDCFwRE/fPSJp9khExYetrzXiGjcj0M8L56Ga7mOhA9lo4htGN5fm
+         TIq5tbqltT75TizbWzNmyYkVlef3sXFUkfIQ2ZGF34VKwPQxWU1mIYGAQv9/sCG3pSFM
+         3UTw==
+X-Gm-Message-State: AOAM532HgMICLANdEhWsG0nUg+ZKoGQzTpHmXiZ7yI+uwAFXhGAOLjS3
+        jduKkk3uY47g9ao636dq6iRzRbf4lXdiKw==
+X-Google-Smtp-Source: ABdhPJz0frOeV+p7ws7ArKvBWvQ7181HrSVewSMqL4CsdpPMY7oagmlm1RNRqjNk61nMRckzB9Zr0J8GQseyJw==
+X-Received: from spirogrip.svl.corp.google.com ([2620:15c:2cb:201:836b:eeb9:54f:d89a])
+ (user=davidgow job=sendgmr) by 2002:a25:f20f:: with SMTP id
+ i15mr14539079ybe.119.1622940934754; Sat, 05 Jun 2021 17:55:34 -0700 (PDT)
+Date:   Sat,  5 Jun 2021 17:55:30 -0700
+Message-Id: <20210606005531.165954-1-davidgow@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
+Subject: [PATCH v3] kasan: test: Improve failure message in KUNIT_EXPECT_KASAN_FAIL()
+From:   David Gow <davidgow@google.com>
+To:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Daniel Axtens <dja@axtens.net>,
+        Brendan Higgins <brendanhiggins@google.com>
+Cc:     David Gow <davidgow@google.com>, kasan-dev@googlegroups.com,
+        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 5 Jun 2021 12:11:09 -0300
-N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
+The KUNIT_EXPECT_KASAN_FAIL() macro currently uses KUNIT_EXPECT_EQ() to
+compare fail_data.report_expected and fail_data.report_found. This
+always gave a somewhat useless error message on failure, but the
+addition of extra compile-time checking with READ_ONCE() has caused it
+to get much longer, and be truncated before anything useful is displayed.
 
-> Hi Mauro,
->=20
-> On Sat, Jun 05, 2021 at 03:17:59PM +0200, Mauro Carvalho Chehab wrote:
-> > As discussed at:
-> > 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
-> >=20
-> > It is better to avoid using :doc:`foo` to refer to Documentation/foo.rs=
-t, as the
-> > automarkup.py extension should handle it automatically, on most cases.
-> >=20
-> > There are a couple of exceptions to this rule:
-> >=20
-> > 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
-> > 2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
-> >=20
-> > It should also be noticed that automarkup.py has currently an issue:
-> > if one use a markup like:
-> >=20
-> > 	Documentation/dev-tools/kunit/api/test.rst
-> > 	  - documents all of the standard testing API excluding mocking
-> > 	    or mocking related features.
-> >=20
-> > or, even:
-> >=20
-> > 	Documentation/dev-tools/kunit/api/test.rst
-> > 	    documents all of the standard testing API excluding mocking
-> > 	    or mocking related features.
-> > =09
-> > The automarkup.py will simply ignore it. Not sure why. This patch series
-> > avoid the above patterns (which is present only on 4 files), but it wou=
-ld be
-> > nice to have a followup patch fixing the issue at automarkup.py. =20
->=20
-> What I think is happening here is that we're using rST's syntax for defin=
-ition
-> lists [1]. automarkup.py ignores literal nodes, and perhaps a definition =
-is
-> considered a literal by Sphinx. Adding a blank line after the Documentati=
-on/...
-> or removing the additional indentation makes it work, like you did in your
-> 2nd and 3rd patch, since then it's not a definition anymore, although the=
-n the
-> visual output is different as well.
+Instead, just check fail_data.report_found by hand (we've just set
+report_expected to 'true'), and print a better failure message with
+KUNIT_FAIL(). Because of this, report_expected is no longer used
+anywhere, and can be removed.
 
-A literal has a different output. I think that this is not the case, but I=
-=20
-didn't check the python code from docutils/Sphinx.
-=20
-> I'm not sure this is something we need to fix. Does it make sense to use
-> definition lists for links like that? If it does, I guess one option woul=
-d be to
-> whitelist definition lists so they aren't ignored by automarkup, but I fe=
-el
-> this could get ugly really quickly.
+Beforehand, a failure in:
+KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)area)[3100]);
+would have looked like:
+[22:00:34] [FAILED] vmalloc_oob
+[22:00:34]     # vmalloc_oob: EXPECTATION FAILED at lib/test_kasan.c:991
+[22:00:34]     Expected ({ do { extern void __compiletime_assert_705(void) __attribute__((__error__("Unsupported access size for {READ,WRITE}_ONCE()."))); if (!((sizeof(fail_data.report_expected) == sizeof(char) || sizeof(fail_data.repp
+[22:00:34]     not ok 45 - vmalloc_oob
 
-Yes, we should avoid handling literal blocks, as this can be a nightmare.
+With this change, it instead looks like:
+[22:04:04] [FAILED] vmalloc_oob
+[22:04:04]     # vmalloc_oob: EXPECTATION FAILED at lib/test_kasan.c:993
+[22:04:04]     KASAN failure expected in "((volatile char *)area)[3100]", but none occurred
+[22:04:04]     not ok 45 - vmalloc_oob
 
-> FWIW note that it's also possible to use relative paths to docs with auto=
-markup.
+Also update the example failure in the documentation to reflect this.
 
-Not sure if you meant to say using something like ../driver-api/foo.rst.
-If so, relative paths are a problem, as it will pass unnoticed by this scri=
-pt:
+Signed-off-by: David Gow <davidgow@google.com>
+---
 
-	./scripts/documentation-file-ref-check
+Changes since v2:
+https://lkml.org/lkml/2021/6/4/1264
+- Update the example error in the documentation
 
-which is meant to warn when a file is moved to be elsewhere. Ok, it
-could be taught to use "../" to identify paths, but I suspect that this
-could lead to false positives, like here:
+Changes since v1:
+https://groups.google.com/g/kasan-dev/c/CbabdwoXGlE
+- Remove fail_data.report_expected now that it's unused.
+- Use '!' instead of '== false' in the comparison.
+- Minor typo fixes in the commit message.
 
-	Documentation/usb/gadget-testing.rst:  # ln -s ../../uncompressed/u
-	Documentation/usb/gadget-testing.rst:  # cd ../../class/fs
-	Documentation/usb/gadget-testing.rst:  # ln -s ../../header/h
+The test failure being used as an example is tracked in:
+https://bugzilla.kernel.org/show_bug.cgi?id=213335
 
-If you meant, instead, :doc:`../foo`, this series address those too.
 
-Regards,
-Mauro
+
+ Documentation/dev-tools/kasan.rst |  9 ++++-----
+ include/linux/kasan.h             |  1 -
+ lib/test_kasan.c                  | 11 +++++------
+ 3 files changed, 9 insertions(+), 12 deletions(-)
+
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index d3f335ffc751..83ec4a556c19 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -447,11 +447,10 @@ When a test fails due to a failed ``kmalloc``::
+ 
+ When a test fails due to a missing KASAN report::
+ 
+-        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
+-        Expected kasan_data->report_expected == kasan_data->report_found, but
+-        kasan_data->report_expected == 1
+-        kasan_data->report_found == 0
+-        not ok 28 - kmalloc_double_kzfree
++        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:974
++        KASAN failure expected in "kfree_sensitive(ptr)", but none occurred
++        not ok 44 - kmalloc_double_kzfree
++
+ 
+ At the end the cumulative status of all KASAN tests is printed. On success::
+ 
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index b1678a61e6a7..18cd5ec2f469 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -17,7 +17,6 @@ struct task_struct;
+ 
+ /* kasan_data struct is used in KUnit tests for KASAN expected failures */
+ struct kunit_kasan_expectation {
+-	bool report_expected;
+ 	bool report_found;
+ };
+ 
+diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+index cacbbbdef768..44e08f4d9c52 100644
+--- a/lib/test_kasan.c
++++ b/lib/test_kasan.c
+@@ -55,7 +55,6 @@ static int kasan_test_init(struct kunit *test)
+ 	multishot = kasan_save_enable_multi_shot();
+ 	kasan_set_tagging_report_once(false);
+ 	fail_data.report_found = false;
+-	fail_data.report_expected = false;
+ 	kunit_add_named_resource(test, NULL, NULL, &resource,
+ 					"kasan_data", &fail_data);
+ 	return 0;
+@@ -94,20 +93,20 @@ static void kasan_test_exit(struct kunit *test)
+ 	    !kasan_async_mode_enabled())				\
+ 		migrate_disable();					\
+ 	KUNIT_EXPECT_FALSE(test, READ_ONCE(fail_data.report_found));	\
+-	WRITE_ONCE(fail_data.report_expected, true);			\
+ 	barrier();							\
+ 	expression;							\
+ 	barrier();							\
+-	KUNIT_EXPECT_EQ(test,						\
+-			READ_ONCE(fail_data.report_expected),		\
+-			READ_ONCE(fail_data.report_found));		\
++	if (!READ_ONCE(fail_data.report_found)) {			\
++		KUNIT_FAIL(test, KUNIT_SUBTEST_INDENT "KASAN failure "	\
++				"expected in \"" #expression		\
++				 "\", but none occurred");		\
++	}								\
+ 	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS)) {				\
+ 		if (READ_ONCE(fail_data.report_found))			\
+ 			kasan_enable_tagging_sync();			\
+ 		migrate_enable();					\
+ 	}								\
+ 	WRITE_ONCE(fail_data.report_found, false);			\
+-	WRITE_ONCE(fail_data.report_expected, false);			\
+ } while (0)
+ 
+ #define KASAN_TEST_NEEDS_CONFIG_ON(test, config) do {			\
+-- 
+2.32.0.rc1.229.g3e70b5a671-goog
+
