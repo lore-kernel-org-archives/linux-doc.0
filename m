@@ -2,166 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2545AC4743D
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 23:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E81EC4743E
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 23:46:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AE0061429
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 23:11:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC5536135A
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Jun 2021 23:46:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbhFFXNI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Jun 2021 19:13:08 -0400
-Received: from mail-pj1-f53.google.com ([209.85.216.53]:35828 "EHLO
-        mail-pj1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbhFFXNH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jun 2021 19:13:07 -0400
-Received: by mail-pj1-f53.google.com with SMTP id fy24-20020a17090b0218b029016c5a59021fso4219746pjb.0;
-        Sun, 06 Jun 2021 16:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZECU1hyLVhQ0N+f9XI70I4J7ouuREDQIplmH8m1W4O0=;
-        b=haUJDGuQWHq5YmEUB2WfHb9icntfo7knpg7VbBQgYzUQKCiIXG3U7JBU7GzOReMSjV
-         8BiM4CwMjLNCUUqW4JqMCI8dsLY4xZOryphC4vuG9cVLq211jMMGlJaSQv++eI/GhhJN
-         z4aKXwxrGJymSwLJMk9cTx1ONXB1cRBgdcYOoG+2jsClE0kzenu4bDpjQ39sBjgMam4S
-         4sPyKAIKengDEjKJ2ZCLRk0+bM2eif83iz2MeYG8xTdwwaTY5/gyAXWY83CL3mzOU7UZ
-         2cToJvNap5us8E9uHLzt6LaJosGP5rxRXQudZ3ZALIZBszqGiJhWKCaygLQKJDLS4XX2
-         L9QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZECU1hyLVhQ0N+f9XI70I4J7ouuREDQIplmH8m1W4O0=;
-        b=j/9liXCESHFKw6svwdzAqJo/XmD36VDVv5AYQERKVobikI1vnETs1hIdK6p8js6RK4
-         xmzMo4/fS9ls+UEjTo11k/zP4wj/1tMA1KnJjy07/dR/K3p13x0bM0+FCOvIvCf5CjAc
-         +OK4YUWXWeUpKlQpLBRZ+c30HE8Nm+7AZa5KwdX8I/fGpTfCHqoFc254qgATZYEFP/BN
-         lOjZu83iB5L5Z6QYy7WJJ0SMUSTnOAsCcdUjaGruYx+GsdcDRfbjTCXDSPQiTGK/5aBF
-         jZO2QyEg3WCQPZOp0r+ZqlCOM8HfZSrMe4XQVLVe0HEu/lTy0es0MFP9WkY8xqfgNnKc
-         ySiA==
-X-Gm-Message-State: AOAM532Jx9FR04jehtZAqVNcos+vkLVAUdOcppNnU7WZKzQXG00iYCkA
-        IzxRsK9Pim2+RIlIhmwLfpE=
-X-Google-Smtp-Source: ABdhPJzkD/YoZsDgMrwOfbOPHQUVN6m5e4E4JOzyke2xiAjlFiNdNIpHpKp85iONY4AZRLDxhNkk+w==
-X-Received: by 2002:a17:902:b218:b029:f4:4b88:a44a with SMTP id t24-20020a170902b218b02900f44b88a44amr15379885plr.52.1623021001446;
-        Sun, 06 Jun 2021 16:10:01 -0700 (PDT)
-Received: from WRT-WX9.. ([141.164.41.4])
-        by smtp.gmail.com with ESMTPSA id f15sm6775672pgg.23.2021.06.06.16.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 16:10:01 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Eric Van Hensbergen <ericvh@gmail.com>,
+        id S230136AbhFFXsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Jun 2021 19:48:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229885AbhFFXsL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jun 2021 19:48:11 -0400
+Received: from nautica.notk.org (ipv6.notk.org [IPv6:2001:41d0:1:7a93::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E45C061766;
+        Sun,  6 Jun 2021 16:46:21 -0700 (PDT)
+Received: by nautica.notk.org (Postfix, from userid 108)
+        id 04FE7C01F; Mon,  7 Jun 2021 01:46:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+        t=1623023177; bh=a1qmuhTbRMTd0aB2zPF4gCLCyeO0G69jA1FO5xmsoZE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cXg3tGONFF3FcCFKwnO09YbIhoCamqTIDbMo1s5z9NcDdQ3OghvCZdNQ3JP+zr9PX
+         51ojzcpz9HAKKiHZMSg6qu5g61yUvfWYX8CVt5lJY67MpbMBnSL+lP4BdgtsyvxTzu
+         bwNGXPo5u71LI6dPuiZU6Qw0AyvzLdjGeNuH3j8vwRK2nUEVHktA5FGQlUxCAjnpgm
+         HIzv7GlyEFk3qfjTXDlzlN3pRIDUZfE4TS4UZXRqrkYH9eP6Ih+9gqsApB7xMWVU29
+         NYTmmmJTgxyuxkLV96Dv7YhlCPxPzLN3ZppVlTYblEPWJ0v+NB3pyjU10Y3yJgfmEb
+         tsAJKcfUzRF7A==
+Received: from odin.codewreck.org (localhost [127.0.0.1])
+        by nautica.notk.org (Postfix) with ESMTPS id DB4DCC009;
+        Mon,  7 Jun 2021 01:46:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+        t=1623023176; bh=a1qmuhTbRMTd0aB2zPF4gCLCyeO0G69jA1FO5xmsoZE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NmGfezxeJxwOv5BqY9/PwoWrqOmWeXpy4pgg8FwqU8JyewqKx7hNYFUMDHz3YoPh8
+         1jpdGB/jSDuHGZ9dUe1d6LIKlSLIzLEn5Znd4VvwmlymnEsDgxDL5HSGjlF/bo40uz
+         2cIZsnL4VrqetV5fK193sTj9TgYCYi/0D3cefGZSEmTMLdnM1mYlYZdCzbGz1ogZ18
+         zLKyCNgQQlMCP7zgq0+K60q9QLjcB/3vXroyZP1OKHDnotfyvNVOfWXDtkDqJ7wbOy
+         nKj9b1Y5Xxe3Zke07nBZD57v7smNkhuT8caOzTTRBvBVU3uUi7tWHQR/yA6DN3JqNW
+         x02F9A+nqxh2w==
+Received: from localhost (odin.codewreck.org [local])
+        by odin.codewreck.org (OpenSMTPD) with ESMTPA id 38eba9d2;
+        Sun, 6 Jun 2021 23:46:10 +0000 (UTC)
+Date:   Mon, 7 Jun 2021 08:45:55 +0900
+From:   Dominique Martinet <asmadeus@codewreck.org>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     Eric Van Hensbergen <ericvh@gmail.com>,
         Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v3 3/3] 9p: doc: add v9fsroot description
-Date:   Mon,  7 Jun 2021 07:09:22 +0800
-Message-Id: <20210606230922.77268-4-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210606230922.77268-1-changbin.du@gmail.com>
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Subject: Re: [PATCH v3 0/3] 9p: add support for root file systems
+Message-ID: <YL1eM+mzjuggDvqp@codewreck.org>
 References: <20210606230922.77268-1-changbin.du@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210606230922.77268-1-changbin.du@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This documentation is modified from cifs/cifsroot.rst.
+Changbin Du wrote on Mon, Jun 07, 2021 at 07:09:19AM +0800:
+> Just like cifs and nfs, this short series enables rootfs support for 9p.
+> Bellow is an example which mounts v9fs with tag 'r' as rootfs in qemu
+> guest via virtio transport.
+> 
+>   $ qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
+>         -virtfs local,path=$rootfs_dir,mount_tag=r,security_model=passthrough,id=r \
+>         -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
+>         -append "root=/dev/v9fs v9fsroot=r,trans=virtio rw console=ttyS0 3"
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
----
- Documentation/filesystems/v9fs/index.rst    |  1 +
- Documentation/filesystems/v9fs/v9fsroot.rst | 52 +++++++++++++++++++++
- MAINTAINERS                                 |  1 +
- 3 files changed, 54 insertions(+)
- create mode 100644 Documentation/filesystems/v9fs/v9fsroot.rst
+Thanks for rebasing -- I haven't forgotten, just been otherwise busy.
 
-diff --git a/Documentation/filesystems/v9fs/index.rst b/Documentation/filesystems/v9fs/index.rst
-index a1e45b89e2a2..65e1ceb04c9c 100644
---- a/Documentation/filesystems/v9fs/index.rst
-+++ b/Documentation/filesystems/v9fs/index.rst
-@@ -9,3 +9,4 @@ v9fs
-    :numbered:
- 
-    9p
-+   v9fsroot
-diff --git a/Documentation/filesystems/v9fs/v9fsroot.rst b/Documentation/filesystems/v9fs/v9fsroot.rst
-new file mode 100644
-index 000000000000..ce6b3c85e301
---- /dev/null
-+++ b/Documentation/filesystems/v9fs/v9fsroot.rst
-@@ -0,0 +1,52 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================================
-+Mounting root file system via v9fs (9p.ko)
-+==========================================
-+
-+:Author: Changbin Du <changbin.du@gmail.com>
-+
-+The CONFIG_9P_FS_ROOT option enables experimental root file system
-+support for v9fs.
-+
-+It introduces a new kernel command-line option called 'v9fsroot='
-+which will tell the kernel to mount the root file system by
-+utilizing the 9p protocol.
-+
-+
-+Kernel command line
-+===================
-+
-+::
-+
-+    root=/dev/v9fs
-+
-+This is just a virtual device that basically tells the kernel to mount
-+the root file system via 9p protocol.
-+
-+::
-+
-+    v9fsroot=<path>[,options]
-+
-+Enables the kernel to mount the root file system via 9p specified in this
-+option.
-+
-+path
-+	Could be a remote file server, Plan 9 From User Space applications
-+	or mount tag of virtio transport.
-+
-+options
-+	Optional mount options.
-+
-+Examples
-+========
-+Test it under QEMU on a kernel built with CONFIG_9P_FS_ROOT and
-+CONFIG_IP_PNP options enabled::
-+
-+    # qemu-system-x86_64 -enable-kvm -cpu host -m 1024 \
-+    -virtfs local,path=$rootfs_dir,mount_tag=r,security_model=passthrough,id=r \
-+    -kernel /path/to/linux/arch/x86/boot/bzImage -nographic \
-+    -append "root=/dev/v9fs v9fsroot=r,trans=virtio rw console=ttyS0 3"
-+
-+The above example mounts v9fs with tag 'r' as rootfs in qemu guest via
-+virtio transport.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3da44eef1471..dfcee6dfe182 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -243,6 +243,7 @@ F:	net/9p/
- R:	Changbin Du <changbin.du@gmail.com>
- S:	Supported
- F:	fs/9p/v9fsroot.c
-+F:	Documentation/filesystems/v9fs/v9fsroot.rst
- 
- A8293 MEDIA DRIVER
- M:	Antti Palosaari <crope@iki.fi>
+Will make time for this and the netfs rework over the next couple of
+weeks.
+
+
+Just a couple of notes:
+
+linux-fsdevel@vger is still not in Cc of the patches, and they weren't
+for any other version except for one of my replies, so it might be worth
+resending just for them as it touches do_mounts.c / root_dev.h
+
+
+>  MAINTAINERS                                 |  8 ++-
+
+I don't think it's worth adding yourself as MAINTAINERS for this, will
+likely strip it out (I know I'm the one who asked for your help if
+people have problems with this, but we should keep contacts simple)
+I'll forward you requests when they come if it's not trivial and you're
+not subscribed to the v9fs-developer@sf list
+
 -- 
-2.30.2
-
+Dominique
