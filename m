@@ -2,95 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEBB8C47095
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 16:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16EC9C47095
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 17:14:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1807613C8
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 16:24:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F344161029
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 17:14:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232942AbhFGQ0d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 12:26:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59832 "EHLO mail.kernel.org"
+        id S230479AbhFGRQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 13:16:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41438 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233108AbhFGQW1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 12:22:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 77B7361922;
-        Mon,  7 Jun 2021 16:15:16 +0000 (UTC)
+        id S230504AbhFGRQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 13:16:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 40FB960FF2;
+        Mon,  7 Jun 2021 17:14:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623082516;
-        bh=PDrSDWqJK08hzrvryP+C2U4KMYcUrGcWbd+BDrHDCdI=;
+        s=k20201202; t=1623086093;
+        bh=9jfypPKUdKJ4TKMPL0HZ70TpD4lRTMsAT/7JugcEW+g=;
         h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=jaAm026jBYSQTqGZkG0y6bYor/w4P/pMTBgv1Ad25MEeTol+68Zn3lZdAiNTgHeJ+
-         Ln/CLnpyKeYC8+E/TGjJlOtK3O/1gncy6Tthl4cKvqUUZ0UrykIlPa8hclODWk/N+m
-         9Nows2ysfgvBX5nEDhGz9gdmANukJ/JBo+aKVxITtYvZU5h+S+6d3T8Hs161TY/rHd
-         7Ys23L6b6IhFxScm6uHt5M1JszHhoIj61sKoGF0FbmKP4f84KGqwNbseYEAx+eFECF
-         FMKHVOKF9iRQ0F/BLz6ys4A6gmjiFlRDD17zdsvAcHCGSghy55tq73Nc0i+HqNwXAJ
-         h7+SDAuH32KKw==
-Date:   Mon, 7 Jun 2021 11:15:15 -0500
+        b=VVntAZBJCrFxdag/Jatlnwr8jFp5Nx5XPaS8INk7lj8ha+sgfZkm1atn0T+zkwa1o
+         WnG9n54Sk9Rc+0oErXhzgKHmhPtAb6P+w9e8Dg/RpEISs3INHv+Y6ei59mdcyL+Rmr
+         /XSOytZls8BZwBVLQfN1kMRkOc6gHeLe0SB375T6Fy9tOpG4NyQcnAEFHMzemCDNLO
+         FZfNlhzYTyPKFeDfA0kDvCL1hJYVSA0kMRgoM8imOR9kA10IXCqj7+JLEGAUAY0NUL
+         q3LX212U1Qi1A0ODnfrZezYIhRSf6vvQF3CxG1NwIm5JI4mDDUDS32qEPDGMPgFLzg
+         JeCQb3atcLEtg==
+Date:   Mon, 7 Jun 2021 12:14:51 -0500
 From:   Bjorn Helgaas <helgaas@kernel.org>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Dejin Zheng <zhengdejin5@gmail.com>, corbet@lwn.net,
         jarkko.nikula@linux.intel.com, mika.westerberg@linux.intel.com,
         rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexander Gordeev <agordeev@redhat.com>,
-        Jonathan Derrick <jonathan.derrick@intel.com>,
-        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
-        Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH v5 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <20210607161515.GA2495140@bjorn-Precision-5520>
+        Sanket.Goswami@amd.com, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v7 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <20210607171451.GA2507298@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YLdGfmrk6+FbTbNN@smile.fi.intel.com>
+In-Reply-To: <YL5FcivbsIBnVvo0@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 11:51:10AM +0300, Andy Shevchenko wrote:
-> On Thu, May 06, 2021 at 12:27:16AM +0800, Dejin Zheng wrote:
-> > On Tue, Mar 23, 2021 at 05:47:10PM -0500, Bjorn Helgaas wrote:
-> > > [+cc Christoph, Thomas, Alexander, in case you're interested]
-> > > [+cc Jonathan, Kurt, Logan: vmd.c and switchtec.c use managed resources
-> > > and pci_alloc_irq_vectors()]
-> 
-> > > On Fri, Feb 26, 2021 at 11:50:53PM +0800, Dejin Zheng wrote:
-> > > > Introduce pcim_alloc_irq_vectors(), a device-managed version of
-> > > > pci_alloc_irq_vectors(). Introducing this function can simplify
-> > > > the error handling path in many drivers.
-> > > > 
-> > > > And use pci_free_irq_vectors() to replace some code in pcim_release(),
-> > > > they are equivalent, and no functional change. It is more explicit
-> > > > that pcim_alloc_irq_vectors() is a device-managed function.
-> > > > 
-> > > > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-> > > 
-> > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> > > 
-> > > Let me know if you'd like me to take the series.
-> > >
-> > Hi Bjorn,
+On Mon, Jun 07, 2021 at 07:12:34PM +0300, Andy Shevchenko wrote:
+> On Mon, Jun 07, 2021 at 11:39:13PM +0800, Dejin Zheng wrote:
+> > Introduce pcim_alloc_irq_vectors(), a device-managed version of
+> > pci_alloc_irq_vectors(). Introducing this function can simplify
+> > the error handling path in many drivers.
 > > 
-> > These patches are still invisible on the mainline, could you help me to
-> > take it? Thanks very much!
+> > And use pci_free_irq_vectors() to replace some code in pcim_release(),
+> > they are equivalent, and no functional change. It is more explicit
+> > that pcim_alloc_irq_vectors() is a device-managed function.
 > 
-> I guess you have to rebase them on top of the latest rc (or PCI for-next) and
-> send with a cover letter.
+> ...
+> 
+> > When CONFIG_PCI=n, there is no stub for pci_is_managed(), but
+> > pcim_alloc_irq_vectors() will use it, so add one like other similar stubs.
+> > Otherwise there can be build errors, as here by kernel test robot
+> > reported:
+> > include/linux/pci.h: In function 'pcim_alloc_irq_vectors':
+> > >> include/linux/pci.h:1847:7: error: implicit declaration of function 'pci_is_managed' [-Werror=implicit-function-declaration]
+> >     1847 |  if (!pci_is_managed(dev))
+> >          |       ^~~~~~~~~~~~~~
+> 
+> This is rather changelog related material. No need to pollute commit message
+> with this.
+> 
+> ...
+> 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> 
+> It's new functionality. Why this tag is here?
+> Use comments (similar location than changelog) to give a credit if you wish.
 
-No need to rebase them.  The ideal is to base them on the "main" branch
-from https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git/
-(currently v5.13-rc) because that's what I base topic branches on.
-But I can deal with whatever your current base is.
-
-Thanks for the reminder; I'll take a look at your v7 posting.
-
-Bjorn
+Agreed, I'll tidy that up, so no need to repost for this.
