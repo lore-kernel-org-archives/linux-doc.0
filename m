@@ -2,105 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF066C47082
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:31:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B42EEC47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:36:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9AE361185
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:31:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A157E6109F
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:36:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbhFGOdO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 10:33:14 -0400
-Received: from mail-pf1-f181.google.com ([209.85.210.181]:37556 "EHLO
-        mail-pf1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbhFGOdO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 10:33:14 -0400
-Received: by mail-pf1-f181.google.com with SMTP id y15so13202716pfl.4;
-        Mon, 07 Jun 2021 07:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=h6CG2bMQTbzoeKiCNTYjo7P9Il/mWVmgFb8ULia79oo=;
-        b=I9t1OZEZPobhkA3hf2acJxnViGRdaufqM5+op4JunH2jb4Imy6JUGmqUWmbEdg/EZ9
-         5S/Xhj1avqhJwzAjtyuwGRkqRS0DW98mxmcm6B3d50Q+ZXi5Whkh9Tv2qSBmA9oUqUkJ
-         QAQJpc9ji1ypPYx2KxT+m2jSaPs0CImK7xn4JbMFo2zrX7Fy0L0v9YEllNxCdPCDgglA
-         FuOTczaNmB0/Us4YraeuoElsBkhRz+Qr1iiwX5G26bDDZanKZqohCCjWjFu2/EY0IeC+
-         nnDR5fzju0H+np6EkQ4CRIJ6fQBbuV0RbVsFBuRVgMyYp/aQYFHnIr2VNFWhNrDt3wpO
-         FxlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=h6CG2bMQTbzoeKiCNTYjo7P9Il/mWVmgFb8ULia79oo=;
-        b=Gxm5raoZXNuI4otxGsYTPdQV/0Bf+PxlXjktZTsX4rDg5QOnrFNXvetQ+qfRXYA2n/
-         g/6t0KR8um9GvxJ9f1xIdPLVQe+XPZ0yDz1v6X3cQIQC7amSgaoRjdl8ACRtcFZDnzsF
-         vbAwcF7x5hsHh6TJSB6vzqpzV0JPbLSsl9ovXlmBb/l6KmeyX61Yho+vNTwo0SrhUZ8q
-         74EtW/SXoQIAZf3zvsfgo1Dgm4P4Il+AiZgNIYAtX8InLom6wngwCr6TmP2y/k6qmRT9
-         O442k8hXPl4XtHLFMMlKOIynuX1FU/ifw6LQ2SBe2g00PGaMynGEWSGZMlEf5QS8u7Lz
-         iMAQ==
-X-Gm-Message-State: AOAM530iuMll5mnkvQXqSp49GOU3SF/uv4zZO6NGqUrpEsPUWUf21E2B
-        AUH1SghsvKg6u8JwOk47lMA=
-X-Google-Smtp-Source: ABdhPJzLHRV2yytEQkLzu/K5A9ErmC8MtuEAatyPW9JfnHku3sG0kejkTmYQ8lPdcs1invl5PfrF/Q==
-X-Received: by 2002:a63:5118:: with SMTP id f24mr18035389pgb.34.1623076222927;
-        Mon, 07 Jun 2021 07:30:22 -0700 (PDT)
-Received: from localhost (185.212.56.112.16clouds.com. [185.212.56.112])
-        by smtp.gmail.com with ESMTPSA id e21sm12592504pjh.55.2021.06.07.07.30.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 07:30:22 -0700 (PDT)
-Date:   Mon, 7 Jun 2021 22:30:20 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     helgaas@kernel.org, corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        mika.westerberg@linux.intel.com, rric@kernel.org,
-        bhelgaas@google.com, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 0/4] Introduce pcim_alloc_irq_vectors()
-Message-ID: <20210607143020.GB821146@nuc8i5>
-References: <20210606070511.778487-1-zhengdejin5@gmail.com>
- <YL3iQMNTcQrA3okH@smile.fi.intel.com>
+        id S230233AbhFGOiD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 10:38:03 -0400
+Received: from mga12.intel.com ([192.55.52.136]:6488 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230213AbhFGOiD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 10:38:03 -0400
+IronPort-SDR: ShV0/11HTYcLLl524PdDMZ4s5r2i9PtKLTiMkkomfp410kK9XOlHBq4ll5mdonphBsvvpI4IWM
+ rcFauRd6Obxg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="184315546"
+X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; 
+   d="scan'208";a="184315546"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 07:36:08 -0700
+IronPort-SDR: Y37UMWScXJDZ303soo6I9Yqr9mSsORiTUXT9IqjmD+0FVepK7Jy9XZkXULa3tOZNWgoCVRrEsz
+ 1RYnHBCHWJTA==
+X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; 
+   d="scan'208";a="484794854"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 07:36:05 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lqGME-000HEt-Dk; Mon, 07 Jun 2021 17:36:02 +0300
+Date:   Mon, 7 Jun 2021 17:36:02 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Flavio Suligoi <f.suligoi@asem.it>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>
+Subject: Re: [PATCH v3 1/6] docs: firmware-guide: ACPI: Add a PWM example
+Message-ID: <YL4u0iPs3WbWulV8@smile.fi.intel.com>
+References: <20210607122458.40073-1-andriy.shevchenko@linux.intel.com>
+ <CAJZ5v0jNWTzy37rX_V6LF7y7LOdy=KUokkVZ+25zj4+AZ244OQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YL3iQMNTcQrA3okH@smile.fi.intel.com>
+In-Reply-To: <CAJZ5v0jNWTzy37rX_V6LF7y7LOdy=KUokkVZ+25zj4+AZ244OQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 07, 2021 at 12:09:20PM +0300, Andy Shevchenko wrote:
-> On Sun, Jun 06, 2021 at 03:05:07PM +0800, Dejin Zheng wrote:
-> > Introduce pcim_alloc_irq_vectors(), a device-managed version of
-> > pci_alloc_irq_vectors(), In some i2c drivers, If pcim_enable_device()
-> > has been called before, then pci_alloc_irq_vectors() is actually a
-> > device-managed function. It is used as a device-managed function, So
-> > replace it with pcim_alloc_irq_vectors().
+On Mon, Jun 07, 2021 at 02:38:26PM +0200, Rafael J. Wysocki wrote:
+> On Mon, Jun 7, 2021 at 2:24 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > When PWM support for ACPI has been added into the kernel, it missed
+> > the documentation update. Hence update documentation here.
+> >
+> > Fixes: 4a6ef8e37c4d ("pwm: Add support referencing PWMs from ACPI")
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > 
-> Thanks!
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > 
-> > Changelog
-> > ---------
-> > v5 -> v6:
-> > 	- rebase to 5.13-rc4
-> 
-> It's already rc5 and I believe you better use the subsystem tree against which
-> your series is (i.e. PCI for-next or how it is called there).
->
+> and I'm assuming this to go in via PWM.
 
-Andy, Thanks for your reminder, I will use PCI for-next branch for new patch
-version.
+Yes, thanks for your tags!
 
-BR,
-Dejin
-> Besides that kbuild bot is not happy.
-> 
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
