@@ -2,149 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88D78C47094
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:38:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB051C47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:54:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FB4060FEE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:38:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDAF161245
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:54:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230454AbhFGMks (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 08:40:48 -0400
-Received: from mail-oi1-f169.google.com ([209.85.167.169]:42903 "EHLO
-        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230173AbhFGMks (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 08:40:48 -0400
-Received: by mail-oi1-f169.google.com with SMTP id v142so17431513oie.9;
-        Mon, 07 Jun 2021 05:38:57 -0700 (PDT)
+        id S230198AbhFGM4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 08:56:49 -0400
+Received: from mail-qk1-f169.google.com ([209.85.222.169]:39518 "EHLO
+        mail-qk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230173AbhFGM4s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 08:56:48 -0400
+Received: by mail-qk1-f169.google.com with SMTP id j184so16460614qkd.6;
+        Mon, 07 Jun 2021 05:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=qAToXXWSsZRmYBJ4nyR6Lux62WzTeaa9/cBKzieftKI=;
+        b=au+TNadT6IgMd1oXL+D7zeOnc6/yuE4DPTjMApcvNIcqgZRuT7Vp+g0z2ufp1TDWc+
+         wvVb/zRdE8t5IE2/FnCH8KxWclGjrjeLhbjPQRzuJ6INjiye873OGzHBxW8AqToB8bjT
+         dVYsZBOgFpQ8V78wszy7o0MN5Y4D9U19p7VRrjq2h+IZWuodqNVR2t8urplHigaW59AD
+         3UVyn8q1AGzCzdve0py1q0dYBUql5h6wHupmnU0X0pplyv2MLolmcoT7wtBCLZlf59vi
+         sQ4+EQQipeYbidVq7vbqhXBVBYq+k/WP/6u3aJ2BKQ7WEFvnSas/SRV0GSriMhr+K0hu
+         kKag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BtfBKhSIgrMbklkSEqUXIVw+9PSaocndOPsfs57pBrg=;
-        b=D5cGmo1h/808qW+9QGljx/IHtH3jhwAR9pe/dggshNn6V2xmHQHnCi/oF40saGImwq
-         Ww+lfs0LWoTvxmYWenFrLq9WAdBrPlL4txNnGjyYxioiZmIoG4I7xgFwIBIMHGnBT6x7
-         pvFs3NgbB34/ETTkG1n2RGqLZ1oJUvwsKcOZh5aN51NNzCYbPScdkMyEsWG3KBl42/y4
-         sIsz+lBcz4ynpZiUNaxieuubQyr+MabfOje8WauTPl5X7wErPBiLk7F3uJFa83Q1TRN+
-         0Yk7ZXvaGiQrZaQK+wc1sX9Zu1gPLxgzm9So8FztjHPtxPHwJlJdJg2OnCVzrdksOyVW
-         eRmg==
-X-Gm-Message-State: AOAM533gxm7rqa6UvQoypxMP+WUMa0fFq2Z+rfh3/xAU/arcp7MskZE7
-        kB/LEXdGDnS6jGlT+QqsHtcUyQqj9JMVw3qPv3Q=
-X-Google-Smtp-Source: ABdhPJzlt3b6sqN2DBSPSm7jJv8sukwRnmWDdtIqUNnxpduRN7SvDItcbm+AtfXYs1ipy0GEiB1VkCUptRMcbaCeu9o=
-X-Received: by 2002:aca:650d:: with SMTP id m13mr3041451oim.157.1623069536950;
- Mon, 07 Jun 2021 05:38:56 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qAToXXWSsZRmYBJ4nyR6Lux62WzTeaa9/cBKzieftKI=;
+        b=J7ncJcCjiSudVp6DVvam9lbjCMoMk3Kiitr4GeIC0lHFre+UzuWizfsfjPG99Isjay
+         80aVd3dcNwGPW9N4kFZ7aC5ayi66EV6secn1S8PAJ4fFAcgWjIKqSUgfNg8obwIcoFU6
+         Bcd4FIWCZtsqxRNfFaT8cjWLWV5NQrQI4Ti4gWJpZDcf27b7mLr+9XuarFG4lPrFTa3O
+         kG9A257JaNtqUQ68JpQuo3UNPf1V0qrW1RhJsMdRW32G28TJfyLt1tGMVzunxHxA4S2U
+         rIFgfoo4jtRoaEuWYdNbaTQl3HSB9gyjtzd+2P3K9oyjJv5KYP78z8T6gXIQFijHZbaz
+         41vw==
+X-Gm-Message-State: AOAM530v2fATbxN7XQcZCuIqhj/GYOTWC+RRdzV68h3zPbyAbn1lrlXm
+        IwGQfRCqGyEnLFGkZhh+279endFxZHE=
+X-Google-Smtp-Source: ABdhPJx34do1IiN9AnqGLoDcBWhClEhKt0gtpUg/3h2DFY6MvKz0+WSGeMs+ma9D6h7hsGVzCj8JjA==
+X-Received: by 2002:a37:6007:: with SMTP id u7mr10020504qkb.427.1623070437169;
+        Mon, 07 Jun 2021 05:53:57 -0700 (PDT)
+Received: from ?IPv6:2804:14c:125:811b::1004? ([2804:14c:125:811b::1004])
+        by smtp.gmail.com with ESMTPSA id e11sm9650489qkl.28.2021.06.07.05.53.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jun 2021 05:53:56 -0700 (PDT)
+Subject: Re: [PATCH v3] docs: Convert the Speakup guide to rst
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>, corbet@lwn.net,
+        jani.nikula@linux.intel.com, gene@collinsnet.net,
+        w.d.hubbs@gmail.com, steve.holmes88@gmail.com,
+        speakup@linux-speakup.org, gregkh@linuxfoundation.org,
+        rdunlap@infradead.org, grandmaster@al2klimov.de,
+        chris@the-brannons.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210603145953.10982-1-igormtorrente@gmail.com>
+ <20210606123135.idvji5rbvcc5lrai@begin>
+From:   Igor Torrente <igormtorrente@gmail.com>
+Message-ID: <0245b87e-2ac1-20e7-b8f5-0fce7cd7bdd1@gmail.com>
+Date:   Mon, 7 Jun 2021 09:53:52 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210607122458.40073-1-andriy.shevchenko@linux.intel.com> <20210607122458.40073-3-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20210607122458.40073-3-andriy.shevchenko@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 7 Jun 2021 14:38:46 +0200
-Message-ID: <CAJZ5v0hEHkpoyc9-fYrZ8A79B0XRd4_RUB2wcRcq1kMKXnb7Jw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] pwm: core: Reuse fwnode_to_pwmchip() in ACPI case
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Flavio Suligoi <f.suligoi@asem.it>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210606123135.idvji5rbvcc5lrai@begin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 7, 2021 at 2:24 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> In ACPI case we may use matching by fwnode as provided via
-> fwnode_to_pwmchip(). This makes device_to_pwmchip() not needed
-> anymore.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hi Samuel,
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On 6/6/21 9:31 AM, Samuel Thibault wrote:
+> Igor Matheus Andrade Torrente, le jeu. 03 juin 2021 11:59:53 -0300, a ecrit:
+>> @@ -0,0 +1,1421 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+> 
+> People have agreed to dual-licence GFDL and GPL, not only publish under
+> GPL. So
 
-> ---
-> v3: rebased on the tree without dropped patch 2/7
-> v2: no change
->  drivers/pwm/core.c | 31 +------------------------------
->  1 file changed, 1 insertion(+), 30 deletions(-)
->
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index f26da1a6a376..c63626c5266c 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -820,28 +820,6 @@ struct pwm_device *of_pwm_get(struct device *dev, struct device_node *np,
->  }
->  EXPORT_SYMBOL_GPL(of_pwm_get);
->
-> -#if IS_ENABLED(CONFIG_ACPI)
-> -static struct pwm_chip *device_to_pwmchip(struct device *dev)
-> -{
-> -       struct pwm_chip *chip;
-> -
-> -       mutex_lock(&pwm_lock);
-> -
-> -       list_for_each_entry(chip, &pwm_chips, list) {
-> -               struct acpi_device *adev = ACPI_COMPANION(chip->dev);
-> -
-> -               if ((chip->dev == dev) || (adev && &adev->dev == dev)) {
-> -                       mutex_unlock(&pwm_lock);
-> -                       return chip;
-> -               }
-> -       }
-> -
-> -       mutex_unlock(&pwm_lock);
-> -
-> -       return ERR_PTR(-EPROBE_DEFER);
-> -}
-> -#endif
-> -
->  /**
->   * acpi_pwm_get() - request a PWM via parsing "pwms" property in ACPI
->   * @fwnode: firmware node to get the "pwm" property from
-> @@ -862,9 +840,7 @@ static struct pwm_chip *device_to_pwmchip(struct device *dev)
->  static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
->  {
->         struct pwm_device *pwm = ERR_PTR(-ENODEV);
-> -#if IS_ENABLED(CONFIG_ACPI)
->         struct fwnode_reference_args args;
-> -       struct acpi_device *acpi;
->         struct pwm_chip *chip;
->         int ret;
->
-> @@ -874,14 +850,10 @@ static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
->         if (ret < 0)
->                 return ERR_PTR(ret);
->
-> -       acpi = to_acpi_device_node(args.fwnode);
-> -       if (!acpi)
-> -               return ERR_PTR(-EINVAL);
-> -
->         if (args.nargs < 2)
->                 return ERR_PTR(-EPROTO);
->
-> -       chip = device_to_pwmchip(&acpi->dev);
-> +       chip = fwnode_to_pwmchip(args.fwnode);
->         if (IS_ERR(chip))
->                 return ERR_CAST(chip);
->
-> @@ -894,7 +866,6 @@ static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
->
->         if (args.nargs > 2 && args.args[2] & PWM_POLARITY_INVERTED)
->                 pwm->args.polarity = PWM_POLARITY_INVERSED;
-> -#endif
->
->         return pwm;
->  }
-> --
-> 2.30.2
->
+Ohh, sorry. I misunderstood the licensing proposal.
+
+> 
+> .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.2-no-invariants-or-later
+> 
+
+I will fix it.
+
+> Samuel
+> 
+
+Thanks,
+---
+Igor M. A. Torrente
