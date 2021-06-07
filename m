@@ -2,101 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC614C4743F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 09:02:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98000C48BC2
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 09:02:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C98F4610FB
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 09:02:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85607610FB
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 09:02:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbhFGJEf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 05:04:35 -0400
-Received: from mga17.intel.com ([192.55.52.151]:52280 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230479AbhFGJEf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 05:04:35 -0400
-IronPort-SDR: /sJNLeNMCdh0gBwGoltttUtAcrC8v/EBrclop4iYdAnIKRoOZHxKS78IUSnox1gZ8LFItZG01f
- I2ho0F9Pychg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="184957542"
-X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
-   d="scan'208";a="184957542"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 02:02:44 -0700
-IronPort-SDR: hGIn9itGSSU60y8NlEbk6Qd8VRhRGVXX+B74XXOmTcpMycJ22YtwjKudMOJlvY3W1lWLgfnCzI
- uDMKLZtwIx9Q==
-X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
-   d="scan'208";a="418439215"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 02:02:40 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lqB9Z-000DHw-HD; Mon, 07 Jun 2021 12:02:37 +0300
-Date:   Mon, 7 Jun 2021 12:02:37 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Flavio Suligoi <f.suligoi@asem.it>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        id S229545AbhFGJEi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 05:04:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37954 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230517AbhFGJEh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 05:04:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623056566;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=a1x3cJ7fuESoDFA2zX8IZr7gZ6GLRtHzGjGBjFpYGZ8=;
+        b=LhaQvroXraun11/Yg+4SLw0UVDBCK+IZhjD2jqwurSz+HjGrjjFBQiiwIBs/Q72JxfBjvF
+        i28iLl1DKHoKjmBK47fFGj7NbwiG6roN+UAA9hhSAyGjL5KPgp8trPzqii/kDYfYj6YtNV
+        RY3lqEMmEKnGKMRfIwgBwA7lSPG0KS4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-253-noBIeJHeP4qSUWHqOcnSlg-1; Mon, 07 Jun 2021 05:02:45 -0400
+X-MC-Unique: noBIeJHeP4qSUWHqOcnSlg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D555800D62;
+        Mon,  7 Jun 2021 09:02:43 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.40.194.6])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3906B100EB3D;
+        Mon,  7 Jun 2021 09:02:38 +0000 (UTC)
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        linux-kernel@vger.kernel.org (open list),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        Wanpeng Li <wanpengli@tencent.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Christopherson <seanjc@google.com>,
+        Borislav Petkov <bp@alien8.de>, Joerg Roedel <joro@8bytes.org>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        Jim Mattson <jmattson@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>
-Subject: Re: [PATCH v2 2/7] pwm: core: Always require PWM flags to be provided
-Message-ID: <YL3grTQ00lFCXyCp@smile.fi.intel.com>
-References: <20210531194947.10770-1-andriy.shevchenko@linux.intel.com>
- <20210531194947.10770-2-andriy.shevchenko@linux.intel.com>
- <20210606213054.bmqgs5hehbowa62d@pengutronix.de>
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>
+Subject: [PATCH v3 5/8] KVM: nVMX: delay loading of PDPTRs to KVM_REQ_GET_NESTED_STATE_PAGES
+Date:   Mon,  7 Jun 2021 12:02:00 +0300
+Message-Id: <20210607090203.133058-6-mlevitsk@redhat.com>
+In-Reply-To: <20210607090203.133058-1-mlevitsk@redhat.com>
+References: <20210607090203.133058-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210606213054.bmqgs5hehbowa62d@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 06, 2021 at 11:30:54PM +0200, Uwe Kleine-König wrote:
-> Hello Andy,
-> 
-> On Mon, May 31, 2021 at 10:49:42PM +0300, Andy Shevchenko wrote:
-> > It makes little sense to make PWM flags optional since in case
-> > of multi-channel consumer the flags can be optional only for
-> > the last listed channel.
-> 
-> I think the same holds true for dt references.
+Similar to the rest of guest page accesses after a migration,
+this access should be delayed to KVM_REQ_GET_NESTED_STATE_PAGES.
 
-Can you elaborate this? I haven't got what you are talking about, not a DT
-expert here.
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ arch/x86/kvm/vmx/nested.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-> > Thus always require PWM flags to be provided.
-> 
-> I'm not sure I want to follow that conclusion. Most consumers only need
-> a single PWM and then not providing flags is fine, isn't it? Or does
-> this change fix an error?
-
-The current ACPI DSD implementation in the Linux kernel doesn't allow to use
-variadic arguments in the list of tuples.
-
-So, the current code states that we may use (x, y, z) or (x, y, z, t).
-That's true as long as that is the last tuple in the array (*). However,
-the case (x1, y1, z1, x2, y2, z2, t2) is not supported. It can be either
-(x1, y1, z1, t1, x2, y2, z2) or (x1, y1, z1, t1, x2, y2, z2, t2).
-But this makes a little sense and Linux APIs in use and first ABI that uses
-that API (GPIO) has never been designed for a such. What is allowed is to skip
-tuple in a form of NULL:ifying, like (0, x2, y2, z2, t2).
-
-*) Yes, the comments said that PWM supports only a single reference, but this
-may be expanded in the future and this patch allows to do that (it's not a fix
-per se, but rather a good clarification to the APIs/ABIs).
-
+diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+index c45189898a64..0acdda85f36a 100644
+--- a/arch/x86/kvm/vmx/nested.c
++++ b/arch/x86/kvm/vmx/nested.c
+@@ -1105,7 +1105,8 @@ static bool nested_vmx_transition_mmu_sync(struct kvm_vcpu *vcpu)
+  * Exit Qualification (for a VM-Entry consistency check VM-Exit) is assigned to
+  * @entry_failure_code.
+  */
+-static int nested_vmx_load_cr3(struct kvm_vcpu *vcpu, unsigned long cr3, bool nested_ept,
++static int nested_vmx_load_cr3(struct kvm_vcpu *vcpu, unsigned long cr3,
++			       bool nested_ept, bool reload_pdptrs,
+ 			       enum vm_entry_failure_code *entry_failure_code)
+ {
+ 	if (CC(kvm_vcpu_is_illegal_gpa(vcpu, cr3))) {
+@@ -1117,7 +1118,7 @@ static int nested_vmx_load_cr3(struct kvm_vcpu *vcpu, unsigned long cr3, bool ne
+ 	 * If PAE paging and EPT are both on, CR3 is not used by the CPU and
+ 	 * must not be dereferenced.
+ 	 */
+-	if (!nested_ept && is_pae_paging(vcpu) &&
++	if (reload_pdptrs && !nested_ept && is_pae_paging(vcpu) &&
+ 	    CC(!load_pdptrs(vcpu, vcpu->arch.walk_mmu, cr3))) {
+ 		*entry_failure_code = ENTRY_FAIL_PDPTE;
+ 		return -EINVAL;
+@@ -2486,6 +2487,7 @@ static void prepare_vmcs02_rare(struct vcpu_vmx *vmx, struct vmcs12 *vmcs12)
+  * is assigned to entry_failure_code on failure.
+  */
+ static int prepare_vmcs02(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12,
++			  bool from_vmentry,
+ 			  enum vm_entry_failure_code *entry_failure_code)
+ {
+ 	struct vcpu_vmx *vmx = to_vmx(vcpu);
+@@ -2570,7 +2572,7 @@ static int prepare_vmcs02(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12,
+ 
+ 	/* Shadow page tables on either EPT or shadow page tables. */
+ 	if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3, nested_cpu_has_ept(vmcs12),
+-				entry_failure_code))
++			from_vmentry, entry_failure_code))
+ 		return -EINVAL;
+ 
+ 	/*
+@@ -3111,6 +3113,17 @@ static bool nested_get_vmcs12_pages(struct kvm_vcpu *vcpu)
+ 	struct page *page;
+ 	u64 hpa;
+ 
++	if (!nested_cpu_has_ept(vmcs12) && is_pae_paging(vcpu)) {
++		/*
++		 * Reload the guest's PDPTRs since after a migration
++		 * the guest CR3 might be restored prior to setting the nested
++		 * state which can lead to a load of wrong PDPTRs.
++		 */
++		if (CC(!load_pdptrs(vcpu, vcpu->arch.walk_mmu, vcpu->arch.cr3)))
++			return false;
++	}
++
++
+ 	if (nested_cpu_has2(vmcs12, SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES)) {
+ 		/*
+ 		 * Translate L1 physical address to host physical
+@@ -3355,7 +3368,7 @@ enum nvmx_vmentry_status nested_vmx_enter_non_root_mode(struct kvm_vcpu *vcpu,
+ 	if (vmcs12->cpu_based_vm_exec_control & CPU_BASED_USE_TSC_OFFSETTING)
+ 		vcpu->arch.tsc_offset += vmcs12->tsc_offset;
+ 
+-	if (prepare_vmcs02(vcpu, vmcs12, &entry_failure_code)) {
++	if (prepare_vmcs02(vcpu, vmcs12, from_vmentry, &entry_failure_code)) {
+ 		exit_reason.basic = EXIT_REASON_INVALID_STATE;
+ 		vmcs12->exit_qualification = entry_failure_code;
+ 		goto vmentry_fail_vmexit_guest_mode;
+@@ -4204,7 +4217,7 @@ static void load_vmcs12_host_state(struct kvm_vcpu *vcpu,
+ 	 * Only PDPTE load can fail as the value of cr3 was checked on entry and
+ 	 * couldn't have changed.
+ 	 */
+-	if (nested_vmx_load_cr3(vcpu, vmcs12->host_cr3, false, &ignored))
++	if (nested_vmx_load_cr3(vcpu, vmcs12->host_cr3, false, true, &ignored))
+ 		nested_vmx_abort(vcpu, VMX_ABORT_LOAD_HOST_PDPTE_FAIL);
+ 
+ 	nested_vmx_transition_tlb_flush(vcpu, vmcs12, false);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.26.3
 
