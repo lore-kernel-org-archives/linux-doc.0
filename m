@@ -2,152 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 138E2C47082
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 08:40:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F001EC47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 08:45:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F090B61164
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 08:40:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEEAF61105
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 08:45:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229545AbhFGImZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 04:42:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60212 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230246AbhFGImZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 04:42:25 -0400
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C3DC061766;
-        Mon,  7 Jun 2021 01:40:25 -0700 (PDT)
-Received: by mail-qv1-xf2d.google.com with SMTP id q6so8422658qvb.2;
-        Mon, 07 Jun 2021 01:40:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=Gqfcx7MMX4ha2LKkgjhOiUBKHhgwQx6KDDCCsIrUgZU=;
-        b=GjaPxKmzKDPnVhCAofZcL+gkEnpV0/IMVajsYB7vWEQxpG2pPoTWUolMbY24dUwvH2
-         iVh/y8CJjoa11A9m2p9GW2gsPNXyj7/u2IeYFgYDCcq5QIGh5taJ/Ez4qSSpiMJVlja4
-         cgg1nt6qQdF1yH+Pwk8w6fPJ5TXhVWP4TmhwXFTQ3Fs/LOfPeggczeeTvWR2d11NjiRq
-         2HKy1yyTilFIRKvZ2Fkmg1fO9f/dMLdroxfmcprp7SjtAszGau12h8lzZjZQs1B4Uc74
-         Tq/s0vjyonZP+0Ne8zxUPyT3E6wtTH9PHVyBinlfARrPhvb60g7IYdBUJHLsAoTbQeM/
-         N+pw==
+        id S230432AbhFGIrG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 04:47:06 -0400
+Received: from mail-vs1-f54.google.com ([209.85.217.54]:46775 "EHLO
+        mail-vs1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230374AbhFGIrF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 04:47:05 -0400
+Received: by mail-vs1-f54.google.com with SMTP id z15so8465015vsn.13;
+        Mon, 07 Jun 2021 01:44:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=Gqfcx7MMX4ha2LKkgjhOiUBKHhgwQx6KDDCCsIrUgZU=;
-        b=JJd5NP22WyMEzHFlZW9e0yzms5XuBz6/fT6C3QPtnEXcuYynHbZQV1+5KAsgLd8Pd0
-         vSbm1uwkTGWa4vlf87wFXUDHY3qYffCh29WPO6rD09UJFDvEpxHjJFM8+XqrV+jZeKhO
-         aUg8R5CWKxPh+NrHNdBrQzOPqed5tk3ErimAfCd9Mefg4QMkt7DlMFbxTwApzQslnpcW
-         nmJXLrnwAZy/doOK45qguusQMU3K/K9mjGMSrGiiU3fYnmRgwb/7Ycb7lgKbxQQEgB3/
-         JIl9qPYHpskzHkVYvFckHKTH7pa1ehjDtZZJaa1XWf3MXF8Dt0HYCmeBR0gfeMIJM3MP
-         1gLg==
-X-Gm-Message-State: AOAM5327lFg4BkLu+SvylDPt3VJ6lRUWPO3rtya4k5CLvdVpXP8qDhAw
-        q11tY2mn8+XnBWeLC5X5IAM=
-X-Google-Smtp-Source: ABdhPJxzU9LINypXWHqu6BJOeLCjEzA6ggZHcJcyrTv/W0zBhQXZ+wr2E+0r+V4xvCA59ChcJd513g==
-X-Received: by 2002:a05:6214:11ac:: with SMTP id u12mr16644617qvv.15.1623055224084;
-        Mon, 07 Jun 2021 01:40:24 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id x10sm2895496qkf.42.2021.06.07.01.40.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 01:40:23 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     sj38.park@gmail.com
-Cc:     jgowans@amazon.com, akpm@linux-foundation.org,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
-        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
-        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
-        guoju.fgj@alibaba-inc.com, mgorman@suse.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
-        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
-        snu@zelle79.org, vbabka@suse.cz, vdavydov.dev@gmail.com,
-        zgf574564920@gmail.com, linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 10/13] mm/damon/schemes: Activate schemes based on a watermarks mechanism
-Date:   Mon,  7 Jun 2021 08:40:15 +0000
-Message-Id: <20210607084015.1620-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210531133816.12689-11-sj38.park@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NMLFqpyinJNzmHBwsTXpi/IC86W5Z3EEdqUV4Gadqtw=;
+        b=YUbC/hYOqslL6/ObJ+SXGcYz04AW2Bl5kv0FBQfpyjrL1K7dEe9Jz1aEp2NiZngjqB
+         pSImytQZbfunCF1nFrabAKZEPGMM8ewN2IRHchhEzV/nYh5y/alwS+udHY3OPsnOON1Y
+         4Xwm5ojYKx5hdJ/T6P8utxYGmz+IB4ppUWd+eM4j3CE47XU/UZuL/SkA2kOa7aActou/
+         OyC8obJD+2c2fOb8kD2ODUnnj5MrNeFGYuxC4XCfTihVUNbSMFCrHtfOzqlzF4HAMjsY
+         zkC762tdDvl6yJw6YGJIOcrTOsfhDtYPbkxFw4S89QDbSQG7rzDaI9BEZr52j2ZolYrn
+         CNsA==
+X-Gm-Message-State: AOAM531A7/q0k6XkJa7PviYZZbEnu+lu+QtUCrpCSqXAlKUzqzKPQ0SS
+        EDUmHfNsLJQSXn4b+SrfpeNLxqy6IQ/7I1ozums=
+X-Google-Smtp-Source: ABdhPJwMLHirwEQ4tJUPI7qaplUDz3bp0fsmhod8P88K7RhBRU2njU8TgCywfoM2VwxcEnVDrH/bezsBM2ie2giEJTc=
+X-Received: by 2002:a05:6102:c4c:: with SMTP id y12mr3863270vss.18.1623055497041;
+ Mon, 07 Jun 2021 01:44:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210604064916.26580-1-rppt@kernel.org>
+In-Reply-To: <20210604064916.26580-1-rppt@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 7 Jun 2021 10:44:45 +0200
+Message-ID: <CAMuHMdWuOk2LBJunCsCjzjYnBDs1rZh_x=ez7N=gjYv_ETMAcQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] Remove DISCINTIGMEM memory model
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        arcml <linux-snps-arc@lists.infradead.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        sparclinux <sparclinux@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+Hi Mike,
 
-On Mon, 31 May 2021 13:38:13 +0000 sj38.park@gmail.com wrote:
+You may want to fix the DISCINTIGMEM typo in the subject for v3, unless
+you think that makes tracking series versions more complicated ;-)
 
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> DAMON-based operation schemes need to be manually turned on and off.  In
-> some use cases, however, the condition for turning a scheme on and off
-> would depend on the system's situation.  For example, schemes for
-> proactive pages reclamation would need to be turned on when some memory
-> pressure is detected, and turned off when the system has enough free
-> memory.
-> 
-> For easier control of schemes activation based on the system situation,
-> this commit introduces a watermarks-based mechanism.  The client can
-> describe the watermark metric (e.g., amount of free memory in the
-> system), watermark check interval, and three watermarks, namely high,
-> mid, and low.  If the scheme is deactivated, it only gets the metric and
-> compare that to the three watermarks for every check interval.  If the
-> metric is higher than the high watermark, the scheme is deactivated.  If
-> the metric is between the mid watermark and the low watermark, the
-> scheme is activated.  If the metric is lower than the low watermark, the
-> scheme is deactivated again.  This is to allow users fall back to
-> traditional page-granularity mechanisms.
-> 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> ---
->  include/linux/damon.h | 52 +++++++++++++++++++++++++-
->  mm/damon/core.c       | 87 ++++++++++++++++++++++++++++++++++++++++++-
->  mm/damon/dbgfs.c      |  5 ++-
->  3 files changed, 141 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/damon.h b/include/linux/damon.h
-> index 565f49d8ba44..2edd84e98056 100644
-> --- a/include/linux/damon.h
-> +++ b/include/linux/damon.h
-> @@ -127,6 +127,45 @@ struct damos_speed_limit {
->  	unsigned int min_score;
->  };
-[...]
->  static void set_kdamond_stop(struct damon_ctx *ctx)
->  {
->  	mutex_lock(&ctx->kdamond_lock);
-> @@ -904,6 +982,13 @@ static int kdamond_fn(void *data)
->  	sz_limit = damon_region_sz_limit(ctx);
->  
->  	while (!kdamond_need_stop(ctx)) {
-> +		unsigned long wmark_wait_us = kdamond_wmark_wait_us(ctx);
-> +
-> +		if (wmark_wait_us) {
-> +			usleep_range(wmark_wait_us, wmark_wait_us + 1);
-> +			continue;
-> +		}
+Gr{oetje,eeting}s,
 
-James Gowans (jgowans@amazon.com) found this will make kdamond sleeps in
-TASK_UNINTERRUPTIBLE state.  So, when DAMON is deactivated due to the
-watermarks rule, the sysadmin assumes it would do nothing and DAMON really do
-nothing.  But, because it's sleeping in TASK_UNINTERRUPTIBLE state, which is
-usually interpreted as waiting for I/O, '/proc/loadavg' like monitors will
-report I/O loads, so that the sysadmin get confused.
+                        Geert
 
-In the next version of this RFC patchset, I will make this to use
-'schedule_timeout_interruptible()' instead, if 'wmark_wait_us' is larger than
-100ms.  I will continue using 'usleep_range()' for small sleep time, to keep
-the precision high.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-Thanks,
-SeongJae Park
-
-[...]
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
