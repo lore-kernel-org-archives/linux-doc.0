@@ -2,119 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB83C47094
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 10:08:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD65AC47095
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 10:15:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FED2611C0
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 10:08:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A90BA60FE9
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 10:15:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbhFGKJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 06:09:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33179 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230173AbhFGKJu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 06:09:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623060478;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4DJcwRNKgr1OBDo4WX+IJbKHUeQSd/tstLULEr3UeRI=;
-        b=LerhHY8800IB9TzcYKtgaZc6qA0YlwtLKGZUo+nYGal2Tjc859BCZT2gUoAdsHzdMNvTb/
-        tebJogntPT0rD+5A0dn4FTsi4HQwIBxw/J3MVvSP5jwAbY9peyHJVKjk/9Np+m+xx6ajwU
-        Xzcpi468XEXzoExMk/vW+HKzqwP0fYI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-CaGi92m-OCi25cbPzalMAg-1; Mon, 07 Jun 2021 06:07:57 -0400
-X-MC-Unique: CaGi92m-OCi25cbPzalMAg-1
-Received: by mail-ej1-f71.google.com with SMTP id n8-20020a1709067b48b02904171dc68f87so596730ejo.21
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jun 2021 03:07:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4DJcwRNKgr1OBDo4WX+IJbKHUeQSd/tstLULEr3UeRI=;
-        b=LEbf7q43DKGlLhgXUy6/16Oxt/e+YDvVbv0OSwrnbGlbRQlDfSHWPb6fkaDGNVixcZ
-         jQvcUNe0Aku5CC0+uqlR2+bHgqtezH3ACO2rhSmVkLN07adQ7kQT4xyro+j+ZuHULeuh
-         qtLi0FzLQBBD6w4byt07/H/KzVVYJFZ/dKGJNRcC8iV/KRAgfr61ap8T1hlB5yt23iic
-         /YXc7NiSTtq3M29pohqh/9sOyiuVtkS+potxfgmQuayVfZXh/do/gCDcuR81mysct0vK
-         5JM8kGZ3UkpeujRpg4fgRVQCzlbWRoDqlI5XquZ/HLZUB8CxkcIFKTL3qR6SmHoNneiT
-         jD0Q==
-X-Gm-Message-State: AOAM533nGbfNLZLiA+nWk3XVYwFN/X00TyyStUN7CVYkiQs8BWUauUSk
-        07HfCfs99Wq1vYxo+VNJLHtzqlFMjZeLmvrp3hOrBCbSwz1zsWESzeEiaZ6vWGo/QEkosHsc7/Y
-        VDQ+GzQSoSmmMWXuH3/Dn
-X-Received: by 2002:aa7:c4d0:: with SMTP id p16mr19752204edr.150.1623060476221;
-        Mon, 07 Jun 2021 03:07:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzj4Vq4xUy4Dtd0hVocAhAt3wVsI2rZmbsL8IEfrCWhphyW+TcptupAZdlm8P3Gc3nncXAvHQ==
-X-Received: by 2002:aa7:c4d0:: with SMTP id p16mr19752190edr.150.1623060476115;
-        Mon, 07 Jun 2021 03:07:56 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id f18sm6324272ejz.119.2021.06.07.03.07.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jun 2021 03:07:55 -0700 (PDT)
-Subject: Re: [PATCH 19/34] docs: driver-api: surface_aggregator: avoid using
- ReSt :doc:`foo` markup
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-References: <cover.1622898327.git.mchehab+huawei@kernel.org>
- <c42fe427e6538ce7914645468ef63f83254c26d7.1622898327.git.mchehab+huawei@kernel.org>
- <91d72412-3bba-8a50-4527-7c8fb9fa54c4@gmail.com>
- <1663da2c-571f-cf7d-a0ca-ea7031515b40@redhat.com>
- <20210607115535.0181e679@coco.lan>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <28662dee-dd1b-761a-488a-e4af92a8ddfc@redhat.com>
-Date:   Mon, 7 Jun 2021 12:07:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S230178AbhFGKRT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 06:17:19 -0400
+Received: from mga01.intel.com ([192.55.52.88]:29272 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230173AbhFGKRT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 06:17:19 -0400
+IronPort-SDR: 3VWfOU3J66URngaGhgEvtZ91QaJaJiyl0zxZJS7AEr6VfPO3Y89SJJ8Boc230V947vvUachla+
+ 0/ugqNUGKbaQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="225929274"
+X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
+   d="scan'208";a="225929274"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 03:15:27 -0700
+IronPort-SDR: AJLJPtkefJD47LH/+w6cY4diPnnfDUaOB+onXayCfbv+mkNDV0WHGAHYwvmMB/FN87QoIGZ5ms
+ WqoKZTeu9Hrw==
+X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
+   d="scan'208";a="418458616"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 03:15:23 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lqCHw-000EBv-Ag; Mon, 07 Jun 2021 13:15:20 +0300
+Date:   Mon, 7 Jun 2021 13:15:20 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Flavio Suligoi <f.suligoi@asem.it>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>
+Subject: Re: [PATCH v2 2/7] pwm: core: Always require PWM flags to be provided
+Message-ID: <YL3xuJyAcbPLW7yG@smile.fi.intel.com>
+References: <20210531194947.10770-1-andriy.shevchenko@linux.intel.com>
+ <20210531194947.10770-2-andriy.shevchenko@linux.intel.com>
+ <20210606213054.bmqgs5hehbowa62d@pengutronix.de>
+ <YL3grTQ00lFCXyCp@smile.fi.intel.com>
+ <20210607095324.yaiu5lzb5zgoejpa@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20210607115535.0181e679@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210607095324.yaiu5lzb5zgoejpa@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On 6/7/21 11:55 AM, Mauro Carvalho Chehab wrote:
-> Hi Hans,
+On Mon, Jun 07, 2021 at 11:53:24AM +0200, Uwe Kleine-König wrote:
+> On Mon, Jun 07, 2021 at 12:02:37PM +0300, Andy Shevchenko wrote:
+> > On Sun, Jun 06, 2021 at 11:30:54PM +0200, Uwe Kleine-König wrote:
+> > > On Mon, May 31, 2021 at 10:49:42PM +0300, Andy Shevchenko wrote:
+> > > > It makes little sense to make PWM flags optional since in case
+> > > > of multi-channel consumer the flags can be optional only for
+> > > > the last listed channel.
+> > > 
+> > > I think the same holds true for dt references.
+> > 
+> > Can you elaborate this? I haven't got what you are talking about, not a DT
+> > expert here.
 > 
-> Em Mon, 7 Jun 2021 11:31:49 +0200
-> Hans de Goede <hdegoede@redhat.com> escreveu:
+> Ah no, I mixed that up. While the function that parses the phandle is
+> flexible, for each pwm controller the number of arguments is fixed, so
 > 
->> Hi,
->>
->> On 6/5/21 4:14 PM, Maximilian Luz wrote:
->>> On 6/5/21 3:18 PM, Mauro Carvalho Chehab wrote:  
->>>> The :doc:`foo` tag is auto-generated via automarkup.py.
->>>> So, use the filename at the sources, instead of :doc:`foo`.
->>>>
->>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
->>>
->>> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>  
->>
->> Mauro, I assume that you are going to take care of sending this
->> to Linus, or do you want me to merge this patch into the pdx86 tree?
+> 	pwms = <&pwm1 100000 &pwm2 100000 &pwm3 1000000>;
 > 
-> Whatever works best for you and Jon, as it should either be merged
-> via each maintainers' tree or at the docs tree ;-)
+> cannot be interpreted as 3-argument references to two PWMs. This is
+> different to ACPI (I guess, not an ACPI expert here :-) because &pwm1
+> "knows" if it needs 1 or 2 additional parameters (#pwm-cells).
 
-I think it is probably easiest if Jon just picks up the entire series.
+It's not about ACPI, it's about "the ACPI glue layer in Linux kernel".
+Used API is a part of it and it does allow only two cases, either NULL entry
+(by having 0 as an argument) or full-length supplied tuple (in case of PWM it's
+3, so, means 4 parameters.
 
-Jon, please let me know if you want me to merge this patch.
+Let's consider examples:
 
-Regards,
+(0, 0, x3, y3, z3, t3) // NULL, NULL, PWM3
+(x1, y1, z1, t1, 0, x3, y3, z3, t3) // PWM1, NULL, PWM3
 
-Hans
+So, making last parameter "flexible" will work only for the last tuple in the
+array.
+
+Read this [1] for further information.
+
+[1]: https://elixir.bootlin.com/linux/latest/source/drivers/acpi/property.c#L629
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
