@@ -2,122 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C67AC47082
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 13:53:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3E5C47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:11:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1794E61185
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 13:53:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 879D960FF0
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:11:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbhFGNzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 09:55:17 -0400
-Received: from m34-101.88.com ([104.250.34.101]:2830 "EHLO 88.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230251AbhFGNzR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 09:55:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=FZ7dl7fMd4mO4j2KR+PoAnwlQNNdGg/FOBsgb
-        OC5jtY=; b=fBglc3bfOvg+aUYh7Jj+3LafceZU4dw/keD7ZTc2bhJoPjSm3fA9L
-        Lpk0ZlPNUz1sna1cxIHdXGwxAgeFOFn0+mp789Kp+IpUa1AUQrWcYpY2IklUHKfF
-        bUznH+zfXDp3BBA7Ngq4W+ysGzxAg83LtIUSLxmhKx/QdpgPqx5AmA=
-Received: from [0.0.0.0] (unknown [113.251.8.115])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBXLv1dJL5g2sMDAA--.11253S3;
-        Mon, 07 Jun 2021 21:51:26 +0800 (CST)
-Subject: Re: [PATCH] docs/zh_CN: add a translation for index
-To:     teng sterling <sterlingteng@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        id S230200AbhFGONW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 10:13:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230193AbhFGONV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 10:13:21 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355A0C061766
+        for <linux-doc@vger.kernel.org>; Mon,  7 Jun 2021 07:11:30 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lqFyS-0004K4-3e; Mon, 07 Jun 2021 16:11:28 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lqFyH-0003VO-7M; Mon, 07 Jun 2021 16:11:17 +0200
+Date:   Mon, 7 Jun 2021 16:11:17 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Flavio Suligoi <f.suligoi@asem.it>,
+        Thierry Reding <thierry.reding@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>
-References: <20210607093433.39160-1-src.res@email.cn>
- <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
-From:   Hu Haowen <src.res@email.cn>
-Message-ID: <f9418c90-fe60-b26c-18d3-ecd3e9c506ab@email.cn>
-Date:   Mon, 7 Jun 2021 21:51:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>
+Subject: Re: [PATCH v2 2/7] pwm: core: Always require PWM flags to be provided
+Message-ID: <20210607141117.24bvqiafy4cndoj4@pengutronix.de>
+References: <20210531194947.10770-1-andriy.shevchenko@linux.intel.com>
+ <20210531194947.10770-2-andriy.shevchenko@linux.intel.com>
+ <20210606213054.bmqgs5hehbowa62d@pengutronix.de>
+ <YL3grTQ00lFCXyCp@smile.fi.intel.com>
+ <20210607095324.yaiu5lzb5zgoejpa@pengutronix.de>
+ <YL3xuJyAcbPLW7yG@smile.fi.intel.com>
+ <YL3zDUWsY9mUW0eQ@smile.fi.intel.com>
+ <YL4HrZTb+fmW4UTf@smile.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: GiKnCgBXLv1dJL5g2sMDAA--.11253S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw18ZFyUWFWDJw4xGF15Arb_yoW8tr15pF
-        4DKrWfK3WkJrnrCwn2ga4xCF45J3Z7Ka13Wr1DK3sagr1DAr9FqrW3tF90gFyxXryIyFyq
-        qrWayrsYk3WayFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWUuVWrJwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIc
-        xG8wCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
-        JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-        vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
-        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
-        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
-        wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UVGQDUUUUU=
-X-Originating-IP: [113.251.8.115]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zdgor72n6fpmyvqy"
+Content-Disposition: inline
+In-Reply-To: <YL4HrZTb+fmW4UTf@smile.fi.intel.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-在 2021/6/7 下午9:40, teng sterling 写道:
-> CC siyanteng@loongson.cn
-> Hu Haowen <src.res@email.cn> 于2021年6月7日周一 下午5:37写道：
->> The original file has added a former intro in commit b51208d41c6a4e7fc2f0
->> ("docs: Tweak the top-level Sphinx page") and hence update the Chinese
->> version for it.
->>
->> Signed-off-by: Hu Haowen <src.res@email.cn>
->> ---
->>   Documentation/translations/zh_CN/index.rst | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
->> index 1f953d3439a5..003126abc0d6 100644
->> --- a/Documentation/translations/zh_CN/index.rst
->> +++ b/Documentation/translations/zh_CN/index.rst
->> @@ -17,6 +17,11 @@
->>      **翻译计划:*kernel's documentation*
->>      内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
->>
->> +这是内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一项正
-> how about:
->
-> 这是中文内核文档树的顶级目录。
+--zdgor72n6fpmyvqy
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hello Andy,
 
-But the English version says "kernel's documentation". It seems that we
-should add an explanation for readers in order to drag them out of the
-dilemma on whether he or she should update En version at first, as your
-thought picking ideas from "disclaimer-zh_CN".
+On Mon, Jun 07, 2021 at 02:49:01PM +0300, Andy Shevchenko wrote:
+> On Mon, Jun 07, 2021 at 01:21:01PM +0300, Andy Shevchenko wrote:
+> > On Mon, Jun 07, 2021 at 01:15:20PM +0300, Andy Shevchenko wrote:
+> > > On Mon, Jun 07, 2021 at 11:53:24AM +0200, Uwe Kleine-K=F6nig wrote:
+> > > > On Mon, Jun 07, 2021 at 12:02:37PM +0300, Andy Shevchenko wrote:
+> > > > > On Sun, Jun 06, 2021 at 11:30:54PM +0200, Uwe Kleine-K=F6nig wrot=
+e:
+> > > > > > On Mon, May 31, 2021 at 10:49:42PM +0300, Andy Shevchenko wrote:
+> > > > > > > It makes little sense to make PWM flags optional since in case
+> > > > > > > of multi-channel consumer the flags can be optional only for
+> > > > > > > the last listed channel.
+> > > > > >=20
+> > > > > > I think the same holds true for dt references.
+> > > > >=20
+> > > > > Can you elaborate this? I haven't got what you are talking about,=
+ not a DT
+> > > > > expert here.
+> > > >=20
+> > > > Ah no, I mixed that up. While the function that parses the phandle =
+is
+> > > > flexible, for each pwm controller the number of arguments is fixed,=
+ so
+> > > >=20
+> > > > 	pwms =3D <&pwm1 100000 &pwm2 100000 &pwm3 1000000>;
+> > > >=20
+> > > > cannot be interpreted as 3-argument references to two PWMs. This is
+> > > > different to ACPI (I guess, not an ACPI expert here :-) because &pw=
+m1
+> > > > "knows" if it needs 1 or 2 additional parameters (#pwm-cells).
+> > >=20
+> > > It's not about ACPI, it's about "the ACPI glue layer in Linux kernel".
+> > > Used API is a part of it and it does allow only two cases, either NUL=
+L entry
+> > > (by having 0 as an argument) or full-length supplied tuple (in case o=
+f PWM it's
+> > > 3, so, means 4 parameters.
+> > >=20
+> > > Let's consider examples:
+> > >=20
+> > > (0, 0, x3, y3, z3, t3) // NULL, NULL, PWM3
+> > > (x1, y1, z1, t1, 0, x3, y3, z3, t3) // PWM1, NULL, PWM3
+> > >=20
+> > > So, making last parameter "flexible" will work only for the last tupl=
+e in the
+> > > array.
+> > >=20
+> > > Read this [1] for further information.
+> > >=20
+> > > [1]: https://elixir.bootlin.com/linux/latest/source/drivers/acpi/prop=
+erty.c#L629
+> >=20
+> > Hmm... I have read the actual implementation and it seems it's possible=
+ to have
+> > flexible array, so this patch needs to be reconsidered.
+>=20
+> I was thinking more about it and what we have here is positional-dependent
+> arguments. Either way we might end up in the same situation (when we need=
+ to
+> parse arguments based on their positions, rather than always have them be=
+ing
+> present). So, while I won't change documentation example (to be more stri=
+cter
+> there), I will drop this change.
+>=20
+> Also, the PWM initial state doesn't include duty cycle. Any explanations =
+why is
+> that?
 
-What's your opinion, maintainers?
+This isn't technically the initial state. It's a hint to the consumer
+which period to pick. The duty-cycle is usually variable, but if I
+designed the binding today I would not include the period in the pwm
+handle. But to discuss this is moot---the binding is as it is.
 
+Best regards
+Uwe
 
->> +在进行的工作；当我们努力将许多分散的文件整合成一个连贯的整体时尤其如此。另
->> +外，随时欢迎您对内核文档进行改进；如果您想提供帮助，请加入vger.kernel.org
-> 中文内核文档进行改进；
->> +上的linux-doc邮件列表。
-> 上的linux-doc邮件列表，先改进原始英文文档，再将其翻译为中文后，更新相应的中文文档。
->> +
->>   许可证文档
->>   ----------
->>
->> --
->> 2.25.1
->>
-> BTW, I think these are similar to "disclaimer-zh_CN", but not as good
-> as the latter.
->
-> Alex and Xiangcheng, what do you think?
->
-> Thanks,
-> Yanteng
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
+--zdgor72n6fpmyvqy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmC+KQEACgkQwfwUeK3K
+7AmoCgf7BALxWbL2VI8+acrc4CorcueM4VAe+cJtBXASfcqn/W4hS39ZwYumlJpX
+EGyOfnnV73WcPqD63fUTAtKvdoTAuXQd/7ziOw4AzQZmx1UaX/tXtvSgJ5Nx8Pq1
+U22dLPoIHLw8oTrWx0s58iz9a9fSGjUufUf/ZqAVlDToDSKKvvWrDTn5IYp3OwFk
+kTh9+MRaqMoS8tR+IMwU4VGngj4aZMzytgguuDCxKGRP8OB5HWoj/yxRuCNbmvMM
+EbLVzs+VE/nRCNA/smqzpTiG6KX2vywcHgyRbgqCRy5COvAO/sZj4tHEyAORCBFW
+hUPFmkPha4xmcoS/UVZYqLzd0EH3VA==
+=AzX/
+-----END PGP SIGNATURE-----
+
+--zdgor72n6fpmyvqy--
