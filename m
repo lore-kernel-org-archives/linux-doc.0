@@ -2,102 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 792FBC47082
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:17:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E858AC47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:25:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F39261153
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:17:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D389461153
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 14:25:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230220AbhFGOSy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 10:18:54 -0400
-Received: from mail-yb1-f180.google.com ([209.85.219.180]:40869 "EHLO
-        mail-yb1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbhFGOSx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 10:18:53 -0400
-Received: by mail-yb1-f180.google.com with SMTP id e10so25191712ybb.7
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jun 2021 07:16:52 -0700 (PDT)
+        id S230266AbhFGO0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 10:26:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52028 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230198AbhFGO0x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 10:26:53 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04018C061766;
+        Mon,  7 Jun 2021 07:25:02 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id g4so489315pjk.0;
+        Mon, 07 Jun 2021 07:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yuNOwZfNMKgDqyZEslbLVQ4ckoEZsVVYvZ4kkvz7Ayk=;
-        b=175Az1+gbdCGPk2q817imWwk0+PcD+/w0zW/awReT4yWlE7aK8YHT/VbFrx0KcraOM
-         Uo32NIQzkysX4ZY3k7Br12TjFLXa7IWyzESIPPq63OHdWxgDkHuP/sP10RdLuPZapsyg
-         pf8YLCkt8Kxf3U6Xv83/jor79VuO/4RpD/aUs6/H9j5yn+hQPYYwz5lOB3bBk7mD3y5s
-         99Ou0rDYhK8lFifPOdkjHlXLNR8/MFEK3sDM+ibRJJkmdDNBCzL9wVcCCfOPqVgk8qIg
-         FvlSocmD6sCTtUHAuqEmx0gRo1GI0/QLNY/5sEum/shlqscl3S+wLZI+6YWbcVnZmZyI
-         AI0g==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=QmGFcYwtnti0Kimuy1kQWFpXTGjTW9qbFTJ4jXOu9+s=;
+        b=IfTeDBJryqVzwRoDBX0VVWxA8JOq4sCjgI4C6Vj7vldDQ4aCBYS/CzHHEDsNEkuEGQ
+         aZ+2bsSmnMupyuu0E/VUUU0Y6xbUTjqhcyXYpg42Z38YPao0ITfuQxQAo5V8uq75Ov1I
+         ZV7QI486bKS+rgsxVull2JDoI9W3GVwnGQKOSVHaC8zCjkhL25Ka214hc9DfdYUgDM9P
+         GDAzBFdQ/LoPwwz1cgRJSa41jeHW4euhFrz7VcuVKG0L/WBzKoNPSiai0WEqd7w8cq6x
+         SpS/bCM47OMToa/kvGhuhJZjR+AYkt12/puLjzxbw5TTfhY7piYt2h91rP0rHo0aCPu7
+         c/hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yuNOwZfNMKgDqyZEslbLVQ4ckoEZsVVYvZ4kkvz7Ayk=;
-        b=EN0W0tiF04xDOaiyHGmMxIMmUk8m2k2/lzPoxAanIceVSQUjYHb1740wDt6XceHirY
-         UIVoh0I8ILgmkWR+3ZnbS+zfEzgq2BFEuLF+Xci1k3896xkI13bTJJjPkwdWT2ZLersP
-         W5Ro/v2AM1U3DyM/Mh5sEBaLnaZtLdDlnW3VLgVbEHYlxvfNxWniK8wcPxL72tWHKQ9u
-         AM4NmDkIkp2jPbWSOO97+nMvHm8dXxkfynW7jjQWqiWrVpXBVEWvcKeghblEYBmxwhno
-         3jBZndxBMVr5cQ2a2XSgBpEGLwdHwJB1/9Du2PIPnMxGcOJUcwETSGl3+SudwGFL81cZ
-         zWtA==
-X-Gm-Message-State: AOAM533DAXPc607r7OMliemlnzSvKeCdBs3hMc13FVPUyO1KDSqKQDNQ
-        h/soTk6S8sb2KeHXjPq7u9enxtxr1pIu2rVPY6TmSIOhLTo=
-X-Google-Smtp-Source: ABdhPJxCEjDwRKocJ+MS4sV1pJrDfa8g4djXIhFVM1qC/8wOSpVeKSoaP1BvbRFLolJZ1sG5z7lZYJf7ncyGtWgD3rM=
-X-Received: by 2002:a25:8804:: with SMTP id c4mr24571525ybl.469.1623075351742;
- Mon, 07 Jun 2021 07:15:51 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QmGFcYwtnti0Kimuy1kQWFpXTGjTW9qbFTJ4jXOu9+s=;
+        b=pPZtm2/c8SjCqmU+Fq/0kcjDcOKzIBKwlPaRlVgqqx76MTHELQevkGUlIa9A0uZEOy
+         TsgdYW77bP+Y7rgv9PXiJB0NvH/uhs1DYQEiVbq7XHr7YrZcZi8wSbtnZ5anQiqhVxO2
+         aTA+Z5kDuvx2iYuhh74xgDE4TBWlnPom/TiaiQ7lC1uSeZunwWPCmtAYAnP5ARiQP6G2
+         QNv1I5rpGolGqvmRRGbU/rpCn+OckJXk4Zc0RGOBaypih7GfLmHGzBEixsmxEXAmwmu/
+         jWRm+fRjVfmRS5lbPQ8zlY/eoVQwf6yMhC8BVzYC4pWC0w3+lFfvNL9Y3wtVpBl9xLBv
+         fEjA==
+X-Gm-Message-State: AOAM5306FzjmpSXsbyOV+PEWXfVUoi6lKLt/+PNVMugf+aJQf8E0KiYQ
+        ymxzEi5lFP/gQ3pzL5B0YTarBM36Vk2zChAl
+X-Google-Smtp-Source: ABdhPJxxtXUst3+N2+MgBsKDhbCzPNDWFCnjtJfwF1riqHGtEn0wO4qLW26VUsHQzUCxrddDyHgReg==
+X-Received: by 2002:a17:902:a586:b029:fe:459b:2ce0 with SMTP id az6-20020a170902a586b02900fe459b2ce0mr18267310plb.40.1623075901570;
+        Mon, 07 Jun 2021 07:25:01 -0700 (PDT)
+Received: from localhost (185.212.56.112.16clouds.com. [185.212.56.112])
+        by smtp.gmail.com with ESMTPSA id b20sm8955032pgm.30.2021.06.07.07.25.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Jun 2021 07:25:00 -0700 (PDT)
+Date:   Mon, 7 Jun 2021 22:24:58 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     kernel test robot <lkp@intel.com>
+Cc:     helgaas@kernel.org, corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        rric@kernel.org, bhelgaas@google.com, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        kbuild-all@lists.01.org
+Subject: Re: [PATCH v6 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <20210607142458.GA821146@nuc8i5>
+References: <20210606070511.778487-2-zhengdejin5@gmail.com>
+ <202106070313.1cUfhXdg-lkp@intel.com>
 MIME-Version: 1.0
-References: <cover.1622648507.git.mchehab+huawei@kernel.org> <832058f088a30e44cf25a81f1d4b9b4e0ed0904f.1622648507.git.mchehab+huawei@kernel.org>
-In-Reply-To: <832058f088a30e44cf25a81f1d4b9b4e0ed0904f.1622648507.git.mchehab+huawei@kernel.org>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Mon, 7 Jun 2021 16:15:41 +0200
-Message-ID: <CAMpxmJWnG14ECT6jHxsT3NQ8smZGCWQRgWVOGZHmoGdYs_pG9w@mail.gmail.com>
-Subject: Re: [PATCH 10/12] MAINTAINERS: update ti,omap-gpio.yaml reference
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Rob Herring <robh@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202106070313.1cUfhXdg-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 2, 2021 at 5:43 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Changeset bc3aca5393c4 ("dt-bindings: gpio: omap: Convert to json-schema")
-> renamed: Documentation/devicetree/bindings/gpio/gpio-omap.txt
-> to: Documentation/devicetree/bindings/gpio/ti,omap-gpio.yaml.
->
-> Update its cross-reference accordingly.
->
-> Fixes: bc3aca5393c4 ("dt-bindings: gpio: omap: Convert to json-schema")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 644572ab4b2d..7d65784df8c8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13412,7 +13412,7 @@ M:      Santosh Shilimkar <ssantosh@kernel.org>
->  M:     Kevin Hilman <khilman@kernel.org>
->  L:     linux-omap@vger.kernel.org
->  S:     Maintained
-> -F:     Documentation/devicetree/bindings/gpio/gpio-omap.txt
-> +F:     Documentation/devicetree/bindings/gpio/ti,omap-gpio.yaml
->  F:     drivers/gpio/gpio-omap.c
->
->  OMAP HARDWARE SPINLOCK SUPPORT
+On Mon, Jun 07, 2021 at 03:31:04AM +0800, kernel test robot wrote:
+> Hi Dejin,
+> 
+> Thank you for the patch! Yet something to improve:
+> 
+> [auto build test ERROR on pci/next]
+> [also build test ERROR on wsa/i2c/for-next lwn/docs-next linus/master v5.13-rc4 next-20210604]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
+> 
+> url:    https://github.com/0day-ci/linux/commits/Dejin-Zheng/Introduce-pcim_alloc_irq_vectors/20210606-150730
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
+> config: sparc-randconfig-c004-20210606 (attached as .config)
+> compiler: sparc64-linux-gcc (GCC) 9.3.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/0day-ci/linux/commit/7b311110dce8729956f7545d1f11b2bbd60f6193
+>         git remote add linux-review https://github.com/0day-ci/linux
+>         git fetch --no-tags linux-review Dejin-Zheng/Introduce-pcim_alloc_irq_vectors/20210606-150730
+>         git checkout 7b311110dce8729956f7545d1f11b2bbd60f6193
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=sparc 
+> 
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from net/core/rtnetlink.c:37:
+>    include/linux/pci.h: In function 'pcim_alloc_irq_vectors':
+> >> include/linux/pci.h:1847:7: error: implicit declaration of function 'pci_is_managed' [-Werror=implicit-function-declaration]
+>     1847 |  if (!pci_is_managed(dev))
+>          |       ^~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
 > --
-> 2.31.1
->
 
-Applied, thanks!
+Thanks very much for Kernel test robot, I got the root cause of this build error.
+I will send a new patch version for fix it.
 
-Bartosz
+The sparc defconfig disable PCI, so it can not found the CONFIG_PCI in pci.h,
+and the pci_is_managed() function only exists in the pci.h when enable PCI.
+so it will report builld this error when disable PCI.
+
+BR,
+Dejin
+>    In file included from arch/sparc/lib/iomap.c:5:
+>    include/linux/pci.h: In function 'pcim_alloc_irq_vectors':
+> >> include/linux/pci.h:1847:7: error: implicit declaration of function 'pci_is_managed' [-Werror=implicit-function-declaration]
+>     1847 |  if (!pci_is_managed(dev))
+>          |       ^~~~~~~~~~~~~~
+>    cc1: all warnings being treated as errors
+> --
+>    In file included from drivers/gpu/drm/drm_file.c:38:
+>    include/linux/pci.h: In function 'pcim_alloc_irq_vectors':
+> >> include/linux/pci.h:1847:7: error: implicit declaration of function 'pci_is_managed' [-Werror=implicit-function-declaration]
+>     1847 |  if (!pci_is_managed(dev))
+>          |       ^~~~~~~~~~~~~~
+>    drivers/gpu/drm/drm_file.c: At top level:
+>    drivers/gpu/drm/drm_file.c:789:6: warning: no previous prototype for 'drm_send_event_helper' [-Wmissing-prototypes]
+>      789 | void drm_send_event_helper(struct drm_device *dev,
+>          |      ^~~~~~~~~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
+> --
+>    In file included from drivers/ide/ide-proc.c:25:
+>    include/linux/pci.h: In function 'pcim_alloc_irq_vectors':
+> >> include/linux/pci.h:1847:7: error: implicit declaration of function 'pci_is_managed' [-Werror=implicit-function-declaration]
+>     1847 |  if (!pci_is_managed(dev))
+>          |       ^~~~~~~~~~~~~~
+>    At top level:
+>    drivers/ide/ide-proc.c:457:37: warning: 'ide_media_proc_fops' defined but not used [-Wunused-const-variable=]
+>      457 | static const struct file_operations ide_media_proc_fops = {
+>          |                                     ^~~~~~~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
+> --
+>    In file included from include/linux/ide.h:18,
+>                     from drivers/ide/ide-cd_ioctl.c:13:
+>    include/linux/pci.h: In function 'pcim_alloc_irq_vectors':
+> >> include/linux/pci.h:1847:7: error: implicit declaration of function 'pci_is_managed' [-Werror=implicit-function-declaration]
+>     1847 |  if (!pci_is_managed(dev))
+>          |       ^~~~~~~~~~~~~~
+>    drivers/ide/ide-cd_ioctl.c: In function 'ide_cdrom_select_speed':
+>    drivers/ide/ide-cd_ioctl.c:212:6: warning: variable 'stat' set but not used [-Wunused-but-set-variable]
+>      212 |  int stat;
+>          |      ^~~~
+>    cc1: some warnings being treated as errors
+> --
+>    In file included from drivers/ata/ahci.h:22,
+>                     from drivers/ata/ahci_platform.c:21:
+>    include/linux/pci.h: In function 'pcim_alloc_irq_vectors':
+> >> include/linux/pci.h:1847:7: error: implicit declaration of function 'pci_is_managed' [-Werror=implicit-function-declaration]
+>     1847 |  if (!pci_is_managed(dev))
+>          |       ^~~~~~~~~~~~~~
+>    In file included from drivers/ata/ahci_platform.c:21:
+>    drivers/ata/ahci_platform.c: At top level:
+>    drivers/ata/ahci.h:388:16: warning: initialized field overwritten [-Woverride-init]
+>      388 |  .can_queue  = AHCI_MAX_CMDS,   \
+>          |                ^~~~~~~~~~~~~
+>    drivers/ata/ahci_platform.c:40:2: note: in expansion of macro 'AHCI_SHT'
+>       40 |  AHCI_SHT(DRV_NAME),
+>          |  ^~~~~~~~
+>    drivers/ata/ahci.h:388:16: note: (near initialization for 'ahci_platform_sht.can_queue')
+>      388 |  .can_queue  = AHCI_MAX_CMDS,   \
+>          |                ^~~~~~~~~~~~~
+>    drivers/ata/ahci_platform.c:40:2: note: in expansion of macro 'AHCI_SHT'
+>       40 |  AHCI_SHT(DRV_NAME),
+>          |  ^~~~~~~~
+>    drivers/ata/ahci.h:392:17: warning: initialized field overwritten [-Woverride-init]
+>      392 |  .sdev_attrs  = ahci_sdev_attrs
+>          |                 ^~~~~~~~~~~~~~~
+>    drivers/ata/ahci_platform.c:40:2: note: in expansion of macro 'AHCI_SHT'
+>       40 |  AHCI_SHT(DRV_NAME),
+>          |  ^~~~~~~~
+>    drivers/ata/ahci.h:392:17: note: (near initialization for 'ahci_platform_sht.sdev_attrs')
+>      392 |  .sdev_attrs  = ahci_sdev_attrs
+>          |                 ^~~~~~~~~~~~~~~
+>    drivers/ata/ahci_platform.c:40:2: note: in expansion of macro 'AHCI_SHT'
+>       40 |  AHCI_SHT(DRV_NAME),
+>          |  ^~~~~~~~
+>    cc1: some warnings being treated as errors
+> --
+>    In file included from drivers/usb/host/xhci.c:11:
+>    include/linux/pci.h: In function 'pcim_alloc_irq_vectors':
+> >> include/linux/pci.h:1847:7: error: implicit declaration of function 'pci_is_managed' [-Werror=implicit-function-declaration]
+>     1847 |  if (!pci_is_managed(dev))
+>          |       ^~~~~~~~~~~~~~
+>    drivers/usb/host/xhci.c: In function 'xhci_unmap_temp_buf':
+>    drivers/usb/host/xhci.c:1349:15: warning: variable 'len' set but not used [-Wunused-but-set-variable]
+>     1349 |  unsigned int len;
+>          |               ^~~
+>    cc1: some warnings being treated as errors
+> 
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for LOCKDEP
+>    Depends on DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT && (FRAME_POINTER || MIPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86)
+>    Selected by
+>    - PROVE_LOCKING && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
+>    - DEBUG_LOCK_ALLOC && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
+> 
+> 
+> vim +/pci_is_managed +1847 include/linux/pci.h
+> 
+>   1827	
+>   1828	/**
+>   1829	 * pcim_alloc_irq_vectors - a device-managed pci_alloc_irq_vectors()
+>   1830	 * @dev:		PCI device to operate on
+>   1831	 * @min_vecs:		minimum number of vectors required (must be >= 1)
+>   1832	 * @max_vecs:		maximum (desired) number of vectors
+>   1833	 * @flags:		flags or quirks for the allocation
+>   1834	 *
+>   1835	 * Return the number of vectors allocated, (which might be smaller than
+>   1836	 * @max_vecs) if successful, or a negative error code on error. If less
+>   1837	 * than @min_vecs interrupt vectors are available for @dev the function
+>   1838	 * will fail with -ENOSPC.
+>   1839	 *
+>   1840	 * It depends on calling pcim_enable_device() to make IRQ resources
+>   1841	 * manageable.
+>   1842	 */
+>   1843	static inline int
+>   1844	pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+>   1845				unsigned int max_vecs, unsigned int flags)
+>   1846	{
+> > 1847		if (!pci_is_managed(dev))
+>   1848			return -EINVAL;
+>   1849		return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
+>   1850	}
+>   1851	
+> 
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+
