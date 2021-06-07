@@ -2,173 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A582C48BCD
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 07:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E178C47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 07:51:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43C2660241
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 07:34:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 54110611AB
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 07:51:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230241AbhFGHgX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 03:36:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49074 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230231AbhFGHgU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 03:36:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29FEA60720;
-        Mon,  7 Jun 2021 07:34:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623051269;
-        bh=0ypPpkJHDs3edXD5bDeKaiim7X/xfBueG4AuE8+Qj+U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=MCZa/wfgoJSof9wCVVOv/LrdFcXdwY1vCJuTly8zaeAIwTuRDtC8rzfgyHA9r6/+g
-         NW2tP3feh93C/5Dxty7jg+vScZHZGMhUEyWQ5FgxO8vpWG7sfVd2/FVm9kFVWmNyKF
-         EQBYWqrXHDSSXIu/AIkm5+Ioyl/4Y8qqVlITSp7EP1AHAdF2gq6+t5N/EukG8nlrD5
-         /Z/7kCrp6V3McL/0xD3Opj9oSYMVR4OQwEiMuDlxNhhxICUhrFF3xy6Xf7sAtNEHPC
-         UZ6EjZnr6psnuld6cX9JYfcpHnFwEGAKkBcwq4fn3pJEE/OA/DfL7AgTqkUjjnfOU7
-         t/jaztuq+MVCA==
-Date:   Mon, 7 Jun 2021 09:34:22 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        coresight@lists.linaro.org, devicetree@vger.kernel.org,
-        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
-Message-ID: <20210607093422.0a369909@coco.lan>
-In-Reply-To: <20210606225225.fz4dsyz6im4bqena@notapiano>
-References: <cover.1622898327.git.mchehab+huawei@kernel.org>
-        <20210605151109.axm3wzbcstsyxczp@notapiano>
-        <20210605210836.540577d4@coco.lan>
-        <20210606225225.fz4dsyz6im4bqena@notapiano>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230097AbhFGHxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 03:53:25 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:43898 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229436AbhFGHxY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 03:53:24 -0400
+Received: from relay2.suse.de (unknown [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 52B6A21A6E;
+        Mon,  7 Jun 2021 07:51:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1623052292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4NT4tA15Kh2qCvhPPggvZbVmruQWfYW04SuZbrBoVAs=;
+        b=STYpI1vFrANTBQnqKzXLAEPgUwzTjWefqYRZlHuDkLXe1VkAqJfoTf9bOEXOG6fH8B7wHc
+        v7AFnEz6LKr2igzamTg4DukabHg2nvjhoSACUD1tq76XpIUNTM+xjX0O6Xpk9D3nQeY/i6
+        aKbyyCxdGP/ijP1I0vnLVTGAEO5bKNI=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 2318CA3B85;
+        Mon,  7 Jun 2021 07:51:31 +0000 (UTC)
+Date:   Mon, 7 Jun 2021 09:51:30 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1] memory-hotplug.rst: complete admin-guide overhaul
+Message-ID: <YL3QApMe/9R/xfLU@dhcp22.suse.cz>
+References: <20210525102604.8770-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210525102604.8770-1-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 6 Jun 2021 19:52:25 -0300
-N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
+[Sorry this somehow slipped through cracks]
 
-> On Sat, Jun 05, 2021 at 09:08:36PM +0200, Mauro Carvalho Chehab wrote:
-> > Em Sat, 5 Jun 2021 12:11:09 -0300
-> > N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
-> >  =20
-> > > Hi Mauro,
-> > >=20
-> > > On Sat, Jun 05, 2021 at 03:17:59PM +0200, Mauro Carvalho Chehab wrote=
-: =20
-> > > > As discussed at:
-> > > > 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
-> > > >=20
-> > > > It is better to avoid using :doc:`foo` to refer to Documentation/fo=
-o.rst, as the
-> > > > automarkup.py extension should handle it automatically, on most cas=
-es.
-> > > >=20
-> > > > There are a couple of exceptions to this rule:
-> > > >=20
-> > > > 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
-> > > > 2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
-> > > >=20
-> > > > It should also be noticed that automarkup.py has currently an issue:
-> > > > if one use a markup like:
-> > > >=20
-> > > > 	Documentation/dev-tools/kunit/api/test.rst
-> > > > 	  - documents all of the standard testing API excluding mocking
-> > > > 	    or mocking related features.
-> > > >=20
-> > > > or, even:
-> > > >=20
-> > > > 	Documentation/dev-tools/kunit/api/test.rst
-> > > > 	    documents all of the standard testing API excluding mocking
-> > > > 	    or mocking related features.
-> > > > =09
-> > > > The automarkup.py will simply ignore it. Not sure why. This patch s=
-eries
-> > > > avoid the above patterns (which is present only on 4 files), but it=
- would be
-> > > > nice to have a followup patch fixing the issue at automarkup.py.   =
-=20
-> > >=20
-> > > What I think is happening here is that we're using rST's syntax for d=
-efinition
-> > > lists [1]. automarkup.py ignores literal nodes, and perhaps a definit=
-ion is
-> > > considered a literal by Sphinx. Adding a blank line after the Documen=
-tation/...
-> > > or removing the additional indentation makes it work, like you did in=
- your
-> > > 2nd and 3rd patch, since then it's not a definition anymore, although=
- then the
-> > > visual output is different as well. =20
-> >=20
-> > A literal has a different output. I think that this is not the case, bu=
-t I=20
-> > didn't check the python code from docutils/Sphinx. =20
->=20
-> Okay, I went in deeper to understand the issue and indeed it wasn't what I
-> thought. The reason definitions are ignored by automarkup.py is because t=
-he main
-> loop iterates only over nodes that are of type paragraph:
->=20
->     for para in doctree.traverse(nodes.paragraph):
->         for node in para.traverse(nodes.Text):
->             if not isinstance(node.parent, nodes.literal):
->                 node.parent.replace(node, markup_refs(name, app, node))
->=20
-> And inspecting the HTML output from your example, the definition name is =
-inside
-> a <dt> tag, and it doesn't have a <p> inside. So in summary, automarkup.p=
-y will
-> only work on elements which are inside a <p> in the output.
+On Tue 25-05-21 12:26:04, David Hildenbrand wrote:
+> The memory hot(un)plug documentation is outdated and incomplete. Most of
+> the content dates back to 2007, so it's time for a major overhaul.
+> 
+> Let's rewrite, reorganize and update most parts of the documentation. In
+> addition to memory hot(un)plug, also add some details regarding
+> ZONE_MOVABLE, with memory hotunplug being one of its main consumers.
+> 
+> The style of the document is also properly fixed that e.g., "restview"
+> renders it cleanly now.
+> 
+> In the future, we might add some more details about virt users like
+> virtio-mem, the XEN balloon, the Hyper-V balloon and ppc64 dlpar.
+
+I haven't really checked the diff but rather looked at the final
+outcome. I have to say I like it a lot. Some places are going a bit too
+technical for an admin-guide but they are in minority (e.g. locking or
+altmap reference). If somebody feels strong then this could get into its
+own file but I wouldn't lose sleep over that.
+
+I would make one thing slightly more explicit though
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index c95f5c2b30dd..5b462aba89cc 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -568,6 +568,10 @@ Even with ZONE_MOVABLE, there are some corner cases where offlining a memory
+ Further, when running into out of memory situations while migrating pages, or
+ when still encountering permanently unmovable pages within ZONE_MOVABLE
+ (-> BUG), memory offlining will keep retrying until it eventually succeeds.
++The offlining context can be terminated by a fatal signal. A timeout based
++offlining can be easily implemented by 
++        
++        % timeout $TIMEOUT offline_block | failure_handling
+ 
+ Locking Internals
+ =================
 
 
-Yeah, that's what I was suspecting, based on the comments.
+In the future I would find some examples of a failure cases we have seen
+so far. E.g. offlining failure with dump_page example.
 
-Maybe something similar to the above could be done also for some
-non-paragraph data. By looking at:
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> Cc: Muchun Song <songmuchun@bytedance.com>
+> Cc: Pavel Tatashin <pasha.tatashin@soleen.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-	https://docutils.sourceforge.io/docs/ref/doctree.html
+Acked-by: Michal Hocko <mhocko@suse.com>
 
-It says that the body elements are:
-
-	admonition, attention, block_quote, bullet_list, caution, citation,=20
-	comment, compound, container, danger, definition_list, doctest_block,=20
-	enumerated_list, error, field_list, figure, footnote, hint, image,=20
-	important, line_block, literal_block, note, option_list, paragraph,=20
-	pending, raw, rubric, substitution_definition, system_message,=20
-	table, target, tip, warning
-
-So, perhaps a similar loop for definition_list would do the trick,
-but maybe automarkup should also look at other types, like enum lists,
-notes (and their variants, like error/warning) and footnotes.
-
-No idea how this would affect the docs build time, though.
-
-> Only applying the automarkup inside paragraphs seems like a good decision=
- (which
-> covers text in lists and tables as well), so unless there are other types=
- of
-> elements without paragraphs where automarkup should work, I think we shou=
-ld just
-> avoid using definition lists pointing to documents like that.
-
-Checking the code or doing some tests are needed for us to be sure about wh=
-at
-of the above types docutils don't consider a paragraph.
-
-Thanks,
-Mauro
+Thanks a lot David!
+-- 
+Michal Hocko
+SUSE Labs
