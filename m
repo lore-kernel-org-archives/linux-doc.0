@@ -2,79 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E38AEC47095
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 20:21:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB59C47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 21:32:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C530160FE9
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 20:21:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A296D6121D
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 21:32:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231722AbhFGUXr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 16:23:47 -0400
-Received: from mail-pg1-f172.google.com ([209.85.215.172]:41889 "EHLO
-        mail-pg1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231640AbhFGUXr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 16:23:47 -0400
-Received: by mail-pg1-f172.google.com with SMTP id r1so14712965pgk.8
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jun 2021 13:21:46 -0700 (PDT)
+        id S230394AbhFGVeW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 17:34:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33984 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230359AbhFGVeW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 17:34:22 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E35C061574;
+        Mon,  7 Jun 2021 14:32:30 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id m18so19217987wrv.2;
+        Mon, 07 Jun 2021 14:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=J6VRubZZpq1XH7ANuEphxYH1pIMlT6KAwEM9rQIhbLw=;
-        b=T0+Q5JBENvQw3ma8SwTqzCMg27MF5xM9rwImeT3LsoqGnjm+0b2E+apHjUp4O9x0mM
-         ebtQbATDXp8dkxs7TK1hSBWijItA5xP6TGrEoxCXJ+E5PgqtlXq2bRyjvQn2qP3fUX9E
-         1UE+IVHATNwMAEgpa6/0EwhqRRnZVxfMDKXoUW/nrEk6n1xMDbi+EqZFR4MBW2m3Hp8l
-         PWrwhEBMbK4aVmVDrxfskpMZpCvtPnsyDf8kyExNPhvuHsFRV2rSRnVQNnJGM9bcZIle
-         KsxtCDThGZfX53aj20tYsMnFZbSErzhSdmetssL0EwstdrNB1/5d52L8COOtMJffFpt4
-         F90A==
+        bh=vDwdlII4xvRHYMeALYz88M86eElsCZPiDN/teNVAvlY=;
+        b=ZzBwJJEjMdi8Sj9uSmMTvUY5dvdi5DswCqZiL46IbaiX8kEjLOrRPjYPF+3Rcekmps
+         aOIGJODSP/4/+nH3Un8UUD2v0IS45VIiGO1KcDuSppLJDSKoJPJWyExX7BpbpvVpXaF9
+         EVMPlS7Fz2tIqrsR1XdxG/FkgaOOr23I0BL4hzrs14GfglItwnX5JnU4JFMVMAJzbsRq
+         DuIT+dFzHf+pZ9UjE4qpbcvaxUdnl9cZU43S1TxWKisrhkm5l9xdqxETJWc1JPkStlDO
+         XY2uu1cjx72Hx1PUAtIf3hIHe02pQDkfb+mRjAYY4Rs1Vwr04NkkJhX2PNISN96HIkQs
+         ORoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=J6VRubZZpq1XH7ANuEphxYH1pIMlT6KAwEM9rQIhbLw=;
-        b=BPutB+S3ZEvivfVh4+eqDe5N44I/TgMZpqWVExfpauDFODIV+DZhxEnC4PievjTt7M
-         sHFNULr09NLmCUg4mGvlDL0p7kWGcFQDULnAYa010X+TS2N77I+7JlVOKGom0DK570zO
-         A3QtaPMRqoUqzaIlMdoZHdsUMCxyoNhRFsbQFDr508vSwkfxyi9ItTNqQzQw9YSjfS/G
-         e2YpnUe/w54KEWDZOZcabzgRQ0R66lp6xEwyElsvPrnfWyPs0xKY6K7ZhOOfmWUeKncC
-         tC2X+AAlEkQTxWCARPVvZU1RkfzZyaGTApoKfSNQe2SOmalCxpWfxZdCNxvPTCTCOJY+
-         MSYw==
-X-Gm-Message-State: AOAM530Bx6hy74i35iPk0f/S4yXfy1AmErUebtbgAdj3nVJ38bTgl5w/
-        olF3nR5QA9ItLgJet7dCydfZ1WUqepSNIlz/ArMbDA==
-X-Google-Smtp-Source: ABdhPJxplpK63WT3X917DKM/+k9nlls1jKrUu2p7oyEHwR0Mxqo0ar1vNH/PeR0NMYyVapvmGKDYzFMkSclYtdfldhw=
-X-Received: by 2002:a63:485a:: with SMTP id x26mr16802795pgk.159.1623097245697;
- Mon, 07 Jun 2021 13:20:45 -0700 (PDT)
+        bh=vDwdlII4xvRHYMeALYz88M86eElsCZPiDN/teNVAvlY=;
+        b=ueVa2LODphOnORo5Hj+4kRP+cthKbs1t/PwqnHup9MbukE+fw1OplxyooKLMOAS1rW
+         23RfOFCvjCFJ8QhUvzkQidSpLOZkRtQPXpZ8uidpZI48wOZH9IqYBfOcuLYhxXZ8ZJn5
+         ocA5mBZP7q/3aowAY9Z9V5IibsnxPZjuHCDIGBedBoUTIyb1VQQlqW3TT7Zc+BxL8iHl
+         EJ4mkI8/tgATucGFDZ68rMHBVqW87JdPyVXvWcplZE+Av5+vRsEd2m39HxpKxuCbU1NN
+         3FDZh8+jBXjusow9zv0MkZ6cq2yKy97YD+3XYQeVkm4B3dfqbeyO8keLcU9bRIJtCzo5
+         mmCg==
+X-Gm-Message-State: AOAM531CmWX1JNO3nNdqFA+g8AxT4zeeiRUfoa8kho36mVdIx4YjfXhG
+        3A9eMtEO3JsIZa8aIskZwRN2RhqZP3fT+To4Wcs=
+X-Google-Smtp-Source: ABdhPJzvPtqdfmAIJbFBnlWMRVMPMd5FM5ysUui85hJNne03xVPiNOTQjx1I3fifRbtK8dmOYH5eqfpqH5pSqkOYKxQ=
+X-Received: by 2002:adf:e507:: with SMTP id j7mr18490221wrm.178.1623101548421;
+ Mon, 07 Jun 2021 14:32:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1622898327.git.mchehab+huawei@kernel.org> <a3ad84108a5b254e545f88e58d411f5fe2e25c7e.1622898327.git.mchehab+huawei@kernel.org>
-In-Reply-To: <a3ad84108a5b254e545f88e58d411f5fe2e25c7e.1622898327.git.mchehab+huawei@kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 7 Jun 2021 13:20:34 -0700
-Message-ID: <CAFd5g447y+njXxZTwifEkd1f_B5XgCugAau4CDcVBzuwcOdvwg@mail.gmail.com>
-Subject: Re: [PATCH 14/34] docs: dev-tools: kunit: avoid using ReST :doc:`foo` markup
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
+References: <20210605070502.22288-1-dwaipayanray1@gmail.com>
+ <CAKXUXMydnnun3iu3B2_acQLd6EgDHOGUhKvbuUCh6WaS-ohiDw@mail.gmail.com> <CABJPP5CfoPrybLgmZ2AP15x_esCPC6J780QYzEahMB9qzkRD=Q@mail.gmail.com>
+In-Reply-To: <CABJPP5CfoPrybLgmZ2AP15x_esCPC6J780QYzEahMB9qzkRD=Q@mail.gmail.com>
+From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date:   Tue, 8 Jun 2021 03:02:16 +0530
+Message-ID: <CABJPP5BufzwYjHd=U0Xhz+3+miMOv-DP5DZiUo+jvNFraw2X_A@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: checkpatch: Document and segregate more
+ checkpatch message types
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Joe Perches <joe@perches.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 5, 2021 at 6:18 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Mon, Jun 7, 2021 at 7:17 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
-> The :doc:`foo` tag is auto-generated via automarkup.py.
-> So, use the filename at the sources, instead of :doc:`foo`.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > +  **CONSTANT_CONVERSION**
+> > > +    Use of __constant_<foo> form is discouraged for the following functions::
+> > > +
+> > > +      __constant_cpu_to_be[x]
+> > > +      __constant_cpu_to_le[x]
+> > > +      __constant_be[x]_to_cpu
+> > > +      __constant_le[x]_to_cpu
+> > > +      __constant_htons
+> > > +      __constant_ntohs
+> > > +
+> > > +    Using any of these outside of include/uapi/ isn't preferred as using the
+> >
+> > write out: s/isn't/is not/
+> >
+> > ...or even stylistically much better is to just write the
+> > recommendation positively and clear:
+> >
+> > Use the corresponding function without __constant_ prefix, e.g., htons
+> > instead of __constant_htons, for any use in files, except
+> > include/uapi/.
+> >
+> > Are there other __constant_ functions in the code base beyond all the
+> > ones you listed? Then, we should explain why only those above and why
+> > not the others. Otherwise, we can keep the list above quite brief, and
+> > just say all __constant_ functions can be replaced by their
+> > counterparts without __constant_ prefix.
+> >
 
-Thanks!
+So, as Lukas said, I came up with this updated explanation for
+constant conversion:
 
-Acked-by: Brendan Higgins <brendanhiggins@google.com>
+  **CONSTANT_CONVERSION**
+    Use of __constant_<foo> form is discouraged for the following functions::
+
+      __constant_cpu_to_be[x]
+      __constant_cpu_to_le[x]
+      __constant_be[x]_to_cpu
+      __constant_le[x]_to_cpu
+      __constant_htons
+      __constant_ntohs
+
+    Using any of these outside of include/uapi/ is not preferred as using the
+    function without __constant_ is identical when the argument is a
+    constant.
+
+    In big endian systems, the macros like __constant_cpu_to_be32(x) and
+    cpu_to_be32(x) expand to the same expression::
+
+      #define __constant_cpu_to_be32(x) ((__force __be32)(__u32)(x))
+      #define __cpu_to_be32(x)          ((__force __be32)(__u32)(x))
+
+    In little endian systems, the macros __constant_cpu_to_be32(x) and
+    cpu_to_be32(x) expand to __constant_swab32 and __swab32.  __swab32
+    has a __builtin_constant_p check::
+
+      #define __swab32(x) \
+        (__builtin_constant_p((__u32)(x)) ? \
+        ___constant_swab32(x) : \
+        __fswab32(x))
+
+    So ultimately they have a special case for constants.
+    Similar is the case with all of the macros in the list.  Thus
+    using the __constant_... forms are unnecessarily verbose and
+    not preferred outside of include/uapi.
+
+    See: https://lore.kernel.org/lkml/1400106425.12666.6.camel@joe-AO725/
+
+Can Lukas or Joe confirm this or have any comments on it. I can send
+an updated patch then.
+
+Thanks,
+Dwaipayan.
