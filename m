@@ -2,260 +2,349 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8FCEC47082
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 10:39:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B3AC47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 11:35:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9594061205
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 10:39:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 182ED61130
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 11:35:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbhFGKlN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 06:41:13 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:20677 "EHLO m43-7.mailgun.net"
+        id S230289AbhFGLhr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 07:37:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49870 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230291AbhFGKlN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 06:41:13 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1623062362; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=3jHXwHBsk2WR74vNGkm4rdGC2KO8IbBgA0Iao19OUr8=; b=ZgAt2vp5tQm+b+A2ZA9VFZoMlMDsoxcISUVNC1o5xtJaRzcvq0LQuoKGlcc/x3FL9cRFwIQX
- sLmvTd1T/FCi2b7bZGO8SS2u1P28MeKUxgSl6Z7r75DQ1R5D2SxzyiA4CtIx6xzff1z58+rd
- SiHLRo4G2MoKI2P75ui15RonplQ=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 60bdf73fed59bf69ccbff951 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 07 Jun 2021 10:38:55
- GMT
-Sender: charante=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 4B64CC433D3; Mon,  7 Jun 2021 10:38:55 +0000 (UTC)
-Received: from [192.168.29.110] (unknown [49.37.157.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 628AFC4338A;
-        Mon,  7 Jun 2021 10:38:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 628AFC4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
-Subject: Re: [PATCH v3 1/2] mm: compaction: support triggering of proactive
- compaction by user
-To:     akpm@linux-foundation.org, vbabka@suse.cz, nigupta@nvidia.com,
-        hannes@cmpxchg.org, corbet@lwn.net, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, aarcange@redhat.com,
-        cl@linux.com, xi.fengfei@h3c.com, mchehab+huawei@kernel.org,
-        andrew.a.klychkov@gmail.com, dave.hansen@linux.intel.com,
-        bhe@redhat.com, iamjoonsoo.kim@lge.com, mateusznosek0@gmail.com,
-        sh_def@163.com, vinmenon@codeaurora.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <cover.1622454385.git.charante@codeaurora.org>
- <7db6a29a64b29d56cde46c713204428a4b95f0ab.1622454385.git.charante@codeaurora.org>
-From:   Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <ef2510b2-875c-4b81-056d-043996b62c07@codeaurora.org>
-Date:   Mon, 7 Jun 2021 16:08:42 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S230219AbhFGLhq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 07:37:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D7C3D61105;
+        Mon,  7 Jun 2021 11:35:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623065755;
+        bh=UFdqDSbpojMnollIyNFkJACvzECXyAbHuHQc89tYc/w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JovbKNnMZCv+bteGLlApSTLCHGz8Ju4ZZkCX22L3MVjejM8XhZUl642odGRszgm2u
+         UpH+D/PEFO1iAGjLo44v/5Eq1oFIT4v2QXh+7nP1oX8/AM9acS3pwah7/KlFNcMsyk
+         uvI4Nz5yXEyrM6YneAdfsTWFGFq0boLsXeds04lxMCzkakQQVxXv/WmiWd9qkqPmlJ
+         rx9vr3+ZEJsKJeEo2FhMTdislxYJesT5Z2jEZMIFRoEvL3DIhzXAGuwmSwjCHYVpKu
+         xiLKac5Emijn4tLfXYhwuZHnI65WRC3hYwQgCrHh1UkciZP5FXkMyO3F8VPZoImWTM
+         5MDv0CqvjclCQ==
+Date:   Mon, 7 Jun 2021 14:35:47 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1] memory-hotplug.rst: complete admin-guide overhaul
+Message-ID: <YL4Ek6AqMUyiDrxY@kernel.org>
+References: <20210525102604.8770-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7db6a29a64b29d56cde46c713204428a4b95f0ab.1622454385.git.charante@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210525102604.8770-1-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A gentle ping.
-
---Charan
-
-On 5/31/2021 4:24 PM, Charan Teja Reddy wrote:
-> The proactive compaction[1] gets triggered for every 500msec and run
-> compaction on the node for COMPACTION_HPAGE_ORDER (usually order-9)
-> pages based on the value set to sysctl.compaction_proactiveness.
-> Triggering the compaction for every 500msec in search of
-> COMPACTION_HPAGE_ORDER pages is not needed for all applications,
-> especially on the embedded system usecases which may have few MB's of
-> RAM. Enabling the proactive compaction in its state will endup in
-> running almost always on such systems.
+On Tue, May 25, 2021 at 12:26:04PM +0200, David Hildenbrand wrote:
+> The memory hot(un)plug documentation is outdated and incomplete. Most of
+> the content dates back to 2007, so it's time for a major overhaul.
 > 
-> Other side, proactive compaction can still be very much useful for
-> getting a set of higher order pages in some controllable
-> manner(controlled by using the sysctl.compaction_proactiveness). Thus on
-> systems where enabling the proactive compaction always may proove not
-> required, can trigger the same from user space on write to its sysctl
-> interface. As an example, say app launcher decide to launch the memory
-> heavy application which can be launched fast if it gets more higher
-> order pages thus launcher can prepare the system in advance by
-> triggering the proactive compaction from userspace.
+> Let's rewrite, reorganize and update most parts of the documentation. In
+> addition to memory hot(un)plug, also add some details regarding
+> ZONE_MOVABLE, with memory hotunplug being one of its main consumers.
 > 
-> This triggering of proactive compaction is done on a write to
-> sysctl.compaction_proactiveness by user.
+> The style of the document is also properly fixed that e.g., "restview"
+> renders it cleanly now.
 > 
-> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=facdaa917c4d5a376d09d25865f5a863f906234a
+> In the future, we might add some more details about virt users like
+> virtio-mem, the XEN balloon, the Hyper-V balloon and ppc64 dlpar.
 > 
-> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> Cc: Muchun Song <songmuchun@bytedance.com>
+> Cc: Pavel Tatashin <pasha.tatashin@soleen.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
-> changes in V2:
->  - https://lore.kernel.org/patchwork/patch/1431283/
 > 
-> changes in V1:
->  -  https://lore.kernel.org/lkml/1619098678-8501-1-git-send-email-charante@codeaurora.org/
+> Based on linux-next, which includes hugetlb vmemmap changes to the doc
+> that are not upstream yet.
 > 
->  Documentation/admin-guide/sysctl/vm.rst |  3 ++-
->  include/linux/compaction.h              |  2 ++
->  include/linux/mmzone.h                  |  1 +
->  kernel/sysctl.c                         |  2 +-
->  mm/compaction.c                         | 44 ++++++++++++++++++++++++++++++---
->  5 files changed, 47 insertions(+), 5 deletions(-)
+> ---
+>  .../admin-guide/mm/memory-hotplug.rst         | 738 +++++++++++-------
+>  1 file changed, 440 insertions(+), 298 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index 586cd4b..5e8097d 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -126,7 +126,8 @@ compaction_proactiveness
->  
->  This tunable takes a value in the range [0, 100] with a default value of
->  20. This tunable determines how aggressively compaction is done in the
-> -background. Setting it to 0 disables proactive compaction.
-> +background. On write of non zero value to this tunable will immediately
-> +trigger the proactive compaction. Setting it to 0 disables proactive compaction.
->  
->  Note that compaction has a non-trivial system-wide impact as pages
->  belonging to different processes are moved around, which could also lead
-> diff --git a/include/linux/compaction.h b/include/linux/compaction.h
-> index 4221888..04d5d9f 100644
-> --- a/include/linux/compaction.h
-> +++ b/include/linux/compaction.h
-> @@ -84,6 +84,8 @@ static inline unsigned long compact_gap(unsigned int order)
->  extern unsigned int sysctl_compaction_proactiveness;
->  extern int sysctl_compaction_handler(struct ctl_table *table, int write,
->  			void *buffer, size_t *length, loff_t *ppos);
-> +extern int compaction_proactiveness_sysctl_handler(struct ctl_table *table,
-> +		int write, void *buffer, size_t *length, loff_t *ppos);
->  extern int sysctl_extfrag_threshold;
->  extern int sysctl_compact_unevictable_allowed;
->  
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index 0d53eba..9455809 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -815,6 +815,7 @@ typedef struct pglist_data {
->  	enum zone_type kcompactd_highest_zoneidx;
->  	wait_queue_head_t kcompactd_wait;
->  	struct task_struct *kcompactd;
-> +	bool proactive_compact_trigger;
->  #endif
->  	/*
->  	 * This is a per-node reserve of pages that are not available
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index 14edf84..bed2fad 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -2840,7 +2840,7 @@ static struct ctl_table vm_table[] = {
->  		.data		= &sysctl_compaction_proactiveness,
->  		.maxlen		= sizeof(sysctl_compaction_proactiveness),
->  		.mode		= 0644,
-> -		.proc_handler	= proc_dointvec_minmax,
-> +		.proc_handler	= compaction_proactiveness_sysctl_handler,
->  		.extra1		= SYSCTL_ZERO,
->  		.extra2		= &one_hundred,
->  	},
-> diff --git a/mm/compaction.c b/mm/compaction.c
-> index 84fde27..197e203 100644
-> --- a/mm/compaction.c
-> +++ b/mm/compaction.c
-> @@ -2708,6 +2708,30 @@ static void compact_nodes(void)
->   */
->  unsigned int __read_mostly sysctl_compaction_proactiveness = 20;
->  
-> +int compaction_proactiveness_sysctl_handler(struct ctl_table *table, int write,
-> +		void *buffer, size_t *length, loff_t *ppos)
-> +{
-> +	int rc, nid;
+> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+> index c6bae2d77160..c95f5c2b30dd 100644
+> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
+> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+
+...
+
+> +ZONE_MOVABLE
+> +============
 > +
-> +	rc = proc_dointvec_minmax(table, write, buffer, length, ppos);
-> +	if (rc)
-> +		return rc;
+> +ZONE_MOVABLE is an important mechanism for more reliable memory offlining.
+> +Further, having system RAM managed by ZONE_MOVABLE instead of one of the
+> +kernel zones can increase the number of possible transparent huge pages and
+> +dynamically allocated huge pages.
 > +
-> +	if (write && sysctl_compaction_proactiveness) {
-> +		for_each_online_node(nid) {
-> +			pg_data_t *pgdat = NODE_DATA(nid);
+
+I'd move the first two paragraphs from "Zone Imbalances" here to provide
+some context what is movable and what is unmovable allocation.
+
+> +Only movable allocations are served from ZONE_MOVABLE, resulting in
+> +unmovable allocations being limited to the kernel zones. Without ZONE_MOVABLE,
+> +there is absolutely no guarantee whether a memory block can be offlined
+> +successfully.
 > +
-> +			if (pgdat->proactive_compact_trigger)
-> +				continue;
+> +Zone Imbalances
+> +---------------
 > +
-> +			pgdat->proactive_compact_trigger = true;
-> +			wake_up_interruptible(&pgdat->kcompactd_wait);
-> +		}
-> +	}
+> +Most kernel allocations are unmovable. Important examples include the memmap
+> +(usually 1/64 of memory), page tables, and kmalloc(). Such allocations
+> +can only be served from the kernel zones.
 > +
-> +	return 0;
-> +}
+> +Most user space pages, such as anonymous memory, and page cache pages
+> +are movable. Such allocations can be served from ZONE_MOVABLE and the kernel
+> +zones.
 > +
->  /*
->   * This is the entry point for compacting all nodes via
->   * /proc/sys/vm/compact_memory
-> @@ -2752,7 +2776,8 @@ void compaction_unregister_node(struct node *node)
+> +Having too much system RAM managed by ZONE_MOVABLE is called a zone imbalance,
+> +which can harm the system or degrade performance. As one example, the kernel
+> +might crash because it runs out of free memory for unmovable allocations,
+> +although there is still plenty of free memory left in ZONE_MOVABLE.
+> +
+> +Usually, MOVABLE:KERNEL ratios of up to 3:1 or even 4:1 are fine. Ratios of 63:1
+> +are definitely impossible due to the memmap overhead.
+> +
+> +Actual safe zone ratios depend on the workload. Extreme cases, like excessive
+> +long-term pinning of pages, might not be able to deal with ZONE_MOVABLE at all.
 >  
->  static inline bool kcompactd_work_requested(pg_data_t *pgdat)
->  {
-> -	return pgdat->kcompactd_max_order > 0 || kthread_should_stop();
-> +	return pgdat->kcompactd_max_order > 0 || kthread_should_stop() ||
-> +		pgdat->proactive_compact_trigger;
->  }
+>  .. note::
+> -   Techniques that rely on long-term pinnings of memory (especially, RDMA and
+> -   vfio) are fundamentally problematic with ZONE_MOVABLE and, therefore, memory
+> -   hot remove. Pinned pages cannot reside on ZONE_MOVABLE, to guarantee that
+> -   memory can still get hot removed - be aware that pinning can fail even if
+> -   there is plenty of free memory in ZONE_MOVABLE. In addition, using
+> -   ZONE_MOVABLE might make page pinning more expensive, because pages have to be
+> -   migrated off that zone first.
 >  
->  static bool kcompactd_node_suitable(pg_data_t *pgdat)
-> @@ -2905,7 +2930,8 @@ static int kcompactd(void *p)
->  		trace_mm_compaction_kcompactd_sleep(pgdat->node_id);
->  		if (wait_event_freezable_timeout(pgdat->kcompactd_wait,
->  			kcompactd_work_requested(pgdat),
-> -			msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC))) {
-> +			msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC)) &&
-> +			!pgdat->proactive_compact_trigger) {
+> -.. _memory_hotplug_how_to_offline_memory:
+> +  CMA memory part of a kernel zone essentially behaves like memory in
+> +  ZONE_MOVABLE and similar considerations apply, especially when combining
+> +  CMA with ZONE_MOVABLE.
 >  
->  			psi_memstall_enter(&pflags);
->  			kcompactd_do_work(pgdat);
-> @@ -2917,10 +2943,20 @@ static int kcompactd(void *p)
->  		if (should_proactive_compact_node(pgdat)) {
->  			unsigned int prev_score, score;
+> -How to offline memory
+> ----------------------
+> +Considerations
+
+ZONE_MOVABLE Sizing Considerations ?
+
+I'd also move the contents of "Boot Memory and ZONE_MOVABLE" here (with
+some adjustments):
+
+  By default, all the memory configured at boot time is managed by the kernel
+  zones and ZONE_MOVABLE is not used.
+
+  To enable ZONE_MOVABLE to include the memory present at boot and to
+  control the ratio between movable and kernel zones there are two command
+  line options: ``kernelcore=`` and ``movablecore=``. See
+  Documentation/admin-guide/kernel-parameters.rst for their description.
+
+> +--------------
 >  
-> -			if (proactive_defer) {
-> +			/*
-> +			 * On wakeup of proactive compaction by sysctl
-> +			 * write, ignore the accumulated defer score.
-> +			 * Anyway, if the proactive compaction didn't
-> +			 * make any progress for the new value, it will
-> +			 * be further deferred by 2^COMPACT_MAX_DEFER_SHIFT
-> +			 * times.
-> +			 */
-> +			if (proactive_defer &&
-> +				!pgdat->proactive_compact_trigger) {
->  				proactive_defer--;
->  				continue;
->  			}
+> -You can offline a memory block by using the same sysfs interface that was used
+> -in memory onlining::
+> +We usually expect that a large portion of available system RAM will actually
+> +be consumed by user space, either directly or indirectly via the page cache. In
+> +the normal case, ZONE_MOVABLE can be used when allocating such pages just fine.
+>  
+> -	% echo offline > /sys/devices/system/memory/memoryXXX/state
+> +With that in mind, it makes sense that we can have a big portion of system RAM
+> +managed by ZONE_MOVABLE. However, there are some things to consider when
+> +using ZONE_MOVABLE, especially when fine-tuning zone ratios:
+>  
+> -If offline succeeds, the state of the memory block is changed to be "offline".
+> -If it fails, some error core (like -EBUSY) will be returned by the kernel.
+> -Even if a memory block does not belong to ZONE_MOVABLE, you can try to offline
+> -it.  If it doesn't contain 'unmovable' memory, you'll get success.
+> +- Having a lot of offline memory blocks. Even offline memory blocks consume
+> +  memory for metadata and page tables in the direct map; having a lot of
+> +  offline memory blocks is not a typical case, though.
 > +
->  			prev_score = fragmentation_score_node(pgdat);
->  			proactive_compact_node(pgdat);
->  			score = fragmentation_score_node(pgdat);
-> @@ -2931,6 +2967,8 @@ static int kcompactd(void *p)
->  			proactive_defer = score < prev_score ?
->  					0 : 1 << COMPACT_MAX_DEFER_SHIFT;
->  		}
-> +		if (pgdat->proactive_compact_trigger)
-> +			pgdat->proactive_compact_trigger = false;
->  	}
+> +- Memory ballooning. Some memory ballooning implementations, such as
+> +  the Hyper-V balloon, the XEN balloon, the vbox balloon and the VMWare
+
+So, everyone except virtio-mem? ;-)
+I'd drop the names because if some of those will implement balloon
+compaction they surely will forget to update the docs.
+
+> +  balloon with huge pages don't support balloon compaction and, thereby
+> +  ZONE_MOVABLE.
+> +
+> +  Further, CONFIG_BALLOON_COMPACTION might be disabled. In that case, balloon
+> +  inflation will only perform unmovable allocations and silently create a
+> +  zone imbalance, usually triggered by inflation requests from the
+> +  hypervisor.
+> +
+> +- Gigantic pages are unmovable, resulting in user space consuming a
+> +  lot of unmovable memory.
+> +
+> +- Huge pages are unmovable when an architectures does not support huge
+> +  page migration, resulting in a similar issue as with gigantic pages.
+> +
+> +- Page tables are unmovable. Excessive swapping, mapping extremely large
+> +  files or ZONE_DEVICE memory can be problematic, although only
+> +  really relevant in corner cases. When we manage a lot of user space memory
+> +  that has been swapped out or is served from a file/pmem/... we still need
+
+                                                     ^ persistent memory
+
+> +  a lot of page tables to manage that memory once user space accessed that
+> +  memory once.
+> +
+> +- DAX: when we have a lot of ZONE_DEVICE memory added to the system as DAX
+> +  and we are not using an altmap to allocate the memmap from device memory
+> +  directly, we will have to allocate the memmap for this memory from the
+> +  kernel zones.
+
+I'm not sure admin-guide reader will know when we use altmap when we don't.
+Maybe 
+
+  DAX: in certain DAX configurations the memory map for the device memory will
+  be allocated from the kernel zones.
+  
+> -A memory block under ZONE_MOVABLE is considered to be able to be offlined
+> -easily.  But under some busy state, it may return -EBUSY. Even if a memory
+> -block cannot be offlined due to -EBUSY, you can retry offlining it and may be
+> -able to offline it (or not). (For example, a page is referred to by some kernel
+> -internal call and released soon.)
+> +- Long-term pinning of pages. Techniques that rely on long-term pinnings
+> +  (especially, RDMA and vfio/mdev) are fundamentally problematic with
+> +  ZONE_MOVABLE, and therefore, memory offlining. Pinned pages cannot reside
+> +  on ZONE_MOVABLE as that would turn these pages unmovable. Therefore, they
+> +  have to be migrated off that zone while pinning. Pinning a page can fail
+> +  even if there is plenty of free memory in ZONE_MOVABLE.
 >  
->  	return 0;
+> -Consideration:
+> -  Memory hotplug's design direction is to make the possibility of memory
+> -  offlining higher and to guarantee unplugging memory under any situation. But
+> -  it needs more work. Returning -EBUSY under some situation may be good because
+> -  the user can decide to retry more or not by himself. Currently, memory
+> -  offlining code does some amount of retry with 120 seconds timeout.
+> +  In addition, using ZONE_MOVABLE might make page pinning more expensive,
+> +  because of the page migration overhead.
+>  
+> -Physical memory remove
+> -======================
+> +Boot Memory and ZONE_MOVABLE
+> +----------------------------
+>  
+> -Need more implementation yet....
+> - - Notification completion of remove works by OS to firmware.
+> - - Guard from remove if not yet.
+> +Without further configuration, all boot memory will be managed by kernel zones
+> +when booting up in most configurations. ZONE_MOVABLE is not used as default.
+>  
+> +However, there is a mechanism to configure that behavior during boot via the
+> +cmdline: ``kernelcore=`` and ``movablecore=``. See
+> +Documentation/admin-guide/kernel-parameters.rst for details.
+> +
+> +Memory Offlining and ZONE_MOVABLE
+> +---------------------------------
+> +
+> +Even with ZONE_MOVABLE, there are some corner cases where offlining a memory
+> +block might fail:
+> +
+> +- Memory blocks with memory holes; this applies to memory blocks present during
+> +  boot and can apply to memory blocks hotplugged via the XEN balloon and the
+> +  Hyper-V balloon.
+> +
+> +- Mixed NUMA nodes and mixed zones within a single memory block prevent memory
+> +  offlining; this applies to memory blocks present during boot only.
+> +
+> +- Special memory blocks prevented by the system from getting offlined. Examples
+> +  include any memory available during boot on arm64 or memory blocks spanning
+> +  the crashkernel area on s390x; this usually applies to memory blocks present
+> +  during boot only.
+> +
+> +- Memory blocks overlapping with CMA areas cannot be offlined, this applies to
+> +  memory blocks present during boot only.
+> +
+> +- Concurrent activity that operates on the same physical memory area, such as
+> +  allocating gigantic pages, can result in temporary offlining failures.
+> +
+> +- Out of memory when dissolving huge pages, especially when freeing unused
+> +  vmemmap pages associated with each hugetlb page is enabled.
+> +
+> +  Offlining code may be able to migrate huge page contents, but may not be able
+> +  to dissolve the source huge page because it fails allocating (unmovable) pages
+> +  for the vmemmap, because the system might not have free memory in the kernel
+> +  zones left.
+> +
+> +  Users that depend on memory hotplug to succeed for movable zones should
+> +  carefully consider whether the memory savings gained from this feature are
+> +  worth the risk of possibly not being able to offline memory in certain
+> +  situations.
+> +
+> +Further, when running into out of memory situations while migrating pages, or
+> +when still encountering permanently unmovable pages within ZONE_MOVABLE
+> +(-> BUG), memory offlining will keep retrying until it eventually succeeds.
+>  
+>  Locking Internals
+>  =================
+> @@ -440,8 +594,8 @@ As the device is visible to user space before taking the device_lock(), this
+>  can result in a lock inversion.
+>  
+>  onlining/offlining of memory should be done via device_online()/
+> -device_offline() - to make sure it is properly synchronized to actions
+> -via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
+> +device_offline() -- to make sure it is properly synchronized to actions
+> +via sysfs -- while holding the device_hotplug_lock.
+>  
+>  When adding/removing/onlining/offlining memory or adding/removing
+>  heterogeneous/device memory, we should always hold the mem_hotplug_lock in
+> @@ -452,15 +606,3 @@ In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
+>  mode allows for a quite efficient get_online_mems/put_online_mems
+>  implementation, so code accessing memory can protect from that memory
+>  vanishing.
+> -
+> -
+> -Future Work
+> -===========
+> -
+> -  - allowing memory hot-add to ZONE_MOVABLE. maybe we need some switch like
+> -    sysctl or new control file.
+> -  - showing memory block and physical device relationship.
+> -  - test and make it better memory offlining.
+> -  - support HugeTLB page migration and offlining.
+> -  - memmap removing at memory offline.
+> -  - physical remove memory.
+> -- 
+> 2.31.1
 > 
 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+Sincerely yours,
+Mike.
