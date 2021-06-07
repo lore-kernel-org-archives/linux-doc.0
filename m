@@ -2,103 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28587C47094
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 13:43:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C67AC47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 13:53:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F250261159
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 13:43:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1794E61185
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 13:53:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbhFGNpk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 09:45:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42996 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230261AbhFGNpk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 09:45:40 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DEDC061766;
-        Mon,  7 Jun 2021 06:43:48 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id o12so5313952plk.8;
-        Mon, 07 Jun 2021 06:43:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=k+196/sAn9PjLH1T5WW09ZALSStxAC7P96OlISkNyw4=;
-        b=pTV90WVFF9qU4vzTLK+t4NmsQ9lU6B2DH8dYKBwoB+kiarSMsXud3wStglYk+EkgHF
-         HDC4WW+EYNawMdStyFsC5rMkNa3TVII21iiAp8zh+yxYdfswNOziX8yp8VaVzGKDgUjv
-         eHsogDuRH61eAtK3JORdj/5f9sprtaPzX6VTtEyiKYZOeEpEBEBrv1F6fTV5NV2dvSgv
-         YlIhjZ+cN6jlZ2Ar+o98QfaEgJi1E5YIAiDxt2PgTVAdCTCg8ob9bjL03PyJ2d+9yNaw
-         BxLAxzKWl+Br22SLn4Q2vH3CJCLbzz9y7pdaPK1F2OioGiu0+c4NvylSUx2exXVQc/Jz
-         9f7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=k+196/sAn9PjLH1T5WW09ZALSStxAC7P96OlISkNyw4=;
-        b=ohj5Bnl3NSzXoRJ1PRfU1fxauW9FDEBSkzl3TtX3sLG1jQJ6B4zK2KdUN9CwJURVPz
-         F+Zq2UGwol08aO49Fa0l95gwkt0LrdcTMVR+gFEP7bafAQj/eN7ZIsX1fYeTaKLtcWJo
-         TYQryJY/Ycco3MPribFyVMHxGbmpYGJXk8ysevu9tuFCIOrnMt2s47M8Dc+ap7Hycai2
-         nePQzznlj07LPpQ5vcXBBTU23k0XzCQqmlMLNB6toDIYHjxWF7RmtcYK4YsKYRoX/J4j
-         aMfTH2fsy1H5IqgezHmO7/dbUG9bzK/Cje87St5jNwbsoPTl83CBw4frTI4ZIvJn46Nx
-         Z8Ug==
-X-Gm-Message-State: AOAM5337NPr4CMjzwZ4qHlTKGnhQg9mBiKnMZTXQoQkc/iLe7MkPYft1
-        mbcik2Q3np3Vof2zSg0l9eTSU6bUqQwuISB0wX/SP5mVdmyFZaZx
-X-Google-Smtp-Source: ABdhPJy6SuwabGiADaimFaR8cD2sz6Mucq0y3VUEU634hCJz4KYCm4l1FgnLyiWVwHgcRzDQsXBk9Suv3NoEvqgHoKM=
-X-Received: by 2002:a17:90a:2f22:: with SMTP id s31mr14785587pjd.62.1623073428380;
- Mon, 07 Jun 2021 06:43:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210607093433.39160-1-src.res@email.cn> <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
-In-Reply-To: <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Mon, 7 Jun 2021 21:43:37 +0800
-Message-ID: <CAMU9jJq5ykLjZK2NFo98FxuKDmJnSCcUGn2-N53ioX9nspBSLA@mail.gmail.com>
+        id S230193AbhFGNzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 09:55:17 -0400
+Received: from m34-101.88.com ([104.250.34.101]:2830 "EHLO 88.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230251AbhFGNzR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 09:55:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=To:From:Date; bh=FZ7dl7fMd4mO4j2KR+PoAnwlQNNdGg/FOBsgb
+        OC5jtY=; b=fBglc3bfOvg+aUYh7Jj+3LafceZU4dw/keD7ZTc2bhJoPjSm3fA9L
+        Lpk0ZlPNUz1sna1cxIHdXGwxAgeFOFn0+mp789Kp+IpUa1AUQrWcYpY2IklUHKfF
+        bUznH+zfXDp3BBA7Ngq4W+ysGzxAg83LtIUSLxmhKx/QdpgPqx5AmA=
+Received: from [0.0.0.0] (unknown [113.251.8.115])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBXLv1dJL5g2sMDAA--.11253S3;
+        Mon, 07 Jun 2021 21:51:26 +0800 (CST)
 Subject: Re: [PATCH] docs/zh_CN: add a translation for index
-To:     Hu Haowen <src.res@email.cn>
+To:     teng sterling <sterlingteng@gmail.com>
 Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>, "Wu X.C." <bobwxc@email.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        Yanteng Si <siyanteng@loongson.cn>
+References: <20210607093433.39160-1-src.res@email.cn>
+ <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
+From:   Hu Haowen <src.res@email.cn>
+Message-ID: <f9418c90-fe60-b26c-18d3-ecd3e9c506ab@email.cn>
+Date:   Mon, 7 Jun 2021 21:51:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: GiKnCgBXLv1dJL5g2sMDAA--.11253S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw18ZFyUWFWDJw4xGF15Arb_yoW8tr15pF
+        4DKrWfK3WkJrnrCwn2ga4xCF45J3Z7Ka13Wr1DK3sagr1DAr9FqrW3tF90gFyxXryIyFyq
+        qrWayrsYk3WayFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWUuVWrJwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
+        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
+        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIc
+        xG8wCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
+        JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+        vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
+        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+        wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UVGQDUUUUU=
+X-Originating-IP: [113.251.8.115]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Q0MgWGlhbmdjaGVuZw0KDQp0ZW5nIHN0ZXJsaW5nIDxzdGVybGluZ3RlbmdAZ21haWwuY29tPiDk
-uo4yMDIx5bm0NuaciDfml6XlkajkuIAg5LiL5Y2IOTo0MOWGmemBk++8mg0KPg0KPiBDQyBzaXlh
-bnRlbmdAbG9vbmdzb24uY24NCj4gSHUgSGFvd2VuIDxzcmMucmVzQGVtYWlsLmNuPiDkuo4yMDIx
-5bm0NuaciDfml6XlkajkuIAg5LiL5Y2INTozN+WGmemBk++8mg0KPiA+DQo+ID4gVGhlIG9yaWdp
-bmFsIGZpbGUgaGFzIGFkZGVkIGEgZm9ybWVyIGludHJvIGluIGNvbW1pdCBiNTEyMDhkNDFjNmE0
-ZTdmYzJmMA0KPiA+ICgiZG9jczogVHdlYWsgdGhlIHRvcC1sZXZlbCBTcGhpbnggcGFnZSIpIGFu
-ZCBoZW5jZSB1cGRhdGUgdGhlIENoaW5lc2UNCj4gPiB2ZXJzaW9uIGZvciBpdC4NCj4gPg0KPiA+
-IFNpZ25lZC1vZmYtYnk6IEh1IEhhb3dlbiA8c3JjLnJlc0BlbWFpbC5jbj4NCj4gPiAtLS0NCj4g
-PiAgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vaW5kZXgucnN0IHwgNSArKysrKw0K
-PiA+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0
-IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vaW5kZXgucnN0IGIvRG9jdW1lbnRh
-dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vaW5kZXgucnN0DQo+ID4gaW5kZXggMWY5NTNkMzQzOWE1
-Li4wMDMxMjZhYmMwZDYgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
-bnMvemhfQ04vaW5kZXgucnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
-emhfQ04vaW5kZXgucnN0DQo+ID4gQEAgLTE3LDYgKzE3LDExIEBADQo+ID4gICAgICoq57+76K+R
-6K6h5YiSOioqDQo+ID4gICAgIOWGheaguOS4reaWh+aWh+aho+asoui/juS7u+S9lee/u+ivkeaK
-leeov++8jOeJueWIq+aYr+WFs+S6juWGheaguOeUqOaIt+WSjOeuoeeQhuWRmOaMh+WNl+mDqOWI
-huOAgg0KPiA+DQo+ID4gK+i/meaYr+WGheaguOaWh+aho+agkeeahOmhtue6p+ebruW9leOAguWG
-heaguOaWh+aho++8jOWwseWDj+WGheaguOacrOi6q+S4gOagt++8jOWcqOW+iOWkp+eoi+W6puS4
-iuaYr+S4gOmhueatow0KPiBob3cgYWJvdXQ6DQo+DQo+IOi/meaYr+S4reaWh+WGheaguOaWh+ah
-o+agkeeahOmhtue6p+ebruW9leOAgg0KPiA+ICvlnKjov5vooYznmoTlt6XkvZzvvJvlvZPmiJHk
-u6zliqrlipvlsIborrjlpJrliIbmlaPnmoTmlofku7bmlbTlkIjmiJDkuIDkuKrov57otK/nmoTm
-lbTkvZPml7blsKTlhbblpoLmraTjgILlj6YNCj4gPiAr5aSW77yM6ZqP5pe25qyi6L+O5oKo5a+5
-5YaF5qC45paH5qGj6L+b6KGM5pS56L+b77yb5aaC5p6c5oKo5oOz5o+Q5L6b5biu5Yqp77yM6K+3
-5Yqg5YWldmdlci5rZXJuZWwub3JnDQo+IOS4reaWh+WGheaguOaWh+aho+i/m+ihjOaUuei/m++8
-mw0KPiA+ICvkuIrnmoRsaW51eC1kb2Ppgq7ku7bliJfooajjgIINCj4g5LiK55qEbGludXgtZG9j
-6YKu5Lu25YiX6KGo77yM5YWI5pS56L+b5Y6f5aeL6Iux5paH5paH5qGj77yM5YaN5bCG5YW257+7
-6K+R5Li65Lit5paH5ZCO77yM5pu05paw55u45bqU55qE5Lit5paH5paH5qGj44CCDQo+ID4gKw0K
-PiA+ICDorrjlj6/or4HmlofmoaMNCj4gPiAgLS0tLS0tLS0tLQ0KPiA+DQo+ID4gLS0NCj4gPiAy
-LjI1LjENCj4gPg0KPiBCVFcsIEkgdGhpbmsgdGhlc2UgYXJlIHNpbWlsYXIgdG8gImRpc2NsYWlt
-ZXItemhfQ04iLCBidXQgbm90IGFzIGdvb2QNCj4gYXMgdGhlIGxhdHRlci4NCj4NCj4gQWxleCBh
-bmQgWGlhbmdjaGVuZywgd2hhdCBkbyB5b3UgdGhpbms/DQo+DQo+IFRoYW5rcywNCj4gWWFudGVu
-Zw0K
+
+在 2021/6/7 下午9:40, teng sterling 写道:
+> CC siyanteng@loongson.cn
+> Hu Haowen <src.res@email.cn> 于2021年6月7日周一 下午5:37写道：
+>> The original file has added a former intro in commit b51208d41c6a4e7fc2f0
+>> ("docs: Tweak the top-level Sphinx page") and hence update the Chinese
+>> version for it.
+>>
+>> Signed-off-by: Hu Haowen <src.res@email.cn>
+>> ---
+>>   Documentation/translations/zh_CN/index.rst | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+>> index 1f953d3439a5..003126abc0d6 100644
+>> --- a/Documentation/translations/zh_CN/index.rst
+>> +++ b/Documentation/translations/zh_CN/index.rst
+>> @@ -17,6 +17,11 @@
+>>      **翻译计划:*kernel's documentation*
+>>      内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
+>>
+>> +这是内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一项正
+> how about:
+>
+> 这是中文内核文档树的顶级目录。
+
+
+But the English version says "kernel's documentation". It seems that we
+should add an explanation for readers in order to drag them out of the
+dilemma on whether he or she should update En version at first, as your
+thought picking ideas from "disclaimer-zh_CN".
+
+What's your opinion, maintainers?
+
+
+>> +在进行的工作；当我们努力将许多分散的文件整合成一个连贯的整体时尤其如此。另
+>> +外，随时欢迎您对内核文档进行改进；如果您想提供帮助，请加入vger.kernel.org
+> 中文内核文档进行改进；
+>> +上的linux-doc邮件列表。
+> 上的linux-doc邮件列表，先改进原始英文文档，再将其翻译为中文后，更新相应的中文文档。
+>> +
+>>   许可证文档
+>>   ----------
+>>
+>> --
+>> 2.25.1
+>>
+> BTW, I think these are similar to "disclaimer-zh_CN", but not as good
+> as the latter.
+>
+> Alex and Xiangcheng, what do you think?
+>
+> Thanks,
+> Yanteng
+
