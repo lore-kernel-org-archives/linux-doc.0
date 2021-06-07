@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21933C48BE8
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A00C47094
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:24:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09B0661245
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:24:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 02CFD61246
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:24:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230288AbhFGM0j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 08:26:39 -0400
-Received: from mga05.intel.com ([192.55.52.43]:65295 "EHLO mga05.intel.com"
+        id S230356AbhFGM0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 08:26:46 -0400
+Received: from mga03.intel.com ([134.134.136.65]:5348 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230241AbhFGM0h (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 08:26:37 -0400
-IronPort-SDR: X4Ty/k9GcdKKeuQeXCic1iwvTKQj0ijcz/FTjRE/8WW9Bv5NJRR0YhvBeFH3YBXE22d2X2G3SR
- h39Qz9OWsHTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="290236963"
+        id S230299AbhFGM0o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 08:26:44 -0400
+IronPort-SDR: 8AHKoG/vhYz6SByWEGNbcJ8sFr4Os+coKjkSAwmF53YavrYxpOXklf4P29WP7xwvU2Mqmm1CQv
+ A/pGHwNGKUog==
+X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="204632406"
 X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; 
-   d="scan'208";a="290236963"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 05:24:46 -0700
-IronPort-SDR: nivNo8rv/nlBVVlwLvcRKyP83Q92lUN4ObKZF+jVMGqQn5BAHf4q6eZOyywJAUrg1QloO6QcOR
- fjcwYge4K/Eg==
+   d="scan'208";a="204632406"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 05:24:45 -0700
+IronPort-SDR: nk7mFwZw0urwRzAXPFLsAc5obYE7cvQHM/9Bl13BYBDMsO1FFSioME0B7u6bdA9hGln/5bK748
+ db0sFLgWySQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; 
-   d="scan'208";a="481505770"
+   d="scan'208";a="418493327"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 07 Jun 2021 05:24:42 -0700
+  by orsmga002.jf.intel.com with ESMTP; 07 Jun 2021 05:24:42 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id BDE10C5; Mon,  7 Jun 2021 15:25:05 +0300 (EEST)
+        id E0B991EA; Mon,  7 Jun 2021 15:25:05 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
@@ -46,70 +46,123 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
 Cc:     Jonathan Corbet <corbet@lwn.net>, Lee Jones <lee.jones@linaro.org>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>
-Subject: [PATCH v3 1/6] docs: firmware-guide: ACPI: Add a PWM example
-Date:   Mon,  7 Jun 2021 15:24:53 +0300
-Message-Id: <20210607122458.40073-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 5/6] pwm: core: Remove unused devm_pwm_put()
+Date:   Mon,  7 Jun 2021 15:24:57 +0300
+Message-Id: <20210607122458.40073-5-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210607122458.40073-1-andriy.shevchenko@linux.intel.com>
+References: <20210607122458.40073-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When PWM support for ACPI has been added into the kernel, it missed
-the documentation update. Hence update documentation here.
+There are no users and seems no will come of the devm_pwm_put().
+Remove the function.
 
-Fixes: 4a6ef8e37c4d ("pwm: Add support referencing PWMs from ACPI")
+While at it, slightly update documentation.
+
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
-v3: despite flags being optional, don't alter it in the documentation
-v2: updated example to use 600 ms instead of 600 us (looks saner)
- .../firmware-guide/acpi/enumeration.rst       | 32 +++++++++++++++++++
- 1 file changed, 32 insertions(+)
+v3: added Rb tag (Uwe)
+v2: new patch
 
-diff --git a/Documentation/firmware-guide/acpi/enumeration.rst b/Documentation/firmware-guide/acpi/enumeration.rst
-index 9f0d5c854fa4..f588663ba906 100644
---- a/Documentation/firmware-guide/acpi/enumeration.rst
-+++ b/Documentation/firmware-guide/acpi/enumeration.rst
-@@ -258,6 +258,38 @@ input driver::
- 		.id_table	= mpu3050_ids,
- 	};
+ .../driver-api/driver-model/devres.rst        |  3 ++-
+ Documentation/driver-api/pwm.rst              |  3 ++-
+ drivers/pwm/core.c                            | 25 -------------------
+ include/linux/pwm.h                           |  5 ----
+ 4 files changed, 4 insertions(+), 32 deletions(-)
+
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index e7e209232246..d2948139411e 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -409,7 +409,8 @@ POWER
  
-+Reference to PWM device
-+=======================
-+
-+Sometimes a device can be a consumer of PWM channel. Obviously OS would like
-+to know which one. To provide this mapping the special property has been
-+introduced, i.e.::
-+
-+    Device (DEV)
-+    {
-+        Name (_DSD, Package ()
-+        {
-+            ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
-+            Package () {
-+                Package () { "compatible", Package () { "pwm-leds" } },
-+                Package () { "label", "alarm-led" },
-+                Package () { "pwms",
-+                    Package () {
-+                        "\\_SB.PCI0.PWM",  // <PWM device reference>
-+                        0,                 // <PWM index>
-+                        600000000,         // <PWM period>
-+                        0,                 // <PWM flags>
-+                    }
-+                }
-+            }
-+
-+        })
-+        ...
-+
-+In the above example the PWM-based LED driver references to the PWM channel 0
-+of \_SB.PCI0.PWM device with initial period setting equal to 600 ms (note that
-+value is given in nanoseconds).
-+
- GPIO support
- ============
+ PWM
+   devm_pwm_get()
+-  devm_pwm_put()
++  devm_of_pwm_get()
++  devm_fwnode_pwm_get()
  
+ REGULATOR
+   devm_regulator_bulk_get()
+diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+index 750734a7f874..ccb06e485756 100644
+--- a/Documentation/driver-api/pwm.rst
++++ b/Documentation/driver-api/pwm.rst
+@@ -40,7 +40,8 @@ after usage with pwm_free().
+ 
+ New users should use the pwm_get() function and pass to it the consumer
+ device or a consumer name. pwm_put() is used to free the PWM device. Managed
+-variants of these functions, devm_pwm_get() and devm_pwm_put(), also exist.
++variants of the getter, devm_pwm_get(), devm_of_pwm_get(),
++devm_fwnode_pwm_get(), also exist.
+ 
+ After being requested, a PWM has to be configured using::
+ 
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index 05a86060d430..4133abb74798 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -1165,31 +1165,6 @@ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
+ }
+ EXPORT_SYMBOL_GPL(devm_fwnode_pwm_get);
+ 
+-static int devm_pwm_match(struct device *dev, void *res, void *data)
+-{
+-	struct pwm_device **p = res;
+-
+-	if (WARN_ON(!p || !*p))
+-		return 0;
+-
+-	return *p == data;
+-}
+-
+-/**
+- * devm_pwm_put() - resource managed pwm_put()
+- * @dev: device for PWM consumer
+- * @pwm: PWM device
+- *
+- * Release a PWM previously allocated using devm_pwm_get(). Calling this
+- * function is usually not needed because devm-allocated resources are
+- * automatically released on driver detach.
+- */
+-void devm_pwm_put(struct device *dev, struct pwm_device *pwm)
+-{
+-	WARN_ON(devres_release(dev, devm_pwm_release, devm_pwm_match, pwm));
+-}
+-EXPORT_SYMBOL_GPL(devm_pwm_put);
+-
+ #ifdef CONFIG_DEBUG_FS
+ static void pwm_dbg_show(struct pwm_chip *chip, struct seq_file *s)
+ {
+diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+index 5a73251d28e3..91af518d5037 100644
+--- a/include/linux/pwm.h
++++ b/include/linux/pwm.h
+@@ -423,7 +423,6 @@ struct pwm_device *devm_of_pwm_get(struct device *dev, struct device_node *np,
+ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
+ 				       struct fwnode_handle *fwnode,
+ 				       const char *con_id);
+-void devm_pwm_put(struct device *dev, struct pwm_device *pwm);
+ #else
+ static inline struct pwm_device *pwm_request(int pwm_id, const char *label)
+ {
+@@ -530,10 +529,6 @@ devm_fwnode_pwm_get(struct device *dev, struct fwnode_handle *fwnode,
+ {
+ 	return ERR_PTR(-ENODEV);
+ }
+-
+-static inline void devm_pwm_put(struct device *dev, struct pwm_device *pwm)
+-{
+-}
+ #endif
+ 
+ static inline void pwm_apply_args(struct pwm_device *pwm)
 -- 
 2.30.2
 
