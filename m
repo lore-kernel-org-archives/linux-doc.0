@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D09AAC48BE5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:24:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4782EC47094
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:24:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8D1C61245
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:24:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28A8161245
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 12:24:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230269AbhFGM0i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 08:26:38 -0400
-Received: from mga07.intel.com ([134.134.136.100]:57549 "EHLO mga07.intel.com"
+        id S230330AbhFGM0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 08:26:43 -0400
+Received: from mga05.intel.com ([192.55.52.43]:65295 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230220AbhFGM0h (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 08:26:37 -0400
-IronPort-SDR: /oOR1/zpf2RvcPSG/9xqoUpxZjh8KwD9vovr5SAHKOJUUr/cH6wYMxmk/vpJA3i5OPwOC3jkOk
- Y8y97Kg5BiAQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="268466120"
+        id S230294AbhFGM0k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 08:26:40 -0400
+IronPort-SDR: AliqJcRWE7itQHSaQe/9fU7lBt7VEfn/Ceslk3rxpFBvzEuw41/t+epa+L7PqKBAamOwzo8+BC
+ ZfrPCiJhaaQg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="290236976"
 X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; 
-   d="scan'208";a="268466120"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 05:24:45 -0700
-IronPort-SDR: /BnpQELrFgD7EelUh8e5waCyyXSA0pk/7S4Zet0m+z2MOlWiHiD3pbrpAQ0nvYQXJLiJvAp3hI
- pUssNbgtKwsQ==
+   d="scan'208";a="290236976"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 05:24:48 -0700
+IronPort-SDR: QxMDOwLtopDRIWr/Vc+dYp7KzDLTMgoLFnPuOK/hdLSJDcbnSe8ZEOxMp7Xcc7w2PUvekS/4/a
+ 8GjKj0WEC5Gw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; 
-   d="scan'208";a="476187979"
+   d="scan'208";a="634692060"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Jun 2021 05:24:42 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2021 05:24:45 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id CF93218E; Mon,  7 Jun 2021 15:25:05 +0300 (EEST)
+        id EA27D361; Mon,  7 Jun 2021 15:25:05 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
@@ -46,93 +46,132 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
 Cc:     Jonathan Corbet <corbet@lwn.net>, Lee Jones <lee.jones@linaro.org>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>
-Subject: [PATCH v3 3/6] pwm: core: Reuse fwnode_to_pwmchip() in ACPI case
-Date:   Mon,  7 Jun 2021 15:24:55 +0300
-Message-Id: <20210607122458.40073-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 6/6] pwm: core: Simplify some devm_*pwm*() functions
+Date:   Mon,  7 Jun 2021 15:24:58 +0300
+Message-Id: <20210607122458.40073-6-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210607122458.40073-1-andriy.shevchenko@linux.intel.com>
 References: <20210607122458.40073-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In ACPI case we may use matching by fwnode as provided via
-fwnode_to_pwmchip(). This makes device_to_pwmchip() not needed
-anymore.
+Use devm_add_action_or_reset() instead of devres_alloc() and
+devres_add(), which works the same. This will simplify the
+code. There is no functional changes.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
-v3: rebased on the tree without dropped patch 2/7
-v2: no change
- drivers/pwm/core.c | 31 +------------------------------
- 1 file changed, 1 insertion(+), 30 deletions(-)
+v3: added Rb tag (Uwe)
+v2: new patch
+
+ drivers/pwm/core.c | 60 +++++++++++++++++++---------------------------
+ 1 file changed, 25 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index f26da1a6a376..c63626c5266c 100644
+index 4133abb74798..f74c2f7cd46c 100644
 --- a/drivers/pwm/core.c
 +++ b/drivers/pwm/core.c
-@@ -820,28 +820,6 @@ struct pwm_device *of_pwm_get(struct device *dev, struct device_node *np,
+@@ -1058,9 +1058,9 @@ void pwm_put(struct pwm_device *pwm)
  }
- EXPORT_SYMBOL_GPL(of_pwm_get);
+ EXPORT_SYMBOL_GPL(pwm_put);
  
--#if IS_ENABLED(CONFIG_ACPI)
--static struct pwm_chip *device_to_pwmchip(struct device *dev)
--{
--	struct pwm_chip *chip;
--
--	mutex_lock(&pwm_lock);
--
--	list_for_each_entry(chip, &pwm_chips, list) {
--		struct acpi_device *adev = ACPI_COMPANION(chip->dev);
--
--		if ((chip->dev == dev) || (adev && &adev->dev == dev)) {
--			mutex_unlock(&pwm_lock);
--			return chip;
--		}
--	}
--
--	mutex_unlock(&pwm_lock);
--
--	return ERR_PTR(-EPROBE_DEFER);
--}
--#endif
--
- /**
-  * acpi_pwm_get() - request a PWM via parsing "pwms" property in ACPI
-  * @fwnode: firmware node to get the "pwm" property from
-@@ -862,9 +840,7 @@ static struct pwm_chip *device_to_pwmchip(struct device *dev)
- static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
+-static void devm_pwm_release(struct device *dev, void *res)
++static void devm_pwm_release(void *pwm)
  {
- 	struct pwm_device *pwm = ERR_PTR(-ENODEV);
--#if IS_ENABLED(CONFIG_ACPI)
- 	struct fwnode_reference_args args;
--	struct acpi_device *acpi;
- 	struct pwm_chip *chip;
- 	int ret;
+-	pwm_put(*(struct pwm_device **)res);
++	pwm_put(pwm);
+ }
  
-@@ -874,14 +850,10 @@ static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
- 	if (ret < 0)
- 		return ERR_PTR(ret);
- 
--	acpi = to_acpi_device_node(args.fwnode);
--	if (!acpi)
--		return ERR_PTR(-EINVAL);
+ /**
+@@ -1076,19 +1076,16 @@ static void devm_pwm_release(struct device *dev, void *res)
+  */
+ struct pwm_device *devm_pwm_get(struct device *dev, const char *con_id)
+ {
+-	struct pwm_device **ptr, *pwm;
 -
- 	if (args.nargs < 2)
- 		return ERR_PTR(-EPROTO);
+-	ptr = devres_alloc(devm_pwm_release, sizeof(*ptr), GFP_KERNEL);
+-	if (!ptr)
+-		return ERR_PTR(-ENOMEM);
++	struct pwm_device *pwm;
++	int ret;
  
--	chip = device_to_pwmchip(&acpi->dev);
-+	chip = fwnode_to_pwmchip(args.fwnode);
- 	if (IS_ERR(chip))
- 		return ERR_CAST(chip);
+ 	pwm = pwm_get(dev, con_id);
+-	if (!IS_ERR(pwm)) {
+-		*ptr = pwm;
+-		devres_add(dev, ptr);
+-	} else {
+-		devres_free(ptr);
+-	}
++	if (IS_ERR(pwm))
++		return pwm;
++
++	ret = devm_add_action_or_reset(dev, devm_pwm_release, pwm);
++	if (ret)
++		return ERR_PTR(ret);
  
-@@ -894,7 +866,6 @@ static struct pwm_device *acpi_pwm_get(struct fwnode_handle *fwnode)
+ 	return pwm;
+ }
+@@ -1109,19 +1106,16 @@ EXPORT_SYMBOL_GPL(devm_pwm_get);
+ struct pwm_device *devm_of_pwm_get(struct device *dev, struct device_node *np,
+ 				   const char *con_id)
+ {
+-	struct pwm_device **ptr, *pwm;
+-
+-	ptr = devres_alloc(devm_pwm_release, sizeof(*ptr), GFP_KERNEL);
+-	if (!ptr)
+-		return ERR_PTR(-ENOMEM);
++	struct pwm_device *pwm;
++	int ret;
  
- 	if (args.nargs > 2 && args.args[2] & PWM_POLARITY_INVERTED)
- 		pwm->args.polarity = PWM_POLARITY_INVERSED;
--#endif
+ 	pwm = of_pwm_get(dev, np, con_id);
+-	if (!IS_ERR(pwm)) {
+-		*ptr = pwm;
+-		devres_add(dev, ptr);
+-	} else {
+-		devres_free(ptr);
+-	}
++	if (IS_ERR(pwm))
++		return pwm;
++
++	ret = devm_add_action_or_reset(dev, devm_pwm_release, pwm);
++	if (ret)
++		return ERR_PTR(ret);
+ 
+ 	return pwm;
+ }
+@@ -1143,23 +1137,19 @@ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
+ 				       struct fwnode_handle *fwnode,
+ 				       const char *con_id)
+ {
+-	struct pwm_device **ptr, *pwm = ERR_PTR(-ENODEV);
+-
+-	ptr = devres_alloc(devm_pwm_release, sizeof(*ptr), GFP_KERNEL);
+-	if (!ptr)
+-		return ERR_PTR(-ENOMEM);
++	struct pwm_device *pwm = ERR_PTR(-ENODEV);
++	int ret;
+ 
+ 	if (is_of_node(fwnode))
+ 		pwm = of_pwm_get(dev, to_of_node(fwnode), con_id);
+ 	else if (is_acpi_node(fwnode))
+ 		pwm = acpi_pwm_get(fwnode);
++	if (IS_ERR(pwm))
++		return pwm;
+ 
+-	if (!IS_ERR(pwm)) {
+-		*ptr = pwm;
+-		devres_add(dev, ptr);
+-	} else {
+-		devres_free(ptr);
+-	}
++	ret = devm_add_action_or_reset(dev, devm_pwm_release, pwm);
++	if (ret)
++		return ERR_PTR(ret);
  
  	return pwm;
  }
