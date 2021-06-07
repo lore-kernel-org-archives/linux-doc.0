@@ -2,74 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 292B1C47082
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 15:47:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E9CC47094
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 16:15:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C759610A2
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 15:47:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14E8261930
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 16:15:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230255AbhFGPtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 11:49:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55442 "EHLO mail.kernel.org"
+        id S232248AbhFGQRM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 12:17:12 -0400
+Received: from mga09.intel.com ([134.134.136.24]:29221 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231565AbhFGPtN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 11:49:13 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 738A461059;
-        Mon,  7 Jun 2021 15:47:20 +0000 (UTC)
-Date:   Mon, 7 Jun 2021 11:47:18 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 8/9] tracing: Add osnoise tracer
-Message-ID: <20210607114718.5f8d6c38@oasis.local.home>
-In-Reply-To: <f4426022-b388-55bf-669f-74f53b91efba@redhat.com>
-References: <cover.1621024265.git.bristot@redhat.com>
-        <bd09a2be9cd0cecee86374dbb49235dd2ef9d750.1621024265.git.bristot@redhat.com>
-        <20210604172803.527aa070@oasis.local.home>
-        <f4426022-b388-55bf-669f-74f53b91efba@redhat.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S232256AbhFGQQD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 12:16:03 -0400
+IronPort-SDR: pHwmMxBdgPCN6jy6rFjauZs/75xXGamXdDFLiRUrClgQ9XH57dQNWIQFo+fWJWdsrQWR7+u+sC
+ YByao0CMe6jw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="204621543"
+X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; 
+   d="scan'208";a="204621543"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 09:13:11 -0700
+IronPort-SDR: LPkEaiTaEwTQYTVhOFTdUrrVJgyekxvCeyiHmd4JiWfwL+vo0huD8rTYtR/qyeyrkviPQfz3SM
+ hH0k+yS4d3jQ==
+X-IronPort-AV: E=Sophos;i="5.83,255,1616482800"; 
+   d="scan'208";a="484830331"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 09:13:05 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lqHs6-000Ibv-V4; Mon, 07 Jun 2021 19:13:02 +0300
+Date:   Mon, 7 Jun 2021 19:13:02 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     helgaas@kernel.org, corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        mika.westerberg@linux.intel.com, rric@kernel.org,
+        bhelgaas@google.com, wsa@kernel.org, Sanket.Goswami@amd.com,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 2/4] Documentation: devres: Add
+ pcim_alloc_irq_vectors()
+Message-ID: <YL5FjkbgKj8XpDzD@smile.fi.intel.com>
+References: <20210607153916.1021016-1-zhengdejin5@gmail.com>
+ <20210607153916.1021016-3-zhengdejin5@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210607153916.1021016-3-zhengdejin5@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 7 Jun 2021 14:00:56 +0200
-Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
+On Mon, Jun 07, 2021 at 11:39:14PM +0800, Dejin Zheng wrote:
+> Add pcim_alloc_irq_vectors(), a device-managed version of
+> pci_alloc_irq_vectors(). introducing this function can simplify
+> the error handling path in many drivers.
 
-> I am using these more "generic terms" because they are also used by the timerlat
-> tracer.
+This is good one, thanks.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+> Reviewed-by: Robert Richter <rric@kernel.org>
+> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
+> ---
+> v6 -> v7:
+> 	- rebase to PCI next branch
+> v5 -> v6:
+> 	- rebase to 5.13-rc4
+> v4 -> v5:
+> 	- No change
+> v3 -> v4:
+> 	- No change
+> v2 -> v3:
+> 	- No change
+> v1 -> v2:
+> 	- Modify some commit messages.
 > 
-> In the timerlat tracer, the "in" file is used to stop the tracer for a given IRQ
-> latency (so, the "inside" operation), while the "out" is used to stop the tracer
-> in the thread latency (hence the outside operation).
+>  Documentation/driver-api/driver-model/devres.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> The total sounds good for the "out"! But the single does not work fine for the
-> IRQ... how about: stop_tracing_partial_us ?
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> index e0814d214048..fad7d26ccf35 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -382,6 +382,7 @@ PCI
+>    devm_pci_alloc_host_bridge()  : managed PCI host bridge allocation
+>    devm_pci_remap_cfgspace()	: ioremap PCI configuration space
+>    devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
+> +  pcim_alloc_irq_vectors()      : managed IRQ vectors allocation
+>    pcim_enable_device()		: after success, all PCI ops become managed
+>    pcim_pin_device()		: keep PCI device enabled after release
+>  
+> -- 
+> 2.30.1
 > 
-> It is hard to find a good shared name :-/
 
-What about:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-stop_tracing_us and stop_tracing_total_us, and not have anything
-special for the first one?
 
--- Steve
