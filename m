@@ -2,114 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC102C47094
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 15:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 292B1C47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 15:47:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 936A9611AC
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 15:40:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C759610A2
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 15:47:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231435AbhFGPmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 11:42:33 -0400
-Received: from mail-pj1-f41.google.com ([209.85.216.41]:53780 "EHLO
-        mail-pj1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231384AbhFGPm3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 11:42:29 -0400
-Received: by mail-pj1-f41.google.com with SMTP id ei4so10093418pjb.3;
-        Mon, 07 Jun 2021 08:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NCCUVu48/YxKe+76n8oOpi5HhiU1MccRKkRryIWRGrY=;
-        b=OS4EcGoksInG36ZFqUT7ibl0i7seCqXy34Y1Yaqw4UU6mQnLyBhyO4oxgvwaV757eO
-         3OOVg7Etfn6Ovn5a/wyGap4jFt3oQA3YF2kBfNhNi6BzLu77XttKckkx2ww85i1apfhQ
-         ekuhbXt/9/gRFTG9/z7PmOPeVdjAZMSK9sfxC5/zv2NK7nIIQGGeorVw0T+W8sM1Vazf
-         PSiDe0Oc9zru+52WAzgE+xrwkqxcwvcCcvGYkyCeO7uLpD0B3/BWirwS1VN2DF/puR0T
-         7s4mIxBw+X+t9IRUAA9Lbdef5ch4WVMffx7hQSSIycfuyA3cG85MH9ZIPY9aGRqGsvUh
-         Z5EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NCCUVu48/YxKe+76n8oOpi5HhiU1MccRKkRryIWRGrY=;
-        b=gtzmYWu6qeFSxqEELrP3O2AD8vaGH+F5A5etAnejBILMvD4he2mTHpnCPRy/I+ETMI
-         SkNWFWPU2N9u5X97dYKW0UKFpqqXYeHNCtzzxkJF7NC8AKLJcvKr5AB8LbGKcMdP9Pci
-         ijI1OtRPii7Xrrioce/heCZBRQUfI/hUNm0lqG0aMHdnTm1ZzHqA51Tdx/SfsJXEciMm
-         5V4ylHMBJnzx8rnzp7X45xPBhVvTe9qHq7GXaZXmxA64GjvRaaReskvjNO36OqnCuPQ4
-         cVAvsBBvIff19UHdVi3n9gVhiFil5sY4rJDiF2IQf0hvJHA9oBMb3UkoG1P4GLvx9NRs
-         qzYA==
-X-Gm-Message-State: AOAM530Qdqlcl3LmnW/sWCoQIK9pGcJl2H4XIzRbyoVkV4vI+vhZ4glA
-        PqEFN7LVl/FGCrMfdpzAQlBLkAa+wKbrN3j/
-X-Google-Smtp-Source: ABdhPJwMNKP15oGyesPtOeAnFeRGAZFrCrotHvaDZsVsbwycnY7O+X2WS5POBmPAdxJocubb2Bu3KQ==
-X-Received: by 2002:a17:90a:db4e:: with SMTP id u14mr20775908pjx.43.1623080377825;
-        Mon, 07 Jun 2021 08:39:37 -0700 (PDT)
-Received: from localhost (185.212.56.112.16clouds.com. [185.212.56.112])
-        by smtp.gmail.com with ESMTPSA id j3sm8696259pfe.98.2021.06.07.08.39.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 08:39:37 -0700 (PDT)
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     helgaas@kernel.org, corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
-        Sanket.Goswami@amd.com, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
-Subject: [PATCH v7 4/4] i2c: thunderx: Use pcim_alloc_irq_vectors() to allocate IRQ vectors
-Date:   Mon,  7 Jun 2021 23:39:16 +0800
-Message-Id: <20210607153916.1021016-5-zhengdejin5@gmail.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210607153916.1021016-1-zhengdejin5@gmail.com>
-References: <20210607153916.1021016-1-zhengdejin5@gmail.com>
+        id S230255AbhFGPtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 11:49:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55442 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231565AbhFGPtN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 11:49:13 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 738A461059;
+        Mon,  7 Jun 2021 15:47:20 +0000 (UTC)
+Date:   Mon, 7 Jun 2021 11:47:18 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH V3 8/9] tracing: Add osnoise tracer
+Message-ID: <20210607114718.5f8d6c38@oasis.local.home>
+In-Reply-To: <f4426022-b388-55bf-669f-74f53b91efba@redhat.com>
+References: <cover.1621024265.git.bristot@redhat.com>
+        <bd09a2be9cd0cecee86374dbb49235dd2ef9d750.1621024265.git.bristot@redhat.com>
+        <20210604172803.527aa070@oasis.local.home>
+        <f4426022-b388-55bf-669f-74f53b91efba@redhat.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pcim_alloc_irq_vectors() function, an explicit device-managed version
-of pci_alloc_irq_vectors(). If pcim_enable_device() has been called
-before, then pci_alloc_irq_vectors() is actually a device-managed
-function. It is used here as a device-managed function, So replace it
-with pcim_alloc_irq_vectors().
+On Mon, 7 Jun 2021 14:00:56 +0200
+Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 
-Acked-by: Robert Richter <rric@kernel.org>
-Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
----
-v6 -> v7:
-	- rebase to PCI next branch
-v5 -> v6:
-	- rebase to 5.13-rc4
-v4 -> v5:
-	- Modify the subject name.
-v3 -> v4:
-	- No change.
-v2 -> v3:
-	- No change.
-v1 -> v2:
-	- Modify some commit messages.
+> I am using these more "generic terms" because they are also used by the timerlat
+> tracer.
+> 
+> In the timerlat tracer, the "in" file is used to stop the tracer for a given IRQ
+> latency (so, the "inside" operation), while the "out" is used to stop the tracer
+> in the thread latency (hence the outside operation).
+> 
+> The total sounds good for the "out"! But the single does not work fine for the
+> IRQ... how about: stop_tracing_partial_us ?
+> 
+> It is hard to find a good shared name :-/
 
- drivers/i2c/busses/i2c-thunderx-pcidrv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+What about:
 
-diff --git a/drivers/i2c/busses/i2c-thunderx-pcidrv.c b/drivers/i2c/busses/i2c-thunderx-pcidrv.c
-index 12c90aa0900e..63354e9fb726 100644
---- a/drivers/i2c/busses/i2c-thunderx-pcidrv.c
-+++ b/drivers/i2c/busses/i2c-thunderx-pcidrv.c
-@@ -192,7 +192,7 @@ static int thunder_i2c_probe_pci(struct pci_dev *pdev,
- 	i2c->hlc_int_enable = thunder_i2c_hlc_int_enable;
- 	i2c->hlc_int_disable = thunder_i2c_hlc_int_disable;
- 
--	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSIX);
-+	ret = pcim_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSIX);
- 	if (ret < 0)
- 		goto error;
- 
--- 
-2.30.1
+stop_tracing_us and stop_tracing_total_us, and not have anything
+special for the first one?
 
+-- Steve
