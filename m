@@ -2,129 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C23AC4743F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 08:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 725AEC47082
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 09:02:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CE40611BD
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 08:53:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56B7360FEE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 09:02:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230294AbhFGIzL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 04:55:11 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:38531 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230252AbhFGIzL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 04:55:11 -0400
-Received: by mail-ua1-f50.google.com with SMTP id d13so8588144uav.5;
-        Mon, 07 Jun 2021 01:53:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y7XwbZyFAy9rqQo5J7t8DRS+d/mueoOLl5p+cSQb+8Y=;
-        b=c1QgfpCrjDUVTkAyyBp8WpGyHfrCmwlqwtVXwHahbmua8An8O/eClybf1j+oMHclTg
-         rMIvMWrYrB9Gj2TD3pRIwvdsxkB7d9icqIhx+1ZvDF7Hagiw9U5kXikrzk61x3JjITC7
-         8pG70uh9P/71b9Fu0L2APErbzHJ58IttG/qzIbOqza9sBBKYsJ3QPxRl1kmblPcGDkaK
-         NPkTJVaQoCn/VaRb1KszZ/Q39MTWlQvqB+mnpFRoIOjOQUQjsnSYUteF7Dj4qVL9u+Xb
-         ECq++QQ7vbqY3EDwo1oBHc8szh/J74Mct3oP7UWWUTuzXWOG+5vhy1QPhID0bwAgs6ws
-         QMyA==
-X-Gm-Message-State: AOAM532XV40qPaFsEC/GJkAhhxOwX05CIufouWf1JTWpIJDVLxJyQyBP
-        gmz4WkdAf7f5Mky/jxlESS/KPFB5bvNH7j6p8/o=
-X-Google-Smtp-Source: ABdhPJw70xfmNroh3KIu5QGmqKsYwQ+PKLyHQ50n7DeatYgE4iGl6TNz+FWGTOL2BBcrgRRRH99rMYwIPPT469OpB6M=
-X-Received: by 2002:ab0:63d9:: with SMTP id i25mr6682382uap.106.1623055999326;
- Mon, 07 Jun 2021 01:53:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210604064916.26580-1-rppt@kernel.org> <20210604064916.26580-9-rppt@kernel.org>
-In-Reply-To: <20210604064916.26580-9-rppt@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Jun 2021 10:53:08 +0200
-Message-ID: <CAMuHMdVa29gUQAdHjKh-qDNpOJaoGwXtUkBM2qnOTi1DWV70xA@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] mm: replace CONFIG_NEED_MULTIPLE_NODES with CONFIG_NUMA
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        id S230207AbhFGJEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 05:04:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33272 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230131AbhFGJEE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 05:04:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623056533;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=6y4bPXafko5+G4PApCVrwklZB5xWMqNeD2Kae54wrKI=;
+        b=PLCCIBLhcR2rk0NYJtRku3VYFcLDMuCoxNzB+jlInHC2TJqf8vAFHeGQksCIInTU2tYLxu
+        YN4fXxA0ZBC66v2pQ/K1tgZzzs96xS2N4S2Fonc4/OzGZqZkqqRep0eAPQPX5SpBoOAtgD
+        Pp6vaJTGnvia2heGLZ9whJICX9rzLYk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-WBdQ5GvgOuSHR_s4xZ_7ig-1; Mon, 07 Jun 2021 05:02:12 -0400
+X-MC-Unique: WBdQ5GvgOuSHR_s4xZ_7ig-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87E1E101371F;
+        Mon,  7 Jun 2021 09:02:10 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.40.194.6])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F8551037EA4;
+        Mon,  7 Jun 2021 09:02:05 +0000 (UTC)
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        linux-kernel@vger.kernel.org (open list),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        Wanpeng Li <wanpengli@tencent.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Christopherson <seanjc@google.com>,
+        Borislav Petkov <bp@alien8.de>, Joerg Roedel <joro@8bytes.org>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        Jim Mattson <jmattson@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        arcml <linux-snps-arc@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        sparclinux <sparclinux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>
+Subject: [PATCH v3 0/8] Introduce KVM_{GET|SET}_SREGS2 and fix PDPTR migration
+Date:   Mon,  7 Jun 2021 12:01:55 +0300
+Message-Id: <20210607090203.133058-1-mlevitsk@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
+This patch set aims to fix few flaws that were discovered=0D
+in KVM_{GET|SET}_SREGS on x86:=0D
+=0D
+* There is no support for reading/writing PDPTRs although=0D
+  these are considered to be part of the guest state.=0D
+=0D
+* There is useless interrupt bitmap which isn't needed=0D
+=0D
+* No support for future extensions (via flags and such)=0D
+=0D
+Also if the user doesn't use the new SREG2 api, the PDPTR=0D
+load after migration is now done on KVM_REQ_GET_NESTED_STATE_PAGES=0D
+to at least read them correctly in cases when guest memory=0D
+map is not up to date when nested state is loaded.=0D
+=0D
+This patch series was tested by doing nested migration test=0D
+of 32 bit PAE L1 + 32 bit PAE L2 on AMD and Intel and by=0D
+nested migration test of 64 bit L1 + 32 bit PAE L2 on AMD.=0D
+The later test currently fails on Intel (regardless of my patches).=0D
+=0D
+Changes from V2:=0D
+  - I took in the patch series from Sean Christopherson that=0D
+    removes the pdptrs_changed function and rebased my code=0D
+    on top of it.=0D
+  - I updated the SET_SREGS2 ioctl to load PDPTRS from memory=0D
+    when user haven't given PDPTRS.=0D
+  - Minor refactoring all over the place.=0D
+=0D
+Changes from V1:=0D
+  - move only PDPTRS load to KVM_REQ_GET_NESTED_STATE_PAGES on VMX=0D
+  - rebase on top of kvm/queue=0D
+  - improve the KVM_GET_SREGS2 to have flag for PDPTRS=0D
+    and remove padding=0D
+=0D
+Patches to qemu to enable this feature were sent as well.=0D
+=0D
+Maxim Levitsky (5):=0D
+  KVM: nSVM: refactor the CR3 reload on migration=0D
+  KVM: nVMX: delay loading of PDPTRs to KVM_REQ_GET_NESTED_STATE_PAGES=0D
+  KVM: x86: introduce kvm_register_clear_available=0D
+  KVM: x86: Introduce KVM_GET_SREGS2 / KVM_SET_SREGS2=0D
+  KVM: x86: avoid loading PDPTRs after migration when possible=0D
+=0D
+Sean Christopherson (3):=0D
+  KVM: nVMX: Drop obsolete (and pointless) pdptrs_changed() check=0D
+  KVM: nSVM: Drop pointless pdptrs_changed() check on nested transition=0D
+  KVM: x86: Always load PDPTRs on CR3 load for SVM w/o NPT and a PAE=0D
+    guest=0D
+=0D
+ Documentation/virt/kvm/api.rst  |  48 +++++++++=0D
+ arch/x86/include/asm/kvm_host.h |   7 +-=0D
+ arch/x86/include/uapi/asm/kvm.h |  13 +++=0D
+ arch/x86/kvm/kvm_cache_regs.h   |  12 +++=0D
+ arch/x86/kvm/svm/nested.c       |  39 +++++--=0D
+ arch/x86/kvm/svm/svm.c          |   6 +-=0D
+ arch/x86/kvm/vmx/nested.c       |  32 ++++--=0D
+ arch/x86/kvm/x86.c              | 176 +++++++++++++++++++++-----------=0D
+ include/uapi/linux/kvm.h        |   4 +=0D
+ 9 files changed, 253 insertions(+), 84 deletions(-)=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
-On Fri, Jun 4, 2021 at 8:50 AM Mike Rapoport <rppt@kernel.org> wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> After removal of DISCINTIGMEM the NEED_MULTIPLE_NODES and NUMA
-> configuration options are equivalent.
->
-> Drop CONFIG_NEED_MULTIPLE_NODES and use CONFIG_NUMA instead.
->
-> Done with
->
->         $ sed -i 's/CONFIG_NEED_MULTIPLE_NODES/CONFIG_NUMA/' \
->                 $(git grep -wl CONFIG_NEED_MULTIPLE_NODES)
->         $ sed -i 's/NEED_MULTIPLE_NODES/NUMA/' \
->                 $(git grep -wl NEED_MULTIPLE_NODES)
->
-> with manual tweaks afterwards.
->
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-
-Thanks for your patch!
-
-As you dropped the following hunk from v2 of PATCH 5/9, there's now
-one reference left of CONFIG_NEED_MULTIPLE_NODES
-(plus the discontigmem comment):
-
--diff --git a/mm/memory.c b/mm/memory.c
--index f3ffab9b9e39157b..fd0ebb63be3304f5 100644
----- a/mm/memory.c
--+++ b/mm/memory.c
--@@ -90,8 +90,7 @@
-- #warning Unfortunate NUMA and NUMA Balancing config, growing
-page-frame for last_cpupid.
-- #endif
--
---#ifndef CONFIG_NEED_MULTIPLE_NODES
---/* use the per-pgdat data instead for discontigmem - mbligh */
--+#ifdef CONFIG_FLATMEM
-- unsigned long max_mapnr;
-- EXPORT_SYMBOL(max_mapnr);
--
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
