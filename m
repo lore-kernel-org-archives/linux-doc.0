@@ -8,50 +8,50 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 415AFC48BCF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D08A0C4743E
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:54:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 318DC61351
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:54:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9C9A6124B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:54:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232076AbhFHL4k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 07:56:40 -0400
-Received: from mail-qk1-f172.google.com ([209.85.222.172]:36744 "EHLO
-        mail-qk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231872AbhFHL4i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 07:56:38 -0400
-Received: by mail-qk1-f172.google.com with SMTP id i68so16231188qke.3;
-        Tue, 08 Jun 2021 04:54:31 -0700 (PDT)
+        id S232286AbhFHL4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 07:56:47 -0400
+Received: from mail-qk1-f179.google.com ([209.85.222.179]:38864 "EHLO
+        mail-qk1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232258AbhFHL4n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 07:56:43 -0400
+Received: by mail-qk1-f179.google.com with SMTP id c138so6940417qkg.5;
+        Tue, 08 Jun 2021 04:54:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=D58QvjfAEUuFa2sQo4m4/NULizMsxON2k/Lqjog3pKs=;
-        b=ShuEUzDpgEGR2MxV12KhZZRzCcu1EdFYf3mzV5BCeU1K6sktfwuBpq3jXPok+eJYfP
-         Wag9ue5iMXqj96twwC5Pp1lfV6Wo7cFpfxfknl83s4ZsoRm4+00TbMdo6eXh73DZY4xv
-         RyBF/QOH79FLuYYiwrROMm0FbnB47S69UIkNKePmXmjc86jwCM5Aj+BIcZAWYYkOHwt/
-         oAbrRlBqpNsnWodJXJMVE4Nkgin/tg49WmLvzSVkhkourZ8PqVS+A6O44PtJE04+P/Si
-         W81wvhAAJp2es8cdX5Q+MS7G91Tm26cX+N3TXWt/aKWggARqaMQ4XIfz0vZrBpdExjwt
-         165Q==
+        bh=AiQc0DD6N2aSgRO8sD4OJ1ER+4IqRjuDkiQMrkgaEeg=;
+        b=k5//IFbGlIuVgYSa6FzehkG51crKgMNwddzs48OKNhdq41KBFjeAc+d7IqqQanR+0a
+         DKyHTYSqwqOVCjiW+0JrTEJe4UI1VVQxU3hEaZJaD6Y2QVZexa/U0m14kDJ0B2M/Q5E/
+         PSFiG/H3D3E8jZX+0LrBj147VcDHTkjLwXBv6e18EhssO1JyUiaGZddqu/ucyXDZE/Sc
+         Dt0fSbVBy3JQp3tHob9U22nwtWx7uAtEtHu6eUudqNySnSwYq0jgAWMn48oz/b6r0EnT
+         Upae5mE3BZS4haahHto74ofLD2O3ePKTvj2OCusuWHSSp4R0rt8pCqCTSMtFtlH0DVJw
+         PG6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=D58QvjfAEUuFa2sQo4m4/NULizMsxON2k/Lqjog3pKs=;
-        b=URd60yaYhckJwIbLDFONnfXEG8l/8RzPKm0ZqAUCKkWZ7LFqFnvJXEf0PXjUWjag4K
-         vJjpIiUGcxMeXu+Q7AI61Nz/7Y9pouuD6IbrbKk84BsvrRQFRRZtkYh6HMq+65MgYB6D
-         UEO2BXFP6dCE2dYxnHwYOiXMOiwuNokAMZbeJYnVYkaVJCm9cvNcgQ0+bdLBvyR1HiTy
-         au5PSaFadn0z0fG8d7tGI/PCaMyGxCceWxm3gpzvhzIFaDDYSuuTuLWWhCAQFpGFzb9z
-         HUpC5jeDiPCAxNH/+yFVB/6vg0V/HxaS+lZ3b5YY5SRpKxRiAnS3vT3+uvmoq/u7mEwI
-         fipg==
-X-Gm-Message-State: AOAM530fVLlz+/9Af2YDdSkoOXLqIq2o3AAGwQ6WfqawnCirvBte2dXT
-        awFgyXIGUdBE84FzS+PBbe0=
-X-Google-Smtp-Source: ABdhPJySXLhnY1lAPd5sDJ+FjzYt3zkT5ln+T3NwujiPhhhQ8CUb3OuZ6Hz97KH4ZYFpjvEbU5PK9w==
-X-Received: by 2002:a37:43cd:: with SMTP id q196mr426583qka.486.1623153211595;
-        Tue, 08 Jun 2021 04:53:31 -0700 (PDT)
+        bh=AiQc0DD6N2aSgRO8sD4OJ1ER+4IqRjuDkiQMrkgaEeg=;
+        b=Vuxrp4k9+oKMI5XwH4PuSEuofiFsr47p9qU/mfC5NooWToPxMWMVmSM33258d4Njdq
+         2OIsf3R0PyJmOTSK9GElWxaexwLGkxtVcB9Xqe8sG2tAfljRrBXaIF5L23JrcEQ396eW
+         osIdl2ukOb59KZo+jvrei80/6fdq8bPQ+otHyC9OkaVhBPDPV2BKs1MLMc1mN+7sY/yL
+         PCeDpNujGRWfWGcpCoFe1iBYZQHvcWoxaHs8wXsMmKz/r8jwxOvpltpxvyxngKbjlP9q
+         le6GA5jyo4UQqJr9CEV6O24A33dgMSO2qyJVBj51Yg19eCS6r9+auFhEin8m8XS/e2zh
+         8svQ==
+X-Gm-Message-State: AOAM531NytjGsyU05dscfM2/W8Dalms1tTetnLwtYMut0Br7fH+3UCuJ
+        G5DE1z7ndAr1v9bnLDtYzn8=
+X-Google-Smtp-Source: ABdhPJxDkNGIe9IynLDSfOi1J0bg0wZyaqtIp1Vv08ZHqor0JrhzLD/Dfg735w4QdgnUypSVRdqjsQ==
+X-Received: by 2002:a37:a143:: with SMTP id k64mr19898791qke.356.1623153217698;
+        Tue, 08 Jun 2021 04:53:37 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id h4sm2133927qth.66.2021.06.08.04.53.30
+        by smtp.gmail.com with ESMTPSA id h4sm2133927qth.66.2021.06.08.04.53.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 04:53:31 -0700 (PDT)
+        Tue, 08 Jun 2021 04:53:37 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -68,9 +68,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vbabka@suse.cz, vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC v2 09/14] tools/selftests/damon: Update for regions prioritization of schemes
-Date:   Tue,  8 Jun 2021 11:52:49 +0000
-Message-Id: <20210608115254.11930-10-sj38.park@gmail.com>
+Subject: [RFC v2 12/14] selftests/damon: Support watermarks
+Date:   Tue,  8 Jun 2021 11:52:52 +0000
+Message-Id: <20210608115254.11930-13-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210608115254.11930-1-sj38.park@gmail.com>
 References: <20210608115254.11930-1-sj38.park@gmail.com>
@@ -80,8 +80,8 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit updates the DAMON selftests for 'schemes' debugfs file, as
-the file format is updated.
+This commit updates DAMON selftests for 'schemes' debugfs file to
+reflect the changes in the format.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
@@ -89,15 +89,15 @@ Signed-off-by: SeongJae Park <sjpark@amazon.de>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tools/testing/selftests/damon/debugfs_attrs.sh b/tools/testing/selftests/damon/debugfs_attrs.sh
-index 012b0c1fdbd3..262034d8efa5 100755
+index 262034d8efa5..90440cb3aee8 100755
 --- a/tools/testing/selftests/damon/debugfs_attrs.sh
 +++ b/tools/testing/selftests/damon/debugfs_attrs.sh
 @@ -101,7 +101,7 @@ echo $ORIG_CONTENT > $file
  file="$DBGFS/schemes"
  
  ORIG_CONTENT=$(cat $file)
--echo "1 2 3 4 5 6 3 0 0" > $file
-+echo "1 2 3 4 5 6 3 0 0 1 2 3" > $file
+-echo "1 2 3 4 5 6 3 0 0 1 2 3" > $file
++echo "1 2 3 4 5 6 3 0 0 1 2 3 1 100 3 2 1" > $file
  if [ $? -ne 0 ]
  then
  	echo "$file write fail"
@@ -105,8 +105,8 @@ index 012b0c1fdbd3..262034d8efa5 100755
  fi
  
  echo "1 2
--3 4 5 6 3 0 0" > $file
-+3 4 5 6 3 0 0 1 2 3" > $file
+-3 4 5 6 3 0 0 1 2 3" > $file
++3 4 5 6 3 0 0 1 2 3 1 100 3 2 1" > $file
  if [ $? -eq 0 ]
  then
  	echo "$file multi line write success (expected fail)"
