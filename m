@@ -2,338 +2,296 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0112BC48BD1
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 10:44:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7E2C4743D
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:53:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E14776128B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 10:44:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 836E56128D
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231745AbhFHKqg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 06:46:36 -0400
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:37709 "EHLO
-        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231537AbhFHKqd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 06:46:33 -0400
-Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id D46467038F8
-        for <linux-doc@vger.kernel.org>; Tue,  8 Jun 2021 12:44:25 +0200 (CEST)
-Received: from s645.loopia.se (unknown [172.22.191.5])
-        by s807.loopia.se (Postfix) with ESMTP id C413F2E2C379;
-        Tue,  8 Jun 2021 12:44:25 +0200 (CEST)
-Received: from s475.loopia.se (unknown [172.22.191.6])
-        by s645.loopia.se (Postfix) with ESMTP id B08F6157A06C;
-        Tue,  8 Jun 2021 12:44:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-Received: from s934.loopia.se ([172.22.191.6])
-        by s475.loopia.se (s475.loopia.se [172.22.190.15]) (amavisd-new, port 10024)
-        with LMTP id bn0oEDiOqU8h; Tue,  8 Jun 2021 12:44:24 +0200 (CEST)
-X-Loopia-Auth: user
-X-Loopia-User: carl@hgsystem.se
-X-Loopia-Originating-IP: 155.4.133.180
-Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
-        (Authenticated sender: carl@hgsystem.se)
-        by s934.loopia.se (Postfix) with ESMTPSA id 9FDB47CE9FF;
-        Tue,  8 Jun 2021 12:44:24 +0200 (CEST)
-From:   Erik Rosen <erik.rosen@metormote.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, Dlinux-hwmon@vger.kernel.org,
+        id S232100AbhFHLzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 07:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53122 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232063AbhFHLzJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 07:55:09 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE6EC061787;
+        Tue,  8 Jun 2021 04:53:16 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id a15so757949qtx.13;
+        Tue, 08 Jun 2021 04:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=bUDgBkSSnq/g6VE30aIh8yXuIULfQIu9mvYqZ40mOuc=;
+        b=RnsxAEkoi0xWhUXm7BakyWuf1EJC9o3vDmabAovsZaoCo18rRYqjjVlCnPr0wXyJxY
+         3DysJ8D78S5Tzu+kbMC8nIByI5kfc5M7boHQ0OQkICEqWEyG81/KRtTPOkhgTW5/hH19
+         VALdLPwPcVWAp+5O5E2XcWjZ4a3jDRFgQH8T18HZTLWl0pOlxrra5k38xaDF8lj7TLPc
+         ntKdg9Y9Hle8MbJAXSiqo+GfY5+APWrBmXTei3cGpfneO8OpuWaRDktVeTqqOFPWZ0N4
+         asPomQ6MfHxEHd2CK6bQWkxL1czaFw9wkOu574C3Gg/CtxBITQndvQ4bjozGKWadsFd/
+         M6GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=bUDgBkSSnq/g6VE30aIh8yXuIULfQIu9mvYqZ40mOuc=;
+        b=MWWlsInHu8/Mbee9MucNlENNJQXohQNRNECMNX3uYtCIXehjbR1JeIjMKRFMOEsAOi
+         x6eZBxUc3MQWLaunyGJ8Az8rdV3yFHrcmXZyRxG4UjarS8UKov7oE6qzoyVKhzjD8FVw
+         z/JlQ0aT8azyEllhxPZ8+IcHWoOKMTWcILOn0FExhU4MyRHcHUvkggo0By/g589oPMw4
+         +KxAjDCrJdOpSGb7OfPMTvALXfPsHyfuCmQ4EnNNP3xfgXE1jY+kqFpaY9E0WK6V1UDu
+         l1QpK/FnViQ93+3g628g8SjqlYfZOfNqzhv6xk0NexEOWuGtSsvp6Hewi8MI4Jgc1I2g
+         +coA==
+X-Gm-Message-State: AOAM532acdi3IpzizPE5X0gR0sbttrW+nynyUODhpp3u4boU4SF8+QHl
+        NNrdev+ew3WEG3KTmDAO1CY=
+X-Google-Smtp-Source: ABdhPJx6uK0S6MA3y0u++av6kzxLhNBdZY26VvP4efiMSIscGrrM9G1vjWEgolfKHPhcrFguTfVplw==
+X-Received: by 2002:ac8:58ce:: with SMTP id u14mr21433954qta.83.1623153195874;
+        Tue, 08 Jun 2021 04:53:15 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id h4sm2133927qth.66.2021.06.08.04.53.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Jun 2021 04:53:15 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
+        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
+        guoju.fgj@alibaba-inc.com, jgowans@amazon.com, mgorman@suse.de,
+        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
+        peterz@infradead.org, riel@surriel.com, rientjes@google.com,
+        rostedt@goodmis.org, rppt@kernel.org, shakeelb@google.com,
+        shuah@kernel.org, sj38.park@gmail.com, snu@zelle79.org,
+        vbabka@suse.cz, vdavydov.dev@gmail.com, zgf574564920@gmail.com,
+        linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH v5 4/5] hwmon: (pmbus/pim4328) Add PMBus driver for PIM4006, PIM4328 and PIM4820
-Date:   Tue,  8 Jun 2021 12:44:15 +0200
-Message-Id: <20210608104416.6941-5-erik.rosen@metormote.com>
-X-Mailer: git-send-email 2.11.0 (Apple Git-81)
-In-Reply-To: <20210608104416.6941-1-erik.rosen@metormote.com>
-References: <20210608104416.6941-1-erik.rosen@metormote.com>
+Subject: [RFC v2 02/14] mm/damon/damos: Make schemes aggressiveness controllable
+Date:   Tue,  8 Jun 2021 11:52:42 +0000
+Message-Id: <20210608115254.11930-3-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210608115254.11930-1-sj38.park@gmail.com>
+References: <20210608115254.11930-1-sj38.park@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add hardware monitoring support for Flex power interface modules PIM4006,
-PIM4328 and PIM4820.
+From: SeongJae Park <sjpark@amazon.de>
 
-Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+If there are too large memory regions fulfilling the target data access
+pattern of a DAMON-based operation scheme, applying the action of the
+scheme could consume too much CPU.  To avoid that, this commit
+implements a limit for the action application speed.  Using the feature,
+the client can set up to how much amount of memory regions the action
+could applied within specific time duration.
+
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- drivers/hwmon/pmbus/Kconfig   |   9 ++
- drivers/hwmon/pmbus/Makefile  |   1 +
- drivers/hwmon/pmbus/pim4328.c | 233 ++++++++++++++++++++++++++++++++++
- 3 files changed, 243 insertions(+)
- create mode 100644 drivers/hwmon/pmbus/pim4328.c
+ include/linux/damon.h | 34 ++++++++++++++++++++++++----
+ mm/damon/core.c       | 52 ++++++++++++++++++++++++++++++++++++++-----
+ mm/damon/dbgfs.c      |  4 +++-
+ 3 files changed, 79 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 37a5c39784fa..001527c71269 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -257,6 +257,15 @@ config SENSORS_MP2975
- 	  This driver can also be built as a module. If so, the module will
- 	  be called mp2975.
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index 684a3603ddac..35068b0ece6f 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -87,6 +87,25 @@ enum damos_action {
+ 	DAMOS_STAT,		/* Do nothing but only record the stat */
+ };
  
-+config SENSORS_PIM4328
-+	tristate "Flex PIM4328 and compatibles"
-+	help
-+	  If you say yes here you get hardware monitoring support for Flex
-+	  PIM4328, PIM4820 and PIM4006 Power Interface Modules.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called pim4328.
-+
- config SENSORS_PM6764TR
- 	tristate "ST PM6764TR"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index f8dcc27cd56a..2a12397535ba 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -39,3 +39,4 @@ obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
- obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
- obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
- obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
-+obj-$(CONFIG_SENSORS_PIM4328)   += pim4328.o
-diff --git a/drivers/hwmon/pmbus/pim4328.c b/drivers/hwmon/pmbus/pim4328.c
-new file mode 100644
-index 000000000000..273ff6e57654
---- /dev/null
-+++ b/drivers/hwmon/pmbus/pim4328.c
-@@ -0,0 +1,233 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Hardware monitoring driver for PIM4006, PIM4328 and PIM4820
++/**
++ * struct damos_speed_limit - Controls the aggressiveness of the given scheme.
++ * @sz:			Scheme action amount limit in bytes.
++ * @ms:			Scheme action amount charge duration.
 + *
-+ * Copyright (c) 2021 Flextronics International Sweden AB
++ * To avoid consuming too much CPU time for applying the &struct damos->action
++ * to large memory, DAMON applies it to only up to &sz bytes within &ms.
++ *
++ * If &sz is 0, the limit is disabled.
 + */
++struct damos_speed_limit {
++	unsigned long sz;
++	unsigned long ms;
 +
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/pmbus.h>
-+#include <linux/slab.h>
-+#include "pmbus.h"
-+
-+enum chips { pim4006, pim4328, pim4820 };
-+
-+struct pim4328_data {
-+	enum chips id;
-+	struct pmbus_driver_info info;
++/* private: for limit accounting */
++	unsigned long charged_sz;
++	unsigned long charged_from;
 +};
 +
-+#define to_pim4328_data(x)  container_of(x, struct pim4328_data, info)
+ /**
+  * struct damos - Represents a Data Access Monitoring-based Operation Scheme.
+  * @min_sz_region:	Minimum size of target regions.
+@@ -96,13 +115,19 @@ enum damos_action {
+  * @min_age_region:	Minimum age of target regions.
+  * @max_age_region:	Maximum age of target regions.
+  * @action:		&damo_action to be applied to the target regions.
++ * @limit:		Control the aggressiveness of this scheme.
+  * @stat_count:		Total number of regions that this scheme is applied.
+  * @stat_sz:		Total size of regions that this scheme is applied.
+  * @list:		List head for siblings.
+  *
+- * For each aggregation interval, DAMON applies @action to monitoring target
+- * regions fit in the condition and updates the statistics.  Note that both
+- * the minimums and the maximums are inclusive.
++ * For each aggregation interval, DAMON finds regions which fit in the
++ * condition (&min_sz_region, &max_sz_region, &min_nr_accesses,
++ * &max_nr_accesses, &min_age_region, &max_age_region) and applies &action to
++ * those.  To avoid consuming too much CPU for the &action, &limit is used.
++ *
++ * After applying the &action to each region, &stat_count and &stat_sz is
++ * updated to reflect the number of regions and total size of regions that the
++ * &action is applied.
+  */
+ struct damos {
+ 	unsigned long min_sz_region;
+@@ -112,6 +137,7 @@ struct damos {
+ 	unsigned int min_age_region;
+ 	unsigned int max_age_region;
+ 	enum damos_action action;
++	struct damos_speed_limit limit;
+ 	unsigned long stat_count;
+ 	unsigned long stat_sz;
+ 	struct list_head list;
+@@ -335,7 +361,7 @@ struct damos *damon_new_scheme(
+ 		unsigned long min_sz_region, unsigned long max_sz_region,
+ 		unsigned int min_nr_accesses, unsigned int max_nr_accesses,
+ 		unsigned int min_age_region, unsigned int max_age_region,
+-		enum damos_action action);
++		enum damos_action action, struct damos_speed_limit *limit);
+ void damon_add_scheme(struct damon_ctx *ctx, struct damos *s);
+ void damon_destroy_scheme(struct damos *s);
+ 
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index a33b3a3b9e57..4ac4a9aa2514 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -85,7 +85,7 @@ struct damos *damon_new_scheme(
+ 		unsigned long min_sz_region, unsigned long max_sz_region,
+ 		unsigned int min_nr_accesses, unsigned int max_nr_accesses,
+ 		unsigned int min_age_region, unsigned int max_age_region,
+-		enum damos_action action)
++		enum damos_action action, struct damos_speed_limit *limit)
+ {
+ 	struct damos *scheme;
+ 
+@@ -103,6 +103,11 @@ struct damos *damon_new_scheme(
+ 	scheme->stat_sz = 0;
+ 	INIT_LIST_HEAD(&scheme->list);
+ 
++	scheme->limit.sz = limit->sz;
++	scheme->limit.ms = limit->ms;
++	scheme->limit.charged_sz = 0;
++	scheme->limit.charged_from = 0;
 +
-+/* PIM4006 and PIM4328 */
-+#define PIM4328_MFR_READ_VINA		0xd3
-+#define PIM4328_MFR_READ_VINB		0xd4
+ 	return scheme;
+ }
+ 
+@@ -536,6 +541,9 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
+ 	}
+ }
+ 
++static void damon_split_region_at(struct damon_ctx *ctx,
++				  struct damon_region *r, unsigned long sz_r);
 +
-+/* PIM4006 */
-+#define PIM4328_MFR_READ_IINA		0xd6
-+#define PIM4328_MFR_READ_IINB		0xd7
-+#define PIM4328_MFR_FET_CHECKSTATUS	0xd9
+ static void damon_do_apply_schemes(struct damon_ctx *c,
+ 				   struct damon_target *t,
+ 				   struct damon_region *r)
+@@ -544,7 +552,14 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
+ 	unsigned long sz;
+ 
+ 	damon_for_each_scheme(s, c) {
++		struct damos_speed_limit *limit = &s->limit;
 +
-+/* PIM4328 */
-+#define PIM4328_MFR_STATUS_BITS		0xd5
++		/* Check the limit */
++		if (limit->sz && limit->charged_sz >= limit->sz)
++			continue;
 +
-+/* PIM4820 */
-+#define PIM4328_MFR_READ_STATUS		0xd0
+ 		sz = r->ar.end - r->ar.start;
++		/* Check the target regions condition */
+ 		if (sz < s->min_sz_region || s->max_sz_region < sz)
+ 			continue;
+ 		if (r->nr_accesses < s->min_nr_accesses ||
+@@ -552,22 +567,47 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
+ 			continue;
+ 		if (r->age < s->min_age_region || s->max_age_region < r->age)
+ 			continue;
+-		s->stat_count++;
+-		s->stat_sz += sz;
+-		if (c->primitive.apply_scheme)
 +
-+static const struct i2c_device_id pim4328_id[] = {
-+	{"bmr455", pim4328},
-+	{"pim4006", pim4006},
-+	{"pim4106", pim4006},
-+	{"pim4206", pim4006},
-+	{"pim4306", pim4006},
-+	{"pim4328", pim4328},
-+	{"pim4406", pim4006},
-+	{"pim4820", pim4820},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, pim4328_id);
-+
-+static int pim4328_read_word_data(struct i2c_client *client, int page,
-+				  int phase, int reg)
-+{
-+	int ret;
-+
-+	if (page > 0)
-+		return -ENXIO;
-+
-+	if (phase == 0xff)
-+		return -ENODATA;
-+
-+	switch (reg) {
-+	case PMBUS_READ_VIN:
-+		ret = pmbus_read_word_data(client, page, phase,
-+					   phase == 0 ? PIM4328_MFR_READ_VINA
-+						      : PIM4328_MFR_READ_VINB);
-+		break;
-+	case PMBUS_READ_IIN:
-+		ret = pmbus_read_word_data(client, page, phase,
-+					   phase == 0 ? PIM4328_MFR_READ_IINA
-+						      : PIM4328_MFR_READ_IINB);
-+		break;
-+	default:
-+		ret = -ENODATA;
-+	}
-+
-+	return ret;
-+}
-+
-+static int pim4328_read_byte_data(struct i2c_client *client, int page, int reg)
-+{
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct pim4328_data *data = to_pim4328_data(info);
-+	int ret, status;
-+
-+	if (page > 0)
-+		return -ENXIO;
-+
-+	switch (reg) {
-+	case PMBUS_STATUS_BYTE:
-+		ret = pmbus_read_byte_data(client, page, PMBUS_STATUS_BYTE);
-+		if (ret < 0)
-+			return ret;
-+		if (data->id == pim4006) {
-+			status = pmbus_read_word_data(client, page, 0xff,
-+						      PIM4328_MFR_FET_CHECKSTATUS);
-+			if (status < 0)
-+				return status;
-+			if (status & 0x0630) /* Input UV */
-+				ret |= PB_STATUS_VIN_UV;
-+		} else if (data->id == pim4328) {
-+			status = pmbus_read_byte_data(client, page,
-+						      PIM4328_MFR_STATUS_BITS);
-+			if (status < 0)
-+				return status;
-+			if (status & 0x04) /* Input UV */
-+				ret |= PB_STATUS_VIN_UV;
-+			if (status & 0x40) /* Output UV */
-+				ret |= PB_STATUS_NONE_ABOVE;
-+		} else if (data->id == pim4820) {
-+			status = pmbus_read_byte_data(client, page,
-+						      PIM4328_MFR_READ_STATUS);
-+			if (status < 0)
-+				return status;
-+			if (status & 0x05) /* Input OV or OC */
-+				ret |= PB_STATUS_NONE_ABOVE;
-+			if (status & 0x1a) /* Input UV */
-+				ret |= PB_STATUS_VIN_UV;
-+			if (status & 0x40) /* OT */
-+				ret |= PB_STATUS_TEMPERATURE;
++		/* Apply the scheme */
++		if (c->primitive.apply_scheme) {
++			if (limit->sz && limit->charged_sz + sz > limit->sz) {
++				sz = limit->sz - limit->charged_sz;
++				damon_split_region_at(c, r, sz);
++			}
+ 			c->primitive.apply_scheme(c, t, r, s);
++			limit->charged_sz += sz;
 +		}
-+		break;
-+	default:
-+		ret = -ENODATA;
+ 		if (s->action != DAMOS_STAT)
+ 			r->age = 0;
++
++		/* Update stat */
++		s->stat_count++;
++		s->stat_sz += sz;
+ 	}
+ }
+ 
+ static void kdamond_apply_schemes(struct damon_ctx *c)
+ {
+ 	struct damon_target *t;
+-	struct damon_region *r;
++	struct damon_region *r, *next_r;
++	struct damos *s;
++
++	damon_for_each_scheme(s, c) {
++		struct damos_speed_limit *limit = &s->limit;
++
++		if (!limit->sz)
++			continue;
++
++		/* Reset charge window if the duration passed */
++		if (time_after_eq(jiffies, limit->charged_from +
++					msecs_to_jiffies(limit->ms))) {
++			limit->charged_from = jiffies;
++			limit->charged_sz = 0;
++		}
 +	}
+ 
+ 	damon_for_each_target(t, c) {
+-		damon_for_each_region(r, t)
++		damon_for_each_region_safe(r, next_r, t)
+ 			damon_do_apply_schemes(c, t, r);
+ 	}
+ }
+diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
+index 5b254eccdb43..4b45b69db697 100644
+--- a/mm/damon/dbgfs.c
++++ b/mm/damon/dbgfs.c
+@@ -310,6 +310,8 @@ static struct damos **str_to_schemes(const char *str, ssize_t len,
+ 
+ 	*nr_schemes = 0;
+ 	while (pos < len && *nr_schemes < max_nr_schemes) {
++		struct damos_speed_limit limit = {};
 +
-+	return ret;
-+}
-+
-+static int pim4328_probe(struct i2c_client *client)
-+{
-+	int status;
-+	u8 device_id[I2C_SMBUS_BLOCK_MAX + 1];
-+	const struct i2c_device_id *mid;
-+	struct pim4328_data *data;
-+	struct pmbus_driver_info *info;
-+	struct pmbus_platform_data *pdata;
-+	struct device *dev = &client->dev;
-+
-+	if (!i2c_check_functionality(client->adapter,
-+				     I2C_FUNC_SMBUS_READ_BYTE_DATA
-+				     | I2C_FUNC_SMBUS_BLOCK_DATA))
-+		return -ENODEV;
-+
-+	data = devm_kzalloc(&client->dev, sizeof(struct pim4328_data),
-+			    GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	status = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, device_id);
-+	if (status < 0) {
-+		dev_err(&client->dev, "Failed to read Manufacturer Model\n");
-+		return status;
-+	}
-+	for (mid = pim4328_id; mid->name[0]; mid++) {
-+		if (!strncasecmp(mid->name, device_id, strlen(mid->name)))
-+			break;
-+	}
-+	if (!mid->name[0]) {
-+		dev_err(&client->dev, "Unsupported device\n");
-+		return -ENODEV;
-+	}
-+
-+	if (strcmp(client->name, mid->name))
-+		dev_notice(&client->dev,
-+			   "Device mismatch: Configured %s, detected %s\n",
-+			   client->name, mid->name);
-+
-+	data->id = mid->driver_data;
-+	info = &data->info;
-+	info->pages = 1;
-+	info->read_byte_data = pim4328_read_byte_data;
-+	info->read_word_data = pim4328_read_word_data;
-+
-+	pdata = devm_kzalloc(dev, sizeof(struct pmbus_platform_data),
-+			     GFP_KERNEL);
-+	if (!pdata)
-+		return -ENOMEM;
-+	dev->platform_data = pdata;
-+	pdata->flags = PMBUS_NO_CAPABILITY | PMBUS_NO_WRITE_PROTECT;
-+
-+	switch (data->id) {
-+	case pim4006:
-+		info->phases[0] = 2;
-+		info->func[0] = PMBUS_PHASE_VIRTUAL | PMBUS_HAVE_VIN
-+			| PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT;
-+		info->pfunc[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN;
-+		info->pfunc[1] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN;
-+		break;
-+	case pim4328:
-+		info->phases[0] = 2;
-+		info->func[0] = PMBUS_PHASE_VIRTUAL
-+			| PMBUS_HAVE_VCAP | PMBUS_HAVE_VIN
-+			| PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT;
-+		info->pfunc[0] = PMBUS_HAVE_VIN;
-+		info->pfunc[1] = PMBUS_HAVE_VIN;
-+		info->format[PSC_VOLTAGE_IN] = direct;
-+		info->format[PSC_TEMPERATURE] = direct;
-+		info->format[PSC_CURRENT_OUT] = direct;
-+		pdata->flags |= PMBUS_USE_COEFFICIENTS_CMD;
-+		break;
-+	case pim4820:
-+		info->func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_TEMP
-+			| PMBUS_HAVE_IIN;
-+		info->format[PSC_VOLTAGE_IN] = direct;
-+		info->format[PSC_TEMPERATURE] = direct;
-+		info->format[PSC_CURRENT_IN] = direct;
-+		pdata->flags |= PMBUS_USE_COEFFICIENTS_CMD;
-+		break;
-+	default:
-+		return -ENODEV;
-+	}
-+
-+	return pmbus_do_probe(client, info);
-+}
-+
-+static struct i2c_driver pim4328_driver = {
-+	.driver = {
-+		   .name = "pim4328",
-+		   },
-+	.probe_new = pim4328_probe,
-+	.id_table = pim4328_id,
-+};
-+
-+module_i2c_driver(pim4328_driver);
-+
-+MODULE_AUTHOR("Erik Rosen <erik.rosen@metormote.com>");
-+MODULE_DESCRIPTION("PMBus driver for PIM4006, PIM4328, PIM4820 power interface modules");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(PMBUS);
+ 		ret = sscanf(&str[pos], "%lu %lu %u %u %u %u %u%n",
+ 				&min_sz, &max_sz, &min_nr_a, &max_nr_a,
+ 				&min_age, &max_age, &action, &parsed);
+@@ -322,7 +324,7 @@ static struct damos **str_to_schemes(const char *str, ssize_t len,
+ 
+ 		pos += parsed;
+ 		scheme = damon_new_scheme(min_sz, max_sz, min_nr_a, max_nr_a,
+-				min_age, max_age, action);
++				min_age, max_age, action, &limit);
+ 		if (!scheme)
+ 			goto fail;
+ 
 -- 
-2.20.1
+2.17.1
 
