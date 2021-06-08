@@ -6,68 +6,68 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97770C47082
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 08:45:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AAE0C4743E
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 08:47:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8157F61263
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 08:45:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 78F4B61263
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 08:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230266AbhFHIr2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 04:47:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39660 "EHLO
+        id S231337AbhFHItt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 04:49:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbhFHIr1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 04:47:27 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3272C061574;
-        Tue,  8 Jun 2021 01:45:20 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id g20so31370789ejt.0;
-        Tue, 08 Jun 2021 01:45:20 -0700 (PDT)
+        with ESMTP id S230369AbhFHIts (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 04:49:48 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8337C061574;
+        Tue,  8 Jun 2021 01:47:44 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id r11so23559905edt.13;
+        Tue, 08 Jun 2021 01:47:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fR3ab/zjle1Nt5uNzFnvgGqgsj2Kj0CI4fURhn3/mgg=;
-        b=NDGy3qSGukY0MuCs9OFy7RAF3W3bLsQSZ25MzP+N8xFY2Jl+u1YT9C08Gdb1QlFVGr
-         OE3R1gyCwf6EHTdXtEKMTS0jV5A2qQPNTJPwv3DyuA7fNpPmnAZDdVuXt0CJ1Bpx33V1
-         Wj7d+us7cCYIuq/SO41nQL+1QJHY5hPxLugL/iRHMweIiRjPgVZ5JEYtxVxJZKJBVl7w
-         IgD0IKvjJiNgWEAmJthlvxrjmRJlFmvvdmLNqkvE3E+traDk6sFLoZd1P8unFM3jt7pY
-         IJNgqyQ7XDF9gteqszgms8WFEpEXr/iZ+rVzv56jl+/OZGVqr88zmFLhL0b9vKNVgMEm
-         bOOg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LP7nFbnq6qcvyOkQ/eqHCyZ+QiHn+JFAk2tG3rdzWY0=;
+        b=a5lhZhCl4AX7h6pLmBkkfx7R11USW00VKxiXbXALgVc5vkrtjTjeOVgj9jXZN6tcHb
+         fYBSh1O/SDjL6Td6zIMEshaMw4L8k/+HL/Tp4EFvFiL7gYyQYu77t304qKA/Jcxldmhp
+         ILBz+FtGwLdvaO4KcTfzo6cG3SFQeDCKO5zhthJLLG93Cvk56YMSo57jFcY5/Fci+NTH
+         uJtovpPUpYSdXp4HmL8MBG0bZmUBxFJwbwTTEkDGGTRFKCuoARidW3du+833tke49CmJ
+         8D6AYB6xjFt4th+6z0x3IJ/YQ34kr6HV4RHt6bmd3G3Ze7PEX2xrWKtCVLvA+e7qGWwA
+         8V5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fR3ab/zjle1Nt5uNzFnvgGqgsj2Kj0CI4fURhn3/mgg=;
-        b=lb6h9gyBxvRRw8l54iJwQ54jR6k8Y+DRIk1ZvCuNC+5eCLbSqSjVRsFsM4vFS3xblj
-         w66EHROX/0knMPXreQnzTkWSqk8PLBipDRbCuDhBluPkKuPlbFJjCOL5LOQ7uCdq+A2T
-         /neC3VEVWX+KzqEX+qojHgA1Bi3SUPJ6eeAX0/03K/F3ay9cPxRXjiUfWAePwgW8oppc
-         JGPsbgN8Pd96cMeH9kzP2UI/VO/UDE8mpM/lcx7P6t6IJw/waVSkAQqfgdjK2fr2n05n
-         iOP9iAOkziUjSh+Lepd2DPoiLhCQYx+YrOaPtiMJ/liZMr+/J8Rg66+k3So2a7Z2tooK
-         7yhg==
-X-Gm-Message-State: AOAM530pzglNBcKMyZwHnAylulKYiE13l3SE2m3HWDsq5DcUt6PmmrIc
-        qaOTh9Xzlb2lVaksN8X78AU=
-X-Google-Smtp-Source: ABdhPJzcPlCByzHE+0eTX3kyRDawZVkCCk1Q5edkuoHkkm9Qe22jfhGQl7cWRkva+y8IT7FyLd7MGA==
-X-Received: by 2002:a17:907:2bf9:: with SMTP id gv57mr22369726ejc.189.1623141919565;
-        Tue, 08 Jun 2021 01:45:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LP7nFbnq6qcvyOkQ/eqHCyZ+QiHn+JFAk2tG3rdzWY0=;
+        b=V6k5nSJ5kN3n1tIRS0fDce8Ds3e7AOYVa5lsCcxFCZzRs4e34Iakn88rPPVnrYjgWe
+         o+ePjlyy2iRX+7niS4QMGwZQma+Byktgy5vNooKQgxjpZzYtXROZnR2y/rowXtX60yEK
+         ElsXWXeE5tUpbbfUadujBD8KKViU7cFc1OoDUMR8LpquD1nXtm1/1+ZWJXz1ASqWfCHF
+         hd67ZvdmlU6q7krLX3F+lK1LrdQfsrpXRyCS+i6xl7mOC8bKwX1uxQ2Jdt7ge4jDiIHi
+         TYHwJLaSShBEP40nYH8Sw2krDhYpZDTJYhYP9josP29VfDnhAEoAi3Wuk4vJgPdLDTbk
+         UEfA==
+X-Gm-Message-State: AOAM531dOFLYQOqH4rfjabS2fuUlJo9MPjFOjy+m5K42lfE8dyyPwvU4
+        4Hc6aNGtE+4CJBItLX9Lqxg=
+X-Google-Smtp-Source: ABdhPJxbozwNM8CusgeCC8jfXCJ0vbl4GQkbSksYzTs9VzuuME+SXmGvS3eOYxxG25rtPYTwZyDY9g==
+X-Received: by 2002:a05:6402:3082:: with SMTP id de2mr12038774edb.214.1623142062429;
+        Tue, 08 Jun 2021 01:47:42 -0700 (PDT)
 Received: from localhost.localdomain (ispc-static-34.84-47-111.telekom.sk. [84.47.111.34])
-        by smtp.gmail.com with ESMTPSA id m4sm7353184eje.8.2021.06.08.01.45.18
+        by smtp.gmail.com with ESMTPSA id p13sm8556583edq.67.2021.06.08.01.47.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 01:45:19 -0700 (PDT)
+        Tue, 08 Jun 2021 01:47:42 -0700 (PDT)
 From:   glittao@gmail.com
-To:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
-        iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, vbabka@suse.cz
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        faiyazm@codeaurora.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+To:     brendanhiggins@google.com, cl@linux.com, penberg@kernel.org,
+        rientjes@google.com, iamjoonsoo.kim@lge.com,
+        akpm@linux-foundation.org, vbabka@suse.cz
+Cc:     linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-mm@kvack.org, elver@google.com,
+        dlatypov@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
         Oliver Glitta <glittao@gmail.com>
-Subject: [RFC 4/4] docs: add description of debugfs files for SLUB cache
-Date:   Tue,  8 Jun 2021 10:45:17 +0200
-Message-Id: <20210608084517.6119-1-glittao@gmail.com>
+Subject: [PATCH] docs: add documentation for SLUB cache kunit tests
+Date:   Tue,  8 Jun 2021 10:47:40 +0200
+Message-Id: <20210608084740.6282-1-glittao@gmail.com>
 X-Mailer: git-send-email 2.31.1.272.g89b43f80a5
-In-Reply-To: <20210521121127.24653-1-glittao@gmail.com>
-References: <20210521121127.24653-1-glittao@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -76,130 +76,124 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Oliver Glitta <glittao@gmail.com>
 
-Add description of debugfs files alloc_traces, free_traces
-and all_objects to SLUB cache documentation.
+Add documentation for a KUnit test for SLUB debugging functionality.
 
 Signed-off-by: Oliver Glitta <glittao@gmail.com>
 ---
- Documentation/vm/slub.rst | 109 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 109 insertions(+)
+ Documentation/vm/slub.rst | 104 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 104 insertions(+)
 
 diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
-index 03f294a638bd..2280d74d395c 100644
+index 03f294a638bd..ca82fc1649ee 100644
 --- a/Documentation/vm/slub.rst
 +++ b/Documentation/vm/slub.rst
-@@ -384,5 +384,114 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
+@@ -384,5 +384,109 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
        40,60`` range will plot only samples collected between 40th and
        60th seconds).
 
++KUnit tests for SLUB debugging functionality
++============================================
 +
-+DebugFS files for SLUB
-+======================
++These KUnit tests are used to test some of the SLUB debugging
++functionalities.
 +
-+For more debug information about current state of SLUB caches
-+with the user tracking debug option enabled, debugfs files
-+are available. There are 3 types of these files
-+with different debug information:
++KUnit tests are used for unit testing in Linux kernel and easy to run,
++so it is probably the best choice for this type of tests.
 +
-+1. alloc_traces::
++There are tests, which corrupt redzone, the free objects and the freelist.
++Tests are corrupting specific bytes in cache and checking if validation
++finds expected number of bugs. Bug reports are silenced.
 +
-+    Prints information about unique allocation traces of
-+    the currently allocated objects together with their frequency.
-+    Output sorted by frequency of use.
++Config option
 +
-+    Information on output:
-+    Number of uses, allocating function, minimal/average/maximal jiffies since alloc,
-+    pid of the process, allocated by cpu and stack trace.
++In order to built and then run this tests you need to switch
++option SLUB_KUNIT_TEST on. It is tristate option so it can also
++be built as a module. This option depends on SLUB_DEBUG and
++KUNIT options. By default it is on with all kunit tests.
 +
-+    Example:::
++Error counting
 +
-+    1085 populate_error_injection_list+0x97/0x110 age=166678/166680/166682 pid=1 cpus=1::
-+	__slab_alloc+0x6d/0x90
-+	kmem_cache_alloc_trace+0x2eb/0x300
-+	populate_error_injection_list+0x97/0x110
-+	init_error_injection+0x1b/0x71
-+	do_one_initcall+0x5f/0x2d0
-+	kernel_init_freeable+0x26f/0x2d7
-+	kernel_init+0xe/0x118
-+	ret_from_fork+0x22/0x30
++To get number of errors discovered in slub is used test API kunit_resource.
++In test_init the reference to the integer variable slab_errors is added
++to the resource of this tests.
 +
++During slub cache checking always when bug should be reported or fixed function
++slab_add_kunit_errors() is called. This function find resource to kunit test
++and increment value of data in founded resource, which is slab_errors
++variable.
 +
-+2. free_traces::
++Silence bug reports
 +
-+    Prints information about unique free traces of
-+    the currently free objects together with their frequency.
-+    Output sorted by frequency of use.
++The function slab_add_kunit_errors() is returning bool, which is true if there is kunit test
++with correct kunit_resource running, to silence bug reports, so they are not printed.
++We do not want to correct errors we only want to know they occurred, so these reports
++are unnnecessary.
 +
-+    Information on output:
-+    Number of uses, freeing function, minimal/average/maximal jiffies since free,
-+    pid of the process, freed by cpu and stack trace.
++KASAN option
 +
-+    Example:::
++Only 2 out of 5 tests are runnig with KASAN option is on.
++The other three tests deliberately modifies non-allocated objects. And KASAN
++does not detect some errors in the same way as SLUB_DEBUG. So, these tests
++does not run when KASAN option is on.
 +
-+    51 acpi_ut_update_ref_count+0x6a6/0x782 age=236886/237027/237772 pid=1 cpus=1
-+	kfree+0x2db/0x420
-+	acpi_ut_update_ref_count+0x6a6/0x782
-+	acpi_ut_update_object_reference+0x1ad/0x234
-+	acpi_ut_remove_reference+0x7d/0x84
-+	acpi_rs_get_prt_method_data+0x97/0xd6
-+	acpi_get_irq_routing_table+0x82/0xc4
-+	acpi_pci_irq_find_prt_entry+0x8e/0x2e0
-+	acpi_pci_irq_lookup+0x3a/0x1e0
-+	acpi_pci_irq_enable+0x77/0x240
-+	pcibios_enable_device+0x39/0x40
-+	do_pci_enable_device.part.0+0x5d/0xe0
-+	pci_enable_device_flags+0xfc/0x120
-+	pci_enable_device+0x13/0x20
-+	virtio_pci_probe+0x9e/0x170
-+	local_pci_probe+0x48/0x80
-+	pci_device_probe+0x105/0x1c0
++TESTS
++
++1. test_clobber_zone
++
++   SLUB cache with SLUB_REDZONE flag can detects writings after object. This
++   functionality is tested here on allocated memory.
++
++   First, there is allocated memory with SLAB_REDZONE and then the first byte
++   after allocated space is modified. Validation founds 2 errors, because of
++   the bug and the fix of the memory.
 +
 +
-+3. all_objects::
++2. test_next_pointer
 +
-+    Prints information about all object (both allocated and free)
-+    in given SLUB cache.
++   SLUB have list of free objects and the address of the next free object
++   is always saved in free object at offset specified in variable offset
++   in struct kmem_cache. This test try to corrupt this freelist and
++   then correct it.
 +
-+    Example:::
++   First, there is allocated and freed memory to get a pointer to free object.
++   After that, the pointer to next free object is corrupted. The first validation finds
++   3 errors. One for corrupted freechain, the second for the wrong count of objects
++   in use and the third for fixing the issue. This fix only set number of objects
++   in use to a number of all objects minus 1, because the first free object
++   was corrupted.
 +
-+    Object: 0000000042ee8b00 free
-+    Last allocated: ima_queue_key+0x2f/0x1b0 age=247112 pid=1 cpu=1
-+	__slab_alloc+0x6d/0x90
-+	kmem_cache_alloc_trace+0x2eb/0x300
-+	ima_queue_key+0x2f/0x1b0
-+	ima_post_key_create_or_update+0x46/0x80
-+	key_create_or_update+0x383/0x5b0
-+	load_certificate_list+0x75/0xa0
-+	load_system_certificate_list+0x2f/0x31
-+	do_one_initcall+0x5f/0x2d0
-+	kernel_init_freeable+0x26f/0x2d7
-+	kernel_init+0xe/0x118
-+	ret_from_fork+0x22/0x30
-+    Last free: ima_process_queued_keys.part.0+0x84/0xf0 age=170962 pid=137 cpu=1
-+	kfree+0x2db/0x420
-+	ima_process_queued_keys.part.0+0x84/0xf0
-+    	ima_keys_handler+0x57/0x60
-+	process_one_work+0x2a5/0x590
-+	worker_thread+0x52/0x3f0
-+    	kthread+0x140/0x160
-+	ret_from_fork+0x22/0x30
++   Then the free pointer is fixed to his previous value. The second validation finds
++   2 errors. One for the wrong count of objects in use and one for fixing this error.
 +
-+    Information on output:
++   Last validation is used to check if all errors were corrected so no error
++   is found.
 +
-+    a) Object: <address> allocated/free
-+       There is address of object and information whether object is
-+       allocated or free.
++3. test_first_word
 +
-+    b) Last allocated: <address os user> age=<jiffies since alloc> pid=<pid of
-+       the process> cpu=<allocated by cpu>
++   SLUB cache with SLAB_POISON flag can detect poisoning free objects. This
++   functionality is tested in this test. The test tries to corrupt
++   the first byte in freed memory.
 +
-+    c) Alloc stacktrace
++   First of all, memory is allocated and freed to get a pointer to a free object
++   and then the first byte is corrupted. After that, validation finds 2 errors,
++   one for the bug and the other one for the fix of the memory.
 +
-+    d) Last free: <address of user> age=<jiffies since freed> pid=<pid of
-+       the process> cpu=<freed by cpu>
++4. test_clobber_50th_byte
 +
-+    e) Free stacktrace
++   In this test SLAB_POISON functionality is tested. The test tries to
++   corrupt the 50th byte in freed memory.
 +
++   First, pointer to a free memory is acquired by allocating and freeing memory.
++   Then 50th byte is corrupted and validation finds 2 errors for the bug and
++   the fix of the memory.
++
++5. test_clobber_redzone_free
++
++   This test tests redzone functionality of SLUB cache on a freed object.
++
++   First, it gets pointer to the free object with allocating and freeing and
++   then corrupts the first byte after the freed object. Validation finds
++   2 errors for the bug and the fix of the memory.
 +
  Christoph Lameter, May 30, 2007
  Sergey Senozhatsky, October 23, 2015
