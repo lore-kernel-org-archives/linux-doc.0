@@ -2,443 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8531EC47082
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F259AC4743E
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:28:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61D3F61183
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:22:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB6DD61073
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:28:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbhFHHXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 03:23:55 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:60024 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230293AbhFHHXy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jun 2021 03:23:54 -0400
-Received: from localhost.localdomain (unknown [223.106.58.132])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx70KNGr9gxewMAA--.14387S4;
-        Tue, 08 Jun 2021 15:21:55 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH 2/2] docs/zh_CN: add core api cpu_hotplug translation
-Date:   Tue,  8 Jun 2021 15:22:26 +0800
-Message-Id: <254d2ecf0a9b4bb09f64a649fdc46f5153042a34.1623136676.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1623136676.git.siyanteng@loongson.cn>
-References: <cover.1623136676.git.siyanteng@loongson.cn>
+        id S230281AbhFHHaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 03:30:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40350 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229518AbhFHHaU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jun 2021 03:30:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B3D5C61073;
+        Tue,  8 Jun 2021 07:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623137307;
+        bh=O/zMXaiejHSPpLDrpWoLj5vApKw6co+rXXxeAdTs0fQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nLlyZlZD273F402k83SpAE2/yTCnSoxOmIHbl9CNTcXkiOIJIwbU4EIxQMSt2a4ml
+         qYAZ7+GRyFby1j7J/b6Qdg0ngb9aWUorA3LUTEzB/o7nAxtpl99tYE56SX6c/L7cnq
+         JkQNkQc+kckZEP6v8MtI7gBXthqAyHNA2ro1bRHL944hNLYqFQNYNtkG14YdEsbCz8
+         WiPAfikei2ZlyE9DmtO+G5LcsEimR8Zt3bf/sh+4dSJxaQew1IHT6LAPnPOy5G3d1V
+         9RKb6ljsgqP02St+w9CxWqyTHfLgCquU2TvIEjFpSrPZM71r6hel2yJmUWm39106ZP
+         ITZzuhEQ/FbwA==
+Date:   Tue, 8 Jun 2021 09:28:19 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        coresight@lists.linaro.org, devicetree@vger.kernel.org,
+        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
+Message-ID: <20210608092819.3f4191b3@coco.lan>
+In-Reply-To: <20210608003458.kwhbn6mraekcutlt@notapiano>
+References: <cover.1622898327.git.mchehab+huawei@kernel.org>
+        <20210605151109.axm3wzbcstsyxczp@notapiano>
+        <20210605210836.540577d4@coco.lan>
+        <20210606225225.fz4dsyz6im4bqena@notapiano>
+        <20210607093422.0a369909@coco.lan>
+        <20210608003458.kwhbn6mraekcutlt@notapiano>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx70KNGr9gxewMAA--.14387S4
-X-Coremail-Antispam: 1UD129KBjvAXoW3KryrtrWDuw45Zr4DWFyxAFb_yoW8AFW3Jo
-        W7Aan0k39rG3Z8tasru3y3JrW8W340kF1UZrsYkw4j9asrWFn5KFZ2yw47tFW5ZFW5CF43
-        XF1fJFy3Kay3W3Zxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOU7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r15M28IrcIa0x
-        kI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
-        jcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
-        1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
-        M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
-        v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
-        F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
-        IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
-        wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
-        0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
-        xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
-        1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjYiiDUU
-        UUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/cpu_hotplug.rst into Chinese.
+Em Mon, 7 Jun 2021 21:34:58 -0300
+N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../zh_CN/core-api/cpu_hotplug.rst            | 347 ++++++++++++++++++
- .../translations/zh_CN/core-api/index.rst     |   2 +-
- 2 files changed, 348 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
+> Hi Mauro,
+>=20
+> On Mon, Jun 07, 2021 at 09:34:22AM +0200, Mauro Carvalho Chehab wrote:
+> > Em Sun, 6 Jun 2021 19:52:25 -0300
+> > N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
+> >  =20
+> > > On Sat, Jun 05, 2021 at 09:08:36PM +0200, Mauro Carvalho Chehab wrote=
+: =20
+> > > > Em Sat, 5 Jun 2021 12:11:09 -0300
+> > > > N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
+> > > >    =20
+> > > > > Hi Mauro,
+> > > > >=20
+> > > > > On Sat, Jun 05, 2021 at 03:17:59PM +0200, Mauro Carvalho Chehab w=
+rote:   =20
+> > > > > > As discussed at:
+> > > > > > 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
+> > > > > >=20
+> > > > > > It is better to avoid using :doc:`foo` to refer to Documentatio=
+n/foo.rst, as the
+> > > > > > automarkup.py extension should handle it automatically, on most=
+ cases.
+> > > > > >=20
+> > > > > > There are a couple of exceptions to this rule:
+> > > > > >=20
+> > > > > > 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
+> > > > > > 2. when it is used with a named tag, e. g. :doc:`some name <foo=
+>`;
+> > > > > >=20
+> > > > > > It should also be noticed that automarkup.py has currently an i=
+ssue:
+> > > > > > if one use a markup like:
+> > > > > >=20
+> > > > > > 	Documentation/dev-tools/kunit/api/test.rst
+> > > > > > 	  - documents all of the standard testing API excluding mocking
+> > > > > > 	    or mocking related features.
+> > > > > >=20
+> > > > > > or, even:
+> > > > > >=20
+> > > > > > 	Documentation/dev-tools/kunit/api/test.rst
+> > > > > > 	    documents all of the standard testing API excluding mocking
+> > > > > > 	    or mocking related features.
+> > > > > > =09
+> > > > > > The automarkup.py will simply ignore it. Not sure why. This pat=
+ch series
+> > > > > > avoid the above patterns (which is present only on 4 files), bu=
+t it would be
+> > > > > > nice to have a followup patch fixing the issue at automarkup.py=
+.     =20
+> > > > >=20
+> > > > > What I think is happening here is that we're using rST's syntax f=
+or definition
+> > > > > lists [1]. automarkup.py ignores literal nodes, and perhaps a def=
+inition is
+> > > > > considered a literal by Sphinx. Adding a blank line after the Doc=
+umentation/...
+> > > > > or removing the additional indentation makes it work, like you di=
+d in your
+> > > > > 2nd and 3rd patch, since then it's not a definition anymore, alth=
+ough then the
+> > > > > visual output is different as well.   =20
+> > > >=20
+> > > > A literal has a different output. I think that this is not the case=
+, but I=20
+> > > > didn't check the python code from docutils/Sphinx.   =20
+> > >=20
+> > > Okay, I went in deeper to understand the issue and indeed it wasn't w=
+hat I
+> > > thought. The reason definitions are ignored by automarkup.py is becau=
+se the main
+> > > loop iterates only over nodes that are of type paragraph:
+> > >=20
+> > >     for para in doctree.traverse(nodes.paragraph):
+> > >         for node in para.traverse(nodes.Text):
+> > >             if not isinstance(node.parent, nodes.literal):
+> > >                 node.parent.replace(node, markup_refs(name, app, node=
+))
+> > >=20
+> > > And inspecting the HTML output from your example, the definition name=
+ is inside
+> > > a <dt> tag, and it doesn't have a <p> inside. So in summary, automark=
+up.py will
+> > > only work on elements which are inside a <p> in the output. =20
+> >=20
+> >=20
+> > Yeah, that's what I was suspecting, based on the comments.
+> >=20
+> > Maybe something similar to the above could be done also for some
+> > non-paragraph data. By looking at:
+> >=20
+> > 	https://docutils.sourceforge.io/docs/ref/doctree.html
+> >=20
+> > It says that the body elements are:
+> >=20
+> > 	admonition, attention, block_quote, bullet_list, caution, citation,=20
+> > 	comment, compound, container, danger, definition_list, doctest_block,=
+=20
+> > 	enumerated_list, error, field_list, figure, footnote, hint, image,=20
+> > 	important, line_block, literal_block, note, option_list, paragraph,=20
+> > 	pending, raw, rubric, substitution_definition, system_message,=20
+> > 	table, target, tip, warning =20
+>=20
+> Ok, I went through each one by searching the term on [1] and inspecting t=
+he
+> element to see if it contained a <p> or not. The vast majority did. These=
+ are
+> the ones I didn't find there or didn't make sense:
+>=20
+> 	comment
+> 	container
+> 	image
+> 	pending
+> 	raw
+> 	substitution_definition
+> 	system_message
+> 	target
+>=20
+> We can safely ignore them. And these are the ones that matter and don't h=
+ave
+> paragraphs:
+>=20
+> 	1. literal_block
+> 	2. doctest_block
+> 	3. definition_list
+> 	4. field_list
+> 	5. option_list
+> 	6. line_block
+>=20
+> 1 and 2 are literals, so we don't care about them.
+>=20
+> 3 is the one you noticed the issue with. It's worth mentioning that the
+> definition term doesn't have a paragraph, but its definition does (as can=
+ be
+> checked by inspecting [2]).
+>=20
+> 4 is basically the same as 3, the rst syntax is different but the output =
+is the
+> same. That said, I believe we only use those to set options at the top of=
+ the
+> file, like in translations, and I can't see automarkup being useful in th=
+ere.
+>=20
+> 5 is similar to 3 and 4, but the term is formatted using <kbd>, so it's l=
+ike a
+> literal and therefore not relevant.
+>=20
+> 6 is useful just to preserve indentation, and I'm pretty sure we don't us=
+e it in
+> the docs.
+>=20
+> So in the end, I think the only contenders to be added to automarkup are
+> definition lists, and even then I still think we should just substitute t=
+hose
+> definition lists with alternatives like you did in your patches. Personal=
+ly I
+> don't see much gain in using definitions instead of a simple paragraph. B=
+ut if
+> you really think it's an improvement in some way, it could probably be ad=
+ded to
+> automarkup in the way you described.
 
-diff --git a/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst b/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
-new file mode 100644
-index 000000000000..745eec87c050
---- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
-@@ -0,0 +1,347 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/cpu_hotplug.rst
-+:翻译:
-+
-+司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+*Proofreader's signature*
-+
-+.. _cn_core_api_cpu_hotplug:
-+
-+=================
-+内核中的CPU热拔插
-+=================
-+
-+:时间: 2016年12月
-+:作者: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-+          Rusty Russell <rusty@rustcorp.com.au>,
-+          Srivatsa Vaddagiri <vatsa@in.ibm.com>,
-+          Ashok Raj <ashok.raj@intel.com>,
-+          Joel Schopp <jschopp@austin.ibm.com>
-+
-+简介
-+====
-+
-+现代系统架构的演进已经在处理器中引入了先进的错误报告和纠正能力。有一些oem也支
-+持NUMA硬件，这些硬件也是热插拔的，其中物理节点的插入和移除需要支持CPU热插拔。
-+
-+这样的进步要求内核可用的CPU被移除，要么是出于配置的原因，要么是出于RAS的目的，
-+以保持一个不需要的CPU不在系统执行路径。因此需要在Linux内核中支持CPU热拔插。
-+
-+CPU热拔插支持的一个更新颖的用途是它在SMP的暂停恢复支持中的应用。双核和HT支
-+持使得即使是笔记本电脑也能运行不支持这些方法的SMP内核。
-+
-+
-+命令行开关
-+==========
-+
-+``maxcpus=n``
-+  限制启动时间的CPU为 *n* 。例如，如果你有四个CPU，使用 ``maxcpus=2`` 将只能启
-+  动两个。你可以选择稍后让其他CPU上线。
-+
-+``nr_cpus=n``
-+  限制内核将支持的CPU总量。如果这里提供的数量低于实际可用的CPU数量，那么这些CPU
-+  以后就不能上线了。
-+
-+``additional_cpus=n``
-+  使用它来限制可热插拔的CPU。该选项设置
-+  ``cpu_possible_mask = cpu_present_mask + additional_cpus``
-+
-+  这个选项只限于IA64架构。
-+
-+``possible_cpus=n``
-+  这个选项设置 ``cpu_possible_mask`` 中的 ``possible_cpus`` 位。
-+
-+  这个选项只限于X86和S390架构。
-+
-+``cpu0_hotplug``
-+  允许关闭CPU0。
-+
-+  这个选项只限于X86架构。
-+
-+CPU位图
-+=======
-+
-+``cpu_possible_mask``
-+  系统中可能存在的CPU的位图。这是用来为per_cpu变量分配一些启动时的内存，这些变量
-+  不会随着CPU的可用或移除而增加/减少。一旦在启动时的发现阶段被设置，该地图就是静态
-+  的，也就是说，任何时候都不会增加或删除任何位。根据你的系统需求提前准确地调整它
-+  可以节省一些启动时的内存。
-+
-+``cpu_online_mask``
-+  当前在线的所有CPU的位图。在一个CPU可用于内核调度并准备接收设备的中断后，它被
-+  设置在 ``__cpu_up()`` 中。当使用 ``__cpu_disable()`` 关闭一个CPU时，它被清
-+  空，在此之前，所有的操作系统服务包括中断都被迁移到另一个目标CPU。
-+
-+``cpu_present_mask``
-+  系统中当前存在的CPU的位图。并非所有的CPU都是在线的。当物理热拔插被相关的子系统
-+  （如ACPI）处理时，可以改变和添加新的位或从位图中删除，这取决于事件是
-+  hot-add/hot-remove。目前还没有定死规定。典型的用法是在启动时启动拓扑结构，这时
-+  热插拔被禁用。
-+
-+你真的不需要操作任何系统的CPU映射。在大多数情况下，它们应该是只读的。当设置每个
-+CPU资源时，几乎总是使用 ``cpu_possible_mask`` 或 ``for_each_possible_cpu()``
-+来进行迭代。宏 ``for_each_cpu()`` 可以用来迭代一个自定义的CPU掩码。
-+
-+不要使用cpumask_t以外的任何东西来表示CPU的位图。
-+
-+
-+使用CPU热拔插
-+=============
-+
-+内核选项CONFIG_HOTPLUG_CPU需要被启用。它目前可用于多种架构，包括ARM、MIPS、
-+PowerPC和X86。配置是通过sysfs接口完成的::
-+
-+ $ ls -lh /sys/devices/system/cpu
-+ total 0
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu0
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu1
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu2
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu3
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu4
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu5
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu6
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu7
-+ drwxr-xr-x  2 root root    0 Dec 21 16:33 hotplug
-+ -r--r--r--  1 root root 4.0K Dec 21 16:33 offline
-+ -r--r--r--  1 root root 4.0K Dec 21 16:33 online
-+ -r--r--r--  1 root root 4.0K Dec 21 16:33 possible
-+ -r--r--r--  1 root root 4.0K Dec 21 16:33 present
-+
-+文件 *offline* 、 *online* 、*possible* 、*present* 代表CPU掩码。每个CPU文件
-+夹包含一个 *online* 文件，控制逻辑上的开（1）和关（0）状态。要在逻辑上关闭CPU4::
-+
-+ $ echo 0 > /sys/devices/system/cpu/cpu4/online
-+  smpboot: CPU 4 is now offline
-+
-+一旦CPU被关闭，它将从 */proc/interrupts* 、*/proc/cpuinfo* 中被删除，也不应该
-+被top命令显示出来。要让CPU4重新上线::
-+
-+ $ echo 1 > /sys/devices/system/cpu/cpu4/online
-+ smpboot: Booting Node 0 Processor 4 APIC 0x1
-+
-+CPU又可以使用了。这应该对所有的CPU都有效。CPU0通常比较特殊，被排除在CPU热拔插之外。
-+在X86上，内核选项 *CONFIG_BOOTPARAM_HOTPLUG_CPU0* 必须被启用，以便能够关闭CPU0。
-+或者，可以使用内核命令选项 *cpu0_hotplug* 。CPU0的一些已知的依赖性:
-+
-+* 从休眠/暂停中恢复。如果CPU0处于离线状态，休眠/暂停将失败。
-+* PIC中断。如果检测到PIC中断，CPU0就不能被移除。
-+
-+如果你发现CPU0上有任何依赖性，请让告知Fenghua Yu <fenghua.yu@intel.com>。
-+
-+CPU的热拔插协作
-+===============
-+
-+下线情况
-+--------
-+
-+一旦CPU被逻辑关闭，注册的热插拔状态的清除回调将被调用，从 ``CPUHP_ONLINE`` 开始，在
-+``CPUHP_OFFLINE`` 状态结束。这包括:
-+
-+* 如果任务因暂停操作而被冻结，那么 *cpuhp_tasks_frozen* 将被设置为true。
-+
-+* 所有进程都会从这个将要离线的CPU迁移到新的CPU上。新的CPU是从每个进程的当前cpuset中
-+  选择的，它可能是所有在线CPU的一个子集。
-+
-+* 所有针对这个CPU的中断都被迁移到新的CPU上。
-+
-+* 计时器也会被迁移到新的CPU上。
-+
-+* 一旦所有的服务被迁移，内核会调用一个特定的例程 ``__cpu_disable()`` 来进行特定的清
-+  理。
-+
-+使用热插拔API
-+-------------
-+
-+一旦一个CPU下线或上线，就有可能收到通知。这对某些需要根据可用CPU数量执行某种设置或清
-+理功能的驱动程序来说可能很重要::
-+
-+  #include <linux/cpuhotplug.h>
-+
-+  ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "X/Y:online",
-+                          Y_online, Y_prepare_down);
-+
-+*X* 是子系统， *Y* 是特定的驱动程序。 *Y_online* 回调将在所有在线CPU的注册过程中被调用。
-+如果在线回调期间发生错误， *Y_prepare_down*  回调将在所有之前调用过在线回调的CPU上调
-+用。注册完成后，一旦有CPU上线， *Y_online* 回调将被调用，当CPU关闭时， *Y_prepare_down*
-+将被调用。所有之前在 *Y_online* 中分配的资源都应该在 *Y_prepare_down* 中释放。如果在
-+注册过程中发生错误，返回值ret为负值。否则会返回一个正值，其中包含动态分配状态
-+（CPUHP_AP_ONLINE_DYN）的分配热拔插。对于预定义的状态，它将返回0。
-+
-+该回调可以通过调用 ``cpuhp_remove_state()`` 来删除。如果是动态分配的状态
-+（CPUHP_AP_ONLINE_DYN），则使用返回的状态。在移除热插拔状态的过程中，将调用拆解回调。
-+
-+多个实例
-+~~~~~~~~
-+
-+如果一个驱动程序有多个实例，并且每个实例都需要独立执行回调，那么很可能应该使用
-+``multi-state`` 。首先需要注册一个多状态的状态::
-+
-+  ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN, "X/Y:online,
-+                                Y_online, Y_prepare_down);
-+  Y_hp_online = ret;
-+
-+``cpuhp_setup_state_multi()`` 的行为与 ``cpuhp_setup_state()`` 类似，只是它
-+为多状态准备了回调，但不调用回调。这是一个一次性的设置。
-+一旦分配了一个新的实例，你需要注册这个新实例::
-+
-+  ret = cpuhp_state_add_instance(Y_hp_online, &d->node);
-+
-+这个函数将把这个实例添加到你先前分配的 ``Y_hp_online`` 状态，并在所有在线的
-+CPU上调用先前注册的回调（ ``Y_online`` ）。 *node* 元素是你的每个实例数据结构
-+中的一个 ``struct hlist_node`` 成员。
-+
-+在移除该实例时::
-+
-+  cpuhp_state_remove_instance(Y_hp_online, &d->node)
-+
-+应该被调用，这将在所有在线CPU上调用拆分回调。
-+
-+手动设置
-+~~~~~~~~
-+
-+通常情况下，在注册或移除状态时调用setup和teamdown回调是很方便的，因为通常在CPU上线
-+（下线）和驱动的初始设置（关闭）时需要执行该操作。然而，每个注册和删除功能也有一个
-+_nocalls的后缀，如果不希望调用回调，则不调用所提供的回调。在手动设置（或关闭）期间，
-+应该使用 ``get_online_cpus()`` 和 ``put_online_cpus()`` 函数来抑制CPU热插拔操作。
-+
-+
-+事件的顺序
-+----------
-+
-+热插拔状态被定义在 ``include/linux/cpuhotplug.h``:
-+
-+* ``CPUHP_OFFLINE`` ... ``CPUHP_AP_OFFLINE`` 状态是在CPU启动前调用的。
-+
-+* ``CPUHP_AP_OFFLINE`` ... ``CPUHP_AP_ONLINE`` 状态是在CPU被启动后被调用的。
-+  中断是关闭的，调度程序还没有在这个CPU上活动。从 ``CPUHP_AP_OFFLINE`` 开始，
-+  回调被调用到目标CPU上。
-+
-+* ``CPUHP_AP_ONLINE_DYN`` 和 ``CPUHP_AP_ONLINE_DYN_END`` 之间的状态被保留
-+  给动态分配。
-+
-+* 这些状态在CPU关闭时以相反的顺序调用，从 ``CPUHP_ONLINE`` 开始，在 ``CPUHP_OFFLINE``
-+  停止。这里的回调是在将被关闭的CPU上调用的，直到 ``CPUHP_AP_OFFLINE`` 。
-+
-+通过 ``CPUHP_AP_ONLINE_DYN`` 动态分配的状态通常已经足够了。然而，如果在启动或关闭
-+期间需要更早的调用，那么应该获得一个显式状态。如果热拔插事件需要相对于另一个热拔插事
-+件的特定排序，也可能需要一个显式状态。
-+
-+测试热拔插状态
-+==============
-+
-+验证自定义状态是否按预期工作的一个方法是关闭一个CPU，然后再把它上线。也可以把CPU放到某
-+些状态（例如 ``CPUHP_AP_ONLINE`` ），然后再回到 ``CPUHP_ONLINE`` 。这将模拟在
-+``CPUHP_AP_ONLINE`` 之后的一个状态出现错误，从而导致回滚到在线状态。
-+
-+所有注册的状态都被列举在 ``/sys/devices/system/cpu/hotplug/states`` ::
-+
-+ $ tail /sys/devices/system/cpu/hotplug/states
-+ 138: mm/vmscan:online
-+ 139: mm/vmstat:online
-+ 140: lib/percpu_cnt:online
-+ 141: acpi/cpu-drv:online
-+ 142: base/cacheinfo:online
-+ 143: virtio/net:online
-+ 144: x86/mce:online
-+ 145: printk:online
-+ 168: sched:active
-+ 169: online
-+
-+要将CPU4回滚到 ``lib/percpu_cnt:online`` ，再回到在线状态，只需发出::
-+
-+  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
-+  169
-+  $ echo 140 > /sys/devices/system/cpu/cpu4/hotplug/target
-+  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
-+  140
-+
-+需要注意的是，状态140的清除调用bac已经被调用。现在重新上线::
-+
-+  $ echo 169 > /sys/devices/system/cpu/cpu4/hotplug/target
-+  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
-+  169
-+
-+启用追踪事件后，单个步骤也是可见的::
-+
-+  #  TASK-PID   CPU#    TIMESTAMP  FUNCTION
-+  #     | |       |        |         |
-+      bash-394  [001]  22.976: cpuhp_enter: cpu: 0004 target: 140 step: 169 (cpuhp_kick_ap_work)
-+   cpuhp/4-31   [004]  22.977: cpuhp_enter: cpu: 0004 target: 140 step: 168 (sched_cpu_deactivate)
-+   cpuhp/4-31   [004]  22.990: cpuhp_exit:  cpu: 0004  state: 168 step: 168 ret: 0
-+   cpuhp/4-31   [004]  22.991: cpuhp_enter: cpu: 0004 target: 140 step: 144 (mce_cpu_pre_down)
-+   cpuhp/4-31   [004]  22.992: cpuhp_exit:  cpu: 0004  state: 144 step: 144 ret: 0
-+   cpuhp/4-31   [004]  22.993: cpuhp_multi_enter: cpu: 0004 target: 140 step: 143 (virtnet_cpu_down_prep)
-+   cpuhp/4-31   [004]  22.994: cpuhp_exit:  cpu: 0004  state: 143 step: 143 ret: 0
-+   cpuhp/4-31   [004]  22.995: cpuhp_enter: cpu: 0004 target: 140 step: 142 (cacheinfo_cpu_pre_down)
-+   cpuhp/4-31   [004]  22.996: cpuhp_exit:  cpu: 0004  state: 142 step: 142 ret: 0
-+      bash-394  [001]  22.997: cpuhp_exit:  cpu: 0004  state: 140 step: 169 ret: 0
-+      bash-394  [005]  95.540: cpuhp_enter: cpu: 0004 target: 169 step: 140 (cpuhp_kick_ap_work)
-+   cpuhp/4-31   [004]  95.541: cpuhp_enter: cpu: 0004 target: 169 step: 141 (acpi_soft_cpu_online)
-+   cpuhp/4-31   [004]  95.542: cpuhp_exit:  cpu: 0004  state: 141 step: 141 ret: 0
-+   cpuhp/4-31   [004]  95.543: cpuhp_enter: cpu: 0004 target: 169 step: 142 (cacheinfo_cpu_online)
-+   cpuhp/4-31   [004]  95.544: cpuhp_exit:  cpu: 0004  state: 142 step: 142 ret: 0
-+   cpuhp/4-31   [004]  95.545: cpuhp_multi_enter: cpu: 0004 target: 169 step: 143 (virtnet_cpu_online)
-+   cpuhp/4-31   [004]  95.546: cpuhp_exit:  cpu: 0004  state: 143 step: 143 ret: 0
-+   cpuhp/4-31   [004]  95.547: cpuhp_enter: cpu: 0004 target: 169 step: 144 (mce_cpu_online)
-+   cpuhp/4-31   [004]  95.548: cpuhp_exit:  cpu: 0004  state: 144 step: 144 ret: 0
-+   cpuhp/4-31   [004]  95.549: cpuhp_enter: cpu: 0004 target: 169 step: 145 (console_cpu_notify)
-+   cpuhp/4-31   [004]  95.550: cpuhp_exit:  cpu: 0004  state: 145 step: 145 ret: 0
-+   cpuhp/4-31   [004]  95.551: cpuhp_enter: cpu: 0004 target: 169 step: 168 (sched_cpu_activate)
-+   cpuhp/4-31   [004]  95.552: cpuhp_exit:  cpu: 0004  state: 168 step: 168 ret: 0
-+      bash-394  [005]  95.553: cpuhp_exit:  cpu: 0004  state: 169 step: 140 ret: 0
-+
-+可以看到，CPU4一直下降到时间戳22.996，然后又上升到95.552。所有被调用的回调，
-+包括它们的返回代码都可以在跟踪中看到。
-+
-+架构的要求
-+==========
-+
-+需要具备以下功能和配置：
-+
-+``CONFIG_HOTPLUG_CPU``
-+  这个配置项需要在Kconfig中启用
-+
-+``__cpu_up()``
-+  调出一个cpu的架构接口
-+
-+``__cpu_disable()``
-+  关闭CPU的架构接口，在例程返回后，内核不能再处理任何中断。这包括定时器的关闭。
-+
-+``__cpu_die()``
-+  这实际上是为了确保CPU的死亡。实际上，看看其他架构中实现CPU热拔插的一些示例代
-+  码。对于那个特定的架构，处理器被从 ``idle()`` 循环中拿下来。 ``__cpu_die()``
-+  通常会等待一些per_cpu状态的设置，以确保处理器的死亡例程被调用来保持活跃。
-+
-+用户空间通知
-+============
-+
-+在CPU成功上线或下线后，udev事件被发送。一个udev规则，比如::
-+
-+  SUBSYSTEM=="cpu", DRIVERS=="processor", DEVPATH=="/devices/system/cpu/*", RUN+="the_hotplug_receiver.sh"
-+
-+将接收所有事件。一个像这样的脚本::
-+
-+  #!/bin/sh
-+
-+  if [ "${ACTION}" = "offline" ]
-+  then
-+      echo "CPU ${DEVPATH##*/} offline"
-+
-+  elif [ "${ACTION}" = "online" ]
-+  then
-+      echo "CPU ${DEVPATH##*/} online"
-+
-+  fi
-+
-+可以进一步处理该事件。
-+
-+内核内联文档参考
-+================
-+
-+该API在以下内核代码中:
-+
-+include/linux/cpuhotplug.h
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index b4bde9396339..59ae7c2898de 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -80,11 +80,11 @@ Todolist:
-    :maxdepth: 1
- 
-    cachetlb
-+   cpu_hotplug
- 
- Todolist:
- 
- 
--   cpu_hotplug
-    memory-hotplug
-    genericirq
-    protection-keys
--- 
-2.27.0
+Thank you for checking this!
 
+Kernel docs use a lot definition lists. At the initial versions, it was
+equivalent to:
+
+	**Something to be written with emphasis**
+
+	  Some description
+
+Sphinx later changed the look-and-feel for the term, on html output, but
+the thing is that:
+
+	Something to be written with emphasis
+	   Some description
+
+looks a lot better when read as a text file.
+
+Also, on some cases, the first notation doesn't work. The definition-list
+was the only way I know that would allow to apply an emphasis to a literal
+block.
+
+We can avoid using Documentation/foo on description lists: the current 4=20
+cases where doc:`foo` are already addressed in this series, and the output
+is acceptable.
+
+Yet, I have a couple of concerns:
+
+1. It might have some unknown places where a description list is used
+   for Documentation/foo;
+2. It is not trivial to identify if someone add Documentation/foo in
+   the future;
+3. I suspect that there are several places where functions and structs
+   appear at the definition lists.
+
+(1) can probably be checked with a multi-line grep. So, not a big
+    problem;
+
+(2) is something that would require someone to verify from time to
+    time;
+
+but (3) are harder to check and seems to be a valid use-case.
+
+Due to (3), I think we should let automarkup to parse non-literal
+terms on description lists. At very least it should emit a warning when
+it won't be doing auto-conversions for known patterns at definition
+lists (if doing that would generate false-positives).
+
+Thanks,
+Mauro
