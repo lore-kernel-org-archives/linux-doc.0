@@ -2,109 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CAB5C47094
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 02:53:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1974C47094
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 02:59:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E81DC61263
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 02:53:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82FF16120F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 02:59:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230266AbhFHCzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 22:55:19 -0400
-Received: from m32-153.88.com ([43.250.32.153]:64721 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230254AbhFHCzT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 22:55:19 -0400
+        id S230266AbhFHDBE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 23:01:04 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:61801 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230233AbhFHDBE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 23:01:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=pLj4SGsK8n/jI46LQXbW+LeIjOWzSml3VLIw9
-        mbSDtA=; b=QIalVcjGjJkkgfp3fULiqBo+7+K59FT8fSyJNSRWn5SaplEhxiP4g
-        M0zFOhk7CIjNv3IlKbfkUHO4izxMefDREWhL0vOMMfokUWVa3m/tteczYFaj0/Ra
-        tI0iW9HT46xon5feOpPpc4w/+pBPVXlfedwPkMaqnTuVtkzXceHlcU=
-Received: from [0.0.0.0] (unknown [113.251.8.115])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCHXv2g275gJ80EAA--.14169S3;
-        Tue, 08 Jun 2021 10:53:21 +0800 (CST)
-Subject: Re: [PATCH v3] docs/zh_CN: create new translations for
- zh_CN/dev-tools/testing-overview
-To:     "Wu X.C." <bobwxc@email.cn>
+        s=dkim; h=Date:From:To; bh=xeVn0pq+FA2Ofzo8XmxTNibXjPD8cpbni56ED
+        xo9rIw=; b=TWC5mB2Ds3mYhsRxVGvIYnQypzcF0RCpzdhUv0cLuT6HkFvd4PS9V
+        LK9ixjDYW/Qh25bmVXsh5gXCIYYAe0F1g9qVOALyL2h6MkZyZox6YrXCH4ZQyWd3
+        OkhC/a2fAgicpiIf1PNW4EQWrJppP+gqx5cMFooiVoGn4aZI3yMbuA=
+Received: from bobwxc.top (unknown [120.238.248.220])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAHozaY2b5gTe0DAA--.10018S2;
+        Tue, 08 Jun 2021 10:44:42 +0800 (CST)
+Date:   Tue, 8 Jun 2021 10:44:40 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Hu Haowen <src.res@email.cn>
 Cc:     alexs@kernel.org, corbet@lwn.net, bernard@vivo.com,
         maskray@google.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] docs/zh_CN: create new translations for
+ zh_CN/dev-tools/testing-overview
+Message-ID: <20210608024439.GA3207@bobwxc.top>
 References: <20210605120504.40246-1-src.res@email.cn>
- <20210608024439.GA3207@bobwxc.top>
-From:   Hu Haowen <src.res@email.cn>
-Message-ID: <01cd7a95-8b91-ad2f-ad94-80b06c1fe5c0@email.cn>
-Date:   Tue, 8 Jun 2021 10:53:20 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210608024439.GA3207@bobwxc.top>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: GiKnCgCHXv2g275gJ80EAA--.14169S3
-X-Coremail-Antispam: 1UD129KBjvJXoWrurW8Gr4kCw4rur1DZr4DXFb_yoW8Jr1xpr
-        Wkuwn3CF4qgry7ArZ3C3W0qrnYk3sYqry8ta1ftFyUXryDZFnakr9rtrZrtw15uayxAF9Y
-        ya17KFy7C348Aa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkj1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JFC_Wr1l8cAvFVAK
-        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4
-        x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l
-        84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8w
-        Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkE
-        bVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07
-        AlzVAYIcxG8wCY02Avz4vE14v_Gr1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
-        8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
-        0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAI
-        cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcV
-        CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JjaMKZUUUUU=
-X-Originating-IP: [113.251.8.115]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
+Content-Disposition: inline
+In-Reply-To: <20210605120504.40246-1-src.res@email.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgAHozaY2b5gTe0DAA--.10018S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GF1fGr4rXryUtFW5Zw4ruFg_yoWfuFb_Ww
+        s3tayUCrn3XF17WayIyrs8JrZagws8Xr1qkF4DZr98Xw13Ca97X3WDW3Z8KFyIgFsxZ39r
+        Cr40gF1Iqr4IyjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUboxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kI
+        II0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7
+        xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2
+        z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487M2
+        AExVA0xI801c8C04v7Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErc
+        IFxwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCj
+        c4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
+        CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1x
+        MIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
+        4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnI
+        WIevJa73UjIFyTuYvjfUsvtCUUUUU
+X-Originating-IP: [120.238.248.220]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-在 2021/6/8 上午10:44, Wu X.C. 写道:
-> On Sat, Jun 05, 2021 at 08:05:04PM +0800, Hu Haowen wrote:
->> Create new translations for dev-tools/testing-overview.rst and link it
->> to dev-tools/index.rst with TODOList modifications.
->>
->> Signed-off-by: Hu Haowen <src.res@email.cn>
->> ---
->>   .../translations/zh_CN/dev-tools/index.rst    |   5 +
->>   .../zh_CN/dev-tools/testing-overview.rst      | 110 ++++++++++++++++++
-> [...]
->> +
->> +代码覆盖率工具
->> +==============
->> +
->> +支持两种不同代码之间的覆盖率测量工具。它们可以用来验证一项测试执行的
-> Linux内核支持两种不同的代码覆盖率测试工具。
+--Nq2Wo0NMKNjxTN9z
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Jun 05, 2021 at 08:05:04PM +0800, Hu Haowen wrote:
+> Create new translations for dev-tools/testing-overview.rst and link it
+> to dev-tools/index.rst with TODOList modifications.
+>=20
+> Signed-off-by: Hu Haowen <src.res@email.cn>
+> ---
+>  .../translations/zh_CN/dev-tools/index.rst    |   5 +
+>  .../zh_CN/dev-tools/testing-overview.rst      | 110 ++++++++++++++++++
+[...]
+> +
+> +=E4=BB=A3=E7=A0=81=E8=A6=86=E7=9B=96=E7=8E=87=E5=B7=A5=E5=85=B7
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E6=94=AF=E6=8C=81=E4=B8=A4=E7=A7=8D=E4=B8=8D=E5=90=8C=E4=BB=A3=E7=A0=81=
+=E4=B9=8B=E9=97=B4=E7=9A=84=E8=A6=86=E7=9B=96=E7=8E=87=E6=B5=8B=E9=87=8F=E5=
+=B7=A5=E5=85=B7=E3=80=82=E5=AE=83=E4=BB=AC=E5=8F=AF=E4=BB=A5=E7=94=A8=E6=9D=
+=A5=E9=AA=8C=E8=AF=81=E4=B8=80=E9=A1=B9=E6=B5=8B=E8=AF=95=E6=89=A7=E8=A1=8C=
+=E7=9A=84
 
-But you mentioned that this sentence should be 
-"支持两种不同代码之间的覆盖率测量工具" in
-the previous email. Should I take this version or the previous version?
+Linux=E5=86=85=E6=A0=B8=E6=94=AF=E6=8C=81=E4=B8=A4=E7=A7=8D=E4=B8=8D=E5=90=
+=8C=E7=9A=84=E4=BB=A3=E7=A0=81=E8=A6=86=E7=9B=96=E7=8E=87=E6=B5=8B=E8=AF=95=
+=E5=B7=A5=E5=85=B7=E3=80=82
 
+> +=E7=A1=AE=E5=88=87=E5=87=BD=E6=95=B0=E6=88=96=E4=BB=A3=E7=A0=81=E8=A1=8C=
+=E3=80=82=E8=BF=99=E6=9C=89=E5=8A=A9=E4=BA=8E=E5=86=B3=E5=AE=9A=E5=86=85=E6=
+=A0=B8=E8=A2=AB=E6=B5=8B=E8=AF=95=E4=BA=86=E5=A4=9A=E5=B0=91=EF=BC=8C=E6=88=
+=96=E7=94=A8=E6=9D=A5=E6=9F=A5=E6=89=BE=E5=90=88=E9=80=82=E7=9A=84=E6=B5=8B=
+=E8=AF=95
+> +=E4=B8=AD=E6=B2=A1=E6=9C=89=E8=A6=86=E7=9B=96=E5=88=B0=E7=9A=84=E6=9E=81=
+=E7=AB=AF=E6=83=85=E5=86=B5=E3=80=82
+> +
 
-Thx,
+OK, good job!
 
-Hu Haowen
+Just need to fix a small problem, after that
 
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 
->
->> +确切函数或代码行。这有助于决定内核被测试了多少，或用来查找合适的测试
->> +中没有覆盖到的极端情况。
->> +
-> OK, good job!
->
-> Just need to fix a small problem, after that
->
-> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-> Thanks,
-> 	Wu X.C.
+Thanks,
+	Wu X.C.
+
+--Nq2Wo0NMKNjxTN9z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmC+2Y4ACgkQtlsoEiKC
+sIUf6Qv/YNJKKNFFRa6M7Z1NGnPhMUCd5s/R/9aWTRFXwt63nayVkAZ8F4mmcX+H
+ujmPyxAQtEaZ3MI43fcmSXNmwGS36z54dDaHSv31OXP33v+hxgj6sccN/lAAiUYb
+wFK9xvnH7BZ3hfmaAPMogMK1gdTldkODmY/34O8BjOX82NMWyYDE/v5CBqmRq8Yl
+qdlpKpmo6c+YRL19ysPOep1Q5OGAzQ8nn2vEBWYv6BlCYrTbxN6iteKyZbBlBUjT
+zuz1T0jrx7RCS0oR0m303PWjjkVO+8csF5hgR5Qt6Dva6Cwvp4NU7N/sIya/ijb/
+NE7kdHYZYhB6u2PW4hR5We6BxJ9QQ2FcIw5aO5ksALcxx8Tf4WhrBupeofLRBsJX
+Rs3e2NVRvA6QnnD26PWI1zCv94o+K4QeNNPlnLCkHcvYhMlYrFDFSN6Yvu4FZk49
+eN6p9myKynwYY1u+/jnryY+Wo0IzOxXnRvsx/UN7c7mSr7mv/n6PS91wRwqt2mLm
+fGbt+3zW
+=dUSj
+-----END PGP SIGNATURE-----
+
+--Nq2Wo0NMKNjxTN9z--
 
