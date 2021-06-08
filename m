@@ -2,163 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF5CC47082
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 03:14:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77564C47095
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 03:20:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B73E6120F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 03:14:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65B5061278
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 03:20:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230481AbhFHDQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 23:16:08 -0400
-Received: from m32-153.88.com ([43.250.32.153]:5824 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230237AbhFHDQG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 23:16:06 -0400
+        id S230516AbhFHDWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 23:22:16 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:63915 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230398AbhFHDWQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 23:22:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=fxzUMVV0EPeh/zmL3o0HanjEphz9QxxNjXiEy
-        gfeBMs=; b=VDKO3rIroIXL3Kqm+MFkHgygLTmAX0I1QReg8ga8296npuF6mW8WO
-        taXO26HhOVrp6hyAqHEL/eMsApFkzOTgQYn6A06yeXPv6fklrbye1QBbkkUTgYsD
-        QzWZr/do+XbLLTABl0C7FN4O6eKN60CiUUoBfhyOkh1MORO3Ky2y9Q=
-Received: from bobwxc.top (unknown [120.238.248.220])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgB3Tv1+4L5gENUEAA--.12609S2;
-        Tue, 08 Jun 2021 11:14:07 +0800 (CST)
-Date:   Tue, 8 Jun 2021 11:14:05 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Hu Haowen <src.res@email.cn>
-Cc:     alexs@kernel.org, corbet@lwn.net, bernard@vivo.com,
-        maskray@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs/zh_CN: create new translations for
- zh_CN/dev-tools/testing-overview
-Message-ID: <20210608031405.GC3207@bobwxc.top>
-References: <20210605120504.40246-1-src.res@email.cn>
- <20210608024439.GA3207@bobwxc.top>
- <01cd7a95-8b91-ad2f-ad94-80b06c1fe5c0@email.cn>
+        s=dkim; h=To:From:Date; bh=eBySKfNr4sKufTNqDjgAPDrTeLkpnonNcNmU6
+        kyPStU=; b=W22IiNNy9q4f2MF8cZzVrsmURVwoOG4L6tQvt5EuiVxTkU210Uwfb
+        aicnEPqGenPqARBOtFDi8sV0ZYaO0jKwgB4vB9xBFScK1xtkbOLB/iPrA7SahfhG
+        P2PKr3Fc+jQrSO/ssBL4t6ArToFBDCYFE52jJSC5TX5Nogeh2J3s5g=
+Received: from [0.0.0.0] (unknown [113.251.8.115])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgD3kjb04b5gIvcDAA--.11317S3;
+        Tue, 08 Jun 2021 11:20:20 +0800 (CST)
+Subject: Re: [PATCH] docs/zh_CN: add a translation for index
+To:     "Wu X.C." <bobwxc@email.cn>, teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>
+References: <20210607093433.39160-1-src.res@email.cn>
+ <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
+ <CAMU9jJq5ykLjZK2NFo98FxuKDmJnSCcUGn2-N53ioX9nspBSLA@mail.gmail.com>
+ <20210608030903.GB3207@bobwxc.top>
+From:   Hu Haowen <src.res@email.cn>
+Message-ID: <24d4bd1d-cf74-179f-56a5-d28878a67d1e@email.cn>
+Date:   Tue, 8 Jun 2021 11:20:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="bKyqfOwhbdpXa4YI"
-Content-Disposition: inline
-In-Reply-To: <01cd7a95-8b91-ad2f-ad94-80b06c1fe5c0@email.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgB3Tv1+4L5gENUEAA--.12609S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar1xGr17uw4rJFy8JFWkJFb_yoW8Wr1xp3
-        yv93ZxJF4jgry2yrZak3W0qrnYkwnYqry8X3W3tFyUWrWvyFnIkry7trZFgwn09392yFyF
-        vF42gr9rC34rAa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUyl1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK
+In-Reply-To: <20210608030903.GB3207@bobwxc.top>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: LCKnCgD3kjb04b5gIvcDAA--.11317S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxJrWfWF18Ww4UCF48XFyxXwb_yoW8Kr1UpF
+        1DKFyfKa1DJr1Ykrs2gw1xJF15t3WxGw43Xr1Ut3sagrs8tr9xtr43tas0gryxXryxAF98
+        trWayFZ3C34ayFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkj1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JFC_Wr1l8cAvFVAK
         0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4
         x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l
         84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8w
-        ASzI0EjI02j7AqF2xKxwAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I64
-        8v4I1lc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1U
-        Jr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-        xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
-        cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
-        AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-        14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUxIJPDUUUU
-X-Originating-IP: [120.238.248.220]
-X-CM-SenderInfo: pere453f6hztlloou0/
+        Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkE
+        bVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07
+        AlzVAYIcxG8wCY02Avz4vE14v_Gr4l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
+        8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
+        0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAI
+        cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcV
+        CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0Jj2VbgUUUUU=
+X-Originating-IP: [113.251.8.115]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---bKyqfOwhbdpXa4YI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+在 2021/6/8 上午11:09, Wu X.C. 写道:
+> On Mon, Jun 07, 2021 at 09:43:37PM +0800, teng sterling wrote:
+>> CC Xiangcheng
+>>
+>> teng sterling <sterlingteng@gmail.com> 于2021年6月7日周一 下午9:40写道：
+>>> CC siyanteng@loongson.cn
+>>> Hu Haowen <src.res@email.cn> 于2021年6月7日周一 下午5:37写道：
+>>>> The original file has added a former intro in commit b51208d41c6a4e7fc2f0
+>>>> ("docs: Tweak the top-level Sphinx page") and hence update the Chinese
+>>>> version for it.
+>>>>
+>>>> Signed-off-by: Hu Haowen <src.res@email.cn>
+>>>> ---
+>>>>   Documentation/translations/zh_CN/index.rst | 5 +++++
+>>>>   1 file changed, 5 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+>>>> index 1f953d3439a5..003126abc0d6 100644
+>>>> --- a/Documentation/translations/zh_CN/index.rst
+>>>> +++ b/Documentation/translations/zh_CN/index.rst
+>>>> @@ -17,6 +17,11 @@
+>>>>      **翻译计划:**
+>>>>      内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
+>>>>
+>>>> +这是内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一项正
+>>> how about:
+>>>
+>>> 这是中文内核文档树的顶级目录。
+>>>> +在进行的工作；当我们努力将许多分散的文件整合成一个连贯的整体时尤其如此。另
+>>>> +外，随时欢迎您对内核文档进行改进；如果您想提供帮助，请加入vger.kernel.org
+>>> 中文内核文档进行改进；
+>>>> +上的linux-doc邮件列表。
+>>> 上的linux-doc邮件列表，先改进原始英文文档，再将其翻译为中文后，更新相应的中文文档。
+>>>> +
+>>>>   许可证文档
+>>>>   ----------
+>>>>
+>>>> --
+>>>> 2.25.1
+>>>>
+>>> BTW, I think these are similar to "disclaimer-zh_CN", but not as good
+>>> as the latter.
+>>>
+>>> Alex and Xiangcheng, what do you think?
+>>>
+>>> Thanks,
+>>> Yanteng
+> I think,
+>
+> Use 中文内核文档树
+>
+> And then
+>
+> .. include:: ./disclaimer-zh_CN.rst
 
-On Tue, Jun 08, 2021 at 10:53:20AM +0800, Hu Haowen wrote:
->=20
-> =E5=9C=A8 2021/6/8 =E4=B8=8A=E5=8D=8810:44, Wu X.C. =E5=86=99=E9=81=93:
-> > On Sat, Jun 05, 2021 at 08:05:04PM +0800, Hu Haowen wrote:
-> > > Create new translations for dev-tools/testing-overview.rst and link it
-> > > to dev-tools/index.rst with TODOList modifications.
-> > >=20
-> > > Signed-off-by: Hu Haowen <src.res@email.cn>
-> > > ---
-> > >   .../translations/zh_CN/dev-tools/index.rst    |   5 +
-> > >   .../zh_CN/dev-tools/testing-overview.rst      | 110 +++++++++++++++=
-+++
-> > [...]
-> > > +
-> > > +=E4=BB=A3=E7=A0=81=E8=A6=86=E7=9B=96=E7=8E=87=E5=B7=A5=E5=85=B7
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +
-> > > +=E6=94=AF=E6=8C=81=E4=B8=A4=E7=A7=8D=E4=B8=8D=E5=90=8C=E4=BB=A3=E7=
-=A0=81=E4=B9=8B=E9=97=B4=E7=9A=84=E8=A6=86=E7=9B=96=E7=8E=87=E6=B5=8B=E9=87=
-=8F=E5=B7=A5=E5=85=B7=E3=80=82=E5=AE=83=E4=BB=AC=E5=8F=AF=E4=BB=A5=E7=94=A8=
-=E6=9D=A5=E9=AA=8C=E8=AF=81=E4=B8=80=E9=A1=B9=E6=B5=8B=E8=AF=95=E6=89=A7=E8=
-=A1=8C=E7=9A=84
-> > Linux=E5=86=85=E6=A0=B8=E6=94=AF=E6=8C=81=E4=B8=A4=E7=A7=8D=E4=B8=8D=E5=
-=90=8C=E7=9A=84=E4=BB=A3=E7=A0=81=E8=A6=86=E7=9B=96=E7=8E=87=E6=B5=8B=E8=AF=
-=95=E5=B7=A5=E5=85=B7=E3=80=82
->=20
->=20
-> But you mentioned that this sentence should be
-> "=E6=94=AF=E6=8C=81=E4=B8=A4=E7=A7=8D=E4=B8=8D=E5=90=8C=E4=BB=A3=E7=A0=81=
-=E4=B9=8B=E9=97=B4=E7=9A=84=E8=A6=86=E7=9B=96=E7=8E=87=E6=B5=8B=E9=87=8F=E5=
-=B7=A5=E5=85=B7" in
-> the previous email. Should I take this version or the previous version?
->=20
 
-Actually was "=E6=94=AF=E6=8C=81=E4=B8=A4=E7=A7=8D=E4=B8=8D=E5=90=8C=E7=9A=
-=84=E4=BB=A3=E7=A0=81=E8=A6=86=E7=9B=96=E7=8E=87=E6=B5=8B=E8=AF=95=E5=B7=A5=
-=E5=85=B7=E3=80=82"
-<https://lore.kernel.org/linux-doc/20210523140332.GA1097@bobwxc.top/>
+OK, fixing it and going to send patch v2.
 
-I forgot the head and you added something in the middle :)
 
-Please use the new version.
+Thx,
 
-Thanks,
-	Wu
+Hu Haowen
 
->=20
-> Thx,
->=20
-> Hu Haowen
->=20
->=20
-> >=20
-> > > +=E7=A1=AE=E5=88=87=E5=87=BD=E6=95=B0=E6=88=96=E4=BB=A3=E7=A0=81=E8=
-=A1=8C=E3=80=82=E8=BF=99=E6=9C=89=E5=8A=A9=E4=BA=8E=E5=86=B3=E5=AE=9A=E5=86=
-=85=E6=A0=B8=E8=A2=AB=E6=B5=8B=E8=AF=95=E4=BA=86=E5=A4=9A=E5=B0=91=EF=BC=8C=
-=E6=88=96=E7=94=A8=E6=9D=A5=E6=9F=A5=E6=89=BE=E5=90=88=E9=80=82=E7=9A=84=E6=
-=B5=8B=E8=AF=95
-> > > +=E4=B8=AD=E6=B2=A1=E6=9C=89=E8=A6=86=E7=9B=96=E5=88=B0=E7=9A=84=E6=
-=9E=81=E7=AB=AF=E6=83=85=E5=86=B5=E3=80=82
-> > > +
-> > OK, good job!
-> >=20
-> > Just need to fix a small problem, after that
-> >=20
-> > Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-> > Thanks,
-> > 	Wu X.C.
 
---bKyqfOwhbdpXa4YI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmC+4H0ACgkQtlsoEiKC
-sIV2Tgv9EnbkMJpnj4dK4miRataUqjBTt7FVUGlsCvpTcgxnAu/Oqe7wivNGBYnU
-aAm0lzzPN+gLNhRVUQCfcBPODwq7uyhKzbJpD4S4mJf/LE0KfUwiHYl6+fV4+V7R
-erjDxKeTW8dxy1ajFMzR57qrE7zYdc165UdQ7BmqyE49aLnUK0qnbGKFsbtxeCTQ
-g0eWt3Bma4ftXO62PkdDKyE/wcCVeVyL90V7cl+MjF9Wu6gwhg/2Td1djsTBZWYg
-xk9wctglnB94SKTMBwY1NEHsOY1Pup25X5g2LPoTHz6u0DMSQp9qiyw7rUEv1siy
-oFRhNjT7W+2BbDN3gSvyLYn2O03fWogWnca5ENYPXl6cNNFwfqDOY300Q3Aoe9WW
-0gbiPTWJMx3XxFUhjUg8Atdg2ZgjBI0KakZSo0/Iga9vilB8ne76Q+eEAK4lN9li
-2Ke/kcVdo3MfpwZ2Ynkjgx0QLagNXrVSL6K7IpSu5LAKN+KrUWz/f/6h3cSquRfx
-wuKxG8rA
-=fX3L
------END PGP SIGNATURE-----
-
---bKyqfOwhbdpXa4YI--
+> Thanks,
+> 	Wu X.C.
 
