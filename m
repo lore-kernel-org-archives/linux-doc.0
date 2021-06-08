@@ -8,54 +8,51 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F69C49EC7
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 18:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA510C49EBE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 18:44:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62FB3616E8
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 18:44:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D741E61883
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 18:44:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235292AbhFHSqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 14:46:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233235AbhFHSnL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 14:43:11 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357DEC0619F6
-        for <linux-doc@vger.kernel.org>; Tue,  8 Jun 2021 11:40:00 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id m13-20020a17090b068db02901656cc93a75so14620063pjz.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jun 2021 11:40:00 -0700 (PDT)
+        id S235271AbhFHSp7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 14:45:59 -0400
+Received: from mail-pl1-f176.google.com ([209.85.214.176]:46671 "EHLO
+        mail-pl1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234389AbhFHSmx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 14:42:53 -0400
+Received: by mail-pl1-f176.google.com with SMTP id e1so11144420pld.13
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jun 2021 11:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WlWwfWm11ZwbBadKiVuyPJC6XajjDuI6+AslLyW5z08=;
-        b=QbVPX1GwRQCu14OD+ZSs2LvfKRFfPgURgMXB+3uhrM/YY9d5aFspnwPaBDccVOrIo3
-         M/ZaPHnxbHRRFmowOSMtUgWnXm5nZFjOXby4MFQMPrwDLtFIuAZtOBAm93mdLHCsqb/Q
-         8okr0y42mrVxXiHgVb+CdogkSVVsRGOhRyTxE=
+        bh=yzft9dd0vSeYhbqzTlKmJNFC+BFjIqdFg8djl4vNOCs=;
+        b=fKMg+T/GcvrJgmMBWMGLmhO7JM2Xskyd6kNdHclQ3ImCktIasIAU5yt+BTLNsoSOOJ
+         h24tzt0WugDC+e7wiA/4raF3/lwiO3VRJffQ2Y2Yat7/sOR/YDFfd85fZi0J1akU5ll9
+         fCYo/kHqTICHDpRz99Q5bvKDHAId4ERFLYEXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WlWwfWm11ZwbBadKiVuyPJC6XajjDuI6+AslLyW5z08=;
-        b=flwTO40MtMZpfMkRFjakzvmHYStFlC4yujUhR9ePy+3+xM8MuxGwwDNi3OZRSkL1Hw
-         Lb7dm24TTd0Kx46GjUlEZqJgXjg48HMOrgXqg/T6TMvtUbDFyIBvWos96if3E45Blr2f
-         Na/1XhDUMdtUSVOZWGuN8gC/pZdUsd4L+cSK5d3TfDPc4Zev/QEY4W83yoLUHfuBRpsw
-         u1s+zxwAGREbxrVusXmLq5deELbv0vkFQtdYIB3bVP3z9VP0Wp2nhdgPJ8JbzbTiKM6S
-         wPonYT6vH696gGWgErV7a2awj9/2cQG8Fvj4PEHO5hmFjX+FJqftQkiHwN0VYU6+wGCy
-         9mlA==
-X-Gm-Message-State: AOAM531BAaxBqm5VAvWgpi2+BvkSw/FpUay1N/JXePLZ5bh8ntpAayrO
-        pECjmT/x3iLAUAgGeeZrOK8l/w==
-X-Google-Smtp-Source: ABdhPJzqy4n4WdYTLIGeM6Q8LDAjzOhL4aPsd5U04TX5u6JdmHUAEsG/77ua5jo+MiWEvpvtD6yw4A==
-X-Received: by 2002:a17:902:c1d2:b029:101:656b:8c06 with SMTP id c18-20020a170902c1d2b0290101656b8c06mr1015590plc.77.1623177598937;
-        Tue, 08 Jun 2021 11:39:58 -0700 (PDT)
+        bh=yzft9dd0vSeYhbqzTlKmJNFC+BFjIqdFg8djl4vNOCs=;
+        b=fN4xqzTDIhM7t7p4aYGAK+xC+DTXQBWfc8YUh8DN6NXL7o6Qels2qUpdutEohn3AHb
+         74/tyWJudo0FGByf3z2Lf+SeOBSq1vWS0BtbzSeK7ktDuGYjFbM4YXlhHymQigub2BvW
+         Iv6UK3ttCvUKMX2Isc1JGV1aIvpiNRfBfyrdCdcWwMneaULOXkI+R2D0D23fjHDXD6Dc
+         nAvj7k4amyrlfvjmAr2hl/AhREVpDOjyZd3Beg/xTofuJs7wBUI4UZPDKN+ZTtyGXPKR
+         QMwOWbwB5tmpqGDRbSlpbZzexwENkB6jOlc6m5GXp108di+MB+3HlQhn6QHXkdXkid4T
+         WWwg==
+X-Gm-Message-State: AOAM532fYPLtro3Hgyvon0TIGxiB5ufDVUUGdze1ZdOpBBPxJsZyj5Sz
+        DZecmmTIJDCYrE8YLRrm8FSQMg==
+X-Google-Smtp-Source: ABdhPJwS3KPZAsqhT8J29mTedkNx6p7Ke/oarm+JiBj6cVpii3q7g//5NCUpMwmE0mWzBsO5367gFQ==
+X-Received: by 2002:a17:90b:354:: with SMTP id fh20mr27778700pjb.67.1623177599221;
+        Tue, 08 Jun 2021 11:39:59 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c5sm9354668pfn.144.2021.06.08.11.39.57
+        by smtp.gmail.com with ESMTPSA id x125sm11185015pfx.201.2021.06.08.11.39.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 11:39:58 -0700 (PDT)
+        Tue, 08 Jun 2021 11:39:57 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Kees Cook <keescook@chromium.org>, stable@vger.kernel.org,
+Cc:     Kees Cook <keescook@chromium.org>,
         Vlastimil Babka <vbabka@suse.cz>,
         Marco Elver <elver@google.com>,
         Christoph Lameter <cl@linux.com>,
@@ -64,95 +61,139 @@ Cc:     Kees Cook <keescook@chromium.org>, stable@vger.kernel.org,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Roman Gushchin <guro@fb.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v4 2/3] mm/slub: Fix redzoning for small allocations
-Date:   Tue,  8 Jun 2021 11:39:54 -0700
-Message-Id: <20210608183955.280836-3-keescook@chromium.org>
+Subject: [PATCH v4 1/3] mm/slub: Clarify verification reporting
+Date:   Tue,  8 Jun 2021 11:39:53 -0700
+Message-Id: <20210608183955.280836-2-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210608183955.280836-1-keescook@chromium.org>
 References: <20210608183955.280836-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; g=4d07ab25d78303866d0d97043ac7d3b3c89a188b; i=/4wP7Z7hf8NRJqx5cO57ZcO310lU091PUfj+vstIw5Q=; m=ZkE5m/qyaah1o2CK6u/oGOeYjX1Qohn3GAXR8LvKXFY=; p=QHACCNDXDPZn3tQzC59FK9Xid+U/e7qsN2m1YshAXh8=
-X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026; b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmC/uXsACgkQiXL039xtwCZiyRAAlgt u28QImlU8Sk7zOkeBTH8PG+BF6ltMWSFMOWluk38QI6ysgrJyZuz8nPqyhlY4LbKmPZlM5dDzLrEl WFazxogGESoFjztYt2+fvWgirR7F4Ovi7zR3GOPg/U8Z74iwOWWjlL4Ps59MVV/4MtPihc+t6rtLS el+ck+DdHro3yhcPxc55bj2WQEoz5L+fXpqDzijkcDiSYKu8oYfRKNAXM4zjUPbuEebemG7C5W8ir gm5za0N1wQMZW6NnS4/7IQGfMkxVlrNsRHE8G34iWXP669r75O7EMGkfAoBmCh1SitVfGLkOhYWj3 YHDRwVy0ymZEpifJNKrxfokXFfNXSN9hrKi/vjSLA1alN8WFHkduOBu/daDHCsOmC9cbcYWuX7sEd nrQGxfzVvX3SYAOwTkbpxstr3E1QBwCMr+YzUYWNZr9ttwA1YAiWsZYMBnI6V1OY6mTmWJWPMy9fs bUSkP5OxEMCDR+DlHXFB7l6Q8RokenOAtQZlloq/rO0YAjDOJ+qe51052Iq5bbPB0ISUcIANpyruz R8xovxgPxcIKTYwaISm3YbbyxU44O9ZjZoTK53DHKQiCGXtOSTKXs3bO9Xvl3U6KuSuu++JONo0xY q9NXQPUYRi7+o754GbK2a5C5BAJQwms6BS5Q2uVWSOe3ji3RCxhTfQRuUkxHE5pY=
+X-Patch-Hashes: v=1; h=sha256; g=178be2f9d2e784ee9bf12a0f196176c115be9fbb; i=U+vADmko1G4lZ39LsoUZb95Wrx2rzv1r6guaqRqH67M=; m=KNPYS4ZBPM+uSQxSrL5WKoyUoDfTLfQIvACRYbVbr6o=; p=oVLORPkeeRwgt0gc55edlRvCMc3IvI98MP3RDST0Gds=
+X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026; b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmC/uXoACgkQiXL039xtwCZwew/+M13 4wKVrclvxFWQ7U4l1afq0WF/fGE8hgsFeBYQox+dbgIZbDFA56wtNup/udYkNnkiz1muhxBERvtpx V/1Ap4LRawWE41JgshDMfF7c8rJRoy+lolYEjMbXFvs/YxH6TSqFqHXMfy70QRfraczox8kT8mwaB 3l6enWQxhMCeTygt27lZ+F417VXJD/bM1zyLrC3FE0JJ9dJ/uuiE7ZzTMY8DMLgpu+VoSwNqWL4zR lUfNYyxwQz5/3puRkpungw97NK5d14+Ug+tcWImkEGsbPD2iD6Rlra8JVpGa5XTSsqlBOu8Mrqo/q UmqQalgmoWOamnvCiAaBI24YHpLU8pQq178JqK2O0owPhbC8mlNpTEVgZ43GF1hkDhhPQ/QvwRz0Z XC+1WyhwjUT9FRHHhPhRWOgxpY5Q8illryl21dK+9IbuLYRyX1s6Nh4fERJRqltrb6hKHePAUbGzD i5Nh9dwYX4skY48Oui7IL5I+KZsycdwLSXDfQNvN+MmqVmN35gOMJYvq6Kd+LFCDwzAamQyyXUTPp OkUA89+s5SQ958kNjTvicCs7xe5hmRareo/aslj2P9P//WAzu0x0AjGvBXx9/NZ9f0z9/spWcxI4+ Qtjy5K0z/S5nGC6E4tBifF99GPbi0/Y3ge/0NMroeVZrLwbkWQV2KuCPMP/hB14c=
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The redzone area for SLUB exists between s->object_size and s->inuse
-(which is at least the word-aligned object_size). If a cache were created
-with an object_size smaller than sizeof(void *), the in-object stored
-freelist pointer would overwrite the redzone (e.g. with boot param
-"slub_debug=ZF"):
+Instead of repeating "Redzone" and "Poison", clarify which sides of
+those zones got tripped. Additionally fix column alignment in the
+trailer.
+
+Before:
+
+BUG test (Tainted: G    B            ): Redzone overwritten
+...
+Redzone (____ptrval____): bb bb bb bb bb bb bb bb      ........
+Object (____ptrval____): f6 f4 a5 40 1d e8            ...@..
+Redzone (____ptrval____): 1a aa                        ..
+Padding (____ptrval____): 00 00 00 00 00 00 00 00      ........
+
+After:
 
 BUG test (Tainted: G    B            ): Right Redzone overwritten
------------------------------------------------------------------------------
+...
+Redzone  (____ptrval____): bb bb bb bb bb bb bb bb      ........
+Object   (____ptrval____): f6 f4 a5 40 1d e8            ...@..
+Redzone  (____ptrval____): 1a aa                        ..
+Padding  (____ptrval____): 00 00 00 00 00 00 00 00      ........
 
-INFO: 0xffff957ead1c05de-0xffff957ead1c05df @offset=1502. First byte 0x1a instead of 0xbb
-INFO: Slab 0xffffef3950b47000 objects=170 used=170 fp=0x0000000000000000 flags=0x8000000000000200
-INFO: Object 0xffff957ead1c05d8 @offset=1496 fp=0xffff957ead1c0620
+The earlier commits that slowly resulted in the "Before" reporting were:
 
-Redzone  (____ptrval____): bb bb bb bb bb bb bb bb    ........
-Object   (____ptrval____): f6 f4 a5 40 1d e8          ...@..
-Redzone  (____ptrval____): 1a aa                      ..
-Padding  (____ptrval____): 00 00 00 00 00 00 00 00    ........
+  d86bd1bece6f ("mm/slub: support left redzone")
+  ffc79d288000 ("slub: use print_hex_dump")
+  2492268472e7 ("SLUB: change error reporting format to follow lockdep loosely")
 
-Store the freelist pointer out of line when object_size is smaller than
-sizeof(void *) and redzoning is enabled.
-
-Additionally remove the "smaller than sizeof(void *)" check under
-CONFIG_DEBUG_VM in kmem_cache_sanity_check() as it is now redundant:
-SLAB and SLOB both handle small sizes.
-
-(Note that no caches within this size range are known to exist in the
-kernel currently.)
-
-Fixes: 81819f0fc828 ("SLUB core")
-Cc: stable@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Link: https://lore.kernel.org/lkml/cfdb11d7-fb8e-e578-c939-f7f5fb69a6bd@suse.cz/
 ---
- mm/slab_common.c | 3 +--
- mm/slub.c        | 8 +++++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ Documentation/vm/slub.rst | 10 +++++-----
+ mm/slub.c                 | 14 +++++++-------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index a4a571428c51..7cab77655f11 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -97,8 +97,7 @@ EXPORT_SYMBOL(kmem_cache_size);
- #ifdef CONFIG_DEBUG_VM
- static int kmem_cache_sanity_check(const char *name, unsigned int size)
- {
--	if (!name || in_interrupt() || size < sizeof(void *) ||
--		size > KMALLOC_MAX_SIZE) {
-+	if (!name || in_interrupt() || size > KMALLOC_MAX_SIZE) {
- 		pr_err("kmem_cache_create(%s) integrity check failed\n", name);
- 		return -EINVAL;
- 	}
+diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
+index 03f294a638bd..d3028554b1e9 100644
+--- a/Documentation/vm/slub.rst
++++ b/Documentation/vm/slub.rst
+@@ -181,7 +181,7 @@ SLUB Debug output
+ Here is a sample of slub debug output::
+ 
+  ====================================================================
+- BUG kmalloc-8: Redzone overwritten
++ BUG kmalloc-8: Right Redzone overwritten
+  --------------------------------------------------------------------
+ 
+  INFO: 0xc90f6d28-0xc90f6d2b. First byte 0x00 instead of 0xcc
+@@ -189,10 +189,10 @@ Here is a sample of slub debug output::
+  INFO: Object 0xc90f6d20 @offset=3360 fp=0xc90f6d58
+  INFO: Allocated in get_modalias+0x61/0xf5 age=53 cpu=1 pid=554
+ 
+- Bytes b4 0xc90f6d10:  00 00 00 00 00 00 00 00 5a 5a 5a 5a 5a 5a 5a 5a ........ZZZZZZZZ
+-   Object 0xc90f6d20:  31 30 31 39 2e 30 30 35                         1019.005
+-  Redzone 0xc90f6d28:  00 cc cc cc                                     .
+-  Padding 0xc90f6d50:  5a 5a 5a 5a 5a 5a 5a 5a                         ZZZZZZZZ
++ Bytes b4 (0xc90f6d10): 00 00 00 00 00 00 00 00 5a 5a 5a 5a 5a 5a 5a 5a ........ZZZZZZZZ
++ Object   (0xc90f6d20): 31 30 31 39 2e 30 30 35                         1019.005
++ Redzone  (0xc90f6d28): 00 cc cc cc                                     .
++ Padding  (0xc90f6d50): 5a 5a 5a 5a 5a 5a 5a 5a                         ZZZZZZZZ
+ 
+    [<c010523d>] dump_trace+0x63/0x1eb
+    [<c01053df>] show_trace_log_lvl+0x1a/0x2f
 diff --git a/mm/slub.c b/mm/slub.c
-index f91d9fe7d0d8..f58cfd456548 100644
+index 3f96e099817a..f91d9fe7d0d8 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -3734,15 +3734,17 @@ static int calculate_sizes(struct kmem_cache *s, int forced_order)
- 	 */
- 	s->inuse = size;
+@@ -712,15 +712,15 @@ static void print_trailer(struct kmem_cache *s, struct page *page, u8 *p)
+ 	       p, p - addr, get_freepointer(s, p));
  
--	if (((flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
--		s->ctor)) {
-+	if ((flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
-+	    ((flags & SLAB_RED_ZONE) && s->object_size < sizeof(void *)) ||
-+	    s->ctor) {
+ 	if (s->flags & SLAB_RED_ZONE)
+-		print_section(KERN_ERR, "Redzone ", p - s->red_left_pad,
++		print_section(KERN_ERR, "Redzone  ", p - s->red_left_pad,
+ 			      s->red_left_pad);
+ 	else if (p > addr + 16)
+ 		print_section(KERN_ERR, "Bytes b4 ", p - 16, 16);
+ 
+-	print_section(KERN_ERR, "Object ", p,
++	print_section(KERN_ERR,         "Object   ", p,
+ 		      min_t(unsigned int, s->object_size, PAGE_SIZE));
+ 	if (s->flags & SLAB_RED_ZONE)
+-		print_section(KERN_ERR, "Redzone ", p + s->object_size,
++		print_section(KERN_ERR, "Redzone  ", p + s->object_size,
+ 			s->inuse - s->object_size);
+ 
+ 	off = get_info_end(s);
+@@ -732,7 +732,7 @@ static void print_trailer(struct kmem_cache *s, struct page *page, u8 *p)
+ 
+ 	if (off != size_from_object(s))
+ 		/* Beginning of the filler is the free pointer */
+-		print_section(KERN_ERR, "Padding ", p + off,
++		print_section(KERN_ERR, "Padding  ", p + off,
+ 			      size_from_object(s) - off);
+ 
+ 	dump_stack();
+@@ -909,11 +909,11 @@ static int check_object(struct kmem_cache *s, struct page *page,
+ 	u8 *endobject = object + s->object_size;
+ 
+ 	if (s->flags & SLAB_RED_ZONE) {
+-		if (!check_bytes_and_report(s, page, object, "Redzone",
++		if (!check_bytes_and_report(s, page, object, "Left Redzone",
+ 			object - s->red_left_pad, val, s->red_left_pad))
+ 			return 0;
+ 
+-		if (!check_bytes_and_report(s, page, object, "Redzone",
++		if (!check_bytes_and_report(s, page, object, "Right Redzone",
+ 			endobject, val, s->inuse - s->object_size))
+ 			return 0;
+ 	} else {
+@@ -928,7 +928,7 @@ static int check_object(struct kmem_cache *s, struct page *page,
+ 		if (val != SLUB_RED_ACTIVE && (s->flags & __OBJECT_POISON) &&
+ 			(!check_bytes_and_report(s, page, p, "Poison", p,
+ 					POISON_FREE, s->object_size - 1) ||
+-			 !check_bytes_and_report(s, page, p, "Poison",
++			 !check_bytes_and_report(s, page, p, "End Poison",
+ 				p + s->object_size - 1, POISON_END, 1)))
+ 			return 0;
  		/*
- 		 * Relocate free pointer after the object if it is not
- 		 * permitted to overwrite the first word of the object on
- 		 * kmem_cache_free.
- 		 *
- 		 * This is the case if we do RCU, have a constructor or
--		 * destructor or are poisoning the objects.
-+		 * destructor, are poisoning the objects, or are
-+		 * redzoning an object smaller than sizeof(void *).
- 		 *
- 		 * The assumption that s->offset >= s->inuse means free
- 		 * pointer is outside of the object is used in the
 -- 
 2.25.1
 
