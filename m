@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 218D7C4743E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:53:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 599E6C48BCD
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:53:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 097F96139A
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:53:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43F556135A
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 11:53:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232369AbhFHLz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 07:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
+        id S232355AbhFHLza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 07:55:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232374AbhFHLzY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 07:55:24 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C42DC06178B;
-        Tue,  8 Jun 2021 04:53:30 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id t6so4702170qvp.5;
-        Tue, 08 Jun 2021 04:53:30 -0700 (PDT)
+        with ESMTP id S232353AbhFHLz2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 07:55:28 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B814C061787;
+        Tue,  8 Jun 2021 04:53:21 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id f70so4607646qke.13;
+        Tue, 08 Jun 2021 04:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=exn5/9MVsYyepOBbFagm+4+x6JfQKNCd23hgVVQiw28=;
-        b=rW6VO0cYPPeohtegDgnMo56MynBg4r79O6s7fPi4Hdgb4YViiGit5ckAJxLvBxTHKG
-         I8FeR8VtXvr2EsTbwvkB1bkBqhxzyiVvac7rSpDQhZj/P7OOAUfHdMCQkqlAkdbbLgr3
-         kQFCw79tAR2RAt/tCkDe6g4r0ptta+kQEJ6fYily/2qY5EUGH27vOKm7tarHYyj7spii
-         Yeoje3bC0c7/17CK7Hy2F44baCEKYEdfvrHfIh248bmIgT/c6nc9e4OBf60PVslSTSj2
-         x08zgiiqh6DG0CuZvXn+j0UXu6G+Q3T8n4pat88EsZSJey77bIC0MZiVQDfFutphW8K2
-         ySaA==
+        bh=nFxPSjswgRnIxs2vNxK3L4JE5I+QJrKj8CTw993w1EM=;
+        b=GVV3JJMQ0XCOg8jHkapL/ow7iREJv5SsbPj9zFzb0rwiLDvmbHCdQCuyTKqSKLk9KC
+         4L5th8pMvcUFnVHUf3ChYt4sxsIFIVvxy6UwidbuXx0b+pstL8nK8emHY/hYZLs8JGOd
+         fT/Fiy2x8bf341SreDqjTIAVCbPiDhMDrZ2gQuo2B0fchSg+NGcH7dfDl+gSUeD0eBkS
+         2YRRfc/m81doMDzhpHJeBzJaLvlTjunzNXqJwiPc8sNE8nWw5T3gflkGPgduNsMPqXSN
+         B5GG1BUAFSuGYVSgUB4cfmRosglzn++/cxc79q7VmvR33u4xfLLj2Ni2KrUJfw3bXNwH
+         /XLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=exn5/9MVsYyepOBbFagm+4+x6JfQKNCd23hgVVQiw28=;
-        b=WrfWyamBQhmkRjUX+cRRAh0QG8KJiO+IEv0BPB6WpczZj3I5W5ILYI1VWR7v4qINBE
-         zKo0iLYVjg4g0KqzgDp94TAnXKGUjxzeuuEtYOTSNO3D0dMmMKfaYkDMmmL+1SH0Cj+U
-         uwIc8pY67BDnLvO5zYnv7PUaTg1yR/V+2tZQlF6bRJd4G1SjtayRQWp3bD9BiEsCHzZc
-         LcZThJsQo1QF25jbdxj4l+ZNqONqppq5NGi5Rp4RbYTt+WbPqCIaODHHhXTIjPA3t32U
-         zN//zM28EeSuziiptfGMQ4K27QbNipTiYYG+fiyRmfvksScjqAM5HjZ7ZfAZkgYcfz5k
-         YnLQ==
-X-Gm-Message-State: AOAM532eMx+ZDw4a18/SVhsKcVDgtzty+qaX+tR7h8jiaFPSSbg4Q0VC
-        bisVIMY0T8TKp/jnoyh428Y=
-X-Google-Smtp-Source: ABdhPJywm2xA13cQrhGtHNB/ZXuL7WSc2fz2N2COdktA1EihuHv9PfAyl9AWb4EmC9kEbP0RMKU+Zg==
-X-Received: by 2002:a0c:a99c:: with SMTP id a28mr22979057qvb.33.1623153209315;
-        Tue, 08 Jun 2021 04:53:29 -0700 (PDT)
+        bh=nFxPSjswgRnIxs2vNxK3L4JE5I+QJrKj8CTw993w1EM=;
+        b=pF46+2LQt/S0Bfl9soyaezhOt5LMEguODmrg5l3b6HM25LUhRomTDvHYDXvHpFXPDr
+         +iQ31g46WmZnK+VFCInf0eTDwN75G8jpsT3J8igJHwxwUGQVskVVJZZj0wtHUWHA+sEk
+         B0fY0xfSYxUoM3nSs5xBPLVukOZ6aQLYrvQ72vZ3f7MLpNbsdasdLTu/PX0fMXEoiSHt
+         7wc0ug0HHKQh+3kZDh8MNpwEkp2pgFhHKcH/zWO8d+cIhwUGy+17iwp7ATxMATc0VB/u
+         SxxlCQuQ0ES5aOcrYJxBxMqtVsVe9ECA7yzbj8LWoN0KwvFUI7UXGqNkAply+mUdided
+         7qeA==
+X-Gm-Message-State: AOAM533GiNITSCB8xfsC4rSRZW5DtfqsXsERWMrCdfQSCycDujhJ96wt
+        kG3NIkC2Py3m965bK2mIisM=
+X-Google-Smtp-Source: ABdhPJz0W4Tm3yxT5k/BicvuMfYTgFKUVIqEsXsSXgO0izcZdX2uEWYTaLsVGNAADQ7IvbEL4S0CMQ==
+X-Received: by 2002:a37:7287:: with SMTP id n129mr20201503qkc.457.1623153200545;
+        Tue, 08 Jun 2021 04:53:20 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id h4sm2133927qth.66.2021.06.08.04.53.28
+        by smtp.gmail.com with ESMTPSA id h4sm2133927qth.66.2021.06.08.04.53.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 04:53:28 -0700 (PDT)
+        Tue, 08 Jun 2021 04:53:20 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -71,9 +71,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vbabka@suse.cz, vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC v2 08/14] mm/damon/dbgfs: Support prioritization weights
-Date:   Tue,  8 Jun 2021 11:52:48 +0000
-Message-Id: <20210608115254.11930-9-sj38.park@gmail.com>
+Subject: [RFC v2 04/14] mm/damon/dbgfs: Support schemes speed limit
+Date:   Tue,  8 Jun 2021 11:52:44 +0000
+Message-Id: <20210608115254.11930-5-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210608115254.11930-1-sj38.park@gmail.com>
 References: <20210608115254.11930-1-sj38.park@gmail.com>
@@ -83,61 +83,85 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit allows DAMON debugfs interface users set the prioritization
-weights by putting three more numbers to the 'schemes' file.
+This commit makes the debugfs interface of DAMON to support the schemes
+speed limit by chaning the format of the input for the schemes file.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- mm/damon/dbgfs.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ mm/damon/dbgfs.c | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
 
 diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index ea6d4fdb57fa..b90287b1e576 100644
+index 4b45b69db697..ea6d4fdb57fa 100644
 --- a/mm/damon/dbgfs.c
 +++ b/mm/damon/dbgfs.c
-@@ -227,11 +227,14 @@ static ssize_t sprint_schemes(struct damon_ctx *c, char *buf, ssize_t len)
+@@ -227,11 +227,12 @@ static ssize_t sprint_schemes(struct damon_ctx *c, char *buf, ssize_t len)
  
  	damon_for_each_scheme(s, c) {
  		rc = scnprintf(&buf[written], len - written,
--				"%lu %lu %u %u %u %u %d %lu %lu %lu %lu\n",
-+				"%lu %lu %u %u %u %u %d %lu %lu %u %u %u %lu %lu\n",
+-				"%lu %lu %u %u %u %u %d %lu %lu\n",
++				"%lu %lu %u %u %u %u %d %lu %lu %lu %lu\n",
  				s->min_sz_region, s->max_sz_region,
  				s->min_nr_accesses, s->max_nr_accesses,
  				s->min_age_region, s->max_age_region,
- 				s->action, s->limit.sz, s->limit.ms,
-+				s->limit.weight_sz,
-+				s->limit.weight_nr_accesses,
-+				s->limit.weight_age,
- 				s->stat_count, s->stat_sz);
+-				s->action, s->stat_count, s->stat_sz);
++				s->action, s->limit.sz, s->limit.ms,
++				s->stat_count, s->stat_sz);
  		if (!rc)
  			return -ENOMEM;
-@@ -313,11 +316,14 @@ static struct damos **str_to_schemes(const char *str, ssize_t len,
+ 
+@@ -312,10 +313,11 @@ static struct damos **str_to_schemes(const char *str, ssize_t len,
  	while (pos < len && *nr_schemes < max_nr_schemes) {
  		struct damos_speed_limit limit = {};
  
--		ret = sscanf(&str[pos], "%lu %lu %u %u %u %u %u %lu %lu%n",
-+		ret = sscanf(&str[pos],
-+				"%lu %lu %u %u %u %u %u %lu %lu %u %u %u%n",
+-		ret = sscanf(&str[pos], "%lu %lu %u %u %u %u %u%n",
++		ret = sscanf(&str[pos], "%lu %lu %u %u %u %u %u %lu %lu%n",
  				&min_sz, &max_sz, &min_nr_a, &max_nr_a,
- 				&min_age, &max_age, &action, &limit.sz,
--				&limit.ms, &parsed);
--		if (ret != 9)
-+				&limit.ms, &limit.weight_sz,
-+				&limit.weight_nr_accesses, &limit.weight_age,
-+				&parsed);
-+		if (ret != 12)
+-				&min_age, &max_age, &action, &parsed);
+-		if (ret != 7)
++				&min_age, &max_age, &action, &limit.sz,
++				&limit.ms, &parsed);
++		if (ret != 9)
  			break;
  		if (!damos_action_valid(action)) {
  			pr_err("wrong action %d\n", action);
-@@ -1141,7 +1147,7 @@ static ssize_t dbgfs_monitor_on_write(struct file *file,
- static ssize_t dbgfs_version_read(struct file *file,
- 		char __user *buf, size_t count, loff_t *ppos)
- {
--	return simple_read_from_buffer(buf, count, ppos, "1\n", 2);
-+	return simple_read_from_buffer(buf, count, ppos, "2\n", 2);
+@@ -1133,6 +1135,15 @@ static ssize_t dbgfs_monitor_on_write(struct file *file,
+ 	return ret;
  }
  
++/*
++ * v1: Add the scheme speed limit
++ */
++static ssize_t dbgfs_version_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
++{
++	return simple_read_from_buffer(buf, count, ppos, "1\n", 2);
++}
++
  static const struct file_operations mk_contexts_fops = {
+ 	.owner = THIS_MODULE,
+ 	.write = dbgfs_mk_context_write,
+@@ -1149,13 +1160,18 @@ static const struct file_operations monitor_on_fops = {
+ 	.write = dbgfs_monitor_on_write,
+ };
+ 
++static const struct file_operations version_fops = {
++	.owner = THIS_MODULE,
++	.read = dbgfs_version_read,
++};
++
+ static int __init __damon_dbgfs_init(void)
+ {
+ 	struct dentry *dbgfs_root;
+ 	const char * const file_names[] = {"mk_contexts", "rm_contexts",
+-		"monitor_on"};
++		"monitor_on", "version"};
+ 	const struct file_operations *fops[] = {&mk_contexts_fops,
+-		&rm_contexts_fops, &monitor_on_fops};
++		&rm_contexts_fops, &monitor_on_fops, &version_fops};
+ 	int i;
+ 
+ 	dbgfs_root = debugfs_create_dir("damon", NULL);
 -- 
 2.17.1
 
