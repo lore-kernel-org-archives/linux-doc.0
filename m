@@ -2,113 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61757C47082
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:48:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AECCC47082
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:52:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C9E161184
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:48:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 576C661285
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230333AbhFHHuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 03:50:20 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:27434 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230324AbhFHHuT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jun 2021 03:50:19 -0400
+        id S230145AbhFHHyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 03:54:03 -0400
+Received: from m32-153.88.com ([43.250.32.153]:32152 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229512AbhFHHyD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jun 2021 03:54:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=ExzjQ8xn2UaHZDK9aremB/vKD8THp7Kt2W3bv
-        w39Tds=; b=U2n5+EACRYCSCMNi2uTN42vh1vimcACC1G0P0xU0XZ+lfJJvBKdfQ
-        o/MozPU2XuxAyOmdcm/FuhThpLpTJLA+wOq0Ay3zx5yzx8OYysFuDWGIglzYNoE8
-        u/ua0sB+WA16yNGieYlr8DnYoix0XMZYrlsg+y3ww1CcN7Zr6u6RIM=
-Received: from [0.0.0.0] (unknown [113.251.8.115])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAnwzbEIL9g50gEAA--.12162S3;
-        Tue, 08 Jun 2021 15:48:20 +0800 (CST)
-Subject: Re: [PATCH v2] docs/zh_CN: add a translation for index
-To:     Alex Shi <seakeel@gmail.com>, bobwxc@email.cn, alexs@kernel.org,
-        corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210608035323.63728-1-src.res@email.cn>
- <9dcbf22d-f415-db19-da45-421d19c2f757@gmail.com>
+        s=dkim; h=From:To:Date; bh=obSUpHE3AQHJarDjc+mjGrHRBOYrDevXHI5sB
+        95Wt0g=; b=IQ0nIIGwZtUElmgtqyEVJzmndmLe2l4QFcDlyOFuAi9lg4UESF5Zc
+        rJXfytmZT1GUYHL1p2qWNslNvyRxzp/2T9H3ZVvrr4S7xERcSuVz1yx8yKqOkXcx
+        3UpRKqgtJVXCpKed/3wVi6CMWra8az6caGLcSZP8nHpiihd1TxoEOw=
+Received: from localhost.localdomain (unknown [113.251.8.115])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBHHv2nIb9gqkMFAA--.19285S2;
+        Tue, 08 Jun 2021 15:52:07 +0800 (CST)
 From:   Hu Haowen <src.res@email.cn>
-Message-ID: <dc9d8baf-d77b-251a-1a7a-baea2a634907@email.cn>
-Date:   Tue, 8 Jun 2021 15:48:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+To:     alexs@kernel.org, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] docs/zh_CN: add a translation for index
+Date:   Tue,  8 Jun 2021 15:52:07 +0800
+Message-Id: <20210608075207.77812-1-src.res@email.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <9dcbf22d-f415-db19-da45-421d19c2f757@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: LCKnCgAnwzbEIL9g50gEAA--.12162S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7AryfurWrZF4kGF48Wr18Grg_yoW8WF4rpF
-        1DKryfK3Z3Ar12krn2g3W7CF4UG3Z7Ca15Xryjq3sagr43trs3Krsrtr90ga4IqrWxAF98
-        AF4SkFWkGa4ayrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkj1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JFC_Wr1l8cAvFVAK
-        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4
-        x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l
-        84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8w
-        Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkE
-        bVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07
-        AlzVAYIcxG8wCY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
-        8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
-        0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAI
-        cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcV
-        CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JjVKZXUUUUU=
+X-CM-TRANSID: GiKnCgBHHv2nIb9gqkMFAA--.19285S2
+X-Coremail-Antispam: 1UD129KBjvJXoWrZFWUuw1xJw1xXw45uryrXrb_yoW8Jr45pF
+        nFkryxK3Z8A3W5Cr1vga47GF4UJ3Z7Ca13Gr4jqwnaqrs8A392grsxtr95ta4xXrWfAFZ8
+        XF4SvFW8Ga4ay3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgmb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWUuVWrJwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
+        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
+        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8Cw
+        CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY
+        6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+        CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
+        0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+        AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
+        KfnxnUUI43ZEXa7IUUa9aPUUUUU==
 X-Originating-IP: [113.251.8.115]
 X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The original file has added a former intro in commit b51208d41c6a4e7fc2f0
+("docs: Tweak the top-level Sphinx page") and hence update the Chinese
+version for it.
 
-在 2021/6/8 下午2:30, Alex Shi 写道:
->
-> On 6/8/21 11:53 AM, Hu Haowen wrote:
->> The original file has added a former intro in commit b51208d41c6a4e7fc2f0
->> ("docs: Tweak the top-level Sphinx page") and hence update the Chinese
->> version for it.
->>
->> Signed-off-by: Hu Haowen <src.res@email.cn>
->> ---
->>   Documentation/translations/zh_CN/index.rst | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
->> index 1f953d3439a5..cb8595c0364c 100644
->> --- a/Documentation/translations/zh_CN/index.rst
->> +++ b/Documentation/translations/zh_CN/index.rst
->> @@ -17,6 +17,13 @@
->>      **翻译计划:**
->>      内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
->>   
->> +这是中文内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一
->> +项正在进行的工作；当我们努力将许多分散的文件整合成一个连贯的整体时尤其如此。
->> +另外，随时欢迎您对内核文档进行改进；如果您想提供帮助，请加入vger.kernel.org
-> for Chinese doc, we just encourage for polish and translation, contents
-> change should go to English first.
->
->> +上的linux-doc邮件列表。
->> +
->> +.. include:: ./disclaimer-zh_CN.rst
-> don't include this file, 2 of index are different. and not a exact copy.
+Signed-off-by: Hu Haowen <src.res@email.cn>
+---
+ Documentation/translations/zh_CN/index.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-
-Alright, correcting them.
-
-
-Thx,
-
-Hu Haowen
-
-
->> +
->>   许可证文档
->>   ----------
->>   
->>
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index 1f953d3439a5..e0d51a167032 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -17,6 +17,11 @@
+    **翻译计划:**
+    内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
+ 
++这是中文内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一
++项正在进行的工作；当我们努力将许多分散的文件整合成一个连贯的整体时尤其如此。
++另外，随时欢迎您对内核文档进行改进；如果您想提供帮助，请加入vger.kernel.org
++上的linux-doc邮件列表。
++
+ 许可证文档
+ ----------
+ 
+-- 
+2.25.1
 
