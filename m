@@ -2,115 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7DADC47082
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 06:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00481C47082
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:21:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D1CD861287
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 06:30:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2BD7610FB
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:21:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbhFHGcg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 02:32:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbhFHGcg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 02:32:36 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F40C061574;
-        Mon,  7 Jun 2021 23:30:44 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id pi6-20020a17090b1e46b029015cec51d7cdso1578247pjb.5;
-        Mon, 07 Jun 2021 23:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2jz5hlCuaBdqSYbaiyDCQ/DcKvk6V8GBLrVQOXLIjcQ=;
-        b=vX2t7Y+5YFGEE7c/dpT+UQzs3WMByV6Owq5mGVsFrw9aL+BVKG0LbQFMmgyYaxcL4O
-         eJnyFYoR5lrPVgwNF5KP9pEUVZXxtQJcWaoT2WKR4K8baeFSkL5gI+RAyyvOn+AIQYAq
-         ehJu7731gAHEWEOeoZ0z2mUHAkd5hjAbSaX5AuKyJKmsYP4espq8iifNEUO0OmbwX+LC
-         /DZO3O3pzktZkDSLTtTrSpYUYY1Kcz/dKjqrxb6xA7AORpZPVItqZRkb5dEWH3Nd6MnS
-         1DPGbnbQnSpT3M7cL7+ui8uUlAZkFwOumi+imG26VJm9wzPWKeAa0ZVEurDzQsX1q4M9
-         NKsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2jz5hlCuaBdqSYbaiyDCQ/DcKvk6V8GBLrVQOXLIjcQ=;
-        b=jTHznlYXOLhmTT/4yACypazpWYIK9WWikjGFWiDpS40TY3YUAIL0domAg3cGrJ9065
-         FWnmg3toyOY8MMbJgqO1LKNQkTaQA4mzMrYNh4GxxbYatItd0zXVlyQ7Hj1v1m+vSLjP
-         fDK7Nc7+KyLE6qLxVDf2T2nxndRrmpre4/yRkhEJNvzde6PCKofm9GZXYbECDjlDLCtA
-         7X9Ct28ifAjZKJnwm33rt7Bq3KQxvhmhM9mvPTwHEfBuC5q9HuvtC7q6cpf0bR8qfWsE
-         EoLnImZZ8nQJk1gAiCnSgcZdoZ7cStQLvgDWzK/PEQ5pPeyCIw+prekpSVxzN8nBnkmG
-         b1Kw==
-X-Gm-Message-State: AOAM531nzrbI+BatSuA9pvPio+rwSqx3p1NNE5l+tReyFmeXcOEwokx/
-        8DNIhanxDlMyL8dRsJEWzc8FIVpAN2UoJKtG
-X-Google-Smtp-Source: ABdhPJw67EVP9ys8Hb89y8ambGHuL+RyJ1rSk5qpSld8QJ40kAtBzJSSR1jZAgzlEfbQ4KcPth2E8g==
-X-Received: by 2002:a17:902:c412:b029:112:7897:dd21 with SMTP id k18-20020a170902c412b02901127897dd21mr8710104plk.70.1623133843356;
-        Mon, 07 Jun 2021 23:30:43 -0700 (PDT)
-Received: from [10.104.8.180] ([119.28.155.243])
-        by smtp.gmail.com with ESMTPSA id r16sm10257444pfq.140.2021.06.07.23.30.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jun 2021 23:30:42 -0700 (PDT)
-Subject: Re: [PATCH v2] docs/zh_CN: add a translation for index
-To:     Hu Haowen <src.res@email.cn>, bobwxc@email.cn, alexs@kernel.org,
-        corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210608035323.63728-1-src.res@email.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <9dcbf22d-f415-db19-da45-421d19c2f757@gmail.com>
-Date:   Tue, 8 Jun 2021 14:30:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229942AbhFHHXv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 03:23:51 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:59990 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229526AbhFHHXv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jun 2021 03:23:51 -0400
+Received: from localhost.localdomain (unknown [223.106.58.132])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx70KNGr9gxewMAA--.14387S2;
+        Tue, 08 Jun 2021 15:21:51 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: [PATCH 0/2] Translate core api cpu_hotplug
+Date:   Tue,  8 Jun 2021 15:22:24 +0800
+Message-Id: <cover.1623136676.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210608035323.63728-1-src.res@email.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx70KNGr9gxewMAA--.14387S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY27AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
+        6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+        kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
+        cVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87
+        Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
+        6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72
+        CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
+        M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+        1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+        b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+        vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI
+        42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
+        VjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+PATCH 1/2 Modify the layout of the origin document and remove unnecessary symbols.
+PATCH 2/2 Translate Documentation/core-api/cpu_hotplug.rst into Chinese.
 
+Yanteng Si (2):
+  docs/core-api: Modify document layout
+  docs/zh_CN: add core api cpu_hotplug translation
 
-On 6/8/21 11:53 AM, Hu Haowen wrote:
-> The original file has added a former intro in commit b51208d41c6a4e7fc2f0
-> ("docs: Tweak the top-level Sphinx page") and hence update the Chinese
-> version for it.
-> 
-> Signed-off-by: Hu Haowen <src.res@email.cn>
-> ---
->  Documentation/translations/zh_CN/index.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index 1f953d3439a5..cb8595c0364c 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -17,6 +17,13 @@
->     **翻译计划:**
->     内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
->  
-> +这是中文内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一
-> +项正在进行的工作；当我们努力将许多分散的文件整合成一个连贯的整体时尤其如此。
-> +另外，随时欢迎您对内核文档进行改进；如果您想提供帮助，请加入vger.kernel.org
+ Documentation/core-api/cpu_hotplug.rst        |  36 +-
+ .../zh_CN/core-api/cpu_hotplug.rst            | 347 ++++++++++++++++++
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ 3 files changed, 371 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
 
-for Chinese doc, we just encourage for polish and translation, contents
-change should go to English first.
+-- 
+2.27.0
 
-> +上的linux-doc邮件列表。
-> +
-> +.. include:: ./disclaimer-zh_CN.rst
-
-don't include this file, 2 of index are different. and not a exact copy.
-
-> +
->  许可证文档
->  ----------
->  
-> 
