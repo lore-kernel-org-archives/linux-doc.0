@@ -2,107 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9899C47082
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 14:18:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D14AC47082
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 14:19:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E61461364
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 14:18:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F215B61363
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 14:19:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233224AbhFHOUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 10:20:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47808 "EHLO mail.kernel.org"
+        id S233218AbhFHOVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 10:21:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48248 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233116AbhFHOUV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jun 2021 10:20:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EE79A6135A;
-        Tue,  8 Jun 2021 14:18:23 +0000 (UTC)
+        id S233129AbhFHOVU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jun 2021 10:21:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 348BA6135D;
+        Tue,  8 Jun 2021 14:19:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623161908;
-        bh=Q6x8I0zp47PbSqGK06LBfPKboxhDlMOF9EKsflzM3z0=;
+        s=k20201202; t=1623161967;
+        bh=vgomed/fFV+dy2eA01Kw/duzevIkt+qd3SY8fxSJQqQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HG9P0de34pb9jF7an+voga1Dbd4cWjUjiFSl1XICorhOHOIyJ/qcfxmdLN5MZQ9zD
-         P/xqUtE2yYpRoMaZ9YZ39rRGfmIERiQVJOewrlOiQSQ1yNlOyOl4r8z/RqyrsjOlKI
-         2XOZqigf7dl1H3Ajx4rQIFaTg9Ecj6l5eTZt4YFHLKyeVJpzyQkhvg2HaM7pAB/5RM
-         tQ8T8QqNNTPfHTisi8Ad8SEIKHlS8T5rAJpTyLHsiuWKt7Mx9Uh0+02y+EVWCnrOzZ
-         MhcCB74YNqadL9wnBl8M4brr/ji00twvVC9AsZnYYDW9tZl0e/sT8NzGzffApyuAB4
-         mzbyDThXvVs/A==
-Date:   Tue, 8 Jun 2021 17:18:19 +0300
+        b=F8y/iDcySfPiZkIvhGmow9mMEg9/j+KXYzhWk4FubYL/3zr27JWltTfjxBoQ8UQnK
+         jpFCivxVElEYPE8vgGcOPiQLoZMDGWv99OcClsUMcuHXiCpHF5hwJTS5sTJ2jJ7UPi
+         fSRxxu4hRl3sCuzNE3aTywoIC/KD4ADu1crThHbsTlkQ40Rh9uk6X+tPAkBzl8xff8
+         9lBU+n4ccZyI9KOI3qiiZvFYGi70sth7VVpImUup8d3N64Y74QdJzwo4LAi1qQHGwV
+         HqSNa9aPcQ/1+4VKOzQuQ4mtNr1nTgKDLYNIi9Br8l0UyiTazHessLkcXd17cdSzl3
+         /IuQSo5CeFYQg==
+Date:   Tue, 8 Jun 2021 17:19:17 +0300
 From:   Mike Rapoport <rppt@kernel.org>
 To:     David Hildenbrand <david@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
         Michal Hocko <mhocko@suse.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
         Muchun Song <songmuchun@bytedance.com>,
+        Oscar Salvador <osalvador@suse.de>,
         Pavel Tatashin <pasha.tatashin@soleen.com>,
-        Jonathan Corbet <corbet@lwn.net>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1] memory-hotplug.rst: complete admin-guide overhaul
-Message-ID: <YL98K4QcKPIp4gkM@kernel.org>
-References: <20210525102604.8770-1-david@redhat.com>
- <YL4Ek6AqMUyiDrxY@kernel.org>
- <5e01bd6f-4073-1ebb-489d-2e5c529909a2@redhat.com>
+Subject: Re: [PATCH v2 1/2] memory-hotplug.rst: remove locking details from
+ admin-guide
+Message-ID: <YL98ZermcxfZ9LJn@kernel.org>
+References: <20210608133855.20397-1-david@redhat.com>
+ <20210608133855.20397-2-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5e01bd6f-4073-1ebb-489d-2e5c529909a2@redhat.com>
+In-Reply-To: <20210608133855.20397-2-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 08, 2021 at 03:04:19PM +0200, David Hildenbrand wrote:
+On Tue, Jun 08, 2021 at 03:38:54PM +0200, David Hildenbrand wrote:
+> We have the same content at Documentation/core-api/memory-hotplug.rst
+> and it doesn't fit into the admin-guide. The documentation was
+> accidentially duplicated when merging.
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> Cc: Muchun Song <songmuchun@bytedance.com>
+> Cc: Pavel Tatashin <pasha.tatashin@soleen.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-...
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 
-> > > +--------------
-> > > -You can offline a memory block by using the same sysfs interface that was used
-> > > -in memory onlining::
-> > > +We usually expect that a large portion of available system RAM will actually
-> > > +be consumed by user space, either directly or indirectly via the page cache. In
-> > > +the normal case, ZONE_MOVABLE can be used when allocating such pages just fine.
-> > > -	% echo offline > /sys/devices/system/memory/memoryXXX/state
-> > > +With that in mind, it makes sense that we can have a big portion of system RAM
-> > > +managed by ZONE_MOVABLE. However, there are some things to consider when
-> > > +using ZONE_MOVABLE, especially when fine-tuning zone ratios:
-> > > -If offline succeeds, the state of the memory block is changed to be "offline".
-> > > -If it fails, some error core (like -EBUSY) will be returned by the kernel.
-> > > -Even if a memory block does not belong to ZONE_MOVABLE, you can try to offline
-> > > -it.  If it doesn't contain 'unmovable' memory, you'll get success.
-> > > +- Having a lot of offline memory blocks. Even offline memory blocks consume
-> > > +  memory for metadata and page tables in the direct map; having a lot of
-> > > +  offline memory blocks is not a typical case, though.
-> > > +
-> > > +- Memory ballooning. Some memory ballooning implementations, such as
-> > > +  the Hyper-V balloon, the XEN balloon, the vbox balloon and the VMWare
-> > 
-> > So, everyone except virtio-mem? ;-)
+> ---
+>  .../admin-guide/mm/memory-hotplug.rst         | 39 -------------------
+>  1 file changed, 39 deletions(-)
 > 
-> Well, virtio-mem does not classify as memory balloon in that sense, as it
-> only operates on own device memory ;)
+> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+> index c6bae2d77160..a783cf7c8e4c 100644
+> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
+> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+> @@ -415,45 +415,6 @@ Need more implementation yet....
+>   - Guard from remove if not yet.
+>  
+>  
+> -Locking Internals
+> -=================
+> -
+> -When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
+> -the device_hotplug_lock should be held to:
+> -
+> -- synchronize against online/offline requests (e.g. via sysfs). This way, memory
+> -  block devices can only be accessed (.online/.state attributes) by user
+> -  space once memory has been fully added. And when removing memory, we
+> -  know nobody is in critical sections.
+> -- synchronize against CPU hotplug and similar (e.g. relevant for ACPI and PPC)
+> -
+> -Especially, there is a possible lock inversion that is avoided using
+> -device_hotplug_lock when adding memory and user space tries to online that
+> -memory faster than expected:
+> -
+> -- device_online() will first take the device_lock(), followed by
+> -  mem_hotplug_lock
+> -- add_memory_resource() will first take the mem_hotplug_lock, followed by
+> -  the device_lock() (while creating the devices, during bus_add_device()).
+> -
+> -As the device is visible to user space before taking the device_lock(), this
+> -can result in a lock inversion.
+> -
+> -onlining/offlining of memory should be done via device_online()/
+> -device_offline() - to make sure it is properly synchronized to actions
+> -via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
+> -
+> -When adding/removing/onlining/offlining memory or adding/removing
+> -heterogeneous/device memory, we should always hold the mem_hotplug_lock in
+> -write mode to serialise memory hotplug (e.g. access to global/zone
+> -variables).
+> -
+> -In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
+> -mode allows for a quite efficient get_online_mems/put_online_mems
+> -implementation, so code accessing memory can protect from that memory
+> -vanishing.
+> -
+> -
+>  Future Work
+>  ===========
+>  
+> -- 
+> 2.31.1
 > 
-> virtio-balloon and pseries CMM support balloon compaction.
-> 
-> > I'd drop the names because if some of those will implement balloon
-> > compaction they surely will forget to update the docs.
- 
-> I can do the opposite and mention the ones that already do. Some most
-> probably will never support it.
-> 
-> "Memory ballooning without balloon compaction is incompatible with
-> ZONE_MOVABLE. Only some implementations, such as virtio-balloon and pseries
-> CMM, fully support balloon compaction."
- 
-Sounds good.
- 
+
 -- 
 Sincerely yours,
 Mike.
