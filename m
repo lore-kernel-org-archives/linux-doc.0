@@ -2,145 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB59C47082
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 21:32:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 834F7C47095
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 00:35:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A296D6121D
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Jun 2021 21:32:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 679C161208
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 00:35:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbhFGVeW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 17:34:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230359AbhFGVeW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 17:34:22 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E35C061574;
-        Mon,  7 Jun 2021 14:32:30 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id m18so19217987wrv.2;
-        Mon, 07 Jun 2021 14:32:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vDwdlII4xvRHYMeALYz88M86eElsCZPiDN/teNVAvlY=;
-        b=ZzBwJJEjMdi8Sj9uSmMTvUY5dvdi5DswCqZiL46IbaiX8kEjLOrRPjYPF+3Rcekmps
-         aOIGJODSP/4/+nH3Un8UUD2v0IS45VIiGO1KcDuSppLJDSKoJPJWyExX7BpbpvVpXaF9
-         EVMPlS7Fz2tIqrsR1XdxG/FkgaOOr23I0BL4hzrs14GfglItwnX5JnU4JFMVMAJzbsRq
-         DuIT+dFzHf+pZ9UjE4qpbcvaxUdnl9cZU43S1TxWKisrhkm5l9xdqxETJWc1JPkStlDO
-         XY2uu1cjx72Hx1PUAtIf3hIHe02pQDkfb+mRjAYY4Rs1Vwr04NkkJhX2PNISN96HIkQs
-         ORoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vDwdlII4xvRHYMeALYz88M86eElsCZPiDN/teNVAvlY=;
-        b=ueVa2LODphOnORo5Hj+4kRP+cthKbs1t/PwqnHup9MbukE+fw1OplxyooKLMOAS1rW
-         23RfOFCvjCFJ8QhUvzkQidSpLOZkRtQPXpZ8uidpZI48wOZH9IqYBfOcuLYhxXZ8ZJn5
-         ocA5mBZP7q/3aowAY9Z9V5IibsnxPZjuHCDIGBedBoUTIyb1VQQlqW3TT7Zc+BxL8iHl
-         EJ4mkI8/tgATucGFDZ68rMHBVqW87JdPyVXvWcplZE+Av5+vRsEd2m39HxpKxuCbU1NN
-         3FDZh8+jBXjusow9zv0MkZ6cq2yKy97YD+3XYQeVkm4B3dfqbeyO8keLcU9bRIJtCzo5
-         mmCg==
-X-Gm-Message-State: AOAM531CmWX1JNO3nNdqFA+g8AxT4zeeiRUfoa8kho36mVdIx4YjfXhG
-        3A9eMtEO3JsIZa8aIskZwRN2RhqZP3fT+To4Wcs=
-X-Google-Smtp-Source: ABdhPJzvPtqdfmAIJbFBnlWMRVMPMd5FM5ysUui85hJNne03xVPiNOTQjx1I3fifRbtK8dmOYH5eqfpqH5pSqkOYKxQ=
-X-Received: by 2002:adf:e507:: with SMTP id j7mr18490221wrm.178.1623101548421;
- Mon, 07 Jun 2021 14:32:28 -0700 (PDT)
+        id S230487AbhFHAhq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 20:37:46 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:38513 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230266AbhFHAhp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jun 2021 20:37:45 -0400
+Received: (Authenticated sender: n@nfraprado.net)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 8FFC460006;
+        Tue,  8 Jun 2021 00:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nfraprado.net;
+        s=gm1; t=1623112550;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MgIRy6Q6KMGL5hWxoGPNnPkNfCR3aLlJDfZGUzWbz/E=;
+        b=P9jivunjlN1sJ9eOlTMDyLjCEywxVya2Ftqz+hEdSkSw0/elvz6gS8kWLVyXaJ6oaaoyx0
+        qIDIGMwtUglmC/Vgb2Ie9iI6I0cHBdlTTnMy0oKmq/2UNRiAziWlj8Gnr6eAAD4ELzFqsD
+        mHk+x34HxuC0DbsYokBCWzuGfyBXhTfAMoYOS4Pq4ppxQdlPzzlEBRkzLLaXWwWCR9C72i
+        Dqrf/Tb06aPjdbgxtbg/24TPHZncci0Ry+4s1AiNAxQNYtnBdo+YvtUor3hzZf1RWlrLDP
+        UyqtEZ8lSyOFbJLN0PVHDwww5JkrI1RST7HtFLradWY3jd3nAcizBoEu2ztOUQ==
+Date:   Mon, 7 Jun 2021 21:34:58 -0300
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <n@nfraprado.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        coresight@lists.linaro.org, devicetree@vger.kernel.org,
+        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
+Message-ID: <20210608003458.kwhbn6mraekcutlt@notapiano>
+References: <cover.1622898327.git.mchehab+huawei@kernel.org>
+ <20210605151109.axm3wzbcstsyxczp@notapiano>
+ <20210605210836.540577d4@coco.lan>
+ <20210606225225.fz4dsyz6im4bqena@notapiano>
+ <20210607093422.0a369909@coco.lan>
 MIME-Version: 1.0
-References: <20210605070502.22288-1-dwaipayanray1@gmail.com>
- <CAKXUXMydnnun3iu3B2_acQLd6EgDHOGUhKvbuUCh6WaS-ohiDw@mail.gmail.com> <CABJPP5CfoPrybLgmZ2AP15x_esCPC6J780QYzEahMB9qzkRD=Q@mail.gmail.com>
-In-Reply-To: <CABJPP5CfoPrybLgmZ2AP15x_esCPC6J780QYzEahMB9qzkRD=Q@mail.gmail.com>
-From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date:   Tue, 8 Jun 2021 03:02:16 +0530
-Message-ID: <CABJPP5BufzwYjHd=U0Xhz+3+miMOv-DP5DZiUo+jvNFraw2X_A@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: checkpatch: Document and segregate more
- checkpatch message types
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Joe Perches <joe@perches.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210607093422.0a369909@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 7, 2021 at 7:17 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
->
-> > > +  **CONSTANT_CONVERSION**
-> > > +    Use of __constant_<foo> form is discouraged for the following functions::
-> > > +
-> > > +      __constant_cpu_to_be[x]
-> > > +      __constant_cpu_to_le[x]
-> > > +      __constant_be[x]_to_cpu
-> > > +      __constant_le[x]_to_cpu
-> > > +      __constant_htons
-> > > +      __constant_ntohs
-> > > +
-> > > +    Using any of these outside of include/uapi/ isn't preferred as using the
-> >
-> > write out: s/isn't/is not/
-> >
-> > ...or even stylistically much better is to just write the
-> > recommendation positively and clear:
-> >
-> > Use the corresponding function without __constant_ prefix, e.g., htons
-> > instead of __constant_htons, for any use in files, except
-> > include/uapi/.
-> >
-> > Are there other __constant_ functions in the code base beyond all the
-> > ones you listed? Then, we should explain why only those above and why
-> > not the others. Otherwise, we can keep the list above quite brief, and
-> > just say all __constant_ functions can be replaced by their
-> > counterparts without __constant_ prefix.
-> >
+Hi Mauro,
 
-So, as Lukas said, I came up with this updated explanation for
-constant conversion:
+On Mon, Jun 07, 2021 at 09:34:22AM +0200, Mauro Carvalho Chehab wrote:
+> Em Sun, 6 Jun 2021 19:52:25 -0300
+> Nícolas F. R. A. Prado <n@nfraprado.net> escreveu:
+> 
+> > On Sat, Jun 05, 2021 at 09:08:36PM +0200, Mauro Carvalho Chehab wrote:
+> > > Em Sat, 5 Jun 2021 12:11:09 -0300
+> > > Nícolas F. R. A. Prado <n@nfraprado.net> escreveu:
+> > >   
+> > > > Hi Mauro,
+> > > > 
+> > > > On Sat, Jun 05, 2021 at 03:17:59PM +0200, Mauro Carvalho Chehab wrote:  
+> > > > > As discussed at:
+> > > > > 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
+> > > > > 
+> > > > > It is better to avoid using :doc:`foo` to refer to Documentation/foo.rst, as the
+> > > > > automarkup.py extension should handle it automatically, on most cases.
+> > > > > 
+> > > > > There are a couple of exceptions to this rule:
+> > > > > 
+> > > > > 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
+> > > > > 2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
+> > > > > 
+> > > > > It should also be noticed that automarkup.py has currently an issue:
+> > > > > if one use a markup like:
+> > > > > 
+> > > > > 	Documentation/dev-tools/kunit/api/test.rst
+> > > > > 	  - documents all of the standard testing API excluding mocking
+> > > > > 	    or mocking related features.
+> > > > > 
+> > > > > or, even:
+> > > > > 
+> > > > > 	Documentation/dev-tools/kunit/api/test.rst
+> > > > > 	    documents all of the standard testing API excluding mocking
+> > > > > 	    or mocking related features.
+> > > > > 	
+> > > > > The automarkup.py will simply ignore it. Not sure why. This patch series
+> > > > > avoid the above patterns (which is present only on 4 files), but it would be
+> > > > > nice to have a followup patch fixing the issue at automarkup.py.    
+> > > > 
+> > > > What I think is happening here is that we're using rST's syntax for definition
+> > > > lists [1]. automarkup.py ignores literal nodes, and perhaps a definition is
+> > > > considered a literal by Sphinx. Adding a blank line after the Documentation/...
+> > > > or removing the additional indentation makes it work, like you did in your
+> > > > 2nd and 3rd patch, since then it's not a definition anymore, although then the
+> > > > visual output is different as well.  
+> > > 
+> > > A literal has a different output. I think that this is not the case, but I 
+> > > didn't check the python code from docutils/Sphinx.  
+> > 
+> > Okay, I went in deeper to understand the issue and indeed it wasn't what I
+> > thought. The reason definitions are ignored by automarkup.py is because the main
+> > loop iterates only over nodes that are of type paragraph:
+> > 
+> >     for para in doctree.traverse(nodes.paragraph):
+> >         for node in para.traverse(nodes.Text):
+> >             if not isinstance(node.parent, nodes.literal):
+> >                 node.parent.replace(node, markup_refs(name, app, node))
+> > 
+> > And inspecting the HTML output from your example, the definition name is inside
+> > a <dt> tag, and it doesn't have a <p> inside. So in summary, automarkup.py will
+> > only work on elements which are inside a <p> in the output.
+> 
+> 
+> Yeah, that's what I was suspecting, based on the comments.
+> 
+> Maybe something similar to the above could be done also for some
+> non-paragraph data. By looking at:
+> 
+> 	https://docutils.sourceforge.io/docs/ref/doctree.html
+> 
+> It says that the body elements are:
+> 
+> 	admonition, attention, block_quote, bullet_list, caution, citation, 
+> 	comment, compound, container, danger, definition_list, doctest_block, 
+> 	enumerated_list, error, field_list, figure, footnote, hint, image, 
+> 	important, line_block, literal_block, note, option_list, paragraph, 
+> 	pending, raw, rubric, substitution_definition, system_message, 
+> 	table, target, tip, warning
 
-  **CONSTANT_CONVERSION**
-    Use of __constant_<foo> form is discouraged for the following functions::
+Ok, I went through each one by searching the term on [1] and inspecting the
+element to see if it contained a <p> or not. The vast majority did. These are
+the ones I didn't find there or didn't make sense:
 
-      __constant_cpu_to_be[x]
-      __constant_cpu_to_le[x]
-      __constant_be[x]_to_cpu
-      __constant_le[x]_to_cpu
-      __constant_htons
-      __constant_ntohs
+	comment
+	container
+	image
+	pending
+	raw
+	substitution_definition
+	system_message
+	target
 
-    Using any of these outside of include/uapi/ is not preferred as using the
-    function without __constant_ is identical when the argument is a
-    constant.
+We can safely ignore them. And these are the ones that matter and don't have
+paragraphs:
 
-    In big endian systems, the macros like __constant_cpu_to_be32(x) and
-    cpu_to_be32(x) expand to the same expression::
+	1. literal_block
+	2. doctest_block
+	3. definition_list
+	4. field_list
+	5. option_list
+	6. line_block
 
-      #define __constant_cpu_to_be32(x) ((__force __be32)(__u32)(x))
-      #define __cpu_to_be32(x)          ((__force __be32)(__u32)(x))
+1 and 2 are literals, so we don't care about them.
 
-    In little endian systems, the macros __constant_cpu_to_be32(x) and
-    cpu_to_be32(x) expand to __constant_swab32 and __swab32.  __swab32
-    has a __builtin_constant_p check::
+3 is the one you noticed the issue with. It's worth mentioning that the
+definition term doesn't have a paragraph, but its definition does (as can be
+checked by inspecting [2]).
 
-      #define __swab32(x) \
-        (__builtin_constant_p((__u32)(x)) ? \
-        ___constant_swab32(x) : \
-        __fswab32(x))
+4 is basically the same as 3, the rst syntax is different but the output is the
+same. That said, I believe we only use those to set options at the top of the
+file, like in translations, and I can't see automarkup being useful in there.
 
-    So ultimately they have a special case for constants.
-    Similar is the case with all of the macros in the list.  Thus
-    using the __constant_... forms are unnecessarily verbose and
-    not preferred outside of include/uapi.
+5 is similar to 3 and 4, but the term is formatted using <kbd>, so it's like a
+literal and therefore not relevant.
 
-    See: https://lore.kernel.org/lkml/1400106425.12666.6.camel@joe-AO725/
+6 is useful just to preserve indentation, and I'm pretty sure we don't use it in
+the docs.
 
-Can Lukas or Joe confirm this or have any comments on it. I can send
-an updated patch then.
+So in the end, I think the only contenders to be added to automarkup are
+definition lists, and even then I still think we should just substitute those
+definition lists with alternatives like you did in your patches. Personally I
+don't see much gain in using definitions instead of a simple paragraph. But if
+you really think it's an improvement in some way, it could probably be added to
+automarkup in the way you described.
 
 Thanks,
-Dwaipayan.
+Nícolas
+
+[1] https://sphinx-rtd-theme.readthedocs.io/en/stable/index.html
+[2] https://sphinx-rtd-theme.readthedocs.io/en/stable/demo/lists_tables.html?highlight=definition%20list#definition-lists
+
+> 
+> So, perhaps a similar loop for definition_list would do the trick,
+> but maybe automarkup should also look at other types, like enum lists,
+> notes (and their variants, like error/warning) and footnotes.
+> 
+> No idea how this would affect the docs build time, though.
+> 
+> > Only applying the automarkup inside paragraphs seems like a good decision (which
+> > covers text in lists and tables as well), so unless there are other types of
+> > elements without paragraphs where automarkup should work, I think we should just
+> > avoid using definition lists pointing to documents like that.
+> 
+> Checking the code or doing some tests are needed for us to be sure about what
+> of the above types docutils don't consider a paragraph.
+> 
+> Thanks,
+> Mauro
