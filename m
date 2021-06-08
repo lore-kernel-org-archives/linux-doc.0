@@ -2,72 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E554C4743E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 06:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CCD8C47082
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 06:25:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 696A461287
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 06:23:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1803611BD
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 06:25:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhFHGZu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 02:25:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36510 "EHLO
+        id S229657AbhFHG1l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 02:27:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbhFHGZt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 02:25:49 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1685BC061574;
-        Mon,  7 Jun 2021 23:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=pidZWnJJ6gz2A6wzfnaMu3Ow+RsQIOTqliEJEwy2SBg=; b=Do0OvGKZWFBzesb+EK6thlbam/
-        39qr2uMPTGLHOJ4r8FRXwqaw/tjH5l9VECXlVdqSE6MegO65aX+bDbc9MrsDECcxNTFBwkyg9YX4E
-        z/HvBFfVysr9lf7mm9hdovnARx1ALwE9w3Up5fxlW/uH2zLt8dtrbOlT23GSk572w8ashbVAqw+Vn
-        6ywpabjCbB0DD23E5HeC2RODLI4gAlPmRZJ1FvA1CBGrQ9ZJRNJaWEQRIKFXQLBD49+ymDGYBVQ6g
-        QwSZZB6J+JFE3t6YJWH3TJ7I2cZUtYaaaxD7SGemCpz444KyeOl6tSy7VHbXaPyXXrjb5k8Bx1Cd7
-        I6rTzT0Q==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lqV8a-00Gd0M-IH; Tue, 08 Jun 2021 06:23:00 +0000
-Date:   Tue, 8 Jun 2021 07:22:56 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Halil Pasic <pasic@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 00/10] Allow mdev drivers to directly create the
- vfio_device
-Message-ID: <YL8MwDf2z1KBlqLn@infradead.org>
-References: <0-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
+        with ESMTP id S229512AbhFHG1l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 02:27:41 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F22DC061574;
+        Mon,  7 Jun 2021 23:25:49 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id i34so9304296pgl.9;
+        Mon, 07 Jun 2021 23:25:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RrqMQQw+zyDQz8W5Pf4InGemf1VZYUDcnFyZS7qTzmw=;
+        b=tETnaZW3TpJpc/8X40JYpd3IMJhYRTq7v4i7TgrcC6nGZ3pHtI7tB1VRmbs1dT3qzr
+         FTHQnZEL55KfxWo25Jve8S3HKtxvwiAtG/u1YwC2RVu6VqRtj0qWWaqdNbFdy+vtRYZJ
+         6PffoA26B3WYdHdT3SFGlVUvqp0ForXf4o3nbsxqAse6suHV8NrfkrdXadg0b1M7OpQF
+         a3R+UUAeJgYwCaeIMFovExKWcpKAKgF1O2LpwIf4WEHbT/hCHZeqaSSQeucmSqoD+chj
+         ocB7NOG8J5bs9DjuGmUGYE7yWgrNJRvqd8rey+G+wC2u9RP2gYkodrYAjKjJ1/qWLpa7
+         9/IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RrqMQQw+zyDQz8W5Pf4InGemf1VZYUDcnFyZS7qTzmw=;
+        b=nYRq/6AdSeb3Uhu4e2Ba9W5655EbaiIT2oP7/oIcOnLSVYhp7xY5KYZg8qqx1qXGbr
+         jKNoe3PIZFjGnTIppVxT6cmwzo9q4TkP918SXYHZz3iOqKmUia1dY32eA/ht5beRZKJB
+         reySU/7HJ060b32YSsrztQF6YtIOabQv88csTIavKanmn8DlXY1nZSuffR9d1coKui6g
+         vDL7QlATqyIUpdaNoFPIJkltS3XGrhDgFriDpCpnjoHQJDho5tWgp28tfsQNnd7NsW8L
+         KHwBfDrbVglhVZXbPhyuIjdQH0ZGqce3w9n11RphCfF/AYYKcZUYe0iI8H4SKyFSyAE+
+         UiVQ==
+X-Gm-Message-State: AOAM531EtPvT9t79xlrCupW8CZChCtcptTRIapBi/xo4rLu0CKAD0Lf3
+        2NHELzfOWQc+1PZ/BcBC+l4=
+X-Google-Smtp-Source: ABdhPJyc1MNUiOLHKeDCFRslLq0cck6M5tuxOM0JqIS6J2BJu/nREQ98nY+ZnSgsf1CZkVgQzgkL+w==
+X-Received: by 2002:aa7:85d3:0:b029:2ef:109a:7f08 with SMTP id z19-20020aa785d30000b02902ef109a7f08mr10326163pfn.23.1623133548479;
+        Mon, 07 Jun 2021 23:25:48 -0700 (PDT)
+Received: from [10.104.8.180] ([119.28.155.243])
+        by smtp.gmail.com with ESMTPSA id w10sm9950791pfg.196.2021.06.07.23.25.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jun 2021 23:25:48 -0700 (PDT)
+Subject: Re: [PATCH] docs/zh_CN: add a translation for index
+To:     Hu Haowen <src.res@email.cn>,
+        teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>
+References: <20210607093433.39160-1-src.res@email.cn>
+ <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
+ <f9418c90-fe60-b26c-18d3-ecd3e9c506ab@email.cn>
+ <CAMU9jJq95fasAjbosE23gziHNL5zAcC-OUe-=uqDMefXCif-rw@mail.gmail.com>
+ <02eb1a41-d1f8-535b-c545-aa0514a50555@email.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Message-ID: <970431f4-86fc-e81b-eec4-c3c276ca0242@gmail.com>
+Date:   Tue, 8 Jun 2021 14:25:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <02eb1a41-d1f8-535b-c545-aa0514a50555@email.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Btw, you list of CCs is a mess as alsmost no one is CCed on the whole
-list can can thus properly review it.
+
+
+On 6/8/21 10:48 AM, Hu Haowen wrote:
+> 
+> 在 2021/6/8 上午9:41, teng sterling 写道:
+>> Hu Haowen <src.res@email.cn> 于2021年6月7日周一 下午9:52写道：
+>>>
+>>> 在 2021/6/7 下午9:40, teng sterling 写道:
+>>>> CC siyanteng@loongson.cn
+>>>> Hu Haowen <src.res@email.cn> 于2021年6月7日周一 下午5:37写道：
+>>>>> The original file has added a former intro in commit b51208d41c6a4e7fc2f0
+>>>>> ("docs: Tweak the top-level Sphinx page") and hence update the Chinese
+>>>>> version for it.
+>>>>>
+>>>>> Signed-off-by: Hu Haowen <src.res@email.cn>
+>>>>> ---
+>>>>>    Documentation/translations/zh_CN/index.rst | 5 +++++
+>>>>>    1 file changed, 5 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+>>>>> index 1f953d3439a5..003126abc0d6 100644
+>>>>> --- a/Documentation/translations/zh_CN/index.rst
+>>>>> +++ b/Documentation/translations/zh_CN/index.rst
+>>>>> @@ -17,6 +17,11 @@
+>>>>>       **翻译计划:*kernel's documentation*
+>>>>>       内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
+>>>>>
+>>>>> +这是内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一项正
+>>>> how about:
+>>>>
+>>>> 这是中文内核文档树的顶级目录。
+>>>
+>>> But the English version says "kernel's documentation". It seems that we
+>>> should add an explanation for readers in order to drag them out of the
+>>> dilemma on whether he or she should update En version at first, as your
+>>> thought picking ideas from "disclaimer-zh_CN".
+>>>
+>>> What's your opinion, maintainers?
+>> When the original documentation is updated, the Chinese documentation
+>> has to follow. I think we have reached a consensus on this point.
+>> However, this file is described in this directory as zh_CN, so I think
+>> it needs to be localized. But the localization will conflict with
+>> "disclaimer-zh_CN".
+> 
+> 
+> Hmm... That's an issue. Does that mean we should edit "disclaimer-zh_CN"
+> as well to avoid the conflict?
+> 
+
+the disclaimer is for single docs, shorter is better. For this file, we don't
+have to copy exactly from original index.rst. 
+
+Thanks
+Alex
