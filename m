@@ -2,276 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F259AC4743E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:28:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61757C47082
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:48:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB6DD61073
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:28:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C9E161184
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:48:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230281AbhFHHaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 03:30:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40350 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229518AbhFHHaU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jun 2021 03:30:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B3D5C61073;
-        Tue,  8 Jun 2021 07:28:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623137307;
-        bh=O/zMXaiejHSPpLDrpWoLj5vApKw6co+rXXxeAdTs0fQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nLlyZlZD273F402k83SpAE2/yTCnSoxOmIHbl9CNTcXkiOIJIwbU4EIxQMSt2a4ml
-         qYAZ7+GRyFby1j7J/b6Qdg0ngb9aWUorA3LUTEzB/o7nAxtpl99tYE56SX6c/L7cnq
-         JkQNkQc+kckZEP6v8MtI7gBXthqAyHNA2ro1bRHL944hNLYqFQNYNtkG14YdEsbCz8
-         WiPAfikei2ZlyE9DmtO+G5LcsEimR8Zt3bf/sh+4dSJxaQew1IHT6LAPnPOy5G3d1V
-         9RKb6ljsgqP02St+w9CxWqyTHfLgCquU2TvIEjFpSrPZM71r6hel2yJmUWm39106ZP
-         ITZzuhEQ/FbwA==
-Date:   Tue, 8 Jun 2021 09:28:19 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        coresight@lists.linaro.org, devicetree@vger.kernel.org,
-        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
-Message-ID: <20210608092819.3f4191b3@coco.lan>
-In-Reply-To: <20210608003458.kwhbn6mraekcutlt@notapiano>
-References: <cover.1622898327.git.mchehab+huawei@kernel.org>
-        <20210605151109.axm3wzbcstsyxczp@notapiano>
-        <20210605210836.540577d4@coco.lan>
-        <20210606225225.fz4dsyz6im4bqena@notapiano>
-        <20210607093422.0a369909@coco.lan>
-        <20210608003458.kwhbn6mraekcutlt@notapiano>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230333AbhFHHuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 03:50:20 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:27434 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230324AbhFHHuT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jun 2021 03:50:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=To:From:Date; bh=ExzjQ8xn2UaHZDK9aremB/vKD8THp7Kt2W3bv
+        w39Tds=; b=U2n5+EACRYCSCMNi2uTN42vh1vimcACC1G0P0xU0XZ+lfJJvBKdfQ
+        o/MozPU2XuxAyOmdcm/FuhThpLpTJLA+wOq0Ay3zx5yzx8OYysFuDWGIglzYNoE8
+        u/ua0sB+WA16yNGieYlr8DnYoix0XMZYrlsg+y3ww1CcN7Zr6u6RIM=
+Received: from [0.0.0.0] (unknown [113.251.8.115])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAnwzbEIL9g50gEAA--.12162S3;
+        Tue, 08 Jun 2021 15:48:20 +0800 (CST)
+Subject: Re: [PATCH v2] docs/zh_CN: add a translation for index
+To:     Alex Shi <seakeel@gmail.com>, bobwxc@email.cn, alexs@kernel.org,
+        corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210608035323.63728-1-src.res@email.cn>
+ <9dcbf22d-f415-db19-da45-421d19c2f757@gmail.com>
+From:   Hu Haowen <src.res@email.cn>
+Message-ID: <dc9d8baf-d77b-251a-1a7a-baea2a634907@email.cn>
+Date:   Tue, 8 Jun 2021 15:48:19 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <9dcbf22d-f415-db19-da45-421d19c2f757@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: LCKnCgAnwzbEIL9g50gEAA--.12162S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7AryfurWrZF4kGF48Wr18Grg_yoW8WF4rpF
+        1DKryfK3Z3Ar12krn2g3W7CF4UG3Z7Ca15Xryjq3sagr43trs3Krsrtr90ga4IqrWxAF98
+        AF4SkFWkGa4ayrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkj1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JFC_Wr1l8cAvFVAK
+        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4
+        x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l
+        84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8w
+        Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkE
+        bVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07
+        AlzVAYIcxG8wCY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
+        8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
+        0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAI
+        cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcV
+        CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JjVKZXUUUUU=
+X-Originating-IP: [113.251.8.115]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 7 Jun 2021 21:34:58 -0300
-N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
 
-> Hi Mauro,
->=20
-> On Mon, Jun 07, 2021 at 09:34:22AM +0200, Mauro Carvalho Chehab wrote:
-> > Em Sun, 6 Jun 2021 19:52:25 -0300
-> > N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
-> >  =20
-> > > On Sat, Jun 05, 2021 at 09:08:36PM +0200, Mauro Carvalho Chehab wrote=
-: =20
-> > > > Em Sat, 5 Jun 2021 12:11:09 -0300
-> > > > N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
-> > > >    =20
-> > > > > Hi Mauro,
-> > > > >=20
-> > > > > On Sat, Jun 05, 2021 at 03:17:59PM +0200, Mauro Carvalho Chehab w=
-rote:   =20
-> > > > > > As discussed at:
-> > > > > > 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
-> > > > > >=20
-> > > > > > It is better to avoid using :doc:`foo` to refer to Documentatio=
-n/foo.rst, as the
-> > > > > > automarkup.py extension should handle it automatically, on most=
- cases.
-> > > > > >=20
-> > > > > > There are a couple of exceptions to this rule:
-> > > > > >=20
-> > > > > > 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
-> > > > > > 2. when it is used with a named tag, e. g. :doc:`some name <foo=
->`;
-> > > > > >=20
-> > > > > > It should also be noticed that automarkup.py has currently an i=
-ssue:
-> > > > > > if one use a markup like:
-> > > > > >=20
-> > > > > > 	Documentation/dev-tools/kunit/api/test.rst
-> > > > > > 	  - documents all of the standard testing API excluding mocking
-> > > > > > 	    or mocking related features.
-> > > > > >=20
-> > > > > > or, even:
-> > > > > >=20
-> > > > > > 	Documentation/dev-tools/kunit/api/test.rst
-> > > > > > 	    documents all of the standard testing API excluding mocking
-> > > > > > 	    or mocking related features.
-> > > > > > =09
-> > > > > > The automarkup.py will simply ignore it. Not sure why. This pat=
-ch series
-> > > > > > avoid the above patterns (which is present only on 4 files), bu=
-t it would be
-> > > > > > nice to have a followup patch fixing the issue at automarkup.py=
-.     =20
-> > > > >=20
-> > > > > What I think is happening here is that we're using rST's syntax f=
-or definition
-> > > > > lists [1]. automarkup.py ignores literal nodes, and perhaps a def=
-inition is
-> > > > > considered a literal by Sphinx. Adding a blank line after the Doc=
-umentation/...
-> > > > > or removing the additional indentation makes it work, like you di=
-d in your
-> > > > > 2nd and 3rd patch, since then it's not a definition anymore, alth=
-ough then the
-> > > > > visual output is different as well.   =20
-> > > >=20
-> > > > A literal has a different output. I think that this is not the case=
-, but I=20
-> > > > didn't check the python code from docutils/Sphinx.   =20
-> > >=20
-> > > Okay, I went in deeper to understand the issue and indeed it wasn't w=
-hat I
-> > > thought. The reason definitions are ignored by automarkup.py is becau=
-se the main
-> > > loop iterates only over nodes that are of type paragraph:
-> > >=20
-> > >     for para in doctree.traverse(nodes.paragraph):
-> > >         for node in para.traverse(nodes.Text):
-> > >             if not isinstance(node.parent, nodes.literal):
-> > >                 node.parent.replace(node, markup_refs(name, app, node=
-))
-> > >=20
-> > > And inspecting the HTML output from your example, the definition name=
- is inside
-> > > a <dt> tag, and it doesn't have a <p> inside. So in summary, automark=
-up.py will
-> > > only work on elements which are inside a <p> in the output. =20
-> >=20
-> >=20
-> > Yeah, that's what I was suspecting, based on the comments.
-> >=20
-> > Maybe something similar to the above could be done also for some
-> > non-paragraph data. By looking at:
-> >=20
-> > 	https://docutils.sourceforge.io/docs/ref/doctree.html
-> >=20
-> > It says that the body elements are:
-> >=20
-> > 	admonition, attention, block_quote, bullet_list, caution, citation,=20
-> > 	comment, compound, container, danger, definition_list, doctest_block,=
-=20
-> > 	enumerated_list, error, field_list, figure, footnote, hint, image,=20
-> > 	important, line_block, literal_block, note, option_list, paragraph,=20
-> > 	pending, raw, rubric, substitution_definition, system_message,=20
-> > 	table, target, tip, warning =20
->=20
-> Ok, I went through each one by searching the term on [1] and inspecting t=
-he
-> element to see if it contained a <p> or not. The vast majority did. These=
- are
-> the ones I didn't find there or didn't make sense:
->=20
-> 	comment
-> 	container
-> 	image
-> 	pending
-> 	raw
-> 	substitution_definition
-> 	system_message
-> 	target
->=20
-> We can safely ignore them. And these are the ones that matter and don't h=
-ave
-> paragraphs:
->=20
-> 	1. literal_block
-> 	2. doctest_block
-> 	3. definition_list
-> 	4. field_list
-> 	5. option_list
-> 	6. line_block
->=20
-> 1 and 2 are literals, so we don't care about them.
->=20
-> 3 is the one you noticed the issue with. It's worth mentioning that the
-> definition term doesn't have a paragraph, but its definition does (as can=
- be
-> checked by inspecting [2]).
->=20
-> 4 is basically the same as 3, the rst syntax is different but the output =
-is the
-> same. That said, I believe we only use those to set options at the top of=
- the
-> file, like in translations, and I can't see automarkup being useful in th=
-ere.
->=20
-> 5 is similar to 3 and 4, but the term is formatted using <kbd>, so it's l=
-ike a
-> literal and therefore not relevant.
->=20
-> 6 is useful just to preserve indentation, and I'm pretty sure we don't us=
-e it in
-> the docs.
->=20
-> So in the end, I think the only contenders to be added to automarkup are
-> definition lists, and even then I still think we should just substitute t=
-hose
-> definition lists with alternatives like you did in your patches. Personal=
-ly I
-> don't see much gain in using definitions instead of a simple paragraph. B=
-ut if
-> you really think it's an improvement in some way, it could probably be ad=
-ded to
-> automarkup in the way you described.
+在 2021/6/8 下午2:30, Alex Shi 写道:
+>
+> On 6/8/21 11:53 AM, Hu Haowen wrote:
+>> The original file has added a former intro in commit b51208d41c6a4e7fc2f0
+>> ("docs: Tweak the top-level Sphinx page") and hence update the Chinese
+>> version for it.
+>>
+>> Signed-off-by: Hu Haowen <src.res@email.cn>
+>> ---
+>>   Documentation/translations/zh_CN/index.rst | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+>> index 1f953d3439a5..cb8595c0364c 100644
+>> --- a/Documentation/translations/zh_CN/index.rst
+>> +++ b/Documentation/translations/zh_CN/index.rst
+>> @@ -17,6 +17,13 @@
+>>      **翻译计划:**
+>>      内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
+>>   
+>> +这是中文内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一
+>> +项正在进行的工作；当我们努力将许多分散的文件整合成一个连贯的整体时尤其如此。
+>> +另外，随时欢迎您对内核文档进行改进；如果您想提供帮助，请加入vger.kernel.org
+> for Chinese doc, we just encourage for polish and translation, contents
+> change should go to English first.
+>
+>> +上的linux-doc邮件列表。
+>> +
+>> +.. include:: ./disclaimer-zh_CN.rst
+> don't include this file, 2 of index are different. and not a exact copy.
 
-Thank you for checking this!
 
-Kernel docs use a lot definition lists. At the initial versions, it was
-equivalent to:
+Alright, correcting them.
 
-	**Something to be written with emphasis**
 
-	  Some description
+Thx,
 
-Sphinx later changed the look-and-feel for the term, on html output, but
-the thing is that:
+Hu Haowen
 
-	Something to be written with emphasis
-	   Some description
 
-looks a lot better when read as a text file.
+>> +
+>>   许可证文档
+>>   ----------
+>>   
+>>
 
-Also, on some cases, the first notation doesn't work. The definition-list
-was the only way I know that would allow to apply an emphasis to a literal
-block.
-
-We can avoid using Documentation/foo on description lists: the current 4=20
-cases where doc:`foo` are already addressed in this series, and the output
-is acceptable.
-
-Yet, I have a couple of concerns:
-
-1. It might have some unknown places where a description list is used
-   for Documentation/foo;
-2. It is not trivial to identify if someone add Documentation/foo in
-   the future;
-3. I suspect that there are several places where functions and structs
-   appear at the definition lists.
-
-(1) can probably be checked with a multi-line grep. So, not a big
-    problem;
-
-(2) is something that would require someone to verify from time to
-    time;
-
-but (3) are harder to check and seems to be a valid use-case.
-
-Due to (3), I think we should let automarkup to parse non-literal
-terms on description lists. At very least it should emit a warning when
-it won't be doing auto-conversions for known patterns at definition
-lists (if doing that would generate false-positives).
-
-Thanks,
-Mauro
