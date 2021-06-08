@@ -2,62 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0FE3C47082
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 15:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81AE6C47082
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 15:19:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83C9861246
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 15:16:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 675E861285
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 15:19:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232592AbhFHPSu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 11:18:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33536 "EHLO
+        id S231175AbhFHPVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 11:21:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54089 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232281AbhFHPSu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 11:18:50 -0400
+        by vger.kernel.org with ESMTP id S231173AbhFHPVj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 11:21:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623165416;
+        s=mimecast20190719; t=1623165585;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=o58aRI1nAkDOuKYCfrK2Zy/zY+ckaGTYEPwd2qo+nAA=;
-        b=WjFyDXW5TzU4f4aG2eTBImx+7uJLrTLZ1TvMRGmw+IPRJjjlBIpvOTqYlqIFiocVD0157/
-        DQ6uHmTCDldm7Yh18EON/MLLDeNDe5fuEB7hSxLq5JTRdnQJbSkzg8JNila1Pzi6bX7a26
-        4W8qbKK2z5hsqQxCiMw0PdjmOhDVpdo=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-DB-vmuK-ORCE9-_LwqwV1w-1; Tue, 08 Jun 2021 11:16:55 -0400
-X-MC-Unique: DB-vmuK-ORCE9-_LwqwV1w-1
-Received: by mail-qk1-f200.google.com with SMTP id 190-20020a3708c70000b02903aa60e6d8c1so8415095qki.19
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jun 2021 08:16:55 -0700 (PDT)
+        bh=dBLB4c6IVQivL3hkpAXNnbCJj11WTQNnSoK9+kBvh3Q=;
+        b=THmGp8DQfuAspg7tyOXUhTM6qqqD+FSpIsCNnJkBRratxAwmqnbizMDJXW/mkusZyUTI+0
+        Ito9fI/tVktpqrgBYefh6SrpUU0lxhGTRwViS8HiDaR+tijkBu/b+R43dKnAZlm+m/X5km
+        BMjTkwz+FW4/KG6sje9twdIwM6qtFEk=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-128-zAxFLMx1O6GC-ngO4Iv8ZQ-1; Tue, 08 Jun 2021 11:19:44 -0400
+X-MC-Unique: zAxFLMx1O6GC-ngO4Iv8ZQ-1
+Received: by mail-qv1-f72.google.com with SMTP id n3-20020a0cee630000b029020e62abfcbdso11803916qvs.16
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jun 2021 08:19:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=o58aRI1nAkDOuKYCfrK2Zy/zY+ckaGTYEPwd2qo+nAA=;
-        b=XbSy/2a6tqxmftZCfzNl6Pdd0iI+ReXbOT+9nf97g9mXybV/XC/AJ7zPj7gsxQhiHy
-         i2Ii1loYLR40SYGNv3yq/LmWHw0U60ZJ045pgW6anMk447NKLH/c81MTDQiXFurScQPF
-         8GyZZHUlpccnbgltIzUVL4XannVdmhPwodteNMICxEP+bAR9Ntrcd+ryS3JQifSBzxUk
-         MfFZgjZKF1wyY1Zm7efyOc8WVr52Hg3hRCQguL7LBSz5rvZZQWmdpWK2xCMAIbGJrQyz
-         ZHRHhldegCwCS69A0pSRLc2l6SqYTziBVK3rARv0BJZeDgLo+KK7mn5m0nKAxUuohOKM
-         Sjxg==
-X-Gm-Message-State: AOAM532ekX4NdclhlcB067xxU0m94aBO5XprU6S130UpPS6dHypo57Zl
-        SpXR4TcnntBtBUwz+rlCaqqHj7yr64iwNVuKAbfkql8IHr2x13/SlS3LnJRGGJhPgHP3ERN6cr+
-        jfYfIyqbG8hLpYB51++fY
-X-Received: by 2002:a05:620a:408f:: with SMTP id f15mr21924740qko.398.1623165414859;
-        Tue, 08 Jun 2021 08:16:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBLlJH23DxgLDX/p84+mzCKOsdataYBzhyEZq9wfQJJoaRz9EMetGKzWGtOqIiIcaJr3BbOg==
-X-Received: by 2002:a05:620a:408f:: with SMTP id f15mr21924712qko.398.1623165414615;
-        Tue, 08 Jun 2021 08:16:54 -0700 (PDT)
+        bh=dBLB4c6IVQivL3hkpAXNnbCJj11WTQNnSoK9+kBvh3Q=;
+        b=N6B0mMteBvZs0P9Kb1WmM7ORZmOSx+0GcQlBeVPPrXTJlvoCjZIrKfvC5D6SHTGGa4
+         sN8gc9qhsVCIWUpnfst3OkXlKmI9oZlXIs8lgSB/LXkCektr6Z/iMmBzNvuDF8lhXIu5
+         /RlS0i2sLTOPOmMSR/oiOqwb08RX8fX771bv7bMLo9RP9Ffu6lPK72leSW02zg0qcWnp
+         VSUcWWICmdxydp2+o8UQMhsE7LULcvokXLluqVqcOdjAihNqX4xUPDSzySwM0a/LbYhr
+         8hfoWD2V9fiClim2gkIMkM1OqRiNx1rFncfxBVUI0rQgAMcUCtDZ9Hz07ad0fwGWw4bs
+         X/rQ==
+X-Gm-Message-State: AOAM533xsBJI6xe36UT0/x2cV40EGHTzU8pv94eTAoW9kJkKhulT4mz2
+        zHxNpicrwAwVhzd5JaxKXn5AFtt2XnyPdc0mdRZdRlg5lT+RPAD7YscICymu+oeYRkK9xO6UvnU
+        oDa69BYABuJJ3adsaQvix
+X-Received: by 2002:a37:62d6:: with SMTP id w205mr15381158qkb.194.1623165584072;
+        Tue, 08 Jun 2021 08:19:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9tQ2FgzwPiUwvaf6IEdO0u/PAmzdBq3+c1YQavhbNJmHVlWELWivs0V26IRzx6TXY9Z2KvQ==
+X-Received: by 2002:a37:62d6:: with SMTP id w205mr15381138qkb.194.1623165583888;
+        Tue, 08 Jun 2021 08:19:43 -0700 (PDT)
 Received: from t490s (bras-base-toroon474qw-grc-88-174-93-75-200.dsl.bell.ca. [174.93.75.200])
-        by smtp.gmail.com with ESMTPSA id e20sm121010qtr.55.2021.06.08.08.16.53
+        by smtp.gmail.com with ESMTPSA id z127sm600836qkb.98.2021.06.08.08.19.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 08:16:53 -0700 (PDT)
-Date:   Tue, 8 Jun 2021 11:16:52 -0400
+        Tue, 08 Jun 2021 08:19:43 -0700 (PDT)
+Date:   Tue, 8 Jun 2021 11:19:41 -0400
 From:   Peter Xu <peterx@redhat.com>
 To:     Alistair Popple <apopple@nvidia.com>
 Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
@@ -66,30 +66,127 @@ Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
         linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         hch@infradead.org, bskeggs@redhat.com, jgg@nvidia.com,
         shakeelb@google.com, jhubbard@nvidia.com, willy@infradead.org
-Subject: Re: [PATCH v10 05/10] mm: Rename migrate_pgmap_owner
-Message-ID: <YL+J5NN2yRKjyEeq@t490s>
+Subject: Re: [PATCH v10 06/10] mm/memory.c: Allow different return codes for
+ copy_nonpresent_pte()
+Message-ID: <YL+KjaB4fCt/xodJ@t490s>
 References: <20210607075855.5084-1-apopple@nvidia.com>
- <20210607075855.5084-6-apopple@nvidia.com>
+ <20210607075855.5084-7-apopple@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210607075855.5084-6-apopple@nvidia.com>
+In-Reply-To: <20210607075855.5084-7-apopple@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 07, 2021 at 05:58:50PM +1000, Alistair Popple wrote:
-> MMU notifier ranges have a migrate_pgmap_owner field which is used by
-> drivers to store a pointer. This is subsequently used by the driver
-> callback to filter MMU_NOTIFY_MIGRATE events. Other notifier event types
-> can also benefit from this filtering, so rename the
-> 'migrate_pgmap_owner' field to 'owner' and create a new notifier
-> initialisation function to initialise this field.
+On Mon, Jun 07, 2021 at 05:58:51PM +1000, Alistair Popple wrote:
+> Currently if copy_nonpresent_pte() returns a non-zero value it is
+> assumed to be a swap entry which requires further processing outside the
+> loop in copy_pte_range() after dropping locks. This prevents other
+> values being returned to signal conditions such as failure which a
+> subsequent change requires.
+> 
+> Instead make copy_nonpresent_pte() return an error code if further
+> processing is required and read the value for the swap entry in the main
+> loop under the ptl.
 > 
 > Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Suggested-by: Peter Xu <peterx@redhat.com>
+> 
+> ---
+> 
+> v10:
+> 
+> Use a unique error code and only check return codes for handling.
+> 
+> v9:
+> 
+> New for v9 to allow device exclusive handling to occur in
+> copy_nonpresent_pte().
+> ---
+>  mm/memory.c | 26 ++++++++++++++++----------
+>  1 file changed, 16 insertions(+), 10 deletions(-)
+> 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 2fb455c365c2..0982cab37ecb 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -718,7 +718,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+>  
+>  	if (likely(!non_swap_entry(entry))) {
+>  		if (swap_duplicate(entry) < 0)
+> -			return entry.val;
+> +			return -EIO;
+>  
+>  		/* make sure dst_mm is on swapoff's mmlist. */
+>  		if (unlikely(list_empty(&dst_mm->mmlist))) {
+> @@ -974,11 +974,13 @@ copy_pte_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
+>  			continue;
+>  		}
+>  		if (unlikely(!pte_present(*src_pte))) {
+> -			entry.val = copy_nonpresent_pte(dst_mm, src_mm,
+> -							dst_pte, src_pte,
+> -							src_vma, addr, rss);
+> -			if (entry.val)
+> +			ret = copy_nonpresent_pte(dst_mm, src_mm,
+> +						dst_pte, src_pte,
+> +						src_vma, addr, rss);
+> +			if (ret == -EIO) {
+> +				entry = pte_to_swp_entry(*src_pte);
+>  				break;
+> +			}
+>  			progress += 8;
+>  			continue;
+>  		}
+> @@ -1011,20 +1013,24 @@ copy_pte_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
+>  	pte_unmap_unlock(orig_dst_pte, dst_ptl);
+>  	cond_resched();
+>  
+> -	if (entry.val) {
+> +	if (ret == -EIO) {
+> +		VM_WARN_ON_ONCE(!entry.val);
+>  		if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
+>  			ret = -ENOMEM;
+>  			goto out;
+>  		}
+>  		entry.val = 0;
+> -	} else if (ret) {
+> -		WARN_ON_ONCE(ret != -EAGAIN);
+> +	} else if (ret ==  -EAGAIN) {
+                          ^
+                          |----------------------------- one more space here
+
+>  		prealloc = page_copy_prealloc(src_mm, src_vma, addr);
+>  		if (!prealloc)
+>  			return -ENOMEM;
+> -		/* We've captured and resolved the error. Reset, try again. */
+> -		ret = 0;
+> +	} else if (ret) {
+> +		VM_WARN_ON_ONCE(1);
+>  	}
+> +
+> +	/* We've captured and resolved the error. Reset, try again. */
+
+Maybe better as:
+
+      /*
+       * We've resolved all error even if there is, reset error code and try
+       * again if necessary.
+       */
+
+as it also covers the no-error path.  But I guess not a big deal..
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
+
+Thanks,
+
+> +	ret = 0;
+> +
+>  	if (addr != end)
+>  		goto again;
+>  out:
+> -- 
+> 2.20.1
+> 
 
 -- 
 Peter Xu
