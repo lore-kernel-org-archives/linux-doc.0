@@ -5,49 +5,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 106D8C48BCF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 10:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0112BC48BD1
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 10:44:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F353E61285
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 10:44:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E14776128B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 10:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231693AbhFHKqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 06:46:35 -0400
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:37446 "EHLO
+        id S231745AbhFHKqg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 06:46:36 -0400
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:37709 "EHLO
         smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231704AbhFHKqb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 06:46:31 -0400
+        with ESMTP id S231537AbhFHKqd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 06:46:33 -0400
 Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id 7EDA82E6EB83
-        for <linux-doc@vger.kernel.org>; Tue,  8 Jun 2021 12:44:23 +0200 (CEST)
+        by s807.loopia.se (Postfix) with ESMTP id D46467038F8
+        for <linux-doc@vger.kernel.org>; Tue,  8 Jun 2021 12:44:25 +0200 (CEST)
 Received: from s645.loopia.se (unknown [172.22.191.5])
-        by s807.loopia.se (Postfix) with ESMTP id 6E9E22E2C449;
-        Tue,  8 Jun 2021 12:44:23 +0200 (CEST)
-Received: from s472.loopia.se (unknown [172.22.191.6])
-        by s645.loopia.se (Postfix) with ESMTP id 619471579FD6;
-        Tue,  8 Jun 2021 12:44:23 +0200 (CEST)
+        by s807.loopia.se (Postfix) with ESMTP id C413F2E2C379;
+        Tue,  8 Jun 2021 12:44:25 +0200 (CEST)
+Received: from s475.loopia.se (unknown [172.22.191.6])
+        by s645.loopia.se (Postfix) with ESMTP id B08F6157A06C;
+        Tue,  8 Jun 2021 12:44:25 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at amavis.loopia.se
 Received: from s934.loopia.se ([172.22.191.6])
-        by s472.loopia.se (s472.loopia.se [172.22.190.12]) (amavisd-new, port 10024)
-        with LMTP id Exz_AHwtLNVi; Tue,  8 Jun 2021 12:44:22 +0200 (CEST)
+        by s475.loopia.se (s475.loopia.se [172.22.190.15]) (amavisd-new, port 10024)
+        with LMTP id bn0oEDiOqU8h; Tue,  8 Jun 2021 12:44:24 +0200 (CEST)
 X-Loopia-Auth: user
 X-Loopia-User: carl@hgsystem.se
 X-Loopia-Originating-IP: 155.4.133.180
 Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
         (Authenticated sender: carl@hgsystem.se)
-        by s934.loopia.se (Postfix) with ESMTPSA id 8F7507CE998;
-        Tue,  8 Jun 2021 12:44:22 +0200 (CEST)
+        by s934.loopia.se (Postfix) with ESMTPSA id 9FDB47CE9FF;
+        Tue,  8 Jun 2021 12:44:24 +0200 (CEST)
 From:   Erik Rosen <erik.rosen@metormote.com>
 To:     Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>, Dlinux-hwmon@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH v5 2/5] hwmon: (pmbus/pim4328) Add support for reading direct mode coefficients
-Date:   Tue,  8 Jun 2021 12:44:13 +0200
-Message-Id: <20210608104416.6941-3-erik.rosen@metormote.com>
+Subject: [PATCH v5 4/5] hwmon: (pmbus/pim4328) Add PMBus driver for PIM4006, PIM4328 and PIM4820
+Date:   Tue,  8 Jun 2021 12:44:15 +0200
+Message-Id: <20210608104416.6941-5-erik.rosen@metormote.com>
 X-Mailer: git-send-email 2.11.0 (Apple Git-81)
 In-Reply-To: <20210608104416.6941-1-erik.rosen@metormote.com>
 References: <20210608104416.6941-1-erik.rosen@metormote.com>
@@ -55,171 +55,285 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for reading and decoding direct format coefficients to
-the PMBus core driver. If the new flag PMBUS_USE_COEFFICIENTS_CMD
-is set, the driver will use the COEFFICIENTS register together with
-the information in the pmbus_sensor_attr structs to initialize
-relevant coefficients for the direct mode format.
+Add hardware monitoring support for Flex power interface modules PIM4006,
+PIM4328 and PIM4820.
 
 Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
 ---
- drivers/hwmon/pmbus/pmbus_core.c | 116 +++++++++++++++++++++++++++++++
- include/linux/pmbus.h            |   8 +++
- 2 files changed, 124 insertions(+)
+ drivers/hwmon/pmbus/Kconfig   |   9 ++
+ drivers/hwmon/pmbus/Makefile  |   1 +
+ drivers/hwmon/pmbus/pim4328.c | 233 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 243 insertions(+)
+ create mode 100644 drivers/hwmon/pmbus/pim4328.c
 
-diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-index 0579521b6c0a..d022d3196ae9 100644
---- a/drivers/hwmon/pmbus/pmbus_core.c
-+++ b/drivers/hwmon/pmbus/pmbus_core.c
-@@ -2139,6 +2139,111 @@ static int pmbus_find_attributes(struct i2c_client *client,
- 	return ret;
- }
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 37a5c39784fa..001527c71269 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -257,6 +257,15 @@ config SENSORS_MP2975
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called mp2975.
  
++config SENSORS_PIM4328
++	tristate "Flex PIM4328 and compatibles"
++	help
++	  If you say yes here you get hardware monitoring support for Flex
++	  PIM4328, PIM4820 and PIM4006 Power Interface Modules.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called pim4328.
++
+ config SENSORS_PM6764TR
+ 	tristate "ST PM6764TR"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index f8dcc27cd56a..2a12397535ba 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -39,3 +39,4 @@ obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
+ obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
+ obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
+ obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
++obj-$(CONFIG_SENSORS_PIM4328)   += pim4328.o
+diff --git a/drivers/hwmon/pmbus/pim4328.c b/drivers/hwmon/pmbus/pim4328.c
+new file mode 100644
+index 000000000000..273ff6e57654
+--- /dev/null
++++ b/drivers/hwmon/pmbus/pim4328.c
+@@ -0,0 +1,233 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
-+ * The pmbus_class_attr_map structure maps one sensor class to
-+ * it's corresponding sensor attributes array.
++ * Hardware monitoring driver for PIM4006, PIM4328 and PIM4820
++ *
++ * Copyright (c) 2021 Flextronics International Sweden AB
 + */
-+struct pmbus_class_attr_map {
-+	enum pmbus_sensor_classes class;
-+	int nattr;
-+	const struct pmbus_sensor_attr *attr;
++
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/pmbus.h>
++#include <linux/slab.h>
++#include "pmbus.h"
++
++enum chips { pim4006, pim4328, pim4820 };
++
++struct pim4328_data {
++	enum chips id;
++	struct pmbus_driver_info info;
 +};
 +
-+static const struct pmbus_class_attr_map class_attr_map[] = {
-+	{
-+		.class = PSC_VOLTAGE_IN,
-+		.attr = voltage_attributes,
-+		.nattr = ARRAY_SIZE(voltage_attributes),
-+	}, {
-+		.class = PSC_VOLTAGE_OUT,
-+		.attr = voltage_attributes,
-+		.nattr = ARRAY_SIZE(voltage_attributes),
-+	}, {
-+		.class = PSC_CURRENT_IN,
-+		.attr = current_attributes,
-+		.nattr = ARRAY_SIZE(current_attributes),
-+	}, {
-+		.class = PSC_CURRENT_OUT,
-+		.attr = current_attributes,
-+		.nattr = ARRAY_SIZE(current_attributes),
-+	}, {
-+		.class = PSC_POWER,
-+		.attr = power_attributes,
-+		.nattr = ARRAY_SIZE(power_attributes),
-+	}, {
-+		.class = PSC_TEMPERATURE,
-+		.attr = temp_attributes,
-+		.nattr = ARRAY_SIZE(temp_attributes),
-+	}
++#define to_pim4328_data(x)  container_of(x, struct pim4328_data, info)
++
++/* PIM4006 and PIM4328 */
++#define PIM4328_MFR_READ_VINA		0xd3
++#define PIM4328_MFR_READ_VINB		0xd4
++
++/* PIM4006 */
++#define PIM4328_MFR_READ_IINA		0xd6
++#define PIM4328_MFR_READ_IINB		0xd7
++#define PIM4328_MFR_FET_CHECKSTATUS	0xd9
++
++/* PIM4328 */
++#define PIM4328_MFR_STATUS_BITS		0xd5
++
++/* PIM4820 */
++#define PIM4328_MFR_READ_STATUS		0xd0
++
++static const struct i2c_device_id pim4328_id[] = {
++	{"bmr455", pim4328},
++	{"pim4006", pim4006},
++	{"pim4106", pim4006},
++	{"pim4206", pim4006},
++	{"pim4306", pim4006},
++	{"pim4328", pim4328},
++	{"pim4406", pim4006},
++	{"pim4820", pim4820},
++	{}
 +};
++MODULE_DEVICE_TABLE(i2c, pim4328_id);
 +
-+/*
-+ * Read the coefficients for direct mode.
-+ */
-+static int pmbus_read_coefficients(struct i2c_client *client,
-+				   struct pmbus_driver_info *info,
-+				   const struct pmbus_sensor_attr *attr)
++static int pim4328_read_word_data(struct i2c_client *client, int page,
++				  int phase, int reg)
 +{
-+	int rv;
-+	union i2c_smbus_data data;
-+	enum pmbus_sensor_classes class = attr->class;
-+	s8 R;
-+	s16 m, b;
++	int ret;
 +
-+	data.block[0] = 2;
-+	data.block[1] = attr->reg;
-+	data.block[2] = 0x01;
++	if (page > 0)
++		return -ENXIO;
 +
-+	rv = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
-+			    I2C_SMBUS_WRITE, PMBUS_COEFFICIENTS,
-+			    I2C_SMBUS_BLOCK_PROC_CALL, &data);
++	if (phase == 0xff)
++		return -ENODATA;
 +
-+	if (rv < 0)
-+		return rv;
-+
-+	if (data.block[0] != 5)
-+		return -EIO;
-+
-+	m = data.block[1] | (data.block[2] << 8);
-+	b = data.block[3] | (data.block[4] << 8);
-+	R = data.block[5];
-+	info->m[class] = m;
-+	info->b[class] = b;
-+	info->R[class] = R;
-+
-+	return rv;
-+}
-+
-+static int pmbus_init_coefficients(struct i2c_client *client,
-+				   struct pmbus_driver_info *info)
-+{
-+	int i, n, ret;
-+	const struct pmbus_class_attr_map *map;
-+	const struct pmbus_sensor_attr *attr;
-+
-+	for (i = 0; i < ARRAY_SIZE(class_attr_map); i++) {
-+		map = &class_attr_map[i];
-+		if (info->format[map->class] != direct)
-+			continue;
-+		for (n = 0; n < map->nattr; n++) {
-+			attr = &map->attr[n];
-+			if (map->class != attr->class)
-+				continue;
-+			ret = pmbus_read_coefficients(client, info, attr);
-+			if (ret >= 0)
-+				break;
-+		}
-+		if (ret < 0) {
-+			dev_err(&client->dev,
-+				"No coefficients found for sensor class %d\n",
-+				map->class);
-+			return -EINVAL;
-+		}
++	switch (reg) {
++	case PMBUS_READ_VIN:
++		ret = pmbus_read_word_data(client, page, phase,
++					   phase == 0 ? PIM4328_MFR_READ_VINA
++						      : PIM4328_MFR_READ_VINB);
++		break;
++	case PMBUS_READ_IIN:
++		ret = pmbus_read_word_data(client, page, phase,
++					   phase == 0 ? PIM4328_MFR_READ_IINA
++						      : PIM4328_MFR_READ_IINB);
++		break;
++	default:
++		ret = -ENODATA;
 +	}
 +
-+	return 0;
++	return ret;
 +}
 +
- /*
-  * Identify chip parameters.
-  * This function is called for all chips.
-@@ -2257,6 +2362,17 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
- 			return ret;
- 		}
- 	}
++static int pim4328_read_byte_data(struct i2c_client *client, int page, int reg)
++{
++	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
++	struct pim4328_data *data = to_pim4328_data(info);
++	int ret, status;
 +
-+	if (data->flags & PMBUS_USE_COEFFICIENTS_CMD) {
-+		if (!i2c_check_functionality(client->adapter,
-+					     I2C_FUNC_SMBUS_BLOCK_PROC_CALL))
-+			return -ENODEV;
++	if (page > 0)
++		return -ENXIO;
 +
-+		ret = pmbus_init_coefficients(client, info);
++	switch (reg) {
++	case PMBUS_STATUS_BYTE:
++		ret = pmbus_read_byte_data(client, page, PMBUS_STATUS_BYTE);
 +		if (ret < 0)
 +			return ret;
++		if (data->id == pim4006) {
++			status = pmbus_read_word_data(client, page, 0xff,
++						      PIM4328_MFR_FET_CHECKSTATUS);
++			if (status < 0)
++				return status;
++			if (status & 0x0630) /* Input UV */
++				ret |= PB_STATUS_VIN_UV;
++		} else if (data->id == pim4328) {
++			status = pmbus_read_byte_data(client, page,
++						      PIM4328_MFR_STATUS_BITS);
++			if (status < 0)
++				return status;
++			if (status & 0x04) /* Input UV */
++				ret |= PB_STATUS_VIN_UV;
++			if (status & 0x40) /* Output UV */
++				ret |= PB_STATUS_NONE_ABOVE;
++		} else if (data->id == pim4820) {
++			status = pmbus_read_byte_data(client, page,
++						      PIM4328_MFR_READ_STATUS);
++			if (status < 0)
++				return status;
++			if (status & 0x05) /* Input OV or OC */
++				ret |= PB_STATUS_NONE_ABOVE;
++			if (status & 0x1a) /* Input UV */
++				ret |= PB_STATUS_VIN_UV;
++			if (status & 0x40) /* OT */
++				ret |= PB_STATUS_TEMPERATURE;
++		}
++		break;
++	default:
++		ret = -ENODATA;
 +	}
 +
- 	return 0;
- }
- 
-diff --git a/include/linux/pmbus.h b/include/linux/pmbus.h
-index 86bacf57f8e9..f8ba23d911c8 100644
---- a/include/linux/pmbus.h
-+++ b/include/linux/pmbus.h
-@@ -52,6 +52,14 @@
-  */
- #define PMBUS_NO_WRITE_PROTECT			BIT(4)
- 
-+/*
-+ * PMBUS_USE_COEFFICIENTS_CMD
-+ *
-+ * When this flag is set the PMBus core driver will use the COEFFICIENTS
-+ * register to initialize the coefficients for the direct mode format.
-+ */
-+#define PMBUS_USE_COEFFICIENTS_CMD		BIT(5)
++	return ret;
++}
 +
- struct pmbus_platform_data {
- 	u32 flags;		/* Device specific flags */
- 
++static int pim4328_probe(struct i2c_client *client)
++{
++	int status;
++	u8 device_id[I2C_SMBUS_BLOCK_MAX + 1];
++	const struct i2c_device_id *mid;
++	struct pim4328_data *data;
++	struct pmbus_driver_info *info;
++	struct pmbus_platform_data *pdata;
++	struct device *dev = &client->dev;
++
++	if (!i2c_check_functionality(client->adapter,
++				     I2C_FUNC_SMBUS_READ_BYTE_DATA
++				     | I2C_FUNC_SMBUS_BLOCK_DATA))
++		return -ENODEV;
++
++	data = devm_kzalloc(&client->dev, sizeof(struct pim4328_data),
++			    GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	status = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, device_id);
++	if (status < 0) {
++		dev_err(&client->dev, "Failed to read Manufacturer Model\n");
++		return status;
++	}
++	for (mid = pim4328_id; mid->name[0]; mid++) {
++		if (!strncasecmp(mid->name, device_id, strlen(mid->name)))
++			break;
++	}
++	if (!mid->name[0]) {
++		dev_err(&client->dev, "Unsupported device\n");
++		return -ENODEV;
++	}
++
++	if (strcmp(client->name, mid->name))
++		dev_notice(&client->dev,
++			   "Device mismatch: Configured %s, detected %s\n",
++			   client->name, mid->name);
++
++	data->id = mid->driver_data;
++	info = &data->info;
++	info->pages = 1;
++	info->read_byte_data = pim4328_read_byte_data;
++	info->read_word_data = pim4328_read_word_data;
++
++	pdata = devm_kzalloc(dev, sizeof(struct pmbus_platform_data),
++			     GFP_KERNEL);
++	if (!pdata)
++		return -ENOMEM;
++	dev->platform_data = pdata;
++	pdata->flags = PMBUS_NO_CAPABILITY | PMBUS_NO_WRITE_PROTECT;
++
++	switch (data->id) {
++	case pim4006:
++		info->phases[0] = 2;
++		info->func[0] = PMBUS_PHASE_VIRTUAL | PMBUS_HAVE_VIN
++			| PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT;
++		info->pfunc[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN;
++		info->pfunc[1] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN;
++		break;
++	case pim4328:
++		info->phases[0] = 2;
++		info->func[0] = PMBUS_PHASE_VIRTUAL
++			| PMBUS_HAVE_VCAP | PMBUS_HAVE_VIN
++			| PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT;
++		info->pfunc[0] = PMBUS_HAVE_VIN;
++		info->pfunc[1] = PMBUS_HAVE_VIN;
++		info->format[PSC_VOLTAGE_IN] = direct;
++		info->format[PSC_TEMPERATURE] = direct;
++		info->format[PSC_CURRENT_OUT] = direct;
++		pdata->flags |= PMBUS_USE_COEFFICIENTS_CMD;
++		break;
++	case pim4820:
++		info->func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_TEMP
++			| PMBUS_HAVE_IIN;
++		info->format[PSC_VOLTAGE_IN] = direct;
++		info->format[PSC_TEMPERATURE] = direct;
++		info->format[PSC_CURRENT_IN] = direct;
++		pdata->flags |= PMBUS_USE_COEFFICIENTS_CMD;
++		break;
++	default:
++		return -ENODEV;
++	}
++
++	return pmbus_do_probe(client, info);
++}
++
++static struct i2c_driver pim4328_driver = {
++	.driver = {
++		   .name = "pim4328",
++		   },
++	.probe_new = pim4328_probe,
++	.id_table = pim4328_id,
++};
++
++module_i2c_driver(pim4328_driver);
++
++MODULE_AUTHOR("Erik Rosen <erik.rosen@metormote.com>");
++MODULE_DESCRIPTION("PMBus driver for PIM4006, PIM4328, PIM4820 power interface modules");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS(PMBUS);
 -- 
 2.20.1
 
