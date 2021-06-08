@@ -7,61 +7,60 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64EABC47082
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 02:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CAB5C47094
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 02:53:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D15F61278
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 02:50:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E81DC61263
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 02:53:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230443AbhFHCwl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Jun 2021 22:52:41 -0400
-Received: from m34-101.88.com ([104.250.34.101]:33469 "EHLO 88.com"
+        id S230266AbhFHCzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Jun 2021 22:55:19 -0400
+Received: from m32-153.88.com ([43.250.32.153]:64721 "EHLO email.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230383AbhFHCwl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jun 2021 22:52:41 -0400
+        id S230254AbhFHCzT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jun 2021 22:55:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=xUaGAt6dsBLnHGBH9MeHDJlZAZQLNcC9SmU6Q
-        irRb1U=; b=gen0TRKr1R3Yqr91W358mbyodixECbegANUEUzmwQMMA+zFd5D22S
-        E+cL4k1ofo4R8zMrPeCiJrrLCsfKhKcWvwRKRPCTIngsb2PyhtvzOqs2yLydWpVC
-        C9eEsuiXykKIAQOfmVzoozgslmxhfHYT/5vP/4iMD54o5T+H2Tp27U=
+        s=dkim; h=To:From:Date; bh=pLj4SGsK8n/jI46LQXbW+LeIjOWzSml3VLIw9
+        mbSDtA=; b=QIalVcjGjJkkgfp3fULiqBo+7+K59FT8fSyJNSRWn5SaplEhxiP4g
+        M0zFOhk7CIjNv3IlKbfkUHO4izxMefDREWhL0vOMMfokUWVa3m/tteczYFaj0/Ra
+        tI0iW9HT46xon5feOpPpc4w/+pBPVXlfedwPkMaqnTuVtkzXceHlcU=
 Received: from [0.0.0.0] (unknown [113.251.8.115])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgD3kjaW2r5gMe4DAA--.11224S3;
-        Tue, 08 Jun 2021 10:48:55 +0800 (CST)
-Subject: Re: [PATCH] docs/zh_CN: add a translation for index
-To:     teng sterling <sterlingteng@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>
-References: <20210607093433.39160-1-src.res@email.cn>
- <CAMU9jJrkxTUgS0P3tpr-Udw9WqUgqCJ2D0G+ja5UX=B+4DRw7g@mail.gmail.com>
- <f9418c90-fe60-b26c-18d3-ecd3e9c506ab@email.cn>
- <CAMU9jJq95fasAjbosE23gziHNL5zAcC-OUe-=uqDMefXCif-rw@mail.gmail.com>
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCHXv2g275gJ80EAA--.14169S3;
+        Tue, 08 Jun 2021 10:53:21 +0800 (CST)
+Subject: Re: [PATCH v3] docs/zh_CN: create new translations for
+ zh_CN/dev-tools/testing-overview
+To:     "Wu X.C." <bobwxc@email.cn>
+Cc:     alexs@kernel.org, corbet@lwn.net, bernard@vivo.com,
+        maskray@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210605120504.40246-1-src.res@email.cn>
+ <20210608024439.GA3207@bobwxc.top>
 From:   Hu Haowen <src.res@email.cn>
-Message-ID: <02eb1a41-d1f8-535b-c545-aa0514a50555@email.cn>
-Date:   Tue, 8 Jun 2021 10:48:53 +0800
+Message-ID: <01cd7a95-8b91-ad2f-ad94-80b06c1fe5c0@email.cn>
+Date:   Tue, 8 Jun 2021 10:53:20 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAMU9jJq95fasAjbosE23gziHNL5zAcC-OUe-=uqDMefXCif-rw@mail.gmail.com>
+In-Reply-To: <20210608024439.GA3207@bobwxc.top>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: LCKnCgD3kjaW2r5gMe4DAA--.11224S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxGryxJFy3uw43ZFyrGFWrGrg_yoW5Ww1rpa
-        1DKa4fKa1DAw13Crn2g3WxCF45tas7Ga1aqr1DK3sagr1qy3s3tr47tF909Fy8Xry8AFyq
-        qrWakrZakw1YyFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWUuVWrJwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
-        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
-        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbI
-        xvr21lc2xSY4AK67AK6r4UMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1U
-        Jr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-        xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
-        cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-        AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-        14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UbID7UUUUU=
+X-CM-TRANSID: GiKnCgCHXv2g275gJ80EAA--.14169S3
+X-Coremail-Antispam: 1UD129KBjvJXoWrurW8Gr4kCw4rur1DZr4DXFb_yoW8Jr1xpr
+        Wkuwn3CF4qgry7ArZ3C3W0qrnYk3sYqry8ta1ftFyUXryDZFnakr9rtrZrtw15uayxAF9Y
+        ya17KFy7C348Aa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkj1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JFC_Wr1l8cAvFVAK
+        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4
+        x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l
+        84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8w
+        Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkE
+        bVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07
+        AlzVAYIcxG8wCY02Avz4vE14v_Gr1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
+        8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
+        0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAI
+        cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcV
+        CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JjaMKZUUUUU=
 X-Originating-IP: [113.251.8.115]
 X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
@@ -69,49 +68,27 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-在 2021/6/8 上午9:41, teng sterling 写道:
-> Hu Haowen <src.res@email.cn> 于2021年6月7日周一 下午9:52写道：
+在 2021/6/8 上午10:44, Wu X.C. 写道:
+> On Sat, Jun 05, 2021 at 08:05:04PM +0800, Hu Haowen wrote:
+>> Create new translations for dev-tools/testing-overview.rst and link it
+>> to dev-tools/index.rst with TODOList modifications.
 >>
->> 在 2021/6/7 下午9:40, teng sterling 写道:
->>> CC siyanteng@loongson.cn
->>> Hu Haowen <src.res@email.cn> 于2021年6月7日周一 下午5:37写道：
->>>> The original file has added a former intro in commit b51208d41c6a4e7fc2f0
->>>> ("docs: Tweak the top-level Sphinx page") and hence update the Chinese
->>>> version for it.
->>>>
->>>> Signed-off-by: Hu Haowen <src.res@email.cn>
->>>> ---
->>>>    Documentation/translations/zh_CN/index.rst | 5 +++++
->>>>    1 file changed, 5 insertions(+)
->>>>
->>>> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
->>>> index 1f953d3439a5..003126abc0d6 100644
->>>> --- a/Documentation/translations/zh_CN/index.rst
->>>> +++ b/Documentation/translations/zh_CN/index.rst
->>>> @@ -17,6 +17,11 @@
->>>>       **翻译计划:*kernel's documentation*
->>>>       内核中文文档欢迎任何翻译投稿，特别是关于内核用户和管理员指南部分。
->>>>
->>>> +这是内核文档树的顶级目录。内核文档，就像内核本身一样，在很大程度上是一项正
->>> how about:
->>>
->>> 这是中文内核文档树的顶级目录。
->>
->> But the English version says "kernel's documentation". It seems that we
->> should add an explanation for readers in order to drag them out of the
->> dilemma on whether he or she should update En version at first, as your
->> thought picking ideas from "disclaimer-zh_CN".
->>
->> What's your opinion, maintainers?
-> When the original documentation is updated, the Chinese documentation
-> has to follow. I think we have reached a consensus on this point.
-> However, this file is described in this directory as zh_CN, so I think
-> it needs to be localized. But the localization will conflict with
-> "disclaimer-zh_CN".
+>> Signed-off-by: Hu Haowen <src.res@email.cn>
+>> ---
+>>   .../translations/zh_CN/dev-tools/index.rst    |   5 +
+>>   .../zh_CN/dev-tools/testing-overview.rst      | 110 ++++++++++++++++++
+> [...]
+>> +
+>> +代码覆盖率工具
+>> +==============
+>> +
+>> +支持两种不同代码之间的覆盖率测量工具。它们可以用来验证一项测试执行的
+> Linux内核支持两种不同的代码覆盖率测试工具。
 
 
-Hmm... That's an issue. Does that mean we should edit "disclaimer-zh_CN"
-as well to avoid the conflict?
+But you mentioned that this sentence should be 
+"支持两种不同代码之间的覆盖率测量工具" in
+the previous email. Should I take this version or the previous version?
 
 
 Thx,
@@ -119,26 +96,15 @@ Thx,
 Hu Haowen
 
 
+>
+>> +确切函数或代码行。这有助于决定内核被测试了多少，或用来查找合适的测试
+>> +中没有覆盖到的极端情况。
+>> +
+> OK, good job!
+>
+> Just need to fix a small problem, after that
+>
+> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 > Thanks,
-> Yanteng
->>
->>>> +在进行的工作；当我们努力将许多分散的文件整合成一个连贯的整体时尤其如此。另
->>>> +外，随时欢迎您对内核文档进行改进；如果您想提供帮助，请加入vger.kernel.org
->>> 中文内核文档进行改进；
->>>> +上的linux-doc邮件列表。
->>> 上的linux-doc邮件列表，先改进原始英文文档，再将其翻译为中文后，更新相应的中文文档。
->>>> +
->>>>    许可证文档
->>>>    ----------
->>>>
->>>> --
->>>> 2.25.1
->>>>
->>> BTW, I think these are similar to "disclaimer-zh_CN", but not as good
->>> as the latter.
->>>
->>> Alex and Xiangcheng, what do you think?
->>>
->>> Thanks,
->>> Yanteng
+> 	Wu X.C.
 
