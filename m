@@ -2,235 +2,443 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02922C4743D
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8531EC47082
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:22:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3C6960FEF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:22:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61D3F61183
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 07:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230291AbhFHHXw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 03:23:52 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:60016 "EHLO loongson.cn"
+        id S229526AbhFHHXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 03:23:55 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:60024 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229526AbhFHHXw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jun 2021 03:23:52 -0400
+        id S230293AbhFHHXy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jun 2021 03:23:54 -0400
 Received: from localhost.localdomain (unknown [223.106.58.132])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx70KNGr9gxewMAA--.14387S3;
-        Tue, 08 Jun 2021 15:21:53 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx70KNGr9gxewMAA--.14387S4;
+        Tue, 08 Jun 2021 15:21:55 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH 1/2] docs/core-api: Modify document layout
-Date:   Tue,  8 Jun 2021 15:22:25 +0800
-Message-Id: <fda69eb4a88f6dc8cefe75c8d211735ab98f9131.1623136676.git.siyanteng@loongson.cn>
+Subject: [PATCH 2/2] docs/zh_CN: add core api cpu_hotplug translation
+Date:   Tue,  8 Jun 2021 15:22:26 +0800
+Message-Id: <254d2ecf0a9b4bb09f64a649fdc46f5153042a34.1623136676.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1623136676.git.siyanteng@loongson.cn>
 References: <cover.1623136676.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx70KNGr9gxewMAA--.14387S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3Ar13tw4UKw1fGw4DAw1fJFb_yoWxCrWxpF
-        sxXFWSgrnYvFyUC3y2vw48Grn5uFZ5A3y3ArykGrWIyF15CryUCFsxtFy5AFW8GrWkuFyj
-        vw1jqr1ru3yDAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPj14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-        x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-        A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
-        kIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
-        xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
-        kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
-        6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
-        CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5SoXUUUU
-        U
+X-CM-TRANSID: AQAAf9Dx70KNGr9gxewMAA--.14387S4
+X-Coremail-Antispam: 1UD129KBjvAXoW3KryrtrWDuw45Zr4DWFyxAFb_yoW8AFW3Jo
+        W7Aan0k39rG3Z8tasru3y3JrW8W340kF1UZrsYkw4j9asrWFn5KFZ2yw47tFW5ZFW5CF43
+        XF1fJFy3Kay3W3Zxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUOU7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r15M28IrcIa0x
+        kI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
+        jcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
+        1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
+        M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+        v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+        F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
+        IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+        wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
+        0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+        xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+        1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjYiiDUU
+        UUU==
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Modify the layout of the document and remove unnecessary symbols.
+Translate Documentation/core-api/cpu_hotplug.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/core-api/cpu_hotplug.rst | 36 ++++++++++++++++----------
- 1 file changed, 23 insertions(+), 13 deletions(-)
+ .../zh_CN/core-api/cpu_hotplug.rst            | 347 ++++++++++++++++++
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ 2 files changed, 348 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
 
-diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
-index a2c96bec5ee8..46a1d859a099 100644
---- a/Documentation/core-api/cpu_hotplug.rst
-+++ b/Documentation/core-api/cpu_hotplug.rst
-@@ -91,9 +91,10 @@ Never use anything other than ``cpumask_t`` to represent bitmap of CPUs.
- 
- Using CPU hotplug
- =================
+diff --git a/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst b/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
+new file mode 100644
+index 000000000000..745eec87c050
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
+@@ -0,0 +1,347 @@
++.. include:: ../disclaimer-zh_CN.rst
 +
- The kernel option *CONFIG_HOTPLUG_CPU* needs to be enabled. It is currently
- available on multiple architectures including ARM, MIPS, PowerPC and X86. The
--configuration is done via the sysfs interface: ::
-+configuration is done via the sysfs interface::
- 
-  $ ls -lh /sys/devices/system/cpu
-  total 0
-@@ -113,14 +114,14 @@ configuration is done via the sysfs interface: ::
- 
- The files *offline*, *online*, *possible*, *present* represent the CPU masks.
- Each CPU folder contains an *online* file which controls the logical on (1) and
--off (0) state. To logically shutdown CPU4: ::
-+off (0) state. To logically shutdown CPU4::
- 
-  $ echo 0 > /sys/devices/system/cpu/cpu4/online
-   smpboot: CPU 4 is now offline
- 
- Once the CPU is shutdown, it will be removed from */proc/interrupts*,
- */proc/cpuinfo* and should also not be shown visible by the *top* command. To
--bring CPU4 back online: ::
-+bring CPU4 back online::
- 
-  $ echo 1 > /sys/devices/system/cpu/cpu4/online
-  smpboot: Booting Node 0 Processor 4 APIC 0x1
-@@ -142,6 +143,7 @@ The CPU hotplug coordination
- 
- The offline case
- ----------------
++:Original: Documentation/core-api/cpu_hotplug.rst
++:翻译:
 +
- Once a CPU has been logically shutdown the teardown callbacks of registered
- hotplug states will be invoked, starting with ``CPUHP_ONLINE`` and terminating
- at state ``CPUHP_OFFLINE``. This includes:
-@@ -158,9 +160,10 @@ at state ``CPUHP_OFFLINE``. This includes:
- 
- Using the hotplug API
- ---------------------
++司延腾 Yanteng Si <siyanteng@loongson.cn>
 +
- It is possible to receive notifications once a CPU is offline or onlined. This
- might be important to certain drivers which need to perform some kind of setup
--or clean up functions based on the number of available CPUs: ::
-+or clean up functions based on the number of available CPUs::
- 
-   #include <linux/cpuhotplug.h>
- 
-@@ -186,9 +189,10 @@ During the removal of a hotplug state the teardown callback will be invoked.
- 
- Multiple instances
- ~~~~~~~~~~~~~~~~~~
++:校译:
 +
- If a driver has multiple instances and each instance needs to perform the
- callback independently then it is likely that a ''multi-state'' should be used.
--First a multi-state state needs to be registered: ::
-+First a multi-state state needs to be registered::
- 
-   ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN, "X/Y:online,
-                                 Y_online, Y_prepare_down);
-@@ -197,7 +201,7 @@ First a multi-state state needs to be registered: ::
- The ``cpuhp_setup_state_multi()`` behaves similar to ``cpuhp_setup_state()``
- except it prepares the callbacks for a multi state and does not invoke
- the callbacks. This is a one time setup.
--Once a new instance is allocated, you need to register this new instance: ::
-+Once a new instance is allocated, you need to register this new instance::
- 
-   ret = cpuhp_state_add_instance(Y_hp_online, &d->node);
- 
-@@ -206,7 +210,8 @@ This function will add this instance to your previously allocated
- (*Y_online*) on all online CPUs. The *node* element is a ``struct
- hlist_node`` member of your per-instance data structure.
- 
--On removal of the instance: ::
-+On removal of the instance::
++*Proofreader's signature*
 +
-   cpuhp_state_remove_instance(Y_hp_online, &d->node)
- 
- should be invoked which will invoke the teardown callback on all online
-@@ -214,6 +219,7 @@ CPUs.
- 
- Manual setup
- ~~~~~~~~~~~~
++.. _cn_core_api_cpu_hotplug:
 +
- Usually it is handy to invoke setup and teardown callbacks on registration or
- removal of a state because usually the operation needs to performed once a CPU
- goes online (offline) and during initial setup (shutdown) of the driver. However
-@@ -226,6 +232,7 @@ hotplug operations.
- 
- The ordering of the events
- --------------------------
++=================
++内核中的CPU热拔插
++=================
 +
- The hotplug states are defined in ``include/linux/cpuhotplug.h``:
- 
- * The states *CPUHP_OFFLINE* … *CPUHP_AP_OFFLINE* are invoked before the
-@@ -248,13 +255,14 @@ another hotplug event.
- 
- Testing of hotplug states
- =========================
++:时间: 2016年12月
++:作者: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
++          Rusty Russell <rusty@rustcorp.com.au>,
++          Srivatsa Vaddagiri <vatsa@in.ibm.com>,
++          Ashok Raj <ashok.raj@intel.com>,
++          Joel Schopp <jschopp@austin.ibm.com>
 +
- One way to verify whether a custom state is working as expected or not is to
- shutdown a CPU and then put it online again. It is also possible to put the CPU
- to certain state (for instance *CPUHP_AP_ONLINE*) and then go back to
- *CPUHP_ONLINE*. This would simulate an error one state after *CPUHP_AP_ONLINE*
- which would lead to rollback to the online state.
- 
--All registered states are enumerated in ``/sys/devices/system/cpu/hotplug/states``: ::
-+All registered states are enumerated in ``/sys/devices/system/cpu/hotplug/states`` ::
- 
-  $ tail /sys/devices/system/cpu/hotplug/states
-  138: mm/vmscan:online
-@@ -268,7 +276,7 @@ All registered states are enumerated in ``/sys/devices/system/cpu/hotplug/states
-  168: sched:active
-  169: online
- 
--To rollback CPU4 to ``lib/percpu_cnt:online`` and back online just issue: ::
-+To rollback CPU4 to ``lib/percpu_cnt:online`` and back online just issue::
- 
-   $ cat /sys/devices/system/cpu/cpu4/hotplug/state
-   169
-@@ -277,13 +285,13 @@ To rollback CPU4 to ``lib/percpu_cnt:online`` and back online just issue: ::
-   140
- 
- It is important to note that the teardown callbac of state 140 have been
--invoked. And now get back online: ::
-+invoked. And now get back online::
- 
-   $ echo 169 > /sys/devices/system/cpu/cpu4/hotplug/target
-   $ cat /sys/devices/system/cpu/cpu4/hotplug/state
-   169
- 
--With trace events enabled, the individual steps are visible, too: ::
-+With trace events enabled, the individual steps are visible, too::
- 
-   #  TASK-PID   CPU#    TIMESTAMP  FUNCTION
-   #     | |       |        |         |
-@@ -318,6 +326,7 @@ trace.
- 
- Architecture's requirements
- ===========================
++简介
++====
 +
- The following functions and configurations are required:
- 
- ``CONFIG_HOTPLUG_CPU``
-@@ -339,11 +348,12 @@ The following functions and configurations are required:
- 
- User Space Notification
- =======================
--After CPU successfully onlined or offline udev events are sent. A udev rule like: ::
++现代系统架构的演进已经在处理器中引入了先进的错误报告和纠正能力。有一些oem也支
++持NUMA硬件，这些硬件也是热插拔的，其中物理节点的插入和移除需要支持CPU热插拔。
 +
-+After CPU successfully onlined or offline udev events are sent. A udev rule like::
++这样的进步要求内核可用的CPU被移除，要么是出于配置的原因，要么是出于RAS的目的，
++以保持一个不需要的CPU不在系统执行路径。因此需要在Linux内核中支持CPU热拔插。
++
++CPU热拔插支持的一个更新颖的用途是它在SMP的暂停恢复支持中的应用。双核和HT支
++持使得即使是笔记本电脑也能运行不支持这些方法的SMP内核。
++
++
++命令行开关
++==========
++
++``maxcpus=n``
++  限制启动时间的CPU为 *n* 。例如，如果你有四个CPU，使用 ``maxcpus=2`` 将只能启
++  动两个。你可以选择稍后让其他CPU上线。
++
++``nr_cpus=n``
++  限制内核将支持的CPU总量。如果这里提供的数量低于实际可用的CPU数量，那么这些CPU
++  以后就不能上线了。
++
++``additional_cpus=n``
++  使用它来限制可热插拔的CPU。该选项设置
++  ``cpu_possible_mask = cpu_present_mask + additional_cpus``
++
++  这个选项只限于IA64架构。
++
++``possible_cpus=n``
++  这个选项设置 ``cpu_possible_mask`` 中的 ``possible_cpus`` 位。
++
++  这个选项只限于X86和S390架构。
++
++``cpu0_hotplug``
++  允许关闭CPU0。
++
++  这个选项只限于X86架构。
++
++CPU位图
++=======
++
++``cpu_possible_mask``
++  系统中可能存在的CPU的位图。这是用来为per_cpu变量分配一些启动时的内存，这些变量
++  不会随着CPU的可用或移除而增加/减少。一旦在启动时的发现阶段被设置，该地图就是静态
++  的，也就是说，任何时候都不会增加或删除任何位。根据你的系统需求提前准确地调整它
++  可以节省一些启动时的内存。
++
++``cpu_online_mask``
++  当前在线的所有CPU的位图。在一个CPU可用于内核调度并准备接收设备的中断后，它被
++  设置在 ``__cpu_up()`` 中。当使用 ``__cpu_disable()`` 关闭一个CPU时，它被清
++  空，在此之前，所有的操作系统服务包括中断都被迁移到另一个目标CPU。
++
++``cpu_present_mask``
++  系统中当前存在的CPU的位图。并非所有的CPU都是在线的。当物理热拔插被相关的子系统
++  （如ACPI）处理时，可以改变和添加新的位或从位图中删除，这取决于事件是
++  hot-add/hot-remove。目前还没有定死规定。典型的用法是在启动时启动拓扑结构，这时
++  热插拔被禁用。
++
++你真的不需要操作任何系统的CPU映射。在大多数情况下，它们应该是只读的。当设置每个
++CPU资源时，几乎总是使用 ``cpu_possible_mask`` 或 ``for_each_possible_cpu()``
++来进行迭代。宏 ``for_each_cpu()`` 可以用来迭代一个自定义的CPU掩码。
++
++不要使用cpumask_t以外的任何东西来表示CPU的位图。
++
++
++使用CPU热拔插
++=============
++
++内核选项CONFIG_HOTPLUG_CPU需要被启用。它目前可用于多种架构，包括ARM、MIPS、
++PowerPC和X86。配置是通过sysfs接口完成的::
++
++ $ ls -lh /sys/devices/system/cpu
++ total 0
++ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu0
++ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu1
++ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu2
++ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu3
++ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu4
++ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu5
++ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu6
++ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu7
++ drwxr-xr-x  2 root root    0 Dec 21 16:33 hotplug
++ -r--r--r--  1 root root 4.0K Dec 21 16:33 offline
++ -r--r--r--  1 root root 4.0K Dec 21 16:33 online
++ -r--r--r--  1 root root 4.0K Dec 21 16:33 possible
++ -r--r--r--  1 root root 4.0K Dec 21 16:33 present
++
++文件 *offline* 、 *online* 、*possible* 、*present* 代表CPU掩码。每个CPU文件
++夹包含一个 *online* 文件，控制逻辑上的开（1）和关（0）状态。要在逻辑上关闭CPU4::
++
++ $ echo 0 > /sys/devices/system/cpu/cpu4/online
++  smpboot: CPU 4 is now offline
++
++一旦CPU被关闭，它将从 */proc/interrupts* 、*/proc/cpuinfo* 中被删除，也不应该
++被top命令显示出来。要让CPU4重新上线::
++
++ $ echo 1 > /sys/devices/system/cpu/cpu4/online
++ smpboot: Booting Node 0 Processor 4 APIC 0x1
++
++CPU又可以使用了。这应该对所有的CPU都有效。CPU0通常比较特殊，被排除在CPU热拔插之外。
++在X86上，内核选项 *CONFIG_BOOTPARAM_HOTPLUG_CPU0* 必须被启用，以便能够关闭CPU0。
++或者，可以使用内核命令选项 *cpu0_hotplug* 。CPU0的一些已知的依赖性:
++
++* 从休眠/暂停中恢复。如果CPU0处于离线状态，休眠/暂停将失败。
++* PIC中断。如果检测到PIC中断，CPU0就不能被移除。
++
++如果你发现CPU0上有任何依赖性，请让告知Fenghua Yu <fenghua.yu@intel.com>。
++
++CPU的热拔插协作
++===============
++
++下线情况
++--------
++
++一旦CPU被逻辑关闭，注册的热插拔状态的清除回调将被调用，从 ``CPUHP_ONLINE`` 开始，在
++``CPUHP_OFFLINE`` 状态结束。这包括:
++
++* 如果任务因暂停操作而被冻结，那么 *cpuhp_tasks_frozen* 将被设置为true。
++
++* 所有进程都会从这个将要离线的CPU迁移到新的CPU上。新的CPU是从每个进程的当前cpuset中
++  选择的，它可能是所有在线CPU的一个子集。
++
++* 所有针对这个CPU的中断都被迁移到新的CPU上。
++
++* 计时器也会被迁移到新的CPU上。
++
++* 一旦所有的服务被迁移，内核会调用一个特定的例程 ``__cpu_disable()`` 来进行特定的清
++  理。
++
++使用热插拔API
++-------------
++
++一旦一个CPU下线或上线，就有可能收到通知。这对某些需要根据可用CPU数量执行某种设置或清
++理功能的驱动程序来说可能很重要::
++
++  #include <linux/cpuhotplug.h>
++
++  ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "X/Y:online",
++                          Y_online, Y_prepare_down);
++
++*X* 是子系统， *Y* 是特定的驱动程序。 *Y_online* 回调将在所有在线CPU的注册过程中被调用。
++如果在线回调期间发生错误， *Y_prepare_down*  回调将在所有之前调用过在线回调的CPU上调
++用。注册完成后，一旦有CPU上线， *Y_online* 回调将被调用，当CPU关闭时， *Y_prepare_down*
++将被调用。所有之前在 *Y_online* 中分配的资源都应该在 *Y_prepare_down* 中释放。如果在
++注册过程中发生错误，返回值ret为负值。否则会返回一个正值，其中包含动态分配状态
++（CPUHP_AP_ONLINE_DYN）的分配热拔插。对于预定义的状态，它将返回0。
++
++该回调可以通过调用 ``cpuhp_remove_state()`` 来删除。如果是动态分配的状态
++（CPUHP_AP_ONLINE_DYN），则使用返回的状态。在移除热插拔状态的过程中，将调用拆解回调。
++
++多个实例
++~~~~~~~~
++
++如果一个驱动程序有多个实例，并且每个实例都需要独立执行回调，那么很可能应该使用
++``multi-state`` 。首先需要注册一个多状态的状态::
++
++  ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN, "X/Y:online,
++                                Y_online, Y_prepare_down);
++  Y_hp_online = ret;
++
++``cpuhp_setup_state_multi()`` 的行为与 ``cpuhp_setup_state()`` 类似，只是它
++为多状态准备了回调，但不调用回调。这是一个一次性的设置。
++一旦分配了一个新的实例，你需要注册这个新实例::
++
++  ret = cpuhp_state_add_instance(Y_hp_online, &d->node);
++
++这个函数将把这个实例添加到你先前分配的 ``Y_hp_online`` 状态，并在所有在线的
++CPU上调用先前注册的回调（ ``Y_online`` ）。 *node* 元素是你的每个实例数据结构
++中的一个 ``struct hlist_node`` 成员。
++
++在移除该实例时::
++
++  cpuhp_state_remove_instance(Y_hp_online, &d->node)
++
++应该被调用，这将在所有在线CPU上调用拆分回调。
++
++手动设置
++~~~~~~~~
++
++通常情况下，在注册或移除状态时调用setup和teamdown回调是很方便的，因为通常在CPU上线
++（下线）和驱动的初始设置（关闭）时需要执行该操作。然而，每个注册和删除功能也有一个
++_nocalls的后缀，如果不希望调用回调，则不调用所提供的回调。在手动设置（或关闭）期间，
++应该使用 ``get_online_cpus()`` 和 ``put_online_cpus()`` 函数来抑制CPU热插拔操作。
++
++
++事件的顺序
++----------
++
++热插拔状态被定义在 ``include/linux/cpuhotplug.h``:
++
++* ``CPUHP_OFFLINE`` ... ``CPUHP_AP_OFFLINE`` 状态是在CPU启动前调用的。
++
++* ``CPUHP_AP_OFFLINE`` ... ``CPUHP_AP_ONLINE`` 状态是在CPU被启动后被调用的。
++  中断是关闭的，调度程序还没有在这个CPU上活动。从 ``CPUHP_AP_OFFLINE`` 开始，
++  回调被调用到目标CPU上。
++
++* ``CPUHP_AP_ONLINE_DYN`` 和 ``CPUHP_AP_ONLINE_DYN_END`` 之间的状态被保留
++  给动态分配。
++
++* 这些状态在CPU关闭时以相反的顺序调用，从 ``CPUHP_ONLINE`` 开始，在 ``CPUHP_OFFLINE``
++  停止。这里的回调是在将被关闭的CPU上调用的，直到 ``CPUHP_AP_OFFLINE`` 。
++
++通过 ``CPUHP_AP_ONLINE_DYN`` 动态分配的状态通常已经足够了。然而，如果在启动或关闭
++期间需要更早的调用，那么应该获得一个显式状态。如果热拔插事件需要相对于另一个热拔插事
++件的特定排序，也可能需要一个显式状态。
++
++测试热拔插状态
++==============
++
++验证自定义状态是否按预期工作的一个方法是关闭一个CPU，然后再把它上线。也可以把CPU放到某
++些状态（例如 ``CPUHP_AP_ONLINE`` ），然后再回到 ``CPUHP_ONLINE`` 。这将模拟在
++``CPUHP_AP_ONLINE`` 之后的一个状态出现错误，从而导致回滚到在线状态。
++
++所有注册的状态都被列举在 ``/sys/devices/system/cpu/hotplug/states`` ::
++
++ $ tail /sys/devices/system/cpu/hotplug/states
++ 138: mm/vmscan:online
++ 139: mm/vmstat:online
++ 140: lib/percpu_cnt:online
++ 141: acpi/cpu-drv:online
++ 142: base/cacheinfo:online
++ 143: virtio/net:online
++ 144: x86/mce:online
++ 145: printk:online
++ 168: sched:active
++ 169: online
++
++要将CPU4回滚到 ``lib/percpu_cnt:online`` ，再回到在线状态，只需发出::
++
++  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
++  169
++  $ echo 140 > /sys/devices/system/cpu/cpu4/hotplug/target
++  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
++  140
++
++需要注意的是，状态140的清除调用bac已经被调用。现在重新上线::
++
++  $ echo 169 > /sys/devices/system/cpu/cpu4/hotplug/target
++  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
++  169
++
++启用追踪事件后，单个步骤也是可见的::
++
++  #  TASK-PID   CPU#    TIMESTAMP  FUNCTION
++  #     | |       |        |         |
++      bash-394  [001]  22.976: cpuhp_enter: cpu: 0004 target: 140 step: 169 (cpuhp_kick_ap_work)
++   cpuhp/4-31   [004]  22.977: cpuhp_enter: cpu: 0004 target: 140 step: 168 (sched_cpu_deactivate)
++   cpuhp/4-31   [004]  22.990: cpuhp_exit:  cpu: 0004  state: 168 step: 168 ret: 0
++   cpuhp/4-31   [004]  22.991: cpuhp_enter: cpu: 0004 target: 140 step: 144 (mce_cpu_pre_down)
++   cpuhp/4-31   [004]  22.992: cpuhp_exit:  cpu: 0004  state: 144 step: 144 ret: 0
++   cpuhp/4-31   [004]  22.993: cpuhp_multi_enter: cpu: 0004 target: 140 step: 143 (virtnet_cpu_down_prep)
++   cpuhp/4-31   [004]  22.994: cpuhp_exit:  cpu: 0004  state: 143 step: 143 ret: 0
++   cpuhp/4-31   [004]  22.995: cpuhp_enter: cpu: 0004 target: 140 step: 142 (cacheinfo_cpu_pre_down)
++   cpuhp/4-31   [004]  22.996: cpuhp_exit:  cpu: 0004  state: 142 step: 142 ret: 0
++      bash-394  [001]  22.997: cpuhp_exit:  cpu: 0004  state: 140 step: 169 ret: 0
++      bash-394  [005]  95.540: cpuhp_enter: cpu: 0004 target: 169 step: 140 (cpuhp_kick_ap_work)
++   cpuhp/4-31   [004]  95.541: cpuhp_enter: cpu: 0004 target: 169 step: 141 (acpi_soft_cpu_online)
++   cpuhp/4-31   [004]  95.542: cpuhp_exit:  cpu: 0004  state: 141 step: 141 ret: 0
++   cpuhp/4-31   [004]  95.543: cpuhp_enter: cpu: 0004 target: 169 step: 142 (cacheinfo_cpu_online)
++   cpuhp/4-31   [004]  95.544: cpuhp_exit:  cpu: 0004  state: 142 step: 142 ret: 0
++   cpuhp/4-31   [004]  95.545: cpuhp_multi_enter: cpu: 0004 target: 169 step: 143 (virtnet_cpu_online)
++   cpuhp/4-31   [004]  95.546: cpuhp_exit:  cpu: 0004  state: 143 step: 143 ret: 0
++   cpuhp/4-31   [004]  95.547: cpuhp_enter: cpu: 0004 target: 169 step: 144 (mce_cpu_online)
++   cpuhp/4-31   [004]  95.548: cpuhp_exit:  cpu: 0004  state: 144 step: 144 ret: 0
++   cpuhp/4-31   [004]  95.549: cpuhp_enter: cpu: 0004 target: 169 step: 145 (console_cpu_notify)
++   cpuhp/4-31   [004]  95.550: cpuhp_exit:  cpu: 0004  state: 145 step: 145 ret: 0
++   cpuhp/4-31   [004]  95.551: cpuhp_enter: cpu: 0004 target: 169 step: 168 (sched_cpu_activate)
++   cpuhp/4-31   [004]  95.552: cpuhp_exit:  cpu: 0004  state: 168 step: 168 ret: 0
++      bash-394  [005]  95.553: cpuhp_exit:  cpu: 0004  state: 169 step: 140 ret: 0
++
++可以看到，CPU4一直下降到时间戳22.996，然后又上升到95.552。所有被调用的回调，
++包括它们的返回代码都可以在跟踪中看到。
++
++架构的要求
++==========
++
++需要具备以下功能和配置：
++
++``CONFIG_HOTPLUG_CPU``
++  这个配置项需要在Kconfig中启用
++
++``__cpu_up()``
++  调出一个cpu的架构接口
++
++``__cpu_disable()``
++  关闭CPU的架构接口，在例程返回后，内核不能再处理任何中断。这包括定时器的关闭。
++
++``__cpu_die()``
++  这实际上是为了确保CPU的死亡。实际上，看看其他架构中实现CPU热拔插的一些示例代
++  码。对于那个特定的架构，处理器被从 ``idle()`` 循环中拿下来。 ``__cpu_die()``
++  通常会等待一些per_cpu状态的设置，以确保处理器的死亡例程被调用来保持活跃。
++
++用户空间通知
++============
++
++在CPU成功上线或下线后，udev事件被发送。一个udev规则，比如::
++
++  SUBSYSTEM=="cpu", DRIVERS=="processor", DEVPATH=="/devices/system/cpu/*", RUN+="the_hotplug_receiver.sh"
++
++将接收所有事件。一个像这样的脚本::
++
++  #!/bin/sh
++
++  if [ "${ACTION}" = "offline" ]
++  then
++      echo "CPU ${DEVPATH##*/} offline"
++
++  elif [ "${ACTION}" = "online" ]
++  then
++      echo "CPU ${DEVPATH##*/} online"
++
++  fi
++
++可以进一步处理该事件。
++
++内核内联文档参考
++================
++
++该API在以下内核代码中:
++
++include/linux/cpuhotplug.h
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index b4bde9396339..59ae7c2898de 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -80,11 +80,11 @@ Todolist:
+    :maxdepth: 1
  
-   SUBSYSTEM=="cpu", DRIVERS=="processor", DEVPATH=="/devices/system/cpu/*", RUN+="the_hotplug_receiver.sh"
+    cachetlb
++   cpu_hotplug
  
--will receive all events. A script like: ::
-+will receive all events. A script like::
+ Todolist:
  
-   #!/bin/sh
  
+-   cpu_hotplug
+    memory-hotplug
+    genericirq
+    protection-keys
 -- 
 2.27.0
 
