@@ -2,201 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AAE0C4743E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 08:47:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B048EC4743D
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 09:13:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 78F4B61263
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 08:47:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 917BD61278
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Jun 2021 09:13:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231337AbhFHItt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 04:49:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbhFHIts (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 04:49:48 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8337C061574;
-        Tue,  8 Jun 2021 01:47:44 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id r11so23559905edt.13;
-        Tue, 08 Jun 2021 01:47:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LP7nFbnq6qcvyOkQ/eqHCyZ+QiHn+JFAk2tG3rdzWY0=;
-        b=a5lhZhCl4AX7h6pLmBkkfx7R11USW00VKxiXbXALgVc5vkrtjTjeOVgj9jXZN6tcHb
-         fYBSh1O/SDjL6Td6zIMEshaMw4L8k/+HL/Tp4EFvFiL7gYyQYu77t304qKA/Jcxldmhp
-         ILBz+FtGwLdvaO4KcTfzo6cG3SFQeDCKO5zhthJLLG93Cvk56YMSo57jFcY5/Fci+NTH
-         uJtovpPUpYSdXp4HmL8MBG0bZmUBxFJwbwTTEkDGGTRFKCuoARidW3du+833tke49CmJ
-         8D6AYB6xjFt4th+6z0x3IJ/YQ34kr6HV4RHt6bmd3G3Ze7PEX2xrWKtCVLvA+e7qGWwA
-         8V5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LP7nFbnq6qcvyOkQ/eqHCyZ+QiHn+JFAk2tG3rdzWY0=;
-        b=V6k5nSJ5kN3n1tIRS0fDce8Ds3e7AOYVa5lsCcxFCZzRs4e34Iakn88rPPVnrYjgWe
-         o+ePjlyy2iRX+7niS4QMGwZQma+Byktgy5vNooKQgxjpZzYtXROZnR2y/rowXtX60yEK
-         ElsXWXeE5tUpbbfUadujBD8KKViU7cFc1OoDUMR8LpquD1nXtm1/1+ZWJXz1ASqWfCHF
-         hd67ZvdmlU6q7krLX3F+lK1LrdQfsrpXRyCS+i6xl7mOC8bKwX1uxQ2Jdt7ge4jDiIHi
-         TYHwJLaSShBEP40nYH8Sw2krDhYpZDTJYhYP9josP29VfDnhAEoAi3Wuk4vJgPdLDTbk
-         UEfA==
-X-Gm-Message-State: AOAM531dOFLYQOqH4rfjabS2fuUlJo9MPjFOjy+m5K42lfE8dyyPwvU4
-        4Hc6aNGtE+4CJBItLX9Lqxg=
-X-Google-Smtp-Source: ABdhPJxbozwNM8CusgeCC8jfXCJ0vbl4GQkbSksYzTs9VzuuME+SXmGvS3eOYxxG25rtPYTwZyDY9g==
-X-Received: by 2002:a05:6402:3082:: with SMTP id de2mr12038774edb.214.1623142062429;
-        Tue, 08 Jun 2021 01:47:42 -0700 (PDT)
-Received: from localhost.localdomain (ispc-static-34.84-47-111.telekom.sk. [84.47.111.34])
-        by smtp.gmail.com with ESMTPSA id p13sm8556583edq.67.2021.06.08.01.47.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 01:47:42 -0700 (PDT)
-From:   glittao@gmail.com
-To:     brendanhiggins@google.com, cl@linux.com, penberg@kernel.org,
-        rientjes@google.com, iamjoonsoo.kim@lge.com,
-        akpm@linux-foundation.org, vbabka@suse.cz
-Cc:     linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-mm@kvack.org, elver@google.com,
-        dlatypov@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        Oliver Glitta <glittao@gmail.com>
-Subject: [PATCH] docs: add documentation for SLUB cache kunit tests
-Date:   Tue,  8 Jun 2021 10:47:40 +0200
-Message-Id: <20210608084740.6282-1-glittao@gmail.com>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a5
+        id S230268AbhFHJPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 05:15:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33814 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229507AbhFHJPU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jun 2021 05:15:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CF16C61208;
+        Tue,  8 Jun 2021 09:13:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623143608;
+        bh=JiiuTjFCB/4PLSsHGFNFns29l9HBPjAxjVfH42hb+H4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BvBM91enChDqY6+VuhfUkSW1HXIS9ONW9olMjxmDaKa7XG0xFJ88O84JgyyOUqCn2
+         zUlrusQNc+hVn4BaQ/hZVyUb111Dx/0tXSwwa1nft23bMjs842ThUbJ97WIXp48iAN
+         r0g3L51e1nIYJ+KG+xqOOKm8wEM0xnzHCbU/F5o+L0LMd7cx2OoQcnKd39oshKQQ8X
+         1xoHEyi5Pr0JMt9c9KNVQ+agiuHE3xgktQcWzhfx+TwlsoVquZYtBqrqsWjBXsXwdc
+         kvWtnfkm9HI72rJ+KD+i20Cm8mWhZAuWSSvbBxlTAuV4H0sJOC9f3xiWuy2knlZ9v6
+         r+gmfpltnZIlA==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
+Subject: [PATCH v3 0/9] Remove DISCONTIGMEM memory model
+Date:   Tue,  8 Jun 2021 12:13:07 +0300
+Message-Id: <20210608091316.3622-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Oliver Glitta <glittao@gmail.com>
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-Add documentation for a KUnit test for SLUB debugging functionality.
+Hi,
 
-Signed-off-by: Oliver Glitta <glittao@gmail.com>
----
- Documentation/vm/slub.rst | 104 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
+SPARSEMEM memory model was supposed to entirely replace DISCONTIGMEM a
+(long) while ago. The last architectures that used DISCONTIGMEM were
+updated to use other memory models in v5.11 and it is about the time to
+entirely remove DISCONTIGMEM from the kernel.
 
-diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
-index 03f294a638bd..ca82fc1649ee 100644
---- a/Documentation/vm/slub.rst
-+++ b/Documentation/vm/slub.rst
-@@ -384,5 +384,109 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
-       40,60`` range will plot only samples collected between 40th and
-       60th seconds).
+This set removes DISCONTIGMEM from alpha, arc and m68k, simplifies memory
+model selection in mm/Kconfig and replaces usage of redundant
+CONFIG_NEED_MULTIPLE_NODES and CONFIG_FLAT_NODE_MEM_MAP with CONFIG_NUMA
+and CONFIG_FLATMEM respectively. 
 
-+KUnit tests for SLUB debugging functionality
-+============================================
-+
-+These KUnit tests are used to test some of the SLUB debugging
-+functionalities.
-+
-+KUnit tests are used for unit testing in Linux kernel and easy to run,
-+so it is probably the best choice for this type of tests.
-+
-+There are tests, which corrupt redzone, the free objects and the freelist.
-+Tests are corrupting specific bytes in cache and checking if validation
-+finds expected number of bugs. Bug reports are silenced.
-+
-+Config option
-+
-+In order to built and then run this tests you need to switch
-+option SLUB_KUNIT_TEST on. It is tristate option so it can also
-+be built as a module. This option depends on SLUB_DEBUG and
-+KUNIT options. By default it is on with all kunit tests.
-+
-+Error counting
-+
-+To get number of errors discovered in slub is used test API kunit_resource.
-+In test_init the reference to the integer variable slab_errors is added
-+to the resource of this tests.
-+
-+During slub cache checking always when bug should be reported or fixed function
-+slab_add_kunit_errors() is called. This function find resource to kunit test
-+and increment value of data in founded resource, which is slab_errors
-+variable.
-+
-+Silence bug reports
-+
-+The function slab_add_kunit_errors() is returning bool, which is true if there is kunit test
-+with correct kunit_resource running, to silence bug reports, so they are not printed.
-+We do not want to correct errors we only want to know they occurred, so these reports
-+are unnnecessary.
-+
-+KASAN option
-+
-+Only 2 out of 5 tests are runnig with KASAN option is on.
-+The other three tests deliberately modifies non-allocated objects. And KASAN
-+does not detect some errors in the same way as SLUB_DEBUG. So, these tests
-+does not run when KASAN option is on.
-+
-+TESTS
-+
-+1. test_clobber_zone
-+
-+   SLUB cache with SLUB_REDZONE flag can detects writings after object. This
-+   functionality is tested here on allocated memory.
-+
-+   First, there is allocated memory with SLAB_REDZONE and then the first byte
-+   after allocated space is modified. Validation founds 2 errors, because of
-+   the bug and the fix of the memory.
-+
-+
-+2. test_next_pointer
-+
-+   SLUB have list of free objects and the address of the next free object
-+   is always saved in free object at offset specified in variable offset
-+   in struct kmem_cache. This test try to corrupt this freelist and
-+   then correct it.
-+
-+   First, there is allocated and freed memory to get a pointer to free object.
-+   After that, the pointer to next free object is corrupted. The first validation finds
-+   3 errors. One for corrupted freechain, the second for the wrong count of objects
-+   in use and the third for fixing the issue. This fix only set number of objects
-+   in use to a number of all objects minus 1, because the first free object
-+   was corrupted.
-+
-+   Then the free pointer is fixed to his previous value. The second validation finds
-+   2 errors. One for the wrong count of objects in use and one for fixing this error.
-+
-+   Last validation is used to check if all errors were corrected so no error
-+   is found.
-+
-+3. test_first_word
-+
-+   SLUB cache with SLAB_POISON flag can detect poisoning free objects. This
-+   functionality is tested in this test. The test tries to corrupt
-+   the first byte in freed memory.
-+
-+   First of all, memory is allocated and freed to get a pointer to a free object
-+   and then the first byte is corrupted. After that, validation finds 2 errors,
-+   one for the bug and the other one for the fix of the memory.
-+
-+4. test_clobber_50th_byte
-+
-+   In this test SLAB_POISON functionality is tested. The test tries to
-+   corrupt the 50th byte in freed memory.
-+
-+   First, pointer to a free memory is acquired by allocating and freeing memory.
-+   Then 50th byte is corrupted and validation finds 2 errors for the bug and
-+   the fix of the memory.
-+
-+5. test_clobber_redzone_free
-+
-+   This test tests redzone functionality of SLUB cache on a freed object.
-+
-+   First, it gets pointer to the free object with allocating and freeing and
-+   then corrupts the first byte after the freed object. Validation finds
-+   2 errors for the bug and the fix of the memory.
-+
- Christoph Lameter, May 30, 2007
- Sergey Senozhatsky, October 23, 2015
---
-2.31.1.272.g89b43f80a5
+I've also removed NUMA support on alpha that was BROKEN for more than 15
+years.
+
+There were also minor updates all over arch/ to remove mentions of
+DISCONTIGMEM in comments and #ifdefs.
+
+v3:
+* Remove stale reference of CONFIG_NEED_MULTIPLE_NODES and stale
+  discontigmem comment, per Geert
+* Add Vineet Acks
+* Fix spelling in cover letter subject
+
+v2: Link: https://lore.kernel.org/lkml/20210604064916.26580-1-rppt@kernel.org
+* Fix build errors reported by kbuild bot
+* Add additional cleanups in m68k as suggested by Geert
+
+v1: Link: https://lore.kernel.org/lkml/20210602105348.13387-1-rppt@kernel.org
+
+Mike Rapoport (9):
+  alpha: remove DISCONTIGMEM and NUMA
+  arc: update comment about HIGHMEM implementation
+  arc: remove support for DISCONTIGMEM
+  m68k: remove support for DISCONTIGMEM
+  mm: remove CONFIG_DISCONTIGMEM
+  arch, mm: remove stale mentions of DISCONIGMEM
+  docs: remove description of DISCONTIGMEM
+  mm: replace CONFIG_NEED_MULTIPLE_NODES with CONFIG_NUMA
+  mm: replace CONFIG_FLAT_NODE_MEM_MAP with CONFIG_FLATMEM
+
+ Documentation/admin-guide/sysctl/vm.rst |  12 +-
+ Documentation/vm/memory-model.rst       |  45 +----
+ arch/alpha/Kconfig                      |  22 ---
+ arch/alpha/include/asm/machvec.h        |   6 -
+ arch/alpha/include/asm/mmzone.h         | 100 -----------
+ arch/alpha/include/asm/pgtable.h        |   4 -
+ arch/alpha/include/asm/topology.h       |  39 -----
+ arch/alpha/kernel/core_marvel.c         |  53 +-----
+ arch/alpha/kernel/core_wildfire.c       |  29 +--
+ arch/alpha/kernel/pci_iommu.c           |  29 ---
+ arch/alpha/kernel/proto.h               |   8 -
+ arch/alpha/kernel/setup.c               |  16 --
+ arch/alpha/kernel/sys_marvel.c          |   5 -
+ arch/alpha/kernel/sys_wildfire.c        |   5 -
+ arch/alpha/mm/Makefile                  |   2 -
+ arch/alpha/mm/init.c                    |   3 -
+ arch/alpha/mm/numa.c                    | 223 ------------------------
+ arch/arc/Kconfig                        |  13 --
+ arch/arc/include/asm/mmzone.h           |  40 -----
+ arch/arc/mm/init.c                      |  21 +--
+ arch/arm64/Kconfig                      |   2 +-
+ arch/ia64/Kconfig                       |   2 +-
+ arch/ia64/kernel/topology.c             |   5 +-
+ arch/ia64/mm/numa.c                     |   5 +-
+ arch/m68k/Kconfig.cpu                   |  10 --
+ arch/m68k/include/asm/mmzone.h          |  10 --
+ arch/m68k/include/asm/page.h            |   2 +-
+ arch/m68k/include/asm/page_mm.h         |  35 ----
+ arch/m68k/mm/init.c                     |  20 ---
+ arch/mips/Kconfig                       |   2 +-
+ arch/mips/include/asm/mmzone.h          |   8 +-
+ arch/mips/include/asm/page.h            |   2 +-
+ arch/mips/mm/init.c                     |   7 +-
+ arch/nds32/include/asm/memory.h         |   6 -
+ arch/powerpc/Kconfig                    |   2 +-
+ arch/powerpc/include/asm/mmzone.h       |   4 +-
+ arch/powerpc/kernel/setup_64.c          |   2 +-
+ arch/powerpc/kernel/smp.c               |   2 +-
+ arch/powerpc/kexec/core.c               |   4 +-
+ arch/powerpc/mm/Makefile                |   2 +-
+ arch/powerpc/mm/mem.c                   |   4 +-
+ arch/riscv/Kconfig                      |   2 +-
+ arch/s390/Kconfig                       |   2 +-
+ arch/sh/include/asm/mmzone.h            |   4 +-
+ arch/sh/kernel/topology.c               |   2 +-
+ arch/sh/mm/Kconfig                      |   2 +-
+ arch/sh/mm/init.c                       |   2 +-
+ arch/sparc/Kconfig                      |   2 +-
+ arch/sparc/include/asm/mmzone.h         |   4 +-
+ arch/sparc/kernel/smp_64.c              |   2 +-
+ arch/sparc/mm/init_64.c                 |  12 +-
+ arch/x86/Kconfig                        |   2 +-
+ arch/x86/kernel/setup_percpu.c          |   6 +-
+ arch/x86/mm/init_32.c                   |   4 +-
+ arch/xtensa/include/asm/page.h          |   4 -
+ include/asm-generic/memory_model.h      |  37 +---
+ include/asm-generic/topology.h          |   2 +-
+ include/linux/gfp.h                     |   4 +-
+ include/linux/memblock.h                |   6 +-
+ include/linux/mm.h                      |   4 +-
+ include/linux/mmzone.h                  |  20 ++-
+ kernel/crash_core.c                     |   4 +-
+ mm/Kconfig                              |  36 +---
+ mm/memblock.c                           |   8 +-
+ mm/memory.c                             |   3 +-
+ mm/page_alloc.c                         |  25 +--
+ mm/page_ext.c                           |   2 +-
+ 67 files changed, 101 insertions(+), 911 deletions(-)
+ delete mode 100644 arch/alpha/include/asm/mmzone.h
+ delete mode 100644 arch/alpha/mm/numa.c
+ delete mode 100644 arch/arc/include/asm/mmzone.h
+ delete mode 100644 arch/m68k/include/asm/mmzone.h
+
+
+base-commit: c4681547bcce777daf576925a966ffa824edd09d
+-- 
+2.28.0
 
