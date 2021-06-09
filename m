@@ -2,115 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC6EC48BCF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 11:32:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2620C48BCF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:14:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 195C0613B1
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 11:32:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D951761351
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:14:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238768AbhFILea (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 07:34:30 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:56329 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234695AbhFILea (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 07:34:30 -0400
-Received: from mail-wm1-f47.google.com ([209.85.128.47]) by
- mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MeTHG-1lIhYi06xY-00aXJb; Wed, 09 Jun 2021 13:32:32 +0200
-Received: by mail-wm1-f47.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso4037255wmh.4;
-        Wed, 09 Jun 2021 04:32:31 -0700 (PDT)
-X-Gm-Message-State: AOAM531MtLqkz6c784MFtQZns9lthn21/JNIrLLelOQnk1FoPQu8fEM0
-        GWOQGmM2juT/VRjRxeEztY/WzXmANm1nRMzNoGU=
-X-Google-Smtp-Source: ABdhPJzoAPnjJWGlDyxsxVrxhheEMZ1P753dKM++est77A1JSiUJC5TRRvOf+sTRALv47GHRkLWv+YzLbHb9Ukp7IwY=
-X-Received: by 2002:a1c:7d15:: with SMTP id y21mr9135927wmc.120.1623238351528;
- Wed, 09 Jun 2021 04:32:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210604064916.26580-1-rppt@kernel.org>
-In-Reply-To: <20210604064916.26580-1-rppt@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 9 Jun 2021 13:30:39 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2tZDJDqgr9-1vJrnbDhd_36eKq8LMEznDkU7rvuAnAag@mail.gmail.com>
-Message-ID: <CAK8P3a2tZDJDqgr9-1vJrnbDhd_36eKq8LMEznDkU7rvuAnAag@mail.gmail.com>
-Subject: Re: [PATCH v2 0/9] Remove DISCINTIGMEM memory model
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        id S239734AbhFIMQS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 08:16:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44280 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235237AbhFIMQR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 08:16:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623240862;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=77QSgyc+8Sk7HYHiam0rcRrsIJ/0Q1AlHtkTPqxgLeg=;
+        b=X3f+vlqesy4PLQ3lYsUdNRyNw+gR+g4X5vxkg98WMCLToW7vrIsSH7iiFjgPd+0sReHINH
+        zDlYJLej5Mf9owUbRwaOKQIeZVnpIuf9UBb5a4YZYZw0vEOKsrGz3g3MUMJZQiPhBLZlaQ
+        3/pcpz3YeT00BRaeBMlyblH1aRuX174=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-Y-Va4aGRP-2df9MfIxiv7Q-1; Wed, 09 Jun 2021 08:14:20 -0400
+X-MC-Unique: Y-Va4aGRP-2df9MfIxiv7Q-1
+Received: by mail-ed1-f71.google.com with SMTP id z5-20020a05640235c5b0290393974bcf7eso3762119edc.2
+        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 05:14:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=77QSgyc+8Sk7HYHiam0rcRrsIJ/0Q1AlHtkTPqxgLeg=;
+        b=YG+JRMbomPlnS2RsnTvqFCMFbnv8T2XHsZJiyT/oXPn7tvbgwR4BfqHYxA+QiIIpMk
+         MlIhpu5GbNgNqTJ4zyYGaTHTObVsM6ArmTbisZoBB/m4LIUcguY2nv//CJjKzuQH52XQ
+         13/T/hyX6IcofjpwcR2gcX4N2tD9M9M4wi7WGP5/+6hfJo59M7ERorbQQwoljiEugrnk
+         OdVeinihYzLn2PEe7gPk+XT5Ozs2fq/TRCKox2S0Ozv7tZ+4WTbnCofnwiQf+DPUgpp/
+         wIlJzwXQIDyNy2dAz8vknSdDwHMlEU9+hIG5/w1oRZXyKwcDBzDCLVmnrSfsWf44RqM7
+         LeJg==
+X-Gm-Message-State: AOAM531l9XDUNlHrU8BAxACh+n71TYE9jowzJ9ELx5+VamdIMhPjTmYN
+        cKDm9HoJHQ6TWnaKpeAut+yzt47GSFvCbtOnylOB/JZCU4C2Ras6bRd9zNqScfozyA7bYoIWo2x
+        Nj1y1z/bqsQ+O7XimvN4A+S2mBQHfdOdicxE0iQQnUwjqMzVFkUk4CGeN+ceTobSOQI1pyuM=
+X-Received: by 2002:a05:6402:3082:: with SMTP id de2mr17956662edb.214.1623240859156;
+        Wed, 09 Jun 2021 05:14:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgQ3/5uZSB81cgZ2oYq3QcOkGNys6k5P1fZOknM8dVYLnNp0EXgn9LjvtdDU4a96tdwdbEbw==
+X-Received: by 2002:a05:6402:3082:: with SMTP id de2mr17956632edb.214.1623240858901;
+        Wed, 09 Jun 2021 05:14:18 -0700 (PDT)
+Received: from x1.bristot.me (host-79-23-205-114.retail.telecomitalia.it. [79.23.205.114])
+        by smtp.gmail.com with ESMTPSA id gv11sm1054485ejb.13.2021.06.09.05.14.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jun 2021 05:14:18 -0700 (PDT)
+Subject: Re: [PATCH V3 8/9] tracing: Add osnoise tracer
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
-        alpha <linux-alpha@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" 
-        <linux-snps-arc@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        sparclinux <sparclinux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:H5v968KC2M79DkfYJyPJxj8yupcPqCQCJ1N4Z1HmTCSClKb4RJo
- ba0OO00j+bQ0/ZfbbpxKSiQVStQhbD856cKnMY+4A0fxTdaC6uxId9Y1ipxTmxRBkJuctyA
- Y1reZ/b/kYT1BSOx482r5mSswn4b7jlFqgsC78pIMEkGVNc1cjI0RWjJZWCt4GG6WoMXbNZ
- Ljxrl+h40xce8+eZXhgpw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5bmpDHZqtKc=:Snj2gFdCvD9hMNFA7myfNf
- S7TJYfwc92EMXo9TCc/9co0khSPe0xtvvBaf8aiHVsurZ3oP2AmcRX6BVUP7Xkj9BDw9JrZ8r
- Z2wILA9mD/T8ZjTMdp8kP7qRSEOVHhc7Au1DQbVYZorVj7P2leDN1uEjVAhYCl9pkDkOhflPK
- vR3qGESRcP/fRxk0ek/C5PAEwYFJjR5/IGZq2vJEr7WZdjAI+bQjrRwd+D7thELunwixQ+PpT
- WI8xpyv1ks8xUxKZI9AWGNw6UhNUsBufMWKZ85ybM1bhKHgP4NQsoHnWhobO8rOzd7mmp+jxB
- EQh62WMcePgVMwuNW5SPP4rcyv9jVb4grdp2JrCbcR8rqJzreIfWKIdLr156lCln5HUoPhyOz
- ntXk9hTPzQ2q7S3c/MqI0in2kpmJVNcVYFmVrGCmGA8tZ7xuH9IOakNeAFkCRFqBUgKX/IXpl
- UEQflHiNkQiWJe4xHAM7PtCA+SqMph+XVbJl6LVS/uvozw/5S4vyBWrztTOXrWo7TaJflWn5P
- kgirFMtxuf9q5XsoobMr8Ol4RQnTDMy8uXmfTDS58mC/9bsqrpXrOnVt7H9AxIUxbuWsocMKR
- GATG5+nWJuFn2SSP0/UPYKl4jJ1LD+cCBubY6cirUnIUoYxqSzBOh21rRTqGQSReM2zHPuCDc
- 5yks=
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
+References: <cover.1621024265.git.bristot@redhat.com>
+ <bd09a2be9cd0cecee86374dbb49235dd2ef9d750.1621024265.git.bristot@redhat.com>
+ <20210604172803.527aa070@oasis.local.home>
+From:   Daniel Bristot de Oliveira <bristot@redhat.com>
+Message-ID: <06d72b7d-4beb-1dff-b537-e7449abf3d4e@redhat.com>
+Date:   Wed, 9 Jun 2021 14:14:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210604172803.527aa070@oasis.local.home>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 4, 2021 at 8:49 AM Mike Rapoport <rppt@kernel.org> wrote:
->
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> Hi,
->
-> SPARSEMEM memory model was supposed to entirely replace DISCONTIGMEM a
-> (long) while ago. The last architectures that used DISCONTIGMEM were
-> updated to use other memory models in v5.11 and it is about the time to
-> entirely remove DISCONTIGMEM from the kernel.
->
-> This set removes DISCONTIGMEM from alpha, arc and m68k, simplifies memory
-> model selection in mm/Kconfig and replaces usage of redundant
-> CONFIG_NEED_MULTIPLE_NODES and CONFIG_FLAT_NODE_MEM_MAP with CONFIG_NUMA
-> and CONFIG_FLATMEM respectively.
->
-> I've also removed NUMA support on alpha that was BROKEN for more than 15
-> years.
->
-> There were also minor updates all over arch/ to remove mentions of
-> DISCONTIGMEM in comments and #ifdefs.
+On 6/4/21 11:28 PM, Steven Rostedt wrote:
+>> +#ifdef CONFIG_X86_LOCAL_APIC
+> I wonder if we should move this into a separate file, making the
+> __trace_irq_entry() a more name space safe name and have it call that.
+> I have a bit of a distaste for arch specific code in a generic file.
+> 
 
-Hi Mike and Andrew,
+I am placing the intel specific file in:
 
-It looks like everyone is happy with this version so far. How should we merge it
-for linux-next? I'm happy to take it through the asm-generic tree, but linux-mm
-would fit at least as well. In case we go for linux-mm, feel free to add
+arch/x86/kernel/trace_osnoise.c
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+and the kernel/trace/trace_osnoise.h looks like this:
 
-for the whole series.
+#ifdef CONFIG_X86_LOCAL_APIC
+int osnoise_arch_register(void);
+int osnoise_arch_unregister(void);
+#else /* CONFIG_X86_LOCAL_APIC */
+#define osnoise_arch_register() do {} while (0)
+#define osnoise_arch_unregister() do {} while (0)
+#endif /* CONFIG_X86_LOCAL_APIC */
+
+This can be used by other archs as well...
+
+sound reasonable?
+
+-- Daniel
+
+
+>> +/**
+>> + * trace_intel_irq_entry - record intel specific IRQ entry
+>> + */
+>> +void trace_intel_irq_entry(void *data, int vector)
+>> +{
+>> +	__trace_irq_entry(vector);
+>> +}
+>> +
+
+
