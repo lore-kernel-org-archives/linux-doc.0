@@ -2,230 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77F00C4743D
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 01:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C5FCC48BD1
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 03:11:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60B1961182
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 01:44:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9CC061285
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 03:11:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232745AbhFIBqU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 21:46:20 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:34137 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232730AbhFIBqR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 21:46:17 -0400
-Received: (Authenticated sender: n@nfraprado.net)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 57DC860007;
-        Wed,  9 Jun 2021 01:44:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nfraprado.net;
-        s=gm1; t=1623203062;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FiczIQOpLwUkbUH4OiKCMBybtZT9qTlWGQ6371aC+A4=;
-        b=YaZiTWybPWTmo7xHq8KmjDuYbJ7htro180KQbZrNabAI7jrlO/7R6cYzUmkrhwwZRh8LAc
-        79ZwAFyOenkNPQm5hxW0r5FfzPw1WawPVjaERocsau5X/39INNSjqkaWh1BptxCwpVXIeZ
-        8xHHV90dW2hE8iWToBfLGXwoStK3RL2nsA7qNx6rplpSFRawIpMam3y7QR0o20Cb5VmuFV
-        7tzJLkOPW5AdXzy1j7tbKNQEtjeznHmy+r2Hghc4zoeqQv3Ym0cBs8L94rs+wuwVQ/yJ9s
-        hHUi01JPicE0OMPTCm3mcwagkvkByOmO7aP8EOV6FFr2Krobo1zG4NJattwx6A==
-From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <n@nfraprado.net>
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>,
-        ~lkcamp/patches@lists.sr.ht
-Subject: [RFC PATCH 2/2] XArray: Remove literal markup from known constants
-Date:   Tue,  8 Jun 2021 22:43:08 -0300
-Message-Id: <20210609014308.234027-3-n@nfraprado.net>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210609014308.234027-1-n@nfraprado.net>
-References: <20210609014308.234027-1-n@nfraprado.net>
+        id S236327AbhFIDNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Jun 2021 23:13:15 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27816 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233316AbhFIDNP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 23:13:15 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1592Yljn166699;
+        Tue, 8 Jun 2021 23:10:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=XA2LuTKM6oytXDfyhlj9P6N1EyqEbVoRRxJ1vjn8jgc=;
+ b=bLiCk1FtCU1F6m72Dk44bIJFumRDvGvlg2fqfyuWKdtHqeyisSOg0Ssi5jUy0EYvs60p
+ p7bV5IHrSao073RmGCDxVCXX818TC6/xLLwqhefYKegxfikoO7UcSNfUcG18Cn1+aPRj
+ UghMgSQQ/f9aXTIYUc2UNSl9ChjkW3VI+7+hVBBmUj+Pxa8dmJ8WoEJfnvjSwJMsGLw7
+ ptC/ZuIHAImVOxRultXmhS1nBL3+KGVTfrU2+WmIYMJXxcF5iAmXWa/WsqJ4KzKMQTW/
+ Ps34kkPPXz+8bJsSCYIkoZhz0+9SlQyjFSPxoaWmEtHdKedXYHrRi2yPsUNWJQAszQbh 6A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 392d7pkpsb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Jun 2021 23:10:57 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1592ZWrv168759;
+        Tue, 8 Jun 2021 23:10:57 -0400
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 392d7pkprx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Jun 2021 23:10:57 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1593AtHT020402;
+        Wed, 9 Jun 2021 03:10:55 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma01fra.de.ibm.com with ESMTP id 3900w891e2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Jun 2021 03:10:55 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1593ArdC25625026
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 9 Jun 2021 03:10:53 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 01D3942042;
+        Wed,  9 Jun 2021 03:10:53 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9F1864203F;
+        Wed,  9 Jun 2021 03:10:52 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed,  9 Jun 2021 03:10:52 +0000 (GMT)
+Received: from [9.206.155.145] (unknown [9.206.155.145])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 27FAB60134;
+        Wed,  9 Jun 2021 13:10:44 +1000 (AEST)
+Subject: Re: [PATCH 03/11] Documentation: ocxl.rst: change FPGA indirect
+ article to an
+To:     trix@redhat.com, mdf@kernel.org, robh+dt@kernel.org,
+        hao.wu@intel.com, corbet@lwn.net, fbarrat@linux.ibm.com,
+        bbrezillon@kernel.org, arno@natisbad.org, schalla@marvell.com,
+        herbert@gondor.apana.org.au, davem@davemloft.net,
+        gregkh@linuxfoundation.org, Sven.Auhagen@voleatech.de,
+        grandmaster@al2klimov.de
+Cc:     linux-fpga@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-crypto@vger.kernel.org,
+        linux-staging@lists.linux.dev
+References: <20210608212350.3029742-1-trix@redhat.com>
+ <20210608212350.3029742-5-trix@redhat.com>
+From:   Andrew Donnellan <ajd@linux.ibm.com>
+Message-ID: <01f22915-0a72-1d16-7a42-a6e870ccaec2@linux.ibm.com>
+Date:   Wed, 9 Jun 2021 13:10:39 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210608212350.3029742-5-trix@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: rhKqRFJG-wMyLq05xrV-qvprdaqJmQuI
+X-Proofpoint-GUID: nFu8dFCLDDKqockFlSmj80mifT7sH7nq
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-06-09_01:2021-06-04,2021-06-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 clxscore=1011
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106090001
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove literal markup from known constants, instead relying on
-automarkup.py to make them into literals.
+On 9/6/21 7:23 am, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
+> 
+> Change use of 'a fpga' to 'an fpga'
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Nícolas F. R. A. Prado <n@nfraprado.net>
----
- Documentation/core-api/xarray.rst | 48 +++++++++++++++----------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
 
-diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
-index a137a0e6d068..6e608e2e8e5b 100644
---- a/Documentation/core-api/xarray.rst
-+++ b/Documentation/core-api/xarray.rst
-@@ -22,7 +22,7 @@ The XArray implementation is efficient when the indices used are densely
- clustered; hashing the object and using the hash as the index will not
- perform well.  The XArray is optimised for small indices, but still has
- good performance with large indices.  If your index can be larger than
--``ULONG_MAX`` then the XArray is not the data type for you.  The most
-+ULONG_MAX then the XArray is not the data type for you.  The most
- important user of the XArray is the page cache.
- 
- Normal pointers may be stored in the XArray directly.  They must be 4-byte
-@@ -31,7 +31,7 @@ alloc_page().  It isn't true for arbitrary user-space pointers,
- nor for function pointers.  You can store pointers to statically allocated
- objects, as long as those objects have an alignment of at least 4.
- 
--You can also store integers between 0 and ``LONG_MAX`` in the XArray.
-+You can also store integers between 0 and LONG_MAX in the XArray.
- You must first convert it into an entry using xa_mk_value().
- When you retrieve an entry from the XArray, you can check whether it is
- a value entry by calling xa_is_value(), and convert it back to
-@@ -52,7 +52,7 @@ An unusual feature of the XArray is the ability to create entries which
- occupy a range of indices.  Once stored to, looking up any index in
- the range will return the same entry as looking up any other index in
- the range.  Storing to any index will store to all of them.  Multi-index
--entries can be explicitly split into smaller entries, or storing ``NULL``
-+entries can be explicitly split into smaller entries, or storing NULL
- into any entry will cause the XArray to forget about the range.
- 
- Normal API
-@@ -60,16 +60,16 @@ Normal API
- 
- Start by initialising an XArray, either with DEFINE_XARRAY()
- for statically allocated XArrays or xa_init() for dynamically
--allocated ones.  A freshly-initialised XArray contains a ``NULL``
-+allocated ones.  A freshly-initialised XArray contains a NULL
- pointer at every index.
- 
- You can then set entries using xa_store() and get entries
- using xa_load().  xa_store will overwrite any entry with the
- new entry and return the previous entry stored at that index.  You can
- use xa_erase() instead of calling xa_store() with a
--``NULL`` entry.  There is no difference between an entry that has never
-+NULL a entry.  There is no difference between an entry that has never
- been stored to, one that has been erased and one that has most recently
--had ``NULL`` stored to it.
-+had NULL stored to it.
- 
- You can conditionally replace an entry at an index by using
- xa_cmpxchg().  Like cmpxchg(), it will only succeed if
-@@ -78,8 +78,8 @@ which was at that index; if it returns the same entry which was passed as
- 'old', then xa_cmpxchg() succeeded.
- 
- If you want to only store a new entry to an index if the current entry
--at that index is ``NULL``, you can use xa_insert() which
--returns ``-EBUSY`` if the entry is not empty.
-+at that index is NULL, you can use xa_insert() which
-+returns -EBUSY if the entry is not empty.
- 
- You can copy entries out of the XArray into a plain array by calling
- xa_extract().  Or you can iterate over the present entries in the XArray
-@@ -97,14 +97,14 @@ some, but not all of the other indices changing.
- Sometimes you need to ensure that a subsequent call to xa_store()
- will not need to allocate memory.  The xa_reserve() function
- will store a reserved entry at the indicated index.  Users of the
--normal API will see this entry as containing ``NULL``.  If you do
-+normal API will see this entry as containing NULL.  If you do
- not need to use the reserved entry, you can call xa_release()
- to remove the unused entry.  If another user has stored to the entry
- in the meantime, xa_release() will do nothing; if instead you
--want the entry to become ``NULL``, you should use xa_erase().
-+want the entry to become NULL, you should use xa_erase().
- Using xa_insert() on a reserved entry will fail.
- 
--If all entries in the array are ``NULL``, the xa_empty() function
-+If all entries in the array are NULL, the xa_empty() function
- will return ``true``.
- 
- Finally, you can remove all entries from an XArray by calling
-@@ -120,7 +120,7 @@ Each mark may be set or cleared independently of the others.  You can
- iterate over marked entries by using the xa_for_each_marked() iterator.
- 
- You can enquire whether a mark is set on an entry by using
--xa_get_mark().  If the entry is not ``NULL``, you can set a mark on it
-+xa_get_mark().  If the entry is not NULL, you can set a mark on it
- by using xa_set_mark() and remove the mark from an entry by calling
- xa_clear_mark().  You can ask whether any entry in the XArray has a
- particular mark set by calling xa_marked().  Erasing an entry from the
-@@ -151,9 +151,9 @@ interrupts while allocating the ID.
- 
- Using xa_store(), xa_cmpxchg() or xa_insert() will
- also mark the entry as being allocated.  Unlike a normal XArray, storing
--``NULL`` will mark the entry as being in use, like xa_reserve().
-+NULL will mark the entry as being in use, like xa_reserve().
- To free an entry, use xa_erase() (or xa_release() if
--you only want to free the entry if it's ``NULL``).
-+you only want to free the entry if it's NULL).
- 
- By default, the lowest free entry is allocated starting from 0.  If you
- want to allocate entries starting at 1, it is more efficient to use
-@@ -326,11 +326,11 @@ xas_error() to retrieve the error.  All operations check whether
- the xa_state is in an error state before proceeding, so there's no need
- for you to check for an error after each call; you can make multiple
- calls in succession and only check at a convenient point.  The only
--errors currently generated by the XArray code itself are ``ENOMEM`` and
--``EINVAL``, but it supports arbitrary errors in case you want to call
-+errors currently generated by the XArray code itself are ENOMEM and
-+EINVAL, but it supports arbitrary errors in case you want to call
- xas_set_err() yourself.
- 
--If the xa_state is holding an ``ENOMEM`` error, calling xas_nomem()
-+If the xa_state is holding an ENOMEM error, calling xas_nomem()
- will attempt to allocate more memory using the specified gfp flags and
- cache it in the xa_state for the next attempt.  The idea is that you take
- the xa_lock, attempt the operation and drop the lock.  The operation
-@@ -340,7 +340,7 @@ can try harder to allocate more memory.  It will return ``true`` if it
- is worth retrying the operation (i.e. that there was a memory error *and*
- more memory was allocated).  If it has previously allocated memory, and
- that memory wasn't used, and there is no error (or some error that isn't
--``ENOMEM``), then it will free the memory previously allocated.
-+ENOMEM), then it will free the memory previously allocated.
- 
- Internal Entries
- ----------------
-@@ -375,10 +375,10 @@ to xas_retry(), and retry the operation if it returns ``true``.
- 
-    * - Zero
-      - xa_is_zero()
--     - Zero entries appear as ``NULL`` through the Normal API, but occupy
-+     - Zero entries appear as NULL through the Normal API, but occupy
-        an entry in the XArray which can be used to reserve the index for
-        future use.  This is used by allocating XArrays for allocated entries
--       which are ``NULL``.
-+       which are NULL.
- 
- Other internal entries may be added in the future.  As far as possible, they
- will be handled by xas_retry().
-@@ -461,9 +461,9 @@ You can create a multi-index entry by using XA_STATE_ORDER()
- or xas_set_order() followed by a call to xas_store().
- Calling xas_load() with a multi-index xa_state will walk the
- xa_state to the right location in the tree, but the return value is not
--meaningful, potentially being an internal entry or ``NULL`` even when there
-+meaningful, potentially being an internal entry or NULL even when there
- is an entry stored within the range.  Calling xas_find_conflict()
--will return the first entry within the range or ``NULL`` if there are no
-+will return the first entry within the range or NULL if there are no
- entries in the range.  The xas_for_each_conflict() iterator will
- iterate over every entry which overlaps the specified range.
- 
-@@ -479,8 +479,8 @@ Using xas_next() or xas_prev() with a multi-index xa_state is not
- supported.  Using either of these functions on a multi-index entry will
- reveal sibling entries; these should be skipped over by the caller.
- 
--Storing ``NULL`` into any index of a multi-index entry will set the
--entry at every index to ``NULL`` and dissolve the tie.  A multi-index
-+Storing NULL into any index of a multi-index entry will set the
-+entry at every index to NULL and dissolve the tie.  A multi-index
- entry can be split into entries occupying smaller ranges by calling
- xas_split_alloc() without the xa_lock held, followed by taking the lock
- and calling xas_split().
+
 -- 
-2.32.0
-
+Andrew Donnellan              OzLabs, ADL Canberra
+ajd@linux.ibm.com             IBM Australia Limited
