@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7515CC48BCD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:16:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8D9C48BE0
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:16:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 510AF61287
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:16:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B851B61364
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:16:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232726AbhFIMSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 08:18:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37170 "EHLO
+        id S235195AbhFIMSM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 08:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232476AbhFIMSA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 08:18:00 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38542C06175F
-        for <linux-doc@vger.kernel.org>; Wed,  9 Jun 2021 05:16:06 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 27so19306446pgy.3
-        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 05:16:06 -0700 (PDT)
+        with ESMTP id S235092AbhFIMSL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 08:18:11 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC75FC061760
+        for <linux-doc@vger.kernel.org>; Wed,  9 Jun 2021 05:16:16 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id m13-20020a17090b068db02901656cc93a75so1266076pjz.3
+        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 05:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wprdMWfJiXYwt+byCaL17b8Ql6JNBi5HmdAMUTjvSbc=;
-        b=V+MbqtjhsFxJ9XUKWyH9b56cSIZdlel2+2J+6Y0VjDs0KVJP/tVYXUiqHSXhbQWa4T
-         NRBvXHKhwwkgnNsJ2bpdbP5e+ZKvM0r9ZOiN5uvAa1qAzUX7T9Uh6JGu8eRp0iQ+6bTy
-         7/uGiQlRBK19yPMEh1VkiGnTTl34a1ApoBZ7crHxjUqUUAA/v7if1iJcadXbgv+11/rP
-         oVXj4HDLmR4EgDnpECdZqNnw/ioCtWRUsmu83SLvWTqOURAOuK8a9LE/Uof55nQcCnYH
-         +g3rUisaThQgqytwPQnm6x0cHrlXtbn5LZOWe5ZLY/dtsbYrL7pc0eutYOxZef60yA1M
-         ZuMg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Q5gMWEv9tC8/vo4nEZxaNdZR95vKmKnlaLF90wl0oFU=;
+        b=fF+rSzdrOYcR9ijjFVFrOhei1ZRjgv4y5N87LenL7irAqVNjAsEvLUOZbVHDTOBl27
+         5GyM0gAB28wmHolfQQszATK2NLf0pC1NXbWBfc4O2tHsS5xwlTnj4pVa5e2cyPTow1Mi
+         t750zb5lZNj4wElyK/c4dZJ0KZ406xm1z0oCfs6yn7A3LcrvojwLivhUbr+RT2meDfV6
+         WdPy+xrxr7qLkGmoP4Ry12kceUi99PdX8EZlpknB36edvksdwxJ8We63qW2Arq2eCeTl
+         2yZDbJiOrJU1Y2s9z4oM2CaR63D8ZK8+lR0FmeG8mAvgtTEfLiXm13+vG3J8R5SNq7To
+         ZSUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wprdMWfJiXYwt+byCaL17b8Ql6JNBi5HmdAMUTjvSbc=;
-        b=h8KeeRudHZnIcyR3QKIY/boooxalynOkQjdBnLQA3LXnpyh1nU7raB2mCrEbr3gx6y
-         f7H7wLahdLE5Rhqmbd2pLdYaa7B8iGD/2qRXg7VQpy9L6Wg+MrkCpu3EIgyCtTFYD7/8
-         HnFrVZ4RvbmfsEHzsudYF8IyPlkqhg/wnssQ0lqXIYJJQgsYUg9L30+iE9UChkJSaGfu
-         eDjETKIHTYg/mv3nulKsoRtD9ofLYXp88YVZXkxrRzOZEaEeeZeK/QNOI6dU1EDjbIjk
-         AGhFhLv3x2PwGbfHeMtYbnTjlX/4C4NC4n03cIxNfgJgkLIeedaY9sCYiKNxjLlaLzdE
-         Gziw==
-X-Gm-Message-State: AOAM533loqk75/Xn8NygezcozmcNwxstOMb/BMsfWgF4zDYpio3rxYfc
-        q6E96hTFZ4v3evfd07hp5qzxKg==
-X-Google-Smtp-Source: ABdhPJxOzhPyB/B/fwjQm3fVVbXISdPVlMybZd7K3dy83KhCsPp0ST1pBO2gb286LZ/N8Wmg3LYsRw==
-X-Received: by 2002:a05:6a00:23cf:b029:2d5:302e:dc77 with SMTP id g15-20020a056a0023cfb02902d5302edc77mr4973334pfc.63.1623240964882;
-        Wed, 09 Jun 2021 05:16:04 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Q5gMWEv9tC8/vo4nEZxaNdZR95vKmKnlaLF90wl0oFU=;
+        b=T4CrZI7kwzzxOHyYZJ31W6SwAL4rkE4kg9cbXB79UoXTnOQq6E3v9J8IkwpZ1g6Soq
+         9BdrxWxlA0EVpH1HhEWWJm4RvTSlGeWGA51pAhvFhS9YIWNGpw3wtEleYQhtk4C3AhDz
+         bUF3fs3SzP/OwWXAeMDQk1mpGK1FALu+sW/3tpVZSvy9i2+39j4yTfHKxTJznsfI5JXi
+         YvjAvgOEqyeF/8Ne9V+ZO7h627k0qQWvYZl889O05tqDZnzJghHg5J6AzCZSwDTt36p5
+         A83rqqf5UOiRM1rQEWhbK9LUT5Ue9fn816QxRQKbwR3WyUWRBK8HC/7Fqem5wcz1M47B
+         f1hQ==
+X-Gm-Message-State: AOAM531/WpTLHmeveKjdz7o9eEgV/V5jfwkmb8UacdPMetoXO+jcq/cd
+        NamVsu++tgAtpAzBTJP4YjV1sg==
+X-Google-Smtp-Source: ABdhPJzOgyiAQiBObGnuElieU/iq/wW8CUGGkfOtZNVadqwy30FNgVSA44A84vH2Tc9oftskRcB8zw==
+X-Received: by 2002:a17:902:d305:b029:10d:c8a3:657f with SMTP id b5-20020a170902d305b029010dc8a3657fmr4756404plc.0.1623240976435;
+        Wed, 09 Jun 2021 05:16:16 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.254])
-        by smtp.gmail.com with ESMTPSA id h16sm13689224pfk.119.2021.06.09.05.15.59
+        by smtp.gmail.com with ESMTPSA id h16sm13689224pfk.119.2021.06.09.05.16.11
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Jun 2021 05:16:04 -0700 (PDT)
+        Wed, 09 Jun 2021 05:16:16 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     mike.kravetz@oracle.com, akpm@linux-foundation.org,
         osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
@@ -64,43 +64,156 @@ Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
         zhengqi.arch@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH 0/5] Split huge PMD mapping of vmemmap pages
-Date:   Wed,  9 Jun 2021 20:13:05 +0800
-Message-Id: <20210609121310.62229-1-songmuchun@bytedance.com>
+Subject: [PATCH 2/5] mm: hugetlb: introduce helpers to preallocate page tables from bootmem allocator
+Date:   Wed,  9 Jun 2021 20:13:07 +0800
+Message-Id: <20210609121310.62229-3-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
+In-Reply-To: <20210609121310.62229-1-songmuchun@bytedance.com>
+References: <20210609121310.62229-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to reduce the difficulty of code review in series[1]. We disable
-huge PMD mapping of vmemmap pages when that feature is enabled. In this
-series, we do not disable huge PMD mapping of vmemmap pages anymore. We
-will split huge PMD mapping when needed.
+If we want to split the huge PMD of vmemmap pages associated with each
+gigantic page allocated from bootmem allocator, we should pre-allocate
+the page tables from bootmem allocator. In this patch, we introduce
+some helpers to preallocate page tables for gigantic pages.
 
-[1] https://lore.kernel.org/linux-doc/20210510030027.56044-1-songmuchun@bytedance.com/
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+---
+ include/linux/hugetlb.h |  3 +++
+ mm/hugetlb_vmemmap.c    | 63 +++++++++++++++++++++++++++++++++++++++++++++++++
+ mm/hugetlb_vmemmap.h    | 13 ++++++++++
+ 3 files changed, 79 insertions(+)
 
-Muchun Song (5):
-  mm: hugetlb: introduce helpers to preallocate/free page tables
-  mm: hugetlb: introduce helpers to preallocate page tables from bootmem
-    allocator
-  mm: sparsemem: split the huge PMD mapping of vmemmap pages
-  mm: sparsemem: use huge PMD mapping for vmemmap pages
-  mm: hugetlb: introduce CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON
-
- Documentation/admin-guide/kernel-parameters.txt |  10 +-
- arch/x86/mm/init_64.c                           |   8 +-
- fs/Kconfig                                      |  10 ++
- include/linux/hugetlb.h                         |  28 ++----
- include/linux/mm.h                              |   2 +-
- mm/hugetlb.c                                    |  42 +++++++-
- mm/hugetlb_vmemmap.c                            | 126 +++++++++++++++++++++++-
- mm/hugetlb_vmemmap.h                            |  25 +++++
- mm/memory_hotplug.c                             |   2 +-
- mm/sparse-vmemmap.c                             |  61 ++++++++++--
- 10 files changed, 267 insertions(+), 47 deletions(-)
-
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 03ca83db0a3e..c27a299c4211 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -622,6 +622,9 @@ struct hstate {
+ struct huge_bootmem_page {
+ 	struct list_head list;
+ 	struct hstate *hstate;
++#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
++	pte_t *vmemmap_pte;
++#endif
+ };
+ 
+ int isolate_or_dissolve_huge_page(struct page *page, struct list_head *list);
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index 628e2752714f..6f3a47b4ebd3 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -171,6 +171,7 @@
+ #define pr_fmt(fmt)	"HugeTLB: " fmt
+ 
+ #include <linux/list.h>
++#include <linux/memblock.h>
+ #include <asm/pgalloc.h>
+ 
+ #include "hugetlb_vmemmap.h"
+@@ -263,6 +264,68 @@ int vmemmap_pgtable_prealloc(struct hstate *h, struct list_head *pgtables)
+ 	return -ENOMEM;
+ }
+ 
++unsigned long __init gigantic_vmemmap_pgtable_prealloc(void)
++{
++	struct huge_bootmem_page *m, *tmp;
++	unsigned long nr_free = 0;
++
++	list_for_each_entry_safe(m, tmp, &huge_boot_pages, list) {
++		struct hstate *h = m->hstate;
++		unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
++		unsigned long size;
++
++		if (!nr)
++			continue;
++
++		size = nr << PAGE_SHIFT;
++		m->vmemmap_pte = memblock_alloc_try_nid(size, PAGE_SIZE, 0,
++							MEMBLOCK_ALLOC_ACCESSIBLE,
++							NUMA_NO_NODE);
++		if (!m->vmemmap_pte) {
++			nr_free++;
++			list_del(&m->list);
++			memblock_free_early(__pa(m), huge_page_size(h));
++		}
++	}
++
++	return nr_free;
++}
++
++void __init gigantic_vmemmap_pgtable_init(struct huge_bootmem_page *m,
++					  struct page *head)
++{
++	struct hstate *h = m->hstate;
++	unsigned long pte = (unsigned long)m->vmemmap_pte;
++	unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
++
++	if (!nr)
++		return;
++
++	/*
++	 * If we had gigantic hugepages allocated at boot time, we need
++	 * to restore the 'stolen' pages to totalram_pages in order to
++	 * fix confusing memory reports from free(1) and another
++	 * side-effects, like CommitLimit going negative.
++	 */
++	adjust_managed_page_count(head, nr);
++
++	/*
++	 * Use the huge page lru list to temporarily store the preallocated
++	 * pages. The preallocated pages are used and the list is emptied
++	 * before the huge page is put into use. When the huge page is put
++	 * into use by prep_new_huge_page() the list will be reinitialized.
++	 */
++	INIT_LIST_HEAD(&head->lru);
++
++	while (nr--) {
++		struct page *pte_page = virt_to_page(pte);
++
++		__ClearPageReserved(pte_page);
++		list_add(&pte_page->lru, &head->lru);
++		pte += PAGE_SIZE;
++	}
++}
++
+ /*
+  * Previously discarded vmemmap pages will be allocated and remapping
+  * after this function returns zero.
+diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+index 306e15519da1..f6170720f183 100644
+--- a/mm/hugetlb_vmemmap.h
++++ b/mm/hugetlb_vmemmap.h
+@@ -16,6 +16,9 @@ void free_huge_page_vmemmap(struct hstate *h, struct page *head);
+ void hugetlb_vmemmap_init(struct hstate *h);
+ int vmemmap_pgtable_prealloc(struct hstate *h, struct list_head *pgtables);
+ void vmemmap_pgtable_free(struct list_head *pgtables);
++unsigned long gigantic_vmemmap_pgtable_prealloc(void);
++void gigantic_vmemmap_pgtable_init(struct huge_bootmem_page *m,
++				   struct page *head);
+ 
+ /*
+  * How many vmemmap pages associated with a HugeTLB page that can be freed
+@@ -45,6 +48,16 @@ static inline void vmemmap_pgtable_free(struct list_head *pgtables)
+ {
+ }
+ 
++static inline unsigned long gigantic_vmemmap_pgtable_prealloc(void)
++{
++	return 0;
++}
++
++static inline void gigantic_vmemmap_pgtable_init(struct huge_bootmem_page *m,
++						 struct page *head)
++{
++}
++
+ static inline void hugetlb_vmemmap_init(struct hstate *h)
+ {
+ }
 -- 
 2.11.0
 
