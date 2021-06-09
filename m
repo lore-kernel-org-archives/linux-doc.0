@@ -2,181 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BCD2C48BCD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 21:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D818FC48BCF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 21:53:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7677361029
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 21:14:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C10A1613DF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 21:53:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229659AbhFIVQk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 17:16:40 -0400
-Received: from mga18.intel.com ([134.134.136.126]:18164 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229557AbhFIVQj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Jun 2021 17:16:39 -0400
-IronPort-SDR: KNTH3tA3sG1BRZK4qTCz6AENS9qBl4DFppFyPfTVujIDb1qkt2nCsROKA3NoUOM5y915a4a0/m
- TOmCkGtdpa1Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="192486163"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; 
-   d="scan'208";a="192486163"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 14:14:32 -0700
-IronPort-SDR: gmFssmlB2tZNL9dXdqT7llGbuE6WngKEc1A3weq4eg6wzWnWvfiFluDnNIn61swDt4V7g6dTFn
- xRWhh2datkZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; 
-   d="scan'208";a="552808082"
-Received: from gupta-dev2.jf.intel.com (HELO gupta-dev2.localdomain) ([10.54.74.119])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2021 14:14:30 -0700
-Date:   Wed, 9 Jun 2021 14:14:39 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+        id S229705AbhFIVzu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 17:55:50 -0400
+Received: from mail-lj1-f169.google.com ([209.85.208.169]:37687 "EHLO
+        mail-lj1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229535AbhFIVzu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 17:55:50 -0400
+Received: by mail-lj1-f169.google.com with SMTP id e2so1795424ljk.4;
+        Wed, 09 Jun 2021 14:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cn4WXgEYQDhzlifeR1OXF9mGSDchXFcqCqjUIDqHe4g=;
+        b=MxrfFHnDhk8BsnSl+CSUJ5TQ/FKIk9eJWhqIG4PjCgbD74vI5QTYVYnZgTVBhODFSS
+         KemU4XCCq7b9+RqpgpvvhJkaCp4zzwAkHZbssa1ulXZ4TE1/+LQcKY7VmhYBu91H3w06
+         wWv/dpeiPE6NN0MEgDyhJwaZKWU3IgHY2zhaEihIQVeuvEhXL4KW/cggV/MBzvRMNasD
+         XeblaxHtO1kqDWHYv9xRTX90SNWvDzoS0Wzd+kITRHh0POQrCt8Zi2FfE1jcOdlMUJyN
+         j/GFoYtQxFztcmE415JPYxuKpM6/snPeSrCLgTEC1RWRWqH1bCvT23fRABqrDp113pKe
+         3vnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cn4WXgEYQDhzlifeR1OXF9mGSDchXFcqCqjUIDqHe4g=;
+        b=NdOiVbTOfK8hufwPerlskJ36Fwl8XgwUvl4c7jTSF41dKAAgjdOErq8PHuEvB9cpJ/
+         5XNng6rUCOYV4K2/i69P4owGn/cy/jHRVHwg943QFhI/AycfzA3MD3MrzlEK2OjTgeTb
+         YJ4RD2dF17KcLMylgwQQfK1Vf5sV30NrFqYVaGdrOKj+2YZ6gmOoDBCIccpeQ5/S4P3o
+         iLFPh0olQ77DDiwcmj2RUgSiwu3AMhZfduFv10EAO2ONq8f1y/9ZostOyOtbuF+liXAz
+         48kLTeDlsYUweqV8BA+0WxHXjq1JPysdUYQNU2lrp9yVBZwmmvs514u3eVmfCetiEEo3
+         RBJA==
+X-Gm-Message-State: AOAM531Kx4FvG/kpzNCSxM3weITK+/wzHpPYXiubTQdK7fmt0VCezVnn
+        KF6E6kEZ1BFSO7zvCpQN0RA=
+X-Google-Smtp-Source: ABdhPJz64BoFB/PL70CNB9/F3rN7GYI2J44vC6SuUkqrntR5Ju/aCcZrRTIPHTzYxb4X12E3zJ43ag==
+X-Received: by 2002:a2e:7d0f:: with SMTP id y15mr1379761ljc.388.1623275561355;
+        Wed, 09 Jun 2021 14:52:41 -0700 (PDT)
+Received: from localhost (public-gprs650102.centertel.pl. [5.184.82.183])
+        by smtp.gmail.com with ESMTPSA id m13sm101426lfh.297.2021.06.09.14.51.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jun 2021 14:51:42 -0700 (PDT)
+From:   Hubert Jasudowicz <hubert.jasudowicz@gmail.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kyung Min Park <kyung.min.park@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Victor Ding <victording@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Anand K Mistry <amistry@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nick Desaulniers <ndesaulniers@gooogle.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: [PATCH 4/4] x86/tsx: Add cmdline tsx=fake to not clear CPUID bits
- RTM and HLE
-Message-ID: <de6b97a567e273adff1f5268998692bad548aa10.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
-References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] doc: Remove references to IBM Calgary
+Date:   Wed,  9 Jun 2021 23:51:12 +0200
+Message-Id: <1bd2b57dd1db53df09e520b8170ff61418805de4.1623274832.git.hubert.jasudowicz@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On CPUs that deprecated TSX, clearing the enumeration bits CPUID.RTM and
-CPUID.HLE may not be desirable in some corner cases. Like a saved guest
-would refuse to resume if it was saved before the microcode update
-that deprecated TSX.
+Calgary IOMMU driver has been removed in 90dc392fc445.
+Clean up stale docs that refer to it.
 
-Add a cmdline option "tsx=fake" to not clear CPUID bits even when the
-hardware always aborts TSX transactions.
-
-Suggested-by: Tony Luck <tony.luck@intel.com>
-Suggested-by: Andi Kleen <ak@linux.intel.com>
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Reviewed-by: Andi Kleen <ak@linux.intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Tested-by: Neelima Krishnan <neelima.krishnan@intel.com>
+Signed-off-by: Hubert Jasudowicz <hubert.jasudowicz@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- arch/x86/kernel/cpu/bugs.c                      | 5 +++--
- arch/x86/kernel/cpu/cpu.h                       | 1 +
- arch/x86/kernel/cpu/tsx.c                       | 7 +++++--
- 4 files changed, 12 insertions(+), 4 deletions(-)
+ Documentation/x86/x86_64/boot-options.rst | 31 +----------------------
+ 1 file changed, 1 insertion(+), 30 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cb89dbdedc46..ced9e5596163 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5693,6 +5693,9 @@
- 			auto	- Disable TSX if X86_BUG_TAA is present,
- 				  otherwise enable TSX on the system.
+diff --git a/Documentation/x86/x86_64/boot-options.rst b/Documentation/x86/x86_64/boot-options.rst
+index 324cefff92e7..5f62b3b86357 100644
+--- a/Documentation/x86/x86_64/boot-options.rst
++++ b/Documentation/x86/x86_64/boot-options.rst
+@@ -247,16 +247,11 @@ Multiple x86-64 PCI-DMA mapping implementations exist, for example:
+       Kernel boot message: "PCI-DMA: Using software bounce buffering
+       for IO (SWIOTLB)"
  
-+			fake	- Do not clear the CPUID bits RTM and HLE even
-+				  when hardware always aborts TSX transactions.
-+
- 			Not specifying this option is equivalent to tsx=off.
+-   4. <arch/x86_64/pci-calgary.c> : IBM Calgary hardware IOMMU. Used in IBM
+-      pSeries and xSeries servers. This hardware IOMMU supports DMA address
+-      mapping with memory protection, etc.
+-      Kernel boot message: "PCI-DMA: Using Calgary IOMMU"
+-
+ ::
  
- 			See Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index d41b70fe4918..46fcc392a339 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -316,8 +316,9 @@ static void __init taa_select_mitigation(void)
- 		return;
- 	}
+   iommu=[<size>][,noagp][,off][,force][,noforce]
+   [,memaper[=<order>]][,merge][,fullflush][,nomerge]
+-  [,noaperture][,calgary]
++  [,noaperture]
  
--	/* TSX previously disabled by tsx=off */
--	if (!boot_cpu_has(X86_FEATURE_RTM)) {
-+	/* TSX previously disabled by tsx=off or by microcode */
-+	if (!boot_cpu_has(X86_FEATURE_RTM) ||
-+	     boot_cpu_has(X86_FEATURE_RTM_ALWAYS_ABORT)) {
- 		taa_mitigation = TAA_MITIGATION_TSX_DISABLED;
- 		goto out;
- 	}
-diff --git a/arch/x86/kernel/cpu/cpu.h b/arch/x86/kernel/cpu/cpu.h
-index 95521302630d..84a479866c4b 100644
---- a/arch/x86/kernel/cpu/cpu.h
-+++ b/arch/x86/kernel/cpu/cpu.h
-@@ -49,6 +49,7 @@ enum tsx_ctrl_states {
- 	TSX_CTRL_ENABLE,
- 	TSX_CTRL_DISABLE,
- 	TSX_CTRL_RTM_ALWAYS_ABORT,
-+	TSX_CTRL_FAKE,
- 	TSX_CTRL_NOT_SUPPORTED,
- };
+ General iommu options:
  
-diff --git a/arch/x86/kernel/cpu/tsx.c b/arch/x86/kernel/cpu/tsx.c
-index 5ed99811504c..2f8e50584297 100644
---- a/arch/x86/kernel/cpu/tsx.c
-+++ b/arch/x86/kernel/cpu/tsx.c
-@@ -113,6 +113,8 @@ void __init tsx_init(void)
- 			tsx_ctrl_state = TSX_CTRL_DISABLE;
- 		} else if (!strcmp(arg, "auto")) {
- 			tsx_ctrl_state = x86_get_tsx_auto_mode();
-+		} else if (!strcmp(arg, "fake")) {
-+			tsx_ctrl_state = TSX_CTRL_FAKE;
- 		} else {
- 			tsx_ctrl_state = TSX_CTRL_DISABLE;
- 			pr_err("invalid option, defaulting to off\n");
-@@ -131,9 +133,10 @@ void __init tsx_init(void)
- 	 * Hardware will always abort a TSX transaction if both CPUID bits
- 	 * RTM_ALWAYS_ABORT and TSX_FORCE_ABORT are enumerated.  In this case it
- 	 * is better not to enumerate CPUID.RTM and CPUID.HLE bits. Clear them
--	 * here.
-+	 * here, except when user requested not to clear via cmdline tsx=fake.
- 	 */
--	if (boot_cpu_has(X86_FEATURE_RTM_ALWAYS_ABORT) &&
-+	if (tsx_ctrl_state != TSX_CTRL_FAKE &&
-+	    boot_cpu_has(X86_FEATURE_RTM_ALWAYS_ABORT) &&
- 	    boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT)) {
- 		tsx_ctrl_state = TSX_CTRL_RTM_ALWAYS_ABORT;
- 		tsx_clear_cpuid();
+@@ -295,8 +290,6 @@ iommu options only relevant to the AMD GART hardware IOMMU:
+       Don't initialize the AGP driver and use full aperture.
+     panic
+       Always panic when IOMMU overflows.
+-    calgary
+-      Use the Calgary IOMMU if it is available
+ 
+ iommu options only relevant to the software bounce buffering (SWIOTLB) IOMMU
+ implementation:
+@@ -307,28 +300,6 @@ implementation:
+       force
+         Force all IO through the software TLB.
+ 
+-Settings for the IBM Calgary hardware IOMMU currently found in IBM
+-pSeries and xSeries machines
+-
+-    calgary=[64k,128k,256k,512k,1M,2M,4M,8M]
+-      Set the size of each PCI slot's translation table when using the
+-      Calgary IOMMU. This is the size of the translation table itself
+-      in main memory. The smallest table, 64k, covers an IO space of
+-      32MB; the largest, 8MB table, can cover an IO space of 4GB.
+-      Normally the kernel will make the right choice by itself.
+-    calgary=[translate_empty_slots]
+-      Enable translation even on slots that have no devices attached to
+-      them, in case a device will be hotplugged in the future.
+-    calgary=[disable=<PCI bus number>]
+-      Disable translation on a given PHB. For
+-      example, the built-in graphics adapter resides on the first bridge
+-      (PCI bus number 0); if translation (isolation) is enabled on this
+-      bridge, X servers that access the hardware directly from user
+-      space might stop working. Use this option if you have devices that
+-      are accessed from userspace directly on some PCI host bridge.
+-    panic
+-      Always panic when IOMMU overflows
+-
+ 
+ Miscellaneous
+ =============
 -- 
-git-series 0.9.1
+2.32.0
 
