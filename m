@@ -7,66 +7,66 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBBCBC48BD1
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E8F7C48BDF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:23:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9807C613AE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:23:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D0C6613B8
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:23:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236360AbhFINZe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 09:25:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46418 "EHLO
+        id S236224AbhFINZf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 09:25:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35460 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236303AbhFINZX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 09:25:23 -0400
+        by vger.kernel.org with ESMTP id S236323AbhFINZ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 09:25:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623245008;
+        s=mimecast20190719; t=1623245013;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=qViXgyeh1dlyqh22Awn1t3CyyorftxIelVJ9ElQQ5YY=;
-        b=P0xXstqBWHPFK2XOwJO3GVNFfQ1anfxa1YxywY+zcWu+1BkDLFQEetnuZoR0GFgalYvrnh
-        fZid45Uzjm/DHcWcmn8f6XJl/klMNkvhsEApmb918J5ygRJDSr6s52Uw1oRyC/8e7w437v
-        9smfoh2uXg+AFo39sC3p34e0JfskHBo=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-rub06-5gN3i0d9bOvGINtQ-1; Wed, 09 Jun 2021 09:23:27 -0400
-X-MC-Unique: rub06-5gN3i0d9bOvGINtQ-1
-Received: by mail-oi1-f199.google.com with SMTP id g203-20020aca39d40000b02901f57bf48250so1108049oia.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 06:23:27 -0700 (PDT)
+        bh=GMoGoh2HRdMM9sJwX6YN1+PVxLx5DD2e1fp3oIQPxak=;
+        b=fVyw/Yohktt1VX6K0t5VFz9unrrIT6uLS54XE2O8Sg498f+/1o+MIwc6ZIUBmfF0TMMBB0
+        tEC2pHK3M5/4s30nmRxwVr0tYwE9l5Yabyb5PDMiWIE42mZlPPvgnCrWM1zARiiifsfHPq
+        bDUkZ0nNw2RX4QofOuVJMnL1/cFoSMw=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-EINMcTRAN6uqoSsFKnIM_Q-1; Wed, 09 Jun 2021 09:23:32 -0400
+X-MC-Unique: EINMcTRAN6uqoSsFKnIM_Q-1
+Received: by mail-ot1-f69.google.com with SMTP id r16-20020a0568301350b0290363e6a9392fso16324953otq.13
+        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 06:23:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qViXgyeh1dlyqh22Awn1t3CyyorftxIelVJ9ElQQ5YY=;
-        b=gQck3W6vIK6LjXCRfmmOP9ROEuTIBj2CtodgfV/SiOAWamwb/lu6SbbUZKRJ0nHH7W
-         VyFjD6PXQhARFPkSc5Di3N16SvfgfCbYl9ZeJ0dvU2G3/7aUkcZUUfeGftcLt04v1gXh
-         qD/HJ/d42E9YhI/W8YPK04ZxZJ9vhM8hgnx+c6u3MUz4ClNqFpR7TFqlbGXa9ROQUMi8
-         e81M75+2X/3RIDSI+ZmFJUJqznjJw0oOlGKnU/zR/5nZ3C9ymq2t2vfjuVxI9ymfWfeQ
-         xlaUKg8IHaVcWyqCFuQvDbqrXXO6Eosc/C0K5pNhUVoOZxkBm7+uJQFuIaHbYUarvgJO
-         vPuQ==
-X-Gm-Message-State: AOAM531OWPOjhBdqIupr+XTKClrvRFwGQrDuPOi6kvFD00vx0YevDS/G
-        06pAJzBbSfTJgKOQA0yK8T1ph1fA10F/6SK1DhJe35ykhQSwrgNl1xPrDB1klP5qqoEXnLx3Jub
-        LHwZDj96M6EvatS65O5A6
-X-Received: by 2002:a9d:66d9:: with SMTP id t25mr3492360otm.217.1623245006772;
-        Wed, 09 Jun 2021 06:23:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYlq5NQAg9r5rM56eciALlRRoXOllzEovCjy257M0FuEL28u377Zg2s+BEXW70oM5w182g1Q==
-X-Received: by 2002:a9d:66d9:: with SMTP id t25mr3492350otm.217.1623245006642;
-        Wed, 09 Jun 2021 06:23:26 -0700 (PDT)
+        bh=GMoGoh2HRdMM9sJwX6YN1+PVxLx5DD2e1fp3oIQPxak=;
+        b=nWGZpPLYb+v8vGPNqk2ANrH9rRhRoUQCycYA28IBVkFdmgiNXkRjUR0rrkRZWmA7YB
+         cGFsrmKp2Sm88atOOwdwQYAlPOTbypkaYyucZB5Wq4GQEcGHeido+ixaH0vMgpB2xM2N
+         UT9JacwENrilB7wOdpn0qlJNkDE8imJsXBtVVTVmQSyB/kXkjUttu0NsEozTc5+HnFBH
+         FfhJyHcBQK/VrzepaISJSRcdlM6ecG8LKiVCl5Xbr17q0hLg4GwkTXWaW1nj77FQThNl
+         mjzZGH1X4b/kBgfQNtGK4F5eaujvAJEKy7xWsGSypirPINedGYpp6/XspgVt0TJ5n1bp
+         WHaA==
+X-Gm-Message-State: AOAM532Tu2dMSGbAAdfxhQ5PCosLy8wWrL5o60fH69ciheD32Le76GcO
+        PCwieqMfh/z64evvUpbW+4hd83ZkH122OowkqGxxo61XEAsIOyQRwypZSyECe6PRsIyIT5DjjJQ
+        jomOX5Eqar6IdUQq5icqG
+X-Received: by 2002:a9d:1d21:: with SMTP id m30mr23363355otm.145.1623245010292;
+        Wed, 09 Jun 2021 06:23:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydARdiHq8phH1rVCd2rtPnu21b5nt/oM27/i7eYYIcqaQSBvNa5sJkdoPzOFhOlfjHs69E/w==
+X-Received: by 2002:a9d:1d21:: with SMTP id m30mr23363338otm.145.1623245010121;
+        Wed, 09 Jun 2021 06:23:30 -0700 (PDT)
 Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id 21sm3165654otd.21.2021.06.09.06.23.25
+        by smtp.gmail.com with ESMTPSA id 21sm3165654otd.21.2021.06.09.06.23.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 06:23:26 -0700 (PDT)
+        Wed, 09 Jun 2021 06:23:29 -0700 (PDT)
 From:   trix@redhat.com
 To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
         michal.simek@xilinx.com
 Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Tom Rix <trix@redhat.com>
-Subject: [PATCH 6/7] fpga: xilinx: remove xilinx- prefix on files
-Date:   Wed,  9 Jun 2021 06:21:50 -0700
-Message-Id: <20210609132151.3081379-8-trix@redhat.com>
+Subject: [PATCH 7/7] fpga: altera: remove altera- prefix on files
+Date:   Wed,  9 Jun 2021 06:21:51 -0700
+Message-Id: <20210609132151.3081379-9-trix@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210609132151.3081379-1-trix@redhat.com>
 References: <20210609132151.3081379-1-trix@redhat.com>
@@ -78,40 +78,79 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Tom Rix <trix@redhat.com>
 
-It is not necessary to have a xilinx- prefix on a file
-when the file is in a xilinx/ subdir.
+It is not necessary to have an altera- prefix on a file
+when the file is in an altera/ subdir.
 
 Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/fpga/xilinx/Makefile                                  | 4 ++--
- drivers/fpga/xilinx/{xilinx-pr-decoupler.c => pr-decoupler.c} | 0
- drivers/fpga/xilinx/{xilinx-spi.c => spi.c}                   | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename drivers/fpga/xilinx/{xilinx-pr-decoupler.c => pr-decoupler.c} (100%)
- rename drivers/fpga/xilinx/{xilinx-spi.c => spi.c} (100%)
+ drivers/fpga/altera/Makefile                         | 12 ++++++------
+ drivers/fpga/altera/{altera-cvp.c => cvp.c}          |  0
+ .../altera/{altera-fpga2sdram.c => fpga2sdram.c}     |  0
+ .../{altera-freeze-bridge.c => freeze-bridge.c}      |  0
+ .../fpga/altera/{altera-hps2fpga.c => hps2fpga.c}    |  0
+ .../{altera-pr-ip-core-plat.c => pr-ip-core-plat.c}  |  0
+ .../altera/{altera-pr-ip-core.c => pr-ip-core.c}     |  0
+ drivers/fpga/altera/{altera-ps-spi.c => ps-spi.c}    |  0
+ 8 files changed, 6 insertions(+), 6 deletions(-)
+ rename drivers/fpga/altera/{altera-cvp.c => cvp.c} (100%)
+ rename drivers/fpga/altera/{altera-fpga2sdram.c => fpga2sdram.c} (100%)
+ rename drivers/fpga/altera/{altera-freeze-bridge.c => freeze-bridge.c} (100%)
+ rename drivers/fpga/altera/{altera-hps2fpga.c => hps2fpga.c} (100%)
+ rename drivers/fpga/altera/{altera-pr-ip-core-plat.c => pr-ip-core-plat.c} (100%)
+ rename drivers/fpga/altera/{altera-pr-ip-core.c => pr-ip-core.c} (100%)
+ rename drivers/fpga/altera/{altera-ps-spi.c => ps-spi.c} (100%)
 
-diff --git a/drivers/fpga/xilinx/Makefile b/drivers/fpga/xilinx/Makefile
-index 7bb7543412790..4ac727d03e140 100644
---- a/drivers/fpga/xilinx/Makefile
-+++ b/drivers/fpga/xilinx/Makefile
-@@ -1,7 +1,7 @@
+diff --git a/drivers/fpga/altera/Makefile b/drivers/fpga/altera/Makefile
+index 4d725c72fcbef..c2d626cd1f540 100644
+--- a/drivers/fpga/altera/Makefile
++++ b/drivers/fpga/altera/Makefile
+@@ -1,12 +1,12 @@
  # SPDX-License-Identifier: GPL-2.0
  
--obj-$(CONFIG_XILINX_PR_DECOUPLER) += xilinx-pr-decoupler.o
--obj-$(CONFIG_FPGA_MGR_XILINX_SPI) += xilinx-spi.o
-+obj-$(CONFIG_XILINX_PR_DECOUPLER) += pr-decoupler.o
-+obj-$(CONFIG_FPGA_MGR_XILINX_SPI) += spi.o
- obj-$(CONFIG_FPGA_MGR_ZYNQ_FPGA) += zynq-fpga.o
- obj-$(CONFIG_FPGA_MGR_ZYNQMP_FPGA) += zynqmp-fpga.o
- 
-diff --git a/drivers/fpga/xilinx/xilinx-pr-decoupler.c b/drivers/fpga/xilinx/pr-decoupler.c
+-obj-$(CONFIG_ALTERA_FREEZE_BRIDGE) += altera-freeze-bridge.o
+-obj-$(CONFIG_ALTERA_PR_IP_CORE) += altera-pr-ip-core.o
+-obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT) += altera-pr-ip-core-plat.o
+-obj-$(CONFIG_FPGA_MGR_ALTERA_CVP) += altera-cvp.o
+-obj-$(CONFIG_FPGA_MGR_ALTERA_PS_SPI) += altera-ps-spi.o
++obj-$(CONFIG_ALTERA_FREEZE_BRIDGE) += freeze-bridge.o
++obj-$(CONFIG_ALTERA_PR_IP_CORE) += pr-ip-core.o
++obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT) += pr-ip-core-plat.o
++obj-$(CONFIG_FPGA_MGR_ALTERA_CVP) += cvp.o
++obj-$(CONFIG_FPGA_MGR_ALTERA_PS_SPI) += ps-spi.o
+ obj-$(CONFIG_FPGA_MGR_SOCFPGA) += socfpga.o
+ obj-$(CONFIG_FPGA_MGR_SOCFPGA_A10) += socfpga-a10.o
+ obj-$(CONFIG_FPGA_MGR_STRATIX10_SOC) += stratix10-soc.o
+ obj-$(CONFIG_FPGA_MGR_TS73XX) += ts73xx-fpga.o
+-obj-$(CONFIG_SOCFPGA_FPGA_BRIDGE) += altera-hps2fpga.o altera-fpga2sdram.o
++obj-$(CONFIG_SOCFPGA_FPGA_BRIDGE) += hps2fpga.o fpga2sdram.o
+diff --git a/drivers/fpga/altera/altera-cvp.c b/drivers/fpga/altera/cvp.c
 similarity index 100%
-rename from drivers/fpga/xilinx/xilinx-pr-decoupler.c
-rename to drivers/fpga/xilinx/pr-decoupler.c
-diff --git a/drivers/fpga/xilinx/xilinx-spi.c b/drivers/fpga/xilinx/spi.c
+rename from drivers/fpga/altera/altera-cvp.c
+rename to drivers/fpga/altera/cvp.c
+diff --git a/drivers/fpga/altera/altera-fpga2sdram.c b/drivers/fpga/altera/fpga2sdram.c
 similarity index 100%
-rename from drivers/fpga/xilinx/xilinx-spi.c
-rename to drivers/fpga/xilinx/spi.c
+rename from drivers/fpga/altera/altera-fpga2sdram.c
+rename to drivers/fpga/altera/fpga2sdram.c
+diff --git a/drivers/fpga/altera/altera-freeze-bridge.c b/drivers/fpga/altera/freeze-bridge.c
+similarity index 100%
+rename from drivers/fpga/altera/altera-freeze-bridge.c
+rename to drivers/fpga/altera/freeze-bridge.c
+diff --git a/drivers/fpga/altera/altera-hps2fpga.c b/drivers/fpga/altera/hps2fpga.c
+similarity index 100%
+rename from drivers/fpga/altera/altera-hps2fpga.c
+rename to drivers/fpga/altera/hps2fpga.c
+diff --git a/drivers/fpga/altera/altera-pr-ip-core-plat.c b/drivers/fpga/altera/pr-ip-core-plat.c
+similarity index 100%
+rename from drivers/fpga/altera/altera-pr-ip-core-plat.c
+rename to drivers/fpga/altera/pr-ip-core-plat.c
+diff --git a/drivers/fpga/altera/altera-pr-ip-core.c b/drivers/fpga/altera/pr-ip-core.c
+similarity index 100%
+rename from drivers/fpga/altera/altera-pr-ip-core.c
+rename to drivers/fpga/altera/pr-ip-core.c
+diff --git a/drivers/fpga/altera/altera-ps-spi.c b/drivers/fpga/altera/ps-spi.c
+similarity index 100%
+rename from drivers/fpga/altera/altera-ps-spi.c
+rename to drivers/fpga/altera/ps-spi.c
 -- 
 2.26.3
 
