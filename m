@@ -5,68 +5,68 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B8CC48BD1
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBBCBC48BD1
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:23:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1FA9613BE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:23:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9807C613AE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:23:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236276AbhFINZ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 09:25:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50810 "EHLO
+        id S236360AbhFINZe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 09:25:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46418 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236212AbhFINZU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 09:25:20 -0400
+        by vger.kernel.org with ESMTP id S236303AbhFINZX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 09:25:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623245005;
+        s=mimecast20190719; t=1623245008;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=z30Ub+z2OjWJtR5c/iXeFpG9nHCwEt3UgVQc8aykjUY=;
-        b=adSMwrCcxVCYVxhimz/o8kSxliXhKeWmR+7yUDuBnfzc7Ws6ume/KhOSLphGrnS36HwDwd
-        eHUpQdhE0Oyijk+Ot7sTdwAP/E0TdXX3IMavMTgmF01W2q2i2WeYhpGVFlpMvxr/6G6Ii5
-        bZgYPHEVBVmbMAXiN1X+LIkquiN4JLs=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-43ykYU8zMgedR3Sno2h9Ag-1; Wed, 09 Jun 2021 09:23:24 -0400
-X-MC-Unique: 43ykYU8zMgedR3Sno2h9Ag-1
-Received: by mail-ot1-f69.google.com with SMTP id o26-20020a9d6d1a0000b02903e61e3de711so8728560otp.12
-        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 06:23:24 -0700 (PDT)
+        bh=qViXgyeh1dlyqh22Awn1t3CyyorftxIelVJ9ElQQ5YY=;
+        b=P0xXstqBWHPFK2XOwJO3GVNFfQ1anfxa1YxywY+zcWu+1BkDLFQEetnuZoR0GFgalYvrnh
+        fZid45Uzjm/DHcWcmn8f6XJl/klMNkvhsEApmb918J5ygRJDSr6s52Uw1oRyC/8e7w437v
+        9smfoh2uXg+AFo39sC3p34e0JfskHBo=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-561-rub06-5gN3i0d9bOvGINtQ-1; Wed, 09 Jun 2021 09:23:27 -0400
+X-MC-Unique: rub06-5gN3i0d9bOvGINtQ-1
+Received: by mail-oi1-f199.google.com with SMTP id g203-20020aca39d40000b02901f57bf48250so1108049oia.2
+        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 06:23:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=z30Ub+z2OjWJtR5c/iXeFpG9nHCwEt3UgVQc8aykjUY=;
-        b=rkbUy//6rMyCoVCC/NWM9q/k14Qp7L9QJ9dir/hJhJYc/t3qqjsVSgXRQwEubw5eMc
-         kFG74V1iUo0yc50EcPY6YjKaf8hJ/CnBCp0Wnh1ESgd/LF885AAK7OWK7JNvxbuQxzRD
-         aUnEEupLxSgwV1xVAkHtdcTHc0HDcyuTXupSfo8NErxf6Y/l/8F2R6AQ9DanZIqo49pg
-         rgx38sUFTO5AiqUvIFvAoKqU6U5HCtOqBgAXz9RNBDOWg8amTBDwkM7mSgRWomE4SxgE
-         jBuG0oOO1IDfa5NnJoghSYR5y5bsBNBt0hmsnV7EAH5FEr7ExWVPrjhztpO5AZokh+V4
-         77ag==
-X-Gm-Message-State: AOAM530VGBv2J/uNYm1eONl6J/d7KUwAIsBMfAtbpYjXpxOH/2uJnDNn
-        /U/96UbcOY2L5FldhlLouURLoNsq5r5epH1jyC8UwsOsg+QTdFI3ix6ua05D5OMTazdgnL9Nj/t
-        pdLswMaUZwQme4qc4LSrT
-X-Received: by 2002:aca:f488:: with SMTP id s130mr6325431oih.5.1623245003528;
-        Wed, 09 Jun 2021 06:23:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGZkuQlcHGNMAEUbmCa4ErDyEavEw7XXTSdMa/dKVrmhOsr0+aOpMSgBvnYm3yB4s0eiprzA==
-X-Received: by 2002:aca:f488:: with SMTP id s130mr6325411oih.5.1623245003321;
-        Wed, 09 Jun 2021 06:23:23 -0700 (PDT)
+        bh=qViXgyeh1dlyqh22Awn1t3CyyorftxIelVJ9ElQQ5YY=;
+        b=gQck3W6vIK6LjXCRfmmOP9ROEuTIBj2CtodgfV/SiOAWamwb/lu6SbbUZKRJ0nHH7W
+         VyFjD6PXQhARFPkSc5Di3N16SvfgfCbYl9ZeJ0dvU2G3/7aUkcZUUfeGftcLt04v1gXh
+         qD/HJ/d42E9YhI/W8YPK04ZxZJ9vhM8hgnx+c6u3MUz4ClNqFpR7TFqlbGXa9ROQUMi8
+         e81M75+2X/3RIDSI+ZmFJUJqznjJw0oOlGKnU/zR/5nZ3C9ymq2t2vfjuVxI9ymfWfeQ
+         xlaUKg8IHaVcWyqCFuQvDbqrXXO6Eosc/C0K5pNhUVoOZxkBm7+uJQFuIaHbYUarvgJO
+         vPuQ==
+X-Gm-Message-State: AOAM531OWPOjhBdqIupr+XTKClrvRFwGQrDuPOi6kvFD00vx0YevDS/G
+        06pAJzBbSfTJgKOQA0yK8T1ph1fA10F/6SK1DhJe35ykhQSwrgNl1xPrDB1klP5qqoEXnLx3Jub
+        LHwZDj96M6EvatS65O5A6
+X-Received: by 2002:a9d:66d9:: with SMTP id t25mr3492360otm.217.1623245006772;
+        Wed, 09 Jun 2021 06:23:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYlq5NQAg9r5rM56eciALlRRoXOllzEovCjy257M0FuEL28u377Zg2s+BEXW70oM5w182g1Q==
+X-Received: by 2002:a9d:66d9:: with SMTP id t25mr3492350otm.217.1623245006642;
+        Wed, 09 Jun 2021 06:23:26 -0700 (PDT)
 Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id 21sm3165654otd.21.2021.06.09.06.23.22
+        by smtp.gmail.com with ESMTPSA id 21sm3165654otd.21.2021.06.09.06.23.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 06:23:23 -0700 (PDT)
+        Wed, 09 Jun 2021 06:23:26 -0700 (PDT)
 From:   trix@redhat.com
 To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
         michal.simek@xilinx.com
 Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Tom Rix <trix@redhat.com>
-Subject: [PATCH 5/7] fpga: dfl: remove dfl- prefix on files
-Date:   Wed,  9 Jun 2021 06:21:49 -0700
-Message-Id: <20210609132151.3081379-7-trix@redhat.com>
+Subject: [PATCH 6/7] fpga: xilinx: remove xilinx- prefix on files
+Date:   Wed,  9 Jun 2021 06:21:50 -0700
+Message-Id: <20210609132151.3081379-8-trix@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210609132151.3081379-1-trix@redhat.com>
 References: <20210609132151.3081379-1-trix@redhat.com>
@@ -78,356 +78,40 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Tom Rix <trix@redhat.com>
 
-It is not necessary to have a dfl- prefix on a file
-when the file is in a dfl/ subdir.
+It is not necessary to have a xilinx- prefix on a file
+when the file is in a xilinx/ subdir.
 
 Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- Documentation/fpga/dfl.rst                    |  4 ++--
- drivers/fpga/dfl/Makefile                     | 21 +++++++------------
- ...{dfl-afu-dma-region.c => afu-dma-region.c} |  2 +-
- .../fpga/dfl/{dfl-afu-error.c => afu-error.c} |  2 +-
- .../fpga/dfl/{dfl-afu-main.c => afu-main.c}   |  2 +-
- .../dfl/{dfl-afu-region.c => afu-region.c}    |  2 +-
- drivers/fpga/dfl/{dfl-afu.h => afu.h}         |  6 +++---
- drivers/fpga/dfl/{dfl-fme-br.c => fme-br.c}   |  2 +-
- .../fpga/dfl/{dfl-fme-error.c => fme-error.c} |  2 +-
- .../fpga/dfl/{dfl-fme-main.c => fme-main.c}   |  2 +-
- drivers/fpga/dfl/{dfl-fme-mgr.c => fme-mgr.c} |  2 +-
- .../fpga/dfl/{dfl-fme-perf.c => fme-perf.c}   |  2 +-
- drivers/fpga/dfl/{dfl-fme-pr.c => fme-pr.c}   |  4 ++--
- drivers/fpga/dfl/{dfl-fme-pr.h => fme-pr.h}   |  6 +++---
- .../dfl/{dfl-fme-region.c => fme-region.c}    |  2 +-
- drivers/fpga/dfl/{dfl-fme.h => fme.h}         |  6 +++---
- .../dfl/{dfl-n3000-nios.c => n3000-nios.c}    |  0
- drivers/fpga/dfl/{dfl-pci.c => pci.c}         |  0
- 18 files changed, 31 insertions(+), 36 deletions(-)
- rename drivers/fpga/dfl/{dfl-afu-dma-region.c => afu-dma-region.c} (99%)
- rename drivers/fpga/dfl/{dfl-afu-error.c => afu-error.c} (99%)
- rename drivers/fpga/dfl/{dfl-afu-main.c => afu-main.c} (99%)
- rename drivers/fpga/dfl/{dfl-afu-region.c => afu-region.c} (99%)
- rename drivers/fpga/dfl/{dfl-afu.h => afu.h} (98%)
- rename drivers/fpga/dfl/{dfl-fme-br.c => fme-br.c} (99%)
- rename drivers/fpga/dfl/{dfl-fme-error.c => fme-error.c} (99%)
- rename drivers/fpga/dfl/{dfl-fme-main.c => fme-main.c} (99%)
- rename drivers/fpga/dfl/{dfl-fme-mgr.c => fme-mgr.c} (99%)
- rename drivers/fpga/dfl/{dfl-fme-perf.c => fme-perf.c} (99%)
- rename drivers/fpga/dfl/{dfl-fme-pr.c => fme-pr.c} (99%)
- rename drivers/fpga/dfl/{dfl-fme-pr.h => fme-pr.h} (96%)
- rename drivers/fpga/dfl/{dfl-fme-region.c => fme-region.c} (98%)
- rename drivers/fpga/dfl/{dfl-fme.h => fme.h} (95%)
- rename drivers/fpga/dfl/{dfl-n3000-nios.c => n3000-nios.c} (100%)
- rename drivers/fpga/dfl/{dfl-pci.c => pci.c} (100%)
+ drivers/fpga/xilinx/Makefile                                  | 4 ++--
+ drivers/fpga/xilinx/{xilinx-pr-decoupler.c => pr-decoupler.c} | 0
+ drivers/fpga/xilinx/{xilinx-spi.c => spi.c}                   | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename drivers/fpga/xilinx/{xilinx-pr-decoupler.c => pr-decoupler.c} (100%)
+ rename drivers/fpga/xilinx/{xilinx-spi.c => spi.c} (100%)
 
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index ccc33f199df2a..696ab63d9e6bf 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -210,7 +210,7 @@ device and etc. Its driver module is always loaded first once the device is
- created by the system. This driver plays an infrastructural role in the
- driver architecture. It locates the DFLs in the device memory, handles them
- and related resources to common interfaces from DFL framework for enumeration.
--(Please refer to drivers/fpga/dfl.c for detailed enumeration APIs).
-+(Please refer to drivers/fpga/dfl/dfl.c for detailed enumeration APIs).
+diff --git a/drivers/fpga/xilinx/Makefile b/drivers/fpga/xilinx/Makefile
+index 7bb7543412790..4ac727d03e140 100644
+--- a/drivers/fpga/xilinx/Makefile
++++ b/drivers/fpga/xilinx/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
  
- The FPGA Management Engine (FME) driver is a platform driver which is loaded
- automatically after FME platform device creation from the DFL device module. It
-@@ -499,7 +499,7 @@ In some cases, we may need to add some new private features to existing FIUs
- framework, as each private feature will be parsed automatically and related
- mmio resources can be found under FIU platform device created by DFL framework.
- Developer only needs to provide a sub feature driver with matched feature id.
--FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
-+FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl/fme-pr.c)
- could be a reference.
+-obj-$(CONFIG_XILINX_PR_DECOUPLER) += xilinx-pr-decoupler.o
+-obj-$(CONFIG_FPGA_MGR_XILINX_SPI) += xilinx-spi.o
++obj-$(CONFIG_XILINX_PR_DECOUPLER) += pr-decoupler.o
++obj-$(CONFIG_FPGA_MGR_XILINX_SPI) += spi.o
+ obj-$(CONFIG_FPGA_MGR_ZYNQ_FPGA) += zynq-fpga.o
+ obj-$(CONFIG_FPGA_MGR_ZYNQMP_FPGA) += zynqmp-fpga.o
  
- Location of DFLs on a PCI Device
-diff --git a/drivers/fpga/dfl/Makefile b/drivers/fpga/dfl/Makefile
-index 724792039026f..29c9dbabd9f77 100644
---- a/drivers/fpga/dfl/Makefile
-+++ b/drivers/fpga/dfl/Makefile
-@@ -4,16 +4,11 @@
- obj-$(CONFIG_FPGA_DFL) += dfl.o
- obj-$(CONFIG_FPGA_DFL_AFU) += dfl-afu.o
- obj-$(CONFIG_FPGA_DFL_FME) += dfl-fme.o
--obj-$(CONFIG_FPGA_DFL_FME_BRIDGE) += dfl-fme-br.o
--obj-$(CONFIG_FPGA_DFL_FME_MGR) += dfl-fme-mgr.o
--obj-$(CONFIG_FPGA_DFL_FME_REGION) += dfl-fme-region.o
--obj-$(CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000) += dfl-n3000-nios.o
--obj-$(CONFIG_FPGA_DFL_PCI) += dfl-pci.o
--
--dfl-fme-objs := dfl-fme-main.o dfl-fme-pr.o dfl-fme-error.o		\
--                dfl-fme-perf.o
--dfl-afu-objs := dfl-afu-main.o dfl-afu-region.o dfl-afu-dma-region.o	\
--                dfl-afu-error.o
--
--
--
-+obj-$(CONFIG_FPGA_DFL_FME_BRIDGE) += fme-br.o
-+obj-$(CONFIG_FPGA_DFL_FME_MGR) += fme-mgr.o
-+obj-$(CONFIG_FPGA_DFL_FME_REGION) += fme-region.o
-+obj-$(CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000) += n3000-nios.o
-+obj-$(CONFIG_FPGA_DFL_PCI) += pci.o
-+
-+dfl-fme-objs := fme-main.o fme-pr.o fme-error.o fme-perf.o
-+dfl-afu-objs := afu-main.o afu-region.o afu-dma-region.o afu-error.o
-diff --git a/drivers/fpga/dfl/dfl-afu-dma-region.c b/drivers/fpga/dfl/afu-dma-region.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-afu-dma-region.c
-rename to drivers/fpga/dfl/afu-dma-region.c
-index 02b60fde04305..1cf3acbdb0918 100644
---- a/drivers/fpga/dfl/dfl-afu-dma-region.c
-+++ b/drivers/fpga/dfl/afu-dma-region.c
-@@ -14,7 +14,7 @@
- #include <linux/uaccess.h>
- #include <linux/mm.h>
- 
--#include "dfl-afu.h"
-+#include "afu.h"
- 
- void afu_dma_region_init(struct dfl_feature_platform_data *pdata)
- {
-diff --git a/drivers/fpga/dfl/dfl-afu-error.c b/drivers/fpga/dfl/afu-error.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-afu-error.c
-rename to drivers/fpga/dfl/afu-error.c
-index ab7be62173681..4e04a9de314d5 100644
---- a/drivers/fpga/dfl/dfl-afu-error.c
-+++ b/drivers/fpga/dfl/afu-error.c
-@@ -17,7 +17,7 @@
- #include <linux/fpga-dfl.h>
- #include <linux/uaccess.h>
- 
--#include "dfl-afu.h"
-+#include "afu.h"
- 
- #define PORT_ERROR_MASK		0x8
- #define PORT_ERROR		0x10
-diff --git a/drivers/fpga/dfl/dfl-afu-main.c b/drivers/fpga/dfl/afu-main.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-afu-main.c
-rename to drivers/fpga/dfl/afu-main.c
-index 7f621e96d3b8d..9681ab83c02ee 100644
---- a/drivers/fpga/dfl/dfl-afu-main.c
-+++ b/drivers/fpga/dfl/afu-main.c
-@@ -19,7 +19,7 @@
- #include <linux/uaccess.h>
- #include <linux/fpga-dfl.h>
- 
--#include "dfl-afu.h"
-+#include "afu.h"
- 
- #define RST_POLL_INVL 10 /* us */
- #define RST_POLL_TIMEOUT 1000 /* us */
-diff --git a/drivers/fpga/dfl/dfl-afu-region.c b/drivers/fpga/dfl/afu-region.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-afu-region.c
-rename to drivers/fpga/dfl/afu-region.c
-index 0804b7a0c2986..0efcdb2a388e3 100644
---- a/drivers/fpga/dfl/dfl-afu-region.c
-+++ b/drivers/fpga/dfl/afu-region.c
-@@ -8,7 +8,7 @@
-  *   Wu Hao <hao.wu@intel.com>
-  *   Xiao Guangrong <guangrong.xiao@linux.intel.com>
-  */
--#include "dfl-afu.h"
-+#include "afu.h"
- 
- /**
-  * afu_mmio_region_init - init function for afu mmio region support
-diff --git a/drivers/fpga/dfl/dfl-afu.h b/drivers/fpga/dfl/afu.h
-similarity index 98%
-rename from drivers/fpga/dfl/dfl-afu.h
-rename to drivers/fpga/dfl/afu.h
-index e5020e2b1f3df..1ea7945218d57 100644
---- a/drivers/fpga/dfl/dfl-afu.h
-+++ b/drivers/fpga/dfl/afu.h
-@@ -14,8 +14,8 @@
-  *     Henry Mitchel <henry.mitchel@intel.com>
-  */
- 
--#ifndef __DFL_AFU_H
--#define __DFL_AFU_H
-+#ifndef __AFU_H
-+#define __AFU_H
- 
- #include <linux/mm.h>
- 
-@@ -106,4 +106,4 @@ extern const struct dfl_feature_ops port_err_ops;
- extern const struct dfl_feature_id port_err_id_table[];
- extern const struct attribute_group port_err_group;
- 
--#endif /* __DFL_AFU_H */
-+#endif /* __AFU_H */
-diff --git a/drivers/fpga/dfl/dfl-fme-br.c b/drivers/fpga/dfl/fme-br.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-fme-br.c
-rename to drivers/fpga/dfl/fme-br.c
-index 3ff9f3a687ce5..ee321903b2885 100644
---- a/drivers/fpga/dfl/dfl-fme-br.c
-+++ b/drivers/fpga/dfl/fme-br.c
-@@ -17,7 +17,7 @@
- #include <linux/fpga/fpga-bridge.h>
- 
- #include "dfl.h"
--#include "dfl-fme-pr.h"
-+#include "fme-pr.h"
- 
- struct fme_br_priv {
- 	struct dfl_fme_br_pdata *pdata;
-diff --git a/drivers/fpga/dfl/dfl-fme-error.c b/drivers/fpga/dfl/fme-error.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-fme-error.c
-rename to drivers/fpga/dfl/fme-error.c
-index 51c2892ec06d5..97c94a87d053b 100644
---- a/drivers/fpga/dfl/dfl-fme-error.c
-+++ b/drivers/fpga/dfl/fme-error.c
-@@ -19,7 +19,7 @@
- #include <linux/uaccess.h>
- 
- #include "dfl.h"
--#include "dfl-fme.h"
-+#include "fme.h"
- 
- #define FME_ERROR_MASK		0x8
- #define FME_ERROR		0x10
-diff --git a/drivers/fpga/dfl/dfl-fme-main.c b/drivers/fpga/dfl/fme-main.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-fme-main.c
-rename to drivers/fpga/dfl/fme-main.c
-index 77ea04d4edbef..05676c5a623b1 100644
---- a/drivers/fpga/dfl/dfl-fme-main.c
-+++ b/drivers/fpga/dfl/fme-main.c
-@@ -22,7 +22,7 @@
- #include <linux/fpga-dfl.h>
- 
- #include "dfl.h"
--#include "dfl-fme.h"
-+#include "fme.h"
- 
- static ssize_t ports_num_show(struct device *dev,
- 			      struct device_attribute *attr, char *buf)
-diff --git a/drivers/fpga/dfl/dfl-fme-mgr.c b/drivers/fpga/dfl/fme-mgr.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-fme-mgr.c
-rename to drivers/fpga/dfl/fme-mgr.c
-index d5861d13b3069..ae2b45abbe3aa 100644
---- a/drivers/fpga/dfl/dfl-fme-mgr.c
-+++ b/drivers/fpga/dfl/fme-mgr.c
-@@ -22,7 +22,7 @@
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/fpga/fpga-mgr.h>
- 
--#include "dfl-fme-pr.h"
-+#include "fme-pr.h"
- 
- /* FME Partial Reconfiguration Sub Feature Register Set */
- #define FME_PR_DFH		0x0
-diff --git a/drivers/fpga/dfl/dfl-fme-perf.c b/drivers/fpga/dfl/fme-perf.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-fme-perf.c
-rename to drivers/fpga/dfl/fme-perf.c
-index 4299145ef347e..451d7b6e0ac1f 100644
---- a/drivers/fpga/dfl/dfl-fme-perf.c
-+++ b/drivers/fpga/dfl/fme-perf.c
-@@ -18,7 +18,7 @@
- 
- #include <linux/perf_event.h>
- #include "dfl.h"
--#include "dfl-fme.h"
-+#include "fme.h"
- 
- /*
-  * Performance Counter Registers for Cache.
-diff --git a/drivers/fpga/dfl/dfl-fme-pr.c b/drivers/fpga/dfl/fme-pr.c
-similarity index 99%
-rename from drivers/fpga/dfl/dfl-fme-pr.c
-rename to drivers/fpga/dfl/fme-pr.c
-index d61ce9a188792..aed4f061c0bf2 100644
---- a/drivers/fpga/dfl/dfl-fme-pr.c
-+++ b/drivers/fpga/dfl/fme-pr.c
-@@ -26,8 +26,8 @@
- #include <linux/fpga-dfl.h>
- 
- #include "dfl.h"
--#include "dfl-fme.h"
--#include "dfl-fme-pr.h"
-+#include "fme.h"
-+#include "fme-pr.h"
- 
- static struct dfl_fme_region *
- dfl_fme_region_find_by_port_id(struct dfl_fme *fme, int port_id)
-diff --git a/drivers/fpga/dfl/dfl-fme-pr.h b/drivers/fpga/dfl/fme-pr.h
-similarity index 96%
-rename from drivers/fpga/dfl/dfl-fme-pr.h
-rename to drivers/fpga/dfl/fme-pr.h
-index 096a699089d30..65b33cdeaf80d 100644
---- a/drivers/fpga/dfl/dfl-fme-pr.h
-+++ b/drivers/fpga/dfl/fme-pr.h
-@@ -15,8 +15,8 @@
-  *   Henry Mitchel <henry.mitchel@intel.com>
-  */
- 
--#ifndef __DFL_FME_PR_H
--#define __DFL_FME_PR_H
-+#ifndef __FME_PR_H
-+#define __FME_PR_H
- 
- #include <linux/platform_device.h>
- 
-@@ -81,4 +81,4 @@ struct dfl_fme_mgr_pdata {
- #define DFL_FPGA_FME_BRIDGE	"dfl-fme-bridge"
- #define DFL_FPGA_FME_REGION	"dfl-fme-region"
- 
--#endif /* __DFL_FME_PR_H */
-+#endif /* __FME_PR_H */
-diff --git a/drivers/fpga/dfl/dfl-fme-region.c b/drivers/fpga/dfl/fme-region.c
-similarity index 98%
-rename from drivers/fpga/dfl/dfl-fme-region.c
-rename to drivers/fpga/dfl/fme-region.c
-index 1eeb42af10122..412609ebad148 100644
---- a/drivers/fpga/dfl/dfl-fme-region.c
-+++ b/drivers/fpga/dfl/fme-region.c
-@@ -17,7 +17,7 @@
- #include <linux/fpga/fpga-mgr.h>
- #include <linux/fpga/fpga-region.h>
- 
--#include "dfl-fme-pr.h"
-+#include "fme-pr.h"
- 
- static int fme_region_get_bridges(struct fpga_region *region)
- {
-diff --git a/drivers/fpga/dfl/dfl-fme.h b/drivers/fpga/dfl/fme.h
-similarity index 95%
-rename from drivers/fpga/dfl/dfl-fme.h
-rename to drivers/fpga/dfl/fme.h
-index 4195dd68193e7..300b6cc5cb63f 100644
---- a/drivers/fpga/dfl/dfl-fme.h
-+++ b/drivers/fpga/dfl/fme.h
-@@ -15,8 +15,8 @@
-  *   Henry Mitchel <henry.mitchel@intel.com>
-  */
- 
--#ifndef __DFL_FME_H
--#define __DFL_FME_H
-+#ifndef __FME_H
-+#define __FME_H
- 
- /**
-  * struct dfl_fme - dfl fme private data
-@@ -41,4 +41,4 @@ extern const struct attribute_group fme_global_err_group;
- extern const struct dfl_feature_ops fme_perf_ops;
- extern const struct dfl_feature_id fme_perf_id_table[];
- 
--#endif /* __DFL_FME_H */
-+#endif /* __FME_H */
-diff --git a/drivers/fpga/dfl/dfl-n3000-nios.c b/drivers/fpga/dfl/n3000-nios.c
+diff --git a/drivers/fpga/xilinx/xilinx-pr-decoupler.c b/drivers/fpga/xilinx/pr-decoupler.c
 similarity index 100%
-rename from drivers/fpga/dfl/dfl-n3000-nios.c
-rename to drivers/fpga/dfl/n3000-nios.c
-diff --git a/drivers/fpga/dfl/dfl-pci.c b/drivers/fpga/dfl/pci.c
+rename from drivers/fpga/xilinx/xilinx-pr-decoupler.c
+rename to drivers/fpga/xilinx/pr-decoupler.c
+diff --git a/drivers/fpga/xilinx/xilinx-spi.c b/drivers/fpga/xilinx/spi.c
 similarity index 100%
-rename from drivers/fpga/dfl/dfl-pci.c
-rename to drivers/fpga/dfl/pci.c
+rename from drivers/fpga/xilinx/xilinx-spi.c
+rename to drivers/fpga/xilinx/spi.c
 -- 
 2.26.3
 
