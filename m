@@ -2,253 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_RED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AAAAC47095
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 07:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BABC48BCD
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 07:58:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 550CA61364
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 07:50:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDCDC6100A
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 07:58:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234610AbhFIHwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 03:52:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49356 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234011AbhFIHwn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Jun 2021 03:52:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3113F6135D;
-        Wed,  9 Jun 2021 07:50:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623225049;
-        bh=WQYk494pmtmA75wtfj+2q1BCuHSjRXMVH31jjO7vJaQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZFgcNcq81IvOtcHb1/M+boAIUf0UuU9A+cclJTY8YA9CjYVVBgpOmTwnPwv5tOUKL
-         Lv9j9JREGn8VIlCyWWcqYi8m3Nz1/ZKCqGXlEdRXS5XWeYaNVBwhPN3n3KxNNFynjn
-         NQ8PH9yGa01WjKEC1Y0267rgJR7mlNPtO5gT61GXBRMZuYP3sdP9JqJK/bqWMocvZX
-         UjkiGNHRAwIlay+fTtx6/0lczY1NoPvwyS8HRo733cJInEMYWFAFtDobMGGd4kohpf
-         mEjYWGisHue0huOTvEcNMd22xO39ojca393jsCm0uD0cKJcdWrubO4skOpVDvbn9U4
-         3B0CcOAagz/8Q==
-Date:   Wed, 9 Jun 2021 09:50:44 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        id S237366AbhFIIAD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 04:00:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56850 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237334AbhFIIAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 04:00:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623225487;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=E1X6mDwvWEwCM4qkv2vY7/L/oZAtoLR8LCFJEbDinOo=;
+        b=B7/fWF+X1mBJ0ck1F6MX3UGKduEK2I33k/dHlowUb4UQirVEiUeVsgsycN8hkRylWQzrld
+        FognXDczYJNpvIiyNSNV8pTCMLfNJV9aMe5QMIIOhIdRGnUpReCTwGvDOeh1ZOZ4IbubR9
+        YsIsq4T3zVGuc4DGmMd+JtzfrHi18zM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-3ZvitKbGOrGOoA5nG_hdbw-1; Wed, 09 Jun 2021 03:58:06 -0400
+X-MC-Unique: 3ZvitKbGOrGOoA5nG_hdbw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6747136278;
+        Wed,  9 Jun 2021 07:58:04 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-217.ams2.redhat.com [10.36.114.217])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7712319C45;
+        Wed,  9 Jun 2021 07:58:00 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
-        ~lkcamp/patches@lists.sr.ht
-Subject: Re: [RFC PATCH 2/2] XArray: Remove literal markup from known
- constants
-Message-ID: <20210609095044.34c52fa3@coco.lan>
-In-Reply-To: <20210609014308.234027-3-n@nfraprado.net>
-References: <20210609014308.234027-1-n@nfraprado.net>
-        <20210609014308.234027-3-n@nfraprado.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3 1/2] memory-hotplug.rst: remove locking details from admin-guide
+Date:   Wed,  9 Jun 2021 09:57:51 +0200
+Message-Id: <20210609075752.4596-2-david@redhat.com>
+In-Reply-To: <20210609075752.4596-1-david@redhat.com>
+References: <20210609075752.4596-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue,  8 Jun 2021 22:43:08 -0300
-N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
+We have the same content at Documentation/core-api/memory-hotplug.rst
+and it doesn't fit into the admin-guide. The documentation was
+accidentially duplicated when merging.
 
-> Remove literal markup from known constants, instead relying on
-> automarkup.py to make them into literals.
->=20
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <n@nfraprado.net>
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
+Reviewed-by: Oscar Salvador <osalvador@suse.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Muchun Song <songmuchun@bytedance.com>
+Cc: Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ .../admin-guide/mm/memory-hotplug.rst         | 39 -------------------
+ 1 file changed, 39 deletions(-)
 
-Once we implement automarkup.py support, this patch seems OK on my eyes.
-you can add my reviewed by: here on a series with the automarkup
-logic.
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index c6bae2d77160..a783cf7c8e4c 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -415,45 +415,6 @@ Need more implementation yet....
+  - Guard from remove if not yet.
+ 
+ 
+-Locking Internals
+-=================
+-
+-When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
+-the device_hotplug_lock should be held to:
+-
+-- synchronize against online/offline requests (e.g. via sysfs). This way, memory
+-  block devices can only be accessed (.online/.state attributes) by user
+-  space once memory has been fully added. And when removing memory, we
+-  know nobody is in critical sections.
+-- synchronize against CPU hotplug and similar (e.g. relevant for ACPI and PPC)
+-
+-Especially, there is a possible lock inversion that is avoided using
+-device_hotplug_lock when adding memory and user space tries to online that
+-memory faster than expected:
+-
+-- device_online() will first take the device_lock(), followed by
+-  mem_hotplug_lock
+-- add_memory_resource() will first take the mem_hotplug_lock, followed by
+-  the device_lock() (while creating the devices, during bus_add_device()).
+-
+-As the device is visible to user space before taking the device_lock(), this
+-can result in a lock inversion.
+-
+-onlining/offlining of memory should be done via device_online()/
+-device_offline() - to make sure it is properly synchronized to actions
+-via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
+-
+-When adding/removing/onlining/offlining memory or adding/removing
+-heterogeneous/device memory, we should always hold the mem_hotplug_lock in
+-write mode to serialise memory hotplug (e.g. access to global/zone
+-variables).
+-
+-In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
+-mode allows for a quite efficient get_online_mems/put_online_mems
+-implementation, so code accessing memory can protect from that memory
+-vanishing.
+-
+-
+ Future Work
+ ===========
+ 
+-- 
+2.31.1
 
-> ---
->  Documentation/core-api/xarray.rst | 48 +++++++++++++++----------------
->  1 file changed, 24 insertions(+), 24 deletions(-)
->=20
-> diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/x=
-array.rst
-> index a137a0e6d068..6e608e2e8e5b 100644
-> --- a/Documentation/core-api/xarray.rst
-> +++ b/Documentation/core-api/xarray.rst
-> @@ -22,7 +22,7 @@ The XArray implementation is efficient when the indices=
- used are densely
->  clustered; hashing the object and using the hash as the index will not
->  perform well.  The XArray is optimised for small indices, but still has
->  good performance with large indices.  If your index can be larger than
-> -``ULONG_MAX`` then the XArray is not the data type for you.  The most
-> +ULONG_MAX then the XArray is not the data type for you.  The most
->  important user of the XArray is the page cache.
-> =20
->  Normal pointers may be stored in the XArray directly.  They must be 4-by=
-te
-> @@ -31,7 +31,7 @@ alloc_page().  It isn't true for arbitrary user-space p=
-ointers,
->  nor for function pointers.  You can store pointers to statically allocat=
-ed
->  objects, as long as those objects have an alignment of at least 4.
-> =20
-> -You can also store integers between 0 and ``LONG_MAX`` in the XArray.
-> +You can also store integers between 0 and LONG_MAX in the XArray.
->  You must first convert it into an entry using xa_mk_value().
->  When you retrieve an entry from the XArray, you can check whether it is
->  a value entry by calling xa_is_value(), and convert it back to
-> @@ -52,7 +52,7 @@ An unusual feature of the XArray is the ability to crea=
-te entries which
->  occupy a range of indices.  Once stored to, looking up any index in
->  the range will return the same entry as looking up any other index in
->  the range.  Storing to any index will store to all of them.  Multi-index
-> -entries can be explicitly split into smaller entries, or storing ``NULL``
-> +entries can be explicitly split into smaller entries, or storing NULL
->  into any entry will cause the XArray to forget about the range.
-> =20
->  Normal API
-> @@ -60,16 +60,16 @@ Normal API
-> =20
->  Start by initialising an XArray, either with DEFINE_XARRAY()
->  for statically allocated XArrays or xa_init() for dynamically
-> -allocated ones.  A freshly-initialised XArray contains a ``NULL``
-> +allocated ones.  A freshly-initialised XArray contains a NULL
->  pointer at every index.
-> =20
->  You can then set entries using xa_store() and get entries
->  using xa_load().  xa_store will overwrite any entry with the
->  new entry and return the previous entry stored at that index.  You can
->  use xa_erase() instead of calling xa_store() with a
-> -``NULL`` entry.  There is no difference between an entry that has never
-> +NULL a entry.  There is no difference between an entry that has never
->  been stored to, one that has been erased and one that has most recently
-> -had ``NULL`` stored to it.
-> +had NULL stored to it.
-> =20
->  You can conditionally replace an entry at an index by using
->  xa_cmpxchg().  Like cmpxchg(), it will only succeed if
-> @@ -78,8 +78,8 @@ which was at that index; if it returns the same entry w=
-hich was passed as
->  'old', then xa_cmpxchg() succeeded.
-> =20
->  If you want to only store a new entry to an index if the current entry
-> -at that index is ``NULL``, you can use xa_insert() which
-> -returns ``-EBUSY`` if the entry is not empty.
-> +at that index is NULL, you can use xa_insert() which
-> +returns -EBUSY if the entry is not empty.
-> =20
->  You can copy entries out of the XArray into a plain array by calling
->  xa_extract().  Or you can iterate over the present entries in the XArray
-> @@ -97,14 +97,14 @@ some, but not all of the other indices changing.
->  Sometimes you need to ensure that a subsequent call to xa_store()
->  will not need to allocate memory.  The xa_reserve() function
->  will store a reserved entry at the indicated index.  Users of the
-> -normal API will see this entry as containing ``NULL``.  If you do
-> +normal API will see this entry as containing NULL.  If you do
->  not need to use the reserved entry, you can call xa_release()
->  to remove the unused entry.  If another user has stored to the entry
->  in the meantime, xa_release() will do nothing; if instead you
-> -want the entry to become ``NULL``, you should use xa_erase().
-> +want the entry to become NULL, you should use xa_erase().
->  Using xa_insert() on a reserved entry will fail.
-> =20
-> -If all entries in the array are ``NULL``, the xa_empty() function
-> +If all entries in the array are NULL, the xa_empty() function
->  will return ``true``.
-> =20
->  Finally, you can remove all entries from an XArray by calling
-> @@ -120,7 +120,7 @@ Each mark may be set or cleared independently of the =
-others.  You can
->  iterate over marked entries by using the xa_for_each_marked() iterator.
-> =20
->  You can enquire whether a mark is set on an entry by using
-> -xa_get_mark().  If the entry is not ``NULL``, you can set a mark on it
-> +xa_get_mark().  If the entry is not NULL, you can set a mark on it
->  by using xa_set_mark() and remove the mark from an entry by calling
->  xa_clear_mark().  You can ask whether any entry in the XArray has a
->  particular mark set by calling xa_marked().  Erasing an entry from the
-> @@ -151,9 +151,9 @@ interrupts while allocating the ID.
-> =20
->  Using xa_store(), xa_cmpxchg() or xa_insert() will
->  also mark the entry as being allocated.  Unlike a normal XArray, storing
-> -``NULL`` will mark the entry as being in use, like xa_reserve().
-> +NULL will mark the entry as being in use, like xa_reserve().
->  To free an entry, use xa_erase() (or xa_release() if
-> -you only want to free the entry if it's ``NULL``).
-> +you only want to free the entry if it's NULL).
-> =20
->  By default, the lowest free entry is allocated starting from 0.  If you
->  want to allocate entries starting at 1, it is more efficient to use
-> @@ -326,11 +326,11 @@ xas_error() to retrieve the error.  All operations =
-check whether
->  the xa_state is in an error state before proceeding, so there's no need
->  for you to check for an error after each call; you can make multiple
->  calls in succession and only check at a convenient point.  The only
-> -errors currently generated by the XArray code itself are ``ENOMEM`` and
-> -``EINVAL``, but it supports arbitrary errors in case you want to call
-> +errors currently generated by the XArray code itself are ENOMEM and
-> +EINVAL, but it supports arbitrary errors in case you want to call
->  xas_set_err() yourself.
-> =20
-> -If the xa_state is holding an ``ENOMEM`` error, calling xas_nomem()
-> +If the xa_state is holding an ENOMEM error, calling xas_nomem()
->  will attempt to allocate more memory using the specified gfp flags and
->  cache it in the xa_state for the next attempt.  The idea is that you take
->  the xa_lock, attempt the operation and drop the lock.  The operation
-> @@ -340,7 +340,7 @@ can try harder to allocate more memory.  It will retu=
-rn ``true`` if it
->  is worth retrying the operation (i.e. that there was a memory error *and*
->  more memory was allocated).  If it has previously allocated memory, and
->  that memory wasn't used, and there is no error (or some error that isn't
-> -``ENOMEM``), then it will free the memory previously allocated.
-> +ENOMEM), then it will free the memory previously allocated.
-> =20
->  Internal Entries
->  ----------------
-> @@ -375,10 +375,10 @@ to xas_retry(), and retry the operation if it retur=
-ns ``true``.
-> =20
->     * - Zero
->       - xa_is_zero()
-> -     - Zero entries appear as ``NULL`` through the Normal API, but occupy
-> +     - Zero entries appear as NULL through the Normal API, but occupy
->         an entry in the XArray which can be used to reserve the index for
->         future use.  This is used by allocating XArrays for allocated ent=
-ries
-> -       which are ``NULL``.
-> +       which are NULL.
-> =20
->  Other internal entries may be added in the future.  As far as possible, =
-they
->  will be handled by xas_retry().
-> @@ -461,9 +461,9 @@ You can create a multi-index entry by using XA_STATE_=
-ORDER()
->  or xas_set_order() followed by a call to xas_store().
->  Calling xas_load() with a multi-index xa_state will walk the
->  xa_state to the right location in the tree, but the return value is not
-> -meaningful, potentially being an internal entry or ``NULL`` even when th=
-ere
-> +meaningful, potentially being an internal entry or NULL even when there
->  is an entry stored within the range.  Calling xas_find_conflict()
-> -will return the first entry within the range or ``NULL`` if there are no
-> +will return the first entry within the range or NULL if there are no
->  entries in the range.  The xas_for_each_conflict() iterator will
->  iterate over every entry which overlaps the specified range.
-> =20
-> @@ -479,8 +479,8 @@ Using xas_next() or xas_prev() with a multi-index xa_=
-state is not
->  supported.  Using either of these functions on a multi-index entry will
->  reveal sibling entries; these should be skipped over by the caller.
-> =20
-> -Storing ``NULL`` into any index of a multi-index entry will set the
-> -entry at every index to ``NULL`` and dissolve the tie.  A multi-index
-> +Storing NULL into any index of a multi-index entry will set the
-> +entry at every index to NULL and dissolve the tie.  A multi-index
->  entry can be split into entries occupying smaller ranges by calling
->  xas_split_alloc() without the xa_lock held, followed by taking the lock
->  and calling xas_split().
-
-
-
-Thanks,
-Mauro
