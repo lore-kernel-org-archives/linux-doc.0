@@ -2,110 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FF3C48BCF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:43:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2224C48BCF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:03:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 502E1613BE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:43:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA733613AC
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:03:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbhFIMpO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 08:45:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52392 "EHLO mail.kernel.org"
+        id S231925AbhFINF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 09:05:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60368 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229517AbhFIMpN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Jun 2021 08:45:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E4B1761183;
-        Wed,  9 Jun 2021 12:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623242599;
-        bh=3LmDIUZ1wKlG81I+AFVUAzlVq2kCXIgwekcGWmo3BKs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pTrySzzH01xRqI6y+qazicvHLm3iUahU9lnsc49IiCQ3YhpFE1MGZmItjImUulTSl
-         MTRFsckWs8M5r1tfrx9B1xss2tIBYo7mP9xDz9QvZyyHwxfPhKHCu0uD0+Vm2N03KG
-         efqwhhxFl9HaT+aduguKYCqVi7iEE9OxgKF6gM0OROhOMWh178CnByE4KEur/yTy9L
-         z/yAapPpoQtCE+lxO14rkrnEpAPHzKFYWUwtlKyoLCarKsKopozI0ezGJdI92mgpV9
-         fhAVh/cqpu7lxRpBJ3Y97QebzByy2Ff9nk+bjy8MuaBdEX6s5RC5QZRUtpeoBFkcRi
-         DlTmnMxs4axQQ==
-Date:   Wed, 9 Jun 2021 13:43:04 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Jaroslav Kysela <perex@perex.cz>, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Tim Gover <tim.gover@raspberrypi.com>,
-        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
-        Eric Anholt <eric@anholt.net>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        linux-rpi-kernel@lists.infradead.org,
+        id S231466AbhFINF0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Jun 2021 09:05:26 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A276061108;
+        Wed,  9 Jun 2021 13:03:30 +0000 (UTC)
+Date:   Wed, 9 Jun 2021 09:03:29 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 04/12] ASoC: hdmi-codec: Add iec958 controls
-Message-ID: <20210609124304.GB5052@sirena.org.uk>
-References: <20210525132354.297468-1-maxime@cerno.tech>
- <20210525132354.297468-5-maxime@cerno.tech>
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH V3 8/9] tracing: Add osnoise tracer
+Message-ID: <20210609090329.53679e79@oasis.local.home>
+In-Reply-To: <06d72b7d-4beb-1dff-b537-e7449abf3d4e@redhat.com>
+References: <cover.1621024265.git.bristot@redhat.com>
+        <bd09a2be9cd0cecee86374dbb49235dd2ef9d750.1621024265.git.bristot@redhat.com>
+        <20210604172803.527aa070@oasis.local.home>
+        <06d72b7d-4beb-1dff-b537-e7449abf3d4e@redhat.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="oLBj+sq0vYjzfsbl"
-Content-Disposition: inline
-In-Reply-To: <20210525132354.297468-5-maxime@cerno.tech>
-X-Cookie: Alex Haley was adopted!
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 9 Jun 2021 14:14:17 +0200
+Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 
---oLBj+sq0vYjzfsbl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 6/4/21 11:28 PM, Steven Rostedt wrote:
+> >> +#ifdef CONFIG_X86_LOCAL_APIC  
+> > I wonder if we should move this into a separate file, making the
+> > __trace_irq_entry() a more name space safe name and have it call that.
+> > I have a bit of a distaste for arch specific code in a generic file.
+> >   
+> 
+> I am placing the intel specific file in:
+> 
+> arch/x86/kernel/trace_osnoise.c
 
-On Tue, May 25, 2021 at 03:23:46PM +0200, Maxime Ripard wrote:
-> The IEC958 status bits can be exposed and modified by the userspace
-> through dedicated ALSA controls.
->=20
-> This patch implements those controls for the hdmi-codec driver. It
-> relies on a default value being setup at probe time that can later be
-> overridden by the control put.
+I would make it just arch/x86/kernel/trace.c
 
-This breaks bisection:
+so that it can hold all arch specific tracing information, and not need
+to create a file for anything else we might need later.
 
-/mnt/kernel/sound/soc/codecs/hdmi-codec.c: In function 'hdmi_codec_hw_param=
-s':
-/mnt/kernel/sound/soc/codecs/hdmi-codec.c:504:50: error: invalid type argum=
-ent of '->' (have 'struct hdmi_codec_params')
-  memcpy(hp.iec.status, hcp->iec_status, sizeof(hp->iec_status));
-                                                  ^~
+> 
+> and the kernel/trace/trace_osnoise.h looks like this:
+> 
+> #ifdef CONFIG_X86_LOCAL_APIC
+> int osnoise_arch_register(void);
+> int osnoise_arch_unregister(void);
+> #else /* CONFIG_X86_LOCAL_APIC */
+> #define osnoise_arch_register() do {} while (0)
+> #define osnoise_arch_unregister() do {} while (0)
+> #endif /* CONFIG_X86_LOCAL_APIC */
+> 
+> This can be used by other archs as well...
+> 
+> sound reasonable?
+> 
 
---oLBj+sq0vYjzfsbl
-Content-Type: application/pgp-signature; name="signature.asc"
+The proper way to d that is to use weak functions in the C code in the
+generic file.
 
------BEGIN PGP SIGNATURE-----
+int __weak osnoise_arch_register(void)
+{
+	return 0;
+}
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmDAt1cACgkQJNaLcl1U
-h9AuAwf6A2ho54/TuWajEspKMKa3Y8mJqdCmq/szJ3u4iWTqPzBREw/Xyol8SXcW
-adYBtoSaS/Q6yh0OoY9A33TJwzQKwX4ZYow8t0KEmz7s/snT7Jgz8TUZPDE4ZEZb
-hHB/oXRVboMFrY62HeW+SnN/4A3D0ooOalNMNrV3/Abzjm9isJqafRKkj2dr8ymG
-7iplj1Rip+CLrhpSUi1ZF8aFTzqO7mckdD2pt/UN6k+aZ2oac65WgHhxOWt2m0q7
-Zl0ZPA2J9rTqse01tGxJ2GfVommjEFXKkcZStuzvWN2vfM4En0fdyUsU0hlghy+o
-15yz8IgChSQ1PGgdfwwc5YpcBvx2pw==
-=Ztwb
------END PGP SIGNATURE-----
+int __weak osnoise_arch_unregister(void)
+{
+	return 0;
+}
 
---oLBj+sq0vYjzfsbl--
+Hmm, does the unregister really need a return value?
+
+-- Steve
