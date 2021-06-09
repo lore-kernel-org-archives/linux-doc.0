@@ -2,189 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F79C48BCF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4BDCC48BCD
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:22:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E0D66139A
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:21:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 903FC613AE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:22:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232931AbhFINXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 09:23:33 -0400
-Received: from vmi485042.contaboserver.net ([161.97.139.209]:59554 "EHLO
-        gentwo.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230497AbhFINXd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Jun 2021 09:23:33 -0400
-Received: by gentwo.de (Postfix, from userid 1001)
-        id A1995B0026B; Wed,  9 Jun 2021 15:21:37 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by gentwo.de (Postfix) with ESMTP id A0782B000A9;
-        Wed,  9 Jun 2021 15:21:37 +0200 (CEST)
-Date:   Wed, 9 Jun 2021 15:21:37 +0200 (CEST)
-From:   Christoph Lameter <cl@gentwo.de>
-To:     Oliver Glitta <glittao@gmail.com>
-cc:     brendanhiggins@google.com, penberg@kernel.org, rientjes@google.com,
-        iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, vbabka@suse.cz,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-mm@kvack.org, elver@google.com,
-        dlatypov@google.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: add documentation for SLUB cache kunit tests
-In-Reply-To: <20210608084740.6282-1-glittao@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2106091512160.60148@gentwo.de>
-References: <20210608084740.6282-1-glittao@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S229676AbhFINYu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 09:24:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50945 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230027AbhFINYt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 09:24:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623244975;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=aDHyqkHT8tP5woeTV+rBNHR8on5450qVlxL0Zzlav/M=;
+        b=Bts8GxcKjc2X9BlZeuFNpIWcMs5suQlxB16XhLjS3jS654fX6Aobn4um8WK/pNFYoO9jF5
+        0IuTLuVaY8tgTbZDynvP+pPk+HZVo3M3aHLY40iIm+q9alJjpZNayqgeBPHTUhvezjMTGK
+        mp3VXMCAkXBmm4n+sQ0HksNu7pq7MyU=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-MznZExcyMXixxGtddkb9kg-1; Wed, 09 Jun 2021 09:22:53 -0400
+X-MC-Unique: MznZExcyMXixxGtddkb9kg-1
+Received: by mail-ot1-f69.google.com with SMTP id w3-20020a9d67430000b029035b9aaeeccbso6997431otm.10
+        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 06:22:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aDHyqkHT8tP5woeTV+rBNHR8on5450qVlxL0Zzlav/M=;
+        b=HcIC0R7BU4iiQ7k6sWyyiL3FQultFNJD039lgUeqDIAnjkgvhpz5acAYbblftIuXaK
+         CFzz/afLWHF33zjygfblmyvhJJiohHw5J/nh/AZrID8jFi16YwhNwZZeU+r9SuplTNmC
+         ZCUCBVyyIxVXTR/KNqvQmjNEnyomOrRxU+8RlhSZnIGVwarJvTSAHW3Xroh4j29FIYo6
+         npl3aUrgxlMGaaNJ0M64lsj3+/6zxspW3W0AU7oxhPEKSoQg7sl5cu/yH7ZAcM0jklRA
+         dAAiTDOEOU7uErn0nij5kvUdfbyHHJVAAJQH6A9UsFytb5qXGdC7GlprQDMCX7Oxdk4D
+         HMYQ==
+X-Gm-Message-State: AOAM533PDF4/z33vg35m+bh2pZ6WSaM7OYXcTETL1dwsH9bg8cnaNUrW
+        jBr0LbeazeyXZi46rK5pWTOZwTACIn5DMLrwr45O8xULma/WsUzBHvrT18qm9KComvknSowvPd/
+        Eo0y1AM75phaepzx9W0Qd
+X-Received: by 2002:aca:5f8b:: with SMTP id t133mr6219346oib.163.1623244972743;
+        Wed, 09 Jun 2021 06:22:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyn5lanWywWdbV93OBtRDUPMoGU8oADrAe7cVkY1A5c8p/LtBg0gJ/mQGxaIqK7JjoP2FBKDw==
+X-Received: by 2002:aca:5f8b:: with SMTP id t133mr6219330oib.163.1623244972568;
+        Wed, 09 Jun 2021 06:22:52 -0700 (PDT)
+Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id 21sm3165654otd.21.2021.06.09.06.22.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jun 2021 06:22:52 -0700 (PDT)
+From:   trix@redhat.com
+To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
+        michal.simek@xilinx.com
+Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH 0/7] fpga: reorganize to subdirs
+Date:   Wed,  9 Jun 2021 06:21:43 -0700
+Message-Id: <20210609132151.3081379-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some spelling fixes below but it got a bit much when looking through this.
-Maybe rewrite this again for clarity?
+From: Tom Rix <trix@redhat.com>
 
+The incoming xrt patchset has a toplevel subdir xrt/
+The current fpga/ uses a single dir with filename prefixes to subdivide owners
+For consistency, there should be only one way to organize the fpga/ dir.
+Because the subdir model scales better, refactor to use it.
+The discussion wrt xrt is here:
+https://lore.kernel.org/linux-fpga/68e85a4f-4a10-1ff9-0443-aa565878c855@redhat.com/
 
-On Tue, 8 Jun 2021, glittao@gmail.com wrote:
+Follow drivers/net/ethernet/ which has control configs
+NET_VENDOR_BLA that map to drivers/net/ethernet/bla
+Since fpgas do not have many vendors, drop the 'VENDOR' and use
+FPGA_BLA.
 
-> +KUnit tests for SLUB debugging functionality
-> +============================================
-> +
-> +These KUnit tests are used to test some of the SLUB debugging
-> +functionalities.
-functionality.
+There are several new subdirs
+altera/
+dfl/
+lattice/
+xilinx/
 
-> +
-> +KUnit tests are used for unit testing in Linux kernel and easy to run,
-> +so it is probably the best choice for this type of tests.
-> +
-> +There are tests, which corrupt redzone, the free objects and the freelist.
-> +Tests are corrupting specific bytes in cache and checking if validation
-> +finds expected number of bugs. Bug reports are silenced.
-"in a SLUB cache"  .... or "in a cache"
+Each subdir has a Kconfig that has a new/reused
 
-finds *the* expected number of ...
+if FPGA_BLA
+  ... existing configs ...
+endif FPGA_BLA
 
-> +In order to built and then run this tests you need to switch
-> +option SLUB_KUNIT_TEST on. It is tristate option so it can also
-*the* option
-*a* tristate option
+Which is sourced into the main fpga/Kconfig
 
-> +be built as a module. This option depends on SLUB_DEBUG and
-> +KUNIT options. By default it is on with all kunit tests.
-> +
-> +Error counting
-> +
-> +To get number of errors discovered in slub is used test API kunit_resource.
+Each subdir has a Makefile whose transversal is controlled in the
+fpga/Makefile by
 
-What does that mean?
+obj-$(CONFIG_FPGA_BLA) += bla/
 
-> +In test_init the reference to the integer variable slab_errors is added
-> +to the resource of this tests.
-> +
-> +During slub cache checking always when bug should be reported or fixed function
-> +slab_add_kunit_errors() is called. This function find resource to kunit test
-> +and increment value of data in founded resource, which is slab_errors
-> +variable.
+For many of the moved files, they had a prefix bla-* that matched their
+new subdir dir name bla/.  Those filename are overspecified.  So they
+were simplified by removing the 'bla-' prefix.  If they were *.h files
+their guards were also changed.
 
-??
+Some cleanup to arrange thing alphabetically and make fpga/Makefile's
+whitespace look more like net/'s
 
-> +
-> +Silence bug reports
-> +
-> +The function slab_add_kunit_errors() is returning bool, which is true if there is kunit test
-> +with correct kunit_resource running, to silence bug reports, so they are not printed.
-> +We do not want to correct errors we only want to know they occurred, so these reports
-> +are unnnecessary.
+Tom Rix (7):
+  fpga: dfl: reorganize to subdir layout
+  fpga: xilinx: reorganize to subdir layout
+  fpga: altera: reorganize to subdir layout
+  fpga: lattice: reorganize to subdir layout
+  fpga: dfl: remove dfl- prefix on files
+  fpga: xilinx: remove xilinx- prefix on files
+  fpga: altera: remove altera- prefix on files
 
-These reports are unnecessary because we do not want to correct errors. We
-only want to know that they occurred.
+ Documentation/fpga/dfl.rst                    |   4 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/fpga/Kconfig                          | 204 +-----------------
+ drivers/fpga/Makefile                         |  47 +---
+ drivers/fpga/altera/Kconfig                   |  79 +++++++
+ drivers/fpga/altera/Makefile                  |  12 ++
+ drivers/fpga/{altera-cvp.c => altera/cvp.c}   |   0
+ .../fpga2sdram.c}                             |   0
+ .../freeze-bridge.c}                          |   0
+ .../{altera-hps2fpga.c => altera/hps2fpga.c}  |   0
+ .../pr-ip-core-plat.c}                        |   0
+ .../pr-ip-core.c}                             |   0
+ .../fpga/{altera-ps-spi.c => altera/ps-spi.c} |   0
+ drivers/fpga/{ => altera}/socfpga-a10.c       |   0
+ drivers/fpga/{ => altera}/socfpga.c           |   0
+ drivers/fpga/{ => altera}/stratix10-soc.c     |   0
+ drivers/fpga/{ => altera}/ts73xx-fpga.c       |   0
+ drivers/fpga/dfl/Kconfig                      |  80 +++++++
+ drivers/fpga/dfl/Makefile                     |  17 ++
+ .../afu-dma-region.c}                         |   2 +-
+ .../fpga/{dfl-afu-error.c => dfl/afu-error.c} |   2 +-
+ .../fpga/{dfl-afu-main.c => dfl/afu-main.c}   |   2 +-
+ .../{dfl-afu-region.c => dfl/afu-region.c}    |   2 +-
+ drivers/fpga/{dfl-afu.h => dfl/afu.h}         |   6 +-
+ drivers/fpga/{ => dfl}/dfl.c                  |   0
+ drivers/fpga/{ => dfl}/dfl.h                  |   0
+ drivers/fpga/{dfl-fme-br.c => dfl/fme-br.c}   |   2 +-
+ .../fpga/{dfl-fme-error.c => dfl/fme-error.c} |   2 +-
+ .../fpga/{dfl-fme-main.c => dfl/fme-main.c}   |   2 +-
+ drivers/fpga/{dfl-fme-mgr.c => dfl/fme-mgr.c} |   2 +-
+ .../fpga/{dfl-fme-perf.c => dfl/fme-perf.c}   |   2 +-
+ drivers/fpga/{dfl-fme-pr.c => dfl/fme-pr.c}   |   4 +-
+ drivers/fpga/{dfl-fme-pr.h => dfl/fme-pr.h}   |   6 +-
+ .../{dfl-fme-region.c => dfl/fme-region.c}    |   2 +-
+ drivers/fpga/{dfl-fme.h => dfl/fme.h}         |   6 +-
+ .../{dfl-n3000-nios.c => dfl/n3000-nios.c}    |   0
+ drivers/fpga/{dfl-pci.c => dfl/pci.c}         |   0
+ drivers/fpga/lattice/Kconfig                  |  22 ++
+ drivers/fpga/lattice/Makefile                 |   4 +
+ drivers/fpga/{ => lattice}/ice40-spi.c        |   0
+ drivers/fpga/{ => lattice}/machxo2-spi.c      |   0
+ drivers/fpga/xilinx/Kconfig                   |  48 +++++
+ drivers/fpga/xilinx/Makefile                  |   8 +
+ .../pr-decoupler.c}                           |   0
+ drivers/fpga/{xilinx-spi.c => xilinx/spi.c}   |   0
+ drivers/fpga/{ => xilinx}/zynq-fpga.c         |   0
+ drivers/fpga/{ => xilinx}/zynqmp-fpga.c       |   0
+ 47 files changed, 306 insertions(+), 263 deletions(-)
+ create mode 100644 drivers/fpga/altera/Kconfig
+ create mode 100644 drivers/fpga/altera/Makefile
+ rename drivers/fpga/{altera-cvp.c => altera/cvp.c} (100%)
+ rename drivers/fpga/{altera-fpga2sdram.c => altera/fpga2sdram.c} (100%)
+ rename drivers/fpga/{altera-freeze-bridge.c => altera/freeze-bridge.c} (100%)
+ rename drivers/fpga/{altera-hps2fpga.c => altera/hps2fpga.c} (100%)
+ rename drivers/fpga/{altera-pr-ip-core-plat.c => altera/pr-ip-core-plat.c} (100%)
+ rename drivers/fpga/{altera-pr-ip-core.c => altera/pr-ip-core.c} (100%)
+ rename drivers/fpga/{altera-ps-spi.c => altera/ps-spi.c} (100%)
+ rename drivers/fpga/{ => altera}/socfpga-a10.c (100%)
+ rename drivers/fpga/{ => altera}/socfpga.c (100%)
+ rename drivers/fpga/{ => altera}/stratix10-soc.c (100%)
+ rename drivers/fpga/{ => altera}/ts73xx-fpga.c (100%)
+ create mode 100644 drivers/fpga/dfl/Kconfig
+ create mode 100644 drivers/fpga/dfl/Makefile
+ rename drivers/fpga/{dfl-afu-dma-region.c => dfl/afu-dma-region.c} (99%)
+ rename drivers/fpga/{dfl-afu-error.c => dfl/afu-error.c} (99%)
+ rename drivers/fpga/{dfl-afu-main.c => dfl/afu-main.c} (99%)
+ rename drivers/fpga/{dfl-afu-region.c => dfl/afu-region.c} (99%)
+ rename drivers/fpga/{dfl-afu.h => dfl/afu.h} (98%)
+ rename drivers/fpga/{ => dfl}/dfl.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl.h (100%)
+ rename drivers/fpga/{dfl-fme-br.c => dfl/fme-br.c} (99%)
+ rename drivers/fpga/{dfl-fme-error.c => dfl/fme-error.c} (99%)
+ rename drivers/fpga/{dfl-fme-main.c => dfl/fme-main.c} (99%)
+ rename drivers/fpga/{dfl-fme-mgr.c => dfl/fme-mgr.c} (99%)
+ rename drivers/fpga/{dfl-fme-perf.c => dfl/fme-perf.c} (99%)
+ rename drivers/fpga/{dfl-fme-pr.c => dfl/fme-pr.c} (99%)
+ rename drivers/fpga/{dfl-fme-pr.h => dfl/fme-pr.h} (96%)
+ rename drivers/fpga/{dfl-fme-region.c => dfl/fme-region.c} (98%)
+ rename drivers/fpga/{dfl-fme.h => dfl/fme.h} (95%)
+ rename drivers/fpga/{dfl-n3000-nios.c => dfl/n3000-nios.c} (100%)
+ rename drivers/fpga/{dfl-pci.c => dfl/pci.c} (100%)
+ create mode 100644 drivers/fpga/lattice/Kconfig
+ create mode 100644 drivers/fpga/lattice/Makefile
+ rename drivers/fpga/{ => lattice}/ice40-spi.c (100%)
+ rename drivers/fpga/{ => lattice}/machxo2-spi.c (100%)
+ create mode 100644 drivers/fpga/xilinx/Kconfig
+ create mode 100644 drivers/fpga/xilinx/Makefile
+ rename drivers/fpga/{xilinx-pr-decoupler.c => xilinx/pr-decoupler.c} (100%)
+ rename drivers/fpga/{xilinx-spi.c => xilinx/spi.c} (100%)
+ rename drivers/fpga/{ => xilinx}/zynq-fpga.c (100%)
+ rename drivers/fpga/{ => xilinx}/zynqmp-fpga.c (100%)
 
-> +
-> +KASAN option
-> +
-> +Only 2 out of 5 tests are runnig with KASAN option is on.
+-- 
+2.26.3
 
-running
-
-> +The other three tests deliberately modifies non-allocated objects. And KASAN
-
-modify
-
-> +does not detect some errors in the same way as SLUB_DEBUG. So, these tests
-> +does not run when KASAN option is on.
-
-do
-
-> +1. test_clobber_zone
-> +
-> +   SLUB cache with SLUB_REDZONE flag can detects writings after object. This
-> +   functionality is tested here on allocated memory.
-
-... can detect modifying memory locations after the object.
-
-> +
-> +   First, there is allocated memory with SLAB_REDZONE and then the first byte
-> +   after allocated space is modified. Validation founds 2 errors, because of
-> +   the bug and the fix of the memory.
-
-after *the* allocated space. The validation finds 2 errors. One is the
-fact that there is a corrupted redzone and the second due to the repair of
-the redzone.
-
-> +2. test_next_pointer
-> +
-> +   SLUB have list of free objects and the address of the next free object
-> +   is always saved in free object at offset specified in variable offset
-> +   in struct kmem_cache. This test try to corrupt this freelist and
-> +   then correct it.
-
-SLUB *has a* .... is ** saved in a *freed object* at *the* offset ...
-
-> +
-> +   First, there is allocated and freed memory to get a pointer to free object.
-> +   After that, the pointer to next free object is corrupted. The first validation finds
-> +   3 errors. One for corrupted freechain, the second for the wrong count of objects
-> +   in use and the third for fixing the issue. This fix only set number of objects
-> +   in use to a number of all objects minus 1, because the first free object
-> +   was corrupted.
-> +
-> +   Then the free pointer is fixed to his previous value. The second validation finds
-> +   2 errors. One for the wrong count of objects in use and one for fixing this error.
-> +
-> +   Last validation is used to check if all errors were corrected so no error
-> +   is found.
-> +
-> +3. test_first_word
-> +
-> +   SLUB cache with SLAB_POISON flag can detect poisoning free objects. This
-> +   functionality is tested in this test. The test tries to corrupt
-> +   the first byte in freed memory.
-> +
-> +   First of all, memory is allocated and freed to get a pointer to a free object
-> +   and then the first byte is corrupted. After that, validation finds 2 errors,
-> +   one for the bug and the other one for the fix of the memory.
-> +
-> +4. test_clobber_50th_byte
-> +
-> +   In this test SLAB_POISON functionality is tested. The test tries to
-> +   corrupt the 50th byte in freed memory.
-> +
-> +   First, pointer to a free memory is acquired by allocating and freeing memory.
-> +   Then 50th byte is corrupted and validation finds 2 errors for the bug and
-> +   the fix of the memory.
-> +
-> +5. test_clobber_redzone_free
-> +
-> +   This test tests redzone functionality of SLUB cache on a freed object.
-> +
-> +   First, it gets pointer to the free object with allocating and freeing and
-> +   then corrupts the first byte after the freed object. Validation finds
-> +   2 errors for the bug and the fix of the memory.
-> +
->  Christoph Lameter, May 30, 2007
->  Sergey Senozhatsky, October 23, 2015
-> --
-> 2.31.1.272.g89b43f80a5
->
