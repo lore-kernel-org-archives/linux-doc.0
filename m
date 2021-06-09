@@ -2,71 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 904C0C48BCF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 10:00:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0DC1C48BDF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 10:49:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F42E610C7
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 10:00:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B634F60FF4
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 10:49:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238545AbhFIKCg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 06:02:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45236 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236044AbhFIKCg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Jun 2021 06:02:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 61E986128A;
-        Wed,  9 Jun 2021 10:00:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623232841;
-        bh=IrNl7vfYlp+saZHXReXLrhcdAC1w3K2DQvXRBiZoqE4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1BOCOjMr/rJivnL5uoCS+hChPU6Hs9/5OpwrwnY6ZIDDKPOy+BFK2Ch460O+JcniA
-         C9jPf3kC6NRCFFhISSDMPa3sAciPL4t1dy35eVu4rrd53EVRwa3vUAT+dn/6za47LV
-         pFEKGY1X8QjnGTRPQdZPWHsjiFH8MGNpgr5HTuNo=
-Date:   Wed, 9 Jun 2021 12:00:38 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     trix@redhat.com
-Cc:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
-        michal.simek@xilinx.com, dinguyen@kernel.org,
-        krzysztof.kozlowski@canonical.com, nava.manne@xilinx.com,
-        yilun.xu@intel.com, davidgow@google.com, fpacheco@redhat.com,
-        richard.gong@intel.com, luca@lucaceresoli.net,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 0/7] fpga: reorganize to subdirs
-Message-ID: <YMCRRm/lB2+gfpS9@kroah.com>
-References: <20210608162340.3010204-1-trix@redhat.com>
- <20210608162340.3010204-2-trix@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210608162340.3010204-2-trix@redhat.com>
+        id S233678AbhFIKvn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 06:51:43 -0400
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:54786 "EHLO
+        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233707AbhFIKvm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 06:51:42 -0400
+Received: from s807.loopia.se (localhost [127.0.0.1])
+        by s807.loopia.se (Postfix) with ESMTP id 1DBA02E6295D
+        for <linux-doc@vger.kernel.org>; Wed,  9 Jun 2021 11:32:27 +0200 (CEST)
+Received: from s934.loopia.se (unknown [172.22.191.5])
+        by s807.loopia.se (Postfix) with ESMTP id 0DD672E2DB76;
+        Wed,  9 Jun 2021 11:32:27 +0200 (CEST)
+Received: from s474.loopia.se (unknown [172.22.191.5])
+        by s934.loopia.se (Postfix) with ESMTP id 079DE7CE998;
+        Wed,  9 Jun 2021 11:32:27 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at amavis.loopia.se
+Received: from s645.loopia.se ([172.22.191.5])
+        by s474.loopia.se (s474.loopia.se [172.22.190.14]) (amavisd-new, port 10024)
+        with LMTP id 54gyTJtfDRDJ; Wed,  9 Jun 2021 11:32:26 +0200 (CEST)
+X-Loopia-Auth: user
+X-Loopia-User: carl@hgsystem.se
+X-Loopia-Originating-IP: 155.4.133.180
+Received: from localhost.localdomain (h-155-4-133-180.NA.cust.bahnhof.se [155.4.133.180])
+        (Authenticated sender: carl@hgsystem.se)
+        by s645.loopia.se (Postfix) with ESMTPSA id 1EA52157A07C;
+        Wed,  9 Jun 2021 11:32:26 +0200 (CEST)
+From:   Erik Rosen <erik.rosen@metormote.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Erik Rosen <erik.rosen@metormote.com>
+Subject: [PATCH v5 2/5] hwmon: (pmbus/pim4328) Add support for reading direct mode coefficients
+Date:   Wed,  9 Jun 2021 11:32:06 +0200
+Message-Id: <20210609093209.8349-3-erik.rosen@metormote.com>
+X-Mailer: git-send-email 2.11.0 (Apple Git-81)
+In-Reply-To: <20210609093209.8349-1-erik.rosen@metormote.com>
+References: <20210609093209.8349-1-erik.rosen@metormote.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 08, 2021 at 09:23:33AM -0700, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
-> 
-> The incoming xrt patchset has a toplevel subdir xrt/
-> The current fpga/ uses a single dir with filename prefixes to subdivide owners
-> For consistency, there should be only one way to organize the fpga/ dir.
-> Because the subdir model scales better, refactor to use it.
-> The discussion wrt xrt is here:
-> https://lore.kernel.org/linux-fpga/68e85a4f-4a10-1ff9-0443-aa565878c855@redhat.com/
-> 
-> Follow drivers/net/ethernet/ which has control configs
-> NET_VENDOR_BLA that map to drivers/net/ethernet/bla
-> Since fpgas do not have many vendors, drop the 'VENDOR' and use
-> FPGA_BLA.
+Add support for reading and decoding direct format coefficients to
+the PMBus core driver. If the new flag PMBUS_USE_COEFFICIENTS_CMD
+is set, the driver will use the COEFFICIENTS register together with
+the information in the pmbus_sensor_attr structs to initialize
+relevant coefficients for the direct mode format.
 
-Why did we get two 0/7 emails?
+Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+---
+ drivers/hwmon/pmbus/pmbus_core.c | 116 +++++++++++++++++++++++++++++++
+ include/linux/pmbus.h            |   8 +++
+ 2 files changed, 124 insertions(+)
 
-confused,
+diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+index 0579521b6c0a..d022d3196ae9 100644
+--- a/drivers/hwmon/pmbus/pmbus_core.c
++++ b/drivers/hwmon/pmbus/pmbus_core.c
+@@ -2139,6 +2139,111 @@ static int pmbus_find_attributes(struct i2c_client *client,
+ 	return ret;
+ }
+ 
++/*
++ * The pmbus_class_attr_map structure maps one sensor class to
++ * it's corresponding sensor attributes array.
++ */
++struct pmbus_class_attr_map {
++	enum pmbus_sensor_classes class;
++	int nattr;
++	const struct pmbus_sensor_attr *attr;
++};
++
++static const struct pmbus_class_attr_map class_attr_map[] = {
++	{
++		.class = PSC_VOLTAGE_IN,
++		.attr = voltage_attributes,
++		.nattr = ARRAY_SIZE(voltage_attributes),
++	}, {
++		.class = PSC_VOLTAGE_OUT,
++		.attr = voltage_attributes,
++		.nattr = ARRAY_SIZE(voltage_attributes),
++	}, {
++		.class = PSC_CURRENT_IN,
++		.attr = current_attributes,
++		.nattr = ARRAY_SIZE(current_attributes),
++	}, {
++		.class = PSC_CURRENT_OUT,
++		.attr = current_attributes,
++		.nattr = ARRAY_SIZE(current_attributes),
++	}, {
++		.class = PSC_POWER,
++		.attr = power_attributes,
++		.nattr = ARRAY_SIZE(power_attributes),
++	}, {
++		.class = PSC_TEMPERATURE,
++		.attr = temp_attributes,
++		.nattr = ARRAY_SIZE(temp_attributes),
++	}
++};
++
++/*
++ * Read the coefficients for direct mode.
++ */
++static int pmbus_read_coefficients(struct i2c_client *client,
++				   struct pmbus_driver_info *info,
++				   const struct pmbus_sensor_attr *attr)
++{
++	int rv;
++	union i2c_smbus_data data;
++	enum pmbus_sensor_classes class = attr->class;
++	s8 R;
++	s16 m, b;
++
++	data.block[0] = 2;
++	data.block[1] = attr->reg;
++	data.block[2] = 0x01;
++
++	rv = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
++			    I2C_SMBUS_WRITE, PMBUS_COEFFICIENTS,
++			    I2C_SMBUS_BLOCK_PROC_CALL, &data);
++
++	if (rv < 0)
++		return rv;
++
++	if (data.block[0] != 5)
++		return -EIO;
++
++	m = data.block[1] | (data.block[2] << 8);
++	b = data.block[3] | (data.block[4] << 8);
++	R = data.block[5];
++	info->m[class] = m;
++	info->b[class] = b;
++	info->R[class] = R;
++
++	return rv;
++}
++
++static int pmbus_init_coefficients(struct i2c_client *client,
++				   struct pmbus_driver_info *info)
++{
++	int i, n, ret;
++	const struct pmbus_class_attr_map *map;
++	const struct pmbus_sensor_attr *attr;
++
++	for (i = 0; i < ARRAY_SIZE(class_attr_map); i++) {
++		map = &class_attr_map[i];
++		if (info->format[map->class] != direct)
++			continue;
++		for (n = 0; n < map->nattr; n++) {
++			attr = &map->attr[n];
++			if (map->class != attr->class)
++				continue;
++			ret = pmbus_read_coefficients(client, info, attr);
++			if (ret >= 0)
++				break;
++		}
++		if (ret < 0) {
++			dev_err(&client->dev,
++				"No coefficients found for sensor class %d\n",
++				map->class);
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
+ /*
+  * Identify chip parameters.
+  * This function is called for all chips.
+@@ -2257,6 +2362,17 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
+ 			return ret;
+ 		}
+ 	}
++
++	if (data->flags & PMBUS_USE_COEFFICIENTS_CMD) {
++		if (!i2c_check_functionality(client->adapter,
++					     I2C_FUNC_SMBUS_BLOCK_PROC_CALL))
++			return -ENODEV;
++
++		ret = pmbus_init_coefficients(client, info);
++		if (ret < 0)
++			return ret;
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/include/linux/pmbus.h b/include/linux/pmbus.h
+index 86bacf57f8e9..f8ba23d911c8 100644
+--- a/include/linux/pmbus.h
++++ b/include/linux/pmbus.h
+@@ -52,6 +52,14 @@
+  */
+ #define PMBUS_NO_WRITE_PROTECT			BIT(4)
+ 
++/*
++ * PMBUS_USE_COEFFICIENTS_CMD
++ *
++ * When this flag is set the PMBus core driver will use the COEFFICIENTS
++ * register to initialize the coefficients for the direct mode format.
++ */
++#define PMBUS_USE_COEFFICIENTS_CMD		BIT(5)
++
+ struct pmbus_platform_data {
+ 	u32 flags;		/* Device specific flags */
+ 
+-- 
+2.20.1
 
-greg k-h
