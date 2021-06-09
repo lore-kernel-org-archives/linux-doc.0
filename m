@@ -2,115 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F02C48BD1
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 16:52:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AACC6C48BCF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 18:46:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86509613CD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 16:52:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90031613C8
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 18:46:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230291AbhFIQy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 12:54:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42624 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230281AbhFIQy0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 12:54:26 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD3AC061760
-        for <linux-doc@vger.kernel.org>; Wed,  9 Jun 2021 09:52:32 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id x21-20020a17090aa395b029016e25313bfcso1742243pjp.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 09:52:32 -0700 (PDT)
+        id S229689AbhFISse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 14:48:34 -0400
+Received: from mail-ot1-f42.google.com ([209.85.210.42]:41658 "EHLO
+        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229499AbhFISse (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 14:48:34 -0400
+Received: by mail-ot1-f42.google.com with SMTP id 36-20020a9d0ba70000b02902e0a0a8fe36so24946966oth.8;
+        Wed, 09 Jun 2021 11:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LD9HSxwVBYD4Eigmm4/eFaSooe5X81yBa6b9diyTxLk=;
-        b=N47Q7iKRccjNkYwWKqUHqFn73mIgkb6yUnEgVpfiCnpd7KGAo+RwkJGh7fCyhsJ5rJ
-         PHoctqrgLpYFlXiogoGImI85Yu3OsLM3sfJYRnwP4OzsOAGtIgoKDG+IYVT+VOE0fTE/
-         27PJSIvlhBf+evKmhRLXx/yOa0KOermG9co7o=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=p61mKAt1p/Ut0yjoZzGQebqB5nZdfeZ37MtaPp/DjKM=;
+        b=NtA18dDo3vDzM4e7101MRwo2LdmZi7/KqvjvJ+q+j/VrOMCfNJ7CiLGOYIiKdTTxiS
+         3BOXhubvsMUUi6+brrSkt8U4px3fk2OnGlwVhVfS5rqsiA9tPPQIn0QinCEaV1JGQPxJ
+         2AQUJ4vFehId/N0T1RvDRrvoYqiHvw657BjyTTejCXFGiLO1A6qc8CHukhkW6gJvyeKp
+         2G4T5YhHBDWyTofZLHVRxoGhh6G7TUYPcLklJbcFysxGJWL4Qz3SpS3+Z89y/gukMlv9
+         7CxxWvSrFeXdkDwy41dBDSeHS0yNtDgjcPjGjK09LHtRUAdK/GzyluOrEj3bMvBX7wJL
+         e91Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LD9HSxwVBYD4Eigmm4/eFaSooe5X81yBa6b9diyTxLk=;
-        b=JN5eEEhw1ulOKs2BELUQGXBZCvT3SjtmWnFyBiSaAveiKj3EUtls9DnBPB/nMFF+nh
-         B2Acsb3EueDxyZKU0QoV1W30XeFUF/AJX17qcrXLdbGNbxsvYlwC7XsAruVpcZ/bsg4d
-         Ku3I0V3YttgeQNm+0643vhY5zF59yNRleS3P45YyjawPBlEdnlpfVrobM2H784AzvZ64
-         KXZOeGrXswcGkxESa15DQanvFaFPhvxBSy3X1gg/xw5AVhAPk7qVBBlRAR6+hhV1xIzf
-         MDlZ0SlHwzuJK70XRNQKfusdhlImamZ5X3ebLjvDzn/ZXP8QubnoOx12xqYoLSk1x6Yi
-         M2KQ==
-X-Gm-Message-State: AOAM533KiFWxJwFTB7DRTQTtSLyzDM2NfL8CybMTJPmFpV1Bl7TE/iQT
-        4u/x/p2jNHOQ/QcEJBaC/p3CBnp9srQfwA==
-X-Google-Smtp-Source: ABdhPJzNXeQzlTinS1wmW8MEliQZalVLosypCXm6YUl9Lebh2/tT7cpsPFLagkE3mdC+ClBbYzFVAQ==
-X-Received: by 2002:a17:902:988f:b029:114:12d2:d548 with SMTP id s15-20020a170902988fb029011412d2d548mr479973plp.73.1623257550841;
-        Wed, 09 Jun 2021 09:52:30 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k30sm305187pgf.59.2021.06.09.09.52.29
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mime-version:content-disposition;
+        bh=p61mKAt1p/Ut0yjoZzGQebqB5nZdfeZ37MtaPp/DjKM=;
+        b=k3VcVEDBEUTvM3B8KzEivzb304DYs/qbwodjY9eRjBFkyq5V1t62x0BhuPbroidF8m
+         0nP7/l2HWEs+DsczmJFcD3iEzhS0eAC2KdPXmZPWBMAcUuZGbgZ98CxEFGkvFMT6sc2x
+         7LgIX0QVtXVIAxBal9t0lxCDVGQzDTp0nSDXy4cAuIzSMsQZKh2eLII9RKATtir8LNYy
+         wFSsNYCQYhEFzJ/X1QoDo+c/kRY4vmLsFlssVna9kIt8WNNUIiYJpkUHKsLOyLuwMwXK
+         PdJZHwMipxvI8xmfXLHOGqjiaJAivdzTtVUdU+a9Zr0Mh4bu/jiiSAtAVHDG4U3wX0co
+         zABw==
+X-Gm-Message-State: AOAM530dsM3XJnF3gkXyHEISUN2nCJQMKKsEcBxrqMCllkLr1kuJeWSf
+        ws+8D8ATGQVAeThHg9xQT3Q=
+X-Google-Smtp-Source: ABdhPJyZHghqFqWUpK2/aGn/5Ulp4o1MAl+skqdDfhHNvkaxe/DuGYLEuP2v4qaqcSlBJs9drcXq2A==
+X-Received: by 2002:a9d:4614:: with SMTP id y20mr666514ote.323.1623264322805;
+        Wed, 09 Jun 2021 11:45:22 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y16sm158296oto.60.2021.06.09.11.45.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 09:52:30 -0700 (PDT)
-Date:   Wed, 9 Jun 2021 09:52:29 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     John Wood <john.wood@gmx.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Arnd Bergmann <arnd@arndb.de>, valdis.kletnieks@vt.edu,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH v8 0/8] Fork brute force attack mitigation
-Message-ID: <202106090951.8C1B5BAD@keescook>
-References: <20210605150405.6936-1-john.wood@gmx.com>
- <202106081616.EC17DC1D0D@keescook>
- <cbfd306b-6e37-a697-ebdb-4a5029d36583@linux.intel.com>
+        Wed, 09 Jun 2021 11:45:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 9 Jun 2021 11:45:20 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Erik Rosen <erik.rosen@metormote.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/5] hwmon: (pmbus/pim4328) Add new pmbus flag
+ NO_WRITE_PROTECT
+Message-ID: <20210609184520.GA2531459@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cbfd306b-6e37-a697-ebdb-4a5029d36583@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 08, 2021 at 04:38:15PM -0700, Andi Kleen wrote:
+On Wed, Jun 09, 2021 at 11:32:05AM +0200, Erik Rosen wrote:
+> Some PMBus chips respond with invalid data when reading the WRITE_PROTECT
+> register. For such chips, this flag should be set so that the PMBus core
+> driver doesn't use the WRITE_PROTECT command to determine its behavior.
 > 
-> On 6/8/2021 4:19 PM, Kees Cook wrote:
-> > On Sat, Jun 05, 2021 at 05:03:57PM +0200, John Wood wrote:
-> > > [...]
-> > > the kselftest to avoid the detection ;) ). So, in this version, to track
-> > > all the statistical data (info related with application crashes), the
-> > > extended attributes feature for the executable files are used. The xattr is
-> > > also used to mark the executables as "not allowed" when an attack is
-> > > detected. Then, the execve system call rely on this flag to avoid following
-> > > executions of this file.
-> > I have some concerns about this being actually usable and not creating
-> > DoS situations. For example, let's say an attacker had found a hard-to-hit
-> > bug in "sudo", and starts brute forcing it. When the brute LSM notices,
-> > it'll make "sudo" unusable for the entire system, yes?
-> > 
-> > And a reboot won't fix it, either, IIUC.
-> > 
-> The whole point of the mitigation is to trade potential attacks against DOS.
+> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+
+Series applied.
+
+Thanks,
+Guenter
+
+> ---
+>  drivers/hwmon/pmbus/pmbus_core.c | 8 +++++---
+>  include/linux/pmbus.h            | 9 +++++++++
+>  2 files changed, 14 insertions(+), 3 deletions(-)
 > 
-> If you're worried about DOS the whole thing is not for you.
-
-Right, but there's no need to make a system unusable for everyone else.
-There's nothing here that relaxes the defense (i.e. stop spawning apache
-for 10 minutes). Writing it to disk with nothing that undoes it seems a
-bit too much. :)
-
--- 
-Kees Cook
+> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+> index bbd745178147..0579521b6c0a 100644
+> --- a/drivers/hwmon/pmbus/pmbus_core.c
+> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+> @@ -2226,9 +2226,11 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
+>  	 * faults, and we should not try it. Also, in that case, writes into
+>  	 * limit registers need to be disabled.
+>  	 */
+> -	ret = i2c_smbus_read_byte_data(client, PMBUS_WRITE_PROTECT);
+> -	if (ret > 0 && (ret & PB_WP_ANY))
+> -		data->flags |= PMBUS_WRITE_PROTECTED | PMBUS_SKIP_STATUS_CHECK;
+> +	if (!(data->flags & PMBUS_NO_WRITE_PROTECT)) {
+> +		ret = i2c_smbus_read_byte_data(client, PMBUS_WRITE_PROTECT);
+> +		if (ret > 0 && (ret & PB_WP_ANY))
+> +			data->flags |= PMBUS_WRITE_PROTECTED | PMBUS_SKIP_STATUS_CHECK;
+> +	}
+>  
+>  	if (data->info->pages)
+>  		pmbus_clear_faults(client);
+> diff --git a/include/linux/pmbus.h b/include/linux/pmbus.h
+> index 12cbbf305969..86bacf57f8e9 100644
+> --- a/include/linux/pmbus.h
+> +++ b/include/linux/pmbus.h
+> @@ -43,6 +43,15 @@
+>   */
+>  #define PMBUS_NO_CAPABILITY			BIT(2)
+>  
+> +/*
+> + * PMBUS_NO_WRITE_PROTECT
+> + *
+> + * Some PMBus chips respond with invalid data when reading the WRITE_PROTECT
+> + * register. For such chips, this flag should be set so that the PMBus core
+> + * driver doesn't use the WRITE_PROTECT command to determine its behavior.
+> + */
+> +#define PMBUS_NO_WRITE_PROTECT			BIT(4)
+> +
+>  struct pmbus_platform_data {
+>  	u32 flags;		/* Device specific flags */
+>  
