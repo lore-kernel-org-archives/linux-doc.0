@@ -2,128 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2620C48BCF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:14:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7515CC48BCD
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:16:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D951761351
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:14:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 510AF61287
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 12:16:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239734AbhFIMQS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 08:16:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44280 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235237AbhFIMQR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 08:16:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623240862;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=77QSgyc+8Sk7HYHiam0rcRrsIJ/0Q1AlHtkTPqxgLeg=;
-        b=X3f+vlqesy4PLQ3lYsUdNRyNw+gR+g4X5vxkg98WMCLToW7vrIsSH7iiFjgPd+0sReHINH
-        zDlYJLej5Mf9owUbRwaOKQIeZVnpIuf9UBb5a4YZYZw0vEOKsrGz3g3MUMJZQiPhBLZlaQ
-        3/pcpz3YeT00BRaeBMlyblH1aRuX174=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-Y-Va4aGRP-2df9MfIxiv7Q-1; Wed, 09 Jun 2021 08:14:20 -0400
-X-MC-Unique: Y-Va4aGRP-2df9MfIxiv7Q-1
-Received: by mail-ed1-f71.google.com with SMTP id z5-20020a05640235c5b0290393974bcf7eso3762119edc.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 05:14:20 -0700 (PDT)
+        id S232726AbhFIMSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 08:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37170 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232476AbhFIMSA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 08:18:00 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38542C06175F
+        for <linux-doc@vger.kernel.org>; Wed,  9 Jun 2021 05:16:06 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 27so19306446pgy.3
+        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 05:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wprdMWfJiXYwt+byCaL17b8Ql6JNBi5HmdAMUTjvSbc=;
+        b=V+MbqtjhsFxJ9XUKWyH9b56cSIZdlel2+2J+6Y0VjDs0KVJP/tVYXUiqHSXhbQWa4T
+         NRBvXHKhwwkgnNsJ2bpdbP5e+ZKvM0r9ZOiN5uvAa1qAzUX7T9Uh6JGu8eRp0iQ+6bTy
+         7/uGiQlRBK19yPMEh1VkiGnTTl34a1ApoBZ7crHxjUqUUAA/v7if1iJcadXbgv+11/rP
+         oVXj4HDLmR4EgDnpECdZqNnw/ioCtWRUsmu83SLvWTqOURAOuK8a9LE/Uof55nQcCnYH
+         +g3rUisaThQgqytwPQnm6x0cHrlXtbn5LZOWe5ZLY/dtsbYrL7pc0eutYOxZef60yA1M
+         ZuMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=77QSgyc+8Sk7HYHiam0rcRrsIJ/0Q1AlHtkTPqxgLeg=;
-        b=YG+JRMbomPlnS2RsnTvqFCMFbnv8T2XHsZJiyT/oXPn7tvbgwR4BfqHYxA+QiIIpMk
-         MlIhpu5GbNgNqTJ4zyYGaTHTObVsM6ArmTbisZoBB/m4LIUcguY2nv//CJjKzuQH52XQ
-         13/T/hyX6IcofjpwcR2gcX4N2tD9M9M4wi7WGP5/+6hfJo59M7ERorbQQwoljiEugrnk
-         OdVeinihYzLn2PEe7gPk+XT5Ozs2fq/TRCKox2S0Ozv7tZ+4WTbnCofnwiQf+DPUgpp/
-         wIlJzwXQIDyNy2dAz8vknSdDwHMlEU9+hIG5/w1oRZXyKwcDBzDCLVmnrSfsWf44RqM7
-         LeJg==
-X-Gm-Message-State: AOAM531l9XDUNlHrU8BAxACh+n71TYE9jowzJ9ELx5+VamdIMhPjTmYN
-        cKDm9HoJHQ6TWnaKpeAut+yzt47GSFvCbtOnylOB/JZCU4C2Ras6bRd9zNqScfozyA7bYoIWo2x
-        Nj1y1z/bqsQ+O7XimvN4A+S2mBQHfdOdicxE0iQQnUwjqMzVFkUk4CGeN+ceTobSOQI1pyuM=
-X-Received: by 2002:a05:6402:3082:: with SMTP id de2mr17956662edb.214.1623240859156;
-        Wed, 09 Jun 2021 05:14:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgQ3/5uZSB81cgZ2oYq3QcOkGNys6k5P1fZOknM8dVYLnNp0EXgn9LjvtdDU4a96tdwdbEbw==
-X-Received: by 2002:a05:6402:3082:: with SMTP id de2mr17956632edb.214.1623240858901;
-        Wed, 09 Jun 2021 05:14:18 -0700 (PDT)
-Received: from x1.bristot.me (host-79-23-205-114.retail.telecomitalia.it. [79.23.205.114])
-        by smtp.gmail.com with ESMTPSA id gv11sm1054485ejb.13.2021.06.09.05.14.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Jun 2021 05:14:18 -0700 (PDT)
-Subject: Re: [PATCH V3 8/9] tracing: Add osnoise tracer
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-References: <cover.1621024265.git.bristot@redhat.com>
- <bd09a2be9cd0cecee86374dbb49235dd2ef9d750.1621024265.git.bristot@redhat.com>
- <20210604172803.527aa070@oasis.local.home>
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-Message-ID: <06d72b7d-4beb-1dff-b537-e7449abf3d4e@redhat.com>
-Date:   Wed, 9 Jun 2021 14:14:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        bh=wprdMWfJiXYwt+byCaL17b8Ql6JNBi5HmdAMUTjvSbc=;
+        b=h8KeeRudHZnIcyR3QKIY/boooxalynOkQjdBnLQA3LXnpyh1nU7raB2mCrEbr3gx6y
+         f7H7wLahdLE5Rhqmbd2pLdYaa7B8iGD/2qRXg7VQpy9L6Wg+MrkCpu3EIgyCtTFYD7/8
+         HnFrVZ4RvbmfsEHzsudYF8IyPlkqhg/wnssQ0lqXIYJJQgsYUg9L30+iE9UChkJSaGfu
+         eDjETKIHTYg/mv3nulKsoRtD9ofLYXp88YVZXkxrRzOZEaEeeZeK/QNOI6dU1EDjbIjk
+         AGhFhLv3x2PwGbfHeMtYbnTjlX/4C4NC4n03cIxNfgJgkLIeedaY9sCYiKNxjLlaLzdE
+         Gziw==
+X-Gm-Message-State: AOAM533loqk75/Xn8NygezcozmcNwxstOMb/BMsfWgF4zDYpio3rxYfc
+        q6E96hTFZ4v3evfd07hp5qzxKg==
+X-Google-Smtp-Source: ABdhPJxOzhPyB/B/fwjQm3fVVbXISdPVlMybZd7K3dy83KhCsPp0ST1pBO2gb286LZ/N8Wmg3LYsRw==
+X-Received: by 2002:a05:6a00:23cf:b029:2d5:302e:dc77 with SMTP id g15-20020a056a0023cfb02902d5302edc77mr4973334pfc.63.1623240964882;
+        Wed, 09 Jun 2021 05:16:04 -0700 (PDT)
+Received: from localhost.localdomain ([139.177.225.254])
+        by smtp.gmail.com with ESMTPSA id h16sm13689224pfk.119.2021.06.09.05.15.59
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Jun 2021 05:16:04 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, chenhuang5@huawei.com, bodeddub@amazon.com,
+        corbet@lwn.net
+Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
+        zhengqi.arch@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH 0/5] Split huge PMD mapping of vmemmap pages
+Date:   Wed,  9 Jun 2021 20:13:05 +0800
+Message-Id: <20210609121310.62229-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-In-Reply-To: <20210604172803.527aa070@oasis.local.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/4/21 11:28 PM, Steven Rostedt wrote:
->> +#ifdef CONFIG_X86_LOCAL_APIC
-> I wonder if we should move this into a separate file, making the
-> __trace_irq_entry() a more name space safe name and have it call that.
-> I have a bit of a distaste for arch specific code in a generic file.
-> 
+In order to reduce the difficulty of code review in series[1]. We disable
+huge PMD mapping of vmemmap pages when that feature is enabled. In this
+series, we do not disable huge PMD mapping of vmemmap pages anymore. We
+will split huge PMD mapping when needed.
 
-I am placing the intel specific file in:
+[1] https://lore.kernel.org/linux-doc/20210510030027.56044-1-songmuchun@bytedance.com/
 
-arch/x86/kernel/trace_osnoise.c
+Muchun Song (5):
+  mm: hugetlb: introduce helpers to preallocate/free page tables
+  mm: hugetlb: introduce helpers to preallocate page tables from bootmem
+    allocator
+  mm: sparsemem: split the huge PMD mapping of vmemmap pages
+  mm: sparsemem: use huge PMD mapping for vmemmap pages
+  mm: hugetlb: introduce CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON
 
-and the kernel/trace/trace_osnoise.h looks like this:
+ Documentation/admin-guide/kernel-parameters.txt |  10 +-
+ arch/x86/mm/init_64.c                           |   8 +-
+ fs/Kconfig                                      |  10 ++
+ include/linux/hugetlb.h                         |  28 ++----
+ include/linux/mm.h                              |   2 +-
+ mm/hugetlb.c                                    |  42 +++++++-
+ mm/hugetlb_vmemmap.c                            | 126 +++++++++++++++++++++++-
+ mm/hugetlb_vmemmap.h                            |  25 +++++
+ mm/memory_hotplug.c                             |   2 +-
+ mm/sparse-vmemmap.c                             |  61 ++++++++++--
+ 10 files changed, 267 insertions(+), 47 deletions(-)
 
-#ifdef CONFIG_X86_LOCAL_APIC
-int osnoise_arch_register(void);
-int osnoise_arch_unregister(void);
-#else /* CONFIG_X86_LOCAL_APIC */
-#define osnoise_arch_register() do {} while (0)
-#define osnoise_arch_unregister() do {} while (0)
-#endif /* CONFIG_X86_LOCAL_APIC */
-
-This can be used by other archs as well...
-
-sound reasonable?
-
--- Daniel
-
-
->> +/**
->> + * trace_intel_irq_entry - record intel specific IRQ entry
->> + */
->> +void trace_intel_irq_entry(void *data, int vector)
->> +{
->> +	__trace_irq_entry(vector);
->> +}
->> +
-
+-- 
+2.11.0
 
