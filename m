@@ -2,453 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D76C48BCF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F79C48BCF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:21:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2237613BE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:17:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E0D66139A
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 13:21:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233081AbhFINT0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 09:19:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38773 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236043AbhFINTY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 09:19:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623244648;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=92YiPexxYpFlIHYIfUzcajyREjX7dCB4H6SLkcvlG4w=;
-        b=U5c/kXUS0XDBT8NhW0YHeetVQeCasV7Ph19lmsqUpPeP8R3jJPuMfX1xbf487Lj3Jq0yuc
-        p0S/Txq2ZJT20BU49u+QLOBo+0ZhZq9z5X2m+kmQ/IjwE2LywrPT6tqMfWLJDz8nAX/tCb
-        kpxEY4QqGKwCWMjR7napl+BO9+xLebs=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-raE05F69OO2nsW2QQyyf1g-1; Wed, 09 Jun 2021 09:17:25 -0400
-X-MC-Unique: raE05F69OO2nsW2QQyyf1g-1
-Received: by mail-oo1-f71.google.com with SMTP id o2-20020a4ad4820000b0290208a2516d36so15510953oos.16
-        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 06:17:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=92YiPexxYpFlIHYIfUzcajyREjX7dCB4H6SLkcvlG4w=;
-        b=L6tLg0ehPAQKtbrp41hCnKLQeBQkabq2FxsMhkSlZcNZQH51y1sEUVmMHILIBurG8g
-         Bgmh3iZkw1GGuzliUttZvlcLD6qpQ+VPGoJvQYxneH/Zuv8j1pP7HGW27BHRhMPcLiIu
-         Y7Uq/kuEPuNiUiska61NUoLT0jiGhFoTAFZymki6BTzYPKlw5aWea8TCBEJPoicKFNHl
-         6avy2Z6NaOFA8RZjhBVElu8+j81aIKJJ0d0+4jEkGCILi3NzTrV2/4tbG5wdWpWNQRgI
-         uzWEzdoowKkkr62SKrluxASD6Mlms5vqC4245UX1RkWlnTNmborR7C4GxowIxjVMUnch
-         nYhg==
-X-Gm-Message-State: AOAM532aSZ0oTDXMqjOJsBy/b4tsqa502Y04lRgwGuzqMigCBhYcGERx
-        zAN6rLA9PpmJ4KbJWZ2KFJUI2/IdFIxudPEFu+BOV0N08WFD/xrpX2cRTLT4+MPLljNq0+E17Pc
-        t9L8frrhuyjoNrRzY6xK5
-X-Received: by 2002:aca:4d3:: with SMTP id 202mr6545503oie.9.1623244644703;
-        Wed, 09 Jun 2021 06:17:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzMJ+0iCPCx8mkO5CsSy6BvJZfsz4zKapNjw/i1ZIan2GL8kux49T18yH2GnmJy7KRCmxj71g==
-X-Received: by 2002:aca:4d3:: with SMTP id 202mr6545486oie.9.1623244644440;
-        Wed, 09 Jun 2021 06:17:24 -0700 (PDT)
-Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id 15sm3434329oij.26.2021.06.09.06.17.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 06:17:24 -0700 (PDT)
-From:   trix@redhat.com
-To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
-        michal.simek@xilinx.com
-Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH 1/7] fpga: dfl: reorganize to subdir layout
-Date:   Wed,  9 Jun 2021 06:17:06 -0700
-Message-Id: <20210609131712.3080827-3-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210609131712.3080827-1-trix@redhat.com>
-References: <20210609131712.3080827-1-trix@redhat.com>
+        id S232931AbhFINXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 09:23:33 -0400
+Received: from vmi485042.contaboserver.net ([161.97.139.209]:59554 "EHLO
+        gentwo.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230497AbhFINXd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Jun 2021 09:23:33 -0400
+Received: by gentwo.de (Postfix, from userid 1001)
+        id A1995B0026B; Wed,  9 Jun 2021 15:21:37 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by gentwo.de (Postfix) with ESMTP id A0782B000A9;
+        Wed,  9 Jun 2021 15:21:37 +0200 (CEST)
+Date:   Wed, 9 Jun 2021 15:21:37 +0200 (CEST)
+From:   Christoph Lameter <cl@gentwo.de>
+To:     Oliver Glitta <glittao@gmail.com>
+cc:     brendanhiggins@google.com, penberg@kernel.org, rientjes@google.com,
+        iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, vbabka@suse.cz,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-mm@kvack.org, elver@google.com,
+        dlatypov@google.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: add documentation for SLUB cache kunit tests
+In-Reply-To: <20210608084740.6282-1-glittao@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2106091512160.60148@gentwo.de>
+References: <20210608084740.6282-1-glittao@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+Some spelling fixes below but it got a bit much when looking through this.
+Maybe rewrite this again for clarity?
 
-Create a dfl/ subdir
-Move dfl-* files to it.
-Add a Kconfig and Makefile
 
-Because FPGA_DFL is now used in dfl/Kconfig in a if/endif
-block, all the other configs in dfl/Kconfig implicitly depend
-on FPGA_DFL.  So the explict dependence can be removed.  Also
-since FPGA_DFL depends on HAS_IOMEM, it can be removed from the
-other configs.
+On Tue, 8 Jun 2021, glittao@gmail.com wrote:
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- MAINTAINERS                                 |  2 +-
- drivers/fpga/Kconfig                        | 80 +-------------------
- drivers/fpga/Makefile                       | 18 +----
- drivers/fpga/dfl/Kconfig                    | 81 +++++++++++++++++++++
- drivers/fpga/dfl/Makefile                   | 19 +++++
- drivers/fpga/{ => dfl}/dfl-afu-dma-region.c |  0
- drivers/fpga/{ => dfl}/dfl-afu-error.c      |  0
- drivers/fpga/{ => dfl}/dfl-afu-main.c       |  0
- drivers/fpga/{ => dfl}/dfl-afu-region.c     |  0
- drivers/fpga/{ => dfl}/dfl-afu.h            |  0
- drivers/fpga/{ => dfl}/dfl-fme-br.c         |  0
- drivers/fpga/{ => dfl}/dfl-fme-error.c      |  0
- drivers/fpga/{ => dfl}/dfl-fme-main.c       |  0
- drivers/fpga/{ => dfl}/dfl-fme-mgr.c        |  0
- drivers/fpga/{ => dfl}/dfl-fme-perf.c       |  0
- drivers/fpga/{ => dfl}/dfl-fme-pr.c         |  0
- drivers/fpga/{ => dfl}/dfl-fme-pr.h         |  0
- drivers/fpga/{ => dfl}/dfl-fme-region.c     |  0
- drivers/fpga/{ => dfl}/dfl-fme.h            |  0
- drivers/fpga/{ => dfl}/dfl-n3000-nios.c     |  0
- drivers/fpga/{ => dfl}/dfl-pci.c            |  0
- drivers/fpga/{ => dfl}/dfl.c                |  0
- drivers/fpga/{ => dfl}/dfl.h                |  0
- 23 files changed, 103 insertions(+), 97 deletions(-)
- create mode 100644 drivers/fpga/dfl/Kconfig
- create mode 100644 drivers/fpga/dfl/Makefile
- rename drivers/fpga/{ => dfl}/dfl-afu-dma-region.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-afu-error.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-afu-main.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-afu-region.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-afu.h (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme-br.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme-error.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme-main.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme-mgr.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme-perf.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme-pr.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme-pr.h (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme-region.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-fme.h (100%)
- rename drivers/fpga/{ => dfl}/dfl-n3000-nios.c (100%)
- rename drivers/fpga/{ => dfl}/dfl-pci.c (100%)
- rename drivers/fpga/{ => dfl}/dfl.c (100%)
- rename drivers/fpga/{ => dfl}/dfl.h (100%)
+> +KUnit tests for SLUB debugging functionality
+> +============================================
+> +
+> +These KUnit tests are used to test some of the SLUB debugging
+> +functionalities.
+functionality.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1be6895a143d2..46ef3af06ba53 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7201,7 +7201,7 @@ L:	linux-fpga@vger.kernel.org
- S:	Maintained
- F:	Documentation/ABI/testing/sysfs-bus-dfl*
- F:	Documentation/fpga/dfl.rst
--F:	drivers/fpga/dfl*
-+F:	drivers/fpga/dfl/
- F:	drivers/uio/uio_dfl.c
- F:	include/linux/dfl.h
- F:	include/uapi/linux/fpga-dfl.h
-diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
-index 33e15058d0dc7..c427b25cc6f7e 100644
---- a/drivers/fpga/Kconfig
-+++ b/drivers/fpga/Kconfig
-@@ -145,85 +145,7 @@ config OF_FPGA_REGION
- 	  Support for loading FPGA images by applying a Device Tree
- 	  overlay.
- 
--config FPGA_DFL
--	tristate "FPGA Device Feature List (DFL) support"
--	select FPGA_BRIDGE
--	select FPGA_REGION
--	depends on HAS_IOMEM
--	help
--	  Device Feature List (DFL) defines a feature list structure that
--	  creates a linked list of feature headers within the MMIO space
--	  to provide an extensible way of adding features for FPGA.
--	  Driver can walk through the feature headers to enumerate feature
--	  devices (e.g. FPGA Management Engine, Port and Accelerator
--	  Function Unit) and their private features for target FPGA devices.
--
--	  Select this option to enable common support for Field-Programmable
--	  Gate Array (FPGA) solutions which implement Device Feature List.
--	  It provides enumeration APIs and feature device infrastructure.
--
--config FPGA_DFL_FME
--	tristate "FPGA DFL FME Driver"
--	depends on FPGA_DFL && HWMON && PERF_EVENTS
--	help
--	  The FPGA Management Engine (FME) is a feature device implemented
--	  under Device Feature List (DFL) framework. Select this option to
--	  enable the platform device driver for FME which implements all
--	  FPGA platform level management features. There shall be one FME
--	  per DFL based FPGA device.
--
--config FPGA_DFL_FME_MGR
--	tristate "FPGA DFL FME Manager Driver"
--	depends on FPGA_DFL_FME && HAS_IOMEM
--	help
--	  Say Y to enable FPGA Manager driver for FPGA Management Engine.
--
--config FPGA_DFL_FME_BRIDGE
--	tristate "FPGA DFL FME Bridge Driver"
--	depends on FPGA_DFL_FME && HAS_IOMEM
--	help
--	  Say Y to enable FPGA Bridge driver for FPGA Management Engine.
--
--config FPGA_DFL_FME_REGION
--	tristate "FPGA DFL FME Region Driver"
--	depends on FPGA_DFL_FME && HAS_IOMEM
--	help
--	  Say Y to enable FPGA Region driver for FPGA Management Engine.
--
--config FPGA_DFL_AFU
--	tristate "FPGA DFL AFU Driver"
--	depends on FPGA_DFL
--	help
--	  This is the driver for FPGA Accelerated Function Unit (AFU) which
--	  implements AFU and Port management features. A User AFU connects
--	  to the FPGA infrastructure via a Port. There may be more than one
--	  Port/AFU per DFL based FPGA device.
--
--config FPGA_DFL_NIOS_INTEL_PAC_N3000
--	tristate "FPGA DFL NIOS Driver for Intel PAC N3000"
--	depends on FPGA_DFL
--	select REGMAP
--	help
--	  This is the driver for the N3000 Nios private feature on Intel
--	  PAC (Programmable Acceleration Card) N3000. It communicates
--	  with the embedded Nios processor to configure the retimers on
--	  the card. It also instantiates the SPI master (spi-altera) for
--	  the card's BMC (Board Management Controller).
--
--config FPGA_DFL_PCI
--	tristate "FPGA DFL PCIe Device Driver"
--	depends on PCI && FPGA_DFL
--	help
--	  Select this option to enable PCIe driver for PCIe-based
--	  Field-Programmable Gate Array (FPGA) solutions which implement
--	  the Device Feature List (DFL). This driver provides interfaces
--	  for userspace applications to configure, enumerate, open and access
--	  FPGA accelerators on the FPGA DFL devices, enables system level
--	  management functions such as FPGA partial reconfiguration, power
--	  management and virtualization with DFL framework and DFL feature
--	  device drivers.
--
--	  To compile this as a module, choose M here.
-+source "drivers/fpga/dfl/Kconfig"
- 
- config FPGA_MGR_ZYNQMP_FPGA
- 	tristate "Xilinx ZynqMP FPGA"
-diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
-index 18dc9885883a2..bda74e54ce390 100644
---- a/drivers/fpga/Makefile
-+++ b/drivers/fpga/Makefile
-@@ -31,20 +31,4 @@ obj-$(CONFIG_XILINX_PR_DECOUPLER)	+= xilinx-pr-decoupler.o
- obj-$(CONFIG_FPGA_REGION)		+= fpga-region.o
- obj-$(CONFIG_OF_FPGA_REGION)		+= of-fpga-region.o
- 
--# FPGA Device Feature List Support
--obj-$(CONFIG_FPGA_DFL)			+= dfl.o
--obj-$(CONFIG_FPGA_DFL_FME)		+= dfl-fme.o
--obj-$(CONFIG_FPGA_DFL_FME_MGR)		+= dfl-fme-mgr.o
--obj-$(CONFIG_FPGA_DFL_FME_BRIDGE)	+= dfl-fme-br.o
--obj-$(CONFIG_FPGA_DFL_FME_REGION)	+= dfl-fme-region.o
--obj-$(CONFIG_FPGA_DFL_AFU)		+= dfl-afu.o
--
--dfl-fme-objs := dfl-fme-main.o dfl-fme-pr.o dfl-fme-error.o
--dfl-fme-objs += dfl-fme-perf.o
--dfl-afu-objs := dfl-afu-main.o dfl-afu-region.o dfl-afu-dma-region.o
--dfl-afu-objs += dfl-afu-error.o
--
--obj-$(CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000)	+= dfl-n3000-nios.o
--
--# Drivers for FPGAs which implement DFL
--obj-$(CONFIG_FPGA_DFL_PCI)		+= dfl-pci.o
-+obj-$(CONFIG_FPGA_DFL) += dfl/
-diff --git a/drivers/fpga/dfl/Kconfig b/drivers/fpga/dfl/Kconfig
-new file mode 100644
-index 0000000000000..1f5ce42f63e44
---- /dev/null
-+++ b/drivers/fpga/dfl/Kconfig
-@@ -0,0 +1,81 @@
-+config FPGA_DFL
-+	tristate "FPGA Device Feature List (DFL) support"
-+	select FPGA_BRIDGE
-+	select FPGA_REGION
-+	depends on HAS_IOMEM
-+	help
-+	  Device Feature List (DFL) defines a feature list structure that
-+	  creates a linked list of feature headers within the MMIO space
-+	  to provide an extensible way of adding features for FPGA.
-+	  Driver can walk through the feature headers to enumerate feature
-+	  devices (e.g. FPGA Management Engine, Port and Accelerator
-+	  Function Unit) and their private features for target FPGA devices.
-+
-+	  Select this option to enable common support for Field-Programmable
-+	  Gate Array (FPGA) solutions which implement Device Feature List.
-+	  It provides enumeration APIs and feature device infrastructure.
-+
-+if FPGA_DFL
-+
-+config FPGA_DFL_FME
-+	tristate "FPGA DFL FME Driver"
-+	depends on HWMON && PERF_EVENTS
-+	help
-+	  The FPGA Management Engine (FME) is a feature device implemented
-+	  under Device Feature List (DFL) framework. Select this option to
-+	  enable the platform device driver for FME which implements all
-+	  FPGA platform level management features. There shall be one FME
-+	  per DFL based FPGA device.
-+
-+config FPGA_DFL_FME_MGR
-+	tristate "FPGA DFL FME Manager Driver"
-+	depends on FPGA_DFL_FME
-+	help
-+	  Say Y to enable FPGA Manager driver for FPGA Management Engine.
-+
-+config FPGA_DFL_FME_BRIDGE
-+	tristate "FPGA DFL FME Bridge Driver"
-+	depends on FPGA_DFL_FME
-+	help
-+	  Say Y to enable FPGA Bridge driver for FPGA Management Engine.
-+
-+config FPGA_DFL_FME_REGION
-+	tristate "FPGA DFL FME Region Driver"
-+	depends on FPGA_DFL_FME
-+	help
-+	  Say Y to enable FPGA Region driver for FPGA Management Engine.
-+
-+config FPGA_DFL_AFU
-+	tristate "FPGA DFL AFU Driver"
-+	help
-+	  This is the driver for FPGA Accelerated Function Unit (AFU) which
-+	  implements AFU and Port management features. A User AFU connects
-+	  to the FPGA infrastructure via a Port. There may be more than one
-+	  Port/AFU per DFL based FPGA device.
-+
-+config FPGA_DFL_NIOS_INTEL_PAC_N3000
-+	tristate "FPGA DFL NIOS Driver for Intel PAC N3000"
-+	select REGMAP
-+	help
-+	  This is the driver for the N3000 Nios private feature on Intel
-+	  PAC (Programmable Acceleration Card) N3000. It communicates
-+	  with the embedded Nios processor to configure the retimers on
-+	  the card. It also instantiates the SPI master (spi-altera) for
-+	  the card's BMC (Board Management Controller).
-+
-+config FPGA_DFL_PCI
-+	tristate "FPGA DFL PCIe Device Driver"
-+	depends on PCI
-+	help
-+	  Select this option to enable PCIe driver for PCIe-based
-+	  Field-Programmable Gate Array (FPGA) solutions which implement
-+	  the Device Feature List (DFL). This driver provides interfaces
-+	  for userspace applications to configure, enumerate, open and access
-+	  FPGA accelerators on the FPGA DFL devices, enables system level
-+	  management functions such as FPGA partial reconfiguration, power
-+	  management and virtualization with DFL framework and DFL feature
-+	  device drivers.
-+
-+	  To compile this as a module, choose M here.
-+
-+endif #FPGA_DFL
-diff --git a/drivers/fpga/dfl/Makefile b/drivers/fpga/dfl/Makefile
-new file mode 100644
-index 0000000000000..724792039026f
---- /dev/null
-+++ b/drivers/fpga/dfl/Makefile
-@@ -0,0 +1,19 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# FPGA Device Feature List (DFL) Support
-+obj-$(CONFIG_FPGA_DFL) += dfl.o
-+obj-$(CONFIG_FPGA_DFL_AFU) += dfl-afu.o
-+obj-$(CONFIG_FPGA_DFL_FME) += dfl-fme.o
-+obj-$(CONFIG_FPGA_DFL_FME_BRIDGE) += dfl-fme-br.o
-+obj-$(CONFIG_FPGA_DFL_FME_MGR) += dfl-fme-mgr.o
-+obj-$(CONFIG_FPGA_DFL_FME_REGION) += dfl-fme-region.o
-+obj-$(CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000) += dfl-n3000-nios.o
-+obj-$(CONFIG_FPGA_DFL_PCI) += dfl-pci.o
-+
-+dfl-fme-objs := dfl-fme-main.o dfl-fme-pr.o dfl-fme-error.o		\
-+                dfl-fme-perf.o
-+dfl-afu-objs := dfl-afu-main.o dfl-afu-region.o dfl-afu-dma-region.o	\
-+                dfl-afu-error.o
-+
-+
-+
-diff --git a/drivers/fpga/dfl-afu-dma-region.c b/drivers/fpga/dfl/dfl-afu-dma-region.c
-similarity index 100%
-rename from drivers/fpga/dfl-afu-dma-region.c
-rename to drivers/fpga/dfl/dfl-afu-dma-region.c
-diff --git a/drivers/fpga/dfl-afu-error.c b/drivers/fpga/dfl/dfl-afu-error.c
-similarity index 100%
-rename from drivers/fpga/dfl-afu-error.c
-rename to drivers/fpga/dfl/dfl-afu-error.c
-diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl/dfl-afu-main.c
-similarity index 100%
-rename from drivers/fpga/dfl-afu-main.c
-rename to drivers/fpga/dfl/dfl-afu-main.c
-diff --git a/drivers/fpga/dfl-afu-region.c b/drivers/fpga/dfl/dfl-afu-region.c
-similarity index 100%
-rename from drivers/fpga/dfl-afu-region.c
-rename to drivers/fpga/dfl/dfl-afu-region.c
-diff --git a/drivers/fpga/dfl-afu.h b/drivers/fpga/dfl/dfl-afu.h
-similarity index 100%
-rename from drivers/fpga/dfl-afu.h
-rename to drivers/fpga/dfl/dfl-afu.h
-diff --git a/drivers/fpga/dfl-fme-br.c b/drivers/fpga/dfl/dfl-fme-br.c
-similarity index 100%
-rename from drivers/fpga/dfl-fme-br.c
-rename to drivers/fpga/dfl/dfl-fme-br.c
-diff --git a/drivers/fpga/dfl-fme-error.c b/drivers/fpga/dfl/dfl-fme-error.c
-similarity index 100%
-rename from drivers/fpga/dfl-fme-error.c
-rename to drivers/fpga/dfl/dfl-fme-error.c
-diff --git a/drivers/fpga/dfl-fme-main.c b/drivers/fpga/dfl/dfl-fme-main.c
-similarity index 100%
-rename from drivers/fpga/dfl-fme-main.c
-rename to drivers/fpga/dfl/dfl-fme-main.c
-diff --git a/drivers/fpga/dfl-fme-mgr.c b/drivers/fpga/dfl/dfl-fme-mgr.c
-similarity index 100%
-rename from drivers/fpga/dfl-fme-mgr.c
-rename to drivers/fpga/dfl/dfl-fme-mgr.c
-diff --git a/drivers/fpga/dfl-fme-perf.c b/drivers/fpga/dfl/dfl-fme-perf.c
-similarity index 100%
-rename from drivers/fpga/dfl-fme-perf.c
-rename to drivers/fpga/dfl/dfl-fme-perf.c
-diff --git a/drivers/fpga/dfl-fme-pr.c b/drivers/fpga/dfl/dfl-fme-pr.c
-similarity index 100%
-rename from drivers/fpga/dfl-fme-pr.c
-rename to drivers/fpga/dfl/dfl-fme-pr.c
-diff --git a/drivers/fpga/dfl-fme-pr.h b/drivers/fpga/dfl/dfl-fme-pr.h
-similarity index 100%
-rename from drivers/fpga/dfl-fme-pr.h
-rename to drivers/fpga/dfl/dfl-fme-pr.h
-diff --git a/drivers/fpga/dfl-fme-region.c b/drivers/fpga/dfl/dfl-fme-region.c
-similarity index 100%
-rename from drivers/fpga/dfl-fme-region.c
-rename to drivers/fpga/dfl/dfl-fme-region.c
-diff --git a/drivers/fpga/dfl-fme.h b/drivers/fpga/dfl/dfl-fme.h
-similarity index 100%
-rename from drivers/fpga/dfl-fme.h
-rename to drivers/fpga/dfl/dfl-fme.h
-diff --git a/drivers/fpga/dfl-n3000-nios.c b/drivers/fpga/dfl/dfl-n3000-nios.c
-similarity index 100%
-rename from drivers/fpga/dfl-n3000-nios.c
-rename to drivers/fpga/dfl/dfl-n3000-nios.c
-diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl/dfl-pci.c
-similarity index 100%
-rename from drivers/fpga/dfl-pci.c
-rename to drivers/fpga/dfl/dfl-pci.c
-diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl/dfl.c
-similarity index 100%
-rename from drivers/fpga/dfl.c
-rename to drivers/fpga/dfl/dfl.c
-diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl/dfl.h
-similarity index 100%
-rename from drivers/fpga/dfl.h
-rename to drivers/fpga/dfl/dfl.h
--- 
-2.26.3
+> +
+> +KUnit tests are used for unit testing in Linux kernel and easy to run,
+> +so it is probably the best choice for this type of tests.
+> +
+> +There are tests, which corrupt redzone, the free objects and the freelist.
+> +Tests are corrupting specific bytes in cache and checking if validation
+> +finds expected number of bugs. Bug reports are silenced.
+"in a SLUB cache"  .... or "in a cache"
 
+finds *the* expected number of ...
+
+> +In order to built and then run this tests you need to switch
+> +option SLUB_KUNIT_TEST on. It is tristate option so it can also
+*the* option
+*a* tristate option
+
+> +be built as a module. This option depends on SLUB_DEBUG and
+> +KUNIT options. By default it is on with all kunit tests.
+> +
+> +Error counting
+> +
+> +To get number of errors discovered in slub is used test API kunit_resource.
+
+What does that mean?
+
+> +In test_init the reference to the integer variable slab_errors is added
+> +to the resource of this tests.
+> +
+> +During slub cache checking always when bug should be reported or fixed function
+> +slab_add_kunit_errors() is called. This function find resource to kunit test
+> +and increment value of data in founded resource, which is slab_errors
+> +variable.
+
+??
+
+> +
+> +Silence bug reports
+> +
+> +The function slab_add_kunit_errors() is returning bool, which is true if there is kunit test
+> +with correct kunit_resource running, to silence bug reports, so they are not printed.
+> +We do not want to correct errors we only want to know they occurred, so these reports
+> +are unnnecessary.
+
+These reports are unnecessary because we do not want to correct errors. We
+only want to know that they occurred.
+
+> +
+> +KASAN option
+> +
+> +Only 2 out of 5 tests are runnig with KASAN option is on.
+
+running
+
+> +The other three tests deliberately modifies non-allocated objects. And KASAN
+
+modify
+
+> +does not detect some errors in the same way as SLUB_DEBUG. So, these tests
+> +does not run when KASAN option is on.
+
+do
+
+> +1. test_clobber_zone
+> +
+> +   SLUB cache with SLUB_REDZONE flag can detects writings after object. This
+> +   functionality is tested here on allocated memory.
+
+... can detect modifying memory locations after the object.
+
+> +
+> +   First, there is allocated memory with SLAB_REDZONE and then the first byte
+> +   after allocated space is modified. Validation founds 2 errors, because of
+> +   the bug and the fix of the memory.
+
+after *the* allocated space. The validation finds 2 errors. One is the
+fact that there is a corrupted redzone and the second due to the repair of
+the redzone.
+
+> +2. test_next_pointer
+> +
+> +   SLUB have list of free objects and the address of the next free object
+> +   is always saved in free object at offset specified in variable offset
+> +   in struct kmem_cache. This test try to corrupt this freelist and
+> +   then correct it.
+
+SLUB *has a* .... is ** saved in a *freed object* at *the* offset ...
+
+> +
+> +   First, there is allocated and freed memory to get a pointer to free object.
+> +   After that, the pointer to next free object is corrupted. The first validation finds
+> +   3 errors. One for corrupted freechain, the second for the wrong count of objects
+> +   in use and the third for fixing the issue. This fix only set number of objects
+> +   in use to a number of all objects minus 1, because the first free object
+> +   was corrupted.
+> +
+> +   Then the free pointer is fixed to his previous value. The second validation finds
+> +   2 errors. One for the wrong count of objects in use and one for fixing this error.
+> +
+> +   Last validation is used to check if all errors were corrected so no error
+> +   is found.
+> +
+> +3. test_first_word
+> +
+> +   SLUB cache with SLAB_POISON flag can detect poisoning free objects. This
+> +   functionality is tested in this test. The test tries to corrupt
+> +   the first byte in freed memory.
+> +
+> +   First of all, memory is allocated and freed to get a pointer to a free object
+> +   and then the first byte is corrupted. After that, validation finds 2 errors,
+> +   one for the bug and the other one for the fix of the memory.
+> +
+> +4. test_clobber_50th_byte
+> +
+> +   In this test SLAB_POISON functionality is tested. The test tries to
+> +   corrupt the 50th byte in freed memory.
+> +
+> +   First, pointer to a free memory is acquired by allocating and freeing memory.
+> +   Then 50th byte is corrupted and validation finds 2 errors for the bug and
+> +   the fix of the memory.
+> +
+> +5. test_clobber_redzone_free
+> +
+> +   This test tests redzone functionality of SLUB cache on a freed object.
+> +
+> +   First, it gets pointer to the free object with allocating and freeing and
+> +   then corrupts the first byte after the freed object. Validation finds
+> +   2 errors for the bug and the fix of the memory.
+> +
+>  Christoph Lameter, May 30, 2007
+>  Sergey Senozhatsky, October 23, 2015
+> --
+> 2.31.1.272.g89b43f80a5
+>
