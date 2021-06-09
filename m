@@ -7,63 +7,63 @@ X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD0BC47095
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 07:47:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0FEFC47095
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 07:49:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E834B6135D
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 07:47:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A91ED61361
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 07:49:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235605AbhFIHto (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 03:49:44 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:39436 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234871AbhFIHto (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 03:49:44 -0400
+        id S237287AbhFIHvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 03:51:22 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:47848 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236113AbhFIHvT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 03:51:19 -0400
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
         (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id BC73B1FD3C;
-        Wed,  9 Jun 2021 07:47:48 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 2ADBA21991;
+        Wed,  9 Jun 2021 07:49:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1623224868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1623224964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=c9hsyRBYM4/TU8eycn2t9pZlFG6OjaXYgibXO5zHeBQ=;
-        b=F4+Wu/rbeO9YKSnnNNtwwgKeb6uMe9SIHmNgpej4HiGcEemmzXiN6sIPtGZw6p0CHkir+E
-        Nk6KcjKeK/vG+taq+dFmMqxvbfllb27PIQOforoQQrpimpW3uMB09IEs3hIoHgQOYEdnsm
-        pmHQymUUuOsgn+YYKFGwtam715Lgnd0=
+        bh=YeaBs+NUty+CWDtESM2SEAwt7NkUS5xAGfH6h7/gPNE=;
+        b=ZMU+maSBKMFXoz89leeXeDQFfatxmjGJ89Pu80LIT6eNXMISKRnlgkrHAnKejhl4YqpDRq
+        R1McsyHVn5DmnBsFiF0ZDNNpFwPsOkBxOMlRJ8MjyfuskJpOQ7c17EkACiiX/+ouFLBJ6H
+        Qsu3uIAc3MHL8zfwP+m7ViBx0NbGfWI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1623224868;
+        s=susede2_ed25519; t=1623224964;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=c9hsyRBYM4/TU8eycn2t9pZlFG6OjaXYgibXO5zHeBQ=;
-        b=wzrpszX+oDLbcQHfh7oNANQFh9q3CRxoZz2OZ5xeFt0xvlQxFb6l4tVab31TUDCEpyCKdP
-        e1N3G2os2AkcYlCQ==
+        bh=YeaBs+NUty+CWDtESM2SEAwt7NkUS5xAGfH6h7/gPNE=;
+        b=T+8c27WotrIv+tQbYS5jZhsmPDhkozhn1s1xwFSji3ue3AuxxmVYL8YaifAcQf5DkSju2Z
+        iNGi6fgk2Cl/7/DA==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        by imap.suse.de (Postfix) with ESMTP id 43643118DD;
-        Wed,  9 Jun 2021 07:47:47 +0000 (UTC)
+        by imap.suse.de (Postfix) with ESMTP id 3274D118DD;
+        Wed,  9 Jun 2021 07:49:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1623224868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1623224964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=c9hsyRBYM4/TU8eycn2t9pZlFG6OjaXYgibXO5zHeBQ=;
-        b=F4+Wu/rbeO9YKSnnNNtwwgKeb6uMe9SIHmNgpej4HiGcEemmzXiN6sIPtGZw6p0CHkir+E
-        Nk6KcjKeK/vG+taq+dFmMqxvbfllb27PIQOforoQQrpimpW3uMB09IEs3hIoHgQOYEdnsm
-        pmHQymUUuOsgn+YYKFGwtam715Lgnd0=
+        bh=YeaBs+NUty+CWDtESM2SEAwt7NkUS5xAGfH6h7/gPNE=;
+        b=ZMU+maSBKMFXoz89leeXeDQFfatxmjGJ89Pu80LIT6eNXMISKRnlgkrHAnKejhl4YqpDRq
+        R1McsyHVn5DmnBsFiF0ZDNNpFwPsOkBxOMlRJ8MjyfuskJpOQ7c17EkACiiX/+ouFLBJ6H
+        Qsu3uIAc3MHL8zfwP+m7ViBx0NbGfWI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1623224868;
+        s=susede2_ed25519; t=1623224964;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=c9hsyRBYM4/TU8eycn2t9pZlFG6OjaXYgibXO5zHeBQ=;
-        b=wzrpszX+oDLbcQHfh7oNANQFh9q3CRxoZz2OZ5xeFt0xvlQxFb6l4tVab31TUDCEpyCKdP
-        e1N3G2os2AkcYlCQ==
+        bh=YeaBs+NUty+CWDtESM2SEAwt7NkUS5xAGfH6h7/gPNE=;
+        b=T+8c27WotrIv+tQbYS5jZhsmPDhkozhn1s1xwFSji3ue3AuxxmVYL8YaifAcQf5DkSju2Z
+        iNGi6fgk2Cl/7/DA==
 Received: from director1.suse.de ([192.168.254.71])
         by imap3-int with ESMTPSA
-        id N+SADCNywGACQQAALh3uQQ
-        (envelope-from <osalvador@suse.de>); Wed, 09 Jun 2021 07:47:47 +0000
-Date:   Wed, 9 Jun 2021 09:47:45 +0200
+        id rpcGCYNywGDBQQAALh3uQQ
+        (envelope-from <osalvador@suse.de>); Wed, 09 Jun 2021 07:49:23 +0000
+Date:   Wed, 9 Jun 2021 09:49:21 +0200
 From:   Oscar Salvador <osalvador@suse.de>
 To:     David Hildenbrand <david@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -79,24 +79,36 @@ Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Pavel Tatashin <pasha.tatashin@soleen.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] memory-hotplug.rst: remove locking details from
- admin-guide
-Message-ID: <YMByIWZ9CleWrVbw@localhost.localdomain>
+Subject: Re: [PATCH v2 2/2] memory-hotplug.rst: complete admin-guide overhaul
+Message-ID: <YMBygcyCM6ruLlat@localhost.localdomain>
 References: <20210608133855.20397-1-david@redhat.com>
- <20210608133855.20397-2-david@redhat.com>
+ <20210608133855.20397-3-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210608133855.20397-2-david@redhat.com>
+In-Reply-To: <20210608133855.20397-3-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 08, 2021 at 03:38:54PM +0200, David Hildenbrand wrote:
-> We have the same content at Documentation/core-api/memory-hotplug.rst
-> and it doesn't fit into the admin-guide. The documentation was
-> accidentially duplicated when merging.
+On Tue, Jun 08, 2021 at 03:38:55PM +0200, David Hildenbrand wrote:
+> The memory hot(un)plug documentation is outdated and incomplete. Most of
+> the content dates back to 2007, so it's time for a major overhaul.
 > 
+> Let's rewrite, reorganize and update most parts of the documentation. In
+> addition to memory hot(un)plug, also add some details regarding
+> ZONE_MOVABLE, with memory hotunplug being one of its main consumers.
+> 
+> Drop the file history, that information can more reliably be had from
+> the git log.
+> 
+> The style of the document is also properly fixed that e.g., "restview"
+> renders it cleanly now.
+> 
+> In the future, we might add some more details about virt users like
+> virtio-mem, the XEN balloon, the Hyper-V balloon and ppc64 dlpar.
+> 
+> Acked-by: Michal Hocko <mhocko@suse.com>
 > Cc: Andrew Morton <akpm@linux-foundation.org>
 > Cc: Oscar Salvador <osalvador@suse.de>
 > Cc: Michal Hocko <mhocko@suse.com>
@@ -112,7 +124,10 @@ On Tue, Jun 08, 2021 at 03:38:54PM +0200, David Hildenbrand wrote:
 > Cc: linux-doc@vger.kernel.org
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 
+I really like this:
+
 Reviewed-by: Oscar Salvador <osalvador@suse.de>
+
 
 -- 
 Oscar Salvador
