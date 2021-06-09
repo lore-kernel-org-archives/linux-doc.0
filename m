@@ -2,302 +2,364 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA711C48BCD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 15:17:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90496C48BCF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 16:05:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7F5D6139A
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 15:17:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E3B06139A
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 16:05:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239288AbhFIPTC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 11:19:02 -0400
-Received: from mail-eopbgr80090.outbound.protection.outlook.com ([40.107.8.90]:23438
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S239228AbhFIPSx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Jun 2021 11:18:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mIKmE0ghTetTUDgQCsUL0VhXgOmGR0FGF+iIO0De+kg7DG9kFAUjAiti8tlQ7OtDGCeIg41X+o0cpnQZ3gTGtu9tt0RzIIZ8ZBwmeuEoq9g+rt8b+bXvoMZI/hc/XDIrw0RJl1UpdI3dLE61rNKTjgTCMJWxMg6TmxjiNov2uKTP20vhJpKyNIjsBTd6r3lDD5BOkA+VXCxxAvIlEGqoByunQ/0u6Nq5e88hp8AeWzH19nAT9GplGy83eHcvHhWlQ5JUh20eOOe1poJwldEY0VU7Rx9NQLUf/G8H6/wva00VWdJU/qK+jS7fQxq5RrHInmYXwa+VP6gXJwZbL5fL7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEB4xA52d2+ZwzXblV37zF8N4CPjkyGKhYIScADcpqs=;
- b=PQKRoFPQMTlVlzMmJW/WZmv2i5jUJmaxZX0xo3d2DWaBeDynBJo88RbyJ0Rg2x2y/3FMZAP3oBockTHTqVmNyCFb+cxG87xF/ioHOyjyKgigIzvt/UY4pmCPecwvYfzdPoig7AF9ktoevY8V4Jw/h44sRxPQDLq07vQyM+Qer/qxx8ITW73oWLFLdUvT6pCIOmpTUqXlNFsVl4iwcYYDl927jrgouYTwsL3bKwAAkVjYIffP8YuvbbFa2txdRuQU/iLfKKhIcGjlHoi2QLOtA4gqIcHZCKeOysdp+jowQKDH35eF+Z+ZPjjpnWmZDrfV6jxI03CVOWtz3ORXP621KA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=plvision.eu; dmarc=pass action=none header.from=plvision.eu;
- dkim=pass header.d=plvision.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plvision.eu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEB4xA52d2+ZwzXblV37zF8N4CPjkyGKhYIScADcpqs=;
- b=p5HLMYMptwG1iR4w79QsYaMTjDjlXO7NJ415rFYAQTCP1PVRxxUDl1eVOiRQNz4SjVwm5YVoKWjDyymCyhaI+I0D5Qya/VLGohihMlNyn8TAftzcAA9F2ezEn6iVkH35lwpyDWP2GfBSq/ZslPytm0wiUiKPnjxM1wvG0RbL0hE=
-Authentication-Results: plvision.eu; dkim=none (message not signed)
- header.d=none;plvision.eu; dmarc=none action=none header.from=plvision.eu;
-Received: from AM0P190MB0738.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:19b::9)
- by AM9P190MB1427.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:3ea::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Wed, 9 Jun
- 2021 15:16:54 +0000
-Received: from AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
- ([fe80::d018:6384:155:a2fe]) by AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
- ([fe80::d018:6384:155:a2fe%9]) with mapi id 15.20.4219.021; Wed, 9 Jun 2021
- 15:16:54 +0000
-From:   Oleksandr Mazur <oleksandr.mazur@plvision.eu>
-To:     oleksandr.mazur@plvision.eu, jiri@nvidia.com, davem@davemloft.net,
-        kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next 11/11] documentation: networking: devlink: add prestera switched driver Documentation
-Date:   Wed,  9 Jun 2021 18:16:01 +0300
-Message-Id: <20210609151602.29004-12-oleksandr.mazur@plvision.eu>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210609151602.29004-1-oleksandr.mazur@plvision.eu>
-References: <20210609151602.29004-1-oleksandr.mazur@plvision.eu>
-Content-Type: text/plain
-X-Originating-IP: [217.20.186.93]
-X-ClientProxiedBy: AM0PR06CA0092.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::33) To AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:19b::9)
+        id S232629AbhFIQHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 12:07:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34333 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232628AbhFIQHG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jun 2021 12:07:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623254711;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=F9+g1I6U91zrPqFexpjaxQ/1X4+oKkXG1hR1XzuO5AM=;
+        b=CB9rgzPgyeNpkc7pPfRNSb9eqREb+9xNVJyo05GumU6MVDcUFNKDo1+JanyChpI3CBbwrG
+        RTak/RSDJS+x0MhSl4mEWrnitV/e/gRF5DFlxo5XF5927GBfNlkEpN4jIviYPP/mF5xoVM
+        5FhN56AdyQM/L5tOOoE5JYA9uMXqH6Y=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-x21c-L66NHKEH-Cpx98xVQ-1; Wed, 09 Jun 2021 12:05:10 -0400
+X-MC-Unique: x21c-L66NHKEH-Cpx98xVQ-1
+Received: by mail-qk1-f198.google.com with SMTP id 14-20020a37060e0000b02903aad32851d2so5354054qkg.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Jun 2021 09:05:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=F9+g1I6U91zrPqFexpjaxQ/1X4+oKkXG1hR1XzuO5AM=;
+        b=o4vA7CeQmNOu4sCnkhjzuRxAowUMB5l2dBjEzKxDf/iX9p93QOds0uLP2CZjfWDHRo
+         x3mglHWwpUu0a8tY/cvRrndX9EeE6JSp/jcMV26XvG5/GCMRO2e1aQkhPtdcTgwv1KGm
+         Q7idjCfICYMULA6wGWh3c7D6wKF5/3D9l0MJPpWkJS6gV37XliA7SMo0W0E84UYQu4PM
+         IaRMWAGWr/Av3cFab0C0RWBR4W0OAnFbLnJgj24lqkOl/aBihKV/stk7TAhIDc2os27k
+         qqT7Xvyxu9jOm9PEK3kmWmquhf8tIA0rnBzo6HHuuORyK63k3OFuLeZ/XixuRKblPC2M
+         Y9/A==
+X-Gm-Message-State: AOAM531/Xo0nWye6Y7/hnNAPVhk/Rz3XbHo3XUBXkVoNzCBswR0wfDb/
+        7cxtzDRpuS1UFlZ8VHalo+J7f/46GY7W5FDfOEmHCTo+Of9RmWgL52C21Dr41yXUQBNYYyf8kQJ
+        Lsd5MNb6rTn/kc52oTR9q
+X-Received: by 2002:ac8:5c11:: with SMTP id i17mr686933qti.64.1623254709459;
+        Wed, 09 Jun 2021 09:05:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKHB25K0M5fq8PrZmQE3smgbxPoTbC7XrVv7VMXvD1wpUPX622YvjCP+XWN7ApOcy6PmFRxw==
+X-Received: by 2002:ac8:5c11:: with SMTP id i17mr686880qti.64.1623254708958;
+        Wed, 09 Jun 2021 09:05:08 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-88-174-93-75-200.dsl.bell.ca. [174.93.75.200])
+        by smtp.gmail.com with ESMTPSA id c68sm307689qkd.112.2021.06.09.09.05.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jun 2021 09:05:08 -0700 (PDT)
+Date:   Wed, 9 Jun 2021 12:05:06 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        rcampbell@nvidia.com, linux-doc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, hughd@google.com,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        hch@infradead.org, bskeggs@redhat.com, jgg@nvidia.com,
+        shakeelb@google.com, jhubbard@nvidia.com, willy@infradead.org,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v10 07/10] mm: Device exclusive memory access
+Message-ID: <YMDmsha6GDtUf3Vs@t490s>
+References: <20210607075855.5084-1-apopple@nvidia.com>
+ <20210607075855.5084-8-apopple@nvidia.com>
+ <YL+4ENiwbn9QAa2V@t490s>
+ <270551728.uXnuCZxQlr@nvdebian>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from omazur.x.ow.s (217.20.186.93) by AM0PR06CA0092.eurprd06.prod.outlook.com (2603:10a6:208:fa::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Wed, 9 Jun 2021 15:16:53 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3c04fb28-6ac5-4224-7bf2-08d92b599d24
-X-MS-TrafficTypeDiagnostic: AM9P190MB1427:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM9P190MB142773F1BFDC5DEE6C0DC424E4369@AM9P190MB1427.EURP190.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uHdTlv4LkyiLr4UkE9FkYfsLPcX7zPHJgwT+PEsXj38rX4LIv0PZ/+S2KNjV1ptpIhzrIyAxNsU0iyRLpZtJ/TsdWBLmnK6R7t24HEmVmgt6KvAeMi2PaGCpbOpyXDRKk9razgS0+uFZDJvpkivk+f4LB6VEcF11eed1SL0PJGdpLrG3kxuX05tQ7SH4+vY2ogK5CUJTN7RSk0Srnnbx1cjy2SpMvWOxTj+jlvciBV7Sfw4jDv27iEyuDX3EEedoOGzCBjJt7F8fnoUexqCwoWHUxYDsmfX6LP3XCsw7bNjUm5XAWfWrQvXfXx9Pm8kzdfggDn/aV9X5uVjqUd3wPbFL2SiPfTSRaguSdNOflElgW/zwulq9maIazdqZvDHv98LB4loVlfcH78Km2s4eVdd2/doAwapb7MD7ZLOriIE/+JioLZkUSewdsMphf6UrfCUa/HYbYnYG/3qhmr8BOuuScqvDRNd+l1hT+1yNMeKKwTqtxR+sQNS7Q7Ja8V8ErzUHSZO/UTGFPCpfOZlrT+xRoJX6rNI07AKq7PfpIfVxYB8/+45vdYgIQmoFHSw4IqiX5YbXo2KpIPW78vhyozMmy6vKDLcn2yB04XEMjYYdNJwscjPljuI2vs5eVwbubj0z0QDB1zDnYTE5Ou6nH7ikLu0n0HjAyJtaJ6OsPaQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0P190MB0738.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(346002)(376002)(396003)(136003)(39830400003)(366004)(83380400001)(956004)(52116002)(2906002)(1076003)(186003)(66556008)(66946007)(16526019)(6506007)(2616005)(6486002)(6666004)(26005)(66476007)(38350700002)(8676002)(36756003)(86362001)(4326008)(6916009)(66574015)(5660300002)(478600001)(44832011)(6512007)(38100700002)(316002)(8936002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?4UpGOH3kumlVdbH/zl6hsKtyP3oRStD3zruO/dd+xJM8HOsRetRQsHitveIY?=
- =?us-ascii?Q?Wi2bsw0BbywdaEKrQgu/UeTlmBtNBtK7MMncYMubVhyWuLuz/ob5CHbvEahe?=
- =?us-ascii?Q?NsQXocSR3iVjAMDa/D2LZ94jLuVAgfeOq0IOe3m7rIB2EbhxUFzAWw1J+IG4?=
- =?us-ascii?Q?E2H0gNkNugT8+lqieyHd9xwy8XGxYlRK2nwMY0LjNX8kp24k0PZFAZUyq9gF?=
- =?us-ascii?Q?6uexiLKF+JJT7sC1E9pkS3UpCP6ioZvimpYm5CZxVxEAhSBLpEHYgrxx+DjU?=
- =?us-ascii?Q?Z70v39Dt7Qmq/Cgq9G+2qB6id+tE5Wigo/s89WO4yqeCCSJyRw/ISrwvBkOb?=
- =?us-ascii?Q?meE3oIJUdwPX0OqiLVIBrqKV0jD1s4fgbV2JzUWd/vgbHJf0UlAWxr/wUMhl?=
- =?us-ascii?Q?X9+UpE5P/PgU3wGBdmiVD376HygWvIDasOaO+KZ10KJ7EZXObPuo9np5yolX?=
- =?us-ascii?Q?L1WyvL1OCZa2XsInbEa/+2z32hNm5qC6t/D5geTF6suQP1O8shpqYiLW+QD2?=
- =?us-ascii?Q?A1PhelbHMt0OPS5I9hN86iPcRWhMnggSTkwBH76cs5+dDgoXOvn4mh1vAoKf?=
- =?us-ascii?Q?rgRM+k7inQcycQ5Wl9u2jt9LEGDJwI0hXZtXdiRYpX0PmBKO/0X11Im6AT5s?=
- =?us-ascii?Q?lKglSQ9lF4Q/pQ2a3jgBsYNN2L9qvmyeIeiyLGlG1NW0PB0MA3Td6Lk1uCYh?=
- =?us-ascii?Q?SuFY72U0IB/JM8pNmCmaa3nwy5YsTCTwOkCFhJ5WPyeyQO03TzNTh1u0UZ5y?=
- =?us-ascii?Q?wQm/SD8ZA8gqgLRrpQsUQ4/6mc0l3y6F9excXCuQ46DClyuPQ6qsNva0MjQv?=
- =?us-ascii?Q?t/fshNIZ44XMIWGqOZSqiKuM36kWhcNX217CLydKivQGx7eennQbppimWkYV?=
- =?us-ascii?Q?0otmKOoGzSdsLrzdDXhpu0wyy4COKLJr6p+nvcpsecZZIS0BHwH5cnw75ZZP?=
- =?us-ascii?Q?n1WTZ8/3j2/OoPnGtyxMoHCi/sAgkp67BY/bzjwI0nzRte1ZGW3KFSQpxiVo?=
- =?us-ascii?Q?Dh+npKb+AyvPa/warmZAeuXfnVQ+qW/2zg94JavNT52yBb65aWq8AOTlYadA?=
- =?us-ascii?Q?rcfWyrAckdZLkVwk2MGe6g+W4S42B1iXGHfbcjVumt/mRJ/knA2uKMUd6EV8?=
- =?us-ascii?Q?svI6sAL/i0kAOXY55ZO8CNKjV81hS+5gj1PRYzLMxhHM2fPlV5oK6JUvVdCd?=
- =?us-ascii?Q?BmnEX+2Rgzt6J/W5MuAP6J5j11sjFoK3uErHe7JxKF83TCgL8jw+eFufCiQe?=
- =?us-ascii?Q?a2D3L+I8dfOnhszhV2ORt3UB7OoNQQP5fLWWwpbKwY4znidBW0Kwl05XbDWR?=
- =?us-ascii?Q?Kyg+jnzh2u9kVq1axWMvBulP?=
-X-OriginatorOrg: plvision.eu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c04fb28-6ac5-4224-7bf2-08d92b599d24
-X-MS-Exchange-CrossTenant-AuthSource: AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2021 15:16:53.9149
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 03707b74-30f3-46b6-a0e0-ff0a7438c9c4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6owVsztwFTXqj01dbK47EQyoDs3SaFTgG4XtA1VEg5yeeJJnKAkTNkIZQVMRXHTBT158DBQJWsruK//JLoE9CCla1iAdT/pNgBDmGAQ5B+4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P190MB1427
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <270551728.uXnuCZxQlr@nvdebian>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the devlink feature prestera switchdev driver supports:
-add description for the support for the per-port devlink Parameters
-(used form storm control);
-add description for the support of the driver-specific devlink traps
-(include both traps with action TRAP and action DROP);
+On Wed, Jun 09, 2021 at 07:38:04PM +1000, Alistair Popple wrote:
+> On Wednesday, 9 June 2021 4:33:52 AM AEST Peter Xu wrote:
+> > On Mon, Jun 07, 2021 at 05:58:52PM +1000, Alistair Popple wrote:
+> > 
+> > [...]
+> > 
+> > > +static bool page_make_device_exclusive_one(struct page *page,
+> > > +             struct vm_area_struct *vma, unsigned long address, void *priv)
+> > > +{
+> > > +     struct mm_struct *mm = vma->vm_mm;
+> > > +     struct page_vma_mapped_walk pvmw = {
+> > > +             .page = page,
+> > > +             .vma = vma,
+> > > +             .address = address,
+> > > +     };
+> > > +     struct make_exclusive_args *args = priv;
+> > > +     pte_t pteval;
+> > > +     struct page *subpage;
+> > > +     bool ret = true;
+> > > +     struct mmu_notifier_range range;
+> > > +     swp_entry_t entry;
+> > > +     pte_t swp_pte;
+> > > +
+> > > +     mmu_notifier_range_init_owner(&range, MMU_NOTIFY_EXCLUSIVE, 0, vma,
+> > > +                                   vma->vm_mm, address, min(vma->vm_end,
+> > > +                                   address + page_size(page)), args->owner);
+> > > +     mmu_notifier_invalidate_range_start(&range);
+> > > +
+> > > +     while (page_vma_mapped_walk(&pvmw)) {
+> > > +             /* Unexpected PMD-mapped THP? */
+> > > +             VM_BUG_ON_PAGE(!pvmw.pte, page);
+> > 
+> > [1]
+> > 
+> > > +
+> > > +             if (!pte_present(*pvmw.pte)) {
+> > > +                     ret = false;
+> > > +                     page_vma_mapped_walk_done(&pvmw);
+> > > +                     break;
+> > > +             }
+> > > +
+> > > +             subpage = page - page_to_pfn(page) + pte_pfn(*pvmw.pte);
+> > > +             address = pvmw.address;
+> > 
+> > I raised a question here previously and didn't get an answer...
+> > 
+> > https://lore.kernel.org/linux-mm/YLDr%2FRyAdUR4q0kk@t490s/
+> 
+> Sorry, I had overlooked that. Will continue the discussion here.
 
-Signed-off-by: Oleksandr Mazur <oleksandr.mazur@plvision.eu>
----
- Documentation/networking/devlink/prestera.rst | 167 ++++++++++++++++++
- 1 file changed, 167 insertions(+)
- create mode 100644 Documentation/networking/devlink/prestera.rst
+No problem.  I also didn't really express clearly last time, I'm happy we can
+discuss this more thoroughly, even if it may be a corner case only.
 
-diff --git a/Documentation/networking/devlink/prestera.rst b/Documentation/networking/devlink/prestera.rst
-new file mode 100644
-index 000000000000..b73d70319344
---- /dev/null
-+++ b/Documentation/networking/devlink/prestera.rst
-@@ -0,0 +1,167 @@
-+.. SPDX-License-Identifier: GPL-2.0
+> 
+> > I think I get your point now and it does look possible that the split page can
+> > still be mapped somewhere else as thp, then having some subpage maintainance
+> > looks necessary.  The confusing part is above [1] you've also got that
+> > VM_BUG_ON_PAGE() assuming it must not be a mapped pmd at all..
+> 
+> Going back I thought your original question was whether subpage != page is
+> possible. My main point was it's possible if we get a thp head. In that case we
+> need to replace all pte's with exclusive entries because I haven't (yet)
+> defined a pmd version of device exclusive entries and also rmap_walk won't deal
+> with tail pages (see below).
+> 
+> > Then I remembered these code majorly come from the try_to_unmap() so I looked
+> > there.  I _think_ what's missing here is something like:
+> > 
+> >         if (flags & TTU_SPLIT_HUGE_PMD)
+> >                 split_huge_pmd_address(vma, address, false, page);
+> > 
+> > at the entry of page_make_device_exclusive_one()?
+> >
+> > That !pte assertion in try_to_unmap() makes sense to me as long as it has split
+> > the thp page first always.  However seems not the case for FOLL_SPLIT_PMD as
+> > you previously mentioned.
+> 
+> At present this is limited to PageAnon pages which have had CoW broken, which I
+> think means there shouldn't be other mappings so I expect the PMD will always
+> have been split into small PTEs mapping subpages by GUP which is what that
+> assertion [1] is checking. I could call split_huge_pmd_address() unconditionally
+> as suggested but see the discussion below.
+
+Yes, I think calling that unconditionally should be enough.
+
+> 
+> > Meanwhile, I also started to wonder whether it's even right to call rmap_walk()
+> > with tail pages...  Please see below.
+> > 
+> > > +
+> > > +             /* Nuke the page table entry. */
+> > > +             flush_cache_page(vma, address, pte_pfn(*pvmw.pte));
+> > > +             pteval = ptep_clear_flush(vma, address, pvmw.pte);
+> > > +
+> > > +             /* Move the dirty bit to the page. Now the pte is gone. */
+> > > +             if (pte_dirty(pteval))
+> > > +                     set_page_dirty(page);
+> > > +
+> > > +             /*
+> > > +              * Check that our target page is still mapped at the expected
+> > > +              * address.
+> > > +              */
+> > > +             if (args->mm == mm && args->address == address &&
+> > > +                 pte_write(pteval))
+> > > +                     args->valid = true;
+> > > +
+> > > +             /*
+> > > +              * Store the pfn of the page in a special migration
+> > > +              * pte. do_swap_page() will wait until the migration
+> > > +              * pte is removed and then restart fault handling.
+> > > +              */
+> > > +             if (pte_write(pteval))
+> > > +                     entry = make_writable_device_exclusive_entry(
+> > > +                                                     page_to_pfn(subpage));
+> > > +             else
+> > > +                     entry = make_readable_device_exclusive_entry(
+> > > +                                                     page_to_pfn(subpage));
+> > > +             swp_pte = swp_entry_to_pte(entry);
+> > > +             if (pte_soft_dirty(pteval))
+> > > +                     swp_pte = pte_swp_mksoft_dirty(swp_pte);
+> > > +             if (pte_uffd_wp(pteval))
+> > > +                     swp_pte = pte_swp_mkuffd_wp(swp_pte);
+> > > +
+> > > +             set_pte_at(mm, address, pvmw.pte, swp_pte);
+> > > +
+> > > +             /*
+> > > +              * There is a reference on the page for the swap entry which has
+> > > +              * been removed, so shouldn't take another.
+> > > +              */
+> > > +             page_remove_rmap(subpage, false);
+> > > +     }
+> > > +
+> > > +     mmu_notifier_invalidate_range_end(&range);
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +/**
+> > > + * page_make_device_exclusive - mark the page exclusively owned by a device
+> > > + * @page: the page to replace page table entries for
+> > > + * @mm: the mm_struct where the page is expected to be mapped
+> > > + * @address: address where the page is expected to be mapped
+> > > + * @owner: passed to MMU_NOTIFY_EXCLUSIVE range notifier callbacks
+> > > + *
+> > > + * Tries to remove all the page table entries which are mapping this page and
+> > > + * replace them with special device exclusive swap entries to grant a device
+> > > + * exclusive access to the page. Caller must hold the page lock.
+> > > + *
+> > > + * Returns false if the page is still mapped, or if it could not be unmapped
+> > > + * from the expected address. Otherwise returns true (success).
+> > > + */
+> > > +static bool page_make_device_exclusive(struct page *page, struct mm_struct *mm,
+> > > +                             unsigned long address, void *owner)
+> > > +{
+> > > +     struct make_exclusive_args args = {
+> > > +             .mm = mm,
+> > > +             .address = address,
+> > > +             .owner = owner,
+> > > +             .valid = false,
+> > > +     };
+> > > +     struct rmap_walk_control rwc = {
+> > > +             .rmap_one = page_make_device_exclusive_one,
+> > > +             .done = page_not_mapped,
+> > > +             .anon_lock = page_lock_anon_vma_read,
+> > > +             .arg = &args,
+> > > +     };
+> > > +
+> > > +     /*
+> > > +      * Restrict to anonymous pages for now to avoid potential writeback
+> > > +      * issues.
+> > > +      */
+> > > +     if (!PageAnon(page))
+> > > +             return false;
+> > > +
+> > > +     rmap_walk(page, &rwc);
+> > 
+> > Here we call rmap_walk() on each page we've got.  If it was thp then IIUC it'll
+> > become the tail pages to walk as the outcome of FOLL_SPLIT_PMD gup (please
+> > refer to the last reply of mine).  However now I'm uncertain whether we can do
+> > rmap_walk on tail page at all...  As rmap_walk_anon() has thp_nr_pages() which
+> > has:
+> > 
+> >         VM_BUG_ON_PGFLAGS(PageTail(page), page);
+> 
+> In either case (FOLL_SPLIT_PMD or not) my understanding is GUP will return a
+> sub/tail page (perhaps I mixed up some terminology in the last thread but I
+> think we're in agreement here).
+
+Aha, I totally missed this when I read last time (of follow_trans_huge_pmd)..
+
+	page += (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
+
+Now I agree it'll always return subpage, even if thp mapped.  And do
+FOLL_SPLIT_PMD makes sense too to do early break on cow pages as you said
+before.
+
+> For thp this means we could end up passing
+> tail pages to rmap_walk(), however it doesn't actually walk them.
+> 
+> Based on the results of previous testing I had done I assumed rmap_walk()
+> filtered out tail pages. It does, and I didn't hit the BUG_ON above, but the
+> filtering was not as deliberate as assumed.
+> 
+> I've gone back and looked at what was happening in my earlier tests and the
+> tail pages get filtered because the VMA is not getting locked in
+> page_lock_anon_vma_read() due to failing this check:
+> 
+> 	anon_mapping = (unsigned long)READ_ONCE(page->mapping);
+> 	if ((anon_mapping & PAGE_MAPPING_FLAGS) != PAGE_MAPPING_ANON)
+> 		goto out;
+> 
+> And now I'm not sure it makes sense to read page->mapping of a tail page. So
+> it might be best if we explicitly ignore any tail pages returned from GUP, at
+> least for now (a future series will improve thp support such as adding a pmd
+> version for exclusive entries).
+
+I feel like it's illegal to access page->mapping of tail pages; I looked at
+what happens if we call page_anon_vma() on a tail page:
+
+struct anon_vma *page_anon_vma(struct page *page)
+{
+	unsigned long mapping;
+
+	page = compound_head(page);
+	mapping = (unsigned long)page->mapping;
+	if ((mapping & PAGE_MAPPING_FLAGS) != PAGE_MAPPING_ANON)
+		return NULL;
+	return __page_rmapping(page);
+}
+
+It'll just take the head's mapping instead.  It makes sense since the tail page
+shouldn't have a different value against the head page, afaiu.
+
+It would be great if thp experts could chim in.  Before that happens, I agree
+with you that a safer approach is to explicitly not walk a tail page for its
+rmap (and I think the rmap of a tail page will be the same of the head
+anyways.. since they seem to share the anon_vma as quoted).
+
+> 
+> > So... for thp mappings, wondering whether we should do normal GUP (without
+> > SPLIT), pass in always normal or head pages into rmap_walk(), but then
+> > unconditionally split_huge_pmd_address() in page_make_device_exclusive_one()?
+> 
+> That could work (although I think GUP will still return tail pages - see
+> follow_trans_huge_pmd() which is called from follow_pmd_mask() in gup).
+
+Agreed.
+
+> The main problem is split_huge_pmd_address() unconditionally calls a mmu
+> notifier so I would need to plumb in passing an owner everywhere which could
+> get messy.
+
+Could I ask why?  split_huge_pmd_address() will notify with CLEAR, so I'm a bit
+confused why we need to pass over the owner.
+
+I thought plumb it right before your EXCLUSIVE notifier init would work?
+
+---8<---
+diff --git a/mm/rmap.c b/mm/rmap.c
+index a94d9aed9d95..360ce86f3822 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -2042,6 +2042,12 @@ static bool page_make_device_exclusive_one(struct page *page,
+        swp_entry_t entry;
+        pte_t swp_pte;
+ 
++       /*
++        * Make sure thps split as device exclusive entries only support pte
++        * level for now.
++        */
++       split_huge_pmd_address(vma, address, false, page);
 +
-+=====================
-+prestera devlink support
-+=====================
-+
-+This document describes the devlink features implemented by the ``prestera``
-+device driver.
-+
-+Parameters (per-port)
-+=====================
-+
-+.. list-table:: Driver-specific parameters (per-port) implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Mode
-+     - Description
-+   * - ``bc_kbyte_per_sec_rate``
-+     - u32
-+     - runtime
-+    - Sets the maximum ingress traffic rate, at which port can
-+      receive broadcast traffic.
-+   * - ``unk_uc_kbyte_per_sec_rate``
-+     - u32
-+     - runtime
-+    - Sets the maximum ingress traffic rate, at which port can
-+      receive unknown unicast traffic.
-+   * - ``unreg_mc_kbyte_per_sec_rate``
-+     - u32
-+     - runtime
-+    - Sets the maximum ingress traffic rate, at which port can
-+      receive unregistered multicast traffic.
-+
-+Driver-specific Traps
-+=====================
-+
-+.. list-table:: List of Driver-specific Traps Registered by ``prestera``
-+   :widths: 5 5 90
-+
-+   * - Name
-+     - Type
-+     - Description
-+.. list-table:: List of Driver-specific Traps Registered by ``prestera``
-+   :widths: 5 5 90
-+
-+   * - Name
-+     - Type
-+     - Description
-+   * - ``arp_bc``
-+     - ``trap``
-+     - Traps ARP broadcast packets (both requests/responses)
-+   * - ``is_is``
-+     - ``trap``
-+     - Traps IS-IS packets
-+   * - ``ospf``
-+     - ``trap``
-+     - Traps OSPF packets
-+   * - ``ip_bc_mac``
-+     - ``trap``
-+     - Traps IPv4 packets with broadcast DA Mac address
-+   * - ``stp``
-+     - ``trap``
-+     - Traps STP BPDU
-+   * - ``lacp``
-+     - ``trap``
-+     - Traps LACP packets
-+   * - ``lldp``
-+     - ``trap``
-+     - Traps LLDP packets
-+   * - ``router_mc``
-+     - ``trap``
-+     - Traps multicast packets
-+   * - ``vrrp``
-+     - ``trap``
-+     - Traps VRRP packets
-+   * - ``dhcp``
-+     - ``trap``
-+     - Traps DHCP packets
-+   * - ``mtu_error``
-+     - ``trap``
-+     - Traps (exception) packets that exceeded port's MTU
-+   * - ``mac_to_me``
-+     - ``trap``
-+     -  Traps packets with switch-port's DA Mac address
-+   * - ``ttl_error``
-+     - ``trap``
-+     - Traps (exception) IPv4 packets whose TTL exceeded
-+   * - ``ipv4_options``
-+     - ``trap``
-+     - Traps (exception) packets due to the malformed IPV4 header options
-+   * - ``ip_default_route``
-+     - ``trap``
-+     - Traps packets that have no specific IP interface (IP to me) and no forwarding prefix
-+   * - ``local_route``
-+     - ``trap``
-+     - Traps packets that have been send to one of switch IP interfaces addresses
-+   * - ``ipv4_icmp_redirect``
-+     - ``trap``
-+     - Traps (exception) IPV4 ICMP redirect packets
-+   * - ``arp_response``
-+     - ``trap``
-+     - Traps ARP replies packets that have switch-port's DA Mac address
-+   * - ``acl_code_0``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 0 (tc pref 0)
-+   * - ``acl_code_1``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 1 (tc pref 1)
-+   * - ``acl_code_2``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 2 (tc pref 2)
-+   * - ``acl_code_3``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 3 (tc pref 3)
-+   * - ``acl_code_4``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 4 (tc pref 4)
-+   * - ``acl_code_5``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 5 (tc pref 5)
-+   * - ``acl_code_6``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 6 (tc pref 6)
-+   * - ``acl_code_7``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 7 (tc pref 7)
-+   * - ``ipv4_bgp``
-+     - ``trap``
-+     - Traps IPv4 BGP packets
-+   * - ``ssh``
-+     - ``trap``
-+     - Traps SSH packets
-+   * - ``telnet``
-+     - ``trap``
-+     - Traps Telnet packets
-+   * - ``icmp``
-+     - ``trap``
-+     - Traps ICMP packets
-+   * - ``rxdma_drop``
-+     - ``drop``
-+     - Drops packets (RxDMA) due to the lack of ingress buffers etc.
-+   * - ``port_no_vlan``
-+     - ``drop``
-+     - Drops packets due to faulty-configured network or due to internal bug (config issue).
-+   * - ``local_port``
-+     - ``drop``
-+     - Drops packets whose decision (FDB entry) is to bridge packet back to the incoming port/trunk.
-+   * - ``invalid_sa``
-+     - ``drop``
-+     - Drops packets with multicast source MAC address.
-+   * - ``illegal_ip_addr``
-+     - ``drop``
-+     - Drops packets with illegal SIP/DIP multicast/unicast addresses.
-+   * - ``illegal_ipv4_hdr``
-+     - ``drop``
-+     - Drops packets with illegal IPV4 header.
-+   * - ``ip_uc_dip_da_mismatch``
-+     - ``drop``
-+     - Drops packets with destination MAC being unicast, but destination IP address being multicast.
-+   * - ``ip_sip_is_zero``
-+     - ``drop``
-+     - Drops packets with zero (0) IPV4 source address.
-+   * - ``met_red``
-+     - ``drop``
-+     - Drops non-conforming packets (dropped by Ingress policer, metering drop), e.g. packet rate exceeded configured bandwith.
+        mmu_notifier_range_init_owner(&range, MMU_NOTIFY_EXCLUSIVE, 0, vma,
+                                      vma->vm_mm, address, min(vma->vm_end,
+                                      address + page_size(page)), args->owner);
+---8<---
+
+Thanks,
+
 -- 
-2.17.1
+Peter Xu
 
