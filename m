@@ -7,28 +7,28 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B737EC47095
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 09:58:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 904C0C48BCF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 10:00:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B60A61375
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 09:58:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F42E610C7
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 10:00:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232603AbhFIKAH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Jun 2021 06:00:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44104 "EHLO mail.kernel.org"
+        id S238545AbhFIKCg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 06:02:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45236 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235816AbhFIKAG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Jun 2021 06:00:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 53BAC61108;
-        Wed,  9 Jun 2021 09:58:11 +0000 (UTC)
+        id S236044AbhFIKCg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Jun 2021 06:02:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 61E986128A;
+        Wed,  9 Jun 2021 10:00:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623232691;
-        bh=LVMyo9Spr1AN6Nc0PzUAUPSDefGf1/zfkI5i4p5A0wA=;
+        s=korg; t=1623232841;
+        bh=IrNl7vfYlp+saZHXReXLrhcdAC1w3K2DQvXRBiZoqE4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nPqr1if+FmVXU775yqSylEGz1BATyFjDIJlwoR356hJWeymL/EKsXJb2ETjze/tJP
-         OMtXuWlPpB1oeeqC8OBJRKW6+KPNlgzgko7lWhHWncZMuPUh4bhCMzTO3y9BIEiRqp
-         0JGSjIxZ/nbWwsTx+lR3LBCzIc1Ervy2TORdmItQ=
-Date:   Wed, 9 Jun 2021 11:58:09 +0200
+        b=1BOCOjMr/rJivnL5uoCS+hChPU6Hs9/5OpwrwnY6ZIDDKPOy+BFK2Ch460O+JcniA
+         C9jPf3kC6NRCFFhISSDMPa3sAciPL4t1dy35eVu4rrd53EVRwa3vUAT+dn/6za47LV
+         pFEKGY1X8QjnGTRPQdZPWHsjiFH8MGNpgr5HTuNo=
+Date:   Wed, 9 Jun 2021 12:00:38 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     trix@redhat.com
 Cc:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
@@ -39,17 +39,18 @@ Cc:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
         linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH 0/7] fpga: reorganize to subdirs
-Message-ID: <YMCQsboQRTQd/AF7@kroah.com>
+Message-ID: <YMCRRm/lB2+gfpS9@kroah.com>
 References: <20210608162340.3010204-1-trix@redhat.com>
+ <20210608162340.3010204-2-trix@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210608162340.3010204-1-trix@redhat.com>
+In-Reply-To: <20210608162340.3010204-2-trix@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 08, 2021 at 09:23:32AM -0700, trix@redhat.com wrote:
+On Tue, Jun 08, 2021 at 09:23:33AM -0700, trix@redhat.com wrote:
 > From: Tom Rix <trix@redhat.com>
 > 
 > The incoming xrt patchset has a toplevel subdir xrt/
@@ -58,12 +59,14 @@ On Tue, Jun 08, 2021 at 09:23:32AM -0700, trix@redhat.com wrote:
 > Because the subdir model scales better, refactor to use it.
 > The discussion wrt xrt is here:
 > https://lore.kernel.org/linux-fpga/68e85a4f-4a10-1ff9-0443-aa565878c855@redhat.com/
+> 
+> Follow drivers/net/ethernet/ which has control configs
+> NET_VENDOR_BLA that map to drivers/net/ethernet/bla
+> Since fpgas do not have many vendors, drop the 'VENDOR' and use
+> FPGA_BLA.
 
-Your series was odd, patches 6 and 7 were not threaded properly.
+Why did we get two 0/7 emails?
 
-Please fix up your emailer and resend so that tools can correctly pick
-them up automatically.
-
-thanks,
+confused,
 
 greg k-h
