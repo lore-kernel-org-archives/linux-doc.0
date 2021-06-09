@@ -2,206 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A22B9C48BCD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 03:23:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D4AC48BCD
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 06:52:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7ED4161351
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 03:23:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD74061352
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Jun 2021 06:52:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234071AbhFIDZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Jun 2021 23:25:22 -0400
-Received: from mail-pj1-f45.google.com ([209.85.216.45]:34761 "EHLO
-        mail-pj1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233222AbhFIDZV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jun 2021 23:25:21 -0400
-Received: by mail-pj1-f45.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso2848111pjx.1;
-        Tue, 08 Jun 2021 20:23:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5FIpJ0BjCdTIn+OKiLnWNMP+aG1s2EJ2sC7+OETtMNk=;
-        b=c2KbIqOzxL+nRvUEvoFsS8TfL0BAE38bQqspFJB4wLToNO2tSsuH+nA7d99PHKebHX
-         daE/aQsk2WhUoJkERVQVcn7Udjj1UofzVFmNyQAmSzoB0DOgLIos439ir9+yyGVNlmGc
-         y+vFEbK7sT2K+pq2nYzhXWnfp+GFXyLl97IL/1OuHAVmU44z4LVZ40cgwtjwIzrjWNC3
-         naC8HUFNWzUGs5EVcM0bVMAzsvu3ahbmSVr2B8S46GGZ4GlmpEDVshK3h3nyHTNEe8Fb
-         gg1xIBTGcJ62miFzahgDBQ+tR6JvWLhQ8bNPbltZ1fud51kGYYhe2ohl8+XdGNB4Q9RI
-         E3cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5FIpJ0BjCdTIn+OKiLnWNMP+aG1s2EJ2sC7+OETtMNk=;
-        b=Qp0VsrSkk88a30yc9B3kJXkuwBz/eEz+77+7iQpwJO/DgXY2upTyQ8d9W8OaorVuVN
-         KEmqqujnBm36+uUClbn7eyIYs4HqiFE7S+CScM8g+3NGxuCMtXOONmy/j/512/il1e83
-         XZOhTJQqpv7aUAmm91nnqjExhwPauq2dQMwiWS3sscCZ5RpLjYYucvfmHt1wLhPZxrI3
-         Gx9mvjEEE2qMQ1NxutyxO+0jT0SWxUNcx65Z2tkJZfS0EHXRHWRgdbuP9CDbnsFVAXPy
-         JoFjuu7mLtVbNq/PZEgv5BEVfAFULEwQO0Vo8vZGm6Z9En6TgbjazjMOLfxe/FdJmKoq
-         g6Yg==
-X-Gm-Message-State: AOAM530nTUBIKvLp1ephMTzo5YNlwtOOaybEGcSIQ1MB/vA+MedzE5vH
-        uIMpSpQDo8mpRLfVlU5lL8T07ifts88ndq1+qH4yY4N+hqDveTPAa7k=
-X-Google-Smtp-Source: ABdhPJwmrQEGKz73lkCKmqJCYqPz8luqFKXeQJtNZVNf6bWX/YGpKRxNVsYoqW3V5GgSiO9J98xv3YHh1mUVtXv27I0=
-X-Received: by 2002:a17:90b:1888:: with SMTP id mn8mr8471180pjb.179.1623208936520;
- Tue, 08 Jun 2021 20:22:16 -0700 (PDT)
+        id S232973AbhFIGyQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Jun 2021 02:54:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49094 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231660AbhFIGyP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Jun 2021 02:54:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F40D661249;
+        Wed,  9 Jun 2021 06:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623221541;
+        bh=1NOcR9X1qrsVWC8pZ+WOBsJYlerWmKCJZFjAHZSyi1g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=R3Ua7SSrAmPcigjQENQSeeEMj920XMPbd0mRAH+B4DHPNXP+taIOYwYUWcVIXb5j6
+         VJBySmzsOYZnbE6P4kMoE9ZvUpFBLiddGWhEYtU+E0KEUzEdWHkJqeLVtgBH6jO4C9
+         Pe9x2UVR5RoSXUB4d6262LpkrrGlAOAE5RSKB4ZbL931VU3fcHDPQIgBFXazdDNmx0
+         KYGm7I3vStPQPXah/NfmgtdSVOkJw8ewGPxvh3kYk2hvG8vZe26iLuJ3PqURc/rI07
+         p6tkwWjdfIcQ6IB7Wn8wiS2wG0e2oDGZCpnQAvL+zgWVSStPrtFhj2bz5Vv7w2pP3G
+         OCNYfrxKsGSKw==
+Date:   Wed, 9 Jun 2021 09:52:08 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v3 8/9] mm: replace CONFIG_NEED_MULTIPLE_NODES with
+ CONFIG_NUMA
+Message-ID: <YMBlGBxaWDPV1ouT@kernel.org>
+References: <20210608091316.3622-1-rppt@kernel.org>
+ <20210608091316.3622-9-rppt@kernel.org>
+ <20210608172544.d9bf17549565d866fbb18451@linux-foundation.org>
 MIME-Version: 1.0
-References: <20210605120504.40246-1-src.res@email.cn>
-In-Reply-To: <20210605120504.40246-1-src.res@email.cn>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Wed, 9 Jun 2021 11:22:05 +0800
-Message-ID: <CAMU9jJqRBdKgjUZYL1itw9rz+-v2AFTv87NtGj7HCEah=4eZCA@mail.gmail.com>
-Subject: Re: [PATCH v3] docs/zh_CN: create new translations for zh_CN/dev-tools/testing-overview
-To:     Hu Haowen <src.res@email.cn>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Wu X.C." <bobwxc@email.cn>, Bernard Zhao <bernard@vivo.com>,
-        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210608172544.d9bf17549565d866fbb18451@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgSGFvd2VuDQoNClRoYW5rIHlvdSBmb3IgeW91ciB0cmFuc2xhdGlvbu+8gQ0KDQpIdSBIYW93
-ZW4gPHNyYy5yZXNAZW1haWwuY24+IOS6jjIwMjHlubQ25pyINeaXpeWRqOWFrSDkuIvljYg4OjEz
-5YaZ6YGT77yaDQo+DQo+IENyZWF0ZSBuZXcgdHJhbnNsYXRpb25zIGZvciBkZXYtdG9vbHMvdGVz
-dGluZy1vdmVydmlldy5yc3QgYW5kIGxpbmsgaXQNCj4gdG8gZGV2LXRvb2xzL2luZGV4LnJzdCB3
-aXRoIFRPRE9MaXN0IG1vZGlmaWNhdGlvbnMuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IEh1IEhhb3dl
-biA8c3JjLnJlc0BlbWFpbC5jbj4NCj4gLS0tDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2Rl
-di10b29scy9pbmRleC5yc3QgICAgfCAgIDUgKw0KPiAgLi4uL3poX0NOL2Rldi10b29scy90ZXN0
-aW5nLW92ZXJ2aWV3LnJzdCAgICAgIHwgMTEwICsrKysrKysrKysrKysrKysrKw0KPiAgMiBmaWxl
-cyBjaGFuZ2VkLCAxMTUgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rldi10b29scy90ZXN0aW5nLW92ZXJ2aWV3LnJz
-dA0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2
-LXRvb2xzL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rldi10
-b29scy9pbmRleC5yc3QNCj4gaW5kZXggZmQ3M2M0Nzk5MTdiLi42NDI0NTkwZWEzODIgMTAwNjQ0
-DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rldi10b29scy9pbmRl
-eC5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2LXRvb2xz
-L2luZGV4LnJzdA0KPiBAQCAtMTEsNiArMTEsOSBAQA0KPiAg55uu5YmN6L+Z5Lqb5paH5qGj5bey
-57uP5pW055CG5Zyo5LiA6LW377yM5LiN6ZyA6KaB5YaN6Iqx6LS56aKd5aSW55qE57K+5Yqb44CC
-DQo+ICDmrKLov47ku7vkvZXooaXkuIHjgIINCj4NCj4gK+acieWFs+a1i+ivleS4k+eUqOW3peWF
-t+eahOeugOimgeamgui/sO+8jOWPguingQ0KPiArRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMvdHJh
-bnNsYXRpb25zL3poX0NOL3Rlc3Rpbmctb3ZlcnZpZXcucnN0DQo+ICsNCj4gIC4uIGNsYXNzOjog
-dG9jLXRpdGxlDQo+DQo+ICAgICAgICAgICAg55uu5b2VDQo+IEBAIC0xOSw2ICsyMiw3IEBADQo+
-ICAgICA6bWF4ZGVwdGg6IDINCj4NCj4gICAgIGdjb3YNCj4gKyAgIHRlc3Rpbmctb3ZlcnZpZXcN
-Cj4NCj4gIFRvZG9saXN0Og0KPg0KPiBAQCAtMjksNiArMzMsNyBAQCBUb2RvbGlzdDoNCj4gICAt
-IHVic2FuDQo+ICAgLSBrbWVtbGVhaw0KPiAgIC0ga2NzYW4NCj4gKyAtIGtmZW5jZQ0KPiAgIC0g
-Z2RiLWtlcm5lbC1kZWJ1Z2dpbmcNCj4gICAtIGtnZGINCj4gICAtIGtzZWxmdGVzdA0KPiBkaWZm
-IC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2LXRvb2xzL3Rlc3Rp
-bmctb3ZlcnZpZXcucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2LXRv
-b2xzL3Rlc3Rpbmctb3ZlcnZpZXcucnN0DQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4
-IDAwMDAwMDAwMDAwMC4uYTI3NDZjODEwMzNiDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2LXRvb2xzL3Rlc3Rpbmctb3ZlcnZpZXcu
-cnN0DQo+IEBAIC0wLDAgKzEsMTEwIEBADQo+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
-R1BMLTIuMA0KPiArDQo+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4g
-Kw0KPiArOk9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL2Rldi10b29scy90ZXN0aW5nLW92ZXJ2aWV3
-LnJzdA0KPiArOlRyYW5zbGF0b3I6IOiDoeeak+aWhyBIdSBIYW93ZW4gPHNyYy5yZXNAZW1haWwu
-Y24+DQo+ICsNCj4gKz09PT09PT09PT09PQ0KPiAr5YaF5qC45rWL6K+V5oyH5Y2XDQo+ICs9PT09
-PT09PT09PT0NCj4gKw0KPiAr5pyJ6K645aSa5LiN5ZCM55qE5bel5YW35Y+v5Lul55So5LqO5rWL
-6K+VTGludXjlhoXmoLjvvIzlm6DmraTkuobop6Pku4DkuYjml7blgJnkvb/nlKjlroPku6zlj6/o
-g70NCmhlcmUgb3JpZ2luIGRvYzogVGhlcmUgYXJlIGEgbnVtYmVyIG9mIGRpZmZlcmVudCB0b29s
-cyBmb3IgdGVzdGluZyB0aGUNCkxpbnV4IGtlcm5lbCwgc28ga25vd2luZyB3aGVuIHRvIHVzZSAq
-ZWFjaCBvZiB0aGVtKiBjYW4gYmUgYQ0KY2hhbGxlbmdlLg0KDQpob3cgYWJvdXQ/DQog5pyJ6K64
-5aSa5LiN5ZCM55qE5bel5YW35Y+v5Lul55So5LqO5rWL6K+VTGludXjlhoXmoLjvvIzlm6DmraTm
-kJ7mmI7nmb3kvb/nlKjmr4/kuIDnp43lt6XlhbfnmoTml7bmnLrlj6/og73mmK/kuIDkuKrmjJHm
-iJjjgIINCg0KWW91ciB0cmFuc2xhdGlvbiBpcyBmaW5lLCBzbyBkZWNpZGUgZm9yIHlvdXJzZWxm
-IHdoaWNoIG9uZSB5b3Ugd2FudCB0byB1c2UuDQoNClJldmlld2VkLWJ5OiBZYW50ZW5nIFNpIDxz
-aXlhbnRlbmdAbG9vbmdzb24uY24+DQoNClRoYW5rc++8jA0KWWFudGVuZw0KDQo+ICvlvojlm7Dp
-mr7jgILmnKzmlofmoaPnspfnlaXmpoLov7DkuoblroPku6zkuYvpl7TnmoTljLrliKvvvIzlubbp
-mJDph4rkuoblroPku6zmmK/mgI7moLfns4XlkIjlnKjkuIDotbcNCj4gK+eahOOAgg0KPiArDQo+
-ICvnvJblhpnlkozov5DooYzmtYvor5UNCj4gKz09PT09PT09PT09PT09DQo+ICsNCj4gK+Wkp+Wk
-muaVsOWGheaguOa1i+ivlemDveaYr+eUqGtzZWxmdGVzdOaIlktVbml05qGG5p625LmL5LiA57yW
-5YaZ55qE44CC5a6D5Lus6YO96K6p6L+Q6KGM5rWL6K+VDQo+ICvmm7TliqDnroDljJbvvIzlubbk
-uLrnvJblhpnmlrDmtYvor5Xmj5DkvpvluK7liqnjgIINCj4gKw0KPiAr5aaC5p6c5L2g5oOz6aqM
-6K+B5YaF5qC455qE6KGM5Li64oCU4oCU5bCk5YW25piv5YaF5qC455qE54m55a6a6YOo5YiG4oCU
-4oCU6YKj5L2g5bCx6KaB5L2/55Soa1VuaXTmiJYNCj4gK2tzZWxmdGVzdOOAgg0KPiArDQo+ICtL
-VW5pdOWSjGtzZWxmdGVzdOeahOWMuuWIqw0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAr
-DQo+ICsuLiBub3RlOjoNCj4gKyAgICAg55Sx5LqO5pys5paH5q615Lit6YOo5YiG5pyv6K+t5bCa
-5peg6L6D5aW955qE5a+55bqU5Lit5paH6YeK5LmJ77yM5Y+v6IO95a+86Ie05LiO5Y6f5paH5ZCr
-5LmJDQo+ICsgICAgIOWtmOWcqOS6m+iuuOW3ruW8gu+8jOWboOatpOW7uuiuruivu+iAhee7k+WQ
-iOWOn+aWhw0KPiArICAgICDvvIhEb2N1bWVudGF0aW9uL2Rldi10b29scy90ZXN0aW5nLW92ZXJ2
-aWV3LnJzdO+8iei+heWKqemYheivu+OAgg0KPiArDQo+ICsgICAgIOWmguWvuemDqOWIhue/u+iv
-keacieW8guiuruaIluacieabtOWlveeahOe/u+ivkeaEj+inge+8jOasoui/juiBlOezu+ivkeiA
-hei/m+ihjOS/ruiuouOAgg0KPiArDQo+ICtLVW5pdO+8iERvY3VtZW50YXRpb24vZGV2LXRvb2xz
-L2t1bml0L2luZGV4LnJzdO+8ieaYr+eUqOS6juKAnOeZveeuseKAnea1iw0KPiAr6K+V55qE5LiA
-5Liq5a6M5pW055qE5YaF5qC45YaF6YOo57O757uf77ya5Zug5Li65rWL6K+V5Luj56CB5piv5YaF
-5qC455qE5LiA6YOo5YiG77yM5omA5Lul5a6D6IO95aSf6K6/DQo+ICvpl67nlKjmiLfnqbrpl7Tk
-uI3og73orr/pl67liLDnmoTlhoXpg6jnu5PmnoTlkozlip/og73jgIINCj4gKw0KPiAr5Zug5q2k
-77yMS1VuaXTmtYvor5XmnIDlpb3pkojlr7nlhoXmoLjkuK3ovoPlsI/nmoTjgIHoh6rljIXlkKvn
-moTpg6jliIbvvIzku6Xkvr/og73lpJ/ni6znq4vlnLDmtYsNCj4gK+ivleOAguKAnOWNleWFg+KA
-nea1i+ivleeahOamguW/teS6puaYr+WmguatpOOAgg0KPiArDQo+ICvmr5TlpoLvvIzkuIDkuKpL
-VW5pdOa1i+ivleWPr+iDvea1i+ivleS4gOS4quWNleeLrOeahOWGheaguOWKn+iDve+8iOeUmuiH
-s+mAmui/h+S4gOS4quWHveaVsOa1i+ivlQ0KPiAr5LiA5Liq5Y2V5LiA55qE5Luj56CB6Lev5b6E
-77yM5L6L5aaC5LiA5Liq6ZSZ6K+v5aSE55CG5qGI5L6L77yJ77yM6ICM5LiN5piv5pW05Liq5Zyw
-5rWL6K+V5LiA5Liq54m55oCn44CCDQo+ICsNCj4gK+i/meS5n+S9v+W+l0tVbml05rWL6K+V5p6E
-5bu65ZKM6L+Q6KGM6Z2e5bi45Zyw5b+r77yM5LuO6ICM6IO95aSf5L2c5Li65byA5Y+R5rWB56iL
-55qE5LiA6YOo5YiG6KKrDQo+ICvpopHnuYHlnLDov5DooYzjgIINCj4gKw0KPiAr5pyJ5YWz5pu0
-6K+m57uG55qE5LuL57uN77yM6K+35Y+C6ZiFS1VuaXTmtYvor5Xku6PnoIHpo47moLzmjIfljZcN
-Cj4gK0RvY3VtZW50YXRpb24vZGV2LXRvb2xzL2t1bml0L3N0eWxlLnJzdA0KPiArDQo+ICtrc2Vs
-ZnRlc3TvvIhEb2N1bWVudGF0aW9uL2Rldi10b29scy9rc2VsZnRlc3QucnN077yJ77yM55u45a+5
-5p2l6K+077yM5aSn6YeP55SoDQo+ICvkuo7nlKjmiLfnqbrpl7TvvIzlubbkuJTpgJrluLjmtYvo
-r5XnlKjmiLfnqbrpl7TnmoTohJrmnKzmiJbnqIvluo/jgIINCj4gKw0KPiAr6L+Z5L2/5b6X57yW
-5YaZ5aSN5p2C55qE5rWL6K+V77yM5oiW6ICF6ZyA6KaB5pON5L2c5pu05aSa5YWo5bGA57O757uf
-54q25oCB55qE5rWL6K+V5pu05Yqg5a655piT77yI6K+4DQo+ICvlpoLnlJ/miJDov5vnqIvkuYvn
-sbvvvInjgILnhLbogIzvvIzku45rc2VsZnRlc3Tnm7TmjqXosIPnlKjlhoXmoLjlh73mlbDmmK/k
-uI3ooYznmoTjgILov5nkuZ/lsLENCj4gK+aEj+WRs+edgOWPquaciemAmui/h+afkOenjeaWueW8
-j++8iOWmguezu+e7n+iwg+eUqOOAgempseWKqOiuvuWkh+OAgeaWh+S7tuezu+e7n+etie+8ieWv
-vOWHuuWIsOS6hueUqA0KPiAr5oi356m66Ze055qE5YaF5qC45Yqf6IO95omN6IO95L2/55Soa3Nl
-bGZ0ZXN05p2l5rWL6K+V44CC5Li65q2k77yM5pyJ5Lqb5rWL6K+V5YyF5ZCr5LqG5LiA5Liq5Ly0
-DQo+ICvnlJ/nmoTlhoXmoLjmqKHlnZfnlKjkuo7lr7zlh7rmm7TlpJrnmoTkv6Hmga/lkozlip/o
-g73jgILkuI3ov4fvvIzlr7nkuo7ln7rmnKzkuIrmiJbogIXlrozlhajlnKjlhoXmoLgNCj4gK+S4
-rei/kOihjOeahOa1i+ivle+8jEtVbml05Y+v6IO95piv5pu05L2z5bel5YW344CCDQo+ICsNCj4g
-K2tzZWxmdGVzdOS5n+WboOatpOmdnuW4uOmAguWQiOS6juWFqOmDqOWKn+iDveeahOa1i+ivle+8
-jOWboOS4uui/meS6m+WKn+iDveS8muWwhuaOpeWPo+aatOmcsuWIsA0KPiAr55So5oi356m66Ze0
-77yM5LuO6ICM6IO95aSf6KKr5rWL6K+V77yM6ICM5LiN5piv5bGV546w5a6e546w57uG6IqC44CC
-4oCcc3lzdGVt4oCd5rWL6K+V5ZKMDQo+ICvigJxlbmQtdG8tZW5k4oCd5rWL6K+V5Lqm5piv5aaC
-5q2k44CCDQo+ICsNCj4gK+avlOWmgu+8jOS4gOS4quaWsOeahOezu+e7n+iwg+eUqOW6lOivpeS8
-tOmaj+acieaWsOeahGtzZWxmdGVzdOa1i+ivleOAgg0KPiArDQo+ICvku6PnoIHopobnm5bnjofl
-t6XlhbcNCj4gKz09PT09PT09PT09PT09DQo+ICsNCj4gK+aUr+aMgeS4pOenjeS4jeWQjOS7o+eg
-geS5i+mXtOeahOimhueblueOh+a1i+mHj+W3peWFt+OAguWug+S7rOWPr+S7peeUqOadpemqjOiv
-geS4gOmhuea1i+ivleaJp+ihjOeahA0KPiAr56Gu5YiH5Ye95pWw5oiW5Luj56CB6KGM44CC6L+Z
-5pyJ5Yqp5LqO5Yaz5a6a5YaF5qC46KKr5rWL6K+V5LqG5aSa5bCR77yM5oiW55So5p2l5p+l5om+
-5ZCI6YCC55qE5rWL6K+VDQo+ICvkuK3msqHmnInopobnm5bliLDnmoTmnoHnq6/mg4XlhrXjgIIN
-Cj4gKw0KPiArOmRvYzpgZ2NvdmAg5pivR0ND55qE6KaG55uW546H5rWL6K+V5bel5YW377yM6IO9
-55So5LqO6I635Y+W5YaF5qC455qE5YWo5bGA5oiW5q+P5Liq5qih5Z2X55qEDQo+ICvopobnm5bn
-jofjgILkuI5LQ09W5LiN5ZCM55qE5piv77yM6L+Z5Liq5bel5YW35LiN6K6w5b2V5q+P5Liq5Lu7
-5Yqh55qE6KaG55uW546H44CC6KaG55uW546H5pWw5o2u5Y+vDQo+ICvku6XpgJrov4dkZWJ1Z2Zz
-6K+75Y+W77yM5bm26YCa6L+H5bi46KeE55qEZ2NvduW3peWFt+i/m+ihjOino+mHiuOAgg0KPiAr
-DQo+ICs6ZG9jOmBrY292YCDmmK/og73lpJ/mnoTlu7rlnKjlhoXmoLjkuYvkuK3vvIznlKjkuo7l
-nKjmr4/kuKrku7vliqHnmoTlsYLpnaLmjZXmjYnopobnm5bnjofnmoTkuIANCj4gK+S4quWKn+iD
-veOAguWboOatpO+8jOWug+WvueS6juaooeeziua1i+ivleWSjOWFs+S6juS7o+eggeaJp+ihjOac
-n+mXtOS/oeaBr+eahOWFtuWug+aDheWGtemdnuW4uOacieeUqO+8jA0KPiAr5q+U5aaC5Zyo5LiA
-5Liq5Y2V5LiA57O757uf6LCD55So6YeM5L2/55So5a6D5bCx5b6I5pyJ55So44CCDQo+ICsNCj4g
-K+WKqOaAgeWIhuaekOW3peWFtw0KPiArPT09PT09PT09PT09DQo+ICsNCj4gK+WGheaguOS5n+aU
-r+aMgeiuuOWkmuWKqOaAgeWIhuaekOW3peWFt++8jOeUqOS7peajgOa1i+ato+WcqOi/kOihjOea
-hOWGheaguOS4reWHuueOsOeahOWkmuenjeexu+Wei+eahA0KPiAr6Zeu6aKY44CC6L+Z5Lqb5bel
-5YW36YCa5bi45q+P5Liq5Y675a+75om+5LiA57G75LiN5ZCM55qE57y66Zm377yM5q+U5aaC6Z2e
-5rOV5YaF5a2Y6K6/6Zeu77yM5pWw5o2u56ueDQo+ICvkuonnrYnlubblj5Hpl67popjvvIzmiJbm
-lbTlnovmuqLlh7rnrYnlhbbku5bmnKrlrprkuYnooYzkuLrjgIINCj4gKw0KPiAr5aaC5LiL5omA
-56S677yaDQo+ICsNCj4gKyoga21lbWxlYWvmo4DmtYvlj6/og73nmoTlhoXlrZjms4TmvI/jgILl
-j4LpmIUNCj4gKyAgRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMva21lbWxlYWsucnN0DQo+ICsqIEtB
-U0FO5qOA5rWL6Z2e5rOV5YaF5a2Y6K6/6Zeu77yM5aaC5pWw57uE6LaK55WM5ZKM6YeK5pS+5ZCO
-6YeN55So77yIVUFG77yJ44CC5Y+C6ZiFDQo+ICsgIERvY3VtZW50YXRpb24vZGV2LXRvb2xzL2th
-c2FuLnJzdA0KPiArKiBVQlNBTuajgOa1i0PmoIflh4bkuK3mnKrlrprkuYnnmoTooYzkuLrvvIzl
-poLmlbTlnovmuqLlh7rjgILlj4LpmIUNCj4gKyAgRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMvdWJz
-YW4ucnN0DQo+ICsqIEtDU0FO5qOA5rWL5pWw5o2u56ue5LqJ44CC5Y+C6ZiFIERvY3VtZW50YXRp
-b24vZGV2LXRvb2xzL2tjc2FuLnJzdA0KPiArKiBLRkVOQ0XmmK/kuIDkuKrkvY7lvIDplIDnmoTl
-hoXlrZjpl67popjmo4DmtYvlmajvvIzmr5RLQVNBTuabtOW/q+S4lOiDveiiq+eUqOS6juaJuemH
-j+aehOW7uuOAgg0KPiArICDlj4LpmIUgRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMva2ZlbmNlLnJz
-dA0KPiArKiBsb2NrZGVw5piv5LiA5Liq6ZSB5a6a5q2j56Gu5oCn5qOA5rWL5Zmo44CC5Y+C6ZiF
-DQo+ICsgIERvY3VtZW50YXRpb24vbG9ja2luZy9sb2NrZGVwLWRlc2lnbi5yc3QNCj4gKyog6Zmk
-5q2k5Lul5aSW77yM5Zyo5YaF5qC45Lit6L+Y5pyJ5LiA5Lqb5YW25a6D55qE6LCD6K+V5bel5YW3
-77yM5aSn5aSa5pWw6IO95ZyoDQo+ICsgIGxpYi9LY29uZmlnLmRlYnVnIOS4reaJvuWIsOOAgg0K
-PiArDQo+ICvov5nkupvlt6XlhbflgL7lkJHkuo7lr7nlhoXmoLjov5vooYzmlbTkvZPmtYvor5Xv
-vIzlubbkuJTkuI3lg49rc2VsZnRlc3TlkoxLVW5pdOS4gOagt+KAnOS8oOmAkuKAneOAgg0KPiAr
-5a6D5Lus5Y+v5Lul6YCa6L+H5Zyo5ZCv55So6L+Z5Lqb5bel5YW35pe26L+Q6KGM5YaF5qC45rWL
-6K+V5Lul5LiOa3NlbGZ0ZXN05oiWS1VuaXTnu5PlkIjotbfmnaXvvJoNCj4gK+S5i+WQjuS9oOWw
-seiDveehruS/nei/meS6m+mUmeivr+WcqOa1i+ivlei/h+eoi+S4remDveS4jeS8muWPkeeUn+S6
-huOAgg0KPiArDQo+ICvkuIDkupvlt6XlhbfkuI5LVW5pdOWSjGtzZWxmdGVzdOmbhuaIkO+8jOW5
-tuS4lOWcqOajgOa1i+WIsOmXrumimOaXtuS8muiHquWKqOaJk+aWrea1i+ivleOAgg0KPiArDQo+
-IC0tDQo+IDIuMjUuMQ0KPg0K
+On Tue, Jun 08, 2021 at 05:25:44PM -0700, Andrew Morton wrote:
+> On Tue,  8 Jun 2021 12:13:15 +0300 Mike Rapoport <rppt@kernel.org> wrote:
+> 
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > After removal of DISCINTIGMEM the NEED_MULTIPLE_NODES and NUMA
+> > configuration options are equivalent.
+> > 
+> > Drop CONFIG_NEED_MULTIPLE_NODES and use CONFIG_NUMA instead.
+> > 
+> > Done with
+> > 
+> > 	$ sed -i 's/CONFIG_NEED_MULTIPLE_NODES/CONFIG_NUMA/' \
+> > 		$(git grep -wl CONFIG_NEED_MULTIPLE_NODES)
+> > 	$ sed -i 's/NEED_MULTIPLE_NODES/NUMA/' \
+> > 		$(git grep -wl NEED_MULTIPLE_NODES)
+> > 
+> > with manual tweaks afterwards.
+> > 
+> > ...
+> >
+> > --- a/include/linux/mmzone.h
+> > +++ b/include/linux/mmzone.h
+> > @@ -987,7 +987,7 @@ extern int movable_zone;
+> >  #ifdef CONFIG_HIGHMEM
+> >  static inline int zone_movable_is_highmem(void)
+> >  {
+> > -#ifdef CONFIG_NEED_MULTIPLE_NODES
+> > +#ifdef CONFIG_NUMA
+> >  	return movable_zone == ZONE_HIGHMEM;
+> >  #else
+> >  	return (ZONE_MOVABLE - 1) == ZONE_HIGHMEM;
+> 
+> I dropped this hunk - your "mm/mmzone.h: simplify is_highmem_idx()"
+> removed zone_movable_is_highmem().  
+
+Ah, right.
+Thanks!
+
+-- 
+Sincerely yours,
+Mike.
