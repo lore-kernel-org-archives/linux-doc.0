@@ -2,137 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 843FAC48BE0
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 21:46:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2FD8C48BD1
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 21:49:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BF86613E9
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 21:46:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F747611CD
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 21:49:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231233AbhFJVr5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Jun 2021 17:47:57 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:36764 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231251AbhFJVrq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 17:47:46 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id B40811FD6E;
-        Thu, 10 Jun 2021 21:45:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1623361548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0dJf9A44fOsNQRcptr99YUCdZcfG8RkwmiFR8dPcaQI=;
-        b=utl1VB5z3h8t+2yxfaPPuNg8Pkh058mu8BF0N+N0g+2/WUM1lB9ZGiy4q0j05e4qDx3uwc
-        8q65w+JShEChM7q4KiOE/Bn7YTLkE5SJ6O13CcB0Dsvmdw5DsBqWQhdb6GB1yhkT3w3s1a
-        mng4BvZnhgtcBUU2dmYKHbDydA5thcI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1623361548;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0dJf9A44fOsNQRcptr99YUCdZcfG8RkwmiFR8dPcaQI=;
-        b=gIZobz0WTM7vUWgExrrwsmh6u9r8lJsFb47Kc6aIAlTO+LpZyWPNmag+/9I5Il4LiuaTV9
-        SqIXIMKeGDw81uAw==
-Received: from echidna.suse.de (unknown [10.163.26.142])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 95E8DA3B8A;
-        Thu, 10 Jun 2021 21:45:48 +0000 (UTC)
-From:   David Disseldorp <ddiss@suse.de>
-To:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     David Disseldorp <ddiss@suse.de>
-Subject: [PATCH 3/3] docs: remove mention of "crc" cpio format support
-Date:   Thu, 10 Jun 2021 23:45:25 +0200
-Message-Id: <20210610214525.13891-3-ddiss@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210610214525.13891-1-ddiss@suse.de>
-References: <20210610214525.13891-1-ddiss@suse.de>
+        id S230077AbhFJVvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Jun 2021 17:51:44 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:42856 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230160AbhFJVvo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 17:51:44 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15AKA32Z089808;
+        Thu, 10 Jun 2021 21:49:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=vcpvz9Y7CnFtMg9i9PpfbNfNvhEzwlTRdOc/dm2Cvb4=;
+ b=SccqZzFd1dmdHIFpeeLv5+rVXfnXo8UTpjkIs6+Lq+FfuL8URfWdCeWXQA+9zn3NN2OI
+ /zquY2ngOFSB5e5A+r+Pmo4sydmv9swuO1s9cCvInOPtOKQp3SZdTvztUrZYmFpmyd26
+ 3Ml04j43Prm07Tq6SLygJdxRlNIPY11HOSRMNvtVvegcxSV2WjmZVsHcXyR6Hjyu+4cY
+ t3OXtLXEfWcbx2id6Jk8Ljd3yHSYlhhqv0dzQbDbeZsCdN7PPnGLIIVnDt4ZL6eBKhEN
+ 3QFQqtjlZRAVK9HHYwKOvEzmjanzlPvYxq6nqJXZLET/3/Ngs43qgOTAcLod2kEOoWNb BQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2120.oracle.com with ESMTP id 39017nn59k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Jun 2021 21:49:23 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15AKATT8068314;
+        Thu, 10 Jun 2021 21:49:23 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
+        by userp3030.oracle.com with ESMTP id 38yxcwxkgm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Jun 2021 21:49:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SYTiOyJZd0GyEAljkzKTRySHsmDaP+F2DTrWO2SyItgaXexVNa6FFZMvCl7FidwIqs9kkV75B9W5/t7BZPp9u3QuvMSqt0NcNFntxuHRLlrl/kd+jyvVfs1C1A/x3FTCyIr0InUFDrv5OQEY8rd4Y/P7PyXUKY0J+tZJlz6o7kKBFUjaB7BLAOLhCUGbQsdh0aeesGuM/FWZSpimZ35sqa05vG+qTJkpBH2Qo802o3fPKbh/eVSailbsZmqg+y02UJRpVZdUoFwwj8pE+KUPM95Jl2eIXhpZKHDYe0pO4YqkLt8Ul/TrPVh92UEI6/GydxeBB8/QNG1UOkr+tZz+mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vcpvz9Y7CnFtMg9i9PpfbNfNvhEzwlTRdOc/dm2Cvb4=;
+ b=khFrEujzYiPai7hsrvTv/kqjNwcqkWr9aLLDJK409H1aoSKaiweiun7E88R/fooTUhnH/AeMGTKIogZ2eXw+FSj1LAdBNXHR/lR6VTIVmxQfIqVFzHYlJ25z9/n5hroSxMaD9gCjAuQCd2/KpHF6Qsgpb0/4RycvxYfn1Q/8B6+2w8/fEyM2e2exCrYyPqjdzD0Jj+ROKCVQDfZ00DLXUluUk9HvVPZ1flQp3Acc6N9eDohC5ndclxKNV0kFC/0J9tSAIEgFEcz4Pk6i9sUzEwtVULXUIdxfWrMkeNqnyRBmG/jfxws7g47TzZWTiDvX9lKxt0bQ8aazeVB+bgriSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vcpvz9Y7CnFtMg9i9PpfbNfNvhEzwlTRdOc/dm2Cvb4=;
+ b=XZOUXcGI2Ze0+RRyzthqrZdKfW6mmmjq8Bi3vnHuirekYVJh07YFst6oLEZFA4HhUUy89a1VLAgeizeoRlkADoOGh69y+vunjpcY1LoaDFzoB2CZqnd9MMG+rI2rlAdws/BOg/5byt2gfFE2XU0ZjSpxIVZWRTBT/jMv1PoxvY0=
+Authentication-Results: kvack.org; dkim=none (message not signed)
+ header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+ by BY5PR10MB4369.namprd10.prod.outlook.com (2603:10b6:a03:204::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Thu, 10 Jun
+ 2021 21:49:21 +0000
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::5d11:ae6d:24b6:e838]) by BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::5d11:ae6d:24b6:e838%3]) with mapi id 15.20.4219.023; Thu, 10 Jun 2021
+ 21:49:21 +0000
+Subject: Re: [PATCH 1/5] mm: hugetlb: introduce helpers to preallocate/free
+ page tables
+To:     Muchun Song <songmuchun@bytedance.com>, akpm@linux-foundation.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, chenhuang5@huawei.com, bodeddub@amazon.com,
+        corbet@lwn.net
+Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
+        zhengqi.arch@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20210609121310.62229-1-songmuchun@bytedance.com>
+ <20210609121310.62229-2-songmuchun@bytedance.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <1db48b66-8b99-ab4d-4b15-b4dcb7084e8d@oracle.com>
+Date:   Thu, 10 Jun 2021 14:49:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+In-Reply-To: <20210609121310.62229-2-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [50.38.35.18]
+X-ClientProxiedBy: MWHPR10CA0006.namprd10.prod.outlook.com (2603:10b6:301::16)
+ To BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.112] (50.38.35.18) by MWHPR10CA0006.namprd10.prod.outlook.com (2603:10b6:301::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 21:49:20 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: acd4cc55-0392-4479-86d9-08d92c599ac0
+X-MS-TrafficTypeDiagnostic: BY5PR10MB4369:
+X-Microsoft-Antispam-PRVS: <BY5PR10MB43692B4CC63AD1754661EFB7E2359@BY5PR10MB4369.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:747;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kvXtXkVRBDGHbjSyZMyZmVvJXtwsQqAjWTsyWOAuimmg4aeY+i0hK0CX2U71o7rTNW5snWWxARWtrER/amjrHQYN293dLUaCYc+Z+IPfAQ/z6q+34SdapZT6MAjoMAbpCP1XfmuUNqDFJjej9N0eeukxWHnSpT3ydauZLmbTWWd64d53594mlq1+xB//jtk7Y63LUJ+pl0jJ5ofcC06qTXWxa/03BRixYG9gwfDV71bdMNkAANXfK1Iz9M4s1gEWVVRbZSVN2SMdR1EKaqnn3v5wRLo4VwBq4phoy689c7XyU9udBGlrfaHoskBV96c7Hb9Kc/IYjikQ30e/SvlbuaJDWQSgpSjSgILrS0lSOVhPEwmcvngBeHy7T2gduaU6w9kpV/s67YBnK92Gmu1NMQtl6zp2zs5hdNJey1WrgbEl2EJ0VIMcWNe6BBo3pqSQ4BVqIki7KM78ckLwa26SG7inCtKA+/98fAYZlvhK/ngmduNYx9xt/gaQZpFABaozETybO5fJRR4mmxGRCCvAasxiKapB3HVppec1L5uPJdmp5jxIRmMbyovIXsuUr8l+pPWRzW61TiKTssRFr21O2dy+cU4FXRDEtEYisO4oGTL1ppS4R8CC1VpCSWbsLf8yysJSbBs1a20OtB33NPsYiW6IiSEVyyeLGmJxsmvysw7yZ9aEG6rSmoOznhoKj0SKR4v5V5SUkHBb3r6nH1ssQA8p7zxSJJQiS0G1bD5aFxk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(376002)(136003)(39860400002)(366004)(346002)(5660300002)(38350700002)(52116002)(4744005)(38100700002)(31696002)(2616005)(316002)(16576012)(53546011)(2906002)(7416002)(36756003)(66476007)(8676002)(16526019)(186003)(44832011)(478600001)(66556008)(31686004)(26005)(66946007)(86362001)(6486002)(4326008)(8936002)(956004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TlplemNLVldYUjNSY3hmcjJybnZERTlZb3dZTEdqY0oxQk5aWnJ0akxJMlJC?=
+ =?utf-8?B?di9JanF3V29BbVVpKzBnZG94YitYMlZnb0lueEJFS2dCbnpNTGVPclRIb1hY?=
+ =?utf-8?B?SUFXTFdtUHBJRWI0bEtuMW5lM0hJMG1ZUUZSa2RuQnZtRnlpOEowL3VXamgr?=
+ =?utf-8?B?R1M1NTRadDZHMVRzS01oM3VQeVgvQXkrSUxjTytSRnFKdnh1TmRxYXJneVMz?=
+ =?utf-8?B?TTdMc1BVSUh3ZEJKeitnanZZSzhmWWkwbHg3RzdJc283NStBQUh6dzRKWitK?=
+ =?utf-8?B?MXlqcUU4QTBvZ3JpVUNCN09tR1dPcWxlU01JQ2swNmt5azUvN1RUbTA3SUlO?=
+ =?utf-8?B?VFJuL0F6MkZFWVl5WUNvRmVXa1B1aUtVYjFua05qdmJUaFhTVDF2MUFzYkZk?=
+ =?utf-8?B?VmpiQUlobU1QazBTV1ErVWtSQXB3SitFUlc2cnNVV29OQVdZamg2a0JpWjk5?=
+ =?utf-8?B?dmJodEl5N2RjSTVBWkFHWkhKUEVVOHUxYzVsbU1tS0NtVERoSUxXK2g3QW9X?=
+ =?utf-8?B?cTlxRnBpSG9aM0M1aWFra2wyQmVlVUdncjcyRzY0ZmpGU0RmK3NvQitBZnIw?=
+ =?utf-8?B?bUNsaWhvaU5SUzFONitkeW5nQmRyYTlBUm5UUmZjdmpOQmw2NFRhSjBhUGhY?=
+ =?utf-8?B?S29KQll6bzZqMWRSS3pCY1JocEdBZ1N5aURmT0JkczZoREVYY1ZQT0ZWUFVH?=
+ =?utf-8?B?SFlzSFZydlRHYjRjVmhzR2ZmNHlhY1lGN2loNUsyNFlWQTJKRUZjRHQxSGkr?=
+ =?utf-8?B?THRKVlgyRi9Zb0owdXptMlNaTWNpYVZnLzRlVGNEMHM0YWlIemRRUnI0Ym8y?=
+ =?utf-8?B?NVVsVzV2WnIzSkxjM2RrRXduVVdwUWIyS0NaTVhGTEZQRFh0aTkvaGdpbHlH?=
+ =?utf-8?B?WFY4MG03a3IzRXUrQlRjZHJ2TEFLSUkyMnZQcVB5NmdiLzZSTlUrWlh1bjMv?=
+ =?utf-8?B?YzZpRHFoNi9jUlBjWS8zUitwaWF5MkxjelBkM2NFdDZJWXdxSDVNVjJoSHZU?=
+ =?utf-8?B?NU5VVjFjZ1NqZHpLcUNCNWI0Rmg4QTRNMDdiL3BmRDYzUXFPRTArNnUyeGc1?=
+ =?utf-8?B?STAya3JrV2VWc2FyTUJtT1ZjNUlwSnFjeGIxT1lPZFlDdzgrb3UyQVpobFlx?=
+ =?utf-8?B?eXJPUElJYzdIaTJnbUo0eUlPY2hELzF5M3pCWVBwYWVQZ3JiZkdiVHBpZGFX?=
+ =?utf-8?B?dE1uUktwUXNuVEVzbi84Y0t2SE5GNnFYOHZUcWNlUHdyYlI2SkRhMDc1RmQ5?=
+ =?utf-8?B?NHJCSnFQRE5DTmpudGNWb1RyM2dXa25HdlljbHZuWkJ4bHBRRmNrclFJdmRC?=
+ =?utf-8?B?MUZxMmJoVVJUbHNJc29ndERVWktoUWhNZzZSYWxZa0pTN09NeDFkVWFUT3Q4?=
+ =?utf-8?B?MTd4ZHBueHJkT2NCK1NDL3I1SWJtMGpseURuQ2hJa0I2Zkg0S3JiQ0M1ajdp?=
+ =?utf-8?B?bnJIcEFCbXI1S1VUSk5BWk55ZDNOa1krYVNtYUZvOUg2cWdrNDJQcUpBSW1L?=
+ =?utf-8?B?V3ZFdEdxNkF1T3RKd042RlQ0dUdYcWxLT3BkOHVjRkRvTGlFbUorUkxWT2x3?=
+ =?utf-8?B?QWlyV211VVJ5REpWVHd2ZFFLVGx4QXUwZEsyV0dyU1YxSWZQMDRGdjAvRnlB?=
+ =?utf-8?B?cGszZWdVd3Vza2t0WVZIanBya3pVVTJFSVNUY3pIRVB2eTFtM2Vqc1Y4OUxV?=
+ =?utf-8?B?YWl4eFd0TjlsYTBKM2JERGFuVSsyK2wzT0pBUDkzMVZ6Mmc0Nk5FRmVSdTFZ?=
+ =?utf-8?Q?92FzCAxgnOXFKIm0sl/sS74aTqfTMPTsEoX0Ue4?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: acd4cc55-0392-4479-86d9-08d92c599ac0
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 21:49:21.1707
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wveLUuS7uZEvFcC+Coh1iwDGGBVT3SUML4Wf4G3NHRH6MY9CoycVibaCOfWzhxYGdHNXMStyQXPFEWHrY7iIQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4369
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10011 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 mlxscore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106100130
+X-Proofpoint-GUID: 7pOckIdD5UmbGgXQrHLbLPut61gheFuP
+X-Proofpoint-ORIG-GUID: 7pOckIdD5UmbGgXQrHLbLPut61gheFuP
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10011 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 spamscore=0
+ mlxlogscore=999 phishscore=0 impostorscore=0 suspectscore=0 clxscore=1015
+ mlxscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106100130
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-init/initramfs.c only supports extraction of cpio archives carrying the
-"newc" header magic ("070701"). Remove statements indicating support for
-the "crc" cpio format.
+On 6/9/21 5:13 AM, Muchun Song wrote:
+> On some architectures (e.g. x86_64 and arm64), vmemmap pages are usually
+> mapped with huge pmd. We will disable the huge pmd mapping of vmemmap
+> pages when the feature of "Free vmemmap pages of HugeTLB page" is enabled.
+> This can affect the non-HugeTLB pages. What we want is only mapping the
+> vmemmap pages associated with HugeTLB pages with base page. We can split
+> the huge pmd mapping of vmemmap pages when freeing vmemmap pages of
+> HugeTLB page. But we need to preallocate page tables. In this patch, we
+> introduce page tables allocationg/freeing helpers.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>  mm/hugetlb_vmemmap.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  mm/hugetlb_vmemmap.h | 12 ++++++++++++
+>  2 files changed, 66 insertions(+)
 
-Signed-off-by: David Disseldorp <ddiss@suse.de>
----
- .../early-userspace/buffer-format.rst         | 25 +++++++------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
+These helper routines are pretty straight forward.
 
-diff --git a/Documentation/driver-api/early-userspace/buffer-format.rst b/Documentation/driver-api/early-userspace/buffer-format.rst
-index 7f74e301fdf3..95e66606b605 100644
---- a/Documentation/driver-api/early-userspace/buffer-format.rst
-+++ b/Documentation/driver-api/early-userspace/buffer-format.rst
-@@ -14,10 +14,10 @@ is different.  The initramfs buffer contains an archive which is
- expanded into a ramfs filesystem; this document details the format of
- the initramfs buffer format.
- 
--The initramfs buffer format is based around the "newc" or "crc" CPIO
--formats, and can be created with the cpio(1) utility.  The cpio
--archive can be compressed using gzip(1).  One valid version of an
--initramfs buffer is thus a single .cpio.gz file.
-+The initramfs buffer format is based around the "newc" CPIO format, and
-+can be created with the cpio(1) utility.  The cpio archive can be
-+compressed using gzip(1).  One valid version of an initramfs buffer is
-+thus a single .cpio.gz file.
- 
- The full format of the initramfs buffer is defined by the following
- grammar, where::
-@@ -40,9 +40,9 @@ grammar, where::
- 
- 
- In human terms, the initramfs buffer contains a collection of
--compressed and/or uncompressed cpio archives (in the "newc" or "crc"
--formats); arbitrary amounts zero bytes (for padding) can be added
--between members.
-+compressed and/or uncompressed cpio archives (in the "newc" format);
-+arbitrary amounts zero bytes (for padding) can be added between
-+members.
- 
- The cpio "TRAILER!!!" entry (cpio end-of-archive) is optional, but is
- not ignored; see "handling of hard links" below.
-@@ -55,7 +55,7 @@ by the ASCII string "000012ac"):
- ============= ================== ==============================================
- Field name    Field size	 Meaning
- ============= ================== ==============================================
--c_magic	      6 bytes		 The string "070701" or "070702"
-+c_magic	      6 bytes		 The string "070701"
- c_ino	      8 bytes		 File inode number
- c_mode	      8 bytes		 File mode and permissions
- c_uid	      8 bytes		 File uid
-@@ -68,8 +68,7 @@ c_min	      8 bytes		 Minor part of file device number
- c_rmaj	      8 bytes		 Major part of device node reference
- c_rmin	      8 bytes		 Minor part of device node reference
- c_namesize    8 bytes		 Length of filename, including final \0
--c_chksum      8 bytes		 Checksum of data field if c_magic is 070702;
--				 otherwise zero
-+c_chksum      8 bytes		 Ignored; reserved for unsupported "crc" format
- ============= ================== ==============================================
- 
- The c_mode field matches the contents of st_mode returned by stat(2)
-@@ -78,12 +77,6 @@ on Linux, and encodes the file type and file permissions.
- The c_filesize should be zero for any file which is not a regular file
- or symlink.
- 
--The c_chksum field contains a simple 32-bit unsigned sum of all the
--bytes in the data field.  cpio(1) refers to this as "crc", which is
--clearly incorrect (a cyclic redundancy check is a different and
--significantly stronger integrity check), however, this is the
--algorithm used.
--
- If the filename is "TRAILER!!!" this is actually an end-of-archive
- marker; the c_filesize for an end-of-archive marker must be zero.
- 
+Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
 -- 
-2.26.2
-
+Mike Kravetz
