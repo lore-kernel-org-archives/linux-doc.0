@@ -2,66 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE04C47094
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 15:53:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06D2AC48BD1
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 16:49:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46BA5613CB
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 15:53:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5D046108E
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 16:49:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231715AbhFJPzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Jun 2021 11:55:24 -0400
-Received: from mail.satchell.net ([99.65.194.97]:47400 "EHLO mail.satchell.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231542AbhFJPzY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Jun 2021 11:55:24 -0400
-X-Greylist: delayed 471 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Jun 2021 11:55:24 EDT
-Received: from c7-i5.satchell.net (unknown [10.1.1.36])
-        by mail.satchell.net (Postfix) with ESMTP id 9CD21601EF;
-        Thu, 10 Jun 2021 08:45:37 -0700 (PDT)
-Reply-To: list@satchell.net
-To:     linux-doc@vger.kernel.org, netdev@vger.kernel.org
-From:   Stephen Satchell <list@satchell.net>
-Subject: [PATCH docs-next] sysctl -- rp_format completed description with
- filter criteria
-Message-ID: <b143fc72-afda-1570-7ac1-1e90461a9859@satchell.net>
-Date:   Thu, 10 Jun 2021 08:45:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S230391AbhFJQvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Jun 2021 12:51:17 -0400
+Received: from mail-out.m-online.net ([212.18.0.9]:33987 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231410AbhFJQvP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 12:51:15 -0400
+X-Greylist: delayed 568 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Jun 2021 12:51:14 EDT
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 4G18p640mYz1qtQ2;
+        Thu, 10 Jun 2021 18:39:42 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 4G18p626MNz1qr43;
+        Thu, 10 Jun 2021 18:39:42 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id UWj4Zzhp75L1; Thu, 10 Jun 2021 18:39:40 +0200 (CEST)
+X-Auth-Info: uOvEB6x6tEBbFu4rjQpXHZh4ihXcEo6qHZ3hLcNwGzcQDLB3o4xhP8eA0qGjKLTp
+Received: from igel.home (ppp-46-244-161-203.dynamic.mnet-online.de [46.244.161.203])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Thu, 10 Jun 2021 18:39:40 +0200 (CEST)
+Received: by igel.home (Postfix, from userid 1000)
+        id 031D22C36A3; Thu, 10 Jun 2021 18:39:39 +0200 (CEST)
+From:   Andreas Schwab <schwab@linux-m68k.org>
+To:     Alex Ghiti <alex@ghiti.fr>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
+        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v5 1/3] riscv: Move kernel mapping outside of linear
+ mapping
+References: <mhng-90fff6bd-5a70-4927-98c1-a515a7448e71@palmerdabbelt-glaptop>
+        <76353fc0-f734-db47-0d0c-f0f379763aa0@ghiti.fr>
+        <a58c4616-572f-4a0b-2ce9-fd00735843be@ghiti.fr>
+        <7b647da1-b3aa-287f-7ca8-3b44c5661cb8@ghiti.fr>
+X-Yow:  Quick, sing me the BUDAPEST NATIONAL ANTHEM!!
+Date:   Thu, 10 Jun 2021 18:39:39 +0200
+In-Reply-To: <7b647da1-b3aa-287f-7ca8-3b44c5661cb8@ghiti.fr> (Alex Ghiti's
+        message of "Sun, 18 Apr 2021 07:38:09 -0400")
+Message-ID: <87fsxphdx0.fsf@igel.home>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
----
-  Documentation/networking/ip-sysctl.rst | 7 +++++++
-  1 file changed, 7 insertions(+)
+On Apr 18 2021, Alex Ghiti wrote:
 
-diff --git a/Documentation/networking/ip-sysctl.rst 
-b/Documentation/networking/ip-sysctl.rst
-index c2ecc98..0ab017b 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -1443,6 +1443,13 @@ rp_filter - INTEGER
-  	  and if the source address is not reachable via any interface
-  	  the packet check will fail.
+> To sum up, there are 3 patches that fix this series:
+>
+> https://patchwork.kernel.org/project/linux-riscv/patch/20210415110426.2238-1-alex@ghiti.fr/
+>
+> https://patchwork.kernel.org/project/linux-riscv/patch/20210417172159.32085-1-alex@ghiti.fr/
+>
+> https://patchwork.kernel.org/project/linux-riscv/patch/20210418112856.15078-1-alex@ghiti.fr/
 
-+	rp_filter will examine the source address of an incoming IP
-+	packet by performing an FIB lookup.  In loose mode (value 2),
-+	the packet is rejected if the source address is neither
-+	UNICAST nor LOCAL(when interface allows) nor IPSEC.  For
-+	strict mode (value 1) the interface indicated by the FIB table
-+	entry must also match the interface on which the packet arrived.
-+
-  	Current recommended practice in RFC3704 is to enable strict mode
-  	to prevent IP spoofing from DDos attacks. If using asymmetric routing
-  	or other complicated routing, then loose mode is recommended.
+Has this been fixed yet?  Booting is still broken here.
+
+Andreas.
+
 -- 
-1.8.3.1
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
