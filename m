@@ -2,337 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F087C48BD1
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 21:01:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84563C48BD1
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 21:33:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC52461375
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 21:01:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DD46613E9
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Jun 2021 21:33:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbhFJVDX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Jun 2021 17:03:23 -0400
-Received: from mail-ot1-f53.google.com ([209.85.210.53]:42535 "EHLO
-        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230035AbhFJVDX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 17:03:23 -0400
-Received: by mail-ot1-f53.google.com with SMTP id w23-20020a9d5a970000b02903d0ef989477so1038614oth.9
-        for <linux-doc@vger.kernel.org>; Thu, 10 Jun 2021 14:01:16 -0700 (PDT)
+        id S230211AbhFJVf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Jun 2021 17:35:27 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:35022 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229963AbhFJVf0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 17:35:26 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15AKAHHM050785;
+        Thu, 10 Jun 2021 21:33:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=7XSkcansVRu2FqtnyudsLFOc6U3yevkPZWtwAKgNacA=;
+ b=wnLJ9OOcTqt8VtEZ05tki+6XnebjacaE3GnyDkh1SFpjrbF4Kh0MPGWt6dFWOpCdLdUv
+ ttT/MNGHyHX7iJiVBxsbP6XsS+wSuzse67FJc3OR0eW+Ur/2uoliFPiy6KLaHEctOO7Q
+ 9A1l0g0H+z0Y2YqpqJoGEvrp96xm01SZFWlNatGI9fUjLbLzG2HnZ/b75TgCwndq0p1+
+ Sl7fWsh4/z84mkg3wb3dYEszPRZyo9w/cX6SknG0scPjxOHa9LsXlmLmCnJZgEAkQA1h
+ pUHvni17zhYR5l78ltWGCWKU9+d3I/kuj4McJPz/2yyWwe0NQhRib46kwAdgLzcE+Tvl TA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 3914quumv9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Jun 2021 21:33:03 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15AKATcO068383;
+        Thu, 10 Jun 2021 21:33:03 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
+        by userp3030.oracle.com with ESMTP id 38yxcwxbmf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Jun 2021 21:33:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KS8bOyctMs5fIKGdB5HhBpQyBhO0S8/45c5EdWAb/NjR+gErLsOCSMRiLcL5bAgK9PUJqVOSHLyFVe8JS/BlHJmi1R0jThq9O2vaJZ6IdUEzysCRsc1jPiThEkaVc36m+zdS0WmlU28knP21AqkdMKOK4zxj2+QSpxn/rKysEOc09RxFnPpwhrGMRvHGiXi+PWxYlZYYFUULe/uySVVtY29rZV6ViWXmkK1KS5DG8jrXxsDENiBFueqddQWuOqGiXtsrpg24lcyQDXvxTlRjt35kDEN4IoBC55l6k1kUUGfRe7rPdOtMPQUO97xGmVBks+hwq3M/wAwEZRcj7lrujA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7XSkcansVRu2FqtnyudsLFOc6U3yevkPZWtwAKgNacA=;
+ b=EmY0GFE/9Kslm7FFXYYLlSxVzpmu0d4Nmf5xmZiDlERot23/p8iY1z6vXIg7IklIaeFZ2Dh9mORejwigO26E87zLqVFNesC2r13NwxErABhM39ZWZb74AAyylmz8f9DJquXFwseZjf854SBkLatAz4k05eKSODtB0KjEFYJMAaYm8lQYXkTBDx57NnhLboqfmMMEGKWTPabnNzn884XTFFeM0pc88gSzo7vOfT5cUYoXhArVSHzj5S6FplzUqIG60SxhuEhW+PwWhJlNEQOQRg021R4SnXju3JwlsKTfMwR31S6LppMyxjgpQ17KYfLnRr8oWRAfAwrDL7KZlo6Odg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Lm+Ae7nfiT7SXg2tZOk8aYevhy8Lj2hQWOQsU0IZt/M=;
-        b=Ezn2p+uKYTKIGgYa1c9rvNwhyhKxX03HUvOZiKzXN73ojjnVz2kPsQ3aZXMrShoZR0
-         QTL7tr6RpPmZD+9xaqT67rFuI89xB2bKjojg9jJQJGPhZRMjTWZDrTb3DrLoiW0kx+B0
-         RMKEk4szvMdwB9LjpzA0aLyJaDw+yCqu4s40s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Lm+Ae7nfiT7SXg2tZOk8aYevhy8Lj2hQWOQsU0IZt/M=;
-        b=LaJFpBh/xaZL2Rz+/7yIvope9OAlAfEmdpAD7qROuKYCCmedv3A4Nptg7vaJoUX64o
-         w2svvk9JElPODRdrNtGpCbrRjS9h0ULTYfuzrAZXZZbITU3/SNReIH4zESwXY69J4YKd
-         PjKpKpynwUOx23c5aAq0+dyWkXup6Yd/7+u3RDmsNIsBI34uKMykn4Rob95wmf+BkTA5
-         2gXjkN8hAQ0dRAAjvrZTUsOlZOeKtyaUTvivKTzXQ93iRgp6v4TABDWQDDtZM4hZ+wf3
-         uO5TwLvXoXZE3OE4niph8RkRs+d40m3R/Hpw3kHVXQLqC842GK3DOoF0EmfK2tLS7aoI
-         bo6w==
-X-Gm-Message-State: AOAM531fZH/LBqODGRUTi8lhUL4hetStrBhbdLGkcApTaoC+FpTOu/L0
-        S2H2iFa2qr71nVkAdl+3H9pJrR45WJNsp7WP8Lb37g==
-X-Google-Smtp-Source: ABdhPJxVUzKUU8sbNzcBb6/RcEtnbf3w8N/jU9FmsnE6a/Jv7Wc5m/h2bTD2B6AKhmZzoZPk3alVV+fC/F0nGxAed5k=
-X-Received: by 2002:a9d:12eb:: with SMTP id g98mr221564otg.303.1623358816372;
- Thu, 10 Jun 2021 14:00:16 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7XSkcansVRu2FqtnyudsLFOc6U3yevkPZWtwAKgNacA=;
+ b=Qrl9pPvaCPCupSUwb0gDjmsdl74w5mW3kj9gG8q9BlkgSIr1WtRyBhDysMI6bgcEvzD+jhhKnzSljxaxGYT2lduRcjBRtRwluFPUHbZz2YRG4DdvrGXZVb8I7ECkBOa54pEigZHR6At3mXLqOLzHnGGIvGlhzW2DyNFRvz/aBTE=
+Authentication-Results: kvack.org; dkim=none (message not signed)
+ header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+ by SJ0PR10MB4590.namprd10.prod.outlook.com (2603:10b6:a03:2d1::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Thu, 10 Jun
+ 2021 21:33:00 +0000
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::5d11:ae6d:24b6:e838]) by BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::5d11:ae6d:24b6:e838%3]) with mapi id 15.20.4219.023; Thu, 10 Jun 2021
+ 21:33:00 +0000
+Subject: Re: [PATCH 0/5] Split huge PMD mapping of vmemmap pages
+To:     Muchun Song <songmuchun@bytedance.com>, akpm@linux-foundation.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, chenhuang5@huawei.com, bodeddub@amazon.com,
+        corbet@lwn.net
+Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
+        zhengqi.arch@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20210609121310.62229-1-songmuchun@bytedance.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <d4fa211e-e896-e1da-017e-dafd120d3583@oracle.com>
+Date:   Thu, 10 Jun 2021 14:32:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+In-Reply-To: <20210609121310.62229-1-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [50.38.35.18]
+X-ClientProxiedBy: CO2PR18CA0060.namprd18.prod.outlook.com
+ (2603:10b6:104:2::28) To BY5PR10MB4196.namprd10.prod.outlook.com
+ (2603:10b6:a03:20d::23)
 MIME-Version: 1.0
-References: <20210610174731.1209188-1-maxime@cerno.tech>
-In-Reply-To: <20210610174731.1209188-1-maxime@cerno.tech>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 10 Jun 2021 23:00:05 +0200
-Message-ID: <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new properties
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Brian Starkey <brian.starkey@arm.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        Huang Rui <ray.huang@amd.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Joel Stanley <joel@jms.id.au>,
-        John Stultz <john.stultz@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Marek Vasut <marex@denx.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sean Paul <sean@poorly.run>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Steven Price <steven.price@arm.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Zack Rusin <zackr@vmware.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.112] (50.38.35.18) by CO2PR18CA0060.namprd18.prod.outlook.com (2603:10b6:104:2::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 21:32:59 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 12b645ec-3759-4f69-6d12-08d92c57523b
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB4590:
+X-Microsoft-Antispam-PRVS: <SJ0PR10MB45908A00C03864E697C85EDAE2359@SJ0PR10MB4590.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Lb+ELX2bH+dWlnUj1Ql464+8yvPCCGCV5NFbGhriogZzjPQhNUe2LPyyabRqJYwMtDxNBfS+B6+6KGSxxOUefwwz/EoShBlvvfo1Utane3tIpAtqU3EEgUrVlF/xVEwkRqaCb0aDdNJMUUZYV921OUe2zw7bDTjFfKZVAzW0mI1lPZtpk+PPgbi3LA2DeJCaYAR5tnbtu5G7euTJ66KnzwLBDZQ/LIyjuGMmVhNOjegqIvjeVCIxWizpRkK4pPB6bhocrnG7NfRRuLxh0FjVdleWrOCcjRcdU8hU0jBqEhtBmD2w4/DVmoT/LDkCO2x/Lusb/+ZZnYoZtiz/BjyAlYGgt28KWEJTNxwwpEW/RjEA7Uknf/5bc2tO/f0etlmJrhXQBaKOqTwwe5Sw00CfKTE99yuIXILhA8WLhQ1d+ztHOBUDt7ri2OyoclI/Q0F0ulNgIxzlaNMpmS1f0BE3rFR0IYO3UR61BeBW+KCYrRIFmX1f+ULHBVUDQCKoEoGOVoK6FBAslTCsshtPWQHOTEBIMYpiGQrPa7hMhnzPVnaZr84PDfdpBK3k0VvC6R2ZqSA5IjZ6DGfAwQx+IiLigiBKS5KDOuF8eBe6Lp8/7enSf2lTEIVG81uFgtYwos5Fcc7Qz6ceFGGPdU6VZonK5C+2N/VE5AgUMTLGKj1mMh+SDmRUgKHU3hEROs5htaTNACKb/YfsjYqz9zCURjxgMgRnG4tnoCd0HXiztivE9225PsPbss5TuRBHMhmyf6vV6ZlKD9vTRlOpzgnrdAaP3t47Dcv8JFWWhX/f+8bNn6wq/ezTP0oYV5SAqgS2HpoHjAxRFNEfjjpqX5pEBsy5F4ZBRBd8mb3ZvOqXlaOuxaE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(396003)(366004)(39860400002)(346002)(136003)(2616005)(52116002)(4326008)(956004)(36756003)(5660300002)(26005)(316002)(186003)(53546011)(86362001)(2906002)(7416002)(8936002)(31686004)(16526019)(66946007)(31696002)(66476007)(38350700002)(44832011)(8676002)(6486002)(966005)(38100700002)(16576012)(66556008)(83380400001)(478600001)(14583001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXpjVHBEQTNKM0UwWUpvejdabWNYTXh6Zmg5UDlDM2dMa3o5TXdoU3dtb2ha?=
+ =?utf-8?B?M0dXeG12UEp0bm5EQmYzUVFYTTMvL2w2c09LdzcwNndyQ2Z3SFVGM2xGVWxR?=
+ =?utf-8?B?QmdCSTB0Nmk0bFJsMXM3TEdRTzRYWGFYbGQrZkxwSDhRQXBPWWYzak5sYVBx?=
+ =?utf-8?B?dEtWMkwrdzJDaDc1M29xQzh1VlcvK2ZCNFgxWVNtVzMwRzhFNXVJZVdVZE4w?=
+ =?utf-8?B?b1NhZmpwclRUQVZVR2lmYVhTcHdDMmEveHVHaG5FWlUyNDVIb2RJMVJuR3ZQ?=
+ =?utf-8?B?YlAvTmxZNU5tZjVSNnNadENIUUFja0poeTZ5REdtZDQ4WVdRYk5VRHUrbXpk?=
+ =?utf-8?B?bnpibzRqSTlvdjBwZXZIVGR3clJKVWpjZ3B3Tlc4ZHpWTEVxTFQySDdJZWxw?=
+ =?utf-8?B?blBsd1c4MkZwenZCczg2UkFjZDQrUmx4VXVDdnhGcDRXUkFURzEvM28xUktB?=
+ =?utf-8?B?aDNnZFdDQkxvSTRSc0p3aDUyZitLWjg3L0FQeTc2dVJ5K3BERXlXRGZMamtE?=
+ =?utf-8?B?amVudnl0Y1VZdC8wNmZ1ZzF0c2JjRkVSU281QnVKaFhZZ084SFVaZzFYN1Nh?=
+ =?utf-8?B?Z2h4UVMzWUw4TElJN2dzKzJSWFl1cTUweE5hS3Y3eGI1clFtZmdSa1gxUEsr?=
+ =?utf-8?B?SDhkNmlieGJZTThReXVuVEE3b2JqL0Zxa1lIMS9sRHFPTUNuTE1aWnZBYUdI?=
+ =?utf-8?B?NENBWmh4ZjJWdnFjSDh1UTMya2J4Tnc4ck9SOUk5Ukl2Z1FnWEFEU0ZsWFpz?=
+ =?utf-8?B?ckRhZU5MYmFiK1YrekZZZG1RQkgzSEsxQ1B6TVVNT255RGh4S252M3Z6SWRt?=
+ =?utf-8?B?STc3V1E4c1dJR05FSndDZldEcmJNdWRRWW9IMzRjSmdnUlhBV1RPTlQ4UXlU?=
+ =?utf-8?B?cEpqNmZKZUlwRkJWaHlISFdiWU1xMndHYndTQVdCK0pmUDFycXZzNVF2NGdH?=
+ =?utf-8?B?Y003bDhaZGYvSksxV05qdmZKVnBLdWovNk93cmlYSllqczk3UnpXcWE1RStU?=
+ =?utf-8?B?aVovV1BYUU05MGhDWnArOXBobzAyWWN2R0lFQXM3allXeDlDRi9wMUd2SEdH?=
+ =?utf-8?B?ZjIvU1paLzlXT2tFSEoyc1ZWN1k5QXpNK05adXdmU2dGUUJQUlJva1ZxOGdx?=
+ =?utf-8?B?S053bXdGYXlJcU5wb1NrblBYMTRoZXR0YTVVak9xUFBpSXRSVXVlUWJWOUZ3?=
+ =?utf-8?B?cWtBTitNaytiQklsWElvcDAwcFQ5L1V1R2FSdlFkL1RaTldlNnpqQ0VXTHJa?=
+ =?utf-8?B?ZzFQTXFJTUxiTE9aZXhWWUxBSitkY2ROQXl6TytXeGpCNjROZnZqZjh1L3Jj?=
+ =?utf-8?B?RUYyeEtpTk1DK3ZLUzRINUU4WDBHeFk1T0U0ZlhZT1BSVWc1VUVGRE1qV0JY?=
+ =?utf-8?B?U1pzdW1xL3NkOXhTUXpndmNqNjBhNGl3eENET2hOdEc3Z2QzcUJ6MEdUUUEz?=
+ =?utf-8?B?bTNUSDFhMmZaNHVrUVljTUFGc2RMUkJWSFBGbzllUVRIeFNLbnBkQjkxYlM4?=
+ =?utf-8?B?SDRDK0hvL0ZNeGpoYnJLT2FXbWZaaUxSSzJGd3dsT1RQVFdJQnBKdXY1QXRw?=
+ =?utf-8?B?WnFzRVBLeTc5RXF0WWJvbDZtWWQ3WjlBSUZNUmh3RDJsYkwrcmhRMmtFb2dr?=
+ =?utf-8?B?RkdYeGpHRURlZE03SXJxRmVDRm0zeUphYU1EVFhuMVBQNzVMSVl4QmRzVzVz?=
+ =?utf-8?B?UDBuYldxL2pxU09iOU1pRjlRc090NzBVS0JjZFhrWFpmYWtvZGEvbjJ0anh3?=
+ =?utf-8?Q?mBwovtLQhpFnzAeuLsFZ1ahUeqlBYPpR3vJTjVL?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12b645ec-3759-4f69-6d12-08d92c57523b
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 21:33:00.4532
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B2wUNlnQmWnKr4bTl6CapbOfQ2Kd96xBOWTnQ6A3dgxBy1EIv/VWhiuKOcJgyOOfOsDyxXwPTVRUFkchgA1Rbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4590
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10011 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 mlxscore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106100130
+X-Proofpoint-ORIG-GUID: fuYellopRqOCCsKJPH6yTPVjK3e59V-1
+X-Proofpoint-GUID: fuYellopRqOCCsKJPH6yTPVjK3e59V-1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10011 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 phishscore=0
+ spamscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106100130
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 7:47 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> New KMS properties come with a bunch of requirements to avoid each
-> driver from running their own, inconsistent, set of properties,
-> eventually leading to issues like property conflicts, inconsistencies
-> between drivers and semantics, etc.
->
-> Let's document what we expect.
->
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Alison Wang <alison.wang@nxp.com>
-> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Boris Brezillon <bbrezillon@kernel.org>
-> Cc: Brian Starkey <brian.starkey@arm.com>
-> Cc: Chen Feng <puck.chen@hisilicon.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Edmund Dea <edmund.j.dea@intel.com>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: "Heiko St=C3=BCbner" <heiko@sntech.de>
-> Cc: Huang Rui <ray.huang@amd.com>
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Qiang Yu <yuq825@gmail.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Roland Scheidegger <sroland@vmware.com>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Tian Tao <tiantao6@hisilicon.com>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Tomi Valkeinen <tomba@kernel.org>
-> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Zack Rusin <zackr@vmware.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> ---
->
-> Changes from v2:
->   - Take into account the feedback from Laurent and Lidiu to no longer
->     force generic properties, but prefix vendor-specific properties with
->     the vendor name
+On 6/9/21 5:13 AM, Muchun Song wrote:
+> In order to reduce the difficulty of code review in series[1]. We disable
+> huge PMD mapping of vmemmap pages when that feature is enabled. In this
+> series, we do not disable huge PMD mapping of vmemmap pages anymore. We
+> will split huge PMD mapping when needed.
 
-I'm pretty sure my r-b was without this ... Why exactly do we need
-this? KMS is meant to be fairly generic (bugs throw a wrench around
-here sometimes, and semantics can be tricky). If we open up the door
-to yolo vendor properties in upstream, then that goal is pretty much
-written off. And we've been there with vendor properties, it's a
-giantic mess.
+Thank you Muchun!
 
-Minimally drop my r-b, I'm definitely not in support of this idea.
+Adding this functionality should reduce the decisions a sys admin needs
+to make WRT vmemmap reduction for hugetlb pages.  There should be no
+downside to enabling vmemmap reduction as moving from PMD to PTE mapping
+happens 'on demand' as hugetlb pages are added to the pool.
 
-If there's a strong consensus that we really need this then I'm not
-going to nack this, but this really needs a pile of acks from
-compositor folks that they're willing to live with the resulting
-fallout this will likely bring. Your cc list seems to have an absence
-of compositor folks, but instead every driver maintainer. That's
-backwards. We make uapi for userspace, not for kernel driver
-maintainers!
+I just want to clarify something for myself and possibly other
+reviewers.   At hugetlb page allocation time, we move to PTE mappings.
+When hugetlb pages are freed from the pool we do not attempt coalasce
+and move back to a PMD mapping.  Correct?  I am not suggesting we do
+this and I suspect it is much more complex.  Just want to make sure I
+understand the functionality of this series.
 
-ltdr; I'd go back to v2. And then cc compositor folks on this to get their =
-ack.
--Daniel
+BTW - Just before you sent this series I had worked up a version of
+hugetlb page demote [2] with vmemmap optimizations.  That code will need
+to be reworked.  However, if we never coalesce and move back to PMD
+mappings it might make that effort easier.
 
-> Changes from v1:
->   - Typos and wording reported by Daniel and Alex
-> ---
->  Documentation/gpu/drm-kms.rst | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
->
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rs=
-t
-> index 87e5023e3f55..bbe254dca635 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -463,6 +463,33 @@ KMS Properties
->  This section of the documentation is primarily aimed at user-space devel=
-opers.
->  For the driver APIs, see the other sections.
->
-> +Requirements
-> +------------
-> +
-> +KMS drivers might need to add extra properties to support new features.
-> +Each new property introduced in a driver need to meet a few
-> +requirements, in addition to the one mentioned above.:
-> +
-> +- Before the introduction of any vendor-specific properties, they must
-> +  be first checked against the generic ones to avoid any conflict or
-> +  redundancy.
-> +
-> +- Vendor-specific properties must be prefixed by the vendor's name,
-> +  following the syntax "$vendor:$property".
-> +
-> +- Generic properties must be standardized, with some documentation to
-> +  describe how the property can be used.
-> +
-> +- Generic properties must provide a generic helper in the core code to
-> +  register that property on the object it attaches to.
-> +
-> +- Generic properties content must be decoded by the core and provided in
-> +  the object's associated state structure. That includes anything
-> +  drivers might want to precompute, like :c:type:`struct drm_clip_rect
-> +  <drm_clip_rect>` for planes.
-> +
-> +- An IGT test should be submitted.
-> +
->  Property Types and Blob Property Support
->  ----------------------------------------
->
-> --
-> 2.31.1
->
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+[2] https://lore.kernel.org/linux-mm/20210309001855.142453-1-mike.kravetz@oracle.com/
+-- 
+Mike Kravetz
