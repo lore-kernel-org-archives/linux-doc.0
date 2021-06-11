@@ -2,198 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E09C48BE6
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 15:43:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D2CDC48BE0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 16:00:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAFB46008E
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 15:43:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EF83613EE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 16:00:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231642AbhFKPpE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 11:45:04 -0400
-Received: from mout.gmx.net ([212.227.15.18]:55819 "EHLO mout.gmx.net"
+        id S230201AbhFKQCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 12:02:10 -0400
+Received: from foss.arm.com ([217.140.110.172]:33718 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231583AbhFKPpD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 11:45:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1623426100;
-        bh=wSl94BM+7x5/sCumDnkuvfHVswV21AdjoNAYK7HUeg0=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=Ktv15AFt+uhCBDslUDCIx1FJIBzYrZ3u61mrbS09SZ8CYUSCThBLz9MaVwyb1Fozf
-         N/Pe2Jskoc0lhiOmiEts4rJ9FuzobAcwu2xGxvRTpGZ8WsFF/RQexkFqRKv/lNV7Bq
-         wQGqYp/p9mytBvSd2EU+qff/qDr4dH4JDQL623e4=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.228.41]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MMXQ5-1laTQ31Nax-00JdlI; Fri, 11
- Jun 2021 17:41:40 +0200
-Date:   Fri, 11 Jun 2021 17:41:23 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Andi Kleen <ak@linux.intel.com>
-Cc:     John Wood <john.wood@gmx.com>, Jann Horn <jannh@google.com>,
+        id S229979AbhFKQCK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 12:02:10 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22723D6E;
+        Fri, 11 Jun 2021 09:00:11 -0700 (PDT)
+Received: from entos-ampere-02.shanghai.arm.com (entos-ampere-02.shanghai.arm.com [10.169.214.103])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AB5B53F719;
+        Fri, 11 Jun 2021 09:00:06 -0700 (PDT)
+From:   Jia He <justin.he@arm.com>
+To:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Arnd Bergmann <arnd@arndb.de>, valdis.kletnieks@vt.edu,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH v8 0/8] Fork brute force attack mitigation
-Message-ID: <20210611154123.GA3057@ubuntu>
-References: <20210605150405.6936-1-john.wood@gmx.com>
- <202106081616.EC17DC1D0D@keescook>
- <cbfd306b-6e37-a697-ebdb-4a5029d36583@linux.intel.com>
- <202106090951.8C1B5BAD@keescook>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202106090951.8C1B5BAD@keescook>
-X-Provags-ID: V03:K1:z/ThWGP2ZXkRX2ENXQAW/y0IqOK8vdtgPOoV6FgxUCUCFL6dypE
- Q2jb1TIg/EBtSsnOOmZRk5QWnOZUUHjYolIgJf4CYCaeOTqxYMjuXgRhvutKU4VTq9EfK0+
- IUIbEDpjRaIJsJwfD7MpdryDp+sCXpPdVSWuhbsVu6c/zi6waJmk5puVuhdQQFmxwj9kiJ/
- IK8pJI6fVbxIjv/MIv5Gw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Jcw2bEeUOA4=:8Y2o1L32c5gONZQWS8a6u7
- X2yTDJ2C8O2Jc69Azq8go7nM7u/PFeRW2EmORk1I7Iqkd4O4ShnurPNRasNNF0EKq7wANU5qX
- zmUZkCcOvCwp42c7Qp026M3OOS/Gge2Bl6TPrQAA8s6BpRD6Z+YQZvrfJyoEtYjVR/0OQpDL5
- ACGwLBqWsL4OEOe+64DU1jg0AOi/9NlSNGyrACjq7Z3oJMC3YX4oByU6ElloP0UGdEJa0CDXT
- 8wugo0k6PStZzcj1/x72E336qPT2V6/EnA3BlKF5LrMF0tgUa9T2PAY+gXJSy+WnDuNZCXSek
- PfTgzkQ6FiUa2a4aHT1ThrwQwiinfDq0fnQj5MoL5u265ZxQFTCYatuL4cp6wivUsn5jqM9gW
- +5f7axMaY6YW9KtorDOzDFmMVTucu3Zw03shXZpgvu/rNRw1HKtXpYo+uzjkOq7G+F3Ko9RY3
- G8jqxIQGiE+WZ0yhsrDfwfTwANnuiGaMqTkjL8k8Wsfn6y4t/51RZRM69SoMfkgSwnXxv2Pca
- jtXNU22sj4dFI6cI0Rzs6Oi39yurSDmWg2H0Vq2mFYeWpVkCVxJIDb9jB9ruCj4HuijGklNQ3
- G4Vk5JBp8GIotoPp/BZcUebHaRHoxGXXP2mQcdWft6wvFZDTwMS4QYCOvPhjVd4A/yxaByH1f
- J/6W0LJgi3VyJ73ZFmVPrd+zreavLizvV38Lx+ZCYvcZmiVsQaUMB4hlpp+VANQcrdyJcetXg
- ZEQD6J14tEwXXk12ZsmjvEaXmatCzKaIBT+vZKj2NDWCLQmdvBmcW0173aaIULFRyEqoVO3Vy
- riOm373Is1aOpOdCetPbyqwjXgfx5epO5yba/NPMQzq0s0zpTS3qvrXkM2nMzk2CMGXdJtpqk
- 8ZKYeqMTpH0XfOSAQo6vPSpqxaaT3OOyjpzlAxHfZa5KMYOIkBpTnr/vBqUVCx1zvq9IodGLn
- qYbl4szFzS6q3vPwivuE7b2WaaOMQKsn863wA+i1LvAQdcdrYu+0NGwo9/46BHWW82C5AY4c7
- Oa1sAGJ1VQt/tD81gDBBot/qgLcAAR5/XaNy34PTubEYzkMbE0KhdInOVW9Rv4pENYHbjv/8w
- azBKa8ZZeHW0J2WanyqMOeuBmd/fG4IM6B7
-Content-Transfer-Encoding: quoted-printable
+        linux-fsdevel@vger.kernel.org, Jia He <justin.he@arm.com>
+Subject: [PATCH RFCv3 0/3] make '%pD' print full path for file
+Date:   Fri, 11 Jun 2021 23:59:50 +0800
+Message-Id: <20210611155953.3010-1-justin.he@arm.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 09, 2021 at 09:52:29AM -0700, Kees Cook wrote:
-> On Tue, Jun 08, 2021 at 04:38:15PM -0700, Andi Kleen wrote:
-> >
-> > On 6/8/2021 4:19 PM, Kees Cook wrote:
-> > > On Sat, Jun 05, 2021 at 05:03:57PM +0200, John Wood wrote:
-> > > > [...]
-> > > > the kselftest to avoid the detection ;) ). So, in this version, to=
- track
-> > > > all the statistical data (info related with application crashes), =
-the
-> > > > extended attributes feature for the executable files are used. The=
- xattr is
-> > > > also used to mark the executables as "not allowed" when an attack =
-is
-> > > > detected. Then, the execve system call rely on this flag to avoid =
-following
-> > > > executions of this file.
-> > >
-> > > I have some concerns about this being actually usable and not creati=
-ng
-> > > DoS situations. For example, let's say an attacker had found a hard-=
-to-hit
-> > > bug in "sudo", and starts brute forcing it. When the brute LSM notic=
-es,
-> > > it'll make "sudo" unusable for the entire system, yes?
-> > >
-> > > And a reboot won't fix it, either, IIUC.
-> > >
-> > The whole point of the mitigation is to trade potential attacks agains=
-t DOS.
-> >
-> > If you're worried about DOS the whole thing is not for you.
->
-> Right, but there's no need to make a system unusable for everyone else.
-> There's nothing here that relaxes the defense (i.e. stop spawning apache
-> for 10 minutes). Writing it to disk with nothing that undoes it seems a
-> bit too much. :)
+Background
+==========
+Linus suggested printing full path for file instead of printing
+the components as '%pd'.
 
-Here I have merge the first reply.
+Typically, there is no need for printk specifiers to take any real locks
+(ie mount_lock or rename_lock). So I introduce a new helper d_path_fast
+which is similar to d_path except it doesn't take any seqlock/spinlock.
 
-> It seems like there is a need to track "user" running "prog", and have
-> that be timed out. Are there use-cases here where that wouldn't be
-> sufficient?
+This series is based on Al Viro's d_path cleanup patches [1] which
+lifted the inner lockless loop into a new helper. 
 
-Ok, what do you think of the following proposal:
+[1] https://lkml.org/lkml/2021/5/18/1260
 
-Add an uid_t field to the structure saved in the xattr. So this struct
-contains now
+Test
+====
+The cases I tested:
+1. print '%pD' with full path of ext4 file
+2. mount a ext4 filesystem upon a ext4 filesystem, and print the file
+   with '%pD'
+5. all test_print selftests, including the new '%14pD' '%-14pD'
+4. kasnprintf
+   
+After this set, I found many lines containing '%pD[234]' should be changed
+to '%pD'. I don't want to involve those subsystems in this patch series
+before the helper is stable enough.
+   
+You can get the lines by:
+$find fs/ -name \*.[ch] | xargs grep -rn "\%pD[234"
 
-faults: Number of crashes.
-nsecs: Last crash timestamp as the number of nanoseconds in the
-       International Atomic Time (TAI) reference.
-period: Crash period's moving average.
-flags: Statistics flags.
-uid: User id not allowed to run the executable.
+fs/overlayfs/file.c:65: pr_debug("open(%p[%pD2/%c], 0%o) -> (%p, 0%o)\n",
+fs/nfs/direct.c:453:    dfprintk(FILE, "NFS: direct read(%pD2, %zd@%Ld)\n",
+fs/nfs/direct.c:908:    dfprintk(FILE, "NFS: direct write(%pD2, %zd@%Ld)\n",
+fs/nfs/write.c:1371:    dprintk("NFS:       nfs_updatepage(%pD2 %d@%lld)\n",
+fs/nfs/nfs4file.c:116:  dprintk("NFS: flush(%pD2)\n", file);
+fs/nfs/file.c:69:       dprintk("NFS: open file(%pD2)\n", filp);
+fs/nfs/file.c:83:       dprintk("NFS: release(%pD2)\n", filp);
+fs/nfs/file.c:117:      dprintk("NFS: llseek file(%pD2, %lld, %d)\n",
+fs/nfs/file.c:145:      dprintk("NFS: flush(%pD2)\n", file);
+fs/nfs/file.c:166:      dprintk("NFS: read(%pD2, %zu@%lu)\n",
+fs/nfs/file.c:188:      dprintk("NFS: mmap(%pD2)\n", file);
+fs/nfs/file.c:213:      dprintk("NFS: fsync file(%pD2) datasync %d\n", file, datasync);
+fs/nfs/file.c:328:      dfprintk(PAGECACHE, "NFS: write_begin(%pD2(%lu), %u@%lld)\n",
+fs/nfs/file.c:360:      dfprintk(PAGECACHE, "NFS: write_end(%pD2(%lu), %u@%lld)\n",
+fs/nfs/file.c:551:      dfprintk(PAGECACHE, "NFS: vm_page_mkwrite(%pD2(%lu), offset %lld)\n",
+fs/nfs/file.c:621:      dprintk("NFS: write(%pD2, %zu@%Ld)\n",
+fs/nfs/file.c:803:      dprintk("NFS: lock(%pD2, t=%x, fl=%x, r=%lld:%lld)\n",
+fs/nfs/file.c:841:      dprintk("NFS: flock(%pD2, t=%x, fl=%x)\n",
+fs/nfs/dir.c:111:       dfprintk(FILE, "NFS: open dir(%pD2)\n", filp);
+fs/nfs/dir.c:456:                                               pr_notice("NFS: directory %pD2 contains a readdir loop."
+fs/nfs/dir.c:1084:      dfprintk(FILE, "NFS: readdir(%pD2) starting at cookie %llu\n",
+fs/nfs/dir.c:1158:      dfprintk(FILE, "NFS: readdir(%pD2) returns %d\n", file, res);
+fs/nfs/dir.c:1166:      dfprintk(FILE, "NFS: llseek dir(%pD2, %lld, %d)\n",
+fs/nfs/dir.c:1208:      dfprintk(FILE, "NFS: fsync dir(%pD2) datasync %d\n", filp, datasync);
+fs/nfsd/nfs4state.c:2439:         seq_printf(s, "filename: \"%pD2\"", f->nf_file);
+fs/exec.c:817:          pr_warn_once("process '%pD4' started with executable stack\n",
+fs/iomap/direct-io.c:429:               pr_warn_ratelimited("Direct I/O collision with buffered writes! File: %pD4 Comm: %.20s\n",
+fs/ioctl.c:81:          pr_warn_ratelimited("[%s/%d] FS: %s File: %pD4 would truncate fibmap result\n",
+fs/read_write.c:425:            "kernel %s not supported for file %pD4 (pid: %d comm: %.20s)\n",
+fs/splice.c:754:                "splice %s not supported for file %pD4 (pid: %d comm: %.20s)\n",
+fs/afs/mntpt.c:64:      _enter("%p,%p{%pD2}", inode, file, file);
 
-The logic would be the following:
+Changelog:
+v3:
+- implement new d_path_unsafe to use [buf, end] instead of stack space for
+  filling bytes (by Matthew)
+- add new test cases for '%pD'
+- drop patch "hmcdrv: remove the redundant directory path" before removing rfc.
 
-1. faults, nsecs and period are updated in every crash and is a common inf=
-o
-   for all the users.
-2. If the max number of faults is reached, it is "not allowed" to run the
-   executable by any user. This condition blocks the file until root clear
-   the xattr. No timeout.
-3. When an attack is detected the uid of the user that is running the app
-   is saved in the xattr and the executable is marked as "not allowed" to
-   run by this user. The "not allowed" state has a timeout (more below).
-4. When someone tries to run the executable, if his uid is different from
-   the uid saved in the xattr, then the operation is "allowed".
-5. When someone tries to run the executable, if his uid is equal to the
-   uid saved in the xattr, then the operation is "not allowed". This user
-   is banned for a timeout.
-6. When someone tries to run the executable and the timeout has expired,
-   the operation is "allowed" and the saved uid is removed.
-7. If the executable crashes again when it is run by a user different from
-   the one saved in the xattr (and the timeout has no expired), the file
-   is marked as "not allowed" to run by any user. All users are banned for
-   a timeout.
+v2: 
+- implement new d_path_fast based on Al Viro's patches
+- add check_pointer check (by Petr)
+- change the max full path size to 256 in stack space
+v1: https://lkml.org/lkml/2021/5/8/122
 
-The timeout: I think there are two options here.
+Jia He (3):
+  fs: introduce helper d_path_unsafe()
+  lib/vsprintf.c: make %pD print full path for file
+  lib/test_printf: add test cases for '%pD'
 
-1. A fixed timeout set by a sysctl attribute.
-2. A dynamic timeout calculated from the info stored in the xattr. The
-   timeout would be the needed period to guarantee that when the app is
-   run again and it crashes, the attack detection will not be triggered.
-   To be more clear I expose the formulas:
+ Documentation/core-api/printk-formats.rst |  5 +-
+ fs/d_path.c                               | 82 ++++++++++++++++++++++-
+ include/linux/dcache.h                    |  1 +
+ lib/test_printf.c                         | 26 ++++++-
+ lib/vsprintf.c                            | 47 +++++++++++--
+ 5 files changed, 152 insertions(+), 9 deletions(-)
 
-   Mathematically the application crash period's EMA can be expressed as
-   follows:
+-- 
+2.17.1
 
-   period_ema[i] =3D period[i] * weight + period_ema[i - 1] * (1 - weight)
-
-   If we isolate period:
-
-   period[i] =3D (period_ema[i] - period_ema[i - 1] * (1 - weight)) / weig=
-ht
-
-   Where period_ema[i] is the "crash_period_threshold", period_ema[i - 1]
-   is the last period ema saved in the xattr and period[i] is the dynamic
-   timeout.
-
-As a final point. Possibly there are more cases but the logic would be the
-one explained. I think that it is not necessary to save the uid for every
-user that crashes the app nor the crashes info for every user. If more
-than one user crashes the application, something "bad" is happening. So,
-all users are banned for a timeout. This way the info saved in the xattr
-has a fixed size and we prevent an attacker from abusing this size.
-
-I hope this proposal can be enough. What do you think?
-
-John Wood.
