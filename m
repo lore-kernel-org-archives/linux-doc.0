@@ -2,329 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 869DBC48BE0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:59:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F8FC48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:34:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68F6761029
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:59:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55F8B61404
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:34:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231271AbhFKNBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 09:01:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36366 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231210AbhFKNBQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 09:01:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623416358;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bDzD7TzyGM8+Bk3AkjzQ9WfVLzVVyCXeOnlJBDf9+P8=;
-        b=BZ/eC6eBbbBbXSmOVYDmKhozZHUOcdLEEigKU1Aq1P7OJxTuJGdgmWsSij5RpBUtw0ihRz
-        nNz7u53u7Fm6KzRCAoaSA64AgHdgs47UNbl9aBGmXIpx5J5PUj57WWSgmu9PVbbeoeW6a4
-        /A6MuXexM/0LsH7zzaZzlbM+RniXOs0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-_MpJhASIMPSussVspLScCw-1; Fri, 11 Jun 2021 08:59:16 -0400
-X-MC-Unique: _MpJhASIMPSussVspLScCw-1
-Received: by mail-ej1-f71.google.com with SMTP id a25-20020a1709064a59b0290411db435a1eso1116215ejv.11
-        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 05:59:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=bDzD7TzyGM8+Bk3AkjzQ9WfVLzVVyCXeOnlJBDf9+P8=;
-        b=IwEfYxbONg939MYchzF3AzeRTZuElv1VSj1TZmP+vSgTlCJFB7S5QdHPFbIYh+rKJR
-         Z/XuU8oCbmxBSv0rFEg8HIaBk1pD7b3SxtCy5MNiVGnHtUVCU5nWuv85vLtm1OUV/r+G
-         9zBB8DxOxhGhk+uVcuXUXEAcMkc2Gd5rDCOBZtFkF0ELLXL+O5Y4dV8js9jaKLTUIdNB
-         cPqyWJnJYpa/KLwLyxJcB4rgXI7l7I1i483WsL9utW61KQHbvDxRXJzoAnSO0wftBVtg
-         q8O+SGOuLARTyZJwhb/oB8zsfenkFfghB4ei4WJD74cYDF+iyEwzNhuVQ46tjTO3u+bd
-         AShQ==
-X-Gm-Message-State: AOAM531ccmXhOUdm3ihxGq9gQwHZjH6Km9iet8wlPSRgszxmaaqv0BeO
-        7u1GJp0UQ976WHr20A6n5Iamrr3w1DgW/Mo/5pVXnkRVDxICDT/kI2x11REk+5CFv9opTtLTHof
-        B/QJd4yJFjdvKTPvrokKq26w7IAh09H9RYuRu8ezKScpmerxNlFyOBLQJimzQ6G5whbTpkCw=
-X-Received: by 2002:a17:906:1792:: with SMTP id t18mr3451548eje.38.1623416355262;
-        Fri, 11 Jun 2021 05:59:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJHPCrEZJvzvSrRG1N9mRxJMGWUgOa1GwGvH+66ZIO7/f5zyLtEWXte4aPNciNITKhJh4o/Q==
-X-Received: by 2002:a17:906:1792:: with SMTP id t18mr3451502eje.38.1623416354812;
-        Fri, 11 Jun 2021 05:59:14 -0700 (PDT)
-Received: from x1.bristot.me (host-79-23-205-114.retail.telecomitalia.it. [79.23.205.114])
-        by smtp.gmail.com with ESMTPSA id cx7sm2560631edb.65.2021.06.11.05.59.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Jun 2021 05:59:14 -0700 (PDT)
-Subject: Re: [PATCH V3 9/9] tracing: Add timerlat tracer
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
+        id S229529AbhFKNgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 09:36:18 -0400
+Received: from foss.arm.com ([217.140.110.172]:58482 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229517AbhFKNgS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 09:36:18 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3B06D6E;
+        Fri, 11 Jun 2021 06:34:19 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E50B3F93E;
+        Fri, 11 Jun 2021 06:34:19 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+        id 1DEA4684F49; Fri, 11 Jun 2021 14:34:18 +0100 (BST)
+Date:   Fri, 11 Jun 2021 14:34:18 +0100
+From:   Liviu Dudau <liviu.dudau@arm.com>
+To:     Alyssa Rosenzweig <alyssa@collabora.com>
+Cc:     Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Steven Price <steven.price@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alison Wang <alison.wang@nxp.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Huang Rui <ray.huang@amd.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-References: <cover.1621024265.git.bristot@redhat.com>
- <b650672b9973887ef1420bc1e76b97940b6522d6.1621024265.git.bristot@redhat.com>
- <20210607213639.68aad064@gandalf.local.home>
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-Message-ID: <fd2bdb45-e68a-995e-271e-ec181f04ecbc@redhat.com>
-Date:   Fri, 11 Jun 2021 14:59:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Noralf Tr??nnes <noralf@tronnes.org>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian K??nig <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210611133418.mwjabkd4zzcgekti@e110455-lin.cambridge.arm.com>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+ <YMNdZCkyaVoH+WAd@maud>
 MIME-Version: 1.0
-In-Reply-To: <20210607213639.68aad064@gandalf.local.home>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YMNdZCkyaVoH+WAd@maud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/8/21 3:36 AM, Steven Rostedt wrote:
-> On Fri, 14 May 2021 22:51:18 +0200
-> Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
+On Fri, Jun 11, 2021 at 08:56:04AM -0400, Alyssa Rosenzweig wrote:
+> > What I'm expected to see in the future is new functionality that gets implemented by
+> > one hardware vendor and the kernel developers trying to enable that for userspace. It
+> > could be that the new property is generic, but there is no way of testing that on
+> > more than one implementation yet, so I'd say we are generous calling it "standard
+> > property". When the second or third hardware vendor comes along and starts supporting
+> > that property with their own set of extra requirements, then we can call it
+> > "standard". Then comes the effort cost: would it be easier to start with a vendor
+> > property that only the vendor needs to support (and can submit patches into the
+> > compositors to do so) and when the standard property gets added moves to that, or
+> > should we start with a generic property that gets implemented by the compositors
+> > (maybe, but then only one vendor supports it) and then later when we actually
+> > standardise the property we will have to carry backwards compatibility code in the
+> > kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
+> > the former option to be reflected in the documentation, but I would like to hear your
+> > thoughts.
+> 
+> Just my 2c - if the mainline kernel isn't willing to commit to a feature
+> for upstream userspace to use, why does that feature belong in the
+> kernel at all? I don't see much value in exposing hardware for the sake
+> of exposing it when, practically, Linux userspace /can't/ use it as-is.
+> 
+> Might these vendor properties be used on downstream Android userspaces?
+> That's not generally an upstream goal to support.
 
-[...]
->> It is possible to follow the trace by reading the trace trace file::
-> 
-> Do not need rst markup in commit logs ;-)
-> 
->>
->>   [root@f32 tracing]# cat trace
->>   # tracer: timerlat
->>   #
->>   #                              _-----=> irqs-off
->>   #                             / _----=> need-resched
->>   #                            | / _---=> hardirq/softirq
->>   #                            || / _--=> preempt-depth
->>   #                            || /
->>   #                            ||||             ACTIVATION
->>   #         TASK-PID      CPU# ||||   TIMESTAMP    ID            CONTEXT                LATENCY
->>   #            | |         |   ||||      |         |                  |                       |
->>           <idle>-0       [000] d.h1    54.029328: #1     context    irq timer_latency       932 ns
->>            <...>-867     [000] ....    54.029339: #1     context thread timer_latency     11700 ns
->>           <idle>-0       [001] dNh1    54.029346: #1     context    irq timer_latency      2833 ns
->>            <...>-868     [001] ....    54.029353: #1     context thread timer_latency      9820 ns
->>           <idle>-0       [000] d.h1    54.030328: #2     context    irq timer_latency       769 ns
->>            <...>-867     [000] ....    54.030330: #2     context thread timer_latency      3070 ns
->>           <idle>-0       [001] d.h1    54.030344: #2     context    irq timer_latency       935 ns
->>            <...>-868     [001] ....    54.030347: #2     context thread timer_latency      4351 ns
->>
->> The tracer creates a per-cpu kernel thread with real-time priority that
->> prints two lines at every activation. The first is the *timer latency*
->> observed at the *hardirq* context before the activation of the thread.
->> The second is the *timer latency* observed by the thread, which is the
->> same level that cyclictest reports. The ACTIVATION ID field
-> 
-> The above is misleading. Below, I see that you state that the values are
-> "net values" where the thread latency does not include the irq latency.
-> This is not the same as cyclictest. (I had to update my ASCII art below
-> after reading the below statement).
+I think the assumption is that we are willing to commit to supporting a feature for
+userspace, just that (I personally) lack the confidence that I will be getting the
+feature right on the first attempt and using only one vendor hardware. And that
+supporting potential mistakes I might've made in the first version is harder if the
+feature was deemed "standard".
 
-Replying here all the comments about the timerlat/cyclictest
-timeline, and gross/net values.
+I'm talking from my experience with the writeback connector. We almost committed the
+feature twice before more people chipped in and asked us for changes, but that was lucky.
 
-So, yeah, my description was not clear enough. The values that are
-net are those reported by the *osnoise: events* only. The *timerlat
-tracer* values are not discounted, and that is why they are similar
-to the value reported by cyclictest (ok, cyclictest still captures
-the exit to user overhead and friends).
+Best regards,
+Liviu
 
->> serves to relate the *irq* execution to its respective *thread* execution.
->>
->> The irq/thread splitting is important to clarify at which context
->> the unexpected high value is coming from. The *irq* context can be
->> delayed by hardware related actions, such as SMIs, NMIs, IRQs
->> or by a thread masking interrupts. Once the timer happens, the delay
->> can also be influenced by blocking caused by threads. For example, by
->> postponing the scheduler execution via preempt_disable(),  by the
->> scheduler execution, or by masking interrupts. Threads can
->> also be delayed by the interference from other threads and IRQs.
-> 
-> 
-> I wonder if ASCII art would help clarify the above. At least for the
-> document (not the change log here).
-> 
-> 
->   time ==>
->             expected         actual      thread
->              wakeup          wakeup     scheduled
->                 |              |          |
->                 v              v          v
->       |---------|-------|------|----------|
->                         ^
->                         |
->                     interrupt 
-> 
->                 |--------------|
->                    irq latency
-> 
->                                |-----------|
->                        thread latency
-> 
-
-A liked the idea of adding a timeline!
-
-[...]
-
->> +  [root@f32 tracing]# cat trace
->> +  # tracer: timerlat
->> +  #
->> +  #                              _-----=> irqs-off
->> +  #                             / _----=> need-resched
->> +  #                            | / _---=> hardirq/softirq
->> +  #                            || / _--=> preempt-depth
->> +  #                            || /
->> +  #                            ||||             ACTIVATION
->> +  #         TASK-PID      CPU# ||||   TIMESTAMP    ID            CONTEXT                LATENCY
->> +  #            | |         |   ||||      |         |                  |                       |
->> +          <idle>-0       [000] d.h1    54.029328: #1     context    irq timer_latency       932 ns
->> +           <...>-867     [000] ....    54.029339: #1     context thread timer_latency     11700 ns
->> +          <idle>-0       [001] dNh1    54.029346: #1     context    irq timer_latency      2833 ns
->> +           <...>-868     [001] ....    54.029353: #1     context thread timer_latency      9820 ns
->> +          <idle>-0       [000] d.h1    54.030328: #2     context    irq timer_latency       769 ns
->> +           <...>-867     [000] ....    54.030330: #2     context thread timer_latency      3070 ns
->> +          <idle>-0       [001] d.h1    54.030344: #2     context    irq timer_latency       935 ns
->> +           <...>-868     [001] ....    54.030347: #2     context thread timer_latency      4351 ns
->> +
->> +
->> +The tracer creates a per-cpu kernel thread with real-time priority that
->> +prints two lines at every activation. The first is the *timer latency*
->> +observed at the *hardirq* context before the activation of the thread.
->> +The second is the *timer latency* observed by the thread, which is the
->> +same level that cyclictest reports. The ACTIVATION ID field
->> +serves to relate the *irq* execution to its respective *thread* execution.
->> +
->> +The *irq*/*thread* splitting is important to clarify at which context
->> +the unexpected high value is coming from. The *irq* context can be
->> +delayed by hardware related actions, such as SMIs, NMIs, IRQs
->> +or by a thread masking interrupts. Once the timer happens, the delay
->> +can also be influenced by blocking caused by threads. For example, by
->> +postponing the scheduler execution via preempt_disable(),  by the
->> +scheduler execution, or by masking interrupts. Threads can
->> +also be delayed by the interference from other threads and IRQs.
-> 
-> This is where I would add that ASCII art.
-
-I am proposing a ASCII art on another point.... see bellow.
-
-> 
->> +
->> +Tracer options
->> +---------------------
->> +
->> +The timerlat tracer is built on top of osnoise tracer.
->> +So its configuration is also done in the osnoise/ config
->> +directory. The timerlat configs are:
->> +
->> + - cpus: CPUs at which a timerlat thread will execute.
->> + - timerlat_period_us: the period of the timerlat thread.
->> + - osnoise/stop_tracing_in_us: stop the system tracing if a
->> +   timer latency at the *irq* context higher than the configured
->> +   value happens. Writing 0 disables this option.
->> + - stop_tracing_out_us: stop the system tracing if a
->> +   timer latency at the *thread* context higher than the configured
->> +   value happens. Writing 0 disables this option.
->> + - print_stack: save the stack of the IRQ ocurrence, and print
->> +   it after the *thread* read the latency.
-> 
-> "thread read the latency" doesn't make sense.
-> 
->  "and print it after the *thread context* event".  ?
-> 
-> 
->> +
->> +timerlat and osnoise
->> +----------------------------
->> +
->> +The timerlat can also take advantage of the osnoise: traceevents.
->> +For example::
->> +
->> +        [root@f32 ~]# cd /sys/kernel/tracing/
->> +        [root@f32 tracing]# echo timerlat > current_tracer
->> +        [root@f32 tracing]# echo osnoise > set_event
-> 
-> Note, set_event should be deprecated. Use:
-> 
-> 	echo 1 > events/osnoise/enable
-> 
-> instead.
-> 
-> 
->> +        [root@f32 tracing]# echo 25 > osnoise/stop_tracing_out_us
->> +        [root@f32 tracing]# tail -10 trace
->> +             cc1-87882   [005] d..h...   548.771078: #402268 context    irq timer_latency      1585 ns
->> +             cc1-87882   [005] dNLh1..   548.771082: irq_noise: local_timer:236 start 548.771077442 duration 4597 ns
->> +             cc1-87882   [005] dNLh2..   548.771083: irq_noise: reschedule:253 start 548.771083017 duration 56 ns
->> +             cc1-87882   [005] dNLh2..   548.771086: irq_noise: call_function_single:251 start 548.771083811 duration 2048 ns
->> +             cc1-87882   [005] dNLh2..   548.771088: irq_noise: call_function_single:251 start 548.771086814 duration 1495 ns
->> +             cc1-87882   [005] dNLh2..   548.771091: irq_noise: call_function_single:251 start 548.771089194 duration 1558 ns
->> +             cc1-87882   [005] dNLh2..   548.771094: irq_noise: call_function_single:251 start 548.771091719 duration 1932 ns
->> +             cc1-87882   [005] dNLh2..   548.771096: irq_noise: call_function_single:251 start 548.771094696 duration 1050 ns
->> +             cc1-87882   [005] d...3..   548.771101: thread_noise:      cc1:87882 start 548.771078243 duration 10909 ns
->> +      timerlat/5-1035    [005] .......   548.771103: #402268 context thread timer_latency     25960 ns
->> +
->> +In this case, the root cause of the timer latency does not point for a
->> +single, but to a series of call_function_single IPIs, followed by a 10
-> 
-> "not point to a single"
-> 
->> +*us* delay from a cc1 thread noise, along with the regular timer
->> +activation. It is worth mentioning that the *duration* values reported
->> +by the osnoise events are *net* values. For example, the
->> +thread_noise does not include the duration of the overhead caused
->> +by the IRQ execution (which indeed accounted for 12736 ns).
-> 
-> As stated above, I updated my view of the ASCII art after reading this. You
-> should not compare what cyclictest reports as the thread latency. But what
-> cyclictest reports is the sum of the two (irq latency plus thread latency).
-
-Here is the point where I mention net values... so I am changing this part of
-documentation to:
-
-------------------- %< -----------------------------
-It is worth mentioning that the *duration* values reported
-by the osnoise: events are *net* values. For example, the
-thread_noise does not include the duration of the overhead caused
-by the IRQ execution (which indeed accounted for 12736 ns). But
-the values reported by the timerlat tracer (timerlat_latency)
-are *gross* values.
-
-The art below illustrates a CPU timeline and how the timerlat tracer
-observes it at the top and the osnoise: events at the bottom. Each "-"
-in the timelines means 1 us, and the time moves ==>:
-
-     External          context irq                  context thread
-      clock           timer_latency                 timer_latency
-      event              18 us                          48 us 
-        |                  ^                             ^
-        v                  |                             |
-        |------------------|                             |       <-- timerlat irq timeline
-        |------------------+-----------------------------|       <-- timerlat thread timeline
-                           ^                             ^
- ===================== CPU timeline ======================================
-                   [timerlat/ irq]  [ dev irq ]                          
- [another thread...^             v..^         v........][timerlat/ thread]  
- ===================== CPU timeline ======================================
-                   |-------------|  |---------|                  <-- irq_noise timeline
-                                 |--^         v--------|         <-- thread_noise timeline
-                                 |            |        |
-                                 |            |        + thread_noise: 10 us
-                                 |            +-> irq_noise: 9 us
-                                 +-> irq_noise: 13 us
-
- --------------- >% --------------------------------
-
-thoughts?
-
--- Daniel
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
