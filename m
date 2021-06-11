@@ -2,169 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F83FC48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:37:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5C74C48BE5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:40:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4060D613B8
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:37:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0AFA613DE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:40:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbhFKMju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 08:39:50 -0400
-Received: from mail-pj1-f47.google.com ([209.85.216.47]:44687 "EHLO
-        mail-pj1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230382AbhFKMjt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 08:39:49 -0400
-Received: by mail-pj1-f47.google.com with SMTP id h12-20020a17090aa88cb029016400fd8ad8so5909272pjq.3
-        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 05:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=12Vllmb27JTcKGXEJV8r1BAI8OMCziqg4MFGRk+RiQc=;
-        b=aIbxHPH4LxhzTr+MvcOZubxGwHrqudcYvCJjmRVVfNe60Py/se92CDO44lQ3VrJGJ5
-         plYXLmWGs942FFDp37HO8TsKCSXhEXZq+fxwxfQrSRlRgd+glhJjMrVNv+xIXsUth+yl
-         coiIT5ZRvk63POl6PbmDTdpYGNxVlX2xmZumfmz1FpFMpwirk1pCzeV6zlfsGBDvFJPH
-         XVYScY7gM2+mEQDBGYNvoAIVIsARS2Wp7NA13UdwwuXqQc/hABcoTkNyOhmD1/lq6BLI
-         JFIciIC29psRSTwDvbq9pou0NrJ6I7R7FhE8oe47djDTo2alX9/zgkk9/4Al5G7qOUwS
-         ufVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=12Vllmb27JTcKGXEJV8r1BAI8OMCziqg4MFGRk+RiQc=;
-        b=TVQGiB58bNWwhk8ukS8g5tvQm81LrI1WvrVvjIVB+tUQSuhnP/1JOlVasHXQTO9sIg
-         W17kpk+RwqkZ4AE9YwAmnJwT25FDINFx90tWfHisAp89s91pVxGZDNRpGpGDAAye9JPS
-         Wmuh4sb14a4vmiI3Qq4OYiS8OKAfvASilZkfS47RGwGjsTRCfYEQcT1LHgxIV8ZgXq0m
-         Gn6nNFtjN8I8dz5UpFEL9JBawUBdwrpjsvCTd7ljy8yEXCWuyqvOM5Q9Qk4CIXwTX8ze
-         muttaX3Xhod/6tfbOm1k0teK2CyHwistgbISBNhm7/W2iEqx4jiYQZcOC/HQC+rLB2KH
-         j0jw==
-X-Gm-Message-State: AOAM530/bUQm2Wczra0jqIX/80KJyuNktj37akSoydLnhkHTnP2Q26tx
-        k96aOfoBIwWWp7loYfaPYVU6dAMii3wOMVh9yD7DQQ==
-X-Google-Smtp-Source: ABdhPJwXzHGIkJWA9jG9u+8cCrLseq1HhgXSPHBPWWqIPGSMO2zyWAeVhMAlvBmyfyXKZmFGriSZk71r9BVeiCfNvmE=
-X-Received: by 2002:a17:90a:10c8:: with SMTP id b8mr1907381pje.147.1623414997443;
- Fri, 11 Jun 2021 05:36:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210609121310.62229-1-songmuchun@bytedance.com>
- <20210609121310.62229-4-songmuchun@bytedance.com> <1c910c9a-d5fd-8eb8-526d-bb1f71833c30@oracle.com>
- <CAMZfGtU6D28AzoGsVdddrf54P_O-134j2dEMu6gn+uiBJkdi9Q@mail.gmail.com>
-In-Reply-To: <CAMZfGtU6D28AzoGsVdddrf54P_O-134j2dEMu6gn+uiBJkdi9Q@mail.gmail.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 11 Jun 2021 20:35:59 +0800
-Message-ID: <CAMZfGtUv+ZOGxH_f_2JGQGDFvFw-o69BiyJUSX-BLmZVZ1Y+dg@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH 3/5] mm: sparsemem: split the huge PMD
- mapping of vmemmap pages
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
+        id S231269AbhFKMmy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 08:42:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26910 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231311AbhFKMmw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 08:42:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623415254;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=lE67WyKbl741YpDCTe3QkT0OdknMJfyRErLnc4JjkJk=;
+        b=AOhRzkL2yxzOL2SQhrp29v7Te7y/7OvLjVw57iTbXsU8RCZcH56xgXR5+0pPZPZnvmL+53
+        2iLlR43HUFXJE+x7HOFkntfSG/o+treI9LoFtDIVdeRZBShbV8x8N7UIkuaXaBR5sENF1B
+        Ohdor1mQMW1fS/OEC8hkchL2bivctBU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-tDRVUUZtNSy-5sW1P9P8dw-1; Fri, 11 Jun 2021 08:40:50 -0400
+X-MC-Unique: tDRVUUZtNSy-5sW1P9P8dw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F5111923762;
+        Fri, 11 Jun 2021 12:40:47 +0000 (UTC)
+Received: from localhost (ovpn-113-95.ams2.redhat.com [10.36.113.95])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D32A260C05;
+        Fri, 11 Jun 2021 12:40:42 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 06/10] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
+In-Reply-To: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
+Organization: Red Hat GmbH
+References: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date:   Fri, 11 Jun 2021 14:40:41 +0200
+Message-ID: <87czsszi9i.fsf@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 3:52 PM Muchun Song <songmuchun@bytedance.com> wrote:
->
-> On Fri, Jun 11, 2021 at 6:35 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
-> >
-> > On 6/9/21 5:13 AM, Muchun Song wrote:
-> > > If the vmemmap is huge PMD mapped, we should split the huge PMD firstly
-> > > and then we can change the PTE page table entry. In this patch, we add
-> > > the ability of splitting the huge PMD mapping of vmemmap pages.
-> > >
-> > > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > > ---
-> > >  include/linux/mm.h   |  2 +-
-> > >  mm/hugetlb.c         | 42 ++++++++++++++++++++++++++++++++++--
-> > >  mm/hugetlb_vmemmap.c |  3 ++-
-> > >  mm/sparse-vmemmap.c  | 61 +++++++++++++++++++++++++++++++++++++++++++++-------
-> > >  4 files changed, 96 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > > index cadc8cc2c715..b97e1486c5c1 100644
-> > > --- a/include/linux/mm.h
-> > > +++ b/include/linux/mm.h
-> > > @@ -3056,7 +3056,7 @@ static inline void print_vma_addr(char *prefix, unsigned long rip)
-> > >  #endif
-> > >
-> > >  void vmemmap_remap_free(unsigned long start, unsigned long end,
-> > > -                     unsigned long reuse);
-> > > +                     unsigned long reuse, struct list_head *pgtables);
-> > >  int vmemmap_remap_alloc(unsigned long start, unsigned long end,
-> > >                       unsigned long reuse, gfp_t gfp_mask);
-> > >
-> > > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> > > index c3b2a8a494d6..3137c72d9cc7 100644
-> > > --- a/mm/hugetlb.c
-> > > +++ b/mm/hugetlb.c
-> > > @@ -1609,6 +1609,13 @@ static void __prep_account_new_huge_page(struct hstate *h, int nid)
-> > >  static void __prep_new_huge_page(struct hstate *h, struct page *page)
-> > >  {
-> > >       free_huge_page_vmemmap(h, page);
-> > > +     /*
-> > > +      * Because we store preallocated pages on @page->lru,
-> > > +      * vmemmap_pgtable_free() must be called before the
-> > > +      * initialization of @page->lru in INIT_LIST_HEAD().
-> > > +      */
-> > > +     vmemmap_pgtable_free(&page->lru);
-> > > +
-> > >       INIT_LIST_HEAD(&page->lru);
-> > >       set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
-> > >       hugetlb_set_page_subpool(page, NULL);
-> > > @@ -1775,14 +1782,29 @@ static struct page *alloc_fresh_huge_page(struct hstate *h,
-> > >               nodemask_t *node_alloc_noretry)
-> > >  {
-> > >       struct page *page;
-> > > +     LIST_HEAD(pgtables);
-> > > +
-> > > +     if (vmemmap_pgtable_prealloc(h, &pgtables))
-> > > +             return NULL;
-> >
-> > In the previous two patches I asked:
-> > - Can we wait until later to prealloc vmemmap pages for gigantic pages
-> >   allocated from bootmem?
-> > - Should we fail to add a hugetlb page to the pool if we can not do
-> >   vmemmap optimization?
-> >
-> >
-> > Depending on the answers to those questions, we may be able to eliminate
-> > these vmemmap_pgtable_prealloc/vmemmap_pgtable_free calls in hugetlb.c.
-> > What about adding the calls to free_huge_page_vmemmap?
-> > At the beginning of free_huge_page_vmemmap, allocate any vmemmap pgtable
-> > pages.  If it fails, skip optimization.  We can free any pages before
-> > returning to the caller.
->
-> You are right because we've introduced HPageVmemmapOptimized flag.
-> It can be useful here. If failing to optimize vmemmap is allowed, we can
-> eliminate allocating/freeing page table helpers. Thanks for your reminder.
->
-> >
-> > Since we also know the page/address in the page table can we check to see
-> > if it is already PTE mapped.  If so, can we then skip allocation?
->
-> Good point. We need to allocate 512 page tables when splitting
+On Mon, Jun 07 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Sorry, it is 7 page tables here.
+> For some reason the vfio_mdev shim mdev_driver has its own module and
+> kconfig. As the next patch requires access to it from mdev.ko merge the
+> two modules together and remove VFIO_MDEV_DEVICE.
+>
+> A later patch deletes this driver entirely.
+>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  Documentation/s390/vfio-ap.rst   |  1 -
+>  arch/s390/Kconfig                |  2 +-
+>  drivers/gpu/drm/i915/Kconfig     |  2 +-
+>  drivers/vfio/mdev/Kconfig        |  7 -------
+>  drivers/vfio/mdev/Makefile       |  3 +--
+>  drivers/vfio/mdev/mdev_core.c    | 16 ++++++++++++++--
+>  drivers/vfio/mdev/mdev_private.h |  2 ++
+>  drivers/vfio/mdev/vfio_mdev.c    | 24 +-----------------------
+>  samples/Kconfig                  |  6 +++---
+>  9 files changed, 23 insertions(+), 40 deletions(-)
 
-> 1 GB huge page. If we fail to allocate page tables in the middle
-> of processing of remapping, we should restore the previous
-> mapping. I just want to clarify something for myself.
->
-> Thanks, Mike. I'll try in the next version.
->
->
-> > --
-> > Mike Kravetz
+I think you missed my earlier
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
