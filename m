@@ -2,148 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C432C4743D
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 07:52:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A843C4743D
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 07:54:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62D62613B3
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 07:52:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F108613AE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 07:54:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231151AbhFKHyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 03:54:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50420 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231132AbhFKHyh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 03:54:37 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3DB8C061574;
-        Fri, 11 Jun 2021 00:52:39 -0700 (PDT)
-Received: from zn.tnic (p2e584d18.dip0.t-ipconnect.de [46.88.77.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1E5BC1EC0528;
-        Fri, 11 Jun 2021 09:52:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1623397958;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=vSnV81dscIMGE/gY3bycp5V2Li1nZZO4DLoJmbCgDdU=;
-        b=AbK4ea+m7e4UCR6DzGiNOdLe+w4q57MTzkANx0f9Tbw4U1WFKniqOpYkJchGZonW7PDJMQ
-        bbaRyVApCBSkMFS3+gvB9xpCaumT+PPTHLtHtXuAmGLeyaxryuZaFEk/7cBgfVpdzJ/SwB
-        wimHMZ3x1yAB9cBJZthq9BEjVz4CHSA=
-Date:   Fri, 11 Jun 2021 09:50:22 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kyung Min Park <kyung.min.park@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Victor Ding <victording@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Anand K Mistry <amistry@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nick Desaulniers <ndesaulniers@gooogle.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH 2/4] perf/x86/intel: Do not deploy workaround when TSX is
- deprecated
-Message-ID: <YMMVvq9ZZCu9zZom@zn.tnic>
-References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <4926973a8b0b2ed78217add01b5c459a92f0d511.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+        id S231391AbhFKH41 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 03:56:27 -0400
+Received: from mail-pf1-f175.google.com ([209.85.210.175]:33336 "EHLO
+        mail-pf1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229733AbhFKH41 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 03:56:27 -0400
+Received: by mail-pf1-f175.google.com with SMTP id p13so3818737pfw.0
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 00:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Nw9bO65kv+vQzZ++JLwMCIyG0t/9RcSEQHg9y8K4+tU=;
+        b=OAnD2p66yIuge2Exhcrg10S9Z8oPV5BTTtawPiL8+zS1a8AIZRVb3fgDpy8Msgxw4M
+         RBZvHTCraGkv8nzI6uTWb85+/jNYyjVFSQiZSwgcfj63lOZ9S/732vounN3BK/kar2Tt
+         sowkCJpyRPd0KStiTx4sHKbyItYqMwfMgcsELKWkYYXZGJggpRlCihR20ARxHVjGeO6w
+         O+j9kvTqRxgUAR9ugVmtjZKKUOXs7/M/qGoCw5Z2L8wTuDQUSnL6nTMa5oFERdG2ZRB5
+         DFcLujleTUQSnLx1EHg8fv+z9pNe/+O4rnI8Ii9h9rLEsjxeIawnMLOT43RYSNBgOwhM
+         g3Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Nw9bO65kv+vQzZ++JLwMCIyG0t/9RcSEQHg9y8K4+tU=;
+        b=M95GabGqd/uCuQTsp+t83FLf8fEwfZGIbNKUYwC6tJGMDW+t4TvtgF6AN9tSAW6H8f
+         0+XlYK0c+FJjXT08ySYHdNo1LKAmft3OaK9ScrPnyJ4hz1SLGAzeA8gCWFowtBezgaDF
+         Hv3b3UWCgny0brB3p4r/gtSTIXPoZGXVKu+F3fP1P95lLpgxvgK+/XvV94C9UP+0NXvz
+         ZyYeJMU6jNXjSv8wbWyx6SBrVh7mJ2lApBgoylwCmrw5em8/7j7cr/OBpkK3qcsj+Gb/
+         8kK/ls0VtCkwkBASd0BH7I+Kd1rZlrTegVkmPpWkfc5PZvj0oL5DdjdsprTRmBeGzlp8
+         IIWQ==
+X-Gm-Message-State: AOAM530o0vKUiLioeZMEbB9KXHgpSxM1vkFGXjsP1KUYPs8sZD7CiYeF
+        pKzOTG6HObghzd/yKlKfMpu2jeKhzqAJaH9xpXVjqw==
+X-Google-Smtp-Source: ABdhPJzKuyr2FvUEJ2NbeqTxmGKZrL+MaigtT0hVYXHXVW2pY66rOIQFs76DmlBfTYidHDA1Rj+WH4jcfTzk66gexGs=
+X-Received: by 2002:a63:6547:: with SMTP id z68mr2358600pgb.341.1623398009991;
+ Fri, 11 Jun 2021 00:53:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4926973a8b0b2ed78217add01b5c459a92f0d511.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+References: <20210609121310.62229-1-songmuchun@bytedance.com>
+ <20210609121310.62229-4-songmuchun@bytedance.com> <1c910c9a-d5fd-8eb8-526d-bb1f71833c30@oracle.com>
+In-Reply-To: <1c910c9a-d5fd-8eb8-526d-bb1f71833c30@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 11 Jun 2021 15:52:52 +0800
+Message-ID: <CAMZfGtU6D28AzoGsVdddrf54P_O-134j2dEMu6gn+uiBJkdi9Q@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH 3/5] mm: sparsemem: split the huge PMD
+ mapping of vmemmap pages
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        Chen Huang <chenhuang5@huawei.com>,
+        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 09, 2021 at 02:12:38PM -0700, Pawan Gupta wrote:
-> Earlier workaround added by commit 400816f60c54 ("perf/x86/intel:
-> Implement support for TSX Force Abort") for perf counter interactions
-> [1] are not required on some client systems which received a microcode
-> update that deprecates TSX.
-> 
-> Bypass the perf workaround when such microcode is enumerated.
-> 
-> [1] Performance Monitoring Impact of Intel® Transactional Synchronization Extension Memory
->     http://cdrdv2.intel.com/v1/dl/getContent/604224
-> 
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> Reviewed-by: Andi Kleen <ak@linux.intel.com>
-> Reviewed-by: Tony Luck <tony.luck@intel.com>
-> Tested-by: Neelima Krishnan <neelima.krishnan@intel.com>
-> ---
->  arch/x86/events/intel/core.c | 22 ++++++++++++++++++----
->  1 file changed, 18 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
-> index e28892270c58..b5953e1e59a2 100644
-> --- a/arch/x86/events/intel/core.c
-> +++ b/arch/x86/events/intel/core.c
-> @@ -6016,10 +6016,24 @@ __init int intel_pmu_init(void)
->  		intel_pmu_pebs_data_source_skl(pmem);
->  
->  		if (boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT)) {
-> -			x86_pmu.flags |= PMU_FL_TFA;
-> -			x86_pmu.get_event_constraints = tfa_get_event_constraints;
-> -			x86_pmu.enable_all = intel_tfa_pmu_enable_all;
-> -			x86_pmu.commit_scheduling = intel_tfa_commit_scheduling;
-> +			u64 msr;
-> +
-> +			rdmsrl(MSR_TSX_FORCE_ABORT, msr);
-> +			/* Systems that enumerate CPUID.RTM_ALWAYS_ABORT or
-> +			 * support MSR_TSX_FORCE_ABORT[SDV_ENABLE_RTM] bit have
-> +			 * TSX deprecated by default. TSX force abort hooks are
-> +			 * not required on these systems.
+On Fri, Jun 11, 2021 at 6:35 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+>
+> On 6/9/21 5:13 AM, Muchun Song wrote:
+> > If the vmemmap is huge PMD mapped, we should split the huge PMD firstly
+> > and then we can change the PTE page table entry. In this patch, we add
+> > the ability of splitting the huge PMD mapping of vmemmap pages.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  include/linux/mm.h   |  2 +-
+> >  mm/hugetlb.c         | 42 ++++++++++++++++++++++++++++++++++--
+> >  mm/hugetlb_vmemmap.c |  3 ++-
+> >  mm/sparse-vmemmap.c  | 61 +++++++++++++++++++++++++++++++++++++++++++++-------
+> >  4 files changed, 96 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index cadc8cc2c715..b97e1486c5c1 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -3056,7 +3056,7 @@ static inline void print_vma_addr(char *prefix, unsigned long rip)
+> >  #endif
+> >
+> >  void vmemmap_remap_free(unsigned long start, unsigned long end,
+> > -                     unsigned long reuse);
+> > +                     unsigned long reuse, struct list_head *pgtables);
+> >  int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+> >                       unsigned long reuse, gfp_t gfp_mask);
+> >
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > index c3b2a8a494d6..3137c72d9cc7 100644
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
+> > @@ -1609,6 +1609,13 @@ static void __prep_account_new_huge_page(struct hstate *h, int nid)
+> >  static void __prep_new_huge_page(struct hstate *h, struct page *page)
+> >  {
+> >       free_huge_page_vmemmap(h, page);
+> > +     /*
+> > +      * Because we store preallocated pages on @page->lru,
+> > +      * vmemmap_pgtable_free() must be called before the
+> > +      * initialization of @page->lru in INIT_LIST_HEAD().
+> > +      */
+> > +     vmemmap_pgtable_free(&page->lru);
+> > +
+> >       INIT_LIST_HEAD(&page->lru);
+> >       set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
+> >       hugetlb_set_page_subpool(page, NULL);
+> > @@ -1775,14 +1782,29 @@ static struct page *alloc_fresh_huge_page(struct hstate *h,
+> >               nodemask_t *node_alloc_noretry)
+> >  {
+> >       struct page *page;
+> > +     LIST_HEAD(pgtables);
+> > +
+> > +     if (vmemmap_pgtable_prealloc(h, &pgtables))
+> > +             return NULL;
+>
+> In the previous two patches I asked:
+> - Can we wait until later to prealloc vmemmap pages for gigantic pages
+>   allocated from bootmem?
+> - Should we fail to add a hugetlb page to the pool if we can not do
+>   vmemmap optimization?
+>
+>
+> Depending on the answers to those questions, we may be able to eliminate
+> these vmemmap_pgtable_prealloc/vmemmap_pgtable_free calls in hugetlb.c.
+> What about adding the calls to free_huge_page_vmemmap?
+> At the beginning of free_huge_page_vmemmap, allocate any vmemmap pgtable
+> pages.  If it fails, skip optimization.  We can free any pages before
+> returning to the caller.
 
-So if they're not required, why aren't you simply disabling the force
-abort "workaround" by clearing the feature flag?
+You are right because we've introduced HPageVmemmapOptimized flag.
+It can be useful here. If failing to optimize vmemmap is allowed, we can
+eliminate allocating/freeing page table helpers. Thanks for your reminder.
 
-	if (boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT)) {
-		if (boot_cpu_has(X86_FEATURE_RTM_ALWAYS_ABORT))
-			setup_clear_cpu_cap(X86_FEATURE_TSX_FORCE_ABORT);
-	}
+>
+> Since we also know the page/address in the page table can we check to see
+> if it is already PTE mapped.  If so, can we then skip allocation?
 
-so that it doesn't get enabled in the first place?
+Good point. We need to allocate 512 page tables when splitting
+1 GB huge page. If we fail to allocate page tables in the middle
+of processing of remapping, we should restore the previous
+mapping. I just want to clarify something for myself.
 
--- 
-Regards/Gruss,
-    Boris.
+Thanks, Mike. I'll try in the next version.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
+> --
+> Mike Kravetz
