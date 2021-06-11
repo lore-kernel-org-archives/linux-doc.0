@@ -2,88 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F964C48BE0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC495C48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F06B861404
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:43:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3D04613F4
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:50:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbhFKNp3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 09:45:29 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:34290 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229517AbhFKNp2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 09:45:28 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 170BAC08;
-        Fri, 11 Jun 2021 15:43:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1623419005; x=1625233406; bh=1kJogRoiDVsAnB9QZik9yfmQC0b6wq5/Kh+
-        3aY136+E=; b=DKFPvei7IPRvWsQKuPxQXvuANVDcTIDU8MrcC3+eOn+K9uSklN6
-        b5gFgN6d3GfOVRY3/8JXZ+LERbmH7Gu51ynhqJPK6W7j739/19FiqV/y7S1mI4ou
-        JOCY8EUCPvMi2qCc/Hv5VqKS60JumeXF/UG3XptIl35KZKXkKR/JPsEiHg4QiWqX
-        IZTDbIaUH9A4SuIc6WJne7Vsw5uOjvwKQfqjukQstcBsRaY/wqQFInVDcKQEZrCZ
-        0WggE0QdUQAq3B8X0KqRlZOA0UoR71l6sstYsshmmHDKvZZRUTgpvdJej7tS39Ma
-        +WPr2asp1FYhxam6KQlUjV25ADtXYEJfl8tB0tHn711KLNcq5Fvj8FlEG9MTEl2d
-        /RJitvQg5FTay+OXoz1MjRbPDOcenE4yb5QySdNDHBK4Xrg2L6/JSZe+B7HNqK5j
-        rFXUhk0h8QVAnjGGa8OFofFtTIgZkpwP5GqgpZejpURqSLbqkaAPCZej0sS9UgO/
-        XEbzGLZ0ScWb+h6n5C0X/w9C+e5A2Rs3918mgBxzyKFUDsfrfczkocWTIk4yl+m8
-        J/I2uG81Aql2IktA/xygk8KWuEVXhNJPr1yiRPRey6z53m2AZJrJcIn3I75sTeQQ
-        umiQUZ7V/rsanz8LgZ1X0CEBZ0/ciEC7hyor2Cs99u9OrcDEP4/rytgQ=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id JBeVJ31EBijM; Fri, 11 Jun 2021 15:43:25 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id B269A6A8;
-        Fri, 11 Jun 2021 15:43:25 +0200 (CEST)
-Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 9AB5A4E20;
-        Fri, 11 Jun 2021 15:43:23 +0200 (CEST)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 11 Jun 2021 15:43:21 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Sanjeev Gupta <ghane0@gmail.com>
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
-        Alex Shi <alexs@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 1/3] Documentation/translations/it_IT: switch LWN links to
- https
-In-Reply-To: <69693d32.AM4AAKVPb68AAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgvu7-@mailjet.com>
-References: <69693d32.AM4AAKVPb68AAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgvu7-@mailjet.com>
-Message-ID: <b7dee70d419f7d48e186a5b8ff3a0acb@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+        id S231356AbhFKNwe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 09:52:34 -0400
+Received: from mail-qk1-f172.google.com ([209.85.222.172]:35559 "EHLO
+        mail-qk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229529AbhFKNwd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 09:52:33 -0400
+Received: by mail-qk1-f172.google.com with SMTP id j189so31015887qkf.2;
+        Fri, 11 Jun 2021 06:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=Vcij7NrPMkCvyJHAqP+PNXJ1m2LDMYuEJqY2GEWx4uk=;
+        b=cLtaTlvzJsrycgBKgPT3J3MiVtcry9Wv/dGtaM0ra8zTVzd2cQZ0UFce+0OfJ6LgDt
+         aPUzXCakTEYyW4fMcNGHx3Rr/KoUvtcL9aurZjLcFz/PvTStSwEiR7R9KQnS2mRa6+1H
+         6tDWOGiz8QdRgiNSOdIqEUxKFXkJWCKcjeTTc8KicWtBcv+zuos+CLBrQFpY7WTTkjAS
+         +N7n3J/+Xz54oY+Z+/EQgiEYnfLzvumdxmfg61scQ2BeXYU8PXZ8ReBrDLxq2FHnkGLx
+         3wtlR9lSlZJ89HFmkTP+6+YTigEkfbpSDKRsHCg1kILNnKlxzvUO/Dv8p53MWosC5+/o
+         ad4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=Vcij7NrPMkCvyJHAqP+PNXJ1m2LDMYuEJqY2GEWx4uk=;
+        b=Bpd6gc+q8Kt96NdDO2YhpiqzaGyNw+9WFYxZB3kSI84AQgcFWD//XbOu01PZJs/cqx
+         vmGxFrbDdrIho3UTKorLIjFi5QhJfjehg9UNcdUygGRPh8vpXj4voG3ATjwuLcfcnMxH
+         U3Wh6ylsn8q+kYdTS9Y31R1rkxjbDB8t0z6/Vj0q7r4CaBquJfYl3DAbBMn7skjmj5YU
+         xzra6r0uAzf4mp76xD0DvGbH4lr7OIc6r+eUkENYzXXpSff4DhSulnndna8/Bd+9vtqt
+         fMbrQmhn2Does3Petv7nEJ0SipMB9SO/FpKi1DN3yImBKCastQRdxyMZJ+gs3SZPuIMt
+         arsg==
+X-Gm-Message-State: AOAM533zkKPWhssE7yuMJKX2NJbSynIe6xeGPvh+xvqIRh/XYOM7T8zr
+        TFBpYEHkFbTRugZUhCQXAIo=
+X-Google-Smtp-Source: ABdhPJzJxqYScmXh7B/Tr9VtL9iUKreQUbM9jktN5QXk1XOK3vd9AbM80/s95/fBHAaln8ELHD/qAA==
+X-Received: by 2002:a37:6114:: with SMTP id v20mr3956884qkb.157.1623419375239;
+        Fri, 11 Jun 2021 06:49:35 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id 3sm4301926qka.4.2021.06.11.06.49.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jun 2021 06:49:34 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     "Shah, Amit" <aams@amazon.de>
+Cc:     "sj38.park@gmail.com" <sj38.park@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "rientjes@google.com" <rientjes@google.com>,
+        "acme@kernel.org" <acme@kernel.org>,
+        "snu@amazon.de" <snu@amazon.de>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "minchan@kernel.org" <minchan@kernel.org>,
+        "vdavydov.dev@gmail.com" <vdavydov.dev@gmail.com>,
+        "linux-damon@amazon.com" <linux-damon@amazon.com>,
+        "zgf574564920@gmail.com" <zgf574564920@gmail.com>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "fan.du@intel.com" <fan.du@intel.com>,
+        "Park, Seongjae" <sjpark@amazon.de>,
+        "amit@kernel.org" <amit@kernel.org>,
+        "gthelen@google.com" <gthelen@google.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "Foerster, Leonard" <foersleo@amazon.de>,
+        "guoju.fgj@alibaba-inc.com" <guoju.fgj@alibaba-inc.com>,
+        "benh@kernel.crashing.org" <benh@kernel.crashing.org>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "greg@kroah.com" <greg@kroah.com>,
+        "alexander.shishkin@linux.intel.com" 
+        <alexander.shishkin@linux.intel.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mgorman@suse.de" <mgorman@suse.de>,
+        "Jonathan.Cameron@Huawei.com" <Jonathan.Cameron@Huawei.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "brendanhiggins@google.com" <brendanhiggins@google.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "namhyung@kernel.org" <namhyung@kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "elver@google.com" <elver@google.com>,
+        "riel@surriel.com" <riel@surriel.com>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v29 04/13] mm/idle_page_tracking: Make PG_idle reusable
+Date:   Fri, 11 Jun 2021 13:49:20 +0000
+Message-Id: <20210611134920.6302-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <ac98333d677a3ae8d25a998816e025954826e5c1.camel@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-06-08 06:15, Sanjeev Gupta wrote:
-> Links have been checked to ensure that the old and new URL
-> return the same page.
-> 
-> Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
-> ---
->  Documentation/translations/it_IT/process/2.Process.rst      | 2 +-
->  Documentation/translations/it_IT/process/3.Early-stage.rst  | 4 ++--
->  Documentation/translations/it_IT/process/4.Coding.rst       | 2 +-
->  .../translations/it_IT/process/7.AdvancedTopics.rst         | 2 +-
->  Documentation/translations/it_IT/process/8.Conclusion.rst   | 6 +++---
->  .../it_IT/process/volatile-considered-harmful.rst           | 4 ++--
->  6 files changed, 10 insertions(+), 10 deletions(-)
-> 
+From: SeongJae Park <sjpark@amazon.de>
 
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
+Hi Amit,
 
--- 
-Federico Vaga
+On Fri, 11 Jun 2021 12:55:27 +0000 "Shah, Amit" <aams@amazon.de> wrote:
+
+> On Thu, 2021-05-20 at 07:56 +0000, SeongJae Park wrote:
+> > From: SeongJae Park <sjpark@amazon.de>
+> > 
+> > PG_idle and PG_young allow the two PTE Accessed bit users, Idle Page
+> > Tracking and the reclaim logic concurrently work while don't interfere
+> 
+> ... while not interfering with ...
+
+Will fix so.
+
+> 
+> > each other.  That is, when they need to clear the Accessed bit, they set
+> > PG_young to represent the previous state of the bit, respectively.  And
+> > when they need to read the bit, if the bit is cleared, they further read
+> > the PG_young to know whether the other has cleared the bit meanwhile or
+> > not.
+> > 
+> > We could add another page flag and extend the mechanism to use the flag
+> > if we need to add another concurrent PTE Accessed bit user subsystem.
+> > However, the space is limited.  Meanwhile, if the new subsystem is
+> > mutually exclusive with IDLE_PAGE_TRACKING or interfering with it is not
+> > a real problem, it would be ok to simply reuse the PG_idle flag.
+> > However, it's impossible because the flags are dependent on
+> > IDLE_PAGE_TRACKING.
+> 
+> For better readability, I suggest:
+> 
+> For yet another user of the PTE Accessed bit, we could add another page
+> flag, or extend the mechanism to use the flags. For the DAMON usecase,
+> however, we don't need to do that just yet.  IDLE_PAGE_TRACKING and
+> DAMON are mutually exclusive, so there's only ever going to be one user
+> of the current set of flags. 
+> 
+> In this commit, we split out the CONFIG options to allow for the use of
+> PG_young and PG_idle outside of idle page tracking.
+
+Thank you for the suggestion, it looks better to me, either.  I will update so
+in the next spin.
+
+
+Thanks,
+SeongJae Park
+
+[...]
