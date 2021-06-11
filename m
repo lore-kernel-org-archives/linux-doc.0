@@ -2,96 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C529C48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 18:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 066B8C48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 20:11:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BD31613DF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 18:59:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4D23610C7
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 20:11:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbhFKTBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 15:01:32 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:19347 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230334AbhFKTBb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 15:01:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1623437974; x=1654973974;
-  h=to:cc:references:subject:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=IlXqNN4DCVLdzq7m01pXqxaNCLTpWZMZHvoFH3QaHXc=;
-  b=Xoh54ZEVWECrIZt5wuLvFdbn7DlbHMzQAhEHDcopepS5SuKmF03UDf85
-   XevOfCf7p45A8AOI1/AFREGVLBuT3CH/Ezjsj2DQLrrvsD21mo95xqfTP
-   JoFw8Z06dom35I2Ac0tUClqexb41EwRbQEb0wnV5tlEPhqWrvlRUTslZ/
-   c=;
-X-IronPort-AV: E=Sophos;i="5.83,267,1616457600"; 
-   d="scan'208";a="118269492"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2b-81e76b79.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-6002.iad6.amazon.com with ESMTP; 11 Jun 2021 18:59:24 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2b-81e76b79.us-west-2.amazon.com (Postfix) with ESMTPS id 56AE0A18A7;
-        Fri, 11 Jun 2021 18:59:21 +0000 (UTC)
-Received: from EX13MTAUWC001.ant.amazon.com (10.43.162.135) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Fri, 11 Jun 2021 18:59:19 +0000
-Received: from u898248c994d452.ant.amazon.com (10.85.45.245) by
- mail-relay.amazon.com (10.43.162.232) with Microsoft SMTP Server (TLS) id
- 15.0.1497.18 via Frontend Transport; Fri, 11 Jun 2021 18:59:06 +0000
-To:     <sj38.park@gmail.com>
-CC:     <Jonathan.Cameron@Huawei.com>, <acme@kernel.org>,
-        <akpm@linux-foundation.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendanhiggins@google.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <greg@kroah.com>, <gthelen@google.com>,
-        <guoju.fgj@alibaba-inc.com>, <linux-damon@amazon.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <rppt@kernel.org>, <shakeelb@google.com>, <shuah@kernel.org>,
-        <sjpark@amazon.de>, <snu@amazon.de>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <zgf574564920@gmail.com>
-References: <20210520075629.4332-8-sj38.park@gmail.com>
-Subject: Re: [PATCH v29 07/13] mm/damon: Implement a debugfs-based user space
- interface
-From:   <sieberf@amazon.com>
-Message-ID: <e8687948-649f-348f-e4d6-2175b1c47551@amazon.com>
-Date:   Fri, 11 Jun 2021 20:59:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229951AbhFKUNc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 16:13:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58874 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229572AbhFKUNb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 16:13:31 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 68BF3613A9;
+        Fri, 11 Jun 2021 20:03:43 +0000 (UTC)
+Date:   Fri, 11 Jun 2021 16:03:40 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH V3 9/9] tracing: Add timerlat tracer
+Message-ID: <20210611160340.6970e10c@gandalf.local.home>
+In-Reply-To: <fd2bdb45-e68a-995e-271e-ec181f04ecbc@redhat.com>
+References: <cover.1621024265.git.bristot@redhat.com>
+        <b650672b9973887ef1420bc1e76b97940b6522d6.1621024265.git.bristot@redhat.com>
+        <20210607213639.68aad064@gandalf.local.home>
+        <fd2bdb45-e68a-995e-271e-ec181f04ecbc@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210520075629.4332-8-sj38.park@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+ Returns non-empty string on success, negarive error code otherwise.
+On Fri, 11 Jun 2021 14:59:13 +0200
+Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 
-Nit: typo, 'negarive'
+> ------------------ %< -----------------------------
+> It is worth mentioning that the *duration* values reported
+> by the osnoise: events are *net* values. For example, the
+> thread_noise does not include the duration of the overhead caused
+> by the IRQ execution (which indeed accounted for 12736 ns). But
+> the values reported by the timerlat tracer (timerlat_latency)
+> are *gross* values.
+> 
+> The art below illustrates a CPU timeline and how the timerlat tracer
+> observes it at the top and the osnoise: events at the bottom. Each "-"
+> in the timelines means 1 us, and the time moves ==>:
+> 
+>      External          context irq                  context thread
+>       clock           timer_latency                 timer_latency
+>       event              18 us                          48 us 
+>         |                  ^                             ^
+>         v                  |                             |
+>         |------------------|                             |       <-- timerlat irq timeline
+>         |------------------+-----------------------------|       <-- timerlat thread timeline
+>                            ^                             ^
+>  ===================== CPU timeline ======================================
+>                    [timerlat/ irq]  [ dev irq ]                          
+>  [another thread...^             v..^         v........][timerlat/ thread]  
+>  ===================== CPU timeline ======================================
+>                    |-------------|  |---------|                  <-- irq_noise timeline
+>                                  |--^         v--------|         <-- thread_noise timeline
+>                                  |            |        |
+>                                  |            |        + thread_noise: 10 us
+>                                  |            +-> irq_noise: 9 us
+>                                  +-> irq_noise: 13 us
+> 
+>  --------------- >% --------------------------------  
 
+That's really busy, and honestly, I can't tell what is what.
 
-+    if (ctx->kdamond) {
-+        if (targetid_is_pid(ctx))
-+            dbgfs_put_pids(targets, nr_targets);
-+        ret = -EBUSY;
-+        goto unlock_out;
+The "context irq timer_latency" is a confusing name. Could we just have
+that be "timer irq latency"? And "context thread timer_latency" just be
+"thread latency". Adding too much text to the name actually makes it harder
+to understand. We want to simplify it, not make people have to think harder
+to see it.
 
-I don't understand this block, what does EBUSY mean in this context?
+I think we can get rid of the "<-- .* timeline" to the right.  I don't
+think they are necessary. Again, the more you add to the diagram, the
+busier it looks, and the harder it is to read.
 
-+    if (sscanf(kbuf, "%s", kbuf) != 1) {
-+        kfree(kbuf);
-+        return -EINVAL;
-+    }
+Could we switch "[timerlat/ irq]" to just "[timer irq]" and explain how
+that "context irq timer_latency"/"timer irq latency" is related?
 
-Nit, this diverts from other patterns use elsewhere where error 
-conditions that need to free memory use a goto label.
+Should probably state that the "dev irq" is an unrelated device interrupt
+that happened.
 
+What's with the two CPU timeline lines? Now there I think it would be
+better to have the arrow text by itself.
+
+And finally, not sure if you plan on doing this, but have a output of the
+trace that would show the above.
+
+Thus, here's what I would expect to see:
+
+      External         
+       clock         timer irq latency                 thread latency
+       event              18 us                          48 us 
+         |                  ^                             ^
+         v                  |                             |
+         |------------------|                             |
+         |------------------+-----------------------------|       
+                            ^                             ^
+  =========================================================================
+                    [timerlat/ irq]  [ dev irq ]                             
+  [another thread...^             v..^         v........][timerlat/ thread]  <-- CPU task timeline
+  =========================================================================
+                    |-------------|  |---------|
+                                  |--^         v--------|
+                                  |            |        |
+                                  |            |        + thread_noise: 10 us
+                                  |            +-> irq_noise: 9 us
+                                  +-> irq_noise: 13 us
+ 
+ The "[ dev irq ]" above is an interrupt from some device on the system that
+ causes extra noise to the timerlat task.
+
+I think the above may be easier to understand, especially if the trace
+output that represents it is below.
+
+Also, I have to ask, shouldn't the "thread noise" really start at the
+"External clock event"?
+
+-- Steve
