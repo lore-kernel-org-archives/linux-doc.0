@@ -2,135 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1269C48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99682C48BE5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 09:13:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C0E68613C6
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:45:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81F26613D5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 09:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbhFKIrL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 04:47:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57090 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229584AbhFKIrL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 04:47:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D986613B3;
-        Fri, 11 Jun 2021 08:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623401113;
-        bh=lFOCAvTa5kzm9zjAjf2Cb6+Xc+gz2Rbc6efLS2UFKkI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BE54IPKK/mj7XtJint2tB9C5Rd87WaGfFjnd3Qz6D+K5jHuhoULdezgurcXosn2Yv
-         itC/ZCAjXBR3aR4Bm/9wR2sCPrOXHiEL5kGUL71exlcF+Ix1zjrM9+aMGS1oS+Utob
-         5tBmxzN92lAF5wWOszdETku6UgPAI7pnqbgdBvgu0w6HjimxEFLZl6VKbOKs3QjRbd
-         HiXZM6r5X9ujiKTnC8hHjzEvYQWYvWUg+m3vtK7QtvwaHrOL3gnDPeXaQVTrEAYU44
-         I+zOqz2rfXQlMiVyNEUFxfMBlT+jyCP0mjZPmZQNkBT7JiT/exq0be5n9+xuyNep8B
-         ZWEMtyK/AEOBw==
-Date:   Fri, 11 Jun 2021 10:45:07 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 26/34] docs: PCI: endpoint: pci-endpoint-cfs.rst: avoid
- using ReSt :doc:`foo` markup
-Message-ID: <20210611104507.01bbd489@coco.lan>
-In-Reply-To: <20210610234622.GA2795707@bjorn-Precision-5520>
-References: <5268f6eb75bc0fe000f4884bca0a17f01eddbc40.1622898327.git.mchehab+huawei@kernel.org>
-        <20210610234622.GA2795707@bjorn-Precision-5520>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231665AbhFKJPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 05:15:13 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:33798 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231514AbhFKJPM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 05:15:12 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 3235721998;
+        Fri, 11 Jun 2021 09:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1623402794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+G3rNiOHk3zk/0EyrxwKT4BIDO7RSBdoaLonmAI4lAM=;
+        b=bCQ9MwUoiEl86eXlAlLGrRWW71bm2TKp5m/Rb8oPDVagVCd802ePiJkgsQCeOxC89W0xrU
+        nbwCiNpoQTAPuR4QOJZK8JQ1ACAYHcAVmFJVRFmcRzqfr6Tq+iOWMVnsYyvUuLYuLxkCi4
+        1r91V5dTB9dJKH7FddUNwf10NbqgPX4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1623402794;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+G3rNiOHk3zk/0EyrxwKT4BIDO7RSBdoaLonmAI4lAM=;
+        b=zqLYEfI+MYlUx42I9T+KYjRCIyJo/PSta0tII1+MpAU5mwBQ5uoSjcrBBr9ro8DBKOEw5G
+        RFA8TLrbWrJNhfDg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+        by imap.suse.de (Postfix) with ESMTP id 05711118DD;
+        Fri, 11 Jun 2021 09:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1623402794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+G3rNiOHk3zk/0EyrxwKT4BIDO7RSBdoaLonmAI4lAM=;
+        b=bCQ9MwUoiEl86eXlAlLGrRWW71bm2TKp5m/Rb8oPDVagVCd802ePiJkgsQCeOxC89W0xrU
+        nbwCiNpoQTAPuR4QOJZK8JQ1ACAYHcAVmFJVRFmcRzqfr6Tq+iOWMVnsYyvUuLYuLxkCi4
+        1r91V5dTB9dJKH7FddUNwf10NbqgPX4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1623402794;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+G3rNiOHk3zk/0EyrxwKT4BIDO7RSBdoaLonmAI4lAM=;
+        b=zqLYEfI+MYlUx42I9T+KYjRCIyJo/PSta0tII1+MpAU5mwBQ5uoSjcrBBr9ro8DBKOEw5G
+        RFA8TLrbWrJNhfDg==
+Received: from director2.suse.de ([192.168.254.72])
+        by imap3-int with ESMTPSA
+        id ymvUACopw2BkTQAALh3uQQ
+        (envelope-from <vbabka@suse.cz>); Fri, 11 Jun 2021 09:13:14 +0000
+Subject: Re: [PATCH v4 2/3] mm/slub: Fix redzoning for small allocations
+To:     Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     stable@vger.kernel.org, Marco Elver <elver@google.com>,
+        Christoph Lameter <cl@linux.com>,
+        "Lin, Zhenpeng" <zplin@psu.edu>, Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Roman Gushchin <guro@fb.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+References: <20210608183955.280836-1-keescook@chromium.org>
+ <20210608183955.280836-3-keescook@chromium.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <e2857753-210c-da73-6e43-0bbd7e0efe80@suse.cz>
+Date:   Fri, 11 Jun 2021 11:13:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210608183955.280836-3-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 10 Jun 2021 18:46:22 -0500
-Bjorn Helgaas <helgaas@kernel.org> escreveu:
-
-> On Sat, Jun 05, 2021 at 03:18:25PM +0200, Mauro Carvalho Chehab wrote:
-> > The :doc:`foo` tag is auto-generated via automarkup.py.
-> > So, use the filename at the sources, instead of :doc:`foo`.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+On 6/8/21 8:39 PM, Kees Cook wrote:
+> The redzone area for SLUB exists between s->object_size and s->inuse
+> (which is at least the word-aligned object_size). If a cache were created
+> with an object_size smaller than sizeof(void *), the in-object stored
+> freelist pointer would overwrite the redzone (e.g. with boot param
+> "slub_debug=ZF"):
 > 
-> It'd be nice to know why we're doing this and what the benefit is.
-
-That came from an upstream discussion, mentioned on patch 00/34:
-
-		https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
-
-Basically, using Documentation/.../foo.rst allows some text editors
-to navigate directly to the file. Also, there's a preference from
-some maintainers to keep the ReST files as close as possible to plain
-text.
-
-> Maybe if you know more about ReSt, it's obvious that using :doc:`foo`
-> is wrong and produces the wrong output or something.  But I don't
-> know.
-
-It is more a matter of preference. That's said, there is indeed
-an issue with the current builder: when using SPHINXDIRS="book",
-doc:`foo` references may not work well. For instance, if one is
-building just the driver-api book, a reference like :doc:`../admin-guide/foo`
-can't be solved and will produce a warning, plus a bad output.
-
-By using Documentation/admin-guide/foo.rst, it will simply be
-displayed as a text without producing any harm.
-
-We discussed in the past about that, but we didn't reach to any
-conclusion about the proper way to fix it.
-
-> I do think the pathname in the new text is easier for plain-text
-> readers to follow.
-
-Yes.
-
+> BUG test (Tainted: G    B            ): Right Redzone overwritten
+> -----------------------------------------------------------------------------
 > 
-> (What's the correct spelling of "ReSt", BTW?  The cover letter has
-> "ReST", this patch has "ReSt", wikipedia says "RST, ReST, or reST".)
-
-ReSt was a typo.. sorry for that. I guess the proper way is ReST,
-but several places use RST instead. For instance, the conversion
-tool pandoc uses "rst" to refer to this format.
-
+> INFO: 0xffff957ead1c05de-0xffff957ead1c05df @offset=1502. First byte 0x1a instead of 0xbb
+> INFO: Slab 0xffffef3950b47000 objects=170 used=170 fp=0x0000000000000000 flags=0x8000000000000200
+> INFO: Object 0xffff957ead1c05d8 @offset=1496 fp=0xffff957ead1c0620
 > 
-> But anyway,
+> Redzone  (____ptrval____): bb bb bb bb bb bb bb bb    ........
+> Object   (____ptrval____): f6 f4 a5 40 1d e8          ...@..
+> Redzone  (____ptrval____): 1a aa                      ..
+> Padding  (____ptrval____): 00 00 00 00 00 00 00 00    ........
 > 
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-Thanks!
-Mauro
-
+> Store the freelist pointer out of line when object_size is smaller than
+> sizeof(void *) and redzoning is enabled.
 > 
-> > ---
-> >  Documentation/PCI/endpoint/pci-endpoint-cfs.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-> > index 696f8eeb4738..db609b97ad58 100644
-> > --- a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-> > +++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-> > @@ -125,4 +125,4 @@ all the EPF devices are created and linked with the EPC device.
-> >  						| interrupt_pin
-> >  						| function
-> >  
-> > -[1] :doc:`pci-endpoint`
-> > +[1] Documentation/PCI/endpoint/pci-endpoint.rst
-> > -- 
-> > 2.31.1
-> >   
+> Additionally remove the "smaller than sizeof(void *)" check under
+> CONFIG_DEBUG_VM in kmem_cache_sanity_check() as it is now redundant:
+> SLAB and SLOB both handle small sizes.
+> 
+> (Note that no caches within this size range are known to exist in the
+> kernel currently.)
+> 
+> Fixes: 81819f0fc828 ("SLUB core")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
+> ---
+>  mm/slab_common.c | 3 +--
+>  mm/slub.c        | 8 +++++---
+>  2 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index a4a571428c51..7cab77655f11 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -97,8 +97,7 @@ EXPORT_SYMBOL(kmem_cache_size);
+>  #ifdef CONFIG_DEBUG_VM
+>  static int kmem_cache_sanity_check(const char *name, unsigned int size)
+>  {
+> -	if (!name || in_interrupt() || size < sizeof(void *) ||
+> -		size > KMALLOC_MAX_SIZE) {
+> +	if (!name || in_interrupt() || size > KMALLOC_MAX_SIZE) {
+>  		pr_err("kmem_cache_create(%s) integrity check failed\n", name);
+>  		return -EINVAL;
+>  	}
+> diff --git a/mm/slub.c b/mm/slub.c
+> index f91d9fe7d0d8..f58cfd456548 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -3734,15 +3734,17 @@ static int calculate_sizes(struct kmem_cache *s, int forced_order)
+>  	 */
+>  	s->inuse = size;
+>  
+> -	if (((flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
+> -		s->ctor)) {
+> +	if ((flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
+> +	    ((flags & SLAB_RED_ZONE) && s->object_size < sizeof(void *)) ||
+> +	    s->ctor) {
+>  		/*
+>  		 * Relocate free pointer after the object if it is not
+>  		 * permitted to overwrite the first word of the object on
+>  		 * kmem_cache_free.
+>  		 *
+>  		 * This is the case if we do RCU, have a constructor or
+> -		 * destructor or are poisoning the objects.
+> +		 * destructor, are poisoning the objects, or are
+> +		 * redzoning an object smaller than sizeof(void *).
+>  		 *
+>  		 * The assumption that s->offset >= s->inuse means free
+>  		 * pointer is outside of the object is used in the
+> 
 
-Thanks,
-Mauro
