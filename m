@@ -2,137 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94ABDC48BE0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1269C48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:45:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DBEC613C3
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:42:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0E68613C6
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:45:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230248AbhFKIoB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 04:44:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbhFKIoB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 04:44:01 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 686EDC061574;
-        Fri, 11 Jun 2021 01:42:03 -0700 (PDT)
-Received: from zn.tnic (p2e584d18.dip0.t-ipconnect.de [46.88.77.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8A63F1EC03E4;
-        Fri, 11 Jun 2021 10:42:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1623400921;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KIA7zFQYyGvC5dZzXAgcoJPNiKNE7axh8OV+krFMr4g=;
-        b=lASDncwv5BRMRWuXZm8sTwFdFYF3XFYviH+HtiR9pj1KZNWRFvZjnmg2UXEDh/O8DSyJAg
-        wKMNzDKgNGOzBdXIG07suvzNlZPGz+MqvtKFrsT2YE0/imU4a5PV0kDHXUVqmRQ0pj71hg
-        EaGZVHvLGnJWCA6NvSdCy3cv4W6Ugts=
-Date:   Fri, 11 Jun 2021 10:39:43 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kyung Min Park <kyung.min.park@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Victor Ding <victording@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Anand K Mistry <amistry@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nick Desaulniers <ndesaulniers@gooogle.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH 1/4] x86/msr: Define new bits in TSX_FORCE_ABORT MSR
-Message-ID: <YMMhTwR7lJvA/9nu@zn.tnic>
-References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <4a258368e1797d592d4b16f124bd88cf9c21ac35.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+        id S230205AbhFKIrL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 04:47:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57090 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229584AbhFKIrL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 04:47:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D986613B3;
+        Fri, 11 Jun 2021 08:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623401113;
+        bh=lFOCAvTa5kzm9zjAjf2Cb6+Xc+gz2Rbc6efLS2UFKkI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BE54IPKK/mj7XtJint2tB9C5Rd87WaGfFjnd3Qz6D+K5jHuhoULdezgurcXosn2Yv
+         itC/ZCAjXBR3aR4Bm/9wR2sCPrOXHiEL5kGUL71exlcF+Ix1zjrM9+aMGS1oS+Utob
+         5tBmxzN92lAF5wWOszdETku6UgPAI7pnqbgdBvgu0w6HjimxEFLZl6VKbOKs3QjRbd
+         HiXZM6r5X9ujiKTnC8hHjzEvYQWYvWUg+m3vtK7QtvwaHrOL3gnDPeXaQVTrEAYU44
+         I+zOqz2rfXQlMiVyNEUFxfMBlT+jyCP0mjZPmZQNkBT7JiT/exq0be5n9+xuyNep8B
+         ZWEMtyK/AEOBw==
+Date:   Fri, 11 Jun 2021 10:45:07 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 26/34] docs: PCI: endpoint: pci-endpoint-cfs.rst: avoid
+ using ReSt :doc:`foo` markup
+Message-ID: <20210611104507.01bbd489@coco.lan>
+In-Reply-To: <20210610234622.GA2795707@bjorn-Precision-5520>
+References: <5268f6eb75bc0fe000f4884bca0a17f01eddbc40.1622898327.git.mchehab+huawei@kernel.org>
+        <20210610234622.GA2795707@bjorn-Precision-5520>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4a258368e1797d592d4b16f124bd88cf9c21ac35.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 09, 2021 at 01:58:02PM -0700, Pawan Gupta wrote:
-> Intel client processors that support IA32_TSX_FORCE_ABORT MSR related to
-> perf counter interaction [1] received a microcode update that deprecates
-> Transactional Synchronization Extension (TSX) feature. MSR
-> IA32_TSX_FORCE_ABORT bit FORCE_ABORT_RTM now defaults to 1, writes to
-> this bit are ignored. A new bit TSX_CPUID_CLEAR clears the TSX related
-> CPUID bits.
-> 
-> Below is the summary of changes to IA32_TSX_FORCE_ABORT MSR:
-> 
->   Bit 0: FORCE_ABORT_RTM (legacy bit, new default=1) Status bit that
->   indicates if RTM transactions are always aborted. This bit is
->   essentially !SDV_ENABLE_RTM(Bit 2). Writes to this bit are ignored.
-> 
->   Bit 1: TSX_CPUID_CLEAR (new bit, default=0) When set, CPUID.HLE = 0
->   and CPUID.RTM = 0.
-> 
->   Bit 2: SDV_ENABLE_RTM (new bit, default=0) When clear, XBEGIN will
->   always abort with EAX code 0. When set, XBEGIN will not be forced to
->   abort (but will always abort in SGX enclaves). This bit is intended to
->   be SDV-only. If this bit is set transactional atomicity correctness is
+Em Thu, 10 Jun 2021 18:46:22 -0500
+Bjorn Helgaas <helgaas@kernel.org> escreveu:
 
-SDV?
-
->   not certain.
+> On Sat, Jun 05, 2021 at 03:18:25PM +0200, Mauro Carvalho Chehab wrote:
+> > The :doc:`foo` tag is auto-generated via automarkup.py.
+> > So, use the filename at the sources, instead of :doc:`foo`.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
 > 
-> Performance monitoring counter 3 is usable in all cases, regardless of
-> the value of above bits.
-> 
-> A new CPUID bit CPUID.RTM_ALWAYS_ABORT (CPUID 7.EDX[11]) is added to
-> indicate the status of always abort behavior.
-> 
-> Define these new CPUID and MSR bits.
-> 
-> [1] Performance Monitoring Impact of Intel® Transactional Synchronization Extension Memory
->     http://cdrdv2.intel.com/v1/dl/getContent/604224
+> It'd be nice to know why we're doing this and what the benefit is.
 
-That link does not look stable enough to put in commit messages.
-Besides, you've said it all in the commit message already.
+That came from an upstream discussion, mentioned on patch 00/34:
 
--- 
-Regards/Gruss,
-    Boris.
+		https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Basically, using Documentation/.../foo.rst allows some text editors
+to navigate directly to the file. Also, there's a preference from
+some maintainers to keep the ReST files as close as possible to plain
+text.
+
+> Maybe if you know more about ReSt, it's obvious that using :doc:`foo`
+> is wrong and produces the wrong output or something.  But I don't
+> know.
+
+It is more a matter of preference. That's said, there is indeed
+an issue with the current builder: when using SPHINXDIRS="book",
+doc:`foo` references may not work well. For instance, if one is
+building just the driver-api book, a reference like :doc:`../admin-guide/foo`
+can't be solved and will produce a warning, plus a bad output.
+
+By using Documentation/admin-guide/foo.rst, it will simply be
+displayed as a text without producing any harm.
+
+We discussed in the past about that, but we didn't reach to any
+conclusion about the proper way to fix it.
+
+> I do think the pathname in the new text is easier for plain-text
+> readers to follow.
+
+Yes.
+
+> 
+> (What's the correct spelling of "ReSt", BTW?  The cover letter has
+> "ReST", this patch has "ReSt", wikipedia says "RST, ReST, or reST".)
+
+ReSt was a typo.. sorry for that. I guess the proper way is ReST,
+but several places use RST instead. For instance, the conversion
+tool pandoc uses "rst" to refer to this format.
+
+> 
+> But anyway,
+> 
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+Thanks!
+Mauro
+
+> 
+> > ---
+> >  Documentation/PCI/endpoint/pci-endpoint-cfs.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
+> > index 696f8eeb4738..db609b97ad58 100644
+> > --- a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
+> > +++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
+> > @@ -125,4 +125,4 @@ all the EPF devices are created and linked with the EPC device.
+> >  						| interrupt_pin
+> >  						| function
+> >  
+> > -[1] :doc:`pci-endpoint`
+> > +[1] Documentation/PCI/endpoint/pci-endpoint.rst
+> > -- 
+> > 2.31.1
+> >   
+
+
+
+Thanks,
+Mauro
