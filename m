@@ -2,330 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EEC2C48BE5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 15:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E09C48BE6
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 15:43:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63256613EE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 15:26:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAFB46008E
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 15:43:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231324AbhFKP2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 11:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38866 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbhFKP2S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 11:28:18 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5D13C061574
-        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 08:26:20 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id y7so6500694wrh.7
-        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 08:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=0fXaAQCav4JMHqqDLTmJAA9vL2ofAn8LFVDAYy3FosU=;
-        b=RxaoGZB9PdBO2obWWr9Son1CIQ7DAYfphJ4uKNVobOiYpJ+mmavn7NB0YtCHIT1l1D
-         oQsizyYQ4FJRefvQAFJO/0AJOav1E/ofoqH4paJ297oy93lpQ3e896974RQ7zKVhhvb1
-         oqY38pf1DVDLn5a35cw/r70vfWSV/1SHhcR0w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=0fXaAQCav4JMHqqDLTmJAA9vL2ofAn8LFVDAYy3FosU=;
-        b=d5XOickvhI3ZtxUKnL1ZYIf4E31j1LW4rSOJk/Wz7NEsLarpPh0E17cQNhPdpNTcpw
-         JXUUxoR418ftD0UwqoOSVkjzDjaKU5ESBOKYOSiMtVPBCGoqoweaaFAf/gy/EzDJVr8g
-         uS5KlOeR8vqmW9LRTOdqP7z4wSkvIIIgyJ9fE0I9uOcQeRDQ0ri1b/f0w3ywRBXc5xsG
-         hgIS3kwtobKShwFN5KMb1swmdeYNk+bEf4B5+Q8uFbPaYguY3rDoUEH1fx8HIGob2SIs
-         Z4IFqc3zsdAzha+GmRLzg2RjdNT0zP6SSfAk9Mzk3/pJzE6HP99P78ZB1GJD7lyvO6oS
-         5Mwg==
-X-Gm-Message-State: AOAM531+UvHP3cRkly4bPkb90DNmFPk4C3zzK0XxLZKk8uAU9k4mgOJI
-        85O7Q/+H1clZx6sxZLVzzrUklQ==
-X-Google-Smtp-Source: ABdhPJw2KFr1zO8QQtfKE4YD9azGDVISyK9XC85GcDukXzrthZ23Yp2apTf9M28mUBh5xZI3M9Pdgw==
-X-Received: by 2002:a5d:438a:: with SMTP id i10mr4768390wrq.82.1623425179113;
-        Fri, 11 Jun 2021 08:26:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id h11sm6267937wmq.34.2021.06.11.08.26.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 08:26:18 -0700 (PDT)
-Date:   Fri, 11 Jun 2021 17:26:14 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S231642AbhFKPpE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 11:45:04 -0400
+Received: from mout.gmx.net ([212.227.15.18]:55819 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231583AbhFKPpD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 11:45:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1623426100;
+        bh=wSl94BM+7x5/sCumDnkuvfHVswV21AdjoNAYK7HUeg0=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=Ktv15AFt+uhCBDslUDCIx1FJIBzYrZ3u61mrbS09SZ8CYUSCThBLz9MaVwyb1Fozf
+         N/Pe2Jskoc0lhiOmiEts4rJ9FuzobAcwu2xGxvRTpGZ8WsFF/RQexkFqRKv/lNV7Bq
+         wQGqYp/p9mytBvSd2EU+qff/qDr4dH4JDQL623e4=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.228.41]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MMXQ5-1laTQ31Nax-00JdlI; Fri, 11
+ Jun 2021 17:41:40 +0200
+Date:   Fri, 11 Jun 2021 17:41:23 +0200
+From:   John Wood <john.wood@gmx.com>
+To:     Kees Cook <keescook@chromium.org>, Andi Kleen <ak@linux.intel.com>
+Cc:     John Wood <john.wood@gmx.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Brian Starkey <brian.starkey@arm.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-        Huang Rui <ray.huang@amd.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Joel Stanley <joel@jms.id.au>,
-        John Stultz <john.stultz@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Marek Vasut <marex@denx.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sean Paul <sean@poorly.run>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Steven Price <steven.price@arm.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Zack Rusin <zackr@vmware.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <YMOAlqwTE6exJtQA@phenom.ffwll.local>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <20210611055407.aoeams62wbalodrj@gilmour>
- <1cac781e-122f-568b-5f5a-7e0ceb94bd0b@ideasonboard.com>
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Arnd Bergmann <arnd@arndb.de>, valdis.kletnieks@vt.edu,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v8 0/8] Fork brute force attack mitigation
+Message-ID: <20210611154123.GA3057@ubuntu>
+References: <20210605150405.6936-1-john.wood@gmx.com>
+ <202106081616.EC17DC1D0D@keescook>
+ <cbfd306b-6e37-a697-ebdb-4a5029d36583@linux.intel.com>
+ <202106090951.8C1B5BAD@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1cac781e-122f-568b-5f5a-7e0ceb94bd0b@ideasonboard.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <202106090951.8C1B5BAD@keescook>
+X-Provags-ID: V03:K1:z/ThWGP2ZXkRX2ENXQAW/y0IqOK8vdtgPOoV6FgxUCUCFL6dypE
+ Q2jb1TIg/EBtSsnOOmZRk5QWnOZUUHjYolIgJf4CYCaeOTqxYMjuXgRhvutKU4VTq9EfK0+
+ IUIbEDpjRaIJsJwfD7MpdryDp+sCXpPdVSWuhbsVu6c/zi6waJmk5puVuhdQQFmxwj9kiJ/
+ IK8pJI6fVbxIjv/MIv5Gw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Jcw2bEeUOA4=:8Y2o1L32c5gONZQWS8a6u7
+ X2yTDJ2C8O2Jc69Azq8go7nM7u/PFeRW2EmORk1I7Iqkd4O4ShnurPNRasNNF0EKq7wANU5qX
+ zmUZkCcOvCwp42c7Qp026M3OOS/Gge2Bl6TPrQAA8s6BpRD6Z+YQZvrfJyoEtYjVR/0OQpDL5
+ ACGwLBqWsL4OEOe+64DU1jg0AOi/9NlSNGyrACjq7Z3oJMC3YX4oByU6ElloP0UGdEJa0CDXT
+ 8wugo0k6PStZzcj1/x72E336qPT2V6/EnA3BlKF5LrMF0tgUa9T2PAY+gXJSy+WnDuNZCXSek
+ PfTgzkQ6FiUa2a4aHT1ThrwQwiinfDq0fnQj5MoL5u265ZxQFTCYatuL4cp6wivUsn5jqM9gW
+ +5f7axMaY6YW9KtorDOzDFmMVTucu3Zw03shXZpgvu/rNRw1HKtXpYo+uzjkOq7G+F3Ko9RY3
+ G8jqxIQGiE+WZ0yhsrDfwfTwANnuiGaMqTkjL8k8Wsfn6y4t/51RZRM69SoMfkgSwnXxv2Pca
+ jtXNU22sj4dFI6cI0Rzs6Oi39yurSDmWg2H0Vq2mFYeWpVkCVxJIDb9jB9ruCj4HuijGklNQ3
+ G4Vk5JBp8GIotoPp/BZcUebHaRHoxGXXP2mQcdWft6wvFZDTwMS4QYCOvPhjVd4A/yxaByH1f
+ J/6W0LJgi3VyJ73ZFmVPrd+zreavLizvV38Lx+ZCYvcZmiVsQaUMB4hlpp+VANQcrdyJcetXg
+ ZEQD6J14tEwXXk12ZsmjvEaXmatCzKaIBT+vZKj2NDWCLQmdvBmcW0173aaIULFRyEqoVO3Vy
+ riOm373Is1aOpOdCetPbyqwjXgfx5epO5yba/NPMQzq0s0zpTS3qvrXkM2nMzk2CMGXdJtpqk
+ 8ZKYeqMTpH0XfOSAQo6vPSpqxaaT3OOyjpzlAxHfZa5KMYOIkBpTnr/vBqUVCx1zvq9IodGLn
+ qYbl4szFzS6q3vPwivuE7b2WaaOMQKsn863wA+i1LvAQdcdrYu+0NGwo9/46BHWW82C5AY4c7
+ Oa1sAGJ1VQt/tD81gDBBot/qgLcAAR5/XaNy34PTubEYzkMbE0KhdInOVW9Rv4pENYHbjv/8w
+ azBKa8ZZeHW0J2WanyqMOeuBmd/fG4IM6B7
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 09:53:19AM +0300, Tomi Valkeinen wrote:
-> On 11/06/2021 08:54, Maxime Ripard wrote:
-> > Hi,
-> > 
-> > On Thu, Jun 10, 2021 at 11:00:05PM +0200, Daniel Vetter wrote:
-> > > On Thu, Jun 10, 2021 at 7:47 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > 
-> > > > New KMS properties come with a bunch of requirements to avoid each
-> > > > driver from running their own, inconsistent, set of properties,
-> > > > eventually leading to issues like property conflicts, inconsistencies
-> > > > between drivers and semantics, etc.
-> > > > 
-> > > > Let's document what we expect.
-> > > > 
-> > > > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > > > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > > Cc: Alison Wang <alison.wang@nxp.com>
-> > > > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> > > > Cc: Andrew Jeffery <andrew@aj.id.au>
-> > > > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > > > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> > > > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> > > > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > > > Cc: Boris Brezillon <bbrezillon@kernel.org>
-> > > > Cc: Brian Starkey <brian.starkey@arm.com>
-> > > > Cc: Chen Feng <puck.chen@hisilicon.com>
-> > > > Cc: Chen-Yu Tsai <wens@csie.org>
-> > > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > > > Cc: "Christian König" <christian.koenig@amd.com>
-> > > > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > > > Cc: Edmund Dea <edmund.j.dea@intel.com>
-> > > > Cc: Eric Anholt <eric@anholt.net>
-> > > > Cc: Fabio Estevam <festevam@gmail.com>
-> > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > > > Cc: Hans de Goede <hdegoede@redhat.com>
-> > > > Cc: "Heiko Stübner" <heiko@sntech.de>
-> > > > Cc: Huang Rui <ray.huang@amd.com>
-> > > > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> > > > Cc: Inki Dae <inki.dae@samsung.com>
-> > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > > > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > > Cc: Jerome Brunet <jbrunet@baylibre.com>
-> > > > Cc: Joel Stanley <joel@jms.id.au>
-> > > > Cc: John Stultz <john.stultz@linaro.org>
-> > > > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > > > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > > > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> > > > Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> > > > Cc: Kevin Hilman <khilman@baylibre.com>
-> > > > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > > > Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> > > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > > > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > > > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> > > > Cc: Marek Vasut <marex@denx.de>
-> > > > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> > > > Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> > > > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > Cc: Melissa Wen <melissa.srw@gmail.com>
-> > > > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > > > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> > > > Cc: "Noralf Trønnes" <noralf@tronnes.org>
-> > > > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > > > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> > > > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> > > > Cc: Paul Cercueil <paul@crapouillou.net>
-> > > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > > > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > Cc: Qiang Yu <yuq825@gmail.com>
-> > > > Cc: Rob Clark <robdclark@gmail.com>
-> > > > Cc: Robert Foss <robert.foss@linaro.org>
-> > > > Cc: Rob Herring <robh@kernel.org>
-> > > > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> > > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > > Cc: Roland Scheidegger <sroland@vmware.com>
-> > > > Cc: Russell King <linux@armlinux.org.uk>
-> > > > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > > > Cc: Sandy Huang <hjc@rock-chips.com>
-> > > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> > > > Cc: Sean Paul <sean@poorly.run>
-> > > > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> > > > Cc: Shawn Guo <shawnguo@kernel.org>
-> > > > Cc: Stefan Agner <stefan@agner.ch>
-> > > > Cc: Steven Price <steven.price@arm.com>
-> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > > > Cc: Tian Tao <tiantao6@hisilicon.com>
-> > > > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> > > > Cc: Tomi Valkeinen <tomba@kernel.org>
-> > > > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> > > > Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> > > > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> > > > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> > > > Cc: Zack Rusin <zackr@vmware.com>
-> > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > > 
-> > > > ---
-> > > > 
-> > > > Changes from v2:
-> > > >    - Take into account the feedback from Laurent and Lidiu to no longer
-> > > >      force generic properties, but prefix vendor-specific properties with
-> > > >      the vendor name
-> > > 
-> > > I'm pretty sure my r-b was without this ...
-> > 
-> > Yeah, sorry. I wanted to tell you on IRC that you wanted to have a
-> > second look, but I shouldn't have kept it and caught you by surprise
-> > indeed.
-> > 
-> > > Why exactly do we need this? KMS is meant to be fairly generic (bugs
-> > > throw a wrench around here sometimes, and semantics can be tricky). If
-> > > we open up the door to yolo vendor properties in upstream, then that
-> > > goal is pretty much written off. And we've been there with vendor
-> > > properties, it's a giantic mess.
-> > > 
-> > > Minimally drop my r-b, I'm definitely not in support of this idea.
-> > 
-> > So the argument Lidiu and Laurent made was that in some cases, getting a
-> > generic property right with only a couple of users is hard. So they
-> > advocated for the right to keep non-generic properties. I can get the
-> > argument, and no-one else said that was wrong, so it felt like the
-> > consensus was there.
-> 
-> I also think that (maybe mainly on embedded side) we may have 1) esoteric HW
-> features which perhaps can't even be made generic, and 2) features which may
-> or may not be generic, but for which support cannot be added to any common
-> opensource userspace projects like X or Weston, as the only use cases for
-> the features are specialized low level apps (often customer's closed-source
-> apps).
-> 
-> While I agree with Daniel's "gigantic mess" problem, it would also be quite
-> nice to have a way to support all the HW features upstream instead of
-> carrying them in vendor trees.
+On Wed, Jun 09, 2021 at 09:52:29AM -0700, Kees Cook wrote:
+> On Tue, Jun 08, 2021 at 04:38:15PM -0700, Andi Kleen wrote:
+> >
+> > On 6/8/2021 4:19 PM, Kees Cook wrote:
+> > > On Sat, Jun 05, 2021 at 05:03:57PM +0200, John Wood wrote:
+> > > > [...]
+> > > > the kselftest to avoid the detection ;) ). So, in this version, to=
+ track
+> > > > all the statistical data (info related with application crashes), =
+the
+> > > > extended attributes feature for the executable files are used. The=
+ xattr is
+> > > > also used to mark the executables as "not allowed" when an attack =
+is
+> > > > detected. Then, the execve system call rely on this flag to avoid =
+following
+> > > > executions of this file.
+> > >
+> > > I have some concerns about this being actually usable and not creati=
+ng
+> > > DoS situations. For example, let's say an attacker had found a hard-=
+to-hit
+> > > bug in "sudo", and starts brute forcing it. When the brute LSM notic=
+es,
+> > > it'll make "sudo" unusable for the entire system, yes?
+> > >
+> > > And a reboot won't fix it, either, IIUC.
+> > >
+> > The whole point of the mitigation is to trade potential attacks agains=
+t DOS.
+> >
+> > If you're worried about DOS the whole thing is not for you.
+>
+> Right, but there's no need to make a system unusable for everyone else.
+> There's nothing here that relaxes the defense (i.e. stop spawning apache
+> for 10 minutes). Writing it to disk with nothing that undoes it seems a
+> bit too much. :)
 
-So this means to be able to accomodate this "vendor properties are totally
-fine, go wild" exception we also need to throw "open source userspace
-user, fully reviewed and tested" into the drink?
+Here I have merge the first reply.
 
-At least my experience from what I've seen with funky vendor properties
-isn't so much that we can't figure out a reasonable way to expose them.
-The problem is that the userspace tends to be a (often closed source)
-vendor fork of a random compositor somewhere. So if that requirement is
-somehow a problem, we need to talk about _that_.
+> It seems like there is a need to track "user" running "prog", and have
+> that be timed out. Are there use-cases here where that wouldn't be
+> sufficient?
 
-Not promising we'll totally merge some vendor properties without spelling
-out what exactly this means. All that ensures is that people submit
-patches and then get annoyed because they still can't be merged because
-the userspace situation is all the same.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ok, what do you think of the following proposal:
+
+Add an uid_t field to the structure saved in the xattr. So this struct
+contains now
+
+faults: Number of crashes.
+nsecs: Last crash timestamp as the number of nanoseconds in the
+       International Atomic Time (TAI) reference.
+period: Crash period's moving average.
+flags: Statistics flags.
+uid: User id not allowed to run the executable.
+
+The logic would be the following:
+
+1. faults, nsecs and period are updated in every crash and is a common inf=
+o
+   for all the users.
+2. If the max number of faults is reached, it is "not allowed" to run the
+   executable by any user. This condition blocks the file until root clear
+   the xattr. No timeout.
+3. When an attack is detected the uid of the user that is running the app
+   is saved in the xattr and the executable is marked as "not allowed" to
+   run by this user. The "not allowed" state has a timeout (more below).
+4. When someone tries to run the executable, if his uid is different from
+   the uid saved in the xattr, then the operation is "allowed".
+5. When someone tries to run the executable, if his uid is equal to the
+   uid saved in the xattr, then the operation is "not allowed". This user
+   is banned for a timeout.
+6. When someone tries to run the executable and the timeout has expired,
+   the operation is "allowed" and the saved uid is removed.
+7. If the executable crashes again when it is run by a user different from
+   the one saved in the xattr (and the timeout has no expired), the file
+   is marked as "not allowed" to run by any user. All users are banned for
+   a timeout.
+
+The timeout: I think there are two options here.
+
+1. A fixed timeout set by a sysctl attribute.
+2. A dynamic timeout calculated from the info stored in the xattr. The
+   timeout would be the needed period to guarantee that when the app is
+   run again and it crashes, the attack detection will not be triggered.
+   To be more clear I expose the formulas:
+
+   Mathematically the application crash period's EMA can be expressed as
+   follows:
+
+   period_ema[i] =3D period[i] * weight + period_ema[i - 1] * (1 - weight)
+
+   If we isolate period:
+
+   period[i] =3D (period_ema[i] - period_ema[i - 1] * (1 - weight)) / weig=
+ht
+
+   Where period_ema[i] is the "crash_period_threshold", period_ema[i - 1]
+   is the last period ema saved in the xattr and period[i] is the dynamic
+   timeout.
+
+As a final point. Possibly there are more cases but the logic would be the
+one explained. I think that it is not necessary to save the uid for every
+user that crashes the app nor the crashes info for every user. If more
+than one user crashes the application, something "bad" is happening. So,
+all users are banned for a timeout. This way the info saved in the xattr
+has a fixed size and we prevent an attacker from abusing this size.
+
+I hope this proposal can be enough. What do you think?
+
+John Wood.
