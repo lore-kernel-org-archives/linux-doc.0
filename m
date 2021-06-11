@@ -2,146 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D474C48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:55:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDC9C48BE0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:56:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02498613B8
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:55:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 435DE613D3
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:56:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231683AbhFKM5o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 08:57:44 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:15279 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231691AbhFKM5n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 08:57:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1623416146; x=1654952146;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:mime-version:
-   content-transfer-encoding;
-  bh=BrXCGDBeKR6P+P7CyrC4DzPL0ctuvXpE83eAuIvY2wU=;
-  b=hItZYzPDEf+7Ajuc9+qjGYt1kE2kgstc4fbBDioB6w4s2xFiJV5DS03q
-   OgZQropPvQNkAqA5D1JKOgWQFIfejYmE2achD18Esc/sApvOMwUCqKbGA
-   bWt1GrJPNBrxVuEDecV23Je/B54GVhd26H+Xf5+AIJWeUL22kinNoT1si
-   w=;
-X-IronPort-AV: E=Sophos;i="5.83,265,1616457600"; 
-   d="scan'208";a="115255326"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1e-27fb8269.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-2101.iad2.amazon.com with ESMTP; 11 Jun 2021 12:55:38 +0000
-Received: from EX13D17EUC003.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1e-27fb8269.us-east-1.amazon.com (Postfix) with ESMTPS id AB759A176A;
-        Fri, 11 Jun 2021 12:55:28 +0000 (UTC)
-Received: from EX13D18EUC002.ant.amazon.com (10.43.164.50) by
- EX13D17EUC003.ant.amazon.com (10.43.164.28) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Fri, 11 Jun 2021 12:55:27 +0000
-Received: from EX13D18EUC002.ant.amazon.com ([10.43.164.50]) by
- EX13D18EUC002.ant.amazon.com ([10.43.164.50]) with mapi id 15.00.1497.018;
- Fri, 11 Jun 2021 12:55:27 +0000
-From:   "Shah, Amit" <aams@amazon.de>
-To:     "sj38.park@gmail.com" <sj38.park@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-CC:     "david@redhat.com" <david@redhat.com>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "acme@kernel.org" <acme@kernel.org>,
-        "snu@amazon.de" <snu@amazon.de>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "minchan@kernel.org" <minchan@kernel.org>,
-        "vdavydov.dev@gmail.com" <vdavydov.dev@gmail.com>,
-        "linux-damon@amazon.com" <linux-damon@amazon.com>,
-        "zgf574564920@gmail.com" <zgf574564920@gmail.com>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fan.du@intel.com" <fan.du@intel.com>,
-        "Park, Seongjae" <sjpark@amazon.de>,
-        "amit@kernel.org" <amit@kernel.org>,
-        "gthelen@google.com" <gthelen@google.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "Foerster, Leonard" <foersleo@amazon.de>,
-        "guoju.fgj@alibaba-inc.com" <guoju.fgj@alibaba-inc.com>,
-        "benh@kernel.crashing.org" <benh@kernel.crashing.org>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        "greg@kroah.com" <greg@kroah.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mgorman@suse.de" <mgorman@suse.de>,
-        "Jonathan.Cameron@Huawei.com" <Jonathan.Cameron@Huawei.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "brendanhiggins@google.com" <brendanhiggins@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "namhyung@kernel.org" <namhyung@kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "elver@google.com" <elver@google.com>,
-        "riel@surriel.com" <riel@surriel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v29 04/13] mm/idle_page_tracking: Make PG_idle reusable
-Thread-Topic: [PATCH v29 04/13] mm/idle_page_tracking: Make PG_idle reusable
-Thread-Index: AQHXTU3EfT2+O9xDt0CAVETbPjCp+asO530A
-Date:   Fri, 11 Jun 2021 12:55:27 +0000
-Message-ID: <ac98333d677a3ae8d25a998816e025954826e5c1.camel@amazon.com>
-References: <20210520075629.4332-1-sj38.park@gmail.com>
-         <20210520075629.4332-5-sj38.park@gmail.com>
-In-Reply-To: <20210520075629.4332-5-sj38.park@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.165.35]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9EB8B591EDE18448A170B6951C66C786@amazon.com>
+        id S231251AbhFKM6X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 08:58:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33856 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231196AbhFKM6W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 08:58:22 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF29C061574
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 05:56:24 -0700 (PDT)
+Received: from maud (unknown [IPv6:2600:8800:8c04:8c00::6334])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: alyssa)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EAA2F1F4468F;
+        Fri, 11 Jun 2021 13:56:09 +0100 (BST)
+Date:   Fri, 11 Jun 2021 08:56:04 -0400
+From:   Alyssa Rosenzweig <alyssa@collabora.com>
+To:     Liviu Dudau <liviu.dudau@arm.com>
+Cc:     Simon Ser <contact@emersion.fr>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Noralf Tr??nnes <noralf@tronnes.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Steven Price <steven.price@arm.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian K??nig <christian.koenig@amd.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Qiang Yu <yuq825@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <YMNdZCkyaVoH+WAd@maud>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVGh1LCAyMDIxLTA1LTIwIGF0IDA3OjU2ICswMDAwLCBTZW9uZ0phZSBQYXJrIHdyb3RlOg0K
-PiBGcm9tOiBTZW9uZ0phZSBQYXJrIDxzanBhcmtAYW1hem9uLmRlPg0KPiANCj4gUEdfaWRsZSBh
-bmQgUEdfeW91bmcgYWxsb3cgdGhlIHR3byBQVEUgQWNjZXNzZWQgYml0IHVzZXJzLCBJZGxlIFBh
-Z2UNCj4gVHJhY2tpbmcgYW5kIHRoZSByZWNsYWltIGxvZ2ljIGNvbmN1cnJlbnRseSB3b3JrIHdo
-aWxlIGRvbid0IGludGVyZmVyZQ0KDQouLi4gd2hpbGUgbm90IGludGVyZmVyaW5nIHdpdGggLi4u
-DQoNCj4gZWFjaCBvdGhlci4gIFRoYXQgaXMsIHdoZW4gdGhleSBuZWVkIHRvIGNsZWFyIHRoZSBB
-Y2Nlc3NlZCBiaXQsIHRoZXkgc2V0DQo+IFBHX3lvdW5nIHRvIHJlcHJlc2VudCB0aGUgcHJldmlv
-dXMgc3RhdGUgb2YgdGhlIGJpdCwgcmVzcGVjdGl2ZWx5LiAgQW5kDQo+IHdoZW4gdGhleSBuZWVk
-IHRvIHJlYWQgdGhlIGJpdCwgaWYgdGhlIGJpdCBpcyBjbGVhcmVkLCB0aGV5IGZ1cnRoZXIgcmVh
-ZA0KPiB0aGUgUEdfeW91bmcgdG8ga25vdyB3aGV0aGVyIHRoZSBvdGhlciBoYXMgY2xlYXJlZCB0
-aGUgYml0IG1lYW53aGlsZSBvcg0KPiBub3QuDQo+IA0KPiBXZSBjb3VsZCBhZGQgYW5vdGhlciBw
-YWdlIGZsYWcgYW5kIGV4dGVuZCB0aGUgbWVjaGFuaXNtIHRvIHVzZSB0aGUgZmxhZw0KPiBpZiB3
-ZSBuZWVkIHRvIGFkZCBhbm90aGVyIGNvbmN1cnJlbnQgUFRFIEFjY2Vzc2VkIGJpdCB1c2VyIHN1
-YnN5c3RlbS4NCj4gSG93ZXZlciwgdGhlIHNwYWNlIGlzIGxpbWl0ZWQuICBNZWFud2hpbGUsIGlm
-IHRoZSBuZXcgc3Vic3lzdGVtIGlzDQo+IG11dHVhbGx5IGV4Y2x1c2l2ZSB3aXRoIElETEVfUEFH
-RV9UUkFDS0lORyBvciBpbnRlcmZlcmluZyB3aXRoIGl0IGlzIG5vdA0KPiBhIHJlYWwgcHJvYmxl
-bSwgaXQgd291bGQgYmUgb2sgdG8gc2ltcGx5IHJldXNlIHRoZSBQR19pZGxlIGZsYWcuDQo+IEhv
-d2V2ZXIsIGl0J3MgaW1wb3NzaWJsZSBiZWNhdXNlIHRoZSBmbGFncyBhcmUgZGVwZW5kZW50IG9u
-DQo+IElETEVfUEFHRV9UUkFDS0lORy4NCg0KRm9yIGJldHRlciByZWFkYWJpbGl0eSwgSSBzdWdn
-ZXN0Og0KDQpGb3IgeWV0IGFub3RoZXIgdXNlciBvZiB0aGUgUFRFIEFjY2Vzc2VkIGJpdCwgd2Ug
-Y291bGQgYWRkIGFub3RoZXIgcGFnZQ0KZmxhZywgb3IgZXh0ZW5kIHRoZSBtZWNoYW5pc20gdG8g
-dXNlIHRoZSBmbGFncy4gRm9yIHRoZSBEQU1PTiB1c2VjYXNlLA0KaG93ZXZlciwgd2UgZG9uJ3Qg
-bmVlZCB0byBkbyB0aGF0IGp1c3QgeWV0LiAgSURMRV9QQUdFX1RSQUNLSU5HIGFuZA0KREFNT04g
-YXJlIG11dHVhbGx5IGV4Y2x1c2l2ZSwgc28gdGhlcmUncyBvbmx5IGV2ZXIgZ29pbmcgdG8gYmUg
-b25lIHVzZXINCm9mIHRoZSBjdXJyZW50IHNldCBvZiBmbGFncy4gDQoNCkluIHRoaXMgY29tbWl0
-LCB3ZSBzcGxpdCBvdXQgdGhlIENPTkZJRyBvcHRpb25zIHRvIGFsbG93IGZvciB0aGUgdXNlIG9m
-DQpQR195b3VuZyBhbmQgUEdfaWRsZSBvdXRzaWRlIG9mIGlkbGUgcGFnZSB0cmFja2luZy4NCg0K
-PiANCj4gVG8gYWxsb3cgc3VjaCByZXVzZSBvZiB0aGUgZmxhZ3MsIHRoaXMgY29tbWl0IHNlcGFy
-YXRlcyB0aGUgUEdfeW91bmcgYW5kDQo+IFBHX2lkbGUgZmxhZyBsb2dpYyBmcm9tIElETEVfUEFH
-RV9UUkFDS0lORyBhbmQgaW50cm9kdWNlcyBuZXcga2VybmVsDQo+IGNvbmZpZywgJ1BBR0VfSURM
-RV9GTEFHJy4gIEhlbmNlLCBhIG5ldyBzdWJzeXN0ZW0gd291bGQgYmUgYWJsZSB0byByZXVzZQ0K
-PiBQR19pZGxlIHdpdGhvdXQgZGVwZW5kaW5nIG9uIElETEVfUEFHRV9UUkFDS0lORy4NCj4gDQo+
-IEluIHRoZSBuZXh0IGNvbW1pdCwgREFNT04ncyByZWZlcmVuY2UgaW1wbGVtZW50YXRpb24gb2Yg
-dGhlIHZpcnR1YWwNCj4gbWVtb3J5IGFkZHJlc3Mgc3BhY2UgbW9uaXRvcmluZyBwcmltaXRpdmVz
-IHdpbGwgdXNlIGl0Lg0KDQpbLi4uXQ0KDQpDaGVlcnMsDQoNCgkJQW1pdA0KCgoKQW1hem9uIERl
-dmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGlu
-Ckdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MK
-RWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3
-MyBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
+> What I'm expected to see in the future is new functionality that gets implemented by
+> one hardware vendor and the kernel developers trying to enable that for userspace. It
+> could be that the new property is generic, but there is no way of testing that on
+> more than one implementation yet, so I'd say we are generous calling it "standard
+> property". When the second or third hardware vendor comes along and starts supporting
+> that property with their own set of extra requirements, then we can call it
+> "standard". Then comes the effort cost: would it be easier to start with a vendor
+> property that only the vendor needs to support (and can submit patches into the
+> compositors to do so) and when the standard property gets added moves to that, or
+> should we start with a generic property that gets implemented by the compositors
+> (maybe, but then only one vendor supports it) and then later when we actually
+> standardise the property we will have to carry backwards compatibility code in the
+> kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
+> the former option to be reflected in the documentation, but I would like to hear your
+> thoughts.
 
+Just my 2c - if the mainline kernel isn't willing to commit to a feature
+for upstream userspace to use, why does that feature belong in the
+kernel at all? I don't see much value in exposing hardware for the sake
+of exposing it when, practically, Linux userspace /can't/ use it as-is.
+
+Might these vendor properties be used on downstream Android userspaces?
+That's not generally an upstream goal to support.
