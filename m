@@ -2,89 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 304BBC48BDF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 03:07:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8217EC48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 03:08:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0972661376
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 03:07:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E66E61359
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 03:08:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230382AbhFKDJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Jun 2021 23:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231309AbhFKDJu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 23:09:50 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67F63C0617AD;
-        Thu, 10 Jun 2021 20:07:43 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id n12so1290272pgs.13;
-        Thu, 10 Jun 2021 20:07:43 -0700 (PDT)
+        id S230468AbhFKDKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Jun 2021 23:10:53 -0400
+Received: from mail-pl1-f179.google.com ([209.85.214.179]:43629 "EHLO
+        mail-pl1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230377AbhFKDKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 23:10:53 -0400
+Received: by mail-pl1-f179.google.com with SMTP id v12so2093676plo.10;
+        Thu, 10 Jun 2021 20:08:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cww4YAD4W8e5YtVsLar88kpQ76E3chRpXf1PGNQpk6o=;
-        b=CKh9czTQUO98TR4VM0uad4kJNDB2x3J1rSXbP6I44BFYVmJ6GmxdfInEAcbD4BpPOX
-         582qg9ZY1jJ6wjehaPMUgl2e5RXTiBwg2Q9oREu6xzi16d9WJTGJZaeZCIa38rsWU4w4
-         utJEeCOEX2O0+Kd4iRyO7/vy9auXrQOxKSOnGF5+kyMiaGxe48DS+zAk0pmZbdXavPfN
-         Fi2k0UlNBT8HqJu8T0/JoVrY4HPiWp42Wz/qtUZ/N6bcauusj5gYb0YuhVxUhGf9VCDX
-         IrZljKbEq/gay+39QXhstMBVlPNIVpKBpZGgTYin/BMHz2m3JPd3iagprl1p831bC3yc
-         U8wA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=EeiiZk029aDgyJMHooCPOqX+d9TplBH+7i69WXM5i/M=;
+        b=WT2aoFBdPydSDmrn1yO0fHAUPDEAYD8a9mHe8XjvtW9fLhxMHmjcnM+pkx9v0Xrpv5
+         jDd7sTd3hYf4vh0OkgSUC2lxL0buxzs1POSItzfLDAVmy0v2DUSoJuCzlt9Kx7iFY6YJ
+         pM76Wuo1vpzDqz1fDOuXgnCo+QOtu9SHZjKLdajyiUC5awhBBWp770RNdKB3AJbsz6lN
+         BMYCG33ggxjCA83y++ONGSN589hWNiijlte7NIODvsKcMaWXkT0foYWIDy+PsLMprEq2
+         nTkbho5+jOD+ddNi9FlhfP6c2SsgZF2a6Hfl3vvqgp6NiiKiZkp9ToALMj0+fd+OJe8v
+         8HNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cww4YAD4W8e5YtVsLar88kpQ76E3chRpXf1PGNQpk6o=;
-        b=LOQSJkuVU0FPzuRMVG/MFVGIVyhpcSxtmjrQxH14ZvR2rSdQ17Qlmj2u1CtXlQOLUu
-         5CHYd12Ob6Ct5BtbU0+BFdUXd/9kb0DlB+86a0wIJLGRMmCdk7Qwz8605CqsXzFBLehF
-         8Op/wPv5fmoOnaeVCbprVqw9Vdyn8gHMoqD0jY5jVrAW0wUmUCAn/HHB1psLWq+N1399
-         eTAE5jZyPSQAa8w12XLpidqs8mkIm8x7zp6xT3/ikK1BpPPUXc9ryW5wrVeu7xJv6ssL
-         f/fRqCmAq3cq31LEtc5uKAbjTMMgxhVa2WCUNp+nzNZQQhEprs4AfKoolyQcPBje5DFp
-         SyYA==
-X-Gm-Message-State: AOAM533Gd39nURlP8NdNZh0AOwj937GsNQ7CbKIUoxrwyhQ6tXJLDghZ
-        JjXruWxwGQ3xPIi0T+7Yyl/S6Mudqj+LDw==
-X-Google-Smtp-Source: ABdhPJy9/Pdgs6aaraNzkW4nMF2MydCn+C/5NccebOlL6iiLq7UONo5Baog4APKzANDauh7vAcjfkw==
-X-Received: by 2002:a63:f13:: with SMTP id e19mr1444328pgl.112.1623380861398;
-        Thu, 10 Jun 2021 20:07:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EeiiZk029aDgyJMHooCPOqX+d9TplBH+7i69WXM5i/M=;
+        b=UyOpSX/vFjXklW0rpulRf0lHyhQ7/lX52yhcSLEbpN9Ao5EZcszzog7KHLtrUiiMnd
+         nAlUEEA9TO62fawk3TpSFAyK+Cv4KuxaZQ46cg93A0pL4IdEx6rkqKa7gBOR2Epiu+vM
+         ezoHNEjW5+havRjD+/rFp5cwp9nqcCjXNBz437ou7REhjCQNQpGRq6LPpIqXqz1Pg2nP
+         svAatzy/YLtH0RQ5kXhQ2IPqbcv6kma5XE4TYVpXM/nNtujDeQ0bM5tIz8KqGqrHdiCi
+         q3tUZLlOnGvNZ2mjYkXrM0mDVGM/a1YOEem4ZuAXX98KlQw+FSySnN2oy/0cIZlb2lC6
+         RsnA==
+X-Gm-Message-State: AOAM530KU559kE+LASH2f3+oS5LhkzXv0nC3eEC428K+Vr+jfFc+uaq4
+        u8lXvjtogbWnlfMYUhDXZnzVzasNwVKILw==
+X-Google-Smtp-Source: ABdhPJyRMcJGAqIuulTTWK0Gt0FXBytUTB/g1mrb7FUWLqKqzfNb97tg0pJ+VvPscSmLHPlElB7FYA==
+X-Received: by 2002:a17:90a:7349:: with SMTP id j9mr2148641pjs.234.1623380863978;
+        Thu, 10 Jun 2021 20:07:43 -0700 (PDT)
 Received: from kir-rhat.redhat.com (c-76-104-243-248.hsd1.wa.comcast.net. [76.104.243.248])
-        by smtp.gmail.com with ESMTPSA id q2sm3774319pje.50.2021.06.10.20.07.40
+        by smtp.gmail.com with ESMTPSA id q2sm3774319pje.50.2021.06.10.20.07.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 20:07:40 -0700 (PDT)
+        Thu, 10 Jun 2021 20:07:43 -0700 (PDT)
 From:   Kir Kolyshkin <kolyshkin@gmail.com>
 To:     linux-doc@vger.kernel.org
 Cc:     Jonathan Corbet <corbet@lwn.net>, tj@kernel.org, axboe@kernel.dk,
         paolo.valente@linaro.org, cgroups@vger.kernel.org,
         Kir Kolyshkin <kolyshkin@gmail.com>
-Subject: [PATCH 0/3] add/update/fix BFQ docs
-Date:   Thu, 10 Jun 2021 20:07:34 -0700
-Message-Id: <20210611030737.1984343-1-kolyshkin@gmail.com>
+Subject: [PATCH 3/3] docs/cgroup-v1/blkio: update for 5.x kernels
+Date:   Thu, 10 Jun 2021 20:07:37 -0700
+Message-Id: <20210611030737.1984343-4-kolyshkin@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210611030737.1984343-1-kolyshkin@gmail.com>
+References: <20210611030737.1984343-1-kolyshkin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Improve BFQ docs: fix formatting, adding a missing piece.
+Commit bf382fb0bcef4 ("block: remove legacy IO schedulers", Oct 12 2018)
+removes the CFQ scheduler, together with blkio.weight and
+blkio.weight_device described in cgroup v1 documentation. Users are
+supposed to use the BFQ scheduler, which cgroup file for setting weight
+is blkio.bfq.weight, but there is no way to set per-device weight.
 
-Fix cgroup v1 blkio docs which are not updated for CFQ -> BFQ.
+Later, commit 795fe54c2a8 per-device weights for BFQ, meaning that
+blkio.bfq.weight and blkio.bfq.weight_device can be used in a way
+similar to the old CFQ cgroup interface.
 
-Patches are on top of the latest docs-next (commit acda97acb2e98c97895).
+Yet, the cgroup v1 docs were never updated. Fix this:
+ - use the new file names;
+ - fix the range for weight (used to be 10..1000, now 1..1000);
+ - link to BFQ scheduler docs.
 
-Kir Kolyshkin (3):
-  docs: block/bfq: describe per-device weight
-  docs/cgroup-v1/blkio: stop abusing itemized list
-  docs/cgroup-v1/blkio: update for 5.x kernels
+Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
+---
+ .../cgroup-v1/blkio-controller.rst            | 31 ++++++++++---------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
- .../cgroup-v1/blkio-controller.rst            | 155 +++++++++---------
- Documentation/block/bfq-iosched.rst           |  38 +++--
- 2 files changed, 107 insertions(+), 86 deletions(-)
-
+diff --git a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+index 8101dcba381d..16253eda192e 100644
+--- a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
++++ b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+@@ -97,40 +97,41 @@ Details of cgroup files
+ Proportional weight policy files
+ --------------------------------
+ 
+-  blkio.weight
++  blkio.bfq.weight
+ 	  Specifies per cgroup weight. This is default weight of the group
+-	  on all the devices until and unless overridden by per device rule.
+-	  (See blkio.weight_device).
+-	  Currently allowed range of weights is from 10 to 1000.
++	  on all the devices until and unless overridden by per device rule
++	  (see `blkio.bfq.weight_device` below).
+ 
+-  blkio.weight_device
+-	  One can specify per cgroup per device rules using this interface.
+-	  These rules override the default value of group weight as specified
+-	  by blkio.weight.
++	  Currently allowed range of weights is from 1 to 1000. For more details,
++          see Documentation/block/bfq-iosched.rst.
++
++  blkio.bfq.weight_device
++          Specifes per cgroup per device weights, overriding the default group
++          weight. For more details, see Documentation/block/bfq-iosched.rst.
+ 
+ 	  Following is the format::
+ 
+-	    # echo dev_maj:dev_minor weight > blkio.weight_device
++	    # echo dev_maj:dev_minor weight > blkio.bfq.weight_device
+ 
+ 	  Configure weight=300 on /dev/sdb (8:16) in this cgroup::
+ 
+-	    # echo 8:16 300 > blkio.weight_device
+-	    # cat blkio.weight_device
++	    # echo 8:16 300 > blkio.bfq.weight_device
++	    # cat blkio.bfq.weight_device
+ 	    dev     weight
+ 	    8:16    300
+ 
+ 	  Configure weight=500 on /dev/sda (8:0) in this cgroup::
+ 
+-	    # echo 8:0 500 > blkio.weight_device
+-	    # cat blkio.weight_device
++	    # echo 8:0 500 > blkio.bfq.weight_device
++	    # cat blkio.bfq.weight_device
+ 	    dev     weight
+ 	    8:0     500
+ 	    8:16    300
+ 
+ 	  Remove specific weight for /dev/sda in this cgroup::
+ 
+-	    # echo 8:0 0 > blkio.weight_device
+-	    # cat blkio.weight_device
++	    # echo 8:0 0 > blkio.bfq.weight_device
++	    # cat blkio.bfq.weight_device
+ 	    dev     weight
+ 	    8:16    300
+ 
 -- 
 2.31.1
 
