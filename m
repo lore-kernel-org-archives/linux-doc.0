@@ -2,185 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDCE7C48BE0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:03:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F83FC48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:37:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A12CB613CD
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:03:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4060D613B8
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:37:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbhFKMFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 08:05:10 -0400
-Received: from foss.arm.com ([217.140.110.172]:56524 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229785AbhFKMFJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 08:05:09 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81BD41396;
-        Fri, 11 Jun 2021 05:03:11 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3CBC53F85F;
-        Fri, 11 Jun 2021 05:03:11 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
-        id CF3FB682B70; Fri, 11 Jun 2021 13:03:09 +0100 (BST)
-Date:   Fri, 11 Jun 2021 13:03:09 +0100
-From:   Liviu Dudau <liviu.dudau@arm.com>
-To:     Simon Ser <contact@emersion.fr>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Steven Price <steven.price@arm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Yannick Fertr e <yannick.fertre@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Qiang Yu <yuq825@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+        id S231270AbhFKMju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 08:39:50 -0400
+Received: from mail-pj1-f47.google.com ([209.85.216.47]:44687 "EHLO
+        mail-pj1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230382AbhFKMjt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 08:39:49 -0400
+Received: by mail-pj1-f47.google.com with SMTP id h12-20020a17090aa88cb029016400fd8ad8so5909272pjq.3
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 05:37:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=12Vllmb27JTcKGXEJV8r1BAI8OMCziqg4MFGRk+RiQc=;
+        b=aIbxHPH4LxhzTr+MvcOZubxGwHrqudcYvCJjmRVVfNe60Py/se92CDO44lQ3VrJGJ5
+         plYXLmWGs942FFDp37HO8TsKCSXhEXZq+fxwxfQrSRlRgd+glhJjMrVNv+xIXsUth+yl
+         coiIT5ZRvk63POl6PbmDTdpYGNxVlX2xmZumfmz1FpFMpwirk1pCzeV6zlfsGBDvFJPH
+         XVYScY7gM2+mEQDBGYNvoAIVIsARS2Wp7NA13UdwwuXqQc/hABcoTkNyOhmD1/lq6BLI
+         JFIciIC29psRSTwDvbq9pou0NrJ6I7R7FhE8oe47djDTo2alX9/zgkk9/4Al5G7qOUwS
+         ufVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=12Vllmb27JTcKGXEJV8r1BAI8OMCziqg4MFGRk+RiQc=;
+        b=TVQGiB58bNWwhk8ukS8g5tvQm81LrI1WvrVvjIVB+tUQSuhnP/1JOlVasHXQTO9sIg
+         W17kpk+RwqkZ4AE9YwAmnJwT25FDINFx90tWfHisAp89s91pVxGZDNRpGpGDAAye9JPS
+         Wmuh4sb14a4vmiI3Qq4OYiS8OKAfvASilZkfS47RGwGjsTRCfYEQcT1LHgxIV8ZgXq0m
+         Gn6nNFtjN8I8dz5UpFEL9JBawUBdwrpjsvCTd7ljy8yEXCWuyqvOM5Q9Qk4CIXwTX8ze
+         muttaX3Xhod/6tfbOm1k0teK2CyHwistgbISBNhm7/W2iEqx4jiYQZcOC/HQC+rLB2KH
+         j0jw==
+X-Gm-Message-State: AOAM530/bUQm2Wczra0jqIX/80KJyuNktj37akSoydLnhkHTnP2Q26tx
+        k96aOfoBIwWWp7loYfaPYVU6dAMii3wOMVh9yD7DQQ==
+X-Google-Smtp-Source: ABdhPJwXzHGIkJWA9jG9u+8cCrLseq1HhgXSPHBPWWqIPGSMO2zyWAeVhMAlvBmyfyXKZmFGriSZk71r9BVeiCfNvmE=
+X-Received: by 2002:a17:90a:10c8:: with SMTP id b8mr1907381pje.147.1623414997443;
+ Fri, 11 Jun 2021 05:36:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+References: <20210609121310.62229-1-songmuchun@bytedance.com>
+ <20210609121310.62229-4-songmuchun@bytedance.com> <1c910c9a-d5fd-8eb8-526d-bb1f71833c30@oracle.com>
+ <CAMZfGtU6D28AzoGsVdddrf54P_O-134j2dEMu6gn+uiBJkdi9Q@mail.gmail.com>
+In-Reply-To: <CAMZfGtU6D28AzoGsVdddrf54P_O-134j2dEMu6gn+uiBJkdi9Q@mail.gmail.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 11 Jun 2021 20:35:59 +0800
+Message-ID: <CAMZfGtUv+ZOGxH_f_2JGQGDFvFw-o69BiyJUSX-BLmZVZ1Y+dg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH 3/5] mm: sparsemem: split the huge PMD
+ mapping of vmemmap pages
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        Chen Huang <chenhuang5@huawei.com>,
+        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        fam.zheng@bytedance.com, zhengqi.arch@bytedance.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 08:14:59AM +0000, Simon Ser wrote:
-> On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> 
-> > If there's a strong consensus that we really need this then I'm not
-> > going to nack this, but this really needs a pile of acks from
-> > compositor folks that they're willing to live with the resulting
-> > fallout this will likely bring. Your cc list seems to have an absence
-> > of compositor folks, but instead every driver maintainer. That's
-> > backwards. We make uapi for userspace, not for kernel driver
-> > maintainers!
-> 
-> In wlroots we have a policy of only allowing standard KMS properties to
-> be used. Any vendor-specific property is going to be less well-defined,
-> less widely useful, potentially have more design issues, potentially
-> overlap in functionality with other vendor-specific properties, likely
-> have some hardware-specific assumptions, etc.
-> 
-> What matters here is discussing with other driver & user-space folks to
-> make sure the new property's design is sound. Designing uAPI is hard.
-> 
-> If kernel folks are struggling with a user-space implementation, they
-> should discuss with user-space folks to see which project would be
-> interested. There's a chance a compositor will be interested in the new
-> property and will just do the user-space part for you, if not we can
-> suggest candidate projects.
-> 
-> tl;dr strong agree with Daniel here.
+On Fri, Jun 11, 2021 at 3:52 PM Muchun Song <songmuchun@bytedance.com> wrote:
+>
+> On Fri, Jun 11, 2021 at 6:35 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+> >
+> > On 6/9/21 5:13 AM, Muchun Song wrote:
+> > > If the vmemmap is huge PMD mapped, we should split the huge PMD firstly
+> > > and then we can change the PTE page table entry. In this patch, we add
+> > > the ability of splitting the huge PMD mapping of vmemmap pages.
+> > >
+> > > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > > ---
+> > >  include/linux/mm.h   |  2 +-
+> > >  mm/hugetlb.c         | 42 ++++++++++++++++++++++++++++++++++--
+> > >  mm/hugetlb_vmemmap.c |  3 ++-
+> > >  mm/sparse-vmemmap.c  | 61 +++++++++++++++++++++++++++++++++++++++++++++-------
+> > >  4 files changed, 96 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > > index cadc8cc2c715..b97e1486c5c1 100644
+> > > --- a/include/linux/mm.h
+> > > +++ b/include/linux/mm.h
+> > > @@ -3056,7 +3056,7 @@ static inline void print_vma_addr(char *prefix, unsigned long rip)
+> > >  #endif
+> > >
+> > >  void vmemmap_remap_free(unsigned long start, unsigned long end,
+> > > -                     unsigned long reuse);
+> > > +                     unsigned long reuse, struct list_head *pgtables);
+> > >  int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+> > >                       unsigned long reuse, gfp_t gfp_mask);
+> > >
+> > > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > > index c3b2a8a494d6..3137c72d9cc7 100644
+> > > --- a/mm/hugetlb.c
+> > > +++ b/mm/hugetlb.c
+> > > @@ -1609,6 +1609,13 @@ static void __prep_account_new_huge_page(struct hstate *h, int nid)
+> > >  static void __prep_new_huge_page(struct hstate *h, struct page *page)
+> > >  {
+> > >       free_huge_page_vmemmap(h, page);
+> > > +     /*
+> > > +      * Because we store preallocated pages on @page->lru,
+> > > +      * vmemmap_pgtable_free() must be called before the
+> > > +      * initialization of @page->lru in INIT_LIST_HEAD().
+> > > +      */
+> > > +     vmemmap_pgtable_free(&page->lru);
+> > > +
+> > >       INIT_LIST_HEAD(&page->lru);
+> > >       set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
+> > >       hugetlb_set_page_subpool(page, NULL);
+> > > @@ -1775,14 +1782,29 @@ static struct page *alloc_fresh_huge_page(struct hstate *h,
+> > >               nodemask_t *node_alloc_noretry)
+> > >  {
+> > >       struct page *page;
+> > > +     LIST_HEAD(pgtables);
+> > > +
+> > > +     if (vmemmap_pgtable_prealloc(h, &pgtables))
+> > > +             return NULL;
+> >
+> > In the previous two patches I asked:
+> > - Can we wait until later to prealloc vmemmap pages for gigantic pages
+> >   allocated from bootmem?
+> > - Should we fail to add a hugetlb page to the pool if we can not do
+> >   vmemmap optimization?
+> >
+> >
+> > Depending on the answers to those questions, we may be able to eliminate
+> > these vmemmap_pgtable_prealloc/vmemmap_pgtable_free calls in hugetlb.c.
+> > What about adding the calls to free_huge_page_vmemmap?
+> > At the beginning of free_huge_page_vmemmap, allocate any vmemmap pgtable
+> > pages.  If it fails, skip optimization.  We can free any pages before
+> > returning to the caller.
+>
+> You are right because we've introduced HPageVmemmapOptimized flag.
+> It can be useful here. If failing to optimize vmemmap is allowed, we can
+> eliminate allocating/freeing page table helpers. Thanks for your reminder.
+>
+> >
+> > Since we also know the page/address in the page table can we check to see
+> > if it is already PTE mapped.  If so, can we then skip allocation?
+>
+> Good point. We need to allocate 512 page tables when splitting
 
-I think the assumption you and Daniel are making is that the first implementation of
-a new KMS property can be made standard from day one and that it will work for any
-late comer driver as is, without having to make changes to its behaviour in a
-significant way. In my experience that is not the case.
+Sorry, it is 7 page tables here.
 
-I think we have moved from the times when we were trying to implement in the Linux
-world features that were available in the hardware but needed a kernel and userspace
-API. The set of properties that exist in KMS cover a lot of needed functionality and
-I don't expect to see new properties for stuff that is already supported by hardware.
-
-What I'm expected to see in the future is new functionality that gets implemented by
-one hardware vendor and the kernel developers trying to enable that for userspace. It
-could be that the new property is generic, but there is no way of testing that on
-more than one implementation yet, so I'd say we are generous calling it "standard
-property". When the second or third hardware vendor comes along and starts supporting
-that property with their own set of extra requirements, then we can call it
-"standard". Then comes the effort cost: would it be easier to start with a vendor
-property that only the vendor needs to support (and can submit patches into the
-compositors to do so) and when the standard property gets added moves to that, or
-should we start with a generic property that gets implemented by the compositors
-(maybe, but then only one vendor supports it) and then later when we actually
-standardise the property we will have to carry backwards compatibility code in the
-kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
-the former option to be reflected in the documentation, but I would like to hear your
-thoughts.
-
-Best regards,
-Liviu
-
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+> 1 GB huge page. If we fail to allocate page tables in the middle
+> of processing of remapping, we should restore the previous
+> mapping. I just want to clarify something for myself.
+>
+> Thanks, Mike. I'll try in the next version.
+>
+>
+> > --
+> > Mike Kravetz
