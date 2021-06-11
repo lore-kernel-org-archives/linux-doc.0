@@ -6,140 +6,133 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FFA0C48BE5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:15:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94ABDC48BE0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:42:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52593613AE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:15:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DBEC613C3
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 08:42:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbhFKIRI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 04:17:08 -0400
-Received: from mail-0301.mail-europe.com ([188.165.51.139]:39832 "EHLO
-        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229777AbhFKIRH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 04:17:07 -0400
-Date:   Fri, 11 Jun 2021 08:14:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail3; t=1623399303;
-        bh=LXrQUMsq4zcmYpPR/J5q0e+ciaGERkxMWGdrR9hM6tk=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=kVMSxOyOs8TOhI8W65hcCQhveG8YX+BcfbWqtHQTA73WRuOo230rSfTwC184RAX9p
-         ndnBnNK/H4eAkIMrlzQPnkP/EgFrbrt7kFTjGo9Buod5H8wcOa4hkuBe2Jwk+2x84z
-         yX7gNwq2695WOS2KKv1ddsmiHvX9wgaySUjwTGvPh1/s8gVaYFPpNXGNShPcoAYSc+
-         XRagAqfd946FnrUjFpVmYXPC8sn2/Jw5otjsajpEp636FKgGJa5UG6KJdeYghJxN6y
-         hMe4/eH8auB3L4I/pA+6+oAdTmXcIt8MQFlTZX+KFSdo9Wt1PeHyNph6RSBeLWYs0O
-         UWGinWICE8EtA==
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-From:   Simon Ser <contact@emersion.fr>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Steven Price <steven.price@arm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
+        id S230248AbhFKIoB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 04:44:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229584AbhFKIoB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 04:44:01 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 686EDC061574;
+        Fri, 11 Jun 2021 01:42:03 -0700 (PDT)
+Received: from zn.tnic (p2e584d18.dip0.t-ipconnect.de [46.88.77.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8A63F1EC03E4;
+        Fri, 11 Jun 2021 10:42:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1623400921;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KIA7zFQYyGvC5dZzXAgcoJPNiKNE7axh8OV+krFMr4g=;
+        b=lASDncwv5BRMRWuXZm8sTwFdFYF3XFYviH+HtiR9pj1KZNWRFvZjnmg2UXEDh/O8DSyJAg
+        wKMNzDKgNGOzBdXIG07suvzNlZPGz+MqvtKFrsT2YE0/imU4a5PV0kDHXUVqmRQ0pj71hg
+        EaGZVHvLGnJWCA6NvSdCy3cv4W6Ugts=
+Date:   Fri, 11 Jun 2021 10:39:43 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Qiang Yu <yuq825@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Reply-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new properties
-Message-ID: <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
-In-Reply-To: <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
-References: <20210610174731.1209188-1-maxime@cerno.tech> <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Tony Luck <tony.luck@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kyung Min Park <kyung.min.park@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Juergen Gross <jgross@suse.com>,
+        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
+        Kan Liang <kan.liang@linux.intel.com>,
+        Joerg Roedel <jroedel@suse.de>,
+        Victor Ding <victording@google.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Anand K Mistry <amistry@google.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nick Desaulniers <ndesaulniers@gooogle.com>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH 1/4] x86/msr: Define new bits in TSX_FORCE_ABORT MSR
+Message-ID: <YMMhTwR7lJvA/9nu@zn.tnic>
+References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+ <4a258368e1797d592d4b16f124bd88cf9c21ac35.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4a258368e1797d592d4b16f124bd88cf9c21ac35.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffwll.c=
-h> wrote:
+On Wed, Jun 09, 2021 at 01:58:02PM -0700, Pawan Gupta wrote:
+> Intel client processors that support IA32_TSX_FORCE_ABORT MSR related to
+> perf counter interaction [1] received a microcode update that deprecates
+> Transactional Synchronization Extension (TSX) feature. MSR
+> IA32_TSX_FORCE_ABORT bit FORCE_ABORT_RTM now defaults to 1, writes to
+> this bit are ignored. A new bit TSX_CPUID_CLEAR clears the TSX related
+> CPUID bits.
+> 
+> Below is the summary of changes to IA32_TSX_FORCE_ABORT MSR:
+> 
+>   Bit 0: FORCE_ABORT_RTM (legacy bit, new default=1) Status bit that
+>   indicates if RTM transactions are always aborted. This bit is
+>   essentially !SDV_ENABLE_RTM(Bit 2). Writes to this bit are ignored.
+> 
+>   Bit 1: TSX_CPUID_CLEAR (new bit, default=0) When set, CPUID.HLE = 0
+>   and CPUID.RTM = 0.
+> 
+>   Bit 2: SDV_ENABLE_RTM (new bit, default=0) When clear, XBEGIN will
+>   always abort with EAX code 0. When set, XBEGIN will not be forced to
+>   abort (but will always abort in SGX enclaves). This bit is intended to
+>   be SDV-only. If this bit is set transactional atomicity correctness is
 
-> If there's a strong consensus that we really need this then I'm not
-> going to nack this, but this really needs a pile of acks from
-> compositor folks that they're willing to live with the resulting
-> fallout this will likely bring. Your cc list seems to have an absence
-> of compositor folks, but instead every driver maintainer. That's
-> backwards. We make uapi for userspace, not for kernel driver
-> maintainers!
+SDV?
 
-In wlroots we have a policy of only allowing standard KMS properties to
-be used. Any vendor-specific property is going to be less well-defined,
-less widely useful, potentially have more design issues, potentially
-overlap in functionality with other vendor-specific properties, likely
-have some hardware-specific assumptions, etc.
+>   not certain.
+> 
+> Performance monitoring counter 3 is usable in all cases, regardless of
+> the value of above bits.
+> 
+> A new CPUID bit CPUID.RTM_ALWAYS_ABORT (CPUID 7.EDX[11]) is added to
+> indicate the status of always abort behavior.
+> 
+> Define these new CPUID and MSR bits.
+> 
+> [1] Performance Monitoring Impact of Intel® Transactional Synchronization Extension Memory
+>     http://cdrdv2.intel.com/v1/dl/getContent/604224
 
-What matters here is discussing with other driver & user-space folks to
-make sure the new property's design is sound. Designing uAPI is hard.
+That link does not look stable enough to put in commit messages.
+Besides, you've said it all in the commit message already.
 
-If kernel folks are struggling with a user-space implementation, they
-should discuss with user-space folks to see which project would be
-interested. There's a chance a compositor will be interested in the new
-property and will just do the user-space part for you, if not we can
-suggest candidate projects.
+-- 
+Regards/Gruss,
+    Boris.
 
-tl;dr strong agree with Daniel here.
+https://people.kernel.org/tglx/notes-about-netiquette
