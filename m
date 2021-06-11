@@ -2,97 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5C74C48BE5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31AFCC48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:55:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0AFA613DE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:40:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A7FF613B8
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:55:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231269AbhFKMmy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 08:42:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26910 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231311AbhFKMmw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 08:42:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623415254;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lE67WyKbl741YpDCTe3QkT0OdknMJfyRErLnc4JjkJk=;
-        b=AOhRzkL2yxzOL2SQhrp29v7Te7y/7OvLjVw57iTbXsU8RCZcH56xgXR5+0pPZPZnvmL+53
-        2iLlR43HUFXJE+x7HOFkntfSG/o+treI9LoFtDIVdeRZBShbV8x8N7UIkuaXaBR5sENF1B
-        Ohdor1mQMW1fS/OEC8hkchL2bivctBU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-tDRVUUZtNSy-5sW1P9P8dw-1; Fri, 11 Jun 2021 08:40:50 -0400
-X-MC-Unique: tDRVUUZtNSy-5sW1P9P8dw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F5111923762;
-        Fri, 11 Jun 2021 12:40:47 +0000 (UTC)
-Received: from localhost (ovpn-113-95.ams2.redhat.com [10.36.113.95])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D32A260C05;
-        Fri, 11 Jun 2021 12:40:42 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 06/10] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
-In-Reply-To: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
-Organization: Red Hat GmbH
-References: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date:   Fri, 11 Jun 2021 14:40:41 +0200
-Message-ID: <87czsszi9i.fsf@redhat.com>
+        id S231656AbhFKM5J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 08:57:09 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:36544 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231614AbhFKM5G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 08:57:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1623416109; x=1654952109;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=O16s45fodtBhmTEluLReNjsavw6a6lLyxUkLSsd4V0s=;
+  b=EdWhsnh3CZQXsVv03URngeDpClRvj+HIyB2QhPjW5dM/5s9tvqHB7UbT
+   ki3KGjcHcbSk1NF2NIOQsXCb4X++0VR/2aylCA6v1nH0XlqzqBq01Xdc7
+   NfJhmbP5kEjWh6vAYvfgwZtnb058hk8QoO/ypGI/9v0a5LJFuEKrREM0B
+   F1xuYffbUd8mt/SZNS2xBww+oIND7lfRqGNy8BY8GRNy+sJ8zi/1Gpt8Q
+   28tqu7tUBi6gOGv7saUjQQWrtKg8rbdA68XFNvK5mXPFzS78aO5N5a83U
+   e7RdfcJPAhIbLLxA/WGeOwGJvlzfUmajXYgZiPVyXe3UN9lvYcCPvaHQh
+   w==;
+IronPort-SDR: EnsiYOCgl4niRH8CDE9gAsz5S7WE28TM5e9xnTAtv8QyyUEYab8IqxRx38go8l3DPQQq1Vepuw
+ eOICtjFlF9aU0NVpwh6Qi24ezHJemasW5SLx5aM+M+J0MoR332bV06XD7TuDoHF+Z/jEYtTJzY
+ NPpCeS6liWTvPkl5av6pQyFrx1WwnV3ZHfK1ymVzctor350IGtxdS5KGwDPwYvwQDb5rS+zx6Q
+ JAnaxSRrh66SZHlzrkpSkxnQhLf+YUXUN8+cKECv7i557I1nw/mcQCv/Aq61Fj2lVF5jCvj7Pz
+ 9f8=
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
+   d="scan'208";a="131631333"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 11 Jun 2021 05:55:09 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 11 Jun 2021 05:55:08 -0700
+Received: from den-dk-m31857.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Fri, 11 Jun 2021 05:55:06 -0700
+From:   Steen Hegelund <steen.hegelund@microchip.com>
+To:     Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>,
+        "Heiner Kallweit" <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+CC:     Steen Hegelund <steen.hegelund@microchip.com>,
+        Bjarni Jonasson <bjarni.jonasson@microchip.com>
+Subject: [PATCH net-next 2/4] net: phy: Add 25G BASE-R interface mode
+Date:   Fri, 11 Jun 2021 14:54:51 +0200
+Message-ID: <20210611125453.313308-3-steen.hegelund@microchip.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210611125453.313308-1-steen.hegelund@microchip.com>
+References: <20210611125453.313308-1-steen.hegelund@microchip.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 07 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+Add 25gbase-r phy interface mode
 
-> For some reason the vfio_mdev shim mdev_driver has its own module and
-> kconfig. As the next patch requires access to it from mdev.ko merge the
-> two modules together and remove VFIO_MDEV_DEVICE.
->
-> A later patch deletes this driver entirely.
->
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/s390/vfio-ap.rst   |  1 -
->  arch/s390/Kconfig                |  2 +-
->  drivers/gpu/drm/i915/Kconfig     |  2 +-
->  drivers/vfio/mdev/Kconfig        |  7 -------
->  drivers/vfio/mdev/Makefile       |  3 +--
->  drivers/vfio/mdev/mdev_core.c    | 16 ++++++++++++++--
->  drivers/vfio/mdev/mdev_private.h |  2 ++
->  drivers/vfio/mdev/vfio_mdev.c    | 24 +-----------------------
->  samples/Kconfig                  |  6 +++---
->  9 files changed, 23 insertions(+), 40 deletions(-)
+Signed-off-by: Steen Hegelund <steen.hegelund@microchip.com>
+Signed-off-by: Bjarni Jonasson <bjarni.jonasson@microchip.com>
+---
+ Documentation/networking/phy.rst | 6 ++++++
+ include/linux/phy.h              | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-I think you missed my earlier
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
+index 3f05d50ecd6e..571ba08386e7 100644
+--- a/Documentation/networking/phy.rst
++++ b/Documentation/networking/phy.rst
+@@ -292,6 +292,12 @@ Some of the interface modes are described below:
+     Note: due to legacy usage, some 10GBASE-R usage incorrectly makes
+     use of this definition.
+ 
++``PHY_INTERFACE_MODE_25GBASER``
++    This is the IEEE 802.3 PCS Clause 107 defined 25GBASE-R protocol.
++    The PCS is identical to 10GBASE-R, i.e. 64B/66B encoded
++    running 2.5 as fast, giving a fixed bit rate of 25.78125 Gbaud.
++    Please refer to the IEEE standard for further information.
++
+ ``PHY_INTERFACE_MODE_100BASEX``
+     This defines IEEE 802.3 Clause 24.  The link operates at a fixed data
+     rate of 125Mpbs using a 4B/5B encoding scheme, resulting in an underlying
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index ed332ac92e25..70a1399ff454 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -112,6 +112,7 @@ extern const int phy_10gbit_features_array[1];
+  * @PHY_INTERFACE_MODE_RXAUI: Reduced XAUI
+  * @PHY_INTERFACE_MODE_XAUI: 10 Gigabit Attachment Unit Interface
+  * @PHY_INTERFACE_MODE_10GBASER: 10G BaseR
++ * @PHY_INTERFACE_MODE_25GBASER: 25G BaseR
+  * @PHY_INTERFACE_MODE_USXGMII:  Universal Serial 10GE MII
+  * @PHY_INTERFACE_MODE_10GKR: 10GBASE-KR - with Clause 73 AN
+  * @PHY_INTERFACE_MODE_MAX: Book keeping
+@@ -147,6 +148,7 @@ typedef enum {
+ 	PHY_INTERFACE_MODE_XAUI,
+ 	/* 10GBASE-R, XFI, SFI - single lane 10G Serdes */
+ 	PHY_INTERFACE_MODE_10GBASER,
++	PHY_INTERFACE_MODE_25GBASER,
+ 	PHY_INTERFACE_MODE_USXGMII,
+ 	/* 10GBASE-KR - with Clause 73 AN */
+ 	PHY_INTERFACE_MODE_10GKR,
+@@ -223,6 +225,8 @@ static inline const char *phy_modes(phy_interface_t interface)
+ 		return "xaui";
+ 	case PHY_INTERFACE_MODE_10GBASER:
+ 		return "10gbase-r";
++	case PHY_INTERFACE_MODE_25GBASER:
++		return "25gbase-r";
+ 	case PHY_INTERFACE_MODE_USXGMII:
+ 		return "usxgmii";
+ 	case PHY_INTERFACE_MODE_10GKR:
+-- 
+2.32.0
 
