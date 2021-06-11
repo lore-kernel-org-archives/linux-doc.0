@@ -2,592 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B762CC48BE0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 14:13:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CF5C48BE5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 15:01:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1B0E613FA
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 14:13:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4AD75613FA
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 15:01:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231193AbhFKOPk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 10:15:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60291 "EHLO
+        id S231815AbhFKPDq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 11:03:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29426 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229529AbhFKOPk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 10:15:40 -0400
+        by vger.kernel.org with ESMTP id S231510AbhFKPDq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 11:03:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623420821;
+        s=mimecast20190719; t=1623423708;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8ENVtvseDbmj7ZgEmV7Psk0RqVdvEey9Ta/RiNCDnvk=;
-        b=HHf7gBCG+ryKC2XkFzxtpCXVAvBAVyziOx/nKgCO/r1hqcT5Ki79BbStLe9ZTW6QIEIhK3
-        C3owa+1gDGEFV0gdLzz8rg0ds9BUKLnpQ5JA8ZkjhfuEtPwnbffY8Svfb4VWpNTnl2UdZQ
-        ifOk4JGESk1bjleuoFzo/FKAtxrgr8o=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-ladL4pyWOYibMyzm57NIdg-1; Fri, 11 Jun 2021 10:13:40 -0400
-X-MC-Unique: ladL4pyWOYibMyzm57NIdg-1
-Received: by mail-ej1-f69.google.com with SMTP id e11-20020a170906080bb02903f9c27ad9f5so1210903ejd.6
-        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 07:13:40 -0700 (PDT)
+        bh=OnHkU06l/k9wqE171qbYza/gsqJMIJabflSWwwk6QCA=;
+        b=KNnDj8vUngcdEpwKWfiEAM+5MS1jMITvA/87mfrZKjTDuR7t7hvqYqsGdCj4yqPDnNI6TR
+        IVCFDLq1V6s/SYCkjkPqke7UeEoL7c4w0VdVaA/yj/iqJ49KHld59WcWWvbPayG/Zws0WZ
+        NJ6vGJ4dEVMJrFIpfhQzXFNlWUQY3Zo=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-SnISG0EwORykzCq4SC5zcQ-1; Fri, 11 Jun 2021 11:01:47 -0400
+X-MC-Unique: SnISG0EwORykzCq4SC5zcQ-1
+Received: by mail-qt1-f199.google.com with SMTP id d12-20020ac8668c0000b0290246e35b30f8so2033958qtp.21
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 08:01:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8ENVtvseDbmj7ZgEmV7Psk0RqVdvEey9Ta/RiNCDnvk=;
-        b=KrRNKsbuvBXxydsseAD2m1WxU76n3jI9QCQOl2vWLAY6OkX8oho+KxrtdyEaZtZ9Kj
-         +AP3Weinai7A4Wzz/jIQe58Cauhjjx+G85/c3sLrNl7tezhX2G58U651FjT6wbSqGc5x
-         JcViLUaHEmz4rOyLYCvc47JJ9Rk2lvvXYc1A45ZYyxein8CDdjC/1ZG/gkaz8zH/7K8U
-         ekI1d9nfaLEOzAkmx6rlNiUQpAh1XK0L5pmrpyVLOd4K2hBpL4o5XOsui/Ae8nsXlzPB
-         icUepFlTyvGTGzMph9ZZDDVe53WNeY5aWebMLvbTSwmP3Pvn4DNh3vO8p6Ltt8YmlENe
-         7qVw==
-X-Gm-Message-State: AOAM532NGKyvAe6xXmdUabji3MAYNsUzuj3vgcriuZDRaSiiq+fOcwk6
-        wt3zR80qlMeAUN6/3d0KcYZiFlweplLYnIHEI88SkcxFYKQWyF4EVTwIcdNzNG2oDUQbK0rV+rH
-        EU4VNUfzoMhSg2Wdcp3E3nmpV2PPVZ4pDqnPm4Hfa4owR73ifGkYd+GY+5OSbSsy0mePN0Os=
-X-Received: by 2002:aa7:d602:: with SMTP id c2mr3976683edr.317.1623420818883;
-        Fri, 11 Jun 2021 07:13:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJzgu+LWCAHFHwSTZrjf47xGZW9KAh0xjFNZseVfltU3z8ojqVvX+Bq9TfBWJV5mFs/yNlnQ==
-X-Received: by 2002:aa7:d602:: with SMTP id c2mr3976634edr.317.1623420818414;
-        Fri, 11 Jun 2021 07:13:38 -0700 (PDT)
-Received: from x1.bristot.me (host-79-23-205-114.retail.telecomitalia.it. [79.23.205.114])
-        by smtp.gmail.com with ESMTPSA id d2sm1881467ejo.13.2021.06.11.07.13.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Jun 2021 07:13:38 -0700 (PDT)
-Subject: Re: [PATCH V3 9/9] tracing: Add timerlat tracer
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-References: <cover.1621024265.git.bristot@redhat.com>
- <b650672b9973887ef1420bc1e76b97940b6522d6.1621024265.git.bristot@redhat.com>
- <20210607213639.68aad064@gandalf.local.home>
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-Message-ID: <6bc850eb-14c8-6898-847c-d9f0e67d60f8@redhat.com>
-Date:   Fri, 11 Jun 2021 16:13:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OnHkU06l/k9wqE171qbYza/gsqJMIJabflSWwwk6QCA=;
+        b=WMfY1wsT548FCQ0Gf1fvKLiSk0imFTUJPLFwG4lnRGBCMal7EiBGz+bsvPbmBHiGug
+         XQXhvhOgnU8pRer9hqFVUZDTQS+S3J1NAwzt3kZ86CxHhFUPohG8xW49J2EaXA40jtp1
+         ePJS5lbiRlgJ6E7Dg/J1htTFcRiXWgC8LN+wDpYyTrjr3L6nMTqCzSu2oC8Z8M9RzFj+
+         yTDTLD8NAZzdV4npl/UmT8VZrok1be1kqR/Csu0bczqvJXC6r9tFQ+zwuR9IoRgV5Cdf
+         VAFrg0ylkxMBlsnrL8TVT0J7Eo2xJTSjilovKkryJiR/6BCTv9bSY7sO6kkoDXDLbYG1
+         AcSw==
+X-Gm-Message-State: AOAM531QFsJT6BTWfMLkQ1PYJ9HOEEaDujdifnGf5UnbhicGbxGvm2xg
+        thKvCuf61PzWaQ1mq1FlQaKFbx0HCRxPF6J5PQWWhn7Subx6CrNZ7ZHcwwlvyGZMehNLc5WXNeE
+        3Mw++GbuHNsZTMX6Anma5
+X-Received: by 2002:a37:8386:: with SMTP id f128mr4219553qkd.444.1623423705005;
+        Fri, 11 Jun 2021 08:01:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3GP6mxnvgz/ji/Vdupp827CjyJe5ajZSxAoIX/qzD3GyPBxndeXi6Wj8jInFNFCm6D45jvw==
+X-Received: by 2002:a37:8386:: with SMTP id f128mr4219525qkd.444.1623423704690;
+        Fri, 11 Jun 2021 08:01:44 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-88-174-93-75-200.dsl.bell.ca. [174.93.75.200])
+        by smtp.gmail.com with ESMTPSA id j65sm4621527qkd.17.2021.06.11.08.01.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jun 2021 08:01:44 -0700 (PDT)
+Date:   Fri, 11 Jun 2021 11:01:42 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        rcampbell@nvidia.com, linux-doc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, hughd@google.com,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        hch@infradead.org, bskeggs@redhat.com, jgg@nvidia.com,
+        shakeelb@google.com, jhubbard@nvidia.com, willy@infradead.org,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v10 07/10] mm: Device exclusive memory access
+Message-ID: <YMN61r0wdg88OM8r@t490s>
+References: <20210607075855.5084-1-apopple@nvidia.com>
+ <4307769.9k6FjFFxS5@nvdebian>
+ <YMK1snSH9q4Wkyq+@t490s>
+ <2683185.ETRjo6vMkr@nvdebian>
 MIME-Version: 1.0
-In-Reply-To: <20210607213639.68aad064@gandalf.local.home>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <2683185.ETRjo6vMkr@nvdebian>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/8/21 3:36 AM, Steven Rostedt wrote:
-> On Fri, 14 May 2021 22:51:18 +0200
-> Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
+On Fri, Jun 11, 2021 at 01:43:20PM +1000, Alistair Popple wrote:
+> On Friday, 11 June 2021 11:00:34 AM AEST Peter Xu wrote:
+> > On Fri, Jun 11, 2021 at 09:17:14AM +1000, Alistair Popple wrote:
+> > > On Friday, 11 June 2021 9:04:19 AM AEST Peter Xu wrote:
+> > > > On Fri, Jun 11, 2021 at 12:21:26AM +1000, Alistair Popple wrote:
+> > > > > > Hmm, the thing is.. to me FOLL_SPLIT_PMD should have similar effect to explicit
+> > > > > > call split_huge_pmd_address(), afaict.  Since both of them use __split_huge_pmd()
+> > > > > > internally which will generate that unwanted CLEAR notify.
+> > > > >
+> > > > > Agree that gup calls __split_huge_pmd() via split_huge_pmd_address()
+> > > > > which will always CLEAR. However gup only calls split_huge_pmd_address() if it
+> > > > > finds a thp pmd. In follow_pmd_mask() we have:
+> > > > >
+> > > > >       if (likely(!pmd_trans_huge(pmdval)))
+> > > > >               return follow_page_pte(vma, address, pmd, flags, &ctx->pgmap);
+> > > > >
+> > > > > So I don't think we have a problem here.
+> > > >
+> > > > Sorry I didn't follow here..  We do FOLL_SPLIT_PMD after this check, right?  I
+> > > > mean, if it's a thp for the current mm, afaict pmd_trans_huge() should return
+> > > > true above, so we'll skip follow_page_pte(); then we'll check FOLL_SPLIT_PMD
+> > > > and do the split, then the CLEAR notify.  Hmm.. Did I miss something?
+> > >
+> > > That seems correct - if the thp is not mapped with a pmd we won't split and we
+> > > won't CLEAR. If there is a thp pmd we will split and CLEAR, but in that case it
+> > > is fine - we will retry, but the retry will won't CLEAR because the pmd has
+> > > already been split.
+> > 
+> > Aha!
+> > 
+> > >
+> > > The issue arises with doing it unconditionally in make device exclusive is that
+> > > you *always* CLEAR even if there is no thp pmd to split. Or at least that's my
+> > > understanding, please let me know if it doesn't make sense.
+> > 
+> > Exactly.  But if you see what I meant here, even if it can work like this, it
+> > sounds still fragile, isn't it?  I just feel something is slightly off there..
+> > 
+> > IMHO split_huge_pmd() checked pmd before calling __split_huge_pmd() for
+> > performance, afaict, because if it's not a thp even without locking, then it
+> > won't be, so further __split_huge_pmd() is not necessary.
+> > 
+> > IOW, it's very legal if someday we'd like to let split_huge_pmd() call
+> > __split_huge_pmd() directly, then AFAIU device exclusive API will be the 1st
+> > one to be broken with that seems-to-be-irrelevant change I'm afraid..
 > 
->> The timerlat tracer aims to help the preemptive kernel developers to
->> found souces of wakeup latencies of real-time threads. Like cyclictest,
->> the tracer sets a periodic timer that wakes up a thread. The thread then
->> computes a *wakeup latency* value as the difference between the *current
->> time* and the *absolute time* that the timer was set to expire. The main
->> goal of timerlat is tracing in such a way to help kernel developers.
->>
-> 
-> Hmm, we should add a way to have wake up tracers only trace a specific
-> task, where these osnoise trace events would also be useful. That is,
-> run cyclictest with the wakeup tracer, that it does this for cyclictest
-> directly. That shouldn't be too difficult to add.
+> Well I would argue the performance of memory notifiers is becoming increasingly
+> important, and a change that causes them to be called unnecessarily is
+> therefore not very legal. Likely the correct fix here is to optimise
+> __split_huge_pmd() to only call the notifier if it's actually going to split a
+> pmd. As you said though that's a completely different story which I think would
+> be best done as a separate series.
 
-Yep! the osnoise: events are useful for other tracers, and even alone... Indeed,
-they are part of the rtsl (which I plan to submit later this year).
-
-It was already on my todo list to find a way to enable the events independently.
-It could be as simple as adding a "hook" file to the osnoise/ dir, or to hook
-the events when the first osnoise: event gets enabled, and to unhook them when
-the last gets disable.
-
-I will have a look at enabling them with wakeup tracers along the way.
-
->> Usage
->>
->> Write the ASCII text "timerlat" into the current_tracer file of the
->> tracing system (generally mounted at /sys/kernel/tracing).
->>
->> For example:
->>
->>         [root@f32 ~]# cd /sys/kernel/tracing/
->>         [root@f32 tracing]# echo timerlat > current_tracer
->>
->> It is possible to follow the trace by reading the trace trace file::
-> 
-> Do not need rst markup in commit logs ;-)
-
-Oops! :-)
-
->>
->>   [root@f32 tracing]# cat trace
->>   # tracer: timerlat
->>   #
->>   #                              _-----=> irqs-off
->>   #                             / _----=> need-resched
->>   #                            | / _---=> hardirq/softirq
->>   #                            || / _--=> preempt-depth
->>   #                            || /
->>   #                            ||||             ACTIVATION
->>   #         TASK-PID      CPU# ||||   TIMESTAMP    ID            CONTEXT                LATENCY
->>   #            | |         |   ||||      |         |                  |                       |
->>           <idle>-0       [000] d.h1    54.029328: #1     context    irq timer_latency       932 ns
->>            <...>-867     [000] ....    54.029339: #1     context thread timer_latency     11700 ns
->>           <idle>-0       [001] dNh1    54.029346: #1     context    irq timer_latency      2833 ns
->>            <...>-868     [001] ....    54.029353: #1     context thread timer_latency      9820 ns
->>           <idle>-0       [000] d.h1    54.030328: #2     context    irq timer_latency       769 ns
->>            <...>-867     [000] ....    54.030330: #2     context thread timer_latency      3070 ns
->>           <idle>-0       [001] d.h1    54.030344: #2     context    irq timer_latency       935 ns
->>            <...>-868     [001] ....    54.030347: #2     context thread timer_latency      4351 ns
->>
->> The tracer creates a per-cpu kernel thread with real-time priority that
->> prints two lines at every activation. The first is the *timer latency*
->> observed at the *hardirq* context before the activation of the thread.
->> The second is the *timer latency* observed by the thread, which is the
->> same level that cyclictest reports. The ACTIVATION ID field
-
-[..]
-
->> --- /dev/null
->> +++ b/Documentation/trace/timerlat-tracer.rst
->> @@ -0,0 +1,158 @@
->> +###############
->> +Timerlat tracer
->> +###############
->> +
->> +The timerlat tracer aims to help the preemptive kernel developers to
->> +found souces of wakeup latencies of real-time threads. Like cyclictest,
-> 
->   "to find sources"
-
-Fixed.
-
-[...]
->> +
->> +Tracer options
->> +---------------------
->> +
->> +The timerlat tracer is built on top of osnoise tracer.
->> +So its configuration is also done in the osnoise/ config
->> +directory. The timerlat configs are:
->> +
->> + - cpus: CPUs at which a timerlat thread will execute.
->> + - timerlat_period_us: the period of the timerlat thread.
->> + - osnoise/stop_tracing_in_us: stop the system tracing if a
->> +   timer latency at the *irq* context higher than the configured
->> +   value happens. Writing 0 disables this option.
->> + - stop_tracing_out_us: stop the system tracing if a
->> +   timer latency at the *thread* context higher than the configured
->> +   value happens. Writing 0 disables this option.
->> + - print_stack: save the stack of the IRQ ocurrence, and print
->> +   it after the *thread* read the latency.
-> 
-> "thread read the latency" doesn't make sense.
-> 
->  "and print it after the *thread context* event".  ?
-
-Fixed.
+Right, maybe I can look a bit more into that later; but my whole point was to
+express that one functionality shouldn't depend on such a trivial detail of
+implementation of other modules (thp split in this case).
 
 > 
->> +
->> +timerlat and osnoise
->> +----------------------------
->> +
->> +The timerlat can also take advantage of the osnoise: traceevents.
->> +For example::
->> +
->> +        [root@f32 ~]# cd /sys/kernel/tracing/
->> +        [root@f32 tracing]# echo timerlat > current_tracer
->> +        [root@f32 tracing]# echo osnoise > set_event
+> > This lets me goes back a step to think about why do we need this notifier at
+> > all to cover this whole range of make_device_exclusive() procedure..
+> > 
+> > What I am thinking is, we're afraid some CPU accesses this page so the pte got
+> > quickly restored when device atomic operation is carrying on.  Then with this
+> > notifier we'll be able to cancel it.  Makes perfect sense.
+> > 
+> > However do we really need to register this notifier so early?  The thing is the
+> > GPU driver still has all the page locks, so even if there's a race to restore
+> > the ptes, they'll block at taking the page lock until the driver releases it.
+> > 
+> > IOW, I'm wondering whether the "non-fragile" way to do this is not do
+> > mmu_interval_notifier_insert() that early: what if we register that notifier
+> > after make_device_exclusive_range() returns but before page_unlock() somehow?
+> > So before page_unlock(), race is protected fully by the lock itself; after
+> > that, it's done by mmu notifier.  Then maybe we don't need to worry about all
+> > these notifications during marking exclusive (while we shouldn't)?
 > 
-> Note, set_event should be deprecated. Use:
+> The notifier is needed to protect against races with pte changes. Once a page
+> has been marked for exclusive access the driver will update it's page tables to
+> allow atomic access to the page. However in the meantime the page could become
+> unmapped entirely or write protected.
 > 
-> 	echo 1 > events/osnoise/enable
-> 
-> instead.
-> 
+> As I understand things the page lock won't protect against these kind of pte
+> changes, hence the need for mmu_interval_read_begin/retry which allows the
+> driver to hold a mutex protecting against invalidations via blocking the
+> notifier until the device page tables have been updated.
 
-Fixed (and mental note added).
+Indeed, I suppose you mean change_pte_range() and zap_pte_range()
+correspondingly.
 
->> +        [root@f32 tracing]# echo 25 > osnoise/stop_tracing_out_us
->> +        [root@f32 tracing]# tail -10 trace
->> +             cc1-87882   [005] d..h...   548.771078: #402268 context    irq timer_latency      1585 ns
->> +             cc1-87882   [005] dNLh1..   548.771082: irq_noise: local_timer:236 start 548.771077442 duration 4597 ns
->> +             cc1-87882   [005] dNLh2..   548.771083: irq_noise: reschedule:253 start 548.771083017 duration 56 ns
->> +             cc1-87882   [005] dNLh2..   548.771086: irq_noise: call_function_single:251 start 548.771083811 duration 2048 ns
->> +             cc1-87882   [005] dNLh2..   548.771088: irq_noise: call_function_single:251 start 548.771086814 duration 1495 ns
->> +             cc1-87882   [005] dNLh2..   548.771091: irq_noise: call_function_single:251 start 548.771089194 duration 1558 ns
->> +             cc1-87882   [005] dNLh2..   548.771094: irq_noise: call_function_single:251 start 548.771091719 duration 1932 ns
->> +             cc1-87882   [005] dNLh2..   548.771096: irq_noise: call_function_single:251 start 548.771094696 duration 1050 ns
->> +             cc1-87882   [005] d...3..   548.771101: thread_noise:      cc1:87882 start 548.771078243 duration 10909 ns
->> +      timerlat/5-1035    [005] .......   548.771103: #402268 context thread timer_latency     25960 ns
->> +
->> +In this case, the root cause of the timer latency does not point for a
->> +single, but to a series of call_function_single IPIs, followed by a 10
-> 
-> "not point to a single"
+Do you think we can restore pte right before wr-protect or zap?  Then all
+things serializes with page lock (btw: it's already an insane userspace to
+either unmap a page or wr-protect a page if it knows the device is using it!).
+If these are the only two cases, it still sounds a cleaner approach to me than
+the current approach.
 
-Fixed.
+This also reminded me that right now the cpu pgtable recovery is lazy - it
+happens either from fork() or a cpu page fault.  Even after device finished
+using it, swap ptes keep there.
 
-[...]
+What if the device tries to do atomic op on the same page twice?  I am not sure
+whether it means we may also want to teach both GUP (majorly follow_page_pte()
+for now before pmd support) and process of page_make_device_exclusive() with
+understanding the device exclusive entries too?  Another option seems to be
+restoring pte after device finish using it, as long as the device knows when.
 
->> +IRQ stacktrace
->> +---------------------------
->> +
->> +The osnoise/print_stack option is helpful for the cases in which a thread
->> +noise causes the major factor for the timer latency, because of preempt or
->> +irq disabled. For example::
->> +
->> +        [root@f32 tracing]# echo 500 > osnoise/stop_tracing_out_us
->> +        [root@f32 tracing]# echo 500 > osnoise/print_stack
->> +        [root@f32 tracing]# echo timerlat > current_tracer
->> +        [root@f32 tracing]# tail -21 per_cpu/cpu7/trace
->> +          insmod-1026    [007] dN.h1..   200.201948: irq_noise: local_timer:236 start 200.201939376 duration 7872 ns
->> +          insmod-1026    [007] d..h1..   200.202587: #29800 context    irq timer_latency      1616 ns
->> +          insmod-1026    [007] dN.h2..   200.202598: irq_noise: local_timer:236 start 200.202586162 duration 11855 ns
->> +          insmod-1026    [007] dN.h3..   200.202947: irq_noise: local_timer:236 start 200.202939174 duration 7318 ns
->> +          insmod-1026    [007] d...3..   200.203444: thread_noise:   insmod:1026 start 200.202586933 duration 838681 ns
->> +      timerlat/7-1001    [007] .......   200.203445: #29800 context thread timer_latency    859978 ns
->> +      timerlat/7-1001    [007] ....1..   200.203446: <stack trace>
->> +  => timerlat_irq
->> +  => __hrtimer_run_queues
->> +  => hrtimer_interrupt
->> +  => __sysvec_apic_timer_interrupt
->> +  => asm_call_irq_on_stack
->> +  => sysvec_apic_timer_interrupt
->> +  => asm_sysvec_apic_timer_interrupt
->> +  => delay_tsc
->> +  => dummy_load_1ms_pd_init
->> +  => do_one_initcall
->> +  => do_init_module
->> +  => __do_sys_finit_module
->> +  => do_syscall_64
->> +  => entry_SYSCALL_64_after_hwframe
->> +
->> +In this case, it is possible to see that the thread added the highest
->> +contribution to the *timer latency* and the stack trace points to
->> +a function named dummy_load_1ms_pd_init, which had the following
->> +code (on purpose)::
-> 
-> Should add here as well that the stack is saved at the time of interrupt,
-> and not at the time it is reported.
-
-Fixed.
-
-[...]
-
->>  
->> +#ifdef CONFIG_TIMERLAT_TRACER
->> +/*
->> + * Runtime information for the timer mode.
->> + */
->> +struct timerlat_variables {
->> +	struct task_struct *kthread;
->> +	struct hrtimer timer;
->> +	u64 rel_period;
->> +	u64 abs_period;
->> +	bool tracing_thread;
->> +	u64 count;
->> +};
-> 
-> Like with the osnoise comment, put in tabs to make the fields stand out.
-
-Done.
-
-[...]
-
->> +#ifdef CONFIG_TIMERLAT_TRACER
->> +/*
->> + * timerlat sample structure definition. Used to store the statistics of
->> + * a sample run.
->> + */
->> +struct timerlat_sample {
->> +	u64			seqnum;		/* unique sequence */
-> 
-> The seqnum in the event is unsigned int, whereas here it's u64.
-
-all set to unsigned int.
-
-[...]
-
->> +
->> +#ifdef CONFIG_STACKTRACE
->> +/*
->> + * Stack trace will take place only at IRQ level, so, no need
->> + * to control nesting here.
->> + */
->> +struct trace_stack {
->> +	int stack_size;
->> +	int nr_entries;
->> +	unsigned long           calls[PAGE_SIZE];
-> 
-> That is rather big. It's 8 * PAGE_SIZE. I don't think that's what you really
-> wanted.
-
-no, I did not want that... is 256 a good number?
-
->> +};
->> +
->> +static DEFINE_PER_CPU(struct trace_stack, trace_stack);
->> +
->> +/**
-> 
-> Again, remove the KernelDoc notation of /**, or make it real kerneldoc
-> notation.
-
-Fixed!
-
-[...]
-
->>   *
->> @@ -801,6 +1017,22 @@ void trace_softirq_exit_callback(void *data, unsigned int vec_nr)
->>  	if (!osn_var->sampling)
->>  		return;
->>  
->> +#ifdef CONFIG_TIMERLAT_TRACER
->> +	/*
->> +	 * If the timerlat is enabled, but the irq handler did
->> +	 * not run yet enabling timerlat_tracer, do not trace.
->> +	 */
->> +	if (unlikely(osnoise_data.timerlat_tracer)) {
->> +		struct timerlat_variables *tlat_var;
->> +		tlat_var = this_cpu_tmr_var();
->> +		if (!tlat_var->tracing_thread) {
-> 
-> What happens if the timer interrupt triggers here?
-
-The tracer will not report the softirq overhead. But at this point, the softirq
-is returning, and the duration would be from this time to...
-
-
-
->> +			osn_var->softirq.arrival_time = 0;
->> +			osn_var->softirq.delta_start = 0;
->> +			return;
->> +		}
->> +	}
->> +#endif
->> +
->>  	duration = get_int_safe_duration(osn_var, &osn_var->softirq.delta_start);
-
-here.
-
-We can disable interrupts to avoid this issue. But the question is, is it worth
-to disable interrupts to avoid this problem?
-
->>  	trace_softirq_noise(vec_nr, osn_var->softirq.arrival_time, duration);
->>  	cond_move_thread_delta_start(osn_var, duration);
->> @@ -893,6 +1125,18 @@ thread_exit(struct osnoise_variables *osn_var, struct task_struct *t)
->>  	if (!osn_var->sampling)
->>  		return;
->>  
->> +#ifdef CONFIG_TIMERLAT_TRACER
->> +	if (osnoise_data.timerlat_tracer) {
->> +		struct timerlat_variables *tlat_var;
->> +		tlat_var = this_cpu_tmr_var();
->> +		if (!tlat_var->tracing_thread) {
-> 
-> Or here?
-
-The problem that can happen with the softirq cannot happen here: this code runs
-with interrupts disabled on __schedule() (it is hooked to the sched_switch).
-
->> +			osn_var->thread.delta_start = 0;
->> +			osn_var->thread.arrival_time = 0;
->> +			return;
->> +		}
->> +	}
->> +#endif
->> +
->>  	duration = get_int_safe_duration(osn_var, &osn_var->thread.delta_start);
->>  
->>  	trace_thread_noise(t, osn_var->thread.arrival_time, duration);
->> @@ -1182,6 +1426,197 @@ static int osnoise_main(void *data)
->>  	return 0;
->>  }
->>  
->> +#ifdef CONFIG_TIMERLAT_TRACER
->> +/**
->> + * timerlat_irq - hrtimer handler for timerlat.
->> + */
->> +static enum hrtimer_restart timerlat_irq(struct hrtimer *timer)
->> +{
->> +	struct osnoise_variables *osn_var = this_cpu_osn_var();
->> +	struct trace_array *tr = osnoise_trace;
->> +	struct timerlat_variables *tlat;
->> +	struct timerlat_sample s;
->> +	u64 now;
->> +	u64 diff;
->> +
->> +	/*
->> +	 * I am not sure if the timer was armed for this CPU. So, get
->> +	 * the timerlat struct from the timer itself, not from this
->> +	 * CPU.
->> +	 */
->> +	tlat = container_of(timer, struct timerlat_variables, timer);
->> +
->> +	now = ktime_to_ns(hrtimer_cb_get_time(&tlat->timer));
->> +
->> +	/*
->> +	 * Enable the osnoise: events for thread an softirq.
->> +	 */
->> +	tlat->tracing_thread = true;
->> +
->> +	osn_var->thread.arrival_time = time_get();
->> +
->> +	/*
->> +	 * A hardirq is running: the timer IRQ. It is for sure preempting
->> +	 * a thread, and potentially preempting a softirq.
->> +	 *
->> +	 * At this point, it is not interesting to know the duration of the
->> +	 * preempted thread (and maybe softirq), but how much time they will
->> +	 * delay the beginning of the execution of the timer thread.
->> +	 *
->> +	 * To get the correct (net) delay added by the softirq, its delta_start
->> +	 * is set as the IRQ one. In this way, at the return of the IRQ, the delta
->> +	 * start of the sofitrq will be zeroed, accounting then only the time
->> +	 * after that.
->> +	 *
->> +	 * The thread follows the same principle. However, if a softirq is
->> +	 * running, the thread needs to receive the softirq delta_start. The
->> +	 * reason being is that the softirq will be the last to be unfolded,
->> +	 * resseting the thread delay to zero.
->> +	 */
->> +#ifndef CONFIG_PREEMPT_RT
->> +	if (osn_var->softirq.delta_start) {
->> +		copy_int_safe_time(osn_var, &osn_var->thread.delta_start,
->> +				   &osn_var->softirq.delta_start);
-> 
-> Isn't softirq.delta_start going to be zero here? It doesn't look to get
-> updated until you set tracing_thread to true, but that happens here, and as
-> this is in a interrupt context, there will not be a softirq happening
-> between the setting of that to true to this point.
-
-No... on the timerlat, the "sampling" is always on. And the
-osnoise_data.timerlat_tracer is only checked at the softirq return, so the
-softirq entry always set set the delta_start.
-
->> +
->> +		copy_int_safe_time(osn_var, &osn_var->softirq.delta_start,
->> +				    &osn_var->irq.delta_start);
->> +	} else {
->> +		copy_int_safe_time(osn_var, &osn_var->thread.delta_start,
->> +				    &osn_var->irq.delta_start);
->> +	}
->> +#else /* CONFIG_PREEMPT_RT */
->> +	/*
->> +	 * The sofirqs run as threads on RT, so there is not need
->> +	 * to keep track of it.
->> +	 */
->> +	copy_int_safe_time(osn_var, &osn_var->thread.delta_start, &osn_var->irq.delta_start);
->> +#endif /* CONFIG_PREEMPT_RT */
->> +
->> +	/*
->> +	 * Compute the current time with the expected time.
->> +	 */
->> +	diff = now - tlat->abs_period;
->> +
->> +	tlat->count++;
->> +	s.seqnum = tlat->count;
->> +	s.timer_latency = diff;
->> +	s.context = IRQ_CONTEXT;
->> +
->> +	trace_timerlat_sample(&s);
->> +
->> +	/* Keep a running maximum ever recorded os noise "latency" */
->> +	if (diff > tr->max_latency) {
->> +		tr->max_latency = diff;
->> +		latency_fsnotify(tr);
->> +	}
->> +
->> +	if (osnoise_data.stop_tracing_in)
->> +		if (time_to_us(diff) >= osnoise_data.stop_tracing_in)
->> +			osnoise_stop_tracing();
->> +
->> +	wake_up_process(tlat->kthread);
->> +
->> +#ifdef CONFIG_STACKTRACE
->> +	if (osnoise_data.print_stack)
->> +		timerlat_save_stack(0);
->> +#endif
-> 
-> No need for the #ifdef above. timerlat_save_stack() is defined as a nop
-> when not enabled, and the compiler will just optimize this out.
-
-The osnoise_data.print_stack is ifdefed, should I remove it from ifdef?
-
-> 
->> +
->> +	return HRTIMER_NORESTART;
->> +}
->> +
->> +/**
->> + * wait_next_period - Wait for the next period for timerlat
->> + */
->> +static int wait_next_period(struct timerlat_variables *tlat)
->> +{
->> +	ktime_t next_abs_period, now;
->> +	u64 rel_period = osnoise_data.timerlat_period * 1000;
->> +
->> +	now = hrtimer_cb_get_time(&tlat->timer);
->> +	next_abs_period = ns_to_ktime(tlat->abs_period + rel_period);
->> +
->> +	/*
->> +	 * Save the next abs_period.
->> +	 */
->> +	tlat->abs_period = (u64) ktime_to_ns(next_abs_period);
->> +
->> +	/*
->> +	 * If the new abs_period is in the past, skip the activation.
->> +	 */
->> +	while (ktime_compare(now, next_abs_period) > 0) {
->> +		next_abs_period = ns_to_ktime(tlat->abs_period + rel_period);
->> +		tlat->abs_period = (u64) ktime_to_ns(next_abs_period);
->> +	}
->> +
->> +	set_current_state(TASK_INTERRUPTIBLE);
->> +
->> +	hrtimer_start(&tlat->timer, next_abs_period, HRTIMER_MODE_ABS_PINNED_HARD);
->> +	schedule();
->> +	return 1;
->> +}
->> +
->> +/**
->> + * timerlat_main- Timerlat main
->> + */
->> +static int timerlat_main(void *data)
->> +{
->> +	struct osnoise_variables *osn_var = this_cpu_osn_var();
->> +	struct timerlat_variables *tlat = this_cpu_tmr_var();
->> +	struct timerlat_sample s;
->> +	struct sched_param sp;
->> +	u64 now, diff;
->> +
->> +	/*
->> +	 * Make the thread RT, that is how cyclictest is usually used.
->> +	 */
->> +	sp.sched_priority = DEFAULT_TIMERLAT_PRIO;
->> +	sched_setscheduler_nocheck(current, SCHED_FIFO, &sp);
-> 
-> Hmm, I thought Peter Zijlstra was removing all sched_setscheduler*() calls
-> in the kernel :-/ Although, this one seems legit, and we are not running
-> from within a module.
-> 
-> -- Steve
-> 
-
--- Daniel
+-- 
+Peter Xu
 
