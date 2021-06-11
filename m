@@ -2,102 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 675EBC48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 21:41:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3114CC48BE5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 22:01:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4592B613CD
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 21:41:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED0AB613EA
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 22:01:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbhFKVnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 17:43:10 -0400
-Received: from mail-ed1-f47.google.com ([209.85.208.47]:38685 "EHLO
-        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230136AbhFKVnJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 17:43:09 -0400
-Received: by mail-ed1-f47.google.com with SMTP id d13so25163788edt.5
-        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 14:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3ABviuhyW/gBVQTexifrPt1fY0Rs+xnYdvsKtcFy++I=;
-        b=TAqLpamx14JBvqGtI/2jQ2Eo0IVLz9IdRXTnndEV8i5Ld+uo3xauU65J+vvgL6nS72
-         KRk3qHuC6bvGvNZZFObgvUk97Bk7WwpnFou11vRM3gzntd2H7PcQMCPdGeeeFClVc2xM
-         4D+A1rIJGmpckYp1/xbzfnW4S3yv+FnFJ705Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3ABviuhyW/gBVQTexifrPt1fY0Rs+xnYdvsKtcFy++I=;
-        b=s0yFnbDMmj5tflQgHmCmtyKRJd/JgtxKQ7LMFu3gUyrxcItqRLRQHPXlWahgmTcfjl
-         gy2j/Ah5pPl3G1uHE7kxuK+NYiWns4DYyMSpnGOjKmpRKvhtr0BtHgzJnGwwV8LKgiM7
-         kQ7TrLfGLSRY8A+iYi/nDij2FvB9vHQv9/ZYGcXKoaMj2lIl9t40HCEPlOiYpglSJY0U
-         RwUBEbEji9LVb+yzjtiQI1EDBVPGpNinN4CbVQWbIm/3HPshfs9JoTeP7A+BoXLePSz7
-         qiCh6criRhqw8AQKqTxDMLW/91vukSjoh7ueojIX2xwKnp2Bbl/FXbYt3ODZHuIeGdwO
-         xfaA==
-X-Gm-Message-State: AOAM532eBGiyVjP+8GaqmJD7hwsX+cisZGsG59oauASZjLpK1PEh2ybE
-        816q3GZGi92A3GBGgpC92fMJ/A==
-X-Google-Smtp-Source: ABdhPJx9Fdu4hX9I8BiaTVaJb1XmF290y13+Vg8YwDR6IXWC/yvFarK1Kxyr972OcXza8etSzJ4lAQ==
-X-Received: by 2002:aa7:cf08:: with SMTP id a8mr5735359edy.6.1623447610702;
-        Fri, 11 Jun 2021 14:40:10 -0700 (PDT)
-Received: from [192.168.1.149] ([80.208.64.110])
-        by smtp.gmail.com with ESMTPSA id h24sm2467665ejy.35.2021.06.11.14.40.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Jun 2021 14:40:10 -0700 (PDT)
-Subject: Re: [PATCH RFCv3 3/3] lib/test_printf: add test cases for '%pD'
-To:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        id S229985AbhFKWDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 18:03:17 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:35764 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229622AbhFKWDR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 18:03:17 -0400
+Received: from zn.tnic (p200300ec2f0aec00c039d52956c712fd.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:ec00:c039:d529:56c7:12fd])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 80F171EC01B7;
+        Sat, 12 Jun 2021 00:01:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1623448877;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=EEwR5/b08FCIuHBcZmeu6ocrkwRpJQ7CMwf2+fRzK8o=;
+        b=GXNqJE8MkSjDShDvC9yDZluu+iiqX7qHocrZi39M8iu9Y3Hvvbna0BEKsTJxmnqjWjzXWy
+        7B+XsSxLOFsPiXh7DU24EW46RT8m74XjyZ7OOkaxJbQxOQrLEi8/Lq2n9Ef2uTJMyyYjr2
+        IbswmaC7ikaNbpCrgNyR6DmChWDT4FY=
+Date:   Sat, 12 Jun 2021 00:01:10 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Tony Luck <tony.luck@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kyung Min Park <kyung.min.park@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Juergen Gross <jgross@suse.com>,
+        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
+        Kan Liang <kan.liang@linux.intel.com>,
+        Joerg Roedel <jroedel@suse.de>,
+        Victor Ding <victording@google.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Anand K Mistry <amistry@google.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20210611155953.3010-1-justin.he@arm.com>
- <20210611155953.3010-4-justin.he@arm.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <4fe3621f-f4a0-2a74-e831-dad9e046f392@rasmusvillemoes.dk>
-Date:   Fri, 11 Jun 2021 23:40:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH 2/4] perf/x86/intel: Do not deploy workaround when TSX is
+ deprecated
+Message-ID: <YMPdJkLJkQBJdIEL@zn.tnic>
+References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+ <4926973a8b0b2ed78217add01b5c459a92f0d511.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+ <YMMVvq9ZZCu9zZom@zn.tnic>
+ <20210611213443.ira5gc65jlafz7pu@gupta-dev2.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210611155953.3010-4-justin.he@arm.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210611213443.ira5gc65jlafz7pu@gupta-dev2.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/06/2021 17.59, Jia He wrote:
-> After the behaviour of specifier '%pD' is changed to print full path
-> of struct file, the related test cases are also updated.
+On Fri, Jun 11, 2021 at 02:34:43PM -0700, Pawan Gupta wrote:
+> > > diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+> > > index e28892270c58..b5953e1e59a2 100644
+> > > --- a/arch/x86/events/intel/core.c
+> > > +++ b/arch/x86/events/intel/core.c
+> > > @@ -6016,10 +6016,24 @@ __init int intel_pmu_init(void)
+> > >  		intel_pmu_pebs_data_source_skl(pmem);
+> > > 
+> > >  		if (boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT)) {
+> > > -			x86_pmu.flags |= PMU_FL_TFA;
+> > > -			x86_pmu.get_event_constraints = tfa_get_event_constraints;
+> > > -			x86_pmu.enable_all = intel_tfa_pmu_enable_all;
+> > > -			x86_pmu.commit_scheduling = intel_tfa_commit_scheduling;
+> > > +			u64 msr;
+> > > +
+> > > +			rdmsrl(MSR_TSX_FORCE_ABORT, msr);
+> > > +			/* Systems that enumerate CPUID.RTM_ALWAYS_ABORT or
+> > > +			 * support MSR_TSX_FORCE_ABORT[SDV_ENABLE_RTM] bit have
+> > > +			 * TSX deprecated by default. TSX force abort hooks are
+> > > +			 * not required on these systems.
+> > 
+> > So if they're not required, why aren't you simply disabling the force
+> > abort "workaround" by clearing the feature flag?
 > 
-> Given the string is prepended from the end of the buffer, the check
-> of "wrote beyond the nul-terminator" should be skipped.
+> Feature flag also enumerates MSR_TSX_FORCE_ABORT, which is still present
+> after the microcode update. Patch 3/4 in this series clears the TSX
+> CPUID bits using MSR_TSX_FORCE_ABORT. So we do need the feature flag
+> X86_FEATURE_TSX_FORCE_ABORT.
 
-Sorry, that is far from enough justification.
+So it seems to me then, the if test above should be changed to:
 
-I should probably have split the "wrote beyond nul-terminator" check in two:
+	if (boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT) && 
+	   !boot_cpu_has(X86_FEATURE_RTM_ALWAYS_ABORT)) {
+	   ...
 
-One that checks whether any memory beyond the buffer given to
-vsnprintf() was touched (including all the padding, but possibly more
-for the cases where we pass a known-too-short buffer), symmetric to the
-"wrote before buffer" check.
+and no need for the MSR read.
 
-And then another that checks the area between the '\0' and the end of
-the given buffer - I suppose that it's fair game for vsnprintf to use
-all of that as scratch space, and for that it could be ok to add that
-boolean knob.
+Please don't tell me there are configurations
+where CPUID.RTM_ALWAYS_ABORT is clear but the
+MSR_TSX_FORCE_ABORT[SDV_ENABLE_RTM] is there?!
 
-Rasmus
+This
+
+"A new CPUID bit CPUID.RTM_ALWAYS_ABORT (CPUID 7.EDX[11]) is added to
+indicate the status of always abort behavior."
+
+tells me that the CPUID bit is always set by the microcode so we should
+be ok.
+
+If not, you should read that MSR early and do
+
+	setup_force_cpu_cap(X86_FEATURE_RTM_ALWAYS_ABORT)
+
+so that this "always abort" flag is always set when TSX transactions are
+always aborted.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
