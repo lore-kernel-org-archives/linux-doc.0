@@ -2,168 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F8FC48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:34:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F964C48BE0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:43:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55F8B61404
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:34:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F06B861404
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:43:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbhFKNgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 09:36:18 -0400
-Received: from foss.arm.com ([217.140.110.172]:58482 "EHLO foss.arm.com"
+        id S229529AbhFKNp3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 09:45:29 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:34290 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229517AbhFKNgS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 09:36:18 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3B06D6E;
-        Fri, 11 Jun 2021 06:34:19 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E50B3F93E;
-        Fri, 11 Jun 2021 06:34:19 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
-        id 1DEA4684F49; Fri, 11 Jun 2021 14:34:18 +0100 (BST)
-Date:   Fri, 11 Jun 2021 14:34:18 +0100
-From:   Liviu Dudau <liviu.dudau@arm.com>
-To:     Alyssa Rosenzweig <alyssa@collabora.com>
-Cc:     Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Steven Price <steven.price@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alison Wang <alison.wang@nxp.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Huang Rui <ray.huang@amd.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Yannick Fertr e <yannick.fertre@foss.st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Noralf Tr??nnes <noralf@tronnes.org>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian K??nig <christian.koenig@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210611133418.mwjabkd4zzcgekti@e110455-lin.cambridge.arm.com>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
- <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
- <YMNdZCkyaVoH+WAd@maud>
+        id S229517AbhFKNp2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 09:45:28 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 170BAC08;
+        Fri, 11 Jun 2021 15:43:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1623419005; x=1625233406; bh=1kJogRoiDVsAnB9QZik9yfmQC0b6wq5/Kh+
+        3aY136+E=; b=DKFPvei7IPRvWsQKuPxQXvuANVDcTIDU8MrcC3+eOn+K9uSklN6
+        b5gFgN6d3GfOVRY3/8JXZ+LERbmH7Gu51ynhqJPK6W7j739/19FiqV/y7S1mI4ou
+        JOCY8EUCPvMi2qCc/Hv5VqKS60JumeXF/UG3XptIl35KZKXkKR/JPsEiHg4QiWqX
+        IZTDbIaUH9A4SuIc6WJne7Vsw5uOjvwKQfqjukQstcBsRaY/wqQFInVDcKQEZrCZ
+        0WggE0QdUQAq3B8X0KqRlZOA0UoR71l6sstYsshmmHDKvZZRUTgpvdJej7tS39Ma
+        +WPr2asp1FYhxam6KQlUjV25ADtXYEJfl8tB0tHn711KLNcq5Fvj8FlEG9MTEl2d
+        /RJitvQg5FTay+OXoz1MjRbPDOcenE4yb5QySdNDHBK4Xrg2L6/JSZe+B7HNqK5j
+        rFXUhk0h8QVAnjGGa8OFofFtTIgZkpwP5GqgpZejpURqSLbqkaAPCZej0sS9UgO/
+        XEbzGLZ0ScWb+h6n5C0X/w9C+e5A2Rs3918mgBxzyKFUDsfrfczkocWTIk4yl+m8
+        J/I2uG81Aql2IktA/xygk8KWuEVXhNJPr1yiRPRey6z53m2AZJrJcIn3I75sTeQQ
+        umiQUZ7V/rsanz8LgZ1X0CEBZ0/ciEC7hyor2Cs99u9OrcDEP4/rytgQ=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id JBeVJ31EBijM; Fri, 11 Jun 2021 15:43:25 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id B269A6A8;
+        Fri, 11 Jun 2021 15:43:25 +0200 (CEST)
+Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 9AB5A4E20;
+        Fri, 11 Jun 2021 15:43:23 +0200 (CEST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YMNdZCkyaVoH+WAd@maud>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 11 Jun 2021 15:43:21 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Sanjeev Gupta <ghane0@gmail.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        Alex Shi <alexs@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 1/3] Documentation/translations/it_IT: switch LWN links to
+ https
+In-Reply-To: <69693d32.AM4AAKVPb68AAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgvu7-@mailjet.com>
+References: <69693d32.AM4AAKVPb68AAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgvu7-@mailjet.com>
+Message-ID: <b7dee70d419f7d48e186a5b8ff3a0acb@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 08:56:04AM -0400, Alyssa Rosenzweig wrote:
-> > What I'm expected to see in the future is new functionality that gets implemented by
-> > one hardware vendor and the kernel developers trying to enable that for userspace. It
-> > could be that the new property is generic, but there is no way of testing that on
-> > more than one implementation yet, so I'd say we are generous calling it "standard
-> > property". When the second or third hardware vendor comes along and starts supporting
-> > that property with their own set of extra requirements, then we can call it
-> > "standard". Then comes the effort cost: would it be easier to start with a vendor
-> > property that only the vendor needs to support (and can submit patches into the
-> > compositors to do so) and when the standard property gets added moves to that, or
-> > should we start with a generic property that gets implemented by the compositors
-> > (maybe, but then only one vendor supports it) and then later when we actually
-> > standardise the property we will have to carry backwards compatibility code in the
-> > kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
-> > the former option to be reflected in the documentation, but I would like to hear your
-> > thoughts.
+On 2021-06-08 06:15, Sanjeev Gupta wrote:
+> Links have been checked to ensure that the old and new URL
+> return the same page.
 > 
-> Just my 2c - if the mainline kernel isn't willing to commit to a feature
-> for upstream userspace to use, why does that feature belong in the
-> kernel at all? I don't see much value in exposing hardware for the sake
-> of exposing it when, practically, Linux userspace /can't/ use it as-is.
+> Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+> ---
+>  Documentation/translations/it_IT/process/2.Process.rst      | 2 +-
+>  Documentation/translations/it_IT/process/3.Early-stage.rst  | 4 ++--
+>  Documentation/translations/it_IT/process/4.Coding.rst       | 2 +-
+>  .../translations/it_IT/process/7.AdvancedTopics.rst         | 2 +-
+>  Documentation/translations/it_IT/process/8.Conclusion.rst   | 6 +++---
+>  .../it_IT/process/volatile-considered-harmful.rst           | 4 ++--
+>  6 files changed, 10 insertions(+), 10 deletions(-)
 > 
-> Might these vendor properties be used on downstream Android userspaces?
-> That's not generally an upstream goal to support.
 
-I think the assumption is that we are willing to commit to supporting a feature for
-userspace, just that (I personally) lack the confidence that I will be getting the
-feature right on the first attempt and using only one vendor hardware. And that
-supporting potential mistakes I might've made in the first version is harder if the
-feature was deemed "standard".
-
-I'm talking from my experience with the writeback connector. We almost committed the
-feature twice before more people chipped in and asked us for changes, but that was lucky.
-
-Best regards,
-Liviu
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Federico Vaga
