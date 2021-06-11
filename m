@@ -2,148 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC495C48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0BD6C48BE0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:52:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3D04613F4
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:50:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A85161357
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231356AbhFKNwe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 09:52:34 -0400
-Received: from mail-qk1-f172.google.com ([209.85.222.172]:35559 "EHLO
-        mail-qk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbhFKNwd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 09:52:33 -0400
-Received: by mail-qk1-f172.google.com with SMTP id j189so31015887qkf.2;
-        Fri, 11 Jun 2021 06:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=Vcij7NrPMkCvyJHAqP+PNXJ1m2LDMYuEJqY2GEWx4uk=;
-        b=cLtaTlvzJsrycgBKgPT3J3MiVtcry9Wv/dGtaM0ra8zTVzd2cQZ0UFce+0OfJ6LgDt
-         aPUzXCakTEYyW4fMcNGHx3Rr/KoUvtcL9aurZjLcFz/PvTStSwEiR7R9KQnS2mRa6+1H
-         6tDWOGiz8QdRgiNSOdIqEUxKFXkJWCKcjeTTc8KicWtBcv+zuos+CLBrQFpY7WTTkjAS
-         +N7n3J/+Xz54oY+Z+/EQgiEYnfLzvumdxmfg61scQ2BeXYU8PXZ8ReBrDLxq2FHnkGLx
-         3wtlR9lSlZJ89HFmkTP+6+YTigEkfbpSDKRsHCg1kILNnKlxzvUO/Dv8p53MWosC5+/o
-         ad4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=Vcij7NrPMkCvyJHAqP+PNXJ1m2LDMYuEJqY2GEWx4uk=;
-        b=Bpd6gc+q8Kt96NdDO2YhpiqzaGyNw+9WFYxZB3kSI84AQgcFWD//XbOu01PZJs/cqx
-         vmGxFrbDdrIho3UTKorLIjFi5QhJfjehg9UNcdUygGRPh8vpXj4voG3ATjwuLcfcnMxH
-         U3Wh6ylsn8q+kYdTS9Y31R1rkxjbDB8t0z6/Vj0q7r4CaBquJfYl3DAbBMn7skjmj5YU
-         xzra6r0uAzf4mp76xD0DvGbH4lr7OIc6r+eUkENYzXXpSff4DhSulnndna8/Bd+9vtqt
-         fMbrQmhn2Does3Petv7nEJ0SipMB9SO/FpKi1DN3yImBKCastQRdxyMZJ+gs3SZPuIMt
-         arsg==
-X-Gm-Message-State: AOAM533zkKPWhssE7yuMJKX2NJbSynIe6xeGPvh+xvqIRh/XYOM7T8zr
-        TFBpYEHkFbTRugZUhCQXAIo=
-X-Google-Smtp-Source: ABdhPJzJxqYScmXh7B/Tr9VtL9iUKreQUbM9jktN5QXk1XOK3vd9AbM80/s95/fBHAaln8ELHD/qAA==
-X-Received: by 2002:a37:6114:: with SMTP id v20mr3956884qkb.157.1623419375239;
-        Fri, 11 Jun 2021 06:49:35 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 3sm4301926qka.4.2021.06.11.06.49.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 06:49:34 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     "Shah, Amit" <aams@amazon.de>
-Cc:     "sj38.park@gmail.com" <sj38.park@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "acme@kernel.org" <acme@kernel.org>,
-        "snu@amazon.de" <snu@amazon.de>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "minchan@kernel.org" <minchan@kernel.org>,
-        "vdavydov.dev@gmail.com" <vdavydov.dev@gmail.com>,
-        "linux-damon@amazon.com" <linux-damon@amazon.com>,
-        "zgf574564920@gmail.com" <zgf574564920@gmail.com>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "fan.du@intel.com" <fan.du@intel.com>,
-        "Park, Seongjae" <sjpark@amazon.de>,
-        "amit@kernel.org" <amit@kernel.org>,
-        "gthelen@google.com" <gthelen@google.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "Foerster, Leonard" <foersleo@amazon.de>,
-        "guoju.fgj@alibaba-inc.com" <guoju.fgj@alibaba-inc.com>,
-        "benh@kernel.crashing.org" <benh@kernel.crashing.org>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        "greg@kroah.com" <greg@kroah.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mgorman@suse.de" <mgorman@suse.de>,
-        "Jonathan.Cameron@Huawei.com" <Jonathan.Cameron@Huawei.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "brendanhiggins@google.com" <brendanhiggins@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "namhyung@kernel.org" <namhyung@kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "elver@google.com" <elver@google.com>,
-        "riel@surriel.com" <riel@surriel.com>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v29 04/13] mm/idle_page_tracking: Make PG_idle reusable
-Date:   Fri, 11 Jun 2021 13:49:20 +0000
-Message-Id: <20210611134920.6302-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <ac98333d677a3ae8d25a998816e025954826e5c1.camel@amazon.com>
+        id S230409AbhFKNy2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 09:54:28 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:34524 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230187AbhFKNy2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 09:54:28 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id D93A4C08;
+        Fri, 11 Jun 2021 15:52:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1623419548; x=1625233949; bh=YtnvBwMRei0rHdqiRNINSXdIt21DPzmoVwm
+        El2yCfCA=; b=oKgBsyCva7uXDZb8WZklQszuppSGrtahg7eEywAeFzZZUinioyw
+        23cqPwWiVZ1jFJbEH0W2x8/75oQs7x6QOdShuzSuUb7vvku4GZEotjpM9IoNV6I8
+        fYPq2Ub0B1cyCpofEsIWSpsXsVqa6ge75PKcy946hfpF0fnBeutOKIefFkC0iFd5
+        VkGkElnVr1rwJTY8JHCuec/QXZrTvzDYj8+roXSWmwhWmRvOLPp+qDrTWS0JKvrX
+        eiqi2EILXH+vTA2o/Tq+JdPMF+GeyJPoJFf2UH5lz/06qecyvWcNz0iUJgtX60cY
+        QHI22ej1vg0dJvMA12fy3IKSrn7Bw2e/Myml75onNnx1ATup0WCNsVt7EoNYxT4j
+        a6smG8DpSSnoEuExQBgnAvIZLB1GJxLLVjvm7cEuiTVbIaZTBuSNr5g9Tbv5NGfx
+        WURL9vgMSIFopGxtPm+PtpDEVl9WYXE//gx/0PCpPl8BNP2SQXnStUkz9osuF+4u
+        6mOGtQVx6yxC6fmdKCimIadOaDT2kAiA9mASiV/VPfn7NllTHX60JuX8xvpkTBvK
+        klc2fFT1UdE7i2L79J8KS+sJ/hGkVvjHGWlG7je9HqRPCjkXuG31wXnfn2uNXyoZ
+        px8e7Sp1wC0ljmHD+Mgsl9ms9IbxOufruLsgtmWF5GOmlIX/ESRix6hI=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Ke56CqWWP4e6; Fri, 11 Jun 2021 15:52:28 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id DC1776A8;
+        Fri, 11 Jun 2021 15:52:26 +0200 (CEST)
+Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 013E1251D;
+        Fri, 11 Jun 2021 15:52:22 +0200 (CEST)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Fri, 11 Jun 2021 15:52:20 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Sanjeev Gupta <ghane0@gmail.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 2/3] Documentation/translations/it_IT: switch some links
+ to https
+In-Reply-To: <d6364079.AVcAADGh3uAAAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgvu8L@mailjet.com>
+References: <20210608041545.4312-1-ghane0@gmail.com>
+ <d6364079.AVcAADGh3uAAAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgvu8L@mailjet.com>
+Message-ID: <588d1ea5bdea1a60702e8ef51d234b01@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
-
-Hi Amit,
-
-On Fri, 11 Jun 2021 12:55:27 +0000 "Shah, Amit" <aams@amazon.de> wrote:
-
-> On Thu, 2021-05-20 at 07:56 +0000, SeongJae Park wrote:
-> > From: SeongJae Park <sjpark@amazon.de>
-> > 
-> > PG_idle and PG_young allow the two PTE Accessed bit users, Idle Page
-> > Tracking and the reclaim logic concurrently work while don't interfere
+On 2021-06-08 06:15, Sanjeev Gupta wrote:
+> Links have been checked to ensure that the old and new URL
+> return the same page.  This is not true for many links.
 > 
-> ... while not interfering with ...
+> Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+> ---
+>  .../translations/it_IT/doc-guide/kernel-doc.rst        |  2 +-
+>  Documentation/translations/it_IT/doc-guide/sphinx.rst  | 10 +++++-----
+>  Documentation/translations/it_IT/process/changes.rst   |  2 +-
+>  .../translations/it_IT/process/coding-style.rst        |  2 +-
+>  4 files changed, 8 insertions(+), 8 deletions(-)
 
-Will fix so.
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
+Of course, there is nothing wrong with the patch, so it can be applied.
+But, I give you exactly the same comment I gave you last time (see 
+inline)
+
+> diff --git a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+> b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+> index 009cdac014b6..4d22df6a59d6 100644
+> --- a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+> +++ b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+> @@ -24,7 +24,7 @@ vengono filtrare per cercare i riferimenti ed i 
+> marcatori.
 > 
-> > each other.  That is, when they need to clear the Accessed bit, they set
-> > PG_young to represent the previous state of the bit, respectively.  And
-> > when they need to read the bit, if the bit is cleared, they further read
-> > the PG_young to know whether the other has cleared the bit meanwhile or
-> > not.
-> > 
-> > We could add another page flag and extend the mechanism to use the flag
-> > if we need to add another concurrent PTE Accessed bit user subsystem.
-> > However, the space is limited.  Meanwhile, if the new subsystem is
-> > mutually exclusive with IDLE_PAGE_TRACKING or interfering with it is not
-> > a real problem, it would be ok to simply reuse the PG_idle flag.
-> > However, it's impossible because the flags are dependent on
-> > IDLE_PAGE_TRACKING.
+>  Vedere di seguito per maggiori dettagli.
 > 
-> For better readability, I suggest:
+> -.. _`dominio Sphinx per il C`: 
+> http://www.sphinx-doc.org/en/stable/domains.html
+> +.. _`dominio Sphinx per il C`:
+> https://www.sphinx-doc.org/en/stable/domains.html
 > 
-> For yet another user of the PTE Accessed bit, we could add another page
-> flag, or extend the mechanism to use the flags. For the DAMON usecase,
-> however, we don't need to do that just yet.  IDLE_PAGE_TRACKING and
-> DAMON are mutually exclusive, so there's only ever going to be one user
-> of the current set of flags. 
+>  Tutte le funzioni esportate verso i moduli esterni utilizzando
+>  ``EXPORT_SYMBOL`` o ``EXPORT_SYMBOL_GPL`` dovrebbero avere un commento
+> diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst
+> b/Documentation/translations/it_IT/doc-guide/sphinx.rst
+> index 0046d75d9a70..f7db5db3766f 100644
+> --- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
+> +++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
+> @@ -14,7 +14,7 @@ Per generare la documentazione in HTML o PDF, usate
+> comandi ``make htmldocs`` o
+>  ``make pdfdocs``. La documentazione così generata sarà disponibile 
+> nella
+>  cartella ``Documentation/output``.
 > 
-> In this commit, we split out the CONFIG options to allow for the use of
-> PG_young and PG_idle outside of idle page tracking.
+> -.. _Sphinx: http://www.sphinx-doc.org/
+> +.. _Sphinx: https://www.sphinx-doc.org/
+>  .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 
-Thank you for the suggestion, it looks better to me, either.  I will update so
-in the next spin.
+Can you convert the reStructuredText link to https?
 
+https://docutils.sourceforge.io/rst.html
 
-Thanks,
-SeongJae Park
+>  I file reStructuredText possono contenere delle direttive che 
+> permettono di
+> @@ -175,7 +175,7 @@ Aggiungere nuova documentazione è semplice:
+>  2. aggiungete un riferimento ad esso nell'indice (`TOC tree`_) in
+>     ``Documentation/index.rst``.
+> 
+> -.. _TOC tree: http://www.sphinx-doc.org/en/stable/markup/toctree.html
+> +.. _TOC tree: https://www.sphinx-doc.org/en/stable/markup/toctree.html
+> 
+>  Questo, di solito, è sufficiente per la documentazione più semplice 
+> (come
+>  quella che state leggendo ora), ma per una documentazione più 
+> elaborata è
+> @@ -191,8 +191,8 @@ informazione circa le loro potenzialità. In 
+> particolare, il
+>  cui cominciare. Esistono, inoltre, anche alcuni
+>  `costruttori specifici per Sphinx`_.
+> 
+> -.. _`manuale introduttivo a reStructuredText`:
+> http://www.sphinx-doc.org/en/stable/rest.html
+> -.. _`costruttori specifici per Sphinx`:
+> http://www.sphinx-doc.org/en/stable/markup/index.html
+> +.. _`manuale introduttivo a reStructuredText`:
+> https://www.sphinx-doc.org/en/stable/rest.html
+> +.. _`costruttori specifici per Sphinx`:
+> https://www.sphinx-doc.org/en/stable/markup/index.html
+> 
+>  Guide linea per la documentazione del kernel
+>  --------------------------------------------
+> @@ -417,7 +417,7 @@ formato SVG (:ref:`it_svg_image_example`)::
+>  Le direttive del kernel per figure ed immagini supportano il formato 
+> **DOT**,
+>  per maggiori informazioni
+> 
+> -* DOT: http://graphviz.org/pdf/dotguide.pdf
+> +* DOT: https://graphviz.org/pdf/dotguide.pdf
+>  * Graphviz: http://www.graphviz.org/content/dot-language
 
-[...]
+Can you convert also the Graphviz link to https?
+
+https://graphviz.org/doc/info/lang.html
+
+>  Un piccolo esempio (:ref:`it_hello_dot_file`)::
+> diff --git a/Documentation/translations/it_IT/process/changes.rst
+> b/Documentation/translations/it_IT/process/changes.rst
+> index 87d081889bfc..b5a326379d5d 100644
+> --- a/Documentation/translations/it_IT/process/changes.rst
+> +++ b/Documentation/translations/it_IT/process/changes.rst
+> @@ -497,4 +497,4 @@ Documentazione del kernel
+>  Sphinx
+>  ------
+> 
+> -- <http://www.sphinx-doc.org/>
+> +- <https://www.sphinx-doc.org/>
+> diff --git a/Documentation/translations/it_IT/process/coding-style.rst
+> b/Documentation/translations/it_IT/process/coding-style.rst
+> index 95f2e7c985e2..2a0e8bc0f688 100644
+> --- a/Documentation/translations/it_IT/process/coding-style.rst
+> +++ b/Documentation/translations/it_IT/process/coding-style.rst
+> @@ -1166,7 +1166,7 @@ ISBN 0-201-61586-X.
+> 
+>  Manuali GNU - nei casi in cui sono compatibili con K&R e questo 
+> documento -
+>  per indent, cpp, gcc e i suoi dettagli interni, tutto disponibile qui
+> -http://www.gnu.org/manual/
+> +https://www.gnu.org/manual/
+> 
+>  WG14 è il gruppo internazionale di standardizzazione per il linguaggio 
+> C,
+>  URL: http://www.open-std.org/JTC1/SC22/WG14/
+
+-- 
+Federico Vaga
