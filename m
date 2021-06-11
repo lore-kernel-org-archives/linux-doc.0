@@ -2,125 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0934C48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 11:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDCE7C48BE0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:03:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7DD061246
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 11:01:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A12CB613CD
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 12:03:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbhFKLDc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 07:03:32 -0400
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:41781 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbhFKLDa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 07:03:30 -0400
-Received: by mail-oi1-f180.google.com with SMTP id t40so5398869oiw.8;
-        Fri, 11 Jun 2021 04:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QJ/vQZOVwDNIecKs4rsjKD7AQHx1NJ2yzEFPPDK+J9o=;
-        b=Buh9x/rvJlBSIbMQ0zE7v3bcZij4O3E9JJdkW3tqQmI5JqNTnMAZcWJvs7vmuWVTFn
-         Htbr/HY/hYikk5hZJNolCU4Qo1cOtl8NYOqaWaNdci28W5oTEVyYTT3IHJO8Q5v1MC7f
-         YXrRO50UGWmBsOjmZ1mm1u0fM/24aJmJ1WPFHa2KFRP47wyonLYRi7m5H9flGM04AMr1
-         mivLE9NqWgK9BYwn8Uu3ae5a7yaryLvMO4iXofDygDgIQJEvvTkKETWjbLvWcXwSaxgt
-         jm6VxYYvkYEci2mhTsVcvpa1sbobwZjXcxqRH6xMY9x+oRjHYLBWmgVaPyZzXjZq+SF7
-         BBEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=QJ/vQZOVwDNIecKs4rsjKD7AQHx1NJ2yzEFPPDK+J9o=;
-        b=bwLFiUINBLNflWuzmb4PyNIMBubTP2XpKE6SAD4/eE42Z/Pbfh3I6ncuouuER5mMZg
-         b1NBH7xxcbIPlztAN/fjBHurU92ENwyBYEBy9S80AfueFe9kjVIlZwvvgqGv5CHIuTWi
-         mDyydJCSlwF2WLWyGiUlplx8ADYL8zdqmtEmD9FWEU/0B/jubVZINv1tBc73E7jrsZus
-         /yLsNDcppc0Tx7CXlxotDz50AQ2KwJLUda5NJDaytoiAOLMDR3c4l0rjFqbVPH7r1Qol
-         /ynuingU+qYTPU9sd6Pu2PbmoZtY2cpcKI4rP+OMEAvluic8h5I+HOceeG9x0vSyrILv
-         0Zsg==
-X-Gm-Message-State: AOAM533U1sMnbCX98WXhawCzYWTf4Scx1FMR/crwFUMmIzAiHkjpMQ63
-        PYpbmR+SLBLjJmf8y1SvZjY=
-X-Google-Smtp-Source: ABdhPJy1JDA7tpiIOi/hC6erHzFJVX3BV15RGKQ1aLuwDtD3eWsiOz/a3NhK02aokWP5to0aGTLXJg==
-X-Received: by 2002:aca:c441:: with SMTP id u62mr12904876oif.31.1623409220901;
-        Fri, 11 Jun 2021 04:00:20 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q1sm1101652oog.46.2021.06.11.04.00.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 04:00:20 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 11 Jun 2021 04:00:19 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Andreas Schwab <schwab@linux-m68k.org>
-Cc:     Alex Ghiti <alex@ghiti.fr>, Palmer Dabbelt <palmer@dabbelt.com>,
-        corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
-        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v5 1/3] riscv: Move kernel mapping outside of linear
- mapping
-Message-ID: <20210611110019.GA579376@roeck-us.net>
-References: <mhng-90fff6bd-5a70-4927-98c1-a515a7448e71@palmerdabbelt-glaptop>
- <76353fc0-f734-db47-0d0c-f0f379763aa0@ghiti.fr>
- <a58c4616-572f-4a0b-2ce9-fd00735843be@ghiti.fr>
- <7b647da1-b3aa-287f-7ca8-3b44c5661cb8@ghiti.fr>
- <87fsxphdx0.fsf@igel.home>
- <20210610171025.GA3861769@roeck-us.net>
- <87bl8dhcfp.fsf@igel.home>
- <20210610172035.GA3862815@roeck-us.net>
- <877dj1hbmc.fsf@igel.home>
+        id S230280AbhFKMFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 08:05:10 -0400
+Received: from foss.arm.com ([217.140.110.172]:56524 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229785AbhFKMFJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Jun 2021 08:05:09 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81BD41396;
+        Fri, 11 Jun 2021 05:03:11 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3CBC53F85F;
+        Fri, 11 Jun 2021 05:03:11 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+        id CF3FB682B70; Fri, 11 Jun 2021 13:03:09 +0100 (BST)
+Date:   Fri, 11 Jun 2021 13:03:09 +0100
+From:   Liviu Dudau <liviu.dudau@arm.com>
+To:     Simon Ser <contact@emersion.fr>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Steven Price <steven.price@arm.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Qiang Yu <yuq825@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <877dj1hbmc.fsf@igel.home>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 07:29:15PM +0200, Andreas Schwab wrote:
-> On Jun 10 2021, Guenter Roeck wrote:
+On Fri, Jun 11, 2021 at 08:14:59AM +0000, Simon Ser wrote:
+> On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 > 
-> > On Thu, Jun 10, 2021 at 07:11:38PM +0200, Andreas Schwab wrote:
-> >> On Jun 10 2021, Guenter Roeck wrote:
-> >> 
-> >> > On Thu, Jun 10, 2021 at 06:39:39PM +0200, Andreas Schwab wrote:
-> >> >> On Apr 18 2021, Alex Ghiti wrote:
-> >> >> 
-> >> >> > To sum up, there are 3 patches that fix this series:
-> >> >> >
-> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210415110426.2238-1-alex@ghiti.fr/
-> >> >> >
-> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210417172159.32085-1-alex@ghiti.fr/
-> >> >> >
-> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210418112856.15078-1-alex@ghiti.fr/
-> >> >> 
-> >> >> Has this been fixed yet?  Booting is still broken here.
-> >> >> 
-> >> >
-> >> > In -next ?
-> >> 
-> >> No, -rc5.
-> >> 
-> > Booting v5.13-rc5 in qemu works for me for riscv32 and riscv64,
-> > but of course that doesn't mean much. Just wondering, not knowing
-> > the context - did you provide details ?
+> > If there's a strong consensus that we really need this then I'm not
+> > going to nack this, but this really needs a pile of acks from
+> > compositor folks that they're willing to live with the resulting
+> > fallout this will likely bring. Your cc list seems to have an absence
+> > of compositor folks, but instead every driver maintainer. That's
+> > backwards. We make uapi for userspace, not for kernel driver
+> > maintainers!
 > 
-> Does that work for you:
+> In wlroots we have a policy of only allowing standard KMS properties to
+> be used. Any vendor-specific property is going to be less well-defined,
+> less widely useful, potentially have more design issues, potentially
+> overlap in functionality with other vendor-specific properties, likely
+> have some hardware-specific assumptions, etc.
 > 
-> https://github.com/openSUSE/kernel-source/blob/master/config/riscv64/default
+> What matters here is discussing with other driver & user-space folks to
+> make sure the new property's design is sound. Designing uAPI is hard.
 > 
+> If kernel folks are struggling with a user-space implementation, they
+> should discuss with user-space folks to see which project would be
+> interested. There's a chance a compositor will be interested in the new
+> property and will just do the user-space part for you, if not we can
+> suggest candidate projects.
+> 
+> tl;dr strong agree with Daniel here.
 
-That isn't an upstream kernel configuration; it looks like includes suse
-patches. But, yes, it does crash almost immediately if I build an upstream
-kernel based on it and try to run that kernel in qemu. I did not try to
-track it down further; after all, it might just be that the configuration
-is inappropriate for use with qemu. But the configuration isn't really
-what I had asked.
+I think the assumption you and Daniel are making is that the first implementation of
+a new KMS property can be made standard from day one and that it will work for any
+late comer driver as is, without having to make changes to its behaviour in a
+significant way. In my experience that is not the case.
 
-Guenter
+I think we have moved from the times when we were trying to implement in the Linux
+world features that were available in the hardware but needed a kernel and userspace
+API. The set of properties that exist in KMS cover a lot of needed functionality and
+I don't expect to see new properties for stuff that is already supported by hardware.
+
+What I'm expected to see in the future is new functionality that gets implemented by
+one hardware vendor and the kernel developers trying to enable that for userspace. It
+could be that the new property is generic, but there is no way of testing that on
+more than one implementation yet, so I'd say we are generous calling it "standard
+property". When the second or third hardware vendor comes along and starts supporting
+that property with their own set of extra requirements, then we can call it
+"standard". Then comes the effort cost: would it be easier to start with a vendor
+property that only the vendor needs to support (and can submit patches into the
+compositors to do so) and when the standard property gets added moves to that, or
+should we start with a generic property that gets implemented by the compositors
+(maybe, but then only one vendor supports it) and then later when we actually
+standardise the property we will have to carry backwards compatibility code in the
+kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
+the former option to be reflected in the documentation, but I would like to hear your
+thoughts.
+
+Best regards,
+Liviu
+
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
