@@ -2,197 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0BD6C48BE0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:52:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB47C48BE0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:58:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A85161357
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:52:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5DAAF61403
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 13:58:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230409AbhFKNy2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 09:54:28 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:34524 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230187AbhFKNy2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 09:54:28 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id D93A4C08;
-        Fri, 11 Jun 2021 15:52:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1623419548; x=1625233949; bh=YtnvBwMRei0rHdqiRNINSXdIt21DPzmoVwm
-        El2yCfCA=; b=oKgBsyCva7uXDZb8WZklQszuppSGrtahg7eEywAeFzZZUinioyw
-        23cqPwWiVZ1jFJbEH0W2x8/75oQs7x6QOdShuzSuUb7vvku4GZEotjpM9IoNV6I8
-        fYPq2Ub0B1cyCpofEsIWSpsXsVqa6ge75PKcy946hfpF0fnBeutOKIefFkC0iFd5
-        VkGkElnVr1rwJTY8JHCuec/QXZrTvzDYj8+roXSWmwhWmRvOLPp+qDrTWS0JKvrX
-        eiqi2EILXH+vTA2o/Tq+JdPMF+GeyJPoJFf2UH5lz/06qecyvWcNz0iUJgtX60cY
-        QHI22ej1vg0dJvMA12fy3IKSrn7Bw2e/Myml75onNnx1ATup0WCNsVt7EoNYxT4j
-        a6smG8DpSSnoEuExQBgnAvIZLB1GJxLLVjvm7cEuiTVbIaZTBuSNr5g9Tbv5NGfx
-        WURL9vgMSIFopGxtPm+PtpDEVl9WYXE//gx/0PCpPl8BNP2SQXnStUkz9osuF+4u
-        6mOGtQVx6yxC6fmdKCimIadOaDT2kAiA9mASiV/VPfn7NllTHX60JuX8xvpkTBvK
-        klc2fFT1UdE7i2L79J8KS+sJ/hGkVvjHGWlG7je9HqRPCjkXuG31wXnfn2uNXyoZ
-        px8e7Sp1wC0ljmHD+Mgsl9ms9IbxOufruLsgtmWF5GOmlIX/ESRix6hI=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Ke56CqWWP4e6; Fri, 11 Jun 2021 15:52:28 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id DC1776A8;
-        Fri, 11 Jun 2021 15:52:26 +0200 (CEST)
-Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 013E1251D;
-        Fri, 11 Jun 2021 15:52:22 +0200 (CEST)
+        id S231602AbhFKOAU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 10:00:20 -0400
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:32813 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231295AbhFKOAT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 10:00:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1623419902; x=1654955902;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=BVa8dCIXdhHLUqpBplTYlwUjgrxEgZUsmYcBq30zA3M=;
+  b=tYzSmKZsjnPwj1G2oS2TFhIdxRU64ZvbATCEFG6lwgAGju/zOpi+J9Bi
+   Uuii91Yr3fQIjyHgbK8aFll3+10GIcxgqE09PEMqTuBqb88b3wPrFMgEz
+   xqo7BAyoLBKTxR81fyCmHc+XdJuDkLGTwUvsLhlf6A47NBS0ZcKj6lLeS
+   A=;
+X-IronPort-AV: E=Sophos;i="5.83,265,1616457600"; 
+   d="scan'208";a="115269106"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-2101.iad2.amazon.com with ESMTP; 11 Jun 2021 13:58:10 +0000
+Received: from EX13MTAUEE001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id BD792A1C38;
+        Fri, 11 Jun 2021 13:58:08 +0000 (UTC)
+Received: from EX13D08UEB004.ant.amazon.com (10.43.60.142) by
+ EX13MTAUEE001.ant.amazon.com (10.43.62.226) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.18; Fri, 11 Jun 2021 13:57:44 +0000
+Received: from EX13MTAUWB001.ant.amazon.com (10.43.161.207) by
+ EX13D08UEB004.ant.amazon.com (10.43.60.142) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.18; Fri, 11 Jun 2021 13:57:43 +0000
+Received: from dev-dsk-mheyne-60001.pdx1.corp.amazon.com (10.184.85.242) by
+ mail-relay.amazon.com (10.43.161.249) with Microsoft SMTP Server id
+ 15.0.1497.18 via Frontend Transport; Fri, 11 Jun 2021 13:57:43 +0000
+Received: by dev-dsk-mheyne-60001.pdx1.corp.amazon.com (Postfix, from userid 5466572)
+        id 3BF0021D11; Fri, 11 Jun 2021 13:57:41 +0000 (UTC)
+From:   Maximilian Heyne <mheyne@amazon.de>
+To:     SeongJae Park <sj38.park@gmail.com>
+CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@Huawei.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendanhiggins@google.com>,
+        <corbet@lwn.net>, <david@redhat.com>, <dwmw@amazon.com>,
+        <elver@google.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
+        <greg@kroah.com>, <gthelen@google.com>,
+        <guoju.fgj@alibaba-inc.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <zgf574564920@gmail.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v29 12/13] mm/damon: Add user space selftests
+Date:   Fri, 11 Jun 2021 13:57:37 +0000
+Message-ID: <20210611135737.104838-1-mheyne@amazon.de>
+X-Mailer: git-send-email 2.16.6
+In-Reply-To: <20210520075629.4332-13-sj38.park@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Fri, 11 Jun 2021 15:52:20 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Sanjeev Gupta <ghane0@gmail.com>
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 2/3] Documentation/translations/it_IT: switch some links
- to https
-In-Reply-To: <d6364079.AVcAADGh3uAAAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgvu8L@mailjet.com>
-References: <20210608041545.4312-1-ghane0@gmail.com>
- <d6364079.AVcAADGh3uAAAAAAAAAAAKAiBwkAAAAAAMcAAAAAAA6qeABgvu8L@mailjet.com>
-Message-ID: <588d1ea5bdea1a60702e8ef51d234b01@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-06-08 06:15, Sanjeev Gupta wrote:
-> Links have been checked to ensure that the old and new URL
-> return the same page.  This is not true for many links.
+On Thu, 20 May 2021 07:56:28 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
+
+> From: SeongJae Park <sjpark@amazon.de>
 > 
-> Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+> This commit adds a simple user space tests for DAMON.  The tests are
+> using kselftest framework.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
 > ---
->  .../translations/it_IT/doc-guide/kernel-doc.rst        |  2 +-
->  Documentation/translations/it_IT/doc-guide/sphinx.rst  | 10 +++++-----
->  Documentation/translations/it_IT/process/changes.rst   |  2 +-
->  .../translations/it_IT/process/coding-style.rst        |  2 +-
->  4 files changed, 8 insertions(+), 8 deletions(-)
+>  tools/testing/selftests/damon/Makefile        |  7 ++
+>  .../selftests/damon/_chk_dependency.sh        | 28 ++++++
+>  .../testing/selftests/damon/debugfs_attrs.sh  | 98 +++++++++++++++++++
+>  3 files changed, 133 insertions(+)
+>  create mode 100644 tools/testing/selftests/damon/Makefile
+>  create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
+>  create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+> 
+> diff --git a/tools/testing/selftests/damon/Makefile b/tools/testing/selftests/damon/Makefile
+> new file mode 100644
+> index 000000000000..8a3f2cd9fec0
+> --- /dev/null
+> +++ b/tools/testing/selftests/damon/Makefile
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Makefile for damon selftests
+> +
+> +TEST_FILES = _chk_dependency.sh
+> +TEST_PROGS = debugfs_attrs.sh
+> +
+> +include ../lib.mk
+> diff --git a/tools/testing/selftests/damon/_chk_dependency.sh b/tools/testing/selftests/damon/_chk_dependency.sh
+> new file mode 100644
+> index 000000000000..e090836c2bf7
+> --- /dev/null
+> +++ b/tools/testing/selftests/damon/_chk_dependency.sh
+> @@ -0,0 +1,28 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +# Kselftest framework requirement - SKIP code is 4.
+> +ksft_skip=4
+> +
+> +DBGFS=/sys/kernel/debug/damon
+> +
+> +if [ $EUID -ne 0 ];
+> +then
+> +	echo "Run as root"
+> +	exit $ksft_skip
+> +fi
+> +
+> +if [ ! -d $DBGFS ]
+> +then
+> +	echo "$DBGFS not found"
+> +	exit $ksft_skip
+> +fi
+> +
+> +for f in attrs target_ids monitor_on
+> +do
+> +	if [ ! -f "$DBGFS/$f" ]
+> +	then
+> +		echo "$f not found"
+> +		exit 1
+> +	fi
+> +done
+> diff --git a/tools/testing/selftests/damon/debugfs_attrs.sh b/tools/testing/selftests/damon/debugfs_attrs.sh
+> new file mode 100755
+> index 000000000000..4a8ab4910ee4
+> --- /dev/null
+> +++ b/tools/testing/selftests/damon/debugfs_attrs.sh
+> @@ -0,0 +1,98 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +source ./_chk_dependency.sh
+> +
+> +# Test attrs file
+> +file="$DBGFS/attrs"
+> +
+> +ORIG_CONTENT=$(cat $file)
 
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
+Missing quotes around $file. Can you run shellcheck on this code and fix all
+reportings, please?
 
-Of course, there is nothing wrong with the patch, so it can be applied.
-But, I give you exactly the same comment I gave you last time (see 
-inline)
+> +
+> +echo 1 2 3 4 5 > $file
+> +if [ $? -ne 0 ]
+> +then
+> +	echo "$file write failed"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
+> +
+> +echo 1 2 3 4 > $file
+> +if [ $? -eq 0 ]
+> +then
+> +	echo "$file write success (should failed)"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
+> +
+> +CONTENT=$(cat $file)
+> +if [ "$CONTENT" != "1 2 3 4 5" ]
+> +then
+> +	echo "$file not written"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
 
-> diff --git a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-> b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-> index 009cdac014b6..4d22df6a59d6 100644
-> --- a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-> +++ b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-> @@ -24,7 +24,7 @@ vengono filtrare per cercare i riferimenti ed i 
-> marcatori.
-> 
->  Vedere di seguito per maggiori dettagli.
-> 
-> -.. _`dominio Sphinx per il C`: 
-> http://www.sphinx-doc.org/en/stable/domains.html
-> +.. _`dominio Sphinx per il C`:
-> https://www.sphinx-doc.org/en/stable/domains.html
-> 
->  Tutte le funzioni esportate verso i moduli esterni utilizzando
->  ``EXPORT_SYMBOL`` o ``EXPORT_SYMBOL_GPL`` dovrebbero avere un commento
-> diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst
-> b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-> index 0046d75d9a70..f7db5db3766f 100644
-> --- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
-> +++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-> @@ -14,7 +14,7 @@ Per generare la documentazione in HTML o PDF, usate
-> comandi ``make htmldocs`` o
->  ``make pdfdocs``. La documentazione così generata sarà disponibile 
-> nella
->  cartella ``Documentation/output``.
-> 
-> -.. _Sphinx: http://www.sphinx-doc.org/
-> +.. _Sphinx: https://www.sphinx-doc.org/
->  .. _reStructuredText: http://docutils.sourceforge.net/rst.html
+I'd add test cases for the contents written to the attrs, like checking that
+input min_nr_regions is actually smaller than the input max_nr_regions values.
 
-Can you convert the reStructuredText link to https?
+> +
+> +echo $ORIG_CONTENT > $file
+> +
+> +# Test target_ids file
+> +file="$DBGFS/target_ids"
+> +
+> +ORIG_CONTENT=$(cat $file)
+> +
+> +echo "1 2 3 4" > $file
+> +if [ $? -ne 0 ]
+> +then
+> +	echo "$file write fail"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
+> +
+> +echo "1 2 abc 4" > $file
+> +if [ $? -ne 0 ]
+> +then
+> +	echo "$file write fail"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
 
-https://docutils.sourceforge.io/rst.html
+I've seen this construct more than once. Any chance to refactor this code? Or is
+this selftest not expected to grow in the future?
 
->  I file reStructuredText possono contenere delle direttive che 
-> permettono di
-> @@ -175,7 +175,7 @@ Aggiungere nuova documentazione è semplice:
->  2. aggiungete un riferimento ad esso nell'indice (`TOC tree`_) in
->     ``Documentation/index.rst``.
+> +
+> +CONTENT=$(cat $file)
+> +if [ "$CONTENT" != "1 2" ]
+> +then
+> +	echo "$file not written"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
+> +
+> +echo abc 2 3 > $file
+> +if [ $? -ne 0 ]
+> +then
+> +	echo "$file wrong value write fail"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
+> +
+> +if [ ! -z "$(cat $file)" ]
+> +then
+> +	echo "$file not cleared"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
+> +
+> +echo > $file
+> +if [ $? -ne 0 ]
+> +then
+> +	echo "$file init fail"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
+> +
+> +if [ ! -z "$(cat $file)" ]
+> +then
+> +	echo "$file not initialized"
+> +	echo $ORIG_CONTENT > $file
+> +	exit 1
+> +fi
+> +
+> +echo $ORIG_CONTENT > $file
+> +
+> +echo "PASS"
+> -- 
+> 2.17.1
 > 
-> -.. _TOC tree: http://www.sphinx-doc.org/en/stable/markup/toctree.html
-> +.. _TOC tree: https://www.sphinx-doc.org/en/stable/markup/toctree.html
 > 
->  Questo, di solito, è sufficiente per la documentazione più semplice 
-> (come
->  quella che state leggendo ora), ma per una documentazione più 
-> elaborata è
-> @@ -191,8 +191,8 @@ informazione circa le loro potenzialità. In 
-> particolare, il
->  cui cominciare. Esistono, inoltre, anche alcuni
->  `costruttori specifici per Sphinx`_.
 > 
-> -.. _`manuale introduttivo a reStructuredText`:
-> http://www.sphinx-doc.org/en/stable/rest.html
-> -.. _`costruttori specifici per Sphinx`:
-> http://www.sphinx-doc.org/en/stable/markup/index.html
-> +.. _`manuale introduttivo a reStructuredText`:
-> https://www.sphinx-doc.org/en/stable/rest.html
-> +.. _`costruttori specifici per Sphinx`:
-> https://www.sphinx-doc.org/en/stable/markup/index.html
 > 
->  Guide linea per la documentazione del kernel
->  --------------------------------------------
-> @@ -417,7 +417,7 @@ formato SVG (:ref:`it_svg_image_example`)::
->  Le direttive del kernel per figure ed immagini supportano il formato 
-> **DOT**,
->  per maggiori informazioni
-> 
-> -* DOT: http://graphviz.org/pdf/dotguide.pdf
-> +* DOT: https://graphviz.org/pdf/dotguide.pdf
->  * Graphviz: http://www.graphviz.org/content/dot-language
 
-Can you convert also the Graphviz link to https?
 
-https://graphviz.org/doc/info/lang.html
 
->  Un piccolo esempio (:ref:`it_hello_dot_file`)::
-> diff --git a/Documentation/translations/it_IT/process/changes.rst
-> b/Documentation/translations/it_IT/process/changes.rst
-> index 87d081889bfc..b5a326379d5d 100644
-> --- a/Documentation/translations/it_IT/process/changes.rst
-> +++ b/Documentation/translations/it_IT/process/changes.rst
-> @@ -497,4 +497,4 @@ Documentazione del kernel
->  Sphinx
->  ------
-> 
-> -- <http://www.sphinx-doc.org/>
-> +- <https://www.sphinx-doc.org/>
-> diff --git a/Documentation/translations/it_IT/process/coding-style.rst
-> b/Documentation/translations/it_IT/process/coding-style.rst
-> index 95f2e7c985e2..2a0e8bc0f688 100644
-> --- a/Documentation/translations/it_IT/process/coding-style.rst
-> +++ b/Documentation/translations/it_IT/process/coding-style.rst
-> @@ -1166,7 +1166,7 @@ ISBN 0-201-61586-X.
-> 
->  Manuali GNU - nei casi in cui sono compatibili con K&R e questo 
-> documento -
->  per indent, cpp, gcc e i suoi dettagli interni, tutto disponibile qui
-> -http://www.gnu.org/manual/
-> +https://www.gnu.org/manual/
-> 
->  WG14 è il gruppo internazionale di standardizzazione per il linguaggio 
-> C,
->  URL: http://www.open-std.org/JTC1/SC22/WG14/
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
 
--- 
-Federico Vaga
+
+
