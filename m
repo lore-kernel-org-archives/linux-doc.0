@@ -2,428 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD29AC48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 00:31:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D8DC48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 01:00:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8020D613C3
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 00:31:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A94761009
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 01:00:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230083AbhFKAdX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Jun 2021 20:33:23 -0400
-Received: from sonic312-31.consmr.mail.ne1.yahoo.com ([66.163.191.212]:45724
-        "EHLO sonic312-31.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230233AbhFKAdW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 20:33:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1623371485; bh=PYOxDvZGvzLc0GWEGWLW6Y18A54vIQSomE5t+mL3eD4=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=TZyQb68La8iT7O1/axZec9QoF2VVJI+4MdVYbSKoM5PnHdRJk/RsPbhI7kH3y4MZCB5s1F85TiJPZnGSrI3Dt28xOmgrSGy3eZRjwnvalZ8v6njQD3Xl5xB9n+Nvgkh8FJj8BZ6Lmqymj6ptx7azrhLQS1tS6nJCN/YFjdRPS24nXW32+5ccCdHPzptDKAPiuCYkVpUFlAojI4B7a5guB+nF1KdHeVtMpzlJHuNlDS6mUJTaiyvbFxLoO6/sJty0d+hd/I7XFbPiLDS2yrGKFxADYb0JufMt69xob5XF4dTq2wibg7w9z38OmDYtVkSDPvVfsCvWw+LZRLZhUsW3GQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1623371485; bh=HqFEuIrit4ts+ebfOiOPOt/iEbG8+IRrQVMNTRLF97q=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=qJ5lcI2t1IM41VWaW7x6JRUoSAZNAgD3UqdpepuJ9zwYbU4VsmSqQE9gOrValagR7LZgJJbHg7qTDa2aR7ZqJIygSu2r+WmT/1Cu/yjcLKrxZafeD0lVw1lh5zPFp0EArJxBkLXZr0Q/WE4ig/4wmEqcBXX5f3nFmH31UgFk54KlFmq/6CGf7tqYdIKwwCGzDog8tdb0qGbg8pvxc8fcEbOTnWe5OXjKwyU7s6N6kLLaIznNZZ0q+mZxpBDCmLABWh3jmeEOvRexKrOE6ZL32+DsiLH0Scn7Uv1gUd8ZE05I7Gjo+YWR+tYco/aLJHoF4w7Dq0J1/EXRYFSxpubIAw==
-X-YMail-OSG: sDlG9xQVM1kx_dBvpHrDYmEGbyXdSm_5fGskrH4nj_dZRRPKM96fIpLQZ4UbAif
- Ja6fYJUTzVqYo6uXDlX0Oct1Fd74XuoX8jlLepD9qRXgePfWQSbZeIr4jFNeaXXcjVz6TdtrT6ZY
- vQmT2V9wJcGvZ2k.MOR3vk2Dg.Sd1P_DTZloQvcLvJ2gZfiw2aWNy0bzfDHAAtnX5eRWJiSXRLWk
- ddZ2PNbzqzf3irQ5eo37vjmYB18AV2XZ9N9jibH46ksTE4YQALuOtkoCq4eouu8O2Vr4yNpPXF2N
- ZtbufjuDibgEW6xLjFaaxYTaNjlugUXMuouugJhuY9gmgdDXVYl6e9BEtqfUqxzbMr7TnGqZ8aO.
- Om3HbxIbwZglyLgbWjDOOtFWHzXN8ED2hsIwLgi9Llytmk_thlDrOyGRlrCgulNkQGTRaiGqF.MH
- AQj4oW0GGJZ.OVO2A6KWTHy31YBNsIycOiIfcTVfRurTQeDPKo7khS_AMmCo9hfPPErdmIwcjkP2
- mMCV4iyvMDiLN75TpmYeRgJHfI0REOb9ylFa3uQL16tSFlfilnWojYaGCN0vbel1EbVbi81dVJa6
- 8.0jyMvbUhsKLT6E7joemVE1rkr77PTBWAhJGBaVb0uGBU91F56fRlXevWk8apoeWVUq4q_BGoec
- LLA7BvM66TojL85.7bGUQNwGq7bTNmUu5PpUWh0OfU7T5GfpZfeOH2xYxx0PXN.7fMdJIHosjJW7
- rmJyLIlJbDPIFs.lHekPO6j75_DigFNz85hAYr9E7V_EY_ncFqi3bzXCVOrjpln6kAYCwzqdxcwx
- Fz.5H6YPwRDzbFBqrMBC0k6arx0.tSAY33Fe5yrm2FjUCJXLMBUv013XvMm9AyHJxcsrJu0gnw3y
- iEH64_U22m3rwJrKvXw2lS2tJrnJiyIlWl2b7LKv6NCWh980sQfuxU2ggVxciqGWvCR4ZbnzE74T
- jvM12Nohzrkl4kJ7VNNy8DqnGsvgnP9l0bB.F4oS22kHxNB_sD.sED_SbdntjjkUKSxdK8AtizO0
- VW3RJhB6RgCUTdr6o.shC_DC_PlaeHoQKWx0HceNE92fBkgaz.K7cn2vl8TqX1vug7q0Gghe5qlR
- IfwqdNnfPMrjBkVgG6KWfWIkWKSRGeyPqaMA6fIiPa0c8PE4KNCVif3Lz0zFE4SNCNixWnIasKHS
- DsMGd2hnXiIvlgTHf2qLrt.ysYrj25JMrMEZ_dKg9fFGCN7kZdICTPuI6MYn2fgWrXnwpaOfIN64
- oNoBrsQO9I4Dbchf5IdyILf4cSic2dQMJd1nRKiuv54NhCEts5HMudi3woCaBg_G3svXUt7f_Xhb
- 3o47_jzl18EmdAdsUmWolScmViMVbIDgN47nxHqDQBs61xrUq6ktOEh3oLV82GGx1att.E6asNSC
- 2ysUWxBlx3pbGATXlp1bxL42vITZ_tciewznBxsa0DuONxr4c1OZznagnw7KeHvSD5NFu5AK.HbI
- B86PaqJF8QsVgARfdJD0pBONGTrBTvM4TNRYDb44D.6B0eQBx6no9dOk7JdD8pAQwZBPRW6oOMQL
- eujchl6_IYkRyzt87Yehm9hVk9a4iqRq0AmX1JOtMLYIRIw20vej37U8Dnb7harSMOB5Ht7kiiq6
- 4tEu6jvnuPB14TD7Zzzq95xdbn6gnjEjBQudEvFGWen7rJ3C6AS6gFypBoIZUz.jhHnI3xFjgDwP
- BWWOP8tliU5TNVd6n59QkyHQ9jv2n_92iWcsXy3f_qwrI_a.rxZBNxRsveeM.OO8Gng9ylLaHUog
- 891A4FxqdR768Kpn.cPIiGIusKERzG031wPteQjI82GUGDbYibKJ.Dk7bizUKUFguEX65aYC8jMC
- tUkxCNw0eEPr_RI5BO16LbTjvYX60bblbbH3KeUTWJMx7455bRpQg1Xy3VkjIRmUllWAbBXVck7B
- ljQQZeWZPptCZ5kMDV1RUkEdHUivWnrZwayITb3Ac2KJSeSJ6fICeXKpE1XIKDgfhlShh21FoGoj
- 0yPl.h3iTEZrtIOD8neQoU1h7EtXaR2iyR7OiFvSN0QxF7Cnq_35oshtnr.MqJ8D_mWMW3IdJv3s
- irov0ZdoYESW8u7PVjCHAdMeo.QFCqrMaUOwcePDPX4Bq_.Cal.AbsJWRSk8CZRkqo_tnepI.UP7
- 2Cl5IZJTw4qpk5kPMYKFMI23RBdwZb7TIVrK8qai4ccjO8plwIjbQIyMaaEzktu7tBAWTW7rh44C
- pzXK7SOSeiUqSs68XpHKi4nEt918lOAzMeBps4tCXpk7TEaOaxlC8qON34GyZcotqqLp25ovbQKh
- PLC_sVcLTcX_o.2Q0GWiRGavACUnNggLfW0mYIkBuAGyg2rzQlZH3cdVZ8msY1ei3RA2.N1nFgAX
- 1HQYvA_jGkq4TfE3UZE28BPKg0.OHauASNy3qskMIWUsbHOfUBR215e3TzBbU8XYSc9lN0P6zWGQ
- ltEiMTTzL6EUzBeeLsP8jhZJEiYdrVC5Yv7cPYFxdoqH9aXZetwVja2TwlmhXMkJyGroJxQQf.aZ
- FPUbEOw5.YuvSuSDwxTh9f02RYWPXu8WjDYHIFerhCUR_YU3XkQKp3iyfE6SagKQ9tSYBvwtykD7
- tmMOjKpXi2u5z98IuVFtgBG5cY.xBgKBYYtM2dZpNivj5tzE77P3HODH65DfWpqMXKswhhPzRIZr
- K9x2fGrzuNnNyqAP.eCnV.E.6gz1l1MlEks8Cd2V.oY9h0i8paDelG.jXUgNmKa1BDtLPAB5wpvn
- DQAUk8lIiDrb4FSA1mZvhk_lqf3Cjx7E_pqJrZjPiqVhYepdk8WskQwFAoRzMI3KgTyW3.SFtMGK
- P_iQGMhxBSgu5Vh1NR.ozkf1Wt_gJsGoQ9IJY3p_qdqI2HPmT63MllZOADJ3rT1l0c_SXtgz8VVb
- vzbdKgcghUjerz.c0Aj5yBp0eR3fgHWJq7NvhHLs4h8l7JcPe4ZWOJNab7O8CfrF2dwoQmVNG35L
- V4PjAZ2tpjtV_AE.gSzscpOrMc7s5qiImziBbGOpcyNTo3He.opkf4ti0uV9GbmkulMYrcTFeIf2
- LhZfxOqH.YR2GVbY2nrPjxBdxejCQOacC66OWWuG.rbAu.l6aitjiHjZZfFVdmlB2.hnLV8s8AHp
- U_sOfhzgVxt_uGzw_tlvRz0nzTDLiB8Vie6_Y3Hoyowxd7cWpVz90AvEQP9KJrRD_FQQyNN6pd7G
- Cr0lfmJeZWtT3l3Ib79119NlpX3wYGPJUlnbRaREzFBMKJltRSCFX7FW3HzbFAKAP.Dpw2mWBqCb
- oZWYDlpLMsktSkDzcWMPjDLGv60Q-
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ne1.yahoo.com with HTTP; Fri, 11 Jun 2021 00:31:25 +0000
-Received: by kubenode549.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 9f0be996b7250d367351c85ca65abf5a;
-          Fri, 11 Jun 2021 00:31:20 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey.schaufler@intel.com, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Cc:     casey@schaufler-ca.com, linux-audit@redhat.com,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
-        sds@tycho.nsa.gov, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v27 24/25] LSM: Add /proc attr entry for full LSM context
-Date:   Thu, 10 Jun 2021 17:04:34 -0700
-Message-Id: <20210611000435.36398-25-casey@schaufler-ca.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210611000435.36398-1-casey@schaufler-ca.com>
-References: <20210611000435.36398-1-casey@schaufler-ca.com>
+        id S231157AbhFKBCh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Jun 2021 21:02:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54174 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231156AbhFKBCg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jun 2021 21:02:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623373239;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TIpFBpUgsa+CEYbS6beP9TgLZgicFH9y1D+Hi0H76zs=;
+        b=XBoIPVwGPv8LQykIzfR6iBv2wfLahv4dyZIPpPMnhr2ISgg91Y2nJ+zuLluF6yphnL3nBw
+        /x792pMXyV/M9/wMm+VrRJrQ477krIAFz7nF5T9LWPBVjdF2Hjn8llKLid4aWzcx6zKuWw
+        jG+CszxG0PfkD32Cxpjvboa59EArR10=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-_E2F2A-KOIyDfJRir0FmqA-1; Thu, 10 Jun 2021 21:00:38 -0400
+X-MC-Unique: _E2F2A-KOIyDfJRir0FmqA-1
+Received: by mail-qt1-f197.google.com with SMTP id m18-20020a05622a1192b0290247a89f63bcso952582qtk.20
+        for <linux-doc@vger.kernel.org>; Thu, 10 Jun 2021 18:00:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TIpFBpUgsa+CEYbS6beP9TgLZgicFH9y1D+Hi0H76zs=;
+        b=C4iIoPsRw1qz39cICVZrulJeQ/puX0te84fMaSYPVh3jWTG5opxSR2K1DvQucJIKTq
+         s3OReRTlen9tWNYx7aYze5CyjGDQxx08yodMI/ivCjij6pJ771O9obS77E/PNJIdc9D4
+         0LvwdK5zcib509m97dsdUaxJGxTs9ZB/c8sWirzMgLulq9wqtvA71RJyLDyGPlP5uCUf
+         nEGy4Du2tGfJfU0uxgA2GogQm+L/KplnQPew/6sUUfvx7kLi5w0qXuO60r6aJPIpeB/C
+         MFIozrwLfrYgSIMNVHBqyXUKlWKRrTwbNTGQasVCvKAt2GdIV/3f2Bt+56KlPDskjMfS
+         o67g==
+X-Gm-Message-State: AOAM53141BWr7sN/tabDrkBorgSLmlI0+DLApGfYdTGt5mrezOZ44kOL
+        JDQ9e3IXaQaMDlnBOjbaSWupmMRBkgii9BcRyz/mlvZRBLi8la/ldQXp82VAa4faJra1hmaMnBS
+        2DpNdLJJqXV0F58oLJmGj
+X-Received: by 2002:ac8:478d:: with SMTP id k13mr1622129qtq.368.1623373237358;
+        Thu, 10 Jun 2021 18:00:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz117hBHeZrmV+gnZTyf8CAZNSgcamMomZRLvbKE8N/5JXdDVGO68KnPLhpJxwzn8D7ZmVhUQ==
+X-Received: by 2002:ac8:478d:: with SMTP id k13mr1622098qtq.368.1623373237054;
+        Thu, 10 Jun 2021 18:00:37 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-88-174-93-75-200.dsl.bell.ca. [174.93.75.200])
+        by smtp.gmail.com with ESMTPSA id g15sm3527121qkl.53.2021.06.10.18.00.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jun 2021 18:00:36 -0700 (PDT)
+Date:   Thu, 10 Jun 2021 21:00:34 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        rcampbell@nvidia.com, linux-doc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, hughd@google.com,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        hch@infradead.org, bskeggs@redhat.com, jgg@nvidia.com,
+        shakeelb@google.com, jhubbard@nvidia.com, willy@infradead.org,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v10 07/10] mm: Device exclusive memory access
+Message-ID: <YMK1snSH9q4Wkyq+@t490s>
+References: <20210607075855.5084-1-apopple@nvidia.com>
+ <6429491.QiJgnDeYu7@nvdebian>
+ <YMKacyNstEM9brUD@t490s>
+ <4307769.9k6FjFFxS5@nvdebian>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4307769.9k6FjFFxS5@nvdebian>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an entry /proc/.../attr/context which displays the full
-process security "context" in compound format:
-        lsm1\0value\0lsm2\0value\0...
-This entry is not writable.
+On Fri, Jun 11, 2021 at 09:17:14AM +1000, Alistair Popple wrote:
+> On Friday, 11 June 2021 9:04:19 AM AEST Peter Xu wrote:
+> > External email: Use caution opening links or attachments
+> > 
+> > 
+> > On Fri, Jun 11, 2021 at 12:21:26AM +1000, Alistair Popple wrote:
+> > > > Hmm, the thing is.. to me FOLL_SPLIT_PMD should have similar effect to explicit
+> > > > call split_huge_pmd_address(), afaict.  Since both of them use __split_huge_pmd()
+> > > > internally which will generate that unwanted CLEAR notify.
+> > >
+> > > Agree that gup calls __split_huge_pmd() via split_huge_pmd_address()
+> > > which will always CLEAR. However gup only calls split_huge_pmd_address() if it
+> > > finds a thp pmd. In follow_pmd_mask() we have:
+> > >
+> > >       if (likely(!pmd_trans_huge(pmdval)))
+> > >               return follow_page_pte(vma, address, pmd, flags, &ctx->pgmap);
+> > >
+> > > So I don't think we have a problem here.
+> > 
+> > Sorry I didn't follow here..  We do FOLL_SPLIT_PMD after this check, right?  I
+> > mean, if it's a thp for the current mm, afaict pmd_trans_huge() should return
+> > true above, so we'll skip follow_page_pte(); then we'll check FOLL_SPLIT_PMD
+> > and do the split, then the CLEAR notify.  Hmm.. Did I miss something?
+> 
+> That seems correct - if the thp is not mapped with a pmd we won't split and we
+> won't CLEAR. If there is a thp pmd we will split and CLEAR, but in that case it
+> is fine - we will retry, but the retry will won't CLEAR because the pmd has
+> already been split.
 
-A security module may decide that its policy does not allow
-this information to be displayed. In this case none of the
-information will be displayed.
+Aha!
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-Cc: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/ABI/testing/procfs-attr-context | 14 ++++
- Documentation/security/lsm.rst                | 14 ++++
- fs/proc/base.c                                |  1 +
- include/linux/lsm_hooks.h                     |  6 ++
- security/apparmor/include/procattr.h          |  2 +-
- security/apparmor/lsm.c                       |  8 +-
- security/apparmor/procattr.c                  | 22 +++---
- security/security.c                           | 79 +++++++++++++++++++
- security/selinux/hooks.c                      |  2 +-
- security/smack/smack_lsm.c                    |  2 +-
- 10 files changed, 135 insertions(+), 15 deletions(-)
- create mode 100644 Documentation/ABI/testing/procfs-attr-context
+> 
+> The issue arises with doing it unconditionally in make device exclusive is that
+> you *always* CLEAR even if there is no thp pmd to split. Or at least that's my
+> understanding, please let me know if it doesn't make sense.
 
-diff --git a/Documentation/ABI/testing/procfs-attr-context b/Documentation/ABI/testing/procfs-attr-context
-new file mode 100644
-index 000000000000..40da1c397c30
---- /dev/null
-+++ b/Documentation/ABI/testing/procfs-attr-context
-@@ -0,0 +1,14 @@
-+What:		/proc/*/attr/context
-+Contact:	linux-security-module@vger.kernel.org,
-+Description:	The current security information used by all Linux
-+		security module (LSMs) that are active on the system.
-+		The details of permissions required to read from
-+		this interface and hence obtain the security state
-+		of the task identified is dependent on the LSMs that
-+		are active on the system.
-+		A process cannot write to this interface.
-+		The data provided by this interface will have the form:
-+			lsm_name\0lsm_data\0[lsm_name\0lsm_data\0]...
-+		where lsm_name is the name of the LSM and the following
-+		lsm_data is the process data for that LSM.
-+Users:		LSM user-space
-diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
-index b77b4a540391..070225ae6ceb 100644
---- a/Documentation/security/lsm.rst
-+++ b/Documentation/security/lsm.rst
-@@ -143,3 +143,17 @@ separated list of the active security modules.
- The file ``/proc/pid/attr/interface_lsm`` contains the name of the security
- module for which the ``/proc/pid/attr/current`` interface will
- apply. This interface can be written to.
-+
-+The infrastructure does provide an interface for the special
-+case where multiple security modules provide a process context.
-+This is provided in compound context format.
-+
-+-  `lsm\0value\0lsm\0value\0`
-+
-+The `lsm` and `value` fields are NUL-terminated bytestrings.
-+Each field may contain whitespace or non-printable characters.
-+The NUL bytes are included in the size of a compound context.
-+The context ``Bell\0Secret\0Biba\0Loose\0`` has a size of 23.
-+
-+The file ``/proc/pid/attr/context`` provides the security
-+context of the identified process.
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 10de522f3112..23ebfc35435c 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2808,6 +2808,7 @@ static const struct pid_entry attr_dir_stuff[] = {
- 	ATTR(NULL, "keycreate",		0666),
- 	ATTR(NULL, "sockcreate",	0666),
- 	ATTR(NULL, "interface_lsm",	0666),
-+	ATTR(NULL, "context",		0444),
- #ifdef CONFIG_SECURITY_SMACK
- 	DIR("smack",			0555,
- 	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index d2c4bc94d47f..f6ffe8b069e2 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -1397,6 +1397,12 @@
-  *	@pages contains the number of pages.
-  *	Return 0 if permission is granted.
-  *
-+ * @getprocattr:
-+ *	Provide the named process attribute for display in special files in
-+ *	the /proc/.../attr directory.  Attribute naming and the data displayed
-+ *	is at the discretion of the security modules.  The exception is the
-+ *	"context" attribute, which will contain the security context of the
-+ *	task as a nul terminated text string without trailing whitespace.
-  * @ismaclabel:
-  *	Check if the extended attribute specified by @name
-  *	represents a MAC label. Returns 1 if name is a MAC
-diff --git a/security/apparmor/include/procattr.h b/security/apparmor/include/procattr.h
-index 31689437e0e1..03dbfdb2f2c0 100644
---- a/security/apparmor/include/procattr.h
-+++ b/security/apparmor/include/procattr.h
-@@ -11,7 +11,7 @@
- #ifndef __AA_PROCATTR_H
- #define __AA_PROCATTR_H
- 
--int aa_getprocattr(struct aa_label *label, char **string);
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline);
- int aa_setprocattr_changehat(char *args, size_t size, int flags);
- 
- #endif /* __AA_PROCATTR_H */
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 4237536106aa..65a004597e53 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -602,6 +602,7 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 	const struct cred *cred = get_task_cred(task);
- 	struct aa_task_ctx *ctx = task_ctx(current);
- 	struct aa_label *label = NULL;
-+	bool newline = true;
- 
- 	if (strcmp(name, "current") == 0)
- 		label = aa_get_newest_label(cred_label(cred));
-@@ -609,11 +610,14 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 		label = aa_get_newest_label(ctx->previous);
- 	else if (strcmp(name, "exec") == 0 && ctx->onexec)
- 		label = aa_get_newest_label(ctx->onexec);
--	else
-+	else if (strcmp(name, "context") == 0) {
-+		label = aa_get_newest_label(cred_label(cred));
-+		newline = false;
-+	} else
- 		error = -EINVAL;
- 
- 	if (label)
--		error = aa_getprocattr(label, value);
-+		error = aa_getprocattr(label, value, newline);
- 
- 	aa_put_label(label);
- 	put_cred(cred);
-diff --git a/security/apparmor/procattr.c b/security/apparmor/procattr.c
-index c929bf4a3df1..be3b083d9b74 100644
---- a/security/apparmor/procattr.c
-+++ b/security/apparmor/procattr.c
-@@ -20,6 +20,7 @@
-  * aa_getprocattr - Return the profile information for @profile
-  * @profile: the profile to print profile info about  (NOT NULL)
-  * @string: Returns - string containing the profile info (NOT NULL)
-+ * @newline: Should a newline be added to @string.
-  *
-  * Returns: length of @string on success else error on failure
-  *
-@@ -30,20 +31,21 @@
-  *
-  * Returns: size of string placed in @string else error code on failure
-  */
--int aa_getprocattr(struct aa_label *label, char **string)
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline)
- {
- 	struct aa_ns *ns = labels_ns(label);
- 	struct aa_ns *current_ns = aa_get_current_ns();
-+	int flags = FLAG_VIEW_SUBNS | FLAG_HIDDEN_UNCONFINED;
- 	int len;
- 
- 	if (!aa_ns_visible(current_ns, ns, true)) {
- 		aa_put_ns(current_ns);
- 		return -EACCES;
- 	}
-+	if (newline)
-+		flags |= FLAG_SHOW_MODE;
- 
--	len = aa_label_snxprint(NULL, 0, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(NULL, 0, current_ns, label, flags);
- 	AA_BUG(len < 0);
- 
- 	*string = kmalloc(len + 2, GFP_KERNEL);
-@@ -52,19 +54,19 @@ int aa_getprocattr(struct aa_label *label, char **string)
- 		return -ENOMEM;
- 	}
- 
--	len = aa_label_snxprint(*string, len + 2, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(*string, len + 2, current_ns, label, flags);
- 	if (len < 0) {
- 		aa_put_ns(current_ns);
- 		return len;
- 	}
- 
--	(*string)[len] = '\n';
--	(*string)[len + 1] = 0;
-+	if (newline) {
-+		(*string)[len] = '\n';
-+		(*string)[++len] = 0;
-+	}
- 
- 	aa_put_ns(current_ns);
--	return len + 1;
-+	return len;
- }
- 
- /**
-diff --git a/security/security.c b/security/security.c
-index 81baa94092f4..89ac9cdf8005 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -801,6 +801,57 @@ static int lsm_superblock_alloc(struct super_block *sb)
- 	return 0;
- }
- 
-+/**
-+ * append_ctx - append a lsm/context pair to a compound context
-+ * @ctx: the existing compound context
-+ * @ctxlen: size of the old context, including terminating nul byte
-+ * @lsm: new lsm name, nul terminated
-+ * @new: new context, possibly nul terminated
-+ * @newlen: maximum size of @new
-+ *
-+ * replace @ctx with a new compound context, appending @newlsm and @new
-+ * to @ctx. On exit the new data replaces the old, which is freed.
-+ * @ctxlen is set to the new size, which includes a trailing nul byte.
-+ *
-+ * Returns 0 on success, -ENOMEM if no memory is available.
-+ */
-+static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
-+		      int newlen)
-+{
-+	char *final;
-+	size_t llen;
-+	size_t nlen;
-+	size_t flen;
-+
-+	llen = strlen(lsm) + 1;
-+	/*
-+	 * A security module may or may not provide a trailing nul on
-+	 * when returning a security context. There is no definition
-+	 * of which it should be, and there are modules that do it
-+	 * each way.
-+	 */
-+	nlen = strnlen(new, newlen);
-+
-+	flen = *ctxlen + llen + nlen + 1;
-+	final = kzalloc(flen, GFP_KERNEL);
-+
-+	if (final == NULL)
-+		return -ENOMEM;
-+
-+	if (*ctxlen)
-+		memcpy(final, *ctx, *ctxlen);
-+
-+	memcpy(final + *ctxlen, lsm, llen);
-+	memcpy(final + *ctxlen + llen, new, nlen);
-+
-+	kfree(*ctx);
-+
-+	*ctx = final;
-+	*ctxlen = flen;
-+
-+	return 0;
-+}
-+
- /*
-  * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
-  * can be accessed with:
-@@ -2234,6 +2285,10 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 				char **value)
- {
- 	struct security_hook_list *hp;
-+	char *final = NULL;
-+	char *cp;
-+	int rc = 0;
-+	int finallen = 0;
- 	int ilsm = lsm_task_ilsm(current);
- 	int slot = 0;
- 
-@@ -2261,6 +2316,30 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 		return -ENOMEM;
- 	}
- 
-+	if (!strcmp(name, "context")) {
-+		hlist_for_each_entry(hp, &security_hook_heads.getprocattr,
-+				     list) {
-+			rc = hp->hook.getprocattr(p, "context", &cp);
-+			if (rc == -EINVAL)
-+				continue;
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+			rc = append_ctx(&final, &finallen, hp->lsmid->lsm,
-+					cp, rc);
-+			kfree(cp);
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+		}
-+		if (final == NULL)
-+			return -EINVAL;
-+		*value = final;
-+		return finallen;
-+	}
-+
- 	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
- 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
- 			continue;
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index b7800fa55a34..0a9af748f77c 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -6468,7 +6468,7 @@ static int selinux_getprocattr(struct task_struct *p,
- 			goto bad;
- 	}
- 
--	if (!strcmp(name, "current"))
-+	if (!strcmp(name, "current") || !strcmp(name, "context"))
- 		sid = __tsec->sid;
- 	else if (!strcmp(name, "prev"))
- 		sid = __tsec->osid;
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index e65497a5c095..1618d7d6154b 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -3477,7 +3477,7 @@ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
- 	char *cp;
- 	int slen;
- 
--	if (strcmp(name, "current") != 0)
-+	if (strcmp(name, "current") != 0 && strcmp(name, "context") != 0)
- 		return -EINVAL;
- 
- 	cp = kstrdup(skp->smk_known, GFP_KERNEL);
+Exactly.  But if you see what I meant here, even if it can work like this, it
+sounds still fragile, isn't it?  I just feel something is slightly off there..
+
+IMHO split_huge_pmd() checked pmd before calling __split_huge_pmd() for
+performance, afaict, because if it's not a thp even without locking, then it
+won't be, so further __split_huge_pmd() is not necessary.
+
+IOW, it's very legal if someday we'd like to let split_huge_pmd() call
+__split_huge_pmd() directly, then AFAIU device exclusive API will be the 1st
+one to be broken with that seems-to-be-irrelevant change I'm afraid..
+
+This lets me goes back a step to think about why do we need this notifier at
+all to cover this whole range of make_device_exclusive() procedure..
+
+What I am thinking is, we're afraid some CPU accesses this page so the pte got
+quickly restored when device atomic operation is carrying on.  Then with this
+notifier we'll be able to cancel it.  Makes perfect sense.
+
+However do we really need to register this notifier so early?  The thing is the
+GPU driver still has all the page locks, so even if there's a race to restore
+the ptes, they'll block at taking the page lock until the driver releases it.
+
+IOW, I'm wondering whether the "non-fragile" way to do this is not do
+mmu_interval_notifier_insert() that early: what if we register that notifier
+after make_device_exclusive_range() returns but before page_unlock() somehow?
+So before page_unlock(), race is protected fully by the lock itself; after
+that, it's done by mmu notifier.  Then maybe we don't need to worry about all
+these notifications during marking exclusive (while we shouldn't)?
+
+Sorry in advance if I overlooked anything as I know little on device side (even
+less than mm itself).  Also sorry to know that this series got marked
+to-be-update in -mm; hopefully it'll still land soon even if it still needs
+some rebase to other more important bugfixes - I definitely jumped in too late
+even if to mess this all up. :-)
+
 -- 
-2.29.2
+Peter Xu
 
