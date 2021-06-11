@@ -2,292 +2,271 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C76CC48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 20:49:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55618C48BE5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 21:09:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21376613D9
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 20:49:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D9C3613CD
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 21:09:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230083AbhFKUu4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 16:50:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35900 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229540AbhFKUu4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 16:50:56 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 07712613CA;
-        Fri, 11 Jun 2021 20:48:56 +0000 (UTC)
-Date:   Fri, 11 Jun 2021 16:48:55 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
+        id S230330AbhFKVLg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 17:11:36 -0400
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21105 "EHLO
+        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230040AbhFKVLe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 17:11:34 -0400
+X-Greylist: delayed 906 seconds by postgrey-1.27 at vger.kernel.org; Fri, 11 Jun 2021 17:11:34 EDT
+ARC-Seal: i=1; a=rsa-sha256; t=1623444841; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=ce8iv3uhoTvb6Q4mp8yAk9ByyP/ztKIi+7b/No/F5R6a8XX6yJLnV1YBkzoUycc7oJWju88UBVC3K0dYBDgPLkQtt0DqzEImhEj/R5z+8wdFbqcETjVaY1Shy9z1laYIr40k6r0T2XaSSC8qDpPn1DMwqrGJiCbn6XQyLCJBeLk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1623444841; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=AoiLwcmX3pbOV819C0Lo7M/WNWjoO/Lazqk1NS5j5f4=; 
+        b=igDgmnMQYOE7OMpajT0d6+VpAk0is3qy1yDPiJ6VaI0g32XYdTLBW4vA2wzLDN0Fr5buSCoBFXJjIDMefERXTBCLx5jD9staWgrZl3S5UIB585+PiTcqJ+66g0aEakFC3AyMhBFBY43YTO9Kxx5kTUKFCto0CGA49vG6REfmPSI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=brennan.io;
+        spf=pass  smtp.mailfrom=stephen@brennan.io;
+        dmarc=pass header.from=<stephen@brennan.io>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1623444841;
+        s=selector01; d=brennan.io; i=stephen@brennan.io;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+        bh=AoiLwcmX3pbOV819C0Lo7M/WNWjoO/Lazqk1NS5j5f4=;
+        b=VUodxOwwNi8y2ZV9XwmfH/FLB5Dutdvekx3lJ+cc3zMogLBOrgoxpvh0Fn5PgteO
+        DV4rTlIi8PRtIixHgmUQjDjasTJjwPojeggLpOcOcHRdHq3s5PanSnlFopFMJy1H+Ge
+        RNuP8guFfEoTAR0L3QQgAj8N+d01mwEstQBT16Qc=
+Received: from localhost (148.87.23.10 [148.87.23.10]) by mx.zohomail.com
+        with SMTPS id 1623444832045346.08477193904275; Fri, 11 Jun 2021 13:53:52 -0700 (PDT)
+From:   Stephen Brennan <stephen@brennan.io>
+To:     Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 9/9] tracing: Add timerlat tracer
-Message-ID: <20210611164855.252f35fb@gandalf.local.home>
-In-Reply-To: <6bc850eb-14c8-6898-847c-d9f0e67d60f8@redhat.com>
-References: <cover.1621024265.git.bristot@redhat.com>
-        <b650672b9973887ef1420bc1e76b97940b6522d6.1621024265.git.bristot@redhat.com>
-        <20210607213639.68aad064@gandalf.local.home>
-        <6bc850eb-14c8-6898-847c-d9f0e67d60f8@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Matt Turner <mattst88@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v3 5/9] mm: remove CONFIG_DISCONTIGMEM
+In-Reply-To: <20210608091316.3622-6-rppt@kernel.org>
+References: <20210608091316.3622-1-rppt@kernel.org>
+ <20210608091316.3622-6-rppt@kernel.org>
+Date:   Fri, 11 Jun 2021 13:53:48 -0700
+Message-ID: <87r1h886n7.fsf@stepbren-lnx.us.oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Jun 2021 16:13:36 +0200
-Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
+Mike Rapoport <rppt@kernel.org> writes:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+>
+> There are no architectures that support DISCONTIGMEM left.
+>
+> Remove the configuration option and the dead code it was guarding in the
+> generic memory management code.
+>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  include/asm-generic/memory_model.h | 37 ++++--------------------------
+>  include/linux/mmzone.h             |  8 ++++---
+>  mm/Kconfig                         | 25 +++-----------------
+>  mm/page_alloc.c                    | 13 -----------
+>  4 files changed, 12 insertions(+), 71 deletions(-)
+>
+> diff --git a/include/asm-generic/memory_model.h b/include/asm-generic/memory_model.h
+> index 7637fb46ba4f..a2c8ed60233a 100644
+> --- a/include/asm-generic/memory_model.h
+> +++ b/include/asm-generic/memory_model.h
+> @@ -6,47 +6,18 @@
+>  
+>  #ifndef __ASSEMBLY__
+>  
+> +/*
+> + * supports 3 memory models.
+> + */
 
-> >> +
-> >> +#ifdef CONFIG_STACKTRACE
-> >> +/*
-> >> + * Stack trace will take place only at IRQ level, so, no need
-> >> + * to control nesting here.
-> >> + */
-> >> +struct trace_stack {
-> >> +	int stack_size;
-> >> +	int nr_entries;
-> >> +	unsigned long           calls[PAGE_SIZE];  
-> > 
-> > That is rather big. It's 8 * PAGE_SIZE. I don't think that's what you really
-> > wanted.  
-> 
-> no, I did not want that... is 256 a good number?
+This comment could either be updated to reflect 2 memory models, or
+removed entirely.
 
-Sure. But make it a macro.
+Thanks,
+Stephen
 
-#define MAX_CALLS 256
-
-or something like that.
-
-> 
-> >> +};
-> >> +
-> >> +static DEFINE_PER_CPU(struct trace_stack, trace_stack);
-> >> +
-> >> +/**  
-> > 
-> > Again, remove the KernelDoc notation of /**, or make it real kerneldoc
-> > notation.  
-> 
-> Fixed!
-> 
-> [...]
-> 
-> >>   *
-> >> @@ -801,6 +1017,22 @@ void trace_softirq_exit_callback(void *data, unsigned int vec_nr)
-> >>  	if (!osn_var->sampling)
-> >>  		return;
-> >>  
-> >> +#ifdef CONFIG_TIMERLAT_TRACER
-> >> +	/*
-> >> +	 * If the timerlat is enabled, but the irq handler did
-> >> +	 * not run yet enabling timerlat_tracer, do not trace.
-> >> +	 */
-> >> +	if (unlikely(osnoise_data.timerlat_tracer)) {
-> >> +		struct timerlat_variables *tlat_var;
-> >> +		tlat_var = this_cpu_tmr_var();
-> >> +		if (!tlat_var->tracing_thread) {  
-> > 
-> > What happens if the timer interrupt triggers here?  
-> 
-> The tracer will not report the softirq overhead. But at this point, the softirq
-> is returning, and the duration would be from this time to...
-> 
-> 
-> 
-> >> +			osn_var->softirq.arrival_time = 0;
-> >> +			osn_var->softirq.delta_start = 0;
-> >> +			return;
-> >> +		}
-> >> +	}
-> >> +#endif
-> >> +
-> >>  	duration = get_int_safe_duration(osn_var, &osn_var->softirq.delta_start);  
-> 
-> here.
-> 
-> We can disable interrupts to avoid this issue. But the question is, is it worth
-> to disable interrupts to avoid this problem?
-> 
-> >>  	trace_softirq_noise(vec_nr, osn_var->softirq.arrival_time, duration);
-> >>  	cond_move_thread_delta_start(osn_var, duration);
-> >> @@ -893,6 +1125,18 @@ thread_exit(struct osnoise_variables *osn_var, struct task_struct *t)
-> >>  	if (!osn_var->sampling)
-> >>  		return;
-> >>  
-> >> +#ifdef CONFIG_TIMERLAT_TRACER
-> >> +	if (osnoise_data.timerlat_tracer) {
-> >> +		struct timerlat_variables *tlat_var;
-> >> +		tlat_var = this_cpu_tmr_var();
-> >> +		if (!tlat_var->tracing_thread) {  
-> > 
-> > Or here?  
-> 
-> The problem that can happen with the softirq cannot happen here: this code runs
-> with interrupts disabled on __schedule() (it is hooked to the sched_switch).
-> 
-> >> +			osn_var->thread.delta_start = 0;
-> >> +			osn_var->thread.arrival_time = 0;
-> >> +			return;
-> >> +		}
-> >> +	}
-> >> +#endif
-> >> +
-> >>  	duration = get_int_safe_duration(osn_var, &osn_var->thread.delta_start);
-> >>  
-> >>  	trace_thread_noise(t, osn_var->thread.arrival_time, duration);
-> >> @@ -1182,6 +1426,197 @@ static int osnoise_main(void *data)
-> >>  	return 0;
-> >>  }
-> >>  
-> >> +#ifdef CONFIG_TIMERLAT_TRACER
-> >> +/**
-> >> + * timerlat_irq - hrtimer handler for timerlat.
-> >> + */
-> >> +static enum hrtimer_restart timerlat_irq(struct hrtimer *timer)
-> >> +{
-> >> +	struct osnoise_variables *osn_var = this_cpu_osn_var();
-> >> +	struct trace_array *tr = osnoise_trace;
-> >> +	struct timerlat_variables *tlat;
-> >> +	struct timerlat_sample s;
-> >> +	u64 now;
-> >> +	u64 diff;
-> >> +
-> >> +	/*
-> >> +	 * I am not sure if the timer was armed for this CPU. So, get
-> >> +	 * the timerlat struct from the timer itself, not from this
-> >> +	 * CPU.
-> >> +	 */
-> >> +	tlat = container_of(timer, struct timerlat_variables, timer);
-> >> +
-> >> +	now = ktime_to_ns(hrtimer_cb_get_time(&tlat->timer));
-> >> +
-> >> +	/*
-> >> +	 * Enable the osnoise: events for thread an softirq.
-> >> +	 */
-> >> +	tlat->tracing_thread = true;
-> >> +
-> >> +	osn_var->thread.arrival_time = time_get();
-> >> +
-> >> +	/*
-> >> +	 * A hardirq is running: the timer IRQ. It is for sure preempting
-> >> +	 * a thread, and potentially preempting a softirq.
-> >> +	 *
-> >> +	 * At this point, it is not interesting to know the duration of the
-> >> +	 * preempted thread (and maybe softirq), but how much time they will
-> >> +	 * delay the beginning of the execution of the timer thread.
-> >> +	 *
-> >> +	 * To get the correct (net) delay added by the softirq, its delta_start
-> >> +	 * is set as the IRQ one. In this way, at the return of the IRQ, the delta
-> >> +	 * start of the sofitrq will be zeroed, accounting then only the time
-> >> +	 * after that.
-> >> +	 *
-> >> +	 * The thread follows the same principle. However, if a softirq is
-> >> +	 * running, the thread needs to receive the softirq delta_start. The
-> >> +	 * reason being is that the softirq will be the last to be unfolded,
-> >> +	 * resseting the thread delay to zero.
-> >> +	 */
-> >> +#ifndef CONFIG_PREEMPT_RT
-> >> +	if (osn_var->softirq.delta_start) {
-> >> +		copy_int_safe_time(osn_var, &osn_var->thread.delta_start,
-> >> +				   &osn_var->softirq.delta_start);  
-> > 
-> > Isn't softirq.delta_start going to be zero here? It doesn't look to get
-> > updated until you set tracing_thread to true, but that happens here, and as
-> > this is in a interrupt context, there will not be a softirq happening
-> > between the setting of that to true to this point.  
-> 
-> No... on the timerlat, the "sampling" is always on. And the
-> osnoise_data.timerlat_tracer is only checked at the softirq return, so the
-> softirq entry always set set the delta_start.
-
-OK, I was confused by the timerlat using the "__osnoise_tracer_start()". If
-timerlat is going to use that, perhaps we need to rename it, because the
-"osnoise" is one tracer, and its confusing that the "timerlat" is using
-functions called "*_osnoise_*". I was thinking that those functions were
-only for the osnoise tracer and not part of the timerlat tracer, and
-ignored them when looking at what the timerlat tracer was doing.
-
-Can we rename that to simply "start_latency_tracing()" or something more
-generic.
-
-> 
-> >> +
-> >> +		copy_int_safe_time(osn_var, &osn_var->softirq.delta_start,
-> >> +				    &osn_var->irq.delta_start);
-> >> +	} else {
-> >> +		copy_int_safe_time(osn_var, &osn_var->thread.delta_start,
-> >> +				    &osn_var->irq.delta_start);
-> >> +	}
-> >> +#else /* CONFIG_PREEMPT_RT */
-> >> +	/*
-> >> +	 * The sofirqs run as threads on RT, so there is not need
-> >> +	 * to keep track of it.
-> >> +	 */
-> >> +	copy_int_safe_time(osn_var, &osn_var->thread.delta_start, &osn_var->irq.delta_start);
-> >> +#endif /* CONFIG_PREEMPT_RT */
-> >> +
-> >> +	/*
-> >> +	 * Compute the current time with the expected time.
-> >> +	 */
-> >> +	diff = now - tlat->abs_period;
-> >> +
-> >> +	tlat->count++;
-> >> +	s.seqnum = tlat->count;
-> >> +	s.timer_latency = diff;
-> >> +	s.context = IRQ_CONTEXT;
-> >> +
-> >> +	trace_timerlat_sample(&s);
-> >> +
-> >> +	/* Keep a running maximum ever recorded os noise "latency" */
-> >> +	if (diff > tr->max_latency) {
-> >> +		tr->max_latency = diff;
-> >> +		latency_fsnotify(tr);
-> >> +	}
-> >> +
-> >> +	if (osnoise_data.stop_tracing_in)
-> >> +		if (time_to_us(diff) >= osnoise_data.stop_tracing_in)
-> >> +			osnoise_stop_tracing();
-> >> +
-> >> +	wake_up_process(tlat->kthread);
-> >> +
-> >> +#ifdef CONFIG_STACKTRACE
-> >> +	if (osnoise_data.print_stack)
-> >> +		timerlat_save_stack(0);
-> >> +#endif  
-> > 
-> > No need for the #ifdef above. timerlat_save_stack() is defined as a nop
-> > when not enabled, and the compiler will just optimize this out.  
-> 
-> The osnoise_data.print_stack is ifdefed, should I remove it from ifdef?
-
-Well, the above ifdef is for STACKTRACE not for TIMERLAT_TRACER, which
-encompasses all of this. And the "timerlat_save_stack()" is a nop when
-STACKTRACE is not defined. So no.
-
--- Steve
-
-> 
-> >   
-> >> +
-> >> +	return HRTIMER_NORESTART;
-> >> +}
-> >> +
+>  #if defined(CONFIG_FLATMEM)
+>  
+>  #ifndef ARCH_PFN_OFFSET
+>  #define ARCH_PFN_OFFSET		(0UL)
+>  #endif
+>  
+> -#elif defined(CONFIG_DISCONTIGMEM)
+> -
+> -#ifndef arch_pfn_to_nid
+> -#define arch_pfn_to_nid(pfn)	pfn_to_nid(pfn)
+> -#endif
+> -
+> -#ifndef arch_local_page_offset
+> -#define arch_local_page_offset(pfn, nid)	\
+> -	((pfn) - NODE_DATA(nid)->node_start_pfn)
+> -#endif
+> -
+> -#endif /* CONFIG_DISCONTIGMEM */
+> -
+> -/*
+> - * supports 3 memory models.
+> - */
+> -#if defined(CONFIG_FLATMEM)
+> -
+>  #define __pfn_to_page(pfn)	(mem_map + ((pfn) - ARCH_PFN_OFFSET))
+>  #define __page_to_pfn(page)	((unsigned long)((page) - mem_map) + \
+>  				 ARCH_PFN_OFFSET)
+> -#elif defined(CONFIG_DISCONTIGMEM)
+> -
+> -#define __pfn_to_page(pfn)			\
+> -({	unsigned long __pfn = (pfn);		\
+> -	unsigned long __nid = arch_pfn_to_nid(__pfn);  \
+> -	NODE_DATA(__nid)->node_mem_map + arch_local_page_offset(__pfn, __nid);\
+> -})
+> -
+> -#define __page_to_pfn(pg)						\
+> -({	const struct page *__pg = (pg);					\
+> -	struct pglist_data *__pgdat = NODE_DATA(page_to_nid(__pg));	\
+> -	(unsigned long)(__pg - __pgdat->node_mem_map) +			\
+> -	 __pgdat->node_start_pfn;					\
+> -})
+>  
+>  #elif defined(CONFIG_SPARSEMEM_VMEMMAP)
+>  
+> @@ -70,7 +41,7 @@
+>  	struct mem_section *__sec = __pfn_to_section(__pfn);	\
+>  	__section_mem_map_addr(__sec) + __pfn;		\
+>  })
+> -#endif /* CONFIG_FLATMEM/DISCONTIGMEM/SPARSEMEM */
+> +#endif /* CONFIG_FLATMEM/SPARSEMEM */
+>  
+>  /*
+>   * Convert a physical address to a Page Frame Number and back
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 0d53eba1c383..700032e99419 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -738,10 +738,12 @@ struct zonelist {
+>  	struct zoneref _zonerefs[MAX_ZONES_PER_ZONELIST + 1];
+>  };
+>  
+> -#ifndef CONFIG_DISCONTIGMEM
+> -/* The array of struct pages - for discontigmem use pgdat->lmem_map */
+> +/*
+> + * The array of struct pages for flatmem.
+> + * It must be declared for SPARSEMEM as well because there are configurations
+> + * that rely on that.
+> + */
+>  extern struct page *mem_map;
+> -#endif
+>  
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>  struct deferred_split {
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index 02d44e3420f5..218b96ccc84a 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -19,7 +19,7 @@ choice
+>  
+>  config FLATMEM_MANUAL
+>  	bool "Flat Memory"
+> -	depends on !(ARCH_DISCONTIGMEM_ENABLE || ARCH_SPARSEMEM_ENABLE) || ARCH_FLATMEM_ENABLE
+> +	depends on !ARCH_SPARSEMEM_ENABLE || ARCH_FLATMEM_ENABLE
+>  	help
+>  	  This option is best suited for non-NUMA systems with
+>  	  flat address space. The FLATMEM is the most efficient
+> @@ -32,21 +32,6 @@ config FLATMEM_MANUAL
+>  
+>  	  If unsure, choose this option (Flat Memory) over any other.
+>  
+> -config DISCONTIGMEM_MANUAL
+> -	bool "Discontiguous Memory"
+> -	depends on ARCH_DISCONTIGMEM_ENABLE
+> -	help
+> -	  This option provides enhanced support for discontiguous
+> -	  memory systems, over FLATMEM.  These systems have holes
+> -	  in their physical address spaces, and this option provides
+> -	  more efficient handling of these holes.
+> -
+> -	  Although "Discontiguous Memory" is still used by several
+> -	  architectures, it is considered deprecated in favor of
+> -	  "Sparse Memory".
+> -
+> -	  If unsure, choose "Sparse Memory" over this option.
+> -
+>  config SPARSEMEM_MANUAL
+>  	bool "Sparse Memory"
+>  	depends on ARCH_SPARSEMEM_ENABLE
+> @@ -62,17 +47,13 @@ config SPARSEMEM_MANUAL
+>  
+>  endchoice
+>  
+> -config DISCONTIGMEM
+> -	def_bool y
+> -	depends on (!SELECT_MEMORY_MODEL && ARCH_DISCONTIGMEM_ENABLE) || DISCONTIGMEM_MANUAL
+> -
+>  config SPARSEMEM
+>  	def_bool y
+>  	depends on (!SELECT_MEMORY_MODEL && ARCH_SPARSEMEM_ENABLE) || SPARSEMEM_MANUAL
+>  
+>  config FLATMEM
+>  	def_bool y
+> -	depends on (!DISCONTIGMEM && !SPARSEMEM) || FLATMEM_MANUAL
+> +	depends on !SPARSEMEM || FLATMEM_MANUAL
+>  
+>  config FLAT_NODE_MEM_MAP
+>  	def_bool y
+> @@ -85,7 +66,7 @@ config FLAT_NODE_MEM_MAP
+>  #
+>  config NEED_MULTIPLE_NODES
+>  	def_bool y
+> -	depends on DISCONTIGMEM || NUMA
+> +	depends on NUMA
+>  
+>  #
+>  # SPARSEMEM_EXTREME (which is the default) does some bootmem
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index aaa1655cf682..6fc22482eaa8 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -331,20 +331,7 @@ compound_page_dtor * const compound_page_dtors[NR_COMPOUND_DTORS] = {
+>  
+>  int min_free_kbytes = 1024;
+>  int user_min_free_kbytes = -1;
+> -#ifdef CONFIG_DISCONTIGMEM
+> -/*
+> - * DiscontigMem defines memory ranges as separate pg_data_t even if the ranges
+> - * are not on separate NUMA nodes. Functionally this works but with
+> - * watermark_boost_factor, it can reclaim prematurely as the ranges can be
+> - * quite small. By default, do not boost watermarks on discontigmem as in
+> - * many cases very high-order allocations like THP are likely to be
+> - * unsupported and the premature reclaim offsets the advantage of long-term
+> - * fragmentation avoidance.
+> - */
+> -int watermark_boost_factor __read_mostly;
+> -#else
+>  int watermark_boost_factor __read_mostly = 15000;
+> -#endif
+>  int watermark_scale_factor = 10;
+>  
+>  static unsigned long nr_kernel_pages __initdata;
+> -- 
+> 2.28.0
