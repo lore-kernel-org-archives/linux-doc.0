@@ -2,103 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3F7BC48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 21:37:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 675EBC48BD1
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 21:41:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9ED93613CF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 21:37:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4592B613CD
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 21:41:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230060AbhFKVjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 17:39:20 -0400
-Received: from mga11.intel.com ([192.55.52.93]:25488 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229685AbhFKVjU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 17:39:20 -0400
-IronPort-SDR: idi5OjpwaChbrxSejeuAXluS3XRoQ7TxMESJCdOOZix/rcebJ0Zkiamg+iZAZkUietKUQyvxaB
- f+6qp1hAa79A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="202590366"
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; 
-   d="scan'208";a="202590366"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 14:37:21 -0700
-IronPort-SDR: hdKBHocW4cw+bhpRa3+aukcMxVuVu4cR1A0degMe8prXywHn0vswyAprdKpmN2AzgF2DsA2YRq
- hjrBXjSYvIgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; 
-   d="scan'208";a="449242177"
-Received: from gupta-dev2.jf.intel.com (HELO gupta-dev2.localdomain) ([10.54.74.119])
-  by orsmga008.jf.intel.com with ESMTP; 11 Jun 2021 14:37:21 -0700
-Date:   Fri, 11 Jun 2021 14:37:32 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        id S229777AbhFKVnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Jun 2021 17:43:10 -0400
+Received: from mail-ed1-f47.google.com ([209.85.208.47]:38685 "EHLO
+        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230136AbhFKVnJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jun 2021 17:43:09 -0400
+Received: by mail-ed1-f47.google.com with SMTP id d13so25163788edt.5
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jun 2021 14:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3ABviuhyW/gBVQTexifrPt1fY0Rs+xnYdvsKtcFy++I=;
+        b=TAqLpamx14JBvqGtI/2jQ2Eo0IVLz9IdRXTnndEV8i5Ld+uo3xauU65J+vvgL6nS72
+         KRk3qHuC6bvGvNZZFObgvUk97Bk7WwpnFou11vRM3gzntd2H7PcQMCPdGeeeFClVc2xM
+         4D+A1rIJGmpckYp1/xbzfnW4S3yv+FnFJ705Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3ABviuhyW/gBVQTexifrPt1fY0Rs+xnYdvsKtcFy++I=;
+        b=s0yFnbDMmj5tflQgHmCmtyKRJd/JgtxKQ7LMFu3gUyrxcItqRLRQHPXlWahgmTcfjl
+         gy2j/Ah5pPl3G1uHE7kxuK+NYiWns4DYyMSpnGOjKmpRKvhtr0BtHgzJnGwwV8LKgiM7
+         kQ7TrLfGLSRY8A+iYi/nDij2FvB9vHQv9/ZYGcXKoaMj2lIl9t40HCEPlOiYpglSJY0U
+         RwUBEbEji9LVb+yzjtiQI1EDBVPGpNinN4CbVQWbIm/3HPshfs9JoTeP7A+BoXLePSz7
+         qiCh6criRhqw8AQKqTxDMLW/91vukSjoh7ueojIX2xwKnp2Bbl/FXbYt3ODZHuIeGdwO
+         xfaA==
+X-Gm-Message-State: AOAM532eBGiyVjP+8GaqmJD7hwsX+cisZGsG59oauASZjLpK1PEh2ybE
+        816q3GZGi92A3GBGgpC92fMJ/A==
+X-Google-Smtp-Source: ABdhPJx9Fdu4hX9I8BiaTVaJb1XmF290y13+Vg8YwDR6IXWC/yvFarK1Kxyr972OcXza8etSzJ4lAQ==
+X-Received: by 2002:aa7:cf08:: with SMTP id a8mr5735359edy.6.1623447610702;
+        Fri, 11 Jun 2021 14:40:10 -0700 (PDT)
+Received: from [192.168.1.149] ([80.208.64.110])
+        by smtp.gmail.com with ESMTPSA id h24sm2467665ejy.35.2021.06.11.14.40.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Jun 2021 14:40:10 -0700 (PDT)
+Subject: Re: [PATCH RFCv3 3/3] lib/test_printf: add test cases for '%pD'
+To:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kyung Min Park <kyung.min.park@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Victor Ding <victording@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Anand K Mistry <amistry@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH 4/4] x86/tsx: Add cmdline tsx=fake to not clear CPUID
- bits RTM and HLE
-Message-ID: <20210611213732.wdriyvmrkcu32fv7@gupta-dev2.localdomain>
-References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <de6b97a567e273adff1f5268998692bad548aa10.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <YMM1wUjg/REXCkQQ@zn.tnic>
+        linux-fsdevel@vger.kernel.org
+References: <20210611155953.3010-1-justin.he@arm.com>
+ <20210611155953.3010-4-justin.he@arm.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <4fe3621f-f4a0-2a74-e831-dad9e046f392@rasmusvillemoes.dk>
+Date:   Fri, 11 Jun 2021 23:40:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <YMM1wUjg/REXCkQQ@zn.tnic>
+In-Reply-To: <20210611155953.3010-4-justin.he@arm.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11.06.2021 12:06, Borislav Petkov wrote:
->On Wed, Jun 09, 2021 at 02:14:39PM -0700, Pawan Gupta wrote:
->> On CPUs that deprecated TSX, clearing the enumeration bits CPUID.RTM and
->> CPUID.HLE may not be desirable in some corner cases. Like a saved guest
->> would refuse to resume if it was saved before the microcode update
->> that deprecated TSX.
->
->That corner case needs a lot more justification. Otherwise this is just
->silly.
+On 11/06/2021 17.59, Jia He wrote:
+> After the behaviour of specifier '%pD' is changed to print full path
+> of struct file, the related test cases are also updated.
+> 
+> Given the string is prepended from the end of the buffer, the check
+> of "wrote beyond the nul-terminator" should be skipped.
 
-Agree, chances of hitting the save/resume guest condition described
-above is low. I am okay with dropping this patch.
+Sorry, that is far from enough justification.
 
-Thanks,
-Pawan
+I should probably have split the "wrote beyond nul-terminator" check in two:
+
+One that checks whether any memory beyond the buffer given to
+vsnprintf() was touched (including all the padding, but possibly more
+for the cases where we pass a known-too-short buffer), symmetric to the
+"wrote before buffer" check.
+
+And then another that checks the area between the '\0' and the end of
+the given buffer - I suppose that it's fair game for vsnprintf to use
+all of that as scratch space, and for that it could be ok to add that
+boolean knob.
+
+Rasmus
