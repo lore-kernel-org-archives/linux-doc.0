@@ -2,135 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6455C48BE5
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 19:29:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51FC0C48BCF
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 19:33:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86EBF610F8
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 19:29:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20BA061186
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 19:33:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231494AbhFLTbA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Jun 2021 15:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36644 "EHLO
+        id S229874AbhFLTfi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Jun 2021 15:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230186AbhFLTa7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Jun 2021 15:30:59 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22CEBC061574
-        for <linux-doc@vger.kernel.org>; Sat, 12 Jun 2021 12:28:46 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id ce15so9658230ejb.4
-        for <linux-doc@vger.kernel.org>; Sat, 12 Jun 2021 12:28:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HEcAR/YBJ4tG1SxjPx2PGfcPs966hhlEtWLnEUkitOw=;
-        b=HdUb91RPhEPJn0AJi54CADEH5e99znvd/HCzRmxFCRbHbQDIw3t38RjLP4AOTuXpq7
-         eBeiUhPOuAFvGEBupIMtag9pb0dDxuiLm9Qzp3ITDBh8hFpCgFSur0hinT/UKDQxTgeu
-         n34Ukzr/vq2pOpY7y33jg18lWLWn/6Zj3sjUqd0QbXWgi4iVe12T8TxrVcoqyTbB/x3Z
-         3Hc6GqbQ/VCTjYfVsxPAPkiNWfsD7SzUMH87LTDE6Ho9Xb59Yri9CBLcmFeDTron1wWF
-         FqP/s1ldrZ19a6IkoMnl2wuvpTZKQk2MeqOnBOHowLu8TxvuIu869lUTxVN8zoptLPSa
-         DZXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HEcAR/YBJ4tG1SxjPx2PGfcPs966hhlEtWLnEUkitOw=;
-        b=dQWTMnJt7MGEqJDs+r04lKJGI+EhfCNEpcmsg+cQ1vDLm7qrZ+wL/RhapblpiLtox1
-         LPnZuMX21hEyFrnLpHQzsZVbmf2FJFxWdSRbEyuI3znvN7YOYl54XW7zVUZHoryA/YbF
-         8TK24w9t7fl8nwQ8KPPZt1VaTAwdxuk1Q64LNesve4/MGwCW4rikDN8gRrWKFLWo7VNh
-         3NzVb/abY5RJgK2eCgoM8mxNnXsghuzgH4Q1VQUY2baqtpumjRbDxiUlJbQnhhT5gMSG
-         J4UeLxGnLkt0BD/Zm389jA4mqbkaWzRz8yNAWfTXVnl2HggZ/IWbjcIOH8GIFqAh2ND0
-         UpAA==
-X-Gm-Message-State: AOAM530nY+PETqkZBfjh9A8RPSbk2wXAbydTuAmfQFlBtefame4a9rkB
-        DyHhpD1XhuCvzXPElm0Bz03li03W+HFYb2Bq4Hq+
-X-Google-Smtp-Source: ABdhPJxP1ZoP/KXjCt4Svz+0ucDKjT/tA+5Q+aPsUCqfc19pDRdSbymlxJjQnjgiodRIo08pom1+mXIyfuqS/4JquBU=
-X-Received: by 2002:a17:906:1c4d:: with SMTP id l13mr8893522ejg.531.1623526124416;
- Sat, 12 Jun 2021 12:28:44 -0700 (PDT)
+        with ESMTP id S229753AbhFLTfh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Jun 2021 15:35:37 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81578C061574
+        for <linux-doc@vger.kernel.org>; Sat, 12 Jun 2021 12:33:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=OI45KJcmolVtwD2KzD4u/zRX4TFvk2QCpsgs/2MLkmE=; b=JlcPmQmEVDsDtSIms4lj+VrB3c
+        4SgwcxlJrrXlWzBFGqxatFdPdXILPZDT7rKJ7EcnB3pvQKkw+kKERh+WBiC7AlrsrgbZEIGft0tNa
+        FSxLz4cS4i9+t745hG3BMNHTU58SvgUxHol4qG1veXa6c1rprL0xsZ3KlVzS7FEWPosg+NMnNZMsX
+        rqYt7FTxTn9Zwm7lUSbY1lb8B23d734WnNyIkZ8zvpeAuLpgm8yRrJih4QzVH+5yFnLC6nARxTQ6b
+        l0WHa7EZAGij1DmKOLiK1KWU44ZHGGM+MxxT3x0MBmo1oigRszZHlE7qFhYn8DJ0S+2eqLhRxDj91
+        6SZND/Mw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1ls9Nr-003x6m-Ja; Sat, 12 Jun 2021 19:33:33 +0000
+Date:   Sat, 12 Jun 2021 20:33:31 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Grzegorz Zdanowski <grzegorz129@gmail.com>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: Are documentation-only patches welcomed?
+Message-ID: <YMUMC7CTLNJeuOP8@casper.infradead.org>
+References: <CAAoDVDDCWKw9_uh6i70zW6uCH_bvuBWyQV7u=TW_ne9CaWA0rQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
- <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net> <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
- <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net> <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
-In-Reply-To: <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
-From:   Bill Wendling <morbo@google.com>
-Date:   Sat, 12 Jun 2021 12:28:33 -0700
-Message-ID: <CAGG=3QXTa5ZbXZE5Obo96V0a13-YTGE_Tgmc9yytv8-USLGkKQ@mail.gmail.com>
-Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Peter Zijlstra <peterz@infradead.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAoDVDDCWKw9_uh6i70zW6uCH_bvuBWyQV7u=TW_ne9CaWA0rQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 12, 2021 at 12:10 PM Bill Wendling <morbo@google.com> wrote:
-> ")On Sat, Jun 12, 2021 at 11:15 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > On Sat, Jun 12, 2021 at 10:25:57AM -0700, Bill Wendling wrote:
-> > > On Sat, Jun 12, 2021 at 9:59 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > > >
-> > > > On Wed, Apr 07, 2021 at 02:17:04PM -0700, Bill Wendling wrote:
-> > > > > From: Sami Tolvanen <samitolvanen@google.com>
-> > > > >
-> > > > > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > > > > profile, the kernel is instrumented with PGO counters, a representative
-> > > > > workload is run, and the raw profile data is collected from
-> > > > > /sys/kernel/debug/pgo/profraw.
-> > > > >
-> > > > > The raw profile data must be processed by clang's "llvm-profdata" tool
-> > > > > before it can be used during recompilation:
-> > > > >
-> > > > >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> > > > >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> > > > >
-> > > > > Multiple raw profiles may be merged during this step.
-> > > > >
-> > > > > The data can now be used by the compiler:
-> > > > >
-> > > > >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
-> > > > >
-> > > > > This initial submission is restricted to x86, as that's the platform we
-> > > > > know works. This restriction can be lifted once other platforms have
-> > > > > been verified to work with PGO.
-> > > >
-> > > > *sigh*, and not a single x86 person on Cc, how nice :-/
-> > > >
-> > > This tool is generic and, despite the fact that it's first enabled for
-> > > x86, it contains no x86-specific code. The reason we're restricting it
-> > > to x86 is because it's the platform we tested on.
-> >
-> > You're modifying a lot of x86 files, you don't think it's good to let us
-> > know?  Worse, afaict this -fprofile-generate changes code generation,
-> > and we definitely want to know about that.
-> >
-> I got the list of people to add from the scripts/get_maintainer.pl.
-> The files you list below are mostly changes in Makefile, so it added
-> the kbuild maintainers and list. There's a small change to the linker
-> script to add the clang PGO data section, which is defined in
-> "include/asm-generic/vmlinux.lds.h". Using the "kernel/gcov" initial
-> implementation as a guildlline
-> (2521f2c228ad750701ba4702484e31d876dbc386), there's one intel people
-> CC'ed, but he didn't sign off on it. These patches were available for
-> review for months now, and posted to all of the lists and CC'ed to the
-> people from scripts/get_maintainers.pl. Perhaps that program should be
-> improved?
->
-Correction: I see now that it lists X86 maintainers. That was somehow
-missed in my initial submission. Sorry about that. Please add any
-reviewers you think are necessary.
+On Sat, Jun 12, 2021 at 12:26:06PM -0500, Grzegorz Zdanowski wrote:
+> Hi!
+> 
+> While dipping my toes in Linux kernel programming I discovered that a
+> lot of functions, even exported ones, lack any comment blocks or
+> references to documentation. Most of the time I have to resort to the
+> original commit message + LKML threads associated with a given
+> function.
+> 
+> Is this intentional, or is it simply a by-product of the lack of
+> developer's time? If it's the latter, are documentation-only patches
+> welcomed?
 
--bw
+Absolutely welcome.
+
+I would suggest that you focus on a particular subsystem so that you
+get really deeply knowledgable about it and the bits of the kernel it
+interacts with.  Also that you work with/through the maintainer and
+mailing list for that part of the kernel rather than with linux-doc.
+You can always cc linux-doc, of course, for getting review from people
+who have expertise in documentation writing, but domain-specific expertise
+is also needed.
