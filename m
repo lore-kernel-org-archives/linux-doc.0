@@ -2,201 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2233C48BCF
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 19:10:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD60C48BCF
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 19:11:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 811896120E
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 19:10:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EC5761001
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 19:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbhFLTME (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Jun 2021 15:12:04 -0400
-Received: from mail-wr1-f42.google.com ([209.85.221.42]:35737 "EHLO
-        mail-wr1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230281AbhFLTMA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Jun 2021 15:12:00 -0400
-Received: by mail-wr1-f42.google.com with SMTP id m18so9641286wrv.2
-        for <linux-doc@vger.kernel.org>; Sat, 12 Jun 2021 12:10:00 -0700 (PDT)
+        id S230136AbhFLTNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Jun 2021 15:13:15 -0400
+Received: from mail-ed1-f50.google.com ([209.85.208.50]:46629 "EHLO
+        mail-ed1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229985AbhFLTNP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Jun 2021 15:13:15 -0400
+Received: by mail-ed1-f50.google.com with SMTP id s15so140260edt.13
+        for <linux-doc@vger.kernel.org>; Sat, 12 Jun 2021 12:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kuRUfV+q7qAHGhHA5OLkse4agRm/XQx10cHb9gtUZW8=;
-        b=s06PhCZ3835jxxHTzKKRAtggi+TT9vGycYDn2PwEvmdswflLsTbcKhHiQ3SgfeuhH6
-         UTln/RH6xWVbaX5RJOFqC82Q/B3f3aYTC1orv+iBF8A/jjX6lcbV8+YDnG6WZw88QncR
-         6/DPIpmwfURHFT8Z70F2lt3ihOMkw2zQLWf9Janx0PZqnzaVW797rMWZNae5ABVdTTR4
-         6wfj2/D50XUX5qidQbly9Bx5wKCartZD2mrOLbdWRXNB7AGZEe7R3pefGju+feqgl3M5
-         XLJ2YJ+uErX1tbov1ypjLHcEozMNCKlScPDMkYZp5Mbe9sb4N52H+XXgm1KC1BWqVtrd
-         Sx0w==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BF4KTa2Agq0jbJMydgzuSSPg/d4XEACgY0H+fIBjXaw=;
+        b=srFpC0SeLeMkVrDjlzK1DW3HKDXhgIITNsH1dfNDZIW98UQGzwOjxIsfL4oL/Par+m
+         c325BPpRkPl+4uPJznfiMMw7K2cnTPKKPhxMmSpG37iPrSA1T3WHK7bXik4gzuEu/wyc
+         31SiUM5cp8kGuZyoC6TJ0E5SNnylKtM6oIFXlVXhuZT2abo/g0jaqNy3BTW1QSgdkGTr
+         3nXeZaipGtuuyWN5IeOMXVRivOnUS5ld7q0xAPSQJVTVIR56tvaL63vVUVxpxyDtqqBP
+         mXFfee3XX/86wOJFUUlgn/QkWD3yH2i09HfpVWOYukEUPsl32LVj2mBotqEd7mNaEOhF
+         ZCkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kuRUfV+q7qAHGhHA5OLkse4agRm/XQx10cHb9gtUZW8=;
-        b=N5+5dgE0GC8mOraNwZXfAV1qqp9VpEAHesRvrhCbh822R4XETgL2iUkutGYqhpj3qg
-         30MRI9O5qPIVF3SRosac+HvIOEZkUZVxqSFAQIrEGsq3FmHrvTSRlE5HebqrEsnOowDl
-         KRY6sdld/ga/M0gLsTWw8DY4gqmaApc29cufZJt0kP4naFJ3IAsfbMhEDoo5h6Mh6DKv
-         CxRl6lPKxN/pPFRXi0Kk+qa0Im8UBoxtjrBPKIKrlK3DtR1KL1gcYRyVAGXk3170V5gI
-         crYK0oLJnKnd1Q1F6pXfs8wBgXCCnX8nEg3HPHWrFdO5X3sd3sdc+tAeGfm7Hb+jLgL0
-         7W4w==
-X-Gm-Message-State: AOAM530FPiMNMckk6G7RMJoJbWp0Ku9+HX1NHjaeyGg8j5Tg6+qgBZu5
-        Wz9u1bKyRw5b7k73dLtBlEm6cw==
-X-Google-Smtp-Source: ABdhPJyOO34sWQdESQfjFKmlyoRdLrIAAIE/NVc0QzHnaUCTC12w4DGk0b3HOz9ZD+OqNoC72INAGA==
-X-Received: by 2002:a5d:5752:: with SMTP id q18mr10390688wrw.419.1623524939237;
-        Sat, 12 Jun 2021 12:08:59 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:15bb:2e33:aa66:1b44? ([2a01:e34:ed2f:f020:15bb:2e33:aa66:1b44])
-        by smtp.googlemail.com with ESMTPSA id v15sm10812484wrw.24.2021.06.12.12.08.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Jun 2021 12:08:58 -0700 (PDT)
-Subject: Re: [PATCH v2 08/40] docs: driver-api: thermal: Use ASCII subset
- instead of UTF-8 alternate symbols
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
- <6866f10fbfbe599448fafa0ca35f1b5b262ce60f.1620823573.git.mchehab+huawei@kernel.org>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <059fe414-8bb0-a0b4-9fab-cc7c8fc73eaa@linaro.org>
-Date:   Sat, 12 Jun 2021 21:08:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BF4KTa2Agq0jbJMydgzuSSPg/d4XEACgY0H+fIBjXaw=;
+        b=HJ3ZNHz2NKW4cMNaN1Fjj7ltDKQIDGRBMfZjL8bX928golY2hykPHI25lIJWja0kPa
+         ytpEwKsll7423FPrOP6ATsmCBs8oVUjR38ENgX+dz1sy1DjvJFDARenIQdlBxPOjZKAc
+         ETvZB4t/EIfkrMM13KvyqpzOQRAFMxa0bvuCvv5HKmJP0rR6HFvG5qNa79GYWblfM4Lf
+         fWwIPZH+Q8hNfuixb3/Kri21Qn9Y8sOiQ2UiRVYUbsR92H70DRyLg1I+pung9pXquUNj
+         nPLs3rj4aAO9tZlGYGbe9A9puqLlJXOlvyHeoWnMYd9eSSSDAPTLcaLUfEmqQYXTpBsO
+         DYbQ==
+X-Gm-Message-State: AOAM532ObwYKuzqpUXaxyN8X5nrmOvjnNVS5Y2wU80K097GmulCJRres
+        pGkhH7RozNt1442Fwoc/jdtxChy30IltRZqaufAr
+X-Google-Smtp-Source: ABdhPJwqQz6M3ATeXs9AKuLxnc18TagDqn4vmELAttLKvYikYYiBAp4p1LMRAX02oCZAi3M7C7gTAQXrwzciEN+qB30=
+X-Received: by 2002:aa7:c782:: with SMTP id n2mr9796203eds.77.1623525014362;
+ Sat, 12 Jun 2021 12:10:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6866f10fbfbe599448fafa0ca35f1b5b262ce60f.1620823573.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
+ <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net> <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
+ <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
+In-Reply-To: <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
+From:   Bill Wendling <morbo@google.com>
+Date:   Sat, 12 Jun 2021 12:10:03 -0700
+Message-ID: <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
+Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/05/2021 14:50, Mauro Carvalho Chehab wrote:
-> The conversion tools used during DocBook/LaTeX/Markdown->ReST conversion
-> and some automatic rules which exists on certain text editors like
-> LibreOffice turned ASCII characters into some UTF-8 alternatives that
-> are better displayed on html and PDF.
-> 
-> While it is OK to use UTF-8 characters in Linux, it is better to
-> use the ASCII subset instead of using an UTF-8 equivalent character
-> as it makes life easier for tools like grep, and are easier to edit
-> with the some commonly used text/source code editors.
-> 
-> Also, Sphinx already do such conversion automatically outside literal blocks:
->    https://docutils.sourceforge.io/docs/user/smartquotes.html
-> 
-> So, replace the occurences of the following UTF-8 characters:
-> 
-> 	- U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-> 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+")On Sat, Jun 12, 2021 at 11:15 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Sat, Jun 12, 2021 at 10:25:57AM -0700, Bill Wendling wrote:
+> > On Sat, Jun 12, 2021 at 9:59 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > >
+> > > On Wed, Apr 07, 2021 at 02:17:04PM -0700, Bill Wendling wrote:
+> > > > From: Sami Tolvanen <samitolvanen@google.com>
+> > > >
+> > > > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> > > > profile, the kernel is instrumented with PGO counters, a representative
+> > > > workload is run, and the raw profile data is collected from
+> > > > /sys/kernel/debug/pgo/profraw.
+> > > >
+> > > > The raw profile data must be processed by clang's "llvm-profdata" tool
+> > > > before it can be used during recompilation:
+> > > >
+> > > >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> > > >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> > > >
+> > > > Multiple raw profiles may be merged during this step.
+> > > >
+> > > > The data can now be used by the compiler:
+> > > >
+> > > >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
+> > > >
+> > > > This initial submission is restricted to x86, as that's the platform we
+> > > > know works. This restriction can be lifted once other platforms have
+> > > > been verified to work with PGO.
+> > >
+> > > *sigh*, and not a single x86 person on Cc, how nice :-/
+> > >
+> > This tool is generic and, despite the fact that it's first enabled for
+> > x86, it contains no x86-specific code. The reason we're restricting it
+> > to x86 is because it's the platform we tested on.
+>
+> You're modifying a lot of x86 files, you don't think it's good to let us
+> know?  Worse, afaict this -fprofile-generate changes code generation,
+> and we definitely want to know about that.
+>
+I got the list of people to add from the scripts/get_maintainer.pl.
+The files you list below are mostly changes in Makefile, so it added
+the kbuild maintainers and list. There's a small change to the linker
+script to add the clang PGO data section, which is defined in
+"include/asm-generic/vmlinux.lds.h". Using the "kernel/gcov" initial
+implementation as a guildlline
+(2521f2c228ad750701ba4702484e31d876dbc386), there's one intel people
+CC'ed, but he didn't sign off on it. These patches were available for
+review for months now, and posted to all of the lists and CC'ed to the
+people from scripts/get_maintainers.pl. Perhaps that program should be
+improved?
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> > > >  arch/x86/Kconfig                      |   1 +
+> > > >  arch/x86/boot/Makefile                |   1 +
+> > > >  arch/x86/boot/compressed/Makefile     |   1 +
+> > > >  arch/x86/crypto/Makefile              |   4 +
+> > > >  arch/x86/entry/vdso/Makefile          |   1 +
+> > > >  arch/x86/kernel/vmlinux.lds.S         |   2 +
+> > > >  arch/x86/platform/efi/Makefile        |   1 +
+> > > >  arch/x86/purgatory/Makefile           |   1 +
+> > > >  arch/x86/realmode/rm/Makefile         |   1 +
+> > > >  arch/x86/um/vdso/Makefile             |   1 +
+>
+>
+> > > > +CFLAGS_PGO_CLANG := -fprofile-generate
+> > > > +export CFLAGS_PGO_CLANG
+>
+> > > And which of the many flags in noinstr disables this?
+> > >
+> > These flags aren't used with PGO. So there's no need to disable them.
+>
+> Supposedly -fprofile-generate adds instrumentation to the generated
+> code. noinstr *MUST* disable that. If not, this is a complete
+> non-starter for x86.
 
-> ---
->  .../driver-api/thermal/cpu-idle-cooling.rst        | 14 +++++++-------
->  .../driver-api/thermal/intel_powerclamp.rst        |  6 +++---
->  .../thermal/x86_pkg_temperature_thermal.rst        |  2 +-
->  3 files changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-> index c2a7ca676853..60934a518560 100644
-> --- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-> +++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-> @@ -49,7 +49,7 @@ belong to the same cluster, with a duration greater than the cluster
->  idle state target residency, we lead to dropping the static and the
->  dynamic leakage for this period (modulo the energy needed to enter
->  this state). So the sustainable power with idle cycles has a linear
-> -relation with the OPP’s sustainable power and can be computed with a
-> +relation with the OPP's sustainable power and can be computed with a
->  coefficient similar to::
->  
->  	    Power(IdleCycle) = Coef x Power(OPP)
-> @@ -134,7 +134,7 @@ The idle injection duration value must comply with the constraints:
->    user experience, reactivity vs performance trade off we want. This
->    value should be specified.
->  
-> -- It is greater than the idle state’s target residency we want to go
-> +- It is greater than the idle state's target residency we want to go
->    for thermal mitigation, otherwise we end up consuming more energy.
->  
->  Power considerations
-> @@ -146,11 +146,11 @@ power for a specific temperature but at this time we consume::
->   Power = Capacitance x Voltage^2 x Frequency x Utilisation
->  
->  ... which is more than the sustainable power (or there is something
-> -wrong in the system setup). The ‘Capacitance’ and ‘Utilisation’ are a
-> -fixed value, ‘Voltage’ and the ‘Frequency’ are fixed artificially
-> -because we don’t want to change the OPP. We can group the
-> -‘Capacitance’ and the ‘Utilisation’ into a single term which is the
-> -‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have::
-> +wrong in the system setup). The 'Capacitance' and 'Utilisation' are a
-> +fixed value, 'Voltage' and the 'Frequency' are fixed artificially
-> +because we don't want to change the OPP. We can group the
-> +'Capacitance' and the 'Utilisation' into a single term which is the
-> +'Dynamic Power Coefficient (Cdyn)' Simplifying the above, we have::
->  
->   Pdyn = Cdyn x Voltage^2 x Frequency
->  
-> diff --git a/Documentation/driver-api/thermal/intel_powerclamp.rst b/Documentation/driver-api/thermal/intel_powerclamp.rst
-> index 3f6dfb0b3ea6..d349c1b64281 100644
-> --- a/Documentation/driver-api/thermal/intel_powerclamp.rst
-> +++ b/Documentation/driver-api/thermal/intel_powerclamp.rst
-> @@ -29,7 +29,7 @@ By:
->  INTRODUCTION
->  ============
->  
-> -Consider the situation where a system’s power consumption must be
-> +Consider the situation where a system's power consumption must be
->  reduced at runtime, due to power budget, thermal constraint, or noise
->  level, and where active cooling is not preferred. Software managed
->  passive power reduction must be performed to prevent the hardware
-> @@ -39,7 +39,7 @@ Currently, P-states, T-states (clock modulation), and CPU offlining
->  are used for CPU throttling.
->  
->  On Intel CPUs, C-states provide effective power reduction, but so far
-> -they’re only used opportunistically, based on workload. With the
-> +they're only used opportunistically, based on workload. With the
->  development of intel_powerclamp driver, the method of synchronizing
->  idle injection across all online CPU threads was introduced. The goal
->  is to achieve forced and controllable C-state residency.
-> @@ -264,7 +264,7 @@ CPUs).
->  Usage and Interfaces
->  ====================
->  The powerclamp driver is registered to the generic thermal layer as a
-> -cooling device. Currently, it’s not bound to any thermal zones::
-> +cooling device. Currently, it's not bound to any thermal zones::
->  
->    jacob@chromoly:/sys/class/thermal/cooling_device14$ grep . *
->    cur_state:0
-> diff --git a/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst b/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-> index 2ac42ccd236f..5b95af96e40f 100644
-> --- a/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-> +++ b/Documentation/driver-api/thermal/x86_pkg_temperature_thermal.rst
-> @@ -13,7 +13,7 @@ Authors: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->  Reference
->  ---------
->  
-> -Intel® 64 and IA-32 Architectures Software Developer’s Manual (Jan, 2013):
-> +Intel® 64 and IA-32 Architectures Software Developer's Manual (Jan, 2013):
->  Chapter 14.6: PACKAGE LEVEL THERMAL MANAGEMENT
->  
->  Description
-> 
+"noinstr" has "notrace", which is defined as
+"__attribute__((__no_instrument_function__))", which is honored by
+both gcc and clang.
+
+> > > Also, and I don't see this answered *anywhere*, why are you not using
+> > > perf for this? Your link even mentions Sampling Profilers (and I happen
+> > > to know there's been significant effort to make perf output work as
+> > > input for the PGO passes of the various compilers).
+> > >
+> > Instruction-based (non-sampling) profiling gives us a better
+> > context-sensitive profile, making PGO more impactful. It's also useful
+> > for coverage whereas sampling profiles cannot.
+>
+> We've got KCOV and GCOV support already. Coverage is also not an
+> argument mentioned anywhere else. Coverage can go pound sand, we really
+> don't need a third means of getting that.
+>
+Those aren't useful for clang-based implementations. And I like to
+look forward to potential improvements.
+
+> Do you have actual numbers that back up the sampling vs instrumented
+> argument? Having the instrumentation will affect performance which can
+> scew the profile just the same.
+>
+Instrumentation counts the number of times a branch is taken. Sampling
+is at a gross level, where if the sampling time is fine enough, you
+can get an idea of where the hot spots are, but it won't give you the
+fine-grained information that clang finds useful. Essentially, while
+sampling can "capture the hot spots very well", relying solely on
+sampling is basically leaving optimization on the floor.
+
+Our optimizations experts here have determined, through data of
+course, that instrumentation is the best option for PGO.
+
+> Also, sampling tends to capture the hot spots very well.
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+-bw
