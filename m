@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1A1C48BE5
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 08:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE31C48BCF
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 09:41:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AC276128A
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 08:47:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14AED61248
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 09:41:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbhFLItV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:49:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30635 "EHLO
+        id S230012AbhFLJnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Jun 2021 05:43:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45351 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229584AbhFLItU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Jun 2021 04:49:20 -0400
+        by vger.kernel.org with ESMTP id S229819AbhFLJnp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Jun 2021 05:43:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623487640;
+        s=mimecast20190719; t=1623490905;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=O6H7xrH8WlW3JYgBRosKfDcCNQcDPejOi41gdwYkK9Q=;
-        b=AE+XP9RiDwVJLJ+CKT31dKJSY4YKhJKj2Z+0lDWNZzPs3l9MRw6yEaUlIG4lZkWphcBHXo
-        nOKbuMQbHYjS1h0/EzREo+eIyq+fbpkISPbLtMLWEcOSV7N9nX7vo/4v5lq9Z9y9h5U614
-        NlKEzGxhD651aOP/MOgL0AFDoDryU8I=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-aJBFxi9jOI2gpwl-EZOofw-1; Sat, 12 Jun 2021 04:47:19 -0400
-X-MC-Unique: aJBFxi9jOI2gpwl-EZOofw-1
-Received: by mail-ed1-f69.google.com with SMTP id q7-20020aa7cc070000b029038f59dab1c5so17153772edt.23
-        for <linux-doc@vger.kernel.org>; Sat, 12 Jun 2021 01:47:19 -0700 (PDT)
+        bh=pPOTnBlb5gG14HcFtr8VUBr+dq0of1GZHHpn43YJCFs=;
+        b=U9VRWb/QFPO0z59L/GSoQMcKdhrVdS+91AnsvoRowtfSEm7v7162GHcQSx3sCZ2uZvmHvW
+        OFRnWlz4E2a1lG5yoIu8qbVlDb72SPCcqSCxPwBkYoD+xPtjrSKXukS2Z+8rxbxVNyZsdt
+        iAEsPPz+U29JMnSXEN6LfNwcLTtGzEA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-niWn08LDMIev_a64XOggxg-1; Sat, 12 Jun 2021 05:41:44 -0400
+X-MC-Unique: niWn08LDMIev_a64XOggxg-1
+Received: by mail-ej1-f69.google.com with SMTP id n19-20020a1709067253b029043b446e4a03so1671650ejk.23
+        for <linux-doc@vger.kernel.org>; Sat, 12 Jun 2021 02:41:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=O6H7xrH8WlW3JYgBRosKfDcCNQcDPejOi41gdwYkK9Q=;
-        b=F4e32IwEgcs5T1RY1Drowi7rEsdcwjjEj6rA4n3+Zas1B3loI6QKlxEQ7Zu30rAtqf
-         EHCgaXoAGSpDObvZCqbGrr77ec0cQFDmGCT2mzKHg3mdqpOMI2WGrEjDfS77mJj/sH4L
-         ttWGUYqHZmQ7p0JopYr7A5A4475unD7hQw53ZF2bQSfBNKyoqP3T7lpi5UtQDTKKfq+J
-         yG6mZWu17QIFLw2GZvK4iZyDzUCNhqbpqQpAUwYNqrl5r3MuPSWwOmXCJIxcaABK7CgI
-         w1kfdyt9NgBeMA8DF8eptIexaaWbMvSR2ibYfDD9PqK6pLAEzcNaiVzkJ6iNJe1qG5oh
-         uOHg==
-X-Gm-Message-State: AOAM533GeMlH5pSDaXIrNlexispelA+RITTUdlejZNPCdHSn4XMQEMqm
-        evPHY/hM25FN+aIMm1u/Nn69I2tD6YEGJ/NmUba++30oczeklCK3eUrV5ZDu23Wc22ES4RXIx7n
-        4h4PKzJHHd5Xlslvuhe13D4pkO3wIKtABuoIEnUCaj1u/tpNk7g1zNgIpR/r8lu9JPBMfAb4=
-X-Received: by 2002:a17:907:1117:: with SMTP id qu23mr7183465ejb.71.1623487637994;
-        Sat, 12 Jun 2021 01:47:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwCQFIo7KBPYozGVLGIZN1XqAQl41VgxnT8t2//ftPGOd03P9hy2+n8/dmKkrs6fnx0gHNpOA==
-X-Received: by 2002:a17:907:1117:: with SMTP id qu23mr7183441ejb.71.1623487637723;
-        Sat, 12 Jun 2021 01:47:17 -0700 (PDT)
+        bh=pPOTnBlb5gG14HcFtr8VUBr+dq0of1GZHHpn43YJCFs=;
+        b=l0+WPNsVX+bsRPxzQ6uYwcOSs4lx/uRpVAv0S7oMpaZ3hSgdCG21m2P9U4vpWn4pk4
+         oTqBazlfrfsoByHZ4lXTMLgYeJRkyRlVR9Se1yjgkX7CbOZhbkJu1mhuFKLMhIGLnvEn
+         F027AM2nL5mlRsN2Gnhhv/psjxqrE/0ZD0Y7bALx5Rw3tVI7Hs85Br1Cpm2kI2suvxY4
+         y0eLGs6viY8qyBfhDW4rL3oIAD/11BVbZ+IOrYEusdOIR9PqR2R6ckjkMgJKlPRBXfQQ
+         iCvlBLfj5A5Z7jagB5LR+bKBqhERAecyjNM2J4QcnBb3SBCUE6ugiBGNsh5B2voYkJoU
+         0s+A==
+X-Gm-Message-State: AOAM532Pn7R1IEQAJngAWqHbYe/pBvNsVNq8VKjakyQKkuqVgaKotNoG
+        EFtk/3wn4i2XfkgBbTH2S3I22hG7hmsY59yvRjgu1iZB4tZWUb3KOjBR5vRHJTzThF8qIx3kjP+
+        ihyZtBti0FIZJ/QxTPMdDIB47urK309CloV7DxUCtgY3wfeKrlUS1FAvdt8S48iNHquXbWzY=
+X-Received: by 2002:a05:6402:40cc:: with SMTP id z12mr7765836edb.202.1623490903297;
+        Sat, 12 Jun 2021 02:41:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjkRPqvVX2DYHQMsKZKDTTc+kPdXuszH9U3Wlwp10935qst42YhGcUNHLhN676CBUWW0ayrw==
+X-Received: by 2002:a05:6402:40cc:: with SMTP id z12mr7765815edb.202.1623490903063;
+        Sat, 12 Jun 2021 02:41:43 -0700 (PDT)
 Received: from x1.bristot.me (host-79-23-205-114.retail.telecomitalia.it. [79.23.205.114])
-        by smtp.gmail.com with ESMTPSA id l24sm450239eji.14.2021.06.12.01.47.16
+        by smtp.gmail.com with ESMTPSA id u17sm3529584edx.16.2021.06.12.02.41.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Jun 2021 01:47:17 -0700 (PDT)
+        Sat, 12 Jun 2021 02:41:42 -0700 (PDT)
 Subject: Re: [PATCH V3 9/9] tracing: Add timerlat tracer
 To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
@@ -75,15 +75,15 @@ Cc:     linux-kernel@vger.kernel.org, Phil Auld <pauld@redhat.com>,
 References: <cover.1621024265.git.bristot@redhat.com>
  <b650672b9973887ef1420bc1e76b97940b6522d6.1621024265.git.bristot@redhat.com>
  <20210607213639.68aad064@gandalf.local.home>
- <6bc850eb-14c8-6898-847c-d9f0e67d60f8@redhat.com>
- <20210611164855.252f35fb@gandalf.local.home>
+ <fd2bdb45-e68a-995e-271e-ec181f04ecbc@redhat.com>
+ <20210611160340.6970e10c@gandalf.local.home>
 From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-Message-ID: <80f74da1-a9a7-2af9-dd4f-c22f312214df@redhat.com>
-Date:   Sat, 12 Jun 2021 10:47:16 +0200
+Message-ID: <6808245d-208c-c6d2-1c6e-7410df158992@redhat.com>
+Date:   Sat, 12 Jun 2021 11:41:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210611164855.252f35fb@gandalf.local.home>
+In-Reply-To: <20210611160340.6970e10c@gandalf.local.home>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -91,268 +91,137 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/11/21 10:48 PM, Steven Rostedt wrote:
-> On Fri, 11 Jun 2021 16:13:36 +0200
+On 6/11/21 10:03 PM, Steven Rostedt wrote:
+> On Fri, 11 Jun 2021 14:59:13 +0200
 > Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 > 
->>>> +
->>>> +#ifdef CONFIG_STACKTRACE
->>>> +/*
->>>> + * Stack trace will take place only at IRQ level, so, no need
->>>> + * to control nesting here.
->>>> + */
->>>> +struct trace_stack {
->>>> +	int stack_size;
->>>> +	int nr_entries;
->>>> +	unsigned long           calls[PAGE_SIZE];  
->>>
->>> That is rather big. It's 8 * PAGE_SIZE. I don't think that's what you really
->>> wanted.  
+>> ------------------ %< -----------------------------
+>> It is worth mentioning that the *duration* values reported
+>> by the osnoise: events are *net* values. For example, the
+>> thread_noise does not include the duration of the overhead caused
+>> by the IRQ execution (which indeed accounted for 12736 ns). But
+>> the values reported by the timerlat tracer (timerlat_latency)
+>> are *gross* values.
 >>
->> no, I did not want that... is 256 a good number?
+>> The art below illustrates a CPU timeline and how the timerlat tracer
+>> observes it at the top and the osnoise: events at the bottom. Each "-"
+>> in the timelines means 1 us, and the time moves ==>:
+>>
+>>      External          context irq                  context thread
+>>       clock           timer_latency                 timer_latency
+>>       event              18 us                          48 us 
+>>         |                  ^                             ^
+>>         v                  |                             |
+>>         |------------------|                             |       <-- timerlat irq timeline
+>>         |------------------+-----------------------------|       <-- timerlat thread timeline
+>>                            ^                             ^
+>>  ===================== CPU timeline ======================================
+>>                    [timerlat/ irq]  [ dev irq ]                          
+>>  [another thread...^             v..^         v........][timerlat/ thread]  
+>>  ===================== CPU timeline ======================================
+>>                    |-------------|  |---------|                  <-- irq_noise timeline
+>>                                  |--^         v--------|         <-- thread_noise timeline
+>>                                  |            |        |
+>>                                  |            |        + thread_noise: 10 us
+>>                                  |            +-> irq_noise: 9 us
+>>                                  +-> irq_noise: 13 us
+>>
+>>  --------------- >% --------------------------------  
 > 
-> Sure. But make it a macro.
+> That's really busy, and honestly, I can't tell what is what.
 > 
-> #define MAX_CALLS 256
+> The "context irq timer_latency" is a confusing name. Could we just have
+> that be "timer irq latency"? And "context thread timer_latency" just be
+> "thread latency". Adding too much text to the name actually makes it harder
+> to understand. We want to simplify it, not make people have to think harder
+> to see it.
 > 
-> or something like that.
-
-Ack!
-
->>
->>>> +};
->>>> +
->>>> +static DEFINE_PER_CPU(struct trace_stack, trace_stack);
->>>> +
->>>> +/**  
->>>
->>> Again, remove the KernelDoc notation of /**, or make it real kerneldoc
->>> notation.  
->>
->> Fixed!
->>
->> [...]
->>
->>>>   *
->>>> @@ -801,6 +1017,22 @@ void trace_softirq_exit_callback(void *data, unsigned int vec_nr)
->>>>  	if (!osn_var->sampling)
->>>>  		return;
->>>>  
->>>> +#ifdef CONFIG_TIMERLAT_TRACER
->>>> +	/*
->>>> +	 * If the timerlat is enabled, but the irq handler did
->>>> +	 * not run yet enabling timerlat_tracer, do not trace.
->>>> +	 */
->>>> +	if (unlikely(osnoise_data.timerlat_tracer)) {
->>>> +		struct timerlat_variables *tlat_var;
->>>> +		tlat_var = this_cpu_tmr_var();
->>>> +		if (!tlat_var->tracing_thread) {  
->>>
->>> What happens if the timer interrupt triggers here?  
->>
->> The tracer will not report the softirq overhead. But at this point, the softirq
->> is returning, and the duration would be from this time to...
->>
->>
->>
->>>> +			osn_var->softirq.arrival_time = 0;
->>>> +			osn_var->softirq.delta_start = 0;
->>>> +			return;
->>>> +		}
->>>> +	}
->>>> +#endif
->>>> +
->>>>  	duration = get_int_safe_duration(osn_var, &osn_var->softirq.delta_start);  
->>
->> here.
->>
->> We can disable interrupts to avoid this issue. But the question is, is it worth
->> to disable interrupts to avoid this problem?
->>
->>>>  	trace_softirq_noise(vec_nr, osn_var->softirq.arrival_time, duration);
->>>>  	cond_move_thread_delta_start(osn_var, duration);
->>>> @@ -893,6 +1125,18 @@ thread_exit(struct osnoise_variables *osn_var, struct task_struct *t)
->>>>  	if (!osn_var->sampling)
->>>>  		return;
->>>>  
->>>> +#ifdef CONFIG_TIMERLAT_TRACER
->>>> +	if (osnoise_data.timerlat_tracer) {
->>>> +		struct timerlat_variables *tlat_var;
->>>> +		tlat_var = this_cpu_tmr_var();
->>>> +		if (!tlat_var->tracing_thread) {  
->>>
->>> Or here?  
->>
->> The problem that can happen with the softirq cannot happen here: this code runs
->> with interrupts disabled on __schedule() (it is hooked to the sched_switch).
->>
->>>> +			osn_var->thread.delta_start = 0;
->>>> +			osn_var->thread.arrival_time = 0;
->>>> +			return;
->>>> +		}
->>>> +	}
->>>> +#endif
->>>> +
->>>>  	duration = get_int_safe_duration(osn_var, &osn_var->thread.delta_start);
->>>>  
->>>>  	trace_thread_noise(t, osn_var->thread.arrival_time, duration);
->>>> @@ -1182,6 +1426,197 @@ static int osnoise_main(void *data)
->>>>  	return 0;
->>>>  }
->>>>  
->>>> +#ifdef CONFIG_TIMERLAT_TRACER
->>>> +/**
->>>> + * timerlat_irq - hrtimer handler for timerlat.
->>>> + */
->>>> +static enum hrtimer_restart timerlat_irq(struct hrtimer *timer)
->>>> +{
->>>> +	struct osnoise_variables *osn_var = this_cpu_osn_var();
->>>> +	struct trace_array *tr = osnoise_trace;
->>>> +	struct timerlat_variables *tlat;
->>>> +	struct timerlat_sample s;
->>>> +	u64 now;
->>>> +	u64 diff;
->>>> +
->>>> +	/*
->>>> +	 * I am not sure if the timer was armed for this CPU. So, get
->>>> +	 * the timerlat struct from the timer itself, not from this
->>>> +	 * CPU.
->>>> +	 */
->>>> +	tlat = container_of(timer, struct timerlat_variables, timer);
->>>> +
->>>> +	now = ktime_to_ns(hrtimer_cb_get_time(&tlat->timer));
->>>> +
->>>> +	/*
->>>> +	 * Enable the osnoise: events for thread an softirq.
->>>> +	 */
->>>> +	tlat->tracing_thread = true;
->>>> +
->>>> +	osn_var->thread.arrival_time = time_get();
->>>> +
->>>> +	/*
->>>> +	 * A hardirq is running: the timer IRQ. It is for sure preempting
->>>> +	 * a thread, and potentially preempting a softirq.
->>>> +	 *
->>>> +	 * At this point, it is not interesting to know the duration of the
->>>> +	 * preempted thread (and maybe softirq), but how much time they will
->>>> +	 * delay the beginning of the execution of the timer thread.
->>>> +	 *
->>>> +	 * To get the correct (net) delay added by the softirq, its delta_start
->>>> +	 * is set as the IRQ one. In this way, at the return of the IRQ, the delta
->>>> +	 * start of the sofitrq will be zeroed, accounting then only the time
->>>> +	 * after that.
->>>> +	 *
->>>> +	 * The thread follows the same principle. However, if a softirq is
->>>> +	 * running, the thread needs to receive the softirq delta_start. The
->>>> +	 * reason being is that the softirq will be the last to be unfolded,
->>>> +	 * resseting the thread delay to zero.
->>>> +	 */
->>>> +#ifndef CONFIG_PREEMPT_RT
->>>> +	if (osn_var->softirq.delta_start) {
->>>> +		copy_int_safe_time(osn_var, &osn_var->thread.delta_start,
->>>> +				   &osn_var->softirq.delta_start);  
->>>
->>> Isn't softirq.delta_start going to be zero here? It doesn't look to get
->>> updated until you set tracing_thread to true, but that happens here, and as
->>> this is in a interrupt context, there will not be a softirq happening
->>> between the setting of that to true to this point.  
->>
->> No... on the timerlat, the "sampling" is always on. And the
->> osnoise_data.timerlat_tracer is only checked at the softirq return, so the
->> softirq entry always set set the delta_start.
+> I think we can get rid of the "<-- .* timeline" to the right.  I don't
+> think they are necessary. Again, the more you add to the diagram, the
+> busier it looks, and the harder it is to read.
 > 
-> OK, I was confused by the timerlat using the "__osnoise_tracer_start()". If
-> timerlat is going to use that, perhaps we need to rename it, because the
-> "osnoise" is one tracer, and its confusing that the "timerlat" is using
-> functions called "*_osnoise_*". I was thinking that those functions were
-> only for the osnoise tracer and not part of the timerlat tracer, and
-> ignored them when looking at what the timerlat tracer was doing.
+> Could we switch "[timerlat/ irq]" to just "[timer irq]" and explain how
+> that "context irq timer_latency"/"timer irq latency" is related?
 > 
-> Can we rename that to simply "start_latency_tracing()" or something more
-> generic.
-
-right, also considering that we will (I hope) have the rtsl next, and other
-ideas coming around the usage of osnoise: events on other tracers, I also think
-should a more generic term to the events. Indeed, on rtsl they have a different
-name.
-
-Thinking only about the instrumentation/events, what they are tracking is the
-execution time. So how about naming them as:
-
-exec_time:thread
-exec_time:irq
-
-Also adding that, although here we measure the execution time of "task" context,
-on rtsl we have other kinds of "windows" that they measure, for instance, the
-poid window (Preemption or IRQ disabled). So, the term exec time also fits there.
-
-?
-
->>
->>>> +
->>>> +		copy_int_safe_time(osn_var, &osn_var->softirq.delta_start,
->>>> +				    &osn_var->irq.delta_start);
->>>> +	} else {
->>>> +		copy_int_safe_time(osn_var, &osn_var->thread.delta_start,
->>>> +				    &osn_var->irq.delta_start);
->>>> +	}
->>>> +#else /* CONFIG_PREEMPT_RT */
->>>> +	/*
->>>> +	 * The sofirqs run as threads on RT, so there is not need
->>>> +	 * to keep track of it.
->>>> +	 */
->>>> +	copy_int_safe_time(osn_var, &osn_var->thread.delta_start, &osn_var->irq.delta_start);
->>>> +#endif /* CONFIG_PREEMPT_RT */
->>>> +
->>>> +	/*
->>>> +	 * Compute the current time with the expected time.
->>>> +	 */
->>>> +	diff = now - tlat->abs_period;
->>>> +
->>>> +	tlat->count++;
->>>> +	s.seqnum = tlat->count;
->>>> +	s.timer_latency = diff;
->>>> +	s.context = IRQ_CONTEXT;
->>>> +
->>>> +	trace_timerlat_sample(&s);
->>>> +
->>>> +	/* Keep a running maximum ever recorded os noise "latency" */
->>>> +	if (diff > tr->max_latency) {
->>>> +		tr->max_latency = diff;
->>>> +		latency_fsnotify(tr);
->>>> +	}
->>>> +
->>>> +	if (osnoise_data.stop_tracing_in)
->>>> +		if (time_to_us(diff) >= osnoise_data.stop_tracing_in)
->>>> +			osnoise_stop_tracing();
->>>> +
->>>> +	wake_up_process(tlat->kthread);
->>>> +
->>>> +#ifdef CONFIG_STACKTRACE
->>>> +	if (osnoise_data.print_stack)
->>>> +		timerlat_save_stack(0);
->>>> +#endif  
->>>
->>> No need for the #ifdef above. timerlat_save_stack() is defined as a nop
->>> when not enabled, and the compiler will just optimize this out.  
->>
->> The osnoise_data.print_stack is ifdefed, should I remove it from ifdef?
+> Should probably state that the "dev irq" is an unrelated device interrupt
+> that happened.
 > 
-> Well, the above ifdef is for STACKTRACE not for TIMERLAT_TRACER, which
-> encompasses all of this. And the "timerlat_save_stack()" is a nop when
-> STACKTRACE is not defined. So no.
+> What's with the two CPU timeline lines? Now there I think it would be
+> better to have the arrow text by itself.
+> 
+> And finally, not sure if you plan on doing this, but have a output of the
+> trace that would show the above.
+> 
+> Thus, here's what I would expect to see:
+> 
+>       External         
+>        clock         timer irq latency             e    thread latency
+>        event              18 us                          48 us 
+>          |                  ^                             ^
+>          v                  |                             |
+>          |------------------|                             |
+>          |------------------+-----------------------------|       
+>                             ^                             ^
+>   =========================================================================
+>                     [timerlat/ irq]  [ dev irq ]                             
+>   [another thread...^             v..^         v........][timerlat/ thread]  <-- CPU task timeline
+>   =========================================================================
+>                     |-------------|  |---------|
+>                                   |--^         v--------|
+>                                   |            |        |
+>                                   |            |        + thread_noise: 10 us
+>                                   |            +-> irq_noise: 9 us
+>                                   +-> irq_noise: 13 us
 
-Ooooppppsss, right, miss attention from my side.
+It looks good to me!
+
+>  The "[ dev irq ]" above is an interrupt from some device on the system that
+>  causes extra noise to the timerlat task.
+> 
+> I think the above may be easier to understand, especially if the trace
+> output that represents it is below.
+
+ok, I can try to capture a trace sample and represent it into the ASCII art
+format above.
+
+> Also, I have to ask, shouldn't the "thread noise" really start at the
+> "External clock event"?
+
+To go in that direction, we need to track things that delayed the IRQ execution.
+We are already tracking other IRQs' execution, but we will have to keep a
+history of past executions and "playback" them. This will add some overhead
+linear to the past event... and/or some pessimism.
+
+We will also have to track IRQ disabled sections. The problem of tracking IRQ
+disabled is that it depends on tracing infra-structure that is not enabled by
+default of distros... And there are IRQ delay causes that are not related to the
+thread... like idle states... (and all these things create more and more states
+to track these things)...
+
+So, I added the timer irq latency to figure out when the problem is related to
+things that delay the IRQ, and the stack trace will help us figure out where the
+problem is in the thread context. After the IRQ execution, the thread noise is
+helpful - even without all the thread noise before the IRQ.
+
+Furthermore, if we start trying to abstract the causes of delay, we will find
+the rtsl :-). The rtls events and abstractions give us the worst-case scheduling
+latency without adding unneeded pessimism (sound analysis). It covers all the
+possible cases, for all any schedulers, even without the need of a measuring
+thread like here (or with cyclictest) - and this is a good thing because it does
+not change the target system's workload.
+
+The problem is that... rtsl depends on tracing infra-structure that are not
+enabled by default on distros, like preempt_ and irq_ disabled events.
+
+So, I see timerlat as a tool for on-the-fly usage, like debugging on customers
+(as we do at red hat). It can be enabled by default on distros because it only
+depends on existing and already enabled events and causes no overhead when
+disabled. rtsl targets more specific cases, like safety-critical systems, where
+the overhead is acceptable because of the sound analysis of the scheduling bound
+(which is rooted in a formal specification & analysis of the system).
 
 -- Daniel
 
 > -- Steve
-> 
->>
->>>   
->>>> +
->>>> +	return HRTIMER_NORESTART;
->>>> +}
->>>> +
 > 
 
