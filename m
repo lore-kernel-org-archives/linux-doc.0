@@ -2,173 +2,277 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA5AC48BD1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 23:21:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 964E7C49361
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 05:43:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EDD1613FF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Jun 2021 23:21:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7ED2E61263
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Jun 2021 05:43:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230130AbhFKXXE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Jun 2021 19:23:04 -0400
-Received: from mga09.intel.com ([134.134.136.24]:5796 "EHLO mga09.intel.com"
+        id S230240AbhFLFpo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Jun 2021 01:45:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38704 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229942AbhFKXXE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jun 2021 19:23:04 -0400
-IronPort-SDR: RIaAOYTLlaH703+eMTO/j+m+JIRy3DV8ZJfpj5oZyppsHHjpUqb+1sBC8guVUOaRQj8Jaz6057
- lcUjrPMlpZMA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="205588712"
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; 
-   d="scan'208";a="205588712"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 16:21:04 -0700
-IronPort-SDR: H7VNDr3DD5lRcuC7dJ5j85CbKfebbPTI+qb7FD3EwErvtUnOdJjF/DA5OxJsTJF5H4cYF0pupB
- R98h9WCMznyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,267,1616482800"; 
-   d="scan'208";a="477843656"
-Received: from gupta-dev2.jf.intel.com (HELO gupta-dev2.localdomain) ([10.54.74.119])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Jun 2021 16:21:03 -0700
-Date:   Fri, 11 Jun 2021 16:21:14 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        id S229446AbhFLFpn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 12 Jun 2021 01:45:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5410B61019;
+        Sat, 12 Jun 2021 05:43:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623476624;
+        bh=jXSf9kPU6/p3Pl02zFLTjgmsn62vO+wR89LkyYwqjYE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jQzBYFAXgxUH9zPpsPc2S9koB6TyWpzCJ1FcyoOFUPs7glHYtJWXiwaYLZbOYr1MD
+         e8dUX72/dMktQcP+MfbQLugr1DigtCWPruv02QxyYGEBDlYcEvhTSF63D1F76zo+eL
+         vOmDN5XDSPdJfrU5UpdF1koBNLPwdNgaB2Yne6m3YDq4mBcFE1Twi6f4e9jRCCYQMf
+         fXFfPo4RoZ3j+NJMVPgoFRy/0IXayxTFHiwh1+yLk0mxoQNt6KiYCSMshhiOPS7yS1
+         6HDTiCLiwW9bME21jEq92F8Esv4cZpDqtMIPSa1vd/42SwMmpCSE4nvcQy4brkpojX
+         7a11xyl6jl4EA==
+Date:   Sat, 12 Jun 2021 08:43:33 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Stephen Brennan <stephen@brennan.io>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kyung Min Park <kyung.min.park@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Victor Ding <victording@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Anand K Mistry <amistry@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH 2/4] perf/x86/intel: Do not deploy workaround when TSX is
- deprecated
-Message-ID: <20210611232114.3dmmkpkkcqg5orhw@gupta-dev2.localdomain>
-References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <4926973a8b0b2ed78217add01b5c459a92f0d511.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <YMMVvq9ZZCu9zZom@zn.tnic>
- <20210611213443.ira5gc65jlafz7pu@gupta-dev2.localdomain>
- <YMPdJkLJkQBJdIEL@zn.tnic>
+        Matt Turner <mattst88@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v3 5/9] mm: remove CONFIG_DISCONTIGMEM
+Message-ID: <YMRJhezHRZrbrO0Y@kernel.org>
+References: <20210608091316.3622-1-rppt@kernel.org>
+ <20210608091316.3622-6-rppt@kernel.org>
+ <87r1h886n7.fsf@stepbren-lnx.us.oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YMPdJkLJkQBJdIEL@zn.tnic>
+In-Reply-To: <87r1h886n7.fsf@stepbren-lnx.us.oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12.06.2021 00:01, Borislav Petkov wrote:
->On Fri, Jun 11, 2021 at 02:34:43PM -0700, Pawan Gupta wrote:
->> > > diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
->> > > index e28892270c58..b5953e1e59a2 100644
->> > > --- a/arch/x86/events/intel/core.c
->> > > +++ b/arch/x86/events/intel/core.c
->> > > @@ -6016,10 +6016,24 @@ __init int intel_pmu_init(void)
->> > >  		intel_pmu_pebs_data_source_skl(pmem);
->> > >
->> > >  		if (boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT)) {
->> > > -			x86_pmu.flags |= PMU_FL_TFA;
->> > > -			x86_pmu.get_event_constraints = tfa_get_event_constraints;
->> > > -			x86_pmu.enable_all = intel_tfa_pmu_enable_all;
->> > > -			x86_pmu.commit_scheduling = intel_tfa_commit_scheduling;
->> > > +			u64 msr;
->> > > +
->> > > +			rdmsrl(MSR_TSX_FORCE_ABORT, msr);
->> > > +			/* Systems that enumerate CPUID.RTM_ALWAYS_ABORT or
->> > > +			 * support MSR_TSX_FORCE_ABORT[SDV_ENABLE_RTM] bit have
->> > > +			 * TSX deprecated by default. TSX force abort hooks are
->> > > +			 * not required on these systems.
->> >
->> > So if they're not required, why aren't you simply disabling the force
->> > abort "workaround" by clearing the feature flag?
->>
->> Feature flag also enumerates MSR_TSX_FORCE_ABORT, which is still present
->> after the microcode update. Patch 3/4 in this series clears the TSX
->> CPUID bits using MSR_TSX_FORCE_ABORT. So we do need the feature flag
->> X86_FEATURE_TSX_FORCE_ABORT.
->
->So it seems to me then, the if test above should be changed to:
->
->	if (boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT) &&
->	   !boot_cpu_has(X86_FEATURE_RTM_ALWAYS_ABORT)) {
->	   ...
->
->and no need for the MSR read.
->
->Please don't tell me there are configurations
->where CPUID.RTM_ALWAYS_ABORT is clear but the
->MSR_TSX_FORCE_ABORT[SDV_ENABLE_RTM] is there?!
+On Fri, Jun 11, 2021 at 01:53:48PM -0700, Stephen Brennan wrote:
+> Mike Rapoport <rppt@kernel.org> writes:
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> >
+> > There are no architectures that support DISCONTIGMEM left.
+> >
+> > Remove the configuration option and the dead code it was guarding in the
+> > generic memory management code.
+> >
+> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> > ---
+> >  include/asm-generic/memory_model.h | 37 ++++--------------------------
+> >  include/linux/mmzone.h             |  8 ++++---
+> >  mm/Kconfig                         | 25 +++-----------------
+> >  mm/page_alloc.c                    | 13 -----------
+> >  4 files changed, 12 insertions(+), 71 deletions(-)
+> >
+> > diff --git a/include/asm-generic/memory_model.h b/include/asm-generic/memory_model.h
+> > index 7637fb46ba4f..a2c8ed60233a 100644
+> > --- a/include/asm-generic/memory_model.h
+> > +++ b/include/asm-generic/memory_model.h
+> > @@ -6,47 +6,18 @@
+> >  
+> >  #ifndef __ASSEMBLY__
+> >  
+> > +/*
+> > + * supports 3 memory models.
+> > + */
+> 
+> This comment could either be updated to reflect 2 memory models, or
+> removed entirely.
 
-MSR_TSX_FORCE_ABORT[SDV_ENABLE_RTM]=1 actually clears
-CPUID.RTM_ALWAYS_ABORT, because in this case RTM is enabled and doesn't
-always aborts. As the code above is only executed at bootup and BIOS is
-not expected to set it. So at bootup SDV_ENABLE_RTM will be clear (if we
-ignore kexec) then yes, MSR read can avoided.
+I counted SPARSE and SPARSE_VMEMMAP as 2.
 
->
->This
->
->"A new CPUID bit CPUID.RTM_ALWAYS_ABORT (CPUID 7.EDX[11]) is added to
->indicate the status of always abort behavior."
->
->tells me that the CPUID bit is always set by the microcode so we should
->be ok.
+The code below has three clauses: one for FLATMEM, one for SPARSE and one
+for VMEMMAP.
+ 
+> Thanks,
+> Stephen
+> 
+> >  #if defined(CONFIG_FLATMEM)
+> >  
+> >  #ifndef ARCH_PFN_OFFSET
+> >  #define ARCH_PFN_OFFSET		(0UL)
+> >  #endif
+> >  
+> > -#elif defined(CONFIG_DISCONTIGMEM)
+> > -
+> > -#ifndef arch_pfn_to_nid
+> > -#define arch_pfn_to_nid(pfn)	pfn_to_nid(pfn)
+> > -#endif
+> > -
+> > -#ifndef arch_local_page_offset
+> > -#define arch_local_page_offset(pfn, nid)	\
+> > -	((pfn) - NODE_DATA(nid)->node_start_pfn)
+> > -#endif
+> > -
+> > -#endif /* CONFIG_DISCONTIGMEM */
+> > -
+> > -/*
+> > - * supports 3 memory models.
+> > - */
+> > -#if defined(CONFIG_FLATMEM)
+> > -
+> >  #define __pfn_to_page(pfn)	(mem_map + ((pfn) - ARCH_PFN_OFFSET))
+> >  #define __page_to_pfn(page)	((unsigned long)((page) - mem_map) + \
+> >  				 ARCH_PFN_OFFSET)
+> > -#elif defined(CONFIG_DISCONTIGMEM)
+> > -
+> > -#define __pfn_to_page(pfn)			\
+> > -({	unsigned long __pfn = (pfn);		\
+> > -	unsigned long __nid = arch_pfn_to_nid(__pfn);  \
+> > -	NODE_DATA(__nid)->node_mem_map + arch_local_page_offset(__pfn, __nid);\
+> > -})
+> > -
+> > -#define __page_to_pfn(pg)						\
+> > -({	const struct page *__pg = (pg);					\
+> > -	struct pglist_data *__pgdat = NODE_DATA(page_to_nid(__pg));	\
+> > -	(unsigned long)(__pg - __pgdat->node_mem_map) +			\
+> > -	 __pgdat->node_start_pfn;					\
+> > -})
+> >  
+> >  #elif defined(CONFIG_SPARSEMEM_VMEMMAP)
+> >  
+> > @@ -70,7 +41,7 @@
+> >  	struct mem_section *__sec = __pfn_to_section(__pfn);	\
+> >  	__section_mem_map_addr(__sec) + __pfn;		\
+> >  })
+> > -#endif /* CONFIG_FLATMEM/DISCONTIGMEM/SPARSEMEM */
+> > +#endif /* CONFIG_FLATMEM/SPARSEMEM */
+> >  
+> >  /*
+> >   * Convert a physical address to a Page Frame Number and back
+> > diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> > index 0d53eba1c383..700032e99419 100644
+> > --- a/include/linux/mmzone.h
+> > +++ b/include/linux/mmzone.h
+> > @@ -738,10 +738,12 @@ struct zonelist {
+> >  	struct zoneref _zonerefs[MAX_ZONES_PER_ZONELIST + 1];
+> >  };
+> >  
+> > -#ifndef CONFIG_DISCONTIGMEM
+> > -/* The array of struct pages - for discontigmem use pgdat->lmem_map */
+> > +/*
+> > + * The array of struct pages for flatmem.
+> > + * It must be declared for SPARSEMEM as well because there are configurations
+> > + * that rely on that.
+> > + */
+> >  extern struct page *mem_map;
+> > -#endif
+> >  
+> >  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >  struct deferred_split {
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 02d44e3420f5..218b96ccc84a 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -19,7 +19,7 @@ choice
+> >  
+> >  config FLATMEM_MANUAL
+> >  	bool "Flat Memory"
+> > -	depends on !(ARCH_DISCONTIGMEM_ENABLE || ARCH_SPARSEMEM_ENABLE) || ARCH_FLATMEM_ENABLE
+> > +	depends on !ARCH_SPARSEMEM_ENABLE || ARCH_FLATMEM_ENABLE
+> >  	help
+> >  	  This option is best suited for non-NUMA systems with
+> >  	  flat address space. The FLATMEM is the most efficient
+> > @@ -32,21 +32,6 @@ config FLATMEM_MANUAL
+> >  
+> >  	  If unsure, choose this option (Flat Memory) over any other.
+> >  
+> > -config DISCONTIGMEM_MANUAL
+> > -	bool "Discontiguous Memory"
+> > -	depends on ARCH_DISCONTIGMEM_ENABLE
+> > -	help
+> > -	  This option provides enhanced support for discontiguous
+> > -	  memory systems, over FLATMEM.  These systems have holes
+> > -	  in their physical address spaces, and this option provides
+> > -	  more efficient handling of these holes.
+> > -
+> > -	  Although "Discontiguous Memory" is still used by several
+> > -	  architectures, it is considered deprecated in favor of
+> > -	  "Sparse Memory".
+> > -
+> > -	  If unsure, choose "Sparse Memory" over this option.
+> > -
+> >  config SPARSEMEM_MANUAL
+> >  	bool "Sparse Memory"
+> >  	depends on ARCH_SPARSEMEM_ENABLE
+> > @@ -62,17 +47,13 @@ config SPARSEMEM_MANUAL
+> >  
+> >  endchoice
+> >  
+> > -config DISCONTIGMEM
+> > -	def_bool y
+> > -	depends on (!SELECT_MEMORY_MODEL && ARCH_DISCONTIGMEM_ENABLE) || DISCONTIGMEM_MANUAL
+> > -
+> >  config SPARSEMEM
+> >  	def_bool y
+> >  	depends on (!SELECT_MEMORY_MODEL && ARCH_SPARSEMEM_ENABLE) || SPARSEMEM_MANUAL
+> >  
+> >  config FLATMEM
+> >  	def_bool y
+> > -	depends on (!DISCONTIGMEM && !SPARSEMEM) || FLATMEM_MANUAL
+> > +	depends on !SPARSEMEM || FLATMEM_MANUAL
+> >  
+> >  config FLAT_NODE_MEM_MAP
+> >  	def_bool y
+> > @@ -85,7 +66,7 @@ config FLAT_NODE_MEM_MAP
+> >  #
+> >  config NEED_MULTIPLE_NODES
+> >  	def_bool y
+> > -	depends on DISCONTIGMEM || NUMA
+> > +	depends on NUMA
+> >  
+> >  #
+> >  # SPARSEMEM_EXTREME (which is the default) does some bootmem
+> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> > index aaa1655cf682..6fc22482eaa8 100644
+> > --- a/mm/page_alloc.c
+> > +++ b/mm/page_alloc.c
+> > @@ -331,20 +331,7 @@ compound_page_dtor * const compound_page_dtors[NR_COMPOUND_DTORS] = {
+> >  
+> >  int min_free_kbytes = 1024;
+> >  int user_min_free_kbytes = -1;
+> > -#ifdef CONFIG_DISCONTIGMEM
+> > -/*
+> > - * DiscontigMem defines memory ranges as separate pg_data_t even if the ranges
+> > - * are not on separate NUMA nodes. Functionally this works but with
+> > - * watermark_boost_factor, it can reclaim prematurely as the ranges can be
+> > - * quite small. By default, do not boost watermarks on discontigmem as in
+> > - * many cases very high-order allocations like THP are likely to be
+> > - * unsupported and the premature reclaim offsets the advantage of long-term
+> > - * fragmentation avoidance.
+> > - */
+> > -int watermark_boost_factor __read_mostly;
+> > -#else
+> >  int watermark_boost_factor __read_mostly = 15000;
+> > -#endif
+> >  int watermark_scale_factor = 10;
+> >  
+> >  static unsigned long nr_kernel_pages __initdata;
+> > -- 
+> > 2.28.0
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-Yes, but MSR_TSX_FORCE_ABORT[SDV_ENABLE_RTM]=1 clears it. As
-SDV_ENABLE_RTM is expected to be set only by developers (e.g. using
-msr-tools), it should be fine in most other user cases. So we can avoid
-reading the MSR.
-
->
->If not, you should read that MSR early and do
-
-Isn't the MSR read early enough already:
-
-	early_initcall()
-		init_hw_perf_events()
-			intel_pmu_init()
-				MSR read
-
-Anyways, we can avoid reading the MSR completely and rely on
-CPUID.RTM_ALWAYS_ABORT. I will change it in the next version.
-
-Thanks,
-Pawan
-
->
->	setup_force_cpu_cap(X86_FEATURE_RTM_ALWAYS_ABORT)
->
->so that this "always abort" flag is always set when TSX transactions are
->always aborted.
+-- 
+Sincerely yours,
+Mike.
