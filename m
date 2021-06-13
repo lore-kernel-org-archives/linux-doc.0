@@ -7,62 +7,63 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 315DAC48BE8
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:03:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25A13C48BDF
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:06:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2C0C61029
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:03:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0241661360
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:06:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232164AbhFMXFN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Jun 2021 19:05:13 -0400
-Received: from ms.lwn.net ([45.79.88.28]:41672 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232154AbhFMXFM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 13 Jun 2021 19:05:12 -0400
+        id S232206AbhFMXIZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Jun 2021 19:08:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53144 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232154AbhFMXIY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jun 2021 19:08:24 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A5C4C061574;
+        Sun, 13 Jun 2021 16:06:22 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 97FC84B7;
-        Sun, 13 Jun 2021 23:03:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 97FC84B7
+        by ms.lwn.net (Postfix) with ESMTPSA id 120AC2C0;
+        Sun, 13 Jun 2021 23:06:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 120AC2C0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1623625390; bh=i/Ig4C18y9UMOSdCcsir6vEOKDwKEPE8Fnz90fUWKbA=;
+        t=1623625582; bh=OJya1Jx+lfeqjHcspdvU0tzgzxeOAl0JykBkcS+rsT4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=DylKUjhwCduhoSXcpcOa2ZU48OK2M9SHqbQiKFTS9dBzHx66mljoenHBDLquNGrN5
-         5B9x1igJl1C7QxPI/sXIyIE+7651X6hI8ho5CP+G1gnfaZ8+82RFVsQBY9Nu2JDFBs
-         Q4SUQgwHV+KROICxDg3QsaMse1NT54eEKYPWXr6PcWWXhd0UsyjNSDpwGxtnViwd+c
-         1UBYmtJ6J7NuzItYzbryJujNU+h/xeW2Bf4dLQk4pp3C5LncanSqqTeOu8IbGw7r3z
-         6m8tK48ywynwmHeF20uMrpe0/10YuxmCAoE6fGkxI+zhJXddFc72JzX2IHLINNeVdD
-         b58Ev/wYieAPg==
+        b=BI2mn7K+pVBKlqBQlR78AWFR9+FiotxLJ/s7lF1gvfRNE/irXCEFdMwFRHSsxl6Li
+         Jx8kFCvAqlU6e32Q2DShGebV0SAYUlsu/5cVPd7/CK6IMS4w7WAfXzxwouX2eZQVnW
+         kFLoKU8RzdECHP+YLSGw9KC2ky1pyG+oWt8hw6c0uZFfCqt02XUoSYFhvO6q1HEYxk
+         wTkWRi33BEDAEstOS16nTl5DagXnBXLJlowZNZw1OMUJl2bDl/ytCcydcXDWlSu4tq
+         eGiXfGwk2C6h3IAmCRaVPnzvVnxwGyom4r1B3a7KoCTjILEQ6CuEsuR/PP6xOJPkEL
+         s1GKmjabk8R0A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kir Kolyshkin <kolyshkin@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Kir Kolyshkin <kolyshkin@gmail.com>,
-        Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Subject: Re: [PATCH 3/3] docs: fix a cross-ref
-In-Reply-To: <20210611030044.1982911-4-kolyshkin@gmail.com>
-References: <20210611030044.1982911-1-kolyshkin@gmail.com>
- <20210611030044.1982911-4-kolyshkin@gmail.com>
-Date:   Sun, 13 Jun 2021 17:03:10 -0600
-Message-ID: <87o8c9bc5t.fsf@meer.lwn.net>
+To:     Hubert Jasudowicz <hubert.jasudowicz@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: Remove references to IBM Calgary
+In-Reply-To: <1bd2b57dd1db53df09e520b8170ff61418805de4.1623274832.git.hubert.jasudowicz@gmail.com>
+References: <1bd2b57dd1db53df09e520b8170ff61418805de4.1623274832.git.hubert.jasudowicz@gmail.com>
+Date:   Sun, 13 Jun 2021 17:06:21 -0600
+Message-ID: <87h7i1bc0i.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kir Kolyshkin <kolyshkin@gmail.com> writes:
+Hubert Jasudowicz <hubert.jasudowicz@gmail.com> writes:
 
-> Commit acda97acb2e98c9 changes dax.txt to dax.rst.
-> Fix the references accordingly.
+> Calgary IOMMU driver has been removed in 90dc392fc445.
+> Clean up stale docs that refer to it.
 >
-> Cc: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-> Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
+> Signed-off-by: Hubert Jasudowicz <hubert.jasudowicz@gmail.com>
 > ---
->  Documentation/admin-guide/ext4.rst | 2 +-
->  Documentation/filesystems/ext2.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/x86/x86_64/boot-options.rst | 31 +----------------------
+>  1 file changed, 1 insertion(+), 30 deletions(-)
 
-I've applied this one, thanks.  The devicetree ones should go to the
-devicetree maintainers, though.
+Applied, thanks.
 
 jon
