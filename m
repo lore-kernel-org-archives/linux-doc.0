@@ -2,173 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E6AC48BCF
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 18:08:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E41C48BDF
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 22:55:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 949FF611CA
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 18:08:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 68A8B6135F
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 22:55:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232018AbhFMSKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Jun 2021 14:10:41 -0400
-Received: from mail-ej1-f50.google.com ([209.85.218.50]:34631 "EHLO
-        mail-ej1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232017AbhFMSKk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jun 2021 14:10:40 -0400
-Received: by mail-ej1-f50.google.com with SMTP id g8so12680210ejx.1
-        for <linux-doc@vger.kernel.org>; Sun, 13 Jun 2021 11:08:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fDsNnaB5ppj4g5MtFY0m5Kbx3wK4L7HQC7af0yYbm7Q=;
-        b=TM9DZ6gSH7CwAVJC0+D0OIC5LCLgVzSXL3kIybCqHfM62NH7+HUlM8BHmPjTYen7QA
-         6PZTPAf97gTVU/Ewynu3DCMbRiEFFgk0QLEqT3HoWUR5EapfuXetZOvJJHj66pHFpO2/
-         GI3DVGYz6w3AUF06FKeDvFThQf71sweoJQ07ojJbb2N29KJzR9EOlK+09Hj02MEvU5EJ
-         4WKM2Kkf9BWODFpihsegzuyQxHZnweedlYD7zbL1XuPzV+/m6EERQaB69gurEZ5YpYy8
-         C8khzBmvDbIXPC+HaqP1dNjLY/W5Ppe3CwgWXxclcmy43fFY3nOpt+F2vZCxOd1Dxo/R
-         /HSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fDsNnaB5ppj4g5MtFY0m5Kbx3wK4L7HQC7af0yYbm7Q=;
-        b=ffJzbHeKh+YQ1V+hy4wtV/bFw04nh+ndNniIsDZl9Pet2UAxvDD0yprxfuAfSHa6mj
-         WjaFkYQPMG4Sn+a04Pj40SAIUUyLMOgTDf8M31dMgkLkXfokOktBbOSv5MfiIFRQa941
-         NuKa5esCqPrpWs9wKQNXW4gS1srGbNi+V+Wgxkxye8/Tck+tzkWJqDqtdp9Bw2CGc24b
-         p3hDELbp9eWtV7u3HoPm2GJgD7Agx7ccKZmsHz2qL2+/tYg7wOMHPil+ymskIYAz/cRG
-         +a6JPtsI7EpfbqvLF5DyxyeSJmZidkNe724FaTgifB0IdQ5Krtwj//3ASILN9C88ZyfN
-         /JdQ==
-X-Gm-Message-State: AOAM532FHZ2vAdX1FLJ6epS5QajWdfg5jOcijG3BdLawXhPSYSg/UKHQ
-        eDuGBRxJxUcvBziOzUgXFpAAc5oV6EzpraCM8YMl
-X-Google-Smtp-Source: ABdhPJw/qSH3tHFNLGhO6GQYyeUxfFg+hUhkSrkizMSt3oBgvCASIk/F6h3Mrnpy58OUlVunK56cx50hHTOQ/2wYiig=
-X-Received: by 2002:a17:907:2d88:: with SMTP id gt8mr2394107ejc.449.1623607658177;
- Sun, 13 Jun 2021 11:07:38 -0700 (PDT)
+        id S232178AbhFMW5I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Jun 2021 18:57:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232164AbhFMW5I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jun 2021 18:57:08 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74DA0C061574;
+        Sun, 13 Jun 2021 15:55:06 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 18F684B7;
+        Sun, 13 Jun 2021 22:55:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 18F684B7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1623624905; bh=I+Vq6Gwozb8Nq+jUqrbfEiAsOmNmEYra8HTSF0qeudk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=mJ1a/9wKinIKrIyMzV7MsIc4JxBpnqQ1ysRaBMzvRWUz7+I+s670ENgAkW2PSCdpt
+         d3hqc03jc6pzVmnshrdrM4Iyv+1RpFWGqDykNLHtUgTrxbSf7xtCWvcWgrZ5QBOJMS
+         Z5Sun+6wqDUJ2vaeXADmdt228x+d+BPeqqs1iZy3Gkhf20MIYPNuXUCRjiAPbCD2sd
+         iJtm4IE+Qv3KtndjkRY+yh2S2g/6MIkA8oY6ybpj2pxmR9vnWI5EDgCtfI7eS45bgO
+         cvQ3oYRrfu6Rzk1y2Ol9SjkGHP3HOeIhZiZI2K2J3Hnn/G+d8aX4cKV46thBTvgYyb
+         fATySirIp0OtQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Hu Haowen <src.res@email.cn>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: add traditional Chinese translation for kernel
+ Documentation
+In-Reply-To: <4ecfaca0-801b-1827-2d6a-13690e016957@email.cn>
+References: <20210607132414.44601-1-src.res@email.cn>
+ <4ecfaca0-801b-1827-2d6a-13690e016957@email.cn>
+Date:   Sun, 13 Jun 2021 16:55:04 -0600
+Message-ID: <87wnqxbcjb.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
- <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net> <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
- <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net> <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
- <20210612202505.GG68208@worktop.programming.kicks-ass.net>
- <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com> <CAGG=3QUFRM85bpyjdokO93=Nem_w7-784-_qihP1P_CJMOsdqg@mail.gmail.com>
-In-Reply-To: <CAGG=3QUFRM85bpyjdokO93=Nem_w7-784-_qihP1P_CJMOsdqg@mail.gmail.com>
-From:   Bill Wendling <morbo@google.com>
-Date:   Sun, 13 Jun 2021 11:07:26 -0700
-Message-ID: <CAGG=3QUrhVi37sYtybTUAZMpCDjB_pw+1OdkbZKvL6+UQrbMbQ@mail.gmail.com>
-Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 12, 2021 at 3:47 PM Bill Wendling <morbo@google.com> wrote:
+Hu Haowen <src.res@email.cn> writes:
+
+> =E5=9C=A8 2021/6/7 =E4=B8=8B=E5=8D=889:24, Hu Haowen =E5=86=99=E9=81=93:
+>> Add traditional Chinese translation (zh_TW) for the Linux Kernel
+>> documentation with a series of translated files.
 >
-> On Sat, Jun 12, 2021 at 1:56 PM Bill Wendling <morbo@google.com> wrote:
-> > On Sat, Jun 12, 2021 at 1:25 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> > > On Sat, Jun 12, 2021 at 12:10:03PM -0700, Bill Wendling wrote:
-> > > Yes it is, but is that sufficient in this case? It very much isn't for
-> > > KASAN, UBSAN, and a whole host of other instrumentation crud. They all
-> > > needed their own 'bugger-off' attributes.
-> > >
-> > Now, for the "nointr" issue. I'll see if we need an additional change for that.
-> >
-> The GCOV implementation disables profiling in those directories where
-> instrumentation would fail. We do the same. Both clang and gcc seem to
-> treat the no_instrument_function attribute similarly.
 >
-An example:
+> Dear Corbet,
+>
+>
+> Is this patch applied? I have another amount of changes on this, so
+> please handle it as soon as possible.
 
-$ cat n.c
-int g(int);
+I have been away from the keyboard for the last week, and haven't had a
+chance to look at it yet.  That will happen soon.  Meanwhile, please be
+patient; it has not yet even been a week since you posted this work.
 
-int __attribute__((__no_instrument_function__))
-__attribute__((no_instrument_function))
-no_instr(int a) {
-  int sum = 0;
-  for (int i = 0; i < a; i++)
-    sum += g(i);
-  return sum;
-}
+Taking a quick look, there are a couple of things you can do:
 
-int instr(int a) {
-  int sum = 0;
-  for (int i = 0; i < a; i++)
-    sum += g(i);
-  return sum;
-}
+ - We have a Chinese translation, now you are creating a different one.
+   Please explain why that is needed?
 
-$ gcc -S -o - n.c -fprofile-arcs -ftest-coverage -O2
-        .globl  no_instr
-        .type   no_instr, @function
-no_instr:
-.LFB0:
- ...
-        addq    $1, __gcov0.no_instr(%rip)
-        pushq   %rbp
- ...
-.L3:
- ...
-        addq    $1, 8+__gcov0.no_instr(%rip)
- ...
-        addq    $1, 16+__gcov0.no_instr(%rip)
- ...
-        addq    $1, 16+__gcov0.no_instr(%rip)
- ...
-        ret
-        .globl  instr
-        .type   instr, @function
-instr:
-.LFB1:
- ...
-        addq    $1, __gcov0.instr(%rip)
- ...
-        addq    $1, 8+__gcov0.instr(%rip)
- ...
-        addq    $1, 16+__gcov0.instr(%rip)
- ...
-        addq    $1, 16+__gcov0.instr(%rip)
- ...
-        ret
+ - Please find somebody who can review this work; that is not something
+   that I can do.
 
-$ clang -S -o - n.c -fprofile-generate -O2
-        .globl  no_instr                        # -- Begin function no_instr
-        .p2align        4, 0x90
-        .type   no_instr,@function
-no_instr:                               # @no_instr
- ...
-        addq    $1, .L__profc_no_instr+8(%rip)
- ...
-        movq    .L__profc_no_instr(%rip), %rax
- ...
-        movq    %rax, .L__profc_no_instr(%rip)
- ...
-        retq
-        .globl  instr                           # -- Begin function instr
-        .p2align        4, 0x90
-        .type   instr,@function
-instr:                                  # @instr
- ...
-        addq    $1, .L__profc_instr+8(%rip)
- ...
-        movq    .L__profc_instr(%rip), %rax
- ...
-        movq    %rax, .L__profc_instr(%rip)
- ...
-        retq
-.Lfunc_end1:
+Thanks,
+
+jon
