@@ -2,75 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D35AC48BDF
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:13:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6DC8C48BDF
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:14:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 076F761370
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:13:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A634A6136E
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:14:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232168AbhFMXPs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Jun 2021 19:15:48 -0400
-Received: from ms.lwn.net ([45.79.88.28]:42340 "EHLO ms.lwn.net"
+        id S232238AbhFMXQp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Jun 2021 19:16:45 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42402 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232154AbhFMXPs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 13 Jun 2021 19:15:48 -0400
+        id S232181AbhFMXQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 13 Jun 2021 19:16:45 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 350954E5;
-        Sun, 13 Jun 2021 23:13:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 350954E5
+        by ms.lwn.net (Postfix) with ESMTPSA id 6A2884E5;
+        Sun, 13 Jun 2021 23:14:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6A2884E5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1623626026; bh=4WN+9esKdpn+45t+uVbVMJCUauf+D7d+ldnHfTIx38U=;
+        t=1623626083; bh=cIkUMkG6OHqOe49DDrQu02Ae9oV0J1wl7Kw82o34ayc=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=CAvozJ4DFqiICnh4Ipy2Fzg/mjorMeE9jpyX4AX0wozLu5ysJ3J+8h3lH8504jgsJ
-         zgq1LiPsHLRs3CRheGAb1e3uBolFz1hs3GN32TArLqOWlfMJ38GFh5dt/WO9W+oPr+
-         8p5QHDvqyzsaH52SCsrN4OF3j+utA6py1/Nsx4kNpAtwyQbGcEMqOw/EDHi9txFWCI
-         yraEZyxM4R+M3HmohETUnEhPIYgPHtjYHZJAhLl+FJh+ciXp9jxn/s844xpPhtseOQ
-         u4rmqjaN2LIBbVajm1YKddU5jSA+nYcisUhnLnjwblIz1VccLd8WrbDNBL1RRJAs1p
-         I9K6NfnBdROYg==
+        b=sTxkggdLg5D7gFlllwpB6VkSzg3Wzkb5c/i+crUTDqwDcLehTNX6WQQZcHxQ/asc6
+         w8Oc1cnJdfrk1kDM7kS6OA6TnKUK3MlHtWrjohM+3wbKKQAc7+9M5TY0V6UYMhbl+2
+         YJYmsaWo8L2YkR0cLh2FkFJKrvwrmOkWtQYWgOemkZ6YPX24Pi1pIWCbX1bNgIz76E
+         f18ekzw23lFLa9S5qG53D/i5LQGjTz7jK1N6rUWurRY45TjL5SU/u0V9tOHkbRs+YJ
+         Fbx9Jn7e36MKE1qw8kqp/Z2SR/MZkGP6k5UgfqV29+C6F4/YUgQjUYVN54DJwFIi57
+         FykkC4i9mtN/Q==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?utf-8?Q?N=C3=ADco?= =?utf-8?Q?las_F=2E_R=2E_A=2E_Prado?= 
-        <n@nfraprado.net>
-Cc:     linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        =?utf-8?Q?And?= =?utf-8?Q?r=C3=A9?= Almeida 
-        <andrealmeid@collabora.com>, ~lkcamp/patches@lists.sr.ht
-Subject: Re: [RFC PATCH 1/2] docs: automarkup.py: Add literal markup of
- known constants
-In-Reply-To: <20210609101102.2a97b2dd@coco.lan>
-References: <20210609014308.234027-1-n@nfraprado.net>
- <20210609014308.234027-2-n@nfraprado.net>
- <20210609101102.2a97b2dd@coco.lan>
-Date:   Sun, 13 Jun 2021 17:13:45 -0600
-Message-ID: <874ke1bbo6.fsf@meer.lwn.net>
+To:     Kir Kolyshkin <kolyshkin@gmail.com>, linux-doc@vger.kernel.org
+Cc:     tj@kernel.org, axboe@kernel.dk, paolo.valente@linaro.org,
+        cgroups@vger.kernel.org, Kir Kolyshkin <kolyshkin@gmail.com>
+Subject: Re: [PATCH 1/3] docs: block/bfq: describe per-device weight
+In-Reply-To: <20210611030737.1984343-2-kolyshkin@gmail.com>
+References: <20210611030737.1984343-1-kolyshkin@gmail.com>
+ <20210611030737.1984343-2-kolyshkin@gmail.com>
+Date:   Sun, 13 Jun 2021 17:14:42 -0600
+Message-ID: <8735tlbbml.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Kir Kolyshkin <kolyshkin@gmail.com> writes:
 
-> It sounds a nightmare to maintain this by hand, as a list of used
-> constants will only grow. IMO, an explicit list should be kept only to
-> with the absolute minimum, e.g. for highly-used constants that aren't
-> error codes nor FOO_BAR. The only case that occurs to me that fits 
-> on this rule is 'NULL'.
+This work looks generally good, but...
 
-This is my concern as well.  It seems to me like we would always have a
-situation where some constants are magically marked up and others
-aren't, and people will spend a lot of time trying to figure out why.
+> The functionality of setting per-device weight for BFQ was added
+> in v5.4 (commit 795fe54c2a828099), but the documentation was never
+> updated.
+>
+> While at it, improve formatting a bit.
+>
+> Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
+> ---
+>  Documentation/block/bfq-iosched.rst | 38 ++++++++++++++++++++---------
+>  1 file changed, 27 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
+> index 66c5a4e54130..7200152c461e 100644
+> --- a/Documentation/block/bfq-iosched.rst
+> +++ b/Documentation/block/bfq-iosched.rst
+> @@ -553,20 +553,36 @@ throughput sustainable with bfq, because updating the blkio.bfq.*
+>  stats is rather costly, especially for some of the stats enabled by
+>  CONFIG_BFQ_CGROUP_DEBUG.
+>  
+> -Parameters to set
+> ------------------
+> +Parameters
+> +----------
+>  
+> -For each group, there is only the following parameter to set.
+> +For each group, the following parameters cat be set:
 
-Might it not be better to just adopt the convention that these constants
-don't need to be marked up at all?  NULL is entirely understandable even
-when presented in a proportional font.  Seems like maybe the best of
-both worlds?
+Could we please not introduce new typos while fixing other stuff?
 
 Thanks,
 
