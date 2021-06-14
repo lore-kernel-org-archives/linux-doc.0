@@ -2,108 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C36C2B9F4
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF50C2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:50:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 01D40611AB
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:44:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA88C6120E
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:50:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235496AbhFNUqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 16:46:43 -0400
-Received: from mail-qv1-f49.google.com ([209.85.219.49]:44787 "EHLO
-        mail-qv1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235172AbhFNUqn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 16:46:43 -0400
-Received: by mail-qv1-f49.google.com with SMTP id w4so13748298qvr.11;
-        Mon, 14 Jun 2021 13:44:30 -0700 (PDT)
+        id S233479AbhFNUxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 16:53:01 -0400
+Received: from mail-lf1-f54.google.com ([209.85.167.54]:47090 "EHLO
+        mail-lf1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234686AbhFNUxA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 16:53:00 -0400
+Received: by mail-lf1-f54.google.com with SMTP id m21so23157554lfg.13
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 13:50:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=212ymYp7XEu+lKWxduC+83kiaUY3pqkgv+9qi3641iU=;
-        b=ixpntEdyk4n4XpQDDgnK92G2u3+1O1Oz3Fhqal4MiqoQVAoZmarGQIzc1x7iSob77H
-         vNzXG5bd7M3JsZPRBHsXNtIVpqpYxAYq+61TxPuyQ2oIhCrqzlXqISfPCgYra4nCNfqe
-         3ZOn/WS3+/CArQyHi0AV2aVcy9uk70efLQEPWgAhEPlRauDD66xs/Y6hQMIJHKL/WPub
-         zDUT31VW3Eg+meHPP+2TiyzfeRmRBuu7np35feeIqu4XIlmy8etcfa3bgsE6fdmv2EjM
-         i/k4a2r3HqU8po5AySg1+/Ss7DP0P4H6lFmsNslpuivserxT92ZaxeqvB0U+0s1x8iJv
-         qtBw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/8yZyD8Qxeaf9TxEOG5j+rcsyw3CCIJC6f3Y8GUzKlI=;
+        b=FwsY9dIC3IaG2Ak8rp0lm7uluQN8dbgehHV2TIVQyx98A+obaK1k4e2raRoeYlnfKU
+         1Mqe08vQex+QNkn+2ZHVa6wan1Cwx/lX8eYch/6jucnH21Q+8JaBKiF4RQmUCXHtN4Ql
+         0NNJi7Ti6hCKtulSglwykq2lBRq3m/lg+TZskSPYR3r7DonLl+Ft1xlc6vunbF62NYEu
+         l4oHURk707CoxCGWPfKXXKfeCdaYb2b/G4OdpK4pwerASPRmQoG83cXVtPDyNWw/ZqK5
+         Vv3nDV3z1F4haStaGLxHeYZ3SI1OjiVBnT6LNl4mAhtQ9wcmvX1So8gC1sjAaVKKve0k
+         XuYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=212ymYp7XEu+lKWxduC+83kiaUY3pqkgv+9qi3641iU=;
-        b=LBOjIf6grfMI7R/vmi3ZqJZ4ZPMfmHVDPLX1PN+Wjt0xtN+ekHNRkV8rBY3SlsWiBu
-         yww4d3DdBPoAEeyrpUqYGgvGYGj88yWvn8pyyzXv/FZs/6C2qKrK7P0DG+yEZ2Sh+Vv/
-         SDJvy9LO1UiwE6+lUDkTozL9uzVdD68k8msFF5fdsQpy3Sv93dFZ1tklDboVeLeMDnYk
-         G0ZYUWWdYgktn776IJJg3Z29+PvfPRaRcMOuz5BCcVW3HxyW5TV5/2X7m0JOZXsYdT4y
-         F6v8VaT3k57A+Sp6mU+6llHn8usoozTyr15wB+3t/oz0uF1JqUOggYokWvxWvLJFTQIS
-         Gjsg==
-X-Gm-Message-State: AOAM533S+khh9UmAQiLB4f1JK0nIBEomqkykKO+otecCsTZItXBMASvs
-        1dmjmg9r5yVyACKQL706ugk=
-X-Google-Smtp-Source: ABdhPJyZiBT2UFA22fxY80PwV97uk8Cilfx14IlToy0lDB7LgmWsIjbP5LulDlyiivN3X3IgnTCUKA==
-X-Received: by 2002:a05:6214:1909:: with SMTP id er9mr1028714qvb.13.1623703410350;
-        Mon, 14 Jun 2021 13:43:30 -0700 (PDT)
-Received: from localhost ([199.192.137.73])
-        by smtp.gmail.com with ESMTPSA id d16sm10271682qtj.69.2021.06.14.13.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 13:43:29 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 14 Jun 2021 16:43:28 -0400
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin <hpa@zytor.com>, Greg Kroah-Hartman
-        <gregkh@linuxfoundation.org>, Rafael J. Wysocki " <rafael@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>, x86@kernel.org,
-        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/4] cgroup/cpuset: Allow cpuset to bound displayed cpu
- info
-Message-ID: <YMe/cGV4JPbzFRk0@slm.duckdns.org>
-References: <20210614152306.25668-1-longman@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/8yZyD8Qxeaf9TxEOG5j+rcsyw3CCIJC6f3Y8GUzKlI=;
+        b=W+Ln3CSr5QhUx1hpt4aw+SOoX2Jvcx+4ySa/KcVe0XGDowBktf/jbO1IhRLLln+xHL
+         I7OdxIoM359tTlGe2YBn7Z1Au7L78lT/mrjI9ksAbYv2ZXv6Rbzxk9O5qbgHfae3/yi0
+         tl8D8iTgc94bfSRXvjB8iSLECMHI4K8aQcg6argaBthq2qXswOcIDL/rEx1VUAjhuvz+
+         vQyuxp/6ho8hfyxDxseqPaCnd11LpXK3pSVQG/2HnwFx+HwOpDs04akDGXCD32A53r9W
+         TdsqW2QE9jd/Zu8ZVXfKeGdHylGLhSLNkl7xsnG6/jaPpnsjYIbCr88mxUC3tMhkOBpK
+         t1rQ==
+X-Gm-Message-State: AOAM5324V/IhQj6SdebrBvLP09M6L+FCuwNCunFm4deYu2XXg001uf3H
+        CKZ6jSkV8qDFg3/6h1AmZ/iVswfyjw4crNgRC7BEWA==
+X-Google-Smtp-Source: ABdhPJwEyfMEBTymX7iJX4uhK2ViDEmCDThTv4U+RoZC2hiqVBRU5+NheHfIWcc38hpYP76juY/W0FF4SfuBlmgs+y8=
+X-Received: by 2002:a19:4843:: with SMTP id v64mr13899409lfa.374.1623703781370;
+ Mon, 14 Jun 2021 13:49:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210614152306.25668-1-longman@redhat.com>
+References: <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
+ <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
+ <20210612202505.GG68208@worktop.programming.kicks-ass.net>
+ <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
+ <YMca2aa+t+3VrpN9@hirez.programming.kicks-ass.net> <CAGG=3QVPCuAx9UMTOzQp+8MJk8KVyOfaYeV0yehpVwbCaYMVpg@mail.gmail.com>
+ <YMczJGPsxSWNgJMG@hirez.programming.kicks-ass.net> <CANpmjNNnZv7DHYaJBL7knn9P+50F+SOCvis==Utaf-avENnVsw@mail.gmail.com>
+ <202106140817.F584D2F@keescook> <20210614153545.GA68749@worktop.programming.kicks-ass.net>
+ <202106140921.5E591BD@keescook> <CAKwvOdkiQCuWB7VrQ4T-OCdoNfqKhpLx_jtBQ_uyjVVwHSOc=A@mail.gmail.com>
+In-Reply-To: <CAKwvOdkiQCuWB7VrQ4T-OCdoNfqKhpLx_jtBQ_uyjVVwHSOc=A@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 14 Jun 2021 13:49:29 -0700
+Message-ID: <CAKwvOdmqLh_9WkBmMYGZ9ztX+eJ95aTQsyUB+qXYPZHun8+nMg@mail.gmail.com>
+Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@alien8.de>
+Cc:     Marco Elver <elver@google.com>, Bill Wendling <morbo@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        oberpar@linux.vnet.ibm.com, linux-toolchains@vger.kernel.org,
+        Borislav Petkov <bp@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Mon, Jun 14, 2021 at 11:07 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Mon, Jun 14, 2021 at 9:23 AM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Mon, Jun 14, 2021 at 05:35:45PM +0200, Peter Zijlstra wrote:
+> > > On Mon, Jun 14, 2021 at 08:26:01AM -0700, Kees Cook wrote:
+> > > > So, AFAICT, the original blocking issue ("PGO does not respect noinstr")
+> > > > is not actually an issue (noinstr contains notrace, which IS respected
+> > > > by PGO[2]), I think this is fine to move forward.
+> > >
+> > > It is *NOT*: https://godbolt.org/z/9c7xdvGd9
+> > >
+> > > Look at how both compilers generate instrumentation in the no_instr()
+> > > function.
+> >
+> > Well that's disappointing. I'll put this on hold until Clang can grow an
+> > appropriate attribute (or similar work-around). Thanks for catching
+> > that.
+>
+> Cross referencing since these two threads are related.
+> https://lore.kernel.org/lkml/CAKwvOdmPTi93n2L0_yQkrzLdmpxzrOR7zggSzonyaw2PGshApw@mail.gmail.com/
 
-On Mon, Jun 14, 2021 at 11:23:02AM -0400, Waiman Long wrote:
-> The current container management system is able to create the illusion
-> that applications running within a container have limited resources and
-> devices available for their use. However, one thing that is hard to hide
-> is the number of CPUs available in the system. In fact, the container
-> developers are asking for the kernel to provide such capability.
-> 
-> There are two places where cpu information are available for the
-> applications to see - /proc/cpuinfo and /sys/devices/system/cpu sysfs
-> directory.
-> 
-> This patchset introduces a new sysctl parameter cpuset_bound_cpuinfo
-> which, when set, will limit the amount of information disclosed by
-> /proc/cpuinfo and /sys/devices/system/cpu.
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223 looked appropriate
+to me, so I commented on it.
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223#c6
 
-The goal of cgroup has never been masquerading system information so that
-applications can pretend that they own the whole system and the proposed
-solution requires application changes anyway. The information being provided
-is useful but please do so within the usual cgroup interface - e.g.
-cpuset.stat. The applications (or libraries) that want to determine its
-confined CPU availability can locate the file through /proc/self/cgroup.
-
-Thanks.
-
--- 
-tejun
+Patches for:
+PGO: https://reviews.llvm.org/D104253
+GCOV: https://reviews.llvm.org/D104257
+--
+Thanks,
+~Nick Desaulniers
