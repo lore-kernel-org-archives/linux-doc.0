@@ -2,277 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB67C4743C
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 13:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE6AC2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 13:48:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17F3B61244
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 13:01:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 78E06611CE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 13:48:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233561AbhFNNDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 09:03:52 -0400
-Received: from mail-eopbgr80123.outbound.protection.outlook.com ([40.107.8.123]:50677
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233494AbhFNNDt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jun 2021 09:03:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ax+9oGCVqIUdFV4QCA9yCoIkU1hlytqb7Fq1+Y7gKCFgu7yueDP8QSPTnYorAsQSHgSgg7zknjV39mJ7kiBXQeOPkPGimNIGH1MlmkDidCUhocyUHeFfG/00pbaOY08poDw8fZ8sqM+nYynnvXpJoSxjxBCBeS28aw0Ya9NhVcF7LOvUUy2q1OpnfzrgMslhWDrKqcByNNDI5P3yUF+Ho7kQEXAiUtBUi2RlxG4nejF6mZ9Wu8PsOdZ4DpfJmhTyGEFwM7mg86Fi0mDo03khbvQLGIHicRF0Rfj5gFZ76omc2zsX6Ikw1+riwQm2YWTplD2ypuUQv71NHBjf/tB1Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2qke/290SZ770AUQk2fJvnQPrvJ71m9oxWidNiF0Yx8=;
- b=iZMzfQx2CSrHx6qqWxmjrovGfloWWAeb8lzDDfJFx4VVqREkAtIyh68wIuXMeEIgO16KiDash3K+fp41PN2+EtczqE+gvoLIfqn2DNDbVIdNC87pOSNodx1fdX3Rxkqjl+m4Qlo+N1OYNuU/KSYkf3A+hVaF15lZUT+9Lsub1EzeO1GKpNw/zICBVnFCf+o1e4xsBiG1GQZtCYI5y1zhE/TrUfc6hKPLynpoVmXKrQlmKuQoM6V3YIYnRQUi+NzrOdJe3o+UFH3HrdbPKxPOD1ZbAaX2sRM2a6/uUirTWuDu4VUBoJdcaS+aAH5nqMIoZ0XZI+uJTNEUcNTrRthpnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=plvision.eu; dmarc=pass action=none header.from=plvision.eu;
- dkim=pass header.d=plvision.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plvision.eu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2qke/290SZ770AUQk2fJvnQPrvJ71m9oxWidNiF0Yx8=;
- b=frJKOJG6csBgPG0mOWwfoJvpO9dQOEveu2zs70Ldr4/2PjZOUAb0iHPQdeEil9teTb3ud0oXCdVHhd4rg2hc4ZPGjt+RkNf2AsH7mEu4u2iALBhX7qkRUMZRhWxZCMYAa7oWAC35pMHJTQDfdwkrjX8dko3KgiBRz87r4CiYlsw=
-Authentication-Results: plvision.eu; dkim=none (message not signed)
- header.d=none;plvision.eu; dmarc=none action=none header.from=plvision.eu;
-Received: from AM0P190MB0738.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:19b::9)
- by AM9P190MB1026.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:264::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Mon, 14 Jun
- 2021 13:01:44 +0000
-Received: from AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
- ([fe80::d018:6384:155:a2fe]) by AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
- ([fe80::d018:6384:155:a2fe%9]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
- 13:01:44 +0000
-From:   Oleksandr Mazur <oleksandr.mazur@plvision.eu>
-To:     oleksandr.mazur@plvision.eu, jiri@nvidia.com, davem@davemloft.net,
-        kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vadym Kochan <vadym.kochan@plvision.eu>, andrew@lunn.ch,
-        nikolay@nvidia.com, idosch@idosch.org, linux-doc@vger.kernel.org
-Subject: [PATCH net-next v2 7/7] documentation: networking: devlink: add prestera switched driver Documentation
-Date:   Mon, 14 Jun 2021 16:01:18 +0300
-Message-Id: <20210614130118.20395-8-oleksandr.mazur@plvision.eu>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210614130118.20395-1-oleksandr.mazur@plvision.eu>
-References: <20210614130118.20395-1-oleksandr.mazur@plvision.eu>
-Content-Type: text/plain
-X-Originating-IP: [217.20.186.93]
-X-ClientProxiedBy: AM0PR06CA0140.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::45) To AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:19b::9)
+        id S233608AbhFNNuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 09:50:50 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:12008 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233389AbhFNNut (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 09:50:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1623678527; x=1655214527;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=Xe3rezfzr9LX/jywWeYNOUETwkRGBANMSmd+MqWC3zU=;
+  b=i3Fkc2MRYa989avXeuJm5hPq4zDjbctpzBqyVavrICQ5P8kGl34VsR87
+   nVGYq9juQZ4t5V5qSxxdwLyYUnYf5Zy7dpOQ6ON5DKpL/Ipx/tsauUAbF
+   pVgfAp4m5fxU26K5xXtNTG5pLiEZDMIvTlgivqBMNQ3hoETAmMAY45U85
+   A=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 14 Jun 2021 06:48:46 -0700
+X-QCInternal: smtphost
+Received: from nalasexr03e.na.qualcomm.com ([10.49.195.114])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 14 Jun 2021 06:48:45 -0700
+Received: from [10.38.245.104] (10.80.80.8) by nalasexr03e.na.qualcomm.com
+ (10.49.195.114) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 14 Jun
+ 2021 06:48:43 -0700
+Subject: Re: [PATCH 0/5] cpufreq: cppc: Fix suspend/resume specific races with
+ FIE code
+To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Rafael Wysocki <rjw@rjwysocki.net>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+CC:     <linux-pm@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Ionela Voinescu <ionela.voinescu@arm.com>,
+        Dirk Brandewie <dirk.j.brandewie@intel.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>
+References: <cover.1623313323.git.viresh.kumar@linaro.org>
+From:   Qian Cai <quic_qiancai@quicinc.com>
+Message-ID: <eaaaf171-5937-e0f2-8447-c1b20b474c62@quicinc.com>
+Date:   Mon, 14 Jun 2021 09:48:41 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from omazur.x.ow.s (217.20.186.93) by AM0PR06CA0140.eurprd06.prod.outlook.com (2603:10a6:208:ab::45) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Mon, 14 Jun 2021 13:01:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4fd980f2-17c5-41ed-a4d6-08d92f348f5b
-X-MS-TrafficTypeDiagnostic: AM9P190MB1026:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM9P190MB10266CBBC99E09B60C7B9C5BE4319@AM9P190MB1026.EURP190.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IUNcnnQ0R8Ay/MvyoeRCsqgkFDZPs8s7SWBmWcC2lu2ix1oEpjOhT1jDCn1aONdQdhBwRj4N6PxMRr/FrwisGNf3eahugBv5qPcNOb6HWPVxXpjDnKMLuHbyK6KCDAlyPB5Nyynp29DDMcbCC6TTqFwzvC56HCncKhkzuENFedKFYOz5JmvvbOu+6OgfKbN80PKRJLYI46DspIPalx8NuHxGua5I7eAkDKzholwbtHPmvTxI/JJMhYAW0B4Mj9d8WOGMc4xvAdD9FsvoTe8JGpfdcaCHpL0ELMqMdWnUbnQN56CZuL/0+aqscju91gzk7gHGv1adCaCGt0IjGecqAHDCtFi6TAodg0JOn63sKg07m9QFBI3ATkhvgTfdHoO/st1F/9l2sLYaw0F3EiN1vu04pXbuTEqKTpNELmyXz6Abn1UBSGmXOM5f+zb3FzdKFz+ajR/DKg1hHGn11NWdCHH1ih7AHhuoGBwrBsZtiPMJVVxkA2RDTlC/+a8+eXk1EZv6G/L2dWNEFCRsxSa3tmkktUuNCzm80meyYjQ/pyFM/rQFgbbl51/pKYPITccxlBlXKXWv5x5jyMUrU45LKEQGj2BF2xl0RBvLfCKFp4zUJitopyixUCs1xthlhB8AVelXHbUyuzsfgbd8SOLqTKbAgH6VnGqfiSQ7ZMUMhfE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0P190MB0738.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(376002)(136003)(39830400003)(366004)(396003)(346002)(6506007)(66556008)(186003)(44832011)(4326008)(66476007)(8676002)(36756003)(8936002)(6666004)(1076003)(16526019)(2906002)(316002)(6916009)(66574015)(7416002)(956004)(38100700002)(66946007)(6512007)(38350700002)(52116002)(478600001)(6486002)(2616005)(5660300002)(83380400001)(26005)(86362001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cyct/NSHscZYag6JTRzz+kRkynd4x/vppHHsbDPHZ4PNHnFcNg9j3DX7Klv5?=
- =?us-ascii?Q?T86OE6bsORrFr0jEuTlXsH+CaUUvqsaTn9iO4J7YB0qTfuv2xdq2iF7UARr9?=
- =?us-ascii?Q?p0lxicv8kNXcAe+mQZOqwZi4t277x7rGGAaa+Of1ef16c/ICCjz9TTzQOe+U?=
- =?us-ascii?Q?+hM5lgrottdbmxuc4hkTgQAa97FJbFw89WSvUjHuYukCrYYuR6KQ3fI2+cmR?=
- =?us-ascii?Q?6aJg12IPvOPv5yfJUsW5GZIWqZNkvA/8s5j1wD6an3F0Y/5pF8ELdSrRelLp?=
- =?us-ascii?Q?Votc6NQlAtMH1i8Z9ElPOuAhMX6mVTd/7HSs7emd1Ef9RfkV6U1yBRfhVP+q?=
- =?us-ascii?Q?5mj9YBEGjTvtLXWyhcR6gfdweWYgSoQCRqQUtHAV56dQ/vlM/iQwLd6fFU52?=
- =?us-ascii?Q?5mApLSrbSTqBDEz3K9kxJHpZc6ZwW2OHJsoBr7aIfo1HQqqHAFvyhmgtV/Px?=
- =?us-ascii?Q?3g3ytSs9MYPPFbsN/Uqh4BboMLTVqd06tQuy5aDfWTiw6DeVd1Chj2MOnTGg?=
- =?us-ascii?Q?37DEY+Rm/RTRordoJSMPXXmcqzq6pM0HZbZdOAIEuPwT8o8ee5IiUYSZKMJZ?=
- =?us-ascii?Q?9X/J8BPs1wUegJmLb7TCjJHB7Q0WhF3XgLJxX4X0B5PwletqqpEralupuKVQ?=
- =?us-ascii?Q?KOzexlAVb51dBjDei2rgRODrIMZA0nIv+HlBDQDY3CNleJh9bwyZGTtQ+/i6?=
- =?us-ascii?Q?lfvjLnjJgZP5wEu4cVQX957EKNc0MEljqdjow9DYO2tGaeMNO9sZ8+hRVhL4?=
- =?us-ascii?Q?QbZ6Kgu1WfJ3ojYMGfEOvCbptMWHeP5QH3diZqYQ+fYXH4EJYVt8YkgU5OMb?=
- =?us-ascii?Q?3HQ2oT+ykoAc9NrNiDn4wD8i3972eYq79ohPBxONBunRnDKqOcmR2/VAhQbT?=
- =?us-ascii?Q?2eGxqMWiztJThc02iajSHNmDVzOWobZDiZ9TScxd6NKc5xg7GyFpWu7m39jw?=
- =?us-ascii?Q?yVcOJS5bXXiG7l6QaDP0kR4DR92+UT2cM8G++Gjl6lRoZIxAXmuJVAle885I?=
- =?us-ascii?Q?Us2yxBa8qw4WV8f2Z88IkjzQCjrOuIbESX8wkcXxP2Vndk5YgVAVEQvL+gk8?=
- =?us-ascii?Q?9+P/SWD5/AFrEPLFklbyT3GAA6EsPovyzsBAiVlq59YkELpFPZBsqfnpr6l3?=
- =?us-ascii?Q?6nTziMqyfxW/gtDzC3fMr8PzaKuq/gawA6ugjY3LFrOlHVJfY1p/zS8KXlzU?=
- =?us-ascii?Q?dZc4D6DtjL9DaoDZ13JEBfyxQyor0l922Ff4czqpKxkXxlkfV77XrRIb4TDD?=
- =?us-ascii?Q?BWDN9UG7qvKpILk59KAN0zX5qhHumY/hV+xuo/XmaV+ZL5dBlnGilaeVygkf?=
- =?us-ascii?Q?O0xOBQivvqglBLRWxlJglPO2?=
-X-OriginatorOrg: plvision.eu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fd980f2-17c5-41ed-a4d6-08d92f348f5b
-X-MS-Exchange-CrossTenant-AuthSource: AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 13:01:44.1062
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 03707b74-30f3-46b6-a0e0-ff0a7438c9c4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zlczpvJ3BVvWvnJ0jkxD57KB1eFW7kUycrheMbHLrhg1xTXwhtq5BIhXM/rfdhxhPrUlhvZ2Q0e89KVWsLVM6GegSP0wOnG2nB8jcnQFGko=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P190MB1026
+In-Reply-To: <cover.1623313323.git.viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanexm03e.na.qualcomm.com (10.85.0.48) To
+ nalasexr03e.na.qualcomm.com (10.49.195.114)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the devlink feature prestera switchdev driver supports:
-add description for the support of the driver-specific devlink traps
-(include both traps with action TRAP and action DROP);
 
-Signed-off-by: Oleksandr Mazur <oleksandr.mazur@plvision.eu>
----
- Documentation/networking/devlink/prestera.rst | 141 ++++++++++++++++++
- 1 file changed, 141 insertions(+)
- create mode 100644 Documentation/networking/devlink/prestera.rst
 
-diff --git a/Documentation/networking/devlink/prestera.rst b/Documentation/networking/devlink/prestera.rst
-new file mode 100644
-index 000000000000..e8b52ffd4707
---- /dev/null
-+++ b/Documentation/networking/devlink/prestera.rst
-@@ -0,0 +1,141 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================
-+prestera devlink support
-+=====================
-+
-+This document describes the devlink features implemented by the ``prestera``
-+device driver.
-+
-+Driver-specific Traps
-+=====================
-+
-+.. list-table:: List of Driver-specific Traps Registered by ``prestera``
-+   :widths: 5 5 90
-+
-+   * - Name
-+     - Type
-+     - Description
-+.. list-table:: List of Driver-specific Traps Registered by ``prestera``
-+   :widths: 5 5 90
-+
-+   * - Name
-+     - Type
-+     - Description
-+   * - ``arp_bc``
-+     - ``trap``
-+     - Traps ARP broadcast packets (both requests/responses)
-+   * - ``is_is``
-+     - ``trap``
-+     - Traps IS-IS packets
-+   * - ``ospf``
-+     - ``trap``
-+     - Traps OSPF packets
-+   * - ``ip_bc_mac``
-+     - ``trap``
-+     - Traps IPv4 packets with broadcast DA Mac address
-+   * - ``stp``
-+     - ``trap``
-+     - Traps STP BPDU
-+   * - ``lacp``
-+     - ``trap``
-+     - Traps LACP packets
-+   * - ``lldp``
-+     - ``trap``
-+     - Traps LLDP packets
-+   * - ``router_mc``
-+     - ``trap``
-+     - Traps multicast packets
-+   * - ``vrrp``
-+     - ``trap``
-+     - Traps VRRP packets
-+   * - ``dhcp``
-+     - ``trap``
-+     - Traps DHCP packets
-+   * - ``mtu_error``
-+     - ``trap``
-+     - Traps (exception) packets that exceeded port's MTU
-+   * - ``mac_to_me``
-+     - ``trap``
-+     -  Traps packets with switch-port's DA Mac address
-+   * - ``ttl_error``
-+     - ``trap``
-+     - Traps (exception) IPv4 packets whose TTL exceeded
-+   * - ``ipv4_options``
-+     - ``trap``
-+     - Traps (exception) packets due to the malformed IPV4 header options
-+   * - ``ip_default_route``
-+     - ``trap``
-+     - Traps packets that have no specific IP interface (IP to me) and no forwarding prefix
-+   * - ``local_route``
-+     - ``trap``
-+     - Traps packets that have been send to one of switch IP interfaces addresses
-+   * - ``ipv4_icmp_redirect``
-+     - ``trap``
-+     - Traps (exception) IPV4 ICMP redirect packets
-+   * - ``arp_response``
-+     - ``trap``
-+     - Traps ARP replies packets that have switch-port's DA Mac address
-+   * - ``acl_code_0``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 0 (tc pref 0)
-+   * - ``acl_code_1``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 1 (tc pref 1)
-+   * - ``acl_code_2``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 2 (tc pref 2)
-+   * - ``acl_code_3``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 3 (tc pref 3)
-+   * - ``acl_code_4``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 4 (tc pref 4)
-+   * - ``acl_code_5``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 5 (tc pref 5)
-+   * - ``acl_code_6``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 6 (tc pref 6)
-+   * - ``acl_code_7``
-+     - ``trap``
-+     - Traps packets that have ACL priority set to 7 (tc pref 7)
-+   * - ``ipv4_bgp``
-+     - ``trap``
-+     - Traps IPv4 BGP packets
-+   * - ``ssh``
-+     - ``trap``
-+     - Traps SSH packets
-+   * - ``telnet``
-+     - ``trap``
-+     - Traps Telnet packets
-+   * - ``icmp``
-+     - ``trap``
-+     - Traps ICMP packets
-+   * - ``rxdma_drop``
-+     - ``drop``
-+     - Drops packets (RxDMA) due to the lack of ingress buffers etc.
-+   * - ``port_no_vlan``
-+     - ``drop``
-+     - Drops packets due to faulty-configured network or due to internal bug (config issue).
-+   * - ``local_port``
-+     - ``drop``
-+     - Drops packets whose decision (FDB entry) is to bridge packet back to the incoming port/trunk.
-+   * - ``invalid_sa``
-+     - ``drop``
-+     - Drops packets with multicast source MAC address.
-+   * - ``illegal_ip_addr``
-+     - ``drop``
-+     - Drops packets with illegal SIP/DIP multicast/unicast addresses.
-+   * - ``illegal_ipv4_hdr``
-+     - ``drop``
-+     - Drops packets with illegal IPV4 header.
-+   * - ``ip_uc_dip_da_mismatch``
-+     - ``drop``
-+     - Drops packets with destination MAC being unicast, but destination IP address being multicast.
-+   * - ``ip_sip_is_zero``
-+     - ``drop``
-+     - Drops packets with zero (0) IPV4 source address.
-+   * - ``met_red``
-+     - ``drop``
-+     - Drops non-conforming packets (dropped by Ingress policer, metering drop), e.g. packet rate exceeded configured bandwith.
--- 
-2.17.1
+On 6/10/2021 4:23 AM, Viresh Kumar wrote:
+> Hi Qian,
+> 
+> It would be helpful if you can test this patchset and confirm if the races you
+> mentioned went away or not and that the FIE code works as we wanted it to.
+> 
+> I don't have a real setup and so it won't be easy for me to test this out.
+> 
+> I have already sent a temporary fix for 5.13 and this patchset is targeted for
+> 5.14 and is based over that.
 
+Unfortunately, this series looks like needing more works.
+
+[  487.773586][    T0] CPU17: Booted secondary processor 0x0000000801 [0x503f0002]
+[  487.976495][  T670] list_del corruption. next->prev should be ffff009b66e9ec70, but was ffff009b66dfec70
+[  487.987037][  T670] ------------[ cut here ]------------
+[  487.992351][  T670] kernel BUG at lib/list_debug.c:54!
+[  487.997810][  T670] Internal error: Oops - BUG: 0 [#1] SMP
+[  488.003295][  T670] Modules linked in: cpufreq_userspace xfs loop cppc_cpufreq processor efivarfs ip_tables x_tables ext4 mbcache jbd2 dm_mod igb i2c_algo_bit nvme mlx5_core i2c_core nvme_core firmware_class
+[  488.021759][  T670] CPU: 1 PID: 670 Comm: cppc_fie Not tainted 5.13.0-rc5-next-20210611+ #46
+[  488.030190][  T670] Hardware name: MiTAC RAPTOR EV-883832-X3-0001/RAPTOR, BIOS 1.6 06/28/2020
+[  488.038705][  T670] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO BTYPE=--)
+[  488.045398][  T670] pc : __list_del_entry_valid+0x154/0x158
+[  488.050969][  T670] lr : __list_del_entry_valid+0x154/0x158
+[  488.056534][  T670] sp : ffff8000229afd70
+[  488.060534][  T670] x29: ffff8000229afd70 x28: ffff0008c8f4f340 x27: dfff800000000000
+[  488.068361][  T670] x26: ffff009b66e9ec70 x25: ffff800011c8b4d0 x24: ffff0008d4bfe488
+[  488.076188][  T670] x23: ffff0008c8f4f340 x22: ffff0008c8f4f340 x21: ffff009b6789ec70
+[  488.084015][  T670] x20: ffff0008d4bfe4c8 x19: ffff009b66e9ec70 x18: ffff0008c8f4fd70
+[  488.091842][  T670] x17: 20747562202c3037 x16: 6365396536366239 x15: 0000000000000028
+[  488.099669][  T670] x14: 0000000000000000 x13: 0000000000000001 x12: ffff60136cdd3447
+[  488.107495][  T670] x11: 1fffe0136cdd3446 x10: ffff60136cdd3446 x9 : ffff8000103ee444
+[  488.115322][  T670] x8 : ffff009b66e9a237 x7 : 0000000000000001 x6 : ffff009b66e9a230
+[  488.123149][  T670] x5 : 00009fec9322cbba x4 : ffff60136cdd3447 x3 : 1fffe001191e9e69
+[  488.130975][  T670] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000054
+[  488.138803][  T670] Call trace:
+[  488.141935][  T670]  __list_del_entry_valid+0x154/0x158
+[  488.147153][  T670]  kthread_worker_fn+0x15c/0xda0
+[  488.151939][  T670]  kthread+0x3ac/0x460
+[  488.155854][  T670]  ret_from_fork+0x10/0x18
+[  488.160120][  T670] Code: 911e8000 aa1303e1 910a0000 941b595b (d4210000)
+[  488.166901][  T670] ---[ end trace e637e2d38b2cc087 ]---
+[  488.172206][  T670] Kernel panic - not syncing: Oops - BUG: Fatal exception
+[  488.179182][  T670] SMP: stopping secondary CPUs
+[  489.209347][  T670] SMP: failed to stop secondary CPUs 0-1,10-11,16-17,31
+[  489.216128][  T][  T670] Memoryn ]---
+
+> 
+> -------------------------8<-------------------------
+> 
+> The CPPC driver currently stops the frequency invariance related
+> kthread_work and irq_work from cppc_freq_invariance_exit() which is only
+> called during driver's removal.
+> 
+> This is not sufficient as the CPUs can get hot-plugged out while the
+> driver is in use, the same also happens during system suspend/resume.
+> 
+> In such a cases we can reach a state where the CPU is removed by the
+> kernel but its kthread_work or irq_work aren't stopped.
+> 
+> Fix this by implementing the start_cpu() and stop_cpu() callbacks in the
+> cpufreq core, which will be called for each CPU's addition/removal.
+> 
+> A similar call was already available in the cpufreq core, which isn't required
+> anymore and so its users are migrated to use exit() callback instead.
+> 
+> This is targeted for v5.14-rc1.
+> 
+> --
+> Viresh
+> 
+> Viresh Kumar (5):
+>   cpufreq: cppc: Migrate to ->exit() callback instead of ->stop_cpu()
+>   cpufreq: intel_pstate: Migrate to ->exit() callback instead of
+>     ->stop_cpu()
+>   cpufreq: powerenv: Migrate to ->exit() callback instead of
+>     ->stop_cpu()
+>   cpufreq: Add start_cpu() and stop_cpu() callbacks
+>   cpufreq: cppc: Fix suspend/resume specific races with the FIE code
+> 
+>  Documentation/cpu-freq/cpu-drivers.rst |   7 +-
+>  drivers/cpufreq/Kconfig.arm            |   1 -
+>  drivers/cpufreq/cppc_cpufreq.c         | 163 ++++++++++++++-----------
+>  drivers/cpufreq/cpufreq.c              |  11 +-
+>  drivers/cpufreq/intel_pstate.c         |   9 +-
+>  drivers/cpufreq/powernv-cpufreq.c      |  23 ++--
+>  include/linux/cpufreq.h                |   5 +-
+>  7 files changed, 119 insertions(+), 100 deletions(-)
+> 
