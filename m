@@ -2,133 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FF94C4743C
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 11:45:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E9CC48BE6
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 12:35:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CE8160BBB
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 11:45:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B469C61206
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 12:35:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235326AbhFNLrq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 07:47:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235760AbhFNLrC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 07:47:02 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AEACC0611DD
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 04:43:37 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id l1so16100165ejb.6
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 04:43:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HI8uNQ2N0M5Hhpj6WC1Izp202Fz3OsRq4lT6L+ArKG8=;
-        b=k74Pd/awWzo+0vIQa3vSWB4GiHFuz2x/5raEEABcmoRr9iSqr6PUuB8vVwmmfk8LRJ
-         dyow7EEnasjGh9+H2SOieqWJRNloMZvc2+yaoqoC+dZybwRaxiFK2X89V8/rRWMnIohO
-         0jhjfzxCifMikqa5PogKCoVU9vHX1I7WdevNRGgKFWyThzuj0cxfFHOSmImqCBmRLoPL
-         ifOSiwTzvkd2A+zaEfi0t+XTo1bfwzUmTKaWl5UOyrxKMVWgDy/e8tXJ0ZrgFuSiHA1W
-         /wKnnSaDdBBi6pvxr7CqZE4dh3VqXl1V6DVXS+3MMrzzG6bAcvaB7bud1S1tuwAu+MsW
-         jo6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HI8uNQ2N0M5Hhpj6WC1Izp202Fz3OsRq4lT6L+ArKG8=;
-        b=njsrQLF1fJvfc4S7jF7cf67GqFXm6dHlLnLmz74mt5lQKU6gFrLMqylQZ21MEPvNw2
-         7JNLEstyy+ZNqn+jEy8ohkN8V6IuDRM7EYlRLOKt/0RbLzkfHtfjPw4+seNG3ICxlh+L
-         VwFjkPfJT4NEmT4o3/A0t9ue8iGJ3sQ+UpMO6BjKMcdfFWBjATbYdOF550KlV3CvLYJE
-         /K2fiw7hujexn2i8MSf00scVvrLZFE8xCNmczvKp/YrlmqLUF+OgTkFU0o5cU4FzGqmG
-         G6s+cwfsPP7HlY0B98vES7Icgnh52qL+HntzwPKMSOup1vHfbCh+Te8mLI0ofeBCAhjZ
-         +PiQ==
-X-Gm-Message-State: AOAM532OKb5EI4wM4afR8nZWv+1/6i5z/T/ngErnMgZqhyUepjiJ76RV
-        Jsp5tzrOIhiZywo2ScPMzgPLKyFEoVUXhYm6XtFk
-X-Google-Smtp-Source: ABdhPJz6Z4iIYp1oXXANY4EX4jTMs8gk4NxJR68WJ8DijcN3voOrphp/2Zl/zcDiOVLEI/B7vb8XytAwA5hWKrsfgLo=
-X-Received: by 2002:a17:906:7188:: with SMTP id h8mr15017910ejk.529.1623671015979;
- Mon, 14 Jun 2021 04:43:35 -0700 (PDT)
+        id S232966AbhFNMh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 08:37:27 -0400
+Received: from mail-mw2nam12on2067.outbound.protection.outlook.com ([40.107.244.67]:59352
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232775AbhFNMh1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jun 2021 08:37:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PiRZiCpMSRvJlqTLr1cRWjDWGw47vtF6MjCaFw9MfpPqFxdYZM4p2dnH96pbDX5ZVssJXZh1Z02z7eRhhQKYhxaMQlPDxm/6rcSff4hzG8PC5PRdV9SjhRfqpL5Fwc52JNFYlneeCXQMRIKED2JDn9v1nA2PfZR9a4lCtg9PZ3gbxQOWWDemSkw4A21ayQ1ulr8eBHWj1SjyiYadDHmm/U2S9tH/LhMCb11YsuwdlfesgE4ur2uHWqRE3UHKlUlyFYI1bBQIW0QVAtxn5Ts+ct8pnhxy6x0qqLb4Ifp1Kc2IxqKBh7uAbvcpEoBpAAJsI3WNYuv3josfmyxPvCi7QQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vovSBIAn7YDUdNibZX/0zlm501S26NvUyJxE/ZzwU+I=;
+ b=flsSXnvgI/E9xqPOeV01yidpo8y4ySBjAx4A89wfGgwl+syjChIhC9pUiz8mMBZlcAOGP0gwQKDwcCOk2n55SvTaApklY07wwo4oU2NbXuVVwqU4BQGWBNncYqOcz0rUqqYYfGBLg9OoLwVUIC4l+sDk2j+QObaeyeLKCmwuewSi2f2fI1J/a5OaCPg5KZa/FkUF6Mn2rGTVYz5EBT6y6CyRRHQwN4i5EuVOAM58QtWV6NQSnSNT1CT+TUf5T182Db81+QTa6/5KJe9lS4LDvL8TLsW4QriHqo8X7AGM1WuUNFHobXeL/mJ3a9gSN67ROUZgvyHY94RFqHuSaG4/Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vovSBIAn7YDUdNibZX/0zlm501S26NvUyJxE/ZzwU+I=;
+ b=OspOGafCWmjnLI4mOgppf+pUGqVWTcGb4joVLsEH27IoktTw5grXcsc8h670pcXlxhJe8dff5NnZqwAAe3/FlF4A1iWBY3CiM1LyoCCff/6kgkrCC/L+IPJE4tcWFoLtXRC+h3/Tqr9FtdxWnEEtcmplHvjdq8TbCzsJQzK8nRyh1mArVL2dq8wrjQnIg80NjdWh+Kb7pzo+HRZF9udBI6VDDN7cHtwThJv61TUlGp7CSHPe29pfe9m/RVY07sgDbHXHWm/ApiC3ONWcwSV68SDIfI66OMkVCr1re52t/6tXOIyjLZazO2Mry5eejVKXbCdz7tUlQj2OGPgNwcTTDA==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5062.namprd12.prod.outlook.com (2603:10b6:208:313::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Mon, 14 Jun
+ 2021 12:35:20 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::3d51:a3b9:8611:684e]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::3d51:a3b9:8611:684e%7]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
+ 12:35:20 +0000
+Date:   Mon, 14 Jun 2021 09:35:19 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Cornelia Huck <cohuck@redhat.com>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 06/10] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
+Message-ID: <20210614123519.GF1002214@nvidia.com>
+References: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
+ <87czsszi9i.fsf@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87czsszi9i.fsf@redhat.com>
+X-Originating-IP: [47.55.113.94]
+X-ClientProxiedBy: MN2PR11CA0018.namprd11.prod.outlook.com
+ (2603:10b6:208:23b::23) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
- <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net> <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
- <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net> <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
- <20210612202505.GG68208@worktop.programming.kicks-ass.net>
- <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
- <YMca2aa+t+3VrpN9@hirez.programming.kicks-ass.net> <CAGG=3QVPCuAx9UMTOzQp+8MJk8KVyOfaYeV0yehpVwbCaYMVpg@mail.gmail.com>
- <YMczJGPsxSWNgJMG@hirez.programming.kicks-ass.net>
-In-Reply-To: <YMczJGPsxSWNgJMG@hirez.programming.kicks-ass.net>
-From:   Bill Wendling <morbo@google.com>
-Date:   Mon, 14 Jun 2021 04:43:24 -0700
-Message-ID: <CAGG=3QW9W0H-FUt2bCAf2EbRqNa5bXv5-RqYCc8guKX=4C1KPA@mail.gmail.com>
-Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        andreyknvl@gmail.com, dvyukov@google.com, elver@google.com,
-        johannes.berg@intel.com, oberpar@linux.vnet.ibm.com,
-        linux-toolchains@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (47.55.113.94) by MN2PR11CA0018.namprd11.prod.outlook.com (2603:10b6:208:23b::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Mon, 14 Jun 2021 12:35:20 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lsloF-006bV0-AN; Mon, 14 Jun 2021 09:35:19 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 440c66ce-493f-4a3b-b36d-08d92f30df63
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5062:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5062C7178F276E2D49DFEA52C2319@BL1PR12MB5062.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pOBNgkY3H7TCi2Wf1Hc9OByZnup2/jHPIMUrYBedkFZuzSILp6qt7HOrrcBQM0B8sbURXCU+IGLiPtL8HDff6CZOlNWopdKEWpnAJ4wWhlCtgwSG+pMXyK1WKWOpP9mcZqkV0labkFaJ5u+iub4wt0JbYwjeZan8Hk9DgiPCJN4pOpnx+QJkOG2VpB7P2FrASt3PyiZv8TXIA+9vEbNtOYmpUAk0M0GBuIDjHrsUiYzZ/+FPDvj3ePC1nibv0uHj4uXCOkuQKQmpWkUwRXE17KOI/nwuA3rFVWmS9+b1T/9Pn0zPglNlyIR4WDQu062e6Rn/gxbm0/DzBC058c57xw/i5r6liSsz1lEBA3wpsX6iCiF6AoFO9U0qMsoda5lK0c3qrTi2WwoBTQsYnBqzpGL04/HyyaijnbYmX5zTCSW2WAB1v0ysmtd+AaedhE0+tz42JfH95FqQvCBGN01o5ah1UF9tgxNQ6nMc16B25GG/DlsriMB2wR35qJLngIlci80kQsy8OsCcl3jktmHsT21XlYQvHCoi4WYSikSJc7LvMv4oZ6KzlAtLCJedsagyZIcO4cL8b5EOpjmSpITeRC4fsk/+3/v8iBdWyKkZnkg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(26005)(54906003)(38100700002)(7416002)(478600001)(1076003)(5660300002)(2906002)(186003)(110136005)(316002)(9746002)(9786002)(66946007)(86362001)(66556008)(66476007)(4326008)(2616005)(8936002)(8676002)(426003)(33656002)(36756003)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/EPXrdp5hIgF+IpWyc3+63FGVz7onYnAAcehTGg6TcpRRWdgzy6xbhbG1v9L?=
+ =?us-ascii?Q?CizF/yxOOLIdTeXB+LXqGNarLJRGPBJTrUt/vs4ycmB0xr9R2lEM2oX4Y0yu?=
+ =?us-ascii?Q?8o7FXkduvxKpqJUC7Cs4WQdsR26aoNeC9qdm9ebLUueLDz/BWBc4xpkcGYVh?=
+ =?us-ascii?Q?C7xmjC4zQz+V/qd82wHRGuLLuNXV1HmJWin6U2s1Oh+FLsOnOiwENc3IYJq0?=
+ =?us-ascii?Q?nZnGY2TGEp93bif+aor6GnCrEu8HV24xVsfdG8uvIB4w7z6DtpRieuEk3O1V?=
+ =?us-ascii?Q?6nFx3tyrxLoE2TD55uvdNntIM3o5hMMv76FYOno0M6j9xuTdTqAAN2VI4h3+?=
+ =?us-ascii?Q?2VuT0pzqu1Smf+mgaX1AU3pVBuSZxQ0oPq1Ol4N8pVWlLYRCdGWKSvYjcJBr?=
+ =?us-ascii?Q?q1e1L04xGYT7vPe1So0VZZk5RfdDzacTNWR7BnKTM+8GY8cy3e1tgaPTs7Mz?=
+ =?us-ascii?Q?JZ0jt2NixLAlhmpltDLI540UbJfyAhjc8PsBcI+rtkLO/tVJdJ03dlS45cyG?=
+ =?us-ascii?Q?DmDeqiYgbNQWulH7fjMrH8VcQxqCweUWe59WyTzIg+8hzFGZa+UjjHXgltEe?=
+ =?us-ascii?Q?MyYwVo2MBa72+ojBGahJj4vP46Gwtm3I+VrCRUsbKQyXKIOzDiyiOHaibQrh?=
+ =?us-ascii?Q?1V4A+fheRxlbFzSTQtky9hojLz/mIqr6M4Q0SeO/VTSggzzqs6cO62jXHNFJ?=
+ =?us-ascii?Q?ilkj3+tpSXT/9A+7bv14crzx+bx/UwOO+34VdTdMkaqh+Laov/njSrZQJ/6s?=
+ =?us-ascii?Q?R6KUHdG12LkLilsC5nQsZ85F3ams7fRWKx9/qdGkHYMXsQm7fQi0jH45USDZ?=
+ =?us-ascii?Q?xf6YtS/jfjs4AgHeWuwh+qulI3gGkmBoqO6txeaJV+VRJSjX5bwx+NPdDiPz?=
+ =?us-ascii?Q?jLYhNAbyigoOWcAyu2pVWHCepWmp4FRJrPQUxPFd7KxICLbCHwRvV0xQ6uaL?=
+ =?us-ascii?Q?S3FDZPMlG/HUZcOuT9ZPLMi2gCr8LxL7/C1vEqXM2T0xSv+fwxZPlk+hDfLE?=
+ =?us-ascii?Q?1XfRAGR56nfiZt72J9U6haAvPrxZMqA/A8vaCqgcfbZws+6E8p9vr3mW+gtz?=
+ =?us-ascii?Q?y9QPQ5fAVBcuzBciU4Aa3hiTUR4rm536hLHkSX/qBv8Rz+BceHi6KG2Y69qu?=
+ =?us-ascii?Q?dqMtvxFJI3OBEOk05nVb5Kn0zL75vmxP1jhF095dbFYbLcpbXeAXTZuCz1tJ?=
+ =?us-ascii?Q?WtS7rvqTMD/jJqDqiGbKA0CzQZwCA9TXRk7MRq6DFZav04f/Ttp0KzvxW4hE?=
+ =?us-ascii?Q?brCFxyCTTg/OwWEUNLsF5UtaIzeirSXguO/5oGA8QjWmM9Rpe1qT4XYhv20j?=
+ =?us-ascii?Q?xWSn4V3oNML2oLyIGfCbcoXo?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 440c66ce-493f-4a3b-b36d-08d92f30df63
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 12:35:20.4943
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MkQEsu3mdmWXm+E1boqrHRoMOGTz8Om3AHM+y1zYKAY1VO78lLmeLHAjyAdkQP9+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5062
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 3:45 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> On Mon, Jun 14, 2021 at 02:39:41AM -0700, Bill Wendling wrote:
-> > On Mon, Jun 14, 2021 at 2:01 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > > I understand that the compilers actually generates radically different
-> > > instrumentation for the various cases, but essentially they're all
-> > > collecting (function/branch) arcs.
-> > >
-> > That's true, but there's no one format for profiling data that's
-> > usable between all compilers. I'm not even sure there's a good way to
-> > translate between, say, gcov and llvm's format. To make matters more
-> > complicated, each compiler's format is tightly coupled to a specific
-> > version of that compiler. And depending on *how* the data is collected
-> > (e.g. sampling or instrumentation), it may not give us the full
-> > benefit of FDO/PGO.
->
-> I'm thinking that something simple like:
->
-> struct arc {
->         u64     from;
->         u64     to;
->         u64     nr;
->         u64     cntrs[0];
-> };
->
-> goes a very long way. Stick a header on that says how large cntrs[] is,
-> and some other data (like load offset and whatnot) and you should be
-> good.
->
-> Combine that with the executable image (say /proc/kcore) to recover
-> what's @from (call, jmp or conditional branch) and I'm thinking one
-> ought to be able to construct lots of useful data.
->
-> I've also been led to believe that the KCOV data format is not in fact
-> dependent on which toolchain is used.
->
-Awesome! I await your RFC on both the gcc and clang mailing lists.
+On Fri, Jun 11, 2021 at 02:40:41PM +0200, Cornelia Huck wrote:
+> On Mon, Jun 07 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+> 
+> > For some reason the vfio_mdev shim mdev_driver has its own module and
+> > kconfig. As the next patch requires access to it from mdev.ko merge the
+> > two modules together and remove VFIO_MDEV_DEVICE.
+> >
+> > A later patch deletes this driver entirely.
+> >
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> >  Documentation/s390/vfio-ap.rst   |  1 -
+> >  arch/s390/Kconfig                |  2 +-
+> >  drivers/gpu/drm/i915/Kconfig     |  2 +-
+> >  drivers/vfio/mdev/Kconfig        |  7 -------
+> >  drivers/vfio/mdev/Makefile       |  3 +--
+> >  drivers/vfio/mdev/mdev_core.c    | 16 ++++++++++++++--
+> >  drivers/vfio/mdev/mdev_private.h |  2 ++
+> >  drivers/vfio/mdev/vfio_mdev.c    | 24 +-----------------------
+> >  samples/Kconfig                  |  6 +++---
+> >  9 files changed, 23 insertions(+), 40 deletions(-)
+> 
+> I think you missed my earlier
+> 
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
--bw
+Yes, my mistake, I didn't think there were any tags in the v1 posting
 
-> > > I'm thinking it might be about time to build _one_ infrastructure for
-> > > that and define a kernel arc format and call it a day.
-> > >
-> > That may be nice, but it's a rather large request.
->
-> Given GCOV just died, perhaps you can look at what KCOV does and see if
-> that can be extended to do as you want. KCOV is actively used and
-> we actually tripped over all the fun little noinstr bugs at the time.
+Thanks,
+Jason
