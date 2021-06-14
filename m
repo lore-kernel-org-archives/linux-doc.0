@@ -2,203 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD394C48BE8
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 21:14:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDE88C48BE6
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 21:41:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85DA661356
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 21:14:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEBB361242
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 21:41:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233920AbhFNVQQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 17:16:16 -0400
-Received: from mga04.intel.com ([192.55.52.120]:8972 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230081AbhFNVQQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jun 2021 17:16:16 -0400
-IronPort-SDR: jYHdijB1pxm3717zC9F5Xs2MOugIatvU4FVzsK/E6D5ww/rjGf+KFf7N5gGVaKWZv1/pYkGZq0
- jsCt+bA4JfTg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="204050250"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
-   d="scan'208";a="204050250"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2021 14:14:12 -0700
-IronPort-SDR: NFW8qtjUYqYWseSbnCoCikGqjRvUznLEb1OFBCCTBYwzAqw/46Q7e2lY1LGM+JdEg5vTgQ/hdt
- XXSys/Tg0YUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
-   d="scan'208";a="487534730"
-Received: from gupta-dev2.jf.intel.com (HELO gupta-dev2.localdomain) ([10.54.74.119])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Jun 2021 14:14:11 -0700
-Date:   Mon, 14 Jun 2021 14:14:25 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kyung Min Park <kyung.min.park@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Victor Ding <victording@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Anand K Mistry <amistry@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org
-Subject: [PATCH v2 3/3] x86/tsx: Clear CPUID bits when TSX always force aborts
-Message-ID: <5209b3d72ffe5bd3cafdcc803f5b883f785329c3.1623704845.git-series.pawan.kumar.gupta@linux.intel.com>
-References: <cover.b592910a3829c87c83cf5605718c415c80c0c4a9.1623704845.git-series.pawan.kumar.gupta@linux.intel.com>
+        id S232630AbhFNVnR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 17:43:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229613AbhFNVnQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 17:43:16 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21A7C061574;
+        Mon, 14 Jun 2021 14:41:13 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id q25so11628729pfh.7;
+        Mon, 14 Jun 2021 14:41:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8uYjRxtO7dpbOnz1w0p+p8tt+5BlKO/GjM8j1UYITWU=;
+        b=rxyYh4BVOhTXfNAeJAnxJHtfIZSR+IFpzZ5ve/j41adnEnMSOoIlFcHv0nHL+aFMK0
+         Uh/eJeE/NZFp6DwHFLs8h+LIVAsj8YPWY7HOg9l52EqSuheS/r9oIEoruUI2/2tKorcV
+         4JRKjkiaW/50XSn3rqVc6jB/RevZ3C4cXq8BVf364EHV304Q3hNeyEa0KzpyhX9YI6FR
+         q+Hq/GS/bmTlyI0uVPOtRteKrhGuBlMI/0DYMZy87X8/2pdmQW1vgo7FsNmBw0qtpRyA
+         gRzwrtwvFfZJadtUqZe8M4806BhwfQ08JIK0qOq2DP+hmi3AlCU4TJAAvjYltf9aXM9p
+         Psgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8uYjRxtO7dpbOnz1w0p+p8tt+5BlKO/GjM8j1UYITWU=;
+        b=Xqu34AOTwws/AN58C35653Vhprp3GNeDygqfl6mzePmAaBUUglFpUIx2kzQ/jWTP7f
+         ieZ9PdG1/J71VJnyRjRxudeh9D1Ob/NALeji12rphZbS8jk1xOVumBDFawZMoDzXp+pv
+         4ws7O3FPmJ2hpGurpvaUyZA9OpPMy5swZgypzyfTkA0LIPdNgoOMI4ecZq4J5ozUb0h5
+         nQEkjI5pnRaj3KBI2b7yMksQLMCgGkyBoQfZI5vHAXsQqWrv+NT+CAdsVkztT+Ce6s2P
+         sEU626UqZmW3BtbP8I21tJNVOS9yIqY3z6heifB2hL7lvhfhPSLKqCWLRz10wBCmdR0S
+         gwkg==
+X-Gm-Message-State: AOAM530G2IuzuJmw0bwU56qhWkTeNurA194m36C2g/j60+3CRX6yk1DY
+        NNtg63erZs2znZQV1eD203ria7be6KemVg==
+X-Google-Smtp-Source: ABdhPJzxRJbkGB4i9GQuKgaxsMaXCnlbiAs2TIL+OLDqaewubC6gW0ib2Gi+kPP6luKV6yY2xeHPoA==
+X-Received: by 2002:aa7:8bd6:0:b029:2ec:7dc9:77e3 with SMTP id s22-20020aa78bd60000b02902ec7dc977e3mr980739pfd.62.1623706873100;
+        Mon, 14 Jun 2021 14:41:13 -0700 (PDT)
+Received: from kir-rhat.lan (c-76-104-243-248.hsd1.wa.comcast.net. [76.104.243.248])
+        by smtp.gmail.com with ESMTPSA id q16sm4821221pfk.209.2021.06.14.14.41.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jun 2021 14:41:12 -0700 (PDT)
+From:   Kir Kolyshkin <kolyshkin@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     tj@kernel.org, axboe@kernel.dk, paolo.valente@linaro.org,
+        cgroups@vger.kernel.org, Kir Kolyshkin <kolyshkin@gmail.com>
+Subject: [PATCH v2] docs: block/bfq: describe per-device weight
+Date:   Mon, 14 Jun 2021 14:41:09 -0700
+Message-Id: <20210614214109.207430-1-kolyshkin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <8735tlbbml.fsf@meer.lwn.net>
+References: <8735tlbbml.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cover.b592910a3829c87c83cf5605718c415c80c0c4a9.1623704845.git-series.pawan.kumar.gupta@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As a result of TSX deprecation some processors always aborts TSX
-transactions by default.
+The functionality of setting per-device weight for BFQ was added
+in v5.4 (commit 795fe54c2a828099), but the documentation was never
+updated.
 
-When TSX feature cannot be used it is better to hide it. Clear CPUID.RTM
-and CPUID.HLE bits when TSX transactions always aborts.
+While at it, improve formatting a bit.
 
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Reviewed-by: Andi Kleen <ak@linux.intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Tested-by: Neelima Krishnan <neelima.krishnan@intel.com>
+Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
 ---
- arch/x86/kernel/cpu/cpu.h   |  2 ++
- arch/x86/kernel/cpu/intel.c |  4 +++-
- arch/x86/kernel/cpu/tsx.c   | 37 +++++++++++++++++++++++++++++++++++--
- 3 files changed, 40 insertions(+), 3 deletions(-)
+ Documentation/block/bfq-iosched.rst | 38 ++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 11 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/cpu.h b/arch/x86/kernel/cpu/cpu.h
-index 67944128876d..95521302630d 100644
---- a/arch/x86/kernel/cpu/cpu.h
-+++ b/arch/x86/kernel/cpu/cpu.h
-@@ -48,6 +48,7 @@ extern const struct cpu_dev *const __x86_cpu_dev_start[],
- enum tsx_ctrl_states {
- 	TSX_CTRL_ENABLE,
- 	TSX_CTRL_DISABLE,
-+	TSX_CTRL_RTM_ALWAYS_ABORT,
- 	TSX_CTRL_NOT_SUPPORTED,
- };
+diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
+index 66c5a4e54130..df3a8a47f58c 100644
+--- a/Documentation/block/bfq-iosched.rst
++++ b/Documentation/block/bfq-iosched.rst
+@@ -553,20 +553,36 @@ throughput sustainable with bfq, because updating the blkio.bfq.*
+ stats is rather costly, especially for some of the stats enabled by
+ CONFIG_BFQ_CGROUP_DEBUG.
  
-@@ -56,6 +57,7 @@ extern __ro_after_init enum tsx_ctrl_states tsx_ctrl_state;
- extern void __init tsx_init(void);
- extern void tsx_enable(void);
- extern void tsx_disable(void);
-+extern void tsx_clear_cpuid(void);
- #else
- static inline void tsx_init(void) { }
- #endif /* CONFIG_CPU_SUP_INTEL */
-diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
-index 8adffc17fa8b..861e919eba9a 100644
---- a/arch/x86/kernel/cpu/intel.c
-+++ b/arch/x86/kernel/cpu/intel.c
-@@ -717,8 +717,10 @@ static void init_intel(struct cpuinfo_x86 *c)
+-Parameters to set
+------------------
++Parameters
++----------
  
- 	if (tsx_ctrl_state == TSX_CTRL_ENABLE)
- 		tsx_enable();
--	if (tsx_ctrl_state == TSX_CTRL_DISABLE)
-+	else if (tsx_ctrl_state == TSX_CTRL_DISABLE)
- 		tsx_disable();
-+	else if (tsx_ctrl_state == TSX_CTRL_RTM_ALWAYS_ABORT)
-+		tsx_clear_cpuid();
+-For each group, there is only the following parameter to set.
++For each group, the following parameters can be set:
  
- 	split_lock_init();
- 	bus_lock_init();
-diff --git a/arch/x86/kernel/cpu/tsx.c b/arch/x86/kernel/cpu/tsx.c
-index e2ad30e474f8..fd258a383bfc 100644
---- a/arch/x86/kernel/cpu/tsx.c
-+++ b/arch/x86/kernel/cpu/tsx.c
-@@ -2,7 +2,7 @@
- /*
-  * Intel Transactional Synchronization Extensions (TSX) control.
-  *
-- * Copyright (C) 2019 Intel Corporation
-+ * Copyright (C) 2019-2021 Intel Corporation
-  *
-  * Author:
-  *	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-@@ -84,13 +84,46 @@ static enum tsx_ctrl_states x86_get_tsx_auto_mode(void)
- 	return TSX_CTRL_ENABLE;
- }
+-weight (namely blkio.bfq.weight or io.bfq-weight): the weight of the
+-group inside its parent. Available values: 1..1000 (default 100). The
+-linear mapping between ioprio and weights, described at the beginning
+-of the tunable section, is still valid, but all weights higher than
+-IOPRIO_BE_NR*10 are mapped to ioprio 0.
++  weight
++        This specifies the default weight for the cgroup inside its parent.
++        Available values: 1..1000 (default: 100).
  
-+void tsx_clear_cpuid(void)
-+{
-+	u64 msr;
+-Recall that, if low-latency is set, then BFQ automatically raises the
+-weight of the queues associated with interactive and soft real-time
+-applications. Unset this tunable if you need/want to control weights.
++        For cgroup v1, it is set by writing the value to `blkio.bfq.weight`.
 +
-+	/*
-+	 * MSR_TFA_TSX_CPUID_CLEAR bit is only present when both CPUID bits
-+	 * RTM_ALWAYS_ABORT and TSX_FORCE_ABORT are present.
-+	 */
-+	if (boot_cpu_has(X86_FEATURE_RTM_ALWAYS_ABORT) &&
-+	    boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT)) {
-+		rdmsrl(MSR_TSX_FORCE_ABORT, msr);
-+		msr |= MSR_TFA_TSX_CPUID_CLEAR;
-+		wrmsrl(MSR_TSX_FORCE_ABORT, msr);
-+	}
-+}
++        For cgroup v2, it is set by writing the value to `io.bfq.weight`.
++        (with an optional prefix of `default` and a space).
 +
- void __init tsx_init(void)
- {
- 	char arg[5] = {};
- 	int ret;
- 
--	if (!tsx_ctrl_is_supported())
-+	/*
-+	 * Hardware will always abort a TSX transaction if both CPUID bits
-+	 * RTM_ALWAYS_ABORT and TSX_FORCE_ABORT are set.  In this case it is
-+	 * better not to enumerate CPUID.RTM and CPUID.HLE bits. Clear them
-+	 * here.
-+	 */
-+	if (boot_cpu_has(X86_FEATURE_RTM_ALWAYS_ABORT) &&
-+	    boot_cpu_has(X86_FEATURE_TSX_FORCE_ABORT)) {
-+		tsx_ctrl_state = TSX_CTRL_RTM_ALWAYS_ABORT;
-+		tsx_clear_cpuid();
-+		setup_clear_cpu_cap(X86_FEATURE_RTM);
-+		setup_clear_cpu_cap(X86_FEATURE_HLE);
- 		return;
-+	}
++        The linear mapping between ioprio and weights, described at the beginning
++        of the tunable section, is still valid, but all weights higher than
++        IOPRIO_BE_NR*10 are mapped to ioprio 0.
 +
-+	if (!tsx_ctrl_is_supported()) {
-+		tsx_ctrl_state = TSX_CTRL_NOT_SUPPORTED;
-+		return;
-+	}
++        Recall that, if low-latency is set, then BFQ automatically raises the
++        weight of the queues associated with interactive and soft real-time
++        applications. Unset this tunable if you need/want to control weights.
++
++  weight_device
++        This specifies a per-device weight for the cgroup. The syntax is
++        `minor:major weight`. A weight of `0` may be used to reset to the default
++        weight.
++
++        For cgroup v1, it is set by writing the value to `blkio.bfq.weight_device`.
++
++        For cgroup v2, the file name is `io.bfq.weight`.
  
- 	ret = cmdline_find_option(boot_command_line, "tsx", arg, sizeof(arg));
- 	if (ret >= 0) {
+ 
+ [1]
 -- 
-git-series 0.9.1
+2.31.1
 
