@@ -2,133 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF1AC48BDF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 01:09:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 897F9C48BE6
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 06:48:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28E9F611CE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 01:09:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BC0361370
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 06:48:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232244AbhFNBL7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Jun 2021 21:11:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51354 "EHLO
+        id S232380AbhFNGuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 02:50:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232212AbhFNBL6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jun 2021 21:11:58 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F30D6C061574;
-        Sun, 13 Jun 2021 18:09:41 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id y15so9337602pfl.4;
-        Sun, 13 Jun 2021 18:09:41 -0700 (PDT)
+        with ESMTP id S232096AbhFNGuX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 02:50:23 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A7BC061574;
+        Sun, 13 Jun 2021 23:48:08 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id c124so37430479qkd.8;
+        Sun, 13 Jun 2021 23:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lfTRNFalgvE8W3BaBubJpxlJYdBX6Ni/M9RnLGhDGdg=;
-        b=giJUOc64A/HReLaviyDuLGgkjEioiHD2twGRkxCH2mil9TuqvPeHO8TPDcMQ3LUbT7
-         xJA7Jozne4xmbp/w3x68hJ/5VyG/u/3TfbBTeRqEuU335lR7KTMDYoRDIDGaIm/28JMO
-         fzI6R38pdIBZo6Xv3uU13gxuzQvLcEMMlfekdSOe2HOk6wSR3ZzG55RYaVaKCD/3xRWT
-         WNiFFUleWT83HkijsPXrc6vgjgkz+XOzeQRY6wEYN6bMKtBR51hLBcTHZwWVsrZdBSKU
-         1tVH1T4KDxLoyBk1RFZ/6ZHd7OVBi1vN6jI96lGEGNU5bhzlKiy2958fW2BSQQun3pug
-         fbnw==
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=VXB3sDXLr2J/PWK7WC7SwWZiu5cXaiPOgPfes8Vb4PQ=;
+        b=YqooeYuGVGMWri5CwsoSuuJ76S7ucjYYkrw1F+lKGb2apzv7HWD1YGN+KRK1TQqU/5
+         85LGFATx5csHIBSyxrZc9qASUL4slKeAA87q4O3ORBGgBwS2KzJSUL42KWqpfQpbv36v
+         9cK2PJJ/ZBAF32D0hsoCvT6CWkOlHYnQUDZ1qsFezOCR58YFUAeoKoQWKEbWfVm2vGiL
+         WpVNn4nv2iTQGK9PFzvMRLm6sVEFOGRXOS34FgBdt2+InfHUshMQOc2pWcP1CDMyvBpT
+         sMw1cSYM0JsWf5KO9UpuXLkBUVo0A3C0RheFQWqQ424dmDME6VybSQkVlA8cEB2n83PW
+         5ojQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lfTRNFalgvE8W3BaBubJpxlJYdBX6Ni/M9RnLGhDGdg=;
-        b=qMjS+567kRE8ath1u7eGUexIjbIJeNUvdj3Snq+g15E0YxQ0RP5d6fUX8/A4PZAutd
-         qITZ0tqWE3pVJRAFDnsZ41sLMlrR7yAS6zWORc2w2L9xeKjqdBUe6aLH5S08o1q6t7va
-         HAZxedVroTPZC7LB4s9u/fDpxyWY3CwudN5oqyvcE94UqcKVzwKoGWfA60sGmZqmturC
-         /KOCuQR9TIdNQ6El5RfvabxuSed061/XlZ0u7Bn+c0HkW59KmVOyHK1/zHzSL/rmId1N
-         ot+Gvk/kNgc1gV9T5QDwLrboc1DpFLbbzh5w0KsxHAcsK3D174in0dHcJ+biTFH9Zqds
-         zyPg==
-X-Gm-Message-State: AOAM531oEryIDIO4OeS58hi3FCeDwh5Ngdnr03eOqTBFlkzelp5jNHlJ
-        HQ0+nEe/va12zqskVsir+64=
-X-Google-Smtp-Source: ABdhPJyXxemMmvRcWWFjy/8zrZR5cT5hqRdDgziWJi6fwTFTllyV7zTq3nilU3KOGZZEE747GyXaig==
-X-Received: by 2002:a63:5f46:: with SMTP id t67mr14925506pgb.37.1623632980544;
-        Sun, 13 Jun 2021 18:09:40 -0700 (PDT)
-Received: from mail.google.com ([141.164.41.4])
-        by smtp.gmail.com with ESMTPSA id t1sm10303269pjs.20.2021.06.13.18.09.33
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=VXB3sDXLr2J/PWK7WC7SwWZiu5cXaiPOgPfes8Vb4PQ=;
+        b=W0gXlY9piYN9wr3z9JttwuWZm9my4izmya2F3svxg4CI7/py9dU4XLp6Y9Ldhjr7xo
+         JpymTswcxU63xKCShjEkCD836XcVEiShLlv6TWYhXMkkrIU9YUyt+BbHh2yIQpwuuD27
+         xNB6cTvoxV06fcSaK2aTcve9CvzLOI6XmdH69Jupf2pgnRwtPQuuesRLSEiIvi4piYQu
+         2SfIdPoKQWjvS82q8/9YIXAJFk7BqCCU5ggPV+Y44N9aVAjq8OoYRZxhFLFyV5MUVtMb
+         AeeiX/N0yf4xOCPxCAxim8+vjng/mjtP61xi5MnJj6Ee2MILU94mQUJm1Sgl0PTCY/fI
+         aDSQ==
+X-Gm-Message-State: AOAM5337BKtMl+GNLcK0PI56Rdl/ILgF3BaP+D3pBr9bSOsamp0vNPew
+        EqWLU9LYMKdAYlDFZ68X1dA=
+X-Google-Smtp-Source: ABdhPJxkXE+S9KhgTAdMqh79idvZVqNV9wmabFXT7bYaNYhhiBrZAwd/l8BcWyDTEzBSv2hco3jOcQ==
+X-Received: by 2002:a37:6409:: with SMTP id y9mr7716148qkb.18.1623653286874;
+        Sun, 13 Jun 2021 23:48:06 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id h68sm9625254qkf.126.2021.06.13.23.48.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 18:09:39 -0700 (PDT)
-Date:   Mon, 14 Jun 2021 09:09:29 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Changbin Du <changbin.du@gmail.com>,
-        Eric Van Hensbergen <ericvh@gmail.com>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        kbuild-all@lists.01.org, Jonathan Corbet <corbet@lwn.net>,
+        Sun, 13 Jun 2021 23:48:06 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     sieberf@amazon.com
+Cc:     sj38.park@gmail.com, Jonathan.Cameron@Huawei.com, acme@kernel.org,
+        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
+        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
+        guoju.fgj@alibaba-inc.com, linux-damon@amazon.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        v9fs-developer@lists.sourceforge.net,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Subject: Re: [PATCH v3 1/3] 9p: add support for root file systems
-Message-ID: <20210614010929.mwvmpdy3dv7k2xnh@mail.google.com>
-References: <20210606230922.77268-2-changbin.du@gmail.com>
- <202106070913.SLIBAxBQ-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202106070913.SLIBAxBQ-lkp@intel.com>
+        linux-mm@kvack.org, mgorman@suse.de, minchan@kernel.org,
+        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
+        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
+        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
+        sjpark@amazon.de, snu@amazon.de, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, zgf574564920@gmail.com
+Subject: Re: [PATCH v29 07/13] mm/damon: Implement a debugfs-based user space interface
+Date:   Mon, 14 Jun 2021 06:48:00 +0000
+Message-Id: <20210614064800.14606-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <e8687948-649f-348f-e4d6-2175b1c47551@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 07, 2021 at 09:06:54AM +0800, kernel test robot wrote:
-> Hi Changbin,
+Thank you for the comments!
+
+On Fri, 11 Jun 2021 20:59:04 +0200 <sieberf@amazon.com> wrote:
+
+> + Returns non-empty string on success, negarive error code otherwise.
 > 
-> I love your patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on lwn/docs-next]
-> [also build test WARNING on linus/master v5.13-rc5 next-20210604]
-> [cannot apply to v9fs/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Changbin-Du/9p-add-support-for-root-file-systems/20210607-071229
-> base:   git://git.lwn.net/linux-2.6 docs-next
-> config: arm-allyesconfig (attached as .config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/96098f751038703cc0fda4f018236d240a86930d
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Changbin-Du/9p-add-support-for-root-file-systems/20210607-071229
->         git checkout 96098f751038703cc0fda4f018236d240a86930d
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=arm 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> fs/9p/v9fsroot.c:53:12: warning: no previous prototype for 'v9fs_root_data' [-Wmissing-prototypes]
->       53 | int __init v9fs_root_data(char **dev, char **opts)
->          |            ^~~~~~~~~~~~~~
->
-This just follows the existing rootfs support manner. This function doesn't have
-a dedicated header file to place. So I think we can ignore this warning.
+> Nit: typo, 'negarive'
+
+Good catch!  I will fix this in the next spin.
 
 > 
-> vim +/v9fs_root_data +53 fs/9p/v9fsroot.c
 > 
->     52	
->   > 53	int __init v9fs_root_data(char **dev, char **opts)
+> +    if (ctx->kdamond) {
+> +        if (targetid_is_pid(ctx))
+> +            dbgfs_put_pids(targets, nr_targets);
+> +        ret = -EBUSY;
+> +        goto unlock_out;
 > 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> I don't understand this block, what does EBUSY mean in this context?
+
+That means DAMON is busy because someone already requested running the
+monitoring context.  So, the user will be able to wait a little bit and try
+later, or try to figure out who requested the monitoring.
+
+> 
+> +    if (sscanf(kbuf, "%s", kbuf) != 1) {
+> +        kfree(kbuf);
+> +        return -EINVAL;
+> +    }
+> 
+> Nit, this diverts from other patterns use elsewhere where error 
+> conditions that need to free memory use a goto label.
+
+I want to use 'goto' only if it makes the code shorter and easier to read.  In
+this case, this is the only one case that could use the 'goto' statement.  And,
+this part would still be two lines like below:
+
+    if (sscanf(kbuf, "%s", kbuf) != 1) {
+    	ret = -EINVAL;
+    	goto out;
+    }
+
+Meanwhile, to use the 'goto', we would need to add the label below, so we will
+only add one more line.  Therefore, I think using 'goto' here doesn't really
+reduce the lines of code or make it easier to read.
+
+So, if you don't care, I'd like to use current code as is.
+
+If I missed something, please let me know.
 
 
-
--- 
-Cheers,
-Changbin Du
+Thanks,
+SeongJae Park
