@@ -2,104 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61922C2B9F4
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 21:04:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD397C2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 21:11:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47457611C0
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 21:04:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A33A2611EE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 21:11:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234622AbhFNVGv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 17:06:51 -0400
-Received: from mail-il1-f171.google.com ([209.85.166.171]:33521 "EHLO
-        mail-il1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbhFNVGv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 17:06:51 -0400
-Received: by mail-il1-f171.google.com with SMTP id z1so13490209ils.0;
-        Mon, 14 Jun 2021 14:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VJNQ58fPboxZ6jLtS5aQ6QCEiZ6o7j6B3BgLz2sHkSM=;
-        b=jytBZoPzlATDFMDIFjt7KaYNYb/uYZCnhJ7EWRXHvrQL+Ii3byJsNKC6frIvaHdRXk
-         oJwTaBTgUnuNRDmW3Up2IaEgEqWxBBHo9tYAofgt3D5l3qC+rvpwejcjd5D5PbZdBZC9
-         6XcP6JxaC+mGGgPAplTn/Fejv/Pxv9qf0MZ9miinWTKxHo6VjPwZzTNj7y41YarKjvqU
-         H0XF86RFYkZnNiDNWHOSWsPF6NT8LZIA7rEosPk9jIt2kRY7n7r4NvLoa91vqVLSNRsr
-         JWEFzmz+clsUDhUk7IcyOsJX0sIzszmHUKUQPRg08bJGeGqghAiysXRWYuy33rBvlbp2
-         l1kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VJNQ58fPboxZ6jLtS5aQ6QCEiZ6o7j6B3BgLz2sHkSM=;
-        b=GpC9/vmjOqscu2qUcRYM/N9jceBX428Z6iCmj2M8jhiCvJolyWUi5gUpkpzxfdKUEf
-         Dq3V1ZWkD6xzXQ5lEYzgsphJ9je/HnAH852mgx7GrNDZUaz5F+rFkgL20z74wB7NhIV0
-         +vemTs2/y76yVr85Acogu2jqXh031A8vbDiZ/gESOpPVybie2XcrrabKJikRTnhFFSoi
-         3KX/MG4DGRNRb6fK7HdCtxtuFSZxdnpO6u1wyj2xtQzUvwanZ259Z2CNhw8V+uNJ4I08
-         pk9fM3JMqOU1k9ZktdoSUM4ysKCLK0xYUNDMrixgSQMx2pQEmukyYLuGzKO3qrONqwtL
-         dUMA==
-X-Gm-Message-State: AOAM531wXgcPlpKCFWKpaDQBXMSpaLpq9aSwzylzJ48l/lGbURuN7Hc7
-        g7nkmd3W1Gqat4Ub/kr0UfcsJFwA6299IfCo640=
-X-Google-Smtp-Source: ABdhPJzwvda5SXMbfHUHexiSMnbxUgDHhxs6BEet88P/7VmPx2rqwkwdXBT9dK/yVsp2iFjPmpdQ0V5QiHKMhGxReHo=
-X-Received: by 2002:a05:6e02:de7:: with SMTP id m7mr14686188ilj.70.1623704628103;
- Mon, 14 Jun 2021 14:03:48 -0700 (PDT)
+        id S234254AbhFNVNO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 17:13:14 -0400
+Received: from mga03.intel.com ([134.134.136.65]:25529 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233920AbhFNVNN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jun 2021 17:13:13 -0400
+IronPort-SDR: 0AXDrIy49w2eJvugQexQoMvt0FyiGPjR/Ws7rEaXGBerGGUqZquKHC40P0Yb74fxAPkhFWlqO1
+ KjYfiay9VmtA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205912953"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
+   d="scan'208";a="205912953"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2021 14:11:08 -0700
+IronPort-SDR: sAqXJHJZlKjI+aulJ9ns1ke13lR6LlBdA3eSWPXWSl9zh2sUb1QEyrH+uaS+L/hGeVaT1M9mIz
+ tueBnYyRw8pQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
+   d="scan'208";a="451719735"
+Received: from gupta-dev2.jf.intel.com (HELO gupta-dev2.localdomain) ([10.54.74.119])
+  by fmsmga008.fm.intel.com with ESMTP; 14 Jun 2021 14:11:07 -0700
+Date:   Mon, 14 Jun 2021 14:11:21 -0700
+From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Tony Luck <tony.luck@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kyung Min Park <kyung.min.park@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Juergen Gross <jgross@suse.com>,
+        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
+        Kan Liang <kan.liang@linux.intel.com>,
+        Joerg Roedel <jroedel@suse.de>,
+        Victor Ding <victording@google.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Anand K Mistry <amistry@google.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org
+Subject: [PATCH v2 0/3] TSX force abort
+Message-ID: <cover.b592910a3829c87c83cf5605718c415c80c0c4a9.1623704845.git-series.pawan.kumar.gupta@linux.intel.com>
 MIME-Version: 1.0
-References: <20210611030737.1984343-1-kolyshkin@gmail.com> <20210611030737.1984343-2-kolyshkin@gmail.com>
- <8735tlbbml.fsf@meer.lwn.net>
-In-Reply-To: <8735tlbbml.fsf@meer.lwn.net>
-From:   Kirill Kolyshkin <kolyshkin@gmail.com>
-Date:   Mon, 14 Jun 2021 14:03:37 -0700
-Message-ID: <CAGmPdrzudz1xS_NaQASbNMbV-uPOq=d9VfBfYNBafEaP8YesGw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] docs: block/bfq: describe per-device weight
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, tj@kernel.org, axboe@kernel.dk,
-        paolo.valente@linaro.org, cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 13, 2021 at 4:14 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Kir Kolyshkin <kolyshkin@gmail.com> writes:
->
-> This work looks generally good, but...
->
-> > The functionality of setting per-device weight for BFQ was added
-> > in v5.4 (commit 795fe54c2a828099), but the documentation was never
-> > updated.
-> >
-> > While at it, improve formatting a bit.
-> >
-> > Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
-> > ---
-> >  Documentation/block/bfq-iosched.rst | 38 ++++++++++++++++++++---------
-> >  1 file changed, 27 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
-> > index 66c5a4e54130..7200152c461e 100644
-> > --- a/Documentation/block/bfq-iosched.rst
-> > +++ b/Documentation/block/bfq-iosched.rst
-> > @@ -553,20 +553,36 @@ throughput sustainable with bfq, because updating the blkio.bfq.*
-> >  stats is rather costly, especially for some of the stats enabled by
-> >  CONFIG_BFQ_CGROUP_DEBUG.
-> >
-> > -Parameters to set
-> > ------------------
-> > +Parameters
-> > +----------
-> >
-> > -For each group, there is only the following parameter to set.
-> > +For each group, the following parameters cat be set:
->
-> Could we please not introduce new typos while fixing other stuff?
+v1->v2:
+- Avoid Reading TSX_FORCE_ABORT MSR for detecting new microcode.
+- In tsx_init() move force abort detection before cmdline parsing.
+- Drop tsx=fake patch, not enough use cases to justify the patch.
+- Rebase to v5.13-rc6.
 
-Are you a dog person? :)
+Introduction
+============
+On some Intel processors [1] a microcode update will always abort
+Transactional Synchronization Extensions (TSX) transactions by default. These
+CPUs were previously affected by the TSX memory ordering issue [2]. A
+workaround was earlier added to perf related to memory ordering which is no
+longer required(because TSX is defeatured on these systems). This series adds
+support for new bits added to TSX_FORCE_ABORT MSR and CPUID to enumerate new
+abort behavior and to bypass the workaround.
 
-Thanks for catching this, corrected patch sent.
+Roadmap to this series
+======================
+
+0001:	Define new CPUID and MSR bits that are added by the microcode update.
+	(The new CPUID.RTM_ALWAYS_ABORT is not shown in /proc/cpuinfo)
+
+0002:	When new microcode is enumerated bypass perf counter workaround for [1].
+	Perf workaround is no longer required after the microcode update.
+
+0003:	Clear CPUID.RTM and CPUID.HLE when TSX is defeatured, so that software
+	does not enumerate and try to use TSX.
+
+Thanks,
+Pawan
+
+[1] Intel® TSX Memory and Performance Monitoring Update for Intel® Processors
+    https://www.intel.com/content/www/us/en/support/articles/000059422/processors.html
+
+[2] Performance Monitoring Impact of Intel® Transactional Synchronization Extension Memory
+    http://cdrdv2.intel.com/v1/dl/getContent/604224 (Document ID 604224)
+
+Pawan Gupta (3):
+  x86/msr: Define new bits in TSX_FORCE_ABORT MSR
+  perf/x86/intel: Do not deploy workaround when TSX is deprecated
+  x86/tsx: Clear CPUID bits when TSX always force aborts
+
+ arch/x86/events/intel/core.c       | 10 +++++++-
+ arch/x86/include/asm/cpufeatures.h |  1 +-
+ arch/x86/include/asm/msr-index.h   |  4 +++-
+ arch/x86/kernel/cpu/cpu.h          |  2 ++-
+ arch/x86/kernel/cpu/intel.c        |  4 ++-
+ arch/x86/kernel/cpu/tsx.c          | 37 +++++++++++++++++++++++++++++--
+ 6 files changed, 54 insertions(+), 4 deletions(-)
+
+base-commit: 009c9aa5be652675a06d5211e1640e02bbb1c33d
+-- 
+git-series 0.9.1
+
