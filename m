@@ -2,133 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 897F9C48BE6
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 06:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC59AC48BE8
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 07:27:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BC0361370
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 06:48:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE4F2613C3
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 07:27:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232380AbhFNGuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 02:50:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39382 "EHLO
+        id S232499AbhFNH3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 03:29:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232096AbhFNGuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 02:50:23 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A7BC061574;
-        Sun, 13 Jun 2021 23:48:08 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id c124so37430479qkd.8;
-        Sun, 13 Jun 2021 23:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=VXB3sDXLr2J/PWK7WC7SwWZiu5cXaiPOgPfes8Vb4PQ=;
-        b=YqooeYuGVGMWri5CwsoSuuJ76S7ucjYYkrw1F+lKGb2apzv7HWD1YGN+KRK1TQqU/5
-         85LGFATx5csHIBSyxrZc9qASUL4slKeAA87q4O3ORBGgBwS2KzJSUL42KWqpfQpbv36v
-         9cK2PJJ/ZBAF32D0hsoCvT6CWkOlHYnQUDZ1qsFezOCR58YFUAeoKoQWKEbWfVm2vGiL
-         WpVNn4nv2iTQGK9PFzvMRLm6sVEFOGRXOS34FgBdt2+InfHUshMQOc2pWcP1CDMyvBpT
-         sMw1cSYM0JsWf5KO9UpuXLkBUVo0A3C0RheFQWqQ424dmDME6VybSQkVlA8cEB2n83PW
-         5ojQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=VXB3sDXLr2J/PWK7WC7SwWZiu5cXaiPOgPfes8Vb4PQ=;
-        b=W0gXlY9piYN9wr3z9JttwuWZm9my4izmya2F3svxg4CI7/py9dU4XLp6Y9Ldhjr7xo
-         JpymTswcxU63xKCShjEkCD836XcVEiShLlv6TWYhXMkkrIU9YUyt+BbHh2yIQpwuuD27
-         xNB6cTvoxV06fcSaK2aTcve9CvzLOI6XmdH69Jupf2pgnRwtPQuuesRLSEiIvi4piYQu
-         2SfIdPoKQWjvS82q8/9YIXAJFk7BqCCU5ggPV+Y44N9aVAjq8OoYRZxhFLFyV5MUVtMb
-         AeeiX/N0yf4xOCPxCAxim8+vjng/mjtP61xi5MnJj6Ee2MILU94mQUJm1Sgl0PTCY/fI
-         aDSQ==
-X-Gm-Message-State: AOAM5337BKtMl+GNLcK0PI56Rdl/ILgF3BaP+D3pBr9bSOsamp0vNPew
-        EqWLU9LYMKdAYlDFZ68X1dA=
-X-Google-Smtp-Source: ABdhPJxkXE+S9KhgTAdMqh79idvZVqNV9wmabFXT7bYaNYhhiBrZAwd/l8BcWyDTEzBSv2hco3jOcQ==
-X-Received: by 2002:a37:6409:: with SMTP id y9mr7716148qkb.18.1623653286874;
-        Sun, 13 Jun 2021 23:48:06 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id h68sm9625254qkf.126.2021.06.13.23.48.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 23:48:06 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     sieberf@amazon.com
-Cc:     sj38.park@gmail.com, Jonathan.Cameron@Huawei.com, acme@kernel.org,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
-        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
-        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
-        guoju.fgj@alibaba-inc.com, linux-damon@amazon.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, mgorman@suse.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
-        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
-        sjpark@amazon.de, snu@amazon.de, vbabka@suse.cz,
-        vdavydov.dev@gmail.com, zgf574564920@gmail.com
-Subject: Re: [PATCH v29 07/13] mm/damon: Implement a debugfs-based user space interface
-Date:   Mon, 14 Jun 2021 06:48:00 +0000
-Message-Id: <20210614064800.14606-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <e8687948-649f-348f-e4d6-2175b1c47551@amazon.com>
+        with ESMTP id S232424AbhFNH3Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 03:29:24 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F08C061574;
+        Mon, 14 Jun 2021 00:27:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=RFxOuHI4HohFWWV5SWYx/4jgD+FqKhoJgHZnSbUGbMM=; b=sFnSirnXkFYrG2487iuseueld5
+        nRvFcqT0tB3TOO7gc6/O9vlq0hcj3PCQUR13cobQCAsOU1mDV1jj3WYpN9LtEYpsy+QihcHKbVn6e
+        u0ilvYTfC+qtMyDccp4p5Y5+oTlDbyWQkI3fI/GIHBJTiCdltttUPVUUHEELAysmkTMthcN1W8MsN
+        CzLiWTJiM23l9IUJUDZL1NhEOBk39y+igQqsUCwh7C+8nkGhPzs56uAnSbJ8uyl1Aqyn61r24F+8w
+        mfz6/PE8PqT0KCPyE+BSQDifh6Q8e1AlcKS/qZs9z0Aa8VmwH9w9HtI+XfHUx5chneF58aqVQsnS1
+        43Yz42aA==;
+Received: from ip5f5ad4bb.dynamic.kabel-deutschland.de ([95.90.212.187] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lsh05-00CsRd-QY; Mon, 14 Jun 2021 07:27:14 +0000
+Date:   Mon, 14 Jun 2021 09:27:06 +0200
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
+        ~lkcamp/patches@lists.sr.ht
+Subject: Re: [RFC PATCH 1/2] docs: automarkup.py: Add literal markup of
+ known constants
+Message-ID: <20210614092706.341f8177@coco.lan>
+In-Reply-To: <874ke1bbo6.fsf@meer.lwn.net>
+References: <20210609014308.234027-1-n@nfraprado.net>
+        <20210609014308.234027-2-n@nfraprado.net>
+        <20210609101102.2a97b2dd@coco.lan>
+        <874ke1bbo6.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thank you for the comments!
+Em Sun, 13 Jun 2021 17:13:45 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-On Fri, 11 Jun 2021 20:59:04 +0200 <sieberf@amazon.com> wrote:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>=20
+> > It sounds a nightmare to maintain this by hand, as a list of used
+> > constants will only grow. IMO, an explicit list should be kept only to
+> > with the absolute minimum, e.g. for highly-used constants that aren't
+> > error codes nor FOO_BAR. The only case that occurs to me that fits=20
+> > on this rule is 'NULL'. =20
+>=20
+> This is my concern as well.  It seems to me like we would always have a
+> situation where some constants are magically marked up and others
+> aren't, and people will spend a lot of time trying to figure out why.
 
-> + Returns non-empty string on success, negarive error code otherwise.
-> 
-> Nit: typo, 'negarive'
+Yeah, people wasting their time trying to fix it doesn't sound
+good.
 
-Good catch!  I will fix this in the next spin.
+>=20
+> Might it not be better to just adopt the convention that these constants
+> don't need to be marked up at all?  NULL is entirely understandable even
+> when presented in a proportional font.  Seems like maybe the best of
+> both worlds?
 
-> 
-> 
-> +    if (ctx->kdamond) {
-> +        if (targetid_is_pid(ctx))
-> +            dbgfs_put_pids(targets, nr_targets);
-> +        ret = -EBUSY;
-> +        goto unlock_out;
-> 
-> I don't understand this block, what does EBUSY mean in this context?
+I doubt we'll have a consensus here. IMO it is a lot easier for the
+reader to have constants displayed on a different way. I guess other
+developers may have similar opinions, while others won't care or would
+think otherwise ;-)
 
-That means DAMON is busy because someone already requested running the
-monitoring context.  So, the user will be able to wait a little bit and try
-later, or try to figure out who requested the monitoring.
+Granted, the ones who care could always explicitly add ``FOO`` at
+the rst file (we do that on media, as this was imported from our
+old docbooks - and we try to preserve it on newer symbols), but I bet
+that people will still do things like: "FOO", 'FOO' or =E2=80=98FOO=E2=80=
+=99 in order
+to distinguish at least some of them.
 
-> 
-> +    if (sscanf(kbuf, "%s", kbuf) != 1) {
-> +        kfree(kbuf);
-> +        return -EINVAL;
-> +    }
-> 
-> Nit, this diverts from other patterns use elsewhere where error 
-> conditions that need to free memory use a goto label.
+So, if we want consistency, I can see only two alternatives:
 
-I want to use 'goto' only if it makes the code shorter and easier to read.  In
-this case, this is the only one case that could use the 'goto' statement.  And,
-this part would still be two lines like below:
+- a treewide patchset manually replacing the conts;
+- use automarkup.py.=20
 
-    if (sscanf(kbuf, "%s", kbuf) != 1) {
-    	ret = -EINVAL;
-    	goto out;
-    }
+IMO, the latter is better. We can also agree that there won't be
+an agreement, and keep as is ;-)
 
-Meanwhile, to use the 'goto', we would need to add the label below, so we will
-only add one more line.  Therefore, I think using 'goto' here doesn't really
-reduce the lines of code or make it easier to read.
+-
 
-So, if you don't care, I'd like to use current code as is.
+Assuming that this would be addressed by automarkup.py, there are
+3 cases that automarkup.py can identify without much efforts:
 
-If I missed something, please let me know.
+1. uppercases with underscore;
+2. error codes: Easy to parse the errno files and get the codes at
+   runtme;
+3. NULL.
 
+Dealing with the remaining cases, however, are a lot more complex, as
+documents may have:
+
+4. Simple uppercase texts:
+
+	THIS README FILE IS PROVIDED BY ADAPTEC AND CONTRIBUTORS ``AS IS`` AND
+	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, ANY
+	...
+	FILE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+	(this one is at Documentation/scsi/aic79xx.rst, but there are=20
+         other variants of similar licensing style texts on other places)
+
+5. uppercase acronyms, like DIMM, RAM, etc;
+
+6. names of boards, manufacturers, etc;
+
+7. syscalls, like:
+
+	SIOCDEVPRIVATE
+	SIOCETHTOOL
+	SIOCGHWTSTAMP
+	...
+
+8. other constants
+
+It should also be noticed that some files use uppercase letters for
+variables like "A", "B" and "C". On those, using a different font
+would make a lot easier for the readers.
+
+It sounds to me that one size doesn't fit all. I can't see a
+way to address it on a way that it would make easy to maintain
+while keeping it fully transparent.
+
+Maybe there's one alternative: automarkup could gain support to read
+extra files with non-treewide regex rules.
+
+For instance, a Documentation/foo/.automarkup could contain extra
+regex rules for the files under Documentation/foo/.
+Another possibility would be to have a ".. automarkup_file" tag.
+
+This way, (1), (2) and (3) would be handled automatically,
+treewide, but things like sockios.h (SIO* ioctls) would be there
+only for network, for instance, using some file with the extra
+regexes for automarkup stored under Documentation/networking.
+
+Not sure how hard/easy would be to implement it, nor if one
+directory can/should inherit extra regexes from its parent,
+but, at a first glance, this seems to be a way to go.
 
 Thanks,
-SeongJae Park
+Mauro
