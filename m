@@ -2,564 +2,270 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA772C49EC9
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:09:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14888C4743C
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:24:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8FA7561360
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:09:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7E4C613D9
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:24:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233178AbhFNPLh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 11:11:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232958AbhFNPLh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 11:11:37 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675A7C061766;
-        Mon, 14 Jun 2021 08:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=tSo9Hpl+FIjggQ0Eg4B6IaldlQiHETlG3jF8lV9bDUk=; b=JpF1dIQx9W6rry1ZBYIt4gzqEe
-        +sfkd3WlEozBliuAO0u5ZqqMd6y21bxhOgqaVtCBMTxKLaSihsExvu6p3hswMf5iuBDGa4b0AiLLE
-        4UcqPvitcQmYpdZuZtiZaNfWmfSwbY/CD2SQkSOPEA76ZQp2AMslRGt7/yBROBRuEjye0MDyHt8uu
-        0jpi+3TtLHqj93uTl9SPxYTo46YFaPzinChh76eNZCDxATWjdM+uKn5OwOitSCW1ftea8C+cdfzP6
-        mQ/80+3klKQ85dwmksArh3h9uhHzL6PpckO2Bd/DPBcfyiQ5hA+++hM/PGqDoBPnCnRaUznbMgxON
-        nUTDaa9Q==;
-Received: from [2001:4bb8:19b:fdce:4b1a:b4aa:22d8:1629] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lsoDK-00EfrF-CM; Mon, 14 Jun 2021 15:09:23 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Kirti Wankhede <kwankhede@nvidia.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        id S232938AbhFNP0T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 11:26:19 -0400
+Received: from foss.arm.com ([217.140.110.172]:38608 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232809AbhFNP0S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jun 2021 11:26:18 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8044C11D4;
+        Mon, 14 Jun 2021 08:24:15 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4005A3F793;
+        Mon, 14 Jun 2021 08:24:15 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+        id E51D5682B70; Mon, 14 Jun 2021 16:24:13 +0100 (BST)
+Date:   Mon, 14 Jun 2021 16:24:13 +0100
+From:   Liviu Dudau <liviu.dudau@arm.com>
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     Simon Ser <contact@emersion.fr>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Steven Price <steven.price@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alison Wang <alison.wang@nxp.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Huang Rui <ray.huang@amd.com>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH 10/10] vfio/mbochs: Convert to use vfio_register_group_dev()
-Date:   Mon, 14 Jun 2021 17:08:46 +0200
-Message-Id: <20210614150846.4111871-11-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210614150846.4111871-1-hch@lst.de>
-References: <20210614150846.4111871-1-hch@lst.de>
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+ <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+ <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+ <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+ <20210614174912.15a49336@eldfell>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210614174912.15a49336@eldfell>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jason Gunthorpe <jgg@nvidia.com>
+On Mon, Jun 14, 2021 at 05:49:12PM +0300, Pekka Paalanen wrote:
+> On Fri, 11 Jun 2021 13:03:09 +0100
+> Liviu Dudau <liviu.dudau@arm.com> wrote:
+> 
+> > On Fri, Jun 11, 2021 at 08:14:59AM +0000, Simon Ser wrote:
+> > > On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > >   
+> > > > If there's a strong consensus that we really need this then I'm not
+> > > > going to nack this, but this really needs a pile of acks from
+> > > > compositor folks that they're willing to live with the resulting
+> > > > fallout this will likely bring. Your cc list seems to have an absence
+> > > > of compositor folks, but instead every driver maintainer. That's
+> > > > backwards. We make uapi for userspace, not for kernel driver
+> > > > maintainers!  
+> > > 
+> > > In wlroots we have a policy of only allowing standard KMS properties to
+> > > be used. Any vendor-specific property is going to be less well-defined,
+> > > less widely useful, potentially have more design issues, potentially
+> > > overlap in functionality with other vendor-specific properties, likely
+> > > have some hardware-specific assumptions, etc.
+> > > 
+> > > What matters here is discussing with other driver & user-space folks to
+> > > make sure the new property's design is sound. Designing uAPI is hard.
+> > > 
+> > > If kernel folks are struggling with a user-space implementation, they
+> > > should discuss with user-space folks to see which project would be
+> > > interested. There's a chance a compositor will be interested in the new
+> > > property and will just do the user-space part for you, if not we can
+> > > suggest candidate projects.
+> > > 
+> > > tl;dr strong agree with Daniel here.  
+> > 
+> > I think the assumption you and Daniel are making is that the first implementation of
+> > a new KMS property can be made standard from day one and that it will work for any
+> > late comer driver as is, without having to make changes to its behaviour in a
+> > significant way. In my experience that is not the case.
+> > 
+> > I think we have moved from the times when we were trying to implement in the Linux
+> > world features that were available in the hardware but needed a kernel and userspace
+> > API. The set of properties that exist in KMS cover a lot of needed functionality and
+> > I don't expect to see new properties for stuff that is already supported by hardware.
+> > 
+> > What I'm expected to see in the future is new functionality that gets implemented by
+> > one hardware vendor and the kernel developers trying to enable that for userspace. It
+> > could be that the new property is generic, but there is no way of testing that on
+> > more than one implementation yet, so I'd say we are generous calling it "standard
+> > property". When the second or third hardware vendor comes along and starts supporting
+> > that property with their own set of extra requirements, then we can call it
+> > "standard".
+> 
+> I agree that is a problem with trying to make generic anything. But it
+> does not mean you should not even try. Maybe trying really hard saves a
+> couple revisions.
 
-This is straightforward conversion, the mdev_state is actually serving as
-the vfio_device and we can replace all the mdev_get_drvdata()'s and the
-wonky dead code with a simple container_of().
+Agree.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- samples/vfio-mdev/mbochs.c | 163 +++++++++++++++++++++----------------
- 1 file changed, 91 insertions(+), 72 deletions(-)
+> 
+> What I think should be planned for is revisions. How to add new
+> properties that do the same thing but better, while documenting that a
+> userspace KMS client can use only one revision at a time. You never
+> remove old revisions, unless maybe with a DRM client cap they
+> could disappear from that file description if that is necessary for
+> seeing the new revision.
+> 
+> While designing this, one also needs to take into account that KMS
+> clients need to be able to save and restore properties *they do not
+> understand*. So exposing two revisions of the same feature
+> simultaneously would break save/restore is that's an error.
 
-diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
-index 881ef9a7296f..6c0f229db36a 100644
---- a/samples/vfio-mdev/mbochs.c
-+++ b/samples/vfio-mdev/mbochs.c
-@@ -130,6 +130,7 @@ static struct class	*mbochs_class;
- static struct cdev	mbochs_cdev;
- static struct device	mbochs_dev;
- static int		mbochs_used_mbytes;
-+static const struct vfio_device_ops mbochs_dev_ops;
- 
- struct vfio_region_info_ext {
- 	struct vfio_region_info          base;
-@@ -160,6 +161,7 @@ struct mbochs_dmabuf {
- 
- /* State of each mdev device */
- struct mdev_state {
-+	struct vfio_device vdev;
- 	u8 *vconfig;
- 	u64 bar_mask[3];
- 	u32 memory_bar_mask;
-@@ -425,11 +427,9 @@ static void handle_edid_blob(struct mdev_state *mdev_state, u16 offset,
- 		memcpy(buf, mdev_state->edid_blob + offset, count);
- }
- 
--static ssize_t mdev_access(struct mdev_device *mdev, char *buf, size_t count,
--			   loff_t pos, bool is_write)
-+static ssize_t mdev_access(struct mdev_state *mdev_state, char *buf,
-+			   size_t count, loff_t pos, bool is_write)
- {
--	struct mdev_state *mdev_state = mdev_get_drvdata(mdev);
--	struct device *dev = mdev_dev(mdev);
- 	struct page *pg;
- 	loff_t poff;
- 	char *map;
-@@ -478,7 +478,7 @@ static ssize_t mdev_access(struct mdev_device *mdev, char *buf, size_t count,
- 		put_page(pg);
- 
- 	} else {
--		dev_dbg(dev, "%s: %s @0x%llx (unhandled)\n",
-+		dev_dbg(mdev_state->vdev.dev, "%s: %s @0x%llx (unhandled)\n",
- 			__func__, is_write ? "WR" : "RD", pos);
- 		ret = -1;
- 		goto accessfailed;
-@@ -493,9 +493,8 @@ static ssize_t mdev_access(struct mdev_device *mdev, char *buf, size_t count,
- 	return ret;
- }
- 
--static int mbochs_reset(struct mdev_device *mdev)
-+static int mbochs_reset(struct mdev_state *mdev_state)
- {
--	struct mdev_state *mdev_state = mdev_get_drvdata(mdev);
- 	u32 size64k = mdev_state->memsize / (64 * 1024);
- 	int i;
- 
-@@ -506,12 +505,13 @@ static int mbochs_reset(struct mdev_device *mdev)
- 	return 0;
- }
- 
--static int mbochs_create(struct mdev_device *mdev)
-+static int mbochs_probe(struct mdev_device *mdev)
- {
- 	const struct mbochs_type *type =
- 		&mbochs_types[mdev_get_type_group_id(mdev)];
- 	struct device *dev = mdev_dev(mdev);
- 	struct mdev_state *mdev_state;
-+	int ret = -ENOMEM;
- 
- 	if (type->mbytes + mbochs_used_mbytes > max_mbytes)
- 		return -ENOMEM;
-@@ -519,6 +519,7 @@ static int mbochs_create(struct mdev_device *mdev)
- 	mdev_state = kzalloc(sizeof(struct mdev_state), GFP_KERNEL);
- 	if (mdev_state == NULL)
- 		return -ENOMEM;
-+	vfio_init_group_dev(&mdev_state->vdev, &mdev->dev, &mbochs_dev_ops);
- 
- 	mdev_state->vconfig = kzalloc(MBOCHS_CONFIG_SPACE_SIZE, GFP_KERNEL);
- 	if (mdev_state->vconfig == NULL)
-@@ -537,7 +538,6 @@ static int mbochs_create(struct mdev_device *mdev)
- 
- 	mutex_init(&mdev_state->ops_lock);
- 	mdev_state->mdev = mdev;
--	mdev_set_drvdata(mdev, mdev_state);
- 	INIT_LIST_HEAD(&mdev_state->dmabufs);
- 	mdev_state->next_id = 1;
- 
-@@ -547,32 +547,38 @@ static int mbochs_create(struct mdev_device *mdev)
- 	mdev_state->edid_regs.edid_offset = MBOCHS_EDID_BLOB_OFFSET;
- 	mdev_state->edid_regs.edid_max_size = sizeof(mdev_state->edid_blob);
- 	mbochs_create_config_space(mdev_state);
--	mbochs_reset(mdev);
-+	mbochs_reset(mdev_state);
- 
- 	mbochs_used_mbytes += type->mbytes;
-+
-+	ret = vfio_register_group_dev(&mdev_state->vdev);
-+	if (ret)
-+		goto err_mem;
-+	dev_set_drvdata(&mdev->dev, mdev_state);
- 	return 0;
- 
- err_mem:
- 	kfree(mdev_state->vconfig);
- 	kfree(mdev_state);
--	return -ENOMEM;
-+	return ret;
- }
- 
--static int mbochs_remove(struct mdev_device *mdev)
-+static void mbochs_remove(struct mdev_device *mdev)
- {
--	struct mdev_state *mdev_state = mdev_get_drvdata(mdev);
-+	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
- 
- 	mbochs_used_mbytes -= mdev_state->type->mbytes;
--	mdev_set_drvdata(mdev, NULL);
-+	vfio_unregister_group_dev(&mdev_state->vdev);
- 	kfree(mdev_state->pages);
- 	kfree(mdev_state->vconfig);
- 	kfree(mdev_state);
--	return 0;
- }
- 
--static ssize_t mbochs_read(struct mdev_device *mdev, char __user *buf,
-+static ssize_t mbochs_read(struct vfio_device *vdev, char __user *buf,
- 			   size_t count, loff_t *ppos)
- {
-+	struct mdev_state *mdev_state =
-+		container_of(vdev, struct mdev_state, vdev);
- 	unsigned int done = 0;
- 	int ret;
- 
-@@ -582,7 +588,7 @@ static ssize_t mbochs_read(struct mdev_device *mdev, char __user *buf,
- 		if (count >= 4 && !(*ppos % 4)) {
- 			u32 val;
- 
--			ret =  mdev_access(mdev, (char *)&val, sizeof(val),
-+			ret =  mdev_access(mdev_state, (char *)&val, sizeof(val),
- 					   *ppos, false);
- 			if (ret <= 0)
- 				goto read_err;
-@@ -594,7 +600,7 @@ static ssize_t mbochs_read(struct mdev_device *mdev, char __user *buf,
- 		} else if (count >= 2 && !(*ppos % 2)) {
- 			u16 val;
- 
--			ret = mdev_access(mdev, (char *)&val, sizeof(val),
-+			ret = mdev_access(mdev_state, (char *)&val, sizeof(val),
- 					  *ppos, false);
- 			if (ret <= 0)
- 				goto read_err;
-@@ -606,7 +612,7 @@ static ssize_t mbochs_read(struct mdev_device *mdev, char __user *buf,
- 		} else {
- 			u8 val;
- 
--			ret = mdev_access(mdev, (char *)&val, sizeof(val),
-+			ret = mdev_access(mdev_state, (char *)&val, sizeof(val),
- 					  *ppos, false);
- 			if (ret <= 0)
- 				goto read_err;
-@@ -629,9 +635,11 @@ static ssize_t mbochs_read(struct mdev_device *mdev, char __user *buf,
- 	return -EFAULT;
- }
- 
--static ssize_t mbochs_write(struct mdev_device *mdev, const char __user *buf,
-+static ssize_t mbochs_write(struct vfio_device *vdev, const char __user *buf,
- 			    size_t count, loff_t *ppos)
- {
-+	struct mdev_state *mdev_state =
-+		container_of(vdev, struct mdev_state, vdev);
- 	unsigned int done = 0;
- 	int ret;
- 
-@@ -644,7 +652,7 @@ static ssize_t mbochs_write(struct mdev_device *mdev, const char __user *buf,
- 			if (copy_from_user(&val, buf, sizeof(val)))
- 				goto write_err;
- 
--			ret = mdev_access(mdev, (char *)&val, sizeof(val),
-+			ret = mdev_access(mdev_state, (char *)&val, sizeof(val),
- 					  *ppos, true);
- 			if (ret <= 0)
- 				goto write_err;
-@@ -656,7 +664,7 @@ static ssize_t mbochs_write(struct mdev_device *mdev, const char __user *buf,
- 			if (copy_from_user(&val, buf, sizeof(val)))
- 				goto write_err;
- 
--			ret = mdev_access(mdev, (char *)&val, sizeof(val),
-+			ret = mdev_access(mdev_state, (char *)&val, sizeof(val),
- 					  *ppos, true);
- 			if (ret <= 0)
- 				goto write_err;
-@@ -668,7 +676,7 @@ static ssize_t mbochs_write(struct mdev_device *mdev, const char __user *buf,
- 			if (copy_from_user(&val, buf, sizeof(val)))
- 				goto write_err;
- 
--			ret = mdev_access(mdev, (char *)&val, sizeof(val),
-+			ret = mdev_access(mdev_state, (char *)&val, sizeof(val),
- 					  *ppos, true);
- 			if (ret <= 0)
- 				goto write_err;
-@@ -754,9 +762,10 @@ static const struct vm_operations_struct mbochs_region_vm_ops = {
- 	.fault = mbochs_region_vm_fault,
- };
- 
--static int mbochs_mmap(struct mdev_device *mdev, struct vm_area_struct *vma)
-+static int mbochs_mmap(struct vfio_device *vdev, struct vm_area_struct *vma)
- {
--	struct mdev_state *mdev_state = mdev_get_drvdata(mdev);
-+	struct mdev_state *mdev_state =
-+		container_of(vdev, struct mdev_state, vdev);
- 
- 	if (vma->vm_pgoff != MBOCHS_MEMORY_BAR_OFFSET >> PAGE_SHIFT)
- 		return -EINVAL;
-@@ -963,7 +972,7 @@ mbochs_dmabuf_find_by_id(struct mdev_state *mdev_state, u32 id)
- static int mbochs_dmabuf_export(struct mbochs_dmabuf *dmabuf)
- {
- 	struct mdev_state *mdev_state = dmabuf->mdev_state;
--	struct device *dev = mdev_dev(mdev_state->mdev);
-+	struct device *dev = mdev_state->vdev.dev;
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
- 	struct dma_buf *buf;
- 
-@@ -991,15 +1000,10 @@ static int mbochs_dmabuf_export(struct mbochs_dmabuf *dmabuf)
- 	return 0;
- }
- 
--static int mbochs_get_region_info(struct mdev_device *mdev,
-+static int mbochs_get_region_info(struct mdev_state *mdev_state,
- 				  struct vfio_region_info_ext *ext)
- {
- 	struct vfio_region_info *region_info = &ext->base;
--	struct mdev_state *mdev_state;
--
--	mdev_state = mdev_get_drvdata(mdev);
--	if (!mdev_state)
--		return -EINVAL;
- 
- 	if (region_info->index >= MBOCHS_NUM_REGIONS)
- 		return -EINVAL;
-@@ -1047,15 +1051,13 @@ static int mbochs_get_region_info(struct mdev_device *mdev,
- 	return 0;
- }
- 
--static int mbochs_get_irq_info(struct mdev_device *mdev,
--			       struct vfio_irq_info *irq_info)
-+static int mbochs_get_irq_info(struct vfio_irq_info *irq_info)
- {
- 	irq_info->count = 0;
- 	return 0;
- }
- 
--static int mbochs_get_device_info(struct mdev_device *mdev,
--				  struct vfio_device_info *dev_info)
-+static int mbochs_get_device_info(struct vfio_device_info *dev_info)
- {
- 	dev_info->flags = VFIO_DEVICE_FLAGS_PCI;
- 	dev_info->num_regions = MBOCHS_NUM_REGIONS;
-@@ -1063,11 +1065,9 @@ static int mbochs_get_device_info(struct mdev_device *mdev,
- 	return 0;
- }
- 
--static int mbochs_query_gfx_plane(struct mdev_device *mdev,
-+static int mbochs_query_gfx_plane(struct mdev_state *mdev_state,
- 				  struct vfio_device_gfx_plane_info *plane)
- {
--	struct mdev_state *mdev_state = mdev_get_drvdata(mdev);
--	struct device *dev = mdev_dev(mdev);
- 	struct mbochs_dmabuf *dmabuf;
- 	struct mbochs_mode mode;
- 	int ret;
-@@ -1121,18 +1121,16 @@ static int mbochs_query_gfx_plane(struct mdev_device *mdev,
- done:
- 	if (plane->drm_plane_type == DRM_PLANE_TYPE_PRIMARY &&
- 	    mdev_state->active_id != plane->dmabuf_id) {
--		dev_dbg(dev, "%s: primary: %d => %d\n", __func__,
--			mdev_state->active_id, plane->dmabuf_id);
-+		dev_dbg(mdev_state->vdev.dev, "%s: primary: %d => %d\n",
-+			__func__, mdev_state->active_id, plane->dmabuf_id);
- 		mdev_state->active_id = plane->dmabuf_id;
- 	}
- 	mutex_unlock(&mdev_state->ops_lock);
- 	return 0;
- }
- 
--static int mbochs_get_gfx_dmabuf(struct mdev_device *mdev,
--				 u32 id)
-+static int mbochs_get_gfx_dmabuf(struct mdev_state *mdev_state, u32 id)
- {
--	struct mdev_state *mdev_state = mdev_get_drvdata(mdev);
- 	struct mbochs_dmabuf *dmabuf;
- 
- 	mutex_lock(&mdev_state->ops_lock);
-@@ -1154,9 +1152,11 @@ static int mbochs_get_gfx_dmabuf(struct mdev_device *mdev,
- 	return dma_buf_fd(dmabuf->buf, 0);
- }
- 
--static long mbochs_ioctl(struct mdev_device *mdev, unsigned int cmd,
--			unsigned long arg)
-+static long mbochs_ioctl(struct vfio_device *vdev, unsigned int cmd,
-+			 unsigned long arg)
- {
-+	struct mdev_state *mdev_state =
-+		container_of(vdev, struct mdev_state, vdev);
- 	int ret = 0;
- 	unsigned long minsz, outsz;
- 
-@@ -1173,7 +1173,7 @@ static long mbochs_ioctl(struct mdev_device *mdev, unsigned int cmd,
- 		if (info.argsz < minsz)
- 			return -EINVAL;
- 
--		ret = mbochs_get_device_info(mdev, &info);
-+		ret = mbochs_get_device_info(&info);
- 		if (ret)
- 			return ret;
- 
-@@ -1197,7 +1197,7 @@ static long mbochs_ioctl(struct mdev_device *mdev, unsigned int cmd,
- 		if (outsz > sizeof(info))
- 			return -EINVAL;
- 
--		ret = mbochs_get_region_info(mdev, &info);
-+		ret = mbochs_get_region_info(mdev_state, &info);
- 		if (ret)
- 			return ret;
- 
-@@ -1220,7 +1220,7 @@ static long mbochs_ioctl(struct mdev_device *mdev, unsigned int cmd,
- 		    (info.index >= VFIO_PCI_NUM_IRQS))
- 			return -EINVAL;
- 
--		ret = mbochs_get_irq_info(mdev, &info);
-+		ret = mbochs_get_irq_info(&info);
- 		if (ret)
- 			return ret;
- 
-@@ -1243,7 +1243,7 @@ static long mbochs_ioctl(struct mdev_device *mdev, unsigned int cmd,
- 		if (plane.argsz < minsz)
- 			return -EINVAL;
- 
--		ret = mbochs_query_gfx_plane(mdev, &plane);
-+		ret = mbochs_query_gfx_plane(mdev_state, &plane);
- 		if (ret)
- 			return ret;
- 
-@@ -1260,19 +1260,19 @@ static long mbochs_ioctl(struct mdev_device *mdev, unsigned int cmd,
- 		if (get_user(dmabuf_id, (__u32 __user *)arg))
- 			return -EFAULT;
- 
--		return mbochs_get_gfx_dmabuf(mdev, dmabuf_id);
-+		return mbochs_get_gfx_dmabuf(mdev_state, dmabuf_id);
- 	}
- 
- 	case VFIO_DEVICE_SET_IRQS:
- 		return -EINVAL;
- 
- 	case VFIO_DEVICE_RESET:
--		return mbochs_reset(mdev);
-+		return mbochs_reset(mdev_state);
- 	}
- 	return -ENOTTY;
- }
- 
--static int mbochs_open(struct mdev_device *mdev)
-+static int mbochs_open(struct vfio_device *vdev)
- {
- 	if (!try_module_get(THIS_MODULE))
- 		return -ENODEV;
-@@ -1280,9 +1280,10 @@ static int mbochs_open(struct mdev_device *mdev)
- 	return 0;
- }
- 
--static void mbochs_close(struct mdev_device *mdev)
-+static void mbochs_close(struct vfio_device *vdev)
- {
--	struct mdev_state *mdev_state = mdev_get_drvdata(mdev);
-+	struct mdev_state *mdev_state =
-+		container_of(vdev, struct mdev_state, vdev);
- 	struct mbochs_dmabuf *dmabuf, *tmp;
- 
- 	mutex_lock(&mdev_state->ops_lock);
-@@ -1306,8 +1307,7 @@ static ssize_t
- memory_show(struct device *dev, struct device_attribute *attr,
- 	    char *buf)
- {
--	struct mdev_device *mdev = mdev_from_dev(dev);
--	struct mdev_state *mdev_state = mdev_get_drvdata(mdev);
-+	struct mdev_state *mdev_state = dev_get_drvdata(dev);
- 
- 	return sprintf(buf, "%d MB\n", mdev_state->type->mbytes);
- }
-@@ -1398,18 +1398,30 @@ static struct attribute_group *mdev_type_groups[] = {
- 	NULL,
- };
- 
-+static const struct vfio_device_ops mbochs_dev_ops = {
-+	.open = mbochs_open,
-+	.release = mbochs_close,
-+	.read = mbochs_read,
-+	.write = mbochs_write,
-+	.ioctl = mbochs_ioctl,
-+	.mmap = mbochs_mmap,
-+};
-+
-+static struct mdev_driver mbochs_driver = {
-+	.driver = {
-+		.name = "mbochs",
-+		.owner = THIS_MODULE,
-+		.mod_name = KBUILD_MODNAME,
-+		.dev_groups = mdev_dev_groups,
-+	},
-+	.probe = mbochs_probe,
-+	.remove	= mbochs_remove,
-+};
-+
- static const struct mdev_parent_ops mdev_fops = {
- 	.owner			= THIS_MODULE,
--	.mdev_attr_groups	= mdev_dev_groups,
-+	.device_driver		= &mbochs_driver,
- 	.supported_type_groups	= mdev_type_groups,
--	.create			= mbochs_create,
--	.remove			= mbochs_remove,
--	.open			= mbochs_open,
--	.release		= mbochs_close,
--	.read			= mbochs_read,
--	.write			= mbochs_write,
--	.ioctl			= mbochs_ioctl,
--	.mmap			= mbochs_mmap,
- };
- 
- static const struct file_operations vd_fops = {
-@@ -1434,11 +1446,15 @@ static int __init mbochs_dev_init(void)
- 	cdev_add(&mbochs_cdev, mbochs_devt, MINORMASK + 1);
- 	pr_info("%s: major %d\n", __func__, MAJOR(mbochs_devt));
- 
-+	ret = mdev_register_driver(&mbochs_driver);
-+	if (ret)
-+		goto err_cdev;
-+
- 	mbochs_class = class_create(THIS_MODULE, MBOCHS_CLASS_NAME);
- 	if (IS_ERR(mbochs_class)) {
- 		pr_err("Error: failed to register mbochs_dev class\n");
- 		ret = PTR_ERR(mbochs_class);
--		goto failed1;
-+		goto err_driver;
- 	}
- 	mbochs_dev.class = mbochs_class;
- 	mbochs_dev.release = mbochs_device_release;
-@@ -1446,19 +1462,21 @@ static int __init mbochs_dev_init(void)
- 
- 	ret = device_register(&mbochs_dev);
- 	if (ret)
--		goto failed2;
-+		goto err_class;
- 
- 	ret = mdev_register_device(&mbochs_dev, &mdev_fops);
- 	if (ret)
--		goto failed3;
-+		goto err_device;
- 
- 	return 0;
- 
--failed3:
-+err_device:
- 	device_unregister(&mbochs_dev);
--failed2:
-+err_class:
- 	class_destroy(mbochs_class);
--failed1:
-+err_driver:
-+	mdev_unregister_driver(&mbochs_driver);
-+err_cdev:
- 	cdev_del(&mbochs_cdev);
- 	unregister_chrdev_region(mbochs_devt, MINORMASK + 1);
- 	return ret;
-@@ -1470,6 +1488,7 @@ static void __exit mbochs_dev_exit(void)
- 	mdev_unregister_device(&mbochs_dev);
- 
- 	device_unregister(&mbochs_dev);
-+	mdev_unregister_driver(&mbochs_driver);
- 	cdev_del(&mbochs_cdev);
- 	unregister_chrdev_region(mbochs_devt, MINORMASK + 1);
- 	class_destroy(mbochs_class);
+I quite like the idea of having versions for properties.
+
+> 
+> > Then comes the effort cost: would it be easier to start with a vendor
+> > property that only the vendor needs to support (and can submit patches into the
+> > compositors to do so) and when the standard property gets added moves to that, or
+> 
+> But you can't move, you can only add? You can't delete the old property
+> in kernel if it was ever released with a kernel and anyone used it. In
+> the same sentence you also imply that there is a user of it, so
+> removing it will break that user. Then you'll have to track the
+> userspace lifetime to figure out which decade you can try removing it.
+
+Not that I am supporting the workflow, but I was trying to address the comments that
+vendors are going to push their own userspace implementation for their vendor
+properties. If that is the case, when they switch to the standard ones they can drop
+the support in userspace for their changes. With the implied assumption that you will
+have fewer vendor implementations hence easier to make changes, KMS properties can be
+deleted if you know there is no user of them (e.g. the vendor has upgraded all their
+software to the standard property).
+
+> 
+> > should we start with a generic property that gets implemented by the compositors
+> > (maybe, but then only one vendor supports it) and then later when we actually
+> > standardise the property we will have to carry backwards compatibility code in the
+> > kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
+> > the former option to be reflected in the documentation, but I would like to hear your
+> > thoughts.
+> 
+> You have to carry the backward compatibility in all cases, right?
+> 
+> Userspace OTOH can drop support for older less supported KMS properties
+> while taking advantage of a new revision. Userspace is not required to
+> support old kernels forever.
+> 
+> 
+> Here's a wild counter-proposal off a tangent:
+> 
+> How about we make "implemented in and testable with VKMS" the rule,
+> instead of "is generic" for new properties?
+> 
+> VKMS is what compositors (will) use in CI. I would feel hugely less bad
+> about using a property that only one hardware driver ever implements,
+> if also VKMS implements it in a way that compositor CI can observe it
+> working.
+> 
+> I don't expect this proposal to be accepted, but it's food for thought.
+> The major problem for compositor projects is testing as you usually
+> don't have the hardware, IMO. CI tends to not have any hardware.
+
+While I don't dislike the proposal (I think it is quite sensible), I am worried that
+for some behaviours VKMS will implement them in a quirky way. To pick (again) the
+example of writeback, real hardware will have a way to tell if the buffer has been
+sent successfully to memory and it might take more than one refresh period, while
+VKMS (if I remember correctly) fakes it and signals the fence at the next vblank. If
+you code your compositor based on VKMS you might get unexpected artifacts on real
+hardware.
+
+Best regards,
+Liviu
+
+
+> 
+> 
+> Thanks,
+> pq
+
+
+
 -- 
-2.30.2
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
