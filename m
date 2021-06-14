@@ -2,167 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC59AC48BE8
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 07:27:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E6DC48BE6
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 07:32:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE4F2613C3
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 07:27:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CE32613C3
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 07:32:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232499AbhFNH3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 03:29:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47870 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232424AbhFNH3Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 03:29:24 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F08C061574;
-        Mon, 14 Jun 2021 00:27:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=RFxOuHI4HohFWWV5SWYx/4jgD+FqKhoJgHZnSbUGbMM=; b=sFnSirnXkFYrG2487iuseueld5
-        nRvFcqT0tB3TOO7gc6/O9vlq0hcj3PCQUR13cobQCAsOU1mDV1jj3WYpN9LtEYpsy+QihcHKbVn6e
-        u0ilvYTfC+qtMyDccp4p5Y5+oTlDbyWQkI3fI/GIHBJTiCdltttUPVUUHEELAysmkTMthcN1W8MsN
-        CzLiWTJiM23l9IUJUDZL1NhEOBk39y+igQqsUCwh7C+8nkGhPzs56uAnSbJ8uyl1Aqyn61r24F+8w
-        mfz6/PE8PqT0KCPyE+BSQDifh6Q8e1AlcKS/qZs9z0Aa8VmwH9w9HtI+XfHUx5chneF58aqVQsnS1
-        43Yz42aA==;
-Received: from ip5f5ad4bb.dynamic.kabel-deutschland.de ([95.90.212.187] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lsh05-00CsRd-QY; Mon, 14 Jun 2021 07:27:14 +0000
-Date:   Mon, 14 Jun 2021 09:27:06 +0200
-From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+        id S232475AbhFNHec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 03:34:32 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:36644 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232424AbhFNHeb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jun 2021 03:34:31 -0400
+Received: from zn.tnic (p200300ec2f09b9009f623ab99c6783e2.dip0.t-ipconnect.de [IPv6:2003:ec:2f09:b900:9f62:3ab9:9c67:83e2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 624B41EC0242;
+        Mon, 14 Jun 2021 09:32:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1623655947;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=1EYxAH3LhswslDYKCk/cMLyhmfL3MWWHQqXTdVucXDs=;
+        b=UX89MrjPChqMquHFrf+t3U1o2eaRW9LcttpriSqi4lpsSExdMJlQX05RjizxODCCVjMHQV
+        Z0tkZ/MSI1dZYWKsAYEJum0JhGEtEdxuxqLXYj8S6VvmkL6eK5IC3gBAyiP78qcNzVpN0c
+        wEGQVDQ6xI5pqd0dXOEXsaY08DcASms=
+Date:   Mon, 14 Jun 2021 09:32:18 +0200
+From:   Borislav Petkov <bp@alien8.de>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
-        ~lkcamp/patches@lists.sr.ht
-Subject: Re: [RFC PATCH 1/2] docs: automarkup.py: Add literal markup of
- known constants
-Message-ID: <20210614092706.341f8177@coco.lan>
-In-Reply-To: <874ke1bbo6.fsf@meer.lwn.net>
-References: <20210609014308.234027-1-n@nfraprado.net>
-        <20210609014308.234027-2-n@nfraprado.net>
-        <20210609101102.2a97b2dd@coco.lan>
-        <874ke1bbo6.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Cc:     Hubert Jasudowicz <hubert.jasudowicz@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: Remove references to IBM Calgary
+Message-ID: <YMcGAnwU1Amoga88@zn.tnic>
+References: <1bd2b57dd1db53df09e520b8170ff61418805de4.1623274832.git.hubert.jasudowicz@gmail.com>
+ <87h7i1bc0i.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87h7i1bc0i.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 13 Jun 2021 17:13:45 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Sun, Jun 13, 2021 at 05:06:21PM -0600, Jonathan Corbet wrote:
+> Applied, thanks.
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->=20
-> > It sounds a nightmare to maintain this by hand, as a list of used
-> > constants will only grow. IMO, an explicit list should be kept only to
-> > with the absolute minimum, e.g. for highly-used constants that aren't
-> > error codes nor FOO_BAR. The only case that occurs to me that fits=20
-> > on this rule is 'NULL'. =20
->=20
-> This is my concern as well.  It seems to me like we would always have a
-> situation where some constants are magically marked up and others
-> aren't, and people will spend a lot of time trying to figure out why.
+I took it already:
 
-Yeah, people wasting their time trying to fix it doesn't sound
-good.
+https://git.kernel.org/tip/0e5a89dbb49920cea22193044bbbfd76a9b0f458
 
->=20
-> Might it not be better to just adopt the convention that these constants
-> don't need to be marked up at all?  NULL is entirely understandable even
-> when presented in a proportional font.  Seems like maybe the best of
-> both worlds?
+You can drop yours. :-)
 
-I doubt we'll have a consensus here. IMO it is a lot easier for the
-reader to have constants displayed on a different way. I guess other
-developers may have similar opinions, while others won't care or would
-think otherwise ;-)
+Thx.
 
-Granted, the ones who care could always explicitly add ``FOO`` at
-the rst file (we do that on media, as this was imported from our
-old docbooks - and we try to preserve it on newer symbols), but I bet
-that people will still do things like: "FOO", 'FOO' or =E2=80=98FOO=E2=80=
-=99 in order
-to distinguish at least some of them.
+-- 
+Regards/Gruss,
+    Boris.
 
-So, if we want consistency, I can see only two alternatives:
-
-- a treewide patchset manually replacing the conts;
-- use automarkup.py.=20
-
-IMO, the latter is better. We can also agree that there won't be
-an agreement, and keep as is ;-)
-
--
-
-Assuming that this would be addressed by automarkup.py, there are
-3 cases that automarkup.py can identify without much efforts:
-
-1. uppercases with underscore;
-2. error codes: Easy to parse the errno files and get the codes at
-   runtme;
-3. NULL.
-
-Dealing with the remaining cases, however, are a lot more complex, as
-documents may have:
-
-4. Simple uppercase texts:
-
-	THIS README FILE IS PROVIDED BY ADAPTEC AND CONTRIBUTORS ``AS IS`` AND
-	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, ANY
-	...
-	FILE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-	(this one is at Documentation/scsi/aic79xx.rst, but there are=20
-         other variants of similar licensing style texts on other places)
-
-5. uppercase acronyms, like DIMM, RAM, etc;
-
-6. names of boards, manufacturers, etc;
-
-7. syscalls, like:
-
-	SIOCDEVPRIVATE
-	SIOCETHTOOL
-	SIOCGHWTSTAMP
-	...
-
-8. other constants
-
-It should also be noticed that some files use uppercase letters for
-variables like "A", "B" and "C". On those, using a different font
-would make a lot easier for the readers.
-
-It sounds to me that one size doesn't fit all. I can't see a
-way to address it on a way that it would make easy to maintain
-while keeping it fully transparent.
-
-Maybe there's one alternative: automarkup could gain support to read
-extra files with non-treewide regex rules.
-
-For instance, a Documentation/foo/.automarkup could contain extra
-regex rules for the files under Documentation/foo/.
-Another possibility would be to have a ".. automarkup_file" tag.
-
-This way, (1), (2) and (3) would be handled automatically,
-treewide, but things like sockios.h (SIO* ioctls) would be there
-only for network, for instance, using some file with the extra
-regexes for automarkup stored under Documentation/networking.
-
-Not sure how hard/easy would be to implement it, nor if one
-directory can/should inherit extra regexes from its parent,
-but, at a first glance, this seems to be a way to go.
-
-Thanks,
-Mauro
+https://people.kernel.org/tglx/notes-about-netiquette
