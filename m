@@ -2,126 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D212C48BE8
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:44:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B930C4743C
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:46:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2299A6120E
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:44:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32CD7613CC
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:46:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234175AbhFNPqR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 11:46:17 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:59546 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233460AbhFNPqP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 11:46:15 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 58E7D21968;
-        Mon, 14 Jun 2021 15:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1623685451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VvWPMMKGb6QeJC7xSsQXJqGHc92mzTSW08o2BVwjGkk=;
-        b=i7Q8UR245p8+LnTGqOUh2n5r+KijfyOOQjQG98On3geSI5g5WBf82Mn01cWw8Ye7TLYJon
-        2ATFXtnuWN+D5IU+h4rcC7hIear7Twqgrn9tRC9dO2FU1AaMI7J0A/q/ZwcfpcEkYBtsL/
-        69XIKjKGBgaBZ/Gib411EUnl7sio8RI=
-Received: from suse.cz (unknown [10.100.216.66])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 3FB6FA3B96;
-        Mon, 14 Jun 2021 15:44:11 +0000 (UTC)
-Date:   Mon, 14 Jun 2021 17:44:10 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Jia He <justin.he@arm.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S233482AbhFNPs7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 11:48:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45314 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233591AbhFNPsy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 11:48:54 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2777C061574;
+        Mon, 14 Jun 2021 08:46:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=QYZbYwbmFAlPHZAyueGumfXzbFC24Yyq8ZlF/TwUjkw=; b=ng9emBskU15gYywjflfBygUUYq
+        eZHcqnywd14BX7LrL+alDCm0LnySQDWq4iU5112HvNNg8M9WeWAFpHtcnCNy1m7/RAtd3uoU5kHqx
+        3n7b//QR34Ya51Ibwh7AL+Hrg5Pu9c8AXHQ1J48AC8yPEdDxiXY1NDtNuxvlJyClCAibpqq0jSpgX
+        T8ugRG9ZgSkfhlWL07cp8RL/10viIyiH/mJg0UtzLFLJJ17JbOW5q4EEFgngzlM4uWdx4u8Lf7A3m
+        l9AOVyLGrfjESKUHcACVgTEINhvOvr3+gjTRoIw3OE0eUSuUFnG5NKtzvzGFg6XQqqV5mOnWnT/Ft
+        Dh/UFbWw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lsonJ-0074ny-On; Mon, 14 Jun 2021 15:46:40 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id CF1C59831CA; Mon, 14 Jun 2021 17:46:39 +0200 (CEST)
+Date:   Mon, 14 Jun 2021 17:46:39 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Marco Elver <elver@google.com>, Bill Wendling <morbo@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFCv3 3/3] lib/test_printf: add test cases for '%pD'
-Message-ID: <YMd5StgkBINLlb8E@alley>
-References: <20210611155953.3010-1-justin.he@arm.com>
- <20210611155953.3010-4-justin.he@arm.com>
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>, johannes.berg@intel.com,
+        oberpar@linux.vnet.ibm.com, linux-toolchains@vger.kernel.org
+Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <20210614154639.GB68749@worktop.programming.kicks-ass.net>
+References: <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
+ <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
+ <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
+ <20210612202505.GG68208@worktop.programming.kicks-ass.net>
+ <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
+ <YMca2aa+t+3VrpN9@hirez.programming.kicks-ass.net>
+ <CAGG=3QVPCuAx9UMTOzQp+8MJk8KVyOfaYeV0yehpVwbCaYMVpg@mail.gmail.com>
+ <YMczJGPsxSWNgJMG@hirez.programming.kicks-ass.net>
+ <CANpmjNNnZv7DHYaJBL7knn9P+50F+SOCvis==Utaf-avENnVsw@mail.gmail.com>
+ <202106140817.F584D2F@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210611155953.3010-4-justin.he@arm.com>
+In-Reply-To: <202106140817.F584D2F@keescook>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 2021-06-11 23:59:53, Jia He wrote:
-> After the behaviour of specifier '%pD' is changed to print full path
-> of struct file, the related test cases are also updated.
+On Mon, Jun 14, 2021 at 08:26:01AM -0700, Kees Cook wrote:
+> > 2. Like (1) but also keep GCOV, given proper support for attribute
+> > no_instrument_function would probably fix it (?).
+> > 
+> > 3. Keep GCOV (and KCOV of course). Somehow extract PGO profiles from KCOV.
+> > 
+> > 4. Somehow extract PGO profiles from GCOV, or modify kernel/gcov to do so.
 > 
-> Given the string is prepended from the end of the buffer, the check
-> of "wrote beyond the nul-terminator" should be skipped.
-> 
-> Signed-off-by: Jia He <justin.he@arm.com>
-> ---
->  lib/test_printf.c | 26 +++++++++++++++++++++++++-
->  1 file changed, 25 insertions(+), 1 deletion(-)
-> 
-> diff --git a/lib/test_printf.c b/lib/test_printf.c
-> index ec0d5976bb69..3632bd6cf906 100644
-> --- a/lib/test_printf.c
-> +++ b/lib/test_printf.c
-> @@ -78,7 +80,7 @@ do_test(int bufsize, const char *expect, int elen,
->  		return 1;
->  	}
->  
-> -	if (memchr_inv(test_buffer + written + 1, FILL_CHAR, BUF_SIZE + PAD_SIZE - (written + 1))) {
-> +	if (!is_prepend_buf && memchr_inv(test_buffer + written + 1, FILL_CHAR, BUF_SIZE + PAD_SIZE - (written + 1))) {
->  		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator\n",
->  			bufsize, fmt);
->  		return 1;
-> @@ -496,6 +498,27 @@ dentry(void)
->  	test("  bravo/alfa|  bravo/alfa", "%12pd2|%*pd2", &test_dentry[2], 12, &test_dentry[2]);
->  }
->  
-> +static struct vfsmount test_vfsmnt = {};
-> +
-> +static struct file test_file __initdata = {
-> +	.f_path = { .dentry = &test_dentry[2],
-> +		    .mnt = &test_vfsmnt,
-> +	},
-> +};
-> +
-> +static void __init
-> +f_d_path(void)
-> +{
-> +	test("(null)", "%pD", NULL);
-> +	test("(efault)", "%pD", PTR_INVALID);
-> +
-> +	is_prepend_buf = true;
-> +	test("/bravo/alfa   |/bravo/alfa   ", "%-14pD|%*pD", &test_file, -14, &test_file);
-> +	test("   /bravo/alfa|   /bravo/alfa", "%14pD|%*pD", &test_file, 14, &test_file);
-> +	test("   /bravo/alfa|/bravo/alfa   ", "%14pD|%-14pD", &test_file, &test_file);
+> If there *is* a way to "combine" these, I don't think it makes sense
+> to do it now. PGO has users (and is expanding[1]), and trying to
+> optimize the design before even landing the first version seems like a
+> needless obstruction, and to likely not address currently undiscovered
+> requirements.
 
-Please, add more test for scenarios when the path does not fit into
-the buffer or when there are no limitations, ...
+Even if that were so (and I'm not yet convinced), the current proposal
+is wedded to llvm-pgo, there is no way gcc-pgo could reuse any of this
+code afaict, which then means they have to create yet another variant.
 
-I still have to think about is_prepend_buf hack.
+Sorting this *before* the first version is exactly the right time.
 
+Since when are we merging code when the requirements are not clear?
 
-> +	is_prepend_buf = false;
-> +}
-> +
->  static void __init
->  struct_va_format(void)
->  {
+Just to clarify:
 
-Best Regards,
-PEtr
+Nacked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+For all this PGO crud.
