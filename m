@@ -2,270 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14888C4743C
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:24:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F339C2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:26:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7E4C613D9
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:24:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88E2F613DE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:26:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232938AbhFNP0T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 11:26:19 -0400
-Received: from foss.arm.com ([217.140.110.172]:38608 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232809AbhFNP0S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jun 2021 11:26:18 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8044C11D4;
-        Mon, 14 Jun 2021 08:24:15 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4005A3F793;
-        Mon, 14 Jun 2021 08:24:15 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
-        id E51D5682B70; Mon, 14 Jun 2021 16:24:13 +0100 (BST)
-Date:   Mon, 14 Jun 2021 16:24:13 +0100
-From:   Liviu Dudau <liviu.dudau@arm.com>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Simon Ser <contact@emersion.fr>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Steven Price <steven.price@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alison Wang <alison.wang@nxp.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Huang Rui <ray.huang@amd.com>,
-        Yannick Fertr e <yannick.fertre@foss.st.com>,
+        id S233574AbhFNP2W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 11:28:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40544 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233550AbhFNP2S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 11:28:18 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A008CC061767
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 08:26:03 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id 22-20020a17090a0c16b0290164a5354ad0so10307799pjs.2
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 08:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Bcx1hZnVCYvsuGOQgk+jA811yV1iF9Tsc5R2/Wvf6PA=;
+        b=Y6OLntP0geemb8Nz9JjVtcKVBsdGG35jU3eYPpYS9bQJxQvbZkfcyMMlrh/HH04Y6w
+         Oe9FQP4EGgS3kf3NpY+ClRZ2aqrnbmnPAjZv6s26ReE4xY8Uw6PLmIEgvwUnINHItGv1
+         9DZJ5Y5UDiCTh8VBT3ntK5NI4YiWJcKYwKqYg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Bcx1hZnVCYvsuGOQgk+jA811yV1iF9Tsc5R2/Wvf6PA=;
+        b=YvBvLNird8xR3hOEs2QgSy6d5atfw23CjLINZsbT0WkxisupsSmQr5ZVdtCwwqHMOe
+         gpEmZTMmsG+Za41kYCAnihybdGFZcomWYy6eKQ/DuKmpR0wC3R0fYj7CMNAZB6RoZOZU
+         QWWBXz6Nr4Em5L//cEBZHcec8Ro6ZDRVwlcxzNJK49OkJZ2jtD2r5TafpOUhOAe03zOr
+         +Q1coZB2dtLZU/HpONdYdCxIdch1vZaIuAbq7xLZRnEnf5WWnKp21YZCtleTkgnaJ88h
+         aLxQVJXzdBdCBwXHUaAQXyEZ1oMqFrBT/RQZHYtrB7f8MbtyhJt5yl6aTr3aFNJKXYOe
+         ulwg==
+X-Gm-Message-State: AOAM533m7dGYwiR0AVx8PL6LZ0u7/G+uI95KGDTPRg6CMb5SrkfItzHS
+        vk7U4UmHwSErrpQ7VKLugNSeGw==
+X-Google-Smtp-Source: ABdhPJx5Kn+AoWunoG1/b1o7/X32QLfEpD4izGhpvHsO6yITGe/4DAt53UUWQHkjZd0DSnub82KSZw==
+X-Received: by 2002:a17:90b:3709:: with SMTP id mg9mr11738509pjb.47.1623684363165;
+        Mon, 14 Jun 2021 08:26:03 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id m134sm13253034pfd.148.2021.06.14.08.26.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jun 2021 08:26:02 -0700 (PDT)
+Date:   Mon, 14 Jun 2021 08:26:01 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Marco Elver <elver@google.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <morbo@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
- <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
- <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
- <20210614174912.15a49336@eldfell>
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>, johannes.berg@intel.com,
+        oberpar@linux.vnet.ibm.com, linux-toolchains@vger.kernel.org
+Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <202106140817.F584D2F@keescook>
+References: <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net>
+ <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
+ <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
+ <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
+ <20210612202505.GG68208@worktop.programming.kicks-ass.net>
+ <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
+ <YMca2aa+t+3VrpN9@hirez.programming.kicks-ass.net>
+ <CAGG=3QVPCuAx9UMTOzQp+8MJk8KVyOfaYeV0yehpVwbCaYMVpg@mail.gmail.com>
+ <YMczJGPsxSWNgJMG@hirez.programming.kicks-ass.net>
+ <CANpmjNNnZv7DHYaJBL7knn9P+50F+SOCvis==Utaf-avENnVsw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210614174912.15a49336@eldfell>
+In-Reply-To: <CANpmjNNnZv7DHYaJBL7knn9P+50F+SOCvis==Utaf-avENnVsw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 05:49:12PM +0300, Pekka Paalanen wrote:
-> On Fri, 11 Jun 2021 13:03:09 +0100
-> Liviu Dudau <liviu.dudau@arm.com> wrote:
+On Mon, Jun 14, 2021 at 04:16:16PM +0200, 'Marco Elver' via Clang Built Linux wrote:
+> On Mon, 14 Jun 2021 at 12:45, Peter Zijlstra <peterz@infradead.org> wrote:
+> [...]
+> > I've also been led to believe that the KCOV data format is not in fact
+> > dependent on which toolchain is used.
 > 
-> > On Fri, Jun 11, 2021 at 08:14:59AM +0000, Simon Ser wrote:
-> > > On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > >   
-> > > > If there's a strong consensus that we really need this then I'm not
-> > > > going to nack this, but this really needs a pile of acks from
-> > > > compositor folks that they're willing to live with the resulting
-> > > > fallout this will likely bring. Your cc list seems to have an absence
-> > > > of compositor folks, but instead every driver maintainer. That's
-> > > > backwards. We make uapi for userspace, not for kernel driver
-> > > > maintainers!  
-> > > 
-> > > In wlroots we have a policy of only allowing standard KMS properties to
-> > > be used. Any vendor-specific property is going to be less well-defined,
-> > > less widely useful, potentially have more design issues, potentially
-> > > overlap in functionality with other vendor-specific properties, likely
-> > > have some hardware-specific assumptions, etc.
-> > > 
-> > > What matters here is discussing with other driver & user-space folks to
-> > > make sure the new property's design is sound. Designing uAPI is hard.
-> > > 
-> > > If kernel folks are struggling with a user-space implementation, they
-> > > should discuss with user-space folks to see which project would be
-> > > interested. There's a chance a compositor will be interested in the new
-> > > property and will just do the user-space part for you, if not we can
-> > > suggest candidate projects.
-> > > 
-> > > tl;dr strong agree with Daniel here.  
-> > 
-> > I think the assumption you and Daniel are making is that the first implementation of
-> > a new KMS property can be made standard from day one and that it will work for any
-> > late comer driver as is, without having to make changes to its behaviour in a
-> > significant way. In my experience that is not the case.
-> > 
-> > I think we have moved from the times when we were trying to implement in the Linux
-> > world features that were available in the hardware but needed a kernel and userspace
-> > API. The set of properties that exist in KMS cover a lot of needed functionality and
-> > I don't expect to see new properties for stuff that is already supported by hardware.
-> > 
-> > What I'm expected to see in the future is new functionality that gets implemented by
-> > one hardware vendor and the kernel developers trying to enable that for userspace. It
-> > could be that the new property is generic, but there is no way of testing that on
-> > more than one implementation yet, so I'd say we are generous calling it "standard
-> > property". When the second or third hardware vendor comes along and starts supporting
-> > that property with their own set of extra requirements, then we can call it
-> > "standard".
+> Correct, we use KCOV with both gcc and clang. Both gcc and clang emit
+> the same instrumentation for -fsanitize-coverage. Thus, the user-space
+> portion and interface is indeed identical:
+> https://www.kernel.org/doc/html/latest/dev-tools/kcov.html
 > 
-> I agree that is a problem with trying to make generic anything. But it
-> does not mean you should not even try. Maybe trying really hard saves a
-> couple revisions.
+> > > > I'm thinking it might be about time to build _one_ infrastructure for
+> > > > that and define a kernel arc format and call it a day.
+> > > >
+> > > That may be nice, but it's a rather large request.
+> >
+> > Given GCOV just died, perhaps you can look at what KCOV does and see if
+> > that can be extended to do as you want. KCOV is actively used and
+> > we actually tripped over all the fun little noinstr bugs at the time.
+> 
+> There might be a subtle mismatch between coverage instrumentation for
+> testing/fuzzing and for profiling. (Disclaimer: I'm not too familiar
+> with Clang-PGO's requirements.) For example, while for testing/fuzzing
+> we may only require information if a code-path has been visited, for
+> profiling the "hotness" might be of interest. Therefore, the
+> user-space exported data format can make several trade-offs in
+> complexity.
 
-Agree.
+This has been my primary take-away: given that Clang's PGO is different
+enough from the other things and provides more specific/actionable
+results, I think it's justified to exist on its own separate from the
+other parts.
 
+> In theory, I imagine there's a limit to how generic one could make
+> profiling information, because one compiler's optimizations are not
+> another compiler's optimizations. On the other hand, it may be doable
+> to collect unified profiling information for common stuff, but I guess
+> there's little motivation for figuring out the common ground given the
+> producer and consumer of the PGO data is the same compiler by design
+> (unlike coverage info for testing/fuzzing).
 > 
-> What I think should be planned for is revisions. How to add new
-> properties that do the same thing but better, while documenting that a
-> userspace KMS client can use only one revision at a time. You never
-> remove old revisions, unless maybe with a DRM client cap they
-> could disappear from that file description if that is necessary for
-> seeing the new revision.
+> Therefore, if KCOV's exposed information does not match PGO's
+> requirements today, I'm not sure what realistically can be done
+> without turning KCOV into a monster. Because KCOV is optimized for
+> testing/fuzzing coverage, and I'm not sure how complex we can or want
+> to make it to cater to a new use-case.
 > 
-> While designing this, one also needs to take into account that KMS
-> clients need to be able to save and restore properties *they do not
-> understand*. So exposing two revisions of the same feature
-> simultaneously would break save/restore is that's an error.
+> My intuition is that the simpler design is to have 2 subsystems for
+> instrumentation-based coverage collection: one for testing/fuzzing,
+> and the other for profiling.
+> 
+> Alas, there's the problem of GCOV, which should be replaceable by KCOV
+> for most use cases. But it would be good to hear from a GCOV user if
+> there are some.
+> 
+> But as we learned GCOV is broken on x86 now, I see these options:
+> 
+> 1. Remove GCOV, make KCOV the de-facto test-coverage collection
+> subsystem. Introduce PGO-instrumentation subsystem for profile
+> collection only, and make it _very_ clear that KCOV != PGO data as
+> hinted above. A pre-requisite is that compiler-support for PGO
+> instrumentation adds selective instrumentation support, likely just
+> making attribute no_instrument_function do the right thing.
 
-I quite like the idea of having versions for properties.
+Right. I can't speak to GCOV, but KCOV certainly isn't PGO.
 
+> 2. Like (1) but also keep GCOV, given proper support for attribute
+> no_instrument_function would probably fix it (?).
 > 
-> > Then comes the effort cost: would it be easier to start with a vendor
-> > property that only the vendor needs to support (and can submit patches into the
-> > compositors to do so) and when the standard property gets added moves to that, or
+> 3. Keep GCOV (and KCOV of course). Somehow extract PGO profiles from KCOV.
 > 
-> But you can't move, you can only add? You can't delete the old property
-> in kernel if it was ever released with a kernel and anyone used it. In
-> the same sentence you also imply that there is a user of it, so
-> removing it will break that user. Then you'll have to track the
-> userspace lifetime to figure out which decade you can try removing it.
+> 4. Somehow extract PGO profiles from GCOV, or modify kernel/gcov to do so.
 
-Not that I am supporting the workflow, but I was trying to address the comments that
-vendors are going to push their own userspace implementation for their vendor
-properties. If that is the case, when they switch to the standard ones they can drop
-the support in userspace for their changes. With the implied assumption that you will
-have fewer vendor implementations hence easier to make changes, KMS properties can be
-deleted if you know there is no user of them (e.g. the vendor has upgraded all their
-software to the standard property).
+If there *is* a way to "combine" these, I don't think it makes sense
+to do it now. PGO has users (and is expanding[1]), and trying to
+optimize the design before even landing the first version seems like a
+needless obstruction, and to likely not address currently undiscovered
+requirements.
 
-> 
-> > should we start with a generic property that gets implemented by the compositors
-> > (maybe, but then only one vendor supports it) and then later when we actually
-> > standardise the property we will have to carry backwards compatibility code in the
-> > kernel to handle the old behaviour for old userspace? My proposal to Maxime was for
-> > the former option to be reflected in the documentation, but I would like to hear your
-> > thoughts.
-> 
-> You have to carry the backward compatibility in all cases, right?
-> 
-> Userspace OTOH can drop support for older less supported KMS properties
-> while taking advantage of a new revision. Userspace is not required to
-> support old kernels forever.
-> 
-> 
-> Here's a wild counter-proposal off a tangent:
-> 
-> How about we make "implemented in and testable with VKMS" the rule,
-> instead of "is generic" for new properties?
-> 
-> VKMS is what compositors (will) use in CI. I would feel hugely less bad
-> about using a property that only one hardware driver ever implements,
-> if also VKMS implements it in a way that compositor CI can observe it
-> working.
-> 
-> I don't expect this proposal to be accepted, but it's food for thought.
-> The major problem for compositor projects is testing as you usually
-> don't have the hardware, IMO. CI tends to not have any hardware.
+So, AFAICT, the original blocking issue ("PGO does not respect noinstr")
+is not actually an issue (noinstr contains notrace, which IS respected
+by PGO[2]), I think this is fine to move forward.
 
-While I don't dislike the proposal (I think it is quite sensible), I am worried that
-for some behaviours VKMS will implement them in a quirky way. To pick (again) the
-example of writeback, real hardware will have a way to tell if the buffer has been
-sent successfully to memory and it might take more than one refresh period, while
-VKMS (if I remember correctly) fakes it and signals the fence at the next vblank. If
-you code your compositor based on VKMS you might get unexpected artifacts on real
-hardware.
+-Kees
 
-Best regards,
-Liviu
-
-
-> 
-> 
-> Thanks,
-> pq
-
-
+[1] https://lore.kernel.org/lkml/20210612032425.11425-1-jarmo.tiitto@gmail.com/
+[2] https://lore.kernel.org/lkml/CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com/
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Kees Cook
