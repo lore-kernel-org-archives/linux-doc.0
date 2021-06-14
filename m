@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A1BC48BE6
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:17:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46224C2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:17:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 235FA61078
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:17:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FE246124B
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:17:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234922AbhFNUTb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 16:19:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53268 "EHLO
+        id S235096AbhFNUTi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 16:19:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40305 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233691AbhFNUTZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 16:19:25 -0400
+        by vger.kernel.org with ESMTP id S234996AbhFNUTb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 16:19:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623701841;
+        s=mimecast20190719; t=1623701847;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=0jaqy2QRHKCuEYux1KhaN4dzS+sAyFwOk2sKkN4kmCQ=;
-        b=CsDFG+5EcdM5W8YhWNOWLna7HYERsLGvviqx6kbKH1EcIUeCbvBCuegEnmxQa/noVWgd/F
-        Go7qr/D7HlZ9NTJEQS/tLi6hZxZkRyCBKFmwFA2OzIBBD33vNs9g13ovyf/rywjGXSoavs
-        6t+JsiYCdZfMoy0ralnkvwbOx42wWMs=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-4uZi7OTNOaG6tj7upyNXjA-1; Mon, 14 Jun 2021 16:17:20 -0400
-X-MC-Unique: 4uZi7OTNOaG6tj7upyNXjA-1
-Received: by mail-ot1-f69.google.com with SMTP id e16-20020a0568302010b02903feaaa5cf10so7969168otp.8
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 13:17:20 -0700 (PDT)
+        bh=deF1y3uXnOYh8KHSZy40SPrVBxHgGTmDPBUWYgjIGVk=;
+        b=QfHyvTebnTK9HcfB2K4aaHJ9SzTHFhN/2i7NZCrKjCPQpl8M+AoK4P0SshLOTEjiz+H3JV
+        EN2FN+MhZoWzGLTAxRTfmxi1I3Xi66IGnmYg6L2L9LMnOzJYT8qP/qCaq5F64levysR/Uo
+        jzfuQupVUEyErbH6rrr1AXiIUXh8pzA=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-526-d6MI1XWvOmKqP0mX0V0AzQ-1; Mon, 14 Jun 2021 16:17:26 -0400
+X-MC-Unique: d6MI1XWvOmKqP0mX0V0AzQ-1
+Received: by mail-oo1-f72.google.com with SMTP id r4-20020a4ab5040000b02902446eb55473so7610027ooo.20
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 13:17:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0jaqy2QRHKCuEYux1KhaN4dzS+sAyFwOk2sKkN4kmCQ=;
-        b=Ul5+geDJkW9B7hCx8+IwOQcksicg6mvd7Jpwr9YIc+/NWHbaoC/IP3I9CAMSvLS7Hf
-         Xvs6W2EgVhxFMKDe9akdR5vJFDWis2poeoJCKOKCtmC82xJAGx2RtDc/fsylQMBvG+qu
-         GDNXitg+Vc4GHJl3OwJ3mi63UX2PWo9tW26F4u3wdC4gN/gHoqzu2SeDtoaOHrrLukUI
-         8n7if5ZDXYVePCrB2MBh9hqGwH5VawJ9Cru7vui7COhqoIjJ3dLViBwaFFG1qQcRd8v0
-         t9SDm3zr8xY/5HH2PhFf1erU8eIJt6DuHUsOR0fenbozc2Ycw9eCDHF4uNRl3w3//aBk
-         BO5Q==
-X-Gm-Message-State: AOAM533XqRFKeqROg32C+lwfDzeTgxTRDTqK7hIXK5eDBlt4QnW3NJV/
-        LxlNcc79HpQwkpEh3f+O6K76Rr6XxDogEunaLYiKCIEEOoQjr/veiKbzKfkrdV+jxnUiPyHdat6
-        //AEIIVcIQggtwMDor6mP
-X-Received: by 2002:aca:acd3:: with SMTP id v202mr580774oie.176.1623701839701;
-        Mon, 14 Jun 2021 13:17:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzP2RDs4qomT8a0yRZZtxmCH3VMm8tOYSvbC00qSWQOBXi33eYJ4bNofU8TJQwXdetIyXQMqg==
-X-Received: by 2002:aca:acd3:: with SMTP id v202mr580757oie.176.1623701839513;
-        Mon, 14 Jun 2021 13:17:19 -0700 (PDT)
+        bh=deF1y3uXnOYh8KHSZy40SPrVBxHgGTmDPBUWYgjIGVk=;
+        b=PRn3zMjeAcBzsq8RTgTHys1eUMiQZLaW2gcK6dV8R6UF+bSTuFdXlzbs3Ve9z38H33
+         7/r20jNozy56hxty6RaEI+g22RZWBHj84xoxXBc7zynwBOw6wYhbM7RDjYbjFm46cqi7
+         gfhGPjiEw867eBa6vhgmayUzeH081x89vhaAc1RjwZv7PpIUzhc6OgkZ0+qdk2UA7UVD
+         fY2kv6Ex20jrvZarq1Bc+iXqadXR2KOl53roj755E+rpn+Pj+drQkVWbM3gqZh2puU8i
+         8IUGRsl6A36iLdS3m8xj9d3A9Xk9RuEJUzShNB3y8v+esFohP4ZKpEmf2pjhMamL+OLN
+         Djyw==
+X-Gm-Message-State: AOAM533bVDb35No6ptU/8PRD1C4ZIvhrpFW2TnYnzOQHud3FMznh9jsZ
+        7cRwtDC+DGCH3hAgbDhNZkf6Rc7kYPAVndzf8Q1APEf556S5hkAODtDmMBTVEMuzNaEbA/6Ea8B
+        quy+BUCShZA88WQC5a9DB
+X-Received: by 2002:a05:6808:15a0:: with SMTP id t32mr627112oiw.90.1623701845304;
+        Mon, 14 Jun 2021 13:17:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9ihSkzWKYE+RNWK7ultwITITDH5R7KQxnE5GidKW3BxwKMFKMjVT5vD2//drk/nGfLjX/XA==
+X-Received: by 2002:a05:6808:15a0:: with SMTP id t32mr627101oiw.90.1623701845099;
+        Mon, 14 Jun 2021 13:17:25 -0700 (PDT)
 Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id b198sm408535oii.19.2021.06.14.13.17.17
+        by smtp.gmail.com with ESMTPSA id b198sm408535oii.19.2021.06.14.13.17.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 13:17:19 -0700 (PDT)
+        Mon, 14 Jun 2021 13:17:24 -0700 (PDT)
 From:   trix@redhat.com
 To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
         michal.simek@xilinx.com, gregkh@linuxfoundation.org,
@@ -67,9 +67,9 @@ To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
 Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Tom Rix <trix@redhat.com>
-Subject: [PATCH v4 2/4] fpga: xilinx: reorganize to subdir layout
-Date:   Mon, 14 Jun 2021 13:16:46 -0700
-Message-Id: <20210614201648.3358206-4-trix@redhat.com>
+Subject: [PATCH v4 3/4] fpga: altera: reorganize to subdir layout
+Date:   Mon, 14 Jun 2021 13:16:47 -0700
+Message-Id: <20210614201648.3358206-5-trix@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210614201648.3358206-1-trix@redhat.com>
 References: <20210614201648.3358206-1-trix@redhat.com>
@@ -105,215 +105,329 @@ fpga/Makefile by
 
 obj-$(CONFIG_FPGA_BLA) += bla/
 
-This is the xilinx/ subdir part
+This is the altera/ subdir part.
 
-Create a xilinx/ subdir
-Move xilinx-* and zynq* files to it.
+Create a altera/ subdir
+Move altera-* and soc* ts73xx* files to it.
 Add a Kconfig and Makefile
 
 Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/fpga/Kconfig                          | 40 +-------------
- drivers/fpga/Makefile                         |  5 +-
- drivers/fpga/xilinx/Kconfig                   | 55 +++++++++++++++++++
- drivers/fpga/xilinx/Makefile                  |  6 ++
- .../fpga/{ => xilinx}/xilinx-pr-decoupler.c   |  0
- drivers/fpga/{ => xilinx}/xilinx-spi.c        |  0
- drivers/fpga/{ => xilinx}/zynq-fpga.c         |  0
- drivers/fpga/{ => xilinx}/zynqmp-fpga.c       |  0
- 8 files changed, 63 insertions(+), 43 deletions(-)
- create mode 100644 drivers/fpga/xilinx/Kconfig
- create mode 100644 drivers/fpga/xilinx/Makefile
- rename drivers/fpga/{ => xilinx}/xilinx-pr-decoupler.c (100%)
- rename drivers/fpga/{ => xilinx}/xilinx-spi.c (100%)
- rename drivers/fpga/{ => xilinx}/zynq-fpga.c (100%)
- rename drivers/fpga/{ => xilinx}/zynqmp-fpga.c (100%)
+ drivers/fpga/Kconfig                          | 70 +--------------
+ drivers/fpga/Makefile                         | 11 +--
+ drivers/fpga/altera/Kconfig                   | 85 +++++++++++++++++++
+ drivers/fpga/altera/Makefile                  | 12 +++
+ drivers/fpga/{ => altera}/altera-cvp.c        |  0
+ drivers/fpga/{ => altera}/altera-fpga2sdram.c |  0
+ .../fpga/{ => altera}/altera-freeze-bridge.c  |  0
+ drivers/fpga/{ => altera}/altera-hps2fpga.c   |  0
+ .../{ => altera}/altera-pr-ip-core-plat.c     |  0
+ drivers/fpga/{ => altera}/altera-pr-ip-core.c |  0
+ drivers/fpga/{ => altera}/altera-ps-spi.c     |  0
+ drivers/fpga/{ => altera}/socfpga-a10.c       |  0
+ drivers/fpga/{ => altera}/socfpga.c           |  0
+ drivers/fpga/{ => altera}/stratix10-soc.c     |  0
+ drivers/fpga/{ => altera}/ts73xx-fpga.c       |  0
+ 15 files changed, 99 insertions(+), 79 deletions(-)
+ create mode 100644 drivers/fpga/altera/Kconfig
+ create mode 100644 drivers/fpga/altera/Makefile
+ rename drivers/fpga/{ => altera}/altera-cvp.c (100%)
+ rename drivers/fpga/{ => altera}/altera-fpga2sdram.c (100%)
+ rename drivers/fpga/{ => altera}/altera-freeze-bridge.c (100%)
+ rename drivers/fpga/{ => altera}/altera-hps2fpga.c (100%)
+ rename drivers/fpga/{ => altera}/altera-pr-ip-core-plat.c (100%)
+ rename drivers/fpga/{ => altera}/altera-pr-ip-core.c (100%)
+ rename drivers/fpga/{ => altera}/altera-ps-spi.c (100%)
+ rename drivers/fpga/{ => altera}/socfpga-a10.c (100%)
+ rename drivers/fpga/{ => altera}/socfpga.c (100%)
+ rename drivers/fpga/{ => altera}/stratix10-soc.c (100%)
+ rename drivers/fpga/{ => altera}/ts73xx-fpga.c (100%)
 
 diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
-index 7a290b2234576..28c261807b428 100644
+index 28c261807b428..2c829b1105925 100644
 --- a/drivers/fpga/Kconfig
 +++ b/drivers/fpga/Kconfig
-@@ -52,25 +52,12 @@ config FPGA_MGR_ALTERA_CVP
- 	  FPGA manager driver support for Arria-V, Cyclone-V, Stratix-V,
- 	  Arria 10 and Stratix10 Altera FPGAs using the CvP interface over PCIe.
+@@ -12,52 +12,6 @@ menuconfig FPGA
  
--config FPGA_MGR_ZYNQ_FPGA
--	tristate "Xilinx Zynq FPGA"
--	depends on ARCH_ZYNQ || COMPILE_TEST
+ if FPGA
+ 
+-config FPGA_MGR_SOCFPGA
+-	tristate "Altera SOCFPGA FPGA Manager"
+-	depends on ARCH_INTEL_SOCFPGA || COMPILE_TEST
 -	help
--	  FPGA manager driver support for Xilinx Zynq FPGAs.
+-	  FPGA manager driver support for Altera SOCFPGA.
 -
- config FPGA_MGR_STRATIX10_SOC
- 	tristate "Intel Stratix10 SoC FPGA Manager"
- 	depends on (ARCH_INTEL_SOCFPGA && INTEL_STRATIX10_SERVICE)
- 	help
- 	  FPGA manager driver support for the Intel Stratix10 SoC.
- 
--config FPGA_MGR_XILINX_SPI
--	tristate "Xilinx Configuration over Slave Serial (SPI)"
--	depends on SPI
+-config FPGA_MGR_SOCFPGA_A10
+-	tristate "Altera SoCFPGA Arria10"
+-	depends on ARCH_INTEL_SOCFPGA || COMPILE_TEST
+-	select REGMAP_MMIO
 -	help
--	  FPGA manager driver support for Xilinx FPGA configuration
--	  over slave serial interface.
+-	  FPGA manager driver support for Altera Arria10 SoCFPGA.
+-
+-config ALTERA_PR_IP_CORE
+-	tristate "Altera Partial Reconfiguration IP Core"
+-	help
+-	  Core driver support for Altera Partial Reconfiguration IP component
+-
+-config ALTERA_PR_IP_CORE_PLAT
+-	tristate "Platform support of Altera Partial Reconfiguration IP Core"
+-	depends on ALTERA_PR_IP_CORE && OF && HAS_IOMEM
+-	help
+-	  Platform driver support for Altera Partial Reconfiguration IP
+-	  component
+-
+-config FPGA_MGR_ALTERA_PS_SPI
+-	tristate "Altera FPGA Passive Serial over SPI"
+-	depends on SPI
+-	select BITREVERSE
+-	help
+-	  FPGA manager driver support for Altera Arria/Cyclone/Stratix
+-	  using the passive serial interface over SPI.
+-
+-config FPGA_MGR_ALTERA_CVP
+-	tristate "Altera CvP FPGA Manager"
+-	depends on PCI
+-	help
+-	  FPGA manager driver support for Arria-V, Cyclone-V, Stratix-V,
+-	  Arria 10 and Stratix10 Altera FPGAs using the CvP interface over PCIe.
+-
+-config FPGA_MGR_STRATIX10_SOC
+-	tristate "Intel Stratix10 SoC FPGA Manager"
+-	depends on (ARCH_INTEL_SOCFPGA && INTEL_STRATIX10_SERVICE)
+-	help
+-	  FPGA manager driver support for the Intel Stratix10 SoC.
 -
  config FPGA_MGR_ICE40_SPI
  	tristate "Lattice iCE40 SPI"
  	depends on OF && SPI
-@@ -113,23 +100,6 @@ config ALTERA_FREEZE_BRIDGE
- 	  isolate one region of the FPGA from the busses while that
- 	  region is being reprogrammed.
+@@ -71,35 +25,12 @@ config FPGA_MGR_MACHXO2_SPI
+ 	  FPGA manager driver support for Lattice MachXO2 configuration
+ 	  over slave SPI interface.
  
--config XILINX_PR_DECOUPLER
--	tristate "Xilinx LogiCORE PR Decoupler"
--	depends on FPGA_BRIDGE
--	depends on HAS_IOMEM
+-config FPGA_MGR_TS73XX
+-	tristate "Technologic Systems TS-73xx SBC FPGA Manager"
+-	depends on ARCH_EP93XX && MACH_TS72XX
 -	help
--	  Say Y to enable drivers for Xilinx LogiCORE PR Decoupler
--	  or Xilinx Dynamic Function eXchnage AIX Shutdown Manager.
--	  The PR Decoupler exists in the FPGA fabric to isolate one
--	  region of the FPGA from the busses while that region is
--	  being reprogrammed during partial reconfig.
--	  The Dynamic Function eXchange AXI shutdown manager prevents
--	  AXI traffic from passing through the bridge. The controller
--	  safely handles AXI4MM and AXI4-Lite interfaces on a
--	  Reconfigurable Partition when it is undergoing dynamic
--	  reconfiguration, preventing the system deadlock that can
--	  occur if AXI transactions are interrupted by DFX.
+-	  FPGA manager driver support for the Altera Cyclone II FPGA
+-	  present on the TS-73xx SBC boards.
+-
+ config FPGA_BRIDGE
+ 	tristate "FPGA Bridge Framework"
+ 	help
+ 	  Say Y here if you want to support bridges connected between host
+ 	  processors and FPGAs or between FPGAs.
+ 
+-config SOCFPGA_FPGA_BRIDGE
+-	tristate "Altera SoCFPGA FPGA Bridges"
+-	depends on ARCH_INTEL_SOCFPGA && FPGA_BRIDGE
+-	help
+-	  Say Y to enable drivers for FPGA bridges for Altera SOCFPGA
+-	  devices.
+-
+-config ALTERA_FREEZE_BRIDGE
+-	tristate "Altera FPGA Freeze Bridge"
+-	depends on FPGA_BRIDGE && HAS_IOMEM
+-	help
+-	  Say Y to enable drivers for Altera FPGA Freeze bridges.  A
+-	  freeze bridge is a bridge that exists in the FPGA fabric to
+-	  isolate one region of the FPGA from the busses while that
+-	  region is being reprogrammed.
 -
  config FPGA_REGION
  	tristate "FPGA Region"
  	depends on FPGA_BRIDGE
-@@ -146,14 +116,6 @@ config OF_FPGA_REGION
+@@ -115,6 +46,7 @@ config OF_FPGA_REGION
+ 	  Support for loading FPGA images by applying a Device Tree
  	  overlay.
  
++source "drivers/fpga/altera/Kconfig"
  source "drivers/fpga/dfl/Kconfig"
--
--config FPGA_MGR_ZYNQMP_FPGA
--	tristate "Xilinx ZynqMP FPGA"
--	depends on ZYNQMP_FIRMWARE || (!ZYNQMP_FIRMWARE && COMPILE_TEST)
--	help
--	  FPGA manager driver support for Xilinx ZynqMP FPGAs.
--	  This driver uses the processor configuration port(PCAP)
--	  to configure the programmable logic(PL) through PS
--	  on ZynqMP SoC.
-+source "drivers/fpga/xilinx/Kconfig"
+ source "drivers/fpga/xilinx/Kconfig"
  
- endif # FPGA
 diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
-index bda74e54ce390..0868c7c4264d8 100644
+index 0868c7c4264d8..db83aeb997f24 100644
 --- a/drivers/fpga/Makefile
 +++ b/drivers/fpga/Makefile
-@@ -15,9 +15,6 @@ obj-$(CONFIG_FPGA_MGR_SOCFPGA)		+= socfpga.o
- obj-$(CONFIG_FPGA_MGR_SOCFPGA_A10)	+= socfpga-a10.o
- obj-$(CONFIG_FPGA_MGR_STRATIX10_SOC)	+= stratix10-soc.o
- obj-$(CONFIG_FPGA_MGR_TS73XX)		+= ts73xx-fpga.o
--obj-$(CONFIG_FPGA_MGR_XILINX_SPI)	+= xilinx-spi.o
--obj-$(CONFIG_FPGA_MGR_ZYNQ_FPGA)	+= zynq-fpga.o
--obj-$(CONFIG_FPGA_MGR_ZYNQMP_FPGA)	+= zynqmp-fpga.o
- obj-$(CONFIG_ALTERA_PR_IP_CORE)         += altera-pr-ip-core.o
- obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT)    += altera-pr-ip-core-plat.o
+@@ -7,25 +7,16 @@
+ obj-$(CONFIG_FPGA)			+= fpga-mgr.o
  
-@@ -25,10 +22,10 @@ obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT)    += altera-pr-ip-core-plat.o
+ # FPGA Manager Drivers
+-obj-$(CONFIG_FPGA_MGR_ALTERA_CVP)	+= altera-cvp.o
+-obj-$(CONFIG_FPGA_MGR_ALTERA_PS_SPI)	+= altera-ps-spi.o
+ obj-$(CONFIG_FPGA_MGR_ICE40_SPI)	+= ice40-spi.o
+ obj-$(CONFIG_FPGA_MGR_MACHXO2_SPI)	+= machxo2-spi.o
+-obj-$(CONFIG_FPGA_MGR_SOCFPGA)		+= socfpga.o
+-obj-$(CONFIG_FPGA_MGR_SOCFPGA_A10)	+= socfpga-a10.o
+-obj-$(CONFIG_FPGA_MGR_STRATIX10_SOC)	+= stratix10-soc.o
+-obj-$(CONFIG_FPGA_MGR_TS73XX)		+= ts73xx-fpga.o
+-obj-$(CONFIG_ALTERA_PR_IP_CORE)         += altera-pr-ip-core.o
+-obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT)    += altera-pr-ip-core-plat.o
+ 
+ # FPGA Bridge Drivers
  obj-$(CONFIG_FPGA_BRIDGE)		+= fpga-bridge.o
- obj-$(CONFIG_SOCFPGA_FPGA_BRIDGE)	+= altera-hps2fpga.o altera-fpga2sdram.o
- obj-$(CONFIG_ALTERA_FREEZE_BRIDGE)	+= altera-freeze-bridge.o
--obj-$(CONFIG_XILINX_PR_DECOUPLER)	+= xilinx-pr-decoupler.o
+-obj-$(CONFIG_SOCFPGA_FPGA_BRIDGE)	+= altera-hps2fpga.o altera-fpga2sdram.o
+-obj-$(CONFIG_ALTERA_FREEZE_BRIDGE)	+= altera-freeze-bridge.o
  
  # High Level Interfaces
  obj-$(CONFIG_FPGA_REGION)		+= fpga-region.o
  obj-$(CONFIG_OF_FPGA_REGION)		+= of-fpga-region.o
  
++obj-$(CONFIG_FPGA_ALTERA) += altera/
  obj-$(CONFIG_FPGA_DFL) += dfl/
-+obj-$(CONFIG_FPGA_XILINX) += xilinx/
-diff --git a/drivers/fpga/xilinx/Kconfig b/drivers/fpga/xilinx/Kconfig
+ obj-$(CONFIG_FPGA_XILINX) += xilinx/
+diff --git a/drivers/fpga/altera/Kconfig b/drivers/fpga/altera/Kconfig
 new file mode 100644
-index 0000000000000..e016d450539a0
+index 0000000000000..b2385f0bf178d
 --- /dev/null
-+++ b/drivers/fpga/xilinx/Kconfig
-@@ -0,0 +1,55 @@
++++ b/drivers/fpga/altera/Kconfig
+@@ -0,0 +1,85 @@
 +# SPDX-License-Identifier: GPL-2.0-only
 +
-+config FPGA_XILINX
-+	bool "Xilinx FPGAs"
++config FPGA_ALTERA
++	bool "Altera FPGAs"
 +	default y
 +	help
-+	  If you have a xilinx fpga, say Y.
++	  If you have an altera fpga, say Y.
 +
 +	  Note that the answer to this question doesn't directly affect the
 +	  kernel: saying N will just cause the configurator to skip all
-+	  the questions about xilinx fpgas. If you say Y, you will be asked
++	  the questions about altera fpgas. If you say Y, you will be asked
 +	  for your specific device in the following questions.
 +
-+if FPGA_XILINX
++if FPGA_ALTERA
 +
-+config FPGA_MGR_ZYNQ_FPGA
-+	tristate "Xilinx Zynq FPGA"
-+	depends on ARCH_ZYNQ || COMPILE_TEST
++config FPGA_MGR_SOCFPGA
++	tristate "Altera SOCFPGA FPGA Manager"
++	depends on ARCH_INTEL_SOCFPGA || COMPILE_TEST
 +	help
-+	  FPGA manager driver support for Xilinx Zynq FPGAs.
++	  FPGA manager driver support for Altera SOCFPGA.
 +
-+config FPGA_MGR_ZYNQMP_FPGA
-+	tristate "Xilinx ZynqMP FPGA"
-+	depends on ZYNQMP_FIRMWARE || (!ZYNQMP_FIRMWARE && COMPILE_TEST)
++config FPGA_MGR_SOCFPGA_A10
++	tristate "Altera SoCFPGA Arria10"
++	depends on ARCH_INTEL_SOCFPGA || COMPILE_TEST
++	select REGMAP_MMIO
 +	help
-+	  FPGA manager driver support for Xilinx ZynqMP FPGAs.
-+	  This driver uses the processor configuration port(PCAP)
-+	  to configure the programmable logic(PL) through PS
-+	  on ZynqMP SoC.
++	  FPGA manager driver support for Altera Arria10 SoCFPGA.
 +
-+config XILINX_PR_DECOUPLER
-+	tristate "Xilinx LogiCORE PR Decoupler"
-+	depends on FPGA_BRIDGE
-+	depends on HAS_IOMEM
++config ALTERA_PR_IP_CORE
++	tristate "Altera Partial Reconfiguration IP Core"
 +	help
-+	  Say Y to enable drivers for Xilinx LogiCORE PR Decoupler
-+	  or Xilinx Dynamic Function eXchnage AIX Shutdown Manager.
-+	  The PR Decoupler exists in the FPGA fabric to isolate one
-+	  region of the FPGA from the busses while that region is
-+	  being reprogrammed during partial reconfig.
-+	  The Dynamic Function eXchange AXI shutdown manager prevents
-+	  AXI traffic from passing through the bridge. The controller
-+	  safely handles AXI4MM and AXI4-Lite interfaces on a
-+	  Reconfigurable Partition when it is undergoing dynamic
-+	  reconfiguration, preventing the system deadlock that can
-+	  occur if AXI transactions are interrupted by DFX.
++	  Core driver support for Altera Partial Reconfiguration IP component
 +
-+config FPGA_MGR_XILINX_SPI
-+	tristate "Xilinx Configuration over Slave Serial (SPI)"
++config ALTERA_PR_IP_CORE_PLAT
++	tristate "Platform support of Altera Partial Reconfiguration IP Core"
++	depends on ALTERA_PR_IP_CORE && OF && HAS_IOMEM
++	help
++	  Platform driver support for Altera Partial Reconfiguration IP
++	  component
++
++config FPGA_MGR_ALTERA_PS_SPI
++	tristate "Altera FPGA Passive Serial over SPI"
 +	depends on SPI
++	select BITREVERSE
 +	help
-+	  FPGA manager driver support for Xilinx FPGA configuration
-+	  over slave serial interface.
++	  FPGA manager driver support for Altera Arria/Cyclone/Stratix
++	  using the passive serial interface over SPI.
 +
-+endif #FPGA_XILINX
-diff --git a/drivers/fpga/xilinx/Makefile b/drivers/fpga/xilinx/Makefile
++config FPGA_MGR_ALTERA_CVP
++	tristate "Altera CvP FPGA Manager"
++	depends on PCI
++	help
++	  FPGA manager driver support for Arria-V, Cyclone-V, Stratix-V,
++	  Arria 10 and Stratix10 Altera FPGAs using the CvP interface over PCIe.
++
++config FPGA_MGR_STRATIX10_SOC
++	tristate "Intel Stratix10 SoC FPGA Manager"
++	depends on (ARCH_INTEL_SOCFPGA && INTEL_STRATIX10_SERVICE)
++	help
++	  FPGA manager driver support for the Intel Stratix10 SoC.
++
++config FPGA_MGR_TS73XX
++	tristate "Technologic Systems TS-73xx SBC FPGA Manager"
++	depends on ARCH_EP93XX && MACH_TS72XX
++	help
++	  FPGA manager driver support for the Altera Cyclone II FPGA
++	  present on the TS-73xx SBC boards.
++
++config ALTERA_FREEZE_BRIDGE
++	tristate "Altera FPGA Freeze Bridge"
++	depends on FPGA_BRIDGE && HAS_IOMEM
++	help
++	  Say Y to enable drivers for Altera FPGA Freeze bridges.  A
++	  freeze bridge is a bridge that exists in the FPGA fabric to
++	  isolate one region of the FPGA from the busses while that
++	  region is being reprogrammed.
++
++config SOCFPGA_FPGA_BRIDGE
++	tristate "Altera SoCFPGA FPGA Bridges"
++	depends on ARCH_INTEL_SOCFPGA && FPGA_BRIDGE
++	help
++	  Say Y to enable drivers for FPGA bridges for Altera SOCFPGA
++	  devices.
++
++endif #FPGA_ALTERA
+diff --git a/drivers/fpga/altera/Makefile b/drivers/fpga/altera/Makefile
 new file mode 100644
-index 0000000000000..2361aa14eb549
+index 0000000000000..9c86057cff110
 --- /dev/null
-+++ b/drivers/fpga/xilinx/Makefile
-@@ -0,0 +1,6 @@
++++ b/drivers/fpga/altera/Makefile
+@@ -0,0 +1,12 @@
 +# SPDX-License-Identifier: GPL-2.0-only
 +
-+obj-$(CONFIG_XILINX_PR_DECOUPLER) += xilinx-pr-decoupler.o
-+obj-$(CONFIG_FPGA_MGR_XILINX_SPI) += xilinx-spi.o
-+obj-$(CONFIG_FPGA_MGR_ZYNQ_FPGA) += zynq-fpga.o
-+obj-$(CONFIG_FPGA_MGR_ZYNQMP_FPGA) += zynqmp-fpga.o
-diff --git a/drivers/fpga/xilinx-pr-decoupler.c b/drivers/fpga/xilinx/xilinx-pr-decoupler.c
++obj-$(CONFIG_ALTERA_FREEZE_BRIDGE) += altera-freeze-bridge.o
++obj-$(CONFIG_ALTERA_PR_IP_CORE) += altera-pr-ip-core.o
++obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT) += altera-pr-ip-core-plat.o
++obj-$(CONFIG_FPGA_MGR_ALTERA_CVP) += altera-cvp.o
++obj-$(CONFIG_FPGA_MGR_ALTERA_PS_SPI) += altera-ps-spi.o
++obj-$(CONFIG_FPGA_MGR_SOCFPGA) += socfpga.o
++obj-$(CONFIG_FPGA_MGR_SOCFPGA_A10) += socfpga-a10.o
++obj-$(CONFIG_FPGA_MGR_STRATIX10_SOC) += stratix10-soc.o
++obj-$(CONFIG_FPGA_MGR_TS73XX) += ts73xx-fpga.o
++obj-$(CONFIG_SOCFPGA_FPGA_BRIDGE) += altera-hps2fpga.o altera-fpga2sdram.o
+diff --git a/drivers/fpga/altera-cvp.c b/drivers/fpga/altera/altera-cvp.c
 similarity index 100%
-rename from drivers/fpga/xilinx-pr-decoupler.c
-rename to drivers/fpga/xilinx/xilinx-pr-decoupler.c
-diff --git a/drivers/fpga/xilinx-spi.c b/drivers/fpga/xilinx/xilinx-spi.c
+rename from drivers/fpga/altera-cvp.c
+rename to drivers/fpga/altera/altera-cvp.c
+diff --git a/drivers/fpga/altera-fpga2sdram.c b/drivers/fpga/altera/altera-fpga2sdram.c
 similarity index 100%
-rename from drivers/fpga/xilinx-spi.c
-rename to drivers/fpga/xilinx/xilinx-spi.c
-diff --git a/drivers/fpga/zynq-fpga.c b/drivers/fpga/xilinx/zynq-fpga.c
+rename from drivers/fpga/altera-fpga2sdram.c
+rename to drivers/fpga/altera/altera-fpga2sdram.c
+diff --git a/drivers/fpga/altera-freeze-bridge.c b/drivers/fpga/altera/altera-freeze-bridge.c
 similarity index 100%
-rename from drivers/fpga/zynq-fpga.c
-rename to drivers/fpga/xilinx/zynq-fpga.c
-diff --git a/drivers/fpga/zynqmp-fpga.c b/drivers/fpga/xilinx/zynqmp-fpga.c
+rename from drivers/fpga/altera-freeze-bridge.c
+rename to drivers/fpga/altera/altera-freeze-bridge.c
+diff --git a/drivers/fpga/altera-hps2fpga.c b/drivers/fpga/altera/altera-hps2fpga.c
 similarity index 100%
-rename from drivers/fpga/zynqmp-fpga.c
-rename to drivers/fpga/xilinx/zynqmp-fpga.c
+rename from drivers/fpga/altera-hps2fpga.c
+rename to drivers/fpga/altera/altera-hps2fpga.c
+diff --git a/drivers/fpga/altera-pr-ip-core-plat.c b/drivers/fpga/altera/altera-pr-ip-core-plat.c
+similarity index 100%
+rename from drivers/fpga/altera-pr-ip-core-plat.c
+rename to drivers/fpga/altera/altera-pr-ip-core-plat.c
+diff --git a/drivers/fpga/altera-pr-ip-core.c b/drivers/fpga/altera/altera-pr-ip-core.c
+similarity index 100%
+rename from drivers/fpga/altera-pr-ip-core.c
+rename to drivers/fpga/altera/altera-pr-ip-core.c
+diff --git a/drivers/fpga/altera-ps-spi.c b/drivers/fpga/altera/altera-ps-spi.c
+similarity index 100%
+rename from drivers/fpga/altera-ps-spi.c
+rename to drivers/fpga/altera/altera-ps-spi.c
+diff --git a/drivers/fpga/socfpga-a10.c b/drivers/fpga/altera/socfpga-a10.c
+similarity index 100%
+rename from drivers/fpga/socfpga-a10.c
+rename to drivers/fpga/altera/socfpga-a10.c
+diff --git a/drivers/fpga/socfpga.c b/drivers/fpga/altera/socfpga.c
+similarity index 100%
+rename from drivers/fpga/socfpga.c
+rename to drivers/fpga/altera/socfpga.c
+diff --git a/drivers/fpga/stratix10-soc.c b/drivers/fpga/altera/stratix10-soc.c
+similarity index 100%
+rename from drivers/fpga/stratix10-soc.c
+rename to drivers/fpga/altera/stratix10-soc.c
+diff --git a/drivers/fpga/ts73xx-fpga.c b/drivers/fpga/altera/ts73xx-fpga.c
+similarity index 100%
+rename from drivers/fpga/ts73xx-fpga.c
+rename to drivers/fpga/altera/ts73xx-fpga.c
 -- 
 2.26.3
 
