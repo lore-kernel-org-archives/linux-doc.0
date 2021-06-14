@@ -2,243 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DED73C48BE8
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:17:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED317C49EA2
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:24:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C526661246
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:17:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D41A2613B9
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:24:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235542AbhFNUTj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 16:19:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30074 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234935AbhFNUTg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 16:19:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623701853;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=48bjdR1NLAI+LnEF7dKeko2J72GoFENKIfUW9/6F9Ro=;
-        b=bUfdAMThepvNsl09F6Crkj1e+dNyhcVGg7P8RfQJF+S+n3sRZyYUi6AqIBnbZMnoeX5/jl
-        sPsUpeQkZ6DgbnqgCucxP3QwFPZkn3zXkI8zlkKYe8UEDW/QYmA3cvXIS8IIJZ3UqLtvSB
-        eMQKRjayOtu/MVnA+nNi81kCSkKI22g=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-cUcD1-K6MWmdOfE8lpXAMQ-1; Mon, 14 Jun 2021 16:17:32 -0400
-X-MC-Unique: cUcD1-K6MWmdOfE8lpXAMQ-1
-Received: by mail-ot1-f70.google.com with SMTP id e28-20020a9d491c0000b02903daf90867beso7963060otf.11
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 13:17:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=48bjdR1NLAI+LnEF7dKeko2J72GoFENKIfUW9/6F9Ro=;
-        b=gLm7tslpo7tbYS0BrzRl0KPHdAN0OlAx6iFuVMcNwInuJNlAio4z9YpHMWJMUqfCO4
-         sM/A1jlTgzI76/gSz3QW0xi33UPunbpymuNJ2+DP4WmRVslTkqUyb56J8kNHv8xaui6a
-         7LlZwWl8tUuIxtEI7nkCCqTGc7zyPGVkGR6377m1rJ8ZSbEU6gJnt1CzHe/hidyqqvpQ
-         JZNytT9AS66I/w9j4Gn/CfDRMTVTxW6DH3wM+jUmT7zR5kTGaQL+5Ktv285Lpy5TP+wB
-         p3aBg9P16hTDfk+whxxL7Qihjjswz0HGR4YyZ8ZfnvY3Ba5RTNVB5latTCSmUZBfbrfw
-         89Mg==
-X-Gm-Message-State: AOAM531P9d9LW+7Y99kGfO1iz7JYqBUACrUQnQoQwtk4viOqvvk2Jx2d
-        HjjjmKukIg1DsCKbbVMb0T/ruB8OyugcET6aL2i9l8OAs2xn/tBZJ8l6QOM3dtPgFZGtGMIg66+
-        tq2RN9ved7dgbuIkP/e5f
-X-Received: by 2002:a05:6830:2476:: with SMTP id x54mr14958026otr.293.1623701849598;
-        Mon, 14 Jun 2021 13:17:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0XFjy3LT1wiB4YYU/Lhzpn8Z5S2BIhQmLh52HqgpzLeC6Pr2Erm4I2ORjMhxDIxuNaaqUXQ==
-X-Received: by 2002:a05:6830:2476:: with SMTP id x54mr14958004otr.293.1623701849345;
-        Mon, 14 Jun 2021 13:17:29 -0700 (PDT)
-Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id b198sm408535oii.19.2021.06.14.13.17.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 13:17:29 -0700 (PDT)
-From:   trix@redhat.com
-To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
-        michal.simek@xilinx.com, gregkh@linuxfoundation.org,
-        krzysztof.kozlowski@canonical.com, nava.manne@xilinx.com,
-        yilun.xu@intel.com, davidgow@google.com, fpacheco@redhat.com,
-        richard.gong@intel.com, luca@lucaceresoli.net
-Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH v4 4/4] fpga: lattice: reorganize to subdir layout
-Date:   Mon, 14 Jun 2021 13:16:48 -0700
-Message-Id: <20210614201648.3358206-6-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210614201648.3358206-1-trix@redhat.com>
-References: <20210614201648.3358206-1-trix@redhat.com>
+        id S235114AbhFNU0W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 16:26:22 -0400
+Received: from lilium.sigma-star.at ([109.75.188.150]:59380 "EHLO
+        lilium.sigma-star.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234848AbhFNU0W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 16:26:22 -0400
+X-Greylist: delayed 455 seconds by postgrey-1.27 at vger.kernel.org; Mon, 14 Jun 2021 16:26:18 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by lilium.sigma-star.at (Postfix) with ESMTP id 7C89818190E4A;
+        Mon, 14 Jun 2021 22:16:38 +0200 (CEST)
+Received: from lilium.sigma-star.at ([127.0.0.1])
+        by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id EytU5U21JfDt; Mon, 14 Jun 2021 22:16:37 +0200 (CEST)
+Received: from lilium.sigma-star.at ([127.0.0.1])
+        by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Yxr3TtJK9DNP; Mon, 14 Jun 2021 22:16:37 +0200 (CEST)
+From:   Richard Weinberger <richard@nod.at>
+To:     keyrings@vger.kernel.org
+Cc:     David Gstir <david@sigma-star.at>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        David Howells <dhowells@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Fabio Estevam <festevam@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        James Bottomley <jejb@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: [PATCH 3/3] doc: trusted-encrypted: add DCP as new trust source
+Date:   Mon, 14 Jun 2021 22:16:20 +0200
+Message-Id: <20210614201620.30451-4-richard@nod.at>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210614201620.30451-1-richard@nod.at>
+References: <20210614201620.30451-1-richard@nod.at>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+From: David Gstir <david@sigma-star.at>
 
-Follow drivers/net/ethernet/ which has control configs
-NET_VENDOR_BLA that map to drivers/net/ethernet/bla
-Since fpgas do not have many vendors, drop the 'VENDOR' and use
-FPGA_BLA.
+Update the documentation for trusted and encrypted KEYS with DCP as new
+trust source:
 
-There are several new subdirs
-altera/
-dfl/
-lattice/
-xilinx/
+- Describe security properties of DCP trust source
+- Describe key usage
+- Document blob format
 
-Each subdir has a Kconfig that has a new/reused
-
-if FPGA_BLA
-  ... existing configs ...
-endif FPGA_BLA
-
-Which is sourced into the main fpga/Kconfig
-
-Each subdir has a Makefile whose transversal is controlled in the
-fpga/Makefile by
-
-obj-$(CONFIG_FPGA_BLA) += bla/
-
-This is the lattice/ subdir part.
-
-Create a lattice/ subdir
-Move ice40* and machxo2* files to it.
-Add a Kconfig and Makefile
-
-Signed-off-by: Tom Rix <trix@redhat.com>
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: David Gstir <david@sigma-star.at>
+Cc: David Howells <dhowells@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: James Bottomley <jejb@linux.ibm.com>
+Cc: James Morris <jmorris@namei.org>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: keyrings@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-integrity@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
+Cc: Mimi Zohar <zohar@linux.ibm.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Co-developed-by: Richard Weinberger <richard@nod.at>
+Signed-off-by: David Gstir <david@sigma-star.at>
 ---
- drivers/fpga/Kconfig                     | 14 +-----------
- drivers/fpga/Makefile                    | 13 ++++-------
- drivers/fpga/lattice/Kconfig             | 29 ++++++++++++++++++++++++
- drivers/fpga/lattice/Makefile            |  4 ++++
- drivers/fpga/{ => lattice}/ice40-spi.c   |  0
- drivers/fpga/{ => lattice}/machxo2-spi.c |  0
- 6 files changed, 39 insertions(+), 21 deletions(-)
- create mode 100644 drivers/fpga/lattice/Kconfig
- create mode 100644 drivers/fpga/lattice/Makefile
- rename drivers/fpga/{ => lattice}/ice40-spi.c (100%)
- rename drivers/fpga/{ => lattice}/machxo2-spi.c (100%)
+ .../security/keys/trusted-encrypted.rst       | 84 ++++++++++++++++++-
+ 1 file changed, 83 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
-index 2c829b1105925..955b155da3575 100644
---- a/drivers/fpga/Kconfig
-+++ b/drivers/fpga/Kconfig
-@@ -12,19 +12,6 @@ menuconfig FPGA
- 
- if FPGA
- 
--config FPGA_MGR_ICE40_SPI
--	tristate "Lattice iCE40 SPI"
--	depends on OF && SPI
--	help
--	  FPGA manager driver support for Lattice iCE40 FPGAs over SPI.
--
--config FPGA_MGR_MACHXO2_SPI
--	tristate "Lattice MachXO2 SPI"
--	depends on SPI
--	help
--	  FPGA manager driver support for Lattice MachXO2 configuration
--	  over slave SPI interface.
--
- config FPGA_BRIDGE
- 	tristate "FPGA Bridge Framework"
- 	help
-@@ -48,6 +35,7 @@ config OF_FPGA_REGION
- 
- source "drivers/fpga/altera/Kconfig"
- source "drivers/fpga/dfl/Kconfig"
-+source "drivers/fpga/lattice/Kconfig"
- source "drivers/fpga/xilinx/Kconfig"
- 
- endif # FPGA
-diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
-index db83aeb997f24..9197698201e3a 100644
---- a/drivers/fpga/Makefile
-+++ b/drivers/fpga/Makefile
-@@ -4,19 +4,16 @@
- #
- 
- # Core FPGA Manager Framework
--obj-$(CONFIG_FPGA)			+= fpga-mgr.o
--
--# FPGA Manager Drivers
--obj-$(CONFIG_FPGA_MGR_ICE40_SPI)	+= ice40-spi.o
--obj-$(CONFIG_FPGA_MGR_MACHXO2_SPI)	+= machxo2-spi.o
-+obj-$(CONFIG_FPGA) += fpga-mgr.o
- 
- # FPGA Bridge Drivers
--obj-$(CONFIG_FPGA_BRIDGE)		+= fpga-bridge.o
-+obj-$(CONFIG_FPGA_BRIDGE) += fpga-bridge.o
- 
- # High Level Interfaces
--obj-$(CONFIG_FPGA_REGION)		+= fpga-region.o
--obj-$(CONFIG_OF_FPGA_REGION)		+= of-fpga-region.o
-+obj-$(CONFIG_FPGA_REGION) += fpga-region.o
-+obj-$(CONFIG_OF_FPGA_REGION) += of-fpga-region.o
- 
- obj-$(CONFIG_FPGA_ALTERA) += altera/
- obj-$(CONFIG_FPGA_DFL) += dfl/
-+obj-$(CONFIG_FPGA_LATTICE) += lattice/
- obj-$(CONFIG_FPGA_XILINX) += xilinx/
-diff --git a/drivers/fpga/lattice/Kconfig b/drivers/fpga/lattice/Kconfig
-new file mode 100644
-index 0000000000000..6c2f1ae17e4f6
---- /dev/null
-+++ b/drivers/fpga/lattice/Kconfig
-@@ -0,0 +1,29 @@
-+# SPDX-License-Identifier: GPL-2.0-only
+diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Document=
+ation/security/keys/trusted-encrypted.rst
+index 80d5a5af62a1..e8413122e4bc 100644
+--- a/Documentation/security/keys/trusted-encrypted.rst
++++ b/Documentation/security/keys/trusted-encrypted.rst
+@@ -35,6 +35,11 @@ safe.
+          Rooted to Hardware Unique Key (HUK) which is generally burnt in=
+ on-chip
+          fuses and is accessible to TEE only.
+=20
++     (3) DCP (Data Co-Processor: crypto accelerator of various i.MX SoCs=
+)
 +
-+config FPGA_LATTICE
-+	bool "Lattice FPGAs"
-+	default y
-+	help
-+	  If you have a lattice fpga, say Y.
++         Rooted to a one-time programmable key (OTP) that is generally b=
+urnt in
++         the on-chip fuses and is accessbile to the DCP encryption engin=
+e only.
 +
-+	  Note that the answer to this question doesn't directly affect the
-+	  kernel: saying N will just cause the configurator to skip all
-+	  the questions about lattice fpgas. If you say Y, you will be asked
-+	  for your specific device in the following questions.
+   *  Execution isolation
+=20
+      (1) TPM
+@@ -46,6 +51,12 @@ safe.
+          Customizable set of operations running in isolated execution
+          environment verified via Secure/Trusted boot process.
+=20
++     (3) DCP
 +
-+if FPGA_LATTICE
++         Fixed set of cryptographic operations running in isolated execu=
+tion
++         environment. Only basic blob key encryption is executed there.
++         The actual key sealing/unsealing is done on main processor/kern=
+el space.
 +
-+config FPGA_MGR_ICE40_SPI
-+	tristate "Lattice iCE40 SPI"
-+	depends on OF && SPI
-+	help
-+	  FPGA manager driver support for Lattice iCE40 FPGAs over SPI.
+   * Optional binding to platform integrity state
+=20
+      (1) TPM
+@@ -63,6 +74,11 @@ safe.
+          Relies on Secure/Trusted boot process for platform integrity. I=
+t can
+          be extended with TEE based measured boot process.
+=20
++     (3) DCP
 +
-+config FPGA_MGR_MACHXO2_SPI
-+	tristate "Lattice MachXO2 SPI"
-+	depends on SPI
-+	help
-+	  FPGA manager driver support for Lattice MachXO2 configuration
-+	  over slave SPI interface.
++         Relies on Secure/Trusted boot process (called HAB by vendor) fo=
+r
++         platform integrity.
 +
-+endif #FPGA_LATTICE
-diff --git a/drivers/fpga/lattice/Makefile b/drivers/fpga/lattice/Makefile
-new file mode 100644
-index 0000000000000..f542c96a73d40
---- /dev/null
-+++ b/drivers/fpga/lattice/Makefile
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0-only
+   *  Interfaces and APIs
+=20
+      (1) TPM
+@@ -74,10 +90,14 @@ safe.
+          TEEs have well-documented, standardized client interface and AP=
+Is. For
+          more details refer to ``Documentation/staging/tee.rst``.
+=20
++     (3) DCP
 +
-+obj-$(CONFIG_FPGA_MGR_ICE40_SPI) += ice40-spi.o
-+obj-$(CONFIG_FPGA_MGR_MACHXO2_SPI) += machxo2-spi.o
-diff --git a/drivers/fpga/ice40-spi.c b/drivers/fpga/lattice/ice40-spi.c
-similarity index 100%
-rename from drivers/fpga/ice40-spi.c
-rename to drivers/fpga/lattice/ice40-spi.c
-diff --git a/drivers/fpga/machxo2-spi.c b/drivers/fpga/lattice/machxo2-spi.c
-similarity index 100%
-rename from drivers/fpga/machxo2-spi.c
-rename to drivers/fpga/lattice/machxo2-spi.c
--- 
-2.26.3
++         Vendor-specific API that is implemented as part of the DCP cryp=
+to driver in
++         ``drivers/crypto/mxs-dcp.c``.
+=20
+   *  Threat model
+=20
+-     The strength and appropriateness of a particular TPM or TEE for a g=
+iven
++     The strength and appropriateness of a particular TPM, TEE or DCP fo=
+r a given
+      purpose must be assessed when using them to protect security-releva=
+nt data.
+=20
+=20
+@@ -103,6 +123,14 @@ access control policy within the trust source.
+      from platform specific hardware RNG or a software based Fortuna CSP=
+RNG
+      which can be seeded via multiple entropy sources.
+=20
++  * DCP (Data Co-Processor: crypto accelerator of various i.MX SoCs)
++
++     The DCP hardware device itself does not provide a dedicated RNG int=
+erface,
++     so the kernel default RNG is used. SoCs with DCP like the i.MX6ULL =
+do have
++     a dedicated hardware RNG that is independent from DCP which can be =
+enabled
++     to back the kernel RNG.
++
++
+ Encrypted Keys
+ --------------
+=20
+@@ -188,6 +216,19 @@ Usage::
+ specific to TEE device implementation.  The key length for new keys is a=
+lways
+ in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
+=20
++Trusted Keys usage: DCP
++-----------------------
++
++Usage::
++
++    keyctl add trusted name "new keylen" ring
++    keyctl add trusted name "load hex_blob" ring
++    keyctl print keyid
++
++"keyctl print" returns an ASCII hex copy of the sealed key, which is in =
+format
++specific to this DCP key-blob implementation.  The key length for new ke=
+ys is
++always in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
++
+ Encrypted Keys usage
+ --------------------
+=20
+@@ -370,3 +411,44 @@ string length.
+ privkey is the binary representation of TPM2B_PUBLIC excluding the
+ initial TPM2B header which can be reconstructed from the ASN.1 octed
+ string length.
++
++DCP Blob Format
++---------------
++
++The Data Co-Processor (DCP) provides hardware-bound AES keys using its
++AES encryption engine only. It does not provide direct key sealing/unsea=
+ling.
++To make DCP hardware encryption keys usable as trust source, we define
++our own custom format that uses a hardware-bound key to secure the seali=
+ng
++key stored in the key blob.
++
++Whenever a new tusted key using DCP is generated, we generate a random 1=
+28-bit
++blob encryption key (BEK) and 128-bit nonce. The BEK and nonce are used =
+to
++encrypt the trusted key payload using AES-128-GCM.
++
++The BEK itself is encrypted using the hardware-bound key using the DCP's=
+ AES
++encryption engine with AES-128-ECB. The encrypted BEK, generated nonce,
++BEK-encrypted payload and authentication tag make up the blob format tog=
+ether
++with a version number, payload length and authentication tag::
++
++    /*
++     * struct dcp_blob_fmt - DCP BLOB format.
++     *
++     * @fmt_version: Format version, currently being %1
++     * @blob_key: Random AES 128 key which is used to encrypt @payload,
++     *            @blob_key itself is encrypted with OTP or UNIQUE devic=
+e key in
++     *            AES-128-ECB mode by DCP.
++     * @nonce: Random nonce used for @payload encryption.
++     * @payload_len: Length of the plain text @payload.
++     * @payload: The payload itself, encrypted using AES-128-GCM and @bl=
+ob_key,
++     *           GCM auth tag of size AES_BLOCK_SIZE is attached at the =
+end of it.
++     *
++     * The total size of a DCP BLOB is sizeof(struct dcp_blob_fmt) + @pa=
+yload_len +
++     * AES_BLOCK_SIZE.
++     */
++    struct dcp_blob_fmt {
++            __u8 fmt_version;
++            __u8 blob_key[AES_KEYSIZE_128];
++            __u8 nonce[AES_KEYSIZE_128];
++            __le32 payload_len;
++            __u8 payload[0];
++    } __packed;
+--=20
+2.26.2
 
