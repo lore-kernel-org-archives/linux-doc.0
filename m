@@ -2,97 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B49C48BDF
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:44:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B785CC49360
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 00:09:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F06F661370
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Jun 2021 23:44:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EFA561370
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 00:09:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232076AbhFMXqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Jun 2021 19:46:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33224 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232196AbhFMXqp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jun 2021 19:46:45 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDD3BC061574;
-        Sun, 13 Jun 2021 16:44:43 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 681012C0;
-        Sun, 13 Jun 2021 23:44:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 681012C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1623627883; bh=d1TtPFBTK4Qk5H6nv24+5P0QvXYMUJpqAJ7Mpv3BtHw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=X8iQ7/0XXxASHlaRjqQ4h62Z7Yy9P3F9zgCKF/E76XoYblogvs4JB3nQy0I+g684D
-         8Kc6NfAA0BylGwRaFdKMWzIC1U4eM/fqCBqjvEc0K4cJLbSKDpq1t5rjgIFkuKh3u3
-         7btx8SLM/UtyTRGopJYGBonauP603D6IMnAN2rEkkq7rsXaOpZGfyO6vb+SIh8MvCg
-         luuAP1oYSpnVRltt2HUYN4ZqTh4GuVyH5WHXTXJrQSK/4MqQBE4M1Oddh0syjjEkTS
-         1J2egGP+Q3W6Hwy9G5itypQGBfUTSuequ2UND6wOUllgPVUelqPJiZqtUgbr1cx0vW
-         W/80aoqo9Jzfw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, kexec@lists.infradead.org,
-        akpm@linux-foundation.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, vgoyal@redhat.com,
-        x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
-        dyoung@redhat.com
-Subject: Re: [PATCH v3] Documentation: kdump: update kdump guide
-In-Reply-To: <878s3dbbuz.fsf@meer.lwn.net>
-References: <20210609083218.GB591017@MiWiFi-R3L-srv>
- <878s3dbbuz.fsf@meer.lwn.net>
-Date:   Sun, 13 Jun 2021 17:44:42 -0600
-Message-ID: <87sg1l9vo5.fsf@meer.lwn.net>
+        id S232252AbhFNALl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Jun 2021 20:11:41 -0400
+Received: from mail-pj1-f44.google.com ([209.85.216.44]:34682 "EHLO
+        mail-pj1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232076AbhFNALk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jun 2021 20:11:40 -0400
+Received: by mail-pj1-f44.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso9508004pjx.1
+        for <linux-doc@vger.kernel.org>; Sun, 13 Jun 2021 17:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :mime-version;
+        bh=h32ZdeK5RKzC063QoYBvXTN/Sk1/Ao8RIMdPAqhyDvc=;
+        b=bBY1iLjq5KAsOgJJU9XWtgGslSWkB5InMwOPPqBd0ktGNr9MXZpNGRbU9pUUbSqX8o
+         Armx4gdwy07gyOtKjB0oCddPDzOEtfbejApzoU+Dv8Pw38wGzHNY163cyQlIM6jw37lq
+         frjE0cW0VWqZWb0eWG42Pfwc4CFqbC+EfsyHGpvlPU/JcXEfifCs071hH0lfIJ+ervJN
+         nnE+NMQkr0QFff+KaJQ04UxObUoEWnqGD8tuBP3W6UnZIdkQGr/RmCKIrzE6dI0VbD50
+         hfEMOSADw4FjkIRHQ4XnMShNZOJwHVG+SiTdbey4DxxBkZmPY/HwzLmLIFFU4zfMhVHz
+         3FLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:mime-version;
+        bh=h32ZdeK5RKzC063QoYBvXTN/Sk1/Ao8RIMdPAqhyDvc=;
+        b=eNzFmzsa5I+caAbizYcgvIJfxojK7VXb3Q57aDYtHC74nO/ohU6l1cEfdn8onFv3MJ
+         YQzLQG6ZXKSALexbFhWpaNHkHwLqkX0HK99aWNPm2AtqUkLhnuf5G3q8bU6eX048PnjE
+         jjKAkP4xt2yUCEx1mhuMnYojQj0DljVpgo21WJzi9rOKuG3p0Gk5yEDO/oletzi0fJo8
+         LECQCXyGQhJZRTyvDdsuZjei8taqE7zUJSIqagLb9rxcgJ83Ty67MGAebh4QiU9K/sMn
+         w3nPXzATvj2qoLzkiItEQIItvkr4AXe7w3MsrHMg+/JOnnqt+TNjOBnfa0CcpfeKwuGr
+         1Byw==
+X-Gm-Message-State: AOAM533lmsmSckNbyTA+mT337NH7wkQvmPVnbrxTwyAaqH9S/fEvDHe2
+        CubLKU4hZzMauV6AJxyxiaJmHQ==
+X-Google-Smtp-Source: ABdhPJzCyv2B2aY7dk+E8FAkNlWGxhRsGlbNrxsPKTN5Csu+qaiSjOqhurb/y5JF6ObiuZ9LcYTk4g==
+X-Received: by 2002:a17:902:c789:b029:110:4933:71ce with SMTP id w9-20020a170902c789b0290110493371cemr14271292pla.56.1623629318660;
+        Sun, 13 Jun 2021 17:08:38 -0700 (PDT)
+Received: from [2620:15c:17:3:da04:749c:4915:4eee] ([2620:15c:17:3:da04:749c:4915:4eee])
+        by smtp.gmail.com with ESMTPSA id o133sm11072412pfd.49.2021.06.13.17.08.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Jun 2021 17:08:37 -0700 (PDT)
+Date:   Sun, 13 Jun 2021 17:08:36 -0700 (PDT)
+From:   David Rientjes <rientjes@google.com>
+To:     Oliver Glitta <glittao@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+cc:     cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, faiyazm@codeaurora.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC 4/4] docs: add description of debugfs files for SLUB
+ cache
+In-Reply-To: <20210608084517.6119-1-glittao@gmail.com>
+Message-ID: <7996da8b-793-5f14-6844-78fd378d99c@google.com>
+References: <20210521121127.24653-1-glittao@gmail.com> <20210608084517.6119-1-glittao@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> writes:
+On Tue, 8 Jun 2021, glittao@gmail.com wrote:
 
-> Baoquan He <bhe@redhat.com> writes:
->
->> Some parts of the guide are aged, hence need be updated.
->>
->> 1) The backup area of the 1st 640K on X86_64 has been removed
->>    by below commits, update the description accordingly.
->>
->>    commit 7c321eb2b843 ("x86/kdump: Remove the backup region handling")
->>    commit 6f599d84231f ("x86/kdump: Always reserve the low 1M when the crashkernel option is specified")
->>
->> 2) Sort out the descripiton of "crashkernel syntax" part.
->>
->> 3) And some other minor cleanups.
->>
->> Signed-off-by: Baoquan He <bhe@redhat.com>
->
-> Applied, thanks.
+> From: Oliver Glitta <glittao@gmail.com>
+> 
+> Add description of debugfs files alloc_traces, free_traces
+> and all_objects to SLUB cache documentation.
+> 
+> Signed-off-by: Oliver Glitta <glittao@gmail.com>
 
-Actually, this patch added a docs build warning:
+This looks good to me, thanks Oliver.
 
-  /stuff/k/git/kernel/Documentation/admin-guide/kdump/kdump.rst:286: WARNING: Literal block ends without a blank line; unexpected unindent.
+Adding in Randy Dunlap as well for Documentation changes if he has a 
+chance to take a look.
 
-I've gone ahead and inserted the blank line to fix this.  In the future,
-please build-test your changes to make sure that you are not adding new
-warnings.
-
-Thanks,
-
-jon
+Acked-by: David Rientjes <rientjes@google.com>
