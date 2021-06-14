@@ -2,105 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B930C4743C
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:46:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D80C2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:52:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32CD7613CC
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:46:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0D1561245
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 15:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233482AbhFNPs7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 11:48:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45314 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233591AbhFNPsy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 11:48:54 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2777C061574;
-        Mon, 14 Jun 2021 08:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=QYZbYwbmFAlPHZAyueGumfXzbFC24Yyq8ZlF/TwUjkw=; b=ng9emBskU15gYywjflfBygUUYq
-        eZHcqnywd14BX7LrL+alDCm0LnySQDWq4iU5112HvNNg8M9WeWAFpHtcnCNy1m7/RAtd3uoU5kHqx
-        3n7b//QR34Ya51Ibwh7AL+Hrg5Pu9c8AXHQ1J48AC8yPEdDxiXY1NDtNuxvlJyClCAibpqq0jSpgX
-        T8ugRG9ZgSkfhlWL07cp8RL/10viIyiH/mJg0UtzLFLJJ17JbOW5q4EEFgngzlM4uWdx4u8Lf7A3m
-        l9AOVyLGrfjESKUHcACVgTEINhvOvr3+gjTRoIw3OE0eUSuUFnG5NKtzvzGFg6XQqqV5mOnWnT/Ft
-        Dh/UFbWw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lsonJ-0074ny-On; Mon, 14 Jun 2021 15:46:40 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id CF1C59831CA; Mon, 14 Jun 2021 17:46:39 +0200 (CEST)
-Date:   Mon, 14 Jun 2021 17:46:39 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Marco Elver <elver@google.com>, Bill Wendling <morbo@google.com>,
+        id S234172AbhFNPye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 11:54:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51696 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233894AbhFNPyd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jun 2021 11:54:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6292860FEE;
+        Mon, 14 Jun 2021 15:52:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1623685950;
+        bh=trCbMGPAbt9/hzrWlV6LYuE+SaIgEDWh+DuiywOoDhw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1BXHD7aM5xf8LRFVUUHxCZ+Yl93ZkZLcH9KouwmBEbG/fCvejrJXDiOYN0Js5XS8k
+         8TSvta5Pm1Po7SmLwZ4YqKncEIcqI9CPnPZFqhyjRpq9PRPWzHmdwLp460+PGcldi9
+         pwUibem6vahztLNFxVphy+pMq5W1O681ZGxp+Bbg=
+Date:   Mon, 14 Jun 2021 17:52:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>, johannes.berg@intel.com,
-        oberpar@linux.vnet.ibm.com, linux-toolchains@vger.kernel.org
-Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization
- infrastructure
-Message-ID: <20210614154639.GB68749@worktop.programming.kicks-ass.net>
-References: <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
- <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
- <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
- <20210612202505.GG68208@worktop.programming.kicks-ass.net>
- <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
- <YMca2aa+t+3VrpN9@hirez.programming.kicks-ass.net>
- <CAGG=3QVPCuAx9UMTOzQp+8MJk8KVyOfaYeV0yehpVwbCaYMVpg@mail.gmail.com>
- <YMczJGPsxSWNgJMG@hirez.programming.kicks-ass.net>
- <CANpmjNNnZv7DHYaJBL7knn9P+50F+SOCvis==Utaf-avENnVsw@mail.gmail.com>
- <202106140817.F584D2F@keescook>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin <hpa@zytor.com>, Greg Kroah-Hartman
+        <gregkh@linuxfoundation.org>, Rafael J. Wysocki " <rafael@kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>, x86@kernel.org,
+        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 4/4] driver core: Allow showing cpu as offline if not
+ valid in cpuset context
+Message-ID: <YMd7PEU0KPulsgMz@kroah.com>
+References: <20210614152306.25668-1-longman@redhat.com>
+ <20210614152306.25668-5-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202106140817.F584D2F@keescook>
+In-Reply-To: <20210614152306.25668-5-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 08:26:01AM -0700, Kees Cook wrote:
-> > 2. Like (1) but also keep GCOV, given proper support for attribute
-> > no_instrument_function would probably fix it (?).
-> > 
-> > 3. Keep GCOV (and KCOV of course). Somehow extract PGO profiles from KCOV.
-> > 
-> > 4. Somehow extract PGO profiles from GCOV, or modify kernel/gcov to do so.
+On Mon, Jun 14, 2021 at 11:23:06AM -0400, Waiman Long wrote:
+> Make /sys/devices/system/cpu/cpu<n>/online file to show a cpu as
+> offline if it is not a valid cpu in a proper cpuset context when the
+> cpuset_bound_cpuinfo sysctl parameter is turned on.
+
+This says _what_ you are doing, but I do not understand _why_ you want
+to do this.
+
+What is going to use this information?  And now you are showing more
+files than you previously did, so what userspace tool is now going to
+break?
+
+
+
 > 
-> If there *is* a way to "combine" these, I don't think it makes sense
-> to do it now. PGO has users (and is expanding[1]), and trying to
-> optimize the design before even landing the first version seems like a
-> needless obstruction, and to likely not address currently undiscovered
-> requirements.
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  drivers/base/core.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 54ba506e5a89..176b927fade2 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/sched/mm.h>
+>  #include <linux/sysfs.h>
+>  #include <linux/dma-map-ops.h> /* for dma_default_coherent */
+> +#include <linux/cpuset.h>
+>  
+>  #include "base.h"
+>  #include "power/power.h"
+> @@ -2378,11 +2379,24 @@ static ssize_t uevent_store(struct device *dev, struct device_attribute *attr,
+>  }
+>  static DEVICE_ATTR_RW(uevent);
+>  
+> +static bool is_device_cpu(struct device *dev)
+> +{
+> +	return dev->bus && dev->bus->dev_name
+> +			&& !strcmp(dev->bus->dev_name, "cpu");
+> +}
 
-Even if that were so (and I'm not yet convinced), the current proposal
-is wedded to llvm-pgo, there is no way gcc-pgo could reuse any of this
-code afaict, which then means they have to create yet another variant.
+No, this is not ok, there is a reason we did not put RTTI in struct
+devices, so don't try to fake one here please.
 
-Sorting this *before* the first version is exactly the right time.
+> +
+>  static ssize_t online_show(struct device *dev, struct device_attribute *attr,
+>  			   char *buf)
+>  {
+>  	bool val;
+>  
+> +	/*
+> +	 * Show a cpu as offline if the cpu number is not valid in a
+> +	 * proper cpuset bounding cpuinfo context.
+> +	 */
+> +	if (is_device_cpu(dev) && !cpuset_current_cpu_valid(dev->id))
+> +		return sysfs_emit(buf, "0\n");
 
-Since when are we merging code when the requirements are not clear?
+Why are you changing the driver core for a single random, tiny set of
+devices?  The device code for those devices can handle this just fine,
+do NOT modify the driver core for each individual driver type, that way
+lies madness.
 
-Just to clarify:
+This change is not ok, sorry.
 
-Nacked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-
-For all this PGO crud.
+greg k-h
