@@ -2,148 +2,305 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B0EEC4743C
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 14:36:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E15BC2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 14:49:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E541D61246
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 14:36:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 733C86128B
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 14:49:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232798AbhFNOiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 10:38:20 -0400
-Received: from mail-mw2nam08on2082.outbound.protection.outlook.com ([40.107.101.82]:8097
-        "EHLO NAM04-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232770AbhFNOiU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jun 2021 10:38:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UbIUG9yMZp2WjnkL/hJ1oFRxJYFZFLxhYKr4hxbjxmiOBVNqm/aRsSMfcne3STVRz+ThiLzjkvfwnhG++QAQH7WdYa5TJXsJYSupbSSHgjTpG9QxCnNnkxq899YjdwjmY0jn+blyYVT55MmRDLG13mAAucaAHtIipr9/xhFjdWDIxhDFA+L/S9Fx55/yBXTLcSfgNJYjIFXuL32whKtPi/rFd74tLUJtd54lWJ+Xm9mBFXPq6QL7OjgSfz6OpO8EjzoEeTZPwoKT8qKUtuUmVgDe6CEpTAjhJDVIc+6tb7dHE74UagTbRcGOGuanHa8FGNIzJ6jdE1aB+71A/TuA+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pmh/ynZcS28kerLpItdVblA/RnCZ93xnhhAw6DZbs4o=;
- b=hV8Y4S9V1QxzhlnOKz371YEuZafC+stOzhvlz+1+4l4E9DC7QlWxcgkCjjdoK7+4AmYGAO3qPIEr4fXy+oo0lZEsZzW9x+HRJImhDc5sivozRr70FepyhpOqc5ta+54S5fh6Jhj1YjrajhkjnAROJII81GEn6FQG6I75IrU9ZZO7rcrZCFSiRb2cCW0gcmCsV/8lPYhpsf1g/xDhaDoW67/RZCmkp5OCi7pQdT6NEhKqMVwiFeCpesXJSGLygPRtmMq3hty6tMtwN52R2c5oCTjChadNXP0gCoB15ifcEJ+ldzue5mBI60pRjXNc8rp+P2g/Kpqd3hcmoGlf8HyaqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pmh/ynZcS28kerLpItdVblA/RnCZ93xnhhAw6DZbs4o=;
- b=bfSKVu5wNHZINQhcWuGEq/Ve9DBxrD5KYdvvpeZSTrRx9V1PEu8nCvBO5r5wcXKw+weDckFmKvQuyLU0kJZbyW5TG1kdlY9SRJK1d58VA/brTr/oU7uben9DaWj7mYKPw1wIyg78Jj5DQg50BxvzYWxVj8ZH6xSnlVC5Q5Ic6mt1qUlIls1vsR54dlL7arJfcM2ScST9ec2LMY05Bd/dOdXqGp/Qd2ZUWonTdK9EQCTm37ON/dawtm2s/p6mwHJgM/ZB764Q+j7LlOOxJMqnptRvK/1D54tey0PH9P90Zqwzo6Fbnx61DNVzhPCjP0GYYflNO/7PUhIMFgMIki9v+w==
-Authentication-Results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5352.namprd12.prod.outlook.com (2603:10b6:208:314::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Mon, 14 Jun
- 2021 14:36:15 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::3d51:a3b9:8611:684e]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::3d51:a3b9:8611:684e%7]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
- 14:36:15 +0000
-Date:   Mon, 14 Jun 2021 11:36:13 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Kirti Wankhede <kwankhede@nvidia.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
+        id S232869AbhFNOvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 10:51:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233110AbhFNOve (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 10:51:34 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEC8CC061574
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 07:49:19 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id v22so21598719lfa.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 07:49:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=Y92uEa6Ng6L8nssFn3ifSjrubFH60zO3GKp2+iBw/qQ=;
+        b=GY4N4KkKAumGPOM/b/0lzSXi40kXMP8bzKjynpVYem+oVqmCdpSKbfmVrji7/lNJe5
+         VjpMMTX4fTeFbKN+BtJ8mgLEYSyYTaqODwAevMYF9BUtcOj9jc8djW9Yrt3foTB568p2
+         wQPgZQntGN5ZZnFXN27gDHTgIwaAT0APKPyrGlEhYtCzGutXf1Vg6SDPGaZypojxISdY
+         m5iMqXQBZ7UGdDHOcjuxzMS7TCPhFsqbQdR/xoj4asMLPkd8ZZLhvmOz5/acAEp9XL6v
+         svP8iWbbaLLZeBqpE0aRJ/tDj1ytPUXjNBNCNJBs6l6lHuVx3Pv9BM++YR3cCg6ju6wT
+         9+UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=Y92uEa6Ng6L8nssFn3ifSjrubFH60zO3GKp2+iBw/qQ=;
+        b=BkraU6uCwBcP+qw9O2DtGvPmIJn6Ivudf1R74Lc8cqGaeEJvG5lXtOfMDOs7HxtryS
+         ynorDPWofHpWUtFF0ncJKtl54wmr1V8va9TMsHeEdsygvFVjXtbRM9FYiiq7aei35Fb2
+         Ou6kJ61UNc2e6PTs1TOF4+pEECpcvkXI4N+y/MiBc8hy9nQ2zPPzFwFAhEZx8JBsDRHn
+         kigUjzUZdpBjvdAniYsVgb+i2tfPgABtNd6/cBV/ZQRzjP9QLn2h2KptUnhQpsdELjyO
+         6f8fH7T6u8k6300i9IEGtAeIcoJua9emjO8L2lMTlgryF66oGqV4LsD1ir8BH4WdGaoL
+         eqlA==
+X-Gm-Message-State: AOAM533j5kg1SOEphEolprEwLdDtCvUzpJBj91BcNAoNkL6Z9ZxsfYZR
+        EDXafN6qgJXzFABpmdb/R5c=
+X-Google-Smtp-Source: ABdhPJw0cEa/ci8Lg7+cwTs1zmvhFaYzrmwkLmfTPGFHNy4R09D/xkuCKqHRvew/BeM8LhfVNaB+6w==
+X-Received: by 2002:ac2:4f92:: with SMTP id z18mr11796592lfs.343.1623682157956;
+        Mon, 14 Jun 2021 07:49:17 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id y8sm1501618lfj.192.2021.06.14.07.49.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jun 2021 07:49:17 -0700 (PDT)
+Date:   Mon, 14 Jun 2021 17:49:12 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Liviu Dudau <liviu.dudau@arm.com>
+Cc:     Simon Ser <contact@emersion.fr>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Steven Price <steven.price@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alison Wang <alison.wang@nxp.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <maxime@cerno.tech>,
         Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 00/10] Allow mdev drivers to directly create the
- vfio_device
-Message-ID: <20210614143613.GJ1002214@nvidia.com>
-References: <0-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
- <e6cecaed-3257-e636-52c2-abf7af2cdffa@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e6cecaed-3257-e636-52c2-abf7af2cdffa@nvidia.com>
-X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: MN2PR04CA0025.namprd04.prod.outlook.com
- (2603:10b6:208:d4::38) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Huang Rui <ray.huang@amd.com>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210614174912.15a49336@eldfell>
+In-Reply-To: <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+        <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+        <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+        <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (47.55.113.94) by MN2PR04CA0025.namprd04.prod.outlook.com (2603:10b6:208:d4::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Mon, 14 Jun 2021 14:36:15 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lsnhF-006ivO-WF; Mon, 14 Jun 2021 11:36:14 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7be63fd1-ae80-4309-810d-08d92f41c3ad
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5352:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5352E73F20ABA8B4BE060EF4C2319@BL1PR12MB5352.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tXh+1xKz0Di3t+6AsrtfBMpz7+NQT+okG9g2pTc9vuAqIy0orsW6z85dOTQEKruDUyaDdJNLQaJJyheDZZlTtq1aqOOGes1f9xmffEEoaM+tpVsWakw1npWRUXIYUAyNW2MkFZdedWcJCz7g7DdTkEDqQ97QKpVZAEifietm1Oaf4rnmyhgd08g7GrSou7Ds98AJ/YrcHtR/U3Yla+p9avqbL7cq+GG12d28URuWGZs+alDy+/wPLAc4SsgaqjK+zGNxRohEGgkBscZZrPKEyTwm5iDkyhY/rWH8HUAn5KVjI0cD8xDxoFTYOI31XG11cYFedXot5M6L7sO3J1kTarbyfe8jxr5JPqQgyaOhKnD82jtKy5X4KG/T6U3dKCyda/Ymuu2oYsf9sqgVnK6Gf4ExHqfBel+kAjfbZ6oVG0CKutWDGgBBRvfw6BhTJseHyn8B57NZDJWdzjzP3xsedSa5q9MmRcZyR7BLFEq7iB/0G7SW8AGDSsnspM200S9ULucLtH+zg5e7qHBFv0Zp8VAWKufq4hmkenppctbaC71tybACcqY7sw7JkpPoSzrKn1fJxUL8cjnIBx6sX/qBcpk43lFW6kwClNAQPu8PfMo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(376002)(39860400002)(366004)(136003)(8936002)(66946007)(4326008)(1076003)(426003)(26005)(7416002)(66556008)(66476007)(6862004)(6636002)(33656002)(9746002)(9786002)(186003)(2616005)(316002)(2906002)(86362001)(5660300002)(54906003)(478600001)(8676002)(36756003)(38100700002)(4744005)(37006003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9qOlQrf9C6XyV/OwQ93c+4QHvTa8vOsbxTadM628pw1FsgD+C/Vpzu8tDCFZ?=
- =?us-ascii?Q?sSX4JkJoaW5oXzrSoYwOFcy+HWYkJoJGbiECkp9bXwPDxM0vtOfMazTVlDok?=
- =?us-ascii?Q?O2CA7aUpD9f/FKeIZgN2efZUr7FDNhza+vtkrJqDyFHPUUcpVCUkI26P2/15?=
- =?us-ascii?Q?2z2XCqB/ktbgoEbvKZELbS3U9bwQWOUCMaWVd2idr5OvZVpA9XhlawR7J/0w?=
- =?us-ascii?Q?kdlE4SCUtMC3QOu64eHwUjuDmc/1+G++UR56okwfZ2PnPFkvDabho7qwci3y?=
- =?us-ascii?Q?KBVPxIRqa8bRd9e05WjxV6uJcW1K/1oJFyQYanIUFuwIv4KYKTYeeAVIbaYm?=
- =?us-ascii?Q?eYdLUuDRKULPteukbBvy0UwlE6jIPvNoUMIaUUBwbSu18xd5QpQUjxu1CuSD?=
- =?us-ascii?Q?4pUN4uki0oe/GFgcuoQHlgORMHuMmpiDvxA0SAkxdErco+kgihwwbQuwQngX?=
- =?us-ascii?Q?FLyQ/Gu6vxBTlfqaVtqzPGEb8XPcGDr4RuqVDV9jn0Lt8AqEtJ6uTQp+OHTh?=
- =?us-ascii?Q?Fwsx5HmSFMg0A4LsDUSnJkfsRse+8keOsau0iQ5exC2A87jQsPhi/4c4wOBf?=
- =?us-ascii?Q?SXY8TOm54MIFlQScPB6pre01lcTV7pgndMJQCrM+exbauyJg4LKplFxWf9jD?=
- =?us-ascii?Q?dinUVEnd5mokC60bDy0lGvpbpCmxfkv0A2iwtxrh4phyW5h8JH7TJnBO4OVP?=
- =?us-ascii?Q?kDccNN1yd0otL1NFM09LFiQkcnACGkybWpCvlXHe9rcwffiZyycZHhK5f8yH?=
- =?us-ascii?Q?uImQia+wvXrJB93jaQYAegJcW/28dX7klcxGCfaQWBXNtB7WR5iZBsSs6jfq?=
- =?us-ascii?Q?/1C9nS2SY932Xm7emZVr+1JyMncznw6BkxtjHAJpuJR8MhAIjzew6CFPSEMN?=
- =?us-ascii?Q?vOWFXy/OJQMSOo15IY45+9JwdcvXh4/w24b/PFRy/nmfM3c1vjdPEQSyCymK?=
- =?us-ascii?Q?3D8QV66z82Rn8kxanej2i6WZp8GC4Re6b7uuquKhe3XzC5+YKW+NR48xqG8L?=
- =?us-ascii?Q?bTk4ouVQJ+BuxR/EyYMMA0oaDRK1WISM2hk9Z7GFzfGiIXIo/oePCMGDMGnC?=
- =?us-ascii?Q?YpEDkgLw8mnk+mBtjauCGAz8OFSXjfszlaT/rUGun0qgB4AnQ4zbdUqNohYZ?=
- =?us-ascii?Q?3iZMoc5H9GFNUyscvD7kCi4l5ODzR/qSfzXuFWnqkKK/zY5FwjbJFw89TdHp?=
- =?us-ascii?Q?qmsKRoca+VF7kcmp5CTvlNxHU1VUIXCEyWAKk7GyFL29BEmH0iGZXuWaaEav?=
- =?us-ascii?Q?pQr6fq3/mHKVL9/q0jJ4QXEsn8yRiI/RtWjXExsP1u6qfpFYaHfmfEO4ROBJ?=
- =?us-ascii?Q?vB/cO2CcvB5ngG9/r4+T/PkA?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7be63fd1-ae80-4309-810d-08d92f41c3ad
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 14:36:15.3596
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HwOiGo38SGRWCwcPGleZ8v1T7p7wxHHW3OjXub/PssmAf/mzpi4zBR7fKvT+Y7ad
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5352
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/s_k7/+lmfJUhN.4iHZeKmlr"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 08:04:03PM +0530, Kirti Wankhede wrote:
-> Jason,
-> 
-> I couldn't find patch 1,2,4 and 5 of these series. Can you please keep
-> kvm@vger.kernel.org cc for all patches?
+--Sig_/s_k7/+lmfJUhN.4iHZeKmlr
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-It is an error, sorry
+On Fri, 11 Jun 2021 13:03:09 +0100
+Liviu Dudau <liviu.dudau@arm.com> wrote:
 
-> Also it will be helpful if you can add version prefix, eg. 'v3' for this
-> series, in subject line.
+> On Fri, Jun 11, 2021 at 08:14:59AM +0000, Simon Ser wrote:
+> > On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vetter@ffw=
+ll.ch> wrote:
+> >  =20
+> > > If there's a strong consensus that we really need this then I'm not
+> > > going to nack this, but this really needs a pile of acks from
+> > > compositor folks that they're willing to live with the resulting
+> > > fallout this will likely bring. Your cc list seems to have an absence
+> > > of compositor folks, but instead every driver maintainer. That's
+> > > backwards. We make uapi for userspace, not for kernel driver
+> > > maintainers! =20
+> >=20
+> > In wlroots we have a policy of only allowing standard KMS properties to
+> > be used. Any vendor-specific property is going to be less well-defined,
+> > less widely useful, potentially have more design issues, potentially
+> > overlap in functionality with other vendor-specific properties, likely
+> > have some hardware-specific assumptions, etc.
+> >=20
+> > What matters here is discussing with other driver & user-space folks to
+> > make sure the new property's design is sound. Designing uAPI is hard.
+> >=20
+> > If kernel folks are struggling with a user-space implementation, they
+> > should discuss with user-space folks to see which project would be
+> > interested. There's a chance a compositor will be interested in the new
+> > property and will just do the user-space part for you, if not we can
+> > suggest candidate projects.
+> >=20
+> > tl;dr strong agree with Daniel here. =20
+>=20
+> I think the assumption you and Daniel are making is that the first implem=
+entation of
+> a new KMS property can be made standard from day one and that it will wor=
+k for any
+> late comer driver as is, without having to make changes to its behaviour =
+in a
+> significant way. In my experience that is not the case.
+>=20
+> I think we have moved from the times when we were trying to implement in =
+the Linux
+> world features that were available in the hardware but needed a kernel an=
+d userspace
+> API. The set of properties that exist in KMS cover a lot of needed functi=
+onality and
+> I don't expect to see new properties for stuff that is already supported =
+by hardware.
+>=20
+> What I'm expected to see in the future is new functionality that gets imp=
+lemented by
+> one hardware vendor and the kernel developers trying to enable that for u=
+serspace. It
+> could be that the new property is generic, but there is no way of testing=
+ that on
+> more than one implementation yet, so I'd say we are generous calling it "=
+standard
+> property". When the second or third hardware vendor comes along and start=
+s supporting
+> that property with their own set of extra requirements, then we can call =
+it
+> "standard".
 
-This is not v3, it is a different but related series
+I agree that is a problem with trying to make generic anything. But it
+does not mean you should not even try. Maybe trying really hard saves a
+couple revisions.
 
-Jason
+What I think should be planned for is revisions. How to add new
+properties that do the same thing but better, while documenting that a
+userspace KMS client can use only one revision at a time. You never
+remove old revisions, unless maybe with a DRM client cap they
+could disappear from that file description if that is necessary for
+seeing the new revision.
+
+While designing this, one also needs to take into account that KMS
+clients need to be able to save and restore properties *they do not
+understand*. So exposing two revisions of the same feature
+simultaneously would break save/restore is that's an error.
+
+> Then comes the effort cost: would it be easier to start with a vendor
+> property that only the vendor needs to support (and can submit patches in=
+to the
+> compositors to do so) and when the standard property gets added moves to =
+that, or
+
+But you can't move, you can only add? You can't delete the old property
+in kernel if it was ever released with a kernel and anyone used it. In
+the same sentence you also imply that there is a user of it, so
+removing it will break that user. Then you'll have to track the
+userspace lifetime to figure out which decade you can try removing it.
+
+> should we start with a generic property that gets implemented by the comp=
+ositors
+> (maybe, but then only one vendor supports it) and then later when we actu=
+ally
+> standardise the property we will have to carry backwards compatibility co=
+de in the
+> kernel to handle the old behaviour for old userspace? My proposal to Maxi=
+me was for
+> the former option to be reflected in the documentation, but I would like =
+to hear your
+> thoughts.
+
+You have to carry the backward compatibility in all cases, right?
+
+Userspace OTOH can drop support for older less supported KMS properties
+while taking advantage of a new revision. Userspace is not required to
+support old kernels forever.
+
+
+Here's a wild counter-proposal off a tangent:
+
+How about we make "implemented in and testable with VKMS" the rule,
+instead of "is generic" for new properties?
+
+VKMS is what compositors (will) use in CI. I would feel hugely less bad
+about using a property that only one hardware driver ever implements,
+if also VKMS implements it in a way that compositor CI can observe it
+working.
+
+I don't expect this proposal to be accepted, but it's food for thought.
+The major problem for compositor projects is testing as you usually
+don't have the hardware, IMO. CI tends to not have any hardware.
+
+
+Thanks,
+pq
+
+--Sig_/s_k7/+lmfJUhN.4iHZeKmlr
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDHbGgACgkQI1/ltBGq
+qqfSEw//XKYnCtuk195oOkuEK2xABCRkcU8MfJcqix8gWJlHQSmG9vtFvRJjNWAw
+qUvXGeA5Mu9U44gOZJl6CerXdRY4bS2c7X6LYQYXUn6zljdZko1CfW9UUkatF/c/
+NeZz9rTtze95on/3sm4/dJ4FQck4Cu/lbixPHddXw0lMDAKFK4B3gBqSRxrovq8r
+8k/L1nmUIbZCjo/Iz3E4shNDzjpcHOtBQ/6fl+sp7sU6zrtZPmN7Ma9i/QRu0FN3
+xtCR+ETEWmLPjBRw3s2UGbNYXgQookomn5Xl6rbUj2duG8FTz1wQLbm7QepcrqyQ
+BZ8wWxYGNuswC1jTG9HekwaWQKfbvH6oCPQTYXxk5VCA4QiRt9vIZTrOla9qNfRq
+XJ7L1ero2UVlQdXkgrRaj3h/OmUzrGibU2bnxZNxhtROyXDQ9Xahc0/wNThPddGS
+mZRGiYFMp6KsfBQSf97AiiAwm4uSkseH6BTO0v1bJAcXQxqF+nmpKmByM6MR0Oc+
+IDOQ4lLf22uODS0d7tGOsUTg1IMD8hO0NOoBvLndrzWBu4YnsuwBkMyhayJXpCOo
+WPVNvYfleOgOjtkBmGqn50kdoXleckKaD9L11sQcmAh/UmGoobgz9X/ZB6bT5c6X
+QenRvl/5ISefvKxitDWS9XGBgeMFi1ep8lEvGF4+svXI9nvK+ic=
+=b1pN
+-----END PGP SIGNATURE-----
+
+--Sig_/s_k7/+lmfJUhN.4iHZeKmlr--
