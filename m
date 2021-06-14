@@ -2,92 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09561C48BE8
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 09:36:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC5ADC48BE6
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 09:40:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0136611CE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 09:36:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B64EE61283
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 09:40:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232630AbhFNJiL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 05:38:11 -0400
-Received: from mail-qt1-f178.google.com ([209.85.160.178]:46078 "EHLO
-        mail-qt1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232528AbhFNJiL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 05:38:11 -0400
-Received: by mail-qt1-f178.google.com with SMTP id l17so7988834qtq.12;
-        Mon, 14 Jun 2021 02:36:08 -0700 (PDT)
+        id S232651AbhFNJm4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 05:42:56 -0400
+Received: from mail-ej1-f52.google.com ([209.85.218.52]:36634 "EHLO
+        mail-ej1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232528AbhFNJm4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 05:42:56 -0400
+Received: by mail-ej1-f52.google.com with SMTP id nd37so7852038ejc.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 02:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=BwLjKWDoIuboclHNzBKSWqFVNk7NANaHk7eW7w1fojQ=;
-        b=NSenXLth4ExLalDSsPdx1a/0En/1GiMUEWVLE1c9oTCt+ltSE6PoiCUjw4wRTXnWv8
-         dbdvEmd0Zx2cyggbnePNGBTVsFhSS2X1gRmVyAB1i8Tf0Hx5j9aVFZSyXehXtFRlqqh3
-         mhhf3NgoE/37JgviAQIln2r595REzo0HjIO6InwZsSooBuRPKxAcJ0FKiXtyco6DjYtx
-         mEa46nX9g8A5kBiFkN+61MEpTJo1XHVnCmdUOdCXeenBTOIU0CftMAI9M60WCOYY4Mkk
-         3aynH5wpJNNZEg/flyDwcmD35qtwLsM339I+wYcfoNCxHQA7jCW4dqoV8RBE9aQvsO/y
-         rM2g==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c46qke8DxgxIDv3IuVIKJnlJyIG+YTeThnBZsvtK/rg=;
+        b=fSErw+ts71RNPUmlh7u6mSMZev10ZGJ0qXD5C7j/jV3fM/NbMzS1FXDytLuZM1CgdV
+         beonRP3Fe04w7WDObZtfBQ9KJ1acL1ln420Kie1ZIQ4qfDa7Dhx3f9UwRA+PCiXZojko
+         zVzPodQvw4HAH2YsL9cib9ivdGdVKW4B8YZv+k5d1Ba9VeFSYwpF7h8pwEaTR8vn7Ubb
+         is/gyp9xav5oRylPB2pqjo2co6nYsGtLlZHKd00un3fdYFCER7p/nPmkqb2fvRqfrbaZ
+         48GTOFPh4zMtEwBlfPDido8+yzPju1VCZEXv+YYhxvcLofHLUBYhs2hW1M7Mzpiy/FeO
+         O62w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=BwLjKWDoIuboclHNzBKSWqFVNk7NANaHk7eW7w1fojQ=;
-        b=rdB8epFh6M1Dk0aWYaNPJjd2l/bSjSp5sEn3fUE4w0/COuBNrbQc1GVkdf8IOTFzI4
-         yLoUkEKnuEYEoL1WmIWDn3ncJ70rgWeAcTUtn6YrtfYrMJ/cITojYx1FTp0/gKlFZy7B
-         9E0ZGv6lUuUiys8EZPWtiIZ0b+nQdwoJx+jgDYjRl58p5eXQ1o3daank+J9e85IcmqSo
-         rq85gX4/UkopD1vhPuotExHBbRhA3CIc3mh8zPG17BMWXQwgJHGR30z4DpjRn/6qdcMK
-         oNdHgoM+PLdH9Z380VlXI2WFSERipxAaIbs0Vcbi0fawRfebggpy2E6tkPGQW9PiC65B
-         5BLQ==
-X-Gm-Message-State: AOAM532xXzcbatCZ7UB5k7tjReHtiWhEWiBsu7XWy7RRzWVq14aJRIyA
-        9OU9VNNrCVtts8TfVuKqr2A=
-X-Google-Smtp-Source: ABdhPJxPDuTJ9Z4g2Bn1ljNEHiu6Qv3EmX7yNvDm1YA4tZMupp6hTU8Gh8HJK1CkfnCzIOwLaL2blQ==
-X-Received: by 2002:ac8:5558:: with SMTP id o24mr15734991qtr.18.1623663308342;
-        Mon, 14 Jun 2021 02:35:08 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id h12sm9397095qkj.52.2021.06.14.02.35.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 02:35:07 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     sieberf@amazon.com
-Cc:     sj38.park@gmail.com, Jonathan.Cameron@Huawei.com, acme@kernel.org,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
-        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
-        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
-        guoju.fgj@alibaba-inc.com, linux-damon@amazon.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, mgorman@suse.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
-        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
-        sjpark@amazon.de, snu@amazon.de, vbabka@suse.cz,
-        vdavydov.dev@gmail.com, zgf574564920@gmail.com
-Subject: Re: [PATCH v29 09/13] mm/damon/dbgfs: Support multiple contexts
-Date:   Mon, 14 Jun 2021 09:35:02 +0000
-Message-Id: <20210614093502.16797-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <98a75d0c-2d1a-807e-050b-fb8e7d92f447@amazon.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c46qke8DxgxIDv3IuVIKJnlJyIG+YTeThnBZsvtK/rg=;
+        b=r0UGigrT038896KN2TWoxFphobhmGu6n7TOHepecEqBTu5Fhv42IoYa5ZvntlxiyPy
+         Lu1amJytze8DAGoi7LphleNNeeXhzjhRNTpRUWYV50U9MB4lCJByKwUmnDtx+qmQToTV
+         ie/XPeqFOiXizbN3xxtATRLiMFek5469EW05m/s9m6YWqTQEAug6zB9TNQ94vpUysUjF
+         d+7FVfpGKp33kGb9WIwuAESfu3BF3SagAGGjfHOgEsefFR9Ba2D3sl1HzGvuqaJpb3Fx
+         w55sFOezDrWQ2UUX37byoSgqQ0bJ5/IzDBf3UqOcdVHllAO68i8rExd6bmJFWlRzeuPO
+         NtMA==
+X-Gm-Message-State: AOAM5326SHRUqXgUow16X3AdZeA4+i9THKxnkmA4irsy19e/wjEvWLd1
+        lyX+GFoYZxJXfUIWcUGj09ZeuWSwRwLEDtrj7sFC
+X-Google-Smtp-Source: ABdhPJxopeMnR4SqxM25xYYX5rjY7pdAvEWg+ASkQl7823v5VCussGPx7cWRPnb8Bcn3wXE3paDcbXklIuXpxRCTIfg=
+X-Received: by 2002:a17:906:7188:: with SMTP id h8mr14584262ejk.529.1623663592637;
+ Mon, 14 Jun 2021 02:39:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
+ <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net> <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
+ <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net> <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
+ <20210612202505.GG68208@worktop.programming.kicks-ass.net>
+ <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com> <YMca2aa+t+3VrpN9@hirez.programming.kicks-ass.net>
+In-Reply-To: <YMca2aa+t+3VrpN9@hirez.programming.kicks-ass.net>
+From:   Bill Wendling <morbo@google.com>
+Date:   Mon, 14 Jun 2021 02:39:41 -0700
+Message-ID: <CAGG=3QVPCuAx9UMTOzQp+8MJk8KVyOfaYeV0yehpVwbCaYMVpg@mail.gmail.com>
+Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        andreyknvl@gmail.com, dvyukov@google.com, elver@google.com,
+        johannes.berg@intel.com, oberpar@linux.vnet.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+On Mon, Jun 14, 2021 at 2:01 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> On Sat, Jun 12, 2021 at 01:56:41PM -0700, Bill Wendling wrote:
+> > On Sat, Jun 12, 2021 at 1:25 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > On Sat, Jun 12, 2021 at 12:10:03PM -0700, Bill Wendling wrote:
+> > > Yes it is, but is that sufficient in this case? It very much isn't for
+> > > KASAN, UBSAN, and a whole host of other instrumentation crud. They all
+> > > needed their own 'bugger-off' attributes.
+> > >
+> > > > > We've got KCOV and GCOV support already. Coverage is also not an
+> > > > > argument mentioned anywhere else. Coverage can go pound sand, we really
+> > > > > don't need a third means of getting that.
+> > > > >
+> > > > Those aren't useful for clang-based implementations. And I like to
+> > > > look forward to potential improvements.
+> > >
+> > > I look forward to less things doing the same over and over. The obvious
+> > > solution if of course to make clang use what we have, not the other way
+> > > around.
+> > >
+> > That is not the obvious "solution".
+>
+> Because having GCOV, KCOV and PGO all do essentially the same thing
+> differently, makes heaps of sense?
+>
+It does when you're dealing with one toolchain without access to another.
 
-On Mon, 14 Jun 2021 11:30:12 +0200 <sieberf@amazon.com> wrote:
+> I understand that the compilers actually generates radically different
+> instrumentation for the various cases, but essentially they're all
+> collecting (function/branch) arcs.
+>
+That's true, but there's no one format for profiling data that's
+usable between all compilers. I'm not even sure there's a good way to
+translate between, say, gcov and llvm's format. To make matters more
+complicated, each compiler's format is tightly coupled to a specific
+version of that compiler. And depending on *how* the data is collected
+(e.g. sampling or instrumentation), it may not give us the full
+benefit of FDO/PGO.
 
-> +    new_dir = debugfs_create_dir(name, root);
-> +    dbgfs_dirs[dbgfs_nr_ctxs] = new_dir;
-> 
-> debugfs_create_dir might return ERR_PTR, should this be checked?
+> I'm thinking it might be about time to build _one_ infrastructure for
+> that and define a kernel arc format and call it a day.
+>
+That may be nice, but it's a rather large request.
 
-Greg, the maintainer of debugfs, recommended to just ignore that:
-https://lore.kernel.org/linux-mm/YB1kZaD%2F7omxXztF@kroah.com/
-
-
-Thanks,
-SeongJae Park
+> Note that if your compiler does arcs with functions (like gcc, unlike
+> clang) we can also trivially augment the arcs with PMU counter data. I
+> once did that for userspace.
