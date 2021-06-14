@@ -2,77 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B237C48BE6
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 08:10:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A96C48BE6
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 09:01:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FC2D613C8
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 08:10:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE65F613AD
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 09:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbhFNIMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 04:12:14 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:29388 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232592AbhFNIML (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 04:12:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1623658210; x=1655194210;
-  h=to:cc:references:subject:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=xEflTEyJ3ZXntxi3JP2PbSWowPZDRRzwaez53lJXRfI=;
-  b=sKki8mMkfjAp6MIATVod7qaUDIEJQxPYQAsdhGpQxZQvhQHJE0FC6Iiv
-   WbE1x6tVI0Z0Qn64RSvdJ7csgcQYckBhuNyWwBmS/tMGu8M+nf0TR+kKZ
-   sLZSWJ8/MnOVIDUfzz7XjQyQpl0BNTYXIezZoDs0l4G/IezycH6W5pID4
-   s=;
-X-IronPort-AV: E=Sophos;i="5.83,272,1616457600"; 
-   d="scan'208";a="139960241"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-2b-c300ac87.us-west-2.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-9102.sea19.amazon.com with ESMTP; 14 Jun 2021 08:10:02 +0000
-Received: from EX13D31EUB003.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-2b-c300ac87.us-west-2.amazon.com (Postfix) with ESMTPS id 9F6ACA18B2;
-        Mon, 14 Jun 2021 08:09:59 +0000 (UTC)
-Received: from EX13MTAUEA002.ant.amazon.com (10.43.61.77) by
- EX13D31EUB003.ant.amazon.com (10.43.166.177) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Mon, 14 Jun 2021 08:09:57 +0000
-Received: from u898248c994d452.ant.amazon.com (10.50.205.34) by
- mail-relay.amazon.com (10.43.61.169) with Microsoft SMTP Server (TLS) id
- 15.0.1497.18 via Frontend Transport; Mon, 14 Jun 2021 08:09:48 +0000
-To:     <sj38.park@gmail.com>
-CC:     <Jonathan.Cameron@Huawei.com>, <acme@kernel.org>,
-        <akpm@linux-foundation.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendanhiggins@google.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <greg@kroah.com>, <gthelen@google.com>,
-        <guoju.fgj@alibaba-inc.com>, <linux-damon@amazon.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <mgorman@suse.de>, <minchan@kernel.org>,
-        <mingo@redhat.com>, <namhyung@kernel.org>, <peterz@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <rppt@kernel.org>, <shakeelb@google.com>, <shuah@kernel.org>,
-        <sjpark@amazon.de>, <snu@amazon.de>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <zgf574564920@gmail.com>
-References: <20210520075629.4332-1-sj38.park@gmail.com>
-Subject: Re: [PATCH v29 00/13] Introduce Data Access MONitor (DAMON)
-From:   <sieberf@amazon.com>
-Message-ID: <76be5866-ab27-2478-1fd3-89a75870802a@amazon.com>
-Date:   Mon, 14 Jun 2021 10:09:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S232602AbhFNJDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 05:03:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40266 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232589AbhFNJDy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 05:03:54 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A32EC061574;
+        Mon, 14 Jun 2021 02:01:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=gvQrFSkw5++aiUZW2ki8ogkV2fD43cfF9pJvBzEa8wU=; b=XoM1gHYxIjqvMxVJMY4CKuk4Ox
+        IwVhisqSDwezb2nX2yE8GfR1RZCrHUTemjXuVSCL02rc/oOZ6x7E0HeCyP7ivy6gDGPuZZNN5J+A9
+        K3GaK/Zas0BRbCWZUODpk+TPSTEUNxxq4fstiigTygn8OVkx5deC4qJ/z5cFUWo9uPUf3fxaMRePP
+        jw4aKCtoHGcRswYTAGupqN2waJ5Eh25rWDRCA6qg/jTpEptLp4ksg7m5DCO7Zd9TdE34RWD0MOgup
+        ZVYkkagevDV4dSRT4rQz0awKixNEq7/Ay6xGqiV3qvIODL5Indo/l+ZcFn/6+8PVKy4MoEqFoKxve
+        62eEj5Ew==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lsiT5-005BXk-BI; Mon, 14 Jun 2021 09:01:17 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 08C5A300252;
+        Mon, 14 Jun 2021 11:01:14 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E0E572026A646; Mon, 14 Jun 2021 11:01:13 +0200 (CEST)
+Date:   Mon, 14 Jun 2021 11:01:13 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Bill Wendling <morbo@google.com>
+Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        andreyknvl@gmail.com, dvyukov@google.com, elver@google.com,
+        johannes.berg@intel.com, oberpar@linux.vnet.ibm.com
+Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <YMca2aa+t+3VrpN9@hirez.programming.kicks-ass.net>
+References: <20210111081821.3041587-1-morbo@google.com>
+ <20210407211704.367039-1-morbo@google.com>
+ <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net>
+ <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
+ <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
+ <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
+ <20210612202505.GG68208@worktop.programming.kicks-ass.net>
+ <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210520075629.4332-1-sj38.park@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For patches 00 to 07,
-Reviewed-by: Fernand Sieber <sieberf@amazon.com>
+On Sat, Jun 12, 2021 at 01:56:41PM -0700, Bill Wendling wrote:
+> On Sat, Jun 12, 2021 at 1:25 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> > On Sat, Jun 12, 2021 at 12:10:03PM -0700, Bill Wendling wrote:
+> > Yes it is, but is that sufficient in this case? It very much isn't for
+> > KASAN, UBSAN, and a whole host of other instrumentation crud. They all
+> > needed their own 'bugger-off' attributes.
+> >
+> > > > We've got KCOV and GCOV support already. Coverage is also not an
+> > > > argument mentioned anywhere else. Coverage can go pound sand, we really
+> > > > don't need a third means of getting that.
+> > > >
+> > > Those aren't useful for clang-based implementations. And I like to
+> > > look forward to potential improvements.
+> >
+> > I look forward to less things doing the same over and over. The obvious
+> > solution if of course to make clang use what we have, not the other way
+> > around.
+> >
+> That is not the obvious "solution".
 
+Because having GCOV, KCOV and PGO all do essentially the same thing
+differently, makes heaps of sense?
+
+I understand that the compilers actually generates radically different
+instrumentation for the various cases, but essentially they're all
+collecting (function/branch) arcs.
+
+I'm thinking it might be about time to build _one_ infrastructure for
+that and define a kernel arc format and call it a day.
+
+Note that if your compiler does arcs with functions (like gcc, unlike
+clang) we can also trivially augment the arcs with PMU counter data. I
+once did that for userspace.
