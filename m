@@ -2,254 +2,227 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7209EC48BE6
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 18:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC38C2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:17:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 581CE6128A
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 18:48:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D84E6134F
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 20:17:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233714AbhFNSuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 14:50:10 -0400
-Received: from mail-bn8nam11on2048.outbound.protection.outlook.com ([40.107.236.48]:57569
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233071AbhFNSuJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jun 2021 14:50:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kcjgQYyy2IACCBcAnG9Nmf4XJ/8xaX4aWE+3rGG6ulomd0wy8s3/GsPcxqUHMj8phZP5bXtFOAjmmRTJnjR7ilXLTx1wtLy/TrByJU04YJk3YrcWjytsoZ9A0HWhP8IRYELOftirrBv+HhFxzPTkWayWQTVJWb9HVc8muB2zu1dSOIdJyP9Bt3eZ+R1AzvsRXypu90p30+UE+D9dRSdz+NiqWpEaZCkq7LAlRHhMNFTV1K+MKHYd8c3N5ywo4NUk8kZvKGbiKHvTigy/Oun9WlYZg5/C5U6R8KdKdiZlAv0CCUQBaNdYEyv1xP9GFPyboi5M8PBu9Q6FWy3JfF2RPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1lUtA7rG7IndFm1Q7eX+K2c1M6radf+0tc74Zcvy+7E=;
- b=ex3HKgF3nB9A6XEujCa//x4Bfo4stJENvqA1T36yboVO7KIhtzvPUyfUQN4l1Cd/YuM3gXoUjQ42GZLket2WGK+zL0pYN7HGy1/Yy4stvcBtlyj3VpO+8lBFJ4+WM/ptNINfa4y3MNBOjOoMe7h+P+HdEPZnyiP3p/Dk7PijKwyal1WDHKlO8dPL9ccOzhngYk5Q44+w46tZm2KApc3I/y/ccYOrFE6AG1es8kL6zQK/LXzN65rN2/6iph/LZYsK1b4LAKo8PtyOZxQPmYQBcxF/PeFVGs4seYfQy4u53Z86FXEjbRyO8lDidOvx4PHXIV2+VFdMB259rDKPxxhpjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=lwn.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1lUtA7rG7IndFm1Q7eX+K2c1M6radf+0tc74Zcvy+7E=;
- b=OTeJ2dFMemKYY8MeHc9QCTsT/ch24mbjuZQZ8A4C9qxCuBBtzH3C4oM+g60DYYn5Avy1QBT/+fMkWtUR0bNettwgAKA+N1yU7YTg0KMFfjVKVfUD6dJzVtyNhCaG+dmcz7zq2jlrgC+2iEscZcIMjvxcZIAzCB7s42DjpBRbE8aQsOtuUwkkF/sJGGmuLxFOmXcy3tNVAtMLzkBtKsTjwmmZu40g9qsgZl5RZrkT+UUuGcSN4Qahy27jrYZLlv7yCz7xQCf/PItvpSXK9cvhjODRQwlfSanT4wIWLI70/ZRyIF5jgw20t8VMrsAfTnkSS6/o468Hr95Cy+5RU38C+g==
-Received: from BN6PR22CA0034.namprd22.prod.outlook.com (2603:10b6:404:37::20)
- by SN6PR12MB4703.namprd12.prod.outlook.com (2603:10b6:805:ee::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Mon, 14 Jun
- 2021 18:48:04 +0000
-Received: from BN8NAM11FT047.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:37:cafe::19) by BN6PR22CA0034.outlook.office365.com
- (2603:10b6:404:37::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20 via Frontend
- Transport; Mon, 14 Jun 2021 18:48:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; lwn.net; dkim=none (message not signed)
- header.d=none;lwn.net; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT047.mail.protection.outlook.com (10.13.177.220) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4219.21 via Frontend Transport; Mon, 14 Jun 2021 18:48:03 +0000
-Received: from [10.40.101.248] (172.20.187.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 14 Jun
- 2021 18:47:56 +0000
-Subject: Re: [PATCH 02/10] driver core: Better distinguish probe errors in
- really_probe
-To:     Christoph Hellwig <hch@lst.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        "Alex Williamson" <alex.williamson@redhat.com>
-CC:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        <intel-gfx@lists.freedesktop.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20210614150846.4111871-1-hch@lst.de>
- <20210614150846.4111871-3-hch@lst.de>
-X-Nvconfidentiality: public
-From:   Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <8002c963-ce48-ecf8-a209-58195818a160@nvidia.com>
-Date:   Tue, 15 Jun 2021 00:17:53 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S233479AbhFNUTU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 16:19:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25364 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235096AbhFNUTL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 16:19:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623701827;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=6BGYUcTx5tsZwPa17u6H+0H1QgwUbqfF91m+1x+AxEk=;
+        b=YJHWV82vS1RnOkr8kEctR5xoLTs1gYFhORbJ6aNj78xb5/7gOJdYxxcY7PJ6dlIJ/JU5du
+        eF6711JUqtasJ4jNOQ8VWU/tdK9m+TiNAzpybLEEixAFQbI4qEvknTZbyIsl/v9c82jRD/
+        pZ8I42tjndDmv2svjIyE3Ki5MigFO4w=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-575-pdcORlNmNwS8TTnswHUDog-1; Mon, 14 Jun 2021 16:17:06 -0400
+X-MC-Unique: pdcORlNmNwS8TTnswHUDog-1
+Received: by mail-oo1-f71.google.com with SMTP id l13-20020a4aa78d0000b0290245c8f11ac2so7635204oom.11
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 13:17:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6BGYUcTx5tsZwPa17u6H+0H1QgwUbqfF91m+1x+AxEk=;
+        b=MrCgQ4qftDcuIzSyo0SFDqdt3KztjWMu+S8eHZj1v1CbxnIRfl1SixnheJuVVN89JL
+         GA0H1tIKIRPvgjgCxWEjzVAXv4VFGqoa0bca0AIzDEu9Ql4QtdQ/GDdBSndnKiSz/U4E
+         hoBC4y1E2yPPMVOu5nZiTrWvJcOPs6t7lEbsUxU92fbLSWXP1j1+S1tEVWrKpHUoAGmo
+         AUeHxvYdB/fV9pCqaCw2Wr7qN8yZaf1XZVfNbopjclFhy+bIuIz72xWf5i98XX5deVpn
+         C2QWEPh2TThoMh/ty5L6GfvsaN4NsAgyjxUdto2YGsmG/ECdNhvc7O2roxpVngBL0yPH
+         +LIA==
+X-Gm-Message-State: AOAM530phzCRc2n7PPphNVHf9dtsIxteWOcjxTGb+ea+tA3TbnS0KiBu
+        UCsAIW8NKvA4rZTPA3CMhX70W8wmTx0jbwrTFUR/7B0G6bR+WhYpQVQ2M5yoKl/eVJtx5jCgS/+
+        N4YTaEagXpO1xDkyAUe8G
+X-Received: by 2002:a9d:ea2:: with SMTP id 31mr15359830otj.200.1623701825793;
+        Mon, 14 Jun 2021 13:17:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxStQ7LCZTicbomt7siOy4OuZfVD05aIA2Dix5G42Cxc5pR7KAybcNVdBiEuXhJuxkEq35kJg==
+X-Received: by 2002:a9d:ea2:: with SMTP id 31mr15359806otj.200.1623701825558;
+        Mon, 14 Jun 2021 13:17:05 -0700 (PDT)
+Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id b198sm408535oii.19.2021.06.14.13.17.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jun 2021 13:17:05 -0700 (PDT)
+From:   trix@redhat.com
+To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
+        michal.simek@xilinx.com, gregkh@linuxfoundation.org,
+        krzysztof.kozlowski@canonical.com, nava.manne@xilinx.com,
+        yilun.xu@intel.com, davidgow@google.com, fpacheco@redhat.com,
+        richard.gong@intel.com, luca@lucaceresoli.net
+Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH v4 0/4] fpga: reorganize to subdirs
+Date:   Mon, 14 Jun 2021 13:16:43 -0700
+Message-Id: <20210614201648.3358206-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210614150846.4111871-3-hch@lst.de>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7e4fb0ea-b64a-4fa1-de95-08d92f64f155
-X-MS-TrafficTypeDiagnostic: SN6PR12MB4703:
-X-Microsoft-Antispam-PRVS: <SN6PR12MB4703602F19E7BE3DC5DE804EDC319@SN6PR12MB4703.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1417;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pd9FPgaDis/th8MdjU5hiYAvIBou/c73tBP/EubbPPDBoPapALl/KSYcDtj4kPOTgES2+Gdb7jrrJSXxdhgUeSVu69JfuOElL0ZV2/0PYZye5cNt8kNvFjLOG1ZQONJRsg9xracqwuzjm32r7ULCd2dIu4BjO9CNJFB+4tqGxXJCe4XJ2d+mFNfz1Tnb47iPsarHwRm+NKDYQa+dooJjEtN4xAYhhowaqREZmeG4jmzsMACkBkwueIcADsZjuRMlTaw6tRJo7jXSbHq94tKt9S998lNbI8nBDoV6ZvOrZc5vSU9cYm/xukbBxWGkuxD/DXQ9yrspgkvi0c7bcvVgCv/FlLwEw7nRlpozUS8nOjsUllUTR0PLMR/4ucpQ86yQYpSbg9GIy0ToPO5zNUBzrPyP/A/hHM9zJhJLKRRS/dOa41zH34MV4TQmgJnMKUXusrOdEQYhd/8zPLqcYjoGrCbxCurmnx66rK/uW4xYvvcX1hXI0sdrQ+gemcnAdoytYNFpmDuR+ldplJsykiI12obi9ercJ3m3Kp8D8hbw+TJitoiZTFxv0qAKnNwSliHfiIg0xCStoFdTPGJSnXSc/Ot+qzbuj2B08oY1wFdaTV9jmXgSqBsps7/iK+WceGVNk92+Qc2J5adzly7ahSZBzneZYLt6HXLLtFyaluImzjmeMLzp0T4OTLycxUSIjYC4
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(396003)(39860400002)(46966006)(36840700001)(16526019)(110136005)(54906003)(8676002)(478600001)(186003)(36756003)(7636003)(2616005)(5660300002)(86362001)(356005)(83380400001)(31696002)(4326008)(70586007)(82740400003)(316002)(8936002)(2906002)(16576012)(31686004)(7416002)(426003)(26005)(53546011)(82310400003)(36860700001)(6666004)(336012)(70206006)(36906005)(47076005)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 18:48:03.9998
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e4fb0ea-b64a-4fa1-de95-08d92f64f155
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT047.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB4703
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Tom Rix <trix@redhat.com>
 
+The incoming xrt patchset has a toplevel subdir xrt/
+The current fpga/ uses a single dir with filename prefixes to subdivide owners
+For consistency, there should be only one way to organize the fpga/ dir.
+Because the subdir model scales better, refactor to use it.
+The discussion wrt xrt is here:
+https://lore.kernel.org/linux-fpga/68e85a4f-4a10-1ff9-0443-aa565878c855@redhat.com/
 
-On 6/14/2021 8:38 PM, Christoph Hellwig wrote:
-> really_probe tries to special case errors from ->probe, but due to all
-> other initialization added to the function over time now a lot of
-> internal errors hit that code path as well.  Untangle that by adding
-> a new probe_err local variable and apply the special casing only to
-> that.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/base/dd.c | 72 +++++++++++++++++++++++++++--------------------
->   1 file changed, 41 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 7477d3322b3a..999bc737a8f0 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -513,12 +513,42 @@ static ssize_t state_synced_show(struct device *dev,
->   }
->   static DEVICE_ATTR_RO(state_synced);
->   
-> +
-> +static int call_driver_probe(struct device *dev, struct device_driver *drv)
-> +{
-> +	int ret = 0;
-> +
-> +	if (dev->bus->probe)
-> +		ret = dev->bus->probe(dev);
-> +	else if (drv->probe)
-> +		ret = drv->probe(dev);
-> +
-> +	switch (ret) {
-> +	case -EPROBE_DEFER:
-> +		/* Driver requested deferred probing */
-> +		dev_dbg(dev, "Driver %s requests probe deferral\n", drv->name);
-> +		break;
-> +	case -ENODEV:
-> +	case -ENXIO:
-> +		pr_debug("%s: probe of %s rejects match %d\n",
-> +			 drv->name, dev_name(dev), ret);
-> +		break;
-> +	default:
-> +		/* driver matched but the probe failed */
-> +		pr_warn("%s: probe of %s failed with error %d\n",
-> +			drv->name, dev_name(dev), ret);
+Follow drivers/net/ethernet/ which has control configs
+NET_VENDOR_BLA that map to drivers/net/ethernet/bla
+Since fpgas do not have many vendors, drop the 'VENDOR' and use
+FPGA_BLA.
 
-There should be case 0, that is, success case before default case as below:
-+	case 0:
-+		/* Driver returned success */
-+		break;
+There are several new subdirs
+altera/
+dfl/
+lattice/
+xilinx/
 
-Otherwise even in case of success, above warning would mislead that 
-probe has failed.
+Each subdir has a Kconfig that has a new/reused
 
-Thanks,
-Kirti
+if FPGA_BLA
+  ... existing configs ...
+endif FPGA_BLA
 
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->   static int really_probe(struct device *dev, struct device_driver *drv)
->   {
-> -	int ret = -EPROBE_DEFER;
->   	int local_trigger_count = atomic_read(&deferred_trigger_count);
->   	bool test_remove = IS_ENABLED(CONFIG_DEBUG_TEST_DRIVER_REMOVE) &&
->   			   !drv->suppress_bind_attrs;
-> +	int ret = -EPROBE_DEFER, probe_ret = 0;
->   
->   	if (defer_all_probes) {
->   		/*
-> @@ -572,15 +602,15 @@ static int really_probe(struct device *dev, struct device_driver *drv)
->   			goto probe_failed;
->   	}
->   
-> -	if (dev->bus->probe) {
-> -		ret = dev->bus->probe(dev);
-> -		if (ret)
-> -			goto probe_failed;
-> -	} else if (drv->probe) {
-> -		ret = drv->probe(dev);
-> -		if (ret)
-> -			goto probe_failed;
-> -	}
-> +	probe_ret = call_driver_probe(dev, drv);
-> +	if (probe_ret) {
-> +		/*
-> +		 * Ignore errors returned by ->probe so that the next driver can
-> +		 * try its luck.
-> +		   */
-> +		ret = 0;
-> +		goto probe_failed;
-> +	}
->   
->   	if (device_add_groups(dev, drv->dev_groups)) {
->   		dev_err(dev, "device_add_groups() failed\n");
-> @@ -650,28 +680,8 @@ static int really_probe(struct device *dev, struct device_driver *drv)
->   		dev->pm_domain->dismiss(dev);
->   	pm_runtime_reinit(dev);
->   	dev_pm_set_driver_flags(dev, 0);
-> -
-> -	switch (ret) {
-> -	case -EPROBE_DEFER:
-> -		/* Driver requested deferred probing */
-> -		dev_dbg(dev, "Driver %s requests probe deferral\n", drv->name);
-> +	if (probe_ret == -EPROBE_DEFER)
->   		driver_deferred_probe_add_trigger(dev, local_trigger_count);
-> -		break;
-> -	case -ENODEV:
-> -	case -ENXIO:
-> -		pr_debug("%s: probe of %s rejects match %d\n",
-> -			 drv->name, dev_name(dev), ret);
-> -		break;
-> -	default:
-> -		/* driver matched but the probe failed */
-> -		pr_warn("%s: probe of %s failed with error %d\n",
-> -			drv->name, dev_name(dev), ret);
-> -	}
-> -	/*
-> -	 * Ignore errors returned by ->probe so that the next driver can try
-> -	 * its luck.
-> -	 */
-> -	ret = 0;
->   done:
->   	atomic_dec(&probe_count);
->   	wake_up_all(&probe_waitqueue);
-> 
+Which is sourced into the main fpga/Kconfig
+
+Each subdir has a Makefile whose transversal is controlled in the
+fpga/Makefile by
+
+obj-$(CONFIG_FPGA_BLA) += bla/
+
+Some cleanup to arrange thing alphabetically and make fpga/Makefile's
+whitespace look more like net/'s
+
+Changes from
+v1
+  Drop renaming files
+  Cleanup makefiles
+
+v2
+  Expand commit messages
+  Add SPDX to Kconfig
+  Expand new Kconfig variable help messages
+
+v3
+  Update Documentation/fpga/dfl.rst for fpga/dfl/
+
+Tom Rix (4):
+  fpga: dfl: reorganize to subdir layout
+  fpga: xilinx: reorganize to subdir layout
+  fpga: altera: reorganize to subdir layout
+  fpga: lattice: reorganize to subdir layout
+
+ Documentation/fpga/dfl.rst                    |   4 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/fpga/Kconfig                          | 204 +-----------------
+ drivers/fpga/Makefile                         |  47 +---
+ drivers/fpga/altera/Kconfig                   |  85 ++++++++
+ drivers/fpga/altera/Makefile                  |  12 ++
+ drivers/fpga/{ => altera}/altera-cvp.c        |   0
+ drivers/fpga/{ => altera}/altera-fpga2sdram.c |   0
+ .../fpga/{ => altera}/altera-freeze-bridge.c  |   0
+ drivers/fpga/{ => altera}/altera-hps2fpga.c   |   0
+ .../{ => altera}/altera-pr-ip-core-plat.c     |   0
+ drivers/fpga/{ => altera}/altera-pr-ip-core.c |   0
+ drivers/fpga/{ => altera}/altera-ps-spi.c     |   0
+ drivers/fpga/{ => altera}/socfpga-a10.c       |   0
+ drivers/fpga/{ => altera}/socfpga.c           |   0
+ drivers/fpga/{ => altera}/stratix10-soc.c     |   0
+ drivers/fpga/{ => altera}/ts73xx-fpga.c       |   0
+ drivers/fpga/dfl/Kconfig                      |  83 +++++++
+ drivers/fpga/dfl/Makefile                     |  16 ++
+ drivers/fpga/{ => dfl}/dfl-afu-dma-region.c   |   0
+ drivers/fpga/{ => dfl}/dfl-afu-error.c        |   0
+ drivers/fpga/{ => dfl}/dfl-afu-main.c         |   0
+ drivers/fpga/{ => dfl}/dfl-afu-region.c       |   0
+ drivers/fpga/{ => dfl}/dfl-afu.h              |   0
+ drivers/fpga/{ => dfl}/dfl-fme-br.c           |   0
+ drivers/fpga/{ => dfl}/dfl-fme-error.c        |   0
+ drivers/fpga/{ => dfl}/dfl-fme-main.c         |   0
+ drivers/fpga/{ => dfl}/dfl-fme-mgr.c          |   0
+ drivers/fpga/{ => dfl}/dfl-fme-perf.c         |   0
+ drivers/fpga/{ => dfl}/dfl-fme-pr.c           |   0
+ drivers/fpga/{ => dfl}/dfl-fme-pr.h           |   0
+ drivers/fpga/{ => dfl}/dfl-fme-region.c       |   0
+ drivers/fpga/{ => dfl}/dfl-fme.h              |   0
+ drivers/fpga/{ => dfl}/dfl-n3000-nios.c       |   0
+ drivers/fpga/{ => dfl}/dfl-pci.c              |   0
+ drivers/fpga/{ => dfl}/dfl.c                  |   0
+ drivers/fpga/{ => dfl}/dfl.h                  |   0
+ drivers/fpga/lattice/Kconfig                  |  29 +++
+ drivers/fpga/lattice/Makefile                 |   4 +
+ drivers/fpga/{ => lattice}/ice40-spi.c        |   0
+ drivers/fpga/{ => lattice}/machxo2-spi.c      |   0
+ drivers/fpga/xilinx/Kconfig                   |  55 +++++
+ drivers/fpga/xilinx/Makefile                  |   6 +
+ .../fpga/{ => xilinx}/xilinx-pr-decoupler.c   |   0
+ drivers/fpga/{ => xilinx}/xilinx-spi.c        |   0
+ drivers/fpga/{ => xilinx}/zynq-fpga.c         |   0
+ drivers/fpga/{ => xilinx}/zynqmp-fpga.c       |   0
+ 47 files changed, 305 insertions(+), 242 deletions(-)
+ create mode 100644 drivers/fpga/altera/Kconfig
+ create mode 100644 drivers/fpga/altera/Makefile
+ rename drivers/fpga/{ => altera}/altera-cvp.c (100%)
+ rename drivers/fpga/{ => altera}/altera-fpga2sdram.c (100%)
+ rename drivers/fpga/{ => altera}/altera-freeze-bridge.c (100%)
+ rename drivers/fpga/{ => altera}/altera-hps2fpga.c (100%)
+ rename drivers/fpga/{ => altera}/altera-pr-ip-core-plat.c (100%)
+ rename drivers/fpga/{ => altera}/altera-pr-ip-core.c (100%)
+ rename drivers/fpga/{ => altera}/altera-ps-spi.c (100%)
+ rename drivers/fpga/{ => altera}/socfpga-a10.c (100%)
+ rename drivers/fpga/{ => altera}/socfpga.c (100%)
+ rename drivers/fpga/{ => altera}/stratix10-soc.c (100%)
+ rename drivers/fpga/{ => altera}/ts73xx-fpga.c (100%)
+ create mode 100644 drivers/fpga/dfl/Kconfig
+ create mode 100644 drivers/fpga/dfl/Makefile
+ rename drivers/fpga/{ => dfl}/dfl-afu-dma-region.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-afu-error.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-afu-main.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-afu-region.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-afu.h (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-br.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-error.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-main.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-mgr.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-perf.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-pr.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-pr.h (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-region.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme.h (100%)
+ rename drivers/fpga/{ => dfl}/dfl-n3000-nios.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-pci.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl.h (100%)
+ create mode 100644 drivers/fpga/lattice/Kconfig
+ create mode 100644 drivers/fpga/lattice/Makefile
+ rename drivers/fpga/{ => lattice}/ice40-spi.c (100%)
+ rename drivers/fpga/{ => lattice}/machxo2-spi.c (100%)
+ create mode 100644 drivers/fpga/xilinx/Kconfig
+ create mode 100644 drivers/fpga/xilinx/Makefile
+ rename drivers/fpga/{ => xilinx}/xilinx-pr-decoupler.c (100%)
+ rename drivers/fpga/{ => xilinx}/xilinx-spi.c (100%)
+ rename drivers/fpga/{ => xilinx}/zynq-fpga.c (100%)
+ rename drivers/fpga/{ => xilinx}/zynqmp-fpga.c (100%)
+
+-- 
+2.26.3
+
