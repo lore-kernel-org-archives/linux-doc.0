@@ -2,161 +2,277 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E9CC48BE6
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 12:35:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB67C4743C
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 13:01:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B469C61206
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 12:35:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17F3B61244
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Jun 2021 13:01:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232966AbhFNMh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 08:37:27 -0400
-Received: from mail-mw2nam12on2067.outbound.protection.outlook.com ([40.107.244.67]:59352
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        id S233561AbhFNNDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 09:03:52 -0400
+Received: from mail-eopbgr80123.outbound.protection.outlook.com ([40.107.8.123]:50677
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232775AbhFNMh1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jun 2021 08:37:27 -0400
+        id S233494AbhFNNDt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jun 2021 09:03:49 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PiRZiCpMSRvJlqTLr1cRWjDWGw47vtF6MjCaFw9MfpPqFxdYZM4p2dnH96pbDX5ZVssJXZh1Z02z7eRhhQKYhxaMQlPDxm/6rcSff4hzG8PC5PRdV9SjhRfqpL5Fwc52JNFYlneeCXQMRIKED2JDn9v1nA2PfZR9a4lCtg9PZ3gbxQOWWDemSkw4A21ayQ1ulr8eBHWj1SjyiYadDHmm/U2S9tH/LhMCb11YsuwdlfesgE4ur2uHWqRE3UHKlUlyFYI1bBQIW0QVAtxn5Ts+ct8pnhxy6x0qqLb4Ifp1Kc2IxqKBh7uAbvcpEoBpAAJsI3WNYuv3josfmyxPvCi7QQ==
+ b=Ax+9oGCVqIUdFV4QCA9yCoIkU1hlytqb7Fq1+Y7gKCFgu7yueDP8QSPTnYorAsQSHgSgg7zknjV39mJ7kiBXQeOPkPGimNIGH1MlmkDidCUhocyUHeFfG/00pbaOY08poDw8fZ8sqM+nYynnvXpJoSxjxBCBeS28aw0Ya9NhVcF7LOvUUy2q1OpnfzrgMslhWDrKqcByNNDI5P3yUF+Ho7kQEXAiUtBUi2RlxG4nejF6mZ9Wu8PsOdZ4DpfJmhTyGEFwM7mg86Fi0mDo03khbvQLGIHicRF0Rfj5gFZ76omc2zsX6Ikw1+riwQm2YWTplD2ypuUQv71NHBjf/tB1Gg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vovSBIAn7YDUdNibZX/0zlm501S26NvUyJxE/ZzwU+I=;
- b=flsSXnvgI/E9xqPOeV01yidpo8y4ySBjAx4A89wfGgwl+syjChIhC9pUiz8mMBZlcAOGP0gwQKDwcCOk2n55SvTaApklY07wwo4oU2NbXuVVwqU4BQGWBNncYqOcz0rUqqYYfGBLg9OoLwVUIC4l+sDk2j+QObaeyeLKCmwuewSi2f2fI1J/a5OaCPg5KZa/FkUF6Mn2rGTVYz5EBT6y6CyRRHQwN4i5EuVOAM58QtWV6NQSnSNT1CT+TUf5T182Db81+QTa6/5KJe9lS4LDvL8TLsW4QriHqo8X7AGM1WuUNFHobXeL/mJ3a9gSN67ROUZgvyHY94RFqHuSaG4/Jw==
+ bh=2qke/290SZ770AUQk2fJvnQPrvJ71m9oxWidNiF0Yx8=;
+ b=iZMzfQx2CSrHx6qqWxmjrovGfloWWAeb8lzDDfJFx4VVqREkAtIyh68wIuXMeEIgO16KiDash3K+fp41PN2+EtczqE+gvoLIfqn2DNDbVIdNC87pOSNodx1fdX3Rxkqjl+m4Qlo+N1OYNuU/KSYkf3A+hVaF15lZUT+9Lsub1EzeO1GKpNw/zICBVnFCf+o1e4xsBiG1GQZtCYI5y1zhE/TrUfc6hKPLynpoVmXKrQlmKuQoM6V3YIYnRQUi+NzrOdJe3o+UFH3HrdbPKxPOD1ZbAaX2sRM2a6/uUirTWuDu4VUBoJdcaS+aAH5nqMIoZ0XZI+uJTNEUcNTrRthpnA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ smtp.mailfrom=plvision.eu; dmarc=pass action=none header.from=plvision.eu;
+ dkim=pass header.d=plvision.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plvision.eu;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vovSBIAn7YDUdNibZX/0zlm501S26NvUyJxE/ZzwU+I=;
- b=OspOGafCWmjnLI4mOgppf+pUGqVWTcGb4joVLsEH27IoktTw5grXcsc8h670pcXlxhJe8dff5NnZqwAAe3/FlF4A1iWBY3CiM1LyoCCff/6kgkrCC/L+IPJE4tcWFoLtXRC+h3/Tqr9FtdxWnEEtcmplHvjdq8TbCzsJQzK8nRyh1mArVL2dq8wrjQnIg80NjdWh+Kb7pzo+HRZF9udBI6VDDN7cHtwThJv61TUlGp7CSHPe29pfe9m/RVY07sgDbHXHWm/ApiC3ONWcwSV68SDIfI66OMkVCr1re52t/6tXOIyjLZazO2Mry5eejVKXbCdz7tUlQj2OGPgNwcTTDA==
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5062.namprd12.prod.outlook.com (2603:10b6:208:313::6) with
+ bh=2qke/290SZ770AUQk2fJvnQPrvJ71m9oxWidNiF0Yx8=;
+ b=frJKOJG6csBgPG0mOWwfoJvpO9dQOEveu2zs70Ldr4/2PjZOUAb0iHPQdeEil9teTb3ud0oXCdVHhd4rg2hc4ZPGjt+RkNf2AsH7mEu4u2iALBhX7qkRUMZRhWxZCMYAa7oWAC35pMHJTQDfdwkrjX8dko3KgiBRz87r4CiYlsw=
+Authentication-Results: plvision.eu; dkim=none (message not signed)
+ header.d=none;plvision.eu; dmarc=none action=none header.from=plvision.eu;
+Received: from AM0P190MB0738.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:19b::9)
+ by AM9P190MB1026.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:264::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Mon, 14 Jun
- 2021 12:35:20 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::3d51:a3b9:8611:684e]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::3d51:a3b9:8611:684e%7]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
- 12:35:20 +0000
-Date:   Mon, 14 Jun 2021 09:35:19 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Cornelia Huck <cohuck@redhat.com>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 06/10] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
-Message-ID: <20210614123519.GF1002214@nvidia.com>
-References: <6-v1-324b2038f212+1041f1-vfio3a_jgg@nvidia.com>
- <87czsszi9i.fsf@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87czsszi9i.fsf@redhat.com>
-X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: MN2PR11CA0018.namprd11.prod.outlook.com
- (2603:10b6:208:23b::23) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Mon, 14 Jun
+ 2021 13:01:44 +0000
+Received: from AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
+ ([fe80::d018:6384:155:a2fe]) by AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
+ ([fe80::d018:6384:155:a2fe%9]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
+ 13:01:44 +0000
+From:   Oleksandr Mazur <oleksandr.mazur@plvision.eu>
+To:     oleksandr.mazur@plvision.eu, jiri@nvidia.com, davem@davemloft.net,
+        kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Vadym Kochan <vadym.kochan@plvision.eu>, andrew@lunn.ch,
+        nikolay@nvidia.com, idosch@idosch.org, linux-doc@vger.kernel.org
+Subject: [PATCH net-next v2 7/7] documentation: networking: devlink: add prestera switched driver Documentation
+Date:   Mon, 14 Jun 2021 16:01:18 +0300
+Message-Id: <20210614130118.20395-8-oleksandr.mazur@plvision.eu>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210614130118.20395-1-oleksandr.mazur@plvision.eu>
+References: <20210614130118.20395-1-oleksandr.mazur@plvision.eu>
+Content-Type: text/plain
+X-Originating-IP: [217.20.186.93]
+X-ClientProxiedBy: AM0PR06CA0140.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::45) To AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:19b::9)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (47.55.113.94) by MN2PR11CA0018.namprd11.prod.outlook.com (2603:10b6:208:23b::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Mon, 14 Jun 2021 12:35:20 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lsloF-006bV0-AN; Mon, 14 Jun 2021 09:35:19 -0300
+Received: from omazur.x.ow.s (217.20.186.93) by AM0PR06CA0140.eurprd06.prod.outlook.com (2603:10a6:208:ab::45) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Mon, 14 Jun 2021 13:01:43 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 440c66ce-493f-4a3b-b36d-08d92f30df63
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5062:
+X-MS-Office365-Filtering-Correlation-Id: 4fd980f2-17c5-41ed-a4d6-08d92f348f5b
+X-MS-TrafficTypeDiagnostic: AM9P190MB1026:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5062C7178F276E2D49DFEA52C2319@BL1PR12MB5062.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <AM9P190MB10266CBBC99E09B60C7B9C5BE4319@AM9P190MB1026.EURP190.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pOBNgkY3H7TCi2Wf1Hc9OByZnup2/jHPIMUrYBedkFZuzSILp6qt7HOrrcBQM0B8sbURXCU+IGLiPtL8HDff6CZOlNWopdKEWpnAJ4wWhlCtgwSG+pMXyK1WKWOpP9mcZqkV0labkFaJ5u+iub4wt0JbYwjeZan8Hk9DgiPCJN4pOpnx+QJkOG2VpB7P2FrASt3PyiZv8TXIA+9vEbNtOYmpUAk0M0GBuIDjHrsUiYzZ/+FPDvj3ePC1nibv0uHj4uXCOkuQKQmpWkUwRXE17KOI/nwuA3rFVWmS9+b1T/9Pn0zPglNlyIR4WDQu062e6Rn/gxbm0/DzBC058c57xw/i5r6liSsz1lEBA3wpsX6iCiF6AoFO9U0qMsoda5lK0c3qrTi2WwoBTQsYnBqzpGL04/HyyaijnbYmX5zTCSW2WAB1v0ysmtd+AaedhE0+tz42JfH95FqQvCBGN01o5ah1UF9tgxNQ6nMc16B25GG/DlsriMB2wR35qJLngIlci80kQsy8OsCcl3jktmHsT21XlYQvHCoi4WYSikSJc7LvMv4oZ6KzlAtLCJedsagyZIcO4cL8b5EOpjmSpITeRC4fsk/+3/v8iBdWyKkZnkg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(26005)(54906003)(38100700002)(7416002)(478600001)(1076003)(5660300002)(2906002)(186003)(110136005)(316002)(9746002)(9786002)(66946007)(86362001)(66556008)(66476007)(4326008)(2616005)(8936002)(8676002)(426003)(33656002)(36756003)(83380400001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: IUNcnnQ0R8Ay/MvyoeRCsqgkFDZPs8s7SWBmWcC2lu2ix1oEpjOhT1jDCn1aONdQdhBwRj4N6PxMRr/FrwisGNf3eahugBv5qPcNOb6HWPVxXpjDnKMLuHbyK6KCDAlyPB5Nyynp29DDMcbCC6TTqFwzvC56HCncKhkzuENFedKFYOz5JmvvbOu+6OgfKbN80PKRJLYI46DspIPalx8NuHxGua5I7eAkDKzholwbtHPmvTxI/JJMhYAW0B4Mj9d8WOGMc4xvAdD9FsvoTe8JGpfdcaCHpL0ELMqMdWnUbnQN56CZuL/0+aqscju91gzk7gHGv1adCaCGt0IjGecqAHDCtFi6TAodg0JOn63sKg07m9QFBI3ATkhvgTfdHoO/st1F/9l2sLYaw0F3EiN1vu04pXbuTEqKTpNELmyXz6Abn1UBSGmXOM5f+zb3FzdKFz+ajR/DKg1hHGn11NWdCHH1ih7AHhuoGBwrBsZtiPMJVVxkA2RDTlC/+a8+eXk1EZv6G/L2dWNEFCRsxSa3tmkktUuNCzm80meyYjQ/pyFM/rQFgbbl51/pKYPITccxlBlXKXWv5x5jyMUrU45LKEQGj2BF2xl0RBvLfCKFp4zUJitopyixUCs1xthlhB8AVelXHbUyuzsfgbd8SOLqTKbAgH6VnGqfiSQ7ZMUMhfE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0P190MB0738.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(376002)(136003)(39830400003)(366004)(396003)(346002)(6506007)(66556008)(186003)(44832011)(4326008)(66476007)(8676002)(36756003)(8936002)(6666004)(1076003)(16526019)(2906002)(316002)(6916009)(66574015)(7416002)(956004)(38100700002)(66946007)(6512007)(38350700002)(52116002)(478600001)(6486002)(2616005)(5660300002)(83380400001)(26005)(86362001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/EPXrdp5hIgF+IpWyc3+63FGVz7onYnAAcehTGg6TcpRRWdgzy6xbhbG1v9L?=
- =?us-ascii?Q?CizF/yxOOLIdTeXB+LXqGNarLJRGPBJTrUt/vs4ycmB0xr9R2lEM2oX4Y0yu?=
- =?us-ascii?Q?8o7FXkduvxKpqJUC7Cs4WQdsR26aoNeC9qdm9ebLUueLDz/BWBc4xpkcGYVh?=
- =?us-ascii?Q?C7xmjC4zQz+V/qd82wHRGuLLuNXV1HmJWin6U2s1Oh+FLsOnOiwENc3IYJq0?=
- =?us-ascii?Q?nZnGY2TGEp93bif+aor6GnCrEu8HV24xVsfdG8uvIB4w7z6DtpRieuEk3O1V?=
- =?us-ascii?Q?6nFx3tyrxLoE2TD55uvdNntIM3o5hMMv76FYOno0M6j9xuTdTqAAN2VI4h3+?=
- =?us-ascii?Q?2VuT0pzqu1Smf+mgaX1AU3pVBuSZxQ0oPq1Ol4N8pVWlLYRCdGWKSvYjcJBr?=
- =?us-ascii?Q?q1e1L04xGYT7vPe1So0VZZk5RfdDzacTNWR7BnKTM+8GY8cy3e1tgaPTs7Mz?=
- =?us-ascii?Q?JZ0jt2NixLAlhmpltDLI540UbJfyAhjc8PsBcI+rtkLO/tVJdJ03dlS45cyG?=
- =?us-ascii?Q?DmDeqiYgbNQWulH7fjMrH8VcQxqCweUWe59WyTzIg+8hzFGZa+UjjHXgltEe?=
- =?us-ascii?Q?MyYwVo2MBa72+ojBGahJj4vP46Gwtm3I+VrCRUsbKQyXKIOzDiyiOHaibQrh?=
- =?us-ascii?Q?1V4A+fheRxlbFzSTQtky9hojLz/mIqr6M4Q0SeO/VTSggzzqs6cO62jXHNFJ?=
- =?us-ascii?Q?ilkj3+tpSXT/9A+7bv14crzx+bx/UwOO+34VdTdMkaqh+Laov/njSrZQJ/6s?=
- =?us-ascii?Q?R6KUHdG12LkLilsC5nQsZ85F3ams7fRWKx9/qdGkHYMXsQm7fQi0jH45USDZ?=
- =?us-ascii?Q?xf6YtS/jfjs4AgHeWuwh+qulI3gGkmBoqO6txeaJV+VRJSjX5bwx+NPdDiPz?=
- =?us-ascii?Q?jLYhNAbyigoOWcAyu2pVWHCepWmp4FRJrPQUxPFd7KxICLbCHwRvV0xQ6uaL?=
- =?us-ascii?Q?S3FDZPMlG/HUZcOuT9ZPLMi2gCr8LxL7/C1vEqXM2T0xSv+fwxZPlk+hDfLE?=
- =?us-ascii?Q?1XfRAGR56nfiZt72J9U6haAvPrxZMqA/A8vaCqgcfbZws+6E8p9vr3mW+gtz?=
- =?us-ascii?Q?y9QPQ5fAVBcuzBciU4Aa3hiTUR4rm536hLHkSX/qBv8Rz+BceHi6KG2Y69qu?=
- =?us-ascii?Q?dqMtvxFJI3OBEOk05nVb5Kn0zL75vmxP1jhF095dbFYbLcpbXeAXTZuCz1tJ?=
- =?us-ascii?Q?WtS7rvqTMD/jJqDqiGbKA0CzQZwCA9TXRk7MRq6DFZav04f/Ttp0KzvxW4hE?=
- =?us-ascii?Q?brCFxyCTTg/OwWEUNLsF5UtaIzeirSXguO/5oGA8QjWmM9Rpe1qT4XYhv20j?=
- =?us-ascii?Q?xWSn4V3oNML2oLyIGfCbcoXo?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 440c66ce-493f-4a3b-b36d-08d92f30df63
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cyct/NSHscZYag6JTRzz+kRkynd4x/vppHHsbDPHZ4PNHnFcNg9j3DX7Klv5?=
+ =?us-ascii?Q?T86OE6bsORrFr0jEuTlXsH+CaUUvqsaTn9iO4J7YB0qTfuv2xdq2iF7UARr9?=
+ =?us-ascii?Q?p0lxicv8kNXcAe+mQZOqwZi4t277x7rGGAaa+Of1ef16c/ICCjz9TTzQOe+U?=
+ =?us-ascii?Q?+hM5lgrottdbmxuc4hkTgQAa97FJbFw89WSvUjHuYukCrYYuR6KQ3fI2+cmR?=
+ =?us-ascii?Q?6aJg12IPvOPv5yfJUsW5GZIWqZNkvA/8s5j1wD6an3F0Y/5pF8ELdSrRelLp?=
+ =?us-ascii?Q?Votc6NQlAtMH1i8Z9ElPOuAhMX6mVTd/7HSs7emd1Ef9RfkV6U1yBRfhVP+q?=
+ =?us-ascii?Q?5mj9YBEGjTvtLXWyhcR6gfdweWYgSoQCRqQUtHAV56dQ/vlM/iQwLd6fFU52?=
+ =?us-ascii?Q?5mApLSrbSTqBDEz3K9kxJHpZc6ZwW2OHJsoBr7aIfo1HQqqHAFvyhmgtV/Px?=
+ =?us-ascii?Q?3g3ytSs9MYPPFbsN/Uqh4BboMLTVqd06tQuy5aDfWTiw6DeVd1Chj2MOnTGg?=
+ =?us-ascii?Q?37DEY+Rm/RTRordoJSMPXXmcqzq6pM0HZbZdOAIEuPwT8o8ee5IiUYSZKMJZ?=
+ =?us-ascii?Q?9X/J8BPs1wUegJmLb7TCjJHB7Q0WhF3XgLJxX4X0B5PwletqqpEralupuKVQ?=
+ =?us-ascii?Q?KOzexlAVb51dBjDei2rgRODrIMZA0nIv+HlBDQDY3CNleJh9bwyZGTtQ+/i6?=
+ =?us-ascii?Q?lfvjLnjJgZP5wEu4cVQX957EKNc0MEljqdjow9DYO2tGaeMNO9sZ8+hRVhL4?=
+ =?us-ascii?Q?QbZ6Kgu1WfJ3ojYMGfEOvCbptMWHeP5QH3diZqYQ+fYXH4EJYVt8YkgU5OMb?=
+ =?us-ascii?Q?3HQ2oT+ykoAc9NrNiDn4wD8i3972eYq79ohPBxONBunRnDKqOcmR2/VAhQbT?=
+ =?us-ascii?Q?2eGxqMWiztJThc02iajSHNmDVzOWobZDiZ9TScxd6NKc5xg7GyFpWu7m39jw?=
+ =?us-ascii?Q?yVcOJS5bXXiG7l6QaDP0kR4DR92+UT2cM8G++Gjl6lRoZIxAXmuJVAle885I?=
+ =?us-ascii?Q?Us2yxBa8qw4WV8f2Z88IkjzQCjrOuIbESX8wkcXxP2Vndk5YgVAVEQvL+gk8?=
+ =?us-ascii?Q?9+P/SWD5/AFrEPLFklbyT3GAA6EsPovyzsBAiVlq59YkELpFPZBsqfnpr6l3?=
+ =?us-ascii?Q?6nTziMqyfxW/gtDzC3fMr8PzaKuq/gawA6ugjY3LFrOlHVJfY1p/zS8KXlzU?=
+ =?us-ascii?Q?dZc4D6DtjL9DaoDZ13JEBfyxQyor0l922Ff4czqpKxkXxlkfV77XrRIb4TDD?=
+ =?us-ascii?Q?BWDN9UG7qvKpILk59KAN0zX5qhHumY/hV+xuo/XmaV+ZL5dBlnGilaeVygkf?=
+ =?us-ascii?Q?O0xOBQivvqglBLRWxlJglPO2?=
+X-OriginatorOrg: plvision.eu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fd980f2-17c5-41ed-a4d6-08d92f348f5b
+X-MS-Exchange-CrossTenant-AuthSource: AM0P190MB0738.EURP190.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 12:35:20.4943
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 13:01:44.1062
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 03707b74-30f3-46b6-a0e0-ff0a7438c9c4
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MkQEsu3mdmWXm+E1boqrHRoMOGTz8Om3AHM+y1zYKAY1VO78lLmeLHAjyAdkQP9+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5062
+X-MS-Exchange-CrossTenant-UserPrincipalName: zlczpvJ3BVvWvnJ0jkxD57KB1eFW7kUycrheMbHLrhg1xTXwhtq5BIhXM/rfdhxhPrUlhvZ2Q0e89KVWsLVM6GegSP0wOnG2nB8jcnQFGko=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P190MB1026
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 02:40:41PM +0200, Cornelia Huck wrote:
-> On Mon, Jun 07 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
-> > For some reason the vfio_mdev shim mdev_driver has its own module and
-> > kconfig. As the next patch requires access to it from mdev.ko merge the
-> > two modules together and remove VFIO_MDEV_DEVICE.
-> >
-> > A later patch deletes this driver entirely.
-> >
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> >  Documentation/s390/vfio-ap.rst   |  1 -
-> >  arch/s390/Kconfig                |  2 +-
-> >  drivers/gpu/drm/i915/Kconfig     |  2 +-
-> >  drivers/vfio/mdev/Kconfig        |  7 -------
-> >  drivers/vfio/mdev/Makefile       |  3 +--
-> >  drivers/vfio/mdev/mdev_core.c    | 16 ++++++++++++++--
-> >  drivers/vfio/mdev/mdev_private.h |  2 ++
-> >  drivers/vfio/mdev/vfio_mdev.c    | 24 +-----------------------
-> >  samples/Kconfig                  |  6 +++---
-> >  9 files changed, 23 insertions(+), 40 deletions(-)
-> 
-> I think you missed my earlier
-> 
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Add documentation for the devlink feature prestera switchdev driver supports:
+add description for the support of the driver-specific devlink traps
+(include both traps with action TRAP and action DROP);
 
-Yes, my mistake, I didn't think there were any tags in the v1 posting
+Signed-off-by: Oleksandr Mazur <oleksandr.mazur@plvision.eu>
+---
+ Documentation/networking/devlink/prestera.rst | 141 ++++++++++++++++++
+ 1 file changed, 141 insertions(+)
+ create mode 100644 Documentation/networking/devlink/prestera.rst
 
-Thanks,
-Jason
+diff --git a/Documentation/networking/devlink/prestera.rst b/Documentation/networking/devlink/prestera.rst
+new file mode 100644
+index 000000000000..e8b52ffd4707
+--- /dev/null
++++ b/Documentation/networking/devlink/prestera.rst
+@@ -0,0 +1,141 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=====================
++prestera devlink support
++=====================
++
++This document describes the devlink features implemented by the ``prestera``
++device driver.
++
++Driver-specific Traps
++=====================
++
++.. list-table:: List of Driver-specific Traps Registered by ``prestera``
++   :widths: 5 5 90
++
++   * - Name
++     - Type
++     - Description
++.. list-table:: List of Driver-specific Traps Registered by ``prestera``
++   :widths: 5 5 90
++
++   * - Name
++     - Type
++     - Description
++   * - ``arp_bc``
++     - ``trap``
++     - Traps ARP broadcast packets (both requests/responses)
++   * - ``is_is``
++     - ``trap``
++     - Traps IS-IS packets
++   * - ``ospf``
++     - ``trap``
++     - Traps OSPF packets
++   * - ``ip_bc_mac``
++     - ``trap``
++     - Traps IPv4 packets with broadcast DA Mac address
++   * - ``stp``
++     - ``trap``
++     - Traps STP BPDU
++   * - ``lacp``
++     - ``trap``
++     - Traps LACP packets
++   * - ``lldp``
++     - ``trap``
++     - Traps LLDP packets
++   * - ``router_mc``
++     - ``trap``
++     - Traps multicast packets
++   * - ``vrrp``
++     - ``trap``
++     - Traps VRRP packets
++   * - ``dhcp``
++     - ``trap``
++     - Traps DHCP packets
++   * - ``mtu_error``
++     - ``trap``
++     - Traps (exception) packets that exceeded port's MTU
++   * - ``mac_to_me``
++     - ``trap``
++     -  Traps packets with switch-port's DA Mac address
++   * - ``ttl_error``
++     - ``trap``
++     - Traps (exception) IPv4 packets whose TTL exceeded
++   * - ``ipv4_options``
++     - ``trap``
++     - Traps (exception) packets due to the malformed IPV4 header options
++   * - ``ip_default_route``
++     - ``trap``
++     - Traps packets that have no specific IP interface (IP to me) and no forwarding prefix
++   * - ``local_route``
++     - ``trap``
++     - Traps packets that have been send to one of switch IP interfaces addresses
++   * - ``ipv4_icmp_redirect``
++     - ``trap``
++     - Traps (exception) IPV4 ICMP redirect packets
++   * - ``arp_response``
++     - ``trap``
++     - Traps ARP replies packets that have switch-port's DA Mac address
++   * - ``acl_code_0``
++     - ``trap``
++     - Traps packets that have ACL priority set to 0 (tc pref 0)
++   * - ``acl_code_1``
++     - ``trap``
++     - Traps packets that have ACL priority set to 1 (tc pref 1)
++   * - ``acl_code_2``
++     - ``trap``
++     - Traps packets that have ACL priority set to 2 (tc pref 2)
++   * - ``acl_code_3``
++     - ``trap``
++     - Traps packets that have ACL priority set to 3 (tc pref 3)
++   * - ``acl_code_4``
++     - ``trap``
++     - Traps packets that have ACL priority set to 4 (tc pref 4)
++   * - ``acl_code_5``
++     - ``trap``
++     - Traps packets that have ACL priority set to 5 (tc pref 5)
++   * - ``acl_code_6``
++     - ``trap``
++     - Traps packets that have ACL priority set to 6 (tc pref 6)
++   * - ``acl_code_7``
++     - ``trap``
++     - Traps packets that have ACL priority set to 7 (tc pref 7)
++   * - ``ipv4_bgp``
++     - ``trap``
++     - Traps IPv4 BGP packets
++   * - ``ssh``
++     - ``trap``
++     - Traps SSH packets
++   * - ``telnet``
++     - ``trap``
++     - Traps Telnet packets
++   * - ``icmp``
++     - ``trap``
++     - Traps ICMP packets
++   * - ``rxdma_drop``
++     - ``drop``
++     - Drops packets (RxDMA) due to the lack of ingress buffers etc.
++   * - ``port_no_vlan``
++     - ``drop``
++     - Drops packets due to faulty-configured network or due to internal bug (config issue).
++   * - ``local_port``
++     - ``drop``
++     - Drops packets whose decision (FDB entry) is to bridge packet back to the incoming port/trunk.
++   * - ``invalid_sa``
++     - ``drop``
++     - Drops packets with multicast source MAC address.
++   * - ``illegal_ip_addr``
++     - ``drop``
++     - Drops packets with illegal SIP/DIP multicast/unicast addresses.
++   * - ``illegal_ipv4_hdr``
++     - ``drop``
++     - Drops packets with illegal IPV4 header.
++   * - ``ip_uc_dip_da_mismatch``
++     - ``drop``
++     - Drops packets with destination MAC being unicast, but destination IP address being multicast.
++   * - ``ip_sip_is_zero``
++     - ``drop``
++     - Drops packets with zero (0) IPV4 source address.
++   * - ``met_red``
++     - ``drop``
++     - Drops non-conforming packets (dropped by Ingress policer, metering drop), e.g. packet rate exceeded configured bandwith.
+-- 
+2.17.1
+
