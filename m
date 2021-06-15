@@ -2,144 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B699C48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 19:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C88BAC48BE5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 20:01:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 799666137D
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 19:36:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC69F613B1
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 20:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbhFOTiM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 15:38:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55433 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229951AbhFOTiL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 15:38:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623785766;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=llnAE3X+Il5R8O881N30+k0POgEFanp8l+fSoeV24QM=;
-        b=AmAd4DXFZi99Gn8uMAsF7+V7TEz7YAW0UTslZNbEzvscCe80/wMcgiGdmaQZv2ohyJVfgs
-        ipy0meWow1aitj65B8plxvwd1ryAE/2IRufnnn4wCmbxMsPcGYmcFw3kSmGhSEVj1U1e/u
-        RtAZdKtPYClEf+bj7jAijYz/Noc6vZs=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-Q7J6aZ-iMDejpZXyonF8Kg-1; Tue, 15 Jun 2021 15:36:05 -0400
-X-MC-Unique: Q7J6aZ-iMDejpZXyonF8Kg-1
-Received: by mail-oo1-f72.google.com with SMTP id r4-20020a4ab5040000b02902446eb55473so80103ooo.20
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 12:36:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=llnAE3X+Il5R8O881N30+k0POgEFanp8l+fSoeV24QM=;
-        b=ib2C4+ocHSo9NYTLJo3joi7NsEv7VsRMdumjYPZSFFEe786vDq6SfzZcJ931TIYeGA
-         P+lEj7cXCRp/Cpv9NelG5PyoqO4w156ZoFPTRzohMXBs3rSntteWTe1z0QT3n8Zsym35
-         6OCFB0/pvvGenYWOydI03P39W/VvO9PdNShZa7OEq99karY/fpqxd+mFM3SujMb0pbRV
-         vuVeoVdqFkMlV7kdJsfWWxXFTph/e6Q4huU0fLW5X4Mw0vrgHjgA9/UvObjbfK5sVl51
-         7ixlvQ8pDN4+bkx/EBJ7anAvO4TnisV+7SbQFWPBAzkzSVQGiNRjpk3YuCKQDD1d42Li
-         aFQA==
-X-Gm-Message-State: AOAM53084COB0RPs7AdCkxfrQVTzrujH49kMbGVeK6+OOLSl4EoqeBYZ
-        3K/y3qCz+Bo8XxjdlQ9hRNzHEjZX2O58gvRUHKpd0J/kwMmDLFlIRYaRQb4HEDxFMOqsiXPzbq8
-        mijTV157cWlhWu/EDqfPJ
-X-Received: by 2002:a05:6808:210:: with SMTP id l16mr500274oie.154.1623785764705;
-        Tue, 15 Jun 2021 12:36:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8QXhsFTV+W1cxlEpGDuWEWDQP8JmMvkjeZyUYAqX7GqD4McjXkjMc2mNDLmE9O/Xu0RrqmA==
-X-Received: by 2002:a05:6808:210:: with SMTP id l16mr500251oie.154.1623785764560;
-        Tue, 15 Jun 2021 12:36:04 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
-        by smtp.gmail.com with ESMTPSA id u1sm3965076ooo.18.2021.06.15.12.36.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 12:36:04 -0700 (PDT)
-Date:   Tue, 15 Jun 2021 13:36:02 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 04/10] driver core: Don't return EPROBE_DEFER to
- userspace during sysfs bind
-Message-ID: <20210615133602.0699492d.alex.williamson@redhat.com>
-In-Reply-To: <20210615133519.754763-5-hch@lst.de>
-References: <20210615133519.754763-1-hch@lst.de>
-        <20210615133519.754763-5-hch@lst.de>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S229951AbhFOUDx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 16:03:53 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:48151 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229898AbhFOUDx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 16:03:53 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id 01D77E09;
+        Tue, 15 Jun 2021 16:01:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 15 Jun 2021 16:01:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm1; bh=7ualycgfS9SsVG5r3CGGFNY9Ey
+        g7pdelPCnID2r514o=; b=vbcXakdn0TjjxcVQ1c7qEky0OKHiGTaTm1ZahtfEpW
+        QhEJfUZKw8orHFkp9XoZcy34X1loX1+z0e1QAbl1bz9vRGtq2pdPedehkQyzJGtx
+        10vQW6SZase4LY22ek03udwyWMZ5D/fK50mzHOJ+z5pbFmJkmi7Wby26KBNp0dAH
+        GCYGcuT0bElNkjS+21NwMeZnuVXJnluna/jdCLALZCEZOm1Npfcu+34GqoSubM4z
+        NVQOP4PSfzeRRbLnl9KSudE0/F8N6yxjQmS6QoNHiaNl+XZzDz0TfL5YjoPDK0wR
+        dwaOyVQkBaGA8sITh3u9ohNJywJPcTu8Q0gNL0sE9bOQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7ualycgfS9SsVG5r3
+        CGGFNY9Eyg7pdelPCnID2r514o=; b=HwX78l9xpHpZ2cBHBPutnvYuQay4FnfAg
+        ctQksHFDhHyoYrPUHOFFd9rVS5HZ86SyhIZFjeHyWBTs1oJHPw7ua9lksU6Bu7Xl
+        L7VMRJLAvKhzOPFGFw7QIEGb6w9euholQJor1OATxjGvRha4WCiEmHF7u9+muXpx
+        ezMldHBNas3eaFlFzFrLjQkYjth0j1nuSgiN1Kg5kJX+LvJWHORbIRwjR/zaFWip
+        pLzPZ5t1L2IEFcyXX36r28OcsQwDHOe1+IyDy9yEVmdQ9Fzse3Y8LuwcK8WwnCZl
+        AZftHH5X/S1tc9QjAxwZBGjvD6XbHHBlCAyln/zmR+Po7mrDZaNiw==
+X-ME-Sender: <xms:KgfJYEDsnM25oNwLWZe4Ijo6aHXveR0LyyVX6Jh83gP8WC-ifQ2pDA>
+    <xme:KgfJYGgzCBsyMitqMq6ncXSTtkSjut56XX7Ioqmg9QqyiOeuIffmPdanDrNj3gZPm
+    fZVs5ZaFoIzGDNG6jw>
+X-ME-Received: <xmr:KgfJYHmr7Wv3DFTdrWaBZAzkIWDWS09w0O5o_2mGxBaxKfjtHEVmnvEs5NvREk2-eOT0Kk2jCVDtG7fwSvRHxW6YhBkrzBMGdBLSGngrONbs5S2lLhjHDIUPoB4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvjedgudeghecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    epgfdvgeevgffhjedtkedtfeffteeftdejfeejveetveevtedtfeelieeuteekledtnecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvh
+X-ME-Proxy: <xmx:KgfJYKwksML5THonYj36EOMGuRVibLMJA48fGZLeuuU7Um4jjjiBig>
+    <xmx:KgfJYJTpxVgmWGGiUUkpA4dRr8rTIroKmLuUvXGGEZzmJ8MABTXtmw>
+    <xmx:KgfJYFYIdslelQsRL8gmO9OM99wWcSAYTxrymsgbZMlDfzYdgP6uCg>
+    <xmx:KgfJYEcVxciSOfiusH1_yEWkMocYwdH8aw_G7740QulCOarNfOLleQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Jun 2021 16:01:45 -0400 (EDT)
+From:   Paul Barker <paul@pbarker.dev>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Paul Barker <paul@pbarker.dev>
+Subject: [RFC PATCH] MAINTAINERS: Add note on patches to MAINTAINERS itself
+Date:   Tue, 15 Jun 2021 21:01:41 +0100
+Message-Id: <20210615200141.8573-1-paul@pbarker.dev>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1975; h=from:subject; bh=CQdGsYdn7Jszdx1S122LNT1PZKXWpsAGlZ2LHEujeLs=; b=owGbwMvMwCG2OjnkzdxdX/IYT6slMSScZFeyNtp3S51FvqegsfdlCeveNxKuSkxGvkU+kTzpjzNT WS93lLIwiHEwyIopsmzu+Xr/aa8jb0bILQWYOaxMIEMYuDgFYCIivxkZZljJP1AxMJFzUPM/XXzqMv t777kzhO/c+uWuwCH3bsPS84wM70X/Lbl2cIla9/Q1CV7qUc5b5e7F97XuXuwskalZW8/BBQA=
+X-Developer-Key: i=paul@pbarker.dev; a=openpgp; fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Jun 2021 15:35:13 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+Since there is no entry in the maintainers list for the MAINTAINERS file
+itself, we should add a short note on how to handle patches to this
+file.
 
-> @@ -547,10 +538,9 @@ static int call_driver_probe(struct device *dev, struct device_driver *drv)
->  
->  static int really_probe(struct device *dev, struct device_driver *drv)
->  {
-> -	int local_trigger_count = atomic_read(&deferred_trigger_count);
->  	bool test_remove = IS_ENABLED(CONFIG_DEBUG_TEST_DRIVER_REMOVE) &&
->  			   !drv->suppress_bind_attrs;
-> -	int ret = -EPROBE_DEFER, probe_ret = 0;
-> +	int ret, probe_ret = 0;
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+---
 
-nit, probe_ret initialization could be removed with this patch too.
+I'm in the process of updating device tree files as part of $JOB and
+would like to add relevant entries to the MAINTAINERS file. I've
+searched through the maintainer list, read what I can find in the docs
+and ran scripts/get_maintainer.pl but I can't see a clear statement of
+where to send patches which modify MAINTAINERS. Looking at a couple of
+examples of previous patches which modified MAINTAINERS and looking up
+the relevant emails on lore.kernel.org I've made my best guess on how
+these changes should be handled. This patch adds that best guess as a
+note to the MAINTAINERS list so it's easy for folks to find in the
+future.
 
->  
->  	if (defer_all_probes) {
->  		/*
-> @@ -559,17 +549,13 @@ static int really_probe(struct device *dev, struct device_driver *drv)
->  		 * wait_for_device_probe() right after that to avoid any races.
->  		 */
->  		dev_dbg(dev, "Driver %s force probe deferral\n", drv->name);
-> -		driver_deferred_probe_add(dev);
-> -		return ret;
-> +		return -EPROBE_DEFER;
->  	}
->  
->  	ret = device_links_check_suppliers(dev);
-> -	if (ret == -EPROBE_DEFER)
-> -		driver_deferred_probe_add_trigger(dev, local_trigger_count);
->  	if (ret)
->  		return ret;
->  
-> -	atomic_inc(&probe_count);
->  	pr_debug("bus: '%s': %s: probing driver %s with device %s\n",
->  		 drv->bus->name, __func__, drv->name, dev_name(dev));
->  	if (!list_empty(&dev->devres_head)) {
-> @@ -681,11 +667,7 @@ static int really_probe(struct device *dev, struct device_driver *drv)
->  		dev->pm_domain->dismiss(dev);
->  	pm_runtime_reinit(dev);
->  	dev_pm_set_driver_flags(dev, 0);
-> -	if (probe_ret == -EPROBE_DEFER)
-> -		driver_deferred_probe_add_trigger(dev, local_trigger_count);
+This is an RFC as others probably know the correct way to handle patches
+to the MAINTAINERS file. Even if this "best guess" is wrong I hope it
+highlights that such a note would be useful. I've treated this patch as
+a docs patch, please let me know if it should be sent to different
+maintainers/lists.
 
-This was the only possible uninitialized use case afaict.  Thanks,
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Alex
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bc0ceef87b73..b7873dad9997 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -143,6 +143,12 @@ Maintainers List
+           first. When adding to this list, please keep the entries in
+           alphabetical order.
+ 
++.. note:: There is no entry in this list for the MAINTAINERS file itself.
++          Patches which modify existing MAINTAINERS entries should be sent to
++          all other maintainers in the relevant entry. When adding new
++          MAINTAINERS entries please use ``scripts/get_maintainer.pl`` to find
++          other maintainers with overlapping entries in this list.
++
+ 3C59X NETWORK DRIVER
+ M:	Steffen Klassert <klassert@kernel.org>
+ L:	netdev@vger.kernel.org
+-- 
+2.32.0
 
