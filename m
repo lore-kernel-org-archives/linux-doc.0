@@ -2,125 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F04B3C48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 245FFC48BE5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:15:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D400F613DB
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:14:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C45B613DB
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:15:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbhFOHQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 03:16:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbhFOHQp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 03:16:45 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAACAC061574
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 00:14:39 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id my49so20820262ejc.7
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 00:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=euuI3sy0vUASeXoR3VF/cB0ofsJ2xtWE3m2SATxLwmE=;
-        b=AomJNf88QS9O+s+qQw3D2dxQMVlYRACJ3W6XV/Qfc9QG0D0RMI5MlxK9IjvvJIfClI
-         5zXWKP6nSPEoagEG9oFTv/mhIC7PoaOzqpANzJ5ugqNtCLdKU6Jlc9TgwIf0qa3UIqnp
-         YEc2nN5Za8ELHgcu0qqnD0SgUiv8OTTTmTsiY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=euuI3sy0vUASeXoR3VF/cB0ofsJ2xtWE3m2SATxLwmE=;
-        b=cCnLLCb2MfiNyarRIMYrYgoq9slhLtlKA2FhTgdiuOXqR8st2qVQtfB00RBcmVV2Qt
-         ECUJwt6UuyBDk9Wsr0X60KhYlsOkdl1uOdRM92WZ+2icXXFPcPHiNeuGehXt0Dx6PGK7
-         XERo4aqZFnOswLKKfRwZwtRrtORg0i5i9Qmlgj8tx16ehLHF5E6kh5W9QaNhG1DT8SHV
-         G5jgrkwn7oZTUrnTPxBM27TG1ohdLlh5vfSQz3MwKJmHm4bQzEPCheai+t9i1Bo1Br0f
-         dykIHBJnrkZSujGbquzjGpXH36Oqmb6OltZUZOHg+bmm+w/20wRyzQaKXr2vvYBha1pc
-         kuOg==
-X-Gm-Message-State: AOAM532uabBxcFj4gBd7ITuqM5tPGyIPdyBmm05N1M8d2xgaDt2SExid
-        bTcyR/O0NMk060MjPMs4CvtapA==
-X-Google-Smtp-Source: ABdhPJzjxFXKFZC7HNcQTYqrBtjgNTWh3xNtZtvIBwbS9EkxpwWTAToHGPC1F1FjdetgeI8BTV58aQ==
-X-Received: by 2002:a17:906:25db:: with SMTP id n27mr18868513ejb.170.1623741278609;
-        Tue, 15 Jun 2021 00:14:38 -0700 (PDT)
-Received: from [192.168.1.149] ([80.208.64.110])
-        by smtp.gmail.com with ESMTPSA id br21sm9160791ejb.124.2021.06.15.00.14.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jun 2021 00:14:38 -0700 (PDT)
-Subject: Re: [PATCH RFCv3 2/3] lib/vsprintf.c: make %pD print full path for
- file
-To:     Justin He <Justin.He@arm.com>, Petr Mladek <pmladek@suse.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S229797AbhFOHRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 03:17:31 -0400
+Received: from mail-0201.mail-europe.com ([51.77.79.158]:39378 "EHLO
+        mail-02.mail-europe.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229613AbhFOHRb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 03:17:31 -0400
+Date:   Tue, 15 Jun 2021 07:15:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+        s=protonmail3; t=1623741323;
+        bh=zAvKKg8XYRllgucKJPAAx6Hwc3GHyOslF2EqoYChAU4=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=qIC2eamU+xceUl39cfpo+Bhho6rVi/vXhoahbkzyuqB4fwHA2HzLwevsTcI1Db9xs
+         BX32j+PX6lz6SBs/Z67DzyFA9lkF3Wh3OHUQGgQNgk+mzda5QgFPNcUuTQjRSND5Gr
+         sXDpgIxNmOBgIy/iVvqIj+v3zRbkZgrkTr2l0JD3RbdUyopl20Cth6IXBcs3KRuH9y
+         g1In7HEdKt3KPgWaHMeBwZgfR2i8pbnuJTjS+ZibNwYCjg+lTFntI5RMy2tp0P3cCg
+         Ap52jKaW2WLFk99bqh0CyuNUmVhgNtQ3aZjuK5RtApLs7ZfWBNTJ+9wCl4DRfCPg+D
+         k/TImS8zk8pMA==
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+From:   Simon Ser <contact@emersion.fr>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Steven Price <steven.price@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alison Wang <alison.wang@nxp.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Huang Rui <ray.huang@amd.com>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <20210611155953.3010-1-justin.he@arm.com>
- <20210611155953.3010-3-justin.he@arm.com> <YMd4ixry8ztzlG/e@alley>
- <AM6PR08MB4376D26EFD5886B7CF21EFCFF7309@AM6PR08MB4376.eurprd08.prod.outlook.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <113d9380-8493-1bde-9c76-992f4ce675d9@rasmusvillemoes.dk>
-Date:   Tue, 15 Jun 2021 09:14:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new properties
+Message-ID: <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
+In-Reply-To: <20210615100335.0b8f96d5@eldfell>
+References: <20210610174731.1209188-1-maxime@cerno.tech> <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com> <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr> <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com> <20210614174912.15a49336@eldfell> <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com> <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com> <20210615100335.0b8f96d5@eldfell>
 MIME-Version: 1.0
-In-Reply-To: <AM6PR08MB4376D26EFD5886B7CF21EFCFF7309@AM6PR08MB4376.eurprd08.prod.outlook.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15/06/2021 08.48, Justin He wrote:
-> Hi Petr
-> 
+On Tuesday, June 15th, 2021 at 09:03, Pekka Paalanen <ppaalanen@gmail.com> =
+wrote:
 
->>> +   /* no filling space at all */
->>> +   if (buf >= end || !buf)
->>> +           return buf + reserved_size;
->>> +
->>> +   /* small space for long name */
->>> +   if (buf < end && prepend_len < 0)
->>> +           return string_truncate(buf, end, p, dpath_len, spec);
->>
->> We need this only because we allowed to write the path behind
->> spec.field_width. Do I get it right?
-> 
-> Both of field_width and precision:
-> "%.14pD" or "%8.14pD"
+> indeed it will, but what else could one do to test userspace KMS
+> clients in generic CI where all you can have is virtual hardware? Maybe
+> in the long run VKMS needs to loop back to a userspace daemon that
+> implements all the complex processing and returns the writeback result
+> via VKMS again? That daemon would then need a single upstream, like the
+> kernel, where it is maintained and correctness verified.
 
-Precision is never gonna be used with %p (or any of its kernel
-extensions) because gcc would tell you
+The complex processing must be implemented even without write-back, because
+user-space can ask for CRCs of the CRTC.
 
-foo.c:5:13: warning: precision used with ‘%p’ gnu_printf format [-Wformat=]
-    5 |  printf("%.5p\n", foo);
+> Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtual
+> stuff in userspace? Didn't someone already have something like that?
+> It would need to be lifted to be a required part of kernel UAPI
+> submissions, I suppose like IGT is nowadays.
 
-and there's no way -Wformat is going to be turned off to allow that usage.
+FWIW, I have a mock libdrm [1] for libliftoff. This is nowhere near a full
+software implementation with write-back connectors, but allows to expose
+virtual planes and check atomic commits in CI.
 
-IOW, there's no need to add complexity to make "%.3pD" of something that
-would normally print "/foo/bar" merely print "/fo", similar to what a
-precision with %s would mean.
+[1]: https://github.com/emersion/libliftoff/blob/master/test/libdrm_mock.c
 
-As for field width, I don't know if it's worth honouring, but IIRC the
-original %pd and %pD did that (that's where we have widen_string etc. from).
+> For compositor developers like me knowing the exact formulas would be a h=
+uge
+> benefit as it would allow me to use KMS to off-load precision-sensitive
+> operations (e.g.  professional color management). Otherwise, compositors
+> probably need a switch: "high quality color management? Then do not use K=
+MS
+> features."
 
-Other %p extensions put the field with to some other use (e.g. the
-bitmap and hex string printing), so they obviously cannot simultaneously
-use it in the traditional sense.
-
-Rasmus
+I think for alpha blending there are already rounding issues depending on t=
+he
+hardware. I wouldn't keep my hopes up for any guarantee that all hw uses th=
+e
+exact same formulae for color management stuff.
