@@ -5,41 +5,41 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 108D1C48BE5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 10:49:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DCE0C49EA2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 10:50:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEB836142B
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 10:49:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E996361440
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 10:50:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231327AbhFOKvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 06:51:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46973 "EHLO
+        id S231578AbhFOKwj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 06:52:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36906 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231324AbhFOKvz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 06:51:55 -0400
+        by vger.kernel.org with ESMTP id S231327AbhFOKwi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 06:52:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623754190;
+        s=mimecast20190719; t=1623754234;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=x1ren7OSMjaDh6q/6WrOJye4kFus7TOYh5vtXdd/RZc=;
-        b=f1MpkLLpRwB1oNeJ9ZT6tMpUetuumfbcK6yC7fgMU4TcnFWTNlvGrQeoARkJTo/q1uMbez
-        gv7JBZbxnVtJZRZq7QdMQ8KPDL+E+ne+1dBNd96r43AeIt3EaIR6BjQk/lFv/OuVEHwH1x
-        2O7xz6XMLGtjnsKNvaMWDUwUGDZvk28=
+        bh=mLF4q3AkEmDnxo6JIRFf4IxZaTi01coL7EsmW9r10Dk=;
+        b=fCsCLRmySoWK4g56BbIqElyvl1Zx0thcxwn95JfzUUhI7HOm3LKyYmHIWL1Ewktgzk33ds
+        EpzaDKHg80fehpuvdz6cUxQ7+4HUcBI0E+cUg2SluuPwr7vxxrdpOesUvN7xd6IR7kkb5E
+        QcunLVxwiksxBFaXD1w3dwIDkG4VqTE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-b-Wl5m1PMUiDRtr-mHZcyw-1; Tue, 15 Jun 2021 06:49:49 -0400
-X-MC-Unique: b-Wl5m1PMUiDRtr-mHZcyw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-372-P0TuRZ8cNMaZ7i7XWNuMHw-1; Tue, 15 Jun 2021 06:50:29 -0400
+X-MC-Unique: P0TuRZ8cNMaZ7i7XWNuMHw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24806947;
-        Tue, 15 Jun 2021 10:49:45 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3317F803649;
+        Tue, 15 Jun 2021 10:50:27 +0000 (UTC)
 Received: from localhost (ovpn-113-156.ams2.redhat.com [10.36.113.156])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A5EAA5D9CA;
-        Tue, 15 Jun 2021 10:49:40 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id DD08260CEF;
+        Tue, 15 Jun 2021 10:50:21 +0000 (UTC)
 From:   Cornelia Huck <cohuck@redhat.com>
 To:     Christoph Hellwig <hch@lst.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -61,17 +61,17 @@ Cc:     David Airlie <airlied@linux.ie>,
         linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 05/10] driver core: Export device_driver_attach()
-In-Reply-To: <20210614150846.4111871-6-hch@lst.de>
+Subject: Re: [PATCH 06/10] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
+In-Reply-To: <20210614150846.4111871-7-hch@lst.de>
 Organization: Red Hat GmbH
 References: <20210614150846.4111871-1-hch@lst.de>
- <20210614150846.4111871-6-hch@lst.de>
+ <20210614150846.4111871-7-hch@lst.de>
 User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date:   Tue, 15 Jun 2021 12:49:39 +0200
-Message-ID: <87bl87xv0c.fsf@redhat.com>
+Date:   Tue, 15 Jun 2021 12:50:20 +0200
+Message-ID: <878s3bxuz7.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -80,34 +80,25 @@ On Mon, Jun 14 2021, Christoph Hellwig <hch@lst.de> wrote:
 
 > From: Jason Gunthorpe <jgg@nvidia.com>
 >
-> This is intended as a replacement API for device_bind_driver(). It has at
-> least the following benefits:
+> For some reason the vfio_mdev shim mdev_driver has its own module and
+> kconfig. As the next patch requires access to it from mdev.ko merge the
+> two modules together and remove VFIO_MDEV_DEVICE.
 >
-> - Internal locking. Few of the users of device_bind_driver() follow the
->   locking rules
->
-> - Calls device driver probe() internally. Notably this means that devm
->   support for probe works correctly as probe() error will call
->   devres_release_all()
->
-> - struct device_driver -> dev_groups is supported
->
-> - Simplified calling convention, no need to manually call probe().
->
-> The general usage is for situations that already know what driver to bind
-> and need to ensure the bind is synchronized with other logic. Call
-> device_driver_attach() after device_add().
->
-> If probe() returns a failure then this will be preserved up through to the
-> error return of device_driver_attach().
+> A later patch deletes this driver entirely.
 >
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/base/base.h    | 1 -
->  drivers/base/dd.c      | 3 +++
->  include/linux/device.h | 2 ++
->  3 files changed, 5 insertions(+), 1 deletion(-)
+>  Documentation/s390/vfio-ap.rst   |  1 -
+>  arch/s390/Kconfig                |  2 +-
+>  drivers/gpu/drm/i915/Kconfig     |  2 +-
+>  drivers/vfio/mdev/Kconfig        |  7 -------
+>  drivers/vfio/mdev/Makefile       |  3 +--
+>  drivers/vfio/mdev/mdev_core.c    | 16 ++++++++++++++--
+>  drivers/vfio/mdev/mdev_private.h |  2 ++
+>  drivers/vfio/mdev/vfio_mdev.c    | 24 +-----------------------
+>  samples/Kconfig                  |  6 +++---
+>  9 files changed, 23 insertions(+), 40 deletions(-)
 
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
