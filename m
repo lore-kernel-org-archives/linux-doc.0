@@ -2,137 +2,247 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16585C2B9F4
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 02:54:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B07C3C2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 03:08:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5041613F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 02:53:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 829926140F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 03:08:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229809AbhFOC4C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 22:56:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49494 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229609AbhFOC4C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 22:56:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623725638;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QdYxDbQWiJKAKMyRdXqAnaZNwtk+EcbNLD508mdqaII=;
-        b=SnRF/3WapR3gHUhk/TYsu52nKeEZgnGutfGZsSrfuGKIgJgA2HJ17okApRwUsIPxBHzu9i
-        WrFYbkIQIfWhQJjV1vlbdEzSbi9GrH0JOdz8j3uwDptla0OwQnvKN1JvXffW3B7xS7zh3z
-        z+3zGtN5X0UgTuvwmsCMeOrVM5uiAL0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-87rXkVKpObeEvlfTvm3EJg-1; Mon, 14 Jun 2021 22:53:56 -0400
-X-MC-Unique: 87rXkVKpObeEvlfTvm3EJg-1
-Received: by mail-qt1-f199.google.com with SMTP id z17-20020ac86b910000b0290244cba55754so8659476qts.19
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jun 2021 19:53:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=QdYxDbQWiJKAKMyRdXqAnaZNwtk+EcbNLD508mdqaII=;
-        b=ZJB+2lTiQ2jKIqeRC79+wYc0hLxbgmObMJGNM5pNCzjD2YnugMj5JjyyImoSgIPAAk
-         jw+PATcTok29664HsWTK/KkRiCFu1CPFX0m6Y18334jELfi9HlodgkzMCjoUEJsyWwVb
-         34Fgo12xiagkl/eiOHp3jjc2V/CSaji3cjH/HrurnPiSnJt8/kRYe4z08KqELBc5OTpM
-         cUQbvLqmNdOGRxSUYaNcXudn/b5WgmrrUwRqZk+t51Jz/3+pvCexszY5W93dh1jhjfdX
-         ttaVmm7loN+mG5j3CxyYsOk3Qh2NQD3DtWx10YO2tFDgzFBXBcgXoelL9MQFTXlDdBOY
-         zFjA==
-X-Gm-Message-State: AOAM531om5TEwR+Rd5es5tDeEk3nvCIrOsDi+fip/gORomZSylHTrgI1
-        +LykKB1hflA/nJhzXz5Pj5gHpuo6EyOQ+Iplovw+acJifLTuG3vpxV6AugwJPqwoJBLibO9J9TQ
-        2JCJqMl4oik0G4QmRcjfp
-X-Received: by 2002:a05:6214:d8e:: with SMTP id e14mr2632186qve.15.1623725636536;
-        Mon, 14 Jun 2021 19:53:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzR4D5lIHl7MJuKgEWLvfkxmSWyUHGOXkAt4S7/aewovmlU2fF1+6INdneT3NVj66tHWWQPJA==
-X-Received: by 2002:a05:6214:d8e:: with SMTP id e14mr2632175qve.15.1623725636385;
-        Mon, 14 Jun 2021 19:53:56 -0700 (PDT)
-Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
-        by smtp.gmail.com with ESMTPSA id b10sm11457721qkh.45.2021.06.14.19.53.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jun 2021 19:53:55 -0700 (PDT)
-From:   Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH 0/4] cgroup/cpuset: Allow cpuset to bound displayed cpu
- info
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>, x86@kernel.org,
-        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20210614152306.25668-1-longman@redhat.com>
- <YMe/cGV4JPbzFRk0@slm.duckdns.org>
-Message-ID: <0e21f16d-d91b-7cec-d832-4c401a713b10@redhat.com>
-Date:   Mon, 14 Jun 2021 22:53:53 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        id S229870AbhFODKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 23:10:23 -0400
+Received: from mail-mw2nam12on2049.outbound.protection.outlook.com ([40.107.244.49]:25185
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229609AbhFODKX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jun 2021 23:10:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HypgfkzTV7smPrhiiCIth7IBoOGyfUnDaPK8X7ltJ1iVUIiVRxCc4KIxiLI2jr9NTxXrPEaDEllLz1Tla6G+6ke/aoilwbJHcRer6tC8MOiGmTVkckMdVUAxV1pfAEd6o9BqqxlCLCoduCF/8orDy69i/FkNG2VZeXplh4Uz5rZ9C/Bpvaadevt1ZI/N3j5dYLgE1YYOQ6TH68/8hpewpjcrJsWUwIv9bLDWpXzvEMep+rT1KnIQkjSAZ+LHeUpNubCPQ3ZP5EkTZer2Eje8LoEHb+vsBYsj2GHX5v52iBRsG4bD53NGGX5C4BR34eZHbaqMONV85744n+KbMgCc1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j/fraDyM5DpaPexJE+Rmqm4rVeI2y5160cuPtVZQ0ao=;
+ b=lXhHYDkmm0Ni5BrcyhIpfE17MIh8Z1gr+YxfCLdCuVy7qQx+lR1+5KxtO22tWRbHrRwFAR7y8WH+1ukbzJ3M1L9bRY9LgIoX7Hg97PcuByt4/cwrwPLQGkm1FJT98bEtPYkr+kkPA3WwEUBvRH6N+8MgFDIgX/nVn2c09LlK45PqNGBLFAUPUeh/kB6ehYi8l+zBciyIAVX0YAIZfoInKvok/1T/Hu1dbjyFWndoKzdTjlVUe6cKyFg8vsJ6Y+3cVUUTgcepo27VTgVZx2nrPPbptqK0kzgY3Fq13/24V+1w+4kU120i8+DmNKbz4kWqZnA3zTCMpyCyAC8eTwDQDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j/fraDyM5DpaPexJE+Rmqm4rVeI2y5160cuPtVZQ0ao=;
+ b=pSd/kqiiL/mQ9W/t+AGOuIFEdx9HcbxM+49/9YzuXKxwVBts7hFxJPT+D9agkDuktHZlOhJl5/GU/iw+QBCoygQkUyxouUYyd8Y8a9heiaX1i1JZVOEl7DMseWsfHcQvAfARR6apcHv0cEVBHdTHfsytal3lg+Ppbf4fw9OhkwnV6ZC+wZAEzRvtajXKiD+WUxSroa8r/78GigEyh7si+NJjzFGwPusMUuwyu+LMh18uDglqDIpkbNS4E8Tb+KbayR+Qjx2A0bhvvsKTn3QpfsUR5tbeYA1lYrIwntlnkhzr9hMapknhbKW7rRYcZxP5EzhLrP+DBgdvsjs6VjX/Ug==
+Received: from BN6PR13CA0051.namprd13.prod.outlook.com (2603:10b6:404:11::13)
+ by MN2PR12MB3070.namprd12.prod.outlook.com (2603:10b6:208:c1::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Tue, 15 Jun
+ 2021 03:08:17 +0000
+Received: from BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:11:cafe::a0) by BN6PR13CA0051.outlook.office365.com
+ (2603:10b6:404:11::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.10 via Frontend
+ Transport; Tue, 15 Jun 2021 03:08:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT034.mail.protection.outlook.com (10.13.176.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4219.21 via Frontend Transport; Tue, 15 Jun 2021 03:08:17 +0000
+Received: from nvdebian.localnet (172.20.187.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 15 Jun
+ 2021 03:08:13 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Peter Xu <peterx@redhat.com>
+CC:     <linux-mm@kvack.org>, <akpm@linux-foundation.org>,
+        <rcampbell@nvidia.com>, <linux-doc@vger.kernel.org>,
+        <nouveau@lists.freedesktop.org>, <hughd@google.com>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <hch@infradead.org>, <bskeggs@redhat.com>, <jgg@nvidia.com>,
+        <shakeelb@google.com>, <jhubbard@nvidia.com>,
+        <willy@infradead.org>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v10 07/10] mm: Device exclusive memory access
+Date:   Tue, 15 Jun 2021 13:08:11 +1000
+Message-ID: <7383392.6iZ9WBDLDo@nvdebian>
+In-Reply-To: <YMN61r0wdg88OM8r@t490s>
+References: <20210607075855.5084-1-apopple@nvidia.com> <2683185.ETRjo6vMkr@nvdebian> <YMN61r0wdg88OM8r@t490s>
 MIME-Version: 1.0
-In-Reply-To: <YMe/cGV4JPbzFRk0@slm.duckdns.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 50e2e454-8ffb-4533-4b41-08d92faad281
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3070:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3070FC6C4E9F6A839C0797D3DF309@MN2PR12MB3070.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 86NaWAP5dBbkzvK3BPYpipZBgAwSz/9czQxIFer+rirUh801SJ8HCWr5yMluhIcMwloOqmfDbJBnK2fpKuarYWdyplpJTUhMfG4LWqfd/1A8wgYeknTzOG9vRagqyd9eTy3zvB1QNUexMSIByOaYJN8XAac52ZsngOZ4XIZsWwUHMmn5grcqpOGq7iqLrAcvvy7fm1r/JuhHr+TyM9PU+4wvwfJuQfxWOjtD2b6X8bfPfnaDAhvZSsm2O2ogCV5bSQ/gruBuw55eW3Lqxe/jdGVbIXJprqIymK14y4t9cYgIRdHHAQmpOB4cj+/FZQEbBgnzx4Zm2geHymVRzqvosqYuE8GVNNyKketgobGxfRPUy4AaF1BR9UiburTPuz8Ry+Gl1T/cj9bkGZDCBG+rAT8Lr1UKK8hPZBNoZrmPFCFraaaoPUamnE50l+lGm7xbc31Ir+pMibXC2WwRqLhZ1I1mavvaXpg9+X5BtZmu/Lm4fJQT0SBg9DJSAGi9WUqb6AoQekJfseLo2zO5zQmG9On/EHZskiiPtoLpNRnZDRqB5WkurukpdQWHUO7XKjLRY/4fHVsCJftdZS9xLG51j+vWkKAVOhvxmNOF+zZaQZNYYXllPR4Ivd3m0JAw2k/FtjhCaMDQ7X4rGTzrrGaA0NfqXQILO6i/1caCjdYAyfSD0wcLgREYSucKBXRfydbC
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(396003)(346002)(36840700001)(46966006)(33716001)(83380400001)(36906005)(478600001)(336012)(5660300002)(316002)(9686003)(82310400003)(8676002)(54906003)(9576002)(8936002)(2906002)(7416002)(47076005)(36860700001)(82740400003)(356005)(70586007)(70206006)(16526019)(186003)(7636003)(26005)(6916009)(426003)(4326008)(86362001)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2021 03:08:17.0411
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50e2e454-8ffb-4533-4b41-08d92faad281
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3070
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/14/21 4:43 PM, Tejun Heo wrote:
-> Hello,
->
-> On Mon, Jun 14, 2021 at 11:23:02AM -0400, Waiman Long wrote:
->> The current container management system is able to create the illusion
->> that applications running within a container have limited resources and
->> devices available for their use. However, one thing that is hard to hide
->> is the number of CPUs available in the system. In fact, the container
->> developers are asking for the kernel to provide such capability.
->>
->> There are two places where cpu information are available for the
->> applications to see - /proc/cpuinfo and /sys/devices/system/cpu sysfs
->> directory.
->>
->> This patchset introduces a new sysctl parameter cpuset_bound_cpuinfo
->> which, when set, will limit the amount of information disclosed by
->> /proc/cpuinfo and /sys/devices/system/cpu.
-> The goal of cgroup has never been masquerading system information so that
-> applications can pretend that they own the whole system and the proposed
-> solution requires application changes anyway. The information being provided
-> is useful but please do so within the usual cgroup interface - e.g.
-> cpuset.stat. The applications (or libraries) that want to determine its
-> confined CPU availability can locate the file through /proc/self/cgroup.
+On Saturday, 12 June 2021 1:01:42 AM AEST Peter Xu wrote:
+> On Fri, Jun 11, 2021 at 01:43:20PM +1000, Alistair Popple wrote:
+> > On Friday, 11 June 2021 11:00:34 AM AEST Peter Xu wrote:
+> > > On Fri, Jun 11, 2021 at 09:17:14AM +1000, Alistair Popple wrote:
+> > > > On Friday, 11 June 2021 9:04:19 AM AEST Peter Xu wrote:
+> > > > > On Fri, Jun 11, 2021 at 12:21:26AM +1000, Alistair Popple wrote:
+> > > > > > > Hmm, the thing is.. to me FOLL_SPLIT_PMD should have similar effect to explicit
+> > > > > > > call split_huge_pmd_address(), afaict.  Since both of them use __split_huge_pmd()
+> > > > > > > internally which will generate that unwanted CLEAR notify.
+> > > > > >
+> > > > > > Agree that gup calls __split_huge_pmd() via split_huge_pmd_address()
+> > > > > > which will always CLEAR. However gup only calls split_huge_pmd_address() if it
+> > > > > > finds a thp pmd. In follow_pmd_mask() we have:
+> > > > > >
+> > > > > >       if (likely(!pmd_trans_huge(pmdval)))
+> > > > > >               return follow_page_pte(vma, address, pmd, flags, &ctx->pgmap);
+> > > > > >
+> > > > > > So I don't think we have a problem here.
+> > > > >
+> > > > > Sorry I didn't follow here..  We do FOLL_SPLIT_PMD after this check, right?  I
+> > > > > mean, if it's a thp for the current mm, afaict pmd_trans_huge() should return
+> > > > > true above, so we'll skip follow_page_pte(); then we'll check FOLL_SPLIT_PMD
+> > > > > and do the split, then the CLEAR notify.  Hmm.. Did I miss something?
+> > > >
+> > > > That seems correct - if the thp is not mapped with a pmd we won't split and we
+> > > > won't CLEAR. If there is a thp pmd we will split and CLEAR, but in that case it
+> > > > is fine - we will retry, but the retry will won't CLEAR because the pmd has
+> > > > already been split.
+> > >
+> > > Aha!
+> > >
+> > > >
+> > > > The issue arises with doing it unconditionally in make device exclusive is that
+> > > > you *always* CLEAR even if there is no thp pmd to split. Or at least that's my
+> > > > understanding, please let me know if it doesn't make sense.
+> > >
+> > > Exactly.  But if you see what I meant here, even if it can work like this, it
+> > > sounds still fragile, isn't it?  I just feel something is slightly off there..
+> > >
+> > > IMHO split_huge_pmd() checked pmd before calling __split_huge_pmd() for
+> > > performance, afaict, because if it's not a thp even without locking, then it
+> > > won't be, so further __split_huge_pmd() is not necessary.
+> > >
+> > > IOW, it's very legal if someday we'd like to let split_huge_pmd() call
+> > > __split_huge_pmd() directly, then AFAIU device exclusive API will be the 1st
+> > > one to be broken with that seems-to-be-irrelevant change I'm afraid..
+> >
+> > Well I would argue the performance of memory notifiers is becoming increasingly
+> > important, and a change that causes them to be called unnecessarily is
+> > therefore not very legal. Likely the correct fix here is to optimise
+> > __split_huge_pmd() to only call the notifier if it's actually going to split a
+> > pmd. As you said though that's a completely different story which I think would
+> > be best done as a separate series.
+> 
+> Right, maybe I can look a bit more into that later; but my whole point was to
+> express that one functionality shouldn't depend on such a trivial detail of
+> implementation of other modules (thp split in this case).
+> 
+> >
+> > > This lets me goes back a step to think about why do we need this notifier at
+> > > all to cover this whole range of make_device_exclusive() procedure..
+> > >
+> > > What I am thinking is, we're afraid some CPU accesses this page so the pte got
+> > > quickly restored when device atomic operation is carrying on.  Then with this
+> > > notifier we'll be able to cancel it.  Makes perfect sense.
+> > >
+> > > However do we really need to register this notifier so early?  The thing is the
+> > > GPU driver still has all the page locks, so even if there's a race to restore
+> > > the ptes, they'll block at taking the page lock until the driver releases it.
+> > >
+> > > IOW, I'm wondering whether the "non-fragile" way to do this is not do
+> > > mmu_interval_notifier_insert() that early: what if we register that notifier
+> > > after make_device_exclusive_range() returns but before page_unlock() somehow?
+> > > So before page_unlock(), race is protected fully by the lock itself; after
+> > > that, it's done by mmu notifier.  Then maybe we don't need to worry about all
+> > > these notifications during marking exclusive (while we shouldn't)?
+> >
+> > The notifier is needed to protect against races with pte changes. Once a page
+> > has been marked for exclusive access the driver will update it's page tables to
+> > allow atomic access to the page. However in the meantime the page could become
+> > unmapped entirely or write protected.
+> >
+> > As I understand things the page lock won't protect against these kind of pte
+> > changes, hence the need for mmu_interval_read_begin/retry which allows the
+> > driver to hold a mutex protecting against invalidations via blocking the
+> > notifier until the device page tables have been updated.
+> 
+> Indeed, I suppose you mean change_pte_range() and zap_pte_range()
+> correspondingly.
 
-Thanks for your comment. I understand your point making change via 
-cgroup interface files. However, this is not what the customers are 
-asking for. They are using tools that look at /proc/cpuinfo and the 
-sysfs files. It is a much bigger effort to make all those tools look at 
-a new cgroup file interface instead. It can be more efficiently done at 
-the kernel level.
+Right.
 
-Anyway, I am OK if the consensus is that it is not a kernel problem and 
-have to be handled in userspace.
+> Do you think we can restore pte right before wr-protect or zap?  Then all
+> things serializes with page lock (btw: it's already an insane userspace to
+> either unmap a page or wr-protect a page if it knows the device is using it!).
+> If these are the only two cases, it still sounds a cleaner approach to me than
+> the current approach.
 
-BTW, do you have any comment on another cpuset patch that I sent a week 
-earlier?
+Perhaps we could but it would make {zap|change}_pte_range() much more complex as
+we can't sleep taking the page lock whilst holding the ptl, so we'd have to
+implement a retry scheme similar to copy_pte_range() in both those functions as
+well. Given mmu_interval_read_begin/retry was IMHO added to solve this type of
+problem (freezing pte's to safely program device pte's) it seems like the
+better option rather than adding more complex code to generic mm paths.
 
-https://lore.kernel.org/lkml/20210603212416.25934-1-longman@redhat.com/
+It's also worth noting i915 seems to use mmu_interval_read_begin/retry() with
+gup to sync mappings so this isn't an entirely new concept. I'm not an expert
+in that driver but I imagine changing gup to generate unconditional mmu notifier
+invalidates would also cause issues there. So I think overall this is the
+cleanest solution as it reduces the amount of code (particularly in generic mm
+paths).
 
-I am looking forward for your feedback.
+> This also reminded me that right now the cpu pgtable recovery is lazy - it
+> happens either from fork() or a cpu page fault.  Even after device finished
+> using it, swap ptes keep there.
+> 
+> What if the device tries to do atomic op on the same page twice?  I am not sure
+> whether it means we may also want to teach both GUP (majorly follow_page_pte()
+> for now before pmd support) and process of page_make_device_exclusive() with
+> understanding the device exclusive entries too?  Another option seems to be
+> restoring pte after device finish using it, as long as the device knows when.
 
-Cheers,
-Longman
+I don't think we need to complicate follow_page_pte() with knowledge of
+exclusive entries. GUP will just restore the original pte via the normal
+fault path - follow_page_pte() will return NULL for an exclusive entry,
+resulting in handle_mm_path() getting called via faultin_page(). Therefore
+a driver calling make_device_exclusive() twice on the same page won't cause an
+issue. Also the device shouldn't fault on subsequent accesses if the exclusive
+entry is still in place anyway.
+
+We can't restore the pte when the device is finished with it because there is
+no way of knowing when a device is done using an exclusive entry - device
+pte's work much the same as cpu pte's in that regard.
+
+ - Alistair
+
+> --
+> Peter Xu
+> 
+
+
+
 
