@@ -2,249 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F17C48BE5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 12:14:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4195C48BE8
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 12:18:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B9BF61461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 12:14:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94EAD61466
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 12:18:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbhFOMQE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 08:16:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36186 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbhFOMQD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 08:16:03 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83CA5C061574
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 05:13:58 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id g20so22300587ejt.0
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 05:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=1xUcdoU0rgH6jjTSj2XB1E78P9DWja+pl0vW8u+yUME=;
-        b=loh2Rs1j+aBMTB7nwR1wvQdD871fGH12MVpbxkvb/HGtKVG5YUTUDbVx7OK9O23RHD
-         CO0miiJiQwtvZ2Fizq52zvuPBeSfpHO2XkfnKUvu6P8nboa9/9qGPqVH7ov6QX0XBct5
-         whgtfm1JxRtHiIcp4i9uB6ShT8tZkLSkFrmEvTn7kMbWQYapbcyOxKJ/rQlHwTQr941z
-         v1aYcwND+61o78Dfd5AfNUjMVbz+6ucdAuQUdtrk+ANUquE8zOT1BUq9+v4zJt/lJKNF
-         Imo1V3MbWn+DhBr3Xi1SDR30eAO2bqjLM0s928uFaSMDjyRHcvEiWJg932IIK9v8JBRM
-         KPUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=1xUcdoU0rgH6jjTSj2XB1E78P9DWja+pl0vW8u+yUME=;
-        b=hq68biqReicqWlHpt7eZ0IDB9eQifAeGXl0Wz0IZAP0kDF2xPCUQoQiKUKPTlFWz9D
-         GaA+L0rDZGH8GXDHbKoEIkj0taQLAcRs1RxXeYbd5S7IbSoBOdlUctPkMPjSs3kja1XZ
-         k3xfQ5XNu8R1ePamUL6qR3OuWT84ss7mi5B5Vj0gsIraUgNmCsJdMumFFJjPOY2REl0W
-         0CpzyxxNzrpM/2EKdn3PNgcUlj1lmq5fHHFx8ZYxE1iCDUtgPhcrxTVXpTksJt2B89qz
-         om1fYZcr/Lw1PLc/d+vkIGnXFM9x6SjdSz0242zrYt8ylsbNnOJKnSLWqWo/zSPYLIS2
-         SQDw==
-X-Gm-Message-State: AOAM533nLdwFFQod4XWk4XF7wgHg7I3GUeo8awDupio1mFf1fpior/Ra
-        lO3z1XyKCuChtluia11zu0I=
-X-Google-Smtp-Source: ABdhPJyVl/Us4ycZpKhFtZUdcJ/KKU637NmPeEn55W0oyLi7vLmz4aF3vWo84Ws3DTmeFHKHVmceuA==
-X-Received: by 2002:a19:7d82:: with SMTP id y124mr15068746lfc.76.1623752229076;
-        Tue, 15 Jun 2021 03:17:09 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id z20sm2118351ljk.50.2021.06.15.03.17.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 03:17:08 -0700 (PDT)
-Date:   Tue, 15 Jun 2021 13:16:56 +0300
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Simon Ser <contact@emersion.fr>, Liviu Dudau <liviu.dudau@arm.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Steven Price <steven.price@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alison Wang <alison.wang@nxp.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Huang Rui <ray.huang@amd.com>,
-        Yannick Fertr e <yannick.fertre@foss.st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210615131656.2ecefdc4@eldfell>
-In-Reply-To: <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
-References: <20210610174731.1209188-1-maxime@cerno.tech>
-        <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
-        <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
-        <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
-        <20210614174912.15a49336@eldfell>
-        <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
-        <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
-        <20210615100335.0b8f96d5@eldfell>
-        <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
-        <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S230152AbhFOMUP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 08:20:15 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:17346 "EHLO
+        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229659AbhFOMUP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 08:20:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1623759491; x=1655295491;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=2p01kvq+G29y436EWXolYoDccfmPacDmDp78aAZq12Q=;
+  b=KjmGVncej8PXckIKlFBXc2hYrq9mKU0CuJH/djFAde34H8hgrspiW9xg
+   YxrDtTHKyX2M6gZQxEx9NarlJXm0It7hupjJRuRYr6By9rmvuEGiSSsRk
+   lPUME4pilraE9BmL9pNnASaBHR4MkZtY2QK6hhiapuhwJkDT3Ux8ivGYC
+   8=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 15 Jun 2021 05:18:10 -0700
+X-QCInternal: smtphost
+Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA; 15 Jun 2021 05:17:57 -0700
+Received: from [10.111.175.185] (10.80.80.8) by nasanexm03e.na.qualcomm.com
+ (10.85.0.48) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 15 Jun
+ 2021 05:17:50 -0700
+Subject: Re: [PATCH 0/5] cpufreq: cppc: Fix suspend/resume specific races with
+ FIE code
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+CC:     Rafael Wysocki <rjw@rjwysocki.net>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        <linux-pm@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Ionela Voinescu <ionela.voinescu@arm.com>,
+        Dirk Brandewie <dirk.j.brandewie@intel.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>
+References: <cover.1623313323.git.viresh.kumar@linaro.org>
+ <eaaaf171-5937-e0f2-8447-c1b20b474c62@quicinc.com>
+ <20210615075056.dfkbiftuoihtrfpo@vireshk-i7>
+From:   Qian Cai <quic_qiancai@quicinc.com>
+Message-ID: <19527d26-526e-6c6f-431d-7b78ed92bb34@quicinc.com>
+Date:   Tue, 15 Jun 2021 08:17:49 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/aSclia/U0zdUZzWMZ0xn.Ur"; protocol="application/pgp-signature"
+In-Reply-To: <20210615075056.dfkbiftuoihtrfpo@vireshk-i7>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanexm03b.na.qualcomm.com (10.85.0.98) To
+ nasanexm03e.na.qualcomm.com (10.85.0.48)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/aSclia/U0zdUZzWMZ0xn.Ur
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 15 Jun 2021 12:45:57 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-
-> On Tue, Jun 15, 2021 at 07:15:18AM +0000, Simon Ser wrote:
-> > On Tuesday, June 15th, 2021 at 09:03, Pekka Paalanen <ppaalanen@gmail.c=
-om> wrote:
-> >  =20
-> > > indeed it will, but what else could one do to test userspace KMS
-> > > clients in generic CI where all you can have is virtual hardware? May=
-be
-> > > in the long run VKMS needs to loop back to a userspace daemon that
-> > > implements all the complex processing and returns the writeback result
-> > > via VKMS again? That daemon would then need a single upstream, like t=
-he
-> > > kernel, where it is maintained and correctness verified. =20
-> >=20
-> > The complex processing must be implemented even without write-back, bec=
-ause
-> > user-space can ask for CRCs of the CRTC.
-> >  =20
-> > > Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtual
-> > > stuff in userspace? Didn't someone already have something like that?
-> > > It would need to be lifted to be a required part of kernel UAPI
-> > > submissions, I suppose like IGT is nowadays. =20
-> >=20
-> > FWIW, I have a mock libdrm [1] for libliftoff. This is nowhere near a f=
-ull
-> > software implementation with write-back connectors, but allows to expose
-> > virtual planes and check atomic commits in CI.
-> >=20
-> > [1]: https://github.com/emersion/libliftoff/blob/master/test/libdrm_moc=
-k.c
-> >  =20
-> > > For compositor developers like me knowing the exact formulas would be=
- a huge
-> > > benefit as it would allow me to use KMS to off-load precision-sensiti=
-ve
-> > > operations (e.g.  professional color management). Otherwise, composit=
-ors
-> > > probably need a switch: "high quality color management? Then do not u=
-se KMS
-> > > features." =20
-> >=20
-> > I think for alpha blending there are already rounding issues depending =
-on the
-> > hardware. I wouldn't keep my hopes up for any guarantee that all hw use=
-s the
-> > exact same formulae for color management stuff. =20
->=20
-> Good, because otherwise you would be very quickly disappointed :-)
->=20
-> For scaling we would also need to replicate the exact same filter taps,
-> which are often not documented.
-
-That is where the documented tolerances come into play.
-
-Userspace projects need screenshot-based testing, and we need to know
-how much tolerance we should allow or expect.
-
-Good reminder about CRCs. CRCs have zero tolerance, so they are not
-useful for testing properties that have any leeway, are they?
 
 
-Thanks,
-pq
+On 6/15/2021 3:50 AM, Viresh Kumar wrote:
+> Hi Qian,
+> 
+> First of all thanks for testing this, I need more of your help to test
+> this out :)
+> 
+> FWIW, I did test this on my Hikey board today, with some hacks, and
+> tried multiple insmod/rmmod operations for the driver, and I wasn't
+> able to reproduce the issue you reported. I did enable the list-debug
+> config option.
 
---Sig_/aSclia/U0zdUZzWMZ0xn.Ur
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+The setup here is an arm64 server with 32 CPUs.
 
------BEGIN PGP SIGNATURE-----
+> 
+> On 14-06-21, 09:48, Qian Cai wrote:
+>> Unfortunately, this series looks like needing more works.
+>>
+>> [  487.773586][    T0] CPU17: Booted secondary processor 0x0000000801 [0x503f0002]
+>> [  487.976495][  T670] list_del corruption. next->prev should be ffff009b66e9ec70, but was ffff009b66dfec70
+>> [  487.987037][  T670] ------------[ cut here ]------------
+>> [  487.992351][  T670] kernel BUG at lib/list_debug.c:54!
+>> [  487.997810][  T670] Internal error: Oops - BUG: 0 [#1] SMP
+>> [  488.003295][  T670] Modules linked in: cpufreq_userspace xfs loop cppc_cpufreq processor efivarfs ip_tables x_tables ext4 mbcache jbd2 dm_mod igb i2c_algo_bit nvme mlx5_core i2c_core nvme_core firmware_class
+>> [  488.021759][  T670] CPU: 1 PID: 670 Comm: cppc_fie Not tainted 5.13.0-rc5-next-20210611+ #46
+>> [  488.030190][  T670] Hardware name: MiTAC RAPTOR EV-883832-X3-0001/RAPTOR, BIOS 1.6 06/28/2020
+>> [  488.038705][  T670] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO BTYPE=--)
+>> [  488.045398][  T670] pc : __list_del_entry_valid+0x154/0x158
+>> [  488.050969][  T670] lr : __list_del_entry_valid+0x154/0x158
+>> [  488.056534][  T670] sp : ffff8000229afd70
+>> [  488.060534][  T670] x29: ffff8000229afd70 x28: ffff0008c8f4f340 x27: dfff800000000000
+>> [  488.068361][  T670] x26: ffff009b66e9ec70 x25: ffff800011c8b4d0 x24: ffff0008d4bfe488
+>> [  488.076188][  T670] x23: ffff0008c8f4f340 x22: ffff0008c8f4f340 x21: ffff009b6789ec70
+>> [  488.084015][  T670] x20: ffff0008d4bfe4c8 x19: ffff009b66e9ec70 x18: ffff0008c8f4fd70
+>> [  488.091842][  T670] x17: 20747562202c3037 x16: 6365396536366239 x15: 0000000000000028
+>> [  488.099669][  T670] x14: 0000000000000000 x13: 0000000000000001 x12: ffff60136cdd3447
+>> [  488.107495][  T670] x11: 1fffe0136cdd3446 x10: ffff60136cdd3446 x9 : ffff8000103ee444
+>> [  488.115322][  T670] x8 : ffff009b66e9a237 x7 : 0000000000000001 x6 : ffff009b66e9a230
+>> [  488.123149][  T670] x5 : 00009fec9322cbba x4 : ffff60136cdd3447 x3 : 1fffe001191e9e69
+>> [  488.130975][  T670] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000054
+>> [  488.138803][  T670] Call trace:
+>> [  488.141935][  T670]  __list_del_entry_valid+0x154/0x158
+>> [  488.147153][  T670]  kthread_worker_fn+0x15c/0xda0
+> 
+> This is a strange place to get the issue from. And this is a new
+> issue.
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDIfhgACgkQI1/ltBGq
-qqf9uw//Z7wP5lb4lQfPWOw5s+nFR9pu8B8zVwQzEuz2RTx5Vc/XXfa2Fc0rukCj
-Y380sIPdp2+avUNDyitBKW8E7rU3mab7UmBdn6CmLnvZVM+BQ3vdtDvZ2WfezT7j
-AkEzJYm9QhiYyqezwzCa1Jo2ugUJwSxT6TKQbVsT64vCCajdZIQJvDizCPy0HNvY
-/dncTRXyWta650vMnzYle6YlWrYL+kJst8J/zU5+H3nffgJef6zpxz+o37Libz/w
-WYZWYSJ7swv54xNCddkuJrSf60vs7KlwiXZuBEt5dSu2ro81unrU6FVpEazF8x1e
-3jigPFgMppxYTIVOGtrjbQku7hJB1f9u+DNGjKTeH8HMc0QkAfcb+V7nrmaetZs6
-02GvihbFh67ewL7hcIXVpNETdsfQD3pVCDz1Xz6w5A6bixa0HuH31C3ATBhUuKhH
-tJNv99eZvmfBIaeuFNkCgPbxP2vdFmStT1x/bq06g+2RCG71+EzkKF6hX0JD+kRf
-CqRqBDvwNy4sXgDkwz+ftpHrn+OvO7LrR4X5NtZUeo24VaXlrJTqqX5lSHr6OgZg
-oREPacO/pUjTluJY+sb+qUBkxTcu9hP5MC5LnHvtiQ2yxWel2Wp+MOF42Sl2B98w
-jTfx9rHSqauMN7hs33K2UBnAcpf2sswYagwmg0clpgF/ipcJ96k=
-=4xXK
------END PGP SIGNATURE-----
+Well, it was still the same exercises with CPU online/offline.
 
---Sig_/aSclia/U0zdUZzWMZ0xn.Ur--
+> 
+>> [  488.151939][  T670]  kthread+0x3ac/0x460
+>> [  488.155854][  T670]  ret_from_fork+0x10/0x18
+>> [  488.160120][  T670] Code: 911e8000 aa1303e1 910a0000 941b595b (d4210000)
+>> [  488.166901][  T670] ---[ end trace e637e2d38b2cc087 ]---
+>> [  488.172206][  T670] Kernel panic - not syncing: Oops - BUG: Fatal exception
+>> [  488.179182][  T670] SMP: stopping secondary CPUs
+>> [  489.209347][  T670] SMP: failed to stop secondary CPUs 0-1,10-11,16-17,31
+>> [  489.216128][  T][  T670] Memoryn ]---
+> 
+> Can you give details on what exactly did you try to do, to get this ?
+> Normal boot or something more ?
+
+Basically, it has the cpufreq driver as CPPC and the governor as schedutil. Running a few workloads to get CPU scaling up and down. Later, try to offline all CPUs until the last one and then online all CPUs.
+
+> 
+> I have made some changes to the way calls were happening, may get this
+> thing sorted. Can you please try this branch ?
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git/log/?h=cpufreq/cppc
+> 
+> I can see one place where race can happen, i.e. between
+> topology_clear_scale_freq_source() and topology_scale_freq_tick(). It
+> is possible that sfd->set_freq_scale() may get called for a previously
+> set handler as there is no protection there.
+> 
+> I will see how to fix that. But I am not sure if the issue reported
+> above comes from there.
+> 
+> Anyway, please give my branch a try, lets see.
+
+I am hesitate to try this at the moment because this all feel like shooting in the dark. Ideally, you will be able to get access to one of those arm64 servers (Huawei, Ampere, TX2, FJ etc) eventually and really try the same exercises yourself with those debugging options like list debugging and KASAN on. That way you could fix things way efficiently. I could share you the .config once you are there. Last but not least, once you get better narrow down of the issues, I'd hope to see someone else familiar with the code there to get review of those patches first (feel free to Cc me once you are ready to post) before I'll rerun the whole things again. That way we don't waste time on each other backing and forth chasing the shadow.
