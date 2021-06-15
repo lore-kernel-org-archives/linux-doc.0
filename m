@@ -2,233 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B3BAC48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 631A6C48BE8
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:40:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68BA2610CD
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:36:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B8446141E
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:40:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbhFOHig (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 03:38:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55512 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229781AbhFOHif (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jun 2021 03:38:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 79B136140B;
-        Tue, 15 Jun 2021 07:36:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623742591;
-        bh=8XU2Pup+XtMsuXUCeq2FwUCixSw98N2PyhrkftAHkOE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iuFepYdlXDjgrrGfDX7TfoLxuWI1hMhHTv+CCW8zJrzChRyVQ/71VWYLXJeryZSRi
-         b2EhUwPUM1ZZfFydB6YKii21+JCGS/hGwmQ3Tk9HP2kySJCOOlShgSH4td6J0q97b6
-         NzrBigVuhU/GAnoNdHDbmGhBhNkwiV9CI5Nz4/74=
-Date:   Tue, 15 Jun 2021 09:36:28 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     trix@redhat.com
-Cc:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
-        michal.simek@xilinx.com, krzysztof.kozlowski@canonical.com,
-        nava.manne@xilinx.com, yilun.xu@intel.com, davidgow@google.com,
-        fpacheco@redhat.com, richard.gong@intel.com, luca@lucaceresoli.net,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 2/4] fpga: xilinx: reorganize to subdir layout
-Message-ID: <YMhYfCgOAthEqPXs@kroah.com>
-References: <20210614201648.3358206-1-trix@redhat.com>
- <20210614201648.3358206-4-trix@redhat.com>
+        id S230405AbhFOHmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 03:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229898AbhFOHmq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 03:42:46 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF8EC061767
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 00:40:41 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id s6so49756825edu.10
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 00:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=bD5A1f3b7vRrP0UeIDZmZfmfv9DJp+EPhy9/duz0b6I=;
+        b=N26Llwd8SrRempOpdtcKBAmy1pvmFxIeRjrv7uJBq+fyQnnstQ8pnLT/Wzbxadlx4G
+         zeWAQ5IOgSsL06m56/+u/nLsoAki7f8EMVhSFqDFiF4VMn3hRC8dt4ldaoqFORGc36i0
+         iaPTXBs9otzBIcyw+VGYCJsDK+XLBaYX3pW4Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bD5A1f3b7vRrP0UeIDZmZfmfv9DJp+EPhy9/duz0b6I=;
+        b=ZbQpztRhapJgC8qDpJtwLeN492Ng6x0XK1CTYpdE6O4dxuMArDnYOUOOjm8KN90pyL
+         tJtzBW0O/0Safm1RLSn2KdflJVAPOzRe21iIZcQ9hw8Te9r2QlzScYJAtTTeoILQW5Lg
+         ROsrBuKI3qlxM2bDueaIVK/fUa+ZygoJyfW9DqYXyQQ39xOrIM6eIaQqOaIxSCBzfuv/
+         NspB+mJuras1oypor5+T32yXOENrFexkLyW5+9FZNgVS2rvQo/iqeQL2KLgooM0umCLJ
+         aadnWw6/uNgSnyn2Ca/taCSMean5CwDDbsL2bmPLPQcrXrKOcv7jKfrTOc4pX/4ruTHh
+         UXQg==
+X-Gm-Message-State: AOAM532WkOnptyOYY5Bz5Ui7joeeI1DMbWl8Y/otHkzOA+TXZXSaRLVj
+        k+iETRfc+jpiIbxcKenvvem/FP6HOQRq4Dy7
+X-Google-Smtp-Source: ABdhPJx2vjhd4LwV0XJVM8XQYgW0VgiMdJ+UIchUf/VZ/J2jXsl5B8hBYZ+9Ap7cJYyGZUpqL4jFTA==
+X-Received: by 2002:aa7:c983:: with SMTP id c3mr21227017edt.58.1623742840170;
+        Tue, 15 Jun 2021 00:40:40 -0700 (PDT)
+Received: from [192.168.1.149] ([80.208.64.110])
+        by smtp.gmail.com with ESMTPSA id ci4sm402545ejc.110.2021.06.15.00.40.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Jun 2021 00:40:39 -0700 (PDT)
+Subject: Re: [PATCH RFCv3 3/3] lib/test_printf: add test cases for '%pD'
+To:     Justin He <Justin.He@arm.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20210611155953.3010-1-justin.he@arm.com>
+ <20210611155953.3010-4-justin.he@arm.com>
+ <4fe3621f-f4a0-2a74-e831-dad9e046f392@rasmusvillemoes.dk>
+ <AM6PR08MB4376C7D2EEAF19F4CA636369F7309@AM6PR08MB4376.eurprd08.prod.outlook.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <54b259f2-1dcd-8792-1432-14cd44abb6a5@rasmusvillemoes.dk>
+Date:   Tue, 15 Jun 2021 09:40:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210614201648.3358206-4-trix@redhat.com>
+In-Reply-To: <AM6PR08MB4376C7D2EEAF19F4CA636369F7309@AM6PR08MB4376.eurprd08.prod.outlook.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 01:16:46PM -0700, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
+On 15/06/2021 09.06, Justin He wrote:
+> Hi Rasmus
 > 
-> Follow drivers/net/ethernet/ which has control configs
-> NET_VENDOR_BLA that map to drivers/net/ethernet/bla
-> Since fpgas do not have many vendors, drop the 'VENDOR' and use
-> FPGA_BLA.
-> 
-> There are several new subdirs
-> altera/
-> dfl/
-> lattice/
-> xilinx/
-> 
-> Each subdir has a Kconfig that has a new/reused
-> 
-> if FPGA_BLA
->   ... existing configs ...
-> endif FPGA_BLA
-> 
-> Which is sourced into the main fpga/Kconfig
-> 
-> Each subdir has a Makefile whose transversal is controlled in the
-> fpga/Makefile by
-> 
-> obj-$(CONFIG_FPGA_BLA) += bla/
-> 
-> This is the xilinx/ subdir part
-> 
-> Create a xilinx/ subdir
-> Move xilinx-* and zynq* files to it.
-> Add a Kconfig and Makefile
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/fpga/Kconfig                          | 40 +-------------
->  drivers/fpga/Makefile                         |  5 +-
->  drivers/fpga/xilinx/Kconfig                   | 55 +++++++++++++++++++
->  drivers/fpga/xilinx/Makefile                  |  6 ++
->  .../fpga/{ => xilinx}/xilinx-pr-decoupler.c   |  0
->  drivers/fpga/{ => xilinx}/xilinx-spi.c        |  0
->  drivers/fpga/{ => xilinx}/zynq-fpga.c         |  0
->  drivers/fpga/{ => xilinx}/zynqmp-fpga.c       |  0
->  8 files changed, 63 insertions(+), 43 deletions(-)
->  create mode 100644 drivers/fpga/xilinx/Kconfig
->  create mode 100644 drivers/fpga/xilinx/Makefile
->  rename drivers/fpga/{ => xilinx}/xilinx-pr-decoupler.c (100%)
->  rename drivers/fpga/{ => xilinx}/xilinx-spi.c (100%)
->  rename drivers/fpga/{ => xilinx}/zynq-fpga.c (100%)
->  rename drivers/fpga/{ => xilinx}/zynqmp-fpga.c (100%)
-> 
-> diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
-> index 7a290b2234576..28c261807b428 100644
-> --- a/drivers/fpga/Kconfig
-> +++ b/drivers/fpga/Kconfig
-> @@ -52,25 +52,12 @@ config FPGA_MGR_ALTERA_CVP
->  	  FPGA manager driver support for Arria-V, Cyclone-V, Stratix-V,
->  	  Arria 10 and Stratix10 Altera FPGAs using the CvP interface over PCIe.
->  
-> -config FPGA_MGR_ZYNQ_FPGA
-> -	tristate "Xilinx Zynq FPGA"
-> -	depends on ARCH_ZYNQ || COMPILE_TEST
-> -	help
-> -	  FPGA manager driver support for Xilinx Zynq FPGAs.
-> -
->  config FPGA_MGR_STRATIX10_SOC
->  	tristate "Intel Stratix10 SoC FPGA Manager"
->  	depends on (ARCH_INTEL_SOCFPGA && INTEL_STRATIX10_SERVICE)
->  	help
->  	  FPGA manager driver support for the Intel Stratix10 SoC.
->  
-> -config FPGA_MGR_XILINX_SPI
-> -	tristate "Xilinx Configuration over Slave Serial (SPI)"
-> -	depends on SPI
-> -	help
-> -	  FPGA manager driver support for Xilinx FPGA configuration
-> -	  over slave serial interface.
-> -
->  config FPGA_MGR_ICE40_SPI
->  	tristate "Lattice iCE40 SPI"
->  	depends on OF && SPI
-> @@ -113,23 +100,6 @@ config ALTERA_FREEZE_BRIDGE
->  	  isolate one region of the FPGA from the busses while that
->  	  region is being reprogrammed.
->  
-> -config XILINX_PR_DECOUPLER
-> -	tristate "Xilinx LogiCORE PR Decoupler"
-> -	depends on FPGA_BRIDGE
-> -	depends on HAS_IOMEM
-> -	help
-> -	  Say Y to enable drivers for Xilinx LogiCORE PR Decoupler
-> -	  or Xilinx Dynamic Function eXchnage AIX Shutdown Manager.
-> -	  The PR Decoupler exists in the FPGA fabric to isolate one
-> -	  region of the FPGA from the busses while that region is
-> -	  being reprogrammed during partial reconfig.
-> -	  The Dynamic Function eXchange AXI shutdown manager prevents
-> -	  AXI traffic from passing through the bridge. The controller
-> -	  safely handles AXI4MM and AXI4-Lite interfaces on a
-> -	  Reconfigurable Partition when it is undergoing dynamic
-> -	  reconfiguration, preventing the system deadlock that can
-> -	  occur if AXI transactions are interrupted by DFX.
-> -
->  config FPGA_REGION
->  	tristate "FPGA Region"
->  	depends on FPGA_BRIDGE
-> @@ -146,14 +116,6 @@ config OF_FPGA_REGION
->  	  overlay.
->  
->  source "drivers/fpga/dfl/Kconfig"
-> -
-> -config FPGA_MGR_ZYNQMP_FPGA
-> -	tristate "Xilinx ZynqMP FPGA"
-> -	depends on ZYNQMP_FIRMWARE || (!ZYNQMP_FIRMWARE && COMPILE_TEST)
-> -	help
-> -	  FPGA manager driver support for Xilinx ZynqMP FPGAs.
-> -	  This driver uses the processor configuration port(PCAP)
-> -	  to configure the programmable logic(PL) through PS
-> -	  on ZynqMP SoC.
-> +source "drivers/fpga/xilinx/Kconfig"
->  
->  endif # FPGA
-> diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
-> index bda74e54ce390..0868c7c4264d8 100644
-> --- a/drivers/fpga/Makefile
-> +++ b/drivers/fpga/Makefile
-> @@ -15,9 +15,6 @@ obj-$(CONFIG_FPGA_MGR_SOCFPGA)		+= socfpga.o
->  obj-$(CONFIG_FPGA_MGR_SOCFPGA_A10)	+= socfpga-a10.o
->  obj-$(CONFIG_FPGA_MGR_STRATIX10_SOC)	+= stratix10-soc.o
->  obj-$(CONFIG_FPGA_MGR_TS73XX)		+= ts73xx-fpga.o
-> -obj-$(CONFIG_FPGA_MGR_XILINX_SPI)	+= xilinx-spi.o
-> -obj-$(CONFIG_FPGA_MGR_ZYNQ_FPGA)	+= zynq-fpga.o
-> -obj-$(CONFIG_FPGA_MGR_ZYNQMP_FPGA)	+= zynqmp-fpga.o
->  obj-$(CONFIG_ALTERA_PR_IP_CORE)         += altera-pr-ip-core.o
->  obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT)    += altera-pr-ip-core-plat.o
->  
-> @@ -25,10 +22,10 @@ obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT)    += altera-pr-ip-core-plat.o
->  obj-$(CONFIG_FPGA_BRIDGE)		+= fpga-bridge.o
->  obj-$(CONFIG_SOCFPGA_FPGA_BRIDGE)	+= altera-hps2fpga.o altera-fpga2sdram.o
->  obj-$(CONFIG_ALTERA_FREEZE_BRIDGE)	+= altera-freeze-bridge.o
-> -obj-$(CONFIG_XILINX_PR_DECOUPLER)	+= xilinx-pr-decoupler.o
->  
->  # High Level Interfaces
->  obj-$(CONFIG_FPGA_REGION)		+= fpga-region.o
->  obj-$(CONFIG_OF_FPGA_REGION)		+= of-fpga-region.o
->  
->  obj-$(CONFIG_FPGA_DFL) += dfl/
-> +obj-$(CONFIG_FPGA_XILINX) += xilinx/
-> diff --git a/drivers/fpga/xilinx/Kconfig b/drivers/fpga/xilinx/Kconfig
-> new file mode 100644
-> index 0000000000000..e016d450539a0
-> --- /dev/null
-> +++ b/drivers/fpga/xilinx/Kconfig
-> @@ -0,0 +1,55 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config FPGA_XILINX
-> +	bool "Xilinx FPGAs"
+>> -----Original Message-----
+>> From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+>> Sent: Saturday, June 12, 2021 5:40 AM
+>> To: Justin He <Justin.He@arm.com>; Petr Mladek <pmladek@suse.com>; Steven
+>> Rostedt <rostedt@goodmis.org>; Sergey Senozhatsky
+>> <senozhatsky@chromium.org>; Andy Shevchenko
+>> <andriy.shevchenko@linux.intel.com>; Jonathan Corbet <corbet@lwn.net>;
+>> Alexander Viro <viro@zeniv.linux.org.uk>; Linus Torvalds <torvalds@linux-
+>> foundation.org>
+>> Cc: Peter Zijlstra (Intel) <peterz@infradead.org>; Eric Biggers
+>> <ebiggers@google.com>; Ahmed S. Darwish <a.darwish@linutronix.de>; linux-
+>> doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+>> fsdevel@vger.kernel.org
+>> Subject: Re: [PATCH RFCv3 3/3] lib/test_printf: add test cases for '%pD'
+>>
+>> On 11/06/2021 17.59, Jia He wrote:
+>>> After the behaviour of specifier '%pD' is changed to print full path
+>>> of struct file, the related test cases are also updated.
+>>>
+>>> Given the string is prepended from the end of the buffer, the check
+>>> of "wrote beyond the nul-terminator" should be skipped.
+>>
+>> Sorry, that is far from enough justification.
+>>
+>> I should probably have split the "wrote beyond nul-terminator" check in two:
+>>
+>> One that checks whether any memory beyond the buffer given to
+>> vsnprintf() was touched (including all the padding, but possibly more
+>> for the cases where we pass a known-too-short buffer), symmetric to the
+>> "wrote before buffer" check.
+>>
+>> And then another that checks the area between the '\0' and the end of
+>> the given buffer - I suppose that it's fair game for vsnprintf to use
+>> all of that as scratch space, and for that it could be ok to add that
+>> boolean knob.
+>>
+> Sorry, I could have thought sth like "write beyond the buffer" had been checked by
+> old test cases, but seems not.
 
-"Xilinx FPGA drivers"
+It does. Before each (sub)test, we have (assume PAD_SIZE=4, BUF_SIZE=12)
 
-> +	default y
-> +	help
-> +	  If you have a xilinx fpga, say Y.
 
-"Xilix FPGA"
+|    <- alloced_buffer ->    |
+|  PAD |  test_buffer | PAD  |
+| **** | ************ | **** |
 
-But how about being a bit more descriptive here:
+Then after snprintf(buf, 10, "pizza") we have
 
-"Select this option if you want to enable support for Xilinx FPGA
-drivers"
+|    <- alloced_buffer ->    |
+|  PAD |  test_buffer | PAD  |
+| **** | pizza0****** | **** |
+A      B       C   D         E
 
-> +	  Note that the answer to this question doesn't directly affect the
-> +	  kernel: saying N will just cause the configurator to skip all
-> +	  the questions about xilinx fpgas. If you say Y, you will be asked
-> +	  for your specific device in the following questions.
+(with 0 being the nul character). Then
 
-Why this "note"?  Do networking drivers have this type of description?
+        if (memchr_inv(alloced_buffer, FILL_CHAR, PAD_SIZE)) {
 
-Same for the other patches in this series.
+checks whether snprint wrote anything between A and B, while
 
-thanks,
+        if (memchr_inv(test_buffer + written + 1, FILL_CHAR, BUF_SIZE +
+PAD_SIZE - (written + 1))) {
 
-greg k-h
+checks whether there was a write between C and E.
+
+What I'm saying is that I can see it being reasonable for (some helper
+inside) snprintf to actually write something beyond C, but certainly
+never beyond D. So the "wrote beyond" test could be split up, with the
+first half possibly being allowed to be opt-out for certain test cases.
+
+> I will split the "wrote beyond nul-terminator" check into 2 parts. One for
+> Non-%pD case, the other for %pD.
+> 
+> For %pD, it needs to check whether the space beyond test_buffer[] is written
+
+No, that's not the right way to do this. Let me cook up a patch you can
+include in your series.
+
+Rasmus
