@@ -2,79 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2C58C48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 14:13:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F526C48BDF
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 14:22:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5D6C61459
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 14:13:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C1A561450
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 14:22:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231384AbhFOOPA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 10:15:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40632 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231389AbhFOOOs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jun 2021 10:14:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F3364613CC;
-        Tue, 15 Jun 2021 14:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623766359;
-        bh=sPBnL6DKofmY0cwPfZXVe0ClZ4u8tLx7vIGPDIU74gQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uFZ2iE+ezOP6cQO/F3ghVVpi4x+IWwXVSh7in8ZV5haQ+DS3ZI93eykLExIWQNKTt
-         7oijsHskwctFt4fB7DGcz9/FSaKG+po+lvmA37M0gfrkvu1afrRxZUEgG1Sz5/c51g
-         fOu+Yc9iev1rX+mLNkpmQwFe1nQgFhOfsgVPExAg=
-Date:   Tue, 15 Jun 2021 16:12:37 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 10/10] vfio/mbochs: Convert to use
- vfio_register_group_dev()
-Message-ID: <YMi1VfAYnyv9BWdz@kroah.com>
-References: <20210615133519.754763-1-hch@lst.de>
- <20210615133519.754763-11-hch@lst.de>
+        id S231308AbhFOOYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 10:24:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38042 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231786AbhFOOWy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 10:22:54 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365DDC061145;
+        Tue, 15 Jun 2021 07:16:10 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 03970734;
+        Tue, 15 Jun 2021 14:16:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 03970734
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1623766570; bh=9jVLOrXePqCK4mSCuMv8GHJ8fp2BhHDIGx1d1jJxisA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=sEG/k5gS8MR0zT7N48MxNxI3aG3JzjPFtFzU4I/iMJaEsfXXhEtr+OO2VxdaS3tQR
+         Ez6OzWlnrEnRKMRMbbP6YBflNkcwYcmRjF/qhcj8O2pl9sVe9TxQtgdfb+6m/cYLTg
+         BRyp5mwNVlbRv45jyqSm6d6Ehb5Zj966EK3f//ehsCgq5MfcKSHsv2rHthvZlY5EWg
+         D/LvBhgvFwBlfgHB83adVw6MffhSr4CLg7RgQa/dTee8AV8/+uH870nkuJUQGST7Er
+         ZkWGbRhrzJ9CKcvkcNAqRzD93VdNVVW+isLVwKzIb6GXWRBV5VF0TIEFrPWz1uIqhH
+         UlYA9T8tW4SoQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Oleksandr Mazur <oleksandr.mazur@plvision.eu>,
+        oleksandr.mazur@plvision.eu, jiri@nvidia.com, davem@davemloft.net,
+        kuba@kernel.org
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Vadym Kochan <vadym.kochan@plvision.eu>, andrew@lunn.ch,
+        nikolay@nvidia.com, idosch@idosch.org, sfr@canb.auug.org.au,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] documentation: networking: devlink: fix prestera.rst
+ formatting that causes build errors
+In-Reply-To: <20210615134847.22107-1-oleksandr.mazur@plvision.eu>
+References: <20210615134847.22107-1-oleksandr.mazur@plvision.eu>
+Date:   Tue, 15 Jun 2021 08:16:09 -0600
+Message-ID: <87sg1jz00m.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210615133519.754763-11-hch@lst.de>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 15, 2021 at 03:35:19PM +0200, Christoph Hellwig wrote:
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> 
-> This is straightforward conversion, the mdev_state is actually serving as
-> the vfio_device and we can replace all the mdev_get_drvdata()'s and the
-> wonky dead code with a simple container_of().
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  samples/vfio-mdev/mbochs.c | 163 +++++++++++++++++++++----------------
->  1 file changed, 91 insertions(+), 72 deletions(-)
+Oleksandr Mazur <oleksandr.mazur@plvision.eu> writes:
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Fixes: a5aee17deb88 ("documentation: networking: devlink: add prestera switched driver Documentation")
+>
+> Signed-off-by: Oleksandr Mazur <oleksandr.mazur@plvision.eu>
+> ---
+>  Documentation/networking/devlink/devlink-trap.rst | 1 +
+>  Documentation/networking/devlink/index.rst        | 1 +
+>  Documentation/networking/devlink/prestera.rst     | 4 ++--
+>  3 files changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/networking/devlink/devlink-trap.rst b/Documentation/networking/devlink/devlink-trap.rst
+> index 935b6397e8cf..ef8928c355df 100644
+> --- a/Documentation/networking/devlink/devlink-trap.rst
+> +++ b/Documentation/networking/devlink/devlink-trap.rst
+> @@ -497,6 +497,7 @@ drivers:
+>  
+>    * :doc:`netdevsim`
+>    * :doc:`mlxsw`
+> +  * :doc:`prestera`
+
+Please, rather than using :doc: tags, just give the file name:
+
+  * Documentation/networking/dev-link/prestera
+
+(and fix the others while you're in the neighborhood).  Our automarkup
+magic will make the links work in the HTML docs, and the result is more
+readable for people reading the plain text.
+
+Thanks,
+
+jon
