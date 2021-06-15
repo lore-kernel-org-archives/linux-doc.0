@@ -2,444 +2,398 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A6FC48BE8
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:03:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C87C49361
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:03:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 713C561407
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:03:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E1476140B
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 07:03:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbhFOHFh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 03:05:37 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:35788 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229659AbhFOHFf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jun 2021 03:05:35 -0400
-Received: from localhost.localdomain (unknown [223.106.58.132])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX0GzUMhgT4ARAA--.21439S4;
-        Tue, 15 Jun 2021 15:03:20 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH v2 2/2] docs/zh_CN: add core api cpu_hotplug translation
-Date:   Tue, 15 Jun 2021 15:03:50 +0800
-Message-Id: <7fbb0d30a575c6c25c7c89951e66bd847021794a.1623740114.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1623740113.git.siyanteng@loongson.cn>
-References: <cover.1623740113.git.siyanteng@loongson.cn>
+        id S230096AbhFOHFz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 03:05:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49432 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229659AbhFOHFz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 03:05:55 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF154C061574
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 00:03:50 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id j2so25103186lfg.9
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 00:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=VkwmMqPudgwi4etGPGZGNiMyJFzHTdvib67KTwHrvhA=;
+        b=iXpYaGHu18TLp90IFe6ackY+h/zE8YgJjlHLVfN1WTOdZSNYWBEe2WRzppBCevzPDb
+         z34LGGj3jg0WlcESX3NQKy+Pt97aq9gD6BTyjm0P1Y3TmT0PXCxPb7erFt2Ecq5KnLWB
+         XmVJUhzvDU1LjZbPHBMODCzMh7jv7rWKHSroF1iWraM+8F/aSp84CqJKTlzYoa8VHfeF
+         t5Ard0quzBmpyD+6cFGe5xXGz0/m+2U4iO7Dh8tbIuBn99L+zLed9F8iwwBidoRcxEbX
+         7lp7pCZw4V+x6PW1XG+otLNa9Ci0WIP77K9ip4rGK3vgmk2R0CFAyVwZlqtYSF5nyNX9
+         4JSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=VkwmMqPudgwi4etGPGZGNiMyJFzHTdvib67KTwHrvhA=;
+        b=N2IBnExMxtBO9hXZE60r+JTqa54L/5KLx8whL+Iy+ED3VNjXZmrT4tmYFtgixzf0Hk
+         9dAEimsDi07r6AmZa6VpT/a54OJEl6l35/cAVCqZ/Vh3VCY4QLlkU/O57FA8nHXML3+Y
+         Ss/p5H80oqBFypRk4bZCE4UmmCZYcf4KgnYniPEsf/VGfTIel4uhHD8Z923Vks2hFvx1
+         AtPmhk+87dRTMQgLj981HcfOcCxZw23TgCZ6eP2ujuxJ3JIlT/nYWDe2qzw5kgOxSDGH
+         /1CCa29h/6ipg3Begx0BSa15VfMBmzgyzIG2c8sVO1444vr2XlN7RxHouUAC7CR1IAYG
+         h3WA==
+X-Gm-Message-State: AOAM531grnoUwSP5cgIcPM6qLbH65P9XgDerLnMJkjYr7s2tSLkGqWvm
+        xmQcGFc2mc4Ile6sKmvR3XI=
+X-Google-Smtp-Source: ABdhPJxWg3lpxFg1wyEWPHypcY9KBqPR7efrO0kmYm9WXqr/s+n+sZ71uXbtAbqCp85D4X4hcfWvGA==
+X-Received: by 2002:a05:6512:324b:: with SMTP id c11mr10816366lfr.623.1623740629053;
+        Tue, 15 Jun 2021 00:03:49 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id f3sm1029796lfu.33.2021.06.15.00.03.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jun 2021 00:03:48 -0700 (PDT)
+Date:   Tue, 15 Jun 2021 10:03:35 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Liviu Dudau <liviu.dudau@arm.com>, Simon Ser <contact@emersion.fr>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Steven Price <steven.price@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alison Wang <alison.wang@nxp.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Huang Rui <ray.huang@amd.com>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210615100335.0b8f96d5@eldfell>
+In-Reply-To: <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+References: <20210610174731.1209188-1-maxime@cerno.tech>
+        <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+        <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+        <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+        <20210614174912.15a49336@eldfell>
+        <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+        <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxX0GzUMhgT4ARAA--.21439S4
-X-Coremail-Antispam: 1UD129KBjvAXoW3KryrtrWDuw45Zr4DWFyxAFb_yoW8Aw18Wo
-        W2ya90k39rG3Z8tasru3y3JrW8W340kF48ZrsYkw4j9asrWFn5KFZ2yw47tFW5ZFW5CF43
-        XF1fJFy7Gay3W3Zxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUYR7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r15M28IrcIa0x
-        kI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
-        jcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
-        1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
-        kIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
-        xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
-        kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
-        6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
-        CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU8BMNUUUU
-        U
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/Z+N+5PIJptXMUZOhK2K2MQi"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/cpu_hotplug.rst into Chinese.
+--Sig_/Z+N+5PIJptXMUZOhK2K2MQi
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../zh_CN/core-api/cpu_hotplug.rst            | 348 ++++++++++++++++++
- .../translations/zh_CN/core-api/index.rst     |   2 +-
- 2 files changed, 349 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
+On Mon, 14 Jun 2021 19:33:47 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-diff --git a/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst b/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
-new file mode 100644
-index 000000000000..f4174ed3aeca
---- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
-@@ -0,0 +1,348 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/cpu_hotplug.rst
-+:翻译:
-+
-+司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+ 吴想成 Wu XiangCheng <bobwxc@email.cn>
-+
-+.. _cn_core_api_cpu_hotplug:
-+
-+=================
-+内核中的CPU热拔插
-+=================
-+
-+:时间: 2016年12月
-+:作者: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-+          Rusty Russell <rusty@rustcorp.com.au>,
-+          Srivatsa Vaddagiri <vatsa@in.ibm.com>,
-+          Ashok Raj <ashok.raj@intel.com>,
-+          Joel Schopp <jschopp@austin.ibm.com>
-+
-+简介
-+====
-+
-+现代系统架构的演进已经在处理器中引入了先进的错误报告和纠正能力。有一些OEM也支
-+持可热拔插的NUMA（Non Uniform Memory Access，非统一内存访问）硬件,其中物理
-+节点的插入和移除需要支持CPU热插拔。
-+
-+这样的进步要求内核可用的CPU被移除，要么是出于配置的原因，要么是出于RAS的目的，
-+以保持一个不需要的CPU不在系统执行路径。因此需要在Linux内核中支持CPU热拔插。
-+
-+CPU热拔插支持的一个更新颖的用途是它在SMP的暂停恢复支持中的应用。双核和超线程支
-+持使得即使是笔记本电脑也能运行不支持这些方法的SMP内核。
-+
-+
-+命令行开关
-+==========
-+
-+``maxcpus=n``
-+  限制启动时的CPU为 *n* 个。例如，如果你有四个CPU，使用 ``maxcpus=2`` 将只能启
-+  动两个。你可以选择稍后让其他CPU上线。
-+
-+``nr_cpus=n``
-+  限制内核将支持的CPU总量。如果这里提供的数量低于实际可用的CPU数量，那么其他CPU
-+  以后就不能上线了。
-+
-+``additional_cpus=n``
-+  使用它来限制可热插拔的CPU。该选项设置
-+  ``cpu_possible_mask = cpu_present_mask + additional_cpus``
-+
-+  这个选项只限于IA64架构。
-+
-+``possible_cpus=n``
-+  这个选项设置 ``cpu_possible_mask`` 中的 ``possible_cpus`` 位。
-+
-+  这个选项只限于X86和S390架构。
-+
-+``cpu0_hotplug``
-+  允许关闭CPU0。
-+
-+  这个选项只限于X86架构。
-+
-+CPU位图
-+=======
-+
-+``cpu_possible_mask``
-+  系统中可能可用CPU的位图。这是用来为per_cpu变量分配一些启动时的内存，这些变量
-+  不会随着CPU的可用或移除而增加/减少。一旦在启动时的发现阶段被设置，该地图就是静态
-+  的，也就是说，任何时候都不会增加或删除任何位。根据你的系统需求提前准确地调整它
-+  可以节省一些启动时的内存。
-+
-+``cpu_online_mask``
-+  当前在线的所有CPU的位图。在一个CPU可用于内核调度并准备接收设备的中断后，它被
-+  设置在 ``__cpu_up()`` 中。当使用 ``__cpu_disable()`` 关闭一个CPU时，它被清
-+  空，在此之前，所有的操作系统服务包括中断都被迁移到另一个目标CPU。
-+
-+``cpu_present_mask``
-+  系统中当前存在的CPU的位图。它们并非全部在线。当物理热拔插被相关的子系统
-+  （如ACPI）处理时，可以改变和添加新的位或从位图中删除，这取决于事件是
-+  hot-add/hot-remove。目前还没有定死规定。典型的用法是在启动时启动拓扑结构，这时
-+  热插拔被禁用。
-+
-+你真的不需要操作任何系统的CPU映射。在大多数情况下，它们应该是只读的。当设置每个
-+CPU资源时，几乎总是使用 ``cpu_possible_mask`` 或 ``for_each_possible_cpu()``
-+来进行迭代。宏 ``for_each_cpu()`` 可以用来迭代一个自定义的CPU掩码。
-+
-+不要使用 ``cpumask_t`` 以外的任何东西来表示CPU的位图。
-+
-+
-+使用CPU热拔插
-+=============
-+
-+内核选项 *CONFIG_HOTPLUG_CPU* 需要被启用。它目前可用于多种架构，包括ARM、MIPS、
-+PowerPC和X86。配置是通过sysfs接口完成的::
-+
-+ $ ls -lh /sys/devices/system/cpu
-+ total 0
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu0
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu1
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu2
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu3
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu4
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu5
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu6
-+ drwxr-xr-x  9 root root    0 Dec 21 16:33 cpu7
-+ drwxr-xr-x  2 root root    0 Dec 21 16:33 hotplug
-+ -r--r--r--  1 root root 4.0K Dec 21 16:33 offline
-+ -r--r--r--  1 root root 4.0K Dec 21 16:33 online
-+ -r--r--r--  1 root root 4.0K Dec 21 16:33 possible
-+ -r--r--r--  1 root root 4.0K Dec 21 16:33 present
-+
-+文件 *offline* 、 *online* 、*possible* 、*present* 代表CPU掩码。每个CPU文件
-+夹包含一个 *online* 文件，控制逻辑上的开（1）和关（0）状态。要在逻辑上关闭CPU4::
-+
-+ $ echo 0 > /sys/devices/system/cpu/cpu4/online
-+  smpboot: CPU 4 is now offline
-+
-+一旦CPU被关闭，它将从 */proc/interrupts* 、*/proc/cpuinfo* 中被删除，也不应该
-+被 *top* 命令显示出来。要让CPU4重新上线::
-+
-+ $ echo 1 > /sys/devices/system/cpu/cpu4/online
-+ smpboot: Booting Node 0 Processor 4 APIC 0x1
-+
-+CPU又可以使用了。这应该对所有的CPU都有效。CPU0通常比较特殊，被排除在CPU热拔插之外。
-+在X86上，内核选项 *CONFIG_BOOTPARAM_HOTPLUG_CPU0* 必须被启用，以便能够关闭CPU0。
-+或者，可以使用内核命令选项 *cpu0_hotplug* 。CPU0的一些已知的依赖性:
-+
-+* 从休眠/暂停中恢复。如果CPU0处于离线状态，休眠/暂停将失败。
-+* PIC中断。如果检测到PIC中断，CPU0就不能被移除。
-+
-+如果你发现CPU0上有任何依赖性，请告知Fenghua Yu <fenghua.yu@intel.com>。
-+
-+CPU的热拔插协作
-+===============
-+
-+下线情况
-+--------
-+
-+一旦CPU被逻辑关闭，注册的热插拔状态的清除回调将被调用，从 ``CPUHP_ONLINE`` 开始，在
-+``CPUHP_OFFLINE`` 状态结束。这包括:
-+
-+* 如果任务因暂停操作而被冻结，那么 *cpuhp_tasks_frozen* 将被设置为true。
-+
-+* 所有进程都会从这个将要离线的CPU迁移到新的CPU上。新的CPU是从每个进程的当前cpuset中
-+  选择的，它可能是所有在线CPU的一个子集。
-+
-+* 所有针对这个CPU的中断都被迁移到新的CPU上。
-+
-+* 计时器也会被迁移到新的CPU上。
-+
-+* 一旦所有的服务被迁移，内核会调用一个特定的例程 ``__cpu_disable()`` 来进行特定的清
-+  理。
-+
-+使用热插拔API
-+-------------
-+
-+一旦一个CPU下线或上线，就有可能收到通知。这对某些需要根据可用CPU数量执行某种设置或清
-+理功能的驱动程序来说可能很重要::
-+
-+  #include <linux/cpuhotplug.h>
-+
-+  ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "X/Y:online",
-+                          Y_online, Y_prepare_down);
-+
-+*X* 是子系统， *Y* 是特定的驱动程序。 *Y_online* 回调将在所有在线CPU的注册过程中被调用。
-+如果在线回调期间发生错误， *Y_prepare_down*  回调将在所有之前调用过在线回调的CPU上调
-+用。注册完成后，一旦有CPU上线， *Y_online* 回调将被调用，当CPU关闭时， *Y_prepare_down*
-+将被调用。所有之前在 *Y_online* 中分配的资源都应该在 *Y_prepare_down* 中释放。如果在
-+注册过程中发生错误，返回值 *ret* 为负值。否则会返回一个正值，其中包含动态分配状态
-+（ *CPUHP_AP_ONLINE_DYN* ）的分配热拔插。对于预定义的状态，它将返回0。
-+
-+该回调可以通过调用 ``cpuhp_remove_state()`` 来删除。如果是动态分配的状态
-+（ *CPUHP_AP_ONLINE_DYN* ），则使用返回的状态。在移除热插拔状态的过程中，将调用拆解回调。
-+
-+多个实例
-+~~~~~~~~
-+
-+如果一个驱动程序有多个实例，并且每个实例都需要独立执行回调，那么很可能应该使用
-+``multi-state`` 。首先需要注册一个多状态的状态::
-+
-+  ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN, "X/Y:online,
-+                                Y_online, Y_prepare_down);
-+  Y_hp_online = ret;
-+
-+``cpuhp_setup_state_multi()`` 的行为与 ``cpuhp_setup_state()`` 类似，只是它
-+为多状态准备了回调，但不调用回调。这是一个一次性的设置。
-+一旦分配了一个新的实例，你需要注册这个新实例::
-+
-+  ret = cpuhp_state_add_instance(Y_hp_online, &d->node);
-+
-+这个函数将把这个实例添加到你先前分配的 ``Y_hp_online`` 状态，并在所有在线的
-+CPU上调用先前注册的回调（ ``Y_online`` ）。 *node* 元素是你的每个实例数据结构
-+中的一个 ``struct hlist_node`` 成员。
-+
-+在移除该实例时::
-+
-+  cpuhp_state_remove_instance(Y_hp_online, &d->node)
-+
-+应该被调用，这将在所有在线CPU上调用拆分回调。
-+
-+手动设置
-+~~~~~~~~
-+
-+通常情况下，在注册或移除状态时调用setup和teamdown回调是很方便的，因为通常在CPU上线
-+（下线）和驱动的初始设置（关闭）时需要执行该操作。然而，每个注册和删除功能也有一个
-+_nocalls的后缀，如果不希望调用回调，则不调用所提供的回调。在手动设置（或关闭）期间，
-+应该使用 ``get_online_cpus()`` 和 ``put_online_cpus()`` 函数来抑制CPU热插拔操作。
-+
-+
-+事件的顺序
-+----------
-+
-+热插拔状态被定义在 ``include/linux/cpuhotplug.h``:
-+
-+* ``CPUHP_OFFLINE`` ... ``CPUHP_AP_OFFLINE`` 状态是在CPU启动前调用的。
-+
-+* ``CPUHP_AP_OFFLINE`` ... ``CPUHP_AP_ONLINE`` 状态是在CPU被启动后被调用的。
-+  中断是关闭的，调度程序还没有在这个CPU上活动。从 ``CPUHP_AP_OFFLINE`` 开始，
-+  回调被调用到目标CPU上。
-+
-+* ``CPUHP_AP_ONLINE_DYN`` 和 ``CPUHP_AP_ONLINE_DYN_END`` 之间的状态被保留
-+  给动态分配。
-+
-+* 这些状态在CPU关闭时以相反的顺序调用，从 ``CPUHP_ONLINE`` 开始，在 ``CPUHP_OFFLINE``
-+  停止。这里的回调是在将被关闭的CPU上调用的，直到 ``CPUHP_AP_OFFLINE`` 。
-+
-+通过 ``CPUHP_AP_ONLINE_DYN`` 动态分配的状态通常已经足够了。然而，如果在启动或关闭
-+期间需要更早的调用，那么应该获得一个显式状态。如果热拔插事件需要相对于另一个热拔插事
-+件的特定排序，也可能需要一个显式状态。
-+
-+测试热拔插状态
-+==============
-+
-+验证自定义状态是否按预期工作的一个方法是关闭一个CPU，然后再把它上线。也可以把CPU放到某
-+些状态（例如 ``CPUHP_AP_ONLINE`` ），然后再回到 ``CPUHP_ONLINE`` 。这将模拟在
-+``CPUHP_AP_ONLINE`` 之后的一个状态出现错误，从而导致回滚到在线状态。
-+
-+所有注册的状态都被列举在 ``/sys/devices/system/cpu/hotplug/states`` ::
-+
-+ $ tail /sys/devices/system/cpu/hotplug/states
-+ 138: mm/vmscan:online
-+ 139: mm/vmstat:online
-+ 140: lib/percpu_cnt:online
-+ 141: acpi/cpu-drv:online
-+ 142: base/cacheinfo:online
-+ 143: virtio/net:online
-+ 144: x86/mce:online
-+ 145: printk:online
-+ 168: sched:active
-+ 169: online
-+
-+要将CPU4回滚到 ``lib/percpu_cnt:online`` ，再回到在线状态，只需发出::
-+
-+  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
-+  169
-+  $ echo 140 > /sys/devices/system/cpu/cpu4/hotplug/target
-+  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
-+  140
-+
-+需要注意的是，状态140的清除回调已经被调用。现在重新上线::
-+
-+  $ echo 169 > /sys/devices/system/cpu/cpu4/hotplug/target
-+  $ cat /sys/devices/system/cpu/cpu4/hotplug/state
-+  169
-+
-+启用追踪事件后，单个步骤也是可见的::
-+
-+  #  TASK-PID   CPU#    TIMESTAMP  FUNCTION
-+  #     | |       |        |         |
-+      bash-394  [001]  22.976: cpuhp_enter: cpu: 0004 target: 140 step: 169 (cpuhp_kick_ap_work)
-+   cpuhp/4-31   [004]  22.977: cpuhp_enter: cpu: 0004 target: 140 step: 168 (sched_cpu_deactivate)
-+   cpuhp/4-31   [004]  22.990: cpuhp_exit:  cpu: 0004  state: 168 step: 168 ret: 0
-+   cpuhp/4-31   [004]  22.991: cpuhp_enter: cpu: 0004 target: 140 step: 144 (mce_cpu_pre_down)
-+   cpuhp/4-31   [004]  22.992: cpuhp_exit:  cpu: 0004  state: 144 step: 144 ret: 0
-+   cpuhp/4-31   [004]  22.993: cpuhp_multi_enter: cpu: 0004 target: 140 step: 143 (virtnet_cpu_down_prep)
-+   cpuhp/4-31   [004]  22.994: cpuhp_exit:  cpu: 0004  state: 143 step: 143 ret: 0
-+   cpuhp/4-31   [004]  22.995: cpuhp_enter: cpu: 0004 target: 140 step: 142 (cacheinfo_cpu_pre_down)
-+   cpuhp/4-31   [004]  22.996: cpuhp_exit:  cpu: 0004  state: 142 step: 142 ret: 0
-+      bash-394  [001]  22.997: cpuhp_exit:  cpu: 0004  state: 140 step: 169 ret: 0
-+      bash-394  [005]  95.540: cpuhp_enter: cpu: 0004 target: 169 step: 140 (cpuhp_kick_ap_work)
-+   cpuhp/4-31   [004]  95.541: cpuhp_enter: cpu: 0004 target: 169 step: 141 (acpi_soft_cpu_online)
-+   cpuhp/4-31   [004]  95.542: cpuhp_exit:  cpu: 0004  state: 141 step: 141 ret: 0
-+   cpuhp/4-31   [004]  95.543: cpuhp_enter: cpu: 0004 target: 169 step: 142 (cacheinfo_cpu_online)
-+   cpuhp/4-31   [004]  95.544: cpuhp_exit:  cpu: 0004  state: 142 step: 142 ret: 0
-+   cpuhp/4-31   [004]  95.545: cpuhp_multi_enter: cpu: 0004 target: 169 step: 143 (virtnet_cpu_online)
-+   cpuhp/4-31   [004]  95.546: cpuhp_exit:  cpu: 0004  state: 143 step: 143 ret: 0
-+   cpuhp/4-31   [004]  95.547: cpuhp_enter: cpu: 0004 target: 169 step: 144 (mce_cpu_online)
-+   cpuhp/4-31   [004]  95.548: cpuhp_exit:  cpu: 0004  state: 144 step: 144 ret: 0
-+   cpuhp/4-31   [004]  95.549: cpuhp_enter: cpu: 0004 target: 169 step: 145 (console_cpu_notify)
-+   cpuhp/4-31   [004]  95.550: cpuhp_exit:  cpu: 0004  state: 145 step: 145 ret: 0
-+   cpuhp/4-31   [004]  95.551: cpuhp_enter: cpu: 0004 target: 169 step: 168 (sched_cpu_activate)
-+   cpuhp/4-31   [004]  95.552: cpuhp_exit:  cpu: 0004  state: 168 step: 168 ret: 0
-+      bash-394  [005]  95.553: cpuhp_exit:  cpu: 0004  state: 169 step: 140 ret: 0
-+
-+可以看到，CPU4一直下降到时间戳22.996，然后又上升到95.552。所有被调用的回调，
-+包括它们的返回代码都可以在跟踪中看到。
-+
-+架构的要求
-+==========
-+
-+需要具备以下功能和配置：
-+
-+``CONFIG_HOTPLUG_CPU``
-+  这个配置项需要在Kconfig中启用
-+
-+``__cpu_up()``
-+  调出一个cpu的架构接口
-+
-+``__cpu_disable()``
-+  关闭CPU的架构接口，在此程序返回后，内核不能再处理任何中断。这包括定时器的关闭。
-+
-+``__cpu_die()``
-+  这实际上是为了确保CPU的死亡。实际上，看看其他架构中实现CPU热拔插的一些示例代
-+  码。对于那个特定的架构，处理器被从 ``idle()`` 循环中拿下来。 ``__cpu_die()``
-+  通常会等待一些per_cpu状态的设置，以确保处理器的死亡例程被调用来保持活跃。
-+
-+用户空间通知
-+============
-+
-+在CPU成功上线或下线后，udev事件被发送。一个udev规则，比如::
-+
-+  SUBSYSTEM=="cpu", DRIVERS=="processor", DEVPATH=="/devices/system/cpu/*", RUN+="the_hotplug_receiver.sh"
-+
-+将接收所有事件。一个像这样的脚本::
-+
-+  #!/bin/sh
-+
-+  if [ "${ACTION}" = "offline" ]
-+  then
-+      echo "CPU ${DEVPATH##*/} offline"
-+
-+  elif [ "${ACTION}" = "online" ]
-+  then
-+      echo "CPU ${DEVPATH##*/} online"
-+
-+  fi
-+
-+可以进一步处理该事件。
-+
-+内核内联文档参考
-+================
-+
-+该API在以下内核代码中:
-+
-+include/linux/cpuhotplug.h
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index b4bde9396339..59ae7c2898de 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -80,11 +80,11 @@ Todolist:
-    :maxdepth: 1
- 
-    cachetlb
-+   cpu_hotplug
- 
- Todolist:
- 
- 
--   cpu_hotplug
-    memory-hotplug
-    genericirq
-    protection-keys
--- 
-2.27.0
+> On Mon, Jun 14, 2021 at 04:24:13PM +0100, Liviu Dudau wrote:
+> > On Mon, Jun 14, 2021 at 05:49:12PM +0300, Pekka Paalanen wrote: =20
+> > > On Fri, 11 Jun 2021 13:03:09 +0100
+> > > Liviu Dudau <liviu.dudau@arm.com> wrote:
+> > >  =20
+> > > > On Fri, Jun 11, 2021 at 08:14:59AM +0000, Simon Ser wrote: =20
+> > > > > On Thursday, June 10th, 2021 at 23:00, Daniel Vetter <daniel.vett=
+er@ffwll.ch> wrote:
+> > > > >    =20
+> > > > > > If there's a strong consensus that we really need this then I'm=
+ not
+> > > > > > going to nack this, but this really needs a pile of acks from
+> > > > > > compositor folks that they're willing to live with the resulting
+> > > > > > fallout this will likely bring. Your cc list seems to have an a=
+bsence
+> > > > > > of compositor folks, but instead every driver maintainer. That's
+> > > > > > backwards. We make uapi for userspace, not for kernel driver
+> > > > > > maintainers!   =20
+> > > > >=20
+> > > > > In wlroots we have a policy of only allowing standard KMS propert=
+ies to
+> > > > > be used. Any vendor-specific property is going to be less well-de=
+fined,
+> > > > > less widely useful, potentially have more design issues, potentia=
+lly
+> > > > > overlap in functionality with other vendor-specific properties, l=
+ikely
+> > > > > have some hardware-specific assumptions, etc.
+> > > > >=20
+> > > > > What matters here is discussing with other driver & user-space fo=
+lks to
+> > > > > make sure the new property's design is sound. Designing uAPI is h=
+ard.
+> > > > >=20
+> > > > > If kernel folks are struggling with a user-space implementation, =
+they
+> > > > > should discuss with user-space folks to see which project would be
+> > > > > interested. There's a chance a compositor will be interested in t=
+he new
+> > > > > property and will just do the user-space part for you, if not we =
+can
+> > > > > suggest candidate projects.
+> > > > >=20
+> > > > > tl;dr strong agree with Daniel here.   =20
+> > > >=20
+> > > > I think the assumption you and Daniel are making is that the first =
+implementation of
+> > > > a new KMS property can be made standard from day one and that it wi=
+ll work for any
+> > > > late comer driver as is, without having to make changes to its beha=
+viour in a
+> > > > significant way. In my experience that is not the case.
+> > > >=20
+> > > > I think we have moved from the times when we were trying to impleme=
+nt in the Linux
+> > > > world features that were available in the hardware but needed a ker=
+nel and userspace
+> > > > API. The set of properties that exist in KMS cover a lot of needed =
+functionality and
+> > > > I don't expect to see new properties for stuff that is already supp=
+orted by hardware.
+> > > >=20
+> > > > What I'm expected to see in the future is new functionality that ge=
+ts implemented by
+> > > > one hardware vendor and the kernel developers trying to enable that=
+ for userspace. It
+> > > > could be that the new property is generic, but there is no way of t=
+esting that on
+> > > > more than one implementation yet, so I'd say we are generous callin=
+g it "standard
+> > > > property". When the second or third hardware vendor comes along and=
+ starts supporting
+> > > > that property with their own set of extra requirements, then we can=
+ call it
+> > > > "standard". =20
+> > >=20
+> > > I agree that is a problem with trying to make generic anything. But it
+> > > does not mean you should not even try. Maybe trying really hard saves=
+ a
+> > > couple revisions. =20
+> >=20
+> > Agree.
+> >  =20
+> > > What I think should be planned for is revisions. How to add new
+> > > properties that do the same thing but better, while documenting that a
+> > > userspace KMS client can use only one revision at a time. You never
+> > > remove old revisions, unless maybe with a DRM client cap they
+> > > could disappear from that file description if that is necessary for
+> > > seeing the new revision.
+> > >=20
+> > > While designing this, one also needs to take into account that KMS
+> > > clients need to be able to save and restore properties *they do not
+> > > understand*. So exposing two revisions of the same feature
+> > > simultaneously would break save/restore is that's an error. =20
+> >=20
+> > I quite like the idea of having versions for properties. =20
+>=20
+> It's an interesting idea. We'll need to consider bundles of properties
+> in that case I think, as in a v1 a feature could be implemented by
+> properties A, B and C, while in v2 C could be replaced by D and E
+> (beside A and B themselves also being changed in v2).
+>=20
+> > > > Then comes the effort cost: would it be easier to start with a vend=
+or
+> > > > property that only the vendor needs to support (and can submit patc=
+hes into the
+> > > > compositors to do so) and when the standard property gets added mov=
+es to that, or =20
+> > >=20
+> > > But you can't move, you can only add? You can't delete the old proper=
+ty
+> > > in kernel if it was ever released with a kernel and anyone used it. In
+> > > the same sentence you also imply that there is a user of it, so
+> > > removing it will break that user. Then you'll have to track the
+> > > userspace lifetime to figure out which decade you can try removing it=
+. =20
+> >=20
+> > Not that I am supporting the workflow, but I was trying to address the =
+comments that
+> > vendors are going to push their own userspace implementation for their =
+vendor
+> > properties. If that is the case, when they switch to the standard ones =
+they can drop
+> > the support in userspace for their changes. With the implied assumption=
+ that you will
+> > have fewer vendor implementations hence easier to make changes, KMS pro=
+perties can be
+> > deleted if you know there is no user of them (e.g. the vendor has upgra=
+ded all their
+> > software to the standard property).
+> >  =20
+> > > > should we start with a generic property that gets implemented by th=
+e compositors
+> > > > (maybe, but then only one vendor supports it) and then later when w=
+e actually
+> > > > standardise the property we will have to carry backwards compatibil=
+ity code in the
+> > > > kernel to handle the old behaviour for old userspace? My proposal t=
+o Maxime was for
+> > > > the former option to be reflected in the documentation, but I would=
+ like to hear your
+> > > > thoughts. =20
+> > >=20
+> > > You have to carry the backward compatibility in all cases, right?
+> > >=20
+> > > Userspace OTOH can drop support for older less supported KMS properti=
+es
+> > > while taking advantage of a new revision. Userspace is not required to
+> > > support old kernels forever.
+> > >=20
+> > >=20
+> > > Here's a wild counter-proposal off a tangent:
+> > >=20
+> > > How about we make "implemented in and testable with VKMS" the rule,
+> > > instead of "is generic" for new properties?
+> > >=20
+> > > VKMS is what compositors (will) use in CI. I would feel hugely less b=
+ad
+> > > about using a property that only one hardware driver ever implements,
+> > > if also VKMS implements it in a way that compositor CI can observe it
+> > > working.
+> > >=20
+> > > I don't expect this proposal to be accepted, but it's food for though=
+t.
+> > > The major problem for compositor projects is testing as you usually
+> > > don't have the hardware, IMO. CI tends to not have any hardware. =20
+> >=20
+> > While I don't dislike the proposal (I think it is quite sensible), I am=
+ worried that
+> > for some behaviours VKMS will implement them in a quirky way. To pick (=
+again) the
+> > example of writeback, real hardware will have a way to tell if the buff=
+er has been
+> > sent successfully to memory and it might take more than one refresh per=
+iod, while
+> > VKMS (if I remember correctly) fakes it and signals the fence at the ne=
+xt vblank. If
+> > you code your compositor based on VKMS you might get unexpected artifac=
+ts on real
+> > hardware. =20
+>=20
+> I'm also worried about properties that related to hardware processing of
+> frames, for instance related to colour spaces, or even scaling. VKMS has
+> a software composer implemented in the kernel, it may get fairly
+> complicated if we need to implement all kind of processing.
 
+Hi,
+
+indeed it will, but what else could one do to test userspace KMS
+clients in generic CI where all you can have is virtual hardware? Maybe
+in the long run VKMS needs to loop back to a userspace daemon that
+implements all the complex processing and returns the writeback result
+via VKMS again? That daemon would then need a single upstream, like the
+kernel, where it is maintained and correctness verified.
+
+Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtual
+stuff in userspace? Didn't someone already have something like that?
+It would need to be lifted to be a required part of kernel UAPI
+submissions, I suppose like IGT is nowadays.
+
+Requiring a software implementation for testing has another huge
+benefit (or disadvantage, depending on who you ask): "hardware does
+secret magic" would not fly anymore. The software implementation would
+need to deliver the same results, or at least one would need to define
+the tolerances for e.g. color conversions. Otherwise userspace
+compositor test suites might pass on the software implementation and
+fail on hardware implementations. For compositor developers like me
+knowing the exact formulas would be a huge benefit as it would allow me
+to use KMS to off-load precision-sensitive operations (e.g.
+professional color management). Otherwise, compositors probably need a
+switch: "high quality color management? Then do not use KMS features."
+
+
+Thanks,
+pq
+
+--Sig_/Z+N+5PIJptXMUZOhK2K2MQi
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDIUMcACgkQI1/ltBGq
+qqcghw//aI2Skk4Q4FEBc7oB34e0Ce4b4N8O5o9gXoTrq/Ha7GF1qjZ6LLLHWKun
+uA3351HPsYJN7DP67iqJbtTgoULZ66OmDjF/EdTlQIgYeNS4T5i0/IlSIyf+uDIo
+ld3iZgkmQU7SD8ykV/Vtl4gCO8rnfL0fLBljQQy+LQn5hkXO1LH/cgyAc7uc2Yf/
+eNjpqlozHCqmqVnr2jTIRTgYaJ/YrgYD5Qi9MeXI5yszSUik2OrkKGrlnAqaLkFn
+/daW35Sd3bQFtcFUB+K3V6RGdyx4Yn2Zpls3qxQ+VcM1Fys4x+E0JOSn/uAmipyF
+2vaa/RnaZ3j6sQYGhIcBNf8ZSgbAAHFnBMQLkaXh+Eal27gs9MPpDv1jMhIpWy1t
+6x7+32//c+rnuxlB6Vh6WE42PLmuwc1MXoWvoQxNfyyb2wcOfJcj7v/u0CqVWnGS
+2lDViOfuGjkJnqqb1f/vTHcf5moZ3RYcXGHqpqZUHHvLMTT4An1Vda6VkVWepxud
+x62yFEe6SJm5uaLQWVA9O1oUmDnpXarrlUzCmiKkhCGqhRvQvYgJfMTq5jUNFV7t
++UOvarux0u6RQ0IS1RtwbwPmAIdu09ob18pddG8yjGUBeM030Y95HevIqCIzFi2N
+bDQU/USIKW1b5QSK8gdvPKNeldp2SGBCJji8rnVGg7af9/6mbiA=
+=S5De
+-----END PGP SIGNATURE-----
+
+--Sig_/Z+N+5PIJptXMUZOhK2K2MQi--
