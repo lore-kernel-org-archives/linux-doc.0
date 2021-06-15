@@ -2,68 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70ADEC48BE5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 03:16:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0390EC48BDF
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 03:18:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F93161407
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 03:16:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA31761405
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 03:18:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231225AbhFODSl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Jun 2021 23:18:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58192 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229809AbhFODSg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jun 2021 23:18:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C3D4161403;
-        Tue, 15 Jun 2021 01:12:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1623719558;
-        bh=wXpDWAhWzwm6rYJOKAWqIhMA0w55huKKrzBAUYBys2s=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=YMN+ev+O//2iInS48NBgC+9MdSpgmI/zI9YddpMX7rlSorCsZlS8oRLmeGFxkeZRL
-         7cOaQlBW+AMD5tpW+1mBEiusP6ira2zvKqWb+uvTAfjLgxgHa7b2e2YEcXVO/QQ5Sb
-         HT71Gk5HYyjdjeeUgSFfxa2Vvf743PdsEPgGfN64=
-Date:   Mon, 14 Jun 2021 18:12:37 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     mike.kravetz@oracle.com, osalvador@suse.de, mhocko@suse.com,
-        song.bao.hua@hisilicon.com, david@redhat.com,
-        chenhuang5@huawei.com, bodeddub@amazon.com, corbet@lwn.net,
-        duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v2 0/3] Split huge PMD mapping of vmemmap pages
-Message-Id: <20210614181237.5513724624dde3ac930b75d8@linux-foundation.org>
-In-Reply-To: <20210612094555.71344-1-songmuchun@bytedance.com>
-References: <20210612094555.71344-1-songmuchun@bytedance.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S230514AbhFODUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Jun 2021 23:20:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34770 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231191AbhFODUR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jun 2021 23:20:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623727093;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qDOARxyjp3s81AcKrTJyYh6uHmxeKnBGbL+eKwM0n80=;
+        b=M+615BTGRbWnSKxy1FyShuEXK0/XyFOxAtx1XYdVPWlis85K/NhNKuok66zaStI202QFIZ
+        tNNC/Gig5dbX53sdLygo6ljeq5wlrZ8SQSvJCnDL8cJwiFSAmuGOmXhwrTKmUdDKTs3Vfe
+        YMQSiwyAxg/XaHFHx3XFsqJD589+61g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-BqHktxwGPLGxLWUNnXHH0w-1; Mon, 14 Jun 2021 21:09:09 -0400
+X-MC-Unique: BqHktxwGPLGxLWUNnXHH0w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8146E800D55;
+        Tue, 15 Jun 2021 01:09:03 +0000 (UTC)
+Received: from localhost (ovpn-12-172.pek2.redhat.com [10.72.12.172])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2648A5C1A3;
+        Tue, 15 Jun 2021 01:08:58 +0000 (UTC)
+Date:   Tue, 15 Jun 2021 09:08:56 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, akpm@linux-foundation.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, vgoyal@redhat.com,
+        x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
+        dyoung@redhat.com
+Subject: Re: [PATCH v3] Documentation: kdump: update kdump guide
+Message-ID: <20210615010856.GA630506@MiWiFi-R3L-srv>
+References: <20210609083218.GB591017@MiWiFi-R3L-srv>
+ <878s3dbbuz.fsf@meer.lwn.net>
+ <87sg1l9vo5.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87sg1l9vo5.fsf@meer.lwn.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 12 Jun 2021 17:45:52 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
-
-> In order to reduce the difficulty of code review in series[1]. We disable
-> huge PMD mapping of vmemmap pages when that feature is enabled. In this
-> series, we do not disable huge PMD mapping of vmemmap pages anymore. We
-> will split huge PMD mapping when needed. When HugeTLB pages are freed from
-> the pool we do not attempt coalasce and move back to a PMD mapping because
-> it is much more complex.
+On 06/13/21 at 05:44pm, Jonathan Corbet wrote:
+> Jonathan Corbet <corbet@lwn.net> writes:
 > 
-> [1] https://lore.kernel.org/linux-doc/20210510030027.56044-1-songmuchun@bytedance.com/
+> > Baoquan He <bhe@redhat.com> writes:
+> >
+> >> Some parts of the guide are aged, hence need be updated.
+> >>
+> >> 1) The backup area of the 1st 640K on X86_64 has been removed
+> >>    by below commits, update the description accordingly.
+> >>
+> >>    commit 7c321eb2b843 ("x86/kdump: Remove the backup region handling")
+> >>    commit 6f599d84231f ("x86/kdump: Always reserve the low 1M when the crashkernel option is specified")
+> >>
+> >> 2) Sort out the descripiton of "crashkernel syntax" part.
+> >>
+> >> 3) And some other minor cleanups.
+> >>
+> >> Signed-off-by: Baoquan He <bhe@redhat.com>
+> >
+> > Applied, thanks.
+> 
+> Actually, this patch added a docs build warning:
+> 
+>   /stuff/k/git/kernel/Documentation/admin-guide/kdump/kdump.rst:286: WARNING: Literal block ends without a blank line; unexpected unindent.
+> 
+> I've gone ahead and inserted the blank line to fix this.  In the future,
+> please build-test your changes to make sure that you are not adding new
+> warnings.
 
-[1] had a nice [0/n] description but the v2 series lost that.  I could
-copy/paste the v1 changelogging but I am unsure that it has been
-maintained appropriately for the v2 series.
-
-I think I'll pass on this v2 pending additional review input.  Please reinstate
-the [0/n] overview if/when resending?
+Thanks, jon. I didn't know doc change can cause build failure, so didn't
+build. Will remember this.
 
