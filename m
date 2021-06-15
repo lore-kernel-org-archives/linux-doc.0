@@ -2,146 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9CBC48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 09:15:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB95C48BDF
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 09:29:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9A5E61429
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 09:15:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADD1161433
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Jun 2021 09:29:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231280AbhFOJRF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 05:17:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50736 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230519AbhFOJRE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jun 2021 05:17:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 61B1F61417;
-        Tue, 15 Jun 2021 09:14:55 +0000 (UTC)
-Date:   Tue, 15 Jun 2021 11:14:51 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Tejun Heo <tj@kernel.org>, Waiman Long <longman@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        id S231354AbhFOJbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 05:31:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41995 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231288AbhFOJbX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jun 2021 05:31:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623749358;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ddDGAncBsIbSDpDEwrQeyMoy5+E2nrkF5TMzoiroJvQ=;
+        b=TsEkiv+JopuwzFrO4bic5Caa1XdNx6Ty4un5MRm+k9erulBb7V8KmDOfxKQAxoZ7bJLAPS
+        Lmel3+euxtWOeQECgUNiJJ+tB8Tjm7kxRj2AGlaKFPyUQwQmLwV3rUmvvVDA11CK6fn8Qa
+        zwBLl5hJX9zq+IPV1pBwfcgQ1I7j5Ls=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-wADnIl3GPcO137S60aXM2A-1; Tue, 15 Jun 2021 05:29:17 -0400
+X-MC-Unique: wADnIl3GPcO137S60aXM2A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 552E5100A97C;
+        Tue, 15 Jun 2021 09:29:08 +0000 (UTC)
+Received: from x1.com (ovpn-113-40.rdu2.redhat.com [10.10.113.40])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 269F35B698;
+        Tue, 15 Jun 2021 09:29:02 +0000 (UTC)
+From:   Daniel Bristot de Oliveira <bristot@redhat.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin <hpa@zytor.com>, Rafael J. Wysocki " 
-        <rafael@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>, x86@kernel.org,
-        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/4] cgroup/cpuset: Allow cpuset to bound displayed cpu
- info
-Message-ID: <20210615091451.afmrpuk3sbh7wjbc@wittgenstein>
-References: <20210614152306.25668-1-longman@redhat.com>
- <YMe/cGV4JPbzFRk0@slm.duckdns.org>
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V4 00/12] hwlat improvements and osnoise/timerlat tracers
+Date:   Tue, 15 Jun 2021 11:28:39 +0200
+Message-Id: <cover.1623746916.git.bristot@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YMe/cGV4JPbzFRk0@slm.duckdns.org>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 04:43:28PM -0400, Tejun Heo wrote:
-> Hello,
-> 
-> On Mon, Jun 14, 2021 at 11:23:02AM -0400, Waiman Long wrote:
-> > The current container management system is able to create the illusion
-> > that applications running within a container have limited resources and
-> > devices available for their use. However, one thing that is hard to hide
-> > is the number of CPUs available in the system. In fact, the container
-> > developers are asking for the kernel to provide such capability.
-> > 
-> > There are two places where cpu information are available for the
-> > applications to see - /proc/cpuinfo and /sys/devices/system/cpu sysfs
-> > directory.
-> > 
-> > This patchset introduces a new sysctl parameter cpuset_bound_cpuinfo
-> > which, when set, will limit the amount of information disclosed by
-> > /proc/cpuinfo and /sys/devices/system/cpu.
-> 
-> The goal of cgroup has never been masquerading system information so that
-> applications can pretend that they own the whole system and the proposed
-> solution requires application changes anyway. The information being provided
-> is useful but please do so within the usual cgroup interface - e.g.
-> cpuset.stat. The applications (or libraries) that want to determine its
-> confined CPU availability can locate the file through /proc/self/cgroup.
+This series proposes a set of improvements and new features for the
+tracing subsystem to facilitate the debugging of low latency
+deployments.
 
-Fyi, there's another concurrent push going on to provide a new file
-/proc/self/meminfo that is a subset of /proc/meminfo (cf. [1]) and
-virtualizes based on cgroups as well.
+Currently, hwlat runs on a single CPU at a time, migrating across a
+set of CPUs in a round-robin fashion. This series improves hwlat 
+to allow hwlat to run on multiple CPUs in parallel, increasing the
+chances of detecting a hardware latency, at the cost of using more
+CPU time.
 
-But there it's a new file not virtualizing exisiting files and
-directories so there things seem to be out of sync between these groups
-at the same company.
+It also proposes a new tracer named osnoise, that aims to help users
+of isolcpus= (or a similar method) to measure how much noise the OS
+and the hardware add to the isolated application. The osnoise tracer
+bases on the hwlat detector code. The difference is that, instead of
+sampling with interrupts disabled, the osnoise tracer samples the CPU with
+interrupts and preemption enabled. In this way, the sampling thread will
+suffer any source of noise from the OS. The detection and classification
+of the type of noise are then made by observing the entry points of NMIs,
+IRQs, SoftIRQs, and threads. If none of these sources of noise is detected,
+the tool associates the noise with the hardware. The tool periodically
+prints a status, printing the total noise of the period, the max single
+noise observed, the percentage of CPU available for the task, along with
+the counters of each source of the noise. To debug the sources of noise,
+the tracer also adds a set of tracepoints that print any NMI, IRQ, SofIRQ,
+and thread occurrence. These tracepoints print the starting time and the
+noise's net duration at the end of the noise. In this way, it reduces the
+number of tracepoints (one instead of two) and the need to manually
+accounting the contribution of each noise independently.
 
-In any case I would like to point out that this has a complete solution
-in userspace. We have had this problem of providing virtualized
-information to containers since they started existing. So we created
-LXCFS in 2014 (cf. [2]) a tiny fuse fileystem to provide a virtualized
-view based on cgroups and other information for containers.
+Finaly, the timerlat tracer aims to help the preemptive kernel developers
+to find sources of wakeup latencies of real-time threads. The tracer
+creates a per-cpu kernel thread with real-time priority. The tracer thread
+sets a periodic timer to wakeup itself, and goes to sleep waiting for the
+timer to fire. At the wakeup, the thread then computes a wakeup latency
+value as the difference between the current time and the absolute time
+that the timer was set to expire. The tracer prints two lines at every
+activation. The first is the timer latency observed at the hardirq context
+before the activation of the thread. The second is the timer latency
+observed by the thread, which is the same level that cyclictest reports.
+The ACTIVATION ID field serves to relate the irq execution to its
+respective thread execution. The tracer is build on top of osnoise tracer,
+and the osnoise: events can be used to trace the source of interference
+from NMI, IRQs and other threads. It also enables the capture of the
+stacktrace at the IRQ context, which helps to identify the code path
+that can cause thread delay.
 
-The two patchsets seems like they're on the way trying to move 1:1 what
-we're already doing in userspace into the kernel. LXCFS is quite well
-known and widely used so it's suprising to not see it mentioned at all.
+Changes from v3:
+ - Remove /** from comments (Rostedt)
+ - Support hotplug operations (Rostedt)
+ - Change the name of ull_config to trace_min_max - and
+   improve patch description (Rostedt)
+ - Remove leftovers from older versions (Juri Lelli)
+ - Remove printk from main loop - use trace buffer instead
+   (Rostedt)
+ - Move the arch specific code to arch/*/kernel/trace.c (Rostedt)
+ - Improve timerlat documentation (Rostedt)
+ - Add () around params usage of "value" on __print_ns_to_secs(value)
+   (Rostedt)
+ - Rename osnoise/stop_tracing* files (Rostedt)
+ - Reduce the size of the per-cpu data to store stack tracers on
+   timerlat (Rostedt)
+ - Add osn_* prefix to structures (Rostedt)
+ - Fix stop tracing to work with trace instances (Rostedt)
+ - Changing osnoise/cpus restarts the threads accordingly (Rostedt)
+ - Lots of cosmetics/typos changes (Rostedt)
 
-And the container people will want more then just the cpu and meminfo
-stuff sooner or later. Just look at what we currently virtualize:
+Changes from v2:
+ - osnoise sample reports in nanoseconds (as all other osnoise tracepoints)
+   (Bristot)
+ - Remove divisions from osnoise main loop (Bristot)
+ - Make the tracers work well when starting via kernel-cmdline
+   (Red Hat's performance team need)
+ - Rename main/interrupt functions (Bristot)
+ - Fix timerlat reset (Juri Lelli)
+ - Fix timerlat start (Juri Lelli)
 
-/proc/cpuinfo
-/proc/diskstats
-/proc/meminfo
-/proc/stat
-/proc/swaps
-/proc/uptime
-/proc/slabinfo
-/sys/devices/system/cpu
+Changes from v1:
+ - Remove `` from RST (Corbet)
+ - Add RST files to the index (Corbet)
+ - Fix text and typos (Rostedt)
+ - Remove the cpus from hwlat (Rostedt)
+ - Remove the disable_migrate/fallback to mode none on hwlat (Rostedt)
+ - Add a generic way to read/write u64 and use it on
+   hwlat/osnoise/timerlat (Rostedt)
+ - Make osnoise/timerlat to work properly with trace-cmd/tracer
+   instances (Rostedt)
+ - osnoise using the tracing_threshold (Rostedt)
+ - Rearrange tracepoint structure to avoid "holes" (Rostedt)
 
-## So for example /proc/cpuinfo
-#### Host
-brauner@wittgenstein|~
-> grep ^processor /proc/cpuinfo
-processor       : 0
-processor       : 1
-processor       : 2
-processor       : 3
-processor       : 4
-processor       : 5
-processor       : 6
-processor       : 7
+*** BLURB HERE ***
 
-#### Container
-brauner@wittgenstein|~
-> lxc exec f1 -- grep ^processor /proc/cpuinfo
-processor       : 0
-processor       : 1
+Daniel Bristot de Oliveira (11):
+  trace/hwlat: Fix Clark's email
+  trace/hwlat: Implement the mode config option
+  trace/hwlat: Switch disable_migrate to mode none
+  trace/hwlat: Implement the per-cpu mode
+  trace/hwlat: Support hotplug operations
+  trace: Add a generic function to read/write u64 values from tracefs
+  trace/hwlat: Use trace_min_max_param for width and window params
+  trace/hwlat: Remove printk from sampling loop
+  trace: Add osnoise tracer
+  trace: Add timerlat tracer
+  trace/osnoise: Support hotplug operations
 
-## and for /sys/devices/system/cpu
-#### Host
-brauner@wittgenstein|~
-> ls -al /sys/devices/system/cpu/ | grep cpu[[:digit:]]
-drwxr-xr-x 10 root root    0 Jun 14 21:22 cpu0
-drwxr-xr-x 10 root root    0 Jun 14 21:22 cpu1
-drwxr-xr-x 10 root root    0 Jun 14 21:22 cpu2
-drwxr-xr-x 10 root root    0 Jun 14 21:22 cpu3
-drwxr-xr-x 10 root root    0 Jun 14 21:22 cpu4
-drwxr-xr-x 10 root root    0 Jun 14 21:22 cpu5
-drwxr-xr-x 10 root root    0 Jun 14 21:22 cpu6
-drwxr-xr-x 10 root root    0 Jun 14 21:22 cpu7
+Steven Rostedt (1):
+  trace: Add __print_ns_to_secs() and __print_ns_without_secs() helpers
 
-#### Container
-brauner@wittgenstein|~
-> lxc exec f1 -- ls -al /sys/devices/system/cpu/ | grep cpu[[:digit:]]
-drwxr-xr-x  2 nobody nogroup   0 Jun 15 09:07 cpu3
-drwxr-xr-x  2 nobody nogroup   0 Jun 15 09:07 cpu4
+ Documentation/trace/hwlat_detector.rst  |   13 +-
+ Documentation/trace/index.rst           |    2 +
+ Documentation/trace/osnoise-tracer.rst  |  152 ++
+ Documentation/trace/timerlat-tracer.rst |  181 ++
+ arch/x86/kernel/Makefile                |    1 +
+ arch/x86/kernel/trace.c                 |  238 +++
+ include/linux/ftrace_irq.h              |   13 +
+ include/trace/events/osnoise.h          |  142 ++
+ include/trace/trace_events.h            |   25 +
+ kernel/trace/Kconfig                    |   62 +
+ kernel/trace/Makefile                   |    1 +
+ kernel/trace/trace.c                    |   92 ++
+ kernel/trace/trace.h                    |   29 +-
+ kernel/trace/trace_entries.h            |   41 +
+ kernel/trace/trace_hwlat.c              |  494 ++++--
+ kernel/trace/trace_osnoise.c            | 2004 +++++++++++++++++++++++
+ kernel/trace/trace_osnoise.h            |    9 +
+ kernel/trace/trace_output.c             |  119 +-
+ 18 files changed, 3469 insertions(+), 149 deletions(-)
+ create mode 100644 Documentation/trace/osnoise-tracer.rst
+ create mode 100644 Documentation/trace/timerlat-tracer.rst
+ create mode 100644 arch/x86/kernel/trace.c
+ create mode 100644 include/trace/events/osnoise.h
+ create mode 100644 kernel/trace/trace_osnoise.c
+ create mode 100644 kernel/trace/trace_osnoise.h
 
-We have a wide variety of users from various distros.
+-- 
+2.31.1
 
-[1]: https://lore.kernel.org/containers/f62b652c-3f6f-31ba-be0f-5f97b304599f@metux.net
-[2]: https://github.com/lxc/lxcfs
