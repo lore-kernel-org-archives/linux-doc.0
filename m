@@ -2,192 +2,236 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B00AEC48BDF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 01:05:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C494EC48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 02:47:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A048613B3
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 01:05:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FE43613B6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 02:47:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbhFPBHp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Jun 2021 21:07:45 -0400
-Received: from mga17.intel.com ([192.55.52.151]:15653 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229979AbhFPBHp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jun 2021 21:07:45 -0400
-IronPort-SDR: xjO+kYb5ZzjW88qLJEJDn3KXbTxG/W7XZ/2/akJ/KMfZ3Ax4UeBtX/Luv2SoZpb3qrTLX4bzvr
- i+x+NkhovsPA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="186470842"
-X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; 
-   d="scan'208";a="186470842"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 18:05:40 -0700
-IronPort-SDR: M9uovYHSeuNI2ywvV4+4J6U79DSdqofTjjVkv71NssqjEy3MBWC4mrhIzMyBtmn5Z6BDgfzOxR
- hbKCrUbGEiLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; 
-   d="scan'208";a="471833120"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga004.fm.intel.com with ESMTP; 15 Jun 2021 18:05:39 -0700
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 15 Jun 2021 18:05:39 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 15 Jun 2021 18:05:39 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
- via Frontend Transport; Tue, 15 Jun 2021 18:05:39 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.4; Tue, 15 Jun 2021 18:05:38 -0700
+        id S231863AbhFPCtw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Jun 2021 22:49:52 -0400
+Received: from mail-dm6nam10on2062.outbound.protection.outlook.com ([40.107.93.62]:12069
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231494AbhFPCtv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Jun 2021 22:49:51 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k4wfEbuJ3gtUqxT9/Jm0Ny+TyshTFSdE2UHGNm0xxl8QNgM5NooDYvSBkud4/JJ+VdqcL9iwooH+FGQfLdgyz346KY9uWaJXEXE8j7K+p1Y75Rte2RCDH2gFH92Me5fKdF/zq0x9QqH/teXhjUuy48OsJXCSIsuUzpRea+wmmJyFDvbwSTso5aLghl1mDxsU73GEjPGkHeKWlcUckO2YCY0UN0McHbnosMviwIlMydOzznaOioQyt4kFiF6qagAMbKp0DebmKp7cx2USkjh4Y81ipS3JnbErwYq7heqk29lUUbIXpHfOWVPWHr8Sl8w8fx9Po+YJ2fK85qpxzXCo4Q==
+ b=lsfA4wN40cj16hFU02uV3tP+rZNkneh3Q0FZ2UgwLnvkVJlUEFYk24a7PbUkbsZLD8KdzDQ+YC87bcFX781BtTIc+HjzcjeWPB7ffPIRNvelGtcuyyryLRJWOaMTfy8ZwkB1RVc6oerrWqwkMX6VOAJVY5c3kgXMZ5Ky4tBcR+YYc0LmPXPxq2uPKKj6hCUi8JlvmVGN6p/IjJYcHgufiN3MMfWF7bCLNZBefMBiEwQTO5oY9YQiX9DDX7I6jCRx6RnULJzLNFHNLd+FroXoIIWaETYSCWLM4T0XRzrgSrNwUt77gjC3Z1aYF+wLOfe5aPkPBcGAfKfZYbXrD1qHCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=diYCnjpowDqNfa5EtmsxdkDsTn5bsgqYjXSY0SG1cW4=;
- b=HpXpAlNn0Za8Qfu+XVQOElkMNdPjuQZtZ1y7zatOdYOPiWbP2ofKS0K5MG+FYCopVkKbs2QeIx4AaWG5lHkjvdrIHR6mEw7HC68oARUti4Mw82n0jBE8dyfnLLMB87f+c7ZJ6+RzL2qzs7I9c47in82sweMbCfvnaDu9jic7TjqAOlfJsE/IgQ4nnCxEb0Xg6aUuiOpUkd9K2LfUfoKar+tW2aOiGZGTATyLhYZq5J7aBsr10O7INputM6fZp/FiFN5dMxtP/ljxlOSfsDUZV7y4G0cvYRYRIVpVp/W+eTjrJx4r2IQUhQfl7lR4pQgNvBZOvQVolXRizNc+K6YJPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
+ bh=WJl6gAnl6/WcEpv5curWcUlYd0ynnlQpemmN9T7KH6M=;
+ b=fm8xUL2M6m1YsxNBaozboKFh8zEmTNgfwdHXuaFt2XBbVRr0ZrodGLEJhyvmp6KrtiCWL+qAxD/f4nonWYLbJaC2m8CApay9IBYran/zBEwttvd8XRkGK5a3aVxsuz+h0PwMulvqulDYeMxhHigqy0SlrPAuNg0sICkOJ22qEr/ed5GT8vrLD88WBPJCyUYUDumXyWycaicQt69rFKAMwA1LEidqiSm6njrBE15HISblI8s9on8VSPQPS6XnzECljCXLnc0YlrwonoL8kwAPPTCXTF9XTH92ehe/50AK5yS/fNlbZW5ZpWrSAkmfYO85ynpMolSqQbWe4YJCDcegnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=diYCnjpowDqNfa5EtmsxdkDsTn5bsgqYjXSY0SG1cW4=;
- b=K3VNXdf5RkCCSEMAW86tG6vyVL3Q0TioiMbYEIELnTdbb1eqBZfteWL/kzZz8yybm7Kz3YXakqjSTyD1pffvBsl+rQknEqFdPYWP0nncwuBROXm05FN3rvnkt4BduDa3Naeoq94D445D0hUO0AhuRjwuerIcoXPsO5SvcZPOFlw=
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
- by DM5PR1101MB2153.namprd11.prod.outlook.com (2603:10b6:4:56::16) with
+ bh=WJl6gAnl6/WcEpv5curWcUlYd0ynnlQpemmN9T7KH6M=;
+ b=hS8byUOtfH1SU01suh9L6yAYW242p1QR0v+VD+bsI22QC7bUKDJXWpg28wzoOeHmsDjd+nYH4bLsydfCY5QUJQLEjeh2Nj2cDygB7ltEoPFsxHBSGgfBB0NMaMwJ/9QhUXNt3dO7ha2BFMebTLfQY3SeSBjzj+OA8yRcZA1PyoTR/mLyYduii8V4BZzT0ZeUwRmxjsDzznrFShSLMbpilqj2UvvArTLgUMKdVWxM3ZhJrXYOd95zjcQyoyc4630mIqz9So8cbIZ6OIY2DI1G1sQhlEHewT2DNQjCCE5B8gwGx4YxJse1NW+Dm5Pgba5hf90qh3l+69ZdL8lgPZyhwQ==
+Received: from DM5PR2001CA0019.namprd20.prod.outlook.com (2603:10b6:4:16::29)
+ by MWHPR12MB1872.namprd12.prod.outlook.com (2603:10b6:300:10d::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Wed, 16 Jun
- 2021 01:05:36 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::3dc3:868b:cec3:513b]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::3dc3:868b:cec3:513b%6]) with mapi id 15.20.4219.025; Wed, 16 Jun 2021
- 01:05:36 +0000
-From:   "Wu, Hao" <hao.wu@intel.com>
-To:     Tom Rix <trix@redhat.com>, "mdf@kernel.org" <mdf@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "krzysztof.kozlowski@canonical.com" 
-        <krzysztof.kozlowski@canonical.com>,
-        "nava.manne@xilinx.com" <nava.manne@xilinx.com>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "davidgow@google.com" <davidgow@google.com>,
-        "fpacheco@redhat.com" <fpacheco@redhat.com>,
-        "Gong, Richard" <richard.gong@intel.com>,
-        "luca@lucaceresoli.net" <luca@lucaceresoli.net>
-CC:     "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
-Thread-Topic: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
-Thread-Index: AQHXYVpMuuq4CCKpI0OAe3HAOe9lxqsUps2ggADmEgCAAEctkA==
-Date:   Wed, 16 Jun 2021 01:05:36 +0000
-Message-ID: <DM6PR11MB3819259241791EB04A2CB9C8850F9@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20210614201648.3358206-1-trix@redhat.com>
- <20210614201648.3358206-3-trix@redhat.com>
- <DM6PR11MB381964374223D0D2958AFA6985309@DM6PR11MB3819.namprd11.prod.outlook.com>
- <d64b0fb8-5f83-2995-7ee9-b4ed2932ef60@redhat.com>
-In-Reply-To: <d64b0fb8-5f83-2995-7ee9-b4ed2932ef60@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.142.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f5aff3d3-25f4-4dc6-4ac0-08d93062d9c1
-x-ms-traffictypediagnostic: DM5PR1101MB2153:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR1101MB21531D97457662F8A8921284850F9@DM5PR1101MB2153.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lxfyPNKWckVc124MWFk90TVDQ7JMqYG4aS9NRnfrinzIvEonGZGRBoHSmqC0i5TWLfzdilxh2qCWtsearTWsQTggcRD1Yvu88jO/x9EVpsavV/zS+D+81iH5evHE9OlRAajlsabE8K37ISb0XEj8587l7JublztucE6ANlcYjA/IY8gkIZ0zE8XEQgHxwFBwirp55iJlG+2BljeDJzlaB7Yd+m0OqbaeOCSzUqynaMnrc6TWEjVXNhyJaMs0+HDFnfjD0ujJFPSPggaRN7In/c6Ed4dVuCmit7SEJHOiUzp5Gx/PDekXopZEypwNSJHODusAoAwA02epes4SOuAtzM1EGUgu82RHS1rFFv3LHrBGr22XXVDq0HVZwcA0SAGlmRr5iHMMKr/lvj0dyfeYCoHP064TcrmGRvPUgaQYHMhSy4qrGFhaJvkLbuXxotlZgDhYvxjXhzJzTBXCUenJm5dafiSqMaNkslLG5jCzFJhxRVnRi/FLzG9Njm29NqhmT928iYVtCJ4v0LYhjsaB7oKZncWpwTYVqUcbREcgNl4KqSeNAKIsmF90sYOxyHnEpVmNRurOGLCA3mU27OM/BMlgKCeNVpTG2KBHCnX+dszjwRs3p6/4wO5Wom0UV2XHuqxXlTKjP3WDqZlBur4PrQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(366004)(346002)(136003)(39860400002)(396003)(7696005)(66446008)(52536014)(66556008)(478600001)(66476007)(53546011)(64756008)(6506007)(71200400001)(86362001)(33656002)(186003)(38100700002)(54906003)(921005)(2906002)(110136005)(122000001)(5660300002)(66946007)(76116006)(8936002)(55016002)(7416002)(4326008)(316002)(8676002)(9686003)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a0JoY0tBcEFUamtERkRLVDdjMVJOVzY4bFBSdE9OeW0yQUFQdVlIQ1YzcUtY?=
- =?utf-8?B?bUlkMHRBTXVaOFBZcHViLzBPWG55NGIwVmZ2QmgyOHJoRHovcWNSbTNvRHFW?=
- =?utf-8?B?SGt3RFJXUVNHOGhDYSs4Z29WOTh1OUYrdDA1dzdNU1dBdmFQWHNnaEY0a3Ro?=
- =?utf-8?B?NTlZRWk1Y21jc0ZpdEllY3JROVF4bGRxN2VBd1dKRGY3eE9jMmdNc0FtNWNY?=
- =?utf-8?B?b09zclBCYldWdXNXMUhZS25sTGlmeFM2dEJlbEI2YmpKOHR5a3pVTzF4UWN2?=
- =?utf-8?B?T0M1bkZ1U25hdTRLRDRDQklvMmp3cXlPdDYxdGYvZzdrS0dPbG1mL0RUb0Nx?=
- =?utf-8?B?OWpRRDlrUkwxSlVvWDJDVmlhVkRsM2MzS1pRdHRrZVA4SEFXUGxhTXl2N3Ir?=
- =?utf-8?B?QjRvRXlTc1RCdnY1TU0vK003bU41bTIvREpzN1M3d3JBQmRjSlNGM0cvczdM?=
- =?utf-8?B?T0ppQjU5Q1F2cWdURVdUTUZTemRRaHgzZkFIVkY3QXpqMHp6T2lrRWxRZyt1?=
- =?utf-8?B?RUZSNkFuVmcxb0tIL2FzV29QTkNYR3Zzd29YbisrR0lJVlhnOXdsWlFqZFNw?=
- =?utf-8?B?c0hXVXlRTEhWSENSQ20yY2c3aWZvOHVPcGR5OXZxZmxtVWhOVWFjTUlBcmdv?=
- =?utf-8?B?dUN6Rk03dUVFQ0pJVGtKSytQYllyZUZoMTZkY3hseFM3dWtYWitxR2V4bnRs?=
- =?utf-8?B?N1BFaTlzNnAyU21YVU9seVNkd0hOckVOaHNlemhpN28yKzVYZ2U3bkxjVzhO?=
- =?utf-8?B?U0tsVExuLzRBMkRQeGhhdG05YW9LYlowWWU0V0lGU3RCMFlIdERXajRqY2o1?=
- =?utf-8?B?dDhYVms0amttc2RyOVB0ZldJUGJPdzRzMkt2Ym5aRXpUenBTbEwvbEJ3c2NE?=
- =?utf-8?B?SDEyNG9VU1JSdERyc1F2eDRhTWw2SVgrRGZpbEl5ODZJMllDRkFuZm9xdk4w?=
- =?utf-8?B?YUhLOU5JN2E2VkoycWhhU0czbExKWWFoNXRpUnFJeHl0YjhENytaSzhydkFS?=
- =?utf-8?B?R2wwNzJZaUlvV3NKdlpBV1p1MzNTOFlDZERNeFd0SjVKeTEyZXJLbHViSTFw?=
- =?utf-8?B?TVdBSHhmZ2c4WTkvR0d3SThNMEt3RmhDODhBMXlNd3VQdk54cVlCUFFoUTBI?=
- =?utf-8?B?ODhMRy9odDlGY0kyQUVQWk4xTW5kL0lJMllyUjNpTWFqd1g1ZjI5cEExd2Q5?=
- =?utf-8?B?WmJOZVdMMkhiVVdONGU0U1Zid0JoN2R0UlA5eWpNbXY4SGVMb2xIS3dCZkVF?=
- =?utf-8?B?TkQ3TW81cWJONHduYTlZdTNmUWRyRmFnVWVpZXM0REZqZkVoMlpJWGoxY1do?=
- =?utf-8?B?dmZmMkpPVk4rTUp6ZXovdHUyNmd2dDRrTDR4VHFxTjFqa1hqZzVzcWZCNEE1?=
- =?utf-8?B?OUc3cUpTUEhpcHdRZDlEeEtUZmJXVWlnMDVXU0FVa05vWHNwaG1ES2Jld3h4?=
- =?utf-8?B?eEFyMWdNYkQwQkJvVjNGNU1UTTVrT01TMkxIOE84ZWJyMnB2bkxTeFc1M3JN?=
- =?utf-8?B?SlB1TWFKZFhFUG5rQ0VTbFhyU1Y1WFlSZUtZT1pxZUtaUTZHZWM1QVVnYXNV?=
- =?utf-8?B?dlF1dEo1WGoyclNqYnJzVzRubERqeG9ITER4L0VIQVJsUm1EOE4xemVQQ0Za?=
- =?utf-8?B?bXQ5Uks5dDhTQ2ViOU1NeVBQSkxCL0JpMnZSMllWcFJ3TEtBM2VZdlUrK3pu?=
- =?utf-8?B?eVNld2x1MG5pUzB3ZXNEVnlCR3BvZk4wbDU0RmpOYnpoVUJsZW0yNmVrWHhj?=
- =?utf-8?Q?kBF/BWyYUJh7QAB94vuXCzKT4XERln1uWSK/3L7?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Wed, 16 Jun
+ 2021 02:47:42 +0000
+Received: from DM6NAM11FT055.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:16:cafe::28) by DM5PR2001CA0019.outlook.office365.com
+ (2603:10b6:4:16::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16 via Frontend
+ Transport; Wed, 16 Jun 2021 02:47:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT055.mail.protection.outlook.com (10.13.173.103) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4242.16 via Frontend Transport; Wed, 16 Jun 2021 02:47:42 +0000
+Received: from nvdebian.localnet (172.20.187.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 16 Jun
+ 2021 02:47:38 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Peter Xu <peterx@redhat.com>
+CC:     <linux-mm@kvack.org>, <akpm@linux-foundation.org>,
+        <rcampbell@nvidia.com>, <linux-doc@vger.kernel.org>,
+        <nouveau@lists.freedesktop.org>, <hughd@google.com>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <hch@infradead.org>, <bskeggs@redhat.com>, <jgg@nvidia.com>,
+        <shakeelb@google.com>, <jhubbard@nvidia.com>,
+        <willy@infradead.org>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v10 07/10] mm: Device exclusive memory access
+Date:   Wed, 16 Jun 2021 12:47:36 +1000
+Message-ID: <3687765.3f4LTt0jjm@nvdebian>
+In-Reply-To: <YMjUZX8Sy0PuPt6j@t490s>
+References: <20210607075855.5084-1-apopple@nvidia.com> <7383392.6iZ9WBDLDo@nvdebian> <YMjUZX8Sy0PuPt6j@t490s>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5aff3d3-25f4-4dc6-4ac0-08d93062d9c1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2021 01:05:36.7028
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.187.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1a9057e9-1b0a-4371-d089-08d930711cd0
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1872:
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1872B95E9A7D6770325A1692DF0F9@MWHPR12MB1872.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nXzN03t3rW01rjh3ZACEgqeFapjyTuiUiSfJ9tM1Pko1oExQJ2ij2DZTctIsG7EMT5H8a2ZmIeLx9imcHY9ExqdU3R52v9ZVQqW98f+WdbrcGokkjCit4ttiCvdqrq5uhaMFk0imUtuxuJ30YZFVwENHT98Q3lXryeav3IqETaFV813O3K74oPl2NFmvgyYv/soA2NJsYLlvSyqaU8HcSUDZUB4TB0yby/s41bZ7by92RiV06yHg+grWC5Iocs9EXQB3tcF9DkT0SMjlvHFYpJgjH91Q4J7e+kINX6bzVa3nEmcoqMzcJ4094ob8/ASuKASqSNSnUegDiE+6a8lY7D4Xz6KV8VC1tWSYyEK+/0NAncFGBLw7GldDptAQsZJfuDkLoBR9XtFM8NbUvbk6NhEpXrhDsXxSNoA73nxynBpTFog9Cu6apOtwxdGGZ3HT/Zm0URwHB70SqScb3QyXYU19gAtDt309K9d6OjV5qY8YGaBM543PBHtxhtMzrajOwsZmnYPWestAOCmUjwI2TTdyj4fvoQ1SLUE48AurBRS0yD2DJvBPFxX2En3r4a6F2lOXI4JANLlUOuKvyXxoV8PRalhNL3XKnhsqdRhMDzvMFnaGGkocDW9ZFLSxk5D9tmkt/jf5CSF48t1scyh2LziY7RjP+K0uu25vQnVw6nMXpoAGQWWWva4clwG647Tl
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(396003)(346002)(136003)(39860400002)(376002)(46966006)(36840700001)(86362001)(316002)(336012)(186003)(356005)(70206006)(9686003)(16526019)(82740400003)(426003)(82310400003)(8676002)(2906002)(9576002)(8936002)(5660300002)(83380400001)(70586007)(36860700001)(6916009)(4326008)(47076005)(26005)(54906003)(7416002)(33716001)(478600001)(36906005)(7636003)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 02:47:42.0211
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KOACLRVKlL/myxcO0QbCjqDHYdY2r/G+g3eD+RjXAHrlXmQ0RH2RIe+08zurosazUQPEJsntvRbHVZD8+r4Dzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2153
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a9057e9-1b0a-4371-d089-08d930711cd0
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT055.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1872
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBPbiA2LzE1LzIxIDE6MDggQU0sIFd1LCBIYW8gd3JvdGU6DQo+ID4+IFN1YmplY3Q6IFtQQVRD
-SCB2NCAxLzRdIGZwZ2E6IGRmbDogcmVvcmdhbml6ZSB0byBzdWJkaXIgbGF5b3V0DQo+ID4+DQo+
-ID4+IEZyb206IFRvbSBSaXggPHRyaXhAcmVkaGF0LmNvbT4NCj4gPj4NCj4gPj4gRm9sbG93IGRy
-aXZlcnMvbmV0L2V0aGVybmV0LyB3aGljaCBoYXMgY29udHJvbCBjb25maWdzDQo+ID4+IE5FVF9W
-RU5ET1JfQkxBIHRoYXQgbWFwIHRvIGRyaXZlcnMvbmV0L2V0aGVybmV0L2JsYQ0KPiA+PiBTaW5j
-ZSBmcGdhcyBkbyBub3QgaGF2ZSBtYW55IHZlbmRvcnMsIGRyb3AgdGhlICdWRU5ET1InIGFuZCB1
-c2UNCj4gPj4gRlBHQV9CTEEuDQo+ID4gSGkgVG9tLA0KPiA+DQo+ID4gVGhhbmtzIGZvciB0aGlz
-IHBhdGNoLiA6ICkNCj4gPg0KPiA+IERGTCBpcyBub3QgYSB2ZW5kb3IsIGJ1dCBzb21ldGhpbmcg
-Y2FuIGJlIHNoYXJlZC9yZXVzZWQuIEl0J3MgcG9zc2libGUgdGhhdA0KPiA+IG90aGVyIHZlbmRv
-cnMgcmV1c2UgdGhlIHNhbWUgY29uY2VwdHMgYW5kIHRoZSBkcml2ZXJzIG9mIERGTC4gSWYgdmVu
-ZG9yDQo+ID4gZHJpdmVycyBuZWVkIHRvIGJlIG1vdmVkIGluc2lkZSBzdWIgZm9sZGVycywgdGhl
-biBtYXliZSBpdCdzIGJldHRlciB0bw0KPiA+IGxlYXZlIERGTCBpbiB0aGUgcGFyZW50IGZvbGRl
-cj8NCj4gDQo+IHhydCBpcyBhbHNvIG5vdCBhIHZlbmRvciwgbW9yZSBhIHN1YmRldmljZSBmcmFt
-ZXdvcmsgbGlrZSBkZmwuDQo+IA0KPiBJIGFtIG5vdCBzdXJlIHdoYXQgeW91IG1lYW4gYnkgb3Ro
-ZXIgZGZsIHZlbmRvcnMgY2FuIHlvdSBnaXZlIGFuIGV4YW1wbGUgPw0KDQpJdCdzIGZpbmUsIGJ1
-dCB0aGUgZGVzY3JpcHRpb24gaGVyZSBpcyBhIGxpdHRsZSBjb25mdXNpbmcgb24gdmVuZG9yL2Zy
-YW1ld29yaw0KaGFuZGxpbmcuIE5vIG90aGVyIHZlbmRvciBzbyBmYXIsIGJ1dCBpdCdzIHBvc3Np
-YmxlLCBERkwgY2FuIGJlIHVzZWQgaW4gDQpub24taW50ZWwgZGV2aWNlLCBhbmQgcmVsYXRlZCBk
-cml2ZXJzIGNhbiBiZSByZXVzZWQgYXMgd2VsbC4gVGhlbiBhIGZwZ2EgDQptZ3IgZHJpdmVyIGRl
-cGVuZHMgb24gREZMLCBzaG91bGQgYmUgcHV0IGluc2lkZSBkZmwgZm9sZGVyIG9yIG5ldw0KdmVu
-ZG9yJ3Mgc3ViZm9sZGVyPw0KDQpIYW8NCg0K
+On Wednesday, 16 June 2021 2:25:09 AM AEST Peter Xu wrote:
+> On Tue, Jun 15, 2021 at 01:08:11PM +1000, Alistair Popple wrote:
+> > On Saturday, 12 June 2021 1:01:42 AM AEST Peter Xu wrote:
+> > > On Fri, Jun 11, 2021 at 01:43:20PM +1000, Alistair Popple wrote:
+
+[...]
+
+> > > Do you think we can restore pte right before wr-protect or zap?  Then all
+> > > things serializes with page lock (btw: it's already an insane userspace to
+> > > either unmap a page or wr-protect a page if it knows the device is using it!).
+> > > If these are the only two cases, it still sounds a cleaner approach to me than
+> > > the current approach.
+> >
+> > Perhaps we could but it would make {zap|change}_pte_range() much more complex as
+> > we can't sleep taking the page lock whilst holding the ptl, so we'd have to
+> > implement a retry scheme similar to copy_pte_range() in both those functions as
+> > well.
+> 
+> Yes, but shouldn't be hard to do so, imho. E.g., see when __tlb_remove_page()
+> returns true in zap_pte_range(), so we already did something like that.  IMHO
+> it's not uncommon to have such facilities as we do have requirements to sleep
+> during a spinlock critical section for a lot of places in mm, so we release
+> them when needed and retake.
+
+Agreed, it's not hard to do and it's a common enough pattern. However we decided
+that for such a specific application this (trying to take the lock or drop locks
+and retry) was too complex for copy_pte_range() so it seems like the same should
+apply here.
+
+Admittedly copy_pte_range() already had several other retry paths so perhaps
+it was adding yet another that made it relatively more complex. Overall I have
+been trying to minimise the impact on core mm code for this feature, and adding
+this pattern to zap_pte_range(), etc. would make it more complex for any future
+addition that requires locks to be dropped and retried so I guess in that sense
+it is no different.
+
+> > Given mmu_interval_read_begin/retry was IMHO added to solve this type of
+> > problem (freezing pte's to safely program device pte's) it seems like the
+> > better option rather than adding more complex code to generic mm paths.
+> >
+> > It's also worth noting i915 seems to use mmu_interval_read_begin/retry() with
+> > gup to sync mappings so this isn't an entirely new concept. I'm not an expert
+> > in that driver but I imagine changing gup to generate unconditional mmu notifier
+> > invalidates would also cause issues there. So I think overall this is the
+> > cleanest solution as it reduces the amount of code (particularly in generic mm
+> > paths).
+> 
+> I could be wrong somewhere, but to me depending on mmu notifiers being
+> "accurate" in general is fragile..
+> 
+> Take an example of change_pte_range(), which will generate PROTECTION_VMA
+> notifies.  Let's imaging an userspace calls mprotect() e.g. twice or even more
+> times with the same PROT_* and upon the same region, we know very possibly the
+> 2nd,3rd,... calls will generate those notifies with totally no change to the
+> pgtable at all as they're all done on the 1st shot.  However we'll generate mmu
+> notifies anyways for the 2nd,3rd,... calls.  It means mmu notifiers should
+> really be tolerant of false positives as it does happen, and such thing can be
+> triggered even from userspace system calls very easily like this.  That's why I
+> think any kernel facility that depends on mmu notifiers being accurate is
+> probably not the right approach..
+
+Argh, thanks. I was focused on the specifics of this series but I think I
+understand your point better now - that as a more general principle we can't
+assume notifiers are accurate.
+
+> But yeah as you said I think it's working as is with the series (I think the
+> follow_pmd_mask() checking pmd_trans_huge before calling split_huge_pmd is a
+> double safety-net for it, so even if the GUP split_huge_pmd got replaced with
+> __split_huge_pmd it should still work with the one-retry logic), not sure
+> whether it matters a lot, as it's not common mm path; I think I'll step back so
+> Andrew could still pick it up as wish, I'm just still not fully convinced it's
+> the best solution to have for a long term to depend on that..
+
+Ok, thanks. I guess you have somewhat convinced me - depending on it for the
+long term might be a bit fragile. However as you say the current implementation
+does work and I am starting to look at support for PMD and file backed pages
+which require changes here anyway. So I am hoping Andrew can still take this
+(once rebased) as it would be easier for me to do those changes if the basic
+support and clean ups were already in place.
+
+> > > This also reminded me that right now the cpu pgtable recovery is lazy - it
+> > > happens either from fork() or a cpu page fault.  Even after device finished
+> > > using it, swap ptes keep there.
+> > >
+> > > What if the device tries to do atomic op on the same page twice?  I am not sure
+> > > whether it means we may also want to teach both GUP (majorly follow_page_pte()
+> > > for now before pmd support) and process of page_make_device_exclusive() with
+> > > understanding the device exclusive entries too?  Another option seems to be
+> > > restoring pte after device finish using it, as long as the device knows when.
+> >
+> > I don't think we need to complicate follow_page_pte() with knowledge of
+> > exclusive entries. GUP will just restore the original pte via the normal
+> > fault path - follow_page_pte() will return NULL for an exclusive entry,
+> > resulting in handle_mm_path() getting called via faultin_page(). Therefore
+> > a driver calling make_device_exclusive() twice on the same page won't cause an
+> > issue. Also the device shouldn't fault on subsequent accesses if the exclusive
+> > entry is still in place anyway.
+> 
+> Right, looks good then.
+> 
+> >
+> > We can't restore the pte when the device is finished with it because there is
+> > no way of knowing when a device is done using an exclusive entry - device
+> > pte's work much the same as cpu pte's in that regard.
+> 
+> I see, I feel like I understand how it works slightly better now, thanks.
+
+Feel free to ask if there are any more details you want, but there's nothing too
+magical going on here.
+
+> One last pure question: I see nouveau_atomic_range_fault() will call the other
+> nvif_object_ioctl() which seems to do the device pgtable mapping, am I right?
+
+Correct - that installs the page table mapping on the GPU.
+
+> Then I see the notifier is quickly removed before nouveau_atomic_range_fault()
+> returns.  What happens if CPU access happens after mmu notifier removed?  Or is
+> it not possible to happen?
+
+So there are two notifiers registered - this one and a process wide notifier
+(see nouveau_mn_ops). In this case the process wide notifier will get called
+to invalidate the access when the CPU fault removes the device exclusive
+entries.
+
+ - Alistair
+
+> --
+> Peter Xu
+> 
+
+
+
