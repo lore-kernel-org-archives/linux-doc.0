@@ -5,43 +5,47 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36E8BC48BE5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0907C48BE6
 	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 225D7613DC
+	by mail.kernel.org (Postfix) with ESMTP id 93B40613D9
 	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232040AbhFPGaQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S232048AbhFPGaQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 16 Jun 2021 02:30:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59920 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:60008 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231628AbhFPG3y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231611AbhFPG3y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 16 Jun 2021 02:29:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 80B1E613C7;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F62061400;
         Wed, 16 Jun 2021 06:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623824868;
-        bh=asTkRaIynv0EXyPf2YOE4npgGc5H+lLigxxTS3UFkZ8=;
+        bh=9+IwjkK9O4NibLgz3M7pCdhHS/M6MeKEeQDBWbnnZqM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QSWSMAq5d4BVN94bdr8wyo8zjVTawMJ/78U+8jNzlfOCGOtF8zPIhd9npYIFCBLsD
-         PhzSHqu/Jt7Xe55I5SmPUjgYHTn+XVNS6mQxUvsYHVv/KsfsvUryL7xrW/4a44Yodq
-         rOx3e/r/VUCcgyDc3WpK74KdAyzLAfULeyKq1bRdfUSsmuDnGHKIymbSqGxsMQrKDx
-         HHhgMJ2Nhg1lJGZw1aFVM42A17rwVDuD0VqwjxO73zdk6SZHxXaVLZgBhRW26+LUC9
-         qZ20smW1FD6do5ZQ5bwJz8GVH/KR8wLrKYG5xTQzg9qaL6hPWrfdVTA7gl8ETj7PoU
-         bbZDT7XLoB91g==
+        b=oFnRs9ZTKF3/X/XE4/LGMzLixde3V13VBMFQGuc1CS68P6qS3HWgzLxkx0mVVL/sd
+         n4lkrKZ9bn8IljgXb8irelZITvg555ZNkAsIVwx96/QMRjVfHig3h2fv49MQJioZSH
+         eCf0tD2Qh6x7bl7c6htBvX+IHA9xN1fYLtwQAeqLKFVO6oMlgMNvz28NEzVbfQirK3
+         AowGLBlXc3+mIQoKINwBkDsmlBE1SxlXECzr7oVjogCftkrzsQ48yjWDyFWeCrKYoH
+         m7aDdlvFMri6k0/XaVucAOAjClMYKH4WQnRRvzBkGAo8sy07au+YeB8v/3+TQSOQ1J
+         uZUC/tUjq5n5A==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltP1d-004kIM-Sz; Wed, 16 Jun 2021 08:27:45 +0200
+        id 1ltP1e-004kJ0-D9; Wed, 16 Jun 2021 08:27:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@protonmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/29] docs: devices.rst: better reference documentation docs
-Date:   Wed, 16 Jun 2021 08:27:16 +0200
-Message-Id: <5d9c9949a104d10b537a2d780bccad69a2dc58f9.1623824363.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 11/29] docs: devicetree: bindings: submitting-patches.rst: avoid using ReST :doc:`foo` markup
+Date:   Wed, 16 Jun 2021 08:27:26 +0200
+Message-Id: <0048c23d47b582dd1a1959628fd2b895209ac826.1623824363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623824363.git.mchehab+huawei@kernel.org>
 References: <cover.1623824363.git.mchehab+huawei@kernel.org>
@@ -52,55 +56,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's no need to use either :file: or :doc: tags for documentation,
-as automarkup.py automatically converts Documentation/*.rst into
-a cross-reference.
+The :doc:`foo` tag is auto-generated via automarkup.py.
+So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/pm/devices.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../devicetree/bindings/submitting-patches.rst        | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
-index 6b3bfd29fd84..d448cb57df86 100644
---- a/Documentation/driver-api/pm/devices.rst
-+++ b/Documentation/driver-api/pm/devices.rst
-@@ -217,7 +217,7 @@ system-wide transition to a sleep state even though its :c:member:`runtime_auto`
- flag is clear.
+diff --git a/Documentation/devicetree/bindings/submitting-patches.rst b/Documentation/devicetree/bindings/submitting-patches.rst
+index 104fa8fb2c17..8087780f1685 100644
+--- a/Documentation/devicetree/bindings/submitting-patches.rst
++++ b/Documentation/devicetree/bindings/submitting-patches.rst
+@@ -7,8 +7,8 @@ Submitting Devicetree (DT) binding patches
+ I. For patch submitters
+ =======================
  
- For more information about the runtime power management framework, refer to
--:file:`Documentation/power/runtime_pm.rst`.
-+Documentation/power/runtime_pm.rst.
+-  0) Normal patch submission rules from Documentation/process/submitting-patches.rst
+-     applies.
++  0) Normal patch submission rules from
++     Documentation/process/submitting-patches.rst applies.
  
+   1) The Documentation/ and include/dt-bindings/ portion of the patch should
+      be a separate patch. The preferred subject prefix for binding patches is::
+@@ -25,8 +25,8 @@ I. For patch submitters
  
- Calling Drivers to Enter and Leave System Sleep States
-@@ -655,7 +655,7 @@ been thawed.  Generally speaking, the PM notifiers are suitable for performing
- actions that either require user space to be available, or at least won't
- interfere with user space.
+        make dt_binding_check
  
--For details refer to :doc:`notifiers`.
-+For details refer to Documentation/driver-api/pm/notifiers.rst.
+-     See Documentation/devicetree/bindings/writing-schema.rst for more details about
+-     schema and tools setup.
++     See Documentation/devicetree/bindings/writing-schema.rst for more details
++     about schema and tools setup.
  
+   3) DT binding files should be dual licensed. The preferred license tag is
+      (GPL-2.0-only OR BSD-2-Clause).
+@@ -84,7 +84,8 @@ II. For kernel maintainers
+ III. Notes
+ ==========
  
- Device Low-Power (suspend) States
-@@ -726,7 +726,7 @@ it into account in any way.
+-  0) Please see :doc:`ABI` for details regarding devicetree ABI.
++  0) Please see Documentation/devicetree/bindings/ABI.rst for details
++     regarding devicetree ABI.
  
- Devices may be defined as IRQ-safe which indicates to the PM core that their
- runtime PM callbacks may be invoked with disabled interrupts (see
--:file:`Documentation/power/runtime_pm.rst` for more information).  If an
-+Documentation/power/runtime_pm.rst for more information).  If an
- IRQ-safe device belongs to a PM domain, the runtime PM of the domain will be
- disallowed, unless the domain itself is defined as IRQ-safe. However, it
- makes sense to define a PM domain as IRQ-safe only if all the devices in it
-@@ -805,7 +805,7 @@ The ``DPM_FLAG_MAY_SKIP_RESUME`` Driver Flag
- --------------------------------------------
- 
- During system-wide resume from a sleep state it's easiest to put devices into
--the full-power state, as explained in :file:`Documentation/power/runtime_pm.rst`.
-+the full-power state, as explained in Documentation/power/runtime_pm.rst.
- [Refer to that document for more information regarding this particular issue as
- well as for information on the device runtime power management framework in
- general.]  However, it often is desirable to leave devices in suspend after
+   1) This document is intended as a general familiarization with the process as
+      decided at the 2013 Kernel Summit.  When in doubt, the current word of the
 -- 
 2.31.1
 
