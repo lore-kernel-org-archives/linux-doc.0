@@ -2,145 +2,230 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-22.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF570C48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:54:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 411D3C48BE6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:59:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC0756128B
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:54:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2442661164
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:59:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232609AbhFPL4p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 07:56:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230262AbhFPL4p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 07:56:45 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90479C061574
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 04:54:39 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id v12so983494plo.10
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 04:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=LO5EJonCZ/d5EwONfrhTxGMVZOU8PfqKuC1jlKIm6KY=;
-        b=VB0iWCJfLn2XcQfTxTRN/CEHfkX0u3u7T9uUKaOKeUl2KexASUw/FNEg/owhnh7jcn
-         XLfyljKXu3Tp61NHNzQtHuuPiWtdICkoxV6qceNWWsqJbvaxlUv2rmDvy+I86SICSEPC
-         OhkzIelxRmSMHueQ4EyK1JssvE+n5ymmByD3kP9IWDMGMbuV5xrDmgnSiostd2OoFtfK
-         7JOcmEzIU8jlKDqU02dMq1/i5OVGJFG+aBurXRrYz6EjV3S3RBop5J3NxGsRA47lbbmT
-         HJwe5S9aqQ7EWztiDalPGuUXYv0yzYlBm344RVcyx0YTsxsLf1RIpv8+NAD1l9nBFi8P
-         zvQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LO5EJonCZ/d5EwONfrhTxGMVZOU8PfqKuC1jlKIm6KY=;
-        b=VEIEGW1hWEN0wzdXOw/FK2u7EA6Y/t5GGD8kS10sMeMFqV90c3HWOLDwnKDS+hPjXg
-         FR/s+ybjWef9HyemN9qRjtGLBi8BzS1jqVgVshmf5BWgDnm4cXspPzPX4sNoqMTsPRQF
-         WUe7Bp/aLjbTTlgT6EG52g1YOKjzvH50fhefybz3dRJrylyZ2zRzn9WSCm7UtFAFAoeF
-         pg1zB1VncA8b/3R7wOGx2BVSPeFQf2BTyno04JUV23zZGdb05dc+h1ow16WQ8YZQ+QQB
-         WIyAJH3f/vRpzcWQxmzqFJhtBaXfNPzE30P8jbtgtSuecMAbmcH/DZ1B7IuT2YVSLTgN
-         7U+w==
-X-Gm-Message-State: AOAM530gOsW8/b5/rETPE39EFgUS3J0VFgcULf1E0Eok8oVh7aNKRjFy
-        0cJD1siBoJ1o7XrZHb+sJTuFIg==
-X-Google-Smtp-Source: ABdhPJyYd3VQzt+tqYJ+n4o4+TQazujKn+PEyQYXSaGhFBXLJnG6eDoXfU6zgGPLGiB8Uk5i2qK6zA==
-X-Received: by 2002:a17:902:f704:b029:11a:cdee:490 with SMTP id h4-20020a170902f704b029011acdee0490mr8551076plo.37.1623844479074;
-        Wed, 16 Jun 2021 04:54:39 -0700 (PDT)
-Received: from localhost ([136.185.134.182])
-        by smtp.gmail.com with ESMTPSA id w7sm2019453pjy.11.2021.06.16.04.54.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 04:54:38 -0700 (PDT)
-Date:   Wed, 16 Jun 2021 17:24:36 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Vincent Guittot <vincent.guittot@linaro.org>
-Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Ionela Voinescu <ionela.voinescu@arm.com>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        Qian Cai <quic_qiancai@quicinc.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH V2 0/3] cpufreq: cppc: Add support for frequency
- invariance
-Message-ID: <20210616115436.5mm64htpbyxrnpzg@vireshk-i7>
-References: <cover.1623825725.git.viresh.kumar@linaro.org>
- <CAKfTPtCawkocU+ssGi9hz10tMGYib_pfiFGXNMiF1HGYWinMdw@mail.gmail.com>
+        id S232700AbhFPMBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 08:01:48 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:46198 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231256AbhFPMBr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 08:01:47 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 9E6842197A;
+        Wed, 16 Jun 2021 11:59:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1623844780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=92Noc+ji9X3hfzxVXbqKDnkao7jlXNF6L8VZO2VgJcs=;
+        b=KbCNdOnSSETaRwzOIo5nADriNKb6IhSGZfMka15tkd7Q42eUJRMcPvsjo3LLq2n8K9agL8
+        EauOfE9RidbZVQSFP3OlEvZqGxt5wT+ohxAEJ7Na8PJnrK6PrCGDCE1aRfbsAn8rUTfDX6
+        ri1P8gBosz+T2xCTAiwHelxp6UFFaFc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1623844780;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=92Noc+ji9X3hfzxVXbqKDnkao7jlXNF6L8VZO2VgJcs=;
+        b=5/9ZOpOHzACbuRWZlDyfUuiU+SnIjWb2n/tMCBvQBniWFaQbFzaQz3dNlTChqnbt2wxyGg
+        NUbaViFIEw5HWoAA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+        by imap.suse.de (Postfix) with ESMTP id 5435B118DD;
+        Wed, 16 Jun 2021 11:59:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1623844780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=92Noc+ji9X3hfzxVXbqKDnkao7jlXNF6L8VZO2VgJcs=;
+        b=KbCNdOnSSETaRwzOIo5nADriNKb6IhSGZfMka15tkd7Q42eUJRMcPvsjo3LLq2n8K9agL8
+        EauOfE9RidbZVQSFP3OlEvZqGxt5wT+ohxAEJ7Na8PJnrK6PrCGDCE1aRfbsAn8rUTfDX6
+        ri1P8gBosz+T2xCTAiwHelxp6UFFaFc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1623844780;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=92Noc+ji9X3hfzxVXbqKDnkao7jlXNF6L8VZO2VgJcs=;
+        b=5/9ZOpOHzACbuRWZlDyfUuiU+SnIjWb2n/tMCBvQBniWFaQbFzaQz3dNlTChqnbt2wxyGg
+        NUbaViFIEw5HWoAA==
+Received: from director2.suse.de ([192.168.254.72])
+        by imap3-int with ESMTPSA
+        id m8+iE6znyWDCAgAALh3uQQ
+        (envelope-from <vbabka@suse.cz>); Wed, 16 Jun 2021 11:59:40 +0000
+To:     Charan Teja Reddy <charante@codeaurora.org>,
+        akpm@linux-foundation.org, nigupta@nvidia.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mcgrof@kernel.org, keescook@chromium.org,
+        yzaikin@google.com, aarcange@redhat.com, cl@linux.com,
+        xi.fengfei@h3c.com, mchehab+huawei@kernel.org,
+        andrew.a.klychkov@gmail.com, dave.hansen@linux.intel.com,
+        bhe@redhat.com, iamjoonsoo.kim@lge.com, mateusznosek0@gmail.com,
+        sh_def@163.com, vinmenon@codeaurora.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <cover.1622454385.git.charante@codeaurora.org>
+ <7db6a29a64b29d56cde46c713204428a4b95f0ab.1622454385.git.charante@codeaurora.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v3 1/2] mm: compaction: support triggering of proactive
+ compaction by user
+Message-ID: <88abfdb6-2c13-b5a6-5b46-742d12d1c910@suse.cz>
+Date:   Wed, 16 Jun 2021 13:59:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKfTPtCawkocU+ssGi9hz10tMGYib_pfiFGXNMiF1HGYWinMdw@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <7db6a29a64b29d56cde46c713204428a4b95f0ab.1622454385.git.charante@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16-06-21, 12:02, Vincent Guittot wrote:
-> I tested your branch and got the following while booting:
+On 5/31/21 12:54 PM, Charan Teja Reddy wrote:
+> The proactive compaction[1] gets triggered for every 500msec and run
+> compaction on the node for COMPACTION_HPAGE_ORDER (usually order-9)
+> pages based on the value set to sysctl.compaction_proactiveness.
+> Triggering the compaction for every 500msec in search of
+> COMPACTION_HPAGE_ORDER pages is not needed for all applications,
+> especially on the embedded system usecases which may have few MB's of
+> RAM. Enabling the proactive compaction in its state will endup in
+> running almost always on such systems.
 > 
-> [   24.454543] zswap: loaded using pool lzo/zbud
-> [   24.454753] pstore: Using crash dump compression: deflate
-> [   24.454776] AppArmor: AppArmor sha1 policy hashing enabled
-> [   24.454784] ima: No TPM chip found, activating TPM-bypass!
-> [   24.454789] ima: Allocated hash algorithm: sha256
-> [   24.454801] ima: No architecture policies found
-> [   24.455750] pcieport 0000:0f:00.0: Adding to iommu group 0
-> [   24.893888] ------------[ cut here ]------------
-> [   24.893891] WARNING: CPU: 95 PID: 1442 at
-> drivers/cpufreq/cppc_cpufreq.c:123 cppc_scale_freq_workfn+0xc8/0xf8
-> [   24.893901] Modules linked in:
-> [   24.893906] CPU: 95 PID: 1442 Comm: cppc_fie Not tainted 5.13.0-rc6+ #359
-> [   24.893910] Hardware name: To be filled by O.E.M. Saber/Saber, BIOS
-> 0ACKL026 03/19/2019
-> [   24.893912] pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
-> [   24.893915] pc : cppc_scale_freq_workfn+0xc8/0xf8
-> [   24.893918] lr : cppc_scale_freq_workfn+0x5c/0xf8
-> [   24.893921] sp : ffff80003727bd90
-> [   24.893922] x29: ffff80003727bd90 x28: 0000000000000000 x27: ffff800010ec2000
-> [   24.893928] x26: ffff800010ec2000 x25: ffff8000107c3d90 x24: 0000000000000001
-> [   24.893932] x23: ffff000816244880 x22: ffff8000113f9000 x21: ffff009f825a0a80
-> [   24.893935] x20: ffff009efc394220 x19: ffff800011199000 x18: 000000000000001b
-> [   24.893939] x17: 0000000000000007 x16: 0000000000000001 x15: 00000000000000bf
-> [   24.893943] x14: 0000000000000016 x13: 000000000000029b x12: 0000000000000016
-> [   24.893946] x11: 0000000000000000 x10: 0000000000000000 x9 : ffff009efc6958c0
-> [   24.893950] x8 : ffff009efc394248 x7 : 0000000002bde780 x6 : 00000000ffffffff
-> [   24.893954] x5 : 00000000916e502a x4 : 00000000d9730e80 x3 : ffffffffffffffff
-> [   24.893958] x2 : 00000000001e8480 x1 : 00000000002625a0 x0 : 0000000000000401
-> [   24.893962] Call trace:
-> [   24.893964]  cppc_scale_freq_workfn+0xc8/0xf8
-> [   24.893967]  kthread_worker_fn+0x110/0x318
-> [   24.893971]  kthread+0xf4/0x120
-> [   24.893973]  ret_from_fork+0x10/0x18
-> [   24.893977] ---[ end trace ea6dbaf832bce3e4 ]---
+> Other side, proactive compaction can still be very much useful for
+> getting a set of higher order pages in some controllable
+> manner(controlled by using the sysctl.compaction_proactiveness). Thus on
+> systems where enabling the proactive compaction always may proove not
+> required, can trigger the same from user space on write to its sysctl
+> interface. As an example, say app launcher decide to launch the memory
+> heavy application which can be launched fast if it gets more higher
+> order pages thus launcher can prepare the system in advance by
+> triggering the proactive compaction from userspace.
+> 
+> This triggering of proactive compaction is done on a write to
+> sysctl.compaction_proactiveness by user.
+> 
+> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=facdaa917c4d5a376d09d25865f5a863f906234a
+> 
+> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+> ---
+> changes in V2:
 
-Thanks Vincent.
+You forgot to also summarize the changes. Please do in next version.
 
-This is triggering from cppc_scale_freq_workfn():
+>   */
+>  unsigned int __read_mostly sysctl_compaction_proactiveness = 20;
+>  
+> +int compaction_proactiveness_sysctl_handler(struct ctl_table *table, int write,
+> +		void *buffer, size_t *length, loff_t *ppos)
+> +{
+> +	int rc, nid;
+> +
+> +	rc = proc_dointvec_minmax(table, write, buffer, length, ppos);
+> +	if (rc)
+> +		return rc;
+> +
+> +	if (write && sysctl_compaction_proactiveness) {
+> +		for_each_online_node(nid) {
+> +			pg_data_t *pgdat = NODE_DATA(nid);
+> +
+> +			if (pgdat->proactive_compact_trigger)
+> +				continue;
+> +
+> +			pgdat->proactive_compact_trigger = true;
 
-        if (WARN_ON(local_freq_scale > 1024))
+I don't like the new variable. I wish we could do without it. I understand this
+is added to ignore proactive_defer.
+We could instead expose proactive_defer in pgdat and reset it to 0 before wakeup
+(instead being a thread variable in kcompactd). But that would be racy with the
+decreases done by kcompactd.
+But I like the patch 2/2 and the idea could be extended to proactive_defer
+handling. If there's no proactive_defer, timeout is
+HPAGE_FRAG_CHECK_INTERVAL_MSEC. If kcompactd decides to defer, timeout would be
+HPAGE_FRAG_CHECK_INTERVAL_MSEC << COMPACT_MAX_DEFER_SHIFT. Thus, no more waking
+up just to decrease proactive_defer, we can then get rid of the counter. On
+writing new proactiveness just wake up and that's it, regardless of which
+timeout there was at the moment.
+The only change is, if we get woken up to do non-proactive work, by
+wakeup_kcompactd(), the proactive_defer value would be now be effectively lost.
+I think it's OK as wakeup_kcompactd() means the condition of the zone changed
+substantionally anyway and carrying on with previous defer makes not much sense.
+What do you think?
 
-Looks like there is something fishy about the perf calculations here
-after reading the counters, we tried to scale that in the range 0-1024
-and it came larger than that.
+> +			wake_up_interruptible(&pgdat->kcompactd_wait);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * This is the entry point for compacting all nodes via
+>   * /proc/sys/vm/compact_memory
+> @@ -2752,7 +2776,8 @@ void compaction_unregister_node(struct node *node)
+>  
+>  static inline bool kcompactd_work_requested(pg_data_t *pgdat)
+>  {
+> -	return pgdat->kcompactd_max_order > 0 || kthread_should_stop();
+> +	return pgdat->kcompactd_max_order > 0 || kthread_should_stop() ||
+> +		pgdat->proactive_compact_trigger;
+>  }
+>  
+>  static bool kcompactd_node_suitable(pg_data_t *pgdat)
+> @@ -2905,7 +2930,8 @@ static int kcompactd(void *p)
+>  		trace_mm_compaction_kcompactd_sleep(pgdat->node_id);
+>  		if (wait_event_freezable_timeout(pgdat->kcompactd_wait,
+>  			kcompactd_work_requested(pgdat),
+> -			msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC))) {
+> +			msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC)) &&
+> +			!pgdat->proactive_compact_trigger) {
+>  
+>  			psi_memstall_enter(&pflags);
+>  			kcompactd_do_work(pgdat);
+> @@ -2917,10 +2943,20 @@ static int kcompactd(void *p)
+>  		if (should_proactive_compact_node(pgdat)) {
+>  			unsigned int prev_score, score;
+>  
+> -			if (proactive_defer) {
+> +			/*
+> +			 * On wakeup of proactive compaction by sysctl
+> +			 * write, ignore the accumulated defer score.
+> +			 * Anyway, if the proactive compaction didn't
+> +			 * make any progress for the new value, it will
+> +			 * be further deferred by 2^COMPACT_MAX_DEFER_SHIFT
+> +			 * times.
+> +			 */
+> +			if (proactive_defer &&
+> +				!pgdat->proactive_compact_trigger) {
+>  				proactive_defer--;
+>  				continue;
+>  			}
+> +
+>  			prev_score = fragmentation_score_node(pgdat);
+>  			proactive_compact_node(pgdat);
+>  			score = fragmentation_score_node(pgdat);
+> @@ -2931,6 +2967,8 @@ static int kcompactd(void *p)
+>  			proactive_defer = score < prev_score ?
+>  					0 : 1 << COMPACT_MAX_DEFER_SHIFT;
+>  		}
+> +		if (pgdat->proactive_compact_trigger)
+> +			pgdat->proactive_compact_trigger = false;
+>  	}
+>  
+>  	return 0;
+> 
 
-Will keep you posted.
-
--- 
-viresh
