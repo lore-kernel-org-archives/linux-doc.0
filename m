@@ -5,48 +5,43 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBF8AC49EBD
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64267C49EA5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C359C613D9
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F4B2613DB
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232030AbhFPGaP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:30:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60180 "EHLO mail.kernel.org"
+        id S232071AbhFPGaT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:30:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59948 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231657AbhFPG3y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 02:29:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E09A6140F;
+        id S231532AbhFPG3x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 02:29:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4434C613FB;
         Wed, 16 Jun 2021 06:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623824868;
-        bh=B5lTEnXkGEyVgmsK8p6BhCFjJdgDkkDfTb1jiWTpZPs=;
+        bh=10m6lRZyRVnoXgx/oN7Q2inx+Rz6qUWeZ8SRCqU0QQU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gafOlhgjRhVyNH90XnJj8SG7CJs2eqUjt2tE6b8W0glg9tYsMP5cEAIAVVWDA0UdL
-         rih//xbEUWgjlzl1GCY5gEHvAE6ROzHC7t6Bktx/HWnLrLtBzMwt3ywvmto+dD8/UY
-         Fm2dPm8TwEpKfjSO2eirQjP1CjuKRtqQdAF2EvcfXUeogdDL08SH7H8ePuL1U0cHq5
-         Swz/p8cdy/0A/v6onpl1UPrfan50B76M9LBrRwCbvQngo6wgEC8kvbCCja96UrExeu
-         c19qWgtzQN2MDxSbwEU54sVxXdyx3toV6JFK9fpEFMq4dPQO8e5Zsw3g692f+5zjdo
-         t+m07Ve8x0VyA==
+        b=H4jHZ1HDdq6T04odSzzj5HViTbmbDaYA2PCNO0VdxBftWIFpwvlWjt7D1Ji8sav2h
+         UlqhgKTjco3E+ZT4bk+jfqEaJcEWuCCMK/sHOGnKp1VUGvlJtQSi3qnYlIW27cHZfS
+         2BzHzkO29Jd42sXHhrMs7OV1o+rZs0LtM65eAk1uDGf0XCSS55wIoP1/3bm8YBIkcf
+         zN6CRs7uPAG6YBJzDi/jkEGEG0Imiad5kslVdbA56MjRvn+utg+sLbls9qsexqLGNd
+         Ba9SbQc1yWrnG9VOPggz4fvPVy1rl8EZ8NqOkBvDe6fa2Cze4Gwivl6rtFLqIck/MC
+         HqcWBvtl3yg+Q==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltP1e-004kJO-OO; Wed, 16 Jun 2021 08:27:46 +0200
+        id 1ltP1e-004kJ4-Ex; Wed, 16 Jun 2021 08:27:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 17/29] docs: firmware-guide: acpi: avoid using ReST :doc:`foo` markup
-Date:   Wed, 16 Jun 2021 08:27:32 +0200
-Message-Id: <7162043c18f1ea96c446b332400e44e8087ba142.1623824363.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 12/29] docs: doc-guide: avoid using ReST :doc:`foo` markup
+Date:   Wed, 16 Jun 2021 08:27:27 +0200
+Message-Id: <d6cbe5183406e3378ed4bd0f84f4bcf85a15009c.1623824363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623824363.git.mchehab+huawei@kernel.org>
 References: <cover.1623824363.git.mchehab+huawei@kernel.org>
@@ -62,60 +57,28 @@ So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../firmware-guide/acpi/dsd/data-node-references.rst       | 3 ++-
- Documentation/firmware-guide/acpi/dsd/graph.rst            | 2 +-
- Documentation/firmware-guide/acpi/enumeration.rst          | 7 ++++---
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ Documentation/doc-guide/contributing.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/firmware-guide/acpi/dsd/data-node-references.rst b/Documentation/firmware-guide/acpi/dsd/data-node-references.rst
-index 9b17dc77d18c..b7ad47df49de 100644
---- a/Documentation/firmware-guide/acpi/dsd/data-node-references.rst
-+++ b/Documentation/firmware-guide/acpi/dsd/data-node-references.rst
-@@ -79,7 +79,8 @@ the ANOD object which is also the final target node of the reference.
- 	    })
- 	}
+diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
+index 67ee3691f91f..207fd93d7c80 100644
+--- a/Documentation/doc-guide/contributing.rst
++++ b/Documentation/doc-guide/contributing.rst
+@@ -237,10 +237,10 @@ We have been trying to improve the situation through the creation of
+ a set of "books" that group documentation for specific readers.  These
+ include:
  
--Please also see a graph example in :doc:`graph`.
-+Please also see a graph example in
-+Documentation/firmware-guide/acpi/dsd/graph.rst.
+- - :doc:`../admin-guide/index`
+- - :doc:`../core-api/index`
+- - :doc:`../driver-api/index`
+- - :doc:`../userspace-api/index`
++ - Documentation/admin-guide/index.rst
++ - Documentation/core-api/index.rst
++ - Documentation/driver-api/index.rst
++ - Documentation/userspace-api/index.rst
  
- References
- ==========
-diff --git a/Documentation/firmware-guide/acpi/dsd/graph.rst b/Documentation/firmware-guide/acpi/dsd/graph.rst
-index 7072db801aeb..4341299aa937 100644
---- a/Documentation/firmware-guide/acpi/dsd/graph.rst
-+++ b/Documentation/firmware-guide/acpi/dsd/graph.rst
-@@ -174,4 +174,4 @@ References
-     referenced 2016-10-04.
+ As well as this book on documentation itself.
  
- [7] _DSD Device Properties Usage Rules.
--    :doc:`../DSD-properties-rules`
-+    Documentation/firmware-guide/acpi/DSD-properties-rules.rst
-diff --git a/Documentation/firmware-guide/acpi/enumeration.rst b/Documentation/firmware-guide/acpi/enumeration.rst
-index 9f0d5c854fa4..18074eb71860 100644
---- a/Documentation/firmware-guide/acpi/enumeration.rst
-+++ b/Documentation/firmware-guide/acpi/enumeration.rst
-@@ -339,8 +339,8 @@ a code like this::
- There are also devm_* versions of these functions which release the
- descriptors once the device is released.
- 
--See Documentation/firmware-guide/acpi/gpio-properties.rst for more information about the
--_DSD binding related to GPIOs.
-+See Documentation/firmware-guide/acpi/gpio-properties.rst for more information
-+about the _DSD binding related to GPIOs.
- 
- MFD devices
- ===========
-@@ -460,7 +460,8 @@ the _DSD of the device object itself or the _DSD of its ancestor in the
- Otherwise, the _DSD itself is regarded as invalid and therefore the "compatible"
- property returned by it is meaningless.
- 
--Refer to :doc:`DSD-properties-rules` for more information.
-+Refer to Documentation/firmware-guide/acpi/DSD-properties-rules.rst for more
-+information.
- 
- PCI hierarchy representation
- ============================
 -- 
 2.31.1
 
