@@ -2,60 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79BB2C48BE8
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF09AC48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67BB1613C2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEA59613B9
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231774AbhFPG5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:57:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34578 "EHLO mail.kernel.org"
+        id S231971AbhFPG5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:57:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34602 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231168AbhFPG5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231309AbhFPG5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 16 Jun 2021 02:57:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E86AE613B9;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0211F613BF;
         Wed, 16 Jun 2021 06:55:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623826518;
-        bh=JNLoEzRSUmckl8eLY94oHxsjeBDCiLlJ5aZAc+3RHhw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=bIRjmcsZh0nDrGHZVv9Hdcp/Q7V4uZte3M33hb9qtbnnI2Do02YGKEM+D6wRBXJX8
-         fXP7U8eEtlIoGGBRfcltvRJKfVLv6QfEzHWXg0RqgPTC/cqVmoVPlD3eInloJymMLC
-         YFImERmycprD4hLIQfwK4FMud3KE6g98aGIK3QdPZWSv6z/ri/7N3dR5lTH3MJ8aUe
-         Bp3u9e2L/j8FbtxvpC2tQVJI5GuWTuVepuuIxKMIBQ2anYz1TSwnwP/6dC4Hclk/V0
-         JEx814LnbdMa7n/p9vSS8FAmzoK9B1aSqdGnO1eWFyBdMyWaXbzC4IY2JvfPF0KgqH
-         Uy3+bF3abccxA==
+        bh=D3zFdOFBQ734SZ45tSNdikND8nbKTg1RO1R/H4WwiHU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=OBfnEgSxtkmwNya+3LUHb17ShvI2y8dtsXZFtx/MMb7eh6LbpebsKQrp0j2DKelt/
+         mMvLNdkLEVFIp9aHeLGDo3QRooR4WohZ9TrOdJup2Uvu1fchx8N4gLdf4pNLhC4AJ+
+         uf59DHUwa5RLqIhkxqnaqHjXdi4GsYjjjBEnhCbsfEWu3Bhz4LCElYQ7stILgPfela
+         O5uYSOQ6/IetOjf+o+mAIU9Uqb/BYypRS4mkKQ/wWqz8t1Tsjt58B/nNieltei812Q
+         AGE/oUnDdYHLju0gbYdUHEsU58vTN760cD45RpgCRYCPaXw6NtKF8mGLxKfV1ZUOgh
+         tdTiXxid6JgaQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltPSG-004lCD-7Q; Wed, 16 Jun 2021 08:55:16 +0200
+        id 1ltPSG-004lCJ-9Y; Wed, 16 Jun 2021 08:55:16 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jakub Kicinski <kuba@kernel.org>, Leo Yan <leo.yan@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
         Mike Leach <mike.leach@linaro.org>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        coresight@lists.linaro.org, intel-wired-lan@lists.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-ext4@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 0/8] Replace some bad characters on documents
-Date:   Wed, 16 Jun 2021 08:55:06 +0200
-Message-Id: <cover.1623826294.git.mchehab+huawei@kernel.org>
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/8] docs: trace: coresight: coresight-etm4x-reference.rst: replace some characters
+Date:   Wed, 16 Jun 2021 08:55:08 +0200
+Message-Id: <b6a04e881bc80a3c1d3d23ccbc8208ca3c9053fd.1623826294.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1623826294.git.mchehab+huawei@kernel.org>
+References: <cover.1623826294.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,40 +58,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
+conversion and some cut-and-pasted text contain some characters that
+aren't easily reachable on standard keyboards and/or could cause
+troubles when parsed by the documentation build system.
 
-This series contain the remaining 8 patches I submitted at v3 that
-weren't merged yet at -next.
+Replace the occurences of the following characters:
 
-This series is rebased on the top of your docs-next branch.
+	- U+00a0 (' '): NO-BREAK SPACE
+	  as it can cause lines being truncated on PDF output
 
-No changes here, except by some Reviewed/ack lines, and at the
-name of the final patch (per PCI maintainer's request).
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/trace/coresight/coresight-etm4x-reference.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Mauro Carvalho Chehab (8):
-  docs: admin-guide: reporting-issues.rst: replace some characters
-  docs: trace: coresight: coresight-etm4x-reference.rst: replace some
-    characters
-  docs: driver-api: ioctl.rst: replace some characters
-  docs: usb: replace some characters
-  docs: vm: zswap.rst: replace some characters
-  docs: filesystems: ext4: blockgroup.rst: replace some characters
-  docs: networking: device_drivers: replace some characters
-  docs: PCI: Replace non-breaking spaces to avoid PDF issues
-
- Documentation/PCI/acpi-info.rst                | 18 +++++++++---------
- Documentation/admin-guide/reporting-issues.rst |  2 +-
- Documentation/driver-api/ioctl.rst             |  8 ++++----
- Documentation/filesystems/ext4/blockgroup.rst  |  2 +-
- .../device_drivers/ethernet/intel/i40e.rst     |  6 +++---
- .../device_drivers/ethernet/intel/iavf.rst     |  2 +-
- .../coresight/coresight-etm4x-reference.rst    |  2 +-
- Documentation/usb/ehci.rst                     |  2 +-
- Documentation/usb/gadget_printer.rst           |  2 +-
- Documentation/vm/zswap.rst                     |  4 ++--
- 10 files changed, 24 insertions(+), 24 deletions(-)
-
+diff --git a/Documentation/trace/coresight/coresight-etm4x-reference.rst b/Documentation/trace/coresight/coresight-etm4x-reference.rst
+index b64d9a9c79df..d25dfe86af9b 100644
+--- a/Documentation/trace/coresight/coresight-etm4x-reference.rst
++++ b/Documentation/trace/coresight/coresight-etm4x-reference.rst
+@@ -427,7 +427,7 @@ the ‘TRC’ prefix.
+ :Syntax:
+     ``echo idx > vmid_idx``
+ 
+-    Where idx <  numvmidc
++    Where idx <  numvmidc
+ 
+ ----
+ 
 -- 
 2.31.1
-
 
