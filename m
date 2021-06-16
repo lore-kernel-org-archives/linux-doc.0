@@ -2,88 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A5C8C48BE6
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 17:32:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 077ACC48BE6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 18:21:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 378B760FE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 17:32:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD93960C41
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 18:21:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230393AbhFPRfE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 13:35:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38374 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbhFPRfC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 13:35:02 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D82E5C061574
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 10:32:50 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 102-20020a9d0eef0000b02903fccc5b733fso3293316otj.4
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 10:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=q4gumIsyYAtBcDgBeiPSNtfPvFXvXc8mQGPj94mk7tU=;
-        b=0/gByeCCO+jtXT10f358SOv5CX5VuTpPTBsWh15TdpdH0EE81yE6LKrzfDHqsQ31F8
-         8Ob01KNdVt+lfSVo4nxcsYFLS6pUMbxntpBCXeA8bpdkhIp5cLJUD/RMwbCGAQxF0S4r
-         PJMlL6XrLaBSt42KfMHRD/GEctTRbB7jhZPXRvqDB/uiyVRuLjyGP7ZTfzAl+/WwhPlr
-         6x4K6G3tLrXQitckLUrzCMz3DyDi969BG2OHS0T0228CY3yEYX+s8cJWd85mbH7ZFA24
-         wwtRvg0KMv4U8qg1mtfBjpEb7WryqWrVQJiRWk6BwOEO0i8rwY8VOaqnrBar84A7Kano
-         /Rqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=q4gumIsyYAtBcDgBeiPSNtfPvFXvXc8mQGPj94mk7tU=;
-        b=VtbzM9iVT7lBgkMTffztwlQSDZOfgzjh1Qei6V3GlF9hpwLs+2kiYvCwR8cvUQvXM/
-         5alE+IBpz/jRrRhA9/qbdicsbdvIVPB6icKgwj3GrWHjn9XcNf1sctuaV69nxYaIwgoC
-         94+j+SG5yozYuTUu/a4h1Kj9RUh5a5l+gdNlI7F4E5YNErhNozkiXoZG4XBLY6R3VCf/
-         3inOXdLwynhb9rGQZOACJjOAFs0Lw6zxIi/COHYu36Vm0ybsRDMW9P1x3lxggU+0sQ1N
-         6lDkWIRhRpo2AHG3sJHCj2A42t66NkONsvMMO8yqXVky5eGAujEZkRvIZ+sc8eawHUSD
-         xi9w==
-X-Gm-Message-State: AOAM5335RusBvnCrAiuaVDWgpADJe1jILGHkcdbTTqIFWV+Pg98EPdhf
-        5EyreM3HjPdXaqZDENR2w0rnfQ==
-X-Google-Smtp-Source: ABdhPJwT3egGMHgPimidPdpu6xRLpuEcZUz6jCESt+aYA71rNUIpwBGV1tEHoan34PYS0dkH4sEB4g==
-X-Received: by 2002:a9d:7acc:: with SMTP id m12mr911229otn.27.1623864770076;
-        Wed, 16 Jun 2021 10:32:50 -0700 (PDT)
-Received: from [192.168.1.30] ([207.135.233.147])
-        by smtp.gmail.com with ESMTPSA id 26sm627828ooy.46.2021.06.16.10.32.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Jun 2021 10:32:49 -0700 (PDT)
-Subject: Re: [PATCH 0/3] add/update/fix BFQ docs
-To:     Kir Kolyshkin <kolyshkin@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, tj@kernel.org,
-        paolo.valente@linaro.org, cgroups@vger.kernel.org
-References: <20210611030737.1984343-1-kolyshkin@gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <40174fe2-ef72-99bd-2c75-5f00641f064b@kernel.dk>
-Date:   Wed, 16 Jun 2021 11:32:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S231710AbhFPSXy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 14:23:54 -0400
+Received: from mga06.intel.com ([134.134.136.31]:3914 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231613AbhFPSXy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 14:23:54 -0400
+IronPort-SDR: CveIIHcCkEQJVX2ITtxgZjyCDeCp7fGJHaqucpfiwXDZlepVjkYn5HrIs97zVLVSYYCFnF80re
+ zKg0hOZFzZ/w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="267381688"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; 
+   d="scan'208";a="267381688"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2021 11:21:44 -0700
+IronPort-SDR: TAXASZ2wg6GqcmMAMM6k+m6GCy2E/zxTT94IQJ1jJxrBOBT+m/pykiLwDUCEdctXbMFkdMS20j
+ nzhCXc9r+fZg==
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; 
+   d="scan'208";a="554902820"
+Received: from smtp.ostc.intel.com ([10.54.29.231])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2021 11:21:44 -0700
+Received: from mtg-dev.jf.intel.com (mtg-dev.jf.intel.com [10.54.74.10])
+        by smtp.ostc.intel.com (Postfix) with ESMTP id 15DC1636F;
+        Wed, 16 Jun 2021 11:21:44 -0700 (PDT)
+Received: by mtg-dev.jf.intel.com (Postfix, from userid 1000)
+        id 0C92336133F; Wed, 16 Jun 2021 11:21:28 -0700 (PDT)
+Date:   Wed, 16 Jun 2021 11:21:28 -0700
+From:   mark gross <mgross@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Mark Gross <mgross@linux.intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 04/29] docs: admin-guide: hw-vuln: avoid using ReST
+ :doc:`foo` markup
+Message-ID: <20210616182128.GJ70758@linux.intel.com>
+Reply-To: mgross@linux.intel.com
+References: <cover.1623824363.git.mchehab+huawei@kernel.org>
+ <4e378517761f3df07165d5ecdac5a0a81577e68f.1623824363.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210611030737.1984343-1-kolyshkin@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4e378517761f3df07165d5ecdac5a0a81577e68f.1623824363.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/10/21 9:07 PM, Kir Kolyshkin wrote:
-> Improve BFQ docs: fix formatting, adding a missing piece.
+On Wed, Jun 16, 2021 at 08:27:19AM +0200, Mauro Carvalho Chehab wrote:
+> The :doc:`foo` tag is auto-generated via automarkup.py.
+and that is not good why?
+
+> So, use the filename at the sources, instead of :doc:`foo`.
 > 
-> Fix cgroup v1 blkio docs which are not updated for CFQ -> BFQ.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../hw-vuln/special-register-buffer-data-sampling.rst          | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Patches are on top of the latest docs-next (commit acda97acb2e98c97895).
+> diff --git a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> index 3b1ce68d2456..966c9b3296ea 100644
+> --- a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> +++ b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> @@ -3,7 +3,8 @@
+>  SRBDS - Special Register Buffer Data Sampling
+>  =============================================
+>  
+> -SRBDS is a hardware vulnerability that allows MDS :doc:`mds` techniques to
+I thought the point of :doc:`mds` was to insert a tag or link to the mds
+document.
 
-Applied, thanks.
+> +SRBDS is a hardware vulnerability that allows MDS
+> +Documentation/admin-guide/hw-vuln/mds.rst techniques to
+will this make a hyper-link in generated HTML docs?
 
--- 
-Jens Axboe
+FWIW I'm ok with this change either way.  I just wanted to understand a little
+better.
 
+--mark
+
+>  infer values returned from special register accesses.  Special register
+>  accesses are accesses to off core registers.  According to Intel's evaluation,
+>  the special register reads that have a security expectation of privacy are
+> -- 
+> 2.31.1
+> 
