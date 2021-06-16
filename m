@@ -4,44 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6022CC48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9147CC49EA2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 481C4613D3
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80499613D9
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231689AbhFPG3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:29:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59678 "EHLO mail.kernel.org"
+        id S231549AbhFPG3y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:29:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59584 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231344AbhFPG3x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231281AbhFPG3x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 16 Jun 2021 02:29:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C9F20613C7;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B31C7613C2;
         Wed, 16 Jun 2021 06:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623824867;
-        bh=pxoSN73zJJuQ6vHiSkCfEyamr8hKl0m3ki99xeowtwM=;
+        bh=0D3LAev4kCUmKrz9qs1KQpeWtZ5Y0DsGWhPtBA+LVLw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iPrOblHFJDouRXw3IswyMdr5upPLM87BWy8oSKi28EmvMzIZDBDl4UQbLiv1Tq3Cs
-         fvN+pCTlN6aj4T6EGBPXRWb49OeCamhUm+YbzDsJzecv6z7/scwl64b/CZys7n/kd0
-         NKsyj7gd+W+6nH2BgfNO947U/t0ByL6cgp7OLrUosnZ+aA7qp9n+Mkr0Av9QWgNroP
-         leYdpwhZg6/A+8GWHt41axASpBEFYIInczwiCmwMnzrmGZwlNqXtStn0OVcBCIRX7C
-         aisMwFWL4bHt3vWSi3jl62GsiW49A1LYTAgF2tbGMSdxdszCmDz7boipXmdQaC+nAI
-         ZglixR3uw9bXQ==
+        b=GCSQlGVpcBqwzrTv4ajvjMbv0G996eSfe3WXBDL+kcDHLtXeln2q0Si4IqIN5tuV6
+         jlxVQk/vIgkgSkxALeq1ERqT1ZCCvKfXZrINMC+OIUsna8+1wRPAO9VyTwWjzx0ERt
+         nq5Ctb/rqheNRa2sKp1tD4SUofXIEvAG5WfJ+NERsyeGik9dnoimc61pn/o62uUDpu
+         OtWUSFzgVNVgzHS2noRhDv8BPY7l5QRoPJ4LOyrYwxfVfb0X0JzxtBmu33LqeFUSgt
+         jnUO+bDhXD19Ma0FjDom/kZN9m047iHu3rKO1N+Udb4q1kYstHBxoQQy+wAyrKzexq
+         nN8Kku8ItRqdQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltP1e-004kIg-4I; Wed, 16 Jun 2021 08:27:46 +0200
+        id 1ltP1d-004kIP-Ul; Wed, 16 Jun 2021 08:27:45 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/29] docs: block: biodoc.rst: avoid using ReST :doc:`foo` markup
-Date:   Wed, 16 Jun 2021 08:27:21 +0200
-Message-Id: <1d26256b305e02da82a6a990910a5b5fb9a0355e.1623824363.git.mchehab+huawei@kernel.org>
+        Brendan Higgins <brendanhiggins@google.com>,
+        David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 02/29] docs: dev-tools: kunit: don't use a table for docs name
+Date:   Wed, 16 Jun 2021 08:27:17 +0200
+Message-Id: <07d3a8ccafbb6345d6e78fb090290859e84361a1.1623824363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623824363.git.mchehab+huawei@kernel.org>
 References: <cover.1623824363.git.mchehab+huawei@kernel.org>
@@ -52,27 +54,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The :doc:`foo` tag is auto-generated via automarkup.py.
-So, use the filename at the sources, instead of :doc:`foo`.
+We'll be replacing :doc:`foo` references to
+Documentation/foo.rst. Yet, here it happens inside a table.
+Doing a search-and-replace would break it.
 
+Yet, as there's no good reason to use a table there,
+let's just convert it into a list.
+
+Reviewed-by: David Gow <davidgow@google.com>
+Acked-by: Brendan Higgins <brendanhiggins@google.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/block/biodoc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/dev-tools/kunit/api/index.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
-index 1d4d71e391af..2098477851a4 100644
---- a/Documentation/block/biodoc.rst
-+++ b/Documentation/block/biodoc.rst
-@@ -196,7 +196,7 @@ a virtual address mapping (unlike the earlier scheme of virtual address
- do not have a corresponding kernel virtual address space mapping) and
- low-memory pages.
+diff --git a/Documentation/dev-tools/kunit/api/index.rst b/Documentation/dev-tools/kunit/api/index.rst
+index 9b9bffe5d41a..b33ad72bcf0b 100644
+--- a/Documentation/dev-tools/kunit/api/index.rst
++++ b/Documentation/dev-tools/kunit/api/index.rst
+@@ -10,7 +10,7 @@ API Reference
+ This section documents the KUnit kernel testing API. It is divided into the
+ following sections:
  
--Note: Please refer to :doc:`/core-api/dma-api-howto` for a discussion
-+Note: Please refer to Documentation/core-api/dma-api-howto.rst for a discussion
- on PCI high mem DMA aspects and mapping of scatter gather lists, and support
- for 64 bit PCI.
- 
+-================================= ==============================================
+-:doc:`test`                       documents all of the standard testing API
+-                                  excluding mocking or mocking related features.
+-================================= ==============================================
++Documentation/dev-tools/kunit/api/test.rst
++
++ - documents all of the standard testing API excluding mocking
++   or mocking related features.
 -- 
 2.31.1
 
