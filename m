@@ -7,43 +7,42 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12225C48BE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04385C49EA4
 	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F29DE61164
+	by mail.kernel.org (Postfix) with ESMTP id E2E7461246
 	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232072AbhFPG5c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:57:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34682 "EHLO mail.kernel.org"
+        id S232057AbhFPG5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:57:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34686 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231446AbhFPG5Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231620AbhFPG5Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 16 Jun 2021 02:57:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E578613DE;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 42F47613E9;
         Wed, 16 Jun 2021 06:55:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623826518;
-        bh=s1c6FRQrk3Zywp//EKJchxvYSWvmD48lKnYMpgt+0B0=;
+        bh=97U96sWHfpw5buBpfC2VHMECZ3YW56BbYE8wINfNMTc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UvJ0UsIDm8NsC5fHn/n7D7kzyZmXKWDP6mnNDgv7+E656EUh8hNrwVGmlVhN1CuLo
-         HaV4V4LbOnI+DHqywGEBa4bi8pIYfgZ7YYzNfAZ/QVfKNQDWelXlEg2h/hHH/zwZLQ
-         601buLAPbqXa1YzaiEewaZxka/bdnQvt6Yty/PSOjn8bIEFdabT8OLDuBA3rWte92G
-         /0BaQsQpchOoyyvgc2He/hpS2PTu+StoleS9Vr90+m6boWvFuI+BMosjXehWTZz5/O
-         fGjYGTEC/r3bbwWfKBCl0wiZBH3nKJ1x3zBrRBu1ddXiYSxH3Uw3jZfj+164pgSSY9
-         SEpDbGeL+kqWw==
+        b=fJnphnkWoFyzhlV7/4xjXR9kAyXdXWghQKAqnwIV/NEAKYrW8w387L/nbOOj3Rbjx
+         ohWXd1avPhrhkkfEUL075Y7+wRuMqp4+QZ/05vqbgV68wEnAwr4HcBio7jJTc779xz
+         fE5koBtP+QuGs2l5XZKzeTba0bFJyCdYTD8REC2zDMJEqGl9/+5MhTiTpi6zpDlPFm
+         WFu43nPfmBedqU2MZahpi6HNnOaurP66wqL2HMd5a+VrdLTLCZZa5/9R6gM+VS1njt
+         fUh5AK0ybc8HtTVJk/L+qmfB4/Wszh/awfxaPAKbXd/Aaa2b7oTJORm9mUl0D/QBps
+         i/9NxLCSm7syw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltPSG-004lCa-Fs; Wed, 16 Jun 2021 08:55:16 +0200
+        id 1ltPSG-004lCj-JY; Wed, 16 Jun 2021 08:55:16 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/8] docs: filesystems: ext4: blockgroup.rst: replace some characters
-Date:   Wed, 16 Jun 2021 08:55:12 +0200
-Message-Id: <c5c3c384c48779ca7c9dcd90183cefe20ac82928.1623826294.git.mchehab+huawei@kernel.org>
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: [PATCH 8/8] docs: PCI: Replace non-breaking spaces to avoid PDF issues
+Date:   Wed, 16 Jun 2021 08:55:14 +0200
+Message-Id: <8036126a59adb720dbc9233341ad5a08531cf73f.1623826294.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623826294.git.mchehab+huawei@kernel.org>
 References: <cover.1623826294.git.mchehab+huawei@kernel.org>
@@ -62,27 +61,72 @@ troubles when parsed by the documentation build system.
 
 Replace the occurences of the following characters:
 
-	- U+2217 ('∗'): ASTERISK OPERATOR
-	  use ASCII asterisk instead of the ASTERISK OPERATOR
+	- U+00a0 (' '): NO-BREAK SPACE
+	  as it can cause lines being truncated on PDF output
 
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/ext4/blockgroup.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/PCI/acpi-info.rst | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
-index 3da156633339..d5d652addce5 100644
---- a/Documentation/filesystems/ext4/blockgroup.rst
-+++ b/Documentation/filesystems/ext4/blockgroup.rst
-@@ -84,7 +84,7 @@ Without the option META\_BG, for safety concerns, all block group
- descriptors copies are kept in the first block group. Given the default
- 128MiB(2^27 bytes) block group size and 64-byte group descriptors, ext4
- can have at most 2^27/64 = 2^21 block groups. This limits the entire
--filesystem size to 2^21 ∗ 2^27 = 2^48bytes or 256TiB.
-+filesystem size to 2^21 * 2^27 = 2^48bytes or 256TiB.
+diff --git a/Documentation/PCI/acpi-info.rst b/Documentation/PCI/acpi-info.rst
+index 060217081c79..34c64a5a66ec 100644
+--- a/Documentation/PCI/acpi-info.rst
++++ b/Documentation/PCI/acpi-info.rst
+@@ -22,9 +22,9 @@ or if the device has INTx interrupts connected by platform interrupt
+ controllers and a _PRT is needed to describe those connections.
  
- The solution to this problem is to use the metablock group feature
- (META\_BG), which is already in ext3 for all 2.6 releases. With the
+ ACPI resource description is done via _CRS objects of devices in the ACPI
+-namespace [2].   The _CRS is like a generalized PCI BAR: the OS can read
++namespace [2].   The _CRS is like a generalized PCI BAR: the OS can read
+ _CRS and figure out what resource is being consumed even if it doesn't have
+-a driver for the device [3].  That's important because it means an old OS
++a driver for the device [3].  That's important because it means an old OS
+ can work correctly even on a system with new devices unknown to the OS.
+ The new devices might not do anything, but the OS can at least make sure no
+ resources conflict with them.
+@@ -41,15 +41,15 @@ ACPI, that device will have a specific _HID/_CID that tells the OS what
+ driver to bind to it, and the _CRS tells the OS and the driver where the
+ device's registers are.
+ 
+-PCI host bridges are PNP0A03 or PNP0A08 devices.  Their _CRS should
+-describe all the address space they consume.  This includes all the windows
++PCI host bridges are PNP0A03 or PNP0A08 devices.  Their _CRS should
++describe all the address space they consume.  This includes all the windows
+ they forward down to the PCI bus, as well as registers of the host bridge
+-itself that are not forwarded to PCI.  The host bridge registers include
++itself that are not forwarded to PCI.  The host bridge registers include
+ things like secondary/subordinate bus registers that determine the bus
+ range below the bridge, window registers that describe the apertures, etc.
+ These are all device-specific, non-architected things, so the only way a
+ PNP0A03/PNP0A08 driver can manage them is via _PRS/_CRS/_SRS, which contain
+-the device-specific details.  The host bridge registers also include ECAM
++the device-specific details.  The host bridge registers also include ECAM
+ space, since it is consumed by the host bridge.
+ 
+ ACPI defines a Consumer/Producer bit to distinguish the bridge registers
+@@ -66,7 +66,7 @@ the PNP0A03/PNP0A08 device itself.  The workaround was to describe the
+ bridge registers (including ECAM space) in PNP0C02 catch-all devices [6].
+ With the exception of ECAM, the bridge register space is device-specific
+ anyway, so the generic PNP0A03/PNP0A08 driver (pci_root.c) has no need to
+-know about it.  
++know about it.  
+ 
+ New architectures should be able to use "Consumer" Extended Address Space
+ descriptors in the PNP0A03 device for bridge registers, including ECAM,
+@@ -75,9 +75,9 @@ ia64 kernels assume all address space descriptors, including "Consumer"
+ Extended Address Space ones, are windows, so it would not be safe to
+ describe bridge registers this way on those architectures.
+ 
+-PNP0C02 "motherboard" devices are basically a catch-all.  There's no
++PNP0C02 "motherboard" devices are basically a catch-all.  There's no
+ programming model for them other than "don't use these resources for
+-anything else."  So a PNP0C02 _CRS should claim any address space that is
++anything else."  So a PNP0C02 _CRS should claim any address space that is
+ (1) not claimed by _CRS under any other device object in the ACPI namespace
+ and (2) should not be assigned by the OS to something else.
+ 
 -- 
 2.31.1
 
