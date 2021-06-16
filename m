@@ -2,98 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 077ACC48BE6
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 18:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8322C48BE8
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 18:48:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD93960C41
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 18:21:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92974613B4
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 18:48:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231710AbhFPSXy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 14:23:54 -0400
-Received: from mga06.intel.com ([134.134.136.31]:3914 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231613AbhFPSXy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 14:23:54 -0400
-IronPort-SDR: CveIIHcCkEQJVX2ITtxgZjyCDeCp7fGJHaqucpfiwXDZlepVjkYn5HrIs97zVLVSYYCFnF80re
- zKg0hOZFzZ/w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="267381688"
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; 
-   d="scan'208";a="267381688"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2021 11:21:44 -0700
-IronPort-SDR: TAXASZ2wg6GqcmMAMM6k+m6GCy2E/zxTT94IQJ1jJxrBOBT+m/pykiLwDUCEdctXbMFkdMS20j
- nzhCXc9r+fZg==
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; 
-   d="scan'208";a="554902820"
-Received: from smtp.ostc.intel.com ([10.54.29.231])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2021 11:21:44 -0700
-Received: from mtg-dev.jf.intel.com (mtg-dev.jf.intel.com [10.54.74.10])
-        by smtp.ostc.intel.com (Postfix) with ESMTP id 15DC1636F;
-        Wed, 16 Jun 2021 11:21:44 -0700 (PDT)
-Received: by mtg-dev.jf.intel.com (Postfix, from userid 1000)
-        id 0C92336133F; Wed, 16 Jun 2021 11:21:28 -0700 (PDT)
-Date:   Wed, 16 Jun 2021 11:21:28 -0700
-From:   mark gross <mgross@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        id S232023AbhFPSuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 14:50:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:38211 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231942AbhFPSuT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 14:50:19 -0400
+Received: from [192.168.1.155] ([95.115.35.150]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MxV8b-1l5MSc34zR-00xpsk; Wed, 16 Jun 2021 20:47:19 +0200
+Subject: banned on virtio list ? [Re: [PATCH] drivers: gpio: add virtio-gpio
+ guest driver]
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Mark Gross <mgross@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 04/29] docs: admin-guide: hw-vuln: avoid using ReST
- :doc:`foo` markup
-Message-ID: <20210616182128.GJ70758@linux.intel.com>
-Reply-To: mgross@linux.intel.com
-References: <cover.1623824363.git.mchehab+huawei@kernel.org>
- <4e378517761f3df07165d5ecdac5a0a81577e68f.1623824363.git.mchehab+huawei@kernel.org>
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        virtio-dev@lists.oasis-open.org
+References: <20210615174911.973-1-info@metux.net>
+ <CACRpkdbwLOOT6nuhpkT5x-AZVipsD2qG8Qu4xoiRotHQNknwzw@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <c4b3b9b1-7665-c4a1-8a53-33f9481d7488@metux.net>
+Date:   Wed, 16 Jun 2021 20:47:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4e378517761f3df07165d5ecdac5a0a81577e68f.1623824363.git.mchehab+huawei@kernel.org>
+In-Reply-To: <CACRpkdbwLOOT6nuhpkT5x-AZVipsD2qG8Qu4xoiRotHQNknwzw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:4yTTdnazCcdy51jXTnobM/EDbzQ0FTisHwufr8IqLM8oiF1UqT1
+ I1TntUBxemNc/sD5f/b1HKBIqzscRv/b/XtX1jBxPSmWG4fQJGIQd++zbEqrCIU+W8nriUP
+ PVYNGmrtm2dFlN5quMrwoPh20SrEZhrBrPvQYGyO3I2XeuWYgdYOL7CwFJQdn6mfo2LERrf
+ oJ1aeZd1sVqkIHjG8dKnA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+Qp8Up1RRuQ=:e91Fbxp/OzeC2u2BBR/OlC
+ YHafT4/nqGJuwNL4mTZ3zSuDXkbn8f2oztj2aWuu/LNfIdcKvUCtT1yArgaSDo7ik6XVn64Bi
+ 561L0jHopMWNoOmYRLCiKmcN2ALhXiUSkihQ+X2+zg8iOpKGP0L4us4z+TtDKo3hJexYANPYR
+ /YxXqzX8UCwzyaUkcGgNsBgJbDEMsYitzPfs+aQtFzPsThsv+GYNm81WVd9993CXXzzYl5YbX
+ 0nFwiuRuaPSIJbIHMVpx5vypmA9mqO6meBz1tVccg/yr12Pwhc+Xhhqjn5x2RkvsMnDmjU5p2
+ XKllbyTrWtEu46bi1WFox1t56cfviIQQFx8ILvctOejlR4erh7hz4bHpdGpd/iPmxEavLx38A
+ q7zm+7az6RBtnvTWrU5HSZ3G8/2o/fyEGHMKYDlnUoIbKR0my508CY+qMONznmIYk3YE/NmGu
+ P9qlELNWL098mu7UhUSiMNn+FspntTOadZCiRvYLKEKOR2fKPji6llyibHMG2rlRVzQV+I4Xf
+ 7Il+76VvJlCT+kYeyvxSvU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 08:27:19AM +0200, Mauro Carvalho Chehab wrote:
-> The :doc:`foo` tag is auto-generated via automarkup.py.
-and that is not good why?
+On 16.06.21 10:31, Linus Walleij wrote:
 
-> So, use the filename at the sources, instead of :doc:`foo`.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../hw-vuln/special-register-buffer-data-sampling.rst          | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
-> index 3b1ce68d2456..966c9b3296ea 100644
-> --- a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
-> +++ b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
-> @@ -3,7 +3,8 @@
->  SRBDS - Special Register Buffer Data Sampling
->  =============================================
->  
-> -SRBDS is a hardware vulnerability that allows MDS :doc:`mds` techniques to
-I thought the point of :doc:`mds` was to insert a tag or link to the mds
-document.
+Hi folks,
 
-> +SRBDS is a hardware vulnerability that allows MDS
-> +Documentation/admin-guide/hw-vuln/mds.rst techniques to
-will this make a hyper-link in generated HTML docs?
 
-FWIW I'm ok with this change either way.  I just wanted to understand a little
-better.
+<snip>
 
---mark
+interesting: trying to post my tex'fied spec to virtio-dev and
+virtio-comment quite some time now, but always being blocked. What's 
+going on there ?
 
->  infer values returned from special register accesses.  Special register
->  accesses are accesses to off core registers.  According to Intel's evaluation,
->  the special register reads that have a security expectation of privacy are
-> -- 
-> 2.31.1
-> 
+
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
