@@ -7,42 +7,46 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D06BAC49EB7
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50937C49EBB
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BABC1610A3
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 351D9613C7
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232002AbhFPGaN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S232013AbhFPGaN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 16 Jun 2021 02:30:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59934 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:59950 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231668AbhFPG3y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 02:29:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9BF9661407;
+        id S231684AbhFPG34 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 02:29:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CF82061425;
         Wed, 16 Jun 2021 06:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623824868;
-        bh=7MNCqS85WVptZyVwk3d3+gKYM21WbnTb9lCPgJ99vFk=;
+        bh=GdHij+4MhRdAQ3UxmWv39I/XErTMzkdqM/g/Ig89fRg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SNY0CxWBJ00fEby9PA8XQQNfmQ0G7QwKkAxXC1bY9wqFjeJl+KZDw4MAYZV+xVAMa
-         bAy/LeRiw5KveHxgdeZIbL7Ah1MzwuPuyJ5R+cuQKH2ySjPT9ix7fa1I9VCRNJzKff
-         LzeRDSk/vwqBmXlYpODdKBkjPRtGlp6qY/9aYCX49LTikHZI/2k4GdgJFTf5YKu47F
-         tYkcwq5IWEB2wEoBVAXeXdV/+UyuidZu8Ue6wEd7qjGJ80c2jn/ALKJOqZltMTsDin
-         sFnvrT+5iv3k+Zmf6DfQANamYWeQwDZWYzk6f7HYAgodJJrC9gLZx7w6HfEvjsV1jf
-         joXHby27TDmJw==
+        b=oE2L7YyI3YvPvfCBtWXbxedAURxyAqJy2BVk5TGKKWbqgDDOklYEuAjxzL1I3qW/k
+         ob9vIyoa3S1OFB7DBnGkw9Zq89WZEP5E8LLPh97uBXwF810IHwKKCVhIfjb7Ni7UFd
+         KfulY8CUtrnprhDqhuIr2uqIU24MltIfaYzDlPXPyPKttB+YmlvIGF2Pm3U0m0LRTs
+         1GNbiVHLnrNvnCcMU0JS5tzYxmoAcHS54XevQWHK+LObGy2QEGCdxWZef3n7fyW7BC
+         6mKh1DrboqE70EU92VUI+NbZYaEC2yP4nUPv3X6LsoN9jRtM6OKSI9k2TLjRTuBvVq
+         9yCOjEB9exg4g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltP1e-004kJW-RV; Wed, 16 Jun 2021 08:27:46 +0200
+        id 1ltP1f-004kJu-4Y; Wed, 16 Jun 2021 08:27:47 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Joe Pater <02joepater06@gmail.com>,
+        Leo Yan <leo.yan@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mike Leach <mike.leach@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 19/29] docs: kernel-hacking: hacking.rst: avoid using ReST :doc:`foo` markup
-Date:   Wed, 16 Jun 2021 08:27:34 +0200
-Message-Id: <9537b74d897fab13552535d79337060a3b241b8c.1623824363.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 25/29] docs: trace: coresight: coresight.rst: avoid using ReST :doc:`foo` markup
+Date:   Wed, 16 Jun 2021 08:27:40 +0200
+Message-Id: <c79be625f7c90468e13d5380f0e4e1c1ccfa2fc8.1623824363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623824363.git.mchehab+huawei@kernel.org>
 References: <cover.1623824363.git.mchehab+huawei@kernel.org>
@@ -58,31 +62,42 @@ So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/kernel-hacking/hacking.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/trace/coresight/coresight.rst | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index 451523424942..df65c19aa7df 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -601,7 +601,7 @@ Defined in ``include/linux/export.h``
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index 169749efd8d1..1ec8dc35b1d8 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -315,7 +315,8 @@ intermediate links as required.
  
- This is the variant of `EXPORT_SYMBOL()` that allows specifying a symbol
- namespace. Symbol Namespaces are documented in
--:doc:`../core-api/symbol-namespaces`
-+Documentation/core-api/symbol-namespaces.rst
+ Note: ``cti_sys0`` appears in two of the connections lists above.
+ CTIs can connect to multiple devices and are arranged in a star topology
+-via the CTM. See (:doc:`coresight-ect`) [#fourth]_ for further details.
++via the CTM. See (Documentation/trace/coresight/coresight-ect.rst)
++[#fourth]_ for further details.
+ Looking at this device we see 4 connections::
  
- :c:func:`EXPORT_SYMBOL_NS_GPL()`
- --------------------------------
-@@ -610,7 +610,7 @@ Defined in ``include/linux/export.h``
+   linaro-developer:~# ls -l /sys/bus/coresight/devices/cti_sys0/connections
+@@ -606,7 +607,8 @@ interface provided for that purpose by the generic STM API::
+     crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/stm0
+     root@genericarmv8:~#
  
- This is the variant of `EXPORT_SYMBOL_GPL()` that allows specifying a symbol
- namespace. Symbol Namespaces are documented in
--:doc:`../core-api/symbol-namespaces`
-+Documentation/core-api/symbol-namespaces.rst
+-Details on how to use the generic STM API can be found here:- :doc:`../stm` [#second]_.
++Details on how to use the generic STM API can be found here:
++- Documentation/trace/stm.rst [#second]_.
  
- Routines and Conventions
- ========================
+ The CTI & CTM Modules
+ ---------------------
+@@ -616,7 +618,7 @@ individual CTIs and components, and can propagate these between all CTIs via
+ channels on the CTM (Cross Trigger Matrix).
+ 
+ A separate documentation file is provided to explain the use of these devices.
+-(:doc:`coresight-ect`) [#fourth]_.
++(Documentation/trace/coresight/coresight-ect.rst) [#fourth]_.
+ 
+ 
+ .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
 -- 
 2.31.1
 
