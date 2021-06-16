@@ -2,118 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD11C48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 21:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90EB7C48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 22:08:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F641613E7
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 21:16:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7413A613C7
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 22:08:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233944AbhFPVSo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 17:18:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43912 "EHLO mail.kernel.org"
+        id S233491AbhFPWKZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 18:10:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36106 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233836AbhFPVSn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 17:18:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EEB65613DF;
-        Wed, 16 Jun 2021 21:16:36 +0000 (UTC)
+        id S230355AbhFPWKZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 18:10:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D26961076;
+        Wed, 16 Jun 2021 22:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623878197;
-        bh=g0jleB/kEeeiGGDNq1Chp/dzNVZGcHFtnZ8EpEOi+lg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=LhfE3ydVx732Lk8ZAGuNehW4CtJ7CP+EGLJaXRG5cqlco3TT1Gxm25PByaM8S2Vlj
-         JHemkB/lt6CQ3kew15b0BZ18wY/qYbY3Jeheb+nsx6k1Vwn00wrS5/yP67dcDGdeMi
-         61KBaUNQ2/xrB4xa9TT1Jb4iRgmjyqxVHebUXgRnPz58nZVCt/c7C8Sis0EC7f/BeZ
-         o1AbmvKAmk3rEp4zs2aVS5lO3zjYB+fOOdhCED/AFQVBvz282hhrsMk7WIhRKKnflV
-         HTsyLyPOAD9md50qvx8h9WQ2W+/ARkK4dMZ5pWU53893wMqEW0mFTKEz40V+6FzNvk
-         5/bHuiY3CTipA==
-Date:   Wed, 16 Jun 2021 16:16:30 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
-Message-ID: <20210616211630.GA3007203@bjorn-Precision-5520>
+        s=k20201202; t=1623881298;
+        bh=BD273yABex25SB8fv/8nERQkMbaDvLqsi8tVPEQWNxA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lyTzVCkN214gX28y3GVPDC8fHZU1LEr6mMirfhUpCiJSl6FfOvIynWXHzc5ZHmWzd
+         RJy5UPqwZcLHchkQuGHjZnNKA3fDizy7sWxMShxQG7DKGxF142tEM/oURyxNNbjnrC
+         vOm6eHH+rHzcsPPQM71p1IiQUEmMw98T/Eol+uFB+NB2I8UE2YB3B3z75tNe16ujy/
+         5u+Hr7PNIatSakz6jhG3WRgbAVEtGo2su06ahWklKO4nPAwMDWqoui6ibVaGytJIKn
+         YsNIeTB8GVr/1NxmZcnZYVMqVGqDg7+Tsor/57eJRPpTNKMcqaQSAPsClYr8kFu/FM
+         XnoEsCEQes9QA==
+Received: by mail-ed1-f46.google.com with SMTP id i13so1113499edb.9;
+        Wed, 16 Jun 2021 15:08:18 -0700 (PDT)
+X-Gm-Message-State: AOAM533Dp4tu4yKx3kOGPgB/Y4QCExozZD0isHHkxUuFdOlnnCRjgIMm
+        2VqYAf6iaeQekFYboXgWsPe+NDtiVPoiZnxwMA==
+X-Google-Smtp-Source: ABdhPJxCkllYiupo8FEv1dotZCuGq3DKtEY9a1vzJuNFz3aDURB/vEMfp9Hrd4spCvHyDfPmvTzJgapyTYbFxKLDtYI=
+X-Received: by 2002:a05:6402:1d0f:: with SMTP id dg15mr2292962edb.137.1623881297110;
+ Wed, 16 Jun 2021 15:08:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d5bcf443-a0ee-fda5-5c5c-d69d25b53bb9@ti.com>
+References: <cover.1623824363.git.mchehab+huawei@kernel.org> <0048c23d47b582dd1a1959628fd2b895209ac826.1623824363.git.mchehab+huawei@kernel.org>
+In-Reply-To: <0048c23d47b582dd1a1959628fd2b895209ac826.1623824363.git.mchehab+huawei@kernel.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 16 Jun 2021 16:08:05 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLtZhox5-d81FnWywqM6waBv5fJ26z2n9rMw8wrn4aDqg@mail.gmail.com>
+Message-ID: <CAL_JsqLtZhox5-d81FnWywqM6waBv5fJ26z2n9rMw8wrn4aDqg@mail.gmail.com>
+Subject: Re: [PATCH v2 11/29] docs: devicetree: bindings: submitting-patches.rst:
+ avoid using ReST :doc:`foo` markup
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@protonmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 07:35:33PM +0530, Kishon Vijay Abraham I wrote:
-> Hi Lorenzo, Bjorn,
-> 
-> On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
-> > Patch series
-> > *) Adds support to add virtual functions to enable endpoint controller
-> >    which supports SR-IOV capability
-> > *) Add support in Cadence endpoint driver to configure virtual functions
-> > *) Enable pci_endpoint_test driver to create pci_device for virtual
-> >    functions
-> > 
-> > v1 of the patch series can be found at [1]
-> > v2 of the patch series can be found at [2]
-> > v3 of the patch series can be found at [3]
-> > v4 of the patch series can be found at [4]
-> > v5 of the patch series can be found at [5]
-> > 
-> > Here both physical functions and virtual functions use the same
-> > pci_endpoint_test driver and existing pcitest utility can be used
-> > to test virtual functions as well.
-> > 
-> > Changes from v5:
-> > *) Rebased to 5.13-rc1
-> > 
-> > Changes from v4:
-> > *) Added a fix in Cadence driver which was overwriting BAR configuration
-> >    of physical function.
-> > *) Didn't include Tom's Acked-by since Cadence driver is modified in
-> >    this revision.
-> > 
-> > Changes from v3:
-> > *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
-> > 
-> > Changes from v2:
-> > *) Fixed DT binding documentation comment by Rob
-> > *) Fixed the error check in pci-epc-core.c
-> > 
-> > Changes from v1:
-> > *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
-> >    binding for EP)
-> > 
-> > [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
-> > [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
-> > [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
-> > [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
-> > [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
-> 
-> Can this series be merged for 5.14? It already includes Ack from Rob for
-> dt-binding changes and Ack from Tom for Cadence driver changes.
+On Wed, Jun 16, 2021 at 12:27 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> The :doc:`foo` tag is auto-generated via automarkup.py.
+> So, use the filename at the sources, instead of :doc:`foo`.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../devicetree/bindings/submitting-patches.rst        | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/submitting-patches.rst b/Documentation/devicetree/bindings/submitting-patches.rst
+> index 104fa8fb2c17..8087780f1685 100644
+> --- a/Documentation/devicetree/bindings/submitting-patches.rst
+> +++ b/Documentation/devicetree/bindings/submitting-patches.rst
+> @@ -7,8 +7,8 @@ Submitting Devicetree (DT) binding patches
+>  I. For patch submitters
+>  =======================
+>
+> -  0) Normal patch submission rules from Documentation/process/submitting-patches.rst
+> -     applies.
+> +  0) Normal patch submission rules from
+> +     Documentation/process/submitting-patches.rst applies.
+>
+>    1) The Documentation/ and include/dt-bindings/ portion of the patch should
+>       be a separate patch. The preferred subject prefix for binding patches is::
+> @@ -25,8 +25,8 @@ I. For patch submitters
+>
+>         make dt_binding_check
+>
+> -     See Documentation/devicetree/bindings/writing-schema.rst for more details about
+> -     schema and tools setup.
+> +     See Documentation/devicetree/bindings/writing-schema.rst for more details
+> +     about schema and tools setup.
 
-Sorry, I think this was assigned to me in patchwork, but Lorenzo
-usually takes care of the endpoint stuff.  He's away this week, but no
-doubt will look at it when he returns.
+These don't match $subject.
 
-Bjorn
+>
+>    3) DT binding files should be dual licensed. The preferred license tag is
+>       (GPL-2.0-only OR BSD-2-Clause).
+> @@ -84,7 +84,8 @@ II. For kernel maintainers
+>  III. Notes
+>  ==========
+>
+> -  0) Please see :doc:`ABI` for details regarding devicetree ABI.
+> +  0) Please see Documentation/devicetree/bindings/ABI.rst for details
+> +     regarding devicetree ABI.
+
+Is this new? You did review my oneliner adding ':doc:' not too long ago.
+
+>
+>    1) This document is intended as a general familiarization with the process as
+>       decided at the 2013 Kernel Summit.  When in doubt, the current word of the
+> --
+> 2.31.1
+>
