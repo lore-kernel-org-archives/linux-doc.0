@@ -2,116 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D4BFC48BE6
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 539C3C48BE8
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E4477613C2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40A02613FB
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232066AbhFPG5c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:57:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34688 "EHLO mail.kernel.org"
+        id S232116AbhFPG5x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:57:53 -0400
+Received: from mga09.intel.com ([134.134.136.24]:63504 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231536AbhFPG5Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 02:57:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 471CB613E4;
-        Wed, 16 Jun 2021 06:55:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623826518;
-        bh=pQZ1uyy+ChPtD1nPHLcJgg7YLiFjFABFv8mQ81IQUZY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A0YcY+jxitDoxq99H34jzUAXuE04SwwQajGs2MzXNOIwNuUy/Pr8KvoJJgyiPRUkC
-         iLktbjp+pIcLmUwG8rIZD9SKGqVsAxeipQtrmyeqzvZL1h9lmMoNowXcvQTlpM5PE8
-         1MqVcsWjV787PA4lRFhEHtN+objgoDkjhKpQjvOLLLnb7mFWKh5MRXVIiPFWuzaGCQ
-         IF7D5yQeh3/9hCWz3j1XXBBa9QPITvqYsEbsFTSXIqPeSmqvWFXDRjepJKlFJ21ajJ
-         If3hOQlig0oTuLn5TOwtzyK+S2JcknyoyqxhGnjyHZfxPHfnX1uquYhwRVzsD9k2xO
-         VqqBF/G5whQ3g==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1ltPSG-004lCf-Hg; Wed, 16 Jun 2021 08:55:16 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 7/8] docs: networking: device_drivers: replace some characters
-Date:   Wed, 16 Jun 2021 08:55:13 +0200
-Message-Id: <9bd9f5c067c4b068a974730a14fe8d68e1be0c9a.1623826294.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1623826294.git.mchehab+huawei@kernel.org>
-References: <cover.1623826294.git.mchehab+huawei@kernel.org>
+        id S232123AbhFPG5i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 02:57:38 -0400
+IronPort-SDR: CnSQUQD18y2E8YhrtmaYn/6isv4JsDLzLV7EJDPYl5zkNOFRtFd93sS3sZAW/xjyGj19iLtUSL
+ WbcaQLQ3JVTQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="206084504"
+X-IronPort-AV: E=Sophos;i="5.83,277,1616482800"; 
+   d="scan'208";a="206084504"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 23:55:32 -0700
+IronPort-SDR: KV3BD7ZhGV1XRJRvJj0dt4O2b00BFbeYM7BM4gavKuHwzUYRDB2M5dfv/QB7op6wcfiivzTi8+
+ rVN9ROxeuixw==
+X-IronPort-AV: E=Sophos;i="5.83,277,1616482800"; 
+   d="scan'208";a="637372913"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 23:55:28 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 2E927202D5;
+        Wed, 16 Jun 2021 09:55:26 +0300 (EEST)
+Date:   Wed, 16 Jun 2021 09:55:26 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 17/29] docs: firmware-guide: acpi: avoid using ReST
+ :doc:`foo` markup
+Message-ID: <20210616065526.GB3@paasikivi.fi.intel.com>
+References: <cover.1623824363.git.mchehab+huawei@kernel.org>
+ <7162043c18f1ea96c446b332400e44e8087ba142.1623824363.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7162043c18f1ea96c446b332400e44e8087ba142.1623824363.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
-conversion and some cut-and-pasted text contain some characters that
-aren't easily reachable on standard keyboards and/or could cause
-troubles when parsed by the documentation build system.
+On Wed, Jun 16, 2021 at 08:27:32AM +0200, Mauro Carvalho Chehab wrote:
+> The :doc:`foo` tag is auto-generated via automarkup.py.
+> So, use the filename at the sources, instead of :doc:`foo`.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Replace the occurences of the following characters:
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-	- U+00a0 (' '): NO-BREAK SPACE
-	  as it can cause lines being truncated on PDF output
-
-Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../networking/device_drivers/ethernet/intel/i40e.rst       | 6 +++---
- .../networking/device_drivers/ethernet/intel/iavf.rst       | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-index 2d3f6bd969a2..ac35bd472bdc 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-@@ -466,7 +466,7 @@ network. PTP support varies among Intel devices that support this driver. Use
- "ethtool -T <netdev name>" to get a definitive list of PTP capabilities
- supported by the device.
- 
--IEEE 802.1ad (QinQ) Support
-+IEEE 802.1ad (QinQ) Support
- ---------------------------
- The IEEE 802.1ad standard, informally known as QinQ, allows for multiple VLAN
- IDs within a single Ethernet frame. VLAN IDs are sometimes referred to as
-@@ -523,8 +523,8 @@ of a port's bandwidth (should it be available). The sum of all the values for
- Maximum Bandwidth is not restricted, because no more than 100% of a port's
- bandwidth can ever be used.
- 
--NOTE: X710/XXV710 devices fail to enable Max VFs (64) when Multiple Functions
--per Port (MFP) and SR-IOV are enabled. An error from i40e is logged that says
-+NOTE: X710/XXV710 devices fail to enable Max VFs (64) when Multiple Functions
-+per Port (MFP) and SR-IOV are enabled. An error from i40e is logged that says
- "add vsi failed for VF N, aq_err 16". To workaround the issue, enable less than
- 64 virtual functions (VFs).
- 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-index 25330b7b5168..151af0a8da9c 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-@@ -113,7 +113,7 @@ which the AVF is associated. The following are base mode features:
- - AVF device ID
- - HW mailbox is used for VF to PF communications (including on Windows)
- 
--IEEE 802.1ad (QinQ) Support
-+IEEE 802.1ad (QinQ) Support
- ---------------------------
- The IEEE 802.1ad standard, informally known as QinQ, allows for multiple VLAN
- IDs within a single Ethernet frame. VLAN IDs are sometimes referred to as
 -- 
-2.31.1
-
+Sakari Ailus
