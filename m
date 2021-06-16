@@ -2,647 +2,223 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 441F6C48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 10:37:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCE2C48BE6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:00:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C05861245
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 10:37:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE1BC611CA
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:00:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232597AbhFPKjj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 06:39:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232487AbhFPKj0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 06:39:26 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C27AC061768
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 03:37:17 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id i13so3505970lfc.7
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 03:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YMJpHNuGP5QLSqJHgwC7TvzwjmCtLXU1dC7TEiaTZFA=;
-        b=lFE9Uo92KFnD3o4AzvLfixpuk8+qH5Tv9p3xBi8JqDGTyVaxXXB81dEm3pWjztxcn7
-         x1vd3FFBfFPL8dyMsTGTOZWttRzwVw5QeZ5m64VWrMX3JaKPzj0V/oan96vtRg7O95gp
-         yGeRRWuP9q/FyFkaARdDQvfdLtsn6G03T/87/ApuPpxtcvFZc/ebpJNWbavsCzyohRNs
-         B83fUhxPcBM/7DQnJX8XFepGx6N/yVeZSk6tmy1Dy5QsZ4Kgkzl2hgCxwFmmA65f+FBc
-         JfKwkU2ctgVZBD3DxkJBLl4pdt1pDT+QVFDlJK4f7H3/fizzckD9iIVV9pFrNBE6AV90
-         PDXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YMJpHNuGP5QLSqJHgwC7TvzwjmCtLXU1dC7TEiaTZFA=;
-        b=PIA6KgiF9XVcODJ1zkSOzXoT+fR2au6XEB0oNdEhIf3u6vXgIAVmJVyXTD6FSvxXTe
-         /WCiYO79lUWbDGEphZyWeRSjZ1G5Qu4yuTV8BqH2wwf0zpegan2hW2skGrj1BZuxkvLo
-         BUBpB3nb8QphD9t8kIelowwx2vSehfGdoBX0xip8zs5D9L8xKp0gr09lKOg2dxHIa7PG
-         ReE+kVatlIUI6qmno0eNjCng5k6hM5f3REx+Cnnoo+oZWWMUtHuDOdTTkXu7vNF/jEy7
-         9Ja2MqCgJF0Yy41+HA1sGjq2zflphFJdE0O0co25BxziyZu1FDeKOt+hop197e91+n2X
-         70ZQ==
-X-Gm-Message-State: AOAM531V7MyxCr/VlLUeqhpIEGHNzhOHd7Ab2Ivl2FilXVEi2I1lB8cP
-        lAvTjITz9nPTIm8+tRij+AUOjw==
-X-Google-Smtp-Source: ABdhPJyrprQa5kq10xVxR7zeQJe5m0gDJI4bwauvL8bdQvahp1N0/PraAbc2B5xfJbjdEWO00Q6rFg==
-X-Received: by 2002:a19:783:: with SMTP id 125mr3291676lfh.296.1623839835651;
-        Wed, 16 Jun 2021 03:37:15 -0700 (PDT)
-Received: from jade.urgonet (h-79-136-85-3.A175.priv.bahnhof.se. [79.136.85.3])
-        by smtp.gmail.com with ESMTPSA id m17sm205621lfh.288.2021.06.16.03.37.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 03:37:15 -0700 (PDT)
-From:   Jens Wiklander <jens.wiklander@linaro.org>
-To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v2 7/7] optee: add asynchronous notifications
-Date:   Wed, 16 Jun 2021 12:36:49 +0200
-Message-Id: <20210616103649.2662395-8-jens.wiklander@linaro.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210616103649.2662395-1-jens.wiklander@linaro.org>
-References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+        id S229549AbhFPLCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 07:02:48 -0400
+Received: from mail-dm6nam10on2072.outbound.protection.outlook.com ([40.107.93.72]:29537
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229456AbhFPLCs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 07:02:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YzB+PgbRVkAhcCjOqRcZnc67YKG/BYiS3iaHx6QWBOQjs7oaS9i3gerqYv7kTvz0onYE1GPWXy7dumP6mKQ1UCtkb+/j3/LlXx5XjUmHWi5ITX5h3X1iOn7TsvN5oPT6GltS1HvnrPdJHwoZ0XGxL0R1JSJLEfSaDW+niZYjPQZB6ZoZAn2M8LRchS5TfKwA0uGAdizoliQhouwydtOrhviN44T/Rm0ddkAthAQcrEDu5QeUyr0/DXTakOAexkkGc+QMHdPoVsilgmq7jBeJ3n3VdSO0UTHR1l+0mKrxn7lrHkc6gpOKKZbz6wxISuB2aZvn6rEdNUucVOdqQrqTbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FV7OuWEo/GplBHvZyk7S65vBVvmRHJTYAuH7hBSqP+o=;
+ b=begbV7z0P2vxW59t5vLa98N05KvpXRgJQGff1t1ZNV7OR29AqBKSjGeqJEjQou6LOFKf8hK0yW2BkwI/MDWLedDySWqQpTsTSHKu5IsR1F7479xoI6laoq2fbEhUngGz82K3hNTtKFI6p2nztaiCq/vaC+vSctndy7AZ7xRl9KvdwqFqkw3XKhjI6aTVf6F2m6HkRLp+8hIiCNpy4T0IDoN4zXeRJMMC/EhHZFv7QfXwFwNMe7t6dQ51Fjr8OmiqbLPyBbBYSRnFTjLIxy3mWvMgVabCjFCgxozU+3jex7uwEokAiJrdMNu24BWhle9hjFVV4JICzdarkW9yuShV0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FV7OuWEo/GplBHvZyk7S65vBVvmRHJTYAuH7hBSqP+o=;
+ b=NulbOSOLywTD6vfd75EdSCkU9yFHVxantlXsL7K/3qeG+6KryNt5o3dfuVN4Jr9K1FedzYAK3yfwLxxGQdrgFoQtFWUxkXZHafEKjXulM3tNJQZeJt2A/9YpCf0WswZYVoICKwZnZbhWo/vcB2SMq/NTlHF+EuPm0K76nkm+FrwmJUQJUTGRtjW4O1ncs2ZCg/TS7ah20IA9Fjj1gcqZcie9wQQ9AYRLGNRGGWx8eaXMD+fqGHUPLnm8WG243kLwa6ub9M4NRjiMy27Ersgh8uzazW4bbj4ez4OhpWojt8pSFkRBnI61Kalb77Mm4g1fSO88ULt7mGeYwmrkdIfGng==
+Received: from BN6PR14CA0014.namprd14.prod.outlook.com (2603:10b6:404:79::24)
+ by DM6PR12MB4894.namprd12.prod.outlook.com (2603:10b6:5:209::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16; Wed, 16 Jun
+ 2021 11:00:41 +0000
+Received: from BN8NAM11FT065.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:79:cafe::f3) by BN6PR14CA0014.outlook.office365.com
+ (2603:10b6:404:79::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.15 via Frontend
+ Transport; Wed, 16 Jun 2021 11:00:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT065.mail.protection.outlook.com (10.13.177.63) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4242.16 via Frontend Transport; Wed, 16 Jun 2021 11:00:40 +0000
+Received: from localhost (172.20.187.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 16 Jun
+ 2021 11:00:39 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     <akpm@linux-foundation.org>
+CC:     <linux-mm@kvack.org>, <rcampbell@nvidia.com>,
+        <willy@infradead.org>, <linux-doc@vger.kernel.org>,
+        <nouveau@lists.freedesktop.org>, <hughd@google.com>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <hch@infradead.org>, <peterx@redhat.com>, <shakeelb@google.com>,
+        <bskeggs@redhat.com>, <jgg@nvidia.com>, <jhubbard@nvidia.com>,
+        Alistair Popple <apopple@nvidia.com>
+Subject: [PATCH v11 00/10] Add support for SVM atomics in Nouveau
+Date:   Wed, 16 Jun 2021 20:59:27 +1000
+Message-ID: <20210616105937.23201-1-apopple@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5d6661c7-019b-489a-8411-08d930b5fb39
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4894:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4894FFA270F2D1F9953F48F5DF0F9@DM6PR12MB4894.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EdYplu0m6TUm11yAAObz3+dhW2NapQYJZJN9dtKTf4vZ34yySKDDdQEVF5RzmtC28xE22RtMR/ETp+GOchaME7/I+I7ozX45iMMjtQ0IZMOVcr+5tAZE+IvJOA7Od3Zb/7dkgIK5fULyr20v1j/Qa0EzkP3WQ7kaKJCs+Qd4wZl8g3wsCsCkzFMHSqHDPcW4WtMXrqNf/cU5CW0rcS5QLp3mHKcgkFH6jj9FmqtR4pOxs6RkRoHZmRc0gl2Dolf4HxhmEiVlBxPu9ftJxrkqGd0yPAmbkLgb6mK9y0lIVck1poa7+Mov3lXDfv9+/bb8WqpaYhSmZpzhVWvcSjAq9Hnd04UFPFY3qFmfH/kbrDh2jjPHchn4csVRLMCAW/Sj2RaQBRpBMdhhxGu2MfQPKX2AuHZuHgFP0jEBa9Wi5AcIMWs7pYxsZGufcKvqBfYp2GuvGj/Bq+GhzxHbQAalDcjRzGWk/pTGZAVE6ead0MW/aE1PEYBiAs0DQEx6N0FL3hWlCrYQmMY+akE5RhDs90zxP05KWYEEz8m7+aMuCXnzLl79V4vcRe1xquu0vNwIdzMndP5aMPkAaSf0PEUQwfA4DfOjzKPv7fABapdG5r0FVFuyrnM7zg77eGGBcwKf615mWejQYf5yaT3AzUdvZ6AdH7lMAsmOxTzO9on/PuRdxiAiltCRr1LNloML7HtwPuKI0g0OAPd1/I5zQgzUhBuxBcHfgZY4fVus3WM0z3O7/Af50mGcuwVjcELn/Nj6ps8rcyiS1QoSFsP9tr9ZkQ==
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(346002)(136003)(39860400002)(396003)(376002)(36840700001)(46966006)(7636003)(7416002)(70586007)(16526019)(82740400003)(2906002)(186003)(478600001)(6666004)(966005)(356005)(5660300002)(8676002)(8936002)(336012)(6916009)(426003)(36756003)(36906005)(82310400003)(1076003)(47076005)(316002)(36860700001)(83380400001)(70206006)(86362001)(26005)(54906003)(2616005)(107886003)(4326008);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 11:00:40.9931
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d6661c7-019b-489a-8411-08d930b5fb39
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT065.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4894
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds support for asynchronous notifications from secure world to normal
-world. This allows a design with a top half and bottom half type of
-driver where the top half runs in secure interrupt context and a
-notifications tells normal world to schedule a yielding call to do the
-bottom half processing.
+Hi Andrew,
 
-The protocol is defined in optee_msg.h optee_rpc_cmd.h and optee_smc.h.
+This is my series to add support for SVM atomics in Nouveau rebased onto
+v5.13-rc6-mmots-2021-06-15-20-28. Functionally there are no changes from
+the previous v10, however some changes were made during the rebase. If
+anyone would like to see a diff-of-diffs I can post it but my exhaustive
+(assuming I didn't miss anything in the diff-of-diff) summary below is
+probably easier to read.
 
-A notification consists of a 32-bit value which normal world can
-retrieve using a fastcall into secure world. The value
-OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF (0) has a special meaning.
-When this value is sent it means that normal world is supposed to make a
-yielding call OPTEE_MSG_CMD_DO_BOTTOM_HALF.
+Hugh - based on our previous disscussion I'm reasonably confident I haven't
+missed anything from you in the rebase, but patch 4 ("Split migration into
+its own function") might be worth looking at as that contained the largest
+conflicts. Thanks.
 
-Notification capability is negotiated while the driver is initialized.
-If both sides supports these notifications then they are enabled.
+[PATCH 01/10] mm: Remove special swap entry functions
 
-An interrupt is used to notify the driver that there are asynchronous
-notifications pending.  The maximum needed notification value is
-communicated at this stage. This allows scaling up when needed.
+- Fixed migration_entry_to_page() reference in __split_huge_pmd_locked()
+  introduced by Hugh's "mm/thp: fix __split_huge_pmd_locked() on shmem
+  migration entry".
 
-Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
----
- drivers/tee/optee/call.c          |  27 ++++++++
- drivers/tee/optee/core.c          |  82 +++++++++++++++-------
- drivers/tee/optee/notif.c         | 109 ++++++++++++++++++++++++++++--
- drivers/tee/optee/optee_msg.h     |   9 +++
- drivers/tee/optee/optee_private.h |   6 +-
- drivers/tee/optee/optee_smc.h     |  75 +++++++++++++++++++-
- 6 files changed, 276 insertions(+), 32 deletions(-)
+- Fixed migration_entry_to_page() reference in page_vma_mapped_walk()
+  changed by Hugh in "mm: page_vma_mapped_walk(): prettify PVMW_MIGRATION
+  block"
 
-diff --git a/drivers/tee/optee/call.c b/drivers/tee/optee/call.c
-index 6132cc8d014c..9da66acac828 100644
---- a/drivers/tee/optee/call.c
-+++ b/drivers/tee/optee/call.c
-@@ -390,6 +390,33 @@ int optee_cancel_req(struct tee_context *ctx, u32 cancel_id, u32 session)
- 	return 0;
- }
- 
-+static int simple_call_with_arg(struct tee_context *ctx, u32 cmd)
-+{
-+	struct optee_msg_arg *msg_arg;
-+	phys_addr_t msg_parg;
-+	struct tee_shm *shm;
-+
-+	shm = get_msg_arg(ctx, 0, &msg_arg, &msg_parg);
-+	if (IS_ERR(shm))
-+		return PTR_ERR(shm);
-+
-+	msg_arg->cmd = cmd;
-+	optee_do_call_with_arg(ctx, msg_parg);
-+
-+	tee_shm_free(shm);
-+	return 0;
-+}
-+
-+int optee_do_bottom_half(struct tee_context *ctx)
-+{
-+	return simple_call_with_arg(ctx, OPTEE_MSG_CMD_DO_BOTTOM_HALF);
-+}
-+
-+int optee_stop_async_notif(struct tee_context *ctx)
-+{
-+	return simple_call_with_arg(ctx, OPTEE_MSG_CMD_STOP_ASYNC_NOTIF);
-+}
-+
- /**
-  * optee_enable_shm_cache() - Enables caching of some shared memory allocation
-  *			      in OP-TEE
-diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-index 2272696ac986..e3c80505cc88 100644
---- a/drivers/tee/optee/core.c
-+++ b/drivers/tee/optee/core.c
-@@ -7,9 +7,12 @@
- 
- #include <linux/arm-smccc.h>
- #include <linux/errno.h>
-+#include <linux/interrupt.h>
- #include <linux/io.h>
-+#include <linux/irqdomain.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_irq.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-@@ -353,6 +356,17 @@ static const struct tee_desc optee_supp_desc = {
- 	.flags = TEE_DESC_PRIVILEGED,
- };
- 
-+static int enable_async_notif(optee_invoke_fn *invoke_fn)
-+{
-+	struct arm_smccc_res res;
-+
-+	invoke_fn(OPTEE_SMC_ENABLE_ASYNC_NOTIF, 0, 0, 0, 0, 0, 0, 0, &res);
-+
-+	if (res.a0)
-+		return -EINVAL;
-+	return 0;
-+}
-+
- static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
- {
- 	struct arm_smccc_res res;
-@@ -402,7 +416,7 @@ static bool optee_msg_api_revision_is_compatible(optee_invoke_fn *invoke_fn)
- }
- 
- static bool optee_msg_exchange_capabilities(optee_invoke_fn *invoke_fn,
--					    u32 *sec_caps)
-+					    u32 *sec_caps, u32 *max_notif_value)
- {
- 	union {
- 		struct arm_smccc_res smccc;
-@@ -425,6 +439,7 @@ static bool optee_msg_exchange_capabilities(optee_invoke_fn *invoke_fn,
- 		return false;
- 
- 	*sec_caps = res.result.capabilities;
-+	*max_notif_value = res.result.max_notif_value;
- 	return true;
- }
- 
-@@ -609,6 +624,7 @@ static int optee_probe(struct platform_device *pdev)
- 	struct optee *optee = NULL;
- 	void *memremaped_shm = NULL;
- 	struct tee_device *teedev;
-+	u32 max_notif_value;
- 	u32 sec_caps;
- 	int rc;
- 
-@@ -628,7 +644,8 @@ static int optee_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	}
- 
--	if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps)) {
-+	if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps,
-+					     &max_notif_value)) {
- 		pr_warn("capabilities mismatch\n");
- 		return -EINVAL;
- 	}
-@@ -651,7 +668,7 @@ static int optee_probe(struct platform_device *pdev)
- 	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
- 	if (!optee) {
- 		rc = -ENOMEM;
--		goto err;
-+		goto err_free_pool;
- 	}
- 
- 	optee->invoke_fn = invoke_fn;
-@@ -660,24 +677,24 @@ static int optee_probe(struct platform_device *pdev)
- 	teedev = tee_device_alloc(&optee_desc, NULL, pool, optee);
- 	if (IS_ERR(teedev)) {
- 		rc = PTR_ERR(teedev);
--		goto err;
-+		goto err_free_optee;
- 	}
- 	optee->teedev = teedev;
- 
- 	teedev = tee_device_alloc(&optee_supp_desc, NULL, pool, optee);
- 	if (IS_ERR(teedev)) {
- 		rc = PTR_ERR(teedev);
--		goto err;
-+		goto err_unreg_teedev;
- 	}
- 	optee->supp_teedev = teedev;
- 
- 	rc = tee_device_register(optee->teedev);
- 	if (rc)
--		goto err;
-+		goto err_unreg_supp_teedev;
- 
- 	rc = tee_device_register(optee->supp_teedev);
- 	if (rc)
--		goto err;
-+		goto err_unreg_supp_teedev;
- 
- 	mutex_init(&optee->call_queue.mutex);
- 	INIT_LIST_HEAD(&optee->call_queue.waiters);
-@@ -687,10 +704,30 @@ static int optee_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, optee);
- 
--	rc = optee_notif_init(optee, 255);
--	if (rc) {
--		optee_remove(pdev);
--		return rc;
-+	if (sec_caps & OPTEE_SMC_SEC_CAP_ASYNC_NOTIF) {
-+		unsigned int irq;
-+
-+		rc = platform_get_irq(pdev, 0);
-+		if (rc < 0) {
-+			pr_err("platform_get_irq: ret %d\n", rc);
-+			goto err_unreg_supp_teedev;
-+		}
-+		irq = rc;
-+
-+		rc = optee_notif_init(optee, max_notif_value, irq);
-+		if (rc) {
-+			irq_dispose_mapping(irq);
-+			optee_remove(pdev);
-+			return rc;
-+		}
-+		enable_async_notif(optee->invoke_fn);
-+		pr_info("Asynchronous notifications enabled\n");
-+	} else {
-+		rc = optee_notif_init(optee, 255, 0);
-+		if (rc) {
-+			optee_remove(pdev);
-+			return rc;
-+		}
- 	}
- 
- 	optee_enable_shm_cache(optee);
-@@ -706,20 +743,15 @@ static int optee_probe(struct platform_device *pdev)
- 
- 	pr_info("initialized driver\n");
- 	return 0;
--err:
--	if (optee) {
--		/*
--		 * tee_device_unregister() is safe to call even if the
--		 * devices hasn't been registered with
--		 * tee_device_register() yet.
--		 */
--		tee_device_unregister(optee->supp_teedev);
--		tee_device_unregister(optee->teedev);
--		kfree(optee);
--	}
--	if (pool)
--		tee_shm_pool_free(pool);
--	if (memremaped_shm)
-+err_unreg_supp_teedev:
-+	tee_device_unregister(optee->supp_teedev);
-+err_unreg_teedev:
-+	tee_device_unregister(optee->teedev);
-+err_free_optee:
-+	kfree(optee);
-+err_free_pool:
-+	tee_shm_pool_free(pool);
-+	if (optee->memremaped_shm)
- 		memunmap(memremaped_shm);
- 	return rc;
- }
-diff --git a/drivers/tee/optee/notif.c b/drivers/tee/optee/notif.c
-index a28fa03dcd0e..ecfa82797695 100644
---- a/drivers/tee/optee/notif.c
-+++ b/drivers/tee/optee/notif.c
-@@ -7,10 +7,14 @@
- 
- #include <linux/arm-smccc.h>
- #include <linux/errno.h>
-+#include <linux/interrupt.h>
-+#include <linux/irqdomain.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/tee_drv.h>
- #include "optee_private.h"
-+#include "optee_smc.h"
-+#include "optee_rpc_cmd.h"
- 
- struct notif_entry {
- 	struct list_head link;
-@@ -18,6 +22,54 @@ struct notif_entry {
- 	u_int key;
- };
- 
-+static u32 get_async_notif_value(optee_invoke_fn *invoke_fn, bool *value_valid,
-+				 bool *value_pending)
-+{
-+	struct arm_smccc_res res;
-+
-+	invoke_fn(OPTEE_SMC_GET_ASYNC_NOTIF_VALUE, 0, 0, 0, 0, 0, 0, 0, &res);
-+
-+	if (res.a0)
-+		return 0;
-+	*value_valid = (res.a2 & OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID);
-+	*value_pending = (res.a2 & OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING);
-+	return res.a1;
-+}
-+
-+static irqreturn_t notif_irq_handler(int irq, void *dev_id)
-+{
-+	struct optee *optee = dev_id;
-+	bool do_bottom_half = false;
-+	bool value_valid;
-+	bool value_pending;
-+	u32 value;
-+
-+	do {
-+		value = get_async_notif_value(optee->invoke_fn, &value_valid,
-+					      &value_pending);
-+		if (!value_valid)
-+			break;
-+
-+		if (value == OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF)
-+			do_bottom_half = true;
-+		else
-+			optee_notif_send(optee, value);
-+	} while (value_pending);
-+
-+	if (do_bottom_half)
-+		return IRQ_WAKE_THREAD;
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t notif_irq_thread_fn(int irq, void *dev_id)
-+{
-+	struct optee *optee = dev_id;
-+
-+	optee_do_bottom_half(optee->notif.ctx);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static bool have_key(struct optee *optee, u_int key)
- {
- 	struct notif_entry *entry;
-@@ -106,20 +158,69 @@ int optee_notif_send(struct optee *optee, u_int key)
- 	return 0;
- }
- 
--int optee_notif_init(struct optee *optee, u_int max_key)
-+int optee_notif_init(struct optee *optee, u_int max_key, u_int irq)
- {
-+	struct tee_context *ctx;
-+	int rc;
-+
-+	if (irq) {
-+		ctx = tee_dev_open_helper(optee->teedev);
-+		if (IS_ERR(ctx))
-+			return PTR_ERR(ctx);
-+
-+		optee->notif.ctx = ctx;
-+	}
-+
- 	spin_lock_init(&optee->notif.lock);
- 	INIT_LIST_HEAD(&optee->notif.db);
- 	optee->notif.bitmap = bitmap_zalloc(max_key, GFP_KERNEL);
--	if (!optee->notif.bitmap)
--		return -ENOMEM;
--
-+	if (!optee->notif.bitmap) {
-+		rc = -ENOMEM;
-+		goto err_put_ctx;
-+	}
- 	optee->notif.max_key = max_key;
- 
-+	if (irq) {
-+		rc = request_threaded_irq(irq, notif_irq_handler,
-+					  notif_irq_thread_fn,
-+					  0, "optee_notification", optee);
-+		if (rc)
-+			goto err_free_bitmap;
-+
-+		optee->notif.irq = irq;
-+	}
-+
- 	return 0;
-+
-+err_free_bitmap:
-+	kfree(optee->notif.bitmap);
-+err_put_ctx:
-+	tee_dev_ctx_put(optee->notif.ctx);
-+	optee->notif.ctx = NULL;
-+
-+	return rc;
- }
- 
- void optee_notif_uninit(struct optee *optee)
- {
-+	if (optee->notif.ctx) {
-+		optee_stop_async_notif(optee->notif.ctx);
-+		if (optee->notif.irq) {
-+			free_irq(optee->notif.irq, optee);
-+			irq_dispose_mapping(optee->notif.irq);
-+		}
-+
-+		/*
-+		 * The thread normally working with optee->notif.ctx was
-+		 * stopped with free_irq() above.
-+		 *
-+		 * Note we're not using teedev_close_context() or
-+		 * tee_client_close_context() since we have already called
-+		 * tee_device_put() while initializing to avoid a circular
-+		 * reference counting.
-+		 */
-+		tee_dev_ctx_put(optee->notif.ctx);
-+	}
-+
- 	kfree(optee->notif.bitmap);
- }
-diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
-index 81ff593ac4ec..35970932de34 100644
---- a/drivers/tee/optee/optee_msg.h
-+++ b/drivers/tee/optee/optee_msg.h
-@@ -291,6 +291,13 @@ struct optee_msg_arg {
-  * [in] param[0].u.rmem.shm_ref		holds shared memory reference
-  * [in] param[0].u.rmem.offs		0
-  * [in] param[0].u.rmem.size		0
-+ *
-+ * OPTEE_MSG_CMD_DO_BOTTOM_HALF does the scheduled bottom half processing
-+ * of a driver.
-+ *
-+ * OPTEE_MSG_CMD_STOP_ASYNC_NOTIF informs secure world that from now is
-+ * normal world unable to process asynchronous notifications. Typically
-+ * used when the driver is shut down.
-  */
- #define OPTEE_MSG_CMD_OPEN_SESSION	0
- #define OPTEE_MSG_CMD_INVOKE_COMMAND	1
-@@ -298,6 +305,8 @@ struct optee_msg_arg {
- #define OPTEE_MSG_CMD_CANCEL		3
- #define OPTEE_MSG_CMD_REGISTER_SHM	4
- #define OPTEE_MSG_CMD_UNREGISTER_SHM	5
-+#define OPTEE_MSG_CMD_DO_BOTTOM_HALF	6
-+#define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF	7
- #define OPTEE_MSG_FUNCID_CALL_WITH_ARG	0x0004
- 
- #endif /* _OPTEE_MSG_H */
-diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
-index 7dc058d008b2..62365912a70b 100644
---- a/drivers/tee/optee/optee_private.h
-+++ b/drivers/tee/optee/optee_private.h
-@@ -37,6 +37,8 @@ struct optee_call_queue {
- 
- struct optee_notif {
- 	u_int max_key;
-+	unsigned int irq;
-+	struct tee_context *ctx;
- 	/* Serializes access to the elements below in this struct */
- 	spinlock_t lock;
- 	struct list_head db;
-@@ -132,7 +134,7 @@ void optee_handle_rpc(struct tee_context *ctx, struct optee_rpc_param *param,
- 		      struct optee_call_ctx *call_ctx);
- void optee_rpc_finalize_call(struct optee_call_ctx *call_ctx);
- 
--int optee_notif_init(struct optee *optee, u_int max_key);
-+int optee_notif_init(struct optee *optee, u_int max_key, u_int irq);
- void optee_notif_uninit(struct optee *optee);
- int optee_notif_wait(struct optee *optee, u_int key);
- int optee_notif_send(struct optee *optee, u_int key);
-@@ -159,6 +161,8 @@ int optee_close_session(struct tee_context *ctx, u32 session);
- int optee_invoke_func(struct tee_context *ctx, struct tee_ioctl_invoke_arg *arg,
- 		      struct tee_param *param);
- int optee_cancel_req(struct tee_context *ctx, u32 cancel_id, u32 session);
-+int optee_do_bottom_half(struct tee_context *ctx);
-+int optee_stop_async_notif(struct tee_context *ctx);
- 
- void optee_enable_shm_cache(struct optee *optee);
- void optee_disable_shm_cache(struct optee *optee);
-diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
-index 80eb763a8a80..c6eec6b6febf 100644
---- a/drivers/tee/optee/optee_smc.h
-+++ b/drivers/tee/optee/optee_smc.h
-@@ -107,6 +107,12 @@ struct optee_smc_call_get_os_revision_result {
- /*
-  * Call with struct optee_msg_arg as argument
-  *
-+ * When calling this function normal world has a few responsibilities:
-+ * 1. It must be able to handle eventual RPCs
-+ * 2. Non-secure interrupts should not be masked
-+ * 3. If asynchronous notifications has be negotiated successfully, then
-+ *    asynchronous notifications should be unmasked during this call.
-+ *
-  * Call register usage:
-  * a0	SMC Function ID, OPTEE_SMC*CALL_WITH_ARG
-  * a1	Upper 32 bits of a 64-bit physical pointer to a struct optee_msg_arg
-@@ -195,7 +201,8 @@ struct optee_smc_get_shm_config_result {
-  * Normal return register usage:
-  * a0	OPTEE_SMC_RETURN_OK
-  * a1	bitfield of secure world capabilities OPTEE_SMC_SEC_CAP_*
-- * a2-7	Preserved
-+ * a2	The maximum secure world notification number
-+ * a3-7	Preserved
-  *
-  * Error return register usage:
-  * a0	OPTEE_SMC_RETURN_ENOTAVAIL, can't use the capabilities from normal world
-@@ -218,6 +225,8 @@ struct optee_smc_get_shm_config_result {
- #define OPTEE_SMC_SEC_CAP_VIRTUALIZATION	BIT(3)
- /* Secure world supports Shared Memory with a NULL reference */
- #define OPTEE_SMC_SEC_CAP_MEMREF_NULL		BIT(4)
-+/* Secure world supports asynchronous notification of normal world */
-+#define OPTEE_SMC_SEC_CAP_ASYNC_NOTIF		BIT(5)
- 
- #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES	9
- #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
-@@ -226,8 +235,8 @@ struct optee_smc_get_shm_config_result {
- struct optee_smc_exchange_capabilities_result {
- 	unsigned long status;
- 	unsigned long capabilities;
-+	unsigned long max_notif_value;
- 	unsigned long reserved0;
--	unsigned long reserved1;
- };
- 
- /*
-@@ -319,6 +328,68 @@ struct optee_smc_disable_shm_cache_result {
- #define OPTEE_SMC_GET_THREAD_COUNT \
- 	OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_THREAD_COUNT)
- 
-+/*
-+ * Inform OP-TEE that normal world is able to receive asynchronous
-+ * notifications.
-+ *
-+ * Call requests usage:
-+ * a0	SMC Function ID, OPTEE_SMC_ENABLE_ASYNC_NOTIF
-+ * a1-6	Not used
-+ * a7	Hypervisor Client ID register
-+ *
-+ * Normal return register usage:
-+ * a0	OPTEE_SMC_RETURN_OK
-+ * a1-7	Preserved
-+ *
-+ * Not supported return register usage:
-+ * a0	OPTEE_SMC_RETURN_ENOTAVAIL
-+ * a1-7	Preserved
-+ */
-+#define OPTEE_SMC_FUNCID_ENABLE_ASYNC_NOTIF	16
-+#define OPTEE_SMC_ENABLE_ASYNC_NOTIF \
-+	OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_ENABLE_ASYNC_NOTIF)
-+
-+/*
-+ * Retrieve a value of notifications pended since the last call of this
-+ * function.
-+ *
-+ * OP-TEE keeps a records of all posted values. When an interrupts is
-+ * received which indicates that there are posed values this function
-+ * should be called until all pended values has been retrieved. When a
-+ * value is retrieved it's cleared from the record in secure world.
-+ *
-+ * Call requests usage:
-+ * a0	SMC Function ID, OPTEE_SMC_GET_ASYNC_NOTIF_VALUE
-+ * a1-6	Not used
-+ * a7	Hypervisor Client ID register
-+ *
-+ * Normal return register usage:
-+ * a0	OPTEE_SMC_RETURN_OK
-+ * a1	value
-+ * a2	Bit[0]: OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID if the value in a1 is
-+ *		valid, else 0 if no values where pending
-+ * a2	Bit[1]: OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING if another value is
-+ *		pending, else 0.
-+ *	Bit[31:2]: MBZ
-+ * a3-7	Preserved
-+ *
-+ * Not supported return register usage:
-+ * a0	OPTEE_SMC_RETURN_ENOTAVAIL
-+ * a1-7	Preserved
-+ */
-+#define OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID	BIT(0)
-+#define OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING	BIT(1)
-+
-+/*
-+ * Notification that OP-TEE expects a yielding call to do some bottom half
-+ * work in a driver.
-+ */
-+#define OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF	0
-+
-+#define OPTEE_SMC_FUNCID_GET_ASYNC_NOTIF_VALUE	17
-+#define OPTEE_SMC_GET_ASYNC_NOTIF_VALUE \
-+	OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_ASYNC_NOTIF_VALUE)
-+
- /*
-  * Resume from RPC (for example after processing a foreign interrupt)
-  *
+[PATCH 02/10] mm/swapops: Rework swap entry manipulation code
+
+- No changes required.
+
+[PATCH 03/10] mm/rmap: Split try_to_munlock from try_to_unmap
+
+- No changes required.
+
+[PATCH 04/10] mm/rmap: Split migration into its own function
+
+- Updated try_to_migrate_one() and try_to_migrate() to accept TTU_SYNC
+  flag.
+
+- Updated mmu notifier range calculation in try_to_migrate_one() to use
+  vma_address_end() introduced by Hugh in "mm/thp: fix vma_address() if
+  virtual address below file offset".
+
+- Update to unmap_page() in mm/hugh_memory.c to pass TTU_SYNC and check
+  page_mapped() now that try_to_{unmap|migrate} return void.
+
+[PATCH 05/10] mm: Rename migrate_pgmap_owner
+
+- Added Peter's Reviewed-by.
+
+[PATCH 06/10] mm/memory.c: Allow different return codes for copy_non_present_pte()
+
+- Updated call to copy_nonpresent_pte() for extra arguments added by Peter
+  in "mm/userfaultfd: fix uffd-wp special cases for fork()".
+
+- Added Peter's Reviewed-by.
+
+[PATCH 07/10] mm: Device exclusive memory access
+
+- s/vma/src_vma/ in copy_nonpresent_pte() due to "mm/userfaultfd: fix
+  uffd-wp special cases for fork()".
+
+- Skip calling rmap_walk on tail pages.
+
+[PATCH 08/10] mm: Selftests for exclusive device memory
+
+- Squashed in a fix from Colin King (see
+  https://lore.kernel.org/kernel-janitors/20210526170530.3766167-1-colin.king@canonical.com/).
+  Not sure what the best way of attributing that is though given it was
+  against next.
+
+[PATCH 09/10] nouveau/svm: Refactor nouveau_range_fault
+
+- No changes.
+
+[PATCH 10/10] nouveau/svm: Implement atomic SVM access
+
+- No changes.
+
+Alistair Popple (10):
+  mm: Remove special swap entry functions
+  mm/swapops: Rework swap entry manipulation code
+  mm/rmap: Split try_to_munlock from try_to_unmap
+  mm/rmap: Split migration into its own function
+  mm: Rename migrate_pgmap_owner
+  mm/memory.c: Allow different return codes for copy_nonpresent_pte()
+  mm: Device exclusive memory access
+  mm: Selftests for exclusive device memory
+  nouveau/svm: Refactor nouveau_range_fault
+  nouveau/svm: Implement atomic SVM access
+
+ Documentation/vm/hmm.rst                      |  19 +-
+ Documentation/vm/unevictable-lru.rst          |  33 +-
+ arch/s390/mm/pgtable.c                        |   2 +-
+ drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
+ drivers/gpu/drm/nouveau/nouveau_svm.c         | 156 ++++-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 +
+ fs/proc/task_mmu.c                            |  23 +-
+ include/linux/mmu_notifier.h                  |  26 +-
+ include/linux/rmap.h                          |  11 +-
+ include/linux/swap.h                          |  13 +-
+ include/linux/swapops.h                       | 123 ++--
+ lib/test_hmm.c                                | 127 +++-
+ lib/test_hmm_uapi.h                           |   2 +
+ mm/debug_vm_pgtable.c                         |  12 +-
+ mm/hmm.c                                      |  12 +-
+ mm/huge_memory.c                              |  48 +-
+ mm/hugetlb.c                                  |  10 +-
+ mm/memcontrol.c                               |   2 +-
+ mm/memory.c                                   | 175 ++++-
+ mm/migrate.c                                  |  51 +-
+ mm/mlock.c                                    |  12 +-
+ mm/mprotect.c                                 |  18 +-
+ mm/page_vma_mapped.c                          |  15 +-
+ mm/rmap.c                                     | 612 +++++++++++++++---
+ tools/testing/selftests/vm/hmm-tests.c        | 158 +++++
+ 26 files changed, 1341 insertions(+), 327 deletions(-)
+
 -- 
-2.31.1
+2.20.1
 
