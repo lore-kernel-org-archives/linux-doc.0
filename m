@@ -7,50 +7,42 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4143CC49EA6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C24AC49EBE
 	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A6AB613D0
+	by mail.kernel.org (Postfix) with ESMTP id 63094613D3
 	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231800AbhFPGaB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:30:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59906 "EHLO mail.kernel.org"
+        id S231574AbhFPGaC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:30:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59948 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231481AbhFPG3y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 02:29:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E0EC3613DC;
-        Wed, 16 Jun 2021 06:27:47 +0000 (UTC)
+        id S231678AbhFPG3z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 02:29:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B5BE86141D;
+        Wed, 16 Jun 2021 06:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623824868;
-        bh=TBS6JoAxPmOD9dx9GzeTj3rbPrTu3AsIuW9k8qlWnzU=;
+        bh=MzVBXfG1BKEroabGxLV1n0BhCSj3Ci7z9YuRqrErxvo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cvf48LwFRDgIKhclCtr3FEhmUOggvXofz9CCdHQx+jkk1DsZU88KPa2K02jfFJdmX
-         ZnjjYQi5XeedFfmI2YJnM3qIcYkSsPFaRwyNSTnYqVH/wzsXbopt388skz2FHQ0pOJ
-         6yObsuhaidcj3nLZJBeVVr8b7DEqWxax/HxEaK+dQv4Nt9aupErg/RIaLlWPzfAeOz
-         ULynHSIpC3JsEtI20GSQSrCud5Jt4pX5wKI5OxoLKE4NqkK1wcPZx1bpFqiZjJqVfJ
-         tn/gilM5g5C8nVZMU8PWQhHIGu0A5NFipdro3QdQVBuC2lKm2jdfdkVY7AsMpAapAG
-         xqqYp4741lazQ==
+        b=mD6Kp5QEvk7O022uVIpL6FiHtnhbg481oWC/kFvecjPy/cLCox5wlJL4ScQnoyX9u
+         oqEyxE10kS0uFxg4MFpXG+DgcR1l2/HtTO5z9ugInQsKbR5nxnjiBck2cJALW3PpwJ
+         08QmYZlLy0j3vqRf5tLrBxtroEJjms2nQjvtb2odYpEV7ALk42SDowmhzzEQS3FbjN
+         zNi3whiqXZ0R/yevK4Ww+aeklnfggeFXPKYHZZj+VfzlPHfinE2RaDElh0GyTWyMzU
+         ouO7vZaNHYl/gESsSF25L1JS9nyDbe75NTQnlOHHK7imfyoNnv/KU2RPpQn4Bpw32N
+         f06Q+j23VAx/w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltP1e-004kIk-65; Wed, 16 Jun 2021 08:27:46 +0200
+        id 1ltP1f-004kJi-0B; Wed, 16 Jun 2021 08:27:47 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Brendan Jackman <jackmanb@chromium.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Florent Revest <revest@chromium.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v2 07/29] docs: bpf: bpf_lsm.rst: avoid using ReST :doc:`foo` markup
-Date:   Wed, 16 Jun 2021 08:27:22 +0200
-Message-Id: <fcee73b9bb55a8d0efd07cf04076c66278a42db4.1623824363.git.mchehab+huawei@kernel.org>
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: [PATCH v2 22/29] docs: PCI: pci.rst: avoid using ReST :doc:`foo` markup
+Date:   Wed, 16 Jun 2021 08:27:37 +0200
+Message-Id: <8697cf945390f6b45fefb4c5fe22ed1c8070e32e.1623824363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623824363.git.mchehab+huawei@kernel.org>
 References: <cover.1623824363.git.mchehab+huawei@kernel.org>
@@ -66,40 +58,40 @@ So, use the filename at the sources, instead of :doc:`foo`.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/bpf/bpf_lsm.rst | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ Documentation/PCI/pci.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/bpf/bpf_lsm.rst b/Documentation/bpf/bpf_lsm.rst
-index 1c0a75a51d79..0dc3fb0d9544 100644
---- a/Documentation/bpf/bpf_lsm.rst
-+++ b/Documentation/bpf/bpf_lsm.rst
-@@ -20,10 +20,10 @@ LSM hook:
- Other LSM hooks which can be instrumented can be found in
- ``include/linux/lsm_hooks.h``.
+diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+index 814b40f8360b..fa651e25d98c 100644
+--- a/Documentation/PCI/pci.rst
++++ b/Documentation/PCI/pci.rst
+@@ -265,7 +265,7 @@ Set the DMA mask size
+ ---------------------
+ .. note::
+    If anything below doesn't make sense, please refer to
+-   :doc:`/core-api/dma-api`. This section is just a reminder that
++   Documentation/core-api/dma-api.rst. This section is just a reminder that
+    drivers need to indicate DMA capabilities of the device and is not
+    an authoritative source for DMA interfaces.
  
--eBPF programs that use :doc:`/bpf/btf` do not need to include kernel headers
--for accessing information from the attached eBPF program's context. They can
--simply declare the structures in the eBPF program and only specify the fields
--that need to be accessed.
-+eBPF programs that use Documentation/bpf/btf.rst do not need to include kernel
-+headers for accessing information from the attached eBPF program's context.
-+They can simply declare the structures in the eBPF program and only specify
-+the fields that need to be accessed.
+@@ -291,7 +291,7 @@ Many 64-bit "PCI" devices (before PCI-X) and some PCI-X devices are
+ Setup shared control data
+ -------------------------
+ Once the DMA masks are set, the driver can allocate "consistent" (a.k.a. shared)
+-memory.  See :doc:`/core-api/dma-api` for a full description of
++memory.  See Documentation/core-api/dma-api.rst for a full description of
+ the DMA APIs. This section is just a reminder that it needs to be done
+ before enabling DMA on the device.
  
- .. code-block:: c
+@@ -421,7 +421,7 @@ owners if there is one.
  
-@@ -88,8 +88,9 @@ example:
+ Then clean up "consistent" buffers which contain the control data.
  
- The ``__attribute__((preserve_access_index))`` is a clang feature that allows
- the BPF verifier to update the offsets for the access at runtime using the
--:doc:`/bpf/btf` information. Since the BPF verifier is aware of the types, it
--also validates all the accesses made to the various types in the eBPF program.
-+Documentation/bpf/btf.rst information. Since the BPF verifier is aware of the
-+types, it also validates all the accesses made to the various types in the
-+eBPF program.
+-See :doc:`/core-api/dma-api` for details on unmapping interfaces.
++See Documentation/core-api/dma-api.rst for details on unmapping interfaces.
  
- Loading
- -------
+ 
+ Unregister from other subsystems
 -- 
 2.31.1
 
