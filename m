@@ -4,66 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA588C48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 16:03:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1922BC48BE8
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 16:05:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F37D60FE8
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 16:03:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F00FA61159
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 16:05:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231239AbhFPQFU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 12:05:20 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:46808 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230318AbhFPQFS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 12:05:18 -0400
-Received: by mail-io1-f54.google.com with SMTP id b14so3536417iow.13;
-        Wed, 16 Jun 2021 09:03:11 -0700 (PDT)
+        id S230318AbhFPQHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 12:07:25 -0400
+Received: from mail-io1-f49.google.com ([209.85.166.49]:41979 "EHLO
+        mail-io1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229503AbhFPQHZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 12:07:25 -0400
+Received: by mail-io1-f49.google.com with SMTP id p66so3575960iod.8;
+        Wed, 16 Jun 2021 09:05:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=hcKoNlZ0qCHbgrMWMGVkyiDZS1Csw+8F++6Pzt1IPtw=;
-        b=ppBa79DTv5pX/AYaZF0+z0zOKjqCG9VeiIgideZ3/Fd/ce6YfvYzsiiMPxuzCKy4tv
-         kgTJbQrgEqirlbqVC9SN3kap5s6w42EYvUGD/J4x8rob/DqdaKHYfdPlROXaQhPWDmVM
-         OOJakBSZkNhwNHuStF+WQSqQ/+Uy9mWpnusYM/vZZGrSb7lMEydljKfGFdN/spBnhRfo
-         MMOUtF3MNCMwR9dgkjQbJhYXcijbseSewJ7CuMV4r/IgVz8JZLJeq/wGkCMiLPAl9ofK
-         TGJKT3Fw5cI1DH3KunWdXAWPV3zyirr+CSTdsrDFTYxafxD5Jx+wWaHPDYga/6FX9stm
-         1/hA==
-X-Gm-Message-State: AOAM530Puu6fGcWUs8kTixG64xPUEOqDYUXYAbW83LmtUjoGK5v26wbf
-        BJle8ThMCXhkg3mT271B7A==
-X-Google-Smtp-Source: ABdhPJwY2nyTdfD4LWJR6MfSxx2n8cPcc2zsEpn3eF8j3IDKgGsVmaBx3KbLbue+x9qY8nkNJWQUTw==
-X-Received: by 2002:a6b:720f:: with SMTP id n15mr99419ioc.209.1623859391422;
-        Wed, 16 Jun 2021 09:03:11 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Gjt5TgUjmD4/SF56LtNHdLISeh3ChooHvQtDSrTLxB0=;
+        b=kFtGDPqf5QjN76j4ckmGPAYFG4tgAlYSZNzyELanV+f9sPjod3FcNrH0alHqohvorR
+         CxVDygFIKyoZOjG6a/El3kH4eqsnUk6fbXT45aLgmZoJym62vYLR910auoe7uvNonezY
+         mYcuG80mlOPaiZVJfi4KWxUnNDkixiFf0X+M/vivZ3jnFLTI8kYgTZ3otble29VxvBxL
+         8PLnKCZgGlmp1CyPmxxulpoDeC7IMDdziftROkvi767APURHPn8ylNV44gaNwCSW/ZXZ
+         OEkcZY57/HAntiluldBgN08yg/As8nEkoCVWpP0Xs8dKR3Td1kLQrix5wcnTAvtAXR3+
+         zygg==
+X-Gm-Message-State: AOAM532sLy0vmrp/geiKAa7OODmQBEcxzoTgbQh1b0gELAQjV3yRK6EY
+        VWdDu0B14oj0+kFhqK+ZLkYsC/iq7g==
+X-Google-Smtp-Source: ABdhPJzoDC30EjCRs3xXFHKbzRMx72I/5Od33bQ+d7S/F9QrcEmh3Ch+lVrpkgJejoynu1ihWBKo+Q==
+X-Received: by 2002:a02:9f05:: with SMTP id z5mr138111jal.63.1623859518346;
+        Wed, 16 Jun 2021 09:05:18 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id l12sm1330204iln.20.2021.06.16.09.03.07
+        by smtp.gmail.com with ESMTPSA id z3sm1378126ior.14.2021.06.16.09.05.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 09:03:10 -0700 (PDT)
-Received: (nullmailer pid 3471587 invoked by uid 1000);
-        Wed, 16 Jun 2021 16:03:05 -0000
+        Wed, 16 Jun 2021 09:05:17 -0700 (PDT)
+Received: (nullmailer pid 3474124 invoked by uid 1000);
+        Wed, 16 Jun 2021 16:05:14 -0000
+Date:   Wed, 16 Jun 2021 10:05:14 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     op-tee@lists.trustedfirmware.org,
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
         Sumit Garg <sumit.garg@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Jerome Forissier <jerome@forissier.org>,
-        linux-doc@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-        Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
         Vincent Guittot <vincent.guittot@linaro.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v2 2/7] dt-bindings: arm: Convert optee binding to
+ json-schema
+Message-ID: <20210616160514.GA3472903@robh.at.kernel.org>
+References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+ <20210616103649.2662395-3-jens.wiklander@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20210616103649.2662395-3-jens.wiklander@linaro.org>
-References: <20210616103649.2662395-1-jens.wiklander@linaro.org> <20210616103649.2662395-3-jens.wiklander@linaro.org>
-Subject: Re: [PATCH v2 2/7] dt-bindings: arm: Convert optee binding to json-schema
-Date:   Wed, 16 Jun 2021 10:03:05 -0600
-Message-Id: <1623859385.179062.3471586.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Jun 2021 12:36:44 +0200, Jens Wiklander wrote:
+On Wed, Jun 16, 2021 at 12:36:44PM +0200, Jens Wiklander wrote:
 > Converts the optee binding to use DT schema format.
 > 
 > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
@@ -73,27 +76,7 @@ On Wed, 16 Jun 2021 12:36:44 +0200, Jens Wiklander wrote:
 >  2 files changed, 49 insertions(+), 31 deletions(-)
 >  delete mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.txt
 >  create mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
-> 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Other than the indentation,
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml:21:7: [warning] wrong indentation: expected 4 but found 6 (indentation)
-
-dtschema/dtc warnings/errors:
-\ndoc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1492865
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Reviewed-by: Rob Herring <robh@kernel.org> 
