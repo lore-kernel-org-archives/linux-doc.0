@@ -2,196 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD915C48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:48:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F98C48BE6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:51:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EB07611CE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:48:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1CDD61246
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231132AbhFPGuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:50:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbhFPGuY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 02:50:24 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717ACC06175F
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 23:48:18 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id x19so629352pln.2
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jun 2021 23:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=G2o9MLJnJsw+6A1+/Voo6W0MsEPUjxURc0icFdbia4A=;
-        b=o3ZGRm+0PhR57FZeE69PXo3qtAMRcOMhbEPnUNPCmO6a3bopp2N37v+kmO19XhecJk
-         d3fAwvpax0VF0gdRK99Gg4WeuW8tMXK7i/gICzuT6F+LczfGHLkIDT840edL0ZLQBuDq
-         YCpzFBNxvRYhinwex9s/GmHopX+OQ7YH2HlsKvPIbmpp0ICcVQm/fzAo3DUcy3JkN0TV
-         MwKlKRz8wqfI4Vv82WBDRXlMTO93AKiAYh5Bx2YPL/ValHsZQ9U7fINE4lqsxaIczaDo
-         tcjkTMqK0LBuaT+RcZkqhbcpFfEFCbYlDiBOf2q1jktpKcLMXiGdXDUy0yezAqW15yO+
-         QgJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=G2o9MLJnJsw+6A1+/Voo6W0MsEPUjxURc0icFdbia4A=;
-        b=SoOuhx2SJJYwYP/eRTRQ6ooF2Y7NQAlkEVhV4owpZbQGpbbvQcJbAQDxHYeFwlWbYY
-         RJO4tFC9miSM0Ar8I0Ye0xF+yuWDkOBqz/rPGhLpKAu2VwkvK2p+czd5OgclmVpD6GTG
-         I3Ia0G9r6yN2QictzC364H+4hUxAZU0XW+JQx/aMeNc5G/zHQiIw2t1ZUAO0orDnoSfA
-         ZyHlruAQIuQenl9PZ0MyXOEISmosEF5RgmVXvhEymtdXtXJOHsM4bdCqRWL9oVX6YLV7
-         OB2FpyRg6EytWREu1KNfldsO3bT84j40AvOQ3gH++AfveesOQC/4Uclqa7auriIkD+l1
-         k43g==
-X-Gm-Message-State: AOAM5317jrY8i0uLCFdCoe0JudWaapBokdY8g9fh5LCclyTz/be7iCvf
-        iLWmwipMVfZ00qoaVrkImI9J+g==
-X-Google-Smtp-Source: ABdhPJxpzad74jam2+j2zJsuqJEtQzcp85IAyX1hiOrexHl514pCD7fFd/TmWVot90x4+5TugFFUsw==
-X-Received: by 2002:a17:902:b609:b029:118:8a66:6963 with SMTP id b9-20020a170902b609b02901188a666963mr7854149pls.65.1623826097975;
-        Tue, 15 Jun 2021 23:48:17 -0700 (PDT)
-Received: from localhost ([136.185.134.182])
-        by smtp.gmail.com with ESMTPSA id d8sm1127995pfq.198.2021.06.15.23.48.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 23:48:17 -0700 (PDT)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Ionela Voinescu <ionela.voinescu@arm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Qian Cai <quic_qiancai@quicinc.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH V2 1/3] cpufreq: Add start_cpu() and stop_cpu() callbacks
-Date:   Wed, 16 Jun 2021 12:18:07 +0530
-Message-Id: <2ffbaf079a21c2810c402cb5bba4e9c14c4a0ff4.1623825725.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1623825725.git.viresh.kumar@linaro.org>
-References: <cover.1623825725.git.viresh.kumar@linaro.org>
+        id S231741AbhFPGxP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:53:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60176 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231774AbhFPGxP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 02:53:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B8F62613B9;
+        Wed, 16 Jun 2021 06:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623826269;
+        bh=vFYUc/FPXe7v29rZc6G7piYAomJ6yWfSv9/yeEoUkxI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=TS6XOoGL4KFZ2jcCPUwlMc0J6sXPc0KOW84TacDfvAAZzhzoYsfTc0o8UaAgCmrk0
+         L6OsejPKQEPNzyNv1UJXCQJ9Zxt5fZ9r0nva+0JrnYk1nXFrgHLWTJsOc8mWUd7dCW
+         U7JPDYD1ZoHLVk3hvO4hMrAn3j+IHfpWPgPidSOIG8QKGGstIQpHeRx1WixmbzYdIo
+         9hiPJWevjQLpKtVpMiet/U+H7teRA+CJVUn1IlSDOWt9Atdv27qH1Z5rVbQPg27PfZ
+         /kogiKhOC9XguMKoiBLCUQK3XwN+0wocHAEEVM/JOJIwOkiIQCWb49qy6U8BIYexYe
+         MghCqGcPgKO0A==
+Date:   Wed, 16 Jun 2021 08:51:04 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v3 12/16] docs: PCI: acpi-info.rst: replace some
+ characters
+Message-ID: <20210616085104.0477bd7b@coco.lan>
+In-Reply-To: <20210519214731.GA262176@bjorn-Precision-5520>
+References: <320bafda201827dd63208af55b528ae63bcf8217.1621159997.git.mchehab+huawei@kernel.org>
+        <20210519214731.GA262176@bjorn-Precision-5520>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On CPU hot-unplug, the cpufreq core doesn't call any driver specific
-callback unless all the CPUs of a policy went away, in which case we
-call stop_cpu() callback.
+Em Wed, 19 May 2021 16:47:31 -0500
+Bjorn Helgaas <helgaas@kernel.org> escreveu:
 
-For the CPPC cpufreq driver, we need to perform per-cpu init/exit work
-which that can't be performed from policy specific init()/exit()
-callbacks.
+> On Sun, May 16, 2021 at 12:18:29PM +0200, Mauro Carvalho Chehab wrote:
+> > The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
+> > conversion and some cut-and-pasted text contain some characters that
+> > aren't easily reachable on standard keyboards and/or could cause
+> > troubles when parsed by the documentation build system.
+> >=20
+> > Replace the occurences of the following characters:
+> >=20
+> > 	- U+00a0 ('=C2=A0'): NO-BREAK SPACE
+> > 	  as it can cause lines being truncated on PDF output
+> >=20
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org> =20
+>=20
+> Apparently you missed
+> https://lore.kernel.org/r/20210512212938.GA2516413@bjorn-Precision-5520
+> where I pointed out a couple issues (3 spaces after period in first
+> hunk, extra whitespace at end of "know about it." hunk) and added my
+> ack.
+>=20
+> The subject line would be more useful as:
+>=20
+>   docs: PCI: Replace non-breaking spaces to avoid PDF issues
+>=20
+> It's fine to defer those issues if you want,=20
 
-This patch adds a new callback, start_cpu() and modifies the stop_cpu()
-callback, to perform such CPU specific work.
+Yeah, I opted to separate the changes into parts. This one is focused
+on problematic chars that could lead into output issues.=20
 
-These routines are called whenever a CPU is added or removed from a
-policy.
+Once those get merged, I'll submit a separate one with things like curly
+commas and dashes, as a couple of maintainers seem to have different
+opinions about that.
 
-Note that this also moves the setting of policy->cpus to online CPUs
-only, outside of rwsem as we needed to call start_cpu() for online CPUs
-only. This shouldn't have any side effects.
+> but this is still:
+>=20
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- Documentation/cpu-freq/cpu-drivers.rst |  7 +++++--
- drivers/cpufreq/cpufreq.c              | 19 +++++++++++++++----
- include/linux/cpufreq.h                |  5 ++++-
- 3 files changed, 24 insertions(+), 7 deletions(-)
+Thanks!
 
-diff --git a/Documentation/cpu-freq/cpu-drivers.rst b/Documentation/cpu-freq/cpu-drivers.rst
-index a697278ce190..15cfe42b4075 100644
---- a/Documentation/cpu-freq/cpu-drivers.rst
-+++ b/Documentation/cpu-freq/cpu-drivers.rst
-@@ -71,8 +71,11 @@ And optionally
-  .exit - A pointer to a per-policy cleanup function called during
-  CPU_POST_DEAD phase of cpu hotplug process.
- 
-- .stop_cpu - A pointer to a per-policy stop function called during
-- CPU_DOWN_PREPARE phase of cpu hotplug process.
-+ .start_cpu - A pointer to a per-policy per-cpu start function called
-+ during CPU online phase.
-+
-+ .stop_cpu - A pointer to a per-policy per-cpu stop function called
-+ during CPU offline phase.
- 
-  .suspend - A pointer to a per-policy suspend function which is called
-  with interrupts disabled and _after_ the governor is stopped for the
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index 802abc925b2a..128dfb1b0cdf 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -1119,6 +1119,10 @@ static int cpufreq_add_policy_cpu(struct cpufreq_policy *policy, unsigned int cp
- 
- 	cpumask_set_cpu(cpu, policy->cpus);
- 
-+	/* Do CPU specific initialization if required */
-+	if (cpufreq_driver->start_cpu)
-+		cpufreq_driver->start_cpu(policy, cpu);
-+
- 	if (has_target()) {
- 		ret = cpufreq_start_governor(policy);
- 		if (ret)
-@@ -1375,13 +1379,19 @@ static int cpufreq_online(unsigned int cpu)
- 		cpumask_copy(policy->related_cpus, policy->cpus);
- 	}
- 
--	down_write(&policy->rwsem);
- 	/*
- 	 * affected cpus must always be the one, which are online. We aren't
- 	 * managing offline cpus here.
- 	 */
- 	cpumask_and(policy->cpus, policy->cpus, cpu_online_mask);
- 
-+	/* Do CPU specific initialization if required */
-+	if (cpufreq_driver->start_cpu) {
-+		for_each_cpu(j, policy->cpus)
-+			cpufreq_driver->start_cpu(policy, j);
-+	}
-+
-+	down_write(&policy->rwsem);
- 	if (new_policy) {
- 		for_each_cpu(j, policy->related_cpus) {
- 			per_cpu(cpufreq_cpu_data, j) = policy;
-@@ -1581,6 +1591,10 @@ static int cpufreq_offline(unsigned int cpu)
- 		policy->cpu = cpumask_any(policy->cpus);
- 	}
- 
-+	/* Do CPU specific de-initialization if required */
-+	if (cpufreq_driver->stop_cpu)
-+		cpufreq_driver->stop_cpu(policy, cpu);
-+
- 	/* Start governor again for active policy */
- 	if (!policy_is_inactive(policy)) {
- 		if (has_target()) {
-@@ -1597,9 +1611,6 @@ static int cpufreq_offline(unsigned int cpu)
- 		policy->cdev = NULL;
- 	}
- 
--	if (cpufreq_driver->stop_cpu)
--		cpufreq_driver->stop_cpu(policy);
--
- 	if (has_target())
- 		cpufreq_exit_governor(policy);
- 
-diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-index 353969c7acd3..c281b3df4e2f 100644
---- a/include/linux/cpufreq.h
-+++ b/include/linux/cpufreq.h
-@@ -371,7 +371,10 @@ struct cpufreq_driver {
- 	int		(*online)(struct cpufreq_policy *policy);
- 	int		(*offline)(struct cpufreq_policy *policy);
- 	int		(*exit)(struct cpufreq_policy *policy);
--	void		(*stop_cpu)(struct cpufreq_policy *policy);
-+
-+	/* CPU specific start/stop */
-+	void		(*start_cpu)(struct cpufreq_policy *policy, unsigned int cpu);
-+	void		(*stop_cpu)(struct cpufreq_policy *policy, unsigned int cpu);
- 	int		(*suspend)(struct cpufreq_policy *policy);
- 	int		(*resume)(struct cpufreq_policy *policy);
- 
--- 
-2.31.1.272.g89b43f80a514
-
+Regards,
+Mauro
