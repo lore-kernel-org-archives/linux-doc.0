@@ -2,193 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE27C48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 15:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B602C48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 15:49:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05B11611BE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 15:04:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5316C60FF1
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 15:49:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234367AbhFPPHB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 11:07:01 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:52333 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233928AbhFPPG7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 11:06:59 -0400
-Received: from [192.168.1.155] ([95.115.35.150]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MRCFw-1lhUQP0Do4-00N8qA; Wed, 16 Jun 2021 17:04:33 +0200
-Subject: Re: [PATCH] drivers: gpio: add virtio-gpio guest driver
-To:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210616114934.n3grzuh6c64wlaj6@vireshk-i7>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <5cffb354-0d00-5ace-260d-61ac0c4c7491@metux.net>
-Date:   Wed, 16 Jun 2021 17:04:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S235194AbhFPPvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 11:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42872 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235334AbhFPPvb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 11:51:31 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46C96C061095;
+        Wed, 16 Jun 2021 08:46:27 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id q16so3058891qkm.9;
+        Wed, 16 Jun 2021 08:46:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gAbGl9PUVrieIDOPPvfXysXyAMbFr8wfY+I6z1ScrTg=;
+        b=kpgilGno7nEPvy3nM51vemWrL+pBaMW+FVRrClekQ10IdxjRw5D5h7Ty8l31rn6shF
+         zdw6ht9g6WxiTgflBF/HQq73fl4sfi+TlLVcddDBpf3aiGZoQqwfYDi621CIMsA9+6LI
+         9wjnTBUwbxOSohWmUHZXRqODWpx4kxTh8RUTnvJjwX6djPGvGiwR7iIoYO7F/GJdf6Iy
+         Zyb0D/pitJClgTkW+PoNaIWgv0M2/1UIYK4w1CaHUtgMjBAbXBo2dFcB3hROppBNo8u4
+         64F2SaDorlwRVlJljIrWAnWns76BTeysENNvocOZdFAssrNRtXtkgJePuVoqFWifdYdS
+         dEJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=gAbGl9PUVrieIDOPPvfXysXyAMbFr8wfY+I6z1ScrTg=;
+        b=hRfycklEADtrBILdQYQbp2cro+AIESYdj/lVnUF09bo4nGX4T/IqG1PTEeWRRvxR4Z
+         Wg9cbSxwodrcnFwRTWU3cYxmthLvNhFU6U21XXi3ZHi8A8r2S6T20ZOm4FUsFYDI5OSw
+         LePw6qJaMSg9FssQJqYcEKoPDyxoN8kzticv/45lLqNzQHIrzkAKYngYxhq4vbsamSRa
+         p9qUd+3f64/jkl/j2XnTpLHr7nvp1Yh8LFuBQ1JT27VGAcymRh3kmyF9bRS41bjfatHS
+         Vw03MkT1akqo2hO5vpL5ozOYlrX8xFjPx3+QRvNRWQMTEDUNtkYxAOlpJ2uw1khvs5Up
+         3FNw==
+X-Gm-Message-State: AOAM533B/K2E2W8DeSQXH9bx2+/cmim8/RIVGuxxwRbpRVuNZHytotse
+        mRjPdy16sD+XqWcTTDA17uI=
+X-Google-Smtp-Source: ABdhPJwCcZ1qRg5NHLDPDEtT6co3BKSf0C4lfwr7S0PG8T7ROitbmMFoiGrVi+lir7SWb28i1stHqQ==
+X-Received: by 2002:a37:6c46:: with SMTP id h67mr683623qkc.383.1623858386396;
+        Wed, 16 Jun 2021 08:46:26 -0700 (PDT)
+Received: from localhost ([199.192.137.73])
+        by smtp.gmail.com with ESMTPSA id m126sm1828290qke.16.2021.06.16.08.46.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jun 2021 08:46:26 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 16 Jun 2021 11:46:25 -0400
+From:   Tejun Heo <tj@kernel.org>
+To:     Kir Kolyshkin <kolyshkin@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        axboe@kernel.dk, paolo.valente@linaro.org, cgroups@vger.kernel.org
+Subject: Re: [PATCH 0/3] add/update/fix BFQ docs
+Message-ID: <YMoc0Tu/DyeKouc1@slm.duckdns.org>
+References: <20210611030737.1984343-1-kolyshkin@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210616114934.n3grzuh6c64wlaj6@vireshk-i7>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TxZhqDkofwIuzNYeg+qu2UL02JUe3fVzRzNE+2oUee67DdHJvQj
- q68S++GyWXVYp+8YHOUzcK4e67z2YLSPoX1VGgXSjWI7wHjS7X84d832LyWhsYq3VkTR/jp
- 3pXJGRF7jXozXa2lUgk2lettiOeyxpf4g1ByE/sVy/yFtpOgrlPRb1DjgVOXpJyQAKqJE7X
- B1fZ5Vk5eKnhCra7mY27A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KynWfsTDx+Y=:tdRvN0rPwvPA1iIfjnn957
- fBCcpBlKMO/VHCgP+l4KYYTomIAtZx0fnUehwFlSijk7EC88TgVxfJZyGmuL0PAMXD2VitROp
- YnMaHdBiyiMO3K6pJmJZtaBqGoV+e4Cobu75qDqcL4aZXsRJZHp8cdZlyuJBZu0ZDsMF4Hgzb
- 030bZpqQFnSC4HSAuITLo454K0TwH5hUODZ4jgcpS+NpAAieWTdmdxrJcREZJUlHQ11LkXZm/
- ilJtB8gShOziz+Vdjb9/aWqlWbpl6wkdFkgydp8xAcTCf+aHuh/L8U5RbvSp0mrajzYCFlDjh
- NcZPuB2CMeI6nFo6K1uumTOUMhuO+zzNqS9jX4RBb4GpWH7dZyvvH8bMxdpAViVkEEgBSjbfo
- UeRFFekpBPjpNt9+w6CvxBeHPNvG2GWm38pQtsmi3kb+8qtqlX1wqkVbLP1FTwNgUJ6fpLIOm
- BsV4sy+ScU5DyUJocDfD7elOFF9PnjwP9QXOG+X+aU/g6QzqTDQb37qOWkTxlBiErrRaE3ht5
- cT+hnnMvdKgkKCL3SNaN20=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210611030737.1984343-1-kolyshkin@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16.06.21 13:49, Viresh Kumar wrote:
-
-> I am not looking to get any credits for the code or spec here. I don't
-> really care about that. For the very same reason I kept you as the
-> author of the 1st patch in the kernel series, so git keeps showing you
-> as the original author.
-
-Fine, and I'm not intenting to fight over credits. I'm just interested
-in having a solid solution.
-
-> All I wanted to work on was the backend (in rust). 
-
-Okay, but why did you change the whole thing into something completely
-different ?
-
-> You only ever sent 1 real versions of the Linux driver, that too
-> "6-months-back", there were no real blockers anywhere and you never
-> attempted to upstream anything.
-
-The backlog was in the maillist archive. It was just lingering because
-of yet missing formal registering w/ vitio TC and I've been to busy with
-more pressing tasks. (for example I've got keep public infrastructure
-stuff up and running while folks are in lockdown).
-
-> Similarly, you "never" sent the specification properly to the virtio
-> lists for review. You sent it once as an attachment to an email, which
-> no one ever received.
-
-Half correct: I sent it to the list, but this wasn't tex'ified yet.
-
-> When I tried to move this forward, invested a lot of time into making
-> it better from specification to code, reviews started happening, you
-> decided to start blocking it again.
-
-When we had an email conversation about this, it was about submitting
-the existing spec in a formal correct way. Don't get me wrong: I
-apreciate that somebody's doing the beaurocratic work. But still have
-no idea why you changed it completely, so there's quite nothing left
-but the name and that it somehow does gpio via virtio.
-
-> Linux upstream doesn't really care about this, you can ask any Linux
-> Maintainer about this. 
-
-I happen to be a maintainer myself, and we do actually care about
-whether some thing is well tested.
-
-> If your code and specification isn't doing the
-> right thing, and isn't good enough, you will be asked to update it
-> upon reviews.
-
-Okay, please tell me, where exactly isn't right and why so.
-
-> YOU JUST CAN'T SAY I WON'T because I have products based on this
-> version.
-
-Most of driver development goes pretty much like this. Yes, we would
-prefer HW and FW vendors to talk with us first, but that rarely happens.
-
->>>      * virtio spec has been submitted to virtio TC
+On Thu, Jun 10, 2021 at 08:07:34PM -0700, Kir Kolyshkin wrote:
+> Improve BFQ docs: fix formatting, adding a missing piece.
 > 
-> Which specification are you talking about here ? The only
-> specification I can see on virtio lists is the one I sent.
+> Fix cgroup v1 blkio docs which are not updated for CFQ -> BFQ.
+> 
+> Patches are on top of the latest docs-next (commit acda97acb2e98c97895).
 
-The one I've resent (now texified) a few days ago. It had been submitted
-in ascii form last year. The answer from virtio TC folks whas that there
-are some formal steps to be done and it needs to be patched int their
-tex document.
+Acked-by: Tejun Heo <tj@kernel.org>
 
-> And the driver you tried to send isn't aligned to that for sure, and
-> it takes us back from all the improvements I tried to do.
+Prolly best to go through the block tree.
 
-Which improvements, exactly ? Unfortunately, you never talked to me
-what exactly you've been missing.
-
-I really have no idea, why you just
-
-> I am not saying that my version of the specification is the best and
-> there is no flaw in it. 
-
-I did outline several problems of your spec on virtio list. Things that
-already had already incorporated in my original one.
-
-Really, I have no idea why you've never talked to me on specific issues,
-but instead threw away, made something completely different and even
-claim it would be just kinda "minor upgrade" of mine. WTF ?!
-
-> There is no point going backwards now after making so much of
-> progress. Even if you try to send your version, it will slowly and
-> slowly reach very close to my latest version of code and spec. 
-
-Or the other way round, as soon as silicon guys come in and see how
-complicated and expensive your approach becomes.
-
-> Because your version of the code and spec weren't good enough for everyone.
-
-Again, please tell me what exactly was not "good enought" and who
-exactly is "everyone".
-
-> You need to accept that changes to that are inevitable since there 
-
-You sound like a politician that tries to push an hidden agenda,
-made by some secret interest group in the back room, against the
-people - like "resistance is futile".
-
-
-Finally, please tell me what exactly you're missing so hard in my spec,
-that really needs a completely different implementation, which is hard
-and expensive to implement in hardware.
-
-
-
---mtx
+Thanks.
 
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+tejun
