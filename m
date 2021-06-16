@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B1BC49EA2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36E8BC48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69EC4613DA
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 225D7613DC
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:28:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232037AbhFPGaP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:30:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59904 "EHLO mail.kernel.org"
+        id S232040AbhFPGaQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:30:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59920 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231636AbhFPG3y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231628AbhFPG3y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 16 Jun 2021 02:29:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A68061406;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 80B1E613C7;
         Wed, 16 Jun 2021 06:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623824868;
-        bh=CrYrSCQ5roiQoHpCpOwAt0vkDKLp+wMs38LNVCryUAc=;
+        bh=asTkRaIynv0EXyPf2YOE4npgGc5H+lLigxxTS3UFkZ8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L0yXL6NBDkppavsJdAfP66Tqh/HkmjX4k/N8IRfFPp4rYL8Q7SDWKud4JJD3v2BEP
-         Nx0x26pdKsdmQ0MT/S9OKPVncCFeqypf5kYQsv53LDONcECf/UgllhmoTaf3ZEBr5h
-         +vLxRwrx8lqdWLtV6HHbRGBISaOPoFYS2Yz22SiFtbInWYgGHRTKfCX2BcO1UhG4na
-         UINfeibnm9cSxMCBPE6UKiRkyoSUfmR+2qo7nnJcjZYiv0TiDXttyAXnkBksTQuDeb
-         pjxj0+zqRARZrCFhGQeV0bPtNaVPyNcQ6GdSXyHkar7pV860tDRqN8uZPRKqWAsQaW
-         lo1ocqTJ9/KsQ==
+        b=QSWSMAq5d4BVN94bdr8wyo8zjVTawMJ/78U+8jNzlfOCGOtF8zPIhd9npYIFCBLsD
+         PhzSHqu/Jt7Xe55I5SmPUjgYHTn+XVNS6mQxUvsYHVv/KsfsvUryL7xrW/4a44Yodq
+         rOx3e/r/VUCcgyDc3WpK74KdAyzLAfULeyKq1bRdfUSsmuDnGHKIymbSqGxsMQrKDx
+         HHhgMJ2Nhg1lJGZw1aFVM42A17rwVDuD0VqwjxO73zdk6SZHxXaVLZgBhRW26+LUC9
+         qZ20smW1FD6do5ZQ5bwJz8GVH/KR8wLrKYG5xTQzg9qaL6hPWrfdVTA7gl8ETj7PoU
+         bbZDT7XLoB91g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltP1e-004kJK-NA; Wed, 16 Jun 2021 08:27:46 +0200
+        id 1ltP1d-004kIM-Sz; Wed, 16 Jun 2021 08:27:45 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 16/29] docs: driver-api: usb: avoid using ReST :doc:`foo` markup
-Date:   Wed, 16 Jun 2021 08:27:31 +0200
-Message-Id: <2cd2dc3e6bacde587aeb09a3951594cfb0102014.1623824363.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 01/29] docs: devices.rst: better reference documentation docs
+Date:   Wed, 16 Jun 2021 08:27:16 +0200
+Message-Id: <5d9c9949a104d10b537a2d780bccad69a2dc58f9.1623824363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623824363.git.mchehab+huawei@kernel.org>
 References: <cover.1623824363.git.mchehab+huawei@kernel.org>
@@ -52,45 +52,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The :doc:`foo` tag is auto-generated via automarkup.py.
-So, use the filename at the sources, instead of :doc:`foo`.
+There's no need to use either :file: or :doc: tags for documentation,
+as automarkup.py automatically converts Documentation/*.rst into
+a cross-reference.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/usb/dma.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/driver-api/pm/devices.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/driver-api/usb/dma.rst b/Documentation/driver-api/usb/dma.rst
-index 2b3dbd3265b4..d32c27e11b90 100644
---- a/Documentation/driver-api/usb/dma.rst
-+++ b/Documentation/driver-api/usb/dma.rst
-@@ -10,7 +10,7 @@ API overview
+diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
+index 6b3bfd29fd84..d448cb57df86 100644
+--- a/Documentation/driver-api/pm/devices.rst
++++ b/Documentation/driver-api/pm/devices.rst
+@@ -217,7 +217,7 @@ system-wide transition to a sleep state even though its :c:member:`runtime_auto`
+ flag is clear.
  
- The big picture is that USB drivers can continue to ignore most DMA issues,
- though they still must provide DMA-ready buffers (see
--:doc:`/core-api/dma-api-howto`).  That's how they've worked through
-+Documentation/core-api/dma-api-howto.rst).  That's how they've worked through
- the 2.4 (and earlier) kernels, or they can now be DMA-aware.
+ For more information about the runtime power management framework, refer to
+-:file:`Documentation/power/runtime_pm.rst`.
++Documentation/power/runtime_pm.rst.
  
- DMA-aware usb drivers:
-@@ -60,7 +60,7 @@ and effects like cache-trashing can impose subtle penalties.
-   force a consistent memory access ordering by using memory barriers.  It's
-   not using a streaming DMA mapping, so it's good for small transfers on
-   systems where the I/O would otherwise thrash an IOMMU mapping.  (See
--  :doc:`/core-api/dma-api-howto` for definitions of "coherent" and
-+  Documentation/core-api/dma-api-howto.rst for definitions of "coherent" and
-   "streaming" DMA mappings.)
  
-   Asking for 1/Nth of a page (as well as asking for N pages) is reasonably
-@@ -91,7 +91,7 @@ Working with existing buffers
- Existing buffers aren't usable for DMA without first being mapped into the
- DMA address space of the device.  However, most buffers passed to your
- driver can safely be used with such DMA mapping.  (See the first section
--of :doc:`/core-api/dma-api-howto`, titled "What memory is DMA-able?")
-+of Documentation/core-api/dma-api-howto.rst, titled "What memory is DMA-able?")
+ Calling Drivers to Enter and Leave System Sleep States
+@@ -655,7 +655,7 @@ been thawed.  Generally speaking, the PM notifiers are suitable for performing
+ actions that either require user space to be available, or at least won't
+ interfere with user space.
  
- - When you're using scatterlists, you can map everything at once.  On some
-   systems, this kicks in an IOMMU and turns the scatterlists into single
+-For details refer to :doc:`notifiers`.
++For details refer to Documentation/driver-api/pm/notifiers.rst.
+ 
+ 
+ Device Low-Power (suspend) States
+@@ -726,7 +726,7 @@ it into account in any way.
+ 
+ Devices may be defined as IRQ-safe which indicates to the PM core that their
+ runtime PM callbacks may be invoked with disabled interrupts (see
+-:file:`Documentation/power/runtime_pm.rst` for more information).  If an
++Documentation/power/runtime_pm.rst for more information).  If an
+ IRQ-safe device belongs to a PM domain, the runtime PM of the domain will be
+ disallowed, unless the domain itself is defined as IRQ-safe. However, it
+ makes sense to define a PM domain as IRQ-safe only if all the devices in it
+@@ -805,7 +805,7 @@ The ``DPM_FLAG_MAY_SKIP_RESUME`` Driver Flag
+ --------------------------------------------
+ 
+ During system-wide resume from a sleep state it's easiest to put devices into
+-the full-power state, as explained in :file:`Documentation/power/runtime_pm.rst`.
++the full-power state, as explained in Documentation/power/runtime_pm.rst.
+ [Refer to that document for more information regarding this particular issue as
+ well as for information on the device runtime power management framework in
+ general.]  However, it often is desirable to leave devices in suspend after
 -- 
 2.31.1
 
