@@ -2,205 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E86C48BE8
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:49:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF570C48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:54:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0B2C61351
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:49:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC0756128B
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 11:54:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232512AbhFPLvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 07:51:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45266 "EHLO
+        id S232609AbhFPL4p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 07:56:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232465AbhFPLvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 07:51:45 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC73AC061760
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 04:49:37 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id u18so1009917plc.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 04:49:37 -0700 (PDT)
+        with ESMTP id S230262AbhFPL4p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 07:56:45 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90479C061574
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 04:54:39 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id v12so983494plo.10
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 04:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=WP4w1GpdYFm/lzVMj2S/oiM+wNAIY76Q4Vr8j4h2Ac8=;
-        b=wa92YBrXbG86A9Z+067cELwEal7p07gTA7A7wsgnCbaOV0P4ed2S2onKpAtAa6YpoW
-         Alrj7n+HHFlLh4cL0E/+vh6HaHfSTX2bVhimwLq3N+4ctPqCAHpFkwMqX9MfKwPLepi2
-         N85/18jVLEznBvvqb78bkfmWMBfICgKqImLdL9QPFz2rkpym27NQHevR/NjGk8zwEna6
-         QM9/KL4jOmdrxnmcHNNmLlLuC93GgJoyoCcEMQZTcd7xxhGFEIQ0/UQm1Jzn9+Z5XLEp
-         YLIXvWj6DrJqOe4QCzTZ4zkbl7G2jU0Ez/9tYf25xw7D14jAR7EywGWy4PSJHgPhaoYK
-         To4g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=LO5EJonCZ/d5EwONfrhTxGMVZOU8PfqKuC1jlKIm6KY=;
+        b=VB0iWCJfLn2XcQfTxTRN/CEHfkX0u3u7T9uUKaOKeUl2KexASUw/FNEg/owhnh7jcn
+         XLfyljKXu3Tp61NHNzQtHuuPiWtdICkoxV6qceNWWsqJbvaxlUv2rmDvy+I86SICSEPC
+         OhkzIelxRmSMHueQ4EyK1JssvE+n5ymmByD3kP9IWDMGMbuV5xrDmgnSiostd2OoFtfK
+         7JOcmEzIU8jlKDqU02dMq1/i5OVGJFG+aBurXRrYz6EjV3S3RBop5J3NxGsRA47lbbmT
+         HJwe5S9aqQ7EWztiDalPGuUXYv0yzYlBm344RVcyx0YTsxsLf1RIpv8+NAD1l9nBFi8P
+         zvQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=WP4w1GpdYFm/lzVMj2S/oiM+wNAIY76Q4Vr8j4h2Ac8=;
-        b=kQ6gR3wjX1DrWCmX1Eiff0mnw1TriBxaoRWQ6rCmXKtYZQ68sY07pNuY6pe+kqbGeG
-         Ol58amc884JwuftYpV9/Z0HSYmyBNrx5QXHJtwotHGj2pe/0TmQRztUuoxRFC5grIwvC
-         VlQtfXlOYa/7pvkrnONE1TUX23pTtYko7WV8KEnFFNPVm/GfCGYv3e2TnW07tUqIqFn3
-         sTjEawItNZhW0GGu/5eh2jFOuqI4J0iQrNuTH8u7McKDFj1hKTEITTBBQ+CKogKL2Fny
-         48hR7WsSLuLv14T7itTSnmttZ5+upZgnaJEogpbmjY6VOtoO7SyW+Is7SANXlxiCtwfI
-         bjXQ==
-X-Gm-Message-State: AOAM532G8wl8iunD2maM7/5XZr6XSU+iC9XBJ71YdFBPk08jBnX09BxH
-        Cw0xgtsKZyFwvfBzvMT7F2+5pA==
-X-Google-Smtp-Source: ABdhPJw89fpFAisJqm9uKcXQ4Bv9sFpHwtsFqHMJR6kj3kZ7z5t5WDsu0PQ7GzVDY+EnmIFrNn1Yqw==
-X-Received: by 2002:a17:90a:5401:: with SMTP id z1mr4452275pjh.7.1623844177210;
-        Wed, 16 Jun 2021 04:49:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=LO5EJonCZ/d5EwONfrhTxGMVZOU8PfqKuC1jlKIm6KY=;
+        b=VEIEGW1hWEN0wzdXOw/FK2u7EA6Y/t5GGD8kS10sMeMFqV90c3HWOLDwnKDS+hPjXg
+         FR/s+ybjWef9HyemN9qRjtGLBi8BzS1jqVgVshmf5BWgDnm4cXspPzPX4sNoqMTsPRQF
+         WUe7Bp/aLjbTTlgT6EG52g1YOKjzvH50fhefybz3dRJrylyZ2zRzn9WSCm7UtFAFAoeF
+         pg1zB1VncA8b/3R7wOGx2BVSPeFQf2BTyno04JUV23zZGdb05dc+h1ow16WQ8YZQ+QQB
+         WIyAJH3f/vRpzcWQxmzqFJhtBaXfNPzE30P8jbtgtSuecMAbmcH/DZ1B7IuT2YVSLTgN
+         7U+w==
+X-Gm-Message-State: AOAM530gOsW8/b5/rETPE39EFgUS3J0VFgcULf1E0Eok8oVh7aNKRjFy
+        0cJD1siBoJ1o7XrZHb+sJTuFIg==
+X-Google-Smtp-Source: ABdhPJyYd3VQzt+tqYJ+n4o4+TQazujKn+PEyQYXSaGhFBXLJnG6eDoXfU6zgGPLGiB8Uk5i2qK6zA==
+X-Received: by 2002:a17:902:f704:b029:11a:cdee:490 with SMTP id h4-20020a170902f704b029011acdee0490mr8551076plo.37.1623844479074;
+        Wed, 16 Jun 2021 04:54:39 -0700 (PDT)
 Received: from localhost ([136.185.134.182])
-        by smtp.gmail.com with ESMTPSA id t14sm2541701pgm.9.2021.06.16.04.49.36
+        by smtp.gmail.com with ESMTPSA id w7sm2019453pjy.11.2021.06.16.04.54.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 04:49:36 -0700 (PDT)
-Date:   Wed, 16 Jun 2021 17:19:34 +0530
+        Wed, 16 Jun 2021 04:54:38 -0700 (PDT)
+Date:   Wed, 16 Jun 2021 17:24:36 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+To:     Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
+        Ionela Voinescu <ionela.voinescu@arm.com>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>,
+        Qian Cai <quic_qiancai@quicinc.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] drivers: gpio: add virtio-gpio guest driver
-Message-ID: <20210616114934.n3grzuh6c64wlaj6@vireshk-i7>
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH V2 0/3] cpufreq: cppc: Add support for frequency
+ invariance
+Message-ID: <20210616115436.5mm64htpbyxrnpzg@vireshk-i7>
+References: <cover.1623825725.git.viresh.kumar@linaro.org>
+ <CAKfTPtCawkocU+ssGi9hz10tMGYib_pfiFGXNMiF1HGYWinMdw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACRpkdbwLOOT6nuhpkT5x-AZVipsD2qG8Qu4xoiRotHQNknwzw@mail.gmail.com>
+In-Reply-To: <CAKfTPtCawkocU+ssGi9hz10tMGYib_pfiFGXNMiF1HGYWinMdw@mail.gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16-06-21, 10:31, Linus Walleij wrote:
-> Hi Enrico,
+On 16-06-21, 12:02, Vincent Guittot wrote:
+> I tested your branch and got the following while booting:
 > 
-> On Tue, Jun 15, 2021 at 7:49 PM Enrico Weigelt, metux IT consult
-> <info@metux.net> wrote:
-> 
-> > Introduce new GPIO driver for virtual GPIO devices via virtio.
-> >
-> > The driver implements the virtio-gpio protocol (ID 41), which can be
-> > used by either VM guests (e.g. bridging virtual gpios from the guest
-> > to real gpios in the host or attaching simulators for automatic
-> > application testing), as well as virtio-gpio hardware devices.
-> >
-> > Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
-> 
-> So now there are two contesting patches for this and that creates a
-> social problem for us as maintainers. I am not too happy about that.
-> 
-> This situation activates the kernel management style document so
-> I advise involved parties to familiarize themselves with it:
-> https://www.kernel.org/doc/html/latest/process/management-style.html
-> 
-> Can we get the discussion down to actual technical points?
+> [   24.454543] zswap: loaded using pool lzo/zbud
+> [   24.454753] pstore: Using crash dump compression: deflate
+> [   24.454776] AppArmor: AppArmor sha1 policy hashing enabled
+> [   24.454784] ima: No TPM chip found, activating TPM-bypass!
+> [   24.454789] ima: Allocated hash algorithm: sha256
+> [   24.454801] ima: No architecture policies found
+> [   24.455750] pcieport 0000:0f:00.0: Adding to iommu group 0
+> [   24.893888] ------------[ cut here ]------------
+> [   24.893891] WARNING: CPU: 95 PID: 1442 at
+> drivers/cpufreq/cppc_cpufreq.c:123 cppc_scale_freq_workfn+0xc8/0xf8
+> [   24.893901] Modules linked in:
+> [   24.893906] CPU: 95 PID: 1442 Comm: cppc_fie Not tainted 5.13.0-rc6+ #359
+> [   24.893910] Hardware name: To be filled by O.E.M. Saber/Saber, BIOS
+> 0ACKL026 03/19/2019
+> [   24.893912] pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
+> [   24.893915] pc : cppc_scale_freq_workfn+0xc8/0xf8
+> [   24.893918] lr : cppc_scale_freq_workfn+0x5c/0xf8
+> [   24.893921] sp : ffff80003727bd90
+> [   24.893922] x29: ffff80003727bd90 x28: 0000000000000000 x27: ffff800010ec2000
+> [   24.893928] x26: ffff800010ec2000 x25: ffff8000107c3d90 x24: 0000000000000001
+> [   24.893932] x23: ffff000816244880 x22: ffff8000113f9000 x21: ffff009f825a0a80
+> [   24.893935] x20: ffff009efc394220 x19: ffff800011199000 x18: 000000000000001b
+> [   24.893939] x17: 0000000000000007 x16: 0000000000000001 x15: 00000000000000bf
+> [   24.893943] x14: 0000000000000016 x13: 000000000000029b x12: 0000000000000016
+> [   24.893946] x11: 0000000000000000 x10: 0000000000000000 x9 : ffff009efc6958c0
+> [   24.893950] x8 : ffff009efc394248 x7 : 0000000002bde780 x6 : 00000000ffffffff
+> [   24.893954] x5 : 00000000916e502a x4 : 00000000d9730e80 x3 : ffffffffffffffff
+> [   24.893958] x2 : 00000000001e8480 x1 : 00000000002625a0 x0 : 0000000000000401
+> [   24.893962] Call trace:
+> [   24.893964]  cppc_scale_freq_workfn+0xc8/0xf8
+> [   24.893967]  kthread_worker_fn+0x110/0x318
+> [   24.893971]  kthread+0xf4/0x120
+> [   24.893973]  ret_from_fork+0x10/0x18
+> [   24.893977] ---[ end trace ea6dbaf832bce3e4 ]---
 
-+1
+Thanks Vincent.
 
-I can not agree more to this.
+This is triggering from cppc_scale_freq_workfn():
 
-> We really need a virtio GPIO driver, no doubt, so if everyone could
-> just work toward that goal and compromise with their specific pet
-> peeves that would be great.
+        if (WARN_ON(local_freq_scale > 1024))
 
-Enrico,
+Looks like there is something fishy about the perf calculations here
+after reading the counters, we tried to scale that in the range 0-1024
+and it came larger than that.
 
-I am not looking to get any credits for the code or spec here. I don't
-really care about that. For the very same reason I kept you as the
-author of the 1st patch in the kernel series, so git keeps showing you
-as the original author.
-
-All I wanted to work on was the backend (in rust). This is what
-happened for I2C for example, Jie Deng (Intel) worked on the spec and
-Linux driver and I helped review it, make him fix a thing or two and
-that's all. I worked on the rust implementation for the backend then.
-
-You only ever sent 1 real versions of the Linux driver, that too
-"6-months-back", there were no real blockers anywhere and you never
-attempted to upstream anything.
-
-Similarly, you "never" sent the specification properly to the virtio
-lists for review. You sent it once as an attachment to an email, which
-no one ever received.
-
-When I tried to move this forward, invested a lot of time into making
-it better from specification to code, reviews started happening, you
-decided to start blocking it again.
-
-You should be rather happy that something that you worked on is making
-progress, specially when you didn't get time to do the same.
-
-You wrote this in your patch:
-
-> > Status:
-> >     * this driver is now field tested for about 6 month
-> >       (against KVM+Qemu as well as some HW/FPGA implementation)
-
-Linux upstream doesn't really care about this, you can ask any Linux
-Maintainer about this. If your code and specification isn't doing the
-right thing, and isn't good enough, you will be asked to update it
-upon reviews.
-
-YOU JUST CAN'T SAY I WON'T because I have products based on this
-version.
-
-This is not how any open source project works. The code and
-specification here doesn't belong to a single person or company. It is
-for everyone's use.
-
-> >     * virtio device ID officially allocated
-
-Correct.
-
-> >     * virtio spec has been submitted to virtio TC
-
-Which specification are you talking about here ? The only
-specification I can see on virtio lists is the one I sent.
-
-And the driver you tried to send isn't aligned to that for sure, and
-it takes us back from all the improvements I tried to do.
-
-I am not saying that my version of the specification is the best and
-there is no flaw in it. There surely is, but that can't be fixed by
-sending another version of it. You need to make a technical point
-about it and convince people that what you are saying is correct and
-it is required for your use-case (not existing downstream solution).
-
-There is no point going backwards now after making so much of
-progress. Even if you try to send your version, it will slowly and
-slowly reach very close to my latest version of code and spec. Because
-your version of the code and spec weren't good enough for everyone. It
-doesn't matter if you have real products on your earlier version, you
-can keep using that in your downstream solution, but Linux kernel and
-specification are going to get an improved version (from yours or
-mine, but that doesn't matter here). You need to accept that changes
-to that are inevitable since there are many users of gpio-virtio, not
-just you and me, but many more (Like Bjorn expressed his interest in
-this today for Qcom stuff).
-
-Again, it would be better if you can discuss further on technical
-merits or demerits in the currently circulated specification and give
-your invaluable suggestions on the same.
-
-Else we will end up spending few more months with just this and it
-won't get us anywhere.
-
-Thanks.
+Will keep you posted.
 
 -- 
 viresh
