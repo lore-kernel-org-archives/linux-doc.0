@@ -2,187 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85C3BC48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 21:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD11C48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 21:16:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6320D613BF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 21:05:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F641613E7
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 21:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233864AbhFPVHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 17:07:54 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34154 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233836AbhFPVHx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 17:07:53 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21F5AFC9;
-        Wed, 16 Jun 2021 23:05:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623877545;
-        bh=2IBPWP7hn6ucwodbxtkHel4D6eOZPP8Ec1jAvIB9tpo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RokUqXx2zOiLscgJQ8kMnrPUp7wLhensj/HpKU912X7Gd3s4AAYn6/hcKsSMShbHr
-         66f4J3p2xuUrDWgNtoT+gqvNcExviSmT5r0kvSt3bq4YAtM/tkSLTC+ZvSuPUxaAiK
-         0ZBy8fbZaz6qZF4IuVpJkL7alvqnhmyCzuc1dQCE=
-Date:   Thu, 17 Jun 2021 00:05:24 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Simon Ser <contact@emersion.fr>, Liviu Dudau <liviu.dudau@arm.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Steven Price <steven.price@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alison Wang <alison.wang@nxp.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Huang Rui <ray.huang@amd.com>,
-        Yannick Fertr e <yannick.fertre@foss.st.com>,
+        id S233944AbhFPVSo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 17:18:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43912 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233836AbhFPVSn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 17:18:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EEB65613DF;
+        Wed, 16 Jun 2021 21:16:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623878197;
+        bh=g0jleB/kEeeiGGDNq1Chp/dzNVZGcHFtnZ8EpEOi+lg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=LhfE3ydVx732Lk8ZAGuNehW4CtJ7CP+EGLJaXRG5cqlco3TT1Gxm25PByaM8S2Vlj
+         JHemkB/lt6CQ3kew15b0BZ18wY/qYbY3Jeheb+nsx6k1Vwn00wrS5/yP67dcDGdeMi
+         61KBaUNQ2/xrB4xa9TT1Jb4iRgmjyqxVHebUXgRnPz58nZVCt/c7C8Sis0EC7f/BeZ
+         o1AbmvKAmk3rEp4zs2aVS5lO3zjYB+fOOdhCED/AFQVBvz282hhrsMk7WIhRKKnflV
+         HTsyLyPOAD9md50qvx8h9WQ2W+/ARkK4dMZ5pWU53893wMqEW0mFTKEz40V+6FzNvk
+         5/bHuiY3CTipA==
+Date:   Wed, 16 Jun 2021 16:16:30 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
-References: <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
- <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
- <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
- <20210614174912.15a49336@eldfell>
- <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
- <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
- <20210615100335.0b8f96d5@eldfell>
- <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
- <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
- <20210615131656.2ecefdc4@eldfell>
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
+Message-ID: <20210616211630.GA3007203@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210615131656.2ecefdc4@eldfell>
+In-Reply-To: <d5bcf443-a0ee-fda5-5c5c-d69d25b53bb9@ti.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:
-> On Tue, 15 Jun 2021 12:45:57 +0300 Laurent Pinchart wrote:
-> > On Tue, Jun 15, 2021 at 07:15:18AM +0000, Simon Ser wrote:
-> > > On Tuesday, June 15th, 2021 at 09:03, Pekka Paalanen wrote:
-> > >   
-> > > > indeed it will, but what else could one do to test userspace KMS
-> > > > clients in generic CI where all you can have is virtual hardware? Maybe
-> > > > in the long run VKMS needs to loop back to a userspace daemon that
-> > > > implements all the complex processing and returns the writeback result
-> > > > via VKMS again? That daemon would then need a single upstream, like the
-> > > > kernel, where it is maintained and correctness verified.  
-> > > 
-> > > The complex processing must be implemented even without write-back, because
-> > > user-space can ask for CRCs of the CRTC.
-> > >   
-> > > > Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtual
-> > > > stuff in userspace? Didn't someone already have something like that?
-> > > > It would need to be lifted to be a required part of kernel UAPI
-> > > > submissions, I suppose like IGT is nowadays.  
-> > > 
-> > > FWIW, I have a mock libdrm [1] for libliftoff. This is nowhere near a full
-> > > software implementation with write-back connectors, but allows to expose
-> > > virtual planes and check atomic commits in CI.
-> > > 
-> > > [1]: https://github.com/emersion/libliftoff/blob/master/test/libdrm_mock.c
-> > >   
-> > > > For compositor developers like me knowing the exact formulas would be a huge
-> > > > benefit as it would allow me to use KMS to off-load precision-sensitive
-> > > > operations (e.g.  professional color management). Otherwise, compositors
-> > > > probably need a switch: "high quality color management? Then do not use KMS
-> > > > features."  
-> > > 
-> > > I think for alpha blending there are already rounding issues depending on the
-> > > hardware. I wouldn't keep my hopes up for any guarantee that all hw uses the
-> > > exact same formulae for color management stuff.  
-> > 
-> > Good, because otherwise you would be very quickly disappointed :-)
-> > 
-> > For scaling we would also need to replicate the exact same filter taps,
-> > which are often not documented.
+On Wed, Jun 16, 2021 at 07:35:33PM +0530, Kishon Vijay Abraham I wrote:
+> Hi Lorenzo, Bjorn,
 > 
-> That is where the documented tolerances come into play.
-
-This is something I've experimented with a while ago, when developing
-automated tests for the rcar-du driver. When playing with different
-input images we had to constantly increases tolerances, up to a point
-where the tests started to miss real problems :-(
-
-> Userspace projects need screenshot-based testing, and we need to know
-> how much tolerance we should allow or expect.
+> On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
+> > Patch series
+> > *) Adds support to add virtual functions to enable endpoint controller
+> >    which supports SR-IOV capability
+> > *) Add support in Cadence endpoint driver to configure virtual functions
+> > *) Enable pci_endpoint_test driver to create pci_device for virtual
+> >    functions
+> > 
+> > v1 of the patch series can be found at [1]
+> > v2 of the patch series can be found at [2]
+> > v3 of the patch series can be found at [3]
+> > v4 of the patch series can be found at [4]
+> > v5 of the patch series can be found at [5]
+> > 
+> > Here both physical functions and virtual functions use the same
+> > pci_endpoint_test driver and existing pcitest utility can be used
+> > to test virtual functions as well.
+> > 
+> > Changes from v5:
+> > *) Rebased to 5.13-rc1
+> > 
+> > Changes from v4:
+> > *) Added a fix in Cadence driver which was overwriting BAR configuration
+> >    of physical function.
+> > *) Didn't include Tom's Acked-by since Cadence driver is modified in
+> >    this revision.
+> > 
+> > Changes from v3:
+> > *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
+> > 
+> > Changes from v2:
+> > *) Fixed DT binding documentation comment by Rob
+> > *) Fixed the error check in pci-epc-core.c
+> > 
+> > Changes from v1:
+> > *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
+> >    binding for EP)
+> > 
+> > [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
+> > [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
+> > [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
+> > [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
+> > [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
 > 
-> Good reminder about CRCs. CRCs have zero tolerance, so they are not
-> useful for testing properties that have any leeway, are they?
+> Can this series be merged for 5.14? It already includes Ack from Rob for
+> dt-binding changes and Ack from Tom for Cadence driver changes.
 
--- 
-Regards,
+Sorry, I think this was assigned to me in patchwork, but Lorenzo
+usually takes care of the endpoint stuff.  He's away this week, but no
+doubt will look at it when he returns.
 
-Laurent Pinchart
+Bjorn
