@@ -2,49 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA486C49EA2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79BB2C48BE8
 	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 955F2613C2
+	by mail.kernel.org (Postfix) with ESMTP id 67BB1613C2
 	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231871AbhFPG5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231774AbhFPG5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 16 Jun 2021 02:57:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34614 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:34578 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231318AbhFPG5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231168AbhFPG5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 16 Jun 2021 02:57:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0BDA7613D0;
-        Wed, 16 Jun 2021 06:55:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E86AE613B9;
+        Wed, 16 Jun 2021 06:55:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623826518;
-        bh=XfaDbhyWTZnv4WQEdwoApJzDRlUwiFS9TASTuCgnwjg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hEHOtITyS9QTJ13JLBFmSz+a9sy/nYwN50DJSymhVLGJK2RX/o2Pf8BGI8eIpWbrV
-         PRYgoIfgEqsS3NWkRZP7I4fMXBUJIC61CFWQTWZrxNT66wuXT5S6E43+fpHzQC2c7y
-         XyAju6YeXaucYg8dnfNGWS4/BW0WvCghjA1OKuYj+CQRJMLzmpKw9UX6NPixDvzUKP
-         0+eeRYGK6i/4Pos01dFYCZoQMEMyBM6oDsN9QqAT8Pt0mtzywKWW0fbzsXCyq1fL0U
-         VQcunQfFe3Faf5NMh1C+jjdWh2PdRoXfUKAxjvL7KvMbZ8zuFNtns/GE8Y3Z5cRRp4
-         EB/7Ej2BgR5Ag==
+        bh=JNLoEzRSUmckl8eLY94oHxsjeBDCiLlJ5aZAc+3RHhw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bIRjmcsZh0nDrGHZVv9Hdcp/Q7V4uZte3M33hb9qtbnnI2Do02YGKEM+D6wRBXJX8
+         fXP7U8eEtlIoGGBRfcltvRJKfVLv6QfEzHWXg0RqgPTC/cqVmoVPlD3eInloJymMLC
+         YFImERmycprD4hLIQfwK4FMud3KE6g98aGIK3QdPZWSv6z/ri/7N3dR5lTH3MJ8aUe
+         Bp3u9e2L/j8FbtxvpC2tQVJI5GuWTuVepuuIxKMIBQ2anYz1TSwnwP/6dC4Hclk/V0
+         JEx814LnbdMa7n/p9vSS8FAmzoK9B1aSqdGnO1eWFyBdMyWaXbzC4IY2JvfPF0KgqH
+         Uy3+bF3abccxA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltPSG-004lCO-BS; Wed, 16 Jun 2021 08:55:16 +0200
+        id 1ltPSG-004lCD-7Q; Wed, 16 Jun 2021 08:55:16 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/8] docs: driver-api: ioctl.rst: replace some characters
-Date:   Wed, 16 Jun 2021 08:55:09 +0200
-Message-Id: <b2186e313f990488ded56d9b8d35a2d1fe479aa1.1623826294.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jakub Kicinski <kuba@kernel.org>, Leo Yan <leo.yan@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mike Leach <mike.leach@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        coresight@lists.linaro.org, intel-wired-lan@lists.osuosl.org,
+        linux-arm-kernel@lists.infradead.org, linux-ext4@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH 0/8] Replace some bad characters on documents
+Date:   Wed, 16 Jun 2021 08:55:06 +0200
+Message-Id: <cover.1623826294.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1623826294.git.mchehab+huawei@kernel.org>
-References: <cover.1623826294.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -53,50 +64,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
-conversion and some cut-and-pasted text contain some characters that
-aren't easily reachable on standard keyboards and/or could cause
-troubles when parsed by the documentation build system.
+Hi Jon,
 
-Replace the occurences of the following characters:
+This series contain the remaining 8 patches I submitted at v3 that
+weren't merged yet at -next.
 
-	- U+00a0 (' '): NO-BREAK SPACE
-	  as it can cause lines being truncated on PDF output
+This series is rebased on the top of your docs-next branch.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/driver-api/ioctl.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+No changes here, except by some Reviewed/ack lines, and at the
+name of the final patch (per PCI maintainer's request).
 
-diff --git a/Documentation/driver-api/ioctl.rst b/Documentation/driver-api/ioctl.rst
-index c455db0e1627..5b76e765827d 100644
---- a/Documentation/driver-api/ioctl.rst
-+++ b/Documentation/driver-api/ioctl.rst
-@@ -25,9 +25,9 @@ ioctl commands that follow modern conventions: ``_IO``, ``_IOR``,
- with the correct parameters:
- 
- _IO/_IOR/_IOW/_IOWR
--   The macro name specifies how the argument will be used.  It may be a
-+   The macro name specifies how the argument will be used.  It may be a
-    pointer to data to be passed into the kernel (_IOW), out of the kernel
--   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
-+   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
-    argument or those passing an integer value instead of a pointer.
-    It is recommended to only use _IO for commands without arguments,
-    and use pointers for passing data.
-@@ -200,10 +200,10 @@ cause an information leak, which can be used to defeat kernel address
- space layout randomization (KASLR), helping in an attack.
- 
- For this reason (and for compat support) it is best to avoid any
--implicit padding in data structures.  Where there is implicit padding
-+implicit padding in data structures.  Where there is implicit padding
- in an existing structure, kernel drivers must be careful to fully
- initialize an instance of the structure before copying it to user
--space.  This is usually done by calling memset() before assigning to
-+space.  This is usually done by calling memset() before assigning to
- individual members.
- 
- Subsystem abstractions
+Mauro Carvalho Chehab (8):
+  docs: admin-guide: reporting-issues.rst: replace some characters
+  docs: trace: coresight: coresight-etm4x-reference.rst: replace some
+    characters
+  docs: driver-api: ioctl.rst: replace some characters
+  docs: usb: replace some characters
+  docs: vm: zswap.rst: replace some characters
+  docs: filesystems: ext4: blockgroup.rst: replace some characters
+  docs: networking: device_drivers: replace some characters
+  docs: PCI: Replace non-breaking spaces to avoid PDF issues
+
+ Documentation/PCI/acpi-info.rst                | 18 +++++++++---------
+ Documentation/admin-guide/reporting-issues.rst |  2 +-
+ Documentation/driver-api/ioctl.rst             |  8 ++++----
+ Documentation/filesystems/ext4/blockgroup.rst  |  2 +-
+ .../device_drivers/ethernet/intel/i40e.rst     |  6 +++---
+ .../device_drivers/ethernet/intel/iavf.rst     |  2 +-
+ .../coresight/coresight-etm4x-reference.rst    |  2 +-
+ Documentation/usb/ehci.rst                     |  2 +-
+ Documentation/usb/gadget_printer.rst           |  2 +-
+ Documentation/vm/zswap.rst                     |  4 ++--
+ 10 files changed, 24 insertions(+), 24 deletions(-)
+
 -- 
 2.31.1
+
 
