@@ -2,87 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B602C48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 15:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA588C48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 16:03:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5316C60FF1
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 15:49:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F37D60FE8
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 16:03:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235194AbhFPPvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 11:51:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235334AbhFPPvb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 11:51:31 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46C96C061095;
-        Wed, 16 Jun 2021 08:46:27 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id q16so3058891qkm.9;
-        Wed, 16 Jun 2021 08:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=gAbGl9PUVrieIDOPPvfXysXyAMbFr8wfY+I6z1ScrTg=;
-        b=kpgilGno7nEPvy3nM51vemWrL+pBaMW+FVRrClekQ10IdxjRw5D5h7Ty8l31rn6shF
-         zdw6ht9g6WxiTgflBF/HQq73fl4sfi+TlLVcddDBpf3aiGZoQqwfYDi621CIMsA9+6LI
-         9wjnTBUwbxOSohWmUHZXRqODWpx4kxTh8RUTnvJjwX6djPGvGiwR7iIoYO7F/GJdf6Iy
-         Zyb0D/pitJClgTkW+PoNaIWgv0M2/1UIYK4w1CaHUtgMjBAbXBo2dFcB3hROppBNo8u4
-         64F2SaDorlwRVlJljIrWAnWns76BTeysENNvocOZdFAssrNRtXtkgJePuVoqFWifdYdS
-         dEJw==
+        id S231239AbhFPQFU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 12:05:20 -0400
+Received: from mail-io1-f54.google.com ([209.85.166.54]:46808 "EHLO
+        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230318AbhFPQFS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 12:05:18 -0400
+Received: by mail-io1-f54.google.com with SMTP id b14so3536417iow.13;
+        Wed, 16 Jun 2021 09:03:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=gAbGl9PUVrieIDOPPvfXysXyAMbFr8wfY+I6z1ScrTg=;
-        b=hRfycklEADtrBILdQYQbp2cro+AIESYdj/lVnUF09bo4nGX4T/IqG1PTEeWRRvxR4Z
-         Wg9cbSxwodrcnFwRTWU3cYxmthLvNhFU6U21XXi3ZHi8A8r2S6T20ZOm4FUsFYDI5OSw
-         LePw6qJaMSg9FssQJqYcEKoPDyxoN8kzticv/45lLqNzQHIrzkAKYngYxhq4vbsamSRa
-         p9qUd+3f64/jkl/j2XnTpLHr7nvp1Yh8LFuBQ1JT27VGAcymRh3kmyF9bRS41bjfatHS
-         Vw03MkT1akqo2hO5vpL5ozOYlrX8xFjPx3+QRvNRWQMTEDUNtkYxAOlpJ2uw1khvs5Up
-         3FNw==
-X-Gm-Message-State: AOAM533B/K2E2W8DeSQXH9bx2+/cmim8/RIVGuxxwRbpRVuNZHytotse
-        mRjPdy16sD+XqWcTTDA17uI=
-X-Google-Smtp-Source: ABdhPJwCcZ1qRg5NHLDPDEtT6co3BKSf0C4lfwr7S0PG8T7ROitbmMFoiGrVi+lir7SWb28i1stHqQ==
-X-Received: by 2002:a37:6c46:: with SMTP id h67mr683623qkc.383.1623858386396;
-        Wed, 16 Jun 2021 08:46:26 -0700 (PDT)
-Received: from localhost ([199.192.137.73])
-        by smtp.gmail.com with ESMTPSA id m126sm1828290qke.16.2021.06.16.08.46.25
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=hcKoNlZ0qCHbgrMWMGVkyiDZS1Csw+8F++6Pzt1IPtw=;
+        b=ppBa79DTv5pX/AYaZF0+z0zOKjqCG9VeiIgideZ3/Fd/ce6YfvYzsiiMPxuzCKy4tv
+         kgTJbQrgEqirlbqVC9SN3kap5s6w42EYvUGD/J4x8rob/DqdaKHYfdPlROXaQhPWDmVM
+         OOJakBSZkNhwNHuStF+WQSqQ/+Uy9mWpnusYM/vZZGrSb7lMEydljKfGFdN/spBnhRfo
+         MMOUtF3MNCMwR9dgkjQbJhYXcijbseSewJ7CuMV4r/IgVz8JZLJeq/wGkCMiLPAl9ofK
+         TGJKT3Fw5cI1DH3KunWdXAWPV3zyirr+CSTdsrDFTYxafxD5Jx+wWaHPDYga/6FX9stm
+         1/hA==
+X-Gm-Message-State: AOAM530Puu6fGcWUs8kTixG64xPUEOqDYUXYAbW83LmtUjoGK5v26wbf
+        BJle8ThMCXhkg3mT271B7A==
+X-Google-Smtp-Source: ABdhPJwY2nyTdfD4LWJR6MfSxx2n8cPcc2zsEpn3eF8j3IDKgGsVmaBx3KbLbue+x9qY8nkNJWQUTw==
+X-Received: by 2002:a6b:720f:: with SMTP id n15mr99419ioc.209.1623859391422;
+        Wed, 16 Jun 2021 09:03:11 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id l12sm1330204iln.20.2021.06.16.09.03.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 08:46:26 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 16 Jun 2021 11:46:25 -0400
-From:   Tejun Heo <tj@kernel.org>
-To:     Kir Kolyshkin <kolyshkin@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        axboe@kernel.dk, paolo.valente@linaro.org, cgroups@vger.kernel.org
-Subject: Re: [PATCH 0/3] add/update/fix BFQ docs
-Message-ID: <YMoc0Tu/DyeKouc1@slm.duckdns.org>
-References: <20210611030737.1984343-1-kolyshkin@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210611030737.1984343-1-kolyshkin@gmail.com>
+        Wed, 16 Jun 2021 09:03:10 -0700 (PDT)
+Received: (nullmailer pid 3471587 invoked by uid 1000);
+        Wed, 16 Jun 2021 16:03:05 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Jens Wiklander <jens.wiklander@linaro.org>
+Cc:     op-tee@lists.trustedfirmware.org,
+        Sumit Garg <sumit.garg@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Jerome Forissier <jerome@forissier.org>,
+        linux-doc@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>
+In-Reply-To: <20210616103649.2662395-3-jens.wiklander@linaro.org>
+References: <20210616103649.2662395-1-jens.wiklander@linaro.org> <20210616103649.2662395-3-jens.wiklander@linaro.org>
+Subject: Re: [PATCH v2 2/7] dt-bindings: arm: Convert optee binding to json-schema
+Date:   Wed, 16 Jun 2021 10:03:05 -0600
+Message-Id: <1623859385.179062.3471586.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 08:07:34PM -0700, Kir Kolyshkin wrote:
-> Improve BFQ docs: fix formatting, adding a missing piece.
+On Wed, 16 Jun 2021 12:36:44 +0200, Jens Wiklander wrote:
+> Converts the optee binding to use DT schema format.
 > 
-> Fix cgroup v1 blkio docs which are not updated for CFQ -> BFQ.
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  .../bindings/arm/firmware/linaro,optee-tz.txt | 31 ------------
+>  .../arm/firmware/linaro,optee-tz.yaml         | 49 +++++++++++++++++++
+>  2 files changed, 49 insertions(+), 31 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.txt
+>  create mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
 > 
-> Patches are on top of the latest docs-next (commit acda97acb2e98c97895).
 
-Acked-by: Tejun Heo <tj@kernel.org>
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Prolly best to go through the block tree.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml:21:7: [warning] wrong indentation: expected 4 but found 6 (indentation)
 
-Thanks.
+dtschema/dtc warnings/errors:
+\ndoc reference errors (make refcheckdocs):
 
--- 
-tejun
+See https://patchwork.ozlabs.org/patch/1492865
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
