@@ -2,114 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC44C48BE6
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:22:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DED4CC48BE6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:37:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2E42613C2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:22:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B856661075
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:37:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233360AbhFPUYK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 16:24:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33180 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233355AbhFPUYJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 16:24:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AF5FD60FF4;
-        Wed, 16 Jun 2021 20:22:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623874922;
-        bh=QTWcOvraqZaabAlaEhyvzzla1yuYg5YKUaWR97ZT/hg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AGAbp3C+e5xX2UZoz+OqLZj9hRzEeydmomx2MFWpcD3VSHZdXeqpiWhUASFr/2Ac4
-         /U87a6HJuPPq8Ry/zWJMXdos4hEWQnA2g0ywkosMq0haA5x14G46Z8ijbANhXzOv+G
-         FxDOf/Hiwio6ddijD9MSJR0daL79+QECSfaYxcoBFSAqqGCe0mEZTefuoeAgVIB0nB
-         RUeoDuoKt27WjiYpw/37+TEWPwPPp6blmBvf5fQ6M4Ts+bPGU0lo59eTzvGqwUTiLI
-         JyvNcPQbwvvQydjCJIyu+RTGqLwfeb//fOyot2hpa40S1/BgqCA/iKViNcwQan/fk+
-         V6CEHQET4NM2Q==
-Date:   Wed, 16 Jun 2021 22:21:56 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     mark gross <mgross@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 04/29] docs: admin-guide: hw-vuln: avoid using ReST
- :doc:`foo` markup
-Message-ID: <20210616222156.3727599d@coco.lan>
-In-Reply-To: <20210616182128.GJ70758@linux.intel.com>
-References: <cover.1623824363.git.mchehab+huawei@kernel.org>
-        <4e378517761f3df07165d5ecdac5a0a81577e68f.1623824363.git.mchehab+huawei@kernel.org>
-        <20210616182128.GJ70758@linux.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S233535AbhFPUjG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 16:39:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51478 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233522AbhFPUjF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 16:39:05 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CE2FC061574
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 13:36:58 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d62so1184258pfd.3
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 13:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/iyaCYOVFTgGt+uLyKcOuwMWraHntMrfp9c4Wvuygsw=;
+        b=ozk9b/x9ThmBWrjEaelNW21eP5a7iRJdlV2CCTgf37kQf96+3dtQlK8fT5gDAJUGD6
+         DoqqU7iPY42js1IrnSrZAs51SNZuE4YSBqwhCxLJqI0SUQbSmx0EocnWZal25Y2uLaeX
+         y8FlJ2epoAYw8VrTJ6c+mPu0L0TXgM6AbaiAlF3dUaO+oLja5SbAZ860YmGZ08ORSYW8
+         /Yxsv4BONI8sHpeOSt+G/UHUfbJA2nGZYzZFtoxiGnj2N/jSJkYdrVPKaXKK6zPKlzFK
+         nIKVKwGUESHVozEVHgVuoh0FX58K/8UmjfspgpbSLXKOzp3ETt7SlylUjuG+xWOLzVZR
+         YmnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/iyaCYOVFTgGt+uLyKcOuwMWraHntMrfp9c4Wvuygsw=;
+        b=n7iJZxDbK0qHh4bRQMx1HliSkgfQr7+Vv0x6H0wL6fruBfr8KQH6YTQeob5JiFsAGB
+         bs1nF05AyxDW4kAHQdzlM1W7S0O2A2S18P3Ir9OPzsItWlFeusBfxGYh9+GC8wb0hjqD
+         nkb+WH8SuXmHeqrLXtwQ13OHIgjfn/INN7XUcugyT2eA3PX1pCACkEcLLtRWgqIMCVA2
+         HCj8kL300DgsBcoJiAYPHLDHBdFIXktM4Xbo7gpOuYT7INOqR2M8x75JXlg1r0ilVGHE
+         XHlLeURS1zQkPudoHu9H8hKYMm99YEuBzlOvMbNZfDPvfpkE667VJFCMqPT+fA2NtaRg
+         GG9A==
+X-Gm-Message-State: AOAM533F6G1V63mYy5itRS46wt5K+0PyFLSSQTlB2r69rDGryFMeCSZh
+        yrFkBRq/6zBi3ePDzVB14IclWWBN5oZFnUHir0EfhQ==
+X-Google-Smtp-Source: ABdhPJxjnJLJ8Cv1ZHYaqWXR3wF9ISnILfK3oF+Xc3ZEJKCH7abCZfLs1EX3lq0+oyQVuxYpRaebxpvKs51I4p7cy18=
+X-Received: by 2002:a63:485a:: with SMTP id x26mr1427134pgk.159.1623875817786;
+ Wed, 16 Jun 2021 13:36:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210522044241.2763088-1-davidgow@google.com> <20210522044241.2763088-2-davidgow@google.com>
+In-Reply-To: <20210522044241.2763088-2-davidgow@google.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Wed, 16 Jun 2021 13:36:46 -0700
+Message-ID: <CAFd5g44-zP7VWwBMxSMv=PNPQWNHB-y90kQ4E8WVqs2mWCE2dQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] kunit: Move default config from arch/um -> tools/testing/kunit
+To:     David Gow <davidgow@google.com>
+Cc:     Shuah Khan <shuah@kernel.org>, Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Jonathan Corbet <corbet@lwn.net>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 16 Jun 2021 11:21:28 -0700
-mark gross <mgross@linux.intel.com> escreveu:
+On Fri, May 21, 2021 at 9:43 PM David Gow <davidgow@google.com> wrote:
+>
+> The default .kunitconfig file is currently kept in
+> arch/um/configs/kunit_defconfig, but -- with the impending QEMU patch
+> -- will no-longer be exclusively used for UML-based kernels.
+>
+> Move it alongside the other KUnit configs in
+> tools/testing/kunit/configs, and give it a name which matches the
+> existing all_tests.config and broken_on_uml.config files.
+>
+> Also update the Getting Started documentation to point to the new file.
+>
+> Signed-off-by: David Gow <davidgow@google.com>
 
-> On Wed, Jun 16, 2021 at 08:27:19AM +0200, Mauro Carvalho Chehab wrote:
-> > The :doc:`foo` tag is auto-generated via automarkup.py.  
-> and that is not good why?
-
-Patch 00 contains a little more info:
-
-	https://lore.kernel.org/linux-doc/cover.1623824363.git.mchehab+huawei@kernel.org/T/#t
-
-Basically, some Kernel developers rely on editor features to jump directly
-into other files. Using Documentation/foo.rst enable such features.
-
-> 
-> > So, use the filename at the sources, instead of :doc:`foo`.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  .../hw-vuln/special-register-buffer-data-sampling.rst          | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
-> > index 3b1ce68d2456..966c9b3296ea 100644
-> > --- a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
-> > +++ b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
-> > @@ -3,7 +3,8 @@
-> >  SRBDS - Special Register Buffer Data Sampling
-> >  =============================================
-> >  
-> > -SRBDS is a hardware vulnerability that allows MDS :doc:`mds` techniques to  
-> I thought the point of :doc:`mds` was to insert a tag or link to the mds
-> document.
-> 
-> > +SRBDS is a hardware vulnerability that allows MDS
-> > +Documentation/admin-guide/hw-vuln/mds.rst techniques to  
-> will this make a hyper-link in generated HTML docs?
-
-It will still generate the same hyper-links in HTML, LaTeX and PDF outputs,
-as the automarkup.py extension will convert Documentation/foo.rst into
-doc:`foo`.
-
-
-> 
-> FWIW I'm ok with this change either way.  I just wanted to understand a little
-> better.
-> 
-> --mark
-> 
-> >  infer values returned from special register accesses.  Special register
-> >  accesses are accesses to off core registers.  According to Intel's evaluation,
-> >  the special register reads that have a security expectation of privacy are
-> > -- 
-> > 2.31.1
-> >   
-
-
-
-Thanks,
-Mauro
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
