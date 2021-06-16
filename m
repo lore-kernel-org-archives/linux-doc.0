@@ -2,121 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A5EC48BE6
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 14:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC2CC48BE8
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 14:42:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5806061042
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 14:41:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE38761356
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 14:42:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234116AbhFPOn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 10:43:57 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:39925 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233914AbhFPOn5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 10:43:57 -0400
-Received: from [192.168.1.155] ([95.115.35.150]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MSLEm-1licf82p6u-00SerU; Wed, 16 Jun 2021 16:41:26 +0200
-Subject: Re: [PATCH] drivers: gpio: add virtio-gpio guest driver
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
+        id S234130AbhFPOoK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 10:44:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234138AbhFPOoC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 10:44:02 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED66C0617A6
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 07:41:54 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id fy24-20020a17090b0218b029016c5a59021fso4155769pjb.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 07:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Xnm+WYpnOqXtkZdMWzoHLGjqCi4LOFWzGjFsrgoSRP0=;
+        b=lrTVnbws/VPuEimwOb3YT0iDmqjnOYczffUh/Kv58vesKqMDTvMYbZJlToeNNPZAhV
+         4Xy6XPsxIik88Qh+qEI8tlkRAALocVx3aaCxZj5FXWVdQADSSsTVrzwdmrKGCmfbwngX
+         VJ19V7sYPzY2FIe5MofHco2b/0JWT0cVUBZV8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Xnm+WYpnOqXtkZdMWzoHLGjqCi4LOFWzGjFsrgoSRP0=;
+        b=eIXYb1Ny8AcYuJKJCEB2ngunv/Ig7X1Ei6YelTVsyWTx+USnWZ4Wc+es1RcLCdY/dn
+         UobmZEDiwQ7drEAQ8bd5ZaKo1y8N86WiIJZ8C2QwxCl07gZChGBz++EUSMEfTV5nSpMk
+         vC9969ojm9Fn1SOwiSp/QUtu99SQjwuoIPMc5q2oFZ6adcoA+2CfVgsvK4O+xAKsFGL2
+         MqNt3yTam6dKZwb7LejQcKeTkgHwOGaZw/ospWfjM2CnnQb+xNJ9DCkuiruvPYUWV+n4
+         ovelrsE/ufMeN1sbF5hdUI4b5LTWaZ3BnGgVQfj91w0SDN//fUFPfzngZU472RlSQeBR
+         GPjQ==
+X-Gm-Message-State: AOAM532Xsp/xtdCYFLYCyCnoSZYoBElbDiATUzu0NqXt5ok3ADN4JGRA
+        yWCtuM1SxKp3yPQTmaSD6KaPYA==
+X-Google-Smtp-Source: ABdhPJwwUS8UE4ZeWh9OoJ7tApiFkdOVNzxHHc1QvWSodOw2AyXOFizKKx/GS/9aqBotRNv22WlaBQ==
+X-Received: by 2002:a17:902:22d:b029:11f:2db4:4c01 with SMTP id 42-20020a170902022db029011f2db44c01mr19568plc.29.1623854514214;
+        Wed, 16 Jun 2021 07:41:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id y6sm2434305pjr.48.2021.06.16.07.41.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jun 2021 07:41:53 -0700 (PDT)
+Date:   Wed, 16 Jun 2021 07:41:52 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        gmpy.liaowx@gmail.com, Anton Vorontsov <anton@enomsg.org>,
         Colin Cross <ccross@android.com>,
         Tony Luck <tony.luck@intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv <linux-riscv@lists.infradead.org>
-References: <20210615174911.973-1-info@metux.net>
- <CACRpkdbwLOOT6nuhpkT5x-AZVipsD2qG8Qu4xoiRotHQNknwzw@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <098f669f-b451-18e1-9aed-a71f400bd581@metux.net>
-Date:   Wed, 16 Jun 2021 16:41:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Jonathan Corbet <corbet@lwn.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        linux-doc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] pstore/blk: Include zone in pstore_device_info
+Message-ID: <202106160737.B0B8882B@keescook>
+References: <20210615212121.1200820-1-keescook@chromium.org>
+ <20210615212121.1200820-4-keescook@chromium.org>
+ <20210616040247.GD25873@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdbwLOOT6nuhpkT5x-AZVipsD2qG8Qu4xoiRotHQNknwzw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:CR6mpicfGsY9r/evUqTXH8C70befzHJD17gK1boMJb2mNiw2I3w
- u9bascsokR1YLBsRaAjFl9nCA0nXMUduSAIVdTJsuBt//Y1hu5AbrPkpQ5Bewzb1Peh7x0m
- OJsttVts/KwE3xipe3/w+Di4ulseb46HgCXAWsbZwtIW1CWD52UQu24Sh7tjYr+AujL6fle
- DtR3xtegpA75e0CGxI5aw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fMVu1T4nu7g=:4lDZNogMmvE1wFbQcnZQ0B
- hBMiXVmcPPsYTquq0lJBIq7dqufr+FVBlwhCMtjMCtupVmGeVKmzhQLeZtIn0EqCtwP17PQC1
- bI4PhWcGXUahcXYS6EV82U3W2kaSYt7WSXN334mB665gcj2/yg90+n9mZ+hGyJiwnS+1XcWQ/
- U6OflJL9RiKDC/q+61jIjkRcm+8bbuwuCA4idwY9O67k50FabdiGYUKE1RmY05OjaAxgnk0AO
- jZBLFx00sKx0u7GOr3YKFhpHV84KJIdnhRy9FXO4LOE5OIgUnJDHC+FG2it+fuzaV5ud9zpzM
- Iztr85Sus6eg7hgkhxUxp+6GOYiOKJSNC1csHjDXN+RIw93lfgeqglRhXvzIDq7qAlKFORGbc
- SgnoSFASpckcaCipHWdnINRFf+zjpPLo55xzD0+rMIVAbabemAUPj8ZuOEqiYgaqgM/WGa2Hy
- /xsV6746LXXSuzAPiwPRjHVo4p2NJAqyjnjVbgO/gaw7BsyePIXVOSmAkD1jA7tBvxgXAny0C
- 6dcDS5dKyeTDANgMo4EGqI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210616040247.GD25873@lst.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16.06.21 10:31, Linus Walleij wrote:
- > Hi Enrico,
+On Wed, Jun 16, 2021 at 06:02:47AM +0200, Christoph Hellwig wrote:
+> > +#define verify_size(name, alignsize, enabled) {				\
+> > +		long _##name_;						\
+> > +		if (enabled)						\
+> > +			_##name_ = check_size(name, alignsize);		\
+> > +		else							\
+> > +			_##name_ = 0;					\
+> > +		/* synchronize visible module parameters to result. */	\
+> > +		name = _##name_ / 1024;					\
+> > +		dev->zone.name = _##name_;				\
+> > +	}
+> 
+> The formatting here looks weird between the two-tab indent and the
+> opening brace on the macro definition line.
 
- > So now there are two contesting patches for this and that creates a
- > social problem for us as maintainers. I am not too happy about that.
+I can adjust that, sure.
 
-note that this is a polished up of a repost of my original driver
-from last year.
+> 
+> > -	if (!dev || !dev->total_size || !dev->read || !dev->write) {
+> > +	if (!dev || !dev->zone.total_size || !dev->zone.read || !dev->zone.write) {
+> >  		if (!dev)
+> > -			pr_err("NULL device info\n");
+> > +			pr_err("NULL pstore_device_info\n");
+> >  		else {
+> > -			if (!dev->total_size)
+> > +			if (!dev->zone.total_size)
+> >  				pr_err("zero sized device\n");
+> > -			if (!dev->read)
+> > +			if (!dev->zone.read)
+> >  				pr_err("no read handler for device\n");
+> > -			if (!dev->write)
+> > +			if (!dev->zone.write)
+> >  				pr_err("no write handler for device\n");
+> >  		}
+> 
+> This still looks odd to me.  Why not the somewhat more verbose but
+> much more obvious:
+> 
+> 	if (!dev) {
+> 		pr_err("NULL pstore_device_info\n");
+> 		return -EINVAL;
+> 	}
+> 	if (!dev->zone.total_size) {
+> 		pr_err("zero sized device\n");
+> 		return -EINVAL;
+> 	}
+> 	...
 
- > Can we get the discussion down to actual technical points?
+Will do.
 
-Sure. Perhaps you recall or discussions from late 2020. The missing
-point there was (besides a few wording issues) the missing formal
-specification process w/ virtio TC. (spec was already included in this
-driver as well as the corresponding qemu patches).
+> > -	dev.total_size = i_size_read(I_BDEV(psblk_file->f_mapping->host)->bd_inode);
+> > +	dev->zone.total_size = i_size_read(I_BDEV(psblk_file->f_mapping->host)->bd_inode);
+> 
+> This is starting to be unreadable long.  A local variable for the inode
+> might be nice, as that can also be used in the ISBLK check above.
 
-My spec was not just meant for VM applications but also actual silicon
-(as already mentioned, some folks of my client also implemented it in
-FPGAs - don't ask me about details, they just mentioned it was quite
-easy for them).
+Fair enough; will change.
 
-This is why it is so trimmed on things like fixed packet size,
-unidirectional queues, mirroring packets w/ thus a few bits changed,
-etc. In constrast, a more network-like approach might have been looking
-nicer to traditional computer programmers, but much more complex to do
-in pure logic and eat up *lots of* more gates (think of actual memory
-management instead of hardwired latches, more complex decoding, etc).
+> > +	if (!pstore_device_info && best_effort && blkdev[0]) {
+> > +		struct pstore_device_info *best_effort_dev;
+> > +
+> > +		best_effort_dev = kzalloc(sizeof(*best_effort_dev), GFP_KERNEL);
+> > +		if (!best_effort) {
+> > +			ret = -ENOMEM;
+> > +			goto unlock;
+> > +		}
+> > +		best_effort_dev->zone.read = psblk_generic_blk_read;
+> > +		best_effort_dev->zone.write = psblk_generic_blk_write;
+> > +
+> > +		ret = __register_pstore_blk(best_effort_dev,
+> > +					    early_boot_devpath(blkdev));
+> > +		if (ret)
+> > +			kfree(best_effort_dev);
+> > +		else
+> > +			pr_info("attached %s (%zu) (no dedicated panic_write!)\n",
+> > +				blkdev, best_effort_dev->zone.total_size);
+> 
+> Maybe split this into a little helper?
+> 
+> > +	/* Unregister and free the best_effort device. */
+> > +	if (psblk_file) {
+> > +		struct pstore_device_info *dev = pstore_device_info;
+> > +
+> > +		__unregister_pstore_device(dev);
+> > +		kfree(dev);
+> > +		fput(psblk_file);
+> > +		psblk_file = NULL;
+> >  	}
+> 
+> Same.
 
-Meanwhile it played out working nicely in several HIL installations
+I guess? I don't feel strongly one way or another.
 
-If I wanted to have a simple and CPU-only approach (just for VMs), I
-would have just mounted some sysfs pieces via 9P :p
+> 
+> > +	/* If we've been asked to unload, unregister any registered device. */
+> > +	if (pstore_device_info)
+> > +		__unregister_pstore_device(pstore_device_info);
+> 
+> Won't this double unregister pstore_device_info?
 
-Several weeks ago, Viresh just wanted to continue the missing pieces
-(which was: tex'ifying the spec and submitting to virtio TC), but then
-unfortunately he invented something entirely different also put my name
-on it.
+No, __unregister_pstore_device() will NULL pstore_device_info.
 
-Easy to imagine that I'm not amused at all.
+> 
+> >  struct pstore_device_info {
+> > -	unsigned long total_size;
+> >  	unsigned int flags;
+> > -	pstore_zone_read_op read;
+> > -	pstore_zone_write_op write;
+> > -	pstore_zone_erase_op erase;
+> > -	pstore_zone_write_op panic_write;
+> > +	struct pstore_zone_info zone;
+> >  };
+> 
+> Given that flags is only used inside of __register_pstore_device
+> why not kill this struct and just pass it explicitly?
 
-
---mtx
+Because of the mess pstore's internal APIs used to be. :) It's likely
+other things will get added here in the future, and I don't want to
+have to repeat the kind of argument passing games that used to exist in
+this code.
 
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Kees Cook
