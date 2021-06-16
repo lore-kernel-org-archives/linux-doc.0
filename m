@@ -2,241 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB0BC48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 19:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BDE4C48BE8
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:20:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84F55613BF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 19:25:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 675F160FF4
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:20:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232784AbhFPT1v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 15:27:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51296 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231354AbhFPT1v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 15:27:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A7DB8600D1;
-        Wed, 16 Jun 2021 19:25:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623871545;
-        bh=/gv361Mn/LyLQ9VG2DAYSdb/BgwsO/j9nF//7mR73aM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=fCa2oO3hBfh5MUFOKh8jeekuFcYSNngtZb5FuaCVhwWBXkUUzRldG3auYuQ58SjDZ
-         AlGl0xJ+q6IHei9BWFziXzTic5u01hiIle0PlFLnG+PY9AyV2HiPw/OS5jrdbnUltR
-         4DUNMZT4KsJtTwsuz6scvti2ReYGlD1WwybfDv/zZ8y6Z/51RUpBV7EzVmdxgqu5XL
-         wUdWkDBldf2RPS2ZRhb5Y6R2x6C+g/12AYQmLDmHXC6Rv43wA4uKTzo7LZMa97TGCw
-         7deHJeNUbl9mYG/OfUDfkchVCVf9+7QKRzTLBapd9RCUAC8VnNOOXUdi2TuQexpqH3
-         gsZfpbVCWpIUA==
-Date:   Wed, 16 Jun 2021 14:25:43 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Dejin Zheng <zhengdejin5@gmail.com>, corbet@lwn.net,
-        jarkko.nikula@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
-        Sanket.Goswami@amd.com, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v7 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <20210616192543.GA2924004@bjorn-Precision-5520>
+        id S233340AbhFPUWq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 16:22:46 -0400
+Received: from mail-dm6nam12on2082.outbound.protection.outlook.com ([40.107.243.82]:52545
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233317AbhFPUWp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 16:22:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UIfRf+ekaPiHv+Ey/nLsqOlmJHfKdLfbhmwrf02+65vf6k1+myy1YsDIKZfK7Oe/7GZVeoAnbTULVfEdxR6FZKmpfBkPLUwX/7tVhJ5CECLGes9IPkBd8nPpVUWSNdhgO/OwdAqf95RJwPgTG1nK8dtHgEymxpiQAqtR/PIY6vj4o9T+CHCsi/Noxi+ri1Hu8gNo1ZBS7Lj7OMisLCJoG8W+O4Foxzyc65kRqLXWZqOPNTTWs+WM1b8FqQn3EdH0Din4H9Qt2NtCveNlCOHdwu7sXZYiJc96LRulAO84Dn/nunI0AtBy/VXEECg4BWKHcYAJCnSpNrDrWR0S5/cEZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ShhqULBmWTaZSNF94z/ojlK2eu9Oq2kQAdZIzI8yvmM=;
+ b=gr1AqU3CFOYRPxWh1cvMLjl07ThkRa6uKRibmJ0TSHVvBG5lyJtt6jhncmhxO1J9OfyNlvULRDnzYfBmIcSvk2r7jMZqqVbnhlmtIipucb4FMkR5o72yhEPXx+RL/WU/rQRUVjSGoAPYsbxvy4YzOlA1zGXbkDOdL6oD7FFoKComEUD161Blo7lDXvR0ysoq7e4hBYxVtOvY/DCHmPSWz2IPiMXXmQ1VNUuT0dxaYwgEikgeZroDVAZH9RYX7+o1opZLYIXTNSu0JYDiI9HzUW7vEFt6BrTg/n6fo/jVjHTlvJI6ZO0GcTA96XA6YPcf8yYpCalhquwUxt3bXskCBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=lwn.net smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ShhqULBmWTaZSNF94z/ojlK2eu9Oq2kQAdZIzI8yvmM=;
+ b=Z9apFKYzoWtNOGQY+RsRn7kbLAIbl8duo7dsY59vqk8aOCjn0lVbx//ylT8jwfZLPiNjDJ67Nls226ZDiGchUPwz7SwjdJjvmpQ+KfL96BjD95zUL6ptIjHy5FINI0OI6D8bWKZJKVbzc5UgOEA3V/yHOkm+X8MeabqzdUt0tWf9qAWs/hKuIvUiVH22J50DELw2XAu03z9tKYO8+T2MBrJ9W3Q1aWAZ4cPkV6juVFfDzeEKGAp8k6A6oT4jA9jsxKuK29yXj9KZ+Ir7YHHK5LbaaYtyXLQ11dPKBpKqv4NpLRo9F7PBfuUZDGNVLH5OY8ozda245Y1gHV/zKqYgoQ==
+Received: from BN9PR03CA0875.namprd03.prod.outlook.com (2603:10b6:408:13c::10)
+ by CY4PR12MB1575.namprd12.prod.outlook.com (2603:10b6:910:f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Wed, 16 Jun
+ 2021 20:20:36 +0000
+Received: from BN8NAM11FT050.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:13c:cafe::40) by BN9PR03CA0875.outlook.office365.com
+ (2603:10b6:408:13c::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19 via Frontend
+ Transport; Wed, 16 Jun 2021 20:20:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; lwn.net; dkim=none (message not signed)
+ header.d=none;lwn.net; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT050.mail.protection.outlook.com (10.13.177.5) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4242.16 via Frontend Transport; Wed, 16 Jun 2021 20:20:35 +0000
+Received: from [10.40.101.248] (172.20.187.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 16 Jun
+ 2021 20:20:28 +0000
+Subject: Re: [PATCH 02/10] driver core: Better distinguish probe errors in
+ really_probe
+To:     Christoph Hellwig <hch@lst.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        "Alex Williamson" <alex.williamson@redhat.com>
+CC:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        <intel-gfx@lists.freedesktop.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20210615133519.754763-1-hch@lst.de>
+ <20210615133519.754763-3-hch@lst.de>
+X-Nvconfidentiality: public
+From:   Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <6ef69d97-5197-2bda-8149-320e4cc39486@nvidia.com>
+Date:   Thu, 17 Jun 2021 01:50:25 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YMMu0kgEn1emRQvo@smile.fi.intel.com>
+In-Reply-To: <20210615133519.754763-3-hch@lst.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.187.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 874258c9-52cc-48c2-c694-08d93104336a
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1575:
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1575683A651625061DA3DB26DC0F9@CY4PR12MB1575.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pNO+loQudS7xysRfS6tXSkMbmD8wzxovGmdhtZvSGkRdR+MyNuxbsTm1kgWWUHLfInFGWR8RiHc5NOhz4Jxwhfu9RnnRf5vGQ1h+VQab3FSBVpMb34vkfveqZdDXxFTGW7Twq+GWk6xG/aUgHjuChtiQFHixHLkeXkh4w7haRdnaZRFFuH4SMhJG8lz+mZ4y6h0iUvhfPdCzvzCLyVap8Hk/2DhYUdMsIvqSkmOY1F9UBZvi54aNkgYmJqjFmNSDP0AEL26IO++j5TwUGL2bHZkbkWPbiU27o1pmSZawjQmJ4B9CCTN4nFxLpnFcIbPqHOiZgScGjZii8UuSt0yXZYOSNMGba/RcjlE1kOGwtqK+XGLL2afRiILMVcqbBip76w/cL9ZAY1fDokhDj/NpvcAXfi2ZQ59vo0ws9cOrjQm5qv1jdxuQoaF5dj4rn/z9gvcpvsZQ6uB56tdkEF2eObjU+Sv+yP4EBKKMYtlpuo+vYUf7yTvvC6UqIazMOQDOu0xAVb5RBJl3oxY+vf498Y0qEgChRNLSv7PNYvZltS37s1LQwFACeWosZ1ShNxW2DR0WqtM5k3vw19YLJZQcIN0yR3Evzv8ReiYpPQPK/CmizsPCJ8YcTeBDm0tSB8vcqjt1j5uj0WpIXoE9D42LuulckevFySE1bAbXAxtN60nwBSBmd4GY/NpYvqWmBQvE
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(346002)(136003)(396003)(39860400002)(36840700001)(46966006)(47076005)(16526019)(5660300002)(36860700001)(70586007)(4744005)(70206006)(26005)(186003)(7416002)(36906005)(478600001)(110136005)(4326008)(53546011)(54906003)(8676002)(16576012)(36756003)(31686004)(336012)(316002)(82310400003)(426003)(2906002)(356005)(31696002)(6666004)(2616005)(7636003)(8936002)(86362001)(82740400003)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 20:20:35.8383
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 874258c9-52cc-48c2-c694-08d93104336a
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT050.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1575
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 12:37:22PM +0300, Andy Shevchenko wrote:
-> On Thu, Jun 10, 2021 at 05:41:43PM -0500, Bjorn Helgaas wrote:
-> > On Mon, Jun 07, 2021 at 11:39:13PM +0800, Dejin Zheng wrote:
-> > > Introduce pcim_alloc_irq_vectors(), a device-managed version of
-> > > pci_alloc_irq_vectors(). Introducing this function can simplify
-> > > the error handling path in many drivers.
-> > > 
-> > > And use pci_free_irq_vectors() to replace some code in pcim_release(),
-> > > they are equivalent, and no functional change. It is more explicit
-> > > that pcim_alloc_irq_vectors() is a device-managed function.
+
+
+On 6/15/2021 7:05 PM, Christoph Hellwig wrote:
+> really_probe tries to special case errors from ->probe, but due to all
+> other initialization added to the function over time now a lot of
+> internal errors hit that code path as well.  Untangle that by adding
+> a new probe_err local variable and apply the special casing only to
+> that.
 > 
-> ...
-> 
-> > > @@ -1989,10 +1989,7 @@ static void pcim_release(struct device *gendev, void *res)
-> > >  	struct pci_devres *this = res;
-> > >  	int i;
-> > >  
-> > > -	if (dev->msi_enabled)
-> > > -		pci_disable_msi(dev);
-> > > -	if (dev->msix_enabled)
-> > > -		pci_disable_msix(dev);
-> > > +	pci_free_irq_vectors(dev);
-> > 
-> > If I understand correctly, this hunk is a nice simplification, but
-> > actually has nothing to do with making pcim_alloc_irq_vectors().  I
-> > have it split to a separate patch in my local tree.  Or am I wrong
-> > about that?
-> 
-> It's a good simplification that had to be done when pci_free_irq_vectors()
-> appeared.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Sorry to be pedantic.  You say the simplification "had to be done,"
-but AFAICT there was no actual *requirement* for this simplification
-to be done since pci_free_irq_vectors() is functionally identical to
-the previous code.  I think we should do it because it's a little
-simpler, but not because it *fixes* anything.
 
-> But here is the fact that indirectly it's related to the pcim_*()
-> APIs, i.e. pcim_alloc_irq_vectors(), because you may noticed this is inside
-> pcim_release().
-
-Yes.  For posterity, my notes about the call chain (after applying
-this patch):
-
-  pci_alloc_irq_vectors
-    pci_alloc_irq_vectors_affinity
-      __pci_enable_msix_range                 # MSI-X path
-        __pci_enable_msix
-          msix_capability_init
-            msix_setup_entries
-              for (...)
-                entry = alloc_msi_entry
-                  kzalloc(msi_desc)           <--- alloc
-                  kmemdup(msi_desc->affinity) <--- alloc
-            dev->msix_enabled = 1             # MSI-X enabled
-      __pci_enable_msi_range                  # MSI path
-        msi_capability_init
-          msi_setup_entry
-            alloc_msi_entry                   <--- alloc
-          dev->msi_enabled = 1                # MSI enabled
-
-  pcim_release
-    pci_free_irq_vectors
-      pci_disable_msix                        # MSI-X
-        if (!dev->msix_enabled)
-          return
-        pci_msix_shutdown
-          dev->msix_enabled = 0               # MSI-X disabled
-        free_msi_irqs
-          list_for_each_entry_safe(..., msi_list, ...)
-            free_msi_entry
-              kfree(msi_desc->affinity)       <--- free
-              kfree(msi_desc)                 <--- free
-      pci_disable_msi                         # MSI
-        if (!dev->msi_enabled)
-          return
-        pci_msi_shutdown
-          dev->msi_enabled = 0                # MSI disabled
-        free_msi_irqs                         <--- free
-
-So I *think* (correct me if I'm wrong):
-
-  - If a driver calls pcim_enable_device(), we will call
-    pcim_release() when the last reference to the device is dropped.
-
-  - pci_alloc_irq_vectors() allocates msi_desc and irq_affinity_desc
-    structures via msix_setup_entries() or msi_setup_entry().
-
-  - pcim_release() will free those msi_desc and irq_affinity_desc
-    structures.
-
-  - Even before this series, pcim_release() frees msi_desc and
-    irq_affinity_desc structures by calling pci_disable_msi() and
-    pci_disable_msix().
-
-  - Calling pci_free_irq_vectors() (or pci_disable_msi() or
-    pci_disable_msix()) twice is unnecessary but probably harmless
-    because they bail out early.
-
-So this series actually does not fix any problems whatsoever.
-
-It *does* remove unnecessary pci_free_irq_vectors() calls from
-i2c-designware-pcidrv.c.
-
-But because pci_alloc_irq_vectors() and related interfaces are
-*already* managed as soon as a driver calls pcim_enable_device(),
-we can simply remove the pci_free_irq_vectors() without doing anything
-else.
-
-I don't think we *should* do anything else.  There are many callers of
-pcim_enable_device() that also call pci_alloc_irq_vectors(),
-pci_enable_msix_range(), etc.  We don't have pcim_enable_msix_range(),
-pcim_enable_msi(), pcim_alloc_irq_vectors_affinity(), etc.  I don't
-think it's worth the churn of adding all those and changing all the
-callers to use pcim_*() (as in patch 4/4 here).
-
-Browsing the output of this:
-
-  git grep -En "pcim_enable_device|pci_alloc_irq_vectors|pci_enable_msix_|pci_free_irq_vectors|pci_disable_msi"
-
-leads me to believe there are similar calls of pci_free_irq_vectors()
-that could be removed here:
-
-  mtip_pci_probe
-  sp_pci_probe
-  dw_edma_pcie_probe
-  hisi_dma_probe
-  ioat_pci_probe
-  plx_dma_probe
-  cci_pci_probe
-  hibmc_pci_probe
-  ...
-
-and many more, but I got tired of looking.
-
-> > > +/**
-> > > + * pcim_alloc_irq_vectors - a device-managed pci_alloc_irq_vectors()
-> > > + * @dev:		PCI device to operate on
-> > > + * @min_vecs:		minimum number of vectors required (must be >= 1)
-> > > + * @max_vecs:		maximum (desired) number of vectors
-> > > + * @flags:		flags or quirks for the allocation
-> > > + *
-> > > + * Return the number of vectors allocated, (which might be smaller than
-> > > + * @max_vecs) if successful, or a negative error code on error. If less
-> > > + * than @min_vecs interrupt vectors are available for @dev the function
-> > > + * will fail with -ENOSPC.
-> > > + *
-> > > + * It depends on calling pcim_enable_device() to make IRQ resources
-> > > + * manageable.
-> > > + */
-> > > +static inline int
-> > > +pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
-> > > +			unsigned int max_vecs, unsigned int flags)
-> > > +{
-> > > +	if (!pci_is_managed(dev))
-> > > +		return -EINVAL;
-> > > +	return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
-> > 
-> > This is great, but can you explain how pci_alloc_irq_vectors()
-> > magically becomes a managed interface if we've already called
-> > pcim_enable_device()?
-> > 
-> > I certainly believe it does; I'd just like to put a hint in the commit
-> > log since my 5 minutes of grepping around didn't make it obvious to
-> > me.
-> > 
-> > I see that pcim_enable_device() sets pdev->is_managed, but I didn't
-> > find the connection between that and pci_alloc_irq_vectors().
-> 
-> One needs to read and understand the code, I agree. The explanation is spread
-> between pcim_release() and __pci_enable_msi/x_range().
-> 
-> The call chain is
-> 
-> msi_capability_init() / msix_capability_init()
->   ...
->   <- __pci_enable_msi/x_range()
->     <- pci_alloc_irq_vectors_affinity()
->       <- pci_alloc_irq_vectors()
-> 
-> where device msi_enabled / msix_enabled is set.
-> 
-> So, it may deserve to be explained in the commit message.
-> 
-> > > +}
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+Reviewed-by: Kirti Wankhede <kwankhede@nvidia.com>
