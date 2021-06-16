@@ -2,96 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F98C48BE6
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:51:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA486C49EA2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1CDD61246
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:51:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 955F2613C2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231741AbhFPGxP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:53:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60176 "EHLO mail.kernel.org"
+        id S231871AbhFPG5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:57:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34614 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231774AbhFPGxP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 02:53:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B8F62613B9;
-        Wed, 16 Jun 2021 06:51:07 +0000 (UTC)
+        id S231318AbhFPG5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 02:57:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0BDA7613D0;
+        Wed, 16 Jun 2021 06:55:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623826269;
-        bh=vFYUc/FPXe7v29rZc6G7piYAomJ6yWfSv9/yeEoUkxI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TS6XOoGL4KFZ2jcCPUwlMc0J6sXPc0KOW84TacDfvAAZzhzoYsfTc0o8UaAgCmrk0
-         L6OsejPKQEPNzyNv1UJXCQJ9Zxt5fZ9r0nva+0JrnYk1nXFrgHLWTJsOc8mWUd7dCW
-         U7JPDYD1ZoHLVk3hvO4hMrAn3j+IHfpWPgPidSOIG8QKGGstIQpHeRx1WixmbzYdIo
-         9hiPJWevjQLpKtVpMiet/U+H7teRA+CJVUn1IlSDOWt9Atdv27qH1Z5rVbQPg27PfZ
-         /kogiKhOC9XguMKoiBLCUQK3XwN+0wocHAEEVM/JOJIwOkiIQCWb49qy6U8BIYexYe
-         MghCqGcPgKO0A==
-Date:   Wed, 16 Jun 2021 08:51:04 +0200
+        s=k20201202; t=1623826518;
+        bh=XfaDbhyWTZnv4WQEdwoApJzDRlUwiFS9TASTuCgnwjg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hEHOtITyS9QTJ13JLBFmSz+a9sy/nYwN50DJSymhVLGJK2RX/o2Pf8BGI8eIpWbrV
+         PRYgoIfgEqsS3NWkRZP7I4fMXBUJIC61CFWQTWZrxNT66wuXT5S6E43+fpHzQC2c7y
+         XyAju6YeXaucYg8dnfNGWS4/BW0WvCghjA1OKuYj+CQRJMLzmpKw9UX6NPixDvzUKP
+         0+eeRYGK6i/4Pos01dFYCZoQMEMyBM6oDsN9QqAT8Pt0mtzywKWW0fbzsXCyq1fL0U
+         VQcunQfFe3Faf5NMh1C+jjdWh2PdRoXfUKAxjvL7KvMbZ8zuFNtns/GE8Y3Z5cRRp4
+         EB/7Ej2BgR5Ag==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1ltPSG-004lCO-BS; Wed, 16 Jun 2021 08:55:16 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v3 12/16] docs: PCI: acpi-info.rst: replace some
- characters
-Message-ID: <20210616085104.0477bd7b@coco.lan>
-In-Reply-To: <20210519214731.GA262176@bjorn-Precision-5520>
-References: <320bafda201827dd63208af55b528ae63bcf8217.1621159997.git.mchehab+huawei@kernel.org>
-        <20210519214731.GA262176@bjorn-Precision-5520>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 3/8] docs: driver-api: ioctl.rst: replace some characters
+Date:   Wed, 16 Jun 2021 08:55:09 +0200
+Message-Id: <b2186e313f990488ded56d9b8d35a2d1fe479aa1.1623826294.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1623826294.git.mchehab+huawei@kernel.org>
+References: <cover.1623826294.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 19 May 2021 16:47:31 -0500
-Bjorn Helgaas <helgaas@kernel.org> escreveu:
+The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
+conversion and some cut-and-pasted text contain some characters that
+aren't easily reachable on standard keyboards and/or could cause
+troubles when parsed by the documentation build system.
 
-> On Sun, May 16, 2021 at 12:18:29PM +0200, Mauro Carvalho Chehab wrote:
-> > The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
-> > conversion and some cut-and-pasted text contain some characters that
-> > aren't easily reachable on standard keyboards and/or could cause
-> > troubles when parsed by the documentation build system.
-> >=20
-> > Replace the occurences of the following characters:
-> >=20
-> > 	- U+00a0 ('=C2=A0'): NO-BREAK SPACE
-> > 	  as it can cause lines being truncated on PDF output
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org> =20
->=20
-> Apparently you missed
-> https://lore.kernel.org/r/20210512212938.GA2516413@bjorn-Precision-5520
-> where I pointed out a couple issues (3 spaces after period in first
-> hunk, extra whitespace at end of "know about it." hunk) and added my
-> ack.
->=20
-> The subject line would be more useful as:
->=20
->   docs: PCI: Replace non-breaking spaces to avoid PDF issues
->=20
-> It's fine to defer those issues if you want,=20
+Replace the occurences of the following characters:
 
-Yeah, I opted to separate the changes into parts. This one is focused
-on problematic chars that could lead into output issues.=20
+	- U+00a0 (' '): NO-BREAK SPACE
+	  as it can cause lines being truncated on PDF output
 
-Once those get merged, I'll submit a separate one with things like curly
-commas and dashes, as a couple of maintainers seem to have different
-opinions about that.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/driver-api/ioctl.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> but this is still:
->=20
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+diff --git a/Documentation/driver-api/ioctl.rst b/Documentation/driver-api/ioctl.rst
+index c455db0e1627..5b76e765827d 100644
+--- a/Documentation/driver-api/ioctl.rst
++++ b/Documentation/driver-api/ioctl.rst
+@@ -25,9 +25,9 @@ ioctl commands that follow modern conventions: ``_IO``, ``_IOR``,
+ with the correct parameters:
+ 
+ _IO/_IOR/_IOW/_IOWR
+-   The macro name specifies how the argument will be used.  It may be a
++   The macro name specifies how the argument will be used.  It may be a
+    pointer to data to be passed into the kernel (_IOW), out of the kernel
+-   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
++   (_IOR), or both (_IOWR).  _IO can indicate either commands with no
+    argument or those passing an integer value instead of a pointer.
+    It is recommended to only use _IO for commands without arguments,
+    and use pointers for passing data.
+@@ -200,10 +200,10 @@ cause an information leak, which can be used to defeat kernel address
+ space layout randomization (KASLR), helping in an attack.
+ 
+ For this reason (and for compat support) it is best to avoid any
+-implicit padding in data structures.  Where there is implicit padding
++implicit padding in data structures.  Where there is implicit padding
+ in an existing structure, kernel drivers must be careful to fully
+ initialize an instance of the structure before copying it to user
+-space.  This is usually done by calling memset() before assigning to
++space.  This is usually done by calling memset() before assigning to
+ individual members.
+ 
+ Subsystem abstractions
+-- 
+2.31.1
 
-Thanks!
-
-Regards,
-Mauro
