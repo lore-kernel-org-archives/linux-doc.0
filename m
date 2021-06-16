@@ -2,54 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE16EC49EAF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B789BC48BE5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8888613BF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C1B5613C7
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:27:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231722AbhFPG35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231396AbhFPG35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 16 Jun 2021 02:29:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59684 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:59920 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231391AbhFPG3x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231501AbhFPG3x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 16 Jun 2021 02:29:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AE9C5613BF;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ED317613E9;
         Wed, 16 Jun 2021 06:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623824867;
-        bh=HFXY5XjspzH1kzu2GrbFUWzI5z4ecY6jF7OZRuh585A=;
-        h=From:To:Cc:Subject:Date:From;
-        b=i8M85VxHQbZ50V8fMJseWf0vWBO55h7qx/5DDF1AEmTSMWhUjzMvzzmjKrtF8AKcR
-         jwPUkMGj6skaSwKc3Nb/ClX/mf9rqCBl4EoOzg6hiQVc5LWnY4qtyfrSEJ7VphRRWH
-         KduL0CAw/YrDU6ESOYozK0J7Mwh6gXRMtkihQq/zF3LS+B2iz9xXROxs8p6G/3birc
-         rMWLHc4+eJCtsbE9xfUQ8QL3jC1cqZQSUtH6lpM1ZAmA6n8MNE4ItYkhgEns7gOcfF
-         tDqXX7qE2sdpEWYSQWyUHfCyD8Rd8Zrw4MW3EN7CUxyupE2Yrivwa8Z0A4F/HN3xgi
-         IJ4MvA1+etqjg==
+        s=k20201202; t=1623824868;
+        bh=RluDluVvgOJfMawxkXAd8MJmBCh51i/nH0Xg7JEnU2k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IzCd3O51Aa0LTyprfhtV1oY+MThmVmQRTvvhlUbcOw5JqMQ29Ez8RWXGV4P/hmOt1
+         1l+2neyHuC2niSppanddqI6KPQeZhIiAyA5HDKUgFzSRWGpKCQExOGTkBYhCLTFmFY
+         ahGCzFWIwy4Lfh8RlyJ/XjBUlZHgtAzIRJmABpicXgbyvQV5CgrCK2igr2Fu47jMDy
+         Hz217X2YaDLLX1miXBBbHOK7MqK7H5yNympfqc+Pbe91LVgub1M98y122HCQr2xTad
+         sE36oeNCTbJ+5xNtlKR5jcrGoAffO08oXTNH8xwvGgOg/bHgpzDCsDNEYWLEOF4kQV
+         kUWW2+cyVluEg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltP1d-004kIJ-Rv; Wed, 16 Jun 2021 08:27:45 +0200
+        id 1ltP1e-004kIo-84; Wed, 16 Jun 2021 08:27:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        coresight@lists.linaro.org, devicetree@vger.kernel.org,
-        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
-        netdev@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v2 00/29] docs: avoid using ReST :doc:`foo` tag
-Date:   Wed, 16 Jun 2021 08:27:15 +0200
-Message-Id: <cover.1623824363.git.mchehab+huawei@kernel.org>
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 08/29] docs: core-api: avoid using ReST :doc:`foo` markup
+Date:   Wed, 16 Jun 2021 08:27:23 +0200
+Message-Id: <d967d490b6655735b7df292f88859b5a1b07d0d7.1623824363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1623824363.git.mchehab+huawei@kernel.org>
+References: <cover.1623824363.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -57,133 +55,88 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(Maintainers bcc, to avoid too many recipient troubles)
+The :doc:`foo` tag is auto-generated via automarkup.py.
+So, use the filename at the sources, instead of :doc:`foo`.
 
-As discussed at:
-	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
-
-It is better to avoid using :doc:`foo` to refer to Documentation/foo.rst, as the
-automarkup.py extension should handle it automatically, on most cases.
-
-There are a couple of exceptions to this rule:
-
-1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
-2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
-
-On this series:
-
-Patch 1 manually adjust the references inside driver-api/pm/devices.rst,
-as there it uses :file:`foo` to refer to some Documentation/ files;
-
-Patch 2 converts a table at Documentation/dev-tools/kunit/api/index.rst
-into a list, carefully avoiding the 
-
-The remaining patches convert the other occurrences via a replace script.
-They were manually edited, in order to honour 80-columns where possible.
-
-This series based on docs-next branch. In order to avoid merge conflicts,
-I rebased it internally against yesterday's linux-next, dropping a patch
-and a hunk that would have caused conflicts there.
-
-I'll re-send the remaining patch (plus another patch) with conflicting
-changes, together with any other doc:`filename` reference that might
-still be upstream by 5.14-rc1.
-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
+ Documentation/core-api/bus-virt-phys-mapping.rst | 2 +-
+ Documentation/core-api/dma-api.rst               | 5 +++--
+ Documentation/core-api/dma-isa-lpc.rst           | 2 +-
+ Documentation/core-api/index.rst                 | 4 ++--
+ 4 files changed, 7 insertions(+), 6 deletions(-)
 
-v2:
-   - dropped media patches (as I merged via my own tree);
-   - removed one patch that would conflict at linux-next (adm1177.rst);
-   - removed one hunk fron kunit patch that would also conflict at
-     linux-next.
-
-Mauro Carvalho Chehab (29):
-  docs: devices.rst: better reference documentation docs
-  docs: dev-tools: kunit: don't use a table for docs name
-  docs: admin-guide: pm: avoid using ReST :doc:`foo` markup
-  docs: admin-guide: hw-vuln: avoid using ReST :doc:`foo` markup
-  docs: admin-guide: sysctl: avoid using ReST :doc:`foo` markup
-  docs: block: biodoc.rst: avoid using ReST :doc:`foo` markup
-  docs: bpf: bpf_lsm.rst: avoid using ReST :doc:`foo` markup
-  docs: core-api: avoid using ReST :doc:`foo` markup
-  docs: dev-tools: testing-overview.rst: avoid using ReST :doc:`foo`
-    markup
-  docs: dev-tools: kunit: avoid using ReST :doc:`foo` markup
-  docs: devicetree: bindings: submitting-patches.rst: avoid using ReST
-    :doc:`foo` markup
-  docs: doc-guide: avoid using ReST :doc:`foo` markup
-  docs: driver-api: avoid using ReST :doc:`foo` markup
-  docs: driver-api: gpio: using-gpio.rst: avoid using ReST :doc:`foo`
-    markup
-  docs: driver-api: surface_aggregator: avoid using ReST :doc:`foo`
-    markup
-  docs: driver-api: usb: avoid using ReST :doc:`foo` markup
-  docs: firmware-guide: acpi: avoid using ReST :doc:`foo` markup
-  docs: i2c: avoid using ReST :doc:`foo` markup
-  docs: kernel-hacking: hacking.rst: avoid using ReST :doc:`foo` markup
-  docs: networking: devlink: avoid using ReST :doc:`foo` markup
-  docs: PCI: endpoint: pci-endpoint-cfs.rst: avoid using ReST :doc:`foo`
-    markup
-  docs: PCI: pci.rst: avoid using ReST :doc:`foo` markup
-  docs: process: submitting-patches.rst: avoid using ReST :doc:`foo`
-    markup
-  docs: security: landlock.rst: avoid using ReST :doc:`foo` markup
-  docs: trace: coresight: coresight.rst: avoid using ReST :doc:`foo`
-    markup
-  docs: trace: ftrace.rst: avoid using ReST :doc:`foo` markup
-  docs: userspace-api: landlock.rst: avoid using ReST :doc:`foo` markup
-  docs: virt: kvm: s390-pv-boot.rst: avoid using ReST :doc:`foo` markup
-  docs: x86: avoid using ReST :doc:`foo` markup
-
- .../PCI/endpoint/pci-endpoint-cfs.rst         |  2 +-
- Documentation/PCI/pci.rst                     |  6 +--
- .../special-register-buffer-data-sampling.rst |  3 +-
- Documentation/admin-guide/pm/intel_idle.rst   | 16 +++++---
- Documentation/admin-guide/pm/intel_pstate.rst |  9 +++--
- Documentation/admin-guide/sysctl/abi.rst      |  2 +-
- Documentation/admin-guide/sysctl/kernel.rst   | 37 ++++++++++---------
- Documentation/block/biodoc.rst                |  2 +-
- Documentation/bpf/bpf_lsm.rst                 | 13 ++++---
- .../core-api/bus-virt-phys-mapping.rst        |  2 +-
- Documentation/core-api/dma-api.rst            |  5 ++-
- Documentation/core-api/dma-isa-lpc.rst        |  2 +-
- Documentation/core-api/index.rst              |  4 +-
- Documentation/dev-tools/kunit/api/index.rst   |  8 ++--
- Documentation/dev-tools/kunit/faq.rst         |  2 +-
- Documentation/dev-tools/kunit/index.rst       | 14 +++----
- Documentation/dev-tools/kunit/start.rst       |  4 +-
- Documentation/dev-tools/kunit/tips.rst        |  5 ++-
- Documentation/dev-tools/kunit/usage.rst       |  8 ++--
- Documentation/dev-tools/testing-overview.rst  | 16 ++++----
- .../bindings/submitting-patches.rst           | 11 +++---
- Documentation/doc-guide/contributing.rst      |  8 ++--
- Documentation/driver-api/gpio/using-gpio.rst  |  4 +-
- Documentation/driver-api/ioctl.rst            |  2 +-
- Documentation/driver-api/pm/devices.rst       |  8 ++--
- .../surface_aggregator/clients/index.rst      |  3 +-
- .../surface_aggregator/internal.rst           | 15 ++++----
- .../surface_aggregator/overview.rst           |  6 ++-
- Documentation/driver-api/usb/dma.rst          |  6 +--
- .../acpi/dsd/data-node-references.rst         |  3 +-
- .../firmware-guide/acpi/dsd/graph.rst         |  2 +-
- .../firmware-guide/acpi/enumeration.rst       |  7 ++--
- Documentation/i2c/instantiating-devices.rst   |  2 +-
- Documentation/i2c/old-module-parameters.rst   |  3 +-
- Documentation/i2c/smbus-protocol.rst          |  4 +-
- Documentation/kernel-hacking/hacking.rst      |  4 +-
- .../networking/devlink/devlink-region.rst     |  2 +-
- .../networking/devlink/devlink-trap.rst       |  4 +-
- Documentation/process/submitting-patches.rst  | 32 ++++++++--------
- Documentation/security/landlock.rst           |  3 +-
- Documentation/trace/coresight/coresight.rst   |  8 ++--
- Documentation/trace/ftrace.rst                |  2 +-
- Documentation/userspace-api/landlock.rst      | 11 +++---
- Documentation/virt/kvm/s390-pv-boot.rst       |  2 +-
- Documentation/x86/boot.rst                    |  4 +-
- Documentation/x86/mtrr.rst                    |  2 +-
- 46 files changed, 171 insertions(+), 147 deletions(-)
-
+diff --git a/Documentation/core-api/bus-virt-phys-mapping.rst b/Documentation/core-api/bus-virt-phys-mapping.rst
+index c7bc99cd2e21..c72b24a7d52c 100644
+--- a/Documentation/core-api/bus-virt-phys-mapping.rst
++++ b/Documentation/core-api/bus-virt-phys-mapping.rst
+@@ -8,7 +8,7 @@ How to access I/O mapped memory from within device drivers
+ 
+ 	The virt_to_bus() and bus_to_virt() functions have been
+ 	superseded by the functionality provided by the PCI DMA interface
+-	(see :doc:`/core-api/dma-api-howto`).  They continue
++	(see Documentation/core-api/dma-api-howto.rst).  They continue
+ 	to be documented below for historical purposes, but new code
+ 	must not use them. --davidm 00/12/12
+ 
+diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+index 00a1d4fa3f9e..6d6d0edd2d27 100644
+--- a/Documentation/core-api/dma-api.rst
++++ b/Documentation/core-api/dma-api.rst
+@@ -5,7 +5,7 @@ Dynamic DMA mapping using the generic device
+ :Author: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
+ 
+ This document describes the DMA API.  For a more gentle introduction
+-of the API (and actual examples), see :doc:`/core-api/dma-api-howto`.
++of the API (and actual examples), see Documentation/core-api/dma-api-howto.rst.
+ 
+ This API is split into two pieces.  Part I describes the basic API.
+ Part II describes extensions for supporting non-consistent memory
+@@ -479,7 +479,8 @@ without the _attrs suffixes, except that they pass an optional
+ dma_attrs.
+ 
+ The interpretation of DMA attributes is architecture-specific, and
+-each attribute should be documented in :doc:`/core-api/dma-attributes`.
++each attribute should be documented in
++Documentation/core-api/dma-attributes.rst.
+ 
+ If dma_attrs are 0, the semantics of each of these functions
+ is identical to those of the corresponding function
+diff --git a/Documentation/core-api/dma-isa-lpc.rst b/Documentation/core-api/dma-isa-lpc.rst
+index e59a3d35a93d..17b193603f0a 100644
+--- a/Documentation/core-api/dma-isa-lpc.rst
++++ b/Documentation/core-api/dma-isa-lpc.rst
+@@ -17,7 +17,7 @@ To do ISA style DMA you need to include two headers::
+ 	#include <asm/dma.h>
+ 
+ The first is the generic DMA API used to convert virtual addresses to
+-bus addresses (see :doc:`/core-api/dma-api` for details).
++bus addresses (see Documentation/core-api/dma-api.rst for details).
+ 
+ The second contains the routines specific to ISA DMA transfers. Since
+ this is not present on all platforms make sure you construct your
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index f1c9d20bd42d..5de2c7a4b1b3 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -48,7 +48,7 @@ Concurrency primitives
+ ======================
+ 
+ How Linux keeps everything from happening at the same time.  See
+-:doc:`/locking/index` for more related documentation.
++Documentation/locking/index.rst for more related documentation.
+ 
+ .. toctree::
+    :maxdepth: 1
+@@ -77,7 +77,7 @@ Memory management
+ =================
+ 
+ How to allocate and use memory in the kernel.  Note that there is a lot
+-more memory-management documentation in :doc:`/vm/index`.
++more memory-management documentation in Documentation/vm/index.rst.
+ 
+ .. toctree::
+    :maxdepth: 1
 -- 
 2.31.1
-
 
