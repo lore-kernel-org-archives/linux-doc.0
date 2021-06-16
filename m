@@ -4,45 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A98F5C48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24288C48BE6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F85D61164
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E25B61164
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 06:55:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231991AbhFPG50 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 02:57:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34564 "EHLO mail.kernel.org"
+        id S231985AbhFPG52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 02:57:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34626 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230515AbhFPG5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231400AbhFPG5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 16 Jun 2021 02:57:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E5C5761246;
-        Wed, 16 Jun 2021 06:55:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 10776613C2;
+        Wed, 16 Jun 2021 06:55:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623826517;
-        bh=qVFGdhd3RiCLKZC/IOh05kkJiYS3/3QY2KmfYni5bpY=;
+        s=k20201202; t=1623826518;
+        bh=k6NTNp63lzWLLXxRP68+OTKIkex+SaEUw6CMpvbd8gk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lkuafyYCr0ttnuzFV5+KTqo+QHac83k2fdVUduAheZ3CiW+Ze8wD5WAaITAKzGkm0
-         g/ZsJQd/XOwB/FYafS3glV+SNTvUgCNMw3G7IPbcl8TaUqWye1f49qHoA4oZHpJdPe
-         02afUiEvT1vk3yLfkfaB1QwY/CZrnlVRZCoHe5mCJfU/0B3+5XvGrtR49PafvnclH+
-         kI1V7HDY+bs2AgxMt1FhCiSV6bk9o28MvhhucC7+qtbOMFMQ2p78hFRDErf+2eOIW1
-         U8IIEmtIKZ59mKIeVJL855OwuQt6dERe7BD7vvJo4p+rBo5hRvxzVwNy5KDfb4s10/
-         Z7tuwCKdPKxTg==
+        b=VdmCExCcU4NX8miOD5KFN1SAdvmsPXrhXsRf5aQh+0RR9pJsNt8hHByxo+NOFnmso
+         hFMMe5jLl+02aRvg7mpH/LcfRs97W9y8Bt4W2HDcfZ0Lx58FKwK5DQPiG+c+WhOTbC
+         S7PCpXlhfEODVBdvFkuxQFl3gPZadNdl4U8UOdQrkCPijd1QQ8SIgeyWfS0ibuVEB7
+         deo0IRjYq1DKuWHs4wP+aVY0Nn2ArX3+PrsMcgksUhD+RgViOwZxRCduTtD5UbU/l+
+         mA+WZBszn7wsHZtUTFKkhTpme/85wZypOHpdNZLwNd1Hihb8UGJPVsy6d+MvGxo2Ed
+         vIgMfa5zrq+Yw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltPSG-004lCG-8Q; Wed, 16 Jun 2021 08:55:16 +0200
+        id 1ltPSG-004lCS-Cq; Wed, 16 Jun 2021 08:55:16 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 1/8] docs: admin-guide: reporting-issues.rst: replace some characters
-Date:   Wed, 16 Jun 2021 08:55:07 +0200
-Message-Id: <551a2af0e654226067e5c376d3e2d959cc738f39.1623826294.git.mchehab+huawei@kernel.org>
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH 4/8] docs: usb: replace some characters
+Date:   Wed, 16 Jun 2021 08:55:10 +0200
+Message-Id: <0a4b0c38a9cd1133402a04a7ff60fefd9682d42e.1623826294.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623826294.git.mchehab+huawei@kernel.org>
 References: <cover.1623826294.git.mchehab+huawei@kernel.org>
@@ -61,26 +62,34 @@ troubles when parsed by the documentation build system.
 
 Replace the occurences of the following characters:
 
-	- U+00a0 (' '): NO-BREAK SPACE
-	  as it can cause lines being truncated on PDF output
+	- U+feff ('﻿'): BOM
+	  as it is not needed on UTF-8
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/reporting-issues.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/usb/ehci.rst           | 2 +-
+ Documentation/usb/gadget_printer.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index 18d8e25ba9df..d7ac13f789cc 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -1248,7 +1248,7 @@ paragraph makes the severeness obvious.
+diff --git a/Documentation/usb/ehci.rst b/Documentation/usb/ehci.rst
+index 31f650e7c1b4..76190501907a 100644
+--- a/Documentation/usb/ehci.rst
++++ b/Documentation/usb/ehci.rst
+@@ -1,4 +1,4 @@
+-﻿===========
++===========
+ EHCI driver
+ ===========
  
- In case you performed a successful bisection, use the title of the change that
- introduced the regression as the second part of your subject. Make the report
--also mention the commit id of the culprit. In case of an unsuccessful bisection,
-+also mention the commit id of the culprit. In case of an unsuccessful bisection,
- make your report mention the latest tested version that's working fine (say 5.7)
- and the oldest where the issue occurs (say 5.8-rc1).
+diff --git a/Documentation/usb/gadget_printer.rst b/Documentation/usb/gadget_printer.rst
+index 5e5516c69075..e611a6d91093 100644
+--- a/Documentation/usb/gadget_printer.rst
++++ b/Documentation/usb/gadget_printer.rst
+@@ -1,4 +1,4 @@
+-﻿===============================
++===============================
+ Linux USB Printer Gadget Driver
+ ===============================
  
 -- 
 2.31.1
