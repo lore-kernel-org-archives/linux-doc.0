@@ -2,205 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB42C48BE6
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 10:03:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2C96C48BE6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 10:37:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3F5061356
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 10:03:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D503613C7
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 10:37:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232355AbhFPKFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 06:05:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49054 "EHLO
+        id S232375AbhFPKjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 06:39:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232375AbhFPKE5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 06:04:57 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B27C0617AD
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 03:02:50 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id a1so3259154lfr.12
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 03:02:50 -0700 (PDT)
+        with ESMTP id S232410AbhFPKjR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 06:39:17 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4104C06175F
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 03:37:10 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id b37so3068210ljr.13
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 03:37:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/4RwAjXPtC218FslHiEhUYGCqGEWToA3TK5+6fZBZNA=;
-        b=W++LxgSclajmCz1OuVwxJUxeVJT7cnBxMNmegT+m+GtL1a9J+QwnCek7Wrmt9I5xVg
-         niE41/CBGR0oZBqLdovyjpzPVSI5b0RVpb2ofDNdHJQZ/r4N7xhPTtI2lhbdbPN1TmyP
-         9G8lykpjuFl4zqYrSEwOtuc8L7tLkx4d/YeNTAEXeLi/p2Ldw+jP+KGeZRauthCkV7hq
-         L1P4cvdGnrJDcjP4w3Cm+IKV4sDY/QZ44MRhlKIbHDts9bW7TM43Z3qGGT560hDmkmOC
-         e8JcLVHzA/ymO30I74Kpns7R20UJOnEeaGWucvQxbQSYqUGEXbbdavchN+Om91HCGjqK
-         /Dyg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b7VdJEU0rTTCUa4ZBdIREuYAtQWfk2gNqxWTeP8ttgw=;
+        b=ZCXHnYHl+0AT+7BONvro4DzCy5ufAcHrcQX5ytJG5jo+OfOYC3ZyS22kRtBvFGR8kR
+         fbOx99+CnWCfYPAMjsFgZ3oBeWCc+ItYMdF+ypiJdbIjojGGYCfF7awql7UXOrL7cZ66
+         P5j+dgyzgI+hY2thlTOaLefCptLQb2t1TeJsz72zP/5+hnVbQm3lh+Vepiso6RpK7yWh
+         U8CjmwONzsPvLT5dU3EVeFjcR+83aDowkE8UH/eQC18qF3NKrje9u+xFsAv5EgtBZ8kb
+         yns8QOxPP8d3eaQ9oc+saGGzMqd0OpVj5ZxbEaI+sPhkhFLuD2DYmG5OokafLPrwwnLg
+         nAeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/4RwAjXPtC218FslHiEhUYGCqGEWToA3TK5+6fZBZNA=;
-        b=o4sd7Qg2xSu06OzvC4EBUoNWDo68pCf/HbkVFZdo8CB8Ms1cRVRu9Z9V9pk1AJ7mEI
-         apJTtxzFvOCAmV6/wtV0L1OyX92BP0Sn8tlvY6NZXV2sjzXOzzO5qkjYc3IN0+0w24qV
-         mxaAw2km86NDsy2iRg/bvLl+zLOFVsm1lE5MtTonSXvaC+l3Tp/pWWGyyr2sGNz0QZfL
-         6HgpYLxnaj8DwN13UffLZyDMpn4zT6Xg3BmRIg9fq99e17XpQRCN1DTleBFew8UtFtGb
-         7Rkfn15UjDePMgpbSv9jeuEFIc8/5wb59R0YMUh2pL4dU7sMHKK3X4aifLDryK1BtxgL
-         8e7Q==
-X-Gm-Message-State: AOAM533g1DIBp4cneBML0L1XIyKtP2PCkaYiF/ZzwUqBKQjax7yDSyCK
-        ox2RJrtcirpzvSRkzE+UUu09FzDHDSugHnWbqzuffg==
-X-Google-Smtp-Source: ABdhPJyCVESb+FOlmMl5dPAf4Gco8QkFh0ii+imiXjgleMjODWaRGNA06Nxj08O7M4Hur+hzj8u2fz+G5MBr5Z14Ri4=
-X-Received: by 2002:a19:4810:: with SMTP id v16mr3052847lfa.254.1623837768679;
- Wed, 16 Jun 2021 03:02:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1623825725.git.viresh.kumar@linaro.org>
-In-Reply-To: <cover.1623825725.git.viresh.kumar@linaro.org>
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-Date:   Wed, 16 Jun 2021 12:02:37 +0200
-Message-ID: <CAKfTPtCawkocU+ssGi9hz10tMGYib_pfiFGXNMiF1HGYWinMdw@mail.gmail.com>
-Subject: Re: [PATCH V2 0/3] cpufreq: cppc: Add support for frequency invariance
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Ionela Voinescu <ionela.voinescu@arm.com>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b7VdJEU0rTTCUa4ZBdIREuYAtQWfk2gNqxWTeP8ttgw=;
+        b=d11zBeFik0vrWHYgNnX31rZ7ekQzD8o4Sm749zxQITgmzyOB6YfIbwQE6dAS/iAWYI
+         wKQct/mCADWvnlfCDlSDPsLPU6Z+04uOsW0hg1jagM1zf3h09rR8GTSHNKr488AREkbj
+         MsDf+S+JG8KKHCA8vm1afomK2gmcITznqLULu9m7evMgwuU0EJWO5hhtz8g53dc2Nyyb
+         tsEnbH7iHVZEwOHspEwjRaPBYWWxE3FlY2eIAflrj1f/MI2VKMeB2hrv1/VPxb2QF9Ik
+         KFl2WFKrk9y0hjJm81KYd3hOKol3QqHQsds+ybOUBLZTivwSvbN8941zWC7E4o71Ond9
+         UmUA==
+X-Gm-Message-State: AOAM533gRSyOPgqkrdPfq/fwoZ/Z8znP32tT3xvBEoB6w+RbPjJZdC7b
+        CUCj/3vbMtMMDDs7M50mSvjTIDAKtMD33Q==
+X-Google-Smtp-Source: ABdhPJwLU5RpnLUnL4Junjt28owZW8zzr9JX42D48ieAQPbH8IWYa7EBR9wbPUnGFtbb9a9ZGvvYqg==
+X-Received: by 2002:a2e:b170:: with SMTP id a16mr3889189ljm.67.1623839829193;
+        Wed, 16 Jun 2021 03:37:09 -0700 (PDT)
+Received: from jade.urgonet (h-79-136-85-3.A175.priv.bahnhof.se. [79.136.85.3])
+        by smtp.gmail.com with ESMTPSA id m17sm205621lfh.288.2021.06.16.03.37.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jun 2021 03:37:08 -0700 (PDT)
+From:   Jens Wiklander <jens.wiklander@linaro.org>
+To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        Qian Cai <quic_qiancai@quicinc.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Ard Biesheuvel <ardb@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>
+Subject: [PATCH v2 0/7] Asynchronous notifications from secure world
+Date:   Wed, 16 Jun 2021 12:36:42 +0200
+Message-Id: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Jun 2021 at 08:48, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> Hello,
->
-> Changes since V1:
->
-> - Few of the patches migrating users to ->exit() callback are posted separately.
->
-> - The CPPC patch was completely reverted and so the support for FIE is again
->   added here from scratch.
->
-> - The start_cpu() and stop_cpu() interface is reworked a little so stop_cpu() is
->   only ever called for a CPU if start_cpu() was called for it earlier.
->
-> - A new patch to implement RCU locking in arch_topology core to avoid some
->   races.
->
-> - Some cleanup and very clear/separate paths for FIE in cppc driver now.
->
->
-> -------------------------8<-------------------------
->
-> CPPC cpufreq driver is used for ARM servers and this patch series tries to
-> provide counter-based frequency invariance support for them in the absence for
-> architecture specific counters (like AMUs).
->
-> This was reverted earlier for the 5.13 kernel after Qian Cai reported kernel
-> oops during suspend/resume.
->
-> This is based of pm/linux-next + a cleanup patchset:
->
-> https://lore.kernel.org/linux-pm/cover.1623825358.git.viresh.kumar@linaro.org/
->
-> All the patches are pushed here together for people to run.
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git/log/?h=cpufreq/cppc
->
-> This is tested on my Hikey platform (without the actual read/write to
-> performance counters), with this script for over an hour:
->
-> while true; do
->     for i in `seq 1 7`;
->     do
->         echo 0 > /sys/devices/system/cpu/cpu$i/online;
->     done;
->
->     for i in `seq 1 7`;
->     do
->         echo 1 > /sys/devices/system/cpu/cpu$i/online;
->     done;
-> done
->
->
-> Vincent will be giving this patchset a try on ThunderX2.
+Hi all,
 
-I tested your branch and got the following while booting:
+This adds support for asynchronous notifications from OP-TEE in secure
+world to the OP-TEE driver. This allows a design with a top half and bottom
+half type of driver where the top half runs in secure interrupt context and
+a notifications tells normal world to schedule a yielding call to do the
+bottom half processing.
 
-[   24.454543] zswap: loaded using pool lzo/zbud
-[   24.454753] pstore: Using crash dump compression: deflate
-[   24.454776] AppArmor: AppArmor sha1 policy hashing enabled
-[   24.454784] ima: No TPM chip found, activating TPM-bypass!
-[   24.454789] ima: Allocated hash algorithm: sha256
-[   24.454801] ima: No architecture policies found
-[   24.455750] pcieport 0000:0f:00.0: Adding to iommu group 0
-[   24.893888] ------------[ cut here ]------------
-[   24.893891] WARNING: CPU: 95 PID: 1442 at
-drivers/cpufreq/cppc_cpufreq.c:123 cppc_scale_freq_workfn+0xc8/0xf8
-[   24.893901] Modules linked in:
-[   24.893906] CPU: 95 PID: 1442 Comm: cppc_fie Not tainted 5.13.0-rc6+ #359
-[   24.893910] Hardware name: To be filled by O.E.M. Saber/Saber, BIOS
-0ACKL026 03/19/2019
-[   24.893912] pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
-[   24.893915] pc : cppc_scale_freq_workfn+0xc8/0xf8
-[   24.893918] lr : cppc_scale_freq_workfn+0x5c/0xf8
-[   24.893921] sp : ffff80003727bd90
-[   24.893922] x29: ffff80003727bd90 x28: 0000000000000000 x27: ffff800010ec2000
-[   24.893928] x26: ffff800010ec2000 x25: ffff8000107c3d90 x24: 0000000000000001
-[   24.893932] x23: ffff000816244880 x22: ffff8000113f9000 x21: ffff009f825a0a80
-[   24.893935] x20: ffff009efc394220 x19: ffff800011199000 x18: 000000000000001b
-[   24.893939] x17: 0000000000000007 x16: 0000000000000001 x15: 00000000000000bf
-[   24.893943] x14: 0000000000000016 x13: 000000000000029b x12: 0000000000000016
-[   24.893946] x11: 0000000000000000 x10: 0000000000000000 x9 : ffff009efc6958c0
-[   24.893950] x8 : ffff009efc394248 x7 : 0000000002bde780 x6 : 00000000ffffffff
-[   24.893954] x5 : 00000000916e502a x4 : 00000000d9730e80 x3 : ffffffffffffffff
-[   24.893958] x2 : 00000000001e8480 x1 : 00000000002625a0 x0 : 0000000000000401
-[   24.893962] Call trace:
-[   24.893964]  cppc_scale_freq_workfn+0xc8/0xf8
-[   24.893967]  kthread_worker_fn+0x110/0x318
-[   24.893971]  kthread+0xf4/0x120
-[   24.893973]  ret_from_fork+0x10/0x18
-[   24.893977] ---[ end trace ea6dbaf832bce3e4 ]---
+An interrupt is used to notify the driver that there are asynchronous
+notifications pending.
 
+v2:
+* Added documentation
+* Converted optee bindings to json-schema and added interrupt property
+* Configure notification interrupt from DT instead of getting it
+  from secure world, suggested by Ard Biesheuvel <ardb@kernel.org>.
 
->
-> Meanwhile it is up for review. Ideally I would like to get this merged for 5.14,
-> but lets see how it goes.
->
-> Thanks.
->
-> --
-> Viresh
->
-> Viresh Kumar (3):
->   cpufreq: Add start_cpu() and stop_cpu() callbacks
->   arch_topology: Avoid use-after-free for scale_freq_data
->   cpufreq: CPPC: Add support for frequency invariance
->
->  Documentation/cpu-freq/cpu-drivers.rst |   7 +-
->  drivers/base/arch_topology.c           |  27 ++-
->  drivers/cpufreq/Kconfig.arm            |  10 ++
->  drivers/cpufreq/cppc_cpufreq.c         | 232 +++++++++++++++++++++++--
->  drivers/cpufreq/cpufreq.c              |  19 +-
->  include/linux/arch_topology.h          |   1 +
->  include/linux/cpufreq.h                |   5 +-
->  kernel/sched/core.c                    |   1 +
->  8 files changed, 272 insertions(+), 30 deletions(-)
->
-> --
-> 2.31.1.272.g89b43f80a514
->
+Thanks,
+Jens
+
+Jens Wiklander (7):
+  docs: staging/tee.rst: add a section on OP-TEE notifications
+  dt-bindings: arm: Convert optee binding to json-schema
+  dt-bindings: arm: optee: add interrupt property
+  tee: fix put order in teedev_close_context()
+  tee: add tee_dev_open_helper() primitive
+  optee: separate notification functions
+  optee: add asynchronous notifications
+
+ .../bindings/arm/firmware/linaro,optee-tz.txt |  31 ---
+ .../arm/firmware/linaro,optee-tz.yaml         |  57 +++++
+ Documentation/staging/tee.rst                 |  27 +++
+ drivers/tee/optee/Makefile                    |   1 +
+ drivers/tee/optee/call.c                      |  27 +++
+ drivers/tee/optee/core.c                      |  87 +++++--
+ drivers/tee/optee/notif.c                     | 226 ++++++++++++++++++
+ drivers/tee/optee/optee_msg.h                 |   9 +
+ drivers/tee/optee/optee_private.h             |  23 +-
+ drivers/tee/optee/optee_rpc_cmd.h             |  31 +--
+ drivers/tee/optee/optee_smc.h                 |  75 +++++-
+ drivers/tee/optee/rpc.c                       |  73 +-----
+ drivers/tee/tee_core.c                        |  37 ++-
+ include/linux/tee_drv.h                       |  27 +++
+ 14 files changed, 576 insertions(+), 155 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.txt
+ create mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
+ create mode 100644 drivers/tee/optee/notif.c
+
+-- 
+2.31.1
+
