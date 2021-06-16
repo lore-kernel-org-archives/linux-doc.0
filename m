@@ -2,141 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0771FC48BE8
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:21:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC44C48BE6
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:22:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E562960FF4
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:21:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E2E42613C2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Jun 2021 20:22:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233367AbhFPUXM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 16:23:12 -0400
-Received: from mail-dm3nam07on2079.outbound.protection.outlook.com ([40.107.95.79]:42497
-        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233360AbhFPUXM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 16:23:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fPjMNusBEbhqlNN5rHb9Fcm4oD/X72BffHRFUihVuYcLLV1nSDMDZGNFoLP6hu4T5SjT5R2Jy1/p+SsiUCdGJUIE++kjTfBjEx+0LJQBf8ATXEOPKEiGwDDddazLgaCfR2M/I8QGxXlPG5M4W6yWBleDLOXTXbduyalPKX/Ezdxvpej9GhKRm4pgPBya2PdNDyxmPg2TDCaHmG26tUp9UGR9t4A97LbLADs+OnX68F2wShB2XVvv5p/V5LA/ebxXI+Y3x6Ht6uU9++IlCWBucfdDfnCoWHxsQXDDjy+m1lXqal6EvgxXz54fHYJ5yeKNCCW1HUg4onFnh9IdVg/TFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eYB0SD7aJGL66ifWWB1n/PZFqGsWcXAmRz64+yaDK9E=;
- b=lk6v5MXl/VcIcjRi4SqZHelxJgBRArB9QDnpL8m23i1GT22Ad0nt5ONPRz1lzZ/wwbXBGfACvZrPnUa2vx8KaJx1/3jr0VOXRfm51z8y0Y3+ssLXW8iJg9ElQzz5AT1vfJmKlVhUW0mTgblKZ1usPM1SzlhvreAtaWt5tylFmffpkydUiB+tOUR5+3S2Sxdos0Mt7yt18M/zyPC9P2/AQ6Gvl2c1sGYYVABKraqMwVkqks8faaEn0XmR68JHQX/Df6sf5RcimzfXdK8I9v0akLJqCWBCzHTvuJpfjsPRCNvPnHMW5+JByuvKdCMbuiFgbtPtxfPLfnAOzBYj6UM5AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=lwn.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eYB0SD7aJGL66ifWWB1n/PZFqGsWcXAmRz64+yaDK9E=;
- b=gHJOYUIdCkAnCtflDhLE+114iW5jnhDO/X8nYdAGVlXNRPeZei8zSMBHjyA94QSIUz3vbMELu+anchV477nX92Cmau1tKEmfhhfVO9nMJvTdZrSbkuzFUs7a5ruf3euZJTN+mZSI1UNVxlusXnCqzAbWdityoeCo1NnCg0pR3Scgmv30d7Ww9aGEoVrLx7A9tVRLKXnRB/VvGd5zzoS+auLxhDgZ5LyzftIFe4ogVTEpXjl6riLsDkT6VZAYsWOejTbR+I+dWLBwOP6o+odT5Rr94RYLDLBN1Ly5AHKDu5Gzy4z7ymqeIvE2IGl6Md9myqF+V1PDDffGlXxSmenUlw==
-Received: from BN6PR11CA0043.namprd11.prod.outlook.com (2603:10b6:404:4b::29)
- by CY4PR12MB1544.namprd12.prod.outlook.com (2603:10b6:910:9::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.15; Wed, 16 Jun
- 2021 20:21:04 +0000
-Received: from BN8NAM11FT067.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:4b:cafe::82) by BN6PR11CA0043.outlook.office365.com
- (2603:10b6:404:4b::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend
- Transport; Wed, 16 Jun 2021 20:21:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; lwn.net; dkim=none (message not signed)
- header.d=none;lwn.net; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT067.mail.protection.outlook.com (10.13.177.159) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4242.16 via Frontend Transport; Wed, 16 Jun 2021 20:21:04 +0000
-Received: from [10.40.101.248] (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 16 Jun
- 2021 20:20:53 +0000
-Subject: Re: [PATCH 08/10] vfio/mtty: Convert to use vfio_register_group_dev()
-To:     Christoph Hellwig <hch@lst.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        "Alex Williamson" <alex.williamson@redhat.com>
-CC:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        <intel-gfx@lists.freedesktop.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20210615133519.754763-1-hch@lst.de>
- <20210615133519.754763-9-hch@lst.de>
-X-Nvconfidentiality: public
-From:   Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <9e2d3a44-1371-d8c8-844f-69a29699a13d@nvidia.com>
-Date:   Thu, 17 Jun 2021 01:50:49 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S233360AbhFPUYK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 16:24:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33180 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233355AbhFPUYJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jun 2021 16:24:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AF5FD60FF4;
+        Wed, 16 Jun 2021 20:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623874922;
+        bh=QTWcOvraqZaabAlaEhyvzzla1yuYg5YKUaWR97ZT/hg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=AGAbp3C+e5xX2UZoz+OqLZj9hRzEeydmomx2MFWpcD3VSHZdXeqpiWhUASFr/2Ac4
+         /U87a6HJuPPq8Ry/zWJMXdos4hEWQnA2g0ywkosMq0haA5x14G46Z8ijbANhXzOv+G
+         FxDOf/Hiwio6ddijD9MSJR0daL79+QECSfaYxcoBFSAqqGCe0mEZTefuoeAgVIB0nB
+         RUeoDuoKt27WjiYpw/37+TEWPwPPp6blmBvf5fQ6M4Ts+bPGU0lo59eTzvGqwUTiLI
+         JyvNcPQbwvvQydjCJIyu+RTGqLwfeb//fOyot2hpa40S1/BgqCA/iKViNcwQan/fk+
+         V6CEHQET4NM2Q==
+Date:   Wed, 16 Jun 2021 22:21:56 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     mark gross <mgross@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 04/29] docs: admin-guide: hw-vuln: avoid using ReST
+ :doc:`foo` markup
+Message-ID: <20210616222156.3727599d@coco.lan>
+In-Reply-To: <20210616182128.GJ70758@linux.intel.com>
+References: <cover.1623824363.git.mchehab+huawei@kernel.org>
+        <4e378517761f3df07165d5ecdac5a0a81577e68f.1623824363.git.mchehab+huawei@kernel.org>
+        <20210616182128.GJ70758@linux.intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210615133519.754763-9-hch@lst.de>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8ffd217c-bf73-4e6d-6d74-08d931044419
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1544:
-X-Microsoft-Antispam-PRVS: <CY4PR12MB1544CB0F3DF47AB3AA6AC0D8DC0F9@CY4PR12MB1544.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MJq0HW0mEkemPFn/H1hQuRQNbnckHQ3LOTnNYa2lZbSoz2/9TLNfhcn+zLHhYYwCGWavilPcHuwLkITV6YOkd/WdtUmVkOFFdzQ4tGIlo6dZwFSQfjKYpUjEda0N/VTARb1TyxgpEmSYPGewcmMONNEcGH/cujwYHwbtr5BvF9/Ylln9JZ1VoEcP/fJvB/uTMFB6t9kC+hxDwRlxVb2kazT+h7XAmDVzbH9ZJo1+2yX0scMcEwsoC5D+S7rw3vQynHpnheVoxwTZeRITnMq5PH/flpjxg2IfSRb6m8/84BcRv4ZZpJDuZHVUFBhkP5WFUr2Ym5PpW/6e/EovrnlIKLSz/d9L+LTu/bn/wg/OGTj++ssKld3TGKepsgmRdMF3bxM9rmgghzpNIv4wd3shfdmrisgFuwYlAd1Uu1K8cNuFXM/Gw/hh19LBxhy9GtDpLJ7EWqJmSJwF9kPjB/m24Buf2EFlzcOuBofZ7KXmiHty35Np7JvtehYHVCBWwwP8QRw2qdNLtM0U2l/RkGwqJWbDaFvLQh9dnhoYcnNf6TyqEfz7XISy6AfWHBKZZm0YSZGMTV8IQKiiZNL8HgeANNObZW1tVtrhl589mkEYKNlElnld60ERnLYx5OBDQEFeyC06+U3wrHyKJjpGYswiiFijWzWMqJZWTR60dCwMsB/iscEFg9ZX5t+7GSnCqO6H
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(136003)(396003)(39860400002)(346002)(46966006)(36840700001)(54906003)(316002)(8936002)(26005)(186003)(82310400003)(4744005)(478600001)(6666004)(86362001)(4326008)(36756003)(36860700001)(31686004)(2616005)(31696002)(336012)(16526019)(110136005)(426003)(8676002)(70206006)(2906002)(36906005)(82740400003)(70586007)(5660300002)(356005)(7416002)(7636003)(16576012)(47076005)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 20:21:04.0014
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ffd217c-bf73-4e6d-6d74-08d931044419
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT067.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1544
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Em Wed, 16 Jun 2021 11:21:28 -0700
+mark gross <mgross@linux.intel.com> escreveu:
 
-> -static int mtty_reset(struct mdev_device *mdev)
-> +static int mtty_reset(struct mdev_state *mdev_stte)
+> On Wed, Jun 16, 2021 at 08:27:19AM +0200, Mauro Carvalho Chehab wrote:
+> > The :doc:`foo` tag is auto-generated via automarkup.py.  
+> and that is not good why?
 
-Nit pick:
-s/mdev_stte/mdev_state
+Patch 00 contains a little more info:
+
+	https://lore.kernel.org/linux-doc/cover.1623824363.git.mchehab+huawei@kernel.org/T/#t
+
+Basically, some Kernel developers rely on editor features to jump directly
+into other files. Using Documentation/foo.rst enable such features.
+
+> 
+> > So, use the filename at the sources, instead of :doc:`foo`.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  .../hw-vuln/special-register-buffer-data-sampling.rst          | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> > index 3b1ce68d2456..966c9b3296ea 100644
+> > --- a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> > +++ b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> > @@ -3,7 +3,8 @@
+> >  SRBDS - Special Register Buffer Data Sampling
+> >  =============================================
+> >  
+> > -SRBDS is a hardware vulnerability that allows MDS :doc:`mds` techniques to  
+> I thought the point of :doc:`mds` was to insert a tag or link to the mds
+> document.
+> 
+> > +SRBDS is a hardware vulnerability that allows MDS
+> > +Documentation/admin-guide/hw-vuln/mds.rst techniques to  
+> will this make a hyper-link in generated HTML docs?
+
+It will still generate the same hyper-links in HTML, LaTeX and PDF outputs,
+as the automarkup.py extension will convert Documentation/foo.rst into
+doc:`foo`.
 
 
->   
-> +static const struct vfio_device_ops mtty_dev_ops = {
-> +	.name = "vfio-mdev",
+> 
+> FWIW I'm ok with this change either way.  I just wanted to understand a little
+> better.
+> 
+> --mark
+> 
+> >  infer values returned from special register accesses.  Special register
+> >  accesses are accesses to off core registers.  According to Intel's evaluation,
+> >  the special register reads that have a security expectation of privacy are
+> > -- 
+> > 2.31.1
+> >   
 
-I think name should be different that 'vfio-mdev', probably
-'vfio-mdev-mtty' or 'vfio-mtty'
 
-Rest looks fine to me.
 
-Reviewed-by: Kirti Wankhede <kwankhede@nvidia.com>
+Thanks,
+Mauro
