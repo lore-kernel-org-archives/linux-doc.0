@@ -2,160 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 884A1C2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 13:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30EFFC48BE5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 13:33:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 676F2613BA
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 13:21:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15885613BA
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 13:33:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232333AbhFQNXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 09:23:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46778 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232274AbhFQNXU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 09:23:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623936072;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hwGEMKYQQJMv/CxGUZtjWsZj084biuCitqUYtWHA6Pc=;
-        b=SbT6Rq2wr70xNljJsepBHFnr36aOz9Yt58BMlAMeB6IAUS3OUuKStDlrbjwc01JWMGhXjp
-        KPSYSBPwR+qDyCyo61Q6H7hHE78ys/tgQdjkFxBP+zsKnFUkBowJsDi4FEvCObVhSAOCf0
-        g0W7bvrPbqS3bUY/GFERMl+X5XlCfh4=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-AOJVzAHCP2Ovpo5cpe-Uxw-1; Thu, 17 Jun 2021 09:21:10 -0400
-X-MC-Unique: AOJVzAHCP2Ovpo5cpe-Uxw-1
-Received: by mail-ot1-f71.google.com with SMTP id a60-20020a9d26420000b0290448d2be15e6so3407269otb.23
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 06:21:10 -0700 (PDT)
+        id S232591AbhFQNfk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 09:35:40 -0400
+Received: from mail-ot1-f49.google.com ([209.85.210.49]:44943 "EHLO
+        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231654AbhFQNfi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 09:35:38 -0400
+Received: by mail-ot1-f49.google.com with SMTP id q5-20020a9d66450000b02903f18d65089fso6109852otm.11;
+        Thu, 17 Jun 2021 06:33:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=hwGEMKYQQJMv/CxGUZtjWsZj084biuCitqUYtWHA6Pc=;
-        b=i5xS+QqjUVUdkl9/MESmaPiXXtMNnGxBALfChGvBaze7V5qP6cXeP6ieLmITS2bDxQ
-         U3u01cxeNiRrbvrrxAwTjaOVPaCjwd20PxpaUhBvPUVjXvmeRKzIQBZAcqWCVto428Mt
-         jQHiu8XYuymojYcw402zTNpngSc4QDZhEQwLSsRO+9CU4l7LkNcMe5wHLHFk4nR8ZxQB
-         tArUNpxj0VOIuFCHAIsCJ/pOqs/3vFmC/1ZOqa2kiGJ7D5OBDa1mW8fHXiOjy9rUdCbO
-         KZiu3FTw7NHhzq13KYSbDocJyFYb9dA4F1bXe/V40xgo4pJIpTPcpJ6pAvyf9R3HNYLF
-         lxyg==
-X-Gm-Message-State: AOAM533jhxL0oxKduTVJDs2yQRvcazGIFCMO6WZNByQLlNZOsAS/e0LM
-        oE4mKOU3eESCsqCaFuHgZiAQXziHT/GfwhUbZ7fNg1OebDDB8ymQbW25ECoRnnYvWV8Ns7GL2ad
-        O0DwKnSWC90Y/JAYtF+j3
-X-Received: by 2002:a05:6808:1486:: with SMTP id e6mr10274745oiw.9.1623936070109;
-        Thu, 17 Jun 2021 06:21:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw931LqYJItw0hcQXVJGwWvQ9NYX/nBhC2hX9cM9jm2EmErBb/zfH6Daxmhleh0YKe15pmFdA==
-X-Received: by 2002:a05:6808:1486:: with SMTP id e6mr10274728oiw.9.1623936069920;
-        Thu, 17 Jun 2021 06:21:09 -0700 (PDT)
-Received: from localhost.localdomain (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id e23sm1264022otk.67.2021.06.17.06.21.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jun 2021 06:21:09 -0700 (PDT)
-Subject: Re: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
-To:     "Wu, Hao" <hao.wu@intel.com>, Moritz Fischer <mdf@kernel.org>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "krzysztof.kozlowski@canonical.com" 
-        <krzysztof.kozlowski@canonical.com>,
-        "nava.manne@xilinx.com" <nava.manne@xilinx.com>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "davidgow@google.com" <davidgow@google.com>,
-        "fpacheco@redhat.com" <fpacheco@redhat.com>,
-        "Gong, Richard" <richard.gong@intel.com>,
-        "luca@lucaceresoli.net" <luca@lucaceresoli.net>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20210614201648.3358206-1-trix@redhat.com>
- <20210614201648.3358206-3-trix@redhat.com>
- <DM6PR11MB381964374223D0D2958AFA6985309@DM6PR11MB3819.namprd11.prod.outlook.com>
- <d64b0fb8-5f83-2995-7ee9-b4ed2932ef60@redhat.com>
- <DM6PR11MB3819259241791EB04A2CB9C8850F9@DM6PR11MB3819.namprd11.prod.outlook.com>
- <YMrS9OUSaCdtGwrE@epycbox.lan>
- <DM6PR11MB381924F43550A6699CB55213850E9@DM6PR11MB3819.namprd11.prod.outlook.com>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <9c527087-3646-2f22-1234-2b0247511cc9@redhat.com>
-Date:   Thu, 17 Jun 2021 06:21:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uplD831DStQ1N/g38yxe3fctKRp7RZTAFl6NF9p1dbY=;
+        b=kxxxpEI4hgadW2aXn3wj4HTYEEBQDyazhddReLhOPoI2Eve3CR4SLJfNRL1IgD3Fwe
+         GNASat72jNyefOeqe+v6A9sJ4i72qbdHiXjKAj43Xk0yELfhSRvXompJHbO9PFjKi87J
+         nQggP4TuA6I4UZuFqvRc5/VdPzesuIsmhQ0rGvXsAbMhiSAIUHsePFoz/22m9V7ZQHkl
+         9CS5LRquA/h6UH/i3LNkcYwe8igQoKvdP/eX7m0gUp9Ldb3eegvSN2Ol9B9fQFrP3zJj
+         ezl12AY02u2eQvk2yhaw4wBB4nxcV7vhJa7rHryWn9uUAAUGgNmozoonejIGTPdjKSzZ
+         nDlw==
+X-Gm-Message-State: AOAM5313R8o+cboj9D4F+prAyFkcmRsFMG5AT9f2hrFpilCoUzTr+atC
+        6ANSthPREI71EppkDSf99yGIqstXYxuJbVxPkvw=
+X-Google-Smtp-Source: ABdhPJyG8Xb3s9HktdqJ9NAE4FVQBVWDaCtM5GohFPMProI+vxpB8hmOShZpLaQkUC4E/9UT2N+fZqvqjtL1k+zires=
+X-Received: by 2002:a05:6830:1bf7:: with SMTP id k23mr4796335otb.206.1623936811005;
+ Thu, 17 Jun 2021 06:33:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <DM6PR11MB381924F43550A6699CB55213850E9@DM6PR11MB3819.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <cover.1623825725.git.viresh.kumar@linaro.org> <2ffbaf079a21c2810c402cb5bba4e9c14c4a0ff4.1623825725.git.viresh.kumar@linaro.org>
+In-Reply-To: <2ffbaf079a21c2810c402cb5bba4e9c14c4a0ff4.1623825725.git.viresh.kumar@linaro.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 17 Jun 2021 15:33:19 +0200
+Message-ID: <CAJZ5v0gBUMXs=oANZRuOO7uUVdSD-n1inwYsoLr5or=2gEa2Mg@mail.gmail.com>
+Subject: Re: [PATCH V2 1/3] cpufreq: Add start_cpu() and stop_cpu() callbacks
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
+        Ionela Voinescu <ionela.voinescu@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Qian Cai <quic_qiancai@quicinc.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 6/17/21 1:34 AM, Wu, Hao wrote:
->> On Wed, Jun 16, 2021 at 01:05:36AM +0000, Wu, Hao wrote:
->>>> On 6/15/21 1:08 AM, Wu, Hao wrote:
->>>>>> Subject: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
->>>>>>
->>>>>> From: Tom Rix <trix@redhat.com>
->>>>>>
->>>>>> Follow drivers/net/ethernet/ which has control configs
->>>>>> NET_VENDOR_BLA that map to drivers/net/ethernet/bla
->>>>>> Since fpgas do not have many vendors, drop the 'VENDOR' and use
->>>>>> FPGA_BLA.
->>>>> Hi Tom,
->>>>>
->>>>> Thanks for this patch. : )
->>>>>
->>>>> DFL is not a vendor, but something can be shared/reused. It's possible that
->>>>> other vendors reuse the same concepts and the drivers of DFL. If vendor
->>>>> drivers need to be moved inside sub folders, then maybe it's better to
->>>>> leave DFL in the parent folder?
->>>> xrt is also not a vendor, more a subdevice framework like dfl.
->>>>
->>>> I am not sure what you mean by other dfl vendors can you give an example ?
->>> It's fine, but the description here is a little confusing on vendor/framework
->>> handling. No other vendor so far, but it's possible, DFL can be used in
->>> non-intel device, and related drivers can be reused as well. Then a fpga
->>> mgr driver depends on DFL, should be put inside dfl folder or new
->>> vendor's subfolder?
->>>
->>> Hao
->>>
->> I'm somewhat neutral on this. If someone non-intel starts using DFL we could
->> also
->> move the common parts back ...
-> That's fine.
+On Wed, Jun 16, 2021 at 8:48 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
 >
->> That being said, I'm not super convinced we have to move stuff in the
->> first place.
-> I remember that the first submission of our code is having everything inside a sub
-> folder, but was suggested that to have everything moved out, this is why we have
-> dfl files here now. To be honest, I have the similar feeling as you, I didn't see any
-> strong reason to make this something we must do, but both solutions should be
-> fine. : )
-
-xrt is bringing in the subdir xrt/
-
-Even after the likely move of xrt subdevices to other subsystems, there 
-will be about as many files in fpga/xrt/ as in fpga/
-
-If both of you are fine with a mixed files and subdir organization, then 
-I'll drop this patchset.
-
-If you want only files, then xrt needs to refactor, so let them know.
-
-Tom
-
-> Thanks
-> Hao
+> On CPU hot-unplug, the cpufreq core doesn't call any driver specific
+> callback unless all the CPUs of a policy went away, in which case we
+> call stop_cpu() callback.
 >
->> - Moritz
+> For the CPPC cpufreq driver, we need to perform per-cpu init/exit work
+> which that can't be performed from policy specific init()/exit()
+> callbacks.
+>
+> This patch adds a new callback, start_cpu() and modifies the stop_cpu()
+> callback, to perform such CPU specific work.
+>
+> These routines are called whenever a CPU is added or removed from a
+> policy.
+>
+> Note that this also moves the setting of policy->cpus to online CPUs
+> only, outside of rwsem as we needed to call start_cpu() for online CPUs
+> only. This shouldn't have any side effects.
+>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  Documentation/cpu-freq/cpu-drivers.rst |  7 +++++--
+>  drivers/cpufreq/cpufreq.c              | 19 +++++++++++++++----
+>  include/linux/cpufreq.h                |  5 ++++-
+>  3 files changed, 24 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/cpu-freq/cpu-drivers.rst b/Documentation/cpu-freq/cpu-drivers.rst
+> index a697278ce190..15cfe42b4075 100644
+> --- a/Documentation/cpu-freq/cpu-drivers.rst
+> +++ b/Documentation/cpu-freq/cpu-drivers.rst
+> @@ -71,8 +71,11 @@ And optionally
+>   .exit - A pointer to a per-policy cleanup function called during
+>   CPU_POST_DEAD phase of cpu hotplug process.
+>
+> - .stop_cpu - A pointer to a per-policy stop function called during
+> - CPU_DOWN_PREPARE phase of cpu hotplug process.
+> + .start_cpu - A pointer to a per-policy per-cpu start function called
+> + during CPU online phase.
+> +
+> + .stop_cpu - A pointer to a per-policy per-cpu stop function called
+> + during CPU offline phase.
+>
+>   .suspend - A pointer to a per-policy suspend function which is called
+>   with interrupts disabled and _after_ the governor is stopped for the
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 802abc925b2a..128dfb1b0cdf 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -1119,6 +1119,10 @@ static int cpufreq_add_policy_cpu(struct cpufreq_policy *policy, unsigned int cp
+>
+>         cpumask_set_cpu(cpu, policy->cpus);
+>
+> +       /* Do CPU specific initialization if required */
+> +       if (cpufreq_driver->start_cpu)
+> +               cpufreq_driver->start_cpu(policy, cpu);
+> +
+>         if (has_target()) {
+>                 ret = cpufreq_start_governor(policy);
+>                 if (ret)
+> @@ -1375,13 +1379,19 @@ static int cpufreq_online(unsigned int cpu)
+>                 cpumask_copy(policy->related_cpus, policy->cpus);
+>         }
+>
+> -       down_write(&policy->rwsem);
+>         /*
+>          * affected cpus must always be the one, which are online. We aren't
+>          * managing offline cpus here.
+>          */
+>         cpumask_and(policy->cpus, policy->cpus, cpu_online_mask);
+>
+> +       /* Do CPU specific initialization if required */
+> +       if (cpufreq_driver->start_cpu) {
+> +               for_each_cpu(j, policy->cpus)
+> +                       cpufreq_driver->start_cpu(policy, j);
+> +       }
+> +
+> +       down_write(&policy->rwsem);
+>         if (new_policy) {
+>                 for_each_cpu(j, policy->related_cpus) {
+>                         per_cpu(cpufreq_cpu_data, j) = policy;
+> @@ -1581,6 +1591,10 @@ static int cpufreq_offline(unsigned int cpu)
+>                 policy->cpu = cpumask_any(policy->cpus);
+>         }
+>
+> +       /* Do CPU specific de-initialization if required */
+> +       if (cpufreq_driver->stop_cpu)
+> +               cpufreq_driver->stop_cpu(policy, cpu);
+> +
+>         /* Start governor again for active policy */
+>         if (!policy_is_inactive(policy)) {
+>                 if (has_target()) {
+> @@ -1597,9 +1611,6 @@ static int cpufreq_offline(unsigned int cpu)
+>                 policy->cdev = NULL;
+>         }
+>
+> -       if (cpufreq_driver->stop_cpu)
+> -               cpufreq_driver->stop_cpu(policy);
+> -
 
+This should be a separate patch IMO, after you've migrated everyone to
+->offline/->exit.
+
+BTW, IMO it might be better to migrate ->stop_cpu to ->offline rather
+than to ->exit.
+
+>         if (has_target())
+>                 cpufreq_exit_governor(policy);
+>
+> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+> index 353969c7acd3..c281b3df4e2f 100644
+> --- a/include/linux/cpufreq.h
+> +++ b/include/linux/cpufreq.h
+> @@ -371,7 +371,10 @@ struct cpufreq_driver {
+>         int             (*online)(struct cpufreq_policy *policy);
+>         int             (*offline)(struct cpufreq_policy *policy);
+>         int             (*exit)(struct cpufreq_policy *policy);
+> -       void            (*stop_cpu)(struct cpufreq_policy *policy);
+> +
+> +       /* CPU specific start/stop */
+> +       void            (*start_cpu)(struct cpufreq_policy *policy, unsigned int cpu);
+> +       void            (*stop_cpu)(struct cpufreq_policy *policy, unsigned int cpu);
+>         int             (*suspend)(struct cpufreq_policy *policy);
+>         int             (*resume)(struct cpufreq_policy *policy);
+>
+> --
+> 2.31.1.272.g89b43f80a514
+>
