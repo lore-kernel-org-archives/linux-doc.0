@@ -2,59 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F73C2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 07:57:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D254C49EA2
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 08:01:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FCAF6101A
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 07:57:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 379AA6117A
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 08:01:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbhFQH7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 03:59:55 -0400
-Received: from verein.lst.de ([213.95.11.211]:57666 "EHLO verein.lst.de"
+        id S230452AbhFQIDp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 04:03:45 -0400
+Received: from helcar.hmeau.com ([216.24.177.18]:50730 "EHLO deadmen.hmeau.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229712AbhFQH7z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Jun 2021 03:59:55 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id BB49668C4E; Thu, 17 Jun 2021 09:57:45 +0200 (CEST)
-Date:   Thu, 17 Jun 2021 09:57:45 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Al Viro <viro@zeniv.linux.org.uk>, gmpy.liaowx@gmail.com,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        linux-doc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 5/5] pstore/blk: Include zone in pstore_device_info
-Message-ID: <20210617075745.GC899@lst.de>
-References: <20210616164043.1221861-1-keescook@chromium.org> <20210616164043.1221861-6-keescook@chromium.org>
+        id S230238AbhFQIDb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Jun 2021 04:03:31 -0400
+Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
+        by deadmen.hmeau.com with esmtp (Exim 4.92 #5 (Debian))
+        id 1ltmxT-0003hK-78; Thu, 17 Jun 2021 16:01:03 +0800
+Received: from herbert by gondobar with local (Exim 4.92)
+        (envelope-from <herbert@gondor.apana.org.au>)
+        id 1ltmx9-0002mO-VK; Thu, 17 Jun 2021 16:00:43 +0800
+Date:   Thu, 17 Jun 2021 16:00:43 +0800
+From:   Herbert Xu <herbert@gondor.apana.org.au>
+To:     trix@redhat.com
+Cc:     mdf@kernel.org, robh+dt@kernel.org, hao.wu@intel.com,
+        corbet@lwn.net, fbarrat@linux.ibm.com, ajd@linux.ibm.com,
+        bbrezillon@kernel.org, arno@natisbad.org, schalla@marvell.com,
+        davem@davemloft.net, gregkh@linuxfoundation.org,
+        Sven.Auhagen@voleatech.de, grandmaster@al2klimov.de,
+        linux-fpga@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-crypto@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 04/11] crypto: marvell: cesa: change FPGA indirect
+ article to an
+Message-ID: <20210617080043.GA10662@gondor.apana.org.au>
+References: <20210608212350.3029742-1-trix@redhat.com>
+ <20210608212350.3029742-6-trix@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210616164043.1221861-6-keescook@chromium.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20210608212350.3029742-6-trix@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 09:40:43AM -0700, Kees Cook wrote:
-> Information was redundant between struct pstore_zone_info and struct
-> pstore_device_info. Use struct pstore_zone_info, with member name "zone".
+On Tue, Jun 08, 2021 at 02:23:43PM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
 > 
-> Additionally untangle the logic for the "best effort" block device
-> instance.
+> Change use of 'a fpga' to 'an fpga'
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/crypto/marvell/cesa/cesa.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'd still prefer to kill off struct pstore_device_info, but this is
-already a huge improvement:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Patch applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
