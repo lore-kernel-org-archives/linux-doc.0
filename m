@@ -2,128 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2084C49EA3
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 03:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C4D4C2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 04:33:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79C076117A
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 03:59:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4926A613C1
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 04:33:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229447AbhFQEBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 00:01:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35552 "EHLO
+        id S229805AbhFQEfg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 00:35:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbhFQEBr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 00:01:47 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 390C1C06175F
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 20:59:04 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id o10-20020a17090aac0ab029016e92770073so3039198pjq.5
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 20:59:04 -0700 (PDT)
+        with ESMTP id S229546AbhFQEfg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 00:35:36 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEE49C06175F
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 21:33:28 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id r16so6936492ljk.9
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 21:33:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=a5D+ny1Y0c3O7KxzHuyI+M5mGXvaRgQ84CvvtncVlG0=;
-        b=fRcFPkiIxPDt9py7J1PQBOFWa8GEY8lHPvIBnBm1ce3CL3iHZHu/UZCEhEGJOVVCaA
-         VHKOkUgSyIJQ2Ruk0A2HflJ0G72K5plXNdgLkY4e1ZUcxSzfYUKbwM5q0pG5lNePiwOv
-         7FXxll2wYUEI85aVEsP19np7Ju9bEl8kDfsr25mfOtrQe07owDGhAhZzToqNsjeA/IPH
-         E+9IHrMS1E0RR1+reFfHNJI5ouyJ2XoNtLzW9AM3mUdmwZItucn/6F40ftKaCGJEwq2c
-         uQOFRr7oRd61zssn2NtqMyTC3iNCwKJ7UXnmUrPPz521WtPzXyoeZj+nlHxs99HDqXOZ
-         4nfw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XZjUR44YaNoQXcJB+dlktg3mNBZU4O2yhCDUy1ikvnA=;
+        b=VTA9HcmiANLZolcCm6eIiiATqHIyWdcIcc/pObJ3eMq4PmtDTYhHmSCCMSEIG+AAYH
+         JIMtKQg0rUlWhZh0BxBC6WbrtwS7DtZSEY+tivkhFdpNZ7WnoUf5E/L5gjDrxNp4bxIs
+         rhPLQAsPvvaoPdEJ040GMoeD3Spe+426FQIQ11pnUCpa77ib3GALo1RxAqBPhMkm9TvV
+         FEhqPO98wdT40c0ldFgbOmBsFPeLxJCqgR4/DfeW38Or3kmXng6LRI1+nmCqaWHHHPi1
+         dAdJiGoPoj9MPX3wC+nF+gXynznwQE6cEL3a/m2S/N7rQHT2FW2hGxvlQVL7wkwDnxRc
+         0Wcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=a5D+ny1Y0c3O7KxzHuyI+M5mGXvaRgQ84CvvtncVlG0=;
-        b=TZTTNn5KUGRyyc39rbdgWMojPuCIc4whNr3CYV6OXOxsJcH71qAc+V34eblJUBc3yl
-         KtGRwdjgQ3G34jYejy+gaCw00lpwJrbluVF/sN2I0QrTyGJogVG9t4aJ62kKclet9hIM
-         OGTFQt1kG6bRDU5WRBEdxpJlySGxzgFx5H9fnkmLlH82Y//gdfkIAU58saP4Q0aRYAQQ
-         Ulnm2Z8MGZVAz7qTNtZnD09eW/RpOZCX9UUAxJ4SadEEXdavOMsHA4yuRbxuf6liTgkC
-         2CC5X44Nhx3xFuTVdyI7+ErWk5L/cn5QAbkxMWynxKmn3HcYTce47zBLXK1fba83sLY8
-         zarg==
-X-Gm-Message-State: AOAM531586RFnkQiJJ1jLrRbx7O5azrhhbvnjNzH1/YbmaorPFIa+iRs
-        Jt4wfCDDWBSgJUsM2VsT/ZdWKw==
-X-Google-Smtp-Source: ABdhPJyK8z8cdDdyBhx0CBSqDGBDOEf/ee2crujfR5xEIC5Ea+opK/+E62HCRvXJLb044uPARRa9xQ==
-X-Received: by 2002:a17:902:8d97:b029:113:d891:2ea0 with SMTP id v23-20020a1709028d97b0290113d8912ea0mr2678159plo.61.1623902343697;
-        Wed, 16 Jun 2021 20:59:03 -0700 (PDT)
-Received: from localhost ([136.185.134.182])
-        by smtp.gmail.com with ESMTPSA id j10sm3388366pjb.36.2021.06.16.20.59.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 20:59:03 -0700 (PDT)
-Date:   Thu, 17 Jun 2021 09:29:01 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] drivers: gpio: add virtio-gpio guest driver
-Message-ID: <20210617035901.kfzps6kg2emthjf4@vireshk-i7>
-References: <20210616114934.n3grzuh6c64wlaj6@vireshk-i7>
- <5cffb354-0d00-5ace-260d-61ac0c4c7491@metux.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XZjUR44YaNoQXcJB+dlktg3mNBZU4O2yhCDUy1ikvnA=;
+        b=t3Ue/Nl7N5/FFAJ/k8bInMJTJgn4rbsd062UPDV0O0zI0ry88pzZdpx/eoF/djkHil
+         aemt3/MqiTAnhk8D3kHUIBlCEgypZP760zpI+0dpMctcPvhHo+dJrylIc/zp6RM9CKIr
+         eUrXSxC9+0A3B6nDyf9Nk41mfBDl0+CDxrBeamDqSmVUXw90ZoL9hlcoZY62sT4apCPh
+         rdgag7rEMEAXaJcIVZ1RXzNuwkM+0VkQyw0aF5Mws2AsM9Dkq343KoUs8Ab+81f1RwzK
+         ngK6ZMtHZ5ZofAhf3ckkXxVQEBX2g4j9L/bYgZ0CjDVP1dHIo+hJEhccv8Bs/RsWS1C/
+         DmLA==
+X-Gm-Message-State: AOAM530m+pu/aSrY4w7722k3V9rrpx89YZwiywHpE/8Jl13Gbvz9zmvS
+        F9fxZXEdp5jOq5cb4yj2Zma0tupQuULVEbshJFMbiw==
+X-Google-Smtp-Source: ABdhPJxaiyDi1aNHhmmcMlUBaaNXuxoKEaKMW5FSsqO8dU/Wz2t9fQ5Q9biZFQUJ797nIe45j6+PqatZ0FSdX6tHSnU=
+X-Received: by 2002:a2e:311:: with SMTP id 17mr2780769ljd.442.1623904407105;
+ Wed, 16 Jun 2021 21:33:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5cffb354-0d00-5ace-260d-61ac0c4c7491@metux.net>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+In-Reply-To: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Thu, 17 Jun 2021 10:03:14 +0530
+Message-ID: <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
+To:     Jens Wiklander <jens.wiklander@linaro.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org,
+        Devicetree List <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16-06-21, 17:04, Enrico Weigelt, metux IT consult wrote:
-> Half correct: I sent it to the list, but this wasn't tex'ified yet.
-> 
-> When we had an email conversation about this, it was about submitting
-> the existing spec in a formal correct way. Don't get me wrong: I
-> apreciate that somebody's doing the beaurocratic work. But still have
-> no idea why you changed it completely, so there's quite nothing left
-> but the name and that it somehow does gpio via virtio.
+Hi Jens,
 
-> The one I've resent (now texified) a few days ago. It had been submitted
-> in ascii form last year. The answer from virtio TC folks whas that there
-> are some formal steps to be done and it needs to be patched int their
-> tex document.
+On Wed, 16 Jun 2021 at 16:07, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+>
+> Hi all,
+>
+> This adds support for asynchronous notifications from OP-TEE in secure
+> world to the OP-TEE driver. This allows a design with a top half and bottom
+> half type of driver where the top half runs in secure interrupt context and
+> a notifications tells normal world to schedule a yielding call to do the
+> bottom half processing.
+>
+> An interrupt is used to notify the driver that there are asynchronous
+> notifications pending.
+>
 
-Okay, we figured out now that you _haven't_ subscribed to virtio lists
-and so your stuff never landed in anyone's inbox. But you did send
-something and didn't completely went away.
+It looks like a nice feature. I would like to get hands on with this.
+Can I test this feature on Qemu?
 
-Since you started this all and still want to do it, I will take my
-patches back and let you finish with what you started. I will help
-review them.
+-Sumit
 
-Please start with specification first, and resend them as soon as
-possible. So we can start with reviews there.
-
-Also please cc relevant people directly, like GPIO maintainers in
-kernel and few more from CC list of this email, as most of these
-people aren't subscribed to virtio lists, they will never get your
-patches otherwise. Lets get over this once and for all.
-
-> You sound like a politician that tries to push an hidden agenda,
-> made by some secret interest group in the back room, against the
-> people - like "resistance is futile".
-
-:)
-
--- 
-viresh
+> v2:
+> * Added documentation
+> * Converted optee bindings to json-schema and added interrupt property
+> * Configure notification interrupt from DT instead of getting it
+>   from secure world, suggested by Ard Biesheuvel <ardb@kernel.org>.
+>
+> Thanks,
+> Jens
+>
+> Jens Wiklander (7):
+>   docs: staging/tee.rst: add a section on OP-TEE notifications
+>   dt-bindings: arm: Convert optee binding to json-schema
+>   dt-bindings: arm: optee: add interrupt property
+>   tee: fix put order in teedev_close_context()
+>   tee: add tee_dev_open_helper() primitive
+>   optee: separate notification functions
+>   optee: add asynchronous notifications
+>
+>  .../bindings/arm/firmware/linaro,optee-tz.txt |  31 ---
+>  .../arm/firmware/linaro,optee-tz.yaml         |  57 +++++
+>  Documentation/staging/tee.rst                 |  27 +++
+>  drivers/tee/optee/Makefile                    |   1 +
+>  drivers/tee/optee/call.c                      |  27 +++
+>  drivers/tee/optee/core.c                      |  87 +++++--
+>  drivers/tee/optee/notif.c                     | 226 ++++++++++++++++++
+>  drivers/tee/optee/optee_msg.h                 |   9 +
+>  drivers/tee/optee/optee_private.h             |  23 +-
+>  drivers/tee/optee/optee_rpc_cmd.h             |  31 +--
+>  drivers/tee/optee/optee_smc.h                 |  75 +++++-
+>  drivers/tee/optee/rpc.c                       |  73 +-----
+>  drivers/tee/tee_core.c                        |  37 ++-
+>  include/linux/tee_drv.h                       |  27 +++
+>  14 files changed, 576 insertions(+), 155 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.txt
+>  create mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
+>  create mode 100644 drivers/tee/optee/notif.c
+>
+> --
+> 2.31.1
+>
