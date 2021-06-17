@@ -2,120 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53DE0C49361
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 20:45:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8519FC2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 21:04:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E555613FE
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 20:45:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D5F2613CB
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 21:04:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232276AbhFQUrt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 16:47:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60435 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231992AbhFQUrs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 16:47:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623962739;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=vpTnIUemqOshEpd//f5xMntFtlQkGOaInP6j17WpXWI=;
-        b=FiwDJA8gXXR1EIhAbepiVefUQAiMNjURbrdkP+Yn1F4RdPYZ6Ymhn8oNxeKnNI/9tRMcto
-        PBFjiGf+/Cn0Eb6Edt7oiygX9Lwjr3h6fcD8Uwr5NU7qrEVZhwulxLr6cGTm9pGArQQIDf
-        dwmVwHvHf/KOr89o1T7sDy/v8atVcyg=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-KK7LHlWkOsypck1Buv1fAg-1; Thu, 17 Jun 2021 16:45:37 -0400
-X-MC-Unique: KK7LHlWkOsypck1Buv1fAg-1
-Received: by mail-qv1-f72.google.com with SMTP id q8-20020ad45ca80000b02902329fd23199so3397917qvh.7
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 13:45:37 -0700 (PDT)
+        id S232796AbhFQVHF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 17:07:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231241AbhFQVHF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 17:07:05 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 470D7C061574;
+        Thu, 17 Jun 2021 14:04:56 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id o10-20020a17090aac0ab029016e92770073so4604643pjq.5;
+        Thu, 17 Jun 2021 14:04:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u4hzfs4C5s5996Anf36saILan2RNfe6VDAOXYGhmerw=;
+        b=sW5El4rAB4VJt4+UpL7pZ4nHnCEuLy/0zKmqefTmqCQE/QMuGoMGAn/NJLcKNdvwad
+         3Lpg/QV2UUqHDauDPZP4YiaEondU2tcgo5tPbJnkMy8QfunRxeQfedtRNqZG/8eet63v
+         TpgkdcKp1v03LQMWtLLI9xz/Grq3fJVham7uVzcKmcIf2oso9oi5pwXQQ6ECjxYyYVdR
+         8KzGNx3ixWX91fbuT53UModfPZngvVbaAxD4hqxPjz+Xg896PtY53nGkdPd5n5PAHT+V
+         A/Mzv8/TdDznzz38lnS+C2Jw2DybJnjOHEpF3PWcvPFP+v1+0pZS68Smcf8yEHNA2DIS
+         e/Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=vpTnIUemqOshEpd//f5xMntFtlQkGOaInP6j17WpXWI=;
-        b=UlKokEy0p2CqN4Sjp4leV39wz00RB0r/+hJ+FLhCaG2CnBevPwdAm/5lvOCYS2rep2
-         i9zoUcSU1wHZTRMnfLQcVjWTmcrPaKEosbuDB90f0va9JuskqjdgFArS+1p57Y7OigpP
-         aR3y9yqldbwC6vh2xo3OXVi3c82oRr+boG3HYQC7h5aukUlTYGiQRkclU6v1tPV/3x53
-         ML3NW2LKVWdhh92vW5pYmbY70cmUO9HlPQQtX61X1re9CQ1B6LSpANswF4UdUq57d+BK
-         RCM/j+BP7cxdIc8Xp6f0SWyQv5iBrDVrJ8qCnOisVlXWhWv36xHBSIRmj652HFiCKqCT
-         mnDg==
-X-Gm-Message-State: AOAM530y7LzWCTI1BWkxLO3NUT5lN0mNlsf9qx+NrgARzhc8v3hQoPPR
-        ilkSbaV7ZGTFwlzN3zORn5aogM123n7Y+qcCMP0Vxh6DaKRF7/gOb2CplISkYCS8LOlz9z0pY2/
-        i707xHbMzDuYGWn0RDHHF
-X-Received: by 2002:ac8:5e87:: with SMTP id r7mr1753332qtx.325.1623962737280;
-        Thu, 17 Jun 2021 13:45:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+oHpsqIx+NBzTLes07czJPTW873K6oP8vENp+xLmoU04jdAkKJ4RFfNYLnjvR6dWKWFFv/g==
-X-Received: by 2002:ac8:5e87:: with SMTP id r7mr1753310qtx.325.1623962737068;
-        Thu, 17 Jun 2021 13:45:37 -0700 (PDT)
-Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
-        by smtp.gmail.com with ESMTPSA id t196sm2477328qke.50.2021.06.17.13.45.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jun 2021 13:45:36 -0700 (PDT)
-From:   Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH 3/5] cgroup/cpuset: Allow non-top parent partition root to
- distribute out all CPUs
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <20210603212416.25934-1-longman@redhat.com>
- <20210603212416.25934-4-longman@redhat.com>
- <YMplzNzg7mMCU4JJ@slm.duckdns.org>
-Message-ID: <7f0a0f23-3fcd-a1a3-341a-2dbbde1f25ec@redhat.com>
-Date:   Thu, 17 Jun 2021 16:45:35 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u4hzfs4C5s5996Anf36saILan2RNfe6VDAOXYGhmerw=;
+        b=OKyIAtf3zQg992CPWU08hey/d65xy4++bqgT5cPsRUsTU5n2tm4Yq/1MfRvqXNTwqR
+         vMvwoThUPSunoswSeWCneqy6kj/j8NchC1yLGeQJwQ2Kx4JbauvrKkTmXJ70yxX0G8Ue
+         nRKzrXX1sC+vSAexVBo25hMC5+BcIITUQM/u6T3Cob/pSyBGGBmzG2lrJfCuxqrA+Fe2
+         baweFladKfGZlPD59XH6StTMg8Xw0orB7+wBbCAUvFwKI4tR6DQg5/jNGVATQH385uJ3
+         d414hESnWyeLwxLnyifsnxmPOWiu275I+7FfvV8SDUTKiYUc64LBj8TXwjYM/eUNCLXZ
+         qVLQ==
+X-Gm-Message-State: AOAM530JNSsgjCGmr8rsUFL4ve4L/eg4lpMC8G/1K/6tvOB1vrgibEfs
+        nGPh+fkMDcq24lgq9Ef3MRa0D+HU0DCN+c6K
+X-Google-Smtp-Source: ABdhPJxK51L5zpDihvV4/6rXrVf/hsizo4aS+Ld5qPcZyCDYTfHHN0BzzXZc/p12U3ueGKhp12CuQQ==
+X-Received: by 2002:a17:90a:b64:: with SMTP id 91mr7117223pjq.24.1623963895701;
+        Thu, 17 Jun 2021 14:04:55 -0700 (PDT)
+Received: from nuc10.amust.local (104.36.148.139.aurocloud.com. [104.36.148.139])
+        by smtp.gmail.com with ESMTPSA id r24sm8829324pjz.11.2021.06.17.14.04.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jun 2021 14:04:55 -0700 (PDT)
+From:   Rustam Kovhaev <rkovhaev@gmail.com>
+To:     catalin.marinas@arm.com, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rustam Kovhaev <rkovhaev@gmail.com>
+Subject: [PATCH] docs: kmemleak: add more details about kmemleak usage
+Date:   Thu, 17 Jun 2021 14:04:20 -0700
+Message-Id: <20210617210420.392412-1-rkovhaev@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <YMplzNzg7mMCU4JJ@slm.duckdns.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/21 4:57 PM, Tejun Heo wrote:
-> Hello,
->
-> On Thu, Jun 03, 2021 at 05:24:14PM -0400, Waiman Long wrote:
->> @@ -2181,6 +2192,13 @@ static int cpuset_can_attach(struct cgroup_taskset *tset)
->>   	    (cpumask_empty(cs->cpus_allowed) || nodes_empty(cs->mems_allowed)))
->>   		goto out_unlock;
->>   
->> +	/*
->> +	 * On default hierarchy, task cannot be moved to a cpuset with empty
->> +	 * effective cpus.
->> +	 */
->> +	if (is_in_v2_mode() && cpumask_empty(cs->effective_cpus))
->> +		goto out_unlock;
->> +
-> This is inconsistent with how other events which leave a root partition
-> empty is handled. Woudln't it be more consistent to switch the parent to
-> PRS_ERROR and behave accordingly but allow it to have valid child roots?
+a user may need to initiate a manual scan twice via debugfs before
+kmemleak reports an orphan object.
+this is mentioned in Testing section, let's mention this again in the
+Usage section for better visibility.
 
- From my point of view, PRS_ERROR is used when cpus are gone because of 
-cpu hotplug (offline). It can be a temporary condition that will be 
-corrected later on. I don't want to use PRS_ERROR for the particular 
-case that the users have explicitly distributed out all the cpus to 
-child partitions. I will clarify it in the next version and double check 
-to make sure that this rule is consistently apply.
+Link: https://lore.kernel.org/lkml/YMpEtyUP0vuWo9HV@nuc10/
+Signed-off-by: Rustam Kovhaev <rkovhaev@gmail.com>
+---
+ Documentation/dev-tools/kmemleak.rst | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Thanks,
-Longman
+diff --git a/Documentation/dev-tools/kmemleak.rst b/Documentation/dev-tools/kmemleak.rst
+index 1c935f41cd3a..512f78e6e4fb 100644
+--- a/Documentation/dev-tools/kmemleak.rst
++++ b/Documentation/dev-tools/kmemleak.rst
+@@ -38,6 +38,9 @@ Note that the orphan objects are listed in the order they were allocated
+ and one object at the beginning of the list may cause other subsequent
+ objects to be reported as orphan.
+ 
++If you are triggering a manual memory scan, you might need to do it at least
++twice before kmemleak reports an orphan object.
++
+ Memory scanning parameters can be modified at run-time by writing to the
+ ``/sys/kernel/debug/kmemleak`` file. The following parameters are supported:
+ 
+@@ -235,7 +238,7 @@ enabled. Load the module and perform a scan with::
+         # modprobe kmemleak-test
+         # echo scan > /sys/kernel/debug/kmemleak
+ 
+-Note that the you may not get results instantly or on the first scanning. When
++Note that you may not get the results instantly or on the first scanning. When
+ kmemleak gets results, it'll log ``kmemleak: <count of leaks> new suspected
+ memory leaks``. Then read the file to see then::
+ 
+-- 
+2.30.2
 
