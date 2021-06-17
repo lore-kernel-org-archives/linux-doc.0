@@ -2,136 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6541C2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 14:37:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6778C2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 14:53:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFE2D610A1
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 14:37:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85875613E3
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 14:53:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230151AbhFQOja (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 10:39:30 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:48302 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbhFQOj3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 10:39:29 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+        id S232160AbhFQOzd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 10:55:33 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:40664 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232359AbhFQOzF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 10:55:05 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 65A1C1FD7D;
+        Thu, 17 Jun 2021 14:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1623941576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Q7q0OZNtypGAEjCrcoo+ttjQVNFn1Ky9KY47NqMeoHE=;
+        b=swr8RaWpri8QMRimhSLL+MkiXIZp1KJaciCMlH71yrQPWh9RackYe0xdVbd+MOvvLq0wSG
+        pviYRxCu1hhV/SGLMmfHsCdasxmK4ZEY9vkWSEMzcqEljci6lKbLjwt60+SQHl1rS/wVEC
+        pTdTyAh32KJvNY+knLY20D/4Zgx2rl8=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 2072321B0D;
-        Thu, 17 Jun 2021 14:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1623940641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M+fSxa1wG+88od46CsiBngCtNj3W4t4qd32uH/eMCnU=;
-        b=weKQj/4xIvPMP+zMYOKvZZpgRcm9Khkjx3ysroKsxU558oST54zweTWK/lYYRMBzb5cqSW
-        xozR+Ws4SfcfpFigwOSq+yOsMQtKftdtp/BdZLovXhH/wnI+vcXzGcEu7H0GR8AJADC7m3
-        wRYGlfCRqMl5KCxq/XAjDkUXoESPKzY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1623940641;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M+fSxa1wG+88od46CsiBngCtNj3W4t4qd32uH/eMCnU=;
-        b=S7Wo9IO+n3KLaMYkganyy+Hr/Yo+cHuQ4O/9DsDuC8ArqZdq452lq+AeSxFJ+JHhAPlgYk
-        Og7k7wdHkN2MW7Dw==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        by imap.suse.de (Postfix) with ESMTP id D488C118DD;
-        Thu, 17 Jun 2021 14:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1623940641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M+fSxa1wG+88od46CsiBngCtNj3W4t4qd32uH/eMCnU=;
-        b=weKQj/4xIvPMP+zMYOKvZZpgRcm9Khkjx3ysroKsxU558oST54zweTWK/lYYRMBzb5cqSW
-        xozR+Ws4SfcfpFigwOSq+yOsMQtKftdtp/BdZLovXhH/wnI+vcXzGcEu7H0GR8AJADC7m3
-        wRYGlfCRqMl5KCxq/XAjDkUXoESPKzY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1623940641;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M+fSxa1wG+88od46CsiBngCtNj3W4t4qd32uH/eMCnU=;
-        b=S7Wo9IO+n3KLaMYkganyy+Hr/Yo+cHuQ4O/9DsDuC8ArqZdq452lq+AeSxFJ+JHhAPlgYk
-        Og7k7wdHkN2MW7Dw==
-Received: from director2.suse.de ([192.168.254.72])
-        by imap3-int with ESMTPSA
-        id zqwmMyBey2AhaQAALh3uQQ
-        (envelope-from <vbabka@suse.cz>); Thu, 17 Jun 2021 14:37:20 +0000
-Subject: Re: [PATCH v3 1/2] mm: compaction: support triggering of proactive
- compaction by user
-To:     Charan Teja Kalla <charante@codeaurora.org>,
-        akpm@linux-foundation.org, nigupta@nvidia.com, hannes@cmpxchg.org,
-        corbet@lwn.net, mcgrof@kernel.org, keescook@chromium.org,
-        yzaikin@google.com, aarcange@redhat.com, cl@linux.com,
-        xi.fengfei@h3c.com, mchehab+huawei@kernel.org,
-        andrew.a.klychkov@gmail.com, dave.hansen@linux.intel.com,
-        bhe@redhat.com, iamjoonsoo.kim@lge.com, mateusznosek0@gmail.com,
-        sh_def@163.com, vinmenon@codeaurora.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <cover.1622454385.git.charante@codeaurora.org>
- <7db6a29a64b29d56cde46c713204428a4b95f0ab.1622454385.git.charante@codeaurora.org>
- <88abfdb6-2c13-b5a6-5b46-742d12d1c910@suse.cz>
- <0ca491e8-6d3a-6537-dfa0-ece5f3bb6a1e@codeaurora.org>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <0d516cfa-f41c-5ccc-26aa-67871f23dcd3@suse.cz>
-Date:   Thu, 17 Jun 2021 16:37:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        by relay2.suse.de (Postfix) with ESMTPS id DB893A3BB9;
+        Thu, 17 Jun 2021 14:52:55 +0000 (UTC)
+Date:   Thu, 17 Jun 2021 16:52:55 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Jia He <justin.he@arm.com>, Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH RFCv4 4/4] lib/test_printf.c: add test cases for '%pD'
+Message-ID: <YMthxzhHv7jeZKBJ@alley>
+References: <20210615154952.2744-1-justin.he@arm.com>
+ <20210615154952.2744-5-justin.he@arm.com>
+ <CAHp75VeB68UUfz=6dO31zf59p6_5wGBX7etWJEV_xtLYsy=hBQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <0ca491e8-6d3a-6537-dfa0-ece5f3bb6a1e@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VeB68UUfz=6dO31zf59p6_5wGBX7etWJEV_xtLYsy=hBQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/17/21 9:30 AM, Charan Teja Kalla wrote:
-> Thanks Vlastimil for your inputs!!
+On Tue 2021-06-15 23:47:29, Andy Shevchenko wrote:
+> On Tue, Jun 15, 2021 at 6:55 PM Jia He <justin.he@arm.com> wrote:
+> >
+> > After the behaviour of specifier '%pD' is changed to print full path
+> > of struct file, the related test cases are also updated.
+> >
+> > Given the string of '%pD' is prepended from the end of the buffer, the
+> > check of "wrote beyond the nul-terminator" should be skipped.
+> >
+> > Signed-off-by: Jia He <justin.he@arm.com>
+> > ---
+> >  lib/test_printf.c | 26 +++++++++++++++++++++++++-
+> >  1 file changed, 25 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/lib/test_printf.c b/lib/test_printf.c
+> > index d1d2f898ebae..9f851a82b3af 100644
+> > --- a/lib/test_printf.c
+> > +++ b/lib/test_printf.c
+> > @@ -78,7 +80,7 @@ do_test(int bufsize, const char *expect, int elen,
+> >                 return 1;
+> >         }
+> >
+> > -       if (memchr_inv(test_buffer + written + 1, FILL_CHAR, bufsize - (written + 1))) {
 > 
-> On 6/16/2021 5:29 PM, Vlastimil Babka wrote:
->>> This triggering of proactive compaction is done on a write to
->>> sysctl.compaction_proactiveness by user.
->>>
->>> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=facdaa917c4d5a376d09d25865f5a863f906234a
->>>
->>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
->>> ---
->>> changes in V2:
->> You forgot to also summarize the changes. Please do in next version.
+> > +       if (!is_prepended_buf && memchr_inv(test_buffer + written + 1, FILL_CHAR, bufsize - (written + 1))) {
 > 
-> I think we can get rid off 'proactive_defer' thread variable with the
-> timeout approach you suggested. But it is still requires to have one
-> additional variable 'proactive_compact_trigger', which main purpose is
-> to decide if the kcompactd wakeup is for proactive compaction or not.
-> Please see below code:
->    if (wait_event_freezable_timeout() && !proactive_compact_trigger) {
-> 	// do the non-proactive work
-> 	continue
->    }
->    // do the proactive work
->      .................
-> 
-> Thus I feel that on writing new proactiveness, it is required to do
-> wakeup_kcomppactd() + set a flag that this wakeup is for proactive work.
-> 
-> Am I failed to get your point here?
+> Can it be parametrized? I don't like the custom test case being
+> involved here like this.
 
-The check whether to do non-proactive work is already guarded by
-kcompactd_work_requested(), which looks at pgdat->kcompactd_max_order and this
-is set by wakeup_kcompactd().
+Yup, it would be nice.
 
-So with a plain wakeup where we don't set pgdat->kcompactd_max_order will make
-it consider proactive work instead and we don't need another trigger variable
-AFAICS.
+Also it is far from obvious what @is_prepended_buf means if you do not
+have context of this patchset. I think about a more generic name
+that comes from the wording used in 3rd patch, e.g.
+
+    @need_scratch_space or @using_scratch_space or @dirty_buf
+
+Anyway, the most easy way to pass this as a parameter would be to add it
+to __test() and define a wrapper, .e.g:
+
+static void __printf(3, 4) __init
+__test(const char *expect, int elen, bool using_scratch_space,
+	const char *fmt, ...)
+
+/*
+ * More relaxed test for non-standard formats that are using the provided buffer
+ * as a scratch space and write beyond the trailing '\0'.
+ */
+#define test_using_scratch_space(expect, fmt, ...)			\
+	__test(expect, strlen(expect), true, fmt, ##__VA_ARGS__)
+
+
+Best Regards,
+Petr
