@@ -2,129 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 005DAC2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D53C2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:03:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D554C613BA
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:02:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98F78613ED
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:03:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231742AbhFQTEN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 15:04:13 -0400
-Received: from foss.arm.com ([217.140.110.172]:58634 "EHLO foss.arm.com"
+        id S231226AbhFQTFo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 15:05:44 -0400
+Received: from foss.arm.com ([217.140.110.172]:58672 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231403AbhFQTEN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Jun 2021 15:04:13 -0400
+        id S232447AbhFQTFn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Jun 2021 15:05:43 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4CFC013A1;
-        Thu, 17 Jun 2021 12:02:05 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B459313A1;
+        Thu, 17 Jun 2021 12:03:35 -0700 (PDT)
 Received: from [10.57.9.136] (unknown [10.57.9.136])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 683143F694;
-        Thu, 17 Jun 2021 12:02:03 -0700 (PDT)
-Subject: Re: [PATCH v13 1/6] iommu: Deprecate Intel and AMD cmdline methods to
- enable strict mode
-To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
-        will@kernel.org, dwmw2@infradead.org, baolu.lu@linux.intel.com,
-        corbet@lwn.net
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A150E3F694;
+        Thu, 17 Jun 2021 12:03:33 -0700 (PDT)
+Subject: Re: [PATCH v13 4/6] iommu/vt-d: Add support for IOMMU default DMA
+ mode build options
+To:     John Garry <john.garry@huawei.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>, joro@8bytes.org,
+        will@kernel.org, dwmw2@infradead.org, corbet@lwn.net
 Cc:     linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
         linuxarm@huawei.com, thunder.leizhen@huawei.com,
         chenxiang66@hisilicon.com, linux-doc@vger.kernel.org
 References: <1623841437-211832-1-git-send-email-john.garry@huawei.com>
- <1623841437-211832-2-git-send-email-john.garry@huawei.com>
+ <1623841437-211832-5-git-send-email-john.garry@huawei.com>
+ <46dbce5c-1c2b-60d4-df56-d2b95a959425@linux.intel.com>
+ <f3fe6c4b-f360-ab7b-7ad2-ced63269499d@huawei.com>
 From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <f95252ce-f834-103b-f96d-7e35fa59d5ec@arm.com>
-Date:   Thu, 17 Jun 2021 20:01:58 +0100
+Message-ID: <cc22fd7e-2cb6-d33a-33ab-bbca0a389507@arm.com>
+Date:   Thu, 17 Jun 2021 20:03:27 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <1623841437-211832-2-git-send-email-john.garry@huawei.com>
+In-Reply-To: <f3fe6c4b-f360-ab7b-7ad2-ced63269499d@huawei.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-06-16 12:03, John Garry wrote:
-> Now that the x86 drivers support iommu.strict, deprecate the custom
-> methods.
+On 2021-06-17 09:00, John Garry wrote:
+> On 17/06/2021 08:32, Lu Baolu wrote:
+>> On 6/16/21 7:03 PM, John Garry wrote:
+>>> @@ -4382,9 +4380,9 @@ int __init intel_iommu_init(void)
+>>>            * is likely to be much lower than the overhead of 
+>>> synchronizing
+>>>            * the virtual and physical IOMMU page-tables.
+>>>            */
+>>> -        if (!intel_iommu_strict && cap_caching_mode(iommu->cap)) {
+>>> -            pr_warn("IOMMU batching is disabled due to 
+>>> virtualization");
+>>> -            intel_iommu_strict = 1;
+>>> +        if (cap_caching_mode(iommu->cap)) {
+>>> +            pr_warn("IOMMU batching disallowed due to 
+>>> virtualization\n");
+>>> +            iommu_set_dma_strict(true);
+>>
+>> With this change, VM guest will always show this warning.
 > 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> ---
->   Documentation/admin-guide/kernel-parameters.txt | 5 +++--
->   drivers/iommu/amd/init.c                        | 4 +++-
->   drivers/iommu/intel/iommu.c                     | 1 +
->   3 files changed, 7 insertions(+), 3 deletions(-)
+> Would they have got it before also normally?
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 30e9dd52464e..fcbb36d6eea7 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -290,7 +290,8 @@
->   	amd_iommu=	[HW,X86-64]
->   			Pass parameters to the AMD IOMMU driver in the system.
->   			Possible values are:
-> -			fullflush - enable flushing of IO/TLB entries when
-> +			fullflush   [Deprecated, use iommu.strict instead]
-> +				  - enable flushing of IO/TLB entries when
->   				    they are unmapped. Otherwise they are
->   				    flushed before they will be reused, which
->   				    is a lot of faster
-> @@ -1947,7 +1948,7 @@
->   			bypassed by not enabling DMAR with this option. In
->   			this case, gfx device will use physical address for
->   			DMA.
-> -		strict [Default Off]
-> +		strict [Default Off] [Deprecated, use iommu.strict instead]
->   			With this option on every unmap_single operation will
->   			result in a hardware IOTLB flush operation as opposed
->   			to batching them for performance.
+> I mean, default is intel_iommu_strict=0, so if 
+> cap_caching_mode(iommu->cap) is true and intel_iommu_strict not set to 1 
+> elsewhere previously, then we would get this print.
+> 
+>> How about
+>> removing this message? Users could get the same information through the
+>> kernel message added by "[PATCH v13 2/6] iommu: Print strict or lazy
+>> mode at init time".
+> 
+> I think that the print from 2/6 should occur before this print.
+> 
+> Regardless I would think that you would still like to be notified of 
+> this change in policy, right?
+> 
+> However I now realize that the print is in a loop per iommu, so we would 
+> get it per iommu:
+> 
+> for_each_active_iommu(iommu, drhd) {
+>      /*
+>       * The flush queue implementation does not perform
+>       * page-selective invalidations that are required for efficient
+>       * TLB flushes in virtual environments.  The benefit of batching
+>       * is likely to be much lower than the overhead of synchronizing
+>       * the virtual and physical IOMMU page-tables.
+>       */
+>      if (!intel_iommu_strict && cap_caching_mode(iommu->cap)) {
+>          pr_warn("IOMMU batching is disabled due to virtualization");
+>          intel_iommu_strict = 1;
+>      }
+>      ...
+> }
+> 
+> I need to change that. How about this:
+> 
+> bool print_warning = false;
+> 
+> for_each_active_iommu(iommu, drhd) {
+>      /*
+>       * The flush queue implementation does not perform
+>       * page-selective invalidations that are required for efficient
+>       * TLB flushes in virtual environments.  The benefit of batching
+>       * is likely to be much lower than the overhead of synchronizing
+>       * the virtual and physical IOMMU page-tables.
+>       */
+>      if (!print_warning && cap_caching_mode(iommu->cap)) {
+>          pr_warn("IOMMU batching disallowed due to virtualization\n");
+>          iommu_set_dma_strict(true);
+>          print_warning = true;
+>      }
+>      ...
+> }
+> 
+> or use pr_warn_once().
 
-FWIW I'd be inclined to replace both whole descriptions with just 
-something like "Deprecated, equivalent to iommu.strict=1".
+Maybe even downgrade it to pr_info_once(), since AIUI it's not really 
+anything scary?
 
-> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-> index 46280e6e1535..9f3096d650aa 100644
-> --- a/drivers/iommu/amd/init.c
-> +++ b/drivers/iommu/amd/init.c
-> @@ -3098,8 +3098,10 @@ static int __init parse_amd_iommu_intr(char *str)
->   static int __init parse_amd_iommu_options(char *str)
->   {
->   	for (; *str; ++str) {
-> -		if (strncmp(str, "fullflush", 9) == 0)
-> +		if (strncmp(str, "fullflush", 9) == 0) {
-> +			pr_warn("amd_iommu=fullflush deprecated; use iommu.strict instead\n");
+I suppose you could technically fake up a domain on the stack to get the 
+global setting out of iommu_get_dma_strict(), or perhaps give 
+iommu_set_dma_strict() a cheeky return value to indicate what the 
+previous setting was, in order to suppress the message entirely if 
+strict is already set, but I'm not at all convinced it's worth the bother.
 
-Nit: maybe we should spell out "...use <option>=1 instead" in all of 
-these messages just in case anyone takes them literally? (I'm not sure 
-the options parse correctly with no argument)
-
-Either way,
-
-Acked-by: Robin Murphy <robin.murphy@arm.com>
-
-Thanks,
 Robin.
-
->   			amd_iommu_unmap_flush = true;
-> +		}
->   		if (strncmp(str, "force_enable", 12) == 0)
->   			amd_iommu_force_enable = true;
->   		if (strncmp(str, "off", 3) == 0)
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index bd93c7ec879e..821d8227a4e6 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -454,6 +454,7 @@ static int __init intel_iommu_setup(char *str)
->   			pr_warn("intel_iommu=forcedac deprecated; use iommu.forcedac instead\n");
->   			iommu_dma_forcedac = true;
->   		} else if (!strncmp(str, "strict", 6)) {
-> +			pr_warn("intel_iommu=strict deprecated; use iommu.strict instead\n");
->   			pr_info("Disable batched IOTLB flush\n");
->   			intel_iommu_strict = 1;
->   		} else if (!strncmp(str, "sp_off", 6)) {
-> 
