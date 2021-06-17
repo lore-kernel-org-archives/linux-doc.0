@@ -2,376 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 973EAC48BE5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 08:20:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F247FC48BE5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 08:34:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B99B86144E
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 08:20:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCCC0613F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 08:34:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbhFQIWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 04:22:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37600 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbhFQIWw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 04:22:52 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D81C061574
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 01:20:43 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id p7so8987465lfg.4
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 01:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=jgo6J2SBrHBhQENwEXMEreYNwgNFuwQjq+RqFaUrE8w=;
-        b=LWCshauwp7B3AmI0T9VuBBgVOF0vOhh7zVI2s00clSiFc6mU/L2ScptQD/NG8SdiPD
-         s0ZCwN6QQyrjfL4hkU6K77DVrJbTnDpVnmm4ehTpj3ec3ZUoah0ER0SFkPPTfGL6dtFS
-         WrDuagLNEzHFbtPkf1a6RATWdq0hPrZi9N6CsGNesUxPuAOVUdhEnain2cw1iSenag3L
-         pm5tuYpDWyhNIYfbhvgAWU3u202qjHJWMT+Qa9vzkdOQbCshb0B6Hvp0TPinmoc9GJJQ
-         A7vrfTSw07Lk2B25kz6H3YNjqDjx388KWq9T80ZfZ7t6N3ZhA+51koY7fohsvsaB1bXK
-         cJ3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=jgo6J2SBrHBhQENwEXMEreYNwgNFuwQjq+RqFaUrE8w=;
-        b=T5nYiJA2oYE7epplDi0pW/xm5JBjL6TiXFee6eC+G3/7+Q5Hem0MBtay4yrRQw3z4m
-         SIwsZ4PlrpA5v/EdvkpAni5PBxv4W+HaAHZ2788pYAlyeFY5JSBSC93afy+fmEzglsid
-         ybHQ3brbrMbQGHmqjZPkor4LM28jZdTerRwqjjhn9FYU3zwMy+XAlbT2lcULlrWwKQJY
-         fMv2OdOOKeudv2Suy7kaqI50D0CbPgzj7VIRPsYkh+lTHCpok53H2yOTZZeoLu1XxK+B
-         k+fRN3wPl/y8lAReUgvyCQE9ByLR/X2jh64LZDzzH5leVjF7mbIkkv4KoRqbXNKt9XiZ
-         /sfw==
-X-Gm-Message-State: AOAM533u7tHtYUIvs2Zj3iBK6+qjc6CbyYxZZmCLWiCMosMXGfxx9UmH
-        n5lr9zeSnIyMSboKqOYJh1c=
-X-Google-Smtp-Source: ABdhPJxd4m0CHlmyX4LzvPFI/OB/2b4IBvrQmF5alJGuDE4wS+1O1M4miceuqwKkdkTlJblSbAbGFg==
-X-Received: by 2002:a19:7711:: with SMTP id s17mr3188500lfc.430.1623918041920;
-        Thu, 17 Jun 2021 01:20:41 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id y24sm581255ljk.79.2021.06.17.01.20.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 01:20:41 -0700 (PDT)
-Date:   Thu, 17 Jun 2021 11:20:36 +0300
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Steven Price <steven.price@arm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Clark <robdclark@gmail.com>, Qiang Yu <yuq825@gmail.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210617112036.7373fdab@eldfell>
-In-Reply-To: <20210616143842.632829-1-maxime@cerno.tech>
-References: <20210616143842.632829-1-maxime@cerno.tech>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S230076AbhFQIga (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 04:36:30 -0400
+Received: from mga05.intel.com ([192.55.52.43]:24942 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229931AbhFQIg1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Jun 2021 04:36:27 -0400
+IronPort-SDR: 29WV+KNJhblaxIevodIDadYEGGGcE/2jcGMR24q7J3o1QL4AEK20BlatEKxYEjdKCkzDQJLOvl
+ 7ABxA5VoCjqg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="291960789"
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
+   d="scan'208";a="291960789"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 01:34:19 -0700
+IronPort-SDR: cnd2chz6DCp9kBa4Xwsk2+Gdw8hHqdEJI+s+2afcrCRCrz0/dOX+zsMcnbEIPEwsuA0lgApTLi
+ 00B5Q7IkGDug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
+   d="scan'208";a="452700883"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Jun 2021 01:34:19 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Thu, 17 Jun 2021 01:34:18 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
+ via Frontend Transport; Thu, 17 Jun 2021 01:34:18 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.4; Thu, 17 Jun 2021 01:34:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aqFvavJpW5ENk6PIinxVb3XJ9zVFwKwLFaoJof1UbeNydLueNVeHCPNnMl8qyp4wirmDAzJtfq1JotZ+BR/LhW9/gSgMVWDttPuBk+qeCVKowC5+kcc1EGs2z9msylmECxMjMH5H6Zg3nkS5AV8k9Zn2B5J6cwMe0sQKnjC96UrN4OYYvW+Ig++lOiPDAw1q2S/rQ+4XwxQ5pXD+6wZmc1EVCD70rr8whKPijThR/RW9/UJlv0EULPHUV3hxf8b+7HRj64mnNxVk8/YBHnjmqyxdBhbL+vmWhOHq8wUIyicGt52fBM8nwo5HkDfFjV+To4G2SyVFDlECVrCo+k0U0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E1BmaEO1REdaWCgdj9mgzndlLh2AKi2MtAUj5Vbquwc=;
+ b=U1FwerdOPBkG2qLmmN32VWCRs2bOyhqm2MVKUNPkEGnt3dkqXOg9Z5pVgxn8eFE7kAFsyhxFm/rJfGtwvQ1BL8q7JHzPotz295JGTtztGp/bFyGf8tKDi4o2hwnDWmi/ayV9tdb6gS5giru0I9IFQ9pM4J5YHlQEVfdnNmWT3bPqRuVPVITn+ui+51Qi3EDx4TqUtuV+Ac1GVJ8S0lO8OWZIa5jQHXbcCbhe8zw7MAW9k6Ghc+8hXgJl592kWeROFp/UF+OHzTX4vzPndN+hY/NlKVWWPeUeGp7jaRE8ItJtvb5HEiiPucMDAnKRPRKUSi7MfKz5xfqNJY4p0Us1cg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E1BmaEO1REdaWCgdj9mgzndlLh2AKi2MtAUj5Vbquwc=;
+ b=jv4xrGVKdAy4/tnusrxh/T/iY4c3iZsx/uAyQel8wMT6RMmnz7PXH2Q6hawQzP7/VVsO1MTEHw9AXD7qt++3AhXAhrPGf+StRCnUHcNH/UyDnrJgdePv4FZ99TJcK8HHrgMVTnFpJqj2y7xmSpIoiJbFCB4NCYL8lMQngV9F+HA=
+Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
+ by DM6PR11MB3243.namprd11.prod.outlook.com (2603:10b6:5:e::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.19; Thu, 17 Jun 2021 08:34:15 +0000
+Received: from DM6PR11MB3819.namprd11.prod.outlook.com
+ ([fe80::3dc3:868b:cec3:513b]) by DM6PR11MB3819.namprd11.prod.outlook.com
+ ([fe80::3dc3:868b:cec3:513b%6]) with mapi id 15.20.4219.026; Thu, 17 Jun 2021
+ 08:34:15 +0000
+From:   "Wu, Hao" <hao.wu@intel.com>
+To:     Moritz Fischer <mdf@kernel.org>
+CC:     Tom Rix <trix@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
+        "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "krzysztof.kozlowski@canonical.com" 
+        <krzysztof.kozlowski@canonical.com>,
+        "nava.manne@xilinx.com" <nava.manne@xilinx.com>,
+        "Xu, Yilun" <yilun.xu@intel.com>,
+        "davidgow@google.com" <davidgow@google.com>,
+        "fpacheco@redhat.com" <fpacheco@redhat.com>,
+        "Gong, Richard" <richard.gong@intel.com>,
+        "luca@lucaceresoli.net" <luca@lucaceresoli.net>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
+Thread-Topic: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
+Thread-Index: AQHXYVpMuuq4CCKpI0OAe3HAOe9lxqsUps2ggADmEgCAAEctkIABz+UAgAA0T8A=
+Date:   Thu, 17 Jun 2021 08:34:15 +0000
+Message-ID: <DM6PR11MB381924F43550A6699CB55213850E9@DM6PR11MB3819.namprd11.prod.outlook.com>
+References: <20210614201648.3358206-1-trix@redhat.com>
+ <20210614201648.3358206-3-trix@redhat.com>
+ <DM6PR11MB381964374223D0D2958AFA6985309@DM6PR11MB3819.namprd11.prod.outlook.com>
+ <d64b0fb8-5f83-2995-7ee9-b4ed2932ef60@redhat.com>
+ <DM6PR11MB3819259241791EB04A2CB9C8850F9@DM6PR11MB3819.namprd11.prod.outlook.com>
+ <YMrS9OUSaCdtGwrE@epycbox.lan>
+In-Reply-To: <YMrS9OUSaCdtGwrE@epycbox.lan>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.198.143.20]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 756587bf-43ca-4b0e-2014-08d9316ab0e4
+x-ms-traffictypediagnostic: DM6PR11MB3243:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB32437929E9818C9DD9855214850E9@DM6PR11MB3243.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tJFh9znL/BGrQGP+gv1xKKfuO6o6lnRuX3AGHvzzEdUjvxDJtQkxH/PqdCIcm/Gxemq9G8w9OnHbKaHhkRXy4IbpwEoLetVKlP76p6z5928l8inhCa4uEra/j85oun39EXTVmXbc8XHI/FBiLzr2ktG9jCcrmqpGxcMlUkVezzHl+bL9aqT2uD7YZWvhaM4MXlTO5qOtMlN+MdIvvkkW+jbB5u7YGrisL37Yf9T80rFaVgQZ80CGSpu2MfGTo4pPea/83fQBI3fLySNdDd1Nja0BkyXtJ7l0qdLpycs8ispp0jjhKBBo78IxDvcv2i26BMQRmhGvavK9el5R7eEFPRkLm/cdHJGnZTV9KGzKAmxHH7kjQ3sAcejn1D8WKG4VL90aCnFs+IYGVNPqe2o+MdlSfKhHsmCY2vhQUumfrjaAG3zATeBh1IFNKmh/EstHuQHacnz8SmuvikxNAolF956wqiquhJHmYj+kxH2DbXPJB9abXCkU2IybIT15Sanavuqeqf2MFpFx4cHGFV0RtAfllLa7QJU1nxUkLERDo1WPYlFfxcOvsyhEeQihtb44tgKcgqodjS6hIeqTpKxeJSVnpDCVFHyniaIpOclwdxg=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(71200400001)(86362001)(54906003)(8676002)(55016002)(26005)(8936002)(186003)(2906002)(7696005)(498600001)(64756008)(53546011)(4326008)(66446008)(6506007)(76116006)(66476007)(66556008)(5660300002)(9686003)(52536014)(7416002)(6916009)(66946007)(122000001)(33656002)(38100700002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Lt7pYXZx8ymj+C3XZLCcDZ82vXEVshWrDXVIhngYvqYaxPZgqqUDHbPvGpYi?=
+ =?us-ascii?Q?5ARVcv6dCaawwyhCEWWacXect5ZoDBIHdFN2MPa0LdkU504TI5TjywZpdFMU?=
+ =?us-ascii?Q?9rqBqtrwtu+aqBIKlZNch/bmlIXdMZxDv1dCwS22yHbtMbtOUh1//pD+ToVH?=
+ =?us-ascii?Q?eJx0ebc7D/ya6QfCCptYUlUPyJPLHMkw1KByPMXtJPKrfEr1fcTihJp0WUIl?=
+ =?us-ascii?Q?j7oSNT/QYrwNo8d7H1a1MzDjp6SLqteSJRGfUaMhz2AYA2GVDBQIX/JHZQ/M?=
+ =?us-ascii?Q?f6NoGauYUJlRAnDHD3Ig2zS2a9Pdsenxdf9PUfzmHB4ErwVQ+ZBcl9Kye7hI?=
+ =?us-ascii?Q?+6ibZbpEj9H6hnGJtMyTOndSwVpqGfscI3xpnJY4rxGSJ7tucsf4+rPUp+vL?=
+ =?us-ascii?Q?FAWRf2/Px3bIAciZSE5kIomJAoumb+1MmMnFTcOvFqR421OYIJ9fKbfzsn6B?=
+ =?us-ascii?Q?9byqyIgEdzekAUZq9LiVGI9Qn7oASTBwFhj8V+3WUnPTNNnx+PYBL5mHpljI?=
+ =?us-ascii?Q?KvixH1veFGnlltUeHv9lLsBMOAG8zPPmS1upZDCjVmWF3AHcCFhyKy/IPjs4?=
+ =?us-ascii?Q?Hi+YtT7Hnl2+09nGqsTWlOz+TBFqH40xkSMR94JHazkP3v0FsEkI3p9n3aBo?=
+ =?us-ascii?Q?QYlxYkGInw/iSPnx2C8zwXI6zYqbpNCJ9ValwAjFhR41Bz9n1opZ1pkMO+9j?=
+ =?us-ascii?Q?kFSFhTBu1eV0A8M6o8SueZ512xwe/JW1rAXheGiQ8SYKfLUKRM2ayQ9U7Ae/?=
+ =?us-ascii?Q?wu0naryEAutJYTyQ+RrZyhDESktWzsV/2jMHzNd4CD+qwYzxg81NgnvxQlYo?=
+ =?us-ascii?Q?BhMV2uuXm7kDidR/UAcmcYz/YK4bKS3CQSfOAP0mPeYEnGgScm7cedswrSQE?=
+ =?us-ascii?Q?tzYX/hCijiWmsThJnoiuPmPgAHKRFLqvh6dt5IYSMNrnehJjI9hDWnCfgJS9?=
+ =?us-ascii?Q?03CMvOn0AzsfpgnHwxuZ4Hg27Kf2uuzKhW6lFzRLb5O8+DRXKxIOo8CD4Iwu?=
+ =?us-ascii?Q?6YMJdoFYXumKvtC+VeZ9zOXnbjMnQcMrlc4ceKsj+b4s+ZA8BvUFo+JCPI5E?=
+ =?us-ascii?Q?zROSzzkS4NNq2jOy/sf4tqNA8fk3rB7YJK9Xc/y2pfMwCjdUyYTJAdG6fkNI?=
+ =?us-ascii?Q?ywlG4435UB2VYYWmh5BnRtNbtrnik4l7Yi/VoKjDuB1Y9p9bYyAj5p7FOSQe?=
+ =?us-ascii?Q?ntrm1HbpjnTi7rrNjCajO8VKJKUbqjIMj49MfaF5XY0q2ec9Y9gh1M4BH50Q?=
+ =?us-ascii?Q?08nTlw3TQ83RningKVeJC96TqW+2VRLyJO32J3XkjQlRZ++tYPfJHILa9O4D?=
+ =?us-ascii?Q?wEFG1I4DcxhouvWTElTrg1e/?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/TOEUb_8y9EUP7W_Bs0va22D"; protocol="application/pgp-signature"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 756587bf-43ca-4b0e-2014-08d9316ab0e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2021 08:34:15.2931
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wBFFquyL7qkFY7kDFojUPUPAxQl+SX3fJ6Z9HIaYq2vlOBhYblLI81TFoVuOFkz7toGQP/555DItx4KuR7EG7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3243
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/TOEUb_8y9EUP7W_Bs0va22D
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 16 Jun 2021 16:38:42 +0200
-Maxime Ripard <maxime@cerno.tech> wrote:
-
-> New KMS properties come with a bunch of requirements to avoid each
-> driver from running their own, inconsistent, set of properties,
-> eventually leading to issues like property conflicts, inconsistencies
-> between drivers and semantics, etc.
+> On Wed, Jun 16, 2021 at 01:05:36AM +0000, Wu, Hao wrote:
+> > > On 6/15/21 1:08 AM, Wu, Hao wrote:
+> > > >> Subject: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
+> > > >>
+> > > >> From: Tom Rix <trix@redhat.com>
+> > > >>
+> > > >> Follow drivers/net/ethernet/ which has control configs
+> > > >> NET_VENDOR_BLA that map to drivers/net/ethernet/bla
+> > > >> Since fpgas do not have many vendors, drop the 'VENDOR' and use
+> > > >> FPGA_BLA.
+> > > > Hi Tom,
+> > > >
+> > > > Thanks for this patch. : )
+> > > >
+> > > > DFL is not a vendor, but something can be shared/reused. It's possi=
+ble that
+> > > > other vendors reuse the same concepts and the drivers of DFL. If ve=
+ndor
+> > > > drivers need to be moved inside sub folders, then maybe it's better=
+ to
+> > > > leave DFL in the parent folder?
+> > >
+> > > xrt is also not a vendor, more a subdevice framework like dfl.
+> > >
+> > > I am not sure what you mean by other dfl vendors can you give an exam=
+ple ?
+> >
+> > It's fine, but the description here is a little confusing on vendor/fra=
+mework
+> > handling. No other vendor so far, but it's possible, DFL can be used in
+> > non-intel device, and related drivers can be reused as well. Then a fpg=
+a
+> > mgr driver depends on DFL, should be put inside dfl folder or new
+> > vendor's subfolder?
+> >
+> > Hao
+> >
 >=20
-> Let's document what we expect.
+> I'm somewhat neutral on this. If someone non-intel starts using DFL we co=
+uld
+> also
+> move the common parts back ...
+
+That's fine.
+
 >=20
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Alison Wang <alison.wang@nxp.com>
-> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Boris Brezillon <bbrezillon@kernel.org>
-> Cc: Brian Starkey <brian.starkey@arm.com>
-> Cc: Chen Feng <puck.chen@hisilicon.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Edmund Dea <edmund.j.dea@intel.com>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: "Heiko St=C3=BCbner" <heiko@sntech.de>
-> Cc: Huang Rui <ray.huang@amd.com>
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Qiang Yu <yuq825@gmail.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Roland Scheidegger <sroland@vmware.com>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Tian Tao <tiantao6@hisilicon.com>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Tomi Valkeinen <tomba@kernel.org>
-> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Zack Rusin <zackr@vmware.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> That being said, I'm not super convinced we have to move stuff in the
+> first place.
+
+I remember that the first submission of our code is having everything insid=
+e a sub
+folder, but was suggested that to have everything moved out, this is why we=
+ have
+dfl files here now. To be honest, I have the similar feeling as you, I didn=
+'t see any
+strong reason to make this something we must do, but both solutions should =
+be
+fine. : )
+
+Thanks
+Hao
+
 >=20
-> ---
->=20
-> Changes from v3:
->   - Roll back to the v2
->   - Add Simon and Pekka in Cc
->=20
-> Changes from v2:
->   - Take into account the feedback from Laurent and Lidiu to no longer
->     force generic properties, but prefix vendor-specific properties with
->     the vendor name
->=20
-> Changes from v1:
->   - Typos and wording reported by Daniel and Alex
-> ---
->  Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->=20
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index 87e5023e3f55..c28b464dd397 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -463,6 +463,25 @@ KMS Properties
->  This section of the documentation is primarily aimed at user-space devel=
-opers.
->  For the driver APIs, see the other sections.
-> =20
-> +Requirements
-> +------------
-> +
-> +KMS drivers might need to add extra properties to support new features.
-> +Each new property introduced in a driver need to meet a few
-> +requirements, in addition to the one mentioned above.:
-> +
-> +- It must be standardized, with some documentation to describe how the
-> +  property can be used.
-
-Hi,
-
-I might replace "some" with "full" documentation. Also not only how it
-can be used but also what it does.
-
-FYI, some common things that tend to be forgotten IME:
-- Spell out exactly the name string for the property in the
-  documentation so that it is unambiguous what string userspace should
-  look for.
-- The same for string names of enum values.
-- Explicitly document what each enum value means, do not trust that the
-  value name describes it well enough.
-- Explain how the property interacts with other, existing properties.
-
-Not sure if these should be written down here or anywhere though.
-Interaction with other properties is kind of important.
-
-> +
-> +- It must provide a generic helper in the core code to register that
-> +  property on the object it attaches to.
-> +
-> +- Its content must be decoded by the core and provided in the object's
-> +  associated state structure. That includes anything drivers might want =
-to
-> +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for pl=
-anes.
-> +
-> +- An IGT test must be submitted where reasonable.
-
-Would it be too much to replace "where reasonable" with "if it is at
-all possible to write a test."?
-
-> +
-
-How about adding the following somewhere?
-
-- The initial state of the property (set during driver initialization)
-  must match how the driver+hardware behaved before introducing this
-  property. It may be some fixed value or it may be inherited from e.g.
-  the firmware that booted the system. How the initial state is
-  determined must also be documented, that is, where does it come from.
-
-The initial state must not be called "default", because I want to
-reserve the term default for something else if possible: the phrase
-"reset everything to defaults", which is a whole another discussion.
-
-How about also saying that fbcon/fbdev must set this property when
-taking over? That sounds to be like a common omission leading to funky
-KMS state in fbcon. The value fbdev sets it to only needs to make
-sense to fbdev, and it does not need to be ~~the initial value~~ nor the
-default value. Or are we hoping to kill fbcon in favor of a userspace
-kmscon soon? ;-)
-
-Ooh, maybe the KMS property documentation should also say what value
-fbdev will set the property to. That's kind of UABI, because userspace
-probably implicitly relies on it in many cases. ...which means fbdev
-should set the property to its initial value, otherwise userspace will
-break.
-
-
-Thanks,
-pq
-
---Sig_/TOEUb_8y9EUP7W_Bs0va22D
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDLBdQACgkQI1/ltBGq
-qqc2gA//TPUvfpqj0olVFxH3SsY1dSaOlBtYQTvYnOUuUgVQ4O1x1DHbXJMI6isT
-ZYkDcTLdq7thOdJBJVtvCKdgxJzN93luqqvCLh8ZPmWEcyGMazKG3XjcURDezS1h
-20BGf51GNsLSEmNugKBBT2FG3469+pJUvudEY41s6jRLYvg21hkLrRBbQ3GjiwuD
-c8KMQIrwORE++2olOtWwTsMvJo+dMw/DvjaDWr2+uBc7FXmx8c6YvgD0gdFdKUro
-DYogPs3jkG9MWveaxsEU5EzLF2OvzJHpvcKdGRQDI4PAUSiJ6nsJO5Pll9kZDLoc
-wOxA6wyiaL5fF8kzjcMprh3VCwkjXnVEkN5xfe+BtdYQkmyOFw6A92yoEDhKKe8G
-uO5a/ooyrXmsAzFvTTJB07Ag4t6EdQvN99T0Iz6D3W/DyBNL8sg/lyo6Hjm9wNbd
-56BKiz9JneJeoDE+8+Pn4W2gxqAKuKF/ypuE+X25YyaFS7xerDVkLAeeZzf2gPEA
-FiFRlbNkmppR+T1QnX32QbuDmcGhNJpDEw1/ntxrI5npb9gl2ozj4gAmCZfQrBbU
-Qk339zr3dNcBzsMDOSfmV7WfcsFbTubTs5wHr61ZtML9YFpZKBk6Hw+lR/HLVMtm
-Cnxx/iGOCCznjTghZ6YTjZ5fut7VeA1KJfcBd1rnsHVJBph4kjk=
-=1y2U
------END PGP SIGNATURE-----
-
---Sig_/TOEUb_8y9EUP7W_Bs0va22D--
+> - Moritz
