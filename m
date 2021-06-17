@@ -2,120 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6614FC48BE5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 01:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D9ECC48BE5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 02:33:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C538613D5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 01:32:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 570E6613E1
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 02:33:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232084AbhFQBfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 21:35:02 -0400
-Received: from mail-bn8nam12on2070.outbound.protection.outlook.com ([40.107.237.70]:22598
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231942AbhFQBfB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jun 2021 21:35:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dbVaTCpA+N02I05JJ5JF5/Fx25sQFJlNWu2YSpTrGS6C9qg2BA7l5dSREV6KvPeP740Rzs0jTj/GbOGpw+pZSjA3GHMXfLb9szKzQi6PdNMTJsOZnYB53HQLqCB5V/E4YqPEXczO50OQqAbVGJJOmA1+iV7iwAJg/3tKiUty7v6Smn/fQGF4Mk0kTcVZD1DWIwFGS6jZx4QlHDthHESbWDIJDSxOeyJQnLDLV1PbfYGSPEQaJO0YO9WgqwOUTXhf3P4J3dYRIxhwzhjXWWiXhrQKEb9r/l40f99tw4A9fXt7pxyH/2TIXLu47gBAmNzpF1PZCLUydkUFDO4qJc6nNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YlKxOOj/AlWvHMoZ8DOO/LDTIY/Jx4h3ym5obh4MHLc=;
- b=TydQBzJQAGX8QBtecXbtiJb49nVRx7N3gN4MxNJyhcL1gKbS70hqslDagn4dfuHp26IS2JuXP1H+aKy2mY67hJzBKMwpTrhnBX1Dfz1icsHdrXrDajrQ/AtpeZt9TF00rPNJ5YendRMIKcKn8vEk2if2n7SqoFL+Axc4gxQS6OkO/RubJJlFgWDSg9wOiIyhFnjq6prk0oKlFe4/P2xhOVCG4+1Gii4GDOXfMsF7PeD7RQzWCHklw4oTHhKXyRYOV+hvjd5klAkXU0qblU+pmN1g0r+YQck+LrCfcIgzABNrv1uc0ENqw/z4dYjXham0LKi0/7RGDA6oHCVmcjrNwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YlKxOOj/AlWvHMoZ8DOO/LDTIY/Jx4h3ym5obh4MHLc=;
- b=JOgN0vY5ibhL6QVJO1g5UsFCe/CHS6lJM1oMfc2H23e5paDDVPEt0ie4khKXbjBRv7DdMx8zB2LryRyHxbzJZQefmMkwN8WsTNtruHiDBa5ZvHvDGXy+Gu8fyFDS6HfR7baNA4CSctB2BGMnoITC86YPJEG2eJGu7oxeFGvH6bxk/xnJh8T1I67CX5CQ9zllkeR6Szgm5PcsQ/e8/B4KGpBvneUVAWAX0NbYTmCGADkTXy0dV+6FAzb8ZBrfIPiD0R3nO/qbNUg7ksNG1oeojSYDk6pzhZ2r8k6NjbAwclfqGpFL1GJBEdsISD+tfk+jW3NbjA5rQvbgyymCZXuEmg==
-Received: from MWHPR12CA0069.namprd12.prod.outlook.com (2603:10b6:300:103::31)
- by DM6PR12MB3355.namprd12.prod.outlook.com (2603:10b6:5:115::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16; Thu, 17 Jun
- 2021 01:32:52 +0000
-Received: from CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:103:cafe::4) by MWHPR12CA0069.outlook.office365.com
- (2603:10b6:300:103::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16 via Frontend
- Transport; Thu, 17 Jun 2021 01:32:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT009.mail.protection.outlook.com (10.13.175.61) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4242.16 via Frontend Transport; Thu, 17 Jun 2021 01:32:52 +0000
-Received: from nvdebian.localnet (172.20.187.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 17 Jun
- 2021 01:32:49 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     <linux-mm@kvack.org>, <rcampbell@nvidia.com>,
-        <willy@infradead.org>, <linux-doc@vger.kernel.org>,
-        <nouveau@lists.freedesktop.org>, <hughd@google.com>,
-        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <hch@infradead.org>, <peterx@redhat.com>, <shakeelb@google.com>,
-        <bskeggs@redhat.com>, <jgg@nvidia.com>, <jhubbard@nvidia.com>
-Subject: Re: [PATCH v11 00/10] Add support for SVM atomics in Nouveau
-Date:   Thu, 17 Jun 2021 11:32:46 +1000
-Message-ID: <2551705.0ki4MfuhJX@nvdebian>
-In-Reply-To: <20210616163529.7de2f6e24d395c4ef7a367b6@linux-foundation.org>
-References: <20210616105937.23201-1-apopple@nvidia.com> <20210616163529.7de2f6e24d395c4ef7a367b6@linux-foundation.org>
+        id S229614AbhFQCfl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 22:35:41 -0400
+Received: from lucky1.263xmail.com ([211.157.147.134]:43438 "EHLO
+        lucky1.263xmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229602AbhFQCfl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 22:35:41 -0400
+Received: from localhost (unknown [192.168.167.105])
+        by lucky1.263xmail.com (Postfix) with ESMTP id E8D19C87A5;
+        Thu, 17 Jun 2021 10:33:22 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-SKE-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from localhost.localdomain (unknown [113.57.152.160])
+        by smtp.263.net (postfix) whith ESMTP id P9068T139827605395200S1623897196740809_;
+        Thu, 17 Jun 2021 10:33:22 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <56b5f0e3be2d9e5653f0edf291cf6d93>
+X-RL-SENDER: chenhaoa@uniontech.com
+X-SENDER: chenhaoa@uniontech.com
+X-LOGIN-NAME: chenhaoa@uniontech.com
+X-FST-TO: corbet@lwn.net
+X-RCPT-COUNT: 4
+X-SENDER-IP: 113.57.152.160
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From:   Hao Chen <chenhaoa@uniontech.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hao Chen <chenhaoa@uniontech.com>
+Subject: [PATCH] Documentation: ACPI: fix error script name
+Date:   Thu, 17 Jun 2021 10:33:00 +0800
+Message-Id: <20210617023300.30114-1-chenhaoa@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 77e5d6e3-4aa9-4502-0660-08d9312fd320
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3355:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB33557DFC4C046DE70127C91EDF0E9@DM6PR12MB3355.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xsS9q+2gn1MR585nd5i7vlqx8Ayu4mqD9z29YOlA7DDk7mliiY/obV5ZBE7W6BCKw5Z6WNJWfqc42IKUa2h9lgINgxWU8MkFdWVss9y3Vz1RREJVF3Olxo7S29BrT9VzzY6e8DhaI8kREx9N6h7r92qPdmmUzu1pDWgba0spwRe+bObOwdb+VAFwxO7cOe9IfdJSlCN9i1Bu2kz8QXy1dVMGn7RcX3QIVmW6A8YuLb6Mwrs8N4EhKf/wuX3L1jPRinXWjd0Em4X8T3hBsfB5DZbkJvc7CpD9GBxym+C/EikG/Jun34r19gvJdaisVUidWv+LUD+sdlPmdHytysNLNn1SvQ0FJkQR/WEKWiA/OiWRa0szDmGQ2lPmW11SZG3wmbHUx7yVNB6BY8CxsKghucSVCu2wM3iPIM4CA0EfZAPQLYkW+OQpLuYYz4nYNlkw1qCT/DxaWANtJ58QK/PrKXFzQ5ZfUEia54ctrb3LFXMlkxYq2jYi+1ix950tGn765CnR9ZMYdFig0mbWWzym5tlKWTpMN4bvqLNegJgoYHN+vQoqJQWkLmlahQ09oXYVAj/vzk1W1xpUguONkJ07auysDC4TePQiWf45VlmXwdcR1T+PlFxlLqONeXNpj1NCTC6pKXIA/einAwqYCfqhrCD0B8VQ8Bp7u9w3omjH7PH+hYa2ujUMpLZzFQ3APRiU
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(46966006)(36840700001)(82310400003)(86362001)(356005)(70586007)(36906005)(9576002)(2906002)(4326008)(70206006)(107886003)(9686003)(8936002)(83380400001)(7416002)(7636003)(6666004)(26005)(8676002)(82740400003)(4744005)(478600001)(316002)(6916009)(33716001)(54906003)(16526019)(47076005)(5660300002)(426003)(186003)(336012)(36860700001)(39026012);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 01:32:52.3821
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77e5d6e3-4aa9-4502-0660-08d9312fd320
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3355
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, 17 June 2021 9:35:29 AM AEST Andrew Morton wrote:
-> On Wed, 16 Jun 2021 20:59:27 +1000 Alistair Popple <apopple@nvidia.com> 
-wrote:
-> 
-> > This is my series to add support for SVM atomics in Nouveau
-> 
-> Can we please have a nice [0/n] overview for this patchset?
-> 
+The correct script name should be 'divergence.sh' instead of
+'divergences.sh'.
+I didn't find divergences.sh in the path of acpica/generate/linux/.
 
-Sorry, I forgot to include that this time. Please see the update I just 
-posted. Let me know if you need me to resend the whole series with the updated 
-cover letter. Thanks.
+Signed-off-by: Hao Chen <chenhaoa@uniontech.com>
+---
+ Documentation/driver-api/acpi/linuxized-acpica.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- - Alistair
+diff --git a/Documentation/driver-api/acpi/linuxized-acpica.rst b/Documentation/driver-api/acpi/linuxized-acpica.rst
+index 6bee03383225..cc234353d2c4 100644
+--- a/Documentation/driver-api/acpi/linuxized-acpica.rst
++++ b/Documentation/driver-api/acpi/linuxized-acpica.rst
+@@ -276,4 +276,4 @@ before they become available from the ACPICA release process.
+    # git clone https://github.com/acpica/acpica
+    # git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+    # cd acpica
+-   # generate/linux/divergences.sh -s ../linux
++   # generate/linux/divergence.sh -s ../linux
+-- 
+2.20.1
 
 
 
