@@ -2,59 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54644C49EA4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 16:07:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D4DC48BE5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 16:18:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E8CC60FDB
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 16:07:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7DDB61185
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 16:18:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232308AbhFQQJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 12:09:35 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:17082 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233676AbhFQQIy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 12:08:54 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1623946006; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=S/3+eYb013cEoEfSg59q8XR8ipiEIZP75HRjgZgsG1U=; b=giK+PfKXET41XTLciDrTv+x7bHrgno6UhzkxcfHUTjfY931VJ6ETUkp8lcM3N637YGTRtP9o
- t8q5OAUSM7S3la+fO7dIe+qkfVrUTSy21ICXlT4VaRu9jsoLHcP1NDhqnxLTyRjCnahAEb4A
- VMO81iETtHqIaMz0sy0L41U8RmM=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 60cb72ebed59bf69ccf5ba77 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 17 Jun 2021 16:06:03
- GMT
-Sender: charante=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 507A4C433F1; Thu, 17 Jun 2021 16:06:03 +0000 (UTC)
-Received: from [192.168.29.110] (unknown [49.37.156.228])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S231854AbhFQQUL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 12:20:11 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:35186 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233676AbhFQQTf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 12:19:35 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 25F4FC433F1;
-        Thu, 17 Jun 2021 16:05:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 25F4FC433F1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 3E78E21B25;
+        Thu, 17 Jun 2021 16:17:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1623946646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EAlFQCFoL81L/tLJBlboccsxVoDE0Z8vXNDI4pk2hvc=;
+        b=HjXhwtnvK70Ue77X+pkfAYCkSnNc/Ck4f3yjsQ2QCQnCOoERnEZqvlHM0ScIuirw0MbqKf
+        y6hGqJP9gMfED9vWn8JNbmnlJbHPOgVYuf/k+3QUO5YH94adMzUP8Y6jVRzUFN+OUVI86R
+        8BT/+dXF8ldEYSLPZO3TwEdhw+VjTo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1623946646;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EAlFQCFoL81L/tLJBlboccsxVoDE0Z8vXNDI4pk2hvc=;
+        b=bq/+cNPYZLBWucoLuxSdpD0cHwkHLJNp/eLXulhJxyXFRKjR7BD7WGsiwwNbsE0CJBscro
+        +/rhHGsMbhSWD3Dg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+        by imap.suse.de (Postfix) with ESMTP id EF286118DD;
+        Thu, 17 Jun 2021 16:17:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1623946646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EAlFQCFoL81L/tLJBlboccsxVoDE0Z8vXNDI4pk2hvc=;
+        b=HjXhwtnvK70Ue77X+pkfAYCkSnNc/Ck4f3yjsQ2QCQnCOoERnEZqvlHM0ScIuirw0MbqKf
+        y6hGqJP9gMfED9vWn8JNbmnlJbHPOgVYuf/k+3QUO5YH94adMzUP8Y6jVRzUFN+OUVI86R
+        8BT/+dXF8ldEYSLPZO3TwEdhw+VjTo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1623946646;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EAlFQCFoL81L/tLJBlboccsxVoDE0Z8vXNDI4pk2hvc=;
+        b=bq/+cNPYZLBWucoLuxSdpD0cHwkHLJNp/eLXulhJxyXFRKjR7BD7WGsiwwNbsE0CJBscro
+        +/rhHGsMbhSWD3Dg==
+Received: from director2.suse.de ([192.168.254.72])
+        by imap3-int with ESMTPSA
+        id BvI9OZV1y2B+IQAALh3uQQ
+        (envelope-from <vbabka@suse.cz>); Thu, 17 Jun 2021 16:17:25 +0000
 Subject: Re: [PATCH v3 1/2] mm: compaction: support triggering of proactive
  compaction by user
-To:     Vlastimil Babka <vbabka@suse.cz>, akpm@linux-foundation.org,
-        nigupta@nvidia.com, hannes@cmpxchg.org, corbet@lwn.net,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        aarcange@redhat.com, cl@linux.com, xi.fengfei@h3c.com,
-        mchehab+huawei@kernel.org, andrew.a.klychkov@gmail.com,
-        dave.hansen@linux.intel.com, bhe@redhat.com,
-        iamjoonsoo.kim@lge.com, mateusznosek0@gmail.com, sh_def@163.com,
-        vinmenon@codeaurora.org
+To:     Charan Teja Kalla <charante@codeaurora.org>,
+        akpm@linux-foundation.org, nigupta@nvidia.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mcgrof@kernel.org, keescook@chromium.org,
+        yzaikin@google.com, aarcange@redhat.com, cl@linux.com,
+        xi.fengfei@h3c.com, mchehab+huawei@kernel.org,
+        andrew.a.klychkov@gmail.com, dave.hansen@linux.intel.com,
+        bhe@redhat.com, iamjoonsoo.kim@lge.com, mateusznosek0@gmail.com,
+        sh_def@163.com, vinmenon@codeaurora.org
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
 References: <cover.1622454385.git.charante@codeaurora.org>
@@ -62,13 +84,14 @@ References: <cover.1622454385.git.charante@codeaurora.org>
  <88abfdb6-2c13-b5a6-5b46-742d12d1c910@suse.cz>
  <0ca491e8-6d3a-6537-dfa0-ece5f3bb6a1e@codeaurora.org>
  <0d516cfa-f41c-5ccc-26aa-67871f23dcd3@suse.cz>
-From:   Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <8d91a81b-09f3-e814-c9ce-16ff246ed359@codeaurora.org>
-Date:   Thu, 17 Jun 2021 21:35:52 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ <8d91a81b-09f3-e814-c9ce-16ff246ed359@codeaurora.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <546f7169-5a9e-fe16-bd83-b0f7a338c3cf@suse.cz>
+Date:   Thu, 17 Jun 2021 18:17:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <0d516cfa-f41c-5ccc-26aa-67871f23dcd3@suse.cz>
+In-Reply-To: <8d91a81b-09f3-e814-c9ce-16ff246ed359@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -76,74 +99,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks Vlastimil !!
-
-On 6/17/2021 8:07 PM, Vlastimil Babka wrote:
-> On 6/17/21 9:30 AM, Charan Teja Kalla wrote:
->> Thanks Vlastimil for your inputs!!
->>
->> On 6/16/2021 5:29 PM, Vlastimil Babka wrote:
->>>> This triggering of proactive compaction is done on a write to
->>>> sysctl.compaction_proactiveness by user.
->>>>
->>>> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=facdaa917c4d5a376d09d25865f5a863f906234a
->>>>
->>>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
->>>> ---
->>>> changes in V2:
->>> You forgot to also summarize the changes. Please do in next version.
->>
->> I think we can get rid off 'proactive_defer' thread variable with the
->> timeout approach you suggested. But it is still requires to have one
->> additional variable 'proactive_compact_trigger', which main purpose is
->> to decide if the kcompactd wakeup is for proactive compaction or not.
->> Please see below code:
->>    if (wait_event_freezable_timeout() && !proactive_compact_trigger) {
->> 	// do the non-proactive work
->> 	continue
->>    }
->>    // do the proactive work
->>      .................
->>
->> Thus I feel that on writing new proactiveness, it is required to do
->> wakeup_kcomppactd() + set a flag that this wakeup is for proactive work.
->>
->> Am I failed to get your point here?
+On 6/17/21 6:05 PM, Charan Teja Kalla wrote:
+> The wait_event/freezable_timeout() documentation says that:
+>  * Returns:
+>  * 0 if the @condition evaluated to %false after the @timeout elapsed,
+> 			or
+>  * 1 if the @condition evaluated to %true after the @timeout elapsed,
+>  * or the remaining jiffies (at least 1) if the @condition evaluated
+>  * to %true before the @timeout elapsed.
 > 
-> The check whether to do non-proactive work is already guarded by
-> kcompactd_work_requested(), which looks at pgdat->kcompactd_max_order and this
-> is set by wakeup_kcompactd().
+> which means the condition must be evaluated to true or timeout should be
+> elapsed for the function wait_event_freezable_timeout() to return.
 > 
-> So with a plain wakeup where we don't set pgdat->kcompactd_max_order will make
-> it consider proactive work instead and we don't need another trigger variable
-> AFAICS.
-
-The wait_event/freezable_timeout() documentation says that:
- * Returns:
- * 0 if the @condition evaluated to %false after the @timeout elapsed,
-			or
- * 1 if the @condition evaluated to %true after the @timeout elapsed,
- * or the remaining jiffies (at least 1) if the @condition evaluated
- * to %true before the @timeout elapsed.
-
-which means the condition must be evaluated to true or timeout should be
-elapsed for the function wait_event_freezable_timeout() to return.
-
-Please check the macro implementation of __wait_event, where it will be
-in for(;;) till the condition is evaluated to true or timeout happens.
-#define __wait_event_freezable_timeout(wq_head, condition, timeout)
-
-        ___wait_event(wq_head, ___wait_cond_timeout(condition),
-
-                      TASK_INTERRUPTIBLE, 0, timeout,
-
-                      __ret = freezable_schedule_timeout(__ret))
-
-Thus the plain wakeup of kcompactd don't do the proactive compact work.
-And so we should identify its wakeup for proactive work with a separate
-flag.
+> Please check the macro implementation of __wait_event, where it will be
+> in for(;;) till the condition is evaluated to true or timeout happens.
+> #define __wait_event_freezable_timeout(wq_head, condition, timeout)
 > 
+>         ___wait_event(wq_head, ___wait_cond_timeout(condition),
+> 
+>                       TASK_INTERRUPTIBLE, 0, timeout,
+> 
+>                       __ret = freezable_schedule_timeout(__ret))
+> 
+> Thus the plain wakeup of kcompactd don't do the proactive compact work.
+> And so we should identify its wakeup for proactive work with a separate
+> flag.
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+OK, you're right, I forgot that the macro has the for loop to guard against
+spurious wakeups.
+
