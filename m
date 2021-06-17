@@ -2,226 +2,289 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F247FC48BE5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 08:34:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2F7CC2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 09:10:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCCC0613F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 08:34:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93F5E6023F
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 09:10:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbhFQIga (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 04:36:30 -0400
-Received: from mga05.intel.com ([192.55.52.43]:24942 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229931AbhFQIg1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Jun 2021 04:36:27 -0400
-IronPort-SDR: 29WV+KNJhblaxIevodIDadYEGGGcE/2jcGMR24q7J3o1QL4AEK20BlatEKxYEjdKCkzDQJLOvl
- 7ABxA5VoCjqg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="291960789"
-X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
-   d="scan'208";a="291960789"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 01:34:19 -0700
-IronPort-SDR: cnd2chz6DCp9kBa4Xwsk2+Gdw8hHqdEJI+s+2afcrCRCrz0/dOX+zsMcnbEIPEwsuA0lgApTLi
- 00B5Q7IkGDug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
-   d="scan'208";a="452700883"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Jun 2021 01:34:19 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 17 Jun 2021 01:34:18 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
- via Frontend Transport; Thu, 17 Jun 2021 01:34:18 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.4; Thu, 17 Jun 2021 01:34:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aqFvavJpW5ENk6PIinxVb3XJ9zVFwKwLFaoJof1UbeNydLueNVeHCPNnMl8qyp4wirmDAzJtfq1JotZ+BR/LhW9/gSgMVWDttPuBk+qeCVKowC5+kcc1EGs2z9msylmECxMjMH5H6Zg3nkS5AV8k9Zn2B5J6cwMe0sQKnjC96UrN4OYYvW+Ig++lOiPDAw1q2S/rQ+4XwxQ5pXD+6wZmc1EVCD70rr8whKPijThR/RW9/UJlv0EULPHUV3hxf8b+7HRj64mnNxVk8/YBHnjmqyxdBhbL+vmWhOHq8wUIyicGt52fBM8nwo5HkDfFjV+To4G2SyVFDlECVrCo+k0U0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E1BmaEO1REdaWCgdj9mgzndlLh2AKi2MtAUj5Vbquwc=;
- b=U1FwerdOPBkG2qLmmN32VWCRs2bOyhqm2MVKUNPkEGnt3dkqXOg9Z5pVgxn8eFE7kAFsyhxFm/rJfGtwvQ1BL8q7JHzPotz295JGTtztGp/bFyGf8tKDi4o2hwnDWmi/ayV9tdb6gS5giru0I9IFQ9pM4J5YHlQEVfdnNmWT3bPqRuVPVITn+ui+51Qi3EDx4TqUtuV+Ac1GVJ8S0lO8OWZIa5jQHXbcCbhe8zw7MAW9k6Ghc+8hXgJl592kWeROFp/UF+OHzTX4vzPndN+hY/NlKVWWPeUeGp7jaRE8ItJtvb5HEiiPucMDAnKRPRKUSi7MfKz5xfqNJY4p0Us1cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E1BmaEO1REdaWCgdj9mgzndlLh2AKi2MtAUj5Vbquwc=;
- b=jv4xrGVKdAy4/tnusrxh/T/iY4c3iZsx/uAyQel8wMT6RMmnz7PXH2Q6hawQzP7/VVsO1MTEHw9AXD7qt++3AhXAhrPGf+StRCnUHcNH/UyDnrJgdePv4FZ99TJcK8HHrgMVTnFpJqj2y7xmSpIoiJbFCB4NCYL8lMQngV9F+HA=
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
- by DM6PR11MB3243.namprd11.prod.outlook.com (2603:10b6:5:e::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4242.19; Thu, 17 Jun 2021 08:34:15 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::3dc3:868b:cec3:513b]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::3dc3:868b:cec3:513b%6]) with mapi id 15.20.4219.026; Thu, 17 Jun 2021
- 08:34:15 +0000
-From:   "Wu, Hao" <hao.wu@intel.com>
-To:     Moritz Fischer <mdf@kernel.org>
-CC:     Tom Rix <trix@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
-        "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "krzysztof.kozlowski@canonical.com" 
-        <krzysztof.kozlowski@canonical.com>,
-        "nava.manne@xilinx.com" <nava.manne@xilinx.com>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "davidgow@google.com" <davidgow@google.com>,
-        "fpacheco@redhat.com" <fpacheco@redhat.com>,
-        "Gong, Richard" <richard.gong@intel.com>,
-        "luca@lucaceresoli.net" <luca@lucaceresoli.net>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
-Thread-Topic: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
-Thread-Index: AQHXYVpMuuq4CCKpI0OAe3HAOe9lxqsUps2ggADmEgCAAEctkIABz+UAgAA0T8A=
-Date:   Thu, 17 Jun 2021 08:34:15 +0000
-Message-ID: <DM6PR11MB381924F43550A6699CB55213850E9@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20210614201648.3358206-1-trix@redhat.com>
- <20210614201648.3358206-3-trix@redhat.com>
- <DM6PR11MB381964374223D0D2958AFA6985309@DM6PR11MB3819.namprd11.prod.outlook.com>
- <d64b0fb8-5f83-2995-7ee9-b4ed2932ef60@redhat.com>
- <DM6PR11MB3819259241791EB04A2CB9C8850F9@DM6PR11MB3819.namprd11.prod.outlook.com>
- <YMrS9OUSaCdtGwrE@epycbox.lan>
-In-Reply-To: <YMrS9OUSaCdtGwrE@epycbox.lan>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.143.20]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 756587bf-43ca-4b0e-2014-08d9316ab0e4
-x-ms-traffictypediagnostic: DM6PR11MB3243:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR11MB32437929E9818C9DD9855214850E9@DM6PR11MB3243.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tJFh9znL/BGrQGP+gv1xKKfuO6o6lnRuX3AGHvzzEdUjvxDJtQkxH/PqdCIcm/Gxemq9G8w9OnHbKaHhkRXy4IbpwEoLetVKlP76p6z5928l8inhCa4uEra/j85oun39EXTVmXbc8XHI/FBiLzr2ktG9jCcrmqpGxcMlUkVezzHl+bL9aqT2uD7YZWvhaM4MXlTO5qOtMlN+MdIvvkkW+jbB5u7YGrisL37Yf9T80rFaVgQZ80CGSpu2MfGTo4pPea/83fQBI3fLySNdDd1Nja0BkyXtJ7l0qdLpycs8ispp0jjhKBBo78IxDvcv2i26BMQRmhGvavK9el5R7eEFPRkLm/cdHJGnZTV9KGzKAmxHH7kjQ3sAcejn1D8WKG4VL90aCnFs+IYGVNPqe2o+MdlSfKhHsmCY2vhQUumfrjaAG3zATeBh1IFNKmh/EstHuQHacnz8SmuvikxNAolF956wqiquhJHmYj+kxH2DbXPJB9abXCkU2IybIT15Sanavuqeqf2MFpFx4cHGFV0RtAfllLa7QJU1nxUkLERDo1WPYlFfxcOvsyhEeQihtb44tgKcgqodjS6hIeqTpKxeJSVnpDCVFHyniaIpOclwdxg=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(71200400001)(86362001)(54906003)(8676002)(55016002)(26005)(8936002)(186003)(2906002)(7696005)(498600001)(64756008)(53546011)(4326008)(66446008)(6506007)(76116006)(66476007)(66556008)(5660300002)(9686003)(52536014)(7416002)(6916009)(66946007)(122000001)(33656002)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Lt7pYXZx8ymj+C3XZLCcDZ82vXEVshWrDXVIhngYvqYaxPZgqqUDHbPvGpYi?=
- =?us-ascii?Q?5ARVcv6dCaawwyhCEWWacXect5ZoDBIHdFN2MPa0LdkU504TI5TjywZpdFMU?=
- =?us-ascii?Q?9rqBqtrwtu+aqBIKlZNch/bmlIXdMZxDv1dCwS22yHbtMbtOUh1//pD+ToVH?=
- =?us-ascii?Q?eJx0ebc7D/ya6QfCCptYUlUPyJPLHMkw1KByPMXtJPKrfEr1fcTihJp0WUIl?=
- =?us-ascii?Q?j7oSNT/QYrwNo8d7H1a1MzDjp6SLqteSJRGfUaMhz2AYA2GVDBQIX/JHZQ/M?=
- =?us-ascii?Q?f6NoGauYUJlRAnDHD3Ig2zS2a9Pdsenxdf9PUfzmHB4ErwVQ+ZBcl9Kye7hI?=
- =?us-ascii?Q?+6ibZbpEj9H6hnGJtMyTOndSwVpqGfscI3xpnJY4rxGSJ7tucsf4+rPUp+vL?=
- =?us-ascii?Q?FAWRf2/Px3bIAciZSE5kIomJAoumb+1MmMnFTcOvFqR421OYIJ9fKbfzsn6B?=
- =?us-ascii?Q?9byqyIgEdzekAUZq9LiVGI9Qn7oASTBwFhj8V+3WUnPTNNnx+PYBL5mHpljI?=
- =?us-ascii?Q?KvixH1veFGnlltUeHv9lLsBMOAG8zPPmS1upZDCjVmWF3AHcCFhyKy/IPjs4?=
- =?us-ascii?Q?Hi+YtT7Hnl2+09nGqsTWlOz+TBFqH40xkSMR94JHazkP3v0FsEkI3p9n3aBo?=
- =?us-ascii?Q?QYlxYkGInw/iSPnx2C8zwXI6zYqbpNCJ9ValwAjFhR41Bz9n1opZ1pkMO+9j?=
- =?us-ascii?Q?kFSFhTBu1eV0A8M6o8SueZ512xwe/JW1rAXheGiQ8SYKfLUKRM2ayQ9U7Ae/?=
- =?us-ascii?Q?wu0naryEAutJYTyQ+RrZyhDESktWzsV/2jMHzNd4CD+qwYzxg81NgnvxQlYo?=
- =?us-ascii?Q?BhMV2uuXm7kDidR/UAcmcYz/YK4bKS3CQSfOAP0mPeYEnGgScm7cedswrSQE?=
- =?us-ascii?Q?tzYX/hCijiWmsThJnoiuPmPgAHKRFLqvh6dt5IYSMNrnehJjI9hDWnCfgJS9?=
- =?us-ascii?Q?03CMvOn0AzsfpgnHwxuZ4Hg27Kf2uuzKhW6lFzRLb5O8+DRXKxIOo8CD4Iwu?=
- =?us-ascii?Q?6YMJdoFYXumKvtC+VeZ9zOXnbjMnQcMrlc4ceKsj+b4s+ZA8BvUFo+JCPI5E?=
- =?us-ascii?Q?zROSzzkS4NNq2jOy/sf4tqNA8fk3rB7YJK9Xc/y2pfMwCjdUyYTJAdG6fkNI?=
- =?us-ascii?Q?ywlG4435UB2VYYWmh5BnRtNbtrnik4l7Yi/VoKjDuB1Y9p9bYyAj5p7FOSQe?=
- =?us-ascii?Q?ntrm1HbpjnTi7rrNjCajO8VKJKUbqjIMj49MfaF5XY0q2ec9Y9gh1M4BH50Q?=
- =?us-ascii?Q?08nTlw3TQ83RningKVeJC96TqW+2VRLyJO32J3XkjQlRZ++tYPfJHILa9O4D?=
- =?us-ascii?Q?wEFG1I4DcxhouvWTElTrg1e/?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S231441AbhFQJMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 05:12:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231433AbhFQJMe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 05:12:34 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11B0C061574
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 02:10:26 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id e22so2282007wrc.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 02:10:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=2HjwvT+SV5+/NgCoeu9k5QwUA4VIDEdumWwRrwq0kqk=;
+        b=IjG2/5BOiWh4J/EZL9lyBLtOQ+l9zGj2pUo5V1uoSqPKU3/qS1ogqr4zGXA1b5MfiW
+         Bm911EzAiCBQ/NtAPLLVk1GRQjSHxuZKl+tEoC41CiuUWUJPucyfvooFrXjLW7cYSf1P
+         qMKwR746tIAP49KzjmemjSmUPkj8rxKR0aYaK95R0m5KYow/gCJpNevDMsraxp7jv/lq
+         alwx/jqb0U/RTgo6/WBJ/gZtTxJXCKNYayb34AKQnFwO6ydxFuyv9QLtv/lp7ZMao/4y
+         LTga6unHMop7t5uLyyO3JDfjOs/5h7byspS+IGF3NAIfpZ8+/DjvFaeZeYaFwforhOXI
+         SFYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=2HjwvT+SV5+/NgCoeu9k5QwUA4VIDEdumWwRrwq0kqk=;
+        b=l6RWrNYTEytclyWhXoNHgYWjMDtv0+X7n9gv77f2Y0FbKODRFOMFbkv61rsshn8H//
+         SKFW+XKDPS2i2CJ/teyLrtgR1jBDXKyei/AF7Tqwlvc6H+mCJ2Nnk851l4U/zj6DREq9
+         SClus+H4BNeSm2zOJH0IGb+bv6Rz7s2HaJ81L67tKTHw9Jm/CanuHBuXo7FXVIbaUWoS
+         iXhaoRlBxX7gOXdB8GZXwRW2+snmmXtmsBMz+dUE5Qzb28Hamt5TEu5MiBSbFM7u4upu
+         JWm6x16CKlmy8CDhHO+yV2vtRNzn04pCMhKVd8+q6d6o194zDpgliCDL1U01uXi7tVWg
+         l/Eg==
+X-Gm-Message-State: AOAM533xisK9WDa99x7K/NjPnPpawrmrKKdMktcIGMv1TN/oOLXb+85L
+        8kdJbGu8KjQ4YJfkxCmiZOs=
+X-Google-Smtp-Source: ABdhPJzU1Ppf+JWgqlR+K1m3CQOUVFDedVECYutiw3EohMlCte3llAtBfNmj9OVMU1JFefVOsM9PZA==
+X-Received: by 2002:a19:6a0e:: with SMTP id u14mr3010213lfu.184.1623914835517;
+        Thu, 17 Jun 2021 00:27:15 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id c9sm546233ljr.104.2021.06.17.00.27.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jun 2021 00:27:15 -0700 (PDT)
+Date:   Thu, 17 Jun 2021 10:27:01 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Simon Ser <contact@emersion.fr>, Liviu Dudau <liviu.dudau@arm.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Steven Price <steven.price@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alison Wang <alison.wang@nxp.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Huang Rui <ray.huang@amd.com>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210617102701.28f820b2@eldfell>
+In-Reply-To: <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
+References: <CAKMK7uG_Wkko0L6sv0U1bXWdYk4fg3OTcp5=+qfRV0CP9V44=A@mail.gmail.com>
+        <KNFHfqvJUVq9oy9BSdznj1S6xhDoZUAx1_DwfSNvUv8u1d-TroKBTq2hxtv7u1aJnxnpI5CxUXSMTn73YsVhZjnRW78gv-QLsK6AkJ5m3Fw=@emersion.fr>
+        <20210611120309.2b5eb4htupv5ss32@e110455-lin.cambridge.arm.com>
+        <20210614174912.15a49336@eldfell>
+        <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+        <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+        <20210615100335.0b8f96d5@eldfell>
+        <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
+        <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
+        <20210615131656.2ecefdc4@eldfell>
+        <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 756587bf-43ca-4b0e-2014-08d9316ab0e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2021 08:34:15.2931
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wBFFquyL7qkFY7kDFojUPUPAxQl+SX3fJ6Z9HIaYq2vlOBhYblLI81TFoVuOFkz7toGQP/555DItx4KuR7EG7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3243
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/d.Guy7TlX58IGrQiolhw1zS"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Wed, Jun 16, 2021 at 01:05:36AM +0000, Wu, Hao wrote:
-> > > On 6/15/21 1:08 AM, Wu, Hao wrote:
-> > > >> Subject: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
-> > > >>
-> > > >> From: Tom Rix <trix@redhat.com>
-> > > >>
-> > > >> Follow drivers/net/ethernet/ which has control configs
-> > > >> NET_VENDOR_BLA that map to drivers/net/ethernet/bla
-> > > >> Since fpgas do not have many vendors, drop the 'VENDOR' and use
-> > > >> FPGA_BLA.
-> > > > Hi Tom,
-> > > >
-> > > > Thanks for this patch. : )
-> > > >
-> > > > DFL is not a vendor, but something can be shared/reused. It's possi=
-ble that
-> > > > other vendors reuse the same concepts and the drivers of DFL. If ve=
-ndor
-> > > > drivers need to be moved inside sub folders, then maybe it's better=
- to
-> > > > leave DFL in the parent folder?
-> > >
-> > > xrt is also not a vendor, more a subdevice framework like dfl.
-> > >
-> > > I am not sure what you mean by other dfl vendors can you give an exam=
-ple ?
-> >
-> > It's fine, but the description here is a little confusing on vendor/fra=
-mework
-> > handling. No other vendor so far, but it's possible, DFL can be used in
-> > non-intel device, and related drivers can be reused as well. Then a fpg=
-a
-> > mgr driver depends on DFL, should be put inside dfl folder or new
-> > vendor's subfolder?
-> >
-> > Hao
-> >
+--Sig_/d.Guy7TlX58IGrQiolhw1zS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 17 Jun 2021 00:05:24 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+
+> On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:
+> > On Tue, 15 Jun 2021 12:45:57 +0300 Laurent Pinchart wrote: =20
+> > > On Tue, Jun 15, 2021 at 07:15:18AM +0000, Simon Ser wrote: =20
+> > > > On Tuesday, June 15th, 2021 at 09:03, Pekka Paalanen wrote:
+> > > >    =20
+> > > > > indeed it will, but what else could one do to test userspace KMS
+> > > > > clients in generic CI where all you can have is virtual hardware?=
+ Maybe
+> > > > > in the long run VKMS needs to loop back to a userspace daemon that
+> > > > > implements all the complex processing and returns the writeback r=
+esult
+> > > > > via VKMS again? That daemon would then need a single upstream, li=
+ke the
+> > > > > kernel, where it is maintained and correctness verified.   =20
+> > > >=20
+> > > > The complex processing must be implemented even without write-back,=
+ because
+> > > > user-space can ask for CRCs of the CRTC.
+> > > >    =20
+> > > > > Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtu=
+al
+> > > > > stuff in userspace? Didn't someone already have something like th=
+at?
+> > > > > It would need to be lifted to be a required part of kernel UAPI
+> > > > > submissions, I suppose like IGT is nowadays.   =20
+> > > >=20
+> > > > FWIW, I have a mock libdrm [1] for libliftoff. This is nowhere near=
+ a full
+> > > > software implementation with write-back connectors, but allows to e=
+xpose
+> > > > virtual planes and check atomic commits in CI.
+> > > >=20
+> > > > [1]: https://github.com/emersion/libliftoff/blob/master/test/libdrm=
+_mock.c
+> > > >    =20
+> > > > > For compositor developers like me knowing the exact formulas woul=
+d be a huge
+> > > > > benefit as it would allow me to use KMS to off-load precision-sen=
+sitive
+> > > > > operations (e.g.  professional color management). Otherwise, comp=
+ositors
+> > > > > probably need a switch: "high quality color management? Then do n=
+ot use KMS
+> > > > > features."   =20
+> > > >=20
+> > > > I think for alpha blending there are already rounding issues depend=
+ing on the
+> > > > hardware. I wouldn't keep my hopes up for any guarantee that all hw=
+ uses the
+> > > > exact same formulae for color management stuff.   =20
+> > >=20
+> > > Good, because otherwise you would be very quickly disappointed :-)
+> > >=20
+> > > For scaling we would also need to replicate the exact same filter tap=
+s,
+> > > which are often not documented. =20
+> >=20
+> > That is where the documented tolerances come into play. =20
 >=20
-> I'm somewhat neutral on this. If someone non-intel starts using DFL we co=
-uld
-> also
-> move the common parts back ...
+> This is something I've experimented with a while ago, when developing
+> automated tests for the rcar-du driver. When playing with different
+> input images we had to constantly increases tolerances, up to a point
+> where the tests started to miss real problems :-(
 
-That's fine.
+What should we infer from that? That the hardware is broken and
+exposing those KMS properties is a false promise?
 
->=20
-> That being said, I'm not super convinced we have to move stuff in the
-> first place.
+If a driver on certain hardware cannot correctly implement a KMS
+property over the full domain of the input space, should that driver
+then simply not expose the KMS property at all?
 
-I remember that the first submission of our code is having everything insid=
-e a sub
-folder, but was suggested that to have everything moved out, this is why we=
- have
-dfl files here now. To be honest, I have the similar feeling as you, I didn=
-'t see any
-strong reason to make this something we must do, but both solutions should =
-be
-fine. : )
+But I would assume that the vendor still wants to expose the features
+in upstream kernels, yet they cannot use the standard KMS properties
+for that. Should the driver then expose vendor-specific properties with
+the disclaimer that the result is not always what one would expect, so
+that userspace written and tested explicitly for that hardware can
+still work?
 
-Thanks
-Hao
+That is, a sufficient justification for a vendor-specific KMS property
+would be that a standard property already exists, but the hardware is
+too buggy to make it work. IOW, give up trying to make sense.
 
->=20
-> - Moritz
+I would like to move towards a direction where *hardware* design and
+testing is eventually guided by Linux KMS property definitions and
+their tests. If we could have a rule that if a driver cannot correctly
+implement a property then it must not expose the property, maybe in the
+long term that might start having an effect?
+
+My underlying assumption is that generic userspace will not use
+vendor-specific properties.
+
+Or, since we have atomic commits with TEST_ONLY, should it be driver's
+responsibility to carefully inspect the full state and reject the
+commit if the hardware is incapable of implementing it correctly?
+Vendor-specific userspace would know to avoid failing configurations to
+begin with. I suppose that might put an endless whack-a-mole game on
+drivers though.
+
+
+Thanks,
+pq
+
+--Sig_/d.Guy7TlX58IGrQiolhw1zS
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDK+UUACgkQI1/ltBGq
+qqd4jg/9Gz/McKt8xwdcttPaWFXB9ivvFWRu0kt8hZTrY263TnycqkKFoG66ZY3X
+Apy1WGcub+AJdi/ajH+AexOSwViT5cO6CUHVBc9MldtPjQFjtxbZxh3GVYW+Pg5Y
+OM1HqI8pDA2z0qEMgWvzb+v3nimdgdlRAw47tXWIoj1xlbtjEhJTSTyb6YrlmJq5
+KfiFQ6iC26gUY9UFyDrg5zkzvjYzVFt6+B4fLJovNzsZN3funJkrh1kWiHckpcHk
+YfeT7Z03FAcWp/L2PrLOskCe6aJ8ds4DzLAmxPCJVoSR6MdQX49ZmRKiNHryiXg7
+K//IDmhM59dDfuFIllv0XqM1/xeEiycZ9E5rS0wwZp9MnHUppmV58r6hg9NkrU2Q
+sRIkh0gcFDTz55o5Pc3gULoQh6klV3LIKUjbqm0ulynSDpe7yfRAISwYDhJTUmSu
+HPWfSJN2duDXV8OKZNDQHTBqqhgQENkjfJNAswZxGAstWo+KaXCjNdg0cUV91Ick
+wsUZd7CVoLtsalDN0BmD/IdvwppwqxBjEJg4g+PhvxSLojUlxxf+rkf+jM9SYknW
+2FYhEZ4pI88Z9XpJy8MlPicW0EqL6UppWyECGwTFjPPd7IEsT+IRvxWV+GjegOtN
+YjAmqWraLFf0RiTwF1Qq3riHAmcGqG5rMQNnAnRVrD4SLP6nCsQ=
+=XQ+7
+-----END PGP SIGNATURE-----
+
+--Sig_/d.Guy7TlX58IGrQiolhw1zS--
