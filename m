@@ -2,186 +2,309 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30EFFC48BE5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 13:33:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECCF9C2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 13:37:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15885613BA
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 13:33:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3608613CE
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 13:37:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232591AbhFQNfk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 09:35:40 -0400
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:44943 "EHLO
-        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231654AbhFQNfi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 09:35:38 -0400
-Received: by mail-ot1-f49.google.com with SMTP id q5-20020a9d66450000b02903f18d65089fso6109852otm.11;
-        Thu, 17 Jun 2021 06:33:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uplD831DStQ1N/g38yxe3fctKRp7RZTAFl6NF9p1dbY=;
-        b=kxxxpEI4hgadW2aXn3wj4HTYEEBQDyazhddReLhOPoI2Eve3CR4SLJfNRL1IgD3Fwe
-         GNASat72jNyefOeqe+v6A9sJ4i72qbdHiXjKAj43Xk0yELfhSRvXompJHbO9PFjKi87J
-         nQggP4TuA6I4UZuFqvRc5/VdPzesuIsmhQ0rGvXsAbMhiSAIUHsePFoz/22m9V7ZQHkl
-         9CS5LRquA/h6UH/i3LNkcYwe8igQoKvdP/eX7m0gUp9Ldb3eegvSN2Ol9B9fQFrP3zJj
-         ezl12AY02u2eQvk2yhaw4wBB4nxcV7vhJa7rHryWn9uUAAUGgNmozoonejIGTPdjKSzZ
-         nDlw==
-X-Gm-Message-State: AOAM5313R8o+cboj9D4F+prAyFkcmRsFMG5AT9f2hrFpilCoUzTr+atC
-        6ANSthPREI71EppkDSf99yGIqstXYxuJbVxPkvw=
-X-Google-Smtp-Source: ABdhPJyG8Xb3s9HktdqJ9NAE4FVQBVWDaCtM5GohFPMProI+vxpB8hmOShZpLaQkUC4E/9UT2N+fZqvqjtL1k+zires=
-X-Received: by 2002:a05:6830:1bf7:: with SMTP id k23mr4796335otb.206.1623936811005;
- Thu, 17 Jun 2021 06:33:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1623825725.git.viresh.kumar@linaro.org> <2ffbaf079a21c2810c402cb5bba4e9c14c4a0ff4.1623825725.git.viresh.kumar@linaro.org>
-In-Reply-To: <2ffbaf079a21c2810c402cb5bba4e9c14c4a0ff4.1623825725.git.viresh.kumar@linaro.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 17 Jun 2021 15:33:19 +0200
-Message-ID: <CAJZ5v0gBUMXs=oANZRuOO7uUVdSD-n1inwYsoLr5or=2gEa2Mg@mail.gmail.com>
-Subject: Re: [PATCH V2 1/3] cpufreq: Add start_cpu() and stop_cpu() callbacks
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Ionela Voinescu <ionela.voinescu@arm.com>,
+        id S232868AbhFQNkA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 09:40:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52654 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232870AbhFQNju (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 09:39:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0532C061574
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 06:37:40 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF4DCE7B;
+        Thu, 17 Jun 2021 15:37:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623937057;
+        bh=Qs2XutlvAV6qs/FOjkiJtjYY5NxqRPFyXp4MbKdnPvo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PDrQxnJ/DwBlNMyD0pMlOERaqLrYTbFgYV04C6zOfKFX+lVGRq9dSpYtqmL03F4Jf
+         3fY6tgUB6mRXdYAeuSvmOI4oMGBhWHCJkQBtdQi9K99ePTRepQybMeTt15pIKXu1lC
+         2Xowib49SmLnF88q4fivEhrFqkVPfQW1QwxemtrM=
+Date:   Thu, 17 Jun 2021 16:37:14 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     Simon Ser <contact@emersion.fr>, Liviu Dudau <liviu.dudau@arm.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Steven Price <steven.price@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alison Wang <alison.wang@nxp.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Huang Rui <ray.huang@amd.com>,
+        Yannick Fertr e <yannick.fertre@foss.st.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Qian Cai <quic_qiancai@quicinc.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <YMtQClnvjGNDhn9q@pendragon.ideasonboard.com>
+References: <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
+ <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
+ <20210615100335.0b8f96d5@eldfell>
+ <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
+ <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
+ <20210615131656.2ecefdc4@eldfell>
+ <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
+ <20210617102701.28f820b2@eldfell>
+ <YMskHF8Bo/z3kqxf@pendragon.ideasonboard.com>
+ <20210617143311.19896458@eldfell>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210617143311.19896458@eldfell>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 8:48 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> On CPU hot-unplug, the cpufreq core doesn't call any driver specific
-> callback unless all the CPUs of a policy went away, in which case we
-> call stop_cpu() callback.
->
-> For the CPPC cpufreq driver, we need to perform per-cpu init/exit work
-> which that can't be performed from policy specific init()/exit()
-> callbacks.
->
-> This patch adds a new callback, start_cpu() and modifies the stop_cpu()
-> callback, to perform such CPU specific work.
->
-> These routines are called whenever a CPU is added or removed from a
-> policy.
->
-> Note that this also moves the setting of policy->cpus to online CPUs
-> only, outside of rwsem as we needed to call start_cpu() for online CPUs
-> only. This shouldn't have any side effects.
->
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  Documentation/cpu-freq/cpu-drivers.rst |  7 +++++--
->  drivers/cpufreq/cpufreq.c              | 19 +++++++++++++++----
->  include/linux/cpufreq.h                |  5 ++++-
->  3 files changed, 24 insertions(+), 7 deletions(-)
->
-> diff --git a/Documentation/cpu-freq/cpu-drivers.rst b/Documentation/cpu-freq/cpu-drivers.rst
-> index a697278ce190..15cfe42b4075 100644
-> --- a/Documentation/cpu-freq/cpu-drivers.rst
-> +++ b/Documentation/cpu-freq/cpu-drivers.rst
-> @@ -71,8 +71,11 @@ And optionally
->   .exit - A pointer to a per-policy cleanup function called during
->   CPU_POST_DEAD phase of cpu hotplug process.
->
-> - .stop_cpu - A pointer to a per-policy stop function called during
-> - CPU_DOWN_PREPARE phase of cpu hotplug process.
-> + .start_cpu - A pointer to a per-policy per-cpu start function called
-> + during CPU online phase.
-> +
-> + .stop_cpu - A pointer to a per-policy per-cpu stop function called
-> + during CPU offline phase.
->
->   .suspend - A pointer to a per-policy suspend function which is called
->   with interrupts disabled and _after_ the governor is stopped for the
-> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> index 802abc925b2a..128dfb1b0cdf 100644
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -1119,6 +1119,10 @@ static int cpufreq_add_policy_cpu(struct cpufreq_policy *policy, unsigned int cp
->
->         cpumask_set_cpu(cpu, policy->cpus);
->
-> +       /* Do CPU specific initialization if required */
-> +       if (cpufreq_driver->start_cpu)
-> +               cpufreq_driver->start_cpu(policy, cpu);
-> +
->         if (has_target()) {
->                 ret = cpufreq_start_governor(policy);
->                 if (ret)
-> @@ -1375,13 +1379,19 @@ static int cpufreq_online(unsigned int cpu)
->                 cpumask_copy(policy->related_cpus, policy->cpus);
->         }
->
-> -       down_write(&policy->rwsem);
->         /*
->          * affected cpus must always be the one, which are online. We aren't
->          * managing offline cpus here.
->          */
->         cpumask_and(policy->cpus, policy->cpus, cpu_online_mask);
->
-> +       /* Do CPU specific initialization if required */
-> +       if (cpufreq_driver->start_cpu) {
-> +               for_each_cpu(j, policy->cpus)
-> +                       cpufreq_driver->start_cpu(policy, j);
-> +       }
-> +
-> +       down_write(&policy->rwsem);
->         if (new_policy) {
->                 for_each_cpu(j, policy->related_cpus) {
->                         per_cpu(cpufreq_cpu_data, j) = policy;
-> @@ -1581,6 +1591,10 @@ static int cpufreq_offline(unsigned int cpu)
->                 policy->cpu = cpumask_any(policy->cpus);
->         }
->
-> +       /* Do CPU specific de-initialization if required */
-> +       if (cpufreq_driver->stop_cpu)
-> +               cpufreq_driver->stop_cpu(policy, cpu);
-> +
->         /* Start governor again for active policy */
->         if (!policy_is_inactive(policy)) {
->                 if (has_target()) {
-> @@ -1597,9 +1611,6 @@ static int cpufreq_offline(unsigned int cpu)
->                 policy->cdev = NULL;
->         }
->
-> -       if (cpufreq_driver->stop_cpu)
-> -               cpufreq_driver->stop_cpu(policy);
-> -
+Hi Pekka,
 
-This should be a separate patch IMO, after you've migrated everyone to
-->offline/->exit.
+On Thu, Jun 17, 2021 at 02:33:11PM +0300, Pekka Paalanen wrote:
+> On Thu, 17 Jun 2021 13:29:48 +0300 Laurent Pinchart wrote:
+> > On Thu, Jun 17, 2021 at 10:27:01AM +0300, Pekka Paalanen wrote:
+> > > On Thu, 17 Jun 2021 00:05:24 +0300 Laurent Pinchart wrote:  
+> > > > On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:  
+> > > > > On Tue, 15 Jun 2021 12:45:57 +0300 Laurent Pinchart wrote:    
+> > > > > > On Tue, Jun 15, 2021 at 07:15:18AM +0000, Simon Ser wrote:    
+> > > > > > > On Tuesday, June 15th, 2021 at 09:03, Pekka Paalanen wrote:
+> > > > > > >       
+> > > > > > > > indeed it will, but what else could one do to test userspace KMS
+> > > > > > > > clients in generic CI where all you can have is virtual hardware? Maybe
+> > > > > > > > in the long run VKMS needs to loop back to a userspace daemon that
+> > > > > > > > implements all the complex processing and returns the writeback result
+> > > > > > > > via VKMS again? That daemon would then need a single upstream, like the
+> > > > > > > > kernel, where it is maintained and correctness verified.      
+> > > > > > > 
+> > > > > > > The complex processing must be implemented even without write-back, because
+> > > > > > > user-space can ask for CRCs of the CRTC.
+> > > > > > >       
+> > > > > > > > Or an LD_PRELOAD that hijacks all KMS ioctls and implements virtual
+> > > > > > > > stuff in userspace? Didn't someone already have something like that?
+> > > > > > > > It would need to be lifted to be a required part of kernel UAPI
+> > > > > > > > submissions, I suppose like IGT is nowadays.      
+> > > > > > > 
+> > > > > > > FWIW, I have a mock libdrm [1] for libliftoff. This is nowhere near a full
+> > > > > > > software implementation with write-back connectors, but allows to expose
+> > > > > > > virtual planes and check atomic commits in CI.
+> > > > > > > 
+> > > > > > > [1]: https://github.com/emersion/libliftoff/blob/master/test/libdrm_mock.c
+> > > > > > >       
+> > > > > > > > For compositor developers like me knowing the exact formulas would be a huge
+> > > > > > > > benefit as it would allow me to use KMS to off-load precision-sensitive
+> > > > > > > > operations (e.g.  professional color management). Otherwise, compositors
+> > > > > > > > probably need a switch: "high quality color management? Then do not use KMS
+> > > > > > > > features."      
+> > > > > > > 
+> > > > > > > I think for alpha blending there are already rounding issues depending on the
+> > > > > > > hardware. I wouldn't keep my hopes up for any guarantee that all hw uses the
+> > > > > > > exact same formulae for color management stuff.      
+> > > > > > 
+> > > > > > Good, because otherwise you would be very quickly disappointed :-)
+> > > > > > 
+> > > > > > For scaling we would also need to replicate the exact same filter taps,
+> > > > > > which are often not documented.    
+> > > > > 
+> > > > > That is where the documented tolerances come into play.    
+> > > > 
+> > > > This is something I've experimented with a while ago, when developing
+> > > > automated tests for the rcar-du driver. When playing with different
+> > > > input images we had to constantly increases tolerances, up to a point
+> > > > where the tests started to miss real problems :-(  
+> > > 
+> > > What should we infer from that? That the hardware is broken and
+> > > exposing those KMS properties is a false promise?  
+> > 
+> > No, just that the scaler doesn't document the internal hardware
+> > implementation (number of taps in the filters, coefficients, rounding,
+> > ...). That's the rule, not the exception, and it doesn't prevent correct
+> > operation, images get scaled in a reproducible way (the same input
+> > produces the same output).
+> > 
+> > > If a driver on certain hardware cannot correctly implement a KMS
+> > > property over the full domain of the input space, should that driver
+> > > then simply not expose the KMS property at all?  
+> > 
+> > The properties involved here would the the SRC and CRTC rectangles for
+> > the planes. They don't document pixel-perfect scaling :-)
+> > 
+> > > But I would assume that the vendor still wants to expose the features
+> > > in upstream kernels, yet they cannot use the standard KMS properties
+> > > for that. Should the driver then expose vendor-specific properties with
+> > > the disclaimer that the result is not always what one would expect, so
+> > > that userspace written and tested explicitly for that hardware can
+> > > still work?
+> > > 
+> > > That is, a sufficient justification for a vendor-specific KMS property
+> > > would be that a standard property already exists, but the hardware is
+> > > too buggy to make it work. IOW, give up trying to make sense.  
+> > 
+> > It's not just about buggy hardware, it's also about implementation
+> > specificities, such as rounding, filters, order of operations in the
+> > color management pipeline (it's relatively easy when you only have two
+> > LUTs and a CCM matrix, but if you through 3D LUTs and other tonemapping
+> > features in the mix, not all hardware will implement the same pipeline),
+> > or various types of image compression (this device implements a
+> > "near-lossless" compression scheme that reduces the memory bandwidth by
+> > 50% for instance).
+> 
+> Rounding shouldn't result in needing wide tolerances.
+> 
+> Filters are more difficult, but at least we can factor them out when
+> testing other things. Filters could be tested in isolation with some
+> image difference metrics rather than per-pixel independent comparisons.
 
-BTW, IMO it might be better to migrate ->stop_cpu to ->offline rather
-than to ->exit.
+The metrics I was using had both a tolerance on the pixel value and on
+the number of pixels accepted outside of the value tolerance. I'm sure
+we can improve it (perhaps taking locality into account), but that's
+heuristics, and keeping heuristics working across a wide variety of use
+cases is hard.
 
->         if (has_target())
->                 cpufreq_exit_governor(policy);
->
-> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-> index 353969c7acd3..c281b3df4e2f 100644
-> --- a/include/linux/cpufreq.h
-> +++ b/include/linux/cpufreq.h
-> @@ -371,7 +371,10 @@ struct cpufreq_driver {
->         int             (*online)(struct cpufreq_policy *policy);
->         int             (*offline)(struct cpufreq_policy *policy);
->         int             (*exit)(struct cpufreq_policy *policy);
-> -       void            (*stop_cpu)(struct cpufreq_policy *policy);
-> +
-> +       /* CPU specific start/stop */
-> +       void            (*start_cpu)(struct cpufreq_policy *policy, unsigned int cpu);
-> +       void            (*stop_cpu)(struct cpufreq_policy *policy, unsigned int cpu);
->         int             (*suspend)(struct cpufreq_policy *policy);
->         int             (*resume)(struct cpufreq_policy *policy);
->
-> --
-> 2.31.1.272.g89b43f80a514
->
+The filter I mentioned, by the way, is the scaler filter. Out of
+curiosity, do any of the devices you work on document with pixel-perfect
+precision how the hardware scaler is implemented ?
+
+> The order of operations in the color management pipeline is very
+> important. We can't work with "whatever". All the variability in
+> hardware is exactly why I have been calling out for defined abstract
+> color pipeline in the DRM UAPI docs, so that drivers would know which
+> properties to map to their elements, so that userspace can have any
+> possibility of using them correctly. If the hardware has a block
+> that doesn't fit in the abstract pipeline, you get to add things to the
+> abstract pipeline, or invent a whole another abstract pipeline and
+> document that.
+
+One very typical difference between devices is the order of the
+processing blocks. By modelling the KMS pipeline as degamma -> ccm ->
+gamma, we can accommodate hardware that have any combination of
+[1-2] * 1D LUTs + 1 * CCM. Now, throw one 3D LUT into the mix, at
+different points in the pipeline depending on the device, and it will
+start getting complicated, even if the use case is quite simple and
+common. This is getting a bit out of topic, but how would you solve this
+one in particular ?
+
+> Lossy compression needs its own KMS properties to ensure it can be
+> disabled when necessary. Near-lossless is not lossless, if a difference
+> can be measured. The driver or hardware cannot guess if the end user is
+> ok with "near-lossless" or not, so you have to be conservative and
+> assume not ok, offering an opt-in for lossy.
+
+Sure, but what would be the barrier to entry for such a property that
+would enable the compression (it could actually be a pixel format
+modifier) ? Would it only need to be documented ? Would we need a
+software implementation in VKMS and/or in IGT ? The compression
+algorithm is proprietary and not documented, so the latter can't be
+done.
+
+> ...
+> 
+> > > My underlying assumption is that generic userspace will not use
+> > > vendor-specific properties.  
+> > 
+> > I expect some amount of device-specific code in userspace, yes. 
+> 
+> If we had a reliable way to test device-specific code without the
+> hardware and automatically in CI, then maybe.
+> 
+> > There are usually large variations in how the hardware exposes access to
+> > a given feature, which leads to code having to convert the standard API
+> > parameters to hardware parameters. To a large extend this can be done in
+> > drivers, but for some more complex features, it may put too much burden
+> > on the kernel. There's a reason mesa is a userspace stack :-)
+> 
+> If we get a Khronos standardised 2D composition API... oh wait.
+> 
+> Nothing wrong with userspace libraries, but it does mean that driver
+> developers need to contribute to them, like they do to Mesa. Is there
+> any of that going on for KMS?
+
+Not that I'm aware of, but I think that's a direction we can consider
+seriously.
+
+> In the mean time, DRM UAPI basically must define a 2D composition API,
+> or the new KMS properties will not see use outside of vendor trees.
+> 
+> > > Or, since we have atomic commits with TEST_ONLY, should it be driver's
+> > > responsibility to carefully inspect the full state and reject the
+> > > commit if the hardware is incapable of implementing it correctly?
+> > > Vendor-specific userspace would know to avoid failing configurations to
+> > > begin with. I suppose that might put an endless whack-a-mole game on
+> > > drivers though.
+
+-- 
+Regards,
+
+Laurent Pinchart
