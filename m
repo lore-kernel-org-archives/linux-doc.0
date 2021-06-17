@@ -2,73 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B685BC2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 22:31:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D325C2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 22:36:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C7E8613B4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 22:31:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C606613D8
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 22:36:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232008AbhFQWd4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 18:33:56 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:46646 "EHLO
+        id S232206AbhFQWiN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 18:38:13 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:46770 "EHLO
         smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbhFQWd4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 18:33:56 -0400
+        with ESMTP id S232203AbhFQWiN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 18:38:13 -0400
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
         (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id D18A11FD68;
-        Thu, 17 Jun 2021 22:31:46 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 3B3251FD68;
+        Thu, 17 Jun 2021 22:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1623969106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1623969364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dK3fjfH9N1woOF6AH4a8cuhg64qyn4DF5VZ3L9cV8V8=;
-        b=tAOwU/Jlj1bTXAA+q5Lf5ZgUhRoXrGXC1epmtJk3dFzm+AJsoak6pOAAk1FXtbIXYnoAOX
-        2QicE4Hs7JXCGojG5f9UBcOsNen/tbE0dQIlKF8QgfP/R4RWH4MnG/MKV1i9K4hzVH7cvT
-        ohAfnEFFqQOZL1qO09X85SgU+p/Kd2E=
+        bh=cV2NE8rEWBmZDfrtXKLfyFZ8c/X4r6DiAAuSsUO6DA8=;
+        b=rDXJnATdWYSr69kKXMTVE9dP5gncBYGdgr3GUIjHRui/3n2j10pItkszIea/OUzY3+hrpz
+        m5Y03yZ0RBddw/KkZEyglzsNQP/XqQYFnNAhXXSyhHvyQACoBXSzQ1DbLE9B6+o27ZlvFu
+        m18WdJkng41VCTi1FoOKTBUgW5kZ/Iw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1623969106;
+        s=susede2_ed25519; t=1623969364;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dK3fjfH9N1woOF6AH4a8cuhg64qyn4DF5VZ3L9cV8V8=;
-        b=LVLejE1ZXKWyb9LCy4H52emR0TykmqwY32Yk1byHToLdZiG7V0+ZUegsMZ/8KUf7VXwwmJ
-        ZHy+mgoZic/pjSBg==
+        bh=cV2NE8rEWBmZDfrtXKLfyFZ8c/X4r6DiAAuSsUO6DA8=;
+        b=v9wQxqIe7asZmS+7Z8rjrVZh0dD8nVrpqwgngUo6epZLjj0ZWFfIVtDrDdmmqOXa08n4nJ
+        AlEq+lsufIbSeRCg==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        by imap.suse.de (Postfix) with ESMTP id BAA21118DD;
-        Thu, 17 Jun 2021 22:31:43 +0000 (UTC)
+        by imap.suse.de (Postfix) with ESMTP id 20F13118DD;
+        Thu, 17 Jun 2021 22:36:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1623969106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1623969364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dK3fjfH9N1woOF6AH4a8cuhg64qyn4DF5VZ3L9cV8V8=;
-        b=tAOwU/Jlj1bTXAA+q5Lf5ZgUhRoXrGXC1epmtJk3dFzm+AJsoak6pOAAk1FXtbIXYnoAOX
-        2QicE4Hs7JXCGojG5f9UBcOsNen/tbE0dQIlKF8QgfP/R4RWH4MnG/MKV1i9K4hzVH7cvT
-        ohAfnEFFqQOZL1qO09X85SgU+p/Kd2E=
+        bh=cV2NE8rEWBmZDfrtXKLfyFZ8c/X4r6DiAAuSsUO6DA8=;
+        b=rDXJnATdWYSr69kKXMTVE9dP5gncBYGdgr3GUIjHRui/3n2j10pItkszIea/OUzY3+hrpz
+        m5Y03yZ0RBddw/KkZEyglzsNQP/XqQYFnNAhXXSyhHvyQACoBXSzQ1DbLE9B6+o27ZlvFu
+        m18WdJkng41VCTi1FoOKTBUgW5kZ/Iw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1623969106;
+        s=susede2_ed25519; t=1623969364;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dK3fjfH9N1woOF6AH4a8cuhg64qyn4DF5VZ3L9cV8V8=;
-        b=LVLejE1ZXKWyb9LCy4H52emR0TykmqwY32Yk1byHToLdZiG7V0+ZUegsMZ/8KUf7VXwwmJ
-        ZHy+mgoZic/pjSBg==
+        bh=cV2NE8rEWBmZDfrtXKLfyFZ8c/X4r6DiAAuSsUO6DA8=;
+        b=v9wQxqIe7asZmS+7Z8rjrVZh0dD8nVrpqwgngUo6epZLjj0ZWFfIVtDrDdmmqOXa08n4nJ
+        AlEq+lsufIbSeRCg==
 Received: from director2.suse.de ([192.168.254.72])
         by imap3-int with ESMTPSA
-        id C4dKG0/Ny2CmOQAALh3uQQ
-        (envelope-from <neilb@suse.de>); Thu, 17 Jun 2021 22:31:43 +0000
+        id Wtj0MFDOy2AXOwAALh3uQQ
+        (envelope-from <neilb@suse.de>); Thu, 17 Jun 2021 22:36:00 +0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 From:   "NeilBrown" <neilb@suse.de>
 To:     "Fox Chen" <foxhlchen@gmail.com>
@@ -77,78 +77,35 @@ Cc:     "Fox Chen" <foxhlchen@gmail.com>, corbet@lwn.net,
         rdunlap@infradead.org, grandmaster@al2klimov.de,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         gregkh@linuxfoundation.org
-Subject: Re: [PATCH v3 10/13] docs: path-lookup: update WALK_GET, WALK_PUT desc
-In-reply-to: <20210527091618.287093-11-foxhlchen@gmail.com>
-References: <20210527091618.287093-1-foxhlchen@gmail.com>,
- <20210527091618.287093-11-foxhlchen@gmail.com>
-Date:   Fri, 18 Jun 2021 08:31:40 +1000
-Message-id: <162396910045.29912.16061031990304843868@noble.neil.brown.name>
+Subject: Re: [PATCH v3 00/13] docs: path-lookup: Update pathlookup docs
+In-reply-to: <20210527091618.287093-1-foxhlchen@gmail.com>
+References: <20210527091618.287093-1-foxhlchen@gmail.com>
+Date:   Fri, 18 Jun 2021 08:35:57 +1000
+Message-id: <162396935764.29912.16256561662425331146@noble.neil.brown.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, 27 May 2021, Fox Chen wrote:
-> WALK_GET is changed to WALK_TRAILING with a different meaning.
-> Here it should be WALK_NOFOLLOW. WALK_PUT dosn't exist, we have
-> WALK_MORE.
->=20
-> WALK_PUT =3D=3D !WALK_MORE
->=20
-> And there is not should_follow_link().
->=20
-> Related commits:
-> commit 8c4efe22e7c4 ("namei: invert the meaning of WALK_FOLLOW")
-> commit 1c4ff1a87e46 ("namei: invert WALK_PUT logics")
->=20
-> Signed-off-by: Fox Chen <foxhlchen@gmail.com>
-> ---
->  Documentation/filesystems/path-lookup.rst | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->=20
-> diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/file=
-systems/path-lookup.rst
-> index 0a125673a8fe..08e6306af5b1 100644
-> --- a/Documentation/filesystems/path-lookup.rst
-> +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -1123,13 +1123,13 @@ stack in ``walk_component()`` immediately when the =
-symlink is found;
->  old symlink as it walks that last component.  So it is quite
->  convenient for ``walk_component()`` to release the old symlink and pop
->  the references just before pushing the reference information for the
-> -new symlink.  It is guided in this by two flags; ``WALK_GET``, which
-> -gives it permission to follow a symlink if it finds one, and
-> -``WALK_PUT``, which tells it to release the current symlink after it has b=
-een
-> -followed.  ``WALK_PUT`` is tested first, leading to a call to
-> -``put_link()``.  ``WALK_GET`` is tested subsequently (by
-> -``should_follow_link()``) leading to a call to ``pick_link()`` which sets
-> -up the stack frame.
-> +new symlink.  It is guided in this by three flags: ``WALK_NOFOLLOW`` which
-> +forbits it from following a symlink if it finds one, ``WALK_MORE``
+> The Path lookup is a very complex subject in VFS. The path-lookup
+> document provides a very detailed guidance to help people understand
+> how path lookup works in the kernel. This document was originally
+> written based on three lwn articles five years ago. As times goes by,
+> some of the content is outdated. This patchset is intended to update
+> the document to make it more relevant to current codebase.
+> 
 
-"forbids"
+Thanks for persisting.  Sorry for the delay.
 
-> +which indicates that it is yet too early to release the
-> +current symlink, and ``WALK_TRAILING`` which predicates that it is on the =
-final
+All:
+  Reviewed-by: NeilBrown <neilb@suse.de>
 
-"predicates" isn't quite the right word to use here.  "indicates" is
-better, but we've already used that word in the sentence, and repetition
-feels clumsy (I wonder if anyone else listened to "My Word" on the BBC -
-no hesitation, repetition, or deviation).=20
-Maybe "reports"?  Or maybe out chief editor can make a suggestion.
+I've noted a couple of little issues with one patch.  Hopefully Jon can
+simply fix those up rather than requiring a resubmission of the whole
+series.
+
+To be honest, I haven't examined patch 4 in as much detail as I'd like,
+and it required the biggest change since last time.  But I think it is
+good enough.  It might even be excellent.
 
 NeilBrown
-
-> +component of the lookup, so we will check userspace flag ``LOOKUP_FOLLOW``=
- to
-> +decide whether follow it when it is a symlink and call ``may_follow_link()=
-`` to
-> +check if we have privilege to follow it.
-> =20
->  Symlinks with no final component
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> --=20
-> 2.31.1
->=20
->=20
