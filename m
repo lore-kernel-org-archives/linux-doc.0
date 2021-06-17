@@ -2,220 +2,345 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4233C48BE5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:47:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0B9C48BE5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 12:34:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B9A266140F
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:47:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 269DB60E08
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 12:34:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232402AbhFQLuC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 07:50:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56258 "EHLO
+        id S230151AbhFQMgw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 08:36:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232253AbhFQLuB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 07:50:01 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A024C06175F
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 04:47:53 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id fy24-20020a17090b0218b029016c5a59021fso5969431pjb.0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 04:47:53 -0700 (PDT)
+        with ESMTP id S229887AbhFQMgv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 08:36:51 -0400
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145DFC061574;
+        Thu, 17 Jun 2021 05:34:43 -0700 (PDT)
+Received: by mail-oi1-x22d.google.com with SMTP id w127so6336706oig.12;
+        Thu, 17 Jun 2021 05:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=QasMKCIaT47MEF+OQcq8zCDU70HNznQ46OZY6zak3V8=;
-        b=YjZuzJ+NWs/14eFKW5mhz42xgNpTsEoV8oZ4cGMsIt9+TzUz1kdmMAfO7xXHgkQq0g
-         Ia52JM8iI2whXeKXN/2K6F02pd30D8emps0Jz+/nxWU8zMyroF/HKtyZs5qCYlzNmEFJ
-         m1yVj/8f0dsS3m91UPPLrJbA2NkmqZvlrMmaw9lNTbI7VTp9n0jNRu9BOOijGr2AEU18
-         UDj8Jdz3wNufxBoaVID02yn3JU9Jx6JugUxGJy8fvS3DFGr1i+L/IPXOWIzR9TlnRoRh
-         9r23X01QaTcw9X0haydqFp7C96joqt3lzre2lMeS5hILGfLAh249oeK4Yi6TA9AHtQlQ
-         VIOQ==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=XlVDzx/lsUcechHJdauL53BT7XYlayQzyjkYEpFuBKg=;
+        b=ry+sHjGMX/knmRBW4gjKQeeuj84ZQUscsmRazRup+ZNjqBhKjifrnCmiHSgNXjwFDG
+         9W0RkInuwlONrPuSTRwOGHEwHkwgto0WPaTiHqKkkARqSckPwVmj1XgXqsXVOx+PqOBr
+         dqXHgt0ptCRwLzXb/jGzp+qgqw1KSl2fJHnISmjqRea0s8JSug6hW97sXJP1sgSIIpvx
+         nESMJLbxJZXpMxNzS8ZeeW0E5Ne0LzgueW+8BTZN/TPmu/kUT/pOalAonhgbM+KTCWze
+         GCdQ0wl+ZxgPTt8WBySODC9G1UWEVGDxopZnYv2iUsOEJPR2+a/L7Lsl4WkmZ+05cntg
+         FIWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=QasMKCIaT47MEF+OQcq8zCDU70HNznQ46OZY6zak3V8=;
-        b=kmUyd6aX/ajIpFmUg3T+h0soq2/hBQreVuucskUqR24GN3E0+o3QKBPJxUMygj0rbg
-         uVD1/ZwyEqYcCWvT8YADPyihJJR+Bwerqigrd50I9n0au8FMFJGG7q7yfIrwQksnZFI9
-         xDDowUh6fUCdLt37WG68f4yeCdNjYMj03XRJMB2N2Ts8LbjxTj55QZwHYSpI6b4h8ixo
-         18QpyC4BBkKchuraBItuvAj5aD5upkjNZxyJmu5uG8Eu7ptIke2/Ttq267enpDvIfEYf
-         e6Xrl4HotBM3MAKq1DLQVnAPzdBGDA+gS+rdF52dBu6VxgjVPpgd95BR3ltuh8tIjfeQ
-         zMMA==
-X-Gm-Message-State: AOAM5309lDDLzTSOfYvuHGbqBMU6hgztO9GM0rMAfJfe6g9YjeeSNdef
-        8UD2JS9id++ZC51UYL43RtWcew==
-X-Google-Smtp-Source: ABdhPJxIrIzZcQtKYc+FRL5bxfc04IWWpEdqgixoIsZEOGYOtWJ6eX9RHjce0kFNtrQQQX1ZD1W97A==
-X-Received: by 2002:a17:90a:6b42:: with SMTP id x2mr5108905pjl.16.1623930472719;
-        Thu, 17 Jun 2021 04:47:52 -0700 (PDT)
-Received: from localhost ([136.185.134.182])
-        by smtp.gmail.com with ESMTPSA id u23sm6288551pgk.38.2021.06.17.04.47.51
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=XlVDzx/lsUcechHJdauL53BT7XYlayQzyjkYEpFuBKg=;
+        b=LHXL7xJ86h0tBfszMNj6TOb9NzqmqtQc4jC/Ca0bM6FAv5938qWlKixKTaDBNwR4Ho
+         JqIcry/bjp8g2zQQKSJt94aI3K3FZ1KY2pvN1SO2m1Vf0t/pkbUWyQ2KYKjl74vfNDMk
+         8TiqT1pA8Dw7Zj591INOfMzvmIZKvkkTqLAcsQxurEGNY1vCPcdjg89TQqk1mm0b3UlE
+         y0rms+H22h6Ayswb0NchI8QPtHuSulXX0fQ4fsrwciIfBtYmKOqYdXzHr+r/+dQ1GJrK
+         a9agvfwU6ImBJKCN+aq0dHWdzmuxL+zoHkYoduTtInPHlQG+01SPCSx5lCXeUeQzRnFd
+         4rjg==
+X-Gm-Message-State: AOAM532SHIFQadVmW/RyfEQ59+YO2tToQftMjXdQaq6VNC8Awo/Vveky
+        JUYqj8XsmaUycBkBjBGvQZ0=
+X-Google-Smtp-Source: ABdhPJxXJeozkh4yrL2Qr8hFIM9tgdIF+wADJRQLuQKwXR1UK3rmTN0GYxHe9pCbLXKhINYKZti3Yw==
+X-Received: by 2002:aca:bd42:: with SMTP id n63mr10280523oif.73.1623933282322;
+        Thu, 17 Jun 2021 05:34:42 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t33sm366995oiw.13.2021.06.17.05.34.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 04:47:51 -0700 (PDT)
-Date:   Thu, 17 Jun 2021 17:17:49 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] drivers: gpio: add virtio-gpio guest driver
-Message-ID: <20210617114749.uueu2v63duepfunb@vireshk-i7>
-References: <20210616114934.n3grzuh6c64wlaj6@vireshk-i7>
- <5cffb354-0d00-5ace-260d-61ac0c4c7491@metux.net>
- <20210617035901.kfzps6kg2emthjf4@vireshk-i7>
- <116f8135-4ddf-e8fc-6838-94093702ec3d@metux.net>
+        Thu, 17 Jun 2021 05:34:41 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Thu, 17 Jun 2021 05:34:39 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     ainux.wang@gmail.com
+Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (pmbus) Add support for MPS MP2949A
+Message-ID: <20210617123439.GA1322434@roeck-us.net>
+References: <20210617094323.24016-1-ainux.wang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <116f8135-4ddf-e8fc-6838-94093702ec3d@metux.net>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20210617094323.24016-1-ainux.wang@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17-06-21, 11:54, Enrico Weigelt, metux IT consult wrote:
-> Actually, I am subscribed in the list. We already had debates on it,
-> including on your postings (but also other things).
-
-Right.
-
-> And the ascii
-> version of the spec actually landed on the list last year, we had
-> discussions about it there.
-
-I tried to search for it earlier, but never found anything on virtio
-list.  Maybe I missed it then.
-
-> I've just had the problem that my patches didn't go through, which is
-> very strange, since I actually am on the list and other mails of mine
-> went through all the time. I'm now suspecting it's triggered by some
-> subtle difference between my regular mail clients and git send-email.
+On Thu, Jun 17, 2021 at 05:43:23PM +0800, ainux.wang@gmail.com wrote:
+> From: "Ainux.Wang" <ainux.wang@gmail.com>
 > 
-> > Since you started this all and still want to do it, I will take my
-> > patches back and let you finish with what you started. I will help
-> > review them.
+> Add support for MP2949A device from Monolithic Power Systems, Inc. (MPS)
+> vendor. This is a triple-loop, digital, multi-phase controller.
+> This device:
+> - Supports up to three power rail.
+> - Provides 6 pulse-width modulations (PWMs), and can be configured up
+>   to 6-phase operation for Rail A , up to 2-phase operation for Rail B
+>   and up to 1-phase operation for Rail C.
+> - The PMBus registers are distributed into three pages: Page 0, Page 1,
+>   Page 2. Page 0 contains the registers for Rail A and most of the common
+>   settings for all of the rails. Page 1 contains register information for
+>   Rail B. Page 2 contains register information for Rail C.
+> - The MP2949A supports both 5mV VID step and 10mv VID step for IMVP8 and
+>   IMVP9 with only one DAC for each rail to generate REF.
 > 
-> Thank you very much.
-> 
-> Please don't me wrong, I really don't wanna any kind of power play, just
-> wanna get an technically good solution. If there had been any mis-
-> understandings at that point, I'm officially saying sorry here.
+> Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
+> ---
+>  Documentation/hwmon/mp2949a.rst  | 48 ++++++++++++++++++
 
-Its okay, we are both trying to make things better here :)
+Reference needs to be added to Documentation/hwmon/index.rst.
 
-> Let's be friends.
-> 
-> You mentioned you've been missing with my spec. Please come foreward and
-> tell us what exactly you're missing and what your use cases are.
+>  drivers/hwmon/pmbus/Kconfig      |  9 ++++
+>  drivers/hwmon/pmbus/Makefile     |  1 +
+>  drivers/hwmon/pmbus/mp2949a.c    | 83 ++++++++++++++++++++++++++++++++
+>  drivers/hwmon/pmbus/pmbus.h      |  6 +++
+>  drivers/hwmon/pmbus/pmbus_core.c | 18 +++++--
 
-I have sent a detailed review of your spec patch, lets do it there
-point by point :)
+Changes to the PMBus core need to be submitted as separate patches.
 
-> Note that I've intentionally left off certain "more sophisticated"
-> functionality we find on *some* gpio controllers, eg. per-line irq
-> masking, pinmux settings for several reasons, e.g.:
+>  6 files changed, 160 insertions(+), 5 deletions(-)
+>  create mode 100644 Documentation/hwmon/mp2949a.rst
+>  create mode 100644 drivers/hwmon/pmbus/mp2949a.c
 > 
-> * those are only implemented by some hardware
-> * often implemented in or at least need to be coordinated with other
->   pieces of hw (e.g. in SoCs, pinmux is usually done in a separate
->   device)
-> * it shall be possible to support even the most simple devices and
->   have the more sophisticated things totally optional. minium
->   requirements for silicon implementations should be the lowest possible
->   (IOW: minimal number of logic gates)
-> 
-> >> You sound like a politician that tries to push an hidden agenda,
-> >> made by some secret interest group in the back room, against the
-> >> people - like "resistance is futile".
-> >
-> > :)
-> 
-> Perhaps I've been a bit overreacting at that point. But: this is really
-> that kind of talking we hear from politicians and corporate leaders
-> since many years, whenever they wanna push something through that we the
-> people don't want. Politicians use that as a social engineering tool for
-> demotivating any resistance. Over heare in Germany this even had become
-> a meme, and folks from CCC made a radio show about and named by that
-> (the German word is "alternativlos" - in english: without any
-> alternative). No idea about other countries, maybe it's a cultural
-> issue, but over here, those kind of talking had become a red light.
-> 
-> Of course, I never intended to accuse you of being one of these people.
-> Sorry if there's been misunderstanding.
+> diff --git a/Documentation/hwmon/mp2949a.rst b/Documentation/hwmon/mp2949a.rst
+> new file mode 100644
+> index 000000000000..82ab15e0588b
+> --- /dev/null
+> +++ b/Documentation/hwmon/mp2949a.rst
+> @@ -0,0 +1,48 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver mp2949a
+> +====================
+> +
+> +Supported chips:
+> +
+> +  * MPS MP2949A
+> +
+> +    Prefix: 'mp2949a'
+> +
+> +Author:
+> +
+> +	Ainux Wang <ainux.wang@gmail.com>
+> +
+> +Description
+> +-----------
+> +
+> +This driver implements support for Monolithic Power Systems, Inc. (MPS)
+> +vendor triple-loop, digital, multi-phase controller MP2949A.
 
-It sounded strange yesterday to be honest, but I have gone past it
-already :)
- 
-> Let's get back to your implementation: you've mentioned you're routing
-> raw virtio traffic into userland, to some other process (outside VMMs
-> like qemu) - how exactly are you doing that ?
-> 
-> That could be interesting for completely different scenarios. For
-> example, I'm currently exploring how to get VirGL running between separate
-> processes running under the same kernel instance (fow now we
-> only have the driver side inside VM and the device outside it), means
-> driver and device are running as separate processes.
-> 
-> The primary use case are containers that shall have really GPU generic
-> drivers, not knowing anything about the actual hardware on the host.
-> Currently, container workloads wanting to use a GPU need to have special
-> drivers for exactly the HW the host happens to have. This makes generic,
-> portable container images a tuff problem.
-> 
-> I haven't digged deeply into the matter, but some virtio-tap transport
-> could be an relatively easy (probably not the most efficient) way to
-> solve this problem. In that scanario it would like this:
-> 
-> * we have a "virgl server" (could be some X or wayland application, or
->   completely own compositor) opens up the device-end of an "virtio-tap"
->   transport and attaches its virtio-gpio device emulation on it.
-> * "virtio-tap" now creates a driver-end, kernel probes an virtio-gpu
->   instance on this (also leading to a new DRI device)
-> * container runtime picks the new DRI device and maps it into the
->   container(s)
->   [ yet open question, whether one DRI device for many containers
->     is enough ]
-> * container application sees that virtio-gpu DRI device and speaks to
->   it (mesa->virgl backend)
-> * the "virgl-server" receives buffers and commands from via virtio and
->   sends them to the host's GL or Gallium API.
-> 
-> Once we're already there, we might think whether it could make sense
-> putting virtio routing into kvm itself, instead of letting qemu catch
-> page faults and virtual irqs. Yet have to see whether that's a good
-> idea, but I can imagine some performance improvements here.
+drop 'vendor'
 
-We (at Linaro) work on software enablement normally and not end
-products (rarely that happen though), like framework level work in the
-kernel which can later be used by everyone to build their drivers on.
+> +
+> +This device:
+> +
+> +- Supports up to three power rail.
+> +- Provides 6 pulse-width modulations (PWMs), and can be configured up
+> +  to 6-phase operation for Rail A , up to 2-phase operation for Rail B
+> +  and up to 1-phase operation for Rail C.
+> +- The PMBus registers are distributed into three pages: Page 0, Page 1,
+> +  Page 2. Page 0 contains the registers for Rail A and most of the common
+> +  settings for all of the rails. Page 1 contains register information for
+> +  Rail B. Page 2 contains register information for Rail C.
+> +- The MP2949A supports both 5mV VID step and 10mv VID step for IMVP8 and
+> +  IMVP9 with only one DAC for each rail to generate REF.
+> +
+> +Device supports:
+> +
+> +- SVID interface.
+> +- PMBus interface.
+> +
+> +Device complaint with:
 
-There are many companies like Qualcomm, ST Micro, etc, who want to use
-Virtio in general for Automotive or other applications / solution. The
-purpose of Project Stratos [1], an initiative of Linaro, is working
-towards developing hypervisor agnostic Virtio interfaces and
-standards. The end products and applications will be worked on by the
-members directly and we need to add basic minimum support, with all
-the generally required APIs or interfaces.
+compliant
 
--- 
-viresh
+> +
+> +- PMBus rev 1.2 interface.
+> +
+> +Device supports direct format for reading output power.
+> +Device supports linear format for reading input voltage and output current
+> +and temperature.
+> +Device supports VID for reading output voltage.
+> +The below VID modes are supported: VR12, VR13, IMVP8, IMVP9.
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 37a5c39784fa..b1344b265976 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -248,6 +248,15 @@ config SENSORS_MAX8688
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called max8688.
+>  
+> +config SENSORS_MP2949A
+> +	tristate "MPS MP2949A"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for MPS
+> +	  MP2949A Triple Loop Digital Multi-Phase Controller.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called mp2949a.
+> +
+>  config SENSORS_MP2975
+>  	tristate "MPS MP2975"
+>  	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index f8dcc27cd56a..bfb55ab12da1 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -28,6 +28,7 @@ obj-$(CONFIG_SENSORS_MAX20751)	+= max20751.o
+>  obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
+>  obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
+>  obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
+> +obj-$(CONFIG_SENSORS_MP2949A)	+= mp2949a.o
+>  obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+>  obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
+>  obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
+> diff --git a/drivers/hwmon/pmbus/mp2949a.c b/drivers/hwmon/pmbus/mp2949a.c
+> new file mode 100644
+> index 000000000000..2b51176d8921
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/mp2949a.c
+> @@ -0,0 +1,83 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Hardware monitoring driver for Monolithic Power Systems MP2949A
+> + *
+> + * Copyright (c) 2021 Lemote Technologies. All rights reserved.
+> + * Copyright (c) 2021 Ainux <ainux.wang@gmail.com>
+> + */
+> +
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include "pmbus.h"
+> +
+> +#define MP2949A_PAGE_NUM		3
+> +
+> +static struct pmbus_driver_info mp2949a_info = {
+> +	.pages = MP2949A_PAGE_NUM,
+> +	.format[PSC_VOLTAGE_IN] = linear,
+> +	.format[PSC_VOLTAGE_OUT] = vid,
+> +	.format[PSC_CURRENT_OUT] = linear,
+> +	.format[PSC_TEMPERATURE] = linear,
+> +	.format[PSC_POWER] = direct,
+> +	.m[PSC_POWER] = 1,
+> +	.b[PSC_POWER] = 0,
+> +	.R[PSC_POWER] = 0,
+> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+> +		PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
+> +		PMBUS_HAVE_TEMP | PMBUS_HAVE_POUT,
+> +	.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+> +		PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
+> +		PMBUS_HAVE_POUT,
+> +	.func[2] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+> +		PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
+> +		PMBUS_HAVE_POUT,
+> +	.skip_icp = true,
 
-[1] https://linaro.atlassian.net/wiki/spaces/STR/overview
+We already have a means to specify device specific flags
+(pmbus_platform_data). Please use it when needed.
+
+> +};
+> +
+> +static int mp2949a_probe(struct i2c_client *client,
+> +			  const struct i2c_device_id *id)
+> +{
+> +	struct pmbus_driver_info *info;
+> +	int i;
+> +
+> +	info = devm_kmemdup(&client->dev, &mp2949a_info, sizeof(*info),
+> +			    GFP_KERNEL);
+> +	if (!info)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < MP2949A_PAGE_NUM; i++)
+> +		info->vrm_version[i] = vr12;
+
+The chip supports both 5mv step size (vr12/imvp8) and 10mv step size
+(imvp9). This suggests that the driver should identify the mode
+dynamically using the identify callback and set vrm_version based
+on MFR_VR_CONFIG bit 5.
+
+> +
+> +	return pmbus_do_probe(client, info);
+> +}
+> +
+> +static const struct i2c_device_id mp2949a_id[] = {
+> +	{"mp2949a", 0},
+> +	{}
+> +};
+> +
+> +MODULE_DEVICE_TABLE(i2c, mp2949a_id);
+> +
+> +static const struct of_device_id mp2949a_of_match[] = {
+> +	{.compatible = "mps,mp2949a"},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, mp2949a_of_match);
+> +
+> +static struct i2c_driver mp2949a_driver = {
+> +	.driver = {
+> +		.name = "mp2949a",
+> +		.of_match_table = of_match_ptr(mp2949a_of_match),
+> +	},
+> +	.probe = mp2949a_probe,
+> +	.id_table = mp2949a_id,
+> +};
+> +
+> +module_i2c_driver(mp2949a_driver);
+> +
+> +MODULE_AUTHOR("Ainux <ainux.wang@gmail.com>");
+> +MODULE_DESCRIPTION("PMBus driver for Monolithic Power Systems MP2949A");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+> index 3968924f8533..fd329670876d 100644
+> --- a/drivers/hwmon/pmbus/pmbus.h
+> +++ b/drivers/hwmon/pmbus/pmbus.h
+> @@ -454,6 +454,12 @@ struct pmbus_driver_info {
+>  
+>  	/* custom attributes */
+>  	const struct attribute_group **groups;
+> +
+> +	/*
+> +	 * Skip identify chip parameters,
+> +	 * some device do not support the PMBUS_VOUT_MODE.
+> +	 */
+> +	bool skip_icp;
+>  };
+>  
+>  /* Regulator ops */
+> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+> index bbd745178147..644bef5cdafd 100644
+> --- a/drivers/hwmon/pmbus/pmbus_core.c
+> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+> @@ -2248,13 +2248,21 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
+>  		return -ENODEV;
+>  	}
+>  
+> -	for (page = 0; page < info->pages; page++) {
+> -		ret = pmbus_identify_common(client, data, page);
+> -		if (ret < 0) {
+> -			dev_err(dev, "Failed to identify chip capabilities\n");
+> -			return ret;
+> +	/*
+> +	 * Some device do not support the PMBUS_VOUT_MODE,
+> +	 * and the driver of device has known correct formats,
+> +	 * so the driver set skip_icp to true.
+> +	 */
+
+The existing code should not affect device behavior. A failure to read
+PMBUS_VOUT_MODE does not result in an error. As such, there is no reason
+to add this flag. The only reason to add such a flag would be that the chip
+returns bad data when reading PMBUS_VOUT_MODE. However, even that could
+be (and is) handled by implementing a custom read_byte_data function to
+catch the read and return the expected value(s). This would be a possible
+alternative to using the identify callback if the chip does not return
+an error when reading PMBUS_VOUT_MODE.
+
+Guenter
