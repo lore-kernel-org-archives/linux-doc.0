@@ -2,51 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A0AC2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16498C49361
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:35:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EC05613CE
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:29:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3508613F9
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:35:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231613AbhFQLcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 07:32:05 -0400
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:15597 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231276AbhFQLcE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 07:32:04 -0400
+        id S232439AbhFQLh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 07:37:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231695AbhFQLh1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 07:37:27 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A68C061574;
+        Thu, 17 Jun 2021 04:35:19 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id g142so2726433qke.4;
+        Thu, 17 Jun 2021 04:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1623929398; x=1655465398;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:mime-version:
-   content-transfer-encoding;
-  bh=4QSTyRfubUndkbBs5+6KQTQPFCIZthylghgXKSrFE54=;
-  b=ZeLv3KXv+7B7Ch20wNS5TkdYT256S7w2ZO2l7jWK/CsS5i36m82aLYUW
-   YZ3zkACo5rBBOiatX54+SPJfaAn+J+/gi2uaoroJqUxcLcmD7Ghcd1Iek
-   8oDAOD2A3PcFTvVYQ7J0XTa2KC3h1YryF7/fbFtDMCpFQB7So7SIcFZIw
-   Y=;
-X-IronPort-AV: E=Sophos;i="5.83,280,1616457600"; 
-   d="scan'208";a="114907178"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-69849ee2.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-4101.iad4.amazon.com with ESMTP; 17 Jun 2021 11:29:47 +0000
-Received: from EX13D14EUB001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-2a-69849ee2.us-west-2.amazon.com (Postfix) with ESMTPS id EC450A18F2;
-        Thu, 17 Jun 2021 11:29:43 +0000 (UTC)
-Received: from EX13D13EUB001.ant.amazon.com (10.43.166.101) by
- EX13D14EUB001.ant.amazon.com (10.43.166.7) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Thu, 17 Jun 2021 11:29:42 +0000
-Received: from EX13D13EUB001.ant.amazon.com ([10.43.166.101]) by
- EX13D13EUB001.ant.amazon.com ([10.43.166.101]) with mapi id 15.00.1497.018;
- Thu, 17 Jun 2021 11:29:42 +0000
-From:   "Boehme, Markus" <markubo@amazon.de>
-To:     "sj38.park@gmail.com" <sj38.park@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-CC:     "benh@kernel.crashing.org" <benh@kernel.crashing.org>,
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=8tErQQGqVARuWTPJ1UZnyWbISdS7OqCTl4R1CLBW1Bw=;
+        b=rZOgBxNZ5BtwSpmkYY+as1qvp1TbrqJ0z57PQkLfw1swif02hqM2t3ddSmm12goxP7
+         5rzGLL3ijB2rNQ7d9tJ+AiQUj31PuPwM/ILmpA3dNUvBsZ8ZnCVXG4H8mDNusWZPWvkZ
+         1jW/4PmJM6x9UxKd9H4usq7jqu+TBfv80XZpAdhwKT03+93nKzte+SIxS+msrftT0d+h
+         EeIlZCBo9wP3Mn1y9LzgjQF2n9ptqbMem6VXoN1WnqYnHzC90MRLI2nRHisW0eOkRSAU
+         2BzaogoZcyOXoBsMDx9NEck5auNah20J2Nu59lPcoUA78T0XKszLlMvLnd4LslXqxP0D
+         gSoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=8tErQQGqVARuWTPJ1UZnyWbISdS7OqCTl4R1CLBW1Bw=;
+        b=QBwgVOfec2daXiustEpbOijx6rbO3uFgj7n6OCJ4sC5AH57SXM6uGVpoghD+7oBsv7
+         kMrNuTz8/KDHh7PFSUwWM1FVrU9mj8aoFxMVUGdcA/01/irT3rxyIuh2kwA2sGrUOITG
+         1CTm9vMhkoV4nFKoF1PbLGjCo46zpR/PV/SKc4DLtQKOSnPG5mrAVqV/onVODYEBzCVZ
+         hbA6HI7UDXvcLhoJ2v8i/SSR8cyDDPpMUSyRFOLIvbJaM2qdukkczqbAc2s8A8doawcm
+         khXBS1ow86pecSw+g04ZdJvseTKNlilO6ybJyd/JLnH2/Z6ehU53vZbc8uZotgXidix6
+         aE1A==
+X-Gm-Message-State: AOAM530BwjDnkPMhjtLL/RIN5TbYRqp93mYqvBFHDXWavVf1sexSK8W9
+        TRAv0QJfB3yOO65UbGwqaVQ=
+X-Google-Smtp-Source: ABdhPJwvYMe52BcZr+JE8BaqGbvb1iv78gnjVOMlpQLdxJauIyJdXY4BjI+L07ic566Orq7pHwZFMQ==
+X-Received: by 2002:a05:620a:140c:: with SMTP id d12mr3277055qkj.228.1623929718452;
+        Thu, 17 Jun 2021 04:35:18 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id t30sm1489260qkm.11.2021.06.17.04.35.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jun 2021 04:35:17 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     "Boehme, Markus" <markubo@amazon.de>
+Cc:     "sj38.park@gmail.com" <sj38.park@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         "Foerster, Leonard" <foersleo@amazon.de>,
         "guoju.fgj@alibaba-inc.com" <guoju.fgj@alibaba-inc.com>,
         "brendanhiggins@google.com" <brendanhiggins@google.com>,
@@ -86,73 +98,81 @@ CC:     "benh@kernel.crashing.org" <benh@kernel.crashing.org>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v30 12/13] mm/damon: Add user space selftests
-Thread-Topic: [PATCH v30 12/13] mm/damon: Add user space selftests
-Thread-Index: AQHXYoHCyC4WtkzPBU+BE/7p9v1QtqsYEqyAgAAAcIA=
-Date:   Thu, 17 Jun 2021 11:29:41 +0000
-Message-ID: <1ad122038f283961b787b26bb838a063ff7c43cf.camel@amazon.de>
-References: <20210616073119.16758-1-sj38.park@gmail.com>
-         <20210616073119.16758-13-sj38.park@gmail.com>
-         <592c117d55bea3e5f97c49cbe9a79f0093e03dcb.camel@amazon.de>
-In-Reply-To: <592c117d55bea3e5f97c49cbe9a79f0093e03dcb.camel@amazon.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.164.49]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <121522546DD7674780FF5A08D671D29D@amazon.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Date:   Thu, 17 Jun 2021 11:35:04 +0000
+Message-Id: <20210617113504.5525-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <1ad122038f283961b787b26bb838a063ff7c43cf.camel@amazon.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVGh1LCAyMDIxLTA2LTE3IGF0IDExOjI4ICswMDAwLCBCb2VobWUsIE1hcmt1cyB3cm90ZToN
-Cj4gT24gV2VkLCAyMDIxLTA2LTE2IGF0IDA3OjMxICswMDAwLCBTZW9uZ0phZSBQYXJrIHdyb3Rl
-Og0KPiA+IEZyb206IFNlb25nSmFlIFBhcmsgPHNqcGFya0BhbWF6b24uZGU+DQo+ID4gDQo+ID4g
-VGhpcyBjb21taXQgYWRkcyBhIHNpbXBsZSB1c2VyIHNwYWNlIHRlc3RzIGZvciBEQU1PTi4gIFRo
-ZSB0ZXN0cw0KPiA+IGFyZQ0KPiA+IHVzaW5nIGtzZWxmdGVzdCBmcmFtZXdvcmsuDQo+ID4gDQo+
-ID4gU2lnbmVkLW9mZi1ieTogU2VvbmdKYWUgUGFyayA8c2pwYXJrQGFtYXpvbi5kZT4NCj4gPiAt
-LS0NCj4gPiAgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvZGFtb24vTWFrZWZpbGUgICAgICAgIHwg
-IDcgKysNCj4gPiAgLi4uL3NlbGZ0ZXN0cy9kYW1vbi9fY2hrX2RlcGVuZGVuY3kuc2ggICAgICAg
-IHwgMjggKysrKysrKw0KPiA+ICAuLi4vdGVzdGluZy9zZWxmdGVzdHMvZGFtb24vZGVidWdmc19h
-dHRycy5zaCAgfCA3NQ0KPiA+ICsrKysrKysrKysrKysrKysrKysNCj4gPiAgMyBmaWxlcyBjaGFu
-Z2VkLCAxMTAgaW5zZXJ0aW9ucygrKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgdG9vbHMvdGVz
-dGluZy9zZWxmdGVzdHMvZGFtb24vTWFrZWZpbGUNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+
-ID4gdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvZGFtb24vX2Noa19kZXBlbmRlbmN5LnNoDQo+ID4g
-IGNyZWF0ZSBtb2RlIDEwMDc1NSB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9kYW1vbi9kZWJ1Z2Zz
-X2F0dHJzLnNoDQo+ID4gDQo+ID4gWy4uLl0NCj4gPiBkaWZmIC0tZ2l0IGEvdG9vbHMvdGVzdGlu
-Zy9zZWxmdGVzdHMvZGFtb24vZGVidWdmc19hdHRycy5zaA0KPiA+IGIvdG9vbHMvdGVzdGluZy9z
-ZWxmdGVzdHMvZGFtb24vZGVidWdmc19hdHRycy5zaA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNzU1
-DQo+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi42MDM0MmQ2Yzg2ZDgNCj4gPiAtLS0gL2Rldi9udWxs
-DQo+ID4gKysrIGIvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvZGFtb24vZGVidWdmc19hdHRycy5z
-aA0KPiA+IEBAIC0wLDAgKzEsNzUgQEANCj4gPiArIyEvYmluL2Jhc2gNCj4gPiArIyBTUERYLUxp
-Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ICsNCj4gPiArdGVzdF93cml0ZV9yZXN1bHQo
-KSB7DQo+ID4gKwlmaWxlPSQxDQo+ID4gKwljb250ZW50PSQyDQo+ID4gKwlvcmlnX2NvbnRlbnQ9
-JDMNCj4gPiArCWV4cGVjdF9yZWFzb249JDQNCj4gPiArCWV4cGVjdGVkPSQ1DQo+ID4gKw0KPiA+
-ICsJZWNobyAiJGNvbnRlbnQiID4gIiRmaWxlIg0KPiA+ICsJaWYgWyAkPyAtbmUgIiRleHBlY3Rl
-ZCIgXQ0KPiA+ICsJdGhlbg0KPiA+ICsJCWVjaG8gIndyaXRpbmcgJGNvbnRlbnQgdG8gJGZpbGUg
-ZG9lc24ndCByZXR1cm4NCj4gPiAkZXhwZWN0ZWQiDQo+ID4gKwkJZWNobyAiZXhwZWN0ZWQgYmVj
-YXVzZTogJGV4cGVjdF9yZWFzb24iDQo+ID4gKwkJZWNobyAiJG9yaWdfY29udGVudCIgPiAiJGZp
-bGUiDQo+ID4gKwkJZXhpdCAxDQo+ID4gKwlmaQ0KPiA+ICt9DQo+ID4gKw0KPiA+ICt0ZXN0X3dy
-aXRlX3N1Y2MoKSB7DQo+ID4gKwl0ZXN0X3dyaXRlX3Jlc3VsdCAiJDEiICIkMiIgIiQzIiAiJDQi
-IDANCj4gPiArfQ0KPiA+ICsNCj4gPiArdGVzdF93cml0ZV9mYWlsKCkgew0KPiA+ICsJdGVzdF93
-cml0ZV9yZXN1bHQgIiQxIiAiJDIiICIkMyIgIiQ0IiAxDQo+ID4gK30NCj4gPiArDQo+ID4gK3Rl
-c3RfY29udGVudCgpIHsNCj4gPiArCWZpbGU9JDENCj4gPiArCW9yaWdfY29udGVudD0kMg0KPiA+
-ICsJZXhwZWN0ZWQ9JDMNCj4gPiArCWV4cGVjdF9yZWFzb249JDQNCj4gPiArDQo+ID4gKwljb250
-ZW50PSQoY2F0ICIkZmlsZSIpDQo+ID4gKwlpZiBbICIkY29udGVudCIgIT0gIiRjb250ZW50IiBd
-DQo+IA0KPiBUaGF0J2xsIGFsd2F5cyBldmFsdWF0ZSBmYWxzZSBhbmQgc2hvdWxkIGNvbXBhcmUg
-YWdhaW5zdCAiZXhwZWN0ZWQiDQo+IGluc3RlYWQuDQo+IA0KDQpGZWVsIGZyZWUgdG8gYWRkIFJl
-dmlld2VkLWJ5OiBNYXJrdXMgQm9laG1lIDxtYXJrdWJvQGFtYXpvbi5kZT4gd2hlbg0KdGhpcyBp
-cyBmaXhlZC4NCg0KPiA+ICsJdGhlbg0KPiA+ICsJCWVjaG8gInJlYWRpbmcgJGZpbGUgZXhwZWN0
-ZWQgJGV4cGVjdGVkIGJ1dCAkY29udGVudCINCj4gPiArCQllY2hvICJleHBlY3RlZCBiZWNhdXNl
-OiAkZXhwZWN0X3JlYXNvbiINCj4gPiArCQllY2hvICIkb3JpZ19jb250ZW50IiA+ICIkZmlsZSIN
-Cj4gPiArCQlleGl0IDENCj4gPiArCWZpDQo+ID4gK30NCj4gPiANCj4gPiBbLi4uXQ0KPiANCj4g
-T3RoZXJ3aXNlIGxvb2tpbmcgZ29vZC4NCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gTWFya3VzDQoK
-CgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAzOAox
-MDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4gU2NobGFlZ2VyLCBKb25h
-dGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVyZyB1bnRl
-ciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5IDIzNyA4NzkKCgo=
+From: SeongJae Park <sjpark@amazon.de>
 
+Hello Markus,
+
+On Thu, 17 Jun 2021 11:29:41 +0000 "Boehme, Markus" <markubo@amazon.de> wrote:
+
+> On Thu, 2021-06-17 at 11:28 +0000, Boehme, Markus wrote:
+> > On Wed, 2021-06-16 at 07:31 +0000, SeongJae Park wrote:
+> > > From: SeongJae Park <sjpark@amazon.de>
+> > > 
+> > > This commit adds a simple user space tests for DAMON.  The tests
+> > > are
+> > > using kselftest framework.
+> > > 
+> > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> > > ---
+> > >  tools/testing/selftests/damon/Makefile        |  7 ++
+> > >  .../selftests/damon/_chk_dependency.sh        | 28 +++++++
+> > >  .../testing/selftests/damon/debugfs_attrs.sh  | 75
+> > > +++++++++++++++++++
+> > >  3 files changed, 110 insertions(+)
+> > >  create mode 100644 tools/testing/selftests/damon/Makefile
+> > >  create mode 100644
+> > > tools/testing/selftests/damon/_chk_dependency.sh
+> > >  create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+> > > 
+> > > [...]
+> > > diff --git a/tools/testing/selftests/damon/debugfs_attrs.sh
+> > > b/tools/testing/selftests/damon/debugfs_attrs.sh
+> > > new file mode 100755
+> > > index 000000000000..60342d6c86d8
+> > > --- /dev/null
+> > > +++ b/tools/testing/selftests/damon/debugfs_attrs.sh
+[...]
+> > > +
+> > > +test_content() {
+> > > +	file=$1
+> > > +	orig_content=$2
+> > > +	expected=$3
+> > > +	expect_reason=$4
+> > > +
+> > > +	content=$(cat "$file")
+> > > +	if [ "$content" != "$content" ]
+> > 
+> > That'll always evaluate false and should compare against "expected"
+> > instead.
+
+Good catch, I will fix so in the next spin.
+
+> > 
+> 
+> Feel free to add Reviewed-by: Markus Boehme <markubo@amazon.de> when
+> this is fixed.
+
+Thank you!
+
+> 
+> > > +	then
+> > > +		echo "reading $file expected $expected but $content"
+> > > +		echo "expected because: $expect_reason"
+> > > +		echo "$orig_content" > "$file"
+> > > +		exit 1
+> > > +	fi
+> > > +}
+
+
+Thanks,
+SeongJae Park
+
+[...]
