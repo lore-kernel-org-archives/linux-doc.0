@@ -2,147 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC0E1C48BE5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 02:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD48C49EA2
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 02:58:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACDA46112D
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 02:57:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C4A2613BF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 02:58:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230144AbhFQC7d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 22:59:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46446 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229456AbhFQC7c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 22:59:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623898644;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DAFQKb5VrgrYV0k/wY/7SUmNCOTFhI8VI1aGDC5iIO8=;
-        b=Jcaba2sjm3xtgD+41q9NtOflWiE+Pu157aXqzq8ftYx4PdDhyRuiN0EOv/D7UK9OJDMwRj
-        ue6ccSw1tpICuLuaWPPTzO58+xG167gSdc2f4UqDtm3O7A9eKzgnBKMeD2+wZTbT2K0Lik
-        B+t5rtVS469LzOp27G/e3vyJb9e+AmQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-Qa95X5q1NXqQ2cElTwgXHw-1; Wed, 16 Jun 2021 22:57:23 -0400
-X-MC-Unique: Qa95X5q1NXqQ2cElTwgXHw-1
-Received: by mail-wr1-f70.google.com with SMTP id l2-20020adfe5820000b029011a64161d6aso2291661wrm.6
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 19:57:23 -0700 (PDT)
+        id S230161AbhFQDAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Jun 2021 23:00:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230236AbhFQDAu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 23:00:50 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82905C06175F
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 19:58:42 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id n12so3701388pgs.13
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 19:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pAetusrXJOJzWSJzpj/wpmSbSm54E0/FhIpgunOB9fg=;
+        b=ukzHIYxmdKkIQf64rUee88mkx/YVndIKeGyPC7juZMCTOHOZ8juq16b0buUyJHPM1A
+         JMaWUp7K63bjpALA1waqiGlhBxCR8a4CHnAM/noOylfw+06z1WpT34aH6757NHmsot31
+         4DoLbtGvHOiketrzTVIwOeGCGQ6DkFSlPBuFdofL4i9OREH6Qz719CfpP53p26U8YieQ
+         gNVM/M5rIQrk5tpUeZqypINbwENqGSXKtKrEY43EyRky19Q/YUhUB3I3ifozlbN2t+se
+         zihwN6OigL/4NHZ1Ue/JDuMOZdDDELwua7YPbob6N/xqagVBi6bXI1GBQGQPuLkyvo1f
+         y9Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=DAFQKb5VrgrYV0k/wY/7SUmNCOTFhI8VI1aGDC5iIO8=;
-        b=Ps7NLKMybRbqyyWSNmtajluHYWkIsaIWUGEOW2c9D3cUjaLlGDYyJMWcyMchGfQ7wE
-         lnurOpQ+RcAFGyLr5e8psd6ZOGIgBRe7l67RkBgGMfVKy6+rvY2KMwQ6h/jfTtIqoAc3
-         Lx9K18WPjUe8OEP+ojEFoZBG51pXM4VhKS63vcRdJr2WqZWBP+EhvMFDhiYOWBqkx+78
-         uZJrlXduGk6+f5DMicpIxxxjjjVI/nxoukeHHt56pDBtRmUKLBJ3sN+NnRIWQOjyjlEr
-         ikowb8UH0GdhyfeOFyRFdE0xDrALMOYfB2Z6tY9J5m6/YKNNfqymajIZpkBSMR+Aitp1
-         BFXw==
-X-Gm-Message-State: AOAM532yIWlCEMe8U75nF7mGTdcViYJnZZchk3o55iDoVHcefeaY8W8w
-        0/+z/90bRdLAksYow3GvFdDmIN83pKPs8Jid1Wvpa0J/9AKqDkEOPAxOA3tC7/ajyuI1+7xutUg
-        L5NsGq7OxfSWan9Ommlu7
-X-Received: by 2002:adf:fa08:: with SMTP id m8mr2588905wrr.319.1623898642537;
-        Wed, 16 Jun 2021 19:57:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCrsdMs441mSf9ppOn+tdXQjRSYRgSoQKu8IvgKpu90SjG1vEtnx9wN6BEODI05JDaMf9R/Q==
-X-Received: by 2002:adf:fa08:: with SMTP id m8mr2588889wrr.319.1623898642332;
-        Wed, 16 Jun 2021 19:57:22 -0700 (PDT)
-Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
-        by smtp.gmail.com with ESMTPSA id x7sm3933291wrn.3.2021.06.16.19.57.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Jun 2021 19:57:21 -0700 (PDT)
-From:   Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH 2/5] cgroup/cpuset: Add new cpus.partition type with no
- load balancing
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <20210603212416.25934-1-longman@redhat.com>
- <20210603212416.25934-3-longman@redhat.com>
- <YMpjbCWpSDIz4bHt@slm.duckdns.org>
-Message-ID: <557d7fdb-5dae-11e1-4f82-ae9f4334c06a@redhat.com>
-Date:   Wed, 16 Jun 2021 22:57:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-MIME-Version: 1.0
-In-Reply-To: <YMpjbCWpSDIz4bHt@slm.duckdns.org>
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=pAetusrXJOJzWSJzpj/wpmSbSm54E0/FhIpgunOB9fg=;
+        b=F7DR79HQxypu5xp5wDpmIbb9Eg2kJixcBzTTq1Ed635YATgEDek+yy5zPqOxwEsNE4
+         cNjPBpKPNq/a3sdK21LSNwPy58r6EBiYWzU3R5Q38a7DaLGtWo1otNg21e2KXw7jwK/b
+         x0DKNL4vimJUHdZ+TFQPbTfLZq36xPAPmBdHYxG60BHP/ZNxDHZdKXULSyBwWXGAJhGW
+         8VoAYqqiUVIqH4kS/xE9CXzTnzIB4zcFDOaBt2cGaAT8ig+iinnF9R6fcAjADu8hSTgh
+         tjCvB1b06uBx2piRISJxRW8SMF+LxIGo5FyA/S8PlfFTWS5lEUFvfw08JP4AbpFnmnc+
+         /nlg==
+X-Gm-Message-State: AOAM531jjKp4IsAqDgg8AqaThHEfBYHKER+eb4QvQ89h1njbmasN7b+i
+        r60VU+oCKinZyxZz+GCg6LgzCA==
+X-Google-Smtp-Source: ABdhPJxM8YGfhTyvdc1ihezx3Yt6LpJ2Zg7c25L7/ASVxuUM6An10/lYTrBBK2BJS6+69kGdNj0Eyg==
+X-Received: by 2002:a05:6a00:c2:b029:2ee:9cfc:af85 with SMTP id e2-20020a056a0000c2b02902ee9cfcaf85mr3098604pfj.78.1623898721881;
+        Wed, 16 Jun 2021 19:58:41 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id u9sm3633698pgp.90.2021.06.16.19.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jun 2021 19:58:41 -0700 (PDT)
+Date:   Wed, 16 Jun 2021 19:58:41 -0700 (PDT)
+X-Google-Original-Date: Wed, 16 Jun 2021 19:58:38 PDT (-0700)
+Subject:     Re: [PATCH v5 1/3] riscv: Move kernel mapping outside of linear mapping
+In-Reply-To: <20210611110019.GA579376@roeck-us.net>
+CC:     schwab@linux-m68k.org, alex@ghiti.fr, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
+        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     schwab@linux-m68k.org, linux@roeck-us.net
+Message-ID: <mhng-569bbfda-00d0-4c1f-9a88-69021f258f7e@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/21 4:47 PM, Tejun Heo wrote:
-> Hello,
+On Fri, 11 Jun 2021 04:00:19 PDT (-0700), linux@roeck-us.net wrote:
+> On Thu, Jun 10, 2021 at 07:29:15PM +0200, Andreas Schwab wrote:
+>> On Jun 10 2021, Guenter Roeck wrote:
+>>
+>> > On Thu, Jun 10, 2021 at 07:11:38PM +0200, Andreas Schwab wrote:
+>> >> On Jun 10 2021, Guenter Roeck wrote:
+>> >>
+>> >> > On Thu, Jun 10, 2021 at 06:39:39PM +0200, Andreas Schwab wrote:
+>> >> >> On Apr 18 2021, Alex Ghiti wrote:
+>> >> >>
+>> >> >> > To sum up, there are 3 patches that fix this series:
+>> >> >> >
+>> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210415110426.2238-1-alex@ghiti.fr/
+>> >> >> >
+>> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210417172159.32085-1-alex@ghiti.fr/
+>> >> >> >
+>> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210418112856.15078-1-alex@ghiti.fr/
+>> >> >>
+>> >> >> Has this been fixed yet?  Booting is still broken here.
+>> >> >>
+>> >> >
+>> >> > In -next ?
+>> >>
+>> >> No, -rc5.
+>> >>
+>> > Booting v5.13-rc5 in qemu works for me for riscv32 and riscv64,
+>> > but of course that doesn't mean much. Just wondering, not knowing
+>> > the context - did you provide details ?
+>>
+>> Does that work for you:
+>>
+>> https://github.com/openSUSE/kernel-source/blob/master/config/riscv64/default
+>>
 >
-> Generally looks fine to me.
->
-> On Thu, Jun 03, 2021 at 05:24:13PM -0400, Waiman Long wrote:
->> @@ -1984,12 +1987,31 @@ static int update_prstate(struct cpuset *cs, int val)
->>   			goto out;
->>   
->>   		err = update_parent_subparts_cpumask(cs, partcmd_enable,
->> -						     NULL, &tmp);
->> +						     NULL, &tmpmask);
->> +
->>   		if (err) {
->>   			update_flag(CS_CPU_EXCLUSIVE, cs, 0);
->>   			goto out;
->> +		} else if (new_prs == PRS_ENABLED_NOLB) {
->> +			/*
->> +			 * Disable the load balance flag should not return an
->                                   ^ing
->
-> and "else if" after "if (err) goto out" block is weird. The two conditions
-> don't need to be tied together.
+> That isn't an upstream kernel configuration; it looks like includes suse
+> patches. But, yes, it does crash almost immediately if I build an upstream
+> kernel based on it and try to run that kernel in qemu. I did not try to
+> track it down further; after all, it might just be that the configuration
+> is inappropriate for use with qemu. But the configuration isn't really
+> what I had asked.
 
-Yes, the else part is redundant in this case. Will remove it.
+This seems a long way off from defconfig.  It's entirly possible I'm 
+missing something, but at least CONFIG_SOC_VIRT is jumping out as 
+something that's disabled in the SUSE config but enabled upstream.  That 
+alone shouldn't actually do anything, but it does ensure we have all the 
+drivers necessary to boot on QEMU.
 
-
->
->> @@ -2518,6 +2547,9 @@ static int sched_partition_show(struct seq_file *seq, void *v)
->>   	case PRS_ENABLED:
->>   		seq_puts(seq, "root\n");
->>   		break;
->> +	case PRS_ENABLED_NOLB:
->> +		seq_puts(seq, "root-nolb\n");
->> +		break;
->>   	case PRS_DISABLED:
->>   		seq_puts(seq, "member\n");
->>   		break;
->> @@ -2544,6 +2576,8 @@ static ssize_t sched_partition_write(struct kernfs_open_file *of, char *buf,
->>   		val = PRS_ENABLED;
->>   	else if (!strcmp(buf, "member"))
->>   		val = PRS_DISABLED;
->> +	else if (!strcmp(buf, "root-nolb"))
->> +		val = PRS_ENABLED_NOLB;
->>   	else
->>   		return -EINVAL;
-> I wonder whether there's a better name than "root-nolb" because nolb isn't
-> the most readable and we are using space as the delimiter for other names.
-> Would something like "isolated" work?
-
-Right. "isolated" is a better name and it corresponds better with the 
-isolcpus kernel command line option. Will change the name.
-
-Thanks,
-Longman
-
+It's entierly possible there's a real bug here, though, as I don't 
+really see what these relocatable patches would have to do with that.
