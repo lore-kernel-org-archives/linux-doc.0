@@ -2,81 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D2FC49361
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 349AEC2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:48:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C716613CB
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:35:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17FF9613E7
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:48:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233628AbhFQThY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 15:37:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48408 "EHLO
+        id S231310AbhFQTus (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 15:50:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233599AbhFQThX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 15:37:23 -0400
+        with ESMTP id S230161AbhFQTur (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 15:50:47 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13F2FC061574;
-        Thu, 17 Jun 2021 12:35:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A09EC061574;
+        Thu, 17 Jun 2021 12:48:40 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d:444a:d152:279d:1dbb])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A93469A9;
-        Thu, 17 Jun 2021 19:35:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A93469A9
+        by ms.lwn.net (Postfix) with ESMTPSA id BED119A9;
+        Thu, 17 Jun 2021 19:48:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BED119A9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1623958514; bh=Ob76x7fxQDpyGJnHa31xoDRYOIjUeb2UTOSmumypFGM=;
+        t=1623959319; bh=ZInPe7rb2hVV4jWX2+NphKYQLL17I62Jt5XXMTdyq8M=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Wl987n+7qTGE/KOM2prVX9YDpbSt8wwuxgz0twwMYYpUJfEgudq12x+JUN63FHKBC
-         CtHRaIFZiFgQfgOh2IGa26RFx/+yx5WFl1FJ3X9RmhWnPhOTok8vOP8kjPHWKONWZZ
-         J9uKe8iXDnLzd3wYdgPwEZITwVLlffEj9pCjBHFFV8FbAIBnjAl54FTCMJdEVGZLRi
-         8qrb9j/kiT9YV85XXtje09nGoQZCBZ+HlYUIYKCAsrnZj5XL4gk0A0zDK8yV1vdlAU
-         y7uxQWkMhnNl/RQMgdBd0wpzPDnRSWUieK0ts+R755yHXeeIfQfoRF3d5zda2F/niH
-         07rNDop6MQbfA==
+        b=D4QfKxr0uIXqFTu7jVHeIouq+1rtDp9T9pgLow4m7TvU5ldNVROZ7d3Yo4MY95FYk
+         vzQWAO/vThVYmFTpUxzHd9gufYRvf9ilQxn6MPKv4RLKuJyg4BUDZrj5YwPYUGB7zx
+         AswQ1zC+jdQLNrGDLRFsUdWFGNBANVPt7g9hk7ZDgjF9S3faw8bjIEzI1qHIiBTgzb
+         Zd1YEEA3wWchx2icn2XcIHX95vDSlBNrtMN2S7brj2FHQYlY/ITvNhrPEagGndCHEx
+         4frrylG4bK15qTKphKplc19HHYOWrGTu6g33KhjB0bgJpBsHoWahvoGKH5I3RQgcKJ
+         6CcGo9DmiP3cQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jakub Kicinski <kuba@kernel.org>, Leo Yan <leo.yan@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mike Leach <mike.leach@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        coresight@lists.linaro.org, intel-wired-lan@lists.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-ext4@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 0/8] Replace some bad characters on documents
-In-Reply-To: <cover.1623826294.git.mchehab+huawei@kernel.org>
-References: <cover.1623826294.git.mchehab+huawei@kernel.org>
-Date:   Thu, 17 Jun 2021 13:35:14 -0600
-Message-ID: <87lf78thcd.fsf@meer.lwn.net>
+To:     Hu Haowen <src.res@email.cn>, bobwxc@email.cn,
+        siyanteng@loongson.cn
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] docs/zh_CN: create new translations for
+ zh_CN/dev-tools/testing-overview
+In-Reply-To: <20210617070051.32794-1-src.res@email.cn>
+References: <20210617070051.32794-1-src.res@email.cn>
+Date:   Thu, 17 Jun 2021 13:48:39 -0600
+Message-ID: <87czsktgq0.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Hu Haowen <src.res@email.cn> writes:
 
-> Hi Jon,
+> Create new translations for dev-tools/testing-overview.rst and link it
+> to dev-tools/index.rst with TODOList modifications.
 >
-> This series contain the remaining 8 patches I submitted at v3 that
-> weren't merged yet at -next.
+> Signed-off-by: Hu Haowen <src.res@email.cn>
+> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/dev-tools/index.rst    |   5 +
+>  .../zh_CN/dev-tools/testing-overview.rst      | 110 ++++++++++++++++++
+>  2 files changed, 115 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/dev-tools/testing-overview.rst
 >
-> This series is rebased on the top of your docs-next branch.
->
-> No changes here, except by some Reviewed/ack lines, and at the
-> name of the final patch (per PCI maintainer's request).
+> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
 
-Applied, thanks.
+This patch doesn't apply to current docs-next.  I can fix that, but then
+it also adds this build warning:
+
+  /stuff/k/git/kernel/Documentation/translations/zh_CN/dev-tools/testing-overview.rst:78: WARNING: unknown document: kcov
+
+Please, build-test your patches before sending them to me...
+
+Thanks,
 
 jon
