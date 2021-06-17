@@ -2,80 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 349AEC2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:48:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 866C7C2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 20:36:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17FF9613E7
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 19:48:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6928B613D8
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 20:36:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231310AbhFQTus (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 15:50:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51438 "EHLO
+        id S232129AbhFQUih (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 16:38:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230161AbhFQTur (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 15:50:47 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A09EC061574;
-        Thu, 17 Jun 2021 12:48:40 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d:444a:d152:279d:1dbb])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BED119A9;
-        Thu, 17 Jun 2021 19:48:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BED119A9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1623959319; bh=ZInPe7rb2hVV4jWX2+NphKYQLL17I62Jt5XXMTdyq8M=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=D4QfKxr0uIXqFTu7jVHeIouq+1rtDp9T9pgLow4m7TvU5ldNVROZ7d3Yo4MY95FYk
-         vzQWAO/vThVYmFTpUxzHd9gufYRvf9ilQxn6MPKv4RLKuJyg4BUDZrj5YwPYUGB7zx
-         AswQ1zC+jdQLNrGDLRFsUdWFGNBANVPt7g9hk7ZDgjF9S3faw8bjIEzI1qHIiBTgzb
-         Zd1YEEA3wWchx2icn2XcIHX95vDSlBNrtMN2S7brj2FHQYlY/ITvNhrPEagGndCHEx
-         4frrylG4bK15qTKphKplc19HHYOWrGTu6g33KhjB0bgJpBsHoWahvoGKH5I3RQgcKJ
-         6CcGo9DmiP3cQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Hu Haowen <src.res@email.cn>, bobwxc@email.cn,
-        siyanteng@loongson.cn
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] docs/zh_CN: create new translations for
- zh_CN/dev-tools/testing-overview
-In-Reply-To: <20210617070051.32794-1-src.res@email.cn>
-References: <20210617070051.32794-1-src.res@email.cn>
-Date:   Thu, 17 Jun 2021 13:48:39 -0600
-Message-ID: <87czsktgq0.fsf@meer.lwn.net>
+        with ESMTP id S231289AbhFQUih (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 16:38:37 -0400
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A77F5C061574;
+        Thu, 17 Jun 2021 13:36:27 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id bj15so3845646qkb.11;
+        Thu, 17 Jun 2021 13:36:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GDVXVk3I2rfDZGq72YGMlss6FWWN6DWRrgMI317m85w=;
+        b=Mv22Vt7LUDhtsumcHt5Y26h7SkqnTfCgdJRuDiYMQaRB+J5LHjnuIKKO74HTp2ODEk
+         NABwpe0U+O7t1P/8F47pi8S5z2HtItY5nTNrBIQ490O0qHO/Fm6CqhBY+OFfWpGFwVPV
+         CbTjlUaISQYrvHRjsPPZmtnllcVZrS4xNwE4Nt4h2zps/LJNAqVaG+dSRIyncITbiPBg
+         2Gv+1Ekm9wewDhRBlpswQbzkjNusYLWPwHB5Bcf9auTWkRZn/wddxRcuBd74pfsrguc0
+         y4hYdw+UReQMSo2afmepG4EFefOeHipSIWNUstHRb3aN9MmgUaODs6fJrFkdAhgHnJX2
+         gAWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GDVXVk3I2rfDZGq72YGMlss6FWWN6DWRrgMI317m85w=;
+        b=GcS0zedNGq/3RYBqe2NJb2o3vK/BspgR8VYTPsoPJP3D2hIHcJsrafGc6+jR+cKqrK
+         g1k9arGaot/WEM3ssaPAlD370+SO9p8Dm77abD4zpPDLIO9QZhqMd1LGSAEws84C3sha
+         RV2EyFvrWZe9DOKdaRQr5ZX4vKhqS+CxLO9AGcSMbYTPc5CmLbI0Ma0B++NxeJDa/qy2
+         9kGk1PVI9FEmZHJy+hWuhc0lSeewiaUF4ncecY8GN/a4ISADBjpXiBMSKJtGTHElhW8n
+         oltq9X37LWpaEz0qqBxhbdeGhTBFGNgs6nl4/nBay4pqOZOR7/i9crfmci5jgtBbgXXW
+         7YnQ==
+X-Gm-Message-State: AOAM530k5OYsMACg2KP124OVMOY22ZUX836H73xjyr5UmTdSTdizkRrz
+        uFEj90utdsXX7bXmhMZYiiCswNiKLELIhaAgX8M=
+X-Google-Smtp-Source: ABdhPJwbimy2MZD9Ae7ayigWyBvayOX46/hs9s8m0jpHC9F7aNAl602LheK2N04NE4+8/4gkWT+3dvG5x8Qt6DcXKR4=
+X-Received: by 2002:a25:6612:: with SMTP id a18mr9045907ybc.347.1623962186492;
+ Thu, 17 Jun 2021 13:36:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210617182023.8137-1-grantseltzer@gmail.com> <20210617182023.8137-2-grantseltzer@gmail.com>
+In-Reply-To: <20210617182023.8137-2-grantseltzer@gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Thu, 17 Jun 2021 13:36:15 -0700
+Message-ID: <CAEf4Bzar3CVJCkKHo5RKcCXLAwEVW5y_JUTo7_cVuBOwjRaiJg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 1/1] Add documentation for libbpf including
+ API autogen
+To:     grantseltzer <grantseltzer@gmail.com>
+Cc:     Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hu Haowen <src.res@email.cn> writes:
-
-> Create new translations for dev-tools/testing-overview.rst and link it
-> to dev-tools/index.rst with TODOList modifications.
+On Thu, Jun 17, 2021 at 11:20 AM grantseltzer <grantseltzer@gmail.com> wrote:
 >
-> Signed-off-by: Hu Haowen <src.res@email.cn>
-> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> This adds rst files containing documentation for libbpf. This includes
+> the addition of libbpf_api.rst which pulls comment documentation from
+> header files in libbpf under tools/lib/bpf/. The comment docs would be
+> of the standard kernel doc format.
+>
+> Signed-off-by: grantseltzer <grantseltzer@gmail.com>
 > ---
->  .../translations/zh_CN/dev-tools/index.rst    |   5 +
->  .../zh_CN/dev-tools/testing-overview.rst      | 110 ++++++++++++++++++
->  2 files changed, 115 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>  Documentation/bpf/index.rst                   | 13 +++++++
+>  Documentation/bpf/libbpf.rst                  | 14 +++++++
+>  Documentation/bpf/libbpf_api.rst              | 27 ++++++++++++++
+>  Documentation/bpf/libbpf_build.rst            | 37 +++++++++++++++++++
+
+Didn't we agree to have docs under Documentation/bpf/libbpf? That
+should make it clear that each is libbpf-specific and probably would
+make copying/syncing easier. Plus it will be a libbpf sub-section in
+the docs, no?
+
+>  .../bpf/libbpf_naming_convention.rst          | 32 +++++++---------
+>  5 files changed, 104 insertions(+), 19 deletions(-)
+>  create mode 100644 Documentation/bpf/libbpf.rst
+>  create mode 100644 Documentation/bpf/libbpf_api.rst
+>  create mode 100644 Documentation/bpf/libbpf_build.rst
+>  rename tools/lib/bpf/README.rst => Documentation/bpf/libbpf_naming_convention.rst (89%)
 >
-> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+> diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+> index a702f67dd..44f646735 100644
+> --- a/Documentation/bpf/index.rst
+> +++ b/Documentation/bpf/index.rst
+> @@ -12,6 +12,19 @@ BPF instruction-set.
+>  The Cilium project also maintains a `BPF and XDP Reference Guide`_
+>  that goes into great technical depth about the BPF Architecture.
+>
+> +libbpf
+> +======
+> +
+> +Libbpf is a userspace library for loading and interacting with bpf programs.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   libbpf
+> +   libbpf_api
+> +   libbpf_build
+> +   libbpf_naming_convention
+> +
+>  BPF Type Format (BTF)
+>  =====================
+>
+> diff --git a/Documentation/bpf/libbpf.rst b/Documentation/bpf/libbpf.rst
+> new file mode 100644
+> index 000000000..2e62cadee
+> --- /dev/null
+> +++ b/Documentation/bpf/libbpf.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 
-This patch doesn't apply to current docs-next.  I can fix that, but then
-it also adds this build warning:
+Should we use dual-license LGPL-2.1 OR BSD-2-Clause like the rest of libbpf?
 
-  /stuff/k/git/kernel/Documentation/translations/zh_CN/dev-tools/testing-overview.rst:78: WARNING: unknown document: kcov
+> +
+> +libbpf
+> +======
+> +
+> +This is documentation for libbpf, a userspace library for loading and
+> +interacting with bpf programs.
+> +
 
-Please, build-test your patches before sending them to me...
+[...]
 
-Thanks,
+> +    $ cd src
+> +    $ PKG_CONFIG_PATH=/build/root/lib64/pkgconfig DESTDIR=/build/root make
+> \ No newline at end of file
+> diff --git a/tools/lib/bpf/README.rst b/Documentation/bpf/libbpf_naming_convention.rst
+> similarity index 89%
+> rename from tools/lib/bpf/README.rst
+> rename to Documentation/bpf/libbpf_naming_convention.rst
+> index 8928f7787..b6dc5c592 100644
+> --- a/tools/lib/bpf/README.rst
+> +++ b/Documentation/bpf/libbpf_naming_convention.rst
+> @@ -1,7 +1,7 @@
+> -.. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+> +.. SPDX-License-Identifier: GPL-2.0
 
-jon
+I don't think we can just easily re-license without asking original
+contributor. But see above, I think we should stick to the
+dual-license to stay consistent with libbpf sources?
+
+
+[...]
