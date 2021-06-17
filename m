@@ -5,44 +5,44 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5DC1C2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:07:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9499EC2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:10:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C60F261209
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:07:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63E84613BF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 11:10:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231419AbhFQLJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 07:09:43 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:44966 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232329AbhFQLJi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 07:09:38 -0400
+        id S229901AbhFQLMi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 07:12:38 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:24760 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231346AbhFQLMh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 07:12:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1623928052; x=1655464052;
+  t=1623928231; x=1655464231;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:content-id:mime-version:
    content-transfer-encoding;
-  bh=+BkQlTcpQMgDlwUQiT9p+dZNhdj6d7z73rymX6g0Y/s=;
-  b=shd4uroZsKt6IO3Z7y4IvD//pU//1KoFYYyb8vyyKoYGGR14KBFkTQx9
-   wZ1G0cvTA7helaXRUQDyLwR08UAs19SMK3/5m3N4jMFfLhMDKycQLdqEQ
-   OcKxxhNCxtlH2YeoPOmh/44LYY8G/AyBQdf+VtH6574J0cwwwNT+29O6y
-   o=;
+  bh=SjNw0JAlxWOn1JDiuTjowRxzofF3Vruoxoeez19EyRw=;
+  b=IhbPAZUIrKqjhopghJV2cE/NnnvWsb66oxPomPdoCL9eRUphZCYQN/dw
+   k/7x5wVaC6ExLD75Q++p6/SeTWIEAZ1VU0Le1l1NRmjuuQDeszveuCemN
+   l/8F+RwEWMZNo/DdoqGqs4bs+aPc36CVZXKSVAwgYy9S/V8h3uGxOnL1f
+   0=;
 X-IronPort-AV: E=Sophos;i="5.83,280,1616457600"; 
-   d="scan'208";a="140641814"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-9102.sea19.amazon.com with ESMTP; 17 Jun 2021 11:07:22 +0000
-Received: from EX13D08EUB003.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
-        by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS id 8A86EA1860;
-        Thu, 17 Jun 2021 11:07:11 +0000 (UTC)
+   d="scan'208";a="131434296"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-33001.sea14.amazon.com with ESMTP; 17 Jun 2021 11:10:24 +0000
+Received: from EX13D14EUB001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com (Postfix) with ESMTPS id AE7BBA1B9C;
+        Thu, 17 Jun 2021 11:10:21 +0000 (UTC)
 Received: from EX13D13EUB001.ant.amazon.com (10.43.166.101) by
- EX13D08EUB003.ant.amazon.com (10.43.166.117) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Thu, 17 Jun 2021 11:07:10 +0000
+ EX13D14EUB001.ant.amazon.com (10.43.166.7) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.18; Thu, 17 Jun 2021 11:10:19 +0000
 Received: from EX13D13EUB001.ant.amazon.com ([10.43.166.101]) by
  EX13D13EUB001.ant.amazon.com ([10.43.166.101]) with mapi id 15.00.1497.018;
- Thu, 17 Jun 2021 11:07:10 +0000
+ Thu, 17 Jun 2021 11:10:19 +0000
 From:   "Boehme, Markus" <markubo@amazon.de>
 To:     "sj38.park@gmail.com" <sj38.park@gmail.com>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>
@@ -85,23 +85,23 @@ CC:     "benh@kernel.crashing.org" <benh@kernel.crashing.org>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "Woodhouse, David" <dwmw@amazon.co.uk>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v30 10/13] Documentation: Add documents for DAMON
-Thread-Topic: [PATCH v30 10/13] Documentation: Add documents for DAMON
-Thread-Index: AQHXYoHRO6t1j0COMUyCO/a1OiXYyKsYDM8A
-Date:   Thu, 17 Jun 2021 11:07:10 +0000
-Message-ID: <3a28ba410a6f6b69f1eb01f19c61f8dd7412d26d.camel@amazon.de>
+Subject: Re: [PATCH v30 13/13] MAINTAINERS: Update for DAMON
+Thread-Topic: [PATCH v30 13/13] MAINTAINERS: Update for DAMON
+Thread-Index: AQHXYoHIR6NmEo2PmUOZPfcxaTi1cKsYDbIA
+Date:   Thu, 17 Jun 2021 11:10:19 +0000
+Message-ID: <45185ae07a83ea0d3a27de0a7d10d0469caee44b.camel@amazon.de>
 References: <20210616073119.16758-1-sj38.park@gmail.com>
-         <20210616073119.16758-11-sj38.park@gmail.com>
-In-Reply-To: <20210616073119.16758-11-sj38.park@gmail.com>
+         <20210616073119.16758-14-sj38.park@gmail.com>
+In-Reply-To: <20210616073119.16758-14-sj38.park@gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.166.186]
+x-originating-ip: [10.43.164.169]
 Content-Type: text/plain; charset="utf-8"
-Content-ID: <91EAAD5FF01E6F44BDF2D64F7383EEB8@amazon.com>
+Content-ID: <66BD59A6B64D6C408C578CD485D5FDDC@amazon.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Precedence: bulk
@@ -110,31 +110,24 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 T24gV2VkLCAyMDIxLTA2LTE2IGF0IDA3OjMxICswMDAwLCBTZW9uZ0phZSBQYXJrIHdyb3RlOg0K
 PiBGcm9tOiBTZW9uZ0phZSBQYXJrIDxzanBhcmtAYW1hem9uLmRlPg0KPiANCj4gVGhpcyBjb21t
-aXQgYWRkcyBkb2N1bWVudHMgZm9yIERBTU9OIHVuZGVyDQo+IGBEb2N1bWVudGF0aW9uL2FkbWlu
-LWd1aWRlL21tL2RhbW9uL2AgYW5kIGBEb2N1bWVudGF0aW9uL3ZtL2RhbW9uL2AuDQo+IA0KPiBT
-aWduZWQtb2ZmLWJ5OiBTZW9uZ0phZSBQYXJrIDxzanBhcmtAYW1hem9uLmRlPg0KPiBSZXZpZXdl
-ZC1ieTogRmVybmFuZCBTaWViZXIgPHNpZWJlcmZAYW1hem9uLmNvbT4NCj4gLS0tDQo+ICBEb2N1
-bWVudGF0aW9uL2FkbWluLWd1aWRlL21tL2RhbW9uL2luZGV4LnJzdCB8ICAxNSArKw0KPiAgRG9j
-dW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9tbS9kYW1vbi9zdGFydC5yc3QgfCAxMTQgKysrKysrKysr
-KysrKw0KPiAgRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9tbS9kYW1vbi91c2FnZS5yc3QgfCAx
-MTIgKysrKysrKysrKysrKw0KPiAgRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9tbS9pbmRleC5y
-c3QgICAgICAgfCAgIDEgKw0KPiAgRG9jdW1lbnRhdGlvbi92bS9kYW1vbi9hcGkucnN0ICAgICAg
-ICAgICAgICAgfCAgMjAgKysrDQo+ICBEb2N1bWVudGF0aW9uL3ZtL2RhbW9uL2Rlc2lnbi5yc3Qg
-ICAgICAgICAgICB8IDE2NiArKysrKysrKysrKysrKysrKysrDQo+ICBEb2N1bWVudGF0aW9uL3Zt
-L2RhbW9uL2ZhcS5yc3QgICAgICAgICAgICAgICB8ICA1MSArKysrKysNCj4gIERvY3VtZW50YXRp
-b24vdm0vZGFtb24vaW5kZXgucnN0ICAgICAgICAgICAgIHwgIDMwICsrKysNCj4gIERvY3VtZW50
-YXRpb24vdm0vaW5kZXgucnN0ICAgICAgICAgICAgICAgICAgIHwgICAxICsNCj4gIDkgZmlsZXMg
-Y2hhbmdlZCwgNTEwIGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVu
-dGF0aW9uL2FkbWluLWd1aWRlL21tL2RhbW9uL2luZGV4LnJzdA0KPiAgY3JlYXRlIG1vZGUgMTAw
-NjQ0IERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbW0vZGFtb24vc3RhcnQucnN0DQo+ICBjcmVh
-dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9tbS9kYW1vbi91c2FnZS5y
-c3QNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3ZtL2RhbW9uL2FwaS5yc3QN
-Cj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3ZtL2RhbW9uL2Rlc2lnbi5yc3QN
-Cj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3ZtL2RhbW9uL2ZhcS5yc3QNCj4g
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3ZtL2RhbW9uL2luZGV4LnJzdA0KPiAN
-Cg0KUmV2aWV3ZWQtYnk6IE1hcmt1cyBCb2VobWUgPG1hcmt1Ym9AYW1hem9uLmRlPg0KCgoKQW1h
-em9uIERldmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcg
-QmVybGluCkdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4g
-V2Vpc3MKRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJC
-IDE0OTE3MyBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
+aXQgdXBkYXRlcyBNQUlOVEFJTkVSUyBmaWxlIGZvciBEQU1PTiByZWxhdGVkIGZpbGVzLg0KPiAN
+Cj4gU2lnbmVkLW9mZi1ieTogU2VvbmdKYWUgUGFyayA8c2pwYXJrQGFtYXpvbi5kZT4NCj4gLS0t
+DQo+ICBNQUlOVEFJTkVSUyB8IDEyICsrKysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDEy
+IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlO
+RVJTDQo+IGluZGV4IDBiY2I3ZjRjOWQ3NC4uZjY1Nzc1NDFlYjE1IDEwMDY0NA0KPiAtLS0gYS9N
+QUlOVEFJTkVSUw0KPiArKysgYi9NQUlOVEFJTkVSUw0KPiBAQCAtNTA5NCw2ICs1MDk0LDE4IEBA
+IEY6CW5ldC9heDI1L2F4MjVfb3V0LmMNCj4gIEY6CW5ldC9heDI1L2F4MjVfdGltZXIuYw0KPiAg
+RjoJbmV0L2F4MjUvc3lzY3RsX25ldF9heDI1LmMNCj4gIA0KPiArREFUQSBBQ0NFU1MgTU9OSVRP
+Ug0KPiArTToJU2VvbmdKYWUgUGFyayA8c2pwYXJrQGFtYXpvbi5kZT4NCj4gK0w6CWxpbnV4LW1t
+QGt2YWNrLm9yZw0KPiArUzoJTWFpbnRhaW5lZA0KPiArRjoJRG9jdW1lbnRhdGlvbi9hZG1pbi1n
+dWlkZS9tbS9kYW1vbi8qDQo+ICtGOglEb2N1bWVudGF0aW9uL3ZtL2RhbW9uLyoNCj4gK0Y6CWlu
+Y2x1ZGUvbGludXgvZGFtb24uaA0KPiArRjoJaW5jbHVkZS90cmFjZS9ldmVudHMvZGFtb24uaA0K
+PiArRjoJbW0vZGFtb24vKg0KPiArRjoJdG9vbHMvZGFtb24vKg0KPiArRjoJdG9vbHMvdGVzdGlu
+Zy9zZWxmdGVzdHMvZGFtb24vKg0KPiArDQo+ICBEQVZJQ09NIEZBU1QgRVRIRVJORVQgKERNRkUp
+IE5FVFdPUksgRFJJVkVSDQo+ICBMOgluZXRkZXZAdmdlci5rZXJuZWwub3JnDQo+ICBTOglPcnBo
+YW4NCg0KUmV2aWV3ZWQtYnk6IE1hcmt1cyBCb2VobWUgPG1hcmt1Ym9AYW1hem9uLmRlPg0KCgoK
+QW1hem9uIERldmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAx
+MTcgQmVybGluCkdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRo
+YW4gV2Vpc3MKRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIg
+SFJCIDE0OTE3MyBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
 
