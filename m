@@ -2,126 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD48C49EA2
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 02:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2084C49EA3
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 03:59:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C4A2613BF
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 02:58:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79C076117A
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 03:59:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbhFQDAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Jun 2021 23:00:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50536 "EHLO
+        id S229447AbhFQEBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 00:01:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbhFQDAu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jun 2021 23:00:50 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82905C06175F
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 19:58:42 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id n12so3701388pgs.13
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 19:58:42 -0700 (PDT)
+        with ESMTP id S229686AbhFQEBr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 00:01:47 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 390C1C06175F
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 20:59:04 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id o10-20020a17090aac0ab029016e92770073so3039198pjq.5
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jun 2021 20:59:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pAetusrXJOJzWSJzpj/wpmSbSm54E0/FhIpgunOB9fg=;
-        b=ukzHIYxmdKkIQf64rUee88mkx/YVndIKeGyPC7juZMCTOHOZ8juq16b0buUyJHPM1A
-         JMaWUp7K63bjpALA1waqiGlhBxCR8a4CHnAM/noOylfw+06z1WpT34aH6757NHmsot31
-         4DoLbtGvHOiketrzTVIwOeGCGQ6DkFSlPBuFdofL4i9OREH6Qz719CfpP53p26U8YieQ
-         gNVM/M5rIQrk5tpUeZqypINbwENqGSXKtKrEY43EyRky19Q/YUhUB3I3ifozlbN2t+se
-         zihwN6OigL/4NHZ1Ue/JDuMOZdDDELwua7YPbob6N/xqagVBi6bXI1GBQGQPuLkyvo1f
-         y9Tg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=a5D+ny1Y0c3O7KxzHuyI+M5mGXvaRgQ84CvvtncVlG0=;
+        b=fRcFPkiIxPDt9py7J1PQBOFWa8GEY8lHPvIBnBm1ce3CL3iHZHu/UZCEhEGJOVVCaA
+         VHKOkUgSyIJQ2Ruk0A2HflJ0G72K5plXNdgLkY4e1ZUcxSzfYUKbwM5q0pG5lNePiwOv
+         7FXxll2wYUEI85aVEsP19np7Ju9bEl8kDfsr25mfOtrQe07owDGhAhZzToqNsjeA/IPH
+         E+9IHrMS1E0RR1+reFfHNJI5ouyJ2XoNtLzW9AM3mUdmwZItucn/6F40ftKaCGJEwq2c
+         uQOFRr7oRd61zssn2NtqMyTC3iNCwKJ7UXnmUrPPz521WtPzXyoeZj+nlHxs99HDqXOZ
+         4nfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=pAetusrXJOJzWSJzpj/wpmSbSm54E0/FhIpgunOB9fg=;
-        b=F7DR79HQxypu5xp5wDpmIbb9Eg2kJixcBzTTq1Ed635YATgEDek+yy5zPqOxwEsNE4
-         cNjPBpKPNq/a3sdK21LSNwPy58r6EBiYWzU3R5Q38a7DaLGtWo1otNg21e2KXw7jwK/b
-         x0DKNL4vimJUHdZ+TFQPbTfLZq36xPAPmBdHYxG60BHP/ZNxDHZdKXULSyBwWXGAJhGW
-         8VoAYqqiUVIqH4kS/xE9CXzTnzIB4zcFDOaBt2cGaAT8ig+iinnF9R6fcAjADu8hSTgh
-         tjCvB1b06uBx2piRISJxRW8SMF+LxIGo5FyA/S8PlfFTWS5lEUFvfw08JP4AbpFnmnc+
-         /nlg==
-X-Gm-Message-State: AOAM531jjKp4IsAqDgg8AqaThHEfBYHKER+eb4QvQ89h1njbmasN7b+i
-        r60VU+oCKinZyxZz+GCg6LgzCA==
-X-Google-Smtp-Source: ABdhPJxM8YGfhTyvdc1ihezx3Yt6LpJ2Zg7c25L7/ASVxuUM6An10/lYTrBBK2BJS6+69kGdNj0Eyg==
-X-Received: by 2002:a05:6a00:c2:b029:2ee:9cfc:af85 with SMTP id e2-20020a056a0000c2b02902ee9cfcaf85mr3098604pfj.78.1623898721881;
-        Wed, 16 Jun 2021 19:58:41 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id u9sm3633698pgp.90.2021.06.16.19.58.41
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=a5D+ny1Y0c3O7KxzHuyI+M5mGXvaRgQ84CvvtncVlG0=;
+        b=TZTTNn5KUGRyyc39rbdgWMojPuCIc4whNr3CYV6OXOxsJcH71qAc+V34eblJUBc3yl
+         KtGRwdjgQ3G34jYejy+gaCw00lpwJrbluVF/sN2I0QrTyGJogVG9t4aJ62kKclet9hIM
+         OGTFQt1kG6bRDU5WRBEdxpJlySGxzgFx5H9fnkmLlH82Y//gdfkIAU58saP4Q0aRYAQQ
+         Ulnm2Z8MGZVAz7qTNtZnD09eW/RpOZCX9UUAxJ4SadEEXdavOMsHA4yuRbxuf6liTgkC
+         2CC5X44Nhx3xFuTVdyI7+ErWk5L/cn5QAbkxMWynxKmn3HcYTce47zBLXK1fba83sLY8
+         zarg==
+X-Gm-Message-State: AOAM531586RFnkQiJJ1jLrRbx7O5azrhhbvnjNzH1/YbmaorPFIa+iRs
+        Jt4wfCDDWBSgJUsM2VsT/ZdWKw==
+X-Google-Smtp-Source: ABdhPJyK8z8cdDdyBhx0CBSqDGBDOEf/ee2crujfR5xEIC5Ea+opK/+E62HCRvXJLb044uPARRa9xQ==
+X-Received: by 2002:a17:902:8d97:b029:113:d891:2ea0 with SMTP id v23-20020a1709028d97b0290113d8912ea0mr2678159plo.61.1623902343697;
+        Wed, 16 Jun 2021 20:59:03 -0700 (PDT)
+Received: from localhost ([136.185.134.182])
+        by smtp.gmail.com with ESMTPSA id j10sm3388366pjb.36.2021.06.16.20.59.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 19:58:41 -0700 (PDT)
-Date:   Wed, 16 Jun 2021 19:58:41 -0700 (PDT)
-X-Google-Original-Date: Wed, 16 Jun 2021 19:58:38 PDT (-0700)
-Subject:     Re: [PATCH v5 1/3] riscv: Move kernel mapping outside of linear mapping
-In-Reply-To: <20210611110019.GA579376@roeck-us.net>
-CC:     schwab@linux-m68k.org, alex@ghiti.fr, corbet@lwn.net,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
-        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     schwab@linux-m68k.org, linux@roeck-us.net
-Message-ID: <mhng-569bbfda-00d0-4c1f-9a88-69021f258f7e@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Wed, 16 Jun 2021 20:59:03 -0700 (PDT)
+Date:   Thu, 17 Jun 2021 09:29:01 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH] drivers: gpio: add virtio-gpio guest driver
+Message-ID: <20210617035901.kfzps6kg2emthjf4@vireshk-i7>
+References: <20210616114934.n3grzuh6c64wlaj6@vireshk-i7>
+ <5cffb354-0d00-5ace-260d-61ac0c4c7491@metux.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5cffb354-0d00-5ace-260d-61ac0c4c7491@metux.net>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Jun 2021 04:00:19 PDT (-0700), linux@roeck-us.net wrote:
-> On Thu, Jun 10, 2021 at 07:29:15PM +0200, Andreas Schwab wrote:
->> On Jun 10 2021, Guenter Roeck wrote:
->>
->> > On Thu, Jun 10, 2021 at 07:11:38PM +0200, Andreas Schwab wrote:
->> >> On Jun 10 2021, Guenter Roeck wrote:
->> >>
->> >> > On Thu, Jun 10, 2021 at 06:39:39PM +0200, Andreas Schwab wrote:
->> >> >> On Apr 18 2021, Alex Ghiti wrote:
->> >> >>
->> >> >> > To sum up, there are 3 patches that fix this series:
->> >> >> >
->> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210415110426.2238-1-alex@ghiti.fr/
->> >> >> >
->> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210417172159.32085-1-alex@ghiti.fr/
->> >> >> >
->> >> >> > https://patchwork.kernel.org/project/linux-riscv/patch/20210418112856.15078-1-alex@ghiti.fr/
->> >> >>
->> >> >> Has this been fixed yet?  Booting is still broken here.
->> >> >>
->> >> >
->> >> > In -next ?
->> >>
->> >> No, -rc5.
->> >>
->> > Booting v5.13-rc5 in qemu works for me for riscv32 and riscv64,
->> > but of course that doesn't mean much. Just wondering, not knowing
->> > the context - did you provide details ?
->>
->> Does that work for you:
->>
->> https://github.com/openSUSE/kernel-source/blob/master/config/riscv64/default
->>
->
-> That isn't an upstream kernel configuration; it looks like includes suse
-> patches. But, yes, it does crash almost immediately if I build an upstream
-> kernel based on it and try to run that kernel in qemu. I did not try to
-> track it down further; after all, it might just be that the configuration
-> is inappropriate for use with qemu. But the configuration isn't really
-> what I had asked.
+On 16-06-21, 17:04, Enrico Weigelt, metux IT consult wrote:
+> Half correct: I sent it to the list, but this wasn't tex'ified yet.
+> 
+> When we had an email conversation about this, it was about submitting
+> the existing spec in a formal correct way. Don't get me wrong: I
+> apreciate that somebody's doing the beaurocratic work. But still have
+> no idea why you changed it completely, so there's quite nothing left
+> but the name and that it somehow does gpio via virtio.
 
-This seems a long way off from defconfig.  It's entirly possible I'm 
-missing something, but at least CONFIG_SOC_VIRT is jumping out as 
-something that's disabled in the SUSE config but enabled upstream.  That 
-alone shouldn't actually do anything, but it does ensure we have all the 
-drivers necessary to boot on QEMU.
+> The one I've resent (now texified) a few days ago. It had been submitted
+> in ascii form last year. The answer from virtio TC folks whas that there
+> are some formal steps to be done and it needs to be patched int their
+> tex document.
 
-It's entierly possible there's a real bug here, though, as I don't 
-really see what these relocatable patches would have to do with that.
+Okay, we figured out now that you _haven't_ subscribed to virtio lists
+and so your stuff never landed in anyone's inbox. But you did send
+something and didn't completely went away.
+
+Since you started this all and still want to do it, I will take my
+patches back and let you finish with what you started. I will help
+review them.
+
+Please start with specification first, and resend them as soon as
+possible. So we can start with reviews there.
+
+Also please cc relevant people directly, like GPIO maintainers in
+kernel and few more from CC list of this email, as most of these
+people aren't subscribed to virtio lists, they will never get your
+patches otherwise. Lets get over this once and for all.
+
+> You sound like a politician that tries to push an hidden agenda,
+> made by some secret interest group in the back room, against the
+> people - like "resistance is futile".
+
+:)
+
+-- 
+viresh
