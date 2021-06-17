@@ -2,218 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F0E2C2B9F4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 18:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2050C2B9F4
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 18:56:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A5FC613ED
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 18:47:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3C35613EE
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 18:56:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbhFQStQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 14:49:16 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:65530 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231151AbhFQStP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 14:49:15 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15HIawXC007626;
-        Thu, 17 Jun 2021 18:45:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2020-01-29;
- bh=HJOY4OK+hvH8kqzf+T/g3v3TOM3Ict48IL4jQnIfAIE=;
- b=RQ0ri5VCPX4LOdXlCZKsrtTr9jWkdKwyuHHQSn3uNJ4qBDw+MhfDTyXn5jK9YnEp2dk8
- mP8OuPyDA1EXEAu4Qrj6kgDn/5ogcgGEeXllplibwl4242kZOT/jSAPLAnq5yPjjMxGm
- 7o69PwRVovHUBcTZt0yQUAb9ZKY5ygVtYupeBMvjh1MdIGVDe18fducUw1YdIS2+bGo+
- 9FcyOrFM51XzkUGFi3ToOCQle0KG70uL+6s9i9QKo8BLyJfOi56JvFuc2zcz3EDB0loe
- B6GwXNojWMaxPiXWeZbRYKT/pLcK25+gzSQmuJ9asK5q+5YJHjHBZV65c0LvWWr0ZPg+ xg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 397w1y1r61-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 17 Jun 2021 18:45:40 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15HIjaO6180356;
-        Thu, 17 Jun 2021 18:45:39 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2174.outbound.protection.outlook.com [104.47.57.174])
-        by userp3020.oracle.com with ESMTP id 396waxy5wg-3
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 17 Jun 2021 18:45:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i4lvCYwH9tzkwZpuNxDgykiWkdNOMX3OMU8uaFmz99TB+beHH7l2QsEJq0aLuiZm/tV48alfOHsyrnck8ZmL5om7i1NjKbbAOb9bNKxt/uBVhv2n0ZfWH3VN3NAwVuOb4WNrS7uR3MOx9I7s3n88ErGuB5y5lWZ8NYKxIDury8uJAXiSVqOIwkmZ3BzqFYW5JeBVZLPzdl/pfeUnbaDWSYlgNTDAK96cQ5l38OQWJHlIMvWHtqbZwHtKLCOuRijcnevKg9fm5Dy7wbzhUnvA2m8w+EhJujCb/N8lBFuY8sozncj3SmXFhVh1EDkQ0xCQGAHJt8seNuLC3ngsNkFSzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HJOY4OK+hvH8kqzf+T/g3v3TOM3Ict48IL4jQnIfAIE=;
- b=VDDxFjfqigrIHXbYnTH1Aoi+NWfiyc8JvypcXuxW+lfUtG3gMPq2NFBuARH/lxvjrDbGJhzI3fIi9SwsY7pEvdvvjFZD6i7Bb+Orh9ca2GM8IJPuDnvYsuPImjpNNMri5sAVkcHcWYAE0tO6sz5+XUFsCTLTxZm7Ra5yxggMXUvLfDTycBTOUo7GiSYd3p/EeUOWI9hK0p89ddYOBn+KddQRiJbZT21KITYOOcExoE9Bd33Pd/P5Fhi8TV/HRWM78nSQXeg7SOjqd+I8JXDcyuIGmnc34KOZfJyPenBJxTGl4Eo+K8614/gSj6dw/QrmzkFII7ElTeQLlqlvW/UjsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HJOY4OK+hvH8kqzf+T/g3v3TOM3Ict48IL4jQnIfAIE=;
- b=lW32py9yWySvV+t+sSCT70lDFXAIbeYp/sEZTqzPvC+9B6cMpNm1CbNmL/4jZR+0MfFAs9t5iTTTcAjqZvC6uW5qUIhPqub97Q0zSY7I9vTjwVfNztOFmwuWhkYTW45HkSvAsX8jro8Ip8FetA/1vWOuKkmBc/daNPLxFEGK+/M=
-Authentication-Results: kvack.org; dkim=none (message not signed)
- header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by BLAPR10MB4852.namprd10.prod.outlook.com (2603:10b6:208:30f::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.15; Thu, 17 Jun
- 2021 18:45:29 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::d875:3dd7:c053:6582]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::d875:3dd7:c053:6582%7]) with mapi id 15.20.4242.021; Thu, 17 Jun 2021
- 18:45:29 +0000
-From:   Joao Martins <joao.m.martins@oracle.com>
-To:     linux-mm@kvack.org
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v2 02/14] mm/page_alloc: split prep_compound_page into head and tail subparts
-Date:   Thu, 17 Jun 2021 19:44:55 +0100
-Message-Id: <20210617184507.3662-3-joao.m.martins@oracle.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20210617184507.3662-1-joao.m.martins@oracle.com>
-References: <20210617184507.3662-1-joao.m.martins@oracle.com>
-Content-Type: text/plain
-X-Originating-IP: [94.61.1.144]
-X-ClientProxiedBy: LO2P265CA0113.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:c::29) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+        id S230519AbhFQS67 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 14:58:59 -0400
+Received: from foss.arm.com ([217.140.110.172]:58570 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229671AbhFQS67 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Jun 2021 14:58:59 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73B131424;
+        Thu, 17 Jun 2021 11:56:51 -0700 (PDT)
+Received: from [10.57.9.136] (unknown [10.57.9.136])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A93833F694;
+        Thu, 17 Jun 2021 11:56:49 -0700 (PDT)
+Subject: Re: [PATCH v13 6/6] iommu: Remove mode argument from
+ iommu_set_dma_strict()
+To:     Lu Baolu <baolu.lu@linux.intel.com>,
+        John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, dwmw2@infradead.org, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linuxarm@huawei.com, thunder.leizhen@huawei.com,
+        chenxiang66@hisilicon.com, linux-doc@vger.kernel.org
+References: <1623841437-211832-1-git-send-email-john.garry@huawei.com>
+ <1623841437-211832-7-git-send-email-john.garry@huawei.com>
+ <de6a2874-3d6d-ed2a-78f5-fb1fb0195228@linux.intel.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <7d0fb0e2-4671-16db-6963-b0493d7a549b@arm.com>
+Date:   Thu, 17 Jun 2021 19:56:44 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from paddy.uk.oracle.com (94.61.1.144) by LO2P265CA0113.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:c::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4242.16 via Frontend Transport; Thu, 17 Jun 2021 18:45:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 93704ef9-e252-4b7a-80e3-08d931c01459
-X-MS-TrafficTypeDiagnostic: BLAPR10MB4852:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BLAPR10MB4852B50A634E12FA07228369BB0E9@BLAPR10MB4852.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1284;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nXOy3raysiL7Qc7utr41Ss0WWHP1922U+AR15FaeVANyp+9/9+rR7TE1bCHCHYrlB89SMEVPiXDKQixzqW5VxQMYo0YiZfGV7fWXg3sUqvKTIwf1hUvnOVUXRVGAjrp6zBXjiO4fsQu8Z5K2s3lGps9cbzvuE5iIOLsTjRCCEGbB7ZYBJSfsaezxwkN7xFqu3GmRCLNjB8lpwfX6ZTQIDqgMTSD8PGSr+izwAHB8m/nDetERMKtm/TrXt+LNIAstqTQj1KB9kJJ/svwAOPl1DsArDYY5GAMr2eGM2kOiFkPzF5Iha2gXRxYFczYjTUI5hCo5TG3FaILvwHCsH6QgYkOXNzrS3uWgY5y5EJHEHd2jw+SZ/M4WkPVZFgEcvT3xvVsHf5E8C38k2J26FvQENz+wPD02VbL9bxTRzEAR0lpYKE8TZYEGMinmemPyHbgSNlXlQkP8eF2h9+l7U2ds0KvdfooIUjOGLeD+oQxIAbLXORLzRSD5mH12nDQRDqcX9NuDgIrEodjrcD0U5QOJhvtbbMheEUxcTYDAJsJ8j7Vcw1PDFKzpJoZi/9bsVPjp4xVUPeIEWaMkvNDCWffFUbOlxyd1VNe6a0OXDYaivJg5Kc/Vf3qdXjsrC0MlKbucCSsHo2Qbay+8ff5e6bf79hW5wZiYhE8itN2XkWAf9QE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(376002)(136003)(366004)(346002)(83380400001)(6666004)(38350700002)(4326008)(103116003)(7696005)(5660300002)(186003)(16526019)(26005)(54906003)(478600001)(38100700002)(316002)(107886003)(1076003)(52116002)(8936002)(66476007)(66946007)(66556008)(36756003)(6486002)(6916009)(2906002)(86362001)(7416002)(8676002)(2616005)(956004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ryJbLSn4gEtLPceemFhHUnfTcft7QX970jHa3vNNBpOcRMFCWHL/+F9KSJU3?=
- =?us-ascii?Q?ki1Q95QFLqeZGDKfTX0H57n2zEl0ZkiS22koiLA/9Ag7ZYpFN+nOZufxxRhr?=
- =?us-ascii?Q?V+KuI4pBELoTcfAa9fuqkyq5uOA1PyUiBPV5ITsy4HCMlE34vfH46Rr4V2X8?=
- =?us-ascii?Q?fz5dS86UEUXZK4ANqjIfJmYORjLnCTQ4QLHLCSEh+fQ/2sNCIOuL72NDHppS?=
- =?us-ascii?Q?NJ9AaMzVWoH3jkso7CWOAGwl7xBzaBKunFgawVzGlZ0aKKHd8e09goqCL5Gu?=
- =?us-ascii?Q?ZPEaE1Bqz07QLi1+1Owj/aALhcUELXA7GWnfJSbCHMzdEAqoiwyP6jvYorL4?=
- =?us-ascii?Q?yyCixk2UCzFecvP3BK/E/aHQO3oUDWG1PUo9M8v1vgFAAAG7LEJooWXp47Os?=
- =?us-ascii?Q?K1fWpHaQKjIZ5sDBct1+H+V5jCrFiZGqZsykyeWtDLg5DAtvlpdDsre2w3PT?=
- =?us-ascii?Q?wg1t4Y32fnoFRVEmYPfr1PWyv0NEUEiPxm3snk1pVooTwH5rYaXPU46dd7er?=
- =?us-ascii?Q?DUbJAT48fvTkj0BWDnYGDT4YUG1csv2EMhjShNjixX1L8dTDaW2peCXcyiqc?=
- =?us-ascii?Q?woeBDZs3p2ILBS9plZjwuXebSQIKYIC1G31Lpn9UmaBE1Mnsf7RAp+2OWFz9?=
- =?us-ascii?Q?a0QVzg6FXyCknUt97ghfJrMUGvHdOw95jzZEXCexOU2xx+uEl9OByYHsGhoG?=
- =?us-ascii?Q?CXgOdPWkjKRSsf6pC0/4YJVdzidNMVvogWkUVOzOH/cTwvm55Li14xh0jW0R?=
- =?us-ascii?Q?K8QH1t7Bbjw6ppX5LoPEQB3AYOnx+DdLZEA4f86Ely3aO6bnM0J9ZlgW/J1r?=
- =?us-ascii?Q?ot6sz2gYVMBx9cnvy2e1nfS+gfYenV6siy18pu/o5ROwEVhWF/ZxP8wrxxl3?=
- =?us-ascii?Q?kWZR3u+SKuT/5hwcqIUQbhDrKu0d8dVvLQKbX1JZLRwAm03JASjY36J2liXt?=
- =?us-ascii?Q?L6NsWQNqczZYSSfAMxOVPdRORSaPGVD0ip5C2bhNxe8DGPTd1kgGr01I3/Zd?=
- =?us-ascii?Q?pxMx+aJH7ABNmTfRein1mIRuPcs34mC1vAxisaCywe4qEk1Hp++qAsH23WzQ?=
- =?us-ascii?Q?Pm8vb0SaiFUdCpRvC4kKmg5YxfHPV3SKJU7A5Hn4NBRZ7YrzUQmk7xAufmhc?=
- =?us-ascii?Q?6D1P6F0vBX68zzvQ2EdXG4IS81en8aeQ3kJsp+AHfG90K7F/C0HA1KxY3d+2?=
- =?us-ascii?Q?M0m7Ub3PBkam5yePtAJkHZxEke9DTI559eqr3rhSzD83NNhe8kTqOBNrsNTe?=
- =?us-ascii?Q?LU9C6VK8uEQclMwE+q+HEN2lCo4UywDrfKafGljHYxsYPFoKsRPOV5NUqMUk?=
- =?us-ascii?Q?I69KdRc7DgvAzIKsYoVmH7gL?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93704ef9-e252-4b7a-80e3-08d931c01459
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 18:45:29.6021
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I3uVl1AWjHbuY4uforHC8Tv2Tm1jik27LCnWDoFGyKlq5fmxPgBLQv0RSXS2U1ZTeAPC0OEqEmD5PtCfOeypjaVlM7fku0zK/ZheOTWqT8s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4852
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10018 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- suspectscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106170117
-X-Proofpoint-ORIG-GUID: 4gqGtjdyWebzxqPPj-ahIklorBhLesJ3
-X-Proofpoint-GUID: 4gqGtjdyWebzxqPPj-ahIklorBhLesJ3
+In-Reply-To: <de6a2874-3d6d-ed2a-78f5-fb1fb0195228@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Split the utility function prep_compound_page() into head and tail
-counterparts, and use them accordingly.
+On 2021-06-17 08:36, Lu Baolu wrote:
+> On 6/16/21 7:03 PM, John Garry wrote:
+>> We only ever now set strict mode enabled in iommu_set_dma_strict(), so
+>> just remove the argument.
+>>
+>> Signed-off-by: John Garry <john.garry@huawei.com>
+>> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+>> ---
+>>   drivers/iommu/amd/init.c    | 2 +-
+>>   drivers/iommu/intel/iommu.c | 6 +++---
+>>   drivers/iommu/iommu.c       | 5 ++---
+>>   include/linux/iommu.h       | 2 +-
+>>   4 files changed, 7 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+>> index fb3618af643b..7bc460052678 100644
+>> --- a/drivers/iommu/amd/init.c
+>> +++ b/drivers/iommu/amd/init.c
+>> @@ -3099,7 +3099,7 @@ static int __init parse_amd_iommu_options(char 
+>> *str)
+>>       for (; *str; ++str) {
+>>           if (strncmp(str, "fullflush", 9) == 0) {
+>>               pr_warn("amd_iommu=fullflush deprecated; use 
+>> iommu.strict instead\n");
+>> -            iommu_set_dma_strict(true);
+>> +            iommu_set_dma_strict();
+>>           }
+>>           if (strncmp(str, "force_enable", 12) == 0)
+>>               amd_iommu_force_enable = true;
+>> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+>> index d586990fa751..0618c35cfb51 100644
+>> --- a/drivers/iommu/intel/iommu.c
+>> +++ b/drivers/iommu/intel/iommu.c
+>> @@ -454,7 +454,7 @@ static int __init intel_iommu_setup(char *str)
+>>               iommu_dma_forcedac = true;
+>>           } else if (!strncmp(str, "strict", 6)) {
+>>               pr_warn("intel_iommu=strict deprecated; use iommu.strict 
+>> instead\n");
+>> -            iommu_set_dma_strict(true);
+>> +            iommu_set_dma_strict();
+>>           } else if (!strncmp(str, "sp_off", 6)) {
+>>               pr_info("Disable supported super page\n");
+>>               intel_iommu_superpage = 0;
+>> @@ -4382,7 +4382,7 @@ int __init intel_iommu_init(void)
+>>            */
+>>           if (cap_caching_mode(iommu->cap)) {
+>>               pr_warn("IOMMU batching disallowed due to 
+>> virtualization\n");
+>> -            iommu_set_dma_strict(true);
+>> +            iommu_set_dma_strict();
+>>           }
+>>           iommu_device_sysfs_add(&iommu->iommu, NULL,
+>>                          intel_iommu_groups,
+>> @@ -5699,7 +5699,7 @@ static void quirk_calpella_no_shadow_gtt(struct 
+>> pci_dev *dev)
+>>       } else if (dmar_map_gfx) {
+>>           /* we have to ensure the gfx device is idle before we flush */
+>>           pci_info(dev, "Disabling batched IOTLB flush on Ironlake\n");
+>> -        iommu_set_dma_strict(true);
+>> +        iommu_set_dma_strict();
+>>       }
+>>   }
+>>   DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x0040, 
+>> quirk_calpella_no_shadow_gtt);
+>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>> index 60b1ec42e73b..ff221d3ddcbc 100644
+>> --- a/drivers/iommu/iommu.c
+>> +++ b/drivers/iommu/iommu.c
+>> @@ -349,10 +349,9 @@ static int __init iommu_dma_setup(char *str)
+>>   }
+>>   early_param("iommu.strict", iommu_dma_setup);
+>> -void iommu_set_dma_strict(bool strict)
+>> +void iommu_set_dma_strict(void)
+>>   {
+>> -    if (strict || !(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+>> -        iommu_dma_strict = strict;
+>> +    iommu_dma_strict = true;
+> 
+> Sorry, I still can't get how iommu.strict kernel option works.
+> 
+> static int __init iommu_dma_setup(char *str)
+> {
+>          int ret = kstrtobool(str, &iommu_dma_strict);
 
-This is in preparation for sharing the storage for / deduplicating
-compound page metadata.
+Note that this is the bit that does the real work - if the argument 
+parses OK then iommu_dma_strict is reassigned with the appropriate 
+value. The iommu_cmd_line stuff is a bit of additional bookkeeping, 
+basically just so we can see whether default values have been overridden.
 
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
----
- mm/page_alloc.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+Robin.
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 8836e54721ae..95967ce55829 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -741,24 +741,34 @@ void free_compound_page(struct page *page)
- 	free_the_page(page, compound_order(page));
- }
- 
-+static void prep_compound_head(struct page *page, unsigned int order)
-+{
-+	set_compound_page_dtor(page, COMPOUND_PAGE_DTOR);
-+	set_compound_order(page, order);
-+	atomic_set(compound_mapcount_ptr(page), -1);
-+	if (hpage_pincount_available(page))
-+		atomic_set(compound_pincount_ptr(page), 0);
-+}
-+
-+static void prep_compound_tail(struct page *head, int tail_idx)
-+{
-+	struct page *p = head + tail_idx;
-+
-+	set_page_count(p, 0);
-+	p->mapping = TAIL_MAPPING;
-+	set_compound_head(p, head);
-+}
-+
- void prep_compound_page(struct page *page, unsigned int order)
- {
- 	int i;
- 	int nr_pages = 1 << order;
- 
- 	__SetPageHead(page);
--	for (i = 1; i < nr_pages; i++) {
--		struct page *p = page + i;
--		set_page_count(p, 0);
--		p->mapping = TAIL_MAPPING;
--		set_compound_head(p, page);
--	}
-+	for (i = 1; i < nr_pages; i++)
-+		prep_compound_tail(page, i);
- 
--	set_compound_page_dtor(page, COMPOUND_PAGE_DTOR);
--	set_compound_order(page, order);
--	atomic_set(compound_mapcount_ptr(page), -1);
--	if (hpage_pincount_available(page))
--		atomic_set(compound_pincount_ptr(page), 0);
-+	prep_compound_head(page, order);
- }
- 
- #ifdef CONFIG_DEBUG_PAGEALLOC
--- 
-2.17.1
-
+> 
+>          if (!ret)
+>                  iommu_cmd_line |= IOMMU_CMD_LINE_STRICT;
+>          return ret;
+> }
+> early_param("iommu.strict", iommu_dma_setup);
+> 
+> The bit IOMMU_CMD_LINE_STRICT is only set, but not used anywhere. Hence,
+> I am wondering how could it work? A bug or I missed anything?
+> 
+> Best regards,
+> baolu
+> 
+>>   }
+>>   bool iommu_get_dma_strict(struct iommu_domain *domain)
+>> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+>> index 32d448050bf7..754f67d6dd90 100644
+>> --- a/include/linux/iommu.h
+>> +++ b/include/linux/iommu.h
+>> @@ -476,7 +476,7 @@ int iommu_enable_nesting(struct iommu_domain 
+>> *domain);
+>>   int iommu_set_pgtable_quirks(struct iommu_domain *domain,
+>>           unsigned long quirks);
+>> -void iommu_set_dma_strict(bool val);
+>> +void iommu_set_dma_strict(void);
+>>   bool iommu_get_dma_strict(struct iommu_domain *domain);
+>>   extern int report_iommu_fault(struct iommu_domain *domain, struct 
+>> device *dev,
+>>
