@@ -2,96 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE59C49361
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 22:58:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72811C2B9F4
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 01:00:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C56A613B4
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Jun 2021 22:58:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D734613BD
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 01:00:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232801AbhFQXAT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 19:00:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36344 "EHLO
+        id S233374AbhFRBCr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 21:02:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232796AbhFQXAT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 19:00:19 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 944AEC061760
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 15:58:11 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id v7so6192030pgl.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jun 2021 15:58:11 -0700 (PDT)
+        with ESMTP id S233042AbhFRBCr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jun 2021 21:02:47 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB5D5C061574;
+        Thu, 17 Jun 2021 18:00:37 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id p7so13473617lfg.4;
+        Thu, 17 Jun 2021 18:00:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=M963NEoRmxGB3SjEHSV83Kd4QRNucQJu5LIMOnGA8ko=;
-        b=OA+kAIlauRSDb+CI6MbHcGOV5JOTWGds10yzRJPLfChHry7qe7mzHqK/SoLqcpGnkD
-         dWsxar8ymVxO6hG0LKzzBGXLZEWRBBUyYTz4paNPRUgGFnOnDpZeO1SvfGXfJ2H8nNXf
-         rsQle4mOehxCZSB/lreoBpzixda9zRj4XYMmU=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WIJQ3I2aHHqEFy6allhgHQlkD9N//YkR+UZzwYu38T8=;
+        b=rrti8oDyrMEoM9XLaCuvXzr0MgHlOC17ZpO5+kA359xY2RzstvIYo//N78Dm7ZBEjB
+         v2GcxrH/Zu0dzBBmz8IpGqdC7QLYMs0UoN7xIqcTj6sTXd9WBRrJC2QKzTWT2F86WVKb
+         YTAlmai4NQOy1yZFGNDYynUGtZ1d4EA1dtnYDt7FpcdclkFfFK/g9o/nBZTESb8rpDMe
+         2Zbzlr1mdcAZWV+8XnnjcMD+IoVS0qf/BvnhratmzDAmOv1HV3pLRIT1I5TDcjk3IEOw
+         KsdYE1kMpbaIY0mRBoEClodFe6gu9HLqwj/0+9UyqwOz75pxsqnmviBjc00jB4WEoSYY
+         2vBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=M963NEoRmxGB3SjEHSV83Kd4QRNucQJu5LIMOnGA8ko=;
-        b=mLrPOIBhW3BvRI+PvzVr+MLh2uoPOI54euq7i3hGSH1j2iH/RaMtirRGlZn4w9Bofr
-         Z3q3+pMrTtRebiW1+Qz2e2yi141LPeJaIJcXb8ogbx1Ri0V+VkBJ88Uh1vo0GtumsnFR
-         cJBk8Cn7rSGLqQ04/X+AvLZ45dZIJ5Ej2JJZWvxyOefomNaxCVj4r+xoTt9squ1Ys/Ks
-         io3Zz9EF1SQzEM0/81uwftitfuEvUogglFAfy/3GmJhI82QcxQ3Fy6VcJ1+tufXQkOKa
-         9xu2DkPLDPO2D8UiOY4s3VyE5JA9vRhSmaAQCb5Hi61z4MRaILxqyCwB0dkZgtFVRHyH
-         R5jw==
-X-Gm-Message-State: AOAM530SoXkYlMm9LWwlMOV6suqiv3wNjalWkKvaFMfcwOdYmItbSD5T
-        yQAoS3ewRuwgLT8bLYX4hK66SQ==
-X-Google-Smtp-Source: ABdhPJw80/VBj4MS23z1Ab1xiLaaKC/Hnls4MoGH4I3uaQpLX9wLS07ARA+CD7qrqK0fOIPJCCo9Rw==
-X-Received: by 2002:a63:1a0e:: with SMTP id a14mr6964360pga.294.1623970691053;
-        Thu, 17 Jun 2021 15:58:11 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y2sm5862419pfa.195.2021.06.17.15.58.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 15:58:10 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>, stable@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] docs: Makefile: Use CONFIG_SHELL not SHELL
-Date:   Thu, 17 Jun 2021 15:58:08 -0700
-Message-Id: <20210617225808.3907377-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WIJQ3I2aHHqEFy6allhgHQlkD9N//YkR+UZzwYu38T8=;
+        b=B8PgMXehj6kfxOXPx7vo4zFGCzUHJwaOpYeFeq9FQtT45MuZ7VKCTGGm2nXlJp+xEQ
+         ltHQZBn5qjcvU/CYzfWqtoOZBkEog4AGIvLQpX63MVHDz8yloePl9XH+bJpd1ujJTzZy
+         vxkuWtDR8KXifs7hRaN8OyyE4AHuOfH7cyZQ1wxHewxgwneqB2WlpDxbmYVK78Z8mv4S
+         nIoBPQrFzKNO58cGKdArgnb1AjAjwaswUM0u153wPTQmaFEEq7X+acWKEQD6WGiuBBOO
+         VGimN82rZ418MSqmG5aSF/hSoKg786Sd9lckJtFJ41pGv4gohxp320ek5y4uT1gxnn1k
+         4Oqw==
+X-Gm-Message-State: AOAM53145Yh/HVreHJZ32Gavxv4rcKC0Mm7Awj1Xf25RVdfLuoSu7Wm7
+        Uuxkz8TjY/kcVSMycdGTxVzmk3ehxumMV5C9kSE=
+X-Google-Smtp-Source: ABdhPJxs8nkwun6tCij6fdduNRqIwTBFpsdMk/+o8cxsHnN0y+mF+gca4qia/fI3A8l6DztRQkF5Ky3D2Zq7J9Osb0g=
+X-Received: by 2002:a05:6512:3d15:: with SMTP id d21mr910768lfv.252.1623978035887;
+ Thu, 17 Jun 2021 18:00:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; g=20ce389ebab83cc7e86916a49c2f00499469448b; i=NAwohiNtDwFkaYSJPIo4V59safoFlDQ1i5ixhTHo3+0=; m=oPKwbLE1qEhjEt2G9mm8oKPcrdWBPot3oW/0aB7A1ng=; p=Xpq8PDGv9JJnD/2YCorCe1IO2oviHIBY4CrEnhSIfc8=
-X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026; b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmDL04AACgkQiXL039xtwCbUNw//VIj YQwZ8qXwPIfH4LKtC9P2Yuf9Fg9y0K5RGx256/huSMteQ+WLbvTukjOs/vPpuY4E4iFQUqm9+UdHe JDQ6IVs5CAzZmKQ3vtIW1TMyfyYEX8u5irHshSjos8wlGnRI6zdUP9LfLQqefRh3DOEeB0nNnwdM/ T4Ys/FuJDvPxxcfjlRIvvz0xq9K0Z5NF69WL7HIgW9c0KaYSMiP0H3ow9vd6I9rs5Xo7KGRuKcclk E2rRMRLvdqyN+I0Nl+WjPf8YMcO0E1IlwS3YlRe20Y03Fr/RXApOz8OIb41Wm9oLaPYulTIV9mQLN TwJFGGLreP5ROBde0+q+bNnrSYveBZdqO412BpAkKM6PSmwf13z/WvYj6Tw/b/KHadfTAaVhVRVtC gYLUDEPXqLcO/NKhONrbH/pt0d9FEcQKtYhC5QlKMhzU5sH4PcIq/7RXezh6nsG3s4yBMU3zKu1XD RtRFUkODB68mVlsQ4TKIOMcJyJrCeQqRShcGGk9wD+IyyuMwQPrgsNUPb7sEheMapuG5DSGeS57Z5 5+LikA8eIA16whFMjfb9jH6J0kudg+JvqR2JzPmgEuV/yWbvtxkmcV0XhtPv6WVRZoN0vwupOHIgn 4+tqNuwvYGqG8fe9sEGHtofYVM9DFSLz6FtT+ZbxUwdRi4NGl1F7WJGcy0RQaDjc=
-Content-Transfer-Encoding: 8bit
+References: <20210527091618.287093-1-foxhlchen@gmail.com> <162396935764.29912.16256561662425331146@noble.neil.brown.name>
+In-Reply-To: <162396935764.29912.16256561662425331146@noble.neil.brown.name>
+From:   Fox Chen <foxhlchen@gmail.com>
+Date:   Fri, 18 Jun 2021 09:00:24 +0800
+Message-ID: <CAC2o3D+QjbowvyCvCsW2bFVhAhVMq4DhzLgB8X2y_p6WJsFn7w@mail.gmail.com>
+Subject: Re: [PATCH v3 00/13] docs: path-lookup: Update pathlookup docs
+To:     NeilBrown <neilb@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, vegard.nossum@oracle.com,
+        Al Viro <viro@zeniv.linux.org.uk>, rdunlap@infradead.org,
+        grandmaster@al2klimov.de, linux-doc@vger.kernel.org,
+        Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix think-o about which variable to find the Kbuild-configured shell.
-This has accidentally worked due to most shells setting $SHELL by
-default.
+On Fri, Jun 18, 2021 at 6:36 AM NeilBrown <neilb@suse.de> wrote:
+>
+> On Thu, 27 May 2021, Fox Chen wrote:
+> > The Path lookup is a very complex subject in VFS. The path-lookup
+> > document provides a very detailed guidance to help people understand
+> > how path lookup works in the kernel. This document was originally
+> > written based on three lwn articles five years ago. As times goes by,
+> > some of the content is outdated. This patchset is intended to update
+> > the document to make it more relevant to current codebase.
+> >
+>
+> Thanks for persisting.  Sorry for the delay.
 
-Fixes: 51e46c7a4007 ("docs, parallelism: Rearrange how jobserver reservations are made")
-Cc: stable@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the review. :D
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 9c42dde97671..c3feb657b654 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -76,7 +76,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- 	PYTHONDONTWRITEBYTECODE=1 \
- 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
- 	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
--	$(SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
-+	$(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
- 	$(SPHINXBUILD) \
- 	-b $2 \
- 	-c $(abspath $(srctree)/$(src)) \
--- 
-2.25.1
+> All:
+>   Reviewed-by: NeilBrown <neilb@suse.de>
+>
+> I've noted a couple of little issues with one patch.  Hopefully Jon can
+> simply fix those up rather than requiring a resubmission of the whole
+> series.
 
+if needed, I can resubmit just this single patch.
+
+> To be honest, I haven't examined patch 4 in as much detail as I'd like,
+> and it required the biggest change since last time.  But I think it is
+> good enough.  It might even be excellent.
+>
+> NeilBrown
+
+thanks,
+fox
