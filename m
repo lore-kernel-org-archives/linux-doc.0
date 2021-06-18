@@ -2,95 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B35AC48BDF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 22:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E6E6C49EA2
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 23:30:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D90F76127C
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 22:04:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 179A461358
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 23:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234710AbhFRWGO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 18:06:14 -0400
-Received: from mail-pf1-f175.google.com ([209.85.210.175]:37438 "EHLO
-        mail-pf1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234644AbhFRWGO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 18:06:14 -0400
-Received: by mail-pf1-f175.google.com with SMTP id y15so2956792pfl.4;
-        Fri, 18 Jun 2021 15:04:03 -0700 (PDT)
+        id S234394AbhFRXcw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 19:32:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234322AbhFRXcw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 19:32:52 -0400
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF78C061767
+        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 16:30:41 -0700 (PDT)
+Received: by mail-qk1-x74a.google.com with SMTP id 2-20020a3709020000b02903aa9873df32so7019244qkj.15
+        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 16:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=y0FcYdQ4+KG5bqQnhMUoT4g521uUABU2kMM30IGFQqQ=;
+        b=SW5N62h7cVgnLw8sn5w9vwqcWBRPPNOtrLPwVXkkwehU/P/KI1k0v+xryMYEmvNcy7
+         eMw36xbc1aj2sSJeMQHGZgrxcQ9RYBm3u20AqmA+6uDSt32RQAQnYcU+d6U3nC0czuC9
+         YwbGbPjwt2FMq7fZNR0qZpKdkJVRW2bEIShhP5a6AxPQJNkMvIGn+po4SorZQM+vy2No
+         syGYIVbxQfS+wI7cQsfflImJKZ36CzEYr2mghd13+LUS6F6K4zje94pul+gQYkXk8/xY
+         XFLOEXPtaaiVCbbx2hX49XPYKtCPOVkU0HlmTFk7nsKts6eSL5g6qUXyR8j+NOdYhpny
+         ToNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hkNP585a5xlPYA20Og1iRNDEjU13UUBC0QX07bSQG+s=;
-        b=r4SLARvkCxcw8/g6Z2mI4kH3FNlxfefR0sAQ8V5mPARALH+6ES3EQRrV5F0eD94nrT
-         ofaTa/VbvNCzTiA7C1iLIrtkeoU55T1/6+/UbqIiCDOmSUvv9ZuLOlB2XdrMhPECJqJP
-         RjtiYYvrN7G0U25pcXe1VjC0MtCzwEOvD40O9Dj17TFefWZc+SrmkcWfghxucqUA/9K5
-         fiwKFGxVUGExjPgcof9J47lLS6lqvEVSv7K1SYsY6jP8DLlBOpzZsf5qD2PgAsfHipFQ
-         Z7itI7Pa3CrvBejy/GrLLA1z3xUK7/mov2CvUdG9P1IiKh/LPHODjngqf+D2XJARPaYt
-         rBnA==
-X-Gm-Message-State: AOAM531XQbJZyVlpp9S9ufZrUjk2E3PHmx4ofIFBbPOh4wYT/nCjA2pV
-        CiXEB6eva5Y8cwTkdirwEQw=
-X-Google-Smtp-Source: ABdhPJzP1/CYXUpkZlMjnJtsfsGgosInFZf1i7QV+y/ubdfaYFr/rY9jqUPioDdJJxxhYuvVp5b7uA==
-X-Received: by 2002:a63:f749:: with SMTP id f9mr11882425pgk.369.1624053843230;
-        Fri, 18 Jun 2021 15:04:03 -0700 (PDT)
-Received: from localhost ([2601:647:5b00:1161:a4cc:eef9:fbc0:2781])
-        by smtp.gmail.com with ESMTPSA id d127sm8721779pfc.50.2021.06.18.15.04.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jun 2021 15:04:02 -0700 (PDT)
-Date:   Fri, 18 Jun 2021 15:04:01 -0700
-From:   Moritz Fischer <mdf@kernel.org>
-To:     Tom Rix <trix@redhat.com>
-Cc:     "Wu, Hao" <hao.wu@intel.com>, Moritz Fischer <mdf@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "krzysztof.kozlowski@canonical.com" 
-        <krzysztof.kozlowski@canonical.com>,
-        "nava.manne@xilinx.com" <nava.manne@xilinx.com>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "davidgow@google.com" <davidgow@google.com>,
-        "fpacheco@redhat.com" <fpacheco@redhat.com>,
-        "Gong, Richard" <richard.gong@intel.com>,
-        "luca@lucaceresoli.net" <luca@lucaceresoli.net>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v4 1/4] fpga: dfl: reorganize to subdir layout
-Message-ID: <YM0YUboHxgzWvtgY@epycbox.lan>
-References: <20210614201648.3358206-1-trix@redhat.com>
- <20210614201648.3358206-3-trix@redhat.com>
- <DM6PR11MB381964374223D0D2958AFA6985309@DM6PR11MB3819.namprd11.prod.outlook.com>
- <d64b0fb8-5f83-2995-7ee9-b4ed2932ef60@redhat.com>
- <DM6PR11MB3819259241791EB04A2CB9C8850F9@DM6PR11MB3819.namprd11.prod.outlook.com>
- <YMrS9OUSaCdtGwrE@epycbox.lan>
- <DM6PR11MB381924F43550A6699CB55213850E9@DM6PR11MB3819.namprd11.prod.outlook.com>
- <9c527087-3646-2f22-1234-2b0247511cc9@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9c527087-3646-2f22-1234-2b0247511cc9@redhat.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=y0FcYdQ4+KG5bqQnhMUoT4g521uUABU2kMM30IGFQqQ=;
+        b=Nja+Bg0VFnTVbx3fBdbyMWTklqhFr5U9JTFQR6BcoiQ3+XnPTYFKbI/OM33x2VrTrc
+         f865/87dI0NI0fo6DpB9RvkGTDk/duAM8HIKjk2N88k9LHF+YWrAko9fuJtc4iy0QLBW
+         worm9cciAyhQHuSOGSQ7WYifRjiTK7rmopneClJehDpezxuVaByhEHYTjAPl/ZTeY877
+         zxbmybFpQwVcfGEfU6DiT0Up3+Tx+sG8/3m3EsDTCyVlS0g1dm8IXnfTo8ZAqyKZeONQ
+         rx8yvWtg09UW8aNOQ20ZYF76hA4URWCSloCcAG/TqHhzQYXd09CvGsHmuak8ZekFzaiz
+         HScQ==
+X-Gm-Message-State: AOAM533goAEYrbpGk+qmYlwEDmlQUCkA92Mwy3EsO2IEclh8jv/yz2qK
+        i9I5VDYAiyZ3yVSBXD5YYMTlruzz0Mx4dT9aMoA=
+X-Google-Smtp-Source: ABdhPJwUcNJUliDdacWIjJcGJ4s/bKZDYhicKYKFrpo1l2tFI+YXdpDCrUpbHwLtvy9f8tnHVJilKWWWlhkTRWPiYrw=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:7c41:e84c:8fcb:6664])
+ (user=ndesaulniers job=sendgmr) by 2002:a05:6214:f0d:: with SMTP id
+ gw13mr8354593qvb.34.1624059040385; Fri, 18 Jun 2021 16:30:40 -0700 (PDT)
+Date:   Fri, 18 Jun 2021 16:30:21 -0700
+Message-Id: <20210618233023.1360185-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
+Subject: [PATCH 0/2] no_profile fn attr and Kconfig for GCOV+PGO
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <wcw@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Martin Liska <mliska@suse.cz>, Marco Elver <elver@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
+        johannes.berg@intel.com, linux-toolchains@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 06:21:07AM -0700, Tom Rix wrote:
+When we say noinstr, we mean noinstr.  GCOV and PGO can both instrument
+functions. Add a new function annotation __no_profile that expands to
+__attribute__((__no_profile__)) and Kconfig value
+CC_HAS_NO_PROFILE_FN_ATTR.
 
-> xrt is bringing in the subdir xrt/
+Base is
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=for-next/clang/pgo.
 
-That alone I don't mind too much.
- 
-> Even after the likely move of xrt subdevices to other subsystems, there will
-> be about as many files in fpga/xrt/ as in fpga/
-> 
-> If both of you are fine with a mixed files and subdir organization, then
-> I'll drop this patchset.
+Nick Desaulniers (2):
+  compiler_attributes.h: define __no_profile, add to noinstr
+  Kconfig: CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
 
-You've done most of the work for this already, so we might as well
-finish what you started :)
+ include/linux/compiler_attributes.h | 12 ++++++++++++
+ include/linux/compiler_types.h      |  2 +-
+ init/Kconfig                        |  3 +++
+ kernel/gcov/Kconfig                 |  1 +
+ kernel/pgo/Kconfig                  |  3 ++-
+ 5 files changed, 19 insertions(+), 2 deletions(-)
 
-Thanks,
-Moritz
+
+base-commit: 4356bc4c0425c81e204f561acf4dd0095544a6cb
+-- 
+2.32.0.288.g62a8d224e6-goog
+
