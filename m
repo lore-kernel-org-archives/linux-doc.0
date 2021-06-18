@@ -2,62 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9B6C49361
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 08:56:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC5BC48BDF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 09:59:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C39B561260
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 08:56:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A99A3613D6
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 09:59:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbhFRI62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 04:58:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54756 "EHLO
+        id S233042AbhFRKB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 06:01:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbhFRI61 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 04:58:27 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E1AC061574
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 01:56:17 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id u24so7549955edy.11
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 01:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=9BBHBKpuIHVNeFNocyi2iDHpvR/2bbHPGbZWJUlqwoI=;
-        b=S09ISTL829LWd712uTVyiCFNwqS/1EQaL6fptcmNVTZWRYi7iy4gWi9Yr+0L9ftcuz
-         9A39IgVl5i+qEei+60S3Zr5QTfzmmVtWEF0+h2o4ytkp0ZfzSA72paKmZLO4Hvec5kjc
-         FlSsON4grKpyZIQag/zFQD4VM9FMsK2VFT59oycux5WT1IeZy5THo+7opQGccowYCHSb
-         46xIWkhMozmn2DYJI58qD3VFdl6TNmtN6JwjQUveLUQNPt2X/3+1ymtGqkxMf4vOOO0X
-         Kln7EBS9MaY87CrmtMKv8cDSZ8Hig7gSiN2u2+pWC55OsaSfrba9Zo7TMCwaUvfRomQM
-         VXKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=9BBHBKpuIHVNeFNocyi2iDHpvR/2bbHPGbZWJUlqwoI=;
-        b=VvtQPYjOn++pLJ9ppK1QrUZ2iEfcp2lvLUSaCyTh2FbTtOOJAdqHaZaynz3JtNMRsL
-         GA4XkA/lYFGbK8BEwStVlBXSoAZOYHulEgq/O065rVgrGJfC2twuk422jiCCagKQnqbM
-         8iLP8DVWk094+oOOi6Lk4q8Hf66FP4z4+1JcTXYK0Ljd/TUDe9Pag1673PCyL32Vy/NT
-         lrzbdFze9Vo7QDRMVWzBL8yOVinmMBiP+a65nq4sG/9WzyVWV6xLkJxrP6mujXFRxHwl
-         xgmIxZoPtwM3Tdypn7GmseN3Hl0EyfhQZMCATX7hx7m/RK49qE+FNTG1qbi+y/IrdweD
-         fEsw==
-X-Gm-Message-State: AOAM530JrBB6BM2Ul9TF5M42HjPmOkHSYqCMW4zD55YEWYwIeYBD3jVL
-        8tMTKvIs9qVq12biq/hmWVg=
-X-Google-Smtp-Source: ABdhPJzU5tBXCe1rtBOZNzrps8DEDkD3x2CJOqoCLNcoFWdLDdwmfgtv3i3EzPqSMinWl5IPv6YP2A==
-X-Received: by 2002:a2e:a584:: with SMTP id m4mr8745008ljp.64.1624006565984;
-        Fri, 18 Jun 2021 01:56:05 -0700 (PDT)
-Received: from erebos (85-76-76-133-nat.elisa-mobile.fi. [85.76.76.133])
-        by smtp.gmail.com with ESMTPSA id v22sm305914ljk.51.2021.06.18.01.56.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jun 2021 01:56:05 -0700 (PDT)
-Date:   Fri, 18 Jun 2021 11:55:38 +0300
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        with ESMTP id S232740AbhFRKBZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 06:01:25 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2783BC061574
+        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 02:59:16 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 223743E5;
+        Fri, 18 Jun 2021 11:59:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624010352;
+        bh=iiRT0PXW8Hdm55U2gJmg9vXi2YbZjOmAqg2jdbVkZ3s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JpuR1ryzSJzYamcTRjTXUlnDjmaW0LPW74NIQQ+tzVR2MGyhINGEwnZecf3SoR/3k
+         mBgrdCA3yAFzAquu8roYKYLAxq2oN138xFRE2sPu4TLyvoSKSWokxS9+BEMrokOiRy
+         YfAMViaE3/BbZ7pHQ9wq4HQzwQPPeWC6oYpbrvZk=
+Date:   Fri, 18 Jun 2021 12:58:49 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Pekka Paalanen <ppaalanen@gmail.com>
 Cc:     Simon Ser <contact@emersion.fr>, Liviu Dudau <liviu.dudau@arm.com>,
         Haneen Mohammed <hamohammed.sa@gmail.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -124,22 +100,19 @@ Cc:     Simon Ser <contact@emersion.fr>, Liviu Dudau <liviu.dudau@arm.com>,
         Joel Stanley <joel@jms.id.au>,
         Tomeu Vizoso <tomeu.vizoso@collabora.com>,
         Kyungmin Park <kyungmin.park@samsung.com>,
-        Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
         Philippe Cornu <philippe.cornu@foss.st.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Alex Deucher <alexander.deucher@amd.com>,
         Tian Tao <tiantao6@hisilicon.com>,
         Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
         Shawn Guo <shawnguo@kernel.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
         Gerd Hoffmann <kraxel@redhat.com>
 Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
  properties
-Message-ID: <20210618115152.79af3537@erebos>
-In-Reply-To: <YMtQClnvjGNDhn9q@pendragon.ideasonboard.com>
-References: <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
- <YMeE63G+9DSLPB3N@pendragon.ideasonboard.com>
- <20210615100335.0b8f96d5@eldfell>
+Message-ID: <YMxuWZWpmggDtvT9@pendragon.ideasonboard.com>
+References: <20210615100335.0b8f96d5@eldfell>
  <ouNaZaqkV1d_wPRESVBQHxvMhmJ53xIrgtPfDs8mB88AN3FEWt7cq031k8ZqCva1Ob0TCNTnsWqNDS0l5NXfejXIL7YUky3XGdjmh1_hefk=@emersion.fr>
  <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
  <20210615131656.2ecefdc4@eldfell>
@@ -148,273 +121,291 @@ References: <20210614152413.nguqia3s4tlowio4@e110455-lin.cambridge.arm.com>
  <YMskHF8Bo/z3kqxf@pendragon.ideasonboard.com>
  <20210617143311.19896458@eldfell>
  <YMtQClnvjGNDhn9q@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ <20210618115152.79af3537@erebos>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/FvFnMvh/SbxNwAEjaUh=ULz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210618115152.79af3537@erebos>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/FvFnMvh/SbxNwAEjaUh=ULz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Pekka,
 
-On Thu, 17 Jun 2021 16:37:14 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+On Fri, Jun 18, 2021 at 11:55:38AM +0300, Pekka Paalanen wrote:
+> On Thu, 17 Jun 2021 16:37:14 +0300 Laurent Pinchart wrote:
+> > On Thu, Jun 17, 2021 at 02:33:11PM +0300, Pekka Paalanen wrote:
+> > > On Thu, 17 Jun 2021 13:29:48 +0300 Laurent Pinchart wrote:  
+> > > > On Thu, Jun 17, 2021 at 10:27:01AM +0300, Pekka Paalanen wrote:  
+> > > > > On Thu, 17 Jun 2021 00:05:24 +0300 Laurent Pinchart wrote:    
+> > > > > > On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:    
+> 
+> ...
+> 
+> > > > > > > That is where the documented tolerances come into play.      
+> > > > > > 
+> > > > > > This is something I've experimented with a while ago, when developing
+> > > > > > automated tests for the rcar-du driver. When playing with different
+> > > > > > input images we had to constantly increases tolerances, up to a point
+> > > > > > where the tests started to miss real problems :-(    
+> > > > > 
+> > > > > What should we infer from that? That the hardware is broken and
+> > > > > exposing those KMS properties is a false promise?    
+> > > > 
+> > > > No, just that the scaler doesn't document the internal hardware
+> > > > implementation (number of taps in the filters, coefficients, rounding,
+> > > > ...). That's the rule, not the exception, and it doesn't prevent correct
+> > > > operation, images get scaled in a reproducible way (the same input
+> > > > produces the same output).
+> > > >   
+> > > > > If a driver on certain hardware cannot correctly implement a KMS
+> > > > > property over the full domain of the input space, should that driver
+> > > > > then simply not expose the KMS property at all?    
+> > > > 
+> > > > The properties involved here would the the SRC and CRTC rectangles for
+> > > > the planes. They don't document pixel-perfect scaling :-)
+> > > >   
+> > > > > But I would assume that the vendor still wants to expose the features
+> > > > > in upstream kernels, yet they cannot use the standard KMS properties
+> > > > > for that. Should the driver then expose vendor-specific properties with
+> > > > > the disclaimer that the result is not always what one would expect, so
+> > > > > that userspace written and tested explicitly for that hardware can
+> > > > > still work?
+> > > > > 
+> > > > > That is, a sufficient justification for a vendor-specific KMS property
+> > > > > would be that a standard property already exists, but the hardware is
+> > > > > too buggy to make it work. IOW, give up trying to make sense.    
+> > > > 
+> > > > It's not just about buggy hardware, it's also about implementation
+> > > > specificities, such as rounding, filters, order of operations in the
+> > > > color management pipeline (it's relatively easy when you only have two
+> > > > LUTs and a CCM matrix, but if you through 3D LUTs and other tonemapping
+> > > > features in the mix, not all hardware will implement the same pipeline),
+> > > > or various types of image compression (this device implements a
+> > > > "near-lossless" compression scheme that reduces the memory bandwidth by
+> > > > 50% for instance).  
+> > > 
+> > > Rounding shouldn't result in needing wide tolerances.
+> > > 
+> > > Filters are more difficult, but at least we can factor them out when
+> > > testing other things. Filters could be tested in isolation with some
+> > > image difference metrics rather than per-pixel independent comparisons.  
+> > 
+> > The metrics I was using had both a tolerance on the pixel value and on
+> > the number of pixels accepted outside of the value tolerance. I'm sure
+> > we can improve it (perhaps taking locality into account), but that's
+> > heuristics, and keeping heuristics working across a wide variety of use
+> > cases is hard.
+> 
+> Hi Laurent,
+> 
+> I was thinking of using a more, um, scientific error measures, e.g.
+> sum or squared errors (SSE) or average SSE over the whole
+> re-scaled/filtered image result, ignoring pixels outside of that.
 
-> Hi Pekka,
->=20
-> On Thu, Jun 17, 2021 at 02:33:11PM +0300, Pekka Paalanen wrote:
-> > On Thu, 17 Jun 2021 13:29:48 +0300 Laurent Pinchart wrote: =20
-> > > On Thu, Jun 17, 2021 at 10:27:01AM +0300, Pekka Paalanen wrote: =20
-> > > > On Thu, 17 Jun 2021 00:05:24 +0300 Laurent Pinchart wrote:   =20
-> > > > > On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:  =
- =20
+There are quite a few matching algorithms implement in imagemagick, we
+have tried them all, and they all suffered for the issue I initially
+described; we had to push the thresholds high enough to avoid false
+positives, and we then saw false negatives.
 
-...
+> What one normally uses when matching images in computer vision, for
+> example. Could even add a threshold such that simple rounding-level
+> errors would not even register in SSE. I'm sure there is plenty of
+> literature on that, but it may be behind a paywall like IEEE.
+> 
+> SSE may or may not need to computed from light-linear pixel values,
+> too. If one wanted to go even further, I'm sure there are computational
+> models about human color and brightness difference sensitivity that
+> could be used to weigh the errors.
 
-> > > > > > That is where the documented tolerances come into play.     =20
-> > > > >=20
-> > > > > This is something I've experimented with a while ago, when develo=
-ping
-> > > > > automated tests for the rcar-du driver. When playing with differe=
-nt
-> > > > > input images we had to constantly increases tolerances, up to a p=
-oint
-> > > > > where the tests started to miss real problems :-(   =20
-> > > >=20
-> > > > What should we infer from that? That the hardware is broken and
-> > > > exposing those KMS properties is a false promise?   =20
-> > >=20
-> > > No, just that the scaler doesn't document the internal hardware
-> > > implementation (number of taps in the filters, coefficients, rounding,
-> > > ...). That's the rule, not the exception, and it doesn't prevent corr=
-ect
-> > > operation, images get scaled in a reproducible way (the same input
-> > > produces the same output).
-> > >  =20
-> > > > If a driver on certain hardware cannot correctly implement a KMS
-> > > > property over the full domain of the input space, should that driver
-> > > > then simply not expose the KMS property at all?   =20
-> > >=20
-> > > The properties involved here would the the SRC and CRTC rectangles for
-> > > the planes. They don't document pixel-perfect scaling :-)
-> > >  =20
-> > > > But I would assume that the vendor still wants to expose the featur=
-es
-> > > > in upstream kernels, yet they cannot use the standard KMS properties
-> > > > for that. Should the driver then expose vendor-specific properties =
-with
-> > > > the disclaimer that the result is not always what one would expect,=
- so
-> > > > that userspace written and tested explicitly for that hardware can
-> > > > still work?
-> > > >=20
-> > > > That is, a sufficient justification for a vendor-specific KMS prope=
-rty
-> > > > would be that a standard property already exists, but the hardware =
-is
-> > > > too buggy to make it work. IOW, give up trying to make sense.   =20
-> > >=20
-> > > It's not just about buggy hardware, it's also about implementation
-> > > specificities, such as rounding, filters, order of operations in the
-> > > color management pipeline (it's relatively easy when you only have two
-> > > LUTs and a CCM matrix, but if you through 3D LUTs and other tonemappi=
-ng
-> > > features in the mix, not all hardware will implement the same pipelin=
-e),
-> > > or various types of image compression (this device implements a
-> > > "near-lossless" compression scheme that reduces the memory bandwidth =
-by
-> > > 50% for instance). =20
-> >=20
-> > Rounding shouldn't result in needing wide tolerances.
-> >=20
-> > Filters are more difficult, but at least we can factor them out when
-> > testing other things. Filters could be tested in isolation with some
-> > image difference metrics rather than per-pixel independent comparisons.=
- =20
->=20
-> The metrics I was using had both a tolerance on the pixel value and on
-> the number of pixels accepted outside of the value tolerance. I'm sure
-> we can improve it (perhaps taking locality into account), but that's
-> heuristics, and keeping heuristics working across a wide variety of use
-> cases is hard.
+This isn't about human perception, but about the ability to check if the
+driver correctly configures the device :-) For driver testing, I don't
+care if the colours look right or not if userspace misconfigures the
+colour pipeline. What I need is to catch regressions when my driver
+messes up the hardware configuration. This particular device processes
+the images in stripes, and it's very easy for a stripe to be one pixel
+off (or actually a fraction of a pixel when the scaler is involved).
 
-Hi Laurent,
+Testing if a device correctly implements colour processing is of course
+also useful, but is a distinct goal. Both need to be considered, when
+stating requirements such as fully documented properties with a VKMS
+software implementation and pixel-perfect tests in IGT.
 
-I was thinking of using a more, um, scientific error measures, e.g.
-sum or squared errors (SSE) or average SSE over the whole
-re-scaled/filtered image result, ignoring pixels outside of that.
+> > The filter I mentioned, by the way, is the scaler filter. Out of
+> > curiosity, do any of the devices you work on document with pixel-perfect
+> > precision how the hardware scaler is implemented ?
+> 
+> I don't work on drivers, so wouldn't even look for hardware docs. I go
+> by what KMS UAPI documents because that is the API I work with and
+> nothing else. And yes, I ignore all the scaling filter issues for now.
+> 
+> Because I don't have a way to get feedback (writeback connectors maybe
+> not existing and not hooked up in Weston quite yet), testing
+> scaling/filtering precision has not been on-topic yet. Right now I'm
+> interested in color correctness rather than geometrical filtering. For
+> traditional color management, the expected pixel values are quite
+> precise.
+> 
+> > > The order of operations in the color management pipeline is very
+> > > important. We can't work with "whatever". All the variability in
+> > > hardware is exactly why I have been calling out for defined abstract
+> > > color pipeline in the DRM UAPI docs, so that drivers would know which
+> > > properties to map to their elements, so that userspace can have any
+> > > possibility of using them correctly. If the hardware has a block
+> > > that doesn't fit in the abstract pipeline, you get to add things to the
+> > > abstract pipeline, or invent a whole another abstract pipeline and
+> > > document that.  
+> > 
+> > One very typical difference between devices is the order of the
+> > processing blocks. By modelling the KMS pipeline as degamma -> ccm ->
+> > gamma, we can accommodate hardware that have any combination of
+> > [1-2] * 1D LUTs + 1 * CCM. Now, throw one 3D LUT into the mix, at
+> 
+> But you cannot represent pipelines like
+> 1D LUT -> 1D LUT -> CCM
+> because the abstract pipeline just doesn't have the elements for that.
+> OTOH, maybe that ordering does not even make sense to have in hardware?
+> So maybe not all combinations are actually needed.
 
-What one normally uses when matching images in computer vision, for
-example. Could even add a threshold such that simple rounding-level
-errors would not even register in SSE. I'm sure there is plenty of
-literature on that, but it may be behind a paywall like IEEE.
+If userspace wanted such a pipeline (I'm not sure why it would), then it
+could just combine the two LUTs in one.
 
-SSE may or may not need to computed from light-linear pixel values,
-too. If one wanted to go even further, I'm sure there are computational
-models about human color and brightness difference sensitivity that
-could be used to weigh the errors.
+> > different points in the pipeline depending on the device, and it will
+> > start getting complicated, even if the use case is quite simple and
+> > common. This is getting a bit out of topic, but how would you solve this
+> > one in particular ?
+> 
+> By defining all the points in the abstract color pipeline where a 3D
+> LUT could exist. Then each point would probably need its own KMS
+> property.
 
+And when we'll add the next object ? This can't scale I'm afraid. You'll
+have a spec that tells you that things can be in any order, and may well
+be able to expose the order to userspace, but you won't be able to
+implement a generic userspace that makes use of it.
 
-> The filter I mentioned, by the way, is the scaler filter. Out of
-> curiosity, do any of the devices you work on document with pixel-perfect
-> precision how the hardware scaler is implemented ?
+BTW, if we want to expose a finer-grained topology of processing blocks,
+I'd recommend looking at the Media Controller API, it was designed just
+for that purpose.
 
-I don't work on drivers, so wouldn't even look for hardware docs. I go
-by what KMS UAPI documents because that is the API I work with and
-nothing else. And yes, I ignore all the scaling filter issues for now.
+> We already have the KMS pipeline exactly as degamma -> ctm -> gamma and
+> drivers need to respect that order.
+> 
+> If the combinatorial explosion gets out of hand, maybe we need a KMS
+> property to switch to whole another abstract pipeline which defines a
+> different ordering on the same and/or different KMS properties.
+> 
+> From what I've learnt recently, if you have a 3D LUT, you want a 1D LUT
+> on each side of it for memory vs. precision optimization. And after the
+> degamma -> ctm -> gamma pipeline you may want one more ctm for
+> RGB-to-YCbCr conversion. So I have hope that the abstract pipeline with
+> all actually implemented hardware features might not go totally out of
+> hand.
 
-Because I don't have a way to get feedback (writeback connectors maybe
-not existing and not hooked up in Weston quite yet), testing
-scaling/filtering precision has not been on-topic yet. Right now I'm
-interested in color correctness rather than geometrical filtering. For
-traditional color management, the expected pixel values are quite
-precise.
+On the output of the CRTC, I have, in this order
 
-> > The order of operations in the color management pipeline is very
-> > important. We can't work with "whatever". All the variability in
-> > hardware is exactly why I have been calling out for defined abstract
-> > color pipeline in the DRM UAPI docs, so that drivers would know which
-> > properties to map to their elements, so that userspace can have any
-> > possibility of using them correctly. If the hardware has a block
-> > that doesn't fit in the abstract pipeline, you get to add things to the
-> > abstract pipeline, or invent a whole another abstract pipeline and
-> > document that. =20
->=20
-> One very typical difference between devices is the order of the
-> processing blocks. By modelling the KMS pipeline as degamma -> ccm ->
-> gamma, we can accommodate hardware that have any combination of
-> [1-2] * 1D LUTs + 1 * CCM. Now, throw one 3D LUT into the mix, at
+- RGB to YUV conversion (can only use presets for BT.601 and BT.709, with
+  limited or full range)
+- 3D LUT
+- 1D LUT
+- YUV to RGB conversion (presets only)
 
-But you cannot represent pipelines like
-1D LUT -> 1D LUT -> CCM
-because the abstract pipeline just doesn't have the elements for that.
-OTOH, maybe that ordering does not even make sense to have in hardware?
-So maybe not all combinations are actually needed.
+The RGB to YUV and YUV to RGB conversions can be bypassed. That's it.
 
-> different points in the pipeline depending on the device, and it will
-> start getting complicated, even if the use case is quite simple and
-> common. This is getting a bit out of topic, but how would you solve this
-> one in particular ?
+There's also a histogram engine, to allow implementation of dynamic
+gamma correction. This would require userspace to read the histogram
+data for every frame, and update the LUTs accordingly.
 
-By defining all the points in the abstract color pipeline where a 3D
-LUT could exist. Then each point would probably need its own KMS
-property.
+> > > Lossy compression needs its own KMS properties to ensure it can be
+> > > disabled when necessary. Near-lossless is not lossless, if a difference
+> > > can be measured. The driver or hardware cannot guess if the end user is
+> > > ok with "near-lossless" or not, so you have to be conservative and
+> > > assume not ok, offering an opt-in for lossy.  
+> > 
+> > Sure, but what would be the barrier to entry for such a property that
+> > would enable the compression (it could actually be a pixel format
+> > modifier) ? Would it only need to be documented ? Would we need a
+> > software implementation in VKMS and/or in IGT ? The compression
+> > algorithm is proprietary and not documented, so the latter can't be
+> > done.
+> 
+> Good questions. Shows that the idea of strictly requiring a VKMS
+> implementation won't fly, which is what I expected.
+> 
+> Saying it could be a pixel format modifier is a really good point. A
+> modifier cannot be the only thing to control it. Userspace does not
+> decode modifiers, so it cannot filter it out when it wants lossless
+> pixels. There must be something else to control it.
 
-We already have the KMS pipeline exactly as degamma -> ctm -> gamma and
-drivers need to respect that order.
+The hardware implementation is such that the decompression is
+implemented ahead of the display DMA engine, which means that it depends
+on how the framebuffer memory is mapped. The display controller itself
+isn't aware of the compression. The driver needs to map framebuffers to
+the device through a specific memory window to decompress them.
 
-If the combinatorial explosion gets out of hand, maybe we need a KMS
-property to switch to whole another abstract pipeline which defines a
-different ordering on the same and/or different KMS properties.
+> As a userspace dev, I would be ok with documenting a KMS property as
+> "improves blah blah, but also does significant violence to your
+> pixels", so I would know that this is something I need to consider.
+> 
+> You could argue that all KMS properties do violence to pixels, but
+> that's not a useful definition. It would just mean that in some use
+> cases I would never off-load anything to KMS. Depending on the use case
+> that might still be true even if the errors were limited to reasonable
+> rounding errors. I need an idea of how much error does KMS processing
+> do, and ultimately I expect compositors to also need a last resort
+> button for "do not trust KMS processing at all" which then makes the
+> display server always use the exact same simplest possible KMS
+> configuration and let the end user deal with the KMS errors via
+> color-profiling his monitor.
 
-=46rom what I've learnt recently, if you have a 3D LUT, you want a 1D LUT
-on each side of it for memory vs. precision optimization. And after the
-degamma -> ctm -> gamma pipeline you may want one more ctm for
-RGB-to-YCbCr conversion. So I have hope that the abstract pipeline with
-all actually implemented hardware features might not go totally out of
-hand.
+I really think we'll end up needing device-specific userspace
+components. Given the example above, with histogram calculation and
+dynamic gamma correction, there's no way we'll be able to have a single
+userspace implementation that would support these kind of features for
+all devices. It doesn't have to be solved now, but we probably want to
+start thinking about an API to plug device-specific components in
+compositors. This is the kind of problem that the libcamera project is
+tackling on the camera side, I believe a similar approach will be needed
+for displays too.
 
-> > Lossy compression needs its own KMS properties to ensure it can be
-> > disabled when necessary. Near-lossless is not lossless, if a difference
-> > can be measured. The driver or hardware cannot guess if the end user is
-> > ok with "near-lossless" or not, so you have to be conservative and
-> > assume not ok, offering an opt-in for lossy. =20
->=20
-> Sure, but what would be the barrier to entry for such a property that
-> would enable the compression (it could actually be a pixel format
-> modifier) ? Would it only need to be documented ? Would we need a
-> software implementation in VKMS and/or in IGT ? The compression
-> algorithm is proprietary and not documented, so the latter can't be
-> done.
+> It's quite a different thing to have color processing elements in an
+> unexpected order in the pipeline than it is to have a scaling filter
+> doing slightly unknown operations.
 
-Good questions. Shows that the idea of strictly requiring a VKMS
-implementation won't fly, which is what I expected.
+That I agree with, those are two different issues. We all have our cross
+to bear :-)
 
-Saying it could be a pixel format modifier is a really good point. A
-modifier cannot be the only thing to control it. Userspace does not
-decode modifiers, so it cannot filter it out when it wants lossless
-pixels. There must be something else to control it.
+> > > ...
+> > >   
+> > > > > My underlying assumption is that generic userspace will not use
+> > > > > vendor-specific properties.    
+> > > > 
+> > > > I expect some amount of device-specific code in userspace, yes.   
+> > > 
+> > > If we had a reliable way to test device-specific code without the
+> > > hardware and automatically in CI, then maybe.
+> > >   
+> > > > There are usually large variations in how the hardware exposes access to
+> > > > a given feature, which leads to code having to convert the standard API
+> > > > parameters to hardware parameters. To a large extend this can be done in
+> > > > drivers, but for some more complex features, it may put too much burden
+> > > > on the kernel. There's a reason mesa is a userspace stack :-)  
+> > > 
+> > > If we get a Khronos standardised 2D composition API... oh wait.
+> > > 
+> > > Nothing wrong with userspace libraries, but it does mean that driver
+> > > developers need to contribute to them, like they do to Mesa. Is there
+> > > any of that going on for KMS?  
+> > 
+> > Not that I'm aware of, but I think that's a direction we can consider
+> > seriously.
+> 
+> That would be awesome if the API is generic.
+> 
+> > > In the mean time, DRM UAPI basically must define a 2D composition API,
+> > > or the new KMS properties will not see use outside of vendor trees.
 
-As a userspace dev, I would be ok with documenting a KMS property as
-"improves blah blah, but also does significant violence to your
-pixels", so I would know that this is something I need to consider.
+-- 
+Regards,
 
-You could argue that all KMS properties do violence to pixels, but
-that's not a useful definition. It would just mean that in some use
-cases I would never off-load anything to KMS. Depending on the use case
-that might still be true even if the errors were limited to reasonable
-rounding errors. I need an idea of how much error does KMS processing
-do, and ultimately I expect compositors to also need a last resort
-button for "do not trust KMS processing at all" which then makes the
-display server always use the exact same simplest possible KMS
-configuration and let the end user deal with the KMS errors via
-color-profiling his monitor.
-
-It's quite a different thing to have color processing elements in an
-unexpected order in the pipeline than it is to have a scaling filter
-doing slightly unknown operations.
-
-> > ...
-> >  =20
-> > > > My underlying assumption is that generic userspace will not use
-> > > > vendor-specific properties.   =20
-> > >=20
-> > > I expect some amount of device-specific code in userspace, yes.  =20
-> >=20
-> > If we had a reliable way to test device-specific code without the
-> > hardware and automatically in CI, then maybe.
-> >  =20
-> > > There are usually large variations in how the hardware exposes access=
- to
-> > > a given feature, which leads to code having to convert the standard A=
-PI
-> > > parameters to hardware parameters. To a large extend this can be done=
- in
-> > > drivers, but for some more complex features, it may put too much burd=
-en
-> > > on the kernel. There's a reason mesa is a userspace stack :-) =20
-> >=20
-> > If we get a Khronos standardised 2D composition API... oh wait.
-> >=20
-> > Nothing wrong with userspace libraries, but it does mean that driver
-> > developers need to contribute to them, like they do to Mesa. Is there
-> > any of that going on for KMS? =20
->=20
-> Not that I'm aware of, but I think that's a direction we can consider
-> seriously.
-
-That would be awesome if the API is generic.
-
-> > In the mean time, DRM UAPI basically must define a 2D composition API,
-> > or the new KMS properties will not see use outside of vendor trees.
-
-
-Thanks,
-pq
-
---Sig_/FvFnMvh/SbxNwAEjaUh=ULz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDMX4oACgkQI1/ltBGq
-qqc91A/9FdlGscfrD5QGvQidCdZbx7tFUQcgjhEQVJmhor/60x/FC4Nih1+a4LSM
-58gkkOkdnmiJU4BBJCoUXP5tCTlxraOfwMRwPY3o0s+UCSg7QBTMdTPF0zcWbd+5
-OAbfpBEivQqrQzSrZw1wYgbv2ZGEELS6hvdL6lcDbfhYoR1r3TZcv3QgZc2/1n8w
-SxgFr5K1KKyW2OhgpNif41p9hdf0VnAI5kjxZr5wZzH4mSvMqSYW2vqhShckfZmu
-WNb0Kc1dJPm2UJRieVOcq0dsLF+PPtr7q4PMQxVR4F6imAYvOLe0Nj5yQFSqZGND
-zFTkQZjfJ9U9qehLvw97PRhTQMysx2ed6C0VPFMA1gb1gEVhwmWLN/uKFnlpxkhe
-sLhHXG/kkq2pF50r+YV/h0Bt5w26Hmo2LI22CU/nv5rChiOltV9wogyL6W0DJ0cu
-pzuS3m1Zk0SjhdDphg2TfmOrD/F0/Ne+yRV7icw3Bk30EPo4hsdrcN4j+bLpfK3S
-PjuVVY2scCuSsGnXlGDAaz8l4DwvJ8apQzxb0SpFyC3pUvLZ3g5k+9ZV5ISdq+V3
-ZDKlHlnhmiy6IwBNlrB0OA6rcnnuB5L2gJTVx+uegPNe4A+uM7cE/feLcaqx8dwP
-XxkH4aeWotLL6pucwSF2oJ3ibpot/jd0rPobHkUfeohOKHlbBvI=
-=FD0J
------END PGP SIGNATURE-----
-
---Sig_/FvFnMvh/SbxNwAEjaUh=ULz--
+Laurent Pinchart
