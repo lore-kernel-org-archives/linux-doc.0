@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A38C48BE8
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 11:39:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D1A4C49361
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 11:39:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDB6561351
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 11:39:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31E20613C2
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 11:39:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234122AbhFRLlU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 07:41:20 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3274 "EHLO
+        id S234121AbhFRLl2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 07:41:28 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3275 "EHLO
         frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234118AbhFRLlT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 07:41:19 -0400
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G5xbN1PYNz6G7Ty;
-        Fri, 18 Jun 2021 19:32:00 +0800 (CST)
+        with ESMTP id S234139AbhFRLl0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 07:41:26 -0400
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G5xSV3myTz6G9nt;
+        Fri, 18 Jun 2021 19:26:02 +0800 (CST)
 Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 18 Jun 2021 13:39:08 +0200
+ 15.1.2176.2; Fri, 18 Jun 2021 13:39:15 +0200
 Received: from localhost.localdomain (10.69.192.58) by
  lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 18 Jun 2021 12:39:05 +0100
+ 15.1.2176.2; Fri, 18 Jun 2021 12:39:11 +0100
 From:   John Garry <john.garry@huawei.com>
 To:     <joro@8bytes.org>, <will@kernel.org>, <dwmw2@infradead.org>,
         <baolu.lu@linux.intel.com>, <robin.murphy@arm.com>,
@@ -38,9 +38,9 @@ CC:     <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
         <linuxarm@huawei.com>, <thunder.leizhen@huawei.com>,
         <chenxiang66@hisilicon.com>, <linux-doc@vger.kernel.org>,
         John Garry <john.garry@huawei.com>
-Subject: [PATCH v14 4/6] iommu/vt-d: Add support for IOMMU default DMA mode build options
-Date:   Fri, 18 Jun 2021 19:34:16 +0800
-Message-ID: <1624016058-189713-5-git-send-email-john.garry@huawei.com>
+Subject: [PATCH v14 6/6] iommu: Remove mode argument from iommu_set_dma_strict()
+Date:   Fri, 18 Jun 2021 19:34:18 +0800
+Message-ID: <1624016058-189713-7-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
 References: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
@@ -54,97 +54,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Zhen Lei <thunder.leizhen@huawei.com>
+We only ever now set strict mode enabled in iommu_set_dma_strict(), so
+just remove the argument.
 
-Make IOMMU_DEFAULT_LAZY default for when INTEL_IOMMU config is set,
-as is current behaviour.
-
-Also delete global flag intel_iommu_strict:
-- In intel_iommu_setup(), call iommu_set_dma_strict(true) directly. Also
-  remove the print, as iommu_subsys_init() prints the mode and we have
-  already marked this param as deprecated.
-
-- For cap_caching_mode() check in intel_iommu_setup(), call
-  iommu_set_dma_strict(true) directly; also reword the accompanying print
-  with a level downgrade and also add the missing '\n'.
-
-- For Ironlake GPU, again call iommu_set_dma_strict(true) directly and
-  keep the accompanying print.
-
-[jpg: Remove intel_iommu_strict]
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 Signed-off-by: John Garry <john.garry@huawei.com>
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/Kconfig       |  1 +
- drivers/iommu/intel/iommu.c | 15 ++++++---------
- 2 files changed, 7 insertions(+), 9 deletions(-)
+ drivers/iommu/amd/init.c    | 2 +-
+ drivers/iommu/intel/iommu.c | 6 +++---
+ drivers/iommu/iommu.c       | 5 ++---
+ include/linux/iommu.h       | 2 +-
+ 4 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 0327a942fdb7..c214a36eb2dc 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -94,6 +94,7 @@ choice
- 	prompt "IOMMU default DMA IOTLB invalidation mode"
- 	depends on IOMMU_DMA
- 
-+	default IOMMU_DEFAULT_LAZY if INTEL_IOMMU
- 	default IOMMU_DEFAULT_STRICT
- 	help
- 	  This option allows an IOMMU DMA IOTLB invalidation mode to be
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 1e641cb6dddc..6e12a615117b 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -3099,7 +3099,7 @@ static int __init parse_amd_iommu_options(char *str)
+ 	for (; *str; ++str) {
+ 		if (strncmp(str, "fullflush", 9) == 0) {
+ 			pr_warn("amd_iommu=fullflush deprecated; use iommu.strict=1 instead\n");
+-			iommu_set_dma_strict(true);
++			iommu_set_dma_strict();
+ 		}
+ 		if (strncmp(str, "force_enable", 12) == 0)
+ 			amd_iommu_force_enable = true;
 diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 29497113d748..06666f9d8116 100644
+index 06666f9d8116..77d0834fb0df 100644
 --- a/drivers/iommu/intel/iommu.c
 +++ b/drivers/iommu/intel/iommu.c
-@@ -361,7 +361,6 @@ int intel_iommu_enabled = 0;
- EXPORT_SYMBOL_GPL(intel_iommu_enabled);
- 
- static int dmar_map_gfx = 1;
--static int intel_iommu_strict;
- static int intel_iommu_superpage = 1;
- static int iommu_identity_mapping;
- static int iommu_skip_te_disable;
-@@ -455,8 +454,7 @@ static int __init intel_iommu_setup(char *str)
+@@ -454,7 +454,7 @@ static int __init intel_iommu_setup(char *str)
  			iommu_dma_forcedac = true;
  		} else if (!strncmp(str, "strict", 6)) {
  			pr_warn("intel_iommu=strict deprecated; use iommu.strict=1 instead\n");
--			pr_info("Disable batched IOTLB flush\n");
--			intel_iommu_strict = 1;
-+			iommu_set_dma_strict(true);
+-			iommu_set_dma_strict(true);
++			iommu_set_dma_strict();
  		} else if (!strncmp(str, "sp_off", 6)) {
  			pr_info("Disable supported super page\n");
  			intel_iommu_superpage = 0;
-@@ -4382,9 +4380,9 @@ int __init intel_iommu_init(void)
- 		 * is likely to be much lower than the overhead of synchronizing
- 		 * the virtual and physical IOMMU page-tables.
+@@ -4382,7 +4382,7 @@ int __init intel_iommu_init(void)
  		 */
--		if (!intel_iommu_strict && cap_caching_mode(iommu->cap)) {
--			pr_warn("IOMMU batching is disabled due to virtualization");
--			intel_iommu_strict = 1;
-+		if (cap_caching_mode(iommu->cap)) {
-+			pr_info_once("IOMMU batching disallowed due to virtualization\n");
-+			iommu_set_dma_strict(true);
+ 		if (cap_caching_mode(iommu->cap)) {
+ 			pr_info_once("IOMMU batching disallowed due to virtualization\n");
+-			iommu_set_dma_strict(true);
++			iommu_set_dma_strict();
  		}
  		iommu_device_sysfs_add(&iommu->iommu, NULL,
  				       intel_iommu_groups,
-@@ -4393,7 +4391,6 @@ int __init intel_iommu_init(void)
- 	}
- 	up_read(&dmar_global_lock);
- 
--	iommu_set_dma_strict(intel_iommu_strict);
- 	bus_set_iommu(&pci_bus_type, &intel_iommu_ops);
- 	if (si_domain && !hw_pass_through)
- 		register_memory_notifier(&intel_iommu_memory_nb);
-@@ -5702,8 +5699,8 @@ static void quirk_calpella_no_shadow_gtt(struct pci_dev *dev)
+@@ -5699,7 +5699,7 @@ static void quirk_calpella_no_shadow_gtt(struct pci_dev *dev)
  	} else if (dmar_map_gfx) {
  		/* we have to ensure the gfx device is idle before we flush */
  		pci_info(dev, "Disabling batched IOTLB flush on Ironlake\n");
--		intel_iommu_strict = 1;
--       }
-+		iommu_set_dma_strict(true);
-+	}
+-		iommu_set_dma_strict(true);
++		iommu_set_dma_strict();
+ 	}
  }
  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x0040, quirk_calpella_no_shadow_gtt);
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x0044, quirk_calpella_no_shadow_gtt);
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 60b1ec42e73b..ff221d3ddcbc 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -349,10 +349,9 @@ static int __init iommu_dma_setup(char *str)
+ }
+ early_param("iommu.strict", iommu_dma_setup);
+ 
+-void iommu_set_dma_strict(bool strict)
++void iommu_set_dma_strict(void)
+ {
+-	if (strict || !(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+-		iommu_dma_strict = strict;
++	iommu_dma_strict = true;
+ }
+ 
+ bool iommu_get_dma_strict(struct iommu_domain *domain)
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 32d448050bf7..754f67d6dd90 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -476,7 +476,7 @@ int iommu_enable_nesting(struct iommu_domain *domain);
+ int iommu_set_pgtable_quirks(struct iommu_domain *domain,
+ 		unsigned long quirks);
+ 
+-void iommu_set_dma_strict(bool val);
++void iommu_set_dma_strict(void);
+ bool iommu_get_dma_strict(struct iommu_domain *domain);
+ 
+ extern int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
 -- 
 2.26.2
 
