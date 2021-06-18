@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA45C2B9F4
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 01:47:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B0AC2B9F4
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 01:53:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A88D610CD
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 01:47:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A5BA613B4
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 01:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233550AbhFRBuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Jun 2021 21:50:04 -0400
-Received: from mga06.intel.com ([134.134.136.31]:16946 "EHLO mga06.intel.com"
+        id S232210AbhFRBz1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Jun 2021 21:55:27 -0400
+Received: from mga07.intel.com ([134.134.136.100]:26655 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232198AbhFRBuD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Jun 2021 21:50:03 -0400
-IronPort-SDR: v/1vlkpYSrIcQKK91alFET4BUDFxlmhGwr4SscZZD8mn49zbRuftmU0wLhFr32JebKumFnGuGC
- N7f9ZkIIN/Vg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="267626191"
+        id S230211AbhFRBz1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Jun 2021 21:55:27 -0400
+IronPort-SDR: fw1zNkt50bmiJR4APLQY6qLvaqHBaUyebh142HBugncQuw+pkYY2A29mFXhWoIoZWQhinRVrhX
+ bp+Q+a7URkhg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="270328631"
 X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; 
-   d="scan'208";a="267626191"
+   d="scan'208";a="270328631"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 18:47:55 -0700
-IronPort-SDR: kEflpgrQfTrMXjL0qCHu94Hq3SWkwi5YoXUQzL8ZbmBwaRiE6t7/IHjTdU+u+6WcP9Wq8FrGj/
- VS73Oscd56pw==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 18:53:18 -0700
+IronPort-SDR: Q5vu6PcEGBkldERazoleVuGDdZijSRvTVciKwDk0WAnv8lUAoPMVEHc8AnTcAQzhMepbLoAcKJ
+ DIMIojw+Gw+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; 
-   d="scan'208";a="472612100"
+   d="scan'208";a="472612920"
 Received: from allen-box.sh.intel.com (HELO [10.239.159.118]) ([10.239.159.118])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Jun 2021 18:47:51 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 17 Jun 2021 18:53:16 -0700
 Cc:     baolu.lu@linux.intel.com, linux-kernel@vger.kernel.org,
         iommu@lists.linux-foundation.org, linuxarm@huawei.com,
         thunder.leizhen@huawei.com, chenxiang66@hisilicon.com,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 4/6] iommu/vt-d: Add support for IOMMU default DMA
- mode build options
-To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
-        will@kernel.org, dwmw2@infradead.org, robin.murphy@arm.com,
-        corbet@lwn.net
+Subject: Re: [PATCH v13 6/6] iommu: Remove mode argument from
+ iommu_set_dma_strict()
+To:     Robin Murphy <robin.murphy@arm.com>,
+        John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, dwmw2@infradead.org, corbet@lwn.net
 References: <1623841437-211832-1-git-send-email-john.garry@huawei.com>
- <1623841437-211832-5-git-send-email-john.garry@huawei.com>
- <46dbce5c-1c2b-60d4-df56-d2b95a959425@linux.intel.com>
- <f3fe6c4b-f360-ab7b-7ad2-ced63269499d@huawei.com>
+ <1623841437-211832-7-git-send-email-john.garry@huawei.com>
+ <de6a2874-3d6d-ed2a-78f5-fb1fb0195228@linux.intel.com>
+ <7d0fb0e2-4671-16db-6963-b0493d7a549b@arm.com>
 From:   Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <d53a6472-4628-313e-30a5-f76e016c9cb9@linux.intel.com>
-Date:   Fri, 18 Jun 2021 09:46:24 +0800
+Message-ID: <b6484679-0950-8c8e-98c5-da0e4c1d97e2@linux.intel.com>
+Date:   Fri, 18 Jun 2021 09:51:48 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <f3fe6c4b-f360-ab7b-7ad2-ced63269499d@huawei.com>
+In-Reply-To: <7d0fb0e2-4671-16db-6963-b0493d7a549b@arm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -60,90 +60,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi John,
+Hi Robin,
 
-On 6/17/21 4:00 PM, John Garry wrote:
-> On 17/06/2021 08:32, Lu Baolu wrote:
->> On 6/16/21 7:03 PM, John Garry wrote:
->>> @@ -4382,9 +4380,9 @@ int __init intel_iommu_init(void)
->>>            * is likely to be much lower than the overhead of 
->>> synchronizing
->>>            * the virtual and physical IOMMU page-tables.
->>>            */
->>> -        if (!intel_iommu_strict && cap_caching_mode(iommu->cap)) {
->>> -            pr_warn("IOMMU batching is disabled due to 
->>> virtualization");
->>> -            intel_iommu_strict = 1;
->>> +        if (cap_caching_mode(iommu->cap)) {
->>> +            pr_warn("IOMMU batching disallowed due to 
->>> virtualization\n");
->>> +            iommu_set_dma_strict(true);
+On 6/18/21 2:56 AM, Robin Murphy wrote:
+>>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>>> index 60b1ec42e73b..ff221d3ddcbc 100644
+>>> --- a/drivers/iommu/iommu.c
+>>> +++ b/drivers/iommu/iommu.c
+>>> @@ -349,10 +349,9 @@ static int __init iommu_dma_setup(char *str)
+>>>   }
+>>>   early_param("iommu.strict", iommu_dma_setup);
+>>> -void iommu_set_dma_strict(bool strict)
+>>> +void iommu_set_dma_strict(void)
+>>>   {
+>>> -    if (strict || !(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+>>> -        iommu_dma_strict = strict;
+>>> +    iommu_dma_strict = true;
 >>
->> With this change, VM guest will always show this warning.
+>> Sorry, I still can't get how iommu.strict kernel option works.
+>>
+>> static int __init iommu_dma_setup(char *str)
+>> {
+>>          int ret = kstrtobool(str, &iommu_dma_strict);
 > 
-> Would they have got it before also normally?
-> 
-> I mean, default is intel_iommu_strict=0, so if 
-> cap_caching_mode(iommu->cap) is true and intel_iommu_strict not set to 1 
-> elsewhere previously, then we would get this print.
+> Note that this is the bit that does the real work - if the argument 
+> parses OK then iommu_dma_strict is reassigned with the appropriate 
+> value. The iommu_cmd_line stuff is a bit of additional bookkeeping, 
+> basically just so we can see whether default values have been overridden.
 
-Yes. You are right.
-
-> 
->> How about
->> removing this message? Users could get the same information through the
->> kernel message added by "[PATCH v13 2/6] iommu: Print strict or lazy
->> mode at init time".
-> 
-> I think that the print from 2/6 should occur before this print.
-> 
-> Regardless I would think that you would still like to be notified of 
-> this change in policy, right?
-> 
-> However I now realize that the print is in a loop per iommu, so we would 
-> get it per iommu:
-> 
-> for_each_active_iommu(iommu, drhd) {
->      /*
->       * The flush queue implementation does not perform
->       * page-selective invalidations that are required for efficient
->       * TLB flushes in virtual environments.  The benefit of batching
->       * is likely to be much lower than the overhead of synchronizing
->       * the virtual and physical IOMMU page-tables.
->       */
->      if (!intel_iommu_strict && cap_caching_mode(iommu->cap)) {
->          pr_warn("IOMMU batching is disabled due to virtualization");
->          intel_iommu_strict = 1;
->      }
->      ...
-> }
-> 
-> I need to change that. How about this:
-> 
-> bool print_warning = false;
-> 
-> for_each_active_iommu(iommu, drhd) {
->      /*
->       * The flush queue implementation does not perform
->       * page-selective invalidations that are required for efficient
->       * TLB flushes in virtual environments.  The benefit of batching
->       * is likely to be much lower than the overhead of synchronizing
->       * the virtual and physical IOMMU page-tables.
->       */
->      if (!print_warning && cap_caching_mode(iommu->cap)) {
->          pr_warn("IOMMU batching disallowed due to virtualization\n");
->          iommu_set_dma_strict(true);
->          print_warning = true;
->      }
->      ...
-> }
-> 
-> or use pr_warn_once().
-
- From my p.o.v, pr_xxxx_once() is better.
-
-How about using a pr_info_once()? I don't think it's a warning, it's
-just a policy choice in VM environment.
+Ah, get it. Thanks a lot. I missed this part and naively thought it just
+converts a string to integer.
 
 Best regards,
 baolu
