@@ -2,29 +2,28 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2351DC48BDF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 16:45:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 808CDC48BDF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 16:56:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E850661260
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 16:45:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64EDA613E2
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 16:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233058AbhFRQrT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 12:47:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49834 "EHLO mail.kernel.org"
+        id S233217AbhFRQ7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 12:59:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51816 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231977AbhFRQrR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Jun 2021 12:47:17 -0400
+        id S231601AbhFRQ7D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Jun 2021 12:59:03 -0400
 Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2A9ED610C7;
-        Fri, 18 Jun 2021 16:45:06 +0000 (UTC)
-Date:   Fri, 18 Jun 2021 12:45:03 -0400
+        by mail.kernel.org (Postfix) with ESMTPSA id DE9AE613D1;
+        Fri, 18 Jun 2021 16:56:52 +0000 (UTC)
+Date:   Fri, 18 Jun 2021 12:56:51 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Daniel Bristot de Oliveira <bristot@redhat.com>
 Cc:     Phil Auld <pauld@redhat.com>,
@@ -41,11 +40,12 @@ Cc:     Phil Auld <pauld@redhat.com>,
         Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 05/12] trace/hwlat: Support hotplug operations
-Message-ID: <20210618124503.388fe4d4@oasis.local.home>
-In-Reply-To: <8899f8a8bec38bc600f7a2c61bc6ca664aa7beeb.1623746916.git.bristot@redhat.com>
+Subject: Re: [PATCH V4 06/12] trace: Add a generic function to read/write
+ u64 values from tracefs
+Message-ID: <20210618125651.7de04840@oasis.local.home>
+In-Reply-To: <681a2fb508b3dad2979ac705c3df633f14abb9b2.1623746916.git.bristot@redhat.com>
 References: <cover.1623746916.git.bristot@redhat.com>
-        <8899f8a8bec38bc600f7a2c61bc6ca664aa7beeb.1623746916.git.bristot@redhat.com>
+        <681a2fb508b3dad2979ac705c3df633f14abb9b2.1623746916.git.bristot@redhat.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,113 +54,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Jun 2021 11:28:44 +0200
+On Tue, 15 Jun 2021 11:28:45 +0200
 Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
-
-> Enable and disable hwlat thread during cpu hotplug online
-> and offline operations, respectivelly.
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Alexandre Chartre <alexandre.chartre@oracle.com>
-> Cc: Clark Willaims <williams@redhat.com>
-> Cc: John Kacur <jkacur@redhat.com>
-> Cc: Juri Lelli <juri.lelli@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: x86@kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
-> ---
->  kernel/trace/trace.c       |  6 ++++++
->  kernel/trace/trace_hwlat.c | 34 ++++++++++++++++++++++++++++++++++
->  2 files changed, 40 insertions(+)
-> 
-> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-> index 9299057feb56..c094865e2f71 100644
-> --- a/kernel/trace/trace.c
-> +++ b/kernel/trace/trace.c
-> @@ -5064,7 +5064,13 @@ int tracing_set_cpumask(struct trace_array *tr,
->  	arch_spin_unlock(&tr->max_lock);
->  	local_irq_enable();
->  
-> +	/*
-> +	 * tracing_cpumask is read by tracers that support CPU
-> +	 * hotplug.
-> +	 */
-> +	get_online_cpus();
->  	cpumask_copy(tr->tracing_cpumask, tracing_cpumask_new);
-> +	put_online_cpus();
->  
->  	return 0;
->  }
-> diff --git a/kernel/trace/trace_hwlat.c b/kernel/trace/trace_hwlat.c
-> index 6c6918e86087..9fcfd588c4f6 100644
-> --- a/kernel/trace/trace_hwlat.c
-> +++ b/kernel/trace/trace_hwlat.c
-> @@ -490,6 +490,35 @@ static int start_cpu_kthread(unsigned int cpu)
->  	return 0;
->  }
->  
-> +/*
-> + * hwlat_cpu_init - CPU hotplug online callback function
-> + */
-> +static int hwlat_cpu_init(unsigned int cpu)
+> +static ssize_t
+> +trace_min_max_read(struct file *filp, char __user *ubuf, size_t cnt,
+> +		      loff_t *ppos)
 > +{
-> +	struct trace_array *tr = hwlat_trace;
-> +
+> +	struct trace_min_max_param *param = filp->private_data;
+> +	char buf[ULL_STR_SIZE];
+> +	u64 val;
+> +        int len;
 
-You need to take the trace_types_lock here, between testing the
-hwlat_busy and starting the threads. Otherwise, between the two, the
-hwlat tracer could be turned off while a CPU is coming on line, and
-then you just started a per cpu thread, while the hwlat tracer is not
-enabled.
+White space issue above?
 
-> +	if (!hwlat_busy)
-> +		return 0;
 > +
-> +	if (!cpumask_test_cpu(cpu, tr->tracing_cpumask))
-> +		return 0;
+> +        if (!param)
+> +                return -EFAULT;
+
+And above here too?
+
+
 > +
-> +	return start_cpu_kthread(cpu);
+> +	val = *param->val;
+> +
+> +        if (cnt > sizeof(buf))
+> +                cnt = sizeof(buf);
+> +
+> +        len = snprintf(buf, sizeof(buf), "%llu\n", val);
+> +
+> +        return simple_read_from_buffer(ubuf, cnt, ppos, buf, len);
+
+Egad, this entire patch is filled with whitespace issues!
+
+Please check your other patches too.
+
 > +}
 > +
-> +/*
-> + * hwlat_cpu_die - CPU hotplug offline callback function
-> + */
-> +static int hwlat_cpu_die(unsigned int cpu)
-> +{
 
-Same here.
+
+> +
+> +#define ULL_STR_SIZE		22	/* 20 digits max */
+
+Nit. I'd make this 24, just to be integer aligned. I mean, it's used as:
+
+
+trace_min_max_read(struct file *filp, char __user *ubuf, size_t cnt,
+		      loff_t *ppos)
+{
+	struct trace_min_max_param *param = filp->private_data;
+	char buf[ULL_STR_SIZE];
+	u64 val;
+	int len;
+
+Probably should reverse the above as well, that way if you do have
+ULL_STR_SIZE as 24, then the int len, will fit right in before the u64
+val. Although, I think compilers are free to optimize that too :-/
 
 -- Steve
-
-
-> +	if (!hwlat_busy)
-> +		return 0;
-> +
-> +	stop_cpu_kthread(cpu);
-> +
-> +	return 0;
-> +}
-> +
->  /*
->   * start_per_cpu_kthreads - Kick off the hardware latency sampling/detector kthreads
->   *
-> @@ -903,6 +932,11 @@ __init static int init_hwlat_tracer(void)
->  	if (ret)
->  		return ret;
->  
-> +	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "trace/hwlat:online",
-> +				hwlat_cpu_init, hwlat_cpu_die);
-> +	if (ret < 0)
-> +		pr_warn(BANNER "Error to init cpu hotplug support\n");
-> +
->  	init_tracefs();
->  
->  	return 0;
-
