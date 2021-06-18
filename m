@@ -2,77 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 254C5C48BDF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 18:27:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD52BC48BE8
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 18:30:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0934F613E2
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 18:27:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B199613F5
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 18:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235288AbhFRS3o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 14:29:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51190 "EHLO mail.kernel.org"
+        id S231704AbhFRScP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 14:32:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51714 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236427AbhFRS3Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Jun 2021 14:29:16 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 55065613C2;
-        Fri, 18 Jun 2021 18:27:04 +0000 (UTC)
-Date:   Fri, 18 Jun 2021 14:27:02 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@redhat.com>
-Cc:     Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 10/12] trace: Add osnoise tracer
-Message-ID: <20210618142702.7c75f0c9@oasis.local.home>
-In-Reply-To: <c555b92d6cfef5b3d05c426696d98553c1a46c8d.1623746916.git.bristot@redhat.com>
-References: <cover.1623746916.git.bristot@redhat.com>
-        <c555b92d6cfef5b3d05c426696d98553c1a46c8d.1623746916.git.bristot@redhat.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S229475AbhFRScO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Jun 2021 14:32:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 30368613ED;
+        Fri, 18 Jun 2021 18:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624041005;
+        bh=hla1afcXiBZO3Ji0LffAnkcrWwE5QynZOPQYf/PQXPQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=tmlZOfeOHtWbpgwFCoLo0V3OLvIoq6VCoyDfSFIq/hBH6vTT2HPHYOgZbS+qnl5bg
+         Mm3/P0nU9Ls2ylT/hUAigor4n6rx+FTJM9c6ft/RxYe8XZnfEI0IkQFwLUWzL4piLf
+         2vfjZ6SILHwwsFa2NPQ6rPeEPzUaWWaNhQJS59vOloobhc2ScAvYqOArA54qebN/IF
+         NzqjlHzWQqWNonAeMKo4GRbDGQ2aSeEIV7P4WeUoNsWGkfrtwCBdeLoIDR1H2V0hYj
+         Vr9/UvbSS18p9Y5D8ZbNWzNSkRJrV9ILk7xkRFstVvnnf3rDg9fo8lircrLGn53zQd
+         qNJcLNHbCMlaQ==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf-next v4 0/1] Autogenerating libbpf API documentation
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <162404100516.18542.1194147590836785271.git-patchwork-notify@kernel.org>
+Date:   Fri, 18 Jun 2021 18:30:05 +0000
+References: <20210618140459.9887-1-grantseltzer@gmail.com>
+In-Reply-To: <20210618140459.9887-1-grantseltzer@gmail.com>
+To:     grantseltzer <grantseltzer@gmail.com>
+Cc:     andrii@kernel.org, daniel@iogearbox.net, corbet@lwn.net,
+        linux-doc@vger.kernel.org, bpf@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Jun 2021 11:28:49 +0200
-Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
+Hello:
 
-> diff --git a/kernel/trace/trace_osnoise.h b/kernel/trace/trace_osnoise.h
-> new file mode 100644
-> index 000000000000..34c7b80f9e12
-> --- /dev/null
-> +++ b/kernel/trace/trace_osnoise.h
-> @@ -0,0 +1,9 @@
-> +int __weak osnoise_arch_register(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +void __weak osnoise_arch_unregister(void)
-> +{
-> +	return;
-> +}
+This patch was applied to bpf/bpf-next.git (refs/heads/master):
 
-No reason to put the above in a header file. In fact, as it is code, it
-should not be in a header file. Keep it in the trace_osnoise.c.
+On Fri, 18 Jun 2021 14:04:58 +0000 you wrote:
+> This patch series is meant to start the initiative to document libbpf.
+> It includes .rst files which are text documentation describing building,
+> API naming convention, as well as an index to generated API documentation.
+> 
+> In this approach the generated API documentation is enabled by the kernels
+> existing kernel documentation system which uses sphinx. The resulting docs
+> would then be synced to kernel.org/doc
+> 
+> [...]
 
--- Steve
+Here is the summary with links:
+  - [bpf-next,v4,1/1] Add documentation for libbpf including API autogen
+    https://git.kernel.org/bpf/bpf-next/c/f540a7d2c37f
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
