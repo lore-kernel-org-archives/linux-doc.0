@@ -2,112 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 808CDC48BDF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 16:56:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8446C48BDF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 17:26:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64EDA613E2
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 16:56:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5BD7611CD
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 17:26:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233217AbhFRQ7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 12:59:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51816 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231601AbhFRQ7D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Jun 2021 12:59:03 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S236095AbhFRR2z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 13:28:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57332 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234200AbhFRR2y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 13:28:54 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC59C061574;
+        Fri, 18 Jun 2021 10:26:45 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DE9AE613D1;
-        Fri, 18 Jun 2021 16:56:52 +0000 (UTC)
-Date:   Fri, 18 Jun 2021 12:56:51 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@redhat.com>
-Cc:     Phil Auld <pauld@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Kate Carcia <kcarcia@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 06/12] trace: Add a generic function to read/write
- u64 values from tracefs
-Message-ID: <20210618125651.7de04840@oasis.local.home>
-In-Reply-To: <681a2fb508b3dad2979ac705c3df633f14abb9b2.1623746916.git.bristot@redhat.com>
-References: <cover.1623746916.git.bristot@redhat.com>
-        <681a2fb508b3dad2979ac705c3df633f14abb9b2.1623746916.git.bristot@redhat.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        by ms.lwn.net (Postfix) with ESMTPSA id 48BBA9A2;
+        Fri, 18 Jun 2021 17:26:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 48BBA9A2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1624037205; bh=09oYYdW1hZezx5tjmKQezNJ3L4WiSkZd4lmL9Z+LwtY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=pXy524DJQB8OobdxnK3wy+d6XeFFbH3vMf8O7eszDi35BWyFN6oyDzHdm7PE9ONRr
+         sh29ToMUQLGth8Vow1gqtTFT/FeD6q9c1wlADasbNnkubReAy/Xs9LCtTVM7E0dVnx
+         ou9I+jTobQOO05mGcrJJn9SHj8cs3wmoUo4Yz/+YBoBpsXkd/nw8CRC9Ph8cZJ5bl4
+         EAG1WjpLRtW1nJWrgRpxMhKqSMrLnkUysb9qOebljuZ+hEwjjheNtnppBDKE4/K43I
+         3jN/Ab1S8Hjrq1ibLe0BHbcLGyPAGAXQMjEazt7DcZVjDTNU65xdAIN1h+PsZXhBEc
+         wwRqhgDpMDdwg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Kees Cook <keescook@chromium.org>, stable@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: Makefile: Use CONFIG_SHELL not SHELL
+In-Reply-To: <20210617225808.3907377-1-keescook@chromium.org>
+References: <20210617225808.3907377-1-keescook@chromium.org>
+Date:   Fri, 18 Jun 2021 11:26:44 -0600
+Message-ID: <87wnqrqe23.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Jun 2021 11:28:45 +0200
-Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
-> +static ssize_t
-> +trace_min_max_read(struct file *filp, char __user *ubuf, size_t cnt,
-> +		      loff_t *ppos)
-> +{
-> +	struct trace_min_max_param *param = filp->private_data;
-> +	char buf[ULL_STR_SIZE];
-> +	u64 val;
-> +        int len;
+Kees Cook <keescook@chromium.org> writes:
 
-White space issue above?
+> Fix think-o about which variable to find the Kbuild-configured shell.
+> This has accidentally worked due to most shells setting $SHELL by
+> default.
+>
+> Fixes: 51e46c7a4007 ("docs, parallelism: Rearrange how jobserver reservations are made")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  Documentation/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 9c42dde97671..c3feb657b654 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -76,7 +76,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+>  	PYTHONDONTWRITEBYTECODE=1 \
+>  	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
+>  	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
+> -	$(SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+> +	$(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+>  	$(SPHINXBUILD) \
+>  	-b $2 \
+>  	-c $(abspath $(srctree)/$(src)) \
 
-> +
-> +        if (!param)
-> +                return -EFAULT;
+Applied, thanks.
 
-And above here too?
-
-
-> +
-> +	val = *param->val;
-> +
-> +        if (cnt > sizeof(buf))
-> +                cnt = sizeof(buf);
-> +
-> +        len = snprintf(buf, sizeof(buf), "%llu\n", val);
-> +
-> +        return simple_read_from_buffer(ubuf, cnt, ppos, buf, len);
-
-Egad, this entire patch is filled with whitespace issues!
-
-Please check your other patches too.
-
-> +}
-> +
-
-
-> +
-> +#define ULL_STR_SIZE		22	/* 20 digits max */
-
-Nit. I'd make this 24, just to be integer aligned. I mean, it's used as:
-
-
-trace_min_max_read(struct file *filp, char __user *ubuf, size_t cnt,
-		      loff_t *ppos)
-{
-	struct trace_min_max_param *param = filp->private_data;
-	char buf[ULL_STR_SIZE];
-	u64 val;
-	int len;
-
-Probably should reverse the above as well, that way if you do have
-ULL_STR_SIZE as 24, then the int len, will fit right in before the u64
-val. Although, I think compilers are free to optimize that too :-/
-
--- Steve
+jon
