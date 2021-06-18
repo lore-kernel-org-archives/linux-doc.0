@@ -2,171 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C81ECC48BE8
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 14:01:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 979FFC48BE8
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 14:05:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A44ED61248
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 14:01:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7666C61222
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 14:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234236AbhFRODX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 10:03:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39056 "EHLO
+        id S233990AbhFROHf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 10:07:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234179AbhFRODW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 10:03:22 -0400
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E93ACC061574;
-        Fri, 18 Jun 2021 07:01:11 -0700 (PDT)
-Received: by mail-vs1-xe35.google.com with SMTP id 68so4982934vsu.6;
-        Fri, 18 Jun 2021 07:01:11 -0700 (PDT)
+        with ESMTP id S229782AbhFROHe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 10:07:34 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 198ABC061574;
+        Fri, 18 Jun 2021 07:05:23 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id q190so8560993qkd.2;
+        Fri, 18 Jun 2021 07:05:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Cvh75hY019BX7uc+RL+q/CXawViVX/LTbPoN9FGziiU=;
-        b=TPLqjgPX8zTppClsQrKq5bIUE8xSKDkvXMOs4lwm9LIrccUkW9YUHsAJI+/8S7cayg
-         849czcxIu9SS+BMEkaB/5jJ0clO5nhJFv6P9UZE9MaPZfVxZiykTwQV2MvDJct/3YyT6
-         8vTbeml8S7jW8wrSFTUZO2ucTROh3al+/z5UejSXeAh//gSBu0fLEaQs92kWYlHAjKJW
-         yFmKKjq3XNDaMe4NXMTbsSuwHcek9JX3JsBd+wxdiOO6ywk0SeZxo19dmQj7RTpk7Kb9
-         gbAVEEXW5YsqX70dHMO8NXz0+jIATjGUSi2gdQ185aeH5Hg+bCKItFmh6w7juqTFqHUt
-         V1JQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eBxgz/GuZ4v3xbEkFc5a7GzQZl5BNKTGt4qwAs7tMuY=;
+        b=WGlOAVwZE5ZRI9DLLeKO/CiuAkZeoi7Zy1IYdctoq5xw/6v8+CrNtcWPjrtJBqWT8G
+         LDZOpk2S+ba3XYT13awNywd8R+1Hjt3bMeCIshnd0SVF/y0Whx2IIBpHH+5lIJFrm4sh
+         cZdoJsjKgRlMT3vsiEIqRMG4uQY18Iavy1aJ0Bh8+Dl0G19WeFZu+cv0TD9oKBoTSeaU
+         lWAiX6sugWE5NjWLo1KMrLfaYLw60PmCiDni4VC8BYQEwcAE+0tUj9Tvg3YjIsycDJpB
+         7eq2FlEaj4aZBbnrEeEJ2LtKSMUTSyAjVXAgOpUJ1J9GS2WiKTMBJuzYPZxOyS4Y1yED
+         4hJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Cvh75hY019BX7uc+RL+q/CXawViVX/LTbPoN9FGziiU=;
-        b=bI9UYDdH/qxaQDgA54zIX6nFjNWemlJm9K9x9DEFkO9Krnx+6wcJg6N9x/+5n25nV0
-         qUxk6zKeCG/eu0mN/JB2JwbkznKEvLG63CPU66/MfnHISE1guc5A6/n35T7gB2D0caq+
-         fg1JMFbn2/cqfZ5x85CBgG2YWcLvMGFVJJKT9HdE2BBcVpPDqt/jg5Pi6rqTUaaED3sl
-         f2GgAseZihO9cLWDHYTJ+t17o4ktnfmC2/3OOtWePFvCzq7vukEszyBUADYi+fMkEHaD
-         Jchap/hAOXIsHRZ0jtLopmgK9uMtCQvDNtK3Y8NLfxK6wjInZj5ZC48PAqgsUUSav4Vd
-         E6rA==
-X-Gm-Message-State: AOAM533DOxakoh3emaogeGkwDmwmY8YTCffUJhueNVaFFEMxGCNcgXcY
-        4XhETZoXKVaO171BYsgyeyu66gfJkNNQ2wm+iPY=
-X-Google-Smtp-Source: ABdhPJyP/wfyi3OjQdOB27bjaAtzuwv0aKxCsuMKO/D6Ptea0UfTWxI2NV18ffpeB7Q/ieRYFZOch8zdVZCVOESNBVE=
-X-Received: by 2002:a05:6102:358b:: with SMTP id h11mr7143898vsu.6.1624024871034;
- Fri, 18 Jun 2021 07:01:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eBxgz/GuZ4v3xbEkFc5a7GzQZl5BNKTGt4qwAs7tMuY=;
+        b=R4fcyftqtiNCS0jgEgYPgoEDSuVD5bWBaQ1ChYCHExV+5pLLYkbLcx4O44fv9Ahpo2
+         SdI+138WcPM+7BrIc2cGdVD6ekM+meHZb8BOFxURmZEaWn3zcavZLoN+l6Z41f0dZiwk
+         0UZ2O9wlqlEbxfM3unntmWaA8VlRS+Y0Oq5YoZJLIt+nxwHmLfdAilBQ/fsWTa+Z1kfD
+         w8dptY34YYdQEIbW9exKxK41WJgFizUB4rDdrShpom7SyMu4YhztIOUAnT+LPZXrryJi
+         3rmIPtHPJhtY7HXBJrrxX2uvVJzvoBZzy1xChsUGrhCpsD4XJOmQhBktj9hZ6rh9c/IW
+         Dq8g==
+X-Gm-Message-State: AOAM531d9+aSsfiveacDMRgd5Ieb8Rx0S3yGTmU8Pyl80AeXVUxQjo/5
+        rrqeaTZp3AR0y30tNApusNdiEtP19o28iPwVpzQ=
+X-Google-Smtp-Source: ABdhPJw/VZ/YNksO6xymoUGBpH5aJjOItmHxS8DWW04GSD4Ntqdevm5uMmXw4lI0l0zEkN1w5Cojgw==
+X-Received: by 2002:a37:a90f:: with SMTP id s15mr9552326qke.192.1624025122264;
+        Fri, 18 Jun 2021 07:05:22 -0700 (PDT)
+Received: from localhost.localdomain (pool-108-54-205-133.nycmny.fios.verizon.net. [108.54.205.133])
+        by smtp.gmail.com with ESMTPSA id t30sm3974078qkm.11.2021.06.18.07.05.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jun 2021 07:05:21 -0700 (PDT)
+From:   grantseltzer <grantseltzer@gmail.com>
+To:     andrii@kernel.org, daniel@iogearbox.net, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, grantseltzer@gmail.com,
+        bpf@vger.kernel.org
+Subject: [PATCH bpf-next v4 0/1] Autogenerating libbpf API documentation
+Date:   Fri, 18 Jun 2021 14:04:58 +0000
+Message-Id: <20210618140459.9887-1-grantseltzer@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210617182023.8137-1-grantseltzer@gmail.com> <20210617182023.8137-2-grantseltzer@gmail.com>
- <CAEf4Bzar3CVJCkKHo5RKcCXLAwEVW5y_JUTo7_cVuBOwjRaiJg@mail.gmail.com>
-In-Reply-To: <CAEf4Bzar3CVJCkKHo5RKcCXLAwEVW5y_JUTo7_cVuBOwjRaiJg@mail.gmail.com>
-From:   Grant Seltzer Richman <grantseltzer@gmail.com>
-Date:   Fri, 18 Jun 2021 10:00:59 -0400
-Message-ID: <CAO658oXL0++2gHc=E0i5YinHkmRJgFzq05+DxRkRrJ3ku1Ufow@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/1] Add documentation for libbpf including
- API autogen
-To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 4:36 PM Andrii Nakryiko
-<andrii.nakryiko@gmail.com> wrote:
->
-> On Thu, Jun 17, 2021 at 11:20 AM grantseltzer <grantseltzer@gmail.com> wrote:
-> >
-> > This adds rst files containing documentation for libbpf. This includes
-> > the addition of libbpf_api.rst which pulls comment documentation from
-> > header files in libbpf under tools/lib/bpf/. The comment docs would be
-> > of the standard kernel doc format.
-> >
-> > Signed-off-by: grantseltzer <grantseltzer@gmail.com>
-> > ---
-> >  Documentation/bpf/index.rst                   | 13 +++++++
-> >  Documentation/bpf/libbpf.rst                  | 14 +++++++
-> >  Documentation/bpf/libbpf_api.rst              | 27 ++++++++++++++
-> >  Documentation/bpf/libbpf_build.rst            | 37 +++++++++++++++++++
->
-> Didn't we agree to have docs under Documentation/bpf/libbpf? That
-> should make it clear that each is libbpf-specific and probably would
-> make copying/syncing easier. Plus it will be a libbpf sub-section in
-> the docs, no?
+This patch series is meant to start the initiative to document libbpf.
+It includes .rst files which are text documentation describing building,
+API naming convention, as well as an index to generated API documentation.
 
-Ah sure, that works.
+In this approach the generated API documentation is enabled by the kernels
+existing kernel documentation system which uses sphinx. The resulting docs
+would then be synced to kernel.org/doc
 
->
-> >  .../bpf/libbpf_naming_convention.rst          | 32 +++++++---------
-> >  5 files changed, 104 insertions(+), 19 deletions(-)
-> >  create mode 100644 Documentation/bpf/libbpf.rst
-> >  create mode 100644 Documentation/bpf/libbpf_api.rst
-> >  create mode 100644 Documentation/bpf/libbpf_build.rst
-> >  rename tools/lib/bpf/README.rst => Documentation/bpf/libbpf_naming_convention.rst (89%)
-> >
-> > diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-> > index a702f67dd..44f646735 100644
-> > --- a/Documentation/bpf/index.rst
-> > +++ b/Documentation/bpf/index.rst
-> > @@ -12,6 +12,19 @@ BPF instruction-set.
-> >  The Cilium project also maintains a `BPF and XDP Reference Guide`_
-> >  that goes into great technical depth about the BPF Architecture.
-> >
-> > +libbpf
-> > +======
-> > +
-> > +Libbpf is a userspace library for loading and interacting with bpf programs.
-> > +
-> > +.. toctree::
-> > +   :maxdepth: 1
-> > +
-> > +   libbpf
-> > +   libbpf_api
-> > +   libbpf_build
-> > +   libbpf_naming_convention
-> > +
-> >  BPF Type Format (BTF)
-> >  =====================
-> >
-> > diff --git a/Documentation/bpf/libbpf.rst b/Documentation/bpf/libbpf.rst
-> > new file mode 100644
-> > index 000000000..2e62cadee
-> > --- /dev/null
-> > +++ b/Documentation/bpf/libbpf.rst
-> > @@ -0,0 +1,14 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
->
-> Should we use dual-license LGPL-2.1 OR BSD-2-Clause like the rest of libbpf?
->
-> > +
-> > +libbpf
-> > +======
-> > +
-> > +This is documentation for libbpf, a userspace library for loading and
-> > +interacting with bpf programs.
-> > +
->
-> [...]
->
-> > +    $ cd src
-> > +    $ PKG_CONFIG_PATH=/build/root/lib64/pkgconfig DESTDIR=/build/root make
-> > \ No newline at end of file
-> > diff --git a/tools/lib/bpf/README.rst b/Documentation/bpf/libbpf_naming_convention.rst
-> > similarity index 89%
-> > rename from tools/lib/bpf/README.rst
-> > rename to Documentation/bpf/libbpf_naming_convention.rst
-> > index 8928f7787..b6dc5c592 100644
-> > --- a/tools/lib/bpf/README.rst
-> > +++ b/Documentation/bpf/libbpf_naming_convention.rst
-> > @@ -1,7 +1,7 @@
-> > -.. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-> > +.. SPDX-License-Identifier: GPL-2.0
->
-> I don't think we can just easily re-license without asking original
-> contributor. But see above, I think we should stick to the
-> dual-license to stay consistent with libbpf sources?
+You can test this by running `make htmldocs` and serving the html in
+Documentation/output. Since libbpf does not yet have comments in kernel
+doc format, see kernel.org/doc/html/latest/doc-guide/kernel-doc.html for
+an example so you can test this.
 
-This change was not at all intentional. I'll change it back to the
-dual license.
->
->
-> [...]
+The advantage of this approach is to use the existing sphinx
+infrastructure that the kernel has, and have libbpf docs in
+the same place as everything else.
+
+The current plan is to have the libbpf mirror sync the generated docs 
+and version them based on the libbpf releases which are cut on github.
+
+grantseltzer (1):
+  Add documentation for libbpf including API autogen
+
+ Documentation/bpf/index.rst                   | 13 +++++++
+ Documentation/bpf/libbpf/libbpf.rst           | 14 +++++++
+ Documentation/bpf/libbpf/libbpf_api.rst       | 27 ++++++++++++++
+ Documentation/bpf/libbpf/libbpf_build.rst     | 37 +++++++++++++++++++
+ .../bpf/libbpf/libbpf_naming_convention.rst   | 30 ++++++---------
+ 5 files changed, 103 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/bpf/libbpf/libbpf.rst
+ create mode 100644 Documentation/bpf/libbpf/libbpf_api.rst
+ create mode 100644 Documentation/bpf/libbpf/libbpf_build.rst
+ rename tools/lib/bpf/README.rst => Documentation/bpf/libbpf/libbpf_naming_convention.rst (90%)
+
+-- 
+2.31.1
+
