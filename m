@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B08C48BDF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 19:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC51C48BDF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 19:04:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C59461284
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 19:00:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 280AF6124C
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 19:04:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234232AbhFRTCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 15:02:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58032 "EHLO mail.kernel.org"
+        id S233640AbhFRTG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 15:06:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58942 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231589AbhFRTCd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Jun 2021 15:02:33 -0400
+        id S229848AbhFRTGz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Jun 2021 15:06:55 -0400
 Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 39E25610EA;
-        Fri, 18 Jun 2021 19:00:22 +0000 (UTC)
-Date:   Fri, 18 Jun 2021 15:00:20 -0400
+        by mail.kernel.org (Postfix) with ESMTPSA id 9BBD560FF0;
+        Fri, 18 Jun 2021 19:04:44 +0000 (UTC)
+Date:   Fri, 18 Jun 2021 15:04:43 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Daniel Bristot de Oliveira <bristot@redhat.com>
 Cc:     Phil Auld <pauld@redhat.com>,
@@ -40,12 +40,11 @@ Cc:     Phil Auld <pauld@redhat.com>,
         Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 05/12] trace/hwlat: Support hotplug operations
-Message-ID: <20210618150020.689439d4@oasis.local.home>
-In-Reply-To: <20210618124503.388fe4d4@oasis.local.home>
+Subject: Re: [PATCH V4 12/12] trace/osnoise: Support hotplug operations
+Message-ID: <20210618150443.44a49826@oasis.local.home>
+In-Reply-To: <ee28d6e8b028a66a1d624895cf0aa04ddd17cb37.1623746916.git.bristot@redhat.com>
 References: <cover.1623746916.git.bristot@redhat.com>
-        <8899f8a8bec38bc600f7a2c61bc6ca664aa7beeb.1623746916.git.bristot@redhat.com>
-        <20210618124503.388fe4d4@oasis.local.home>
+        <ee28d6e8b028a66a1d624895cf0aa04ddd17cb37.1623746916.git.bristot@redhat.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,40 +53,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Jun 2021 12:45:03 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On Tue, 15 Jun 2021 11:28:51 +0200
+Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 
-> > +/*
-> > + * hwlat_cpu_init - CPU hotplug online callback function
-> > + */
-> > +static int hwlat_cpu_init(unsigned int cpu)
-> > +{
-> > +	struct trace_array *tr = hwlat_trace;
-> > +  
-> 
-> You need to take the trace_types_lock here, between testing the
-> hwlat_busy and starting the threads. Otherwise, between the two, the
-> hwlat tracer could be turned off while a CPU is coming on line, and
-> then you just started a per cpu thread, while the hwlat tracer is not
-> enabled.
+> @@ -1566,7 +1627,14 @@ osnoise_cpus_write(struct file *filp, const char __user *ubuf, size_t count,
+>  		osnoise_tracer_stop(tr);
+>  
+>  	mutex_lock(&interface_lock);
+> +	/*
+> +	 * osnoise_cpumask is ready by CPU hotplug operations.
 
-And of course, because get_online_cpus() is called within
-trace_types_lock, doing this check is going to cause a lock inversion.
+I don't understand the usage of "ready" above. Lost in translation?
 
-The only thing I could think of is to wake up a worker thread to do the
-work. That is, this just wakes the worker thread, then the worker grabs
-the trace_types_lock, iterates through the cpu mask of expect running
-threads, and then starts or kills them depending on the hwlat_busy
-value.
+	 * osnoise_cpumask is updated by CPU hotplug operations.
+
+?
 
 -- Steve
 
-> 
-> > +	if (!hwlat_busy)
-> > +		return 0;
-> > +
-> > +	if (!cpumask_test_cpu(cpu, tr->tracing_cpumask))
-> > +		return 0;
-> > +
-> > +	return start_cpu_kthread(cpu);
-> > +}
+
+> +	 */
+> +	get_online_cpus();
+> +
+>  	cpumask_copy(&osnoise_cpumask, osnoise_cpumask_new);
+> +
+> +	put_online_cpus();
+>  	mutex_unlock(&interface_lock);
+>  
