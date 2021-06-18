@@ -2,84 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F87C49361
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 07:21:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 673C9C48BDF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 07:37:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB7E96100B
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 07:21:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46DAF61396
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 07:37:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233092AbhFRHXy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 03:23:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231598AbhFRHXx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 03:23:53 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6871C061574;
-        Fri, 18 Jun 2021 00:21:43 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id if15so3090018qvb.2;
-        Fri, 18 Jun 2021 00:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AseZqmRRFSAWxlkl2H15IzgmyWSQsQrTGUE3obWRyrM=;
-        b=MgJa/mVtq6XWZKn0imgyglg6ZDupmBYLsc6nqx+ZO1zknwhEReGKbW0bIN9kjCm914
-         7E0WAR6WoiSOPVxaB4Sadr237fXQYjs9EIPdgHjw9yI7oCPSKi4s9wk8qO8viYfzO3j3
-         oX+nQ93PDsxTTWGmQ+zEoHHEzIbrkCpmblgepC5prfbUg/gCfpWMcO/C4y9jHTrhS7J9
-         aDBO2TOUCs0o7DhFQLYvBcSNaj7d6xtPRM96we9l/KZVn0ibRSkALFFBsZamfIFH6mcS
-         yO9FBRCXYYW6AVbx1b8Fo3NeTpoSHj0kqJzDZ75OBnVurCO3pnFCMY6pcN+WXE9z1ab5
-         BNWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AseZqmRRFSAWxlkl2H15IzgmyWSQsQrTGUE3obWRyrM=;
-        b=Ef+MtmPqPoSibr80Jz7KUYPznH43/IAULpfs66YOsPV95ENh9x9R45TxtICvXYKfbg
-         TAZNL5eKxY7UcsIMH0cTjLSvQqZtv7JMVMi3ZhT29WNjJw/84pZKObr4vID1CyNRP+us
-         eLJ3AxTp2FMApZzFQ5PkhSNAq65rvxW2MELMyrkagzX5MQoRW05vV7N6Kq8KwfoOanzY
-         F8h/Dxto8t6FAe7hsQ5RjiT/bCHfdy6OO1jQOQE8cKH/dnbVf1zV0HgnuBu/IkWLzL75
-         b6/mHP9TmjCkGlXx3FFp2wsqJMZTutobSQEe1xPztSCNEDPszd7UT+k76dghk4cTwuCM
-         cAoA==
-X-Gm-Message-State: AOAM533fmfuA9dvx0Tt6wV4MJcUE0ghXMGM+Wrc9ruirtwMlECP1gfGQ
-        PTIoi2me11i15Fkf612qpoNxc6u3yEygs/ituAc=
-X-Google-Smtp-Source: ABdhPJzI+iK7/41znGGgZl/dbRcTtghUb49l1y3drihvMzNc/ZojRa6nxa5QP29LX6atdU7DeSKN+KsCA9Lpx5XaGQY=
-X-Received: by 2002:a0c:f982:: with SMTP id t2mr4206794qvn.28.1624000902896;
- Fri, 18 Jun 2021 00:21:42 -0700 (PDT)
+        id S233274AbhFRHjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 03:39:42 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3265 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233264AbhFRHjf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 03:39:35 -0400
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G5r5Q1d3Jz6GB6f;
+        Fri, 18 Jun 2021 15:24:10 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 18 Jun 2021 09:37:22 +0200
+Received: from [10.47.95.81] (10.47.95.81) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 18 Jun
+ 2021 08:37:21 +0100
+Subject: Re: [PATCH v13 4/6] iommu/vt-d: Add support for IOMMU default DMA
+ mode build options
+To:     Lu Baolu <baolu.lu@linux.intel.com>, <joro@8bytes.org>,
+        <will@kernel.org>, <dwmw2@infradead.org>, <robin.murphy@arm.com>,
+        <corbet@lwn.net>
+CC:     <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <linuxarm@huawei.com>, <thunder.leizhen@huawei.com>,
+        <chenxiang66@hisilicon.com>, <linux-doc@vger.kernel.org>
+References: <1623841437-211832-1-git-send-email-john.garry@huawei.com>
+ <1623841437-211832-5-git-send-email-john.garry@huawei.com>
+ <46dbce5c-1c2b-60d4-df56-d2b95a959425@linux.intel.com>
+ <f3fe6c4b-f360-ab7b-7ad2-ced63269499d@huawei.com>
+ <d53a6472-4628-313e-30a5-f76e016c9cb9@linux.intel.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <b654480e-d5ac-9e4c-1074-1158cccc5806@huawei.com>
+Date:   Fri, 18 Jun 2021 08:31:05 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-References: <20210618060446.7969-1-wesley.sheng@amd.com>
-In-Reply-To: <20210618060446.7969-1-wesley.sheng@amd.com>
-From:   "Oliver O'Halloran" <oohall@gmail.com>
-Date:   Fri, 18 Jun 2021 17:21:32 +1000
-Message-ID: <CAOSf1CHaLCAsnB42Je+ynJ6xv-M8qmScbfOLSHVze7D4fEh66Q@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: PCI: pci-error-recovery: rearrange the
- general sequence
-To:     Wesley Sheng <wesley.sheng@amd.com>
-Cc:     linasvepstas@gmail.com, Russell Currey <ruscur@russell.cc>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        wesleyshenggit@sina.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <d53a6472-4628-313e-30a5-f76e016c9cb9@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.47.95.81]
+X-ClientProxiedBy: lhreml743-chm.china.huawei.com (10.201.108.193) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 18, 2021 at 4:05 PM Wesley Sheng <wesley.sheng@amd.com> wrote:
->
-> Reset_link() callback function was called before mmio_enabled() in
-> pcie_do_recovery() function actually, so rearrange the general
-> sequence betwen step 2 and step 3 accordingly.
+On 18/06/2021 02:46, Lu Baolu wrote:
 
-I don't think this is true in all cases. If pcie_do_recovery() is
-called with state==pci_channel_io_normal (i.e. non-fatal AER) the link
-won't be reset. EEH (ppc PCI error recovery thing) also uses
-.mmio_enabled() as described.
+Hi baolu,
+
+>> I need to change that. How about this:
+>>
+>> bool print_warning = false;
+>>
+>> for_each_active_iommu(iommu, drhd) {
+>>      /*
+>>       * The flush queue implementation does not perform
+>>       * page-selective invalidations that are required for efficient
+>>       * TLB flushes in virtual environments.  The benefit of batching
+>>       * is likely to be much lower than the overhead of synchronizing
+>>       * the virtual and physical IOMMU page-tables.
+>>       */
+>>      if (!print_warning && cap_caching_mode(iommu->cap)) {
+>>          pr_warn("IOMMU batching disallowed due to virtualization\n");
+>>          iommu_set_dma_strict(true);
+>>          print_warning = true;
+>>      }
+>>      ...
+>> }
+>>
+>> or use pr_warn_once().
+> 
+>  From my p.o.v, pr_xxxx_once() is better.
+> 
+> How about using a pr_info_once()? I don't think it's a warning, it's
+> just a policy choice in VM environment.
+
+ok, I can go with that, which Robin mostly agrees with.
+
+Thanks,
+John
