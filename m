@@ -2,122 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CA98C48BDF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 07:46:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C45A7C48BDF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 07:49:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 178CD61396
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 07:46:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AE8B61209
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 07:49:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231226AbhFRHsy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 03:48:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38930 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231126AbhFRHsv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 03:48:51 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1C77C06175F
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 00:46:41 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id pf4-20020a17090b1d84b029016f6699c3f2so262605pjb.0
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 00:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=g3POzcgh/avJIeba5rT64dVp/8mkGkb9nAQDKfOaZvc=;
-        b=k5z0ZWdNtHkh8Y/xwVG3e95ujbaP4mNBt/D6YH496fcVHYKK2EHuzav6z7kmTw4o95
-         NedMoRF6WiPZemlu6YcKcBcGZuDb7J/vjeSftSQuQPAQbWpVCJmiaMQ4/yLRHaJZ0PXH
-         AQt70ImVTUjzb7eScjo1pOpRVze7hgWpVbnhFi7o3cS3ZpXJtf/oVB0Qn3ooooRdo9s6
-         taToB1C1bcs9jiGaZCFZNUKEv/F160ykT7HCN+4EWwbvrHwamBLsRH9phO7z6dnYCdAw
-         00ONmVW04VyGtpt+Ihn3IJMydkFzKBsMkZXMFwZ0LfvWj4dCGSMP2AsuMzRXSdvKO8/c
-         YPrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=g3POzcgh/avJIeba5rT64dVp/8mkGkb9nAQDKfOaZvc=;
-        b=ZaEtL0gYrbnJSsI5B6hcy59dCnWqtp3j6BqsF94EsbdwmZKzmQiMxYxncw5XAL5MOC
-         DdHTZqA1KHdWdq9oh6LgCuk7CecNJ+2yZU/aL6TjzIgYUY2YuxwuJnpFlZWl3cSkvEX3
-         F/7W34GUpsOGv8XUr6goH+Plcx8AeFCau/vN2sWbh5qgizi8/GwXrI4gKotgq+DtH1Hs
-         9JjdTO0SkQMG3hJwtZCVXt81QWJZqRkrB9wJwfEoTFMAMSfuJe9Lj+UMaFk5AzL5HcV4
-         lbqvyNnnjihis7AGGj9LpuFxMRoS+iRrDw1yEA+Uo5AHWKfvLB/A9YAHc/t5iZUPIwBf
-         dH1w==
-X-Gm-Message-State: AOAM533YXm7dQi+H+y+6Pw7Tmz6GSheEj9HFJoAGoPhfR2ppR+IUilWk
-        BwG6BkGQ2Fe9kVVhizs1DS/1u+AqSX4rIQ==
-X-Google-Smtp-Source: ABdhPJxdjnz2h6Pj0rYsysgBeBuNIV0JVP6cBKh1/5dlYvpJCOQELq8pxvTgs4wjgZp9MdPveIp2Pw==
-X-Received: by 2002:a17:90a:ce8b:: with SMTP id g11mr8849253pju.170.1624002401466;
-        Fri, 18 Jun 2021 00:46:41 -0700 (PDT)
-Received: from localhost ([136.185.134.182])
-        by smtp.gmail.com with ESMTPSA id s13sm8033700pgi.36.2021.06.18.00.46.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jun 2021 00:46:40 -0700 (PDT)
-Date:   Fri, 18 Jun 2021 13:16:39 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Ionela Voinescu <ionela.voinescu@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Qian Cai <quic_qiancai@quicinc.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH V2 1/3] cpufreq: Add start_cpu() and stop_cpu() callbacks
-Message-ID: <20210618074639.d72shvu46aejvbwd@vireshk-i7>
-References: <cover.1623825725.git.viresh.kumar@linaro.org>
- <2ffbaf079a21c2810c402cb5bba4e9c14c4a0ff4.1623825725.git.viresh.kumar@linaro.org>
- <CAJZ5v0gBUMXs=oANZRuOO7uUVdSD-n1inwYsoLr5or=2gEa2Mg@mail.gmail.com>
+        id S231536AbhFRHv7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 03:51:59 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3266 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231418AbhFRHv7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 03:51:59 -0400
+Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G5rMm1F1mz6G9tV;
+        Fri, 18 Jun 2021 15:36:36 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 18 Jun 2021 09:49:48 +0200
+Received: from [10.47.95.81] (10.47.95.81) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 18 Jun
+ 2021 08:49:47 +0100
+Subject: Re: [PATCH v13 1/6] iommu: Deprecate Intel and AMD cmdline methods to
+ enable strict mode
+To:     Robin Murphy <robin.murphy@arm.com>, <joro@8bytes.org>,
+        <will@kernel.org>, <dwmw2@infradead.org>,
+        <baolu.lu@linux.intel.com>, <corbet@lwn.net>
+CC:     <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <linuxarm@huawei.com>, <thunder.leizhen@huawei.com>,
+        <chenxiang66@hisilicon.com>, <linux-doc@vger.kernel.org>
+References: <1623841437-211832-1-git-send-email-john.garry@huawei.com>
+ <1623841437-211832-2-git-send-email-john.garry@huawei.com>
+ <f95252ce-f834-103b-f96d-7e35fa59d5ec@arm.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <c8ca952e-4070-0a48-0a77-1cdf6985bb19@huawei.com>
+Date:   Fri, 18 Jun 2021 08:43:32 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0gBUMXs=oANZRuOO7uUVdSD-n1inwYsoLr5or=2gEa2Mg@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <f95252ce-f834-103b-f96d-7e35fa59d5ec@arm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.47.95.81]
+X-ClientProxiedBy: lhreml743-chm.china.huawei.com (10.201.108.193) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17-06-21, 15:33, Rafael J. Wysocki wrote:
-> On Wed, Jun 16, 2021 at 8:48 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> > +       /* Do CPU specific de-initialization if required */
-> > +       if (cpufreq_driver->stop_cpu)
-> > +               cpufreq_driver->stop_cpu(policy, cpu);
-> > +
-> >         /* Start governor again for active policy */
-> >         if (!policy_is_inactive(policy)) {
-> >                 if (has_target()) {
-> > @@ -1597,9 +1611,6 @@ static int cpufreq_offline(unsigned int cpu)
-> >                 policy->cdev = NULL;
-> >         }
-> >
-> > -       if (cpufreq_driver->stop_cpu)
-> > -               cpufreq_driver->stop_cpu(policy);
-> > -
+On 17/06/2021 20:01, Robin Murphy wrote:
+>>               DMA.
+>> -        strict [Default Off]
+>> +        strict [Default Off] [Deprecated, use iommu.strict instead]
+>>               With this option on every unmap_single operation will
+>>               result in a hardware IOTLB flush operation as opposed
+>>               to batching them for performance.
 > 
-> This should be a separate patch IMO, after you've migrated everyone to
-> ->offline/->exit.
+> FWIW I'd be inclined to replace both whole descriptions with just 
+> something like "Deprecated, equivalent to iommu.strict=1".
+> 
+>> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+>> index 46280e6e1535..9f3096d650aa 100644
+>> --- a/drivers/iommu/amd/init.c
+>> +++ b/drivers/iommu/amd/init.c
+>> @@ -3098,8 +3098,10 @@ static int __init parse_amd_iommu_intr(char *str)
+>>   static int __init parse_amd_iommu_options(char *str)
+>>   {
+>>       for (; *str; ++str) {
+>> -        if (strncmp(str, "fullflush", 9) == 0)
+>> +        if (strncmp(str, "fullflush", 9) == 0) {
+>> +            pr_warn("amd_iommu=fullflush deprecated; use iommu.strict 
+>> instead\n");
+> 
+> Nit: maybe we should spell out "...use <option>=1 instead" in all of 
+> these messages just in case anyone takes them literally?
 
-Right, anyway this patch may not be required anymore. I will send a patch to
-remove this.
 
-> BTW, IMO it might be better to migrate ->stop_cpu to ->offline rather
-> than to ->exit.
+> (I'm not sure 
+> the options parse correctly with no argument)
 
-This is a bit tricky IMO.
+I don't think they do.
 
-First, offline() isn't implemented by everyone, out of the three implementations
-which were using stop_cpu(), only intel-pstate had offline() as well.
+But I'll take both suggestions on board.
 
-Second, the primary purpose of online/offline callbacks was suspend/resume
-oriented and for the same reason, we don't call online() when the policy first
-comes up and so in case of errors during bring up, we end up calling exit()
-directly and not offline().
+> 
+> Either way,
+> 
+> Acked-by: Robin Murphy <robin.murphy@arm.com>
 
-IMO this is a very specific thing to drivers and they need to see what fits best
-for them, exit() or offline() or both.
+Cheers!
 
--- 
-viresh
