@@ -2,151 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 406D9C49361
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 13:13:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C81ECC48BE8
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 14:01:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C539613E2
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 13:13:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A44ED61248
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 14:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230471AbhFRNPX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 09:15:23 -0400
-Received: from mga07.intel.com ([134.134.136.100]:15673 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230217AbhFRNPX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Jun 2021 09:15:23 -0400
-IronPort-SDR: NYVyOXcK2hNQ7whDqA/pCXSCLVEkaZEcZftmuVdM8VkFpMRRk5YXX184KLdUvaVfY+e62T2pPy
- Q2xs+YDVSaWg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="270398993"
-X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; 
-   d="scan'208";a="270398993"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2021 06:13:14 -0700
-IronPort-SDR: vqt62rlt4WZpPqRivpJWzS01x8ipWt/4pOiQT41ie5yfW6m8A9HUTyU2BKUx9lH4jtLk15kN3N
- sxax4kq6/pOA==
-X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; 
-   d="scan'208";a="485684747"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.212.157]) ([10.254.212.157])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2021 06:13:10 -0700
-Cc:     baolu.lu@linux.intel.com, linux-kernel@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linuxarm@huawei.com,
-        thunder.leizhen@huawei.com, chenxiang66@hisilicon.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v14 6/6] iommu: Remove mode argument from
- iommu_set_dma_strict()
-To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
-        will@kernel.org, dwmw2@infradead.org, robin.murphy@arm.com,
-        corbet@lwn.net
-References: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
- <1624016058-189713-7-git-send-email-john.garry@huawei.com>
-From:   Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <23887d11-2174-6909-c9d7-36a50f070e44@linux.intel.com>
-Date:   Fri, 18 Jun 2021 21:13:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S234236AbhFRODX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 10:03:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39056 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234179AbhFRODW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 10:03:22 -0400
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E93ACC061574;
+        Fri, 18 Jun 2021 07:01:11 -0700 (PDT)
+Received: by mail-vs1-xe35.google.com with SMTP id 68so4982934vsu.6;
+        Fri, 18 Jun 2021 07:01:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Cvh75hY019BX7uc+RL+q/CXawViVX/LTbPoN9FGziiU=;
+        b=TPLqjgPX8zTppClsQrKq5bIUE8xSKDkvXMOs4lwm9LIrccUkW9YUHsAJI+/8S7cayg
+         849czcxIu9SS+BMEkaB/5jJ0clO5nhJFv6P9UZE9MaPZfVxZiykTwQV2MvDJct/3YyT6
+         8vTbeml8S7jW8wrSFTUZO2ucTROh3al+/z5UejSXeAh//gSBu0fLEaQs92kWYlHAjKJW
+         yFmKKjq3XNDaMe4NXMTbsSuwHcek9JX3JsBd+wxdiOO6ywk0SeZxo19dmQj7RTpk7Kb9
+         gbAVEEXW5YsqX70dHMO8NXz0+jIATjGUSi2gdQ185aeH5Hg+bCKItFmh6w7juqTFqHUt
+         V1JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Cvh75hY019BX7uc+RL+q/CXawViVX/LTbPoN9FGziiU=;
+        b=bI9UYDdH/qxaQDgA54zIX6nFjNWemlJm9K9x9DEFkO9Krnx+6wcJg6N9x/+5n25nV0
+         qUxk6zKeCG/eu0mN/JB2JwbkznKEvLG63CPU66/MfnHISE1guc5A6/n35T7gB2D0caq+
+         fg1JMFbn2/cqfZ5x85CBgG2YWcLvMGFVJJKT9HdE2BBcVpPDqt/jg5Pi6rqTUaaED3sl
+         f2GgAseZihO9cLWDHYTJ+t17o4ktnfmC2/3OOtWePFvCzq7vukEszyBUADYi+fMkEHaD
+         Jchap/hAOXIsHRZ0jtLopmgK9uMtCQvDNtK3Y8NLfxK6wjInZj5ZC48PAqgsUUSav4Vd
+         E6rA==
+X-Gm-Message-State: AOAM533DOxakoh3emaogeGkwDmwmY8YTCffUJhueNVaFFEMxGCNcgXcY
+        4XhETZoXKVaO171BYsgyeyu66gfJkNNQ2wm+iPY=
+X-Google-Smtp-Source: ABdhPJyP/wfyi3OjQdOB27bjaAtzuwv0aKxCsuMKO/D6Ptea0UfTWxI2NV18ffpeB7Q/ieRYFZOch8zdVZCVOESNBVE=
+X-Received: by 2002:a05:6102:358b:: with SMTP id h11mr7143898vsu.6.1624024871034;
+ Fri, 18 Jun 2021 07:01:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1624016058-189713-7-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210617182023.8137-1-grantseltzer@gmail.com> <20210617182023.8137-2-grantseltzer@gmail.com>
+ <CAEf4Bzar3CVJCkKHo5RKcCXLAwEVW5y_JUTo7_cVuBOwjRaiJg@mail.gmail.com>
+In-Reply-To: <CAEf4Bzar3CVJCkKHo5RKcCXLAwEVW5y_JUTo7_cVuBOwjRaiJg@mail.gmail.com>
+From:   Grant Seltzer Richman <grantseltzer@gmail.com>
+Date:   Fri, 18 Jun 2021 10:00:59 -0400
+Message-ID: <CAO658oXL0++2gHc=E0i5YinHkmRJgFzq05+DxRkRrJ3ku1Ufow@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 1/1] Add documentation for libbpf including
+ API autogen
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/6/18 19:34, John Garry wrote:
-> We only ever now set strict mode enabled in iommu_set_dma_strict(), so
-> just remove the argument.
-> 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-> ---
->   drivers/iommu/amd/init.c    | 2 +-
->   drivers/iommu/intel/iommu.c | 6 +++---
->   drivers/iommu/iommu.c       | 5 ++---
->   include/linux/iommu.h       | 2 +-
->   4 files changed, 7 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-> index 1e641cb6dddc..6e12a615117b 100644
-> --- a/drivers/iommu/amd/init.c
-> +++ b/drivers/iommu/amd/init.c
-> @@ -3099,7 +3099,7 @@ static int __init parse_amd_iommu_options(char *str)
->   	for (; *str; ++str) {
->   		if (strncmp(str, "fullflush", 9) == 0) {
->   			pr_warn("amd_iommu=fullflush deprecated; use iommu.strict=1 instead\n");
-> -			iommu_set_dma_strict(true);
-> +			iommu_set_dma_strict();
->   		}
->   		if (strncmp(str, "force_enable", 12) == 0)
->   			amd_iommu_force_enable = true;
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index 06666f9d8116..77d0834fb0df 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -454,7 +454,7 @@ static int __init intel_iommu_setup(char *str)
->   			iommu_dma_forcedac = true;
->   		} else if (!strncmp(str, "strict", 6)) {
->   			pr_warn("intel_iommu=strict deprecated; use iommu.strict=1 instead\n");
-> -			iommu_set_dma_strict(true);
-> +			iommu_set_dma_strict();
->   		} else if (!strncmp(str, "sp_off", 6)) {
->   			pr_info("Disable supported super page\n");
->   			intel_iommu_superpage = 0;
-> @@ -4382,7 +4382,7 @@ int __init intel_iommu_init(void)
->   		 */
->   		if (cap_caching_mode(iommu->cap)) {
->   			pr_info_once("IOMMU batching disallowed due to virtualization\n");
-> -			iommu_set_dma_strict(true);
-> +			iommu_set_dma_strict();
->   		}
->   		iommu_device_sysfs_add(&iommu->iommu, NULL,
->   				       intel_iommu_groups,
-> @@ -5699,7 +5699,7 @@ static void quirk_calpella_no_shadow_gtt(struct pci_dev *dev)
->   	} else if (dmar_map_gfx) {
->   		/* we have to ensure the gfx device is idle before we flush */
->   		pci_info(dev, "Disabling batched IOTLB flush on Ironlake\n");
-> -		iommu_set_dma_strict(true);
-> +		iommu_set_dma_strict();
->   	}
->   }
->   DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x0040, quirk_calpella_no_shadow_gtt);
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 60b1ec42e73b..ff221d3ddcbc 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -349,10 +349,9 @@ static int __init iommu_dma_setup(char *str)
->   }
->   early_param("iommu.strict", iommu_dma_setup);
->   
-> -void iommu_set_dma_strict(bool strict)
-> +void iommu_set_dma_strict(void)
->   {
-> -	if (strict || !(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
-> -		iommu_dma_strict = strict;
-> +	iommu_dma_strict = true;
->   }
->   
->   bool iommu_get_dma_strict(struct iommu_domain *domain)
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index 32d448050bf7..754f67d6dd90 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -476,7 +476,7 @@ int iommu_enable_nesting(struct iommu_domain *domain);
->   int iommu_set_pgtable_quirks(struct iommu_domain *domain,
->   		unsigned long quirks);
->   
-> -void iommu_set_dma_strict(bool val);
-> +void iommu_set_dma_strict(void);
->   bool iommu_get_dma_strict(struct iommu_domain *domain);
->   
->   extern int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
-> 
+On Thu, Jun 17, 2021 at 4:36 PM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
+>
+> On Thu, Jun 17, 2021 at 11:20 AM grantseltzer <grantseltzer@gmail.com> wrote:
+> >
+> > This adds rst files containing documentation for libbpf. This includes
+> > the addition of libbpf_api.rst which pulls comment documentation from
+> > header files in libbpf under tools/lib/bpf/. The comment docs would be
+> > of the standard kernel doc format.
+> >
+> > Signed-off-by: grantseltzer <grantseltzer@gmail.com>
+> > ---
+> >  Documentation/bpf/index.rst                   | 13 +++++++
+> >  Documentation/bpf/libbpf.rst                  | 14 +++++++
+> >  Documentation/bpf/libbpf_api.rst              | 27 ++++++++++++++
+> >  Documentation/bpf/libbpf_build.rst            | 37 +++++++++++++++++++
+>
+> Didn't we agree to have docs under Documentation/bpf/libbpf? That
+> should make it clear that each is libbpf-specific and probably would
+> make copying/syncing easier. Plus it will be a libbpf sub-section in
+> the docs, no?
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Ah sure, that works.
 
-Best regards,
-baolu
+>
+> >  .../bpf/libbpf_naming_convention.rst          | 32 +++++++---------
+> >  5 files changed, 104 insertions(+), 19 deletions(-)
+> >  create mode 100644 Documentation/bpf/libbpf.rst
+> >  create mode 100644 Documentation/bpf/libbpf_api.rst
+> >  create mode 100644 Documentation/bpf/libbpf_build.rst
+> >  rename tools/lib/bpf/README.rst => Documentation/bpf/libbpf_naming_convention.rst (89%)
+> >
+> > diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+> > index a702f67dd..44f646735 100644
+> > --- a/Documentation/bpf/index.rst
+> > +++ b/Documentation/bpf/index.rst
+> > @@ -12,6 +12,19 @@ BPF instruction-set.
+> >  The Cilium project also maintains a `BPF and XDP Reference Guide`_
+> >  that goes into great technical depth about the BPF Architecture.
+> >
+> > +libbpf
+> > +======
+> > +
+> > +Libbpf is a userspace library for loading and interacting with bpf programs.
+> > +
+> > +.. toctree::
+> > +   :maxdepth: 1
+> > +
+> > +   libbpf
+> > +   libbpf_api
+> > +   libbpf_build
+> > +   libbpf_naming_convention
+> > +
+> >  BPF Type Format (BTF)
+> >  =====================
+> >
+> > diff --git a/Documentation/bpf/libbpf.rst b/Documentation/bpf/libbpf.rst
+> > new file mode 100644
+> > index 000000000..2e62cadee
+> > --- /dev/null
+> > +++ b/Documentation/bpf/libbpf.rst
+> > @@ -0,0 +1,14 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+>
+> Should we use dual-license LGPL-2.1 OR BSD-2-Clause like the rest of libbpf?
+>
+> > +
+> > +libbpf
+> > +======
+> > +
+> > +This is documentation for libbpf, a userspace library for loading and
+> > +interacting with bpf programs.
+> > +
+>
+> [...]
+>
+> > +    $ cd src
+> > +    $ PKG_CONFIG_PATH=/build/root/lib64/pkgconfig DESTDIR=/build/root make
+> > \ No newline at end of file
+> > diff --git a/tools/lib/bpf/README.rst b/Documentation/bpf/libbpf_naming_convention.rst
+> > similarity index 89%
+> > rename from tools/lib/bpf/README.rst
+> > rename to Documentation/bpf/libbpf_naming_convention.rst
+> > index 8928f7787..b6dc5c592 100644
+> > --- a/tools/lib/bpf/README.rst
+> > +++ b/Documentation/bpf/libbpf_naming_convention.rst
+> > @@ -1,7 +1,7 @@
+> > -.. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+> > +.. SPDX-License-Identifier: GPL-2.0
+>
+> I don't think we can just easily re-license without asking original
+> contributor. But see above, I think we should stick to the
+> dual-license to stay consistent with libbpf sources?
+
+This change was not at all intentional. I'll change it back to the
+dual license.
+>
+>
+> [...]
